@@ -51,20 +51,20 @@ export default {
         // const indicatorType = indicator['Indicator code'];
 
         // filter nodata entries completely
-        const mask = indicator['Measurement Value [float]'].map((item) => !Number.isNaN(item));
+        const mask = indicator['Measurement Value'].map((item) => !Number.isNaN(item));
         for (const [key, value] of Object.entries(indicator)) { // eslint-disable-line
           if (Array.isArray(value)) {
             indicator[key] = value.filter((item, i) => mask[i]);
           }
         }
-        const measurement = indicator['Measurement Value [float]'];
+        const measurement = indicator['Measurement Value'];
         const colors = [];
         const datasets = [];
         if (['E10a1'].includes(indicatorCode)) {
           const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
             'July', 'August', 'September', 'October', 'November', 'December',
           ];
-          const referenceValue = indicator['Reference value [float]'].map(Number);
+          const referenceValue = indicator['Reference value'].map(Number);
           for (let i = 0; i < indicator.Time.length; i += 1) {
             if (!Number.isNaN(indicator.Time[i].getTime())) {
               const currDate = indicator.Time[i];
@@ -97,7 +97,7 @@ export default {
           const referenceValue = indicator['Reference time']
             .map((date, i) => ({
               t: new Date(date).setFullYear(2000),
-              y: Number(indicator['Reference value [float]'][i]),
+              y: Number(indicator['Reference value'][i]),
             }));
           datasets.push({
             label: '2019',
@@ -156,7 +156,7 @@ export default {
         } else if (['N3'].includes(indicatorCode)) {
           const referenceValue = [];
           const stdDev = [];
-          indicator['Reference value [float]'].forEach((item) => {
+          indicator['Reference value'].forEach((item) => {
             const obj = JSON.parse(item.replace(/,/g, '.').replace(' ', ','));
             referenceValue.push(10 ** obj[0]);
             stdDev.push(obj[1]);
@@ -263,7 +263,7 @@ export default {
     },
     chartOptions() {
       const indicatorCode = this.indicatorObject['Indicator code'];
-      const reference = Number.parseFloat(this.indicatorObject['Reference value [float]']);
+      const reference = Number.parseFloat(this.indicatorObject['Reference value']);
       let timeMinMax = this.getMinMaxDate(this.indicatorObject.Time);
       const annotations = [];
       let low = 0;
