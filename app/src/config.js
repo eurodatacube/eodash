@@ -206,7 +206,7 @@ export const globalIndicators = [
         City: 'Adriatic Sea',
         'Site Name': 'Adriatic Sea',
         Description: 'Adriatic Water Quality Index',
-        'Indicator code': 'N3',
+        'Indicator code': 'N3a2',
         'Indicator Value': ['normal'],
         'Indicator Name': 'Water Quality',
         'Color Code': ['BLUE'],
