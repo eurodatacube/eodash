@@ -1,0 +1,558 @@
+<template>
+  <l-map
+    ref="map"
+    style="height: 100%; width: 100%; background: #cad2d3; z-index: 1;"
+    :options="defaultMapOptions"
+    :zoom="zoom"
+    :center="center"
+    :maxZoom="maxMapZoom"
+    :minMapZoom="minMapZoom"
+    @update:zoom="zoomUpdated"
+    @update:center="centerUpdated"
+    @update:bounds="boundsUpdated"
+    v-resize="onResize"
+  >
+    <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
+    <l-control-layers position="topright" ></l-control-layers>
+    <l-control-zoom position="topright"  ></l-control-zoom>
+    <LTileLayer
+      v-for="layer in baseLayers"
+      v-bind="layer"
+      layer-type="base"
+      :key="layer.name"
+      :opacity="opacityTerrain[zoom]"
+      :options="layerOptions(null, layer)"
+    >
+    </LTileLayer>
+    <l-geo-json
+    ref="subaoiLayer"
+    :geojson="indicator['Sub-AOI']"
+    :pane="overlayPane"
+    :optionsStyle="subAoiStyle"
+    >
+    </l-geo-json>
+    <LTileLayer
+    v-if="dataLayerDisplay.protocol === 'xyz'"
+      ref="dataLayer"
+      v-bind="dataLayerDisplay"
+      :options="layerOptions(currentTime, dataLayerDisplay)"
+      :pane="overlayPane"
+      layer-type="overlay"
+    >
+    </LTileLayer>
+    <LWMSTileLayer
+    v-else-if="dataLayerDisplay.protocol === 'WMS'"
+      ref="dataLayer"
+      :key="mapKey"
+      v-bind="dataLayerDisplay"
+      :options="layerOptions(currentTime, dataLayerDisplay)"
+      :pane="overlayPane"
+      layer-type="overlay"
+    >
+    </LWMSTileLayer>
+    <LTileLayer
+    v-if="dataLayerDisplay.protocol === 'xyz'"
+      ref="compareLayer"
+      v-bind="dataLayerDisplay"
+      :visible="enableCompare"
+      :options="layerOptions(currentCompareTime, dataLayerDisplay)"
+      :pane="overlayPane"
+    >
+    </LTileLayer>
+    <LWMSTileLayer
+    v-else-if="dataLayerDisplay.protocol === 'WMS'"
+      ref="compareLayer"
+      v-bind="dataLayerDisplay"
+      :visible="enableCompare"
+      :options="layerOptions(currentCompareTime, dataLayerDisplay)"
+      :pane="overlayPane"
+    >
+    </LWMSTileLayer>
+    <LTileLayer
+      v-for="layer in overlayLayers"
+      :key="layer.name"
+      v-bind="layer"
+      :pane="markerPane"
+      :opacity="opacityOverlay[zoom]"
+      :options="layerOptions(null, layer)"
+      layer-type="overlay"
+    >
+    </LTileLayer>
+    <l-circle-marker
+      v-if="aoi"
+      :lat-lng="aoi"
+      :radius="12"
+      :color="$vuetify.theme.themes.light.primary"
+      :weight="2"
+      :dashArray="3"
+      :fill="true"
+      :fillColor="getAoiFill"
+      :fillOpacity="1"
+    >
+    </l-circle-marker>
+    <img v-if="dataLayerDisplay.legendUrl"
+    :src="dataLayerDisplay.legendUrl" alt=""
+      style="position: absolute; width: 250px; z-index: 700;
+      top: 10px; left: 10px; background: white;">
+    <div
+      class="d-flex justify-center" style="position: relative; width: 100%; height: 100%;"
+      @click.stop=""
+      @dblclick.stop=""
+    >
+      <v-row
+        class="justify-center align-center timeSelection"
+        :class="enableCompare && 'mr-5 ml-0'"
+        style="position: absolute; bottom: 30px; z-index: 1000; width: auto; max-width: 100%;"
+      >
+        <v-col
+          v-if="enableCompare"
+          cols="6"
+          class="pr-0"
+        >
+          <v-select
+            v-if="enableCompare"
+            outlined
+            dense
+            autofocus
+            hide-details
+            :prepend-inner-icon="(arrayOfObjects && compareLayerTime) && (arrayOfObjects
+              .map((i) => i.value)
+              .indexOf(compareLayerTime.value) > 0
+                ? 'mdi-arrow-left-drop-circle'
+                : '')"
+            :append-icon="(arrayOfObjects && compareLayerTime) && (arrayOfObjects
+              .map((i) => i.value)
+              .indexOf(compareLayerTime.value) < arrayOfObjects.length - 1
+                ? 'mdi-arrow-right-drop-circle'
+                : '')"
+            menu-props="auto"
+            :items="arrayOfObjects"
+            item-value="value"
+            item-text="name"
+            v-model="compareLayerTime"
+            @change="compareLayerTimeSelection"
+            @click:prepend-inner="compareLayerReduce"
+            @click:append="compareLayerIncrease"
+          ></v-select>
+        </v-col>
+        <v-col
+          :cols="enableCompare ? 6 : 12"
+        >
+          <v-select
+            outlined
+            dense
+            autofocus
+            hide-details
+            :prepend-inner-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
+              .map((i) => i.value)
+              .indexOf(dataLayerTime.value) > 0
+                ? 'mdi-arrow-left-drop-circle'
+                : '')"
+            :append-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
+              .map((i) => i.value)
+              .indexOf(dataLayerTime.value) < arrayOfObjects.length - 1
+                ? 'mdi-arrow-right-drop-circle'
+                : '')"
+            menu-props="auto"
+            :items="arrayOfObjects"
+            item-value="value"
+            item-text="name"
+            v-model="dataLayerTime"
+            @change="dataLayerTimeSelection"
+            @click:prepend-inner="dataLayerReduce"
+            @click:append="dataLayerIncrease"
+          >
+            <template v-slot:prepend>
+              <v-tooltip
+                bottom
+              >
+                <template v-slot:activator="{ on }">
+                  <v-icon v-on="on" @click="enableCompare = !enableCompare">mdi-compare</v-icon>
+                </template>
+                Compare two images
+              </v-tooltip>
+            </template>
+          </v-select>
+        </v-col>
+      </v-row>
+    </div>
+  </l-map>
+</template>
+
+<script>
+import { geoJson, latLngBounds, latLng } from 'leaflet';
+import {
+  LMap, LTileLayer, LWMSTileLayer, LGeoJson, LCircleMarker,
+  LControlLayers, LControlAttribution, LControlZoom,
+} from 'vue2-leaflet';
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-mouse-position';
+import 'leaflet-side-by-side';
+import moment from 'moment';
+
+import { baseLayers, overlayLayers, defaultWMSDisplay } from '@/config';
+
+export default {
+  components: {
+    LMap,
+    LTileLayer,
+    LWMSTileLayer,
+    LGeoJson,
+    LCircleMarker,
+    LControlLayers,
+    LControlAttribution,
+    LControlZoom,
+  },
+  data() {
+    return {
+      map: null,
+      mapKey: 0,
+      minMapZoom: 3,
+      zoom: 3,
+      maxMapZoom: 18,
+      center: [55, 10],
+      bounds: null,
+      enableCompare: false,
+      opacityTerrain: [1],
+      opacityOverlay: [0, 0, 0, 0, 0.1, 0.1, 0.4, 0.4, 0.8, 0.8, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
+      tilePane: 'tilePane',
+      overlayPane: 'overlayPane',
+      markerPane: 'markerPane',
+      slider: null,
+      defaultMapOptions: {
+        attributionControl: false,
+        zoomControl: false,
+      },
+      dataLayerTime: null,
+      compareLayerTime: null,
+    };
+  },
+  computed: {
+    baseLayers() {
+      return baseLayers;
+    },
+    overlayLayers() {
+      return overlayLayers;
+    },
+    indicator() {
+      return this.$store.state.indicators.selectedIndicator;
+    },
+    arrayOfObjects() {
+      const selectionOptions = [];
+      for (let i = 0; i < this.indicator.Time.length; i += 1) {
+        selectionOptions.push({
+          value: this.indicator.Time[i],
+          name: this.getTimeLabel(this.indicator.Time[i]),
+        });
+      }
+      return selectionOptions;
+    },
+    currentTime() {
+      let returnTime = this.indicator.Time[this.indicator.Time.length - 1];
+      if (this.dataLayerTime !== null) {
+        returnTime = this.dataLayerTime;
+      }
+      return returnTime;
+    },
+    currentCompareTime() {
+      let returnTime = this.indicator.Time[0];
+      if (this.compareLayerTime !== null) {
+        returnTime = this.compareLayerTime;
+      }
+      return returnTime;
+    },
+    shLayerName() {
+      let sensor = this.indicator['EO Sensor'].toUpperCase();
+      const indicatorCode = this.indicator['Indicator code'].toUpperCase();
+      if (['S1B', 'S1A', 'SENTINEL-1'].includes(sensor)) {
+        sensor = 'SENTINEL1';
+      }
+      if (['S2', 'SENTINEL-2', 'Sentinel 2'].includes(sensor)) {
+        sensor = 'SENTINEL2'; // not configured on SIN yet
+      }
+      return `${indicatorCode}_${sensor}`;
+    },
+    dataLayerDisplay() {
+      // if display not specified (global layers), suspect SIN layer
+      return this.indicator.display ? this.indicator.display : {
+        ...defaultWMSDisplay,
+        layers: this.shLayerName,
+        name: this.indicator.Description,
+      };
+    },
+    aoi() {
+      return this.indicator.AOI;
+    },
+    subAoi() {
+      return this.indicator['Sub-AOI'];
+    },
+    getAoiFill() {
+      const lastValue = this.indicator && this.indicator['Color Code']
+        && this.indicator['Color Code'][this.indicator['Color Code'].length - 1];
+      return lastValue
+        ? this.getIndicatorColor(lastValue)
+        : this.$vuetify.theme.themes.light.primary;
+    },
+    subAoiStyle() {
+      const lastValue = this.indicator && this.indicator['Color Code']
+        && this.indicator['Color Code'][this.indicator['Color Code'].length - 1];
+      return {
+        color: lastValue
+          ? this.getIndicatorColor(lastValue)
+          : this.$vuetify.theme.themes.light.primary,
+        weight: 3,
+        opacity: 0.7,
+        fill: false,
+      };
+    },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.map = this.$refs.map.mapObject;
+      this.$refs.subaoiLayer.mapObject.bindTooltip('Reference area', {
+        direction: 'top',
+      });
+      // update leaflet controls
+      L.control.mousePosition({ // eslint-disable-line no-undef
+        emptyString: '',
+        formatter: (lon, lat) => `${lon.toFixed(3)}, ${lat.toFixed(3)}`,
+        position: 'bottomright',
+      }).addTo(this.map);
+      // hide attribution under icon
+      this.map.attributionControl._update = function () { // eslint-disable-line
+        const attribs = [];
+        const kk = Object.keys(this._attributions);
+        for (let i = 0; i < kk.length; i += 1) {
+          if (this._attributions[kk[i]]) {
+            attribs.push(kk[i]);
+          }
+        }
+        const prefixAndAttribs = [];
+        if (this.options.prefix) {
+          prefixAndAttribs.push(this.options.prefix);
+        }
+        if (attribs.length) {
+          prefixAndAttribs.push(attribs.join(', '));
+        }
+        this._container.innerHTML = `<div class='attribution-body'>${prefixAndAttribs.join(' | ')}</div><div class='attribution-icon'>ℹ</div>`;
+      };
+      this.map.attributionControl._update();
+      // add A/B slider
+      this.slider = L.control.sideBySide(this.$refs.compareLayer.mapObject, this.$refs.dataLayer.mapObject); // eslint-disable-line
+
+      this.flyToBounds();
+      this.onResize();
+
+      this.dataLayerTime = { value: this.indicator.Time[this.indicator.Time.length - 1] };
+      this.compareLayerTime = { value: this.indicator.Time[0] };
+    });
+  },
+  methods: {
+    zoomUpdated(zoom) {
+      this.zoom = zoom;
+    },
+    centerUpdated(center) {
+      this.center = center;
+    },
+    boundsUpdated(bounds) {
+      this.bounds = bounds;
+    },
+    onResize() {
+      // to fix panel size for reference image window
+      if (this.map) {
+        this.map._onResize();
+      }
+    },
+    flyToBounds() {
+      // zooms to subaoi if present or area around aoi if not
+      this.$nextTick(() => {
+        const boundsPad = 0.15;
+        if (this.subAoi && this.subAoi.features.length > 0) {
+          const bounds = geoJson(this.subAoi).getBounds();
+          const cornerMax1 = latLng([bounds.getSouth() - boundsPad, bounds.getWest() - boundsPad]);
+          const cornerMax2 = latLng([bounds.getNorth() + boundsPad, bounds.getEast() + boundsPad]);
+          const boundsMax = latLngBounds(cornerMax1, cornerMax2);
+          if (this.indicator.Country === 'all') {
+            this.map.setMinZoom(7);
+          } else {
+            this.map.setMinZoom(13);
+          }
+          this.map.fitBounds(bounds);
+          // limit user movement around map
+          this.map.setMaxBounds(boundsMax);
+        } else if (this.aoi) {
+          const cornerMax1 = latLng([this.aoi.lat - boundsPad, this.aoi.lng - boundsPad]);
+          const cornerMax2 = latLng([this.aoi.lat + boundsPad, this.aoi.lng + boundsPad]);
+          const boundsMax = latLngBounds(cornerMax1, cornerMax2);
+          this.map.panTo(this.aoi);
+          // might need tweaking further on
+          this.map.setMinZoom(13);
+          this.map.setZoom(14);
+          // limit user movement around map
+          this.map.setMaxBounds(boundsMax);
+        } else {
+          this.map.flyTo(latLng([50, 10]), 4);
+          this.map.setMaxBounds(null);
+          this.map.setMinZoom(this.minMapZoom);
+        }
+      });
+    },
+    getTimeLabel(time) {
+      if (Array.isArray(time) && time.length === 2) {
+        // show start - end
+        return time.join(' - ');
+      } else if (time instanceof Date) { // eslint-disable-line no-else-return
+        return moment.utc(time).format('YYYY-MM-DD');
+      }
+      return time;
+    },
+    layerOptions(time, sourceOptionsObj) {
+      const additionalSettings = {};
+      if (typeof sourceOptionsObj.minZoom !== 'undefined') {
+        additionalSettings.minZoom = sourceOptionsObj.minZoom;
+      }
+      if (typeof sourceOptionsObj.maxZoom !== 'undefined') {
+        additionalSettings.maxZoom = sourceOptionsObj.maxZoom;
+      }
+      if (typeof sourceOptionsObj.minNativeZoom !== 'undefined') {
+        additionalSettings.minNativeZoom = sourceOptionsObj.minNativeZoom;
+      }
+      if (typeof sourceOptionsObj.maxNativeZoom !== 'undefined') {
+        additionalSettings.maxNativeZoom = sourceOptionsObj.maxNativeZoom;
+      }
+      if (time !== null) {
+        // time as is gets automatically injected to WMS query OR xyz url {time} template
+        if (typeof time.value !== 'undefined') {
+          additionalSettings.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
+            ? sourceOptionsObj.dateFormatFunction(time.value) : time.value;
+        } else {
+          additionalSettings.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
+            ? sourceOptionsObj.dateFormatFunction(time) : time;
+        }
+      }
+      return additionalSettings;
+    },
+    dataLayerTimeSelection(payload) {
+      this.dataLayerTime = payload;
+      this.map.removeLayer(this.$refs.dataLayer.mapObject);
+      this.$nextTick(() => {
+        this.map.addLayer(this.$refs.dataLayer.mapObject);
+        if (this.dataLayerDisplay.protocol === 'WMS') {
+          this.$refs.dataLayer.mapObject
+            .setParams(this.layerOptions(this.currentTime, this.dataLayerDisplay));
+        }
+        this.slider.setRightLayers(this.$refs.dataLayer.mapObject);
+      });
+    },
+    compareLayerTimeSelection(payload) {
+      this.compareLayerTime = payload;
+      this.map.removeLayer(this.$refs.compareLayer.mapObject);
+      this.$nextTick(() => {
+        this.map.addLayer(this.$refs.compareLayer.mapObject);
+        if (this.dataLayerDisplay.protocol === 'WMS') {
+          this.$refs.compareLayer.mapObject
+            .setParams(this.layerOptions(this.currentCompareTime, this.dataLayerDisplay));
+        }
+        this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
+      });
+    },
+    dataLayerReduce() {
+      const currentIndex = this.arrayOfObjects
+        .map((i) => i.value)
+        .indexOf(this.dataLayerTime.value);
+      this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex - 1]);
+    },
+    dataLayerIncrease() {
+      const currentIndex = this.arrayOfObjects
+        .map((i) => i.value)
+        .indexOf(this.dataLayerTime.value);
+      this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex + 1]);
+    },
+    compareLayerReduce() {
+      const currentIndex = this.arrayOfObjects
+        .map((i) => i.value)
+        .indexOf(this.compareLayerTime.value);
+      this.compareLayerTimeSelection(this.arrayOfObjects[currentIndex - 1]);
+    },
+    compareLayerIncrease() {
+      const currentIndex = this.arrayOfObjects
+        .map((i) => i.value)
+        .indexOf(this.compareLayerTime.value);
+      this.compareLayerTimeSelection(this.arrayOfObjects[currentIndex + 1]);
+    },
+  },
+  watch: {
+    enableCompare(on) {
+      if (!on) {
+        if (this.slider !== null) {
+          this.map.removeLayer(this.$refs.compareLayer.mapObject);
+          this.map.removeControl(this.slider);
+        }
+      } else {
+        this.$nextTick(() => {
+          this.map.addLayer(this.$refs.compareLayer.mapObject);
+          this.slider.addTo(this.map);
+        });
+      }
+    },
+    indicator() {
+      this.dataLayerTime = { value: this.indicator.Time[this.indicator.Time.length - 1] };
+      this.compareLayerTime = { value: this.indicator.Time[0] };
+      this.mapKey += 1;
+      this.map.removeLayer(this.$refs.dataLayer.mapObject);
+      this.map.removeLayer(this.$refs.compareLayer.mapObject);
+      this.$nextTick(() => {
+        this.map.addLayer(this.$refs.dataLayer.mapObject);
+        if (this.enableCompare) {
+          this.map.addLayer(this.$refs.compareLayer.mapObject);
+        }
+        if (this.dataLayerDisplay.protocol === 'WMS') {
+          this.$refs.dataLayer.mapObject
+            .setParams(this.layerOptions(this.currentTime, this.dataLayerDisplay));
+          this.$refs.dataLayer.mapObject
+            .setParams({ layers: this.shLayerName });
+          this.$refs.compareLayer.mapObject
+            .setParams(this.layerOptions(this.currentCompareTime, this.dataLayerDisplay));
+          this.$refs.compareLayer.mapObject
+            .setParams({ layers: this.shLayerName });
+        }
+        this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
+        this.slider.setRightLayers(this.$refs.dataLayer.mapObject);
+        this.flyToBounds();
+        this.onResize();
+      });
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+::v-deep .leaflet-control-attribution:hover :not(.attribution-icon),
+::v-deep .leaflet-control-attribution .attribution-icon {
+  display: inline-block;
+}
+
+::v-deep .leaflet-control-attribution :not(.attribution-icon),
+::v-deep .leaflet-control-attribution:hover .attribution-icon {
+  display: none;
+}
+
+::v-deep .attribution-icon {
+  font-size: 1.2em;
+  margin: 1px;
+}
+::v-deep .leaflet-control-mouseposition {
+  background-color: rgba(255, 255, 255, 0.5);
+  transform: translate3d(-8px, 32px, 0);
+  padding: 2px 4px;
+}
+.timeSelection {
+  background: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+}
+::v-deep .leaflet-sbs-divider {
+  background-color: var(--v-primary-base);
+  opacity: 0.7;
+}
+</style>
