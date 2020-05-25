@@ -122,12 +122,12 @@ const actions = {
             featureObjs[uniqueKey]['Indicator Value'].push(
               results.data[rr]['Indicator Value'],
             );
-            const measurement = results.data[rr]['Measurement Value [float]'].replace(',', '.');
-            featureObjs[uniqueKey]['Measurement Value [float]'].push(
+            const measurement = results.data[rr]['Measurement Value'].replace(',', '.');
+            featureObjs[uniqueKey]['Measurement Value'].push(
               measurement.length !== 0 ? Number(measurement) : NaN,
             );
-            featureObjs[uniqueKey]['Reference value [float]'].push(
-              results.data[rr]['Reference value [float]'],
+            featureObjs[uniqueKey]['Reference value'].push(
+              results.data[rr]['Reference value'],
             );
             featureObjs[uniqueKey]['Reference time'].push(
               results.data[rr]['Reference time'],
@@ -146,12 +146,12 @@ const actions = {
             featureObjs[uniqueKey]['Color Code'] = [
               featureObjs[uniqueKey]['Color Code'],
             ];
-            const measurement = featureObjs[uniqueKey]['Measurement Value [float]'].replace(',', '.');
-            featureObjs[uniqueKey]['Measurement Value [float]'] = [
+            const measurement = featureObjs[uniqueKey]['Measurement Value'].replace(',', '.');
+            featureObjs[uniqueKey]['Measurement Value'] = [
               measurement.length !== 0 ? Number(measurement) : NaN,
             ];
-            featureObjs[uniqueKey]['Reference value [float]'] = [
-              featureObjs[uniqueKey]['Reference value [float]'],
+            featureObjs[uniqueKey]['Reference value'] = [
+              featureObjs[uniqueKey]['Reference value'],
             ];
             featureObjs[uniqueKey]['Reference time'] = [
               featureObjs[uniqueKey]['Reference time'],
