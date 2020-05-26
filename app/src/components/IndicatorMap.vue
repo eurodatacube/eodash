@@ -287,15 +287,15 @@ export default {
       return this.indicator['Sub-AOI'];
     },
     getAoiFill() {
-      const lastValue = this.indicator && this.indicator['Color Code']
-        && this.indicator['Color Code'][this.indicator['Color Code'].length - 1];
+      const lastValue = this.indicator && this.indicator['Color code']
+        && this.indicator['Color code'][this.indicator['Color code'].length - 1];
       return lastValue
         ? this.getIndicatorColor(lastValue)
         : this.$vuetify.theme.themes.light.primary;
     },
     subAoiStyle() {
-      const lastValue = this.indicator && this.indicator['Color Code']
-        && this.indicator['Color Code'][this.indicator['Color Code'].length - 1];
+      const lastValue = this.indicator && this.indicator['Color code']
+        && this.indicator['Color code'][this.indicator['Color code'].length - 1];
       return {
         color: lastValue
           ? this.getIndicatorColor(lastValue)

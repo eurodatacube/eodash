@@ -116,7 +116,7 @@ export default {
         } else if (['E1'].includes(indicatorCode)) {
           /* Group data by year in month slices */
           const data = indicator.Time.map((date, i) => {
-            colors.push(this.getIndicatorColor(indicator['Color Code'][i]));
+            colors.push(this.getIndicatorColor(indicator['Color code'][i]));
             return { t: date, y: measurement[i] };
           });
           const dataGroups = {};
@@ -174,8 +174,8 @@ export default {
               labels.push(i);
             }
             let colorCode = '';
-            if (Object.prototype.hasOwnProperty.call(indicator, 'Color Code')) {
-              colorCode = indicator['Color Code'][i];
+            if (Object.prototype.hasOwnProperty.call(indicator, 'Color code')) {
+              colorCode = indicator['Color code'][i];
             }
             colors.push(this.getIndicatorColor(colorCode));
           }
@@ -213,7 +213,7 @@ export default {
           });
         } else {
           const data = indicator.Time.map((date, i) => {
-            colors.push(this.getIndicatorColor(indicator['Color Code'][i]));
+            colors.push(this.getIndicatorColor(indicator['Color code'][i]));
             return { t: date, y: measurement[i] };
           });
           datasets.push({

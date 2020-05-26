@@ -136,16 +136,16 @@ const actions = {
             featureObjs[uniqueKey].Time.push(
               moment.utc(results.data[rr].Time).toDate(),
             );
-            featureObjs[uniqueKey]['Color Code'].push(
-              results.data[rr]['Color Code'],
+            featureObjs[uniqueKey]['Color code'].push(
+              results.data[rr]['Color code'],
             );
           } else {
             featureObjs[uniqueKey] = results.data[rr];
             featureObjs[uniqueKey]['Indicator Value'] = [
               featureObjs[uniqueKey]['Indicator Value'],
             ];
-            featureObjs[uniqueKey]['Color Code'] = [
-              featureObjs[uniqueKey]['Color Code'],
+            featureObjs[uniqueKey]['Color code'] = [
+              featureObjs[uniqueKey]['Color code'],
             ];
             const measurement = featureObjs[uniqueKey]['Measurement Value'].replace(',', '.');
             featureObjs[uniqueKey]['Measurement Value'] = [

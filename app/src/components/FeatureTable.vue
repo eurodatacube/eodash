@@ -74,8 +74,8 @@ export default {
       const vLen = values['Indicator Value'].length;
       const lastValue = values['Indicator Value'][vLen - 1];
       let lastColorCode = '';
-      if (Object.prototype.hasOwnProperty.call(values, 'Color Code')) {
-        lastColorCode = values['Color Code'][vLen - 1];
+      if (Object.prototype.hasOwnProperty.call(values, 'Color code')) {
+        lastColorCode = values['Color code'][vLen - 1];
       }
       return {
         color: this.getIndicatorColor(lastColorCode),
