@@ -4,3 +4,25 @@
     <router-view />
   </v-app>
 </template>
+
+<script>
+export default {
+  metaInfo: {
+    meta: [
+      { name: 'google-site-verification', content: appConfig.pageMeta.googleSiteVerification },
+      // Twitter Card
+      { name: 'twitter:card', content: 'summary' },
+      { name: 'twitter:title', content: appConfig.branding.appName },
+      { name: 'twitter:description', content: appConfig.pageMeta.shortDescription },
+      // image must be an absolute path
+      { name: 'twitter:image', content: `${appConfig.pageMeta.rootPath}${appConfig.pageMeta.twitterCardImagePath}` },
+      // Facebook OpenGraph
+      { property: 'og:title', content: appConfig.branding.appName },
+      { property: 'og:site_name', content: appConfig.branding.appName },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:image', content: `${appConfig.pageMeta.rootPath}${appConfig.pageMeta.twitterCardImagePath}` },
+      { property: 'og:description', content: appConfig.pageMeta.shortDescription },
+    ],
+  },
+};
+</script>
