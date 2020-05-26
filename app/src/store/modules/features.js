@@ -108,6 +108,7 @@ const actions = {
       download: true,
       quotes: true,
       header: true,
+      skipEmptyLines: true,
       delimiter: ',',
       complete: (results) => {
         commit('SET_RESULTS_COUNT', results.data.length);
