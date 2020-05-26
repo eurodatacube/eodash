@@ -60,15 +60,7 @@
       >
         <l-tooltip class="tooltip text-center" :options="{ direction: 'top' }">
             <p class="ma-0">
-              <strong>{{ headerTitle(feature.properties.indicatorObject) }}</strong>
-            </p>
-            <p
-              v-if="indicatorsDefinition[feature.properties
-                .indicatorObject['Indicator code']].indicator"
-              class="ma-0"
-            >
-              {{ indicatorsDefinition[feature.properties
-                .indicatorObject['Indicator code']].indicator }}
+              <strong>{{ feature.properties.indicatorObject.Description }}</strong>
             </p>
             <p
               v-if="feature.properties
@@ -76,9 +68,9 @@
                   .indicatorObject['Indicator Value'].length - 1]"
               class="ma-0"
             >
-              <small>({{ feature.properties
+              Latest value: {{ feature.properties
                 .indicatorObject['Indicator Value'][feature.properties
-                  .indicatorObject['Indicator Value'].length - 1] }})</small>
+                  .indicatorObject['Indicator Value'].length - 1] }}
             </p>
             <p v-else class="mb-0"><small>(coming soon)</small></p>
         </l-tooltip>
