@@ -19,9 +19,9 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-
-    - name: submodules-init
-      uses: snickerbockers/submodules-init@v4
+      with:
+        ssh-key: ${{ secrets.DEPLOY_KEY }}
+        submodules: true
 
     - name: Setup Node
       uses: actions/setup-node@v1
