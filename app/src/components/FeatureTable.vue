@@ -7,7 +7,7 @@
         <v-data-table
           :headers="headers"
           :items="allFeatures"
-          :items-per-page="999"
+          :items-per-page="10"
           class="featureTable elevation-1"
           @click:row="openFeature"
         >
