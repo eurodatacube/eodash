@@ -34,15 +34,25 @@ jobs:
         npm install
         npm run build
 
-    - name: S3 Sync with cloudfront cache invalidation
-      uses: kefranabg/s3-sync-action@v0.1.0
+    # Upload to S3
+    - name: sync s3
+      uses: jakejarvis/s3-sync-action@v0.5.1
       with:
-        args: --follow-symlinks --delete
+        args: --delete --follow-symlinks
       env:
+        SOURCE_DIR: 'app/dist'
+        DEST_DIR: 'staging'
+        AWS_REGION: 'eu-central-1'
         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    # Invalidate Cloudfront (this action)
+    - name: invalidate
+      uses: chetan/invalidate-cloudfront-action@v1.2
+      env:
+        DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_STAGING }}
+        PATHS: '/*'
         AWS_REGION: 'eu-central-1'
-        DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_STAGING }}
-        SOURCE_DIR: 'app/dist'
-        DEST_DIR: 'staging'
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
