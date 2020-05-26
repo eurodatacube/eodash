@@ -51,3 +51,14 @@ jobs:
         AWS_REGION: 'eu-central-1'
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    # Send notification
+    - name: action-slack
+      uses: 8398a7/action-slack@v3.0.3
+      with:
+        status: ${{ job.status }}
+        author_name: eodash_deploy
+        fields: repo,message,commit,author,action,eventName,ref,workflow
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+      if: always()
