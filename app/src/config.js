@@ -5,6 +5,11 @@ import { latLng } from 'leaflet';
 import { shTimeFunction } from '@/utils';
 import moment from 'moment';
 
+export const nasaEndpoints = [
+  'https://h4ymwpefng.execute-api.us-east-1.amazonaws.com/v1/', // Air quality
+  'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/', // Something else
+];
+
 export const indicatorsDefinition = Object.freeze({
   E1: {
     indicator: 'Status of metallic ores',
@@ -165,6 +170,17 @@ export const defaultWMSDisplay = {
   minZoom: 7,
 };
 const wkt = new Wkt();
+const getMonthlyDates = (start, end) => {
+  let currentDate = moment(start);
+  const stopDate = moment(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(moment(currentDate).format('YYYY-MM-DD'));
+    currentDate = moment(currentDate).add(1, 'months');
+  }
+  return dateArray;
+};
+
 export const globalIndicators = [
   {
     properties: {
@@ -192,6 +208,36 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/no2Legend.png',
           attribution: '<a href="//scihub.copernicus.eu/twiki/pub/SciHubWebPortal/TermsConditions/TC_Sentinel_Data_31072014.pdf">Sentinel data</a>, <a href="//maps.s5p-pal.com/">S5P-PAL</a>',
           dateFormatFunction: (dates) => `${moment.utc(dates[0], 'YYYY-MM-DD').format('YYYYMMDD')}-${moment.utc(dates[1], 'YYYY-MM-DD').format('YYYYMMDD')}`,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        Country: 'all',
+        City: 'World',
+        'Site Name': 'global',
+        Description: 'Nitrogen dioxide (NASA)',
+        'Indicator code': 'N1',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Nitrogen dioxide ',
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        'Color Code': ['BLUE'],
+        AOI: null,
+        Time: getMonthlyDates('2004-10-01', '2020-03-01'),
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 6,
+          opacity: 1,
+          url: 'https://h4ymwpefng.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/OMNO2d_HRM/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=0%2C1e16&color_map=magma',
+          name: 'Nitrogen dioxide (NASA)',
+          legendUrl: 'eodash-data/data/no2Legend.png',
+          attribution: '<a href="//scihub.copernicus.eu/twiki/pub/SciHubWebPortal/TermsConditions/TC_Sentinel_Data_31072014.pdf">Sentinel data</a>, <a href="//maps.s5p-pal.com/">S5P-PAL</a>',
+          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYYMM')}`,
         },
       },
     },
