@@ -180,7 +180,7 @@ export default {
       return this.$store.state.indicators.selectedIndicator;
     },
     globalData() {
-      return ['N1', 'N3'].includes(this.indicatorObject['Indicator code']) && this.indicatorObject.Country === 'all';
+      return this.indicatorObject.Country === 'all';
     },
     countryItems() {
       const countries = this.getCountries;
