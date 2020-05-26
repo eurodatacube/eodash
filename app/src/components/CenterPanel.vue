@@ -25,6 +25,7 @@
         <Map ref="map" />
         <v-menu v-if="globalIndicators && globalIndicators.length > 0"
           offset-y
+          :value="$store.state.features.featureFilters.indicators.includes('N1')"
         >
           <template v-slot:activator="{ on }">
             <v-btn
