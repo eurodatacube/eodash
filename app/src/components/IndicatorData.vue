@@ -449,6 +449,12 @@ export default {
             },
             ticks: {
               lineHeight: 1,
+              suggestedMin: Math.min(
+                ...this.indicatorObject['Measurement Value'],
+              ) - 1,
+              suggestedMax: Math.max(
+                ...this.indicatorObject['Measurement Value'],
+              ) + 1,
             },
           }],
         },
