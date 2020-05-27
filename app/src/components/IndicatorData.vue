@@ -395,7 +395,12 @@ export default {
                   const percentage = context.chart.data.datasets[context.datasetIndex]
                     .indLabels[context.dataIndex];
                   if (percentage !== '') {
-                    labelRes = `${Number((percentage * 100).toPrecision(4))}%`;
+                    const percVal = Number((percentage * 100).toPrecision(4));
+                    if (percVal > 0) {
+                      labelRes = `+${percVal}%`;
+                    } else {
+                      labelRes = `${percVal}%`;
+                    }
                   }
                   return labelRes;
                 },
