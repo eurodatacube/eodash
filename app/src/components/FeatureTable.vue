@@ -86,10 +86,12 @@ export default {
       return indicatorsDefinition[code];
     },
     openFeature(feature) {
-      this.$store.commit(
-        'indicators/SET_SELECTED_INDICATOR',
-        feature.properties.indicatorObject,
-      );
+      if (feature.properties.indicatorObject['Indicator code'] !== 'd') {
+        this.$store.commit(
+          'indicators/SET_SELECTED_INDICATOR',
+          feature.properties.indicatorObject,
+        );
+      }
     },
   },
 };

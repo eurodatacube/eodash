@@ -35,7 +35,7 @@
       >
         <v-card outlined class="pa-5 text-center">
           <p>Countries</p>
-          <h2 class="primary--text display-3">{{ countryItems.length }}</h2>
+          <h2 class="primary--text display-3">{{ countryItemsCount }}</h2>
         </v-card>
       </v-col>
     </v-row>
@@ -182,9 +182,9 @@ export default {
     globalData() {
       return this.indicatorObject.Country === 'all';
     },
-    countryItems() {
-      const countries = this.getCountries;
-      return countries;
+    countryItemsCount() {
+      const countries = this.getCountries.filter((item) => item !== 'all');
+      return countries.length;
     },
   },
 };

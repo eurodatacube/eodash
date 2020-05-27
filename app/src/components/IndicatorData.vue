@@ -233,17 +233,6 @@ export default {
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
     },
-    headerTitle() {
-      const city = this.indicatorObject['City']; // eslint-disable-line dot-notation
-      const site = this.indicatorObject['Site Name'];
-      // only add 'city' to 'site' if 'city' not contained in 'site'
-      if (site.split(' ')
-        .map((word) => word.toLowerCase())
-        .filter((w) => w.includes(city.toLowerCase())).length > 0) {
-        return site;
-      }
-      return `${city}, ${site}`;
-    },
   },
   methods: {
     formatNumRef(num, maxDecimals = 3) {

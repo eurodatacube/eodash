@@ -162,7 +162,7 @@ export const overlayLayers = [
     url: '//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg',
     attribution: 'Overlay: Data &copy; <a class="a-light" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Made with Natural Earth, Rendering &copy; <a class="a-light" href="//eox.at">EOX</a>',
     visible: true,
-    maxNativeZoom: 14,
+    maxZoom: 14,
   },
 ];
 
@@ -172,7 +172,7 @@ export const defaultWMSDisplay = {
   dateFormatFunction: shTimeFunction,
   format: 'image/png',
   transparent: true,
-  tileSize: 256,
+  tileSize: 512,
   opacity: 1,
   attribution: 'attributiontextplaceholder',
   minZoom: 7,
@@ -283,10 +283,10 @@ export const globalIndicators = [
     properties: {
       id: 9999, // for now
       indicatorObject: {
-        AOI: latLng([45.197522, 13.029785]),
+        AOI: null,
         Country: 'all',
-        City: 'Adriatic Sea',
-        'Site Name': 'Adriatic Sea',
+        City: 'North Adriatic',
+        'Site Name': 'North Adriatic',
         Description: 'Adriatic Water Quality Index',
         'Indicator code': 'N3a2',
         'Indicator Value': ['normal'],

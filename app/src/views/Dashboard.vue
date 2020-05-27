@@ -65,7 +65,7 @@
           {{ $store.state.indicators.selectedIndicator['Indicator Name'] }}
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon dark @click="drawerRight = false">
+        <v-btn icon dark @click="clickMobileClose">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
@@ -209,6 +209,10 @@ export default {
         // TO-DO find more reliable way of checking
         setTimeout(() => { this.dataPanelTemporary = false; }, 500);
       }
+    },
+    clickMobileClose() {
+      this.drawerRight = false;
+      this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
     },
   },
   watch: {

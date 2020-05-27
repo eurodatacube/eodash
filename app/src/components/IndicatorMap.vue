@@ -79,12 +79,12 @@
     >
     </LTileLayer>
     <l-circle-marker
-      v-if="aoi"
+      v-if="showAoi"
       :lat-lng="aoi"
       :radius="12"
       :color="$vuetify.theme.themes.light.primary"
       :weight="2"
-      :dashArray="3"
+      :dashArray="dasharrayPoi"
       :fill="true"
       :fillColor="getAoiFill"
       :fillOpacity="1"
@@ -210,6 +210,7 @@ export default {
       minMapZoom: 3,
       zoom: 3,
       maxMapZoom: 18,
+      dasharrayPoi: '3',
       center: [55, 10],
       bounds: null,
       enableCompare: false,
@@ -236,6 +237,9 @@ export default {
     },
     indicator() {
       return this.$store.state.indicators.selectedIndicator;
+    },
+    showAoi() {
+      return !this.subAoi || this.subAoi.features.length === 0;
     },
     arrayOfObjects() {
       const selectionOptions = [];
@@ -264,10 +268,10 @@ export default {
     shLayerName() {
       let sensor = this.indicator['EO Sensor'].toUpperCase();
       const indicatorCode = this.indicator['Indicator code'].toUpperCase();
-      if (['S1B', 'S1A', 'SENTINEL-1'].includes(sensor)) {
+      if (['S1B', 'S1A', 'SENTINEL-1', 'SENTINEL 1', 'S1'].includes(sensor)) {
         sensor = 'SENTINEL1';
       }
-      if (['S2', 'SENTINEL-2', 'Sentinel 2'].includes(sensor)) {
+      if (['S2', 'SENTINEL-2', 'SENTINEL 2'].includes(sensor)) {
         sensor = 'SENTINEL2'; // not configured on SIN yet
       }
       return `${indicatorCode}_${sensor}`;
