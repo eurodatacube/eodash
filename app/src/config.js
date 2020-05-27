@@ -149,7 +149,7 @@ export const overlayLayers = [
     url: '//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg',
     attribution: 'Overlay: Data &copy; <a class="a-light" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Made with Natural Earth, Rendering &copy; <a class="a-light" href="//eox.at">EOX</a>',
     visible: true,
-    maxNativeZoom: 14,
+    maxZoom: 14,
   },
 ];
 
