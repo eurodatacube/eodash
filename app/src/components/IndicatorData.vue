@@ -68,14 +68,14 @@ export default {
           for (let i = 0; i < indicator.Time.length; i += 1) {
             if (!Number.isNaN(indicator.Time[i].getTime())) {
               const currDate = indicator.Time[i];
-              const formattedDate = monthNames[currDate.getMonth()];
+              const formattedDate = `${currDate.getDate()} - ${monthNames[currDate.getMonth()]}`;
               labels.push(formattedDate);
             } else {
               labels.push(i);
             }
           }
           datasets.push({
-            indLabels: ['', '', ''],
+            indLabels: Array(indicator['Indicator Value'].length).join('.').split('.'),
             label: '2019',
             data: referenceValue,
             fill: false,
@@ -395,7 +395,7 @@ export default {
                   const percentage = context.chart.data.datasets[context.datasetIndex]
                     .indLabels[context.dataIndex];
                   if (percentage !== '') {
-                    labelRes = `${percentage * 100}%`;
+                    labelRes = `${Number((percentage * 100).toPrecision(4))}%`;
                   }
                   return labelRes;
                 },
