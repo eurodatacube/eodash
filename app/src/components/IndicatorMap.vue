@@ -264,10 +264,10 @@ export default {
     shLayerName() {
       let sensor = this.indicator['EO Sensor'].toUpperCase();
       const indicatorCode = this.indicator['Indicator code'].toUpperCase();
-      if (['S1B', 'S1A', 'SENTINEL-1'].includes(sensor)) {
+      if (['S1B', 'S1A', 'SENTINEL-1', 'SENTINEL 1', 'S1'].includes(sensor)) {
         sensor = 'SENTINEL1';
       }
-      if (['S2', 'SENTINEL-2', 'Sentinel 2'].includes(sensor)) {
+      if (['S2', 'SENTINEL-2', 'SENTINEL 2'].includes(sensor)) {
         sensor = 'SENTINEL2'; // not configured on SIN yet
       }
       return `${indicatorCode}_${sensor}`;

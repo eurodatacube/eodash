@@ -159,7 +159,7 @@ export const defaultWMSDisplay = {
   dateFormatFunction: shTimeFunction,
   format: 'image/png',
   transparent: true,
-  tileSize: 256,
+  tileSize: 512,
   opacity: 1,
   attribution: 'attributiontextplaceholder',
   minZoom: 7,

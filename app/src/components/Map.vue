@@ -59,6 +59,9 @@
         @click="selectIndicator(feature)"
       >
         <l-tooltip class="tooltip text-center" :options="{ direction: 'top' }">
+          <p class="ma-0">
+            <strong>{{ feature.properties.indicatorObject.City }}</strong>
+          </p>
             <p class="ma-0">
               <strong>{{ feature.properties.indicatorObject.Description }}</strong>
             </p>
