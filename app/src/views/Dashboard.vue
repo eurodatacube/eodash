@@ -13,12 +13,12 @@
         v-if="$vuetify.breakpoint.mdAndUp"
         class="mr-5"
       >
-        {{ appConfig.branding.appName }}
+        {{ appConfig && appConfig.branding.appName }}
       </v-toolbar-title>
       <v-btn text dark small @click="showAboutDialog = true">About</v-btn>
       <v-btn text dark small @click="showFeedbackDialog = true">Feedback</v-btn>
       <v-spacer></v-spacer>
-      <img class="header__logo" :src="appConfig.branding.headerLogo" />
+      <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
     </v-app-bar>
 
     <v-navigation-drawer
@@ -167,8 +167,11 @@ import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
 
 export default {
-  metaInfo: {
-    title: appConfig.branding.appName,
+  metaInfo() {
+    const appConfig = this.$store.state.config.appConfig;
+    return {
+      title: appConfig ? appConfig.branding.appName : 'eodash',
+    }
   },
   components: {
     About,
@@ -181,7 +184,6 @@ export default {
     source: String,
   },
   data: () => ({
-    appConfig,
     drawerLeft: true,
     drawerRight: false,
     showAboutDialog: false,
@@ -190,6 +192,9 @@ export default {
     dataPanelTemporary: false,
   }),
   computed: {
+    appConfig() {
+      return this.$store.state.config.appConfig;
+    },
     indicatorSelected() {
       return this.$store.state.indicators.selectedIndicator;
     },
