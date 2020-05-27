@@ -2,7 +2,7 @@
 const brands = [
   {
     id: 'esa',
-    match: ['esa.int', 'staging', 'localhost'],
+    match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'localhost'],
     branding: {
       appName: 'Rapid Action on coronavirus and EO',
       primaryColor: '#003247',
@@ -17,7 +17,7 @@ const brands = [
   },
   {
     id: 'trilateral',
-    match: ['localhost2'],
+    match: ['eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'localhost2'],
     branding: {
       appName: 'Trilateral Dashboard',
       primaryColor: '#000000',
