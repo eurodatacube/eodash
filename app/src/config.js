@@ -201,7 +201,7 @@ export const globalIndicators = [
     properties: {
       id: 9999, // for now
       indicatorObject: {
-        AOI: latLng([45.197522, 13.029785]),
+        AOI: null,
         Country: 'all',
         City: 'North Adriatic',
         'Site Name': 'North Adriatic',

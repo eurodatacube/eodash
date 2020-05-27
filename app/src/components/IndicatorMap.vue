@@ -79,7 +79,7 @@
     >
     </LTileLayer>
     <l-circle-marker
-      v-if="aoi"
+      v-if="showAoi"
       :lat-lng="aoi"
       :radius="12"
       :color="$vuetify.theme.themes.light.primary"
@@ -237,6 +237,9 @@ export default {
     },
     indicator() {
       return this.$store.state.indicators.selectedIndicator;
+    },
+    showAoi() {
+      return !this.subAoi || this.subAoi.features.length === 0;
     },
     arrayOfObjects() {
       const selectionOptions = [];
