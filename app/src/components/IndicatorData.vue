@@ -158,7 +158,7 @@ export default {
           const stdDev = [];
           indicator['Reference value'].forEach((item) => {
             const obj = JSON.parse(item.replace(/,/g, '.').replace(' ', ','));
-            referenceValue.push(10 ** obj[0]);
+            referenceValue.push(obj[0]);
             stdDev.push(obj[1]);
           });
 
@@ -188,7 +188,7 @@ export default {
             borderColor: colors,
           });
           datasets.push({
-            label: 'Daily climatology of chlorophyll conc. (CHL_clim) 2017-2019',
+            label: 'Weekly climatology of chlorophyll conc. (CHL_clim) 2017-2019',
             data: referenceValue,
             fill: false,
             pointRadius: 0,
@@ -196,6 +196,7 @@ export default {
           });
           datasets.push({
             label: 'Standard deviation (STD)',
+            hidden: true,
             data: stdDevMax,
             fill: '+1',
             pointRadius: 0,
@@ -424,6 +425,37 @@ export default {
         };
       }
 
+      const yAxes = [{
+        scaleLabel: {
+          display: true,
+          labelString: this.indicatorObject['Y axis'],
+          padding: 2,
+        },
+        ticks: {
+          lineHeight: 1,
+          suggestedMin: Math.min(
+            ...this.indicatorObject['Measurement Value'],
+          ) - 1,
+          suggestedMax: Math.max(
+            ...this.indicatorObject['Measurement Value'],
+          ) + 1,
+        },
+      }];
+
+      if (['N3'].includes(indicatorCode)) {
+        yAxes[0].ticks = {
+          min: Math.min(
+            ...this.indicatorObject['Measurement Value'],
+          ),
+          max: Math.max(
+            ...this.indicatorObject['Measurement Value'],
+          ),
+          callback: (value) => (
+            Number(10 ** Number(value)).toPrecision(1)
+          ),
+        };
+      }
+
       const defaultSettings = {
         responsive: true,
         maintainAspectRatio: false,
@@ -435,22 +467,7 @@ export default {
         },
         scales: {
           xAxes,
-          yAxes: [{
-            scaleLabel: {
-              display: true,
-              labelString: this.indicatorObject['Y axis'],
-              padding: 2,
-            },
-            ticks: {
-              lineHeight: 1,
-              suggestedMin: Math.min(
-                ...this.indicatorObject['Measurement Value'],
-              ) - 1,
-              suggestedMax: Math.max(
-                ...this.indicatorObject['Measurement Value'],
-              ) + 1,
-            },
-          }],
+          yAxes,
         },
         pan: {
           enabled: true,
