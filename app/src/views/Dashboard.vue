@@ -168,10 +168,10 @@ import DataPanel from '@/components/DataPanel.vue';
 
 export default {
   metaInfo() {
-    const appConfig = this.$store.state.config.appConfig;
+    const { appConfig } = this.$store.state.config;
     return {
       title: appConfig ? appConfig.branding.appName : 'eodash',
-    }
+    };
   },
   components: {
     About,
