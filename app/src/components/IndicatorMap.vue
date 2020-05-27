@@ -239,7 +239,7 @@ export default {
       return this.$store.state.indicators.selectedIndicator;
     },
     showAoi() {
-      return !this.subAoi || this.subAoi.features.length === 0;
+      return this.aoi && (!this.subAoi || this.subAoi.features.length === 0);
     },
     arrayOfObjects() {
       const selectionOptions = [];
