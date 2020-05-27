@@ -9,8 +9,8 @@ const appConfig = (() => {
     pageMeta: {
       rootPath: 'https://race.esa.int',
       googleSiteVerification: 'RfWilP51Q2wsZnVlKbxUTovIx90QqqLRFLebGpAeq14',
-      shortDescription: 'The RACE platform demonstrates how the use of Earth observation data can help shed new light on societal and economic changes currently taking place owing to the COVID-19 pandemic.',
-      twitterCardImagePath: '/img/icons/android-chrome-192x192.png',
+      shortDescription: 'The RACE platform demonstrates how the use of EO data can help shed new light on societal and economic changes currently taking place owing to the coronavirus pandemic.',
+      twitterCardImagePath: '/img/ESA/RACE_key_visual_200526_3v.jpg',
     },
   };
 })();
