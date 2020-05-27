@@ -164,8 +164,8 @@ export default {
     },
     subAoiStyle() {
       const currentIndicator = this.$store.state.indicators.selectedIndicator;
-      const lastValue = currentIndicator && currentIndicator['Color Code']
-        && currentIndicator['Color Code'][currentIndicator['Color Code'].length - 1];
+      const lastValue = currentIndicator && currentIndicator['Color code']
+        && currentIndicator['Color code'][currentIndicator['Color code'].length - 1];
       return {
         color: '#fff',
         weight: 1,
@@ -256,8 +256,8 @@ export default {
       const vLen = values['Indicator Value'].length;
       const lastValue = values['Indicator Value'][vLen - 1];
       let lastColorCode = '';
-      if (Object.prototype.hasOwnProperty.call(values, 'Color Code')) {
-        lastColorCode = values['Color Code'][vLen - 1];
+      if (Object.prototype.hasOwnProperty.call(values, 'Color code')) {
+        lastColorCode = values['Color code'][vLen - 1];
       }
       return {
         color: this.getIndicatorColor(lastColorCode),

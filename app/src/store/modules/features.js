@@ -96,7 +96,7 @@ const actions = {
     const defs = indicatorsDefinition;
     const keys = Object.keys(defs);
     for (let kk = 0; kk < keys.length; kk += 1) {
-      if (Object.prototype.hasOwnProperty.call(defs[keys[kk]], 'file')) {
+      if (Object.prototype.hasOwnProperty.call(defs[keys[kk]], 'file') && defs[keys[kk]]['file']) {
         const csvUrl = `/eodash-data/data/${keys[kk]}.csv`;
         this.dispatch('features/loadCsv', csvUrl);
       }
@@ -136,16 +136,16 @@ const actions = {
             featureObjs[uniqueKey].Time.push(
               moment.utc(results.data[rr].Time).toDate(),
             );
-            featureObjs[uniqueKey]['Color Code'].push(
-              results.data[rr]['Color Code'],
+            featureObjs[uniqueKey]['Color code'].push(
+              results.data[rr]['Color code'],
             );
           } else {
             featureObjs[uniqueKey] = results.data[rr];
             featureObjs[uniqueKey]['Indicator Value'] = [
               featureObjs[uniqueKey]['Indicator Value'],
             ];
-            featureObjs[uniqueKey]['Color Code'] = [
-              featureObjs[uniqueKey]['Color Code'],
+            featureObjs[uniqueKey]['Color code'] = [
+              featureObjs[uniqueKey]['Color code'],
             ];
             const measurement = featureObjs[uniqueKey]['Measurement Value'].replace(',', '.');
             featureObjs[uniqueKey]['Measurement Value'] = [
@@ -205,6 +205,7 @@ const actions = {
       download: true,
       quotes: true,
       header: true,
+      skipEmptyLines: true,
       delimiter: ',',
       complete: (results) => {
         const featureObjs = {};
