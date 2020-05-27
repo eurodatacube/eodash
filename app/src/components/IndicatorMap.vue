@@ -84,7 +84,7 @@
       :radius="12"
       :color="$vuetify.theme.themes.light.primary"
       :weight="2"
-      :dashArray="3"
+      :dashArray="dasharrayPoi"
       :fill="true"
       :fillColor="getAoiFill"
       :fillOpacity="1"
@@ -210,6 +210,7 @@ export default {
       minMapZoom: 3,
       zoom: 3,
       maxMapZoom: 18,
+      dasharrayPoi: '3',
       center: [55, 10],
       bounds: null,
       enableCompare: false,
