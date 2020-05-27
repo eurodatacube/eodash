@@ -2,7 +2,7 @@
 const brands = [
   {
     id: 'esa',
-    match: ['esa.int', 'localhost'],
+    match: ['esa.int', 'staging', 'localhost'],
     branding: {
       appName: 'Rapid Action on coronavirus and EO',
       primaryColor: '#003247',
