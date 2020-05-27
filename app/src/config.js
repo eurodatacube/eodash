@@ -203,8 +203,8 @@ export const globalIndicators = [
       indicatorObject: {
         AOI: latLng([45.197522, 13.029785]),
         Country: 'all',
-        City: 'Adriatic Sea',
-        'Site Name': 'Adriatic Sea',
+        City: 'North Adriatic',
+        'Site Name': 'North Adriatic',
         Description: 'Adriatic Water Quality Index',
         'Indicator code': 'N3a2',
         'Indicator Value': ['normal'],
