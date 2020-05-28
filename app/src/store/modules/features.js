@@ -189,6 +189,7 @@ const actions = {
           const coordinates = keys[kk].split('_')[0].split(',').map(Number);
           // console.log(featureObjs[keys[kk]]);
           featureObjs[keys[kk]].AOI = latLng(coordinates);
+          featureObjs[keys[kk]].id = globalIdCounter; // to connect indicator & feature
           features.push({
             latlng: latLng(coordinates),
             id: globalIdCounter,
@@ -221,6 +222,7 @@ const actions = {
 
         for (let kk = 0; kk < keys.length; kk += 1) {
           const coordinates = keys[kk].split('_')[0].split(',').map(Number);
+          featureObjs[keys[kk]].id = globalIdCounter; // to connect indicator & feature
           features.push({
             latlng: latLng(coordinates),
             id: globalIdCounter,

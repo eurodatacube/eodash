@@ -46,18 +46,19 @@
     </LTileLayer>
 
     <l-marker-cluster ref="clusterLayer" :options="clusterOptions" @clusterclick="onClusterClick">
-      <l-circle-marker v-for="(feature, index) in getFeatures.filter((f) => f.latlng)"
+      <l-circle-marker v-for="(feature) in getFeatures.filter((f) => f.latlng)"
         :key="feature.id"
         ref="markers"
         :lat-lng="feature.latlng"
         :radius="12"
+        :name='`${feature.id}`'
         :color="currentSelected === feature.id ? $vuetify.theme.themes.light.primary : 'white'"
         :weight="2"
         :dashArray="currentSelected === feature.id ? '3' : '0'"
         :fill="true"
         :fillColor="getLastValue(feature.properties.indicatorObject).color"
         :fillOpacity="1"
-        @click="selectIndicator(feature, index)"
+        @click="selectIndicator(feature)"
       >
         <l-tooltip class="tooltip text-center" :options="{ direction: 'top' }">
           <p class="ma-0">
@@ -149,14 +150,20 @@ export default {
     clusterOptions() {
       return {
         maxClusterRadius: 40,
+        animate: false,
         // zoomToBoundsOnClick: false,
         iconCreateFunction: function (cluster) { // eslint-disable-line func-names
           // left as default
           let selCluster = null;
-          if (this.currentSelectedIndex !== null) {
-            selCluster = this.$refs.clusterLayer.mapObject.getVisibleParent(
-              this.$refs.markers[this.currentSelectedIndex].mapObject,
+          if (this.currentSelected !== null && this.$refs.clusterLayer) {
+            const selectedMarker = this.$refs.markers.find(
+              (item) => parseInt(item.name, 10) === this.currentSelected,
             );
+            if (selectedMarker) {
+              selCluster = this.$refs.clusterLayer.mapObject.getVisibleParent(
+                selectedMarker.mapObject,
+              );
+            }
           }
           const childCount = cluster.getChildCount();
           let sizeClass = 'marker-cluster-';
@@ -259,26 +266,30 @@ export default {
         }
       }
     });
+    this.$store.subscribe((mutation) => {
+      if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
+        if (mutation.payload !== null && mutation.payload.AOI !== null) {
+          this.currentSelected = mutation.payload.id;
+        } else {
+          this.currentSelected = null;
+        }
+        this.resetClusterLayer();
+      }
+    });
   },
   methods: {
-    selectIndicator(feature, index) {
+    selectIndicator(feature) {
       const { indicatorObject } = feature.properties;
       if (indicatorObject['Indicator code'] !== 'd') {
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
         this.currentSelected = feature.id;
-        this.currentSelectedIndex = index;
         this.subAoi = indicatorObject['Sub-AOI'];
-        this.resetClusterLayer();
-        // if (this.subAoi && this.subAoi.features.length > 0) {
-        //   this.map.flyToBounds(geoJson(this.subAoi).getBounds(), {
-        //     padding: [100, 100],
-        //     maxZoom: 13,
-        //   });
-        // }
       }
     },
     resetClusterLayer() {
-      this.$refs.clusterLayer.mapObject.refreshClusters();
+      if (this.$refs.clusterLayer) {
+        this.$refs.clusterLayer.mapObject.refreshClusters();
+      }
     },
     getLastValue(values) {
       const vLen = values['Indicator Value'].length;
@@ -301,17 +312,20 @@ export default {
     zoomUpdated(zoom) {
       this.zoom = zoom;
       this.onResize();
-      this.resetClusterLayer();
+      this.$nextTick(() => {
+        this.resetClusterLayer();
+      });
     },
     centerUpdated(center) {
       this.center = center;
       this.onResize();
-      this.resetClusterLayer();
+      this.$nextTick(() => {
+        this.resetClusterLayer();
+      });
     },
     boundsUpdated(bounds) {
       this.bounds = bounds;
       this.onResize();
-      this.resetClusterLayer();
     },
     onResize() {
       // to fix panel size for reference image window
