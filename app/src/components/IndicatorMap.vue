@@ -215,7 +215,7 @@ export default {
       bounds: null,
       enableCompare: false,
       opacityTerrain: [1],
-      opacityOverlay: [0, 0, 0, 0, 0.1, 0.1, 0.4, 0.4, 0.8, 0.8, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
+      opacityOverlay: [1],
       tilePane: 'tilePane',
       overlayPane: 'overlayPane',
       markerPane: 'markerPane',
