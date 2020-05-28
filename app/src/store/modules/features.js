@@ -99,7 +99,7 @@ const actions = {
     const keys = Object.keys(defs);
     for (let kk = 0; kk < keys.length; kk += 1) {
       if (Object.prototype.hasOwnProperty.call(defs[keys[kk]], 'file') && defs[keys[kk]].file) {
-        const csvUrl = `/eodash-data/data/${keys[kk]}.csv`;
+        const csvUrl = defs[keys[kk]].file;
         this.dispatch('features/loadCsv', csvUrl);
       }
     }
