@@ -485,7 +485,7 @@ export default {
         };
         legend.labels.usePointStyle = true;
         legend.labels.boxWidth = 5;
-        legend.onClick = function (e, legendItem) {
+        legend.onClick = function onClick(e, legendItem) {
           if (legendItem.text === 'Standard deviation (STD)') {
             const masterIndex = legendItem.datasetIndex;
             const slaveIndex = 6;
