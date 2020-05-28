@@ -25,7 +25,7 @@
         <Map ref="map" />
         <v-menu v-if="globalIndicators && globalIndicators.length > 0"
           offset-y
-          :value="$store.state.features.featureFilters.indicators.includes('N1')"
+          :value="openGlobalPanel"
         >
           <template v-slot:activator="{ on }">
             <v-btn
@@ -93,6 +93,7 @@ export default {
   },
   data: () => ({
     tab: null,
+    openGlobalPanel: false,
   }),
   computed: {
     ...mapGetters('features', [
@@ -102,6 +103,11 @@ export default {
       return this.getFeatures
         .filter((f) => ['global'].includes(f.properties.indicatorObject['Site Name']));
     },
+    someGlobalIndicator() {
+      return this.globalIndicators
+        .filter((i) => this.$store.state.features.featureFilters.indicators
+        .includes(i.properties.indicatorObject['Indicator code']));
+    }
   },
   methods: {
     selectGlobal(indicatorCode) {
@@ -115,6 +121,14 @@ export default {
     },
     mapTabClick() {
       this.$refs.map.onResize();
+    },
+  },
+  watch: {
+    someGlobalIndicator() {
+      this.openGlobalPanel = false;
+      setTimeout(() => {
+        this.openGlobalPanel = this.someGlobalIndicator.length > 0;
+      }, 1);
     },
   },
 };
