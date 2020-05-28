@@ -202,8 +202,8 @@ const actions = {
       },
     });
   },
-  loadDummyLocations({ commit }) {
-    this._vm.$papa.parse('/eodash-data/data/dummylocations.csv', {
+  loadDummyLocations({ commit, rootState }) {
+    this._vm.$papa.parse(rootState.config.appConfig.displayDummyLocations, {
       download: true,
       quotes: true,
       header: true,

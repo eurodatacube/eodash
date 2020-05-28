@@ -15,7 +15,7 @@ const brands = [
       shortDescription: 'The RACE platform demonstrates how the use of EO data can help shed new light on societal and economic changes currently taking place owing to the coronavirus pandemic.',
       twitterCardImagePath: '/img/ESA/RACE_key_visual_200526_3v.jpg',
     },
-    displayDummyLocations: true,
+    displayDummyLocations: '/eodash-data/data/dummylocations.csv',
     customCSS: 'esa',
     aboutText: '/eodash-data/general/about',
   },
@@ -33,6 +33,7 @@ const brands = [
       shortDescription: 'The RACE platform demonstrates how the use of EO data can help shed new light on societal and economic changes currently taking place owing to the coronavirus pandemic.',
       twitterCardImagePath: '/img/ESA/RACE_key_visual_200526_3v.jpg',
     },
+    displayDummyLocations: '/data/trilateral/dummylocations.csv',
     aboutText: '/data/trilateral/about',
   },
 ];
