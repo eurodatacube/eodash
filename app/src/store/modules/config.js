@@ -22,6 +22,9 @@ const actions = {
     const brandConfig = appConfig.default.brands.find((c) => c.match.includes(document.domain));
     commit('SET_APP_CONFIG', brandConfig);
     commit('SET_BASE_CONFIG', require(`../../config/${brandConfig.id}.js`));
+    if (brandConfig.customCSS) {
+      require(`../../../public/css/${brandConfig.customCSS}.scss`);
+    }
   },
 };
 

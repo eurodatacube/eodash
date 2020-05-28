@@ -6,6 +6,7 @@ const brands = [
     branding: {
       appName: 'Rapid Action on coronavirus and EO',
       primaryColor: '#003247',
+      secondaryColor: '#0098DB',
       headerLogo: '/eodash-data/general/ESA_Logo.svg',
     },
     pageMeta: {
@@ -15,10 +16,11 @@ const brands = [
       twitterCardImagePath: '/img/ESA/RACE_key_visual_200526_3v.jpg',
     },
     displayDummyLocations: true,
+    customCSS: 'esa',
   },
   {
     id: 'trilateral',
-    match: ['eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'localhost2'],
+    match: ['eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at'],
     branding: {
       appName: 'Trilateral Dashboard',
       primaryColor: '#000000',

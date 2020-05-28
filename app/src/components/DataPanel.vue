@@ -9,7 +9,7 @@
       <v-col
         cols="12"
       >
-        <h1 class="display-3 primary--text mb-5 mt-0">COVID-19 Impact seen by Satellite</h1>
+        <h1 class="display-3 secondary--text mb-5 mt-0">COVID-19 Impact seen by Satellite</h1>
       </v-col>
       <v-col
         cols="12"
@@ -17,7 +17,7 @@
       >
         <v-card outlined class="pa-5 text-center">
           <p>Indicator Datasets</p>
-          <h2 class="primary--text display-3">{{ getIndicators.length }}</h2>
+          <h2 class="secondary--text display-3">{{ getIndicators.length }}</h2>
         </v-card>
       </v-col>
       <v-col
@@ -26,7 +26,7 @@
       >
         <v-card outlined class="pa-5 text-center">
           <p>Measurements</p>
-          <h2 class="primary--text display-3">{{ $store.state.features.resultsCount }}</h2>
+          <h2 class="secondary--text display-3">{{ $store.state.features.resultsCount }}</h2>
         </v-card>
       </v-col>
       <v-col
@@ -35,7 +35,7 @@
       >
         <v-card outlined class="pa-5 text-center">
           <p>Countries</p>
-          <h2 class="primary--text display-3">{{ countryItemsCount }}</h2>
+          <h2 class="secondary--text display-3">{{ countryItemsCount }}</h2>
         </v-card>
       </v-col>
     </v-row>

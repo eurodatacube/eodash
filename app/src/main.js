@@ -38,7 +38,9 @@ const renderVue = async () => {
           primary: store.state.config.appConfig
             ? store.state.config.appConfig.branding.primaryColor
             : '#004170',
-          secondary: '#424242',
+          secondary: store.state.config.appConfig
+            ? store.state.config.appConfig.branding.secondaryColor
+            : '#424242',
           accent: '#82B1FF',
           error: '#FF5252',
           info: '#2196F3',

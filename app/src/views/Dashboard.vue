@@ -11,7 +11,7 @@
       <v-app-bar-nav-icon @click.stop="drawerLeft = !drawerLeft" dark />
       <v-toolbar-title
         v-if="$vuetify.breakpoint.mdAndUp"
-        class="mr-5"
+        class="text-uppercase mr-5"
       >
         {{ appConfig && appConfig.branding.appName }}
       </v-toolbar-title>
