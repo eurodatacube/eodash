@@ -180,7 +180,25 @@ export default {
             colors.push(this.getIndicatorColor(colorCode));
           }
           datasets.push({
-            label: indicator['Y axis'],
+            label: 'Poor water quality',
+            data: [],
+            backgroundColor: this.getIndicatorColor('red'),
+            borderColor: this.getIndicatorColor('red'),
+          });
+          datasets.push({
+            label: 'Regular water quality',
+            data: [],
+            backgroundColor: this.getIndicatorColor('orange'),
+            borderColor: this.getIndicatorColor('orange'),
+          });
+          datasets.push({
+            label: 'Good water quality',
+            data: [],
+            backgroundColor: this.getIndicatorColor('green'),
+            borderColor: this.getIndicatorColor('green'),
+          });
+          datasets.push({
+            label: 'hide_',
             data: measurement,
             fill: false,
             showLine: false,
@@ -193,6 +211,7 @@ export default {
             fill: false,
             pointRadius: 0,
             borderColor: 'black',
+            pointStyle: 'line',
           });
           datasets.push({
             label: 'Standard deviation (STD)',
@@ -203,6 +222,7 @@ export default {
             spanGaps: true,
             backgroundColor: 'paleturquoise',
             borderColor: 'rgba(0,0,0,0.0)',
+            pointStyle: 'rect',
           });
           datasets.push({
             label: 'hide_',
@@ -442,6 +462,12 @@ export default {
         },
       }];
 
+      const legend = {
+        labels: {
+          filter,
+        },
+      };
+
       if (['N3'].includes(indicatorCode)) {
         yAxes[0].ticks = {
           min: Math.min(
@@ -454,17 +480,15 @@ export default {
             Number(10 ** Number(value)).toPrecision(1)
           ),
         };
+        legend.labels.usePointStyle = true;
+        legend.labels.boxWidth = 5;
       }
 
       const defaultSettings = {
         responsive: true,
         maintainAspectRatio: false,
         plugins,
-        legend: {
-          labels: {
-            filter,
-          },
-        },
+        legend,
         scales: {
           xAxes,
           yAxes,
