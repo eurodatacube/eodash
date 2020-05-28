@@ -19,6 +19,7 @@
     </v-tabs>
     <v-tabs-items
       v-model="tab"
+      touchless
       class="fill-height pb-7"
     >
       <v-tab-item class="fill-height">
