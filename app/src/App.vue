@@ -39,32 +39,46 @@
 </template>
 
 <script>
+// Utilities
+import {
+  mapState,
+} from 'vuex';
 import CookieLaw from 'vue-cookie-law';
 
 export default {
   components: { CookieLaw },
   metaInfo() {
     let metaData;
-    if (this.$store.state.config.appConfig) {
+    if (this.appConfig) {
       metaData = {
         meta: [
-          { name: 'google-site-verification', content: this.$store.state.config.appConfig.pageMeta.googleSiteVerification },
+          { name: 'google-site-verification', content: this.appConfig.pageMeta.googleSiteVerification },
           // Twitter Card
           { name: 'twitter:card', content: 'summary' },
-          { name: 'twitter:title', content: this.$store.state.config.appConfig.branding.appName },
-          { name: 'twitter:description', content: this.$store.state.config.appConfig.pageMeta.shortDescription },
+          { name: 'twitter:title', content: this.appConfig.branding.appName },
+          { name: 'twitter:description', content: this.appConfig.pageMeta.shortDescription },
           // image must be an absolute path
-          { name: 'twitter:image', content: `${this.$store.state.config.appConfig.pageMeta.rootPath}${this.$store.state.config.appConfig.pageMeta.twitterCardImagePath}` },
+          { name: 'twitter:image', content: `${this.appConfig.pageMeta.rootPath}${this.appConfig.pageMeta.twitterCardImagePath}` },
           // Facebook OpenGraph
-          { property: 'og:title', content: this.$store.state.config.appConfig.branding.appName },
-          { property: 'og:site_name', content: this.$store.state.config.appConfig.branding.appName },
+          { property: 'og:title', content: this.appConfig.branding.appName },
+          { property: 'og:site_name', content: this.appConfig.branding.appName },
           { property: 'og:type', content: 'website' },
-          { property: 'og:image', content: `${this.$store.state.config.appConfig.pageMeta.rootPath}${this.$store.state.config.appConfig.pageMeta.twitterCardImagePath}` },
-          { property: 'og:description', content: this.$store.state.config.appConfig.pageMeta.shortDescription },
+          { property: 'og:image', content: `${this.appConfig.pageMeta.rootPath}${this.appConfig.pageMeta.twitterCardImagePath}` },
+          { property: 'og:description', content: this.appConfig.pageMeta.shortDescription },
+          // Colored status bar
+          // Chrome, Firefox OS and Opera
+          { property: 'theme-color', content: this.appConfig.branding.primaryColor },
+          // Windows Phone
+          { property: 'msapplication-navbutton-color', content: this.appConfig.branding.primaryColor },
+          // iOS Safari
+          { property: 'apple-mobile-web-app-status-bar-style', content: this.appConfig.branding.primaryColor },
         ],
       };
     }
     return metaData;
+  },
+  computed: {
+    ...mapState('config', ['appConfig']),
   },
   methods: {
     acceptCookies() {
