@@ -46,8 +46,9 @@
     </LTileLayer>
 
     <l-marker-cluster ref="clusterLayer" :options="clusterOptions" @clusterclick="onClusterClick">
-      <l-circle-marker v-for="feature in getFeatures.filter((f) => f.latlng)"
+      <l-circle-marker v-for="(feature, index) in getFeatures.filter((f) => f.latlng)"
         :key="feature.id"
+        ref="markers"
         :lat-lng="feature.latlng"
         :radius="12"
         :color="currentSelected === feature.id ? $vuetify.theme.themes.light.primary : 'white'"
@@ -56,7 +57,7 @@
         :fill="true"
         :fillColor="getLastValue(feature.properties.indicatorObject).color"
         :fillOpacity="1"
-        @click="selectIndicator(feature)"
+        @click="selectIndicator(feature, index)"
       >
         <l-tooltip class="tooltip text-center" :options="{ direction: 'top' }">
           <p class="ma-0">
@@ -87,7 +88,7 @@ import {
   mapGetters,
 } from 'vuex';
 
-import { geoJson } from 'leaflet';
+import { geoJson, Point, DivIcon } from 'leaflet';
 import {
   LMap, LTileLayer, LGeoJson, LCircleMarker, LTooltip,
   LControlLayers, LControlAttribution, LControlZoom,
@@ -122,19 +123,8 @@ export default {
       center: [55, 10],
       bounds: null,
       currentSelected: null,
+      currentSelectedIndex: null,
       subAoi: null,
-      clusterOptions: {
-        maxClusterRadius: 40,
-        // zoomToBoundsOnClick: false,
-        polygonOptions: {
-          fillColor: this.$vuetify.theme.themes.light.primary,
-          color: this.$vuetify.theme.themes.light.primary,
-          weight: 0.5,
-          opacity: 1,
-          fillOpacity: 0.3,
-          dashArray: 4,
-        },
-      },
       defaultMapOptions: {
         attributionControl: false,
         zoomControl: false,
@@ -154,6 +144,46 @@ export default {
     },
     countriesJson() {
       return countries;
+    },
+    clusterOptions() {
+      return {
+        maxClusterRadius: 40,
+        // zoomToBoundsOnClick: false,
+        iconCreateFunction: function (cluster) { // eslint-disable-line func-names
+          // left as default
+          let selCluster = null;
+          if (this.currentSelectedIndex !== null) {
+            selCluster = this.$refs.clusterLayer.mapObject.getVisibleParent(
+              this.$refs.markers[this.currentSelectedIndex].mapObject,
+            );
+          }
+          const childCount = cluster.getChildCount();
+          let sizeClass = 'marker-cluster-';
+          if (childCount < 10) {
+            sizeClass += 'small';
+          } else if (childCount < 100) {
+            sizeClass += 'medium';
+          } else {
+            sizeClass += 'large';
+          }
+          // modified selected cluster style
+          const sel = selCluster !== null ? cluster._leaflet_id === selCluster._leaflet_id : false;
+          const selectedClass = sel ? ' marker-cluster-selected' : '';
+          return new DivIcon({
+            html: `<div class="${selectedClass}"><span>${childCount}</span></div>`,
+            className: `marker-cluster ${sizeClass} ${selectedClass}`,
+            iconSize: new Point(40, 40),
+          });
+        }.bind(this),
+        polygonOptions: {
+          fillColor: this.$vuetify.theme.themes.light.primary,
+          color: this.$vuetify.theme.themes.light.primary,
+          weight: 0.5,
+          opacity: 1,
+          fillOpacity: 0.3,
+          dashArray: 4,
+        },
+      };
     },
     indicatorsDefinition: () => indicatorsDefinition,
     countriesStyle() {
@@ -230,23 +260,14 @@ export default {
     });
   },
   methods: {
-    headerTitle(indicatorObject) {
-      const city = indicatorObject['City']; // eslint-disable-line dot-notation
-      const site = indicatorObject['Site Name'];
-      // only add 'city' to 'site' if 'city' not contained in 'site'
-      if (site && site.split(' ')
-        .map((word) => word.toLowerCase())
-        .filter((w) => w.includes(city.toLowerCase())).length > 0) {
-        return site;
-      }
-      return `${city}, ${site}`;
-    },
-    selectIndicator(feature) {
+    selectIndicator(feature, index) {
       const { indicatorObject } = feature.properties;
       if (indicatorObject['Indicator code'] !== 'd') {
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
         this.currentSelected = feature.id;
+        this.currentSelectedIndex = index;
         this.subAoi = indicatorObject['Sub-AOI'];
+        this.resetClusterLayer();
         // if (this.subAoi && this.subAoi.features.length > 0) {
         //   this.map.flyToBounds(geoJson(this.subAoi).getBounds(), {
         //     padding: [100, 100],
@@ -254,6 +275,9 @@ export default {
         //   });
         // }
       }
+    },
+    resetClusterLayer() {
+      this.$refs.clusterLayer.mapObject.refreshClusters();
     },
     getLastValue(values) {
       const vLen = values['Indicator Value'].length;
@@ -276,14 +300,17 @@ export default {
     zoomUpdated(zoom) {
       this.zoom = zoom;
       this.onResize();
+      this.resetClusterLayer();
     },
     centerUpdated(center) {
       this.center = center;
       this.onResize();
+      this.resetClusterLayer();
     },
     boundsUpdated(bounds) {
       this.bounds = bounds;
       this.onResize();
+      this.resetClusterLayer();
     },
     onResize() {
       // to fix panel size for reference image window
@@ -334,6 +361,13 @@ export default {
     span {
       color: white;
     }
+    &.marker-cluster-selected {
+      margin-left: 3px;
+      margin-top: 3px;
+    }
+  }
+  &.marker-cluster-selected {
+    border: 2px var(--v-primary-base) dashed;
   }
 }
 
