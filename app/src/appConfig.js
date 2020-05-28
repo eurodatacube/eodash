@@ -8,6 +8,7 @@ const brands = [
       primaryColor: '#003247',
       secondaryColor: '#0098DB',
       headerLogo: '/eodash-data/general/ESA_Logo.svg',
+      faviconPath: '/img/ESA/favicon.ico',
     },
     pageMeta: {
       rootPath: 'https://race.esa.int',

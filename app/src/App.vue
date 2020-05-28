@@ -74,6 +74,8 @@ export default {
           { property: 'apple-mobile-web-app-status-bar-style', content: this.appConfig.branding.primaryColor },
         ],
       };
+      const link = document.querySelector("[rel='icon']");
+      link.setAttribute('href', this.appConfig.branding.faviconPath);
     }
     return metaData;
   },
