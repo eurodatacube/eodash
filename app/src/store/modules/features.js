@@ -216,7 +216,7 @@ const actions = {
         if (results.data[0].AOI) {  // only continue if AOI column is present
           const featureObjs = {};
           for (let rr = 0; rr < results.data.length; rr += 1) {
-            const uniqueKey = `${results.data[rr].AOI_ID}`;
+            const uniqueKey = `${results.data[rr].AOI}_d`;
             featureObjs[uniqueKey] = results.data[rr];
             featureObjs[uniqueKey]['Indicator code'] = 'd';
           }
