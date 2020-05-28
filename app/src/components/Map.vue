@@ -46,10 +46,12 @@
     </LTileLayer>
 
     <l-marker-cluster ref="clusterLayer" :options="clusterOptions" @clusterclick="onClusterClick">
-      <l-circle-marker v-for="feature in getFeatures.filter((f) => f.latlng)"
+      <l-circle-marker v-for="(feature) in getFeatures.filter((f) => f.latlng)"
         :key="feature.id"
+        ref="markers"
         :lat-lng="feature.latlng"
         :radius="12"
+        :name='`${feature.id}`'
         :color="currentSelected === feature.id ? $vuetify.theme.themes.light.primary : 'white'"
         :weight="2"
         :dashArray="currentSelected === feature.id ? '3' : '0'"
@@ -59,16 +61,11 @@
         @click="selectIndicator(feature)"
       >
         <l-tooltip class="tooltip text-center" :options="{ direction: 'top' }">
+          <p class="ma-0">
+            <strong>{{ feature.properties.indicatorObject.City }}</strong>
+          </p>
             <p class="ma-0">
-              <strong>{{ headerTitle(feature.properties.indicatorObject) }}</strong>
-            </p>
-            <p
-              v-if="indicatorsDefinition[feature.properties
-                .indicatorObject['Indicator code']].indicator"
-              class="ma-0"
-            >
-              {{ indicatorsDefinition[feature.properties
-                .indicatorObject['Indicator code']].indicator }}
+              <strong>{{ feature.properties.indicatorObject.Description }}</strong>
             </p>
             <p
               v-if="feature.properties
@@ -76,9 +73,9 @@
                   .indicatorObject['Indicator Value'].length - 1]"
               class="ma-0"
             >
-              <small>({{ feature.properties
+              Latest value: {{ feature.properties
                 .indicatorObject['Indicator Value'][feature.properties
-                  .indicatorObject['Indicator Value'].length - 1] }})</small>
+                  .indicatorObject['Indicator Value'].length - 1] }}
             </p>
             <p v-else class="mb-0"><small>(coming soon)</small></p>
         </l-tooltip>
@@ -90,9 +87,10 @@
 <script>
 import {
   mapGetters,
+  mapState,
 } from 'vuex';
 
-import { geoJson } from 'leaflet';
+import { geoJson, Point, DivIcon } from 'leaflet';
 import {
   LMap, LTileLayer, LGeoJson, LCircleMarker, LTooltip,
   LControlLayers, LControlAttribution, LControlZoom,
@@ -103,7 +101,6 @@ import 'leaflet.markercluster/dist/MarkerCluster.css'; // eslint-disable-line im
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'; // eslint-disable-line import/no-extraneous-dependencies
 import 'leaflet-mouse-position';
 
-import { indicatorsDefinition, baseLayers, overlayLayers } from '@/config';
 import countries from '@/assets/countries.json';
 
 export default {
@@ -127,19 +124,8 @@ export default {
       center: [55, 10],
       bounds: null,
       currentSelected: null,
+      currentSelectedIndex: null,
       subAoi: null,
-      clusterOptions: {
-        maxClusterRadius: 40,
-        // zoomToBoundsOnClick: false,
-        polygonOptions: {
-          fillColor: this.$vuetify.theme.themes.light.primary,
-          color: this.$vuetify.theme.themes.light.primary,
-          weight: 0.5,
-          opacity: 1,
-          fillOpacity: 0.3,
-          dashArray: 4,
-        },
-      },
       defaultMapOptions: {
         attributionControl: false,
         zoomControl: false,
@@ -151,16 +137,63 @@ export default {
   },
   computed: {
     ...mapGetters('features', ['getFeatures']),
+    ...mapState('config', ['baseConfig']),
     baseLayers() {
-      return baseLayers;
+      return this.baseConfig.baseLayers;
     },
     overlayLayers() {
-      return overlayLayers;
+      return this.baseConfig.overlayLayers;
     },
     countriesJson() {
       return countries;
     },
-    indicatorsDefinition: () => indicatorsDefinition,
+    clusterOptions() {
+      return {
+        maxClusterRadius: 40,
+        animate: false,
+        // zoomToBoundsOnClick: false,
+        iconCreateFunction: function (cluster) { // eslint-disable-line func-names
+          // left as default
+          let selCluster = null;
+          if (this.currentSelected !== null && this.$refs.clusterLayer) {
+            const selectedMarker = this.$refs.markers.find(
+              (item) => parseInt(item.name, 10) === this.currentSelected,
+            );
+            if (selectedMarker) {
+              selCluster = this.$refs.clusterLayer.mapObject.getVisibleParent(
+                selectedMarker.mapObject,
+              );
+            }
+          }
+          const childCount = cluster.getChildCount();
+          let sizeClass = 'marker-cluster-';
+          if (childCount < 10) {
+            sizeClass += 'small';
+          } else if (childCount < 100) {
+            sizeClass += 'medium';
+          } else {
+            sizeClass += 'large';
+          }
+          // modified selected cluster style
+          const sel = selCluster !== null ? cluster._leaflet_id === selCluster._leaflet_id : false;
+          const selectedClass = sel ? ' marker-cluster-selected' : '';
+          return new DivIcon({
+            html: `<div class="${selectedClass}"><span>${childCount}</span></div>`,
+            className: `marker-cluster ${sizeClass} ${selectedClass}`,
+            iconSize: new Point(40, 40),
+          });
+        }.bind(this),
+        polygonOptions: {
+          fillColor: this.$vuetify.theme.themes.light.primary,
+          color: this.$vuetify.theme.themes.light.primary,
+          weight: 0.5,
+          opacity: 1,
+          fillOpacity: 0.3,
+          dashArray: 4,
+        },
+      };
+    },
+    indicatorsDefinition: () => this.baseConfig.indicatorsDefinition,
     countriesStyle() {
       return {
         color: '#a2a2a2',
@@ -172,8 +205,8 @@ export default {
     },
     subAoiStyle() {
       const currentIndicator = this.$store.state.indicators.selectedIndicator;
-      const lastValue = currentIndicator && currentIndicator['Color Code']
-        && currentIndicator['Color Code'][currentIndicator['Color Code'].length - 1];
+      const lastValue = currentIndicator && currentIndicator['Color code']
+        && currentIndicator['Color code'][currentIndicator['Color code'].length - 1];
       return {
         color: '#fff',
         weight: 1,
@@ -233,39 +266,37 @@ export default {
         }
       }
     });
+    this.$store.subscribe((mutation) => {
+      if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
+        if (mutation.payload !== null && mutation.payload.AOI !== null) {
+          this.currentSelected = mutation.payload.id;
+        } else {
+          this.currentSelected = null;
+        }
+        this.resetClusterLayer();
+      }
+    });
   },
   methods: {
-    headerTitle(indicatorObject) {
-      const city = indicatorObject['City']; // eslint-disable-line dot-notation
-      const site = indicatorObject['Site Name'];
-      // only add 'city' to 'site' if 'city' not contained in 'site'
-      if (site && site.split(' ')
-        .map((word) => word.toLowerCase())
-        .filter((w) => w.includes(city.toLowerCase())).length > 0) {
-        return site;
-      }
-      return `${city}, ${site}`;
-    },
     selectIndicator(feature) {
       const { indicatorObject } = feature.properties;
       if (indicatorObject['Indicator code'] !== 'd') {
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
         this.currentSelected = feature.id;
         this.subAoi = indicatorObject['Sub-AOI'];
-        // if (this.subAoi && this.subAoi.features.length > 0) {
-        //   this.map.flyToBounds(geoJson(this.subAoi).getBounds(), {
-        //     padding: [100, 100],
-        //     maxZoom: 13,
-        //   });
-        // }
+      }
+    },
+    resetClusterLayer() {
+      if (this.$refs.clusterLayer) {
+        this.$refs.clusterLayer.mapObject.refreshClusters();
       }
     },
     getLastValue(values) {
       const vLen = values['Indicator Value'].length;
       const lastValue = values['Indicator Value'][vLen - 1];
       let lastColorCode = '';
-      if (Object.prototype.hasOwnProperty.call(values, 'Color Code')) {
-        lastColorCode = values['Color Code'][vLen - 1];
+      if (Object.prototype.hasOwnProperty.call(values, 'Color code')) {
+        lastColorCode = values['Color code'][vLen - 1];
       }
       return {
         color: this.getIndicatorColor(lastColorCode),
@@ -281,10 +312,16 @@ export default {
     zoomUpdated(zoom) {
       this.zoom = zoom;
       this.onResize();
+      this.$nextTick(() => {
+        this.resetClusterLayer();
+      });
     },
     centerUpdated(center) {
       this.center = center;
       this.onResize();
+      this.$nextTick(() => {
+        this.resetClusterLayer();
+      });
     },
     boundsUpdated(bounds) {
       this.bounds = bounds;
@@ -339,6 +376,13 @@ export default {
     span {
       color: white;
     }
+    &.marker-cluster-selected {
+      margin-left: 3px;
+      margin-top: 3px;
+    }
+  }
+  &.marker-cluster-selected {
+    border: 2px var(--v-primary-base) dashed;
   }
 }
 

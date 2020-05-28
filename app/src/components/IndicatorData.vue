@@ -68,14 +68,14 @@ export default {
           for (let i = 0; i < indicator.Time.length; i += 1) {
             if (!Number.isNaN(indicator.Time[i].getTime())) {
               const currDate = indicator.Time[i];
-              const formattedDate = monthNames[currDate.getMonth()];
+              const formattedDate = `${currDate.getDate()} - ${monthNames[currDate.getMonth()]}`;
               labels.push(formattedDate);
             } else {
               labels.push(i);
             }
           }
           datasets.push({
-            indLabels: ['', '', ''],
+            indLabels: Array(indicator['Indicator Value'].length).join('.').split('.'),
             label: '2019',
             data: referenceValue,
             fill: false,
@@ -116,7 +116,7 @@ export default {
         } else if (['E1'].includes(indicatorCode)) {
           /* Group data by year in month slices */
           const data = indicator.Time.map((date, i) => {
-            colors.push(this.getIndicatorColor(indicator['Color Code'][i]));
+            colors.push(this.getIndicatorColor(indicator['Color code'][i]));
             return { t: date, y: measurement[i] };
           });
           const dataGroups = {};
@@ -158,7 +158,7 @@ export default {
           const stdDev = [];
           indicator['Reference value'].forEach((item) => {
             const obj = JSON.parse(item.replace(/,/g, '.').replace(' ', ','));
-            referenceValue.push(10 ** obj[0]);
+            referenceValue.push(obj[0]);
             stdDev.push(obj[1]);
           });
 
@@ -174,13 +174,31 @@ export default {
               labels.push(i);
             }
             let colorCode = '';
-            if (Object.prototype.hasOwnProperty.call(indicator, 'Color Code')) {
-              colorCode = indicator['Color Code'][i];
+            if (Object.prototype.hasOwnProperty.call(indicator, 'Color code')) {
+              colorCode = indicator['Color code'][i];
             }
             colors.push(this.getIndicatorColor(colorCode));
           }
           datasets.push({
-            label: indicator['Y axis'],
+            label: 'Poor water quality',
+            data: [],
+            backgroundColor: this.getIndicatorColor('red'),
+            borderColor: this.getIndicatorColor('red'),
+          });
+          datasets.push({
+            label: 'Regular water quality',
+            data: [],
+            backgroundColor: this.getIndicatorColor('orange'),
+            borderColor: this.getIndicatorColor('orange'),
+          });
+          datasets.push({
+            label: 'Good water quality',
+            data: [],
+            backgroundColor: this.getIndicatorColor('green'),
+            borderColor: this.getIndicatorColor('green'),
+          });
+          datasets.push({
+            label: 'hide_',
             data: measurement,
             fill: false,
             showLine: false,
@@ -188,32 +206,38 @@ export default {
             borderColor: colors,
           });
           datasets.push({
-            label: 'Daily climatology of chlorophyll conc. (CHL_clim) 2017-2019',
+            label: 'Weekly climatology of chlorophyll conc. (CHL_clim) 2017-2019',
             data: referenceValue,
             fill: false,
             pointRadius: 0,
             borderColor: 'black',
+            pointStyle: 'line',
           });
           datasets.push({
             label: 'Standard deviation (STD)',
+            hidden: true,
             data: stdDevMax,
-            fill: '+1',
+            fill: 6,
             pointRadius: 0,
             spanGaps: true,
             backgroundColor: 'paleturquoise',
             borderColor: 'rgba(0,0,0,0.0)',
+            pointStyle: 'rect',
           });
           datasets.push({
             label: 'hide_',
-            fill: false,
+            hidden: true,
             data: stdDevMin,
+            fill: 6,
             pointRadius: 0,
             spanGaps: true,
+            backgroundColor: 'paleturquoise',
             borderColor: 'rgba(0,0,0,0.0)',
+            pointStyle: 'rect',
           });
         } else {
           const data = indicator.Time.map((date, i) => {
-            colors.push(this.getIndicatorColor(indicator['Color Code'][i]));
+            colors.push(this.getIndicatorColor(indicator['Color code'][i]));
             return { t: date, y: measurement[i] };
           });
           datasets.push({
@@ -232,17 +256,6 @@ export default {
     },
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
-    },
-    headerTitle() {
-      const city = this.indicatorObject['City']; // eslint-disable-line dot-notation
-      const site = this.indicatorObject['Site Name'];
-      // only add 'city' to 'site' if 'city' not contained in 'site'
-      if (site.split(' ')
-        .map((word) => word.toLowerCase())
-        .filter((w) => w.includes(city.toLowerCase())).length > 0) {
-        return site;
-      }
-      return `${city}, ${site}`;
     },
   },
   methods: {
@@ -406,7 +419,12 @@ export default {
                   const percentage = context.chart.data.datasets[context.datasetIndex]
                     .indLabels[context.dataIndex];
                   if (percentage !== '') {
-                    labelRes = `${percentage * 100}%`;
+                    const percVal = Number((percentage * 100).toPrecision(4));
+                    if (percVal > 0) {
+                      labelRes = `+${percVal}%`;
+                    } else {
+                      labelRes = `${percVal}%`;
+                    }
                   }
                   return labelRes;
                 },
@@ -430,27 +448,72 @@ export default {
         };
       }
 
+      const yAxes = [{
+        scaleLabel: {
+          display: true,
+          labelString: this.indicatorObject['Y axis'],
+          padding: 2,
+        },
+        ticks: {
+          lineHeight: 1,
+          suggestedMin: Math.min(
+            ...this.indicatorObject['Measurement Value'],
+          ) - 1,
+          suggestedMax: Math.max(
+            ...this.indicatorObject['Measurement Value'],
+          ) + 1,
+        },
+      }];
+
+      const legend = {
+        labels: {
+          filter,
+        },
+      };
+
+      if (['N3'].includes(indicatorCode)) {
+        yAxes[0].ticks = {
+          min: Math.min(
+            ...this.indicatorObject['Measurement Value'],
+          ),
+          max: Math.max(
+            ...this.indicatorObject['Measurement Value'],
+          ),
+          callback: (value) => (
+            Number(10 ** Number(value)).toPrecision(1)
+          ),
+        };
+        legend.labels.usePointStyle = true;
+        legend.labels.boxWidth = 5;
+        legend.onClick = function onClick(e, legendItem) {
+          if (legendItem.text === 'Standard deviation (STD)') {
+            const masterIndex = legendItem.datasetIndex;
+            const slaveIndex = 6;
+            const ci = this.chart;
+            const masterMeta = ci.getDatasetMeta(masterIndex);
+            const meta = ci.getDatasetMeta(slaveIndex);
+            if (masterMeta.hidden === null) {
+              masterMeta.hidden = false;
+              meta.hidden = false;
+            } else {
+              masterMeta.hidden = !masterMeta.hidden;
+              meta.hidden = !meta.hidden;
+            }
+            ci.update();
+          } else {
+            Chart.defaults.global.legend.onClick.call(this, e, legendItem);
+          }
+        };
+      }
+
       const defaultSettings = {
         responsive: true,
         maintainAspectRatio: false,
         plugins,
-        legend: {
-          labels: {
-            filter,
-          },
-        },
+        legend,
         scales: {
           xAxes,
-          yAxes: [{
-            scaleLabel: {
-              display: true,
-              labelString: this.indicatorObject['Y axis'],
-              padding: 2,
-            },
-            ticks: {
-              lineHeight: 1,
-            },
-          }],
+          yAxes,
         },
         pan: {
           enabled: true,
@@ -461,6 +524,15 @@ export default {
           mode: 'x',
         },
       };
+
+      if (['N3'].includes(indicatorCode)) {
+        defaultSettings.tooltips = {
+          callbacks: {
+            label: (context) => `Value: ${context.value}`,
+          },
+        };
+      }
+
       return {
         ...defaultSettings,
         annotation: {

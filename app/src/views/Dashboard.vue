@@ -11,14 +11,14 @@
       <v-app-bar-nav-icon @click.stop="drawerLeft = !drawerLeft" dark />
       <v-toolbar-title
         v-if="$vuetify.breakpoint.mdAndUp"
-        class="mr-5"
+        class="text-uppercase mr-5"
       >
-        {{ appConfig.branding.appName }}
+        {{ appConfig && appConfig.branding.appName }}
       </v-toolbar-title>
       <v-btn text dark small @click="showAboutDialog = true">About</v-btn>
       <v-btn text dark small @click="showFeedbackDialog = true">Feedback</v-btn>
       <v-spacer></v-spacer>
-      <img class="header__logo" :src="appConfig.branding.headerLogo" />
+      <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
     </v-app-bar>
 
     <v-navigation-drawer
@@ -47,7 +47,7 @@
         </v-btn>
         <v-toolbar-title v-if="$store.state.indicators.selectedIndicator">
           {{ $store.state.indicators.selectedIndicator['City'] }},
-          {{ $store.state.indicators.selectedIndicator['Indicator Name'] }}
+          {{ $store.state.indicators.selectedIndicator.Description }}
         </v-toolbar-title>
       </v-toolbar>
       <data-panel :expanded="dataPanelFullWidth" class="px-5" />
@@ -62,10 +62,10 @@
       <v-toolbar dark color="primary">
         <v-toolbar-title v-if="$store.state.indicators.selectedIndicator">
           {{ $store.state.indicators.selectedIndicator['City'] }},
-          {{ $store.state.indicators.selectedIndicator['Indicator Name'] }}
+          {{ $store.state.indicators.selectedIndicator.Description }}
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon dark @click="drawerRight = false">
+        <v-btn icon dark @click="clickMobileClose">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
@@ -167,8 +167,11 @@ import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
 
 export default {
-  metaInfo: {
-    title: appConfig.branding.appName,
+  metaInfo() {
+    const { appConfig } = this.$store.state.config;
+    return {
+      title: appConfig ? appConfig.branding.appName : 'eodash',
+    };
   },
   components: {
     About,
@@ -181,7 +184,6 @@ export default {
     source: String,
   },
   data: () => ({
-    appConfig,
     drawerLeft: true,
     drawerRight: false,
     showAboutDialog: false,
@@ -190,6 +192,9 @@ export default {
     dataPanelTemporary: false,
   }),
   computed: {
+    appConfig() {
+      return this.$store.state.config.appConfig;
+    },
     indicatorSelected() {
       return this.$store.state.indicators.selectedIndicator;
     },
@@ -210,6 +215,10 @@ export default {
         setTimeout(() => { this.dataPanelTemporary = false; }, 500);
       }
     },
+    clickMobileClose() {
+      this.drawerRight = false;
+      this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+    },
   },
   watch: {
     indicatorSelected(selected) {
@@ -223,7 +232,6 @@ export default {
 
 <style lang="scss" scoped>
 .header__logo {
-    width: 88px;
     height: 32px;
 }
 ::v-deep .theme--light.v-card.v-card--outlined {

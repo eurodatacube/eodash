@@ -9,18 +9,21 @@
 </template>
 
 <script>
+import {
+  mapState,
+} from 'vuex';
+
 import MarkdownItVue from 'markdown-it-vue';
 import 'markdown-it-vue/dist/markdown-it-vue.css';
-
-import about from '../../public/eodash-data/general/about.md';
 
 export default {
   components: {
     MarkdownItVue,
   },
   computed: {
+    ...mapState('config', ['appConfig']),
     about() {
-      return about;
+      return require(`../../public${this.appConfig.aboutText}.md`).default;
     },
   },
 };

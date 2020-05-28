@@ -19,12 +19,14 @@
     </v-tabs>
     <v-tabs-items
       v-model="tab"
+      touchless
       class="fill-height pb-7"
     >
       <v-tab-item class="fill-height">
         <Map ref="map" />
         <v-menu v-if="globalIndicators && globalIndicators.length > 0"
           offset-y
+          :value="openGlobalPanel"
         >
           <template v-slot:activator="{ on }">
             <v-btn
@@ -48,9 +50,13 @@
               <v-list-item-icon
               class="d-flex align-center mr-0">
                 <div class="circle"
-                  :style="$store.state.indicators.selectedIndicator
-                    && ($store.state.indicators.selectedIndicator['Indicator code'] === 'N1'
-                      && `border: 2px dashed ${$vuetify.theme.themes.light.primary}`)">
+                  :style="
+                  $store.state.indicators.selectedIndicator &&
+                  $store.state.indicators.selectedIndicator['Indicator code']
+                  === feature.properties.indicatorObject['Indicator code']
+                  ? { 'border': `2px dashed ${$vuetify.theme.themes.light.primary}` }
+                  : {}"
+                >
                 </div>
               </v-list-item-icon>
              <v-list-item-content>
@@ -88,6 +94,7 @@ export default {
   },
   data: () => ({
     tab: null,
+    openGlobalPanel: false,
   }),
   computed: {
     ...mapGetters('features', [
@@ -97,19 +104,32 @@ export default {
       return this.getFeatures
         .filter((f) => ['global'].includes(f.properties.indicatorObject['Site Name']));
     },
+    someGlobalIndicator() {
+      return this.globalIndicators
+        .filter((i) => this.$store.state.features.featureFilters.indicators
+          .includes(i.properties.indicatorObject['Indicator code']));
+    },
   },
   methods: {
-    selectGlobal() {
+    selectGlobal(indicatorCode) {
       this.$store.commit(
         'indicators/SET_SELECTED_INDICATOR',
         this.$store.state.features.allFeatures
           .find((f) => f.properties
-            .indicatorObject['Indicator code'] === 'N1')
+            .indicatorObject['Indicator code'] === indicatorCode)
           .properties.indicatorObject,
       );
     },
     mapTabClick() {
       this.$refs.map.onResize();
+    },
+  },
+  watch: {
+    someGlobalIndicator() {
+      this.openGlobalPanel = false;
+      setTimeout(() => {
+        this.openGlobalPanel = this.someGlobalIndicator.length > 0;
+      }, 1);
     },
   },
 };

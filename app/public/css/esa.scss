@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+@font-face{
+  font-family: 'NotesESABold';
+  src: url('/css/notesesabol-webfont.ttf') format('truetype');
+}
+
+$body-font-family: 'Arial', 'Open Sans', sans-serif;
+
+h1,
+h2,
+h3,
+.h1,
+.h2,
+.h3,
+.headline,
+.v-application .display-1,
+.v-application .display-2,
+.v-application .display-3,
+.v-btn__content,
+.v-toolbar__title,
+.v-card__title,
+.v-tab{
+  font-family: 'NotesESABold', sans-serif !important;
+}

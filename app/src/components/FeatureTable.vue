@@ -7,7 +7,7 @@
         <v-data-table
           :headers="headers"
           :items="allFeatures"
-          :items-per-page="999"
+          :items-per-page="10"
           class="featureTable elevation-1"
           @click:row="openFeature"
         >
@@ -35,13 +35,13 @@
 // Utilities
 import {
   mapGetters,
+  mapState,
 } from 'vuex';
-
-import { indicatorsDefinition } from '@/config';
 
 export default {
   computed: {
     ...mapGetters('features', ['getFeatures']),
+    ...mapState('config', ['baseConfig']),
     headers() {
       const indicatorObject = 'properties.indicatorObject';
       return [
@@ -74,8 +74,8 @@ export default {
       const vLen = values['Indicator Value'].length;
       const lastValue = values['Indicator Value'][vLen - 1];
       let lastColorCode = '';
-      if (Object.prototype.hasOwnProperty.call(values, 'Color Code')) {
-        lastColorCode = values['Color Code'][vLen - 1];
+      if (Object.prototype.hasOwnProperty.call(values, 'Color code')) {
+        lastColorCode = values['Color code'][vLen - 1];
       }
       return {
         color: this.getIndicatorColor(lastColorCode),
@@ -83,13 +83,16 @@ export default {
       };
     },
     indicator(code) {
-      return indicatorsDefinition[code];
+      console.log(this.indicatorsDefinition);
+      return this.baseConfig.indicatorsDefinition[code];
     },
     openFeature(feature) {
-      this.$store.commit(
-        'indicators/SET_SELECTED_INDICATOR',
-        feature.properties.indicatorObject,
-      );
+      if (feature.properties.indicatorObject['Indicator code'] !== 'd') {
+        this.$store.commit(
+          'indicators/SET_SELECTED_INDICATOR',
+          feature.properties.indicatorObject,
+        );
+      }
     },
   },
 };

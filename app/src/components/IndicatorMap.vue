@@ -79,12 +79,12 @@
     >
     </LTileLayer>
     <l-circle-marker
-      v-if="aoi"
+      v-if="showAoi"
       :lat-lng="aoi"
       :radius="12"
       :color="$vuetify.theme.themes.light.primary"
       :weight="2"
-      :dashArray="3"
+      :dashArray="dasharrayPoi"
       :fill="true"
       :fillColor="getAoiFill"
       :fillOpacity="1"
@@ -180,6 +180,11 @@
 </template>
 
 <script>
+// Utilities
+import {
+  mapState,
+} from 'vuex';
+
 import { geoJson, latLngBounds, latLng } from 'leaflet';
 import {
   LMap, LTileLayer, LWMSTileLayer, LGeoJson, LCircleMarker,
@@ -189,8 +194,6 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-mouse-position';
 import 'leaflet-side-by-side';
 import moment from 'moment';
-
-import { baseLayers, overlayLayers, defaultWMSDisplay } from '@/config';
 
 export default {
   components: {
@@ -210,11 +213,12 @@ export default {
       minMapZoom: 3,
       zoom: 3,
       maxMapZoom: 18,
+      dasharrayPoi: '3',
       center: [55, 10],
       bounds: null,
       enableCompare: false,
       opacityTerrain: [1],
-      opacityOverlay: [0, 0, 0, 0, 0.1, 0.1, 0.4, 0.4, 0.8, 0.8, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
+      opacityOverlay: [1],
       tilePane: 'tilePane',
       overlayPane: 'overlayPane',
       markerPane: 'markerPane',
@@ -228,14 +232,18 @@ export default {
     };
   },
   computed: {
+    ...mapState('config', ['baseConfig']),
     baseLayers() {
-      return baseLayers;
+      return this.baseConfig.baseLayers;
     },
     overlayLayers() {
-      return overlayLayers;
+      return this.baseConfig.overlayLayers;
     },
     indicator() {
       return this.$store.state.indicators.selectedIndicator;
+    },
+    showAoi() {
+      return this.aoi && (!this.subAoi || this.subAoi.features.length === 0);
     },
     arrayOfObjects() {
       const selectionOptions = [];
@@ -264,10 +272,10 @@ export default {
     shLayerName() {
       let sensor = this.indicator['EO Sensor'].toUpperCase();
       const indicatorCode = this.indicator['Indicator code'].toUpperCase();
-      if (['S1B', 'S1A', 'SENTINEL-1'].includes(sensor)) {
+      if (['S1B', 'S1A', 'SENTINEL-1', 'SENTINEL 1', 'S1'].includes(sensor)) {
         sensor = 'SENTINEL1';
       }
-      if (['S2', 'SENTINEL-2', 'Sentinel 2'].includes(sensor)) {
+      if (['S2', 'SENTINEL-2', 'SENTINEL 2'].includes(sensor)) {
         sensor = 'SENTINEL2'; // not configured on SIN yet
       }
       return `${indicatorCode}_${sensor}`;
@@ -275,7 +283,7 @@ export default {
     dataLayerDisplay() {
       // if display not specified (global layers), suspect SIN layer
       return this.indicator.display ? this.indicator.display : {
-        ...defaultWMSDisplay,
+        ...this.baseConfig.defaultWMSDisplay,
         layers: this.shLayerName,
         name: this.indicator.Description,
       };
@@ -287,15 +295,15 @@ export default {
       return this.indicator['Sub-AOI'];
     },
     getAoiFill() {
-      const lastValue = this.indicator && this.indicator['Color Code']
-        && this.indicator['Color Code'][this.indicator['Color Code'].length - 1];
+      const lastValue = this.indicator && this.indicator['Color code']
+        && this.indicator['Color code'][this.indicator['Color code'].length - 1];
       return lastValue
         ? this.getIndicatorColor(lastValue)
         : this.$vuetify.theme.themes.light.primary;
     },
     subAoiStyle() {
-      const lastValue = this.indicator && this.indicator['Color Code']
-        && this.indicator['Color Code'][this.indicator['Color Code'].length - 1];
+      const lastValue = this.indicator && this.indicator['Color code']
+        && this.indicator['Color code'][this.indicator['Color code'].length - 1];
       return {
         color: lastValue
           ? this.getIndicatorColor(lastValue)
