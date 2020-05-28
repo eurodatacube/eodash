@@ -2,11 +2,47 @@
 <template>
   <v-app id="inspire">
     <router-view />
+    <cookie-law>
+      <div slot-scope="props" style="width: 100%;">
+        <div class="d-flex align-center justify-center mb-5">
+          <small class="mb-0">
+            We use cookies which are essential for you to access our website and/or
+            to provide you with our services
+            and allow us to measure and improve the
+            performance of our website. <br v-if="$vuetify.breakpoint.xsOnly" />
+            <a href="#" target="_blank">Learn more</a>.
+          </small>
+        </div>
+        <div class="text-center">
+          <v-btn
+            color="primary"
+            :block="$vuetify.breakpoint.xsOnly"
+            :class="$vuetify.breakpoint.smAndUp ? 'mr-5' : 'mb-5'"
+            @click="props.accept"
+          >
+            <v-icon left>mdi-checkbox-marked-circle-outline</v-icon>
+            Accept all cookies
+          </v-btn>
+          <v-btn
+            color="primary"
+            outlined
+            :block="$vuetify.breakpoint.xsOnly"
+            @click="props.close"
+          >
+            <v-icon left>mdi-cancel</v-icon>
+            Accept essential only
+          </v-btn>
+        </div>
+      </div>
+    </cookie-law>
   </v-app>
 </template>
 
 <script>
+import CookieLaw from 'vue-cookie-law';
+
 export default {
+  components: { CookieLaw },
   metaInfo() {
     let metaData;
     if (this.$store.state.config.appConfig) {
