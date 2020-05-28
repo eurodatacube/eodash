@@ -2,7 +2,7 @@
 const brands = [
   {
     id: 'esa',
-    match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'localhost'],
+    match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at'],
     branding: {
       appName: 'Rapid Action on coronavirus and EO',
       primaryColor: '#003247',
@@ -22,11 +22,11 @@ const brands = [
   },
   {
     id: 'trilateral',
-    match: ['eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at'],
+    match: ['eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'localhost'],
     branding: {
       appName: 'Trilateral Dashboard',
       primaryColor: '#000000',
-      headerLogo: '/eodash-data/general/Trilateral_Logo.svg',
+      headerLogo: '/data/trilateral/Trilateral_Logo.svg',
     },
     pageMeta: {
       rootPath: 'https://race.esa.int',

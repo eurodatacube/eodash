@@ -27,6 +27,10 @@ npm install
 npm run serve
 ```
 
+The dashboard using the included data should now be accessible at
+http://localhost:8080/. Other configurations as defined in `src/appConfig.js`
+need additional data which is not included in this repository.
+
 ### Compiles and minifies for production
 ```
 npm run build

@@ -232,7 +232,6 @@ export default {
 
 <style lang="scss" scoped>
 .header__logo {
-    width: 88px;
     height: 32px;
 }
 ::v-deep .theme--light.v-card.v-card--outlined {
