@@ -2,7 +2,7 @@
 <template>
   <v-app id="inspire">
     <router-view />
-    <cookie-law>
+    <cookie-law @accept="acceptCookies">
       <div slot-scope="props" style="width: 100%;">
         <div class="d-flex align-center justify-center mb-5">
           <small class="mb-0">
@@ -65,6 +65,30 @@ export default {
       };
     }
     return metaData;
+  },
+  methods: {
+    acceptCookies() {
+      this.loadMatomo();
+    },
+    loadMatomo() {
+      const _paq = _paq || []; //eslint-disable-line
+      _paq.push(['setDoNotTrack', true]);
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (() => {
+        const u = 'https://nix.eox.at/piwik/';
+        _paq.push(['setTrackerUrl', `${u}piwik.php`]);
+        _paq.push(['setSiteId', '11']);
+        const d = document;
+        const g = d.createElement('script');
+        const s = d.getElementsByTagName('script')[0];
+        g.type = 'text/javascript';
+        g.async = true;
+        g.defer = true;
+        g.src = `${u}piwik.js`;
+        s.parentNode.insertBefore(g, s);
+      })();
+    },
   },
 };
 </script>
