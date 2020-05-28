@@ -161,21 +161,15 @@ export default {
     uniqueClasses() {
       const classes = {};
       const indDef = this.baseConfig.indicatorsDefinition;
-      Object.keys(indDef).map( (key) => {
+      Object.keys(indDef).map((key) => {
         if (typeof classes[indDef[key].class] === 'undefined') {
           classes[indDef[key].class] = [key];
         } else {
           classes[indDef[key].class].push(key);
         }
+        return null;
       });
       return classes;
-      /*
-      return [
-        ...new Set(Object.keys(this.baseConfig.indicatorsDefinition).map(
-          (key) => this.baseConfig.indicatorsDefinition[key].class,
-        )),
-      ];
-      */
     },
     indicatorItems() {
       let indicators = this.getIndicators;
