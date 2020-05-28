@@ -11,7 +11,7 @@ const state = {
     indicators: [],
   },
   selectedFeatures: [],
-  resultsCount: 1,
+  resultsCount: 0,
 };
 
 const getters = {
@@ -92,6 +92,9 @@ const mutations = {
   SET_RESULTS_COUNT(state, count) {
     state.resultsCount = count;
   },
+  ADD_RESULTS_COUNT(state, count) {
+    state.resultsCount += count;
+  },
 };
 const actions = {
   loadAllCsv({ commit, rootState }) {
@@ -114,7 +117,7 @@ const actions = {
       delimiter: ',',
       complete: (results) => {
         if (results.data[0].AOI) {  // only continue if AOI column is present
-          commit('SET_RESULTS_COUNT', results.data.length);
+          commit('ADD_RESULTS_COUNT', results.data.length);
           const wkt = new Wkt();
           // Sort results by time
           results.data.sort((a, b) => moment.utc(a.Time).diff(moment.utc(b.Time)));
