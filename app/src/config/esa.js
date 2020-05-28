@@ -9,17 +9,17 @@ export const indicatorsDefinition = Object.freeze({
   E1: {
     indicator: 'Status of metallic ores',
     class: 'economic',
-    file: true,
+    file: '/eodash-data/data/E1.csv',
   },
   E1a: {
     indicator: 'Status of non-metallic ores',
     class: 'economic',
-    file: true,
+    file: '/eodash-data/data/E1a.csv',
   },
   E2: {
     indicator: 'Volume of oil stockpiled',
     class: 'economic',
-    file: true,
+    file: '/eodash-data/data/E2.csv',
   },
   E2A: {
     indicator: 'Level of flaring activity',
@@ -32,7 +32,7 @@ export const indicatorsDefinition = Object.freeze({
   E4: {
     indicator: 'Production activity of intermediate goods',
     class: 'economic',
-    file: true,
+    file: '/eodash-data/data/E4.csv',
   },
   E5: {
     indicator: 'Inventory levels of intermediate goods',
@@ -49,7 +49,7 @@ export const indicatorsDefinition = Object.freeze({
   E8: {
     indicator: 'Inventory Levels',
     class: 'economic',
-    file: true,
+    file: '/eodash-data/data/E8.csv',
   },
   E9: {
     indicator: 'Construction activity',
@@ -58,12 +58,12 @@ export const indicatorsDefinition = Object.freeze({
   E10a1: {
     indicator: 'Harvesting activity',
     class: 'economic',
-    file: true,
+    file: '/eodash-data/data/E10a1.csv',
   },
   E10a2: {
     indicator: 'Cum. proportion of total area under active mgmt.',
     class: 'economic',
-    file: true,
+    file: '/eodash-data/data/E10a2.csv',
   },
   E10b: {
     indicator: 'Field preparation activity',
@@ -72,7 +72,7 @@ export const indicatorsDefinition = Object.freeze({
   E11: {
     indicator: 'Volume of activity at shopping centers',
     class: 'economic',
-    file: true,
+    file: '/eodash-data/data/E11.csv',
   },
   E12a: {
     indicator: 'Volume of activity logistic interchange centers',
@@ -105,7 +105,7 @@ export const indicatorsDefinition = Object.freeze({
   N3: {
     indicator: 'CHL concentration',
     class: 'environment',
-    file: true,
+    file: '/eodash-data/data/N3.csv',
   },
   N3a2: {
     indicator: 'CHL concentration',
@@ -114,7 +114,7 @@ export const indicatorsDefinition = Object.freeze({
   N4a: {
     indicator: 'Changes in land fill sites',
     class: 'environment',
-    file: true,
+    file: '/eodash-data/data/N4a.csv',
   },
   N4b: {
     indicator: 'Illegal waste levels',
