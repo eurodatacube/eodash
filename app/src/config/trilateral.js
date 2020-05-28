@@ -128,6 +128,13 @@ export const indicatorsDefinition = Object.freeze({
   },
 });
 
+export const indicatorClassesIcons = Object.freeze({
+  environment: 'mdi-earth',
+  health: 'mdi-hospital-box-outline',
+  agriculture: 'mdi-leaf',
+  economic: 'mdi-currency-eur',
+});
+
 
 export const baseLayers = [
   {
