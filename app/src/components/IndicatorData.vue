@@ -217,7 +217,7 @@ export default {
             label: 'Standard deviation (STD)',
             hidden: true,
             data: stdDevMax,
-            fill: '+1',
+            fill: 6,
             pointRadius: 0,
             spanGaps: true,
             backgroundColor: 'paleturquoise',
@@ -226,11 +226,14 @@ export default {
           });
           datasets.push({
             label: 'hide_',
-            fill: false,
+            hidden: true,
             data: stdDevMin,
+            fill: 6,
             pointRadius: 0,
             spanGaps: true,
+            backgroundColor: 'paleturquoise',
             borderColor: 'rgba(0,0,0,0.0)',
+            pointStyle: 'rect',
           });
         } else {
           const data = indicator.Time.map((date, i) => {
@@ -482,6 +485,25 @@ export default {
         };
         legend.labels.usePointStyle = true;
         legend.labels.boxWidth = 5;
+        legend.onClick = function (e, legendItem) {
+          if (legendItem.text === 'Standard deviation (STD)') {
+            const masterIndex = legendItem.datasetIndex;
+            const slaveIndex = 6;
+            const ci = this.chart;
+            const masterMeta = ci.getDatasetMeta(masterIndex);
+            const meta = ci.getDatasetMeta(slaveIndex);
+            if (masterMeta.hidden === null) {
+              masterMeta.hidden = false;
+              meta.hidden = false;
+            } else {
+              masterMeta.hidden = !masterMeta.hidden;
+              meta.hidden = !meta.hidden;
+            }
+            ci.update();
+          } else {
+            Chart.defaults.global.legend.onClick.call(this, e, legendItem);
+          }
+        };
       }
 
       const defaultSettings = {
@@ -502,6 +524,15 @@ export default {
           mode: 'x',
         },
       };
+
+      if (['N3'].includes(indicatorCode)) {
+        defaultSettings.tooltips = {
+          callbacks: {
+            label: (context) => `Value: ${context.value}`,
+          },
+        };
+      }
+
       return {
         ...defaultSettings,
         annotation: {
