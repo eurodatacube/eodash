@@ -165,16 +165,6 @@ export const defaultWMSDisplay = {
   minZoom: 7,
 };
 const wkt = new Wkt();
-const getMonthlyDates = (start, end) => {
-  let currentDate = moment(start);
-  const stopDate = moment(end);
-  const dateArray = [];
-  while (currentDate <= stopDate) {
-    dateArray.push(moment(currentDate).format('YYYY-MM-DD'));
-    currentDate = moment(currentDate).add(1, 'months');
-  }
-  return dateArray;
-};
 
 export const globalIndicators = [
   {
