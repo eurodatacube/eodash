@@ -47,7 +47,7 @@
         </v-btn>
         <v-toolbar-title v-if="$store.state.indicators.selectedIndicator">
           {{ $store.state.indicators.selectedIndicator['City'] }},
-          {{ $store.state.indicators.selectedIndicator['Indicator Name'] }}
+          {{ $store.state.indicators.selectedIndicator.Description }}
         </v-toolbar-title>
       </v-toolbar>
       <data-panel :expanded="dataPanelFullWidth" class="px-5" />
@@ -62,7 +62,7 @@
       <v-toolbar dark color="primary">
         <v-toolbar-title v-if="$store.state.indicators.selectedIndicator">
           {{ $store.state.indicators.selectedIndicator['City'] }},
-          {{ $store.state.indicators.selectedIndicator['Indicator Name'] }}
+          {{ $store.state.indicators.selectedIndicator.Description }}
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon dark @click="clickMobileClose">
