@@ -21,7 +21,7 @@ const brands = [
     branding: {
       appName: 'Trilateral Dashboard',
       primaryColor: '#000000',
-      headerLogo: '/eodash-data/general/ESA_Logo.svg',
+      headerLogo: '/eodash-data/general/Trilateral_Logo.svg',
     },
     pageMeta: {
       rootPath: 'https://race.esa.int',

@@ -180,6 +180,11 @@
 </template>
 
 <script>
+// Utilities
+import {
+  mapState,
+} from 'vuex';
+
 import { geoJson, latLngBounds, latLng } from 'leaflet';
 import {
   LMap, LTileLayer, LWMSTileLayer, LGeoJson, LCircleMarker,
@@ -189,8 +194,6 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-mouse-position';
 import 'leaflet-side-by-side';
 import moment from 'moment';
-
-import { baseLayers, overlayLayers, defaultWMSDisplay } from '@/config';
 
 export default {
   components: {
@@ -229,11 +232,12 @@ export default {
     };
   },
   computed: {
+    ...mapState('config', ['baseConfig']),
     baseLayers() {
-      return baseLayers;
+      return this.baseConfig.baseLayers;
     },
     overlayLayers() {
-      return overlayLayers;
+      return this.baseConfig.overlayLayers;
     },
     indicator() {
       return this.$store.state.indicators.selectedIndicator;
@@ -279,7 +283,7 @@ export default {
     dataLayerDisplay() {
       // if display not specified (global layers), suspect SIN layer
       return this.indicator.display ? this.indicator.display : {
-        ...defaultWMSDisplay,
+        ...this.baseConfig.defaultWMSDisplay,
         layers: this.shLayerName,
         name: this.indicator.Description,
       };
