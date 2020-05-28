@@ -1,5 +1,4 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
-import { indicatorsDefinition, globalIndicators } from '@/config';
 import moment from 'moment';
 import { Wkt } from 'wicket';
 import { latLng } from 'leaflet';
@@ -22,13 +21,13 @@ const getters = {
         .map((f) => f.properties.indicatorObject.Country),
     ].flat(1))].sort();
   },
-  getIndicators(state) {
+  getIndicators(state, _, rootState) {
     const inidcators = [...new Set([
       state.allFeatures
         .map((f) => ({
           code: f.properties.indicatorObject['Indicator code'],
           indicator: f.properties.indicatorObject.Description,
-          class: indicatorsDefinition[f.properties.indicatorObject['Indicator code']].class,
+          class: rootState.config.baseConfig.indicatorsDefinition[f.properties.indicatorObject['Indicator code']].class,
         })),
     ].flat(2))].sort();
     return inidcators;
@@ -68,7 +67,10 @@ const getters = {
 
 const mutations = {
   SET_MANUAL_FEATURES(state, features) {
-    state.allFeatures = state.allFeatures.concat(features, globalIndicators);
+    state.allFeatures = state.allFeatures.concat(
+      features,
+      this.state.config.baseConfig.globalIndicators,
+    );
   },
   ADD_NEW_FEATURES(state, features) {
     state.allFeatures = state.allFeatures.concat(features);
@@ -92,8 +94,8 @@ const mutations = {
   },
 };
 const actions = {
-  loadAllCsv({ commit }) {
-    const defs = indicatorsDefinition;
+  loadAllCsv({ commit, rootState }) {
+    const defs = rootState.config.baseConfig.indicatorsDefinition;
     const keys = Object.keys(defs);
     for (let kk = 0; kk < keys.length; kk += 1) {
       if (Object.prototype.hasOwnProperty.call(defs[keys[kk]], 'file') && defs[keys[kk]].file) {

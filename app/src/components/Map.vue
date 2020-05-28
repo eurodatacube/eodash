@@ -86,6 +86,7 @@
 <script>
 import {
   mapGetters,
+  mapState,
 } from 'vuex';
 
 import { geoJson, Point, DivIcon } from 'leaflet';
@@ -99,7 +100,6 @@ import 'leaflet.markercluster/dist/MarkerCluster.css'; // eslint-disable-line im
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'; // eslint-disable-line import/no-extraneous-dependencies
 import 'leaflet-mouse-position';
 
-import { indicatorsDefinition, baseLayers, overlayLayers } from '@/config';
 import countries from '@/assets/countries.json';
 
 export default {
@@ -136,11 +136,12 @@ export default {
   },
   computed: {
     ...mapGetters('features', ['getFeatures']),
+    ...mapState('config', ['baseConfig']),
     baseLayers() {
-      return baseLayers;
+      return this.baseConfig.baseLayers;
     },
     overlayLayers() {
-      return overlayLayers;
+      return this.baseConfig.overlayLayers;
     },
     countriesJson() {
       return countries;
@@ -185,7 +186,7 @@ export default {
         },
       };
     },
-    indicatorsDefinition: () => indicatorsDefinition,
+    indicatorsDefinition: () => this.baseConfig.indicatorsDefinition,
     countriesStyle() {
       return {
         color: '#a2a2a2',

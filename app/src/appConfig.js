@@ -14,6 +14,7 @@ const brands = [
       shortDescription: 'The RACE platform demonstrates how the use of EO data can help shed new light on societal and economic changes currently taking place owing to the coronavirus pandemic.',
       twitterCardImagePath: '/img/ESA/RACE_key_visual_200526_3v.jpg',
     },
+    displayDummyLocations: true,
   },
   {
     id: 'trilateral',
@@ -21,7 +22,7 @@ const brands = [
     branding: {
       appName: 'Trilateral Dashboard',
       primaryColor: '#000000',
-      headerLogo: '/eodash-data/general/ESA_Logo.svg',
+      headerLogo: '/eodash-data/general/Trilateral_Logo.svg',
     },
     pageMeta: {
       rootPath: 'https://race.esa.int',

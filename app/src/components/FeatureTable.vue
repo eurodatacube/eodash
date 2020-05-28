@@ -35,13 +35,13 @@
 // Utilities
 import {
   mapGetters,
+  mapState,
 } from 'vuex';
-
-import { indicatorsDefinition } from '@/config';
 
 export default {
   computed: {
     ...mapGetters('features', ['getFeatures']),
+    ...mapState('config', ['baseConfig']),
     headers() {
       const indicatorObject = 'properties.indicatorObject';
       return [
@@ -83,7 +83,8 @@ export default {
       };
     },
     indicator(code) {
-      return indicatorsDefinition[code];
+      console.log(this.indicatorsDefinition);
+      return this.baseConfig.indicatorsDefinition[code];
     },
     openFeature(feature) {
       if (feature.properties.indicatorObject['Indicator code'] !== 'd') {
