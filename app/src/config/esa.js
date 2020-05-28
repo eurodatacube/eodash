@@ -57,17 +57,17 @@ export const indicatorsDefinition = Object.freeze({
   },
   E10a1: {
     indicator: 'Harvesting activity',
-    class: 'economic',
+    class: 'agriculture',
     file: '/eodash-data/data/E10a1.csv',
   },
   E10a2: {
     indicator: 'Cum. proportion of total area under active mgmt.',
-    class: 'economic',
+    class: 'agriculture',
     file: '/eodash-data/data/E10a2.csv',
   },
   E10b: {
     indicator: 'Field preparation activity',
-    class: 'economic',
+    class: 'agriculture',
   },
   E11: {
     indicator: 'Volume of activity at shopping centers',
@@ -126,6 +126,12 @@ export const indicatorsDefinition = Object.freeze({
   },
 });
 
+export const indicatorClassesIcons = Object.freeze({
+  environment: 'mdi-earth',
+  health: 'mdi-hospital-box-outline',
+  agriculture: 'mdi-leaf',
+  economic: 'mdi-currency-eur',
+});
 
 export const baseLayers = [
   {

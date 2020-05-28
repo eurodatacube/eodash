@@ -79,47 +79,30 @@
               </v-list-item-content>
             </v-list-item>
             <v-divider></v-divider>
-            <v-subheader class="ml-5">ENVIRONMENT</v-subheader>
-            <v-list-item
-              v-for="indicator in indicatorItems.filter((i) => i.code[0] === 'N')"
-              :key="indicator.code"
-              @click="selectIndicator(indicator)"
-            >
-              <v-list-item-icon class="ml-3 mr-4">
-                <v-icon>mdi-earth</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title v-text="indicator.indicator"></v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-subheader class="ml-5">ECONOMY</v-subheader>
-            <v-list-item
-              v-for="indicator in indicatorItems.filter((i) => i.code[0] === 'E')"
-              :key="indicator.code"
-              @click="selectIndicator(indicator)"
-            >
-              <v-list-item-icon class="ml-3 mr-4">
-                <v-icon>mdi-currency-eur</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title v-text="indicator.indicator"></v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-subheader class="ml-5"
-              v-if="indicatorItems
-                .filter((i) => i.code[0] === 'H').length > 0">HEALTH</v-subheader>
-            <v-list-item
-              v-for="indicator in indicatorItems.filter((i) => i.code[0] === 'H')"
-              :key="indicator.code"
-              @click="selectIndicator(indicator)"
-            >
-              <v-list-item-icon class="ml-3 mr-4">
-                <v-icon>mdi-hospital-box-outline</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title v-text="indicator.indicator"></v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+            <template v-for="classId in Object.keys(uniqueClasses)">
+              <v-subheader class="ml-5"
+                :key="classId" v-if="indicatorItems
+                  .filter((i) => uniqueClasses[classId].includes(i.code)).length > 0">
+                   {{ classId.toUpperCase() }}
+              </v-subheader>
+              <v-list-item
+                v-for="indicator in indicatorItems.filter((i) =>
+                  uniqueClasses[classId].includes(i.code))"
+                :key="indicator.code"
+                @click="selectIndicator(indicator)"
+              >
+                <v-list-item-icon v-if="indicator.indicator !== ''" class="ml-3 mr-4">
+                  <v-icon>{{
+                  baseConfig.indicatorClassesIcons[classId] ?
+                    baseConfig.indicatorClassesIcons[classId] :
+                    'mdi-lightbulb-on-outline'
+                  }}</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title v-text="indicator.indicator"></v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </template>
           </v-list-item-group>
         </v-list>
       </v-tab-item>
@@ -131,6 +114,7 @@
 // Utilities
 import {
   mapGetters,
+  mapState,
 } from 'vuex';
 
 import CountryFlag from 'vue-country-flag';
@@ -159,6 +143,7 @@ export default {
       'getCountries',
       'getIndicators',
     ]),
+    ...mapState('config', ['baseConfig']),
     countries() {
       return countries;
     },
@@ -172,6 +157,25 @@ export default {
         };
       })
         .sort((a, b) => ((a.name > b.name) ? 1 : -1));
+    },
+    uniqueClasses() {
+      const classes = {};
+      const indDef = this.baseConfig.indicatorsDefinition;
+      Object.keys(indDef).map( (key) => {
+        if (typeof classes[indDef[key].class] === 'undefined') {
+          classes[indDef[key].class] = [key];
+        } else {
+          classes[indDef[key].class].push(key);
+        }
+      });
+      return classes;
+      /*
+      return [
+        ...new Set(Object.keys(this.baseConfig.indicatorsDefinition).map(
+          (key) => this.baseConfig.indicatorsDefinition[key].class,
+        )),
+      ];
+      */
     },
     indicatorItems() {
       let indicators = this.getIndicators;
