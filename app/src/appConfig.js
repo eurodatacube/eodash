@@ -17,6 +17,7 @@ const brands = [
     },
     displayDummyLocations: true,
     customCSS: 'esa',
+    aboutText: '/eodash-data/general/about',
   },
   {
     id: 'trilateral',
@@ -32,6 +33,7 @@ const brands = [
       shortDescription: 'The RACE platform demonstrates how the use of EO data can help shed new light on societal and economic changes currently taking place owing to the coronavirus pandemic.',
       twitterCardImagePath: '/img/ESA/RACE_key_visual_200526_3v.jpg',
     },
+    aboutText: '/data/trilateral/about',
   },
 ];
 
