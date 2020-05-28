@@ -107,8 +107,8 @@ export default {
     someGlobalIndicator() {
       return this.globalIndicators
         .filter((i) => this.$store.state.features.featureFilters.indicators
-        .includes(i.properties.indicatorObject['Indicator code']));
-    }
+          .includes(i.properties.indicatorObject['Indicator code']));
+    },
   },
   methods: {
     selectGlobal(indicatorCode) {
