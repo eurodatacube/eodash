@@ -13,5 +13,5 @@ export function shTimeFunction(date) {
   if (!Array.isArray(tempDate)) {
     tempDate = [tempDate];
   }
-  return `${moment.utc(tempDate[0]).format('YYYY-MM-DD')}/${moment.utc(tempDate[0]).format('YYYY-MM-DD')}`;
+  return `${moment.utc(tempDate[0]).format('YYYY-MM-DDTHH:mm:ss')}`;
 }

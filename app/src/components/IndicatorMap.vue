@@ -460,6 +460,7 @@ export default {
           this.$refs.dataLayer.mapObject
             .setParams(this.layerOptions(this.currentTime, this.dataLayerDisplay('data')));
         }
+        this.dataLayerKey = Math.random();
         this.slider.setRightLayers(this.$refs.dataLayer.mapObject);
       });
     },
@@ -476,6 +477,7 @@ export default {
           this.$refs.compareLayer.mapObject
             .setParams(this.layerOptions(this.currentCompareTime, this.dataLayerDisplay('compare')));
         }
+        this.overlayLayerKey = Math.random();
         this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
       });
     },
