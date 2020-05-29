@@ -240,9 +240,9 @@
       <v-card class="pa-10">
         <v-card-title class="primary white--text">Bug report: {{ formData.title }}</v-card-title>
         <v-card-text>
-          <markdown-it-vue
-            :content="formData.body"
-            class="pa-5"
+          <div
+            v-html="formData.body"
+            class="md-body pa-5"
           />
         </v-card-text>
         <v-card-actions>
@@ -279,14 +279,9 @@
 
 <script>
 import axios from 'axios';
-import MarkdownItVue from 'markdown-it-vue';
-
-import 'markdown-it-vue/dist/markdown-it-vue.css';
+import marked from 'marked';
 
 export default {
-  components: {
-    MarkdownItVue,
-  },
   data: () => ({
     showIssueForm: false,
     message: null,
@@ -296,6 +291,7 @@ export default {
       title: null,
       body: null,
     },
+    valid: false,
     operatingSystem: null,
     affectedBrowser: null,
     stepsToReproduce: null,
@@ -328,7 +324,7 @@ export default {
     },
     openPreview() {
       if (this.$refs.issueForm.validate()) {
-        this.formData.body = `### Environment
+        this.formData.body = marked(`### Environment
 **App version:** ${this.$store.getters.appVersion}
 
 **Operating system:** ${this.operatingSystem}
@@ -346,7 +342,7 @@ ${this.actualBehaviour}
 
 ### Comments:
 ${this.comments || 'No comments'}
-`;
+`);
         this.showPreview = true;
       }
     },

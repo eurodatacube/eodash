@@ -75,11 +75,10 @@
         >
         <div>
             <expandable-content>
-              <markdown-it-vue
-                :content="story"
+              <div
+                v-html="story"
                 class="md-body"
-                :options="{ markdownIt: { html: true } }"
-              />
+              ></div>
             </expandable-content>
             <v-btn
               @click="dialog = true"
@@ -135,13 +134,11 @@ import {
   mapState,
 } from 'vuex';
 
+import marked from 'marked';
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
-import MarkdownItVue from 'markdown-it-vue';
 import NewsCarousel from '@/components/NewsCarousel.vue';
-
-import 'markdown-it-vue/dist/markdown-it-vue.css';
 
 export default {
   props: [
@@ -151,7 +148,6 @@ export default {
     ExpandableContent,
     IndicatorData,
     IndicatorMap,
-    MarkdownItVue,
     NewsCarousel,
   },
   data: () => ({
@@ -179,7 +175,7 @@ export default {
       } catch {
         markdown = { default: 'No indicator story provided yet.' };
       }
-      return markdown.default;
+      return marked(markdown.default);
     },
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;

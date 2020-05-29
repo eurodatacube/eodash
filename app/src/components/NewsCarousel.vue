@@ -27,7 +27,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       colors: [
         'indigo',
