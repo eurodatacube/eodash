@@ -1,8 +1,7 @@
 <template>
   <div style="width: 100%; height: 100%;"
     v-if="indicatorObject['Indicator code']!='E10a2' &&
-    indicatorObject['Indicator code']!='N3' &&
-    indicatorObject['Indicator code']!='E1'">
+    indicatorObject['Indicator code']!='N3'">
       <bar-chart v-if='datacollection'
         id="chart"
         class="fill-height"
@@ -112,46 +111,6 @@ export default {
             fill: false,
             borderColor: 'darkcyan',
             backgroundColor: (indicatorCode === 'E10a1') ? 'black' : 'darkcyan',
-          });
-        } else if (['E1'].includes(indicatorCode)) {
-          /* Group data by year in month slices */
-          const data = indicator.Time.map((date, i) => {
-            colors.push(this.getIndicatorColor(indicator['Color code'][i]));
-            return { t: date, y: measurement[i] };
-          });
-          const dataGroups = {};
-          const colorGroups = {};
-          for (let i = 0; i < data.length; i += 1) {
-            const currYear = data[i].t.getFullYear();
-            const modDate = new Date(data[i].t.getTime());
-            modDate.setFullYear(2000);
-            if (Object.prototype.hasOwnProperty.call(dataGroups, currYear)) {
-              dataGroups[currYear].push({
-                t: modDate, y: data[i].y,
-              });
-              colorGroups[currYear].push(colors[i]);
-            } else {
-              dataGroups[currYear] = [{
-                t: modDate, y: data[i].y,
-              }];
-              colorGroups[currYear] = [colors[i]];
-            }
-          }
-          Object.keys(dataGroups).forEach((key, i) => {
-            datasets.push({
-              label: key,
-              fill: false,
-              pointRadius: 5,
-              data: dataGroups[key],
-              backgroundColor: colorGroups[key],
-              borderColor: refColors[i],
-              borderWidth: 2,
-            });
-          });
-          /* Add random element to make sure labels are re-rendered */
-          datasets.push({
-            label: `hide_${Math.random()}`,
-            data: [],
           });
         } else if (['N3'].includes(indicatorCode)) {
           const referenceValue = [];
@@ -366,8 +325,9 @@ export default {
       if (!['E10a1', 'E10a2'].includes(indicatorCode)) {
         xAxes = [{
           type: 'time',
+          distribution: 'series',
           time: {
-            unit: 'month',
+            unit: 'week',
           },
           ticks: {
             min: timeMinMax[0],
@@ -375,7 +335,8 @@ export default {
           },
         }];
       }
-      if (['E1', 'E10a2'].includes(indicatorCode)) {
+
+      if (['E10a2'].includes(indicatorCode)) {
         /* Recalculate to get min max months in data converted to one year */
         timeMinMax = this.getMinMaxDate(this.indicatorObject.Time.map((date) => {
           const tmpDate = new Date(date.getTime());

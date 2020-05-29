@@ -1,0 +1,25 @@
+.md-body {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    // text-transform: uppercase;
+    color: var(--v-primary-base);
+    font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: 16px;
+    margin-top: 24px;
+  }
+  h1 {
+    font-size: 2em;
+  }
+  h1, h2 {
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid rgb(234, 236, 239);
+  }
+}
+.md-body > :first-child {
+    margin-top: 0px !important;
+}

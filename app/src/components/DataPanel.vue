@@ -5,11 +5,11 @@
     :class="$vuetify.breakpoint.xsOnly && 'pb-10'"
     style="overflow: auto; height: 100%;"
   >
-    <v-row class="mt-0 d-flex">
+    <v-row class="d-flex">
       <v-col
         cols="12"
       >
-        <h1 class="display-3 primary--text mb-5 mt-0">COVID-19 Impact seen by Satellite</h1>
+        <h1 class="display-3 primary--text mb-5">COVID-19 Impact seen by Satellite</h1>
       </v-col>
       <v-col
         cols="12"
@@ -40,6 +40,7 @@
       </v-col>
     </v-row>
     <small>Latest measurement: {{ getLatestUpdate }}</small>
+    <news-carousel v-if="appConfig.showNewsCarousel" />
   </div>
   <div v-else>
     <v-container class="pt-0">
@@ -74,11 +75,10 @@
         >
         <div>
             <expandable-content>
-              <markdown-it-vue
-                :content="story"
+              <div
+                v-html="story"
                 class="md-body"
-                :options="{ markdownIt: { html: true } }"
-              />
+              ></div>
             </expandable-content>
             <v-btn
               @click="dialog = true"
@@ -131,14 +131,14 @@
 <script>
 import {
   mapGetters,
+  mapState,
 } from 'vuex';
 
+import marked from 'marked';
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
-import MarkdownItVue from 'markdown-it-vue';
-
-import 'markdown-it-vue/dist/markdown-it-vue.css';
+import NewsCarousel from '@/components/NewsCarousel.vue';
 
 export default {
   props: [
@@ -148,7 +148,7 @@ export default {
     ExpandableContent,
     IndicatorData,
     IndicatorMap,
-    MarkdownItVue,
+    NewsCarousel,
   },
   data: () => ({
     dialog: false,
@@ -167,6 +167,7 @@ export default {
       'getIndicators',
       'getLatestUpdate',
     ]),
+    ...mapState('config', ['appConfig']),
     story() {
       let markdown;
       try {
@@ -174,7 +175,7 @@ export default {
       } catch {
         markdown = { default: 'No indicator story provided yet.' };
       }
-      return markdown.default;
+      return marked(markdown.default);
     },
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
@@ -183,7 +184,7 @@ export default {
       return this.indicatorObject ? this.indicatorObject['EO Sensor'].length - 1 : 0;
     },
     globalData() {
-      return this.indicatorObject.Country === 'all';
+      return ['all', 'regional'].includes(this.indicatorObject.Country);
     },
     countryItemsCount() {
       const countries = this.getCountries.filter((item) => item !== 'all');

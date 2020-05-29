@@ -3,7 +3,7 @@
     <v-expand-transition>
       <div
         v-if="needsExpand"
-        :style="`overflow: hidden; height: ${contentExpanded ? 'auto' : '150px'}`">
+        :style="`overflow: hidden; height: ${contentExpanded ? 'auto' : `${minHeight}px`}`">
         <div ref="content">
           <slot></slot>
         </div>
@@ -39,6 +39,7 @@ export default {
     observer: null,
   }),
   mounted() {
+    this.needsExpand = this.$refs.content.clientHeight > this.minHeight;
     // Create the observer (and what to do on changes...)
     this.observer = new MutationObserver(function () { // eslint-disable-line
       this.needsExpand = this.$refs.content.clientHeight > this.minHeight;
@@ -69,6 +70,6 @@ export default {
   position: absolute;
   bottom: 27px;
   background: transparent;
-  background: linear-gradient(0deg, white, transparent);
+  background: linear-gradient(0deg, white, #ffffff00);
 }
 </style>
