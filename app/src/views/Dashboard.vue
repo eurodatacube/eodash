@@ -48,6 +48,12 @@
         <v-toolbar-title v-if="$store.state.indicators.selectedIndicator">
           {{ $store.state.indicators.selectedIndicator['City'] }},
           {{ $store.state.indicators.selectedIndicator.Description }}
+          <div v-if="
+            $store.state.indicators.selectedIndicator.Description !==
+            $store.state.indicators.selectedIndicator['Indicator Name']"
+            class="subheading" style="font-size: 0.8em">
+            {{ $store.state.indicators.selectedIndicator['Indicator Name'] }}
+          </div>
         </v-toolbar-title>
       </v-toolbar>
       <data-panel :expanded="dataPanelFullWidth" class="px-5" />
@@ -60,14 +66,23 @@
       transition="dialog-bottom-transition"
     >
       <v-toolbar dark color="primary">
-        <v-toolbar-title v-if="$store.state.indicators.selectedIndicator">
-          {{ $store.state.indicators.selectedIndicator['City'] }},
+        <v-toolbar-title style="overflow: unset; white-space: pre-wrap;"
+          v-if="$store.state.indicators.selectedIndicator"
+        >{{ $store.state.indicators.selectedIndicator['City'] }},
           {{ $store.state.indicators.selectedIndicator.Description }}
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon dark @click="clickMobileClose">
           <v-icon>mdi-close</v-icon>
         </v-btn>
+      </v-toolbar>
+      <v-toolbar short dense flat v-if="
+          ($store.state.indicators.selectedIndicator && (
+            $store.state.indicators.selectedIndicator.Description !==
+            $store.state.indicators.selectedIndicator['Indicator Name']))">
+        <v-toolbar-title style="font-size: 0.9em">
+          {{ $store.state.indicators.selectedIndicator['Indicator Name'] }}
+        </v-toolbar-title>
       </v-toolbar>
       <data-panel class="fill-height" />
     </v-dialog>

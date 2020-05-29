@@ -128,24 +128,7 @@ export default {
             }
             colors.push(this.getIndicatorColor(colorCode));
           }
-          datasets.push({
-            label: 'Poor water quality',
-            data: [],
-            backgroundColor: this.getIndicatorColor('red'),
-            borderColor: this.getIndicatorColor('red'),
-          });
-          datasets.push({
-            label: 'Regular water quality',
-            data: [],
-            backgroundColor: this.getIndicatorColor('orange'),
-            borderColor: this.getIndicatorColor('orange'),
-          });
-          datasets.push({
-            label: 'Good water quality',
-            data: [],
-            backgroundColor: this.getIndicatorColor('green'),
-            borderColor: this.getIndicatorColor('green'),
-          });
+
           datasets.push({
             label: 'hide_',
             data: measurement,
@@ -166,7 +149,7 @@ export default {
             label: 'Standard deviation (STD)',
             hidden: true,
             data: stdDevMax,
-            fill: 6,
+            fill: 3,
             pointRadius: 0,
             spanGaps: true,
             backgroundColor: 'paleturquoise',
@@ -177,12 +160,34 @@ export default {
             label: 'hide_',
             hidden: true,
             data: stdDevMin,
-            fill: 6,
+            fill: 2,
             pointRadius: 0,
             spanGaps: true,
             backgroundColor: 'paleturquoise',
             borderColor: 'rgba(0,0,0,0.0)',
             pointStyle: 'rect',
+          });
+
+          // Find unique indicator values
+          const indicatorValues = {};
+          indicator['Indicator Value'].map((val, i) => {
+            let key = val.toLowerCase();
+            key = key.charAt(0).toUpperCase() + key.slice(1);
+            if (typeof indicatorValues[key] === 'undefined') {
+              indicatorValues[key] = this.getIndicatorColor(
+                indicator['Color code'][i],
+              );
+            }
+            return null;
+          });
+
+          Object.entries(indicatorValues).forEach(([key, value]) => {
+            datasets.push({
+              label: key,
+              data: [],
+              backgroundColor: value,
+              borderColor: value,
+            });
           });
         } else {
           const data = indicator.Time.map((date, i) => {
@@ -444,7 +449,7 @@ export default {
         legend.onClick = function onClick(e, legendItem) {
           if (legendItem.text === 'Standard deviation (STD)') {
             const masterIndex = legendItem.datasetIndex;
-            const slaveIndex = 6;
+            const slaveIndex = 3;
             const ci = this.chart;
             const masterMeta = ci.getDatasetMeta(masterIndex);
             const meta = ci.getDatasetMeta(slaveIndex);
