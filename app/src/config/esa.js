@@ -209,7 +209,7 @@ export const globalIndicators = [
       id: 9999, // for now
       indicatorObject: {
         AOI: null,
-        Country: 'all',
+        Country: 'regional',
         City: 'North Adriatic',
         'Site Name': 'North Adriatic',
         Description: 'Adriatic Water Quality Index',
