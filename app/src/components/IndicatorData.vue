@@ -401,12 +401,38 @@ export default {
           },
         }];
       }
+
       let plugins = {
         datalabels: {
           display: false,
         },
       };
+
+      const yAxes = [{
+        scaleLabel: {
+          display: true,
+          labelString: this.indicatorObject['Y axis'],
+          padding: 2,
+        },
+        ticks: {
+          lineHeight: 1,
+          suggestedMin: Math.min(
+            ...this.indicatorObject['Measurement Value'],
+          ) - 1,
+          suggestedMax: Math.max(
+            ...this.indicatorObject['Measurement Value'],
+          ) + 1,
+        },
+      }];
+
+      const legend = {
+        labels: {
+          filter,
+        },
+      };
+
       if (['E10a1'].includes(indicatorCode)) {
+        yAxes[0].ticks.beginAtZero = true;
         plugins = {
           datalabels: {
             labels: {
@@ -442,34 +468,13 @@ export default {
                 anchor: 'end',
                 align: 'end',
                 offset: -6,
+                formatter: (value) => value.toFixed(0),
               },
             },
           },
         };
       }
 
-      const yAxes = [{
-        scaleLabel: {
-          display: true,
-          labelString: this.indicatorObject['Y axis'],
-          padding: 2,
-        },
-        ticks: {
-          lineHeight: 1,
-          suggestedMin: Math.min(
-            ...this.indicatorObject['Measurement Value'],
-          ) - 1,
-          suggestedMax: Math.max(
-            ...this.indicatorObject['Measurement Value'],
-          ) + 1,
-        },
-      }];
-
-      const legend = {
-        labels: {
-          filter,
-        },
-      };
 
       if (['N3'].includes(indicatorCode)) {
         yAxes[0].ticks = {
