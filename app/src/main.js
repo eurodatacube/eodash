@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VuePapaParse from 'vue-papa-parse';
+import VueMatomo from 'vue-matomo';
 import VueMeta from 'vue-meta';
 import Vuetify from 'vuetify/lib';
 import Chart from 'chart.js';
@@ -16,6 +17,26 @@ Vue.config.productionTip = false;
 
 Chart.plugins.register([ChartAnnotation, ChartZoomPlugin]);
 Vue.use(VuePapaParse);
+
+Vue.use(VueMatomo, {
+  // Config options explained on https://github.com/AmazingDreams/vue-matomo
+  host: 'https://nix.eox.at/piwik',
+  siteId: 11,
+  trackerFileName: 'piwik',
+  router,
+  enableLinkTracking: true,
+  requireConsent: true,
+  trackInitialView: true,
+  disableCookies: false,
+  enableHeartBeatTimer: false,
+  heartBeatTimerInterval: 15,
+  debug: false,
+  userId: undefined,
+  cookieDomain: undefined,
+  domains: undefined,
+  preInitActions: [],
+});
+
 Vue.use(VueMeta);
 Vue.use(Vuetify);
 Vue.use(browserDetect);
