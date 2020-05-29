@@ -252,9 +252,13 @@ export default {
     arrayOfObjects() {
       const selectionOptions = [];
       for (let i = 0; i < this.indicator.Time.length; i += 1) {
+        let label = this.getTimeLabel(this.indicator.Time[i]);
+        if (this.indicator['Input Data']) {
+          label += ` - ${this.indicator['Input Data'][i]}`;
+        }
         selectionOptions.push({
           value: this.indicator.Time[i],
-          name: `${this.getTimeLabel(this.indicator.Time[i])} - ${this.indicator['Input Data'][i]}`,
+          name: label,
         });
       }
       return selectionOptions;
