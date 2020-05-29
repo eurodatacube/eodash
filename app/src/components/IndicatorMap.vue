@@ -254,7 +254,7 @@ export default {
       for (let i = 0; i < this.indicator.Time.length; i += 1) {
         selectionOptions.push({
           value: this.indicator.Time[i],
-          name: this.getTimeLabel(this.indicator.Time[i]),
+          name: `${this.getTimeLabel(this.indicator.Time[i])} - ${this.indicator['Input Data'][i]}`,
         });
       }
       return selectionOptions;
@@ -417,7 +417,7 @@ export default {
         // show start - end
         return time.join(' - ');
       } else if (time instanceof Date) { // eslint-disable-line no-else-return
-        return moment.utc(time).format('YYYY-MM-DD');
+        return moment.utc(time).format('YYYY-MM-DDTHH:mm:ss');
       }
       return time;
     },
