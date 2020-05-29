@@ -6,7 +6,6 @@ import Vuetify from 'vuetify/lib';
 
 import browserDetect from 'vue-browser-detect-plugin';
 import App from './App.vue';
-import router from './router';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 
@@ -19,7 +18,6 @@ Vue.use(VueMatomo, {
   host: 'https://nix.eox.at/piwik',
   siteId: 11,
   trackerFileName: 'piwik',
-  router,
   enableLinkTracking: true,
   requireConsent: true,
   trackInitialView: true,
@@ -99,7 +97,6 @@ const renderVue = async () => {
       ? clamp || '...' : ''));
 
   new Vue({
-    router,
     store,
     vuetify,
     render: (h) => h(App),

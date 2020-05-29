@@ -1,7 +1,7 @@
 <!-- eslint-disable global-require -->
 <template>
   <v-app id="inspire">
-    <router-view />
+    <Dashboard />
     <cookie-law @accept="acceptCookies">
       <div slot-scope="props" style="width: 100%;">
         <div class="d-flex align-center justify-center mb-5">
@@ -45,8 +45,13 @@ import {
 } from 'vuex';
 import CookieLaw from 'vue-cookie-law';
 
+import Dashboard from '@/views/Dashboard.vue';
+
 export default {
-  components: { CookieLaw },
+  components: {
+    CookieLaw,
+    Dashboard,
+  },
   metaInfo() {
     let metaData;
     if (this.appConfig) {
