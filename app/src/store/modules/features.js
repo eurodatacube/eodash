@@ -144,6 +144,9 @@ const actions = {
                 featureObjs[uniqueKey]['Measurement Value'].push(
                   measurement.length !== 0 ? Number(measurement) : NaN,
                 );
+                featureObjs[uniqueKey]['Reference value'].push(
+                  results.data[rr]['Reference value'],
+                );
                 featureObjs[uniqueKey]['Reference time'].push(
                   moment.utc(results.data[rr]['Reference time']).toDate(),
                 );
