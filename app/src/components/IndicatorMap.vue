@@ -280,18 +280,18 @@ export default {
       return this.indicator['Sub-AOI'];
     },
     getAoiFill() {
-      const lastValue = this.indicator && this.indicator['Color code']
-        && this.indicator['Color code'][this.indicator['Color code'].length - 1];
-      return lastValue
-        ? this.getIndicatorColor(lastValue)
+      const currentValue = this.indicator && this.indicator['Color code']
+        && this.indicator['Color code'][this.dataLayerIndex];
+      return currentValue
+        ? this.getIndicatorColor(currentValue)
         : this.$vuetify.theme.themes.light.primary;
     },
     subAoiStyle() {
-      const lastValue = this.indicator && this.indicator['Color code']
-        && this.indicator['Color code'][this.indicator['Color code'].length - 1];
+      const currentValue = this.indicator && this.indicator['Color code']
+        && this.indicator['Color code'][this.dataLayerIndex];
       return {
-        color: lastValue
-          ? this.getIndicatorColor(lastValue)
+        color: currentValue
+          ? this.getIndicatorColor(currentValue)
           : this.$vuetify.theme.themes.light.primary,
         weight: 3,
         opacity: 0.7,
