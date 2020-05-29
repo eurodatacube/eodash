@@ -39,16 +39,6 @@ export default {
       let dataCollection;
       if (indicator) {
         const labels = [];
-        const refColors = [
-          '#000', '#990099', '#999', '#ff5bcd', '#b85bff',
-          '#b82e2e', '#316395', '#994499', '#22aa99',
-          '#aaaa11', '#6633cc', '#e67300', '#8b0707', '#651067', '#329262',
-          '#5574a6', '#3b3eac', '#3366cc', '#dc3912', '#ff9900', '#109618',
-          '#0099c6', '#dd4477', '#66aa00',
-        ];
-        // set up type based on Indicator Type
-        // const indicatorType = indicator['Indicator code'];
-
         // filter nodata entries completely
         const mask = indicator['Measurement Value'].map((item) => !Number.isNaN(item));
         for (const [key, value] of Object.entries(indicator)) { // eslint-disable-line
