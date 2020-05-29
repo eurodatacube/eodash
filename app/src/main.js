@@ -3,19 +3,15 @@ import VuePapaParse from 'vue-papa-parse';
 import VueMatomo from 'vue-matomo';
 import VueMeta from 'vue-meta';
 import Vuetify from 'vuetify/lib';
-import Chart from 'chart.js';
-/* Plugin autoregisters so does not need to be registered */
-import ChartDataLabels from 'chartjs-plugin-datalabels'; // eslint-disable-line no-unused-vars
-import * as ChartAnnotation from 'chartjs-plugin-annotation';
-import * as ChartZoomPlugin from 'chartjs-plugin-zoom';
+
 import browserDetect from 'vue-browser-detect-plugin';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 
 Vue.config.productionTip = false;
 
-Chart.plugins.register([ChartAnnotation, ChartZoomPlugin]);
 Vue.use(VuePapaParse);
 
 Vue.use(VueMatomo, {
