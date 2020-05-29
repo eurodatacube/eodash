@@ -234,7 +234,7 @@ export const globalIndicators = [
           layers: 'N3_CUSTOM',
           legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
-          dateFormatFunction: (dates) => `${moment.utc(dates[0], 'YYYY-MM-DD').format('YYYY-MM-DD')}/${moment.utc(dates[0], 'YYYY-MM-DD').format('YYYY-MM-DD')}`,
+          dateFormatFunction: (dates) => `${moment.utc(dates[0], 'YYYY-MM-DD').format('YYYY-MM-DD')}`,
         },
       },
     },
