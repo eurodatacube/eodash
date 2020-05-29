@@ -147,9 +147,6 @@ const actions = {
                 featureObjs[uniqueKey]['Reference time'].push(
                   moment.utc(results.data[rr]['Reference time']).toDate(),
                 );
-                featureObjs[uniqueKey]['Reference time'].push(
-                  results.data[rr]['Reference time'],
-                );
                 featureObjs[uniqueKey].Time.push(
                   moment.utc(results.data[rr].Time).toDate(),
                 );
