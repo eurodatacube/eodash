@@ -76,14 +76,14 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
-      <v-toolbar short dense flat v-if="
+      <h4 v-if="
           ($store.state.indicators.selectedIndicator && (
             $store.state.indicators.selectedIndicator.Description !==
-            $store.state.indicators.selectedIndicator['Indicator Name']))">
-        <v-toolbar-title style="font-size: 0.9em">
-          {{ $store.state.indicators.selectedIndicator['Indicator Name'] }}
-        </v-toolbar-title>
-      </v-toolbar>
+            $store.state.indicators.selectedIndicator['Indicator Name']))"
+        class="px-4 py-2"
+      >
+        {{ $store.state.indicators.selectedIndicator['Indicator Name'] }}
+      </h4>
       <data-panel class="fill-height" />
     </v-dialog>
     <v-content style="height: 100vh; overflow:hidden;">
@@ -254,5 +254,15 @@ export default {
 }
 ::v-deep .v-dialog--fullscreen {
   background: white;
+}
+::v-deep .v-dialog--fullscreen {
+  header,
+  header .v-toolbar__content {
+    height: auto !important;
+  }
+  header {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
 }
 </style>
