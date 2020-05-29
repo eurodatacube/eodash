@@ -236,6 +236,6 @@ export default {
 }
 .itemActive {
   background: var(--v-primary-base);
-  color: white;
+  color: white !important;
 }
 </style>
