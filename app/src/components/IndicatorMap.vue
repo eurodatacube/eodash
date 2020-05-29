@@ -387,7 +387,7 @@ export default {
           const cornerMax1 = latLng([bounds.getSouth() - boundsPad, bounds.getWest() - boundsPad]);
           const cornerMax2 = latLng([bounds.getNorth() + boundsPad, bounds.getEast() + boundsPad]);
           const boundsMax = latLngBounds(cornerMax1, cornerMax2);
-          if (this.indicator.Country === 'all') {
+          if (['all', 'regional'].includes(this.indicator.Country)) {
             this.map.setMinZoom(7);
           } else {
             this.map.setMinZoom(13);

@@ -254,7 +254,7 @@ export default {
       this.map.attributionControl._update();
     });
     this.$store.subscribe((mutation) => {
-      if (mutation.type === 'features/SET_FEATURE_FILTER' && mutation.payload.countries !== 'all') {
+      if (mutation.type === 'features/SET_FEATURE_FILTER' && !['all', 'regional'].includes(mutation.payload.countries)) {
         if (typeof mutation.payload.countries === 'string') {
           const countryFeature = countries.features
             .find((c) => c.properties.alpha2 === mutation.payload.countries);
