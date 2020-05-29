@@ -38,9 +38,6 @@ Vue.use(browserDetect);
 const renderVue = async () => {
   await store.dispatch('config/checkBrand');
   store.dispatch('features/loadAllCsv');
-  if (store.state.config.appConfig.displayDummyLocations) {
-    store.dispatch('features/loadDummyLocations');
-  }
 
   const vuetify = new Vuetify({
     theme: {

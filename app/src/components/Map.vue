@@ -222,7 +222,6 @@ export default {
     this.$nextTick(() => {
       this.map = this.$refs.map.mapObject;
 
-      this.map.fitBounds(this.$refs.clusterLayer.mapObject._featureGroup.getBounds());
       this.$refs.subaoiLayer.mapObject.bindTooltip('Reference area', {
         direction: 'top',
       });
@@ -347,6 +346,15 @@ export default {
           : time;
       }
       return additionalSettings;
+    },
+  },
+  watch: {
+    getFeatures(features) {
+      if (features.filter((f) => f.latlng).length > 0) {
+        this.$nextTick(() => {
+          this.map.fitBounds(this.$refs.clusterLayer.mapObject._featureGroup.getBounds());
+        });
+      }
     },
   },
 };
