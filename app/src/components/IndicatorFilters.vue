@@ -87,11 +87,11 @@
               </v-subheader>
               <v-list-item
                 v-for="indicator in indicatorItems.filter((i) =>
-                  uniqueClasses[classId].includes(i.code))"
+                  uniqueClasses[classId].includes(i.code) && i.indicator!=='')"
                 :key="indicator.code"
                 @click="selectIndicator(indicator)"
               >
-                <v-list-item-icon v-if="indicator.indicator !== ''" class="ml-3 mr-4">
+                <v-list-item-icon class="ml-3 mr-4">
                   <v-icon>{{
                   baseConfig.indicatorClassesIcons[classId] ?
                     baseConfig.indicatorClassesIcons[classId] :
