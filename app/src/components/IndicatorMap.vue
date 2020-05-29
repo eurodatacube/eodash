@@ -62,7 +62,7 @@
     <LWMSTileLayer
     v-else-if="dataLayerDisplay('compare').protocol === 'WMS'"
       ref="compareLayer"
-      :key="overlayLayerKey"
+      :key="compareLayerKey"
       v-bind="dataLayerDisplay('compare')"
       :visible="enableCompare"
       :options="layerOptions(currentCompareTime, dataLayerDisplay('compare'))"
@@ -210,7 +210,7 @@ export default {
   data() {
     return {
       map: null,
-      overlayLayerKey: 0,
+      compareLayerKey: 0,
       dataLayerKey: 1,
       minMapZoom: 3,
       zoom: 3,
@@ -457,14 +457,12 @@ export default {
         .map((i) => i.value)
         .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
       this.dataLayerIndex = newIndex;
-      this.map.removeLayer(this.$refs.dataLayer.mapObject);
+      if (this.dataLayerDisplay('data').protocol === 'WMS') {
+        this.$refs.dataLayer.mapObject
+          .setParams(this.layerOptions(this.currentTime, this.dataLayerDisplay('data')));
+      }
+      this.dataLayerKey = Math.random();
       this.$nextTick(() => {
-        this.map.addLayer(this.$refs.dataLayer.mapObject);
-        if (this.dataLayerDisplay('data').protocol === 'WMS') {
-          this.$refs.dataLayer.mapObject
-            .setParams(this.layerOptions(this.currentTime, this.dataLayerDisplay('data')));
-        }
-        this.dataLayerKey = Math.random();
         this.slider.setRightLayers(this.$refs.dataLayer.mapObject);
       });
     },
@@ -474,14 +472,12 @@ export default {
         .map((i) => i.value)
         .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
       this.compareLayerIndex = newIndex;
-      this.map.removeLayer(this.$refs.compareLayer.mapObject);
+      if (this.dataLayerDisplay('compare').protocol === 'WMS') {
+        this.$refs.compareLayer.mapObject
+          .setParams(this.layerOptions(this.currentCompareTime, this.dataLayerDisplay('compare')));
+      }
+      this.compareLayerKey = Math.random();
       this.$nextTick(() => {
-        this.map.addLayer(this.$refs.compareLayer.mapObject);
-        if (this.dataLayerDisplay('compare').protocol === 'WMS') {
-          this.$refs.compareLayer.mapObject
-            .setParams(this.layerOptions(this.currentCompareTime, this.dataLayerDisplay('compare')));
-        }
-        this.overlayLayerKey = Math.random();
         this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
       });
     },
@@ -522,9 +518,11 @@ export default {
           this.map.removeControl(this.slider);
         }
       } else {
+        this.map.addLayer(this.$refs.compareLayer.mapObject);
         this.$nextTick(() => {
-          this.map.addLayer(this.$refs.compareLayer.mapObject);
           this.slider.addTo(this.map);
+          this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
+          this.slider.setRightLayers(this.$refs.dataLayer.mapObject);
         });
       }
     },
@@ -533,18 +531,19 @@ export default {
       this.dataLayerIndex = this.indicator.Time.length - 1;
       this.compareLayerTime = { value: this.indicator.Time[0] };
       this.compareLayerIndex = 0;
-
+      this.$refs.dataLayer.mapObject
+      .setParams(this.layerOptions(this.currentTime, this.dataLayerDisplay('data')));
       this.dataLayerKey = Math.random();
-      this.map.removeLayer(this.$refs.dataLayer.mapObject);
-      this.map.removeLayer(this.$refs.compareLayer.mapObject);
+      if (this.slider) {
+        this.$refs.compareLayer.mapObject
+        .setParams(this.layerOptions(this.currentCompareTime, this.dataLayerDisplay));
+        this.compareLayerKey = Math.random();
+      }
       this.$nextTick(() => {
-        this.map.addLayer(this.$refs.dataLayer.mapObject);
-        if (this.enableCompare) {
-          this.map.addLayer(this.$refs.compareLayer.mapObject);
-          this.overlayLayerKey = Math.random();
+        if (this.slider) {
+          this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
+          this.slider.setRightLayers(this.$refs.dataLayer.mapObject);
         }
-        this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
-        this.slider.setRightLayers(this.$refs.dataLayer.mapObject);
         this.flyToBounds();
         this.onResize();
       });
