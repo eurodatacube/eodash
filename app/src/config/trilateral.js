@@ -191,7 +191,7 @@ export const globalIndicators = [
         Country: 'all',
         City: 'World',
         'Site Name': 'global',
-        Description: 'Tropospheric NO2',
+        Description: 'Air Quality',
         'Indicator code': 'N1',
         'Indicator Value': ['normal'],
         'Indicator Name': 'Air Quality',
