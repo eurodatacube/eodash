@@ -116,7 +116,7 @@ const actions = {
       skipEmptyLines: true,
       delimiter: ',',
       complete: (results) => {
-        if (results.data[0].AOI) {  // only continue if AOI column is present
+        if (results.data[0].AOI) { // only continue if AOI column is present
           commit('ADD_RESULTS_COUNT', results.data.length);
           const wkt = new Wkt();
           // Sort results by time
@@ -216,7 +216,7 @@ const actions = {
       skipEmptyLines: true,
       delimiter: ',',
       complete: (results) => {
-        if (results.data[0].AOI) {  // only continue if AOI column is present
+        if (results.data[0].AOI) { // only continue if AOI column is present
           const featureObjs = {};
           for (let rr = 0; rr < results.data.length; rr += 1) {
             const uniqueKey = `${results.data[rr].AOI}_d`;
