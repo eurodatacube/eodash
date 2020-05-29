@@ -11,8 +11,11 @@
           class="featureTable elevation-1"
           @click:row="openFeature"
         >
-          <template v-slot:item.sitename="{ item }">
-            {{ item.properties.indicatorObject['Site Name'] }}
+          <template v-slot:item.type="{ item }">
+            <span class="text-capitalize">
+              {{ baseConfig.indicatorsDefinition[item.properties
+                .indicatorObject['Indicator code']].class }}
+            </span>
           </template>
           <template v-slot:item.indicator="{ item }">
             {{ indicator(flatten(item.properties.indicatorObject['Indicator code'])
@@ -52,9 +55,8 @@ export default {
           value: `${indicatorObject}.Country`,
         },
         { text: 'Location', value: `${indicatorObject}.City` },
-        { text: 'Site Name', value: 'sitename' },
-        { text: 'Site Type', value: `${indicatorObject}.Description` },
-        { text: 'Indicator', value: 'indicator' },
+        { text: 'Type', value: 'type' },
+        { text: 'Indicator', value: `${indicatorObject}.Description` },
         {
           text: 'Latest Value',
           align: 'end',
