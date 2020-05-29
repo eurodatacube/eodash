@@ -184,7 +184,7 @@ export default {
       return ['all', 'regional'].includes(this.indicatorObject.Country);
     },
     countryItemsCount() {
-      const countries = this.getCountries.filter((item) => item !== 'all');
+      const countries = this.getCountries.filter((item) => !['all', 'regional'].includes(item));
       return countries.length;
     },
   },
