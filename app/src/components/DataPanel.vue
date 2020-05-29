@@ -181,7 +181,7 @@ export default {
       return this.$store.state.indicators.selectedIndicator;
     },
     globalData() {
-      return this.indicatorObject.Country === 'all';
+      return ['all', 'regional'].includes(this.indicatorObject.Country);
     },
     countryItemsCount() {
       const countries = this.getCountries.filter((item) => item !== 'all');
