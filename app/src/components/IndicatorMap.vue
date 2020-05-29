@@ -32,39 +32,40 @@
     >
     </l-geo-json>
     <LTileLayer
-    v-if="dataLayerDisplay.protocol === 'xyz'"
+    v-if="dataLayerDisplay('data').protocol === 'xyz'"
       ref="dataLayer"
-      v-bind="dataLayerDisplay"
-      :options="layerOptions(currentTime, dataLayerDisplay)"
+      v-bind="dataLayerDisplay('data')"
+      :options="layerOptions(currentTime, dataLayerDisplay('data'))"
       :pane="overlayPane"
       layer-type="overlay"
     >
     </LTileLayer>
     <LWMSTileLayer
-    v-else-if="dataLayerDisplay.protocol === 'WMS'"
+    v-else-if="dataLayerDisplay('data').protocol === 'WMS'"
       ref="dataLayer"
-      :key="mapKey"
-      v-bind="dataLayerDisplay"
-      :options="layerOptions(currentTime, dataLayerDisplay)"
+      :key="dataLayerKey"
+      v-bind="dataLayerDisplay('data')"
+      :options="layerOptions(currentTime, dataLayerDisplay('data'))"
       :pane="overlayPane"
       layer-type="overlay"
     >
     </LWMSTileLayer>
     <LTileLayer
-    v-if="dataLayerDisplay.protocol === 'xyz'"
+    v-if="dataLayerDisplay('compare').protocol === 'xyz'"
       ref="compareLayer"
-      v-bind="dataLayerDisplay"
+      v-bind="dataLayerDisplay('compare')"
       :visible="enableCompare"
-      :options="layerOptions(currentCompareTime, dataLayerDisplay)"
+      :options="layerOptions(currentCompareTime, dataLayerDisplay('compare'))"
       :pane="overlayPane"
     >
     </LTileLayer>
     <LWMSTileLayer
-    v-else-if="dataLayerDisplay.protocol === 'WMS'"
+    v-else-if="dataLayerDisplay('compare').protocol === 'WMS'"
       ref="compareLayer"
-      v-bind="dataLayerDisplay"
+      :key="overlayLayerKey"
+      v-bind="dataLayerDisplay('compare')"
       :visible="enableCompare"
-      :options="layerOptions(currentCompareTime, dataLayerDisplay)"
+      :options="layerOptions(currentCompareTime, dataLayerDisplay('compare'))"
       :pane="overlayPane"
     >
     </LWMSTileLayer>
@@ -90,8 +91,8 @@
       :fillOpacity="1"
     >
     </l-circle-marker>
-    <img v-if="dataLayerDisplay.legendUrl"
-    :src="dataLayerDisplay.legendUrl" alt=""
+    <img v-if="dataLayerDisplay('data').legendUrl"
+    :src="dataLayerDisplay('data').legendUrl" alt=""
       style="position: absolute; width: 250px; z-index: 700;
       top: 10px; left: 10px; background: white;">
     <div
@@ -209,7 +210,8 @@ export default {
   data() {
     return {
       map: null,
-      mapKey: 0,
+      overlayLayerKey: 0,
+      dataLayerKey: 1,
       minMapZoom: 3,
       zoom: 3,
       maxMapZoom: 18,
@@ -229,6 +231,8 @@ export default {
       },
       dataLayerTime: null,
       compareLayerTime: null,
+      dataLayerIndex: 0,
+      compareLayerIndex: 0,
     };
   },
   computed: {
@@ -268,25 +272,6 @@ export default {
         returnTime = this.compareLayerTime;
       }
       return returnTime;
-    },
-    shLayerName() {
-      let sensor = this.indicator['EO Sensor'].toUpperCase();
-      const indicatorCode = this.indicator['Indicator code'].toUpperCase();
-      if (['S1B', 'S1A', 'SENTINEL-1', 'SENTINEL 1', 'S1'].includes(sensor)) {
-        sensor = 'SENTINEL1';
-      }
-      if (['S2', 'SENTINEL-2', 'SENTINEL 2'].includes(sensor)) {
-        sensor = 'SENTINEL2'; // not configured on SIN yet
-      }
-      return `${indicatorCode}_${sensor}`;
-    },
-    dataLayerDisplay() {
-      // if display not specified (global layers), suspect SIN layer
-      return this.indicator.display ? this.indicator.display : {
-        ...this.baseConfig.defaultWMSDisplay,
-        layers: this.shLayerName,
-        name: this.indicator.Description,
-      };
     },
     aoi() {
       return this.indicator.AOI;
@@ -351,8 +336,9 @@ export default {
       this.flyToBounds();
       this.onResize();
 
-      this.dataLayerTime = { value: this.indicator.Time[this.indicator.Time.length - 1] };
-      this.compareLayerTime = { value: this.indicator.Time[0] };
+      this.dataLayerIndex = this.indicator.Time.length - 1;
+      this.dataLayerTime = { value: this.indicator.Time[this.dataLayerIndex] };
+      this.compareLayerTime = { value: this.indicator.Time[this.compareLayerIndex] };
     });
   },
   methods: {
@@ -370,6 +356,27 @@ export default {
       if (this.map) {
         this.map._onResize();
       }
+    },
+    shLayerName(side) {
+      const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
+      let sensor = this.indicator['EO Sensor'][index].toUpperCase();
+      const indicatorCode = this.indicator['Indicator code'].toUpperCase();
+      if (['S1B', 'S1A', 'SENTINEL-1', 'SENTINEL 1', 'S1'].includes(sensor)) {
+        sensor = 'SENTINEL1';
+      } else if (['S2', 'SENTINEL-2', 'SENTINEL 2'].includes(sensor)) {
+        sensor = 'SENTINEL-2-L2A-TRUE-COLOR';
+      } else if (['PLANET'].includes(sensor)) {
+        sensor = 'PLANETSCOPE';
+      }
+      return `${indicatorCode}_${sensor}`;
+    },
+    dataLayerDisplay(side) {
+      // if display not specified (global layers), suspect SIN layer
+      return this.indicator.display ? this.indicator.display : {
+        ...this.baseConfig.defaultWMSDisplay,
+        layers: this.shLayerName(side),
+        name: this.indicator.Description,
+      };
     },
     flyToBounds() {
       // zooms to subaoi if present or area around aoi if not
@@ -442,24 +449,32 @@ export default {
     },
     dataLayerTimeSelection(payload) {
       this.dataLayerTime = payload;
+      const newIndex = this.arrayOfObjects
+        .map((i) => i.value)
+        .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
+      this.dataLayerIndex = newIndex;
       this.map.removeLayer(this.$refs.dataLayer.mapObject);
       this.$nextTick(() => {
         this.map.addLayer(this.$refs.dataLayer.mapObject);
-        if (this.dataLayerDisplay.protocol === 'WMS') {
+        if (this.dataLayerDisplay('data').protocol === 'WMS') {
           this.$refs.dataLayer.mapObject
-            .setParams(this.layerOptions(this.currentTime, this.dataLayerDisplay));
+            .setParams(this.layerOptions(this.currentTime, this.dataLayerDisplay('data')));
         }
         this.slider.setRightLayers(this.$refs.dataLayer.mapObject);
       });
     },
     compareLayerTimeSelection(payload) {
       this.compareLayerTime = payload;
+      const newIndex = this.arrayOfObjects
+        .map((i) => i.value)
+        .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
+      this.compareLayerIndex = newIndex;
       this.map.removeLayer(this.$refs.compareLayer.mapObject);
       this.$nextTick(() => {
         this.map.addLayer(this.$refs.compareLayer.mapObject);
-        if (this.dataLayerDisplay.protocol === 'WMS') {
+        if (this.dataLayerDisplay('compare').protocol === 'WMS') {
           this.$refs.compareLayer.mapObject
-            .setParams(this.layerOptions(this.currentCompareTime, this.dataLayerDisplay));
+            .setParams(this.layerOptions(this.currentCompareTime, this.dataLayerDisplay('compare')));
         }
         this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
       });
@@ -467,25 +482,29 @@ export default {
     dataLayerReduce() {
       const currentIndex = this.arrayOfObjects
         .map((i) => i.value)
-        .indexOf(this.dataLayerTime.value);
+        .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
+      this.dataLayerIndex = currentIndex - 1;
       this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex - 1]);
     },
     dataLayerIncrease() {
       const currentIndex = this.arrayOfObjects
         .map((i) => i.value)
-        .indexOf(this.dataLayerTime.value);
+        .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
+      this.dataLayerIndex = currentIndex + 1;
       this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex + 1]);
     },
     compareLayerReduce() {
       const currentIndex = this.arrayOfObjects
         .map((i) => i.value)
-        .indexOf(this.compareLayerTime.value);
+        .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
+      this.compareLayerIndex = currentIndex - 1;
       this.compareLayerTimeSelection(this.arrayOfObjects[currentIndex - 1]);
     },
     compareLayerIncrease() {
       const currentIndex = this.arrayOfObjects
         .map((i) => i.value)
-        .indexOf(this.compareLayerTime.value);
+        .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
+      this.compareLayerIndex = currentIndex + 1;
       this.compareLayerTimeSelection(this.arrayOfObjects[currentIndex + 1]);
     },
   },
@@ -505,24 +524,18 @@ export default {
     },
     indicator() {
       this.dataLayerTime = { value: this.indicator.Time[this.indicator.Time.length - 1] };
+      this.dataLayerIndex = this.indicator.Time.length - 1;
       this.compareLayerTime = { value: this.indicator.Time[0] };
-      this.mapKey += 1;
+      this.compareLayerIndex = 0;
+
+      this.dataLayerKey = Math.random();
       this.map.removeLayer(this.$refs.dataLayer.mapObject);
       this.map.removeLayer(this.$refs.compareLayer.mapObject);
       this.$nextTick(() => {
         this.map.addLayer(this.$refs.dataLayer.mapObject);
         if (this.enableCompare) {
           this.map.addLayer(this.$refs.compareLayer.mapObject);
-        }
-        if (this.dataLayerDisplay.protocol === 'WMS') {
-          this.$refs.dataLayer.mapObject
-            .setParams(this.layerOptions(this.currentTime, this.dataLayerDisplay));
-          this.$refs.dataLayer.mapObject
-            .setParams({ layers: this.shLayerName });
-          this.$refs.compareLayer.mapObject
-            .setParams(this.layerOptions(this.currentCompareTime, this.dataLayerDisplay));
-          this.$refs.compareLayer.mapObject
-            .setParams({ layers: this.shLayerName });
+          this.overlayLayerKey = Math.random();
         }
         this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
         this.slider.setRightLayers(this.$refs.dataLayer.mapObject);

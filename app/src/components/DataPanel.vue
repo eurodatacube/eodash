@@ -107,7 +107,7 @@
               <v-toolbar-title >
                 <span
                   v-if="indicatorObject && indicatorObject['EO Sensor']"
-                >Reference Images as taken by sensor ({{indicatorObject['EO Sensor']}})</span>
+                >Reference Images as taken by sensor ({{indicatorObject['EO Sensor'][sensorIndex]}})</span>
                 <span
                   v-else
                 >Reference Images as taken by sensor</span>
@@ -178,6 +178,9 @@ export default {
     },
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
+    },
+    sensorIndex() {
+      return this.indicatorObject ? this.indicatorObject['EO Sensor'].length - 1 : 0;
     },
     globalData() {
       return this.indicatorObject.Country === 'all';

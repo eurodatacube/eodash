@@ -133,8 +133,8 @@ const actions = {
               featureObjs[uniqueKey]['Measurement Value'].push(
                 measurement.length !== 0 ? Number(measurement) : NaN,
               );
-              featureObjs[uniqueKey]['Reference value'].push(
-                results.data[rr]['Reference value'],
+              featureObjs[uniqueKey]['Reference time'].push(
+                moment.utc(results.data[rr]['Reference time']).toDate(),
               );
               featureObjs[uniqueKey]['Reference time'].push(
                 results.data[rr]['Reference time'],
@@ -144,6 +144,12 @@ const actions = {
               );
               featureObjs[uniqueKey]['Color code'].push(
                 results.data[rr]['Color code'],
+              );
+              featureObjs[uniqueKey]['EO Sensor'].push(
+                results.data[rr]['EO Sensor'],
+              );
+              featureObjs[uniqueKey]['Input Data'].push(
+                results.data[rr]['Input Data'],
               );
             } else {
               featureObjs[uniqueKey] = results.data[rr];
@@ -161,7 +167,13 @@ const actions = {
                 featureObjs[uniqueKey]['Reference value'],
               ];
               featureObjs[uniqueKey]['Reference time'] = [
-                featureObjs[uniqueKey]['Reference time'],
+                moment.utc(featureObjs[uniqueKey]['Reference time']).toDate(),
+              ];
+              featureObjs[uniqueKey]['EO Sensor'] = [
+                featureObjs[uniqueKey]['EO Sensor'],
+              ];
+              featureObjs[uniqueKey]['Input Data'] = [
+                featureObjs[uniqueKey]['Input Data'],
               ];
               // dummy empty geometry
               let ftrs = [];
