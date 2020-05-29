@@ -69,6 +69,6 @@ export default {
   position: absolute;
   bottom: 27px;
   background: transparent;
-  background: linear-gradient(0deg, white, transparent);
+  background: linear-gradient(0deg, white, #ffffff00);
 }
 </style>
