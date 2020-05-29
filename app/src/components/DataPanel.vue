@@ -5,11 +5,11 @@
     :class="$vuetify.breakpoint.xsOnly && 'pb-10'"
     style="overflow: auto; height: 100%;"
   >
-    <v-row class="mt-0 d-flex">
+    <v-row class="d-flex">
       <v-col
         cols="12"
       >
-        <h1 class="display-3 primary--text mb-5 mt-0">COVID-19 Impact seen by Satellite</h1>
+        <h1 class="display-3 primary--text mb-5">COVID-19 Impact seen by Satellite</h1>
       </v-col>
       <v-col
         cols="12"
@@ -40,6 +40,7 @@
       </v-col>
     </v-row>
     <small>Latest measurement: {{ getLatestUpdate }}</small>
+    <news-carousel v-if="appConfig.showNewsCarousel" />
   </div>
   <div v-else>
     <v-container class="pt-0">
@@ -131,12 +132,14 @@
 <script>
 import {
   mapGetters,
+  mapState,
 } from 'vuex';
 
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
 import MarkdownItVue from 'markdown-it-vue';
+import NewsCarousel from '@/components/NewsCarousel.vue';
 
 import 'markdown-it-vue/dist/markdown-it-vue.css';
 
@@ -149,6 +152,7 @@ export default {
     IndicatorData,
     IndicatorMap,
     MarkdownItVue,
+    NewsCarousel,
   },
   data: () => ({
     dialog: false,
@@ -167,6 +171,7 @@ export default {
       'getIndicators',
       'getLatestUpdate',
     ]),
+    ...mapState('config', ['appConfig']),
     story() {
       let markdown;
       try {

@@ -38,7 +38,7 @@
       :temporary="dataPanelTemporary"
       :width="dataPanelFullWidth ? '100%' : '40%'"
     >
-      <v-toolbar flat>
+      <v-toolbar v-if="$store.state.indicators.selectedIndicator" flat>
         <v-btn v-if="dataPanelFullWidth" icon @click="setDataPanelWidth(false)">
           <v-icon>mdi-close</v-icon>
         </v-btn>
