@@ -106,11 +106,7 @@
             <v-toolbar dark color="primary">
               <v-toolbar-title >
                 <span
-                  v-if="indicatorObject && indicatorObject['EO Sensor']"
-                >Reference Images as taken by sensor ({{indicatorObject['EO Sensor']}})</span>
-                <span
-                  v-else
-                >Reference Images as taken by sensor</span>
+                >Reference Images</span>
               </v-toolbar-title>
               <v-spacer></v-spacer>
               <v-btn icon dark @click="dialog = false">
