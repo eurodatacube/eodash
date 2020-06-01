@@ -201,6 +201,30 @@ export default {
       return indicators;
     },
   },
+  mounted() {
+    this.$store.subscribe((mutation) => {
+      if (mutation.type === 'features/INIT_FEATURE_FILTER') {
+        if (mutation.payload.countries) {
+          if (Array.isArray(mutation.payload.countries)) {
+            if (mutation.payload.countries.length === 0) {
+              this.countrySelection = 'all';
+            }
+          } else {
+            this.countrySelection = mutation.payload.countries;
+          }
+        }
+        if (mutation.payload.indicators) {
+          if (Array.isArray(mutation.payload.indicators)) {
+            if (mutation.payload.countries.length === 0) {
+              this.indicatorSelection = 'all';
+            }
+          } else {
+            [this.indicatorSelection] = mutation.payload.indicators;
+          }
+        }
+      }
+    });
+  },
   methods: {
     selectCountry(selection) {
       if (selection === 'all') {

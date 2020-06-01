@@ -87,6 +87,63 @@ export default {
   computed: {
     ...mapState('config', ['appConfig']),
   },
+  mounted() {
+    this.$nextTick(() => {
+      // Read route query and set filters
+      this.$store.commit('features/INIT_FEATURE_FILTER', {
+        countries: this.$route.query.country ? this.$route.query.country : [],
+        indicators: this.$route.query.indicator ? [this.$route.query.indicator] : [],
+      });
+    });
+    // Listen for features added, and select if poi in query
+    this.$store.subscribe((mutation) => {
+      if (mutation.type === 'features/ADD_NEW_FEATURES') {
+        // Read route query and set selected poi
+        const { poi } = this.$route.query;
+        if (poi) {
+          const aoiId = poi.split('-')[0];
+          const indicatorCode = poi.split('-')[1];
+          const selectedFeature = this.$store.state.features.allFeatures.find((f) => {
+            const { indicatorObject } = f.properties;
+            return indicatorObject.AOI_ID === aoiId
+              && indicatorObject['Indicator code'] === indicatorCode;
+          });
+          this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature.properties.indicatorObject);
+        }
+      }
+
+      // Url query replacement
+      if (mutation.type === 'features/SET_FEATURE_FILTER') {
+        if (Array.isArray(mutation.payload.countries) && mutation.payload.countries.length === 0) {
+          // Global
+          const query = Object.assign({}, this.$route.query); // eslint-disable-line
+          delete query.country;
+          this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
+        } else if (mutation.payload.countries === 'regional') {
+          // Regional
+          this.$router.replace({ query: Object.assign({}, this.$route.query, { country: 'regional' }) }).catch(err => {}); // eslint-disable-line
+        } else if (typeof mutation.payload.countries === 'string') {
+          // Country
+          this.$router.replace({ query: Object.assign({}, this.$route.query, { country: mutation.payload.countries }) }).catch(err => {}); // eslint-disable-line
+        }
+        if (Array.isArray(mutation.payload.indicators)) {
+          if (mutation.payload.indicators.length === 0) {
+            // Reset
+            const query = Object.assign({}, this.$route.query); // eslint-disable-line
+            delete query.indicator;
+            this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
+          } else {
+            // Single
+            this.$router.replace({ query: Object.assign({}, this.$route.query, { indicator: mutation.payload.indicators[0] }) }).catch(err => {}); // eslint-disable-line
+          }
+        }
+      }
+
+      if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
+        this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: `${mutation.payload.AOI_ID}-${mutation.payload['Indicator code']}` }) }).catch(err => {}); // eslint-disable-line
+      }
+    });
+  },
   methods: {
     acceptCookies() {
       if (this.$matomo) {

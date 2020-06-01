@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VuePapaParse from 'vue-papa-parse';
 import VueMatomo from 'vue-matomo';
 import VueMeta from 'vue-meta';
+import VueRouter from 'vue-router';
 import Vuetify from 'vuetify/lib';
 
 import browserDetect from 'vue-browser-detect-plugin';
@@ -32,6 +33,13 @@ Vue.use(VueMatomo, {
 });
 
 Vue.use(VueMeta);
+Vue.use(VueRouter);
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  // routes,
+});
+
 Vue.use(Vuetify);
 Vue.use(browserDetect);
 
@@ -95,6 +103,7 @@ const renderVue = async () => {
 
   new Vue({
     store,
+    router,
     vuetify,
     render: (h) => h(App),
   }).$mount('#app');
