@@ -1,7 +1,7 @@
 // config global variables here for now
 // temporary solution
 import { Wkt } from 'wicket';
-import { latLng } from 'leaflet';
+import { latLng, latLngBounds } from 'leaflet';
 import { shTimeFunction } from '@/utils';
 import moment from 'moment';
 
@@ -135,6 +135,12 @@ export const indicatorClassesIcons = Object.freeze({
   health: 'mdi-hospital-box-outline',
   agriculture: 'mdi-leaf',
   economic: 'mdi-currency-eur',
+});
+
+export const mapDefaults = Object.freeze({
+  minMapZoom: 3,
+  maxMapZoom: 18,
+  bounds: latLngBounds(latLng([35, -10]), latLng([70, 33])),
 });
 
 export const baseLayers = [

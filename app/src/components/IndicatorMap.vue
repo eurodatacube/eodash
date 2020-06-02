@@ -3,10 +3,9 @@
     ref="map"
     style="height: 100%; width: 100%; background: #cad2d3; z-index: 1;"
     :options="defaultMapOptions"
-    :zoom="zoom"
-    :center="center"
-    :maxZoom="maxMapZoom"
-    :minMapZoom="minMapZoom"
+    :bounds="mapDefaults.bounds"
+    :maxZoom="mapDefaults.maxMapZoom"
+    :minZoom="mapDefaults.minMapZoom"
     @update:zoom="zoomUpdated"
     @update:center="centerUpdated"
     @update:bounds="boundsUpdated"
@@ -214,11 +213,9 @@ export default {
       map: null,
       compareLayerKey: 0,
       dataLayerKey: 1,
-      minMapZoom: 3,
-      zoom: 3,
-      maxMapZoom: 18,
       dasharrayPoi: '3',
-      center: [55, 10],
+      zoom: null,
+      center: null,
       bounds: null,
       enableCompare: false,
       opacityTerrain: [1],
@@ -244,6 +241,9 @@ export default {
     },
     overlayLayers() {
       return this.baseConfig.overlayLayers;
+    },
+    mapDefaults() {
+      return this.baseConfig.mapDefaults;
     },
     indicator() {
       return this.$store.state.indicators.selectedIndicator;
@@ -408,9 +408,10 @@ export default {
           // limit user movement around map
           this.map.setMaxBounds(boundsMax);
         } else {
-          this.map.flyTo(latLng([50, 10]), 4);
+          // zoom to default bbox from config
+          this.map.flyToBounds(latLngBounds(this.mapDefaults.bounds));
           this.map.setMaxBounds(null);
-          this.map.setMinZoom(this.minMapZoom);
+          this.map.setMinZoom(this.mapDefaults.minZoom);
         }
       });
     },

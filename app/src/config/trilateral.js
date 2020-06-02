@@ -1,6 +1,7 @@
 // config global variables here for now
 // temporary solution
 import { shTimeFunction } from '@/utils';
+import { latLng, latLngBounds } from 'leaflet';
 import moment from 'moment';
 
 export const nasaEndpoints = [
@@ -139,6 +140,11 @@ export const indicatorClassesIcons = Object.freeze({
   economic: 'mdi-currency-eur',
 });
 
+export const mapDefaults = Object.freeze({
+  minMapZoom: 0,
+  maxMapZoom: 18,
+  bounds: latLngBounds(latLng([-70, -170]), latLng([70, 170])),
+});
 
 export const baseLayers = [
   {
