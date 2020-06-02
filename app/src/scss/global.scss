@@ -24,6 +24,10 @@
   }
   th {
     padding: 0 5px;
+    @media screen and (max-width: 756px) {
+      display: block;
+      text-align: left;
+    }
   }
 }
 .md-body > :first-child {
