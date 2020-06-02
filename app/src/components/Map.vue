@@ -50,11 +50,11 @@
         :key="feature.id"
         ref="markers"
         :lat-lng="feature.latlng"
-        :radius="12"
+        :radius="currentSelected === feature.id ? 16 : 12"
         :name='`${feature.id}`'
         :color="currentSelected === feature.id ? $vuetify.theme.themes.light.primary : 'white'"
         :weight="2"
-        :dashArray="currentSelected === feature.id ? '3' : '0'"
+        :dashArray="currentSelected === feature.id ? '5' : '0'"
         :fill="true"
         :fillColor="getLastValue(feature.properties.indicatorObject).color"
         :fillOpacity="1"
