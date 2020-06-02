@@ -92,6 +92,10 @@ export const indicatorsDefinition = Object.freeze({
   N1: {
     indicator: 'Air quality',
     class: 'environment',
+    externalData: {
+      label: 'Sentinel-5p Mapping Service',
+      url: 'https://maps.s5p-pal.com',
+    },
   },
   N1NASA: {
     indicator: 'Air quality',
