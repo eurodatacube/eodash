@@ -40,8 +40,9 @@
       left
       app
       clipped
+      style="overflow: hidden"
     >
-      <selection-panel />
+      <selection-panel style="overflow:hidden" />
     </v-navigation-drawer>
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.mdAndUp"

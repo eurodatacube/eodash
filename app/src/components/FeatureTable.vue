@@ -85,7 +85,6 @@ export default {
       };
     },
     indicator(code) {
-      console.log(this.indicatorsDefinition);
       return this.baseConfig.indicatorsDefinition[code];
     },
     openFeature(feature) {

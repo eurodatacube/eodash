@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%">
+  <div style="width: 100%" class="fill-height">
     <v-tabs
       v-model="tab"
       :color="$vuetify.theme.themes.light.primary"
@@ -20,7 +20,7 @@
     </v-tabs>
     <v-tabs-items
       v-model="tab"
-      class="fill-height"
+      :style="`height: calc(100% - 72px); overflow-y: auto`"
     >
       <v-tab-item class="fill-height">
         <v-list dense>
