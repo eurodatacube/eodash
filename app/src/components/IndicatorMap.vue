@@ -32,40 +32,42 @@
     >
     </l-geo-json>
     <LTileLayer
-    v-if="dataLayerDisplay('data').protocol === 'xyz'"
+    v-if="layerDisplay('data').protocol === 'xyz'"
       ref="dataLayer"
-      v-bind="dataLayerDisplay('data')"
-      :options="layerOptions(currentTime, dataLayerDisplay('data'))"
+      :key="dataLayerKey"
+      v-bind="layerDisplay('data')"
+      :options="layerOptions(currentTime, layerDisplay('data'))"
       :pane="overlayPane"
       layer-type="overlay"
     >
     </LTileLayer>
     <LWMSTileLayer
-    v-else-if="dataLayerDisplay('data').protocol === 'WMS'"
+    v-else-if="layerDisplay('data').protocol === 'WMS'"
       ref="dataLayer"
       :key="dataLayerKey"
-      v-bind="dataLayerDisplay('data')"
-      :options="layerOptions(currentTime, dataLayerDisplay('data'))"
+      v-bind="layerDisplay('data')"
+      :options="layerOptions(currentTime, layerDisplay('data'))"
       :pane="overlayPane"
       layer-type="overlay"
     >
     </LWMSTileLayer>
     <LTileLayer
-    v-if="dataLayerDisplay('compare').protocol === 'xyz'"
+    v-if="layerDisplay('compare').protocol === 'xyz'"
       ref="compareLayer"
-      v-bind="dataLayerDisplay('compare')"
+      :key="compareLayerKey"
+      v-bind="layerDisplay('compare')"
       :visible="enableCompare"
-      :options="layerOptions(currentCompareTime, dataLayerDisplay('compare'))"
+      :options="layerOptions(currentCompareTime, layerDisplay('compare'))"
       :pane="overlayPane"
     >
     </LTileLayer>
     <LWMSTileLayer
-    v-else-if="dataLayerDisplay('compare').protocol === 'WMS'"
+    v-else-if="layerDisplay('compare').protocol === 'WMS'"
       ref="compareLayer"
       :key="compareLayerKey"
-      v-bind="dataLayerDisplay('compare')"
+      v-bind="layerDisplay('compare')"
       :visible="enableCompare"
-      :options="layerOptions(currentCompareTime, dataLayerDisplay('compare'))"
+      :options="layerOptions(currentCompareTime, layerDisplay('compare'))"
       :pane="overlayPane"
     >
     </LWMSTileLayer>
@@ -91,8 +93,8 @@
       :fillOpacity="1"
     >
     </l-circle-marker>
-    <img v-if="dataLayerDisplay('data').legendUrl"
-    :src="dataLayerDisplay('data').legendUrl" alt=""
+    <img v-if="layerDisplay('data').legendUrl"
+    :src="layerDisplay('data').legendUrl" alt=""
       style="position: absolute; width: 250px; z-index: 700;
       top: 10px; left: 10px; background: white;">
     <div
@@ -370,7 +372,7 @@ export default {
       }
       return `${indicatorCode}_${sensor}`;
     },
-    dataLayerDisplay(side) {
+    layerDisplay(side) {
       // if display not specified (global layers), suspect SIN layer
       return this.indicator.display ? this.indicator.display : {
         ...this.baseConfig.defaultWMSDisplay,
@@ -453,11 +455,7 @@ export default {
         .map((i) => i.value)
         .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
       this.dataLayerIndex = newIndex;
-      if (this.dataLayerDisplay('data').protocol === 'WMS') {
-        this.$refs.dataLayer.mapObject
-          .setParams(this.layerOptions(this.currentTime, this.dataLayerDisplay('data')));
-      }
-      this.dataLayerKey = Math.random();
+      this.refreshLayer('data');
       this.$nextTick(() => {
         this.slider.setRightLayers(this.$refs.dataLayer.mapObject);
       });
@@ -468,11 +466,7 @@ export default {
         .map((i) => i.value)
         .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
       this.compareLayerIndex = newIndex;
-      if (this.dataLayerDisplay('compare').protocol === 'WMS') {
-        this.$refs.compareLayer.mapObject
-          .setParams(this.layerOptions(this.currentCompareTime, this.dataLayerDisplay('compare')));
-      }
-      this.compareLayerKey = Math.random();
+      this.refreshLayer('compare');
       this.$nextTick(() => {
         this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
       });
@@ -505,6 +499,30 @@ export default {
       this.compareLayerIndex = currentIndex + 1;
       this.compareLayerTimeSelection(this.arrayOfObjects[currentIndex + 1]);
     },
+    refreshLayer(side) {
+      // compare(left) or data(right)
+      if (side === 'compare') {
+        if (this.layerDisplay('compare').protocol === 'WMS') {
+          this.$refs.compareLayer.mapObject
+            .setParams(this.layerOptions(this.currentCompareTime, this.layerDisplay('compare')));
+        } else if (this.layerDisplay('compare').protocol === 'xyz') {
+          this.$refs.compareLayer.mapObject
+            .setUrl(this.layerDisplay('compare').url);
+        }
+        // redraw
+        this.compareLayerKey = Math.random();
+      } else if (side === 'data') {
+        if (this.layerDisplay('data').protocol === 'WMS') {
+          this.$refs.dataLayer.mapObject
+            .setParams(this.layerOptions(this.currentTime, this.layerDisplay('data')));
+        } else if (this.layerDisplay('data').protocol === 'xyz') {
+          this.$refs.dataLayer.mapObject
+            .setUrl(this.layerDisplay('data').url);
+        }
+        // redraw
+        this.dataLayerKey = Math.random();
+      }
+    },
   },
   watch: {
     enableCompare(on) {
@@ -527,13 +545,9 @@ export default {
       this.dataLayerIndex = this.indicator.Time.length - 1;
       this.compareLayerTime = { value: this.indicator.Time[0] };
       this.compareLayerIndex = 0;
-      this.$refs.dataLayer.mapObject
-      .setParams(this.layerOptions(this.currentTime, this.dataLayerDisplay('data')));
-      this.dataLayerKey = Math.random();
+      this.refreshLayer('data');
       if (this.slider) {
-        this.$refs.compareLayer.mapObject
-        .setParams(this.layerOptions(this.currentCompareTime, this.dataLayerDisplay));
-        this.compareLayerKey = Math.random();
+        this.refreshLayer('compare');
       }
       this.$nextTick(() => {
         if (this.slider) {
