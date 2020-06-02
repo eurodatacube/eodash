@@ -76,6 +76,7 @@
       <template v-else>
         <Welcome v-if="showText === 'welcome'" />
         <About v-else-if="showText === 'about'" />
+        <Privacy v-else-if="showText === 'privacy'" />
       </template>
     </v-navigation-drawer>
     <v-dialog
@@ -116,6 +117,7 @@
         <template v-else>
           <Welcome v-if="showText === 'welcome'" style="padding-bottom: 135px !important" />
           <About v-else-if="showText === 'about'" />
+          <Privacy v-else-if="showText === 'privacy'" />
           <div
             class="pa-3"
             style="position: absolute; bottom: 0; left: 0; width: 100%;"
@@ -164,7 +166,7 @@
           <span> | </span>
           <a href="https://eox.at/impressum/" target="_blank" class="white--text">Legal Notice</a>
           <span> | </span>
-          <a href="https://eox.at/privacy-notice" target="_blank" class="white--text">Privacy Notice</a>
+          <a @click="displayShowText('privacy')" class="white--text">Privacy Notice</a>
         </small>
         <v-spacer></v-spacer>
         <small class="justify-right">
@@ -204,6 +206,7 @@
 <script>
 import Welcome from '@/views/Welcome.vue';
 import About from '@/views/About.vue';
+import Privacy from '@/views/Privacy.vue';
 import Feedback from '@/views/Feedback.vue';
 import SelectionPanel from '@/components/SelectionPanel.vue';
 import CenterPanel from '@/components/CenterPanel.vue';
@@ -219,6 +222,7 @@ export default {
   components: {
     Welcome,
     About,
+    Privacy,
     Feedback,
     SelectionPanel,
     CenterPanel,
