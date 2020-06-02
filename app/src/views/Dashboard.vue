@@ -128,7 +128,7 @@
               color="primary"
             >
               <v-icon left>mdi-arrow-right</v-icon>
-              Get started!
+              Start exploring!
             </v-btn>
           </div>
         </template>
