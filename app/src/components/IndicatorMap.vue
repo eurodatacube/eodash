@@ -291,12 +291,8 @@ export default {
         : this.$vuetify.theme.themes.light.primary;
     },
     subAoiStyle() {
-      const currentValue = this.indicator && this.indicator['Color code']
-        && this.indicator['Color code'][this.dataLayerIndex];
       return {
-        color: currentValue
-          ? this.getIndicatorColor(currentValue)
-          : this.$vuetify.theme.themes.light.primary,
+        color: this.$vuetify.theme.themes.light.primary,
         weight: 3,
         opacity: 0.7,
         fill: false,
