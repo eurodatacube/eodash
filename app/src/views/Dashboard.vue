@@ -130,10 +130,12 @@
         </v-row>
       </v-container>
     </v-content>
-    <v-footer app color="primary" class="d-flex justify-center align-center white--text"
-     style="z-index: 5">
+    <v-footer
+      app
+      color="primary"
+      class="d-flex justify-center align-center white--text text-center"
+      style="z-index: 5">
         <v-spacer></v-spacer>
-        <v-btn text dark small @click="showFeedbackDialog = true">Feedback</v-btn>
         <small>
           <a href="https://eurodatacube.com" target="_blank" class="white--text mx-1">EDC</a>
           <span>service for</span>
@@ -155,6 +157,13 @@
             <img :src="require('@/assets/EOX_Logo_weiss.svg')" height="11px" class="my-0" />
           </a>
         </small>
+        <v-btn
+          dark
+          small
+          color="secondary"
+          class="ml-1"
+          @click="showFeedbackDialog = true"
+        >Feedback</v-btn>
     </v-footer>
     <v-dialog
       v-model="showFeedbackDialog"
