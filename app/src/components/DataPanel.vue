@@ -9,7 +9,12 @@
       <v-col
         cols="12"
       >
-        <h1 class="display-3 primary--text mb-5">COVID-19 Impact seen by Satellite</h1>
+        <h1 class="display-2 primary--text mb-5">COVID-19 Impact seen by Satellite</h1>
+      </v-col>
+      <v-col
+        cols="12"
+      >
+        <news-carousel v-if="appConfig.showNewsCarousel" />
       </v-col>
       <v-col
         cols="12"
@@ -38,9 +43,20 @@
           <h2 class="primary--text display-3">{{ countryItemsCount }}</h2>
         </v-card>
       </v-col>
+      <v-col
+        cols="12"
+      >
+        <small>Latest measurement: {{ getLatestUpdate }}</small>
+      </v-col>
+      <v-col
+        cols="12"
+      >
+        <div
+          v-html="welcome"
+          class="md-body"
+        ></div>
+      </v-col>
     </v-row>
-    <small>Latest measurement: {{ getLatestUpdate }}</small>
-    <news-carousel v-if="appConfig.showNewsCarousel" />
   </div>
   <div v-else>
     <v-container class="pt-0">
@@ -172,6 +188,9 @@ export default {
         markdown = { default: 'No indicator story provided yet.' };
       }
       return marked(markdown.default);
+    },
+    welcome() {
+      return marked(require('../../public/eodash-data/general/How to use the RACE Dashboard.md').default);
     },
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;

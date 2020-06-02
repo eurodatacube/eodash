@@ -19,7 +19,7 @@ const brands = [
     displayDummyLocations: '/eodash-data/data/dummylocations.csv',
     customCSS: 'esa',
     aboutText: '/eodash-data/general/about',
-    showNewsCarousel: false,
+    showNewsCarousel: true,
   },
   {
     id: 'trilateral',
