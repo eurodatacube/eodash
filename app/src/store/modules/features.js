@@ -48,7 +48,7 @@ const getters = {
     if (state.featureFilters.indicators.length > 0) {
       features = features
         .filter((f) => state.featureFilters.indicators
-          .some((r) => f.properties.indicatorObject['Indicator code'] === r));
+          .includes(f.properties.indicatorObject['Indicator code']));
     }
     features = features
       .sort((a, b) => ((a.properties.indicatorObject.Country > b.properties.indicatorObject.Country)

@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%">
+  <div style="width: 100%" class="fill-height">
     <v-tabs
       v-model="tab"
       :color="$vuetify.theme.themes.light.primary"
@@ -9,18 +9,34 @@
     >
       <v-tab
       >
+        <v-badge
+          v-if="countrySelection !== 'all'"
+          color="primary"
+          icon="mdi-filter"
+          offset-x="-37"
+          offset-y="-26"
+        >
+        </v-badge>
         Countries
-        <v-icon>mdi-flag-outline</v-icon>
+        <v-icon class="mb-1">mdi-flag-outline</v-icon>
       </v-tab>
       <v-tab
       >
+        <v-badge
+          v-if="indicatorSelection !== 'all'"
+          color="primary"
+          icon="mdi-filter"
+          offset-x="-37"
+          offset-y="-26"
+        >
+        </v-badge>
         Indicators
-        <v-icon>mdi-lightbulb-on-outline</v-icon>
+        <v-icon class="mb-1">mdi-lightbulb-on-outline</v-icon>
       </v-tab>
     </v-tabs>
     <v-tabs-items
       v-model="tab"
-      class="fill-height"
+      :style="`height: calc(100% - 72px); overflow-y: auto`"
     >
       <v-tab-item class="fill-height">
         <v-list dense>
@@ -203,7 +219,7 @@ export default {
   },
   mounted() {
     this.$store.subscribe((mutation) => {
-      if (mutation.type === 'features/INIT_FEATURE_FILTER') {
+      if (mutation.type === 'features/INIT_FEATURE_FILTER' || mutation.type === 'features/SET_FEATURE_FILTER') {
         if (mutation.payload.countries) {
           if (Array.isArray(mutation.payload.countries)) {
             if (mutation.payload.countries.length === 0) {
@@ -215,11 +231,13 @@ export default {
         }
         if (mutation.payload.indicators) {
           if (Array.isArray(mutation.payload.indicators)) {
-            if (mutation.payload.countries.length === 0) {
+            if (mutation.payload.indicators.length === 0) {
               this.indicatorSelection = 'all';
+            } else {
+              [this.indicatorSelection] = mutation.payload.indicators;
             }
           } else {
-            [this.indicatorSelection] = mutation.payload.indicators;
+            this.indicatorSelection = mutation.payload.indicators;
           }
         }
       }

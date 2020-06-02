@@ -65,6 +65,42 @@
              </v-list-item>
             </v-list>
         </v-menu>
+        <div
+          style="position: absolute; left: 10px; bottom: 10px; z-index: 1;"
+        >
+          <v-scroll-y-transition>
+            <v-chip
+              v-if="$store.state.features.featureFilters.countries.length > 0"
+              class="ma-0 mr-2"
+              color="primary"
+              text-color="white"
+              close
+              @click:close="resetCountry"
+            >
+              <v-icon small left>mdi-filter</v-icon>
+              {{ $store.state.features.featureFilters.countries === 'regional'
+                ? 'Regional'
+                : countries.features
+                  .find((c) => c.properties.alpha2 === $store.state.features
+                    .featureFilters.countries).properties.name }}
+            </v-chip>
+          </v-scroll-y-transition>
+          <v-scroll-y-transition>
+            <v-chip
+              v-if="$store.state.features.featureFilters.indicators.length > 0"
+              class="ma-0"
+              :class="$vuetify.breakpoint.xsOnly && 'mt-1'"
+              color="primary"
+              text-color="white"
+              close
+              @click:close="resetIndicator"
+            >
+              <v-icon small left>mdi-filter</v-icon>
+              {{ baseConfig.indicatorsDefinition[$store.state.features.featureFilters.indicators]
+                .indicator }}
+            </v-chip>
+          </v-scroll-y-transition>
+        </div>
       </v-tab-item>
       <v-tab-item
         class="fill-height"
@@ -73,6 +109,42 @@
         <feature-table
           style="height: auto"
         />
+        <div
+          style="position: absolute; left: 10px; bottom: 10px; z-index: 1;"
+        >
+          <v-scroll-y-transition>
+            <v-chip
+              v-if="$store.state.features.featureFilters.countries.length > 0"
+              class="ma-0 mr-2"
+              color="primary"
+              text-color="white"
+              close
+              @click:close="resetCountry"
+            >
+              <v-icon small left>mdi-filter</v-icon>
+              {{ $store.state.features.featureFilters.countries === 'regional'
+                ? 'Regional'
+                : countries.features
+                  .find((c) => c.properties.alpha2 === $store.state.features
+                    .featureFilters.countries).properties.name }}
+            </v-chip>
+          </v-scroll-y-transition>
+          <v-scroll-y-transition>
+            <v-chip
+              v-if="$store.state.features.featureFilters.indicators.length > 0"
+              class="ma-0"
+              :class="$vuetify.breakpoint.xsOnly && 'mt-1'"
+              color="primary"
+              text-color="white"
+              close
+              @click:close="resetIndicator"
+            >
+              <v-icon small left>mdi-filter</v-icon>
+              {{ baseConfig.indicatorsDefinition[$store.state.features.featureFilters.indicators]
+                .indicator }}
+            </v-chip>
+          </v-scroll-y-transition>
+        </div>
       </v-tab-item>
     </v-tabs-items>
   </div>
@@ -82,10 +154,13 @@
 // Utilities
 import {
   mapGetters,
+  mapState,
 } from 'vuex';
 
 import FeatureTable from '@/components/FeatureTable.vue';
 import Map from '@/components/Map.vue';
+
+import countries from '@/assets/countries.json';
 
 export default {
   components: {
@@ -100,6 +175,10 @@ export default {
     ...mapGetters('features', [
       'getFeatures',
     ]),
+    ...mapState('config', ['baseConfig']),
+    countries() {
+      return countries;
+    },
     globalIndicators() {
       return this.getFeatures
         .filter((f) => ['global'].includes(f.properties.indicatorObject['Site Name']));
@@ -122,6 +201,12 @@ export default {
     },
     mapTabClick() {
       this.$refs.map.onResize();
+    },
+    resetCountry() {
+      this.$store.commit('features/SET_FEATURE_FILTER', { countries: [] });
+    },
+    resetIndicator() {
+      this.$store.commit('features/SET_FEATURE_FILTER', { indicators: [] });
     },
   },
   watch: {

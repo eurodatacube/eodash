@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-row>
+  <div class="fill-height">
+    <v-row class="fill-height mx-0" style="width: 100%">
       <indicator-filters />
     </v-row>
   </div>

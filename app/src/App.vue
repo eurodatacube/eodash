@@ -10,7 +10,7 @@
             to provide you with our services
             and allow us to measure and improve the
             performance of our website. <br v-if="$vuetify.breakpoint.xsOnly" />
-            <a href="#" target="_blank">Learn more</a>.
+            <a @click="showPrivacyDialog = true">Learn more</a>.
           </small>
         </div>
         <div class="text-center">
@@ -35,6 +35,24 @@
         </div>
       </div>
     </cookie-law>
+    <v-dialog
+      v-model="showPrivacyDialog"
+      width="80%"
+    >
+      <v-card class="pa-5" height="40%">
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="showPrivacyDialog = false">Close</v-btn>
+        </v-card-actions>
+        <v-card-text>
+          <Privacy />
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="showPrivacyDialog = false">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-app>
 </template>
 
@@ -46,12 +64,17 @@ import {
 import CookieLaw from 'vue-cookie-law';
 
 import Dashboard from '@/views/Dashboard.vue';
+import Privacy from '@/views/Privacy.vue';
 
 export default {
   components: {
     CookieLaw,
     Dashboard,
+    Privacy,
   },
+  data: () => ({
+    showPrivacyDialog: false,
+  }),
   metaInfo() {
     let metaData;
     if (this.appConfig) {
@@ -92,7 +115,7 @@ export default {
       // Read route query and set filters
       this.$store.commit('features/INIT_FEATURE_FILTER', {
         countries: this.$route.query.country ? this.$route.query.country : [],
-        indicators: this.$route.query.indicator ? [this.$route.query.indicator] : [],
+        indicators: this.$route.query.indicator ? this.$route.query.indicator : [],
       });
     });
     // Listen for features added, and select if poi in query
