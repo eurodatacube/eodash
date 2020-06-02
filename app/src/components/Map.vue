@@ -73,9 +73,7 @@
                   .indicatorObject['Indicator Value'].length - 1]"
               class="ma-0"
             >
-              Latest value: {{ feature.properties
-                .indicatorObject['Indicator Value'][feature.properties
-                  .indicatorObject['Indicator Value'].length - 1] }}
+              Latest value: {{ formatLabel(feature) }}
             </p>
             <p v-else class="mb-0"><small>(coming soon)</small></p>
         </l-tooltip>
@@ -284,6 +282,28 @@ export default {
         this.currentSelected = feature.id;
         this.subAoi = indicatorObject['Sub-AOI'];
       }
+    },
+    formatLabel(feature) {
+      let label = '';
+      if (feature) {
+        const { indicatorObject } = feature.properties;
+        const indVal = indicatorObject['Indicator Value'][
+          indicatorObject['Indicator Value'].length - 1
+        ];
+        if (indicatorObject['Indicator code'] === 'E10a1') {
+          if (indVal !== '') {
+            const percVal = Number((indVal * 100).toPrecision(4));
+            if (percVal > 0) {
+              label = `+${percVal}%`;
+            } else {
+              label = `${percVal}%`;
+            }
+          }
+        } else {
+          label = indVal;
+        }
+      }
+      return label;
     },
     resetClusterLayer() {
       if (this.$refs.clusterLayer) {
