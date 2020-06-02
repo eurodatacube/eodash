@@ -545,7 +545,7 @@ export default {
       this.compareLayerTime = { value: this.indicator.Time[0] };
       this.compareLayerIndex = 0;
       this.$nextTick(() => {
-        // first nextTick to update layer correctly if was switch from wms <-> xyz 
+        // first nextTick to update layer correctly if was switch from wms <-> xyz
         this.refreshLayer('data');
         if (this.slider) {
           this.refreshLayer('compare');
