@@ -33,3 +33,11 @@
 .md-body > :first-child {
     margin-top: 0px !important;
 }
+
+.v-dialog--fullscreen {
+  overflow: hidden;
+  .scrollContainer {
+    overflow-y: auto;
+    height: 100%;
+  }
+}

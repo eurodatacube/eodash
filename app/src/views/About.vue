@@ -2,7 +2,6 @@
   <div
     class="pa-7 pt-0 pb-0"
     :class="$vuetify.breakpoint.xsOnly && 'pb-10'"
-    style="overflow: auto; height: 100%;"
   >
     <v-row class="d-flex">
       <v-col

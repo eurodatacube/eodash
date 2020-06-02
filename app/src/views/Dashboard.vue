@@ -84,6 +84,7 @@
       fullscreen
       hide-overlay
       transition="dialog-bottom-transition"
+      style="overflow:hidden"
     >
       <v-toolbar dark color="primary">
         <v-toolbar-title style="overflow: unset; white-space: pre-wrap;"
@@ -99,21 +100,39 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
-      <h4 v-if="
-          ($store.state.indicators.selectedIndicator && (
-            $store.state.indicators.selectedIndicator.Description !==
-            $store.state.indicators.selectedIndicator['Indicator Name']))"
-        class="px-4 py-2"
-      >
-        {{ $store.state.indicators.selectedIndicator['Indicator Name'] }}
-      </h4>
-      <data-panel
-        v-if="$store.state.indicators.selectedIndicator"
-        :expanded="dataPanelFullWidth" class="fill-height" />
-      <template v-else>
-        <Welcome v-if="showText === 'welcome'" />
-        <About v-else-if="showText === 'about'" />
-      </template>
+      <div class="scrollContainer">
+
+        <h4 v-if="
+            ($store.state.indicators.selectedIndicator && (
+              $store.state.indicators.selectedIndicator.Description !==
+              $store.state.indicators.selectedIndicator['Indicator Name']))"
+          class="px-4 py-2"
+        >
+          {{ $store.state.indicators.selectedIndicator['Indicator Name'] }}
+        </h4>
+        <data-panel
+          v-if="$store.state.indicators.selectedIndicator"
+          :expanded="dataPanelFullWidth" class="fill-height" />
+        <template v-else>
+          <Welcome v-if="showText === 'welcome'" style="padding-bottom: 135px !important" />
+          <About v-else-if="showText === 'about'" />
+          <div
+            class="pa-3"
+            style="position: absolute; bottom: 0; left: 0; width: 100%;"
+          >
+            <v-btn
+              v-if="showText === 'welcome' && $vuetify.breakpoint.smAndDown"
+              @click="clickMobileClose"
+              block
+              large
+              color="primary"
+            >
+              <v-icon left>mdi-arrow-right</v-icon>
+              Get started!
+            </v-btn>
+          </div>
+        </template>
+      </div>
     </v-dialog>
     <v-content style="height: 100vh; overflow:hidden;">
       <v-container
