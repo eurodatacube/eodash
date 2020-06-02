@@ -163,22 +163,20 @@ export default {
               );
             }
           }
-          const childCount = cluster.getChildCount();
-          let sizeClass = 'marker-cluster-';
-          if (childCount < 10) {
-            sizeClass += 'small';
-          } else if (childCount < 100) {
-            sizeClass += 'medium';
-          } else {
-            sizeClass += 'large';
-          }
           // modified selected cluster style
           const sel = selCluster !== null ? cluster._leaflet_id === selCluster._leaflet_id : false;
           const selectedClass = sel ? ' marker-cluster-selected' : '';
+          let iconSize = null;
+          if (sel) {
+            iconSize = new Point(48, 48);
+          } else {
+            iconSize = new Point(40, 40);
+          }
+          const childCount = cluster.getChildCount();
           return new DivIcon({
             html: `<div class="${selectedClass}"><span>${childCount}</span></div>`,
-            className: `marker-cluster ${sizeClass} ${selectedClass}`,
-            iconSize: new Point(40, 40),
+            className: `marker-cluster ${selectedClass}`,
+            iconSize,
           });
         }.bind(this),
         polygonOptions: {
@@ -407,6 +405,13 @@ export default {
     &.marker-cluster-selected {
       margin-left: 3px;
       margin-top: 3px;
+      width: 38px;
+      height: 38px;
+      border-radius: 19px;
+      & span {
+        line-height: 38px;
+        font-size: 14px;
+      }
     }
   }
   &.marker-cluster-selected {
