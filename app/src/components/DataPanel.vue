@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div style="height: auto;"
+    :style="$vuetify.breakpoint.mdAndDown && 'padding-bottom: 100px'"
+  >
     <v-container class="pt-0">
       <v-row>
         <v-col
@@ -7,7 +9,7 @@
         >
           <v-card
             class="fill-height"
-            :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 70}vh;`"
+            :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
           >
             <indicator-map
               v-if="globalData"
