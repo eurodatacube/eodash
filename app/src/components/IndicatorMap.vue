@@ -382,38 +382,36 @@ export default {
     },
     flyToBounds() {
       // zooms to subaoi if present or area around aoi if not
-      this.$nextTick(() => {
-        const boundsPad = 0.15;
-        if (this.subAoi && this.subAoi.features.length > 0) {
-          const bounds = geoJson(this.subAoi).getBounds();
-          const cornerMax1 = latLng([bounds.getSouth() - boundsPad, bounds.getWest() - boundsPad]);
-          const cornerMax2 = latLng([bounds.getNorth() + boundsPad, bounds.getEast() + boundsPad]);
-          const boundsMax = latLngBounds(cornerMax1, cornerMax2);
-          if (['all', 'regional'].includes(this.indicator.Country)) {
-            this.map.setMinZoom(7);
-          } else {
-            this.map.setMinZoom(13);
-          }
-          this.map.fitBounds(bounds);
-          // limit user movement around map
-          this.map.setMaxBounds(boundsMax);
-        } else if (this.aoi) {
-          const cornerMax1 = latLng([this.aoi.lat - boundsPad, this.aoi.lng - boundsPad]);
-          const cornerMax2 = latLng([this.aoi.lat + boundsPad, this.aoi.lng + boundsPad]);
-          const boundsMax = latLngBounds(cornerMax1, cornerMax2);
-          this.map.panTo(this.aoi);
-          // might need tweaking further on
-          this.map.setMinZoom(13);
-          this.map.setZoom(14);
-          // limit user movement around map
-          this.map.setMaxBounds(boundsMax);
+      const boundsPad = 0.15;
+      if (this.subAoi && this.subAoi.features.length > 0) {
+        const bounds = geoJson(this.subAoi).getBounds();
+        const cornerMax1 = latLng([bounds.getSouth() - boundsPad, bounds.getWest() - boundsPad]);
+        const cornerMax2 = latLng([bounds.getNorth() + boundsPad, bounds.getEast() + boundsPad]);
+        const boundsMax = latLngBounds(cornerMax1, cornerMax2);
+        if (['all', 'regional'].includes(this.indicator.Country)) {
+          this.map.setMinZoom(7);
         } else {
-          // zoom to default bbox from config
-          this.map.flyToBounds(latLngBounds(this.mapDefaults.bounds));
-          this.map.setMaxBounds(null);
-          this.map.setMinZoom(this.mapDefaults.minZoom);
+          this.map.setMinZoom(13);
         }
-      });
+        this.map.fitBounds(bounds);
+        // limit user movement around map
+        this.map.setMaxBounds(boundsMax);
+      } else if (this.aoi) {
+        const cornerMax1 = latLng([this.aoi.lat - boundsPad, this.aoi.lng - boundsPad]);
+        const cornerMax2 = latLng([this.aoi.lat + boundsPad, this.aoi.lng + boundsPad]);
+        const boundsMax = latLngBounds(cornerMax1, cornerMax2);
+        this.map.panTo(this.aoi);
+        // might need tweaking further on
+        this.map.setMinZoom(13);
+        this.map.setZoom(14);
+        // limit user movement around map
+        this.map.setMaxBounds(boundsMax);
+      } else {
+        // zoom to default bbox from config
+        this.map.setMinZoom(this.mapDefaults.minMapZoom);
+        this.map.setMaxBounds(null);
+        this.map.flyToBounds(latLngBounds(this.mapDefaults.bounds));
+      }
     },
     getTimeLabel(time) {
       if (Array.isArray(time) && time.length === 2) {
@@ -535,9 +533,9 @@ export default {
       } else {
         this.map.addLayer(this.$refs.compareLayer.mapObject);
         this.$nextTick(() => {
-          this.slider.addTo(this.map);
           this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
           this.slider.setRightLayers(this.$refs.dataLayer.mapObject);
+          this.slider.addTo(this.map);
         });
       }
     },
@@ -546,17 +544,21 @@ export default {
       this.dataLayerIndex = this.indicator.Time.length - 1;
       this.compareLayerTime = { value: this.indicator.Time[0] };
       this.compareLayerIndex = 0;
-      this.refreshLayer('data');
-      if (this.slider) {
-        this.refreshLayer('compare');
-      }
       this.$nextTick(() => {
+        // first nextTick to update layer correctly if was switch from wms <-> xyz 
+        this.refreshLayer('data');
         if (this.slider) {
-          this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
-          this.slider.setRightLayers(this.$refs.dataLayer.mapObject);
+          this.refreshLayer('compare');
         }
-        this.flyToBounds();
-        this.onResize();
+        this.$nextTick(() => {
+          // second nextTick to add correct layers to slider
+          if (this.slider) {
+            this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
+            this.slider.setRightLayers(this.$refs.dataLayer.mapObject);
+          }
+          this.flyToBounds();
+          this.onResize();
+        });
       });
     },
   },
