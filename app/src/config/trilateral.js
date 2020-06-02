@@ -1,5 +1,6 @@
 // config global variables here for now
 // temporary solution
+import { Wkt } from 'wicket';
 import { shTimeFunction } from '@/utils';
 import { latLng, latLngBounds } from 'leaflet';
 import moment from 'moment';
@@ -127,6 +128,10 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Illegal waste levels',
     class: 'environment',
   },
+  JAXA1: {
+    indicator: 'Car count',
+    class: 'economic',
+  },
   d: { // dummy for locations
     indicator: 'Upcoming data',
     class: 'environment',
@@ -193,6 +198,7 @@ const getMonthlyDates = (start, end) => {
   }
   return dateArray;
 };
+const wkt = new Wkt();
 
 export const globalIndicators = [
   {
@@ -250,7 +256,7 @@ export const globalIndicators = [
           opacity: 1,
           url: 'https://h4ymwpefng.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/OMNO2d_HRM/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=0%2C1e16&color_map=magma',
           name: 'Nitrogen dioxide (NASA)',
-          attribution: '<a href="//scihub.copernicus.eu/twiki/pub/SciHubWebPortal/TermsConditions/TC_Sentinel_Data_31072014.pdf">Sentinel data</a>, <a href="//maps.s5p-pal.com/">S5P-PAL</a>',
+          attribution: '',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYYMM')}`,
         },
       },
@@ -286,4 +292,42 @@ export const globalIndicators = [
       },
     },
   },
+  {
+    latlng: latLng([39.9, 116.38]),
+    properties: {
+      id: 9998, // for now
+      indicatorObject: {
+        AOI: null,
+        AOI_ID: 'be',
+        Country: 'regional',
+        City: 'Beijing',
+        'Site Name': 'Beijing',
+        Description: 'Car count',
+        'Indicator code': 'JAXA1',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Car count',
+        'Color code': ['BLUE'],
+        'EO Sensor': 'ALOS',
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((116.111 40.434,117.013 40.437,117.013 39.728,116.121 39.724,116.111 40.434))').toJson(),
+          }],
+        },
+        Time: [['2019_12_10'], ['2020_01_05'], ['2020_01_12'], ['2020_01_19'], ['2020_01_24'], ['2020_01_29'], ['2020_02_05'], ['2020_02_10'], ['2020_02_17'], ['2020_02_18'], ['2020_02_22'], ['2020_03_05'], ['2020_03_12'], ['2020_03_17'], ['2020_03_24'], ['2020_03_29'], ['2020_03_31'], ['2020_04_05'], ['2020_04_17'], ['2020_04_28'], ['2020_04_29'], ['2020_05_07']],
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 15,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2FALOS_SAMPLE%2Falos2-s1-beijing_{time}.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536',
+          name: 'Car count',
+          attribution: '',
+          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+        },
+      },
+    },
+  },
+
 ];

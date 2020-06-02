@@ -75,13 +75,28 @@ export default {
     getLastValue(values) {
       const vLen = values['Indicator Value'].length;
       const lastValue = values['Indicator Value'][vLen - 1];
+      let text = 'coming soon';
+      if (lastValue) {
+        if (values['Indicator code'] === 'E10a1') {
+          if (lastValue !== '') {
+            const percVal = Number((lastValue * 100).toPrecision(4));
+            if (percVal > 0) {
+              text = `+${percVal}%`;
+            } else {
+              text = `${percVal}%`;
+            }
+          }
+        } else {
+          text = lastValue;
+        }
+      }
       let lastColorCode = '';
       if (Object.prototype.hasOwnProperty.call(values, 'Color code')) {
         lastColorCode = values['Color code'][vLen - 1];
       }
       return {
         color: this.getIndicatorColor(lastColorCode),
-        text: lastValue ? lastValue.toLowerCase() : 'coming soon',
+        text,
       };
     },
     indicator(code) {
