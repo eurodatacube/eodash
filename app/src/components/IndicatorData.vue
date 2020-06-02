@@ -1,8 +1,7 @@
 <template>
   <div style="width: 100%; height: 100%;"
     v-if="indicatorObject['Indicator code']!='E10a2' &&
-    indicatorObject['Indicator code']!='N3' &&
-    indicatorObject['Indicator code']!='E1'">
+    indicatorObject['Indicator code']!='N3'">
       <bar-chart v-if='datacollection'
         id="chart"
         class="fill-height"
@@ -40,16 +39,6 @@ export default {
       let dataCollection;
       if (indicator) {
         const labels = [];
-        const refColors = [
-          '#000', '#990099', '#999', '#ff5bcd', '#b85bff',
-          '#b82e2e', '#316395', '#994499', '#22aa99',
-          '#aaaa11', '#6633cc', '#e67300', '#8b0707', '#651067', '#329262',
-          '#5574a6', '#3b3eac', '#3366cc', '#dc3912', '#ff9900', '#109618',
-          '#0099c6', '#dd4477', '#66aa00',
-        ];
-        // set up type based on Indicator Type
-        // const indicatorType = indicator['Indicator code'];
-
         // filter nodata entries completely
         const mask = indicator['Measurement Value'].map((item) => !Number.isNaN(item));
         for (const [key, value] of Object.entries(indicator)) { // eslint-disable-line
@@ -113,46 +102,6 @@ export default {
             borderColor: 'darkcyan',
             backgroundColor: (indicatorCode === 'E10a1') ? 'black' : 'darkcyan',
           });
-        } else if (['E1'].includes(indicatorCode)) {
-          /* Group data by year in month slices */
-          const data = indicator.Time.map((date, i) => {
-            colors.push(this.getIndicatorColor(indicator['Color code'][i]));
-            return { t: date, y: measurement[i] };
-          });
-          const dataGroups = {};
-          const colorGroups = {};
-          for (let i = 0; i < data.length; i += 1) {
-            const currYear = data[i].t.getFullYear();
-            const modDate = new Date(data[i].t.getTime());
-            modDate.setFullYear(2000);
-            if (Object.prototype.hasOwnProperty.call(dataGroups, currYear)) {
-              dataGroups[currYear].push({
-                t: modDate, y: data[i].y,
-              });
-              colorGroups[currYear].push(colors[i]);
-            } else {
-              dataGroups[currYear] = [{
-                t: modDate, y: data[i].y,
-              }];
-              colorGroups[currYear] = [colors[i]];
-            }
-          }
-          Object.keys(dataGroups).forEach((key, i) => {
-            datasets.push({
-              label: key,
-              fill: false,
-              pointRadius: 5,
-              data: dataGroups[key],
-              backgroundColor: colorGroups[key],
-              borderColor: refColors[i],
-              borderWidth: 2,
-            });
-          });
-          /* Add random element to make sure labels are re-rendered */
-          datasets.push({
-            label: `hide_${Math.random()}`,
-            data: [],
-          });
         } else if (['N3'].includes(indicatorCode)) {
           const referenceValue = [];
           const stdDev = [];
@@ -179,24 +128,7 @@ export default {
             }
             colors.push(this.getIndicatorColor(colorCode));
           }
-          datasets.push({
-            label: 'Poor water quality',
-            data: [],
-            backgroundColor: this.getIndicatorColor('red'),
-            borderColor: this.getIndicatorColor('red'),
-          });
-          datasets.push({
-            label: 'Regular water quality',
-            data: [],
-            backgroundColor: this.getIndicatorColor('orange'),
-            borderColor: this.getIndicatorColor('orange'),
-          });
-          datasets.push({
-            label: 'Good water quality',
-            data: [],
-            backgroundColor: this.getIndicatorColor('green'),
-            borderColor: this.getIndicatorColor('green'),
-          });
+
           datasets.push({
             label: 'hide_',
             data: measurement,
@@ -217,7 +149,7 @@ export default {
             label: 'Standard deviation (STD)',
             hidden: true,
             data: stdDevMax,
-            fill: 6,
+            fill: 3,
             pointRadius: 0,
             spanGaps: true,
             backgroundColor: 'paleturquoise',
@@ -228,12 +160,34 @@ export default {
             label: 'hide_',
             hidden: true,
             data: stdDevMin,
-            fill: 6,
+            fill: 2,
             pointRadius: 0,
             spanGaps: true,
             backgroundColor: 'paleturquoise',
             borderColor: 'rgba(0,0,0,0.0)',
             pointStyle: 'rect',
+          });
+
+          // Find unique indicator values
+          const indicatorValues = {};
+          indicator['Indicator Value'].map((val, i) => {
+            let key = val.toLowerCase();
+            key = key.charAt(0).toUpperCase() + key.slice(1);
+            if (typeof indicatorValues[key] === 'undefined') {
+              indicatorValues[key] = this.getIndicatorColor(
+                indicator['Color code'][i],
+              );
+            }
+            return null;
+          });
+
+          Object.entries(indicatorValues).forEach(([key, value]) => {
+            datasets.push({
+              label: key,
+              data: [],
+              backgroundColor: value,
+              borderColor: value,
+            });
           });
         } else {
           const data = indicator.Time.map((date, i) => {
@@ -366,8 +320,9 @@ export default {
       if (!['E10a1', 'E10a2'].includes(indicatorCode)) {
         xAxes = [{
           type: 'time',
+          distribution: 'series',
           time: {
-            unit: 'month',
+            unit: 'week',
           },
           ticks: {
             min: timeMinMax[0],
@@ -375,7 +330,8 @@ export default {
           },
         }];
       }
-      if (['E1', 'E10a2'].includes(indicatorCode)) {
+
+      if (['E10a2'].includes(indicatorCode)) {
         /* Recalculate to get min max months in data converted to one year */
         timeMinMax = this.getMinMaxDate(this.indicatorObject.Time.map((date) => {
           const tmpDate = new Date(date.getTime());
@@ -401,12 +357,38 @@ export default {
           },
         }];
       }
+
       let plugins = {
         datalabels: {
           display: false,
         },
       };
+
+      const yAxes = [{
+        scaleLabel: {
+          display: true,
+          labelString: this.indicatorObject['Y axis'],
+          padding: 2,
+        },
+        ticks: {
+          lineHeight: 1,
+          suggestedMin: Math.min(
+            ...this.indicatorObject['Measurement Value'],
+          ) - 1,
+          suggestedMax: Math.max(
+            ...this.indicatorObject['Measurement Value'],
+          ) + 1,
+        },
+      }];
+
+      const legend = {
+        labels: {
+          filter,
+        },
+      };
+
       if (['E10a1'].includes(indicatorCode)) {
+        yAxes[0].ticks.beginAtZero = true;
         plugins = {
           datalabels: {
             labels: {
@@ -442,34 +424,13 @@ export default {
                 anchor: 'end',
                 align: 'end',
                 offset: -6,
+                formatter: (value) => value.toFixed(0),
               },
             },
           },
         };
       }
 
-      const yAxes = [{
-        scaleLabel: {
-          display: true,
-          labelString: this.indicatorObject['Y axis'],
-          padding: 2,
-        },
-        ticks: {
-          lineHeight: 1,
-          suggestedMin: Math.min(
-            ...this.indicatorObject['Measurement Value'],
-          ) - 1,
-          suggestedMax: Math.max(
-            ...this.indicatorObject['Measurement Value'],
-          ) + 1,
-        },
-      }];
-
-      const legend = {
-        labels: {
-          filter,
-        },
-      };
 
       if (['N3'].includes(indicatorCode)) {
         yAxes[0].ticks = {
@@ -488,7 +449,7 @@ export default {
         legend.onClick = function onClick(e, legendItem) {
           if (legendItem.text === 'Standard deviation (STD)') {
             const masterIndex = legendItem.datasetIndex;
-            const slaveIndex = 6;
+            const slaveIndex = 3;
             const ci = this.chart;
             const masterMeta = ci.getDatasetMeta(masterIndex);
             const meta = ci.getDatasetMeta(slaveIndex);

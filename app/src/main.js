@@ -1,31 +1,51 @@
 import Vue from 'vue';
 import VuePapaParse from 'vue-papa-parse';
+import VueMatomo from 'vue-matomo';
 import VueMeta from 'vue-meta';
+import VueRouter from 'vue-router';
 import Vuetify from 'vuetify/lib';
-import Chart from 'chart.js';
-/* Plugin autoregisters so does not need to be registered */
-import ChartDataLabels from 'chartjs-plugin-datalabels'; // eslint-disable-line no-unused-vars
-import * as ChartAnnotation from 'chartjs-plugin-annotation';
-import * as ChartZoomPlugin from 'chartjs-plugin-zoom';
+
 import browserDetect from 'vue-browser-detect-plugin';
 import App from './App.vue';
-import router from './router';
 import store from './store';
+import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 
 Vue.config.productionTip = false;
 
-Chart.plugins.register([ChartAnnotation, ChartZoomPlugin]);
 Vue.use(VuePapaParse);
+
+Vue.use(VueMatomo, {
+  // Config options explained on https://github.com/AmazingDreams/vue-matomo
+  host: 'https://nix.eox.at/piwik',
+  siteId: 11,
+  trackerFileName: 'piwik',
+  enableLinkTracking: true,
+  requireConsent: true,
+  trackInitialView: true,
+  disableCookies: false,
+  enableHeartBeatTimer: false,
+  heartBeatTimerInterval: 15,
+  debug: false,
+  userId: undefined,
+  cookieDomain: undefined,
+  domains: undefined,
+  preInitActions: [],
+});
+
 Vue.use(VueMeta);
+Vue.use(VueRouter);
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  // routes,
+});
+
 Vue.use(Vuetify);
 Vue.use(browserDetect);
 
 const renderVue = async () => {
   await store.dispatch('config/checkBrand');
   store.dispatch('features/loadAllCsv');
-  if (store.state.config.appConfig.displayDummyLocations) {
-    store.dispatch('features/loadDummyLocations');
-  }
 
   const vuetify = new Vuetify({
     theme: {
@@ -82,8 +102,8 @@ const renderVue = async () => {
       ? clamp || '...' : ''));
 
   new Vue({
-    router,
     store,
+    router,
     vuetify,
     render: (h) => h(App),
   }).$mount('#app');

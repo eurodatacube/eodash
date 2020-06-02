@@ -5,6 +5,7 @@ const version = JSON.parse(packageJson).version || 0
 
 module.exports = {
   lintOnSave: process.env.NODE_ENV !== 'production',
+  productionSourceMap: process.env.NODE_ENV == 'production' ? false : true,
   transpileDependencies: [
     'vuetify',
   ],
@@ -16,6 +17,7 @@ module.exports = {
       }],
     },
     plugins: [
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.DefinePlugin({
         'process.env': {
           PACKAGE_VERSION: '"' + version + '"'

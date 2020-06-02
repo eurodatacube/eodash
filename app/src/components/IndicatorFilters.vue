@@ -23,10 +23,12 @@
       class="fill-height"
     >
       <v-tab-item class="fill-height">
-        <v-list dense v-model="country">
-          <v-list-item-group v-model="country" color="primary">
+        <v-list dense>
+          <v-list-item-group v-model="countrySelection" color="primary">
             <v-list-item
-              @click="selectCountry()"
+              :value="'all'"
+              :disabled="countrySelection === 'all'"
+              active-class="itemActive"
             >
               <v-list-item-icon class="d-flex align-center mr-2">
                 <country-flag country="eu" size='normal' />
@@ -38,10 +40,12 @@
             <v-list-item
               v-for="country in countryItems.filter((c) => c.name === 'Regional')"
               :key="country.code"
-              @click="selectCountry(country)"
+              :value="'regional'"
+              :disabled="countrySelection === 'regional'"
+              active-class="itemActive"
             >
               <v-list-item-icon class="d-flex align-center mr-2">
-                <country-flag :country="country.code === 'all'
+                <country-flag :country="country.code === 'regional'
                   ? 'eu' : country.code" size='normal' />
               </v-list-item-icon>
               <v-list-item-content>
@@ -52,7 +56,9 @@
             <v-list-item
               v-for="country in countryItems.filter((c) => c.name !== 'Regional')"
               :key="country.code"
-              @click="selectCountry(country)"
+              :value="country.code"
+              :disabled="countrySelection === country.code"
+              active-class="itemActive"
             >
               <v-list-item-icon class="d-flex align-center mr-2">
                 <country-flag :country="country.code === 'all'
@@ -67,9 +73,14 @@
       </v-tab-item>
       <v-tab-item class="fill-height">
         <v-list dense>
-          <v-list-item-group v-model="indicator" color="primary">
+          <v-list-item-group
+            v-model="indicatorSelection"
+            color="primary"
+          >
             <v-list-item
-              @click="selectIndicator()"
+              :value="'all'"
+              active-class="itemActive"
+              :disabled="indicatorSelection === 'all'"
             >
               <v-list-item-icon class="ml-3 mr-4">
                 <v-icon>mdi-lightbulb-on-outline</v-icon>
@@ -87,11 +98,13 @@
               </v-subheader>
               <v-list-item
                 v-for="indicator in indicatorItems.filter((i) =>
-                  uniqueClasses[classId].includes(i.code))"
+                  uniqueClasses[classId].includes(i.code) && i.indicator!=='')"
                 :key="indicator.code"
-                @click="selectIndicator(indicator)"
+                :value="indicator.code"
+                active-class="itemActive"
+                :disabled="indicatorSelection === indicator.code"
               >
-                <v-list-item-icon v-if="indicator.indicator !== ''" class="ml-3 mr-4">
+                <v-list-item-icon class="ml-3 mr-4">
                   <v-icon>{{
                   baseConfig.indicatorClassesIcons[classId] ?
                     baseConfig.indicatorClassesIcons[classId] :
@@ -99,7 +112,10 @@
                   }}</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title v-text="indicator.indicator"></v-list-item-title>
+                  <v-list-item-title
+                    v-text="indicator.indicator"
+                    style="text-overflow: unset; overflow: unset; white-space: pre-wrap;"
+                  ></v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </template>
@@ -127,15 +143,13 @@ export default {
   },
   data: () => ({
     tab: 0,
-    country: 0,
-    indicator: 0,
     indicators: {
       environment: 1,
       economy: 0,
       health: 0,
     },
-    countrySelection: null,
-    indicatorSelection: null,
+    countrySelection: 'all',
+    indicatorSelection: 'all',
     indicatorPanel: 0,
   }),
   computed: {
@@ -148,14 +162,16 @@ export default {
       return countries;
     },
     countryItems() {
-      return this.getCountries.map((c) => {
-        const item = countries.features
-          .find((f) => f.properties.alpha2 === c);
-        return {
-          code: c,
-          name: item ? item.properties.name : 'Regional',
-        };
-      })
+      return this.getCountries
+        .filter((c) => c !== 'all')
+        .map((c) => {
+          const item = countries.features
+            .find((f) => f.properties.alpha2 === c);
+          return {
+            code: c,
+            name: item ? item.properties.name : 'Regional',
+          };
+        })
         .sort((a, b) => ((a.name > b.name) ? 1 : -1));
     },
     uniqueClasses() {
@@ -185,21 +201,53 @@ export default {
       return indicators;
     },
   },
+  mounted() {
+    this.$store.subscribe((mutation) => {
+      if (mutation.type === 'features/INIT_FEATURE_FILTER') {
+        if (mutation.payload.countries) {
+          if (Array.isArray(mutation.payload.countries)) {
+            if (mutation.payload.countries.length === 0) {
+              this.countrySelection = 'all';
+            }
+          } else {
+            this.countrySelection = mutation.payload.countries;
+          }
+        }
+        if (mutation.payload.indicators) {
+          if (Array.isArray(mutation.payload.indicators)) {
+            if (mutation.payload.countries.length === 0) {
+              this.indicatorSelection = 'all';
+            }
+          } else {
+            [this.indicatorSelection] = mutation.payload.indicators;
+          }
+        }
+      }
+    });
+  },
   methods: {
     selectCountry(selection) {
-      this.setFilter({ countries: typeof selection !== 'undefined' ? selection.code : [] });
+      if (selection === 'all') {
+        this.setFilter({ countries: [] });
+      } else {
+        this.setFilter({ countries: selection });
+      }
     },
     selectIndicator(selection) {
       this.setFilter({
-        indicators: selection ? [selection.code] : [],
+        indicators: selection === 'all' ? [] : [selection],
       });
-    },
-    selectAllCountries() {
-      this.countrySelection = null;
-      this.setFilter(null);
     },
     setFilter(filter) {
       this.$store.commit('features/SET_FEATURE_FILTER', filter);
+    },
+  },
+  watch: {
+    countrySelection(val) {
+      this.selectCountry(val);
+    },
+    indicatorSelection(val) {
+      this.selectIndicator(val);
     },
   },
 };
@@ -211,6 +259,7 @@ export default {
   padding-right: 0;
 }
 .itemActive {
-  background: red;
+  background: var(--v-primary-base);
+  color: white !important;
 }
 </style>

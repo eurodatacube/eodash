@@ -50,11 +50,11 @@
         :key="feature.id"
         ref="markers"
         :lat-lng="feature.latlng"
-        :radius="12"
+        :radius="currentSelected === feature.id ? 16 : 12"
         :name='`${feature.id}`'
         :color="currentSelected === feature.id ? $vuetify.theme.themes.light.primary : 'white'"
         :weight="2"
-        :dashArray="currentSelected === feature.id ? '3' : '0'"
+        :dashArray="currentSelected === feature.id ? '5' : '0'"
         :fill="true"
         :fillColor="getLastValue(feature.properties.indicatorObject).color"
         :fillOpacity="1"
@@ -73,9 +73,7 @@
                   .indicatorObject['Indicator Value'].length - 1]"
               class="ma-0"
             >
-              Latest value: {{ feature.properties
-                .indicatorObject['Indicator Value'][feature.properties
-                  .indicatorObject['Indicator Value'].length - 1] }}
+              Latest value: {{ formatLabel(feature) }}
             </p>
             <p v-else class="mb-0"><small>(coming soon)</small></p>
         </l-tooltip>
@@ -165,22 +163,20 @@ export default {
               );
             }
           }
-          const childCount = cluster.getChildCount();
-          let sizeClass = 'marker-cluster-';
-          if (childCount < 10) {
-            sizeClass += 'small';
-          } else if (childCount < 100) {
-            sizeClass += 'medium';
-          } else {
-            sizeClass += 'large';
-          }
           // modified selected cluster style
           const sel = selCluster !== null ? cluster._leaflet_id === selCluster._leaflet_id : false;
           const selectedClass = sel ? ' marker-cluster-selected' : '';
+          let iconSize = null;
+          if (sel) {
+            iconSize = new Point(48, 48);
+          } else {
+            iconSize = new Point(40, 40);
+          }
+          const childCount = cluster.getChildCount();
           return new DivIcon({
             html: `<div class="${selectedClass}"><span>${childCount}</span></div>`,
-            className: `marker-cluster ${sizeClass} ${selectedClass}`,
-            iconSize: new Point(40, 40),
+            className: `marker-cluster ${selectedClass}`,
+            iconSize,
           });
         }.bind(this),
         polygonOptions: {
@@ -222,7 +218,6 @@ export default {
     this.$nextTick(() => {
       this.map = this.$refs.map.mapObject;
 
-      this.map.fitBounds(this.$refs.clusterLayer.mapObject._featureGroup.getBounds());
       this.$refs.subaoiLayer.mapObject.bindTooltip('Reference area', {
         direction: 'top',
       });
@@ -254,7 +249,7 @@ export default {
       this.map.attributionControl._update();
     });
     this.$store.subscribe((mutation) => {
-      if (mutation.type === 'features/SET_FEATURE_FILTER' && mutation.payload.countries !== 'all') {
+      if (mutation.type === 'features/SET_FEATURE_FILTER' && !['all', 'regional'].includes(mutation.payload.countries)) {
         if (typeof mutation.payload.countries === 'string') {
           const countryFeature = countries.features
             .find((c) => c.properties.alpha2 === mutation.payload.countries);
@@ -285,6 +280,28 @@ export default {
         this.currentSelected = feature.id;
         this.subAoi = indicatorObject['Sub-AOI'];
       }
+    },
+    formatLabel(feature) {
+      let label = '';
+      if (feature) {
+        const { indicatorObject } = feature.properties;
+        const indVal = indicatorObject['Indicator Value'][
+          indicatorObject['Indicator Value'].length - 1
+        ];
+        if (indicatorObject['Indicator code'] === 'E10a1') {
+          if (indVal !== '') {
+            const percVal = Number((indVal * 100).toPrecision(4));
+            if (percVal > 0) {
+              label = `+${percVal}%`;
+            } else {
+              label = `${percVal}%`;
+            }
+          }
+        } else {
+          label = indVal;
+        }
+      }
+      return label;
     },
     resetClusterLayer() {
       if (this.$refs.clusterLayer) {
@@ -349,6 +366,15 @@ export default {
       return additionalSettings;
     },
   },
+  watch: {
+    getFeatures(features) {
+      if (features.filter((f) => f.latlng).length > 0) {
+        this.$nextTick(() => {
+          this.map.fitBounds(this.$refs.clusterLayer.mapObject._featureGroup.getBounds());
+        });
+      }
+    },
+  },
 };
 </script>
 
@@ -379,6 +405,13 @@ export default {
     &.marker-cluster-selected {
       margin-left: 3px;
       margin-top: 3px;
+      width: 38px;
+      height: 38px;
+      border-radius: 19px;
+      & span {
+        line-height: 38px;
+        font-size: 14px;
+      }
     }
   }
   &.marker-cluster-selected {

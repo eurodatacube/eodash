@@ -1,47 +1,5 @@
 <template>
-  <div
-    v-if="!$store.state.indicators.selectedIndicator"
-    class="pa-7 pt-0 pb-0"
-    :class="$vuetify.breakpoint.xsOnly && 'pb-10'"
-    style="overflow: auto; height: 100%;"
-  >
-    <v-row class="mt-0 d-flex">
-      <v-col
-        cols="12"
-      >
-        <h1 class="display-3 primary--text mb-5 mt-0">COVID-19 Impact seen by Satellite</h1>
-      </v-col>
-      <v-col
-        cols="12"
-        md="4"
-      >
-        <v-card outlined class="pa-5 text-center">
-          <p>Indicator Datasets</p>
-          <h2 class="primary--text display-3">{{ getIndicators.length }}</h2>
-        </v-card>
-      </v-col>
-      <v-col
-        cols="12"
-        md="4"
-      >
-        <v-card outlined class="pa-5 text-center">
-          <p>Measurements</p>
-          <h2 class="primary--text display-3">{{ $store.state.features.resultsCount }}</h2>
-        </v-card>
-      </v-col>
-      <v-col
-        cols="12"
-        md="4"
-      >
-        <v-card outlined class="pa-5 text-center">
-          <p>Countries</p>
-          <h2 class="primary--text display-3">{{ countryItemsCount }}</h2>
-        </v-card>
-      </v-col>
-    </v-row>
-    <small>Latest measurement: {{ getLatestUpdate }}</small>
-  </div>
-  <div v-else>
+  <div>
     <v-container class="pt-0">
       <v-row>
         <v-col
@@ -74,11 +32,10 @@
         >
         <div>
             <expandable-content>
-              <markdown-it-vue
-                :content="story"
+              <div
+                v-html="story"
                 class="md-body"
-                :options="{ markdownIt: { html: true } }"
-              />
+              ></div>
             </expandable-content>
             <v-btn
               @click="dialog = true"
@@ -89,6 +46,20 @@
             ><span><v-icon left>mdi-satellite-variant</v-icon>EO Data</span>
             </v-btn>
             <v-btn
+              v-if="indicatorObject && baseConfig
+                .indicatorsDefinition[indicatorObject['Indicator code']].externalData"
+              :href= "baseConfig
+                .indicatorsDefinition[indicatorObject['Indicator code']].externalData.url"
+              target="_blank"
+              color="primary"
+              large
+              block
+              class="my-5"
+            ><span><v-icon left>mdi-open-in-new</v-icon>{{baseConfig
+                .indicatorsDefinition[indicatorObject['Indicator code']].externalData.label}}</span>
+            </v-btn>
+            <v-btn
+              v-else
               disabled
               color="primary"
               large
@@ -106,11 +77,7 @@
             <v-toolbar dark color="primary">
               <v-toolbar-title >
                 <span
-                  v-if="indicatorObject && indicatorObject['EO Sensor']"
-                >Reference Images as taken by sensor ({{indicatorObject['EO Sensor']}})</span>
-                <span
-                  v-else
-                >Reference Images as taken by sensor</span>
+                >Reference Images</span>
               </v-toolbar-title>
               <v-spacer></v-spacer>
               <v-btn icon dark @click="dialog = false">
@@ -131,14 +98,13 @@
 <script>
 import {
   mapGetters,
+  mapState,
 } from 'vuex';
 
+import marked from 'marked';
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
-import MarkdownItVue from 'markdown-it-vue';
-
-import 'markdown-it-vue/dist/markdown-it-vue.css';
 
 export default {
   props: [
@@ -148,7 +114,6 @@ export default {
     ExpandableContent,
     IndicatorData,
     IndicatorMap,
-    MarkdownItVue,
   },
   data: () => ({
     dialog: false,
@@ -167,6 +132,8 @@ export default {
       'getIndicators',
       'getLatestUpdate',
     ]),
+    ...mapState('config', ['appConfig']),
+    ...mapState('config', ['baseConfig']),
     story() {
       let markdown;
       try {
@@ -174,16 +141,16 @@ export default {
       } catch {
         markdown = { default: 'No indicator story provided yet.' };
       }
-      return markdown.default;
+      return marked(markdown.default);
     },
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
     },
     globalData() {
-      return this.indicatorObject.Country === 'all';
+      return ['all', 'regional'].includes(this.indicatorObject.Country);
     },
     countryItemsCount() {
-      const countries = this.getCountries.filter((item) => item !== 'all');
+      const countries = this.getCountries.filter((item) => !['all', 'regional'].includes(item));
       return countries.length;
     },
   },

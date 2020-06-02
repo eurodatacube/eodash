@@ -3,10 +3,9 @@
     ref="map"
     style="height: 100%; width: 100%; background: #cad2d3; z-index: 1;"
     :options="defaultMapOptions"
-    :zoom="zoom"
-    :center="center"
-    :maxZoom="maxMapZoom"
-    :minMapZoom="minMapZoom"
+    :bounds="mapDefaults.bounds"
+    :maxZoom="mapDefaults.maxMapZoom"
+    :minZoom="mapDefaults.minMapZoom"
     @update:zoom="zoomUpdated"
     @update:center="centerUpdated"
     @update:bounds="boundsUpdated"
@@ -32,39 +31,42 @@
     >
     </l-geo-json>
     <LTileLayer
-    v-if="dataLayerDisplay.protocol === 'xyz'"
+    v-if="layerDisplay('data').protocol === 'xyz'"
       ref="dataLayer"
-      v-bind="dataLayerDisplay"
-      :options="layerOptions(currentTime, dataLayerDisplay)"
+      :key="dataLayerKey"
+      v-bind="layerDisplay('data')"
+      :options="layerOptions(currentTime, layerDisplay('data'))"
       :pane="overlayPane"
       layer-type="overlay"
     >
     </LTileLayer>
     <LWMSTileLayer
-    v-else-if="dataLayerDisplay.protocol === 'WMS'"
+    v-else-if="layerDisplay('data').protocol === 'WMS'"
       ref="dataLayer"
-      :key="mapKey"
-      v-bind="dataLayerDisplay"
-      :options="layerOptions(currentTime, dataLayerDisplay)"
+      :key="dataLayerKey"
+      v-bind="layerDisplay('data')"
+      :options="layerOptions(currentTime, layerDisplay('data'))"
       :pane="overlayPane"
       layer-type="overlay"
     >
     </LWMSTileLayer>
     <LTileLayer
-    v-if="dataLayerDisplay.protocol === 'xyz'"
+    v-if="layerDisplay('compare').protocol === 'xyz'"
       ref="compareLayer"
-      v-bind="dataLayerDisplay"
+      :key="compareLayerKey"
+      v-bind="layerDisplay('compare')"
       :visible="enableCompare"
-      :options="layerOptions(currentCompareTime, dataLayerDisplay)"
+      :options="layerOptions(currentCompareTime, layerDisplay('compare'))"
       :pane="overlayPane"
     >
     </LTileLayer>
     <LWMSTileLayer
-    v-else-if="dataLayerDisplay.protocol === 'WMS'"
+    v-else-if="layerDisplay('compare').protocol === 'WMS'"
       ref="compareLayer"
-      v-bind="dataLayerDisplay"
+      :key="compareLayerKey"
+      v-bind="layerDisplay('compare')"
       :visible="enableCompare"
-      :options="layerOptions(currentCompareTime, dataLayerDisplay)"
+      :options="layerOptions(currentCompareTime, layerDisplay('compare'))"
       :pane="overlayPane"
     >
     </LWMSTileLayer>
@@ -90,10 +92,10 @@
       :fillOpacity="1"
     >
     </l-circle-marker>
-    <img v-if="dataLayerDisplay.legendUrl"
-    :src="dataLayerDisplay.legendUrl" alt=""
+    <img v-if="layerDisplay('data').legendUrl"
+    :src="layerDisplay('data').legendUrl" alt=""
       style="position: absolute; width: 250px; z-index: 700;
-      top: 10px; left: 10px; background: white;">
+      top: 10px; left: 10px; background: rgba(255, 255, 255, 0.4); ">
     <div
       class="d-flex justify-center" style="position: relative; width: 100%; height: 100%;"
       @click.stop=""
@@ -209,12 +211,11 @@ export default {
   data() {
     return {
       map: null,
-      mapKey: 0,
-      minMapZoom: 3,
-      zoom: 3,
-      maxMapZoom: 18,
+      compareLayerKey: 0,
+      dataLayerKey: 1,
       dasharrayPoi: '3',
-      center: [55, 10],
+      zoom: null,
+      center: null,
       bounds: null,
       enableCompare: false,
       opacityTerrain: [1],
@@ -229,6 +230,8 @@ export default {
       },
       dataLayerTime: null,
       compareLayerTime: null,
+      dataLayerIndex: 0,
+      compareLayerIndex: 0,
     };
   },
   computed: {
@@ -239,6 +242,9 @@ export default {
     overlayLayers() {
       return this.baseConfig.overlayLayers;
     },
+    mapDefaults() {
+      return this.baseConfig.mapDefaults;
+    },
     indicator() {
       return this.$store.state.indicators.selectedIndicator;
     },
@@ -248,9 +254,13 @@ export default {
     arrayOfObjects() {
       const selectionOptions = [];
       for (let i = 0; i < this.indicator.Time.length; i += 1) {
+        let label = this.getTimeLabel(this.indicator.Time[i]);
+        if (this.indicator['Input Data']) {
+          label += ` - ${this.indicator['Input Data'][i]}`;
+        }
         selectionOptions.push({
           value: this.indicator.Time[i],
-          name: this.getTimeLabel(this.indicator.Time[i]),
+          name: label,
         });
       }
       return selectionOptions;
@@ -269,25 +279,6 @@ export default {
       }
       return returnTime;
     },
-    shLayerName() {
-      let sensor = this.indicator['EO Sensor'].toUpperCase();
-      const indicatorCode = this.indicator['Indicator code'].toUpperCase();
-      if (['S1B', 'S1A', 'SENTINEL-1', 'SENTINEL 1', 'S1'].includes(sensor)) {
-        sensor = 'SENTINEL1';
-      }
-      if (['S2', 'SENTINEL-2', 'SENTINEL 2'].includes(sensor)) {
-        sensor = 'SENTINEL2'; // not configured on SIN yet
-      }
-      return `${indicatorCode}_${sensor}`;
-    },
-    dataLayerDisplay() {
-      // if display not specified (global layers), suspect SIN layer
-      return this.indicator.display ? this.indicator.display : {
-        ...this.baseConfig.defaultWMSDisplay,
-        layers: this.shLayerName,
-        name: this.indicator.Description,
-      };
-    },
     aoi() {
       return this.indicator.AOI;
     },
@@ -295,19 +286,15 @@ export default {
       return this.indicator['Sub-AOI'];
     },
     getAoiFill() {
-      const lastValue = this.indicator && this.indicator['Color code']
-        && this.indicator['Color code'][this.indicator['Color code'].length - 1];
-      return lastValue
-        ? this.getIndicatorColor(lastValue)
+      const currentValue = this.indicator && this.indicator['Color code']
+        && this.indicator['Color code'][this.dataLayerIndex];
+      return currentValue
+        ? this.getIndicatorColor(currentValue)
         : this.$vuetify.theme.themes.light.primary;
     },
     subAoiStyle() {
-      const lastValue = this.indicator && this.indicator['Color code']
-        && this.indicator['Color code'][this.indicator['Color code'].length - 1];
       return {
-        color: lastValue
-          ? this.getIndicatorColor(lastValue)
-          : this.$vuetify.theme.themes.light.primary,
+        color: this.$vuetify.theme.themes.light.primary,
         weight: 3,
         opacity: 0.7,
         fill: false,
@@ -351,8 +338,9 @@ export default {
       this.flyToBounds();
       this.onResize();
 
-      this.dataLayerTime = { value: this.indicator.Time[this.indicator.Time.length - 1] };
-      this.compareLayerTime = { value: this.indicator.Time[0] };
+      this.dataLayerIndex = this.indicator.Time.length - 1;
+      this.dataLayerTime = { value: this.indicator.Time[this.dataLayerIndex] };
+      this.compareLayerTime = { value: this.indicator.Time[this.compareLayerIndex] };
     });
   },
   methods: {
@@ -371,46 +359,66 @@ export default {
         this.map._onResize();
       }
     },
+    shLayerName(side) {
+      const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
+      let sensor = this.indicator['EO Sensor'][index].toUpperCase();
+      const indicatorCode = this.indicator['Indicator code'].toUpperCase();
+      if (['S1B', 'S1A', 'SENTINEL-1', 'SENTINEL 1', 'S1'].includes(sensor)) {
+        sensor = 'SENTINEL1';
+      } else if (['S2', 'SENTINEL-2', 'SENTINEL 2'].includes(sensor)) {
+        sensor = 'SENTINEL-2-L2A-TRUE-COLOR';
+      } else if (['PLANET'].includes(sensor)) {
+        sensor = 'PLANETSCOPE';
+      }
+      return `${indicatorCode}_${sensor}`;
+    },
+    layerDisplay(side) {
+      // if display not specified (global layers), suspect SIN layer
+      return this.indicator.display ? this.indicator.display : {
+        ...this.baseConfig.defaultWMSDisplay,
+        layers: this.shLayerName(side),
+        name: this.indicator.Description,
+      };
+    },
     flyToBounds() {
       // zooms to subaoi if present or area around aoi if not
-      this.$nextTick(() => {
-        const boundsPad = 0.15;
-        if (this.subAoi && this.subAoi.features.length > 0) {
-          const bounds = geoJson(this.subAoi).getBounds();
-          const cornerMax1 = latLng([bounds.getSouth() - boundsPad, bounds.getWest() - boundsPad]);
-          const cornerMax2 = latLng([bounds.getNorth() + boundsPad, bounds.getEast() + boundsPad]);
-          const boundsMax = latLngBounds(cornerMax1, cornerMax2);
-          if (this.indicator.Country === 'all') {
-            this.map.setMinZoom(7);
-          } else {
-            this.map.setMinZoom(13);
-          }
-          this.map.fitBounds(bounds);
-          // limit user movement around map
-          this.map.setMaxBounds(boundsMax);
-        } else if (this.aoi) {
-          const cornerMax1 = latLng([this.aoi.lat - boundsPad, this.aoi.lng - boundsPad]);
-          const cornerMax2 = latLng([this.aoi.lat + boundsPad, this.aoi.lng + boundsPad]);
-          const boundsMax = latLngBounds(cornerMax1, cornerMax2);
-          this.map.panTo(this.aoi);
-          // might need tweaking further on
-          this.map.setMinZoom(13);
-          this.map.setZoom(14);
-          // limit user movement around map
-          this.map.setMaxBounds(boundsMax);
+      const boundsPad = 0.15;
+      if (this.subAoi && this.subAoi.features.length > 0) {
+        const bounds = geoJson(this.subAoi).getBounds();
+        const cornerMax1 = latLng([bounds.getSouth() - boundsPad, bounds.getWest() - boundsPad]);
+        const cornerMax2 = latLng([bounds.getNorth() + boundsPad, bounds.getEast() + boundsPad]);
+        const boundsMax = latLngBounds(cornerMax1, cornerMax2);
+        if (['all', 'regional'].includes(this.indicator.Country)) {
+          this.map.setMinZoom(7);
         } else {
-          this.map.flyTo(latLng([50, 10]), 4);
-          this.map.setMaxBounds(null);
-          this.map.setMinZoom(this.minMapZoom);
+          this.map.setMinZoom(13);
         }
-      });
+        this.map.fitBounds(bounds);
+        // limit user movement around map
+        this.map.setMaxBounds(boundsMax);
+      } else if (this.aoi) {
+        const cornerMax1 = latLng([this.aoi.lat - boundsPad, this.aoi.lng - boundsPad]);
+        const cornerMax2 = latLng([this.aoi.lat + boundsPad, this.aoi.lng + boundsPad]);
+        const boundsMax = latLngBounds(cornerMax1, cornerMax2);
+        this.map.panTo(this.aoi);
+        // might need tweaking further on
+        this.map.setMinZoom(13);
+        this.map.setZoom(14);
+        // limit user movement around map
+        this.map.setMaxBounds(boundsMax);
+      } else {
+        // zoom to default bbox from config
+        this.map.setMinZoom(this.mapDefaults.minMapZoom);
+        this.map.setMaxBounds(null);
+        this.map.flyToBounds(latLngBounds(this.mapDefaults.bounds));
+      }
     },
     getTimeLabel(time) {
       if (Array.isArray(time) && time.length === 2) {
         // show start - end
         return time.join(' - ');
       } else if (time instanceof Date) { // eslint-disable-line no-else-return
-        return moment.utc(time).format('YYYY-MM-DD');
+        return moment.utc(time).format('YYYY-MM-DDTHH:mm:ss');
       }
       return time;
     },
@@ -442,51 +450,77 @@ export default {
     },
     dataLayerTimeSelection(payload) {
       this.dataLayerTime = payload;
-      this.map.removeLayer(this.$refs.dataLayer.mapObject);
+      const newIndex = this.arrayOfObjects
+        .map((i) => i.value)
+        .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
+      this.dataLayerIndex = newIndex;
+      this.refreshLayer('data');
       this.$nextTick(() => {
-        this.map.addLayer(this.$refs.dataLayer.mapObject);
-        if (this.dataLayerDisplay.protocol === 'WMS') {
-          this.$refs.dataLayer.mapObject
-            .setParams(this.layerOptions(this.currentTime, this.dataLayerDisplay));
-        }
         this.slider.setRightLayers(this.$refs.dataLayer.mapObject);
       });
     },
     compareLayerTimeSelection(payload) {
       this.compareLayerTime = payload;
-      this.map.removeLayer(this.$refs.compareLayer.mapObject);
+      const newIndex = this.arrayOfObjects
+        .map((i) => i.value)
+        .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
+      this.compareLayerIndex = newIndex;
+      this.refreshLayer('compare');
       this.$nextTick(() => {
-        this.map.addLayer(this.$refs.compareLayer.mapObject);
-        if (this.dataLayerDisplay.protocol === 'WMS') {
-          this.$refs.compareLayer.mapObject
-            .setParams(this.layerOptions(this.currentCompareTime, this.dataLayerDisplay));
-        }
         this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
       });
     },
     dataLayerReduce() {
       const currentIndex = this.arrayOfObjects
         .map((i) => i.value)
-        .indexOf(this.dataLayerTime.value);
+        .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
+      this.dataLayerIndex = currentIndex - 1;
       this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex - 1]);
     },
     dataLayerIncrease() {
       const currentIndex = this.arrayOfObjects
         .map((i) => i.value)
-        .indexOf(this.dataLayerTime.value);
+        .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
+      this.dataLayerIndex = currentIndex + 1;
       this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex + 1]);
     },
     compareLayerReduce() {
       const currentIndex = this.arrayOfObjects
         .map((i) => i.value)
-        .indexOf(this.compareLayerTime.value);
+        .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
+      this.compareLayerIndex = currentIndex - 1;
       this.compareLayerTimeSelection(this.arrayOfObjects[currentIndex - 1]);
     },
     compareLayerIncrease() {
       const currentIndex = this.arrayOfObjects
         .map((i) => i.value)
-        .indexOf(this.compareLayerTime.value);
+        .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
+      this.compareLayerIndex = currentIndex + 1;
       this.compareLayerTimeSelection(this.arrayOfObjects[currentIndex + 1]);
+    },
+    refreshLayer(side) {
+      // compare(left) or data(right)
+      if (side === 'compare') {
+        if (this.layerDisplay('compare').protocol === 'WMS') {
+          this.$refs.compareLayer.mapObject
+            .setParams(this.layerOptions(this.currentCompareTime, this.layerDisplay('compare')));
+        } else if (this.layerDisplay('compare').protocol === 'xyz') {
+          this.$refs.compareLayer.mapObject
+            .setUrl(this.layerDisplay('compare').url);
+        }
+        // redraw
+        this.compareLayerKey = Math.random();
+      } else if (side === 'data') {
+        if (this.layerDisplay('data').protocol === 'WMS') {
+          this.$refs.dataLayer.mapObject
+            .setParams(this.layerOptions(this.currentTime, this.layerDisplay('data')));
+        } else if (this.layerDisplay('data').protocol === 'xyz') {
+          this.$refs.dataLayer.mapObject
+            .setUrl(this.layerDisplay('data').url);
+        }
+        // redraw
+        this.dataLayerKey = Math.random();
+      }
     },
   },
   watch: {
@@ -497,37 +531,34 @@ export default {
           this.map.removeControl(this.slider);
         }
       } else {
+        this.map.addLayer(this.$refs.compareLayer.mapObject);
         this.$nextTick(() => {
-          this.map.addLayer(this.$refs.compareLayer.mapObject);
+          this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
+          this.slider.setRightLayers(this.$refs.dataLayer.mapObject);
           this.slider.addTo(this.map);
         });
       }
     },
     indicator() {
       this.dataLayerTime = { value: this.indicator.Time[this.indicator.Time.length - 1] };
+      this.dataLayerIndex = this.indicator.Time.length - 1;
       this.compareLayerTime = { value: this.indicator.Time[0] };
-      this.mapKey += 1;
-      this.map.removeLayer(this.$refs.dataLayer.mapObject);
-      this.map.removeLayer(this.$refs.compareLayer.mapObject);
+      this.compareLayerIndex = 0;
       this.$nextTick(() => {
-        this.map.addLayer(this.$refs.dataLayer.mapObject);
-        if (this.enableCompare) {
-          this.map.addLayer(this.$refs.compareLayer.mapObject);
+        // first nextTick to update layer correctly if was switch from wms <-> xyz 
+        this.refreshLayer('data');
+        if (this.slider) {
+          this.refreshLayer('compare');
         }
-        if (this.dataLayerDisplay.protocol === 'WMS') {
-          this.$refs.dataLayer.mapObject
-            .setParams(this.layerOptions(this.currentTime, this.dataLayerDisplay));
-          this.$refs.dataLayer.mapObject
-            .setParams({ layers: this.shLayerName });
-          this.$refs.compareLayer.mapObject
-            .setParams(this.layerOptions(this.currentCompareTime, this.dataLayerDisplay));
-          this.$refs.compareLayer.mapObject
-            .setParams({ layers: this.shLayerName });
-        }
-        this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
-        this.slider.setRightLayers(this.$refs.dataLayer.mapObject);
-        this.flyToBounds();
-        this.onResize();
+        this.$nextTick(() => {
+          // second nextTick to add correct layers to slider
+          if (this.slider) {
+            this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
+            this.slider.setRightLayers(this.$refs.dataLayer.mapObject);
+          }
+          this.flyToBounds();
+          this.onResize();
+        });
       });
     },
   },

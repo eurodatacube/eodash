@@ -19,7 +19,7 @@ const mutations = {
 const actions = {
   checkBrand({ commit }) {
     const appConfig = require('../../appConfig.js');
-    const b = appConfig.default.brands.find((c) => c.match.includes(document.domain))
+    const b = appConfig.default.brands.find((c) => c.match.includes(document.domain));
     const brandConfig = (b !== undefined) ? b : appConfig.default.brands[0];
     commit('SET_APP_CONFIG', brandConfig);
     commit('SET_BASE_CONFIG', require(`../../config/${brandConfig.id}.js`));
