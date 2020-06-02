@@ -53,6 +53,10 @@ export default {
           poi: 'World-N1',
           src: '/eodash-data/general/Slide3.png',
         },
+        {
+          poi: 'DE11-E10a1',
+          src: '/eodash-data/general/Slide4.png',
+        },
       ],
     };
   },
