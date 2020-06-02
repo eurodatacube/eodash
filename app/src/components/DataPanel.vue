@@ -46,6 +46,20 @@
             ><span><v-icon left>mdi-satellite-variant</v-icon>EO Data</span>
             </v-btn>
             <v-btn
+              v-if="indicatorObject && baseConfig
+                .indicatorsDefinition[indicatorObject['Indicator code']].externalData"
+              :href= "baseConfig
+                .indicatorsDefinition[indicatorObject['Indicator code']].externalData.url"
+              target="_blank"
+              color="primary"
+              large
+              block
+              class="my-5"
+            ><span><v-icon left>mdi-open-in-new</v-icon>{{baseConfig
+                .indicatorsDefinition[indicatorObject['Indicator code']].externalData.label}}</span>
+            </v-btn>
+            <v-btn
+              v-else
               disabled
               color="primary"
               large
@@ -119,6 +133,7 @@ export default {
       'getLatestUpdate',
     ]),
     ...mapState('config', ['appConfig']),
+    ...mapState('config', ['baseConfig']),
     story() {
       let markdown;
       try {
