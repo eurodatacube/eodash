@@ -1,10 +1,20 @@
 <template>
-  <div class="about">
-    <div
-      v-html="about"
-      class="md-body my-5"
-      :options="{ markdownIt: { html: true } }"
-    />
+  <div
+    class="pa-7 pt-0 pb-0"
+    :class="$vuetify.breakpoint.xsOnly && 'pb-10'"
+    style="overflow: auto; height: 100%;"
+  >
+    <v-row class="d-flex">
+      <v-col
+        cols="12"
+      >
+        <div
+          v-html="about"
+          class="md-body"
+          :options="{ markdownIt: { html: true } }"
+        />
+      </v-col>
+    </v-row>
   </div>
 </template>
 

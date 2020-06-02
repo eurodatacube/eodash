@@ -1,64 +1,5 @@
 <template>
-  <div
-    v-if="!$store.state.indicators.selectedIndicator"
-    class="pa-7 pt-0 pb-0"
-    :class="$vuetify.breakpoint.xsOnly && 'pb-10'"
-    style="overflow: auto; height: 100%;"
-  >
-    <v-row class="d-flex">
-      <v-col
-        cols="12"
-      >
-        <h1 class="display-2 primary--text mb-5">COVID-19 Impact seen by Satellite</h1>
-      </v-col>
-      <v-col
-        cols="12"
-      >
-        <news-carousel v-if="appConfig.showNewsCarousel" />
-      </v-col>
-      <v-col
-        cols="12"
-        md="4"
-      >
-        <v-card outlined class="pa-5 text-center">
-          <p>Indicator Datasets</p>
-          <h2 class="primary--text display-3">{{ getIndicators.length }}</h2>
-        </v-card>
-      </v-col>
-      <v-col
-        cols="12"
-        md="4"
-      >
-        <v-card outlined class="pa-5 text-center">
-          <p>Measurements</p>
-          <h2 class="primary--text display-3">{{ $store.state.features.resultsCount }}</h2>
-        </v-card>
-      </v-col>
-      <v-col
-        cols="12"
-        md="4"
-      >
-        <v-card outlined class="pa-5 text-center">
-          <p>Countries</p>
-          <h2 class="primary--text display-3">{{ countryItemsCount }}</h2>
-        </v-card>
-      </v-col>
-      <v-col
-        cols="12"
-      >
-        <small>Latest measurement: {{ getLatestUpdate }}</small>
-      </v-col>
-      <v-col
-        cols="12"
-      >
-        <div
-          v-html="welcome"
-          class="md-body"
-        ></div>
-      </v-col>
-    </v-row>
-  </div>
-  <div v-else>
+  <div>
     <v-container class="pt-0">
       <v-row>
         <v-col
@@ -150,7 +91,6 @@ import marked from 'marked';
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
-import NewsCarousel from '@/components/NewsCarousel.vue';
 
 export default {
   props: [
@@ -160,7 +100,6 @@ export default {
     ExpandableContent,
     IndicatorData,
     IndicatorMap,
-    NewsCarousel,
   },
   data: () => ({
     dialog: false,
@@ -188,9 +127,6 @@ export default {
         markdown = { default: 'No indicator story provided yet.' };
       }
       return marked(markdown.default);
-    },
-    welcome() {
-      return marked(require('../../public/eodash-data/general/How to use the RACE Dashboard.md').default);
     },
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;

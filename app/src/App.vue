@@ -140,7 +140,13 @@ export default {
       }
 
       if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
-        this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: `${mutation.payload.AOI_ID}-${mutation.payload['Indicator code']}` }) }).catch(err => {}); // eslint-disable-line
+        if (mutation.payload) {
+          this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: `${mutation.payload.AOI_ID}-${mutation.payload['Indicator code']}` }) }).catch(err => {}); // eslint-disable-line
+        } else {
+          const query = Object.assign({}, this.$route.query); // eslint-disable-line
+          delete query.poi;
+          this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
+        }
       }
     });
   },

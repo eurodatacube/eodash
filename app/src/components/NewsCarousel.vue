@@ -2,9 +2,10 @@
   <v-carousel
     :continuous="autoPlay"
     cycle
-    :height="$vuetify.breakpoint.mdAndUp ? 400 : 200"
+    :height="$vuetify.breakpoint.lgAndUp ? 350 : 200"
     hide-delimiter-background
     show-arrows-on-hover
+    :style="`background: ${$vuetify.theme.themes.light.primary}`"
   >
     <v-hover>
       <template v-slot:default="{ hover }">
@@ -57,7 +58,7 @@ export default {
   },
   methods: {
     onClickItem(item) {
-      const poi = item.poi;
+      const { poi } = item;
       if (poi) {
         const aoiId = poi.split('-')[0];
         const indicatorCode = poi.split('-')[1];

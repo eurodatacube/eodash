@@ -11,7 +11,12 @@ const state = {
     indicators: [],
   },
   selectedFeatures: [],
-  resultsCount: 0,
+  resultsCount: {
+    economic: 0,
+    agriculture: 0,
+    environment: 0,
+    health: 0,
+  },
 };
 
 const getters = {
@@ -97,11 +102,8 @@ const mutations = {
   SET_SELECTED_FEATURES(state, features) {
     state.selectedFeatures = features;
   },
-  SET_RESULTS_COUNT(state, count) {
-    state.resultsCount = count;
-  },
-  ADD_RESULTS_COUNT(state, count) {
-    state.resultsCount += count;
+  ADD_RESULTS_COUNT(state, { type, count }) {
+    state.resultsCount[type] += count;
   },
 };
 const actions = {
@@ -126,7 +128,7 @@ const actions = {
     }
     commit('ADD_NEW_FEATURES', allFeatures);
   },
-  loadCsv({ commit }, csvUrl) {
+  loadCsv({ rootState, commit }, csvUrl) {
     return new Promise((resolve) => {
       this._vm.$papa.parse(csvUrl, {
         download: true,
@@ -135,8 +137,11 @@ const actions = {
         skipEmptyLines: true,
         delimiter: ',',
         complete: (results) => {
+          commit('ADD_RESULTS_COUNT', {
+            type: rootState.config.baseConfig.indicatorsDefinition[results.data[0]['Indicator code']].class,
+            count: results.data.length,
+          });
           if (results.data[0].AOI) { // only continue if AOI column is present
-            commit('ADD_RESULTS_COUNT', results.data.length);
             const wkt = new Wkt();
             // Sort results by time
             results.data.sort((a, b) => moment.utc(a.Time).diff(moment.utc(b.Time)));

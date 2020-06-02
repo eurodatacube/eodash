@@ -15,8 +15,22 @@
       >
         {{ appConfig && appConfig.branding.appName }}
       </v-toolbar-title>
-      <v-btn text dark small @click="showAboutDialog = true">About</v-btn>
-      <v-btn text dark small @click="showFeedbackDialog = true">Feedback</v-btn>
+      <v-btn
+        text
+        dark
+        small
+        @click="displayShowText('welcome')"
+      >
+        Welcome
+      </v-btn>
+      <v-btn
+        text
+        dark
+        small
+        @click="displayShowText('about')"
+      >
+        About
+      </v-btn>
       <v-spacer></v-spacer>
       <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
     </v-app-bar>
@@ -56,7 +70,13 @@
           </div>
         </v-toolbar-title>
       </v-toolbar>
-      <data-panel :expanded="dataPanelFullWidth" class="px-5" />
+      <data-panel
+        v-if="$store.state.indicators.selectedIndicator"
+        :expanded="dataPanelFullWidth" class="px-5" />
+      <template v-else>
+        <Welcome v-if="showText === 'welcome'" />
+        <About v-else-if="showText === 'about'" />
+      </template>
     </v-navigation-drawer>
     <v-dialog
       v-if="$vuetify.breakpoint.smAndDown"
@@ -71,6 +91,9 @@
         >{{ $store.state.indicators.selectedIndicator['City'] }},
           {{ $store.state.indicators.selectedIndicator.Description }}
         </v-toolbar-title>
+        <v-toolbar-title v-else class="text-capitalize">
+          {{ showText }}
+        </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon dark @click="clickMobileClose">
           <v-icon>mdi-close</v-icon>
@@ -84,7 +107,13 @@
       >
         {{ $store.state.indicators.selectedIndicator['Indicator Name'] }}
       </h4>
-      <data-panel class="fill-height" />
+      <data-panel
+        v-if="$store.state.indicators.selectedIndicator"
+        :expanded="dataPanelFullWidth" class="fill-height" />
+      <template v-else>
+        <Welcome v-if="showText === 'welcome'" />
+        <About v-else-if="showText === 'about'" />
+      </template>
     </v-dialog>
     <v-content style="height: 100vh; overflow:hidden;">
       <v-container
@@ -101,23 +130,10 @@
         </v-row>
       </v-container>
     </v-content>
-    <v-btn
-      v-if="!showFeedbackDialog && $vuetify.breakpoint.smAndUp"
-      fixed
-      dark
-      rounded
-      bottom
-      x-large
-      right
-      color="#ff8100"
-      style="z-index:999; bottom: 50px"
-      @click="showFeedbackDialog = true"
-    >
-      <v-icon left>mdi-tooltip-edit-outline</v-icon> Feedback
-    </v-btn>
     <v-footer app color="primary" class="d-flex justify-center align-center white--text"
      style="z-index: 5">
         <v-spacer></v-spacer>
+        <v-btn text dark small @click="showFeedbackDialog = true">Feedback</v-btn>
         <small>
           <a href="https://eurodatacube.com" target="_blank" class="white--text mx-1">EDC</a>
           <span>service for</span>
@@ -141,23 +157,6 @@
         </small>
     </v-footer>
     <v-dialog
-      v-model="showAboutDialog"
-      width="80%"
-    >
-      <v-card>
-        <v-card-title>
-          <span class="headline">About</span>
-        </v-card-title>
-        <v-card-text>
-          <About />
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="showAboutDialog = false">Ok</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    <v-dialog
       v-model="showFeedbackDialog"
       width="80%"
     >
@@ -175,6 +174,7 @@
 </template>
 
 <script>
+import Welcome from '@/views/Welcome.vue';
 import About from '@/views/About.vue';
 import Feedback from '@/views/Feedback.vue';
 import SelectionPanel from '@/components/SelectionPanel.vue';
@@ -189,6 +189,7 @@ export default {
     };
   },
   components: {
+    Welcome,
     About,
     Feedback,
     SelectionPanel,
@@ -200,8 +201,8 @@ export default {
   },
   data: () => ({
     drawerLeft: true,
-    drawerRight: false,
-    showAboutDialog: false,
+    drawerRight: true,
+    showText: 'welcome',
     showFeedbackDialog: false,
     dataPanelFullWidth: false,
     dataPanelTemporary: false,
@@ -217,7 +218,7 @@ export default {
   created() {
     // this.$vuetify.theme.dark = true;
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
-    this.drawerRight = this.$vuetify.breakpoint.mdAndUp;
+    // this.drawerRight = this.$vuetify.breakpoint.mdAndUp;
   },
   methods: {
     setDataPanelWidth(enable) {
@@ -233,6 +234,11 @@ export default {
     clickMobileClose() {
       this.drawerRight = false;
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+    },
+    displayShowText(text) {
+      this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+      this.drawerRight = true;
+      this.showText = text;
     },
   },
   watch: {
