@@ -92,7 +92,7 @@ export default {
       // Read route query and set filters
       this.$store.commit('features/INIT_FEATURE_FILTER', {
         countries: this.$route.query.country ? this.$route.query.country : [],
-        indicators: this.$route.query.indicator ? [this.$route.query.indicator] : [],
+        indicators: this.$route.query.indicator ? this.$route.query.indicator : [],
       });
     });
     // Listen for features added, and select if poi in query

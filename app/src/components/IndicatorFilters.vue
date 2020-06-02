@@ -9,13 +9,29 @@
     >
       <v-tab
       >
+        <v-badge
+          v-if="countrySelection !== 'all'"
+          color="primary"
+          icon="mdi-filter"
+          offset-x="-37"
+          offset-y="-26"
+        >
+        </v-badge>
         Countries
-        <v-icon>mdi-flag-outline</v-icon>
+        <v-icon class="mb-1">mdi-flag-outline</v-icon>
       </v-tab>
       <v-tab
       >
+        <v-badge
+          v-if="indicatorSelection !== 'all'"
+          color="primary"
+          icon="mdi-filter"
+          offset-x="-37"
+          offset-y="-26"
+        >
+        </v-badge>
         Indicators
-        <v-icon>mdi-lightbulb-on-outline</v-icon>
+        <v-icon class="mb-1">mdi-lightbulb-on-outline</v-icon>
       </v-tab>
     </v-tabs>
     <v-tabs-items
@@ -215,11 +231,13 @@ export default {
         }
         if (mutation.payload.indicators) {
           if (Array.isArray(mutation.payload.indicators)) {
-            if (mutation.payload.countries.length === 0) {
+            if (mutation.payload.indicators.length === 0) {
               this.indicatorSelection = 'all';
+            } else {
+              this.indicatorSelection = mutation.payload.indicators[0];
             }
           } else {
-            [this.indicatorSelection] = mutation.payload.indicators;
+            this.indicatorSelection = mutation.payload.indicators;
           }
         }
       }
