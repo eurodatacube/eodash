@@ -139,7 +139,7 @@ const actions = {
         complete: (results) => {
           commit('ADD_RESULTS_COUNT', {
             type: rootState.config.baseConfig.indicatorsDefinition[results.data[0]['Indicator code']].class,
-            count: results.data.length,
+            count: results.data.length, // individual measurements
           });
           if (results.data[0].AOI) { // only continue if AOI column is present
             const wkt = new Wkt();

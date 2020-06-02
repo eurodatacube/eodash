@@ -27,7 +27,12 @@
               x-large
               color="primary"
             >{{ baseConfig.indicatorClassesIcons.economic }}</v-icon>
-              {{ $store.state.features.resultsCount.economic }}</h2>
+            {{ getFeatures
+              .filter((i) => i.properties.indicatorObject['Indicator code'] !== 'd' && baseConfig
+                .indicatorsDefinition[i.properties.indicatorObject['Indicator code']]
+                  .class === 'economic'
+              ).length }}
+          </h2>
           <p class="mb-0"><small>Economic Indicators</small></p>
         </v-card>
       </v-col>
@@ -41,7 +46,12 @@
               x-large
               color="primary"
             >{{ baseConfig.indicatorClassesIcons.agriculture }}</v-icon>
-              {{ $store.state.features.resultsCount.agriculture }}</h2>
+            {{ getFeatures
+              .filter((i) => i.properties.indicatorObject['Indicator code'] !== 'd' && baseConfig
+                .indicatorsDefinition[i.properties.indicatorObject['Indicator code']]
+                  .class === 'agriculture'
+              ).length }}
+          </h2>
           <p class="mb-0"><small>Agriculture Indicators</small></p>
         </v-card>
       </v-col>
@@ -55,7 +65,12 @@
               x-large
               color="primary"
             >{{ baseConfig.indicatorClassesIcons.environment }}</v-icon>
-              {{ $store.state.features.resultsCount.environment }}</h2>
+            {{ getFeatures
+              .filter((i) => i.properties.indicatorObject['Indicator code'] !== 'd' && baseConfig
+                .indicatorsDefinition[i.properties.indicatorObject['Indicator code']]
+                  .class === 'environment'
+              ).length }}
+            </h2>
           <p class="mb-0"><small>Environment Indicators</small></p>
         </v-card>
       </v-col>
@@ -94,6 +109,7 @@ export default {
   computed: {
     ...mapGetters('features', [
       'getCountries',
+      'getFeatures',
       'getIndicators',
       'getLatestUpdate',
     ]),
