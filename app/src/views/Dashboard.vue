@@ -117,8 +117,8 @@
           :expanded="dataPanelFullWidth" class="fill-height" />
         <template v-else>
           <Welcome v-if="showText === 'welcome'" style="padding-bottom: 135px !important" />
-          <About v-else-if="showText === 'about'" />
-          <Privacy v-else-if="showText === 'privacy'" />
+          <About v-else-if="showText === 'about'" style="padding-bottom: 100px !important" />
+          <Privacy v-else-if="showText === 'privacy'" style="padding-bottom: 100px !important" />
           <div
             class="pa-3"
             style="position: absolute; bottom: 0; left: 0; width: 100%;"
