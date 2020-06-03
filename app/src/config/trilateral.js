@@ -185,7 +185,7 @@ export const overlayLayers = [
 ];
 
 export const defaultWMSDisplay = {
-  baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+  baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
   protocol: 'WMS',
   dateFormatFunction: shTimeFunction,
   format: 'image/png',
