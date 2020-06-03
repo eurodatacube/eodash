@@ -68,6 +68,7 @@ export default {
           .join(', ')).indicator,
         indicatorValue: this.getLastValue(f.properties.indicatorObject).text,
         indicatorColor: this.getLastValue(f.properties.indicatorObject).color,
+        indicatorObject: f.properties.indicatorObject,
       }));
     },
   },
@@ -110,10 +111,10 @@ export default {
       return this.baseConfig.indicatorsDefinition[code];
     },
     openFeature(feature) {
-      if (feature.properties.indicatorObject['Indicator code'] !== 'd') {
+      if (feature.indicatorObject['Indicator code'] !== 'd') {
         this.$store.commit(
           'indicators/SET_SELECTED_INDICATOR',
-          feature.properties.indicatorObject,
+          feature.indicatorObject,
         );
       }
     },
