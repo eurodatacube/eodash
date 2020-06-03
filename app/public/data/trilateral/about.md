@@ -1,3 +1,4 @@
-## Trilateral NASA, ESA, and JAXA dashboard
+## Tri-Agency NASA, ESA, and JAXA dashboard
+
 
 Coming soon!
