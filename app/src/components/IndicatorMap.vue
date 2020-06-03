@@ -258,8 +258,8 @@ export default {
       const selectionOptions = [];
       for (let i = 0; i < this.indicator.Time.length; i += 1) {
         let label = this.getTimeLabel(this.indicator.Time[i]);
-        if (this.indicator['Input Data']) {
-          label += ` - ${this.indicator['Input Data'][i]}`;
+        if (this.indicator['EO Sensor']) {
+          label += ` - ${this.indicator['EO Sensor'][i]}`;
         }
         selectionOptions.push({
           value: this.indicator.Time[i],
