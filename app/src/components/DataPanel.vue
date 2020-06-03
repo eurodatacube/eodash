@@ -11,11 +11,29 @@
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
           >
+            <div
+              style="height: 100%;z-index: 500; position: relative;"
+              v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
+              @click="dataInteract = true"
+              v-touch="{
+                left: () => swipe(),
+                right: () => swipe(),
+                up: () => swipe(),
+                down: () => swipe(),
+            }">
+            </div>
+            <v-overlay :value="overlay" absolute
+              v-if="!dataInteract"
+              @click="dataInteract = true">
+              Tap to interact
+            </v-overlay>
             <indicator-map
+              style="top: 0px; position: absolute;"
               v-if="globalData"
               class="pt-0 fill-height"
             />
             <indicator-data
+              style="top: 0px; position: absolute;"
               v-else
               class="pa-5"
             />
@@ -119,6 +137,8 @@ export default {
   },
   data: () => ({
     dialog: false,
+    overlay: false,
+    dataInteract: false,
   }),
   watch: {
     dialog(open) {
@@ -154,6 +174,12 @@ export default {
     countryItemsCount() {
       const countries = this.getCountries.filter((item) => !['all', 'regional'].includes(item));
       return countries.length;
+    },
+  },
+  methods: {
+    swipe() {
+      this.overlay = true;
+      setTimeout(() => { this.overlay = false; }, 2000);
     },
   },
 };

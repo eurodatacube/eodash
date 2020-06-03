@@ -4,6 +4,7 @@ import VueMatomo from 'vue-matomo';
 import VueMeta from 'vue-meta';
 import VueRouter from 'vue-router';
 import Vuetify from 'vuetify/lib';
+import { Touch } from 'vuetify/lib/directives';
 
 import browserDetect from 'vue-browser-detect-plugin';
 import App from './App.vue';
@@ -40,7 +41,12 @@ const router = new VueRouter({
   // routes,
 });
 
-Vue.use(Vuetify);
+Vue.use(Vuetify, {
+  directives: {
+    Touch,
+  },
+});
+
 Vue.use(browserDetect);
 
 const renderVue = async () => {
