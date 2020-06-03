@@ -190,8 +190,20 @@
     <v-dialog
       v-model="showFeedbackDialog"
       width="80%"
+      :fullscreen="$vuetify.breakpoint.xsOnly"
+      :hide-overlay="$vuetify.breakpoint.xsOnly"
+      transition="dialog-bottom-transition"
     >
-      <v-card class="pa-5">
+      <v-toolbar v-if="$vuetify.breakpoint.xsOnly" dark color="primary">
+        <v-toolbar-title>How can we improve eodash?
+        </v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn icon dark @click="showFeedbackDialog = false">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </v-toolbar>
+      <v-card :class="$vuetify.breakpoint.mdAndUp && 'pa-5'"
+        style="overflow-y: auto; height: 100%;">
         <v-card-text>
           <Feedback />
         </v-card-text>
