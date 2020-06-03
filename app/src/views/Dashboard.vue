@@ -128,7 +128,7 @@
               @click="clickMobileClose"
               block
               large
-              color="primary"
+              color="secondary"
             >
               <v-icon left>mdi-arrow-right</v-icon>
               Start exploring!
@@ -248,7 +248,7 @@ export default {
   },
   data: () => ({
     drawerLeft: true,
-    drawerRight: true,
+    drawerRight: false,
     showText: 'welcome',
     showFeedbackDialog: false,
     dataPanelFullWidth: false,
@@ -265,7 +265,10 @@ export default {
   created() {
     // this.$vuetify.theme.dark = true;
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
-    // this.drawerRight = this.$vuetify.breakpoint.mdAndUp;
+    this.drawerRight = this.$vuetify.breakpoint.mdAndUp;
+  },
+  mounted() {
+    setTimeout(() => { this.drawerRight = true; }, 2000);
   },
   methods: {
     setDataPanelWidth(enable) {
