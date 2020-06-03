@@ -21,7 +21,7 @@ const brands = [
     aboutText: '/eodash-data/general/about',
     showNewsCarousel: true,
     privacyText: '/eodash-data/general/privacy',
-    termsText: '/eodash-data/general/terms'
+    termsText: '/eodash-data/general/terms',
   },
   {
     id: 'trilateral',
@@ -40,7 +40,7 @@ const brands = [
     displayDummyLocations: '/data/trilateral/dummylocations.csv',
     aboutText: '/data/trilateral/about',
     privacyText: '/data/trilateral/privacy',
-    termsText: '/data/trilateral/terms'
+    termsText: '/data/trilateral/terms',
   },
 ];
 
