@@ -1,6 +1,6 @@
 {
   "name": "race-dashboard",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -54,6 +54,7 @@
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-vuetify": "^2.0.5",
     "vue-template-compiler": "^2.6.11",
-    "vuetify-loader": "^1.3.0"
+    "vuetify-loader": "^1.3.0",
+    "webpack-remove-serviceworker-plugin": "^1.0.0"
   }
 }
