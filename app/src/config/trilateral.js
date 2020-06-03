@@ -94,6 +94,7 @@ export const indicatorsDefinition = Object.freeze({
   N1: {
     indicator: 'Air quality',
     class: 'environment',
+    story: '/eodash-data/stories/N1.md',
     externalData: {
       label: 'Sentinel-5p Mapping Service',
       url: 'https://maps.s5p-pal.com',
@@ -115,6 +116,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'CHL concentration',
     class: 'environment',
     file: '/data/trilateral/N3.csv',
+    story: '/data/trilateral/N3_tri.md'
   },
   N3a2: {
     indicator: 'CHL concentration',
@@ -131,6 +133,7 @@ export const indicatorsDefinition = Object.freeze({
   JAXA1: {
     indicator: 'Volume of activity',
     class: 'economic',
+    story: '/data/trilateral/E8_tri.md',
   },
   d: { // dummy for locations
     indicator: 'Upcoming data',

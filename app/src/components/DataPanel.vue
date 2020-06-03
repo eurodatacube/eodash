@@ -152,7 +152,7 @@ export default {
     story() {
       let markdown;
       try {
-        markdown = require(`../../public/eodash-data/stories/${this.indicatorObject['Indicator code']}.md`);
+        markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject['Indicator code']].story}`);
       } catch {
         markdown = { default: 'No indicator story provided yet.' };
       }
