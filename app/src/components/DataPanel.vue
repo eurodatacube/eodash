@@ -63,7 +63,9 @@
               large
               block
               class="my-5"
+              :disabled="!eodataEnabled"
             ><span><v-icon left>mdi-satellite-variant</v-icon>EO Data</span>
+            <span v-if="!eodataEnabled">- Coming soon</span>
             </v-btn>
             <v-btn
               v-if="indicatorObject && baseConfig
@@ -159,12 +161,16 @@ export default {
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
     },
+    shLayerNameMapping() {
+      return this.baseConfig.shLayerNameMapping;
+    },
     globalData() {
       return ['all', 'regional'].includes(this.indicatorObject.Country);
     },
-    countryItemsCount() {
-      const countries = this.getCountries.filter((item) => !['all', 'regional'].includes(item));
-      return countries.length;
+    eodataEnabled() {
+      const lastInputData = (this.indicatorObject && this.indicatorObject['Input Data']) ? this.indicatorObject['Input Data'][this.indicatorObject['Input Data'].length - 1] : null;
+      // search configuration mapping if layer is configured
+      return lastInputData ? this.shLayerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
     },
   },
   methods: {
