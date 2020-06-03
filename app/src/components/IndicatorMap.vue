@@ -195,6 +195,8 @@ import {
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-mouse-position';
 import 'leaflet-side-by-side';
+import 'leaflet-loading';
+import 'leaflet-loading/src/Control.Loading.css';
 import moment from 'moment';
 
 export default {
@@ -338,6 +340,11 @@ export default {
         this._container.innerHTML = `<div class='attribution-body'>${prefixAndAttribs.join(' | ')}</div><div class='attribution-icon'>ℹ</div>`;
       };
       this.map.attributionControl._update();
+      // add loading indicator
+      L.Control.loading({
+        position: 'topright',
+        delayIndicator: 200,
+      }).addTo(this.map);
       // add A/B slider
       this.slider = L.control.sideBySide(this.$refs.compareLayer.mapObject, this.$refs.dataLayer.mapObject); // eslint-disable-line
 
