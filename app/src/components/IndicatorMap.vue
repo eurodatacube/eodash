@@ -245,6 +245,9 @@ export default {
     mapDefaults() {
       return this.baseConfig.mapDefaults;
     },
+    layerNameMapping() {
+      return this.baseConfig.layerNameMapping;
+    },
     indicator() {
       return this.$store.state.indicators.selectedIndicator;
     },
@@ -255,8 +258,8 @@ export default {
       const selectionOptions = [];
       for (let i = 0; i < this.indicator.Time.length; i += 1) {
         let label = this.getTimeLabel(this.indicator.Time[i]);
-        if (this.indicator['Input Data']) {
-          label += ` - ${this.indicator['Input Data'][i]}`;
+        if (this.indicator['EO Sensor']) {
+          label += ` - ${this.indicator['EO Sensor'][i]}`;
         }
         selectionOptions.push({
           value: this.indicator.Time[i],
@@ -302,6 +305,9 @@ export default {
     },
   },
   mounted() {
+    this.dataLayerIndex = this.indicator.Time.length - 1;
+    this.dataLayerTime = { value: this.indicator.Time[this.dataLayerIndex] };
+    this.compareLayerTime = { value: this.indicator.Time[this.compareLayerIndex] };
     this.$nextTick(() => {
       this.map = this.$refs.map.mapObject;
       this.$refs.subaoiLayer.mapObject.bindTooltip('Reference area', {
@@ -337,10 +343,6 @@ export default {
 
       this.flyToBounds();
       this.onResize();
-
-      this.dataLayerIndex = this.indicator.Time.length - 1;
-      this.dataLayerTime = { value: this.indicator.Time[this.dataLayerIndex] };
-      this.compareLayerTime = { value: this.indicator.Time[this.compareLayerIndex] };
     });
   },
   methods: {
@@ -359,24 +361,19 @@ export default {
         this.map._onResize();
       }
     },
-    shLayerName(side) {
+    shLayerConfig(side) {
       const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
-      let sensor = this.indicator['EO Sensor'][index].toUpperCase();
-      const indicatorCode = this.indicator['Indicator code'].toUpperCase();
-      if (['S1B', 'S1A', 'SENTINEL-1', 'SENTINEL 1', 'S1'].includes(sensor)) {
-        sensor = 'SENTINEL1';
-      } else if (['S2', 'SENTINEL-2', 'SENTINEL 2'].includes(sensor)) {
-        sensor = 'SENTINEL-2-L2A-TRUE-COLOR';
-      } else if (['PLANET'].includes(sensor)) {
-        sensor = 'PLANETSCOPE';
+      const inputData = this.indicator['Input Data'][index];
+      if (this.layerNameMapping.hasOwnProperty(inputData)) { // eslint-disable-line
+        return this.layerNameMapping[inputData];
       }
-      return `${indicatorCode}_${sensor}`;
+      return null;
     },
     layerDisplay(side) {
       // if display not specified (global layers), suspect SIN layer
       return this.indicator.display ? this.indicator.display : {
         ...this.baseConfig.defaultWMSDisplay,
-        layers: this.shLayerName(side),
+        ...this.shLayerConfig(side),
         name: this.indicator.Description,
       };
     },
@@ -449,7 +446,12 @@ export default {
       return additionalSettings;
     },
     dataLayerTimeSelection(payload) {
-      this.dataLayerTime = payload;
+      // Different object returned either by arrow use or by dropdown use
+      if (Array.isArray(payload)) {
+        this.dataLayerTime = { value: payload, name: `${payload}` };
+      } else {
+        this.dataLayerTime = payload;
+      }
       const newIndex = this.arrayOfObjects
         .map((i) => i.value)
         .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
@@ -460,7 +462,12 @@ export default {
       });
     },
     compareLayerTimeSelection(payload) {
-      this.compareLayerTime = payload;
+      // Different object returned either by arrow use or by dropdown use
+      if (Array.isArray(payload)) {
+        this.compareLayerTime = { value: payload, name: `${payload}` };
+      } else {
+        this.compareLayerTime = payload;
+      }
       const newIndex = this.arrayOfObjects
         .map((i) => i.value)
         .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
@@ -561,6 +568,28 @@ export default {
         });
       });
     },
+    /* dataLayerTime() {
+      // When main data time is changed make sure to set correct index
+      if (this.dataLayerTime) {
+        const currentIndex = this.arrayOfObjects
+          .map((i) => i.value)
+          .indexOf(this.dataLayerTime.value
+            ? this.dataLayerTime.value : this.dataLayerTime);
+        this.dataLayerIndex = currentIndex;
+        this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex]);
+      }
+    },
+    compareLayerTime() {
+      // When compare time selection is changed make sure to set correct index
+      if (this.compareLayerTime) {
+        const currentIndex = this.arrayOfObjects
+          .map((i) => i.value)
+          .indexOf(this.compareLayerTime.value
+            ? this.compareLayerTime.value : this.compareLayerTime);
+        this.compareLayerIndex = currentIndex;
+        this.compareLayerTimeSelection(this.arrayOfObjects[currentIndex]);
+      }
+    }, */
   },
 };
 </script>

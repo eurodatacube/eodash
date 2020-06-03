@@ -1,8 +1,8 @@
 // config global variables here for now
 // temporary solution
 import { Wkt } from 'wicket';
-import { shTimeFunction } from '@/utils';
 import { latLng, latLngBounds } from 'leaflet';
+import { shTimeFunction } from '@/utils';
 import moment from 'moment';
 
 export const nasaEndpoints = [
@@ -57,15 +57,15 @@ export const indicatorsDefinition = Object.freeze({
   },
   E10a1: {
     indicator: 'Harvesting activity',
-    class: 'economic',
+    class: 'agriculture',
   },
   E10a2: {
     indicator: 'Cum. proportion of total area under active mgmt.',
-    class: 'economic',
+    class: 'agriculture',
   },
   E10b: {
     indicator: 'Field preparation activity',
-    class: 'economic',
+    class: 'agriculture',
   },
   E11: {
     indicator: 'Volume of activity at shopping centers',
@@ -138,6 +138,13 @@ export const indicatorsDefinition = Object.freeze({
   },
 });
 
+export const layerNameMapping = Object.freeze({
+  N1: {},
+  N1NASA: {}, // just for enabling eo data button for now,
+  NASAPopulation: {},
+  JAXA1: {},
+});
+
 export const indicatorClassesIcons = Object.freeze({
   environment: 'mdi-earth',
   health: 'mdi-hospital-box-outline',
@@ -155,30 +162,30 @@ export const baseLayers = [
   {
     name: 'EOxCloudless 2019',
     url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2019_3857/default/g/{z}/{y}/{x}.jpg',
-    attribution: '<a class="a-light" xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a class="a-light" xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2019)',
+    attribution: '{ EOxCloudless 2019: <a xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" target="_blank" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" target="_blank" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2019) }',
     visible: false,
     maxNativeZoom: 15,
   },
   {
     name: 'Terrain light',
     url: '//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg',
-    attribution: 'Data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data">others</a>, Rendering &copy; <a href="http://eox.at">EOX</a>',
+    attribution: '{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
     maxNativeZoom: 16,
     visible: true,
   },
 ];
 export const overlayLayers = [
   {
-    name: 'Overlay bright',
+    name: 'Overlay',
     url: '//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg',
-    attribution: 'Overlay: Data &copy; <a class="a-light" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Made with Natural Earth, Rendering &copy; <a class="a-light" href="//eox.at">EOX</a>',
+    attribution: '{ Overlay: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors, Made with Natural Earth, Rendering &copy; <a href="//eox.at" target="_blank">EOX</a> }',
     visible: true,
     maxZoom: 14,
   },
 ];
 
 export const defaultWMSDisplay = {
-  baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+  baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
   protocol: 'WMS',
   dateFormatFunction: shTimeFunction,
   format: 'image/png',
@@ -219,6 +226,7 @@ export const globalIndicators = [
         AOI: null,
         AOI_ID: 'World',
         Time: [['2019-01-07', '2019-01-21'], ['2019-01-14', '2019-01-28'], ['2019-01-21', '2019-02-04'], ['2019-01-28', '2019-02-11'], ['2019-02-04', '2019-02-18'], ['2019-02-11', '2019-02-25'], ['2019-02-18', '2019-03-04'], ['2019-02-25', '2019-03-11'], ['2019-03-04', '2019-03-18'], ['2019-03-11', '2019-03-25'], ['2019-03-18', '2019-04-01'], ['2019-03-25', '2019-04-08'], ['2019-04-01', '2019-04-15'], ['2019-04-08', '2019-04-22'], ['2019-04-15', '2019-04-29'], ['2019-04-22', '2019-05-06'], ['2019-04-29', '2019-05-13'], ['2019-05-06', '2019-05-20'], ['2019-05-13', '2019-05-27'], ['2019-05-20', '2019-06-03'], ['2019-05-27', '2019-06-10'], ['2019-06-03', '2019-06-17'], ['2019-06-10', '2019-06-24'], ['2019-06-17', '2019-07-01'], ['2019-06-24', '2019-07-08'], ['2019-07-01', '2019-07-15'], ['2019-07-08', '2019-07-22'], ['2019-07-15', '2019-07-29'], ['2019-07-22', '2019-08-05'], ['2019-07-29', '2019-08-12'], ['2019-08-05', '2019-08-19'], ['2019-08-12', '2019-08-26'], ['2019-08-19', '2019-09-02'], ['2019-08-26', '2019-09-09'], ['2019-09-02', '2019-09-16'], ['2019-09-09', '2019-09-23'], ['2019-09-16', '2019-09-30'], ['2019-09-23', '2019-10-07'], ['2019-09-30', '2019-10-14'], ['2019-10-07', '2019-10-21'], ['2019-10-14', '2019-10-28'], ['2019-10-21', '2019-11-04'], ['2019-10-28', '2019-11-11'], ['2019-11-04', '2019-11-18'], ['2019-11-11', '2019-11-25'], ['2019-11-18', '2019-12-02'], ['2019-11-25', '2019-12-09'], ['2019-12-02', '2019-12-16'], ['2019-12-09', '2019-12-23'], ['2019-12-16', '2019-12-30'], ['2019-12-23', '2020-01-06'], ['2019-12-30', '2020-01-13'], ['2020-01-06', '2020-01-20'], ['2020-01-13', '2020-01-27'], ['2020-01-20', '2020-02-03'], ['2020-01-27', '2020-02-10'], ['2020-02-03', '2020-02-17'], ['2020-02-10', '2020-02-24'], ['2020-02-17', '2020-03-02'], ['2020-02-24', '2020-03-09'], ['2020-03-02', '2020-03-16'], ['2020-03-09', '2020-03-23'], ['2020-03-16', '2020-03-30'], ['2020-03-23', '2020-04-06'], ['2020-03-30', '2020-04-13'], ['2020-04-06', '2020-04-20'], ['2020-04-13', '2020-04-27'], ['2020-04-20', '2020-05-04'], ['2020-04-27', '2020-05-11'], ['2020-05-04', '2020-05-18'], ['2020-05-11', '2020-05-25'], ['2020-05-18', '2020-06-01']],
+        'Input Data': ['N1'], // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
@@ -226,7 +234,7 @@ export const globalIndicators = [
           url: '//obs.eu-de.otc.t-systems.com/s5p-pal-l3-tms/s5p-l3-tropno2/fortnight/{time}/{z}/{x}/{-y}.png',
           name: 'Air Quality (NO2) - ESA',
           legendUrl: 'eodash-data/data/no2Legend.png',
-          attribution: '<a href="//scihub.copernicus.eu/twiki/pub/SciHubWebPortal/TermsConditions/TC_Sentinel_Data_31072014.pdf">Sentinel data</a>, <a href="//maps.s5p-pal.com/">S5P-PAL</a>',
+          attribution: '{ Air Quality: <a href="//scihub.copernicus.eu/twiki/pub/SciHubWebPortal/TermsConditions/TC_Sentinel_Data_31072014.pdf" target="_blank">Sentinel data</a>, <a href="//maps.s5p-pal.com/" target="_blank">S5P-PAL</a> }',
           dateFormatFunction: (dates) => `${moment.utc(dates[0], 'YYYY-MM-DD').format('YYYYMMDD')}-${moment.utc(dates[1], 'YYYY-MM-DD').format('YYYYMMDD')}`,
         },
       },
@@ -250,13 +258,14 @@ export const globalIndicators = [
         AOI: null,
         AOI_ID: 'World',
         Time: getMonthlyDates('2004-10-01', '2020-03-01'),
+        'Input Data': ['N1NASA'], // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
           opacity: 1,
           url: 'https://h4ymwpefng.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/OMNO2d_HRM/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=0%2C1e16&color_map=magma',
           name: 'Air Quality (NASA)',
-          attribution: '',
+          attribution: '{ Air Quality (NASA) }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYYMM')}`,
         },
       },
@@ -280,13 +289,14 @@ export const globalIndicators = [
         AOI: null,
         AOI_ID: 'World',
         Time: ['2020-05-14T00:00:00Z'],
+        'Input Data': ['NASAPopulation'], // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
           opacity: 1,
           url: 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/GPW_Population_Density_2020/default/{time}/GoogleMapsCompatible_Level7/{z}/{y}/{x}.png',
           name: 'Population',
-          attribution: '<a href="//scihub.copernicus.eu/twiki/pub/SciHubWebPortal/TermsConditions/TC_Sentinel_Data_31072014.pdf">Sentinel data</a>, <a href="//maps.s5p-pal.com/">S5P-PAL</a>',
+          attribution: '{ Population }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DDTHH:mm:ssZ', true).format('YYYY-MM-DDTHH:mm:ss[Z]')}`,
         },
       },
@@ -307,7 +317,10 @@ export const globalIndicators = [
         'Indicator Value': ['normal'],
         'Indicator Name': 'Changes in the number of new cars',
         'Color code': ['BLUE'],
-        'EO Sensor': 'ALOS',
+        'EO Sensor': [['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'],
+          ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'],
+          ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'],
+          ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS']],
         'Sub-AOI': {
           type: 'FeatureCollection',
           features: [{
@@ -317,17 +330,17 @@ export const globalIndicators = [
           }],
         },
         Time: [['2019_12_10'], ['2020_01_05'], ['2020_01_12'], ['2020_01_19'], ['2020_01_24'], ['2020_01_29'], ['2020_02_05'], ['2020_02_10'], ['2020_02_17'], ['2020_02_18'], ['2020_02_22'], ['2020_03_05'], ['2020_03_12'], ['2020_03_17'], ['2020_03_24'], ['2020_03_29'], ['2020_03_31'], ['2020_04_05'], ['2020_04_17'], ['2020_04_28'], ['2020_04_29'], ['2020_05_07']],
+        'Input Data': ['JAXA1'], // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
           maxNativeZoom: 15,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2FALOS_SAMPLE%2Falos2-s1-beijing_{time}.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536',
           name: 'Car count',
-          attribution: '',
+          attribution: '{ ALOS JAXA }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
         },
       },
     },
   },
-
 ];

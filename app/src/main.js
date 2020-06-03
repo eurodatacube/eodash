@@ -4,9 +4,13 @@ import VueMatomo from 'vue-matomo';
 import VueMeta from 'vue-meta';
 import VueRouter from 'vue-router';
 import Vuetify from 'vuetify/lib';
+import { Touch } from 'vuetify/lib/directives';
 
 import browserDetect from 'vue-browser-detect-plugin';
 import App from './App.vue';
+import Dashboard from './views/Dashboard.vue';
+import Privacy from './views/Privacy.vue';
+import Terms from './views/Terms.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 
@@ -34,13 +38,24 @@ Vue.use(VueMatomo, {
 
 Vue.use(VueMeta);
 Vue.use(VueRouter);
+
+const routes = [
+  { path: '/', component: Dashboard },
+  { path: '/privacy', component: Privacy },
+  { path: '/terms_and_conditions', component: Terms },
+];
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  // routes,
+  routes,
 });
 
-Vue.use(Vuetify);
+Vue.use(Vuetify, {
+  directives: {
+    Touch,
+  },
+});
+
 Vue.use(browserDetect);
 
 const renderVue = async () => {

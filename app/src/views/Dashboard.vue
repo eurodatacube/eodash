@@ -77,12 +77,12 @@
       <template v-else>
         <Welcome v-if="showText === 'welcome'" />
         <About v-else-if="showText === 'about'" />
-        <Privacy v-else-if="showText === 'privacy'" />
       </template>
     </v-navigation-drawer>
     <v-dialog
       v-if="$vuetify.breakpoint.smAndDown"
       v-model="drawerRight"
+      persistent
       fullscreen
       hide-overlay
       transition="dialog-bottom-transition"
@@ -98,7 +98,17 @@
           {{ showText }}
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon dark @click="clickMobileClose">
+        <v-btn
+          v-if="showText === 'welcome'
+            && $vuetify.breakpoint.smAndDown
+            && !$store.state.indicators.selectedIndicator"
+          @click="clickMobileClose"
+          color="secondary"
+        >
+          <v-icon left>mdi-arrow-right</v-icon>
+          Start exploring!
+        </v-btn>
+        <v-btn v-else icon dark @click="clickMobileClose">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
@@ -118,22 +128,6 @@
         <template v-else>
           <Welcome v-if="showText === 'welcome'" style="padding-bottom: 135px !important" />
           <About v-else-if="showText === 'about'" style="padding-bottom: 100px !important" />
-          <Privacy v-else-if="showText === 'privacy'" style="padding-bottom: 100px !important" />
-          <div
-            class="pa-3"
-            style="position: absolute; bottom: 0; left: 0; width: 100%;"
-          >
-            <v-btn
-              v-if="showText === 'welcome' && $vuetify.breakpoint.smAndDown"
-              @click="clickMobileClose"
-              block
-              large
-              color="primary"
-            >
-              <v-icon left>mdi-arrow-right</v-icon>
-              Start exploring!
-            </v-btn>
-          </div>
         </template>
       </div>
     </v-dialog>
@@ -156,18 +150,18 @@
       app
       color="primary"
       class="d-flex justify-center align-center white--text text-center"
-      style="z-index: 5">
+      style="z-index: 5"
+      :height="$vuetify.breakpoint.xsOnly ? '60px' : '40px'"
+    >
         <v-spacer></v-spacer>
         <small>
           <a href="https://eurodatacube.com" target="_blank" class="white--text mx-1">EDC</a>
           <span>service for</span>
           <a href="https://earth.esa.int" target="_blank" class="white--text mx-1">ESA</a>
           <span> | </span>
-          <a href=" " target="_blank" class="white--text">Disclaimer</a>
+          <a href="terms_and_conditions" target="_blank" class="white--text">Legal</a>
           <span> | </span>
-          <a href="https://eox.at/impressum/" target="_blank" class="white--text">Legal Notice</a>
-          <span> | </span>
-          <a @click="displayShowText('privacy')" class="white--text">Privacy Notice</a>
+          <a href="/privacy" target="_blank" class="white--text">Privacy</a>
         </small>
         <v-spacer></v-spacer>
         <small class="justify-right">
@@ -190,8 +184,20 @@
     <v-dialog
       v-model="showFeedbackDialog"
       width="80%"
+      :fullscreen="$vuetify.breakpoint.xsOnly"
+      :hide-overlay="$vuetify.breakpoint.xsOnly"
+      transition="dialog-bottom-transition"
     >
-      <v-card class="pa-5">
+      <v-toolbar v-if="$vuetify.breakpoint.xsOnly" dark color="primary">
+        <v-toolbar-title>How can we improve eodash?
+        </v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn icon dark @click="showFeedbackDialog = false">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </v-toolbar>
+      <v-card :class="$vuetify.breakpoint.mdAndUp && 'pa-5'"
+        style="overflow-y: auto; height: 100%;">
         <v-card-text>
           <Feedback />
         </v-card-text>
@@ -207,11 +213,12 @@
 <script>
 import Welcome from '@/views/Welcome.vue';
 import About from '@/views/About.vue';
-import Privacy from '@/views/Privacy.vue';
 import Feedback from '@/views/Feedback.vue';
 import SelectionPanel from '@/components/SelectionPanel.vue';
 import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
+
+// import backButton from '@/mixins/backButton';
 
 export default {
   metaInfo() {
@@ -223,7 +230,6 @@ export default {
   components: {
     Welcome,
     About,
-    Privacy,
     Feedback,
     SelectionPanel,
     CenterPanel,
@@ -232,10 +238,13 @@ export default {
   props: {
     source: String,
   },
+  // mixins: [
+  //   backButton(['showFeedbackDialog', 'drawerRight']),
+  // ],
   data: () => ({
     drawerLeft: true,
-    drawerRight: true,
-    showText: 'welcome',
+    drawerRight: false,
+    showText: null,
     showFeedbackDialog: false,
     dataPanelFullWidth: false,
     dataPanelTemporary: false,
@@ -251,7 +260,18 @@ export default {
   created() {
     // this.$vuetify.theme.dark = true;
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
-    // this.drawerRight = this.$vuetify.breakpoint.mdAndUp;
+    this.drawerRight = this.$vuetify.breakpoint.mdAndUp;
+    // push to router history so back button interception works
+    // this.$router.push('/').catch(err => {}); // eslint-disable-line
+  },
+  mounted() {
+    setTimeout(() => {
+      // only show when no poi is selected
+      if (!this.$route.query.poi) {
+        this.showText = 'welcome';
+        this.drawerRight = true;
+      }
+    }, 2000);
   },
   methods: {
     setDataPanelWidth(enable) {
@@ -266,6 +286,7 @@ export default {
     },
     clickMobileClose() {
       this.drawerRight = false;
+      this.showText = null;
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
     },
     displayShowText(text) {

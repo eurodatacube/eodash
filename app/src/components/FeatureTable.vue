@@ -10,22 +10,18 @@
           :items-per-page="10"
           class="featureTable elevation-1"
           @click:row="openFeature"
+          multi-sort
         >
           <template v-slot:item.type="{ item }">
             <span class="text-capitalize">
-              {{ baseConfig.indicatorsDefinition[item.properties
-                .indicatorObject['Indicator code']].class }}
+              {{ item.type }}
             </span>
-          </template>
-          <template v-slot:item.indicator="{ item }">
-            {{ indicator(flatten(item.properties.indicatorObject['Indicator code'])
-              .join(', ')).indicator }}
           </template>
           <template v-slot:item.indicatorValue="{ item }">
             <v-chip
-              :color="getLastValue(item.properties.indicatorObject).color" dark
+              :color="item.indicatorColor" dark
             >
-              {{ getLastValue(item.properties.indicatorObject).text }}
+              {{ item.indicatorValue }}
             </v-chip>
           </template>
         </v-data-table>
@@ -46,17 +42,16 @@ export default {
     ...mapGetters('features', ['getFeatures']),
     ...mapState('config', ['baseConfig']),
     headers() {
-      const indicatorObject = 'properties.indicatorObject';
       return [
         {
           text: 'Country',
           align: 'start',
           sortable: true,
-          value: `${indicatorObject}.Country`,
+          value: 'country',
         },
-        { text: 'Location', value: `${indicatorObject}.City` },
+        { text: 'Location', value: 'location' },
         { text: 'Type', value: 'type' },
-        { text: 'Indicator', value: `${indicatorObject}.Description` },
+        { text: 'Indicator', value: 'indicator' },
         {
           text: 'Latest Value',
           align: 'end',
@@ -65,12 +60,25 @@ export default {
       ];
     },
     allFeatures() {
-      return this.getFeatures;
+      return this.getFeatures.map((f) => ({
+        country: f.properties.indicatorObject.Country,
+        location: f.properties.indicatorObject.City,
+        type: this.getClass(f),
+        indicator: this.indicator(this.flatten(f.properties.indicatorObject['Indicator code'])
+          .join(', ')).indicator,
+        indicatorValue: this.getLastValue(f.properties.indicatorObject).text,
+        indicatorColor: this.getLastValue(f.properties.indicatorObject).color,
+        indicatorObject: f.properties.indicatorObject,
+      }));
     },
   },
   methods: {
     flatten(array) {
       return [...new Set([array].flat(1))];
+    },
+    getClass(item) {
+      return this.baseConfig.indicatorsDefinition[item
+        .properties.indicatorObject['Indicator code']].class;
     },
     getLastValue(values) {
       const vLen = values['Indicator Value'].length;
@@ -103,10 +111,10 @@ export default {
       return this.baseConfig.indicatorsDefinition[code];
     },
     openFeature(feature) {
-      if (feature.properties.indicatorObject['Indicator code'] !== 'd') {
+      if (feature.indicatorObject['Indicator code'] !== 'd') {
         this.$store.commit(
           'indicators/SET_SELECTED_INDICATOR',
-          feature.properties.indicatorObject,
+          feature.indicatorObject,
         );
       }
     },

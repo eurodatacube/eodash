@@ -11,11 +11,29 @@
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
           >
+            <div
+              style="height: 100%;z-index: 500; position: relative;"
+              v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
+              @click="dataInteract = true"
+              v-touch="{
+                left: () => swipe(),
+                right: () => swipe(),
+                up: () => swipe(),
+                down: () => swipe(),
+            }">
+            </div>
+            <v-overlay :value="overlay" absolute
+              v-if="!dataInteract"
+              @click="dataInteract = true">
+              Tap to interact
+            </v-overlay>
             <indicator-map
+              style="top: 0px; position: absolute;"
               v-if="globalData"
               class="pt-0 fill-height"
             />
             <indicator-data
+              style="top: 0px; position: absolute;"
               v-else
               class="pa-5"
             />
@@ -45,7 +63,9 @@
               large
               block
               class="my-5"
+              :disabled="!eodataEnabled"
             ><span><v-icon left>mdi-satellite-variant</v-icon>EO Data</span>
+            <span v-if="!eodataEnabled">- Coming soon</span>
             </v-btn>
             <v-btn
               v-if="indicatorObject && baseConfig
@@ -59,15 +79,6 @@
               class="my-5"
             ><span><v-icon left>mdi-open-in-new</v-icon>{{baseConfig
                 .indicatorsDefinition[indicatorObject['Indicator code']].externalData.label}}</span>
-            </v-btn>
-            <v-btn
-              v-else
-              disabled
-              color="primary"
-              large
-              block
-              class="my-5"
-            ><span><v-icon left>mdi-open-in-new</v-icon>Go to data source</span>
             </v-btn>
           </div>
           <v-dialog
@@ -119,6 +130,8 @@ export default {
   },
   data: () => ({
     dialog: false,
+    overlay: false,
+    dataInteract: false,
   }),
   watch: {
     dialog(open) {
@@ -148,12 +161,22 @@ export default {
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
     },
+    layerNameMapping() {
+      return this.baseConfig.layerNameMapping;
+    },
     globalData() {
       return ['all', 'regional'].includes(this.indicatorObject.Country);
     },
-    countryItemsCount() {
-      const countries = this.getCountries.filter((item) => !['all', 'regional'].includes(item));
-      return countries.length;
+    eodataEnabled() {
+      const lastInputData = (this.indicatorObject && this.indicatorObject['Input Data']) ? this.indicatorObject['Input Data'][this.indicatorObject['Input Data'].length - 1] : null;
+      // search configuration mapping if layer is configured
+      return lastInputData ? this.layerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
+    },
+  },
+  methods: {
+    swipe() {
+      this.overlay = true;
+      setTimeout(() => { this.overlay = false; }, 2000);
     },
   },
 };

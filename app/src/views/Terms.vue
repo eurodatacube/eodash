@@ -27,7 +27,7 @@
         cols="12"
       >
         <div
-          v-html="privacy"
+          v-html="terms"
           class="md-body"
           :options="{ markdownIt: { html: true } }"
         />
@@ -46,8 +46,8 @@ import marked from 'marked';
 export default {
   computed: {
     ...mapState('config', ['appConfig']),
-    privacy() {
-      return marked(require(`../../public${this.appConfig.privacyText}.md`).default);
+    terms() {
+      return marked(require(`../../public${this.appConfig.termsText}.md`).default);
     },
   },
 };

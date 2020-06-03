@@ -1,9 +1,38 @@
 <template>
   <div class="text-center pa-5">
-    <h1 class="display-2 font-weight-light primary--text mb-10">
+    <h1 v-if="$vuetify.breakpoint.smAndUp" class="display-2 font-weight-light primary--text mb-10">
       How can we improve this dashboard?</h1>
     <v-row class="text-left">
       <v-col
+        v-if="!showIssueForm || issueData"
+        cols="12"
+        md="4"
+      >
+        <v-card
+          outlined
+        >
+          <v-card-title>
+            <v-icon left color="primary">mdi-chart-line</v-icon>
+            There's an issue with the displayed data
+          </v-card-title>
+          <v-responsive :aspect-ratio="4/1">
+            <v-card-text :class="$vuetify.breakpoint.xsOnly && 'py-0'">
+              <p>Is there missing or wrong data? Found a strange interpretation?
+                Want to improve one of the provided descriptions or stories?</p>
+            </v-card-text>
+          </v-responsive>
+          <v-btn
+            color="primary"
+            class="ml-3 mb-5"
+            @click="showIssueForm = !showIssueForm; issueData = true;"
+          >
+            <v-icon left>mdi-pencil</v-icon>
+            {{ showIssueForm ? 'close form' : 'fill out form' }}
+          </v-btn>
+        </v-card>
+      </v-col>
+      <v-col
+        v-if="!showIssueForm || !issueData"
         cols="12"
         md="4"
       >
@@ -12,18 +41,18 @@
         >
           <v-card-title>
             <v-icon left color="primary">mdi-bug</v-icon>
-            Something does not work as expected
+            The Dashboard does not work as expected
           </v-card-title>
           <v-responsive :aspect-ratio="4/1">
-            <v-card-text>
+            <v-card-text :class="$vuetify.breakpoint.xsOnly && 'py-0'">
               <p>Something didn't work as expected while using the dashboard?<br />
-              Good catch! Please report the bug::</p>
+              Good catch! Please report the bug:</p>
             </v-card-text>
           </v-responsive>
           <v-btn
             color="primary"
             class="ml-3 mb-5"
-            @click="showIssueForm = !showIssueForm"
+            @click="showIssueForm = !showIssueForm; issueData = false;"
           >
             <v-icon left>mdi-pencil</v-icon>
             {{ showIssueForm ? 'close form' : 'fill out form' }}
@@ -49,41 +78,11 @@
           outlined
         >
           <v-card-title>
-            <v-icon left color="primary">mdi-chart-line</v-icon>
-            There's something wrong with the data
-          </v-card-title>
-          <v-responsive :aspect-ratio="4/1">
-            <v-card-text>
-              <p>Is there missing or wrong data? Found a strange interpretation?
-                Want to improve one of the provided descriptions or stories?<br />
-              Please let us know:</p>
-            </v-card-text>
-          </v-responsive>
-          <v-btn
-            color="primary"
-            class="ml-3 mb-5"
-            href="mailto:anca.anghelea@esa.int"
-            target="_blank"
-          >
-            <v-icon left>mdi-email-outline</v-icon>
-            Send email
-          </v-btn>
-        </v-card>
-      </v-col>
-      <v-col
-        v-if="!showIssueForm"
-        cols="12"
-        md="4"
-      >
-        <v-card
-          outlined
-        >
-          <v-card-title>
             <v-icon left color="primary">mdi-head-question-outline</v-icon>
             Something else
           </v-card-title>
           <v-responsive :aspect-ratio="4/1">
-            <v-card-text>
+            <v-card-text :class="$vuetify.breakpoint.xsOnly && 'py-0'">
               <p>Want to provide a different kind of feedback?<br />
               Let us know by getting in touch with us:</p>
             </v-card-text>
@@ -91,11 +90,20 @@
           <v-btn
             color="primary"
             class="ml-3 mb-5"
-            href="mailto:eodash@eox.at"
+            href="https://twitter.com/esa_eo"
             target="_blank"
           >
-            <v-icon left>mdi-email-outline</v-icon>
-            Send email
+            <v-icon left>mdi-twitter</v-icon>
+            ESA on twitter
+          </v-btn>
+          <v-btn
+            color="primary"
+            class="ml-3 mb-5"
+            href="https://twitter.com/eurodatacube"
+            target="_blank"
+          >
+            <v-icon left>mdi-twitter</v-icon>
+            EDC on twitter
           </v-btn>
         </v-card>
       </v-col>
@@ -112,7 +120,7 @@
             <v-container>
               <v-row>
                 <v-col cols="12">
-                  <h2>Bug report</h2>
+                  <h2>{{ issueData ? 'Data Issue' : 'Bug' }} report</h2>
                 </v-col>
                 <v-col
                   cols="12"
@@ -126,6 +134,7 @@
                   ></v-text-field>
                 </v-col>
                 <v-col
+                  v-if="!issueData"
                   cols="12"
                 >
                   <v-text-field
@@ -137,6 +146,7 @@
                   ></v-text-field>
                 </v-col>
                 <v-col
+                  v-if="!issueData"
                   cols="12"
                 >
                   <v-text-field
@@ -171,25 +181,7 @@
                   <v-textarea
                     v-model="expectedBehaviour"
                     outlined
-                    label="Expected behaviour"
-                    required
-                    :auto-grow="true"
-                    rows="3"
-                    :messages="markdownMessage"
-                    :rules="[v => !!v || 'Required field']"
-                  >
-                    <template v-slot:message="{ message }">
-                      <span v-html="message"></span>
-                    </template>
-                  </v-textarea>
-                </v-col>
-                <v-col
-                  cols="12"
-                >
-                  <v-textarea
-                    v-model="actualBehaviour"
-                    outlined
-                    label="Actual behaviour"
+                    :label="issueData ? 'Expected content' : 'Expected behaviour'"
                     required
                     :auto-grow="true"
                     rows="3"
@@ -236,16 +228,25 @@
     </v-row>
     <v-dialog
       v-model="showPreview"
+      :width="$vuetify.breakpoint.xsOnly ? '90%' : '80%'"
     >
-      <v-card class="pa-10">
-        <v-card-title class="primary white--text">Bug report: {{ formData.title }}</v-card-title>
-        <v-card-text>
+      <v-card
+      >
+        <v-card-title
+          class="primary white--text"
+          :style="$vuetify.breakpoint.xsOnly && 'position: fixed; width: 85%'"
+        >{{ formData.title }}</v-card-title>
+        <v-card-text
+          :style="$vuetify.breakpoint.xsOnly && 'padding: 70px 0'"
+        >
           <div
             v-html="formData.body"
             class="md-body pa-5"
           />
         </v-card-text>
-        <v-card-actions>
+        <v-card-actions
+          :style="$vuetify.breakpoint.xsOnly && 'position: fixed; width: 85%; bottom: 5%'"
+        >
           <v-spacer></v-spacer>
           <v-btn
             v-if="!message"
@@ -270,8 +271,10 @@
             @click="showPreview = false"
           >Close</v-btn>
         </v-card-actions>
-        <span v-if="message" class="success--text">{{ message }}</span>
-        <span v-if="error" class="error--text">{{ error }}</span>
+        <div class="pa-5">
+          <span v-if="message" class="success--text">{{ message }}</span>
+          <span v-if="error" class="error--text">{{ error }}</span>
+        </div>
       </v-card>
     </v-dialog>
   </div>
@@ -283,6 +286,9 @@ import marked from 'marked';
 
 export default {
   data: () => ({
+    issueUrl: 'https://issues-eodash.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/issues',
+    issueDataUrl: 'https://issues-data.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/issues',
+    issueData: false,
     showIssueForm: false,
     message: null,
     error: null,
@@ -296,7 +302,6 @@ export default {
     affectedBrowser: null,
     stepsToReproduce: null,
     expectedBehaviour: null,
-    actualBehaviour: null,
     comments: null,
     showPreview: false,
     markdownMessage: 'You can use <a href="https://guides.github.com/features/mastering-markdown/" rel="noopener" target="_blank" tabindex="-1">markdown</a>',
@@ -324,8 +329,26 @@ export default {
     },
     openPreview() {
       if (this.$refs.issueForm.validate()) {
-        this.formData.body = marked(`### Environment
+        if (this.issueData) {
+          this.formData.body = marked(`### Environment
 **App version:** ${this.$store.getters.appVersion}
+
+**Current URL:** ${window.location}
+
+### Steps to reproduce:
+${this.stepsToReproduce}
+
+### Expected Content:
+${this.expectedBehaviour}
+
+### Comments:
+${this.comments || 'No comments'}
+`);
+        } else {
+          this.formData.body = marked(`### Environment
+**App version:** ${this.$store.getters.appVersion}
+
+**Current URL:** ${window.location}
 
 **Operating system:** ${this.operatingSystem}
 
@@ -337,12 +360,10 @@ ${this.stepsToReproduce}
 ### Expected Behaviour:
 ${this.expectedBehaviour}
 
-### Actual Behaviour:
-${this.actualBehaviour}
-
-### Comments:
+### Contact information or additional comments (optional):
 ${this.comments || 'No comments'}
 `);
+        }
         this.showPreview = true;
       }
     },
@@ -351,7 +372,8 @@ ${this.comments || 'No comments'}
       this.message = null;
       this.error = null;
       try {
-        const response = await axios.post('https://eodash-issues.0c0a0ef4-8d0d-4e70-b002-033c7cbb41fd.hub.eox.at/issues',
+        const postUrl = this.issueData ? this.issueDataUrl : this.issueUrl;
+        const response = await axios.post(postUrl,
           this.formData);
         if (response) {
           this.message = 'Success! Thanks for reporting!';
@@ -380,5 +402,18 @@ ${this.comments || 'No comments'}
       this.detectSystem();
     },
   },
+  watch: {
+    showIssueForm(val) {
+      if (!val) {
+        this.clearForm();
+      }
+    },
+  },
 };
 </script>
+
+<style lang="scss" scoped>
+.v-card__title {
+  word-break: break-word;
+}
+</style>
