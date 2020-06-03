@@ -284,8 +284,6 @@
 import axios from 'axios';
 import marked from 'marked';
 
-import backButton from '@/mixins/backButton';
-
 export default {
   data: () => ({
     issueUrl: 'https://issues-eodash.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/issues',
@@ -308,9 +306,6 @@ export default {
     showPreview: false,
     markdownMessage: 'You can use <a href="https://guides.github.com/features/mastering-markdown/" rel="noopener" target="_blank" tabindex="-1">markdown</a>',
   }),
-  mixins: [
-    backButton(['showPreview']),
-  ],
   mounted() {
     this.detectSystem();
   },

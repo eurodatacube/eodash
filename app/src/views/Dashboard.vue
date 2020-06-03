@@ -98,7 +98,15 @@
           {{ showText }}
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon dark @click="clickMobileClose">
+        <v-btn
+          v-if="showText === 'welcome' && $vuetify.breakpoint.smAndDown"
+          @click="clickMobileClose"
+          color="secondary"
+        >
+          <v-icon left>mdi-arrow-right</v-icon>
+          Start exploring!
+        </v-btn>
+        <v-btn v-else icon dark @click="clickMobileClose">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
@@ -119,21 +127,6 @@
           <Welcome v-if="showText === 'welcome'" style="padding-bottom: 135px !important" />
           <About v-else-if="showText === 'about'" style="padding-bottom: 100px !important" />
           <Privacy v-else-if="showText === 'privacy'" style="padding-bottom: 100px !important" />
-          <div
-            class="pa-3"
-            style="position: absolute; bottom: 0; left: 0; width: 100%;"
-          >
-            <v-btn
-              v-if="showText === 'welcome' && $vuetify.breakpoint.smAndDown"
-              @click="clickMobileClose"
-              block
-              large
-              color="secondary"
-            >
-              <v-icon left>mdi-arrow-right</v-icon>
-              Start exploring!
-            </v-btn>
-          </div>
         </template>
       </div>
     </v-dialog>
@@ -272,7 +265,7 @@ export default {
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
     this.drawerRight = this.$vuetify.breakpoint.mdAndUp;
     // push to router history so back button interception works
-    this.$router.push('/').catch(err => {}); // eslint-disable-line
+    // this.$router.push('/').catch(err => {}); // eslint-disable-line
   },
   mounted() {
     setTimeout(() => { this.drawerRight = true; }, 2000);
