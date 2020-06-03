@@ -272,8 +272,11 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.showText = 'welcome';
-      this.drawerRight = true;
+      // only show when no poi is selected
+      if (!this.$route.query.poi) {
+        this.showText = 'welcome';
+        this.drawerRight = true;
+      }
     }, 2000);
   },
   methods: {
