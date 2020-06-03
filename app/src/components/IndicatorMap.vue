@@ -245,6 +245,9 @@ export default {
     mapDefaults() {
       return this.baseConfig.mapDefaults;
     },
+    shLayerNameMapping() {
+      return this.baseConfig.shLayerNameMapping;
+    },
     indicator() {
       return this.$store.state.indicators.selectedIndicator;
     },
@@ -359,24 +362,19 @@ export default {
         this.map._onResize();
       }
     },
-    shLayerName(side) {
+    shLayerConfig(side) {
       const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
-      let sensor = this.indicator['EO Sensor'][index].toUpperCase();
-      const indicatorCode = this.indicator['Indicator code'].toUpperCase();
-      if (['S1B', 'S1A', 'SENTINEL-1', 'SENTINEL 1', 'S1'].includes(sensor)) {
-        sensor = 'SENTINEL1';
-      } else if (['S2', 'SENTINEL-2', 'SENTINEL 2'].includes(sensor)) {
-        sensor = 'SENTINEL-2-L2A-TRUE-COLOR';
-      } else if (['PLANET'].includes(sensor)) {
-        sensor = 'PLANETSCOPE';
+      const inputData = this.indicator['Input Data'][index];
+      if (this.shLayerNameMapping.hasOwnProperty(inputData)) {
+        return this.shLayerNameMapping[inputData];
       }
-      return `${indicatorCode}_${sensor}`;
+      return null;
     },
     layerDisplay(side) {
       // if display not specified (global layers), suspect SIN layer
       return this.indicator.display ? this.indicator.display : {
         ...this.baseConfig.defaultWMSDisplay,
-        layers: this.shLayerName(side),
+        ...this.shLayerConfig(side),
         name: this.indicator.Description,
       };
     },

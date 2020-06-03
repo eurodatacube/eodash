@@ -130,6 +130,58 @@ export const indicatorsDefinition = Object.freeze({
   },
 });
 
+export const shLayerNameMapping = Object.freeze({
+  // "inputdata" -> wms layer name and baseurl
+  '[NEW] Planetscope COVID-19': {
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    'layers': 'NEWPLANETSCOPE_COVID-19',
+  },
+  'PlanetScope - COVID19': {
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    'layers': 'NEWPLANETSCOPE_COVID-19',
+  },
+  '[NEW] Pleiades': {
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    'layers': 'NEW_PLEIADES',
+  },
+  'Pleiades - COVID19': {
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    'layers': 'NEW_PLEIADES_COVID19',
+  },
+  '[NEW] Pleiades COVID19': {
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    'layers': 'NEW_PLEIADES_COVID19',
+  },
+  '[NEW] Pleiades COVID-19': {
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    'layers': 'NEWPLANETSCOPE_COVID-19',
+  },
+  '[NEW] Planet COVID-19': {
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    'layers': 'NEW_PLEIADES_COVID19',
+  },
+  '[NEW] Pleiades - 2.8m - COVID19': {
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    'layers': 'NEW_PLEIADES_28_COVID19',
+  },
+  'Sentinel 2 L2A': {
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    'layers': 'SENTINEL-2-L2A-TRUE-COLOR',
+  },
+  'S2L2A': {
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    'layers': 'SENTINEL-2-L2A-TRUE-COLOR',
+  },
+  'S1GRD': {
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    'layers': 'E8_SENTINEL1',
+  },
+  'S1A - GRD': {
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    'layers': 'E8_SENTINEL1',
+  },
+});
+
 export const indicatorClassesIcons = Object.freeze({
   environment: 'mdi-earth',
   health: 'mdi-hospital-box-outline',
