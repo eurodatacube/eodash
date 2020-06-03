@@ -78,15 +78,6 @@
             ><span><v-icon left>mdi-open-in-new</v-icon>{{baseConfig
                 .indicatorsDefinition[indicatorObject['Indicator code']].externalData.label}}</span>
             </v-btn>
-            <v-btn
-              v-else
-              disabled
-              color="primary"
-              large
-              block
-              class="my-5"
-            ><span><v-icon left>mdi-open-in-new</v-icon>Go to data source</span>
-            </v-btn>
           </div>
           <v-dialog
             v-model="dialog"
