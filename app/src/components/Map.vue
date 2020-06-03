@@ -418,17 +418,17 @@ export default {
     border: 2px var(--v-primary-base) dashed;
   }
 }
-
-::v-deep .leaflet-control-attribution:hover :not(.attribution-icon),
+::v-deep .leaflet-control-attribution:active :not(.attribution-icon),
 ::v-deep .leaflet-control-attribution .attribution-icon {
   display: inline-block;
 }
-
 ::v-deep .leaflet-control-attribution :not(.attribution-icon),
-::v-deep .leaflet-control-attribution:hover .attribution-icon {
+::v-deep .leaflet-control-attribution:active .attribution-icon {
   display: none;
 }
-
+::v-deep .attribution-icon {
+  cursor: pointer;
+}
 ::v-deep .attribution-icon {
   font-size: 1.2em;
   margin: 1px;
