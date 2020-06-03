@@ -10,7 +10,6 @@
           :items-per-page="10"
           class="featureTable elevation-1"
           @click:row="openFeature"
-          group-by="type"
           multi-sort
         >
           <template v-slot:item.type="{ item }">
@@ -61,17 +60,15 @@ export default {
       ];
     },
     allFeatures() {
-      return this.getFeatures.map((f) => {
-        return {
-          country: f.properties.indicatorObject.Country,
-          location: f.properties.indicatorObject.City,
-          type: this.getClass(f),
-          indicator: this.indicator(this.flatten(f.properties.indicatorObject['Indicator code'])
-            .join(', ')).indicator,
-          indicatorValue: this.getLastValue(f.properties.indicatorObject).text,
-          indicatorColor: this.getLastValue(f.properties.indicatorObject).color,
-        }
-      });
+      return this.getFeatures.map((f) => ({
+        country: f.properties.indicatorObject.Country,
+        location: f.properties.indicatorObject.City,
+        type: this.getClass(f),
+        indicator: this.indicator(this.flatten(f.properties.indicatorObject['Indicator code'])
+          .join(', ')).indicator,
+        indicatorValue: this.getLastValue(f.properties.indicatorObject).text,
+        indicatorColor: this.getLastValue(f.properties.indicatorObject).color,
+      }));
     },
   },
   methods: {
