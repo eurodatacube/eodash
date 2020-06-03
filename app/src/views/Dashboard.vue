@@ -223,7 +223,7 @@ import SelectionPanel from '@/components/SelectionPanel.vue';
 import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
 
-import backButton from '@/mixins/backButton';
+// import backButton from '@/mixins/backButton';
 
 export default {
   metaInfo() {
@@ -244,9 +244,9 @@ export default {
   props: {
     source: String,
   },
-  mixins: [
-    backButton(['showFeedbackDialog', 'drawerRight']),
-  ],
+  // mixins: [
+  //   backButton(['showFeedbackDialog', 'drawerRight']),
+  // ],
   data: () => ({
     drawerLeft: true,
     drawerRight: false,
