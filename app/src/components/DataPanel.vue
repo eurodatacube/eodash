@@ -161,10 +161,6 @@ export default {
       // search configuration mapping if layer is configured
       return lastInputData ? this.shLayerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
     },
-    countryItemsCount() {
-      const countries = this.getCountries.filter((item) => !['all', 'regional'].includes(item));
-      return countries.length;
-    },
   },
 };
 </script>
