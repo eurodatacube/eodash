@@ -305,6 +305,9 @@ export default {
     },
   },
   mounted() {
+    this.dataLayerIndex = this.indicator.Time.length - 1;
+    this.dataLayerTime = { value: this.indicator.Time[this.dataLayerIndex] };
+    this.compareLayerTime = { value: this.indicator.Time[this.compareLayerIndex] };
     this.$nextTick(() => {
       this.map = this.$refs.map.mapObject;
       this.$refs.subaoiLayer.mapObject.bindTooltip('Reference area', {
@@ -340,10 +343,6 @@ export default {
 
       this.flyToBounds();
       this.onResize();
-
-      this.dataLayerIndex = this.indicator.Time.length - 1;
-      this.dataLayerTime = { value: this.indicator.Time[this.dataLayerIndex] };
-      this.compareLayerTime = { value: this.indicator.Time[this.compareLayerIndex] };
     });
   },
   methods: {
