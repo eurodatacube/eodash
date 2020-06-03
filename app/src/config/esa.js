@@ -133,39 +133,39 @@ export const indicatorsDefinition = Object.freeze({
 export const shLayerNameMapping = Object.freeze({
   // "inputdata" -> wms layer name and baseurl
   '[NEW] Planetscope COVID-19': {
-    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/f4a28a33-9b73-4edb-9a40-f20cc0d45106',
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     'layers': 'NEW_PLANETSCOPE_COVID-19',
   },
   'PlanetScope - COVID19': {
-    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/f4a28a33-9b73-4edb-9a40-f20cc0d45106',
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     'layers': 'NEW_PLANETSCOPE_COVID-19',
   },
   'Planetscope COVID-19': {
-    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/f4a28a33-9b73-4edb-9a40-f20cc0d45106',
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     'layers': 'NEW_PLANETSCOPE_COVID-19',
   },
   '[NEW] Planet COVID-19': {
-    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/f4a28a33-9b73-4edb-9a40-f20cc0d45106',
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     'layers': 'NEW_PLANETSCOPE_COVID-19',
   },
   '[NEW] Pleiades': {
-    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/649d1c03-c071-46d1-b79b-4a1b4ff70fd9',
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     'layers': 'NEW_PLEIADES',
   },
   'Pleiades - COVID19': {
-    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/3c4daecf-09f3-451c-8c3c-90e356cbd673',
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     'layers': 'NEW_PLEIADES_COVID19',
   },
   '[NEW] Pleiades COVID-19': {
-    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/3c4daecf-09f3-451c-8c3c-90e356cbd673',
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     'layers': 'NEW_PLEIADES_COVID19',
   },
   '[NEW] Pleiades COVID19': {
-    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/3c4daecf-09f3-451c-8c3c-90e356cbd673',
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     'layers': 'NEW_PLEIADES_COVID19',
   },
   'DS_PHR1A': {
-    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/3c4daecf-09f3-451c-8c3c-90e356cbd673',
+    'baseUrl': 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     'layers': 'NEW_PLEIADES_COVID19',
   },
   '[NEW] Pleiades - 2.8m - COVID19': {
