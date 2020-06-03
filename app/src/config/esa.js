@@ -130,6 +130,68 @@ export const indicatorsDefinition = Object.freeze({
   },
 });
 
+export const shLayerNameMapping = Object.freeze({
+  // "inputdata" -> wms layer name and baseurl
+  '[NEW] Planetscope COVID-19': {
+    baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    layers: 'NEW_PLANETSCOPE_COVID-19',
+  },
+  'PlanetScope - COVID19': {
+    baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    layers: 'NEW_PLANETSCOPE_COVID-19',
+  },
+  'Planetscope COVID-19': {
+    baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    layers: 'NEW_PLANETSCOPE_COVID-19',
+  },
+  '[NEW] Planet COVID-19': {
+    baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    layers: 'NEW_PLANETSCOPE_COVID-19',
+  },
+  '[NEW] Pleiades': {
+    baseUrl: 'https://shservices.mundiwebservices.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    layers: 'NEW_PLEIADES',
+  },
+  'Pleiades - COVID19': {
+    baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    layers: 'NEW_PLEIADES_COVID19',
+  },
+  '[NEW] Pleiades COVID-19': {
+    baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    layers: 'NEW_PLEIADES_COVID19',
+  },
+  '[NEW] Pleiades COVID19': {
+    baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    layers: 'NEW_PLEIADES_COVID19',
+  },
+  // 'DS_PHR1A': {
+  //   baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+  //   layers: 'NEW_PLEIADES_COVID19',
+  // },
+  '[NEW] Pleiades - 2.8m - COVID19': {
+    baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    layers: 'NEW_PLEIADES_28_COVID19',
+  },
+  'Sentinel 2 L2A': {
+    baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+  },
+  S2L2A: {
+    baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+  },
+  S1GRD: {
+    baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    layers: 'E8_SENTINEL1',
+  },
+  'S1A - GRD': {
+    baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
+    layers: 'E8_SENTINEL1',
+  },
+  N1: {}, // just for enabling eo data button for now,
+  N3a2: {}, // just for enabling eo data button for now,
+});
+
 export const indicatorClassesIcons = Object.freeze({
   environment: 'mdi-earth',
   health: 'mdi-hospital-box-outline',
@@ -177,7 +239,6 @@ export const defaultWMSDisplay = {
   transparent: true,
   tileSize: 512,
   opacity: 1,
-  attribution: 'attributiontextplaceholder',
   minZoom: 7,
 };
 const wkt = new Wkt();
@@ -201,6 +262,7 @@ export const globalIndicators = [
         AOI: null,
         AOI_ID: 'World',
         Time: [['2019-01-07', '2019-01-21'], ['2019-01-14', '2019-01-28'], ['2019-01-21', '2019-02-04'], ['2019-01-28', '2019-02-11'], ['2019-02-04', '2019-02-18'], ['2019-02-11', '2019-02-25'], ['2019-02-18', '2019-03-04'], ['2019-02-25', '2019-03-11'], ['2019-03-04', '2019-03-18'], ['2019-03-11', '2019-03-25'], ['2019-03-18', '2019-04-01'], ['2019-03-25', '2019-04-08'], ['2019-04-01', '2019-04-15'], ['2019-04-08', '2019-04-22'], ['2019-04-15', '2019-04-29'], ['2019-04-22', '2019-05-06'], ['2019-04-29', '2019-05-13'], ['2019-05-06', '2019-05-20'], ['2019-05-13', '2019-05-27'], ['2019-05-20', '2019-06-03'], ['2019-05-27', '2019-06-10'], ['2019-06-03', '2019-06-17'], ['2019-06-10', '2019-06-24'], ['2019-06-17', '2019-07-01'], ['2019-06-24', '2019-07-08'], ['2019-07-01', '2019-07-15'], ['2019-07-08', '2019-07-22'], ['2019-07-15', '2019-07-29'], ['2019-07-22', '2019-08-05'], ['2019-07-29', '2019-08-12'], ['2019-08-05', '2019-08-19'], ['2019-08-12', '2019-08-26'], ['2019-08-19', '2019-09-02'], ['2019-08-26', '2019-09-09'], ['2019-09-02', '2019-09-16'], ['2019-09-09', '2019-09-23'], ['2019-09-16', '2019-09-30'], ['2019-09-23', '2019-10-07'], ['2019-09-30', '2019-10-14'], ['2019-10-07', '2019-10-21'], ['2019-10-14', '2019-10-28'], ['2019-10-21', '2019-11-04'], ['2019-10-28', '2019-11-11'], ['2019-11-04', '2019-11-18'], ['2019-11-11', '2019-11-25'], ['2019-11-18', '2019-12-02'], ['2019-11-25', '2019-12-09'], ['2019-12-02', '2019-12-16'], ['2019-12-09', '2019-12-23'], ['2019-12-16', '2019-12-30'], ['2019-12-23', '2020-01-06'], ['2019-12-30', '2020-01-13'], ['2020-01-06', '2020-01-20'], ['2020-01-13', '2020-01-27'], ['2020-01-20', '2020-02-03'], ['2020-01-27', '2020-02-10'], ['2020-02-03', '2020-02-17'], ['2020-02-10', '2020-02-24'], ['2020-02-17', '2020-03-02'], ['2020-02-24', '2020-03-09'], ['2020-03-02', '2020-03-16'], ['2020-03-09', '2020-03-23'], ['2020-03-16', '2020-03-30'], ['2020-03-23', '2020-04-06'], ['2020-03-30', '2020-04-13'], ['2020-04-06', '2020-04-20'], ['2020-04-13', '2020-04-27'], ['2020-04-20', '2020-05-04'], ['2020-04-27', '2020-05-11'], ['2020-05-04', '2020-05-18'], ['2020-05-11', '2020-05-25'], ['2020-05-18', '2020-06-01']],
+        'Input Data': ['N1'], // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
@@ -239,6 +301,7 @@ export const globalIndicators = [
           }],
         },
         Time: [['2020-03-27'], ['2020-04-03'], ['2020-04-10'], ['2020-04-17']],
+        'Input Data': ['N3a2'], // just for enabling eo data button for now
         display: {
           ...defaultWMSDisplay,
           baseUrl: 'https://shservices.mundiwebservices.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
