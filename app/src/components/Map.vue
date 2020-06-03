@@ -247,6 +247,7 @@ export default {
         this._container.innerHTML = `<div class='attribution-body'>${prefixAndAttribs.join(' | ')}</div><div class='attribution-icon'>ℹ</div>`;
       };
       this.map.attributionControl._update();
+      this.onResize();
     });
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'features/SET_FEATURE_FILTER' && !['all', 'regional'].includes(mutation.payload.countries)) {
