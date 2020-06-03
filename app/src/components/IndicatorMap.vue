@@ -571,7 +571,7 @@ export default {
         });
       });
     },
-    /*dataLayerTime() {
+    /* dataLayerTime() {
       // When main data time is changed make sure to set correct index
       if (this.dataLayerTime) {
         const currentIndex = this.arrayOfObjects
@@ -592,7 +592,7 @@ export default {
         this.compareLayerIndex = currentIndex;
         this.compareLayerTimeSelection(this.arrayOfObjects[currentIndex]);
       }
-    },*/
+    }, */
   },
 };
 </script>
