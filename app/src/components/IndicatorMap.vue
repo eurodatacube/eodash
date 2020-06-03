@@ -245,8 +245,8 @@ export default {
     mapDefaults() {
       return this.baseConfig.mapDefaults;
     },
-    shLayerNameMapping() {
-      return this.baseConfig.shLayerNameMapping;
+    layerNameMapping() {
+      return this.baseConfig.layerNameMapping;
     },
     indicator() {
       return this.$store.state.indicators.selectedIndicator;
@@ -364,8 +364,8 @@ export default {
     shLayerConfig(side) {
       const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
       const inputData = this.indicator['Input Data'][index];
-      if (this.shLayerNameMapping.hasOwnProperty(inputData)) { // eslint-disable-line
-        return this.shLayerNameMapping[inputData];
+      if (this.layerNameMapping.hasOwnProperty(inputData)) { // eslint-disable-line
+        return this.layerNameMapping[inputData];
       }
       return null;
     },

@@ -130,7 +130,7 @@ export const indicatorsDefinition = Object.freeze({
   },
 });
 
-export const shLayerNameMapping = Object.freeze({
+export const layerNameMapping = Object.freeze({
   // "inputdata" -> wms layer name and baseurl
   '[NEW] Planetscope COVID-19': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
