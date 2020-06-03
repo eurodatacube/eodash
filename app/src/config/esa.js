@@ -135,42 +135,42 @@ export const layerNameMapping = Object.freeze({
   '[NEW] Planetscope COVID-19': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'NEW_PLANETSCOPE_COVID-19',
-    attribution: '<a href="https://race.esa.int/terms_and_conditions">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a>',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   'PlanetScope - COVID19': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'NEW_PLANETSCOPE_COVID-19',
-    attribution: '<a href="https://race.esa.int/terms_and_conditions">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a>',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   'Planetscope COVID-19': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'NEW_PLANETSCOPE_COVID-19',
-    attribution: '<a href="https://race.esa.int/terms_and_conditions">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a>',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   '[NEW] Planet COVID-19': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'NEW_PLANETSCOPE_COVID-19',
-    attribution: '<a href="https://race.esa.int/terms_and_conditions">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a>',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   '[NEW] Pleiades': {
     baseUrl: 'https://shservices.mundiwebservices.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'NEW_PLEIADES',
-    attribution: '<a href="https://race.esa.int/terms_and_conditions">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a>',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   'Pleiades - COVID19': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'NEW_PLEIADES_COVID19',
-    attribution: '<a href="https://race.esa.int/terms_and_conditions">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a>',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   '[NEW] Pleiades COVID-19': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'NEW_PLEIADES_COVID19',
-    attribution: '<a href="https://race.esa.int/terms_and_conditions">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a>',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   '[NEW] Pleiades COVID19': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'NEW_PLEIADES_COVID19',
-    attribution: '<a href="https://race.esa.int/terms_and_conditions">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a>',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   // 'DS_PHR1A': {
   //   baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
@@ -179,27 +179,27 @@ export const layerNameMapping = Object.freeze({
   '[NEW] Pleiades - 2.8m - COVID19': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'NEW_PLEIADES_28_COVID19',
-    attribution: '<a href="https://race.esa.int/terms_and_conditions">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a>',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   'Sentinel 2 L2A': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-    attribution: '<a href="https://race.esa.int/terms_and_conditions">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a>',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
   },
   S2L2A: {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-    attribution: '<a href="https://race.esa.int/terms_and_conditions">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a>',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
   },
   S1GRD: {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'E8_SENTINEL1',
-    attribution: '<a href="https://race.esa.int/terms_and_conditions">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a>',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
   },
   'S1A - GRD': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'E8_SENTINEL1',
-    attribution: '<a href="https://race.esa.int/terms_and_conditions">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a>',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
   },
   N1: {}, // just for enabling eo data button for now,
   N3a2: {}, // just for enabling eo data button for now,
@@ -222,23 +222,23 @@ export const baseLayers = [
   {
     name: 'EOxCloudless 2019',
     url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2019_3857/default/g/{z}/{y}/{x}.jpg',
-    attribution: '<a class="a-light" xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a class="a-light" xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2019)',
+    attribution: '{ EOxCloudless 2019: <a xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" target="_blank" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" target="_blank" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2019) }',
     visible: false,
     maxNativeZoom: 15,
   },
   {
     name: 'Terrain light',
     url: '//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg',
-    attribution: 'Data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data">others</a>, Rendering &copy; <a href="http://eox.at">EOX</a>',
+    attribution: '{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
     maxNativeZoom: 16,
     visible: true,
   },
 ];
 export const overlayLayers = [
   {
-    name: 'Overlay bright',
+    name: 'Overlay',
     url: '//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg',
-    attribution: 'Overlay: Data &copy; <a class="a-light" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Made with Natural Earth, Rendering &copy; <a class="a-light" href="//eox.at">EOX</a>',
+    attribution: '{ Overlay: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors, Made with Natural Earth, Rendering &copy; <a href="//eox.at" target="_blank">EOX</a> }',
     visible: true,
     maxZoom: 14,
   },
@@ -252,6 +252,7 @@ export const defaultWMSDisplay = {
   transparent: true,
   tileSize: 512,
   opacity: 1,
+  attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   minZoom: 7,
 };
 const wkt = new Wkt();
@@ -283,7 +284,7 @@ export const globalIndicators = [
           url: '//obs.eu-de.otc.t-systems.com/s5p-pal-l3-tms/s5p-l3-tropno2/fortnight/{time}/{z}/{x}/{-y}.png',
           name: 'Tropospheric NO2',
           legendUrl: 'eodash-data/data/no2Legend.png',
-          attribution: '<a href="//scihub.copernicus.eu/twiki/pub/SciHubWebPortal/TermsConditions/TC_Sentinel_Data_31072014.pdf">Sentinel data</a>, <a href="//maps.s5p-pal.com/">S5P-PAL</a>',
+          attribution: '{ Air Quality: <a href="//scihub.copernicus.eu/twiki/pub/SciHubWebPortal/TermsConditions/TC_Sentinel_Data_31072014.pdf" target="_blank">Sentinel data</a>, <a href="//maps.s5p-pal.com/" target="_blank">S5P-PAL</a> }',
           dateFormatFunction: (dates) => `${moment.utc(dates[0], 'YYYY-MM-DD').format('YYYYMMDD')}-${moment.utc(dates[1], 'YYYY-MM-DD').format('YYYYMMDD')}`,
         },
       },
@@ -322,7 +323,7 @@ export const globalIndicators = [
           layers: 'N3_CUSTOM',
           legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
-          attribution: 'Sentinel3 attribution',
+          attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (dates) => `${moment.utc(dates[0], 'YYYY-MM-DD').format('YYYY-MM-DD')}`,
         },
       },
