@@ -90,6 +90,15 @@
           <v-btn
             color="primary"
             class="ml-3 mb-5"
+            href="https://twitter.com/esa_eo"
+            target="_blank"
+          >
+            <v-icon left>mdi-twitter</v-icon>
+            ESA on twitter
+          </v-btn>
+          <v-btn
+            color="primary"
+            class="ml-3 mb-5"
             href="https://twitter.com/eurodatacube"
             target="_blank"
           >
