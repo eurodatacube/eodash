@@ -156,7 +156,9 @@
       app
       color="primary"
       class="d-flex justify-center align-center white--text text-center"
-      style="z-index: 5">
+      style="z-index: 5"
+      :height="$vuetify.breakpoint.xsOnly ? '60px' : '40px'"
+    >
         <v-spacer></v-spacer>
         <small>
           <a href="https://eurodatacube.com" target="_blank" class="white--text mx-1">EDC</a>
@@ -165,9 +167,9 @@
           <span> | </span>
           <a href=" " target="_blank" class="white--text">Disclaimer</a>
           <span> | </span>
-          <a href="https://eox.at/impressum/" target="_blank" class="white--text">Legal Notice</a>
+          <a href="https://eox.at/impressum/" target="_blank" class="white--text">Legal</a>
           <span> | </span>
-          <a href="/privacy" target="_blank" class="white--text">Privacy Notice</a>
+          <a href="/privacy" target="_blank" class="white--text">Privacy</a>
         </small>
         <v-spacer></v-spacer>
         <small class="justify-right">
