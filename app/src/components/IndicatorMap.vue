@@ -449,7 +449,12 @@ export default {
       return additionalSettings;
     },
     dataLayerTimeSelection(payload) {
-      this.dataLayerTime = payload;
+      // Different object returned either by arrow use or by dropdown use
+      if (Array.isArray(payload)) {
+        this.dataLayerTime = { value: payload, name: `${payload}` };
+      } else {
+        this.dataLayerTime = payload;
+      }
       const newIndex = this.arrayOfObjects
         .map((i) => i.value)
         .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
@@ -460,7 +465,12 @@ export default {
       });
     },
     compareLayerTimeSelection(payload) {
-      this.compareLayerTime = payload;
+      // Different object returned either by arrow use or by dropdown use
+      if (Array.isArray(payload)) {
+        this.compareLayerTime = { value: payload, name: `${payload}` };
+      } else {
+        this.compareLayerTime = payload;
+      }
       const newIndex = this.arrayOfObjects
         .map((i) => i.value)
         .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
@@ -561,6 +571,28 @@ export default {
         });
       });
     },
+    /*dataLayerTime() {
+      // When main data time is changed make sure to set correct index
+      if (this.dataLayerTime) {
+        const currentIndex = this.arrayOfObjects
+          .map((i) => i.value)
+          .indexOf(this.dataLayerTime.value
+            ? this.dataLayerTime.value : this.dataLayerTime);
+        this.dataLayerIndex = currentIndex;
+        this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex]);
+      }
+    },
+    compareLayerTime() {
+      // When compare time selection is changed make sure to set correct index
+      if (this.compareLayerTime) {
+        const currentIndex = this.arrayOfObjects
+          .map((i) => i.value)
+          .indexOf(this.compareLayerTime.value
+            ? this.compareLayerTime.value : this.compareLayerTime);
+        this.compareLayerIndex = currentIndex;
+        this.compareLayerTimeSelection(this.arrayOfObjects[currentIndex]);
+      }
+    },*/
   },
 };
 </script>
