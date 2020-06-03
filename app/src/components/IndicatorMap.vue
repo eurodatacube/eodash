@@ -575,28 +575,6 @@ export default {
         });
       });
     },
-    /* dataLayerTime() {
-      // When main data time is changed make sure to set correct index
-      if (this.dataLayerTime) {
-        const currentIndex = this.arrayOfObjects
-          .map((i) => i.value)
-          .indexOf(this.dataLayerTime.value
-            ? this.dataLayerTime.value : this.dataLayerTime);
-        this.dataLayerIndex = currentIndex;
-        this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex]);
-      }
-    },
-    compareLayerTime() {
-      // When compare time selection is changed make sure to set correct index
-      if (this.compareLayerTime) {
-        const currentIndex = this.arrayOfObjects
-          .map((i) => i.value)
-          .indexOf(this.compareLayerTime.value
-            ? this.compareLayerTime.value : this.compareLayerTime);
-        this.compareLayerIndex = currentIndex;
-        this.compareLayerTimeSelection(this.arrayOfObjects[currentIndex]);
-      }
-    }, */
   },
 };
 </script>
