@@ -317,7 +317,7 @@ export const globalIndicators = [
         'Indicator Value': ['normal'],
         'Indicator Name': 'Water Quality Regional Maps',
         'Color code': ['BLUE'],
-        'EO Sensor': 'custom',
+        'EO Sensor': null,
         'Sub-AOI': {
           type: 'FeatureCollection',
           features: [{
