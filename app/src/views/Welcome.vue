@@ -26,7 +26,7 @@
               x-large
               color="primary"
             >{{ baseConfig.indicatorClassesIcons.economic }}</v-icon>
-            {{ getFeatures
+            {{ allFeatures
               .filter((i) => i.properties.indicatorObject['Indicator code'] !== 'd' && baseConfig
                 .indicatorsDefinition[i.properties.indicatorObject['Indicator code']]
                   .class === 'economic'
@@ -45,7 +45,7 @@
               x-large
               color="primary"
             >{{ baseConfig.indicatorClassesIcons.agriculture }}</v-icon>
-            {{ getFeatures
+            {{ allFeatures
               .filter((i) => i.properties.indicatorObject['Indicator code'] !== 'd' && baseConfig
                 .indicatorsDefinition[i.properties.indicatorObject['Indicator code']]
                   .class === 'agriculture'
@@ -64,7 +64,7 @@
               x-large
               color="primary"
             >{{ baseConfig.indicatorClassesIcons.environment }}</v-icon>
-            {{ getFeatures
+            {{ allFeatures
               .filter((i) => i.properties.indicatorObject['Indicator code'] !== 'd' && baseConfig
                 .indicatorsDefinition[i.properties.indicatorObject['Indicator code']]
                   .class === 'environment'
@@ -108,13 +108,15 @@ export default {
   computed: {
     ...mapGetters('features', [
       'getCountries',
-      'getFeatures',
       'getIndicators',
       'getLatestUpdate',
     ]),
     ...mapState('config', [
       'appConfig',
       'baseConfig',
+    ]),
+    ...mapState('features', [
+      'allFeatures',
     ]),
     welcome() {
       return marked(require('../../public/eodash-data/general/How to use the RACE Dashboard.md').default);
