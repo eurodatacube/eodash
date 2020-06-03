@@ -188,8 +188,8 @@ export const shLayerNameMapping = Object.freeze({
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'E8_SENTINEL1',
   },
-  'N1': {}, // just for enabling eo data button for now,
-  'N3a2': {}, // just for enabling eo data button for now,
+  N1: {}, // just for enabling eo data button for now,
+  N3a2: {}, // just for enabling eo data button for now,
 });
 
 export const indicatorClassesIcons = Object.freeze({
