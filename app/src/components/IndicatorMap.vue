@@ -365,7 +365,7 @@ export default {
     shLayerConfig(side) {
       const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
       const inputData = this.indicator['Input Data'][index];
-      if (this.shLayerNameMapping.hasOwnProperty(inputData)) {
+      if (this.shLayerNameMapping.hasOwnProperty(inputData)) { // eslint-disable-line
         return this.shLayerNameMapping[inputData];
       }
       return null;
