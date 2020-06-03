@@ -10,6 +10,7 @@ import browserDetect from 'vue-browser-detect-plugin';
 import App from './App.vue';
 import Dashboard from './views/Dashboard.vue';
 import Privacy from './views/Privacy.vue';
+import Terms from './views/Terms.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 
@@ -41,6 +42,7 @@ Vue.use(VueRouter);
 const routes = [
   { path: '/', component: Dashboard },
   { path: '/privacy', component: Privacy },
+  { path: '/terms_and_conditions', component: Terms },
 ];
 const router = new VueRouter({
   mode: 'history',
