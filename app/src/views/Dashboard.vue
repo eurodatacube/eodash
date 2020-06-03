@@ -83,6 +83,7 @@
     <v-dialog
       v-if="$vuetify.breakpoint.smAndDown"
       v-model="drawerRight"
+      persistent
       fullscreen
       hide-overlay
       transition="dialog-bottom-transition"
@@ -99,7 +100,9 @@
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn
-          v-if="showText === 'welcome' && $vuetify.breakpoint.smAndDown"
+          v-if="showText === 'welcome'
+            && $vuetify.breakpoint.smAndDown
+            && !$store.state.indicators.selectedIndicator"
           @click="clickMobileClose"
           color="secondary"
         >
@@ -247,7 +250,7 @@ export default {
   data: () => ({
     drawerLeft: true,
     drawerRight: false,
-    showText: 'welcome',
+    showText: null,
     showFeedbackDialog: false,
     dataPanelFullWidth: false,
     dataPanelTemporary: false,
@@ -268,7 +271,10 @@ export default {
     // this.$router.push('/').catch(err => {}); // eslint-disable-line
   },
   mounted() {
-    setTimeout(() => { this.drawerRight = true; }, 2000);
+    setTimeout(() => {
+      this.showText = 'welcome';
+      this.drawerRight = true;
+    }, 2000);
   },
   methods: {
     setDataPanelWidth(enable) {
@@ -283,6 +289,7 @@ export default {
     },
     clickMobileClose() {
       this.drawerRight = false;
+      this.showText = null;
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
     },
     displayShowText(text) {
