@@ -167,7 +167,7 @@
           <span> | </span>
           <a href="https://eox.at/impressum/" target="_blank" class="white--text">Legal Notice</a>
           <span> | </span>
-          <a @click="displayShowText('privacy')" class="white--text">Privacy Notice</a>
+          <a href="/privacy" target="_blank" class="white--text">Privacy Notice</a>
         </small>
         <v-spacer></v-spacer>
         <small class="justify-right">

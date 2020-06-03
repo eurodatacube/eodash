@@ -8,6 +8,8 @@ import { Touch } from 'vuetify/lib/directives';
 
 import browserDetect from 'vue-browser-detect-plugin';
 import App from './App.vue';
+import Dashboard from './views/Dashboard.vue';
+import Privacy from './views/Privacy.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 
@@ -35,10 +37,15 @@ Vue.use(VueMatomo, {
 
 Vue.use(VueMeta);
 Vue.use(VueRouter);
+
+const routes = [
+  { path: '/', component: Dashboard },
+  { path: '/privacy', component: Privacy },
+];
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  // routes,
+  routes,
 });
 
 Vue.use(Vuetify, {

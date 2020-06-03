@@ -1,7 +1,7 @@
 <!-- eslint-disable global-require -->
 <template>
   <v-app id="inspire">
-    <Dashboard />
+    <router-view />
     <cookie-law @accept="acceptCookies">
       <div slot-scope="props" style="width: 100%;">
         <div class="d-flex align-center justify-center mb-5">
@@ -10,7 +10,7 @@
             to provide you with our services
             and allow us to measure and improve the
             performance of our website. <br v-if="$vuetify.breakpoint.xsOnly" />
-            <a @click="showPrivacyDialog = true">Learn more</a>.
+            <a href="/privacy" target="_blank">Learn more</a>.
           </small>
         </div>
         <div class="text-center">
@@ -35,24 +35,6 @@
         </div>
       </div>
     </cookie-law>
-    <v-dialog
-      v-model="showPrivacyDialog"
-      width="80%"
-    >
-      <v-card class="pa-5" height="40%">
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="showPrivacyDialog = false">Close</v-btn>
-        </v-card-actions>
-        <v-card-text>
-          <Privacy />
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="showPrivacyDialog = false">Close</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </v-app>
 </template>
 
@@ -63,14 +45,9 @@ import {
 } from 'vuex';
 import CookieLaw from 'vue-cookie-law';
 
-import Dashboard from '@/views/Dashboard.vue';
-import Privacy from '@/views/Privacy.vue';
-
 export default {
   components: {
     CookieLaw,
-    Dashboard,
-    Privacy,
   },
   data: () => ({
     showPrivacyDialog: false,
