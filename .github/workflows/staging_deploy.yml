@@ -31,7 +31,7 @@ jobs:
     
     # Inject SH Config file
     - name: replace instance ID
-      uses: datamonsters/replace-action
+      uses: datamonsters/replace-action@v2
       with:
         files: 'app/dist/shConfig.js'
         replacements: '$SH_INSTANCE_ID=${{ secrets.SH_INSTANCE_ID }}'
