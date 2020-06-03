@@ -22,6 +22,21 @@ Used to build interactive map. Needs some hacking here and there, but nonetheles
 npm install
 ```
 
+In order for most "EO Data" links to work you need to use a proper SH instance
+ID (`SH_INSTANCE_ID`) in `public/shConfig.js`. Obtain a valid one from
+https://eurodatacube.com
+
+To ignore the changes to this file run:
+```
+git update-index --assume-unchanged public/shConfig.js
+```
+
+To revert the ignoring run:
+
+```
+git update-index --no-assume-unchanged public/shConfig.js
+```
+
 ### Compiles and hot-reloads for development
 ```
 npm run serve
