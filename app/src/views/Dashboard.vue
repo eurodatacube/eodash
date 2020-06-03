@@ -159,8 +159,6 @@
           <span>service for</span>
           <a href="https://earth.esa.int" target="_blank" class="white--text mx-1">ESA</a>
           <span> | </span>
-          <a href=" " target="_blank" class="white--text">Disclaimer</a>
-          <span> | </span>
           <a href="terms_and_conditions" target="_blank" class="white--text">Legal</a>
           <span> | </span>
           <a href="/privacy" target="_blank" class="white--text">Privacy</a>
