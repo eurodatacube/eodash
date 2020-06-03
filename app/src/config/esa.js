@@ -135,34 +135,42 @@ export const layerNameMapping = Object.freeze({
   '[NEW] Planetscope COVID-19': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'NEW_PLANETSCOPE_COVID-19',
+    attribution: '',
   },
   'PlanetScope - COVID19': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'NEW_PLANETSCOPE_COVID-19',
+    attribution: '',
   },
   'Planetscope COVID-19': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'NEW_PLANETSCOPE_COVID-19',
+    attribution: '',
   },
   '[NEW] Planet COVID-19': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'NEW_PLANETSCOPE_COVID-19',
+    attribution: '',
   },
   '[NEW] Pleiades': {
     baseUrl: 'https://shservices.mundiwebservices.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'NEW_PLEIADES',
+    attribution: '',
   },
   'Pleiades - COVID19': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'NEW_PLEIADES_COVID19',
+    attribution: '',
   },
   '[NEW] Pleiades COVID-19': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'NEW_PLEIADES_COVID19',
+    attribution: '',
   },
   '[NEW] Pleiades COVID19': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'NEW_PLEIADES_COVID19',
+    attribution: '',
   },
   // 'DS_PHR1A': {
   //   baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
@@ -171,22 +179,27 @@ export const layerNameMapping = Object.freeze({
   '[NEW] Pleiades - 2.8m - COVID19': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'NEW_PLEIADES_28_COVID19',
+    attribution: '',
   },
   'Sentinel 2 L2A': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+    attribution: '',
   },
   S2L2A: {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+    attribution: '',
   },
   S1GRD: {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'E8_SENTINEL1',
+    attribution: '',
   },
   'S1A - GRD': {
     baseUrl: 'https://services.sentinel-hub.com/ogc/wms/a60a37cc-dcac-40fd-a13a-501a2eb39561',
     layers: 'E8_SENTINEL1',
+    attribution: '',
   },
   N1: {}, // just for enabling eo data button for now,
   N3a2: {}, // just for enabling eo data button for now,
@@ -309,6 +322,7 @@ export const globalIndicators = [
           layers: 'N3_CUSTOM',
           legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
+          attribution: 'Sentinel3 attribution',
           dateFormatFunction: (dates) => `${moment.utc(dates[0], 'YYYY-MM-DD').format('YYYY-MM-DD')}`,
         },
       },
