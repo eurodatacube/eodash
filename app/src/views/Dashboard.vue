@@ -271,6 +271,8 @@ export default {
     // this.$vuetify.theme.dark = true;
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
     this.drawerRight = this.$vuetify.breakpoint.mdAndUp;
+    // push to router history so back button interception works
+    this.$router.push('/').catch(err => {}); // eslint-disable-line
   },
   mounted() {
     setTimeout(() => { this.drawerRight = true; }, 2000);
