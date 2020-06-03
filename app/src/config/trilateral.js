@@ -318,9 +318,9 @@ export const globalIndicators = [
         'Indicator Name': 'Car count',
         'Color code': ['BLUE'],
         'EO Sensor': [['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'],
-        ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'],
-        ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'],
-        ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS']],
+          ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'],
+          ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'],
+          ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS']],
         'Sub-AOI': {
           type: 'FeatureCollection',
           features: [{

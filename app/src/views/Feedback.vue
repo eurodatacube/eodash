@@ -230,15 +230,23 @@
       v-model="showPreview"
       :width="$vuetify.breakpoint.xsOnly ? '90%' : '80%'"
     >
-      <v-card>
-        <v-card-title class="primary white--text">Bug report: {{ formData.title }}</v-card-title>
-        <v-card-text>
+      <v-card
+      >
+        <v-card-title
+          class="primary white--text"
+          :style="$vuetify.breakpoint.xsOnly && 'position: fixed; width: 85%'"
+        >{{ formData.title }}</v-card-title>
+        <v-card-text
+          :style="$vuetify.breakpoint.xsOnly && 'padding: 70px 0'"
+        >
           <div
             v-html="formData.body"
             class="md-body pa-5"
           />
         </v-card-text>
-        <v-card-actions>
+        <v-card-actions
+          :style="$vuetify.breakpoint.xsOnly && 'position: fixed; width: 85%; bottom: 5%'"
+        >
           <v-spacer></v-spacer>
           <v-btn
             v-if="!message"
@@ -276,6 +284,8 @@
 import axios from 'axios';
 import marked from 'marked';
 
+import backButton from '@/mixins/backButton';
+
 export default {
   data: () => ({
     issueUrl: 'https://issues-eodash.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/issues',
@@ -298,6 +308,9 @@ export default {
     showPreview: false,
     markdownMessage: 'You can use <a href="https://guides.github.com/features/mastering-markdown/" rel="noopener" target="_blank" tabindex="-1">markdown</a>',
   }),
+  mixins: [
+    backButton(['showPreview']),
+  ],
   mounted() {
     this.detectSystem();
   },
