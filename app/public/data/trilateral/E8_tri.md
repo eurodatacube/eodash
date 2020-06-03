@@ -1,6 +1,6 @@
 # Finished goods production: output inventory level
 
-Indicator provided by: [JAXA](https://global.jaxa.jp)
+Indicator provided by: [JAXA](https://global.jaxa.jp) based on data provided by [JAXA](https://global.jaxa.jp) and [ESA](https://esa.int)
 
 ### Change in the number of new car at automobile factory
 
