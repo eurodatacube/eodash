@@ -1,8 +1,8 @@
 // config global variables here for now
 // temporary solution
 import { Wkt } from 'wicket';
-import { shTimeFunction } from '@/utils';
 import { latLng, latLngBounds } from 'leaflet';
+import { shTimeFunction } from '@/utils';
 import moment from 'moment';
 
 export const nasaEndpoints = [
@@ -57,15 +57,15 @@ export const indicatorsDefinition = Object.freeze({
   },
   E10a1: {
     indicator: 'Harvesting activity',
-    class: 'economic',
+    class: 'agriculture',
   },
   E10a2: {
     indicator: 'Cum. proportion of total area under active mgmt.',
-    class: 'economic',
+    class: 'agriculture',
   },
   E10b: {
     indicator: 'Field preparation activity',
-    class: 'economic',
+    class: 'agriculture',
   },
   E11: {
     indicator: 'Volume of activity at shopping centers',
@@ -138,6 +138,13 @@ export const indicatorsDefinition = Object.freeze({
   },
 });
 
+export const layerNameMapping = Object.freeze({
+  N1: {},
+  N1NASA: {}, // just for enabling eo data button for now,
+  NASAPopulation: {},
+  JAXA1: {},
+});
+
 export const indicatorClassesIcons = Object.freeze({
   environment: 'mdi-earth',
   health: 'mdi-hospital-box-outline',
@@ -151,34 +158,27 @@ export const mapDefaults = Object.freeze({
   bounds: latLngBounds(latLng([-70, -170]), latLng([70, 170])),
 });
 
-export const layerNameMapping = Object.freeze({
-  N1: {},
-  N1NASA: {}, // just for enabling eo data button for now,
-  NASAPopulation: {},
-  JAXA1: {},
-});
-
 export const baseLayers = [
   {
     name: 'EOxCloudless 2019',
     url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2019_3857/default/g/{z}/{y}/{x}.jpg',
-    attribution: '<a class="a-light" xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a class="a-light" xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2019)',
+    attribution: '{ EOxCloudless 2019: <a xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" target="_blank" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" target="_blank" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2019) }',
     visible: false,
     maxNativeZoom: 15,
   },
   {
     name: 'Terrain light',
     url: '//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg',
-    attribution: 'Data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data">others</a>, Rendering &copy; <a href="http://eox.at">EOX</a>',
+    attribution: '{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
     maxNativeZoom: 16,
     visible: true,
   },
 ];
 export const overlayLayers = [
   {
-    name: 'Overlay bright',
+    name: 'Overlay',
     url: '//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg',
-    attribution: 'Overlay: Data &copy; <a class="a-light" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Made with Natural Earth, Rendering &copy; <a class="a-light" href="//eox.at">EOX</a>',
+    attribution: '{ Overlay: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors, Made with Natural Earth, Rendering &copy; <a href="//eox.at" target="_blank">EOX</a> }',
     visible: true,
     maxZoom: 14,
   },
@@ -234,7 +234,7 @@ export const globalIndicators = [
           url: '//obs.eu-de.otc.t-systems.com/s5p-pal-l3-tms/s5p-l3-tropno2/fortnight/{time}/{z}/{x}/{-y}.png',
           name: 'Tropospheric NO2',
           legendUrl: 'eodash-data/data/no2Legend.png',
-          attribution: '<a href="//scihub.copernicus.eu/twiki/pub/SciHubWebPortal/TermsConditions/TC_Sentinel_Data_31072014.pdf">Sentinel data</a>, <a href="//maps.s5p-pal.com/">S5P-PAL</a>',
+          attribution: '{ Air Quality: <a href="//scihub.copernicus.eu/twiki/pub/SciHubWebPortal/TermsConditions/TC_Sentinel_Data_31072014.pdf" target="_blank">Sentinel data</a>, <a href="//maps.s5p-pal.com/" target="_blank">S5P-PAL</a> }',
           dateFormatFunction: (dates) => `${moment.utc(dates[0], 'YYYY-MM-DD').format('YYYYMMDD')}-${moment.utc(dates[1], 'YYYY-MM-DD').format('YYYYMMDD')}`,
         },
       },
@@ -265,7 +265,7 @@ export const globalIndicators = [
           opacity: 1,
           url: 'https://h4ymwpefng.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/OMNO2d_HRM/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=0%2C1e16&color_map=magma',
           name: 'Nitrogen dioxide (NASA)',
-          attribution: '',
+          attribution: '{ Nitrogen dioxide (NASA) }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYYMM')}`,
         },
       },
@@ -296,7 +296,7 @@ export const globalIndicators = [
           opacity: 1,
           url: 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/GPW_Population_Density_2020/default/{time}/GoogleMapsCompatible_Level7/{z}/{y}/{x}.png',
           name: 'Population',
-          attribution: '<a href="//scihub.copernicus.eu/twiki/pub/SciHubWebPortal/TermsConditions/TC_Sentinel_Data_31072014.pdf">Sentinel data</a>, <a href="//maps.s5p-pal.com/">S5P-PAL</a>',
+          attribution: '{ Population }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DDTHH:mm:ssZ', true).format('YYYY-MM-DDTHH:mm:ss[Z]')}`,
         },
       },
@@ -337,11 +337,10 @@ export const globalIndicators = [
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2FALOS_SAMPLE%2Falos2-s1-beijing_{time}.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536',
           name: 'Car count',
-          attribution: '',
+          attribution: '{ ALOS JAXA }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
         },
       },
     },
   },
-
 ];
