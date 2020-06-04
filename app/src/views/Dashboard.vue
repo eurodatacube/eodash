@@ -61,7 +61,10 @@
         <v-btn v-else icon @click="setDataPanelWidth(true)">
           <v-icon>mdi-arrow-expand</v-icon>
         </v-btn>
-        <v-toolbar-title v-if="$store.state.indicators.selectedIndicator">
+        <v-toolbar-title v-if="$store.state.indicators.selectedIndicator"
+          :class="$store.state.indicators.selectedIndicator.Description ===
+            $store.state.indicators.selectedIndicator['Indicator Name'] && 'preventEllipsis'"
+        >
           {{ $store.state.indicators.selectedIndicator['City'] }},
           {{ $store.state.indicators.selectedIndicator.Description }}
           <div v-if="
@@ -325,5 +328,10 @@ export default {
     padding-top: 12px;
     padding-bottom: 12px;
   }
+}
+.preventEllipsis:after {
+  content: "\0000a0";
+  display: inline-block;
+  width: 0;
 }
 </style>
