@@ -114,6 +114,7 @@ export const indicatorsDefinition = Object.freeze({
   N2: {
     indicator: 'CO2 emissions',
     class: 'environment',
+    file: '/data/trilateral/N2.csv',
   },
   N3: {
     indicator: 'CHL concentration',
