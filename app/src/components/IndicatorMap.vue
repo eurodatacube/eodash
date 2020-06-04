@@ -250,6 +250,9 @@ export default {
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
     },
+    indicatorsDefinition() {
+      return this.baseConfig.indicatorsDefinition;
+    },
     indicator() {
       return this.$store.state.indicators.selectedIndicator;
     },
@@ -392,14 +395,14 @@ export default {
         const cornerMax1 = latLng([bounds.getSouth() - boundsPad, bounds.getWest() - boundsPad]);
         const cornerMax2 = latLng([bounds.getNorth() + boundsPad, bounds.getEast() + boundsPad]);
         const boundsMax = latLngBounds(cornerMax1, cornerMax2);
-        if (['all', 'regional'].includes(this.indicator.Country)) {
+        this.map.fitBounds(bounds);
+        // limit user movement around map
+        this.map.setMaxBounds(boundsMax);
+        if (this.indicatorsDefinition[this.indicator['Indicator code']].largeSubAoi) {
           this.map.setMinZoom(7);
         } else {
           this.map.setMinZoom(13);
         }
-        this.map.fitBounds(bounds);
-        // limit user movement around map
-        this.map.setMaxBounds(boundsMax);
       } else if (this.aoi) {
         const cornerMax1 = latLng([this.aoi.lat - boundsPad, this.aoi.lng - boundsPad]);
         const cornerMax2 = latLng([this.aoi.lat + boundsPad, this.aoi.lng + boundsPad]);

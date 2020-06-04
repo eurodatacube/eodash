@@ -134,6 +134,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Volume of activity',
     class: 'economic',
     story: '/data/trilateral/E8_tri.md',
+    largeSubAoi: true,
   },
   d: { // dummy for locations
     indicator: 'Upcoming data',
