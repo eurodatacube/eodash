@@ -1,7 +1,8 @@
-## NASA, ESA, JAXA Tri-agency dashboard [Title TBA]
+# Earth Observing Dashboard
 
-A text that describes the joint initiative, the objectives, the parties involved, context, etc.
+### A Tri-Agency Dashboard by NASA, ESA, JAXA
 
-<img src="/data/trilateral/nasa.png"> <img src="/data/trilateral/esa.png"> <img src="/data/trilateral/jaxa.png">
+
+<img src="/data/trilateral/nasa.png" width="100"> <img src="/data/trilateral/esa.png" width="100"> <img src="/data/trilateral/jaxa.png" width="100">
 
 Any additional resources, links to external platforms, videos, etc.
