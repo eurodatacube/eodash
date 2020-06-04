@@ -384,10 +384,7 @@ export default {
   background: #00000099;
   border-radius: 3px;
   color: #fff;
-  padding: 5px 15px;
-  font-size: small;
   pointer-events: none;
-  position: absolute;
   white-space: nowrap;
   border: none;
   &:before {
