@@ -409,8 +409,8 @@ export default {
         const boundsMax = latLngBounds(cornerMax1, cornerMax2);
         this.map.panTo(this.aoi);
         // might need tweaking further on
-        this.map.setMinZoom(13);
-        this.map.setZoom(14);
+        this.map.setMinZoom(16);
+        this.map.setZoom(18);
         // limit user movement around map
         this.map.setMaxBounds(boundsMax);
       } else {
