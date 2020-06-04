@@ -203,14 +203,16 @@ const actions = {
                 let ftrs = [];
                 try {
                   // assuming sub-aoi does not change over time
-                  wkt.read(featureObjs[uniqueKey]['Sub-AOI']);
-                  const jsonGeom = wkt.toJson();
-                  // create a feature collection
-                  ftrs = [{
-                    type: 'Feature',
-                    properties: {},
-                    geometry: jsonGeom,
-                  }];
+                  if (featureObjs[uniqueKey]['Sub-AOI'] !== '') {
+                    wkt.read(featureObjs[uniqueKey]['Sub-AOI']);
+                    const jsonGeom = wkt.toJson();
+                    // create a feature collection
+                    ftrs = [{
+                      type: 'Feature',
+                      properties: {},
+                      geometry: jsonGeom,
+                    }];
+                  }
                 } catch (err) {} // eslint-disable-line no-empty
                 const ftrCol = {
                   type: 'FeatureCollection',
