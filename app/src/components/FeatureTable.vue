@@ -20,8 +20,9 @@
           <template v-slot:item.indicatorValue="{ item }">
             <v-chip
               :color="item.indicatorColor" dark
+              class="text-capitalize"
             >
-              {{ item.indicatorValue }}
+              {{ item.indicatorValue.toLowerCase() }}
             </v-chip>
           </template>
         </v-data-table>
