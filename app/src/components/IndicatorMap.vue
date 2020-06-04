@@ -457,7 +457,7 @@ export default {
     },
     dataLayerTimeSelection(payload) {
       // Different object returned either by arrow use or by dropdown use
-      if (Array.isArray(payload)) {
+      if (Array.isArray(payload) || !(payload.value)) {
         this.dataLayerTime = { value: payload, name: `${payload}` };
       } else {
         this.dataLayerTime = payload;
@@ -473,7 +473,7 @@ export default {
     },
     compareLayerTimeSelection(payload) {
       // Different object returned either by arrow use or by dropdown use
-      if (Array.isArray(payload)) {
+      if (Array.isArray(payload) || !(payload.value)) {
         this.compareLayerTime = { value: payload, name: `${payload}` };
       } else {
         this.compareLayerTime = payload;
