@@ -11,5 +11,3 @@ The tri-agencyCOVID-19 Dashboard is a concerted effort between the European Spac
 Use the dashboard to explore environmental and economic indicators based on remote sensing data from ESA, JAXA and NASA, and investigate how social distancing measures and regional shelter-in-place guidelines have affected Earth’s air, land, and water. Explore individual countries and regions across the world to see how the indicators in each specific location have changed over time.
 
 Together, ESA, JAXA, and NASA will continue to update this dashboard with the most current information.
-
- 
