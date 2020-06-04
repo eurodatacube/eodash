@@ -3,15 +3,17 @@
     <v-tabs
       v-model="tab"
       :color="$vuetify.theme.themes.light.primary"
-      grow
       icons-and-text
+      :grow="$vuetify.breakpoint.xsOnly"
     >
       <v-tab ref="mapTab" @click="mapTabClick"
+        style="width: 125px"
       >
         Map
         <v-icon>mdi-map-search</v-icon>
       </v-tab>
       <v-tab
+        style="width: 125px"
       >
         Table
         <v-icon>mdi-table-search</v-icon>
