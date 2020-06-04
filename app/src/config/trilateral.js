@@ -50,6 +50,9 @@ export const indicatorsDefinition = Object.freeze({
   E8: {
     indicator: 'Inventory Levels',
     class: 'economic',
+    file: '/data/trilateral/E8.csv',
+    story: '/data/trilateral/E8_tri.md',
+    largeSubAoi: true,
   },
   E9: {
     indicator: 'Construction activity',
@@ -130,13 +133,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Illegal waste levels',
     class: 'environment',
   },
-  JAXA1: {
-    indicator: 'Volume of activity',
-    class: 'economic',
-    file: '/data/trilateral/car-count.csv',
-    story: '/data/trilateral/E8_tri.md',
-    largeSubAoi: true,
-  },
   d: { // dummy for locations
     indicator: 'Upcoming data',
     class: 'environment',
@@ -147,7 +143,6 @@ export const layerNameMapping = Object.freeze({
   N1: {},
   N1NASA: {}, // just for enabling eo data button for now,
   NASAPopulation: {},
-  JAXA1: {},
   'ALOS-2': {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2FALOS_SAMPLE%2Falos2-s1-beijing_{time}.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536',
     protocol: 'xyz',
@@ -311,47 +306,6 @@ export const globalIndicators = [
           name: 'Population',
           attribution: '{ Population }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DDTHH:mm:ssZ', true).format('YYYY-MM-DDTHH:mm:ss[Z]')}`,
-        },
-      },
-    },
-  },
-  {
-    latlng: latLng([39.9, 116.38]),
-    properties: {
-      id: 9998, // for now
-      indicatorObject: {
-        AOI: null,
-        AOI_ID: 'be',
-        Country: 'regional',
-        City: 'Beijing',
-        'Site Name': 'Beijing',
-        Description: 'Volume of Activity',
-        'Indicator code': 'JAXA1',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Changes in the number of new cars',
-        'Color code': ['BLUE'],
-        'EO Sensor': [['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'],
-          ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'],
-          ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'],
-          ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS']],
-        'Sub-AOI': {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((116.111 40.434,117.013 40.437,117.013 39.728,116.121 39.724,116.111 40.434))').toJson(),
-          }],
-        },
-        Time: [['2019_12_10'], ['2020_01_05'], ['2020_01_12'], ['2020_01_19'], ['2020_01_24'], ['2020_01_29'], ['2020_02_05'], ['2020_02_10'], ['2020_02_17'], ['2020_02_18'], ['2020_02_22'], ['2020_03_05'], ['2020_03_12'], ['2020_03_17'], ['2020_03_24'], ['2020_03_29'], ['2020_03_31'], ['2020_04_05'], ['2020_04_17'], ['2020_04_28'], ['2020_04_29'], ['2020_05_07']],
-        'Input Data': ['JAXA1'], // just for enabling eo data button for now
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 15,
-          opacity: 1,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2FALOS_SAMPLE%2Falos2-s1-beijing_{time}.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536',
-          name: 'Car count',
-          attribution: '{ ALOS JAXA }',
-          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
         },
       },
     },
