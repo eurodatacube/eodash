@@ -108,7 +108,8 @@ export default {
     ...mapState('config', ['appConfig']),
   },
   created() {
-    if (this.appConfig.hasOwnProperty('countDownTimer') && !document.domain.includes('staging')) {
+    if (this.appConfig.hasOwnProperty('countDownTimer')
+      && this.appConfig.countDownMatch.includes(document.domain)) {
       this.comingSoon = true;
       this.checkComingSoon();
     } else {
