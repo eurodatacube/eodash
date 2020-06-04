@@ -351,8 +351,10 @@ export default {
       // add A/B slider
       this.slider = L.control.sideBySide(this.$refs.compareLayer.mapObject, this.$refs.dataLayer.mapObject); // eslint-disable-line
 
-      this.flyToBounds();
       this.onResize();
+      setTimeout(() => {
+        this.flyToBounds();
+      }, 1);
     });
   },
   methods: {
@@ -407,10 +409,10 @@ export default {
         const cornerMax1 = latLng([this.aoi.lat - boundsPad, this.aoi.lng - boundsPad]);
         const cornerMax2 = latLng([this.aoi.lat + boundsPad, this.aoi.lng + boundsPad]);
         const boundsMax = latLngBounds(cornerMax1, cornerMax2);
+        this.map.setZoom(18);
         this.map.panTo(this.aoi);
         // might need tweaking further on
-        this.map.setMinZoom(13);
-        this.map.setZoom(14);
+        this.map.setMinZoom(14);
         // limit user movement around map
         this.map.setMaxBounds(boundsMax);
       } else {
@@ -457,7 +459,7 @@ export default {
     },
     dataLayerTimeSelection(payload) {
       // Different object returned either by arrow use or by dropdown use
-      if (Array.isArray(payload)) {
+      if (Array.isArray(payload) || !(payload.value)) {
         this.dataLayerTime = { value: payload, name: `${payload}` };
       } else {
         this.dataLayerTime = payload;
@@ -473,7 +475,7 @@ export default {
     },
     compareLayerTimeSelection(payload) {
       // Different object returned either by arrow use or by dropdown use
-      if (Array.isArray(payload)) {
+      if (Array.isArray(payload) || !(payload.value)) {
         this.compareLayerTime = { value: payload, name: `${payload}` };
       } else {
         this.compareLayerTime = payload;
@@ -592,9 +594,6 @@ export default {
 ::v-deep .leaflet-control-attribution:active .attribution-icon,
 ::v-deep .leaflet-control-attribution:hover .attribution-icon {
   display: none;
-}
-::v-deep .attribution-icon {
-  cursor: pointer;
 }
 ::v-deep .attribution-icon {
   font-size: 1.2em;

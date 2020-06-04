@@ -22,5 +22,5 @@ export function shTimeFunction(date) {
     return `${momentutc.format(alternativeFormat)}/${momentutcNextDay.format(alternativeFormat)}`;
   }
   // otherwise return single date with full format
-  return `${momentutc.format(defaultFormat)}`;
+  return `${momentutc.format(defaultFormat)}/${momentutc.format(defaultFormat)}`;
 }

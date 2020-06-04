@@ -137,7 +137,9 @@ export default {
     dialog(open) {
       if (open && this.$refs.referenceMap) {
         this.$refs.referenceMap.onResize();
-        this.$refs.referenceMap.flyToBounds();
+        setTimeout(() => {
+          this.$refs.referenceMap.flyToBounds();
+        }, 1);
       }
     },
   },

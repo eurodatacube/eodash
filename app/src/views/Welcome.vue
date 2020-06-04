@@ -119,7 +119,7 @@ export default {
       'allFeatures',
     ]),
     welcome() {
-      return marked(require('../../public/eodash-data/general/How to use the RACE Dashboard.md').default);
+      return marked(require(`../../public${this.appConfig.welcomeText}.md`).default);
     },
   },
 };
