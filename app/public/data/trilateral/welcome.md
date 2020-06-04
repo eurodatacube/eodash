@@ -9,5 +9,3 @@
 <img src="/data/trilateral/Green.png" width=12> Better than baseline  | <img src="/data/trilateral/Blue.png" width=12> As baseline  | <img src="/data/trilateral/Red.png" width=12> Worse than baseline |<img src="/data/trilateral/Grey.png" width=12> Upcoming data |
 ----|----|----|----|
 
-
-<font size="0.1">**Disclaimer** *The information contained on this website are mainly provided by third parties based on experimental methods and without any warranty as to their veracity.*</font>
