@@ -275,6 +275,7 @@ export default {
   },
   methods: {
     selectIndicator(feature) {
+      this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
       const { indicatorObject } = feature.properties;
       if (indicatorObject['Indicator code'] !== 'd') {
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
