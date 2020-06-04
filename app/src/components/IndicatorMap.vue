@@ -195,6 +195,8 @@ import {
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-mouse-position';
 import 'leaflet-side-by-side';
+import 'leaflet-loading';
+import 'leaflet-loading/src/Control.Loading.css';
 import moment from 'moment';
 
 export default {
@@ -338,6 +340,11 @@ export default {
         this._container.innerHTML = `<div class='attribution-body'>${prefixAndAttribs.join(' | ')}</div><div class='attribution-icon'>ℹ</div>`;
       };
       this.map.attributionControl._update();
+      // add loading indicator
+      L.Control.loading({
+        position: 'topright',
+        delayIndicator: 200,
+      }).addTo(this.map);
       // add A/B slider
       this.slider = L.control.sideBySide(this.$refs.compareLayer.mapObject, this.$refs.dataLayer.mapObject); // eslint-disable-line
 
@@ -568,43 +575,24 @@ export default {
         });
       });
     },
-    /* dataLayerTime() {
-      // When main data time is changed make sure to set correct index
-      if (this.dataLayerTime) {
-        const currentIndex = this.arrayOfObjects
-          .map((i) => i.value)
-          .indexOf(this.dataLayerTime.value
-            ? this.dataLayerTime.value : this.dataLayerTime);
-        this.dataLayerIndex = currentIndex;
-        this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex]);
-      }
-    },
-    compareLayerTime() {
-      // When compare time selection is changed make sure to set correct index
-      if (this.compareLayerTime) {
-        const currentIndex = this.arrayOfObjects
-          .map((i) => i.value)
-          .indexOf(this.compareLayerTime.value
-            ? this.compareLayerTime.value : this.compareLayerTime);
-        this.compareLayerIndex = currentIndex;
-        this.compareLayerTimeSelection(this.arrayOfObjects[currentIndex]);
-      }
-    }, */
   },
 };
 </script>
 
 <style lang="scss" scoped>
+::v-deep .leaflet-control-attribution:active :not(.attribution-icon),
 ::v-deep .leaflet-control-attribution:hover :not(.attribution-icon),
 ::v-deep .leaflet-control-attribution .attribution-icon {
   display: inline-block;
 }
-
 ::v-deep .leaflet-control-attribution :not(.attribution-icon),
+::v-deep .leaflet-control-attribution:active .attribution-icon,
 ::v-deep .leaflet-control-attribution:hover .attribution-icon {
   display: none;
 }
-
+::v-deep .attribution-icon {
+  cursor: pointer;
+}
 ::v-deep .attribution-icon {
   font-size: 1.2em;
   margin: 1px;

@@ -247,6 +247,7 @@ export default {
         this._container.innerHTML = `<div class='attribution-body'>${prefixAndAttribs.join(' | ')}</div><div class='attribution-icon'>ℹ</div>`;
       };
       this.map.attributionControl._update();
+      this.onResize();
     });
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'features/SET_FEATURE_FILTER' && !['all', 'regional'].includes(mutation.payload.countries)) {
@@ -383,10 +384,7 @@ export default {
   background: #00000099;
   border-radius: 3px;
   color: #fff;
-  padding: 5px 15px;
-  font-size: small;
   pointer-events: none;
-  position: absolute;
   white-space: nowrap;
   border: none;
   &:before {
@@ -418,17 +416,19 @@ export default {
     border: 2px var(--v-primary-base) dashed;
   }
 }
-
+::v-deep .leaflet-control-attribution:active :not(.attribution-icon),
 ::v-deep .leaflet-control-attribution:hover :not(.attribution-icon),
 ::v-deep .leaflet-control-attribution .attribution-icon {
   display: inline-block;
 }
-
 ::v-deep .leaflet-control-attribution :not(.attribution-icon),
+::v-deep .leaflet-control-attribution:active .attribution-icon,
 ::v-deep .leaflet-control-attribution:hover .attribution-icon {
   display: none;
 }
-
+::v-deep .attribution-icon {
+  cursor: pointer;
+}
 ::v-deep .attribution-icon {
   font-size: 1.2em;
   margin: 1px;
