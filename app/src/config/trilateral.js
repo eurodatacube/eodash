@@ -133,6 +133,7 @@ export const indicatorsDefinition = Object.freeze({
   JAXA1: {
     indicator: 'Volume of activity',
     class: 'economic',
+    file: '/data/trilateral/car-count.csv',
     story: '/data/trilateral/E8_tri.md',
     largeSubAoi: true,
   },
@@ -147,6 +148,14 @@ export const layerNameMapping = Object.freeze({
   N1NASA: {}, // just for enabling eo data button for now,
   NASAPopulation: {},
   JAXA1: {},
+  'ALOS-2': {
+    url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2FALOS_SAMPLE%2Falos2-s1-beijing_{time}.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536',
+    protocol: 'xyz',
+    maxNativeZoom: 15,
+    tileSize: 256,
+    attribution: '{ ALOS JAXA }',
+    dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+  },
 });
 
 export const indicatorClassesIcons = Object.freeze({
