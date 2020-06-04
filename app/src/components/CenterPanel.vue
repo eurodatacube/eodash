@@ -96,8 +96,8 @@
               @click:close="resetIndicator"
             >
               <v-icon small left>mdi-filter</v-icon>
-              {{ baseConfig.indicatorsDefinition[$store.state.features.featureFilters.indicators]
-                .indicator }}
+              {{ getIndicators
+              .find((i) => i.code === $store.state.features.featureFilters.indicators[0]).indicator }}
             </v-chip>
           </v-scroll-y-transition>
         </div>
@@ -174,6 +174,7 @@ export default {
   computed: {
     ...mapGetters('features', [
       'getFeatures',
+      'getIndicators',
     ]),
     ...mapState('config', ['baseConfig']),
     countries() {
