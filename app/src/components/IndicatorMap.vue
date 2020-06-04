@@ -581,11 +581,13 @@ export default {
 
 <style lang="scss" scoped>
 ::v-deep .leaflet-control-attribution:active :not(.attribution-icon),
+::v-deep .leaflet-control-attribution:hover :not(.attribution-icon),
 ::v-deep .leaflet-control-attribution .attribution-icon {
   display: inline-block;
 }
 ::v-deep .leaflet-control-attribution :not(.attribution-icon),
-::v-deep .leaflet-control-attribution:active .attribution-icon {
+::v-deep .leaflet-control-attribution:active .attribution-icon,
+::v-deep .leaflet-control-attribution:hover .attribution-icon {
   display: none;
 }
 ::v-deep .attribution-icon {
