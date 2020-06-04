@@ -41,3 +41,9 @@
     height: 100%;
   }
 }
+
+.v-toolbar__title:after {
+  content: "\0000a0";
+  display: inline-block;
+  width: 0;
+}
