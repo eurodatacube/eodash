@@ -351,8 +351,10 @@ export default {
       // add A/B slider
       this.slider = L.control.sideBySide(this.$refs.compareLayer.mapObject, this.$refs.dataLayer.mapObject); // eslint-disable-line
 
-      this.flyToBounds();
       this.onResize();
+      setTimeout(() => {
+        this.flyToBounds();
+      }, 1);
     });
   },
   methods: {
@@ -409,7 +411,7 @@ export default {
         const boundsMax = latLngBounds(cornerMax1, cornerMax2);
         this.map.panTo(this.aoi);
         // might need tweaking further on
-        this.map.setMinZoom(16);
+        this.map.setMinZoom(14);
         this.map.setZoom(18);
         // limit user movement around map
         this.map.setMaxBounds(boundsMax);
