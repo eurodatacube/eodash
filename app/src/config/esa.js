@@ -65,12 +65,14 @@ export const indicatorsDefinition = Object.freeze({
     class: 'agriculture',
     file: '/eodash-data/data/E10a1.csv',
     story: '/eodash-data/stories/E10a1.md',
+    largeSubAoi: true,
   },
   E10a2: {
     indicator: 'Cum. proportion of total area under active mgmt.',
     class: 'agriculture',
     file: '/eodash-data/data/E10a2.csv',
     story: '/eodash-data/stories/E10a2.md',
+    largeSubAoi: true,
   },
   E10b: {
     indicator: 'Field preparation activity',
@@ -120,11 +122,13 @@ export const indicatorsDefinition = Object.freeze({
     class: 'environment',
     file: '/eodash-data/data/N3.csv',
     story: '/eodash-data/stories/N3.md',
+    largeSubAoi: true,
   },
   N3a2: {
     indicator: 'CHL concentration',
     class: 'environment',
     story: '/eodash-data/stories/N3a2.md',
+    largeSubAoi: true,
   },
   N4a: {
     indicator: 'Changes in land fill sites',
