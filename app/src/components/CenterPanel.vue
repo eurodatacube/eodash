@@ -97,6 +97,8 @@
             >
               <v-icon small left>mdi-filter</v-icon>
               {{ getIndicators
+                  .find((i) => i.code === $store.state.features.featureFilters.indicators[0])
+              && getIndicators
               .find((i) => i.code === $store.state.features.featureFilters.indicators[0]).indicator }}
             </v-chip>
           </v-scroll-y-transition>

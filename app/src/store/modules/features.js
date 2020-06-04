@@ -40,10 +40,19 @@ const getters = {
   getFeatures(state) {
     let features = state.allFeatures;
     if (state.featureFilters.countries.length > 0) {
+      // TEMP
+      const showNorthAdriatic = [
+        'HR',
+        'IT',
+        'SI',
+        'SM',
+      ];
       features = features
-        .filter((f) => state.featureFilters.countries
-          .includes(f.properties.indicatorObject.Country)
-          || f.properties.indicatorObject.City === 'World');
+      .filter((f) => state.featureFilters.countries
+      .includes(f.properties.indicatorObject.Country)
+      || f.properties.indicatorObject.City === 'World'
+      || (f.properties.indicatorObject.City === 'North Adriatic' // TEMP
+        && showNorthAdriatic.includes(state.featureFilters.countries))); // TEMP
     }
     if (state.featureFilters.indicators.length > 0) {
       features = features
