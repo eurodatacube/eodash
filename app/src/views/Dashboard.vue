@@ -79,7 +79,7 @@
       v-if="$vuetify.breakpoint.mdAndUp"
       v-model="drawerRight"
       right
-      persistent
+      stateless
       app
       clipped
       :temporary="dataPanelTemporary"
