@@ -22,15 +22,17 @@
       <v-spacer></v-spacer>
       <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
     </v-app-bar>
-    <v-row class="d-flex">
+    <v-row class="d-flex fill-height">
       <v-col
         cols="12"
+        class="d-flex align-center justify-center fill-height"
       >
-        <div
-          v-html="privacy"
-          class="md-body"
-          :options="{ markdownIt: { html: true } }"
-        />
+        <div class="text-center">
+          <h1 class="display-3 font-weight-light mt-5 mb-5 primary--text">404</h1>
+          <h1 class="display-1 font-weight-light mt-5 mb-5 primary--text">Page not found</h1>
+          <p class="mt-5 mb-5">The page you requested was not found.</p>
+          <p>Go back to the <router-link to="/" >Dashboard</router-link></p>
+        </div>
       </v-col>
     </v-row>
   </div>
@@ -44,9 +46,6 @@ import {
 export default {
   computed: {
     ...mapState('config', ['appConfig']),
-    privacy() {
-      return this.$marked(require(`../../public${this.appConfig.privacyText}.md`).default);
-    },
   },
 };
 </script>

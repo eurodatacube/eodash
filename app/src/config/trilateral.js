@@ -50,6 +50,9 @@ export const indicatorsDefinition = Object.freeze({
   E8: {
     indicator: 'Inventory Levels',
     class: 'economic',
+    file: '/data/trilateral/E8.csv',
+    story: '/data/trilateral/E8_tri.md',
+    largeSubAoi: true,
   },
   E9: {
     indicator: 'Construction activity',
@@ -92,7 +95,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'health',
   },
   N1: {
-    indicator: 'Air quality',
+    indicator: 'NO2 Concentration (TROPOMI)',
     class: 'environment',
     story: '/eodash-data/stories/N1.md',
     externalData: {
@@ -101,23 +104,23 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   N1NASA: {
-    indicator: 'Air quality',
+    indicator: 'NO2 Concentration (OMI)',
     class: 'environment',
   },
   NASAPopulation: {
-    indicator: 'Air quality',
+    indicator: 'Population',
     class: 'environment',
   },
   N2: {
-    indicator: 'CO2 emissions',
+    indicator: 'CO2 emissions (GOSAT)',
     class: 'environment',
-    file: '/data/trilateral/N2.csv'
+    file: '/data/trilateral/N2.csv',
   },
   N3: {
-    indicator: 'CHL concentration',
+    indicator: 'CHL concentration (CMEMS)',
     class: 'environment',
     file: '/data/trilateral/N3.csv',
-    story: '/data/trilateral/N3_tri.md'
+    story: '/data/trilateral/N3_tri.md',
   },
   N3a2: {
     indicator: 'CHL concentration',
@@ -131,10 +134,10 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Illegal waste levels',
     class: 'environment',
   },
-  JAXA1: {
-    indicator: 'Volume of activity',
+  N5: {
+    indicator: 'Nightlights (Suomi NPP VIIRS)',
     class: 'economic',
-    story: '/data/trilateral/E8_tri.md',
+    largeSubAoi: true,
   },
   d: { // dummy for locations
     indicator: 'Upcoming data',
@@ -146,7 +149,15 @@ export const layerNameMapping = Object.freeze({
   N1: {},
   N1NASA: {}, // just for enabling eo data button for now,
   NASAPopulation: {},
-  JAXA1: {},
+  'ALOS-2': {
+    url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2FALOS_SAMPLE%2Falos2-s1-beijing_{time}.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536',
+    protocol: 'xyz',
+    maxNativeZoom: 15,
+    tileSize: 256,
+    attribution: '{ ALOS JAXA }',
+    dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+  },
+  N5: {}, // just for enabling eo data button for now
 });
 
 export const indicatorClassesIcons = Object.freeze({
@@ -218,7 +229,7 @@ export const globalIndicators = [
         Country: 'all',
         City: 'World',
         'Site Name': 'global',
-        Description: 'Air Quality (ESA)',
+        Description: 'Air Quality (TROPOMI)',
         'Indicator code': 'N1',
         'Indicator Value': ['normal'],
         'Indicator Name': 'NO2 Concentration',
@@ -250,7 +261,7 @@ export const globalIndicators = [
         Country: 'all',
         City: 'World',
         'Site Name': 'global',
-        Description: 'Air Quality (NASA)',
+        Description: 'Air Quality (OMI)',
         'Indicator code': 'N1NASA',
         'Indicator Value': ['normal'],
         'Indicator Name': 'NO2 Concentration',
@@ -281,7 +292,7 @@ export const globalIndicators = [
         Country: 'all',
         City: 'World',
         'Site Name': 'global',
-        Description: 'Population (NASA)',
+        Description: 'Population',
         'Indicator code': 'NASAPopulation',
         'Indicator Value': ['normal'],
         'Indicator Name': 'Population density 2020',
@@ -307,42 +318,223 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([39.9, 116.38]),
+    latlng: latLng([35.61,139.78]),
     properties: {
       id: 9998, // for now
+      indicatorObject: {
+        AOI: null,
+        AOI_ID: 'tk',
+        Country: 'regional',
+        City: 'Tokyo',
+        'Site Name': 'Tokyo',
+        Description: 'Nightlights (Suomi NPP VIIRS)',
+        'Indicator code': 'N5',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Night light composite maps',
+        'Color code': ['BLUE'],
+        'EO Sensor': [['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights']],
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((139.34275817871094 35.049654646456474, 140.34809152322123 35.049654646456474, 140.34809152322123 35.93543243408203, 139.34275817871094 35.93543243408203, 139.34275817871094 35.049654646456474))').toJson(),
+          }],
+        },
+        Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
+        'Input Data': ['N5'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_tk_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Nightlights',
+          attribution: '{ NASA }',
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([39.9,116.38]),
+    properties: {
+      id: 9997, // for now
       indicatorObject: {
         AOI: null,
         AOI_ID: 'be',
         Country: 'regional',
         City: 'Beijing',
         'Site Name': 'Beijing',
-        Description: 'Volume of Activity',
-        'Indicator code': 'JAXA1',
+        Description: 'Nightlights',
+        'Indicator code': 'N5',
         'Indicator Value': ['normal'],
-        'Indicator Name': 'Changes in the number of new cars',
+        'Indicator Name': 'Nightlights',
         'Color code': ['BLUE'],
-        'EO Sensor': [['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'],
-          ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'],
-          ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'],
-          ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS'], ['ALOS']],
+        'EO Sensor': [['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights']],
         'Sub-AOI': {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
             properties: {},
-            geometry: wkt.read('POLYGON((116.111 40.434,117.013 40.437,117.013 39.728,116.121 39.724,116.111 40.434))').toJson(),
+            geometry: wkt.read('POLYGON((115.91229248046875 39.627200509676186, 116.86084804657003 39.627200509676186, 116.86084804657003 40.32575607299805, 115.91229248046875 40.32575607299805, 115.91229248046875 39.627200509676186,))').toJson(),
           }],
         },
-        Time: [['2019_12_10'], ['2020_01_05'], ['2020_01_12'], ['2020_01_19'], ['2020_01_24'], ['2020_01_29'], ['2020_02_05'], ['2020_02_10'], ['2020_02_17'], ['2020_02_18'], ['2020_02_22'], ['2020_03_05'], ['2020_03_12'], ['2020_03_17'], ['2020_03_24'], ['2020_03_29'], ['2020_03_31'], ['2020_04_05'], ['2020_04_17'], ['2020_04_28'], ['2020_04_29'], ['2020_05_07']],
-        'Input Data': ['JAXA1'], // just for enabling eo data button for now
+        Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
+        'Input Data': ['N5'], // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 15,
+          maxNativeZoom: 18,
           opacity: 1,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2FALOS_SAMPLE%2Falos2-s1-beijing_{time}.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536',
-          name: 'Car count',
-          attribution: '{ ALOS JAXA }',
-          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_be_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Nightlights',
+          attribution: '{ NASA }',
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([51.02986,2.250141]),
+    properties: {
+      id: 9996, // for now
+      indicatorObject: {
+        AOI: null,
+        AOI_ID: 'du',
+        Country: 'regional',
+        City: 'Port of Dunkirk',
+        'Site Name': 'Port of Dunkirk',
+        Description: 'Nightlights',
+        'Indicator code': 'N5',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Nightlights',
+        'Color code': ['BLUE'],
+        'EO Sensor': [['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights']],
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((2.083559989929199 50.965508184133796, 2.416559993631381 50.965508184133796, 2.416559993631381 51.087730407714844, 2.083559989929199 51.087730407714844, 2.083559989929199 50.965508184133796))').toJson(),
+          }],
+        },
+        Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
+        'Input Data': ['N5'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_du_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Nightlights',
+          attribution: '{ NASA }',
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([51.15934,3.77245]),
+    properties: {
+      id: 9995, // for now
+      indicatorObject: {
+        AOI: null,
+        AOI_ID: 'gh',
+        Country: 'regional',
+        City: 'Port of Ghent',
+        'Site Name': 'Port of Ghent',
+        Description: 'Nightlights',
+        'Indicator code': 'N5',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Nightlights',
+        'Color code': ['BLUE'],
+        'EO Sensor': [['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights']],
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((3.6453969478607178 51.06661950775742, 3.85839695022878 51.06661950775742, 3.85839695022878 51.28873062133789, 3.6453969478607178 51.28873062133789, 3.6453969478607178 51.06661950775742))').toJson(),
+          }],
+        },
+        Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
+        'Input Data': ['N5'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_gh_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Nightlights',
+          attribution: '{ NASA }',
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([34.05,-118.25]),
+    properties: {
+      id: 9994, // for now
+      indicatorObject: {
+        AOI: null,
+        AOI_ID: 'la',
+        Country: 'regional',
+        City: 'Los Angeles',
+        'Site Name': 'Los Angeles',
+        Description: 'Nightlights',
+        'Indicator code': 'N5',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Nightlights',
+        'Color code': ['BLUE'],
+        'EO Sensor': [['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights']],
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-118.68741607666016 33.42670324365463, -117.0733049476039 33.42670324365463, -117.0733049476039 34.34392547607422, -118.68741607666016 34.34392547607422, -118.68741607666016 33.42670324365463))').toJson(),
+          }],
+        },
+        Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
+        'Input Data': ['N5'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_la_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Nightlights',
+          attribution: '{ NASA }',
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([37.7775,-122.416389]),
+    properties: {
+      id: 9993, // for now
+      indicatorObject: {
+        AOI: null,
+        AOI_ID: 'sf',
+        Country: 'regional',
+        City: 'San Francisco',
+        'Site Name': 'San Francisco',
+        Description: 'Nightlights',
+        'Indicator code': 'N5',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Nightlights',
+        'Color code': ['BLUE'],
+        'EO Sensor': [['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights']],
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-122.63569641113281 37.119795894876006, -121.53514084334165 37.119795894876006, -121.53514084334165 38.35512924194336, -122.63569641113281 38.35512924194336, -122.63569641113281 37.119795894876006))').toJson(),
+          }],
+        },
+        Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
+        'Input Data': ['N5'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_sf_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Nightlights',
+          attribution: '{ NASA }',
         },
       },
     },

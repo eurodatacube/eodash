@@ -1,6 +1,6 @@
 {
   "name": "race-dashboard",
-  "version": "0.7.5",
+  "version": "0.8.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -9,6 +9,7 @@
     "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
+    "@chenfengyuan/vue-countdown": "^1.1.5",
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
     "chartjs-plugin-annotation": "^0.5.7",

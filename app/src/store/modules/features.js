@@ -40,10 +40,19 @@ const getters = {
   getFeatures(state) {
     let features = state.allFeatures;
     if (state.featureFilters.countries.length > 0) {
+      // TEMP
+      const showNorthAdriatic = [
+        'HR',
+        'IT',
+        'SI',
+        'SM',
+      ];
       features = features
-        .filter((f) => state.featureFilters.countries
-          .includes(f.properties.indicatorObject.Country)
-          || f.properties.indicatorObject.City === 'World');
+      .filter((f) => state.featureFilters.countries
+      .includes(f.properties.indicatorObject.Country)
+      || f.properties.indicatorObject.City === 'World'
+      || (f.properties.indicatorObject.City === 'North Adriatic' // TEMP
+        && showNorthAdriatic.includes(state.featureFilters.countries))); // TEMP
     }
     if (state.featureFilters.indicators.length > 0) {
       features = features
@@ -203,14 +212,16 @@ const actions = {
                 let ftrs = [];
                 try {
                   // assuming sub-aoi does not change over time
-                  wkt.read(featureObjs[uniqueKey]['Sub-AOI']);
-                  const jsonGeom = wkt.toJson();
-                  // create a feature collection
-                  ftrs = [{
-                    type: 'Feature',
-                    properties: {},
-                    geometry: jsonGeom,
-                  }];
+                  if (featureObjs[uniqueKey]['Sub-AOI'] !== '') {
+                    wkt.read(featureObjs[uniqueKey]['Sub-AOI']);
+                    const jsonGeom = wkt.toJson();
+                    // create a feature collection
+                    ftrs = [{
+                      type: 'Feature',
+                      properties: {},
+                      geometry: jsonGeom,
+                    }];
+                  }
                 } catch (err) {} // eslint-disable-line no-empty
                 const ftrCol = {
                   type: 'FeatureCollection',

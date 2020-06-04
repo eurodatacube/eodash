@@ -3,15 +3,17 @@
     <v-tabs
       v-model="tab"
       :color="$vuetify.theme.themes.light.primary"
-      grow
       icons-and-text
+      :grow="$vuetify.breakpoint.xsOnly"
     >
       <v-tab ref="mapTab" @click="mapTabClick"
+        style="width: 125px"
       >
         Map
         <v-icon>mdi-map-search</v-icon>
       </v-tab>
       <v-tab
+        style="width: 125px"
       >
         Table
         <v-icon>mdi-table-search</v-icon>
@@ -96,8 +98,10 @@
               @click:close="resetIndicator"
             >
               <v-icon small left>mdi-filter</v-icon>
-              {{ baseConfig.indicatorsDefinition[$store.state.features.featureFilters.indicators]
-                .indicator }}
+              {{ getIndicators
+                  .find((i) => i.code === $store.state.features.featureFilters.indicators[0])
+              && getIndicators
+              .find((i) => i.code === $store.state.features.featureFilters.indicators[0]).indicator }}
             </v-chip>
           </v-scroll-y-transition>
         </div>
@@ -174,6 +178,7 @@ export default {
   computed: {
     ...mapGetters('features', [
       'getFeatures',
+      'getIndicators',
     ]),
     ...mapState('config', ['baseConfig']),
     countries() {

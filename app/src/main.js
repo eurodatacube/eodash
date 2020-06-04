@@ -10,9 +10,14 @@ import browserDetect from 'vue-browser-detect-plugin';
 import App from './App.vue';
 import Dashboard from './views/Dashboard.vue';
 import Privacy from './views/Privacy.vue';
+import PageNotFound from './views/PageNotFound.vue';
 import Terms from './views/Terms.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
+import marked from 'marked';
+import VueCountdown from '@chenfengyuan/vue-countdown';
+
+Vue.component(VueCountdown.name, VueCountdown);
 
 Vue.config.productionTip = false;
 
@@ -43,6 +48,7 @@ const routes = [
   { path: '/', component: Dashboard },
   { path: '/privacy', component: Privacy },
   { path: '/terms_and_conditions', component: Terms },
+  { path: "*", component: PageNotFound },
 ];
 const router = new VueRouter({
   mode: 'history',
@@ -57,6 +63,16 @@ Vue.use(Vuetify, {
 });
 
 Vue.use(browserDetect);
+
+const mdRendererLinksTargetBlank = new marked.Renderer();
+mdRendererLinksTargetBlank.link = function(href, title, text) {
+  const link = marked.Renderer.prototype.link.call(this, href, title, text);
+  return link.replace("<a", "<a target='_blank' ");
+};
+marked.setOptions({
+  renderer: mdRendererLinksTargetBlank,
+});
+Vue.prototype.$marked = marked;
 
 const renderVue = async () => {
   await store.dispatch('config/checkBrand');

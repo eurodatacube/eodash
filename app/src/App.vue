@@ -1,40 +1,56 @@
 <!-- eslint-disable global-require -->
 <template>
   <v-app id="inspire">
-    <router-view />
-    <cookie-law @accept="acceptCookies">
-      <div slot-scope="props" style="width: 100%;">
-        <div class="d-flex align-center justify-center mb-5">
-          <small class="mb-0">
-            We use cookies which are essential for you to access our website and/or
-            to provide you with our services
-            and allow us to measure and improve the
-            performance of our website. <br v-if="$vuetify.breakpoint.xsOnly" />
-            <a href="/privacy" target="_blank">Learn more</a>.
-          </small>
+    <div v-if="comingSoon"
+      class="fill-height d-flex justify-center align-center"
+      style="background: white"
+    >
+      <countdown v-if="countDownTime" :time="countDownTime" @end="comingSoon = false">
+        <template slot-scope="props">
+          <div class="text-center">
+            <img src="/eodash-data/general/RACE_key_visual_5v_16_9_200527.jpg" style="width: 70%; max-width: 100vw" class="mb-5" />
+            <h1 class="display-2 primary--text">
+              {{ props.hours }} hours, <br v-if="$vuetify.breakpoint.xsOnly" />{{ props.minutes }} minutes, <br v-if="$vuetify.breakpoint.xsOnly" />{{ props.seconds }} seconds</h1>
+          </div>
+        </template>
+      </countdown>
+    </div>
+    <template v-else>
+      <router-view />
+      <cookie-law @accept="acceptCookies">
+        <div slot-scope="props" style="width: 100%;">
+          <div class="d-flex align-center justify-center mb-5">
+            <small class="mb-0">
+              We use cookies which are essential for you to access our website and/or
+              to provide you with our services
+              and allow us to measure and improve the
+              performance of our website. <br v-if="$vuetify.breakpoint.xsOnly" />
+              <a href="/privacy" target="_blank">Learn more</a>.
+            </small>
+          </div>
+          <div class="text-center">
+            <v-btn
+              color="primary"
+              :block="$vuetify.breakpoint.xsOnly"
+              :class="$vuetify.breakpoint.smAndUp ? 'mr-5' : 'mb-5'"
+              @click="props.accept"
+            >
+              <v-icon left>mdi-checkbox-marked-circle-outline</v-icon>
+              Accept all cookies
+            </v-btn>
+            <v-btn
+              color="primary"
+              outlined
+              :block="$vuetify.breakpoint.xsOnly"
+              @click="props.close"
+            >
+              <v-icon left>mdi-cancel</v-icon>
+              Accept essential only
+            </v-btn>
+          </div>
         </div>
-        <div class="text-center">
-          <v-btn
-            color="primary"
-            :block="$vuetify.breakpoint.xsOnly"
-            :class="$vuetify.breakpoint.smAndUp ? 'mr-5' : 'mb-5'"
-            @click="props.accept"
-          >
-            <v-icon left>mdi-checkbox-marked-circle-outline</v-icon>
-            Accept all cookies
-          </v-btn>
-          <v-btn
-            color="primary"
-            outlined
-            :block="$vuetify.breakpoint.xsOnly"
-            @click="props.close"
-          >
-            <v-icon left>mdi-cancel</v-icon>
-            Accept essential only
-          </v-btn>
-        </div>
-      </div>
-    </cookie-law>
+      </cookie-law>
+    </template>
   </v-app>
 </template>
 
@@ -45,12 +61,16 @@ import {
 } from 'vuex';
 import CookieLaw from 'vue-cookie-law';
 
+import axios from 'axios';
+
 export default {
   components: {
     CookieLaw,
   },
   data: () => ({
+    comingSoon: null,
     showPrivacyDialog: false,
+    countDownTime: null,
   }),
   metaInfo() {
     let metaData;
@@ -86,6 +106,15 @@ export default {
   },
   computed: {
     ...mapState('config', ['appConfig']),
+  },
+  created() {
+    if (this.appConfig.hasOwnProperty('countDownTimer')
+      && this.appConfig.countDownMatch.includes(document.domain)) {
+      this.comingSoon = true;
+      this.checkComingSoon();
+    } else {
+      this.comingSoon = false;
+    }
   },
   mounted() {
     this.$nextTick(() => {
@@ -151,6 +180,15 @@ export default {
     });
   },
   methods: {
+    async checkComingSoon() {
+      const currentTime = await this.getCurrentTime();
+      this.countDownTime = new Date(this.appConfig.countDownTimer) - currentTime;
+      this.comingSoon = this.countDownTime > 0;
+    },
+    async getCurrentTime() {
+      const response = await axios.get('/');
+      return new Date(response.headers.date);
+    },
     acceptCookies() {
       if (this.$matomo) {
         this.$matomo.rememberConsentGiven();

@@ -94,7 +94,16 @@
             target="_blank"
           >
             <v-icon left>mdi-twitter</v-icon>
-            ESA on twitter
+            ESA
+          </v-btn>
+          <v-btn
+            color="primary"
+            class="ml-3 mb-5"
+            href="https://twitter.com/EO_OPEN_SCIENCE"
+            target="_blank"
+          >
+            <v-icon left>mdi-twitter</v-icon>
+            EO OPEN SCIENCE
           </v-btn>
           <v-btn
             color="primary"
@@ -103,7 +112,7 @@
             target="_blank"
           >
             <v-icon left>mdi-twitter</v-icon>
-            EDC on twitter
+            Euro Data Cube
           </v-btn>
         </v-card>
       </v-col>
@@ -282,7 +291,6 @@
 
 <script>
 import axios from 'axios';
-import marked from 'marked';
 
 export default {
   data: () => ({
@@ -330,7 +338,7 @@ export default {
     openPreview() {
       if (this.$refs.issueForm.validate()) {
         if (this.issueData) {
-          this.formData.body = marked(`### Environment
+          this.formData.body = this.$marked(`### Environment
 **App version:** ${this.$store.getters.appVersion}
 
 **Current URL:** ${window.location}
@@ -345,7 +353,7 @@ ${this.expectedBehaviour}
 ${this.comments || 'No comments'}
 `);
         } else {
-          this.formData.body = marked(`### Environment
+          this.formData.body = this.$marked(`### Environment
 **App version:** ${this.$store.getters.appVersion}
 
 **Current URL:** ${window.location}

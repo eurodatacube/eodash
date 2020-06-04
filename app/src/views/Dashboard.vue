@@ -15,22 +15,24 @@
       >
         {{ appConfig && appConfig.branding.appName }}
       </v-toolbar-title>
-      <v-btn
-        text
-        dark
-        small
-        @click="displayShowText('welcome')"
-      >
-        Welcome
-      </v-btn>
-      <v-btn
-        text
-        dark
-        small
-        @click="displayShowText('about')"
-      >
-        About
-      </v-btn>
+      <template v-if="!$vuetify.breakpoint.xsOnly">
+        <v-btn
+          text
+          dark
+          small
+          @click="displayShowText('welcome')"
+        >
+          Welcome
+        </v-btn>
+        <v-btn
+          text
+          dark
+          small
+          @click="displayShowText('about')"
+        >
+          About
+        </v-btn>
+      </template>
       <v-spacer></v-spacer>
       <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
     </v-app-bar>
@@ -42,12 +44,42 @@
       clipped
       style="overflow: hidden"
     >
+      <template v-if="$vuetify.breakpoint.smAndDown">
+        <v-list-item style="background: var(--v-primary-base)">
+          <v-list-item-content>
+            <h3 class="text-uppercase white--text">
+              {{ appConfig && appConfig.branding.appName }}
+            </h3>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-divider></v-divider>
+
+        <v-btn
+          block
+          text
+          color="primary"
+          @click="displayShowText('welcome')"
+        >
+          Welcome
+        </v-btn>
+        <v-btn
+          block
+          text
+          color="primary"
+          @click="displayShowText('about')"
+        >
+          About
+        </v-btn>
+        <v-divider></v-divider>
+      </template>
       <selection-panel style="overflow:hidden" />
     </v-navigation-drawer>
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.mdAndUp"
       v-model="drawerRight"
       right
+      stateless
       app
       clipped
       :temporary="dataPanelTemporary"
@@ -60,7 +92,10 @@
         <v-btn v-else icon @click="setDataPanelWidth(true)">
           <v-icon>mdi-arrow-expand</v-icon>
         </v-btn>
-        <v-toolbar-title v-if="$store.state.indicators.selectedIndicator">
+        <v-toolbar-title v-if="$store.state.indicators.selectedIndicator"
+          :class="$store.state.indicators.selectedIndicator.Description ===
+            $store.state.indicators.selectedIndicator['Indicator Name'] && 'preventEllipsis'"
+        >
           {{ $store.state.indicators.selectedIndicator['City'] }},
           {{ $store.state.indicators.selectedIndicator.Description }}
           <div v-if="
@@ -324,5 +359,10 @@ export default {
     padding-top: 12px;
     padding-bottom: 12px;
   }
+}
+.preventEllipsis:after {
+  content: "\0000a0";
+  display: inline-block;
+  width: 0;
 }
 </style>

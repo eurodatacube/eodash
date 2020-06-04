@@ -22,13 +22,11 @@ import {
   mapState,
 } from 'vuex';
 
-import marked from 'marked';
-
 export default {
   computed: {
     ...mapState('config', ['appConfig']),
     about() {
-      return marked(require(`../../public${this.appConfig.aboutText}.md`).default);
+      return this.$marked(require(`../../public${this.appConfig.aboutText}.md`).default);
     },
   },
 };

@@ -44,7 +44,6 @@
       :options="layerOptions(null, layer)"
     >
     </LTileLayer>
-
     <l-marker-cluster ref="clusterLayer" :options="clusterOptions" @clusterclick="onClusterClick">
       <l-circle-marker v-for="(feature) in getFeatures.filter((f) => f.latlng)"
         :key="feature.id"
@@ -88,7 +87,7 @@ import {
   mapState,
 } from 'vuex';
 
-import { geoJson, Point, DivIcon } from 'leaflet';
+import { geoJson, Point, DivIcon, featureGroup } from 'leaflet';
 import {
   LMap, LTileLayer, LGeoJson, LCircleMarker, LTooltip,
   LControlLayers, LControlAttribution, LControlZoom,
@@ -249,19 +248,19 @@ export default {
       this.map.attributionControl._update();
       this.onResize();
     });
-    this.$store.subscribe((mutation) => {
-      if (mutation.type === 'features/SET_FEATURE_FILTER' && !['all', 'regional'].includes(mutation.payload.countries)) {
-        if (typeof mutation.payload.countries === 'string') {
-          const countryFeature = countries.features
-            .find((c) => c.properties.alpha2 === mutation.payload.countries);
-          this.map.flyToBounds(geoJson(countryFeature).getBounds());
-        } else if (mutation.payload.countries) {
-          this.$nextTick(() => {
-            this.map.fitBounds(this.$refs.clusterLayer.mapObject._featureGroup.getBounds());
-          });
-        }
-      }
-    });
+    // this.$store.subscribe((mutation) => {
+    //   if (mutation.type === 'features/SET_FEATURE_FILTER' && !['all', 'regional'].includes(mutation.payload.countries)) {
+    //     if (typeof mutation.payload.countries === 'string') {
+    //       const countryFeature = countries.features
+    //         .find((c) => c.properties.alpha2 === mutation.payload.countries);
+    //       this.map.flyToBounds(geoJson(countryFeature).getBounds());
+    //     } else if (mutation.payload.countries) {
+    //       this.$nextTick(() => {
+    //         this.map.fitBounds(this.$refs.markers.mapObject.getBounds());
+    //       });
+    //     }
+    //   }
+    // });
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
         if (mutation.payload !== null && mutation.payload.AOI !== null) {
@@ -277,6 +276,7 @@ export default {
     selectIndicator(feature) {
       const { indicatorObject } = feature.properties;
       if (indicatorObject['Indicator code'] !== 'd') {
+        this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
         this.currentSelected = feature.id;
         this.subAoi = indicatorObject['Sub-AOI'];
@@ -371,7 +371,11 @@ export default {
     getFeatures(features) {
       if (features.filter((f) => f.latlng).length > 0) {
         this.$nextTick(() => {
-          this.map.fitBounds(this.$refs.clusterLayer.mapObject._featureGroup.getBounds());
+          const dummyFtrGroup = featureGroup(this.$refs.markers.map(component => component.mapObject));
+          this.map.fitBounds(dummyFtrGroup.getBounds(), {
+            padding: [25, 25],
+            maxZoom: 15,
+          });
         });
       }
     },
@@ -425,9 +429,6 @@ export default {
 ::v-deep .leaflet-control-attribution:active .attribution-icon,
 ::v-deep .leaflet-control-attribution:hover .attribution-icon {
   display: none;
-}
-::v-deep .attribution-icon {
-  cursor: pointer;
 }
 ::v-deep .attribution-icon {
   font-size: 1.2em;
