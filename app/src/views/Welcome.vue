@@ -98,7 +98,6 @@ import {
   mapState,
 } from 'vuex';
 
-import marked from 'marked';
 import NewsCarousel from '@/components/NewsCarousel.vue';
 
 export default {
@@ -119,7 +118,7 @@ export default {
       'allFeatures',
     ]),
     welcome() {
-      return marked(require(`../../public${this.appConfig.welcomeText}.md`).default);
+      return this.$marked(require(`../../public${this.appConfig.welcomeText}.md`).default);
     },
   },
 };

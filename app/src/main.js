@@ -14,6 +14,7 @@ import PageNotFound from './views/PageNotFound.vue';
 import Terms from './views/Terms.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
+import marked from 'marked';
 import VueCountdown from '@chenfengyuan/vue-countdown';
 
 Vue.component(VueCountdown.name, VueCountdown);
@@ -62,6 +63,16 @@ Vue.use(Vuetify, {
 });
 
 Vue.use(browserDetect);
+
+const mdRendererLinksTargetBlank = new marked.Renderer();
+mdRendererLinksTargetBlank.link = function(href, title, text) {
+  const link = marked.Renderer.prototype.link.call(this, href, title, text);
+  return link.replace("<a", "<a target='_blank' ");
+};
+marked.setOptions({
+  renderer: mdRendererLinksTargetBlank,
+});
+Vue.prototype.$marked = marked;
 
 const renderVue = async () => {
   await store.dispatch('config/checkBrand');

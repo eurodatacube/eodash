@@ -114,7 +114,6 @@ import {
   mapState,
 } from 'vuex';
 
-import marked from 'marked';
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
@@ -158,7 +157,7 @@ export default {
       } catch {
         markdown = { default: 'No indicator story provided yet.' };
       }
-      return marked(markdown.default);
+      return this.$marked(markdown.default);
     },
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;

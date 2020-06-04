@@ -43,8 +43,6 @@ import {
   mapState,
 } from 'vuex';
 
-import marked from 'marked';
-
 export default {
   computed: {
     ...mapState('config', ['appConfig']),

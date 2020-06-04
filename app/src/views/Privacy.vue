@@ -41,13 +41,11 @@ import {
   mapState,
 } from 'vuex';
 
-import marked from 'marked';
-
 export default {
   computed: {
     ...mapState('config', ['appConfig']),
     privacy() {
-      return marked(require(`../../public${this.appConfig.privacyText}.md`).default);
+      return this.$marked(require(`../../public${this.appConfig.privacyText}.md`).default);
     },
   },
 };

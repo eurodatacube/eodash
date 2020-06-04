@@ -291,7 +291,6 @@
 
 <script>
 import axios from 'axios';
-import marked from 'marked';
 
 export default {
   data: () => ({
@@ -339,7 +338,7 @@ export default {
     openPreview() {
       if (this.$refs.issueForm.validate()) {
         if (this.issueData) {
-          this.formData.body = marked(`### Environment
+          this.formData.body = this.$marked(`### Environment
 **App version:** ${this.$store.getters.appVersion}
 
 **Current URL:** ${window.location}
@@ -354,7 +353,7 @@ ${this.expectedBehaviour}
 ${this.comments || 'No comments'}
 `);
         } else {
-          this.formData.body = marked(`### Environment
+          this.formData.body = this.$marked(`### Environment
 **App version:** ${this.$store.getters.appVersion}
 
 **Current URL:** ${window.location}
