@@ -16,3 +16,16 @@ based on experimental methods and without any warranty as to their veracity.
 The European Commission cannot be held responsible for any use which may be
 made of the information contained therein.
 
+# Usage & Deployment
+
+This is described in the [app README](app/README.md).
+
+# Contributing
+
+Feel free to report bugs or request features by adding an issue and filling in
+the appropriate template.
+
+# License
+
+This project is licensed under **The MIT License (MIT)**, see the
+[LICENSE](LICENSE) file for more details.
