@@ -10,7 +10,7 @@ Indicator provided by: [ESA](https://esa.int) based on data provided by [ESA](ht
 #### The time series shows daily Chl-a concentration offshore the Venice lagoon (45.30 N, 12.50 E) as calculated from [CMEMS multi-mission](https://marine.copernicus.eu/services-portfolio/product-improvements/) 1km resolution product including and [MODIS-Aqua](https://oceancolor.gsfc.nasa.gov/data/aqua/), [VIIRS-NPP](https://earthdata.nasa.gov/earth-observation-data/near-real-time/download-nrt-data/viirs-nrt) and [Sentinel-3A-OLCI](https://sentinel.esa.int/web/sentinel/user-guides/sentinel-3-olci) data:
 
 * **Green dots** show daily values lower than the climatological mean (in grey), indicating good water quality. 
-* **Orange dots** show daily values greater than the climatological mean but still inside the climatological variability, indicating regular water quality. 
+* **Blue dots** show daily values greater than the climatological mean but still inside the climatological variability, indicating regular water quality. 
 * **Red dots** stand for values beyond the climatological variability, indicating poorer water quality. 
 
 In accordance with the weekly mean anomaly maps of Chl concentration, the time series show **after the lockdown date (March, 11th) predominant presence of days recording good water quality and, in particular, a total absence of Red dots**.  
