@@ -2,8 +2,5 @@
 
 ### A Tri-Agency Dashboard by NASA, ESA, JAXA
 
+<img src="/data/trilateral/Esa_Nasa_jaxa_covid19_cover_V2.jpg"> 
 
-
-<img src="/data/trilateral/nasa.png"> <img src="/data/trilateral/esa.png"> <img src="/data/trilateral/jaxa.png">
-
-Any additional resources, links to external platforms, videos, etc.
