@@ -15,22 +15,24 @@
       >
         {{ appConfig && appConfig.branding.appName }}
       </v-toolbar-title>
-      <v-btn
-        text
-        dark
-        small
-        @click="displayShowText('welcome')"
-      >
-        Welcome
-      </v-btn>
-      <v-btn
-        text
-        dark
-        small
-        @click="displayShowText('about')"
-      >
-        About
-      </v-btn>
+      <template v-if="!$vuetify.breakpoint.xsOnly">
+        <v-btn
+          text
+          dark
+          small
+          @click="displayShowText('welcome')"
+        >
+          Welcome
+        </v-btn>
+        <v-btn
+          text
+          dark
+          small
+          @click="displayShowText('about')"
+        >
+          About
+        </v-btn>
+      </template>
       <v-spacer></v-spacer>
       <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
     </v-app-bar>
@@ -42,6 +44,35 @@
       clipped
       style="overflow: hidden"
     >
+      <template v-if="$vuetify.breakpoint.smAndDown">
+        <v-list-item style="background: var(--v-primary-base)">
+          <v-list-item-content>
+            <h3 class="text-uppercase white--text">
+              {{ appConfig && appConfig.branding.appName }}
+            </h3>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-divider></v-divider>
+
+        <v-btn
+          block
+          text
+          color="primary"
+          @click="displayShowText('welcome')"
+        >
+          Welcome
+        </v-btn>
+        <v-btn
+          block
+          text
+          color="primary"
+          @click="displayShowText('about')"
+        >
+          About
+        </v-btn>
+        <v-divider></v-divider>
+      </template>
       <selection-panel style="overflow:hidden" />
     </v-navigation-drawer>
     <v-navigation-drawer
