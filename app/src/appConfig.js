@@ -7,7 +7,7 @@ const brands = [
       appName: 'Rapid Action on coronavirus and EO',
       primaryColor: '#003247',
       secondaryColor: '#0098DB',
-      headerLogo: '/eodash-data/general/ESA_Logo.svg',
+      headerLogo: 'https://raw.githubusercontent.com/eurodatacube/eodash-data/a7ecbc9fa1eac5f48c6138ea3b6461927891edd1/general/RACE_Logo.png?token=AGKYP3CCKNMK4YIUFDVEGS263EVII',
       faviconPath: '/img/ESA/favicon.ico',
     },
     pageMeta: {
