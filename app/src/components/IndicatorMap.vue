@@ -594,9 +594,6 @@ export default {
   display: none;
 }
 ::v-deep .attribution-icon {
-  cursor: pointer;
-}
-::v-deep .attribution-icon {
   font-size: 1.2em;
   margin: 1px;
 }
