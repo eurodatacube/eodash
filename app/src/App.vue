@@ -148,12 +148,15 @@ export default {
           const query = Object.assign({}, this.$route.query); // eslint-disable-line
           delete query.country;
           this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
+          this.trackEvent('filters', 'select_country_filter', 'Global');
         } else if (mutation.payload.countries === 'regional') {
           // Regional
           this.$router.replace({ query: Object.assign({}, this.$route.query, { country: 'regional' }) }).catch(err => {}); // eslint-disable-line
+          this.trackEvent('filters', 'select_country_filter', 'Regional');
         } else if (typeof mutation.payload.countries === 'string') {
           // Country
           this.$router.replace({ query: Object.assign({}, this.$route.query, { country: mutation.payload.countries }) }).catch(err => {}); // eslint-disable-line
+          this.trackEvent('filters', 'select_country_filter', mutation.payload.countries);
         }
         if (Array.isArray(mutation.payload.indicators)) {
           if (mutation.payload.indicators.length === 0) {
@@ -161,9 +164,11 @@ export default {
             const query = Object.assign({}, this.$route.query); // eslint-disable-line
             delete query.indicator;
             this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
+            this.trackEvent('filters', 'select_indicator_filter', 'all');
           } else {
             // Single
             this.$router.replace({ query: Object.assign({}, this.$route.query, { indicator: mutation.payload.indicators[0] }) }).catch(err => {}); // eslint-disable-line
+            this.trackEvent('filters', 'select_indicator_filter', mutation.payload.indicators[0]);
           }
         }
       }
@@ -171,10 +176,12 @@ export default {
       if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
         if (mutation.payload) {
           this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: `${mutation.payload.AOI_ID}-${mutation.payload['Indicator code']}` }) }).catch(err => {}); // eslint-disable-line
+          this.trackEvent('indicators', 'select_indicator', `${mutation.payload.AOI_ID}-${mutation.payload['Indicator code']}`);
         } else {
           const query = Object.assign({}, this.$route.query); // eslint-disable-line
           delete query.poi;
           this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
+          this.trackEvent('indicators', 'deselect_indicator');
         }
       }
     });
