@@ -325,7 +325,6 @@ export default {
       // if (event.layer._childClusters.length !== 1) {
       //   this.map.setView(event.latlng, this.zoom + 1);
       // }
-      console.log(event);
     },
     zoomUpdated(zoom) {
       this.zoom = zoom;
@@ -369,12 +368,18 @@ export default {
   },
   watch: {
     getFeatures(features) {
-      if (features.filter((f) => f.latlng).length > 0) {
+      const featuresOnMap = features.filter((f) => f.latlng);
+      if (featuresOnMap.length > 0) {
+        let maxZoomFit = 15;
+        if (featuresOnMap.length === 1 && featuresOnMap[0].properties.indicatorObject.Country === 'regional') {
+          maxZoomFit = 9;
+        }
         this.$nextTick(() => {
-          const dummyFtrGroup = featureGroup(this.$refs.markers.map(component => component.mapObject));
+          const markers = this.$refs.markers.map(component => component.mapObject);
+          const dummyFtrGroup = featureGroup(markers);
           this.map.fitBounds(dummyFtrGroup.getBounds(), {
             padding: [25, 25],
-            maxZoom: 15,
+            maxZoom: maxZoomFit,
           });
         });
       }
