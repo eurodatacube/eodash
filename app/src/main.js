@@ -123,6 +123,7 @@ const renderVue = async () => {
         }
         return color;
       },
+      trackEvent: (action, name, value) => window._paq.push(['trackEvent', action, name, value]),
     },
   });
 
