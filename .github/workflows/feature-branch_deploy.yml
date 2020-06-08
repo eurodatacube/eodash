@@ -41,4 +41,3 @@ jobs:
       run: |
         echo ${{ github.ref }}
         echo ${GITHUB_REF##*/}
-        echo ${{ GITHUB_REF##*/ }}
