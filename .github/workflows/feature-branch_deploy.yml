@@ -23,11 +23,11 @@ jobs:
         node-version: '12.x'
 
     # Build
-    - name: Build
-      run: |
-        cd app/
-        npm install
-        npm run build
+#    - name: Build
+#      run: |
+#        cd app/
+#        npm install
+#        npm run build
 
     # Inject SH Config file
     - name: replace instance ID
@@ -38,7 +38,7 @@ jobs:
 
 
     - name: Print GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
       run: |
-        echo "$GITHUB_CONTEXT"
+        echo ${{ github.ref }}
+        echo ${GITHUB_REF##*/}
+        echo ${{ GITHUB_REF##*/ }}
