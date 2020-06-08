@@ -85,11 +85,8 @@
       :temporary="dataPanelTemporary"
       :width="dataPanelFullWidth ? '100%' : '40%'"
     >
-      <v-toolbar v-if="$store.state.indicators.selectedIndicator" flat>
-        <v-btn v-if="dataPanelFullWidth" icon @click="setDataPanelWidth(false)">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-        <v-btn v-else icon @click="setDataPanelWidth(true)">
+      <v-toolbar v-if="$store.state.indicators.selectedIndicator" fillOpacity>
+        <v-btn v-if="!dataPanelFullWidth" icon @click="setDataPanelWidth(true)">
           <v-icon>mdi-arrow-expand</v-icon>
         </v-btn>
         <v-toolbar-title v-if="$store.state.indicators.selectedIndicator"
@@ -105,6 +102,10 @@
             {{ $store.state.indicators.selectedIndicator['Indicator Name'] }}
           </div>
         </v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn v-if="dataPanelFullWidth" icon @click="setDataPanelWidth(false)">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
       </v-toolbar>
       <data-panel
         v-if="$store.state.indicators.selectedIndicator"
@@ -252,8 +253,7 @@ import Feedback from '@/views/Feedback.vue';
 import SelectionPanel from '@/components/SelectionPanel.vue';
 import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
-
-// import backButton from '@/mixins/backButton';
+import closeMixin from '@/mixins/close.js';
 
 export default {
   metaInfo() {
@@ -262,6 +262,7 @@ export default {
       title: appConfig ? appConfig.branding.appName : 'eodash',
     };
   },
+  mixins: [closeMixin],
   components: {
     Welcome,
     About,
@@ -329,6 +330,9 @@ export default {
       this.drawerRight = true;
       this.showText = text;
     },
+    close() {
+      this.setDataPanelWidth(false);
+    }
   },
   watch: {
     indicatorSelected(selected) {
