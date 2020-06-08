@@ -85,7 +85,7 @@
       :temporary="dataPanelTemporary"
       :width="dataPanelFullWidth ? '100%' : '40%'"
     >
-      <v-toolbar v-if="$store.state.indicators.selectedIndicator" fillOpacity>
+      <v-toolbar v-if="$store.state.indicators.selectedIndicator" flat>
         <v-btn v-if="!dataPanelFullWidth" icon @click="setDataPanelWidth(true)">
           <v-icon>mdi-arrow-expand</v-icon>
         </v-btn>
