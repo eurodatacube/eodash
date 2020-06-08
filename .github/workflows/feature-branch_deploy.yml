@@ -23,11 +23,11 @@ jobs:
         node-version: '12.x'
 
     # Build
-#    - name: Build
-#      run: |
-#        cd app/
-#        npm install
-#        npm run build
+    - name: Build
+      run: |
+        cd app/
+        npm install
+        npm run build
 
     # Inject SH Config file
     - name: replace instance ID
@@ -36,8 +36,15 @@ jobs:
         files: 'app/dist/shConfig.js'
         replacements: '$SH_INSTANCE_ID=${{ secrets.SH_INSTANCE_ID }}'
 
-
-    - name: Print GitHub context
-      run: |
-        echo ${{ github.ref }}
-        echo ${GITHUB_REF##*/}
+    # Upload to S3
+    - name: sync s3
+      uses: jakejarvis/s3-sync-action@v0.5.1
+      with:
+        args: --delete --follow-symlinks
+      env:
+        SOURCE_DIR: 'app/dist'
+        DEST_DIR: 'feature-branches/${GITHUB_REF##*/}'
+        AWS_REGION: 'eu-central-1'
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
