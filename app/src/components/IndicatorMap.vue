@@ -10,6 +10,7 @@
     @update:center="centerUpdated"
     @update:bounds="boundsUpdated"
     v-resize="onResize"
+    @ready="onMapReady()"
   >
     <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
     <l-control-layers position="topright" ></l-control-layers>
@@ -23,75 +24,102 @@
       :options="layerOptions(null, layer)"
     >
     </LTileLayer>
-    <l-geo-json
-    ref="subaoiLayer"
-    :geojson="indicator['Sub-AOI']"
-    :pane="overlayPane"
-    :optionsStyle="subAoiStyle"
-    >
-    </l-geo-json>
-    <LTileLayer
-    v-if="layerDisplay('data').protocol === 'xyz'"
-      ref="dataLayer"
-      :key="dataLayerKey"
-      v-bind="layerDisplay('data')"
-      :options="layerOptions(currentTime, layerDisplay('data'))"
-      :pane="overlayPane"
-      layer-type="overlay"
-    >
-    </LTileLayer>
-    <LWMSTileLayer
-    v-else-if="layerDisplay('data').protocol === 'WMS'"
-      ref="dataLayer"
-      :key="dataLayerKey"
-      v-bind="layerDisplay('data')"
-      :options="layerOptions(currentTime, layerDisplay('data'))"
-      :pane="overlayPane"
-      layer-type="overlay"
-    >
-    </LWMSTileLayer>
-    <LTileLayer
-    v-if="layerDisplay('compare').protocol === 'xyz'"
-      ref="compareLayer"
-      :key="compareLayerKey"
-      v-bind="layerDisplay('compare')"
-      :visible="enableCompare"
-      :options="layerOptions(currentCompareTime, layerDisplay('compare'))"
-      :pane="overlayPane"
-    >
-    </LTileLayer>
-    <LWMSTileLayer
-    v-else-if="layerDisplay('compare').protocol === 'WMS'"
-      ref="compareLayer"
-      :key="compareLayerKey"
-      v-bind="layerDisplay('compare')"
-      :visible="enableCompare"
-      :options="layerOptions(currentCompareTime, layerDisplay('compare'))"
-      :pane="overlayPane"
-    >
-    </LWMSTileLayer>
+    <l-layer-group ref="dataLayers">
+      <l-geo-json
+      ref="subaoiLayer"
+      :geojson="indicator['Sub-AOI']"
+      :pane="shadowPane"
+      :optionsStyle="subAoiStyle('data')"
+      >
+      </l-geo-json>
+      <l-circle-marker
+        v-if="showAoi"
+        :lat-lng="aoi"
+        :radius="12"
+        :color="$vuetify.theme.themes.light.primary"
+        :weight="2"
+        :dashArray="dasharrayPoi"
+        :fill="true"
+        :fillColor="getAoiFill('data')"
+        :fillOpacity="1"
+        :pane="shadowPane"
+      >
+      </l-circle-marker>
+      <LTileLayer
+      v-if="layerDisplay('data').protocol === 'xyz'"
+        ref="dataLayer"
+        :key="dataLayerKey"
+        v-bind="layerDisplay('data')"
+        :options="layerOptions(currentTime, layerDisplay('data'))"
+        :pane="overlayPane"
+        layer-type="overlay"
+      >
+      </LTileLayer>
+      <LWMSTileLayer
+      v-else-if="layerDisplay('data').protocol === 'WMS'"
+        ref="dataLayer"
+        :key="dataLayerKey"
+        v-bind="layerDisplay('data')"
+        :options="layerOptions(currentTime, layerDisplay('data'))"
+        :pane="overlayPane"
+        layer-type="overlay"
+      >
+      </LWMSTileLayer>
+    </l-layer-group>
+    <l-layer-group ref="compareLayers">
+      <LTileLayer
+      v-if="layerDisplay('compare').protocol === 'xyz'"
+        ref="compareLayer"
+        :key="compareLayerKey"
+        v-bind="layerDisplay('compare')"
+        :visible="enableCompare"
+        :options="layerOptions(currentCompareTime, layerDisplay('compare'))"
+        :pane="overlayPane"
+      >
+      </LTileLayer>
+      <LWMSTileLayer
+      v-else-if="layerDisplay('compare').protocol === 'WMS'"
+        ref="compareLayer"
+        :key="compareLayerKey"
+        v-bind="layerDisplay('compare')"
+        :visible="enableCompare"
+        :options="layerOptions(currentCompareTime, layerDisplay('compare'))"
+        :pane="overlayPane"
+      >
+      </LWMSTileLayer>
+      <l-geo-json
+        ref="subaoiCompareLayer"
+        :geojson="indicator['Sub-AOI']"
+        :pane="markerPane"
+        :visible="enableCompare"
+        :optionsStyle="subAoiStyle('compare')"
+      >
+      </l-geo-json>
+      <l-circle-marker
+        v-if="showAoi"
+        :lat-lng="aoi"
+        :visible="enableCompare"
+        :radius="12"
+        :color="$vuetify.theme.themes.light.primary"
+        :weight="2"
+        :dashArray="dasharrayPoi"
+        :fill="true"
+        :fillColor="getAoiFill('compare')"
+        :fillOpacity="1"
+        :pane="markerPane"
+      >
+      </l-circle-marker>
+    </l-layer-group>
     <LTileLayer
       v-for="layer in overlayLayers"
       :key="layer.name"
       v-bind="layer"
-      :pane="markerPane"
+      :pane="popupPane"
       :opacity="opacityOverlay[zoom]"
       :options="layerOptions(null, layer)"
       layer-type="overlay"
     >
     </LTileLayer>
-    <l-circle-marker
-      v-if="showAoi"
-      :lat-lng="aoi"
-      :radius="12"
-      :color="$vuetify.theme.themes.light.primary"
-      :weight="2"
-      :dashArray="dasharrayPoi"
-      :fill="true"
-      :fillColor="getAoiFill"
-      :fillOpacity="1"
-    >
-    </l-circle-marker>
     <img v-if="layerDisplay('data').legendUrl"
     :src="layerDisplay('data').legendUrl" alt=""
       style="position: absolute; width: 250px; z-index: 700;
@@ -186,11 +214,10 @@
 import {
   mapState,
 } from 'vuex';
-
 import { geoJson, latLngBounds, latLng } from 'leaflet';
 import {
   LMap, LTileLayer, LWMSTileLayer, LGeoJson, LCircleMarker,
-  LControlLayers, LControlAttribution, LControlZoom,
+  LControlLayers, LControlAttribution, LControlZoom, LLayerGroup
 } from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-mouse-position';
@@ -198,7 +225,6 @@ import 'leaflet-side-by-side';
 import 'leaflet-loading';
 import 'leaflet-loading/src/Control.Loading.css';
 import moment from 'moment';
-
 export default {
   components: {
     LMap,
@@ -209,6 +235,7 @@ export default {
     LControlLayers,
     LControlAttribution,
     LControlZoom,
+    LLayerGroup,
   },
   data() {
     return {
@@ -225,6 +252,8 @@ export default {
       tilePane: 'tilePane',
       overlayPane: 'overlayPane',
       markerPane: 'markerPane',
+      shadowPane: 'shadowPane',
+      popupPane: 'popupPane',
       slider: null,
       defaultMapOptions: {
         attributionControl: false,
@@ -293,29 +322,16 @@ export default {
     subAoi() {
       return this.indicator['Sub-AOI'];
     },
-    getAoiFill() {
-      const currentValue = this.indicator && this.indicator['Color code']
-        && this.indicator['Color code'][this.dataLayerIndex];
-      return currentValue
-        ? this.getIndicatorColor(currentValue)
-        : this.$vuetify.theme.themes.light.primary;
-    },
-    subAoiStyle() {
-      return {
-        color: this.$vuetify.theme.themes.light.primary,
-        weight: 3,
-        opacity: 0.7,
-        fill: false,
-      };
-    },
   },
   mounted() {
     this.dataLayerIndex = this.indicator.Time.length - 1;
     this.dataLayerTime = { value: this.indicator.Time[this.dataLayerIndex] };
     this.compareLayerTime = { value: this.indicator.Time[this.compareLayerIndex] };
     this.$nextTick(() => {
-      this.map = this.$refs.map.mapObject;
       this.$refs.subaoiLayer.mapObject.bindTooltip('Reference area', {
+        direction: 'top',
+      });
+      this.$refs.subaoiCompareLayer.mapObject.bindTooltip('Reference area', {
         direction: 'top',
       });
       // update leaflet controls
@@ -349,8 +365,7 @@ export default {
         delayIndicator: 200,
       }).addTo(this.map);
       // add A/B slider
-      this.slider = L.control.sideBySide(this.$refs.compareLayer.mapObject, this.$refs.dataLayer.mapObject); // eslint-disable-line
-
+      this.slider = L.control.sideBySide(this.$refs.compareLayers.mapObject.getLayers(), this.$refs.dataLayers.mapObject.getLayers()); // eslint-disable-line
       this.onResize();
       setTimeout(() => {
         this.flyToBounds();
@@ -367,11 +382,34 @@ export default {
     boundsUpdated(bounds) {
       this.bounds = bounds;
     },
+    onMapReady() {
+      this.map = this.$refs.map.mapObject;
+    },
     onResize() {
       // to fix panel size for reference image window
       if (this.map) {
         this.map._onResize();
       }
+    },
+    getAoiFill(side) {
+      const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
+      const currentValue = this.indicator && this.indicator['Color code']
+        && this.indicator['Color code'][index];
+      return currentValue
+        ? this.getIndicatorColor(currentValue)
+        : this.$vuetify.theme.themes.light.primary;
+    },
+    subAoiStyle(side) {
+      const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
+      const currentValue = this.indicator && this.indicator['Color code']
+        && this.indicator['Color code'][index];
+      return {
+        color: currentValue
+          ? this.getIndicatorColor(currentValue)
+          : this.$vuetify.theme.themes.light.primary,
+        weight: 3,
+        fill: false,
+      };
     },
     shLayerConfig(side) {
       const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
@@ -470,7 +508,7 @@ export default {
       this.dataLayerIndex = newIndex;
       this.refreshLayer('data');
       this.$nextTick(() => {
-        this.slider.setRightLayers(this.$refs.dataLayer.mapObject);
+        this.slider.setRightLayers(this.$refs.dataLayers.mapObject.getLayers());
       });
     },
     compareLayerTimeSelection(payload) {
@@ -486,7 +524,7 @@ export default {
       this.compareLayerIndex = newIndex;
       this.refreshLayer('compare');
       this.$nextTick(() => {
-        this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
+        this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
       });
     },
     dataLayerReduce() {
@@ -546,14 +584,14 @@ export default {
     enableCompare(on) {
       if (!on) {
         if (this.slider !== null) {
-          this.map.removeLayer(this.$refs.compareLayer.mapObject);
+          this.map.removeLayer(this.$refs.compareLayers.mapObject);
           this.map.removeControl(this.slider);
         }
       } else {
-        this.map.addLayer(this.$refs.compareLayer.mapObject);
+        this.map.addLayer(this.$refs.compareLayers.mapObject);
         this.$nextTick(() => {
-          this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
-          this.slider.setRightLayers(this.$refs.dataLayer.mapObject);
+          this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
+          this.slider.setRightLayers(this.$refs.dataLayers.mapObject.getLayers());
           this.slider.addTo(this.map);
         });
       }
@@ -572,8 +610,8 @@ export default {
         this.$nextTick(() => {
           // second nextTick to add correct layers to slider
           if (this.slider) {
-            this.slider.setLeftLayers(this.$refs.compareLayer.mapObject);
-            this.slider.setRightLayers(this.$refs.dataLayer.mapObject);
+            this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
+            this.slider.setRightLayers(this.$refs.dataLayers.mapObject.getLayers());
           }
           this.flyToBounds();
           this.onResize();
