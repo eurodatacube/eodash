@@ -55,7 +55,7 @@ jobs:
       uses: chetan/invalidate-cloudfront-action@v1.2
       env:
         DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_FEATUREBRANCHES }}
-        PATHS: '/${GITHUB_REF##*/}/*'
+        PATHS: '/*' # TODO: Only invalidate the current branch. "PATHS: '/${GITHUB_REF##*/}/*'" didn't work.
         AWS_REGION: 'eu-central-1'
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
