@@ -39,13 +39,6 @@ export default {
       let dataCollection;
       if (indicator) {
         const labels = [];
-        // filter nodata entries completely
-        /*const mask = indicator['Measurement Value'].map((item) => !Number.isNaN(item));
-        for (const [key, value] of Object.entries(indicator)) { // eslint-disable-line
-          if (Array.isArray(value)) {
-            indicator[key] = value.filter((item, i) => mask[i]);
-          }
-        }*/
         const measurement = indicator['Measurement Value'];
         const colors = [];
         const datasets = [];
@@ -106,24 +99,34 @@ export default {
           let referenceValue = [];
           const stdDev = [];
           indicator['Reference value'].forEach((item) => {
-            const obj = JSON.parse(item.replace(/,/g, '.').replace(' ', ','));
-            referenceValue.push(obj[0]);
-            stdDev.push(obj[1]);
+            if (item !== 'NaN') {
+              const obj = JSON.parse(item.replace(/,/g, '.').replace(' ', ','));
+              if (obj[0] !== -999 && obj[1] !== -999) {
+                referenceValue.push(obj[0]);
+                stdDev.push(obj[1]);
+              } else {
+                referenceValue.push(Number.NaN);
+                stdDev.push(Number.NaN);
+              }
+            } else {
+              referenceValue.push(Number.NaN);
+              stdDev.push(Number.NaN);
+            }
           });
 
           const stdDevMax = stdDev.map((dev, i) => (
-            Number.isNaN(measurement[i])
+            Number.isNaN(referenceValue[i])
               ? Number.NaN
               : (10 ** (referenceValue[i] + dev))
           ));
           const stdDevMin = stdDev.map((dev, i) => (
-            Number.isNaN(measurement[i])
+            Number.isNaN(referenceValue[i])
               ? Number.NaN
               : (10 ** (referenceValue[i] - dev))
           ));
 
-          referenceValue = referenceValue.map((val, i) => (
-            Number.isNaN(measurement[i]) ? Number.NaN : (10 ** val)
+          referenceValue = referenceValue.map((val) => (
+            Number.isNaN(val) ? Number.NaN : (10 ** val)
           ));
 
           for (let i = 0; i < indicator.Time.length; i += 1) {
