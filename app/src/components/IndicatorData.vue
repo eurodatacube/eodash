@@ -39,13 +39,6 @@ export default {
       let dataCollection;
       if (indicator) {
         const labels = [];
-        // filter nodata entries completely
-        const mask = indicator['Measurement Value'].map((item) => !Number.isNaN(item));
-        for (const [key, value] of Object.entries(indicator)) { // eslint-disable-line
-          if (Array.isArray(value)) {
-            indicator[key] = value.filter((item, i) => mask[i]);
-          }
-        }
         const measurement = indicator['Measurement Value'];
         const colors = [];
         const datasets = [];
@@ -103,16 +96,38 @@ export default {
             backgroundColor: (indicatorCode === 'E10a1') ? 'black' : 'darkcyan',
           });
         } else if (['N3'].includes(indicatorCode)) {
-          const referenceValue = [];
+          let referenceValue = [];
           const stdDev = [];
           indicator['Reference value'].forEach((item) => {
-            const obj = JSON.parse(item.replace(/,/g, '.').replace(' ', ','));
-            referenceValue.push(obj[0]);
-            stdDev.push(obj[1]);
+            if (item !== 'NaN') {
+              const obj = JSON.parse(item.replace(/,/g, '.').replace(' ', ','));
+              if (obj[0] !== -999 && obj[1] !== -999) {
+                referenceValue.push(obj[0]);
+                stdDev.push(obj[1]);
+              } else {
+                referenceValue.push(Number.NaN);
+                stdDev.push(Number.NaN);
+              }
+            } else {
+              referenceValue.push(Number.NaN);
+              stdDev.push(Number.NaN);
+            }
           });
 
-          const stdDevMax = stdDev.map((dev, i) => referenceValue[i] + dev);
-          const stdDevMin = stdDev.map((dev, i) => referenceValue[i] - dev);
+          const stdDevMax = stdDev.map((dev, i) => (
+            Number.isNaN(referenceValue[i])
+              ? Number.NaN
+              : (10 ** (referenceValue[i] + dev))
+          ));
+          const stdDevMin = stdDev.map((dev, i) => (
+            Number.isNaN(referenceValue[i])
+              ? Number.NaN
+              : (10 ** (referenceValue[i] - dev))
+          ));
+
+          referenceValue = referenceValue.map((val) => (
+            Number.isNaN(val) ? Number.NaN : (10 ** val)
+          ));
 
           for (let i = 0; i < indicator.Time.length; i += 1) {
             if (!Number.isNaN(indicator.Time[i].getTime())) {
@@ -131,11 +146,14 @@ export default {
 
           datasets.push({
             label: 'hide_',
-            data: measurement,
+            data: measurement.map((val) => (
+              Number.isNaN(val) ? Number.NaN : (10 ** val)
+            )),
             fill: false,
             showLine: false,
             backgroundColor: colors,
             borderColor: colors,
+            spanGaps: false,
           });
           datasets.push({
             label: 'Weekly climatology of chlorophyll conc. (CHL_clim) 2017-2019',
@@ -144,26 +162,25 @@ export default {
             pointRadius: 0,
             borderColor: 'black',
             pointStyle: 'line',
+            spanGaps: false,
           });
           datasets.push({
             label: 'Standard deviation (STD)',
-            hidden: true,
             data: stdDevMax,
             fill: 3,
             pointRadius: 0,
-            spanGaps: true,
-            backgroundColor: 'paleturquoise',
+            spanGaps: false,
+            backgroundColor: 'rgba(0,0,0,0.1)',
             borderColor: 'rgba(0,0,0,0.0)',
             pointStyle: 'rect',
           });
           datasets.push({
             label: 'hide_',
-            hidden: true,
             data: stdDevMin,
             fill: 2,
             pointRadius: 0,
-            spanGaps: true,
-            backgroundColor: 'paleturquoise',
+            spanGaps: false,
+            backgroundColor: 'rgba(0,0,0,0.0)',
             borderColor: 'rgba(0,0,0,0.0)',
             pointStyle: 'rect',
           });
@@ -433,16 +450,17 @@ export default {
 
 
       if (['N3'].includes(indicatorCode)) {
+        yAxes[0].type = 'myLogScale';
         yAxes[0].ticks = {
-          min: Math.min(
-            ...this.indicatorObject['Measurement Value'],
-          ),
-          max: Math.max(
-            ...this.indicatorObject['Measurement Value'],
-          ),
-          callback: (value) => (
-            Number(10 ** Number(value)).toPrecision(1)
-          ),
+          min: 0.1,
+          max: 10,
+          callback: (...args) => {
+            const value = Chart.Ticks.formatters.logarithmic.call(this, ...args);
+            if (value.length) {
+              return Number(value).toLocaleString();
+            }
+            return value;
+          },
         };
         legend.labels.usePointStyle = true;
         legend.labels.boxWidth = 5;
@@ -454,8 +472,8 @@ export default {
             const masterMeta = ci.getDatasetMeta(masterIndex);
             const meta = ci.getDatasetMeta(slaveIndex);
             if (masterMeta.hidden === null) {
-              masterMeta.hidden = false;
-              meta.hidden = false;
+              masterMeta.hidden = true;
+              meta.hidden = true;
             } else {
               masterMeta.hidden = !masterMeta.hidden;
               meta.hidden = !meta.hidden;
@@ -489,7 +507,11 @@ export default {
       if (['N3'].includes(indicatorCode)) {
         defaultSettings.tooltips = {
           callbacks: {
-            label: (context) => `Value: ${context.value}`,
+            label: (context) => {
+              const { datasets } = this.datacollection;
+              const val = datasets[context.datasetIndex].data[context.index];
+              return `Value (Log10): ${Math.log10(val).toPrecision(4)}`;
+            },
           },
         };
       }
