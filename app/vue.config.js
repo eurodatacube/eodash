@@ -10,6 +10,7 @@ const ImageminPlugin = require('imagemin-webpack-plugin').default;
 module.exports = {
   lintOnSave: process.env.NODE_ENV !== 'production',
   productionSourceMap: process.env.NODE_ENV !== 'production',
+  // publicPath: '/', // enabled for feature branch deployment
   transpileDependencies: [
     'vuetify',
   ],
