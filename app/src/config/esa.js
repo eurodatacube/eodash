@@ -9,19 +9,19 @@ export const indicatorsDefinition = Object.freeze({
   E1: {
     indicator: 'Status of metallic ores',
     class: 'economic',
-    file: '/eodash-data/data/E1.csv',
+    file: './eodash-data/data/E1.csv',
     story: '/eodash-data/stories/E1.md',
   },
   E1a: {
     indicator: 'Status of non-metallic ores',
     class: 'economic',
-    file: '/eodash-data/data/E1a.csv',
+    file: './eodash-data/data/E1a.csv',
     story: '/eodash-data/stories/E1a.md',
   },
   E2: {
     indicator: 'Volume of oil stockpiled',
     class: 'economic',
-    file: '/eodash-data/data/E2.csv',
+    file: './eodash-data/data/E2.csv',
     story: '/eodash-data/stories/E2.md',
   },
   E2A: {
@@ -35,7 +35,7 @@ export const indicatorsDefinition = Object.freeze({
   E4: {
     indicator: 'Production activity of intermediate goods',
     class: 'economic',
-    file: '/eodash-data/data/E4.csv',
+    file: './eodash-data/data/E4.csv',
     story: '/eodash-data/stories/E4.md',
   },
   E5: {
@@ -53,7 +53,7 @@ export const indicatorsDefinition = Object.freeze({
   E8: {
     indicator: 'Inventory Levels',
     class: 'economic',
-    file: '/eodash-data/data/E8.csv',
+    file: './eodash-data/data/E8.csv',
     story: '/eodash-data/stories/E8.md',
   },
   E9: {
@@ -63,14 +63,14 @@ export const indicatorsDefinition = Object.freeze({
   E10a1: {
     indicator: 'Harvesting activity',
     class: 'agriculture',
-    file: '/eodash-data/data/E10a1.csv',
+    file: './eodash-data/data/E10a1.csv',
     story: '/eodash-data/stories/E10a1.md',
     largeSubAoi: true,
   },
   E10a2: {
     indicator: 'Cum. proportion of total area under active mgmt.',
     class: 'agriculture',
-    file: '/eodash-data/data/E10a2.csv',
+    file: './eodash-data/data/E10a2.csv',
     story: '/eodash-data/stories/E10a2.md',
     largeSubAoi: true,
   },
@@ -81,7 +81,7 @@ export const indicatorsDefinition = Object.freeze({
   E11: {
     indicator: 'Volume of activity at shopping centers',
     class: 'economic',
-    file: '/eodash-data/data/E11.csv',
+    file: './eodash-data/data/E11.csv',
     story: '/eodash-data/stories/E11.md',
   },
   E12a: {
@@ -100,6 +100,11 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Throughput at principal hub airports',
     class: 'economic',
   },
+  // E13c: {
+  //   indicator: 'Maritime traffic: throughput',
+  //   class: 'economic',
+  //   file: './eodash-data/data/E13c.csv',
+  // },
   H1: {
     indicator: 'Number of temp. treatment sites',
     class: 'health',
@@ -120,7 +125,7 @@ export const indicatorsDefinition = Object.freeze({
   N3: {
     indicator: 'CHL concentration',
     class: 'environment',
-    file: '/eodash-data/data/N3.csv',
+    file: './eodash-data/data/N3.csv',
     story: '/eodash-data/stories/N3.md',
     largeSubAoi: true,
   },
@@ -133,7 +138,7 @@ export const indicatorsDefinition = Object.freeze({
   N4a: {
     indicator: 'Changes in land fill sites',
     class: 'environment',
-    file: '/eodash-data/data/N4a.csv',
+    file: './eodash-data/data/N4a.csv',
     story: '/eodash-data/stories/N4a.md',
   },
   N4b: {
