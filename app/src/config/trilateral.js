@@ -319,8 +319,8 @@ export const globalIndicators = [
   },
   {
     latlng: latLng([35.61,139.78]),
+    id: 9998, // for now
     properties: {
-      id: 9998, // for now
       indicatorObject: {
         AOI: null,
         AOI_ID: 'tk',
@@ -356,8 +356,8 @@ export const globalIndicators = [
   },
   {
     latlng: latLng([39.9,116.38]),
+    id: 9997, // for now
     properties: {
-      id: 9997, // for now
       indicatorObject: {
         AOI: null,
         AOI_ID: 'be',
@@ -393,8 +393,8 @@ export const globalIndicators = [
   },
   {
     latlng: latLng([51.02986,2.250141]),
+    id: 9996, // for now
     properties: {
-      id: 9996, // for now
       indicatorObject: {
         AOI: null,
         AOI_ID: 'du',
@@ -430,8 +430,8 @@ export const globalIndicators = [
   },
   {
     latlng: latLng([51.15934,3.77245]),
+    id: 9995, // for now
     properties: {
-      id: 9995, // for now
       indicatorObject: {
         AOI: null,
         AOI_ID: 'gh',
@@ -467,8 +467,8 @@ export const globalIndicators = [
   },
   {
     latlng: latLng([34.05,-118.25]),
+    id: 9994, // for now
     properties: {
-      id: 9994, // for now
       indicatorObject: {
         AOI: null,
         AOI_ID: 'la',
@@ -504,8 +504,8 @@ export const globalIndicators = [
   },
   {
     latlng: latLng([37.7775,-122.416389]),
+    id: 9993, // for now
     properties: {
-      id: 9993, // for now
       indicatorObject: {
         AOI: null,
         AOI_ID: 'sf',
