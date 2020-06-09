@@ -1,13 +1,15 @@
 const webpack = require('webpack');
-const fs = require('fs')
-const packageJson = fs.readFileSync('./package.json')
-const version = JSON.parse(packageJson).version || 0
-const RemoveServiceWorkerPlugin = require('webpack-remove-serviceworker-plugin')
+const fs = require('fs');
+
+const packageJson = fs.readFileSync('./package.json');
+const version = JSON.parse(packageJson).version || 0;
+const RemoveServiceWorkerPlugin = require('webpack-remove-serviceworker-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
+
 
 module.exports = {
   lintOnSave: process.env.NODE_ENV !== 'production',
-  productionSourceMap: process.env.NODE_ENV == 'production' ? false : true,
+  productionSourceMap: process.env.NODE_ENV !== 'production',
   transpileDependencies: [
     'vuetify',
   ],
