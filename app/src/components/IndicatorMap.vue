@@ -584,8 +584,8 @@ export default {
     enableCompare(on) {
       if (!on) {
         if (this.slider !== null) {
-          this.map.removeLayer(this.$refs.compareLayers.mapObject);
           this.map.removeControl(this.slider);
+          this.map.removeLayer(this.$refs.compareLayers.mapObject);
         }
       } else {
         this.map.addLayer(this.$refs.compareLayers.mapObject);
