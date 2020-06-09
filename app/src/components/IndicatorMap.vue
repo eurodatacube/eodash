@@ -114,7 +114,7 @@
       v-for="layer in overlayLayers"
       :key="layer.name"
       v-bind="layer"
-      :pane="popupPane"
+      :pane="tooltipPane"
       :opacity="opacityOverlay[zoom]"
       :options="layerOptions(null, layer)"
       layer-type="overlay"
@@ -253,6 +253,7 @@ export default {
       overlayPane: 'overlayPane',
       markerPane: 'markerPane',
       shadowPane: 'shadowPane',
+      tooltipPane: 'tooltipPane',
       popupPane: 'popupPane',
       slider: null,
       defaultMapOptions: {
@@ -393,16 +394,30 @@ export default {
     },
     getAoiFill(side) {
       const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
-      const currentValue = this.indicator && this.indicator['Color code']
-        && this.indicator['Color code'][index];
+      let currentValue = null;
+      // compensate for color code with only one entry, still showing it
+      if (this.indicator && this.indicator['Color code']) {
+        if (Array.isArray(this.indicator['Color code']) && this.indicator['Color code'].length === 1) {
+          currentValue = this.indicator['Color code'][0];
+        } else if (Array.isArray(this.indicator['Color code']) && this.indicator['Color code'][index]) {
+          currentValue = this.indicator['Color code'][index];
+        }
+      }
       return currentValue
         ? this.getIndicatorColor(currentValue)
         : this.$vuetify.theme.themes.light.primary;
     },
     subAoiStyle(side) {
       const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
-      const currentValue = this.indicator && this.indicator['Color code']
-        && this.indicator['Color code'][index];
+      let currentValue = null;
+      // compensate for color code with only one entry, still showing it
+      if (this.indicator && this.indicator['Color code']) {
+        if (Array.isArray(this.indicator['Color code']) && this.indicator['Color code'].length === 1) {
+          currentValue = this.indicator['Color code'][0];
+        } else if (Array.isArray(this.indicator['Color code']) && this.indicator['Color code'][index]) {
+          currentValue = this.indicator['Color code'][index];
+        }
+      }
       return {
         color: currentValue
           ? this.getIndicatorColor(currentValue)
