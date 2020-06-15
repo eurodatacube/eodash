@@ -10,19 +10,19 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Status of metallic ores',
     class: 'economic',
     file: '/eodash-data/data/E1.csv',
-    story: '/eodash-data/stories/E1.md',
+    story: '/eodash-data/stories/E1',
   },
   E1a: {
     indicator: 'Status of non-metallic ores',
     class: 'economic',
     file: '/eodash-data/data/E1a.csv',
-    story: '/eodash-data/stories/E1a.md',
+    story: '/eodash-data/stories/E1a',
   },
   E2: {
     indicator: 'Volume of oil stockpiled',
     class: 'economic',
     file: '/eodash-data/data/E2.csv',
-    story: '/eodash-data/stories/E2.md',
+    story: '/eodash-data/stories/E2',
   },
   E2A: {
     indicator: 'Level of flaring activity',
@@ -36,7 +36,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Production activity of intermediate goods',
     class: 'economic',
     file: '/eodash-data/data/E4.csv',
-    story: '/eodash-data/stories/E4.md',
+    story: '/eodash-data/stories/E4',
   },
   E5: {
     indicator: 'Inventory levels of intermediate goods',
@@ -55,7 +55,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Inventory Levels',
     class: 'economic',
     file: '/eodash-data/data/E8.csv',
-    story: '/eodash-data/stories/E8.md',
+    story: '/eodash-data/stories/E8',
   },
   E9: {
     indicator: 'Construction activity',
@@ -65,14 +65,14 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Harvesting activity',
     class: 'agriculture',
     file: '/eodash-data/data/E10a1.csv',
-    story: '/eodash-data/stories/E10a1.md',
+    story: '/eodash-data/stories/E10a1',
     largeSubAoi: true,
   },
   E10a2: {
     indicator: 'Cum. proportion of total area under active mgmt.',
     class: 'agriculture',
     file: '/eodash-data/data/E10a2.csv',
-    story: '/eodash-data/stories/E10a2.md',
+    story: '/eodash-data/stories/E10a2',
     largeSubAoi: true,
   },
   E10b: {
@@ -83,7 +83,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Volume of activity at shopping centers',
     class: 'economic',
     file: '/eodash-data/data/E11.csv',
-    story: '/eodash-data/stories/E11.md',
+    story: '/eodash-data/stories/E11',
   },
   E12a: {
     indicator: 'Volume of activity logistic interchange centers',
@@ -108,7 +108,7 @@ export const indicatorsDefinition = Object.freeze({
   N1: {
     indicator: 'Air quality',
     class: 'environment',
-    story: '/eodash-data/stories/N1.md',
+    story: '/eodash-data/stories/N1',
     externalData: {
       label: 'Sentinel-5p Mapping Service',
       url: 'https://maps.s5p-pal.com',
@@ -122,20 +122,20 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'CHL concentration',
     class: 'environment',
     file: '/eodash-data/data/N3.csv',
-    story: '/eodash-data/stories/N3.md',
+    story: '/eodash-data/stories/N3',
     largeSubAoi: true,
   },
   N3a2: {
     indicator: 'CHL concentration',
     class: 'environment',
-    story: '/eodash-data/stories/N3a2.md',
+    story: '/eodash-data/stories/N3a2',
     largeSubAoi: true,
   },
   N4a: {
     indicator: 'Changes in land fill sites',
     class: 'environment',
     file: '/eodash-data/data/N4a.csv',
-    story: '/eodash-data/stories/N4a.md',
+    story: '/eodash-data/stories/N4a',
   },
   N4b: {
     indicator: 'Illegal waste levels',

@@ -252,7 +252,7 @@ import Feedback from '@/views/Feedback.vue';
 import SelectionPanel from '@/components/SelectionPanel.vue';
 import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
-import closeMixin from '@/mixins/close.js';
+import closeMixin from '@/mixins/close';
 
 export default {
   metaInfo() {

@@ -51,7 +51,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Inventory Levels',
     class: 'economic',
     file: '/data/trilateral/E8.csv',
-    story: '/data/trilateral/E8_tri.md',
+    story: '/data/trilateral/E8_tri',
     largeSubAoi: true,
   },
   E9: {
@@ -97,7 +97,7 @@ export const indicatorsDefinition = Object.freeze({
   N1: {
     indicator: 'NO2 Concentration (TROPOMI)',
     class: 'environment',
-    story: '/data/trilateral/N1.md',
+    story: '/data/trilateral/N1',
     externalData: {
       label: 'Sentinel-5p Mapping Service',
       url: 'https://maps.s5p-pal.com',
@@ -106,7 +106,7 @@ export const indicatorsDefinition = Object.freeze({
   N1NASA: {
     indicator: 'NO2 Concentration (OMI)',
     class: 'environment',
-    story: '/data/trilateral/N1.md',
+    story: '/data/trilateral/N1',
   },
   NASAPopulation: {
     indicator: 'Population',
@@ -121,7 +121,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'CHL concentration (CMEMS)',
     class: 'environment',
     file: '/data/trilateral/N3.csv',
-    story: '/data/trilateral/N3_tri.md',
+    story: '/data/trilateral/N3_tri',
   },
   N3a2: {
     indicator: 'CHL concentration',
@@ -319,7 +319,7 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([35.61,139.78]),
+    latlng: latLng([35.61, 139.78]),
     id: 9998, // for now
     properties: {
       indicatorObject: {
@@ -356,7 +356,7 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([39.9,116.38]),
+    latlng: latLng([39.9, 116.38]),
     id: 9997, // for now
     properties: {
       indicatorObject: {
@@ -393,7 +393,7 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([51.02986,2.250141]),
+    latlng: latLng([51.02986, 2.250141]),
     id: 9996, // for now
     properties: {
       indicatorObject: {
@@ -430,7 +430,7 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([51.15934,3.77245]),
+    latlng: latLng([51.15934, 3.77245]),
     id: 9995, // for now
     properties: {
       indicatorObject: {
@@ -467,7 +467,7 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.05,-118.25]),
+    latlng: latLng([34.05, -118.25]),
     id: 9994, // for now
     properties: {
       indicatorObject: {
@@ -504,7 +504,7 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.7775,-122.416389]),
+    latlng: latLng([37.7775, -122.416389]),
     id: 9993, // for now
     properties: {
       indicatorObject: {
