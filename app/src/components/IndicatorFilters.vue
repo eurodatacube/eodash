@@ -46,8 +46,14 @@
               :disabled="countrySelection === 'all'"
               active-class="itemActive"
             >
-              <v-list-item-icon class="d-flex align-center mr-2">
+              <v-list-item-icon
+                v-if="appConfig.id !== 'trilateral'"
+                class="d-flex align-center mr-2"
+              >
                 <country-flag country="eu" size='normal' />
+              </v-list-item-icon>
+              <v-list-item-icon v-else class="d-flex align-center ml-5 mr-6">
+                <v-icon :color="countrySelection === 'all' ? 'white' : 'primary'">mdi-earth</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title>All countries</v-list-item-title>
@@ -60,9 +66,17 @@
               :disabled="countrySelection === 'regional'"
               active-class="itemActive"
             >
-              <v-list-item-icon class="d-flex align-center mr-2">
+              <v-list-item-icon
+                v-if="appConfig.id !== 'trilateral'"
+                class="d-flex align-center mr-2"
+              >
                 <country-flag :country="country.code === 'regional'
                   ? 'eu' : country.code" size='normal' />
+              </v-list-item-icon>
+              <v-list-item-icon v-else class="d-flex align-center ml-5 mr-6">
+                <v-icon
+                  :color="countrySelection === country.code ? 'white' : 'primary'"
+                >mdi-earth</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title>{{ country.name }}</v-list-item-title>
@@ -173,7 +187,10 @@ export default {
       'getCountries',
       'getIndicators',
     ]),
-    ...mapState('config', ['baseConfig']),
+    ...mapState('config', [
+      'appConfig',
+      'baseConfig',
+    ]),
     countries() {
       return countries;
     },
