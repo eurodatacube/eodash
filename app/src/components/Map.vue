@@ -67,14 +67,10 @@
               <strong>{{ feature.properties.indicatorObject.Description }}</strong>
             </p>
             <p
-              v-if="feature.properties
-                .indicatorObject['Indicator Value'][feature.properties
-                  .indicatorObject['Indicator Value'].length - 1]"
               class="ma-0"
             >
-              Latest value: {{ formatLabel(feature) }}
+              {{ formatLabel(feature) }}
             </p>
-            <p v-else class="mb-0"><small>(coming soon)</small></p>
         </l-tooltip>
       </l-circle-marker>
     </l-marker-cluster>
@@ -279,23 +275,23 @@ export default {
       }
     },
     formatLabel(feature) {
-      let label = '';
+      let label = '(coming soon)';
       if (feature) {
         const { indicatorObject } = feature.properties;
-        const indVal = indicatorObject['Indicator Value'][
-          indicatorObject['Indicator Value'].length - 1
-        ];
-        if (indicatorObject['Indicator code'] === 'E10a1') {
-          if (indVal !== '') {
+        const validValues = indicatorObject['Indicator Value'].filter((item) => item !== '');
+        if (validValues.length > 0) {
+          label = 'Latest value: ';
+          const indVal = validValues[validValues.length - 1];
+          if (indicatorObject['Indicator code'] === 'E10a1') {
             const percVal = Number((indVal * 100).toPrecision(4));
             if (percVal > 0) {
-              label = `+${percVal}%`;
+              label += `+${percVal}%`;
             } else {
-              label = `${percVal}%`;
+              label += `${percVal}%`;
             }
+          } else {
+            label += indVal;
           }
-        } else {
-          label = indVal;
         }
       }
       return label;
@@ -306,15 +302,14 @@ export default {
       }
     },
     getLastValue(values) {
-      const vLen = values['Indicator Value'].length;
-      const lastValue = values['Indicator Value'][vLen - 1];
+      const validValues = values['Indicator Value'].filter((item) => item !== '');
+      const lastValue = validValues[validValues.length - 1];
       let lastColorCode = '';
       if (Object.prototype.hasOwnProperty.call(values, 'Color code')) {
-        lastColorCode = values['Color code'][vLen - 1];
+        lastColorCode = values['Color code'][validValues.length - 1];
       }
       return {
         color: this.getIndicatorColor(lastColorCode),
-        text: lastValue ? lastValue.toLowerCase() : 'coming soon',
       };
     },
     zoomUpdated(zoom) {
