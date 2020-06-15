@@ -313,11 +313,12 @@ export const globalIndicators = [
     },
   },
   {
+    id: 9999,
     latlng: latLng([45.197522, 13.029785]),
     properties: {
-      id: 9999, // for now
       indicatorObject: {
-        AOI: null,
+        id: 9999,
+        AOI: latLng([45.197522, 13.029785]),
         AOI_ID: 'NorthAdriatic',
         Country: 'regional',
         City: 'North Adriatic',
