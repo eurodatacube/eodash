@@ -153,7 +153,7 @@ export default {
     story() {
       let markdown;
       try {
-        markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject['Indicator code']].story}`);
+        markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject['Indicator code']].story}.md`);
       } catch {
         markdown = { default: 'No indicator story provided yet.' };
       }
