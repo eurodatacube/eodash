@@ -48,8 +48,8 @@ const getters = {
         'SM',
       ];
       features = features
-      .filter((f) => state.featureFilters.countries
-      .includes(f.properties.indicatorObject.Country)
+        .filter((f) => state.featureFilters.countries
+          .includes(f.properties.indicatorObject.Country)
       || f.properties.indicatorObject.City === 'World'
       || (f.properties.indicatorObject.City === 'North Adriatic' // TEMP
         && showNorthAdriatic.includes(state.featureFilters.countries))); // TEMP
