@@ -88,7 +88,7 @@ import {
 } from 'vuex';
 
 import {
-  Point, DivIcon, featureGroup,
+  geoJson, Point, DivIcon, featureGroup,
 } from 'leaflet';
 import {
   LMap, LTileLayer, LGeoJson, LCircleMarker, LTooltip,
@@ -361,18 +361,25 @@ export default {
     getFeatures(features) {
       const featuresOnMap = features.filter((f) => f.latlng);
       if (featuresOnMap.length > 0) {
-        let maxZoomFit = 15;
-        if (featuresOnMap.length === 1 && featuresOnMap[0].properties.indicatorObject.Country === 'regional') {
-          maxZoomFit = 9;
-        }
-        this.$nextTick(() => {
-          const markers = this.$refs.markers.map((component) => component.mapObject);
-          const dummyFtrGroup = featureGroup(markers);
-          this.map.fitBounds(dummyFtrGroup.getBounds(), {
-            padding: [25, 25],
-            maxZoom: maxZoomFit,
+        const maxZoomFit = 15;
+        if (featuresOnMap.length === 1 && featuresOnMap[0].properties.indicatorObject['Sub-AOI']
+          && featuresOnMap[0].properties.indicatorObject['Sub-AOI'].features.length > 0) {
+          this.$nextTick(() => {
+            const bounds = geoJson(featuresOnMap[0].properties.indicatorObject['Sub-AOI']).getBounds();
+            this.map.fitBounds(bounds, {
+              padding: [25, 25],
+            });
           });
-        });
+        } else {
+          this.$nextTick(() => {
+            const markers = this.$refs.markers.map((component) => component.mapObject);
+            const dummyFtrGroup = featureGroup(markers);
+            this.map.fitBounds(dummyFtrGroup.getBounds(), {
+              padding: [25, 25],
+              maxZoom: maxZoomFit,
+            });
+          });
+        }
       }
     },
   },
