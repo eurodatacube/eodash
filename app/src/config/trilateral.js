@@ -97,7 +97,7 @@ export const indicatorsDefinition = Object.freeze({
   N1: {
     indicator: 'NO2 Concentration (TROPOMI)',
     class: 'environment',
-    story: '/eodash-data/stories/N1.md',
+    story: '/data/trilateral/N1.md',
     externalData: {
       label: 'Sentinel-5p Mapping Service',
       url: 'https://maps.s5p-pal.com',
@@ -106,6 +106,7 @@ export const indicatorsDefinition = Object.freeze({
   N1NASA: {
     indicator: 'NO2 Concentration (OMI)',
     class: 'environment',
+    story: '/data/trilateral/N1.md',
   },
   NASAPopulation: {
     indicator: 'Population',
