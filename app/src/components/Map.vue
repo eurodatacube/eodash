@@ -254,8 +254,15 @@ export default {
       if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
         if (mutation.payload !== null && mutation.payload.AOI !== null) {
           this.currentSelected = mutation.payload.id;
+          if (mutation.payload['Sub-AOI']) {
+            this.subAoi = mutation.payload['Sub-AOI'];
+          }
         } else {
           this.currentSelected = null;
+          this.subAoi = {
+            type: 'FeatureCollection',
+            features: [],
+          };
         }
         this.resetClusterLayer();
       }
