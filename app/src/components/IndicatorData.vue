@@ -222,6 +222,21 @@ export default {
             });
           });
         } else if (['E10a3'].includes(indicatorCode)) {
+          // Colors
+          /*
+          <-75: #d7191b
+          -75 -60: #e54f35
+          -65 -45: #f3854e
+          -45 -30: #f8b46a
+          -30 -15: #fad38c
+          -15 0: #fcf0ae
+          0 15: #f0f9ba
+          15 30: #d1ecb0
+          30 45: #b3e0a6
+          45 60: #88c4a9
+          60 75: #5aa4b2
+          >75 :#3082ba
+          */
           const nutsFeatures = NUTSL3.features;
           let features = measurement.map((meas, i) => {
             // Find correct NUTS ID Shape
@@ -246,21 +261,32 @@ export default {
                 longitude: centerPoint.lon,
                 name: 'name',
                 value: meas,
+                color: indicator['Color code'][i],
+                time: indicator.Time[i],
               };
             } else {
               console.log(`Error looking for NUTS id: ${indicator['Site Name'][i]}`);
             }
           });
-          features = features.filter( d => typeof d !== 'undefined' );
+          const curMonth = 2;
+          // Filter by undefined and time
+          features = features.filter((d) => (
+            typeof d !== 'undefined'));
+
+          const filteredFeatures = features.filter((d) => (
+            d.time.getMonth() === curMonth && !Number.isNaN(d.value)));
 
           datasets.push({
             //labels: features.map((d) => d.name),
             outline: features,
+            outlineBackgroundColor: null,
+            outlineBorderColor: 'black',
+            outlineBorderWidth: 0.5,
             showOutline: true,
-            backgroundColor: 'red',
-            borderColor: 'red',
-            borderWidth: 2,
-            data: features.filter((d) => !Number.isNaN(d.value)),
+            backgroundColor: filteredFeatures.map((d) => d.color),
+            borderColor: filteredFeatures.map((d) => d.color),
+            borderWidth: 3,
+            data: filteredFeatures,
           });
         } else {
           const data = indicator.Time.map((date, i) => {
