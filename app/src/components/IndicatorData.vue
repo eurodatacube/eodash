@@ -1,6 +1,7 @@
 <template>
   <div style="width: 100%; height: 100%;"
     v-if="indicatorObject['Indicator code']!='E10a2' &&
+    indicatorObject['Indicator code']!='E10a3'&&
     indicatorObject['Indicator code']!='N3'">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -10,6 +11,17 @@
         :chart-data='datacollection'
         :options='chartOptions()'></bar-chart>
   </div>
+  <div style="width: 100%; height: 100%;"
+    v-else-if="indicatorObject['Indicator code']=='E10a3'">
+      <map-chart
+        id="chart"
+        class="fill-height"
+        :width="null"
+        :height="null"
+        :chart-data='datacollection'
+        :options='chartOptions()'>
+      </map-chart>
+  </div>
   <div style="width: 100%; height: 100%;" v-else>
     <line-chart v-if='datacollection'
       id="chart"
@@ -18,7 +30,7 @@
       :height="null"
       :chart-data='datacollection'
       :options='chartOptions()'></line-chart>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -26,11 +38,14 @@ import moment from 'moment';
 
 import BarChart from '@/components/BarChart.vue';
 import LineChart from '@/components/LineChart.vue';
+import MapChart from '@/components/MapChart.vue';
+import NUTSL3 from '@/assets/NUTS_RG_03M_2016_4326_LEVL_3.json';
 
 export default {
   components: {
     BarChart,
     LineChart,
+    MapChart,
   },
   computed: {
     datacollection() {
@@ -205,6 +220,47 @@ export default {
               backgroundColor: value,
               borderColor: value,
             });
+          });
+        } else if (['E10a3'].includes(indicatorCode)) {
+          const nutsFeatures = NUTSL3.features;
+          let features = measurement.map((meas, i) => {
+            // Find correct NUTS ID Shape
+            const geom = nutsFeatures.find((f) => (
+              f.properties.NUTS_ID === indicator['Site Name'][i]));
+            if (geom) {
+              const { coordinates } = geom.geometry;
+              const lons = coordinates.flat(1).map((tuple) => tuple[0]);
+              const lats = coordinates.flat(1).map((tuple) => tuple[1]);
+              const minLat = Math.min(...lats);
+              const minLon = Math.min(...lons);
+              const centerPoint = {
+                lat: minLat + (Math.max(...lats) - minLat) / 2,
+                lon: minLon + (Math.max(...lons) - minLon) / 2,
+              };
+              return {
+                type: 'Feature',
+                properties: {},
+                geometry: geom.geometry,
+                description: 'description',
+                latitude: centerPoint.lat,
+                longitude: centerPoint.lon,
+                name: 'name',
+                value: meas,
+              };
+            } else {
+              console.log(`Error looking for NUTS id: ${indicator['Site Name'][i]}`);
+            }
+          });
+          features = features.filter( d => typeof d !== 'undefined' );
+
+          datasets.push({
+            //labels: features.map((d) => d.name),
+            outline: features,
+            showOutline: true,
+            backgroundColor: 'red',
+            borderColor: 'red',
+            borderWidth: 2,
+            data: features.filter((d) => !Number.isNaN(d.value)),
           });
         } else {
           const data = indicator.Time.map((date, i) => {
@@ -514,6 +570,23 @@ export default {
             },
           },
         };
+      }
+
+      if (['E10a3'].includes(indicatorCode)) {
+        defaultSettings.geo = {
+          radiusScale: {
+            display: true,
+            size: [1, 20],
+          },
+        };
+
+        defaultSettings.scale = {
+          projection: 'mercator',
+        };
+
+        defaultSettings.pan.mode = 'xy';
+        defaultSettings.zoom.mode = 'xy';
+        defaultSettings.legend.display = false;
       }
 
       return {
