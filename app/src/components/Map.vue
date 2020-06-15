@@ -44,7 +44,7 @@
       :options="layerOptions(null, layer)"
     >
     </LTileLayer>
-    <l-marker-cluster ref="clusterLayer" :options="clusterOptions" @clusterclick="onClusterClick">
+    <l-marker-cluster ref="clusterLayer" :options="clusterOptions">
       <l-circle-marker v-for="(feature) in getFeatures.filter((f) => f.latlng)"
         :key="feature.id"
         ref="markers"
@@ -87,7 +87,9 @@ import {
   mapState,
 } from 'vuex';
 
-import { geoJson, Point, DivIcon, featureGroup } from 'leaflet';
+import {
+  Point, DivIcon, featureGroup,
+} from 'leaflet';
 import {
   LMap, LTileLayer, LGeoJson, LCircleMarker, LTooltip,
   LControlLayers, LControlAttribution, LControlZoom,
@@ -248,19 +250,6 @@ export default {
       this.map.attributionControl._update();
       this.onResize();
     });
-    // this.$store.subscribe((mutation) => {
-    //   if (mutation.type === 'features/SET_FEATURE_FILTER' && !['all', 'regional'].includes(mutation.payload.countries)) {
-    //     if (typeof mutation.payload.countries === 'string') {
-    //       const countryFeature = countries.features
-    //         .find((c) => c.properties.alpha2 === mutation.payload.countries);
-    //       this.map.flyToBounds(geoJson(countryFeature).getBounds());
-    //     } else if (mutation.payload.countries) {
-    //       this.$nextTick(() => {
-    //         this.map.fitBounds(this.$refs.markers.mapObject.getBounds());
-    //       });
-    //     }
-    //   }
-    // });
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
         if (mutation.payload !== null && mutation.payload.AOI !== null) {
@@ -321,11 +310,6 @@ export default {
         text: lastValue ? lastValue.toLowerCase() : 'coming soon',
       };
     },
-    onClusterClick(event) {
-      // if (event.layer._childClusters.length !== 1) {
-      //   this.map.setView(event.latlng, this.zoom + 1);
-      // }
-    },
     zoomUpdated(zoom) {
       this.zoom = zoom;
       this.onResize();
@@ -375,7 +359,7 @@ export default {
           maxZoomFit = 9;
         }
         this.$nextTick(() => {
-          const markers = this.$refs.markers.map(component => component.mapObject);
+          const markers = this.$refs.markers.map((component) => component.mapObject);
           const dummyFtrGroup = featureGroup(markers);
           this.map.fitBounds(dummyFtrGroup.getBounds(), {
             padding: [25, 25],
