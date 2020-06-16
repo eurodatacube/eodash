@@ -208,7 +208,9 @@
                   <v-textarea
                     v-model="comments"
                     outlined
-                    :label="`Contact information or additional comments (optional${!issueData ? ', publicly visible' : ''})`"
+                    :label="`Contact information or additional comments (optional${!issueData
+                      ? ', publicly visible'
+                      : ''})`"
                     :auto-grow="true"
                     rows="3"
                     :messages="markdownMessage"

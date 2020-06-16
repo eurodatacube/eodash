@@ -48,8 +48,8 @@ const getters = {
         'SM',
       ];
       features = features
-      .filter((f) => state.featureFilters.countries
-      .includes(f.properties.indicatorObject.Country)
+        .filter((f) => state.featureFilters.countries
+          .includes(f.properties.indicatorObject.Country)
       || f.properties.indicatorObject.City === 'World'
       || (f.properties.indicatorObject.City === 'North Adriatic' // TEMP
         && showNorthAdriatic.includes(state.featureFilters.countries))); // TEMP
@@ -271,6 +271,7 @@ const actions = {
               const uniqueKey = `${results.data[rr].AOI}_d`;
               featureObjs[uniqueKey] = results.data[rr];
               featureObjs[uniqueKey]['Indicator code'] = 'd';
+              featureObjs[uniqueKey]['Indicator Value'] = [''];
             }
             const features = [];
             const keys = Object.keys(featureObjs);
