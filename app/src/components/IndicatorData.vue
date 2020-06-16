@@ -115,13 +115,13 @@ export default {
               dataGroups[currYear].push(data[i].y);
               colorGroups[currYear].push(colors[i]);
               formDates[currYear].push(
-                `${data[i].t.getDate()} - ${monthNames[data[i].t.getMonth()]}`,
+                `${monthNames[data[i].t.getMonth()]}`,
               );
             } else {
               dataGroups[currYear] = [data[i].y];
               colorGroups[currYear] = [colors[i]];
               formDates[currYear] = [
-                `${data[i].t.getDate()} - ${monthNames[data[i].t.getMonth()]}`,
+                `${monthNames[data[i].t.getMonth()]}`,
               ];
             }
           }
@@ -449,7 +449,7 @@ export default {
         },
       };
 
-      if (['E10a1', 'N2'].includes(indicatorCode)) {
+      if (['E10a1'].includes(indicatorCode)) {
         yAxes[0].ticks.beginAtZero = true;
         plugins = {
           datalabels: {
@@ -491,6 +491,9 @@ export default {
             },
           },
         };
+      }
+      if (['N2'].includes(indicatorCode)) {
+        yAxes[0].ticks.beginAtZero = true;
       }
 
 
