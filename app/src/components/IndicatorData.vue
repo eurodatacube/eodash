@@ -21,6 +21,9 @@
         :chart-data='datacollection'
         :options='chartOptions()'>
       </map-chart>
+      <img :src="require('@/assets/E10a3_label.jpg')" alt="color legend"
+        style="position: absolute; width: 200px; z-index: 0;
+        top: 0px; right: 0px;">
   </div>
   <div style="width: 100%; height: 100%;" v-else>
     <line-chart v-if='datacollection'
@@ -53,7 +56,7 @@ export default {
       const indicatorCode = this.indicatorObject['Indicator code'];
       let dataCollection;
       if (indicator) {
-        const labels = [];
+        let labels = [];
         const measurement = indicator['Measurement Value'];
         const colors = [];
         const datasets = [];
@@ -259,10 +262,12 @@ export default {
                 description: 'description',
                 latitude: centerPoint.lat,
                 longitude: centerPoint.lon,
-                name: 'name',
-                value: meas,
-                color: indicator['Color code'][i],
+                name: geom.properties.NUTS_NAME,
                 time: indicator.Time[i],
+                value: meas,
+                referenceTime: indicator['Reference time'][i],
+                referenceValue: indicator['Reference value'][i],
+                color: indicator['Color code'][i],
               };
             } else {
               console.log(`Error looking for NUTS id: ${indicator['Site Name'][i]}`);
@@ -276,8 +281,8 @@ export default {
           const filteredFeatures = features.filter((d) => (
             d.time.getMonth() === curMonth && !Number.isNaN(d.value)));
 
+          labels = features.map((d) => d.name);
           datasets.push({
-            //labels: features.map((d) => d.name),
             outline: features,
             outlineBackgroundColor: null,
             outlineBorderColor: 'black',
