@@ -1,8 +1,6 @@
 <template>
   <div style="width: 100%; height: 100%;"
-    v-if="indicatorObject['Indicator code']!='E10a2' &&
-    indicatorObject['Indicator code']!='E10a3'&&
-    indicatorObject['Indicator code']!='N3'">
+    v-if="!['E10a2', 'E10a3', 'N3'].includes(indicatorObject['Indicator code'])">
       <bar-chart v-if='datacollection'
         id="chart"
         class="fill-height"
@@ -33,7 +31,7 @@
       :height="null"
       :chart-data='datacollection'
       :options='chartOptions()'></line-chart>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -55,15 +53,19 @@ export default {
       const indicator = this.$store.state.indicators.selectedIndicator;
       const indicatorCode = this.indicatorObject['Indicator code'];
       let dataCollection;
+      const refColors = [
+        '#a5d3d8', '#dadada', '#c6b4ea', '#ead7ad', '#cdeaad', '#b82e2e',
+        '#316395', '#994499', '#22aa99', '#aaaa11', '#6633cc', '#e67300',
+      ];
+      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December',
+      ];
       if (indicator) {
         let labels = [];
         const measurement = indicator['Measurement Value'];
         const colors = [];
         const datasets = [];
         if (['E10a1'].includes(indicatorCode)) {
-          const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-            'July', 'August', 'September', 'October', 'November', 'December',
-          ];
           const referenceValue = indicator['Reference value'].map(Number);
           for (let i = 0; i < indicator.Time.length; i += 1) {
             if (!Number.isNaN(indicator.Time[i].getTime())) {
@@ -80,7 +82,7 @@ export default {
             data: referenceValue,
             fill: false,
             borderColor: 'red',
-            backgroundColor: (indicatorCode === 'E10a1') ? 'grey' : 'red',
+            backgroundColor: 'grey',
           });
           datasets.push({
             indLabels: indicator['Indicator Value'],
@@ -88,9 +90,9 @@ export default {
             data: measurement,
             fill: false,
             borderColor: 'darkcyan',
-            backgroundColor: (indicatorCode === 'E10a1') ? 'black' : 'darkcyan',
+            backgroundColor: 'black',
           });
-        } else if (['E10a1', 'E10a2'].includes(indicatorCode)) {
+        } else if (['E10a2'].includes(indicatorCode)) {
           const data = indicator.Time.map((date, i) => ({
             t: new Date(date.getTime()).setFullYear(2000), y: measurement[i],
           }));
@@ -104,14 +106,56 @@ export default {
             data: referenceValue,
             fill: false,
             borderColor: 'red',
-            backgroundColor: (indicatorCode === 'E10a1') ? 'grey' : 'red',
+            backgroundColor: 'red',
           });
           datasets.push({
             label: '2020',
             data,
             fill: false,
             borderColor: 'darkcyan',
-            backgroundColor: (indicatorCode === 'E10a1') ? 'black' : 'darkcyan',
+            backgroundColor: 'darkcyan',
+          });
+        } else if (['N2'].includes(indicatorCode)) {
+          /* Group data by year in month slices */
+          const data = indicator.Time.map((date, i) => {
+            colors.push(this.getIndicatorColor(indicator['Color code'][i]));
+            return { t: date, y: measurement[i] };
+          });
+          const dataGroups = {};
+          const colorGroups = {};
+          const formDates = {};
+          for (let i = 0; i < data.length; i += 1) {
+            const currYear = data[i].t.getFullYear();
+            const modDate = new Date(data[i].t.getTime());
+            modDate.setFullYear(2000);
+            if (Object.prototype.hasOwnProperty.call(dataGroups, currYear)) {
+              dataGroups[currYear].push(data[i].y);
+              colorGroups[currYear].push(colors[i]);
+              formDates[currYear].push(
+                `${monthNames[data[i].t.getMonth()]}`,
+              );
+            } else {
+              dataGroups[currYear] = [data[i].y];
+              colorGroups[currYear] = [colors[i]];
+              formDates[currYear] = [
+                `${monthNames[data[i].t.getMonth()]}`,
+              ];
+            }
+          }
+          const uniqueYears = Object.keys(dataGroups);
+          uniqueYears.sort();
+          labels = formDates[uniqueYears[0]];
+          uniqueYears.forEach((key, i) => {
+            datasets.push({
+              // fill with empty values
+              indLabels: Array(dataGroups[key].length).join('.').split('.'),
+              label: key,
+              fill: false,
+              data: dataGroups[key].map(Number),
+              backgroundColor: refColors[i],
+              borderColor: refColors[i],
+              borderWidth: 2,
+            });
           });
         } else if (['N3'].includes(indicatorCode)) {
           let referenceValue = [];
@@ -225,21 +269,6 @@ export default {
             });
           });
         } else if (['E10a3'].includes(indicatorCode)) {
-          // Colors
-          /*
-          <-75: #d7191b
-          -75 -60: #e54f35
-          -65 -45: #f3854e
-          -45 -30: #f8b46a
-          -30 -15: #fad38c
-          -15 0: #fcf0ae
-          0 15: #f0f9ba
-          15 30: #d1ecb0
-          30 45: #b3e0a6
-          45 60: #88c4a9
-          60 75: #5aa4b2
-          >75 :#3082ba
-          */
           const nutsFeatures = NUTSL3.features;
           let features = measurement.map((meas, i) => {
             // Find correct NUTS ID Shape
@@ -421,7 +450,7 @@ export default {
       }
       const filter = (legendItem) => !`${legendItem.text}`.startsWith('hide_');
       let xAxes = {};
-      if (!['E10a1', 'E10a2'].includes(indicatorCode)) {
+      if (!['E10a1', 'E10a2', 'N2'].includes(indicatorCode)) {
         xAxes = [{
           type: 'time',
           distribution: 'series',
@@ -533,6 +562,9 @@ export default {
             },
           },
         };
+      }
+      if (['N2'].includes(indicatorCode)) {
+        yAxes[0].ticks.beginAtZero = true;
       }
 
 
