@@ -68,7 +68,7 @@ import moment from 'moment';
 import BarChart from '@/components/BarChart.vue';
 import LineChart from '@/components/LineChart.vue';
 import MapChart from '@/components/MapChart.vue';
-import NUTSL3 from '@/assets/NUTS_RG_03M_2016_4326_LEVL_3.json';
+import NUTSL3 from '@/assets/NUTS_RG_03M_2016_4326_LEVL_3_DE.json';
 
 export default {
   components: {
@@ -332,6 +332,7 @@ export default {
             // Find correct NUTS ID Shape
             const geom = nutsFeatures.find((f) => (
               f.properties.NUTS_ID === indicator['Site Name'][i]));
+            let output;
             if (geom) {
               if (currIDs.indexOf(indicator['Site Name'][i]) === -1) {
                 currIDs.push(indicator['Site Name'][i]);
@@ -350,7 +351,7 @@ export default {
                 lat: minLat + (Math.max(...lats) - minLat) / 2,
                 lon: minLon + (Math.max(...lons) - minLon) / 2,
               };
-              return {
+              output = {
                 type: 'Feature',
                 properties: {},
                 geometry: geom.geometry,
@@ -364,9 +365,8 @@ export default {
                 referenceValue: indicator['Reference value'][i],
                 color: indicator['Color code'][i],
               };
-            } else {
-              //console.log(`Error looking for NUTS id: ${indicator['Site Name'][i]}`);
             }
+            return output;
           });
           // Filter by undefined and time
           features = features.filter((d) => (
