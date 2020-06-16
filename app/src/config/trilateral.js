@@ -151,6 +151,81 @@ export const indicatorsDefinition = Object.freeze({
 });
 
 export const layerNameMapping = Object.freeze({
+  // "inputdata" -> wms layer name and baseurl
+  '[NEW] Planetscope COVID-19': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLANETSCOPE_COVID-19',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  'PlanetScope - COVID19': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLANETSCOPE_COVID-19',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  'Planetscope COVID-19': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLANETSCOPE_COVID-19',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  '[NEW] Planet COVID-19': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLANETSCOPE_COVID-19',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  '[NEW] Pleiades': {
+    baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLEIADES',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  'Pleiades - COVID19': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLEIADES_COVID19',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  '[NEW] Pleiades COVID-19': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLEIADES_COVID19',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  '[NEW] Pleiades COVID19': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLEIADES_COVID19',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  // 'DS_PHR1A': {
+  //   base`rl: 'https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+  //   layers: 'NEW_PLEIADES_COVID19',
+  // },
+  '[NEW] Pleiades - 2.8m - COVID19': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLEIADES_28_COVID19',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  '[NEW] Pleiades 16bit': {
+    baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLEIADES_16BIT',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  'Sentinel 2 L2A': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
+  },
+  S2L2A: {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
+  },
+  S1GRD: {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'E8_SENTINEL1',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
+  },
+  'S1A - GRD': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'E8_SENTINEL1',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
+  },
   N1: {},
   N1NASA: {}, // just for enabling eo data button for now,
   NASAPopulation: {},
