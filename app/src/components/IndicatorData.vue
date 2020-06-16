@@ -20,7 +20,7 @@
         :options='chartOptions()'>
       </map-chart>
       <img :src="require('@/assets/E10a3_label.jpg')" alt="color legend"
-        style="position: absolute; width: 200px; z-index: 0;
+        style="position: absolute; width: 220px; z-index: 0;
         top: 0px; right: 0px;"/>
       <v-row
         class="justify-center align-center timeSelection mr-5 ml-0"
@@ -655,6 +655,11 @@ export default {
         yAxes[0].ticks.beginAtZero = true;
       }
 
+      if (['E10a3'].includes(indicatorCode)) {
+        xAxes[0].ticks.padding = -20;
+        yAxes[0].ticks.padding = -20;
+      }
+
 
       if (['N3'].includes(indicatorCode)) {
         yAxes[0].type = 'myLogScale';
@@ -738,6 +743,27 @@ export default {
         defaultSettings.pan.mode = 'xy';
         defaultSettings.zoom.mode = 'xy';
         defaultSettings.legend.display = false;
+
+        defaultSettings.tooltips = {
+          callbacks: {
+            label: (context) => {
+              const { datasets } = this.datacollection;
+              const obj = datasets[context.datasetIndex].data[context.index];
+              return obj.name;
+            },
+            footer: (context) => {
+              const { datasets } = this.datacollection;
+              const obj = datasets[context[0].datasetIndex].data[context[0].index];
+              const refT = obj.referenceTime;
+              const refV = Number(obj.referenceValue);
+              return [
+                `${obj.time.getDate()}.${obj.time.getMonth() + 1}.${obj.time.getFullYear()}:  ${obj.value.toPrecision(4)}`,
+                `${refT.getDate()}.${refT.getMonth() + 1}.${refT.getFullYear()}:  ${refV.toPrecision(4)}`,
+                `${(((obj.value - refV) / refV) * 100).toPrecision(2)} %`,
+              ];
+            },
+          },
+        };
       }
 
       return {
