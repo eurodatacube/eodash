@@ -189,6 +189,18 @@
                 </v-list-item-content>
               </v-list-item>
               <v-list-item
+                value="BD"
+                :disabled="countrySelection === 'BD'"
+                active-class="itemActive"
+              >
+                <v-list-item-icon class="d-flex align-center mr-2">
+                  <country-flag country="BD" size='normal' />
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Bangladesh</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item
                 value="IN"
                 :disabled="countrySelection === 'IN'"
                 active-class="itemActive"
