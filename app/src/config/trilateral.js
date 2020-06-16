@@ -320,10 +320,11 @@ export const globalIndicators = [
   },
   {
     latlng: latLng([35.61, 139.78]),
-    id: 9998, // for now
+    id: 9998,
     properties: {
       indicatorObject: {
-        AOI: null,
+        AOI: latLng([35.61, 139.78]),
+        id: 9998,
         AOI_ID: 'tk',
         Country: 'regional',
         City: 'Tokyo',
@@ -357,10 +358,11 @@ export const globalIndicators = [
   },
   {
     latlng: latLng([39.9, 116.38]),
-    id: 9997, // for now
+    id: 9997,
     properties: {
       indicatorObject: {
-        AOI: null,
+        AOI: latLng([39.9, 116.38]),
+        id: 9997,
         AOI_ID: 'be',
         Country: 'regional',
         City: 'Beijing',
@@ -397,7 +399,8 @@ export const globalIndicators = [
     id: 9996, // for now
     properties: {
       indicatorObject: {
-        AOI: null,
+        AOI: latLng([51.02986, 2.250141]),
+        id: 9996,
         AOI_ID: 'du',
         Country: 'regional',
         City: 'Port of Dunkirk',
@@ -431,10 +434,11 @@ export const globalIndicators = [
   },
   {
     latlng: latLng([51.15934, 3.77245]),
-    id: 9995, // for now
+    id: 9995,
     properties: {
       indicatorObject: {
-        AOI: null,
+        AOI: latLng([51.15934, 3.77245]),
+        id: 9995,
         AOI_ID: 'gh',
         Country: 'regional',
         City: 'Port of Ghent',
@@ -468,10 +472,11 @@ export const globalIndicators = [
   },
   {
     latlng: latLng([34.05, -118.25]),
-    id: 9994, // for now
+    id: 9994,
     properties: {
       indicatorObject: {
-        AOI: null,
+        AOI: latLng([34.05, -118.25]),
+        id: 9994,
         AOI_ID: 'la',
         Country: 'regional',
         City: 'Los Angeles',
@@ -505,10 +510,11 @@ export const globalIndicators = [
   },
   {
     latlng: latLng([37.7775, -122.416389]),
-    id: 9993, // for now
+    id: 9993,
     properties: {
       indicatorObject: {
-        AOI: null,
+        AOI: latLng([37.7775, -122.416389]),
+        id: 9993,
         AOI_ID: 'sf',
         Country: 'regional',
         City: 'San Francisco',

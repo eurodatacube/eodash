@@ -295,6 +295,7 @@ const actions = {
               const uniqueKey = `${results.data[rr].AOI}_d`;
               featureObjs[uniqueKey] = results.data[rr];
               featureObjs[uniqueKey]['Indicator code'] = 'd';
+              featureObjs[uniqueKey]['Indicator Value'] = [''];
             }
             const features = [];
             const keys = Object.keys(featureObjs);
