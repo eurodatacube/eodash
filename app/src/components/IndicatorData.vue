@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%; height: 100%;"
-    v-if="!['E10a2', 'N3'].includes(indicatorObject['Indicator code'])">
+    v-if="!['E10a2', 'E10a3', 'N3'].includes(indicatorObject['Indicator code'])">
       <bar-chart v-if='datacollection'
         id="chart"
         class="fill-height"
@@ -8,6 +8,48 @@
         :height="null"
         :chart-data='datacollection'
         :options='chartOptions()'></bar-chart>
+  </div>
+  <div style="width: 100%; height: 100%;"
+    v-else-if="indicatorObject['Indicator code']=='E10a3'">
+      <map-chart
+        id="chart"
+        class="fill-height"
+        :width="null"
+        :height="null"
+        :chart-data='datacollection'
+        :options='chartOptions()'>
+      </map-chart>
+      <img :src="require('@/assets/E10a3_label.jpg')" alt="color legend"
+        style="position: absolute; width: 220px; z-index: 0;
+        top: 0px; right: 0px;"/>
+      <v-row
+        class="justify-center align-center timeSelection mr-5 ml-0"
+        style="position: absolute; bottom: 30px; z-index: 1000; width: auto; max-width: 100%;"
+      >
+        <v-col cols="6">
+          <v-select
+            outlined dense autofocus hide-details
+            :prepend-inner-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
+              .map((i) => i.value)
+              .indexOf(dataLayerTime) > 0
+                ? 'mdi-arrow-left-drop-circle'
+                : '')"
+            :append-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
+              .map((i) => i.value)
+              .indexOf(dataLayerTime) < arrayOfObjects.length - 1
+                ? 'mdi-arrow-right-drop-circle'
+                : '')"
+            menu-props="auto"
+            :items="arrayOfObjects"
+            item-value="value"
+            item-text="name"
+            v-model="dataLayerTime"
+            @change="dataLayerTimeSelection"
+            @click:prepend-inner="dataLayerReduce"
+            @click:append="dataLayerIncrease">
+          </v-select>
+        </v-col>
+      </v-row>
   </div>
   <div style="width: 100%; height: 100%;" v-else>
     <line-chart v-if='datacollection'
@@ -25,13 +67,44 @@ import moment from 'moment';
 
 import BarChart from '@/components/BarChart.vue';
 import LineChart from '@/components/LineChart.vue';
+import MapChart from '@/components/MapChart.vue';
+import NUTSL3 from '@/assets/NUTS_RG_03M_2016_4326_LEVL_3_DE.json';
 
 export default {
   components: {
     BarChart,
     LineChart,
+    MapChart,
+  },
+  data() {
+    return {
+      dataLayerTime: null,
+      dataLayerIndex: 0,
+    };
+  },
+  mounted() {
+    const d = this.indicatorObject.Time[this.indicatorObject.Time.length - 1];
+    this.dataLayerTime = `${d.getDate()}.${d.getMonth() + 1}`;
   },
   computed: {
+    arrayOfObjects() {
+      const indicator = this.$store.state.indicators.selectedIndicator;
+      const indicatorCode = this.indicatorObject['Indicator code'];
+      const selectionOptions = [];
+      if (['E10a3'].includes(indicatorCode)) {
+        // Find all unique day/month available
+        const timeset = new Set(
+          indicator.Time.map((d) => `${d.getDate()}.${d.getMonth() + 1}`),
+        );
+        timeset.forEach((t) => {
+          selectionOptions.push({
+            value: t,
+            name: t,
+          });
+        });
+      }
+      return selectionOptions;
+    },
     datacollection() {
       const indicator = this.$store.state.indicators.selectedIndicator;
       const indicatorCode = this.indicatorObject['Indicator code'];
@@ -251,6 +324,71 @@ export default {
               borderColor: value,
             });
           });
+        } else if (['E10a3'].includes(indicatorCode)) {
+          const nutsFeatures = NUTSL3.features;
+          const outline = [];
+          const currIDs = [];
+          let features = measurement.map((meas, i) => {
+            // Find correct NUTS ID Shape
+            const geom = nutsFeatures.find((f) => (
+              f.properties.NUTS_ID === indicator['Site Name'][i]));
+            let output;
+            if (geom) {
+              if (currIDs.indexOf(indicator['Site Name'][i]) === -1) {
+                currIDs.push(indicator['Site Name'][i]);
+                outline.push({
+                  type: 'Feature',
+                  properties: {},
+                  geometry: geom.geometry,
+                });
+              }
+              const { coordinates } = geom.geometry;
+              const lons = coordinates.flat(1).map((tuple) => tuple[0]);
+              const lats = coordinates.flat(1).map((tuple) => tuple[1]);
+              const minLat = Math.min(...lats);
+              const minLon = Math.min(...lons);
+              const centerPoint = {
+                lat: minLat + (Math.max(...lats) - minLat) / 2,
+                lon: minLon + (Math.max(...lons) - minLon) / 2,
+              };
+              output = {
+                type: 'Feature',
+                properties: {},
+                geometry: geom.geometry,
+                description: 'description',
+                latitude: centerPoint.lat,
+                longitude: centerPoint.lon,
+                name: geom.properties.NUTS_NAME,
+                time: indicator.Time[i],
+                value: meas,
+                referenceTime: indicator['Reference time'][i],
+                referenceValue: indicator['Reference value'][i],
+                color: indicator['Color code'][i],
+              };
+            }
+            return output;
+          });
+          // Filter by undefined and time
+          features = features.filter((d) => (
+            typeof d !== 'undefined'));
+
+          const filteredFeatures = features.filter((d) => (
+            `${d.time.getUTCDate()}.${d.time.getMonth() + 1}` === this.dataLayerTime
+            && !Number.isNaN(d.value)
+          ));
+
+          labels = features.map((d) => d.name);
+          datasets.push({
+            outline,
+            outlineBackgroundColor: null,
+            outlineBorderColor: 'black',
+            outlineBorderWidth: 1,
+            showOutline: true,
+            backgroundColor: filteredFeatures.map((d) => d.color),
+            borderColor: filteredFeatures.map((d) => d.color),
+            borderWidth: 3,
+            data: filteredFeatures,
+          });
         } else {
           const data = indicator.Time.map((date, i) => {
             colors.push(this.getIndicatorColor(indicator['Color code'][i]));
@@ -275,6 +413,27 @@ export default {
     },
   },
   methods: {
+    dataLayerTimeSelection(payload) {
+      this.dataLayerTime = payload;
+      const newIndex = this.arrayOfObjects
+        .map((i) => i.value)
+        .indexOf(this.dataLayerTime);
+      this.dataLayerIndex = newIndex;
+    },
+    dataLayerReduce() {
+      const currentIndex = this.arrayOfObjects
+        .map((i) => i.value)
+        .indexOf(this.dataLayerTime);
+      this.dataLayerIndex = currentIndex - 1;
+      this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex - 1].value);
+    },
+    dataLayerIncrease() {
+      const currentIndex = this.arrayOfObjects
+        .map((i) => i.value)
+        .indexOf(this.dataLayerTime);
+      this.dataLayerIndex = currentIndex + 1;
+      this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex + 1].value);
+    },
     formatNumRef(num, maxDecimals = 3) {
       return Number.parseFloat(num.toFixed(maxDecimals));
     },
@@ -496,6 +655,11 @@ export default {
         yAxes[0].ticks.beginAtZero = true;
       }
 
+      if (['E10a3'].includes(indicatorCode)) {
+        xAxes[0].ticks.padding = -20;
+        yAxes[0].ticks.padding = -20;
+      }
+
 
       if (['N3'].includes(indicatorCode)) {
         yAxes[0].type = 'myLogScale';
@@ -559,6 +723,44 @@ export default {
               const { datasets } = this.datacollection;
               const val = datasets[context.datasetIndex].data[context.index];
               return `Value (Log10): ${Math.log10(val).toPrecision(4)}`;
+            },
+          },
+        };
+      }
+
+      if (['E10a3'].includes(indicatorCode)) {
+        defaultSettings.geo = {
+          radiusScale: {
+            display: true,
+            size: [1, 20],
+          },
+        };
+
+        defaultSettings.scale = {
+          projection: 'mercator',
+        };
+
+        defaultSettings.pan.mode = 'xy';
+        defaultSettings.zoom.mode = 'xy';
+        defaultSettings.legend.display = false;
+
+        defaultSettings.tooltips = {
+          callbacks: {
+            label: (context) => {
+              const { datasets } = this.datacollection;
+              const obj = datasets[context.datasetIndex].data[context.index];
+              return obj.name;
+            },
+            footer: (context) => {
+              const { datasets } = this.datacollection;
+              const obj = datasets[context[0].datasetIndex].data[context[0].index];
+              const refT = obj.referenceTime;
+              const refV = Number(obj.referenceValue);
+              return [
+                `${obj.time.getDate()}.${obj.time.getMonth() + 1}.${obj.time.getFullYear()}:  ${obj.value.toPrecision(4)}`,
+                `${refT.getDate()}.${refT.getMonth() + 1}.${refT.getFullYear()}:  ${refV.toPrecision(4)}`,
+                `${(((obj.value - refV) / refV) * 100).toPrecision(2)} %`,
+              ];
             },
           },
         };
