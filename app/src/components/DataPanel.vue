@@ -170,7 +170,8 @@ export default {
       const dataFromIndicator = this.indicatorObject.externalData;
       if (dataFromDefinition) {
         return dataFromDefinition;
-      } else if (dataFromIndicator) {
+      }
+      if (dataFromIndicator) {
         return dataFromIndicator;
       }
       return null;
