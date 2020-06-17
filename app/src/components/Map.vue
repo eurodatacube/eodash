@@ -44,7 +44,7 @@
       :options="layerOptions(null, layer)"
     >
     </LTileLayer>
-    <l-marker-cluster ref="clusterLayer" :options="clusterOptions" @clusterclick="onClusterClick">
+    <l-marker-cluster ref="clusterLayer" :options="clusterOptions">
       <l-circle-marker v-for="(feature) in getFeatures.filter((f) => f.latlng)"
         :key="feature.id"
         ref="markers"
@@ -67,14 +67,10 @@
               <strong>{{ feature.properties.indicatorObject.Description }}</strong>
             </p>
             <p
-              v-if="feature.properties
-                .indicatorObject['Indicator Value'][feature.properties
-                  .indicatorObject['Indicator Value'].length - 1]"
               class="ma-0"
             >
-              Latest value: {{ formatLabel(feature) }}
+              {{ formatLabel(feature) }}
             </p>
-            <p v-else class="mb-0"><small>(coming soon)</small></p>
         </l-tooltip>
       </l-circle-marker>
     </l-marker-cluster>
@@ -87,7 +83,9 @@ import {
   mapState,
 } from 'vuex';
 
-import { geoJson, Point, DivIcon, featureGroup } from 'leaflet';
+import {
+  geoJson, Point, DivIcon, featureGroup,
+} from 'leaflet';
 import {
   LMap, LTileLayer, LGeoJson, LCircleMarker, LTooltip,
   LControlLayers, LControlAttribution, LControlZoom,
@@ -248,25 +246,19 @@ export default {
       this.map.attributionControl._update();
       this.onResize();
     });
-    // this.$store.subscribe((mutation) => {
-    //   if (mutation.type === 'features/SET_FEATURE_FILTER' && !['all', 'regional'].includes(mutation.payload.countries)) {
-    //     if (typeof mutation.payload.countries === 'string') {
-    //       const countryFeature = countries.features
-    //         .find((c) => c.properties.alpha2 === mutation.payload.countries);
-    //       this.map.flyToBounds(geoJson(countryFeature).getBounds());
-    //     } else if (mutation.payload.countries) {
-    //       this.$nextTick(() => {
-    //         this.map.fitBounds(this.$refs.markers.mapObject.getBounds());
-    //       });
-    //     }
-    //   }
-    // });
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
         if (mutation.payload !== null && mutation.payload.AOI !== null) {
           this.currentSelected = mutation.payload.id;
+          if (mutation.payload['Sub-AOI']) {
+            this.subAoi = mutation.payload['Sub-AOI'];
+          }
         } else {
           this.currentSelected = null;
+          this.subAoi = {
+            type: 'FeatureCollection',
+            features: [],
+          };
         }
         this.resetClusterLayer();
       }
@@ -283,23 +275,25 @@ export default {
       }
     },
     formatLabel(feature) {
-      let label = '';
+      let label = '(coming soon)';
       if (feature) {
         const { indicatorObject } = feature.properties;
-        const indVal = indicatorObject['Indicator Value'][
-          indicatorObject['Indicator Value'].length - 1
-        ];
-        if (indicatorObject['Indicator code'] === 'E10a1') {
-          if (indVal !== '') {
+        const validValues = indicatorObject['Indicator Value'].filter((item) => item !== '');
+        if (validValues.length > 0) {
+          label = 'Latest value: ';
+          const indVal = validValues[validValues.length - 1];
+          if (indicatorObject['Indicator code'] === 'E10a1') {
             const percVal = Number((indVal * 100).toPrecision(4));
             if (percVal > 0) {
-              label = `+${percVal}%`;
+              label += `+${percVal}%`;
             } else {
-              label = `${percVal}%`;
+              label += `${percVal}%`;
             }
+          } else {
+            label += indVal;
           }
-        } else {
-          label = indVal;
+        } else if (indicatorObject['Indicator code'] === 'N3b') {
+          label = '';
         }
       }
       return label;
@@ -310,21 +304,17 @@ export default {
       }
     },
     getLastValue(values) {
-      const vLen = values['Indicator Value'].length;
-      const lastValue = values['Indicator Value'][vLen - 1];
+      const validValues = values['Indicator Value'].filter((item) => item !== '');
       let lastColorCode = '';
       if (Object.prototype.hasOwnProperty.call(values, 'Color code')) {
-        lastColorCode = values['Color code'][vLen - 1];
+        lastColorCode = values['Color code'][validValues.length - 1];
+      } 
+      if (values['Indicator code'] === 'N3b') {
+        lastColorCode = 'BLUE';
       }
       return {
         color: this.getIndicatorColor(lastColorCode),
-        text: lastValue ? lastValue.toLowerCase() : 'coming soon',
       };
-    },
-    onClusterClick(event) {
-      // if (event.layer._childClusters.length !== 1) {
-      //   this.map.setView(event.latlng, this.zoom + 1);
-      // }
     },
     zoomUpdated(zoom) {
       this.zoom = zoom;
@@ -370,18 +360,25 @@ export default {
     getFeatures(features) {
       const featuresOnMap = features.filter((f) => f.latlng);
       if (featuresOnMap.length > 0) {
-        let maxZoomFit = 15;
-        if (featuresOnMap.length === 1 && featuresOnMap[0].properties.indicatorObject.Country === 'regional') {
-          maxZoomFit = 9;
-        }
-        this.$nextTick(() => {
-          const markers = this.$refs.markers.map(component => component.mapObject);
-          const dummyFtrGroup = featureGroup(markers);
-          this.map.fitBounds(dummyFtrGroup.getBounds(), {
-            padding: [25, 25],
-            maxZoom: maxZoomFit,
+        const maxZoomFit = 15;
+        if (featuresOnMap.length === 1 && featuresOnMap[0].properties.indicatorObject['Sub-AOI']
+          && featuresOnMap[0].properties.indicatorObject['Sub-AOI'].features.length > 0) {
+          this.$nextTick(() => {
+            const bounds = geoJson(featuresOnMap[0].properties.indicatorObject['Sub-AOI']).getBounds();
+            this.map.fitBounds(bounds, {
+              padding: [25, 25],
+            });
           });
-        });
+        } else {
+          this.$nextTick(() => {
+            const markers = this.$refs.markers.map((component) => component.mapObject);
+            const dummyFtrGroup = featureGroup(markers);
+            this.map.fitBounds(dummyFtrGroup.getBounds(), {
+              padding: [25, 25],
+              maxZoom: maxZoomFit,
+            });
+          });
+        }
       }
     },
   },

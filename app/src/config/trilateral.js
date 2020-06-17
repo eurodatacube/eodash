@@ -14,10 +14,14 @@ export const indicatorsDefinition = Object.freeze({
   E1: {
     indicator: 'Status of metallic ores',
     class: 'economic',
+    file: '/data/trilateral/E1.csv',
+    story: '/data/trilateral/E1',
   },
   E1a: {
     indicator: 'Status of non-metallic ores',
     class: 'economic',
+    file: '/data/trilateral/E1a.csv',
+    story: '/data/trilateral/E1a',
   },
   E2: {
     indicator: 'Volume of oil stockpiled',
@@ -51,7 +55,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Inventory Levels',
     class: 'economic',
     file: './data/trilateral/E8.csv',
-    story: '/data/trilateral/E8_tri.md',
+    story: '/data/trilateral/E8_tri',
     largeSubAoi: true,
   },
   E9: {
@@ -95,36 +99,37 @@ export const indicatorsDefinition = Object.freeze({
     class: 'health',
   },
   N1: {
-    indicator: 'NO2 Concentration (TROPOMI)',
+    indicator: 'Air quality',
     class: 'environment',
-    story: '/eodash-data/stories/N1.md',
-    externalData: {
-      label: 'Sentinel-5p Mapping Service',
-      url: 'https://maps.s5p-pal.com',
-    },
-  },
-  N1NASA: {
-    indicator: 'NO2 Concentration (OMI)',
-    class: 'environment',
+    story: '/data/trilateral/N1',
+    largeTimeDuration: true,
   },
   NASAPopulation: {
     indicator: 'Population',
-    class: 'environment',
+    class: 'economic',
   },
   N2: {
     indicator: 'CO2 emissions (GOSAT)',
     class: 'environment',
     file: './data/trilateral/N2.csv',
+    largeTimeDuration: true,
   },
   N3: {
     indicator: 'CHL concentration (CMEMS)',
     class: 'environment',
     file: './data/trilateral/N3.csv',
-    story: '/data/trilateral/N3_tri.md',
+    story: '/data/trilateral/N3_tri',
+  },
+  N3b: {
+    indicator: 'Chl-a concentration anomaly',
+    class: 'environment',
+    file: './data/trilateral/N3b.csv',
   },
   N3a2: {
     indicator: 'CHL concentration',
     class: 'environment',
+    story: '/eodash-data/stories/N3a2',
+    largeSubAoi: true,
   },
   N4a: {
     indicator: 'Changes in land fill sites',
@@ -146,8 +151,82 @@ export const indicatorsDefinition = Object.freeze({
 });
 
 export const layerNameMapping = Object.freeze({
+  // "inputdata" -> wms layer name and baseurl
+  '[NEW] Planetscope COVID-19': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLANETSCOPE_COVID-19',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  'PlanetScope - COVID19': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLANETSCOPE_COVID-19',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  'Planetscope COVID-19': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLANETSCOPE_COVID-19',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  '[NEW] Planet COVID-19': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLANETSCOPE_COVID-19',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  '[NEW] Pleiades': {
+    baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLEIADES',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  'Pleiades - COVID19': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLEIADES_COVID19',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  '[NEW] Pleiades COVID-19': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLEIADES_COVID19',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  '[NEW] Pleiades COVID19': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLEIADES_COVID19',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  // 'DS_PHR1A': {
+  //   base`rl: 'https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+  //   layers: 'NEW_PLEIADES_COVID19',
+  // },
+  '[NEW] Pleiades - 2.8m - COVID19': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLEIADES_28_COVID19',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  '[NEW] Pleiades 16bit': {
+    baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLEIADES_16BIT',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  },
+  'Sentinel 2 L2A': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
+  },
+  S2L2A: {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
+  },
+  S1GRD: {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'E8_SENTINEL1',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
+  },
+  'S1A - GRD': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'E8_SENTINEL1',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
+  },
   N1: {},
-  N1NASA: {}, // just for enabling eo data button for now,
   NASAPopulation: {},
   'ALOS-2': {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2FALOS_SAMPLE%2Falos2-s1-beijing_{time}.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536',
@@ -220,6 +299,28 @@ const getMonthlyDates = (start, end) => {
   }
   return dateArray;
 };
+
+const getDailyDates = (start, end) => {
+  let currentDate = moment(start);
+  const stopDate = moment(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(moment(currentDate).format('YYYY-MM-DD'));
+    currentDate = moment(currentDate).add(1, 'days');
+  }
+  return dateArray;
+};
+
+const getWeeklyDates = (start, end) => {
+  let currentDate = moment(start);
+  const stopDate = moment(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(moment(currentDate).format('YYYY-MM-DD'));
+    currentDate = moment(currentDate).add(1, 'weeks');
+  }
+  return dateArray;
+};
 const wkt = new Wkt();
 
 export const globalIndicators = [
@@ -229,7 +330,7 @@ export const globalIndicators = [
         Country: 'all',
         City: 'World',
         'Site Name': 'global',
-        Description: 'Air Quality (TROPOMI)',
+        Description: 'Air Quality (TROPOMI) - NO2',
         'Indicator code': 'N1',
         'Indicator Value': ['normal'],
         'Indicator Name': 'NO2 Concentration',
@@ -238,9 +339,13 @@ export const globalIndicators = [
           features: [],
         },
         'Color code': ['BLUE'],
+        externalData: {
+          label: 'Sentinel-5p Mapping Service',
+          url: 'https://maps.s5p-pal.com',
+        },
         AOI: null,
-        AOI_ID: 'World',
-        Time: [['2019-01-07', '2019-01-21'], ['2019-01-14', '2019-01-28'], ['2019-01-21', '2019-02-04'], ['2019-01-28', '2019-02-11'], ['2019-02-04', '2019-02-18'], ['2019-02-11', '2019-02-25'], ['2019-02-18', '2019-03-04'], ['2019-02-25', '2019-03-11'], ['2019-03-04', '2019-03-18'], ['2019-03-11', '2019-03-25'], ['2019-03-18', '2019-04-01'], ['2019-03-25', '2019-04-08'], ['2019-04-01', '2019-04-15'], ['2019-04-08', '2019-04-22'], ['2019-04-15', '2019-04-29'], ['2019-04-22', '2019-05-06'], ['2019-04-29', '2019-05-13'], ['2019-05-06', '2019-05-20'], ['2019-05-13', '2019-05-27'], ['2019-05-20', '2019-06-03'], ['2019-05-27', '2019-06-10'], ['2019-06-03', '2019-06-17'], ['2019-06-10', '2019-06-24'], ['2019-06-17', '2019-07-01'], ['2019-06-24', '2019-07-08'], ['2019-07-01', '2019-07-15'], ['2019-07-08', '2019-07-22'], ['2019-07-15', '2019-07-29'], ['2019-07-22', '2019-08-05'], ['2019-07-29', '2019-08-12'], ['2019-08-05', '2019-08-19'], ['2019-08-12', '2019-08-26'], ['2019-08-19', '2019-09-02'], ['2019-08-26', '2019-09-09'], ['2019-09-02', '2019-09-16'], ['2019-09-09', '2019-09-23'], ['2019-09-16', '2019-09-30'], ['2019-09-23', '2019-10-07'], ['2019-09-30', '2019-10-14'], ['2019-10-07', '2019-10-21'], ['2019-10-14', '2019-10-28'], ['2019-10-21', '2019-11-04'], ['2019-10-28', '2019-11-11'], ['2019-11-04', '2019-11-18'], ['2019-11-11', '2019-11-25'], ['2019-11-18', '2019-12-02'], ['2019-11-25', '2019-12-09'], ['2019-12-02', '2019-12-16'], ['2019-12-09', '2019-12-23'], ['2019-12-16', '2019-12-30'], ['2019-12-23', '2020-01-06'], ['2019-12-30', '2020-01-13'], ['2020-01-06', '2020-01-20'], ['2020-01-13', '2020-01-27'], ['2020-01-20', '2020-02-03'], ['2020-01-27', '2020-02-10'], ['2020-02-03', '2020-02-17'], ['2020-02-10', '2020-02-24'], ['2020-02-17', '2020-03-02'], ['2020-02-24', '2020-03-09'], ['2020-03-02', '2020-03-16'], ['2020-03-09', '2020-03-23'], ['2020-03-16', '2020-03-30'], ['2020-03-23', '2020-04-06'], ['2020-03-30', '2020-04-13'], ['2020-04-06', '2020-04-20'], ['2020-04-13', '2020-04-27'], ['2020-04-20', '2020-05-04'], ['2020-04-27', '2020-05-11'], ['2020-05-04', '2020-05-18'], ['2020-05-11', '2020-05-25'], ['2020-05-18', '2020-06-01']],
+        AOI_ID: 'W1',
+        Time: [['2019-01-07', '2019-01-21'], ['2019-01-14', '2019-01-28'], ['2019-01-21', '2019-02-04'], ['2019-01-28', '2019-02-11'], ['2019-02-04', '2019-02-18'], ['2019-02-11', '2019-02-25'], ['2019-02-18', '2019-03-04'], ['2019-02-25', '2019-03-11'], ['2019-03-04', '2019-03-18'], ['2019-03-11', '2019-03-25'], ['2019-03-18', '2019-04-01'], ['2019-03-25', '2019-04-08'], ['2019-04-01', '2019-04-15'], ['2019-04-08', '2019-04-22'], ['2019-04-15', '2019-04-29'], ['2019-04-22', '2019-05-06'], ['2019-04-29', '2019-05-13'], ['2019-05-06', '2019-05-20'], ['2019-05-13', '2019-05-27'], ['2019-05-20', '2019-06-03'], ['2019-05-27', '2019-06-10'], ['2019-06-03', '2019-06-17'], ['2019-06-10', '2019-06-24'], ['2019-06-17', '2019-07-01'], ['2019-06-24', '2019-07-08'], ['2019-07-01', '2019-07-15'], ['2019-07-08', '2019-07-22'], ['2019-07-15', '2019-07-29'], ['2019-07-22', '2019-08-05'], ['2019-07-29', '2019-08-12'], ['2019-08-05', '2019-08-19'], ['2019-08-12', '2019-08-26'], ['2019-08-19', '2019-09-02'], ['2019-08-26', '2019-09-09'], ['2019-09-02', '2019-09-16'], ['2019-09-09', '2019-09-23'], ['2019-09-16', '2019-09-30'], ['2019-09-23', '2019-10-07'], ['2019-09-30', '2019-10-14'], ['2019-10-07', '2019-10-21'], ['2019-10-14', '2019-10-28'], ['2019-10-21', '2019-11-04'], ['2019-10-28', '2019-11-11'], ['2019-11-04', '2019-11-18'], ['2019-11-11', '2019-11-25'], ['2019-11-18', '2019-12-02'], ['2019-11-25', '2019-12-09'], ['2019-12-02', '2019-12-16'], ['2019-12-09', '2019-12-23'], ['2019-12-16', '2019-12-30'], ['2019-12-23', '2020-01-06'], ['2019-12-30', '2020-01-13'], ['2020-01-06', '2020-01-20'], ['2020-01-13', '2020-01-27'], ['2020-01-20', '2020-02-03'], ['2020-01-27', '2020-02-10'], ['2020-02-03', '2020-02-17'], ['2020-02-10', '2020-02-24'], ['2020-02-17', '2020-03-02'], ['2020-02-24', '2020-03-09'], ['2020-03-02', '2020-03-16'], ['2020-03-09', '2020-03-23'], ['2020-03-16', '2020-03-30'], ['2020-03-23', '2020-04-06'], ['2020-03-30', '2020-04-13'], ['2020-04-06', '2020-04-20'], ['2020-04-13', '2020-04-27'], ['2020-04-20', '2020-05-04'], ['2020-04-27', '2020-05-11'], ['2020-05-04', '2020-05-18'], ['2020-05-11', '2020-05-25'], ['2020-05-18', '2020-06-01'], ['2020-05-25', '2020-06-08'], ['2020-06-01', '2020-06-15']],
         'Input Data': ['N1'], // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
@@ -261,8 +366,8 @@ export const globalIndicators = [
         Country: 'all',
         City: 'World',
         'Site Name': 'global',
-        Description: 'Air Quality (OMI)',
-        'Indicator code': 'N1NASA',
+        Description: 'Air Quality (OMI) - NO2',
+        'Indicator code': 'N1',
         'Indicator Value': ['normal'],
         'Indicator Name': 'NO2 Concentration',
         'Sub-AOI': {
@@ -271,17 +376,111 @@ export const globalIndicators = [
         },
         'Color Code': ['BLUE'],
         AOI: null,
-        AOI_ID: 'World',
+        AOI_ID: 'W2',
         Time: getMonthlyDates('2004-10-01', '2020-03-01'),
-        'Input Data': ['N1NASA'], // just for enabling eo data button for now
+        'Input Data': ['N1'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 6,
+          opacity: 0.7,
+          url: 'https://h4ymwpefng.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x.png?url=s3://covid-eo-data/OMNO2d_HRM/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=0%2C1.8e16&color_map=reds',
+          name: 'Air Quality (NASA)',
+          attribution: '{ Air Quality (NASA) }',
+          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYYMM')}`,
+          legendUrl: 'eodash-data/data/no2Legend.png',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        Country: 'all',
+        City: 'World',
+        'Site Name': 'global',
+        Description: 'Air Quality (OMI) - CO2 (mean)',
+        'Indicator code': 'N1',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'CO2 Concentration mean',
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        'Color Code': ['BLUE'],
+        AOI: null,
+        AOI_ID: 'W3',
+        Time: getDailyDates('2020-01-01', '2020-04-16'),
+        'Input Data': ['N1'], // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
           opacity: 1,
-          url: 'https://h4ymwpefng.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/OMNO2d_HRM/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=0%2C1e16&color_map=magma',
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_mean.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.0004%2C0.00042',
           name: 'Air Quality (NASA)',
           attribution: '{ Air Quality (NASA) }',
-          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYYMM')}`,
+          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        Country: 'all',
+        City: 'World',
+        'Site Name': 'global',
+        Description: 'Air Quality (OMI) - CO2 (baseline)',
+        'Indicator code': 'N1',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'CO2 Concentration baseline',
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        'Color Code': ['BLUE'],
+        AOI: null,
+        AOI_ID: 'W4',
+        Time: getDailyDates('2020-01-01', '2020-04-16'),
+        'Input Data': ['N1'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 6,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{y}/{x}@1x?url=s3://covid-eo-data/xco2/xco2_15day_baseline.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.0004%2C0.00042',
+          name: 'Air Quality (NASA)',
+          attribution: '{ Air Quality (NASA) }',
+          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        Country: 'all',
+        City: 'World',
+        'Site Name': 'global',
+        Description: 'Air Quality (OMI) - CO2 (diff)',
+        'Indicator code': 'N1',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'CO2 Concentration diff',
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        'Color Code': ['BLUE'],
+        AOI: null,
+        AOI_ID: 'W5',
+        Time: getDailyDates('2020-01-01', '2020-04-16'),
+        'Input Data': ['N1'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 6,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_diff.{time}.tif&resampling_method=bilinear&bidx=1&rescale=-0.000001%2C0.000001&color_map=rdbu_r',
+          name: 'Air Quality (NASA)',
+          attribution: '{ Air Quality (NASA) }',
+          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
         },
       },
     },
@@ -302,7 +501,7 @@ export const globalIndicators = [
         },
         'Color Code': ['BLUE'],
         AOI: null,
-        AOI_ID: 'World',
+        AOI_ID: 'W6',
         Time: ['2020-05-14T00:00:00Z'],
         'Input Data': ['NASAPopulation'], // just for enabling eo data button for now
         display: {
@@ -319,10 +518,11 @@ export const globalIndicators = [
   },
   {
     latlng: latLng([35.61, 139.78]),
-    id: 9998, // for now
+    id: 9998,
     properties: {
       indicatorObject: {
-        AOI: null,
+        AOI: latLng([35.61, 139.78]),
+        id: 9998,
         AOI_ID: 'tk',
         Country: 'regional',
         City: 'Tokyo',
@@ -356,10 +556,11 @@ export const globalIndicators = [
   },
   {
     latlng: latLng([39.9, 116.38]),
-    id: 9997, // for now
+    id: 9997,
     properties: {
       indicatorObject: {
-        AOI: null,
+        AOI: latLng([39.9, 116.38]),
+        id: 9997,
         AOI_ID: 'be',
         Country: 'regional',
         City: 'Beijing',
@@ -396,7 +597,8 @@ export const globalIndicators = [
     id: 9996, // for now
     properties: {
       indicatorObject: {
-        AOI: null,
+        AOI: latLng([51.02986, 2.250141]),
+        id: 9996,
         AOI_ID: 'du',
         Country: 'regional',
         City: 'Port of Dunkirk',
@@ -430,10 +632,11 @@ export const globalIndicators = [
   },
   {
     latlng: latLng([51.15934, 3.77245]),
-    id: 9995, // for now
+    id: 9995,
     properties: {
       indicatorObject: {
-        AOI: null,
+        AOI: latLng([51.15934, 3.77245]),
+        id: 9995,
         AOI_ID: 'gh',
         Country: 'regional',
         City: 'Port of Ghent',
@@ -467,10 +670,11 @@ export const globalIndicators = [
   },
   {
     latlng: latLng([34.05, -118.25]),
-    id: 9994, // for now
+    id: 9994,
     properties: {
       indicatorObject: {
-        AOI: null,
+        AOI: latLng([34.05, -118.25]),
+        id: 9994,
         AOI_ID: 'la',
         Country: 'regional',
         City: 'Los Angeles',
@@ -504,10 +708,11 @@ export const globalIndicators = [
   },
   {
     latlng: latLng([37.7775, -122.416389]),
-    id: 9993, // for now
+    id: 9993,
     properties: {
       indicatorObject: {
-        AOI: null,
+        AOI: latLng([37.7775, -122.416389]),
+        id: 9993,
         AOI_ID: 'sf',
         Country: 'regional',
         City: 'San Francisco',
@@ -534,6 +739,238 @@ export const globalIndicators = [
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_sf_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Nightlights',
+          attribution: '{ NASA }',
+        },
+      },
+    },
+  },
+  {
+    id: 19999,
+    latlng: latLng([45.197522, 13.029785]),
+    properties: {
+      indicatorObject: {
+        id: 19999,
+        AOI: latLng([45.197522, 13.029785]),
+        AOI_ID: 'NorthAdriaticESA',
+        Country: 'regional',
+        City: 'North Adriatic',
+        'Site Name': 'North Adriatic',
+        Description: 'Water Quality Regional Maps',
+        'Indicator code': 'N3a2',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Water Quality Regional Maps (ESA)',
+        'Color code': ['BLUE'],
+        'EO Sensor': null,
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((13.82676706185932 44.707877452151976,13.826080416351507 44.63853985102104,13.828140352874945 44.60726198073148,13.830543612152288 44.580858170237136,13.824707125335882 44.56324896519081,13.831230257660101 44.53388844187968,13.83226022592182 44.50059527839493,13.14012155404682 44.49471803960046,12.29417428842182 44.482961784844655,12.22825631967182 44.70494937295371,12.28318796029682 44.82439215066662,12.375198458343695 44.80027974205457,12.408844088226507 44.82134821071279,12.466865633636663 44.848433626253936,12.50840768685932 44.941643892166006,12.435623263031195 44.97274112720852,12.430816744476507 45.017413877251585,12.314430330902288 44.96496839839778,12.346874331146429 45.11150096790739,12.3191510187685 45.20785209529116,12.239371393829535 45.20857774137082,12.210467909485052 45.2901538238102,12.22276315560932 45.377400919461266,12.30790719857807 45.48533806813408,12.48368844857807 45.559425118958345,12.622390841156195 45.527685472129804,12.436309908539007 45.47089417163262,12.428413485199163 45.41838351593179,12.782894228607367 45.546202443810486,12.887307261139105 45.60069590187233,12.977987383514593 45.62249048564204,13.101626490265081 45.63083382762503,13.086563204437445 45.72456591874726,13.210159395843695 45.76864898557,13.344055269867132 45.73942388451784,13.406883333831976 45.72384688466227,13.44499215951557 45.67565051875911,13.56034860482807 45.78397406598729,13.65647897592182 45.76194293851278,13.773208712249945 45.66413479361571,13.71965036264057 45.5603866467064,13.48619088998432 45.44295880636075,13.59605417123432 45.16671702535331,13.71690378060932 44.97954140088225,13.778701876312445 44.951120616125884,13.81852731576557 44.86042018307063,13.82402047982807 44.77737580152348,13.82676706185932 44.707877452151976))').toJson(),
+          }],
+        },
+        Time: [['2020-03-27'], ['2020-04-03'], ['2020-04-10'], ['2020-04-17'], ['2020-04-24'], ['2020-05-01'], ['2020-05-08'], ['2020-05-15'], ['2020-05-22'], ['2020-06-02']],
+        'Input Data': ['N3a2'], // just for enabling eo data button for now
+        display: {
+          ...defaultWMSDisplay,
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Water Quality Index',
+          layers: 'N3_CUSTOM',
+          legendUrl: 'eodash-data/data/waterLegend.png',
+          maxZoom: 13,
+          attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
+          dateFormatFunction: (dates) => `${moment.utc(dates[0], 'YYYY-MM-DD').format('YYYY-MM-DD')}`,
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([45.197522, 13.0297851]),
+    id: 19998,
+    properties: {
+      indicatorObject: {
+        AOI: latLng([45.197522, 13.0297851]),
+        id: 19998,
+        AOI_ID: 'NorthAdriaticNASA',
+        Country: 'regional',
+        City: 'North Adriatic',
+        'Site Name': 'North Adriatic',
+        Description: 'Water Quality Regional Maps',
+        'Indicator code': 'N3a2',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Water Quality Regional Maps (NASA)',
+        'Color code': ['BLUE'],
+        'EO Sensor': null,
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((13.82676706185932 44.707877452151976,13.826080416351507 44.63853985102104,13.828140352874945 44.60726198073148,13.830543612152288 44.580858170237136,13.824707125335882 44.56324896519081,13.831230257660101 44.53388844187968,13.83226022592182 44.50059527839493,13.14012155404682 44.49471803960046,12.29417428842182 44.482961784844655,12.22825631967182 44.70494937295371,12.28318796029682 44.82439215066662,12.375198458343695 44.80027974205457,12.408844088226507 44.82134821071279,12.466865633636663 44.848433626253936,12.50840768685932 44.941643892166006,12.435623263031195 44.97274112720852,12.430816744476507 45.017413877251585,12.314430330902288 44.96496839839778,12.346874331146429 45.11150096790739,12.3191510187685 45.20785209529116,12.239371393829535 45.20857774137082,12.210467909485052 45.2901538238102,12.22276315560932 45.377400919461266,12.30790719857807 45.48533806813408,12.48368844857807 45.559425118958345,12.622390841156195 45.527685472129804,12.436309908539007 45.47089417163262,12.428413485199163 45.41838351593179,12.782894228607367 45.546202443810486,12.887307261139105 45.60069590187233,12.977987383514593 45.62249048564204,13.101626490265081 45.63083382762503,13.086563204437445 45.72456591874726,13.210159395843695 45.76864898557,13.344055269867132 45.73942388451784,13.406883333831976 45.72384688466227,13.44499215951557 45.67565051875911,13.56034860482807 45.78397406598729,13.65647897592182 45.76194293851278,13.773208712249945 45.66413479361571,13.71965036264057 45.5603866467064,13.48619088998432 45.44295880636075,13.59605417123432 45.16671702535331,13.71690378060932 44.97954140088225,13.778701876312445 44.951120616125884,13.81852731576557 44.86042018307063,13.82402047982807 44.77737580152348,13.82676706185932 44.707877452151976))').toJson(),
+          }],
+        },
+        Time: [['2020_01_01'], ['2020_01_08'], ['2020_01_15'], ['2020_01_22'], ['2020_01_29'], ['2020_02_05'], ['2020_02_12'], ['2020_02_19'], ['2020_02_26'], ['2020_03_04'], ['2020_03_11'], ['2020_03_18'], ['2020_03_25'], ['2020_04_01'], ['2020_04_08'], ['2020_04_15'], ['2020_04_22'], ['2020_04_29'], ['2020_05_06'], ['2020_05_13'], ['2020_05_20'], ['2020_05_27'], ['2020_06_03']],
+        'Input Data': ['N3a2'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-nas-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
+          name: 'Water Quality Index',
+          attribution: '{ NASA }',
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([37.7775, -122.416389]),
+    id: 19997,
+    properties: {
+      indicatorObject: {
+        AOI: latLng([37.7775, -122.416389]),
+        id: 19997,
+        AOI_ID: 'sf',
+        Country: 'regional',
+        City: 'San Francisco',
+        'Site Name': 'San Francisco',
+        Description: 'Water Quality Regional Maps',
+        'Indicator code': 'N3a2',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Water Quality Regional Maps',
+        'Color code': ['BLUE'],
+        'EO Sensor': null,
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-122.63569641113281 37.119795894876006, -121.53514084334165 37.119795894876006, -121.53514084334165 38.35512924194336, -122.63569641113281 38.35512924194336, -122.63569641113281 37.119795894876006))').toJson(),
+          }],
+        },
+        Time: [['2020_03_02'], ['2020_04_03'], ['2020_04_19'], ['2020_05_04'], ['2020_05_05'], ['2020_05_19'], ['2020_05_21'], ['2020_05_24']],
+        'Input Data': ['N3a2'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
+          name: 'Water Quality Regional Maps',
+          attribution: '{ NASA }',
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([41.0114, -73.09]),
+    id: 19996,
+    properties: {
+      indicatorObject: {
+        AOI: latLng([41.0114, -73.09]),
+        id: 19996,
+        AOI_ID: 'ny',
+        Country: 'regional',
+        City: 'New York',
+        'Site Name': 'New York',
+        Description: 'Water Quality Regional Maps',
+        'Indicator code': 'N3a2',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Water Quality Regional Maps',
+        'Color code': ['BLUE'],
+        'EO Sensor': null,
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-71.74516 41.54467, -74.43395 41.54943, -74.43219 40.47812, -71.74516 40.48343, -71.74516 41.54467))').toJson(),
+          }],
+        },
+        Time: [['2020_01_01'], ['2020_01_08'], ['2020_01_15'], ['2020_01_22'], ['2020_01_29'], ['2020_02_05'], ['2020_02_12'], ['2020_02_19'], ['2020_02_26'], ['2020_03_04'], ['2020_03_11'], ['2020_03_18'], ['2020_03_25'], ['2020_04_01'], ['2020_04_08'], ['2020_04_15'], ['2020_04_22'], ['2020_04_29'], ['2020_05_06'], ['2020_05_13'], ['2020_05_20'], ['2020_05_27'], ['2020_06_03']],
+        'Input Data': ['N3a2'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-ny-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
+          name: 'Water Quality Index',
+          attribution: '{ NASA }',
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([35.61, 139.78]),
+    id: 19995,
+    properties: {
+      indicatorObject: {
+        AOI: latLng([35.61, 139.78]),
+        id: 19995,
+        AOI_ID: 'tk',
+        Country: 'regional',
+        City: 'Tokyo',
+        'Site Name': 'Tokyo',
+        Description: 'Water Quality Regional Maps',
+        'Indicator code': 'N3a2',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Water Quality Regional Maps',
+        'Color code': ['BLUE'],
+        'EO Sensor': null,
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((139.34275817871094 35.049654646456474, 140.34809152322123 35.049654646456474, 140.34809152322123 35.93543243408203, 139.34275817871094 35.93543243408203, 139.34275817871094 35.049654646456474))').toJson(),
+          }],
+        },
+
+        Time: getWeeklyDates('2017-12-27', '2020-06-10'),
+        'Input Data': ['N3a2'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-tk-{time}.tif&resampling_method=bilinear&bidx=1&color_map=rdbu_r',
+          name: 'Water Quality Index',
+          attribution: '{ JAXA }',
+          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([37.7775, -122.4163891]),
+    id: 19897,
+    properties: {
+      indicatorObject: {
+        AOI: latLng([37.7775, -122.4163891]),
+        id: 19897,
+        AOI_ID: 'sf',
+        Country: 'regional',
+        City: 'San Francisco',
+        'Site Name': 'San Francisco',
+        Description: 'Water Quality Regional Maps',
+        'Indicator code': 'N3a2',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Suspended Particulate Matter',
+        'Color code': ['BLUE'],
+        'EO Sensor': null,
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-122.63569641113281 37.119795894876006, -121.53514084334165 37.119795894876006, -121.53514084334165 38.35512924194336, -122.63569641113281 38.35512924194336, -122.63569641113281 37.119795894876006))').toJson(),
+          }],
+        },
+        Time: [['2020_03_02'], ['2020_04_03'], ['2020_04_19'], ['2020_05_04'], ['2020_05_05'], ['2020_05_19'], ['2020_05_21'], ['2020_05_24']],
+        'Input Data': ['N3a2'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
+          name: 'Suspended Particulate Matter',
           attribution: '{ NASA }',
         },
       },

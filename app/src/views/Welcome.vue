@@ -17,8 +17,8 @@
         </v-card>
       </v-col>
       <v-col
-        cols="12"
-        lg="4"
+        :cols="$vuetify.breakpoint.smAndDown && '12'"
+        v-if="featureLength('economic') > 0"
       >
         <v-card outlined class="pa-5 text-center">
           <h2 class="primary--text display-3">
@@ -26,18 +26,14 @@
               x-large
               color="primary"
             >{{ baseConfig.indicatorClassesIcons.economic }}</v-icon>
-            {{ allFeatures
-              .filter((i) => i.properties.indicatorObject['Indicator code'] !== 'd' && baseConfig
-                .indicatorsDefinition[i.properties.indicatorObject['Indicator code']]
-                  .class === 'economic'
-              ).length }}
+            {{ featureLength('economic') }}
           </h2>
           <p class="mb-0"><small>Economic Indicators</small></p>
         </v-card>
       </v-col>
       <v-col
-        cols="12"
-        lg="4"
+        :cols="$vuetify.breakpoint.smAndDown && '12'"
+        v-if="featureLength('agriculture') > 0"
       >
         <v-card outlined class="pa-5 text-center">
           <h2 class="primary--text display-3">
@@ -45,18 +41,14 @@
               x-large
               color="primary"
             >{{ baseConfig.indicatorClassesIcons.agriculture }}</v-icon>
-            {{ allFeatures
-              .filter((i) => i.properties.indicatorObject['Indicator code'] !== 'd' && baseConfig
-                .indicatorsDefinition[i.properties.indicatorObject['Indicator code']]
-                  .class === 'agriculture'
-              ).length }}
+            {{ featureLength('agriculture') }}
           </h2>
           <p class="mb-0"><small>Agriculture Indicators</small></p>
         </v-card>
       </v-col>
       <v-col
-        cols="12"
-        lg="4"
+        :cols="$vuetify.breakpoint.smAndDown && '12'"
+        v-if="featureLength('environment') > 0"
       >
         <v-card outlined class="pa-5 text-center">
           <h2 class="primary--text display-3">
@@ -64,11 +56,7 @@
               x-large
               color="primary"
             >{{ baseConfig.indicatorClassesIcons.environment }}</v-icon>
-            {{ allFeatures
-              .filter((i) => i.properties.indicatorObject['Indicator code'] !== 'd' && baseConfig
-                .indicatorsDefinition[i.properties.indicatorObject['Indicator code']]
-                  .class === 'environment'
-              ).length }}
+            {{ featureLength('environment') }}
             </h2>
           <p class="mb-0"><small>Environment Indicators</small></p>
         </v-card>
@@ -119,6 +107,14 @@ export default {
     ]),
     welcome() {
       return this.$marked(require(`../../public${this.appConfig.welcomeText}.md`).default);
+    },
+  },
+  methods: {
+    featureLength(type) {
+      return this.allFeatures
+        .filter((i) => i.properties.indicatorObject['Indicator code'] !== 'd' && this.baseConfig
+          .indicatorsDefinition[i.properties.indicatorObject['Indicator code']]
+          .class === type).length;
     },
   },
 };

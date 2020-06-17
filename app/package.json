@@ -1,6 +1,6 @@
 {
   "name": "race-dashboard",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
+    "chartjs-chart-geo": "^2.1.0",
     "chartjs-plugin-annotation": "^0.5.7",
     "chartjs-plugin-datalabels": "^0.7.0",
     "chartjs-plugin-zoom": "^0.7.7",

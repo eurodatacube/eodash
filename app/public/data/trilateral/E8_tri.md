@@ -11,9 +11,3 @@ Red rectangle area in Fig 1 shows temporal changes in the density of new cars in
 <img src="./data/trilateral/Tri_E8.png"></img>
 
 <img src="./data/trilateral/Tri_1_E8.png"></img>
-
-
-
-
-
-
