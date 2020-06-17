@@ -21,8 +21,8 @@ export const indicatorsDefinition = Object.freeze({
   E2: {
     indicator: 'Volume of oil stockpiled',
     class: 'economic',
-    file: '/eodash-data/data/E2.csv',
-    story: './eodash-data/stories/E2',
+    file: './eodash-data/data/E2.csv',
+    story: '/eodash-data/stories/E2',
   },
   E2A: {
     indicator: 'Level of flaring activity',
@@ -41,7 +41,7 @@ export const indicatorsDefinition = Object.freeze({
   E5: {
     indicator: 'Inventory levels of intermediate goods',
     class: 'economic',
-    file: '/eodash-data/data/E5.csv',
+    file: './eodash-data/data/E5.csv',
   },
   E6: {
     indicator: 'Inventory levels of factory inputs',

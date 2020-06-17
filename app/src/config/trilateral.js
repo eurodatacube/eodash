@@ -14,13 +14,13 @@ export const indicatorsDefinition = Object.freeze({
   E1: {
     indicator: 'Status of metallic ores',
     class: 'economic',
-    file: '/data/trilateral/E1.csv',
+    file: './data/trilateral/E1.csv',
     story: '/data/trilateral/E1',
   },
   E1a: {
     indicator: 'Status of non-metallic ores',
     class: 'economic',
-    file: '/data/trilateral/E1a.csv',
+    file: './data/trilateral/E1a.csv',
     story: '/data/trilateral/E1a',
   },
   E2: {
