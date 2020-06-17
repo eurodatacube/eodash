@@ -68,17 +68,14 @@
             <span v-if="!eodataEnabled">- Coming soon</span>
             </v-btn>
             <v-btn
-              v-if="indicatorObject && baseConfig
-                .indicatorsDefinition[indicatorObject['Indicator code']].externalData"
-              :href= "baseConfig
-                .indicatorsDefinition[indicatorObject['Indicator code']].externalData.url"
+              v-if="indicatorObject && externalData"
+              :href= "externalData.url"
               target="_blank"
               color="primary"
               large
               block
               class="my-5"
-            ><span><v-icon left>mdi-open-in-new</v-icon>{{baseConfig
-                .indicatorsDefinition[indicatorObject['Indicator code']].externalData.label}}</span>
+            ><span><v-icon left>mdi-open-in-new</v-icon>{{externalData.label}}</span>
             </v-btn>
           </div>
           <v-dialog
@@ -167,6 +164,16 @@ export default {
     },
     globalData() {
       return ['all', 'regional'].includes(this.indicatorObject.Country);
+    },
+    externalData() {
+      const dataFromDefinition = this.baseConfig.indicatorsDefinition[this.indicatorObject['Indicator code']].externalData;
+      const dataFromIndicator = this.indicatorObject.externalData;
+      if (dataFromDefinition) {
+        return dataFromDefinition;
+      } else if (dataFromIndicator) {
+        return dataFromIndicator;
+      }
+      return null;
     },
     eodataEnabled() {
       const lastInputData = (this.indicatorObject && this.indicatorObject['Input Data']) ? this.indicatorObject['Input Data'][this.indicatorObject['Input Data'].length - 1] : null;
