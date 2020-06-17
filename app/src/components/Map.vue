@@ -292,6 +292,8 @@ export default {
           } else {
             label += indVal;
           }
+        } else if (indicatorObject['Indicator code'] === 'N3b') {
+          label = '';
         }
       }
       return label;
@@ -303,10 +305,12 @@ export default {
     },
     getLastValue(values) {
       const validValues = values['Indicator Value'].filter((item) => item !== '');
-      const lastValue = validValues[validValues.length - 1];
       let lastColorCode = '';
       if (Object.prototype.hasOwnProperty.call(values, 'Color code')) {
         lastColorCode = values['Color code'][validValues.length - 1];
+      } 
+      if (values['Indicator code'] === 'N3b') {
+        lastColorCode = 'BLUE';
       }
       return {
         color: this.getIndicatorColor(lastColorCode),
