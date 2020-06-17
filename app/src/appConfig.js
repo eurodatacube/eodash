@@ -27,7 +27,7 @@ module.exports = [
   },
   {
     id: 'trilateral',
-    match: ['eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'eodash-trilateral-testing.eox.at', 'localhost'],
+    match: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'eodash-trilateral-testing.eox.at', 'localhost'],
     branding: {
       appName: 'Earth Observing Dashboard',
       primaryColor: '#000000',
