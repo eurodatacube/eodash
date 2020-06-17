@@ -105,7 +105,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   NASAPopulation: {
     indicator: 'Population',
-    class: 'environment',
+    class: 'economic',
   },
   N2: {
     indicator: 'CO2 emissions (GOSAT)',
