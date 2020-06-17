@@ -102,6 +102,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Air quality',
     class: 'environment',
     story: '/data/trilateral/N1',
+    largeTimeDuration: true,
   },
   NASAPopulation: {
     indicator: 'Population',
@@ -111,6 +112,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'CO2 emissions (GOSAT)',
     class: 'environment',
     file: '/data/trilateral/N2.csv',
+    largeTimeDuration: true,
   },
   N3: {
     indicator: 'CHL concentration (CMEMS)',
@@ -292,6 +294,7 @@ const getMonthlyDates = (start, end) => {
   }
   return dateArray;
 };
+
 const getDailyDates = (start, end) => {
   let currentDate = moment(start);
   const stopDate = moment(end);
@@ -299,6 +302,17 @@ const getDailyDates = (start, end) => {
   while (currentDate <= stopDate) {
     dateArray.push(moment(currentDate).format('YYYY-MM-DD'));
     currentDate = moment(currentDate).add(1, 'days');
+  }
+  return dateArray;
+};
+
+const getWeeklyDates = (start, end) => {
+  let currentDate = moment(start);
+  const stopDate = moment(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(moment(currentDate).format('YYYY-MM-DD'));
+    currentDate = moment(currentDate).add(1, 'weeks');
   }
   return dateArray;
 };
@@ -732,14 +746,14 @@ export const globalIndicators = [
       indicatorObject: {
         id: 19999,
         AOI: latLng([45.197522, 13.029785]),
-        AOI_ID: 'NorthAdriatic',
+        AOI_ID: 'NorthAdriaticESA',
         Country: 'regional',
         City: 'North Adriatic',
         'Site Name': 'North Adriatic',
         Description: 'Water Quality Regional Maps',
         'Indicator code': 'N3a2',
         'Indicator Value': ['normal'],
-        'Indicator Name': 'Water Quality Regional Maps',
+        'Indicator Name': 'Water Quality Regional Maps (ESA)',
         'Color code': ['BLUE'],
         'EO Sensor': null,
         'Sub-AOI': {
@@ -761,6 +775,198 @@ export const globalIndicators = [
           maxZoom: 13,
           attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (dates) => `${moment.utc(dates[0], 'YYYY-MM-DD').format('YYYY-MM-DD')}`,
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([45.197522, 13.0297851]),
+    id: 19998,
+    properties: {
+      indicatorObject: {
+        AOI: latLng([45.197522, 13.0297851]),
+        id: 19998,
+        AOI_ID: 'NorthAdriaticNASA',
+        Country: 'regional',
+        City: 'North Adriatic',
+        'Site Name': 'North Adriatic',
+        Description: 'Water Quality Regional Maps',
+        'Indicator code': 'N3a2',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Water Quality Regional Maps (NASA)',
+        'Color code': ['BLUE'],
+        'EO Sensor': null,
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((13.82676706185932 44.707877452151976,13.826080416351507 44.63853985102104,13.828140352874945 44.60726198073148,13.830543612152288 44.580858170237136,13.824707125335882 44.56324896519081,13.831230257660101 44.53388844187968,13.83226022592182 44.50059527839493,13.14012155404682 44.49471803960046,12.29417428842182 44.482961784844655,12.22825631967182 44.70494937295371,12.28318796029682 44.82439215066662,12.375198458343695 44.80027974205457,12.408844088226507 44.82134821071279,12.466865633636663 44.848433626253936,12.50840768685932 44.941643892166006,12.435623263031195 44.97274112720852,12.430816744476507 45.017413877251585,12.314430330902288 44.96496839839778,12.346874331146429 45.11150096790739,12.3191510187685 45.20785209529116,12.239371393829535 45.20857774137082,12.210467909485052 45.2901538238102,12.22276315560932 45.377400919461266,12.30790719857807 45.48533806813408,12.48368844857807 45.559425118958345,12.622390841156195 45.527685472129804,12.436309908539007 45.47089417163262,12.428413485199163 45.41838351593179,12.782894228607367 45.546202443810486,12.887307261139105 45.60069590187233,12.977987383514593 45.62249048564204,13.101626490265081 45.63083382762503,13.086563204437445 45.72456591874726,13.210159395843695 45.76864898557,13.344055269867132 45.73942388451784,13.406883333831976 45.72384688466227,13.44499215951557 45.67565051875911,13.56034860482807 45.78397406598729,13.65647897592182 45.76194293851278,13.773208712249945 45.66413479361571,13.71965036264057 45.5603866467064,13.48619088998432 45.44295880636075,13.59605417123432 45.16671702535331,13.71690378060932 44.97954140088225,13.778701876312445 44.951120616125884,13.81852731576557 44.86042018307063,13.82402047982807 44.77737580152348,13.82676706185932 44.707877452151976))').toJson(),
+          }],
+        },
+        Time: [['2020_01_01'], ['2020_01_08'], ['2020_01_15'], ['2020_01_22'], ['2020_01_29'], ['2020_02_05'], ['2020_02_12'], ['2020_02_19'], ['2020_02_26'], ['2020_03_04'], ['2020_03_11'], ['2020_03_18'], ['2020_03_25'], ['2020_04_01'], ['2020_04_08'], ['2020_04_15'], ['2020_04_22'], ['2020_04_29'], ['2020_05_06'], ['2020_05_13'], ['2020_05_20'], ['2020_05_27'], ['2020_06_03']],
+        'Input Data': ['N3a2'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-nas-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
+          name: 'Water Quality Index',
+          attribution: '{ NASA }',
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([37.7775, -122.416389]),
+    id: 19997,
+    properties: {
+      indicatorObject: {
+        AOI: latLng([37.7775, -122.416389]),
+        id: 19997,
+        AOI_ID: 'sf',
+        Country: 'regional',
+        City: 'San Francisco',
+        'Site Name': 'San Francisco',
+        Description: 'Water Quality Regional Maps',
+        'Indicator code': 'N3a2',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Water Quality Regional Maps',
+        'Color code': ['BLUE'],
+        'EO Sensor': null,
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-122.63569641113281 37.119795894876006, -121.53514084334165 37.119795894876006, -121.53514084334165 38.35512924194336, -122.63569641113281 38.35512924194336, -122.63569641113281 37.119795894876006))').toJson(),
+          }],
+        },
+        Time: [['2020_03_02'], ['2020_04_03'], ['2020_04_19'], ['2020_05_04'], ['2020_05_05'], ['2020_05_19'], ['2020_05_21'], ['2020_05_24']],
+        'Input Data': ['N3a2'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
+          name: 'Water Quality Regional Maps',
+          attribution: '{ NASA }',
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([41.0114, -73.09]),
+    id: 19996,
+    properties: {
+      indicatorObject: {
+        AOI: latLng([41.0114, -73.09]),
+        id: 19996,
+        AOI_ID: 'ny',
+        Country: 'regional',
+        City: 'New York',
+        'Site Name': 'New York',
+        Description: 'Water Quality Regional Maps',
+        'Indicator code': 'N3a2',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Water Quality Regional Maps',
+        'Color code': ['BLUE'],
+        'EO Sensor': null,
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-71.74516 41.54467, -74.43395 41.54943, -74.43219 40.47812, -71.74516 40.48343, -71.74516 41.54467))').toJson(),
+          }],
+        },
+        Time: [['2020_01_01'], ['2020_01_08'], ['2020_01_15'], ['2020_01_22'], ['2020_01_29'], ['2020_02_05'], ['2020_02_12'], ['2020_02_19'], ['2020_02_26'], ['2020_03_04'], ['2020_03_11'], ['2020_03_18'], ['2020_03_25'], ['2020_04_01'], ['2020_04_08'], ['2020_04_15'], ['2020_04_22'], ['2020_04_29'], ['2020_05_06'], ['2020_05_13'], ['2020_05_20'], ['2020_05_27'], ['2020_06_03']],
+        'Input Data': ['N3a2'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-ny-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
+          name: 'Water Quality Index',
+          attribution: '{ NASA }',
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([35.61, 139.78]),
+    id: 19995,
+    properties: {
+      indicatorObject: {
+        AOI: latLng([35.61, 139.78]),
+        id: 19995,
+        AOI_ID: 'tk',
+        Country: 'regional',
+        City: 'Tokyo',
+        'Site Name': 'Tokyo',
+        Description: 'Water Quality Regional Maps',
+        'Indicator code': 'N3a2',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Water Quality Regional Maps',
+        'Color code': ['BLUE'],
+        'EO Sensor': null,
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((139.34275817871094 35.049654646456474, 140.34809152322123 35.049654646456474, 140.34809152322123 35.93543243408203, 139.34275817871094 35.93543243408203, 139.34275817871094 35.049654646456474))').toJson(),
+          }],
+        },
+
+        Time: getWeeklyDates('2017-12-27', '2020-06-10'),
+        'Input Data': ['N3a2'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-tk-{time}.tif&resampling_method=bilinear&bidx=1&color_map=rdbu_r',
+          name: 'Water Quality Index',
+          attribution: '{ JAXA }',
+          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([37.7775, -122.4163891]),
+    id: 19897,
+    properties: {
+      indicatorObject: {
+        AOI: latLng([37.7775, -122.4163891]),
+        id: 19897,
+        AOI_ID: 'sf',
+        Country: 'regional',
+        City: 'San Francisco',
+        'Site Name': 'San Francisco',
+        Description: 'Water Quality Regional Maps',
+        'Indicator code': 'N3a2',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Suspended Particulate Matter',
+        'Color code': ['BLUE'],
+        'EO Sensor': null,
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-122.63569641113281 37.119795894876006, -121.53514084334165 37.119795894876006, -121.53514084334165 38.35512924194336, -122.63569641113281 38.35512924194336, -122.63569641113281 37.119795894876006))').toJson(),
+          }],
+        },
+        Time: [['2020_03_02'], ['2020_04_03'], ['2020_04_19'], ['2020_05_04'], ['2020_05_05'], ['2020_05_19'], ['2020_05_21'], ['2020_05_24']],
+        'Input Data': ['N3a2'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
+          name: 'Suspended Particulate Matter',
+          attribution: '{ NASA }',
         },
       },
     },
