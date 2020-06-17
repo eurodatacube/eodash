@@ -80,11 +80,14 @@ export default {
     return {
       dataLayerTime: null,
       dataLayerIndex: 0,
+      monthNames: ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December',
+      ],
     };
   },
   mounted() {
     const d = this.indicatorObject.Time[this.indicatorObject.Time.length - 1];
-    this.dataLayerTime = `${d.getDate()}.${d.getMonth() + 1}`;
+    this.dataLayerTime = `${d.getDate()}. ${this.monthNames[d.getMonth()]}`;
   },
   computed: {
     arrayOfObjects() {
@@ -94,7 +97,7 @@ export default {
       if (['E10a3'].includes(indicatorCode)) {
         // Find all unique day/month available
         const timeset = new Set(
-          indicator.Time.map((d) => `${d.getDate()}.${d.getMonth() + 1}`),
+          indicator.Time.map((d) => `${d.getDate()}. ${this.monthNames[d.getMonth()]}`),
         );
         timeset.forEach((t) => {
           selectionOptions.push({
@@ -113,9 +116,6 @@ export default {
         '#a5d3d8', '#dadada', '#c6b4ea', '#ead7ad', '#cdeaad', '#b82e2e',
         '#316395', '#994499', '#22aa99', '#aaaa11', '#6633cc', '#e67300',
       ];
-      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December',
-      ];
       if (indicator) {
         let labels = [];
         const measurement = indicator['Measurement Value'];
@@ -126,7 +126,7 @@ export default {
           for (let i = 0; i < indicator.Time.length; i += 1) {
             if (!Number.isNaN(indicator.Time[i].getTime())) {
               const currDate = indicator.Time[i];
-              const formattedDate = `${currDate.getDate()} - ${monthNames[currDate.getMonth()]}`;
+              const formattedDate = `${currDate.getDate()} - ${this.monthNames[currDate.getMonth()]}`;
               labels.push(formattedDate);
             } else {
               labels.push(i);
@@ -188,13 +188,13 @@ export default {
               dataGroups[currYear].push(data[i].y);
               colorGroups[currYear].push(colors[i]);
               formDates[currYear].push(
-                `${monthNames[data[i].t.getMonth()]}`,
+                `${this.monthNames[data[i].t.getMonth()]}`,
               );
             } else {
               dataGroups[currYear] = [data[i].y];
               colorGroups[currYear] = [colors[i]];
               formDates[currYear] = [
-                `${monthNames[data[i].t.getMonth()]}`,
+                `${this.monthNames[data[i].t.getMonth()]}`,
               ];
             }
           }
@@ -373,7 +373,7 @@ export default {
             typeof d !== 'undefined'));
 
           const filteredFeatures = features.filter((d) => (
-            `${d.time.getUTCDate()}.${d.time.getMonth() + 1}` === this.dataLayerTime
+            `${d.time.getDate()}. ${this.monthNames[d.time.getMonth()]}` === this.dataLayerTime
             && !Number.isNaN(d.value)
           ));
 
