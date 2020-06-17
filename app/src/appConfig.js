@@ -28,7 +28,7 @@ const brands = [
   },
   {
     id: 'trilateral',
-    match: ['eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'localhost'],
+    match: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'localhost'],
     branding: {
       appName: 'Earth Observing Dashboard',
       primaryColor: '#000000',
