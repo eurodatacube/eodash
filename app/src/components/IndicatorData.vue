@@ -33,12 +33,12 @@
               .map((i) => i.value)
               .indexOf(dataLayerTime) > 0
                 ? 'mdi-arrow-left-drop-circle'
-                : '')"
+                : 'mdi-asterisk')"
             :append-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
               .map((i) => i.value)
               .indexOf(dataLayerTime) < arrayOfObjects.length - 1
                 ? 'mdi-arrow-right-drop-circle'
-                : '')"
+                : 'mdi-asterisk')"
             menu-props="auto"
             :items="arrayOfObjects"
             item-value="value"
@@ -808,5 +808,8 @@ export default {
 <style lang="scss" scoped>
 .md-body {
   font-size: small;
+}
+::v-deep .mdi-asterisk {
+  visibility: hidden;
 }
 </style>
