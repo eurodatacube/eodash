@@ -126,10 +126,12 @@ export const indicatorsDefinition = Object.freeze({
       label: 'Sentinel-5p Mapping Service',
       url: 'https://maps.s5p-pal.com',
     },
+    largeTimeDuration: true,
   },
   N2: {
     indicator: 'CO2 emissions',
     class: 'environment',
+    largeTimeDuration: true,
   },
   N3: {
     indicator: 'CHL concentration',

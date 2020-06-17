@@ -217,7 +217,7 @@ import {
 import { geoJson, latLngBounds, latLng } from 'leaflet';
 import {
   LMap, LTileLayer, LWMSTileLayer, LGeoJson, LCircleMarker,
-  LControlLayers, LControlAttribution, LControlZoom, LLayerGroup
+  LControlLayers, LControlAttribution, LControlZoom, LLayerGroup,
 } from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-mouse-position';
@@ -225,6 +225,7 @@ import 'leaflet-side-by-side';
 import 'leaflet-loading';
 import 'leaflet-loading/src/Control.Loading.css';
 import moment from 'moment';
+
 export default {
   components: {
     LMap,
@@ -311,7 +312,7 @@ export default {
       return returnTime;
     },
     currentCompareTime() {
-      let returnTime = this.indicator.Time[0];
+      let returnTime = this.getInitialCompareTime();
       if (this.compareLayerTime !== null) {
         returnTime = this.compareLayerTime;
       }
@@ -327,7 +328,7 @@ export default {
   mounted() {
     this.dataLayerIndex = this.indicator.Time.length - 1;
     this.dataLayerTime = { value: this.indicator.Time[this.dataLayerIndex] };
-    this.compareLayerTime = { value: this.indicator.Time[this.compareLayerIndex] };
+    this.compareLayerTime = { value: this.getInitialCompareTime() };
     this.$nextTick(() => {
       this.$refs.subaoiLayer.mapObject.bindTooltip('Reference area', {
         direction: 'top',
@@ -392,32 +393,28 @@ export default {
         this.map._onResize();
       }
     },
-    getAoiFill(side) {
+    getColorCode(side) {
       const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
       let currentValue = null;
       // compensate for color code with only one entry, still showing it
       if (this.indicator && this.indicator['Color code']) {
-        if (Array.isArray(this.indicator['Color code']) && this.indicator['Color code'].length === 1) {
-          currentValue = this.indicator['Color code'][0];
-        } else if (Array.isArray(this.indicator['Color code']) && this.indicator['Color code'][index]) {
-          currentValue = this.indicator['Color code'][index];
+        const colors = this.indicator['Color code'];
+        if (Array.isArray(colors) && colors.length === 1) {
+          currentValue = colors[0]; // eslint-disable-line prefer-destructuring
+        } else if (Array.isArray(colors) && colors[index]) {
+          currentValue = colors[index]; // eslint-disable-line prefer-destructuring
         }
       }
+      return currentValue;
+    },
+    getAoiFill(side) {
+      const currentValue = this.getColorCode(side);
       return currentValue
         ? this.getIndicatorColor(currentValue)
         : this.$vuetify.theme.themes.light.primary;
     },
     subAoiStyle(side) {
-      const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
-      let currentValue = null;
-      // compensate for color code with only one entry, still showing it
-      if (this.indicator && this.indicator['Color code']) {
-        if (Array.isArray(this.indicator['Color code']) && this.indicator['Color code'].length === 1) {
-          currentValue = this.indicator['Color code'][0];
-        } else if (Array.isArray(this.indicator['Color code']) && this.indicator['Color code'][index]) {
-          currentValue = this.indicator['Color code'][index];
-        }
-      }
+      const currentValue = this.getColorCode(side);
       return {
         color: currentValue
           ? this.getIndicatorColor(currentValue)
@@ -570,6 +567,24 @@ export default {
       this.compareLayerIndex = currentIndex + 1;
       this.compareLayerTimeSelection(this.arrayOfObjects[currentIndex + 1]);
     },
+    getInitialCompareTime() {
+      // find closest entry one year before latest time
+      if (this.indicatorsDefinition[this.indicator['Indicator code']].largeTimeDuration) {
+        // if interval, use just start to get closest
+        const times = this.indicator.Time.map((item) => (Array.isArray(item) ? item[0] : item));
+        const lastTimeEntry = times[times.length - 1];
+        const oneYearBefore = moment.utc(lastTimeEntry).subtract(1, 'years');
+        // convert time to milliseconds
+        const timesInMillis = times.map((t) => +moment.utc(t).format('x'));
+        // select closest to one year before
+        const closestOneYearBefore = timesInMillis.find((item, i) => i === timesInMillis.length - 1 || Math.abs(moment.utc(oneYearBefore).format('x') - item) < Math.abs(moment.utc(oneYearBefore).format('x') - timesInMillis[i + 1]));
+        // assuming sorted times, get index of that entry in original intervals
+        const indOrigArray = timesInMillis.indexOf(closestOneYearBefore);
+        return this.indicator.Time[indOrigArray];
+      }
+      // use first time
+      return this.indicator.Time[0];
+    },
     refreshLayer(side) {
       // compare(left) or data(right)
       if (side === 'compare') {
@@ -614,7 +629,7 @@ export default {
     indicator() {
       this.dataLayerTime = { value: this.indicator.Time[this.indicator.Time.length - 1] };
       this.dataLayerIndex = this.indicator.Time.length - 1;
-      this.compareLayerTime = { value: this.indicator.Time[0] };
+      this.compareLayerTime = { value: this.getInitialCompareTime() };
       this.compareLayerIndex = 0;
       this.$nextTick(() => {
         // first nextTick to update layer correctly if was switch from wms <-> xyz

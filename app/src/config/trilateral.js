@@ -106,11 +106,13 @@ export const indicatorsDefinition = Object.freeze({
       label: 'Sentinel-5p Mapping Service',
       url: 'https://maps.s5p-pal.com',
     },
+    largeTimeDuration: true,
   },
   N1NASA: {
     indicator: 'NO2 Concentration (OMI)',
     class: 'environment',
     story: '/data/trilateral/N1',
+    largeTimeDuration: true,
   },
   NASAPopulation: {
     indicator: 'Population',
@@ -120,6 +122,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'CO2 emissions (GOSAT)',
     class: 'environment',
     file: '/data/trilateral/N2.csv',
+    largeTimeDuration: true,
   },
   N3: {
     indicator: 'CHL concentration (CMEMS)',
