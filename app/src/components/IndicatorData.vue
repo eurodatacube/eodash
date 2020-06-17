@@ -20,7 +20,7 @@
         :options='chartOptions()'>
       </map-chart>
       <img :src="require('@/assets/E10a3_label.jpg')" alt="color legend"
-        style="position: absolute; width: 220px; z-index: 0;
+        style="position: absolute; width: 200px; z-index: 0;
         top: 0px; right: 0px;"/>
       <v-row
         class="justify-center align-center timeSelection mr-5 ml-0"
