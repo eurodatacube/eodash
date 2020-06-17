@@ -1,7 +1,7 @@
 module.exports = [
   {
     id: 'esa',
-    match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'localhost2'],
+    match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'localhost2'],
     branding: {
       appName: 'Rapid Action on coronavirus and EO',
       primaryColor: '#003247',
@@ -27,7 +27,7 @@ module.exports = [
   },
   {
     id: 'trilateral',
-    match: ['eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'localhost'],
+    match: ['eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'eodash-trilateral-testing.eox.at', 'localhost'],
     branding: {
       appName: 'Earth Observing Dashboard',
       primaryColor: '#000000',
