@@ -99,18 +99,13 @@ export const indicatorsDefinition = Object.freeze({
     class: 'health',
   },
   N1: {
-    indicator: 'NO2 Concentration (TROPOMI)',
+    indicator: 'Air quality',
     class: 'environment',
     story: '/data/trilateral/N1',
     externalData: {
       label: 'Sentinel-5p Mapping Service',
       url: 'https://maps.s5p-pal.com',
     },
-  },
-  N1NASA: {
-    indicator: 'NO2 Concentration (OMI)',
-    class: 'environment',
-    story: '/data/trilateral/N1',
   },
   NASAPopulation: {
     indicator: 'Population',
@@ -229,7 +224,6 @@ export const layerNameMapping = Object.freeze({
     attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
   },
   N1: {},
-  N1NASA: {}, // just for enabling eo data button for now,
   NASAPopulation: {},
   'ALOS-2': {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2FALOS_SAMPLE%2Falos2-s1-beijing_{time}.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536',
@@ -302,6 +296,16 @@ const getMonthlyDates = (start, end) => {
   }
   return dateArray;
 };
+const getDailyDates = (start, end) => {
+  let currentDate = moment(start);
+  const stopDate = moment(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(moment(currentDate).format('YYYY-MM-DD'));
+    currentDate = moment(currentDate).add(1, 'days');
+  }
+  return dateArray;
+};
 const wkt = new Wkt();
 
 export const globalIndicators = [
@@ -311,7 +315,7 @@ export const globalIndicators = [
         Country: 'all',
         City: 'World',
         'Site Name': 'global',
-        Description: 'Air Quality (TROPOMI)',
+        Description: 'Air Quality (TROPOMI) - NO2',
         'Indicator code': 'N1',
         'Indicator Value': ['normal'],
         'Indicator Name': 'NO2 Concentration',
@@ -321,7 +325,7 @@ export const globalIndicators = [
         },
         'Color code': ['BLUE'],
         AOI: null,
-        AOI_ID: 'World',
+        AOI_ID: 'W1',
         Time: [['2019-01-07', '2019-01-21'], ['2019-01-14', '2019-01-28'], ['2019-01-21', '2019-02-04'], ['2019-01-28', '2019-02-11'], ['2019-02-04', '2019-02-18'], ['2019-02-11', '2019-02-25'], ['2019-02-18', '2019-03-04'], ['2019-02-25', '2019-03-11'], ['2019-03-04', '2019-03-18'], ['2019-03-11', '2019-03-25'], ['2019-03-18', '2019-04-01'], ['2019-03-25', '2019-04-08'], ['2019-04-01', '2019-04-15'], ['2019-04-08', '2019-04-22'], ['2019-04-15', '2019-04-29'], ['2019-04-22', '2019-05-06'], ['2019-04-29', '2019-05-13'], ['2019-05-06', '2019-05-20'], ['2019-05-13', '2019-05-27'], ['2019-05-20', '2019-06-03'], ['2019-05-27', '2019-06-10'], ['2019-06-03', '2019-06-17'], ['2019-06-10', '2019-06-24'], ['2019-06-17', '2019-07-01'], ['2019-06-24', '2019-07-08'], ['2019-07-01', '2019-07-15'], ['2019-07-08', '2019-07-22'], ['2019-07-15', '2019-07-29'], ['2019-07-22', '2019-08-05'], ['2019-07-29', '2019-08-12'], ['2019-08-05', '2019-08-19'], ['2019-08-12', '2019-08-26'], ['2019-08-19', '2019-09-02'], ['2019-08-26', '2019-09-09'], ['2019-09-02', '2019-09-16'], ['2019-09-09', '2019-09-23'], ['2019-09-16', '2019-09-30'], ['2019-09-23', '2019-10-07'], ['2019-09-30', '2019-10-14'], ['2019-10-07', '2019-10-21'], ['2019-10-14', '2019-10-28'], ['2019-10-21', '2019-11-04'], ['2019-10-28', '2019-11-11'], ['2019-11-04', '2019-11-18'], ['2019-11-11', '2019-11-25'], ['2019-11-18', '2019-12-02'], ['2019-11-25', '2019-12-09'], ['2019-12-02', '2019-12-16'], ['2019-12-09', '2019-12-23'], ['2019-12-16', '2019-12-30'], ['2019-12-23', '2020-01-06'], ['2019-12-30', '2020-01-13'], ['2020-01-06', '2020-01-20'], ['2020-01-13', '2020-01-27'], ['2020-01-20', '2020-02-03'], ['2020-01-27', '2020-02-10'], ['2020-02-03', '2020-02-17'], ['2020-02-10', '2020-02-24'], ['2020-02-17', '2020-03-02'], ['2020-02-24', '2020-03-09'], ['2020-03-02', '2020-03-16'], ['2020-03-09', '2020-03-23'], ['2020-03-16', '2020-03-30'], ['2020-03-23', '2020-04-06'], ['2020-03-30', '2020-04-13'], ['2020-04-06', '2020-04-20'], ['2020-04-13', '2020-04-27'], ['2020-04-20', '2020-05-04'], ['2020-04-27', '2020-05-11'], ['2020-05-04', '2020-05-18'], ['2020-05-11', '2020-05-25'], ['2020-05-18', '2020-06-01'], ['2020-05-25', '2020-06-08'], ['2020-06-01', '2020-06-15']],
         'Input Data': ['N1'], // just for enabling eo data button for now
         display: {
@@ -343,8 +347,8 @@ export const globalIndicators = [
         Country: 'all',
         City: 'World',
         'Site Name': 'global',
-        Description: 'Air Quality (OMI)',
-        'Indicator code': 'N1NASA',
+        Description: 'Air Quality (OMI) - NO2',
+        'Indicator code': 'N1',
         'Indicator Value': ['normal'],
         'Indicator Name': 'NO2 Concentration',
         'Sub-AOI': {
@@ -353,9 +357,9 @@ export const globalIndicators = [
         },
         'Color Code': ['BLUE'],
         AOI: null,
-        AOI_ID: 'World',
+        AOI_ID: 'W2',
         Time: getMonthlyDates('2004-10-01', '2020-03-01'),
-        'Input Data': ['N1NASA'], // just for enabling eo data button for now
+        'Input Data': ['N1'], // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
@@ -365,6 +369,99 @@ export const globalIndicators = [
           attribution: '{ Air Quality (NASA) }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYYMM')}`,
           legendUrl: 'eodash-data/data/no2Legend.png',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        Country: 'all',
+        City: 'World',
+        'Site Name': 'global',
+        Description: 'Air Quality (OMI) - CO2 (mean)',
+        'Indicator code': 'N1',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'CO2 Concentration mean',
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        'Color Code': ['BLUE'],
+        AOI: null,
+        AOI_ID: 'W3',
+        Time: getDailyDates('2020-01-01', '2020-04-16'),
+        'Input Data': ['N1'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 6,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_mean.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.0004%2C0.00042',
+          name: 'Air Quality (NASA)',
+          attribution: '{ Air Quality (NASA) }',
+          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        Country: 'all',
+        City: 'World',
+        'Site Name': 'global',
+        Description: 'Air Quality (OMI) - CO2 (baseline)',
+        'Indicator code': 'N1',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'CO2 Concentration baseline',
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        'Color Code': ['BLUE'],
+        AOI: null,
+        AOI_ID: 'W4',
+        Time: getDailyDates('2020-01-01', '2020-04-16'),
+        'Input Data': ['N1'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 6,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{y}/{x}@1x?url=s3://covid-eo-data/xco2/xco2_15day_baseline.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.0004%2C0.00042',
+          name: 'Air Quality (NASA)',
+          attribution: '{ Air Quality (NASA) }',
+          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        Country: 'all',
+        City: 'World',
+        'Site Name': 'global',
+        Description: 'Air Quality (OMI) - CO2 (diff)',
+        'Indicator code': 'N1',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'CO2 Concentration diff',
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        'Color Code': ['BLUE'],
+        AOI: null,
+        AOI_ID: 'W5',
+        Time: getDailyDates('2020-01-01', '2020-04-16'),
+        'Input Data': ['N1'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 6,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_diff.{time}.tif&resampling_method=bilinear&bidx=1&rescale=-0.000001%2C0.000001&color_map=rdbu_r',
+          name: 'Air Quality (NASA)',
+          attribution: '{ Air Quality (NASA) }',
+          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
         },
       },
     },
@@ -385,7 +482,7 @@ export const globalIndicators = [
         },
         'Color Code': ['BLUE'],
         AOI: null,
-        AOI_ID: 'World',
+        AOI_ID: 'W6',
         Time: ['2020-05-14T00:00:00Z'],
         'Input Data': ['NASAPopulation'], // just for enabling eo data button for now
         display: {
