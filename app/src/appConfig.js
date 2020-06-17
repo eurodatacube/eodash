@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-const brands = [
+module.exports = [
   {
     id: 'esa',
     match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'localhost2'],
@@ -8,7 +7,7 @@ const brands = [
       primaryColor: '#003247',
       secondaryColor: '#0098DB',
       headerLogo: './eodash-data/general/RACE_Logo.png',
-      faviconPath: './img/ESA/favicon.ico',
+      faviconPath: './public/img/ESA/favicon.ico',
     },
     pageMeta: {
       rootPath: 'https://race.esa.int',
@@ -47,7 +46,3 @@ const brands = [
     termsText: '/data/trilateral/terms',
   },
 ];
-
-export default {
-  brands,
-};
