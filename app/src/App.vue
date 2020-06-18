@@ -100,16 +100,17 @@ export default {
       if (mutation.type === 'features/ADD_NEW_FEATURES') {
         // Read route query and set selected poi
         const { poi } = this.$route.query;
-        if (poi) {
+        let selectedFeature = null;
+        if (poi && poi.includes('-')) {
           const aoiId = poi.split('-')[0];
           const indicatorCode = poi.split('-')[1];
-          const selectedFeature = this.$store.state.features.allFeatures.find((f) => {
+          selectedFeature = this.$store.state.features.allFeatures.find((f) => {
             const { indicatorObject } = f.properties;
             return indicatorObject.AOI_ID === aoiId
               && indicatorObject['Indicator code'] === indicatorCode;
           });
-          this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature.properties.indicatorObject);
         }
+        this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
       }
 
       // Url query replacement
