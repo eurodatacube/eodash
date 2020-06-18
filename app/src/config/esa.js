@@ -42,6 +42,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Inventory levels of intermediate goods',
     class: 'economic',
     file: '/eodash-data/data/E5.csv',
+    story: '/eodash-data/stories/E5',
   },
   E6: {
     indicator: 'Inventory levels of factory inputs',
