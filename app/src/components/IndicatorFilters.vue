@@ -281,8 +281,6 @@ import {
 
 import CountryFlag from 'vue-country-flag';
 
-import countries from '@/assets/countries.json';
-
 export default {
   components: {
     CountryFlag,
@@ -302,6 +300,7 @@ export default {
     ...mapGetters('features', [
       'getCountries',
       'getIndicators',
+      'getCountryItems',
     ]),
     ...mapState('config', [
       'appConfig',

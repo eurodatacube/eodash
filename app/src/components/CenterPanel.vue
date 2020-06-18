@@ -241,7 +241,7 @@ export default {
 .circle {
   width: 14px;
   height: 14px;
-  background: var(--v-info-base);
+  background: var(--v-primary-base);
   border: 2px solid white;
   box-sizing: content-box;
   border-radius: 50%;
