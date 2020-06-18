@@ -117,8 +117,8 @@ export const indicatorsDefinition = Object.freeze({
   N3: {
     indicator: 'CHL concentration (CMEMS)',
     class: 'environment',
-    file: './data/trilateral/N3.csv',
-    story: '/data/trilateral/N3_tri',
+    // file: './data/trilateral/N3.csv',
+    // story: '/data/trilateral/N3_tri',
   },
   N3b: {
     indicator: 'Chl-a concentration anomaly',
