@@ -203,5 +203,3 @@ const defaultConfig = {
 
 Chart.scaleService.registerScaleType('myLogScale', MyLogScale, defaultConfig);
 Chart.plugins.register([ChartAnnotation, ChartZoomPlugin, showZeroPlugin]);
-
-console.log(Chart);

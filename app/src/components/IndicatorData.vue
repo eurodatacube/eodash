@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%; height: 100%;"
-    v-if="!['E10a2', 'N3'].includes(indicatorObject['Indicator code'])">
+    v-if="!['E10a2', 'E10a3', 'N3', 'N3b'].includes(indicatorObject['Indicator code'])">
       <bar-chart v-if='datacollection'
         id="chart"
         class="fill-height"
@@ -8,6 +8,48 @@
         :height="null"
         :chart-data='datacollection'
         :options='chartOptions()'></bar-chart>
+  </div>
+  <div style="width: 100%; height: 100%;"
+    v-else-if="indicatorObject['Indicator code']=='E10a3'">
+      <map-chart
+        id="chart"
+        class="fill-height"
+        :width="null"
+        :height="null"
+        :chart-data='datacollection'
+        :options='chartOptions()'>
+      </map-chart>
+      <img :src="require('@/assets/E10a3_label.jpg')" alt="color legend"
+        style="position: absolute; width: 200px; z-index: 0;
+        top: 0px; right: 0px;"/>
+      <v-row
+        class="justify-center align-center timeSelection mr-5 ml-0"
+        style="position: absolute; bottom: 30px; z-index: 1000; width: auto; max-width: 100%;"
+      >
+        <v-col cols="6">
+          <v-select
+            outlined dense autofocus hide-details
+            :prepend-inner-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
+              .map((i) => i.value)
+              .indexOf(dataLayerTime) > 0
+                ? 'mdi-arrow-left-drop-circle'
+                : 'mdi-asterisk')"
+            :append-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
+              .map((i) => i.value)
+              .indexOf(dataLayerTime) < arrayOfObjects.length - 1
+                ? 'mdi-arrow-right-drop-circle'
+                : 'mdi-asterisk')"
+            menu-props="auto"
+            :items="arrayOfObjects"
+            item-value="value"
+            item-text="name"
+            v-model="dataLayerTime"
+            @change="dataLayerTimeSelection"
+            @click:prepend-inner="dataLayerReduce"
+            @click:append="dataLayerIncrease">
+          </v-select>
+        </v-col>
+      </v-row>
   </div>
   <div style="width: 100%; height: 100%;" v-else>
     <line-chart v-if='datacollection'
@@ -25,23 +67,61 @@ import moment from 'moment';
 
 import BarChart from '@/components/BarChart.vue';
 import LineChart from '@/components/LineChart.vue';
+import MapChart from '@/components/MapChart.vue';
+import NUTSL3 from '@/assets/NUTS_RG_03M_2016_4326_LEVL_3_DE.json';
 
 export default {
   components: {
     BarChart,
     LineChart,
+    MapChart,
+  },
+  data() {
+    return {
+      dataLayerTime: null,
+      dataLayerIndex: 0,
+      monthNames: ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December',
+      ],
+    };
+  },
+  mounted() {
+    const d = this.indicatorObject.Time[this.indicatorObject.Time.length - 1];
+    this.dataLayerTime = `${d.getDate()}. ${this.monthNames[d.getMonth()]}`;
+  },
+  watch: {
+    indicatorObject() {
+      this.dataLayerIndex = this.indicatorObject.Time.length - 1;
+      const d = this.indicatorObject.Time[this.dataLayerIndex];
+      this.dataLayerTime = `${d.getDate()}. ${this.monthNames[d.getMonth()]}`;
+    },
   },
   computed: {
+    arrayOfObjects() {
+      const indicator = this.$store.state.indicators.selectedIndicator;
+      const indicatorCode = this.indicatorObject['Indicator code'];
+      const selectionOptions = [];
+      if (['E10a3'].includes(indicatorCode)) {
+        // Find all unique day/month available
+        const timeset = new Set(
+          indicator.Time.map((d) => `${d.getDate()}. ${this.monthNames[d.getMonth()]}`),
+        );
+        timeset.forEach((t) => {
+          selectionOptions.push({
+            value: t,
+            name: t,
+          });
+        });
+      }
+      return selectionOptions;
+    },
     datacollection() {
       const indicator = this.$store.state.indicators.selectedIndicator;
       const indicatorCode = this.indicatorObject['Indicator code'];
       let dataCollection;
       const refColors = [
-        '#a5d3d8', '#dadada', '#c6b4ea', '#ead7ad', '#cdeaad', '#b82e2e',
+        '#2b7d87', '#bb7cff', '#b95454', '#7b37ff', '#86c341', '#ff5050',
         '#316395', '#994499', '#22aa99', '#aaaa11', '#6633cc', '#e67300',
-      ];
-      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December',
       ];
       if (indicator) {
         let labels = [];
@@ -53,7 +133,7 @@ export default {
           for (let i = 0; i < indicator.Time.length; i += 1) {
             if (!Number.isNaN(indicator.Time[i].getTime())) {
               const currDate = indicator.Time[i];
-              const formattedDate = `${currDate.getDate()} - ${monthNames[currDate.getMonth()]}`;
+              const formattedDate = `${currDate.getDate()} - ${this.monthNames[currDate.getMonth()]}`;
               labels.push(formattedDate);
             } else {
               labels.push(i);
@@ -75,6 +155,25 @@ export default {
             borderColor: 'darkcyan',
             backgroundColor: 'black',
           });
+        } else if (['N3b'].includes(indicatorCode)) {
+          const sensors = Array.from(new Set(indicator['EO Sensor'])).reverse();
+          for (let pp = 0; pp < sensors.length; pp += 1) {
+            const pKey = sensors[pp];
+            const data = indicator.Time.map((date, i) => {
+              let output = null;
+              if (indicator['EO Sensor'][i] === pKey) {
+                output = { t: date, y: measurement[i] };
+              }
+              return output;
+            }).filter((d) => d !== null);
+            datasets.push({
+              label: pKey,
+              data,
+              fill: false,
+              borderColor: refColors[pp],
+              backgroundColor: refColors[pp],
+            });
+          }
         } else if (['E10a2'].includes(indicatorCode)) {
           const data = indicator.Time.map((date, i) => ({
             t: new Date(date.getTime()).setFullYear(2000), y: measurement[i],
@@ -115,13 +214,13 @@ export default {
               dataGroups[currYear].push(data[i].y);
               colorGroups[currYear].push(colors[i]);
               formDates[currYear].push(
-                `${monthNames[data[i].t.getMonth()]}`,
+                `${this.monthNames[data[i].t.getMonth()]}`,
               );
             } else {
               dataGroups[currYear] = [data[i].y];
               colorGroups[currYear] = [colors[i]];
               formDates[currYear] = [
-                `${monthNames[data[i].t.getMonth()]}`,
+                `${this.monthNames[data[i].t.getMonth()]}`,
               ];
             }
           }
@@ -251,6 +350,71 @@ export default {
               borderColor: value,
             });
           });
+        } else if (['E10a3'].includes(indicatorCode)) {
+          const nutsFeatures = NUTSL3.features;
+          const outline = [];
+          const currIDs = [];
+          let features = measurement.map((meas, i) => {
+            // Find correct NUTS ID Shape
+            const geom = nutsFeatures.find((f) => (
+              f.properties.NUTS_ID === indicator['Site Name'][i]));
+            let output;
+            if (geom) {
+              if (currIDs.indexOf(indicator['Site Name'][i]) === -1) {
+                currIDs.push(indicator['Site Name'][i]);
+                outline.push({
+                  type: 'Feature',
+                  properties: {},
+                  geometry: geom.geometry,
+                });
+              }
+              const { coordinates } = geom.geometry;
+              const lons = coordinates.flat(1).map((tuple) => tuple[0]);
+              const lats = coordinates.flat(1).map((tuple) => tuple[1]);
+              const minLat = Math.min(...lats);
+              const minLon = Math.min(...lons);
+              const centerPoint = {
+                lat: minLat + (Math.max(...lats) - minLat) / 2,
+                lon: minLon + (Math.max(...lons) - minLon) / 2,
+              };
+              output = {
+                type: 'Feature',
+                properties: {},
+                geometry: geom.geometry,
+                description: 'description',
+                latitude: centerPoint.lat,
+                longitude: centerPoint.lon,
+                name: geom.properties.NUTS_NAME,
+                time: indicator.Time[i],
+                value: meas,
+                referenceTime: indicator['Reference time'][i],
+                referenceValue: indicator['Reference value'][i],
+                color: indicator['Color code'][i],
+              };
+            }
+            return output;
+          });
+          // Filter by undefined and time
+          features = features.filter((d) => (
+            typeof d !== 'undefined'));
+
+          const filteredFeatures = features.filter((d) => (
+            `${d.time.getDate()}. ${this.monthNames[d.time.getMonth()]}` === this.dataLayerTime
+            && !Number.isNaN(d.value)
+          ));
+
+          labels = features.map((d) => d.name);
+          datasets.push({
+            outline,
+            outlineBackgroundColor: null,
+            outlineBorderColor: 'black',
+            outlineBorderWidth: 1,
+            showOutline: true,
+            backgroundColor: filteredFeatures.map((d) => d.color),
+            borderColor: filteredFeatures.map((d) => d.color),
+            borderWidth: 3,
+            data: filteredFeatures,
+          });
         } else {
           const data = indicator.Time.map((date, i) => {
             colors.push(this.getIndicatorColor(indicator['Color code'][i]));
@@ -275,6 +439,27 @@ export default {
     },
   },
   methods: {
+    dataLayerTimeSelection(payload) {
+      this.dataLayerTime = payload;
+      const newIndex = this.arrayOfObjects
+        .map((i) => i.value)
+        .indexOf(this.dataLayerTime);
+      this.dataLayerIndex = newIndex;
+    },
+    dataLayerReduce() {
+      const currentIndex = this.arrayOfObjects
+        .map((i) => i.value)
+        .indexOf(this.dataLayerTime);
+      this.dataLayerIndex = currentIndex - 1;
+      this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex - 1].value);
+    },
+    dataLayerIncrease() {
+      const currentIndex = this.arrayOfObjects
+        .map((i) => i.value)
+        .indexOf(this.dataLayerTime);
+      this.dataLayerIndex = currentIndex + 1;
+      this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex + 1].value);
+    },
     formatNumRef(num, maxDecimals = 3) {
       return Number.parseFloat(num.toFixed(maxDecimals));
     },
@@ -382,7 +567,6 @@ export default {
       if (!['E10a1', 'E10a2', 'N2'].includes(indicatorCode)) {
         xAxes = [{
           type: 'time',
-          distribution: 'series',
           time: {
             unit: 'week',
           },
@@ -391,7 +575,11 @@ export default {
             max: timeMinMax[1],
           },
         }];
+        if (!['N3', 'N3b'].includes(indicatorCode)) {
+          xAxes[0].distribution = 'series';
+        }
       }
+
 
       if (['E10a2'].includes(indicatorCode)) {
         /* Recalculate to get min max months in data converted to one year */
@@ -435,14 +623,15 @@ export default {
         ticks: {
           lineHeight: 1,
           suggestedMin: Math.min(
-            ...this.indicatorObject['Measurement Value'],
+            ...this.indicatorObject['Measurement Value']
+              .filter((d) => !Number.isNaN(d)),
           ) - 1,
           suggestedMax: Math.max(
-            ...this.indicatorObject['Measurement Value'],
+            ...this.indicatorObject['Measurement Value']
+              .filter((d) => !Number.isNaN(d)),
           ) + 1,
         },
       }];
-
       const legend = {
         labels: {
           filter,
@@ -494,6 +683,16 @@ export default {
       }
       if (['N2'].includes(indicatorCode)) {
         yAxes[0].ticks.beginAtZero = true;
+      }
+
+      if (['E10a3'].includes(indicatorCode)) {
+        xAxes[0].ticks.padding = -20;
+        // Disable axis in a strange way
+        yAxes[0].ticks = {
+          suggestedMin: Number.NaN,
+          suggestedMax: Number.NaN,
+          padding: -20,
+        };
       }
 
 
@@ -564,6 +763,44 @@ export default {
         };
       }
 
+      if (['E10a3'].includes(indicatorCode)) {
+        defaultSettings.geo = {
+          radiusScale: {
+            display: true,
+            size: [1, 20],
+          },
+        };
+
+        defaultSettings.scale = {
+          projection: 'mercator',
+        };
+
+        defaultSettings.pan.mode = 'xy';
+        defaultSettings.zoom.mode = 'xy';
+        defaultSettings.legend.display = false;
+
+        defaultSettings.tooltips = {
+          callbacks: {
+            label: (context) => {
+              const { datasets } = this.datacollection;
+              const obj = datasets[context.datasetIndex].data[context.index];
+              return obj.name;
+            },
+            footer: (context) => {
+              const { datasets } = this.datacollection;
+              const obj = datasets[context[0].datasetIndex].data[context[0].index];
+              const refT = obj.referenceTime;
+              const refV = Number(obj.referenceValue);
+              return [
+                `${obj.time.getDate()}.${obj.time.getMonth() + 1}.${obj.time.getFullYear()}:  ${obj.value.toPrecision(4)}`,
+                `${refT.getDate()}.${refT.getMonth() + 1}.${refT.getFullYear()}:  ${refV.toPrecision(4)}`,
+                `${(((obj.value - refV) / refV) * 100).toPrecision(2)} %`,
+              ];
+            },
+          },
+        };
+      }
+
       return {
         ...defaultSettings,
         annotation: {
@@ -578,5 +815,8 @@ export default {
 <style lang="scss" scoped>
 .md-body {
   font-size: small;
+}
+::v-deep .mdi-asterisk {
+  visibility: hidden;
 }
 </style>

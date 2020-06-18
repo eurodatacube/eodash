@@ -184,6 +184,27 @@ const actions = {
                 featureObjs[uniqueKey]['Input Data'].push(
                   results.data[rr]['Input Data'],
                 );
+                featureObjs[uniqueKey]['Site Name'].push(
+                  results.data[rr]['Site Name'],
+                );
+                // Add possible additional subaois
+                if (Object.prototype.hasOwnProperty.call(
+                  featureObjs[uniqueKey]['Sub-AOI'], 'features',
+                )) {
+                  try {
+                    if (featureObjs[uniqueKey]['Sub-AOI'] !== '') {
+                      wkt.read(featureObjs[uniqueKey]['Sub-AOI']);
+                      const jsonGeom = wkt.toJson();
+                      // create feature
+                      const ftrs = [{
+                        type: 'Feature',
+                        properties: {},
+                        geometry: jsonGeom,
+                      }];
+                      featureObjs[uniqueKey]['Sub-AOI'].features.push(ftrs);
+                    }
+                  } catch (err) {} // eslint-disable-line no-empty
+                }
               } else {
                 featureObjs[uniqueKey] = results.data[rr];
                 featureObjs[uniqueKey]['Indicator Value'] = [
@@ -207,6 +228,9 @@ const actions = {
                 ];
                 featureObjs[uniqueKey]['Input Data'] = [
                   featureObjs[uniqueKey]['Input Data'],
+                ];
+                featureObjs[uniqueKey]['Site Name'] = [
+                  featureObjs[uniqueKey]['Site Name'],
                 ];
                 // dummy empty geometry
                 let ftrs = [];
