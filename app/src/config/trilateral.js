@@ -938,42 +938,42 @@ export const globalIndicators = [
       },
     },
   },
-  {
-    latlng: latLng([37.7775, -122.4163891]),
-    id: 19897,
-    properties: {
-      indicatorObject: {
-        AOI: latLng([37.7775, -122.4163891]),
-        id: 19897,
-        AOI_ID: 'sf',
-        Country: 'regional',
-        City: 'San Francisco',
-        'Site Name': 'San Francisco',
-        Description: 'Water Quality Regional Maps',
-        'Indicator code': 'N3a2',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Suspended Particulate Matter',
-        'Color code': ['BLUE'],
-        'EO Sensor': null,
-        'Sub-AOI': {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-122.63569641113281 37.119795894876006, -121.53514084334165 37.119795894876006, -121.53514084334165 38.35512924194336, -122.63569641113281 38.35512924194336, -122.63569641113281 37.119795894876006))').toJson(),
-          }],
-        },
-        Time: [['2020_03_02'], ['2020_04_03'], ['2020_04_19'], ['2020_05_04'], ['2020_05_05'], ['2020_05_19'], ['2020_05_21'], ['2020_05_24']],
-        'Input Data': ['N3a2'], // just for enabling eo data button for now
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 18,
-          opacity: 1,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
-          name: 'Suspended Particulate Matter',
-          attribution: '{ NASA }',
-        },
-      },
-    },
-  },
+  // {
+  //   latlng: latLng([37.7775, -122.4163891]),
+  //   id: 19897,
+  //   properties: {
+  //     indicatorObject: {
+  //       AOI: latLng([37.7775, -122.4163891]),
+  //       id: 19897,
+  //       AOI_ID: 'sf',
+  //       Country: 'regional',
+  //       City: 'San Francisco',
+  //       'Site Name': 'San Francisco',
+  //       Description: 'Water Quality Regional Maps',
+  //       'Indicator code': 'N3a2',
+  //       'Indicator Value': ['normal'],
+  //       'Indicator Name': 'Suspended Particulate Matter',
+  //       'Color code': ['BLUE'],
+  //       'EO Sensor': null,
+  //       'Sub-AOI': {
+  //         type: 'FeatureCollection',
+  //         features: [{
+  //           type: 'Feature',
+  //           properties: {},
+  //           geometry: wkt.read('POLYGON((-122.63569641113281 37.119795894876006, -121.53514084334165 37.119795894876006, -121.53514084334165 38.35512924194336, -122.63569641113281 38.35512924194336, -122.63569641113281 37.119795894876006))').toJson(),
+  //         }],
+  //       },
+  //       Time: [['2020_03_02'], ['2020_04_03'], ['2020_04_19'], ['2020_05_04'], ['2020_05_05'], ['2020_05_19'], ['2020_05_21'], ['2020_05_24']],
+  //       'Input Data': ['N3a2'], // just for enabling eo data button for now
+  //       display: {
+  //         protocol: 'xyz',
+  //         maxNativeZoom: 18,
+  //         opacity: 1,
+  //         url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
+  //         name: 'Suspended Particulate Matter',
+  //         attribution: '{ NASA }',
+  //       },
+  //     },
+  //   },
+  // },
 ];
