@@ -169,7 +169,7 @@ export default {
       return this.baseConfig.layerNameMapping;
     },
     globalData() {
-      return ['all'].includes(this.indicatorObject.Country);
+      return ['all'].includes(this.indicatorObject.Country) || Array.isArray(this.indicatorObject.Country);
     },
     externalData() {
       const dataFromDefinition = this.baseConfig.indicatorsDefinition[this.indicatorObject['Indicator code']].externalData;
