@@ -2,6 +2,7 @@
 import moment from 'moment';
 import { Wkt } from 'wicket';
 import { latLng } from 'leaflet';
+import countriesJson from '@/assets/countries.json';
 
 let globalIdCounter = 0;
 const state = {
@@ -27,7 +28,7 @@ const getters = {
     ].flat(1))].sort();
   },
   getIndicators(state, _, rootState) {
-    const inidcators = [...new Set([
+    const indicators = [...new Set([
       state.allFeatures
         .map((f) => ({
           code: f.properties.indicatorObject['Indicator code'],
@@ -35,7 +36,20 @@ const getters = {
           class: rootState.config.baseConfig.indicatorsDefinition[f.properties.indicatorObject['Indicator code']].class,
         })),
     ].flat(2))].sort();
-    return inidcators;
+    return indicators;
+  },
+  getCountryItems(state, gettersG) {
+    return gettersG.getCountries
+      .filter((c) => c !== 'all')
+      .map((c) => {
+        const item = countriesJson.features
+          .find((f) => f.properties.alpha2 === c);
+        return {
+          code: c,
+          name: item ? item.properties.name : 'Regional',
+        };
+      })
+      .sort((a, b) => ((a.name > b.name) ? 1 : -1));
   },
   getFeatures(state) {
     let features = state.allFeatures;
