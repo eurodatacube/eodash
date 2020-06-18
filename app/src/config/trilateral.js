@@ -909,7 +909,7 @@ export const globalIndicators = [
       indicatorObject: {
         AOI: latLng([35.61, 139.78]),
         id: 19995,
-        AOI_ID: 'tk',
+        AOI_ID: 'JP01',
         Country: ['JP'],
         City: 'Tokyo',
         'Site Name': 'Tokyo',
