@@ -197,8 +197,12 @@ export default {
       };
     },
     subAoiStyle() {
-      const currentIndicator = this.$store.state.indicators.selectedIndicator;
-      let fillColor = this.getLastValue(currentIndicator).color;
+      let currentIndicator;
+      let fillColor;
+      if (this.$store.state.indicators.selectedIndicator) {
+        currentIndicator = this.$store.state.indicators.selectedIndicator;
+      }
+      fillColor = this.getLastValue(currentIndicator).color;
       // Special case for E10a3
       if (currentIndicator['Indicator code'] === 'E10a3') {
         fillColor = this.getIndicatorColor('BLUE');
@@ -305,15 +309,20 @@ export default {
       }
     },
     getLastValue(values) {
-      let lastColorCode;
-      if (Object.prototype.hasOwnProperty.call(values, 'Color code') && values['Color code'] !== '') {
-        const validValues = values['Color code'].filter((item) => item !== '');
-        if (validValues.length > 0) {
-          lastColorCode = validValues[validValues.length - 1];
+      let lastColorCode = '';
+      console.log(values);
+      if (values !== null) {
+        if (Object.prototype.hasOwnProperty.call(values, 'Color code')
+          && values['Color code'] !== '') {
+          const validValues = values['Color code'].filter((item) => item !== '');
+          if (validValues.length > 0) {
+            lastColorCode = validValues[validValues.length - 1];
+          }
         }
-      }
-      if (values['Indicator code'] === 'N3b') {
-        lastColorCode = 'BLUE';
+        if (Object.prototype.hasOwnProperty.call(values, 'Indicator code')
+          && values['Indicator code'] === 'N3b') {
+          lastColorCode = 'BLUE';
+        }
       }
       return {
         color: this.getIndicatorColor(lastColorCode),
