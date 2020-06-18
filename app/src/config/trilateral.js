@@ -524,7 +524,7 @@ export const globalIndicators = [
       indicatorObject: {
         AOI: latLng([35.61, 139.78]),
         id: 9998,
-        AOI_ID: 'tk',
+        AOI_ID: 'JP01',
         Country: ['JP'],
         City: 'Tokyo',
         'Site Name': 'Tokyo',
@@ -562,7 +562,7 @@ export const globalIndicators = [
       indicatorObject: {
         AOI: latLng([39.9, 116.38]),
         id: 9997,
-        AOI_ID: 'be',
+        AOI_ID: 'CN01',
         Country: ['CN'],
         City: 'Beijing',
         'Site Name': 'Beijing',
@@ -600,7 +600,7 @@ export const globalIndicators = [
       indicatorObject: {
         AOI: latLng([51.02986, 2.250141]),
         id: 9996,
-        AOI_ID: 'du',
+        AOI_ID: 'FR03',
         Country: ['FR'],
         City: 'Port of Dunkirk',
         'Site Name': 'Port of Dunkirk',
@@ -638,7 +638,7 @@ export const globalIndicators = [
       indicatorObject: {
         AOI: latLng([51.15934, 3.77245]),
         id: 9995,
-        AOI_ID: 'gh',
+        AOI_ID: 'BE01',
         Country: ['BE'],
         City: 'Port of Ghent',
         'Site Name': 'Port of Ghent',
@@ -676,7 +676,7 @@ export const globalIndicators = [
       indicatorObject: {
         AOI: latLng([34.05, -118.25]),
         id: 9994,
-        AOI_ID: 'la',
+        AOI_ID: 'US02',
         Country: ['US'],
         City: 'Los Angeles',
         'Site Name': 'Los Angeles',
@@ -714,7 +714,7 @@ export const globalIndicators = [
       indicatorObject: {
         AOI: latLng([37.7775, -122.416389]),
         id: 9993,
-        AOI_ID: 'sf',
+        AOI_ID: 'US03',
         Country: ['US'],
         City: 'San Francisco',
         'Site Name': 'San Francisco',
@@ -831,7 +831,7 @@ export const globalIndicators = [
       indicatorObject: {
         AOI: latLng([37.7775, -122.416389]),
         id: 19997,
-        AOI_ID: 'sf',
+        AOI_ID: 'US03',
         Country: ['US'],
         City: 'San Francisco',
         'Site Name': 'San Francisco',
@@ -870,7 +870,7 @@ export const globalIndicators = [
       indicatorObject: {
         AOI: latLng([41.0114, -73.09]),
         id: 19996,
-        AOI_ID: 'ny',
+        AOI_ID: 'US01',
         Country: ['US'],
         City: 'New York',
         'Site Name': 'New York',
@@ -950,7 +950,7 @@ export const globalIndicators = [
   //     indicatorObject: {
   //       AOI: latLng([37.7775, -122.4163891]),
   //       id: 19897,
-  //       AOI_ID: 'sf',
+  //       AOI_ID: 'US03',
   //       Country: 'regional',
   //       City: 'San Francisco',
   //       'Site Name': 'San Francisco',
