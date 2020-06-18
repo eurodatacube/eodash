@@ -461,7 +461,7 @@ export const globalIndicators = [
         Country: 'all',
         City: 'World',
         'Site Name': 'global',
-        Description: 'Air Quality',
+        Description: 'Greenhouse Gases',
         'Indicator code': 'N2',
         'Indicator Value': ['OCO-2:  Difference CO2'],
         'Indicator Name': 'Greenhouse Gases CO2 (difference)',
