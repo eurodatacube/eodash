@@ -205,35 +205,33 @@ export default {
           });
           const dataGroups = {};
           const colorGroups = {};
-          const formDates = {};
           for (let i = 0; i < data.length; i += 1) {
             const currYear = data[i].t.getFullYear();
             const modDate = new Date(data[i].t.getTime());
             modDate.setFullYear(2000);
             if (Object.prototype.hasOwnProperty.call(dataGroups, currYear)) {
-              dataGroups[currYear].push(data[i].y);
+              dataGroups[currYear].push({
+                t: modDate,
+                y: [data[i].y],
+              });
               colorGroups[currYear].push(colors[i]);
-              formDates[currYear].push(
-                `${this.monthNames[data[i].t.getMonth()]}`,
-              );
             } else {
-              dataGroups[currYear] = [data[i].y];
+              dataGroups[currYear] = [{
+                t: modDate,
+                y: [data[i].y],
+              }];
               colorGroups[currYear] = [colors[i]];
-              formDates[currYear] = [
-                `${this.monthNames[data[i].t.getMonth()]}`,
-              ];
             }
           }
           const uniqueYears = Object.keys(dataGroups);
           uniqueYears.sort();
-          labels = formDates[uniqueYears[0]];
           uniqueYears.forEach((key, i) => {
             datasets.push({
               // fill with empty values
               indLabels: Array(dataGroups[key].length).join('.').split('.'),
               label: key,
               fill: false,
-              data: dataGroups[key].map(Number),
+              data: dataGroups[key],
               backgroundColor: refColors[i],
               borderColor: refColors[i],
               borderWidth: 2,
@@ -580,7 +578,6 @@ export default {
         }
       }
 
-
       if (['E10a2'].includes(indicatorCode)) {
         /* Recalculate to get min max months in data converted to one year */
         timeMinMax = this.getMinMaxDate(this.indicatorObject.Time.map((date) => {
@@ -604,6 +601,28 @@ export default {
           ticks: {
             min: (timeMinMax[0] < refTimeMinMax[0]) ? timeMinMax[0] : refTimeMinMax[0],
             max: (timeMinMax[1] > refTimeMinMax[1]) ? timeMinMax[1] : refTimeMinMax[1],
+          },
+        }];
+      }
+
+      if (['N2'].includes(indicatorCode)) {
+        timeMinMax = this.getMinMaxDate(this.indicatorObject.Time.map((date) => {
+          const tmpDate = new Date(date.getTime());
+          return new Date(tmpDate.setFullYear(2000));
+        }));
+        xAxes = [{
+          type: 'time',
+          time: {
+            unit: 'month',
+            displayFormats: {
+              month: 'MMM',
+            },
+            tooltipFormat: 'DD. MMM',
+          },
+          distribution: 'series',
+          ticks: {
+            min: timeMinMax[0],
+            max: timeMinMax[1],
           },
         }];
       }
