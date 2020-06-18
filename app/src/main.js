@@ -115,6 +115,8 @@ const renderVue = async () => {
           color = colors.success;
         } else if (['orange'].includes(label.toLowerCase())) {
           color = '#FFA500'; // Color has been specifically requested
+        } else if (['primary'].includes(label.toLowerCase())) {
+          color = colors.primary;
         } else {
           color = colors.info;
         }
