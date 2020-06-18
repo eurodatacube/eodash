@@ -197,15 +197,22 @@ export default {
       };
     },
     subAoiStyle() {
-      const currentIndicator = this.$store.state.indicators.selectedIndicator;
-      const lastValue = currentIndicator && currentIndicator['Color code']
-        && currentIndicator['Color code'][currentIndicator['Color code'].length - 1];
+      let currentIndicator;
+      let fillColor;
+      if (this.$store.state.indicators.selectedIndicator) {
+        currentIndicator = this.$store.state.indicators.selectedIndicator;
+        fillColor = this.getLastValue(currentIndicator).color;
+        // Special case for E10a3
+        if (currentIndicator['Indicator code'] === 'E10a3') {
+          fillColor = this.getIndicatorColor('BLUE');
+        }
+      } else {
+        fillColor = this.getLastValue(currentIndicator).color;
+      }
       return {
         color: '#fff',
         weight: 1,
-        fillColor: lastValue
-          ? this.getIndicatorColor(lastValue)
-          : this.$vuetify.theme.themes.light.primary,
+        fillColor,
         opacity: 1,
         fillOpacity: 0.5,
       };
@@ -304,13 +311,19 @@ export default {
       }
     },
     getLastValue(values) {
-      const validValues = values['Indicator Value'].filter((item) => item !== '');
-      let lastColorCode = '';
-      if (Object.prototype.hasOwnProperty.call(values, 'Color code')) {
-        lastColorCode = values['Color code'][validValues.length - 1];
-      } 
-      if (values['Indicator code'] === 'N3b') {
-        lastColorCode = 'BLUE';
+      let lastColorCode;
+      if (values) {
+        if (Object.prototype.hasOwnProperty.call(values, 'Color code')
+          && values['Color code'] !== '') {
+          const validValues = values['Color code'].filter((item) => item !== '');
+          if (validValues.length > 0) {
+            lastColorCode = validValues[validValues.length - 1];
+          }
+        }
+        if (Object.prototype.hasOwnProperty.call(values, 'Indicator code')
+          && values['Indicator code'] === 'N3b') {
+          lastColorCode = 'BLUE';
+        }
       }
       return {
         color: this.getIndicatorColor(lastColorCode),
