@@ -333,8 +333,8 @@ export const globalIndicators = [
         'Site Name': 'global',
         Description: 'Air Quality',
         'Indicator code': 'N1',
-        'Indicator Value': ['TROPOMI - Nitrogen dioxide'],
-        'Indicator Name': 'Air Quality (TROPOMI) - NO2',
+        'Indicator Value': ['TROPOMI: Nitrogen dioxide'],
+        'Indicator Name': 'Air Quality - TROPOMI: NO2',
         'Sub-AOI': {
           type: 'FeatureCollection',
           features: [],
@@ -369,8 +369,8 @@ export const globalIndicators = [
         'Site Name': 'global',
         Description: 'Air Quality',
         'Indicator code': 'N1',
-        'Indicator Value': ['OMI - Nitrogen dioxide'],
-        'Indicator Name': 'Air Quality (OMI) - NO2',
+        'Indicator Value': ['OMI: Nitrogen dioxide'],
+        'Indicator Name': 'Air Quality - OMI: NO2',
         'Sub-AOI': {
           type: 'FeatureCollection',
           features: [],
@@ -401,8 +401,8 @@ export const globalIndicators = [
         'Site Name': 'global',
         Description: 'Greenhouse Gases',
         'Indicator code': 'N2',
-        'Indicator Value': ['OCO-2:  Mean CO2'],
-        'Indicator Name': 'Greenhouse Gases CO2 (mean)',
+        'Indicator Value': ['OCO-2: Mean CO2'],
+        'Indicator Name': 'Greenhouse Gases - OCO-2: Mean CO2',
         'Sub-AOI': {
           type: 'FeatureCollection',
           features: [],
@@ -433,7 +433,7 @@ export const globalIndicators = [
         Description: 'Greenhouse Gases',
         'Indicator code': 'N2',
         'Indicator Value': ['OCO-2: Baseline CO2'],
-        'Indicator Name': 'Greenhouse Gases CO2 (baseline)',
+        'Indicator Name': 'Greenhouse Gases - OCO-2: Baseline CO2',
         'Sub-AOI': {
           type: 'FeatureCollection',
           features: [],
@@ -463,8 +463,8 @@ export const globalIndicators = [
         'Site Name': 'global',
         Description: 'Greenhouse Gases',
         'Indicator code': 'N2',
-        'Indicator Value': ['OCO-2:  Difference CO2'],
-        'Indicator Name': 'Greenhouse Gases CO2 (difference)',
+        'Indicator Value': ['OCO-2: Difference CO2'],
+        'Indicator Name': 'Greenhouse Gases - OCO-2: Difference CO2',
         'Sub-AOI': {
           type: 'FeatureCollection',
           features: [],
