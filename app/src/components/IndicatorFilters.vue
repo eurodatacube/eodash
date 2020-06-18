@@ -280,6 +280,7 @@ import {
 } from 'vuex';
 
 import CountryFlag from 'vue-country-flag';
+import countries from '@/assets/countries.json';
 
 export default {
   components: {
