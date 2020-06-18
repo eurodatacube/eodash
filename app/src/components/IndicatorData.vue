@@ -120,8 +120,8 @@ export default {
       const indicatorCode = this.indicatorObject['Indicator code'];
       let dataCollection;
       const refColors = [
-        '#2b7d87', '#bb7cff', '#b95454', '#7b37ff', '#86c341', '#ff5050',
-        '#316395', '#994499', '#22aa99', '#aaaa11', '#6633cc', '#e67300',
+        '#a37', '#cb4', '#47a', '#a67', '#283', '#bbb',
+        '#6ce', '#994499', '#22aa99', '#aaaa11', '#6633cc', '#e67300',
       ];
       if (indicator) {
         let labels = [];
