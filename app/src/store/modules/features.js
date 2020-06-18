@@ -38,8 +38,8 @@ const getters = {
     ].flat(2))].sort();
     return indicators;
   },
-  getCountryItems(state, getters) {
-    return getters.getCountries
+  getCountryItems(state, gettersG) {
+    return gettersG.getCountries
       .filter((c) => c !== 'all')
       .map((c) => {
         const item = countriesJson.features

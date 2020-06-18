@@ -111,15 +111,13 @@ export default {
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
 
         // Read route query and validate country and indicator if in query
-        const country = this.$route.query.country;
-        const indicator = this.$route.query.indicator;
+        const { country } = this.$route.query;
+        const { indicator } = this.$route.query;
         // validate query for country - need to be among available
-        const selectedCountry = this.getCountryItems.map(item => item.code).find((f) => {
-          return f === country;
-        });
-        const selectedIndicator = this.getIndicators.map(item => item.code).find((f) => {
-          return f === indicator;
-        });
+        const selectedCountry = this.getCountryItems
+          .map((item) => item.code).find((f) => f === country);
+        const selectedIndicator = this.getIndicators
+          .map((item) => item.code).find((f) => f === indicator);
         this.$store.commit('features/INIT_FEATURE_FILTER', {
           countries: selectedCountry,
           indicators: selectedIndicator,
