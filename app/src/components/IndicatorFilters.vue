@@ -59,33 +59,10 @@
                 <v-list-item-title>All countries</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item
-              v-for="country in getCountryItems.filter((c) => c.name === 'Regional')"
-              :key="country.code"
-              :value="'regional'"
-              :disabled="countrySelection === 'regional'"
-              active-class="itemActive"
-            >
-              <v-list-item-icon
-                v-if="appConfig.id !== 'trilateral'"
-                class="d-flex align-center mr-2"
-              >
-                <country-flag :country="country.code === 'regional'
-                  ? 'eu' : country.code" size='normal' />
-              </v-list-item-icon>
-              <v-list-item-icon v-else class="d-flex align-center ml-5 mr-6">
-                <v-icon
-                  :color="countrySelection === country.code ? 'white' : 'primary'"
-                >mdi-earth</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>{{ country.name }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
             <v-divider></v-divider>
             <template v-if="appConfig.id !== 'trilateral'">
               <v-list-item
-                v-for="country in getCountryItems.filter((c) => c.name !== 'Regional')"
+                v-for="country in countryItems"
                 :key="country.code"
                 :value="country.code"
                 :disabled="countrySelection === country.code"
@@ -115,6 +92,18 @@
                 </v-list-item-content>
               </v-list-item>
               <v-subheader>EUROPE</v-subheader>
+              <v-list-item
+                value="HR"
+                :disabled="countrySelection === 'HR'"
+                active-class="itemActive"
+              >
+                <v-list-item-icon class="d-flex align-center mr-2">
+                  <country-flag country="HR" size='normal' />
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Croatia</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
               <v-list-item
                 value="FR"
                 :disabled="countrySelection === 'FR'"
@@ -149,6 +138,18 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>Italy</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item
+                value="SI"
+                :disabled="countrySelection === 'SI'"
+                active-class="itemActive"
+              >
+                <v-list-item-icon class="d-flex align-center mr-2">
+                  <country-flag country="SI" size='normal' />
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Slovenia</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item
@@ -307,6 +308,34 @@ export default {
     ]),
     countries() {
       return countries;
+    },
+    countryItems() {
+      return this.getCountries
+        .filter((c) => c !== 'all')
+        .map((c) => {
+          if (Array.isArray(c)) {
+            return c.map((i) => {
+              const item = countries.features
+                .find((f) => f.properties.alpha2 === i);
+              return {
+                code: i,
+                name: item.properties.name,
+              };
+            });
+          } else { //eslint-disable-line
+            const item = countries.features
+              .find((f) => f.properties.alpha2 === c);
+            return {
+              code: c,
+              name: item.properties.name,
+            };
+          }
+        })
+        // flatten the array
+        .flat()
+        // filter out duplicates
+        .filter((thing, index, self) => self.findIndex((t) => t.code === thing.code) === index)
+        .sort((a, b) => ((a.name > b.name) ? 1 : -1));
     },
     uniqueClasses() {
       const classes = {};
