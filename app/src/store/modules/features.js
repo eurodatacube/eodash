@@ -40,19 +40,17 @@ const getters = {
   getFeatures(state) {
     let features = state.allFeatures;
     if (state.featureFilters.countries.length > 0) {
-      // TEMP
-      const showNorthAdriatic = [
-        'HR',
-        'IT',
-        'SI',
-        'SM',
-      ];
       features = features
-        .filter((f) => state.featureFilters.countries
-          .includes(f.properties.indicatorObject.Country)
-      || f.properties.indicatorObject.City === 'World'
-      || (f.properties.indicatorObject.City === 'North Adriatic' // TEMP
-        && showNorthAdriatic.includes(state.featureFilters.countries))); // TEMP
+        .filter((f) => {
+          if (Array.isArray(f.properties.indicatorObject.Country)) {
+            return f.properties.indicatorObject.Country
+              .includes(state.featureFilters.countries);
+          } else { // eslint-disable-line
+            return state.featureFilters.countries
+              .includes(f.properties.indicatorObject.Country)
+              || f.properties.indicatorObject.City === 'World';
+          }
+        });
     }
     if (state.featureFilters.indicators.length > 0) {
       features = features

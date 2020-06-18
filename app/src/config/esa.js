@@ -336,7 +336,7 @@ export const globalIndicators = [
         id: 9999,
         AOI: latLng([45.197522, 13.029785]),
         AOI_ID: 'NorthAdriatic',
-        Country: 'regional',
+        Country: ['HR', 'IT', 'SI'],
         City: 'North Adriatic',
         'Site Name': 'North Adriatic',
         Description: 'Water Quality Regional Maps',
