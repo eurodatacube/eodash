@@ -54,7 +54,7 @@ export default {
         { text: 'Type', value: 'type' },
         { text: 'Indicator', value: 'indicator' },
         {
-          text: 'Latest Value',
+          text: 'Value',
           align: 'end',
           value: 'indicatorValue',
         },
