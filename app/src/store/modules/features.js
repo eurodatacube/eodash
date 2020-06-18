@@ -2,6 +2,7 @@
 import moment from 'moment';
 import { Wkt } from 'wicket';
 import { latLng } from 'leaflet';
+import countriesJson from '@/assets/countries.json';
 
 let globalIdCounter = 0;
 const state = {
@@ -27,7 +28,7 @@ const getters = {
     ].flat(1))].sort();
   },
   getIndicators(state, _, rootState) {
-    const inidcators = [...new Set([
+    const indicators = [...new Set([
       state.allFeatures
         .map((f) => ({
           code: f.properties.indicatorObject['Indicator code'],
@@ -35,24 +36,35 @@ const getters = {
           class: rootState.config.baseConfig.indicatorsDefinition[f.properties.indicatorObject['Indicator code']].class,
         })),
     ].flat(2))].sort();
-    return inidcators;
+    return indicators;
+  },
+  getCountryItems(state, gettersG) {
+    return gettersG.getCountries
+      .filter((c) => c !== 'all')
+      .map((c) => {
+        const item = countriesJson.features
+          .find((f) => f.properties.alpha2 === c);
+        return {
+          code: c,
+          name: item ? item.properties.name : 'Regional',
+        };
+      })
+      .sort((a, b) => ((a.name > b.name) ? 1 : -1));
   },
   getFeatures(state) {
     let features = state.allFeatures;
     if (state.featureFilters.countries.length > 0) {
-      // TEMP
-      const showNorthAdriatic = [
-        'HR',
-        'IT',
-        'SI',
-        'SM',
-      ];
       features = features
-        .filter((f) => state.featureFilters.countries
-          .includes(f.properties.indicatorObject.Country)
-      || f.properties.indicatorObject.City === 'World'
-      || (f.properties.indicatorObject.City === 'North Adriatic' // TEMP
-        && showNorthAdriatic.includes(state.featureFilters.countries))); // TEMP
+        .filter((f) => {
+          if (Array.isArray(f.properties.indicatorObject.Country)) {
+            return f.properties.indicatorObject.Country
+              .includes(state.featureFilters.countries);
+          } else { // eslint-disable-line
+            return state.featureFilters.countries
+              .includes(f.properties.indicatorObject.Country)
+              || f.properties.indicatorObject.City === 'World';
+          }
+        });
     }
     if (state.featureFilters.indicators.length > 0) {
       features = features

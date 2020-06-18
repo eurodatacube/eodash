@@ -1,8 +1,8 @@
-name: Staging deployment
+name: Feature branch deployment
 
 on:
   push:
-    branches: [ staging ]
+    branches-ignore: [ master, staging ]
 
 jobs:
   deploy:
@@ -26,6 +26,7 @@ jobs:
     - name: Build
       run: |
         cd app/
+        sed -e "s,// publicPath: '/',publicPath: '/${GITHUB_REF##*/}'," -i vue.config.js
         npm install
         npm run build
 
@@ -43,7 +44,7 @@ jobs:
         args: --delete --follow-symlinks
       env:
         SOURCE_DIR: 'app/dist'
-        DEST_DIR: 'staging'
+        DEST_DIR: 'feature-branches/${GITHUB_REF##*/}'
         AWS_REGION: 'eu-central-1'
         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -53,8 +54,8 @@ jobs:
     - name: invalidate
       uses: chetan/invalidate-cloudfront-action@v1.2
       env:
-        DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_STAGING }}
-        PATHS: '/*'
+        DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_FEATUREBRANCHES }}
+        PATHS: '/*' # TODO: Only invalidate the current branch. "PATHS: '/${GITHUB_REF##*/}/*'" didn't work.
         AWS_REGION: 'eu-central-1'
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -69,3 +70,5 @@ jobs:
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
       if: always()
+
+#TODO add action to remove files once branch is deleted

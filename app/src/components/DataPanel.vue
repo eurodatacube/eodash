@@ -145,14 +145,20 @@ export default {
       'getIndicators',
       'getLatestUpdate',
     ]),
-    ...mapState('config', ['appConfig']),
-    ...mapState('config', ['baseConfig']),
+    ...mapState('config', [
+      'appConfig',
+      'baseConfig',
+    ]),
     story() {
       let markdown;
       try {
-        markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject['Indicator code']].story}.md`);
+        markdown = require(`../../public${this.appConfig.storyPath}${this.indicatorObject.AOI_ID}-${this.indicatorObject['Indicator code']}.md`);
       } catch {
-        markdown = { default: 'No indicator story provided yet.' };
+        try {
+          markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject['Indicator code']].story}.md`);
+        } catch {
+          markdown = { default: 'No indicator story provided yet.' };
+        }
       }
       return this.$marked(markdown.default);
     },
@@ -163,7 +169,7 @@ export default {
       return this.baseConfig.layerNameMapping;
     },
     globalData() {
-      return ['all', 'regional'].includes(this.indicatorObject.Country);
+      return ['all'].includes(this.indicatorObject.Country) || Array.isArray(this.indicatorObject.Country);
     },
     externalData() {
       const dataFromDefinition = this.baseConfig.indicatorsDefinition[this.indicatorObject['Indicator code']].externalData;

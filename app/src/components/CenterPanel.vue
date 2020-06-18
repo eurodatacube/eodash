@@ -81,9 +81,7 @@
               @click:close="resetCountry"
             >
               <v-icon small left>mdi-filter</v-icon>
-              {{ $store.state.features.featureFilters.countries === 'regional'
-                ? 'Regional'
-                : countries.features
+              {{ countries.features
                   .find((c) => c.properties.alpha2 === $store.state.features
                     .featureFilters.countries).properties.name }}
             </v-chip>
@@ -128,9 +126,7 @@
               @click:close="resetCountry"
             >
               <v-icon small left>mdi-filter</v-icon>
-              {{ $store.state.features.featureFilters.countries === 'regional'
-                ? 'Regional'
-                : countries.features
+              {{ countries.features
                   .find((c) => c.properties.alpha2 === $store.state.features
                     .featureFilters.countries).properties.name }}
             </v-chip>
@@ -245,7 +241,7 @@ export default {
 .circle {
   width: 14px;
   height: 14px;
-  background: var(--v-info-base);
+  background: var(--v-primary-base);
   border: 2px solid white;
   box-sizing: content-box;
   border-radius: 50%;

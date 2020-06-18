@@ -6,6 +6,6 @@
 4. To reset the map view, click on <span style="color:blue">ALL COUNTRIES, ALL INDICATORS</span>
 
 
-<img src="/data/trilateral/Green.png" width=12> Better than baseline  | <img src="/data/trilateral/Blue.png" width=12> As baseline  | <img src="/data/trilateral/Red.png" width=12> Worse than baseline |<img src="/data/trilateral/Grey.png" width=12> Upcoming data |
+<img src="./data/trilateral/Green.png" width=12> Better than baseline  | <img src="./data/trilateral/Blue.png" width=12> As baseline  | <img src="./data/trilateral/Red.png" width=12> Worse than baseline |<img src="./data/trilateral/Grey.png" width=12> Upcoming data |
 ----|----|----|----|
 

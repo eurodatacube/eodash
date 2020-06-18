@@ -296,6 +296,8 @@ export default {
             } else {
               label += `${percVal}%`;
             }
+          } else if (indicatorObject['Indicator code'] === 'E10a3') {
+            label += 'multiple';
           } else {
             label += indVal;
           }

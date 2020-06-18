@@ -65,8 +65,7 @@ export default {
         country: f.properties.indicatorObject.Country,
         location: f.properties.indicatorObject.City,
         type: this.getClass(f),
-        indicator: this.indicator(this.flatten(f.properties.indicatorObject['Indicator code'])
-          .join(', ')).indicator,
+        indicator: f.properties.indicatorObject.Description,
         indicatorValue: this.getLastValue(f.properties.indicatorObject).text,
         indicatorColor: this.getLastValue(f.properties.indicatorObject).color,
         indicatorObject: f.properties.indicatorObject,
@@ -82,10 +81,10 @@ export default {
         .properties.indicatorObject['Indicator code']].class;
     },
     getLastValue(values) {
-      const vLen = values['Indicator Value'].length;
-      const lastValue = values['Indicator Value'][vLen - 1];
+      const validValues = values['Indicator Value'].filter((item) => item !== '');
       let text = 'coming soon';
-      if (lastValue) {
+      if (validValues.length > 0) {
+        const lastValue = validValues[validValues.length - 1];
         if (values['Indicator code'] === 'E10a1') {
           if (lastValue !== '') {
             const percVal = Number((lastValue * 100).toPrecision(4));
@@ -95,13 +94,19 @@ export default {
               text = `${percVal}%`;
             }
           }
+        } else if (values['Indicator code'] === 'E10a3') {
+          text = 'multiple';
         } else {
           text = lastValue;
         }
       }
-      let lastColorCode = '';
-      if (Object.prototype.hasOwnProperty.call(values, 'Color code')) {
-        lastColorCode = values['Color code'][vLen - 1];
+      let lastColorCode;
+      if (Object.prototype.hasOwnProperty.call(values, 'Color code')
+        && values['Color code'] !== '') {
+        const validValues = values['Color code'].filter((item) => item !== '');
+        if (validValues.length > 0) {
+          lastColorCode = validValues[validValues.length - 1];
+        }
       }
       return {
         color: this.getIndicatorColor(lastColorCode),

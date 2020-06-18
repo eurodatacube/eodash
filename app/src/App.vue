@@ -42,6 +42,7 @@
 // Utilities
 import {
   mapState,
+  mapGetters,
 } from 'vuex';
 import CookieLaw from 'vue-cookie-law';
 
@@ -52,64 +53,43 @@ export default {
   data: () => ({
     showPrivacyDialog: false,
   }),
-  metaInfo() {
-    let metaData;
-    if (this.appConfig) {
-      metaData = {
-        meta: [
-          { name: 'google-site-verification', content: this.appConfig.pageMeta.googleSiteVerification },
-          // Twitter Card
-          { name: 'twitter:card', content: 'summary' },
-          { name: 'twitter:title', content: this.appConfig.branding.appName },
-          { name: 'twitter:description', content: this.appConfig.pageMeta.shortDescription },
-          // image must be an absolute path
-          { name: 'twitter:image', content: `${this.appConfig.pageMeta.rootPath}${this.appConfig.pageMeta.twitterCardImagePath}` },
-          // Facebook OpenGraph
-          { property: 'og:title', content: this.appConfig.branding.appName },
-          { property: 'og:site_name', content: this.appConfig.branding.appName },
-          { property: 'og:type', content: 'website' },
-          { property: 'og:image', content: `${this.appConfig.pageMeta.rootPath}${this.appConfig.pageMeta.twitterCardImagePath}` },
-          { property: 'og:description', content: this.appConfig.pageMeta.shortDescription },
-          // Colored status bar
-          // Chrome, Firefox OS and Opera
-          { property: 'theme-color', content: this.appConfig.branding.primaryColor },
-          // Windows Phone
-          { property: 'msapplication-navbutton-color', content: this.appConfig.branding.primaryColor },
-          // iOS Safari
-          { property: 'apple-mobile-web-app-status-bar-style', content: this.appConfig.branding.primaryColor },
-        ],
-      };
-      const link = document.querySelector("[rel='icon']");
-      link.setAttribute('href', this.appConfig.branding.faviconPath);
-    }
-    return metaData;
-  },
   computed: {
     ...mapState('config', ['appConfig']),
+    ...mapGetters('features', [
+      'getIndicators',
+      'getCountryItems',
+    ]),
   },
   mounted() {
-    this.$nextTick(() => {
-      // Read route query and set filters
-      this.$store.commit('features/INIT_FEATURE_FILTER', {
-        countries: this.$route.query.country ? this.$route.query.country : [],
-        indicators: this.$route.query.indicator ? this.$route.query.indicator : [],
-      });
-    });
     // Listen for features added, and select if poi in query
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'features/ADD_NEW_FEATURES') {
         // Read route query and set selected poi
         const { poi } = this.$route.query;
-        if (poi) {
+        let selectedFeature = null;
+        if (poi && poi.includes('-')) {
           const aoiId = poi.split('-')[0];
           const indicatorCode = poi.split('-')[1];
-          const selectedFeature = this.$store.state.features.allFeatures.find((f) => {
+          selectedFeature = this.$store.state.features.allFeatures.find((f) => {
             const { indicatorObject } = f.properties;
             return indicatorObject.AOI_ID === aoiId
               && indicatorObject['Indicator code'] === indicatorCode;
           });
-          this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature.properties.indicatorObject);
         }
+        this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
+
+        // Read route query and validate country and indicator if in query
+        const { country } = this.$route.query;
+        const { indicator } = this.$route.query;
+        // validate query for country - need to be among available
+        const selectedCountry = this.getCountryItems
+          .map((item) => item.code).find((f) => f === country);
+        const selectedIndicator = this.getIndicators
+          .map((item) => item.code).find((f) => f === indicator);
+        this.$store.commit('features/INIT_FEATURE_FILTER', {
+          countries: selectedCountry,
+          indicators: selectedIndicator,
+        });
       }
 
       // Url query replacement
@@ -120,10 +100,6 @@ export default {
           delete query.country;
           this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
           this.trackEvent('filters', 'select_country_filter', 'Global');
-        } else if (mutation.payload.countries === 'regional') {
-          // Regional
-          this.$router.replace({ query: Object.assign({}, this.$route.query, { country: 'regional' }) }).catch(err => {}); // eslint-disable-line
-          this.trackEvent('filters', 'select_country_filter', 'Regional');
         } else if (typeof mutation.payload.countries === 'string') {
           // Country
           this.$router.replace({ query: Object.assign({}, this.$route.query, { country: mutation.payload.countries }) }).catch(err => {}); // eslint-disable-line
