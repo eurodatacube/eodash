@@ -60,7 +60,7 @@
               </v-list-item-content>
             </v-list-item>
             <v-list-item
-              v-for="country in countryItems.filter((c) => c.name === 'Regional')"
+              v-for="country in getCountryItems.filter((c) => c.name === 'Regional')"
               :key="country.code"
               :value="'regional'"
               :disabled="countrySelection === 'regional'"
@@ -85,7 +85,7 @@
             <v-divider></v-divider>
             <template v-if="appConfig.id !== 'trilateral'">
               <v-list-item
-                v-for="country in countryItems.filter((c) => c.name !== 'Regional')"
+                v-for="country in getCountryItems.filter((c) => c.name !== 'Regional')"
                 :key="country.code"
                 :value="country.code"
                 :disabled="countrySelection === country.code"
@@ -280,8 +280,6 @@ import {
 
 import CountryFlag from 'vue-country-flag';
 
-import countries from '@/assets/countries.json';
-
 export default {
   components: {
     CountryFlag,
@@ -301,6 +299,7 @@ export default {
     ...mapGetters('features', [
       'getCountries',
       'getIndicators',
+      'getCountryItems',
     ]),
     ...mapState('config', [
       'appConfig',
@@ -308,19 +307,6 @@ export default {
     ]),
     countries() {
       return countries;
-    },
-    countryItems() {
-      return this.getCountries
-        .filter((c) => c !== 'all')
-        .map((c) => {
-          const item = countries.features
-            .find((f) => f.properties.alpha2 === c);
-          return {
-            code: c,
-            name: item ? item.properties.name : 'Regional',
-          };
-        })
-        .sort((a, b) => ((a.name > b.name) ? 1 : -1));
     },
     uniqueClasses() {
       const classes = {};
