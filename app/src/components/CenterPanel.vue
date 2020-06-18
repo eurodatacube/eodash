@@ -63,7 +63,7 @@
                 </div>
               </v-list-item-icon>
              <v-list-item-content>
-              {{feature.properties.indicatorObject.Description}}
+              {{feature.properties.indicatorObject["Indicator Name"]}}
               </v-list-item-content>
              </v-list-item>
             </v-list>
@@ -146,8 +146,11 @@
               @click:close="resetIndicator"
             >
               <v-icon small left>mdi-filter</v-icon>
-              {{ baseConfig.indicatorsDefinition[$store.state.features.featureFilters.indicators]
-                .indicator }}
+              {{ getIndicators
+                  .find((i) => i.code === $store.state.features.featureFilters.indicators[0])
+              && getIndicators
+              .find((i) => i.code ===
+                $store.state.features.featureFilters.indicators[0]).indicator }}
             </v-chip>
           </v-scroll-y-transition>
         </div>

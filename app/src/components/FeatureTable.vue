@@ -54,7 +54,7 @@ export default {
         { text: 'Type', value: 'type' },
         { text: 'Indicator', value: 'indicator' },
         {
-          text: 'Latest Value',
+          text: 'Value',
           align: 'end',
           value: 'indicatorValue',
         },
@@ -65,8 +65,7 @@ export default {
         country: f.properties.indicatorObject.Country,
         location: f.properties.indicatorObject.City,
         type: this.getClass(f),
-        indicator: this.indicator(this.flatten(f.properties.indicatorObject['Indicator code'])
-          .join(', ')).indicator,
+        indicator: f.properties.indicatorObject.Description,
         indicatorValue: this.getLastValue(f.properties.indicatorObject).text,
         indicatorColor: this.getLastValue(f.properties.indicatorObject).color,
         indicatorObject: f.properties.indicatorObject,

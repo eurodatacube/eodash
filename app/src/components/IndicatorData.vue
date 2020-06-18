@@ -89,6 +89,13 @@ export default {
     const d = this.indicatorObject.Time[this.indicatorObject.Time.length - 1];
     this.dataLayerTime = `${d.getDate()}. ${this.monthNames[d.getMonth()]}`;
   },
+  watch: {
+    indicatorObject() {
+      this.dataLayerIndex = this.indicatorObject.Time.length - 1;
+      const d = this.indicatorObject.Time[this.dataLayerIndex];
+      this.dataLayerTime = `${d.getDate()}. ${this.monthNames[d.getMonth()]}`;
+    },
+  },
   computed: {
     arrayOfObjects() {
       const indicator = this.$store.state.indicators.selectedIndicator;
