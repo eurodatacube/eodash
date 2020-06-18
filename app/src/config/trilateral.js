@@ -398,10 +398,10 @@ export const globalIndicators = [
         Country: 'all',
         City: 'World',
         'Site Name': 'global',
-        Description: 'Air Quality',
-        'Indicator code': 'N1',
+        Description: 'Greenhouse Gases',
+        'Indicator code': 'N2',
         'Indicator Value': ['Carbon dioxide (mean)'],
-        'Indicator Name': 'Air Quality (OMI) - CO2 (mean)',
+        'Indicator Name': 'Greenhouse Gases CO2 (mean)',
         'Sub-AOI': {
           type: 'FeatureCollection',
           features: [],
@@ -410,14 +410,14 @@ export const globalIndicators = [
         AOI: null,
         AOI_ID: 'W3',
         Time: getDailyDates('2020-01-01', '2020-04-16'),
-        'Input Data': ['N1'], // just for enabling eo data button for now
+        'Input Data': ['N2'], // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_mean.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.0004%2C0.00042',
-          name: 'Air Quality (NASA)',
-          attribution: '{ Air Quality (NASA) }',
+          name: 'Greenhouse Gases (NASA)',
+          attribution: '{ Greenhouse Gases (NASA) }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
         },
       },
@@ -429,10 +429,10 @@ export const globalIndicators = [
         Country: 'all',
         City: 'World',
         'Site Name': 'global',
-        Description: 'Air Quality',
-        'Indicator code': 'N1',
+        Description: 'Greenhouse Gases',
+        'Indicator code': 'N2',
         'Indicator Value': ['Carbon dioxide (base)'],
-        'Indicator Name': 'Air Quality (OMI) - CO2 (base)',
+        'Indicator Name': 'Greenhouse Gases CO2 (baseline)',
         'Sub-AOI': {
           type: 'FeatureCollection',
           features: [],
@@ -441,14 +441,14 @@ export const globalIndicators = [
         AOI: null,
         AOI_ID: 'W4',
         Time: getDailyDates('2020-01-01', '2020-04-16'),
-        'Input Data': ['N1'], // just for enabling eo data button for now
+        'Input Data': ['N2'], // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_base.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.0004%2C0.00042',
-          name: 'Air Quality (NASA)',
-          attribution: '{ Air Quality (NASA) }',
+          name: 'Greenhouse Gases (NASA)',
+          attribution: '{ Greenhouse Gases (NASA) }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
         },
       },
@@ -461,9 +461,9 @@ export const globalIndicators = [
         City: 'World',
         'Site Name': 'global',
         Description: 'Air Quality',
-        'Indicator code': 'N1',
+        'Indicator code': 'N2',
         'Indicator Value': ['Carbon dioxide (diff)'],
-        'Indicator Name': 'Air Quality (OMI) - CO2 (diff)',
+        'Indicator Name': 'Greenhouse Gases CO2 (difference)',
         'Sub-AOI': {
           type: 'FeatureCollection',
           features: [],
@@ -472,14 +472,14 @@ export const globalIndicators = [
         AOI: null,
         AOI_ID: 'W5',
         Time: getDailyDates('2020-01-01', '2020-04-16'),
-        'Input Data': ['N1'], // just for enabling eo data button for now
+        'Input Data': ['N2'], // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_diff.{time}.tif&resampling_method=bilinear&bidx=1&rescale=-0.000001%2C0.000001&color_map=rdbu_r',
-          name: 'Air Quality (NASA)',
-          attribution: '{ Air Quality (NASA) }',
+          name: 'Greenhouse Gases (NASA)',
+          attribution: '{ Greenhouse Gases (NASA) }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
         },
       },
