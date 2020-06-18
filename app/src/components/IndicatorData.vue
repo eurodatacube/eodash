@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%; height: 100%;"
-    v-if="!['E10a2', 'E10a3', 'N3'].includes(indicatorObject['Indicator code'])">
+    v-if="!['E10a2', 'E10a3', 'N3', 'N3b'].includes(indicatorObject['Indicator code'])">
       <bar-chart v-if='datacollection'
         id="chart"
         class="fill-height"
@@ -33,12 +33,12 @@
               .map((i) => i.value)
               .indexOf(dataLayerTime) > 0
                 ? 'mdi-arrow-left-drop-circle'
-                : '')"
+                : 'mdi-asterisk')"
             :append-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
               .map((i) => i.value)
               .indexOf(dataLayerTime) < arrayOfObjects.length - 1
                 ? 'mdi-arrow-right-drop-circle'
-                : '')"
+                : 'mdi-asterisk')"
             menu-props="auto"
             :items="arrayOfObjects"
             item-value="value"
@@ -89,6 +89,13 @@ export default {
     const d = this.indicatorObject.Time[this.indicatorObject.Time.length - 1];
     this.dataLayerTime = `${d.getDate()}. ${this.monthNames[d.getMonth()]}`;
   },
+  watch: {
+    indicatorObject() {
+      this.dataLayerIndex = this.indicatorObject.Time.length - 1;
+      const d = this.indicatorObject.Time[this.dataLayerIndex];
+      this.dataLayerTime = `${d.getDate()}. ${this.monthNames[d.getMonth()]}`;
+    },
+  },
   computed: {
     arrayOfObjects() {
       const indicator = this.$store.state.indicators.selectedIndicator;
@@ -113,7 +120,7 @@ export default {
       const indicatorCode = this.indicatorObject['Indicator code'];
       let dataCollection;
       const refColors = [
-        '#a5d3d8', '#dadada', '#c6b4ea', '#ead7ad', '#cdeaad', '#b82e2e',
+        '#2b7d87', '#bb7cff', '#b95454', '#7b37ff', '#86c341', '#ff5050',
         '#316395', '#994499', '#22aa99', '#aaaa11', '#6633cc', '#e67300',
       ];
       if (indicator) {
@@ -148,6 +155,25 @@ export default {
             borderColor: 'darkcyan',
             backgroundColor: 'black',
           });
+        } else if (['N3b'].includes(indicatorCode)) {
+          const sensors = Array.from(new Set(indicator['EO Sensor'])).reverse();
+          for (let pp = 0; pp < sensors.length; pp += 1) {
+            const pKey = sensors[pp];
+            const data = indicator.Time.map((date, i) => {
+              let output = null;
+              if (indicator['EO Sensor'][i] === pKey) {
+                output = { t: date, y: measurement[i] };
+              }
+              return output;
+            }).filter((d) => d !== null);
+            datasets.push({
+              label: pKey,
+              data,
+              fill: false,
+              borderColor: refColors[pp],
+              backgroundColor: refColors[pp],
+            });
+          }
         } else if (['E10a2'].includes(indicatorCode)) {
           const data = indicator.Time.map((date, i) => ({
             t: new Date(date.getTime()).setFullYear(2000), y: measurement[i],
@@ -541,7 +567,6 @@ export default {
       if (!['E10a1', 'E10a2', 'N2'].includes(indicatorCode)) {
         xAxes = [{
           type: 'time',
-          distribution: 'series',
           time: {
             unit: 'week',
           },
@@ -550,7 +575,11 @@ export default {
             max: timeMinMax[1],
           },
         }];
+        if (!['N3', 'N3b'].includes(indicatorCode)) {
+          xAxes[0].distribution = 'series';
+        }
       }
+
 
       if (['E10a2'].includes(indicatorCode)) {
         /* Recalculate to get min max months in data converted to one year */
@@ -594,14 +623,15 @@ export default {
         ticks: {
           lineHeight: 1,
           suggestedMin: Math.min(
-            ...this.indicatorObject['Measurement Value'],
+            ...this.indicatorObject['Measurement Value']
+              .filter((d) => !Number.isNaN(d)),
           ) - 1,
           suggestedMax: Math.max(
-            ...this.indicatorObject['Measurement Value'],
+            ...this.indicatorObject['Measurement Value']
+              .filter((d) => !Number.isNaN(d)),
           ) + 1,
         },
       }];
-
       const legend = {
         labels: {
           filter,
@@ -657,7 +687,12 @@ export default {
 
       if (['E10a3'].includes(indicatorCode)) {
         xAxes[0].ticks.padding = -20;
-        yAxes[0].ticks.padding = -20;
+        // Disable axis in a strange way
+        yAxes[0].ticks = {
+          suggestedMin: Number.NaN,
+          suggestedMax: Number.NaN,
+          padding: -20,
+        };
       }
 
 
@@ -780,5 +815,8 @@ export default {
 <style lang="scss" scoped>
 .md-body {
   font-size: small;
+}
+::v-deep .mdi-asterisk {
+  visibility: hidden;
 }
 </style>

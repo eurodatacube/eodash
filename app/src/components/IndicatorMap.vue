@@ -149,12 +149,12 @@
               .map((i) => i.value)
               .indexOf(compareLayerTime.value) > 0
                 ? 'mdi-arrow-left-drop-circle'
-                : '')"
+                : 'mdi-asterisk')"
             :append-icon="(arrayOfObjects && compareLayerTime) && (arrayOfObjects
               .map((i) => i.value)
               .indexOf(compareLayerTime.value) < arrayOfObjects.length - 1
                 ? 'mdi-arrow-right-drop-circle'
-                : '')"
+                : 'mdi-asterisk')"
             menu-props="auto"
             :items="arrayOfObjects"
             item-value="value"
@@ -177,12 +177,12 @@
               .map((i) => i.value)
               .indexOf(dataLayerTime.value) > 0
                 ? 'mdi-arrow-left-drop-circle'
-                : '')"
+                : 'mdi-asterisk')"
             :append-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
               .map((i) => i.value)
               .indexOf(dataLayerTime.value) < arrayOfObjects.length - 1
                 ? 'mdi-arrow-right-drop-circle'
-                : '')"
+                : 'mdi-asterisk')"
             menu-props="auto"
             :items="arrayOfObjects"
             item-value="value"
@@ -683,5 +683,8 @@ export default {
 }
 ::v-deep .leaflet-control-layers-toggle {
   background-image: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23003247" width="32px" height="32px"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>');
+}
+::v-deep .mdi-asterisk {
+  visibility: hidden;
 }
 </style>
