@@ -28,13 +28,13 @@ jobs:
         cd app/
         npm install
         npm run build
-    
+
     # Inject SH Config file
     - name: replace instance ID
       uses: datamonsters/replace-action@v2
       with:
         files: 'app/dist/shConfig.js'
-        replacements: '$SH_INSTANCE_ID=${{ secrets.SH_INSTANCE_ID }}'
+        replacements: '$SH_INSTANCE_ID=${{ secrets.SH_INSTANCE_ID }},$SH_INSTANCE_ID_TRILATERAL=${{ secrets.SH_INSTANCE_ID_TRILATERAL }}'
 
     # Upload to S3
     - name: sync s3

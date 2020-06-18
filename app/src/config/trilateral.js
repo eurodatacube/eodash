@@ -774,7 +774,7 @@ export const globalIndicators = [
         'Input Data': ['N3a2'], // just for enabling eo data button for now
         display: {
           ...defaultWMSDisplay,
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
           name: 'Water Quality Index',
           layers: 'N3_CUSTOM_TRILATERAL',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
