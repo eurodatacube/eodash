@@ -88,10 +88,6 @@ export default {
           delete query.country;
           this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
           this.trackEvent('filters', 'select_country_filter', 'Global');
-        } else if (mutation.payload.countries === 'regional') {
-          // Regional
-          this.$router.replace({ query: Object.assign({}, this.$route.query, { country: 'regional' }) }).catch(err => {}); // eslint-disable-line
-          this.trackEvent('filters', 'select_country_filter', 'Regional');
         } else if (typeof mutation.payload.countries === 'string') {
           // Country
           this.$router.replace({ query: Object.assign({}, this.$route.query, { country: mutation.payload.countries }) }).catch(err => {}); // eslint-disable-line
