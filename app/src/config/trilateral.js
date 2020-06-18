@@ -401,7 +401,7 @@ export const globalIndicators = [
         'Site Name': 'global',
         Description: 'Greenhouse Gases',
         'Indicator code': 'N2',
-        'Indicator Value': ['Carbon dioxide (mean)'],
+        'Indicator Value': ['OCO-2:  Mean CO2'],
         'Indicator Name': 'Greenhouse Gases CO2 (mean)',
         'Sub-AOI': {
           type: 'FeatureCollection',
@@ -432,7 +432,7 @@ export const globalIndicators = [
         'Site Name': 'global',
         Description: 'Greenhouse Gases',
         'Indicator code': 'N2',
-        'Indicator Value': ['Carbon dioxide (base)'],
+        'Indicator Value': ['OCO-2: Baseline CO2'],
         'Indicator Name': 'Greenhouse Gases CO2 (baseline)',
         'Sub-AOI': {
           type: 'FeatureCollection',
@@ -463,7 +463,7 @@ export const globalIndicators = [
         'Site Name': 'global',
         Description: 'Air Quality',
         'Indicator code': 'N2',
-        'Indicator Value': ['Carbon dioxide (diff)'],
+        'Indicator Value': ['OCO-2:  Difference CO2'],
         'Indicator Name': 'Greenhouse Gases CO2 (difference)',
         'Sub-AOI': {
           type: 'FeatureCollection',
