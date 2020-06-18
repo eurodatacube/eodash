@@ -201,11 +201,13 @@ export default {
       let fillColor;
       if (this.$store.state.indicators.selectedIndicator) {
         currentIndicator = this.$store.state.indicators.selectedIndicator;
-      }
-      fillColor = this.getLastValue(currentIndicator).color;
-      // Special case for E10a3
-      if (currentIndicator['Indicator code'] === 'E10a3') {
-        fillColor = this.getIndicatorColor('BLUE');
+        fillColor = this.getLastValue(currentIndicator).color;
+        // Special case for E10a3
+        if (currentIndicator['Indicator code'] === 'E10a3') {
+          fillColor = this.getIndicatorColor('BLUE');
+        }
+      } else {
+        fillColor = this.getLastValue(currentIndicator).color;
       }
       return {
         color: '#fff',
@@ -309,9 +311,8 @@ export default {
       }
     },
     getLastValue(values) {
-      let lastColorCode = '';
-      console.log(values);
-      if (values !== null) {
+      let lastColorCode;
+      if (values) {
         if (Object.prototype.hasOwnProperty.call(values, 'Color code')
           && values['Color code'] !== '') {
           const validValues = values['Color code'].filter((item) => item !== '');
