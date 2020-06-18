@@ -14,13 +14,13 @@ export const indicatorsDefinition = Object.freeze({
   E1: {
     indicator: 'Status of metallic ores',
     class: 'economic',
-    file: '/data/trilateral/E1.csv',
+    file: './data/trilateral/E1.csv',
     story: '/data/trilateral/E1',
   },
   E1a: {
     indicator: 'Status of non-metallic ores',
     class: 'economic',
-    file: '/data/trilateral/E1a.csv',
+    file: './data/trilateral/E1a.csv',
     story: '/data/trilateral/E1a',
   },
   E2: {
@@ -54,7 +54,7 @@ export const indicatorsDefinition = Object.freeze({
   E8: {
     indicator: 'Inventory Levels',
     class: 'economic',
-    file: '/data/trilateral/E8.csv',
+    file: './data/trilateral/E8.csv',
     story: '/data/trilateral/E8_tri',
     largeSubAoi: true,
   },
@@ -111,19 +111,19 @@ export const indicatorsDefinition = Object.freeze({
   N2: {
     indicator: 'CO2 emissions (GOSAT)',
     class: 'environment',
-    file: '/data/trilateral/N2.csv',
+    file: './data/trilateral/N2.csv',
     largeTimeDuration: true,
   },
   N3: {
     indicator: 'CHL concentration (CMEMS)',
     class: 'environment',
-    file: '/data/trilateral/N3.csv',
+    file: './data/trilateral/N3.csv',
     story: '/data/trilateral/N3_tri',
   },
   N3b: {
     indicator: 'Chl-a concentration anomaly',
     class: 'environment',
-    file: '/data/trilateral/N3b.csv',
+    file: './data/trilateral/N3b.csv',
   },
   N3a2: {
     indicator: 'CHL concentration',

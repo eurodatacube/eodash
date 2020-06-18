@@ -43,19 +43,19 @@ export default {
       items: [
         {
           poi: 'NorthAdriatic-N3a2',
-          src: '/eodash-data/general/Slide1.png',
+          src: './eodash-data/general/Slide1.png',
         },
         {
           poi: 'PL1-E1a',
-          src: '/eodash-data/general/Slide2.png',
+          src: './eodash-data/general/Slide2.png',
         },
         {
           poi: 'World-N1',
-          src: '/eodash-data/general/Slide3.png',
+          src: './eodash-data/general/Slide3.png',
         },
         {
           poi: 'DE11-E10a1',
-          src: '/eodash-data/general/Slide4.png',
+          src: './eodash-data/general/Slide4.png',
         },
       ],
     };
