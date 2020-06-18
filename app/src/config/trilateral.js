@@ -101,6 +101,7 @@ export const indicatorsDefinition = Object.freeze({
   N1: {
     indicator: 'Air quality',
     class: 'environment',
+    file: './data/trilateral/N1.csv',
     story: '/data/trilateral/N1',
     largeTimeDuration: true,
   },
