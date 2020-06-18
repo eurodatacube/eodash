@@ -360,7 +360,7 @@ export const globalIndicators = [
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'N3_CUSTOM',
-          legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
+          legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
           attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (dates) => `${moment.utc(dates[0], 'YYYY-MM-DD').format('YYYY-MM-DD')}`,
