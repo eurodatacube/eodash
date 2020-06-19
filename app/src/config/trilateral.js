@@ -61,6 +61,9 @@ export const indicatorsDefinition = Object.freeze({
   E9: {
     indicator: 'Construction activity',
     class: 'economic',
+    file: './data/trilateral/E9.csv',
+    story: '/data/trilateral/SIN01-E9',
+    largeSubAoi: true,
   },
   E10a1: {
     indicator: 'Harvesting activity',
