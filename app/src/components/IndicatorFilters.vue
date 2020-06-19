@@ -439,6 +439,7 @@ export default {
 }
 .v-list-item__icon .flag {
   border: 1px solid lightgray;
+  background-position-x: -1px;
 }
 .itemActive {
   background: var(--v-primary-base);
