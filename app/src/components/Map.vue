@@ -375,7 +375,7 @@ export default {
     getFeatures(features) {
       const featuresOnMap = features.filter((f) => f.latlng);
       if (featuresOnMap.length > 0) {
-        const maxZoomFit = 15;
+        const maxZoomFit = 8;
         if (featuresOnMap.length === 1 && featuresOnMap[0].properties.indicatorObject['Sub-AOI']
           && featuresOnMap[0].properties.indicatorObject['Sub-AOI'].features.length > 0) {
           this.$nextTick(() => {
