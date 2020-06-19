@@ -80,32 +80,50 @@ export default {
       return this.baseConfig.indicatorsDefinition[item
         .properties.indicatorObject['Indicator code']].class;
     },
+
     getLastValue(values) {
-      const validValues = values['Indicator Value'].filter((item) => item !== '');
+      let lastColorCode;
       let text = 'coming soon';
-      if (validValues.length > 0) {
-        const lastValue = validValues[validValues.length - 1];
-        if (values['Indicator code'] === 'E10a1') {
-          if (lastValue !== '') {
-            const percVal = Number((lastValue * 100).toPrecision(4));
-            if (percVal > 0) {
-              text = `+${percVal}%`;
+      if (values) {
+        if (Object.prototype.hasOwnProperty.call(values, 'Indicator Value')
+          && values['Indicator Value'] !== '') {
+          let validValues = values['Indicator Value'].filter((item) => item !== '');
+          if (validValues.length > 0) {
+            const lastValue = validValues[validValues.length - 1];
+            if (values['Indicator code'] === 'E10a1') {
+              if (lastValue !== '') {
+                const percVal = Number((lastValue * 100).toPrecision(4));
+                if (percVal > 0) {
+                  text = `+${percVal}%`;
+                } else {
+                  text = `${percVal}%`;
+                }
+              }
+            } else if (values['Indicator code'] === 'E10a3') {
+              text = 'multiple';
             } else {
-              text = `${percVal}%`;
+              text = lastValue;
+            }
+          } else if (Object.prototype.hasOwnProperty.call(values, 'Measurement Value')
+            && values['Measurement Value'] !== '') {
+            validValues = values['Measurement Value'].filter((item) => (
+              item !== '' && item !== Number.NaN && item !== null
+            ));
+            text = validValues[validValues.length - 1].toPrecision(4);
+          }
+        }
+        if (values) {
+          if (Object.prototype.hasOwnProperty.call(values, 'Color code')
+            && values['Color code'] !== '') {
+            const validValues = values['Color code'].filter((item) => item !== '');
+            if (validValues.length > 0) {
+              lastColorCode = validValues[validValues.length - 1];
             }
           }
-        } else if (values['Indicator code'] === 'E10a3') {
-          text = 'multiple';
-        } else {
-          text = lastValue;
-        }
-      }
-      let lastColorCode;
-      if (Object.prototype.hasOwnProperty.call(values, 'Color code')
-        && values['Color code'] !== '') {
-        const validValues = values['Color code'].filter((item) => item !== '');
-        if (validValues.length > 0) {
-          lastColorCode = validValues[validValues.length - 1];
+          if (Object.prototype.hasOwnProperty.call(values, 'Indicator code')
+            && ['N1', 'N3b'].includes(values['Indicator code'])) {
+            lastColorCode = 'BLUE';
+          }
         }
       }
       return {
