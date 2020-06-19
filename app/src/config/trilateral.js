@@ -245,6 +245,18 @@ export const layerNameMapping = Object.freeze({
     tileSize: 256,
     attribution: '{ GOSAT JAXA }',
     dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYYMM')}`,
+    siteMapping: (eoID) => {
+      const mapping = {
+        CN01: 'be',
+        CN02: 'sh',
+        BD01: 'dh',
+        IN01: 'dl',
+        IN02: 'mb',
+        US01: 'ny',
+        JP01: 'tk',
+      };
+      return mapping[eoID];
+    },
   },
   airport_tk: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fairport%2Ftk_{time}.tif&resampling_method=bilinear&bidx=1',
