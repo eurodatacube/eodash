@@ -157,7 +157,7 @@ export default {
         try {
           markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject['Indicator code']].story}.md`);
         } catch {
-          markdown = { default: 'No indicator story provided yet.' };
+          markdown = { default: '' };
         }
       }
       return this.$marked(markdown.default);
