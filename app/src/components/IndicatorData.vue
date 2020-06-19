@@ -240,6 +240,8 @@ export default {
         } else if (['N1'].includes(indicatorCode)) {
           const stdDevMin = [];
           const stdDevMax = [];
+          const min = [];
+          const max = [];
           const median = [];
           const data = [];
           indicator['Reference value'].forEach((item, i) => {
@@ -249,12 +251,16 @@ export default {
               const obj = JSON.parse(item);
               // [median,std,max,min,percentage valid pixels]
               median.push({ y: obj[0], t });
-              stdDevMax.push({ y: obj[2], t });
-              stdDevMin.push({ y: obj[3], t });
+              stdDevMin.push({ y: measurement[i] - obj[1], t });
+              stdDevMax.push({ y: measurement[i] + obj[1], t });
+              max.push({ y: obj[2], t });
+              min.push({ y: obj[3], t });
             } else {
               median.push({ y: Number.NaN, t });
-              stdDevMax.push({ y: Number.NaN, t });
               stdDevMin.push({ y: Number.NaN, t });
+              stdDevMax.push({ y: Number.NaN, t });
+              max.push({ y: Number.NaN, t });
+              min.push({ y: Number.NaN, t });
             }
           });
           datasets.push({
@@ -271,6 +277,28 @@ export default {
             fill: false,
             pointRadius: 0,
             borderColor: 'black',
+            borderWidth: 1,
+            pointStyle: 'line',
+            spanGaps: false,
+          });
+          datasets.push({
+            label: 'Min',
+            data: min,
+            fill: false,
+            pointRadius: 0,
+            backgroundColor: 'rgba(0,80,0,0.4)',
+            borderColor: 'rgba(0,80,0,0.4)',
+            borderWidth: 1,
+            pointStyle: 'line',
+            spanGaps: false,
+          });
+          datasets.push({
+            label: 'Max',
+            data: max,
+            fill: false,
+            pointRadius: 0,
+            backgroundColor: 'rgba(80,0,0,0.4)',
+            borderColor: 'rgba(80,0,0,0.4)',
             borderWidth: 1,
             pointStyle: 'line',
             spanGaps: false,
