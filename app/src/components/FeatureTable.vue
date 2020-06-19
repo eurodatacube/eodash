@@ -82,8 +82,8 @@ export default {
     },
 
     getLastValue(values) {
-      let lastColorCode;
       let text = 'coming soon';
+      let color;
       if (values) {
         if (Object.prototype.hasOwnProperty.call(values, 'Indicator Value')
           && values['Indicator Value'] !== '') {
@@ -117,19 +117,23 @@ export default {
             && values['Color code'] !== '') {
             const validValues = values['Color code'].filter((item) => item !== '');
             if (validValues.length > 0) {
-              lastColorCode = validValues[validValues.length - 1];
+              color = this.getIndicatorColor(validValues[validValues.length - 1]);
             }
           }
           if (Object.prototype.hasOwnProperty.call(values, 'Indicator code')
             && ['N1', 'N3b'].includes(values['Indicator code'])) {
-            lastColorCode = 'BLUE';
+            color = this.getIndicatorColor('BLUE');
+            if (values.AOI === null) {
+              color = 'black';
+            }
           }
         }
       }
-      return {
-        color: this.getIndicatorColor(lastColorCode),
-        text,
-      };
+      // Check for coming soon values
+      if (typeof color === 'undefined') {
+        color = this.getIndicatorColor();
+      }
+      return { color, text };
     },
     indicator(code) {
       return this.baseConfig.indicatorsDefinition[code];
