@@ -416,7 +416,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           maxNativeZoom: 6,
           opacity: 1,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_mean.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.0004%2C0.00042',
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_mean.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.0004%2C0.00042&color_map=reds',
           name: 'Greenhouse Gases (NASA)',
           attribution: '{ Greenhouse Gases (NASA) }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
