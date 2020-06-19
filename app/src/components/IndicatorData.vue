@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%; height: 100%;"
-    v-if="!['E10a2', 'E10a3', 'N3', 'N3b'].includes(indicatorObject['Indicator code'])">
+    v-if="!['E10a2', 'E10a3', 'N1', 'N3', 'N3b'].includes(indicatorObject['Indicator code'])">
       <bar-chart v-if='datacollection'
         id="chart"
         class="fill-height"
@@ -236,6 +236,64 @@ export default {
               borderColor: refColors[i],
               borderWidth: 2,
             });
+          });
+        } else if (['N1'].includes(indicatorCode)) {
+          const stdDevMin = [];
+          const stdDevMax = [];
+          const median = [];
+          const data = [];
+          indicator['Reference value'].forEach((item, i) => {
+            const t = new Date(indicator.Time[i]);
+            data.push({ y: measurement[i], t });
+            if (item !== 'NaN') {
+              const obj = JSON.parse(item);
+              // [median,std,max,min,percentage valid pixels]
+              median.push({ y: obj[0], t });
+              stdDevMax.push({ y: obj[2], t });
+              stdDevMin.push({ y: obj[3], t });
+            } else {
+              median.push({ y: Number.NaN, t });
+              stdDevMax.push({ y: Number.NaN, t });
+              stdDevMin.push({ y: Number.NaN, t });
+            }
+          });
+          datasets.push({
+            label: indicator['Y axis'],
+            data,
+            fill: false,
+            backgroundColor: refColors[0],
+            borderColor: refColors[0],
+            spanGaps: false,
+          });
+          datasets.push({
+            label: 'Median',
+            data: median,
+            fill: false,
+            pointRadius: 0,
+            borderColor: 'black',
+            borderWidth: 1,
+            pointStyle: 'line',
+            spanGaps: false,
+          });
+          datasets.push({
+            label: 'Standard deviation (STD)',
+            data: stdDevMax,
+            fill: '+1',
+            pointRadius: 0,
+            spanGaps: false,
+            backgroundColor: 'rgba(0,0,0,0.1)',
+            borderColor: 'rgba(0,0,0,0.0)',
+            pointStyle: 'rect',
+          });
+          datasets.push({
+            label: 'hide_',
+            data: stdDevMin,
+            fill: '-1',
+            pointRadius: 0,
+            spanGaps: false,
+            backgroundColor: 'rgba(0,0,0,0.0)',
+            borderColor: 'rgba(0,0,0,0.0)',
+            pointStyle: 'rect',
           });
         } else if (['N3'].includes(indicatorCode)) {
           let referenceValue = [];

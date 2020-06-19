@@ -301,7 +301,7 @@ export default {
           } else {
             label += indVal;
           }
-        } else if (indicatorObject['Indicator code'] === 'N3b') {
+        } else if (['N1', 'N3b'].includes(indicatorObject['Indicator code'])) {
           label = '';
         }
       }
@@ -323,7 +323,7 @@ export default {
           }
         }
         if (Object.prototype.hasOwnProperty.call(values, 'Indicator code')
-          && values['Indicator code'] === 'N3b') {
+          && ['N1', 'N3b'].includes(values['Indicator code'])) {
           lastColorCode = 'BLUE';
         }
       }
