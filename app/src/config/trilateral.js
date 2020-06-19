@@ -237,6 +237,30 @@ export const layerNameMapping = Object.freeze({
     attribution: '{ ALOS JAXA }',
     dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
   },
+  GOSAT_XCO2: {
+    url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/GOSAT_XCO2_{time}_{site}_BG_circle_cog.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536',
+    protocol: 'xyz',
+    maxNativeZoom: 15,
+    tileSize: 256,
+    attribution: '{ GOSAT JAXA }',
+    dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYYMM')}`,
+  },
+  airport_tk: {
+    url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fairport%2Ftk_{time}.tif&resampling_method=bilinear&bidx=1',
+    protocol: 'xyz',
+    maxNativeZoom: 15,
+    tileSize: 256,
+    attribution: '{ ALOS JAXA, Sentinel-1 ESA }',
+    dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYYMMDD')}`,
+  },
+  industry_sg: {
+    url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/[x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Findustry%2Fsg_{time}.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+    protocol: 'xyz',
+    maxNativeZoom: 15,
+    tileSize: 256,
+    attribution: '{ ALOS JAXA, Sentinel-1 ESA }',
+    dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+  },
   N5: {}, // just for enabling eo data button for now
 });
 
