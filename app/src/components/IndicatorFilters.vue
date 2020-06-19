@@ -437,8 +437,14 @@ export default {
   padding-left: 0;
   padding-right: 0;
 }
+.v-list-item__icon .flag {
+  border: 1px solid lightgray;
+}
 .itemActive {
   background: var(--v-primary-base);
   color: white !important;
+  .v-list-item__icon .flag {
+    border: 1px solid transparent;
+  }
 }
 </style>
