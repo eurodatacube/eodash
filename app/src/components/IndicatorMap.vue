@@ -483,6 +483,7 @@ export default {
     },
     layerOptions(time, sourceOptionsObj) {
       const additionalSettings = {};
+      additionalSettings.site = 'be';
       if (typeof sourceOptionsObj.minZoom !== 'undefined') {
         additionalSettings.minZoom = sourceOptionsObj.minZoom;
       }
