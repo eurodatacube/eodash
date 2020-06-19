@@ -23,8 +23,6 @@ module.exports = [
     showNewsCarousel: true,
     privacyText: '/eodash-data/general/privacy',
     termsText: '/eodash-data/general/terms',
-    countDownTimer: '2020-06-05T12:00:00.000+02:00',
-    countDownMatch: ['race.esa.int', 'eodash.eox.at'],
   },
   {
     id: 'trilateral',
@@ -46,5 +44,7 @@ module.exports = [
     welcomeText: '/data/trilateral/welcome',
     privacyText: '/data/trilateral/privacy',
     termsText: '/data/trilateral/terms',
+    countDownTimer: '2020-06-25T13:30:00.000+00:00',
+    countDownMatch: ['eodashboard.org', 'eodash-trilateral.eox.at'],
   },
 ];
