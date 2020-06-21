@@ -129,6 +129,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Chl-a concentration anomaly',
     class: 'environment',
     file: './data/trilateral/N3b.csv',
+    story: '/data/trilateral/N3b',
   },
   N3a2: {
     indicator: 'CHL concentration',
