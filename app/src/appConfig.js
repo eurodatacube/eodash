@@ -21,6 +21,24 @@ module.exports = [
     aboutText: '/eodash-data/general/about',
     welcomeText: '/eodash-data/general/welcome',
     showNewsCarousel: true,
+    newsCarouselitems: [
+      {
+        poi: 'NorthAdriatic-N3a2',
+        src: './eodash-data/general/Slide1.png',
+      },
+      {
+        poi: 'PL1-E1a',
+        src: './eodash-data/general/Slide2.png',
+      },
+      {
+        poi: 'World-N1',
+        src: './eodash-data/general/Slide3.png',
+      },
+      {
+        poi: 'DE11-E10a1',
+        src: './eodash-data/general/Slide4.png',
+      },
+    ],
     privacyText: '/eodash-data/general/privacy',
     termsText: '/eodash-data/general/terms',
     countDownTimer: '2020-06-05T12:00:00.000+02:00',
@@ -44,6 +62,25 @@ module.exports = [
     storyPath: '/data/trilateral/',
     aboutText: '/data/trilateral/about',
     welcomeText: '/data/trilateral/welcome',
+    showNewsCarousel: true,
+    newsCarouselitems: [
+      {
+        poi: 'JP01-N2',
+        src: './data/trilateral/Slide1.png',
+      },
+      {
+        poi: 'NorthAdriaticESA-N3a2',
+        src: './data/trilateral/Slide2.png',
+      },
+      {
+        poi: 'FR01-N1',
+        src: './data/trilateral/Slide3.png',
+      },
+      {
+        poi: 'W2-N1',
+        src: './data/trilateral/Slide4.png',
+      },
+    ],
     privacyText: '/data/trilateral/privacy',
     termsText: '/data/trilateral/terms',
   },
