@@ -879,7 +879,7 @@ export const globalIndicators = [
         Description: 'Water Quality Regional Maps',
         'Indicator code': 'N3a2',
         'Indicator Value': ['normal'],
-        'Indicator Name': 'Water Quality Regional Maps',
+        'Indicator Name': 'Water Quality Regional Maps (NASA)',
         'Color code': ['BLUE'],
         'EO Sensor': null,
         'Sub-AOI': {
@@ -918,7 +918,7 @@ export const globalIndicators = [
         Description: 'Water Quality Regional Maps',
         'Indicator code': 'N3a2',
         'Indicator Value': ['normal'],
-        'Indicator Name': 'Water Quality Regional Maps',
+        'Indicator Name': 'Water Quality Regional Maps (NASA)',
         'Color code': ['BLUE'],
         'EO Sensor': null,
         'Sub-AOI': {
@@ -957,7 +957,7 @@ export const globalIndicators = [
         Description: 'Water Quality Regional Maps',
         'Indicator code': 'N3a2',
         'Indicator Value': ['normal'],
-        'Indicator Name': 'Water Quality Regional Maps',
+        'Indicator Name': 'Water Quality Regional Maps (JAXA)',
         'Color code': ['BLUE'],
         'EO Sensor': null,
         'Sub-AOI': {
