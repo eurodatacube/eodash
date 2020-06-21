@@ -27,7 +27,7 @@ Offshore the lagoon, this striking negative trend is likely due to remarkably we
 
 However, despite the clear role of natural environmental factors, we cannot exclude a mutual role of a decrease in human activities over the Po River watershed, which enhanced the negative anomaly in Chl concentration, as highlighted by the low turbidity values in the lower branch of Po River, measured by Sentinel-2 during the lockdown phase (Fig. 3).
 
-![](WQ_Figure3.png)
+![](data/trilateral/WQ_Figure3.png)
 
 *Figure 3. S2-derived turbidity maps in the last inland branch of the Po River March, 19th 2020 (beginning of lockdown) and April, 4th (middle of lockdown).*
 
