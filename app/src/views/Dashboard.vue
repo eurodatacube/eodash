@@ -85,7 +85,8 @@
       temporary
       hide-overlay
       :width="dataPanelFullWidth ? '100%' : '40%'"
-      :style="`margin-top: ${$vuetify.application.top}px; height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px`"
+      :style="`margin-top: ${$vuetify.application.top}px;
+        height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px`"
     >
       <v-toolbar v-if="$store.state.indicators.selectedIndicator" flat>
         <v-btn v-if="dataPanelFullWidth" icon @click="setDataPanelWidth(false)">
