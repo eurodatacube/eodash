@@ -169,7 +169,9 @@
         </template>
       </div>
     </v-dialog>
-    <v-content style="height: 100vh; overflow:hidden; width: 60%;">
+    <v-content style="height: 100vh; overflow:hidden"
+      :style="$vuetify.breakpoint.mdAndUp && 'width: 60%;'"
+    >
       <v-container
         class="fill-height pa-0"
         fluid
