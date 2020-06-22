@@ -113,17 +113,17 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
   },
   N2: {
-    indicator: 'CO2 emissions (GOSAT)',
+    indicator: 'Greenhouse Gases',
     class: 'environment',
     file: './data/trilateral/N2.csv',
     largeTimeDuration: true,
     largeSubAoi: true,
   },
   N3: {
-    indicator: 'CHL concentration (CMEMS)',
+    indicator: 'Water Quality',
     class: 'environment',
     // file: './data/trilateral/N3.csv',
-    // story: '/data/trilateral/N3_tri',
+    // story: '/data/trilateral/N3',
   },
   N3b: {
     indicator: 'Chl-a concentration anomaly',
@@ -569,10 +569,10 @@ export const globalIndicators = [
         Country: ['JP'],
         City: 'Tokyo',
         'Site Name': 'Tokyo',
-        Description: 'Nightlights (Suomi NPP VIIRS)',
+        Description: 'Nightlights',
         'Indicator code': 'N5',
         'Indicator Value': ['normal'],
-        'Indicator Name': 'Night light composite maps',
+        'Indicator Name': 'Night light composite maps (Suomi NPP VIIRS)',
         'Color code': ['BLUE'],
         'EO Sensor': [['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights']],
         'Sub-AOI': {
@@ -610,7 +610,7 @@ export const globalIndicators = [
         Description: 'Nightlights',
         'Indicator code': 'N5',
         'Indicator Value': ['normal'],
-        'Indicator Name': 'Nightlights',
+        'Indicator Name': 'Night light composite maps (Suomi NPP VIIRS)',
         'Color code': ['BLUE'],
         'EO Sensor': [['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights']],
         'Sub-AOI': {
@@ -648,7 +648,7 @@ export const globalIndicators = [
         Description: 'Nightlights',
         'Indicator code': 'N5',
         'Indicator Value': ['normal'],
-        'Indicator Name': 'Nightlights',
+        'Indicator Name': 'Night light composite maps (Suomi NPP VIIRS)',
         'Color code': ['BLUE'],
         'EO Sensor': [['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights']],
         'Sub-AOI': {
@@ -686,7 +686,7 @@ export const globalIndicators = [
         Description: 'Nightlights',
         'Indicator code': 'N5',
         'Indicator Value': ['normal'],
-        'Indicator Name': 'Nightlights',
+        'Indicator Name': 'Night light composite maps (Suomi NPP VIIRS)',
         'Color code': ['BLUE'],
         'EO Sensor': [['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights']],
         'Sub-AOI': {
@@ -724,7 +724,7 @@ export const globalIndicators = [
         Description: 'Nightlights',
         'Indicator code': 'N5',
         'Indicator Value': ['normal'],
-        'Indicator Name': 'Nightlights',
+        'Indicator Name': 'Night light composite maps (Suomi NPP VIIRS)',
         'Color code': ['BLUE'],
         'EO Sensor': [['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights']],
         'Sub-AOI': {
@@ -762,7 +762,7 @@ export const globalIndicators = [
         Description: 'Nightlights',
         'Indicator code': 'N5',
         'Indicator Value': ['normal'],
-        'Indicator Name': 'Nightlights',
+        'Indicator Name': 'Night light composite maps (Suomi NPP VIIRS)',
         'Color code': ['BLUE'],
         'EO Sensor': [['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights']],
         'Sub-AOI': {
