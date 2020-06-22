@@ -1,6 +1,6 @@
 <!-- eslint-disable global-require -->
 <template>
-  <v-app id="inspire">
+  <v-app id="inspire" :class="`brand-${appConfig.id}`">
     <router-view />
     <cookie-law @accept="acceptCookies">
       <div slot-scope="props" style="width: 100%;">
