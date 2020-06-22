@@ -7,6 +7,7 @@ import Vuetify from 'vuetify/lib';
 import { Touch } from 'vuetify/lib/directives';
 
 import browserDetect from 'vue-browser-detect-plugin';
+import marked from 'marked';
 import App from './App.vue';
 import Dashboard from './views/Dashboard.vue';
 import Privacy from './views/Privacy.vue';
@@ -14,7 +15,6 @@ import PageNotFound from './views/PageNotFound.vue';
 import Terms from './views/Terms.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
-import marked from 'marked';
 
 Vue.config.productionTip = false;
 
@@ -45,7 +45,7 @@ const routes = [
   { path: '/', component: Dashboard },
   { path: '/privacy', component: Privacy },
   { path: '/terms_and_conditions', component: Terms },
-  { path: "*", component: PageNotFound },
+  { path: '*', component: PageNotFound },
 ];
 const router = new VueRouter({
   mode: 'history',
@@ -62,9 +62,9 @@ Vue.use(Vuetify, {
 Vue.use(browserDetect);
 
 const mdRendererLinksTargetBlank = new marked.Renderer();
-mdRendererLinksTargetBlank.link = function(href, title, text) {
+mdRendererLinksTargetBlank.link = function (href, title, text) { // eslint-disable-line func-names
   const link = marked.Renderer.prototype.link.call(this, href, title, text);
-  return link.replace("<a", "<a target='_blank' ");
+  return link.replace('<a', '<a target="_blank" ');
 };
 marked.setOptions({
   renderer: mdRendererLinksTargetBlank,
