@@ -40,24 +40,7 @@ export default {
   data() {
     return {
       autoPlay: true,
-      items: [
-        {
-          poi: 'NorthAdriatic-N3a2',
-          src: './eodash-data/general/Slide1.png',
-        },
-        {
-          poi: 'PL1-E1a',
-          src: './eodash-data/general/Slide2.png',
-        },
-        {
-          poi: 'World-N1',
-          src: './eodash-data/general/Slide3.png',
-        },
-        {
-          poi: 'DE11-E10a1',
-          src: './eodash-data/general/Slide4.png',
-        },
-      ],
+      items: this.$store.state.config.appConfig.newsCarouselitems,
     };
   },
   methods: {

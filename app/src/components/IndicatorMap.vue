@@ -483,6 +483,12 @@ export default {
     },
     layerOptions(time, sourceOptionsObj) {
       const additionalSettings = {};
+      if (Object.prototype.hasOwnProperty.call(sourceOptionsObj, 'siteMapping')) {
+        const currSite = sourceOptionsObj.siteMapping(
+          this.indicator.AOI_ID,
+        );
+        additionalSettings.site = currSite;
+      }
       if (typeof sourceOptionsObj.minZoom !== 'undefined') {
         additionalSettings.minZoom = sourceOptionsObj.minZoom;
       }

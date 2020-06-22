@@ -58,14 +58,13 @@
               ></div>
             </expandable-content>
             <v-btn
+              v-if="eodataEnabled"
               @click="dialog = true"
               color="primary"
               large
               block
               class="my-5"
-              :disabled="!eodataEnabled"
             ><span><v-icon left>mdi-satellite-variant</v-icon>EO Data</span>
-            <span v-if="!eodataEnabled">- Coming soon</span>
             </v-btn>
             <v-btn
               v-if="indicatorObject && externalData"
@@ -157,7 +156,7 @@ export default {
         try {
           markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject['Indicator code']].story}.md`);
         } catch {
-          markdown = { default: 'No indicator story provided yet.' };
+          markdown = { default: '' };
         }
       }
       return this.$marked(markdown.default);

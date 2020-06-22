@@ -1,11 +1,11 @@
 ### How to use the Earth Observing Dashboard
 
-1. Select <span style="color:blue">INDICATORS</span> and <span style="color:blue">COUNTRIES</span> from the lists
-2. Click on available data on the <span style="color:blue">MAP</span>,  and in the <span style="color:blue">TABLE</span>.
-3. Interact with the <span style="color:blue">CHARTS</span>, inspect the <span style="color:blue">EO Data</span>, learn more from the <span style="color:blue">narratives</span> and <span style="color:blue">external resources</span>.
-4. To reset the map view, click on <span style="color:blue">ALL COUNTRIES, ALL INDICATORS</span>
+* Select <span style="color:DodgerBlue">INDICATORS</span> and <span style="color:DodgerBlue">COUNTRIES</span> from the lists
+* Click on available data on the <span style="color:DodgerBlue">MAP</span>,  and in the <span style="color:DodgerBlue">TABLE</span>
+* Interact with the <span style="color:DodgerBlue">CHARTS</span>, inspect the <span style="color:DodgerBlue">EO Data</span>, learn more from the narratives and external resources
+* To reset the map view, click on <span style="color:DodgerBlue">ALL COUNTRIES, ALL INDICATORS</span>
 
+#### Color Legend 
 
-<img src="./data/trilateral/Green.png" width=12> Better than baseline  | <img src="./data/trilateral/Blue.png" width=12> As baseline  | <img src="./data/trilateral/Red.png" width=12> Worse than baseline |<img src="./data/trilateral/Grey.png" width=12> Upcoming data |
-----|----|----|----|
-
+<img src="./data/trilateral/Green.png" width=12> Better than baseline  | <img src="./data/trilateral/Blue.png" width=12> As baseline  | <img src="./data/trilateral/Red.png" width=12> Worse than baseline |<img src="./data/trilateral/Grey.png" width=12> Upcoming data |<img src="./data/trilateral/Black.png" width=12> Global data
+----|----|----|----|----|

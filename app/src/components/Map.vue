@@ -301,7 +301,7 @@ export default {
           } else {
             label += indVal;
           }
-        } else if (indicatorObject['Indicator code'] === 'N3b') {
+        } else if (['N1', 'N3b'].includes(indicatorObject['Indicator code'])) {
           label = '';
         }
       }
@@ -323,7 +323,7 @@ export default {
           }
         }
         if (Object.prototype.hasOwnProperty.call(values, 'Indicator code')
-          && values['Indicator code'] === 'N3b') {
+          && ['N1', 'N3b'].includes(values['Indicator code'])) {
           lastColorCode = 'BLUE';
         }
       }
@@ -375,7 +375,7 @@ export default {
     getFeatures(features) {
       const featuresOnMap = features.filter((f) => f.latlng);
       if (featuresOnMap.length > 0) {
-        const maxZoomFit = 15;
+        const maxZoomFit = 8;
         if (featuresOnMap.length === 1 && featuresOnMap[0].properties.indicatorObject['Sub-AOI']
           && featuresOnMap[0].properties.indicatorObject['Sub-AOI'].features.length > 0) {
           this.$nextTick(() => {
