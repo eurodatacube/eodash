@@ -273,7 +273,7 @@ export const layerNameMapping = Object.freeze({
     dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYYMMDD')}`,
   },
   industry_sg: {
-    url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Findustry%2Fsg_{time}.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+    url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Findustry%2Fsg_{time}.tif&resampling_method=bilinear&bidx=1',
     protocol: 'xyz',
     maxNativeZoom: 15,
     tileSize: 256,
