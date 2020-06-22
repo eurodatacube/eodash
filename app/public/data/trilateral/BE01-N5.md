@@ -1,0 +1,5 @@
+## Port of Ghent (Belgium) - Nightlights
+ 
+Located on the North Sea on the coast of Belgium, the Port of Ghent is a highly trafficked seaport. By focusing on changes in this typically bustling area, researchers are able to compare changes in nightlights, an indicator of economic activity before and after novel coronavirus lockdowns began. 
+
+Nightlight observations from space track variations in energy use, migration, and transportation. By comparing regions before and after guidelines to shelter-in-place began, researchers visualize the extent to which social distancing measures affected various economic activities based on whether light pollution increased or decreased, which highways were shut down, and which cities stayed the same. 
