@@ -116,6 +116,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Greenhouse Gases',
     class: 'environment',
     file: './data/trilateral/N2.csv',
+    story: '/data/trilateral/N2',
     largeTimeDuration: true,
     largeSubAoi: true,
   },
