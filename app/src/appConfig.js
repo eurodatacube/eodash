@@ -60,6 +60,7 @@ module.exports = [
     },
     displayDummyLocations: './data/trilateral/dummylocations.csv',
     storyPath: '/data/trilateral/',
+    customCSS: 'trilateral',
     aboutText: '/data/trilateral/about',
     welcomeText: '/data/trilateral/welcome',
     showNewsCarousel: true,

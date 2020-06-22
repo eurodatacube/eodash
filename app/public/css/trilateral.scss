@@ -1,0 +1,22 @@
+.brand-trilateral {
+  $body-font-family: 'Roboto', sans-serif;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  .h1,
+  .h2,
+  .h3,
+  .h4,
+  .headline,
+  .v-application .display-1,
+  .v-application .display-2,
+  .v-application .display-3,
+  .v-btn__content,
+  .v-toolbar__title,
+  .v-card__title,
+  .v-tab{
+    font-family: 'Roboto', sans-serif !important;
+  }
+}
