@@ -555,6 +555,7 @@ export const globalIndicators = [
           name: 'Population',
           attribution: '{ Population }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DDTHH:mm:ssZ', true).format('YYYY-MM-DDTHH:mm:ss[Z]')}`,
+          legendUrl: 'data/trilateral/NASAPopulation_legend.png',
         },
       },
     },
