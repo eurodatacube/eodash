@@ -149,6 +149,7 @@ export const indicatorsDefinition = Object.freeze({
   N5: {
     indicator: 'Nightlights (Suomi NPP VIIRS)',
     class: 'economic',
+    story: '/eodash-data/stories/N5',
     largeSubAoi: true,
   },
   d: { // dummy for locations
