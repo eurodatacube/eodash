@@ -96,6 +96,8 @@ export const indicatorsDefinition = Object.freeze({
   E13b: {
     indicator: 'Throughput at principal hub airports',
     class: 'economic',
+    file: './data/trilateral/E13b.csv',
+    story: '/data/trilateral/JP01-E13b',
   },
   H1: {
     indicator: 'Number of temp. treatment sites',
@@ -149,7 +151,7 @@ export const indicatorsDefinition = Object.freeze({
   N5: {
     indicator: 'Nightlights (Suomi NPP VIIRS)',
     class: 'economic',
-    story: '/eodash-data/stories/N5',
+    story: '/data/trilateral/N5',
     largeSubAoi: true,
   },
   d: { // dummy for locations
@@ -263,6 +265,7 @@ export const layerNameMapping = Object.freeze({
       };
       return mapping[eoID];
     },
+    legendUrl: 'data/trilateral/N2-XCO2-legend.png',
   },
   airport_tk: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fairport%2Ftk_{time}.tif&resampling_method=bilinear&bidx=1',
@@ -463,6 +466,7 @@ export const globalIndicators = [
           name: 'Greenhouse Gases (NASA)',
           attribution: '{ Greenhouse Gases (NASA) }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+          legendUrl: 'data/trilateral/N2-co2mean-legend.png',
         },
       },
     },
@@ -595,6 +599,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_tk_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Nightlights',
           attribution: '{ NASA }',
+          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
         },
       },
     },
@@ -633,6 +638,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_be_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Nightlights',
           attribution: '{ NASA }',
+          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
         },
       },
     },
@@ -671,6 +677,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_du_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Nightlights',
           attribution: '{ NASA }',
+          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
         },
       },
     },
@@ -709,6 +716,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_gh_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Nightlights',
           attribution: '{ NASA }',
+          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
         },
       },
     },
@@ -747,6 +755,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_la_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Nightlights',
           attribution: '{ NASA }',
+          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
         },
       },
     },
@@ -785,6 +794,46 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_sf_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Nightlights',
           attribution: '{ NASA }',
+          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([41.0114, -73.09]),
+    id: 9992,
+    properties: {
+      indicatorObject: {
+        AOI: latLng([41.0114, -73.09]),
+        id: 9992,
+        AOI_ID: 'US01',
+        Country: ['US'],
+        City: 'New York',
+        'Site Name': 'New York',
+        Description: 'Nightlights',
+        'Indicator code': 'N5',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Night light composite maps (Suomi NPP VIIRS)',
+        'Color code': ['BLUE'],
+        'EO Sensor': [['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights'], ['Nightlights']],
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-71.74516 41.54467, -74.43395 41.54943, -74.43219 40.47812, -71.74516 40.48343, -71.74516 41.54467))').toJson(),
+          }],
+        },
+        Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
+        'Input Data': ['N5'], // just for enabling eo data button for now
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_ny_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Nightlights',
+          attribution: '{ NASA }',
+          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
         },
       },
     },
