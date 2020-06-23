@@ -465,6 +465,7 @@ export const globalIndicators = [
           name: 'Greenhouse Gases (NASA)',
           attribution: '{ Greenhouse Gases (NASA) }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+          legendUrl: 'data/trilateral/N2-co2mean-legend.png',
         },
       },
     },
