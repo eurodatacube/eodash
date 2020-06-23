@@ -83,6 +83,6 @@ module.exports = [
     privacyText: '/data/trilateral/privacy',
     termsText: '/data/trilateral/terms',
     countDownTimer: '2020-06-25T13:30:00.000+00:00',
-    countDownMatch: ['eodashboard.org', 'eodash-trilateral.eox.at'],
+    countDownMatch: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at'],
   },
 ];
