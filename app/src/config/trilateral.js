@@ -68,10 +68,23 @@ export const indicatorsDefinition = Object.freeze({
   E10a1: {
     indicator: 'Harvesting activity',
     class: 'agriculture',
+    file: './eodash-data/data/E10a1.csv',
+    story: '/eodash-data/stories/E10a1',
+    largeSubAoi: true,
   },
   E10a2: {
     indicator: 'Cum. proportion of total area under active mgmt.',
     class: 'agriculture',
+    file: './eodash-data/data/E10a2.csv',
+    story: '/eodash-data/stories/E10a2',
+    largeSubAoi: true,
+  },
+  E10a3: {
+    indicator: 'Evolution of the cultivated areas for production of white asparagus',
+    class: 'agriculture',
+    file: './eodash-data/data/E10a3.csv',
+    story: '/eodash-data/stories/E10a2',
+    largeSubAoi: true,
   },
   E10b: {
     indicator: 'Field preparation activity',
