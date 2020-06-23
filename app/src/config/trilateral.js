@@ -111,12 +111,14 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     file: './data/trilateral/E13b.csv',
     story: '/data/trilateral/JP01-E13b',
+    largeSubAoi: true,
   },
   E13c: {
     indicator: 'Number of Ships in Port',
     class: 'economic',
     file: './data/trilateral/E13c.csv',
     story: '/data/trilateral/E13c',
+    largeSubAoi: true,
   },
   H1: {
     indicator: 'Number of temp. treatment sites',
