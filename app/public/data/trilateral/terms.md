@@ -60,7 +60,7 @@ If you do not wish to receive a cookie, or if you wish your browser to notify yo
 
 ESA is committed to user privacy. It does not use personal identification details transferred through cookies either for promotion or marketing purposes.
 
-For further information regarding the use of cookies on this Website, please refer to https://eodashboard.org/privacy
+For further information regarding the use of cookies on this Website, please refer to https://www.eodashboard.org/privacy
 
 ## (7) Children's privacy
 

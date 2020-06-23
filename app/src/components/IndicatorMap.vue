@@ -192,7 +192,8 @@
             @click:prepend-inner="dataLayerReduce"
             @click:append="dataLayerIncrease"
           >
-            <template v-slot:prepend>
+            <template v-slot:prepend
+            v-if="!disableCompareButton">
               <v-tooltip
                 bottom
               >
@@ -213,6 +214,7 @@
 // Utilities
 import {
   mapState,
+  mapGetters,
 } from 'vuex';
 import { geoJson, latLngBounds, latLng } from 'leaflet';
 import {
@@ -269,6 +271,9 @@ export default {
   },
   computed: {
     ...mapState('config', ['baseConfig']),
+    ...mapGetters('indicators', [
+      'getIndicatorFilteredInputData',
+    ]),
     baseLayers() {
       return this.baseConfig.baseLayers;
     },
@@ -285,10 +290,13 @@ export default {
       return this.baseConfig.indicatorsDefinition;
     },
     indicator() {
-      return this.$store.state.indicators.selectedIndicator;
+      return this.getIndicatorFilteredInputData;
     },
     showAoi() {
       return this.aoi && (!this.subAoi || this.subAoi.features.length === 0);
+    },
+    disableCompareButton() {
+      return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableCompare !== 'undefined') ? this.layerDisplay('data').disableCompare : this.indicatorsDefinition[this.indicator['Indicator code']].disableCompare;
     },
     arrayOfObjects() {
       const selectionOptions = [];
