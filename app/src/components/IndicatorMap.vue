@@ -214,6 +214,7 @@
 // Utilities
 import {
   mapState,
+  mapGetters,
 } from 'vuex';
 import { geoJson, latLngBounds, latLng } from 'leaflet';
 import {
@@ -270,6 +271,9 @@ export default {
   },
   computed: {
     ...mapState('config', ['baseConfig']),
+    ...mapGetters('indicators', [
+      'getIndicatorFilteredInputData',
+    ]),
     baseLayers() {
       return this.baseConfig.baseLayers;
     },
@@ -286,7 +290,7 @@ export default {
       return this.baseConfig.indicatorsDefinition;
     },
     indicator() {
-      return this.$store.state.indicators.selectedIndicator;
+      return this.getIndicatorFilteredInputData;
     },
     showAoi() {
       return this.aoi && (!this.subAoi || this.subAoi.features.length === 0);
