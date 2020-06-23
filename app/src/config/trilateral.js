@@ -529,6 +529,7 @@ export const globalIndicators = [
           name: 'Greenhouse Gases (NASA)',
           attribution: '{ Greenhouse Gases (NASA) }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+          disableCompare: true,
         },
       },
     },
