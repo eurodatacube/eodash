@@ -5,14 +5,16 @@ const state = {
 };
 
 const getters = {
-  getIndicatorFilteredIndicatorValue(state) {
+  getIndicatorFilteredInputData(state) {
     const indicator = { ...state.selectedIndicator };
-    // filter out rows which have empty "Indicator Value"
-    const mask = indicator['Indicator Value'].map((item) => item !== '');
-    for (let [key, value] of Object.entries(indicator)) { // eslint-disable-line
-      // filtering only arrays with more than 1 element to not fail on Input Data:['value'] shortcut
-      if (Array.isArray(value) && value.length > 1) {
-        indicator[key] = value.filter((item, i) => mask[i]);
+    // filter out rows which have empty "Input Data"
+    const mask = indicator['Input Data'].map((item) => item !== '');
+    // filtering only arrays with more than 1 element to not fail on Input Data:['value'] shortcut
+    if (mask.length > 1) {
+      for (let [key, value] of Object.entries(indicator)) { // eslint-disable-line
+        if (Array.isArray(value) && value.length > 1) {
+          indicator[key] = value.filter((item, i) => mask[i]);
+        }
       }
     }
     return indicator;

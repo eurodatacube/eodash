@@ -271,7 +271,7 @@ export default {
   computed: {
     ...mapState('config', ['baseConfig']),
     ...mapGetters('indicators', [
-      'getIndicatorFilteredIndicatorValue',
+      'getIndicatorFilteredInputData',
     ]),
     baseLayers() {
       return this.baseConfig.baseLayers;
@@ -289,7 +289,7 @@ export default {
       return this.baseConfig.indicatorsDefinition;
     },
     indicator() {
-      return this.getIndicatorFilteredIndicatorValue;
+      return this.getIndicatorFilteredInputData;
     },
     showAoi() {
       return this.aoi && (!this.subAoi || this.subAoi.features.length === 0);
