@@ -265,6 +265,7 @@ export const layerNameMapping = Object.freeze({
       };
       return mapping[eoID];
     },
+    legendUrl: 'data/trilateral/N2-XCO2-legend.png',
   },
   airport_tk: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fairport%2Ftk_{time}.tif&resampling_method=bilinear&bidx=1',
