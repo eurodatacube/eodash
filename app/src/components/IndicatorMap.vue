@@ -192,7 +192,8 @@
             @click:prepend-inner="dataLayerReduce"
             @click:append="dataLayerIncrease"
           >
-            <template v-slot:prepend>
+            <template v-slot:prepend
+            v-if="!disableCompareButton">
               <v-tooltip
                 bottom
               >
@@ -289,6 +290,9 @@ export default {
     },
     showAoi() {
       return this.aoi && (!this.subAoi || this.subAoi.features.length === 0);
+    },
+    disableCompareButton() {
+      return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableCompare !== 'undefined') ? this.layerDisplay('data').disableCompare : this.indicatorsDefinition[this.indicator['Indicator code']].disableCompare;
     },
     arrayOfObjects() {
       const selectionOptions = [];
