@@ -111,12 +111,14 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     file: './data/trilateral/E13b.csv',
     story: '/data/trilateral/JP01-E13b',
+    largeSubAoi: true,
   },
   E13c: {
     indicator: 'Number of Ships in Port',
     class: 'economic',
     file: './data/trilateral/E13c.csv',
     story: '/data/trilateral/E13c',
+    largeSubAoi: true,
   },
   H1: {
     indicator: 'Number of temp. treatment sites',
@@ -301,6 +303,22 @@ export const layerNameMapping = Object.freeze({
     tileSize: 256,
     attribution: '{ ALOS JAXA, Sentinel-1 ESA }',
     dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+  },
+  ports: {
+    url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fplanet%2F{site}-{time}.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+    protocol: 'xyz',
+    maxNativeZoom: 15,
+    tileSize: 256,
+    attribution: '{ PLANET }',
+    dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+    siteMapping: (eoID) => {
+      const mapping = {
+        US01: 'ny',
+        US02: 'la',
+        US03: 'sf',
+      };
+      return mapping[eoID];
+    },
   },
   N5: {}, // just for enabling eo data button for now
 });
