@@ -82,8 +82,11 @@
       stateless
       app
       clipped
-      :temporary="dataPanelTemporary"
+      temporary
+      hide-overlay
       :width="dataPanelFullWidth ? '100%' : '40%'"
+      :style="`margin-top: ${$vuetify.application.top}px;
+        height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px`"
     >
       <v-toolbar v-if="$store.state.indicators.selectedIndicator" flat>
         <v-btn v-if="dataPanelFullWidth" icon @click="setDataPanelWidth(false)">
@@ -166,7 +169,9 @@
         </template>
       </div>
     </v-dialog>
-    <v-content style="height: 100vh; overflow:hidden;">
+    <v-content style="height: 100vh; overflow:hidden"
+      :style="$vuetify.breakpoint.mdAndUp && 'width: 60%;'"
+    >
       <v-container
         class="fill-height pa-0"
         fluid
@@ -364,5 +369,8 @@ export default {
   content: "\0000a0";
   display: inline-block;
   width: 0;
+}
+::v-deep .v-navigation-drawer--temporary:not(.v-navigation-drawer--close) {
+    box-shadow: none;
 }
 </style>

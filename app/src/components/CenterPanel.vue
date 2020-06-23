@@ -4,7 +4,7 @@
       v-model="tab"
       :color="$vuetify.theme.themes.light.primary"
       icons-and-text
-      :grow="$vuetify.breakpoint.xsOnly"
+      grow
     >
       <v-tab ref="mapTab" @click="mapTabClick"
         style="width: 125px"
