@@ -1,0 +1,14 @@
+AOI,Country,Region,City,Site Name,Description,Method,EO Sensor,Input Data,Indicator code,Time,Measurement Value,Reference Description,Reference time,Reference value,Rule,Indicator Value,Sub-AOI,Y axis,Indicator Name,Color code,Data Provider,AOI_ID,Update Frequency
+"34.05, -118.25",US,,Los Angeles,Los Angeles,Ports: Ship throughput,,,port_la,E13c,2020-01-22,41,,34.5,,,Normal,,,Number of Ships in Port,BLUE,NASA,US02,Monthly
+"34.05, -118.26",US,,Los Angeles,Los Angeles,Ports: Ship throughput,,,port_la,E13c,2020-03-15,12,,34.5,,,Normal,,,Number of Ships in Port,BLUE,NASA,US02,Monthly
+"34.05, -118.27",US,,Los Angeles,Los Angeles,Ports: Ship throughput,,,port_la,E13c,2020-03-21,20,,34.5,,,Normal,,,Number of Ships in Port,BLUE,NASA,US02,Monthly
+"34.05, -118.28",US,,Los Angeles,Los Angeles,Ports: Ship throughput,,,port_la,E13c,2020-03-22,86,,34.5,,,Normal,,,Number of Ships in Port,BLUE,NASA,US02,Monthly
+"34.05, -118.29",US,,Los Angeles,Los Angeles,Ports: Ship throughput,,,port_la,E13c,2020-04-23,20,,34.5,,,Normal,,,Number of Ships in Port,BLUE,NASA,US02,Monthly
+"34.05, -118.30",US,,Los Angeles,Los Angeles,Ports: Ship throughput,,,port_la,E13c,2020-04-24,28,,34.5,,,Normal,,,Number of Ships in Port,BLUE,NASA,US02,Monthly
+"41.0114, -73.09",US,,New York,New York,Ports: Ship throughput,,,port_ny,E13c,2020-01-20,52,,42.75,,,Normal,,,Number of Ships in Port,BLUE,NASA,US01,Monthly
+"41.0114, -73.09",US,,New York,New York,Ports: Ship throughput,,,port_ny,E13c,2020-01-21,69,,42.75,,,Normal,,,Number of Ships in Port,BLUE,NASA,US01,Monthly
+"41.0114, -73.09",US,,New York,New York,Ports: Ship throughput,,,port_ny,E13c,2020-03-18,44,,42.75,,,Normal,,,Number of Ships in Port,BLUE,NASA,US01,Monthly
+"41.0114, -73.09",US,,New York,New York,Ports: Ship throughput,,,port_ny,E13c,2020-03-22,6,,42.75,,,Normal,,,Number of Ships in Port,BLUE,NASA,US01,Monthly
+"37.7775, -122.416389",US,,San Francisco,San Francisco,Ports: Ship throughput,,,port_sf,E13c,2020-03-10,23,,26.333333333333332,,,Normal,,,Number of Ships in Port,BLUE,NASA,US02,Monthly
+"37.7775, -122.416389",US,,San Francisco,San Francisco,Ports: Ship throughput,,,port_sf,E13c,2020-03-11,23,,26.333333333333332,,,Normal,,,Number of Ships in Port,BLUE,NASA,US03,Monthly
+"37.7775, -122.416389",US,,San Francisco,San Francisco,Ports: Ship throughput,,,port_sf,E13c,2020-04-21,33,,26.333333333333332,,,Normal,,,Number of Ships in Port,BLUE,NASA,US04,Monthly
