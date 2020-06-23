@@ -5,6 +5,18 @@ const state = {
 };
 
 const getters = {
+  getIndicatorFilteredIndicatorValue(state) {
+    const indicator = { ...state.selectedIndicator };
+    // filter out rows which have empty "Indicator Value"
+    const mask = indicator['Indicator Value'].map((item) => item !== '');
+    for (let [key, value] of Object.entries(indicator)) { // eslint-disable-line
+      // filtering only arrays with more than 1 element to not fail on Input Data:['value'] shortcut
+      if (Array.isArray(value) && value.length > 1) {
+        indicator[key] = value.filter((item, i) => mask[i]);
+      }
+    }
+    return indicator;
+  },
 };
 
 const mutations = {
