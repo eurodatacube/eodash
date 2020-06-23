@@ -3,7 +3,7 @@
 (version as of June 22nd 2020)
 
 COVID-19 Earth Observing Dashboard
-https://eodashboard.org
+https://www.eodashboard.org/
 
 ## (1) Publisher of the Website
 This Website is a publication of the European Space Agency (“ESA” or “Agency”), an international intergovernmental organisation governed by its Convention (available on [www.esa.int](www.esa.int)) located at 24 rue du Général Bertrand CS 30798, 75345 PARIS CEDEX, France.
@@ -18,7 +18,9 @@ This Website is intended to inform the public and demonstrate the use of NASA 's
 3.2 The use of Copernicus Sentinel Data is governed only by the Legal notice on the use of Copernicus Sentinel Data and Service Information available at [this URL](https://sentinel.esa.int/documents/247904/690755/Sentinel_Data_Legal_Notice).
 
 3.3 The use of Third Party Mission Data contributed either under the Copernicus Contributing Mission or under the ESA Earthnet Third Party Missions scheme, is governed by terms and conditions available as follows:
+
 (i) for data contributed under the [Copernicus Contributing Mission scheme](https://spacedata.copernicus.eu/documents/20126/0/CSCDA_ESA_User_Licence_last_uploaded_2020_02_10.pdf/b879907e-bd00-688e-bf42-bf27a00d70cb?t=1581335391752)
+
 (ii) for data contributed under the [ESA Earthnet Third Party Missions scheme](https://earth.esa.int/pi/esa?type=file&table=aotarget&cmd=image&alias=TPMterms)
 
 3.4. The use of Research Data contributed by JAXA is governed by terms and conditions available at: [http://earth.jaxa.jp/policy/en.html](http://earth.jaxa.jp/policy/en.html)
@@ -69,7 +71,9 @@ ESA encourages parents or guardians to stay with children under 13 when the chil
 8.1 The use of Copernicus Sentinel Data is governed only by the Legal notice on the use of Copernicus Sentinel Data and Service Information available at [this URL](https://sentinel.esa.int/documents/247904/690755/Sentinel_Data_Legal_Notice).
 
 8.2 The use of Third Party Mission Data contributed either under the Copernicus Contributing Mission or under the ESA Earthnet Third Party Missions scheme is governed by terms and conditions available as follows:
+
 (i) for data contributed under the [Copernicus Contributing Mission scheme](https://spacedata.copernicus.eu/documents/20126/0/CSCDA_ESA_User_Licence_last_uploaded_2020_02_10.pdf/b879907e-bd00-688e-bf42-bf27a00d70cb?t=1581335391752)
+
 (ii) for data contributed under the [ESA Earthnet Third Party Missions scheme](https://earth.esa.int/pi/esa?type=file&table=aotarget&cmd=image&alias=TPMterms)
 
 8.3 The content (i.e. information, images, documents and materials) published on, or accessible via, the Website, other than the ones referred to in Article 8.2 and 8.3 above, are intended for the personal and non-commercial use of its users. ESA grants permission to users to visit the Website, and to download and copy any such content from the Website for users' personal non- commercial use. ESA does not grant the right to resell or redistribute any content from the Website or to compile or create derivative works from content on the Website. Users may not modify, publish, transmit, participate in the transfer or sale of, reproduce, create derivative works from, distribute, perform, display or in any way exploit any of the content or services, in whole or in part, such content.
@@ -99,7 +103,7 @@ The User must not distort, mutilate, misuse or take any other action in relation
 
 In the use of the Website’s content as authorized herein (or, as applicable, in the third party’s terms and conditions referred to herein), the Users shall use such content:
 (i)	together with the related ownership notices or credits as available on the Website
-(ii)	referring to the Website as source of that content, by using the following notice: [ESA communication to suggest a notice referring to COVID-19 Earth Observing Dashboard]
+(ii)	referring to the Website as source of that content, by using the following notice: "Credit: COVID-19 Earth Observing Dashboard, [date], https://www.eodashboard.org"
 
 The Users are not authorized to directly or indirectly, implicitly or explicitly, attribute to ESA:
 
