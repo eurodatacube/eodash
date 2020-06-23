@@ -1,6 +1,6 @@
 <!-- eslint-disable global-require -->
 <template>
-  <v-app id="inspire">
+  <v-app id="inspire" :class="`brand-${appConfig.id}`">
     <div v-if="comingSoon"
       class="fill-height d-flex justify-center align-center"
       style="background: white"

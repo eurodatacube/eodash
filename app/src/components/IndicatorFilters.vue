@@ -190,6 +190,18 @@
                 </v-list-item-content>
               </v-list-item>
               <v-list-item
+                value="SG"
+                :disabled="countrySelection === 'SG'"
+                active-class="itemActive"
+              >
+                <v-list-item-icon class="d-flex align-center mr-2">
+                  <country-flag country="SG" size='normal' />
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Singapore</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item
                 value="BD"
                 :disabled="countrySelection === 'BD'"
                 active-class="itemActive"
@@ -425,8 +437,15 @@ export default {
   padding-left: 0;
   padding-right: 0;
 }
+.v-list-item__icon .flag {
+  border: 1px solid lightgray;
+  background-position-x: -1px;
+}
 .itemActive {
   background: var(--v-primary-base);
   color: white !important;
+  .v-list-item__icon .flag {
+    border: 1px solid transparent;
+  }
 }
 </style>
