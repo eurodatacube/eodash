@@ -3,7 +3,7 @@
 (version as of June 22nd 2020)
 
 COVID-19 Earth Observing Dashboard
-https://www.eodashboard.org/
+https://eodashboard.org
 
 ## (1) Publisher of the Website
 This Website is a publication of the European Space Agency (“ESA” or “Agency”), an international intergovernmental organisation governed by its Convention (available on [www.esa.int](www.esa.int)) located at 24 rue du Général Bertrand CS 30798, 75345 PARIS CEDEX, France.
@@ -51,7 +51,7 @@ ESA is governed by the Personal Data Protection Framework, available on the ESA 
 
 ### b. Use of IP address
 
-The IP address is a number that is automatically given to your computer when you are surfing on the internet. Servers that host web pages, automatically identify your computer through its IP address number. ESA uses IP addresses in order to carry out statistics, however, as IP addresses and personal identification are not linked to each other, users remain anonymous. 
+The IP address is a number that is automatically given to your computer when you are surfing on the internet. Servers that host web pages, automatically identify your computer through its IP address number. ESA uses IP addresses in order to carry out statistics, however, as IP addresses and personal identification are not linked to each other, users remain anonymous.
 
 ### c. Use of cookies
 
@@ -60,7 +60,7 @@ If you do not wish to receive a cookie, or if you wish your browser to notify yo
 
 ESA is committed to user privacy. It does not use personal identification details transferred through cookies either for promotion or marketing purposes.
 
-For further information regarding the use of cookies on this Website, please refer to https://www.eodashboard.org/privacy
+For further information regarding the use of cookies on this Website, please refer to https://eodashboard.org/privacy
 
 ## (7) Children's privacy
 
@@ -103,7 +103,7 @@ The User must not distort, mutilate, misuse or take any other action in relation
 
 In the use of the Website’s content as authorized herein (or, as applicable, in the third party’s terms and conditions referred to herein), the Users shall use such content:
 (i)	together with the related ownership notices or credits as available on the Website
-(ii)	referring to the Website as source of that content, by using the following notice: "Credit: COVID-19 Earth Observing Dashboard, [date], https://www.eodashboard.org"
+(ii)	referring to the Website as source of that content, by using the following notice: "Credit: COVID-19 Earth Observing Dashboard, [date], https://eodashboard.org"
 
 The Users are not authorized to directly or indirectly, implicitly or explicitly, attribute to ESA:
 
