@@ -281,7 +281,10 @@ export default {
       return this.baseConfig.overlayLayers;
     },
     mapDefaults() {
-      return this.baseConfig.mapDefaults;
+      return {
+        ...this.baseConfig.mapDefaults,
+        ...this.shLayerConfig('data'),
+      };
     },
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
