@@ -186,42 +186,42 @@ export const layerNameMapping = Object.freeze({
   '[NEW] Planetscope COVID-19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLANETSCOPE_COVID-19',
-    attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   },
   'PlanetScope - COVID19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLANETSCOPE_COVID-19',
-    attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   },
   'Planetscope COVID-19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLANETSCOPE_COVID-19',
-    attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   },
   '[NEW] Planet COVID-19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLANETSCOPE_COVID-19',
-    attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   },
   '[NEW] Pleiades': {
     baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES',
-    attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   },
   'Pleiades - COVID19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_COVID19',
-    attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   },
   '[NEW] Pleiades COVID-19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_COVID19',
-    attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   },
   '[NEW] Pleiades COVID19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_COVID19',
-    attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   },
   // 'DS_PHR1A': {
   //   base`rl: 'https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -230,43 +230,44 @@ export const layerNameMapping = Object.freeze({
   '[NEW] Pleiades - 2.8m - COVID19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_28_COVID19',
-    attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   },
   '[NEW] Pleiades 16bit': {
     baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_16BIT',
-    attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   },
   'Sentinel 2 L2A': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-    attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   },
   S2L2A: {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-    attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   },
   S1GRD: {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'E8_SENTINEL1',
-    attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   },
   'S1A - GRD': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'E8_SENTINEL1',
-    attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   },
-  N1: {},
+  N1: {
+    maxMapZoom: 8,
+  },
   NASAPopulation: {
     maxMapZoom: 8,
   },
   'ALOS-2': {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2FALOS_SAMPLE%2Falos2-s1-beijing_{time}.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536',
     protocol: 'xyz',
-    maxNativeZoom: 15,
     tileSize: 256,
-    attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
     dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
   },
   GOSAT_XCO2: {
@@ -275,7 +276,7 @@ export const layerNameMapping = Object.freeze({
     maxNativeZoom: 12,
     maxMapZoom: 12,
     tileSize: 256,
-    attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
     dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYYMM')}`,
     siteMapping: (eoID) => {
       const mapping = {
@@ -294,25 +295,22 @@ export const layerNameMapping = Object.freeze({
   airport_tk: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fairport%2Ftk_{time}.tif&resampling_method=bilinear&bidx=1',
     protocol: 'xyz',
-    maxNativeZoom: 15,
     tileSize: 256,
-    attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
     dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
   },
   industry_sg: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Findustry%2Fsg_{time}.tif&resampling_method=bilinear&bidx=1',
     protocol: 'xyz',
-    maxNativeZoom: 15,
     tileSize: 256,
-    attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
     dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
   },
   ports: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fplanet%2F{site}-{time}.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
     protocol: 'xyz',
-    maxNativeZoom: 15,
     tileSize: 256,
-    attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
     dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
     siteMapping: (eoID) => {
       const mapping = {
@@ -323,7 +321,12 @@ export const layerNameMapping = Object.freeze({
       return mapping[eoID];
     },
   },
-  N5: {}, // just for enabling eo data button for now
+  N5: {
+    maxMapZoom: 15,
+  },
+  N2limited: {
+    maxMapZoom: 5,
+  },
 });
 
 export const indicatorClassesIcons = Object.freeze({
@@ -433,7 +436,7 @@ export const globalIndicators = [
         AOI: null,
         AOI_ID: 'W1',
         Time: [['2019-01-07', '2019-01-21'], ['2019-01-14', '2019-01-28'], ['2019-01-21', '2019-02-04'], ['2019-01-28', '2019-02-11'], ['2019-02-04', '2019-02-18'], ['2019-02-11', '2019-02-25'], ['2019-02-18', '2019-03-04'], ['2019-02-25', '2019-03-11'], ['2019-03-04', '2019-03-18'], ['2019-03-11', '2019-03-25'], ['2019-03-18', '2019-04-01'], ['2019-03-25', '2019-04-08'], ['2019-04-01', '2019-04-15'], ['2019-04-08', '2019-04-22'], ['2019-04-15', '2019-04-29'], ['2019-04-22', '2019-05-06'], ['2019-04-29', '2019-05-13'], ['2019-05-06', '2019-05-20'], ['2019-05-13', '2019-05-27'], ['2019-05-20', '2019-06-03'], ['2019-05-27', '2019-06-10'], ['2019-06-03', '2019-06-17'], ['2019-06-10', '2019-06-24'], ['2019-06-17', '2019-07-01'], ['2019-06-24', '2019-07-08'], ['2019-07-01', '2019-07-15'], ['2019-07-08', '2019-07-22'], ['2019-07-15', '2019-07-29'], ['2019-07-22', '2019-08-05'], ['2019-07-29', '2019-08-12'], ['2019-08-05', '2019-08-19'], ['2019-08-12', '2019-08-26'], ['2019-08-19', '2019-09-02'], ['2019-08-26', '2019-09-09'], ['2019-09-02', '2019-09-16'], ['2019-09-09', '2019-09-23'], ['2019-09-16', '2019-09-30'], ['2019-09-23', '2019-10-07'], ['2019-09-30', '2019-10-14'], ['2019-10-07', '2019-10-21'], ['2019-10-14', '2019-10-28'], ['2019-10-21', '2019-11-04'], ['2019-10-28', '2019-11-11'], ['2019-11-04', '2019-11-18'], ['2019-11-11', '2019-11-25'], ['2019-11-18', '2019-12-02'], ['2019-11-25', '2019-12-09'], ['2019-12-02', '2019-12-16'], ['2019-12-09', '2019-12-23'], ['2019-12-16', '2019-12-30'], ['2019-12-23', '2020-01-06'], ['2019-12-30', '2020-01-13'], ['2020-01-06', '2020-01-20'], ['2020-01-13', '2020-01-27'], ['2020-01-20', '2020-02-03'], ['2020-01-27', '2020-02-10'], ['2020-02-03', '2020-02-17'], ['2020-02-10', '2020-02-24'], ['2020-02-17', '2020-03-02'], ['2020-02-24', '2020-03-09'], ['2020-03-02', '2020-03-16'], ['2020-03-09', '2020-03-23'], ['2020-03-16', '2020-03-30'], ['2020-03-23', '2020-04-06'], ['2020-03-30', '2020-04-13'], ['2020-04-06', '2020-04-20'], ['2020-04-13', '2020-04-27'], ['2020-04-20', '2020-05-04'], ['2020-04-27', '2020-05-11'], ['2020-05-04', '2020-05-18'], ['2020-05-11', '2020-05-25'], ['2020-05-18', '2020-06-01'], ['2020-05-25', '2020-06-08'], ['2020-06-01', '2020-06-15']],
-        'Input Data': ['N1'], // just for enabling eo data button for now
+        'Input Data': Array(100).fill(['N1']), // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
@@ -465,14 +468,14 @@ export const globalIndicators = [
         AOI: null,
         AOI_ID: 'W2',
         Time: getMonthlyDates('2004-10-01', '2020-03-01'),
-        'Input Data': ['N1'], // just for enabling eo data button for now
+        'Input Data': Array(186).fill(['N1']), // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
           opacity: 0.7,
           url: 'https://h4ymwpefng.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x.png?url=s3://covid-eo-data/OMNO2d_HRM/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=0%2C1.8e16&color_map=reds',
           name: 'Air Quality (NASA)',
-          attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYYMM')}`,
           legendUrl: 'eodash-data/data/no2Legend.png',
         },
@@ -497,14 +500,13 @@ export const globalIndicators = [
         AOI: null,
         AOI_ID: 'W3',
         Time: getDailyDates('2020-01-01', '2020-04-16'),
-        'Input Data': ['N2'], // just for enabling eo data button for now
+        'Input Data': Array(106).fill(['N2limited']), // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 6,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_mean.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.000408%2C0.000419&color_map=rdylbu_r',
           name: 'Greenhouse Gases (NASA)',
-          attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
           legendUrl: 'data/trilateral/N2-co2mean-legend.png',
         },
@@ -529,14 +531,13 @@ export const globalIndicators = [
         AOI: null,
         AOI_ID: 'W4',
         Time: getDailyDates('2020-01-01', '2020-04-16'),
-        'Input Data': ['N2'], // just for enabling eo data button for now
+        'Input Data': Array(106).fill(['N2limited']), // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 6,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_base.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.000408%2C0.000419&color_map=rdylbu_r',
           name: 'Greenhouse Gases (NASA)',
-          attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
           legendUrl: 'data/trilateral/N2-co2mean-legend.png',
         },
@@ -561,14 +562,13 @@ export const globalIndicators = [
         AOI: null,
         AOI_ID: 'W5',
         Time: getDailyDates('2020-01-01', '2020-04-16'),
-        'Input Data': ['N2'], // just for enabling eo data button for now
+        'Input Data': Array(106).fill(['N2limited']), // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 6,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_diff.{time}.tif&resampling_method=bilinear&bidx=1&rescale=-0.000001%2C0.000001&color_map=rdbu_r',
           name: 'Greenhouse Gases (NASA)',
-          attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
           legendUrl: 'data/trilateral/N2-co2diff-legend.png',
           disableCompare: true,
@@ -601,9 +601,10 @@ export const globalIndicators = [
           opacity: 1,
           url: 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/GPW_Population_Density_2020/default/{time}/GoogleMapsCompatible_Level7/{z}/{y}/{x}.png',
           name: 'Population',
-          attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DDTHH:mm:ssZ', true).format('YYYY-MM-DDTHH:mm:ss[Z]')}`,
           legendUrl: 'data/trilateral/NASAPopulation_legend.png',
+          disableCompare: true,
         },
       },
     },
@@ -634,14 +635,14 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_tk_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Nightlights',
-          attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N5-nighlights-legend.png',
         },
       },
@@ -673,14 +674,14 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_be_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Nightlights',
-          attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N5-nighlights-legend.png',
         },
       },
@@ -712,14 +713,14 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_du_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Nightlights',
-          attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N5-nighlights-legend.png',
         },
       },
@@ -751,14 +752,14 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_gh_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Nightlights',
-          attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N5-nighlights-legend.png',
         },
       },
@@ -790,14 +791,14 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_la_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Nightlights',
-          attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N5-nighlights-legend.png',
         },
       },
@@ -829,14 +830,14 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_sf_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Nightlights',
-          attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N5-nighlights-legend.png',
         },
       },
@@ -868,14 +869,14 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/BMHD_30M_MONTHLY/BMHD_VNP46A2_ny_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Nightlights',
-          attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N5-nighlights-legend.png',
         },
       },
@@ -915,7 +916,7 @@ export const globalIndicators = [
           layers: 'N3_CUSTOM_TRILATERAL',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           maxZoom: 13,
-          attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (dates) => `${moment.utc(dates[0], 'YYYY-MM-DD').format('YYYY-MM-DD')}`,
         },
       },
@@ -955,7 +956,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-nas-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Index',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
-          attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
         },
       },
     },
@@ -994,7 +995,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-nas-jaxa-{time}.tif&resampling_method=bilinear&bidx=1&rescale=0%2C255&color_map=rdbu_r',
           name: 'Water Quality Index',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
-          attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
         },
       },
     },
@@ -1033,7 +1034,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Regional Maps',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
-          attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
         },
       },
     },
@@ -1072,7 +1073,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-ny-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Index',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
-          attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
         },
       },
     },
@@ -1112,7 +1113,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-tk-{time}.tif&resampling_method=bilinear&bidx=1&color_map=rdbu_r',
           name: 'Water Quality Index',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
-          attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
         },
       },
