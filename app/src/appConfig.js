@@ -86,7 +86,7 @@ module.exports = [
     privacyText: '/data/trilateral/privacy',
     termsText: '/data/trilateral/terms',
     feedbackTwitterHandles: ['ESA_EO', 'esa', 'NASAEarth', 'NASA', 'JAXA_en', 'JAXA_jp', 'eurodatacube'],
-    countDownTimer: '2020-06-25T13:30:00.000+00:00',
+    countDownTimer: '2020-06-25T13:30:00.000+02:00',
     countDownMatch: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at'],
   },
 ];
