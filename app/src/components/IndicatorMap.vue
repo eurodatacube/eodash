@@ -341,8 +341,8 @@ export default {
     this.dataLayerTime = { value: this.indicator.Time[this.dataLayerIndex] };
     this.compareLayerTime = { value: this.getInitialCompareTime() };
     this.$nextTick(() => {
-      const layerButton = document.querySelector('.leaflet-control-layers-toggle');
-      layerButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${this.appConfig.branding.primaryColor}" width="32px" height="32px"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>`;
+      const layerButtons = document.querySelectorAll('.leaflet-control-layers-toggle');
+      layerButtons.forEach((lB) => lB.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${this.appConfig.branding.primaryColor}" width="32px" height="32px"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>`);
 
       this.$refs.subaoiLayer.mapObject.bindTooltip('Reference area', {
         direction: 'top',
