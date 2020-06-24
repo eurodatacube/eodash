@@ -896,11 +896,16 @@ export default {
               const obj = datasets[context[0].datasetIndex].data[context[0].index];
               const refT = obj.referenceTime;
               const refV = Number(obj.referenceValue);
-              return [
+              const labelOutput = [
                 `${obj.time.getDate()}.${obj.time.getMonth() + 1}.${obj.time.getFullYear()}:  ${obj.value.toPrecision(4)}`,
                 `${refT.getDate()}.${refT.getMonth() + 1}.${refT.getFullYear()}:  ${refV.toPrecision(4)}`,
-                `${(((obj.value - refV) / refV) * 100).toPrecision(2)} %`,
               ];
+              if (refV !== 0) {
+                labelOutput.push(
+                  `${(((obj.value - refV) / refV) * 100).toPrecision(2)} %`,
+                );
+              }
+              return labelOutput;
             },
           },
         };
