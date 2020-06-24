@@ -42,8 +42,6 @@ module.exports = [
     privacyText: '/eodash-data/general/privacy',
     termsText: '/eodash-data/general/terms',
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube'],
-    countDownTimer: '2020-06-05T12:00:00.000+02:00',
-    countDownMatch: ['race.esa.int', 'eodash.eox.at'],
   },
   {
     id: 'trilateral',
@@ -57,7 +55,7 @@ module.exports = [
     },
     pageMeta: {
       rootPath: 'https://eodashboard.org',
-      googleSiteVerification: 'RfWilP51Q2wsZnVlKbxUTovIx90QqqLRFLebGpAeq14',
+      googleSiteVerification: 'iHN2SaSR9qF7T3lOqNYSF4kaq_ZgK-I31SSgO5RKXW8',
       shortDescription: 'The Earth Observing Dashboard platform demonstrates how the use of EO data can help shed new light on societal and economic changes currently taking place owing to the coronavirus pandemic.',
       twitterCardImagePath: '/img/trilateral/twitter_card.jpg',
     },
@@ -88,5 +86,7 @@ module.exports = [
     privacyText: '/data/trilateral/privacy',
     termsText: '/data/trilateral/terms',
     feedbackTwitterHandles: ['ESA_EO', 'esa', 'NASAEarth', 'NASA', 'JAXA_en', 'JAXA_jp', 'eurodatacube'],
+    countDownTimer: '2020-06-25T13:30:00.000+02:00',
+    countDownMatch: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at'],
   },
 ];
