@@ -685,11 +685,11 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([51.02986, 2.250141]),
+    latlng: latLng([51.036138, 2.285374]),
     id: 9996, // for now
     properties: {
       indicatorObject: {
-        AOI: latLng([51.02986, 2.250141]),
+        AOI: latLng([51.036138, 2.285374]),
         id: 9996,
         AOI_ID: 'FR03',
         Country: ['FR'],
@@ -724,13 +724,13 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([51.15934, 3.77245]),
+    latlng: latLng([51.091559, 3.740081]),
     id: 9995,
     properties: {
       indicatorObject: {
-        AOI: latLng([51.15934, 3.77245]),
+        AOI: latLng([51.091559, 3.740081]),
         id: 9995,
-        AOI_ID: 'BE01',
+        AOI_ID: 'BE03',
         Country: ['BE'],
         City: 'Port of Ghent',
         'Site Name': 'Port of Ghent',
@@ -847,7 +847,7 @@ export const globalIndicators = [
       indicatorObject: {
         AOI: latLng([41.0114, -73.09]),
         id: 9992,
-        AOI_ID: 'US01',
+        AOI_ID: 'US04',
         Country: ['US'],
         City: 'New York',
         'Site Name': 'New York',
@@ -1043,7 +1043,7 @@ export const globalIndicators = [
       indicatorObject: {
         AOI: latLng([41.0114, -73.09]),
         id: 19996,
-        AOI_ID: 'US01',
+        AOI_ID: 'US04',
         Country: ['US'],
         City: 'New York',
         'Site Name': 'New York',
