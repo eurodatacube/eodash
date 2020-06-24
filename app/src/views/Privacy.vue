@@ -42,6 +42,12 @@ import {
 } from 'vuex';
 
 export default {
+  metaInfo() {
+    const { appConfig } = this.$store.state.config;
+    return {
+      title: appConfig ? appConfig.branding.appName : 'eodash',
+    };
+  },
   computed: {
     ...mapState('config', ['appConfig']),
     privacy() {
