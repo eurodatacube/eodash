@@ -88,31 +88,17 @@
             </v-card-text>
           </v-responsive>
           <v-btn
-            color="primary"
+            v-for="handle in appConfig.feedbackTwitterHandles"
+            :key="handle"
+            color="#1DA1F2"
+            dark
+            small
             class="ml-3 mb-5"
-            href="https://twitter.com/esa_eo"
+            :href="`https://twitter.com/${handle}`"
             target="_blank"
           >
             <v-icon left>mdi-twitter</v-icon>
-            ESA
-          </v-btn>
-          <v-btn
-            color="primary"
-            class="ml-3 mb-5"
-            href="https://twitter.com/EO_OPEN_SCIENCE"
-            target="_blank"
-          >
-            <v-icon left>mdi-twitter</v-icon>
-            EO OPEN SCIENCE
-          </v-btn>
-          <v-btn
-            color="primary"
-            class="ml-3 mb-5"
-            href="https://twitter.com/eurodatacube"
-            target="_blank"
-          >
-            <v-icon left>mdi-twitter</v-icon>
-            Euro Data Cube
+            {{ handle }}
           </v-btn>
         </v-card>
       </v-col>
@@ -292,6 +278,10 @@
 </template>
 
 <script>
+import {
+  mapState,
+} from 'vuex';
+
 import axios from 'axios';
 
 export default {
@@ -316,6 +306,9 @@ export default {
     showPreview: false,
     markdownMessage: 'You can use <a href="https://guides.github.com/features/mastering-markdown/" rel="noopener" target="_blank" tabindex="-1">markdown</a>',
   }),
+  computed: {
+    ...mapState('config', ['appConfig']),
+  },
   mounted() {
     this.detectSystem();
   },
