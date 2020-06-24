@@ -12,8 +12,8 @@
     @update:bounds="boundsUpdated"
   >
     <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
-    <l-control-layers position="topright" ></l-control-layers>
-    <l-control-zoom position="topright"  ></l-control-zoom>
+    <l-control-layers position="topright"></l-control-layers>
+    <l-control-zoom position="topright"></l-control-zoom>
     <LTileLayer
       v-for="layer in baseLayers"
       :key="layer.name"
@@ -132,7 +132,7 @@ export default {
   },
   computed: {
     ...mapGetters('features', ['getFeatures']),
-    ...mapState('config', ['baseConfig']),
+    ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayers() {
       return this.baseConfig.baseLayers;
     },
@@ -220,6 +220,9 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
+      const layerButton = document.querySelector('.leaflet-control-layers-toggle');
+      layerButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${this.appConfig.branding.primaryColor}" width="32px" height="32px"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>`;
+
       this.map = this.$refs.map.mapObject;
 
       this.$refs.subaoiLayer.mapObject.bindTooltip('Reference area', {
@@ -456,7 +459,14 @@ export default {
   transform: translate3d(-8px, 32px, 0);
   padding: 2px 4px;
 }
+::v-deep .leaflet-bar a, ::v-deep .leaflet-control-attribution {
+  color: var(--v-primary-base) !important;
+}
 ::v-deep .leaflet-control-layers-toggle {
-  background-image: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23003247" width="32px" height="32px"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>');
+  background-image: none;
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>

@@ -192,7 +192,8 @@
             @click:prepend-inner="dataLayerReduce"
             @click:append="dataLayerIncrease"
           >
-            <template v-slot:prepend>
+            <template v-slot:prepend
+            v-if="!disableCompareButton">
               <v-tooltip
                 bottom
               >
@@ -213,6 +214,7 @@
 // Utilities
 import {
   mapState,
+  mapGetters,
 } from 'vuex';
 import { geoJson, latLngBounds, latLng } from 'leaflet';
 import {
@@ -268,7 +270,10 @@ export default {
     };
   },
   computed: {
-    ...mapState('config', ['baseConfig']),
+    ...mapState('config', ['appConfig', 'baseConfig']),
+    ...mapGetters('indicators', [
+      'getIndicatorFilteredInputData',
+    ]),
     baseLayers() {
       return this.baseConfig.baseLayers;
     },
@@ -276,7 +281,10 @@ export default {
       return this.baseConfig.overlayLayers;
     },
     mapDefaults() {
-      return this.baseConfig.mapDefaults;
+      return {
+        ...this.baseConfig.mapDefaults,
+        ...this.shLayerConfig('data'),
+      };
     },
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
@@ -285,10 +293,13 @@ export default {
       return this.baseConfig.indicatorsDefinition;
     },
     indicator() {
-      return this.$store.state.indicators.selectedIndicator;
+      return this.getIndicatorFilteredInputData;
     },
     showAoi() {
       return this.aoi && (!this.subAoi || this.subAoi.features.length === 0);
+    },
+    disableCompareButton() {
+      return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableCompare !== 'undefined') ? this.layerDisplay('data').disableCompare : this.indicatorsDefinition[this.indicator['Indicator code']].disableCompare;
     },
     arrayOfObjects() {
       const selectionOptions = [];
@@ -330,6 +341,9 @@ export default {
     this.dataLayerTime = { value: this.indicator.Time[this.dataLayerIndex] };
     this.compareLayerTime = { value: this.getInitialCompareTime() };
     this.$nextTick(() => {
+      const layerButton = document.querySelector('.leaflet-control-layers-toggle');
+      layerButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${this.appConfig.branding.primaryColor}" width="32px" height="32px"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>`;
+
       this.$refs.subaoiLayer.mapObject.bindTooltip('Reference area', {
         direction: 'top',
       });
@@ -692,5 +706,15 @@ export default {
 }
 ::v-deep .mdi-asterisk {
   visibility: hidden;
+}
+::v-deep .leaflet-bar a, ::v-deep .leaflet-control-attribution {
+  color: var(--v-primary-base) !important;
+}
+::v-deep .leaflet-control-layers-toggle {
+  background-image: none;
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>
