@@ -323,7 +323,9 @@ export const layerNameMapping = Object.freeze({
       return mapping[eoID];
     },
   },
-  N5: {}, // just for enabling eo data button for now
+  N5: {
+    maxMapZoom: 15,
+  },
 });
 
 export const indicatorClassesIcons = Object.freeze({
@@ -634,7 +636,7 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -673,7 +675,7 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -712,7 +714,7 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -751,7 +753,7 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -790,7 +792,7 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -829,7 +831,7 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -868,7 +870,7 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
