@@ -134,7 +134,7 @@ export default {
         this.$refs.referenceMap.onResize();
         setTimeout(() => {
           this.$refs.referenceMap.flyToBounds();
-        }, 1);
+        }, 200);
       }
     },
   },

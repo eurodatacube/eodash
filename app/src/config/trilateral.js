@@ -258,7 +258,9 @@ export const layerNameMapping = Object.freeze({
     attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   },
   N1: {},
-  NASAPopulation: {},
+  NASAPopulation: {
+    maxMapZoom: 8,
+  },
   'ALOS-2': {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2FALOS_SAMPLE%2Falos2-s1-beijing_{time}.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536',
     protocol: 'xyz',
@@ -685,11 +687,11 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([51.02986, 2.250141]),
+    latlng: latLng([51.036138, 2.285374]),
     id: 9996, // for now
     properties: {
       indicatorObject: {
-        AOI: latLng([51.02986, 2.250141]),
+        AOI: latLng([51.036138, 2.285374]),
         id: 9996,
         AOI_ID: 'FR03',
         Country: ['FR'],
@@ -724,13 +726,13 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([51.15934, 3.77245]),
+    latlng: latLng([51.091559, 3.740081]),
     id: 9995,
     properties: {
       indicatorObject: {
-        AOI: latLng([51.15934, 3.77245]),
+        AOI: latLng([51.091559, 3.740081]),
         id: 9995,
-        AOI_ID: 'BE01',
+        AOI_ID: 'BE03',
         Country: ['BE'],
         City: 'Port of Ghent',
         'Site Name': 'Port of Ghent',
@@ -847,7 +849,7 @@ export const globalIndicators = [
       indicatorObject: {
         AOI: latLng([41.0114, -73.09]),
         id: 9992,
-        AOI_ID: 'US01',
+        AOI_ID: 'US04',
         Country: ['US'],
         City: 'New York',
         'Site Name': 'New York',
@@ -989,7 +991,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           maxNativeZoom: 18,
           opacity: 1,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-nas-jaxa-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-nas-jaxa-{time}.tif&resampling_method=bilinear&bidx=1&rescale=0%2C255&color_map=rdbu_r',
           name: 'Water Quality Index',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
@@ -1043,7 +1045,7 @@ export const globalIndicators = [
       indicatorObject: {
         AOI: latLng([41.0114, -73.09]),
         id: 19996,
-        AOI_ID: 'US01',
+        AOI_ID: 'US04',
         Country: ['US'],
         City: 'New York',
         'Site Name': 'New York',

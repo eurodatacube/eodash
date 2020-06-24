@@ -93,6 +93,18 @@
               </v-list-item>
               <v-subheader>EUROPE</v-subheader>
               <v-list-item
+                value="BE"
+                :disabled="countrySelection === 'BE'"
+                active-class="itemActive"
+              >
+                <v-list-item-icon class="d-flex align-center mr-2">
+                  <country-flag country="BE" size='normal' />
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Belgium</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item
                 value="HR"
                 :disabled="countrySelection === 'HR'"
                 active-class="itemActive"
