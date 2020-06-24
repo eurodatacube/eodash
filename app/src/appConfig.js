@@ -57,7 +57,7 @@ module.exports = [
       rootPath: 'https://eodashboard.org',
       googleSiteVerification: 'iHN2SaSR9qF7T3lOqNYSF4kaq_ZgK-I31SSgO5RKXW8',
       shortDescription: 'The Earth Observing Dashboard platform demonstrates how the use of EO data can help shed new light on societal and economic changes currently taking place owing to the coronavirus pandemic.',
-      twitterCardImagePath: '/img/trilateral/twitter_card.jpg',
+      twitterCardImagePath: '/img/trilateral/twitter_card.png',
     },
     displayDummyLocations: './data/trilateral/dummylocations.csv',
     storyPath: '/data/trilateral/',
