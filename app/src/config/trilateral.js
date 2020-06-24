@@ -264,7 +264,6 @@ export const layerNameMapping = Object.freeze({
   'ALOS-2': {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2FALOS_SAMPLE%2Falos2-s1-beijing_{time}.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536',
     protocol: 'xyz',
-    maxNativeZoom: 15,
     tileSize: 256,
     attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
     dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
@@ -294,7 +293,6 @@ export const layerNameMapping = Object.freeze({
   airport_tk: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fairport%2Ftk_{time}.tif&resampling_method=bilinear&bidx=1',
     protocol: 'xyz',
-    maxNativeZoom: 15,
     tileSize: 256,
     attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
     dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
@@ -302,7 +300,6 @@ export const layerNameMapping = Object.freeze({
   industry_sg: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Findustry%2Fsg_{time}.tif&resampling_method=bilinear&bidx=1',
     protocol: 'xyz',
-    maxNativeZoom: 15,
     tileSize: 256,
     attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
     dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
@@ -310,7 +307,6 @@ export const layerNameMapping = Object.freeze({
   ports: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fplanet%2F{site}-{time}.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
     protocol: 'xyz',
-    maxNativeZoom: 15,
     tileSize: 256,
     attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
     dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
@@ -323,7 +319,12 @@ export const layerNameMapping = Object.freeze({
       return mapping[eoID];
     },
   },
-  N5: {}, // just for enabling eo data button for now
+  N5: {
+    maxMapZoom: 15,
+  },
+  N2limited: {
+    maxMapZoom: 5,
+  },
 });
 
 export const indicatorClassesIcons = Object.freeze({
@@ -497,10 +498,9 @@ export const globalIndicators = [
         AOI: null,
         AOI_ID: 'W3',
         Time: getDailyDates('2020-01-01', '2020-04-16'),
-        'Input Data': ['N2'], // just for enabling eo data button for now
+        'Input Data': Array(106).fill(['N2limited']), // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 6,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_mean.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.000408%2C0.000419&color_map=rdylbu_r',
           name: 'Greenhouse Gases (NASA)',
@@ -529,10 +529,9 @@ export const globalIndicators = [
         AOI: null,
         AOI_ID: 'W4',
         Time: getDailyDates('2020-01-01', '2020-04-16'),
-        'Input Data': ['N2'], // just for enabling eo data button for now
+        'Input Data': Array(106).fill(['N2limited']), // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 6,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_base.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.000408%2C0.000419&color_map=rdylbu_r',
           name: 'Greenhouse Gases (NASA)',
@@ -561,10 +560,9 @@ export const globalIndicators = [
         AOI: null,
         AOI_ID: 'W5',
         Time: getDailyDates('2020-01-01', '2020-04-16'),
-        'Input Data': ['N2'], // just for enabling eo data button for now
+        'Input Data': Array(106).fill(['N2limited']), // just for enabling eo data button for now
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 6,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_diff.{time}.tif&resampling_method=bilinear&bidx=1&rescale=-0.000001%2C0.000001&color_map=rdbu_r',
           name: 'Greenhouse Gases (NASA)',
@@ -634,7 +632,7 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -673,7 +671,7 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -712,7 +710,7 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -751,7 +749,7 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -790,7 +788,7 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -829,7 +827,7 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -868,7 +866,7 @@ export const globalIndicators = [
           }],
         },
         Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005']],
-        'Input Data': ['N5'], // just for enabling eo data button for now
+        'Input Data': ['N5', 'N5', 'N5', 'N5', 'N5'],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
