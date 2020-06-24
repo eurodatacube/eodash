@@ -15,6 +15,9 @@ import PageNotFound from './views/PageNotFound.vue';
 import Terms from './views/Terms.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
+import VueCountdown from '@chenfengyuan/vue-countdown';
+
+Vue.component(VueCountdown.name, VueCountdown);
 
 Vue.config.productionTip = false;
 
