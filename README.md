@@ -1,10 +1,17 @@
 # Welcome to eodash
 
-eodash is the software powering https://race.esa.int
+eodash is the software powering https://race.esa.int as well as
+https://eodashboard.org
 
-The Rapid Action coronavirus Earth observation dashboard presents the results
-of the Joint cooperation between [ESA](https://www.esa.int/) and the
+The [Rapid Action coronavirus Earth observation dashboard](https://race.esa.int)
+presents the results of the Joint cooperation between
+[ESA](https://www.esa.int/) and the
 [European Commission](https://ec.europa.eu/info/index_en) on Covid 19 and EO.
+
+The [Earth Observing Dashboard](https://eodashboard.org) combines the resources,
+technical knowledge and expertise of three partner agencies ESA, JAXA, and NASA
+to strengthen our global understanding of the environmental and economic effects
+of the COVID-19 pandemic.
 
 The platform demonstrates how the use of Earth observation data can help
 shed new light on societal and economic changes currently taking place owing
