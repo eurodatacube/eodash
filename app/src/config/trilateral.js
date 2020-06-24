@@ -604,6 +604,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://www.eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DDTHH:mm:ssZ', true).format('YYYY-MM-DDTHH:mm:ss[Z]')}`,
           legendUrl: 'data/trilateral/NASAPopulation_legend.png',
+          disableCompare: true,
         },
       },
     },
