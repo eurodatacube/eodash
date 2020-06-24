@@ -4,7 +4,7 @@
 
 International collaboration among space agencies is central to the success of satellite Earth observations and data analysis. These partnerships foster more comprehensive measurements, robust datasets, and cost-effective missions.
 
-The tri-agencyCOVID-19 Dashboard is a concerted effort between the **European Space Agency (ESA)**, **Japan Aerospace Exploration Agency (JAXA)**, and **National Aeronautics and Space Administration (NASA)**. The dashboard combines the resources, technical knowledge and expertise of the three partner agencies to strengthen our global understanding of the environmental and economic effects of the COVID-19 pandemic.
+The tri-agency COVID-19 Dashboard is a concerted effort between the **European Space Agency (ESA)**, **Japan Aerospace Exploration Agency (JAXA)**, and **National Aeronautics and Space Administration (NASA)**. The dashboard combines the resources, technical knowledge and expertise of the three partner agencies to strengthen our global understanding of the environmental and economic effects of the COVID-19 pandemic.
 
 <img src="./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg">
 
