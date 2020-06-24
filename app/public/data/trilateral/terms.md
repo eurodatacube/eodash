@@ -103,7 +103,7 @@ The User must not distort, mutilate, misuse or take any other action in relation
 
 In the use of the Website’s content as authorized herein (or, as applicable, in the third party’s terms and conditions referred to herein), the Users shall use such content:
 (i)	together with the related ownership notices or credits as available on the Website
-(ii)	referring to the Website as source of that content, by using the following notice: "Credit: COVID-19 Earth Observing Dashboard, [date], https://eodashboard.org"
+(ii)	referring to the Website as source of that content, by using the following notice: "Credit: COVID-19 Earth Observing Dashboard, [date], [https://eodashboard.org](https://eodashboard.org)"
 
 The Users are not authorized to directly or indirectly, implicitly or explicitly, attribute to ESA:
 
