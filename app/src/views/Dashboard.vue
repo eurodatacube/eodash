@@ -223,7 +223,7 @@
     </v-footer>
     <v-dialog
       v-model="showFeedbackDialog"
-      width="80%"
+      width="85%"
       :fullscreen="$vuetify.breakpoint.xsOnly"
       :hide-overlay="$vuetify.breakpoint.xsOnly"
       transition="dialog-bottom-transition"

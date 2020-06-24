@@ -41,6 +41,7 @@ module.exports = [
     ],
     privacyText: '/eodash-data/general/privacy',
     termsText: '/eodash-data/general/terms',
+    feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube'],
     countDownTimer: '2020-06-05T12:00:00.000+02:00',
     countDownMatch: ['race.esa.int', 'eodash.eox.at'],
   },
@@ -50,6 +51,7 @@ module.exports = [
     branding: {
       appName: 'Earth Observing Dashboard',
       primaryColor: '#333333',
+      secondaryColor: '#004170',
       headerLogo: './data/trilateral/Trilateral_Logo.svg',
       faviconPath: './public/img/trilateral/favicon.ico',
     },
@@ -85,5 +87,6 @@ module.exports = [
     ],
     privacyText: '/data/trilateral/privacy',
     termsText: '/data/trilateral/terms',
+    feedbackTwitterHandles: ['ESA_EO', 'esa', 'NASAEarth', 'NASA', 'JAXA_en', 'JAXA_jp', 'eurodatacube'],
   },
 ];
