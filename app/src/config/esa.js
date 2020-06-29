@@ -108,12 +108,14 @@ export const indicatorsDefinition = Object.freeze({
   E13b: {
     indicator: 'Throughput at principal hub airports',
     class: 'economic',
+    file: './eodash-data/data/E13b.csv',
   },
   E13c: {
     indicator: 'Maritime traffic: throughput',
     class: 'economic',
     // file: './eodash-data/data/E13c.csv',
     // largeSubAoi: true,
+    // largeTimeDuration: true,
   },
   H1: {
     indicator: 'Number of temp. treatment sites',
