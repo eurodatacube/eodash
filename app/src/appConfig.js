@@ -23,19 +23,19 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'NorthAdriatic-N3a2',
+        poi: 'IT9-E13b',
         src: './eodash-data/general/Slide1.png',
       },
       {
-        poi: 'PL1-E1a',
+        poi: 'SE9-E5',
         src: './eodash-data/general/Slide2.png',
       },
       {
-        poi: 'World-N1',
+        poi: 'DE11-E10a3',
         src: './eodash-data/general/Slide3.png',
       },
       {
-        poi: 'DE11-E10a1',
+        poi: 'World-N1',
         src: './eodash-data/general/Slide4.png',
       },
     ],
