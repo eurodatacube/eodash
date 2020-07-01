@@ -109,6 +109,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Throughput at principal hub airports',
     class: 'economic',
     file: './eodash-data/data/E13b.csv',
+    story: '/eodash-data/stories/E13b',
   },
   E13c: {
     indicator: 'Maritime traffic: throughput',
