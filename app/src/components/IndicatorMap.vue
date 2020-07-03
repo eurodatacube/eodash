@@ -226,7 +226,6 @@ import 'leaflet-mouse-position';
 import 'leaflet-side-by-side';
 import 'leaflet-loading';
 import 'leaflet-loading/src/Control.Loading.css';
-import moment from 'moment';
 
 export default {
   components: {
@@ -491,7 +490,8 @@ export default {
         // show start - end
         return time.join(' - ');
       } else if (time instanceof Date) { // eslint-disable-line no-else-return
-        return moment.utc(time).format('YYYY-MM-DDTHH:mm:ss');
+        // TODO: check instance of!!
+        return time.toFormat('YYYY-MM-DDTHH:mm:ss');
       }
       return time;
     },
@@ -593,14 +593,15 @@ export default {
         // if interval, use just start to get closest
         const times = this.indicator.Time.map((item) => (Array.isArray(item) ? item[0] : item));
         const lastTimeEntry = times[times.length - 1];
-        const oneYearBefore = moment.utc(lastTimeEntry).subtract(1, 'years');
-        // convert time to milliseconds
-        const timesInMillis = times.map((t) => +moment.utc(t).format('x'));
+        const oneYearBefore = lastTimeEntry.minus({ years: 1 });
         // select closest to one year before
-        const closestOneYearBefore = timesInMillis.find((item, i) => i === timesInMillis.length - 1 || Math.abs(moment.utc(oneYearBefore).format('x') - item) < Math.abs(moment.utc(oneYearBefore).format('x') - timesInMillis[i + 1]));
-        // assuming sorted times, get index of that entry in original intervals
-        const indOrigArray = timesInMillis.indexOf(closestOneYearBefore);
-        return this.indicator.Time[indOrigArray];
+        const closestOneYearBefore = times.find((item, i) => (
+          i === times.length - 1 || (
+            Math.abs(oneYearBefore - item.toMillis())
+            < Math.abs(oneYearBefore - times[i + 1].toMillis())
+          )
+        ));
+        return closestOneYearBefore;
       }
       // use first time
       return this.indicator.Time[0];

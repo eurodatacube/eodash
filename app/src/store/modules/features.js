@@ -1,7 +1,7 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
-import moment from 'moment';
 import { Wkt } from 'wicket';
 import { latLng } from 'leaflet';
+import { DateTime } from 'luxon';
 import countriesJson from '@/assets/countries.json';
 
 let globalIdCounter = 0;
@@ -165,7 +165,9 @@ const actions = {
           if (results.data[0].AOI) { // only continue if AOI column is present
             const wkt = new Wkt();
             // Sort results by time
-            results.data.sort((a, b) => moment.utc(a.Time).diff(moment.utc(b.Time)));
+            results.data.sort((a, b) => (
+              DateTime.fromISO(a.Time).diff(DateTime.fromISO(b.Time))
+            ));
             /* Aggregate data based on AOI and indicator type */
             const featureObjs = {};
             for (let rr = 0; rr < results.data.length; rr += 1) {
@@ -182,10 +184,10 @@ const actions = {
                   results.data[rr]['Reference value'],
                 );
                 featureObjs[uniqueKey]['Reference time'].push(
-                  moment.utc(results.data[rr]['Reference time']).toDate(),
+                  DateTime.fromISO(results.data[rr]['Reference time']),
                 );
                 featureObjs[uniqueKey].Time.push(
-                  moment.utc(results.data[rr].Time).toDate(),
+                  DateTime.fromISO(results.data[rr].Time),
                 );
                 featureObjs[uniqueKey]['Color code'].push(
                   results.data[rr]['Color code'],
@@ -232,8 +234,11 @@ const actions = {
                 featureObjs[uniqueKey]['Reference value'] = [
                   featureObjs[uniqueKey]['Reference value'],
                 ];
+                featureObjs[uniqueKey].Time = [
+                  DateTime.fromISO(featureObjs[uniqueKey].Time),
+                ];
                 featureObjs[uniqueKey]['Reference time'] = [
-                  moment.utc(featureObjs[uniqueKey]['Reference time']).toDate(),
+                  DateTime.fromISO(featureObjs[uniqueKey]['Reference time']),
                 ];
                 featureObjs[uniqueKey]['EO Sensor'] = [
                   featureObjs[uniqueKey]['EO Sensor'],
@@ -264,9 +269,6 @@ const actions = {
                   features: ftrs,
                 };
                 featureObjs[uniqueKey]['Sub-AOI'] = ftrCol;
-                featureObjs[uniqueKey].Time = [
-                  moment.utc(featureObjs[uniqueKey].Time).toDate(),
-                ];
               }
             }
             const features = [];

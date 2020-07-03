@@ -2,8 +2,8 @@
 // temporary solution
 import { Wkt } from 'wicket';
 import { latLng, latLngBounds } from 'leaflet';
+import { DateTime } from 'luxon';
 import { shTimeFunction } from '@/utils';
-import moment from 'moment';
 
 export const nasaEndpoints = [
   'https://h4ymwpefng.execute-api.us-east-1.amazonaws.com/v1/', // Air quality
@@ -268,7 +268,7 @@ export const layerNameMapping = Object.freeze({
     protocol: 'xyz',
     tileSize: 256,
     attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-    dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+    dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('YYYY_MM_DD')}`,
   },
   GOSAT_XCO2: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/GOSAT_XCO2_{time}_{site}_BG_circle_cog.tif&resampling_method=nearest',
@@ -277,7 +277,7 @@ export const layerNameMapping = Object.freeze({
     maxMapZoom: 12,
     tileSize: 256,
     attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-    dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYYMM')}`,
+    dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('YYYYMM')}`,
     siteMapping: (eoID) => {
       const mapping = {
         CN01: 'be',
@@ -297,21 +297,21 @@ export const layerNameMapping = Object.freeze({
     protocol: 'xyz',
     tileSize: 256,
     attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-    dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+    dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('YYYY_MM_DD')}`,
   },
   industry_sg: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Findustry%2Fsg_{time}.tif&resampling_method=bilinear&bidx=1',
     protocol: 'xyz',
     tileSize: 256,
     attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-    dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+    dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('YYYY_MM_DD')}`,
   },
   ports: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fplanet%2F{site}-{time}.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
     protocol: 'xyz',
     tileSize: 256,
     attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-    dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+    dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('YYYY_MM_DD')}`,
     siteMapping: (eoID) => {
       const mapping = {
         US01: 'ny',
@@ -380,34 +380,34 @@ export const defaultWMSDisplay = {
   minZoom: 7,
 };
 const getMonthlyDates = (start, end) => {
-  let currentDate = moment(start);
-  const stopDate = moment(end);
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
   const dateArray = [];
   while (currentDate <= stopDate) {
-    dateArray.push(moment(currentDate).format('YYYY-MM-DD'));
-    currentDate = moment(currentDate).add(1, 'months');
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('YYYY-MM-DD'));
+    currentDate = DateTime.fromISO(currentDate).plus({ months: 1 });
   }
   return dateArray;
 };
 
 const getDailyDates = (start, end) => {
-  let currentDate = moment(start);
-  const stopDate = moment(end);
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
   const dateArray = [];
   while (currentDate <= stopDate) {
-    dateArray.push(moment(currentDate).format('YYYY-MM-DD'));
-    currentDate = moment(currentDate).add(1, 'days');
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('YYYY-MM-DD'));
+    currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
   }
   return dateArray;
 };
 
 const getWeeklyDates = (start, end) => {
-  let currentDate = moment(start);
-  const stopDate = moment(end);
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
   const dateArray = [];
   while (currentDate <= stopDate) {
-    dateArray.push(moment(currentDate).format('YYYY-MM-DD'));
-    currentDate = moment(currentDate).add(1, 'weeks');
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('YYYY-MM-DD'));
+    currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
   }
   return dateArray;
 };
@@ -445,7 +445,7 @@ export const globalIndicators = [
           name: 'Air Quality (NO2) - ESA',
           legendUrl: 'eodash-data/data/no2Legend.png',
           attribution: '{ Air Quality: <a href="//scihub.copernicus.eu/twiki/pub/SciHubWebPortal/TermsConditions/TC_Sentinel_Data_31072014.pdf" target="_blank">Sentinel data</a>, <a href="//maps.s5p-pal.com/" target="_blank">S5P-PAL</a> }',
-          dateFormatFunction: (dates) => `${moment.utc(dates[0], 'YYYY-MM-DD').format('YYYYMMDD')}-${moment.utc(dates[1], 'YYYY-MM-DD').format('YYYYMMDD')}`,
+          dateFormatFunction: (dates) => `${DateTime.fromISO(dates[0]).toFormat('YYYYMMDD')}-${DateTime.fromISO(dates[1]).toFormat('YYYYMMDD')}`,
         },
       },
     },
@@ -476,7 +476,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x.png?url=s3://covid-eo-data/OMNO2d_HRM/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=0%2C1.8e16&color_map=reds',
           name: 'Air Quality (NASA)',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYYMM')}`,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('YYYYMM')}`,
           legendUrl: 'eodash-data/data/no2Legend.png',
         },
       },
@@ -507,7 +507,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_mean.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.000408%2C0.000419&color_map=rdylbu_r',
           name: 'Greenhouse Gases (NASA)',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('YYYY_MM_DD')}`,
           legendUrl: 'data/trilateral/N2-co2mean-legend.png',
         },
       },
@@ -538,7 +538,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_base.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.000408%2C0.000419&color_map=rdylbu_r',
           name: 'Greenhouse Gases (NASA)',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('YYYY_MM_DD')}`,
           legendUrl: 'data/trilateral/N2-co2mean-legend.png',
         },
       },
@@ -569,7 +569,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_diff.{time}.tif&resampling_method=bilinear&bidx=1&rescale=-0.000001%2C0.000001&color_map=rdbu_r',
           name: 'Greenhouse Gases (NASA)',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('YYYY_MM_DD')}`,
           legendUrl: 'data/trilateral/N2-co2diff-legend.png',
           disableCompare: true,
         },
@@ -602,7 +602,7 @@ export const globalIndicators = [
           url: 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/GPW_Population_Density_2020/default/{time}/GoogleMapsCompatible_Level7/{z}/{y}/{x}.png',
           name: 'Population',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DDTHH:mm:ssZ', true).format('YYYY-MM-DDTHH:mm:ss[Z]')}`,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('YYYY-MM-DDTHH:mm:ss[Z]')}`,
           legendUrl: 'data/trilateral/NASAPopulation_legend.png',
           disableCompare: true,
         },
@@ -907,7 +907,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((13.82676706185932 44.707877452151976,13.826080416351507 44.63853985102104,13.828140352874945 44.60726198073148,13.830543612152288 44.580858170237136,13.824707125335882 44.56324896519081,13.831230257660101 44.53388844187968,13.83226022592182 44.50059527839493,13.14012155404682 44.49471803960046,12.29417428842182 44.482961784844655,12.22825631967182 44.70494937295371,12.28318796029682 44.82439215066662,12.375198458343695 44.80027974205457,12.408844088226507 44.82134821071279,12.466865633636663 44.848433626253936,12.50840768685932 44.941643892166006,12.435623263031195 44.97274112720852,12.430816744476507 45.017413877251585,12.314430330902288 44.96496839839778,12.346874331146429 45.11150096790739,12.3191510187685 45.20785209529116,12.239371393829535 45.20857774137082,12.210467909485052 45.2901538238102,12.22276315560932 45.377400919461266,12.30790719857807 45.48533806813408,12.48368844857807 45.559425118958345,12.622390841156195 45.527685472129804,12.436309908539007 45.47089417163262,12.428413485199163 45.41838351593179,12.782894228607367 45.546202443810486,12.887307261139105 45.60069590187233,12.977987383514593 45.62249048564204,13.101626490265081 45.63083382762503,13.086563204437445 45.72456591874726,13.210159395843695 45.76864898557,13.344055269867132 45.73942388451784,13.406883333831976 45.72384688466227,13.44499215951557 45.67565051875911,13.56034860482807 45.78397406598729,13.65647897592182 45.76194293851278,13.773208712249945 45.66413479361571,13.71965036264057 45.5603866467064,13.48619088998432 45.44295880636075,13.59605417123432 45.16671702535331,13.71690378060932 44.97954140088225,13.778701876312445 44.951120616125884,13.81852731576557 44.86042018307063,13.82402047982807 44.77737580152348,13.82676706185932 44.707877452151976))').toJson(),
           }],
         },
-        Time: [['2020-01-07'] ,['2020-01-14'] ,['2020-01-21'] ,['2020-01-28'] ,['2020-02-04'] ,['2020-02-11'] ,['2020-02-18'] ,['2020-02-25'] ,['2020-03-03'] ,['2020-03-10'] ,['2020-03-17'] ,['2020-03-24'] ,['2020-03-31'] ,['2020-04-07'] ,['2020-04-14'] ,['2020-04-21'] ,['2020-04-28'] ,['2020-05-05'] ,['2020-05-12'] ,['2020-05-19'] ,['2020-05-26'] ,['2020-06-02'] ,['2020-06-09'] ,['2020-06-16']],
+        Time: [['2020-01-07'], ['2020-01-14'], ['2020-01-21'], ['2020-01-28'], ['2020-02-04'], ['2020-02-11'], ['2020-02-18'], ['2020-02-25'], ['2020-03-03'], ['2020-03-10'], ['2020-03-17'], ['2020-03-24'], ['2020-03-31'], ['2020-04-07'], ['2020-04-14'], ['2020-04-21'], ['2020-04-28'], ['2020-05-05'], ['2020-05-12'], ['2020-05-19'], ['2020-05-26'], ['2020-06-02'], ['2020-06-09'], ['2020-06-16']],
         'Input Data': ['N3a2'], // just for enabling eo data button for now
         display: {
           ...defaultWMSDisplay,
@@ -917,7 +917,7 @@ export const globalIndicators = [
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           maxZoom: 13,
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: (dates) => `${moment.utc(dates[0], 'YYYY-MM-DD').format('YYYY-MM-DD')}`,
+          dateFormatFunction: (dates) => `${DateTime.fromISO(dates[0]).toFormat('YYYY-MM-DD')}`,
         },
       },
     },
@@ -1114,7 +1114,7 @@ export const globalIndicators = [
           name: 'Water Quality Index',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: (date) => `${moment.utc(date, 'YYYY-MM-DD').format('YYYY_MM_DD')}`,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('YYYY_MM_DD')}`,
         },
       },
     },
