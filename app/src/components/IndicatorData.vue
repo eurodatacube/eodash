@@ -80,20 +80,17 @@ export default {
     return {
       dataLayerTime: null,
       dataLayerIndex: 0,
-      monthNames: ['January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December',
-      ],
     };
   },
   mounted() {
     const d = this.indicatorObject.Time[this.indicatorObject.Time.length - 1];
-    this.dataLayerTime = `${d.day}. ${this.monthNames[d.month - 1]}`;
+    this.dataLayerTime = d.toFormat('dd. MMM');
   },
   watch: {
     indicatorObject() {
       this.dataLayerIndex = this.indicatorObject.Time.length - 1;
       const d = this.indicatorObject.Time[this.dataLayerIndex];
-      this.dataLayerTime = `${d.day}. ${this.monthNames[d.month - 1]}`;
+      this.dataLayerTime = d.toFormat('dd. MMM');
     },
   },
   computed: {
@@ -104,7 +101,7 @@ export default {
       if (['E10a3'].includes(indicatorCode)) {
         // Find all unique day/month available
         const timeset = new Set(
-          indicator.Time.map((d) => `${d.day}. ${this.monthNames[d.month - 1]}`),
+          indicator.Time.map((d) => d.toFormat('dd. MMM')),
         );
         timeset.forEach((t) => {
           selectionOptions.push({
@@ -133,7 +130,7 @@ export default {
           for (let i = 0; i < indicator.Time.length; i += 1) {
             if (!Number.isNaN(indicator.Time[i].toMillis())) {
               const d = indicator.Time[i];
-              const formattedDate = `${d.day}. ${this.monthNames[d.month - 1]}`;
+              const formattedDate = d.toFormat('dd. MMM');
               labels.push(formattedDate);
             } else {
               labels.push(i);
@@ -466,7 +463,7 @@ export default {
                 longitude: centerPoint.lon,
                 name: geom.properties.NUTS_NAME,
                 time: indicator.Time[i],
-                value: meas,
+                value: Number(meas),
                 referenceTime: indicator['Reference time'][i],
                 referenceValue: indicator['Reference value'][i],
                 color: indicator['Color code'][i],
@@ -478,10 +475,14 @@ export default {
           features = features.filter((d) => (
             typeof d !== 'undefined'));
 
-          const filteredFeatures = features.filter((d) => (
-            `${d.day}. ${this.monthNames[d.month - 1]}` === this.dataLayerTime
-            && !Number.isNaN(d.value)
-          ));
+          const filteredFeatures = features.filter((d) => {
+            let include = false;
+            if (d.time instanceof DateTime) {
+              include = d.time.toFormat('dd. MMM') === this.dataLayerTime
+                && !Number.isNaN(d.value);
+            }
+            return include;
+          });
 
           labels = features.map((d) => d.name);
           datasets.push({
@@ -640,7 +641,7 @@ export default {
       }
       const filter = (legendItem) => !`${legendItem.text}`.startsWith('hide_');
       let xAxes = {};
-      if (!['E10a1', 'E10a2', 'N2'].includes(indicatorCode)) {
+      if (!['E10a1', 'E10a2', 'E10a3', 'N2'].includes(indicatorCode)) {
         xAxes = [{
           type: 'time',
           time: {
@@ -676,7 +677,7 @@ export default {
             displayFormats: {
               month: 'MMM',
             },
-            tooltipFormat: 'DD. MMM',
+            tooltipFormat: 'dd. MMM',
           },
           ticks: {
             min: (timeMinMax[0] < refTimeMinMax[0]) ? timeMinMax[0] : refTimeMinMax[0],
@@ -698,7 +699,7 @@ export default {
             displayFormats: {
               month: 'MMM',
             },
-            tooltipFormat: 'DD. MMM',
+            tooltipFormat: 'dd. MMM',
           },
           distribution: 'series',
           ticks: {
@@ -786,8 +787,6 @@ export default {
       }
 
       if (['E10a3'].includes(indicatorCode)) {
-        xAxes[0].ticks.padding = -20;
-        // Disable axis in a strange way
         yAxes[0].ticks = {
           suggestedMin: Number.NaN,
           suggestedMax: Number.NaN,
@@ -892,8 +891,8 @@ export default {
               const refT = obj.referenceTime;
               const refV = Number(obj.referenceValue);
               const labelOutput = [
-                `${obj.time.toFormat('DD.MM.YYYY')}:  ${obj.value.toPrecision(4)}`,
-                `${refT.toFormat('DD.MM.YYYY')}:  ${refV.toPrecision(4)}`,
+                `${obj.time.toISODate()}:  ${obj.value.toPrecision(4)}`,
+                `${refT.toISODate()}:  ${refV.toPrecision(4)}`,
               ];
               if (refV !== 0) {
                 labelOutput.push(
