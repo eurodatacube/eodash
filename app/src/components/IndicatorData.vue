@@ -206,8 +206,6 @@ export default {
           const dataGroups = {};
           const colorGroups = {};
           for (let i = 0; i < data.length; i += 1) {
-            console.log(data[i]);
-            console.log(data[i].t.year);
             const currYear = data[i].t.year;
             if (Object.prototype.hasOwnProperty.call(dataGroups, currYear)) {
               dataGroups[currYear].push({
