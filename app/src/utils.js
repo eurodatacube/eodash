@@ -14,9 +14,9 @@ export function shTimeFunction(date) {
     tempDate = [tempDate];
   }
   const dateObj = DateTime.fromISO(tempDate[0]);
-  const defaultFormat = 'YYYY-MM-DDTHH:mm:ss';
-  const alternativeFormat = 'YYYY-MM-DD';
-  if (dateObj.seconds() === 0 && dateObj.hours() === 0 && dateObj.minutes() === 0) {
+  const defaultFormat = "yyyy-MM-dd'T'HH:mm:ss";
+  const alternativeFormat = 'yyyy-MM-dd';
+  if (dateObj.seconds === 0 && dateObj.hours === 0 && dateObj.minutes === 0) {
     // if only day input, format as an interval to next day
     const nextDay = dateObj.plus({ days: 1 });
     return `${dateObj.toFormat(alternativeFormat)}/${nextDay.toFormat(alternativeFormat)}`;
