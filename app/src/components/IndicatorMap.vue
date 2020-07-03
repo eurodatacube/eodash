@@ -654,6 +654,9 @@ export default {
       this.$nextTick(() => {
         // first nextTick to update layer correctly if was switch from wms <-> xyz
         this.refreshLayer('data');
+        if (this.disableCompareButton) {
+          this.enableCompare = false;
+        }
         if (this.slider) {
           this.refreshLayer('compare');
         }
