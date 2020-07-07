@@ -5,6 +5,15 @@ import { DateTime } from 'luxon';
 import { latLng, latLngBounds } from 'leaflet';
 import { shTimeFunction } from '@/utils';
 
+export const dataEndpoints = [
+  {
+    type: 'geodb',
+    provider: 'https://3.120.53.215.nip.io/anja_',
+    locationSuffix: 'race_indicators',
+    token: 'Bearer <token>',
+  },
+];
+
 export const indicatorsDefinition = Object.freeze({
   E1: {
     indicator: 'Status of metallic ores',

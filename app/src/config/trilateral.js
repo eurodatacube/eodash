@@ -5,9 +5,15 @@ import { latLng, latLngBounds } from 'leaflet';
 import { DateTime } from 'luxon';
 import { shTimeFunction } from '@/utils';
 
-export const nasaEndpoints = [
-  'https://h4ymwpefng.execute-api.us-east-1.amazonaws.com/v1/', // Air quality
-  'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/', // Something else
+export const dataEndpoints = [
+  {
+    type: 'nasa',
+    provider: 'https://h4ymwpefng.execute-api.us-east-1.amazonaws.com/v1/',
+  },
+  {
+    type: 'nasa',
+    provider: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/',
+  },
 ];
 
 export const indicatorsDefinition = Object.freeze({

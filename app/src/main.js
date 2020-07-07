@@ -18,6 +18,20 @@ import Terms from './views/Terms.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 
+/*
+const ClientOAuth2 = require('client-oauth2');
+
+const githubAuth = new ClientOAuth2({
+  clientId: 'eodash',
+  clientSecret: 'MnShOxqDjekIWJUvA6FwXYPey-fdKK9T2uiGdiT5LYmpEEVA-LzrF8vBbon3Q2ft',
+  accessTokenUri: 'https://edc.eu.auth0.com/oauth/token',
+  scopes: ['notifications', 'gist']
+});
+
+const token = githubAuth.createToken('access token', 'optional refresh token', 'optional token type', { data: 'raw user data' });
+console.log(token);
+token.refresh();
+*/
 // Set UTC as default time zone behavior for whole client
 Settings.defaultZoneName = 'utc';
 
@@ -80,7 +94,7 @@ Vue.prototype.$marked = marked;
 
 const renderVue = async () => {
   await store.dispatch('config/checkBrand');
-  store.dispatch('features/loadAllCsv');
+  store.dispatch('features/loadAllEndpoints');
 
   const vuetify = new Vuetify({
     theme: {

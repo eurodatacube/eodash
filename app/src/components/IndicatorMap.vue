@@ -27,7 +27,7 @@
     <l-layer-group ref="dataLayers">
       <l-geo-json
       ref="subaoiLayer"
-      :geojson="indicator['Sub-AOI']"
+      :geojson="indicator.subAoi"
       :pane="shadowPane"
       :optionsStyle="subAoiStyle('data')"
       >
@@ -89,7 +89,7 @@
       </LWMSTileLayer>
       <l-geo-json
         ref="subaoiCompareLayer"
-        :geojson="indicator['Sub-AOI']"
+        :geojson="indicator.subAoi"
         :pane="markerPane"
         :visible="enableCompare"
         :optionsStyle="subAoiStyle('compare')"
@@ -300,7 +300,7 @@ export default {
       return this.aoi && (!this.subAoi || this.subAoi.features.length === 0);
     },
     disableCompareButton() {
-      return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableCompare !== 'undefined') ? this.layerDisplay('data').disableCompare : this.indicatorsDefinition[this.indicator['Indicator code']].disableCompare;
+      return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableCompare !== 'undefined') ? this.layerDisplay('data').disableCompare : this.indicatorsDefinition[this.indicator.indicator].disableCompare;
     },
     arrayOfObjects() {
       const selectionOptions = [];
@@ -334,7 +334,7 @@ export default {
       return this.indicator.AOI;
     },
     subAoi() {
-      return this.indicator['Sub-AOI'];
+      return this.indicator.subAoi;
     },
   },
   mounted() {
@@ -412,8 +412,8 @@ export default {
       const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
       let currentValue = null;
       // compensate for color code with only one entry, still showing it
-      if (this.indicator && this.indicator['Color code']) {
-        const colors = this.indicator['Color code'];
+      if (this.indicator && this.indicator.colorCode) {
+        const colors = this.indicator.colorCode;
         if (Array.isArray(colors) && colors.length === 1) {
           currentValue = colors[0]; // eslint-disable-line prefer-destructuring
         } else if (Array.isArray(colors) && colors[index]) {
@@ -465,7 +465,7 @@ export default {
         this.map.fitBounds(bounds);
         // limit user movement around map
         this.map.setMaxBounds(boundsMax);
-        if (this.indicatorsDefinition[this.indicator['Indicator code']].largeSubAoi) {
+        if (this.indicatorsDefinition[this.indicator.indicator].largeSubAoi) {
           this.map.setMinZoom(7);
         } else {
           this.map.setMinZoom(13);
@@ -591,7 +591,7 @@ export default {
     },
     getInitialCompareTime() {
       // find closest entry one year before latest time
-      if (this.indicatorsDefinition[this.indicator['Indicator code']].largeTimeDuration) {
+      if (this.indicatorsDefinition[this.indicator.indicator].largeTimeDuration) {
         // if interval, use just start to get closest
         const times = this.indicator.Time.map((item) => (Array.isArray(item) ? item[0] : item));
         const lastTimeEntry = DateTime.fromISO(times[times.length - 1]);

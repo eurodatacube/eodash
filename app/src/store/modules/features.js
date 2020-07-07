@@ -24,16 +24,16 @@ const getters = {
   getCountries(state) {
     return [...new Set([
       state.allFeatures
-        .map((f) => f.properties.indicatorObject.Country),
+        .map((f) => f.properties.indicatorObject.country),
     ].flat(1))].sort();
   },
   getIndicators(state, _, rootState) {
     const indicators = [...new Set([
       state.allFeatures
         .map((f) => ({
-          code: f.properties.indicatorObject['Indicator code'],
+          code: f.properties.indicatorObject.indicator,
           indicator: f.properties.indicatorObject.Description,
-          class: rootState.config.baseConfig.indicatorsDefinition[f.properties.indicatorObject['Indicator code']].class,
+          class: rootState.config.baseConfig.indicatorsDefinition[f.properties.indicatorObject.indicator].class,
         })),
     ].flat(2))].sort();
     return indicators;
@@ -56,23 +56,23 @@ const getters = {
     if (state.featureFilters.countries.length > 0) {
       features = features
         .filter((f) => {
-          if (Array.isArray(f.properties.indicatorObject.Country)) {
-            return f.properties.indicatorObject.Country
+          if (Array.isArray(f.properties.indicatorObject.country)) {
+            return f.properties.indicatorObject.country
               .includes(state.featureFilters.countries);
           } else { // eslint-disable-line
             return state.featureFilters.countries
-              .includes(f.properties.indicatorObject.Country)
-              || f.properties.indicatorObject.City === 'World';
+              .includes(f.properties.indicatorObject.country)
+              || f.properties.indicatorObject.city === 'World';
           }
         });
     }
     if (state.featureFilters.indicators.length > 0) {
       features = features
         .filter((f) => state.featureFilters.indicators
-          .includes(f.properties.indicatorObject['Indicator code']));
+          .includes(f.properties.indicatorObject.indicator));
     }
     features = features
-      .sort((a, b) => ((a.properties.indicatorObject.Country > b.properties.indicatorObject.Country)
+      .sort((a, b) => ((a.properties.indicatorObject.country > b.properties.indicatorObject.country)
         ? 1 : -1));
     return features;
   },
@@ -128,18 +128,24 @@ const mutations = {
   },
 };
 const actions = {
-  async loadAllCsv({ commit, rootState }) {
+  async loadAllEndpoints({ commit, rootState }) {
     let allFeatures = [];
-    // First, load all the CSVs
-    const defs = rootState.config.baseConfig.indicatorsDefinition;
-    const keys = Object.keys(defs);
-    for (let kk = 0; kk < keys.length; kk += 1) {
-      if (Object.prototype.hasOwnProperty.call(defs[keys[kk]], 'file') && defs[keys[kk]].file) {
-        const csvUrl = defs[keys[kk]].file;
-        const F = await this.dispatch('features/loadCsv', csvUrl); // eslint-disable-line
+    const endpoints = rootState.config.baseConfig.dataEndpoints;
+    for (let ep = 0; ep < endpoints.length; ep += 1) {
+      if (Object.prototype.hasOwnProperty.call(endpoints[ep], 'type')
+        && endpoints[ep].type === 'geodb') {
+        let url = endpoints[ep].provider;
+        if (Object.prototype.hasOwnProperty.call(endpoints[ep], 'locationSuffix')) {
+          url += endpoints[ep].locationSuffix;
+        }
+        const { token } = endpoints[ep];
+        const F = await this.dispatch( // eslint-disable-line
+          'features/loadGeoDBEndpoint', { url, token },
+        );
         allFeatures = allFeatures.concat(F);
       }
     }
+    /*
     // Then, add the hardcoded features
     allFeatures = allFeatures.concat(rootState.config.baseConfig.globalIndicators);
     // Then, if applicable, add the dummy features
@@ -147,152 +153,111 @@ const actions = {
       const dummyFeatures = await this.dispatch('features/loadDummyLocations');
       allFeatures = allFeatures.concat(dummyFeatures);
     }
+    */
     commit('ADD_NEW_FEATURES', allFeatures);
   },
-  loadCsv({ rootState, commit }, csvUrl) {
-    return new Promise((resolve) => {
-      this._vm.$papa.parse(csvUrl, {
-        download: true,
-        quotes: true,
-        header: true,
-        skipEmptyLines: true,
-        delimiter: ',',
-        complete: (results) => {
-          commit('ADD_RESULTS_COUNT', {
-            type: rootState.config.baseConfig.indicatorsDefinition[results.data[0]['Indicator code']].class,
-            count: results.data.length, // individual measurements
-          });
-          if (results.data[0].AOI) { // only continue if AOI column is present
-            const wkt = new Wkt();
-            // Sort results by time
-            results.data.sort((a, b) => (
-              DateTime.fromISO(a.Time).diff(DateTime.fromISO(b.Time))
-            ));
-            /* Aggregate data based on AOI and indicator type */
-            const featureObjs = {};
-            for (let rr = 0; rr < results.data.length; rr += 1) {
-              const uniqueKey = `${results.data[rr].AOI}_${results.data[rr]['Indicator code']}`;
-              if (Object.prototype.hasOwnProperty.call(featureObjs, uniqueKey)) {
-                featureObjs[uniqueKey]['Indicator Value'].push(
-                  results.data[rr]['Indicator Value'],
-                );
-                const measurement = results.data[rr]['Measurement Value'].replace(',', '.');
-                featureObjs[uniqueKey]['Measurement Value'].push(
-                  measurement.length !== 0 ? Number(measurement) : NaN,
-                );
-                featureObjs[uniqueKey]['Reference value'].push(
-                  results.data[rr]['Reference value'],
-                );
-                featureObjs[uniqueKey]['Reference time'].push(
-                  DateTime.fromISO(results.data[rr]['Reference time']),
-                );
-                featureObjs[uniqueKey].Time.push(
-                  DateTime.fromISO(results.data[rr].Time),
-                );
-                featureObjs[uniqueKey]['Color code'].push(
-                  results.data[rr]['Color code'],
-                );
-                featureObjs[uniqueKey]['EO Sensor'].push(
-                  results.data[rr]['EO Sensor'],
-                );
-                featureObjs[uniqueKey]['Input Data'].push(
-                  results.data[rr]['Input Data'],
-                );
-                featureObjs[uniqueKey]['Site Name'].push(
-                  results.data[rr]['Site Name'],
-                );
-                // Add possible additional subaois
-                if (Object.prototype.hasOwnProperty.call(
-                  featureObjs[uniqueKey]['Sub-AOI'], 'features',
-                )) {
+  loadGeoDBEndpoint({ rootState, commit }, { url, token }) {
+    return fetch(url, {
+      method: 'get',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json',
+      },
+    }).then((r) => r.json())
+      .then((data) => {
+        const features = [];
+        const pM = {
+          aoi: 'aoi',
+          colorCode: 'Color code',
+          city: 'city',
+          country: 'country',
+          description: 'description',
+          eoSensor: 'eo sensor',
+          id: 'id',
+          indicator: 'indicator',
+          indicatorValue: 'indicator value',
+          inputData: 'input data',
+          lastMeasurement: 'measurement value [float]',
+          lastTime: 'date time [yyyy-mm-ddthh:mm:ss]',
+          method: 'method',
+          lastReferenceTime: 'reference date time [yyyy-mm-ddthh:mm:ss]',
+          lastReferenceValue: 'reference value [float]',
+          referenceDescription: 'reference description',
+          region: 'region (optional)',
+          geometry: 'geometry',
+          created: 'created_at',
+          modified: 'modified_at',
+          rule: 'rule',
+          siteName: 'site name',
+          subAoi: 'sub-aoi',
+          updateFrequency: 'update frequency', // Not present
+        };
+        commit('ADD_RESULTS_COUNT', {
+          type: rootState.config.baseConfig.indicatorsDefinition[data[0][pM.indicator]].class,
+          count: data.length, // individual measurements
+        });
+        if (data[0].aoi) { // only continue if aoi column is present
+          const wkt = new Wkt();
+          const featureObjs = {};
+          for (let rr = 0; rr < data.length; rr += 1) {
+            // Aggregate data based on location
+            const uniqueKey = `${data[rr][pM.aoi]}_${data[rr][pM.indicator]}`;
+            if (!Object.prototype.hasOwnProperty.call(featureObjs, uniqueKey)) {
+              featureObjs[uniqueKey] = {};
+            }
+            // Create new object with mapped keys to allow integrating data
+            // of multiple endpoints
+            Object.entries(pM).forEach(([key, value]) => {
+              if (Object.prototype.hasOwnProperty.call(data[rr], value)) {
+                if (key === 'subAoi') {
+                  // dummy empty geometry
+                  let ftrs = [];
                   try {
-                    if (featureObjs[uniqueKey]['Sub-AOI'] !== '') {
-                      wkt.read(featureObjs[uniqueKey]['Sub-AOI']);
+                    // assuming sub-aoi does not change over time
+                    if (data[rr][value] !== '') {
+                      wkt.read(data[rr][value]);
                       const jsonGeom = wkt.toJson();
-                      // create feature
-                      const ftrs = [{
+                      // create a feature collection
+                      ftrs = [{
                         type: 'Feature',
                         properties: {},
                         geometry: jsonGeom,
                       }];
-                      featureObjs[uniqueKey]['Sub-AOI'].features.push(ftrs);
                     }
                   } catch (err) {} // eslint-disable-line no-empty
+                  const ftrCol = {
+                    type: 'FeatureCollection',
+                    features: ftrs,
+                  };
+                  featureObjs[uniqueKey][key] = ftrCol;
+                } else if (key === 'lastMeasurement') {
+                  featureObjs[uniqueKey][key] = data[rr][value].length !== 0
+                    ? Number(data[rr][value]) : NaN;
+                } else {
+                  featureObjs[uniqueKey][key] = data[rr][value];
                 }
-              } else {
-                featureObjs[uniqueKey] = results.data[rr];
-                featureObjs[uniqueKey]['Indicator Value'] = [
-                  featureObjs[uniqueKey]['Indicator Value'],
-                ];
-                featureObjs[uniqueKey]['Color code'] = [
-                  featureObjs[uniqueKey]['Color code'],
-                ];
-                const measurement = featureObjs[uniqueKey]['Measurement Value'].replace(',', '.');
-                featureObjs[uniqueKey]['Measurement Value'] = [
-                  measurement.length !== 0 ? Number(measurement) : NaN,
-                ];
-                featureObjs[uniqueKey]['Reference value'] = [
-                  featureObjs[uniqueKey]['Reference value'],
-                ];
-                featureObjs[uniqueKey].Time = [
-                  DateTime.fromISO(featureObjs[uniqueKey].Time),
-                ];
-                featureObjs[uniqueKey]['Reference time'] = [
-                  DateTime.fromISO(featureObjs[uniqueKey]['Reference time']),
-                ];
-                featureObjs[uniqueKey]['EO Sensor'] = [
-                  featureObjs[uniqueKey]['EO Sensor'],
-                ];
-                featureObjs[uniqueKey]['Input Data'] = [
-                  featureObjs[uniqueKey]['Input Data'],
-                ];
-                featureObjs[uniqueKey]['Site Name'] = [
-                  featureObjs[uniqueKey]['Site Name'],
-                ];
-                // dummy empty geometry
-                let ftrs = [];
-                try {
-                  // assuming sub-aoi does not change over time
-                  if (featureObjs[uniqueKey]['Sub-AOI'] !== '') {
-                    wkt.read(featureObjs[uniqueKey]['Sub-AOI']);
-                    const jsonGeom = wkt.toJson();
-                    // create a feature collection
-                    ftrs = [{
-                      type: 'Feature',
-                      properties: {},
-                      geometry: jsonGeom,
-                    }];
-                  }
-                } catch (err) {} // eslint-disable-line no-empty
-                const ftrCol = {
-                  type: 'FeatureCollection',
-                  features: ftrs,
-                };
-                featureObjs[uniqueKey]['Sub-AOI'] = ftrCol;
               }
-            }
-            const features = [];
-            const keys = Object.keys(featureObjs);
-
-            for (let kk = 0; kk < keys.length; kk += 1) {
-              const coordinates = keys[kk].split('_')[0].split(',').map(Number);
-              // console.log(featureObjs[keys[kk]]);
-              featureObjs[keys[kk]].AOI = latLng(coordinates);
-              featureObjs[keys[kk]].id = globalIdCounter; // to connect indicator & feature
-              features.push({
-                latlng: latLng(coordinates),
-                id: globalIdCounter,
-                properties: {
-                  indicatorObject: featureObjs[keys[kk]],
-                },
-              });
-              globalIdCounter += 1;
-            }
-            resolve(features);
+            });
           }
-        },
+          const keys = Object.keys(featureObjs);
+
+          for (let kk = 0; kk < keys.length; kk += 1) {
+            const coordinates = keys[kk].split('_')[0].split(',').map(Number);
+            // console.log(featureObjs[keys[kk]]);
+            featureObjs[keys[kk]].AOI = latLng(coordinates);
+            featureObjs[keys[kk]].id = globalIdCounter; // to connect indicator & feature
+            features.push({
+              latlng: latLng(coordinates),
+              id: globalIdCounter,
+              properties: {
+                indicatorObject: featureObjs[keys[kk]],
+              },
+            });
+            globalIdCounter += 1;
+          }
+        }
+        return features;
       });
-    });
   },
   loadDummyLocations({ rootState }) {
     return new Promise((resolve) => {
@@ -303,13 +268,13 @@ const actions = {
         skipEmptyLines: true,
         delimiter: ',',
         complete: (results) => {
-          if (results.data[0].AOI) { // only continue if AOI column is present
+          if (data[0].AOI) { // only continue if AOI column is present
             const featureObjs = {};
-            for (let rr = 0; rr < results.data.length; rr += 1) {
-              const uniqueKey = `${results.data[rr].AOI}_d`;
-              featureObjs[uniqueKey] = results.data[rr];
-              featureObjs[uniqueKey]['Indicator code'] = 'd';
-              featureObjs[uniqueKey]['Indicator Value'] = [''];
+            for (let rr = 0; rr < data.length; rr += 1) {
+              const uniqueKey = `${data[rr].AOI}_d`;
+              featureObjs[uniqueKey] = data[rr];
+              featureObjs[uniqueKey].indicator = 'd';
+              featureObjs[uniqueKey].indicatorValue = [''];
             }
             const features = [];
             const keys = Object.keys(featureObjs);

@@ -62,8 +62,8 @@ export default {
     },
     allFeatures() {
       return this.getFeatures.map((f) => ({
-        country: f.properties.indicatorObject.Country,
-        location: f.properties.indicatorObject.City,
+        country: f.properties.indicatorObject.country,
+        location: f.properties.indicatorObject.city,
         type: this.getClass(f),
         indicator: f.properties.indicatorObject.Description,
         indicatorValue: this.getLastValue(f.properties.indicatorObject).text,
@@ -77,8 +77,9 @@ export default {
       return [...new Set([array].flat(1))];
     },
     getClass(item) {
-      return this.baseConfig.indicatorsDefinition[item
-        .properties.indicatorObject['Indicator code']].class;
+      return this.baseConfig.indicatorsDefinition[
+        item.properties.indicatorObject.indicator
+      ].class;
     },
 
     getLastValue(values) {
@@ -86,11 +87,11 @@ export default {
       let color;
       if (values) {
         if (Object.prototype.hasOwnProperty.call(values, 'Indicator Value')
-          && values['Indicator Value'] !== '') {
-          let validValues = values['Indicator Value'].filter((item) => item !== '');
+          && values.indicatorValue !== '') {
+          let validValues = values.indicatorValue.filter((item) => item !== '');
           if (validValues.length > 0) {
             const lastValue = validValues[validValues.length - 1];
-            if (values['Indicator code'] === 'E10a1') {
+            if (values.indicator === 'E10a1') {
               if (lastValue !== '') {
                 const percVal = Number((lastValue * 100).toPrecision(4));
                 if (percVal > 0) {
@@ -99,7 +100,7 @@ export default {
                   text = `${percVal}%`;
                 }
               }
-            } else if (values['Indicator code'] === 'E10a3') {
+            } else if (values.indicator === 'E10a3') {
               text = 'multiple';
             } else {
               text = lastValue;
@@ -114,14 +115,14 @@ export default {
         }
         if (values) {
           if (Object.prototype.hasOwnProperty.call(values, 'Color code')
-            && values['Color code'] !== '') {
-            const validValues = values['Color code'].filter((item) => item !== '');
+            && values.colorCode !== '') {
+            const validValues = values.colorCode.filter((item) => item !== '');
             if (validValues.length > 0) {
               color = this.getIndicatorColor(validValues[validValues.length - 1]);
             }
           }
           if (Object.prototype.hasOwnProperty.call(values, 'Indicator code')
-            && ['N1', 'N3b'].includes(values['Indicator code'])) {
+            && ['N1', 'N3b'].includes(values.indicator)) {
             color = this.getIndicatorColor('BLUE');
             if (values.AOI === null) {
               color = 'black';
@@ -139,7 +140,7 @@ export default {
       return this.baseConfig.indicatorsDefinition[code];
     },
     openFeature(feature) {
-      if (feature.indicatorObject['Indicator code'] !== 'd') {
+      if (feature.indicatorObject.indicator !== 'd') {
         this.$store.commit(
           'indicators/SET_SELECTED_INDICATOR',
           feature.indicatorObject,

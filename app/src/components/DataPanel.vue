@@ -151,10 +151,10 @@ export default {
     story() {
       let markdown;
       try {
-        markdown = require(`../../public${this.appConfig.storyPath}${this.indicatorObject.AOI_ID}-${this.indicatorObject['Indicator code']}.md`);
+        markdown = require(`../../public${this.appConfig.storyPath}${this.indicatorObject.AOI_ID}-${this.indicatorObject.indicator}.md`);
       } catch {
         try {
-          markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject['Indicator code']].story}.md`);
+          markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].story}.md`);
         } catch {
           markdown = { default: '' };
         }
@@ -168,10 +168,10 @@ export default {
       return this.baseConfig.layerNameMapping;
     },
     globalData() {
-      return ['all'].includes(this.indicatorObject.Country) || Array.isArray(this.indicatorObject.Country);
+      return ['all'].includes(this.indicatorObject.country) || Array.isArray(this.indicatorObject.country);
     },
     externalData() {
-      const dataFromDefinition = this.baseConfig.indicatorsDefinition[this.indicatorObject['Indicator code']].externalData;
+      const dataFromDefinition = this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].externalData;
       const dataFromIndicator = this.indicatorObject.externalData;
       if (dataFromDefinition) {
         return dataFromDefinition;

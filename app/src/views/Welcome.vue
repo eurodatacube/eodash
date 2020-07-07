@@ -112,8 +112,8 @@ export default {
   methods: {
     featureLength(type) {
       return this.allFeatures
-        .filter((i) => i.properties.indicatorObject['Indicator code'] !== 'd' && this.baseConfig
-          .indicatorsDefinition[i.properties.indicatorObject['Indicator code']]
+        .filter((i) => i.properties.indicatorObject.indicator !== 'd' && this.baseConfig
+          .indicatorsDefinition[i.properties.indicatorObject.indicator]
           .class === type).length;
     },
   },

@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%; height: 100%;"
-    v-if="!['E10a2', 'E10a3', 'N1', 'N3', 'N3b'].includes(indicatorObject['Indicator code'])">
+    v-if="!['E10a2', 'E10a3', 'N1', 'N3', 'N3b'].includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
         class="fill-height"
@@ -10,7 +10,7 @@
         :options='chartOptions()'></bar-chart>
   </div>
   <div style="width: 100%; height: 100%;"
-    v-else-if="indicatorObject['Indicator code']=='E10a3'">
+    v-else-if="indicatorObject.indicator=='E10a3'">
       <map-chart
         id="chart"
         class="fill-height"
@@ -96,7 +96,7 @@ export default {
   computed: {
     arrayOfObjects() {
       const indicator = this.$store.state.indicators.selectedIndicator;
-      const indicatorCode = this.indicatorObject['Indicator code'];
+      const indicatorCode = this.indicatorObject.indicator;
       const selectionOptions = [];
       if (['E10a3'].includes(indicatorCode)) {
         // Find all unique day/month available
@@ -114,7 +114,7 @@ export default {
     },
     datacollection() {
       const indicator = this.$store.state.indicators.selectedIndicator;
-      const indicatorCode = this.indicatorObject['Indicator code'];
+      const indicatorCode = this.indicatorObject.indicator;
       let dataCollection;
       const refColors = [
         '#a37', '#cb4', '#47a', '#a67', '#283', '#bbb',
@@ -137,7 +137,7 @@ export default {
             }
           }
           datasets.push({
-            indLabels: Array(indicator['Indicator Value'].length).join('.').split('.'),
+            indLabels: Array(indicator.indicatorValue.length).join('.').split('.'),
             label: '2019',
             data: referenceValue,
             fill: false,
@@ -145,7 +145,7 @@ export default {
             backgroundColor: 'grey',
           });
           datasets.push({
-            indLabels: indicator['Indicator Value'],
+            indLabels: indicator.indicatorValue,
             label: '2020',
             data: measurement,
             fill: false,
@@ -197,7 +197,7 @@ export default {
         } else if (['N2'].includes(indicatorCode)) {
           /* Group data by year in month slices */
           const data = indicator.Time.map((date, i) => {
-            colors.push(this.getIndicatorColor(indicator['Color code'][i]));
+            colors.push(this.getIndicatorColor(indicator.colorCode[i]));
             return { t: date, y: measurement[i] };
           });
           const dataGroups = {};
@@ -360,7 +360,7 @@ export default {
             }
             let colorCode = '';
             if (Object.prototype.hasOwnProperty.call(indicator, 'Color code')) {
-              colorCode = indicator['Color code'][i];
+              colorCode = indicator.colorCode[i];
             }
             colors.push(this.getIndicatorColor(colorCode));
           }
@@ -408,12 +408,12 @@ export default {
 
           // Find unique indicator values
           const indicatorValues = {};
-          indicator['Indicator Value'].map((val, i) => {
+          indicator.indicatorValue.map((val, i) => {
             let key = val.toLowerCase();
             key = key.charAt(0).toUpperCase() + key.slice(1);
             if (typeof indicatorValues[key] === 'undefined') {
               indicatorValues[key] = this.getIndicatorColor(
-                indicator['Color code'][i],
+                indicator.colorCode[i],
               );
             }
             return null;
@@ -466,7 +466,7 @@ export default {
                 value: Number(meas),
                 referenceTime: indicator['Reference time'][i],
                 referenceValue: indicator['Reference value'][i],
-                color: indicator['Color code'][i],
+                color: indicator.colorCode[i],
               };
             }
             return output;
@@ -498,7 +498,7 @@ export default {
           });
         } else {
           const data = indicator.Time.map((date, i) => {
-            colors.push(this.getIndicatorColor(indicator['Color code'][i]));
+            colors.push(this.getIndicatorColor(indicator.colorCode[i]));
             return { t: date, y: measurement[i] };
           });
           datasets.push({
@@ -553,7 +553,7 @@ export default {
       return [timeMin, timeMax];
     },
     chartOptions() {
-      const indicatorCode = this.indicatorObject['Indicator code'];
+      const indicatorCode = this.indicatorObject.indicator;
       const reference = Number.parseFloat(this.indicatorObject['Reference value']);
       let timeMinMax = this.getMinMaxDate(this.indicatorObject.Time);
       const annotations = [];

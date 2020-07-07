@@ -52,7 +52,7 @@ export default {
         const selectedFeature = this.$store.state.features.allFeatures.find((f) => {
           const { indicatorObject } = f.properties;
           return indicatorObject.AOI_ID === aoiId
-            && indicatorObject['Indicator code'] === indicatorCode;
+            && indicatorObject.indicator === indicatorCode;
         });
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature.properties.indicatorObject);
       }

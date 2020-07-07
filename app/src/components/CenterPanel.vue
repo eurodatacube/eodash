@@ -53,8 +53,8 @@
                 <div class="circle"
                   :style="
                   $store.state.indicators.selectedIndicator &&
-                  $store.state.indicators.selectedIndicator['Indicator code']
-                  === feature.properties.indicatorObject['Indicator code'] &&
+                  $store.state.indicators.selectedIndicator.indicator
+                  === feature.properties.indicatorObject.indicator &&
                   $store.state.indicators.selectedIndicator.AOI_ID
                   === feature.properties.indicatorObject.AOI_ID
                   ? { 'border': `2px dashed ${$vuetify.theme.themes.light.primary}` }
@@ -192,7 +192,7 @@ export default {
     someGlobalIndicator() {
       return this.globalIndicators
         .filter((i) => this.$store.state.features.featureFilters.indicators
-          .includes(i.properties.indicatorObject['Indicator code']));
+          .includes(i.properties.indicatorObject.indicator));
     },
   },
   methods: {
@@ -201,7 +201,7 @@ export default {
         'indicators/SET_SELECTED_INDICATOR',
         this.$store.state.features.allFeatures
           .find((f) => f.properties
-            .indicatorObject['Indicator code'] === feature.properties.indicatorObject['Indicator code']
+            .indicatorObject.indicator === feature.properties.indicatorObject.indicator
           && f.properties
             .indicatorObject.AOI_ID === feature.properties.indicatorObject.AOI_ID)
           .properties.indicatorObject,
@@ -217,7 +217,7 @@ export default {
       this.$store.commit('features/SET_FEATURE_FILTER', { indicators: [] });
     },
     getUniqueKey(indicatorObject) {
-      return `${indicatorObject['Indicator code']}-${indicatorObject.AOI_ID}`;
+      return `${indicatorObject.indicator}-${indicatorObject.AOI_ID}`;
     },
   },
   watch: {

@@ -55,13 +55,13 @@
         :weight="2"
         :dashArray="currentSelected === feature.id ? '5' : '0'"
         :fill="true"
-        :fillColor="getLastValue(feature.properties.indicatorObject).color"
+        :fillColor="feature.properties.indicatorObject.colorCode"
         :fillOpacity="1"
         @click="selectIndicator(feature)"
       >
         <l-tooltip class="tooltip text-center" :options="{ direction: 'top' }">
           <p class="ma-0">
-            <strong>{{ feature.properties.indicatorObject.City }}</strong>
+            <strong>{{ feature.properties.indicatorObject.city }}</strong>
           </p>
             <p class="ma-0">
               <strong>{{ feature.properties.indicatorObject.Description }}</strong>
@@ -201,13 +201,13 @@ export default {
       let fillColor;
       if (this.$store.state.indicators.selectedIndicator) {
         currentIndicator = this.$store.state.indicators.selectedIndicator;
-        fillColor = this.getLastValue(currentIndicator).color;
+        fillColor = this.getIndicatorColor(currentIndicator.colorCode);
         // Special case for E10a3
-        if (currentIndicator['Indicator code'] === 'E10a3') {
+        if (currentIndicator.indicator === 'E10a3') {
           fillColor = this.getIndicatorColor('BLUE');
         }
       } else {
-        fillColor = this.getLastValue(currentIndicator).color;
+        fillColor = '#000';
       }
       return {
         color: '#fff',
@@ -260,8 +260,8 @@ export default {
       if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
         if (mutation.payload !== null && mutation.payload.AOI !== null) {
           this.currentSelected = mutation.payload.id;
-          if (mutation.payload['Sub-AOI']) {
-            this.subAoi = mutation.payload['Sub-AOI'];
+          if (mutation.payload.subAoi) {
+            this.subAoi = mutation.payload.subAoi;
           }
         } else {
           this.currentSelected = null;
@@ -277,35 +277,34 @@ export default {
   methods: {
     selectIndicator(feature) {
       const { indicatorObject } = feature.properties;
-      if (indicatorObject['Indicator code'] !== 'd') {
+      if (indicatorObject.indicator !== 'd') {
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
         this.currentSelected = feature.id;
-        this.subAoi = indicatorObject['Sub-AOI'];
+        this.subAoi = indicatorObject.subAoi;
       }
     },
     formatLabel(feature) {
       let label = '(coming soon)';
       if (feature) {
         const { indicatorObject } = feature.properties;
-        const validValues = indicatorObject['Indicator Value'].filter((item) => item !== '');
-        if (validValues.length > 0) {
+        if (Object.prototype.hasOwnProperty.call(indicatorObject, 'indicatorValue')) {
           label = 'Latest value: ';
-          const indVal = validValues[validValues.length - 1];
-          if (indicatorObject['Indicator code'] === 'E10a1') {
+          const indVal = indicatorObject.indicatorValue;
+          if (indicatorObject.indicator === 'E10a1') {
             const percVal = Number((indVal * 100).toPrecision(4));
             if (percVal > 0) {
               label += `+${percVal}%`;
             } else {
               label += `${percVal}%`;
             }
-          } else if (indicatorObject['Indicator code'] === 'E10a3') {
+          } else if (indicatorObject.indicator === 'E10a3') {
             label += 'multiple';
+          } else if (['N1', 'N3b'].includes(indicatorObject.indicator)) {
+            label = '';
           } else {
             label += indVal;
           }
-        } else if (['N1', 'N3b'].includes(indicatorObject['Indicator code'])) {
-          label = '';
         }
       }
       return label;
@@ -314,25 +313,6 @@ export default {
       if (this.$refs.clusterLayer) {
         this.$refs.clusterLayer.mapObject.refreshClusters();
       }
-    },
-    getLastValue(values) {
-      let lastColorCode;
-      if (values) {
-        if (Object.prototype.hasOwnProperty.call(values, 'Color code')
-          && values['Color code'] !== '') {
-          const validValues = values['Color code'].filter((item) => item !== '');
-          if (validValues.length > 0) {
-            lastColorCode = validValues[validValues.length - 1];
-          }
-        }
-        if (Object.prototype.hasOwnProperty.call(values, 'Indicator code')
-          && ['N1', 'N3b'].includes(values['Indicator code'])) {
-          lastColorCode = 'BLUE';
-        }
-      }
-      return {
-        color: this.getIndicatorColor(lastColorCode),
-      };
     },
     zoomUpdated(zoom) {
       this.zoom = zoom;
@@ -379,10 +359,10 @@ export default {
       const featuresOnMap = features.filter((f) => f.latlng);
       if (featuresOnMap.length > 0) {
         const maxZoomFit = 8;
-        if (featuresOnMap.length === 1 && featuresOnMap[0].properties.indicatorObject['Sub-AOI']
-          && featuresOnMap[0].properties.indicatorObject['Sub-AOI'].features.length > 0) {
+        if (featuresOnMap.length === 1 && featuresOnMap[0].properties.indicatorObject.subAoi
+          && featuresOnMap[0].properties.indicatorObject.subAoi.features.length > 0) {
           this.$nextTick(() => {
-            const bounds = geoJson(featuresOnMap[0].properties.indicatorObject['Sub-AOI']).getBounds();
+            const bounds = geoJson(featuresOnMap[0].properties.indicatorObject.subAoi).getBounds();
             this.map.fitBounds(bounds, {
               padding: [25, 25],
             });
