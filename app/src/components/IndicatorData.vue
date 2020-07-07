@@ -651,6 +651,7 @@ export default {
             min: timeMinMax[0],
             max: timeMinMax[1],
           },
+          barThickness: 'flex',
         }];
         if (!['N3', 'N3b'].includes(indicatorCode)) {
           xAxes[0].distribution = 'series';
