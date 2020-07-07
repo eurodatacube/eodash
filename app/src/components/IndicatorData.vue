@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import moment from 'moment';
+import { DateTime } from 'luxon';
 
 import BarChart from '@/components/BarChart.vue';
 import LineChart from '@/components/LineChart.vue';
@@ -80,20 +80,17 @@ export default {
     return {
       dataLayerTime: null,
       dataLayerIndex: 0,
-      monthNames: ['January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December',
-      ],
     };
   },
   mounted() {
     const d = this.indicatorObject.Time[this.indicatorObject.Time.length - 1];
-    this.dataLayerTime = `${d.getDate()}. ${this.monthNames[d.getMonth()]}`;
+    this.dataLayerTime = d.toFormat('dd. MMM');
   },
   watch: {
     indicatorObject() {
       this.dataLayerIndex = this.indicatorObject.Time.length - 1;
       const d = this.indicatorObject.Time[this.dataLayerIndex];
-      this.dataLayerTime = `${d.getDate()}. ${this.monthNames[d.getMonth()]}`;
+      this.dataLayerTime = d.toFormat('dd. MMM');
     },
   },
   computed: {
@@ -104,7 +101,7 @@ export default {
       if (['E10a3'].includes(indicatorCode)) {
         // Find all unique day/month available
         const timeset = new Set(
-          indicator.Time.map((d) => `${d.getDate()}. ${this.monthNames[d.getMonth()]}`),
+          indicator.Time.map((d) => d.toFormat('dd. MMM')),
         );
         timeset.forEach((t) => {
           selectionOptions.push({
@@ -131,9 +128,9 @@ export default {
         if (['E10a1'].includes(indicatorCode)) {
           const referenceValue = indicator['Reference value'].map(Number);
           for (let i = 0; i < indicator.Time.length; i += 1) {
-            if (!Number.isNaN(indicator.Time[i].getTime())) {
-              const currDate = indicator.Time[i];
-              const formattedDate = `${currDate.getDate()} - ${this.monthNames[currDate.getMonth()]}`;
+            if (!Number.isNaN(indicator.Time[i].toMillis())) {
+              const d = indicator.Time[i];
+              const formattedDate = d.toFormat('dd. MMM');
               labels.push(formattedDate);
             } else {
               labels.push(i);
@@ -176,11 +173,11 @@ export default {
           }
         } else if (['E10a2'].includes(indicatorCode)) {
           const data = indicator.Time.map((date, i) => ({
-            t: new Date(date.getTime()).setFullYear(2000), y: measurement[i],
+            t: date.set({ year: 2000 }), y: measurement[i],
           }));
           const referenceValue = indicator['Reference time']
             .map((date, i) => ({
-              t: new Date(date).setFullYear(2000),
+              t: date.set({ year: 2000 }),
               y: Number(indicator['Reference value'][i]),
             }));
           datasets.push({
@@ -206,18 +203,16 @@ export default {
           const dataGroups = {};
           const colorGroups = {};
           for (let i = 0; i < data.length; i += 1) {
-            const currYear = data[i].t.getFullYear();
-            const modDate = new Date(data[i].t.getTime());
-            modDate.setFullYear(2000);
+            const currYear = data[i].t.year;
             if (Object.prototype.hasOwnProperty.call(dataGroups, currYear)) {
               dataGroups[currYear].push({
-                t: modDate,
+                t: data[i].t.set({ year: 2000 }),
                 y: [data[i].y],
               });
               colorGroups[currYear].push(colors[i]);
             } else {
               dataGroups[currYear] = [{
-                t: modDate,
+                t: data[i].t.set({ year: 2000 }),
                 y: [data[i].y],
               }];
               colorGroups[currYear] = [colors[i]];
@@ -245,7 +240,7 @@ export default {
           const median = [];
           const data = [];
           indicator['Reference value'].forEach((item, i) => {
-            const t = new Date(indicator.Time[i]);
+            const t = indicator.Time[i];
             data.push({ y: measurement[i], t });
             if (item !== 'NaN') {
               const obj = JSON.parse(item);
@@ -358,10 +353,8 @@ export default {
           ));
 
           for (let i = 0; i < indicator.Time.length; i += 1) {
-            if (!Number.isNaN(indicator.Time[i].getTime())) {
-              const currDate = indicator.Time[i];
-              const formattedDate = moment(currDate, 'YYYY-MM-DD').toDate();
-              labels.push(formattedDate);
+            if (!Number.isNaN(indicator.Time[i].toMillis())) {
+              labels.push(indicator.Time[i].toISODate());
             } else {
               labels.push(i);
             }
@@ -470,7 +463,7 @@ export default {
                 longitude: centerPoint.lon,
                 name: geom.properties.NUTS_NAME,
                 time: indicator.Time[i],
-                value: meas,
+                value: Number(meas),
                 referenceTime: indicator['Reference time'][i],
                 referenceValue: indicator['Reference value'][i],
                 color: indicator['Color code'][i],
@@ -482,10 +475,14 @@ export default {
           features = features.filter((d) => (
             typeof d !== 'undefined'));
 
-          const filteredFeatures = features.filter((d) => (
-            `${d.time.getDate()}. ${this.monthNames[d.time.getMonth()]}` === this.dataLayerTime
-            && !Number.isNaN(d.value)
-          ));
+          const filteredFeatures = features.filter((d) => {
+            let include = false;
+            if (d.time instanceof DateTime) {
+              include = d.time.toFormat('dd. MMM') === this.dataLayerTime
+                && !Number.isNaN(d.value);
+            }
+            return include;
+          });
 
           labels = features.map((d) => d.name);
           datasets.push({
@@ -548,12 +545,8 @@ export default {
       return Number.parseFloat(num.toFixed(maxDecimals));
     },
     getMinMaxDate(timeData) {
-      let timeMin = new Date(
-        Math.min.apply(null, timeData),
-      ).getTime();
-      let timeMax = new Date(
-        Math.max.apply(null, timeData),
-      ).getTime();
+      let timeMin = Math.min.apply(null, timeData.map((d) => d.toMillis()));
+      let timeMax = Math.max.apply(null, timeData.map((d) => d.toMillis()));
       const buffer = (timeMax - timeMin) / timeData.length;
       timeMin -= buffer;
       timeMax += buffer;
@@ -648,7 +641,7 @@ export default {
       }
       const filter = (legendItem) => !`${legendItem.text}`.startsWith('hide_');
       let xAxes = {};
-      if (!['E10a1', 'E10a2', 'N2'].includes(indicatorCode)) {
+      if (!['E10a1', 'E10a2', 'E10a3', 'N2'].includes(indicatorCode)) {
         xAxes = [{
           type: 'time',
           time: {
@@ -658,6 +651,7 @@ export default {
             min: timeMinMax[0],
             max: timeMinMax[1],
           },
+          barThickness: 'flex',
         }];
         if (!['N3', 'N3b'].includes(indicatorCode)) {
           xAxes[0].distribution = 'series';
@@ -666,15 +660,17 @@ export default {
 
       if (['E10a2'].includes(indicatorCode)) {
         /* Recalculate to get min max months in data converted to one year */
-        timeMinMax = this.getMinMaxDate(this.indicatorObject.Time.map((date) => {
-          const tmpDate = new Date(date.getTime());
-          return new Date(tmpDate.setFullYear(2000));
-        }));
+        timeMinMax = this.getMinMaxDate(
+          this.indicatorObject.Time.map((date) => (
+            date.set({ year: 2000 })
+          )),
+        );
         /* Check also for reference time */
-        const refTimeMinMax = this.getMinMaxDate(this.indicatorObject['Reference time'].map((date) => {
-          const tmpDate = new Date(date);
-          return new Date(tmpDate.setFullYear(2000));
-        }));
+        const refTimeMinMax = this.getMinMaxDate(
+          this.indicatorObject['Reference time'].map((date) => (
+            date.set({ year: 2000 })
+          )),
+        );
         xAxes = [{
           type: 'time',
           time: {
@@ -682,7 +678,7 @@ export default {
             displayFormats: {
               month: 'MMM',
             },
-            tooltipFormat: 'DD. MMM',
+            tooltipFormat: 'dd. MMM',
           },
           ticks: {
             min: (timeMinMax[0] < refTimeMinMax[0]) ? timeMinMax[0] : refTimeMinMax[0],
@@ -692,10 +688,11 @@ export default {
       }
 
       if (['N2'].includes(indicatorCode)) {
-        timeMinMax = this.getMinMaxDate(this.indicatorObject.Time.map((date) => {
-          const tmpDate = new Date(date.getTime());
-          return new Date(tmpDate.setFullYear(2000));
-        }));
+        timeMinMax = this.getMinMaxDate(
+          this.indicatorObject.Time.map((date) => (
+            date.set({ year: 2000 })
+          )),
+        );
         xAxes = [{
           type: 'time',
           time: {
@@ -703,7 +700,7 @@ export default {
             displayFormats: {
               month: 'MMM',
             },
-            tooltipFormat: 'DD. MMM',
+            tooltipFormat: 'dd. MMM',
           },
           distribution: 'series',
           ticks: {
@@ -791,8 +788,6 @@ export default {
       }
 
       if (['E10a3'].includes(indicatorCode)) {
-        xAxes[0].ticks.padding = -20;
-        // Disable axis in a strange way
         yAxes[0].ticks = {
           suggestedMin: Number.NaN,
           suggestedMax: Number.NaN,
@@ -897,8 +892,8 @@ export default {
               const refT = obj.referenceTime;
               const refV = Number(obj.referenceValue);
               const labelOutput = [
-                `${obj.time.getDate()}.${obj.time.getMonth() + 1}.${obj.time.getFullYear()}:  ${obj.value.toPrecision(4)}`,
-                `${refT.getDate()}.${refT.getMonth() + 1}.${refT.getFullYear()}:  ${refV.toPrecision(4)}`,
+                `${obj.time.toISODate()}:  ${obj.value.toPrecision(4)}`,
+                `${refT.toISODate()}:  ${refV.toPrecision(4)}`,
               ];
               if (refV !== 0) {
                 labelOutput.push(

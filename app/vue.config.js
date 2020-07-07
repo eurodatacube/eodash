@@ -56,6 +56,9 @@ module.exports = {
         loader: 'raw-loader',
       }],
     },
+    externals: {
+      moment: 'moment',
+    },
     plugins: [
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.HashedModuleIdsPlugin(),

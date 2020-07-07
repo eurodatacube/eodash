@@ -1,9 +1,9 @@
 // config global variables here for now
 // temporary solution
 import { Wkt } from 'wicket';
+import { DateTime } from 'luxon';
 import { latLng, latLngBounds } from 'leaflet';
 import { shTimeFunction } from '@/utils';
-import moment from 'moment';
 
 export const indicatorsDefinition = Object.freeze({
   E1: {
@@ -326,7 +326,7 @@ export const globalIndicators = [
           name: 'Tropospheric NO2',
           legendUrl: 'eodash-data/data/no2Legend.png',
           attribution: '{ Air Quality: <a href="//scihub.copernicus.eu/twiki/pub/SciHubWebPortal/TermsConditions/TC_Sentinel_Data_31072014.pdf" target="_blank">Sentinel data</a>, <a href="//maps.s5p-pal.com/" target="_blank">S5P-PAL</a> }',
-          dateFormatFunction: (dates) => `${moment.utc(dates[0], 'YYYY-MM-DD').format('YYYYMMDD')}-${moment.utc(dates[1], 'YYYY-MM-DD').format('YYYYMMDD')}`,
+          dateFormatFunction: (dates) => `${DateTime.fromISO(dates[0]).toFormat('yyyyMMdd')}-${DateTime.fromISO(dates[1]).toFormat('yyyyMMdd')}`,
         },
       },
     },
@@ -366,7 +366,7 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
           attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
-          dateFormatFunction: (dates) => `${moment.utc(dates[0], 'YYYY-MM-DD').format('YYYY-MM-DD')}`,
+          dateFormatFunction: (dates) => DateTime.fromISO(dates[0]).toFormat('yyyy-MM-dd'),
         },
       },
     },
