@@ -788,7 +788,7 @@ export default {
                 anchor: 'end',
                 align: 'end',
                 offset: -6,
-                formatter: (value) => value.toFixed(0),
+                formatter: (value) => value.toFixed(1),
               },
             },
           },
