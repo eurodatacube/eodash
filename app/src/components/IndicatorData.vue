@@ -118,7 +118,7 @@ export default {
       const indicatorCode = this.indicatorObject['Indicator code'];
       let dataCollection;
       const refColors = [
-        '#a37', '#cb4', '#47a', '#a67', '#283', '#bbb',
+        '#cb4', '#a37', '#47a', '#a67', '#283', '#bbb',
         '#6ce', '#994499', '#22aa99', '#aaaa11', '#6633cc', '#e67300',
       ];
       if (indicator) {
@@ -228,6 +228,7 @@ export default {
           }
           const uniqueYears = Object.keys(dataGroups);
           uniqueYears.sort();
+          const yLength = uniqueYears.length-1;
           uniqueYears.forEach((key, i) => {
             datasets.push({
               // fill with empty values
@@ -235,8 +236,8 @@ export default {
               label: key,
               fill: false,
               data: dataGroups[key],
-              backgroundColor: refColors[i],
-              borderColor: refColors[i],
+              backgroundColor: refColors[yLength-i],
+              borderColor: refColors[yLength-i],
               borderWidth: 2,
             });
           });
