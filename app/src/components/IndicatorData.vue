@@ -173,24 +173,31 @@ export default {
             });
           }
         } else if (['E10a2'].includes(indicatorCode)) {
-          const data = indicator.Time.map((date, i) => ({
-            t: date.set({ year: 2000 }), y: measurement[i],
-          }));
-          const referenceValue = indicator['Reference time']
-            .map((date, i) => ({
-              t: date.set({ year: 2000 }),
-              y: Number(indicator['Reference value'][i]),
-            }));
+          const uniqueRefs = [];
+          const uniqueMeas = [];
+          indicator.Time.forEach((date, i) => {
+            const meas = { t: date.set({ year: 2000 }), y: measurement[i] };
+            if (typeof uniqueRefs.find((item) => item.t.equals(meas.t)) === 'undefined') {
+              uniqueMeas.push(meas);
+            }
+          });
+          indicator['Reference time'].forEach((date, i) => {
+            const ref = { t: date.set({ year: 2000 }), y: measurement[i] };
+            if (typeof uniqueRefs.find((item) => item.t.equals(ref.t)) === 'undefined') {
+              uniqueRefs.push(ref);
+            }
+          });
+
           datasets.push({
             label: '2019',
-            data: referenceValue,
+            data: uniqueRefs,
             fill: false,
             borderColor: 'red',
             backgroundColor: 'red',
           });
           datasets.push({
             label: '2020',
-            data,
+            data: uniqueMeas,
             fill: false,
             borderColor: 'darkcyan',
             backgroundColor: 'darkcyan',
