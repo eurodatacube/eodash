@@ -83,7 +83,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/E10a2',
     largeSubAoi: true,
   },
-    E10a5: {
+  E10a5: {
     indicator: 'Harvesting activity',
     class: 'agriculture',
     file: './eodash-data/data/E10a5.csv',
