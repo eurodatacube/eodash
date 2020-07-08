@@ -175,6 +175,7 @@ export default {
         } else if (['E10a2'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
+          const referenceValue = indicator['Reference value'].map(Number);
           indicator.Time.forEach((date, i) => {
             const meas = { t: date.set({ year: 2000 }), y: measurement[i] };
             if (typeof uniqueRefs.find((item) => item.t.equals(meas.t)) === 'undefined') {
@@ -182,7 +183,7 @@ export default {
             }
           });
           indicator['Reference time'].forEach((date, i) => {
-            const ref = { t: date.set({ year: 2000 }), y: measurement[i] };
+            const ref = { t: date.set({ year: 2000 }), y: referenceValue[i] };
             if (typeof uniqueRefs.find((item) => item.t.equals(ref.t)) === 'undefined') {
               uniqueRefs.push(ref);
             }
@@ -804,7 +805,7 @@ export default {
           padding: -20,
         };
       }
-      if (['E10c'].includes(indicatorCode)) {
+      if (['E10c', 'E10a2'].includes(indicatorCode)) {
         yAxes[0].ticks.suggestedMin += 1;
         yAxes[0].ticks.suggestedMax -= 1;
       }
