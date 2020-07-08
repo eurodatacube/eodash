@@ -262,6 +262,16 @@ export const layerNameMapping = Object.freeze({
     layers: 'E8_SENTINEL1',
     attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   },
+  'LANDSAT-8-TRUE-COLOUR': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'LANDSAT-8-TRUE-COLOUR',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+  },
+  'LANDSAT-8-NIR': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'LANDSAT-8-NIR',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+  },
   N1: {
     maxMapZoom: 8,
   },
