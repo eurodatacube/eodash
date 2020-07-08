@@ -32,7 +32,7 @@ const getters = {
       state.allFeatures
         .map((f) => ({
           code: f.properties.indicatorObject.indicator,
-          indicator: f.properties.indicatorObject.Description,
+          indicator: f.properties.indicatorObject.description,
           class: rootState.config.baseConfig.indicatorsDefinition[f.properties.indicatorObject.indicator].class,
         })),
     ].flat(2))].sort();
@@ -204,6 +204,9 @@ const actions = {
             const uniqueKey = `${data[rr][pM.aoi]}_${data[rr][pM.indicator]}`;
             if (!Object.prototype.hasOwnProperty.call(featureObjs, uniqueKey)) {
               featureObjs[uniqueKey] = {};
+            } else {
+              // This should not happen
+              console.log(`WARNING: Duplicate uniqueKey ${uniqueKey} in retrieved data.`);
             }
             // Create new object with mapped keys to allow integrating data
             // of multiple endpoints

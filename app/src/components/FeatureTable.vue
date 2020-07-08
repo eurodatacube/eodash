@@ -65,7 +65,7 @@ export default {
         country: f.properties.indicatorObject.country,
         location: f.properties.indicatorObject.city,
         type: this.getClass(f),
-        indicator: f.properties.indicatorObject.Description,
+        indicator: f.properties.indicatorObject.description,
         indicatorValue: this.getLastValue(f.properties.indicatorObject).text,
         indicatorColor: this.getLastValue(f.properties.indicatorObject).color,
         indicatorObject: f.properties.indicatorObject,

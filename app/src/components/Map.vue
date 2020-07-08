@@ -64,7 +64,7 @@
             <strong>{{ feature.properties.indicatorObject.city }}</strong>
           </p>
             <p class="ma-0">
-              <strong>{{ feature.properties.indicatorObject.Description }}</strong>
+              <strong>{{ feature.properties.indicatorObject.description }}</strong>
             </p>
             <p
               class="ma-0"

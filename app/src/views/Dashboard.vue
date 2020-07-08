@@ -96,13 +96,13 @@
           <v-icon>mdi-arrow-expand</v-icon>
         </v-btn>
         <v-toolbar-title v-if="$store.state.indicators.selectedIndicator"
-          :class="$store.state.indicators.selectedIndicator.Description ===
+          :class="$store.state.indicators.selectedIndicator.description ===
             $store.state.indicators.selectedIndicator['Indicator Name'] && 'preventEllipsis'"
         >
           {{ $store.state.indicators.selectedIndicator['City'] }},
-          {{ $store.state.indicators.selectedIndicator.Description }}
+          {{ $store.state.indicators.selectedIndicator.description }}
           <div v-if="
-            $store.state.indicators.selectedIndicator.Description !==
+            $store.state.indicators.selectedIndicator.description !==
             $store.state.indicators.selectedIndicator['Indicator Name']"
             class="subheading" style="font-size: 0.8em">
             {{ $store.state.indicators.selectedIndicator['Indicator Name'] }}
@@ -130,7 +130,7 @@
         <v-toolbar-title style="overflow: unset; white-space: pre-wrap;"
           v-if="$store.state.indicators.selectedIndicator"
         >{{ $store.state.indicators.selectedIndicator['City'] }},
-          {{ $store.state.indicators.selectedIndicator.Description }}
+          {{ $store.state.indicators.selectedIndicator.description }}
         </v-toolbar-title>
         <v-toolbar-title v-else class="text-capitalize">
           {{ showText }}
@@ -154,7 +154,7 @@
 
         <h4 v-if="
             ($store.state.indicators.selectedIndicator && (
-              $store.state.indicators.selectedIndicator.Description !==
+              $store.state.indicators.selectedIndicator.description !==
               $store.state.indicators.selectedIndicator['Indicator Name']))"
           class="px-4 py-2"
         >

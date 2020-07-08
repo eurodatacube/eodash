@@ -451,7 +451,7 @@ export default {
       return this.indicator.display ? this.indicator.display : {
         ...this.baseConfig.defaultWMSDisplay,
         ...this.shLayerConfig(side),
-        name: this.indicator.Description,
+        name: this.indicator.description,
       };
     },
     flyToBounds() {
