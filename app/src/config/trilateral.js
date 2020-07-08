@@ -89,6 +89,12 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Field preparation activity',
     class: 'agriculture',
   },
+  E10c: {
+    indicator: 'Rice Planted Area',
+    class: 'agriculture',
+    file: './data/trilateral/E10c.csv',
+    story: '/data/trilateral/US05-E10c',
+  },
   E11: {
     indicator: 'Volume of activity at shopping centers',
     class: 'economic',
