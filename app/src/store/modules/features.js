@@ -139,15 +139,16 @@ const actions = {
           url += endpoints[ep].locationSuffix;
         }
         const { token } = endpoints[ep];
+        const endPointIdx = ep;
         const F = await this.dispatch( // eslint-disable-line
-          'features/loadGeoDBEndpoint', { url, token },
+          'features/loadGeoDBEndpoint', { url, token, endPointIdx },
         );
         allFeatures = allFeatures.concat(F);
       }
     }
-    /*
     // Then, add the hardcoded features
     allFeatures = allFeatures.concat(rootState.config.baseConfig.globalIndicators);
+    /*
     // Then, if applicable, add the dummy features
     if (rootState.config.appConfig.displayDummyLocations) {
       const dummyFeatures = await this.dispatch('features/loadDummyLocations');
@@ -156,7 +157,7 @@ const actions = {
     */
     commit('ADD_NEW_FEATURES', allFeatures);
   },
-  loadGeoDBEndpoint({ rootState, commit }, { url, token }) {
+  loadGeoDBEndpoint({ rootState, commit }, { url, token, endPointIdx }) {
     return fetch(url, {
       method: 'get',
       headers: {
@@ -190,7 +191,8 @@ const actions = {
           rule: 'rule',
           siteName: 'site name',
           subAoi: 'sub-aoi',
-          updateFrequency: 'update frequency', // Not present
+          updateFrequency: 'update frequency', // not present
+          indicatorName: 'Indicator Name', // not present
         };
         commit('ADD_RESULTS_COUNT', {
           type: rootState.config.baseConfig.indicatorsDefinition[data[0][pM.indicator]].class,
@@ -247,8 +249,9 @@ const actions = {
           for (let kk = 0; kk < keys.length; kk += 1) {
             const coordinates = keys[kk].split('_')[0].split(',').map(Number);
             // console.log(featureObjs[keys[kk]]);
-            featureObjs[keys[kk]].AOI = latLng(coordinates);
+            featureObjs[keys[kk]].aoi = latLng(coordinates);
             featureObjs[keys[kk]].id = globalIdCounter; // to connect indicator & feature
+            featureObjs[keys[kk]].endPointIdx = endPointIdx;
             features.push({
               latlng: latLng(coordinates),
               id: globalIdCounter,

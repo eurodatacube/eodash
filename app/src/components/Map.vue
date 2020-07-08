@@ -278,10 +278,24 @@ export default {
     selectIndicator(feature) {
       const { indicatorObject } = feature.properties;
       if (indicatorObject.indicator !== 'd') {
-        this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
-        this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
-        this.currentSelected = feature.id;
-        this.subAoi = indicatorObject.subAoi;
+        console.log(indicatorObject);
+        const endpoints = this.baseConfig.dataEndpoints;
+        const url = endpoints[indicatorObject.endPointIdx].provider + indicatorObject.id;
+        // Fetch location data
+        fetch(url, {
+          method: 'get',
+          headers: {
+            Authorization: token,
+            'Content-Type': 'application/json',
+          },
+        }).then((r) => r.json())
+          .then((data) => {
+            console.log(data);
+            this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+            this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
+            this.currentSelected = feature.id;
+            this.subAoi = indicatorObject.subAoi;
+          });
       }
     },
     formatLabel(feature) {

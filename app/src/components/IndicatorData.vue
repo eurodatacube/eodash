@@ -122,7 +122,7 @@ export default {
       ];
       if (indicator) {
         let labels = [];
-        const measurement = indicator['Measurement Value'];
+        const measurement = indicator.lastMeasurement;
         const colors = [];
         const datasets = [];
         if (['E10a1'].includes(indicatorCode)) {
@@ -153,12 +153,12 @@ export default {
             backgroundColor: 'black',
           });
         } else if (['N3b'].includes(indicatorCode)) {
-          const sensors = Array.from(new Set(indicator['EO Sensor'])).reverse();
+          const sensors = Array.from(new Set(indicator.eoSensor)).reverse();
           for (let pp = 0; pp < sensors.length; pp += 1) {
             const pKey = sensors[pp];
             const data = indicator.Time.map((date, i) => {
               let output = null;
-              if (indicator['EO Sensor'][i] === pKey) {
+              if (indicator.eoSensor[i] === pKey) {
                 output = { t: date, y: measurement[i] };
               }
               return output;
@@ -434,11 +434,11 @@ export default {
           let features = measurement.map((meas, i) => {
             // Find correct NUTS ID Shape
             const geom = nutsFeatures.find((f) => (
-              f.properties.NUTS_ID === indicator['Site Name'][i]));
+              f.properties.NUTS_ID === indicator.siteName[i]));
             let output;
             if (geom) {
-              if (currIDs.indexOf(indicator['Site Name'][i]) === -1) {
-                currIDs.push(indicator['Site Name'][i]);
+              if (currIDs.indexOf(indicator.siteName[i]) === -1) {
+                currIDs.push(indicator.siteName[i]);
                 outline.push({
                   type: 'Feature',
                   properties: {},
@@ -724,11 +724,11 @@ export default {
         ticks: {
           lineHeight: 1,
           suggestedMin: Math.min(
-            ...this.indicatorObject['Measurement Value']
+            ...this.indicatorObject.lastMeasurement
               .filter((d) => !Number.isNaN(d)),
           ) - 1,
           suggestedMax: Math.max(
-            ...this.indicatorObject['Measurement Value']
+            ...this.indicatorObject.lastMeasurement
               .filter((d) => !Number.isNaN(d)),
           ) + 1,
         },

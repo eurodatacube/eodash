@@ -182,7 +182,7 @@ export default {
       return null;
     },
     eodataEnabled() {
-      const lastInputData = (this.indicatorObject && this.indicatorObject['Input Data']) ? this.indicatorObject['Input Data'][this.indicatorObject['Input Data'].length - 1] : null;
+      const lastInputData = (this.indicatorObject && this.indicatorObject.inputData) ? this.indicatorObject.inputData[this.indicatorObject.inputData.length - 1] : null;
       // search configuration mapping if layer is configured
       return lastInputData ? this.layerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
     },

@@ -306,8 +306,8 @@ export default {
       const selectionOptions = [];
       for (let i = 0; i < this.indicator.Time.length; i += 1) {
         let label = this.getTimeLabel(this.indicator.Time[i]);
-        if (this.indicator['EO Sensor']) {
-          label += ` - ${this.indicator['EO Sensor'][i]}`;
+        if (this.indicator.eoSensor) {
+          label += ` - ${this.indicator.eoSensor[i]}`;
         }
         selectionOptions.push({
           value: this.indicator.Time[i],
@@ -440,7 +440,7 @@ export default {
     },
     shLayerConfig(side) {
       const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
-      const inputData = this.indicator['Input Data'][index];
+      const inputData = this.indicator.inputData[index];
       if (this.layerNameMapping.hasOwnProperty(inputData)) { // eslint-disable-line
         return this.layerNameMapping[inputData];
       }

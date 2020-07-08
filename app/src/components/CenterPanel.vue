@@ -187,7 +187,7 @@ export default {
     },
     globalIndicators() {
       return this.getFeatures
-        .filter((f) => ['global'].includes(f.properties.indicatorObject['Site Name']));
+        .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName));
     },
     someGlobalIndicator() {
       return this.globalIndicators
