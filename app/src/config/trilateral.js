@@ -462,7 +462,11 @@ export const globalIndicators = [
         'Indicator Name': 'Air Quality - TROPOMI: NO2',
         'Sub-AOI': {
           type: 'FeatureCollection',
-          features: [],
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
+          }],
         },
         'Color code': ['primary'],
         externalData: {
@@ -498,7 +502,11 @@ export const globalIndicators = [
         'Indicator Name': 'Air Quality - OMI: NO2',
         'Sub-AOI': {
           type: 'FeatureCollection',
-          features: [],
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
+          }],
         },
         'Color code': ['primary'],
         AOI: null,

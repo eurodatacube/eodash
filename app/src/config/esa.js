@@ -339,7 +339,11 @@ export const globalIndicators = [
         'Indicator Name': 'Air Quality',
         'Sub-AOI': {
           type: 'FeatureCollection',
-          features: [],
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
+          }],
         },
         'Color code': ['primary'],
         AOI: null,
