@@ -1,5 +1,6 @@
 
 import Chart from 'chart.js';
+import 'chartjs-adapter-luxon'; // eslint-disable-line no-unused-vars
 
 
 /* Plugin autoregisters so does not need to be registered */

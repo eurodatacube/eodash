@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { DateTime } from 'luxon';
 
 export function padLeft(str, pad, size) {
   let out = str;
@@ -13,14 +13,14 @@ export function shTimeFunction(date) {
   if (!Array.isArray(tempDate)) {
     tempDate = [tempDate];
   }
-  const momentutc = moment.utc(tempDate[0]);
-  const defaultFormat = 'YYYY-MM-DDTHH:mm:ss';
-  const alternativeFormat = 'YYYY-MM-DD';
-  if (momentutc.seconds() === 0 && momentutc.hours() === 0 && momentutc.minutes() === 0) {
+  const dateObj = DateTime.fromISO(tempDate[0]);
+  const defaultFormat = "yyyy-MM-dd'T'HH:mm:ss";
+  const alternativeFormat = 'yyyy-MM-dd';
+  if (dateObj.second === 0 && dateObj.hour === 0 && dateObj.minute === 0) {
     // if only day input, format as an interval to next day
-    const momentutcNextDay = momentutc.add(1, 'days');
-    return `${momentutc.format(alternativeFormat)}/${momentutcNextDay.format(alternativeFormat)}`;
+    const nextDay = dateObj.plus({ days: 1 });
+    return `${dateObj.toFormat(alternativeFormat)}/${nextDay.toFormat(alternativeFormat)}`;
   }
   // otherwise return single date with full format
-  return `${momentutc.format(defaultFormat)}/${momentutc.format(defaultFormat)}`;
+  return `${dateObj.toFormat(defaultFormat)}/${dateObj.toFormat(defaultFormat)}`;
 }
