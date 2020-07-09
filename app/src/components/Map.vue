@@ -292,7 +292,7 @@ export default {
         if (validValues.length > 0) {
           label = 'Latest value: ';
           const indVal = validValues[validValues.length - 1];
-          if (indicatorObject['Indicator code'] === 'E10a1') {
+          if (['E10a1', 'E10a5'].includes(indicatorObject['Indicator code'])) {
             const percVal = Number((indVal * 100).toPrecision(4));
             if (percVal > 0) {
               label += `+${percVal}%`;

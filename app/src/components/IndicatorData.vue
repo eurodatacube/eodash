@@ -126,7 +126,7 @@ export default {
         const measurement = indicator['Measurement Value'];
         const colors = [];
         const datasets = [];
-        if (['E10a1'].includes(indicatorCode)) {
+        if (['E10a1', 'E10a5'].includes(indicatorCode)) {
           const referenceValue = indicator['Reference value'].map(Number);
           for (let i = 0; i < indicator.Time.length; i += 1) {
             if (!Number.isNaN(indicator.Time[i].toMillis())) {
@@ -593,7 +593,7 @@ export default {
           fontColor: 'rgba(0, 0, 0, 0.8)',
         },
       };
-      if (!Number.isNaN(reference) && !['E10a1', 'E10a2'].includes(indicatorCode)) {
+      if (!Number.isNaN(reference) && !['E10a1', 'E10a2', 'E10a5'].includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
           label: {
@@ -651,7 +651,7 @@ export default {
       }
       const filter = (legendItem) => !`${legendItem.text}`.startsWith('hide_');
       let xAxes = {};
-      if (!['E10a1', 'E10a2', 'E10a3', 'E10c', 'N2'].includes(indicatorCode)) {
+      if (!['E10a1', 'E10a2', 'E10a3', 'E10a5', 'E10c', 'N2'].includes(indicatorCode)) {
         xAxes = [{
           type: 'time',
           time: {
@@ -751,7 +751,7 @@ export default {
         },
       };
 
-      if (['E10a1'].includes(indicatorCode)) {
+      if (['E10a1', 'E10a5'].includes(indicatorCode)) {
         yAxes[0].ticks.beginAtZero = true;
         plugins = {
           datalabels: {
