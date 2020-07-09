@@ -67,8 +67,8 @@ export const indicatorsDefinition = Object.freeze({
   E10a1: {
     indicator: 'Harvesting activity',
     class: 'agriculture',
-    file: './eodash-data/data/E10a1.csv',
-    story: '/eodash-data/stories/E10a1',
+    file: './data/trilateral/E10a1.csv',
+    story: '/data/trilateral/E10a1',
     largeSubAoi: true,
   },
   E10a2: {
@@ -83,6 +83,27 @@ export const indicatorsDefinition = Object.freeze({
     class: 'agriculture',
     file: './eodash-data/data/E10a3.csv',
     story: '/eodash-data/stories/E10a2',
+    largeSubAoi: true,
+  },
+  E10a6: {
+    indicator: 'Harvested parcels evolution over time',
+    class: 'agriculture',
+    file: './eodash-data/data/E10a6.csv',
+    story: '/eodash-data/stories/E10a6',
+    largeSubAoi: true,
+  },
+  E10a7: {
+    indicator: 'Harvested area evolution over time',
+    class: 'agriculture',
+    file: './eodash-data/data/E10a7.csv',
+    story: '/eodash-data/stories/E10a7',
+    largeSubAoi: true,
+  },
+  E10a8: {
+    indicator: 'Cumulative harvested area',
+    class: 'agriculture',
+    file: './eodash-data/data/E10a8.csv',
+    story: '/eodash-data/stories/E10a8',
     largeSubAoi: true,
   },
   E10b: {
