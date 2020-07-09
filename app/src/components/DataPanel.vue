@@ -151,7 +151,7 @@ export default {
     story() {
       let markdown;
       try {
-        markdown = require(`../../public${this.appConfig.storyPath}${this.indicatorObject.AOI_ID}-${this.indicatorObject.indicator}.md`);
+        markdown = require(`../../public${this.appConfig.storyPath}${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}.md`);
       } catch {
         try {
           markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].story}.md`);

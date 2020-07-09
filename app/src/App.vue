@@ -101,7 +101,7 @@ export default {
           const indicatorCode = poi.split('-')[1];
           selectedFeature = this.$store.state.features.allFeatures.find((f) => {
             const { indicatorObject } = f.properties;
-            return indicatorObject.AOI_ID === aoiId
+            return indicatorObject.aoiID === aoiId
               && indicatorObject.indicator === indicatorCode;
           });
         }
@@ -151,8 +151,8 @@ export default {
 
       if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
         if (mutation.payload) {
-          this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: `${mutation.payload.AOI_ID}-${mutation.payload.indicator}` }) }).catch(err => {}); // eslint-disable-line
-          this.trackEvent('indicators', 'select_indicator', `${mutation.payload.AOI_ID}-${mutation.payload.indicator}`);
+          this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: `${mutation.payload.aoiID}-${mutation.payload.indicator}` }) }).catch(err => {}); // eslint-disable-line
+          this.trackEvent('indicators', 'select_indicator', `${mutation.payload.aoiID}-${mutation.payload.indicator}`);
         } else {
           const query = Object.assign({}, this.$route.query); // eslint-disable-line
           delete query.poi;

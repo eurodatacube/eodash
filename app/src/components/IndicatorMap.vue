@@ -501,7 +501,7 @@ export default {
       const additionalSettings = {};
       if (Object.prototype.hasOwnProperty.call(sourceOptionsObj, 'siteMapping')) {
         const currSite = sourceOptionsObj.siteMapping(
-          this.indicator.AOI_ID,
+          this.indicator.aoiID,
         );
         additionalSettings.site = currSite;
       }

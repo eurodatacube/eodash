@@ -55,8 +55,8 @@
                   $store.state.indicators.selectedIndicator &&
                   $store.state.indicators.selectedIndicator.indicator
                   === feature.properties.indicatorObject.indicator &&
-                  $store.state.indicators.selectedIndicator.AOI_ID
-                  === feature.properties.indicatorObject.AOI_ID
+                  $store.state.indicators.selectedIndicator.aoiID
+                  === feature.properties.indicatorObject.aoiID
                   ? { 'border': `2px dashed ${$vuetify.theme.themes.light.primary}` }
                   : {}"
                 >
@@ -203,7 +203,7 @@ export default {
           .find((f) => f.properties
             .indicatorObject.indicator === feature.properties.indicatorObject.indicator
           && f.properties
-            .indicatorObject.AOI_ID === feature.properties.indicatorObject.AOI_ID)
+            .indicatorObject.aoiID === feature.properties.indicatorObject.aoiID)
           .properties.indicatorObject,
       );
     },
@@ -217,7 +217,7 @@ export default {
       this.$store.commit('features/SET_FEATURE_FILTER', { indicators: [] });
     },
     getUniqueKey(indicatorObject) {
-      return `${indicatorObject.indicator}-${indicatorObject.AOI_ID}`;
+      return `${indicatorObject.indicator}-${indicatorObject.aoiID}`;
     },
   },
   watch: {
