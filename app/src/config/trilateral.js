@@ -505,11 +505,15 @@ export const globalIndicators = [
         'Site Name': 'global',
         Description: 'Greenhouse Gases',
         'Indicator code': 'N2',
-        'Indicator Value': ['OCO-2: Mean CO2'],
-        'Indicator Name': 'Greenhouse Gases - OCO-2: Mean CO2',
+        'Indicator Value': ['OCO-2: CO2 2020'],
+        'Indicator Name': 'Greenhouse Gases - OCO-2: CO2 2020',
         'Sub-AOI': {
           type: 'FeatureCollection',
-          features: [],
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
+          }],
         },
         'Color code': ['primary'],
         AOI: null,
@@ -528,37 +532,37 @@ export const globalIndicators = [
       },
     },
   },
-  {
-    properties: {
-      indicatorObject: {
-        Country: 'all',
-        City: 'World',
-        'Site Name': 'global',
-        Description: 'Greenhouse Gases',
-        'Indicator code': 'N2',
-        'Indicator Value': ['OCO-2: Baseline CO2'],
-        'Indicator Name': 'Greenhouse Gases - OCO-2: Baseline CO2',
-        'Sub-AOI': {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        'Color code': ['primary'],
-        AOI: null,
-        AOI_ID: 'W4',
-        Time: getDailyDates('2020-01-01', '2020-04-16'),
-        'Input Data': Array(106).fill(['N2limited']), // just for enabling eo data button for now
-        display: {
-          protocol: 'xyz',
-          opacity: 1,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_base.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.000408%2C0.000419&color_map=rdylbu_r',
-          name: 'Greenhouse Gases (NASA)',
-          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-          legendUrl: 'data/trilateral/N2-co2mean-legend.png',
-        },
-      },
-    },
-  },
+  // {
+  //   properties: {
+  //     indicatorObject: {
+  //       Country: 'all',
+  //       City: 'World',
+  //       'Site Name': 'global',
+  //       Description: 'Greenhouse Gases',
+  //       'Indicator code': 'N2',
+  //       'Indicator Value': ['OCO-2: Baseline CO2'],
+  //       'Indicator Name': 'Greenhouse Gases - OCO-2: Baseline CO2',
+  //       'Sub-AOI': {
+  //         type: 'FeatureCollection',
+  //         features: [],
+  //       },
+  //       'Color code': ['primary'],
+  //       AOI: null,
+  //       AOI_ID: 'W4',
+  //       Time: getDailyDates('2020-01-01', '2020-04-16'),
+  //       'Input Data': Array(106).fill(['N2limited']), // just for enabling eo data button for now
+  //       display: {
+  //         protocol: 'xyz',
+  //         opacity: 1,
+  //         url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/xco2_15day_base.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.000408%2C0.000419&color_map=rdylbu_r',
+  //         name: 'Greenhouse Gases (NASA)',
+  //         attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+  //         dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+  //         legendUrl: 'data/trilateral/N2-co2mean-legend.png',
+  //       },
+  //     },
+  //   },
+  // },
   {
     properties: {
       indicatorObject: {
@@ -571,7 +575,11 @@ export const globalIndicators = [
         'Indicator Name': 'Greenhouse Gases - OCO-2: Difference CO2',
         'Sub-AOI': {
           type: 'FeatureCollection',
-          features: [],
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
+          }],
         },
         'Color code': ['primary'],
         AOI: null,

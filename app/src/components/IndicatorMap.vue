@@ -466,7 +466,7 @@ export default {
         // limit user movement around map
         this.map.setMaxBounds(boundsMax);
         if (this.indicatorsDefinition[this.indicator['Indicator code']].largeSubAoi) {
-          this.map.setMinZoom(7);
+          this.map.setMinZoom(2);
         } else {
           this.map.setMinZoom(13);
         }
