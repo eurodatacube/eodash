@@ -288,11 +288,11 @@ export default {
       let label = '(coming soon)';
       if (feature) {
         const { indicatorObject } = feature.properties;
-        const validValues = indicatorObject['Indicator Value'].filter((item) => item !== '');
+        let validValues = indicatorObject['Indicator Value'].filter((item) => item !== '');
         if (validValues.length > 0) {
           label = 'Latest value: ';
           const indVal = validValues[validValues.length - 1];
-          if (['E10a1', 'E10a5', 'E10a8'].includes(indicatorObject['Indicator code'])) {
+          if (['E10a1', 'E10a5'].includes(indicatorObject['Indicator code'])) {
             const percVal = Number((indVal * 100).toPrecision(4));
             if (percVal > 0) {
               label += `+${percVal}%`;
@@ -306,6 +306,13 @@ export default {
           }
         } else if (['N1', 'N3b'].includes(indicatorObject['Indicator code'])) {
           label = '';
+        } else if (Array.isArray(indicatorObject['Measurement Value'])) {
+          validValues = indicatorObject['Measurement Value'].filter((item) => item !== '');
+          if (validValues.length > 0) {
+            label = 'Latest value: ';
+            const lastMeas = validValues[validValues.length - 1];
+            label += lastMeas.toPrecision(4);
+          }
         }
       }
       return label;

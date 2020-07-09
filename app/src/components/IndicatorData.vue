@@ -137,9 +137,11 @@ export default {
               labels.push(i);
             }
           }
+          const labelref = indicatorCode !== 'E10a8' ? '2019' : 'harvested area [%]';
+          const labelmeas = indicatorCode !== 'E10a8' ? '2020' : 'not harvested area [%]';
           datasets.push({
             indLabels: Array(indicator['Indicator Value'].length).join('.').split('.'),
-            label: '2019',
+            label: labelref,
             data: referenceValue,
             fill: false,
             borderColor: 'red',
@@ -147,7 +149,7 @@ export default {
           });
           datasets.push({
             indLabels: indicator['Indicator Value'],
-            label: '2020',
+            label: labelmeas,
             data: measurement,
             fill: false,
             borderColor: 'darkcyan',
@@ -794,6 +796,11 @@ export default {
           },
         };
       }
+
+     if (['E10a8'].includes(indicatorCode)) {
+        yAxes[0].ticks.min = 0;
+      }
+
       if (['N2'].includes(indicatorCode)) {
         yAxes[0].ticks.beginAtZero = true;
       }
