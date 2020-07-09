@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%; height: 100%;"
-    v-if="!['E10a2', 'E10a3', 'E10c', 'N1', 'N3', 'N3b']
+    v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10c', 'N1', 'N3', 'N3b']
       .includes(indicatorObject['Indicator code'])">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -126,7 +126,7 @@ export default {
         const measurement = indicator['Measurement Value'];
         const colors = [];
         const datasets = [];
-        if (['E10a1', 'E10a5'].includes(indicatorCode)) {
+        if (['E10a1', 'E10a5', 'E10a8'].includes(indicatorCode)) {
           const referenceValue = indicator['Reference value'].map(Number);
           for (let i = 0; i < indicator.Time.length; i += 1) {
             if (!Number.isNaN(indicator.Time[i].toMillis())) {
@@ -172,7 +172,7 @@ export default {
               backgroundColor: refColors[pp],
             });
           }
-        } else if (['E10a2'].includes(indicatorCode)) {
+        } else if (['E10a2', 'E10a6', 'E10a7'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
           const referenceValue = indicator['Reference value'].map(Number);
@@ -593,7 +593,7 @@ export default {
           fontColor: 'rgba(0, 0, 0, 0.8)',
         },
       };
-      if (!Number.isNaN(reference) && !['E10a1', 'E10a2', 'E10a5'].includes(indicatorCode)) {
+      if (!Number.isNaN(reference) && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'E10a8'].includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
           label: {
@@ -651,7 +651,7 @@ export default {
       }
       const filter = (legendItem) => !`${legendItem.text}`.startsWith('hide_');
       let xAxes = {};
-      if (!['E10a1', 'E10a2', 'E10a3', 'E10a5', 'E10c', 'N2'].includes(indicatorCode)) {
+      if (!['E10a1', 'E10a2', 'E10a3', 'E10a5', 'E10a6', 'E10a7', 'E10a8', 'E10c', 'N2'].includes(indicatorCode)) {
         xAxes = [{
           type: 'time',
           time: {
@@ -668,7 +668,7 @@ export default {
         }
       }
 
-      if (['E10a2', 'E10c'].includes(indicatorCode)) {
+      if (['E10a2', 'E10a6', 'E10a7', 'E10c'].includes(indicatorCode)) {
         /* Recalculate to get min max months in data converted to one year */
         timeMinMax = this.getMinMaxDate(
           this.indicatorObject.Time.map((date) => (
@@ -751,7 +751,7 @@ export default {
         },
       };
 
-      if (['E10a1', 'E10a5'].includes(indicatorCode)) {
+      if (['E10a1', 'E10a5', 'E10a8'].includes(indicatorCode)) {
         yAxes[0].ticks.beginAtZero = true;
         plugins = {
           datalabels: {
@@ -805,7 +805,7 @@ export default {
           padding: -20,
         };
       }
-      if (['E10c', 'E10a2'].includes(indicatorCode)) {
+      if (['E10c', 'E10a2', 'E10a6', 'E10a7'].includes(indicatorCode)) {
         yAxes[0].ticks.suggestedMin += 1;
         yAxes[0].ticks.suggestedMax -= 1;
       }
