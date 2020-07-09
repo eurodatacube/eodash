@@ -140,10 +140,9 @@ const actions = {
         if (Object.prototype.hasOwnProperty.call(endpoints[ep], 'locationSuffix')) {
           url += endpoints[ep].locationSuffix;
         }
-        const { token } = endpoints[ep];
         const endPointIdx = ep;
         const F = await this.dispatch( // eslint-disable-line
-          'features/loadGeoDBEndpoint', { url, token, endPointIdx },
+          'features/loadGeoDBEndpoint', { url, endPointIdx },
         );
         allFeatures = allFeatures.concat(F);
       }
@@ -159,14 +158,8 @@ const actions = {
     */
     commit('ADD_NEW_FEATURES', allFeatures);
   },
-  loadGeoDBEndpoint({ rootState, commit }, { url, token, endPointIdx }) {
-    return fetch(url, {
-      method: 'get',
-      headers: {
-        Authorization: token,
-        'Content-Type': 'application/json',
-      },
-    }).then((r) => r.json())
+  loadGeoDBEndpoint({ rootState, commit }, { url, endPointIdx }) {
+    return fetch(url).then((r) => r.json())
       .then((data) => {
         const features = [];
         const pM = {

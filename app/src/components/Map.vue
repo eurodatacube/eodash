@@ -82,6 +82,7 @@ import {
   mapGetters,
   mapState,
 } from 'vuex';
+import { DateTime } from 'luxon';
 
 import {
   geoJson, Point, DivIcon, featureGroup,
@@ -279,18 +280,50 @@ export default {
       const { indicatorObject } = feature.properties;
       if (indicatorObject.indicator !== 'd') {
         console.log(indicatorObject);
-        const endpoints = this.baseConfig.dataEndpoints;
-        const url = endpoints[indicatorObject.endPointIdx].provider + indicatorObject.id;
+        const url = `./data/internal/${[indicatorObject.aoiID, indicatorObject.indicator].join('-')}.json`;
         // Fetch location data
-        fetch(url, {
-          method: 'get',
-          headers: {
-            Authorization: token,
-            'Content-Type': 'application/json',
-          },
-        }).then((r) => r.json())
+        fetch(url).then((r) => r.json())
           .then((data) => {
-            console.log(data);
+            // Set data to indicator object
+            // Convert data first
+            const mapping = {
+              colorCode: 'color_code',
+              dataProvider: 'data_provider',
+              eoSensor: 'eo_sensor',
+              indicatorValue: 'indicator_value',
+              inputData: 'input_data',
+              measurement: 'measurement_value',
+              referenceTime: 'reference_time',
+              referenceValue: 'reference_value',
+              time: 'time',
+            };
+            const parsedData = {};
+            for (let i = 0; i < data.length; i += 1) {
+              Object.entries(mapping).forEach(([key, value]) => {
+                let val = data[i][value];
+                if (Object.prototype.hasOwnProperty.call(parsedData, key)) {
+                  // If key already there add element to array
+                  if (['time', 'referenceTime'].includes(key)) {
+                    val = DateTime.fromISO(val);
+                  } else if (['measurement', 'referenceValue'].includes(key)) {
+                    val = Number(val);
+                  }
+                  parsedData[key].push(val);
+                } else {
+                  // If not then set element as array
+                  if (['time', 'referenceTime'].includes(key)) {
+                    val = DateTime.fromISO(val);
+                  } else if (['measurement', 'referenceValue'].includes(key)) {
+                    val = Number(val);
+                  }
+                  parsedData[key] = [val];
+                }
+              });
+            }
+            console.log(parsedData);
+            Object.entries(parsedData).forEach(([key, value]) => {
+              indicatorObject[key] = value;
+            });
             this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
             this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
             this.currentSelected = feature.id;

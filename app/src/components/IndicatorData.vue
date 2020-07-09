@@ -83,13 +83,13 @@ export default {
     };
   },
   mounted() {
-    const d = this.indicatorObject.Time[this.indicatorObject.Time.length - 1];
+    const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
     this.dataLayerTime = d.toFormat('dd. MMM');
   },
   watch: {
     indicatorObject() {
-      this.dataLayerIndex = this.indicatorObject.Time.length - 1;
-      const d = this.indicatorObject.Time[this.dataLayerIndex];
+      this.dataLayerIndex = this.indicatorObject.time.length - 1;
+      const d = this.indicatorObject.time[this.dataLayerIndex];
       this.dataLayerTime = d.toFormat('dd. MMM');
     },
   },
@@ -101,7 +101,7 @@ export default {
       if (['E10a3'].includes(indicatorCode)) {
         // Find all unique day/month available
         const timeset = new Set(
-          indicator.Time.map((d) => d.toFormat('dd. MMM')),
+          indicator.time.map((d) => d.toFormat('dd. MMM')),
         );
         timeset.forEach((t) => {
           selectionOptions.push({
@@ -122,14 +122,14 @@ export default {
       ];
       if (indicator) {
         let labels = [];
-        const measurement = indicator.lastMeasurement;
+        const { measurement } = indicator;
         const colors = [];
         const datasets = [];
         if (['E10a1'].includes(indicatorCode)) {
-          const referenceValue = indicator['Reference value'].map(Number);
-          for (let i = 0; i < indicator.Time.length; i += 1) {
-            if (!Number.isNaN(indicator.Time[i].toMillis())) {
-              const d = indicator.Time[i];
+          const referenceValue = indicator.referenceValue.map(Number);
+          for (let i = 0; i < indicator.time.length; i += 1) {
+            if (!Number.isNaN(indicator.time[i].toMillis())) {
+              const d = indicator.time[i];
               const formattedDate = d.toFormat('dd. MMM');
               labels.push(formattedDate);
             } else {
@@ -156,7 +156,7 @@ export default {
           const sensors = Array.from(new Set(indicator.eoSensor)).reverse();
           for (let pp = 0; pp < sensors.length; pp += 1) {
             const pKey = sensors[pp];
-            const data = indicator.Time.map((date, i) => {
+            const data = indicator.time.map((date, i) => {
               let output = null;
               if (indicator.eoSensor[i] === pKey) {
                 output = { t: date, y: measurement[i] };
@@ -172,13 +172,13 @@ export default {
             });
           }
         } else if (['E10a2'].includes(indicatorCode)) {
-          const data = indicator.Time.map((date, i) => ({
+          const data = indicator.time.map((date, i) => ({
             t: date.set({ year: 2000 }), y: measurement[i],
           }));
           const referenceValue = indicator['Reference time']
             .map((date, i) => ({
               t: date.set({ year: 2000 }),
-              y: Number(indicator['Reference value'][i]),
+              y: Number(indicator.referenceValue[i]),
             }));
           datasets.push({
             label: '2019',
@@ -196,7 +196,7 @@ export default {
           });
         } else if (['N2'].includes(indicatorCode)) {
           /* Group data by year in month slices */
-          const data = indicator.Time.map((date, i) => {
+          const data = indicator.time.map((date, i) => {
             colors.push(this.getIndicatorColor(indicator.colorCode[i]));
             return { t: date, y: measurement[i] };
           });
@@ -239,8 +239,8 @@ export default {
           const max = [];
           const median = [];
           const data = [];
-          indicator['Reference value'].forEach((item, i) => {
-            const t = indicator.Time[i];
+          indicator.referenceValue.forEach((item, i) => {
+            const t = indicator.time[i];
             data.push({ y: measurement[i], t });
             if (item !== 'NaN') {
               const obj = JSON.parse(item);
@@ -321,7 +321,7 @@ export default {
         } else if (['N3'].includes(indicatorCode)) {
           let referenceValue = [];
           const stdDev = [];
-          indicator['Reference value'].forEach((item) => {
+          indicator.referenceValue.forEach((item) => {
             if (item !== 'NaN') {
               const obj = JSON.parse(item.replace(/,/g, '.').replace(' ', ','));
               if (obj[0] !== -999 && obj[1] !== -999) {
@@ -352,9 +352,9 @@ export default {
             Number.isNaN(val) ? Number.NaN : (10 ** val)
           ));
 
-          for (let i = 0; i < indicator.Time.length; i += 1) {
-            if (!Number.isNaN(indicator.Time[i].toMillis())) {
-              labels.push(indicator.Time[i].toISODate());
+          for (let i = 0; i < indicator.time.length; i += 1) {
+            if (!Number.isNaN(indicator.time[i].toMillis())) {
+              labels.push(indicator.time[i].toISODate());
             } else {
               labels.push(i);
             }
@@ -462,10 +462,10 @@ export default {
                 latitude: centerPoint.lat,
                 longitude: centerPoint.lon,
                 name: geom.properties.NUTS_NAME,
-                time: indicator.Time[i],
+                time: indicator.time[i],
                 value: Number(meas),
                 referenceTime: indicator['Reference time'][i],
-                referenceValue: indicator['Reference value'][i],
+                referenceValue: indicator.referenceValue[i],
                 color: indicator.colorCode[i],
               };
             }
@@ -497,7 +497,7 @@ export default {
             data: filteredFeatures,
           });
         } else {
-          const data = indicator.Time.map((date, i) => {
+          const data = indicator.time.map((date, i) => {
             colors.push(this.getIndicatorColor(indicator.colorCode[i]));
             return { t: date, y: measurement[i] };
           });
@@ -554,8 +554,8 @@ export default {
     },
     chartOptions() {
       const indicatorCode = this.indicatorObject.indicator;
-      const reference = Number.parseFloat(this.indicatorObject['Reference value']);
-      let timeMinMax = this.getMinMaxDate(this.indicatorObject.Time);
+      const reference = Number.parseFloat(this.indicatorObject.referenceValue);
+      let timeMinMax = this.getMinMaxDate(this.indicatorObject.time);
       const annotations = [];
       let low = 0;
       let high = 0;
@@ -660,7 +660,7 @@ export default {
       if (['E10a2'].includes(indicatorCode)) {
         /* Recalculate to get min max months in data converted to one year */
         timeMinMax = this.getMinMaxDate(
-          this.indicatorObject.Time.map((date) => (
+          this.indicatorObject.time.map((date) => (
             date.set({ year: 2000 })
           )),
         );
@@ -688,7 +688,7 @@ export default {
 
       if (['N2'].includes(indicatorCode)) {
         timeMinMax = this.getMinMaxDate(
-          this.indicatorObject.Time.map((date) => (
+          this.indicatorObject.time.map((date) => (
             date.set({ year: 2000 })
           )),
         );
@@ -724,11 +724,11 @@ export default {
         ticks: {
           lineHeight: 1,
           suggestedMin: Math.min(
-            ...this.indicatorObject.lastMeasurement
+            ...this.indicatorObject.measurement
               .filter((d) => !Number.isNaN(d)),
           ) - 1,
           suggestedMax: Math.max(
-            ...this.indicatorObject.lastMeasurement
+            ...this.indicatorObject.measurement
               .filter((d) => !Number.isNaN(d)),
           ) + 1,
         },
