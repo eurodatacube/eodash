@@ -137,8 +137,8 @@ export default {
               labels.push(i);
             }
           }
-          const labelref = indicatorCode !== 'E10a8' ? '2019' : 'harvested area [%]';
-          const labelmeas = indicatorCode !== 'E10a8' ? '2020' : 'not harvested area [%]';
+          const labelref = indicatorCode !== 'E10a8' ? '2019' : 'not harvested area [%]';
+          const labelmeas = indicatorCode !== 'E10a8' ? '2020' : 'harvested area [%]';
           datasets.push({
             indLabels: Array(indicator['Indicator Value'].length).join('.').split('.'),
             label: labelref,
