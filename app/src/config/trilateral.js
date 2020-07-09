@@ -156,6 +156,7 @@ export const indicatorsDefinition = Object.freeze({
     file: './data/trilateral/N1.csv',
     story: '/data/trilateral/N1',
     largeTimeDuration: true,
+    largeSubAoi: true,
   },
   NASAPopulation: {
     indicator: 'Population',
