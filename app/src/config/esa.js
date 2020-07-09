@@ -8,9 +8,7 @@ import { shTimeFunction } from '@/utils';
 export const dataEndpoints = [
   {
     type: 'geodb',
-    provider: 'https://3.120.53.215.nip.io/anja_',
-    locationSuffix: 'race_indicators',
-    token: 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1rUXhOMEkxTVRRMVJESTNPRUkyTTBWRFF6RTFOMEk0TUVJelJqTkZSRE5CUkRJMlJqUXhRZyJ9.eyJodHRwczovL2dlb2RiLmJyb2NrbWFubi1jb25zdWx0LmRlL2Ricm9sZSI6Imdlb2RiXzQ5YTA1ZDA0LTVkNzItNGMwZi05MDY1LTZlNjgyN2ZkMTg3MSIsImlzcyI6Imh0dHBzOi8vZWRjLmV1LmF1dGgwLmNvbS8iLCJzdWIiOiJwZXBQM0VIR25YU1lOdTR1cVg1ekdtbWFqQjgzbXU0U0BjbGllbnRzIiwiYXVkIjoiaHR0cHM6Ly9nZW9kYi5icm9ja21hbm4tY29uc3VsdC5kZSIsImlhdCI6MTU5NDEyNzgwOSwiZXhwIjoxNTk0MjE0MjA5LCJhenAiOiJwZXBQM0VIR25YU1lOdTR1cVg1ekdtbWFqQjgzbXU0UyIsInNjb3BlIjoibmFtZXNwYWNlOnJlYWQgbmFtZXNwYWNlOndyaXRlIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIiwicGVybWlzc2lvbnMiOlsibmFtZXNwYWNlOnJlYWQiLCJuYW1lc3BhY2U6d3JpdGUiXX0.czIUuswf-t-rPjpOjNVRm4mQ2TfZ9yBk9IODwbkvSjpUVRl0W_mZOAhaBqv3oo7vO_wM_-jauN6nldn-2VKvlVkbJoIXmf-ubMvJAOUl_6nkI_hm-bCyZNL3MtnpUCBRrI6QIjS9bpPTmnPV6hJ1o0Blb1GgWx4LzwRELmYanu38Sy_mjcTM8FMQuKjN7kXFedweS7y2aQP-T44nMjaCzBwW6fi1TsxQX-Q8iyJLYks9UFUWYpSEUGpg-IKq7CEeA20EVIADd1T-hTIwLtRE5khR6mQ6K7rQjT9i6xHIrP_fcikOV6AzWwEA6E0WxmI_onrYlMJwYoSu-Mges3zmZA',
+    provider: './data/internal/pois.json',
   },
 ];
 

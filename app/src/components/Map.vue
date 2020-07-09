@@ -55,7 +55,7 @@
         :weight="2"
         :dashArray="currentSelected === feature.id ? '5' : '0'"
         :fill="true"
-        :fillColor="feature.properties.indicatorObject.colorCode"
+        :fillColor="getIndicatorColor(feature.properties.indicatorObject.lastColorCode)"
         :fillOpacity="1"
         @click="selectIndicator(feature)"
       >
@@ -201,7 +201,7 @@ export default {
       let fillColor;
       if (this.$store.state.indicators.selectedIndicator) {
         currentIndicator = this.$store.state.indicators.selectedIndicator;
-        fillColor = this.getIndicatorColor(currentIndicator.colorCode);
+        fillColor = this.getIndicatorColor(currentIndicator.lastColorCode);
         // Special case for E10a3
         if (currentIndicator.indicator === 'E10a3') {
           fillColor = this.getIndicatorColor('BLUE');
@@ -302,9 +302,9 @@ export default {
       let label = '(coming soon)';
       if (feature) {
         const { indicatorObject } = feature.properties;
-        if (Object.prototype.hasOwnProperty.call(indicatorObject, 'indicatorValue')) {
+        if (Object.prototype.hasOwnProperty.call(indicatorObject, 'lastIndicatorValue')) {
           label = 'Latest value: ';
-          const indVal = indicatorObject.indicatorValue;
+          const indVal = indicatorObject.lastIndicatorValue;
           if (indicatorObject.indicator === 'E10a1') {
             const percVal = Number((indVal * 100).toPrecision(4));
             if (percVal > 0) {

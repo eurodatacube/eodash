@@ -33,7 +33,9 @@ const getters = {
         .map((f) => ({
           code: f.properties.indicatorObject.indicator,
           indicator: f.properties.indicatorObject.description,
-          class: rootState.config.baseConfig.indicatorsDefinition[f.properties.indicatorObject.indicator].class,
+          class: rootState.config.baseConfig.indicatorsDefinition[
+            f.properties.indicatorObject.indicator
+          ].class,
         })),
     ].flat(2))].sort();
     return indicators;
@@ -147,7 +149,7 @@ const actions = {
       }
     }
     // Then, add the hardcoded features
-    allFeatures = allFeatures.concat(rootState.config.baseConfig.globalIndicators);
+    // allFeatures = allFeatures.concat(rootState.config.baseConfig.globalIndicators);
     /*
     // Then, if applicable, add the dummy features
     if (rootState.config.appConfig.displayDummyLocations) {
@@ -169,36 +171,39 @@ const actions = {
         const features = [];
         const pM = {
           aoi: 'aoi',
-          colorCode: 'Color code',
-          city: 'city',
+          aoiID: 'aoi_id',
+          lastColorCode: 'color_code',
           country: 'country',
+          geometry: 'geometry',
+          indicator: 'indicator_code',
+          lastIndicatorValue: 'indicator_value',
+          lastTime: 'max_time',
+          lastMeasurement: 'measurement_value',
+          siteName: 'site_name',
+          subAoi: 'sub_aoi',
+          /*
+          city: 'city',
           description: 'description',
-          eoSensor: 'eo sensor',
-          id: 'id',
-          indicator: 'indicator',
-          indicatorValue: 'indicator value',
-          inputData: 'input data',
-          lastMeasurement: 'measurement value [float]',
-          lastTime: 'date time [yyyy-mm-ddthh:mm:ss]',
-          method: 'method',
+          indicatorName: 'Indicator Name', // not present
           lastReferenceTime: 'reference date time [yyyy-mm-ddthh:mm:ss]',
           lastReferenceValue: 'reference value [float]',
-          referenceDescription: 'reference description',
           region: 'region (optional)',
-          geometry: 'geometry',
-          created: 'created_at',
-          modified: 'modified_at',
-          rule: 'rule',
-          siteName: 'site name',
-          subAoi: 'sub-aoi',
           updateFrequency: 'update frequency', // not present
-          indicatorName: 'Indicator Name', // not present
+          // Probably not needed in overview
+          referenceDescription: 'reference description',
+          method: 'method',
+          rule: 'rule',
+          eoSensor: 'eo sensor',
+          inputData: 'input data',
+          */
         };
+
         commit('ADD_RESULTS_COUNT', {
           type: rootState.config.baseConfig.indicatorsDefinition[data[0][pM.indicator]].class,
           count: data.length, // individual measurements
         });
-        if (data[0].aoi) { // only continue if aoi column is present
+        // only continue if aoi column is present
+        if (Object.prototype.hasOwnProperty.call(data[0], pM.aoi)) {
           const wkt = new Wkt();
           const featureObjs = {};
           for (let rr = 0; rr < data.length; rr += 1) {
@@ -206,6 +211,8 @@ const actions = {
             const uniqueKey = `${data[rr][pM.aoi]}_${data[rr][pM.indicator]}`;
             if (!Object.prototype.hasOwnProperty.call(featureObjs, uniqueKey)) {
               featureObjs[uniqueKey] = {};
+              // TODO: Remove placeholder text
+              featureObjs[uniqueKey].description = 'placeholder description';
             } else {
               // This should not happen
               console.log(`WARNING: Duplicate uniqueKey ${uniqueKey} in retrieved data.`);
@@ -229,7 +236,9 @@ const actions = {
                         geometry: jsonGeom,
                       }];
                     }
-                  } catch (err) {} // eslint-disable-line no-empty
+                  } catch (err) {
+                    console.log(`Error parsing subAoi of locations for index ${rr}`);
+                  }
                   const ftrCol = {
                     type: 'FeatureCollection',
                     features: ftrs,
@@ -245,15 +254,14 @@ const actions = {
             });
           }
           const keys = Object.keys(featureObjs);
-
           for (let kk = 0; kk < keys.length; kk += 1) {
-            const coordinates = keys[kk].split('_')[0].split(',').map(Number);
-            // console.log(featureObjs[keys[kk]]);
-            featureObjs[keys[kk]].aoi = latLng(coordinates);
+            const coords = keys[kk].split('_')[0].replace('POINT(', '')
+              .replace(')', '').split(' ').map(Number);
+            featureObjs[keys[kk]].aoi = latLng([coords[1], coords[0]]);
             featureObjs[keys[kk]].id = globalIdCounter; // to connect indicator & feature
             featureObjs[keys[kk]].endPointIdx = endPointIdx;
             features.push({
-              latlng: latLng(coordinates),
+              latlng: latLng([coords[1], coords[0]]),
               id: globalIdCounter,
               properties: {
                 indicatorObject: featureObjs[keys[kk]],
