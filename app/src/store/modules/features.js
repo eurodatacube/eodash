@@ -46,7 +46,7 @@ const getters = {
           .find((f) => f.properties.alpha2 === c);
         return {
           code: c,
-          name: item.properties.name,
+          name: item ? item.properties.name : 'Regional',
         };
       })
       .sort((a, b) => ((a.name > b.name) ? 1 : -1));
