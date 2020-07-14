@@ -477,8 +477,12 @@ export default {
         const boundsMax = latLngBounds(cornerMax1, cornerMax2);
         this.map.setZoom(18);
         this.map.panTo(this.aoi);
-        // might need tweaking further on
-        this.map.setMinZoom(14);
+        if (this.indicatorsDefinition[this.indicator['Indicator code']].largeSubAoi) {
+          this.map.setMinZoom(2);
+        } else {
+          // might need tweaking further on
+          this.map.setMinZoom(14);
+        }
         // limit user movement around map
         this.map.setMaxBounds(boundsMax);
       } else {
