@@ -378,7 +378,7 @@ export default {
     indicatorItems() {
       let indicators = this.getIndicators;
       indicators = indicators
-        .filter((i) => i.code !== 'd')
+        .filter((i) => !i.dummy)
         .filter((ind, index, self) => self.findIndex((t) => t.code === ind.code) === index);
       indicators.sort((a, b) => {
         const codeA = a.code;

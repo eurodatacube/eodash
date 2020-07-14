@@ -139,7 +139,7 @@ export default {
       return this.baseConfig.indicatorsDefinition[code];
     },
     openFeature(feature) {
-      if (feature.indicatorObject['Indicator code'] !== 'd') {
+      if (!feature.indicatorObject.dummy) {
         this.$store.commit(
           'indicators/SET_SELECTED_INDICATOR',
           feature.indicatorObject,

@@ -46,7 +46,7 @@ const getters = {
           .find((f) => f.properties.alpha2 === c);
         return {
           code: c,
-          name: item ? item.properties.name : 'Regional',
+          name: item.properties.name,
         };
       })
       .sort((a, b) => ((a.name > b.name) ? 1 : -1));
@@ -308,8 +308,8 @@ const actions = {
             for (let rr = 0; rr < results.data.length; rr += 1) {
               const uniqueKey = `${results.data[rr].AOI}_d`;
               featureObjs[uniqueKey] = results.data[rr];
-              featureObjs[uniqueKey]['Indicator code'] = 'd';
               featureObjs[uniqueKey]['Indicator Value'] = [''];
+              featureObjs[uniqueKey].dummy = true;
             }
             const features = [];
             const keys = Object.keys(featureObjs);

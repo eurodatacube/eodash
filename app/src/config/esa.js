@@ -188,9 +188,9 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Illegal waste levels',
     class: 'environment',
   },
-  d: { // dummy for locations
+  d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
-    class: 'environment',
+    class: 'economic',
   },
 });
 
