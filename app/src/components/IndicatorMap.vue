@@ -453,7 +453,7 @@ export default {
     layerDisplay(side) {
       // if display not specified (global layers), suspect SIN layer
       // first check if special compare layer configured
-      const displayTmp = side === 'compare' ? this.indicator.compareDisplay : this.indicator.display;
+      const displayTmp = side === 'compare' && this.indicator.compareDisplay ? this.indicator.compareDisplay : this.indicator.display;
       return displayTmp ? displayTmp : {
         ...this.baseConfig.defaultWMSDisplay,
         ...this.shLayerConfig(side),
