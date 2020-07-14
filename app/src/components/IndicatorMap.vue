@@ -131,11 +131,11 @@
     >
       <v-row
         class="justify-center align-center timeSelection"
-        :class="enableCompare && 'mr-5 ml-0'"
+        :class="enableCompare && !indicator.compareDisplay && 'mr-5 ml-0'"
         style="position: absolute; bottom: 30px; z-index: 1000; width: auto; max-width: 100%;"
       >
         <v-col
-          v-if="enableCompare"
+          v-if="enableCompare && !indicator.compareDisplay"
           cols="6"
           class="pr-0"
         >
@@ -166,7 +166,7 @@
           ></v-select>
         </v-col>
         <v-col
-          :cols="enableCompare ? 6 : 12"
+          :cols="enableCompare && !indicator.compareDisplay ? 6 : 12"
         >
           <v-select
             outlined
@@ -328,6 +328,10 @@ export default {
       if (this.compareLayerTime !== null) {
         returnTime = this.compareLayerTime;
       }
+      if (this.indicator.compareDisplay) {
+        // shared time on both layers in case of compareDisplay being set
+        returnTime = this.dataLayerTime;
+      }
       return returnTime;
     },
     aoi() {
@@ -448,6 +452,7 @@ export default {
     },
     layerDisplay(side) {
       // if display not specified (global layers), suspect SIN layer
+      // first check if special compare layer configured
       const displayTmp = side === 'compare' ? this.indicator.compareDisplay : this.indicator.display;
       return displayTmp ? displayTmp : {
         ...this.baseConfig.defaultWMSDisplay,
@@ -545,6 +550,15 @@ export default {
       this.$nextTick(() => {
         this.slider.setRightLayers(this.$refs.dataLayers.mapObject.getLayers());
       });
+      if (this.indicator.compareDisplay) {
+        // shared time on both layers in case of compareDisplay being set
+        this.compareLayerTime = this.dataLayerTime;
+        this.compareLayerIndex = newIndex;
+        this.refreshLayer('compare');
+        this.$nextTick(() => {
+          this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
+        });
+      }
     },
     compareLayerTimeSelection(payload) {
       // Different object returned either by arrow use or by dropdown use
@@ -614,7 +628,7 @@ export default {
     },
     refreshLayer(side) {
       // compare(left) or data(right)
-      if (side === 'compare') {
+      if (side === 'compare' || this.indicator.compareDisplay) {
         if (this.layerDisplay('compare').protocol === 'WMS') {
           this.$refs.compareLayer.mapObject
             .setParams(this.layerOptions(this.currentCompareTime, this.layerDisplay('compare')));
@@ -624,7 +638,8 @@ export default {
         }
         // redraw
         this.compareLayerKey = Math.random();
-      } else if (side === 'data') {
+      }
+      if (side === 'data') {
         if (this.layerDisplay('data').protocol === 'WMS') {
           this.$refs.dataLayer.mapObject
             .setParams(this.layerOptions(this.currentTime, this.layerDisplay('data')));
@@ -656,8 +671,13 @@ export default {
     indicator() {
       this.dataLayerTime = { value: this.indicator.Time[this.indicator.Time.length - 1] };
       this.dataLayerIndex = this.indicator.Time.length - 1;
-      this.compareLayerTime = { value: this.getInitialCompareTime() };
-      this.compareLayerIndex = 0;
+      if (this.indicator.compareDisplay) {
+        this.compareLayerTime = this.dataLayerTime;
+        this.compareLayerIndex = this.dataLayerIndex;
+      } else {
+        this.compareLayerTime = { value: this.getInitialCompareTime() };
+        this.compareLayerIndex = 0;
+      }
       this.$nextTick(() => {
         // first nextTick to update layer correctly if was switch from wms <-> xyz
         this.refreshLayer('data');
