@@ -1191,7 +1191,7 @@ export const globalIndicators = [
         AOI: latLng([43.4, 4.94]),
         AOI_ID: 'RhoneDelta',
         Country: ['FR'],
-        City: 'Marseilles',
+        City: 'Rhone Delta',
         'Site Name': 'Fos-sur-Mer',
         Description: 'Water Quality Regional Maps',
         'Indicator code': 'N3a2',
