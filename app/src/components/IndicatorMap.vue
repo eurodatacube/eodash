@@ -129,6 +129,15 @@
       @click.stop=""
       @dblclick.stop=""
     >
+      <h3 :class="`brand-${appConfig.id}`" v-if="enableCompare && indicator.compareDisplay && indicator.compareDisplay.mapLabel"
+      style="position:absolute; z-index:1000; right: 10px; bottom: 45%; background: rgba(255, 255, 255, 0.4); font-size: 16px;">
+          {{indicator.display.mapLabel}}
+      </h3>
+      <h3 :class="`brand-${appConfig.id}`" v-if="enableCompare && indicator.compareDisplay && indicator.display.mapLabel"
+      style="position:absolute; z-index:1000; left: 10px; bottom: 45%; background: rgba(255, 255, 255, 0.4); font-size: 16px;">
+          {{indicator.compareDisplay.mapLabel}}
+      </h3>
+      </v-row>
       <v-row
         class="justify-center align-center timeSelection"
         :class="enableCompare && !indicator.compareDisplay && 'mr-5 ml-0'"
