@@ -30,11 +30,16 @@ const getters = {
   getIndicators(state, _, rootState) {
     const indicators = [...new Set([
       state.allFeatures
-        .map((f) => ({
-          code: f.properties.indicatorObject['Indicator code'],
-          indicator: f.properties.indicatorObject.Description,
-          class: rootState.config.baseConfig.indicatorsDefinition[f.properties.indicatorObject['Indicator code']].class,
-        })),
+        .map((f) => {
+          // if no class corresponding to a Indicator code, assume a dummy
+          const code = f.properties.indicatorObject['Indicator code'];
+          const validClass = typeof rootState.config.baseConfig.indicatorsDefinition[code] !== 'undefined' ? rootState.config.baseConfig.indicatorsDefinition[code].class : rootState.config.baseConfig.indicatorsDefinition['d'].class;
+          return {
+            code,
+            indicator: f.properties.indicatorObject.Description,
+            validClass,
+          };
+        }),
     ].flat(2))].sort();
     return indicators;
   },

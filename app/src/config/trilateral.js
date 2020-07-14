@@ -26,7 +26,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Volume of oil stockpiled',
     class: 'economic',
   },
-  E2A: {
+  E2a: {
     indicator: 'Level of flaring activity',
     class: 'economic',
   },

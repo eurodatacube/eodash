@@ -24,7 +24,7 @@ export const indicatorsDefinition = Object.freeze({
     file: './eodash-data/data/E2.csv',
     story: '/eodash-data/stories/E2',
   },
-  E2A: {
+  E2a: {
     indicator: 'Level of flaring activity',
     class: 'economic',
   },
