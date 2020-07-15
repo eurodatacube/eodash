@@ -24,7 +24,7 @@ export const indicatorsDefinition = Object.freeze({
     file: './eodash-data/data/E2.csv',
     story: '/eodash-data/stories/E2',
   },
-  E2A: {
+  E2a: {
     indicator: 'Level of flaring activity',
     class: 'economic',
   },
@@ -188,9 +188,9 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Illegal waste levels',
     class: 'environment',
   },
-  d: { // dummy for locations
+  d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
-    class: 'environment',
+    class: 'economic',
   },
 });
 

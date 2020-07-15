@@ -26,7 +26,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Volume of oil stockpiled',
     class: 'economic',
   },
-  E2A: {
+  E2a: {
     indicator: 'Level of flaring activity',
     class: 'economic',
   },
@@ -203,9 +203,9 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/N5',
     largeSubAoi: true,
   },
-  d: { // dummy for locations
+  d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
-    class: 'environment',
+    class: 'economic',
   },
 });
 
