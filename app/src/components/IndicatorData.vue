@@ -796,6 +796,45 @@ export default {
           },
         };
       }
+      
+      if (['E10a6', 'E10a7'].includes(indicatorCode)) {
+        yAxes[0].ticks.beginAtZero = true;
+        plugins = {
+          datalabels: {
+            labels: {
+              title: {
+                color: (context) => {
+                  return context.dataset.backgroundColor;
+                },
+                font: {
+                  size: 10,
+                },
+                anchor: 'end',
+                align: 'end',
+                offset: (context) => {
+                  if (context.chart.data.datasets.length === 2) {
+                    if (context.datasetIndex === 0) {
+                      if (!Number.isNaN(context.chart.data.datasets[1].data[context.dataIndex].y)
+                        && context.chart.data.datasets[0].data[context.dataIndex].y > context.chart.data.datasets[1].data[context.dataIndex].y) {
+                        return 0;
+                      }
+                      return -30;
+                    } else {
+                      if (!Number.isNaN(context.chart.data.datasets[0].data[context.dataIndex].y)
+                        && context.chart.data.datasets[0].data[context.dataIndex].y > context.chart.data.datasets[1].data[context.dataIndex].y) {
+                        return -30;
+                      }
+                      return 0;
+                    }
+                  }
+                  return 0;
+                },
+                formatter: (value) => value.y.toFixed(1) + '%',
+              },
+            },
+          },
+        };
+      }
 
      if (['E10a8'].includes(indicatorCode)) {
         yAxes[0].ticks.min = 0;
