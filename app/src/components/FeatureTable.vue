@@ -108,7 +108,7 @@ export default {
           } else if (Object.prototype.hasOwnProperty.call(values, 'Measurement Value')
             && values['Measurement Value'] !== '') {
             validValues = values['Measurement Value'].filter((item) => (
-              item !== '' && item !== Number.NaN && item !== null
+              item !== '' && item !== Number.NaN && item !== null && !Number.isNaN(item)
             ));
             text = validValues[validValues.length - 1].toPrecision(4);
           }
