@@ -77,8 +77,9 @@ export default {
       return [...new Set([array].flat(1))];
     },
     getClass(item) {
-      return this.baseConfig.indicatorsDefinition[item
-        .properties.indicatorObject['Indicator code']].class;
+      const code = item.properties.indicatorObject['Indicator code'];
+      const validClass = typeof this.baseConfig.indicatorsDefinition[code] !== 'undefined' ? this.baseConfig.indicatorsDefinition[code].class : this.baseConfig.indicatorsDefinition['d'].class;
+      return validClass;
     },
 
     getLastValue(values) {
@@ -139,7 +140,7 @@ export default {
       return this.baseConfig.indicatorsDefinition[code];
     },
     openFeature(feature) {
-      if (feature.indicatorObject['Indicator code'] !== 'd') {
+      if (!feature.indicatorObject.dummy) {
         this.$store.commit(
           'indicators/SET_SELECTED_INDICATOR',
           feature.indicatorObject,
