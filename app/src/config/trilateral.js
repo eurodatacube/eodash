@@ -566,7 +566,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           legendUrl: 'data/trilateral/N2-co2mean-legend.png',
-          mapLabel: 'Mean'
+          mapLabel: 'Mean',
         },
         compareDisplay: {
           protocol: 'xyz',
@@ -1206,7 +1206,7 @@ export const globalIndicators = [
         Description: 'Water Quality Regional Maps',
         'Indicator code': 'N3a2',
         'Indicator Value': ['normal'],
-        'Indicator Name': 'Water Quality Regional Maps',
+        'Indicator Name': 'Water Quality Regional Maps (ESA)',
         'Color code': ['BLUE'],
         'EO Sensor': null,
         'Sub-AOI': {
@@ -1223,10 +1223,10 @@ export const globalIndicators = [
           ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM',
+          layers: 'N3_CUSTOM_TRILATERAL',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           maxZoom: 13,
-          attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (dates) => DateTime.fromISO(dates[0]).toFormat('yyyy-MM-dd'),
         },
       },
