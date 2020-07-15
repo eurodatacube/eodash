@@ -520,7 +520,7 @@ export const globalIndicators = [
         'Color code': ['primary'],
         AOI: null,
         AOI_ID: 'W2',
-        Time: getMonthlyDates('2004-10-01', '2020-03-01'),
+        Time: getMonthlyDates('2004-10-01', '2020-06-01'),
         'Input Data': [''],
         display: {
           protocol: 'xyz',
