@@ -33,7 +33,7 @@ const getters = {
         .map((f) => {
           // if no class corresponding to a Indicator code, assume a dummy
           const code = f.properties.indicatorObject['Indicator code'];
-          const validClass = typeof rootState.config.baseConfig.indicatorsDefinition[code] !== 'undefined' ? rootState.config.baseConfig.indicatorsDefinition[code].class : rootState.config.baseConfig.indicatorsDefinition['d'].class;
+          const validClass = typeof rootState.config.baseConfig.indicatorsDefinition[code] !== 'undefined' ? rootState.config.baseConfig.indicatorsDefinition[code].class : rootState.config.baseConfig.indicatorsDefinition.d.class;
           return {
             code,
             indicator: f.properties.indicatorObject.Description,
