@@ -8,9 +8,13 @@
       <countdown v-if="countDownTime" :time="countDownTime" @end="comingSoon = false">
         <template slot-scope="props">
           <div class="text-center">
-            <img src="../public/data/trilateral/Countdown.png" style="width: 70%; max-width: 100vw" class="mb-5" />
+            <img src="../public/data/trilateral/Countdown.png"
+              style="width: 70%; max-width: 100vw" class="mb-5" />
             <h1 class="display-2 primary--text">
-              <span v-if="props.days > 0">{{ props.days }} days, </span>{{ props.hours }} hours, <br v-if="$vuetify.breakpoint.xsOnly" />{{ props.minutes }} minutes, <br v-if="$vuetify.breakpoint.xsOnly" />{{ props.seconds }} seconds</h1>
+              <span v-if="props.days > 0">{{ props.days }} days, </span>{{ props.hours }} hours,
+              <br v-if="$vuetify.breakpoint.xsOnly" />{{ props.minutes }} minutes,
+              <br v-if="$vuetify.breakpoint.xsOnly" />{{ props.seconds }} seconds
+            </h1>
           </div>
         </template>
       </countdown>

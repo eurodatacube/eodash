@@ -78,7 +78,7 @@ export default {
     },
     getClass(item) {
       const code = item.properties.indicatorObject['Indicator code'];
-      const validClass = typeof this.baseConfig.indicatorsDefinition[code] !== 'undefined' ? this.baseConfig.indicatorsDefinition[code].class : this.baseConfig.indicatorsDefinition['d'].class;
+      const validClass = typeof this.baseConfig.indicatorsDefinition[code] !== 'undefined' ? this.baseConfig.indicatorsDefinition[code].class : this.baseConfig.indicatorsDefinition.d.class;
       return validClass;
     },
 
@@ -108,7 +108,7 @@ export default {
           } else if (Object.prototype.hasOwnProperty.call(values, 'Measurement Value')
             && values['Measurement Value'] !== '') {
             validValues = values['Measurement Value'].filter((item) => (
-              item !== '' && item !== Number.NaN && item !== null
+              item !== '' && item !== Number.NaN && item !== null && !Number.isNaN(item)
             ));
             text = validValues[validValues.length - 1].toPrecision(4);
           }
