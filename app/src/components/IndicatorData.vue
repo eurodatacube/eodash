@@ -231,7 +231,7 @@ export default {
           }
           const uniqueYears = Object.keys(dataGroups);
           uniqueYears.sort();
-          const yLength = uniqueYears.length-1;
+          const yLength = uniqueYears.length - 1;
           uniqueYears.forEach((key, i) => {
             datasets.push({
               // fill with empty values
@@ -239,8 +239,8 @@ export default {
               label: key,
               fill: false,
               data: dataGroups[key],
-              backgroundColor: refColors[yLength-i],
-              borderColor: refColors[yLength-i],
+              backgroundColor: refColors[yLength - i],
+              borderColor: refColors[yLength - i],
               borderWidth: 2,
             });
           });
@@ -796,16 +796,13 @@ export default {
           },
         };
       }
-      
       if (['E10a6', 'E10a7'].includes(indicatorCode)) {
         yAxes[0].ticks.beginAtZero = true;
         plugins = {
           datalabels: {
             labels: {
               title: {
-                color: (context) => {
-                  return context.dataset.backgroundColor;
-                },
+                color: (context) => context.dataset.backgroundColor,
                 font: {
                   size: 10,
                 },
@@ -815,28 +812,29 @@ export default {
                   if (context.chart.data.datasets.length === 2) {
                     if (context.datasetIndex === 0) {
                       if (!Number.isNaN(context.chart.data.datasets[1].data[context.dataIndex].y)
-                        && context.chart.data.datasets[0].data[context.dataIndex].y > context.chart.data.datasets[1].data[context.dataIndex].y) {
+                        && context.chart.data.datasets[0].data[context.dataIndex].y
+                        > context.chart.data.datasets[1].data[context.dataIndex].y) {
                         return 0;
                       }
                       return -28;
-                    } else {
-                      if (!Number.isNaN(context.chart.data.datasets[0].data[context.dataIndex].y)
-                        && context.chart.data.datasets[0].data[context.dataIndex].y > context.chart.data.datasets[1].data[context.dataIndex].y) {
-                        return -28;
-                      }
-                      return 0;
                     }
+                    if (!Number.isNaN(context.chart.data.datasets[0].data[context.dataIndex].y)
+                      && context.chart.data.datasets[0].data[context.dataIndex].y
+                      > context.chart.data.datasets[1].data[context.dataIndex].y) {
+                      return -28;
+                    }
+                    return 0;
                   }
                   return 0;
                 },
-                formatter: (value) => value.y.toFixed(1) + '%',
+                formatter: (value) => `${value.y.toFixed(1)}%`,
               },
             },
           },
         };
       }
 
-     if (['E10a8'].includes(indicatorCode)) {
+      if (['E10a8'].includes(indicatorCode)) {
         yAxes[0].ticks.min = 0;
       }
 
