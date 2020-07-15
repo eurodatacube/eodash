@@ -818,11 +818,11 @@ export default {
                         && context.chart.data.datasets[0].data[context.dataIndex].y > context.chart.data.datasets[1].data[context.dataIndex].y) {
                         return 0;
                       }
-                      return -30;
+                      return -28;
                     } else {
                       if (!Number.isNaN(context.chart.data.datasets[0].data[context.dataIndex].y)
                         && context.chart.data.datasets[0].data[context.dataIndex].y > context.chart.data.datasets[1].data[context.dataIndex].y) {
-                        return -30;
+                        return -28;
                       }
                       return 0;
                     }
