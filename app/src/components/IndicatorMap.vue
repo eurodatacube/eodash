@@ -588,13 +588,11 @@ export default {
       }
       if (time !== null) {
         // time as is gets automatically injected to WMS query OR xyz url {time} template
-        if (typeof time.value !== 'undefined') {
-          additionalSettings.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
-            ? sourceOptionsObj.dateFormatFunction(time.value) : time.value;
-        } else {
-          additionalSettings.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
-            ? sourceOptionsObj.dateFormatFunction(time) : time;
-        }
+        const fixTime = time.value || time;
+        additionalSettings.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
+          ? sourceOptionsObj.dateFormatFunction(fixTime) : fixTime;
+        additionalSettings.featuresTime = typeof sourceOptionsObj.featuresDateFormatFunction === 'function'
+          ? sourceOptionsObj.featuresDateFormatFunction(fixTime) : fixTime;
       }
       return additionalSettings;
     },

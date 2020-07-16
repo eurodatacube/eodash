@@ -358,7 +358,8 @@ export const layerNameMapping = Object.freeze({
       };
       return mapping[eoID];
     },
-    featuresUrl: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/{site}/{time}.geojson',
+    featuresDateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+    featuresUrl: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/{site}/{featuresTime}.geojson',
     featuresParameters: { // can also be a simple list
       verified: {},
     }
