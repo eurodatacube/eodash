@@ -1206,7 +1206,7 @@ export const globalIndicators = [
         'Input Data': [''],
         display: {
           ...defaultWMSDisplay,
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
           name: 'Water Quality Index',
           layers: 'N3_CUSTOM_TRILATERAL',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
@@ -1286,7 +1286,7 @@ export const globalIndicators = [
         'Input Data': [''],
         display: {
           ...defaultWMSDisplay,
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
           name: 'Water Quality Index',
           layers: 'N3_CUSTOM_TRILATERAL_TSMNN',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
