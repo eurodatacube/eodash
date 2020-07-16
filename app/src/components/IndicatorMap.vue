@@ -144,15 +144,18 @@
       @click.stop=""
       @dblclick.stop=""
     >
-      <h3 :class="`brand-${appConfig.id}`" v-if="enableCompare && indicator.compareDisplay && indicator.compareDisplay.mapLabel"
-      style="position:absolute; z-index:1000; right: 10px; bottom: 45%; background: rgba(255, 255, 255, 0.4); font-size: 16px;">
+      <h3 :class="`brand-${appConfig.id}`"
+        v-if="enableCompare && indicator.compareDisplay && indicator.compareDisplay.mapLabel"
+        style="position:absolute; z-index:1000; right: 10px; bottom: 45%;
+        background: rgba(255, 255, 255, 0.4); font-size: 16px;">
           {{indicator.display.mapLabel}}
       </h3>
-      <h3 :class="`brand-${appConfig.id}`" v-if="enableCompare && indicator.compareDisplay && indicator.display.mapLabel"
-      style="position:absolute; z-index:1000; left: 10px; bottom: 45%; background: rgba(255, 255, 255, 0.4); font-size: 16px;">
+      <h3 :class="`brand-${appConfig.id}`"
+        v-if="enableCompare && indicator.compareDisplay && indicator.display.mapLabel"
+        style="position:absolute; z-index:1000; left: 10px; bottom: 45%;
+        background: rgba(255, 255, 255, 0.4); font-size: 16px;">
           {{indicator.compareDisplay.mapLabel}}
       </h3>
-      </v-row>
       <v-row
         class="justify-center align-center timeSelection"
         :class="enableCompare && !indicator.compareDisplay && 'mr-5 ml-0'"
@@ -381,7 +384,7 @@ export default {
     this.compareLayerTime = { value: this.getInitialCompareTime() };
     this.$nextTick(() => {
       const layerButtons = document.querySelectorAll('.leaflet-control-layers-toggle');
-      layerButtons.forEach((lB) => lB.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${this.appConfig.branding.primaryColor}" width="32px" height="32px"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>`);
+      layerButtons.forEach((lB) => lB.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${this.appConfig.branding.primaryColor}" width="32px" height="32px"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>`); // eslint-disable-line
 
       this.$refs.subaoiLayer.mapObject.bindTooltip('Reference area', {
         direction: 'top',
@@ -513,7 +516,7 @@ export default {
       // if display not specified (global layers), suspect SIN layer
       // first check if special compare layer configured
       const displayTmp = side === 'compare' && this.indicator.compareDisplay ? this.indicator.compareDisplay : this.indicator.display;
-      return displayTmp ? displayTmp : {
+      return displayTmp || {
         ...this.baseConfig.defaultWMSDisplay,
         ...this.shLayerConfig(side),
         name: this.indicator.Description,

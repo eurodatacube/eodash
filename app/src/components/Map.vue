@@ -307,7 +307,7 @@ export default {
         } else if (['N1', 'N3b'].includes(indicatorObject['Indicator code'])) {
           label = '';
         } else if (Array.isArray(indicatorObject['Measurement Value'])) {
-          validValues = indicatorObject['Measurement Value'].filter((item) => item !== '');
+          validValues = indicatorObject['Measurement Value'].filter((item) => item !== '' && !Number.isNaN(item));
           if (validValues.length > 0) {
             label = 'Latest value: ';
             const lastMeas = validValues[validValues.length - 1];
