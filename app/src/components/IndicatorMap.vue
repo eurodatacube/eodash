@@ -243,7 +243,9 @@ import {
   mapState,
   mapGetters,
 } from 'vuex';
-import { geoJson, latLngBounds, latLng, Util } from 'leaflet';
+import {
+  geoJson, latLngBounds, latLng, Util,
+} from 'leaflet';
 import {
   LMap, LTileLayer, LWMSTileLayer, LGeoJson, LCircleMarker,
   LControlLayers, LControlAttribution, LControlZoom, LLayerGroup,
@@ -720,27 +722,28 @@ export default {
     fetchFeatures(side) {
       const urlTemplate = this.layerDisplay(side).featuresUrl;
       if (urlTemplate) {
-        const options = this.layerOptions(side === 'compare' ? this.currentCompareTime : this.currentTime, this.layerDisplay(side))
+        const options = this.layerOptions(side === 'compare' ? this.currentCompareTime : this.currentTime,
+          this.layerDisplay(side));
         const url = Util.template(urlTemplate, options);
         fetch(url)
-        .then((r) => r.json())
-        .then((data) => {
-          this.featureJson[side] = data;
-        })
-        .catch((error) => {
-          console.log(error);
-          this.featureJson[side] = {
-            type: 'FeatureCollection',
-            features: [],
-          };
-        });   
+          .then((r) => r.json())
+          .then((data) => {
+            this.featureJson[side] = data;
+          })
+          .catch((error) => {
+            console.log(error);
+            this.featureJson[side] = {
+              type: 'FeatureCollection',
+              features: [],
+            };
+          });
       } else {
         this.featureJson[side] = {
           type: 'FeatureCollection',
           features: [],
         };
       }
-    }
+    },
   },
   watch: {
     enableCompare(on) {
