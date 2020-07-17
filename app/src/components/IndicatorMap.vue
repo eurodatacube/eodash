@@ -399,7 +399,9 @@ export default {
       // add A/B slider
       this.slider = L.control.sideBySide(this.$refs.compareLayers.mapObject.getLayers(), this.$refs.dataLayers.mapObject.getLayers()); // eslint-disable-line
       this.onResize();
-      this.flyToBounds();
+      setTimeout(() => {
+        this.flyToBounds();
+      }, 100);
     });
   },
   methods: {
