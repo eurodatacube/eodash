@@ -368,6 +368,7 @@ export const layerNameMapping = Object.freeze({
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fagriculture%2Fgcom-c-{time}.tif&resampling_method=bilinear&bidx=1&rescale=0%2C1&color_map=cfastie',
     protocol: 'xyz',
     tileSize: 256,
+    legendUrl: 'data/trilateral/NDVI.png',
     attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
     dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
   },
