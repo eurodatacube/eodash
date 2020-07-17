@@ -3,7 +3,6 @@
     ref="map"
     style="height: 100%; width: 100%; background: #cad2d3; z-index: 1;"
     :options="defaultMapOptions"
-    :bounds="mapDefaults.bounds"
     :maxZoom="mapDefaults.maxMapZoom"
     :minZoom="mapDefaults.minMapZoom"
     @update:zoom="zoomUpdated"
@@ -430,7 +429,7 @@ export default {
       this.fetchFeatures('data');
       setTimeout(() => {
         this.flyToBounds();
-      }, 1);
+      }, 100);
     });
   },
   methods: {
@@ -558,7 +557,7 @@ export default {
         // zoom to default bbox from config
         this.map.setMinZoom(this.mapDefaults.minMapZoom);
         this.map.setMaxBounds(null);
-        this.map.flyToBounds(latLngBounds(this.mapDefaults.bounds));
+        this.map.fitBounds(latLngBounds(this.mapDefaults.bounds));
       }
     },
     getTimeLabel(time) {
