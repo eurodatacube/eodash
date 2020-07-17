@@ -595,7 +595,7 @@ export default {
         const fixTime = time.value || time;
         additionalSettings.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
           ? sourceOptionsObj.dateFormatFunction(fixTime) : fixTime;
-        if (additionalSettings.featuresUrl) {
+        if (sourceOptionsObj.featuresUrl) {
           additionalSettings.featuresTime = typeof sourceOptionsObj.featuresDateFormatFunction === 'function'
             ? sourceOptionsObj.featuresDateFormatFunction(fixTime) : fixTime;
         }
