@@ -3,7 +3,6 @@
     ref="map"
     style="height: 100%; width: 100%; background: #cad2d3; z-index: 1;"
     :options="defaultMapOptions"
-    :bounds="mapDefaults.bounds"
     :maxZoom="mapDefaults.maxMapZoom"
     :minZoom="mapDefaults.minMapZoom"
     @update:zoom="zoomUpdated"
@@ -30,6 +29,13 @@
       :geojson="indicator['Sub-AOI']"
       :pane="shadowPane"
       :optionsStyle="subAoiStyle('data')"
+      >
+      </l-geo-json>
+      <l-geo-json
+        ref="featureJsonData"
+        :geojson="featureJson.data"
+        :options="featureOptions('data')"
+        :pane="shadowPane"
       >
       </l-geo-json>
       <l-circle-marker
@@ -93,6 +99,14 @@
         :pane="markerPane"
         :visible="enableCompare"
         :optionsStyle="subAoiStyle('compare')"
+      >
+      </l-geo-json>
+      <l-geo-json
+        ref="featureJsonCompare"
+        :visible="enableCompare"
+        :geojson="featureJson.compare"
+        :options="featureOptions('compare')"
+        :pane="markerPane"
       >
       </l-geo-json>
       <l-circle-marker
@@ -228,7 +242,9 @@ import {
   mapState,
   mapGetters,
 } from 'vuex';
-import { geoJson, latLngBounds, latLng } from 'leaflet';
+import {
+  geoJson, latLngBounds, latLng, Util,
+} from 'leaflet';
 import {
   LMap, LTileLayer, LWMSTileLayer, LGeoJson, LCircleMarker,
   LControlLayers, LControlAttribution, LControlZoom, LLayerGroup,
@@ -280,6 +296,16 @@ export default {
       compareLayerTime: null,
       dataLayerIndex: 0,
       compareLayerIndex: 0,
+      featureJson: {
+        data: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        compare: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+      },
     };
   },
   computed: {
@@ -400,9 +426,10 @@ export default {
       // add A/B slider
       this.slider = L.control.sideBySide(this.$refs.compareLayers.mapObject.getLayers(), this.$refs.dataLayers.mapObject.getLayers()); // eslint-disable-line
       this.onResize();
+      this.fetchFeatures('data');
       setTimeout(() => {
         this.flyToBounds();
-      }, 1);
+      }, 100);
     });
   },
   methods: {
@@ -423,6 +450,30 @@ export default {
       if (this.map) {
         this.map._onResize();
       }
+    },
+    featureOptions(side) {
+      return {
+        onEachFeature: function onEachFeature(feature, layer) {
+          // if featuresParameters available, show only properties from mapping, otherwise dump all
+          const allowedParams = this.shLayerConfig(side).featuresParameters;
+          const allKeys = Object.keys(feature.properties);
+          let tooltip = '';
+          for (let i = 0; i < allKeys.length; i++) {
+            if (!allowedParams || (typeof allowedParams === 'object' && Object.keys(allowedParams).includes(allKeys[i]))
+              || (Array.isArray(allowedParams) && allowedParams.includes(allKeys[i]))) {
+              tooltip += `<span><b>${allKeys[i]}</b>: ${feature.properties[allKeys[i]]}</span><br>`;
+            }
+          }
+          if (tooltip !== '') {
+            layer.bindTooltip(tooltip);
+          }
+        }.bind(this),
+        style: {
+          color: 'red',
+          weight: 2,
+          fillOpacity: 0,
+        },
+      };
     },
     getColorCode(side) {
       const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
@@ -460,7 +511,7 @@ export default {
       if (this.layerNameMapping.hasOwnProperty(inputData)) { // eslint-disable-line
         return this.layerNameMapping[inputData];
       }
-      return null;
+      return {};
     },
     layerDisplay(side) {
       // if display not specified (global layers), suspect SIN layer
@@ -506,7 +557,7 @@ export default {
         // zoom to default bbox from config
         this.map.setMinZoom(this.mapDefaults.minMapZoom);
         this.map.setMaxBounds(null);
-        this.map.flyToBounds(latLngBounds(this.mapDefaults.bounds));
+        this.map.fitBounds(latLngBounds(this.mapDefaults.bounds));
       }
     },
     getTimeLabel(time) {
@@ -541,12 +592,12 @@ export default {
       }
       if (time !== null) {
         // time as is gets automatically injected to WMS query OR xyz url {time} template
-        if (typeof time.value !== 'undefined') {
-          additionalSettings.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
-            ? sourceOptionsObj.dateFormatFunction(time.value) : time.value;
-        } else {
-          additionalSettings.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
-            ? sourceOptionsObj.dateFormatFunction(time) : time;
+        const fixTime = time.value || time;
+        additionalSettings.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
+          ? sourceOptionsObj.dateFormatFunction(fixTime) : fixTime;
+        if (sourceOptionsObj.featuresUrl) {
+          additionalSettings.featuresTime = typeof sourceOptionsObj.featuresDateFormatFunction === 'function'
+            ? sourceOptionsObj.featuresDateFormatFunction(fixTime) : fixTime;
         }
       }
       return additionalSettings;
@@ -652,6 +703,7 @@ export default {
           this.$refs.compareLayer.mapObject
             .setUrl(this.layerDisplay('compare').url);
         }
+        this.fetchFeatures('compare');
         // redraw
         this.compareLayerKey = Math.random();
       }
@@ -663,8 +715,34 @@ export default {
           this.$refs.dataLayer.mapObject
             .setUrl(this.layerDisplay('data').url);
         }
+        this.fetchFeatures('data');
         // redraw
         this.dataLayerKey = Math.random();
+      }
+    },
+    fetchFeatures(side) {
+      const urlTemplate = this.layerDisplay(side).featuresUrl;
+      if (urlTemplate) {
+        const options = this.layerOptions(side === 'compare' ? this.currentCompareTime : this.currentTime,
+          this.layerDisplay(side));
+        const url = Util.template(urlTemplate, options);
+        fetch(url)
+          .then((r) => r.json())
+          .then((data) => {
+            this.featureJson[side] = data;
+          })
+          .catch((error) => {
+            console.log(error);
+            this.featureJson[side] = {
+              type: 'FeatureCollection',
+              features: [],
+            };
+          });
+      } else {
+        this.featureJson[side] = {
+          type: 'FeatureCollection',
+          features: [],
+        };
       }
     },
   },
@@ -676,6 +754,7 @@ export default {
           this.map.removeLayer(this.$refs.compareLayers.mapObject);
         }
       } else {
+        this.fetchFeatures('compare');
         this.map.addLayer(this.$refs.compareLayers.mapObject);
         this.$nextTick(() => {
           this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
