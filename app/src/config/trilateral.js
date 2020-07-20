@@ -203,6 +203,11 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/N5',
     largeSubAoi: true,
   },
+  N6: {
+    indicator: 'Movement slowdown',
+    class: 'environment',
+    largeSubAoi: true,
+  },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
     class: 'economic',
@@ -471,7 +476,7 @@ const getFortnightIntervalDates = (start, end) => {
   while (currentDate <= stopDate) {
     dateArray.push([
       DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'),
-      DateTime.fromISO(currentDate).plus({ weeks: 2 }).toFormat('yyyy-MM-dd')
+      DateTime.fromISO(currentDate).plus({ weeks: 2 }).toFormat('yyyy-MM-dd'),
     ]);
     currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
   }
@@ -1303,4 +1308,95 @@ export const globalIndicators = [
       },
     },
   },
+  {
+    latlng: latLng([39.9, 116.38]),
+    id: 9899,
+    properties: {
+      indicatorObject: {
+        AOI: latLng([39.9, 116.38]),
+        id: 9899,
+        AOI_ID: 'CN01',
+        Country: ['CN'],
+        City: 'Beijing',
+        'Site Name': 'Beijing',
+        Description: 'Movement slowdown',
+        'Indicator code': 'N6',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Movement slowdown',
+        'Color code': ['BLUE'],
+        'EO Sensor': ['Derived from Sentinel-1'],
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((115.91229248046875 39.627200509676186, 116.86084804657003 39.627200509676186, 116.86084804657003 40.32575607299805, 115.91229248046875 40.32575607299805, 115.91229248046875 39.627200509676186,))').toJson(),
+          }],
+        },
+        Time: ['2020-03-01'],
+        'Input Data': [''],
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FBeijing_S1_TA142_SPM_20191101-20200101_20200129-20200301_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          // legendUrl: 'data/trilateral/N6-legend.png',
+          disableCompare: true,
+        },
+      },
+    },
+  },
+  // DC_S1_TA004_SPM_20200103-20200206_20200328-20200424_th-0.3.cog.tif
+  // Dunkirk_S1_TA161_SPM_20200101-20200215_20200401-20200431_th-0.cog.tif
+  // Ghent_S1_TA161_SPM_20200103-20200206_20200401-20200430_th-0.cog.tif
+  // Lima_S1_TA018_SPM_20200114-20200302_20200326-20200501_th-0.cog.tif
+  // LosAngeles_A2_SPM_10m_20200101-20200228_20200401-20200430_th-0.35.cog.tif
+  // LosAngeles_S1_TA064_SPM_20200103-20200228_20200401-20200430_th-0.cog.tif
+  // Mumbai_S1_TD034_SPM_20200110-20200122_20200322-20200427_th-0.cog.tif
+  {
+    latlng: latLng([41.0114, -73.09]),
+    id: 9891,
+    properties: {
+      indicatorObject: {
+        AOI: latLng([41.0114, -73.09]),
+        id: 9891,
+        AOI_ID: 'US04',
+        Country: ['US'],
+        City: 'New York',
+        'Site Name': 'New York',
+        Description: 'Movement slowdown',
+        'Indicator code': 'N6',
+        'Indicator Value': ['normal'],
+        'Indicator Name': 'Movement slowdown',
+        'Color code': ['BLUE'],
+        'EO Sensor': ['Derived from Sentinel-1'],
+        'Sub-AOI': {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-71.74516 41.54467, -74.43395 41.54943, -74.43219 40.47812, -71.74516 40.48343, -71.74516 41.54467))').toJson(),
+          }],
+        },
+        Time: ['2020-04-30'],
+        'Input Data': [''],
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FNewyork_S1_TA033_SPM_20200101-20200215_20200401-20200431_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          // legendUrl: 'data/trilateral/N6-legend.png',
+          disableCompare: true,
+        },
+      },
+    },
+  },
+  // SanFrancisco_S1_TA035_SPM_20200128-20200215_20200403-20200427_th-0.cog.tif
+  // Santiago_S1_TA018_SPM_20200108-20200201_20200401-20200612_th-0.cog.tif
+  // SaoPaulo_S1_TD053_SPM_20200105-20200204_20200329-20200428_th-0.cog.tif
+  // Singapore_S1_TA171_SPM_20200107-20200212_20200424-20200530_th-0.cog.tif
 ];
