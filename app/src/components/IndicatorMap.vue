@@ -748,7 +748,6 @@ export default {
             this.featureJson[side] = data;
           })
           .catch((error) => {
-            console.log(error);
             this.featureJson[side] = {
               type: 'FeatureCollection',
               features: [],
