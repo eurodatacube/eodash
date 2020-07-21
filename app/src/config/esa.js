@@ -12,8 +12,8 @@ export const indicatorsDefinition = Object.freeze({
     file: './eodash-data/data/E1.csv',
     story: '/eodash-data/stories/E1',
     features: {
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH-mm"),
-      url: './eodash-data/features/{AOI_ID}-{Indicator code}-{featuresTime}.geojson',
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
+      url: './eodash-data/features/{Indicator code}_{AOI_ID}_{featuresTime}.geojson',
       parameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)'],
     },
   },
