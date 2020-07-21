@@ -358,10 +358,12 @@ export const layerNameMapping = Object.freeze({
       };
       return mapping[eoID];
     },
-    featuresDateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-    featuresUrl: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/{site}/{featuresTime}.geojson',
-    featuresParameters: { // can also be a simple list
-      verified: {},
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+      url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/{site}/{featuresTime}.geojson',
+      parameters: { // can also be a simple list
+        verified: {},
+      },
     },
   },
   'SGLI L2 Reflectance 8-day composited': {
@@ -471,7 +473,7 @@ const getFortnightIntervalDates = (start, end) => {
   while (currentDate <= stopDate) {
     dateArray.push([
       DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'),
-      DateTime.fromISO(currentDate).plus({ weeks: 2 }).toFormat('yyyy-MM-dd')
+      DateTime.fromISO(currentDate).plus({ weeks: 2 }).toFormat('yyyy-MM-dd'),
     ]);
     currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
   }
