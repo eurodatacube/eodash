@@ -13,7 +13,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/E1',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH-mm"),
-      url: './eodash-data/data/{AOI_ID}-{Indicator code}-{featuresTime}.geojson',
+      url: './eodash-data/features/{AOI_ID}-{Indicator code}-{featuresTime}.geojson',
       parameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)'],
     },
   },
