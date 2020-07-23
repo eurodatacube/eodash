@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%; height: 100%;"
-    v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10c', 'N1', 'N3', 'N3b']
+    v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10c', 'N1', 'N3', 'N3b']
       .includes(indicatorObject['Indicator code'])">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -11,7 +11,7 @@
         :options='chartOptions()'></bar-chart>
   </div>
   <div style="width: 100%; height: 100%;"
-    v-else-if="indicatorObject['Indicator code']=='E10a3'">
+    v-else-if="['E10a3', 'E10a8'].includes(indicatorObject['Indicator code'])">
       <map-chart
         id="chart"
         class="fill-height"
@@ -69,7 +69,7 @@ import { DateTime } from 'luxon';
 import BarChart from '@/components/BarChart.vue';
 import LineChart from '@/components/LineChart.vue';
 import MapChart from '@/components/MapChart.vue';
-import NUTSL3 from '@/assets/NUTS_RG_03M_2016_4326_LEVL_3_DE.json';
+import NUTS from '@/assets/NUTS_RG_03M_2016_4326_ESL2-DEL3.json';
 
 export default {
   components: {
@@ -99,7 +99,7 @@ export default {
       const indicator = this.$store.state.indicators.selectedIndicator;
       const indicatorCode = this.indicatorObject['Indicator code'];
       const selectionOptions = [];
-      if (['E10a3'].includes(indicatorCode)) {
+      if (['E10a3', 'E10a8'].includes(indicatorCode)) {
         // Find all unique day/month available
         const timeset = new Set(
           indicator.Time.map((d) => d.toFormat('dd. MMM')),
@@ -126,7 +126,7 @@ export default {
         const measurement = indicator['Measurement Value'];
         const colors = [];
         const datasets = [];
-        if (['E10a1', 'E10a5', 'E10a8'].includes(indicatorCode)) {
+        if (['E10a1', 'E10a5'].includes(indicatorCode)) {
           const referenceValue = indicator['Reference value'].map(Number);
           for (let i = 0; i < indicator.Time.length; i += 1) {
             if (!Number.isNaN(indicator.Time[i].toMillis())) {
@@ -439,8 +439,8 @@ export default {
               borderColor: value,
             });
           });
-        } else if (['E10a3'].includes(indicatorCode)) {
-          const nutsFeatures = NUTSL3.features;
+        } else if (['E10a3', 'E10a8'].includes(indicatorCode)) {
+          const nutsFeatures = NUTS.features;
           const outline = [];
           const currIDs = [];
           let features = measurement.map((meas, i) => {
@@ -458,8 +458,8 @@ export default {
                 });
               }
               const { coordinates } = geom.geometry;
-              const lons = coordinates.flat(1).map((tuple) => tuple[0]);
-              const lats = coordinates.flat(1).map((tuple) => tuple[1]);
+              const lons = (geom.geometry.type === 'Polygon') ? coordinates.flat(1).map((tuple) => tuple[0]) : coordinates.flat(2).map((tuple) => tuple[0]);
+              const lats = (geom.geometry.type === 'Polygon') ? coordinates.flat(1).map((tuple) => tuple[1]) : coordinates.flat(2).map((tuple) => tuple[1]);
               const minLat = Math.min(...lats);
               const minLon = Math.min(...lons);
               const centerPoint = {
@@ -595,7 +595,7 @@ export default {
           fontColor: 'rgba(0, 0, 0, 0.8)',
         },
       };
-      if (!Number.isNaN(reference) && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'E10a8'].includes(indicatorCode)) {
+      if (!Number.isNaN(reference) && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7'].includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
           label: {
@@ -753,7 +753,7 @@ export default {
         },
       };
 
-      if (['E10a1', 'E10a5', 'E10a8'].includes(indicatorCode)) {
+      if (['E10a1', 'E10a5'].includes(indicatorCode)) {
         yAxes[0].ticks.beginAtZero = true;
         plugins = {
           datalabels: {
@@ -834,15 +834,11 @@ export default {
         };
       }
 
-      if (['E10a8'].includes(indicatorCode)) {
-        yAxes[0].ticks.min = 0;
-      }
-
       if (['N2'].includes(indicatorCode)) {
         yAxes[0].ticks.beginAtZero = true;
       }
 
-      if (['E10a3'].includes(indicatorCode)) {
+      if (['E10a3', 'E10a8'].includes(indicatorCode)) {
         yAxes[0].ticks = {
           suggestedMin: Number.NaN,
           suggestedMax: Number.NaN,
@@ -921,7 +917,7 @@ export default {
         };
       }
 
-      if (['E10a3'].includes(indicatorCode)) {
+      if (['E10a3', 'E10a8'].includes(indicatorCode)) {
         defaultSettings.geo = {
           radiusScale: {
             display: true,
