@@ -578,7 +578,7 @@ export const globalIndicators = [
         'Color code': ['primary'],
         AOI: null,
         AOI_ID: 'W3',
-        Time: getDailyDates('2020-01-01', '2020-04-16'),
+        Time: getDailyDates('2020-01-01', '2020-05-17'),
         'Input Data': [''],
         display: {
           protocol: 'xyz',
@@ -622,7 +622,7 @@ export const globalIndicators = [
         'Color code': ['primary'],
         AOI: null,
         AOI_ID: 'W5',
-        Time: getDailyDates('2020-01-01', '2020-04-16'),
+        Time: getDailyDates('2020-01-01', '2020-05-17'),
         'Input Data': [''],
         display: {
           protocol: 'xyz',
