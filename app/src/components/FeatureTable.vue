@@ -91,7 +91,7 @@ export default {
           let validValues = values['Indicator Value'].filter((item) => item !== '');
           if (validValues.length > 0) {
             const lastValue = validValues[validValues.length - 1];
-            if (['E10a1', 'E10a5', 'E10a8'].includes(values['Indicator code'])) {
+            if (['E10a1', 'E10a5'].includes(values['Indicator code'])) {
               if (lastValue !== '') {
                 const percVal = Number((lastValue * 100).toPrecision(4));
                 if (percVal > 0) {
@@ -100,7 +100,7 @@ export default {
                   text = `${percVal}%`;
                 }
               }
-            } else if (values['Indicator code'] === 'E10a3') {
+            } else if (['E10a3', 'E10a8'].includes(values['Indicator code'])) {
               text = 'multiple';
             } else {
               text = lastValue;
