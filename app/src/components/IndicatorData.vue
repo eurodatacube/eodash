@@ -20,12 +20,18 @@
         :chart-data='datacollection'
         :options='chartOptions()'>
       </map-chart>
-      <img :src="require('@/assets/E10a3_label.jpg')" alt="color legend"
+      <img v-if="indicatorObject['Indicator code']=='E10a3'"
+        :src="require('@/assets/E10a3_label.jpg')" alt="color legend"
         style="position: absolute; width: 200px; z-index: 0;
         top: 0px; right: 0px;"/>
+      <img v-else
+        :src="require('@/assets/E10a8_label.jpg')" alt="color legend"
+        style="position: absolute; width: 150px; z-index: 0;
+        top: 0px; right: 0px;"/>
       <v-row
-        class="justify-center align-center timeSelection mr-5 ml-0"
-        style="position: absolute; bottom: 30px; z-index: 1000; width: auto; max-width: 100%;"
+        class="justify-center align-center timeSelection mr-6 ml-0"
+        style="position: absolute; bottom: 0px; z-index: 1000;
+          width: auto; max-width: 100%;left:-45px;"
       >
         <v-col cols="6">
           <v-select
@@ -480,6 +486,11 @@ export default {
                 referenceValue: indicator['Reference value'][i],
                 color: indicator['Color code'][i],
               };
+              if (indicatorCode === 'E10a8') {
+                // Swap value to have reference value
+                output.value = Number(indicator['Reference value'][i]);
+                output.referenceValue = Number(meas);
+              }
             }
             return output;
           });
@@ -507,6 +518,7 @@ export default {
             borderColor: filteredFeatures.map((d) => d.color),
             borderWidth: 3,
             data: filteredFeatures,
+            clipMap: 'items',
           });
         } else {
           const data = indicator.Time.map((date, i) => {
@@ -917,7 +929,7 @@ export default {
         };
       }
 
-      if (['E10a3', 'E10a8'].includes(indicatorCode)) {
+      if (['E10a3'].includes(indicatorCode)) {
         defaultSettings.geo = {
           radiusScale: {
             display: true,
@@ -954,6 +966,46 @@ export default {
                   `${(((obj.value - refV) / refV) * 100).toPrecision(2)} %`,
                 );
               }
+              return labelOutput;
+            },
+          },
+        };
+      }
+
+      if (['E10a8'].includes(indicatorCode)) {
+        defaultSettings.geo = {
+          radiusScale: {
+            display: true,
+            range: [3, 20],
+            size: [3, 20],
+          },
+        };
+
+        defaultSettings.scale = {
+          projection: 'mercator',
+        };
+
+        defaultSettings.pan.mode = 'xy';
+        defaultSettings.zoom.mode = 'xy';
+        defaultSettings.legend.display = false;
+
+        defaultSettings.tooltips = {
+          callbacks: {
+            label: (context) => {
+              const { datasets } = this.datacollection;
+              const obj = datasets[context.datasetIndex].data[context.index];
+              return obj.name;
+            },
+            footer: (context) => {
+              const { datasets } = this.datacollection;
+              const obj = datasets[context[0].datasetIndex].data[context[0].index];
+              const refV = Number(obj.referenceValue);
+              const labelOutput = [
+                `${obj.time.toISODate()}:`,
+                `${refV} % harvested`,
+                `${(100 - refV)} % not harvested`,
+                `Area: ${obj.value} ha`,
+              ];
               return labelOutput;
             },
           },
