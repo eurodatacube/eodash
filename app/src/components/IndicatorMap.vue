@@ -304,20 +304,20 @@ export default {
     },
     arrayOfObjects() {
       const selectionOptions = [];
-      for (let i = 0; i < this.indicator.Time.length; i += 1) {
-        let label = this.getTimeLabel(this.indicator.Time[i]);
+      for (let i = 0; i < this.indicator.time.length; i += 1) {
+        let label = this.getTimeLabel(this.indicator.time[i]);
         if (this.indicator.eoSensor) {
           label += ` - ${this.indicator.eoSensor[i]}`;
         }
         selectionOptions.push({
-          value: this.indicator.Time[i],
+          value: this.indicator.time[i],
           name: label,
         });
       }
       return selectionOptions;
     },
     currentTime() {
-      let returnTime = this.indicator.Time[this.indicator.Time.length - 1];
+      let returnTime = this.indicator.time[this.indicator.time.length - 1];
       if (this.dataLayerTime !== null) {
         returnTime = this.dataLayerTime;
       }
@@ -338,8 +338,8 @@ export default {
     },
   },
   mounted() {
-    this.dataLayerIndex = this.indicator.Time.length - 1;
-    this.dataLayerTime = { value: this.indicator.Time[this.dataLayerIndex] };
+    this.dataLayerIndex = this.indicator.time.length - 1;
+    this.dataLayerTime = { value: this.indicator.time[this.dataLayerIndex] };
     this.compareLayerTime = { value: this.getInitialCompareTime() };
     this.$nextTick(() => {
       const layerButtons = document.querySelectorAll('.leaflet-control-layers-toggle');
@@ -593,7 +593,7 @@ export default {
       // find closest entry one year before latest time
       if (this.indicatorsDefinition[this.indicator.indicator].largeTimeDuration) {
         // if interval, use just start to get closest
-        const times = this.indicator.Time.map((item) => (Array.isArray(item) ? item[0] : item));
+        const times = this.indicator.time.map((item) => (Array.isArray(item) ? item[0] : item));
         const lastTimeEntry = DateTime.fromISO(times[times.length - 1]);
         const oneYearBefore = lastTimeEntry.minus({ years: 1 });
         // select closest to one year before
@@ -606,10 +606,10 @@ export default {
         // Get index and return object from original times as there are also
         // arrays of time tuple arrays
         const foundIndex = times.indexOf(closestOneYearBefore);
-        return this.indicator.Time[foundIndex];
+        return this.indicator.time[foundIndex];
       }
       // use first time
-      return this.indicator.Time[0];
+      return this.indicator.time[0];
     },
     refreshLayer(side) {
       // compare(left) or data(right)
@@ -653,8 +653,8 @@ export default {
       }
     },
     indicator() {
-      this.dataLayerTime = { value: this.indicator.Time[this.indicator.Time.length - 1] };
-      this.dataLayerIndex = this.indicator.Time.length - 1;
+      this.dataLayerTime = { value: this.indicator.time[this.indicator.time.length - 1] };
+      this.dataLayerIndex = this.indicator.time.length - 1;
       this.compareLayerTime = { value: this.getInitialCompareTime() };
       this.compareLayerIndex = 0;
       this.$nextTick(() => {

@@ -1,7 +1,6 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 import { Wkt } from 'wicket';
 import { latLng } from 'leaflet';
-import { DateTime } from 'luxon';
 import countriesJson from '@/assets/countries.json';
 
 let globalIdCounter = 0;
@@ -274,7 +273,7 @@ const actions = {
         header: true,
         skipEmptyLines: true,
         delimiter: ',',
-        complete: (results) => {
+        complete: (data) => {
           if (data[0].AOI) { // only continue if AOI column is present
             const featureObjs = {};
             for (let rr = 0; rr < data.length; rr += 1) {

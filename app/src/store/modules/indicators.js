@@ -25,6 +25,9 @@ const mutations = {
   SET_SELECTED_INDICATOR(state, indicatorObject) {
     state.selectedIndicator = indicatorObject;
   },
+  INDICATOR_LOAD_FINISHED(state, indicatorObject) {
+    state.selectedIndicator = indicatorObject;
+  },
 };
 
 const actions = {

@@ -63,6 +63,7 @@ import {
 import CookieLaw from 'vue-cookie-law';
 
 import axios from 'axios';
+import { DateTime } from 'luxon';
 
 export default {
   components: {
@@ -151,6 +152,61 @@ export default {
 
       if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
         if (mutation.payload) {
+          // Check if data was already loaded
+          if (Object.prototype.hasOwnProperty.call(mutation.payload, 'dataLoadFinished')
+            && mutation.payload.dataLoadFinished) {
+            const indicatorObject = mutation.payload;
+            this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', indicatorObject);
+          } else {
+            // Start loading of data from indicator
+            const url = `./data/internal/${[mutation.payload.aoiID, mutation.payload.indicator].join('-')}.json`;
+            // Fetch location data
+            fetch(url).then((r) => r.json())
+              .then((data) => {
+                const indicatorObject = mutation.payload;
+                // Set data to indicator object
+                // Convert data first
+                const mapping = {
+                  colorCode: 'color_code',
+                  dataProvider: 'data_provider',
+                  eoSensor: 'eo_sensor',
+                  indicatorValue: 'indicator_value',
+                  inputData: 'input_data',
+                  measurement: 'measurement_value',
+                  referenceTime: 'reference_time',
+                  referenceValue: 'reference_value',
+                  time: 'time',
+                };
+                const parsedData = {};
+                for (let i = 0; i < data.length; i += 1) {
+                  Object.entries(mapping).forEach(([key, value]) => {
+                    let val = data[i][value];
+                    if (Object.prototype.hasOwnProperty.call(parsedData, key)) {
+                      // If key already there add element to array
+                      if (['time', 'referenceTime'].includes(key)) {
+                        val = DateTime.fromISO(val);
+                      } else if (['measurement', 'referenceValue'].includes(key)) {
+                        val = Number(val);
+                      }
+                      parsedData[key].push(val);
+                    } else {
+                      // If not then set element as array
+                      if (['time', 'referenceTime'].includes(key)) {
+                        val = DateTime.fromISO(val);
+                      } else if (['measurement', 'referenceValue'].includes(key)) {
+                        val = Number(val);
+                      }
+                      parsedData[key] = [val];
+                    }
+                  });
+                }
+                Object.entries(parsedData).forEach(([key, value]) => {
+                  indicatorObject[key] = value;
+                });
+                indicatorObject.dataLoadFinished = true;
+                this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', indicatorObject);
+              });
+          }
           this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: `${mutation.payload.aoiID}-${mutation.payload.indicator}` }) }).catch(err => {}); // eslint-disable-line
           this.trackEvent('indicators', 'select_indicator', `${mutation.payload.aoiID}-${mutation.payload.indicator}`);
         } else {

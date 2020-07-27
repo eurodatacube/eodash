@@ -80,18 +80,22 @@ export default {
     return {
       dataLayerTime: null,
       dataLayerIndex: 0,
+      indicatorObject: {},
     };
   },
   mounted() {
-    const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
-    this.dataLayerTime = d.toFormat('dd. MMM');
-  },
-  watch: {
-    indicatorObject() {
-      this.dataLayerIndex = this.indicatorObject.time.length - 1;
-      const d = this.indicatorObject.time[this.dataLayerIndex];
-      this.dataLayerTime = d.toFormat('dd. MMM');
-    },
+    this.$store.subscribe((mutation) => {
+      if (mutation.type === 'indicators/INDICATOR_LOAD_FINISHED') {
+        // Change data here to trigger rendering of newly selected data
+        if (mutation.payload) {
+          this.indicatorObject = mutation.payload;
+          if (Object.prototype.hasOwnProperty.call(this.indicatorObject, 'time')) {
+            const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
+            this.dataLayerTime = d.toFormat('dd. MMM');
+          }
+        }
+      }
+    });
   },
   computed: {
     arrayOfObjects() {
@@ -113,7 +117,12 @@ export default {
       return selectionOptions;
     },
     datacollection() {
-      const indicator = this.$store.state.indicators.selectedIndicator;
+      if (!Object.prototype.hasOwnProperty.call(this.indicatorObject, 'dataLoadFinished')
+        || !Object.prototype.hasOwnProperty.call(this.indicatorObject, 'time')
+        || !this.indicatorObject.dataLoadFinished) {
+        return;
+      }
+      const indicator = this.indicatorObject;
       const indicatorCode = this.indicatorObject.indicator;
       let dataCollection;
       const refColors = [
@@ -514,9 +523,6 @@ export default {
         };
       }
       return dataCollection;
-    },
-    indicatorObject() {
-      return this.$store.state.indicators.selectedIndicator;
     },
   },
   methods: {
