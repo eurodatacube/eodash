@@ -1,0 +1,68 @@
+[
+    {
+        "input_data": "ports", 
+        "reference_value": "34.5", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-01-22", 
+        "eo_sensor": "Planet Labs/NASA (PlanetScope)", 
+        "data_provider": "NASA", 
+        "measurement_value": "41", 
+        "indicator_value": "Normal"
+    }, 
+    {
+        "input_data": "ports", 
+        "reference_value": "34.5", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-03-15", 
+        "eo_sensor": "Planet Labs/NASA (PlanetScope)", 
+        "data_provider": "NASA", 
+        "measurement_value": "12", 
+        "indicator_value": "Normal"
+    }, 
+    {
+        "input_data": "ports", 
+        "reference_value": "34.5", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-03-21", 
+        "eo_sensor": "Planet Labs/NASA (PlanetScope)", 
+        "data_provider": "NASA", 
+        "measurement_value": "20", 
+        "indicator_value": "Normal"
+    }, 
+    {
+        "input_data": "ports", 
+        "reference_value": "34.5", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-03-22", 
+        "eo_sensor": "Planet Labs/NASA (PlanetScope)", 
+        "data_provider": "NASA", 
+        "measurement_value": "86", 
+        "indicator_value": "Normal"
+    }, 
+    {
+        "input_data": "ports", 
+        "reference_value": "34.5", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-04-23", 
+        "eo_sensor": "Planet Labs/NASA (PlanetScope)", 
+        "data_provider": "NASA", 
+        "measurement_value": "20", 
+        "indicator_value": "Normal"
+    }, 
+    {
+        "input_data": "ports", 
+        "reference_value": "34.5", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-04-24", 
+        "eo_sensor": "Planet Labs/NASA (PlanetScope)", 
+        "data_provider": "NASA", 
+        "measurement_value": "28", 
+        "indicator_value": "Normal"
+    }
+]

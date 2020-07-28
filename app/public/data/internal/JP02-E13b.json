@@ -1,0 +1,35 @@
+[
+    {
+        "input_data": "airport_tk", 
+        "reference_value": "", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2019-11-28T00:00:00", 
+        "eo_sensor": "ALOS-2", 
+        "data_provider": "JAXA", 
+        "measurement_value": "110", 
+        "indicator_value": "Normal"
+    }, 
+    {
+        "input_data": "airport_tk", 
+        "reference_value": "", 
+        "reference_time": "", 
+        "color_code": "GREEN", 
+        "time": "2020-03-19T00:00:00", 
+        "eo_sensor": "ALOS-2", 
+        "data_provider": "JAXA", 
+        "measurement_value": "190", 
+        "indicator_value": "High"
+    }, 
+    {
+        "input_data": "airport_tk", 
+        "reference_value": "", 
+        "reference_time": "", 
+        "color_code": "GREEN", 
+        "time": "2020-05-14T00:00:00", 
+        "eo_sensor": "ALOS-2", 
+        "data_provider": "JAXA", 
+        "measurement_value": "210", 
+        "indicator_value": "High"
+    }
+]

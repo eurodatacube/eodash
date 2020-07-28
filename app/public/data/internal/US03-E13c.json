@@ -1,0 +1,35 @@
+[
+    {
+        "input_data": "ports", 
+        "reference_value": "26.333333333333332", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-03-10", 
+        "eo_sensor": "Planet Labs/NASA (PlanetScope)", 
+        "data_provider": "NASA", 
+        "measurement_value": "23", 
+        "indicator_value": "Normal"
+    }, 
+    {
+        "input_data": "ports", 
+        "reference_value": "26.333333333333332", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-03-11", 
+        "eo_sensor": "Planet Labs/NASA (PlanetScope)", 
+        "data_provider": "NASA", 
+        "measurement_value": "23", 
+        "indicator_value": "Normal"
+    }, 
+    {
+        "input_data": "ports", 
+        "reference_value": "26.333333333333332", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-04-21", 
+        "eo_sensor": "Planet Labs/NASA (PlanetScope)", 
+        "data_provider": "NASA", 
+        "measurement_value": "33", 
+        "indicator_value": "Normal"
+    }
+]

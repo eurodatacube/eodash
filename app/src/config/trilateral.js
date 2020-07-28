@@ -7,6 +7,11 @@ import { shTimeFunction } from '@/utils';
 
 export const dataEndpoints = [
   {
+    type: 'eox',
+    provider: './data/internal/pois_trilateral.json',
+  },
+  /*
+  {
     type: 'nasa',
     provider: 'https://h4ymwpefng.execute-api.us-east-1.amazonaws.com/v1/',
   },
@@ -14,6 +19,7 @@ export const dataEndpoints = [
     type: 'nasa',
     provider: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/',
   },
+  */
 ];
 
 export const indicatorsDefinition = Object.freeze({

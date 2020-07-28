@@ -133,16 +133,27 @@ const actions = {
     let allFeatures = [];
     const endpoints = rootState.config.baseConfig.dataEndpoints;
     for (let ep = 0; ep < endpoints.length; ep += 1) {
-      if (Object.prototype.hasOwnProperty.call(endpoints[ep], 'type')
-        && endpoints[ep].type === 'geodb') {
+      if (Object.prototype.hasOwnProperty.call(endpoints[ep], 'type')) {
         let url = endpoints[ep].provider;
         if (Object.prototype.hasOwnProperty.call(endpoints[ep], 'locationSuffix')) {
           url += endpoints[ep].locationSuffix;
         }
+        let F;
         const endPointIdx = ep;
-        const F = await this.dispatch( // eslint-disable-line
-          'features/loadGeoDBEndpoint', { url, endPointIdx },
-        );
+        switch (endpoints[ep].type) {
+          case 'geodb':
+            F = await this.dispatch( // eslint-disable-line
+              'features/loadGeoDBEndpoint', { url, endPointIdx },
+            );
+            break;
+          case 'eox':
+            F = await this.dispatch( // eslint-disable-line
+              'features/loadEOXEndpoint', { url, endPointIdx },
+            );
+            break;
+          default:
+            console.log('Endpoint type unknown');
+        }
         allFeatures = allFeatures.concat(F);
       }
     }
@@ -156,6 +167,101 @@ const actions = {
     }
     */
     commit('ADD_NEW_FEATURES', allFeatures);
+  },
+  loadEOXEndpoint({ rootState, commit }, { url, endPointIdx }) {
+    return fetch(url).then((r) => r.json())
+      .then((data) => {
+        const features = [];
+        const pM = {
+          aoi: 'aoi',
+          aoiID: 'aoiID',
+          lastColorCode: 'lastColorCode',
+          country: 'country',
+          indicator: 'indicator',
+          lastIndicatorValue: 'lastIndicatorValue',
+          lastTime: 'lastTime',
+          lastMeasurement: 'lastMeasurement',
+          siteName: 'siteName',
+          subAoi: 'subAoi',
+          city: 'city',
+          description: 'description',
+          region: 'region',
+          indicatorName: 'indicatorName',
+          lastReferenceValue: 'lastReferenceValue',
+          lastReferenceTime: 'lastReferenceTime',
+        };
+
+        commit('ADD_RESULTS_COUNT', {
+          type: rootState.config.baseConfig.indicatorsDefinition[data[0][pM.indicator]].class,
+          count: data.length, // individual measurements
+        });
+        // only continue if aoi column is present
+        if (Object.prototype.hasOwnProperty.call(data[0], pM.aoi)) {
+          const wkt = new Wkt();
+          const featureObjs = {};
+          for (let rr = 0; rr < data.length; rr += 1) {
+            // Aggregate data based on location
+            const uniqueKey = `${data[rr][pM.aoi]}_${data[rr][pM.indicator]}`;
+            if (!Object.prototype.hasOwnProperty.call(featureObjs, uniqueKey)) {
+              featureObjs[uniqueKey] = {};
+            } else {
+              // This should not happen
+              console.log(`WARNING: Duplicate uniqueKey ${uniqueKey} in retrieved data.`);
+            }
+            // Create new object with mapped keys to allow integrating data
+            // of multiple endpoints
+            Object.entries(pM).forEach(([key, value]) => {
+              if (Object.prototype.hasOwnProperty.call(data[rr], value)) {
+                if (key === 'subAoi') {
+                  // dummy empty geometry
+                  let ftrs = [];
+                  try {
+                    // assuming sub-aoi does not change over time
+                    if (data[rr][value] !== '') {
+                      wkt.read(data[rr][value]);
+                      const jsonGeom = wkt.toJson();
+                      // create a feature collection
+                      ftrs = [{
+                        type: 'Feature',
+                        properties: {},
+                        geometry: jsonGeom,
+                      }];
+                    }
+                  } catch (err) {
+                    console.log(`Error parsing subAoi of locations for index ${rr}`);
+                  }
+                  const ftrCol = {
+                    type: 'FeatureCollection',
+                    features: ftrs,
+                  };
+                  featureObjs[uniqueKey][key] = ftrCol;
+                } else if (key === 'lastMeasurement') {
+                  featureObjs[uniqueKey][key] = data[rr][value].length !== 0
+                    ? Number(data[rr][value]) : NaN;
+                } else {
+                  featureObjs[uniqueKey][key] = data[rr][value];
+                }
+              }
+            });
+          }
+          const keys = Object.keys(featureObjs);
+          for (let kk = 0; kk < keys.length; kk += 1) {
+            const coords = keys[kk].split('_')[0].replace(' ', '').split(',').map(Number);
+            featureObjs[keys[kk]].aoi = latLng([coords[0], coords[1]]);
+            featureObjs[keys[kk]].id = globalIdCounter; // to connect indicator & feature
+            featureObjs[keys[kk]].endPointIdx = endPointIdx;
+            features.push({
+              latlng: latLng([coords[0], coords[1]]),
+              id: globalIdCounter,
+              properties: {
+                indicatorObject: featureObjs[keys[kk]],
+              },
+            });
+            globalIdCounter += 1;
+          }
+        }
+        return features;
+      });
   },
   loadGeoDBEndpoint({ rootState, commit }, { url, endPointIdx }) {
     return fetch(url).then((r) => r.json())

@@ -1,0 +1,90 @@
+[
+    {
+        "input_data": "industry_sg", 
+        "reference_value": "", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-02-12T00:00:00", 
+        "eo_sensor": "Sentinel-1", 
+        "data_provider": "JAXA", 
+        "measurement_value": "0.998249453", 
+        "indicator_value": "0.998249453"
+    }, 
+    {
+        "input_data": "industry_sg", 
+        "reference_value": "", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-03-30T00:00:00", 
+        "eo_sensor": "ALOS-2", 
+        "data_provider": "JAXA", 
+        "measurement_value": "1.094091904", 
+        "indicator_value": "1.094091904"
+    }, 
+    {
+        "input_data": "industry_sg", 
+        "reference_value": "", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-04-12T00:00:00", 
+        "eo_sensor": "Sentinel-1", 
+        "data_provider": "JAXA", 
+        "measurement_value": "1.094967177", 
+        "indicator_value": "1.094967177"
+    }, 
+    {
+        "input_data": "industry_sg", 
+        "reference_value": "", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-04-24T00:00:00", 
+        "eo_sensor": "Sentinel-1", 
+        "data_provider": "JAXA", 
+        "measurement_value": "0.99059081", 
+        "indicator_value": "0.99059081"
+    }, 
+    {
+        "input_data": "industry_sg", 
+        "reference_value": "", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-05-06T00:00:00", 
+        "eo_sensor": "Sentinel-1", 
+        "data_provider": "JAXA", 
+        "measurement_value": "0.954485777", 
+        "indicator_value": "0.954485777"
+    }, 
+    {
+        "input_data": "industry_sg", 
+        "reference_value": "", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-05-18T00:00:00", 
+        "eo_sensor": "Sentinel-1", 
+        "data_provider": "JAXA", 
+        "measurement_value": "0.85536105", 
+        "indicator_value": "0.85536105"
+    }, 
+    {
+        "input_data": "industry_sg", 
+        "reference_value": "", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-05-25T00:00:00", 
+        "eo_sensor": "ALOS-2", 
+        "data_provider": "JAXA", 
+        "measurement_value": "0.659080963", 
+        "indicator_value": "0.659080963"
+    }, 
+    {
+        "input_data": "industry_sg", 
+        "reference_value": "", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-05-30T00:00:00", 
+        "eo_sensor": "Sentinel-1", 
+        "data_provider": "JAXA", 
+        "measurement_value": "0.751859956", 
+        "indicator_value": "0.751859956"
+    }
+]
