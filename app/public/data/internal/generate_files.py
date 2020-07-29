@@ -36,7 +36,7 @@ default_map = {
     # "geometry": "geometry",
     "indicator": "Indicator code",
     "siteName": "Site Name",
-    #"subAoi": "sub_aoi",
+    "subAoi": "Sub-AOI",
     "city": "City",
     "description": "Description",
     "indicatorName": "Indicator Name",
@@ -120,6 +120,7 @@ def generateData(mapping, array_mapping, input_folder, output_file, output_folde
                                 "description": line[cm["description"]],
                                 "indicatorName": line[cm["indicatorName"]],
                                 "yAxis": line[cm["yAxis"]],
+                                "subAoi": line[cm["subAoi"]],
                                 # Actual data
                                 "poi_data": [{
                                     "eo_sensor": line[cm_arr["eo_sensor"]],
@@ -139,7 +140,7 @@ def generateData(mapping, array_mapping, input_folder, output_file, output_folde
 
     outKeys = [
         "aoi", "aoiID", "country", "indicator", "siteName", "city", "region",
-        "description", "indicatorName", "yAxis",
+        "description", "indicatorName", "yAxis", "subAoi",
         "lastTime",
         "lastMeasurement",
         "lastColorCode",
