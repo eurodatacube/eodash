@@ -280,7 +280,7 @@ export default {
             }
           });
           datasets.push({
-            label: indicator['Y axis'],
+            label: indicator.yAxis,
             data,
             fill: false,
             backgroundColor: refColors[0],
@@ -524,7 +524,7 @@ export default {
           });
           datasets.push({
             data,
-            label: indicator['Y axis'],
+            label: indicator.yAxis,
             backgroundColor: colors,
             borderColor: colors,
           });
@@ -737,7 +737,7 @@ export default {
       const yAxes = [{
         scaleLabel: {
           display: true,
-          labelString: this.indicatorObject['Y axis'],
+          labelString: this.indicatorObject.yAxis,
           padding: 2,
         },
         ticks: {
