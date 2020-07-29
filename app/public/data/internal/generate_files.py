@@ -47,6 +47,7 @@ default_map = {
     "lastReferenceValue": "reference value [float]",
     "region": "Region",
     "updateFrequency": "Update Frequency",
+    "yAxis": "Y axis",
 }
 
 default_array_map = {
@@ -118,7 +119,7 @@ def generateData(mapping, array_mapping, input_folder, output_file, output_folde
                                 "region": line[cm["region"]],
                                 "description": line[cm["description"]],
                                 "indicatorName": line[cm["indicatorName"]],
-
+                                "yAxis": line[cm["yAxis"]],
                                 # Actual data
                                 "poi_data": [{
                                     "eo_sensor": line[cm_arr["eo_sensor"]],
@@ -138,7 +139,7 @@ def generateData(mapping, array_mapping, input_folder, output_file, output_folde
 
     outKeys = [
         "aoi", "aoiID", "country", "indicator", "siteName", "city", "region",
-        "description", "indicatorName",
+        "description", "indicatorName", "yAxis",
         "lastTime",
         "lastMeasurement",
         "lastColorCode",
