@@ -35,6 +35,17 @@
     {
         "input_data": "Sentinel 2 L2A", 
         "reference_value": "9", 
+        "reference_time": "2019-04-01T10:54:37", 
+        "color_code": "RED", 
+        "time": "2020-01-26T10:56:52", 
+        "eo_sensor": "Sentinel 2", 
+        "data_provider": "EMSS", 
+        "measurement_value": "4", 
+        "indicator_value": "Low"
+    }, 
+    {
+        "input_data": "Sentinel 2 L2A", 
+        "reference_value": "9", 
         "reference_time": "2019-04-17T07:58:08", 
         "color_code": "RED", 
         "time": "2020-01-29T11:06:48", 
@@ -180,6 +191,17 @@
         "reference_value": "9", 
         "reference_time": "2019-04-01T10:54:37", 
         "color_code": "RED", 
+        "time": "2020-04-25T10:56:54", 
+        "eo_sensor": "Sentinel 2", 
+        "data_provider": "EMSS", 
+        "measurement_value": "2", 
+        "indicator_value": "Low"
+    }, 
+    {
+        "input_data": "Sentinel 2 L2A", 
+        "reference_value": "9", 
+        "reference_time": "2019-04-01T10:54:37", 
+        "color_code": "RED", 
         "time": "2020-05-05T10:56:56", 
         "eo_sensor": "Sentinel-2", 
         "data_provider": "EMSS", 
@@ -272,6 +294,28 @@
         "eo_sensor": "Sentinel-2", 
         "data_provider": "EMSS", 
         "measurement_value": "3", 
+        "indicator_value": "Low"
+    }, 
+    {
+        "input_data": "Sentinel 2 L2A", 
+        "reference_value": "9", 
+        "reference_time": "2019-04-01T10:54:37", 
+        "color_code": "RED", 
+        "time": "2020-06-22T11:07:02", 
+        "eo_sensor": "Sentinel 2", 
+        "data_provider": "EMSS", 
+        "measurement_value": "2", 
+        "indicator_value": "Low"
+    }, 
+    {
+        "input_data": "Sentinel 2 L2A", 
+        "reference_value": "9", 
+        "reference_time": "2019-04-01T10:54:37", 
+        "color_code": "RED", 
+        "time": "2020-06-24T10:57:02", 
+        "eo_sensor": "Sentinel 2", 
+        "data_provider": "EMSS", 
+        "measurement_value": "5", 
         "indicator_value": "Low"
     }
 ]

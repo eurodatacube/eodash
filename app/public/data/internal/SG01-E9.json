@@ -1,6 +1,17 @@
 [
     {
-        "input_data": "industry_sg", 
+        "input_data": "industry", 
+        "reference_value": "", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-01-07T00:00:00", 
+        "eo_sensor": "Sentinel-1", 
+        "data_provider": "JAXA", 
+        "measurement_value": "1.0", 
+        "indicator_value": "1.0"
+    }, 
+    {
+        "input_data": "industry", 
         "reference_value": "", 
         "reference_time": "", 
         "color_code": "BLUE", 
@@ -11,7 +22,7 @@
         "indicator_value": "0.998249453"
     }, 
     {
-        "input_data": "industry_sg", 
+        "input_data": "industry", 
         "reference_value": "", 
         "reference_time": "", 
         "color_code": "BLUE", 
@@ -22,7 +33,7 @@
         "indicator_value": "1.094091904"
     }, 
     {
-        "input_data": "industry_sg", 
+        "input_data": "industry", 
         "reference_value": "", 
         "reference_time": "", 
         "color_code": "BLUE", 
@@ -33,7 +44,7 @@
         "indicator_value": "1.094967177"
     }, 
     {
-        "input_data": "industry_sg", 
+        "input_data": "industry", 
         "reference_value": "", 
         "reference_time": "", 
         "color_code": "BLUE", 
@@ -44,7 +55,7 @@
         "indicator_value": "0.99059081"
     }, 
     {
-        "input_data": "industry_sg", 
+        "input_data": "industry", 
         "reference_value": "", 
         "reference_time": "", 
         "color_code": "BLUE", 
@@ -55,7 +66,7 @@
         "indicator_value": "0.954485777"
     }, 
     {
-        "input_data": "industry_sg", 
+        "input_data": "industry", 
         "reference_value": "", 
         "reference_time": "", 
         "color_code": "BLUE", 
@@ -66,7 +77,7 @@
         "indicator_value": "0.85536105"
     }, 
     {
-        "input_data": "industry_sg", 
+        "input_data": "industry", 
         "reference_value": "", 
         "reference_time": "", 
         "color_code": "BLUE", 
@@ -77,7 +88,7 @@
         "indicator_value": "0.659080963"
     }, 
     {
-        "input_data": "industry_sg", 
+        "input_data": "industry", 
         "reference_value": "", 
         "reference_time": "", 
         "color_code": "BLUE", 
@@ -86,5 +97,27 @@
         "data_provider": "JAXA", 
         "measurement_value": "0.751859956", 
         "indicator_value": "0.751859956"
+    }, 
+    {
+        "input_data": "industry", 
+        "reference_value": "", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-06-11T00:00:00", 
+        "eo_sensor": "Sentinel-1", 
+        "data_provider": "JAXA", 
+        "measurement_value": "0.454266958", 
+        "indicator_value": "0.454266958"
+    }, 
+    {
+        "input_data": "industry", 
+        "reference_value": "", 
+        "reference_time": "", 
+        "color_code": "BLUE", 
+        "time": "2020-06-23T00:00:00", 
+        "eo_sensor": "Sentinel-1", 
+        "data_provider": "JAXA", 
+        "measurement_value": "0.518161926", 
+        "indicator_value": "0.518161926"
     }
 ]
