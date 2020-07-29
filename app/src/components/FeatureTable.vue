@@ -77,9 +77,9 @@ export default {
       return [...new Set([array].flat(1))];
     },
     getClass(item) {
-      return this.baseConfig.indicatorsDefinition[
-        item.properties.indicatorObject.indicator
-      ].class;
+      const code = item.properties.indicatorObject['Indicator code'];
+      const validClass = typeof this.baseConfig.indicatorsDefinition[code] !== 'undefined' ? this.baseConfig.indicatorsDefinition[code].class : this.baseConfig.indicatorsDefinition.d.class;
+      return validClass;
     },
 
     getIndicatorLabel(poi) {
@@ -88,7 +88,7 @@ export default {
         if (Object.prototype.hasOwnProperty.call(poi, 'lastIndicatorValue')
           && poi.lastIndicatorValue !== '') {
           const lastValue = poi.lastIndicatorValue;
-          if (poi.indicator === 'E10a1') {
+          if (['E10a1', 'E10a5', 'E10a8'].includes(poi.indicator)) {
             if (lastValue !== '') {
               const percVal = Number((lastValue * 100).toPrecision(4));
               if (percVal > 0) {
@@ -96,6 +96,10 @@ export default {
               } else {
                 text = `${percVal}%`;
               }
+            } else if (poi.indicator === 'E10a3') {
+              text = 'multiple';
+            } else {
+              text = lastValue;
             }
           } else if (poi.indicator === 'E10a3') {
             text = 'multiple';
@@ -113,7 +117,7 @@ export default {
       return this.baseConfig.indicatorsDefinition[code];
     },
     openFeature(feature) {
-      if (feature.indicatorObject.indicator !== 'd') {
+      if (!feature.indicatorObject.dummy) {
         this.$store.commit(
           'indicators/SET_SELECTED_INDICATOR',
           feature.indicatorObject,

@@ -3,7 +3,6 @@
     ref="map"
     style="height: 100%; width: 100%; background: #cad2d3; z-index: 1;"
     :options="defaultMapOptions"
-    :bounds="mapDefaults.bounds"
     :maxZoom="mapDefaults.maxMapZoom"
     :minZoom="mapDefaults.minMapZoom"
     @update:zoom="zoomUpdated"
@@ -30,6 +29,13 @@
       :geojson="indicator.subAoi"
       :pane="shadowPane"
       :optionsStyle="subAoiStyle('data')"
+      >
+      </l-geo-json>
+      <l-geo-json
+        ref="featureJsonData"
+        :geojson="featureJson.data"
+        :options="featureOptions('data')"
+        :pane="shadowPane"
       >
       </l-geo-json>
       <l-circle-marker
@@ -95,6 +101,14 @@
         :optionsStyle="subAoiStyle('compare')"
       >
       </l-geo-json>
+      <l-geo-json
+        ref="featureJsonCompare"
+        :visible="enableCompare"
+        :geojson="featureJson.compare"
+        :options="featureOptions('compare')"
+        :pane="markerPane"
+      >
+      </l-geo-json>
       <l-circle-marker
         v-if="showAoi"
         :lat-lng="aoi"
@@ -129,13 +143,25 @@
       @click.stop=""
       @dblclick.stop=""
     >
+      <h3 :class="`brand-${appConfig.id}`"
+        v-if="enableCompare && indicator.compareDisplay && indicator.compareDisplay.mapLabel"
+        style="position:absolute; z-index:1000; right: 10px; bottom: 45%;
+        background: rgba(255, 255, 255, 0.4); font-size: 16px;">
+          {{indicator.display.mapLabel}}
+      </h3>
+      <h3 :class="`brand-${appConfig.id}`"
+        v-if="enableCompare && indicator.compareDisplay && indicator.display.mapLabel"
+        style="position:absolute; z-index:1000; left: 10px; bottom: 45%;
+        background: rgba(255, 255, 255, 0.4); font-size: 16px;">
+          {{indicator.compareDisplay.mapLabel}}
+      </h3>
       <v-row
         class="justify-center align-center timeSelection"
-        :class="enableCompare && 'mr-5 ml-0'"
+        :class="enableCompare && !indicator.compareDisplay && 'mr-5 ml-0'"
         style="position: absolute; bottom: 30px; z-index: 1000; width: auto; max-width: 100%;"
       >
         <v-col
-          v-if="enableCompare"
+          v-if="enableCompare && !indicator.compareDisplay"
           cols="6"
           class="pr-0"
         >
@@ -166,7 +192,7 @@
           ></v-select>
         </v-col>
         <v-col
-          :cols="enableCompare ? 6 : 12"
+          :cols="enableCompare && !indicator.compareDisplay ? 6 : 12"
         >
           <v-select
             outlined
@@ -216,7 +242,9 @@ import {
   mapState,
   mapGetters,
 } from 'vuex';
-import { geoJson, latLngBounds, latLng } from 'leaflet';
+import {
+  geoJson, latLngBounds, latLng, Util,
+} from 'leaflet';
 import {
   LMap, LTileLayer, LWMSTileLayer, LGeoJson, LCircleMarker,
   LControlLayers, LControlAttribution, LControlZoom, LLayerGroup,
@@ -268,6 +296,16 @@ export default {
       compareLayerTime: null,
       dataLayerIndex: 0,
       compareLayerIndex: 0,
+      featureJson: {
+        data: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        compare: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+      },
     };
   },
   computed: {
@@ -328,6 +366,10 @@ export default {
       if (this.compareLayerTime !== null) {
         returnTime = this.compareLayerTime;
       }
+      if (this.indicator.compareDisplay) {
+        // shared time on both layers in case of compareDisplay being set
+        returnTime = this.dataLayerTime;
+      }
       return returnTime;
     },
     aoi() {
@@ -343,7 +385,7 @@ export default {
     this.compareLayerTime = { value: this.getInitialCompareTime() };
     this.$nextTick(() => {
       const layerButtons = document.querySelectorAll('.leaflet-control-layers-toggle');
-      layerButtons.forEach((lB) => lB.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${this.appConfig.branding.primaryColor}" width="32px" height="32px"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>`);
+      layerButtons.forEach((lB) => lB.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${this.appConfig.branding.primaryColor}" width="32px" height="32px"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>`); // eslint-disable-line
 
       this.$refs.subaoiLayer.mapObject.bindTooltip('Reference area', {
         direction: 'top',
@@ -384,9 +426,10 @@ export default {
       // add A/B slider
       this.slider = L.control.sideBySide(this.$refs.compareLayers.mapObject.getLayers(), this.$refs.dataLayers.mapObject.getLayers()); // eslint-disable-line
       this.onResize();
+      this.fetchFeatures('data');
       setTimeout(() => {
         this.flyToBounds();
-      }, 1);
+      }, 100);
     });
   },
   methods: {
@@ -407,6 +450,30 @@ export default {
       if (this.map) {
         this.map._onResize();
       }
+    },
+    featureOptions(side) {
+      return {
+        onEachFeature: function onEachFeature(feature, layer) {
+          // if featuresParameters available, show only properties from mapping, otherwise dump all
+          const allowedParams = this.shLayerConfig(side).featuresParameters;
+          const allKeys = Object.keys(feature.properties);
+          let tooltip = '';
+          for (let i = 0; i < allKeys.length; i++) {
+            if (!allowedParams || (typeof allowedParams === 'object' && Object.keys(allowedParams).includes(allKeys[i]))
+              || (Array.isArray(allowedParams) && allowedParams.includes(allKeys[i]))) {
+              tooltip += `<span><b>${allKeys[i]}</b>: ${feature.properties[allKeys[i]]}</span><br>`;
+            }
+          }
+          if (tooltip !== '') {
+            layer.bindTooltip(tooltip);
+          }
+        }.bind(this),
+        style: {
+          color: 'red',
+          weight: 2,
+          fillOpacity: 0,
+        },
+      };
     },
     getColorCode(side) {
       const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
@@ -444,11 +511,13 @@ export default {
       if (this.layerNameMapping.hasOwnProperty(inputData)) { // eslint-disable-line
         return this.layerNameMapping[inputData];
       }
-      return null;
+      return {};
     },
     layerDisplay(side) {
       // if display not specified (global layers), suspect SIN layer
-      return this.indicator.display ? this.indicator.display : {
+      // first check if special compare layer configured
+      const displayTmp = side === 'compare' && this.indicator.compareDisplay ? this.indicator.compareDisplay : this.indicator.display;
+      return displayTmp || {
         ...this.baseConfig.defaultWMSDisplay,
         ...this.shLayerConfig(side),
         name: this.indicator.description,
@@ -466,7 +535,7 @@ export default {
         // limit user movement around map
         this.map.setMaxBounds(boundsMax);
         if (this.indicatorsDefinition[this.indicator.indicator].largeSubAoi) {
-          this.map.setMinZoom(7);
+          this.map.setMinZoom(2);
         } else {
           this.map.setMinZoom(13);
         }
@@ -476,15 +545,19 @@ export default {
         const boundsMax = latLngBounds(cornerMax1, cornerMax2);
         this.map.setZoom(18);
         this.map.panTo(this.aoi);
-        // might need tweaking further on
-        this.map.setMinZoom(14);
+        if (this.indicatorsDefinition[this.indicator['Indicator code']].largeSubAoi) {
+          this.map.setMinZoom(2);
+        } else {
+          // might need tweaking further on
+          this.map.setMinZoom(14);
+        }
         // limit user movement around map
         this.map.setMaxBounds(boundsMax);
       } else {
         // zoom to default bbox from config
         this.map.setMinZoom(this.mapDefaults.minMapZoom);
         this.map.setMaxBounds(null);
-        this.map.flyToBounds(latLngBounds(this.mapDefaults.bounds));
+        this.map.fitBounds(latLngBounds(this.mapDefaults.bounds));
       }
     },
     getTimeLabel(time) {
@@ -519,12 +592,12 @@ export default {
       }
       if (time !== null) {
         // time as is gets automatically injected to WMS query OR xyz url {time} template
-        if (typeof time.value !== 'undefined') {
-          additionalSettings.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
-            ? sourceOptionsObj.dateFormatFunction(time.value) : time.value;
-        } else {
-          additionalSettings.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
-            ? sourceOptionsObj.dateFormatFunction(time) : time;
+        const fixTime = time.value || time;
+        additionalSettings.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
+          ? sourceOptionsObj.dateFormatFunction(fixTime) : fixTime;
+        if (sourceOptionsObj.featuresUrl) {
+          additionalSettings.featuresTime = typeof sourceOptionsObj.featuresDateFormatFunction === 'function'
+            ? sourceOptionsObj.featuresDateFormatFunction(fixTime) : fixTime;
         }
       }
       return additionalSettings;
@@ -544,6 +617,15 @@ export default {
       this.$nextTick(() => {
         this.slider.setRightLayers(this.$refs.dataLayers.mapObject.getLayers());
       });
+      if (this.indicator.compareDisplay) {
+        // shared time on both layers in case of compareDisplay being set
+        this.compareLayerTime = this.dataLayerTime;
+        this.compareLayerIndex = newIndex;
+        this.refreshLayer('compare');
+        this.$nextTick(() => {
+          this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
+        });
+      }
     },
     compareLayerTimeSelection(payload) {
       // Different object returned either by arrow use or by dropdown use
@@ -613,7 +695,7 @@ export default {
     },
     refreshLayer(side) {
       // compare(left) or data(right)
-      if (side === 'compare') {
+      if (side === 'compare' || this.indicator.compareDisplay) {
         if (this.layerDisplay('compare').protocol === 'WMS') {
           this.$refs.compareLayer.mapObject
             .setParams(this.layerOptions(this.currentCompareTime, this.layerDisplay('compare')));
@@ -621,9 +703,11 @@ export default {
           this.$refs.compareLayer.mapObject
             .setUrl(this.layerDisplay('compare').url);
         }
+        this.fetchFeatures('compare');
         // redraw
         this.compareLayerKey = Math.random();
-      } else if (side === 'data') {
+      }
+      if (side === 'data') {
         if (this.layerDisplay('data').protocol === 'WMS') {
           this.$refs.dataLayer.mapObject
             .setParams(this.layerOptions(this.currentTime, this.layerDisplay('data')));
@@ -631,8 +715,34 @@ export default {
           this.$refs.dataLayer.mapObject
             .setUrl(this.layerDisplay('data').url);
         }
+        this.fetchFeatures('data');
         // redraw
         this.dataLayerKey = Math.random();
+      }
+    },
+    fetchFeatures(side) {
+      const urlTemplate = this.layerDisplay(side).featuresUrl;
+      if (urlTemplate) {
+        const options = this.layerOptions(side === 'compare' ? this.currentCompareTime : this.currentTime,
+          this.layerDisplay(side));
+        const url = Util.template(urlTemplate, options);
+        fetch(url)
+          .then((r) => r.json())
+          .then((data) => {
+            this.featureJson[side] = data;
+          })
+          .catch((error) => {
+            console.log(error);
+            this.featureJson[side] = {
+              type: 'FeatureCollection',
+              features: [],
+            };
+          });
+      } else {
+        this.featureJson[side] = {
+          type: 'FeatureCollection',
+          features: [],
+        };
       }
     },
   },
@@ -644,6 +754,7 @@ export default {
           this.map.removeLayer(this.$refs.compareLayers.mapObject);
         }
       } else {
+        this.fetchFeatures('compare');
         this.map.addLayer(this.$refs.compareLayers.mapObject);
         this.$nextTick(() => {
           this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
@@ -655,11 +766,19 @@ export default {
     indicator() {
       this.dataLayerTime = { value: this.indicator.time[this.indicator.time.length - 1] };
       this.dataLayerIndex = this.indicator.time.length - 1;
-      this.compareLayerTime = { value: this.getInitialCompareTime() };
-      this.compareLayerIndex = 0;
+      if (this.indicator.compareDisplay) {
+        this.compareLayerTime = this.dataLayerTime;
+        this.compareLayerIndex = this.dataLayerIndex;
+      } else {
+        this.compareLayerTime = { value: this.getInitialCompareTime() };
+        this.compareLayerIndex = 0;
+      }
       this.$nextTick(() => {
         // first nextTick to update layer correctly if was switch from wms <-> xyz
         this.refreshLayer('data');
+        if (this.disableCompareButton) {
+          this.enableCompare = false;
+        }
         if (this.slider) {
           this.refreshLayer('compare');
         }

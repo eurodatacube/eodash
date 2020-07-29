@@ -168,6 +168,7 @@ const actions = {
     */
     commit('ADD_NEW_FEATURES', allFeatures);
   },
+
   loadEOXEndpoint({ rootState, commit }, { url, endPointIdx }) {
     return fetch(url).then((r) => r.json())
       .then((data) => {
@@ -371,6 +372,7 @@ const actions = {
         return features;
       });
   },
+
   loadDummyLocations({ rootState }) {
     return new Promise((resolve) => {
       this._vm.$papa.parse(rootState.config.appConfig.displayDummyLocations, {
