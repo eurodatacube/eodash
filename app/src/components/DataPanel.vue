@@ -43,8 +43,8 @@
           cols="12"
           class="py-0 my-0"
         >
-          <small v-if="indicatorObject && indicatorObject['Update Frequency']">
-            This data is updated: {{ indicatorObject['Update Frequency'] }}
+          <small v-if="indicatorObject && indicatorObject.updateFrequency">
+            This data is updated: {{ indicatorObject.updateFrequency }}
           </small>
         </v-col>
         <v-col
@@ -171,7 +171,9 @@ export default {
       return ['all'].includes(this.indicatorObject.country) || Array.isArray(this.indicatorObject.country);
     },
     externalData() {
-      const dataFromDefinition = this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].externalData;
+      const dataFromDefinition = this.baseConfig.indicatorsDefinition[
+        this.indicatorObject.indicator
+      ].externalData;
       const dataFromIndicator = this.indicatorObject.externalData;
       if (dataFromDefinition) {
         return dataFromDefinition;
@@ -182,7 +184,8 @@ export default {
       return null;
     },
     eodataEnabled() {
-      const lastInputData = (this.indicatorObject && this.indicatorObject.inputData) ? this.indicatorObject.inputData[this.indicatorObject.inputData.length - 1] : null;
+      const lastInputData = (this.indicatorObject && this.indicatorObject.inputData)
+        ? this.indicatorObject.inputData[this.indicatorObject.inputData.length - 1] : null;
       // search configuration mapping if layer is configured
       return lastInputData ? this.layerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
     },

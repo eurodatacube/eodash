@@ -545,7 +545,7 @@ export default {
         const boundsMax = latLngBounds(cornerMax1, cornerMax2);
         this.map.setZoom(18);
         this.map.panTo(this.aoi);
-        if (this.indicatorsDefinition[this.indicator['Indicator code']].largeSubAoi) {
+        if (this.indicatorsDefinition[this.indicator.indicator].largeSubAoi) {
           this.map.setMinZoom(2);
         } else {
           // might need tweaking further on

@@ -97,15 +97,15 @@
         </v-btn>
         <v-toolbar-title v-if="$store.state.indicators.selectedIndicator"
           :class="$store.state.indicators.selectedIndicator.description ===
-            $store.state.indicators.selectedIndicator['Indicator Name'] && 'preventEllipsis'"
+            $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
         >
-          {{ $store.state.indicators.selectedIndicator['City'] }},
+          {{ $store.state.indicators.selectedIndicator.city }},
           {{ $store.state.indicators.selectedIndicator.description }}
           <div v-if="
             $store.state.indicators.selectedIndicator.description !==
-            $store.state.indicators.selectedIndicator['Indicator Name']"
+            $store.state.indicators.selectedIndicator.indicatorName"
             class="subheading" style="font-size: 0.8em">
-            {{ $store.state.indicators.selectedIndicator['Indicator Name'] }}
+            {{ $store.state.indicators.selectedIndicator.indicatorName }}
           </div>
         </v-toolbar-title>
       </v-toolbar>
@@ -129,7 +129,7 @@
       <v-toolbar dark color="primary">
         <v-toolbar-title style="overflow: unset; white-space: pre-wrap;"
           v-if="$store.state.indicators.selectedIndicator"
-        >{{ $store.state.indicators.selectedIndicator['City'] }},
+        >{{ $store.state.indicators.selectedIndicator.city }},
           {{ $store.state.indicators.selectedIndicator.description }}
         </v-toolbar-title>
         <v-toolbar-title v-else class="text-capitalize">
@@ -155,10 +155,10 @@
         <h4 v-if="
             ($store.state.indicators.selectedIndicator && (
               $store.state.indicators.selectedIndicator.description !==
-              $store.state.indicators.selectedIndicator['Indicator Name']))"
+              $store.state.indicators.selectedIndicator.indicatorName))"
           class="px-4 py-2"
         >
-          {{ $store.state.indicators.selectedIndicator['Indicator Name'] }}
+          {{ $store.state.indicators.selectedIndicator.indicatorName }}
         </h4>
         <data-panel
           v-if="$store.state.indicators.selectedIndicator"

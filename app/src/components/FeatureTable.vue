@@ -77,7 +77,7 @@ export default {
       return [...new Set([array].flat(1))];
     },
     getClass(item) {
-      const code = item.properties.indicatorObject['Indicator code'];
+      const code = item.properties.indicatorObject.indicator;
       const validClass = typeof this.baseConfig.indicatorsDefinition[code] !== 'undefined' ? this.baseConfig.indicatorsDefinition[code].class : this.baseConfig.indicatorsDefinition.d.class;
       return validClass;
     },

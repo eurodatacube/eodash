@@ -64,23 +64,25 @@ array_data_tri = {
     "data_provider": "Data Provider"
 }
 
-cm = trilat_map
-cm_arr = array_data_tri
-
-# Load main poi overview file
-with open(poi_input_file) as json_file:
-    # array with combined unique keys "aoi_id-indicator_code"
-    poi_data = json.load(json_file)
-    # create dict using unique key
+def generateData(mapping, array_mapping, output_folder, input_json=None):
+    cm = mapping
+    cm_arr = array_mapping
     poi_dict = {}
-    # for poi in poi_data:
-    #     pkey = "%s-%s"%(poi["aoi_id"], poi["indicator_code"])
-    #     if pkey in poi_dict:
-    #         # Overwrite data?
-    #         print("Duplicate key found, overwriting data")
-    #         poi_dict[pkey] = poi
-    #     else:
-    #         poi_dict[pkey] = poi
+    
+    # Load main poi overview file
+    if input_json != None:
+        with open(input_json) as json_file:
+            # array with combined unique keys "aoi_id-indicator_code"
+            # create dict using unique key
+            poi_data = json.load(json_file)
+            for poi in poi_data:
+                pkey = "%s-%s"%(poi["aoi_id"], poi["indicator_code"])
+                if pkey in poi_dict:
+                    # Overwrite data?
+                    print("Duplicate key found, overwriting data")
+                    poi_dict[pkey] = poi
+                else:
+                    poi_dict[pkey] = poi
 
     # Load all csv from a path
     for file in os.listdir("../trilateral/"):
@@ -163,16 +165,19 @@ with open(poi_input_file) as json_file:
         poi_dict[poi_key]["lastReferenceValue"] = curr_data[-1]["reference_value"]
         # "updateFrequency": line[cm["updateFrequency"]],
 
-    def date_converter(o):
-        if isinstance(o, datetime.datetime):
-            return o.strftime('%Y-%m-%dT%H:%M:%S')
+    def date_converter(obj):
+        if isinstance(obj, datetime.datetime):
+            return obj.strftime('%Y-%m-%dT%H:%M:%S')
 
     output_dict = {key: {subkey: poi_dict[key][subkey] for subkey in outKeys} for key in poi_dict}
     with open(poi_output_file, "w") as fp:
         json.dump(output_dict.values(), fp, indent=4, default=date_converter)
 
     # Generate all unique location json files
-    outFolder = "./"
     for poi_key in poi_dict:
-        with open("%s%s.json"%(outFolder, poi_key), "w") as fp:
+        with open("%s%s.json"%(output_folder, poi_key), "w") as fp:
             json.dump(poi_dict[poi_key]["poi_data"], fp, indent=4, default=date_converter)
+
+
+
+generateData(trilat_map, array_data_tri, './')
