@@ -22,17 +22,6 @@
         "indicator_value": "Normal"
     }, 
     {
-        "input_data": "Sentinel 2 L2A", 
-        "reference_value": "4", 
-        "reference_time": "2019-04-01T10:54:37", 
-        "color_code": "BLUE", 
-        "time": "2020-05-05T10:56:56", 
-        "eo_sensor": "Sentinel 2", 
-        "data_provider": "EMSS", 
-        "measurement_value": "4", 
-        "indicator_value": "Normal"
-    }, 
-    {
         "input_data": "[NEW] Pleiades 16bit", 
         "reference_value": "4", 
         "reference_time": "2019-04-01T10:54:37", 
@@ -42,6 +31,17 @@
         "data_provider": "EMSS", 
         "measurement_value": "2", 
         "indicator_value": "Low"
+    }, 
+    {
+        "input_data": "Sentinel 2 L2A", 
+        "reference_value": "4", 
+        "reference_time": "2019-04-01T10:54:37", 
+        "color_code": "BLUE", 
+        "time": "2020-05-05T10:56:56", 
+        "eo_sensor": "Sentinel 2", 
+        "data_provider": "EMSS", 
+        "measurement_value": "4", 
+        "indicator_value": "Normal"
     }, 
     {
         "input_data": "[NEW] Pleiades 16bit", 

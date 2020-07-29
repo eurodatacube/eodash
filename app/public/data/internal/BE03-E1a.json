@@ -3,23 +3,23 @@
         "input_data": "[NEW] Planetscope COVID-19", 
         "reference_value": "11", 
         "reference_time": "2019-04-11T10:41:54", 
-        "color_code": "GREEN", 
-        "time": "2020-02-12T10:47:30", 
-        "eo_sensor": "Planetscope", 
-        "data_provider": "EMSS", 
-        "measurement_value": "15", 
-        "indicator_value": "High"
-    }, 
-    {
-        "input_data": "[NEW] Planetscope COVID-19", 
-        "reference_value": "11", 
-        "reference_time": "2019-04-11T10:41:54", 
         "color_code": "BLUE", 
         "time": "2020-02-06T10:07:59", 
         "eo_sensor": "Planetscope", 
         "data_provider": "EMSS", 
         "measurement_value": "14", 
         "indicator_value": "Normal"
+    }, 
+    {
+        "input_data": "[NEW] Planetscope COVID-19", 
+        "reference_value": "11", 
+        "reference_time": "2019-04-11T10:41:54", 
+        "color_code": "GREEN", 
+        "time": "2020-02-12T10:47:30", 
+        "eo_sensor": "Planetscope", 
+        "data_provider": "EMSS", 
+        "measurement_value": "15", 
+        "indicator_value": "High"
     }, 
     {
         "input_data": "[NEW] Pleiades 16bit", 
