@@ -263,7 +263,7 @@ export default {
           indicator.referenceValue.forEach((item, i) => {
             const t = indicator.time[i];
             data.push({ y: measurement[i], t });
-            if (item !== 'NaN') {
+            if (!Number.isNaN(item) && item !== 'NaN') {
               const obj = JSON.parse(item);
               // [median,std,max,min,percentage valid pixels]
               median.push({ y: obj[0], t });
@@ -343,7 +343,7 @@ export default {
           let referenceValue = [];
           const stdDev = [];
           indicator.referenceValue.forEach((item) => {
-            if (item !== 'NaN') {
+            if (!Number.isNaN(item) && item !== 'NaN') {
               const obj = JSON.parse(item.replace(/,/g, '.').replace(' ', ','));
               if (obj[0] !== -999 && obj[1] !== -999) {
                 referenceValue.push(obj[0]);
