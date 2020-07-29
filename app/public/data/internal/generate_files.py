@@ -7,9 +7,6 @@ import csv
 import os
 import datetime
 
-poi_input_file = "pois.json"
-poi_output_file = "pois_trilateral.json"
-
 geoDB_map = {
     "aoi": "aoi",
     "aoiID": "aoi_id",
@@ -31,7 +28,7 @@ geoDB_map = {
     "updateFrequency": "update frequency",
 }
 
-trilat_map = {
+default_map = {
     "aoi": "AOI",
     "aoiID": "AOI_ID",
     "lastColorCode": "Color code",
@@ -52,7 +49,7 @@ trilat_map = {
     "updateFrequency": "Update Frequency",
 }
 
-array_data_tri = {
+default_array_map = {
     "eo_sensor": "EO Sensor",
     "input_data": "Input Data",
     "time": "Time",
@@ -64,11 +61,11 @@ array_data_tri = {
     "data_provider": "Data Provider"
 }
 
-def generateData(mapping, array_mapping, output_folder, input_json=None):
+def generateData(mapping, array_mapping, input_folder, output_file, output_folder, input_json=None):
     cm = mapping
     cm_arr = array_mapping
     poi_dict = {}
-    
+
     # Load main poi overview file
     if input_json != None:
         with open(input_json) as json_file:
@@ -85,11 +82,11 @@ def generateData(mapping, array_mapping, output_folder, input_json=None):
                     poi_dict[pkey] = poi
 
     # Load all csv from a path
-    for file in os.listdir("../trilateral/"):
+    for file in os.listdir(input_folder):
         if (file.endswith(".csv") and
                 file != "Regional_Global_Indicator_Countries.csv" and
                 file != "dummylocations.csv"):
-            file_path = (os.path.join("../trilateral/", file))
+            file_path = (os.path.join(input_folder, file))
             try:
                 with open(file_path) as csvfile:
                     reader = csv.DictReader(csvfile, delimiter=",", quotechar='"')
@@ -170,7 +167,7 @@ def generateData(mapping, array_mapping, output_folder, input_json=None):
             return obj.strftime('%Y-%m-%dT%H:%M:%S')
 
     output_dict = {key: {subkey: poi_dict[key][subkey] for subkey in outKeys} for key in poi_dict}
-    with open(poi_output_file, "w") as fp:
+    with open(output_file, "w") as fp:
         json.dump(output_dict.values(), fp, indent=4, default=date_converter)
 
     # Generate all unique location json files
@@ -178,6 +175,22 @@ def generateData(mapping, array_mapping, output_folder, input_json=None):
         with open("%s%s.json"%(output_folder, poi_key), "w") as fp:
             json.dump(poi_dict[poi_key]["poi_data"], fp, indent=4, default=date_converter)
 
+print("Generating data for trilateral")
+# Generate for trilateral
+generateData(
+    default_map,
+    default_array_map,
+    "../trilateral/",
+    "pois_trilateral.json",
+    "./"
+)
 
-
-generateData(trilat_map, array_data_tri, './')
+print("Generating data for eodashboard")
+# Generate for eodash
+generateData(
+    default_map,
+    default_array_map,
+    "../../eodash-data/data/",
+    "pois_eodash.json",
+    "../../eodash-data/internal/"
+)
