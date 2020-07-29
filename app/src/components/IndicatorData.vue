@@ -976,8 +976,8 @@ export default {
         defaultSettings.geo = {
           radiusScale: {
             display: true,
-            range: [3, 20],
-            size: [3, 20],
+            range: [5, 20],
+            size: [5, 20],
           },
         };
 
@@ -1002,8 +1002,8 @@ export default {
               const refV = Number(obj.referenceValue);
               const labelOutput = [
                 `${obj.time.toISODate()}:`,
-                `${refV} % harvested`,
-                `${(100 - refV)} % not harvested`,
+                `${(refV).toPrecision(4)} % harvested`,
+                `${(100 - refV).toPrecision(4)} % not harvested`,
                 `Area: ${obj.value} ha`,
               ];
               return labelOutput;
