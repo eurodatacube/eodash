@@ -190,6 +190,7 @@ const actions = {
           indicatorName: 'indicatorName',
           lastReferenceValue: 'lastReferenceValue',
           lastReferenceTime: 'lastReferenceTime',
+          yAxis: 'yAxis',
         };
 
         commit('ADD_RESULTS_COUNT', {
