@@ -194,7 +194,7 @@ export default {
                       // If key already there add element to array
                       if (['time', 'referenceTime'].includes(key)) {
                         val = DateTime.fromISO(val);
-                      } else if (['measurement', 'referenceValue'].includes(key)) {
+                      } else if (['measurement'].includes(key)) {
                         val = Number(val);
                       }
                       parsedData[key].push(val);
@@ -202,7 +202,7 @@ export default {
                       // If not then set element as array
                       if (['time', 'referenceTime'].includes(key)) {
                         val = DateTime.fromISO(val);
-                      } else if (['measurement', 'referenceValue'].includes(key)) {
+                      } else if (['measurement'].includes(key)) {
                         val = Number(val);
                       }
                       parsedData[key] = [val];
