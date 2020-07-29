@@ -5,6 +5,7 @@ Helper script to create location and data separation
 import json
 import csv
 import os
+import datetime
 
 poi_input_file = "pois.json"
 poi_output_file = "pois_trilateral.json"
@@ -98,7 +99,7 @@ with open(poi_input_file) as json_file:
                             poi_dict[poi_key]["poi_data"].append({
                                 "eo_sensor": line[cm_arr["eo_sensor"]],
                                 "input_data": line[cm_arr["input_data"]],
-                                "time": line[cm_arr["time"]],
+                                "time": datetime.datetime.strptime(line[cm_arr["time"]], '%Y-%m-%dT%H:%M:%S'),
                                 "measurement_value": line[cm_arr["measurement_value"]],
                                 "reference_time": line[cm_arr["reference_time"]],
                                 "reference_value": line[cm_arr["reference_value"]],
@@ -123,7 +124,7 @@ with open(poi_input_file) as json_file:
                                 "poi_data": [{
                                     "eo_sensor": line[cm_arr["eo_sensor"]],
                                     "input_data": line[cm_arr["input_data"]],
-                                    "time": line[cm_arr["time"]],
+                                    "time": datetime.datetime.strptime(line[cm_arr["time"]], '%Y-%m-%dT%H:%M:%S'),
                                     "measurement_value": line[cm_arr["measurement_value"]],
                                     "color_code": line[cm_arr["color_code"]],
                                     "indicator_value": line[cm_arr["indicator_value"]],
@@ -131,15 +132,6 @@ with open(poi_input_file) as json_file:
                                     "reference_value": line[cm_arr["reference_value"]],
                                     "data_provider": line[cm_arr["data_provider"]],
                                 }],
-                                # TODO: just saving first value we encounter here
-                                # need to sort by time and use latest value
-                                "lastTime": line[cm_arr["time"]],
-                                "lastMeasurement": line[cm_arr["measurement_value"]],
-                                "lastColorCode": line[cm_arr["color_code"]],
-                                "lastIndicatorValue": line[cm_arr["indicator_value"]],
-                                "lastReferenceTime": line[cm_arr["reference_time"]],
-                                "lastReferenceValue": line[cm_arr["reference_value"]],
-                                # "updateFrequency": line[cm["updateFrequency"]],
                             }
             except Exception as e:
                 print("WARNING: Issue reading file %s; file will be skipped for generation"%(file_path))
@@ -156,12 +148,31 @@ with open(poi_input_file) as json_file:
         "lastReferenceValue",
     ]
 
+    # Sort poi_data by time
+    for poi_key in poi_dict:
+        poi_dict[poi_key]["poi_data"] = sorted(
+            poi_dict[poi_key]["poi_data"], key=lambda k: k["time"]
+        )
+        curr_data = poi_dict[poi_key]["poi_data"]
+        # Save latest values for unique poi list
+        poi_dict[poi_key]["lastTime"] = curr_data[-1]["time"]
+        poi_dict[poi_key]["lastMeasurement"] = curr_data[-1]["measurement_value"]
+        poi_dict[poi_key]["lastColorCode"] = curr_data[-1]["color_code"]
+        poi_dict[poi_key]["lastIndicatorValue"] = curr_data[-1]["indicator_value"]
+        poi_dict[poi_key]["lastReferenceTime"] = curr_data[-1]["reference_time"]
+        poi_dict[poi_key]["lastReferenceValue"] = curr_data[-1]["reference_value"]
+        # "updateFrequency": line[cm["updateFrequency"]],
+
+    def date_converter(o):
+        if isinstance(o, datetime.datetime):
+            return o.strftime('%Y-%m-%dT%H:%M:%S')
+
     output_dict = {key: {subkey: poi_dict[key][subkey] for subkey in outKeys} for key in poi_dict}
     with open(poi_output_file, "w") as fp:
-        json.dump(output_dict.values(), fp, indent=4)
+        json.dump(output_dict.values(), fp, indent=4, default=date_converter)
 
     # Generate all unique location json files
     outFolder = "./"
     for poi_key in poi_dict:
         with open("%s%s.json"%(outFolder, poi_key), "w") as fp:
-            json.dump(poi_dict[poi_key]["poi_data"], fp, indent=4)
+            json.dump(poi_dict[poi_key]["poi_data"], fp, indent=4, default=date_converter)
