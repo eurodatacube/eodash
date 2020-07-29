@@ -5,6 +5,7 @@ import { latLng, latLngBounds } from 'leaflet';
 import { DateTime } from 'luxon';
 import { shTimeFunction } from '@/utils';
 
+export const dataPath = './data/internal/';
 export const dataEndpoints = [
   {
     type: 'eox',

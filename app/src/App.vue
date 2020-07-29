@@ -75,7 +75,10 @@ export default {
     countDownTime: null,
   }),
   computed: {
-    ...mapState('config', ['appConfig']),
+    ...mapState('config', [
+      'appConfig',
+      'baseConfig',
+    ]),
     ...mapGetters('features', [
       'getIndicators',
       'getCountryItems',
@@ -91,6 +94,7 @@ export default {
     }
   },
   mounted() {
+    const { baseConfig } = this;
     // Listen for features added, and select if poi in query
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'features/ADD_NEW_FEATURES') {
@@ -159,7 +163,8 @@ export default {
             this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', indicatorObject);
           } else {
             // Start loading of data from indicator
-            const url = `./data/internal/${[mutation.payload.aoiID, mutation.payload.indicator].join('-')}.json`;
+
+            const url = `${baseConfig.dataPath}${[mutation.payload.aoiID, mutation.payload.indicator].join('-')}.json`;
             // Fetch location data
             fetch(url).then((r) => r.json())
               .then((data) => {

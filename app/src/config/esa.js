@@ -5,10 +5,11 @@ import { DateTime } from 'luxon';
 import { latLng, latLngBounds } from 'leaflet';
 import { shTimeFunction } from '@/utils';
 
+export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [
   {
-    type: 'geodb',
-    provider: './data/internal/pois.json',
+    type: 'eox',
+    provider: './data/internal/pois_eodash.json',
   },
 ];
 
