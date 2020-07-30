@@ -158,7 +158,7 @@ const actions = {
       }
     }
     // Then, add the hardcoded features
-    // allFeatures = allFeatures.concat(rootState.config.baseConfig.globalIndicators);
+    allFeatures = allFeatures.concat(rootState.config.baseConfig.globalIndicators);
     /*
     // Then, if applicable, add the dummy features
     if (rootState.config.appConfig.displayDummyLocations) {

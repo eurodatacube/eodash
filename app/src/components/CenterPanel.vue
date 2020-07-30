@@ -63,7 +63,7 @@
                 </div>
               </v-list-item-icon>
              <v-list-item-content>
-              {{feature.properties.indicatorObject["Indicator Name"]}}
+              {{feature.properties.indicatorObject.indicatorName}}
               </v-list-item-content>
              </v-list-item>
             </v-list>
