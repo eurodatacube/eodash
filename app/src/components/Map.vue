@@ -55,7 +55,7 @@
         :weight="2"
         :dashArray="currentSelected === feature.id ? '5' : '0'"
         :fill="true"
-        :fillColor="getIndicatorColor(feature.properties.indicatorObject.lastColorCode)"
+        :fillColor="getColor(feature.properties.indicatorObject)"
         :fillOpacity="1"
         @click="selectIndicator(feature)"
       >
@@ -281,6 +281,20 @@ export default {
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
       }
+    },
+    getColor(indObj) {
+      let colorCode;
+      if (indObj) {
+        if (Object.prototype.hasOwnProperty.call(indObj, 'lastColorCode')
+          && indObj.lastColorCode !== '') {
+          colorCode = indObj.lastColorCode;
+        }
+        if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')
+          && ['N1', 'N3b'].includes(indObj.indicator)) {
+          colorCode = 'BLUE';
+        }
+      }
+      return this.getIndicatorColor(colorCode);
     },
     formatLabel(feature) {
       let label = '(coming soon)';

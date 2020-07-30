@@ -67,7 +67,7 @@ export default {
         type: this.getClass(f),
         indicator: f.properties.indicatorObject.description,
         indicatorValue: this.getIndicatorLabel(f.properties.indicatorObject),
-        indicatorColor: this.getIndicatorColor(f.properties.indicatorObject.lastColorCode),
+        indicatorColor: this.getColor(f.properties.indicatorObject),
         indicatorObject: f.properties.indicatorObject,
       }));
     },
@@ -81,7 +81,23 @@ export default {
       const validClass = typeof this.baseConfig.indicatorsDefinition[code] !== 'undefined' ? this.baseConfig.indicatorsDefinition[code].class : this.baseConfig.indicatorsDefinition.d.class;
       return validClass;
     },
-
+    getColor(indObj) {
+      let color;
+      if (indObj) {
+        if (Object.prototype.hasOwnProperty.call(indObj, 'lastColorCode')
+          && indObj.lastColorCode !== '') {
+          color = this.getIndicatorColor(indObj.lastColorCode);
+        }
+        if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')
+          && ['N1', 'N3b'].includes(indObj.indicator)) {
+          color = this.getIndicatorColor('BLUE');
+          if (indObj.aoi === null) {
+            color = 'black';
+          }
+        }
+      }
+      return color;
+    },
     getIndicatorLabel(poi) {
       let text = 'coming soon';
       if (poi) {
