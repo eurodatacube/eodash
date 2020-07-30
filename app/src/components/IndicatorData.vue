@@ -89,9 +89,11 @@ export default {
   },
   watch: {
     indicatorObject() {
-      this.dataLayerIndex = this.indicatorObject.Time.length - 1;
-      const d = this.indicatorObject.Time[this.dataLayerIndex];
-      this.dataLayerTime = d.toFormat('dd. MMM');
+      if (this.indicatorObject.Time) {
+        this.dataLayerIndex = this.indicatorObject.Time.length - 1;
+        const d = this.indicatorObject.Time[this.dataLayerIndex];
+        this.dataLayerTime = d.toFormat('dd. MMM');
+      }
     },
   },
   computed: {
@@ -527,7 +529,7 @@ export default {
       }
       return dataCollection;
     },
-     indicatorObject() {
+    indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
     },
   },
