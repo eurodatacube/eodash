@@ -89,9 +89,9 @@ export default {
   },
   watch: {
     indicatorObject() {
-      if (this.indicatorObject.Time) {
-        this.dataLayerIndex = this.indicatorObject.Time.length - 1;
-        const d = this.indicatorObject.Time[this.dataLayerIndex];
+      if (this.indicatorObject.time) {
+        this.dataLayerIndex = this.indicatorObject.time.length - 1;
+        const d = this.indicatorObject.time[this.dataLayerIndex];
         this.dataLayerTime = d.toFormat('dd. MMM');
       }
     },
