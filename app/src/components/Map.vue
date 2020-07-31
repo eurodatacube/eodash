@@ -201,13 +201,13 @@ export default {
       let fillColor;
       if (this.$store.state.indicators.selectedIndicator) {
         currentIndicator = this.$store.state.indicators.selectedIndicator;
-        fillColor = this.getIndicatorColor(currentIndicator.lastColorCode);
-        // Special case for E10a3
-        if (currentIndicator.indicator === 'E10a3') {
+        fillColor = this.getLastValue(currentIndicator).color;
+        // Special case for E10a3 and E10a8
+        if (['E10a3', 'E10a8'].includes(currentIndicator.indicator)) {
           fillColor = this.getIndicatorColor('BLUE');
         }
       } else {
-        fillColor = '#000';
+        fillColor = this.getLastValue(currentIndicator).color;
       }
       return {
         color: '#fff',
@@ -303,14 +303,14 @@ export default {
         if (Object.prototype.hasOwnProperty.call(indicatorObject, 'lastIndicatorValue')) {
           label = 'Latest value: ';
           const indVal = indicatorObject.lastIndicatorValue;
-          if (indicatorObject.indicator === 'E10a1') {
+          if (['E10a1', 'E10a5'].includes(indicatorObject.indicator)) {
             const percVal = Number((indVal * 100).toPrecision(4));
             if (percVal > 0) {
               label += `+${percVal}%`;
             } else {
               label += `${percVal}%`;
             }
-          } else if (indicatorObject.indicator === 'E10a3') {
+          } else if (['E10a3', 'E10a8'].includes(indicatorObject.indicator)) {
             label += 'multiple';
           } else if (['N1', 'N3b'].includes(indicatorObject.indicator)) {
             label = '';

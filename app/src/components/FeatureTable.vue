@@ -112,12 +112,12 @@ export default {
               } else {
                 text = `${percVal}%`;
               }
-            } else if (poi.indicator === 'E10a3') {
+            } else if (['E10a3', 'E10a8'].includes(poi.indicator)) {
               text = 'multiple';
             } else {
               text = lastValue;
             }
-          } else if (poi.indicator === 'E10a3') {
+          } else if (['E10a3', 'E10a8'].includes(poi.indicator)) {
             text = 'multiple';
           } else {
             text = lastValue;
