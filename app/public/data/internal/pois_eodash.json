@@ -8,15 +8,15 @@
         "country": "DE", 
         "region": "", 
         "aoiID": "DE1", 
-        "lastMeasurement": "7", 
+        "lastMeasurement": "9", 
         "subAoi": "MULTIPOLYGON(((9.939569415581868 53.521739860594451,9.955065148602122 53.518585813892436,9.954787053743511 53.516500102452845,9.959784585296562 53.515092396839023,9.967183715790474 53.513409795735448,9.966514989710848 53.509958306292226,9.966536561519868 53.507218686546665,9.967373001402381 53.505603161576929,9.968761968949762 53.504295529923397,9.972856046556235 53.502337492807257,9.981902613444769 53.501662320736088,9.987761966187286 53.497909701563913,9.986708599402114 53.486256831502949,9.987301118218772 53.475986505347528,9.966989200696315 53.479787888181271,9.965050777270516 53.476741794226449,9.967463916637326 53.476425316932435,9.965468906527164 53.471720912445804,9.952296656836772 53.473856952936138,9.957280751314219 53.482579118271666,9.946778552236744 53.489521249865255,9.950249618033537 53.495039354465284,9.941613869283437 53.497247359220275,9.951050633217411 53.504117526549202,9.952830666959356 53.504740538358881,9.949893611285148 53.511237661516979,9.940014424017354 53.517467779613789,9.939569415581868 53.521739860594451)))", 
         "aoi": "53.532123,9.944467", 
-        "lastColorCode": "RED", 
-        "lastIndicatorValue": "Low", 
+        "lastColorCode": "BLUE", 
+        "lastIndicatorValue": "Normal", 
         "indicatorName": "Changes in Ships traffic at dedicated piers", 
         "lastReferenceValue": "12", 
         "lastReferenceTime": "2019-04-15T10:02:59", 
-        "lastTime": "2020-06-01T10:45:59"
+        "lastTime": "2020-06-26T10:46:03"
     }, 
     {
         "city": "Hallefors - area 2", 
@@ -293,7 +293,7 @@
         "country": "IT", 
         "region": "", 
         "aoiID": "IT3", 
-        "lastMeasurement": "0", 
+        "lastMeasurement": "1", 
         "subAoi": "MULTIPOLYGON(((8.863167  44.404538,8.86803 44.41335,8.87792 44.41187,8.87193 44.40258,8.863167 44.404538)))", 
         "aoi": "44.408142,8.885851", 
         "lastColorCode": "RED", 
@@ -301,7 +301,7 @@
         "indicatorName": "Changes in Ships traffic at dedicated piers", 
         "lastReferenceValue": "3", 
         "lastReferenceTime": "2019-04-15T10:14:40", 
-        "lastTime": "2020-06-25T10:28:34"
+        "lastTime": "2020-07-25T10:28:34"
     }, 
     {
         "city": "Hunedoara", 
@@ -548,7 +548,7 @@
         "indicatorName": "Changes in Ships traffic at dedicated piers", 
         "lastReferenceValue": "6", 
         "lastReferenceTime": "2018-05-19T13:11:07", 
-        "lastTime": "2020-06-30T11:06:19"
+        "lastTime": "2020-07-17T18:12:35"
     }, 
     {
         "city": "Amsterdam", 
@@ -654,15 +654,15 @@
         "country": "PL", 
         "region": "", 
         "aoiID": "PL1", 
-        "lastMeasurement": "2", 
+        "lastMeasurement": "0", 
         "subAoi": "MULTIPOLYGON (((18.518994 54.533727,18.526106 54.536151,18.527008 54.535296,18.520112 54.532776,18.518994 54.533727)))", 
         "aoi": "54.537859,18.510887", 
-        "lastColorCode": "BLUE", 
-        "lastIndicatorValue": "Normal", 
+        "lastColorCode": "RED", 
+        "lastIndicatorValue": "Low", 
         "indicatorName": "Changes in Ships traffic at dedicated piers", 
         "lastReferenceValue": "1", 
         "lastReferenceTime": "2019-04-17T07:58:08", 
-        "lastTime": "2020-06-26T09:55:35"
+        "lastTime": "2020-07-26T09:55:35"
     }, 
     {
         "city": "Hofors - area 2", 
@@ -711,7 +711,7 @@
         "country": "FR", 
         "region": "", 
         "aoiID": "FR3", 
-        "lastMeasurement": "5", 
+        "lastMeasurement": "2", 
         "subAoi": "MULTIPOLYGON((( 2.270661375504422 51.038298938000395,2.268888903883398 51.039074257792066,2.266962304295329 51.043532094823057,2.331850178421496 51.054917014035453,2.333699714026043 51.051041611041519,2.270661375504422 51.038298938000395)))", 
         "aoi": "51.036138,2.285374", 
         "lastColorCode": "RED", 
@@ -719,7 +719,7 @@
         "indicatorName": "Changes in Ships traffic at dedicated piers", 
         "lastReferenceValue": "9", 
         "lastReferenceTime": "2019-04-01T10:54:37", 
-        "lastTime": "2020-06-24T10:57:02"
+        "lastTime": "2020-07-29T10:57:05"
     }, 
     {
         "city": "Oxelosund - area 2", 
@@ -787,7 +787,7 @@
         "country": "FR", 
         "region": "", 
         "aoiID": "FR3", 
-        "lastMeasurement": "1", 
+        "lastMeasurement": "2", 
         "subAoi": "MULTIPOLYGON((( 2.356226479709541  51.045968278962626,2.36206407646139  51.045931941545078,2.367304427340938  51.04490236953567,2.362083342457271  51.039899535112085,2.358114547305849  51.040686941970286,2.355301711907268  51.041244175660474,2.352103556591073  51.04247975689217,2.356226479709541  51.045968278962626),(2.165661697954653  51.014368190811602,2.175217631911476  51.015410561789892,2.181536878560342  51.002609593246213,2.171942412611758  51.001251707538017,2.165661697954653  51.014368190811602 )))", 
         "aoi": "51.036138,2.285374", 
         "lastColorCode": "RED", 
@@ -795,7 +795,7 @@
         "indicatorName": "Changes in Ships traffic at dedicated piers", 
         "lastReferenceValue": "4", 
         "lastReferenceTime": "2019-04-01T10:54:37", 
-        "lastTime": "2020-06-24T10:57:02"
+        "lastTime": "2020-07-29T10:57:05"
     }, 
     {
         "city": "Rome", 
@@ -844,7 +844,7 @@
         "country": "BE", 
         "region": "", 
         "aoiID": "BE3", 
-        "lastMeasurement": "3", 
+        "lastMeasurement": "1", 
         "subAoi": "MULTIPOLYGON(((3.780155765130778  51.145542873991388,3.782082364718848  51.147960093059488,3.799306165036186  51.144430910709275,3.798323599246271  51.141953070090757,3.780155765130778  51.145542873991388),(3.777217700758973  51.140901458504821,3.787178220629291  51.138350898716531,3.786561708761108  51.13768603770464,3.776736050861957  51.140139931712056,3.777217700758973  51.140901458504821)))", 
         "aoi": "51.091559,3.740081", 
         "lastColorCode": "RED", 
@@ -852,7 +852,7 @@
         "indicatorName": "Changes in Ships traffic at dedicated piers", 
         "lastReferenceValue": "7", 
         "lastReferenceTime": "2019-04-11T10:41:54", 
-        "lastTime": "2020-05-30T10:57:01"
+        "lastTime": "2020-06-24T10:56:58"
     }, 
     {
         "city": "Emden", 
@@ -920,15 +920,15 @@
         "country": "FR", 
         "region": "Rhone Delta", 
         "aoiID": "FR11", 
-        "lastMeasurement": "-0.871", 
+        "lastMeasurement": "-1.256", 
         "subAoi": "", 
         "aoi": "43.4,4.94", 
         "lastColorCode": "GREEN", 
         "lastIndicatorValue": "LOW", 
         "indicatorName": "Chlorophyll-a concentration at AAOT fixed station", 
-        "lastReferenceValue": "[-0.469 0.595]", 
-        "lastReferenceTime": "2020-07-04T00:00:00", 
-        "lastTime": "2020-07-04T00:00:00"
+        "lastReferenceValue": "[-1.099 0.559]", 
+        "lastReferenceTime": "2020-07-18T00:00:00", 
+        "lastTime": "2020-07-18T00:00:00"
     }, 
     {
         "city": "Hallefors - area 3", 
@@ -996,15 +996,15 @@
         "country": "IT", 
         "region": "North Adriatic Sea", 
         "aoiID": "IT6", 
-        "lastMeasurement": "0.190", 
+        "lastMeasurement": "0.284", 
         "subAoi": "", 
         "aoi": "45.314247,12.508055", 
         "lastColorCode": "GREEN", 
         "lastIndicatorValue": "LOW", 
         "indicatorName": " Chlorophyll-a concentration at AAOT fixed station", 
-        "lastReferenceValue": "[0.440 0.325]", 
-        "lastReferenceTime": "2020-07-04T00:00:00", 
-        "lastTime": "2020-07-04T00:00:00"
+        "lastReferenceValue": "[0.345 0.241]", 
+        "lastReferenceTime": "2020-07-18T00:00:00", 
+        "lastTime": "2020-07-18T00:00:00"
     }, 
     {
         "city": "Gdynia", 
@@ -1015,15 +1015,15 @@
         "country": "PL", 
         "region": "", 
         "aoiID": "PL1", 
-        "lastMeasurement": "1", 
+        "lastMeasurement": "0", 
         "subAoi": "MULTIPOLYGON (((18.523397 54.530202,18.537926 54.53531,18.540027 54.533308,18.525748 54.52804,18.523397 54.530202)))", 
         "aoi": "54.537859,18.510887", 
-        "lastColorCode": "BLUE", 
-        "lastIndicatorValue": "Normal", 
+        "lastColorCode": "RED", 
+        "lastIndicatorValue": "Low", 
         "indicatorName": "Changes in Ships traffic at dedicated piers", 
         "lastReferenceValue": "1", 
-        "lastReferenceTime": "2019-04-05T10:22:42", 
-        "lastTime": "2020-04-11T10:11:20"
+        "lastReferenceTime": "2019-05-19T10:22:42", 
+        "lastTime": "2020-07-26T09:55:35"
     }, 
     {
         "city": "Katowice", 
@@ -1167,15 +1167,15 @@
         "country": "PL", 
         "region": "", 
         "aoiID": "PL1", 
-        "lastMeasurement": "4", 
+        "lastMeasurement": "2", 
         "subAoi": "MULTIPOLYGON(((18.530851705205265  54.526979862947975,18.529007413528525  54.529060602275578,18.544116418418746  54.534806280191582,18.559840187201214  54.534924504016985,18.560218503442595  54.525372018922077,18.54773406747697  54.52470996549966,18.546693697813165  54.532181711266965,18.530851705205265  54.526979862947975)))", 
         "aoi": "54.537859,18.510887", 
-        "lastColorCode": "BLUE", 
-        "lastIndicatorValue": "Normal", 
+        "lastColorCode": "RED", 
+        "lastIndicatorValue": "Low", 
         "indicatorName": "Changes in Ships traffic at dedicated piers", 
         "lastReferenceValue": "5", 
         "lastReferenceTime": "2019-04-19T10:14:56", 
-        "lastTime": "2020-07-04T10:05:35"
+        "lastTime": "2020-07-26T09:55:35"
     }, 
     {
         "city": "Boxholm - area 4", 
@@ -1262,15 +1262,15 @@
         "country": "IT", 
         "region": "", 
         "aoiID": "IT3", 
-        "lastMeasurement": "2", 
+        "lastMeasurement": "4", 
         "subAoi": "MULTIPOLYGON(((8.82694 44.42538,8.83468 44.42456,8.83631 44.41847,8.82835 44.41839,8.82648 44.42028,8.82694 44.42538)))", 
         "aoi": "44.408142,8.885851", 
-        "lastColorCode": "RED", 
-        "lastIndicatorValue": "Low", 
+        "lastColorCode": "BLUE", 
+        "lastIndicatorValue": "Normal", 
         "indicatorName": "Changes in Ships traffic at dedicated piers", 
         "lastReferenceValue": "4", 
         "lastReferenceTime": "2019-04-15T10:14:40", 
-        "lastTime": "2020-03-21T10:26:47"
+        "lastTime": "2020-07-25T10:28:34"
     }, 
     {
         "city": "Craiova", 
@@ -1319,14 +1319,14 @@
         "country": "IT", 
         "region": "", 
         "aoiID": "IT3", 
-        "lastMeasurement": "2", 
+        "lastMeasurement": "1", 
         "subAoi": "MULTIPOLYGON(((8.902547493590813  44.399292943922283,8.902607936221024  44.403342600146473,8.905418518525872  44.403312378831366,8.905388297210767  44.404007469078799,8.909256625544321  44.403735477242847,8.910163264997498  44.397932984742518,8.902547493590813  44.399292943922283)))", 
         "aoi": "44.408142,8.885851", 
-        "lastColorCode": "BLUE", 
-        "lastIndicatorValue": "Normal", 
+        "lastColorCode": "RED", 
+        "lastIndicatorValue": "Low", 
         "indicatorName": "Changes in Ships traffic at dedicated piers", 
         "lastReferenceValue": "2", 
         "lastReferenceTime": "2019-04-15T10:14:40", 
-        "lastTime": "2020-07-05T10:28:34"
+        "lastTime": "2020-07-25T10:28:34"
     }
 ]
