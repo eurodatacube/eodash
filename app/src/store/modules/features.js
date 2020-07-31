@@ -159,13 +159,12 @@ const actions = {
     }
     // Then, add the hardcoded features
     allFeatures = allFeatures.concat(rootState.config.baseConfig.globalIndicators);
-    /*
+
     // Then, if applicable, add the dummy features
     if (rootState.config.appConfig.displayDummyLocations) {
       const dummyFeatures = await this.dispatch('features/loadDummyLocations');
       allFeatures = allFeatures.concat(dummyFeatures);
     }
-    */
     commit('ADD_NEW_FEATURES', allFeatures);
   },
 
@@ -382,14 +381,16 @@ const actions = {
         header: true,
         skipEmptyLines: true,
         delimiter: ',',
-        complete: (data) => {
-          if (data[0].AOI) { // only continue if AOI column is present
+        complete: (result) => {
+          const { data } = result;
+          if (data[0].aoi) { // only continue if AOI column is present
             const featureObjs = {};
             for (let rr = 0; rr < data.length; rr += 1) {
-              const uniqueKey = `${data[rr].AOI}_d`;
+              const uniqueKey = `${data[rr].aoi}_d`;
               featureObjs[uniqueKey] = data[rr];
               featureObjs[uniqueKey].indicator = 'd';
               featureObjs[uniqueKey].indicatorValue = [''];
+              featureObjs[uniqueKey].dummyFeature = true;
             }
             const features = [];
             const keys = Object.keys(featureObjs);

@@ -159,7 +159,9 @@ export default {
       }
 
       if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
-        if (mutation.payload) {
+        if (mutation.payload && !( // If dummy feature selected ignore
+          Object.prototype.hasOwnProperty.call(mutation.payload, 'dummyFeature')
+          && mutation.payload.dummyFeature)) {
           // Check if data was already loaded
           if (Object.prototype.hasOwnProperty.call(mutation.payload, 'dataLoadFinished')
             && mutation.payload.dataLoadFinished) {
