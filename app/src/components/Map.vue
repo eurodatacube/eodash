@@ -202,8 +202,8 @@ export default {
       if (this.$store.state.indicators.selectedIndicator) {
         currentIndicator = this.$store.state.indicators.selectedIndicator;
         fillColor = this.getLastValue(currentIndicator).color;
-        // Special case for E10a3
-        if (currentIndicator['Indicator code'] === 'E10a3') {
+        // Special case for E10a3 and E10a8
+        if (['E10a3', 'E10a8'].includes(currentIndicator['Indicator code'])) {
           fillColor = this.getIndicatorColor('BLUE');
         }
       } else {
@@ -299,7 +299,7 @@ export default {
             } else {
               label += `${percVal}%`;
             }
-          } else if (indicatorObject['Indicator code'] === 'E10a3') {
+          } else if (['E10a3', 'E10a8'].includes(indicatorObject['Indicator code'])) {
             label += 'multiple';
           } else {
             label += indVal;
