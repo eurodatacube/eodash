@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%; height: 100%;"
     v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10c', 'N1', 'N3', 'N3b']
-      .includes(indicatorObject['Indicator code'])">
+      .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
         class="fill-height"
@@ -454,7 +454,7 @@ export default {
           let features = measurement.map((meas, i) => {
             // Find correct NUTS ID Shape
             const geom = nutsFeatures.find((f) => (
-              f.properties.NUTS_ID === indicator['Site Name'][i]));
+              f.properties.NUTS_ID === indicator.siteName[i]));
             let output;
             if (geom) {
               if (currIDs.indexOf(indicator.siteName[i]) === -1) {
