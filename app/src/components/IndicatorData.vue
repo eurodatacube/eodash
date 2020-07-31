@@ -95,9 +95,11 @@ export default {
   },
   watch: {
     indicatorObject() {
-      this.dataLayerIndex = this.indicatorObject.Time.length - 1;
-      const d = this.indicatorObject.Time[this.dataLayerIndex];
-      this.dataLayerTime = d.toFormat('dd. MMM');
+      if (this.indicatorObject.time) {
+        this.dataLayerIndex = this.indicatorObject.time.length - 1;
+        const d = this.indicatorObject.time[this.dataLayerIndex];
+        this.dataLayerTime = d.toFormat('dd. MMM');
+      }
     },
   },
   computed: {
