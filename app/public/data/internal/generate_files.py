@@ -62,6 +62,14 @@ default_array_map = {
     "data_provider": "Data Provider"
 }
 
+def try_parsing_date(text):
+    for fmt in ('%Y-%m-%dT%H:%M:%S', '%Y-%m-%d'):
+        try:
+            return datetime.datetime.strptime(text, fmt)
+        except ValueError:
+            pass
+    raise ValueError('time not provided in valid format')
+
 def generateData(mapping, array_mapping, input_folder, output_file, output_folder, input_json=None):
     cm = mapping
     cm_arr = array_mapping
@@ -99,7 +107,7 @@ def generateData(mapping, array_mapping, input_folder, output_file, output_folde
                             poi_dict[poi_key]["poi_data"].append({
                                 "eo_sensor": line[cm_arr["eo_sensor"]],
                                 "input_data": line[cm_arr["input_data"]],
-                                "time": datetime.datetime.strptime(line[cm_arr["time"]], '%Y-%m-%dT%H:%M:%S'),
+                                "time": try_parsing_date(line[cm_arr["time"]]),
                                 "measurement_value": line[cm_arr["measurement_value"]],
                                 "reference_time": line[cm_arr["reference_time"]],
                                 "reference_value": line[cm_arr["reference_value"]],
@@ -125,7 +133,7 @@ def generateData(mapping, array_mapping, input_folder, output_file, output_folde
                                 "poi_data": [{
                                     "eo_sensor": line[cm_arr["eo_sensor"]],
                                     "input_data": line[cm_arr["input_data"]],
-                                    "time": datetime.datetime.strptime(line[cm_arr["time"]], '%Y-%m-%dT%H:%M:%S'),
+                                    "time": try_parsing_date(line[cm_arr["time"]]),
                                     "measurement_value": line[cm_arr["measurement_value"]],
                                     "color_code": line[cm_arr["color_code"]],
                                     "indicator_value": line[cm_arr["indicator_value"]],
