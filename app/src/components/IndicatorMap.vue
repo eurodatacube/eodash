@@ -146,13 +146,13 @@
       <h3 :class="`brand-${appConfig.id}`"
         v-if="enableCompare && indicator.compareDisplay && indicator.compareDisplay.mapLabel"
         style="position:absolute; z-index:1000; right: 10px; bottom: 45%;
-        background: rgba(255, 255, 255, 0.4); font-size: 16px;">
+        background: rgba(255, 255, 255, 0.4); font-size: 16px; pointer-events: none;">
           {{indicator.display.mapLabel}}
       </h3>
       <h3 :class="`brand-${appConfig.id}`"
         v-if="enableCompare && indicator.compareDisplay && indicator.display.mapLabel"
         style="position:absolute; z-index:1000; left: 10px; bottom: 45%;
-        background: rgba(255, 255, 255, 0.4); font-size: 16px;">
+        background: rgba(255, 255, 255, 0.4); font-size: 16px; pointer-events: none;">
           {{indicator.compareDisplay.mapLabel}}
       </h3>
       <v-row
