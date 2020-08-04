@@ -59,7 +59,8 @@ default_array_map = {
     "reference_value": "Reference value",
     "indicator_value": "Indicator Value",
     "color_code": "Color code",
-    "data_provider": "Data Provider"
+    "data_provider": "Data Provider",
+    "site_name_arr": "Site Name"
 }
 
 
@@ -106,7 +107,7 @@ def generateData(mapping, array_mapping, input_folder, output_file, output_folde
                         poi_key = "%s-%s" % (line[cm["aoiID"]], line[cm["indicator"]])
                         if poi_key in poi_dict:
                             # If key already saved we add the relevant data
-                            poi_dict[poi_key]["poi_data"].append({
+                            object_always_present = {
                                 "eo_sensor": line[cm_arr["eo_sensor"]],
                                 "input_data": line[cm_arr["input_data"]],
                                 "time": try_parsing_date(line[cm_arr["time"]]),
@@ -116,8 +117,24 @@ def generateData(mapping, array_mapping, input_folder, output_file, output_folde
                                 "indicator_value": line[cm_arr["indicator_value"]],
                                 "color_code": line[cm_arr["color_code"]],
                                 "data_provider": line[cm_arr["data_provider"]],
-                            })
+                            }
+                            if line[cm["indicator"]] in ["E10a3", "E10a8"]:
+                                object_always_present["site_name_arr"] = line[cm_arr["site_name_arr"]]
+                            poi_dict[poi_key]["poi_data"].append(object_always_present)
                         else:
+                            poi_data_always = [{
+                                "eo_sensor": line[cm_arr["eo_sensor"]],
+                                "input_data": line[cm_arr["input_data"]],
+                                "time": try_parsing_date(line[cm_arr["time"]]),
+                                "measurement_value": line[cm_arr["measurement_value"]],
+                                "color_code": line[cm_arr["color_code"]],
+                                "indicator_value": line[cm_arr["indicator_value"]],
+                                "reference_time": line[cm_arr["reference_time"]],
+                                "reference_value": line[cm_arr["reference_value"]],
+                                "data_provider": line[cm_arr["data_provider"]],
+                            }]
+                            if line[cm["indicator"]] in ["E10a3", "E10a8"]:
+                                poi_data_always[0]["site_name_arr"] = line[cm_arr["site_name_arr"]]
                             poi_dict[poi_key] = {
                                 # Unique poi data
                                 "aoi": line[cm["aoi"]],
@@ -132,17 +149,7 @@ def generateData(mapping, array_mapping, input_folder, output_file, output_folde
                                 "yAxis": line[cm["yAxis"]],
                                 "subAoi": line[cm["subAoi"]],
                                 # Actual data
-                                "poi_data": [{
-                                    "eo_sensor": line[cm_arr["eo_sensor"]],
-                                    "input_data": line[cm_arr["input_data"]],
-                                    "time": try_parsing_date(line[cm_arr["time"]]),
-                                    "measurement_value": line[cm_arr["measurement_value"]],
-                                    "color_code": line[cm_arr["color_code"]],
-                                    "indicator_value": line[cm_arr["indicator_value"]],
-                                    "reference_time": line[cm_arr["reference_time"]],
-                                    "reference_value": line[cm_arr["reference_value"]],
-                                    "data_provider": line[cm_arr["data_provider"]],
-                                }],
+                                "poi_data": poi_data_always,
                             }
             except Exception as e:
                 print("WARNING: Issue reading file %s; file will be skipped for generation" % (file_path))

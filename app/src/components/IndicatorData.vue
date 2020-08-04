@@ -134,7 +134,7 @@ export default {
         const { measurement } = indicator;
         const colors = [];
         const datasets = [];
-        if (['E10a1', 'E10a5', 'E10a8'].includes(indicatorCode)) {
+        if (['E10a1', 'E10a5'].includes(indicatorCode)) {
           const referenceValue = indicator.referenceValue.map(Number);
           for (let i = 0; i < indicator.time.length; i += 1) {
             if (!Number.isNaN(indicator.time[i].toMillis())) {
@@ -145,8 +145,8 @@ export default {
               labels.push(i);
             }
           }
-          const labelref = indicatorCode !== 'E10a8' ? '2019' : 'not harvested area [%]';
-          const labelmeas = indicatorCode !== 'E10a8' ? '2020' : 'harvested area [%]';
+          const labelref = '2019';
+          const labelmeas = '2020';
           datasets.push({
             indLabels: Array(indicator.indicatorValue.length).join('.').split('.'),
             label: labelref,

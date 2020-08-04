@@ -187,6 +187,7 @@ export default {
                   referenceTime: 'reference_time',
                   referenceValue: 'reference_value',
                   time: 'time',
+                  siteName: 'site_name_arr',
                 };
                 const parsedData = {};
                 for (let i = 0; i < data.length; i += 1) {
