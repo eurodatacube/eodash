@@ -67,19 +67,19 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'JP01-N2',
+        poi: 'ES41-E10a8',
         src: './data/trilateral/Slide1.png',
       },
       {
-        poi: 'NorthAdriaticESA-N3a2',
+        poi: 'NorthAdriaticJAXA-N3a2',
         src: './data/trilateral/Slide2.png',
       },
       {
-        poi: 'FR01-N1',
+        poi: 'US01-N1',
         src: './data/trilateral/Slide3.png',
       },
       {
-        poi: 'W2-N1',
+        poi: 'JP01-N5',
         src: './data/trilateral/Slide4.png',
       },
     ],
