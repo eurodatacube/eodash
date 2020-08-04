@@ -197,7 +197,11 @@ export default {
                       if (['time', 'referenceTime'].includes(key)) {
                         val = DateTime.fromISO(val);
                       } else if (['measurement'].includes(key)) {
-                        val = Number(val);
+                        if (val.length > 0) {
+                          val = Number(val);
+                        } else {
+                          val = Number.NaN;
+                        }
                       }
                       parsedData[key].push(val);
                     } else {
@@ -205,7 +209,11 @@ export default {
                       if (['time', 'referenceTime'].includes(key)) {
                         val = DateTime.fromISO(val);
                       } else if (['measurement'].includes(key)) {
-                        val = Number(val);
+                        if (val.length > 0) {
+                          val = Number(val);
+                        } else {
+                          val = Number.NaN;
+                        }
                       }
                       parsedData[key] = [val];
                     }
