@@ -72,7 +72,7 @@ def try_parsing_date(text):
     raise ValueError('time not provided in valid format')
 
 
-def generateData(mapping, array_mapping, input_folder, output_file, output_folder, input_json=None):
+def generateData(mapping, array_mapping, input_folder, output_file, output_folder, additional_files=[], input_json=None):
     cm = mapping
     cm_arr = array_mapping
     poi_dict = {}
@@ -91,13 +91,13 @@ def generateData(mapping, array_mapping, input_folder, output_file, output_folde
                     poi_dict[pkey] = poi
                 else:
                     poi_dict[pkey] = poi
-
+    file_paths = [os.path.join(input_folder, file) for file in os.listdir(input_folder)]
+    file_paths.extend(additional_files)
     # Load all csv from a path
-    for file in os.listdir(input_folder):
-        if (file.endswith(".csv") and
-                file != "Regional_Global_Indicator_Countries.csv" and
-                file != "dummylocations.csv"):
-            file_path = (os.path.join(input_folder, file))
+    for file_path in file_paths:
+        if (file_path.endswith(".csv")
+            and not file_path.endswith("Regional_Global_Indicator_Countries.csv")
+                and not file_path.endswith("dummylocations.csv")):
             try:
                 with open(file_path) as csvfile:
                     reader = csv.DictReader(csvfile, delimiter=",", quotechar='"')
@@ -195,7 +195,12 @@ generateData(
     default_array_map,
     "../trilateral/",
     "pois_trilateral.json",
-    "./"
+    "./",
+    ["../../eodash-data/data/E10a2.csv",
+        "../../eodash-data/data/E10a3.csv",
+        "../../eodash-data/data/E10a6.csv",
+        "../../eodash-data/data/E10a7.csv",
+        "../../eodash-data/data/E10a8.csv"]
 )
 
 print("Generating data for eodashboard")
