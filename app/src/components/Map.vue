@@ -275,7 +275,7 @@ export default {
     });
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'indicators/INDICATOR_LOAD_FINISHED') {
-        if (mutation.payload !== null && mutation.payload.AOI !== null) {
+        if (mutation.payload !== null && mutation.payload.aoi !== null) {
           this.currentSelected = mutation.payload.id;
           if (mutation.payload.subAoi) {
             this.subAoi = mutation.payload.subAoi;

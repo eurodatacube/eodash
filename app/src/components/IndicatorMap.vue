@@ -373,7 +373,7 @@ export default {
       return returnTime;
     },
     aoi() {
-      return this.indicator.AOI;
+      return this.indicator.aoi;
     },
     subAoi() {
       return this.indicator.subAoi;
