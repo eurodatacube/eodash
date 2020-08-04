@@ -62,6 +62,7 @@ default_array_map = {
     "data_provider": "Data Provider"
 }
 
+
 def try_parsing_date(text):
     for fmt in ('%Y-%m-%dT%H:%M:%S', '%Y-%m-%d'):
         try:
@@ -70,19 +71,20 @@ def try_parsing_date(text):
             pass
     raise ValueError('time not provided in valid format')
 
+
 def generateData(mapping, array_mapping, input_folder, output_file, output_folder, input_json=None):
     cm = mapping
     cm_arr = array_mapping
     poi_dict = {}
 
     # Load main poi overview file
-    if input_json != None:
+    if input_json is not None:
         with open(input_json) as json_file:
             # array with combined unique keys "aoi_id-indicator_code"
             # create dict using unique key
             poi_data = json.load(json_file)
             for poi in poi_data:
-                pkey = "%s-%s"%(poi["aoi_id"], poi["indicator_code"])
+                pkey = "%s-%s" % (poi["aoi_id"], poi["indicator_code"])
                 if pkey in poi_dict:
                     # Overwrite data?
                     print("Duplicate key found, overwriting data")
@@ -101,7 +103,7 @@ def generateData(mapping, array_mapping, input_folder, output_file, output_folde
                     reader = csv.DictReader(csvfile, delimiter=",", quotechar='"')
                     for line in reader:
                         # Aggregate data for unique pois and write unique data to poi_dict
-                        poi_key = "%s-%s"%(line[cm["aoiID"]], line[cm["indicator"]])
+                        poi_key = "%s-%s" % (line[cm["aoiID"]], line[cm["indicator"]])
                         if poi_key in poi_dict:
                             # If key already saved we add the relevant data
                             poi_dict[poi_key]["poi_data"].append({
@@ -143,8 +145,8 @@ def generateData(mapping, array_mapping, input_folder, output_file, output_folde
                                 }],
                             }
             except Exception as e:
-                print("WARNING: Issue reading file %s; file will be skipped for generation"%(file_path))
-                print("Exception: %s"%e)
+                print("WARNING: Issue reading file %s; file will be skipped for generation" % (file_path))
+                print("Exception: %s" % e)
 
     outKeys = [
         "aoi", "aoiID", "country", "indicator", "siteName", "city", "region",
