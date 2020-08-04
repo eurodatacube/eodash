@@ -180,12 +180,13 @@ def generateData(mapping, array_mapping, input_folder, output_file, output_folde
 
     output_dict = {key: {subkey: poi_dict[key][subkey] for subkey in outKeys} for key in poi_dict}
     with open(output_file, "w") as fp:
-        json.dump(output_dict.values(), fp, indent=4, default=date_converter, sort_keys=True)
+        json.dump(list(output_dict.values()), fp, indent=4, default=date_converter, sort_keys=True)
 
     # Generate all unique location json files
     for poi_key in poi_dict:
-        with open("%s%s.json"%(output_folder, poi_key), "w") as fp:
-            json.dump(poi_dict[poi_key]["poi_data"], fp, indent=4, default=date_converter, sort_keys=True)
+        with open("%s%s.json" % (output_folder, poi_key), "w") as gp:
+            json.dump(poi_dict[poi_key]["poi_data"], gp, indent=4, default=date_converter, sort_keys=True)
+
 
 print("Generating data for trilateral")
 # Generate for trilateral
