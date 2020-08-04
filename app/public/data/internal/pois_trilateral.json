@@ -133,25 +133,6 @@
         "yAxis": "Density per pixel"
     },
     {
-        "aoi": "45.314247, 12.508055",
-        "aoiID": "IT6",
-        "city": "Venice",
-        "country": "IT",
-        "description": "Water Quality Time Series",
-        "indicator": "N3",
-        "indicatorName": "Water quality",
-        "lastColorCode": "",
-        "lastIndicatorValue": "",
-        "lastMeasurement": "NaN",
-        "lastReferenceTime": "2020-05-20T00:00:00",
-        "lastReferenceValue": "[0.125 0.37]",
-        "lastTime": "2020-05-20T00:00:00",
-        "region": "North Adriatic Sea",
-        "siteName": "AAOT fixed station Venezia",
-        "subAoi": "",
-        "yAxis": "Chlorophyll-a concentration [mg m-3]"
-    },
-    {
         "aoi": "38.715,-121.944",
         "aoiID": "US06",
         "city": "Yolo",

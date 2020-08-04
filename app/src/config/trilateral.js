@@ -188,8 +188,6 @@ export const indicatorsDefinition = Object.freeze({
   N3: {
     indicator: 'Water Quality',
     class: 'environment',
-    // file: './data/trilateral/N3.csv',
-    // story: '/data/trilateral/N3',
   },
   N3b: {
     indicator: 'Chl-a concentration anomaly',
