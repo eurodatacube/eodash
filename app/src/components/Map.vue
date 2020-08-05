@@ -202,10 +202,6 @@ export default {
       if (this.$store.state.indicators.selectedIndicator) {
         currentIndicator = this.$store.state.indicators.selectedIndicator;
         fillColor = this.getColor(currentIndicator);
-        // Special case for E10a3 and E10a8
-        if (['E10a3', 'E10a8'].includes(currentIndicator.indicator)) {
-          fillColor = this.getIndicatorColor('BLUE');
-        }
       } else {
         fillColor = this.getIndicatorColor('');
       }
@@ -217,23 +213,6 @@ export default {
         fillOpacity: 0.5,
       };
     },
-  },
-  getColor(indObj) {
-    let color;
-    if (indObj) {
-      if (Object.prototype.hasOwnProperty.call(indObj, 'lastColorCode')
-        && indObj.lastColorCode !== '') {
-        color = this.getIndicatorColor(indObj.lastColorCode);
-      }
-      if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')
-        && ['E10a3', 'E10a8'].includes(indObj.indicator)) {
-        color = this.getIndicatorColor('BLUE');
-        if (indObj.aoi === null) {
-          color = 'black';
-        }
-      }
-    }
-    return color;
   },
   mounted() {
     this.$nextTick(() => {
@@ -307,7 +286,7 @@ export default {
           colorCode = indObj.lastColorCode;
         }
         if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')
-          && ['N1', 'N3b'].includes(indObj.indicator)) {
+          && ['N1', 'N3b', 'E10a3', 'E10a8'].includes(indObj.indicator)) {
           colorCode = 'BLUE';
         }
       }
