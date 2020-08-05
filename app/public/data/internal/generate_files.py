@@ -148,6 +148,7 @@ def generateData(mapping, array_mapping, input_folder, output_file, output_folde
                                 "indicatorName": line[cm["indicatorName"]],
                                 "yAxis": line[cm["yAxis"]],
                                 "subAoi": line[cm["subAoi"]],
+                                "updateFrequency": line[cm["updateFrequency"]],
                                 # Actual data
                                 "poi_data": poi_data_always,
                             }
@@ -164,6 +165,7 @@ def generateData(mapping, array_mapping, input_folder, output_file, output_folde
         "lastIndicatorValue",
         "lastReferenceTime",
         "lastReferenceValue",
+        "updateFrequency"
     ]
 
     # Sort poi_data by time
@@ -179,7 +181,6 @@ def generateData(mapping, array_mapping, input_folder, output_file, output_folde
         poi_dict[poi_key]["lastIndicatorValue"] = curr_data[-1]["indicator_value"]
         poi_dict[poi_key]["lastReferenceTime"] = curr_data[-1]["reference_time"]
         poi_dict[poi_key]["lastReferenceValue"] = curr_data[-1]["reference_value"]
-        # "updateFrequency": line[cm["updateFrequency"]],
 
     def date_converter(obj):
         if isinstance(obj, datetime.datetime):
