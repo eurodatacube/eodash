@@ -377,10 +377,12 @@ export const layerNameMapping = Object.freeze({
       };
       return mapping[eoID];
     },
-    featuresDateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-    featuresUrl: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/{site}/{featuresTime}.geojson',
-    featuresParameters: { // can also be a simple list
-      verified: {},
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+      url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/{site}/{featuresTime}.geojson',
+      parameters: { // can also be a simple list
+        verified: {},
+      },
     },
   },
   'SGLI L2 Reflectance 8-day composited': {
@@ -1090,7 +1092,7 @@ export const globalIndicators = [
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chla-nas-jaxa-{time}.tif&resampling_method=bilinear&bidx=1&rescale=0%2C255&color_map=rdbu_r',
           name: 'Water Quality Index',
-          legendUrl: './data/trilateral/WaterQuality_legend_trilateral_jaxa.png',
+          legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
         },
@@ -1212,7 +1214,7 @@ export const globalIndicators = [
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-tk-{time}.tif&resampling_method=bilinear&bidx=1&color_map=rdbu_r',
           name: 'Water Quality Index',
-          legendUrl: './data/trilateral/WaterQuality_legend_trilateral_jaxa.png',
+          legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
         },
