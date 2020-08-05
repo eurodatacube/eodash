@@ -365,10 +365,12 @@ export const layerNameMapping = Object.freeze({
       };
       return mapping[eoID];
     },
-    featuresDateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-    featuresUrl: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/{site}/{featuresTime}.geojson',
-    featuresParameters: { // can also be a simple list
-      verified: {},
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+      url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/{site}/{featuresTime}.geojson',
+      parameters: { // can also be a simple list
+        verified: {},
+      },
     },
   },
   'SGLI L2 Reflectance 8-day composited': {
@@ -478,7 +480,7 @@ const getFortnightIntervalDates = (start, end) => {
   while (currentDate <= stopDate) {
     dateArray.push([
       DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'),
-      DateTime.fromISO(currentDate).plus({ weeks: 2 }).toFormat('yyyy-MM-dd')
+      DateTime.fromISO(currentDate).plus({ weeks: 2 }).toFormat('yyyy-MM-dd'),
     ]);
     currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
   }
@@ -1175,7 +1177,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((139.34275817871094 35.049654646456474, 140.34809152322123 35.049654646456474, 140.34809152322123 35.93543243408203, 139.34275817871094 35.93543243408203, 139.34275817871094 35.049654646456474))').toJson(),
           }],
         },
-        Time: getWeeklyDates('2017-12-27', '2020-06-10').filter(item => !['2020-05-27', '2020-04-22', '2020-03-11', '2020-02-12', '2020-01-22', '2019-12-04', '2019-10-16', '2019-09-18', '2019-07-17', '2019-07-10', '2019-07-03', '2019-06-26', '2019-06-05', '2019-05-01', '2019-04-24', '2019-04-17', '2019-02-20', '2019-02-06', '2018-12-05', '2018-10-31', '2018-10-10', '2018-08-29', '2018-08-15', '2018-06-13', '2018-06-06', '2018-05-23', '2018-03-21', '2018-02-28', '2018-02-07', '2017-12-27'].includes(item)),
+        Time: getWeeklyDates('2017-12-27', '2020-06-10').filter((item) => !['2020-05-27', '2020-04-22', '2020-03-11', '2020-02-12', '2020-01-22', '2019-12-04', '2019-10-16', '2019-09-18', '2019-07-17', '2019-07-10', '2019-07-03', '2019-06-26', '2019-06-05', '2019-05-01', '2019-04-24', '2019-04-17', '2019-02-20', '2019-02-06', '2018-12-05', '2018-10-31', '2018-10-10', '2018-08-29', '2018-08-15', '2018-06-13', '2018-06-06', '2018-05-23', '2018-03-21', '2018-02-28', '2018-02-07', '2017-12-27'].includes(item)),
         'Input Data': [''],
         display: {
           protocol: 'xyz',

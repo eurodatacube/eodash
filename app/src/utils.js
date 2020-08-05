@@ -24,3 +24,16 @@ export function shTimeFunction(date) {
   // otherwise return single date with full format
   return `${dateObj.toFormat(defaultFormat)}/${dateObj.toFormat(defaultFormat)}`;
 }
+
+export function template(templateRe, str, data) {
+  return str.replace(templateRe, (stri, key) => {
+    let value = data[key];
+
+    if (value === undefined) {
+      throw new Error(`No value provided for variable ${stri}`);
+    } else if (typeof value === 'function') {
+      value = value(data);
+    }
+    return value;
+  });
+}
