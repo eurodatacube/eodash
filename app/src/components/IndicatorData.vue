@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%; height: 100%;"
-    v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10c', 'N1', 'N3', 'N3b']
+    v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10c', 'N1', 'N3', 'N3b']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -767,7 +767,7 @@ export default {
         },
       };
 
-      if (['E10a1', 'E10a5', 'E10a8'].includes(indicatorCode)) {
+      if (['E10a1', 'E10a5'].includes(indicatorCode)) {
         yAxes[0].ticks.beginAtZero = true;
         plugins = {
           datalabels: {
@@ -846,10 +846,6 @@ export default {
             },
           },
         };
-      }
-
-      if (['E10a8'].includes(indicatorCode)) {
-        yAxes[0].ticks.min = 0;
       }
 
       if (['N2'].includes(indicatorCode)) {
