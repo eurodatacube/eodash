@@ -243,8 +243,9 @@ import {
   mapGetters,
 } from 'vuex';
 import {
-  geoJson, latLngBounds, latLng, Util,
+  geoJson, latLngBounds, latLng, circleMarker,
 } from 'leaflet';
+import { template } from '@/utils';
 import {
   LMap, LTileLayer, LWMSTileLayer, LGeoJson, LCircleMarker,
   LControlLayers, LControlAttribution, LControlZoom, LLayerGroup,
@@ -331,6 +332,9 @@ export default {
     indicatorsDefinition() {
       return this.baseConfig.indicatorsDefinition;
     },
+    indDefinition() {
+      return this.indicatorsDefinition[this.indicator['Indicator code']];
+    },
     indicator() {
       return this.getIndicatorFilteredInputData;
     },
@@ -338,7 +342,7 @@ export default {
       return this.aoi && (!this.subAoi || this.subAoi.features.length === 0);
     },
     disableCompareButton() {
-      return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableCompare !== 'undefined') ? this.layerDisplay('data').disableCompare : this.indicatorsDefinition[this.indicator['Indicator code']].disableCompare;
+      return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableCompare !== 'undefined') ? this.layerDisplay('data').disableCompare : this.indDefinition.disableCompare;
     },
     arrayOfObjects() {
       const selectionOptions = [];
@@ -455,7 +459,7 @@ export default {
       return {
         onEachFeature: function onEachFeature(feature, layer) {
           // if featuresParameters available, show only properties from mapping, otherwise dump all
-          const allowedParams = this.shLayerConfig(side).featuresParameters;
+          const allowedParams = this.layerDisplay(side).features.parameters;
           const allKeys = Object.keys(feature.properties);
           let tooltip = '';
           for (let i = 0; i < allKeys.length; i++) {
@@ -468,6 +472,14 @@ export default {
             layer.bindTooltip(tooltip);
           }
         }.bind(this),
+        pointToLayer: (feature, latlng) => circleMarker(latlng, {
+          radius: 8,
+          fillColor: 'red',
+          color: 'red',
+          weight: 2,
+          fillOpacity: 1,
+          pane: side === 'data' ? this.shadowPane : this.markerPane,
+        }),
         style: {
           color: 'red',
           weight: 2,
@@ -519,6 +531,7 @@ export default {
       const displayTmp = side === 'compare' && this.indicator.compareDisplay ? this.indicator.compareDisplay : this.indicator.display;
       return displayTmp || {
         ...this.baseConfig.defaultWMSDisplay,
+        ...this.indDefinition,
         ...this.shLayerConfig(side),
         name: this.indicator.Description,
       };
@@ -534,7 +547,7 @@ export default {
         this.map.fitBounds(bounds);
         // limit user movement around map
         this.map.setMaxBounds(boundsMax);
-        if (this.indicatorsDefinition[this.indicator['Indicator code']].largeSubAoi) {
+        if (this.indDefinition.largeSubAoi) {
           this.map.setMinZoom(2);
         } else {
           this.map.setMinZoom(13);
@@ -545,7 +558,7 @@ export default {
         const boundsMax = latLngBounds(cornerMax1, cornerMax2);
         this.map.setZoom(18);
         this.map.panTo(this.aoi);
-        if (this.indicatorsDefinition[this.indicator['Indicator code']].largeSubAoi) {
+        if (this.indDefinition.largeSubAoi) {
           this.map.setMinZoom(2);
         } else {
           // might need tweaking further on
@@ -595,9 +608,9 @@ export default {
         const fixTime = time.value || time;
         additionalSettings.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
           ? sourceOptionsObj.dateFormatFunction(fixTime) : fixTime;
-        if (sourceOptionsObj.featuresUrl) {
-          additionalSettings.featuresTime = typeof sourceOptionsObj.featuresDateFormatFunction === 'function'
-            ? sourceOptionsObj.featuresDateFormatFunction(fixTime) : fixTime;
+        if (sourceOptionsObj.features) {
+          additionalSettings.featuresTime = typeof sourceOptionsObj.features.dateFormatFunction === 'function'
+            ? sourceOptionsObj.features.dateFormatFunction(fixTime) : fixTime;
         }
       }
       return additionalSettings;
@@ -673,7 +686,7 @@ export default {
     },
     getInitialCompareTime() {
       // find closest entry one year before latest time
-      if (this.indicatorsDefinition[this.indicator['Indicator code']].largeTimeDuration) {
+      if (this.indDefinition.largeTimeDuration) {
         // if interval, use just start to get closest
         const times = this.indicator.Time.map((item) => (Array.isArray(item) ? item[0] : item));
         const lastTimeEntry = DateTime.fromISO(times[times.length - 1]);
@@ -721,18 +734,20 @@ export default {
       }
     },
     fetchFeatures(side) {
-      const urlTemplate = this.layerDisplay(side).featuresUrl;
-      if (urlTemplate) {
+      if (this.layerDisplay(side).features) {
         const options = this.layerOptions(side === 'compare' ? this.currentCompareTime : this.currentTime,
           this.layerDisplay(side));
-        const url = Util.template(urlTemplate, options);
+        const templateRe = /\{ *([\w_ -]+) *\}/g;
+        const url = template(templateRe, this.layerDisplay(side).features.url, {
+          ...this.indicator,
+          ...options,
+        });
         fetch(url)
           .then((r) => r.json())
           .then((data) => {
             this.featureJson[side] = data;
           })
-          .catch((error) => {
-            console.log(error);
+          .catch(() => {
             this.featureJson[side] = {
               type: 'FeatureCollection',
               features: [],

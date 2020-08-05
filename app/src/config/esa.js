@@ -11,6 +11,11 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     file: './eodash-data/data/E1.csv',
     story: '/eodash-data/stories/E1',
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
+      url: './eodash-data/features/{Indicator code}_{AOI_ID}_{featuresTime}.geojson',
+      parameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)'],
+    },
   },
   E1a: {
     indicator: 'Status of non-metallic ores',
@@ -343,7 +348,7 @@ const getFortnightIntervalDates = (start, end) => {
   while (currentDate <= stopDate) {
     dateArray.push([
       DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'),
-      DateTime.fromISO(currentDate).plus({ weeks: 2 }).toFormat('yyyy-MM-dd')
+      DateTime.fromISO(currentDate).plus({ weeks: 2 }).toFormat('yyyy-MM-dd'),
     ]);
     currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
   }

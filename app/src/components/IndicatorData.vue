@@ -976,13 +976,16 @@ export default {
         defaultSettings.geo = {
           radiusScale: {
             display: true,
-            range: [5, 20],
-            size: [5, 20],
+            range: [5, 25],
+            ticks: {
+              max: 2000000,
+            },
           },
         };
 
         defaultSettings.scale = {
           projection: 'mercator',
+          max: 20,
         };
 
         defaultSettings.pan.mode = 'xy';
@@ -1004,7 +1007,7 @@ export default {
                 `${obj.time.toISODate()}:`,
                 `${(refV).toPrecision(4)} % harvested`,
                 `${(100 - refV).toPrecision(4)} % not harvested`,
-                `Area: ${obj.value} ha`,
+                `Max. area: ${obj.value} ha`,
               ];
               return labelOutput;
             },
