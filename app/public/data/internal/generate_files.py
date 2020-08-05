@@ -174,13 +174,13 @@ def generateData(mapping, array_mapping, input_folder, output_file, output_folde
             poi_dict[poi_key]["poi_data"], key=lambda k: k["time"]
         )
         curr_data = poi_dict[poi_key]["poi_data"]
-        # Save latest values for unique poi list
-        poi_dict[poi_key]["lastTime"] = curr_data[-1]["time"]
-        poi_dict[poi_key]["lastMeasurement"] = curr_data[-1]["measurement_value"]
-        poi_dict[poi_key]["lastColorCode"] = curr_data[-1]["color_code"]
-        poi_dict[poi_key]["lastIndicatorValue"] = curr_data[-1]["indicator_value"]
-        poi_dict[poi_key]["lastReferenceTime"] = curr_data[-1]["reference_time"]
-        poi_dict[poi_key]["lastReferenceValue"] = curr_data[-1]["reference_value"]
+        # Save latest valid values for unique poi list
+        poi_dict[poi_key]["lastTime"] = ([""] + [i["time"] for i in curr_data if i["time"] != ""])[-1]
+        poi_dict[poi_key]["lastMeasurement"] = ([""] + [i["measurement_value"] for i in curr_data if i["measurement_value"] != ""])[-1]
+        poi_dict[poi_key]["lastColorCode"] = ([""] + [i["color_code"] for i in curr_data if i["color_code"] != ""])[-1]
+        poi_dict[poi_key]["lastIndicatorValue"] = ([""] + [i["indicator_value"] for i in curr_data if i["indicator_value"] != ""])[-1]
+        poi_dict[poi_key]["lastReferenceTime"] = ([""] + [i["reference_time"] for i in curr_data if i["reference_time"] != ""])[-1]
+        poi_dict[poi_key]["lastReferenceValue"] = ([""] + [i["reference_value"] for i in curr_data if i["reference_value"] != ""])[-1]
 
     def date_converter(obj):
         if isinstance(obj, datetime.datetime):

@@ -308,6 +308,9 @@ export default {
             }
           } else if (['E10a3', 'E10a8'].includes(indicatorObject.indicator)) {
             label += 'multiple';
+          } else if (['E10a6', 'E10a7'].includes(indicatorObject.indicator)) {
+            const indVal =  Number(indicatorObject.lastMeasurement).toPrecision(4);
+            label += `${indVal}%`;
           } else if (['N1', 'N3b'].includes(indicatorObject.indicator)) {
             label = '';
           } else {
