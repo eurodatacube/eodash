@@ -112,8 +112,8 @@ export default {
   methods: {
     featureLength(type) {
       return this.allFeatures
-        .filter((i) => !i.properties.indicatorObject.dummy && this.baseConfig
-          .indicatorsDefinition[i.properties.indicatorObject['Indicator code']]
+        .filter((i) => !i.properties.indicatorObject.dummyFeature && this.baseConfig
+          .indicatorsDefinition[i.properties.indicatorObject.indicator]
           .class === type).length;
     },
   },

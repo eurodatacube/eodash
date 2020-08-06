@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%; height: 100%;"
     v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10c', 'N1', 'N3', 'N3b']
-      .includes(indicatorObject['Indicator code'])">
+      .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
         class="fill-height"
@@ -11,7 +11,7 @@
         :options='chartOptions()'></bar-chart>
   </div>
   <div style="width: 100%; height: 100%;"
-    v-else-if="['E10a3', 'E10a8'].includes(indicatorObject['Indicator code'])">
+    v-else-if="['E10a3', 'E10a8'].includes(indicatorObject.indicator)">
       <map-chart
         id="chart"
         class="fill-height"
@@ -20,7 +20,7 @@
         :chart-data='datacollection'
         :options='chartOptions()'>
       </map-chart>
-      <img v-if="indicatorObject['Indicator code']=='E10a3'"
+      <img v-if="indicatorObject.indicator=='E10a3'"
         :src="require('@/assets/E10a3_label.jpg')" alt="color legend"
         style="position: absolute; width: 200px; z-index: 0;
         top: 0px; right: 0px;"/>
@@ -90,25 +90,27 @@ export default {
     };
   },
   mounted() {
-    const d = this.indicatorObject.Time[this.indicatorObject.Time.length - 1];
+    const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
     this.dataLayerTime = d.toFormat('dd. MMM');
   },
   watch: {
     indicatorObject() {
-      this.dataLayerIndex = this.indicatorObject.Time.length - 1;
-      const d = this.indicatorObject.Time[this.dataLayerIndex];
-      this.dataLayerTime = d.toFormat('dd. MMM');
+      if (this.indicatorObject.time) {
+        this.dataLayerIndex = this.indicatorObject.time.length - 1;
+        const d = this.indicatorObject.time[this.dataLayerIndex];
+        this.dataLayerTime = d.toFormat('dd. MMM');
+      }
     },
   },
   computed: {
     arrayOfObjects() {
       const indicator = this.$store.state.indicators.selectedIndicator;
-      const indicatorCode = this.indicatorObject['Indicator code'];
+      const indicatorCode = this.indicatorObject.indicator;
       const selectionOptions = [];
       if (['E10a3', 'E10a8'].includes(indicatorCode)) {
         // Find all unique day/month available
         const timeset = new Set(
-          indicator.Time.map((d) => d.toFormat('dd. MMM')),
+          indicator.time.map((d) => d.toFormat('dd. MMM')),
         );
         timeset.forEach((t) => {
           selectionOptions.push({
@@ -121,7 +123,7 @@ export default {
     },
     datacollection() {
       const indicator = this.$store.state.indicators.selectedIndicator;
-      const indicatorCode = this.indicatorObject['Indicator code'];
+      const indicatorCode = this.indicatorObject.indicator;
       let dataCollection;
       const refColors = [
         '#cb4', '#a37', '#47a', '#a67', '#283', '#bbb',
@@ -129,24 +131,24 @@ export default {
       ];
       if (indicator) {
         let labels = [];
-        const measurement = indicator['Measurement Value'];
+        const { measurement } = indicator;
         const colors = [];
         const datasets = [];
         if (['E10a1', 'E10a5'].includes(indicatorCode)) {
-          const referenceValue = indicator['Reference value'].map(Number);
-          for (let i = 0; i < indicator.Time.length; i += 1) {
-            if (!Number.isNaN(indicator.Time[i].toMillis())) {
-              const d = indicator.Time[i];
+          const referenceValue = indicator.referenceValue.map(Number);
+          for (let i = 0; i < indicator.time.length; i += 1) {
+            if (!Number.isNaN(indicator.time[i].toMillis())) {
+              const d = indicator.time[i];
               const formattedDate = d.toFormat('dd. MMM');
               labels.push(formattedDate);
             } else {
               labels.push(i);
             }
           }
-          const labelref = indicatorCode !== 'E10a8' ? '2019' : 'not harvested area [%]';
-          const labelmeas = indicatorCode !== 'E10a8' ? '2020' : 'harvested area [%]';
+          const labelref = '2019';
+          const labelmeas = '2020';
           datasets.push({
-            indLabels: Array(indicator['Indicator Value'].length).join('.').split('.'),
+            indLabels: Array(indicator.indicatorValue.length).join('.').split('.'),
             label: labelref,
             data: referenceValue,
             fill: false,
@@ -154,7 +156,7 @@ export default {
             backgroundColor: 'grey',
           });
           datasets.push({
-            indLabels: indicator['Indicator Value'],
+            indLabels: indicator.indicatorValue,
             label: labelmeas,
             data: measurement,
             fill: false,
@@ -162,12 +164,12 @@ export default {
             backgroundColor: 'black',
           });
         } else if (['N3b'].includes(indicatorCode)) {
-          const sensors = Array.from(new Set(indicator['EO Sensor'])).reverse();
+          const sensors = Array.from(new Set(indicator.eoSensor)).reverse();
           for (let pp = 0; pp < sensors.length; pp += 1) {
             const pKey = sensors[pp];
-            const data = indicator.Time.map((date, i) => {
+            const data = indicator.time.map((date, i) => {
               let output = null;
-              if (indicator['EO Sensor'][i] === pKey) {
+              if (indicator.eoSensor[i] === pKey) {
                 output = { t: date, y: measurement[i] };
               }
               return output;
@@ -183,14 +185,14 @@ export default {
         } else if (['E10a2', 'E10a6', 'E10a7'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
-          const referenceValue = indicator['Reference value'].map(Number);
-          indicator.Time.forEach((date, i) => {
+          const referenceValue = indicator.referenceValue.map(Number);
+          indicator.time.forEach((date, i) => {
             const meas = { t: date.set({ year: 2000 }), y: measurement[i] };
             if (typeof uniqueRefs.find((item) => item.t.equals(meas.t)) === 'undefined') {
               uniqueMeas.push(meas);
             }
           });
-          indicator['Reference time'].forEach((date, i) => {
+          indicator.referenceTime.forEach((date, i) => {
             const ref = { t: date.set({ year: 2000 }), y: referenceValue[i] };
             if (typeof uniqueRefs.find((item) => item.t.equals(ref.t)) === 'undefined') {
               uniqueRefs.push(ref);
@@ -213,8 +215,8 @@ export default {
           });
         } else if (['N2', 'E10c'].includes(indicatorCode)) {
           /* Group data by year in month slices */
-          const data = indicator.Time.map((date, i) => {
-            colors.push(this.getIndicatorColor(indicator['Color code'][i]));
+          const data = indicator.time.map((date, i) => {
+            colors.push(this.getIndicatorColor(indicator.colorCode[i]));
             return { t: date, y: measurement[i] };
           });
           const dataGroups = {};
@@ -257,10 +259,10 @@ export default {
           const max = [];
           const median = [];
           const data = [];
-          indicator['Reference value'].forEach((item, i) => {
-            const t = indicator.Time[i];
+          indicator.referenceValue.forEach((item, i) => {
+            const t = indicator.time[i];
             data.push({ y: measurement[i], t });
-            if (item !== 'NaN') {
+            if (!Number.isNaN(item) && item !== 'NaN') {
               const obj = JSON.parse(item);
               // [median,std,max,min,percentage valid pixels]
               median.push({ y: obj[0], t });
@@ -277,7 +279,7 @@ export default {
             }
           });
           datasets.push({
-            label: indicator['Y axis'],
+            label: indicator.yAxis,
             data,
             fill: false,
             backgroundColor: refColors[0],
@@ -339,8 +341,8 @@ export default {
         } else if (['N3'].includes(indicatorCode)) {
           let referenceValue = [];
           const stdDev = [];
-          indicator['Reference value'].forEach((item) => {
-            if (item !== 'NaN') {
+          indicator.referenceValue.forEach((item) => {
+            if (!Number.isNaN(item) && item !== 'NaN') {
               const obj = JSON.parse(item.replace(/,/g, '.').replace(' ', ','));
               if (obj[0] !== -999 && obj[1] !== -999) {
                 referenceValue.push(obj[0]);
@@ -370,15 +372,15 @@ export default {
             Number.isNaN(val) ? Number.NaN : (10 ** val)
           ));
 
-          for (let i = 0; i < indicator.Time.length; i += 1) {
-            if (!Number.isNaN(indicator.Time[i].toMillis())) {
-              labels.push(indicator.Time[i].toISODate());
+          for (let i = 0; i < indicator.time.length; i += 1) {
+            if (!Number.isNaN(indicator.time[i].toMillis())) {
+              labels.push(indicator.time[i].toISODate());
             } else {
               labels.push(i);
             }
             let colorCode = '';
-            if (Object.prototype.hasOwnProperty.call(indicator, 'Color code')) {
-              colorCode = indicator['Color code'][i];
+            if (Object.prototype.hasOwnProperty.call(indicator, 'colorCode')) {
+              colorCode = indicator.colorCode[i];
             }
             colors.push(this.getIndicatorColor(colorCode));
           }
@@ -426,12 +428,12 @@ export default {
 
           // Find unique indicator values
           const indicatorValues = {};
-          indicator['Indicator Value'].map((val, i) => {
+          indicator.indicatorValue.map((val, i) => {
             let key = val.toLowerCase();
             key = key.charAt(0).toUpperCase() + key.slice(1);
             if (typeof indicatorValues[key] === 'undefined') {
               indicatorValues[key] = this.getIndicatorColor(
-                indicator['Color code'][i],
+                indicator.colorCode[i],
               );
             }
             return null;
@@ -452,11 +454,11 @@ export default {
           let features = measurement.map((meas, i) => {
             // Find correct NUTS ID Shape
             const geom = nutsFeatures.find((f) => (
-              f.properties.NUTS_ID === indicator['Site Name'][i]));
+              f.properties.NUTS_ID === indicator.siteName[i]));
             let output;
             if (geom) {
-              if (currIDs.indexOf(indicator['Site Name'][i]) === -1) {
-                currIDs.push(indicator['Site Name'][i]);
+              if (currIDs.indexOf(indicator.siteName[i]) === -1) {
+                currIDs.push(indicator.siteName[i]);
                 outline.push({
                   type: 'Feature',
                   properties: {},
@@ -480,15 +482,15 @@ export default {
                 latitude: centerPoint.lat,
                 longitude: centerPoint.lon,
                 name: geom.properties.NUTS_NAME,
-                time: indicator.Time[i],
+                time: indicator.time[i],
                 value: Number(meas),
-                referenceTime: indicator['Reference time'][i],
-                referenceValue: indicator['Reference value'][i],
-                color: indicator['Color code'][i],
+                referenceTime: indicator.referenceTime[i],
+                referenceValue: indicator.referenceValue[i],
+                color: indicator.colorCode[i],
               };
               if (indicatorCode === 'E10a8') {
                 // Swap value to have reference value
-                output.value = Number(indicator['Reference value'][i]);
+                output.value = Number(indicator.referenceValue[i]);
                 output.referenceValue = Number(meas);
               }
             }
@@ -521,13 +523,13 @@ export default {
             clipMap: 'items',
           });
         } else {
-          const data = indicator.Time.map((date, i) => {
-            colors.push(this.getIndicatorColor(indicator['Color code'][i]));
+          const data = indicator.time.map((date, i) => {
+            colors.push(this.getIndicatorColor(indicator.colorCode[i]));
             return { t: date, y: measurement[i] };
           });
           datasets.push({
             data,
-            label: indicator['Y axis'],
+            label: indicator.yAxis,
             backgroundColor: colors,
             borderColor: colors,
           });
@@ -577,9 +579,9 @@ export default {
       return [timeMin, timeMax];
     },
     chartOptions() {
-      const indicatorCode = this.indicatorObject['Indicator code'];
-      const reference = Number.parseFloat(this.indicatorObject['Reference value']);
-      let timeMinMax = this.getMinMaxDate(this.indicatorObject.Time);
+      const indicatorCode = this.indicatorObject.indicator;
+      const reference = Number.parseFloat(this.indicatorObject.referenceValue);
+      let timeMinMax = this.getMinMaxDate(this.indicatorObject.time);
       const annotations = [];
       let low = 0;
       let high = 0;
@@ -633,7 +635,7 @@ export default {
           low = 0.3 * reference;
           high = 0.7 * reference;
         } else if (indicatorCode === 'E8') {
-          const ruleString = this.indicatorObject['Rule']; // eslint-disable-line dot-notation
+          const ruleString = this.indicatorObject.rule;
           // find [low, high] via regex
           const regExp = new RegExp(/\[([\s\S]*?)\]/); // eslint-disable-line no-useless-escape
           const matches = regExp.exec(ruleString);
@@ -685,13 +687,13 @@ export default {
       if (['E10a2', 'E10a6', 'E10a7', 'E10c'].includes(indicatorCode)) {
         /* Recalculate to get min max months in data converted to one year */
         timeMinMax = this.getMinMaxDate(
-          this.indicatorObject.Time.map((date) => (
+          this.indicatorObject.time.map((date) => (
             date.set({ year: 2000 })
           )),
         );
         /* Check also for reference time */
         const refTimeMinMax = this.getMinMaxDate(
-          this.indicatorObject['Reference time'].map((date) => (
+          this.indicatorObject.referenceTime.map((date) => (
             date.set({ year: 2000 })
           )),
         );
@@ -713,7 +715,7 @@ export default {
 
       if (['N2'].includes(indicatorCode)) {
         timeMinMax = this.getMinMaxDate(
-          this.indicatorObject.Time.map((date) => (
+          this.indicatorObject.time.map((date) => (
             date.set({ year: 2000 })
           )),
         );
@@ -743,17 +745,17 @@ export default {
       const yAxes = [{
         scaleLabel: {
           display: true,
-          labelString: this.indicatorObject['Y axis'],
+          labelString: this.indicatorObject.yAxis,
           padding: 2,
         },
         ticks: {
           lineHeight: 1,
           suggestedMin: Math.min(
-            ...this.indicatorObject['Measurement Value']
+            ...this.indicatorObject.measurement
               .filter((d) => !Number.isNaN(d)),
           ) - 1,
           suggestedMax: Math.max(
-            ...this.indicatorObject['Measurement Value']
+            ...this.indicatorObject.measurement
               .filter((d) => !Number.isNaN(d)),
           ) + 1,
         },

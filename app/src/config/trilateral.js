@@ -5,8 +5,22 @@ import { latLng, latLngBounds } from 'leaflet';
 import { DateTime } from 'luxon';
 import { shTimeFunction } from '@/utils';
 
-export const nasaEndpoints = [
-  'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/',
+export const dataPath = './data/internal/';
+export const dataEndpoints = [
+  {
+    type: 'eox',
+    provider: './data/internal/pois_trilateral.json',
+  },
+  /*
+  {
+    type: 'nasa',
+    provider: 'https://h4ymwpefng.execute-api.us-east-1.amazonaws.com/v1/',
+  },
+  {
+    type: 'nasa',
+    provider: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/',
+  },
+  */
 ];
 
 export const indicatorsDefinition = Object.freeze({
@@ -174,8 +188,6 @@ export const indicatorsDefinition = Object.freeze({
   N3: {
     indicator: 'Water Quality',
     class: 'environment',
-    // file: './data/trilateral/N3.csv',
-    // story: '/data/trilateral/N3',
   },
   N3b: {
     indicator: 'Chl-a concentration anomaly',
@@ -493,14 +505,15 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        Country: 'all',
-        City: 'World',
-        'Site Name': 'global',
-        Description: 'Air Quality',
-        'Indicator code': 'N1',
-        'Indicator Value': ['TROPOMI: Nitrogen dioxide'],
-        'Indicator Name': 'Air Quality - TROPOMI: NO2',
-        'Sub-AOI': {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Air Quality',
+        indicator: 'N1',
+        lastIndicatorValue: 'TROPOMI: Nitrogen dioxide',
+        indicatorName: 'Air Quality - TROPOMI: NO2',
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -508,15 +521,15 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
           }],
         },
-        'Color code': ['primary'],
+        lastColorCode: 'primary',
         externalData: {
           label: 'Sentinel-5p Mapping Service',
           url: 'https://maps.s5p-pal.com',
         },
-        AOI: null,
-        AOI_ID: 'W1',
-        Time: getFortnightIntervalDates('2019-01-07', '2020-07-13'),
-        'Input Data': [''],
+        aoi: null,
+        aoiID: 'W1',
+        time: [['2019-01-07', '2019-01-21'], ['2019-01-14', '2019-01-28'], ['2019-01-21', '2019-02-04'], ['2019-01-28', '2019-02-11'], ['2019-02-04', '2019-02-18'], ['2019-02-11', '2019-02-25'], ['2019-02-18', '2019-03-04'], ['2019-02-25', '2019-03-11'], ['2019-03-04', '2019-03-18'], ['2019-03-11', '2019-03-25'], ['2019-03-18', '2019-04-01'], ['2019-03-25', '2019-04-08'], ['2019-04-01', '2019-04-15'], ['2019-04-08', '2019-04-22'], ['2019-04-15', '2019-04-29'], ['2019-04-22', '2019-05-06'], ['2019-04-29', '2019-05-13'], ['2019-05-06', '2019-05-20'], ['2019-05-13', '2019-05-27'], ['2019-05-20', '2019-06-03'], ['2019-05-27', '2019-06-10'], ['2019-06-03', '2019-06-17'], ['2019-06-10', '2019-06-24'], ['2019-06-17', '2019-07-01'], ['2019-06-24', '2019-07-08'], ['2019-07-01', '2019-07-15'], ['2019-07-08', '2019-07-22'], ['2019-07-15', '2019-07-29'], ['2019-07-22', '2019-08-05'], ['2019-07-29', '2019-08-12'], ['2019-08-05', '2019-08-19'], ['2019-08-12', '2019-08-26'], ['2019-08-19', '2019-09-02'], ['2019-08-26', '2019-09-09'], ['2019-09-02', '2019-09-16'], ['2019-09-09', '2019-09-23'], ['2019-09-16', '2019-09-30'], ['2019-09-23', '2019-10-07'], ['2019-09-30', '2019-10-14'], ['2019-10-07', '2019-10-21'], ['2019-10-14', '2019-10-28'], ['2019-10-21', '2019-11-04'], ['2019-10-28', '2019-11-11'], ['2019-11-04', '2019-11-18'], ['2019-11-11', '2019-11-25'], ['2019-11-18', '2019-12-02'], ['2019-11-25', '2019-12-09'], ['2019-12-02', '2019-12-16'], ['2019-12-09', '2019-12-23'], ['2019-12-16', '2019-12-30'], ['2019-12-23', '2020-01-06'], ['2019-12-30', '2020-01-13'], ['2020-01-06', '2020-01-20'], ['2020-01-13', '2020-01-27'], ['2020-01-20', '2020-02-03'], ['2020-01-27', '2020-02-10'], ['2020-02-03', '2020-02-17'], ['2020-02-10', '2020-02-24'], ['2020-02-17', '2020-03-02'], ['2020-02-24', '2020-03-09'], ['2020-03-02', '2020-03-16'], ['2020-03-09', '2020-03-23'], ['2020-03-16', '2020-03-30'], ['2020-03-23', '2020-04-06'], ['2020-03-30', '2020-04-13'], ['2020-04-06', '2020-04-20'], ['2020-04-13', '2020-04-27'], ['2020-04-20', '2020-05-04'], ['2020-04-27', '2020-05-11'], ['2020-05-04', '2020-05-18'], ['2020-05-11', '2020-05-25'], ['2020-05-18', '2020-06-01'], ['2020-05-25', '2020-06-08'], ['2020-06-01', '2020-06-15'], ['2020-06-08', '2020-06-22'], ['2020-06-15', '2020-06-29']],
+        inputData: [''],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
@@ -533,14 +546,15 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        Country: 'all',
-        City: 'World',
-        'Site Name': 'global',
-        Description: 'Air Quality',
-        'Indicator code': 'N1',
-        'Indicator Value': ['OMI: Nitrogen dioxide'],
-        'Indicator Name': 'Air Quality - OMI: NO2',
-        'Sub-AOI': {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Air Quality',
+        indicator: 'N1',
+        lastIndicatorValue: 'OMI: Nitrogen dioxide',
+        indicatorName: 'Air Quality - OMI: NO2',
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -548,11 +562,11 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
           }],
         },
-        'Color code': ['primary'],
-        AOI: null,
-        AOI_ID: 'W2',
-        Time: getMonthlyDates('2004-10-01', '2020-06-01'),
-        'Input Data': [''],
+        lastColorCode: 'primary',
+        aoi: null,
+        aoiID: 'W2',
+        time: getMonthlyDates('2004-10-01', '2020-03-01'),
+        inputData: [''],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
@@ -569,14 +583,15 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        Country: 'all',
-        City: 'World',
-        'Site Name': 'global',
-        Description: 'Greenhouse Gases',
-        'Indicator code': 'N2',
-        'Indicator Value': ['OCO-2: CO2 2020'],
-        'Indicator Name': 'Greenhouse Gases - OCO-2: CO2 2020',
-        'Sub-AOI': {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Greenhouse Gases',
+        indicator: 'N2',
+        lastIndicatorValue: 'OCO-2: Mean CO2',
+        indicatorName: 'Greenhouse Gases - OCO-2: Mean CO2',
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -584,11 +599,11 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
           }],
         },
-        'Color code': ['primary'],
-        AOI: null,
-        AOI_ID: 'W3',
-        Time: getDailyDates('2020-01-01', '2020-05-17'),
-        'Input Data': [''],
+        lastColorCode: 'primary',
+        aoi: null,
+        aoiID: 'W3',
+        time: getDailyDates('2020-01-01', '2020-04-16'),
+        inputData: [''],
         display: {
           protocol: 'xyz',
           opacity: 1,
@@ -613,14 +628,15 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        Country: 'all',
-        City: 'World',
-        'Site Name': 'global',
-        Description: 'Greenhouse Gases',
-        'Indicator code': 'N2',
-        'Indicator Value': ['OCO-2: Difference CO2'],
-        'Indicator Name': 'Greenhouse Gases - OCO-2: Difference CO2',
-        'Sub-AOI': {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Greenhouse Gases',
+        indicator: 'N2',
+        lastIndicatorValue: 'OCO-2: Difference CO2',
+        indicatorName: 'Greenhouse Gases - OCO-2: Difference CO2',
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -628,11 +644,11 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
           }],
         },
-        'Color code': ['primary'],
-        AOI: null,
-        AOI_ID: 'W5',
-        Time: getDailyDates('2020-01-01', '2020-05-17'),
-        'Input Data': [''],
+        lastColorCode: 'primary',
+        aoi: null,
+        aoiID: 'W5',
+        time: getDailyDates('2020-01-01', '2020-05-17'),
+        inputData: [''],
         display: {
           protocol: 'xyz',
           opacity: 1,
@@ -649,22 +665,23 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        Country: 'all',
-        City: 'World',
-        'Site Name': 'global',
-        Description: 'Population',
-        'Indicator code': 'NASAPopulation',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Population density 2020',
-        'Sub-AOI': {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Population',
+        indicator: 'NASAPopulation',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Population density 2020',
+        subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        'Color code': ['primary'],
-        AOI: null,
-        AOI_ID: 'W6',
-        Time: ['2020-05-14T00:00:00Z'],
-        'Input Data': [''],
+        lastColorCode: 'primary',
+        aoi: null,
+        aoiID: 'W6',
+        time: ['2020-05-14T00:00:00Z'],
+        inputData: [''],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
@@ -684,19 +701,20 @@ export const globalIndicators = [
     id: 9998,
     properties: {
       indicatorObject: {
-        AOI: latLng([35.61, 139.78]),
+        dataLoadFinished: true,
+        aoi: latLng([35.61, 139.78]),
         id: 9998,
-        AOI_ID: 'JP01',
-        Country: ['JP'],
-        City: 'Tokyo',
-        'Site Name': 'Tokyo',
-        Description: 'Nightlights',
-        'Indicator code': 'N5',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Night light composite maps (Suomi NPP VIIRS)',
-        'Color code': ['BLUE'],
-        'EO Sensor': Array(6).fill(['Nightlights']),
-        'Sub-AOI': {
+        aoiID: 'JP01',
+        country: ['JP'],
+        city: 'Tokyo',
+        siteName: 'Tokyo',
+        description: 'Nightlights',
+        indicator: 'N5',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
+        lastColorCode: 'BLUE',
+        eoSensor: Array(6).fill(['Nightlights']),
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -704,8 +722,8 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((139.34275817871094 35.049654646456474, 140.34809152322123 35.049654646456474, 140.34809152322123 35.93543243408203, 139.34275817871094 35.93543243408203, 139.34275817871094 35.049654646456474))').toJson(),
           }],
         },
-        Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005'], ['202006']],
-        'Input Data': [''],
+        time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005'], ['202006']],
+        inputData: [''],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -723,19 +741,20 @@ export const globalIndicators = [
     id: 9997,
     properties: {
       indicatorObject: {
-        AOI: latLng([39.9, 116.38]),
+        dataLoadFinished: true,
+        aoi: latLng([39.9, 116.38]),
         id: 9997,
-        AOI_ID: 'CN01',
-        Country: ['CN'],
-        City: 'Beijing',
-        'Site Name': 'Beijing',
-        Description: 'Nightlights',
-        'Indicator code': 'N5',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Night light composite maps (Suomi NPP VIIRS)',
-        'Color code': ['BLUE'],
-        'EO Sensor': Array(6).fill(['Nightlights']),
-        'Sub-AOI': {
+        aoiID: 'CN01',
+        country: ['CN'],
+        city: 'Beijing',
+        siteName: 'Beijing',
+        description: 'Nightlights',
+        indicator: 'N5',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
+        lastColorCode: 'BLUE',
+        eoSensor: Array(6).fill(['Nightlights']),
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -743,8 +762,8 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((115.91229248046875 39.627200509676186, 116.86084804657003 39.627200509676186, 116.86084804657003 40.32575607299805, 115.91229248046875 40.32575607299805, 115.91229248046875 39.627200509676186,))').toJson(),
           }],
         },
-        Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005'], ['202006']],
-        'Input Data': [''],
+        time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005'], ['202006']],
+        inputData: [''],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -762,19 +781,20 @@ export const globalIndicators = [
     id: 9996, // for now
     properties: {
       indicatorObject: {
-        AOI: latLng([51.036138, 2.285374]),
+        dataLoadFinished: true,
+        aoi: latLng([51.036138, 2.285374]),
         id: 9996,
-        AOI_ID: 'FR03',
-        Country: ['FR'],
-        City: 'Port of Dunkirk',
-        'Site Name': 'Port of Dunkirk',
-        Description: 'Nightlights',
-        'Indicator code': 'N5',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Night light composite maps (Suomi NPP VIIRS)',
-        'Color code': ['BLUE'],
-        'EO Sensor': Array(6).fill(['Nightlights']),
-        'Sub-AOI': {
+        aoiID: 'FR03',
+        country: ['FR'],
+        city: 'Port of Dunkirk',
+        siteName: 'Port of Dunkirk',
+        description: 'Nightlights',
+        indicator: 'N5',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
+        lastColorCode: 'BLUE',
+        eoSensor: Array(6).fill(['Nightlights']),
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -782,8 +802,8 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((2.083559989929199 50.965508184133796, 2.416559993631381 50.965508184133796, 2.416559993631381 51.087730407714844, 2.083559989929199 51.087730407714844, 2.083559989929199 50.965508184133796))').toJson(),
           }],
         },
-        Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005'], ['202006']],
-        'Input Data': [''],
+        time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005'], ['202006']],
+        inputData: [''],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -801,19 +821,20 @@ export const globalIndicators = [
     id: 9995,
     properties: {
       indicatorObject: {
-        AOI: latLng([51.091559, 3.740081]),
+        dataLoadFinished: true,
+        aoi: latLng([51.091559, 3.740081]),
         id: 9995,
-        AOI_ID: 'BE03',
-        Country: ['BE'],
-        City: 'Port of Ghent',
-        'Site Name': 'Port of Ghent',
-        Description: 'Nightlights',
-        'Indicator code': 'N5',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Night light composite maps (Suomi NPP VIIRS)',
-        'Color code': ['BLUE'],
-        'EO Sensor': Array(6).fill(['Nightlights']),
-        'Sub-AOI': {
+        aoiID: 'BE03',
+        country: ['BE'],
+        city: 'Port of Ghent',
+        siteName: 'Port of Ghent',
+        description: 'Nightlights',
+        indicator: 'N5',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
+        lastColorCode: 'BLUE',
+        eoSensor: Array(6).fill(['Nightlights']),
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -821,8 +842,8 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((3.6453969478607178 51.06661950775742, 3.85839695022878 51.06661950775742, 3.85839695022878 51.28873062133789, 3.6453969478607178 51.28873062133789, 3.6453969478607178 51.06661950775742))').toJson(),
           }],
         },
-        Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005'], ['202006']],
-        'Input Data': [''],
+        time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005'], ['202006']],
+        inputData: [''],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -840,19 +861,20 @@ export const globalIndicators = [
     id: 9994,
     properties: {
       indicatorObject: {
-        AOI: latLng([34.05, -118.25]),
+        dataLoadFinished: true,
+        aoi: latLng([34.05, -118.25]),
         id: 9994,
-        AOI_ID: 'US02',
-        Country: ['US'],
-        City: 'Los Angeles',
-        'Site Name': 'Los Angeles',
-        Description: 'Nightlights',
-        'Indicator code': 'N5',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Night light composite maps (Suomi NPP VIIRS)',
-        'Color code': ['BLUE'],
-        'EO Sensor': Array(6).fill(['Nightlights']),
-        'Sub-AOI': {
+        aoiID: 'US02',
+        country: ['US'],
+        city: 'Los Angeles',
+        siteName: 'Los Angeles',
+        description: 'Nightlights',
+        indicator: 'N5',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
+        lastColorCode: 'BLUE',
+        eoSensor: Array(6).fill(['Nightlights']),
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -860,8 +882,8 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-118.68741607666016 33.42670324365463, -117.0733049476039 33.42670324365463, -117.0733049476039 34.34392547607422, -118.68741607666016 34.34392547607422, -118.68741607666016 33.42670324365463))').toJson(),
           }],
         },
-        Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005'], ['202006']],
-        'Input Data': [''],
+        time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005'], ['202006']],
+        inputData: [''],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -879,19 +901,20 @@ export const globalIndicators = [
     id: 9993,
     properties: {
       indicatorObject: {
-        AOI: latLng([37.7775, -122.416389]),
+        dataLoadFinished: true,
+        aoi: latLng([37.7775, -122.416389]),
         id: 9993,
-        AOI_ID: 'US03',
-        Country: ['US'],
-        City: 'San Francisco',
-        'Site Name': 'San Francisco',
-        Description: 'Nightlights',
-        'Indicator code': 'N5',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Night light composite maps (Suomi NPP VIIRS)',
-        'Color code': ['BLUE'],
-        'EO Sensor': Array(6).fill(['Nightlights']),
-        'Sub-AOI': {
+        aoiID: 'US03',
+        country: ['US'],
+        city: 'San Francisco',
+        siteName: 'San Francisco',
+        description: 'Nightlights',
+        indicator: 'N5',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
+        lastColorCode: 'BLUE',
+        eoSensor: Array(6).fill(['Nightlights']),
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -899,8 +922,8 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-122.63569641113281 37.119795894876006, -121.53514084334165 37.119795894876006, -121.53514084334165 38.35512924194336, -122.63569641113281 38.35512924194336, -122.63569641113281 37.119795894876006))').toJson(),
           }],
         },
-        Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005'], ['202006']],
-        'Input Data': [''],
+        time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005'], ['202006']],
+        inputData: [''],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -918,19 +941,20 @@ export const globalIndicators = [
     id: 9992,
     properties: {
       indicatorObject: {
-        AOI: latLng([41.0114, -73.09]),
+        dataLoadFinished: true,
+        aoi: latLng([41.0114, -73.09]),
         id: 9992,
-        AOI_ID: 'US04',
-        Country: ['US'],
-        City: 'New York',
-        'Site Name': 'New York',
-        Description: 'Nightlights',
-        'Indicator code': 'N5',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Night light composite maps (Suomi NPP VIIRS)',
-        'Color code': ['BLUE'],
-        'EO Sensor': Array(6).fill(['Nightlights']),
-        'Sub-AOI': {
+        aoiID: 'US04',
+        country: ['US'],
+        city: 'New York',
+        siteName: 'New York',
+        description: 'Nightlights',
+        indicator: 'N5',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
+        lastColorCode: 'BLUE',
+        eoSensor: Array(6).fill(['Nightlights']),
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -938,8 +962,8 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-71.74516 41.54467, -74.43395 41.54943, -74.43219 40.47812, -71.74516 40.48343, -71.74516 41.54467))').toJson(),
           }],
         },
-        Time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005'], ['202006']],
-        'Input Data': [''],
+        time: [['202001'], ['202002'], ['202003'], ['202004'], ['202005'], ['202006']],
+        inputData: [''],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -957,19 +981,20 @@ export const globalIndicators = [
     latlng: latLng([45.197522, 13.029785]),
     properties: {
       indicatorObject: {
+        dataLoadFinished: true,
         id: 19999,
-        AOI: latLng([45.197522, 13.029785]),
-        AOI_ID: 'NorthAdriaticESA',
-        Country: ['HR', 'IT', 'SI'],
-        City: 'North Adriatic (ESA) - Chlorophyll-a concentration',
-        'Site Name': 'North Adriatic',
-        Description: 'Water Quality Regional Maps',
-        'Indicator code': 'N3a2',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Water Quality Regional Maps (ESA)',
-        'Color code': ['BLUE'],
-        'EO Sensor': null,
-        'Sub-AOI': {
+        aoi: latLng([45.197522, 13.029785]),
+        aoiID: 'NorthAdriaticESA',
+        country: ['HR', 'IT', 'SI'],
+        city: 'North Adriatic (ESA) - Chlorophyll-a concentration',
+        siteName: 'North Adriatic',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Water Quality Regional Maps (ESA)',
+        lastColorCode: 'BLUE',
+        eoSensor: null,
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -977,8 +1002,8 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((13.82676706185932 44.707877452151976,13.826080416351507 44.63853985102104,13.828140352874945 44.60726198073148,13.830543612152288 44.580858170237136,13.824707125335882 44.56324896519081,13.831230257660101 44.53388844187968,13.83226022592182 44.50059527839493,13.14012155404682 44.49471803960046,12.29417428842182 44.482961784844655,12.22825631967182 44.70494937295371,12.28318796029682 44.82439215066662,12.375198458343695 44.80027974205457,12.408844088226507 44.82134821071279,12.466865633636663 44.848433626253936,12.50840768685932 44.941643892166006,12.435623263031195 44.97274112720852,12.430816744476507 45.017413877251585,12.314430330902288 44.96496839839778,12.346874331146429 45.11150096790739,12.3191510187685 45.20785209529116,12.239371393829535 45.20857774137082,12.210467909485052 45.2901538238102,12.22276315560932 45.377400919461266,12.30790719857807 45.48533806813408,12.48368844857807 45.559425118958345,12.622390841156195 45.527685472129804,12.436309908539007 45.47089417163262,12.428413485199163 45.41838351593179,12.782894228607367 45.546202443810486,12.887307261139105 45.60069590187233,12.977987383514593 45.62249048564204,13.101626490265081 45.63083382762503,13.086563204437445 45.72456591874726,13.210159395843695 45.76864898557,13.344055269867132 45.73942388451784,13.406883333831976 45.72384688466227,13.44499215951557 45.67565051875911,13.56034860482807 45.78397406598729,13.65647897592182 45.76194293851278,13.773208712249945 45.66413479361571,13.71965036264057 45.5603866467064,13.48619088998432 45.44295880636075,13.59605417123432 45.16671702535331,13.71690378060932 44.97954140088225,13.778701876312445 44.951120616125884,13.81852731576557 44.86042018307063,13.82402047982807 44.77737580152348,13.82676706185932 44.707877452151976))').toJson(),
           }],
         },
-        Time: getWeeklyDates('2020-01-07', '2020-07-28'),
-        'Input Data': [''],
+        time: getWeeklyDates('2020-01-07', '2020-07-28'),
+        inputData: [''], // just for enabling eo data button for now
         display: {
           ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
@@ -997,19 +1022,20 @@ export const globalIndicators = [
     id: 19998,
     properties: {
       indicatorObject: {
-        AOI: latLng([45.197522, 13.0297851]),
+        dataLoadFinished: true,
+        aoi: latLng([45.197522, 13.0297851]),
         id: 19998,
-        AOI_ID: 'NorthAdriaticNASA',
-        Country: ['HR', 'IT', 'SI'],
-        City: 'North Adriatic (NASA)',
-        'Site Name': 'North Adriatic',
-        Description: 'Water Quality Regional Maps',
-        'Indicator code': 'N3a2',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Water Quality Regional Maps (NASA)',
-        'Color code': ['BLUE'],
-        'EO Sensor': null,
-        'Sub-AOI': {
+        aoiID: 'NorthAdriaticNASA',
+        country: ['HR', 'IT', 'SI'],
+        city: 'North Adriatic (NASA)',
+        siteName: 'North Adriatic',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Water Quality Regional Maps (NASA)',
+        lastColorCode: 'BLUE',
+        eoSensor: null,
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -1017,8 +1043,8 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((13.82676706185932 44.707877452151976,13.826080416351507 44.63853985102104,13.828140352874945 44.60726198073148,13.830543612152288 44.580858170237136,13.824707125335882 44.56324896519081,13.831230257660101 44.53388844187968,13.83226022592182 44.50059527839493,13.14012155404682 44.49471803960046,12.29417428842182 44.482961784844655,12.22825631967182 44.70494937295371,12.28318796029682 44.82439215066662,12.375198458343695 44.80027974205457,12.408844088226507 44.82134821071279,12.466865633636663 44.848433626253936,12.50840768685932 44.941643892166006,12.435623263031195 44.97274112720852,12.430816744476507 45.017413877251585,12.314430330902288 44.96496839839778,12.346874331146429 45.11150096790739,12.3191510187685 45.20785209529116,12.239371393829535 45.20857774137082,12.210467909485052 45.2901538238102,12.22276315560932 45.377400919461266,12.30790719857807 45.48533806813408,12.48368844857807 45.559425118958345,12.622390841156195 45.527685472129804,12.436309908539007 45.47089417163262,12.428413485199163 45.41838351593179,12.782894228607367 45.546202443810486,12.887307261139105 45.60069590187233,12.977987383514593 45.62249048564204,13.101626490265081 45.63083382762503,13.086563204437445 45.72456591874726,13.210159395843695 45.76864898557,13.344055269867132 45.73942388451784,13.406883333831976 45.72384688466227,13.44499215951557 45.67565051875911,13.56034860482807 45.78397406598729,13.65647897592182 45.76194293851278,13.773208712249945 45.66413479361571,13.71965036264057 45.5603866467064,13.48619088998432 45.44295880636075,13.59605417123432 45.16671702535331,13.71690378060932 44.97954140088225,13.778701876312445 44.951120616125884,13.81852731576557 44.86042018307063,13.82402047982807 44.77737580152348,13.82676706185932 44.707877452151976))').toJson(),
           }],
         },
-        Time: [['2020-01-01'], ['2020-01-08'], ['2020-01-15'], ['2020-01-22'], ['2020-01-29'], ['2020-02-05'], ['2020-02-12'], ['2020-02-19'], ['2020-02-26'], ['2020-03-04'], ['2020-03-11'], ['2020-03-18'], ['2020-03-25'], ['2020-04-01'], ['2020-04-08'], ['2020-04-15'], ['2020-04-22'], ['2020-04-29'], ['2020-05-06'], ['2020-05-13'], ['2020-05-20'], ['2020-05-27'], ['2020-06-03'], ['2020-06-10'], ['2020-06-17'], ['2020-06-24']],
-        'Input Data': [''],
+        time: [['2020-01-01'], ['2020-01-08'], ['2020-01-15'], ['2020-01-22'], ['2020-01-29'], ['2020-02-05'], ['2020-02-12'], ['2020-02-19'], ['2020-02-26'], ['2020-03-04'], ['2020-03-11'], ['2020-03-18'], ['2020-03-25'], ['2020-04-01'], ['2020-04-08'], ['2020-04-15'], ['2020-04-22'], ['2020-04-29'], ['2020-05-06'], ['2020-05-13'], ['2020-05-20'], ['2020-05-27'], ['2020-06-03'], ['2020-06-10'], ['2020-06-17'], ['2020-06-24']],
+        inputData: [''],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -1037,19 +1063,20 @@ export const globalIndicators = [
     id: 19994,
     properties: {
       indicatorObject: {
-        AOI: latLng([45.197522, 13.0297851]),
+        dataLoadFinished: true,
+        aoi: latLng([45.197522, 13.0297851]),
         id: 19994,
-        AOI_ID: 'NorthAdriaticJAXA',
-        Country: ['HR', 'IT', 'SI'],
-        City: 'North Adriatic (JAXA)',
-        'Site Name': 'North Adriatic',
-        Description: 'Water Quality Regional Maps',
-        'Indicator code': 'N3a2',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Water Quality Regional Maps (JAXA)',
-        'Color code': ['BLUE'],
-        'EO Sensor': null,
-        'Sub-AOI': {
+        aoiID: 'NorthAdriaticJAXA',
+        country: ['HR', 'IT', 'SI'],
+        city: 'North Adriatic (JAXA)',
+        siteName: 'North Adriatic',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Water Quality Regional Maps (JAXA)',
+        lastColorCode: 'BLUE',
+        eoSensor: null,
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -1057,8 +1084,8 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((13.82676706185932 44.707877452151976,13.826080416351507 44.63853985102104,13.828140352874945 44.60726198073148,13.830543612152288 44.580858170237136,13.824707125335882 44.56324896519081,13.831230257660101 44.53388844187968,13.83226022592182 44.50059527839493,13.14012155404682 44.49471803960046,12.29417428842182 44.482961784844655,12.22825631967182 44.70494937295371,12.28318796029682 44.82439215066662,12.375198458343695 44.80027974205457,12.408844088226507 44.82134821071279,12.466865633636663 44.848433626253936,12.50840768685932 44.941643892166006,12.435623263031195 44.97274112720852,12.430816744476507 45.017413877251585,12.314430330902288 44.96496839839778,12.346874331146429 45.11150096790739,12.3191510187685 45.20785209529116,12.239371393829535 45.20857774137082,12.210467909485052 45.2901538238102,12.22276315560932 45.377400919461266,12.30790719857807 45.48533806813408,12.48368844857807 45.559425118958345,12.622390841156195 45.527685472129804,12.436309908539007 45.47089417163262,12.428413485199163 45.41838351593179,12.782894228607367 45.546202443810486,12.887307261139105 45.60069590187233,12.977987383514593 45.62249048564204,13.101626490265081 45.63083382762503,13.086563204437445 45.72456591874726,13.210159395843695 45.76864898557,13.344055269867132 45.73942388451784,13.406883333831976 45.72384688466227,13.44499215951557 45.67565051875911,13.56034860482807 45.78397406598729,13.65647897592182 45.76194293851278,13.773208712249945 45.66413479361571,13.71965036264057 45.5603866467064,13.48619088998432 45.44295880636075,13.59605417123432 45.16671702535331,13.71690378060932 44.97954140088225,13.778701876312445 44.951120616125884,13.81852731576557 44.86042018307063,13.82402047982807 44.77737580152348,13.82676706185932 44.707877452151976))').toJson(),
           }],
         },
-        Time: [['2018-01-20'], ['2018-01-27'], ['2018-03-17'], ['2018-03-24'], ['2018-03-31'], ['2018-04-07'], ['2018-04-14'], ['2018-04-21'], ['2018-04-28'], ['2018-05-05'], ['2018-05-12'], ['2018-05-19'], ['2018-05-26'], ['2018-06-02'], ['2018-06-09'], ['2018-06-16'], ['2018-06-23'], ['2018-06-30'], ['2018-07-07'], ['2018-07-14'], ['2018-07-21'], ['2018-07-28'], ['2018-08-04'], ['2018-08-11'], ['2018-08-18'], ['2018-08-25'], ['2018-09-01'], ['2018-09-08'], ['2018-09-15'], ['2018-09-22'], ['2018-09-29'], ['2018-10-06'], ['2018-10-13'], ['2018-10-20'], ['2018-10-27'], ['2018-11-03'], ['2018-11-17'], ['2018-12-01'], ['2018-12-08'], ['2018-12-15'], ['2018-12-29'], ['2019-01-05'], ['2019-01-12'], ['2019-01-19'], ['2019-01-26'], ['2019-02-02'], ['2019-02-09'], ['2019-02-16'], ['2019-02-23'], ['2019-03-02'], ['2019-03-09'], ['2019-03-16'], ['2019-03-23'], ['2019-03-30'], ['2019-04-06'], ['2019-04-13'], ['2019-04-20'], ['2019-04-27'], ['2019-05-04'], ['2019-05-18'], ['2019-05-25'], ['2019-06-01'], ['2019-06-08'], ['2019-06-15'], ['2019-06-22'], ['2019-06-29'], ['2019-07-06'], ['2019-07-13'], ['2019-07-20'], ['2019-07-27'], ['2019-08-03'], ['2019-08-10'], ['2019-08-17'], ['2019-08-24'], ['2019-08-31'], ['2019-09-07'], ['2019-09-14'], ['2019-09-21'], ['2019-09-28'], ['2019-10-05'], ['2019-10-12'], ['2019-10-19'], ['2019-10-26'], ['2019-11-02'], ['2019-11-23'], ['2019-12-07'], ['2019-12-21'], ['2019-12-28'], ['2020-01-04'], ['2020-01-11'], ['2020-01-18'], ['2020-01-25'], ['2020-02-08'], ['2020-02-15'], ['2020-02-22'], ['2020-02-29'], ['2020-03-07'], ['2020-03-14'], ['2020-03-21'], ['2020-03-28'], ['2020-04-04'], ['2020-04-11'], ['2020-04-18'], ['2020-04-25'], ['2020-05-02'], ['2020-05-09'], ['2020-05-23'], ['2020-05-30'], ['2020-06-06'], ['2020-06-13'], ['2020-06-20'], ['2020-06-27']],
-        'Input Data': [''],
+        time: [['2018-01-20'], ['2018-01-27'], ['2018-03-17'], ['2018-03-24'], ['2018-03-31'], ['2018-04-07'], ['2018-04-14'], ['2018-04-21'], ['2018-04-28'], ['2018-05-05'], ['2018-05-12'], ['2018-05-19'], ['2018-05-26'], ['2018-06-02'], ['2018-06-09'], ['2018-06-16'], ['2018-06-23'], ['2018-06-30'], ['2018-07-07'], ['2018-07-14'], ['2018-07-21'], ['2018-07-28'], ['2018-08-04'], ['2018-08-11'], ['2018-08-18'], ['2018-08-25'], ['2018-09-01'], ['2018-09-08'], ['2018-09-15'], ['2018-09-22'], ['2018-09-29'], ['2018-10-06'], ['2018-10-13'], ['2018-10-20'], ['2018-10-27'], ['2018-11-03'], ['2018-11-17'], ['2018-12-01'], ['2018-12-08'], ['2018-12-15'], ['2018-12-29'], ['2019-01-05'], ['2019-01-12'], ['2019-01-19'], ['2019-01-26'], ['2019-02-02'], ['2019-02-09'], ['2019-02-16'], ['2019-02-23'], ['2019-03-02'], ['2019-03-09'], ['2019-03-16'], ['2019-03-23'], ['2019-03-30'], ['2019-04-06'], ['2019-04-13'], ['2019-04-20'], ['2019-04-27'], ['2019-05-04'], ['2019-05-18'], ['2019-05-25'], ['2019-06-01'], ['2019-06-08'], ['2019-06-15'], ['2019-06-22'], ['2019-06-29'], ['2019-07-06'], ['2019-07-13'], ['2019-07-20'], ['2019-07-27'], ['2019-08-03'], ['2019-08-10'], ['2019-08-17'], ['2019-08-24'], ['2019-08-31'], ['2019-09-07'], ['2019-09-14'], ['2019-09-21'], ['2019-09-28'], ['2019-10-05'], ['2019-10-12'], ['2019-10-19'], ['2019-10-26'], ['2019-11-02'], ['2019-11-23'], ['2019-12-07'], ['2019-12-21'], ['2019-12-28'], ['2020-01-04'], ['2020-01-11'], ['2020-01-18'], ['2020-01-25'], ['2020-02-08'], ['2020-02-15'], ['2020-02-22'], ['2020-02-29'], ['2020-03-07'], ['2020-03-14'], ['2020-03-21'], ['2020-03-28'], ['2020-04-04'], ['2020-04-11'], ['2020-04-18'], ['2020-04-25'], ['2020-05-02'], ['2020-05-09'], ['2020-05-23'], ['2020-05-30'], ['2020-06-06'], ['2020-06-13'], ['2020-06-20'], ['2020-06-27']],
+        inputData: [''],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -1077,19 +1104,20 @@ export const globalIndicators = [
     id: 19997,
     properties: {
       indicatorObject: {
-        AOI: latLng([37.7775, -122.416389]),
+        dataLoadFinished: true,
+        aoi: latLng([37.7775, -122.416389]),
         id: 19997,
-        AOI_ID: 'US03',
-        Country: ['US'],
-        City: 'San Francisco',
-        'Site Name': 'San Francisco',
-        Description: 'Water Quality Regional Maps',
-        'Indicator code': 'N3a2',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Water Quality Regional Maps (NASA)',
-        'Color code': ['BLUE'],
-        'EO Sensor': null,
-        'Sub-AOI': {
+        aoiID: 'US03',
+        country: ['US'],
+        city: 'San Francisco',
+        siteName: 'San Francisco',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Water Quality Regional Maps (NASA)',
+        lastColorCode: 'BLUE',
+        eoSensor: null,
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -1097,8 +1125,8 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-122.63569641113281 37.119795894876006, -121.53514084334165 37.119795894876006, -121.53514084334165 38.35512924194336, -122.63569641113281 38.35512924194336, -122.63569641113281 37.119795894876006))').toJson(),
           }],
         },
-        Time: [['2020-03-02'], ['2020-04-03'], ['2020-04-19'], ['2020-05-04'], ['2020-05-05'], ['2020-05-19'], ['2020-05-21'], ['2020-05-24'], ['2020-06-01'], ['2020-06-03'], ['2020-06-06'], ['2020-06-13'], ['2020-06-18'], ['2020-06-21'], ['2020-06-22'], ['2020-06-23'], ['2020-06-26'], ['2020-06-28'], ['2020-07-01'], ['2020-07-03'], ['2020-07-06'], ['2020-07-08'], ['2020-07-13']],
-        'Input Data': [''],
+        time: [['2020-03-02'], ['2020-04-03'], ['2020-04-19'], ['2020-05-04'], ['2020-05-05'], ['2020-05-19'], ['2020-05-21'], ['2020-05-24'], ['2020-06-01'], ['2020-06-03'], ['2020-06-06'], ['2020-06-13'], ['2020-06-18'], ['2020-06-21'], ['2020-06-22'], ['2020-06-23'], ['2020-06-26'], ['2020-06-28'], ['2020-07-01'], ['2020-07-03'], ['2020-07-06'], ['2020-07-08'], ['2020-07-13']],
+        inputData: [''],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -1107,7 +1135,6 @@ export const globalIndicators = [
           name: 'Water Quality Regional Maps',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
         },
       },
     },
@@ -1117,19 +1144,20 @@ export const globalIndicators = [
     id: 19996,
     properties: {
       indicatorObject: {
-        AOI: latLng([41.0114, -73.09]),
+        dataLoadFinished: true,
+        aoi: latLng([41.0114, -73.09]),
         id: 19996,
-        AOI_ID: 'US04',
-        Country: ['US'],
-        City: 'New York',
-        'Site Name': 'New York',
-        Description: 'Water Quality Regional Maps',
-        'Indicator code': 'N3a2',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Water Quality Regional Maps (NASA)',
-        'Color code': ['BLUE'],
-        'EO Sensor': null,
-        'Sub-AOI': {
+        aoiID: 'US04',
+        country: ['US'],
+        city: 'New York',
+        siteName: 'New York',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Water Quality Regional Maps (NASA)',
+        lastColorCode: 'BLUE',
+        eoSensor: null,
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -1137,8 +1165,8 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-71.74516 41.54467, -74.43395 41.54943, -74.43219 40.47812, -71.74516 40.48343, -71.74516 41.54467))').toJson(),
           }],
         },
-        Time: getWeeklyDates('2020-01-01', '2020-06-24'),
-        'Input Data': [''],
+        time: getWeeklyDates('2020-01-01', '2020-06-24'),
+        inputData: [''],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -1157,19 +1185,20 @@ export const globalIndicators = [
     id: 19995,
     properties: {
       indicatorObject: {
-        AOI: latLng([35.61, 139.78]),
+        dataLoadFinished: true,
+        aoi: latLng([35.61, 139.78]),
         id: 19995,
-        AOI_ID: 'JP01',
-        Country: ['JP'],
-        City: 'Tokyo',
-        'Site Name': 'Tokyo',
-        Description: 'Water Quality Regional Maps',
-        'Indicator code': 'N3a2',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Water Quality Regional Maps (JAXA)',
-        'Color code': ['BLUE'],
-        'EO Sensor': null,
-        'Sub-AOI': {
+        aoiID: 'JP01',
+        country: ['JP'],
+        city: 'Tokyo',
+        siteName: 'Tokyo',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Water Quality Regional Maps (JAXA)',
+        lastColorCode: 'BLUE',
+        eoSensor: null,
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -1177,8 +1206,8 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((139.34275817871094 35.049654646456474, 140.34809152322123 35.049654646456474, 140.34809152322123 35.93543243408203, 139.34275817871094 35.93543243408203, 139.34275817871094 35.049654646456474))').toJson(),
           }],
         },
-        Time: getWeeklyDates('2017-12-27', '2020-06-10').filter((item) => !['2020-05-27', '2020-04-22', '2020-03-11', '2020-02-12', '2020-01-22', '2019-12-04', '2019-10-16', '2019-09-18', '2019-07-17', '2019-07-10', '2019-07-03', '2019-06-26', '2019-06-05', '2019-05-01', '2019-04-24', '2019-04-17', '2019-02-20', '2019-02-06', '2018-12-05', '2018-10-31', '2018-10-10', '2018-08-29', '2018-08-15', '2018-06-13', '2018-06-06', '2018-05-23', '2018-03-21', '2018-02-28', '2018-02-07', '2017-12-27'].includes(item)),
-        'Input Data': [''],
+        time: getWeeklyDates('2017-12-27', '2020-06-10').filter((item) => !['2020-05-27', '2020-04-22', '2020-03-11', '2020-02-12', '2020-01-22', '2019-12-04', '2019-10-16', '2019-09-18', '2019-07-17', '2019-07-10', '2019-07-03', '2019-06-26', '2019-06-05', '2019-05-01', '2019-04-24', '2019-04-17', '2019-02-20', '2019-02-06', '2018-12-05', '2018-10-31', '2018-10-10', '2018-08-29', '2018-08-15', '2018-06-13', '2018-06-06', '2018-05-23', '2018-03-21', '2018-02-28', '2018-02-07', '2017-12-27'].includes(item)),
+        inputData: [''],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -1197,19 +1226,20 @@ export const globalIndicators = [
     latlng: latLng([43.4, 4.94]),
     properties: {
       indicatorObject: {
+        dataLoadFinished: true,
         id: 19993,
-        AOI: latLng([43.4, 4.94]),
-        AOI_ID: 'RhoneDelta',
-        Country: ['FR'],
-        City: 'Rhone Delta - Chlorophyll-a concentration',
-        'Site Name': 'Fos-sur-Mer',
-        Description: 'Water Quality Regional Maps',
-        'Indicator code': 'N3a2',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Water Quality Regional Maps (ESA)',
-        'Color code': ['BLUE'],
-        'EO Sensor': null,
-        'Sub-AOI': {
+        aoi: latLng([43.4, 4.94]),
+        aoiID: 'RhoneDelta',
+        country: ['FR'],
+        city: 'Rhone Delta - Chlorophyll-a concentration',
+        siteName: 'Fos-sur-Mer',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Water Quality Regional Maps (ESA)',
+        lastColorCode: 'BLUE',
+        eoSensor: null,
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -1217,8 +1247,8 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((4.19585670915520126 43.49375380380885758, 4.19491064380215573 43.49564593451494687, 4.62253218337875094 43.49564593451494687, 4.69632528091630519 43.49753806522103616, 4.69537921556325966 43.48618528098449332, 4.6736197124432115 43.46442577786444161, 4.64523775185184462 43.45401905898093986, 4.67172758173712044 43.42090677162434531, 4.70389380374066945 43.41428431415302924, 4.71146232656503461 43.43698988262612204, 4.75592739815817644 43.43320562121393635, 4.78525542410258886 43.41806857556520782, 4.81647558075309234 43.38495628820861327, 4.83918114922618603 43.38495628820861327, 4.82877443034268428 43.40671579132866498, 4.81552951540004681 43.424691033036531, 4.81836771145918341 43.43604381727307384, 4.86661704446450738 43.41050005274084356, 4.87040130587668951 43.41523037950607034, 4.84012721457923156 43.44928873221571308, 4.85999458699318865 43.4682100392766273, 4.88459228617237251 43.42942135980175777, 4.89499900505587426 43.43793594797917024, 4.91297424676374028 43.43509775192003275, 4.92621916170637775 43.44172020939134882, 4.94608653412033483 43.49280773845580939, 5.21949942115050369 43.49753806522103616, 5.23558253215227776 43.4899695423966719, 5.24693531638882504 43.4672639739235791, 5.23842072821141436 43.43415168656698455, 5.21476909438527514 43.41428431415302924, 5.16557369602690564 43.39157874567993645, 5.08988846778326032 43.39157874567993645, 5.014203239539615 43.39252481103297754, 5.01893356630484355 43.3792798960903454, 5.03690880801270868 43.3565743276172455, 5.07096716072234965 43.34143728196851697, 5.11070190555026294 43.33859908590937948, 5.15327484643731371 43.34427547802765446, 5.21760729044441174 43.34049121661547588, 5.27247908092105533 43.35373613155811512, 5.30275317221851239 43.37265743861902223, 5.33208119816292569 43.36698104650074725, 5.35194857057688189 43.3565743276172455, 5.36140922410733811 43.34143728196851697, 5.36992381228474791 43.32535417096674735, 5.36992381228474791 43.3130553213771492, 5.36613955087256578 43.29791827572842067, 5.36613955087256578 43.28845762219796711, 5.37654626975606753 43.27521270725532787, 5.38600692328652286 43.26102172695964754, 5.38316872722738626 43.25250713878223507, 5.37276200834388451 43.24210041989873332, 5.35478676663601938 43.23263976636827977, 5.35005643987079083 43.22128698213172981, 5.35857102804820151 43.21088026324823517, 5.37749233510911218 43.21655665536650304, 5.39925183822916033 43.21939485142564052, 5.42195740670225401 43.21561059001346194, 5.45412362870580303 43.21939485142564052, 5.50331902706417253 43.20141960971777451, 5.50615722312331002 42.99990768951906972, 4.19301851309606466 42.99896162416602152, 4.19585670915520126 43.49375380380885758))').toJson(),
           }],
         },
-        Time: getWeeklyDates('2020-01-07', '2020-07-28'),
-        'Input Data': [''],
+        time: getWeeklyDates('2020-01-07', '2020-07-28'),
+        inputData: [''],
         display: {
           ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
@@ -1237,19 +1267,20 @@ export const globalIndicators = [
     latlng: latLng([45.197522, 13.0297851]),
     properties: {
       indicatorObject: {
+        dataLoadFinished: true,
         id: 19992,
-        AOI: latLng([45.197522, 13.0297851]),
-        AOI_ID: 'NorthAdriaticESATSM',
-        Country: ['HR', 'IT', 'SI'],
-        City: 'North Adriatic (ESA) - Total Suspended Matter',
-        'Site Name': 'North Adriatic',
-        Description: 'Water Quality Regional Maps',
-        'Indicator code': 'N3a2',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Water Quality Regional Maps (ESA)',
-        'Color code': ['BLUE'],
-        'EO Sensor': null,
-        'Sub-AOI': {
+        aoi: latLng([45.197522, 13.0297851]),
+        aoiID: 'NorthAdriaticESATSM',
+        country: ['HR', 'IT', 'SI'],
+        city: 'North Adriatic (ESA) - Total Suspended Matter',
+        siteName: 'North Adriatic',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Water Quality Regional Maps (ESA)',
+        lastColorCode: 'BLUE',
+        eoSensor: null,
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -1257,8 +1288,8 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((13.82676706185932 44.707877452151976,13.826080416351507 44.63853985102104,13.828140352874945 44.60726198073148,13.830543612152288 44.580858170237136,13.824707125335882 44.56324896519081,13.831230257660101 44.53388844187968,13.83226022592182 44.50059527839493,13.14012155404682 44.49471803960046,12.29417428842182 44.482961784844655,12.22825631967182 44.70494937295371,12.28318796029682 44.82439215066662,12.375198458343695 44.80027974205457,12.408844088226507 44.82134821071279,12.466865633636663 44.848433626253936,12.50840768685932 44.941643892166006,12.435623263031195 44.97274112720852,12.430816744476507 45.017413877251585,12.314430330902288 44.96496839839778,12.346874331146429 45.11150096790739,12.3191510187685 45.20785209529116,12.239371393829535 45.20857774137082,12.210467909485052 45.2901538238102,12.22276315560932 45.377400919461266,12.30790719857807 45.48533806813408,12.48368844857807 45.559425118958345,12.622390841156195 45.527685472129804,12.436309908539007 45.47089417163262,12.428413485199163 45.41838351593179,12.782894228607367 45.546202443810486,12.887307261139105 45.60069590187233,12.977987383514593 45.62249048564204,13.101626490265081 45.63083382762503,13.086563204437445 45.72456591874726,13.210159395843695 45.76864898557,13.344055269867132 45.73942388451784,13.406883333831976 45.72384688466227,13.44499215951557 45.67565051875911,13.56034860482807 45.78397406598729,13.65647897592182 45.76194293851278,13.773208712249945 45.66413479361571,13.71965036264057 45.5603866467064,13.48619088998432 45.44295880636075,13.59605417123432 45.16671702535331,13.71690378060932 44.97954140088225,13.778701876312445 44.951120616125884,13.81852731576557 44.86042018307063,13.82402047982807 44.77737580152348,13.82676706185932 44.707877452151976))').toJson(),
           }],
         },
-        Time: getWeeklyDates('2020-01-07', '2020-07-28'),
-        'Input Data': [''],
+        time: getWeeklyDates('2020-01-07', '2020-07-28'),
+        inputData: [''],
         display: {
           ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
@@ -1277,19 +1308,20 @@ export const globalIndicators = [
     latlng: latLng([43.4, 4.9400001]),
     properties: {
       indicatorObject: {
+        dataLoadFinished: true,
         id: 19991,
-        AOI: latLng([43.4, 4.9400001]),
-        AOI_ID: 'RhoneDeltaTSM',
-        Country: ['FR'],
-        City: 'Rhone Delta - Total Suspended Matter',
-        'Site Name': 'Fos-sur-Mer',
-        Description: 'Water Quality Regional Maps',
-        'Indicator code': 'N3a2',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Water Quality Regional Maps (ESA)',
-        'Color code': ['BLUE'],
-        'EO Sensor': null,
-        'Sub-AOI': {
+        aoi: latLng([43.4, 4.9400001]),
+        aoiID: 'RhoneDeltaTSM',
+        country: ['FR'],
+        city: 'Rhone Delta - Total Suspended Matter',
+        siteName: 'Fos-sur-Mer',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Water Quality Regional Maps (ESA)',
+        lastColorCode: 'BLUE',
+        eoSensor: null,
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -1297,8 +1329,8 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((4.19585670915520126 43.49375380380885758, 4.19491064380215573 43.49564593451494687, 4.62253218337875094 43.49564593451494687, 4.69632528091630519 43.49753806522103616, 4.69537921556325966 43.48618528098449332, 4.6736197124432115 43.46442577786444161, 4.64523775185184462 43.45401905898093986, 4.67172758173712044 43.42090677162434531, 4.70389380374066945 43.41428431415302924, 4.71146232656503461 43.43698988262612204, 4.75592739815817644 43.43320562121393635, 4.78525542410258886 43.41806857556520782, 4.81647558075309234 43.38495628820861327, 4.83918114922618603 43.38495628820861327, 4.82877443034268428 43.40671579132866498, 4.81552951540004681 43.424691033036531, 4.81836771145918341 43.43604381727307384, 4.86661704446450738 43.41050005274084356, 4.87040130587668951 43.41523037950607034, 4.84012721457923156 43.44928873221571308, 4.85999458699318865 43.4682100392766273, 4.88459228617237251 43.42942135980175777, 4.89499900505587426 43.43793594797917024, 4.91297424676374028 43.43509775192003275, 4.92621916170637775 43.44172020939134882, 4.94608653412033483 43.49280773845580939, 5.21949942115050369 43.49753806522103616, 5.23558253215227776 43.4899695423966719, 5.24693531638882504 43.4672639739235791, 5.23842072821141436 43.43415168656698455, 5.21476909438527514 43.41428431415302924, 5.16557369602690564 43.39157874567993645, 5.08988846778326032 43.39157874567993645, 5.014203239539615 43.39252481103297754, 5.01893356630484355 43.3792798960903454, 5.03690880801270868 43.3565743276172455, 5.07096716072234965 43.34143728196851697, 5.11070190555026294 43.33859908590937948, 5.15327484643731371 43.34427547802765446, 5.21760729044441174 43.34049121661547588, 5.27247908092105533 43.35373613155811512, 5.30275317221851239 43.37265743861902223, 5.33208119816292569 43.36698104650074725, 5.35194857057688189 43.3565743276172455, 5.36140922410733811 43.34143728196851697, 5.36992381228474791 43.32535417096674735, 5.36992381228474791 43.3130553213771492, 5.36613955087256578 43.29791827572842067, 5.36613955087256578 43.28845762219796711, 5.37654626975606753 43.27521270725532787, 5.38600692328652286 43.26102172695964754, 5.38316872722738626 43.25250713878223507, 5.37276200834388451 43.24210041989873332, 5.35478676663601938 43.23263976636827977, 5.35005643987079083 43.22128698213172981, 5.35857102804820151 43.21088026324823517, 5.37749233510911218 43.21655665536650304, 5.39925183822916033 43.21939485142564052, 5.42195740670225401 43.21561059001346194, 5.45412362870580303 43.21939485142564052, 5.50331902706417253 43.20141960971777451, 5.50615722312331002 42.99990768951906972, 4.19301851309606466 42.99896162416602152, 4.19585670915520126 43.49375380380885758))').toJson(),
           }],
         },
-        Time: getWeeklyDates('2020-01-07', '2020-07-28'),
-        'Input Data': [''],
+        time: getWeeklyDates('2020-01-07', '2020-07-28'),
+        inputData: [''],
         display: {
           ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
@@ -1317,19 +1349,20 @@ export const globalIndicators = [
     id: 19990,
     properties: {
       indicatorObject: {
-        AOI: latLng([37.7775, -122.4163891]),
+        dataLoadFinished: true,
+        aoi: latLng([37.7775, -122.4163891]),
         id: 19990,
-        AOI_ID: 'US03SPM',
-        Country: ['US'],
-        City: 'San Francisco - SPM',
-        'Site Name': 'San Francisco',
-        Description: 'Water Quality Regional Maps',
-        'Indicator code': 'N3a2',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Water Quality Regional Maps (NASA) - SPM',
-        'Color code': ['BLUE'],
-        'EO Sensor': null,
-        'Sub-AOI': {
+        aoiID: 'US03SPM',
+        country: ['US'],
+        city: 'San Francisco - SPM',
+        siteName: 'San Francisco',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Water Quality Regional Maps (NASA) - SPM',
+        lastColorCode: 'BLUE',
+        eoSensor: null,
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -1337,8 +1370,8 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-122.63569641113281 37.119795894876006, -121.53514084334165 37.119795894876006, -121.53514084334165 38.35512924194336, -122.63569641113281 38.35512924194336, -122.63569641113281 37.119795894876006))').toJson(),
           }],
         },
-        Time: [['2020-06-01'], ['2020-06-03'], ['2020-06-06'], ['2020-06-13'], ['2020-06-21'], ['2020-06-22'], ['2020-06-23'], ['2020-06-25'], ['2020-06-28'], ['2020-06-30'], ['2020-07-01'], ['2020-07-03']],
-        'Input Data': [''],
+        time: [['2020-06-01'], ['2020-06-03'], ['2020-06-06'], ['2020-06-13'], ['2020-06-21'], ['2020-06-22'], ['2020-06-23'], ['2020-06-25'], ['2020-06-28'], ['2020-06-30'], ['2020-07-01'], ['2020-07-03']],
+        inputData: [''],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
