@@ -67,7 +67,7 @@
 
             <v-card>
               <v-card-title class="headline primary white--text">
-                Embed this chart into your website 
+                Embed this chart into your website
               </v-card-title>
 
               <v-card-text class="py-5">
