@@ -44,7 +44,9 @@
           class="py-0 my-0"
         >
           <small v-if="indicatorObject && indicatorObject.updateFrequency">
-            This data is updated: {{ indicatorObject.updateFrequency }}
+            <span v-if="indicatorObject.updateFrequency === 'Retired'">This indicator is no longer updated</span>
+            <span v-else-if="indicatorObject.updateFrequency === 'EndSeason'">Due to end of season, this indicator is no longer updated</span>
+            <span v-else>This data is updated: {{ indicatorObject.updateFrequency }}</span>
           </small>
         </v-col>
         <v-col
