@@ -41,11 +41,74 @@
         </v-col>
         <v-col
           cols="12"
-          class="py-0 my-0"
+          class="py-0 my-0 d-flex justify-space-between"
         >
           <small v-if="indicatorObject && indicatorObject.updateFrequency">
             This data is updated: {{ indicatorObject.updateFrequency }}
           </small>
+          <small v-else> </small>
+          <v-dialog
+            v-model="iframeDialog"
+            width="500"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                color="primary"
+                text
+                x-small
+                v-bind="attrs"
+                @click="copySuccess = false"
+                v-on="on"
+              >
+                <v-icon left>mdi-poll-box</v-icon>
+                embed chart
+              </v-btn>
+            </template>
+
+            <v-card>
+              <v-card-title class="headline primary white--text">
+                Embed this chart into your website 
+              </v-card-title>
+
+              <v-card-text class="py-5">
+                Copy and paste this code into your HTML file:
+                <code class="pa-3">{{ iframeCode }}
+                </code>
+                <div class="d-flex align-center justify-end pt-3">
+                  <v-expand-transition>
+                    <div v-if="copySuccess" class="success--text mr-3">
+                    <v-icon
+                      color="success"
+                      left
+                    >mdi-clipboard-check-outline</v-icon>
+                      <small>copied!</small>
+                    </div>
+                  </v-expand-transition>
+                  <v-btn
+                    small
+                    text
+                    @click="copy(iframeCode)"
+                  >
+                    <v-icon left>mdi-content-copy</v-icon>
+                    copy to clipboard
+                  </v-btn>
+                </div>
+              </v-card-text>
+
+              <v-divider></v-divider>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="primary"
+                  flat
+                  @click="iframeDialog = false"
+                >
+                  Close
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </v-col>
         <v-col
           cols="12"
@@ -127,6 +190,8 @@ export default {
     dialog: false,
     overlay: false,
     dataInteract: false,
+    iframeDialog: false,
+    copySuccess: false,
   }),
   watch: {
     dialog(open) {
@@ -161,6 +226,9 @@ export default {
       }
       return this.$marked(markdown.default);
     },
+    iframeCode() {
+      return `<iframe class="item" src="${window.location.origin}/iframe?poi=${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
+    },
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
     },
@@ -191,6 +259,10 @@ export default {
     },
   },
   methods: {
+    async copy(s) {
+      await navigator.clipboard.writeText(s);
+      this.copySuccess = true;
+    },
     swipe() {
       this.overlay = true;
       setTimeout(() => { this.overlay = false; }, 2000);

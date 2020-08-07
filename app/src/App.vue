@@ -21,7 +21,7 @@
     </div>
     <template v-else>
       <router-view />
-      <cookie-law @accept="acceptCookies">
+      <cookie-law v-if="showCookieNotice" @accept="acceptCookies">
         <div slot-scope="props" style="width: 100%;">
           <div class="d-flex align-center justify-center mb-5">
             <small class="mb-0">
@@ -87,6 +87,9 @@ export default {
       'getIndicators',
       'getCountryItems',
     ]),
+    showCookieNotice() {
+      return this.$route.path != '/iframe';
+    },
   },
   created() {
     if (this.appConfig.hasOwnProperty('countDownTimer')
