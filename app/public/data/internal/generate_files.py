@@ -6,6 +6,7 @@ import json
 import csv
 import os
 import datetime
+import collections
 
 geoDB_map = {
     "aoi": "aoi",
@@ -187,8 +188,9 @@ def generateData(mapping, array_mapping, input_folder, output_file, output_folde
             return obj.strftime('%Y-%m-%dT%H:%M:%S')
 
     output_dict = {key: {subkey: poi_dict[key][subkey] for subkey in outKeys} for key in poi_dict}
+    ordered_dict = collections.OrderedDict(sorted(output_dict.items()))
     with open(output_file, "w") as fp:
-        json.dump(list(output_dict.values()), fp, indent=4, default=date_converter, sort_keys=True)
+        json.dump(list(ordered_dict.values()), fp, indent=4, default=date_converter, sort_keys=True)
 
     # Generate all unique location json files
     for poi_key in poi_dict:
