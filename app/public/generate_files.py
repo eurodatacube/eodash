@@ -3,15 +3,25 @@
 Helper script to create location and data separation
 
 Usage:
-docker run --rm -it -v $PWD:/working eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/generate_files.py
+docker run --rm -it -v $PWD/.env:/home/jovyan/.env -v $PWD:/working eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/generate_files.py
+
+If issues with write permission you might have to add a user as parameter
+with the same user id as your local account, e.g. "--user 1001"
 """
 
-
+import os, shutil
 import json
 import csv
-import os
 import datetime
 import collections
+from dotenv.main import find_dotenv, DotEnv
+from xcube_geodb.core.geodb import GeoDBClient
+
+dot_env = DotEnv("/home/jovyan/.env")
+dot_env.set_as_environment_variables()
+geodb = GeoDBClient()
+
+delete_files = False
 
 geoDB_map = {
     "aoi": "aoi",
@@ -27,11 +37,23 @@ geoDB_map = {
     "subAoi": "sub_aoi",
     "city": "city",
     "description": "description",
-    "indicatorName": "Indicator Name",
-    "lastReferenceTime": "reference date time [yyyy-mm-ddthh:mm:ss]",
-    "lastReferenceValue": "reference value [float]",
-    "region": "region (optional)",
-    "updateFrequency": "update frequency",
+    "indicatorName": "indicator_name",
+    "region": "region",
+    "updateFrequency": "update_frequency",
+    "yAxis": "y_axis"
+}
+
+geoDB_array_map = {
+    "eo_sensor": "eo_sensor",
+    "input_data": "input_data",
+    "time": "time",
+    "measurement_value": "measurement_value",
+    "reference_time": "reference_time",
+    "reference_value": "reference_value",
+    "indicator_value": "indicator_value",
+    "color_code": "color_code",
+    "data_provider": "data_provider",
+    "site_name_arr": "site_name"
 }
 
 default_map = {
@@ -79,88 +101,145 @@ def try_parsing_date(text):
     raise ValueError('time not provided in valid format')
 
 
-def generateData(mapping, array_mapping, input_folder, output_file, output_folder, additional_files=[], input_json=None):
-    cm = mapping
-    cm_arr = array_mapping
+def generateData(
+    mapping, array_mapping, input_folder, output_file, output_folder,
+    local_files=[], geoDB_indicators=[], input_json=None):
+
     poi_dict = {}
 
-    # Load main poi overview file
-    if input_json is not None:
-        with open(input_json) as json_file:
-            # array with combined unique keys "aoi_id-indicator_code"
-            # create dict using unique key
-            poi_data = json.load(json_file)
-            for poi in poi_data:
-                pkey = "%s-%s" % (poi["aoi_id"], poi["indicator_code"])
-                if pkey in poi_dict:
-                    # Overwrite data?
-                    print("Duplicate key found, overwriting data")
-                    poi_dict[pkey] = poi
-                else:
-                    poi_dict[pkey] = poi
-    file_paths = [os.path.join(input_folder, file) for file in os.listdir(input_folder)]
-    file_paths.extend(additional_files)
-    # Load all csv from a path
-    for file_path in file_paths:
-        if (file_path.endswith(".csv")
-            and not file_path.endswith("Regional_Global_Indicator_Countries.csv")
-                and not file_path.endswith("dummylocations.csv")):
+    # Clear output folder
+    if delete_files:
+        for filename in os.listdir(output_folder):
+            file_path = os.path.join(output_folder, filename)
             try:
-                with open(file_path) as csvfile:
-                    reader = csv.DictReader(csvfile, delimiter=",", quotechar='"')
-                    for line in reader:
-                        # Aggregate data for unique pois and write unique data to poi_dict
-                        poi_key = "%s-%s" % (line[cm["aoiID"]], line[cm["indicator"]])
-                        if poi_key in poi_dict:
-                            # If key already saved we add the relevant data
-                            object_always_present = {
-                                "eo_sensor": line[cm_arr["eo_sensor"]],
-                                "input_data": line[cm_arr["input_data"]],
-                                "time": try_parsing_date(line[cm_arr["time"]]),
-                                "measurement_value": line[cm_arr["measurement_value"]],
-                                "reference_time": line[cm_arr["reference_time"]],
-                                "reference_value": line[cm_arr["reference_value"]],
-                                "indicator_value": line[cm_arr["indicator_value"]],
-                                "color_code": line[cm_arr["color_code"]],
-                                "data_provider": line[cm_arr["data_provider"]],
-                            }
-                            if line[cm["indicator"]] in ["E10a3", "E10a8"]:
-                                object_always_present["site_name_arr"] = line[cm_arr["site_name_arr"]]
-                            poi_dict[poi_key]["poi_data"].append(object_always_present)
-                        else:
-                            poi_data_always = [{
-                                "eo_sensor": line[cm_arr["eo_sensor"]],
-                                "input_data": line[cm_arr["input_data"]],
-                                "time": try_parsing_date(line[cm_arr["time"]]),
-                                "measurement_value": line[cm_arr["measurement_value"]],
-                                "color_code": line[cm_arr["color_code"]],
-                                "indicator_value": line[cm_arr["indicator_value"]],
-                                "reference_time": line[cm_arr["reference_time"]],
-                                "reference_value": line[cm_arr["reference_value"]],
-                                "data_provider": line[cm_arr["data_provider"]],
-                            }]
-                            if line[cm["indicator"]] in ["E10a3", "E10a8"]:
-                                poi_data_always[0]["site_name_arr"] = line[cm_arr["site_name_arr"]]
-                            poi_dict[poi_key] = {
-                                # Unique poi data
-                                "aoi": line[cm["aoi"]],
-                                "aoiID": line[cm["aoiID"]],
-                                "country": line[cm["country"]],
-                                "indicator": line[cm["indicator"]],
-                                "siteName": line[cm["siteName"]],
-                                "city": line[cm["city"]],
-                                "region": line[cm["region"]],
-                                "description": line[cm["description"]],
-                                "indicatorName": line[cm["indicatorName"]],
-                                "yAxis": line[cm["yAxis"]],
-                                "subAoi": line[cm["subAoi"]],
-                                "updateFrequency": line[cm["updateFrequency"]],
-                                # Actual data
-                                "poi_data": poi_data_always,
-                            }
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
             except Exception as e:
-                print("WARNING: Issue reading file %s; file will be skipped for generation" % (file_path))
-                print("Exception: %s" % e)
+                print('Failed to delete %s. Reason: %s' % (file_path, e))
+
+    # Load geodb data
+    cm = geoDB_map
+    cm_arr = geoDB_array_map
+
+    for indicator in geoDB_indicators:
+        try:
+            indicator_data = geodb.get_collection(indicator, database='anja')
+            for index, line in indicator_data.iterrows():
+                # Aggregate data for unique pois and write unique data to poi_dict
+                poi_key = "%s-%s" % (line[cm["aoiID"]], line[cm["indicator"]])
+                if poi_key in poi_dict:
+                    # If key already saved we add the relevant data
+                    object_always_present = {
+                        "eo_sensor": line[cm_arr["eo_sensor"]],
+                        "input_data": line[cm_arr["input_data"]],
+                        "time": try_parsing_date(line[cm_arr["time"]]),
+                        "measurement_value": line[cm_arr["measurement_value"]],
+                        "reference_time": line[cm_arr["reference_time"]],
+                        "reference_value": line[cm_arr["reference_value"]],
+                        "indicator_value": line[cm_arr["indicator_value"]],
+                        "color_code": line[cm_arr["color_code"]],
+                        "data_provider": line[cm_arr["data_provider"]],
+                    }
+                    if line[cm["indicator"]] in ["E10a3", "E10a8"]:
+                        object_always_present["site_name_arr"] = line[cm_arr["site_name_arr"]]
+                    poi_dict[poi_key]["poi_data"].append(object_always_present)
+                else:
+                    poi_data_always = [{
+                        "eo_sensor": line[cm_arr["eo_sensor"]],
+                        "input_data": line[cm_arr["input_data"]],
+                        "time": try_parsing_date(line[cm_arr["time"]]),
+                        "measurement_value": line[cm_arr["measurement_value"]],
+                        "color_code": line[cm_arr["color_code"]],
+                        "indicator_value": line[cm_arr["indicator_value"]],
+                        "reference_time": line[cm_arr["reference_time"]],
+                        "reference_value": line[cm_arr["reference_value"]],
+                        "data_provider": line[cm_arr["data_provider"]],
+                    }]
+                    if line[cm["indicator"]] in ["E10a3", "E10a8"]:
+                        poi_data_always[0]["site_name_arr"] = line[cm_arr["site_name_arr"]]
+                    poi_dict[poi_key] = {
+                        # Unique poi data
+                        "aoi": line[cm["aoi"]],
+                        "aoiID": line[cm["aoiID"]],
+                        "country": line[cm["country"]],
+                        "indicator": line[cm["indicator"]],
+                        "siteName": line[cm["siteName"]],
+                        "city": line[cm["city"]],
+                        "region": line[cm["region"]],
+                        "description": line[cm["description"]],
+                        "indicatorName": line[cm["indicatorName"]],
+                        "yAxis": line[cm["yAxis"]],
+                        "subAoi": line[cm["subAoi"]],
+                        "updateFrequency": line[cm["updateFrequency"]],
+                        # Actual data
+                        "poi_data": poi_data_always,
+                    }
+        except Exception as e:
+            print("WARNING: Issue reading indicator %s; file will be skipped for generation" % (indicator))
+            print("Exception: %s" % e)
+
+    # Load all csv listed in local files
+    cm = mapping
+    cm_arr = array_mapping
+    for file_path in local_files:
+        try:
+            with open(file_path) as csvfile:
+                reader = csv.DictReader(csvfile, delimiter=",", quotechar='"')
+                for line in reader:
+                    # Aggregate data for unique pois and write unique data to poi_dict
+                    poi_key = "%s-%s" % (line[cm["aoiID"]], line[cm["indicator"]])
+                    if poi_key in poi_dict:
+                        # If key already saved we add the relevant data
+                        object_always_present = {
+                            "eo_sensor": line[cm_arr["eo_sensor"]],
+                            "input_data": line[cm_arr["input_data"]],
+                            "time": try_parsing_date(line[cm_arr["time"]]),
+                            "measurement_value": line[cm_arr["measurement_value"]],
+                            "reference_time": line[cm_arr["reference_time"]],
+                            "reference_value": line[cm_arr["reference_value"]],
+                            "indicator_value": line[cm_arr["indicator_value"]],
+                            "color_code": line[cm_arr["color_code"]],
+                            "data_provider": line[cm_arr["data_provider"]],
+                        }
+                        if line[cm["indicator"]] in ["E10a3", "E10a8"]:
+                            object_always_present["site_name_arr"] = line[cm_arr["site_name_arr"]]
+                        poi_dict[poi_key]["poi_data"].append(object_always_present)
+                    else:
+                        poi_data_always = [{
+                            "eo_sensor": line[cm_arr["eo_sensor"]],
+                            "input_data": line[cm_arr["input_data"]],
+                            "time": try_parsing_date(line[cm_arr["time"]]),
+                            "measurement_value": line[cm_arr["measurement_value"]],
+                            "color_code": line[cm_arr["color_code"]],
+                            "indicator_value": line[cm_arr["indicator_value"]],
+                            "reference_time": line[cm_arr["reference_time"]],
+                            "reference_value": line[cm_arr["reference_value"]],
+                            "data_provider": line[cm_arr["data_provider"]],
+                        }]
+                        if line[cm["indicator"]] in ["E10a3", "E10a8"]:
+                            poi_data_always[0]["site_name_arr"] = line[cm_arr["site_name_arr"]]
+                        poi_dict[poi_key] = {
+                            # Unique poi data
+                            "aoi": line[cm["aoi"]],
+                            "aoiID": line[cm["aoiID"]],
+                            "country": line[cm["country"]],
+                            "indicator": line[cm["indicator"]],
+                            "siteName": line[cm["siteName"]],
+                            "city": line[cm["city"]],
+                            "region": line[cm["region"]],
+                            "description": line[cm["description"]],
+                            "indicatorName": line[cm["indicatorName"]],
+                            "yAxis": line[cm["yAxis"]],
+                            "subAoi": line[cm["subAoi"]],
+                            "updateFrequency": line[cm["updateFrequency"]],
+                            # Actual data
+                            "poi_data": poi_data_always,
+                        }
+        except Exception as e:
+            print("WARNING: Issue reading file %s; file will be skipped for generation" % (file_path))
+            print("Exception: %s" % e)
 
     outKeys = [
         "aoi", "aoiID", "country", "indicator", "siteName", "city", "region",
@@ -212,12 +291,24 @@ generateData(
     "/working/data/internal/pois_trilateral.json",
     "/working/data/internal/",
     [
-        "/working/eodash-data/data/E10a2.csv",
-        "/working/eodash-data/data/E10a3.csv",
-        "/working/eodash-data/data/E10a6.csv",
-        "/working/eodash-data/data/E10a7.csv",
-        "/working/eodash-data/data/E10a8.csv",
-    ]
+        #'/working/data/trilateral/E1.csv',
+        '/working/data/trilateral/E1a.csv',
+        '/working/data/trilateral/E8.csv',
+        '/working/data/trilateral/E9.csv',
+        '/working/data/trilateral/E10a1.csv',
+        '/working/eodash-data/data/E10a2.csv',
+        '/working/eodash-data/data/E10a3.csv',
+        '/working/eodash-data/data/E10a6.csv',
+        '/working/eodash-data/data/E10a7.csv',
+        '/working/eodash-data/data/E10a8.csv',
+        '/working/data/trilateral/E10c.csv',
+        '/working/data/trilateral/E13b.csv',
+        '/working/data/trilateral/E13c.csv',
+        '/working/data/trilateral/N1.csv',
+        '/working/data/trilateral/N2.csv',
+        '/working/data/trilateral/N3b.csv',
+    ],
+    ['E1']
 )
 
 print("Generating data for eodashboard")
@@ -227,5 +318,26 @@ generateData(
     default_array_map,
     "/working/eodash-data/data/",
     "/working/data/internal/pois_eodash.json",
-    "/working/eodash-data/internal/"
+    "/working/eodash-data/internal/",
+    [
+        #'/working/eodash-data/data/E1.csv',
+        '/working/eodash-data/data/E1a.csv',
+        '/working/eodash-data/data/E2.csv',
+        '/working/eodash-data/data/E4.csv',
+        '/working/eodash-data/data/E5.csv',
+        '/working/eodash-data/data/E8.csv',
+        '/working/eodash-data/data/E10a1.csv',
+        '/working/eodash-data/data/E10a2.csv',
+        '/working/eodash-data/data/E10a3.csv',
+        '/working/eodash-data/data/E10a5.csv',
+        '/working/eodash-data/data/E10a6.csv',
+        '/working/eodash-data/data/E10a7.csv',
+        '/working/eodash-data/data/E10a8.csv',
+        '/working/eodash-data/data/E11.csv',
+        '/working/eodash-data/data/E13b.csv',
+        #'/working./eodash-data/data/E13c.csv',
+        '/working/eodash-data/data/N3.csv',
+        '/working/eodash-data/data/N4a.csv',
+    ],
+    ['E1']
 )
