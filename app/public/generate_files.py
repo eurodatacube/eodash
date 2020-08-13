@@ -324,7 +324,7 @@ generateData(
         '/working/eodash-data/data/E1a.csv',
         '/working/eodash-data/data/E2.csv',
         '/working/eodash-data/data/E4.csv',
-        '/working/eodash-data/data/E5.csv',
+        #'/working/eodash-data/data/E5.csv',  # Moved to geoDB
         '/working/eodash-data/data/E8.csv',
         '/working/eodash-data/data/E10a1.csv',
         '/working/eodash-data/data/E10a2.csv',
@@ -340,5 +340,5 @@ generateData(
         '/working/eodash-data/data/N3.csv',
         '/working/eodash-data/data/N4a.csv',
     ],
-    ['E1']
+    ['E1', 'E5']
 )
