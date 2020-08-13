@@ -3,7 +3,7 @@
 Helper script to create location and data separation
 
 Usage:
-docker run --rm -it -v $PWD/.env:/home/jovyan/.env -v $PWD:/working eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/generate_files.py
+docker run --rm -it -v $PWD:/working eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/generate_files.py
 
 If issues with write permission you might have to add a user as parameter
 with the same user id as your local account, e.g. "--user 1001"
@@ -17,7 +17,7 @@ import collections
 from dotenv.main import find_dotenv, DotEnv
 from xcube_geodb.core.geodb import GeoDBClient
 
-dot_env = DotEnv("/home/jovyan/.env")
+dot_env = DotEnv("/working/.env")
 dot_env.set_as_environment_variables()
 geodb = GeoDBClient()
 
@@ -291,7 +291,7 @@ generateData(
     "/working/data/internal/pois_trilateral.json",
     "/working/data/internal/",
     [
-        #'/working/data/trilateral/E1.csv',
+        #'/working/data/trilateral/E1.csv',  # Moved to geoDB
         '/working/data/trilateral/E1a.csv',
         '/working/data/trilateral/E8.csv',
         '/working/data/trilateral/E9.csv',
@@ -320,7 +320,7 @@ generateData(
     "/working/data/internal/pois_eodash.json",
     "/working/eodash-data/internal/",
     [
-        #'/working/eodash-data/data/E1.csv',
+        #'/working/eodash-data/data/E1.csv',  # Moved to geoDB
         '/working/eodash-data/data/E1a.csv',
         '/working/eodash-data/data/E2.csv',
         '/working/eodash-data/data/E4.csv',
@@ -335,7 +335,8 @@ generateData(
         '/working/eodash-data/data/E10a8.csv',
         '/working/eodash-data/data/E11.csv',
         '/working/eodash-data/data/E13b.csv',
-        #'/working./eodash-data/data/E13c.csv',
+        #'/working./eodash-data/data/E13c.csv',  # Not ready yet
+        '/working/eodash-data/data/N1_PLES_Europe.csv',
         '/working/eodash-data/data/N3.csv',
         '/working/eodash-data/data/N4a.csv',
     ],
