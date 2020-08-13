@@ -1390,31 +1390,25 @@ export const globalIndicators = [
       },
     },
   },
-  // DC_S1_TA004_SPM_20200103-20200206_20200328-20200424_th-0.3.cog.tif
-  // Dunkirk_S1_TA161_SPM_20200101-20200215_20200401-20200431_th-0.cog.tif
-  // Ghent_S1_TA161_SPM_20200103-20200206_20200401-20200430_th-0.cog.tif
-  // Lima_S1_TA018_SPM_20200114-20200302_20200326-20200501_th-0.cog.tif
-  // LosAngeles_A2_SPM_10m_20200101-20200228_20200401-20200430_th-0.35.cog.tif
-  // LosAngeles_S1_TA064_SPM_20200103-20200228_20200401-20200430_th-0.cog.tif
-  // Mumbai_S1_TD034_SPM_20200110-20200122_20200322-20200427_th-0.cog.tif
   {
     latlng: latLng([39.9, 116.38]),
     id: 9899,
     properties: {
       indicatorObject: {
-        AOI: latLng([39.9, 116.38]),
+        dataLoadFinished: true,
+        aoi: latLng([39.9, 116.38]),
         id: 9899,
-        AOI_ID: 'CN01',
-        Country: ['CN'],
-        City: 'Beijing',
-        'Site Name': 'Beijing',
-        Description: 'Movement slowdown',
-        'Indicator code': 'N6',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Movement slowdown',
-        'Color code': ['BLUE'],
-        'EO Sensor': ['Derived from Sentinel-1'],
-        'Sub-AOI': {
+        aoiID: 'CN01',
+        country: ['CN'],
+        city: 'Beijing',
+        siteName: 'Beijing',
+        description: 'Movement slowdown',
+        indicator: 'N6',
+        lastIndicatorValue: ['normal'],
+        indicatorName: 'Movement slowdown',
+        lastColorCode: 'BLUE',
+        eoSensor: ['Derived from Sentinel-1'],
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -1422,8 +1416,8 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((115.91229248046875 39.627200509676186, 116.86084804657003 39.627200509676186, 116.86084804657003 40.32575607299805, 115.91229248046875 40.32575607299805, 115.91229248046875 39.627200509676186,))').toJson(),
           }],
         },
-        Time: ['2020-03-01'],
-        'Input Data': [''],
+        time: ['2020-03-01'],
+        inputData: [''],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -1437,24 +1431,32 @@ export const globalIndicators = [
       },
     },
   },
+  // DC_S1_TA004_SPM_20200103-20200206_20200328-20200424_th-0.3.cog.tif
+  // Dunkirk_S1_TA161_SPM_20200101-20200215_20200401-20200431_th-0.cog.tif
+  // Ghent_S1_TA161_SPM_20200103-20200206_20200401-20200430_th-0.cog.tif
+  // Lima_S1_TA018_SPM_20200114-20200302_20200326-20200501_th-0.cog.tif
+  // LosAngeles_A2_SPM_10m_20200101-20200228_20200401-20200430_th-0.35.cog.tif
+  // LosAngeles_S1_TA064_SPM_20200103-20200228_20200401-20200430_th-0.cog.tif
+  // Mumbai_S1_TD034_SPM_20200110-20200122_20200322-20200427_th-0.cog.tif
   {
     latlng: latLng([41.0114, -73.09]),
     id: 9891,
     properties: {
       indicatorObject: {
-        AOI: latLng([41.0114, -73.09]),
+        dataLoadFinished: true,
+        aoi: latLng([41.0114, -73.09]),
         id: 9891,
-        AOI_ID: 'US04',
-        Country: ['US'],
-        City: 'New York',
-        'Site Name': 'New York',
-        Description: 'Movement slowdown',
-        'Indicator code': 'N6',
-        'Indicator Value': ['normal'],
-        'Indicator Name': 'Movement slowdown',
-        'Color code': ['BLUE'],
-        'EO Sensor': ['Derived from Sentinel-1'],
-        'Sub-AOI': {
+        aoiID: 'US04',
+        country: ['US'],
+        city: 'New York',
+        siteName: 'New York',
+        description: 'Movement slowdown',
+        indicator: 'N6',
+        lastIndicatorValue: ['normal'],
+        indicatorName: 'Movement slowdown',
+        lastColorCode: 'BLUE',
+        eoSensor: ['Derived from Sentinel-1', ],
+        subAoi: {
           type: 'FeatureCollection',
           features: [{
             type: 'Feature',
@@ -1462,8 +1464,8 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-71.74516 41.54467, -74.43395 41.54943, -74.43219 40.47812, -71.74516 40.48343, -71.74516 41.54467))').toJson(),
           }],
         },
-        Time: ['2020-04-30'],
-        'Input Data': [''],
+        time: ['2020-04-30'],
+        inputData: ['Test', ],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
@@ -1473,6 +1475,11 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           // legendUrl: 'data/trilateral/N6-legend.png',
           disableCompare: true,
+          features: {
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
+            url: './data/trilateral/features/{indicator}_{aoiID}_{featuresTime}.geojson',
+            parameters: ['amenity'],
+          },
         },
       },
     },
