@@ -53,17 +53,17 @@
                 <div class="circle"
                   :style="
                   $store.state.indicators.selectedIndicator &&
-                  $store.state.indicators.selectedIndicator['Indicator code']
-                  === feature.properties.indicatorObject['Indicator code'] &&
-                  $store.state.indicators.selectedIndicator.AOI_ID
-                  === feature.properties.indicatorObject.AOI_ID
+                  $store.state.indicators.selectedIndicator.indicator
+                  === feature.properties.indicatorObject.indicator &&
+                  $store.state.indicators.selectedIndicator.aoiID
+                  === feature.properties.indicatorObject.aoiID
                   ? { 'border': `2px dashed ${$vuetify.theme.themes.light.primary}` }
                   : {}"
                 >
                 </div>
               </v-list-item-icon>
              <v-list-item-content>
-              {{feature.properties.indicatorObject["Indicator Name"]}}
+              {{feature.properties.indicatorObject.indicatorName}}
               </v-list-item-content>
              </v-list-item>
             </v-list>
@@ -187,12 +187,12 @@ export default {
     },
     globalIndicators() {
       return this.getFeatures
-        .filter((f) => ['global'].includes(f.properties.indicatorObject['Site Name']));
+        .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName));
     },
     someGlobalIndicator() {
       return this.globalIndicators
         .filter((i) => this.$store.state.features.featureFilters.indicators
-          .includes(i.properties.indicatorObject['Indicator code']));
+          .includes(i.properties.indicatorObject.indicator));
     },
   },
   methods: {
@@ -201,9 +201,9 @@ export default {
         'indicators/SET_SELECTED_INDICATOR',
         this.$store.state.features.allFeatures
           .find((f) => f.properties
-            .indicatorObject['Indicator code'] === feature.properties.indicatorObject['Indicator code']
+            .indicatorObject.indicator === feature.properties.indicatorObject.indicator
           && f.properties
-            .indicatorObject.AOI_ID === feature.properties.indicatorObject.AOI_ID)
+            .indicatorObject.aoiID === feature.properties.indicatorObject.aoiID)
           .properties.indicatorObject,
       );
     },
@@ -217,7 +217,7 @@ export default {
       this.$store.commit('features/SET_FEATURE_FILTER', { indicators: [] });
     },
     getUniqueKey(indicatorObject) {
-      return `${indicatorObject['Indicator code']}-${indicatorObject.AOI_ID}`;
+      return `${indicatorObject.indicator}-${indicatorObject.aoiID}`;
     },
   },
   watch: {
