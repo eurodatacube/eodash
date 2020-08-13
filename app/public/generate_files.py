@@ -1,7 +1,12 @@
 #!/usr/bin/python
 """
 Helper script to create location and data separation
+
+Usage:
+docker run --rm -it -v $PWD:/working eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/generate_files.py
 """
+
+
 import json
 import csv
 import os
@@ -203,14 +208,16 @@ print("Generating data for trilateral")
 generateData(
     default_map,
     default_array_map,
-    "../trilateral/",
-    "pois_trilateral.json",
-    "./",
-    ["../../eodash-data/data/E10a2.csv",
-        "../../eodash-data/data/E10a3.csv",
-        "../../eodash-data/data/E10a6.csv",
-        "../../eodash-data/data/E10a7.csv",
-        "../../eodash-data/data/E10a8.csv"]
+    "/working/data/trilateral/",
+    "/working/data/internal/pois_trilateral.json",
+    "/working/data/internal/",
+    [
+        "/working/eodash-data/data/E10a2.csv",
+        "/working/eodash-data/data/E10a3.csv",
+        "/working/eodash-data/data/E10a6.csv",
+        "/working/eodash-data/data/E10a7.csv",
+        "/working/eodash-data/data/E10a8.csv",
+    ]
 )
 
 print("Generating data for eodashboard")
@@ -218,7 +225,7 @@ print("Generating data for eodashboard")
 generateData(
     default_map,
     default_array_map,
-    "../../eodash-data/data/",
-    "pois_eodash.json",
-    "../../eodash-data/internal/"
+    "/working/eodash-data/data/",
+    "/working/data/internal/pois_eodash.json",
+    "/working/eodash-data/internal/"
 )
