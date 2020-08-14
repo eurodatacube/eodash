@@ -172,7 +172,7 @@ export default {
 
             const url = `${baseConfig.dataPath}${[mutation.payload.aoiID, mutation.payload.indicator].join('-')}.json`;
             // Fetch location data
-            fetch(url).then((r) => r.json())
+            fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
               .then((data) => {
                 const indicatorObject = mutation.payload;
                 // Set data to indicator object

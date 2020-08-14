@@ -169,7 +169,7 @@ const actions = {
   },
 
   loadEOXEndpoint({ rootState, commit }, { url, endPointIdx }) {
-    return fetch(url).then((r) => r.json())
+    return fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
       .then((data) => {
         const features = [];
         const pM = {
@@ -266,7 +266,7 @@ const actions = {
       });
   },
   loadGeoDBEndpoint({ rootState, commit }, { url, endPointIdx }) {
-    return fetch(url).then((r) => r.json())
+    return fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
       .then((data) => {
         const features = [];
         const pM = {
