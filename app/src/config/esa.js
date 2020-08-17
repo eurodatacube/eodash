@@ -3,7 +3,7 @@
 import { Wkt } from 'wicket';
 import { DateTime } from 'luxon';
 import { latLng, latLngBounds } from 'leaflet';
-import { shTimeFunction } from '@/utils';
+import { shTimeFunction, shS2TimeFunction } from '@/utils';
 
 export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [
@@ -267,11 +267,13 @@ export const layerNameMapping = Object.freeze({
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
     attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
+    dateFormatFunction: shS2TimeFunction,
   },
   S2L2A: {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
     attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
+    dateFormatFunction: shS2TimeFunction,
   },
   S1GRD: {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
