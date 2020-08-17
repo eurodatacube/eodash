@@ -43,8 +43,10 @@
           cols="12"
           class="py-0 my-0"
         >
-          <small v-if="indicatorObject && indicatorObject['Update Frequency']">
-            This data is updated: {{ indicatorObject['Update Frequency'] }}
+          <small v-if="indicatorObject && indicatorObject.updateFrequency">
+            <span v-if="indicatorObject.updateFrequency === 'Retired'">This indicator is no longer updated</span>
+            <span v-else-if="indicatorObject.updateFrequency === 'EndSeason'">Due to end of season, this indicator is no longer updated</span>
+            <span v-else>This data is updated: {{ indicatorObject.updateFrequency }}</span>
           </small>
         </v-col>
         <v-col
@@ -151,10 +153,10 @@ export default {
     story() {
       let markdown;
       try {
-        markdown = require(`../../public${this.appConfig.storyPath}${this.indicatorObject.AOI_ID}-${this.indicatorObject['Indicator code']}.md`);
+        markdown = require(`../../public${this.appConfig.storyPath}${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}.md`);
       } catch {
         try {
-          markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject['Indicator code']].story}.md`);
+          markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].story}.md`);
         } catch {
           markdown = { default: '' };
         }
@@ -168,10 +170,12 @@ export default {
       return this.baseConfig.layerNameMapping;
     },
     globalData() {
-      return ['all'].includes(this.indicatorObject.Country) || Array.isArray(this.indicatorObject.Country);
+      return ['all'].includes(this.indicatorObject.country) || Array.isArray(this.indicatorObject.country);
     },
     externalData() {
-      const dataFromDefinition = this.baseConfig.indicatorsDefinition[this.indicatorObject['Indicator code']].externalData;
+      const dataFromDefinition = this.baseConfig.indicatorsDefinition[
+        this.indicatorObject.indicator
+      ].externalData;
       const dataFromIndicator = this.indicatorObject.externalData;
       if (dataFromDefinition) {
         return dataFromDefinition;
@@ -182,7 +186,8 @@ export default {
       return null;
     },
     eodataEnabled() {
-      const lastInputData = (this.indicatorObject && this.indicatorObject['Input Data']) ? this.indicatorObject['Input Data'][this.indicatorObject['Input Data'].length - 1] : null;
+      const lastInputData = (this.indicatorObject && this.indicatorObject.inputData)
+        ? this.indicatorObject.inputData[this.indicatorObject.inputData.length - 1] : null;
       // search configuration mapping if layer is configured
       return lastInputData ? this.layerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
     },

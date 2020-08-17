@@ -55,16 +55,16 @@
         :weight="2"
         :dashArray="currentSelected === feature.id ? '5' : '0'"
         :fill="true"
-        :fillColor="getLastValue(feature.properties.indicatorObject).color"
+        :fillColor="getColor(feature.properties.indicatorObject)"
         :fillOpacity="1"
         @click="selectIndicator(feature)"
       >
         <l-tooltip class="tooltip text-center" :options="{ direction: 'top' }">
           <p class="ma-0">
-            <strong>{{ feature.properties.indicatorObject.City }}</strong>
+            <strong>{{ feature.properties.indicatorObject.city }}</strong>
           </p>
             <p class="ma-0">
-              <strong>{{ feature.properties.indicatorObject.Description }}</strong>
+              <strong>{{ feature.properties.indicatorObject.description }}</strong>
             </p>
             <p
               class="ma-0"
@@ -201,13 +201,9 @@ export default {
       let fillColor;
       if (this.$store.state.indicators.selectedIndicator) {
         currentIndicator = this.$store.state.indicators.selectedIndicator;
-        fillColor = this.getLastValue(currentIndicator).color;
-        // Special case for E10a3 and E10a8
-        if (['E10a3', 'E10a8'].includes(currentIndicator['Indicator code'])) {
-          fillColor = this.getIndicatorColor('BLUE');
-        }
+        fillColor = this.getColor(currentIndicator);
       } else {
-        fillColor = this.getLastValue(currentIndicator).color;
+        fillColor = this.getIndicatorColor('');
       }
       return {
         color: '#fff',
@@ -257,11 +253,11 @@ export default {
       this.onResize();
     });
     this.$store.subscribe((mutation) => {
-      if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
-        if (mutation.payload !== null && mutation.payload.AOI !== null) {
+      if (mutation.type === 'indicators/INDICATOR_LOAD_FINISHED') {
+        if (mutation.payload !== null && mutation.payload.aoi !== null) {
           this.currentSelected = mutation.payload.id;
-          if (mutation.payload['Sub-AOI']) {
-            this.subAoi = mutation.payload['Sub-AOI'];
+          if (mutation.payload.subAoi) {
+            this.subAoi = mutation.payload.subAoi;
           }
         } else {
           this.currentSelected = null;
@@ -277,41 +273,47 @@ export default {
   methods: {
     selectIndicator(feature) {
       const { indicatorObject } = feature.properties;
-      if (!indicatorObject.dummy) {
-        this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+      if (!indicatorObject.dummyFeature) {
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
-        this.currentSelected = feature.id;
-        this.subAoi = indicatorObject['Sub-AOI'];
       }
+    },
+    getColor(indObj) {
+      let colorCode;
+      if (indObj) {
+        if (Object.prototype.hasOwnProperty.call(indObj, 'lastColorCode')
+          && indObj.lastColorCode !== '') {
+          colorCode = indObj.lastColorCode;
+        }
+        if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')
+          && ['N1', 'N3b', 'E10a3', 'E10a8'].includes(indObj.indicator)) {
+          colorCode = 'BLUE';
+        }
+      }
+      return this.getIndicatorColor(colorCode);
     },
     formatLabel(feature) {
       let label = '(coming soon)';
       if (feature) {
         const { indicatorObject } = feature.properties;
-        let validValues = indicatorObject['Indicator Value'].filter((item) => item !== '');
-        if (validValues.length > 0) {
+        if (Object.prototype.hasOwnProperty.call(indicatorObject, 'lastIndicatorValue')) {
           label = 'Latest value: ';
-          const indVal = validValues[validValues.length - 1];
-          if (['E10a1', 'E10a5'].includes(indicatorObject['Indicator code'])) {
+          const indVal = indicatorObject.lastIndicatorValue;
+          if (['E10a1', 'E10a5'].includes(indicatorObject.indicator)) {
             const percVal = Number((indVal * 100).toPrecision(4));
             if (percVal > 0) {
               label += `+${percVal}%`;
             } else {
               label += `${percVal}%`;
             }
-          } else if (['E10a3', 'E10a8'].includes(indicatorObject['Indicator code'])) {
+          } else if (['E10a3', 'E10a8'].includes(indicatorObject.indicator)) {
             label += 'multiple';
+          } else if (['E10a6', 'E10a7'].includes(indicatorObject.indicator)) {
+            const indVal =  Number(indicatorObject.lastMeasurement).toPrecision(4);
+            label += `${indVal}%`;
+          } else if (['N1', 'N3b'].includes(indicatorObject.indicator)) {
+            label = '';
           } else {
             label += indVal;
-          }
-        } else if (['N1', 'N3b'].includes(indicatorObject['Indicator code'])) {
-          label = '';
-        } else if (Array.isArray(indicatorObject['Measurement Value'])) {
-          validValues = indicatorObject['Measurement Value'].filter((item) => item !== '' && !Number.isNaN(item));
-          if (validValues.length > 0) {
-            label = 'Latest value: ';
-            const lastMeas = validValues[validValues.length - 1];
-            label += lastMeas.toPrecision(4);
           }
         }
       }
@@ -321,25 +323,6 @@ export default {
       if (this.$refs.clusterLayer) {
         this.$refs.clusterLayer.mapObject.refreshClusters();
       }
-    },
-    getLastValue(values) {
-      let lastColorCode;
-      if (values) {
-        if (Object.prototype.hasOwnProperty.call(values, 'Color code')
-          && values['Color code'] !== '') {
-          const validValues = values['Color code'].filter((item) => item !== '');
-          if (validValues.length > 0) {
-            lastColorCode = validValues[validValues.length - 1];
-          }
-        }
-        if (Object.prototype.hasOwnProperty.call(values, 'Indicator code')
-          && ['N1', 'N3b'].includes(values['Indicator code'])) {
-          lastColorCode = 'BLUE';
-        }
-      }
-      return {
-        color: this.getIndicatorColor(lastColorCode),
-      };
     },
     zoomUpdated(zoom) {
       this.zoom = zoom;
@@ -386,10 +369,10 @@ export default {
       const featuresOnMap = features.filter((f) => f.latlng);
       if (featuresOnMap.length > 0) {
         const maxZoomFit = 8;
-        if (featuresOnMap.length === 1 && featuresOnMap[0].properties.indicatorObject['Sub-AOI']
-          && featuresOnMap[0].properties.indicatorObject['Sub-AOI'].features.length > 0) {
+        if (featuresOnMap.length === 1 && featuresOnMap[0].properties.indicatorObject.subAoi
+          && featuresOnMap[0].properties.indicatorObject.subAoi.features.length > 0) {
           this.$nextTick(() => {
-            const bounds = geoJson(featuresOnMap[0].properties.indicatorObject['Sub-AOI']).getBounds();
+            const bounds = geoJson(featuresOnMap[0].properties.indicatorObject.subAoi).getBounds();
             this.map.fitBounds(bounds, {
               padding: [25, 25],
             });

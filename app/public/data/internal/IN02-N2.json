@@ -1,0 +1,222 @@
+[
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "GOSAT",
+        "indicator_value": "Normal",
+        "input_data": "",
+        "measurement_value": "3.91",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2016-01-01T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "GOSAT",
+        "indicator_value": "Normal",
+        "input_data": "",
+        "measurement_value": "6.47",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2016-02-01T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "GOSAT",
+        "indicator_value": "Normal",
+        "input_data": "",
+        "measurement_value": "2.32",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2016-03-01T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "GOSAT",
+        "indicator_value": "Normal",
+        "input_data": "",
+        "measurement_value": "3.03",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2016-04-01T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "GOSAT",
+        "indicator_value": "Normal",
+        "input_data": "",
+        "measurement_value": "2.74",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2017-01-01T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "GOSAT",
+        "indicator_value": "Normal",
+        "input_data": "",
+        "measurement_value": "5.92",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2017-02-01T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "GOSAT",
+        "indicator_value": "Normal",
+        "input_data": "",
+        "measurement_value": "3.79",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2017-03-01T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "GOSAT",
+        "indicator_value": "Normal",
+        "input_data": "",
+        "measurement_value": "2.13",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2017-04-01T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "GOSAT",
+        "indicator_value": "Normal",
+        "input_data": "",
+        "measurement_value": "2.66",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2018-01-01T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "GOSAT",
+        "indicator_value": "Normal",
+        "input_data": "",
+        "measurement_value": "5.3",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2018-02-01T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "GOSAT",
+        "indicator_value": "Normal",
+        "input_data": "",
+        "measurement_value": "6.5",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2018-03-01T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "GOSAT",
+        "indicator_value": "Normal",
+        "input_data": "",
+        "measurement_value": "2.37",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2018-04-01T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "Jan 2016-2019 average value GOSAT",
+        "indicator_value": "Normal",
+        "input_data": "GOSAT_XCO2",
+        "measurement_value": "4.83",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2019-01-01T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "Feb 2016-2019 average value GOSAT",
+        "indicator_value": "Normal",
+        "input_data": "GOSAT_XCO2",
+        "measurement_value": "5.38",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2019-02-01T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "Mar 2016-2019 average value GOSAT",
+        "indicator_value": "Normal",
+        "input_data": "GOSAT_XCO2",
+        "measurement_value": "4.37",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2019-03-01T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "Apr 2016-2019 average value GOSAT",
+        "indicator_value": "Normal",
+        "input_data": "GOSAT_XCO2",
+        "measurement_value": "2.18",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2019-04-01T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "JAXA",
+        "eo_sensor": "January value GOSAT",
+        "indicator_value": "Low",
+        "input_data": "GOSAT_XCO2",
+        "measurement_value": "3.94",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2020-01-01T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "JAXA",
+        "eo_sensor": "February value GOSAT",
+        "indicator_value": "Low",
+        "input_data": "GOSAT_XCO2",
+        "measurement_value": "3.35",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2020-02-01T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "JAXA",
+        "eo_sensor": "March value GOSAT",
+        "indicator_value": "Low",
+        "input_data": "GOSAT_XCO2",
+        "measurement_value": "2.48",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2020-03-01T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "JAXA",
+        "eo_sensor": "April value GOSAT",
+        "indicator_value": "Low",
+        "input_data": "GOSAT_XCO2",
+        "measurement_value": "1.54",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2020-04-01T00:00:00"
+    }
+]

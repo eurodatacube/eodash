@@ -26,7 +26,7 @@
     <l-layer-group ref="dataLayers">
       <l-geo-json
       ref="subaoiLayer"
-      :geojson="indicator['Sub-AOI']"
+      :geojson="indicator.subAoi"
       :pane="shadowPane"
       :optionsStyle="subAoiStyle('data')"
       >
@@ -95,7 +95,7 @@
       </LWMSTileLayer>
       <l-geo-json
         ref="subaoiCompareLayer"
-        :geojson="indicator['Sub-AOI']"
+        :geojson="indicator.subAoi"
         :pane="markerPane"
         :visible="enableCompare"
         :optionsStyle="subAoiStyle('compare')"
@@ -143,16 +143,16 @@
       @click.stop=""
       @dblclick.stop=""
     >
-      <h3 :class="`brand-${appConfig.id}`"
+      <h3 :class="`brand-${appConfig.id} px-3 py-1`"
         v-if="enableCompare && indicator.compareDisplay && indicator.compareDisplay.mapLabel"
-        style="position:absolute; z-index:1000; right: 10px; bottom: 45%;
-        background: rgba(255, 255, 255, 0.4); font-size: 16px;">
+        style="position:absolute; z-index:1000; right: 0px; bottom: 45%;
+        background: rgba(255, 255, 255, 0.4); font-size: 16px; pointer-events: none;">
           {{indicator.display.mapLabel}}
       </h3>
-      <h3 :class="`brand-${appConfig.id}`"
+      <h3 :class="`brand-${appConfig.id} px-3 py-1`"
         v-if="enableCompare && indicator.compareDisplay && indicator.display.mapLabel"
-        style="position:absolute; z-index:1000; left: 10px; bottom: 45%;
-        background: rgba(255, 255, 255, 0.4); font-size: 16px;">
+        style="position:absolute; z-index:1000; left: 0px; bottom: 45%;
+        background: rgba(255, 255, 255, 0.4); font-size: 16px; pointer-events: none;">
           {{indicator.compareDisplay.mapLabel}}
       </h3>
       <v-row
@@ -333,7 +333,7 @@ export default {
       return this.baseConfig.indicatorsDefinition;
     },
     indDefinition() {
-      return this.indicatorsDefinition[this.indicator['Indicator code']];
+      return this.indicatorsDefinition[this.indicator.indicator];
     },
     indicator() {
       return this.getIndicatorFilteredInputData;
@@ -346,20 +346,20 @@ export default {
     },
     arrayOfObjects() {
       const selectionOptions = [];
-      for (let i = 0; i < this.indicator.Time.length; i += 1) {
-        let label = this.getTimeLabel(this.indicator.Time[i]);
-        if (this.indicator['EO Sensor']) {
-          label += ` - ${this.indicator['EO Sensor'][i]}`;
+      for (let i = 0; i < this.indicator.time.length; i += 1) {
+        let label = this.getTimeLabel(this.indicator.time[i]);
+        if (this.indicator.eoSensor) {
+          label += ` - ${this.indicator.eoSensor[i]}`;
         }
         selectionOptions.push({
-          value: this.indicator.Time[i],
+          value: this.indicator.time[i],
           name: label,
         });
       }
       return selectionOptions;
     },
     currentTime() {
-      let returnTime = this.indicator.Time[this.indicator.Time.length - 1];
+      let returnTime = this.indicator.time[this.indicator.time.length - 1];
       if (this.dataLayerTime !== null) {
         returnTime = this.dataLayerTime;
       }
@@ -377,15 +377,15 @@ export default {
       return returnTime;
     },
     aoi() {
-      return this.indicator.AOI;
+      return this.indicator.aoi;
     },
     subAoi() {
-      return this.indicator['Sub-AOI'];
+      return this.indicator.subAoi;
     },
   },
   mounted() {
-    this.dataLayerIndex = this.indicator.Time.length - 1;
-    this.dataLayerTime = { value: this.indicator.Time[this.dataLayerIndex] };
+    this.dataLayerIndex = this.indicator.time.length - 1;
+    this.dataLayerTime = { value: this.indicator.time[this.dataLayerIndex] };
     this.compareLayerTime = { value: this.getInitialCompareTime() };
     this.$nextTick(() => {
       const layerButtons = document.querySelectorAll('.leaflet-control-layers-toggle');
@@ -491,8 +491,8 @@ export default {
       const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
       let currentValue = null;
       // compensate for color code with only one entry, still showing it
-      if (this.indicator && this.indicator['Color code']) {
-        const colors = this.indicator['Color code'];
+      if (this.indicator && this.indicator.colorCode) {
+        const colors = this.indicator.colorCode;
         if (Array.isArray(colors) && colors.length === 1) {
           currentValue = colors[0]; // eslint-disable-line prefer-destructuring
         } else if (Array.isArray(colors) && colors[index]) {
@@ -519,7 +519,7 @@ export default {
     },
     shLayerConfig(side) {
       const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
-      const inputData = this.indicator['Input Data'][index];
+      const inputData = this.indicator.inputData[index];
       if (this.layerNameMapping.hasOwnProperty(inputData)) { // eslint-disable-line
         return this.layerNameMapping[inputData];
       }
@@ -533,7 +533,7 @@ export default {
         ...this.baseConfig.defaultWMSDisplay,
         ...this.indDefinition,
         ...this.shLayerConfig(side),
-        name: this.indicator.Description,
+        name: this.indicator.description,
       };
     },
     flyToBounds() {
@@ -587,7 +587,7 @@ export default {
       const additionalSettings = {};
       if (Object.prototype.hasOwnProperty.call(sourceOptionsObj, 'siteMapping')) {
         const currSite = sourceOptionsObj.siteMapping(
-          this.indicator.AOI_ID,
+          this.indicator.aoiID,
         );
         additionalSettings.site = currSite;
       }
@@ -688,7 +688,7 @@ export default {
       // find closest entry one year before latest time
       if (this.indDefinition.largeTimeDuration) {
         // if interval, use just start to get closest
-        const times = this.indicator.Time.map((item) => (Array.isArray(item) ? item[0] : item));
+        const times = this.indicator.time.map((item) => (Array.isArray(item) ? item[0] : item));
         const lastTimeEntry = DateTime.fromISO(times[times.length - 1]);
         const oneYearBefore = lastTimeEntry.minus({ years: 1 });
         // select closest to one year before
@@ -701,10 +701,10 @@ export default {
         // Get index and return object from original times as there are also
         // arrays of time tuple arrays
         const foundIndex = times.indexOf(closestOneYearBefore);
-        return this.indicator.Time[foundIndex];
+        return this.indicator.time[foundIndex];
       }
       // use first time
-      return this.indicator.Time[0];
+      return this.indicator.time[0];
     },
     refreshLayer(side) {
       // compare(left) or data(right)
@@ -742,7 +742,7 @@ export default {
           ...this.indicator,
           ...options,
         });
-        fetch(url)
+        fetch(url, { credentials: 'same-origin' })
           .then((r) => r.json())
           .then((data) => {
             this.featureJson[side] = data;
@@ -779,8 +779,8 @@ export default {
       }
     },
     indicator() {
-      this.dataLayerTime = { value: this.indicator.Time[this.indicator.Time.length - 1] };
-      this.dataLayerIndex = this.indicator.Time.length - 1;
+      this.dataLayerTime = { value: this.indicator.time[this.indicator.time.length - 1] };
+      this.dataLayerIndex = this.indicator.time.length - 1;
       if (this.indicator.compareDisplay) {
         this.compareLayerTime = this.dataLayerTime;
         this.compareLayerIndex = this.dataLayerIndex;

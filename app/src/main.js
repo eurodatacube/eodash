@@ -80,7 +80,7 @@ Vue.prototype.$marked = marked;
 
 const renderVue = async () => {
   await store.dispatch('config/checkBrand');
-  store.dispatch('features/loadAllCsv');
+  store.dispatch('features/loadAllEndpoints');
 
   const vuetify = new Vuetify({
     theme: {

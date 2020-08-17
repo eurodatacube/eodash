@@ -1,0 +1,134 @@
+[
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "2.14",
+        "reference_time": "2019-05-17",
+        "reference_value": "0.54218228369186",
+        "time": "2020-05-17T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "4.29",
+        "reference_time": "2019-05-24",
+        "reference_value": "1.12954642435804",
+        "time": "2020-05-24T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "6.86",
+        "reference_time": "2019-05-31",
+        "reference_value": "1.81982479479907",
+        "time": "2020-05-31T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "13.09",
+        "reference_time": "2019-06-07",
+        "reference_value": "14.0189261778659",
+        "time": "2020-06-07T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "18.44",
+        "reference_time": "2019-06-14",
+        "reference_value": "34.0520595396471",
+        "time": "2020-06-14T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "27.99",
+        "reference_time": "2019-06-21",
+        "reference_value": "51.1082105474535",
+        "time": "2020-06-21T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "46.11",
+        "reference_time": "2019-06-28",
+        "reference_value": "60.1747031803007",
+        "time": "2020-06-28T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "55.26",
+        "reference_time": "2019-07-05",
+        "reference_value": "68.4178819749492",
+        "time": "2020-07-05T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "66.00",
+        "reference_time": "2019-07-12",
+        "reference_value": "78.9050929993223",
+        "time": "2020-07-12T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "68.02",
+        "reference_time": "2019-07-19",
+        "reference_value": "81.7841813298527",
+        "time": "2020-07-19T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "68.88",
+        "reference_time": "2019-07-26",
+        "reference_value": "87.778307688446",
+        "time": "2020-07-26T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "70.13",
+        "reference_time": "2019-08-02",
+        "reference_value": "88.7798388513768",
+        "time": "2020-08-02T00:00:00"
+    }
+]
