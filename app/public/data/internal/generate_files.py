@@ -71,7 +71,7 @@ def try_parsing_date(text):
             return datetime.datetime.strptime(text, fmt)
         except ValueError:
             pass
-    raise ValueError('time not provided in valid format')
+    raise ValueError('time %s not provided in valid format' % text)
 
 
 def generateData(mapping, array_mapping, input_folder, output_file, output_folder, additional_files=[], input_json=None):
