@@ -1418,6 +1418,10 @@ export const globalIndicators = [
           legendUrl: './data/trilateral/agriculture-GEOGLAM-legend.png',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          features: {
+            url: './eodash-data/features/{indicator}_{aoiID}.geojson',
+            parameters: ['ADM0_NAME',],
+          },
         },
       },
     },
