@@ -264,6 +264,9 @@ export default {
     const { appConfig } = this.$store.state.config;
     return {
       title: appConfig ? appConfig.branding.appName : 'eodash',
+      link: [
+        { rel: 'apple-touch-icon-precomposed', sizes: '152x152', href: '/img/ESA/apple-touch-icon-152x152.png' },
+      ],
     };
   },
   components: {
