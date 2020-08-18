@@ -175,7 +175,7 @@ export default {
 
             const url = `${baseConfig.dataPath}${[mutation.payload.aoiID, mutation.payload.indicator].join('-')}.json`;
             // Fetch location data
-            fetch(url).then((r) => r.json())
+            fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
               .then((data) => {
                 const indicatorObject = mutation.payload;
                 // Set data to indicator object
@@ -236,6 +236,7 @@ export default {
           const query = Object.assign({}, this.$route.query); // eslint-disable-line
           delete query.poi;
           this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
+          this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', null);
           this.trackEvent('indicators', 'deselect_indicator');
         }
       }

@@ -15,7 +15,6 @@ module.exports = [
       shortDescription: 'The RACE platform demonstrates how the use of EO data can help shed new light on societal and economic changes currently taking place owing to the coronavirus pandemic.',
       twitterCardImagePath: '/img/ESA/twitter_card.jpg',
     },
-    displayDummyLocations: './eodash-data/data/dummylocations.csv',
     storyPath: '/eodash-data/stories/',
     customCSS: 'esa',
     aboutText: '/eodash-data/general/about',
@@ -23,19 +22,19 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'IT9-E13b',
+        poi: 'PT-N1',
         src: './eodash-data/general/Slide1.png',
       },
       {
-        poi: 'SE9-E5',
+        poi: 'RhoneDelta-N3a2',
         src: './eodash-data/general/Slide2.png',
       },
       {
-        poi: 'DE11-E10a3',
+        poi: 'ES7-E1',
         src: './eodash-data/general/Slide3.png',
       },
       {
-        poi: 'World-N1',
+        poi: 'RO3-E11',
         src: './eodash-data/general/Slide4.png',
       },
     ],
