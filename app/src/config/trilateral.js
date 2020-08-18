@@ -216,7 +216,7 @@ export const indicatorsDefinition = Object.freeze({
     largeSubAoi: true,
   },
   N6: {
-    indicator: 'Agriculture GEOGLAM',
+    indicator: 'Cropped Area',
     class: 'agriculture',
   },
   d: { // dummy for locations without Indicator code
@@ -1396,10 +1396,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Agriculture GEOGLAM',
+        description: 'Cropped Area',
         indicator: 'N6',
-        lastIndicatorValue: 'Agriculture GEOGLAM',
-        indicatorName: 'Agriculture GEOGLAM',
+        lastIndicatorValue: 'Cropped Area',
+        indicatorName: 'Cropped Area',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
