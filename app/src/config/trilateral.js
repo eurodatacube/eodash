@@ -1421,6 +1421,10 @@ export const globalIndicators = [
           features: {
             url: './eodash-data/features/{indicator}_{aoiID}.geojson',
             parameters: ['ADM0_NAME',],
+            style: {
+              color: '#696868',
+              opacity: 0.5,
+            }
           },
         },
       },
