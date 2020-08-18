@@ -53,7 +53,7 @@
             v-model="iframeDialog"
             width="500"
           >
-            <!-- <template v-slot:activator="{ on, attrs }">
+            <template v-slot:activator="{ on, attrs }">
               <v-btn
                 color="primary"
                 text
@@ -65,7 +65,7 @@
                 <v-icon left>mdi-poll-box</v-icon>
                 embed chart
               </v-btn>
-            </template> -->
+            </template>
 
             <v-card>
               <v-card-title class="headline primary white--text">
