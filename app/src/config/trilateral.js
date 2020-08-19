@@ -1427,6 +1427,15 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           // legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
+          baseLayers: [
+            {
+              name: 'Mapbox high resolution',
+              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
+              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
+              visible: true,
+              maxNativeZoom: 18,
+            },
+          ],
         },
       },
     },
@@ -1480,6 +1489,15 @@ export const globalIndicators = [
             url: './data/trilateral/features/{indicator}_{aoiID}_{featuresTime}.geojson',
             parameters: ['amenity'],
           },
+          baseLayers: [
+            {
+              name: 'Mapbox high resolution',
+              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
+              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
+              visible: true,
+              maxNativeZoom: 18,
+            },
+          ],
         },
       },
     },
