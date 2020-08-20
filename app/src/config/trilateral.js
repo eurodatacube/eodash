@@ -1484,11 +1484,6 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           // legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          features: {
-            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
-            url: './data/trilateral/features/{indicator}_{aoiID}_{featuresTime}.geojson',
-            parameters: ['amenity'],
-          },
           baseLayers: [
             {
               name: 'Mapbox high resolution',
