@@ -274,7 +274,6 @@ export default {
     selectIndicator(feature) {
       const { indicatorObject } = feature.properties;
       if (!indicatorObject.dummyFeature) {
-        this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
       }
     },

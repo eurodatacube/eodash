@@ -115,7 +115,7 @@
         "eo_sensor": "Sentinel-1; Sentinel-2",
         "indicator_value": "",
         "input_data": "S2 L2A; S1 - SLC",
-        "measurement_value": "",
+        "measurement_value": "68.77",
         "reference_time": "2019-07-26",
         "reference_value": "90.8561921923221",
         "time": "2020-07-26T00:00:00"
@@ -126,9 +126,9 @@
         "eo_sensor": "Sentinel-1; Sentinel-2",
         "indicator_value": "",
         "input_data": "S2 L2A; S1 - SLC",
-        "measurement_value": "",
+        "measurement_value": "70.07",
         "reference_time": "2019-07-31",
         "reference_value": "91.4698286825454",
-        "time": "2020-07-31T00:00:00"
+        "time": "2020-08-02T00:00:00"
     }
 ]

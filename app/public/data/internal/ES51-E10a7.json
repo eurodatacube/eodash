@@ -1,0 +1,24 @@
+[
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "64.33",
+        "reference_time": "2019-07-26",
+        "reference_value": "",
+        "time": "2020-07-26T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "65.17",
+        "reference_time": "2019-08-02",
+        "reference_value": "",
+        "time": "2020-08-02T00:00:00"
+    }
+]
