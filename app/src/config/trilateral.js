@@ -1735,7 +1735,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Movement slowdown',
         lastColorCode: 'BLUE',
-        eoSensor: ['20191101-20200101 - 20200129-20200301 - Derived from Sentinel-1'],
+        eoSensor: ['2020-01-01 compared to 2020-01-29 - 2020-03-01 - Derived from Sentinel-1'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1744,7 +1744,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((116.2 39.8, 116.55 39.8, 116.55 40, 116.2 40, 116.2 39.8,))').toJson(),
           }],
         },
-        time: ['2020-03-01'],
+        time: ['2019-11-01'],
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1785,7 +1785,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Movement slowdown',
         lastColorCode: 'BLUE',
-        eoSensor: ['20200103-20200206 - 20200328-20200424 - Derived from Sentinel-1'],
+        eoSensor: ['2020-02-06 compared to 2020-03-28 - 2020-04-24 - Derived from Sentinel-1'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1794,7 +1794,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-78 38.5, -76 38.5, -76 40, -78 40, -78 38.5))').toJson(),
           }],
         },
-        time: ['2020-04-24'],
+        time: ['2020-01-03'],
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1835,7 +1835,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Movement slowdown',
         lastColorCode: 'BLUE',
-        eoSensor: ['20200101-20200215 - 20200401-20200431 - Derived from Sentinel-1'],
+        eoSensor: ['2020-02-15 compared to 2020-04-01 - 2020-04-31 - Derived from Sentinel-1'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1844,7 +1844,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((2.083559989929199 50.965508184133796, 2.416559993631381 50.965508184133796, 2.416559993631381 51.087730407714844, 2.083559989929199 51.087730407714844, 2.083559989929199 50.965508184133796))').toJson(),
           }],
         },
-        time: ['2020-04-30'],
+        time: ['2020-01-01'],
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1885,7 +1885,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Movement slowdown',
         lastColorCode: 'BLUE',
-        eoSensor: ['20200103-20200206 - 20200401-20200430 - Derived from Sentinel-1'],
+        eoSensor: ['2020-02-06 compared to 2020-04-01 - 2020-04-30 - Derived from Sentinel-1'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1894,7 +1894,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((3.6453969478607178 51.06661950775742, 3.85839695022878 51.06661950775742, 3.85839695022878 51.28873062133789, 3.6453969478607178 51.28873062133789, 3.6453969478607178 51.06661950775742))').toJson(),
           }],
         },
-        time: ['2020-04-30'],
+        time: ['2020-01-03'],
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1939,7 +1939,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Movement slowdown',
         lastColorCode: 'BLUE',
-        eoSensor: ['20200101-20200215 - 20200401-20200431 - Derived from Sentinel-1', ],
+        eoSensor: ['2020-02-15 compared to 2020-04-01 - 2020-04-31 - Derived from Sentinel-1', ],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1948,7 +1948,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-71.74516 41.54467, -74.43395 41.54943, -74.43219 40.47812, -71.74516 40.48343, -71.74516 41.54467))').toJson(),
           }],
         },
-        time: ['2020-04-30'],
+        time: ['2020-01-01'],
         inputData: ['Test', ],
         display: {
           protocol: 'xyz',
