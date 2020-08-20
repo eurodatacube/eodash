@@ -132,7 +132,7 @@ export const indicatorsDefinition = Object.freeze({
     largeSubAoi: true,
   },
   E10d: {
-    indicator: 'Togo',
+    indicator: 'Cropped Area - Regional',
     class: 'agriculture',
     largeSubAoi: true,
   },
@@ -1402,10 +1402,10 @@ export const globalIndicators = [
         country: ['TG'],
         city: 'Togo',
         siteName: 'Togo',
-        description: 'Togo',
+        description: 'Cropped Area - Regional',
         indicator: 'E10d',
         lastIndicatorValue: 'normal',
-        indicatorName: 'Togo',
+        indicatorName: 'Cropped Area - Regional',
         lastColorCode: 'BLUE',
         eoSensor: null,
         subAoi: {
