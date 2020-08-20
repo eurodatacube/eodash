@@ -78,7 +78,7 @@
               </v-list-item>
             </template>
             <template v-else>
-              <v-subheader>AMERICAS</v-subheader>
+              <v-subheader>NORTH AMERICA</v-subheader>
               <v-list-item
                 value="US"
                 :disabled="countrySelection === 'US'"
@@ -89,42 +89,6 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>United States of America</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                value="BR"
-                :disabled="countrySelection === 'BR'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="BR" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Brazil</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                value="CL"
-                :disabled="countrySelection === 'CL'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="CL" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Chile</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                value="PE"
-                :disabled="countrySelection === 'PE'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="PE" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Peru</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
               <v-subheader>EUROPE</v-subheader>
@@ -271,6 +235,43 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>India</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-subheader>SOUTH AMERICA</v-subheader>
+              <v-list-item
+                value="BR"
+                :disabled="countrySelection === 'BR'"
+                active-class="itemActive"
+              >
+                <v-list-item-icon class="d-flex align-center mr-2">
+                  <country-flag country="BR" size='normal' />
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Brazil</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item
+                value="CL"
+                :disabled="countrySelection === 'CL'"
+                active-class="itemActive"
+              >
+                <v-list-item-icon class="d-flex align-center mr-2">
+                  <country-flag country="CL" size='normal' />
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Chile</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item
+                value="PE"
+                :disabled="countrySelection === 'PE'"
+                active-class="itemActive"
+              >
+                <v-list-item-icon class="d-flex align-center mr-2">
+                  <country-flag country="PE" size='normal' />
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Peru</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </template>
