@@ -78,7 +78,7 @@
               </v-list-item>
             </template>
             <template v-else>
-              <v-subheader>NORTH AMERICA</v-subheader>
+              <v-subheader>AMERICAS</v-subheader>
               <v-list-item
                 value="US"
                 :disabled="countrySelection === 'US'"
@@ -91,7 +91,6 @@
                   <v-list-item-title>United States of America</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-subheader>SOUTH AMERICA</v-subheader>
               <v-list-item
                 value="BR"
                 :disabled="countrySelection === 'BR'"
