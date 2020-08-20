@@ -1420,7 +1420,7 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           features: {
             url: './eodash-data/features/{indicator}_{aoiID}.geojson',
-            parameters: ['ADM0_NAME',],
+            parameters: ['ADM0_NAME', 'Name'],
             style: {
               color: '#696868',
               opacity: 0.5,
