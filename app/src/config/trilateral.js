@@ -134,6 +134,7 @@ export const indicatorsDefinition = Object.freeze({
   E10d: {
     indicator: 'Cropped Area - Regional',
     class: 'agriculture',
+    story: '/data/trilateral/E10d',
     largeSubAoi: true,
   },
   E11: {
