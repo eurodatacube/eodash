@@ -218,6 +218,7 @@ export const indicatorsDefinition = Object.freeze({
   N6: {
     indicator: 'Cropped Area',
     class: 'agriculture',
+    story: '/data/trilateral/N6',
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
