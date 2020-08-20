@@ -456,6 +456,7 @@ export default {
       }
     },
     featureOptions(side) {
+      const style = this.layerDisplay(side).features.style || {};
       return {
         onEachFeature: function onEachFeature(feature, layer) {
           // if featuresParameters available, show only properties from mapping, otherwise dump all
@@ -472,18 +473,31 @@ export default {
             layer.bindTooltip(tooltip);
           }
         }.bind(this),
-        pointToLayer: (feature, latlng) => circleMarker(latlng, {
-          radius: 8,
-          fillColor: 'red',
-          color: 'red',
-          weight: 2,
-          fillOpacity: 1,
-          pane: side === 'data' ? this.shadowPane : this.markerPane,
-        }),
+        // point circle marker styling
+        pointToLayer: function (feature, latlng) {
+          return circleMarker(latlng, {
+            radius: style.radius || 8,
+            color: style.color || 'red',
+            weight: style.weight || 2,
+            opacity: style.opacity || 1,
+            dashArray: style.dashArray || null,
+            dashOffset: style.dashOffset || null,
+            fillOpacity: style.fillOpacity || 1,
+            fillColor: style.fillColor || 'red',
+            fill: style.fill || true,
+            pane: side === 'data' ? this.shadowPane : this.markerPane,
+          })
+        }.bind(this),
+        // polygon and line styling
         style: {
-          color: 'red',
-          weight: 2,
-          fillOpacity: 0,
+          color: style.color || 'red',
+          weight: style.weight || 2,
+          opacity: style.opacity || 1,
+          dashArray: style.dashArray || null,
+          dashOffset: style.dashOffset || null,
+          fillOpacity: style.fillOpacity || 0,
+          fillColor: style.fillColor || 'red',
+          fill: style.fill || true,
         },
       };
     },

@@ -215,6 +215,10 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/N5',
     largeSubAoi: true,
   },
+  N6: {
+    indicator: 'Cropped Area',
+    class: 'agriculture',
+  },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
     class: 'economic',
@@ -1709,6 +1713,47 @@ export const globalIndicators = [
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Cropped Area',
+        indicator: 'N6',
+        lastIndicatorValue: 'Cropped Area',
+        indicatorName: 'Cropped Area',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: 'primary',
+        aoi: null,
+        aoiID: 'W6',
+        time: getMonthlyDates('2020-01-28', '2020-06-28'),
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 6,
+          opacity: 0.7,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/agriculture/CropMonitor_{time}.tif&resampling_method=nearest&bidx=1&color_map=custom_cropmonitor',
+          name: 'Agriculture GEOGLAM',
+          legendUrl: './data/trilateral/agriculture-GEOGLAM-legend.png',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          features: {
+            url: './eodash-data/features/{indicator}_{aoiID}.geojson',
+            parameters: ['ADM0_NAME', 'Name'],
+            style: {
+              color: '#696868',
+              opacity: 0.5,
+            }
+          },
         },
       },
     },
