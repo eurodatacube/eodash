@@ -25,6 +25,20 @@ export function shTimeFunction(date) {
   return `${dateObj.toFormat(defaultFormat)}/${dateObj.toFormat(defaultFormat)}`;
 }
 
+export function shS2TimeFunction(date) {
+  // modifies the start and end by 1 hour to past and future
+  // this is done to fix mismatch between S2 filename and metadata time resulting in transparent image
+  let tempDate = date;
+  if (!Array.isArray(tempDate)) {
+    tempDate = [tempDate];
+  }
+  const dateObj = DateTime.fromISO(tempDate[0]);
+  const dateFuture = dateObj.plus({ minutes: 45 });
+  const datePast = dateObj.minus({ minutes: 45 });
+  const defaultFormat = "yyyy-MM-dd'T'HH:mm:ss";
+  return `${datePast.toFormat(defaultFormat)}/${dateFuture.toFormat(defaultFormat)}`;
+}
+
 export function template(templateRe, str, data) {
   return str.replace(templateRe, (stri, key) => {
     let value = data[key];

@@ -756,7 +756,7 @@ export default {
           ...this.indicator,
           ...options,
         });
-        fetch(url)
+        fetch(url, { credentials: 'same-origin' })
           .then((r) => r.json())
           .then((data) => {
             this.featureJson[side] = data;
