@@ -456,7 +456,7 @@ export default {
       }
     },
     featureOptions(side) {
-      const style = this.layerDisplay(side).features.style || {};
+      const style = (this.layerDisplay(side).features && this.layerDisplay(side).features.style) ? this.layerDisplay(side).features.style : {};
       return {
         onEachFeature: function onEachFeature(feature, layer) {
           // if featuresParameters available, show only properties from mapping, otherwise dump all
