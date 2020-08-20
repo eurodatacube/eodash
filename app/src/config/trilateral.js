@@ -216,7 +216,7 @@ export const indicatorsDefinition = Object.freeze({
     largeSubAoi: true,
   },
   N6: {
-    indicator: 'Cropped Area',
+    indicator: 'Cropped Area - Global',
     class: 'agriculture',
     story: '/data/trilateral/N6',
   },
@@ -1725,7 +1725,7 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Cropped Area',
+        description: 'Cropped Area - Global',
         indicator: 'N6',
         lastIndicatorValue: 'Cropped Area',
         indicatorName: 'Cropped Area',
