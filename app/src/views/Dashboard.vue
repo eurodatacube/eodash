@@ -264,9 +264,9 @@ export default {
     const { appConfig } = this.$store.state.config;
     return {
       title: appConfig ? appConfig.branding.appName : 'eodash',
-      link: [
-        { rel: 'apple-touch-icon', href: 'https://raw.githubusercontent.com/eurodatacube/eodash/add-apple-touch-icon/app/public/img/ESA/apple-touch-icon-152x152.png' },
-      ],
+      // link: [
+      //   { rel: 'apple-touch-icon', href: 'https://raw.githubusercontent.com/eurodatacube/eodash/add-apple-touch-icon/app/public/img/ESA/apple-touch-icon-152x152.png' },
+      // ],
     };
   },
   components: {
