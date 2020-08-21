@@ -2455,7 +2455,7 @@ export const globalIndicators = [
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/Togo/togo_cropland_v7-1_cog_v2.tif&resampling_method=bilinear&bidx=1&rescale=0,1&color_map=magma',
           name: 'Togo',
-          legendUrl: './data/trilateral/TODO.png',
+          legendUrl: './data/trilateral/TG01_E19d_legend.png',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           disableCompare: true,
         },
