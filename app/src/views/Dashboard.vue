@@ -265,7 +265,7 @@ export default {
     return {
       title: appConfig ? appConfig.branding.appName : 'eodash',
       link: [
-        { rel: 'apple-touch-icon', sizes: '180x180', href: 'https://eodash-testing.eox.at/add-apple-touch-icon/img/ESA/apple-touch-icon-152x152.png' },
+        { rel: 'apple-touch-icon', href: 'https://raw.githubusercontent.com/eurodatacube/eodash/add-apple-touch-icon/app/public/img/ESA/apple-touch-icon-152x152.png' },
       ],
     };
   },
