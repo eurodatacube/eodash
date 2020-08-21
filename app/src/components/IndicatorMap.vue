@@ -315,10 +315,10 @@ export default {
       'getIndicatorFilteredInputData',
     ]),
     baseLayers() {
-      return {
+      return [
         ...this.baseConfig.baseLayers,
-        ...this.layerDisplay('data').baseLayers
-      };
+        ...(this.layerDisplay('data').baseLayers || [])
+      ];
     },
     overlayLayers() {
       return this.baseConfig.overlayLayers;
