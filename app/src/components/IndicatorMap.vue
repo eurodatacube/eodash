@@ -12,11 +12,12 @@
     @ready="onMapReady()"
   >
     <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
-    <l-control-layers position="topright" ></l-control-layers>
+    <l-control-layers position="topright" ref="layersControl"></l-control-layers>
     <l-control-zoom position="topright"  ></l-control-zoom>
     <LTileLayer
       v-for="layer in baseLayers"
       v-bind="layer"
+      ref="baseLayers"
       layer-type="base"
       :key="layer.name"
       :opacity="opacityTerrain[zoom]"
@@ -781,6 +782,27 @@ export default {
         };
       }
     },
+    refreshBaselayersSelection() {
+      // if there were additional baseLayers added on top of default ones in previous indicator
+      // new baseLayer probably had visible:true set
+      // if you manually de-select and select this new baseLayer via layers control
+      // and newly selected indicator does not have it configured
+      // no baseLayer is selected in the map, even though default visible property is applied to respective this.$refs.baseLayers entity (terrain light)
+      // this code re-selects the terrain light via layer selection control
+      
+      // find HTML element <label> in layer control selection which contains "Terrain light" in it
+      const baseLayerLabelsLayerSelection = this.$refs.layersControl.mapObject._baseLayersList.children;
+      // check if additional baseLayer is going to be removed in current map tick
+      if (baseLayerLabelsLayerSelection.length !== this.baseLayers.length) {
+        for (let i = 0; i < baseLayerLabelsLayerSelection.length; i++) {
+          // if span in layer selection div contains string
+          if (baseLayerLabelsLayerSelection[i].children[0].children[1].innerHTML.includes('Terrain')) {
+            // click on respective radio input button to re-enable default layer
+            baseLayerLabelsLayerSelection[i].children[0].children[0].click();
+          }
+        }
+      }
+    },
   },
   watch: {
     enableCompare(on) {
@@ -828,6 +850,7 @@ export default {
           this.onResize();
         });
       });
+      this.refreshBaselayersSelection();
     },
   },
 };
