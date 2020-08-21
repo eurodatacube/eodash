@@ -156,6 +156,7 @@
           {{indicator.compareDisplay.mapLabel}}
       </h3>
       <v-row
+        v-if="!disableTimeSelection"
         class="justify-center align-center timeSelection"
         :class="enableCompare && !indicator.compareDisplay && 'mr-5 ml-0'"
         style="position: absolute; bottom: 30px; z-index: 1000; width: auto; max-width: 100%;"
@@ -343,6 +344,9 @@ export default {
     },
     showAoi() {
       return this.aoi && (!this.subAoi || this.subAoi.features.length === 0);
+    },
+    disableTimeSelection() {
+      return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableTimeSelection !== 'undefined') ? this.layerDisplay('data').disableTimeSelection : this.indDefinition.disableTimeSelection;
     },
     disableCompareButton() {
       return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableCompare !== 'undefined') ? this.layerDisplay('data').disableCompare : this.indDefinition.disableCompare;
