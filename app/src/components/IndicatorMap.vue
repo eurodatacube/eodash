@@ -27,7 +27,7 @@
       <l-geo-json
       ref="subaoiLayer"
       :geojson="indicator.subAoi"
-      :pane="shadowPane"
+      :pane="tooltipPane"
       :optionsStyle="subAoiStyle('data')"
       >
       </l-geo-json>
@@ -35,7 +35,7 @@
         ref="featureJsonData"
         :geojson="featureJson.data"
         :options="featureOptions('data')"
-        :pane="shadowPane"
+        :pane="tooltipPane"
       >
       </l-geo-json>
       <l-circle-marker
@@ -48,7 +48,7 @@
         :fill="true"
         :fillColor="getAoiFill('data')"
         :fillOpacity="1"
-        :pane="shadowPane"
+        :pane="tooltipPane"
       >
       </l-circle-marker>
       <LTileLayer
@@ -96,7 +96,7 @@
       <l-geo-json
         ref="subaoiCompareLayer"
         :geojson="indicator.subAoi"
-        :pane="markerPane"
+        :pane="shadowPane"
         :visible="enableCompare"
         :optionsStyle="subAoiStyle('compare')"
       >
@@ -106,7 +106,7 @@
         :visible="enableCompare"
         :geojson="featureJson.compare"
         :options="featureOptions('compare')"
-        :pane="markerPane"
+        :pane="shadowPane"
       >
       </l-geo-json>
       <l-circle-marker
@@ -120,7 +120,7 @@
         :fill="true"
         :fillColor="getAoiFill('compare')"
         :fillOpacity="1"
-        :pane="markerPane"
+        :pane="shadowPane"
       >
       </l-circle-marker>
     </l-layer-group>
@@ -128,7 +128,7 @@
       v-for="layer in overlayLayers"
       :key="layer.name"
       v-bind="layer"
-      :pane="tooltipPane"
+      :pane="markerPane"
       :opacity="opacityOverlay[zoom]"
       :options="layerOptions(null, layer)"
       layer-type="overlay"
@@ -492,7 +492,7 @@ export default {
             fillOpacity: style.fillOpacity || 1,
             fillColor: style.fillColor || 'red',
             fill: style.fill || true,
-            pane: side === 'data' ? this.shadowPane : this.markerPane,
+            pane: side === 'data' ? this.tooltipPane : this.shadowPane,
           })
         }.bind(this),
         // polygon and line styling
@@ -877,5 +877,8 @@ export default {
     width: 100%;
     height: 100%;
   }
+}
+::v-deep .leaflet-tooltip {
+  z-index: 700;
 }
 </style>
