@@ -274,6 +274,19 @@
                   <v-list-item-title>Peru</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
+              <v-subheader>AFRICA</v-subheader>
+              <v-list-item
+                value="TG"
+                :disabled="countrySelection === 'TG'"
+                active-class="itemActive"
+              >
+                <v-list-item-icon class="d-flex align-center mr-2">
+                  <country-flag country="TG" size='normal' />
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Togo</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
             </template>
           </v-list-item-group>
         </v-list>
