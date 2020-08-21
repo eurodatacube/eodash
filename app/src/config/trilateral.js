@@ -1746,7 +1746,7 @@ export const globalIndicators = [
         description: 'Slowdown Proxy Maps',
         indicator: 'N7',
         lastIndicatorValue: 'normal',
-        indicatorName: 'Movement slowdown',
+        indicatorName: 'Cars and Construction',
         lastColorCode: 'BLUE',
         eoSensor: ['2020-01-01 compared to 2020-01-29 - 2020-03-01 - Derived from Sentinel-1'],
         subAoi: {
@@ -1796,7 +1796,7 @@ export const globalIndicators = [
         description: 'Slowdown Proxy Maps',
         indicator: 'N7',
         lastIndicatorValue: 'normal',
-        indicatorName: 'Movement slowdown',
+        indicatorName: 'Cars and Construction',
         lastColorCode: 'BLUE',
         eoSensor: ['2020-02-06 compared to 2020-03-28 - 2020-04-24 - Derived from Sentinel-1'],
         subAoi: {
@@ -1846,7 +1846,7 @@ export const globalIndicators = [
         description: 'Slowdown Proxy Maps',
         indicator: 'N7',
         lastIndicatorValue: 'normal',
-        indicatorName: 'Movement slowdown',
+        indicatorName: 'Cars and Construction',
         lastColorCode: 'BLUE',
         eoSensor: ['2020-02-15 compared to 2020-04-01 - 2020-04-31 - Derived from Sentinel-1'],
         subAoi: {
@@ -1896,7 +1896,7 @@ export const globalIndicators = [
         description: 'Slowdown Proxy Maps',
         indicator: 'N7',
         lastIndicatorValue: 'normal',
-        indicatorName: 'Movement slowdown',
+        indicatorName: 'Cars and Construction',
         lastColorCode: 'BLUE',
         eoSensor: ['2020-02-06 compared to 2020-04-01 - 2020-04-30 - Derived from Sentinel-1'],
         subAoi: {
@@ -1946,7 +1946,7 @@ export const globalIndicators = [
         description: 'Slowdown Proxy Maps',
         indicator: 'N7',
         lastIndicatorValue: 'normal',
-        indicatorName: 'Movement slowdown',
+        indicatorName: 'Cars and Construction',
         lastColorCode: 'BLUE',
         eoSensor: ['2020-03-02 compared to 2020-03-26 - 2020-05-01 - Derived from Sentinel-1'],
         subAoi: {
@@ -1996,7 +1996,7 @@ export const globalIndicators = [
         description: 'Slowdown Proxy Maps',
         indicator: 'N7',
         lastIndicatorValue: 'normal',
-        indicatorName: 'Movement slowdown',
+        indicatorName: 'Cars and Construction',
         lastColorCode: 'BLUE',
         eoSensor: ['2020-02-28 compared to 2020-04-01 - 2020-04-30 - Derived from Sentinel-1'],
         subAoi: {
@@ -2046,7 +2046,7 @@ export const globalIndicators = [
         description: 'Slowdown Proxy Maps',
         indicator: 'N7',
         lastIndicatorValue: 'normal',
-        indicatorName: 'Movement slowdown',
+        indicatorName: 'Cars and Construction',
         lastColorCode: 'BLUE',
         eoSensor: ['2020-02-28 compared to 2020-04-01 - 2020-04-30 - Derived from Sentinel-1'],
         subAoi: {
@@ -2096,7 +2096,7 @@ export const globalIndicators = [
         description: 'Slowdown Proxy Maps',
         indicator: 'N7',
         lastIndicatorValue: 'normal',
-        indicatorName: 'Movement slowdown',
+        indicatorName: 'Cars and Construction',
         lastColorCode: 'BLUE',
         eoSensor: ['2020-01-22 compared to 2020-03-22 - 2020-04-27 - Derived from Sentinel-1'],
         subAoi: {
@@ -2146,7 +2146,7 @@ export const globalIndicators = [
         description: 'Slowdown Proxy Maps',
         indicator: 'N7',
         lastIndicatorValue: 'normal',
-        indicatorName: 'Movement slowdown',
+        indicatorName: 'Cars and Construction',
         lastColorCode: 'BLUE',
         eoSensor: ['2020-02-15 compared to 2020-04-01 - 2020-04-31 - Derived from Sentinel-1'],
         subAoi: {
@@ -2196,7 +2196,7 @@ export const globalIndicators = [
         description: 'Slowdown Proxy Maps',
         indicator: 'N7',
         lastIndicatorValue: 'normal',
-        indicatorName: 'Movement slowdown',
+        indicatorName: 'Cars and Construction',
         lastColorCode: 'BLUE',
         eoSensor: ['2020-02-15 compared to 2020-04-03 - 2020-04-27 - Derived from Sentinel-1'],
         subAoi: {
@@ -2246,7 +2246,7 @@ export const globalIndicators = [
         description: 'Slowdown Proxy Maps',
         indicator: 'N7',
         lastIndicatorValue: 'normal',
-        indicatorName: 'Movement slowdown',
+        indicatorName: 'Cars and Construction',
         lastColorCode: 'BLUE',
         eoSensor: ['2020-02-01 compared to 2020-04-01 - 2020-06-12 - Derived from Sentinel-1'],
         subAoi: {
@@ -2296,7 +2296,7 @@ export const globalIndicators = [
         description: 'Slowdown Proxy Maps',
         indicator: 'N7',
         lastIndicatorValue: 'normal',
-        indicatorName: 'Movement slowdown',
+        indicatorName: 'Cars and Construction',
         lastColorCode: 'BLUE',
         eoSensor: ['2020-02-04 compared to 2020-03-29 - 2020-04-28 - Derived from Sentinel-1'],
         subAoi: {
@@ -2346,7 +2346,7 @@ export const globalIndicators = [
         description: 'Slowdown Proxy Maps',
         indicator: 'N7',
         lastIndicatorValue: 'normal',
-        indicatorName: 'Movement slowdown',
+        indicatorName: 'Cars and Construction',
         lastColorCode: 'BLUE',
         eoSensor: ['2020-02-12 compared to 2020-04-24 - 2020-05-30 - Derived from Sentinel-1'],
         subAoi: {
