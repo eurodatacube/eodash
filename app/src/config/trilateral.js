@@ -136,6 +136,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'agriculture',
     story: '/data/trilateral/E10d',
     largeSubAoi: true,
+    disableTimeSelection: true,
   },
   E11: {
     indicator: 'Volume of activity at shopping centers',
