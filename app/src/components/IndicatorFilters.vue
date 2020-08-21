@@ -242,7 +242,7 @@
         </v-list>
       </v-tab-item>
       <v-tab-item class="fill-height">
-        <v-list dense>
+        <v-list dense :style="$vuetify.breakpoint.xsOnly && 'padding-bottom: 60px'">
           <v-list-item-group
             v-model="indicatorSelection"
             color="primary"
