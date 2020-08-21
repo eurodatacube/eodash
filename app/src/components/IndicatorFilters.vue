@@ -39,7 +39,7 @@
       :style="`height: calc(100% - 72px); overflow-y: auto`"
     >
       <v-tab-item class="fill-height">
-        <v-list dense>
+        <v-list dense :style="$vuetify.breakpoint.xsOnly && 'padding-bottom: 60px'">
           <v-list-item-group v-model="countrySelection" color="primary">
             <v-list-item
               :value="'all'"
@@ -292,7 +292,7 @@
         </v-list>
       </v-tab-item>
       <v-tab-item class="fill-height">
-        <v-list dense>
+        <v-list dense :style="$vuetify.breakpoint.xsOnly && 'padding-bottom: 60px'">
           <v-list-item-group
             v-model="indicatorSelection"
             color="primary"
