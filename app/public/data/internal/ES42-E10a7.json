@@ -5,9 +5,119 @@
         "eo_sensor": "Sentinel-1; Sentinel-2",
         "indicator_value": "",
         "input_data": "S2 L2A; S1 - SLC",
-        "measurement_value": "72.52",
-        "reference_time": "2019-07-26",
-        "reference_value": "",
+        "measurement_value": "1.34",
+        "reference_time": "2019-05-19",
+        "reference_value": "0.58",
+        "time": "2020-05-17T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "3.57",
+        "reference_time": "2019-05-26",
+        "reference_value": "3.43",
+        "time": "2020-05-24T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "9.97",
+        "reference_time": "2019-06-02",
+        "reference_value": "6.36",
+        "time": "2020-05-31T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "32.45",
+        "reference_time": "2019-06-09",
+        "reference_value": "17.71",
+        "time": "2020-06-07T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "53.53",
+        "reference_time": "2019-06-16",
+        "reference_value": "49.84",
+        "time": "2020-06-14T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "68.63",
+        "reference_time": "2019-06-23",
+        "reference_value": "68.09",
+        "time": "2020-06-21T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "80.85",
+        "reference_time": "2019-06-30",
+        "reference_value": "77.75",
+        "time": "2020-06-28T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "88.56",
+        "reference_time": "2019-07-07",
+        "reference_value": "82.46",
+        "time": "2020-07-05T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "92.34",
+        "reference_time": "2019-07-14",
+        "reference_value": "85.79",
+        "time": "2020-07-12T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "93.64",
+        "reference_time": "2019-07-21",
+        "reference_value": "87.18",
+        "time": "2020-07-19T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "94.3",
+        "reference_time": "2019-07-28",
+        "reference_value": "88.06",
         "time": "2020-07-26T00:00:00"
     },
     {
@@ -16,9 +126,9 @@
         "eo_sensor": "Sentinel-1; Sentinel-2",
         "indicator_value": "",
         "input_data": "S2 L2A; S1 - SLC",
-        "measurement_value": "72.98",
-        "reference_time": "2019-08-02",
-        "reference_value": "",
+        "measurement_value": "94.36",
+        "reference_time": "2019-08-04",
+        "reference_value": "NaN",
         "time": "2020-08-02T00:00:00"
     }
 ]

@@ -31,15 +31,18 @@ appConfig.map((b) => {
       'og:description': { property: 'og:description', content: b.pageMeta.shortDescription },
       // Colored status bar
       // Chrome, Firefox OS and Opera
-      'theme-color': { property: 'theme-color', content: b.branding.primaryColor },
+      'theme-color': b.branding.primaryColor,
       // Windows Phone
-      'msapplication-navbutton-color': { property: 'msapplication-navbutton-color', content: b.branding.primaryColor },
+      'msapplication-navbutton-color': b.branding.primaryColor,
       // iOS Safari
-      'apple-mobile-web-app-status-bar-style': { property: 'apple-mobile-web-app-status-bar-style', content: b.branding.primaryColor },
+      'apple-mobile-web-app-status-bar-style': b.branding.primaryColor,
+      // Favicon related stuff
+      'application-name': b.branding.appName,
+      'msapplication-TileColor': b.branding.primaryColor,
+      'msapplication-TileImage': `${b.pageMeta.imagePath}/mstile-144x144.png`,
     },
   }
 })
-
 
 module.exports = {
   pages,

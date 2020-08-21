@@ -124,7 +124,7 @@ export default {
         const { indicator } = this.$route.query;
         // validate query for country - need to be among available
         const selectedCountry = this.getCountryItems
-          .map((item) => item.code).find((f) => f === country);
+          .map((item) => item.code).flat().find((f) => f === country);
         const selectedIndicator = this.getIndicators
           .map((item) => item.code).find((f) => f === indicator);
         this.$store.commit('features/INIT_FEATURE_FILTER', {

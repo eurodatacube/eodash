@@ -39,7 +39,7 @@
       :style="`height: calc(100% - 72px); overflow-y: auto`"
     >
       <v-tab-item class="fill-height">
-        <v-list dense>
+        <v-list dense :style="$vuetify.breakpoint.xsOnly && 'padding-bottom: 60px'">
           <v-list-item-group v-model="countrySelection" color="primary">
             <v-list-item
               :value="'all'"
@@ -78,7 +78,7 @@
               </v-list-item>
             </template>
             <template v-else>
-              <v-subheader>AMERICA</v-subheader>
+              <v-subheader>NORTH AMERICA</v-subheader>
               <v-list-item
                 value="US"
                 :disabled="countrySelection === 'US'"
@@ -237,12 +237,62 @@
                   <v-list-item-title>India</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
+              <v-subheader>SOUTH AMERICA</v-subheader>
+              <v-list-item
+                value="BR"
+                :disabled="countrySelection === 'BR'"
+                active-class="itemActive"
+              >
+                <v-list-item-icon class="d-flex align-center mr-2">
+                  <country-flag country="BR" size='normal' />
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Brazil</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item
+                value="CL"
+                :disabled="countrySelection === 'CL'"
+                active-class="itemActive"
+              >
+                <v-list-item-icon class="d-flex align-center mr-2">
+                  <country-flag country="CL" size='normal' />
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Chile</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item
+                value="PE"
+                :disabled="countrySelection === 'PE'"
+                active-class="itemActive"
+              >
+                <v-list-item-icon class="d-flex align-center mr-2">
+                  <country-flag country="PE" size='normal' />
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Peru</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-subheader>AFRICA</v-subheader>
+              <v-list-item
+                value="TG"
+                :disabled="countrySelection === 'TG'"
+                active-class="itemActive"
+              >
+                <v-list-item-icon class="d-flex align-center mr-2">
+                  <country-flag country="TG" size='normal' />
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Togo</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
             </template>
           </v-list-item-group>
         </v-list>
       </v-tab-item>
       <v-tab-item class="fill-height">
-        <v-list dense>
+        <v-list dense :style="$vuetify.breakpoint.xsOnly && 'padding-bottom: 60px'">
           <v-list-item-group
             v-model="indicatorSelection"
             color="primary"
