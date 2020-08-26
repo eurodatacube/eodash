@@ -1,8 +1,11 @@
 <template>
-  <div class="fill-height scrollContainer">
+  <div
+    class="fill-height scrollContainer"
+    :style="`margin-top: ${$vuetify.application.top}px !important;`"
+  >
     <div
-      class="pa-10"
-      style="background: white; padding-top: 85px !important;"
+      class="pa-10 pt-5"
+      style="background: white;"
     >
       <v-app-bar
         app
