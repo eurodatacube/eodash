@@ -1,3 +1,3 @@
-## Covid-19 impact on Water Quality 
+## Water Quality in Nagoya (Ise bay)
 
 ### Total Suspended Matter index
