@@ -1,3 +1,3 @@
-## Covid-19 impact on Water Quality 
+## Water Quality in Kobe (Osaka bay)
 
 ### Total Suspended Matter index
