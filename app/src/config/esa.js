@@ -411,7 +411,7 @@ export const globalIndicators = [
         aoi: latLng([45.197522, 13.029785]),
         aoiID: 'NorthAdriatic',
         country: ['HR', 'IT', 'SI'],
-        city: 'North Adriatic',
+        city: 'North Adriatic - Chlorophyll-a concentration',
         siteName: 'North Adriatic',
         description: 'Water Quality Regional Maps',
         indicator: 'N3a2',
