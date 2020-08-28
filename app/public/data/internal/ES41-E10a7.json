@@ -18,7 +18,7 @@
         "input_data": "S2 L2A; S1 - SLC",
         "measurement_value": "1.69",
         "reference_time": "2019-05-26",
-        "reference_value": "0.79",
+        "reference_value": "0.76",
         "time": "2020-05-24T00:00:00"
     },
     {
@@ -27,9 +27,9 @@
         "eo_sensor": "Sentinel-1; Sentinel-2",
         "indicator_value": "",
         "input_data": "S2 L2A; S1 - SLC",
-        "measurement_value": "2.73",
+        "measurement_value": "2.7",
         "reference_time": "2019-06-02",
-        "reference_value": "3.05",
+        "reference_value": "3.01",
         "time": "2020-05-31T00:00:00"
     },
     {
@@ -38,9 +38,9 @@
         "eo_sensor": "Sentinel-1; Sentinel-2",
         "indicator_value": "",
         "input_data": "S2 L2A; S1 - SLC",
-        "measurement_value": "7.47",
+        "measurement_value": "7.38",
         "reference_time": "2019-06-09",
-        "reference_value": "13.62",
+        "reference_value": "13.26",
         "time": "2020-06-07T00:00:00"
     },
     {
@@ -49,9 +49,9 @@
         "eo_sensor": "Sentinel-1; Sentinel-2",
         "indicator_value": "",
         "input_data": "S2 L2A; S1 - SLC",
-        "measurement_value": "11.63",
+        "measurement_value": "11.55",
         "reference_time": "2019-06-16",
-        "reference_value": "24.74",
+        "reference_value": "24.37",
         "time": "2020-06-14T00:00:00"
     },
     {
@@ -60,9 +60,9 @@
         "eo_sensor": "Sentinel-1; Sentinel-2",
         "indicator_value": "",
         "input_data": "S2 L2A; S1 - SLC",
-        "measurement_value": "25.13",
+        "measurement_value": "24.98",
         "reference_time": "2019-06-23",
-        "reference_value": "46.32",
+        "reference_value": "45.65",
         "time": "2020-06-21T00:00:00"
     },
     {
@@ -71,9 +71,9 @@
         "eo_sensor": "Sentinel-1; Sentinel-2",
         "indicator_value": "",
         "input_data": "S2 L2A; S1 - SLC",
-        "measurement_value": "55.01",
+        "measurement_value": "54.7",
         "reference_time": "2019-06-30",
-        "reference_value": "60.16",
+        "reference_value": "59.3",
         "time": "2020-06-28T00:00:00"
     },
     {
@@ -82,9 +82,9 @@
         "eo_sensor": "Sentinel-1; Sentinel-2",
         "indicator_value": "",
         "input_data": "S2 L2A; S1 - SLC",
-        "measurement_value": "65.79",
+        "measurement_value": "65.15",
         "reference_time": "2019-07-07",
-        "reference_value": "75.89",
+        "reference_value": "74.42",
         "time": "2020-07-05T00:00:00"
     },
     {
@@ -93,9 +93,9 @@
         "eo_sensor": "Sentinel-1; Sentinel-2",
         "indicator_value": "",
         "input_data": "S2 L2A; S1 - SLC",
-        "measurement_value": "80.76",
+        "measurement_value": "79.99",
         "reference_time": "2019-07-14",
-        "reference_value": "87.35",
+        "reference_value": "85.99",
         "time": "2020-07-12T00:00:00"
     },
     {
@@ -104,9 +104,9 @@
         "eo_sensor": "Sentinel-1; Sentinel-2",
         "indicator_value": "",
         "input_data": "S2 L2A; S1 - SLC",
-        "measurement_value": "84.1",
+        "measurement_value": "83.45",
         "reference_time": "2019-07-21",
-        "reference_value": "92.82",
+        "reference_value": "91.78",
         "time": "2020-07-19T00:00:00"
     },
     {
@@ -115,9 +115,9 @@
         "eo_sensor": "Sentinel-1; Sentinel-2",
         "indicator_value": "",
         "input_data": "S2 L2A; S1 - SLC",
-        "measurement_value": "85.76",
+        "measurement_value": "85.49",
         "reference_time": "2019-07-28",
-        "reference_value": "94.42",
+        "reference_value": "95.67",
         "time": "2020-07-26T00:00:00"
     },
     {
@@ -126,9 +126,9 @@
         "eo_sensor": "Sentinel-1; Sentinel-2",
         "indicator_value": "",
         "input_data": "S2 L2A; S1 - SLC",
-        "measurement_value": "88.13",
+        "measurement_value": "90.73",
         "reference_time": "2019-08-04",
-        "reference_value": "NaN",
+        "reference_value": "96.67",
         "time": "2020-08-02T00:00:00"
     }
 ]
