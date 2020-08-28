@@ -1,6 +1,6 @@
 ## Water quality in Ise Bay
 
-**Phytoplankton chlorophyll-a concentration** (Chl-a, mg/m3) can be derived from ocean colour satellite sensors. The dashboard presents an example of collaborative analysis with **[Sentinel-3/OLCI](https://sentinel.esa.int/web/sentinel/user-guides/sentinel-3-olci)**, **[Aqua/MODIS](https://oceancolor.gsfc.nasa.gov/data/aqua/)**, and **[GCOM-C/SGLI](https://global.jaxa.jp/projects/sat/gcom_c/)** on the [North Adriatic Sea](https://www.eodashboard.org/?indicator=N3b&poi=IT6-N3b). 
+**Phytoplankton chlorophyll-a concentration** (Chl-a, mg/m3) can be derived from ocean colour satellite sensors. 
 
 The **Chl-a anomaly** is the Chl-a difference from the reference climatological values and is expressed in %. It is used as an index to assess and monitor the potential effects of the lockdown, and subsequent recovery, on inland and coastal water quality. 
 
