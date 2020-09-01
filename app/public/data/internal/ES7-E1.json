@@ -16,7 +16,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "Low",
         "input_data": "S1A - GRD",
-        "measurement_value": "3",
+        "measurement_value": "4",
         "reference_time": "2018-05-19T13:11:07",
         "reference_value": "6",
         "time": "2019-05-05T18:20:08"
@@ -27,7 +27,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "Low",
         "input_data": "S1A - GRD",
-        "measurement_value": "3",
+        "measurement_value": "2",
         "reference_time": "2018-05-19T13:11:07",
         "reference_value": "6",
         "time": "2019-05-11T06:25:31"
@@ -55,12 +55,12 @@
         "time": "2019-05-16T06:33:41"
     },
     {
-        "color_code": "BLUE",
+        "color_code": "GREEN",
         "data_provider": "SISTEMA",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "Normal",
         "input_data": "S1A - GRD",
-        "measurement_value": "6",
+        "measurement_value": "8",
         "reference_time": "2018-05-19T13:11:07",
         "reference_value": "6",
         "time": "2019-05-17T18:20:09"
@@ -103,7 +103,7 @@
         "data_provider": "SISTEMA",
         "eo_sensor": "Planetscope",
         "indicator_value": "Low",
-        "input_data": "Planetscope COVID-19",
+        "input_data": "[NEW] PlanetScope - COVID19",
         "measurement_value": "4",
         "reference_time": "2018-05-19T13:11:07",
         "reference_value": "6",
@@ -114,7 +114,7 @@
         "data_provider": "SISTEMA",
         "eo_sensor": "Planetscope",
         "indicator_value": "Normal",
-        "input_data": "Planetscope COVID-19",
+        "input_data": "[NEW] PlanetScope - COVID19",
         "measurement_value": "6",
         "reference_time": "2018-05-19T13:11:07",
         "reference_value": "6",
@@ -125,7 +125,7 @@
         "data_provider": "SISTEMA",
         "eo_sensor": "Planetscope",
         "indicator_value": "Normal",
-        "input_data": "Planetscope COVID-19",
+        "input_data": "[NEW] PlanetScope - COVID19",
         "measurement_value": "7",
         "reference_time": "2018-05-19T13:11:07",
         "reference_value": "6",
@@ -136,7 +136,7 @@
         "data_provider": "SISTEMA",
         "eo_sensor": "Planetscope",
         "indicator_value": "Low",
-        "input_data": "Planetscope COVID-19",
+        "input_data": "[NEW] PlanetScope - COVID19",
         "measurement_value": "3",
         "reference_time": "2018-05-19T13:11:07",
         "reference_value": "6",
@@ -214,7 +214,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "Low",
         "input_data": "S1A - GRD",
-        "measurement_value": "4",
+        "measurement_value": "5",
         "reference_time": "2018-05-19T13:11:07",
         "reference_value": "6",
         "time": "2020-04-17T18:20:14"
@@ -379,10 +379,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "Low",
         "input_data": "S1A - GRD",
-        "measurement_value": "3",
+        "measurement_value": "2",
         "reference_time": "2018-05-19T13:11:07",
         "reference_value": "6",
-        "time": "2020-06-03T06:34:14"
+        "time": "2020-06-03T06:33:49"
     },
     {
         "color_code": "RED",
@@ -390,10 +390,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "Low",
         "input_data": "S1A - GRD",
-        "measurement_value": "3",
+        "measurement_value": "2",
         "reference_time": "2018-05-19T13:11:07",
         "reference_value": "6",
-        "time": "2020-06-04T18:20:41"
+        "time": "2020-06-04T18:20:16"
     },
     {
         "color_code": "BLUE",
@@ -401,10 +401,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "Normal",
         "input_data": "S1A - GRD",
-        "measurement_value": "7",
+        "measurement_value": "6",
         "reference_time": "2018-05-19T13:11:07",
         "reference_value": "6",
-        "time": "2020-06-10T06:26:04"
+        "time": "2020-06-10T06:25:39"
     },
     {
         "color_code": "BLUE",
@@ -412,10 +412,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "Normal",
         "input_data": "S1A - GRD",
-        "measurement_value": "5",
+        "measurement_value": "6",
         "reference_time": "2018-05-19T13:11:07",
         "reference_value": "6",
-        "time": "2020-06-11T18:12:33"
+        "time": "2020-06-11T18:12:08"
     },
     {
         "color_code": "RED",
@@ -426,18 +426,18 @@
         "measurement_value": "4",
         "reference_time": "2018-05-19T13:11:07",
         "reference_value": "6",
-        "time": "2020-06-15T06:34:14"
+        "time": "2020-06-15T06:33:49"
     },
     {
-        "color_code": "BLUE",
+        "color_code": "RED",
         "data_provider": "SISTEMA",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "Normal",
         "input_data": "S1A - GRD",
-        "measurement_value": "5",
+        "measurement_value": "4",
         "reference_time": "2018-05-19T13:11:07",
         "reference_value": "6",
-        "time": "2020-06-16T18:20:42"
+        "time": "2020-06-16T18:20:17"
     },
     {
         "color_code": "RED",
@@ -478,21 +478,21 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "Normal",
         "input_data": "S1A - GRD",
-        "measurement_value": "5",
+        "measurement_value": "4",
         "reference_time": "2018-05-19T13:11:07",
         "reference_value": "6",
-        "time": "2020-06-23T18:12:33"
+        "time": "2020-06-23T18:12:08"
     },
     {
-        "color_code": "GREEN",
+        "color_code": "BLUE",
         "data_provider": "SISTEMA",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "High",
         "input_data": "S1A - GRD",
-        "measurement_value": "8",
+        "measurement_value": "6",
         "reference_time": "2018-05-19T13:11:07",
         "reference_value": "6",
-        "time": "2020-06-27T06:34:15"
+        "time": "2020-06-27T06:33:50"
     },
     {
         "color_code": "RED",
@@ -503,7 +503,7 @@
         "measurement_value": "2",
         "reference_time": "2018-05-19T13:11:07",
         "reference_value": "6",
-        "time": "2020-06-28T18:20:43"
+        "time": "2020-06-28T18:20:18"
     },
     {
         "color_code": "BLUE",
@@ -515,5 +515,225 @@
         "reference_time": "2018-05-19T13:11:07",
         "reference_value": "6",
         "time": "2020-06-30T11:06:19"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "Low",
+        "input_data": "S1A - GRD",
+        "measurement_value": "3",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-07-04T06:25:40"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "Low",
+        "input_data": "S1A - GRD",
+        "measurement_value": "4",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-07-05T18:12:09"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "Normal",
+        "input_data": "S1A - GRD",
+        "measurement_value": "5",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-07-09T06:33:51"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "Normal",
+        "input_data": "S1A - GRD",
+        "measurement_value": "5",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-07-10T18:20:18"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "Normal",
+        "input_data": "S1A - GRD",
+        "measurement_value": "5",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-07-11T18:12:03"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Normal",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "5",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-07-13T11:21:19"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "Normal",
+        "input_data": "S1A - GRD",
+        "measurement_value": "5",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-07-17T18:12:10"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Low",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "3",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-07-18T11:21:21"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "Low",
+        "input_data": "S1A - GRD",
+        "measurement_value": "4",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-07-21T06:33:52"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "Low",
+        "input_data": "S1A - GRD",
+        "measurement_value": "3",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-07-22T18:20:19"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Normal",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "7",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-07-25T11:06:31"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "Low",
+        "input_data": "S1A - GRD",
+        "measurement_value": "3",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-07-28T06:25:42"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "Normal",
+        "input_data": "S1A - GRD",
+        "measurement_value": "6",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-07-29T18:12:11"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Normal",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "5",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-07-30T11:06:19"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "High",
+        "input_data": "S1A - GRD",
+        "measurement_value": "8",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-08-02T06:33:52"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "Normal",
+        "input_data": "S1A - GRD",
+        "measurement_value": "7",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-08-03T18:20:20"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "Normal",
+        "input_data": "S1A - GRD",
+        "measurement_value": "7",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-08-09T06:25:43"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "Low",
+        "input_data": "S1A - GRD",
+        "measurement_value": "4",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-08-10T18:12:11"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "Normal",
+        "input_data": "S1A - GRD",
+        "measurement_value": "6",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-08-14T06:33:53"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "SISTEMA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "Normal",
+        "input_data": "S1A - GRD",
+        "measurement_value": "6",
+        "reference_time": "2018-05-19T13:11:07",
+        "reference_value": "6",
+        "time": "2020-08-15T18:20:20"
     }
 ]

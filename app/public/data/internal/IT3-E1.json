@@ -207,5 +207,82 @@
         "reference_time": "2019-04-15T10:14:40",
         "reference_value": "3",
         "time": "2020-06-25T10:28:34"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "EMSS",
+        "eo_sensor": "Sentinel 2",
+        "indicator_value": "Low",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "1",
+        "reference_time": "2019-04-15T10:14:40",
+        "reference_value": "3",
+        "time": "2020-07-05T10:28:34"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "EMSS",
+        "eo_sensor": "Sentinel 2",
+        "indicator_value": "Low",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "1",
+        "reference_time": "2019-04-15T10:14:40",
+        "reference_value": "3",
+        "time": "2020-07-10T10:28:36"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "EMSS",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Low",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "2",
+        "reference_time": "2019-04-15T10:14:40",
+        "reference_value": "3",
+        "time": "2020-07-20T10:28:37"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "EMSS",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Low",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "1",
+        "reference_time": "2019-04-15T10:14:40",
+        "reference_value": "3",
+        "time": "2020-07-25T10:28:34"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "EMSS",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Low",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "1",
+        "reference_time": "2019-04-15T10:14:40",
+        "reference_value": "3",
+        "time": "2020-08-09T10:28:38"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "EMSS",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Low",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "1",
+        "reference_time": "2019-04-15T10:14:40",
+        "reference_value": "3",
+        "time": "2020-08-14T10:28:35"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "EMSS",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Low",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "1",
+        "reference_time": "2019-04-15T10:14:40",
+        "reference_value": "3",
+        "time": "2020-08-19T10:28:38"
     }
 ]
