@@ -124,8 +124,10 @@ def generateData(
     cm_arr = geoDB_array_map
 
     for indicator in geoDB_indicators:
+        indicator_id = indicator[0]
+        indicator_query = indicator[1]
         try:
-            indicator_data = geodb.get_collection(indicator, database='anja')
+            indicator_data = geodb.get_collection(indicator_id, database='anja', query=indicator_query)
             for index, line in indicator_data.iterrows():
                 # Aggregate data for unique pois and write unique data to poi_dict
                 poi_key = "%s-%s" % (line[cm["aoiID"]], line[cm["indicator"]])
@@ -177,7 +179,10 @@ def generateData(
                         "poi_data": poi_data_always,
                     }
         except Exception as e:
-            print("WARNING: Issue reading indicator %s; file will be skipped for generation" % (indicator))
+            print(
+                "WARNING: Issue reading indicator %s from GeoDB and thus "
+                "skipped for generation" % (indicator_id)
+            )
             print("Exception: %s" % e)
 
     # Load all csv listed in local files
@@ -308,7 +313,9 @@ generateData(
         '/working/data/trilateral/N2.csv',
         '/working/data/trilateral/N3b.csv',
     ],
-    ['E1']
+    [
+        ['E1', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'],
+    ]
 )
 
 print("Generating data for eodashboard")
@@ -340,5 +347,8 @@ generateData(
         '/working/eodash-data/data/N3.csv',
         '/working/eodash-data/data/N4a.csv',
     ],
-    ['E1', 'E5']
+    [
+        ['E1', ''],
+        ['E5', ''],
+    ]
 )
