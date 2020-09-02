@@ -15,6 +15,7 @@ import Dashboard from './views/Dashboard.vue';
 import Privacy from './views/Privacy.vue';
 import PageNotFound from './views/PageNotFound.vue';
 import Terms from './views/Terms.vue';
+import EmbedIframe from './views/EmbedIframe.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 
@@ -52,6 +53,7 @@ const routes = [
   { path: '/', component: Dashboard },
   { path: '/privacy', component: Privacy },
   { path: '/terms_and_conditions', component: Terms },
+  { path: '/iframe', component: EmbedIframe },
   { path: '*', component: PageNotFound },
 ];
 const router = new VueRouter({

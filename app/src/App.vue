@@ -1,6 +1,6 @@
 <!-- eslint-disable global-require -->
 <template>
-  <v-app id="inspire" :class="`brand-${appConfig.id}`">
+  <v-app id="inspire" :class="`fill-height brand-${appConfig.id}`">
     <div v-if="comingSoon"
       class="fill-height d-flex justify-center align-center"
       style="background: white"
@@ -21,7 +21,7 @@
     </div>
     <template v-else>
       <router-view />
-      <cookie-law @accept="acceptCookies">
+      <cookie-law v-if="showCookieNotice" @accept="acceptCookies">
         <div slot-scope="props" style="width: 100%;">
           <div class="d-flex align-center justify-center mb-5">
             <small class="mb-0">
@@ -87,6 +87,9 @@ export default {
       'getIndicators',
       'getCountryItems',
     ]),
+    showCookieNotice() {
+      return this.$route.path != '/iframe';
+    },
   },
   created() {
     if (this.appConfig.hasOwnProperty('countDownTimer')
@@ -121,7 +124,7 @@ export default {
         const { indicator } = this.$route.query;
         // validate query for country - need to be among available
         const selectedCountry = this.getCountryItems
-          .map((item) => item.code).find((f) => f === country);
+          .map((item) => item.code).flat().find((f) => f === country);
         const selectedIndicator = this.getIndicators
           .map((item) => item.code).find((f) => f === indicator);
         this.$store.commit('features/INIT_FEATURE_FILTER', {
@@ -172,7 +175,7 @@ export default {
 
             const url = `${baseConfig.dataPath}${[mutation.payload.aoiID, mutation.payload.indicator].join('-')}.json`;
             // Fetch location data
-            fetch(url).then((r) => r.json())
+            fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
               .then((data) => {
                 const indicatorObject = mutation.payload;
                 // Set data to indicator object

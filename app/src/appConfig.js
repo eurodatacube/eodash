@@ -14,6 +14,7 @@ module.exports = [
       googleSiteVerification: 'RfWilP51Q2wsZnVlKbxUTovIx90QqqLRFLebGpAeq14',
       shortDescription: 'The RACE platform demonstrates how the use of EO data can help shed new light on societal and economic changes currently taking place owing to the coronavirus pandemic.',
       twitterCardImagePath: '/img/ESA/twitter_card.jpg',
+      imagePath: '/img/ESA',
     },
     storyPath: '/eodash-data/stories/',
     customCSS: 'esa',
@@ -22,19 +23,19 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'IT9-E13b',
+        poi: 'PT-N1',
         src: './eodash-data/general/Slide1.png',
       },
       {
-        poi: 'SE9-E5',
+        poi: 'RhoneDelta-N3a2',
         src: './eodash-data/general/Slide2.png',
       },
       {
-        poi: 'DE11-E10a3',
+        poi: 'ES7-E1',
         src: './eodash-data/general/Slide3.png',
       },
       {
-        poi: 'World-N1',
+        poi: 'RO3-E11',
         src: './eodash-data/general/Slide4.png',
       },
     ],
@@ -57,6 +58,7 @@ module.exports = [
       googleSiteVerification: 'iHN2SaSR9qF7T3lOqNYSF4kaq_ZgK-I31SSgO5RKXW8',
       shortDescription: 'The Earth Observing Dashboard combines the resources, technical knowledge and expertise of three partner agencies ESA, JAXA, and NASA to strengthen our global understanding of the environmental and economic effects of the COVID-19 pandemic.',
       twitterCardImagePath: '/img/trilateral/twitter_card.png',
+      imagePath: '/img/trilateral',
     },
     displayDummyLocations: './data/trilateral/dummylocations.csv',
     storyPath: '/data/trilateral/',
