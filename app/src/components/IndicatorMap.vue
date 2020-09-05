@@ -14,6 +14,7 @@
     <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
     <l-control-layers position="topright" ref="layersControl"></l-control-layers>
     <l-control-zoom position="topright"  ></l-control-zoom>
+    <l-feature-group ref="customAreaFilterFeatures"></l-feature-group>
     <LTileLayer
       v-for="layer in baseLayers"
       v-bind="layer"
@@ -138,7 +139,7 @@
     <img v-if="layerDisplay('data').legendUrl"
     :src="layerDisplay('data').legendUrl" alt=""
       style="position: absolute; width: 250px; z-index: 700;
-      top: 10px; left: 10px; background: rgba(255, 255, 255, 0.4); ">
+      top: 10px; left: 10px; background: rgba(255, 255, 255, 0.6); ">
     <div
       class="d-flex justify-center" style="position: relative; width: 100%; height: 100%;"
       @click.stop=""
@@ -147,13 +148,13 @@
       <h3 :class="`brand-${appConfig.id} px-3 py-1`"
         v-if="enableCompare && indicator.compareDisplay && indicator.compareDisplay.mapLabel"
         style="position:absolute; z-index:1000; right: 0px; bottom: 45%;
-        background: rgba(255, 255, 255, 0.4); font-size: 16px; pointer-events: none;">
+        background: rgba(255, 255, 255, 0.6); font-size: 16px; pointer-events: none;">
           {{indicator.display.mapLabel}}
       </h3>
       <h3 :class="`brand-${appConfig.id} px-3 py-1`"
         v-if="enableCompare && indicator.compareDisplay && indicator.display.mapLabel"
         style="position:absolute; z-index:1000; left: 0px; bottom: 45%;
-        background: rgba(255, 255, 255, 0.4); font-size: 16px; pointer-events: none;">
+        background: rgba(255, 255, 255, 0.6); font-size: 16px; pointer-events: none;">
           {{indicator.compareDisplay.mapLabel}}
       </h3>
       <v-row
@@ -251,6 +252,7 @@ import { template } from '@/utils';
 import {
   LMap, LTileLayer, LWMSTileLayer, LGeoJson, LCircleMarker,
   LControlLayers, LControlAttribution, LControlZoom, LLayerGroup,
+  LFeatureGroup,
 } from 'vue2-leaflet';
 import { DateTime } from 'luxon';
 
@@ -259,6 +261,8 @@ import 'leaflet-mouse-position';
 import 'leaflet-side-by-side';
 import 'leaflet-loading';
 import 'leaflet-loading/src/Control.Loading.css';
+import LeafletDraw from 'leaflet-draw';
+import "leaflet-draw/dist/leaflet.draw.css";
 
 export default {
   components: {
@@ -271,6 +275,7 @@ export default {
     LControlAttribution,
     LControlZoom,
     LLayerGroup,
+    LFeatureGroup,
   },
   data() {
     return {
@@ -291,6 +296,7 @@ export default {
       tooltipPane: 'tooltipPane',
       popupPane: 'popupPane',
       slider: null,
+      drawControl: null,
       defaultMapOptions: {
         attributionControl: false,
         zoomControl: false,
@@ -352,6 +358,9 @@ export default {
     disableCompareButton() {
       return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableCompare !== 'undefined') ? this.layerDisplay('data').disableCompare : this.indDefinition.disableCompare;
     },
+    customAreaFilter() {
+      return (this.layerDisplay('data') && typeof this.layerDisplay('data').customAreaFilter !== 'undefined') ? this.layerDisplay('data').customAreaFilter : this.indDefinition.customAreaFilter;
+    },
     arrayOfObjects() {
       const selectionOptions = [];
       for (let i = 0; i < this.indicator.time.length; i += 1) {
@@ -389,6 +398,33 @@ export default {
     },
     subAoi() {
       return this.indicator.subAoi;
+    },
+    drawOptions() {
+      return {
+        position: 'topright',
+        draw: {
+          polyline: false,
+          circle: false,
+          marker: false,
+          circlemarker: false,
+          polygon: {
+            shapeOptions: {
+              clickable: false,
+              color: this.appConfig.branding.primaryColor,
+            }
+          },
+          rectangle: {
+            shapeOptions: {
+              clickable: false,
+              color: this.appConfig.branding.primaryColor,
+            }
+          },
+        },
+        edit: {
+          featureGroup: this.$refs.customAreaFilterFeatures.mapObject,
+          edit: false,
+        },
+      };
     },
   },
   mounted() {
@@ -432,11 +468,18 @@ export default {
       this.map.attributionControl._update();
       // add loading indicator
       L.Control.loading({
-        position: 'topright',
+        position: 'bottomright',
         delayIndicator: 200,
       }).addTo(this.map);
       // add A/B slider
       this.slider = L.control.sideBySide(this.$refs.compareLayers.mapObject.getLayers(), this.$refs.dataLayers.mapObject.getLayers()); // eslint-disable-line
+      this.drawControl = new L.Control.Draw(this.drawOptions);
+      this.map.on(L.Draw.Event.CREATED, function (e) {
+        this.$refs.customAreaFilterFeatures.mapObject.addLayer(e.layer);
+      }.bind(this));
+      if (this.customAreaFilter) {
+        this.drawControl.addTo(this.map);
+      }
       this.onResize();
       this.fetchFeatures('data');
       setTimeout(() => {
@@ -839,6 +882,13 @@ export default {
         }
         if (this.slider) {
           this.refreshLayer('compare');
+        }
+        // enable or disable draw control
+        if (!this.customAreaFilter && this.drawControl._map) {
+          this.map.removeControl(this.drawControl);
+          this.$refs.customAreaFilterFeatures.mapObject.clearLayers();
+        } else if (this.customAreaFilter && !this.drawControl._map) {
+          this.drawControl.addTo(this.map);
         }
         this.$nextTick(() => {
           // second nextTick to add correct layers to slider

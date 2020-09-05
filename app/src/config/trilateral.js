@@ -226,6 +226,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Cropped Area - Global',
     class: 'agriculture',
     story: '/data/trilateral/N6',
+    customAreaFilter: true,
   },
   N7: {
     indicator: 'Slowdown Proxy Maps',
