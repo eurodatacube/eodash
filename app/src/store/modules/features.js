@@ -23,12 +23,30 @@ const getters = {
   getCountries(state) {
     return [...new Set([
       state.allFeatures
+        .filter((f) => (state.featureFilters.indicators.length > 0
+          ? state.featureFilters.indicators.includes(f.properties.indicatorObject.indicator)
+          : true))
         .map((f) => f.properties.indicatorObject.country),
-    ].flat(1))].sort();
+    ].flat(2))].sort();
   },
   getIndicators(state, _, rootState) {
     const indicators = [...new Set([
       state.allFeatures
+        .filter((f) => {
+          let filtered;
+          if (state.featureFilters.countries.length > 0) {
+            if (Array.isArray(f.properties.indicatorObject.country)) {
+              filtered = f.properties.indicatorObject.country
+                .some((i) => state.featureFilters.countries.includes(i));
+            } else {
+              filtered = state.featureFilters.countries
+                .includes(f.properties.indicatorObject.country);
+            }
+          } else {
+            filtered = true;
+          }
+          return filtered;
+        })
         .map((f) => ({
           code: f.properties.indicatorObject.indicator,
           indicator: f.properties.indicatorObject.description,
@@ -190,7 +208,7 @@ const actions = {
           lastReferenceValue: 'lastReferenceValue',
           lastReferenceTime: 'lastReferenceTime',
           yAxis: 'yAxis',
-          updateFrequency: 'updateFrequency'
+          updateFrequency: 'updateFrequency',
         };
 
         commit('ADD_RESULTS_COUNT', {
