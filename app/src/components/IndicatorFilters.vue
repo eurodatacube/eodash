@@ -56,7 +56,7 @@
                 <v-icon :color="countrySelection === 'all' ? 'white' : 'primary'">mdi-earth</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>All countries</v-list-item-title>
+                <v-list-item-title>Available countries</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-divider></v-divider>
@@ -101,7 +101,7 @@
                 <v-icon>mdi-lightbulb-on-outline</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>All indicators</v-list-item-title>
+                <v-list-item-title>Available indicators</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-divider></v-divider>
