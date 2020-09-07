@@ -32,9 +32,21 @@ const getters = {
   getIndicators(state, _, rootState) {
     const indicators = [...new Set([
       state.allFeatures
-        .filter((f) => (state.featureFilters.countries.length > 0
-          ? state.featureFilters.countries.includes(f.properties.indicatorObject.country)
-          : true))
+        .filter((f) => {
+          let filtered;
+          if (state.featureFilters.countries.length > 0) {
+            if (Array.isArray(f.properties.indicatorObject.country)) {
+              filtered = f.properties.indicatorObject.country
+                .some((i) => state.featureFilters.countries.includes(i));
+            } else {
+              filtered = state.featureFilters.countries
+                .includes(f.properties.indicatorObject.country);
+            }
+          } else {
+            filtered = true;
+          }
+          return filtered;
+        })
         .map((f) => ({
           code: f.properties.indicatorObject.indicator,
           indicator: f.properties.indicatorObject.description,
