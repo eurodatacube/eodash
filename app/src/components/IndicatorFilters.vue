@@ -194,7 +194,7 @@ export default {
               name: item.properties.name,
               region: c.region,
             };
-          })
+          });
       } else {
         countryItems = this.getCountries
           .filter((c) => c !== 'all')
