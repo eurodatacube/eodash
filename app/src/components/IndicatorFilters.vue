@@ -165,25 +165,6 @@ export default {
     countrySelection: 'all',
     indicatorSelection: 'all',
     indicatorPanel: 0,
-    trilateralCountries: [
-      { code: 'US', region: 'NORTH AMERICA'},
-      { code: 'BE', region: 'EUROPE'},
-      { code: 'HR', region: 'EUROPE'},
-      { code: 'FR', region: 'EUROPE'},
-      { code: 'DE', region: 'EUROPE'},
-      { code: 'IT', region: 'EUROPE'},
-      { code: 'SI', region: 'EUROPE'},
-      { code: 'ES', region: 'EUROPE'},
-      { code: 'JP', region: 'ASIA'},
-      { code: 'CN', region: 'ASIA'},
-      { code: 'SG', region: 'ASIA'},
-      { code: 'BD', region: 'ASIA'},
-      { code: 'IN', region: 'ASIA'},
-      { code: 'BR', region: 'SOUTH AMERICA'},
-      { code: 'CL', region: 'SOUTH AMERICA'},
-      { code: 'PE', region: 'SOUTH AMERICA'},
-      { code: 'TG', region: 'AFRICA'},
-    ]
   }),
   computed: {
     ...mapGetters('features', [
@@ -200,8 +181,8 @@ export default {
     },
     countryItems() {
       let countryItems;
-      if (this.appConfig.id === 'trilateral') {
-        countryItems = this.trilateralCountries
+      if (this.appConfig.customCountryList) {
+        countryItems = this.appConfig.customCountryList
           .filter((c) => {
             return this.getCountries.includes(c.code);
           })
