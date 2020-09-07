@@ -60,15 +60,15 @@
               </v-list-item-content>
             </v-list-item>
             <v-divider></v-divider>
-            <template
-              v-for="country in countryItems"
-            >
+            <template v-for="region in uniqueRegions(countryItems)">
               <v-subheader
-                v-if="country.subheader"
-                :key="country.subheader"
-              >{{ country.subheader }}</v-subheader>
+                v-if="region"
+                class="ml-5"
+                :key="region">
+                  {{ region.toUpperCase() }}
+              </v-subheader>
               <v-list-item
-                v-else
+                v-for="country in countryItems.filter(cI => cI.region ? cI.region === region : true)"
                 :key="country.code"
                 :value="country.code"
                 :disabled="countrySelection === country.code"
@@ -166,28 +166,23 @@ export default {
     indicatorSelection: 'all',
     indicatorPanel: 0,
     trilateralCountries: [
-      { subheader: 'NORTH AMERICA'},
-      'US',
-      { subheader: 'EUROPE'},
-      'BE',
-      'HR',
-      'FR',
-      'DE',
-      'IT',
-      'SI',
-      'ES',
-      { subheader: 'ASIA'},
-      'JP',
-      'CN',
-      'SG',
-      'BD',
-      'IN',
-      { subheader: 'SOUTH AMERICA'},
-      'BR',
-      'CL',
-      'PE',
-      { subheader: 'AFRICA'},
-      'TG',
+      { code: 'US', region: 'NORTH AMERICA'},
+      { code: 'BE', region: 'EUROPE'},
+      { code: 'HR', region: 'EUROPE'},
+      { code: 'FR', region: 'EUROPE'},
+      { code: 'DE', region: 'EUROPE'},
+      { code: 'IT', region: 'EUROPE'},
+      { code: 'SI', region: 'EUROPE'},
+      { code: 'ES', region: 'EUROPE'},
+      { code: 'JP', region: 'ASIA'},
+      { code: 'CN', region: 'ASIA'},
+      { code: 'SG', region: 'ASIA'},
+      { code: 'BD', region: 'ASIA'},
+      { code: 'IN', region: 'ASIA'},
+      { code: 'BR', region: 'SOUTH AMERICA'},
+      { code: 'CL', region: 'SOUTH AMERICA'},
+      { code: 'PE', region: 'SOUTH AMERICA'},
+      { code: 'TG', region: 'AFRICA'},
     ]
   }),
   computed: {
@@ -208,25 +203,16 @@ export default {
       if (this.appConfig.id === 'trilateral') {
         countryItems = this.trilateralCountries
           .filter((c) => {
-            if (typeof c === 'object' && c.subheader) {
-              return true;
-            } else {
-              return this.getCountries.includes(c);
-            }
+            return this.getCountries.includes(c.code);
           })
           .map((c) => {
-            if (typeof c === 'object' && c.subheader) {
-              return {
-                subheader: c.subheader,
-              }
-            } else {
-              const item = countries.features
-                .find((f) => f.properties.alpha2 === c);
-              return {
-                code: c,
-                name: item.properties.name,
-              };
-            }
+            const item = countries.features
+              .find((f) => f.properties.alpha2 === c.code);
+            return {
+              code: c.code,
+              name: item.properties.name,
+              region: c.region,
+            };
           })
       } else {
         countryItems = this.getCountries
@@ -239,6 +225,7 @@ export default {
                 return {
                   code: i,
                   name: item.properties.name,
+                  region: null,
                 };
               });
             } else { //eslint-disable-line
@@ -247,6 +234,7 @@ export default {
               return {
                 code: c,
                 name: item.properties.name,
+                region: null,
               };
             }
           })
@@ -327,6 +315,11 @@ export default {
     },
     setFilter(filter) {
       this.$store.commit('features/SET_FEATURE_FILTER', filter);
+    },
+    uniqueRegions(countryItems) {
+      return countryItems
+        .map(c => c.region)
+        .filter((thing, index, self) => self.findIndex((t) => t === thing) === index);
     },
   },
   watch: {
