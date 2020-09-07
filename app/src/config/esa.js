@@ -386,7 +386,7 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         aoi: null,
         aoiID: 'World',
-        time: getFortnightIntervalDates('2019-01-07', '2020-08-10'),
+        time: getFortnightIntervalDates('2019-01-07', '2020-09-07'),
         inputData: [''],
         display: {
           protocol: 'xyz',
