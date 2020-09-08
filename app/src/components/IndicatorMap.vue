@@ -482,16 +482,30 @@ export default {
         this.$refs.customAreaFilterFeatures.mapObject.addLayer(e.layer);
         // set global area as WKT
         this.$store.commit('features/SET_SELECTED_AREA', wkt.read(JSON.stringify(e.layer.toGeoJSON())));
-
+        // DUMMY API CALL FOR CHART
+        // fetch data for chart
+        this.$store.commit(
+          'indicators/SET_CUSTOM_AREA_INDICATOR',
+          this.$store.state.features.allFeatures
+            .find((f) => f.properties
+              .indicatorObject.indicator === 'N1'
+            && f.properties
+              .indicatorObject.aoiID === 'ES01')
+            .properties.indicatorObject,
+        );
         // fetch API and display vector features
         this.fetchFeatures('data');
-        // fetch data for chart
       }.bind(this));
       // only draw one feature at a time
       this.map.on(L.Draw.Event.DRAWSTART, function () {
         this.$refs.customAreaFilterFeatures.mapObject.clearLayers();
         this.$store.commit('features/SET_SELECTED_AREA', null);
       }.bind(this));
+
+      this.map.on(L.Draw.Event.DELETED, function () {
+        this.$store.commit('features/SET_SELECTED_AREA', null);
+      }.bind(this));
+
       if (this.customAreaFilter) {
         this.drawControl.addTo(this.map);
         const drawnArea = this.$store.state.features.selectedArea;

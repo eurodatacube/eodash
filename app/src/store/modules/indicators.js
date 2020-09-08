@@ -29,6 +29,8 @@ const mutations = {
   INDICATOR_LOAD_FINISHED(state, indicatorObject) {
     state.selectedIndicator = indicatorObject;
   },
+  SET_CUSTOM_AREA_INDICATOR(state, indicatorObject) {
+  },
   CUSTOM_AREA_INDICATOR_LOAD_FINISHED(state, indicatorObject) {
     state.customAreaIndicator = indicatorObject;
   },

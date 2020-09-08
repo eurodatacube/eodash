@@ -34,11 +34,12 @@
             />
             <indicator-data
               style="top: 0px; position: absolute;"
-              v-if="customAreaIndicator || !globalData"
+              v-else
               class="pa-5"
             />
           </v-card>
         </v-col>
+
         <v-col
           cols="12"
           class="py-0 my-0 d-flex justify-space-between"
@@ -111,6 +112,31 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
+        </v-col>
+        <v-col
+          cols="12"
+          v-if="customAreaIndicator"
+        >
+          <v-card
+            class="fill-height"
+            :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
+          >
+            <div
+              style="height: 100%;z-index: 500; position: relative;"
+              v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
+              @click="dataInteract = true"
+              v-touch="{
+                left: () => swipe(),
+                right: () => swipe(),
+                up: () => swipe(),
+                down: () => swipe(),
+            }">
+            </div>
+            <indicator-data
+              style="top: 0px; position: absolute;"
+              class="pa-5"
+            />
+          </v-card>
         </v-col>
         <v-col
           cols="12"

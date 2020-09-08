@@ -122,6 +122,7 @@ export default {
         // Read route query and validate country and indicator if in query
         const { country } = this.$route.query;
         const { indicator } = this.$route.query;
+        const { area } = this.$route.query;
         // validate query for country - need to be among available
         const selectedCountry = this.getCountryItems
           .map((item) => item.code).flat().find((f) => f === country);
@@ -131,6 +132,8 @@ export default {
           countries: selectedCountry,
           indicators: selectedIndicator,
         });
+        // validate area from query
+        // TODO
       }
 
       // Url query replacement
@@ -172,7 +175,7 @@ export default {
         }
       }
 
-      if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
+      if (['indicators/SET_SELECTED_INDICATOR', 'indicators/SET_CUSTOM_AREA_INDICATOR'].includes(mutation.type)) {
         if (mutation.payload && !( // If dummy feature selected ignore
           Object.prototype.hasOwnProperty.call(mutation.payload, 'dummyFeature')
           && mutation.payload.dummyFeature)) {
@@ -180,7 +183,11 @@ export default {
           if (Object.prototype.hasOwnProperty.call(mutation.payload, 'dataLoadFinished')
             && mutation.payload.dataLoadFinished) {
             const indicatorObject = mutation.payload;
-            this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', indicatorObject);
+            if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
+              this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', indicatorObject);
+            } else if (mutation.type === 'indicators/SET_CUSTOM_AREA_INDICATOR') {
+              this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicatorObject);
+            }
           } else {
             // Start loading of data from indicator
 
@@ -238,16 +245,23 @@ export default {
                   indicatorObject[key] = value;
                 });
                 indicatorObject.dataLoadFinished = true;
-                this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', indicatorObject);
+                if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
+                  this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', indicatorObject);
+                } else if (mutation.type === 'indicators/SET_CUSTOM_AREA_INDICATOR') {
+                  this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicatorObject);
+                }
               });
           }
-          this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: `${mutation.payload.aoiID}-${mutation.payload.indicator}` }) }).catch(err => {}); // eslint-disable-line
-          this.trackEvent('indicators', 'select_indicator', `${mutation.payload.aoiID}-${mutation.payload.indicator}`);
+          if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
+            this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: `${mutation.payload.aoiID}-${mutation.payload.indicator}` }) }).catch(err => {}); // eslint-disable-line
+            this.trackEvent('indicators', 'select_indicator', `${mutation.payload.aoiID}-${mutation.payload.indicator}`);
+          };
         } else {
           const query = Object.assign({}, this.$route.query); // eslint-disable-line
           delete query.poi;
           this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
           this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', null);
+          this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
           this.trackEvent('indicators', 'deselect_indicator');
         }
       }

@@ -104,8 +104,8 @@ export default {
   },
   computed: {
     arrayOfObjects() {
-      const indicator = this.$store.state.indicators.selectedIndicator;
-      const indicatorCode = this.indicatorObject.indicator;
+      const indicator = Object.assign({}, this.indicatorObject);
+      const indicatorCode = indicator.indicator;
       const selectionOptions = [];
       if (['E10a3', 'E10a8'].includes(indicatorCode)) {
         // Find all unique day/month available
@@ -122,8 +122,8 @@ export default {
       return selectionOptions;
     },
     datacollection() {
-      const indicator = this.$store.state.indicators.selectedIndicator;
-      const indicatorCode = this.indicatorObject.indicator;
+      const indicator = Object.assign({}, this.indicatorObject);
+      const indicatorCode = indicator.indicator;
       let dataCollection;
       const refColors = [
         '#cb4', '#a37', '#47a', '#a67', '#283', '#bbb',
