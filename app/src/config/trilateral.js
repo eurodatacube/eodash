@@ -179,6 +179,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/N1',
     largeTimeDuration: true,
     largeSubAoi: true,
+    customAreaFilter: true,
   },
   NASAPopulation: {
     indicator: 'Population',
@@ -226,7 +227,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Cropped Area - Global',
     class: 'agriculture',
     story: '/data/trilateral/N6',
-    customAreaFilter: true,
   },
   N7: {
     indicator: 'Slowdown Proxy Maps',
@@ -558,6 +558,10 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/no2Legend.png',
           attribution: '{ Air Quality: <a href="//scihub.copernicus.eu/twiki/pub/SciHubWebPortal/TermsConditions/TC_Sentinel_Data_31072014.pdf" target="_blank">Sentinel data</a>, <a href="//maps.s5p-pal.com/" target="_blank">S5P-PAL</a> }',
           dateFormatFunction: (dates) => `${DateTime.fromISO(dates[0]).toFormat('yyyyMMdd')}-${DateTime.fromISO(dates[1]).toFormat('yyyyMMdd')}`,
+          features: {
+            url: './data/features/{indicator}_{aoiID}.geojson',
+            parameters: ['valid'],
+          },
         },
       },
     },

@@ -542,7 +542,7 @@ export default {
       return dataCollection;
     },
     indicatorObject() {
-      return this.$store.state.indicators.selectedIndicator;
+      return this.$store.state.indicators.customAreaIndicator || this.$store.state.indicators.selectedIndicator;
     },
   },
   methods: {

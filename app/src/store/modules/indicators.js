@@ -2,6 +2,7 @@
 
 const state = {
   selectedIndicator: null,
+  customAreaIndicator: null,
 };
 
 const getters = {
@@ -27,6 +28,9 @@ const mutations = {
   },
   INDICATOR_LOAD_FINISHED(state, indicatorObject) {
     state.selectedIndicator = indicatorObject;
+  },
+  CUSTOM_AREA_INDICATOR_LOAD_FINISHED(state, indicatorObject) {
+    state.customAreaIndicator = indicatorObject;
   },
 };
 

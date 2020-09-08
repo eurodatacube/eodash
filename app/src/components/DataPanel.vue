@@ -34,7 +34,7 @@
             />
             <indicator-data
               style="top: 0px; position: absolute;"
-              v-else
+              v-if="customAreaIndicator || !globalData"
               class="pa-5"
             />
           </v-card>
@@ -233,6 +233,9 @@ export default {
     },
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
+    },
+    customAreaIndicator() {
+      return this.$store.state.indicators.customAreaIndicator;
     },
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;

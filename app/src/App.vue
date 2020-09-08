@@ -160,6 +160,17 @@ export default {
           }
         }
       }
+      
+      if (mutation.type === 'features/SET_SELECTED_AREA') {
+        if (typeof mutation.payload === 'string') {
+          // Country
+          this.$router.replace({ query: Object.assign({}, this.$route.query, { area: mutation.payload }) }).catch(err => {}); // eslint-disable-line
+        } else {
+          const query = Object.assign({}, this.$route.query); // eslint-disable-line
+          delete query.area;
+          this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
+        }
+      }
 
       if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
         if (mutation.payload && !( // If dummy feature selected ignore

@@ -263,6 +263,9 @@ import 'leaflet-loading';
 import 'leaflet-loading/src/Control.Loading.css';
 import LeafletDraw from 'leaflet-draw';
 import "leaflet-draw/dist/leaflet.draw.css";
+import { Wkt } from 'wicket';
+
+const wkt = new Wkt();
 
 export default {
   components: {
@@ -475,13 +478,38 @@ export default {
       this.slider = L.control.sideBySide(this.$refs.compareLayers.mapObject.getLayers(), this.$refs.dataLayers.mapObject.getLayers()); // eslint-disable-line
       this.drawControl = new L.Control.Draw(this.drawOptions);
       this.map.on(L.Draw.Event.CREATED, function (e) {
+        // add newly drawn layer to layer group
         this.$refs.customAreaFilterFeatures.mapObject.addLayer(e.layer);
+        // set global area as WKT
+        this.$store.commit('features/SET_SELECTED_AREA', wkt.read(JSON.stringify(e.layer.toGeoJSON())));
+
+        // fetch API and display vector features
+        this.fetchFeatures('data');
+        // fetch data for chart
+      }.bind(this));
+      // only draw one feature at a time
+      this.map.on(L.Draw.Event.DRAWSTART, function () {
+        this.$refs.customAreaFilterFeatures.mapObject.clearLayers();
+        this.$store.commit('features/SET_SELECTED_AREA', null);
       }.bind(this));
       if (this.customAreaFilter) {
         this.drawControl.addTo(this.map);
+        const drawnArea = this.$store.state.features.selectedArea;
+        let ftrs = null;
+        if (typeof drawnArea === 'string') {
+          const jsonGeom = wkt.read(drawnArea).toJson();
+          ftrs = [{
+            type: 'Feature',
+            properties: {},
+            geometry: jsonGeom,
+          }];
+        }
+        if (ftrs) {
+          this.$refs.customAreaFilterFeatures.mapObject.addLayer(geoJson(geojsonFeature));
+        }
       }
       this.onResize();
-      this.fetchFeatures('data');
+      // this.fetchFeatures('data'); # commented out for demo
       setTimeout(() => {
         this.flyToBounds();
       }, 100);
@@ -953,5 +981,8 @@ export default {
 }
 ::v-deep .leaflet-tooltip {
   z-index: 700;
+}
+::v-deep .leaflet-draw-section {
+  box-shadow: 2px 2px 5px var(--v-primary-base);
 }
 </style>
