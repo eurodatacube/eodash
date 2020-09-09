@@ -114,7 +114,7 @@ const renderVue = async () => {
       getIndicatorColor(label) {
         const colors = vuetify.preset.theme.themes.light;
         let color;
-        if (typeof label === 'undefined') {
+        if (typeof label === 'undefined' || label === null) {
           color = 'grey';
         } else if (['red'].includes(label.toLowerCase())) {
           color = colors.error;

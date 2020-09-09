@@ -312,6 +312,8 @@ export default {
             label += `${indVal}%`;
           } else if (['N1', 'N3b'].includes(indicatorObject.indicator)) {
             label = '';
+          } else if (indVal === null) {
+            label = null;
           } else {
             label += indVal;
           }
