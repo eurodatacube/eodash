@@ -45,20 +45,42 @@
     >
     </LTileLayer>
     <l-marker-cluster ref="clusterLayer" :options="clusterOptions">
-      <l-circle-marker v-for="(feature) in getFeatures.filter((f) => f.latlng)"
+      <l-marker v-for="(feature) in getFeatures.filter((f) => f.latlng)"
         :key="feature.id"
         ref="markers"
         :lat-lng="feature.latlng"
-        :radius="currentSelected === feature.id ? 16 : 12"
         :name='`${feature.id}`'
-        :color="currentSelected === feature.id ? $vuetify.theme.themes.light.primary : 'white'"
-        :weight="2"
-        :dashArray="currentSelected === feature.id ? '5' : '0'"
-        :fill="true"
-        :fillColor="getColor(feature.properties.indicatorObject)"
-        :fillOpacity="1"
         @click="selectIndicator(feature)"
       >
+        <l-icon
+          :icon-anchor="currentSelected === feature.id ? [18, 18] : [14, 14]"
+          style="outline: none;"
+        >
+          <div
+            :style="`display: flex; align-items: center;
+              justify-content: center;
+              border-radius: 50%;
+              border: 2px ${currentSelected === feature.id
+                ? 'dashed var(--v-primary-base)'
+                : 'solid white'};
+              width: ${currentSelected === feature.id ? '36px' : '28px'};
+              height: ${currentSelected === feature.id ? '36px' : '28px'};
+              background-color: ${getColor(feature.properties.indicatorObject)}`"
+          >
+              <v-icon
+                color="white"
+                class="pa-1"
+                icon-url="/test"
+                :small="currentSelected !== feature.id"
+              >
+                {{ baseConfig.indicatorClassesIcons[baseConfig
+                    .indicatorsDefinition[feature.properties.indicatorObject.indicator].class]
+                    ? baseConfig.indicatorClassesIcons[baseConfig
+                      .indicatorsDefinition[feature.properties.indicatorObject.indicator].class]
+                    : 'mdi-lightbulb-on-outline'}}
+              </v-icon>
+          </div>
+        </l-icon>
         <l-tooltip class="tooltip text-center" :options="{ direction: 'top' }">
           <p class="ma-0">
             <strong>{{ feature.properties.indicatorObject.city }}</strong>
@@ -72,7 +94,7 @@
               {{ formatLabel(feature) }}
             </p>
         </l-tooltip>
-      </l-circle-marker>
+      </l-marker>
     </l-marker-cluster>
   </l-map>
 </template>
@@ -87,7 +109,7 @@ import {
   geoJson, Point, DivIcon, featureGroup,
 } from 'leaflet';
 import {
-  LMap, LTileLayer, LGeoJson, LCircleMarker, LTooltip,
+  LMap, LTileLayer, LGeoJson, LMarker, LIcon, LTooltip,
   LControlLayers, LControlAttribution, LControlZoom,
 } from 'vue2-leaflet';
 import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster';
@@ -103,7 +125,8 @@ export default {
     LMap,
     LTileLayer,
     LGeoJson,
-    LCircleMarker,
+    LMarker,
+    LIcon,
     LTooltip,
     LControlLayers,
     LControlAttribution,
