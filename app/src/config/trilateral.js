@@ -174,7 +174,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   N1: {
     indicator: 'Air quality',
-    class: 'environment',
+    class: 'air',
     file: './data/trilateral/N1.csv',
     story: '/data/trilateral/N1',
     largeTimeDuration: true,
@@ -186,7 +186,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   N2: {
     indicator: 'Greenhouse Gases',
-    class: 'environment',
+    class: 'air',
     file: './data/trilateral/N2.csv',
     story: '/data/trilateral/N2',
     largeTimeDuration: true,
@@ -194,27 +194,27 @@ export const indicatorsDefinition = Object.freeze({
   },
   N3: {
     indicator: 'Water Quality',
-    class: 'environment',
+    class: 'water',
   },
   N3b: {
     indicator: 'Chl-a concentration anomaly',
-    class: 'environment',
+    class: 'water',
     file: './data/trilateral/N3b.csv',
     story: '/data/trilateral/N3b',
   },
   N3a2: {
     indicator: 'CHL concentration',
-    class: 'environment',
+    class: 'water',
     story: '/eodash-data/stories/N3a2',
     largeSubAoi: true,
   },
   N4a: {
     indicator: 'Changes in land fill sites',
-    class: 'environment',
+    class: 'land',
   },
   N4b: {
     indicator: 'Illegal waste levels',
-    class: 'environment',
+    class: 'land',
   },
   N5: {
     indicator: 'Nightlights (Suomi NPP VIIRS)',
@@ -420,10 +420,12 @@ export const layerNameMapping = Object.freeze({
 });
 
 export const indicatorClassesIcons = Object.freeze({
-  environment: 'mdi-earth',
-  health: 'mdi-hospital-box-outline',
-  agriculture: 'mdi-leaf',
   economic: 'mdi-cash',
+  agriculture: 'mdi-barley',
+  air: 'mdi-weather-windy',
+  water: 'mdi-water',
+  land: 'mdi-image-filter-hdr',
+  health: 'mdi-hospital-box-outline',
 });
 
 export const mapDefaults = Object.freeze({
