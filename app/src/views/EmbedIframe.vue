@@ -54,7 +54,9 @@
       </div>
       <v-card-text v-if="indicatorObject && indicatorObject.updateFrequency" class="flex-grow-0">
         <small v-if="indicatorObject && indicatorObject.updateFrequency">
-          This data is updated: {{ indicatorObject.updateFrequency }}
+          <span v-if="indicatorObject.updateFrequency === 'Retired'">This indicator is no longer updated</span>
+          <span v-else-if="indicatorObject.updateFrequency === 'EndSeason'">Due to end of season, this indicator is no longer updated</span>
+          <span v-else>This data is updated: {{ indicatorObject.updateFrequency }}</span>
         </small>
       </v-card-text>
       <v-card-actions :style="`background: ${$vuetify.theme.themes.light.primary}`"
