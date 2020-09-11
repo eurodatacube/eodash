@@ -219,7 +219,10 @@
           color="secondary"
           class="ml-1"
           @click="showFeedbackDialog = true"
-        >Feedback</v-btn>
+        >
+          <v-icon :left="!$vuetify.breakpoint.xsOnly" small>mdi-account-voice</v-icon>
+          <span v-if="!$vuetify.breakpoint.xsOnly">Feedback</span>
+        </v-btn>
     </v-footer>
     <v-dialog
       v-model="showFeedbackDialog"
