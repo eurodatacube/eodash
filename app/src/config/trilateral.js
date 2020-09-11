@@ -27,13 +27,11 @@ export const indicatorsDefinition = Object.freeze({
   E1: {
     indicator: 'Status of metallic ores',
     class: 'economic',
-    file: './data/trilateral/E1.csv',
     story: '/data/trilateral/E1',
   },
   E1a: {
     indicator: 'Status of non-metallic ores',
     class: 'economic',
-    file: './data/trilateral/E1a.csv',
     story: '/data/trilateral/E1a',
   },
   E2: {
@@ -67,56 +65,48 @@ export const indicatorsDefinition = Object.freeze({
   E8: {
     indicator: 'Inventory Levels',
     class: 'economic',
-    file: './data/trilateral/E8.csv',
     story: '/data/trilateral/E8_tri',
     largeSubAoi: true,
   },
   E9: {
     indicator: 'Construction activity',
     class: 'economic',
-    file: './data/trilateral/E9.csv',
     story: '/data/trilateral/E9',
     largeSubAoi: true,
   },
   E10a1: {
     indicator: 'Harvesting activity',
     class: 'agriculture',
-    file: './data/trilateral/E10a1.csv',
     story: '/data/trilateral/E10a1',
     largeSubAoi: true,
   },
   E10a2: {
     indicator: 'Cum. proportion of total area under active mgmt.',
     class: 'agriculture',
-    file: './eodash-data/data/E10a2.csv',
     story: '/eodash-data/stories/E10a2',
     largeSubAoi: true,
   },
   E10a3: {
     indicator: 'Evolution of the cultivated areas for production of white asparagus',
     class: 'agriculture',
-    file: './eodash-data/data/E10a3.csv',
     story: '/eodash-data/stories/E10a2',
     largeSubAoi: true,
   },
   E10a6: {
     indicator: 'Harvested parcels evolution over time',
     class: 'agriculture',
-    file: './eodash-data/data/E10a6.csv',
     story: '/eodash-data/stories/E10a6',
     largeSubAoi: true,
   },
   E10a7: {
     indicator: 'Harvested area evolution over time',
     class: 'agriculture',
-    file: './eodash-data/data/E10a7.csv',
     story: '/eodash-data/stories/E10a7',
     largeSubAoi: true,
   },
   E10a8: {
     indicator: 'Cumulative harvested area',
     class: 'agriculture',
-    file: './eodash-data/data/E10a8.csv',
     story: '/eodash-data/stories/E10a8',
     largeSubAoi: true,
   },
@@ -127,7 +117,6 @@ export const indicatorsDefinition = Object.freeze({
   E10c: {
     indicator: 'Rice Planted Area',
     class: 'agriculture',
-    file: './data/trilateral/E10c.csv',
     story: '/data/trilateral/US05-E10c',
     largeSubAoi: true,
   },
@@ -157,14 +146,12 @@ export const indicatorsDefinition = Object.freeze({
   E13b: {
     indicator: 'Throughput at principal hub airports',
     class: 'economic',
-    file: './data/trilateral/E13b.csv',
     story: '/data/trilateral/JP01-E13b',
     largeSubAoi: true,
   },
   E13c: {
     indicator: 'Number of Ships in Port',
     class: 'economic',
-    file: './data/trilateral/E13c.csv',
     story: '/data/trilateral/E13c',
     largeSubAoi: true,
   },
@@ -175,7 +162,6 @@ export const indicatorsDefinition = Object.freeze({
   N1: {
     indicator: 'Air quality',
     class: 'air',
-    file: './data/trilateral/N1.csv',
     story: '/data/trilateral/N1',
     largeTimeDuration: true,
     largeSubAoi: true,
@@ -187,7 +173,6 @@ export const indicatorsDefinition = Object.freeze({
   N2: {
     indicator: 'Greenhouse Gases',
     class: 'air',
-    file: './data/trilateral/N2.csv',
     story: '/data/trilateral/N2',
     largeTimeDuration: true,
     largeSubAoi: true,
@@ -199,7 +184,6 @@ export const indicatorsDefinition = Object.freeze({
   N3b: {
     indicator: 'Chl-a concentration anomaly',
     class: 'water',
-    file: './data/trilateral/N3b.csv',
     story: '/data/trilateral/N3b',
   },
   N3a2: {

@@ -17,7 +17,6 @@ export const indicatorsDefinition = Object.freeze({
   E1: {
     indicator: 'Status of metallic ores',
     class: 'economic',
-    file: './eodash-data/data/E1.csv',
     story: '/eodash-data/stories/E1',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
@@ -28,13 +27,11 @@ export const indicatorsDefinition = Object.freeze({
   E1a: {
     indicator: 'Status of non-metallic ores',
     class: 'economic',
-    file: './eodash-data/data/E1a.csv',
     story: '/eodash-data/stories/E1a',
   },
   E2: {
     indicator: 'Volume of oil stockpiled',
     class: 'economic',
-    file: './eodash-data/data/E2.csv',
     story: '/eodash-data/stories/E2',
   },
   E2a: {
@@ -48,13 +45,11 @@ export const indicatorsDefinition = Object.freeze({
   E4: {
     indicator: 'Production activity of intermediate goods',
     class: 'economic',
-    file: './eodash-data/data/E4.csv',
     story: '/eodash-data/stories/E4',
   },
   E5: {
     indicator: 'Inventory levels of intermediate goods',
     class: 'economic',
-    file: './eodash-data/data/E5.csv',
     story: '/eodash-data/stories/E5',
   },
   E6: {
@@ -68,7 +63,6 @@ export const indicatorsDefinition = Object.freeze({
   E8: {
     indicator: 'Inventory Levels',
     class: 'economic',
-    file: './eodash-data/data/E8.csv',
     story: '/eodash-data/stories/E8',
   },
   E9: {
@@ -78,49 +72,42 @@ export const indicatorsDefinition = Object.freeze({
   E10a1: {
     indicator: 'Harvesting activity',
     class: 'agriculture',
-    file: './eodash-data/data/E10a1.csv',
     story: '/eodash-data/stories/E10a1',
     largeSubAoi: true,
   },
   E10a2: {
     indicator: 'Cum. proportion of total area under active mgmt.',
     class: 'agriculture',
-    file: './eodash-data/data/E10a2.csv',
     story: '/eodash-data/stories/E10a2',
     largeSubAoi: true,
   },
   E10a3: {
     indicator: 'Evolution of the cultivated areas for production of white asparagus',
     class: 'agriculture',
-    file: './eodash-data/data/E10a3.csv',
     story: '/eodash-data/stories/E10a2',
     largeSubAoi: true,
   },
   E10a5: {
     indicator: 'Harvesting activity',
     class: 'agriculture',
-    file: './eodash-data/data/E10a5.csv',
     story: '/eodash-data/stories/E10a5',
     largeSubAoi: true,
   },
   E10a6: {
     indicator: 'Harvested parcels evolution over time',
     class: 'agriculture',
-    file: './eodash-data/data/E10a6.csv',
     story: '/eodash-data/stories/E10a6',
     largeSubAoi: true,
   },
   E10a7: {
     indicator: 'Harvested area evolution over time',
     class: 'agriculture',
-    file: './eodash-data/data/E10a7.csv',
     story: '/eodash-data/stories/E10a7',
     largeSubAoi: true,
   },
   E10a8: {
     indicator: 'Cumulative harvested area',
     class: 'agriculture',
-    file: './eodash-data/data/E10a8.csv',
     story: '/eodash-data/stories/E10a8',
     largeSubAoi: true,
   },
@@ -131,7 +118,6 @@ export const indicatorsDefinition = Object.freeze({
   E11: {
     indicator: 'Volume of activity at shopping centers',
     class: 'economic',
-    file: './eodash-data/data/E11.csv',
     story: '/eodash-data/stories/E11',
   },
   E12a: {
@@ -149,13 +135,11 @@ export const indicatorsDefinition = Object.freeze({
   E13b: {
     indicator: 'Throughput at principal hub airports',
     class: 'economic',
-    file: './eodash-data/data/E13b.csv',
     story: '/eodash-data/stories/E13b',
   },
   E13c: {
     indicator: 'Maritime traffic: throughput',
     class: 'economic',
-    // file: './eodash-data/data/E13c.csv',
     // largeSubAoi: true,
     // largeTimeDuration: true,
   },
@@ -181,7 +165,6 @@ export const indicatorsDefinition = Object.freeze({
   N3: {
     indicator: 'CHL concentration',
     class: 'water',
-    file: './eodash-data/data/N3.csv',
     story: '/eodash-data/stories/N3',
     largeSubAoi: true,
   },
@@ -194,7 +177,6 @@ export const indicatorsDefinition = Object.freeze({
   N4a: {
     indicator: 'Changes in land fill sites',
     class: 'land',
-    file: './eodash-data/data/N4a.csv',
     story: '/eodash-data/stories/N4a',
   },
   N4b: {
