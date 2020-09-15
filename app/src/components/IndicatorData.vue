@@ -182,6 +182,37 @@ export default {
               backgroundColor: refColors[pp],
             });
           }
+        } else if (['N4c'].includes(indicatorCode)) {
+          const measData = indicator.measurement.map(Number);
+          measData.shift();
+          const refData = indicator.referenceValue.map(Number);
+          refData.shift();
+
+          labels = [
+            indicator.time[0].toISODate(),
+            indicator.referenceTime[0].toISODate(),
+          ];
+
+          datasets.push({
+            label: 'metallic waste area',
+            data: [measData[0], refData[0]],
+            backgroundColor: refColors[0],
+          });
+          datasets.push({
+            label: 'mixed waste area',
+            data: [measData[1], refData[1]],
+            backgroundColor: refColors[1],
+          });
+          datasets.push({
+            label: 'plastic waste area',
+            data: [measData[2], refData[2]],
+            backgroundColor: refColors[2],
+          });
+          datasets.push({
+            label: 'soil waste area',
+            data: [measData[3], refData[3]],
+            backgroundColor: refColors[3],
+          });
         } else if (['E10a2', 'E10a6', 'E10a7'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
@@ -609,7 +640,7 @@ export default {
           fontColor: 'rgba(0, 0, 0, 0.8)',
         },
       };
-      if (!Number.isNaN(reference) && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7'].includes(indicatorCode)) {
+      if (!Number.isNaN(reference) && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'N4c'].includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
           label: {
@@ -761,11 +792,28 @@ export default {
         },
       }];
 
+
       const legend = {
         labels: {
           filter,
         },
       };
+
+      if (['N4c'].includes(indicatorCode)) {
+        xAxes = [{
+          stacked: true,
+        }];
+        yAxes[0].stacked = true;
+        yAxes[0].ticks.beginAtZero = true;
+        yAxes[0].ticks.suggestedMin = Math.min(
+          ...this.indicatorObject.measurement
+            .filter((d) => !Number.isNaN(d)),
+        );
+        yAxes[0].ticks.suggestedMax = Math.max(
+          ...this.indicatorObject.measurement
+            .filter((d) => !Number.isNaN(d)),
+        );
+      }
 
       if (['E10a1', 'E10a5'].includes(indicatorCode)) {
         yAxes[0].ticks.beginAtZero = true;
