@@ -266,6 +266,10 @@ import "leaflet-draw/dist/leaflet.draw.css";
 import { Wkt } from 'wicket';
 
 const wkt = new Wkt();
+const emptyF = {
+  type: 'FeatureCollection',
+  features: [],
+};
 
 export default {
   components: {
@@ -309,14 +313,8 @@ export default {
       dataLayerIndex: 0,
       compareLayerIndex: 0,
       featureJson: {
-        data: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        compare: {
-          type: 'FeatureCollection',
-          features: [],
-        },
+        data: emptyF,
+        compare: emptyF,
       },
     };
   },
@@ -481,7 +479,7 @@ export default {
         // add newly drawn layer to layer group
         this.$refs.customAreaFilterFeatures.mapObject.addLayer(e.layer);
         // set global area as WKT
-        this.$store.commit('features/SET_SELECTED_AREA', wkt.read(JSON.stringify(e.layer.toGeoJSON())));
+        this.$store.commit('features/SET_SELECTED_AREA', wkt.read(JSON.stringify(e.layer.toGeoJSON())).write());
         // DUMMY API CALL FOR CHART
         // fetch data for chart
         this.$store.commit(
@@ -519,7 +517,11 @@ export default {
           }];
         }
         if (ftrs) {
-          this.$refs.customAreaFilterFeatures.mapObject.addLayer(geoJson(geojsonFeature));
+          this.$refs.customAreaFilterFeatures.mapObject.addLayer(geoJson(ftrs, {
+            style: {
+              color: this.appConfig.branding.primaryColor,
+            }})
+          );
         }
       }
       this.onResize();
@@ -855,16 +857,10 @@ export default {
             this.featureJson[side] = data;
           })
           .catch(() => {
-            this.featureJson[side] = {
-              type: 'FeatureCollection',
-              features: [],
-            };
+            this.featureJson[side] = emptyF;
           });
       } else {
-        this.featureJson[side] = {
-          type: 'FeatureCollection',
-          features: [],
-        };
+        this.featureJson[side] = emptyF;
       }
     },
     refreshBaselayersSelection() {

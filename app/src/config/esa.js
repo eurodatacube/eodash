@@ -171,6 +171,7 @@ export const indicatorsDefinition = Object.freeze({
       label: 'Sentinel-5p Mapping Service',
       url: 'https://maps.s5p-pal.com',
     },
+    customAreaFilter: true,
     largeTimeDuration: true,
   },
   N2: {

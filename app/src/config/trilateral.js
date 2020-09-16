@@ -2421,7 +2421,6 @@ export const globalIndicators = [
             style: {
               color: '#696868',
               opacity: 0.5,
-              color: '#696868',
             }
           },
         },

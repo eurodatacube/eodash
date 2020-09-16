@@ -68,6 +68,9 @@ import CookieLaw from 'vue-cookie-law';
 
 import axios from 'axios';
 import { DateTime } from 'luxon';
+import { Wkt } from 'wicket';
+
+const wkt = new Wkt();
 
 export default {
   components: {
@@ -118,6 +121,7 @@ export default {
           });
         }
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
+        this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
 
         // Read route query and validate country and indicator if in query
         const { country } = this.$route.query;
@@ -132,8 +136,14 @@ export default {
           countries: selectedCountry,
           indicators: selectedIndicator,
         });
-        // validate area from query
-        // TODO
+        // simply validate format of area from query
+        if (typeof area === 'string') {
+          const validArea = wkt.read(area);
+          if (validArea) {
+            // save as WKT, will be JSONified later
+            this.$store.commit('features/SET_SELECTED_AREA', validArea.write());
+          }
+        }
       }
 
       // Url query replacement

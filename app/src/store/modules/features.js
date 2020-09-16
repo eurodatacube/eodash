@@ -194,7 +194,7 @@ const actions = {
           lastReferenceValue: 'lastReferenceValue',
           lastReferenceTime: 'lastReferenceTime',
           yAxis: 'yAxis',
-          updateFrequency: 'updateFrequency'
+          updateFrequency: 'updateFrequency',
         };
 
         commit('ADD_RESULTS_COUNT', {

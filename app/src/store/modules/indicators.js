@@ -23,8 +23,7 @@ const getters = {
 };
 
 const mutations = {
-  SET_SELECTED_INDICATOR(state, indicatorObject) {
-    // state.selectedIndicator = indicatorObject;
+  SET_SELECTED_INDICATOR(state) {
   },
   INDICATOR_LOAD_FINISHED(state, indicatorObject) {
     state.selectedIndicator = indicatorObject;
