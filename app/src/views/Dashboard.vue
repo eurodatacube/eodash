@@ -150,7 +150,7 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
-      <div class="scrollContainer">
+      <div class="scrollContainer data-panel">
 
         <h4 v-if="
             ($store.state.indicators.selectedIndicator && (

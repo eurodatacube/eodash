@@ -14,21 +14,30 @@
     <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
     <l-control-layers position="topright" ref="layersControl"></l-control-layers>
     <l-control-zoom position="topright"></l-control-zoom>
-    <l-control position="topright" class="confirm-draw"
-      v-if="customAreaFilter">
-      <v-tooltip top :disabled="validDrawnArea">
+    <l-feature-group ref="customAreaFilterFeatures"></l-feature-group>
+    <l-control position="topright"
+      v-if="customAreaFilter && validDrawnArea">
+      <v-tooltip left>
         <template v-slot:activator="{ on }">
           <div v-on="on" class="d-inline-block">
-            <v-btn :disabled="!validDrawnArea" small class="px-2" @click="fetchCustomAreaIndicator">
-              <small>Get data</small>
-              <v-icon class="pl-2 mdi-rotate-315 mdi-size-x-small">mdi-send</v-icon>
+            <v-btn
+              color="error"
+              dark
+              x-small
+              fab
+              class="pa-0"
+              :style="`${$vuetify.breakpoint.mdAndDown
+                ? 'width: 30px; height: 30px;'
+                : 'width: 26px; height: 26px;'} border-radius: 4px`"
+              @click="clearCustomAreaFilter"
+            >
+              <v-icon small>mdi-delete</v-icon>
             </v-btn>
           </div>
         </template>
-          <span>Draw area of interest</span>
+          <span>Clear selection</span>
       </v-tooltip>
     </l-control>
-    <l-feature-group ref="customAreaFilterFeatures"></l-feature-group>
     <LTileLayer
       v-for="layer in baseLayers"
       v-bind="layer"
@@ -442,10 +451,6 @@ export default {
             },
           },
         },
-        edit: {
-          featureGroup: this.$refs.customAreaFilterFeatures.mapObject,
-          edit: false,
-        },
       };
     },
   },
@@ -506,8 +511,7 @@ export default {
       }.bind(this)); // eslint-disable-line
       // only draw one feature at a time
       this.map.on(L.Draw.Event.DRAWSTART, function () { // eslint-disable-line
-        this.$refs.customAreaFilterFeatures.mapObject.clearLayers();
-        this.$store.commit('features/SET_SELECTED_AREA', null);
+        this.clearCustomAreaFilter();
       }.bind(this));
 
       this.map.on(L.Draw.Event.DRAWSTOP, function () { // eslint-disable-line
@@ -522,7 +526,7 @@ export default {
       }.bind(this));
 
       this.map.on(L.Draw.Event.DELETED, function () { // eslint-disable-line
-        this.$store.commit('features/SET_SELECTED_AREA', null);
+        this.clearCustomAreaFilter();
         this.featureJson.data = emptyF;
         this.featureJson.compare = emptyF;
       }.bind(this));
@@ -946,6 +950,10 @@ export default {
         }
       }
     },
+    clearCustomAreaFilter() {
+      this.$refs.customAreaFilterFeatures.mapObject.clearLayers();
+      this.$store.commit('features/SET_SELECTED_AREA', null);
+    },
   },
   watch: {
     enableCompare(on) {
@@ -1061,10 +1069,8 @@ export default {
 ::v-deep .leaflet-tooltip {
   z-index: 700;
 }
-::v-deep .leaflet-draw-section {
-  box-shadow: 2px 2px 5px var(--v-primary-base);
-}
-::v-deep .confirm-draw {
-  background-color: rgba(230, 230, 230, 0.85) !important;
+::v-deep .leaflet-draw-actions a {
+  background-color: var(--v-primary-base);
+  color: #fff;
 }
 </style>
