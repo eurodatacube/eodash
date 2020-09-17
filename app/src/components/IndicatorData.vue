@@ -189,29 +189,29 @@ export default {
           refData.shift();
 
           labels = [
-            indicator.time[5].toISODate(),
-            indicator.time[0].toISODate(),
             indicator.referenceTime[0].toISODate(),
+            indicator.time[0].toISODate(),
+            indicator.time[5].toISODate(),
           ];
 
           datasets.push({
             label: 'metallic waste area',
-            data: [measData[5], measData[0], refData[0]],
+            data: [refData[0], measData[0], measData[5]],
             backgroundColor: refColors[0],
           });
           datasets.push({
             label: 'mixed waste area',
-            data: [measData[6], measData[1], refData[1]],
+            data: [refData[1], measData[1], measData[6]],
             backgroundColor: refColors[1],
           });
           datasets.push({
             label: 'plastic waste area',
-            data: [measData[7], measData[2], refData[2]],
+            data: [refData[2], measData[2], measData[7]],
             backgroundColor: refColors[2],
           });
           datasets.push({
             label: 'soil waste area',
-            data: [measData[8], measData[3], refData[3]],
+            data: [refData[3], measData[3], measData[8]],
             backgroundColor: refColors[3],
           });
         } else if (['E10a2', 'E10a6', 'E10a7'].includes(indicatorCode)) {
