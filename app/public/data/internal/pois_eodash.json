@@ -1347,17 +1347,17 @@
         "description": "Land fill sites: waste area changes",
         "indicator": "N4c",
         "indicatorName": "Land fill sites: waste area changes",
-        "lastColorCode": "BLUE",
-        "lastIndicatorValue": "soil waste area in square kilometers",
-        "lastMeasurement": "0.5826",
+        "lastColorCode": "GREEN",
+        "lastIndicatorValue": "soil waste area in hectares",
+        "lastMeasurement": "52.69",
         "lastReferenceTime": "2020-02-26T09:22:36",
-        "lastReferenceValue": "0.5796",
-        "lastTime": "2020-05-20T09:27:29",
+        "lastReferenceValue": "57.96",
+        "lastTime": "2020-06-06T09:14:00",
         "region": "Attica",
         "siteName": "Aspropyrgos region industrial sites",
         "subAoi": "",
         "updateFrequency": "Monthly",
-        "yAxis": "km2"
+        "yAxis": "ha"
     },
     {
         "aoi": "45.8,16.0",
