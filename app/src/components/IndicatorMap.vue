@@ -460,9 +460,11 @@ export default {
 
       this.$refs.subaoiLayer.mapObject.bindTooltip('Reference area', {
         direction: 'top',
+        pane: this.popupPane,
       });
       this.$refs.subaoiCompareLayer.mapObject.bindTooltip('Reference area', {
         direction: 'top',
+        pane: this.popupPane,
       });
       // update leaflet controls
       L.control.mousePosition({ // eslint-disable-line no-undef
@@ -586,7 +588,7 @@ export default {
             }
           }
           if (tooltip !== '') {
-            layer.bindTooltip(tooltip);
+            layer.bindTooltip(tooltip, {pane: this.popupPane});
           }
         }.bind(this),
         // point circle marker styling
