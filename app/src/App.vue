@@ -176,7 +176,7 @@ export default {
         }
       }
 
-      if (['indicators/SET_SELECTED_INDICATOR', 'indicators/SET_CUSTOM_AREA_INDICATOR'].includes(mutation.type)) {
+      if (['indicators/SET_SELECTED_INDICATOR'].includes(mutation.type)) {
         if (mutation.payload && !( // If dummy feature selected ignore
           Object.prototype.hasOwnProperty.call(mutation.payload, 'dummyFeature')
           && mutation.payload.dummyFeature)) {
@@ -184,11 +184,7 @@ export default {
           if (Object.prototype.hasOwnProperty.call(mutation.payload, 'dataLoadFinished')
             && mutation.payload.dataLoadFinished) {
             const indicatorObject = mutation.payload;
-            if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
-              this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', indicatorObject);
-            } else if (mutation.type === 'indicators/SET_CUSTOM_AREA_INDICATOR') {
-              this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicatorObject);
-            }
+            this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', indicatorObject);
           } else {
             // Start loading of data from indicator
 
@@ -246,17 +242,11 @@ export default {
                   indicatorObject[key] = value;
                 });
                 indicatorObject.dataLoadFinished = true;
-                if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
-                  this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', indicatorObject);
-                } else if (mutation.type === 'indicators/SET_CUSTOM_AREA_INDICATOR') {
-                  this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicatorObject);
-                }
+                this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', indicatorObject);
               });
           }
-          if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
-            this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: `${mutation.payload.aoiID}-${mutation.payload.indicator}` }) }).catch(err => {}); // eslint-disable-line
-            this.trackEvent('indicators', 'select_indicator', `${mutation.payload.aoiID}-${mutation.payload.indicator}`);
-          };
+          this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: `${mutation.payload.aoiID}-${mutation.payload.indicator}` }) }).catch(err => {}); // eslint-disable-line
+          this.trackEvent('indicators', 'select_indicator', `${mutation.payload.aoiID}-${mutation.payload.indicator}`);
         } else {
           const query = Object.assign({}, this.$route.query); // eslint-disable-line
           delete query.poi;
@@ -264,6 +254,73 @@ export default {
           this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', null);
           this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
           this.trackEvent('indicators', 'deselect_indicator');
+        }
+      }
+      
+      if (['indicators/SET_CUSTOM_AREA_INDICATOR'].includes(mutation.type)) {
+        if (mutation.payload) {
+            // Start loading of data from indicator
+            // TODO UPDATE PATHIE
+            // TODO UPDATE CONFIG MAPPING
+            const url = `${baseConfig.dataPath}${[mutation.payload.aoiID, mutation.payload.indicator].join('-')}.json`;
+            // Fetch location data
+            fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
+              .then((data) => {
+                const indicatorObject = mutation.payload;
+                // Set data to indicator object
+                // Convert data first
+                const mapping = {
+                  colorCode: 'color_code',
+                  dataProvider: 'data_provider',
+                  eoSensor: 'eo_sensor',
+                  indicatorValue: 'indicator_value',
+                  inputData: 'input_data',
+                  measurement: 'measurement_value',
+                  referenceTime: 'reference_time',
+                  referenceValue: 'reference_value',
+                  time: 'time',
+                  siteName: 'site_name_arr',
+                };
+                const parsedData = {};
+                for (let i = 0; i < data.length; i += 1) {
+                  Object.entries(mapping).forEach(([key, value]) => {
+                    let val = data[i][value];
+                    if (Object.prototype.hasOwnProperty.call(parsedData, key)) {
+                      // If key already there add element to array
+                      if (['time', 'referenceTime'].includes(key)) {
+                        val = DateTime.fromISO(val);
+                      } else if (['measurement'].includes(key)) {
+                        if (val.length > 0) {
+                          val = Number(val);
+                        } else {
+                          val = Number.NaN;
+                        }
+                      }
+                      parsedData[key].push(val);
+                    } else {
+                      // If not then set element as array
+                      if (['time', 'referenceTime'].includes(key)) {
+                        val = DateTime.fromISO(val);
+                      } else if (['measurement'].includes(key)) {
+                        if (val.length > 0) {
+                          val = Number(val);
+                        } else {
+                          val = Number.NaN;
+                        }
+                      }
+                      parsedData[key] = [val];
+                    }
+                  });
+                }
+                Object.entries(parsedData).forEach(([key, value]) => {
+                  indicatorObject[key] = value;
+                });
+                indicatorObject.dataLoadFinished = true;
+                this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicatorObject);
+              });
+          // this.trackEvent('indicators', 'select_custom_area_indicator', `${mutation.payload.aoiID}-${mutation.payload.indicator}`);
+        } else {
+          this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
         }
       }
     });
