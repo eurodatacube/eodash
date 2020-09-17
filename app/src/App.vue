@@ -126,7 +126,6 @@ export default {
         // Read route query and validate country and indicator if in query
         const { country } = this.$route.query;
         const { indicator } = this.$route.query;
-        const { area } = this.$route.query;
         // validate query for country - need to be among available
         const selectedCountry = this.getCountryItems
           .map((item) => item.code).flat().find((f) => f === country);
@@ -136,14 +135,6 @@ export default {
           countries: selectedCountry,
           indicators: selectedIndicator,
         });
-        // simply validate format of area from query
-        if (typeof area === 'string') {
-          const validArea = wkt.read(area);
-          if (validArea) {
-            // save as WKT, will be JSONified later
-            this.$store.commit('features/SET_SELECTED_AREA', validArea.write());
-          }
-        }
       }
 
       // Url query replacement
@@ -175,9 +166,9 @@ export default {
       }
       
       if (mutation.type === 'features/SET_SELECTED_AREA') {
-        if (typeof mutation.payload === 'string') {
-          // Country
-          this.$router.replace({ query: Object.assign({}, this.$route.query, { area: mutation.payload }) }).catch(err => {}); // eslint-disable-line
+        if (mutation.payload) {
+          const area = wkt.read(JSON.stringify(mutation.payload)).write();
+          this.$router.replace({ query: Object.assign({}, this.$route.query, { area, }) }).catch(err => {}); // eslint-disable-line
         } else {
           const query = Object.assign({}, this.$route.query); // eslint-disable-line
           delete query.area;
@@ -276,6 +267,7 @@ export default {
         }
       }
     });
+    this.setAreaFromQuery();
   },
   methods: {
     async checkComingSoon() {
@@ -292,6 +284,17 @@ export default {
         this.$matomo.rememberConsentGiven();
       }
     },
+    setAreaFromQuery() {
+      const { area } = this.$route.query;
+      // simply validate format of area from query
+      if (typeof area === 'string') {
+        const validArea = wkt.read(area);
+        if (validArea) {
+          // save as JSON
+          this.$store.commit('features/SET_SELECTED_AREA', validArea.toJson());
+        }
+      }
+    }
   },
 };
 </script>

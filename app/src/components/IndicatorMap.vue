@@ -13,7 +13,21 @@
   >
     <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
     <l-control-layers position="topright" ref="layersControl"></l-control-layers>
-    <l-control-zoom position="topright"  ></l-control-zoom>
+    <l-control-zoom position="topright"></l-control-zoom>
+    <l-control position="topright" class="confirm-draw"
+      v-if="customAreaFilter">
+      <v-tooltip top :disabled="validDrawnArea">
+        <template v-slot:activator="{ on }">
+          <div v-on="on" class="d-inline-block">
+            <v-btn :disabled="!validDrawnArea" class="px-2 getDataBtn" @click="fetchCustomAreaIndicator">
+               <small>Get data</small>
+               <v-icon class="pl-2 mdi-rotate-315 mdi-size-x-small">mdi-send</v-icon>
+            </v-btn>
+          </div>
+        </template>
+          <span>Draw area of interest</span>
+      </v-tooltip>
+    </l-control>
     <l-feature-group ref="customAreaFilterFeatures"></l-feature-group>
     <LTileLayer
       v-for="layer in baseLayers"
@@ -252,7 +266,7 @@ import { template } from '@/utils';
 import {
   LMap, LTileLayer, LWMSTileLayer, LGeoJson, LCircleMarker,
   LControlLayers, LControlAttribution, LControlZoom, LLayerGroup,
-  LFeatureGroup,
+  LFeatureGroup, LControl,
 } from 'vue2-leaflet';
 import { DateTime } from 'luxon';
 
@@ -283,6 +297,7 @@ export default {
     LControlZoom,
     LLayerGroup,
     LFeatureGroup,
+    LControl,
   },
   data() {
     return {
@@ -352,6 +367,13 @@ export default {
     },
     showAoi() {
       return this.aoi && (!this.subAoi || this.subAoi.features.length === 0);
+    },
+    validDrawnArea() {
+      // allows for further validation on area size etc.
+      return this.drawnArea ? true : false;
+    },
+    drawnArea() {
+      return this.$store.state.features.selectedArea;
     },
     disableTimeSelection() {
       return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableTimeSelection !== 'undefined') ? this.layerDisplay('data').disableTimeSelection : this.indDefinition.disableTimeSelection;
@@ -469,7 +491,7 @@ export default {
       this.map.attributionControl._update();
       // add loading indicator
       L.Control.loading({
-        position: 'bottomright',
+        position: 'bottomleft',
         delayIndicator: 200,
       }).addTo(this.map);
       // add A/B slider
@@ -478,8 +500,8 @@ export default {
       this.map.on(L.Draw.Event.CREATED, function (e) {
         // add newly drawn layer to layer group
         this.$refs.customAreaFilterFeatures.mapObject.addLayer(e.layer);
-        // set global area as WKT
-        this.$store.commit('features/SET_SELECTED_AREA', wkt.read(JSON.stringify(e.layer.toGeoJSON())).write());
+        // set global area as json
+        this.$store.commit('features/SET_SELECTED_AREA', e.layer.toGeoJSON());
         // DUMMY API CALL FOR CHART
         // fetch data for chart
         this.$store.commit(
@@ -491,8 +513,6 @@ export default {
               .indicatorObject.aoiID === 'ES01')
             .properties.indicatorObject,
         );
-        // fetch API and display vector features
-        this.fetchFeatures('data');
       }.bind(this));
       // only draw one feature at a time
       this.map.on(L.Draw.Event.DRAWSTART, function () {
@@ -506,10 +526,9 @@ export default {
 
       if (this.customAreaFilter) {
         this.drawControl.addTo(this.map);
-        const drawnArea = this.$store.state.features.selectedArea;
         let ftrs = null;
-        if (typeof drawnArea === 'string') {
-          const jsonGeom = wkt.read(drawnArea).toJson();
+        if (this.drawnArea) {
+          const jsonGeom = this.drawnArea;
           ftrs = [{
             type: 'Feature',
             properties: {},
@@ -525,7 +544,9 @@ export default {
         }
       }
       this.onResize();
-      // this.fetchFeatures('data'); # commented out for demo
+      if (this.drawnArea || !this.customAreaFilter) {
+        this.fetchFeatures('data');
+      }
       setTimeout(() => {
         this.flyToBounds();
       }, 100);
@@ -638,6 +659,7 @@ export default {
       // if display not specified (global layers), suspect SIN layer
       // first check if special compare layer configured
       const displayTmp = side === 'compare' && this.indicator.compareDisplay ? this.indicator.compareDisplay : this.indicator.display;
+      // then merge default settings, indicator code settings and settings based on selected time matching respective input data mapping
       return displayTmp || {
         ...this.baseConfig.defaultWMSDisplay,
         ...this.indDefinition,
@@ -825,7 +847,9 @@ export default {
           this.$refs.compareLayer.mapObject
             .setUrl(this.layerDisplay('compare').url);
         }
-        this.fetchFeatures('compare');
+        if (this.drawnArea || !this.customAreaFilter) {
+          this.fetchFeatures('compare');
+        }
         // redraw
         this.compareLayerKey = Math.random();
       }
@@ -837,7 +861,9 @@ export default {
           this.$refs.dataLayer.mapObject
             .setUrl(this.layerDisplay('data').url);
         }
-        this.fetchFeatures('data');
+        if (this.drawnArea || !this.customAreaFilter) {
+          this.fetchFeatures('data');
+        }
         // redraw
         this.dataLayerKey = Math.random();
       }
@@ -846,10 +872,18 @@ export default {
       if (this.layerDisplay(side).features) {
         const options = this.layerOptions(side === 'compare' ? this.currentCompareTime : this.currentTime,
           this.layerDisplay(side));
+        // add custom area if present
+        let customArea = {};
+        if (this.drawnArea) {
+          const areaFormatted = typeof this.layerDisplay('data').features.areaFormatFunction === 'function'
+            ? this.layerDisplay('data').features.areaFormatFunction(this.drawnArea) : JSON.stringify(this.drawnArea);
+          customArea = { area: areaFormatted};
+        }
         const templateRe = /\{ *([\w_ -]+) *\}/g;
         const url = template(templateRe, this.layerDisplay(side).features.url, {
           ...this.indicator,
           ...options,
+          ...customArea,
         });
         fetch(url, { credentials: 'same-origin' })
           .then((r) => r.json())
@@ -861,6 +895,13 @@ export default {
           });
       } else {
         this.featureJson[side] = emptyF;
+      }
+    },
+    fetchCustomAreaIndicator() {
+      // todo
+      this.fetchFeatures('data');
+      if (this.enableCompare) {
+        this.fetchFeatures('compare');
       }
     },
     refreshBaselayersSelection() {
@@ -893,7 +934,9 @@ export default {
           this.map.removeLayer(this.$refs.compareLayers.mapObject);
         }
       } else {
-        this.fetchFeatures('compare');
+        if (this.drawnArea || !this.customAreaFilter) {
+          this.fetchFeatures('compare');
+        }
         this.map.addLayer(this.$refs.compareLayers.mapObject);
         this.$nextTick(() => {
           this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
@@ -994,5 +1037,8 @@ export default {
 }
 ::v-deep .leaflet-draw-section {
   box-shadow: 2px 2px 5px var(--v-primary-base);
+}
+::v-deep .confirm-draw {
+  background-color: rgba(230, 230, 230, 0.85) !important;
 }
 </style>
