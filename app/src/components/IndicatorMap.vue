@@ -19,9 +19,9 @@
       <v-tooltip top :disabled="validDrawnArea">
         <template v-slot:activator="{ on }">
           <div v-on="on" class="d-inline-block">
-            <v-btn :disabled="!validDrawnArea" class="px-2 getDataBtn" @click="fetchCustomAreaIndicator">
-               <small>Get data</small>
-               <v-icon class="pl-2 mdi-rotate-315 mdi-size-x-small">mdi-send</v-icon>
+            <v-btn :disabled="!validDrawnArea" small class="px-2" @click="fetchCustomAreaIndicator">
+              <small>Get data</small>
+              <v-icon class="pl-2 mdi-rotate-315 mdi-size-x-small">mdi-send</v-icon>
             </v-btn>
           </div>
         </template>
@@ -275,11 +275,9 @@ import 'leaflet-mouse-position';
 import 'leaflet-side-by-side';
 import 'leaflet-loading';
 import 'leaflet-loading/src/Control.Loading.css';
-import LeafletDraw from 'leaflet-draw';
-import "leaflet-draw/dist/leaflet.draw.css";
-import { Wkt } from 'wicket';
+import 'leaflet-draw';
+import 'leaflet-draw/dist/leaflet.draw.css';
 
-const wkt = new Wkt();
 const emptyF = {
   type: 'FeatureCollection',
   features: [],
@@ -309,6 +307,7 @@ export default {
       center: null,
       bounds: null,
       enableCompare: false,
+      fetchDataClicked: false,
       opacityTerrain: [1],
       opacityOverlay: [1],
       tilePane: 'tilePane',
@@ -341,7 +340,7 @@ export default {
     baseLayers() {
       return [
         ...this.baseConfig.baseLayers,
-        ...(this.layerDisplay('data').baseLayers || [])
+        ...(this.layerDisplay('data').baseLayers || []),
       ];
     },
     overlayLayers() {
@@ -370,7 +369,7 @@ export default {
     },
     validDrawnArea() {
       // allows for further validation on area size etc.
-      return this.drawnArea ? true : false;
+      return this.drawnArea !== null;
     },
     drawnArea() {
       return this.$store.state.features.selectedArea;
@@ -434,13 +433,13 @@ export default {
             shapeOptions: {
               clickable: false,
               color: this.appConfig.branding.primaryColor,
-            }
+            },
           },
           rectangle: {
             shapeOptions: {
               clickable: false,
               color: this.appConfig.branding.primaryColor,
-            }
+            },
           },
         },
         edit: {
@@ -499,37 +498,39 @@ export default {
       // add A/B slider
       this.slider = L.control.sideBySide(this.$refs.compareLayers.mapObject.getLayers(), this.$refs.dataLayers.mapObject.getLayers()); // eslint-disable-line
       this.drawControl = new L.Control.Draw(this.drawOptions);
-      this.map.on(L.Draw.Event.CREATED, function (e) {
+      this.map.on(L.Draw.Event.CREATED, function (e) { // eslint-disable-line
         // add newly drawn layer to layer group
         this.$refs.customAreaFilterFeatures.mapObject.addLayer(e.layer);
         // set global area as json
         this.$store.commit('features/SET_SELECTED_AREA', e.layer.toGeoJSON());
-        // DUMMY API CALL FOR CHART
-        // fetch data for chart
-        this.$store.commit(
-          'indicators/SET_CUSTOM_AREA_INDICATOR',
-          this.$store.state.features.allFeatures
-            .find((f) => f.properties
-              .indicatorObject.indicator === 'N1'
-            && f.properties
-              .indicatorObject.aoiID === 'ES01')
-            .properties.indicatorObject,
-        );
-      }.bind(this));
+      }.bind(this)); // eslint-disable-line
       // only draw one feature at a time
-      this.map.on(L.Draw.Event.DRAWSTART, function () {
+      this.map.on(L.Draw.Event.DRAWSTART, function () { // eslint-disable-line
         this.$refs.customAreaFilterFeatures.mapObject.clearLayers();
         this.$store.commit('features/SET_SELECTED_AREA', null);
       }.bind(this));
 
-      this.map.on(L.Draw.Event.DELETED, function () {
+      this.map.on(L.Draw.Event.DRAWSTOP, function () { // eslint-disable-line
+        this.featureJson.data = emptyF;
+        this.featureJson.compare = emptyF;
+        if (this.fetchDataClicked) {
+          this.fetchFeatures('data');
+          if (this.enableCompare) {
+            this.fetchFeatures('compare');
+          }
+        }
+      }.bind(this));
+
+      this.map.on(L.Draw.Event.DELETED, function () { // eslint-disable-line
         this.$store.commit('features/SET_SELECTED_AREA', null);
+        this.featureJson.data = emptyF;
+        this.featureJson.compare = emptyF;
       }.bind(this));
 
       if (this.customAreaFilter) {
         this.drawControl.addTo(this.map);
         let ftrs = null;
-        if (this.drawnArea) {
+        if (this.validDrawnArea) {
           const jsonGeom = this.drawnArea;
           ftrs = [{
             type: 'Feature',
@@ -541,12 +542,12 @@ export default {
           this.$refs.customAreaFilterFeatures.mapObject.addLayer(geoJson(ftrs, {
             style: {
               color: this.appConfig.branding.primaryColor,
-            }})
-          );
+            },
+          }));
         }
       }
       this.onResize();
-      if (this.drawnArea || !this.customAreaFilter) {
+      if (!this.customAreaFilter) {
         this.fetchFeatures('data');
       }
       setTimeout(() => {
@@ -574,11 +575,11 @@ export default {
       }
     },
     featureOptions(side) {
-      const style = (this.layerDisplay(side).features && this.layerDisplay(side).features.style) ? this.layerDisplay(side).features.style : {};
+      const style = (this.layerDisplay(side).features && this.layerDisplay(side).features.style) ? this.layerDisplay(side).features.style : {}; // eslint-disable-line
       return {
         onEachFeature: function onEachFeature(feature, layer) {
           // if featuresParameters available, show only properties from mapping, otherwise dump all
-          const allowedParams = this.layerDisplay(side).features.parameters;
+          const allowedParams = this.layerDisplay(side).features ? this.layerDisplay(side).features.parameters : null; // eslint-disable-line
           const allKeys = Object.keys(feature.properties);
           let tooltip = '';
           for (let i = 0; i < allKeys.length; i++) {
@@ -588,11 +589,11 @@ export default {
             }
           }
           if (tooltip !== '') {
-            layer.bindTooltip(tooltip, {pane: this.popupPane});
+            layer.bindTooltip(tooltip, { pane: this.popupPane });
           }
         }.bind(this),
         // point circle marker styling
-        pointToLayer: function (feature, latlng) {
+        pointToLayer: function (feature, latlng) { // eslint-disable-line
           return circleMarker(latlng, {
             radius: style.radius || 8,
             color: style.color || 'red',
@@ -604,7 +605,7 @@ export default {
             fillColor: style.fillColor || 'red',
             fill: style.fill || true,
             pane: side === 'data' ? this.tooltipPane : this.shadowPane,
-          })
+          });
         }.bind(this),
         // polygon and line styling
         style: {
@@ -661,7 +662,9 @@ export default {
       // if display not specified (global layers), suspect SIN layer
       // first check if special compare layer configured
       const displayTmp = side === 'compare' && this.indicator.compareDisplay ? this.indicator.compareDisplay : this.indicator.display;
-      // then merge default settings, indicator code settings and settings based on selected time matching respective input data mapping
+      // then merge default settings
+      // indicator code settings
+      // and settings based on selected time matching respective input data mapping
       return displayTmp || {
         ...this.baseConfig.defaultWMSDisplay,
         ...this.indDefinition,
@@ -849,7 +852,7 @@ export default {
           this.$refs.compareLayer.mapObject
             .setUrl(this.layerDisplay('compare').url);
         }
-        if (this.drawnArea || !this.customAreaFilter) {
+        if (this.fetchDataClicked || !this.customAreaFilter) {
           this.fetchFeatures('compare');
         }
         // redraw
@@ -863,7 +866,7 @@ export default {
           this.$refs.dataLayer.mapObject
             .setUrl(this.layerDisplay('data').url);
         }
-        if (this.drawnArea || !this.customAreaFilter) {
+        if (this.fetchDataClicked || !this.customAreaFilter) {
           this.fetchFeatures('data');
         }
         // redraw
@@ -876,10 +879,10 @@ export default {
           this.layerDisplay(side));
         // add custom area if present
         let customArea = {};
-        if (this.drawnArea) {
+        if (this.validDrawnArea) {
           const areaFormatted = typeof this.layerDisplay('data').features.areaFormatFunction === 'function'
             ? this.layerDisplay('data').features.areaFormatFunction(this.drawnArea) : JSON.stringify(this.drawnArea);
-          customArea = { area: areaFormatted};
+          customArea = { area: areaFormatted };
         }
         const templateRe = /\{ *([\w_ -]+) *\}/g;
         const url = template(templateRe, this.layerDisplay(side).features.url, {
@@ -901,28 +904,44 @@ export default {
     },
     fetchCustomAreaIndicator() {
       // todo
+      if (!this.fetchDataClicked) {
+        this.fetchDataClicked = true;
+      }
       this.fetchFeatures('data');
       if (this.enableCompare) {
         this.fetchFeatures('compare');
       }
+      // DUMMY API CALL FOR CHART
+      // fetch data for chart
+      this.$store.commit(
+        'indicators/SET_CUSTOM_AREA_INDICATOR',
+        this.$store.state.features.allFeatures
+          .find((f) => f.properties
+            .indicatorObject.indicator === 'N1'
+          && f.properties
+            .indicatorObject.aoiID === 'ES01')
+          .properties.indicatorObject,
+      );
     },
     refreshBaselayersSelection() {
-      // if there were additional baseLayers added on top of default ones in previous indicator
-      // new baseLayer probably had visible:true set
-      // if you manually de-select and select this new baseLayer via layers control
-      // and newly selected indicator does not have it configured
-      // no baseLayer is selected in the map, even though default visible property is applied to respective this.$refs.baseLayers entity (terrain light)
-      // this code re-selects the terrain light via layer selection control
-      
+      /*
+       if there were additional baseLayers added on top of default ones in previous indicator
+       new baseLayer probably had visible:true set
+       if you manually de-select and select this new baseLayer via layers control
+       and newly selected indicator does not have it configured
+       no baseLayer is selected in the map, even though default visible property
+       is applied to respective this.$refs.baseLayers entity (terrain light)
+       this code re-selects the terrain light via layer selection control
+      */
       // find HTML element <label> in layer control selection which contains "Terrain light" in it
-      const baseLayerLabelsLayerSelection = this.$refs.layersControl.mapObject._baseLayersList.children;
+      const baseLayerLabelsLayerSel = this.$refs.layersControl.mapObject._baseLayersList.children;
       // check if additional baseLayer is going to be removed in current map tick
-      if (baseLayerLabelsLayerSelection.length !== this.baseLayers.length) {
-        for (let i = 0; i < baseLayerLabelsLayerSelection.length; i++) {
+      if (baseLayerLabelsLayerSel.length !== this.baseLayers.length) {
+        for (let i = 0; i < baseLayerLabelsLayerSel.length; i++) {
           // if span in layer selection div contains string
-          if (baseLayerLabelsLayerSelection[i].children[0].children[1].innerHTML.includes('Terrain')) {
+          if (baseLayerLabelsLayerSel[i].children[0].children[1].innerHTML.includes('Terrain')) {
             // click on respective radio input button to re-enable default layer
-            baseLayerLabelsLayerSelection[i].children[0].children[0].click();
+            baseLayerLabelsLayerSel[i].children[0].children[0].click();
           }
         }
       }
@@ -936,7 +955,7 @@ export default {
           this.map.removeLayer(this.$refs.compareLayers.mapObject);
         }
       } else {
-        if (this.drawnArea || !this.customAreaFilter) {
+        if (this.fetchDataClicked || !this.customAreaFilter) {
           this.fetchFeatures('compare');
         }
         this.map.addLayer(this.$refs.compareLayers.mapObject);
@@ -969,9 +988,14 @@ export default {
         // enable or disable draw control
         if (!this.customAreaFilter && this.drawControl._map) {
           this.map.removeControl(this.drawControl);
+          this.$store.commit('features/SET_SELECTED_AREA', null);
+          this.fetchDataClicked = false;
           this.$refs.customAreaFilterFeatures.mapObject.clearLayers();
         } else if (this.customAreaFilter && !this.drawControl._map) {
           this.drawControl.addTo(this.map);
+          // delete current features if there are any
+          this.featureJson.data = emptyF;
+          this.featureJson.compare = emptyF;
         }
         this.$nextTick(() => {
           // second nextTick to add correct layers to slider
@@ -1005,7 +1029,7 @@ export default {
   margin: 1px;
 }
 ::v-deep .leaflet-control-mouseposition {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.8);
   transform: translate3d(-8px, 32px, 0);
   padding: 2px 4px;
 }
