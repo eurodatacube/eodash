@@ -16,7 +16,7 @@
     <l-control-zoom position="topright"></l-control-zoom>
     <l-feature-group ref="customAreaFilterFeatures"></l-feature-group>
     <l-control position="topright"
-      v-if="customAreaFilter && validDrawnArea">
+      v-if="customAreaFilter && validDrawnArea && renderTrashBin">
       <v-tooltip left>
         <template v-slot:activator="{ on }">
           <div v-on="on" class="d-inline-block">
@@ -327,6 +327,7 @@ export default {
       popupPane: 'popupPane',
       slider: null,
       drawControl: null,
+      renderTrashBin: false,
       defaultMapOptions: {
         attributionControl: false,
         zoomControl: false,
@@ -530,9 +531,9 @@ export default {
         this.featureJson.data = emptyF;
         this.featureJson.compare = emptyF;
       }.bind(this));
-
       if (this.customAreaFilter) {
         this.drawControl.addTo(this.map);
+        this.renderTrashBin = true;
         let ftrs = null;
         if (this.validDrawnArea) {
           const jsonGeom = this.drawnArea;
