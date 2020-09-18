@@ -137,7 +137,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: '/eodash-data/stories/E13b',
   },
-  E13c: {
+  E13d: {
     indicator: 'Maritime traffic: throughput',
     class: 'economic',
     // largeSubAoi: true,
