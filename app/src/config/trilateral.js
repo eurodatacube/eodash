@@ -537,7 +537,7 @@ export const globalIndicators = [
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
-          opacity: 1,
+          opacity: 0.95,
           url: '//obs.eu-de.otc.t-systems.com/s5p-pal-l3-tms/s5p-l3-tropno2/fortnight/{time}/{z}/{x}/{-y}.png',
           name: 'Air Quality (NO2) - ESA',
           legendUrl: 'eodash-data/data/no2Legend.png',
@@ -574,7 +574,7 @@ export const globalIndicators = [
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
-          opacity: 1,
+          opacity: 0.95,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x.png?url=s3://covid-eo-data/OMNO2d_HRM/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=0%2C1.8e16&color_map=reds',
           name: 'Air Quality (NASA)',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
@@ -606,12 +606,12 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         aoi: null,
         aoiID: 'W4',
-        time: getMonthlyDates('2004-10-01', '2020-08-01'),
+        time: getMonthlyDates('2015-01-01', '2020-08-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
-          opacity: 0.7,
+          opacity: 0.95,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/OMNO2d_HRMDifference/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=-3e15%2C3e15&color_map=rdbu_r',
           name: 'Air Quality (NASA)',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
