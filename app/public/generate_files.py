@@ -21,7 +21,7 @@ dot_env = DotEnv("/working/.env")
 dot_env.set_as_environment_variables()
 geodb = GeoDBClient()
 
-delete_files = False
+delete_files = True
 
 geoDB_map = {
     "aoi": "aoi",
@@ -296,7 +296,6 @@ generateData(
     "/working/data/internal/pois_trilateral.json",
     "/working/data/internal/",
     [
-        #'/working/data/trilateral/E1.csv',  # Moved to geoDB
         '/working/data/trilateral/E1a.csv',
         '/working/data/trilateral/E8.csv',
         '/working/data/trilateral/E9.csv',
@@ -327,7 +326,6 @@ generateData(
     "/working/data/internal/pois_eodash.json",
     "/working/eodash-data/internal/",
     [
-        #'/working/eodash-data/data/E1.csv',  # Moved to geoDB
         '/working/eodash-data/data/E1a.csv',
         '/working/eodash-data/data/E2.csv',
         '/working/eodash-data/data/E4.csv',
@@ -342,10 +340,11 @@ generateData(
         '/working/eodash-data/data/E10a8.csv',
         '/working/eodash-data/data/E11.csv',
         '/working/eodash-data/data/E13b.csv',
-        #'/working./eodash-data/data/E13c.csv',  # Not ready yet
+        #'/working./eodash-data/data/E13d.csv',  # Not ready yet
         '/working/eodash-data/data/N1_PLES_Europe.csv',
         '/working/eodash-data/data/N3.csv',
         '/working/eodash-data/data/N4a.csv',
+        '/working/eodash-data/data/N4c.csv',
     ],
     [
         ['E1', ''],

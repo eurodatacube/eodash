@@ -10,6 +10,7 @@ import VueCountdown from '@chenfengyuan/vue-countdown';
 
 import browserDetect from 'vue-browser-detect-plugin';
 import marked from 'marked';
+import L from 'leaflet';
 import App from './App.vue';
 import Dashboard from './views/Dashboard.vue';
 import Privacy from './views/Privacy.vue';
@@ -21,6 +22,10 @@ import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 
 // Set UTC as default time zone behavior for whole client
 Settings.defaultZoneName = 'utc';
+
+// Stop webpack - CSS url incompatibility
+// (deletion is enough here since we don't use the default marker anyway)
+delete L.Icon.Default.prototype._getIconUrl;
 
 Vue.component(VueCountdown.name, VueCountdown);
 
