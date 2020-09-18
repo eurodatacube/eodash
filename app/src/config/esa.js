@@ -183,6 +183,10 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Illegal waste levels',
     class: 'land',
   },
+  N4c: {
+    indicator: 'Changes in land fill sites',
+    class: 'environment',
+  },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
     class: 'economic',

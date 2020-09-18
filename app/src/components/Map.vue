@@ -328,7 +328,7 @@ export default {
             } else {
               label += `${percVal}%`;
             }
-          } else if (['E10a3', 'E10a8'].includes(indicatorObject.indicator)) {
+          } else if (['E10a3', 'E10a8', 'N4c'].includes(indicatorObject.indicator)) {
             label += 'multiple';
           } else if (['E10a6', 'E10a7'].includes(indicatorObject.indicator)) {
             const indVal =  Number(indicatorObject.lastMeasurement).toPrecision(4);

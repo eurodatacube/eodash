@@ -344,6 +344,7 @@ generateData(
         '/working/eodash-data/data/N1_PLES_Europe.csv',
         '/working/eodash-data/data/N3.csv',
         '/working/eodash-data/data/N4a.csv',
+        '/working/eodash-data/data/N4c.csv',
     ],
     [
         ['E1', ''],

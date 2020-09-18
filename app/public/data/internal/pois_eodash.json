@@ -1340,6 +1340,26 @@
         "yAxis": "Number of parked cars"
     },
     {
+        "aoi": "38.074, 23.609",
+        "aoiID": "GR4",
+        "city": "Aspropyrgos",
+        "country": "GR",
+        "description": "Land fill sites: waste area changes",
+        "indicator": "N4c",
+        "indicatorName": "Land fill sites: waste area changes",
+        "lastColorCode": "GREEN",
+        "lastIndicatorValue": "soil waste area in hectares",
+        "lastMeasurement": "52.69",
+        "lastReferenceTime": "2020-02-26T09:22:36",
+        "lastReferenceValue": "57.96",
+        "lastTime": "2020-06-06T09:14:00",
+        "region": "Attica",
+        "siteName": "Aspropyrgos region industrial sites",
+        "subAoi": "",
+        "updateFrequency": "Monthly",
+        "yAxis": "ha"
+    },
+    {
         "aoi": "45.8,16.0",
         "aoiID": "HR",
         "city": "Zagreb (TROPOMI)",
