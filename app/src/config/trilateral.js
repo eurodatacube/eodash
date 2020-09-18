@@ -616,7 +616,7 @@ export const globalIndicators = [
           name: 'Air Quality (NASA)',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
-          legendUrl: 'eodash-data/data/no2DiffLegend.png',
+          legendUrl: 'data/trilateral/N1-NO2DiffLegend.png',
         },
       },
     },
