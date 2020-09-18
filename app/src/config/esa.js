@@ -185,7 +185,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   N4c: {
     indicator: 'Changes in land fill sites',
-    class: 'environment',
+    class: 'land',
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
