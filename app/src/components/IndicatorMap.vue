@@ -352,22 +352,39 @@ export default {
     disableCompareButton() {
       return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableCompare !== 'undefined') ? this.layerDisplay('data').disableCompare : this.indDefinition.disableCompare;
     },
+    includeRefDateMap() {
+      return this.layerDisplay('data').includeRefDateMap || this.indDefinition.includeRefDateMap;
+    },
+    usedTimes() {
+      let times = this.indicator.time;
+      if (this.layerDisplay('data').replaceDataMap && this.layerDisplay('data').replaceDataMap.time) {
+        times = this.layerDisplay('data').replaceDataMap.time;
+      }
+      return times;
+    },
+    usedEoSensor() {
+      let eoSensor = this.indicator.eoSensor;
+      if (this.layerDisplay('data').replaceDataMap && this.layerDisplay('data').replaceDataMap.eoSensor) {
+        eoSensor = this.layerDisplay('data').replaceDataMap.eoSensor;
+      }
+      return eoSensor;
+    },
     arrayOfObjects() {
       const selectionOptions = [];
-      for (let i = 0; i < this.indicator.time.length; i += 1) {
-        let label = this.getTimeLabel(this.indicator.time[i]);
-        if (this.indicator.eoSensor) {
-          label += ` - ${this.indicator.eoSensor[i]}`;
+      for (let i = 0; i < this.usedTimes.length; i += 1) {
+        let label = this.getTimeLabel(this.usedTimes[i]);
+        if (this.usedEoSensor) {
+          label += ` - ${this.usedEoSensor[i]}`;
         }
         selectionOptions.push({
-          value: this.indicator.time[i],
+          value: this.usedTimes[i],
           name: label,
         });
       }
       return selectionOptions;
     },
     currentTime() {
-      let returnTime = this.indicator.time[this.indicator.time.length - 1];
+      let returnTime = this.usedTimes[this.usedTimes.length - 1];
       if (this.dataLayerTime !== null) {
         returnTime = this.dataLayerTime;
       }
@@ -392,8 +409,8 @@ export default {
     },
   },
   mounted() {
-    this.dataLayerIndex = this.indicator.time.length - 1;
-    this.dataLayerTime = { value: this.indicator.time[this.dataLayerIndex] };
+    this.dataLayerIndex = this.usedTimes.length - 1;
+    this.dataLayerTime = { value: this.usedTimes[this.dataLayerIndex] };
     this.compareLayerTime = { value: this.getInitialCompareTime() };
     this.$nextTick(() => {
       const layerButtons = document.querySelectorAll('.leaflet-control-layers-toggle');
@@ -710,7 +727,7 @@ export default {
       // find closest entry one year before latest time
       if (this.indDefinition.largeTimeDuration) {
         // if interval, use just start to get closest
-        const times = this.indicator.time.map((item) => (Array.isArray(item) ? item[0] : item));
+        const times = this.usedTimes.map((item) => (Array.isArray(item) ? item[0] : item));
         const lastTimeEntry = DateTime.fromISO(times[times.length - 1]);
         const oneYearBefore = lastTimeEntry.minus({ years: 1 });
         // select closest to one year before
@@ -723,10 +740,10 @@ export default {
         // Get index and return object from original times as there are also
         // arrays of time tuple arrays
         const foundIndex = times.indexOf(closestOneYearBefore);
-        return this.indicator.time[foundIndex];
+        return this.usedTimes[foundIndex];
       }
       // use first time
-      return this.indicator.time[0];
+      return this.usedTimes[0];
     },
     refreshLayer(side) {
       // compare(left) or data(right)
@@ -822,8 +839,8 @@ export default {
       }
     },
     indicator() {
-      this.dataLayerTime = { value: this.indicator.time[this.indicator.time.length - 1] };
-      this.dataLayerIndex = this.indicator.time.length - 1;
+      this.dataLayerTime = { value: this.usedTimes[this.usedTimes.length - 1] };
+      this.dataLayerIndex = this.usedTimes.length - 1;
       if (this.indicator.compareDisplay) {
         this.compareLayerTime = this.dataLayerTime;
         this.compareLayerIndex = this.dataLayerIndex;
