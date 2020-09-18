@@ -574,7 +574,7 @@ export const globalIndicators = [
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
-          opacity: 0.7,
+          opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x.png?url=s3://covid-eo-data/OMNO2d_HRM/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=0%2C1.8e16&color_map=reds',
           name: 'Air Quality (NASA)',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
