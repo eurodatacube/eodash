@@ -326,9 +326,7 @@ generateData(
     "/working/data/internal/pois_eodash.json",
     "/working/eodash-data/internal/",
     [
-        '/working/eodash-data/data/E2.csv',
         '/working/eodash-data/data/E4.csv',
-        #'/working/eodash-data/data/E5.csv',  # Moved to geoDB
         '/working/eodash-data/data/E8.csv',
         '/working/eodash-data/data/E10a1.csv',
         '/working/eodash-data/data/E10a2.csv',
@@ -348,6 +346,7 @@ generateData(
     [
         ['E1', ''],
         ['E1a', ''],
+        ['E2', ''],
         ['E5', ''],
     ]
 )
