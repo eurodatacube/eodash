@@ -45,7 +45,7 @@
     >
     </LTileLayer>
     <l-marker-cluster ref="clusterLayer" :options="clusterOptions">
-      <l-marker v-for="(feature) in getFeatures.filter((f) => f.latlng)"
+      <l-marker v-for="(feature) in getGroupedFeatures.filter((f) => f.latlng)"
         :key="feature.id"
         ref="markers"
         :lat-lng="feature.latlng"
@@ -154,7 +154,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('features', ['getFeatures']),
+    ...mapGetters('features', ['getGroupedFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayers() {
       return this.baseConfig.baseLayers;
@@ -298,6 +298,9 @@ export default {
       const { indicatorObject } = feature.properties;
       if (!indicatorObject.dummyFeature) {
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
+        let query = Object.assign({}, this.$route.query);
+        delete query.provider;
+        this.$router.replace({ query }).catch(()=>{});
       }
     },
     getColor(indObj) {
@@ -388,7 +391,7 @@ export default {
     },
   },
   watch: {
-    getFeatures(features) {
+    getGroupedFeatures(features) {
       const featuresOnMap = features.filter((f) => f.latlng);
       if (featuresOnMap.length > 0) {
         const maxZoomFit = 8;

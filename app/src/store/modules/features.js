@@ -1,4 +1,4 @@
-/* eslint no-shadow: ["error", { "allow": ["state"] }] */
+/* eslint no-shadow: ["error", { "allow": ["state", "getters"] }] */
 import { Wkt } from 'wicket';
 import { latLng } from 'leaflet';
 import countriesJson from '@/assets/countries.json';
@@ -94,6 +94,15 @@ const getters = {
       .sort((a, b) => ((a.properties.indicatorObject.country > b.properties.indicatorObject.country)
         ? 1 : -1));
     return features;
+  },
+  getGroupedFeatures(_, getters) {
+    return getters.getFeatures.reduce((acc, d) => {
+      const existing = acc.find((a) => `${a.properties.indicatorObject.aoiID}-${a.properties.indicatorObject.indicator}` === `${d.properties.indicatorObject.aoiID}-${d.properties.indicatorObject.indicator}`);
+      if (!existing) {
+        acc.push(d);
+      }
+      return acc;
+    }, []);
   },
   getLatestUpdate(state) {
     const times = state.allFeatures.map((f) => {

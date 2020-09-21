@@ -3,10 +3,23 @@
     :style="$vuetify.breakpoint.mdAndDown && 'padding-bottom: 100px'"
   >
     <v-container class="pt-0">
-      <v-row>
+      <v-row v-if="indicatorObject">
         <v-col
           cols="12"
         >
+          <v-tabs
+            v-if="multipleProviderCompare.length > 1"
+            v-model="selectedProviderTab"
+            grow
+          >
+            <v-tab
+              v-for="providerData in multipleProviderCompare"
+              :key="providerData.properties.indicatorObject.dataProvider"
+              :href="`#${providerData.properties.indicatorObject.dataProvider}`"
+            >
+              {{ providerData.properties.indicatorObject.dataProvider }}
+            </v-tab>
+          </v-tabs>
           <v-card
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
@@ -194,6 +207,7 @@ export default {
     dataInteract: false,
     iframeDialog: false,
     copySuccess: false,
+    selectedProviderTab: null,
   }),
   watch: {
     dialog(open) {
@@ -207,6 +221,7 @@ export default {
   },
   computed: {
     ...mapGetters('features', [
+      'getFeatures',
       'getCountries',
       'getIndicators',
       'getLatestUpdate',
@@ -232,7 +247,20 @@ export default {
       return `<iframe class="item" src="${window.location.origin}/iframe?poi=${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
     },
     indicatorObject() {
-      return this.$store.state.indicators.selectedIndicator;
+      let indicatorObject;
+      if (this.multipleProviderCompare.length > 1) {
+        const feature = this.multipleProviderCompare.find(p => p.properties.indicatorObject.dataProvider === this.selectedProviderTab);
+        indicatorObject = feature && feature.properties.indicatorObject;
+      } else {
+        indicatorObject = this.$store.state.indicators.selectedIndicator;
+      }
+      return indicatorObject;
+    },
+    multipleProviderCompare() {
+      const selectedIndicator = this.$store.state.indicators.selectedIndicator;
+      return this.getFeatures.filter((f) => {
+        return f.properties.indicatorObject.aoiID === selectedIndicator.aoiID && f.properties.indicatorObject.indicator === selectedIndicator.indicator;
+      }).reverse();
     },
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
@@ -260,6 +288,9 @@ export default {
       return lastInputData ? this.layerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
     },
   },
+  mounted() {
+    this.selectedProviderTab = this.$route.query.provider || this.multipleProviderCompare[0].properties.indicatorObject.dataProvider;
+  },
   methods: {
     async copy(s) {
       await navigator.clipboard.writeText(s);
@@ -268,6 +299,15 @@ export default {
     swipe() {
       this.overlay = true;
       setTimeout(() => { this.overlay = false; }, 2000);
+    },
+  },
+  watch: {
+    selectedProviderTab(provider) {
+      this.$store.commit(
+        'indicators/SET_SELECTED_INDICATOR',
+        this.multipleProviderCompare.find(p => p.properties.indicatorObject.dataProvider === provider)
+          .properties.indicatorObject);
+      this.$router.replace({ query: { ...this.$route.query, provider } }).catch(()=>{});
     },
   },
 };

@@ -1026,9 +1026,9 @@ export const globalIndicators = [
         dataLoadFinished: true,
         id: 19999,
         aoi: latLng([45.197522, 13.029785]),
-        aoiID: 'NorthAdriaticESA',
+        aoiID: 'NorthAdriatic',
         country: ['HR', 'IT', 'SI'],
-        city: 'North Adriatic (ESA) - Chlorophyll-a concentration',
+        city: 'North Adriatic - Chlorophyll-a concentration',
         siteName: 'North Adriatic',
         description: 'Water Quality Regional Maps',
         indicator: 'N3a2',
@@ -1036,6 +1036,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (ESA)',
         lastColorCode: 'BLUE',
         eoSensor: null,
+        dataProvider: 'ESA',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1067,9 +1068,9 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([45.197522, 13.0297851]),
         id: 19998,
-        aoiID: 'NorthAdriaticNASA',
+        aoiID: 'NorthAdriatic',
         country: ['HR', 'IT', 'SI'],
-        city: 'North Adriatic (NASA) - Chlorophyll-a concentration',
+        city: 'North Adriatic - Chlorophyll-a concentration',
         siteName: 'North Adriatic',
         description: 'Water Quality Regional Maps',
         indicator: 'N3a2',
@@ -1077,6 +1078,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (NASA)',
         lastColorCode: 'BLUE',
         eoSensor: null,
+        dataProvider: 'NASA',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1108,9 +1110,9 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([45.197522, 13.0297851]),
         id: 19994,
-        aoiID: 'NorthAdriaticJAXA',
+        aoiID: 'NorthAdriatic',
         country: ['HR', 'IT', 'SI'],
-        city: 'North Adriatic (JAXA) - Chlorophyll-a concentration',
+        city: 'North Adriatic - Chlorophyll-a concentration',
         siteName: 'North Adriatic',
         description: 'Water Quality Regional Maps',
         indicator: 'N3a2',
@@ -1118,6 +1120,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (JAXA)',
         lastColorCode: 'BLUE',
         eoSensor: null,
+        dataProvider: 'JAXA',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1394,9 +1397,9 @@ export const globalIndicators = [
         dataLoadFinished: true,
         id: 19992,
         aoi: latLng([45.197522, 13.0297851]),
-        aoiID: 'NorthAdriaticESATSM',
+        aoiID: 'NorthAdriaticTSM',
         country: ['HR', 'IT', 'SI'],
-        city: 'North Adriatic (ESA) - Total Suspended Matter',
+        city: 'North Adriatic - Total Suspended Matter',
         siteName: 'North Adriatic',
         description: 'Water Quality Regional Maps',
         indicator: 'N3a2',
@@ -1404,6 +1407,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (ESA)',
         lastColorCode: 'BLUE',
         eoSensor: null,
+        dataProvider: 'ESA',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1517,9 +1521,9 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([45.197522, 13.0297851]),
         id: 19987,
-        aoiID: 'NorthAdriaticJAXATSM',
+        aoiID: 'NorthAdriaticTSM',
         country: ['HR', 'IT', 'SI'],
-        city: 'North Adriatic (JAXA) - Total Suspended Matter',
+        city: 'North Adriatic - Total Suspended Matter',
         siteName: 'North Adriatic',
         description: 'Water Quality Regional Maps',
         indicator: 'N3a2',
@@ -1527,6 +1531,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (JAXA)',
         lastColorCode: 'BLUE',
         eoSensor: null,
+        dataProvider: 'JAXA',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1681,9 +1686,9 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([45.197522, 13.0297851]),
         id: 19983,
-        aoiID: 'NorthAdriaticNASATSM',
+        aoiID: 'NorthAdriaticTSM',
         country: ['HR', 'IT', 'SI'],
-        city: 'North Adriatic (NASA) - Total Suspended Matter',
+        city: 'North Adriatic - Total Suspended Matter',
         siteName: 'North Adriatic',
         description: 'Water Quality Regional Maps',
         indicator: 'N3a2',
@@ -1691,6 +1696,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (NASA)',
         lastColorCode: 'BLUE',
         eoSensor: null,
+        dataProvider: 'NASA',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
