@@ -352,9 +352,6 @@ export default {
     disableCompareButton() {
       return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableCompare !== 'undefined') ? this.layerDisplay('data').disableCompare : this.indDefinition.disableCompare;
     },
-    includeRefDateMap() {
-      return this.layerDisplay('data').includeRefDateMap || this.indDefinition.includeRefDateMap;
-    },
     usedTimes() {
       let times = this.indicator.time;
       if (this.layerDisplay('data').replaceDataMap && this.layerDisplay('data').replaceDataMap.time) {
