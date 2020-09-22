@@ -53,7 +53,7 @@
         @click="selectIndicator(feature)"
       >
         <l-icon
-          :icon-anchor="currentSelected === getLocationCode(feature) ? [18, 18] : [14, 14]"
+          :icon-anchor="currentSelected === getLocationCode(feature.properties.indicatorObject) ? [18, 18] : [14, 14]"
           style="outline: none;"
         >
           <div
