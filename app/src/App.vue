@@ -230,8 +230,8 @@ export default {
                 this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', indicatorObject);
               });
           }
-          this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: `${mutation.payload.aoiID}-${mutation.payload.indicator}` }) }).catch(err => {}); // eslint-disable-line
-          this.trackEvent('indicators', 'select_indicator', `${mutation.payload.aoiID}-${mutation.payload.indicator}`);
+          this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: this.getLocationCode(mutation.payload) }) }).catch(err => {}); // eslint-disable-line
+          this.trackEvent('indicators', 'select_indicator', this.getLocationCode(mutation.payload));
         } else {
           const query = Object.assign({}, this.$route.query); // eslint-disable-line
           delete query.poi;

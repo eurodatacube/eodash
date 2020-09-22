@@ -230,7 +230,7 @@ export default {
       this.$store.commit('features/SET_FEATURE_FILTER', { indicators: [] });
     },
     getUniqueKey(indicatorObject) {
-      return `${indicatorObject.indicator}-${indicatorObject.aoiID}`;
+      return this.getLocationCode(indicatorObject);
     },
     currentlySelected(feature) {
       return this.$store.state.indicators.selectedIndicator

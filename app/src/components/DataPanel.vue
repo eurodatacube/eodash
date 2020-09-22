@@ -240,7 +240,7 @@ export default {
     story() {
       let markdown;
       try {
-        markdown = require(`../../public${this.appConfig.storyPath}${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}.md`);
+        markdown = require(`../../public${this.appConfig.storyPath}${this.getLocationCode(this.indicatorObject)}.md`);
       } catch {
         try {
           markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].story}.md`);
@@ -251,7 +251,7 @@ export default {
       return this.$marked(markdown.default);
     },
     iframeCode() {
-      return `<iframe class="item" src="${window.location.origin}/iframe?poi=${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
+      return `<iframe class="item" src="${window.location.origin}/iframe?poi=${this.getLocationCode(this.indicatorObject)}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
     },
     indicatorObject() {
       let indicatorObject;

@@ -136,6 +136,7 @@ const renderVue = async () => {
         }
         return color;
       },
+      getLocationCode: (indicatorObject) => `${indicatorObject.aoiID}-${indicatorObject.indicator}`,
       trackEvent: (action, name, value) => window._paq.push(['trackEvent', action, name, value]),
     },
   });

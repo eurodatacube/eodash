@@ -61,18 +61,16 @@
         class="flex-grow-0"
       >
         <small class="white--text ml-2">Read the
-          <a :href="`/?poi=${$store.state.indicators.selectedIndicator
-              .aoiID}-${$store.state.indicators.selectedIndicator
-              .indicator}`" target="_blank" class="white--text">full story on this indicator</a>.
+          <a :href="`/?poi=${this.getLocationCode($store.state.indicators.selectedIndicator)}`"
+            target="_blank" class="white--text">full story on this indicator</a>.
         </small>
 
         <v-spacer></v-spacer>
           <h3
             class="text-uppercase mr-2 subtitle ml-2 white--text"
           >
-            <a :href="`/?poi=${$store.state.indicators.selectedIndicator
-              .aoiID}-${$store.state.indicators.selectedIndicator
-              .indicator}`" target="_blank" class="white--text" style="text-decoration: none">
+            <a :href="`/?poi=${this.getLocationCode($store.state.indicators.selectedIndicator)}`"
+              target="_blank" class="white--text" style="text-decoration: none">
               {{ appConfig && appConfig.branding.appName }}
             </a>
           </h3>

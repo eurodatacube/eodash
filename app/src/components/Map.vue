@@ -49,29 +49,29 @@
         :key="feature.id"
         ref="markers"
         :lat-lng="feature.latlng"
-        :name='`${feature.id}`'
+        :name='`${getLocationCode(feature.properties.indicatorObject)}`'
         @click="selectIndicator(feature)"
       >
         <l-icon
-          :icon-anchor="currentSelected === feature.id ? [18, 18] : [14, 14]"
+          :icon-anchor="currentSelected === getLocationCode(feature) ? [18, 18] : [14, 14]"
           style="outline: none;"
         >
           <div
             :style="`display: flex; align-items: center;
               justify-content: center;
               border-radius: 50%;
-              border: 2px ${currentSelected === feature.id
+              border: 2px ${currentSelected === getLocationCode(feature.properties.indicatorObject)
                 ? 'dashed var(--v-primary-base)'
                 : 'solid white'};
-              width: ${currentSelected === feature.id ? '36px' : '28px'};
-              height: ${currentSelected === feature.id ? '36px' : '28px'};
+              width: ${currentSelected === getLocationCode(feature.properties.indicatorObject) ? '36px' : '28px'};
+              height: ${currentSelected === getLocationCode(feature.properties.indicatorObject) ? '36px' : '28px'};
               background-color: ${getColor(feature.properties.indicatorObject)}`"
           >
               <v-icon
                 color="white"
                 class="pa-1"
                 icon-url="/test"
-                :small="currentSelected !== feature.id"
+                :small="currentSelected !== getLocationCode(feature.properties.indicatorObject)"
               >
                 {{ baseConfig.indicatorClassesIcons[baseConfig
                     .indicatorsDefinition[feature.properties.indicatorObject.indicator].class]
@@ -154,7 +154,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('features', ['getGroupedFeatures']),
+    ...mapGetters('features', ['getFeatures', 'getGroupedFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayers() {
       return this.baseConfig.baseLayers;
@@ -175,7 +175,7 @@ export default {
           let selCluster = null;
           if (this.currentSelected !== null && this.$refs.clusterLayer) {
             const selectedMarker = this.$refs.markers.find(
-              (item) => parseInt(item.name, 10) === this.currentSelected,
+              (item) => item.name === this.currentSelected,
             );
             if (selectedMarker) {
               selCluster = this.$refs.clusterLayer.mapObject.getVisibleParent(
@@ -278,7 +278,7 @@ export default {
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'indicators/INDICATOR_LOAD_FINISHED') {
         if (mutation.payload !== null && mutation.payload.aoi !== null) {
-          this.currentSelected = mutation.payload.id;
+          this.currentSelected = this.getLocationCode(mutation.payload);
           if (mutation.payload.subAoi) {
             this.subAoi = mutation.payload.subAoi;
           }
