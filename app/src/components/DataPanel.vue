@@ -17,7 +17,14 @@
               :key="providerData.properties.indicatorObject.dataProvider"
               :href="`#${providerData.properties.indicatorObject.dataProvider}`"
             >
-              {{ providerData.properties.indicatorObject.dataProvider }}
+              <div
+                class="d-flex align-center justify-center"
+              >
+                <img
+                  :src="appConfig.providerIcons[providerData.properties.indicatorObject.dataProvider]"
+                  style="height: 28px; position: absolute"
+                />
+              </div>
             </v-tab>
           </v-tabs>
           <v-card
