@@ -187,8 +187,8 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Changes in land fill sites',
     class: 'land',
     replaceDataMap: {
-      time: [DateTime.fromISO('2020-05-20T01:00:00'), DateTime.fromISO('2020-06-20T01:00:00'), DateTime.fromISO('2020-02-26T00:00:00'), DateTime.fromISO('2020-05-20T00:00:00'), DateTime.fromISO('2020-06-20T00:00:00')],
-      eoSensor: ['compared to 2020-02-26', 'compared to 2020-05-20', 'total area', 'total area', 'total area'],
+      time: [DateTime.fromISO('2020-02-26T00:00:00'), DateTime.fromISO('2020-05-20T00:00:00'), DateTime.fromISO('2020-06-20T00:00:00')],
+      eoSensor: ['Pleiades', 'Pleiades', 'Deimos'],
     },
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HH"),
