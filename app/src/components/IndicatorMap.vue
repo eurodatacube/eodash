@@ -565,11 +565,15 @@ export default {
       // if display not specified (global layers), suspect SIN layer
       // first check if special compare layer configured
       const displayTmp = side === 'compare' && this.indicator.compareDisplay ? this.indicator.compareDisplay : this.indicator.display;
+      let name = this.indicator.description;
+      if (side === 'compare') {
+        name += ' - compare (left)';
+      }
       return displayTmp || {
         ...this.baseConfig.defaultWMSDisplay,
         ...this.indDefinition,
         ...this.shLayerConfig(side),
-        name: this.indicator.description,
+        name: name,
       };
     },
     flyToBounds() {
@@ -822,11 +826,13 @@ export default {
     enableCompare(on) {
       if (!on) {
         if (this.slider !== null) {
+          this.$refs.layersControl.mapObject.removeLayer(this.$refs.compareLayer.mapObject);
           this.map.removeControl(this.slider);
           this.map.removeLayer(this.$refs.compareLayers.mapObject);
         }
       } else {
         this.fetchFeatures('compare');
+        this.$refs.layersControl.mapObject.addOverlay(this.$refs.compareLayer.mapObject, this.$refs.compareLayer.name); // eslint-disable-line
         this.map.addLayer(this.$refs.compareLayers.mapObject);
         this.$nextTick(() => {
           this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
