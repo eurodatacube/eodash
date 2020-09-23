@@ -296,7 +296,6 @@ generateData(
     "/working/data/internal/pois_trilateral.json",
     "/working/data/internal/",
     [
-        '/working/data/trilateral/E1a.csv',
         '/working/data/trilateral/E8.csv',
         '/working/data/trilateral/E9.csv',
         '/working/data/trilateral/E10a1.csv',
@@ -314,6 +313,7 @@ generateData(
     ],
     [
         ['E1', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'],
+        ['E1a', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'],
     ]
 )
 
@@ -326,10 +326,7 @@ generateData(
     "/working/data/internal/pois_eodash.json",
     "/working/eodash-data/internal/",
     [
-        '/working/eodash-data/data/E1a.csv',
-        '/working/eodash-data/data/E2.csv',
         '/working/eodash-data/data/E4.csv',
-        #'/working/eodash-data/data/E5.csv',  # Moved to geoDB
         '/working/eodash-data/data/E8.csv',
         '/working/eodash-data/data/E10a1.csv',
         '/working/eodash-data/data/E10a2.csv',
@@ -348,6 +345,8 @@ generateData(
     ],
     [
         ['E1', ''],
+        ['E1a', ''],
+        ['E2', ''],
         ['E5', ''],
     ]
 )

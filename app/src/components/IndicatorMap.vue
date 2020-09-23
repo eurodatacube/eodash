@@ -352,22 +352,36 @@ export default {
     disableCompareButton() {
       return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableCompare !== 'undefined') ? this.layerDisplay('data').disableCompare : this.indDefinition.disableCompare;
     },
+    usedTimes() {
+      let times = this.indicator.time;
+      if (this.layerDisplay('data').replaceDataMap && this.layerDisplay('data').replaceDataMap.time) {
+        times = this.layerDisplay('data').replaceDataMap.time;
+      }
+      return times;
+    },
+    usedEoSensor() {
+      let eoSensor = this.indicator.eoSensor;
+      if (this.layerDisplay('data').replaceDataMap && this.layerDisplay('data').replaceDataMap.eoSensor) {
+        eoSensor = this.layerDisplay('data').replaceDataMap.eoSensor;
+      }
+      return eoSensor;
+    },
     arrayOfObjects() {
       const selectionOptions = [];
-      for (let i = 0; i < this.indicator.time.length; i += 1) {
-        let label = this.getTimeLabel(this.indicator.time[i]);
-        if (this.indicator.eoSensor) {
-          label += ` - ${this.indicator.eoSensor[i]}`;
+      for (let i = 0; i < this.usedTimes.length; i += 1) {
+        let label = this.getTimeLabel(this.usedTimes[i]);
+        if (this.usedEoSensor) {
+          label += ` - ${this.usedEoSensor[i]}`;
         }
         selectionOptions.push({
-          value: this.indicator.time[i],
+          value: this.usedTimes[i],
           name: label,
         });
       }
       return selectionOptions;
     },
     currentTime() {
-      let returnTime = this.indicator.time[this.indicator.time.length - 1];
+      let returnTime = this.usedTimes[this.usedTimes.length - 1];
       if (this.dataLayerTime !== null) {
         returnTime = this.dataLayerTime;
       }
@@ -392,8 +406,8 @@ export default {
     },
   },
   mounted() {
-    this.dataLayerIndex = this.indicator.time.length - 1;
-    this.dataLayerTime = { value: this.indicator.time[this.dataLayerIndex] };
+    this.dataLayerIndex = this.usedTimes.length - 1;
+    this.dataLayerTime = { value: this.usedTimes[this.dataLayerIndex] };
     this.compareLayerTime = { value: this.getInitialCompareTime() };
     this.$nextTick(() => {
       const layerButtons = document.querySelectorAll('.leaflet-control-layers-toggle');
@@ -551,11 +565,15 @@ export default {
       // if display not specified (global layers), suspect SIN layer
       // first check if special compare layer configured
       const displayTmp = side === 'compare' && this.indicator.compareDisplay ? this.indicator.compareDisplay : this.indicator.display;
+      let name = this.indicator.description;
+      if (side === 'compare') {
+        name += ' - compare (left)';
+      }
       return displayTmp || {
         ...this.baseConfig.defaultWMSDisplay,
         ...this.indDefinition,
         ...this.shLayerConfig(side),
-        name: this.indicator.description,
+        name: name,
       };
     },
     flyToBounds() {
@@ -710,7 +728,7 @@ export default {
       // find closest entry one year before latest time
       if (this.indDefinition.largeTimeDuration) {
         // if interval, use just start to get closest
-        const times = this.indicator.time.map((item) => (Array.isArray(item) ? item[0] : item));
+        const times = this.usedTimes.map((item) => (Array.isArray(item) ? item[0] : item));
         const lastTimeEntry = DateTime.fromISO(times[times.length - 1]);
         const oneYearBefore = lastTimeEntry.minus({ years: 1 });
         // select closest to one year before
@@ -723,10 +741,10 @@ export default {
         // Get index and return object from original times as there are also
         // arrays of time tuple arrays
         const foundIndex = times.indexOf(closestOneYearBefore);
-        return this.indicator.time[foundIndex];
+        return this.usedTimes[foundIndex];
       }
       // use first time
-      return this.indicator.time[0];
+      return this.usedTimes[0];
     },
     refreshLayer(side) {
       // compare(left) or data(right)
@@ -808,11 +826,13 @@ export default {
     enableCompare(on) {
       if (!on) {
         if (this.slider !== null) {
+          this.$refs.layersControl.mapObject.removeLayer(this.$refs.compareLayer.mapObject);
           this.map.removeControl(this.slider);
           this.map.removeLayer(this.$refs.compareLayers.mapObject);
         }
       } else {
         this.fetchFeatures('compare');
+        this.$refs.layersControl.mapObject.addOverlay(this.$refs.compareLayer.mapObject, this.$refs.compareLayer.name); // eslint-disable-line
         this.map.addLayer(this.$refs.compareLayers.mapObject);
         this.$nextTick(() => {
           this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
@@ -822,8 +842,8 @@ export default {
       }
     },
     indicator() {
-      this.dataLayerTime = { value: this.indicator.time[this.indicator.time.length - 1] };
-      this.dataLayerIndex = this.indicator.time.length - 1;
+      this.dataLayerTime = { value: this.usedTimes[this.usedTimes.length - 1] };
+      this.dataLayerIndex = this.usedTimes.length - 1;
       if (this.indicator.compareDisplay) {
         this.compareLayerTime = this.dataLayerTime;
         this.compareLayerIndex = this.dataLayerIndex;

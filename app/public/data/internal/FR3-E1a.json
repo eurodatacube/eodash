@@ -350,5 +350,27 @@
         "reference_time": "2019-04-01T10:54:37",
         "reference_value": "4",
         "time": "2020-09-02T10:57:02"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "EMSS",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Low",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "2",
+        "reference_time": "2019-04-01T10:54:37",
+        "reference_value": "4",
+        "time": "2020-09-15T11:06:58"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "EMSS",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Low",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "1",
+        "reference_time": "2019-04-01T10:54:37",
+        "reference_value": "4",
+        "time": "2020-09-17T10:57:04"
     }
 ]

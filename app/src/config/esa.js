@@ -186,6 +186,14 @@ export const indicatorsDefinition = Object.freeze({
   N4c: {
     indicator: 'Changes in land fill sites',
     class: 'land',
+    replaceDataMap: {
+      time: [DateTime.fromISO('2020-02-26T00:00:00'), DateTime.fromISO('2020-05-20T00:00:00'), DateTime.fromISO('2020-06-20T00:00:00')],
+      eoSensor: ['Pleiades', 'Pleiades', 'Deimos'],
+    },
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HH"),
+      url: './eodash-data/features/{indicator}_{aoiID}_{featuresTime}.geojson',
+    },
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
@@ -225,6 +233,11 @@ export const layerNameMapping = Object.freeze({
     layers: 'NEW_PLEIADES_COVID19',
     attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
+  'Deimos - COVID19': {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'NEW_PLEIADES_COVID19',
+    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  }, // dummy to allow eodata on n4c, still use pleiades
   '[NEW] Pleiades COVID-19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_COVID19',
@@ -235,10 +248,6 @@ export const layerNameMapping = Object.freeze({
     layers: 'NEW_PLEIADES_COVID19',
     attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
-  // 'DS_PHR1A': {
-  //   base`rl: 'https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-  //   layers: 'NEW_PLEIADES_COVID19',
-  // },
   '[NEW] Pleiades - 2.8m - COVID19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_28_COVID19',
