@@ -516,7 +516,8 @@ export const globalIndicators = [
         description: 'Air Quality',
         indicator: 'N1',
         lastIndicatorValue: 'TROPOMI: Nitrogen dioxide',
-        indicatorName: 'Air Quality - TROPOMI: NO2',
+        indicatorName: 'Air Quality: NO2',
+        eoSensor: 'ESA TROPOMI',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -557,7 +558,8 @@ export const globalIndicators = [
         description: 'Air Quality',
         indicator: 'N1',
         lastIndicatorValue: 'OMI: Nitrogen dioxide',
-        indicatorName: 'Air Quality - OMI: NO2',
+        indicatorName: 'Air Quality: NO2',
+        eoSensor: 'NASA OMI',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -568,7 +570,7 @@ export const globalIndicators = [
         },
         lastColorCode: 'primary',
         aoi: null,
-        aoiID: 'W2',
+        aoiID: 'W1',
         time: getMonthlyDates('2004-10-01', '2020-08-01'),
         inputData: [''],
         display: {
@@ -594,7 +596,8 @@ export const globalIndicators = [
         description: 'Air Quality',
         indicator: 'N1',
         lastIndicatorValue: 'OMI: Difference Nitrogen dioxide',
-        indicatorName: 'Air Quality - OMI: Difference NO2',
+        indicatorName: 'Air Quality: NO2',
+        eoSensor: 'NASA OMI Difference',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -605,7 +608,7 @@ export const globalIndicators = [
         },
         lastColorCode: 'primary',
         aoi: null,
-        aoiID: 'W4',
+        aoiID: 'W1',
         time: getMonthlyDates('2015-01-01', '2020-08-01'),
         inputData: [''],
         display: {
