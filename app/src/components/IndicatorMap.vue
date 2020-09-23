@@ -598,7 +598,7 @@ export default {
       return {
         onEachFeature: function onEachFeature(feature, layer) {
           // if featuresParameters available, show only properties from mapping, otherwise dump all
-          const allowedParams = this.layerDisplay(side).features ? this.layerDisplay(side).features.parameters : null; // eslint-disable-line
+          const allowedParams = this.layerDisplay(side).features ? this.layerDisplay(side).features.allowedParameters : null; // eslint-disable-line
           const allKeys = Object.keys(feature.properties);
           let tooltip = '';
           for (let i = 0; i < allKeys.length; i++) {

@@ -383,7 +383,7 @@ export const layerNameMapping = Object.freeze({
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
       url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/{site}/{featuresTime}.geojson',
-      parameters: { // can also be a simple list
+      allowedParameters: { // can also be a simple list
         verified: {},
       },
     },
@@ -546,7 +546,7 @@ export const globalIndicators = [
           dateFormatFunction: (dates) => `${DateTime.fromISO(dates[0]).toFormat('yyyyMMdd')}-${DateTime.fromISO(dates[1]).toFormat('yyyyMMdd')}`,
           features: {
             url: './data/features/{indicator}_{aoiID}_{featuresTime}.geojson',
-            parameters: ['valid'],
+            allowedParameters: ['valid'],
             dateFormatFunction: (dates) => `${DateTime.fromISO(dates[0]).toFormat('yyyy')}`,
             // areaFormatFunction: (area) => wkt.read(JSON.stringify(area)).write(),
           },
@@ -2449,7 +2449,7 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           features: {
             url: './eodash-data/features/{indicator}_{aoiID}.geojson',
-            parameters: ['ADM0_NAME', 'Name'],
+            allowedParameters: ['ADM0_NAME', 'Name'],
             style: {
               color: '#696868',
               opacity: 0.5,
