@@ -695,11 +695,12 @@ export default {
       // zooms to subaoi if present or area around aoi if not
       const boundsPad = this.indDefinition.largeSubAoi ? 5 : 0.15;
       if (this.subAoi && this.subAoi.features.length > 0) {
-        const bounds = this.layerDisplay('data').presetView ? geoJson(this.layerDisplay('data').presetView).getBounds() : geoJson(this.subAoi).getBounds(); 
+        const viewBounds = this.layerDisplay('data').presetView ? geoJson(this.layerDisplay('data').presetView).getBounds() : geoJson(this.subAoi).getBounds(); 
+        const bounds = geoJson(this.subAoi).getBounds();
         const cornerMax1 = latLng([bounds.getSouth() - boundsPad, bounds.getWest() - boundsPad]);
         const cornerMax2 = latLng([bounds.getNorth() + boundsPad, bounds.getEast() + boundsPad]);
         const boundsMax = latLngBounds(cornerMax1, cornerMax2);
-        this.map.fitBounds(bounds);
+        this.map.fitBounds(viewBounds);
         // limit user movement around map
         this.map.setMaxBounds(boundsMax);
         if (this.indDefinition.largeSubAoi) {
