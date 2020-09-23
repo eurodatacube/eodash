@@ -359,6 +359,7 @@ export default {
       if (selected) {
         this.drawerRight = true;
       }
+      this.$store.commit('indicators/SET_CUSTOM_AREA_INDICATOR', null);
       this.panelKey = Math.random();
     },
   },
