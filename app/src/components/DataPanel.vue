@@ -366,8 +366,6 @@ export default {
   },
   mounted() {
     this.mounted = true;
-  },
-  mounted() {
     this.selectedProviderTab = this.$route.query.provider || this.multipleProviderCompare[0].properties.indicatorObject.dataProvider;
   },
   methods: {
