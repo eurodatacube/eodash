@@ -928,12 +928,13 @@ export default {
           headers: this.layerDisplay('data').features.requestHeaders || {},
           requestBody: JSON.stringify(requestBody),
         }).then((r) => r.json())
-          // .then((rawdata) => {
+          .then((rawdata) => {
             // if custom response -> feature mapping function configured, apply it
-            // if (typeof this.layerDisplay('data').features.responseFeatureFunction === 'function') {
-            // 
-            // }
-          // })
+            if (typeof this.layerDisplay('data').features.responseFeatureFunction === 'function') {
+              return this.layerDisplay('data').features.responseFeatureFunction(rawdata);
+            }
+            return rawdata;
+          })
           .then((data) => {
             this.featureJson[side] = data;
           })

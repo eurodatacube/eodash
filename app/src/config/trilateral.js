@@ -5,6 +5,9 @@ import { geoJson, latLng, latLngBounds } from 'leaflet';
 import { DateTime } from 'luxon';
 import { shTimeFunction } from '@/utils';
 
+const wkx = require('wkx');
+var Buffer = require('buffer').Buffer;
+
 export const dataPath = './data/internal/';
 export const dataEndpoints = [
   {
@@ -2546,21 +2549,42 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           // dateFormatFunction: (dates) => `${DateTime.fromISO(dates[0]).toFormat('yyyyMMdd')}-${DateTime.fromISO(dates[1]).toFormat('yyyyMMdd')}`,
           features: {
-            url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.trucks_instance_id}/rpc/geodb_get_by_bbox`,
+            url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_by_bbox`,
             requestMethod: 'POST',
             requestHeaders: {
               'Content-Type': 'application/json',
             },
             requestBody: {
               'collection': 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
-              'minx': 0,
-              'miny': 0,
-              'maxx': 50,
-              'maxy': 50,
+              'minx': '',
+              'miny': '',
+              'maxx': '',
+              'maxy': '',
               'bbox_mode': 'contains',
             },
+            style: {
+              radius: 3,
+              weight: 1,
+            },
             allowedParameters: ['osm_name', 'truck_count_normalized', 'sum_observations'],
-            dateFormatFunction: (dates) => `${DateTime.fromISO(dates[0]).toFormat('yyyy')}`,
+            // dateFormatFunction: (dates) => `${DateTime.fromISO(dates).toFormat('yyyy')}`,
+            responseFeatureFunction: (requestJson) => { // geom from wkb to geojson features
+              let ftrs = [];
+              if (Array.isArray(requestJson[0].src)) {
+                requestJson[0].src.forEach((ftr) => {
+                  ftrs.push({
+                    type: 'Feature',
+                    properties: ftr,
+                    geometry: wkx.Geometry.parse(new Buffer(ftr.geometry, 'hex')).toGeoJSON(),
+                  });
+                });
+              }
+              const ftrColl = {
+                type: 'FeatureCollection',
+                features: ftrs,
+              };
+              return ftrColl;
+            },
             areaFormatFunction: (area) => {
               const bounds = geoJson(area).getBounds() 
               return {
