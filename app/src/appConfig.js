@@ -53,11 +53,6 @@ module.exports = [
       headerLogo: './data/trilateral/Trilateral_Logo.svg',
       faviconPath: './public/img/trilateral/favicon.ico',
     },
-    providerIcons: {
-      ESA: './img/trilateral/ESA_logo.svg',
-      NASA: './img/trilateral/NASA_logo.svg',
-      JAXA: './img/trilateral/JAXA_logo.svg',
-    },
     pageMeta: {
       rootPath: 'https://eodashboard.org',
       googleSiteVerification: 'iHN2SaSR9qF7T3lOqNYSF4kaq_ZgK-I31SSgO5RKXW8',

@@ -22,20 +22,20 @@
       </v-card-subtitle>
       <div>
         <v-tabs
-          v-if="multipleProviderCompare.length > 1"
-          v-model="selectedProviderTab"
+          v-if="multipleSensorCompare.length > 1"
+          v-model="selectedSensorTab"
           grow
         >
           <v-tab
-            v-for="providerData in multipleProviderCompare"
-            :key="providerData.properties.indicatorObject.dataProvider"
-            :href="`#${providerData.properties.indicatorObject.dataProvider}`"
+            v-for="sensorData in multipleSensorCompare"
+            :key="sensorData.properties.indicatorObject.eoSensor"
+            :href="`#${sensorData.properties.indicatorObject.eoSensor}`"
           >
             <div
               class="d-flex align-center justify-center"
             >
               <img
-                :src="appConfig.providerIcons[providerData.properties.indicatorObject.dataProvider]"
+                :src="appConfig.sensorIcons[sensorData.properties.indicatorObject.eoSensor]"
                 style="height: 28px; position: absolute"
               />
             </div>
@@ -124,8 +124,8 @@ export default {
   data: () => ({
     overlay: false,
     dataInteract: false,
-    selectedProviderTab: null,
-    setProviderTab: false,
+    selectedSensorTab: null,
+    setSensorTab: false,
   }),
   computed: {
     ...mapGetters('features', [
@@ -137,15 +137,15 @@ export default {
     },
     indicatorObject() {
       let indicatorObject;
-      if (this.multipleProviderCompare.length > 1) {
-        const feature = this.multipleProviderCompare.find(p => p.properties.indicatorObject.dataProvider === this.selectedProviderTab);
+      if (this.multipleSensorCompare.length > 1) {
+        const feature = this.multipleSensorCompare.find(p => p.properties.indicatorObject.eoSensor === this.selectedSensorTab);
         indicatorObject = feature && feature.properties.indicatorObject;
       } else {
         indicatorObject = this.$store.state.indicators.selectedIndicator;
       }
       return indicatorObject;
     },
-    multipleProviderCompare() {
+    multipleSensorCompare() {
       const selectedIndicator = this.$store.state.indicators.selectedIndicator;
       return this.getFeatures.filter((f) => {
         return f.properties.indicatorObject.aoiID === selectedIndicator.aoiID && f.properties.indicatorObject.indicator === selectedIndicator.indicator;
@@ -162,16 +162,16 @@ export default {
     },
   },
   watch: {
-    multipleProviderCompare() {
-      if (!this.setProviderTab) {
-        this.selectedProviderTab = this.$route.query.provider || this.multipleProviderCompare[0].properties.indicatorObject.dataProvider;
-        this.setProviderTab = true;
+    multipleSensorCompare() {
+      if (!this.setSensorTab) {
+        this.selectedSensorTab = this.$route.query.sensor || this.multipleSensorCompare[0].properties.indicatorObject.eoSensor;
+        this.setSensorTab = true;
       }
     },
-    selectedProviderTab(provider) {
+    selectedSensorTab(sensor) {
       this.$store.commit(
         'indicators/SET_SELECTED_INDICATOR',
-        this.multipleProviderCompare.find(p => p.properties.indicatorObject.dataProvider === provider)
+        this.multipleSensorCompare.find(p => p.properties.indicatorObject.eoSensor === sensor)
           .properties.indicatorObject);
     },
   },

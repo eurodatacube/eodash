@@ -8,25 +8,16 @@
           cols="12"
         >
           <v-tabs
-            v-if="multipleProviderCompare.length > 1"
-            v-model="selectedProviderTab"
+            v-if="multipleSensorCompare.length > 1"
+            v-model="selectedSensorTab"
             grow
           >
             <v-tab
-              v-for="providerData in multipleProviderCompare"
-              :key="providerData.properties.indicatorObject.dataProvider"
-              :href="`#${providerData.properties.indicatorObject.dataProvider}`"
+              v-for="sensorData in multipleSensorCompare"
+              :key="sensorData.properties.indicatorObject.eoSensor"
+              :href="`#${sensorData.properties.indicatorObject.eoSensor}`"
             >
-              <div
-                class="d-flex align-center justify-center"
-              >
-                <img
-                  v-if="appConfig.providerIcons[providerData.properties.indicatorObject.dataProvider]"
-                  :src="appConfig.providerIcons[providerData.properties.indicatorObject.dataProvider]"
-                  style="height: 28px; position: absolute"
-                />
-                <span v-else>{{ providerData.properties.indicatorObject.dataProvider }}</span>
-              </div>
+              {{ sensorData.properties.indicatorObject.eoSensor }}
             </v-tab>
           </v-tabs>
           <v-card
@@ -216,7 +207,7 @@ export default {
     dataInteract: false,
     iframeDialog: false,
     copySuccess: false,
-    selectedProviderTab: null,
+    selectedSensorTab: null,
   }),
   watch: {
     dialog(open) {
@@ -253,19 +244,19 @@ export default {
       return this.$marked(markdown.default);
     },
     iframeCode() {
-      return `<iframe class="item" src="${window.location.origin}/iframe?poi=${this.getLocationCode(this.indicatorObject)}${this.$route.query.provider ? `&provider=${this.$route.query.provider}` : ''}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
+      return `<iframe class="item" src="${window.location.origin}/iframe?poi=${this.getLocationCode(this.indicatorObject)}${this.$route.query.sensor ? `&sensor=${this.$route.query.sensor}` : ''}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
     },
     indicatorObject() {
       let indicatorObject;
-      if (this.multipleProviderCompare.length > 1) {
-        const feature = this.multipleProviderCompare.find(p => p.properties.indicatorObject.dataProvider === this.selectedProviderTab);
+      if (this.multipleSensorCompare.length > 1) {
+        const feature = this.multipleSensorCompare.find(p => p.properties.indicatorObject.eoSensor === this.selectedSensorTab);
         indicatorObject = feature && feature.properties.indicatorObject;
       } else {
         indicatorObject = this.$store.state.indicators.selectedIndicator;
       }
       return indicatorObject;
     },
-    multipleProviderCompare() {
+    multipleSensorCompare() {
       const selectedIndicator = this.$store.state.indicators.selectedIndicator;
       return this.getFeatures.filter((f) => {
         return f.properties.indicatorObject.aoiID === selectedIndicator.aoiID && f.properties.indicatorObject.indicator === selectedIndicator.indicator;
@@ -298,7 +289,7 @@ export default {
     },
   },
   mounted() {
-    this.selectedProviderTab = this.$route.query.provider || this.multipleProviderCompare[0].properties.indicatorObject.dataProvider;
+    this.selectedSensorTab = this.$route.query.sensor || this.multipleSensorCompare[0].properties.indicatorObject.eoSensor;
   },
   methods: {
     async copy(s) {
@@ -311,12 +302,14 @@ export default {
     },
   },
   watch: {
-    selectedProviderTab(provider) {
-      this.$store.commit(
-        'indicators/SET_SELECTED_INDICATOR',
-        this.multipleProviderCompare.find(p => p.properties.indicatorObject.dataProvider === provider)
-          .properties.indicatorObject);
-      this.$router.replace({ query: { ...this.$route.query, provider } }).catch(()=>{});
+    selectedSensorTab(sensor) {
+      if (!Array.isArray(sensor)) {
+        this.$store.commit(
+          'indicators/SET_SELECTED_INDICATOR',
+          this.multipleSensorCompare.find(p => p.properties.indicatorObject.eoSensor === sensor)
+            .properties.indicatorObject);
+        this.$router.replace({ query: { ...this.$route.query, sensor } }).catch(()=>{});
+      }
     },
   },
 };

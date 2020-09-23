@@ -1035,8 +1035,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Water Quality Regional Maps (ESA)',
         lastColorCode: 'BLUE',
-        eoSensor: null,
-        dataProvider: 'ESA',
+        eoSensor: 'ESA',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1077,8 +1076,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Water Quality Regional Maps (NASA)',
         lastColorCode: 'BLUE',
-        eoSensor: null,
-        dataProvider: 'NASA',
+        eoSensor: 'NASA',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1119,8 +1117,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Water Quality Regional Maps (JAXA)',
         lastColorCode: 'BLUE',
-        eoSensor: null,
-        dataProvider: 'JAXA',
+        eoSensor: 'JAXA',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1406,8 +1403,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Water Quality Regional Maps (ESA)',
         lastColorCode: 'BLUE',
-        eoSensor: null,
-        dataProvider: 'ESA',
+        eoSensor: 'ESA',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1530,8 +1526,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Water Quality Regional Maps (JAXA)',
         lastColorCode: 'BLUE',
-        eoSensor: null,
-        dataProvider: 'JAXA',
+        eoSensor: 'JAXA',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1695,8 +1690,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Water Quality Regional Maps (NASA)',
         lastColorCode: 'BLUE',
-        eoSensor: null,
-        dataProvider: 'NASA',
+        eoSensor: 'NASA',
         subAoi: {
           type: 'FeatureCollection',
           features: [{

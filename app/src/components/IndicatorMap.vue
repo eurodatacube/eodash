@@ -360,7 +360,7 @@ export default {
       return times;
     },
     usedEoSensor() {
-      let eoSensor = this.indicator.eoSensor;
+      let eoSensor = Array.isArray(this.indicator.eoSensor) && this.indicator.eoSensor;
       if (this.layerDisplay('data').replaceDataMap && this.layerDisplay('data').replaceDataMap.eoSensor) {
         eoSensor = this.layerDisplay('data').replaceDataMap.eoSensor;
       }
