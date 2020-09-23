@@ -93,15 +93,6 @@ export default {
     const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
     this.dataLayerTime = d.toFormat('dd. MMM');
   },
-  watch: {
-    indicatorObject() {
-      if (this.indicatorObject.time) {
-        this.dataLayerIndex = this.indicatorObject.time.length - 1;
-        const d = this.indicatorObject.time[this.dataLayerIndex];
-        this.dataLayerTime = d.toFormat('dd. MMM');
-      }
-    },
-  },
   computed: {
     arrayOfObjects() {
       const indicator = Object.assign({}, this.indicatorObject);
