@@ -146,7 +146,7 @@ export const indicatorsDefinition = Object.freeze({
   E13b: {
     indicator: 'Throughput at principal hub airports',
     class: 'economic',
-    story: '/data/trilateral/JP01-E13b',
+    story: '/data/trilateral/E13b',
     largeSubAoi: true,
   },
   E13c: {
