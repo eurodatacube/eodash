@@ -21,9 +21,11 @@
                 class="d-flex align-center justify-center"
               >
                 <img
+                  v-if="appConfig.providerIcons[providerData.properties.indicatorObject.dataProvider]"
                   :src="appConfig.providerIcons[providerData.properties.indicatorObject.dataProvider]"
                   style="height: 28px; position: absolute"
                 />
+                <span v-else>{{ providerData.properties.indicatorObject.dataProvider }}</span>
               </div>
             </v-tab>
           </v-tabs>
