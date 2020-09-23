@@ -899,9 +899,8 @@ export default {
         // add custom area if present
         let customArea = {};
         if (this.validDrawnArea) {
-          const areaFormatted = typeof this.layerDisplay('data').features.areaFormatFunction === 'function'
-            ? this.layerDisplay('data').features.areaFormatFunction(this.drawnArea) : JSON.stringify(this.drawnArea);
-          customArea = { area: areaFormatted };
+          customArea = typeof this.layerDisplay('data').features.areaFormatFunction === 'function'
+            ? this.layerDisplay('data').features.areaFormatFunction(this.drawnArea) : {area: JSON.stringify(this.drawnArea)};
         }
         const templateRe = /\{ *([\w_ -]+) *\}/g;
         const url = template(templateRe, this.layerDisplay(side).features.url, {
@@ -909,8 +908,31 @@ export default {
           ...options,
           ...customArea,
         });
-        fetch(url, { credentials: 'same-origin' })
-          .then((r) => r.json())
+        let requestBody = {};
+        if (this.layerDisplay(side).features.requestBody) {
+          const template = this.layerDisplay(side).features.requestBody;
+          const data = {
+            ...this.indicator,
+            ...options,
+            ...customArea,
+          };
+          requestBody = Object.assign({},
+            template,
+            ...Object.keys(template).map(k => k in data && { [k]: data[k] }),
+          );
+        };
+        fetch(url, {
+          credentials: 'same-origin',
+          method: this.layerDisplay('data').features.requestMethod || 'GET',
+          headers: this.layerDisplay('data').features.requestHeaders || {},
+          requestBody: JSON.stringify(requestBody),
+        }).then((r) => r.json())
+          // .then((rawdata) => {
+            // if custom response -> feature mapping function configured, apply it
+            // if (typeof this.layerDisplay('data').features.responseFeatureFunction === 'function') {
+            // 
+            // }
+          // })
           .then((data) => {
             this.featureJson[side] = data;
           })
