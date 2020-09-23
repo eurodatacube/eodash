@@ -78,6 +78,7 @@
           <div class="d-flex align-center">
             <v-tooltip
               v-if="customAreaFilter"
+              :disabled="customAreaFilterEnabled"
               top
             >
               <template v-slot:activator="{ on }">
@@ -271,16 +272,6 @@ export default {
     selectedProviderTab: null,
     mounted: false,
   }),
-  watch: {
-    dialog(open) {
-      if (open && this.$refs.referenceMap) {
-        this.$refs.referenceMap.onResize();
-        setTimeout(() => {
-          this.$refs.referenceMap.flyToBounds();
-        }, 200);
-      }
-    },
-  },
   computed: {
     ...mapGetters('features', [
       'getFeatures',
@@ -354,14 +345,13 @@ export default {
     },
     customAreaFilter() {
       let filter;
-      if (this.mounted) {
+      if (this.mounted && this.$refs.indicatorMap) {
         filter = this.$refs.indicatorMap.customAreaFilter;
       }
       return filter;
     },
     customAreaFilterEnabled() {
-      return this.$store.state.features.selectedArea
-        && this.$store.state.features.selectedArea !== null;
+      return this.$refs.indicatorMap && this.$refs.indicatorMap.validDrawnArea;
     },
   },
   mounted() {
@@ -389,6 +379,14 @@ export default {
         this.multipleProviderCompare.find(p => p.properties.indicatorObject.dataProvider === provider)
           .properties.indicatorObject);
       this.$router.replace({ query: { ...this.$route.query, provider } }).catch(()=>{});
+    },
+    dialog(open) {
+      if (open && this.$refs.referenceMap) {
+        this.$refs.referenceMap.onResize();
+        setTimeout(() => {
+          this.$refs.referenceMap.flyToBounds();
+        }, 200);
+      }
     },
   },
 };
