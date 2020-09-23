@@ -50,19 +50,32 @@
              >
               <v-list-item-icon
               class="d-flex align-center mr-0">
-                <div class="circle"
-                  :style="
-                  $store.state.indicators.selectedIndicator &&
-                  $store.state.indicators.selectedIndicator.indicator
-                  === feature.properties.indicatorObject.indicator &&
-                  $store.state.indicators.selectedIndicator.aoiID
-                  === feature.properties.indicatorObject.aoiID
-                  ? { 'border': `2px dashed ${$vuetify.theme.themes.light.primary}` }
-                  : {}"
+                <div
+                  class="circle"
+                  :style="`
+                    border: 2px ${currentlySelected(feature)
+                      ? 'dotted'
+                      : 'solid'} white;
+                    width: ${currentlySelected(feature) ? '28px' : '26px'};
+                    height: ${currentlySelected(feature) ? '28px' : '26px'};`"
                 >
+                    <v-icon
+                      color="white"
+                      class="pa-1"
+                      icon-url="/test"
+                      small
+                    >
+                      {{ baseConfig.indicatorClassesIcons[baseConfig
+                          .indicatorsDefinition[feature.properties.indicatorObject.indicator].class]
+                          ? baseConfig.indicatorClassesIcons[baseConfig
+                            .indicatorsDefinition[feature.properties.indicatorObject.indicator].class]
+                          : 'mdi-lightbulb-on-outline'}}
+                    </v-icon>
                 </div>
               </v-list-item-icon>
-             <v-list-item-content>
+             <v-list-item-content
+              :class="currentlySelected(feature) && 'font-weight-bold'"
+             >
               {{feature.properties.indicatorObject.indicatorName}}
               </v-list-item-content>
              </v-list-item>
@@ -217,7 +230,14 @@ export default {
       this.$store.commit('features/SET_FEATURE_FILTER', { indicators: [] });
     },
     getUniqueKey(indicatorObject) {
-      return `${indicatorObject.indicator}-${indicatorObject.aoiID}`;
+      return this.getLocationCode(indicatorObject);
+    },
+    currentlySelected(feature) {
+      return this.$store.state.indicators.selectedIndicator
+        && this.$store.state.indicators.selectedIndicator.indicator
+          === feature.properties.indicatorObject.indicator
+        && this.$store.state.indicators.selectedIndicator.aoiID
+          === feature.properties.indicatorObject.aoiID;
     },
   },
   watch: {
@@ -239,13 +259,13 @@ export default {
   z-index: 1;
 }
 .circle {
-  width: 14px;
-  height: 14px;
-  background: var(--v-primary-base);
-  border: 2px solid white;
-  box-sizing: content-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 50%;
-  margin-right: 2px;
+  background: var(--v-primary-base);
+  box-sizing: content-box;
+  margin-right: 4px;
   cursor: pointer;
 }
 </style>

@@ -1,4 +1,4 @@
-/* eslint no-shadow: ["error", { "allow": ["state"] }] */
+/* eslint no-shadow: ["error", { "allow": ["state", "getters"] }] */
 import { Wkt } from 'wicket';
 import { latLng } from 'leaflet';
 import countriesJson from '@/assets/countries.json';
@@ -24,12 +24,30 @@ const getters = {
   getCountries(state) {
     return [...new Set([
       state.allFeatures
+        .filter((f) => (state.featureFilters.indicators.length > 0
+          ? state.featureFilters.indicators.includes(f.properties.indicatorObject.indicator)
+          : true))
         .map((f) => f.properties.indicatorObject.country),
-    ].flat(1))].sort();
+    ].flat(2))].sort();
   },
   getIndicators(state, _, rootState) {
     const indicators = [...new Set([
       state.allFeatures
+        .filter((f) => {
+          let filtered;
+          if (state.featureFilters.countries.length > 0) {
+            if (Array.isArray(f.properties.indicatorObject.country)) {
+              filtered = f.properties.indicatorObject.country
+                .some((i) => state.featureFilters.countries.includes(i));
+            } else {
+              filtered = state.featureFilters.countries
+                .includes(f.properties.indicatorObject.country);
+            }
+          } else {
+            filtered = true;
+          }
+          return filtered;
+        })
         .map((f) => ({
           code: f.properties.indicatorObject.indicator,
           indicator: f.properties.indicatorObject.description,
@@ -77,6 +95,15 @@ const getters = {
       .sort((a, b) => ((a.properties.indicatorObject.country > b.properties.indicatorObject.country)
         ? 1 : -1));
     return features;
+  },
+  getGroupedFeatures(_, getters) {
+    return getters.getFeatures.reduce((acc, d) => {
+      const existing = acc.find((a) => `${a.properties.indicatorObject.aoiID}-${a.properties.indicatorObject.indicator}` === `${d.properties.indicatorObject.aoiID}-${d.properties.indicatorObject.indicator}`);
+      if (!existing) {
+        acc.push(d);
+      }
+      return acc;
+    }, []);
   },
   getLatestUpdate(state) {
     const times = state.allFeatures.map((f) => {

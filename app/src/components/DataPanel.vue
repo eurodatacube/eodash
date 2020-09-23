@@ -3,10 +3,30 @@
     :style="$vuetify.breakpoint.mdAndDown && 'padding-bottom: 100px'"
   >
     <v-container class="pt-0">
-      <v-row>
+      <v-row v-if="indicatorObject">
         <v-col
           cols="12"
         >
+          <v-tabs
+            v-if="multipleProviderCompare.length > 1"
+            v-model="selectedProviderTab"
+            grow
+          >
+            <v-tab
+              v-for="providerData in multipleProviderCompare"
+              :key="providerData.properties.indicatorObject.dataProvider"
+              :href="`#${providerData.properties.indicatorObject.dataProvider}`"
+            >
+              <div
+                class="d-flex align-center justify-center"
+              >
+                <img
+                  :src="appConfig.providerIcons[providerData.properties.indicatorObject.dataProvider]"
+                  style="height: 28px; position: absolute"
+                />
+              </div>
+            </v-tab>
+          </v-tabs>
           <v-card
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
@@ -248,6 +268,7 @@ export default {
     dataInteract: false,
     iframeDialog: false,
     copySuccess: false,
+    selectedProviderTab: null,
     mounted: false,
   }),
   watch: {
@@ -262,6 +283,7 @@ export default {
   },
   computed: {
     ...mapGetters('features', [
+      'getFeatures',
       'getCountries',
       'getIndicators',
       'getLatestUpdate',
@@ -273,7 +295,7 @@ export default {
     story() {
       let markdown;
       try {
-        markdown = require(`../../public${this.appConfig.storyPath}${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}.md`);
+        markdown = require(`../../public${this.appConfig.storyPath}${this.getLocationCode(this.indicatorObject)}.md`);
       } catch {
         try {
           markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].story}.md`);
@@ -284,10 +306,23 @@ export default {
       return this.$marked(markdown.default);
     },
     iframeCode() {
-      return `<iframe class="item" src="${window.location.origin}/iframe?poi=${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
+      return `<iframe class="item" src="${window.location.origin}/iframe?poi=${this.getLocationCode(this.indicatorObject)}${this.$route.query.provider ? `&provider=${this.$route.query.provider}` : ''}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
     },
     indicatorObject() {
-      return this.$store.state.indicators.selectedIndicator;
+      let indicatorObject;
+      if (this.multipleProviderCompare.length > 1) {
+        const feature = this.multipleProviderCompare.find(p => p.properties.indicatorObject.dataProvider === this.selectedProviderTab);
+        indicatorObject = feature && feature.properties.indicatorObject;
+      } else {
+        indicatorObject = this.$store.state.indicators.selectedIndicator;
+      }
+      return indicatorObject;
+    },
+    multipleProviderCompare() {
+      const selectedIndicator = this.$store.state.indicators.selectedIndicator;
+      return this.getFeatures.filter((f) => {
+        return f.properties.indicatorObject.aoiID === selectedIndicator.aoiID && f.properties.indicatorObject.indicator === selectedIndicator.indicator;
+      }).reverse();
     },
     customAreaIndicator() {
       return this.$store.state.indicators.customAreaIndicator;
@@ -332,6 +367,9 @@ export default {
   mounted() {
     this.mounted = true;
   },
+  mounted() {
+    this.selectedProviderTab = this.$route.query.provider || this.multipleProviderCompare[0].properties.indicatorObject.dataProvider;
+  },
   methods: {
     async copy(s) {
       await navigator.clipboard.writeText(s);
@@ -344,6 +382,15 @@ export default {
     fetchCustomAreaIndicator() {
       this.$refs.indicatorMap.fetchCustomAreaIndicator();
       this.$vuetify.goTo(this.$refs.customAreaIndicator, { container: document.querySelector('.data-panel') });
+    },
+  },
+  watch: {
+    selectedProviderTab(provider) {
+      this.$store.commit(
+        'indicators/SET_SELECTED_INDICATOR',
+        this.multipleProviderCompare.find(p => p.properties.indicatorObject.dataProvider === provider)
+          .properties.indicatorObject);
+      this.$router.replace({ query: { ...this.$route.query, provider } }).catch(()=>{});
     },
   },
 };

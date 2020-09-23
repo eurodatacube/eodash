@@ -40,7 +40,7 @@ import {
 
 export default {
   computed: {
-    ...mapGetters('features', ['getFeatures']),
+    ...mapGetters('features', ['getGroupedFeatures']),
     ...mapState('config', ['baseConfig']),
     headers() {
       return [
@@ -61,7 +61,7 @@ export default {
       ];
     },
     allFeatures() {
-      return this.getFeatures.map((f) => ({
+      return this.getGroupedFeatures.map((f) => ({
         country: f.properties.indicatorObject.country,
         location: f.properties.indicatorObject.city,
         type: this.getClass(f),
@@ -117,7 +117,7 @@ export default {
             } else {
               text = lastValue;
             }
-          } else if (['E10a3', 'E10a8'].includes(poi.indicator)) {
+          } else if (['E10a3', 'E10a8', 'N4c'].includes(poi.indicator)) {
             text = 'multiple';
           } else {
             text = lastValue;

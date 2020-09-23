@@ -20,6 +20,28 @@
         class="subheading pb-1 flex-grow-0" style="font-size: 0.8em">
         {{ $store.state.indicators.selectedIndicator.indicatorName }}
       </v-card-subtitle>
+      <div>
+        <v-tabs
+          v-if="multipleProviderCompare.length > 1"
+          v-model="selectedProviderTab"
+          grow
+        >
+          <v-tab
+            v-for="providerData in multipleProviderCompare"
+            :key="providerData.properties.indicatorObject.dataProvider"
+            :href="`#${providerData.properties.indicatorObject.dataProvider}`"
+          >
+            <div
+              class="d-flex align-center justify-center"
+            >
+              <img
+                :src="appConfig.providerIcons[providerData.properties.indicatorObject.dataProvider]"
+                style="height: 28px; position: absolute"
+              />
+            </div>
+          </v-tab>
+        </v-tabs>
+      </div>
       <div
         v-if="indicatorObject"
         style="position: relative; height: 50vh"
@@ -63,18 +85,16 @@
         class="flex-grow-0"
       >
         <small class="white--text ml-2">Read the
-          <a :href="`/?poi=${$store.state.indicators.selectedIndicator
-              .aoiID}-${$store.state.indicators.selectedIndicator
-              .indicator}`" target="_blank" class="white--text">full story on this indicator</a>.
+          <a :href="`/?poi=${this.getLocationCode($store.state.indicators.selectedIndicator)}`"
+            target="_blank" class="white--text">full story on this indicator</a>.
         </small>
 
         <v-spacer></v-spacer>
           <h3
             class="text-uppercase mr-2 subtitle ml-2 white--text"
           >
-            <a :href="`/?poi=${$store.state.indicators.selectedIndicator
-              .aoiID}-${$store.state.indicators.selectedIndicator
-              .indicator}`" target="_blank" class="white--text" style="text-decoration: none">
+            <a href="/"
+              target="_blank" class="white--text" style="text-decoration: none">
               {{ appConfig && appConfig.branding.appName }}
             </a>
           </h3>
@@ -85,6 +105,7 @@
 
 <script>
 import {
+  mapGetters,
   mapState,
 } from 'vuex';
 
@@ -105,14 +126,32 @@ export default {
   data: () => ({
     overlay: false,
     dataInteract: false,
+    selectedProviderTab: null,
+    setProviderTab: false,
   }),
   computed: {
+    ...mapGetters('features', [
+      'getFeatures',
+    ]),
     ...mapState('config', ['appConfig']),
     globalData() {
       return ['all'].includes(this.indicatorObject.country) || Array.isArray(this.indicatorObject.country);
     },
     indicatorObject() {
-      return this.$store.state.indicators.selectedIndicator;
+      let indicatorObject;
+      if (this.multipleProviderCompare.length > 1) {
+        const feature = this.multipleProviderCompare.find(p => p.properties.indicatorObject.dataProvider === this.selectedProviderTab);
+        indicatorObject = feature && feature.properties.indicatorObject;
+      } else {
+        indicatorObject = this.$store.state.indicators.selectedIndicator;
+      }
+      return indicatorObject;
+    },
+    multipleProviderCompare() {
+      const selectedIndicator = this.$store.state.indicators.selectedIndicator;
+      return this.getFeatures.filter((f) => {
+        return f.properties.indicatorObject.aoiID === selectedIndicator.aoiID && f.properties.indicatorObject.indicator === selectedIndicator.indicator;
+      }).reverse();
     },
   },
   mounted() {
@@ -122,6 +161,20 @@ export default {
     swipe() {
       this.overlay = true;
       setTimeout(() => { this.overlay = false; }, 2000);
+    },
+  },
+  watch: {
+    multipleProviderCompare() {
+      if (!this.setProviderTab) {
+        this.selectedProviderTab = this.$route.query.provider || this.multipleProviderCompare[0].properties.indicatorObject.dataProvider;
+        this.setProviderTab = true;
+      }
+    },
+    selectedProviderTab(provider) {
+      this.$store.commit(
+        'indicators/SET_SELECTED_INDICATOR',
+        this.multipleProviderCompare.find(p => p.properties.indicatorObject.dataProvider === provider)
+          .properties.indicatorObject);
     },
   },
 };
