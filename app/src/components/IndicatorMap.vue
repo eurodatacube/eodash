@@ -261,6 +261,9 @@ import 'leaflet-loading';
 import 'leaflet-loading/src/Control.Loading.css';
 
 export default {
+  props: [
+    'currentIndicator',
+  ],
   components: {
     LMap,
     LTileLayer,
@@ -341,7 +344,7 @@ export default {
       return this.indicatorsDefinition[this.indicator.indicator];
     },
     indicator() {
-      return this.getIndicatorFilteredInputData;
+      return this.getIndicatorFilteredInputData(this.currentIndicator || null);
     },
     showAoi() {
       return this.aoi && (!this.subAoi || this.subAoi.features.length === 0);

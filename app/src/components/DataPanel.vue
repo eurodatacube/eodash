@@ -15,12 +15,54 @@
             <v-tab
               v-for="sensorData in multipleSensorCompare"
               :key="sensorData.properties.indicatorObject.eoSensor"
-              :href="`#${sensorData.properties.indicatorObject.eoSensor}`"
             >
               {{ sensorData.properties.indicatorObject.eoSensor }}
             </v-tab>
           </v-tabs>
+          <v-tabs-items
+            v-if="multipleSensorCompare.length > 1"
+            v-model="selectedSensorTab"
+          >
+            <v-tab-item
+              v-for="sensorData in multipleSensorCompare"
+              :key="sensorData.properties.indicatorObject.eoSensor"
+            >
+              <v-card
+                class="fill-height"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
+              >
+                <div
+                  style="height: 100%;z-index: 500; position: relative;"
+                  v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
+                  @click="dataInteract = true"
+                  v-touch="{
+                    left: () => swipe(),
+                    right: () => swipe(),
+                    up: () => swipe(),
+                    down: () => swipe(),
+                }">
+                </div>
+                <v-overlay :value="overlay" absolute
+                  v-if="!dataInteract"
+                  @click="dataInteract = true">
+                  Tap to interact
+                </v-overlay>
+                <indicator-map
+                  style="top: 0px; position: absolute;"
+                  v-if="globalData"
+                  class="pt-0 fill-height"
+                  :currentIndicator="sensorData.properties.indicatorObject"
+                />
+                <indicator-data
+                  style="top: 0px; position: absolute;"
+                  v-else
+                  class="pa-5"
+                />
+              </v-card>
+            </v-tab-item>
+          </v-tabs-items>
           <v-card
+            v-else
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
           >
@@ -116,7 +158,7 @@
                 <v-spacer></v-spacer>
                 <v-btn
                   color="primary"
-                  flat
+                  text
                   @click="iframeDialog = false"
                 >
                   Close
@@ -207,7 +249,7 @@ export default {
     dataInteract: false,
     iframeDialog: false,
     copySuccess: false,
-    selectedSensorTab: null,
+    selectedSensorTab: 0,
   }),
   watch: {
     dialog(open) {
@@ -249,7 +291,7 @@ export default {
     indicatorObject() {
       let indicatorObject;
       if (this.multipleSensorCompare.length > 1) {
-        const feature = this.multipleSensorCompare.find(p => p.properties.indicatorObject.eoSensor === this.selectedSensorTab);
+        const feature = this.multipleSensorCompare[0];
         indicatorObject = feature && feature.properties.indicatorObject;
       } else {
         indicatorObject = this.$store.state.indicators.selectedIndicator;
@@ -289,7 +331,9 @@ export default {
     },
   },
   mounted() {
-    this.selectedSensorTab = this.$route.query.sensor || this.multipleSensorCompare[0].properties.indicatorObject.eoSensor;
+    this.selectedSensorTab = this.multipleSensorCompare
+      .indexOf(this.multipleSensorCompare.find(s => s.properties.indicatorObject.eoSensor === this.$route.query.sensor))
+    || 0;
   },
   methods: {
     async copy(s) {
@@ -302,12 +346,9 @@ export default {
     },
   },
   watch: {
-    selectedSensorTab(sensor) {
-      if (!Array.isArray(sensor)) {
-        this.$store.commit(
-          'indicators/SET_SELECTED_INDICATOR',
-          this.multipleSensorCompare.find(p => p.properties.indicatorObject.eoSensor === sensor)
-            .properties.indicatorObject);
+    selectedSensorTab(index) {
+      if (this.multipleSensorCompare[index]) {
+        const sensor = this.multipleSensorCompare[index].properties.indicatorObject.eoSensor;
         this.$router.replace({ query: { ...this.$route.query, sensor } }).catch(()=>{});
       }
     },
