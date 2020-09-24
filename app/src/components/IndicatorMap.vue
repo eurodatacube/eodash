@@ -455,13 +455,12 @@ export default {
           circlemarker: false,
           polygon: {
             shapeOptions: {
-              clickable: false,
               color: this.appConfig.branding.primaryColor,
             },
           },
           rectangle: {
+            showArea: false,
             shapeOptions: {
-              clickable: false,
               color: this.appConfig.branding.primaryColor,
             },
           },
@@ -926,7 +925,7 @@ export default {
           credentials: 'same-origin',
           method: this.layerDisplay('data').features.requestMethod || 'GET',
           headers: this.layerDisplay('data').features.requestHeaders || {},
-          requestBody: JSON.stringify(requestBody),
+          body: JSON.stringify(requestBody),
         }).then((r) => r.json())
           .then((rawdata) => {
             // if custom response -> feature mapping function configured, apply it
