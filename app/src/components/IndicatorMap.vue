@@ -499,26 +499,26 @@ export default {
         pointToLayer: function (feature, latlng) {
           return circleMarker(latlng, {
             radius: style.radius || 8,
-            color: style.color || 'red',
+            color: style.color || '#FFA500',
             weight: style.weight || 2,
             opacity: style.opacity || 1,
             dashArray: style.dashArray || null,
             dashOffset: style.dashOffset || null,
             fillOpacity: style.fillOpacity || 1,
-            fillColor: style.fillColor || 'red',
+            fillColor: style.fillColor || '#FFA500',
             fill: style.fill || true,
             pane: side === 'data' ? this.tooltipPane : this.shadowPane,
           })
         }.bind(this),
         // polygon and line styling
         style: {
-          color: style.color || 'red',
+          color: style.color || '#FFA500',
           weight: style.weight || 2,
           opacity: style.opacity || 1,
           dashArray: style.dashArray || null,
           dashOffset: style.dashOffset || null,
           fillOpacity: style.fillOpacity || 0,
-          fillColor: style.fillColor || 'red',
+          fillColor: style.fillColor || '#FFA500',
           fill: style.fill || true,
         },
       };
