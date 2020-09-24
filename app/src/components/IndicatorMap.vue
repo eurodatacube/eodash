@@ -56,13 +56,15 @@
       :optionsStyle="subAoiStyle('data')"
       >
       </l-geo-json>
-      <l-geo-json
-        ref="featureJsonData"
-        :geojson="featureJson.data"
-        :options="featureOptions('data')"
-        :pane="tooltipPane"
-      >
-      </l-geo-json>
+      <l-marker-cluster ref="featuresDataCluster" :options="clusterOptions">
+        <l-geo-json
+          ref="featureJsonData"
+          v-for="geoJson in featureJson.data" :key="geoJson.id" :geojson="geoJson"
+          :options="featureOptions('data')"
+          :pane="tooltipPane"
+        >
+        </l-geo-json>
+      </l-marker-cluster>
       <l-circle-marker
         v-if="showAoi"
         :lat-lng="aoi"
@@ -126,14 +128,16 @@
         :optionsStyle="subAoiStyle('compare')"
       >
       </l-geo-json>
-      <l-geo-json
-        ref="featureJsonCompare"
-        :visible="enableCompare"
-        :geojson="featureJson.compare"
-        :options="featureOptions('compare')"
-        :pane="shadowPane"
-      >
-      </l-geo-json>
+      <l-marker-cluster ref="featuresCompareCluster" :options="clusterOptions">
+        <l-geo-json
+          ref="featureJsonCompare"
+          :visible="enableCompare"
+          v-for="geoJson in featureJson.compare" :key="geoJson.id" :geojson="geoJson"
+          :options="featureOptions('compare')"
+          :pane="shadowPane"
+        >
+        </l-geo-json>
+      </l-marker-cluster>
       <l-circle-marker
         v-if="showAoi"
         :lat-lng="aoi"
@@ -269,7 +273,7 @@ import {
   mapGetters,
 } from 'vuex';
 import {
-  geoJson, latLngBounds, latLng, circleMarker,
+  geoJson, latLngBounds, latLng, circleMarker, DivIcon, Point,
 } from 'leaflet';
 import { template } from '@/utils';
 import {
@@ -287,10 +291,11 @@ import 'leaflet-loading/src/Control.Loading.css';
 import 'leaflet-draw';
 import 'leaflet-draw/dist/leaflet.draw.css';
 
-const emptyF = {
-  type: 'FeatureCollection',
-  features: [],
-};
+import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster';
+import 'leaflet.markercluster/dist/MarkerCluster.css'; // eslint-disable-line import/no-extraneous-dependencies
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css'; // eslint-disable-line import/no-extraneous-dependencies
+
+const emptyF = [];
 
 export default {
   components: {
@@ -305,6 +310,7 @@ export default {
     LLayerGroup,
     LFeatureGroup,
     LControl,
+    'l-marker-cluster': Vue2LeafletMarkerCluster,
   },
   data() {
     return {
@@ -444,6 +450,30 @@ export default {
     },
     subAoi() {
       return this.indicator.subAoi;
+    },
+    clusterOptions() {
+      return {
+        disableClusteringAtZoom: 13,
+        animate: false,
+        // zoomToBoundsOnClick: false,
+        iconCreateFunction: function (cluster) { // eslint-disable-line func-names
+          // modified selected cluster style
+          const childCount = cluster.getChildCount();
+          return new DivIcon({
+            html: `<div><span>${childCount}</span></div>`,
+            className: `marker-cluster`,
+            iconSize: new Point(40, 40),
+          });
+        }.bind(this),
+        polygonOptions: {
+          fillColor: this.$vuetify.theme.themes.light.primary,
+          color: this.$vuetify.theme.themes.light.primary,
+          weight: 0.5,
+          opacity: 1,
+          fillOpacity: 0.3,
+          dashArray: 4,
+        },
+      };
     },
     drawOptions() {
       return {
@@ -609,6 +639,10 @@ export default {
           if (tooltip !== '') {
             layer.bindTooltip(tooltip, { pane: this.popupPane });
           }
+          // to make clustering work
+          layer.getLatLng = function() { return geoJson(feature).getBounds().getCenter() }
+          layer.setLatLng = function() { }
+          layer._latlng = layer.getLatLng();
         }.bind(this),
         // point circle marker styling
         pointToLayer: function (feature, latlng) { // eslint-disable-line
@@ -1067,5 +1101,14 @@ export default {
 ::v-deep .leaflet-draw-actions a {
   background-color: var(--v-primary-base);
   color: #fff;
+}
+::v-deep .marker-cluster {
+  background-color: rgba(#003247, 0.5);
+  div {
+    background-color: var(--v-primary-base);
+    span {
+      color: white;
+    }
+  }
 }
 </style>
