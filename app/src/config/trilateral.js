@@ -604,7 +604,7 @@ export const globalIndicators = [
         description: 'Air Quality',
         indicator: 'N1',
         lastIndicatorValue: 'OMI: Difference Nitrogen dioxide',
-        indicatorName: 'Air Quality - OMI: Difference NO2',
+        indicatorName: 'Air Quality – OMI: Monthly NO2 Compared to Baseline (2015-2019)',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
