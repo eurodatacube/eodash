@@ -28,11 +28,21 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Status of metallic ores',
     class: 'economic',
     story: '/data/trilateral/E1',
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
+      url: './eodash-data/features/{indicator}_{aoiID}_{featuresTime}.geojson',
+      parameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification',],
+    },
   },
   E1a: {
     indicator: 'Status of non-metallic ores',
     class: 'economic',
     story: '/data/trilateral/E1a',
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
+      url: './eodash-data/features/{indicator}_{aoiID}_{featuresTime}.geojson',
+      parameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification',],
+    },
   },
   E2: {
     indicator: 'Volume of oil stockpiled',
