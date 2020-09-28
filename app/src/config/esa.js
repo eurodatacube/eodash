@@ -21,7 +21,7 @@ export const indicatorsDefinition = Object.freeze({
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
       url: './eodash-data/features/{indicator}_{aoiID}_{featuresTime}.geojson',
-      parameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification',],
+      parameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification'],
     },
   },
   E1a: {
@@ -31,7 +31,7 @@ export const indicatorsDefinition = Object.freeze({
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
       url: './eodash-data/features/{indicator}_{aoiID}_{featuresTime}.geojson',
-      parameters: ['classification',],
+      parameters: ['classification'],
     },
   },
   E2: {
@@ -41,7 +41,7 @@ export const indicatorsDefinition = Object.freeze({
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
       url: './eodash-data/features/{indicator}_{aoiID}_{featuresTime}.geojson',
-      parameters: ['classification',],
+      parameters: ['classification'],
     },
   },
   E2a: {
