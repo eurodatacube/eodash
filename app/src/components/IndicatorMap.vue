@@ -59,7 +59,7 @@
       <l-marker-cluster v-if="featuresClustering" ref="featuresDataCluster" :options="clusterOptions">
         <l-geo-json
           ref="featureJsonData"
-          v-for="geoJson in featureJson.data" :key="geoJson.id" :geojson="geoJson"
+          v-for="geoJson in featureJson.data.features" :key="geoJson.id" :geojson="geoJson"
           :options="featureOptions('data')"
           :pane="tooltipPane"
         >
@@ -68,7 +68,7 @@
       <l-geo-json
           v-else
           ref="featureJsonData"
-          v-for="geoJson in featureJson.data" :key="geoJson.id" :geojson="geoJson"
+          v-for="geoJson in featureJson.data.features" :key="geoJson.id" :geojson="geoJson"
           :options="featureOptions('data')"
           :pane="tooltipPane"
         >
@@ -136,16 +136,25 @@
         :optionsStyle="subAoiStyle('compare')"
       >
       </l-geo-json>
-      <l-marker-cluster ref="featuresCompareCluster" :options="clusterOptions">
+      <l-marker-cluster v-if="featuresClustering" ref="featuresCompareCluster" :options="clusterOptions">
         <l-geo-json
           ref="featureJsonCompare"
           :visible="enableCompare"
-          v-for="geoJson in featureJson.compare" :key="geoJson.id" :geojson="geoJson"
+          v-for="geoJson in featureJson.compare.features" :key="geoJson.id" :geojson="geoJson"
           :options="featureOptions('compare')"
           :pane="shadowPane"
         >
         </l-geo-json>
       </l-marker-cluster>
+      <l-geo-json
+        v-else
+        ref="featureJsonCompare"
+        :visible="enableCompare"
+        v-for="geoJson in featureJson.compare.features" :key="geoJson.id" :geojson="geoJson"
+        :options="featureOptions('compare')"
+        :pane="shadowPane"
+      >
+      </l-geo-json>
       <l-circle-marker
         v-if="showAoi"
         :lat-lng="aoi"
@@ -303,7 +312,10 @@ import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css'; // eslint-disable-line import/no-extraneous-dependencies
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'; // eslint-disable-line import/no-extraneous-dependencies
 
-const emptyF = [];
+const emptyF = {
+  type: 'FeatureCollection',
+  feature: [],
+};
 
 export default {
   props: [
@@ -573,8 +585,8 @@ export default {
       }.bind(this));
 
       this.map.on(L.Draw.Event.DRAWSTOP, function () { // eslint-disable-line
-        this.featureJson.data = emptyF;
-        this.featureJson.compare = emptyF;
+        this.featureJson.data.features = emptyF;
+        this.featureJson.compare.features = emptyF;
         if (this.fetchDataClicked) {
           this.fetchFeatures('data');
           if (this.enableCompare) {
@@ -585,8 +597,8 @@ export default {
 
       this.map.on(L.Draw.Event.DELETED, function () { // eslint-disable-line
         this.clearCustomAreaFilter();
-        this.featureJson.data = emptyF;
-        this.featureJson.compare = emptyF;
+        this.featureJson.data.features = emptyF;
+        this.featureJson.compare.features = emptyF;
       }.bind(this));
       if (this.customAreaFilter) {
         this.drawControl.addTo(this.map);
