@@ -15,6 +15,9 @@
             <v-tab
               v-for="sensorData in multipleSensorCompare"
               :key="sensorData.properties.indicatorObject.eoSensor"
+              :class="multipleSensorCompare.indexOf(sensorData) == selectedSensorTab
+                ? 'primary white--text'
+                : ''"
             >
               {{ sensorData.properties.indicatorObject.eoSensor }}
             </v-tab>
@@ -355,3 +358,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+::v-deep .v-slide-group__prev {
+  display: none !important;
+}
+</style>
