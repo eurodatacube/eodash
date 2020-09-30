@@ -324,7 +324,7 @@ export const indicatorClassesIcons = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  minMapZoom: 3,
+  minMapZoom: 2,
   maxMapZoom: 18,
   bounds: latLngBounds(latLng([35, -10]), latLng([70, 33])),
 });
