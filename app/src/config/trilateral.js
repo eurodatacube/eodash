@@ -635,7 +635,8 @@ export const globalIndicators = [
         description: 'Greenhouse Gases',
         indicator: 'N2',
         lastIndicatorValue: 'OCO-2: Mean CO2',
-        indicatorName: 'Greenhouse Gases - OCO-2: Mean CO2',
+        indicatorName: 'Greenhouse Gases: OCO-2',
+        eoSensor: 'Mean CO2',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -646,7 +647,7 @@ export const globalIndicators = [
         },
         lastColorCode: 'primary',
         aoi: null,
-        aoiID: 'W3',
+        aoiID: 'W2',
         time: getDailyDates('2020-01-01', '2020-05-17'),
         inputData: [''],
         display: {
@@ -680,7 +681,8 @@ export const globalIndicators = [
         description: 'Greenhouse Gases',
         indicator: 'N2',
         lastIndicatorValue: 'OCO-2: Difference CO2',
-        indicatorName: 'Greenhouse Gases - OCO-2: Difference CO2',
+        indicatorName: 'Greenhouse Gases: OCO-2',
+        eoSensor: 'Difference CO2',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -691,7 +693,7 @@ export const globalIndicators = [
         },
         lastColorCode: 'primary',
         aoi: null,
-        aoiID: 'W5',
+        aoiID: 'W2',
         time: getDailyDates('2020-01-01', '2020-05-17'),
         inputData: [''],
         display: {
