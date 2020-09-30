@@ -1806,7 +1806,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FBeijing_S1_TA142_SPM_20191101-20200101_20200129-20200301_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Movement slowdown',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N7-legend.png',
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -1856,7 +1856,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FDC_S1_TA004_SPM_20200103-20200206_20200328-20200424_th-0.3.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Movement slowdown',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N7-legend.png',
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -1906,7 +1906,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FDunkirk_S1_TA161_SPM_20200101-20200215_20200401-20200431_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Movement slowdown',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N7-legend.png',
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -1956,7 +1956,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FGhent_S1_TA161_SPM_20200103-20200206_20200401-20200430_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Movement slowdown',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N7-legend.png',
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -2006,7 +2006,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FLima_S1_TA018_SPM_20200114-20200302_20200326-20200501_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Movement slowdown',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N7-legend.png',
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -2056,7 +2056,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FLosAngeles_A2_SPM_10m_20200101-20200228_20200401-20200430_th-0.35.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Movement slowdown',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N7-legend.png',
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -2106,7 +2106,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FLosAngeles_S1_TA064_SPM_20200103-20200228_20200401-20200430_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Movement slowdown',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N7-legend.png',
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -2156,7 +2156,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FMumbai_S1_TD034_SPM_20200110-20200122_20200322-20200427_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Movement slowdown',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N7-legend.png',
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -2206,7 +2206,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FNewyork_S1_TA033_SPM_20200101-20200215_20200401-20200431_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Movement slowdown',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N7-legend.png',
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -2256,7 +2256,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FSanFrancisco_S1_TA035_SPM_20200128-20200215_20200403-20200427_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Movement slowdown',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N7-legend.png',
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -2306,7 +2306,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FSantiago_S1_TA018_SPM_20200108-20200201_20200401-20200612_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Movement slowdown',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N7-legend.png',
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -2356,7 +2356,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FSaoPaulo_S1_TD053_SPM_20200105-20200204_20200329-20200428_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Movement slowdown',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N7-legend.png',
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -2406,7 +2406,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FSingapore_S1_TA171_SPM_20200107-20200212_20200424-20200530_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
           name: 'Movement slowdown',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N7-legend.png',
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -2538,7 +2538,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-be.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N8-legend.png',
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -2588,7 +2588,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-dc.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N8-legend.png',
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -2638,7 +2638,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-du.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N8-legend.png',
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -2688,7 +2688,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-gh.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N8-legend.png',
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -2738,7 +2738,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-tk.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N8-legend.png',
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -2788,7 +2788,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-togo.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N8-legend.png',
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -2838,7 +2838,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-la.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N8-legend.png',
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -2888,7 +2888,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-dar.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N8-legend.png',
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -2938,7 +2938,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-ny.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N8-legend.png',
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -2988,7 +2988,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-sf.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N8-legend.png',
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
           baseLayers: [
             {
@@ -3038,7 +3038,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-sacramento.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // legendUrl: 'data/trilateral/N8-legend.png',
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
           baseLayers: [
             {
