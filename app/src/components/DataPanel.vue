@@ -128,7 +128,7 @@
                     @click="fetchCustomAreaFeatures"
                     :disabled="!customAreaFilterEnabled"
                   >
-                    <v-icon left>mdi-application-cog</v-icon>
+                    <v-icon left>mdi-map</v-icon>
                     features for sub-area
                   </v-btn>
                 </div>
@@ -149,7 +149,7 @@
                     @click="fetchCustomAreaIndicator"
                     :disabled="!customAreaFilterEnabled"
                   >
-                    <v-icon left>mdi-application-cog</v-icon>
+                    <v-icon left>mdi-poll</v-icon>
                     chart from sub-area
                   </v-btn>
                 </div>
