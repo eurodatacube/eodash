@@ -954,17 +954,20 @@ export default {
             ...options,
             ...customArea,
           };
-          requestBody = Object.assign({},
+          requestBody = {
+            body: Object.assign({},
             template,
             ...Object.keys(template).map(k => k in data && { [k]: data[k] }),
-          );
+            )
+          };
         };
-        fetch(url, {
+        const requestOpts = {
           credentials: 'same-origin',
           method: this.layerDisplay('data').features.requestMethod || 'GET',
           headers: this.layerDisplay('data').features.requestHeaders || {},
-          body: JSON.stringify(requestBody),
-        }).then((r) => r.json())
+          ...requestBody,
+        }
+        fetch(url, requestOpts).then((r) => r.json())
           .then((rawdata) => {
             // if custom response -> feature mapping function configured, apply it
             if (typeof this.layerDisplay('data').features.responseFeatureFunction === 'function') {
