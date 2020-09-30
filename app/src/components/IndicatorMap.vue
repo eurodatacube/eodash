@@ -841,37 +841,6 @@ export default {
         });
       }
     },
-    indicator() {
-      this.dataLayerTime = { value: this.usedTimes[this.usedTimes.length - 1] };
-      this.dataLayerIndex = this.usedTimes.length - 1;
-      if (this.indicator.compareDisplay) {
-        this.compareLayerTime = this.dataLayerTime;
-        this.compareLayerIndex = this.dataLayerIndex;
-      } else {
-        this.compareLayerTime = { value: this.getInitialCompareTime() };
-        this.compareLayerIndex = 0;
-      }
-      this.$nextTick(() => {
-        // first nextTick to update layer correctly if was switch from wms <-> xyz
-        this.refreshLayer('data');
-        if (this.disableCompareButton) {
-          this.enableCompare = false;
-        }
-        if (this.slider) {
-          this.refreshLayer('compare');
-        }
-        this.$nextTick(() => {
-          // second nextTick to add correct layers to slider
-          if (this.slider) {
-            this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
-            this.slider.setRightLayers(this.$refs.dataLayers.mapObject.getLayers());
-          }
-          this.flyToBounds();
-          this.onResize();
-        });
-      });
-      this.refreshBaselayersSelection();
-    },
   },
 };
 </script>
