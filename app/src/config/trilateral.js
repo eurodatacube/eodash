@@ -2520,7 +2520,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Recovery Proxy Maps',
         lastColorCode: 'BLUE',
-        eoSensor: ['Recovery Proxy Maps - TBD'],
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2570,7 +2570,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Recovery Proxy Maps',
         lastColorCode: 'BLUE',
-        eoSensor: ['Recovery Proxy Maps - TBD'],
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2620,7 +2620,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Recovery Proxy Maps',
         lastColorCode: 'BLUE',
-        eoSensor: ['Recovery Proxy Maps - TBD'],
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2670,7 +2670,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Recovery Proxy Maps',
         lastColorCode: 'BLUE',
-        eoSensor: ['Recovery Proxy Maps - TBD'],
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2720,7 +2720,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Recovery Proxy Maps',
         lastColorCode: 'BLUE',
-        eoSensor: ['Recovery Proxy Maps - TBD'],
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2770,7 +2770,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Recovery Proxy Maps',
         lastColorCode: 'BLUE',
-        eoSensor: ['Recovery Proxy Maps - TBD'],
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2820,7 +2820,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Recovery Proxy Maps',
         lastColorCode: 'BLUE',
-        eoSensor: ['Recovery Proxy Maps - TBD'],
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2870,7 +2870,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Recovery Proxy Maps',
         lastColorCode: 'BLUE',
-        eoSensor: ['Recovery Proxy Maps - TBD'],
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2920,7 +2920,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Recovery Proxy Maps',
         lastColorCode: 'BLUE',
-        eoSensor: ['Recovery Proxy Maps - TBD'],
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2970,7 +2970,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Recovery Proxy Maps',
         lastColorCode: 'BLUE',
-        eoSensor: ['Recovery Proxy Maps - TBD'],
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3020,7 +3020,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Recovery Proxy Maps',
         lastColorCode: 'BLUE',
-        eoSensor: ['Recovery Proxy Maps - TBD'],
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
