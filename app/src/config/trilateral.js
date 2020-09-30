@@ -1,12 +1,9 @@
 // config global variables here for now
 // temporary solution
 import { Wkt } from 'wicket';
-import { geoJson, latLng, latLngBounds } from 'leaflet';
+import { latLng, latLngBounds } from 'leaflet';
 import { DateTime } from 'luxon';
 import { shTimeFunction } from '@/utils';
-
-const wkx = require('wkx');
-var Buffer = require('buffer').Buffer;
 
 export const dataPath = './data/internal/';
 export const dataEndpoints = [
