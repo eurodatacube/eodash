@@ -8,26 +8,64 @@
           cols="12"
         >
           <v-tabs
-            v-if="multipleProviderCompare.length > 1"
-            v-model="selectedProviderTab"
+            v-if="multipleSensorCompare.length > 1"
+            v-model="selectedSensorTab"
             grow
           >
             <v-tab
-              v-for="providerData in multipleProviderCompare"
-              :key="providerData.properties.indicatorObject.dataProvider"
-              :href="`#${providerData.properties.indicatorObject.dataProvider}`"
+              v-for="sensorData in multipleSensorCompare"
+              :key="sensorData.properties.indicatorObject.eoSensor"
+              :class="multipleSensorCompare.indexOf(sensorData) == selectedSensorTab
+                ? 'primary white--text'
+                : ''"
             >
-              <div
-                class="d-flex align-center justify-center"
-              >
-                <img
-                  :src="appConfig.providerIcons[providerData.properties.indicatorObject.dataProvider]"
-                  style="height: 28px; position: absolute"
-                />
-              </div>
+              {{ sensorData.properties.indicatorObject.eoSensor }}
             </v-tab>
           </v-tabs>
+          <v-tabs-items
+            v-if="multipleSensorCompare.length > 1"
+            v-model="selectedSensorTab"
+          >
+            <v-tab-item
+              v-for="sensorData in multipleSensorCompare"
+              :key="sensorData.properties.indicatorObject.eoSensor"
+            >
+              <v-card
+                class="fill-height"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
+              >
+                <div
+                  style="height: 100%;z-index: 500; position: relative;"
+                  v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
+                  @click="dataInteract = true"
+                  v-touch="{
+                    left: () => swipe(),
+                    right: () => swipe(),
+                    up: () => swipe(),
+                    down: () => swipe(),
+                }">
+                </div>
+                <v-overlay :value="overlay" absolute
+                  v-if="!dataInteract"
+                  @click="dataInteract = true">
+                  Tap to interact
+                </v-overlay>
+                <indicator-map
+                  style="top: 0px; position: absolute;"
+                  v-if="globalData"
+                  class="pt-0 fill-height"
+                  :currentIndicator="sensorData.properties.indicatorObject"
+                />
+                <indicator-data
+                  style="top: 0px; position: absolute;"
+                  v-else
+                  class="pa-5"
+                />
+              </v-card>
+            </v-tab-item>
+          </v-tabs-items>
           <v-card
+            v-else
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
           >
@@ -105,10 +143,7 @@
                 <v-btn
                   color="primary"
                   text
-                  x-small
-                  v-bind="attrs"
-                  @click="copySuccess = false"
-                  v-on="on"
+                  @click="iframeDialog = false"
                 >
                   <v-icon left>mdi-poll-box</v-icon>
                   embed chart
@@ -269,8 +304,8 @@ export default {
     dataInteract: false,
     iframeDialog: false,
     copySuccess: false,
-    selectedProviderTab: null,
     mounted: false,
+    selectedSensorTab: 0,
   }),
   computed: {
     ...mapGetters('features', [
@@ -297,19 +332,19 @@ export default {
       return this.$marked(markdown.default);
     },
     iframeCode() {
-      return `<iframe class="item" src="${window.location.origin}/iframe?poi=${this.getLocationCode(this.indicatorObject)}${this.$route.query.provider ? `&provider=${this.$route.query.provider}` : ''}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
+      return `<iframe class="item" src="${window.location.origin}/iframe?poi=${this.getLocationCode(this.indicatorObject)}${this.$route.query.sensor ? `&sensor=${this.$route.query.sensor}` : ''}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
     },
     indicatorObject() {
       let indicatorObject;
-      if (this.multipleProviderCompare.length > 1) {
-        const feature = this.multipleProviderCompare.find(p => p.properties.indicatorObject.dataProvider === this.selectedProviderTab);
+      if (this.multipleSensorCompare.length > 1) {
+        const feature = this.multipleSensorCompare[0];
         indicatorObject = feature && feature.properties.indicatorObject;
       } else {
         indicatorObject = this.$store.state.indicators.selectedIndicator;
       }
       return indicatorObject;
     },
-    multipleProviderCompare() {
+    multipleSensorCompare() {
       const selectedIndicator = this.$store.state.indicators.selectedIndicator;
       return this.getFeatures.filter((f) => {
         return f.properties.indicatorObject.aoiID === selectedIndicator.aoiID && f.properties.indicatorObject.indicator === selectedIndicator.indicator;
@@ -356,7 +391,9 @@ export default {
   },
   mounted() {
     this.mounted = true;
-    this.selectedProviderTab = this.$route.query.provider || this.multipleProviderCompare[0].properties.indicatorObject.dataProvider;
+    this.selectedSensorTab = this.multipleSensorCompare
+      .indexOf(this.multipleSensorCompare.find(s => s.properties.indicatorObject.eoSensor === this.$route.query.sensor))
+    || 0;
   },
   methods: {
     async copy(s) {
@@ -373,12 +410,11 @@ export default {
     },
   },
   watch: {
-    selectedProviderTab(provider) {
-      this.$store.commit(
-        'indicators/SET_SELECTED_INDICATOR',
-        this.multipleProviderCompare.find(p => p.properties.indicatorObject.dataProvider === provider)
-          .properties.indicatorObject);
-      this.$router.replace({ query: { ...this.$route.query, provider } }).catch(()=>{});
+    selectedSensorTab(index) {
+      if (this.multipleSensorCompare[index]) {
+        const sensor = this.multipleSensorCompare[index].properties.indicatorObject.eoSensor;
+        this.$router.replace({ query: { ...this.$route.query, sensor } }).catch(()=>{});
+      }
     },
     dialog(open) {
       if (open && this.$refs.referenceMap) {
@@ -391,3 +427,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+::v-deep .v-slide-group__prev {
+  display: none !important;
+}
+</style>

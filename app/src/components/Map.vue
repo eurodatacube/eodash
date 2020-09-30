@@ -299,7 +299,7 @@ export default {
       if (!indicatorObject.dummyFeature) {
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
         let query = Object.assign({}, this.$route.query);
-        delete query.provider;
+        delete query.sensor;
         this.$router.replace({ query }).catch(()=>{});
       }
     },

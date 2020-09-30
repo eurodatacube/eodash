@@ -192,6 +192,7 @@ export default {
   computed: {
     ...mapGetters('features', [
       'getFeatures',
+      'getGroupedFeatures',
       'getIndicators',
     ]),
     ...mapState('config', ['baseConfig']),
@@ -199,7 +200,7 @@ export default {
       return countries;
     },
     globalIndicators() {
-      return this.getFeatures
+      return this.getGroupedFeatures
         .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName));
     },
     someGlobalIndicator() {

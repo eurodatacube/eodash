@@ -6,8 +6,8 @@ const state = {
 };
 
 const getters = {
-  getIndicatorFilteredInputData(state) {
-    const indicator = { ...state.selectedIndicator };
+  getIndicatorFilteredInputData: state => (selectedIndicator) => {
+    const indicator = selectedIndicator || { ...state.selectedIndicator };
     // filter out rows which have empty "Input Data"
     const mask = indicator.inputData.map((item) => item !== '');
     // filtering only arrays with more than 1 element to not fail on Input Data:['value'] shortcut

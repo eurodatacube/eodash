@@ -22,28 +22,59 @@
       </v-card-subtitle>
       <div>
         <v-tabs
-          v-if="multipleProviderCompare.length > 1"
-          v-model="selectedProviderTab"
+          v-if="multipleSensorCompare.length > 1"
+          v-model="selectedSensorTab"
           grow
         >
           <v-tab
-            v-for="providerData in multipleProviderCompare"
-            :key="providerData.properties.indicatorObject.dataProvider"
-            :href="`#${providerData.properties.indicatorObject.dataProvider}`"
+            v-for="sensorData in multipleSensorCompare"
+            :key="sensorData.properties.indicatorObject.eoSensor"
           >
-            <div
-              class="d-flex align-center justify-center"
-            >
-              <img
-                :src="appConfig.providerIcons[providerData.properties.indicatorObject.dataProvider]"
-                style="height: 28px; position: absolute"
-              />
-            </div>
+            {{ sensorData.properties.indicatorObject.eoSensor }}
           </v-tab>
         </v-tabs>
       </div>
+      <v-tabs-items
+        v-if="multipleSensorCompare.length > 1"
+        v-model="selectedSensorTab"
+        class="fill-height"
+      >
+        <v-tab-item
+          v-for="sensorData in multipleSensorCompare"
+          :key="sensorData.properties.indicatorObject.eoSensor"
+          class="fill-height"
+        >
+          <div
+            style="height: 100%;z-index: 500; position: relative;"
+            v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
+            @click="dataInteract = true"
+            v-touch="{
+              left: () => swipe(),
+              right: () => swipe(),
+              up: () => swipe(),
+              down: () => swipe(),
+          }">
+          </div>
+          <v-overlay :value="overlay" absolute
+            v-if="!dataInteract"
+            @click="dataInteract = true">
+            Tap to interact
+          </v-overlay>
+          <indicator-map
+            style="top: 0px; position: absolute;"
+            v-if="globalData"
+            class="pt-0 fill-height"
+            :currentIndicator="sensorData.properties.indicatorObject"
+          />
+          <indicator-data
+            style="top: 0px; position: absolute;"
+            v-else
+            class="pa-5"
+          />
+        </v-tab-item>
+      </v-tabs-items>
       <div
-        v-if="indicatorObject"
+        v-else-if="indicatorObject"
         style="position: relative; height: 50vh"
         class="flex-grow-1"
       >
@@ -126,8 +157,8 @@ export default {
   data: () => ({
     overlay: false,
     dataInteract: false,
-    selectedProviderTab: null,
-    setProviderTab: false,
+    selectedSensorTab: 0,
+    setSensorTab: false,
   }),
   computed: {
     ...mapGetters('features', [
@@ -139,15 +170,15 @@ export default {
     },
     indicatorObject() {
       let indicatorObject;
-      if (this.multipleProviderCompare.length > 1) {
-        const feature = this.multipleProviderCompare.find(p => p.properties.indicatorObject.dataProvider === this.selectedProviderTab);
+      if (this.multipleSensorCompare.length > 1) {
+        const feature = this.multipleSensorCompare[0];
         indicatorObject = feature && feature.properties.indicatorObject;
       } else {
         indicatorObject = this.$store.state.indicators.selectedIndicator;
       }
       return indicatorObject;
     },
-    multipleProviderCompare() {
+    multipleSensorCompare() {
       const selectedIndicator = this.$store.state.indicators.selectedIndicator;
       return this.getFeatures.filter((f) => {
         return f.properties.indicatorObject.aoiID === selectedIndicator.aoiID && f.properties.indicatorObject.indicator === selectedIndicator.indicator;
@@ -164,17 +195,13 @@ export default {
     },
   },
   watch: {
-    multipleProviderCompare() {
-      if (!this.setProviderTab) {
-        this.selectedProviderTab = this.$route.query.provider || this.multipleProviderCompare[0].properties.indicatorObject.dataProvider;
-        this.setProviderTab = true;
+    multipleSensorCompare() {
+      if (!this.setSensorTab) {
+        this.selectedSensorTab = this.multipleSensorCompare
+          .indexOf(this.multipleSensorCompare.find(s => s.properties.indicatorObject.eoSensor === this.$route.query.sensor))
+        || 0;
+        this.setSensorTab = true;
       }
-    },
-    selectedProviderTab(provider) {
-      this.$store.commit(
-        'indicators/SET_SELECTED_INDICATOR',
-        this.multipleProviderCompare.find(p => p.properties.indicatorObject.dataProvider === provider)
-          .properties.indicatorObject);
     },
   },
 };

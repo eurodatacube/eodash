@@ -298,6 +298,9 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css'; // eslint-disable
 const emptyF = [];
 
 export default {
+  props: [
+    'currentIndicator',
+  ],
   components: {
     LMap,
     LTileLayer,
@@ -378,7 +381,7 @@ export default {
       return this.indicatorsDefinition[this.indicator.indicator];
     },
     indicator() {
-      return this.getIndicatorFilteredInputData;
+      return this.getIndicatorFilteredInputData(this.currentIndicator || null);
     },
     showAoi() {
       return this.aoi && (!this.subAoi || this.subAoi.features.length === 0);
@@ -407,7 +410,7 @@ export default {
       return times;
     },
     usedEoSensor() {
-      let eoSensor = this.indicator.eoSensor;
+      let eoSensor = Array.isArray(this.indicator.eoSensor) && this.indicator.eoSensor;
       if (this.layerDisplay('data').replaceDataMap && this.layerDisplay('data').replaceDataMap.eoSensor) {
         eoSensor = this.layerDisplay('data').replaceDataMap.eoSensor;
       }
