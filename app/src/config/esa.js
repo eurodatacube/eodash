@@ -2,8 +2,11 @@
 // temporary solution
 import { Wkt } from 'wicket';
 import { DateTime } from 'luxon';
-import { latLng, latLngBounds } from 'leaflet';
+import { geoJson, latLng, latLngBounds } from 'leaflet';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
+
+const wkx = require('wkx');
+var Buffer = require('buffer').Buffer;
 
 export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [
