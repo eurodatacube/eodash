@@ -553,7 +553,7 @@ export const globalIndicators = [
           minZoom: 1,
           maxNativeZoom: 8,
           attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
-          dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          dateFormatFunction: (date) => DateTime.fromISO(date[1]).toFormat('yyyy-MM-dd'),
         },
       },
     },
