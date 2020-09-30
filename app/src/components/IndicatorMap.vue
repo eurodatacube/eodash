@@ -56,7 +56,7 @@
       :optionsStyle="subAoiStyle('data')"
       >
       </l-geo-json>
-      <l-marker-cluster ref="featuresDataCluster" :options="clusterOptions">
+      <l-marker-cluster v-if="clusteringEnabled" ref="featuresDataCluster" :options="clusterOptions">
         <l-geo-json
           ref="featureJsonData"
           v-for="geoJson in featureJson.data" :key="geoJson.id" :geojson="geoJson"
@@ -65,6 +65,14 @@
         >
         </l-geo-json>
       </l-marker-cluster>
+      <l-geo-json
+          v-else
+          ref="featureJsonData"
+          v-for="geoJson in featureJson.data" :key="geoJson.id" :geojson="geoJson"
+          :options="featureOptions('data')"
+          :pane="tooltipPane"
+        >
+      </l-geo-json>
       <l-circle-marker
         v-if="showAoi"
         :lat-lng="aoi"
@@ -401,6 +409,9 @@ export default {
     },
     customAreaFilter() {
       return (this.layerDisplay('data') && typeof this.layerDisplay('data').customAreaFilter !== 'undefined') ? this.layerDisplay('data').customAreaFilter : this.indDefinition.customAreaFilter;
+    },
+    clusteringEnabled() {
+      return (this.layerDisplay('data') && typeof this.layerDisplay('data').featuresClustering !== 'undefined') ? this.layerDisplay('data').featuresClustering : this.indDefinition.featuresClustering;
     },
     usedTimes() {
       let times = this.indicator.time;

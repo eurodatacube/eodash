@@ -147,6 +147,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/E12c',
     customAreaFilter: true,
     largeSubAoi: true,
+    featuresClustering: true,
   },
   E12d: {
     indicator: 'Number of Trucks on Primary Roads',
@@ -154,6 +155,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/E12d',
     customAreaFilter: true,
     largeSubAoi: true,
+    featuresClustering: true,
   },
   E13a: {
     indicator: 'Throughput at principal rail stations',
