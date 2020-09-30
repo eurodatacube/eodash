@@ -648,26 +648,26 @@ export default {
         pointToLayer: function (feature, latlng) { // eslint-disable-line
           return circleMarker(latlng, {
             radius: style.radius || 8,
-            color: style.color || 'red',
+            color: style.color || '#FFA500',
             weight: style.weight || 2,
             opacity: style.opacity || 1,
             dashArray: style.dashArray || null,
             dashOffset: style.dashOffset || null,
             fillOpacity: style.fillOpacity || 1,
-            fillColor: style.fillColor || 'red',
+            fillColor: style.fillColor || '#FFA500',
             fill: style.fill || true,
             pane: side === 'data' ? this.tooltipPane : this.shadowPane,
           });
         }.bind(this),
         // polygon and line styling
         style: {
-          color: style.color || 'red',
+          color: style.color || '#FFA500',
           weight: style.weight || 2,
           opacity: style.opacity || 1,
           dashArray: style.dashArray || null,
           dashOffset: style.dashOffset || null,
           fillOpacity: style.fillOpacity || 0,
-          fillColor: style.fillColor || 'red',
+          fillColor: style.fillColor || '#FFA500',
           fill: style.fill || true,
         },
       };
@@ -714,21 +714,22 @@ export default {
       // if display not specified (global layers), suspect SIN layer
       // first check if special compare layer configured
       const displayTmp = side === 'compare' && this.indicator.compareDisplay ? this.indicator.compareDisplay : this.indicator.display;
-      // then merge default settings
-      // indicator code settings
-      // and settings based on selected time matching respective input data mapping
+      let name = this.indicator.description;
+      if (side === 'compare') {
+        name += ' - compare (left)';
+      }
       return displayTmp || {
         ...this.baseConfig.defaultWMSDisplay,
         ...this.indDefinition,
         ...this.shLayerConfig(side),
-        name: this.indicator.description,
+        name: name,
       };
     },
     flyToBounds() {
       // zooms to subaoi if present or area around aoi if not
       const boundsPad = this.indDefinition.largeSubAoi ? 5 : 0.15;
       if (this.subAoi && this.subAoi.features.length > 0) {
-        const viewBounds = this.layerDisplay('data').presetView ? geoJson(this.layerDisplay('data').presetView).getBounds() : geoJson(this.subAoi).getBounds(); 
+        const viewBounds = this.layerDisplay('data').presetView ? geoJson(this.layerDisplay('data').presetView).getBounds() : geoJson(this.subAoi).getBounds();
         const bounds = geoJson(this.subAoi).getBounds();
         const cornerMax1 = latLng([bounds.getSouth() - boundsPad, bounds.getWest() - boundsPad]);
         const cornerMax2 = latLng([bounds.getNorth() + boundsPad, bounds.getEast() + boundsPad]);
@@ -1031,13 +1032,13 @@ export default {
     enableCompare(on) {
       if (!on) {
         if (this.slider !== null) {
+          this.$refs.layersControl.mapObject.removeLayer(this.$refs.compareLayer.mapObject);
           this.map.removeControl(this.slider);
           this.map.removeLayer(this.$refs.compareLayers.mapObject);
         }
       } else {
-        if (this.fetchDataClicked || !this.customAreaFilter) {
-          this.fetchFeatures('compare');
-        }
+        this.fetchFeatures('compare');
+        this.$refs.layersControl.mapObject.addOverlay(this.$refs.compareLayer.mapObject, this.$refs.compareLayer.name); // eslint-disable-line
         this.map.addLayer(this.$refs.compareLayers.mapObject);
         this.$nextTick(() => {
           this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
