@@ -509,11 +509,15 @@ export default {
           circle: false,
           marker: false,
           circlemarker: false,
-          polygon: false,
+          polygon: {
+            shapeOptions: {
+              color: '#75e6b5',
+            },
+          },
           rectangle: {
             showArea: false,
             shapeOptions: {
-              color: '#FFA500',
+              color: '#75e6b5',
             },
           },
         },
@@ -611,7 +615,7 @@ export default {
         if (ftrs) {
           this.$refs.customAreaFilterFeatures.mapObject.addLayer(geoJson(ftrs, {
             style: {
-              color: this.appConfig.branding.primaryColor,
+              color: '#75e6b5',
             },
           }));
         }
@@ -959,24 +963,20 @@ export default {
           customArea = typeof this.layerDisplay('data').features.areaFormatFunction === 'function'
             ? this.layerDisplay('data').features.areaFormatFunction(this.drawnArea) : {area: JSON.stringify(this.drawnArea)};
         }
-        const templateRe = /\{ *([\w_ -]+) *\}/g;
-        const url = template(templateRe, this.layerDisplay(side).features.url, {
+        const templateSubstitutes = {
           ...this.indicator,
           ...options,
           ...customArea,
-        });
+        };
+        const templateRe = /\{ *([\w_ -]+) *\}/g;
+        const url = template(templateRe, this.layerDisplay(side).features.url, templateSubstitutes);
         let requestBody = null;
         if (this.layerDisplay(side).features.requestBody) {
-          const template = this.layerDisplay(side).features.requestBody;
-          const data = {
-            ...this.indicator,
-            ...options,
-            ...customArea,
-          };
-          requestBody = Object.assign({},
-            template,
-            ...Object.keys(template).map(k => k in data && { [k]: data[k] }),
-          )
+          requestBody = Object.assign({},this.layerDisplay(side).features.requestBody);
+          for (const param in requestBody) {
+            // substitute template strings with values
+            requestBody[param] = template(templateRe, requestBody[param], templateSubstitutes)
+          }
         };
         const requestOpts = {
           credentials: 'same-origin',

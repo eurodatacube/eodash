@@ -635,25 +635,23 @@ export const globalIndicators = [
             }],
           },
           features: {
-            url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_by_bbox`,
+            url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
             requestMethod: 'POST',
             requestHeaders: {
               'Content-Type': 'application/json',
             },
             requestBody: {
               collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
-              minx: '',
-              miny: '',
-              maxx: '',
-              maxy: '',
-              bbox_mode: 'contains',
+              select: 'id, sum_observations, osm_name, geometry, truck_count_normalized',
+              where: `ST_Intersects(ST_GeomFromText('{area}',4326), geometry)`, // todo AND year={featuresTime}
+              limit: "5000",
             },
             style: {
               radius: 3,
               weight: 1,
             },
             allowedParameters: ['osm_name', 'truck_count_normalized', 'sum_observations'],
-            // dateFormatFunction: (dates) => `${DateTime.fromISO(dates).toFormat('yyyy')}`,
+            dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
             responseFeatureFunction: (requestJson) => { // geom from wkb to geojson features
               let ftrs = [];
               if (Array.isArray(requestJson[0].src)) {
@@ -672,13 +670,7 @@ export const globalIndicators = [
               return ftrColl;
             },
             areaFormatFunction: (area) => {
-              const bounds = geoJson(area).getBounds()
-              return {
-                minx: bounds.getWest(),
-                miny: bounds.getSouth(),
-                maxx: bounds.getEast(),
-                maxy: bounds.getNorth(),
-              }
+              return {area: wkt.read(JSON.stringify(area)).write()};
             },
           },
         },
@@ -729,25 +721,23 @@ export const globalIndicators = [
             }],
           },
           features: {
-            url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_by_bbox`,
+            url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
             requestMethod: 'POST',
             requestHeaders: {
               'Content-Type': 'application/json',
             },
             requestBody: {
               collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
-              minx: '',
-              miny: '',
-              maxx: '',
-              maxy: '',
-              bbox_mode: 'contains',
+              select: 'id, sum_observations, osm_name, geometry, truck_count_normalized',
+              where: `ST_Intersects(ST_GeomFromText('{area}',4326), geometry)`, // todo AND year={featuresTime}
+              limit: "5000",
             },
             style: {
               radius: 3,
               weight: 1,
             },
             allowedParameters: ['osm_name', 'truck_count_normalized', 'sum_observations'],
-            // dateFormatFunction: (dates) => `${DateTime.fromISO(dates).toFormat('yyyy')}`,
+            dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
             responseFeatureFunction: (requestJson) => { // geom from wkb to geojson features
               let ftrs = [];
               if (Array.isArray(requestJson[0].src)) {
@@ -766,13 +756,7 @@ export const globalIndicators = [
               return ftrColl;
             },
             areaFormatFunction: (area) => {
-              const bounds = geoJson(area).getBounds()
-              return {
-                minx: bounds.getWest(),
-                miny: bounds.getSouth(),
-                maxx: bounds.getEast(),
-                maxy: bounds.getNorth(),
-              }
+              return {area: wkt.read(JSON.stringify(area)).write()};
             },
           },
         },
