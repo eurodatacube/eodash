@@ -56,7 +56,7 @@
       :optionsStyle="subAoiStyle('data')"
       >
       </l-geo-json>
-      <l-marker-cluster v-if="clusteringEnabled" ref="featuresDataCluster" :options="clusterOptions">
+      <l-marker-cluster v-if="featuresClustering" ref="featuresDataCluster" :options="clusterOptions">
         <l-geo-json
           ref="featureJsonData"
           v-for="geoJson in featureJson.data" :key="geoJson.id" :geojson="geoJson"
@@ -410,7 +410,7 @@ export default {
     customAreaFilter() {
       return (this.layerDisplay('data') && typeof this.layerDisplay('data').customAreaFilter !== 'undefined') ? this.layerDisplay('data').customAreaFilter : this.indDefinition.customAreaFilter;
     },
-    clusteringEnabled() {
+    featuresClustering() {
       return (this.layerDisplay('data') && typeof this.layerDisplay('data').featuresClustering !== 'undefined') ? this.layerDisplay('data').featuresClustering : this.indDefinition.featuresClustering;
     },
     usedTimes() {
