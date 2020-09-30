@@ -158,13 +158,6 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/E13c',
     largeSubAoi: true,
   },
-  E13e: {
-    indicator: 'Number of Trucks on Roads',
-    class: 'economic',
-    // story: '/data/trilateral/E13e',
-    customAreaFilter: true,
-    largeSubAoi: true,
-  },
   H1: {
     indicator: 'Number of temp. treatment sites',
     class: 'health',
@@ -2505,96 +2498,6 @@ export const globalIndicators = [
           legendUrl: './data/trilateral/TG01_E19d_legend.png',
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           disableCompare: true,
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Europe',
-        siteName: 'global',
-        description: 'Truck detections',
-        indicator: 'E13e',
-        lastIndicatorValue: 'Regional Truck Traffic',
-        indicatorName: 'Regional Truck Traffic',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-15 35, -15 70, 40 70, 40 35, -15 35))').toJson(),
-          }],
-        },
-        lastColorCode: 'primary',
-        aoi: null,
-        aoiID: 'W7',
-        time: ['2018', '2020'],
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((5 45,5 50,15 50,15 45,5 45))').toJson(),
-            }],
-          },
-          url: '//obs.eu-de.otc.t-systems.com/s5p-pal-l3-tms/s5p-l3-tropno2/fortnight/{time}/{z}/{x}/{-y}.png',
-          name: 'Aggregated Truck Traffic 10km',
-          // legendUrl: 'eodash-data/data/no2Legend.png',
-          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          // dateFormatFunction: (dates) => `${DateTime.fromISO(dates[0]).toFormat('yyyyMMdd')}-${DateTime.fromISO(dates[1]).toFormat('yyyyMMdd')}`,
-          features: {
-            url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_by_bbox`,
-            requestMethod: 'POST',
-            requestHeaders: {
-              'Content-Type': 'application/json',
-            },
-            requestBody: {
-              'collection': 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
-              'minx': '',
-              'miny': '',
-              'maxx': '',
-              'maxy': '',
-              'bbox_mode': 'contains',
-            },
-            style: {
-              radius: 3,
-              weight: 1,
-            },
-            allowedParameters: ['osm_name', 'truck_count_normalized', 'sum_observations'],
-            // dateFormatFunction: (dates) => `${DateTime.fromISO(dates).toFormat('yyyy')}`,
-            responseFeatureFunction: (requestJson) => { // geom from wkb to geojson features
-              let ftrs = [];
-              if (Array.isArray(requestJson[0].src)) {
-                requestJson[0].src.forEach((ftr) => {
-                  ftrs.push({
-                    type: 'Feature',
-                    properties: ftr,
-                    geometry: wkx.Geometry.parse(new Buffer(ftr.geometry, 'hex')).toGeoJSON(),
-                  });
-                });
-              }
-              const ftrColl = {
-                type: 'FeatureCollection',
-                features: ftrs,
-              };
-              return ftrColl;
-            },
-            areaFormatFunction: (area) => {
-              const bounds = geoJson(area).getBounds() 
-              return {
-                minx: bounds.getWest(),
-                miny: bounds.getSouth(),
-                maxx: bounds.getEast(),
-                maxy: bounds.getNorth(),
-              }
-            },
-          },
         },
       },
     },
