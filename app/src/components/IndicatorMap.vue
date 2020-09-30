@@ -509,15 +509,11 @@ export default {
           circle: false,
           marker: false,
           circlemarker: false,
-          polygon: {
-            shapeOptions: {
-              color: this.appConfig.branding.primaryColor,
-            },
-          },
+          polygon: false,
           rectangle: {
             showArea: false,
             shapeOptions: {
-              color: this.appConfig.branding.primaryColor,
+              color: '#FFA500',
             },
           },
         },
@@ -1008,8 +1004,7 @@ export default {
         this.featureJson[side] = emptyF;
       }
     },
-    fetchCustomAreaIndicator() {
-      // todo
+    fetchCustomAreaFeatures() {
       if (!this.fetchDataClicked) {
         this.fetchDataClicked = true;
       }
@@ -1017,17 +1012,60 @@ export default {
       if (this.enableCompare) {
         this.fetchFeatures('compare');
       }
-      // DUMMY API CALL FOR CHART
-      // fetch data for chart
-      this.$store.commit(
-        'indicators/SET_CUSTOM_AREA_INDICATOR',
-        this.$store.state.features.allFeatures
-          .find((f) => f.properties
-            .indicatorObject.indicator === 'N1'
-          && f.properties
-            .indicatorObject.aoiID === 'ES01')
-          .properties.indicatorObject,
-      );
+    },
+    fetchCustomAreaIndicator() {
+      const options = this.layerOptions(this.currentTime, this.layerDisplay('data'));
+      // add custom area if present
+      let customArea = {};
+      if (this.validDrawnArea) {
+        customArea = typeof this.layerDisplay('data').features.areaFormatFunction === 'function'
+          ? this.layerDisplay('data').features.areaFormatFunction(this.drawnArea) : {area: JSON.stringify(this.drawnArea)};
+      }
+      const templateRe = /\{ *([\w_ -]+) *\}/g;
+      const url = template(templateRe, this.layerDisplay(side).features.url, {
+        ...this.indicator,
+        ...options,
+        ...customArea,
+      });
+      let requestBody = {};
+      if (this.layerDisplay(side).features.requestBody) {
+        const template = this.layerDisplay(side).features.requestBody;
+        const data = {
+          ...this.indicator,
+          ...options,
+          ...customArea,
+        };
+        requestBody = {
+          body: Object.assign({},
+          template,
+          ...Object.keys(template).map(k => k in data && { [k]: data[k] }),
+          )
+        };
+      };
+      const requestOpts = {
+        credentials: 'same-origin',
+        method: this.layerDisplay('data').features.requestMethod || 'GET',
+        headers: this.layerDisplay('data').features.requestHeaders || {},
+        ...requestBody,
+      }
+      fetch(url, requestOpts).then((r) => r.json())
+        .then((rawdata) => {
+          // if custom response -> feature mapping function configured, apply it
+          if (typeof this.layerDisplay('data').features.responseIndicatorFunction === 'function') {
+            // merge data from current indicator data and new data from api
+            // returns new indicator object to set as custom area indicator
+            return this.layerDisplay('data').features.responseIndicatorFunction(rawdata, this.indicator);
+          }
+          return rawdata;
+        })
+        .then((indicator) => {
+          this.$store.commit(
+            'indicators/SET_CUSTOM_AREA_INDICATOR', indicator
+          );
+        })
+        .catch((err) => {
+          console.log('error happened', err);
+        });
     },
     refreshBaselayersSelection() {
       /*

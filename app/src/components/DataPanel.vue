@@ -125,6 +125,27 @@
                     color="primary"
                     text
                     x-small
+                    @click="fetchCustomAreaFeatures"
+                    :disabled="!customAreaFilterEnabled"
+                  >
+                    <v-icon left>mdi-application-cog</v-icon>
+                    features for sub-area
+                  </v-btn>
+                </div>
+              </template>
+              Select an area on the map to start!
+            </v-tooltip>
+            <v-tooltip
+              v-if="customAreaFilter"
+              :disabled="customAreaFilterEnabled"
+              top
+            >
+              <template v-slot:activator="{ on }">
+                <div v-on="on">
+                  <v-btn
+                    color="primary"
+                    text
+                    x-small
                     @click="fetchCustomAreaIndicator"
                     :disabled="!customAreaFilterEnabled"
                   >
@@ -407,6 +428,9 @@ export default {
     fetchCustomAreaIndicator() {
       this.$refs.indicatorMap.fetchCustomAreaIndicator();
       this.$vuetify.goTo(this.$refs.customAreaIndicator, { container: document.querySelector('.data-panel') });
+    },
+    fetchCustomAreaFeatures() {
+      this.$refs.indicatorMap.fetchCustomAreaFeatures();
     },
   },
   watch: {
