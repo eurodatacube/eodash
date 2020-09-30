@@ -353,6 +353,10 @@ export default {
       if (this.multipleSensorCompare[index]) {
         const sensor = this.multipleSensorCompare[index].properties.indicatorObject.eoSensor;
         this.$router.replace({ query: { ...this.$route.query, sensor } }).catch(()=>{});
+        this.$store.commit(
+          'indicators/SET_SELECTED_INDICATOR',
+          this.multipleSensorCompare[index].properties.indicatorObject,
+        );
       }
     },
   },
