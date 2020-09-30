@@ -191,7 +191,6 @@ export default {
   }),
   computed: {
     ...mapGetters('features', [
-      'getFeatures',
       'getGroupedFeatures',
       'getIndicators',
     ]),

@@ -154,7 +154,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('features', ['getFeatures', 'getGroupedFeatures']),
+    ...mapGetters('features', ['getGroupedFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayers() {
       return this.baseConfig.baseLayers;

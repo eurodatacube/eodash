@@ -159,9 +159,6 @@ export default {
     setSensorTab: false,
   }),
   computed: {
-    ...mapGetters('features', [
-      'getFeatures',
-    ]),
     ...mapState('config', ['appConfig']),
     globalData() {
       return ['all'].includes(this.indicatorObject.country) || Array.isArray(this.indicatorObject.country);
@@ -178,7 +175,7 @@ export default {
     },
     multipleSensorCompare() {
       const selectedIndicator = this.$store.state.indicators.selectedIndicator;
-      return this.getFeatures.filter((f) => {
+      return this.$store.state.features.allFeatures.filter((f) => {
         return f.properties.indicatorObject.aoiID === selectedIndicator.aoiID && f.properties.indicatorObject.indicator === selectedIndicator.indicator;
       }).reverse();
     },
