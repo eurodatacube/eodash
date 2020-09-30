@@ -232,6 +232,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: '/data/trilateral/N8',
     largeSubAoi: true,
+    disableTimeSelection: true,
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
