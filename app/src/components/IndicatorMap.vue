@@ -59,7 +59,7 @@
       <l-marker-cluster v-if="featuresClustering" ref="featuresDataCluster" :options="clusterOptions">
         <l-geo-json
           ref="featureJsonData"
-          v-for="geoJson in featureJson.data.features" :key="geoJson.id" :geojson="geoJson"
+          v-for="geoJson in featureJson.data.features" :key="geoJson.properties.id" :geojson="geoJson"
           :options="featureOptions('data')"
           :pane="tooltipPane"
         >
@@ -68,7 +68,7 @@
       <l-geo-json
           v-else
           ref="featureJsonData"
-          v-for="geoJson in featureJson.data.features" :key="geoJson.id" :geojson="geoJson"
+          v-for="geoJson in featureJson.data.features" :key="geoJson.properties.id" :geojson="geoJson"
           :options="featureOptions('data')"
           :pane="tooltipPane"
         >
@@ -140,7 +140,7 @@
         <l-geo-json
           ref="featureJsonCompare"
           :visible="enableCompare"
-          v-for="geoJson in featureJson.compare.features" :key="geoJson.id" :geojson="geoJson"
+          v-for="geoJson in featureJson.compare.features" :key="geoJson.properties.id" :geojson="geoJson"
           :options="featureOptions('compare')"
           :pane="shadowPane"
         >
@@ -150,7 +150,7 @@
         v-else
         ref="featureJsonCompare"
         :visible="enableCompare"
-        v-for="geoJson in featureJson.compare.features" :key="geoJson.id" :geojson="geoJson"
+        v-for="geoJson in featureJson.compare.features" :key="geoJson.properties.id" :geojson="geoJson"
         :options="featureOptions('compare')"
         :pane="shadowPane"
       >
@@ -314,7 +314,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css'; // eslint-disable
 
 const emptyF = {
   type: 'FeatureCollection',
-  feature: [],
+  features: [],
 };
 
 export default {
@@ -581,8 +581,8 @@ export default {
       }.bind(this));
 
       this.map.on(L.Draw.Event.DRAWSTOP, function () { // eslint-disable-line
-        this.featureJson.data.features = emptyF;
-        this.featureJson.compare.features = emptyF;
+        this.featureJson.data = emptyF;
+        this.featureJson.compare = emptyF;
         if (this.fetchDataClicked) {
           this.fetchFeatures('data');
           if (this.enableCompare) {
@@ -593,8 +593,8 @@ export default {
 
       this.map.on(L.Draw.Event.DELETED, function () { // eslint-disable-line
         this.clearCustomAreaFilter();
-        this.featureJson.data.features = emptyF;
-        this.featureJson.compare.features = emptyF;
+        this.featureJson.data = emptyF;
+        this.featureJson.compare = emptyF;
       }.bind(this));
       if (this.customAreaFilter) {
         this.drawControl.addTo(this.map);
@@ -965,7 +965,7 @@ export default {
           ...options,
           ...customArea,
         });
-        let requestBody = {};
+        let requestBody = null;
         if (this.layerDisplay(side).features.requestBody) {
           const template = this.layerDisplay(side).features.requestBody;
           const data = {
@@ -973,18 +973,18 @@ export default {
             ...options,
             ...customArea,
           };
-          requestBody = {
-            body: Object.assign({},
+          requestBody = Object.assign({},
             template,
             ...Object.keys(template).map(k => k in data && { [k]: data[k] }),
-            )
-          };
+          )
         };
         const requestOpts = {
           credentials: 'same-origin',
           method: this.layerDisplay('data').features.requestMethod || 'GET',
           headers: this.layerDisplay('data').features.requestHeaders || {},
-          ...requestBody,
+        }
+        if (requestBody) {
+          requestOpts.body = JSON.stringify(requestBody);
         }
         fetch(url, requestOpts).then((r) => r.json())
           .then((rawdata) => {
@@ -1022,31 +1022,31 @@ export default {
           ? this.layerDisplay('data').features.areaFormatFunction(this.drawnArea) : {area: JSON.stringify(this.drawnArea)};
       }
       const templateRe = /\{ *([\w_ -]+) *\}/g;
-      const url = template(templateRe, this.layerDisplay(side).features.url, {
+      const url = template(templateRe, this.layerDisplay('data').features.url, {
         ...this.indicator,
         ...options,
         ...customArea,
       });
-      let requestBody = {};
-      if (this.layerDisplay(side).features.requestBody) {
-        const template = this.layerDisplay(side).features.requestBody;
+      let requestBody = null;
+      if (this.layerDisplay('data').features.requestBody) {
+        const template = this.layerDisplay('data').features.requestBody;
         const data = {
           ...this.indicator,
           ...options,
           ...customArea,
         };
-        requestBody = {
-          body: Object.assign({},
+        requestBody = Object.assign({},
           template,
           ...Object.keys(template).map(k => k in data && { [k]: data[k] }),
-          )
-        };
+        )
       };
       const requestOpts = {
         credentials: 'same-origin',
         method: this.layerDisplay('data').features.requestMethod || 'GET',
         headers: this.layerDisplay('data').features.requestHeaders || {},
-        ...requestBody,
+      }
+      if (requestBody) {
+        requestOpts.body = JSON.stringify(requestBody);
       }
       fetch(url, requestOpts).then((r) => r.json())
         .then((rawdata) => {
