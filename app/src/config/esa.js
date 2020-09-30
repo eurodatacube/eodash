@@ -601,8 +601,8 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Number of Trucks on Motorways',
         indicator: 'E12c',
-        lastIndicatorValue: 'Regional Truck Traffic',
-        indicatorName: 'Regional Truck Traffic',
+        lastIndicatorValue: 'Regional Truck Traffic Motorways',
+        indicatorName: 'Regional Truck Traffic Motorways',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -617,14 +617,12 @@ export const globalIndicators = [
         time: ['2017', '2018', '2019', '2020'],
         inputData: [''],
         display: {
-
           ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Aggregated Truck Traffic 10km',
           layers: 'E12C_MOTORWAY',
           // legendUrl: 'eodash-data/data/no2Legend.png',
           minZoom: 1,
-          maxNativeZoom: 8,
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-01-01')}-${DateTime.fromISO(date).toFormat('yyyy-12-31')}`,
           presetView: {
@@ -695,8 +693,8 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Number of Trucks on Primary Roads',
         indicator: 'E12d',
-        lastIndicatorValue: 'Regional Truck Traffic',
-        indicatorName: 'Regional Truck Traffic',
+        lastIndicatorValue: 'Regional Truck Traffic Primary',
+        indicatorName: 'Regional Truck Traffic Primary',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -718,7 +716,6 @@ export const globalIndicators = [
           layers: 'E12D_PRIMARYROADS',
           // legendUrl: 'eodash-data/data/no2Legend.png',
           minZoom: 1,
-          maxNativeZoom: 8,
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-01-01')}-${DateTime.fromISO(date).toFormat('yyyy-12-31')}`,
           presetView: {
