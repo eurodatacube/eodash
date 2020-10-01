@@ -939,6 +939,8 @@ export default {
         }
         if (this.fetchDataClicked || !this.customAreaFilter) {
           this.fetchFeatures('compare');
+          this.featureJson.compare = emptyF;
+          this.$refs.featuresCompareCluster.mapObject.clearLayers();
         }
         // redraw
         this.compareLayerKey = Math.random();
@@ -952,6 +954,8 @@ export default {
             .setUrl(this.layerDisplay('data').url);
         }
         if (this.fetchDataClicked || !this.customAreaFilter) {
+          this.featureJson.data = emptyF;
+          this.$refs.featuresDataCluster.mapObject.clearLayers();
           this.fetchFeatures('data');
         }
         // redraw
