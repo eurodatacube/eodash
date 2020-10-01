@@ -40,7 +40,7 @@ import {
 
 export default {
   computed: {
-    ...mapGetters('features', ['getFeatures']),
+    ...mapGetters('features', ['getGroupedFeatures']),
     ...mapState('config', ['baseConfig']),
     headers() {
       return [
@@ -61,7 +61,7 @@ export default {
       ];
     },
     allFeatures() {
-      return this.getFeatures.map((f) => ({
+      return this.getGroupedFeatures.map((f) => ({
         country: f.properties.indicatorObject.country,
         location: f.properties.indicatorObject.city,
         type: this.getClass(f),

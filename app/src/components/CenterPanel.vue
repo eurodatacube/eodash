@@ -192,6 +192,7 @@ export default {
   computed: {
     ...mapGetters('features', [
       'getFeatures',
+      'getGroupedFeatures',
       'getIndicators',
     ]),
     ...mapState('config', ['baseConfig']),
@@ -199,7 +200,7 @@ export default {
       return countries;
     },
     globalIndicators() {
-      return this.getFeatures
+      return this.getGroupedFeatures
         .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName));
     },
     someGlobalIndicator() {
@@ -230,7 +231,7 @@ export default {
       this.$store.commit('features/SET_FEATURE_FILTER', { indicators: [] });
     },
     getUniqueKey(indicatorObject) {
-      return `${indicatorObject.indicator}-${indicatorObject.aoiID}`;
+      return this.getLocationCode(indicatorObject);
     },
     currentlySelected(feature) {
       return this.$store.state.indicators.selectedIndicator
