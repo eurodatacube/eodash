@@ -45,33 +45,33 @@
     >
     </LTileLayer>
     <l-marker-cluster ref="clusterLayer" :options="clusterOptions">
-      <l-marker v-for="(feature) in getFeatures.filter((f) => f.latlng)"
+      <l-marker v-for="(feature) in getGroupedFeatures.filter((f) => f.latlng)"
         :key="feature.id"
         ref="markers"
         :lat-lng="feature.latlng"
-        :name='`${feature.id}`'
+        :name='`${getLocationCode(feature.properties.indicatorObject)}`'
         @click="selectIndicator(feature)"
       >
         <l-icon
-          :icon-anchor="currentSelected === feature.id ? [18, 18] : [14, 14]"
+          :icon-anchor="currentSelected === getLocationCode(feature.properties.indicatorObject) ? [18, 18] : [14, 14]"
           style="outline: none;"
         >
           <div
             :style="`display: flex; align-items: center;
               justify-content: center;
               border-radius: 50%;
-              border: 2px ${currentSelected === feature.id
+              border: 2px ${currentSelected === getLocationCode(feature.properties.indicatorObject)
                 ? 'dashed var(--v-primary-base)'
                 : 'solid white'};
-              width: ${currentSelected === feature.id ? '36px' : '28px'};
-              height: ${currentSelected === feature.id ? '36px' : '28px'};
+              width: ${currentSelected === getLocationCode(feature.properties.indicatorObject) ? '36px' : '28px'};
+              height: ${currentSelected === getLocationCode(feature.properties.indicatorObject) ? '36px' : '28px'};
               background-color: ${getColor(feature.properties.indicatorObject)}`"
           >
               <v-icon
                 color="white"
                 class="pa-1"
                 icon-url="/test"
-                :small="currentSelected !== feature.id"
+                :small="currentSelected !== getLocationCode(feature.properties.indicatorObject)"
               >
                 {{ baseConfig.indicatorClassesIcons[baseConfig
                     .indicatorsDefinition[feature.properties.indicatorObject.indicator].class]
@@ -154,7 +154,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('features', ['getFeatures']),
+    ...mapGetters('features', ['getFeatures', 'getGroupedFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayers() {
       return this.baseConfig.baseLayers;
@@ -175,7 +175,7 @@ export default {
           let selCluster = null;
           if (this.currentSelected !== null && this.$refs.clusterLayer) {
             const selectedMarker = this.$refs.markers.find(
-              (item) => parseInt(item.name, 10) === this.currentSelected,
+              (item) => item.name === this.currentSelected,
             );
             if (selectedMarker) {
               selCluster = this.$refs.clusterLayer.mapObject.getVisibleParent(
@@ -278,7 +278,7 @@ export default {
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'indicators/INDICATOR_LOAD_FINISHED') {
         if (mutation.payload !== null && mutation.payload.aoi !== null) {
-          this.currentSelected = mutation.payload.id;
+          this.currentSelected = this.getLocationCode(mutation.payload);
           if (mutation.payload.subAoi) {
             this.subAoi = mutation.payload.subAoi;
           }
@@ -298,6 +298,9 @@ export default {
       const { indicatorObject } = feature.properties;
       if (!indicatorObject.dummyFeature) {
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
+        let query = Object.assign({}, this.$route.query);
+        delete query.sensor;
+        this.$router.replace({ query }).catch(()=>{});
       }
     },
     getColor(indObj) {
@@ -388,7 +391,7 @@ export default {
     },
   },
   watch: {
-    getFeatures(features) {
+    getGroupedFeatures(features) {
       const featuresOnMap = features.filter((f) => f.latlng);
       if (featuresOnMap.length > 0) {
         const maxZoomFit = 8;
@@ -468,7 +471,7 @@ export default {
   margin: 1px;
 }
 ::v-deep .leaflet-control-mouseposition {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.8);
   transform: translate3d(-8px, 32px, 0);
   padding: 2px 4px;
 }

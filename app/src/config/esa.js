@@ -5,6 +5,9 @@ import { DateTime } from 'luxon';
 import { latLng, latLngBounds } from 'leaflet';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
 
+const wkx = require('wkx');
+let Buffer = require('buffer').Buffer;
+
 export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [
   {
@@ -21,7 +24,7 @@ export const indicatorsDefinition = Object.freeze({
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
       url: './eodash-data/features/{indicator}_{aoiID}_{featuresTime}.geojson',
-      parameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification'],
+      allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification'],
     },
   },
   E1a: {
@@ -138,6 +141,24 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Throughput at border crossing points',
     class: 'economic',
   },
+  E12c: {
+    indicator: 'Number of Trucks on Motorways',
+    class: 'economic',
+    story: '/eodash-data/stories/E12c',
+    customAreaFilter: true,
+    largeSubAoi: true,
+    featuresClustering: true,
+    disableCompare: true,
+  },
+  E12d: {
+    indicator: 'Number of Trucks on Primary Roads',
+    class: 'economic',
+    story: '/eodash-data/stories/E12d',
+    customAreaFilter: true,
+    largeSubAoi: true,
+    featuresClustering: true,
+    disableCompare: true,
+  },
   E13a: {
     indicator: 'Throughput at principal rail stations',
     class: 'economic',
@@ -165,6 +186,7 @@ export const indicatorsDefinition = Object.freeze({
       label: 'Sentinel-5p Mapping Service',
       url: 'https://maps.s5p-pal.com',
     },
+    customAreaFilter: true,
     largeTimeDuration: true,
   },
   N2: {
@@ -304,7 +326,7 @@ export const indicatorClassesIcons = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  minMapZoom: 3,
+  minMapZoom: 2,
   maxMapZoom: 18,
   bounds: latLngBounds(latLng([35, -10]), latLng([70, 33])),
 });
@@ -568,6 +590,265 @@ export const globalIndicators = [
           maxZoom: 13,
           attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Europe',
+        siteName: 'global',
+        description: 'Number of Trucks on Motorways',
+        indicator: 'E12c',
+        lastIndicatorValue: 'Regional Truck Traffic Motorways',
+        indicatorName: 'Regional Truck Traffic Motorways',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-15 35, -15 70, 40 70, 40 35, -15 35))').toJson(),
+          }],
+        },
+        lastColorCode: 'primary',
+        eoSensor: ['2017-06-30', '2018-06-30', '2019-06-30', '2020-06-30'],
+        aoi: null,
+        aoiID: 'W2',
+        time: ['2017-04-01', '2018-04-01', '2019-04-01', '2020-04-01'],
+        inputData: [''],
+        yAxis: 'Number of trucks detected',
+        display: {
+          ...defaultWMSDisplay,
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Aggregated Truck Traffic 10km',
+          layers: 'E12C_MOTORWAY',
+          // legendUrl: 'eodash-data/data/no2Legend.png',
+          minZoom: 1,
+          maxZoom: 10,
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-01-01')}/${DateTime.fromISO(date).toFormat('yyyy-12-31')}`,
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((5 45,5 50,15 50,15 45,5 45))').toJson(),
+            }],
+          },
+          features: {
+            url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
+            requestMethod: 'POST',
+            requestHeaders: {
+              'Content-Type': 'application/json',
+            },
+            requestBody: {
+              collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
+              select: 'id, sum_observations, osm_name, geometry, truck_count_normalized',
+              where: `osm_value=1 AND date_part('year',time)={featuresTime} AND ST_Intersects(ST_GeomFromText('{area}',4326), geometry)`,
+              limit: '5000',
+            },
+            style: {
+              radius: 3,
+              weight: 1,
+            },
+            allowedParameters: ['osm_name', 'truck_count_normalized', 'sum_observations'],
+            dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
+            callbackFunction: (requestJson) => { // geom from wkb to geojson features
+              const ftrs = [];
+              if (Array.isArray(requestJson[0].src)) {
+                requestJson[0].src.forEach((ftr) => {
+                  ftrs.push({
+                    type: 'Feature',
+                    properties: ftr,
+                    geometry: wkx.Geometry.parse(new Buffer(ftr.geometry, 'hex')).toGeoJSON(),
+                  });
+                });
+              }
+              const ftrColl = {
+                type: 'FeatureCollection',
+                features: ftrs,
+              };
+              return ftrColl;
+            },
+            areaFormatFunction: (area) => {
+              return { area: wkt.read(JSON.stringify(area)).write() };
+            },
+          },
+          areaIndicator: {
+            url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
+            requestMethod: 'POST',
+            requestHeaders: {
+              'Content-Type': 'application/json',
+            },
+            requestBody: {
+              collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
+              select: 'sum(truck_count_normalized), time',
+              group: 'time',
+              where: `osm_value=1 AND ST_Intersects(ST_GeomFromText('{area}',4326), geometry)`,
+            },
+            callbackFunction: (requestJson, indicator) => {
+              if (Array.isArray(requestJson[0].src)) {
+                const data = requestJson[0].src;
+                const newData = {
+                  time: [],
+                  measurement: [],
+                  colorCode: [],
+                  referenceValue: [],
+                };
+                data.sort((a, b) => (DateTime.fromISO(a.time) > DateTime.fromISO(b.time)) ? 1 : -1);
+                data.forEach((row) => {
+                  let updateDate = row.time;
+                  // temporary workaround until DB gets updated 2020-01-01 - 2020-04-01
+                  if (row.time === '2020-01-01T00:00:00') {
+                    updateDate = '2020-04-01T00:00:00';
+                  }
+                  newData.time.push(DateTime.fromISO(updateDate)); // actual data
+                  newData.measurement.push(Math.round(row.sum * 10) / 10); // actual data
+                  newData.colorCode.push('BLUE'); // made up data
+                  newData.referenceValue.push('0'); // made up data
+                });
+                const ind = Object.assign(indicator, newData);
+                return ind;
+              }
+              return null;
+            },
+            areaFormatFunction: (area) => {
+              return { area: wkt.read(JSON.stringify(area)).write() };
+            },
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Europe',
+        siteName: 'global',
+        description: 'Number of Trucks on Primary Roads',
+        indicator: 'E12d',
+        lastIndicatorValue: 'Regional Truck Traffic Primary',
+        indicatorName: 'Regional Truck Traffic Primary',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-15 35, -15 70, 40 70, 40 35, -15 35))').toJson(),
+          }],
+        },
+        lastColorCode: 'primary',
+        eoSensor: ['2017-06-30', '2018-06-30', '2019-06-30', '2020-06-30'],
+        aoi: null,
+        aoiID: 'W3',
+        time: ['2017-04-01', '2018-04-01', '2019-04-01', '2020-04-01'],
+        inputData: [''],
+        yAxis: 'Number of trucks detected',
+        display: {
+
+          ...defaultWMSDisplay,
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Aggregated Truck Traffic 10km',
+          layers: 'E12D_PRIMARYROADS',
+          // legendUrl: 'eodash-data/data/no2Legend.png',
+          minZoom: 1,
+          maxZoom: 10,
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-01-01')}/${DateTime.fromISO(date).toFormat('yyyy-12-31')}`,
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((5 45,5 50,15 50,15 45,5 45))').toJson(),
+            }],
+          },
+          features: {
+            url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
+            requestMethod: 'POST',
+            requestHeaders: {
+              'Content-Type': 'application/json',
+            },
+            requestBody: {
+              collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
+              select: 'id, sum_observations, geometry, truck_count_normalized, time',
+              where: `osm_value=3 AND date_part('year',time)={featuresTime} AND ST_Intersects(ST_GeomFromText('{area}',4326), geometry)`,
+              limit: '5000',
+            },
+            style: {
+              radius: 3,
+              weight: 1,
+            },
+            allowedParameters: ['truck_count_normalized', 'sum_observations'],
+            dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
+            callbackFunction: (requestJson) => { // geom from wkb to geojson features
+              const ftrs = [];
+              if (Array.isArray(requestJson[0].src)) {
+                requestJson[0].src.forEach((ftr) => {
+                  ftrs.push({
+                    type: 'Feature',
+                    properties: ftr,
+                    geometry: wkx.Geometry.parse(new Buffer(ftr.geometry, 'hex')).toGeoJSON(),
+                  });
+                });
+              }
+              const ftrColl = {
+                type: 'FeatureCollection',
+                features: ftrs,
+              };
+              return ftrColl;
+            },
+            areaFormatFunction: (area) => {
+              return { area: wkt.read(JSON.stringify(area)).write() };
+            },
+          },
+          areaIndicator: {
+            url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
+            requestMethod: 'POST',
+            requestHeaders: {
+              'Content-Type': 'application/json',
+            },
+            requestBody: {
+              collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
+              select: 'sum(truck_count_normalized), time',
+              group: 'time',
+              where: `osm_value=3 AND ST_Intersects(ST_GeomFromText('{area}',4326), geometry)`,
+            },
+            callbackFunction: (requestJson, indicator) => {
+              if (Array.isArray(requestJson[0].src)) {
+                const data = requestJson[0].src;
+                const newData = {
+                  time: [],
+                  measurement: [],
+                  colorCode: [],
+                  referenceValue: [],
+                };
+                data.sort((a, b) => (DateTime.fromISO(a.time) > DateTime.fromISO(b.time)) ? 1 : -1);
+                data.forEach((row) => {
+                  let updateDate = row.time;
+                  // temporary workaround until DB gets updated 2020-01-01 - 2020-04-01
+                  if (row.time === '2020-01-01T00:00:00') {
+                    updateDate = '2020-04-01T00:00:00';
+                  }
+                  newData.time.push(DateTime.fromISO(updateDate)); // actual data
+                  newData.measurement.push(Math.round(row.sum * 10) / 10); // actual data
+                  newData.colorCode.push('BLUE'); // made up data
+                  newData.referenceValue.push('0'); // made up data
+                });
+                const ind = Object.assign(indicator, newData);
+                return ind;
+              }
+              return null;
+            },
+            areaFormatFunction: (area) => {
+              return { area: wkt.read(JSON.stringify(area)).write() };
+            },
+          },
         },
       },
     },

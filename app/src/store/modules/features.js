@@ -1,4 +1,4 @@
-/* eslint no-shadow: ["error", { "allow": ["state"] }] */
+/* eslint no-shadow: ["error", { "allow": ["state", "getters"] }] */
 import { Wkt } from 'wicket';
 import { latLng } from 'leaflet';
 import countriesJson from '@/assets/countries.json';
@@ -11,6 +11,7 @@ const state = {
     indicators: [],
   },
   selectedFeatures: [],
+  selectedArea: null,
   resultsCount: {
     economic: 0,
     agriculture: 0,
@@ -95,6 +96,15 @@ const getters = {
         ? 1 : -1));
     return features;
   },
+  getGroupedFeatures(_, getters) {
+    return getters.getFeatures.reduce((acc, d) => {
+      const existing = acc.find((a) => `${a.properties.indicatorObject.aoiID}-${a.properties.indicatorObject.indicator}` === `${d.properties.indicatorObject.aoiID}-${d.properties.indicatorObject.indicator}`);
+      if (!existing) {
+        acc.push(d);
+      }
+      return acc;
+    }, []);
+  },
   getLatestUpdate(state) {
     const times = state.allFeatures.map((f) => {
       let time = f.properties.indicatorObject.Time;
@@ -144,6 +154,9 @@ const mutations = {
   },
   ADD_RESULTS_COUNT(state, { type, count }) {
     state.resultsCount[type] += count;
+  },
+  SET_SELECTED_AREA(state, area) {
+    state.selectedArea = area;
   },
 };
 const actions = {
