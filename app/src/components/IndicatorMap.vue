@@ -986,8 +986,8 @@ export default {
         fetch(url, requestOpts).then((r) => r.json())
           .then((rawdata) => {
             // if custom response -> feature mapping function configured, apply it
-            if (typeof this.layerDisplay('data').features.responseFeatureFunction === 'function') {
-              return this.layerDisplay('data').features.responseFeatureFunction(rawdata);
+            if (typeof this.layerDisplay('data').features.callbackFunction === 'function') {
+              return this.layerDisplay('data').features.callbackFunction(rawdata);
             }
             return rawdata;
           })
@@ -1015,43 +1015,38 @@ export default {
       // add custom area if present
       let customArea = {};
       if (this.validDrawnArea) {
-        customArea = typeof this.layerDisplay('data').features.areaFormatFunction === 'function'
-          ? this.layerDisplay('data').features.areaFormatFunction(this.drawnArea) : {area: JSON.stringify(this.drawnArea)};
+        customArea = typeof this.layerDisplay('data').areaIndicator.areaFormatFunction === 'function'
+          ? this.layerDisplay('data').areaIndicator.areaFormatFunction(this.drawnArea) : {area: JSON.stringify(this.drawnArea)};
       }
-      const templateRe = /\{ *([\w_ -]+) *\}/g;
-      const url = template(templateRe, this.layerDisplay('data').features.url, {
+      const templateSubstitutes = {
         ...this.indicator,
         ...options,
         ...customArea,
-      });
+      };
+      const templateRe = /\{ *([\w_ -]+) *\}/g;
+      const url = template(templateRe, this.layerDisplay('data').areaIndicator.url, templateSubstitutes);
       let requestBody = null;
-      if (this.layerDisplay('data').features.requestBody) {
-        const template = this.layerDisplay('data').features.requestBody;
-        const data = {
-          ...this.indicator,
-          ...options,
-          ...customArea,
-        };
-        requestBody = Object.assign({},
-          template,
-          ...Object.keys(template).map(k => k in data && { [k]: data[k] }),
-        )
+      if (this.layerDisplay('data').areaIndicator.requestBody) {
+        requestBody = Object.assign({},this.layerDisplay('data').areaIndicator.requestBody);
+        for (const param in requestBody) {
+          // substitute template strings with values
+          requestBody[param] = template(templateRe, requestBody[param], templateSubstitutes)
+        }
       };
       const requestOpts = {
         credentials: 'same-origin',
-        method: this.layerDisplay('data').features.requestMethod || 'GET',
-        headers: this.layerDisplay('data').features.requestHeaders || {},
+        method: this.layerDisplay('data').areaIndicator.requestMethod || 'GET',
+        headers: this.layerDisplay('data').areaIndicator.requestHeaders || {},
       }
       if (requestBody) {
         requestOpts.body = JSON.stringify(requestBody);
       }
       fetch(url, requestOpts).then((r) => r.json())
         .then((rawdata) => {
-          // if custom response -> feature mapping function configured, apply it
-          if (typeof this.layerDisplay('data').features.responseIndicatorFunction === 'function') {
+          if (typeof this.layerDisplay('data').features.callbackFunction === 'function') {
             // merge data from current indicator data and new data from api
             // returns new indicator object to set as custom area indicator
-            return this.layerDisplay('data').features.responseIndicatorFunction(rawdata, this.indicator);
+            return this.layerDisplay('data').features.callbackFunction(rawdata, this.indicator);
           }
           return rawdata;
         })
