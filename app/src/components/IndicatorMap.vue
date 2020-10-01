@@ -1168,9 +1168,9 @@ export default {
   color: #fff;
 }
 ::v-deep .marker-cluster {
-  background-color: rgba(#003247, 0.5);
+  background-color: rgba(#72a875, 0.5);
   div {
-    background-color: var(--v-primary-base);
+    background-color: var(--v-success-base);
     span {
       color: white;
     }
