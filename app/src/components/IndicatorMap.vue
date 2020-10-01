@@ -138,7 +138,7 @@
     <img v-if="layerDisplay('data').legendUrl"
     :src="layerDisplay('data').legendUrl" alt=""
       style="position: absolute; width: 250px; z-index: 700;
-      top: 10px; left: 10px; background: rgba(255, 255, 255, 0.4); ">
+      top: 10px; left: 10px; background: rgba(255, 255, 255, 0.8); ">
     <div
       class="d-flex justify-center" style="position: relative; width: 100%; height: 100%;"
       @click.stop=""
@@ -840,37 +840,6 @@ export default {
           this.slider.addTo(this.map);
         });
       }
-    },
-    indicator() {
-      this.dataLayerTime = { value: this.usedTimes[this.usedTimes.length - 1] };
-      this.dataLayerIndex = this.usedTimes.length - 1;
-      if (this.indicator.compareDisplay) {
-        this.compareLayerTime = this.dataLayerTime;
-        this.compareLayerIndex = this.dataLayerIndex;
-      } else {
-        this.compareLayerTime = { value: this.getInitialCompareTime() };
-        this.compareLayerIndex = 0;
-      }
-      this.$nextTick(() => {
-        // first nextTick to update layer correctly if was switch from wms <-> xyz
-        this.refreshLayer('data');
-        if (this.disableCompareButton) {
-          this.enableCompare = false;
-        }
-        if (this.slider) {
-          this.refreshLayer('compare');
-        }
-        this.$nextTick(() => {
-          // second nextTick to add correct layers to slider
-          if (this.slider) {
-            this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
-            this.slider.setRightLayers(this.$refs.dataLayers.mapObject.getLayers());
-          }
-          this.flyToBounds();
-          this.onResize();
-        });
-      });
-      this.refreshBaselayersSelection();
     },
   },
 };

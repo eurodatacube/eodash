@@ -111,6 +111,7 @@
       </v-toolbar>
       <data-panel
         v-if="$store.state.indicators.selectedIndicator"
+        :key="panelKey"
         :expanded="dataPanelFullWidth" class="px-5" />
       <template v-else>
         <Welcome v-if="showText === 'welcome'" />
@@ -291,6 +292,7 @@ export default {
     showFeedbackDialog: false,
     dataPanelFullWidth: false,
     dataPanelTemporary: false,
+    panelKey: 0,
   }),
   computed: {
     appConfig() {
@@ -356,6 +358,7 @@ export default {
       if (selected) {
         this.drawerRight = true;
       }
+      this.panelKey = Math.random();
     },
   },
 };
