@@ -1043,16 +1043,16 @@ export default {
       }
       fetch(url, requestOpts).then((r) => r.json())
         .then((rawdata) => {
-          if (typeof this.layerDisplay('data').features.callbackFunction === 'function') {
+          if (typeof this.layerDisplay('data').areaIndicator.callbackFunction === 'function') {
             // merge data from current indicator data and new data from api
             // returns new indicator object to set as custom area indicator
-            return this.layerDisplay('data').features.callbackFunction(rawdata, this.indicator);
+            return this.layerDisplay('data').areaIndicator.callbackFunction(rawdata, this.indicator);
           }
           return rawdata;
         })
         .then((indicator) => {
           this.$store.commit(
-            'indicators/SET_CUSTOM_AREA_INDICATOR', indicator
+            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator
           );
         })
         .catch((err) => {

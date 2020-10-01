@@ -616,6 +616,7 @@ export const globalIndicators = [
         aoiID: 'W2',
         time: ['2017', '2018', '2019', '2020'],
         inputData: [''],
+        yAxis: "Number of trucks detected",
         display: {
           ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -685,18 +686,30 @@ export const globalIndicators = [
               group: 'time',
               where: `ST_Intersects(ST_GeomFromText('{area}',4326), geometry)`,
             },
-            callbackFunction: (requestJson, indicator) => { // geom from wkb to geojson features
-              let ftrs = [];
+            callbackFunction: (requestJson, indicator) => {
               if (Array.isArray(requestJson[0].src)) {
-                requestJson[0].src.forEach((stat) => {
-                  //TODO
-                  const a = 1;
+                const data = requestJson[0].src;
+                const newData = {
+                  time: [],
+                  measurement: [],
+                  colorCode: [],
+                  referenceValue: [],
+                };
+                data.sort((a, b) => (DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1);
+                data.forEach((row) => {
+                  newData.time.push(DateTime.fromISO(row.time)); // actual data
+                  newData.measurement.push(row.sum); // actual data
+                  newData.colorCode.push('BLUE'); // made up data
+                  newData.referenceValue.push('0'); // made up data
                 });
+                const ind = Object.assign(indicator, newData);
+                return ind;
               }
-              return ftrColl;
             },
             areaFormatFunction: (area) => {
-              return {area: wkt.read(JSON.stringify(area)).write()};
+              return {
+                area: wkt.read(JSON.stringify(area)).write(),
+              };
             },
           },
         },
@@ -727,6 +740,7 @@ export const globalIndicators = [
         aoiID: 'W3',
         time: ['2017', '2018', '2019', '2020'],
         inputData: [''],
+        yAxis: "Number of trucks detected",
         display: {
 
           ...defaultWMSDisplay,
@@ -797,15 +811,25 @@ export const globalIndicators = [
               group: 'time',
               where: `ST_Intersects(ST_GeomFromText('{area}',4326), geometry)`,
             },
-            callbackFunction: (requestJson, indicator) => { // geom from wkb to geojson features
-              let ftrs = [];
+            callbackFunction: (requestJson, indicator) => {
               if (Array.isArray(requestJson[0].src)) {
-                requestJson[0].src.forEach((stat) => {
-                  //TODO
-                  const a = 1;
+                const data = requestJson[0].src;
+                const newData = {
+                  time: [],
+                  measurement: [],
+                  colorCode: [],
+                  referenceValue: [],
+                };
+                data.sort((a, b) => (DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1);
+                data.forEach((row) => {
+                  newData.time.push(DateTime.fromISO(row.time)); // actual data
+                  newData.measurement.push(row.sum); // actual data
+                  newData.colorCode.push('BLUE'); // made up data
+                  newData.referenceValue.push('0'); // made up data
                 });
+                const ind = Object.assign(indicator, newData);
+                return ind;
               }
-              return ftrColl;
             },
             areaFormatFunction: (area) => {
               return {area: wkt.read(JSON.stringify(area)).write()};
