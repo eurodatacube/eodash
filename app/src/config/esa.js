@@ -645,7 +645,7 @@ export const globalIndicators = [
             requestBody: {
               collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
               select: 'id, sum_observations, osm_name, geometry, truck_count_normalized',
-              where: `ST_Intersects(ST_GeomFromText('{area}',4326), geometry) AND time='{featuresTime}'::date`,
+              where: `osm_value=1 AND ST_Intersects(ST_GeomFromText('{area}',4326), geometry) AND time='{featuresTime}'::date`,
               limit: '5000',
             },
             style: {
@@ -685,7 +685,7 @@ export const globalIndicators = [
               collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
               select: 'sum(truck_count_normalized), time',
               group: 'time',
-              where: `ST_Intersects(ST_GeomFromText('{area}',4326), geometry)`,
+              where: `osm_value=1 AND ST_Intersects(ST_GeomFromText('{area}',4326), geometry)`,
             },
             callbackFunction: (requestJson, indicator) => {
               if (Array.isArray(requestJson[0].src)) {
@@ -770,7 +770,7 @@ export const globalIndicators = [
             requestBody: {
               collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
               select: 'id, sum_observations, geometry, truck_count_normalized, time',
-              where: `ST_Intersects(ST_GeomFromText('{area}',4326), geometry) AND time='{featuresTime}'::date`,
+              where: `osm_value=3 AND ST_Intersects(ST_GeomFromText('{area}',4326), geometry) AND time='{featuresTime}'::date`,
               limit: '5000',
             },
             style: {
@@ -810,7 +810,7 @@ export const globalIndicators = [
               collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
               select: 'sum(truck_count_normalized), time',
               group: 'time',
-              where: `ST_Intersects(ST_GeomFromText('{area}',4326), geometry)`,
+              where: `osm_value=3 AND ST_Intersects(ST_GeomFromText('{area}',4326), geometry)`,
             },
             callbackFunction: (requestJson, indicator) => {
               if (Array.isArray(requestJson[0].src)) {
