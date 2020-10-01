@@ -133,7 +133,7 @@
                   </v-btn>
                 </div>
               </template>
-              Select an area on the map to start!
+              Select an area on the map to start! Current limit of features to view is 5 000.
             </v-tooltip>
             <v-tooltip
               v-if="customAreaFilter"

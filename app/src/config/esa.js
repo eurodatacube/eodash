@@ -706,7 +706,7 @@ export const globalIndicators = [
                     updateDate = '2020-04-01T00:00:00';
                   }
                   newData.time.push(DateTime.fromISO(updateDate)); // actual data
-                  newData.measurement.push(row.sum); // actual data
+                  newData.measurement.push(Math.round(row.sum * 10) / 10); // actual data
                   newData.colorCode.push('BLUE'); // made up data
                   newData.referenceValue.push('0'); // made up data
                 });
@@ -836,7 +836,7 @@ export const globalIndicators = [
                     updateDate = '2020-04-01T00:00:00';
                   }
                   newData.time.push(DateTime.fromISO(updateDate)); // actual data
-                  newData.measurement.push(row.sum); // actual data
+                  newData.measurement.push(Math.round(row.sum * 10) / 10); // actual data
                   newData.colorCode.push('BLUE'); // made up data
                   newData.referenceValue.push('0'); // made up data
                 });
