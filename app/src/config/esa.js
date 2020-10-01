@@ -615,7 +615,7 @@ export const globalIndicators = [
         eoSensor: ['2017-06-30', '2018-06-30', '2019-06-30', '2020-06-30'],
         aoi: null,
         aoiID: 'W2',
-        time: ['2017', '2018', '2019', '2020'],
+        time: ['2017-04-01', '2018-04-01', '2019-04-01', '2020-04-01'],
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: {
@@ -696,9 +696,14 @@ export const globalIndicators = [
                   colorCode: [],
                   referenceValue: [],
                 };
-                data.sort((a, b) => (DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1);
+                data.sort((a, b) => (DateTime.fromISO(a.time) > DateTime.fromISO(b.time)) ? 1 : -1);
                 data.forEach((row) => {
-                  newData.time.push(DateTime.fromISO(row.time)); // actual data
+                  let updateDate = row.time;
+                  // temporary workaround until DB gets updated 2020-01-01 - 2020-04-01
+                  if (row.time === '2020-01-01T00:00:00') {
+                    updateDate = '2020-04-01T00:00:00';
+                  }
+                  newData.time.push(DateTime.fromISO(updateDate)); // actual data
                   newData.measurement.push(row.sum); // actual data
                   newData.colorCode.push('BLUE'); // made up data
                   newData.referenceValue.push('0'); // made up data
@@ -739,7 +744,7 @@ export const globalIndicators = [
         eoSensor: ['2017-06-30', '2018-06-30', '2019-06-30', '2020-06-30'],
         aoi: null,
         aoiID: 'W3',
-        time: ['2017', '2018', '2019', '2020'],
+        time: ['2017-04-01', '2018-04-01', '2019-04-01', '2020-04-01'],
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: {
@@ -821,9 +826,14 @@ export const globalIndicators = [
                   colorCode: [],
                   referenceValue: [],
                 };
-                data.sort((a, b) => (DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1);
+                data.sort((a, b) => (DateTime.fromISO(a.time) > DateTime.fromISO(b.time)) ? 1 : -1);
                 data.forEach((row) => {
-                  newData.time.push(DateTime.fromISO(row.time)); // actual data
+                  let updateDate = row.time;
+                  // temporary workaround until DB gets updated 2020-01-01 - 2020-04-01
+                  if (row.time === '2020-01-01T00:00:00') {
+                    updateDate = '2020-04-01T00:00:00';
+                  }
+                  newData.time.push(DateTime.fromISO(updateDate)); // actual data
                   newData.measurement.push(row.sum); // actual data
                   newData.colorCode.push('BLUE'); // made up data
                   newData.referenceValue.push('0'); // made up data
