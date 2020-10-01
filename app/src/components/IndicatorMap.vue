@@ -587,6 +587,8 @@ export default {
       this.map.on(L.Draw.Event.DRAWSTOP, function () { // eslint-disable-line
         this.featureJson.data = emptyF;
         this.featureJson.compare = emptyF;
+        this.$refs.featuresDataCluster.mapObject.clearLayers();
+        this.$refs.featuresCompareCluster.mapObject.clearLayers();
         if (this.fetchDataClicked) {
           this.fetchFeatures('data');
           if (this.enableCompare) {
@@ -595,11 +597,6 @@ export default {
         }
       }.bind(this));
 
-      this.map.on(L.Draw.Event.DELETED, function () { // eslint-disable-line
-        this.clearCustomAreaFilter();
-        this.featureJson.data = emptyF;
-        this.featureJson.compare = emptyF;
-      }.bind(this));
       if (this.customAreaFilter) {
         this.drawControl.addTo(this.map);
         this.renderTrashBin = true;
