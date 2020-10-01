@@ -148,6 +148,7 @@ export const indicatorsDefinition = Object.freeze({
     customAreaFilter: true,
     largeSubAoi: true,
     featuresClustering: true,
+    disableCompare: true,
   },
   E12d: {
     indicator: 'Number of Trucks on Primary Roads',
@@ -156,6 +157,7 @@ export const indicatorsDefinition = Object.freeze({
     customAreaFilter: true,
     largeSubAoi: true,
     featuresClustering: true,
+    disableCompare: true,
   },
   E13a: {
     indicator: 'Throughput at principal rail stations',
