@@ -56,10 +56,13 @@
       :optionsStyle="subAoiStyle('data')"
       >
       </l-geo-json>
-      <l-marker-cluster v-if="featuresClustering" ref="featuresDataCluster" :options="clusterOptions">
+      <l-marker-cluster v-if="featuresClustering"
+        ref="featuresDataCluster"
+        :options="clusterOptions">
         <l-geo-json
           ref="featureJsonData"
-          v-for="geoJson in featureJson.data.features" :key="geoJson.properties.id" :geojson="geoJson"
+          v-for="geoJson in featureJson.data.features"
+          :key="geoJson.properties.id" :geojson="geoJson"
           :options="featureOptions('data')"
           :pane="tooltipPane"
         >
@@ -68,7 +71,8 @@
       <l-geo-json
           v-else
           ref="featureJsonData"
-          v-for="geoJson in featureJson.data.features" :key="geoJson.properties.id" :geojson="geoJson"
+          v-for="geoJson in featureJson.data.features"
+          :key="geoJson.properties.id" :geojson="geoJson"
           :options="featureOptions('data')"
           :pane="tooltipPane"
         >
@@ -109,7 +113,7 @@
     </l-layer-group>
     <l-layer-group ref="compareLayers">
       <LTileLayer
-      v-if="layerDisplay('compare').protocol === 'xyz'"
+        v-if="layerDisplay('compare').protocol === 'xyz'"
         ref="compareLayer"
         :key="compareLayerKey"
         v-bind="layerDisplay('compare')"
@@ -136,11 +140,13 @@
         :optionsStyle="subAoiStyle('compare')"
       >
       </l-geo-json>
-      <l-marker-cluster v-if="featuresClustering" ref="featuresCompareCluster" :options="clusterOptions">
+      <l-marker-cluster v-if="featuresClustering"
+        ref="featuresCompareCluster" :options="clusterOptions">
         <l-geo-json
           ref="featureJsonCompare"
           :visible="enableCompare"
-          v-for="geoJson in featureJson.compare.features" :key="geoJson.properties.id" :geojson="geoJson"
+          v-for="geoJson in featureJson.compare.features"
+          :key="geoJson.properties.id" :geojson="geoJson"
           :options="featureOptions('compare')"
           :pane="shadowPane"
         >
@@ -150,7 +156,8 @@
         v-else
         ref="featureJsonCompare"
         :visible="enableCompare"
-        v-for="geoJson in featureJson.compare.features" :key="geoJson.properties.id" :geojson="geoJson"
+        v-for="geoJson in featureJson.compare.features"
+        :key="geoJson.properties.id" :geojson="geoJson"
         :options="featureOptions('compare')"
         :pane="shadowPane"
       >
@@ -185,7 +192,8 @@
       style="position: absolute; width: 250px; z-index: 700;
       top: 10px; left: 10px; background: rgba(255, 255, 255, 0.6); ">
     <div
-      class="d-flex justify-center" style="position: relative; width: 100%; height: 100%;"
+      class="d-flex justify-center"
+      style="position: relative; width: 100%; height: 100%;"
       @click.stop=""
       @dblclick.stop=""
     >
@@ -487,10 +495,10 @@ export default {
           const childCount = cluster.getChildCount();
           return new DivIcon({
             html: `<div><span>${childCount}</span></div>`,
-            className: `marker-cluster`,
+            className: 'marker-cluster',
             iconSize: new Point(40, 40),
           });
-        }.bind(this),
+        },
         polygonOptions: {
           fillColor: this.$vuetify.theme.themes.light.primary,
           color: this.$vuetify.theme.themes.light.primary,
@@ -663,8 +671,8 @@ export default {
             layer.bindTooltip(tooltip, { pane: this.popupPane });
           }
           // to make clustering work
-          layer.getLatLng = function() { return geoJson(feature).getBounds().getCenter() }
-          layer.setLatLng = function() { }
+          layer.getLatLng = () => { return geoJson(feature).getBounds().getCenter(); };
+          layer.setLatLng = () => { };
           layer._latlng = layer.getLatLng();
         }.bind(this),
         // point circle marker styling
@@ -745,7 +753,7 @@ export default {
         ...this.baseConfig.defaultWMSDisplay,
         ...this.indDefinition,
         ...this.shLayerConfig(side),
-        name: name,
+        name,
       };
     },
     flyToBounds() {
@@ -958,28 +966,31 @@ export default {
         let customArea = {};
         if (this.validDrawnArea) {
           customArea = typeof this.layerDisplay('data').features.areaFormatFunction === 'function'
-            ? this.layerDisplay('data').features.areaFormatFunction(this.drawnArea) : {area: JSON.stringify(this.drawnArea)};
+            ? this.layerDisplay('data').features.areaFormatFunction(this.drawnArea) : { area: JSON.stringify(this.drawnArea) };
         }
-        const templateSubstitutes = {
+        const templateSubst = {
           ...this.indicator,
           ...options,
           ...customArea,
         };
         const templateRe = /\{ *([\w_ -]+) *\}/g;
-        const url = template(templateRe, this.layerDisplay(side).features.url, templateSubstitutes);
+        const url = template(templateRe, this.layerDisplay(side).features.url, templateSubst);
         let requestBody = null;
         if (this.layerDisplay(side).features.requestBody) {
-          requestBody = Object.assign({},this.layerDisplay(side).features.requestBody);
-          for (const param in requestBody) {
+          requestBody = {
+            ...this.layerDisplay(side).features.requestBody,
+          };
+          const params = Object.keys(requestBody);
+          for (let i = 0; i < params.length; i += 1) {
             // substitute template strings with values
-            requestBody[param] = template(templateRe, requestBody[param], templateSubstitutes)
+            requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
           }
-        };
+        }
         const requestOpts = {
           credentials: 'same-origin',
           method: this.layerDisplay('data').features.requestMethod || 'GET',
           headers: this.layerDisplay('data').features.requestHeaders || {},
-        }
+        };
         if (requestBody) {
           requestOpts.body = JSON.stringify(requestBody);
         }
@@ -1016,28 +1027,31 @@ export default {
       let customArea = {};
       if (this.validDrawnArea) {
         customArea = typeof this.layerDisplay('data').areaIndicator.areaFormatFunction === 'function'
-          ? this.layerDisplay('data').areaIndicator.areaFormatFunction(this.drawnArea) : {area: JSON.stringify(this.drawnArea)};
+          ? this.layerDisplay('data').areaIndicator.areaFormatFunction(this.drawnArea) : { area: JSON.stringify(this.drawnArea) };
       }
-      const templateSubstitutes = {
+      const templateSubst = {
         ...this.indicator,
         ...options,
         ...customArea,
       };
       const templateRe = /\{ *([\w_ -]+) *\}/g;
-      const url = template(templateRe, this.layerDisplay('data').areaIndicator.url, templateSubstitutes);
+      const url = template(templateRe, this.layerDisplay('data').areaIndicator.url, templateSubst);
       let requestBody = null;
       if (this.layerDisplay('data').areaIndicator.requestBody) {
-        requestBody = Object.assign({},this.layerDisplay('data').areaIndicator.requestBody);
-        for (const param in requestBody) {
+        requestBody = {
+          ...this.layerDisplay('data').areaIndicator.requestBody,
+        };
+        const params = Object.keys(requestBody);
+        for (let i = 0; i < params.length; i += 1) {
           // substitute template strings with values
-          requestBody[param] = template(templateRe, requestBody[param], templateSubstitutes)
+          requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
         }
-      };
+      }
       const requestOpts = {
         credentials: 'same-origin',
         method: this.layerDisplay('data').areaIndicator.requestMethod || 'GET',
         headers: this.layerDisplay('data').areaIndicator.requestHeaders || {},
-      }
+      };
       if (requestBody) {
         requestOpts.body = JSON.stringify(requestBody);
       }
@@ -1052,11 +1066,11 @@ export default {
         })
         .then((indicator) => {
           this.$store.commit(
-            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator
+            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
           );
         })
         .catch((err) => {
-          console.log('error happened', err);
+          console.log(err);
         });
     },
     refreshBaselayersSelection() {

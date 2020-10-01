@@ -2,11 +2,11 @@
 // temporary solution
 import { Wkt } from 'wicket';
 import { DateTime } from 'luxon';
-import { geoJson, latLng, latLngBounds } from 'leaflet';
+import { latLng, latLngBounds } from 'leaflet';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
 
 const wkx = require('wkx');
-var Buffer = require('buffer').Buffer;
+let Buffer = require('buffer').Buffer;
 
 export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [
@@ -616,7 +616,7 @@ export const globalIndicators = [
         aoiID: 'W2',
         time: ['2017', '2018', '2019', '2020'],
         inputData: [''],
-        yAxis: "Number of trucks detected",
+        yAxis: 'Number of trucks detected',
         display: {
           ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -645,7 +645,7 @@ export const globalIndicators = [
               collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
               select: 'id, sum_observations, osm_name, geometry, truck_count_normalized',
               where: `ST_Intersects(ST_GeomFromText('{area}',4326), geometry) AND time='{featuresTime}'::date`,
-              limit: "5000",
+              limit: '5000',
             },
             style: {
               radius: 3,
@@ -654,7 +654,7 @@ export const globalIndicators = [
             allowedParameters: ['osm_name', 'truck_count_normalized', 'sum_observations'],
             dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-01-01')}`,
             callbackFunction: (requestJson) => { // geom from wkb to geojson features
-              let ftrs = [];
+              const ftrs = [];
               if (Array.isArray(requestJson[0].src)) {
                 requestJson[0].src.forEach((ftr) => {
                   ftrs.push({
@@ -671,7 +671,7 @@ export const globalIndicators = [
               return ftrColl;
             },
             areaFormatFunction: (area) => {
-              return {area: wkt.read(JSON.stringify(area)).write()};
+              return { area: wkt.read(JSON.stringify(area)).write() };
             },
           },
           areaIndicator: {
@@ -705,11 +705,10 @@ export const globalIndicators = [
                 const ind = Object.assign(indicator, newData);
                 return ind;
               }
+              return null;
             },
             areaFormatFunction: (area) => {
-              return {
-                area: wkt.read(JSON.stringify(area)).write(),
-              };
+              return { area: wkt.read(JSON.stringify(area)).write() };
             },
           },
         },
@@ -740,7 +739,7 @@ export const globalIndicators = [
         aoiID: 'W3',
         time: ['2017', '2018', '2019', '2020'],
         inputData: [''],
-        yAxis: "Number of trucks detected",
+        yAxis: 'Number of trucks detected',
         display: {
 
           ...defaultWMSDisplay,
@@ -770,7 +769,7 @@ export const globalIndicators = [
               collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
               select: 'id, sum_observations, geometry, truck_count_normalized, time',
               where: `ST_Intersects(ST_GeomFromText('{area}',4326), geometry) AND time='{featuresTime}'::date`,
-              limit: "5000",
+              limit: '5000',
             },
             style: {
               radius: 3,
@@ -779,7 +778,7 @@ export const globalIndicators = [
             allowedParameters: ['truck_count_normalized', 'sum_observations'],
             dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-01-01')}`,
             callbackFunction: (requestJson) => { // geom from wkb to geojson features
-              let ftrs = [];
+              const ftrs = [];
               if (Array.isArray(requestJson[0].src)) {
                 requestJson[0].src.forEach((ftr) => {
                   ftrs.push({
@@ -796,7 +795,7 @@ export const globalIndicators = [
               return ftrColl;
             },
             areaFormatFunction: (area) => {
-              return {area: wkt.read(JSON.stringify(area)).write()};
+              return { area: wkt.read(JSON.stringify(area)).write() };
             },
           },
           areaIndicator: {
@@ -830,9 +829,10 @@ export const globalIndicators = [
                 const ind = Object.assign(indicator, newData);
                 return ind;
               }
+              return null;
             },
             areaFormatFunction: (area) => {
-              return {area: wkt.read(JSON.stringify(area)).write()};
+              return { area: wkt.read(JSON.stringify(area)).write() };
             },
           },
         },
