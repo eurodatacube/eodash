@@ -102,6 +102,7 @@ module.exports = [
       { code: 'CL', region: 'SOUTH AMERICA' },
       { code: 'PE', region: 'SOUTH AMERICA' },
       { code: 'TG', region: 'AFRICA' },
+      { code: 'TZ', region: 'AFRICA' },
     ],
     privacyText: '/data/trilateral/privacy',
     termsText: '/data/trilateral/terms',

@@ -138,7 +138,7 @@
     <img v-if="layerDisplay('data').legendUrl"
     :src="layerDisplay('data').legendUrl" alt=""
       style="position: absolute; width: 250px; z-index: 700;
-      top: 10px; left: 10px; background: rgba(255, 255, 255, 0.4); ">
+      top: 10px; left: 10px; background: rgba(255, 255, 255, 0.8); ">
     <div
       class="d-flex justify-center" style="position: relative; width: 100%; height: 100%;"
       @click.stop=""
