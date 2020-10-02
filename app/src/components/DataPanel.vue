@@ -86,6 +86,7 @@
               Tap to interact
             </v-overlay>
             <indicator-map
+              ref="indicatorMap"
               style="top: 0px; position: absolute;"
               v-if="globalData"
               class="pt-0 fill-height"
@@ -97,78 +98,150 @@
             />
           </v-card>
         </v-col>
+
         <v-col
           cols="12"
           class="py-0 my-0 d-flex justify-space-between"
         >
           <small v-if="indicatorObject && indicatorObject.updateFrequency">
-            <span v-if="indicatorObject.updateFrequency === 'Retired'">This indicator is no longer updated</span>
-            <span v-else-if="indicatorObject.updateFrequency === 'EndSeason'">Due to end of season, this indicator is no longer updated</span>
+            <span
+              v-if="indicatorObject.updateFrequency === 'Retired'"
+            >This indicator is no longer updated</span>
+            <span
+              v-else-if="indicatorObject.updateFrequency === 'EndSeason'"
+            >Due to end of season, this indicator is no longer updated</span>
             <span v-else>This data is updated: {{ indicatorObject.updateFrequency }}</span>
           </small>
           <small v-else> </small>
-          <v-dialog
-            v-model="iframeDialog"
-            width="500"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                color="primary"
-                text
-                x-small
-                v-bind="attrs"
-                @click="copySuccess = false"
-                v-on="on"
-              >
-                <v-icon left>mdi-poll-box</v-icon>
-                embed chart
-              </v-btn>
-            </template>
-
-            <v-card>
-              <v-card-title class="headline primary white--text">
-                Embed this chart into your website
-              </v-card-title>
-
-              <v-card-text class="py-5">
-                Copy and paste this code into your HTML file:
-                <code class="pa-3">{{ iframeCode }}
-                </code>
-                <div class="d-flex align-center justify-end pt-3">
-                  <v-expand-transition>
-                    <div v-if="copySuccess" class="success--text mr-3">
-                    <v-icon
-                      color="success"
-                      left
-                    >mdi-clipboard-check-outline</v-icon>
-                      <small>copied!</small>
-                    </div>
-                  </v-expand-transition>
+          <div class="d-flex align-center">
+            <v-tooltip
+              v-if="customAreaFilter"
+              :disabled="customAreaFilterEnabled"
+              top
+            >
+              <template v-slot:activator="{ on }">
+                <div v-on="on">
                   <v-btn
-                    small
+                    color="primary"
                     text
-                    @click="copy(iframeCode)"
+                    x-small
+                    @click="fetchCustomAreaFeatures"
+                    :disabled="!customAreaFilterEnabled"
                   >
-                    <v-icon left>mdi-content-copy</v-icon>
-                    copy to clipboard
+                    <v-icon left>mdi-map</v-icon>
+                    features for sub-area
                   </v-btn>
                 </div>
-              </v-card-text>
-
-              <v-divider></v-divider>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
+              </template>
+              Select an area on the map to start! Current limit of features to view is 5 000.
+            </v-tooltip>
+            <v-tooltip
+              v-if="customAreaFilter"
+              :disabled="customAreaFilterEnabled"
+              top
+            >
+              <template v-slot:activator="{ on }">
+                <div v-on="on">
+                  <v-btn
+                    color="primary"
+                    text
+                    x-small
+                    @click="fetchCustomAreaIndicator"
+                    :disabled="!customAreaFilterEnabled"
+                  >
+                    <v-icon left>mdi-poll</v-icon>
+                    chart from sub-area
+                  </v-btn>
+                </div>
+              </template>
+              Select an area on the map to start!
+            </v-tooltip>
+            <v-dialog
+              v-model="iframeDialog"
+              width="500"
+            >
+              <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   color="primary"
                   text
                   @click="iframeDialog = false"
                 >
-                  Close
+                  <v-icon left>mdi-poll-box</v-icon>
+                  embed chart
                 </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
+              </template>
+
+              <v-card>
+                <v-card-title class="headline primary white--text">
+                  Embed this chart into your website
+                </v-card-title>
+
+                <v-card-text class="py-5">
+                  Copy and paste this code into your HTML file:
+                  <code class="pa-3">{{ iframeCode }}
+                  </code>
+                  <div class="d-flex align-center justify-end pt-3">
+                    <v-expand-transition>
+                      <div v-if="copySuccess" class="success--text mr-3">
+                      <v-icon
+                        color="success"
+                        left
+                      >mdi-clipboard-check-outline</v-icon>
+                        <small>copied!</small>
+                      </div>
+                    </v-expand-transition>
+                    <v-btn
+                      small
+                      text
+                      @click="copy(iframeCode)"
+                    >
+                      <v-icon left>mdi-content-copy</v-icon>
+                      copy to clipboard
+                    </v-btn>
+                  </div>
+                </v-card-text>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="primary"
+                    flat
+                    @click="iframeDialog = false"
+                  >
+                    Close
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </div>
+        </v-col>
+        <v-col
+          cols="12"
+          ref="customAreaIndicator"
+        >
+          <v-card
+            v-if="customAreaIndicator"
+            class="fill-height"
+            :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
+          >
+            <div
+              style="height: 100%;z-index: 500; position: relative;"
+              v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
+              @click="dataInteract = true"
+              v-touch="{
+                left: () => swipe(),
+                right: () => swipe(),
+                up: () => swipe(),
+                down: () => swipe(),
+            }">
+            </div>
+            <indicator-data
+              style="top: 0px; position: absolute;"
+              class="pa-5"
+            />
+          </v-card>
         </v-col>
         <v-col
           cols="12"
@@ -252,18 +325,9 @@ export default {
     dataInteract: false,
     iframeDialog: false,
     copySuccess: false,
+    mounted: false,
     selectedSensorTab: 0,
   }),
-  watch: {
-    dialog(open) {
-      if (open && this.$refs.referenceMap) {
-        this.$refs.referenceMap.onResize();
-        setTimeout(() => {
-          this.$refs.referenceMap.flyToBounds();
-        }, 200);
-      }
-    },
-  },
   computed: {
     ...mapGetters('features', [
       'getCountries',
@@ -300,6 +364,9 @@ export default {
       }
       return indicatorObject;
     },
+    customAreaIndicator() {
+      return this.$store.state.indicators.customAreaIndicator;
+    },
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
     },
@@ -331,9 +398,19 @@ export default {
         return f.properties.indicatorObject.aoiID === selectedIndicator.aoiID && f.properties.indicatorObject.indicator === selectedIndicator.indicator;
       }).sort((a,b) => (a.properties.indicatorObject.tabIndex > b.properties.indicatorObject.tabIndex) ? 1 : -1);
       // sorting necessary because for some reason, global indicators array is reversed after 2nd load onwards
+    customAreaFilter() {
+      let filter;
+      if (this.mounted && this.$refs.indicatorMap) {
+        filter = this.$refs.indicatorMap.customAreaFilter;
+      }
+      return filter;
+    },
+    customAreaFilterEnabled() {
+      return this.$refs.indicatorMap && this.$refs.indicatorMap.validDrawnArea;
     },
   },
   mounted() {
+    this.mounted = true;
     this.selectedSensorTab = this.multipleSensorCompare
       .indexOf(this.multipleSensorCompare.find(s => s.properties.indicatorObject.eoSensor === this.$route.query.sensor))
     || 0;
@@ -347,12 +424,27 @@ export default {
       this.overlay = true;
       setTimeout(() => { this.overlay = false; }, 2000);
     },
+    fetchCustomAreaIndicator() {
+      this.$refs.indicatorMap.fetchCustomAreaIndicator();
+      this.$vuetify.goTo(this.$refs.customAreaIndicator, { container: document.querySelector('.data-panel') });
+    },
+    fetchCustomAreaFeatures() {
+      this.$refs.indicatorMap.fetchCustomAreaFeatures();
+    },
   },
   watch: {
     selectedSensorTab(index) {
       if (this.multipleSensorCompare[index]) {
         const sensor = this.multipleSensorCompare[index].properties.indicatorObject.eoSensor;
         this.$router.replace({ query: { ...this.$route.query, sensor } }).catch(()=>{});
+      }
+    },
+    dialog(open) {
+      if (open && this.$refs.referenceMap) {
+        this.$refs.referenceMap.onResize();
+        setTimeout(() => {
+          this.$refs.referenceMap.flyToBounds();
+        }, 200);
       }
     },
   },

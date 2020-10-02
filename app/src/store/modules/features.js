@@ -11,6 +11,7 @@ const state = {
     indicators: [],
   },
   selectedFeatures: [],
+  selectedArea: null,
   resultsCount: {
     economic: 0,
     agriculture: 0,
@@ -155,6 +156,9 @@ const mutations = {
   },
   ADD_RESULTS_COUNT(state, { type, count }) {
     state.resultsCount[type] += count;
+  },
+  SET_SELECTED_AREA(state, area) {
+    state.selectedArea = area;
   },
 };
 const actions = {

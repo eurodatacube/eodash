@@ -68,6 +68,9 @@ import CookieLaw from 'vue-cookie-law';
 
 import axios from 'axios';
 import { DateTime } from 'luxon';
+import { Wkt } from 'wicket';
+
+const wkt = new Wkt();
 
 export default {
   components: {
@@ -118,6 +121,7 @@ export default {
           });
         }
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
+        this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
 
         // Read route query and validate country and indicator if in query
         const { country } = this.$route.query;
@@ -160,8 +164,19 @@ export default {
           }
         }
       }
+      
+      if (mutation.type === 'features/SET_SELECTED_AREA') {
+        if (mutation.payload) {
+          const area = wkt.read(JSON.stringify(mutation.payload)).write();
+          this.$router.replace({ query: Object.assign({}, this.$route.query, { area, }) }).catch(err => {}); // eslint-disable-line
+        } else {
+          const query = Object.assign({}, this.$route.query); // eslint-disable-line
+          delete query.area;
+          this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
+        }
+      }
 
-      if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
+      if (['indicators/SET_SELECTED_INDICATOR'].includes(mutation.type)) {
         if (mutation.payload && !( // If dummy feature selected ignore
           Object.prototype.hasOwnProperty.call(mutation.payload, 'dummyFeature')
           && mutation.payload.dummyFeature)) {
@@ -232,15 +247,18 @@ export default {
           }
           this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: this.getLocationCode(mutation.payload) }) }).catch(err => {}); // eslint-disable-line
           this.trackEvent('indicators', 'select_indicator', this.getLocationCode(mutation.payload));
+          this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
         } else {
           const query = Object.assign({}, this.$route.query); // eslint-disable-line
           delete query.poi;
           this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
           this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', null);
+          this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
           this.trackEvent('indicators', 'deselect_indicator');
         }
       }
     });
+    this.setAreaFromQuery();
   },
   methods: {
     async checkComingSoon() {
@@ -257,6 +275,17 @@ export default {
         this.$matomo.rememberConsentGiven();
       }
     },
+    setAreaFromQuery() {
+      const { area } = this.$route.query;
+      // simply validate format of area from query
+      if (typeof area === 'string') {
+        const validArea = wkt.read(area);
+        if (validArea) {
+          // save as JSON
+          this.$store.commit('features/SET_SELECTED_AREA', validArea.toJson());
+        }
+      }
+    }
   },
 };
 </script>

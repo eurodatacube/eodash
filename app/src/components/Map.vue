@@ -471,7 +471,7 @@ export default {
   margin: 1px;
 }
 ::v-deep .leaflet-control-mouseposition {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.8);
   transform: translate3d(-8px, 32px, 0);
   padding: 2px 4px;
 }

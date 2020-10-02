@@ -87,6 +87,7 @@
       :width="dataPanelFullWidth ? '100%' : '40%'"
       :style="`margin-top: ${$vuetify.application.top}px;
         height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px`"
+      class="data-panel"
     >
       <v-toolbar v-if="$store.state.indicators.selectedIndicator" flat>
         <v-btn v-if="dataPanelFullWidth" icon @click="setDataPanelWidth(false)">
@@ -155,7 +156,7 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
-      <div class="scrollContainer">
+      <div class="scrollContainer data-panel">
 
         <h4 v-if="
             ($store.state.indicators.selectedIndicator && (
@@ -366,6 +367,7 @@ export default {
       if (selected) {
         this.drawerRight = true;
       }
+      this.$store.commit('indicators/SET_CUSTOM_AREA_INDICATOR', null);
       this.panelKey = Math.random();
     },
   },
