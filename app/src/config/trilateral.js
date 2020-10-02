@@ -528,6 +528,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'TROPOMI: Nitrogen dioxide',
         indicatorName: 'Air Quality: NO2',
         eoSensor: 'ESA TROPOMI',
+        tabIndex: 1,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -570,6 +571,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'OMI: Nitrogen dioxide',
         indicatorName: 'Air Quality: NO2',
         eoSensor: 'NASA OMI',
+        tabIndex: 2,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -608,6 +610,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'OMI: Difference Nitrogen dioxide',
         indicatorName: 'Air Quality – OMI: Monthly NO2 Compared to Baseline (2015-2019)',
         eoSensor: 'NASA OMI Difference',
+        tabIndex: 3,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -647,6 +650,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'OCO-2: Mean CO2',
         indicatorName: 'Greenhouse Gases: OCO-2',
         eoSensor: 'Mean CO2',
+        tabIndex: 1,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -693,6 +697,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'OCO-2: Difference CO2',
         indicatorName: 'Greenhouse Gases: OCO-2',
         eoSensor: 'Difference CO2',
+        tabIndex: 2,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1051,6 +1056,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (ESA)',
         lastColorCode: 'BLUE',
         eoSensor: 'ESA',
+        tabIndex: 1,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1092,6 +1098,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (NASA)',
         lastColorCode: 'BLUE',
         eoSensor: 'NASA',
+        tabIndex: 2,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1133,6 +1140,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (JAXA)',
         lastColorCode: 'BLUE',
         eoSensor: 'JAXA',
+        tabIndex: 3,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1419,6 +1427,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (ESA)',
         lastColorCode: 'BLUE',
         eoSensor: 'ESA',
+        tabIndex: 1,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1542,6 +1551,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (JAXA)',
         lastColorCode: 'BLUE',
         eoSensor: 'JAXA',
+        tabIndex: 2,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1706,6 +1716,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (NASA)',
         lastColorCode: 'BLUE',
         eoSensor: 'NASA',
+        tabIndex: 3,
         subAoi: {
           type: 'FeatureCollection',
           features: [{

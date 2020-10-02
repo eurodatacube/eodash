@@ -253,7 +253,6 @@ export default {
     iframeDialog: false,
     copySuccess: false,
     selectedSensorTab: 0,
-    multipleSensorCompare: [],
   }),
   watch: {
     dialog(open) {
@@ -326,13 +325,15 @@ export default {
       // search configuration mapping if layer is configured
       return lastInputData ? this.layerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
     },
+    multipleSensorCompare() {
+      const selectedIndicator = this.$store.state.indicators.selectedIndicator;
+      return this.$store.state.features.allFeatures.filter((f) => {
+        return f.properties.indicatorObject.aoiID === selectedIndicator.aoiID && f.properties.indicatorObject.indicator === selectedIndicator.indicator;
+      }).sort((a,b) => (a.properties.indicatorObject.tabIndex > b.properties.indicatorObject.tabIndex) ? 1 : -1);
+      // sorting necessary because for some reason, global indicators array is reversed after 2nd load onwards
+    },
   },
   mounted() {
-    const selectedIndicator = this.$store.state.indicators.selectedIndicator;
-    this.multipleSensorCompare = this.$store.state.features.allFeatures.filter((f) => {
-      return f.properties.indicatorObject.aoiID === selectedIndicator.aoiID && f.properties.indicatorObject.indicator === selectedIndicator.indicator;
-    });
-  
     this.selectedSensorTab = this.multipleSensorCompare
       .indexOf(this.multipleSensorCompare.find(s => s.properties.indicatorObject.eoSensor === this.$route.query.sensor))
     || 0;
