@@ -23,20 +23,24 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'PT-N1',
-        src: './eodash-data/general/Slide1.png',
-      },
-      {
-        poi: 'RhoneDelta-N3a2',
+        poi: 'GR4-N4c',
         src: './eodash-data/general/Slide2.png',
       },
       {
-        poi: 'ES7-E1',
+        poi: 'RhoneDelta-N3a2',
+        src: './eodash-data/general/Slide1.png',
+      },
+      {
+        poi: 'FR-N1',
         src: './eodash-data/general/Slide3.png',
       },
       {
         poi: 'RO3-E11',
         src: './eodash-data/general/Slide4.png',
+      },
+      {
+        poi: 'W2-E12c',
+        src: './eodash-data/general/Slide5.png',
       },
     ],
     privacyText: '/eodash-data/general/privacy',
