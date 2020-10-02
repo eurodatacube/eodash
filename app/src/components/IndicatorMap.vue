@@ -500,26 +500,26 @@ export default {
         pointToLayer: function (feature, latlng) {
           return circleMarker(latlng, {
             radius: style.radius || 8,
-            color: style.color || 'red',
+            color: style.color || '#FFA500',
             weight: style.weight || 2,
             opacity: style.opacity || 1,
             dashArray: style.dashArray || null,
             dashOffset: style.dashOffset || null,
             fillOpacity: style.fillOpacity || 1,
-            fillColor: style.fillColor || 'red',
+            fillColor: style.fillColor || '#FFA500',
             fill: style.fill || true,
             pane: side === 'data' ? this.tooltipPane : this.shadowPane,
           })
         }.bind(this),
         // polygon and line styling
         style: {
-          color: style.color || 'red',
+          color: style.color || '#FFA500',
           weight: style.weight || 2,
           opacity: style.opacity || 1,
           dashArray: style.dashArray || null,
           dashOffset: style.dashOffset || null,
           fillOpacity: style.fillOpacity || 0,
-          fillColor: style.fillColor || 'red',
+          fillColor: style.fillColor || '#FFA500',
           fill: style.fill || true,
         },
       };
@@ -566,11 +566,15 @@ export default {
       // if display not specified (global layers), suspect SIN layer
       // first check if special compare layer configured
       const displayTmp = side === 'compare' && this.indicator.compareDisplay ? this.indicator.compareDisplay : this.indicator.display;
+      let name = this.indicator.description;
+      if (side === 'compare') {
+        name += ' - compare (left)';
+      }
       return displayTmp || {
         ...this.baseConfig.defaultWMSDisplay,
         ...this.indDefinition,
         ...this.shLayerConfig(side),
-        name: this.indicator.description,
+        name: name,
       };
     },
     flyToBounds() {
@@ -823,11 +827,13 @@ export default {
     enableCompare(on) {
       if (!on) {
         if (this.slider !== null) {
+          this.$refs.layersControl.mapObject.removeLayer(this.$refs.compareLayer.mapObject);
           this.map.removeControl(this.slider);
           this.map.removeLayer(this.$refs.compareLayers.mapObject);
         }
       } else {
         this.fetchFeatures('compare');
+        this.$refs.layersControl.mapObject.addOverlay(this.$refs.compareLayer.mapObject, this.$refs.compareLayer.name); // eslint-disable-line
         this.map.addLayer(this.$refs.compareLayers.mapObject);
         this.$nextTick(() => {
           this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
