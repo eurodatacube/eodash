@@ -398,6 +398,7 @@ export default {
         return f.properties.indicatorObject.aoiID === selectedIndicator.aoiID && f.properties.indicatorObject.indicator === selectedIndicator.indicator;
       }).sort((a,b) => (a.properties.indicatorObject.tabIndex > b.properties.indicatorObject.tabIndex) ? 1 : -1);
       // sorting necessary because for some reason, global indicators array is reversed after 2nd load onwards
+    },
     customAreaFilter() {
       let filter;
       if (this.mounted && this.$refs.indicatorMap) {
