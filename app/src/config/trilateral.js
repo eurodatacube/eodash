@@ -1564,7 +1564,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (JAXA)',
         lastColorCode: 'BLUE',
         eoSensor: 'JAXA',
-        tabIndex: 2,
+        tabIndex: 3,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1729,7 +1729,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (NASA)',
         lastColorCode: 'BLUE',
         eoSensor: 'NASA',
-        tabIndex: 3,
+        tabIndex: 2,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
