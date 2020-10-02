@@ -97,7 +97,9 @@ const getters = {
     return features;
   },
   getGroupedFeatures(_, getters) {
-    return getters.getFeatures.reduce((acc, d) => {
+    return getters.getFeatures
+    .sort((a,b) => (a.properties.indicatorObject.tabIndex > b.properties.indicatorObject.tabIndex) ? 1 : -1)
+    .reduce((acc, d) => {
       const existing = acc.find((a) => `${a.properties.indicatorObject.aoiID}-${a.properties.indicatorObject.indicator}` === `${d.properties.indicatorObject.aoiID}-${d.properties.indicatorObject.indicator}`);
       if (!existing) {
         acc.push(d);

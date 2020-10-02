@@ -29,6 +29,9 @@
           <v-tab
             v-for="sensorData in multipleSensorCompare"
             :key="sensorData.properties.indicatorObject.eoSensor"
+            :class="multipleSensorCompare.indexOf(sensorData) == selectedSensorTab
+              ? 'primary white--text'
+              : ''"
           >
             {{ sensorData.properties.indicatorObject.eoSensor }}
           </v-tab>
@@ -161,9 +164,6 @@ export default {
     setSensorTab: false,
   }),
   computed: {
-    ...mapGetters('features', [
-      'getFeatures',
-    ]),
     ...mapState('config', ['appConfig']),
     globalData() {
       return ['all'].includes(this.indicatorObject.country) || Array.isArray(this.indicatorObject.country);
@@ -180,9 +180,10 @@ export default {
     },
     multipleSensorCompare() {
       const selectedIndicator = this.$store.state.indicators.selectedIndicator;
-      return this.getFeatures.filter((f) => {
+      return this.$store.state.features.allFeatures.filter((f) => {
         return f.properties.indicatorObject.aoiID === selectedIndicator.aoiID && f.properties.indicatorObject.indicator === selectedIndicator.indicator;
-      }).reverse();
+      }).sort((a,b) => (a.properties.indicatorObject.tabIndex > b.properties.indicatorObject.tabIndex) ? 1 : -1);
+      // sorting necessary because for some reason, global indicators array is reversed after 2nd load onwards
     },
   },
   mounted() {

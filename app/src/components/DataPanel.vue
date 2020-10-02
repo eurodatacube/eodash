@@ -330,7 +330,6 @@ export default {
   }),
   computed: {
     ...mapGetters('features', [
-      'getFeatures',
       'getCountries',
       'getIndicators',
       'getLatestUpdate',
@@ -365,12 +364,6 @@ export default {
       }
       return indicatorObject;
     },
-    multipleSensorCompare() {
-      const selectedIndicator = this.$store.state.indicators.selectedIndicator;
-      return this.getFeatures.filter((f) => {
-        return f.properties.indicatorObject.aoiID === selectedIndicator.aoiID && f.properties.indicatorObject.indicator === selectedIndicator.indicator;
-      }).reverse();
-    },
     customAreaIndicator() {
       return this.$store.state.indicators.customAreaIndicator;
     },
@@ -398,6 +391,13 @@ export default {
         ? this.indicatorObject.inputData[this.indicatorObject.inputData.length - 1] : null;
       // search configuration mapping if layer is configured
       return lastInputData ? this.layerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
+    },
+    multipleSensorCompare() {
+      const selectedIndicator = this.$store.state.indicators.selectedIndicator;
+      return this.$store.state.features.allFeatures.filter((f) => {
+        return f.properties.indicatorObject.aoiID === selectedIndicator.aoiID && f.properties.indicatorObject.indicator === selectedIndicator.indicator;
+      }).sort((a,b) => (a.properties.indicatorObject.tabIndex > b.properties.indicatorObject.tabIndex) ? 1 : -1);
+      // sorting necessary because for some reason, global indicators array is reversed after 2nd load onwards
     },
     customAreaFilter() {
       let filter;
