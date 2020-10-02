@@ -27,7 +27,7 @@ module.exports = [
         src: './eodash-data/general/Slide2.png',
       },
       {
-        poi: 'RhoneDelta-N3a2',
+        poi: 'RhoneDeltaTSM-N3a2',
         src: './eodash-data/general/Slide1.png',
       },
       {
