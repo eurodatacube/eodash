@@ -535,6 +535,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'TROPOMI: Nitrogen dioxide',
         indicatorName: 'Air Quality - TROPOMI: NO2',
         eoSensor: 'ESA TROPOMI',
+        tabIndex: 1,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -583,6 +584,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'OMI: Nitrogen dioxide',
         indicatorName: 'Air Quality - OMI: NO2',
         eoSensor: 'NASA OMI',
+        tabIndex: 2,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -593,7 +595,7 @@ export const globalIndicators = [
         },
         lastColorCode: 'primary',
         aoi: null,
-        aoiID: 'W2',
+        aoiID: 'W1',
         time: getMonthlyDates('2004-10-01', '2020-08-01'),
         inputData: [''],
         display: {
@@ -621,6 +623,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'OMI: Difference Nitrogen dioxide',
         indicatorName: 'Air Quality - OMI: Monthly NO2 Compared to Baseline (2015-2019)',
         eoSensor: 'NASA OMI Difference',
+        tabIndex: 3,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -631,7 +634,7 @@ export const globalIndicators = [
         },
         lastColorCode: 'primary',
         aoi: null,
-        aoiID: 'W4',
+        aoiID: 'W1',
         time: getMonthlyDates('2015-01-01', '2020-08-01'),
         inputData: [''],
         display: {
@@ -660,6 +663,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'OCO-2: Mean CO2',
         indicatorName: 'Greenhouse Gases - OCO-2: Mean CO2',
         eoSensor: 'Mean CO2',
+        tabIndex: 1,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -670,7 +674,7 @@ export const globalIndicators = [
         },
         lastColorCode: 'primary',
         aoi: null,
-        aoiID: 'W3',
+        aoiID: 'W2',
         time: getDailyDates('2020-01-01', '2020-05-17'),
         inputData: [''],
         display: {
@@ -706,6 +710,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'OCO-2: Difference CO2',
         indicatorName: 'Greenhouse Gases - OCO-2: Difference CO2',
         eoSensor: 'Difference CO2',
+        tabIndex: 2,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -716,7 +721,7 @@ export const globalIndicators = [
         },
         lastColorCode: 'primary',
         aoi: null,
-        aoiID: 'W5',
+        aoiID: 'W2',
         time: getDailyDates('2020-01-01', '2020-05-17'),
         inputData: [''],
         display: {
@@ -1054,9 +1059,9 @@ export const globalIndicators = [
         dataLoadFinished: true,
         id: 19999,
         aoi: latLng([45.197522, 13.029785]),
-        aoiID: 'NorthAdriaticESA',
+        aoiID: 'NorthAdriatic',
         country: ['HR', 'IT', 'SI'],
-        city: 'North Adriatic (ESA) - Chlorophyll-a concentration',
+        city: 'North Adriatic - Chlorophyll-a concentration',
         siteName: 'North Adriatic',
         description: 'Water Quality Regional Maps',
         indicator: 'N3a2',
@@ -1064,6 +1069,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (ESA)',
         lastColorCode: 'BLUE',
         eoSensor: 'ESA',
+        tabIndex: 1,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1095,9 +1101,9 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([45.197522, 13.0297851]),
         id: 19998,
-        aoiID: 'NorthAdriaticNASA',
+        aoiID: 'NorthAdriatic',
         country: ['HR', 'IT', 'SI'],
-        city: 'North Adriatic (NASA) - Chlorophyll-a concentration',
+        city: 'North Adriatic - Chlorophyll-a concentration',
         siteName: 'North Adriatic',
         description: 'Water Quality Regional Maps',
         indicator: 'N3a2',
@@ -1105,6 +1111,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (NASA)',
         lastColorCode: 'BLUE',
         eoSensor: 'NASA',
+        tabIndex: 2,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1136,9 +1143,9 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([45.197522, 13.0297851]),
         id: 19994,
-        aoiID: 'NorthAdriaticJAXA',
+        aoiID: 'NorthAdriatic',
         country: ['HR', 'IT', 'SI'],
-        city: 'North Adriatic (JAXA) - Chlorophyll-a concentration',
+        city: 'North Adriatic - Chlorophyll-a concentration',
         siteName: 'North Adriatic',
         description: 'Water Quality Regional Maps',
         indicator: 'N3a2',
@@ -1146,6 +1153,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (JAXA)',
         lastColorCode: 'BLUE',
         eoSensor: 'JAXA',
+        tabIndex: 3,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1422,7 +1430,7 @@ export const globalIndicators = [
         dataLoadFinished: true,
         id: 19992,
         aoi: latLng([45.197522, 13.0297851]),
-        aoiID: 'NorthAdriaticESATSM',
+        aoiID: 'NorthAdriaticTSM',
         country: ['HR', 'IT', 'SI'],
         city: 'North Adriatic (ESA) - Total Suspended Matter',
         siteName: 'North Adriatic',
@@ -1432,6 +1440,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (ESA)',
         lastColorCode: 'BLUE',
         eoSensor: 'ESA',
+        tabIndex: 1,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1545,7 +1554,7 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([45.197522, 13.0297851]),
         id: 19987,
-        aoiID: 'NorthAdriaticJAXATSM',
+        aoiID: 'NorthAdriaticTSM',
         country: ['HR', 'IT', 'SI'],
         city: 'North Adriatic (JAXA) - Total Suspended Matter',
         siteName: 'North Adriatic',
@@ -1555,6 +1564,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (JAXA)',
         lastColorCode: 'BLUE',
         eoSensor: 'JAXA',
+        tabIndex: 3,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1709,7 +1719,7 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([45.197522, 13.0297851]),
         id: 19983,
-        aoiID: 'NorthAdriaticNASATSM',
+        aoiID: 'NorthAdriaticTSM',
         country: ['HR', 'IT', 'SI'],
         city: 'North Adriatic (NASA) - Total Suspended Matter',
         siteName: 'North Adriatic',
@@ -1719,6 +1729,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps (NASA)',
         lastColorCode: 'BLUE',
         eoSensor: 'NASA',
+        tabIndex: 2,
         subAoi: {
           type: 'FeatureCollection',
           features: [{

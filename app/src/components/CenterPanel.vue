@@ -76,7 +76,7 @@
              <v-list-item-content
               :class="currentlySelected(feature) && 'font-weight-bold'"
              >
-              {{feature.properties.indicatorObject.indicatorName}}
+              {{feature.properties.indicatorObject.description}}
               </v-list-item-content>
              </v-list-item>
             </v-list>
@@ -191,7 +191,6 @@ export default {
   }),
   computed: {
     ...mapGetters('features', [
-      'getFeatures',
       'getGroupedFeatures',
       'getIndicators',
     ]),
@@ -201,7 +200,10 @@ export default {
     },
     globalIndicators() {
       return this.getGroupedFeatures
-        .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName));
+        .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName))
+        .sort((a, b) => (a.properties.indicatorObject.indicatorName > b.properties.indicatorObject.indicatorName)
+          ? 1
+          : -1);
     },
     someGlobalIndicator() {
       return this.globalIndicators

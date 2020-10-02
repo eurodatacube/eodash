@@ -21,7 +21,6 @@ export default {
   computed: {
     ...mapGetters('features', [
       'getCountries',
-      'getFeatures',
     ]),
     countryItems() {
       const countries = this.getCountries;
