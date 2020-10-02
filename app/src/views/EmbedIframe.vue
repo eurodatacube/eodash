@@ -29,6 +29,9 @@
           <v-tab
             v-for="sensorData in multipleSensorCompare"
             :key="sensorData.properties.indicatorObject.eoSensor"
+            :class="multipleSensorCompare.indexOf(sensorData) == selectedSensorTab
+              ? 'primary white--text'
+              : ''"
           >
             {{ sensorData.properties.indicatorObject.eoSensor }}
           </v-tab>
@@ -157,6 +160,7 @@ export default {
     dataInteract: false,
     selectedSensorTab: 0,
     setSensorTab: false,
+    multipleSensorCompare: [],
   }),
   computed: {
     ...mapState('config', ['appConfig']),
@@ -173,15 +177,13 @@ export default {
       }
       return indicatorObject;
     },
-    multipleSensorCompare() {
-      const selectedIndicator = this.$store.state.indicators.selectedIndicator;
-      return this.$store.state.features.allFeatures.filter((f) => {
-        return f.properties.indicatorObject.aoiID === selectedIndicator.aoiID && f.properties.indicatorObject.indicator === selectedIndicator.indicator;
-      });
-    },
   },
   mounted() {
     document.body.classList.add('iframe');
+    const selectedIndicator = this.$store.state.indicators.selectedIndicator;
+    this.multipleSensorCompare = this.$store.state.features.allFeatures.filter((f) => {
+      return f.properties.indicatorObject.aoiID === selectedIndicator.aoiID && f.properties.indicatorObject.indicator === selectedIndicator.indicator;
+    });
   },
   methods: {
     swipe() {
