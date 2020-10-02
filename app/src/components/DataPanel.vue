@@ -164,7 +164,7 @@
                 <v-btn
                   color="primary"
                   text
-                  @click="iframeDialog = false"
+                  @click="iframeDialog = true"
                 >
                   <v-icon left>mdi-poll-box</v-icon>
                   embed chart
