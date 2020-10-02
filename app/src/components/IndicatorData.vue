@@ -690,7 +690,7 @@ export default {
       }
       const filter = (legendItem) => !`${legendItem.text}`.startsWith('hide_');
       let xAxes = {};
-      if (!['E10a1', 'E10a2', 'E10a3', 'E10a5', 'E10a6', 'E10a7', 'E10a8', 'E10c', 'N2'].includes(indicatorCode)) {
+      if (!['E10a1', 'E10a2', 'E10a3', 'E10a5', 'E10a6', 'E10a7', 'E10a8', 'E10c', 'E12c', 'E12d', 'N2'].includes(indicatorCode)) {
         xAxes = [{
           type: 'time',
           time: {
@@ -750,6 +750,24 @@ export default {
               month: 'MMM',
             },
             tooltipFormat: 'dd. MMM',
+          },
+          distribution: 'series',
+          ticks: {
+            min: timeMinMax[0],
+            max: timeMinMax[1],
+          },
+        }];
+      }
+
+      if (['E12c', 'E12d'].includes(indicatorCode)) {
+        xAxes = [{
+          type: 'time',
+          time: {
+            unit: 'year',
+            displayFormats: {
+              year: 'yyyy',
+            },
+            tooltipFormat: 'yyyy-MM-dd - yyyy-06-30',
           },
           distribution: 'series',
           ticks: {
@@ -888,7 +906,7 @@ export default {
         };
       }
 
-      if (['N2'].includes(indicatorCode)) {
+      if (['N2', 'E12c', 'E12d'].includes(indicatorCode)) {
         yAxes[0].ticks.beginAtZero = true;
       }
 
