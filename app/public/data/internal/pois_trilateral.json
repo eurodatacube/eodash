@@ -62,7 +62,7 @@
     {
         "aoi": "39.9,116.38",
         "aoiID": "CN01",
-        "city": "Beijing (TROPOMI)",
+        "city": "Beijing ",
         "country": "CN",
         "description": "Air Quality",
         "indicator": "N1",
@@ -202,7 +202,7 @@
     {
         "aoi": "40.416775,-3.70379",
         "aoiID": "ES01",
-        "city": "Madrid (TROPOMI)",
+        "city": "Madrid ",
         "country": "ES",
         "description": "Air Quality",
         "indicator": "N1",
@@ -682,7 +682,7 @@
     {
         "aoi": "48.864716,2.349014",
         "aoiID": "FR01",
-        "city": "Paris (TROPOMI)",
+        "city": "Paris ",
         "country": "FR",
         "description": "Air Quality",
         "indicator": "N1",
@@ -742,7 +742,7 @@
     {
         "aoi": "28.6448,77.216721",
         "aoiID": "IN01",
-        "city": "New Delhi (TROPOMI)",
+        "city": "New Delhi ",
         "country": "IN",
         "description": "Air Quality",
         "indicator": "N1",
@@ -782,7 +782,7 @@
     {
         "aoi": "19.076,72.8777",
         "aoiID": "IN02",
-        "city": "Mumbai (TROPOMI)",
+        "city": "Mumbai ",
         "country": "IN",
         "description": "Air Quality",
         "indicator": "N1",
@@ -822,7 +822,7 @@
     {
         "aoi": "41.902782,12.496366",
         "aoiID": "IT01",
-        "city": "Rome (TROPOMI)",
+        "city": "Rome ",
         "country": "IT",
         "description": "Air Quality",
         "indicator": "N1",
@@ -842,7 +842,7 @@
     {
         "aoi": "45.464664,9.18854",
         "aoiID": "IT05",
-        "city": "Milan (TROPOMI)",
+        "city": "Milan ",
         "country": "IT",
         "description": "Air Quality",
         "indicator": "N1",
@@ -902,7 +902,7 @@
     {
         "aoi": "35.61,139.78",
         "aoiID": "JP01",
-        "city": "Tokyo (TROPOMI)",
+        "city": "Tokyo ",
         "country": "JP",
         "description": "Air Quality",
         "indicator": "N1",
@@ -1142,7 +1142,7 @@
     {
         "aoi": "40.71268,-74.005812",
         "aoiID": "US01",
-        "city": "New York (TROPOMI)",
+        "city": "New York ",
         "country": "US",
         "description": "Air Quality",
         "indicator": "N1",
@@ -1202,7 +1202,7 @@
     {
         "aoi": "34.05,-118.25",
         "aoiID": "US02",
-        "city": "Los Angeles (TROPOMI)",
+        "city": "Los Angeles ",
         "country": "US",
         "description": "Air Quality",
         "indicator": "N1",
@@ -1242,7 +1242,7 @@
     {
         "aoi": "37.7775,-122.416389",
         "aoiID": "US03",
-        "city": "San Francisco (TROPOMI)",
+        "city": "San Francisco ",
         "country": "US",
         "description": "Air Quality",
         "indicator": "N1",
