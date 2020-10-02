@@ -76,7 +76,7 @@
              <v-list-item-content
               :class="currentlySelected(feature) && 'font-weight-bold'"
              >
-              {{feature.properties.indicatorObject.indicatorName}}
+              {{feature.properties.indicatorObject.description}}
               </v-list-item-content>
              </v-list-item>
             </v-list>
