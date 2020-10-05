@@ -34,7 +34,7 @@ export const indicatorsDefinition = Object.freeze({
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
       url: './eodash-data/features/{indicator}_{aoiID}_{featuresTime}.geojson',
-      parameters: ['classification'],
+      allowedParameters: ['classification'],
     },
   },
   E2: {
@@ -44,7 +44,7 @@ export const indicatorsDefinition = Object.freeze({
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
       url: './eodash-data/features/{indicator}_{aoiID}_{featuresTime}.geojson',
-      parameters: ['classification'],
+      allowedParameters: ['classification'],
     },
   },
   E2a: {
