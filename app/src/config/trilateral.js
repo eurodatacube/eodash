@@ -3659,51 +3659,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([35.545, 139.79]),
-    id: 19686,
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        aoi: latLng([35.545, 139.79]),
-        id: 19686,
-        aoiID: 'JP011',
-        country: ['JP'],
-        city: 'Tokyo',
-        siteName: 'Tokyo Haneda International Airport - HND',
-        description: 'Airports: throughput',
-        indicator: 'E13b',
-        lastIndicatorValue: 'normal',
-        indicatorName: 'Tokyo Haneda International Airport - HND, Throughput at principal hub airports',
-        lastColorCode: 'BLUE',
-        eoSensor: null,
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((139.754 35.52, 139.826 35.52, 139.826 35.57, 139.754 35.57, 139.754 35.52))').toJson(),
-          }],
-        },
-        time: [['2020-01-19'], ['2020-02-01'], ['2020-03-18'], ['2020-04-09'], ['2020-05-02']],
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 18,
-          opacity: 1,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/planet/{z}/{x}/{y}?date={time}&site=tk',
-          name: 'Throughput at principal hub airports',
-          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-          features: {
-            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-            url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/tk/{featuresTime}.geojson',
-            parameters: ['Country', 'label', 'score'],
-          },
-        },
-      },
-    },
-  },
-  {
     latlng: latLng([35.774, 140.385]),
     id: 19685,
     properties: {

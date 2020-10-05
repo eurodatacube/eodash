@@ -519,13 +519,13 @@ export default {
           circlemarker: false,
           polygon: {
             shapeOptions: {
-              color: '#75e6b5',
+              color: this.appConfig.branding.primaryColor,
             },
           },
           rectangle: {
             showArea: false,
             shapeOptions: {
-              color: '#75e6b5',
+              color: this.appConfig.branding.primaryColor,
             },
           },
         },
@@ -634,7 +634,7 @@ export default {
         if (ftrs) {
           this.$refs.customAreaFilterFeatures.mapObject.addLayer(geoJson(ftrs, {
             style: {
-              color: '#75e6b5',
+              color: this.appConfig.branding.primaryColor,
             },
           }));
         }
@@ -1185,9 +1185,9 @@ export default {
   color: #fff;
 }
 ::v-deep .marker-cluster {
-  background-color: rgba(#72a875, 0.5);
+  background-color: rgba(#003247, 0.5);
   div {
-    background-color: var(--v-success-base);
+    background-color: var(--v-primary-base);
     span {
       color: white;
     }
