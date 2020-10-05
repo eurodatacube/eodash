@@ -367,6 +367,12 @@ export const layerNameMapping = Object.freeze({
     tileSize: 256,
     attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
     dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+    siteMapping: (eoID) => {
+      const mapping = {
+        JP02: 'tk',  // just to fix transition
+      };
+      return mapping[eoID];
+    },
   },
   industry: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Findustry%2F{site}_{time}.tif&resampling_method=bilinear&bidx=1',
@@ -402,6 +408,39 @@ export const layerNameMapping = Object.freeze({
       allowedParameters: { // can also be a simple list
         verified: {},
       },
+    },
+  },
+  airports: {
+    url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/planet/{z}/{x}/{y}?date={time}&site={site}',
+    name: 'Throughput at principal hub airports',
+    protocol: 'xyz',
+    tileSize: 256,
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+    siteMapping: (eoID) => {
+      const mapping = {
+        US021: 'la',
+        US022: 'la',
+        US031: 'sf',
+        US032: 'sf',
+        US033: 'sf',
+        US034: 'sf',
+        US035: 'sf',
+        US036: 'sf',
+        US037: 'sf',
+        US041: 'ny',
+        US042: 'ny',
+        CN011: 'be',
+        CN012: 'be',
+        JP02: 'tk',
+        JP012: 'tk',
+      };
+      return mapping[eoID];
+    },
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+      url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/{site}/{featuresTime}.geojson',
+      allowedParameters: ['Country', 'label', 'score'],
     },
   },
   'SGLI L2 Reflectance 8-day composited': {
