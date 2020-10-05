@@ -31,7 +31,7 @@ export const indicatorsDefinition = Object.freeze({
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
       url: './eodash-data/features/{indicator}_{aoiID}_{featuresTime}.geojson',
-      parameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification'],
+      allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification'],
     },
   },
   E1a: {
@@ -41,7 +41,7 @@ export const indicatorsDefinition = Object.freeze({
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
       url: './eodash-data/features/{indicator}_{aoiID}_{featuresTime}.geojson',
-      parameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification'],
+      allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification'],
     },
   },
   E2: {
@@ -414,9 +414,6 @@ export const layerNameMapping = Object.freeze({
   },
   N5: {
     maxMapZoom: 15,
-  },
-  N2limited: {
-    maxMapZoom: 5,
   },
 });
 
@@ -3115,7 +3112,7 @@ export const globalIndicators = [
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/la/{featuresTime}.geojson',
-            parameters: ['Country', 'label', 'score'],
+            allowedParameters: ['Country', 'label', 'score'],
           },
         },
       },
@@ -3160,7 +3157,7 @@ export const globalIndicators = [
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/la/{featuresTime}.geojson',
-            parameters: ['Country', 'label', 'score'],
+            allowedParameters: ['Country', 'label', 'score'],
           },
         },
       },
@@ -3205,7 +3202,7 @@ export const globalIndicators = [
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/sf/{featuresTime}.geojson',
-            parameters: ['Country', 'label', 'score'],
+            allowedParameters: ['Country', 'label', 'score'],
           },
         },
       },
@@ -3250,7 +3247,7 @@ export const globalIndicators = [
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/sf/{featuresTime}.geojson',
-            parameters: ['Country', 'label', 'score'],
+            allowedParameters: ['Country', 'label', 'score'],
           },
         },
       },
@@ -3295,7 +3292,7 @@ export const globalIndicators = [
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/sf/{featuresTime}.geojson',
-            parameters: ['Country', 'label', 'score'],
+            allowedParameters: ['Country', 'label', 'score'],
           },
         },
       },
@@ -3340,7 +3337,7 @@ export const globalIndicators = [
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/sf/{featuresTime}.geojson',
-            parameters: ['Country', 'label', 'score'],
+            allowedParameters: ['Country', 'label', 'score'],
           },
         },
       },
@@ -3385,7 +3382,7 @@ export const globalIndicators = [
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/sf/{featuresTime}.geojson',
-            parameters: ['Country', 'label', 'score'],
+            allowedParameters: ['Country', 'label', 'score'],
           },
         },
       },
@@ -3430,7 +3427,7 @@ export const globalIndicators = [
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/sf/{featuresTime}.geojson',
-            parameters: ['Country', 'label', 'score'],
+            allowedParameters: ['Country', 'label', 'score'],
           },
         },
       },
@@ -3475,7 +3472,7 @@ export const globalIndicators = [
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/sf/{featuresTime}.geojson',
-            parameters: ['Country', 'label', 'score'],
+            allowedParameters: ['Country', 'label', 'score'],
           },
         },
       },
@@ -3520,7 +3517,7 @@ export const globalIndicators = [
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/ny/{featuresTime}.geojson',
-            parameters: ['Country', 'label', 'score'],
+            allowedParameters: ['Country', 'label', 'score'],
           },
         },
       },
@@ -3565,7 +3562,7 @@ export const globalIndicators = [
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/ny/{featuresTime}.geojson',
-            parameters: ['Country', 'label', 'score'],
+            allowedParameters: ['Country', 'label', 'score'],
           },
         },
       },
@@ -3610,7 +3607,7 @@ export const globalIndicators = [
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/be/{featuresTime}.geojson',
-            parameters: ['Country', 'label', 'score'],
+            allowedParameters: ['Country', 'label', 'score'],
           },
         },
       },
@@ -3655,7 +3652,7 @@ export const globalIndicators = [
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/be/{featuresTime}.geojson',
-            parameters: ['Country', 'label', 'score'],
+            allowedParameters: ['Country', 'label', 'score'],
           },
         },
       },
@@ -3745,7 +3742,7 @@ export const globalIndicators = [
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/tk/{featuresTime}.geojson',
-            parameters: ['Country', 'label', 'score'],
+            allowedParameters: ['Country', 'label', 'score'],
           },
         },
       },
