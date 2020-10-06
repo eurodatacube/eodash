@@ -8,26 +8,26 @@
           cols="12"
         >
           <v-tabs
-            v-if="multipleSensorCompare.length > 1"
+            v-if="multipleSensorCompare"
             v-model="selectedSensorTab"
             grow
           >
             <v-tab
-              v-for="sensorData in multipleSensorCompare"
+              v-for="sensorData in multipleSensorCompare.features"
               :key="sensorData.properties.indicatorObject.eoSensor"
-              :class="multipleSensorCompare.indexOf(sensorData) == selectedSensorTab
+              :class="multipleSensorCompare.features.indexOf(sensorData) == selectedSensorTab
                 ? 'primary white--text'
                 : ''"
             >
-              {{ sensorData.properties.indicatorObject.eoSensor }}
+              {{ sensorData.properties.indicatorObject[multipleSensorCompare.label] }}
             </v-tab>
           </v-tabs>
           <v-tabs-items
-            v-if="multipleSensorCompare.length > 1"
+            v-if="multipleSensorCompare"
             v-model="selectedSensorTab"
           >
             <v-tab-item
-              v-for="sensorData in multipleSensorCompare"
+              v-for="sensorData in multipleSensorCompare.features"
               :key="sensorData.properties.indicatorObject.eoSensor"
             >
               <v-card
@@ -356,8 +356,8 @@ export default {
     },
     indicatorObject() {
       let indicatorObject;
-      if (this.multipleSensorCompare.length > 1) {
-        const feature = this.multipleSensorCompare[0];
+      if (this.multipleSensorCompare) {
+        const feature = this.multipleSensorCompare.features[0];
         indicatorObject = feature && feature.properties.indicatorObject;
       } else {
         indicatorObject = this.$store.state.indicators.selectedIndicator;
@@ -393,11 +393,19 @@ export default {
       return lastInputData ? this.layerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
     },
     multipleSensorCompare() {
+      let compare = {};
       const selectedIndicator = this.$store.state.indicators.selectedIndicator;
-      return this.$store.state.features.allFeatures.filter((f) => {
-        return f.properties.indicatorObject.aoiID === selectedIndicator.aoiID && f.properties.indicatorObject.indicator === selectedIndicator.indicator;
-      }).sort((a,b) => (a.properties.indicatorObject.tabIndex > b.properties.indicatorObject.tabIndex) ? 1 : -1);
-      // sorting necessary because for some reason, global indicators array is reversed after 2nd load onwards
+      const hasGrouping = this.appConfig.featureGrouping
+        .find(g => g.features.find(i => i.includes(this.getLocationCode(selectedIndicator))));
+      if(hasGrouping) {
+        compare.label = hasGrouping.label;
+        compare.features = hasGrouping.features.map((f) => {
+          return this.$store.state.features.allFeatures
+            .find(i => this.getLocationCode(i.properties.indicatorObject) === f);
+        })
+        compare;
+      }
+      return compare;
     },
     customAreaFilter() {
       let filter;
@@ -412,8 +420,8 @@ export default {
   },
   mounted() {
     this.mounted = true;
-    this.selectedSensorTab = this.multipleSensorCompare
-      .indexOf(this.multipleSensorCompare.find(s => s.properties.indicatorObject.eoSensor === this.$route.query.sensor))
+    this.selectedSensorTab = this.multipleSensorCompare.features
+      .indexOf(this.multipleSensorCompare.features.find(s => this.getLocationCode(s.properties.indicatorObject) === this.$route.query.poi))
     || 0;
   },
   methods: {
@@ -435,9 +443,9 @@ export default {
   },
   watch: {
     selectedSensorTab(index) {
-      if (this.multipleSensorCompare[index]) {
-        const sensor = this.multipleSensorCompare[index].properties.indicatorObject.eoSensor;
-        this.$router.replace({ query: { ...this.$route.query, sensor } }).catch(()=>{});
+      if (this.multipleSensorCompare.features[index]) {
+        const poi = this.getLocationCode(this.multipleSensorCompare.features[index].properties.indicatorObject);
+        this.$router.replace({ query: { ...this.$route.query, poi } }).catch(()=>{});
       }
     },
     dialog(open) {

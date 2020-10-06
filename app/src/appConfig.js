@@ -108,6 +108,31 @@ module.exports = [
       { code: 'TG', region: 'AFRICA' },
       { code: 'TZ', region: 'AFRICA' },
     ],
+    featureGrouping: [
+      // {
+      //   features: [
+      //     'US08-E10',
+      //     'US09-E10',
+      //   ],
+      //   label: 'eoSensor',
+      // },
+      {
+        features: [
+          'NorthAdriaticTSM_ESA-N3a2',
+          'NorthAdriaticTSM_NASA-N3a2',
+          'NorthAdriaticTSM_JAXA-N3a2',
+        ],
+        label: 'dataProvider',
+      },
+      {
+        features: [
+          'NorthAdriatic_ESA-N3a2',
+          'NorthAdriatic_NASA-N3a2',
+          'NorthAdriatic_JAXA-N3a2',
+        ],
+        label: 'dataProvider',
+      },
+    ],
     privacyText: '/data/trilateral/privacy',
     termsText: '/data/trilateral/terms',
     feedbackTwitterHandles: ['ESA_EO', 'esa', 'NASAEarth', 'NASA', 'JAXA_en', 'JAXA_jp', 'eurodatacube'],
