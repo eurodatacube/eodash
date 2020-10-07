@@ -207,7 +207,8 @@ export default {
       this.selectedSensorTab = this.multipleTabCompare
         ? this.multipleTabCompare.features
           .indexOf(this.multipleTabCompare.features
-            .find((s) => this.getLocationCode(s.properties.indicatorObject) === this.$route.query.poi));
+            .find((s) => this.getLocationCode(s.properties.indicatorObject)
+              === this.$route.query.poi))
         : 0;
     },
     async checkMultipleTabCompare() {

@@ -419,16 +419,16 @@ export default {
       this.selectedSensorTab = this.multipleTabCompare
         ? this.multipleTabCompare.features
           .indexOf(this.multipleTabCompare.features
-            .find(s => this.getLocationCode(s.properties.indicatorObject)
+            .find((s) => this.getLocationCode(s.properties.indicatorObject)
               === this.$route.query.poi))
-      : 0;
+        : 0;
     },
     async checkMultipleTabCompare() {
       let compare;
       const { selectedIndicator } = this.$store.state.indicators;
       const hasGrouping = this.appConfig.featureGrouping && this.appConfig.featureGrouping
-        .find(g => g.features.find(i => i.includes(this.getLocationCode(selectedIndicator))));
-      if(hasGrouping) {
+        .find((g) => g.features.find((i) => i.includes(this.getLocationCode(selectedIndicator))));
+      if (hasGrouping) {
         compare = {};
         compare.label = hasGrouping.label;
         compare.features = hasGrouping.features;
