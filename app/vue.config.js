@@ -1,14 +1,14 @@
-const webpack = require('webpack');
+const webpack = require('webpack'); // eslint-disable-line
 const fs = require('fs');
 
 const packageJson = fs.readFileSync('./package.json');
 const version = JSON.parse(packageJson).version || 0;
 const RemoveServiceWorkerPlugin = require('webpack-remove-serviceworker-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
-const appConfig = require('./src/appConfig')
+const appConfig = require('./src/appConfig');
 
-const pages = {}
-appConfig.map((b) => {
+const pages = {};
+appConfig.map((b) => { // eslint-disable-line
   pages[b.id] = {
     entry: './src/main.js',
     template: 'public/index.html',
@@ -25,7 +25,7 @@ appConfig.map((b) => {
       'twitter:image': `${b.pageMeta.rootPath}${b.pageMeta.twitterCardImagePath}`,
       // Facebook OpenGraph
       'og:title': { property: 'og:title', content: b.branding.appName },
-      'og:site_name': { property: 'og:site_name', content:b.branding.appName },
+      'og:site_name': { property: 'og:site_name', content: b.branding.appName },
       'og:type': { property: 'og:type', content: 'website' },
       'og:image': { property: 'og:image', content: `${b.pageMeta.rootPath}${b.pageMeta.twitterCardImagePath}` },
       'og:description': { property: 'og:description', content: b.pageMeta.shortDescription },
@@ -41,8 +41,8 @@ appConfig.map((b) => {
       'msapplication-TileColor': b.branding.primaryColor,
       'msapplication-TileImage': `${b.pageMeta.imagePath}/mstile-144x144.png`,
     },
-  }
-})
+  };
+});
 
 module.exports = {
   pages,
@@ -67,7 +67,7 @@ module.exports = {
       new webpack.HashedModuleIdsPlugin(),
       new webpack.DefinePlugin({
         'process.env': {
-          PACKAGE_VERSION: '"' + version + '"'
+          PACKAGE_VERSION: `"${version}"`,
         },
       }),
       new RemoveServiceWorkerPlugin({ filename: 'service-worker.js' }),

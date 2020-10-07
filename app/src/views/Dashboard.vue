@@ -100,17 +100,19 @@
           :class="$store.state.indicators.selectedIndicator.description ===
             $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
         >
-          {{ $store.state.indicators.selectedIndicator.city }},
-          {{ $store.state.indicators.selectedIndicator.description }}
+          {{ $store.state.features.allFeatures
+              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
+              .properties.indicatorObject.city }},
+          {{ $store.state.features.allFeatures
+              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
+              .properties.indicatorObject.description }}
           <div v-if="
             $store.state.indicators.selectedIndicator.description !==
             $store.state.indicators.selectedIndicator.indicatorName"
             class="subheading" style="font-size: 0.8em">
-            {{ $route.query.sensor
-            ? $store.state.features.allFeatures
-              .find(f => f.properties.indicatorObject.eoSensor === $route.query.sensor)
-              .properties.indicatorObject.indicatorName
-            : $store.state.indicators.selectedIndicator.indicatorName }}
+            {{ $store.state.features.allFeatures
+              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
+              .properties.indicatorObject.indicatorName }}
           </div>
         </v-toolbar-title>
       </v-toolbar>
@@ -164,11 +166,9 @@
               $store.state.indicators.selectedIndicator.indicatorName))"
           class="px-4 py-2"
         >
-          {{ $route.query.sensor
-            ? $store.state.features.allFeatures
-              .find(f => f.properties.indicatorObject.eoSensor === $route.query.sensor)
-              .properties.indicatorObject.indicatorName
-            : $store.state.indicators.selectedIndicator.indicatorName }}
+          {{ $store.state.features.allFeatures
+              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
+              .properties.indicatorObject.indicatorName }}
         </h4>
         <data-panel
           v-if="$store.state.indicators.selectedIndicator"

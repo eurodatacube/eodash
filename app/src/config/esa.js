@@ -5,9 +5,6 @@ import { DateTime } from 'luxon';
 import { latLng, latLngBounds } from 'leaflet';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
 
-const wkx = require('wkx');
-let Buffer = require('buffer').Buffer;
-
 export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [
   {
@@ -646,8 +643,8 @@ export const globalIndicators = [
             },
             requestBody: {
               collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
-              select: 'id, sum_observations, osm_name, geometry, truck_count_normalized',
-              where: `osm_value=1 AND date_part('year',time)={featuresTime} AND ST_Intersects(ST_GeomFromText('{area}',4326), geometry)`,
+              select: 'id, sum_observations, osm_name, ST_AsText(geometry) as "geometry", truck_count_normalized',
+              where: 'osm_value=1 AND date_part(\'year\',time)={featuresTime} AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
               limit: '5000',
             },
             style: {
@@ -663,7 +660,7 @@ export const globalIndicators = [
                   ftrs.push({
                     type: 'Feature',
                     properties: ftr,
-                    geometry: wkx.Geometry.parse(new Buffer(ftr.geometry, 'hex')).toGeoJSON(),
+                    geometry: wkt.read(ftr.geometry).toJson(),
                   });
                 });
               }
@@ -673,9 +670,7 @@ export const globalIndicators = [
               };
               return ftrColl;
             },
-            areaFormatFunction: (area) => {
-              return { area: wkt.read(JSON.stringify(area)).write() };
-            },
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
           areaIndicator: {
             url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
@@ -687,7 +682,7 @@ export const globalIndicators = [
               collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
               select: 'sum(truck_count_normalized), time',
               group: 'time',
-              where: `osm_value=1 AND ST_Intersects(ST_GeomFromText('{area}',4326), geometry)`,
+              where: 'osm_value=1 AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
             },
             callbackFunction: (requestJson, indicator) => {
               if (Array.isArray(requestJson[0].src)) {
@@ -698,7 +693,9 @@ export const globalIndicators = [
                   colorCode: [],
                   referenceValue: [],
                 };
-                data.sort((a, b) => (DateTime.fromISO(a.time) > DateTime.fromISO(b.time)) ? 1 : -1);
+                data.sort((a, b) => ((DateTime.fromISO(a.time) > DateTime.fromISO(b.time))
+                  ? 1
+                  : -1));
                 data.forEach((row) => {
                   let updateDate = row.time;
                   // temporary workaround until DB gets updated 2020-01-01 - 2020-04-01
@@ -715,9 +712,7 @@ export const globalIndicators = [
               }
               return null;
             },
-            areaFormatFunction: (area) => {
-              return { area: wkt.read(JSON.stringify(area)).write() };
-            },
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
         },
       },
@@ -776,8 +771,8 @@ export const globalIndicators = [
             },
             requestBody: {
               collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
-              select: 'id, sum_observations, geometry, truck_count_normalized, time',
-              where: `osm_value=3 AND date_part('year',time)={featuresTime} AND ST_Intersects(ST_GeomFromText('{area}',4326), geometry)`,
+              select: 'id, sum_observations, ST_AsText(geometry) as "geometry", truck_count_normalized, time',
+              where: 'osm_value=3 AND date_part(\'year\',time)={featuresTime} AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
               limit: '5000',
             },
             style: {
@@ -793,7 +788,7 @@ export const globalIndicators = [
                   ftrs.push({
                     type: 'Feature',
                     properties: ftr,
-                    geometry: wkx.Geometry.parse(new Buffer(ftr.geometry, 'hex')).toGeoJSON(),
+                    geometry: wkt.read(ftr.geometry).toJson(),
                   });
                 });
               }
@@ -803,9 +798,7 @@ export const globalIndicators = [
               };
               return ftrColl;
             },
-            areaFormatFunction: (area) => {
-              return { area: wkt.read(JSON.stringify(area)).write() };
-            },
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
           areaIndicator: {
             url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
@@ -817,7 +810,7 @@ export const globalIndicators = [
               collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
               select: 'sum(truck_count_normalized), time',
               group: 'time',
-              where: `osm_value=3 AND ST_Intersects(ST_GeomFromText('{area}',4326), geometry)`,
+              where: 'osm_value=3 AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
             },
             callbackFunction: (requestJson, indicator) => {
               if (Array.isArray(requestJson[0].src)) {
@@ -828,7 +821,9 @@ export const globalIndicators = [
                   colorCode: [],
                   referenceValue: [],
                 };
-                data.sort((a, b) => (DateTime.fromISO(a.time) > DateTime.fromISO(b.time)) ? 1 : -1);
+                data.sort((a, b) => ((DateTime.fromISO(a.time) > DateTime.fromISO(b.time))
+                  ? 1
+                  : -1));
                 data.forEach((row) => {
                   let updateDate = row.time;
                   // temporary workaround until DB gets updated 2020-01-01 - 2020-04-01
@@ -845,9 +840,7 @@ export const globalIndicators = [
               }
               return null;
             },
-            areaFormatFunction: (area) => {
-              return { area: wkt.read(JSON.stringify(area)).write() };
-            },
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
         },
       },

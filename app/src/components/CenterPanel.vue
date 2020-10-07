@@ -68,7 +68,8 @@
                       {{ baseConfig.indicatorClassesIcons[baseConfig
                           .indicatorsDefinition[feature.properties.indicatorObject.indicator].class]
                           ? baseConfig.indicatorClassesIcons[baseConfig
-                            .indicatorsDefinition[feature.properties.indicatorObject.indicator].class]
+                            .indicatorsDefinition[feature.properties
+                              .indicatorObject.indicator].class]
                           : 'mdi-lightbulb-on-outline'}}
                     </v-icon>
                 </div>
@@ -199,14 +200,15 @@ export default {
       return countries;
     },
     globalIndicators() {
-      return this.getGroupedFeatures
+      return this.getGroupedFeatures && this.getGroupedFeatures
         .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName))
-        .sort((a, b) => (a.properties.indicatorObject.indicatorName > b.properties.indicatorObject.indicatorName)
+        .sort((a, b) => ((a.properties.indicatorObject.indicatorName
+          > b.properties.indicatorObject.indicatorName)
           ? 1
-          : -1);
+          : -1));
     },
     someGlobalIndicator() {
-      return this.globalIndicators
+      return this.globalIndicators && this.globalIndicators
         .filter((i) => this.$store.state.features.featureFilters.indicators
           .includes(i.properties.indicatorObject.indicator));
     },

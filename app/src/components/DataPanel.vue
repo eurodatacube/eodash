@@ -8,27 +8,29 @@
           cols="12"
         >
           <v-tabs
-            v-if="multipleSensorCompare.length > 1"
+            v-if="multipleTabCompare"
             v-model="selectedSensorTab"
             grow
           >
             <v-tab
-              v-for="sensorData in multipleSensorCompare"
-              :key="sensorData.properties.indicatorObject.eoSensor"
-              :class="multipleSensorCompare.indexOf(sensorData) == selectedSensorTab
+              v-for="sensorData in multipleTabCompare.features"
+              :key="sensorData.properties.indicatorObject.id"
+              :class="multipleTabCompare.features.indexOf(sensorData) == selectedSensorTab
                 ? 'primary white--text'
                 : ''"
             >
-              {{ sensorData.properties.indicatorObject.eoSensor }}
+              {{ Array.isArray(sensorData.properties.indicatorObject[multipleTabCompare.label])
+                ? sensorData.properties.indicatorObject[multipleTabCompare.label][0]
+                : sensorData.properties.indicatorObject[multipleTabCompare.label] }}
             </v-tab>
           </v-tabs>
           <v-tabs-items
-            v-if="multipleSensorCompare.length > 1"
+            v-if="multipleTabCompare"
             v-model="selectedSensorTab"
           >
             <v-tab-item
-              v-for="sensorData in multipleSensorCompare"
-              :key="sensorData.properties.indicatorObject.eoSensor"
+              v-for="sensorData in multipleTabCompare.features"
+              :key="sensorData.properties.indicatorObject.id"
             >
               <v-card
                 class="fill-height"
@@ -60,6 +62,7 @@
                   style="top: 0px; position: absolute;"
                   v-else
                   class="pa-5"
+                  :currentIndicator="sensorData.properties.indicatorObject"
                 />
               </v-card>
             </v-tab-item>
@@ -160,7 +163,7 @@
               v-model="iframeDialog"
               width="500"
             >
-              <template v-slot:activator="{ on, attrs }">
+              <template v-slot:activator="{}">
                 <v-btn
                   color="primary"
                   text
@@ -306,6 +309,8 @@ import {
   mapState,
 } from 'vuex';
 
+import { loadIndicatorData } from '@/utils';
+
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
@@ -327,6 +332,7 @@ export default {
     copySuccess: false,
     mounted: false,
     selectedSensorTab: 0,
+    multipleTabCompare: null,
   }),
   computed: {
     ...mapGetters('features', [
@@ -356,8 +362,8 @@ export default {
     },
     indicatorObject() {
       let indicatorObject;
-      if (this.multipleSensorCompare.length > 1) {
-        const feature = this.multipleSensorCompare[0];
+      if (this.multipleTabCompare) {
+        const feature = this.multipleTabCompare.features[0];
         indicatorObject = feature && feature.properties.indicatorObject;
       } else {
         indicatorObject = this.$store.state.indicators.selectedIndicator;
@@ -392,13 +398,6 @@ export default {
       // search configuration mapping if layer is configured
       return lastInputData ? this.layerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
     },
-    multipleSensorCompare() {
-      const selectedIndicator = this.$store.state.indicators.selectedIndicator;
-      return this.$store.state.features.allFeatures.filter((f) => {
-        return f.properties.indicatorObject.aoiID === selectedIndicator.aoiID && f.properties.indicatorObject.indicator === selectedIndicator.indicator;
-      }).sort((a,b) => (a.properties.indicatorObject.tabIndex > b.properties.indicatorObject.tabIndex) ? 1 : -1);
-      // sorting necessary because for some reason, global indicators array is reversed after 2nd load onwards
-    },
     customAreaFilter() {
       let filter;
       if (this.mounted && this.$refs.indicatorMap) {
@@ -412,11 +411,38 @@ export default {
   },
   mounted() {
     this.mounted = true;
-    this.selectedSensorTab = this.multipleSensorCompare
-      .indexOf(this.multipleSensorCompare.find(s => s.properties.indicatorObject.eoSensor === this.$route.query.sensor))
-    || 0;
+    this.init();
   },
   methods: {
+    async init() {
+      await this.checkMultipleTabCompare();
+      this.selectedSensorTab = this.multipleTabCompare
+        ? this.multipleTabCompare.features
+          .indexOf(this.multipleTabCompare.features
+            .find((s) => this.getLocationCode(s.properties.indicatorObject)
+              === this.$route.query.poi))
+        : 0;
+    },
+    async checkMultipleTabCompare() {
+      let compare;
+      const { selectedIndicator } = this.$store.state.indicators;
+      const hasGrouping = this.appConfig.featureGrouping && this.appConfig.featureGrouping
+        .find((g) => g.features.find((i) => i.includes(this.getLocationCode(selectedIndicator))));
+      if (hasGrouping) {
+        compare = {};
+        compare.label = hasGrouping.label;
+        compare.features = hasGrouping.features;
+        // Pre-load all indicators to populate tab items
+        await Promise.all(compare.features.map(async (f) => {
+          const feature = this.$store.state.features.allFeatures
+            .find((i) => this.getLocationCode(i.properties.indicatorObject) === f);
+          await loadIndicatorData(this.baseConfig, feature.properties.indicatorObject);
+        }));
+        compare.features = compare.features.map((f) => this.$store.state.features.allFeatures
+          .find((i) => this.getLocationCode(i.properties.indicatorObject) === f));
+      }
+      this.multipleTabCompare = compare;
+    },
     async copy(s) {
       await navigator.clipboard.writeText(s);
       this.copySuccess = true;
@@ -435,9 +461,10 @@ export default {
   },
   watch: {
     selectedSensorTab(index) {
-      if (this.multipleSensorCompare[index]) {
-        const sensor = this.multipleSensorCompare[index].properties.indicatorObject.eoSensor;
-        this.$router.replace({ query: { ...this.$route.query, sensor } }).catch(()=>{});
+      if (this.multipleTabCompare.features[index]) {
+        const poi = this.getLocationCode(this.multipleTabCompare.features[index]
+          .properties.indicatorObject);
+        this.$router.replace({ query: { ...this.$route.query, poi } }).catch(() => {});
       }
     },
     dialog(open) {
