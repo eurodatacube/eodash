@@ -65,9 +65,9 @@ import {
   mapGetters,
 } from 'vuex';
 import CookieLaw from 'vue-cookie-law';
+import { loadIndicatorData } from '@/utils';
 
 import axios from 'axios';
-import { DateTime } from 'luxon';
 import { Wkt } from 'wicket';
 
 const wkt = new Wkt();
@@ -91,11 +91,11 @@ export default {
       'getCountryItems',
     ]),
     showCookieNotice() {
-      return this.$route.path != '/iframe';
+      return this.$route.path !== '/iframe';
     },
   },
   created() {
-    if (this.appConfig.hasOwnProperty('countDownTimer')
+    if (Object.prototype.hasOwnProperty.call(this.appConfig, 'countDownTimer')
       && this.appConfig.countDownMatch.includes(document.domain)) {
       this.comingSoon = true;
       this.checkComingSoon();
@@ -104,7 +104,6 @@ export default {
     }
   },
   mounted() {
-    const { baseConfig } = this;
     // Listen for features added, and select if poi in query
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'features/ADD_NEW_FEATURES') {
@@ -164,7 +163,7 @@ export default {
           }
         }
       }
-      
+
       if (mutation.type === 'features/SET_SELECTED_AREA') {
         if (mutation.payload) {
           const area = wkt.read(JSON.stringify(mutation.payload)).write();
@@ -180,71 +179,7 @@ export default {
         if (mutation.payload && !( // If dummy feature selected ignore
           Object.prototype.hasOwnProperty.call(mutation.payload, 'dummyFeature')
           && mutation.payload.dummyFeature)) {
-          // Check if data was already loaded
-          if (Object.prototype.hasOwnProperty.call(mutation.payload, 'dataLoadFinished')
-            && mutation.payload.dataLoadFinished) {
-            const indicatorObject = mutation.payload;
-            this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', indicatorObject);
-          } else {
-            // Start loading of data from indicator
-
-            const url = `${baseConfig.dataPath}${[mutation.payload.aoiID, mutation.payload.indicator].join('-')}.json`;
-            // Fetch location data
-            fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
-              .then((data) => {
-                const indicatorObject = mutation.payload;
-                // Set data to indicator object
-                // Convert data first
-                const mapping = {
-                  colorCode: 'color_code',
-                  dataProvider: 'data_provider',
-                  eoSensor: 'eo_sensor',
-                  indicatorValue: 'indicator_value',
-                  inputData: 'input_data',
-                  measurement: 'measurement_value',
-                  referenceTime: 'reference_time',
-                  referenceValue: 'reference_value',
-                  time: 'time',
-                  siteName: 'site_name_arr',
-                };
-                const parsedData = {};
-                for (let i = 0; i < data.length; i += 1) {
-                  Object.entries(mapping).forEach(([key, value]) => {
-                    let val = data[i][value];
-                    if (Object.prototype.hasOwnProperty.call(parsedData, key)) {
-                      // If key already there add element to array
-                      if (['time', 'referenceTime'].includes(key)) {
-                        val = DateTime.fromISO(val);
-                      } else if (['measurement'].includes(key)) {
-                        if (val.length > 0) {
-                          val = Number(val);
-                        } else {
-                          val = Number.NaN;
-                        }
-                      }
-                      parsedData[key].push(val);
-                    } else {
-                      // If not then set element as array
-                      if (['time', 'referenceTime'].includes(key)) {
-                        val = DateTime.fromISO(val);
-                      } else if (['measurement'].includes(key)) {
-                        if (val.length > 0) {
-                          val = Number(val);
-                        } else {
-                          val = Number.NaN;
-                        }
-                      }
-                      parsedData[key] = [val];
-                    }
-                  });
-                }
-                Object.entries(parsedData).forEach(([key, value]) => {
-                  indicatorObject[key] = value;
-                });
-                indicatorObject.dataLoadFinished = true;
-                this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', indicatorObject);
-              });
-          }
+          this.loadIndicatorData(mutation.payload);
           this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: this.getLocationCode(mutation.payload) }) }).catch(err => {}); // eslint-disable-line
           this.trackEvent('indicators', 'select_indicator', this.getLocationCode(mutation.payload));
           this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
@@ -270,6 +205,12 @@ export default {
       const response = await axios.get('/');
       return new Date(response.headers.date);
     },
+    async loadIndicatorData(payload) {
+      const indicatorObject = await loadIndicatorData(this.baseConfig, payload);
+      if (indicatorObject) {
+        this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', indicatorObject);
+      }
+    },
     acceptCookies() {
       if (this.$matomo) {
         this.$matomo.rememberConsentGiven();
@@ -285,7 +226,7 @@ export default {
           this.$store.commit('features/SET_SELECTED_AREA', validArea.toJson());
         }
       }
-    }
+    },
   },
 };
 </script>

@@ -18,7 +18,8 @@
       </v-col>
       <template v-if="baseConfig.indicatorClassesIcons">
         <v-col
-          v-for="category in Object.keys(baseConfig.indicatorClassesIcons).filter(c => featureLength(c) > 0)"
+          v-for="category in Object.keys(baseConfig.indicatorClassesIcons)
+            .filter(c => featureLength(c) > 0)"
           :key="category"
           :cols="$vuetify.breakpoint.smAndDown && '12'"
         >

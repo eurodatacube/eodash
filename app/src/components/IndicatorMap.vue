@@ -490,7 +490,7 @@ export default {
         disableClusteringAtZoom: 13,
         animate: false,
         // zoomToBoundsOnClick: false,
-        iconCreateFunction: function (cluster) { // eslint-disable-line func-names
+        iconCreateFunction(cluster) { // eslint-disable-line func-names
           // modified selected cluster style
           const childCount = cluster.getChildCount();
           return new DivIcon({
@@ -671,9 +671,9 @@ export default {
             layer.bindTooltip(tooltip, { pane: this.popupPane });
           }
           // to make clustering work
-          layer.getLatLng = () => { return geoJson(feature).getBounds().getCenter(); };
-          layer.setLatLng = () => { };
-          layer._latlng = layer.getLatLng();
+          layer.getLatLng = () => geoJson(feature).getBounds().getCenter(); //eslint-disable-line
+          layer.setLatLng = () => { }; //eslint-disable-line
+          layer._latlng = layer.getLatLng(); //eslint-disable-line
         }.bind(this),
         // point circle marker styling
         pointToLayer: function (feature, latlng) { // eslint-disable-line
@@ -735,7 +735,9 @@ export default {
     },
     shLayerConfig(side) {
       const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
-      const inputData = this.indicator.inputData.length === 1 ? this.indicator.inputData[0]: this.indicator.inputData[index];
+      const inputData = this.indicator.inputData.length === 1
+        ? this.indicator.inputData[0]
+        : this.indicator.inputData[index];
       if (this.layerNameMapping.hasOwnProperty(inputData)) { // eslint-disable-line
         return this.layerNameMapping[inputData];
       }
@@ -958,7 +960,7 @@ export default {
         if (this.fetchDataClicked || !this.customAreaFilter) {
           this.featureJson.data = emptyF;
           if (this.featuresClustering) {
-            this.$refs.featuresDataCluster.mapObject.clearLayers()
+            this.$refs.featuresDataCluster.mapObject.clearLayers();
           }
           this.fetchFeatures('data');
         }
