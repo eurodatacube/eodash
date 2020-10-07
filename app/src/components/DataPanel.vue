@@ -423,7 +423,7 @@ export default {
     async checkMultipleTabCompare() {
       let compare;
       const selectedIndicator = this.$store.state.indicators.selectedIndicator;
-      const hasGrouping = this.appConfig.featureGrouping
+      const hasGrouping = this.appConfig.featureGrouping && this.appConfig.featureGrouping
         .find(g => g.features.find(i => i.includes(this.getLocationCode(selectedIndicator))));
       if(hasGrouping) {
         compare = {};
