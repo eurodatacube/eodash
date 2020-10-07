@@ -101,15 +101,17 @@ const getters = {
     if (state.allFeatures.length > 0) {
       const groupedFeatures = [];
       rootState.config.appConfig.featureGrouping.forEach((fG) => {
-        const firstFeature = state.allFeatures
+        const firstFeature = getters.getFeatures
           .find(f => `${f.properties.indicatorObject.aoiID}-${f.properties.indicatorObject.indicator}` === fG.features[0]);
-        groupedFeatures.push(firstFeature);
+          if (firstFeature) {
+            groupedFeatures.push(firstFeature);
+          }
       })
       const restFeatures = getters.getFeatures
-        .filter((f) => {
-            const locationCode = `${f.properties.indicatorObject.aoiID}-${f.properties.indicatorObject.indicator}`;
-            return !rootState.config.appConfig.featureGrouping.some(fG => !fG.features.indexOf(locationCode));
-        });
+      .filter((f) => {
+        const locationCode = `${f.properties.indicatorObject.aoiID}-${f.properties.indicatorObject.indicator}`;
+        return !rootState.config.appConfig.featureGrouping.find(fG => fG.features.includes(locationCode));
+      });
       allFeatures = groupedFeatures.concat(restFeatures);
     }
     return allFeatures;

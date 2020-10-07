@@ -8,27 +8,29 @@
           cols="12"
         >
           <v-tabs
-            v-if="multipleSensorCompare"
+            v-if="multipleTabCompare"
             v-model="selectedSensorTab"
             grow
           >
             <v-tab
-              v-for="sensorData in multipleSensorCompare.features"
-              :key="sensorData.properties.indicatorObject.eoSensor"
-              :class="multipleSensorCompare.features.indexOf(sensorData) == selectedSensorTab
+              v-for="sensorData in multipleTabCompare.features"
+              :key="sensorData.properties.indicatorObject.id"
+              :class="multipleTabCompare.features.indexOf(sensorData) == selectedSensorTab
                 ? 'primary white--text'
                 : ''"
             >
-              {{ sensorData.properties.indicatorObject[multipleSensorCompare.label] }}
+              {{ Array.isArray(sensorData.properties.indicatorObject[multipleTabCompare.label])
+                ? sensorData.properties.indicatorObject[multipleTabCompare.label][0]
+                : sensorData.properties.indicatorObject[multipleTabCompare.label] }}
             </v-tab>
           </v-tabs>
           <v-tabs-items
-            v-if="multipleSensorCompare"
+            v-if="multipleTabCompare"
             v-model="selectedSensorTab"
           >
             <v-tab-item
-              v-for="sensorData in multipleSensorCompare.features"
-              :key="sensorData.properties.indicatorObject.eoSensor"
+              v-for="sensorData in multipleTabCompare.features"
+              :key="sensorData.properties.indicatorObject.id"
             >
               <v-card
                 class="fill-height"
@@ -60,6 +62,7 @@
                   style="top: 0px; position: absolute;"
                   v-else
                   class="pa-5"
+                  :currentIndicator="sensorData.properties.indicatorObject"
                 />
               </v-card>
             </v-tab-item>
@@ -306,6 +309,8 @@ import {
   mapState,
 } from 'vuex';
 
+import { loadIndicatorData } from '@/utils';
+
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
@@ -327,6 +332,7 @@ export default {
     copySuccess: false,
     mounted: false,
     selectedSensorTab: 0,
+    multipleTabCompare: null,
   }),
   computed: {
     ...mapGetters('features', [
@@ -356,8 +362,8 @@ export default {
     },
     indicatorObject() {
       let indicatorObject;
-      if (this.multipleSensorCompare) {
-        const feature = this.multipleSensorCompare.features[0];
+      if (this.multipleTabCompare) {
+        const feature = this.multipleTabCompare.features[0];
         indicatorObject = feature && feature.properties.indicatorObject;
       } else {
         indicatorObject = this.$store.state.indicators.selectedIndicator;
@@ -392,21 +398,6 @@ export default {
       // search configuration mapping if layer is configured
       return lastInputData ? this.layerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
     },
-    multipleSensorCompare() {
-      let compare = {};
-      const selectedIndicator = this.$store.state.indicators.selectedIndicator;
-      const hasGrouping = this.appConfig.featureGrouping
-        .find(g => g.features.find(i => i.includes(this.getLocationCode(selectedIndicator))));
-      if(hasGrouping) {
-        compare.label = hasGrouping.label;
-        compare.features = hasGrouping.features.map((f) => {
-          return this.$store.state.features.allFeatures
-            .find(i => this.getLocationCode(i.properties.indicatorObject) === f);
-        })
-        compare;
-      }
-      return compare;
-    },
     customAreaFilter() {
       let filter;
       if (this.mounted && this.$refs.indicatorMap) {
@@ -420,11 +411,37 @@ export default {
   },
   mounted() {
     this.mounted = true;
-    this.selectedSensorTab = this.multipleSensorCompare.features
-      .indexOf(this.multipleSensorCompare.features.find(s => this.getLocationCode(s.properties.indicatorObject) === this.$route.query.poi))
-    || 0;
+    this.init();
   },
   methods: {
+    async init() {
+      await this.checkMultipleTabCompare();
+      this.selectedSensorTab = this.multipleTabCompare && this.multipleTabCompare.features
+        .indexOf(this.multipleTabCompare.features.find(s => this.getLocationCode(s.properties.indicatorObject) === this.$route.query.poi))
+      || 0;
+    },
+    async checkMultipleTabCompare() {
+      let compare;
+      const selectedIndicator = this.$store.state.indicators.selectedIndicator;
+      const hasGrouping = this.appConfig.featureGrouping
+        .find(g => g.features.find(i => i.includes(this.getLocationCode(selectedIndicator))));
+      if(hasGrouping) {
+        compare = {};
+        compare.label = hasGrouping.label;
+        compare.features = hasGrouping.features;
+        // Pre-load all indicators to populate tab items
+        await Promise.all(compare.features.map(async (f) => {
+          const feature = this.$store.state.features.allFeatures
+            .find(i => this.getLocationCode(i.properties.indicatorObject) === f);
+          await loadIndicatorData(this.baseConfig, feature.properties.indicatorObject)
+        }));
+        compare.features = compare.features.map((f) => {
+          return this.$store.state.features.allFeatures
+            .find(i => this.getLocationCode(i.properties.indicatorObject) === f);
+        })
+      }
+      this.multipleTabCompare = compare;
+    },
     async copy(s) {
       await navigator.clipboard.writeText(s);
       this.copySuccess = true;
@@ -443,8 +460,8 @@ export default {
   },
   watch: {
     selectedSensorTab(index) {
-      if (this.multipleSensorCompare.features[index]) {
-        const poi = this.getLocationCode(this.multipleSensorCompare.features[index].properties.indicatorObject);
+      if (this.multipleTabCompare.features[index]) {
+        const poi = this.getLocationCode(this.multipleTabCompare.features[index].properties.indicatorObject);
         this.$router.replace({ query: { ...this.$route.query, poi } }).catch(()=>{});
       }
     },

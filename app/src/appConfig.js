@@ -109,13 +109,6 @@ module.exports = [
       { code: 'TZ', region: 'AFRICA' },
     ],
     featureGrouping: [
-      // {
-      //   features: [
-      //     'US08-E10',
-      //     'US09-E10',
-      //   ],
-      //   label: 'eoSensor',
-      // },
       {
         features: [
           'NorthAdriaticTSM_ESA-N3a2',
@@ -131,6 +124,28 @@ module.exports = [
           'NorthAdriatic_JAXA-N3a2',
         ],
         label: 'dataProvider',
+      },
+      {
+        features: [
+          'W1-N1',
+          'W2-N1',
+          'W3-N1',
+        ],
+        label: 'eoSensor',
+      },
+      {
+        features: [
+          'W4-N2',
+          'W5-N2',
+        ],
+        label: 'calcMethod',
+      },
+      {
+        features: [
+          'US08-E10c',
+          'US09-E10c',
+        ],
+        label: 'eoSensor',
       },
     ],
     privacyText: '/data/trilateral/privacy',
