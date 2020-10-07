@@ -203,7 +203,6 @@ export default {
   methods: {
     async init() {
       await this.checkMultipleTabCompare();
-      console.log(this.multipleTabCompare)
       this.selectedSensorTab = this.multipleTabCompare && this.multipleTabCompare.features
         .indexOf(this.multipleTabCompare.features.find(s => this.getLocationCode(s.properties.indicatorObject) === this.$route.query.poi))
       || 0;
