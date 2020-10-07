@@ -68,7 +68,6 @@ import CookieLaw from 'vue-cookie-law';
 import { loadIndicatorData } from '@/utils';
 
 import axios from 'axios';
-import { DateTime } from 'luxon';
 import { Wkt } from 'wicket';
 
 const wkt = new Wkt();
@@ -92,11 +91,11 @@ export default {
       'getCountryItems',
     ]),
     showCookieNotice() {
-      return this.$route.path != '/iframe';
+      return this.$route.path !== '/iframe';
     },
   },
   created() {
-    if (this.appConfig.hasOwnProperty('countDownTimer')
+    if (Object.prototype.hasOwnProperty.call(this.appConfig, 'countDownTimer')
       && this.appConfig.countDownMatch.includes(document.domain)) {
       this.comingSoon = true;
       this.checkComingSoon();
@@ -105,7 +104,6 @@ export default {
     }
   },
   mounted() {
-    const { baseConfig } = this;
     // Listen for features added, and select if poi in query
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'features/ADD_NEW_FEATURES') {
@@ -165,7 +163,7 @@ export default {
           }
         }
       }
-      
+
       if (mutation.type === 'features/SET_SELECTED_AREA') {
         if (mutation.payload) {
           const area = wkt.read(JSON.stringify(mutation.payload)).write();
@@ -228,7 +226,7 @@ export default {
           this.$store.commit('features/SET_SELECTED_AREA', validArea.toJson());
         }
       }
-    }
+    },
   },
 };
 </script>

@@ -28,7 +28,8 @@ export function shTimeFunction(date) {
 
 export function shS2TimeFunction(date) {
   // modifies the start and end by 1 hour to past and future
-  // this is done to fix mismatch between S2 filename and metadata time resulting in transparent image
+  // this is done to fix mismatch between S2 filename
+  // and metadata time resulting in transparent image
   let tempDate = date;
   if (!Array.isArray(tempDate)) {
     tempDate = [tempDate];
@@ -66,7 +67,7 @@ export async function loadIndicatorData(baseConfig, payload) {
     // Fetch location data
     const response = await axios.get(url, { credentials: 'same-origin' });
     if (response) {
-      const data = response.data;
+      const { data } = response;
       indicatorObject = payload;
       // Set data to indicator object
       // Convert data first
