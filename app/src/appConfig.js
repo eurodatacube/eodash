@@ -72,20 +72,28 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'ES41-E10a8',
+        poi: 'FR01-N1',
         src: './data/trilateral/Slide1.png',
       },
       {
-        poi: 'NorthAdriaticJAXA-N3a2',
+        poi: 'IN02-N2',
         src: './data/trilateral/Slide2.png',
       },
       {
-        poi: 'US01-N1',
+        poi: 'JP03-E9',
         src: './data/trilateral/Slide3.png',
       },
       {
-        poi: 'JP01-N5',
+        poi: 'US031-E13b',
         src: './data/trilateral/Slide4.png',
+      },
+      {
+        poi: 'BE03-N5',
+        src: './data/trilateral/Slide5.png',
+      },
+      {
+        poi: 'BR02-N7',
+        src: './data/trilateral/Slide6.png',
       },
     ],
     customCountryList: [
