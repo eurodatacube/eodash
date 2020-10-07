@@ -53,18 +53,23 @@
         @click="selectIndicator(feature)"
       >
         <l-icon
-          :icon-anchor="currentSelected === getLocationCode(feature.properties.indicatorObject) ? [18, 18] : [14, 14]"
+          :icon-anchor="currentSelected === getLocationCode(feature.properties.indicatorObject)
+            ? [18, 18]
+            : [14, 14]"
           style="outline: none;"
         >
           <div
             :style="`display: flex; align-items: center;
               justify-content: center;
               border-radius: 50%;
-              border: 2px ${currentSelected === getLocationCode(feature.properties.indicatorObject)
-                ? 'dashed var(--v-primary-base)'
-                : 'solid white'};
-              width: ${currentSelected === getLocationCode(feature.properties.indicatorObject) ? '36px' : '28px'};
-              height: ${currentSelected === getLocationCode(feature.properties.indicatorObject) ? '36px' : '28px'};
+              border: 2px ${currentSelected ===
+                getLocationCode(feature.properties.indicatorObject)
+                  ? 'dashed var(--v-primary-base)'
+                  : 'solid white'};
+              width: ${currentSelected ===
+                getLocationCode(feature.properties.indicatorObject) ? '36px' : '28px'};
+              height: ${currentSelected ===
+                getLocationCode(feature.properties.indicatorObject) ? '36px' : '28px'};
               background-color: ${getColor(feature.properties.indicatorObject)}`"
           >
               <v-icon
@@ -298,9 +303,9 @@ export default {
       const { indicatorObject } = feature.properties;
       if (!indicatorObject.dummyFeature) {
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
-        let query = Object.assign({}, this.$route.query);
+        const query = { ...this.$route.query };
         delete query.sensor;
-        this.$router.replace({ query }).catch(()=>{});
+        this.$router.replace({ query }).catch(() => {});
       }
     },
     getColor(indObj) {
@@ -334,8 +339,8 @@ export default {
           } else if (['E10a3', 'E10a8', 'N4c'].includes(indicatorObject.indicator)) {
             label += 'multiple';
           } else if (['E10a6', 'E10a7'].includes(indicatorObject.indicator)) {
-            const indVal =  Number(indicatorObject.lastMeasurement).toPrecision(4);
-            label += `${indVal}%`;
+            const newIndVal = Number(indicatorObject.lastMeasurement).toPrecision(4);
+            label += `${newIndVal}%`;
           } else if (['N1', 'N3b'].includes(indicatorObject.indicator)) {
             label = '';
           } else {

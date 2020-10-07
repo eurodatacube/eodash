@@ -95,7 +95,7 @@ export default {
   },
   computed: {
     arrayOfObjects() {
-      const indicator = Object.assign({}, this.indicatorObject);
+      const indicator = { ...this.indicatorObject };
       const indicatorCode = indicator.indicator;
       const selectionOptions = [];
       if (['E10a3', 'E10a8'].includes(indicatorCode)) {
@@ -113,7 +113,7 @@ export default {
       return selectionOptions;
     },
     datacollection() {
-      const indicator = Object.assign({}, this.indicatorObject);
+      const indicator = { ...this.indicatorObject };
       const indicatorCode = indicator.indicator;
       let dataCollection;
       const refColors = [
@@ -565,7 +565,8 @@ export default {
       return dataCollection;
     },
     indicatorObject() {
-      return this.$store.state.indicators.customAreaIndicator || this.$store.state.indicators.selectedIndicator;
+      return this.$store.state.indicators.customAreaIndicator
+        || this.$store.state.indicators.selectedIndicator;
     },
   },
   methods: {

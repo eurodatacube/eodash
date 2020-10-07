@@ -91,11 +91,11 @@ export default {
       'getCountryItems',
     ]),
     showCookieNotice() {
-      return this.$route.path != '/iframe';
+      return this.$route.path !== '/iframe';
     },
   },
   created() {
-    if (this.appConfig.hasOwnProperty('countDownTimer')
+    if (Object.prototype.hasOwnProperty.call(this.appConfig, 'countDownTimer')
       && this.appConfig.countDownMatch.includes(document.domain)) {
       this.comingSoon = true;
       this.checkComingSoon();
@@ -164,7 +164,7 @@ export default {
           }
         }
       }
-      
+
       if (mutation.type === 'features/SET_SELECTED_AREA') {
         if (mutation.payload) {
           const area = wkt.read(JSON.stringify(mutation.payload)).write();
@@ -285,7 +285,7 @@ export default {
           this.$store.commit('features/SET_SELECTED_AREA', validArea.toJson());
         }
       }
-    }
+    },
   },
 };
 </script>
