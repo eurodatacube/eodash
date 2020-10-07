@@ -78,6 +78,9 @@ import MapChart from '@/components/MapChart.vue';
 import NUTS from '@/assets/NUTS_RG_03M_2016_4326_ESL2-DEL3.json';
 
 export default {
+  props: [
+    'currentIndicator',
+  ],
   components: {
     BarChart,
     LineChart,
@@ -565,7 +568,8 @@ export default {
       return dataCollection;
     },
     indicatorObject() {
-      return this.$store.state.indicators.customAreaIndicator
+      return this.currentIndicator
+        || this.$store.state.indicators.customAreaIndicator
         || this.$store.state.indicators.selectedIndicator;
     },
   },

@@ -96,16 +96,25 @@ const getters = {
         ? 1 : -1));
     return features;
   },
-  getGroupedFeatures(_, getters) {
-    return getters.getFeatures
-    .sort((a,b) => (a.properties.indicatorObject.tabIndex > b.properties.indicatorObject.tabIndex) ? 1 : -1)
-    .reduce((acc, d) => {
-      const existing = acc.find((a) => `${a.properties.indicatorObject.aoiID}-${a.properties.indicatorObject.indicator}` === `${d.properties.indicatorObject.aoiID}-${d.properties.indicatorObject.indicator}`);
-      if (!existing) {
-        acc.push(d);
-      }
-      return acc;
-    }, []);
+  getGroupedFeatures(state, getters, rootState) {
+    let allFeatures = [];
+    if (state.allFeatures.length > 0) {
+      const groupedFeatures = [];
+      rootState.config.appConfig.featureGrouping.forEach((fG) => {
+        const firstFeature = getters.getFeatures
+          .find(f => `${f.properties.indicatorObject.aoiID}-${f.properties.indicatorObject.indicator}` === fG.features[0]);
+          if (firstFeature) {
+            groupedFeatures.push(firstFeature);
+          }
+      })
+      const restFeatures = getters.getFeatures
+      .filter((f) => {
+        const locationCode = `${f.properties.indicatorObject.aoiID}-${f.properties.indicatorObject.indicator}`;
+        return !rootState.config.appConfig.featureGrouping.find(fG => fG.features.includes(locationCode));
+      });
+      allFeatures = groupedFeatures.concat(restFeatures);
+    }
+    return allFeatures;
   },
   getLatestUpdate(state) {
     const times = state.allFeatures.map((f) => {

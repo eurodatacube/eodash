@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import axios from 'axios';
 
 export function padLeft(str, pad, size) {
   let out = str;
@@ -51,4 +52,73 @@ export function template(templateRe, str, data) {
     }
     return value;
   });
+}
+
+export async function loadIndicatorData(baseConfig, payload) {
+  let indicatorObject;
+
+  // Check if data was already loaded
+  if (Object.prototype.hasOwnProperty.call(payload, 'dataLoadFinished')
+    && payload.dataLoadFinished) {
+    indicatorObject = payload;
+  } else {
+    // Start loading of data from indicator
+    const url = `${baseConfig.dataPath}${[payload.aoiID, payload.indicator].join('-')}.json`;
+    // Fetch location data
+    const response = await axios.get(url, { credentials: 'same-origin' });
+    if (response) {
+      const data = response.data;
+      indicatorObject = payload;
+      // Set data to indicator object
+      // Convert data first
+      const mapping = {
+        colorCode: 'color_code',
+        dataProvider: 'data_provider',
+        eoSensor: 'eo_sensor',
+        indicatorValue: 'indicator_value',
+        inputData: 'input_data',
+        measurement: 'measurement_value',
+        referenceTime: 'reference_time',
+        referenceValue: 'reference_value',
+        time: 'time',
+        siteName: 'site_name_arr',
+      };
+      const parsedData = {};
+      for (let i = 0; i < data.length; i += 1) {
+        Object.entries(mapping).forEach(([key, value]) => {
+          let val = data[i][value];
+          if (Object.prototype.hasOwnProperty.call(parsedData, key)) {
+            // If key already there add element to array
+            if (['time', 'referenceTime'].includes(key)) {
+              val = DateTime.fromISO(val);
+            } else if (['measurement'].includes(key)) {
+              if (val.length > 0) {
+                val = Number(val);
+              } else {
+                val = Number.NaN;
+              }
+            }
+            parsedData[key].push(val);
+          } else {
+            // If not then set element as array
+            if (['time', 'referenceTime'].includes(key)) {
+              val = DateTime.fromISO(val);
+            } else if (['measurement'].includes(key)) {
+              if (val.length > 0) {
+                val = Number(val);
+              } else {
+                val = Number.NaN;
+              }
+            }
+            parsedData[key] = [val];
+          }
+        });
+      }
+      Object.entries(parsedData).forEach(([key, value]) => {
+        indicatorObject[key] = value;
+      });
+      indicatorObject.dataLoadFinished = true;
+    }
+  }
+  return indicatorObject;
 }
