@@ -519,13 +519,13 @@ export default {
           circlemarker: false,
           polygon: {
             shapeOptions: {
-              color: '#75e6b5',
+              color: this.appConfig.branding.primaryColor,
             },
           },
           rectangle: {
             showArea: false,
             shapeOptions: {
-              color: '#75e6b5',
+              color: this.appConfig.branding.primaryColor,
             },
           },
         },
@@ -634,7 +634,7 @@ export default {
         if (ftrs) {
           this.$refs.customAreaFilterFeatures.mapObject.addLayer(geoJson(ftrs, {
             style: {
-              color: '#75e6b5',
+              color: this.appConfig.branding.primaryColor,
             },
           }));
         }
@@ -735,7 +735,7 @@ export default {
     },
     shLayerConfig(side) {
       const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
-      const inputData = this.indicator.inputData[index];
+      const inputData = this.indicator.inputData.length === 1 ? this.indicator.inputData[0]: this.indicator.inputData[index];
       if (this.layerNameMapping.hasOwnProperty(inputData)) { // eslint-disable-line
         return this.layerNameMapping[inputData];
       }
@@ -1185,9 +1185,9 @@ export default {
   color: #fff;
 }
 ::v-deep .marker-cluster {
-  background-color: rgba(#72a875, 0.5);
+  background-color: rgba(#003247, 0.5);
   div {
-    background-color: var(--v-success-base);
+    background-color: var(--v-primary-base);
     span {
       color: white;
     }
