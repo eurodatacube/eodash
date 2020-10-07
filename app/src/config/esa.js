@@ -696,7 +696,9 @@ export const globalIndicators = [
                   colorCode: [],
                   referenceValue: [],
                 };
-                data.sort((a, b) => ((DateTime.fromISO(a.time) > DateTime.fromISO(b.time)) ? 1 : -1));
+                data.sort((a, b) => ((DateTime.fromISO(a.time) > DateTime.fromISO(b.time))
+                  ? 1
+                  : -1));
                 data.forEach((row) => {
                   let updateDate = row.time;
                   // temporary workaround until DB gets updated 2020-01-01 - 2020-04-01
@@ -822,7 +824,9 @@ export const globalIndicators = [
                   colorCode: [],
                   referenceValue: [],
                 };
-                data.sort((a, b) => ((DateTime.fromISO(a.time) > DateTime.fromISO(b.time)) ? 1 : -1));
+                data.sort((a, b) => ((DateTime.fromISO(a.time) > DateTime.fromISO(b.time))
+                  ? 1
+                  : -1));
                 data.forEach((row) => {
                   let updateDate = row.time;
                   // temporary workaround until DB gets updated 2020-01-01 - 2020-04-01

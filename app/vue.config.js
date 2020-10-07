@@ -1,4 +1,4 @@
-const webpack = require('webpack');
+const webpack = require('webpack'); // eslint-disable-line
 const fs = require('fs');
 
 const packageJson = fs.readFileSync('./package.json');
@@ -8,7 +8,7 @@ const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const appConfig = require('./src/appConfig');
 
 const pages = {};
-appConfig.map((b) => {
+appConfig.map((b) => { // eslint-disable-line
   pages[b.id] = {
     entry: './src/main.js',
     template: 'public/index.html',

@@ -23,12 +23,12 @@ const getters = {
 };
 
 const mutations = {
-  SET_SELECTED_INDICATOR(state) {
+  SET_SELECTED_INDICATOR() {
   },
   INDICATOR_LOAD_FINISHED(state, indicatorObject) {
     state.selectedIndicator = indicatorObject;
   },
-  SET_CUSTOM_AREA_INDICATOR(state, indicatorObject) {
+  SET_CUSTOM_AREA_INDICATOR() {
   },
   CUSTOM_AREA_INDICATOR_LOAD_FINISHED(state, indicatorObject) {
     state.customAreaIndicator = indicatorObject;

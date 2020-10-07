@@ -671,9 +671,9 @@ export default {
             layer.bindTooltip(tooltip, { pane: this.popupPane });
           }
           // to make clustering work
-          layer.getLatLng = () => geoJson(feature).getBounds().getCenter();
-          layer.setLatLng = () => { };
-          layer._latlng = layer.getLatLng();
+          layer.getLatLng = () => geoJson(feature).getBounds().getCenter(); //eslint-disable-line
+          layer.setLatLng = () => { }; //eslint-disable-line
+          layer._latlng = layer.getLatLng(); //eslint-disable-line
         }.bind(this),
         // point circle marker styling
         pointToLayer: function (feature, latlng) { // eslint-disable-line

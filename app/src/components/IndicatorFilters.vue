@@ -68,7 +68,8 @@
                   {{ region.toUpperCase() }}
               </v-subheader>
               <v-list-item
-                v-for="country in countryItems.filter(cI => cI.region ? cI.region === region : true)"
+                v-for="country in countryItems
+                  .filter(cI => cI.region ? cI.region === region : true)"
                 :key="country.code"
                 :value="country.code"
                 :disabled="countrySelection === country.code"

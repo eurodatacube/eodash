@@ -68,7 +68,6 @@ import CookieLaw from 'vue-cookie-law';
 import { loadIndicatorData } from '@/utils';
 
 import axios from 'axios';
-import { DateTime } from 'luxon';
 import { Wkt } from 'wicket';
 
 const wkt = new Wkt();
@@ -105,7 +104,6 @@ export default {
     }
   },
   mounted() {
-    const { baseConfig } = this;
     // Listen for features added, and select if poi in query
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'features/ADD_NEW_FEATURES') {

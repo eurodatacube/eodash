@@ -110,7 +110,8 @@ const getters = {
       const restFeatures = getters.getFeatures
         .filter((f) => {
           const locationCode = `${f.properties.indicatorObject.aoiID}-${f.properties.indicatorObject.indicator}`;
-          return !rootState.config.appConfig.featureGrouping.find((fG) => fG.features.includes(locationCode));
+          return !rootState.config.appConfig.featureGrouping
+            .find((fG) => fG.features.includes(locationCode));
         });
       allFeatures = groupedFeatures.concat(restFeatures);
     }

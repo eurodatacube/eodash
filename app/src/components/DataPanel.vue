@@ -163,7 +163,7 @@
               v-model="iframeDialog"
               width="500"
             >
-              <template v-slot:activator="{ on, attrs }">
+              <template v-slot:activator="{}">
                 <v-btn
                   color="primary"
                   text
@@ -416,9 +416,12 @@ export default {
   methods: {
     async init() {
       await this.checkMultipleTabCompare();
-      this.selectedSensorTab = this.multipleTabCompare && this.multipleTabCompare.features
-        .indexOf(this.multipleTabCompare.features.find((s) => this.getLocationCode(s.properties.indicatorObject) === this.$route.query.poi))
-      || 0;
+      this.selectedSensorTab = this.multipleTabCompare
+        ? (this.multipleTabCompare.features
+          .indexOf(this.multipleTabCompare.features
+            .find((s) => this.getLocationCode(s.properties.indicatorObject)
+              === this.$route.query.poi)))
+        : 0;
     },
     async checkMultipleTabCompare() {
       let compare;
@@ -459,7 +462,8 @@ export default {
   watch: {
     selectedSensorTab(index) {
       if (this.multipleTabCompare.features[index]) {
-        const poi = this.getLocationCode(this.multipleTabCompare.features[index].properties.indicatorObject);
+        const poi = this.getLocationCode(this.multipleTabCompare.features[index]
+          .properties.indicatorObject);
         this.$router.replace({ query: { ...this.$route.query, poi } }).catch(() => {});
       }
     },

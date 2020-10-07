@@ -119,8 +119,10 @@
       </div>
       <v-card-text v-if="indicatorObject && indicatorObject.updateFrequency" class="flex-grow-0">
         <small v-if="indicatorObject && indicatorObject.updateFrequency">
-          <span v-if="indicatorObject.updateFrequency === 'Retired'">This indicator is no longer updated</span>
-          <span v-else-if="indicatorObject.updateFrequency === 'EndSeason'">Due to end of season, this indicator is no longer updated</span>
+          <span v-if="indicatorObject.updateFrequency
+            === 'Retired'">This indicator is no longer updated</span>
+          <span v-else-if="indicatorObject.updateFrequency
+            === 'EndSeason'">Due to end of season, this indicator is no longer updated</span>
           <span v-else>This data is updated: {{ indicatorObject.updateFrequency }}</span>
         </small>
       </v-card-text>
@@ -148,7 +150,6 @@
 
 <script>
 import {
-  mapGetters,
   mapState,
 } from 'vuex';
 
@@ -203,9 +204,12 @@ export default {
   methods: {
     async init() {
       await this.checkMultipleTabCompare();
-      this.selectedSensorTab = this.multipleTabCompare && this.multipleTabCompare.features
-        .indexOf(this.multipleTabCompare.features.find((s) => this.getLocationCode(s.properties.indicatorObject) === this.$route.query.poi))
-      || 0;
+      this.selectedSensorTab = this.multipleTabCompare
+        ? this.multipleTabCompare.features
+          .indexOf(this.multipleTabCompare.features
+            .find((s) => this.getLocationCode(s.properties.indicatorObject)
+              === this.$route.query.poi))
+        : 0;
     },
     async checkMultipleTabCompare() {
       let compare;
@@ -238,7 +242,8 @@ export default {
     },
     selectedSensorTab(index) {
       if (this.multipleTabCompare.features[index]) {
-        const poi = this.getLocationCode(this.multipleTabCompare.features[index].properties.indicatorObject);
+        const poi = this.getLocationCode(this.multipleTabCompare.features[index]
+          .properties.indicatorObject);
         this.$router.replace({ query: { ...this.$route.query, poi } }).catch(() => {});
       }
     },
