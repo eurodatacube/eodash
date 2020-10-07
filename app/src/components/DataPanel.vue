@@ -417,28 +417,26 @@ export default {
     async init() {
       await this.checkMultipleTabCompare();
       this.selectedSensorTab = this.multipleTabCompare && this.multipleTabCompare.features
-        .indexOf(this.multipleTabCompare.features.find(s => this.getLocationCode(s.properties.indicatorObject) === this.$route.query.poi))
+        .indexOf(this.multipleTabCompare.features.find((s) => this.getLocationCode(s.properties.indicatorObject) === this.$route.query.poi))
       || 0;
     },
     async checkMultipleTabCompare() {
       let compare;
-      const selectedIndicator = this.$store.state.indicators.selectedIndicator;
+      const { selectedIndicator } = this.$store.state.indicators;
       const hasGrouping = this.appConfig.featureGrouping
-        .find(g => g.features.find(i => i.includes(this.getLocationCode(selectedIndicator))));
-      if(hasGrouping) {
+        .find((g) => g.features.find((i) => i.includes(this.getLocationCode(selectedIndicator))));
+      if (hasGrouping) {
         compare = {};
         compare.label = hasGrouping.label;
         compare.features = hasGrouping.features;
         // Pre-load all indicators to populate tab items
         await Promise.all(compare.features.map(async (f) => {
           const feature = this.$store.state.features.allFeatures
-            .find(i => this.getLocationCode(i.properties.indicatorObject) === f);
-          await loadIndicatorData(this.baseConfig, feature.properties.indicatorObject)
+            .find((i) => this.getLocationCode(i.properties.indicatorObject) === f);
+          await loadIndicatorData(this.baseConfig, feature.properties.indicatorObject);
         }));
-        compare.features = compare.features.map((f) => {
-          return this.$store.state.features.allFeatures
-            .find(i => this.getLocationCode(i.properties.indicatorObject) === f);
-        })
+        compare.features = compare.features.map((f) => this.$store.state.features.allFeatures
+          .find((i) => this.getLocationCode(i.properties.indicatorObject) === f));
       }
       this.multipleTabCompare = compare;
     },
@@ -462,7 +460,7 @@ export default {
     selectedSensorTab(index) {
       if (this.multipleTabCompare.features[index]) {
         const poi = this.getLocationCode(this.multipleTabCompare.features[index].properties.indicatorObject);
-        this.$router.replace({ query: { ...this.$route.query, poi } }).catch(()=>{});
+        this.$router.replace({ query: { ...this.$route.query, poi } }).catch(() => {});
       }
     },
     dialog(open) {

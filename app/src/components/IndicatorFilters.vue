@@ -183,9 +183,7 @@ export default {
       let countryItems;
       if (this.appConfig.customCountryList) {
         countryItems = this.appConfig.customCountryList
-          .filter((c) => {
-            return this.getCountries.includes(c.code);
-          })
+          .filter((c) => this.getCountries.includes(c.code))
           .map((c) => {
             const item = countries.features
               .find((f) => f.properties.alpha2 === c.code);
@@ -299,7 +297,7 @@ export default {
     },
     uniqueRegions(countryItems) {
       return countryItems
-        .map(c => c.region)
+        .map((c) => c.region)
         .filter((thing, index, self) => self.findIndex((t) => t === thing) === index);
     },
   },

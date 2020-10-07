@@ -201,9 +201,9 @@ export default {
     globalIndicators() {
       return this.getGroupedFeatures && this.getGroupedFeatures
         .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName))
-        .sort((a, b) => (a.properties.indicatorObject.indicatorName > b.properties.indicatorObject.indicatorName)
+        .sort((a, b) => ((a.properties.indicatorObject.indicatorName > b.properties.indicatorObject.indicatorName)
           ? 1
-          : -1);
+          : -1));
     },
     someGlobalIndicator() {
       return this.globalIndicators && this.globalIndicators

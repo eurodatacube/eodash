@@ -490,7 +490,7 @@ export default {
         disableClusteringAtZoom: 13,
         animate: false,
         // zoomToBoundsOnClick: false,
-        iconCreateFunction: function (cluster) { // eslint-disable-line func-names
+        iconCreateFunction(cluster) { // eslint-disable-line func-names
           // modified selected cluster style
           const childCount = cluster.getChildCount();
           return new DivIcon({
@@ -671,7 +671,7 @@ export default {
             layer.bindTooltip(tooltip, { pane: this.popupPane });
           }
           // to make clustering work
-          layer.getLatLng = () => { return geoJson(feature).getBounds().getCenter(); };
+          layer.getLatLng = () => geoJson(feature).getBounds().getCenter();
           layer.setLatLng = () => { };
           layer._latlng = layer.getLatLng();
         }.bind(this),
@@ -958,7 +958,7 @@ export default {
         if (this.fetchDataClicked || !this.customAreaFilter) {
           this.featureJson.data = emptyF;
           if (this.featuresClustering) {
-            this.$refs.featuresDataCluster.mapObject.clearLayers()
+            this.$refs.featuresDataCluster.mapObject.clearLayers();
           }
           this.fetchFeatures('data');
         }

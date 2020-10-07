@@ -67,7 +67,7 @@ export async function loadIndicatorData(baseConfig, payload) {
     // Fetch location data
     const response = await axios.get(url, { credentials: 'same-origin' });
     if (response) {
-      const data = response.data;
+      const { data } = response;
       indicatorObject = payload;
       // Set data to indicator object
       // Convert data first

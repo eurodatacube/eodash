@@ -6,7 +6,7 @@ const state = {
 };
 
 const getters = {
-  getIndicatorFilteredInputData: state => (selectedIndicator) => {
+  getIndicatorFilteredInputData: (state) => (selectedIndicator) => {
     const indicator = selectedIndicator || { ...state.selectedIndicator };
     // filter out rows which have empty "Input Data"
     const mask = indicator.inputData.map((item) => item !== '');
