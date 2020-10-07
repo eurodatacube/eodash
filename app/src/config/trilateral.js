@@ -369,7 +369,7 @@ export const layerNameMapping = Object.freeze({
     dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
     siteMapping: (eoID) => {
       const mapping = {
-        JP02: 'tk',  // just to fix transition
+        JP02: 'tk', // just to fix transition
       };
       return mapping[eoID];
     },

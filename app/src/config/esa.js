@@ -644,7 +644,7 @@ export const globalIndicators = [
             requestBody: {
               collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
               select: 'id, sum_observations, osm_name, ST_AsText(geometry) as "geometry", truck_count_normalized',
-              where: `osm_value=1 AND date_part(\'year\',time)={featuresTime} AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)`,
+              where: 'osm_value=1 AND date_part(\'year\',time)={featuresTime} AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
               limit: '5000',
             },
             style: {
@@ -772,7 +772,7 @@ export const globalIndicators = [
             requestBody: {
               collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
               select: 'id, sum_observations, ST_AsText(geometry) as "geometry", truck_count_normalized, time',
-              where: `osm_value=3 AND date_part(\'year\',time)={featuresTime} AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)`,
+              where: 'osm_value=3 AND date_part(\'year\',time)={featuresTime} AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
               limit: '5000',
             },
             style: {
