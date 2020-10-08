@@ -12,7 +12,7 @@
         <div>
           <v-carousel-item
             v-for="(item, i) in items"
-            :key="i" 
+            :key="i"
             :aspect-ratio="16/9"
             :src="item.src"
           >
