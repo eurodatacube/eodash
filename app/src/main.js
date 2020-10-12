@@ -89,11 +89,14 @@ const renderVue = async () => {
   await store.dispatch('config/checkBrand');
   store.dispatch('features/loadAllEndpoints');
 
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+
   const vuetify = new Vuetify({
     theme: {
       options: {
         customProperties: true,
       },
+      dark: mq.matches,
       themes: {
         light: {
           primary: store.state.config.appConfig
@@ -125,6 +128,10 @@ const renderVue = async () => {
         },
       },
     },
+  });
+
+  mq.addEventListener('change', (e) => {
+    vuetify.framework.theme.dark = e.matches;
   });
 
   // Global helper functions
