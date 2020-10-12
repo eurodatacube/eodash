@@ -216,7 +216,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Changes in land fill sites',
     class: 'land',
     replaceDataMap: {
-      time: [DateTime.fromISO('2020-02-26T00:00:00'), DateTime.fromISO('2020-05-20T00:00:00'), DateTime.fromISO('2020-06-20T00:00:00')],
+      time: [DateTime.fromISO('2020-02-26T00:00:00'), DateTime.fromISO('2020-05-20T00:00:00'), DateTime.fromISO('2020-06-06T00:00:00')],
       eoSensor: ['Pleiades', 'Pleiades', 'Deimos'],
     },
     features: {
@@ -263,10 +263,10 @@ export const layerNameMapping = Object.freeze({
     attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   'Deimos - COVID19': {
-    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-    layers: 'NEW_PLEIADES_COVID19',
+    baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+    layers: 'DEIMOS',
     attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
-  }, // dummy to allow eodata on n4c, still use pleiades
+  },
   '[NEW] Pleiades COVID-19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_COVID19',
@@ -412,7 +412,7 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         aoi: null,
         aoiID: 'World',
-        time: getFortnightIntervalDates('2019-01-07', '2020-09-07'),
+        time: getFortnightIntervalDates('2019-01-07', '2020-10-05'),
         inputData: [''],
         display: {
           protocol: 'xyz',
