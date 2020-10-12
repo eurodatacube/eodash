@@ -104,6 +104,7 @@
 
         <v-col
           cols="12"
+          md="6"
           class="py-0 my-0 d-flex justify-space-between"
         >
           <small v-if="indicatorObject && indicatorObject.updateFrequency">
@@ -127,7 +128,7 @@
                   <v-btn
                     color="primary"
                     text
-                    x-small
+                    :x-small="$vuetify.breakpoint.xsOnly"
                     @click="fetchCustomAreaFeatures"
                     :disabled="!customAreaFilterEnabled"
                   >
@@ -148,7 +149,7 @@
                   <v-btn
                     color="primary"
                     text
-                    x-small
+                    :x-small="$vuetify.breakpoint.xsOnly"
                     @click="fetchCustomAreaIndicator"
                     :disabled="!customAreaFilterEnabled"
                   >
@@ -159,6 +160,14 @@
               </template>
               Select an area on the map to start!
             </v-tooltip>
+          </div>
+        </v-col>
+        <v-col
+          cols="12"
+          md="6"
+          class="py-0 my-0"
+        >
+          <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
             <v-dialog
               v-model="iframeDialog"
               width="500"
