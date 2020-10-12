@@ -21,7 +21,7 @@
     </div>
     <template v-else>
       <router-view />
-      <cookie-law v-if="showCookieNotice" @accept="acceptCookies">
+      <cookie-law v-if="showCookieNotice" @accept="acceptCookies" theme="blood-orange">
         <div slot-scope="props" style="width: 100%;">
           <div class="d-flex align-center justify-center mb-5">
             <small class="mb-0">
