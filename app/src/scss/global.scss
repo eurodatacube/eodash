@@ -41,3 +41,22 @@
     height: 100%;
   }
 }
+
+.v-application.theme--dark {
+  .md-body {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #fff !important;
+    }
+  }
+  .primary--text {
+    color: #fff !important;
+  }
+  .v-dialog--fullscreen {
+    background: #363636;
+  }
+}
