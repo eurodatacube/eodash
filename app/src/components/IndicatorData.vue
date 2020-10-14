@@ -158,7 +158,7 @@ export default {
             backgroundColor: 'black',
           });
         } else if (['N3b'].includes(indicatorCode)) {
-          const sensors = Array.from(new Set(indicator.eoSensor)).reverse();
+          const sensors = Array.from(new Set(indicator.eoSensor)).sort();
           for (let pp = 0; pp < sensors.length; pp += 1) {
             const pKey = sensors[pp];
             const data = indicator.time.map((date, i) => {
