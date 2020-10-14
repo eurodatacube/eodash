@@ -464,7 +464,7 @@ export default {
           indicator.indicatorValue.map((val, i) => {
             let key = val.toLowerCase();
             key = key.charAt(0).toUpperCase() + key.slice(1);
-            if (typeof indicatorValues[key] === 'undefined') {
+            if (key !== '' && typeof indicatorValues[key] === 'undefined') {
               indicatorValues[key] = this.getIndicatorColor(
                 indicator.colorCode[i],
               );
