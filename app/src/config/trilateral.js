@@ -195,6 +195,11 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Chl-a concentration anomaly',
     class: 'water',
     story: '/data/trilateral/N3b',
+    sensorColorMap: {
+      'Sentinel-3A OLCI': '#a37',
+      'Aqua MODIS': '#47a',
+      'GCOM-C/SGLI': '#cb4',
+    },
   },
   N3a2: {
     indicator: 'CHL concentration',
@@ -598,12 +603,6 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/no2Legend.png',
           attribution: '{ Air Quality: <a href="//scihub.copernicus.eu/twiki/pub/SciHubWebPortal/TermsConditions/TC_Sentinel_Data_31072014.pdf" target="_blank">Sentinel data</a>, <a href="//maps.s5p-pal.com/" target="_blank">S5P-PAL</a> }',
           dateFormatFunction: (dates) => `${DateTime.fromISO(dates[0]).toFormat('yyyyMMdd')}-${DateTime.fromISO(dates[1]).toFormat('yyyyMMdd')}`,
-          features: {
-            url: './data/features/{indicator}_{aoiID}_{featuresTime}.geojson',
-            allowedParameters: ['valid'],
-            dateFormatFunction: (dates) => `${DateTime.fromISO(dates[0]).toFormat('yyyy')}`,
-            // areaFormatFunction: (area) => wkt.read(JSON.stringify(area)).write(),
-          },
         },
       },
     },

@@ -71,7 +71,9 @@
 
 <script>
 import { DateTime } from 'luxon';
-
+import {
+  mapState,
+} from 'vuex';
 import BarChart from '@/components/BarChart.vue';
 import LineChart from '@/components/LineChart.vue';
 import MapChart from '@/components/MapChart.vue';
@@ -97,6 +99,7 @@ export default {
     this.dataLayerTime = d.toFormat('dd. MMM');
   },
   computed: {
+    ...mapState('config', ['appConfig', 'baseConfig']),
     arrayOfObjects() {
       const indicator = { ...this.indicatorObject };
       const indicatorCode = indicator.indicator;
@@ -168,12 +171,16 @@ export default {
               }
               return output;
             }).filter((d) => d !== null);
+            let colorUsed = refColors[pp];
+            if (this.indDefinition.sensorColorMap && this.indDefinition.sensorColorMap[pKey]) {
+              colorUsed = this.indDefinition.sensorColorMap[pKey];
+            }
             datasets.push({
               label: pKey,
               data,
               fill: false,
-              borderColor: refColors[pp],
-              backgroundColor: refColors[pp],
+              borderColor: colorUsed,
+              backgroundColor: colorUsed,
             });
           }
         } else if (['N4c'].includes(indicatorCode)) {
@@ -571,6 +578,9 @@ export default {
       return this.currentIndicator
         || this.$store.state.indicators.customAreaIndicator
         || this.$store.state.indicators.selectedIndicator;
+    },
+    indDefinition() {
+      return this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator];
     },
   },
   methods: {
