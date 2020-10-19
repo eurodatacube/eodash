@@ -71,7 +71,9 @@
 
 <script>
 import { DateTime } from 'luxon';
-
+import {
+  mapState,
+} from 'vuex';
 import BarChart from '@/components/BarChart.vue';
 import LineChart from '@/components/LineChart.vue';
 import MapChart from '@/components/MapChart.vue';
@@ -97,6 +99,7 @@ export default {
     this.dataLayerTime = d.toFormat('dd. MMM');
   },
   computed: {
+    ...mapState('config', ['appConfig', 'baseConfig']),
     arrayOfObjects() {
       const indicator = { ...this.indicatorObject };
       const indicatorCode = indicator.indicator;
@@ -158,7 +161,7 @@ export default {
             backgroundColor: 'black',
           });
         } else if (['N3b'].includes(indicatorCode)) {
-          const sensors = Array.from(new Set(indicator.eoSensor)).reverse();
+          const sensors = Array.from(new Set(indicator.eoSensor)).sort();
           for (let pp = 0; pp < sensors.length; pp += 1) {
             const pKey = sensors[pp];
             const data = indicator.time.map((date, i) => {
@@ -168,12 +171,16 @@ export default {
               }
               return output;
             }).filter((d) => d !== null);
+            let colorUsed = refColors[pp];
+            if (this.indDefinition.sensorColorMap && this.indDefinition.sensorColorMap[pKey]) {
+              colorUsed = this.indDefinition.sensorColorMap[pKey];
+            }
             datasets.push({
               label: pKey,
               data,
               fill: false,
-              borderColor: refColors[pp],
-              backgroundColor: refColors[pp],
+              borderColor: colorUsed,
+              backgroundColor: colorUsed,
             });
           }
         } else if (['N4c'].includes(indicatorCode)) {
@@ -457,7 +464,7 @@ export default {
           indicator.indicatorValue.map((val, i) => {
             let key = val.toLowerCase();
             key = key.charAt(0).toUpperCase() + key.slice(1);
-            if (typeof indicatorValues[key] === 'undefined') {
+            if (key !== '' && typeof indicatorValues[key] === 'undefined') {
               indicatorValues[key] = this.getIndicatorColor(
                 indicator.colorCode[i],
               );
@@ -571,6 +578,9 @@ export default {
       return this.currentIndicator
         || this.$store.state.indicators.customAreaIndicator
         || this.$store.state.indicators.selectedIndicator;
+    },
+    indDefinition() {
+      return this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator];
     },
   },
   methods: {
