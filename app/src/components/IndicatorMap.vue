@@ -427,8 +427,14 @@ export default {
     disableCompareButton() {
       return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableCompare !== 'undefined') ? this.layerDisplay('data').disableCompare : this.indDefinition.disableCompare;
     },
+    customAreaFeatures() {
+      return (this.layerDisplay('data') && typeof this.layerDisplay('data').customAreaFeatures !== 'undefined') ? this.layerDisplay('data').customAreaFeatures : this.indDefinition.customAreaFeatures;
+    },
+    customAreaIndicator() {
+      return (this.layerDisplay('data') && typeof this.layerDisplay('data').customAreaIndicator !== 'undefined') ? this.layerDisplay('data').customAreaIndicator : this.indDefinition.customAreaIndicator;
+    },
     customAreaFilter() {
-      return (this.layerDisplay('data') && typeof this.layerDisplay('data').customAreaFilter !== 'undefined') ? this.layerDisplay('data').customAreaFilter : this.indDefinition.customAreaFilter;
+      return this.customAreaFeatures || this.customAreaIndicator;
     },
     featuresClustering() {
       return (this.layerDisplay('data') && typeof this.layerDisplay('data').featuresClustering !== 'undefined') ? this.layerDisplay('data').featuresClustering : this.indDefinition.featuresClustering;
@@ -939,7 +945,7 @@ export default {
           this.$refs.compareLayer.mapObject
             .setUrl(this.layerDisplay('compare').url);
         }
-        if (this.fetchDataClicked || !this.customAreaFilter) {
+        if (this.fetchDataClicked || !this.customAreaFeatures) {
           this.fetchFeatures('compare');
           this.featureJson.compare = emptyF;
           if (this.featuresClustering) {
@@ -957,7 +963,7 @@ export default {
           this.$refs.dataLayer.mapObject
             .setUrl(this.layerDisplay('data').url);
         }
-        if (this.fetchDataClicked || !this.customAreaFilter) {
+        if (this.fetchDataClicked || !this.customAreaFeatures) {
           this.featureJson.data = emptyF;
           if (this.featuresClustering) {
             this.$refs.featuresDataCluster.mapObject.clearLayers();
@@ -1004,6 +1010,7 @@ export default {
         if (requestBody) {
           requestOpts.body = JSON.stringify(requestBody);
         }
+        this.map.fireEvent('dataloading');
         fetch(url, requestOpts).then((r) => r.json())
           .then((rawdata) => {
             // if custom response -> feature mapping function configured, apply it
@@ -1013,9 +1020,11 @@ export default {
             return rawdata;
           })
           .then((data) => {
+            this.map.fireEvent('dataload');
             this.featureJson[side] = data;
           })
           .catch(() => {
+            this.map.fireEvent('dataload');
             this.featureJson[side] = emptyF;
           });
       } else {
@@ -1065,6 +1074,7 @@ export default {
       if (requestBody) {
         requestOpts.body = JSON.stringify(requestBody);
       }
+      this.map.fireEvent('dataloading');
       fetch(url, requestOpts).then((r) => r.json())
         .then((rawdata) => {
           if (typeof this.layerDisplay('data').areaIndicator.callbackFunction === 'function') {
@@ -1075,6 +1085,7 @@ export default {
           return rawdata;
         })
         .then((indicator) => {
+          this.map.fireEvent('dataload');
           this.$store.commit(
             'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
           );

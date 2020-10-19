@@ -119,7 +119,7 @@
           <small v-else> </small>
           <div class="d-flex align-center">
             <v-tooltip
-              v-if="customAreaFilter"
+              v-if="customAreaFeaturesEnabled"
               :disabled="customAreaFilterEnabled"
               top
             >
@@ -140,7 +140,7 @@
               Select an area on the map to start! Current limit of features to view is 5 000.
             </v-tooltip>
             <v-tooltip
-              v-if="customAreaFilter"
+              v-if="customAreaIndicatorEnabled"
               :disabled="customAreaFilterEnabled"
               top
             >
@@ -407,10 +407,17 @@ export default {
       // search configuration mapping if layer is configured
       return lastInputData ? this.layerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
     },
-    customAreaFilter() {
+    customAreaFeaturesEnabled() {
       let filter;
       if (this.mounted && this.$refs.indicatorMap) {
-        filter = this.$refs.indicatorMap.customAreaFilter;
+        filter = this.$refs.indicatorMap.customAreaFeatures;
+      }
+      return filter;
+    },
+    customAreaIndicatorEnabled() {
+      let filter;
+      if (this.mounted && this.$refs.indicatorMap) {
+        filter = this.$refs.indicatorMap.customAreaIndicator;
       }
       return filter;
     },
