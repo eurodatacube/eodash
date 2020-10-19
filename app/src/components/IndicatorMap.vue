@@ -427,8 +427,14 @@ export default {
     disableCompareButton() {
       return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableCompare !== 'undefined') ? this.layerDisplay('data').disableCompare : this.indDefinition.disableCompare;
     },
+    customAreaFeatures() {
+      return (this.layerDisplay('data') && typeof this.layerDisplay('data').customAreaFeatures !== 'undefined') ? this.layerDisplay('data').customAreaFeatures : this.indDefinition.customAreaFeatures;
+    },
+    customAreaIndicator() {
+      return (this.layerDisplay('data') && typeof this.layerDisplay('data').customAreaIndicator !== 'undefined') ? this.layerDisplay('data').customAreaIndicator : this.indDefinition.customAreaIndicator;
+    },
     customAreaFilter() {
-      return (this.layerDisplay('data') && typeof this.layerDisplay('data').customAreaFilter !== 'undefined') ? this.layerDisplay('data').customAreaFilter : this.indDefinition.customAreaFilter;
+      return this.customAreaFeatures || this.customAreaIndicator;
     },
     featuresClustering() {
       return (this.layerDisplay('data') && typeof this.layerDisplay('data').featuresClustering !== 'undefined') ? this.layerDisplay('data').featuresClustering : this.indDefinition.featuresClustering;
@@ -939,7 +945,7 @@ export default {
           this.$refs.compareLayer.mapObject
             .setUrl(this.layerDisplay('compare').url);
         }
-        if (this.fetchDataClicked || !this.customAreaFilter) {
+        if (this.fetchDataClicked || !this.customAreaFeatures) {
           this.fetchFeatures('compare');
           this.featureJson.compare = emptyF;
           if (this.featuresClustering) {
@@ -957,7 +963,7 @@ export default {
           this.$refs.dataLayer.mapObject
             .setUrl(this.layerDisplay('data').url);
         }
-        if (this.fetchDataClicked || !this.customAreaFilter) {
+        if (this.fetchDataClicked || !this.customAreaFeatures) {
           this.featureJson.data = emptyF;
           if (this.featuresClustering) {
             this.$refs.featuresDataCluster.mapObject.clearLayers();
