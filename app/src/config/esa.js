@@ -311,7 +311,6 @@ export const layerNameMapping = Object.freeze({
     layers: 'E8_SENTINEL1',
     attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
   },
-  N1: {}, // just for enabling eo data button for now,
   N3a2: {}, // just for enabling eo data button for now,
 });
 
@@ -403,10 +402,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Air Quality - Tropospheric NO2 (μmol/m2)',
+        description: 'Air Quality',
         indicator: 'N1',
         lastIndicatorValue: 'normal',
-        indicatorName: 'Air Quality - Tropospheric NO2 (μmol/m2)',
+        indicatorName: 'Air Quality',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -427,7 +426,7 @@ export const globalIndicators = [
           attribution: '{ Air Quality: <a href="//scihub.copernicus.eu/twiki/pub/SciHubWebPortal/TermsConditions/TC_Sentinel_Data_31072014.pdf" target="_blank">Sentinel data</a>, <a href="//maps.s5p-pal.com/" target="_blank">S5P-PAL</a> }',
           dateFormatFunction: (dates) => `${DateTime.fromISO(dates[0]).toFormat('yyyyMMdd')}-${DateTime.fromISO(dates[1]).toFormat('yyyyMMdd')}`,
           areaIndicator: {
-            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=200m&GEOMETRY={area}`,
+            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=3500m&GEOMETRY={area}`,
             callbackFunction: (requestJson, indicator) => {
               if (Array.isArray(requestJson.C0)) {
                 const data = requestJson.C0;
@@ -441,7 +440,7 @@ export const globalIndicators = [
                   ? 1
                   : -1));
                 data.forEach((row) => {
-                  if (row.basicStats.max < 50000) {
+                  if (row.basicStats.max < 5000) {
                     // leaving out falsely set nodata values disrupting the chart
                     newData.time.push(DateTime.fromISO(row.date));
                     newData.colorCode.push('');
