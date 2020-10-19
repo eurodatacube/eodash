@@ -2,7 +2,7 @@
     {
         "aoi": "48.2,16.366667",
         "aoiID": "AT",
-        "city": "Vienna (TROPOMI)",
+        "city": "Vienna",
         "country": "AT",
         "description": "Air Quality",
         "indicator": "N1",
@@ -22,7 +22,7 @@
     {
         "aoi": "50.83333333,4.3333330000000005",
         "aoiID": "BE",
-        "city": "Brussels (TROPOMI)",
+        "city": "Brussels",
         "country": "BE",
         "description": "Air Quality",
         "indicator": "N1",
@@ -142,7 +142,7 @@
     {
         "aoi": "42.68333333,23.316667000000002",
         "aoiID": "BG",
-        "city": "Sofia (TROPOMI)",
+        "city": "Sofia",
         "country": "BG",
         "description": "Air Quality",
         "indicator": "N1",
@@ -162,7 +162,7 @@
     {
         "aoi": "35.16666667,33.366667",
         "aoiID": "CY",
-        "city": "Nicosia (TROPOMI)",
+        "city": "Nicosia",
         "country": "CY",
         "description": "Air Quality",
         "indicator": "N1",
@@ -182,7 +182,7 @@
     {
         "aoi": "50.08333333,14.466667000000001",
         "aoiID": "CZ",
-        "city": "Prague (TROPOMI)",
+        "city": "Prague",
         "country": "CZ",
         "description": "Air Quality",
         "indicator": "N1",
@@ -222,7 +222,7 @@
     {
         "aoi": "52.51666667,13.4",
         "aoiID": "DE",
-        "city": "Berlin (TROPOMI)",
+        "city": "Berlin",
         "country": "DE",
         "description": "Air Quality",
         "indicator": "N1",
@@ -502,7 +502,7 @@
     {
         "aoi": "55.66666667,12.583333",
         "aoiID": "DK",
-        "city": "Copenhagen (TROPOMI)",
+        "city": "Copenhagen",
         "country": "DK",
         "description": "Air Quality",
         "indicator": "N1",
@@ -522,7 +522,7 @@
     {
         "aoi": "59.43333333,24.716667",
         "aoiID": "EE",
-        "city": "Tallinn (TROPOMI)",
+        "city": "Tallinn",
         "country": "EE",
         "description": "Air Quality",
         "indicator": "N1",
@@ -542,7 +542,7 @@
     {
         "aoi": "40.416775,-3.70379",
         "aoiID": "ES",
-        "city": "Madrid (TROPOMI)",
+        "city": "Madrid",
         "country": "ES",
         "description": "Air Quality",
         "indicator": "N1",
@@ -1102,7 +1102,7 @@
     {
         "aoi": "60.16666667,24.933332999999998",
         "aoiID": "FI",
-        "city": "Helsinki (TROPOMI)",
+        "city": "Helsinki",
         "country": "FI",
         "description": "Air Quality",
         "indicator": "N1",
@@ -1182,7 +1182,7 @@
     {
         "aoi": "48.864715999999994,2.349014",
         "aoiID": "FR",
-        "city": "Paris (TROPOMI)",
+        "city": "Paris",
         "country": "FR",
         "description": "Air Quality",
         "indicator": "N1",
@@ -1302,7 +1302,7 @@
     {
         "aoi": "37.98333333,23.733333",
         "aoiID": "GR",
-        "city": "Athens (TROPOMI)",
+        "city": "Athens",
         "country": "GR",
         "description": "Air Quality",
         "indicator": "N1",
@@ -1362,7 +1362,7 @@
     {
         "aoi": "45.8,16.0",
         "aoiID": "HR",
-        "city": "Zagreb (TROPOMI)",
+        "city": "Zagreb",
         "country": "HR",
         "description": "Air Quality",
         "indicator": "N1",
@@ -1382,7 +1382,7 @@
     {
         "aoi": "47.5,19.083333",
         "aoiID": "HU",
-        "city": "Budapest (TROPOMI)",
+        "city": "Budapest",
         "country": "HU",
         "description": "Air Quality",
         "indicator": "N1",
@@ -1402,7 +1402,7 @@
     {
         "aoi": "53.31666667,-6.233333",
         "aoiID": "IE",
-        "city": "Dublin (TROPOMI)",
+        "city": "Dublin",
         "country": "IE",
         "description": "Air Quality",
         "indicator": "N1",
@@ -1422,7 +1422,7 @@
     {
         "aoi": "41.902782,12.496366",
         "aoiID": "IT",
-        "city": "Rome (TROPOMI)",
+        "city": "Rome",
         "country": "IT",
         "description": "Air Quality",
         "indicator": "N1",
@@ -1622,7 +1622,7 @@
     {
         "aoi": "54.68333333,25.316667000000002",
         "aoiID": "LT",
-        "city": "Vilnius (TROPOMI)",
+        "city": "Vilnius",
         "country": "LT",
         "description": "Air Quality",
         "indicator": "N1",
@@ -1642,7 +1642,7 @@
     {
         "aoi": "49.6,6.116667",
         "aoiID": "LU",
-        "city": "Luxembourg (TROPOMI)",
+        "city": "Luxembourg",
         "country": "LU",
         "description": "Air Quality",
         "indicator": "N1",
@@ -1662,7 +1662,7 @@
     {
         "aoi": "56.95,24.1",
         "aoiID": "LV",
-        "city": "Riga (TROPOMI)",
+        "city": "Riga",
         "country": "LV",
         "description": "Air Quality",
         "indicator": "N1",
@@ -1682,7 +1682,7 @@
     {
         "aoi": "35.88333333,14.5",
         "aoiID": "MT",
-        "city": "Valletta (TROPOMI)",
+        "city": "Valletta",
         "country": "MT",
         "description": "Air Quality",
         "indicator": "N1",
@@ -1702,7 +1702,7 @@
     {
         "aoi": "52.35,4.9166669999999995",
         "aoiID": "NL",
-        "city": "Amsterdam (TROPOMI)",
+        "city": "Amsterdam",
         "country": "NL",
         "description": "Air Quality",
         "indicator": "N1",
@@ -1742,7 +1742,7 @@
     {
         "aoi": "52.25,21.0",
         "aoiID": "PL",
-        "city": "Warsaw (TROPOMI)",
+        "city": "Warsaw",
         "country": "PL",
         "description": "Air Quality",
         "indicator": "N1",
@@ -1862,7 +1862,7 @@
     {
         "aoi": "38.71666667,-9.133333",
         "aoiID": "PT",
-        "city": "Lisbon (TROPOMI)",
+        "city": "Lisbon",
         "country": "PT",
         "description": "Air Quality",
         "indicator": "N1",
@@ -1882,7 +1882,7 @@
     {
         "aoi": "44.43333333,26.1",
         "aoiID": "RO",
-        "city": "Bucharest (TROPOMI)",
+        "city": "Bucharest",
         "country": "RO",
         "description": "Air Quality",
         "indicator": "N1",
@@ -1982,7 +1982,7 @@
     {
         "aoi": "59.33333333,18.05",
         "aoiID": "SE",
-        "city": "Stockholm (TROPOMI)",
+        "city": "Stockholm",
         "country": "SE",
         "description": "Air Quality",
         "indicator": "N1",
@@ -2422,7 +2422,7 @@
     {
         "aoi": "46.05,14.516667000000002",
         "aoiID": "SI",
-        "city": "Ljubljana (TROPOMI)",
+        "city": "Ljubljana",
         "country": "SI",
         "description": "Air Quality",
         "indicator": "N1",
@@ -2442,7 +2442,7 @@
     {
         "aoi": "48.15,17.116667",
         "aoiID": "SK",
-        "city": "Bratislava (TROPOMI)",
+        "city": "Bratislava",
         "country": "SK",
         "description": "Air Quality",
         "indicator": "N1",
