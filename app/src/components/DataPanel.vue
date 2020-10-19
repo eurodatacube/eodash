@@ -29,7 +29,7 @@
             v-model="selectedSensorTab"
           >
             <v-tab-item
-              v-for="sensorData in multipleTabCompare.features"
+              v-for="(sensorData, index) in multipleTabCompare.features"
               :key="sensorData.properties.indicatorObject.id"
             >
               <v-card
@@ -53,6 +53,8 @@
                   Tap to interact
                 </v-overlay>
                 <indicator-map
+                  ref="indicatorMap"
+                  :data-key="index"
                   style="top: 0px; position: absolute;"
                   v-if="globalData"
                   class="pt-0 fill-height"
@@ -90,6 +92,7 @@
             </v-overlay>
             <indicator-map
               ref="indicatorMap"
+              :data-key="0"
               style="top: 0px; position: absolute;"
               v-if="globalData"
               class="pt-0 fill-height"
@@ -119,8 +122,8 @@
           <small v-else> </small>
           <div class="d-flex align-center">
             <v-tooltip
-              v-if="customAreaFeaturesEnabled"
-              :disabled="customAreaFilterEnabled"
+              v-if="selectedIndicatorMapRef && selectedIndicatorMapRef.customAreaFeatures"
+              :disabled="selectedIndicatorMapRef && selectedIndicatorMapRef.validDrawnArea"
               top
             >
               <template v-slot:activator="{ on }">
@@ -130,7 +133,7 @@
                     text
                     :x-small="$vuetify.breakpoint.xsOnly"
                     @click="fetchCustomAreaFeatures"
-                    :disabled="!customAreaFilterEnabled"
+                    :disabled="!(selectedIndicatorMapRef && selectedIndicatorMapRef.validDrawnArea)"
                   >
                     <v-icon left>mdi-map</v-icon>
                     features for sub-area
@@ -140,8 +143,8 @@
               Select an area on the map to start! Current limit of features to view is 5 000.
             </v-tooltip>
             <v-tooltip
-              v-if="customAreaIndicatorEnabled"
-              :disabled="customAreaFilterEnabled"
+              v-if="selectedIndicatorMapRef && selectedIndicatorMapRef.customAreaIndicator"
+              :disabled="selectedIndicatorMapRef && selectedIndicatorMapRef.validDrawnArea"
               top
             >
               <template v-slot:activator="{ on }">
@@ -151,7 +154,7 @@
                     text
                     :x-small="$vuetify.breakpoint.xsOnly"
                     @click="fetchCustomAreaIndicator"
-                    :disabled="!customAreaFilterEnabled"
+                    :disabled="!(selectedIndicatorMapRef && selectedIndicatorMapRef.validDrawnArea)"
                   >
                     <v-icon left>mdi-poll</v-icon>
                     chart from sub-area
@@ -301,8 +304,9 @@
                 <v-icon>mdi-close</v-icon>
               </v-btn>
             </v-toolbar>
-          <IndicatorMap
+          <indicator-map
             ref="referenceMap"
+            :data-key="0"
             :style="`height: calc(100% - ${$vuetify.application.top}px)`"
           />
           </v-dialog>
@@ -407,22 +411,21 @@ export default {
       // search configuration mapping if layer is configured
       return lastInputData ? this.layerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
     },
-    customAreaFeaturesEnabled() {
-      let filter;
+    selectedIndicatorMapRef() {
+      let ref;
       if (this.mounted && this.$refs.indicatorMap) {
-        filter = this.$refs.indicatorMap.customAreaFeatures;
+        if (Array.isArray(this.$refs.indicatorMap)) {
+          // tab mode
+          const currentlyShownMap = this.$refs.indicatorMap.find(
+            el => el.$attrs['data-key'] === this.selectedSensorTab
+          );
+          ref = currentlyShownMap;
+        } else {
+          // single map mode
+          ref = this.$refs.indicatorMap;
+        }
       }
-      return filter;
-    },
-    customAreaIndicatorEnabled() {
-      let filter;
-      if (this.mounted && this.$refs.indicatorMap) {
-        filter = this.$refs.indicatorMap.customAreaIndicator;
-      }
-      return filter;
-    },
-    customAreaFilterEnabled() {
-      return this.$refs.indicatorMap && this.$refs.indicatorMap.validDrawnArea;
+      return ref;
     },
   },
   mounted() {
@@ -468,11 +471,11 @@ export default {
       setTimeout(() => { this.overlay = false; }, 2000);
     },
     fetchCustomAreaIndicator() {
-      this.$refs.indicatorMap.fetchCustomAreaIndicator();
+      this.selectedIndicatorMapRef.fetchCustomAreaIndicator();
       this.$vuetify.goTo(this.$refs.customAreaIndicator, { container: document.querySelector('.data-panel') });
     },
     fetchCustomAreaFeatures() {
-      this.$refs.indicatorMap.fetchCustomAreaFeatures();
+      this.selectedIndicatorMapRef.fetchCustomAreaFeatures();
     },
   },
   watch: {
@@ -481,6 +484,7 @@ export default {
         const poi = this.getLocationCode(this.multipleTabCompare.features[index]
           .properties.indicatorObject);
         this.$router.replace({ query: { ...this.$route.query, poi } }).catch(() => {});
+        this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
       }
     },
     dialog(open) {
