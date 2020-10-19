@@ -595,6 +595,7 @@ export const globalIndicators = [
         time: getFortnightIntervalDates('2019-01-07', '2020-10-05'),
         inputData: [''],
         display: {
+          customAreaIndicator: true,
           protocol: 'xyz',
           maxNativeZoom: 6,
           opacity: 0.95,
@@ -603,6 +604,36 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/no2Legend.png',
           attribution: '{ Air Quality: <a href="//scihub.copernicus.eu/twiki/pub/SciHubWebPortal/TermsConditions/TC_Sentinel_Data_31072014.pdf" target="_blank">Sentinel data</a>, <a href="//maps.s5p-pal.com/" target="_blank">S5P-PAL</a> }',
           dateFormatFunction: (dates) => `${DateTime.fromISO(dates[0]).toFormat('yyyyMMdd')}-${DateTime.fromISO(dates[1]).toFormat('yyyyMMdd')}`,
+          areaIndicator: {
+            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            callbackFunction: (requestJson, indicator) => {
+              if (Array.isArray(requestJson.C0)) {
+                const data = requestJson.C0;
+                const newData = {
+                  time: [],
+                  measurement: [],
+                  referenceValue: [],
+                  colorCode: [],
+                };
+                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
+                  ? 1
+                  : -1));
+                data.forEach((row) => {
+                  if (row.basicStats.max < 5000) {
+                    // leaving out falsely set nodata values disrupting the chart
+                    newData.time.push(DateTime.fromISO(row.date));
+                    newData.colorCode.push('');
+                    newData.measurement.push(row.basicStats.mean);
+                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
+                  }
+                });
+                const ind = Object.assign(indicator, newData);
+                return ind;
+              }
+              return null;
+            },
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
