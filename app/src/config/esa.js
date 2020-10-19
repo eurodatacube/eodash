@@ -453,7 +453,7 @@ export const globalIndicators = [
               }
               return null;
             },
-            areaFormatFunction: (area) => ({'area': wkt.read(JSON.stringify(area)).write()}),
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
         },
       },
