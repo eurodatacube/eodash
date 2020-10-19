@@ -594,6 +594,7 @@ export const globalIndicators = [
         aoiID: 'W1',
         time: getFortnightIntervalDates('2019-01-07', '2020-10-05'),
         inputData: [''],
+        yAxis: 'Tropospheric NO2 (μmol/m2)',
         display: {
           customAreaIndicator: true,
           protocol: 'xyz',
