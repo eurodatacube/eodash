@@ -1010,6 +1010,7 @@ export default {
         if (requestBody) {
           requestOpts.body = JSON.stringify(requestBody);
         }
+        this.map.fireEvent('dataloading');
         fetch(url, requestOpts).then((r) => r.json())
           .then((rawdata) => {
             // if custom response -> feature mapping function configured, apply it
@@ -1019,9 +1020,11 @@ export default {
             return rawdata;
           })
           .then((data) => {
+            this.map.fireEvent('dataload');
             this.featureJson[side] = data;
           })
           .catch(() => {
+            this.map.fireEvent('dataload');
             this.featureJson[side] = emptyF;
           });
       } else {
@@ -1071,6 +1074,7 @@ export default {
       if (requestBody) {
         requestOpts.body = JSON.stringify(requestBody);
       }
+      this.map.fireEvent('dataloading');
       fetch(url, requestOpts).then((r) => r.json())
         .then((rawdata) => {
           if (typeof this.layerDisplay('data').areaIndicator.callbackFunction === 'function') {
@@ -1081,6 +1085,7 @@ export default {
           return rawdata;
         })
         .then((indicator) => {
+          this.map.fireEvent('dataload');
           this.$store.commit(
             'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
           );
