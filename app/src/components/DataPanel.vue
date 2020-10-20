@@ -346,6 +346,7 @@ export default {
     mounted: false,
     selectedSensorTab: 0,
     multipleTabCompare: null,
+    selectedIndicatorMapRef: null,
   }),
   computed: {
     ...mapGetters('features', [
@@ -411,22 +412,6 @@ export default {
       // search configuration mapping if layer is configured
       return lastInputData ? this.layerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
     },
-    selectedIndicatorMapRef() {
-      let ref;
-      if (this.mounted && this.$refs.indicatorMap) {
-        if (Array.isArray(this.$refs.indicatorMap)) {
-          // tab mode
-          const currentlyShownMap = this.$refs.indicatorMap.find(
-            (el) => el.$attrs['data-key'] === this.selectedSensorTab,
-          );
-          ref = currentlyShownMap;
-        } else {
-          // single map mode
-          ref = this.$refs.indicatorMap;
-        }
-      }
-      return ref;
-    },
   },
   mounted() {
     this.mounted = true;
@@ -441,6 +426,7 @@ export default {
             .find((s) => this.getLocationCode(s.properties.indicatorObject)
               === this.$route.query.poi))
         : 0;
+        this.setSelectedIndicatorMapRef();
     },
     async checkMultipleTabCompare() {
       let compare;
@@ -477,6 +463,22 @@ export default {
     fetchCustomAreaFeatures() {
       this.selectedIndicatorMapRef.fetchCustomAreaFeatures();
     },
+    setSelectedIndicatorMapRef() {
+      let ref;
+      if (this.mounted && this.$refs.indicatorMap) {
+        if (Array.isArray(this.$refs.indicatorMap)) {
+          // tab mode
+          const currentlyShownMap = this.$refs.indicatorMap.find(
+            (el) => el.$attrs['data-key'] == this.selectedSensorTab,
+          );
+          ref = currentlyShownMap;
+        } else {
+          // single map mode
+          ref = this.$refs.indicatorMap;
+        }
+      }
+      this.selectedIndicatorMapRef = ref;
+    },
   },
   watch: {
     selectedSensorTab(index) {
@@ -486,6 +488,7 @@ export default {
         this.$router.replace({ query: { ...this.$route.query, poi } }).catch(() => {});
         this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
       }
+      this.setSelectedIndicatorMapRef();
     },
     dialog(open) {
       if (open && this.$refs.referenceMap) {
