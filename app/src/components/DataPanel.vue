@@ -417,7 +417,7 @@ export default {
         if (Array.isArray(this.$refs.indicatorMap)) {
           // tab mode
           const currentlyShownMap = this.$refs.indicatorMap.find(
-            el => el.$attrs['data-key'] === this.selectedSensorTab
+            (el) => el.$attrs['data-key'] === this.selectedSensorTab,
           );
           ref = currentlyShownMap;
         } else {
