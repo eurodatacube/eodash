@@ -426,7 +426,7 @@ export default {
             .find((s) => this.getLocationCode(s.properties.indicatorObject)
               === this.$route.query.poi))
         : 0;
-        this.setSelectedIndicatorMapRef();
+      this.setSelectedIndicatorMapRef();
     },
     async checkMultipleTabCompare() {
       let compare;
@@ -469,7 +469,7 @@ export default {
         if (Array.isArray(this.$refs.indicatorMap)) {
           // tab mode
           const currentlyShownMap = this.$refs.indicatorMap.find(
-            (el) => el.$attrs['data-key'] == this.selectedSensorTab,
+            (el) => el.$attrs['data-key'] === this.selectedSensorTab,
           );
           ref = currentlyShownMap;
         } else {
