@@ -628,7 +628,10 @@ export const globalIndicators = [
                     newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
                   }
                 });
-                const ind = Object.assign(indicator, newData);
+                const ind = {
+                  ...indicator,
+                  ...newData,
+                };
                 return ind;
               }
               return null;
