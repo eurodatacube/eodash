@@ -608,6 +608,15 @@ export default {
     formatNumRef(num, maxDecimals = 3) {
       return Number.parseFloat(num.toFixed(maxDecimals));
     },
+    roundValueInd(val) {
+      if (this.indDefinition.maxDecimals === -1) {
+        return val;
+      } else if (!Number.isNaN(this.indDefinition.maxDecimals)) {
+        return this.formatNumRef(val, this.indDefinition.maxDecimals);
+      }
+      // use default
+      return this.formatNumRef(val, 2);
+    },
     getMinMaxDate(timeData) {
       let timeMin = Math.min.apply(null, timeData.map((d) => d.toMillis()));
       let timeMax = Math.max.apply(null, timeData.map((d) => d.toMillis()));
