@@ -20,7 +20,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/E1',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
-      url: './eodash-data/features/{indicator}_{aoiID}_{featuresTime}.geojson',
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
       allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification'],
     },
   },
@@ -30,7 +30,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/E1a',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
-      url: './eodash-data/features/{indicator}_{aoiID}_{featuresTime}.geojson',
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
       allowedParameters: ['classification'],
     },
   },
@@ -40,7 +40,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/E2',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
-      url: './eodash-data/features/{indicator}_{aoiID}_{featuresTime}.geojson',
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
       allowedParameters: ['classification'],
     },
   },
@@ -227,7 +227,7 @@ export const indicatorsDefinition = Object.freeze({
     },
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HH"),
-      url: './eodash-data/features/{indicator}_{aoiID}_{featuresTime}.geojson',
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
   },
   d: { // dummy for locations without Indicator code
