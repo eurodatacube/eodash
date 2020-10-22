@@ -168,10 +168,12 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/E13b',
   },
   E13d: {
-    indicator: 'Maritime traffic: throughput',
+    indicator: 'Airports: airplanes traffic',
     class: 'economic',
-    // largeSubAoi: true,
-    // largeTimeDuration: true,
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMM"),
+      url: './eodash-data/features/{indicator}_{featuresTime}.geojson',
+    },
   },
   H1: {
     indicator: 'Number of temp. treatment sites',
