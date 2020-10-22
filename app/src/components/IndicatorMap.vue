@@ -91,7 +91,8 @@
       >
       </l-circle-marker>
       <LTileLayer
-      v-if="layerDisplay('data').protocol === 'xyz'"
+      v-if="layerDisplay('data').protocol === 'xyz'
+        && layerDisplay('data').mapLayerEnable !== false"
         ref="dataLayer"
         :key="dataLayerKey"
         v-bind="layerDisplay('data')"
@@ -101,7 +102,8 @@
       >
       </LTileLayer>
       <LWMSTileLayer
-      v-else-if="layerDisplay('data').protocol === 'WMS'"
+      v-else-if="layerDisplay('data').protocol === 'WMS'
+        && layerDisplay('data').mapLayerEnable !== false"
         ref="dataLayer"
         :key="dataLayerKey"
         v-bind="layerDisplay('data')"
@@ -113,7 +115,8 @@
     </l-layer-group>
     <l-layer-group ref="compareLayers">
       <LTileLayer
-        v-if="layerDisplay('compare').protocol === 'xyz'"
+        v-if="layerDisplay('compare').protocol === 'xyz'
+          && layerDisplay('compare').mapLayerEnable !== false"
         ref="compareLayer"
         :key="compareLayerKey"
         v-bind="layerDisplay('compare')"
@@ -123,7 +126,8 @@
       >
       </LTileLayer>
       <LWMSTileLayer
-      v-else-if="layerDisplay('compare').protocol === 'WMS'"
+      v-else-if="layerDisplay('compare').protocol === 'WMS'
+        && layerDisplay('compare').mapLayerEnable !== false"
         ref="compareLayer"
         :key="compareLayerKey"
         v-bind="layerDisplay('compare')"

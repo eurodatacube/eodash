@@ -171,9 +171,10 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Airports: airplanes traffic',
     class: 'economic',
     largeSubAoi: true,
+    mapLayerEnable: false,
     features: {
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMM"),
-      url: './eodash-data/features/{indicator}_{featuresTime}.geojson',
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
+      url: './eodash-data/features/{indicator}/{indicator}_{featuresTime}.geojson',
     },
   },
   H1: {
