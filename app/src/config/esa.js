@@ -170,6 +170,7 @@ export const indicatorsDefinition = Object.freeze({
   E13d: {
     indicator: 'Airports: airplanes traffic',
     class: 'economic',
+    largeSubAoi: true,
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMM"),
       url: './eodash-data/features/{indicator}_{featuresTime}.geojson',
