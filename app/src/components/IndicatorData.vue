@@ -611,7 +611,8 @@ export default {
     roundValueInd(val) {
       if (this.indDefinition.maxDecimals === -1) {
         return val;
-      } else if (!Number.isNaN(this.indDefinition.maxDecimals)) {
+      }
+      if (Number.isInteger(this.indDefinition.maxDecimals)) {
         return this.formatNumRef(val, this.indDefinition.maxDecimals);
       }
       // use default
@@ -999,6 +1000,18 @@ export default {
           enabled: true,
           mode: 'x',
         },
+        tooltips: {
+          callbacks: {
+            label: function(context, data) {
+              let label = data.datasets[context.datasetIndex].label || '';
+              if (label) {
+                label += ': ';
+              }
+              label += this.roundValueInd(Number(context.value));
+              return label;
+            }.bind(this),
+          },
+        }
       };
 
       if (['N3'].includes(indicatorCode)) {

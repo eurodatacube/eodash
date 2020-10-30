@@ -97,7 +97,6 @@ export const indicatorsDefinition = Object.freeze({
     class: 'agriculture',
     story: '/eodash-data/stories/E10a2',
     largeSubAoi: true,
-    maxDecimals: 4,
   },
   E10a5: {
     indicator: 'Harvesting activity',
