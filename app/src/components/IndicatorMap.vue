@@ -942,10 +942,10 @@ export default {
     refreshLayer(side) {
       // compare(left) or data(right)
       if (side === 'compare' || this.indicator.compareDisplay) {
-        if (this.layerDisplay('compare').protocol === 'WMS') {
+        if (this.layerDisplay('compare').protocol === 'WMS' && this.$refs.compareLayer) {
           this.$refs.compareLayer.mapObject
             .setParams(this.layerOptions(this.currentCompareTime, this.layerDisplay('compare')));
-        } else if (this.layerDisplay('compare').protocol === 'xyz') {
+        } else if (this.layerDisplay('compare').protocol === 'xyz' && this.$refs.compareLayer) {
           this.$refs.compareLayer.mapObject
             .setUrl(this.layerDisplay('compare').url);
         }
@@ -960,10 +960,10 @@ export default {
         this.compareLayerKey = Math.random();
       }
       if (side === 'data') {
-        if (this.layerDisplay('data').protocol === 'WMS') {
+        if (this.layerDisplay('data').protocol === 'WMS' && this.$refs.dataLayer) {
           this.$refs.dataLayer.mapObject
             .setParams(this.layerOptions(this.currentTime, this.layerDisplay('data')));
-        } else if (this.layerDisplay('data').protocol === 'xyz') {
+        } else if (this.layerDisplay('data').protocol === 'xyz' && this.$refs.dataLayer) {
           this.$refs.dataLayer.mapObject
             .setUrl(this.layerDisplay('data').url);
         }
@@ -1130,13 +1130,17 @@ export default {
     enableCompare(on) {
       if (!on) {
         if (this.slider !== null) {
-          this.$refs.layersControl.mapObject.removeLayer(this.$refs.compareLayer.mapObject);
+          if (this.$refs.compareLayer) {
+            this.$refs.layersControl.mapObject.removeLayer(this.$refs.compareLayer.mapObject);
+          }
           this.map.removeControl(this.slider);
           this.map.removeLayer(this.$refs.compareLayers.mapObject);
         }
       } else {
         this.fetchFeatures('compare');
-        this.$refs.layersControl.mapObject.addOverlay(this.$refs.compareLayer.mapObject, this.$refs.compareLayer.name); // eslint-disable-line
+        if (this.$refs.compareLayer) {
+          this.$refs.layersControl.mapObject.addOverlay(this.$refs.compareLayer.mapObject, this.$refs.compareLayer.name); // eslint-disable-line
+        }
         this.map.addLayer(this.$refs.compareLayers.mapObject);
         this.$nextTick(() => {
           this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
