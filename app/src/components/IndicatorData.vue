@@ -1002,7 +1002,7 @@ export default {
         },
         tooltips: {
           callbacks: {
-            label: function(context, data) {
+            label: function (context, data) {
               let label = data.datasets[context.datasetIndex].label || '';
               if (label) {
                 label += ': ';
@@ -1011,7 +1011,7 @@ export default {
               return label;
             }.bind(this),
           },
-        }
+        },
       };
 
       if (['N3'].includes(indicatorCode)) {
