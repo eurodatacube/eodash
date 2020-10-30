@@ -16,56 +16,25 @@
           <news-carousel v-if="appConfig.showNewsCarousel" />
         </v-card>
       </v-col>
-      <v-col
-        :cols="$vuetify.breakpoint.smAndDown && '12'"
-        v-if="featureLength('economic') > 0"
-      >
-        <v-card outlined class="pa-5 text-center">
-          <h2 class="primary--text display-3">
-            <v-icon
-              x-large
-              color="primary"
-            >{{ baseConfig.indicatorClassesIcons.economic }}</v-icon>
-            {{ featureLength('economic') }}
-          </h2>
-          <p class="mb-0"><small>Economic Indicators</small></p>
-        </v-card>
-      </v-col>
-      <v-col
-        :cols="$vuetify.breakpoint.smAndDown && '12'"
-        v-if="featureLength('agriculture') > 0"
-      >
-        <v-card outlined class="pa-5 text-center">
-          <h2 class="primary--text display-3">
-            <v-icon
-              x-large
-              color="primary"
-            >{{ baseConfig.indicatorClassesIcons.agriculture }}</v-icon>
-            {{ featureLength('agriculture') }}
-          </h2>
-          <p class="mb-0"><small>Agriculture Indicators</small></p>
-        </v-card>
-      </v-col>
-      <v-col
-        :cols="$vuetify.breakpoint.smAndDown && '12'"
-        v-if="featureLength('environment') > 0"
-      >
-        <v-card outlined class="pa-5 text-center">
-          <h2 class="primary--text display-3">
-            <v-icon
-              x-large
-              color="primary"
-            >{{ baseConfig.indicatorClassesIcons.environment }}</v-icon>
-            {{ featureLength('environment') }}
-            </h2>
-          <p class="mb-0"><small>Environment Indicators</small></p>
-        </v-card>
-      </v-col>
-      <!-- <v-col
-        cols="12"
-      >
-        <small>Latest measurement: {{ getLatestUpdate }}</small>
-      </v-col> -->
+      <template v-if="baseConfig.indicatorClassesIcons">
+        <v-col
+          v-for="category in Object.keys(baseConfig.indicatorClassesIcons)
+            .filter(c => featureLength(c) > 0)"
+          :key="category"
+          :cols="$vuetify.breakpoint.smAndDown && '12'"
+        >
+          <v-card outlined class="pa-5 text-center">
+            <h2 class="primary--text display-3">
+              <v-icon
+                x-large
+                color="primary"
+              >{{ baseConfig.indicatorClassesIcons[category] }}</v-icon>
+              {{ featureLength(category) }}
+              </h2>
+            <p class="mb-0"><small class="text-capitalize">{{category}}<br />Indicators</small></p>
+          </v-card>
+        </v-col>
+      </template>
       <v-col
         cols="12"
       >

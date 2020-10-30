@@ -87,6 +87,7 @@
       :width="dataPanelFullWidth ? '100%' : '40%'"
       :style="`margin-top: ${$vuetify.application.top}px;
         height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px`"
+      class="data-panel"
     >
       <v-toolbar v-if="$store.state.indicators.selectedIndicator" flat>
         <v-btn v-if="dataPanelFullWidth" icon @click="setDataPanelWidth(false)">
@@ -99,18 +100,25 @@
           :class="$store.state.indicators.selectedIndicator.description ===
             $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
         >
-          {{ $store.state.indicators.selectedIndicator.city }},
-          {{ $store.state.indicators.selectedIndicator.description }}
+          {{ $store.state.features.allFeatures
+              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
+              .properties.indicatorObject.city }},
+          {{ $store.state.features.allFeatures
+              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
+              .properties.indicatorObject.description }}
           <div v-if="
             $store.state.indicators.selectedIndicator.description !==
             $store.state.indicators.selectedIndicator.indicatorName"
             class="subheading" style="font-size: 0.8em">
-            {{ $store.state.indicators.selectedIndicator.indicatorName }}
+            {{ $store.state.features.allFeatures
+              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
+              .properties.indicatorObject.indicatorName }}
           </div>
         </v-toolbar-title>
       </v-toolbar>
       <data-panel
         v-if="$store.state.indicators.selectedIndicator"
+        :key="panelKey"
         :expanded="dataPanelFullWidth" class="px-5" />
       <template v-else>
         <Welcome v-if="showText === 'welcome'" />
@@ -150,7 +158,7 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
-      <div class="scrollContainer">
+      <div class="scrollContainer data-panel">
 
         <h4 v-if="
             ($store.state.indicators.selectedIndicator && (
@@ -158,7 +166,9 @@
               $store.state.indicators.selectedIndicator.indicatorName))"
           class="px-4 py-2"
         >
-          {{ $store.state.indicators.selectedIndicator.indicatorName }}
+          {{ $store.state.features.allFeatures
+              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
+              .properties.indicatorObject.indicatorName }}
         </h4>
         <data-panel
           v-if="$store.state.indicators.selectedIndicator"
@@ -169,7 +179,7 @@
         </template>
       </div>
     </v-dialog>
-    <v-content style="height: 100vh; overflow:hidden"
+    <v-content style="height: 100vh; height: calc(var(--vh, 1vh) * 100); overflow:hidden"
       :style="$vuetify.breakpoint.mdAndUp && 'width: 60%;'"
     >
       <v-container
@@ -219,7 +229,10 @@
           color="secondary"
           class="ml-1"
           @click="showFeedbackDialog = true"
-        >Feedback</v-btn>
+        >
+          <v-icon :left="!$vuetify.breakpoint.xsOnly" small>mdi-account-voice</v-icon>
+          <span v-if="!$vuetify.breakpoint.xsOnly">Feedback</span>
+        </v-btn>
     </v-footer>
     <v-dialog
       v-model="showFeedbackDialog"
@@ -288,6 +301,7 @@ export default {
     showFeedbackDialog: false,
     dataPanelFullWidth: false,
     dataPanelTemporary: false,
+    panelKey: 0,
   }),
   computed: {
     appConfig() {
@@ -305,6 +319,10 @@ export default {
     // this.$router.push('/').catch(err => {}); // eslint-disable-line
   },
   mounted() {
+    this.fixFullHeight();
+    window.addEventListener('resize', () => {
+      this.fixFullHeight();
+    });
     setTimeout(() => {
       // only show when no poi is selected
       if (!this.$route.query.poi) {
@@ -314,6 +332,12 @@ export default {
     }, 2000);
   },
   methods: {
+    fixFullHeight() {
+      // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+      const vh = window.innerHeight * 0.01;
+      // Then we set the value in the --vh custom property to the root of the document
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    },
     setDataPanelWidth(enable) {
       if (enable) {
         this.dataPanelTemporary = true;
@@ -343,6 +367,8 @@ export default {
       if (selected) {
         this.drawerRight = true;
       }
+      this.$store.commit('indicators/SET_CUSTOM_AREA_INDICATOR', null);
+      this.panelKey = Math.random();
     },
   },
 };

@@ -45,20 +45,47 @@
     >
     </LTileLayer>
     <l-marker-cluster ref="clusterLayer" :options="clusterOptions">
-      <l-circle-marker v-for="(feature) in getFeatures.filter((f) => f.latlng)"
+      <l-marker v-for="(feature) in getGroupedFeatures.filter((f) => f.latlng)"
         :key="feature.id"
         ref="markers"
         :lat-lng="feature.latlng"
-        :radius="currentSelected === feature.id ? 16 : 12"
-        :name='`${feature.id}`'
-        :color="currentSelected === feature.id ? $vuetify.theme.themes.light.primary : 'white'"
-        :weight="2"
-        :dashArray="currentSelected === feature.id ? '5' : '0'"
-        :fill="true"
-        :fillColor="getColor(feature.properties.indicatorObject)"
-        :fillOpacity="1"
+        :name='`${getLocationCode(feature.properties.indicatorObject)}`'
         @click="selectIndicator(feature)"
       >
+        <l-icon
+          :icon-anchor="currentSelected === getLocationCode(feature.properties.indicatorObject)
+            ? [18, 18]
+            : [14, 14]"
+          style="outline: none;"
+        >
+          <div
+            :style="`display: flex; align-items: center;
+              justify-content: center;
+              border-radius: 50%;
+              border: 2px ${currentSelected ===
+                getLocationCode(feature.properties.indicatorObject)
+                  ? 'dashed var(--v-primary-base)'
+                  : 'solid white'};
+              width: ${currentSelected ===
+                getLocationCode(feature.properties.indicatorObject) ? '36px' : '28px'};
+              height: ${currentSelected ===
+                getLocationCode(feature.properties.indicatorObject) ? '36px' : '28px'};
+              background-color: ${getColor(feature.properties.indicatorObject)}`"
+          >
+              <v-icon
+                color="white"
+                class="pa-1"
+                icon-url="/test"
+                :small="currentSelected !== getLocationCode(feature.properties.indicatorObject)"
+              >
+                {{ baseConfig.indicatorClassesIcons[baseConfig
+                    .indicatorsDefinition[feature.properties.indicatorObject.indicator].class]
+                    ? baseConfig.indicatorClassesIcons[baseConfig
+                      .indicatorsDefinition[feature.properties.indicatorObject.indicator].class]
+                    : 'mdi-lightbulb-on-outline'}}
+              </v-icon>
+          </div>
+        </l-icon>
         <l-tooltip class="tooltip text-center" :options="{ direction: 'top' }">
           <p class="ma-0">
             <strong>{{ feature.properties.indicatorObject.city }}</strong>
@@ -72,7 +99,7 @@
               {{ formatLabel(feature) }}
             </p>
         </l-tooltip>
-      </l-circle-marker>
+      </l-marker>
     </l-marker-cluster>
   </l-map>
 </template>
@@ -87,7 +114,7 @@ import {
   geoJson, Point, DivIcon, featureGroup,
 } from 'leaflet';
 import {
-  LMap, LTileLayer, LGeoJson, LCircleMarker, LTooltip,
+  LMap, LTileLayer, LGeoJson, LMarker, LIcon, LTooltip,
   LControlLayers, LControlAttribution, LControlZoom,
 } from 'vue2-leaflet';
 import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster';
@@ -103,7 +130,8 @@ export default {
     LMap,
     LTileLayer,
     LGeoJson,
-    LCircleMarker,
+    LMarker,
+    LIcon,
     LTooltip,
     LControlLayers,
     LControlAttribution,
@@ -131,7 +159,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('features', ['getFeatures']),
+    ...mapGetters('features', ['getGroupedFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayers() {
       return this.baseConfig.baseLayers;
@@ -152,7 +180,7 @@ export default {
           let selCluster = null;
           if (this.currentSelected !== null && this.$refs.clusterLayer) {
             const selectedMarker = this.$refs.markers.find(
-              (item) => parseInt(item.name, 10) === this.currentSelected,
+              (item) => item.name === this.currentSelected,
             );
             if (selectedMarker) {
               selCluster = this.$refs.clusterLayer.mapObject.getVisibleParent(
@@ -255,7 +283,7 @@ export default {
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'indicators/INDICATOR_LOAD_FINISHED') {
         if (mutation.payload !== null && mutation.payload.aoi !== null) {
-          this.currentSelected = mutation.payload.id;
+          this.currentSelected = this.getLocationCode(mutation.payload);
           if (mutation.payload.subAoi) {
             this.subAoi = mutation.payload.subAoi;
           }
@@ -275,6 +303,9 @@ export default {
       const { indicatorObject } = feature.properties;
       if (!indicatorObject.dummyFeature) {
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
+        const query = { ...this.$route.query };
+        delete query.sensor;
+        this.$router.replace({ query }).catch(() => {});
       }
     },
     getColor(indObj) {
@@ -305,11 +336,11 @@ export default {
             } else {
               label += `${percVal}%`;
             }
-          } else if (['E10a3', 'E10a8'].includes(indicatorObject.indicator)) {
+          } else if (['E10a3', 'E10a8', 'N4c'].includes(indicatorObject.indicator)) {
             label += 'multiple';
           } else if (['E10a6', 'E10a7'].includes(indicatorObject.indicator)) {
-            const indVal =  Number(indicatorObject.lastMeasurement).toPrecision(4);
-            label += `${indVal}%`;
+            const newIndVal = Number(indicatorObject.lastMeasurement).toPrecision(4);
+            label += `${newIndVal}%`;
           } else if (['N1', 'N3b'].includes(indicatorObject.indicator)) {
             label = '';
           } else if (indVal === null) {
@@ -367,7 +398,7 @@ export default {
     },
   },
   watch: {
-    getFeatures(features) {
+    getGroupedFeatures(features) {
       const featuresOnMap = features.filter((f) => f.latlng);
       if (featuresOnMap.length > 0) {
         const maxZoomFit = 8;
@@ -447,7 +478,7 @@ export default {
   margin: 1px;
 }
 ::v-deep .leaflet-control-mouseposition {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.8);
   transform: translate3d(-8px, 32px, 0);
   padding: 2px 4px;
 }

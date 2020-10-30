@@ -2,7 +2,7 @@
   <v-carousel
     :continuous="autoPlay"
     cycle
-    :height="$vuetify.breakpoint.lgAndUp ? 350 : 200"
+    height="auto"
     hide-delimiter-background
     show-arrows-on-hover
     :style="`background: ${$vuetify.theme.themes.light.primary}`"
@@ -13,7 +13,7 @@
           <v-carousel-item
             v-for="(item, i) in items"
             :key="i"
-            contain
+            :aspect-ratio="16/9"
             :src="item.src"
           >
             <v-fade-transition>

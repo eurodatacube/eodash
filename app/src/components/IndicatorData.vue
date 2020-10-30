@@ -71,13 +71,18 @@
 
 <script>
 import { DateTime } from 'luxon';
-
+import {
+  mapState,
+} from 'vuex';
 import BarChart from '@/components/BarChart.vue';
 import LineChart from '@/components/LineChart.vue';
 import MapChart from '@/components/MapChart.vue';
 import NUTS from '@/assets/NUTS_RG_03M_2016_4326_ESL2-DEL3.json';
 
 export default {
+  props: [
+    'currentIndicator',
+  ],
   components: {
     BarChart,
     LineChart,
@@ -93,19 +98,11 @@ export default {
     const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
     this.dataLayerTime = d.toFormat('dd. MMM');
   },
-  watch: {
-    indicatorObject() {
-      if (this.indicatorObject.time) {
-        this.dataLayerIndex = this.indicatorObject.time.length - 1;
-        const d = this.indicatorObject.time[this.dataLayerIndex];
-        this.dataLayerTime = d.toFormat('dd. MMM');
-      }
-    },
-  },
   computed: {
+    ...mapState('config', ['appConfig', 'baseConfig']),
     arrayOfObjects() {
-      const indicator = this.$store.state.indicators.selectedIndicator;
-      const indicatorCode = this.indicatorObject.indicator;
+      const indicator = { ...this.indicatorObject };
+      const indicatorCode = indicator.indicator;
       const selectionOptions = [];
       if (['E10a3', 'E10a8'].includes(indicatorCode)) {
         // Find all unique day/month available
@@ -122,8 +119,8 @@ export default {
       return selectionOptions;
     },
     datacollection() {
-      const indicator = this.$store.state.indicators.selectedIndicator;
-      const indicatorCode = this.indicatorObject.indicator;
+      const indicator = { ...this.indicatorObject };
+      const indicatorCode = indicator.indicator;
       let dataCollection;
       const refColors = [
         '#cb4', '#a37', '#47a', '#a67', '#283', '#bbb',
@@ -164,7 +161,7 @@ export default {
             backgroundColor: 'black',
           });
         } else if (['N3b'].includes(indicatorCode)) {
-          const sensors = Array.from(new Set(indicator.eoSensor)).reverse();
+          const sensors = Array.from(new Set(indicator.eoSensor)).sort();
           for (let pp = 0; pp < sensors.length; pp += 1) {
             const pKey = sensors[pp];
             const data = indicator.time.map((date, i) => {
@@ -174,14 +171,50 @@ export default {
               }
               return output;
             }).filter((d) => d !== null);
+            let colorUsed = refColors[pp];
+            if (this.indDefinition.sensorColorMap && this.indDefinition.sensorColorMap[pKey]) {
+              colorUsed = this.indDefinition.sensorColorMap[pKey];
+            }
             datasets.push({
               label: pKey,
               data,
               fill: false,
-              borderColor: refColors[pp],
-              backgroundColor: refColors[pp],
+              borderColor: colorUsed,
+              backgroundColor: colorUsed,
             });
           }
+        } else if (['N4c'].includes(indicatorCode)) {
+          const measData = indicator.measurement.map(Number);
+          measData.shift();
+          const refData = indicator.referenceValue.map(Number);
+          refData.shift();
+
+          labels = [
+            indicator.referenceTime[0].toISODate(),
+            indicator.time[0].toISODate(),
+            indicator.time[5].toISODate(),
+          ];
+
+          datasets.push({
+            label: 'metallic waste area',
+            data: [refData[0], measData[0], measData[5]],
+            backgroundColor: refColors[0],
+          });
+          datasets.push({
+            label: 'mixed waste area',
+            data: [refData[1], measData[1], measData[6]],
+            backgroundColor: refColors[1],
+          });
+          datasets.push({
+            label: 'plastic waste area',
+            data: [refData[2], measData[2], measData[7]],
+            backgroundColor: refColors[2],
+          });
+          datasets.push({
+            label: 'soil waste area',
+            data: [refData[3], measData[3], measData[8]],
+            backgroundColor: refColors[3],
+          });
         } else if (['E10a2', 'E10a6', 'E10a7'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
@@ -431,7 +464,7 @@ export default {
           indicator.indicatorValue.map((val, i) => {
             let key = val.toLowerCase();
             key = key.charAt(0).toUpperCase() + key.slice(1);
-            if (typeof indicatorValues[key] === 'undefined') {
+            if (key !== '' && typeof indicatorValues[key] === 'undefined') {
               indicatorValues[key] = this.getIndicatorColor(
                 indicator.colorCode[i],
               );
@@ -542,7 +575,12 @@ export default {
       return dataCollection;
     },
     indicatorObject() {
-      return this.$store.state.indicators.selectedIndicator;
+      return this.currentIndicator
+        || this.$store.state.indicators.customAreaIndicator
+        || this.$store.state.indicators.selectedIndicator;
+    },
+    indDefinition() {
+      return this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator];
     },
   },
   methods: {
@@ -609,7 +647,7 @@ export default {
           fontColor: 'rgba(0, 0, 0, 0.8)',
         },
       };
-      if (!Number.isNaN(reference) && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7'].includes(indicatorCode)) {
+      if (!Number.isNaN(reference) && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'N4c'].includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
           label: {
@@ -667,7 +705,7 @@ export default {
       }
       const filter = (legendItem) => !`${legendItem.text}`.startsWith('hide_');
       let xAxes = {};
-      if (!['E10a1', 'E10a2', 'E10a3', 'E10a5', 'E10a6', 'E10a7', 'E10a8', 'E10c', 'N2'].includes(indicatorCode)) {
+      if (!['E10a1', 'E10a2', 'E10a3', 'E10a5', 'E10a6', 'E10a7', 'E10a8', 'E10c', 'E12c', 'E12d', 'N2'].includes(indicatorCode)) {
         xAxes = [{
           type: 'time',
           time: {
@@ -736,6 +774,24 @@ export default {
         }];
       }
 
+      if (['E12c', 'E12d'].includes(indicatorCode)) {
+        xAxes = [{
+          type: 'time',
+          time: {
+            unit: 'year',
+            displayFormats: {
+              year: 'yyyy',
+            },
+            tooltipFormat: 'yyyy-MM-dd - yyyy-06-30',
+          },
+          distribution: 'series',
+          ticks: {
+            min: timeMinMax[0],
+            max: timeMinMax[1],
+          },
+        }];
+      }
+
       let plugins = {
         datalabels: {
           display: false,
@@ -761,11 +817,28 @@ export default {
         },
       }];
 
+
       const legend = {
         labels: {
           filter,
         },
       };
+
+      if (['N4c'].includes(indicatorCode)) {
+        xAxes = [{
+          stacked: true,
+        }];
+        yAxes[0].stacked = true;
+        yAxes[0].ticks.beginAtZero = true;
+        yAxes[0].ticks.suggestedMin = Math.min(
+          ...this.indicatorObject.measurement
+            .filter((d) => !Number.isNaN(d)),
+        );
+        yAxes[0].ticks.suggestedMax = Math.max(
+          ...this.indicatorObject.measurement
+            .filter((d) => !Number.isNaN(d)),
+        );
+      }
 
       if (['E10a1', 'E10a5'].includes(indicatorCode)) {
         yAxes[0].ticks.beginAtZero = true;
@@ -848,7 +921,7 @@ export default {
         };
       }
 
-      if (['N2'].includes(indicatorCode)) {
+      if (['N2', 'E12c', 'E12d'].includes(indicatorCode)) {
         yAxes[0].ticks.beginAtZero = true;
       }
 

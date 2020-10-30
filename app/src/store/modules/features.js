@@ -1,4 +1,4 @@
-/* eslint no-shadow: ["error", { "allow": ["state"] }] */
+/* eslint no-shadow: ["error", { "allow": ["state", "getters"] }] */
 import { Wkt } from 'wicket';
 import { latLng } from 'leaflet';
 import countriesJson from '@/assets/countries.json';
@@ -11,6 +11,7 @@ const state = {
     indicators: [],
   },
   selectedFeatures: [],
+  selectedArea: null,
   resultsCount: {
     economic: 0,
     agriculture: 0,
@@ -23,12 +24,30 @@ const getters = {
   getCountries(state) {
     return [...new Set([
       state.allFeatures
+        .filter((f) => (state.featureFilters.indicators.length > 0
+          ? state.featureFilters.indicators.includes(f.properties.indicatorObject.indicator)
+          : true))
         .map((f) => f.properties.indicatorObject.country),
-    ].flat(1))].sort();
+    ].flat(2))].sort();
   },
   getIndicators(state, _, rootState) {
     const indicators = [...new Set([
       state.allFeatures
+        .filter((f) => {
+          let filtered;
+          if (state.featureFilters.countries.length > 0) {
+            if (Array.isArray(f.properties.indicatorObject.country)) {
+              filtered = f.properties.indicatorObject.country
+                .some((i) => state.featureFilters.countries.includes(i));
+            } else {
+              filtered = state.featureFilters.countries
+                .includes(f.properties.indicatorObject.country);
+            }
+          } else {
+            filtered = true;
+          }
+          return filtered;
+        })
         .map((f) => ({
           code: f.properties.indicatorObject.indicator,
           indicator: f.properties.indicatorObject.description,
@@ -76,6 +95,31 @@ const getters = {
       .sort((a, b) => ((a.properties.indicatorObject.country > b.properties.indicatorObject.country)
         ? 1 : -1));
     return features;
+  },
+  getGroupedFeatures(state, getters, rootState) {
+    let allFeatures = [];
+    if (state.allFeatures.length > 0) {
+      const groupedFeatures = [];
+      if (rootState.config.appConfig.featureGrouping) {
+        rootState.config.appConfig.featureGrouping.forEach((fG) => {
+          const firstFeature = getters.getFeatures
+            .find((f) => `${f.properties.indicatorObject.aoiID}-${f.properties.indicatorObject.indicator}` === fG.features[0]);
+          if (firstFeature) {
+            groupedFeatures.push(firstFeature);
+          }
+        });
+      }
+      const restFeatures = rootState.config.appConfig.featureGrouping
+        ? getters.getFeatures
+          .filter((f) => {
+            const locationCode = `${f.properties.indicatorObject.aoiID}-${f.properties.indicatorObject.indicator}`;
+            return !rootState.config.appConfig.featureGrouping
+              .find((fG) => fG.features.includes(locationCode));
+          })
+        : getters.getFeatures;
+      allFeatures = groupedFeatures.concat(restFeatures);
+    }
+    return allFeatures;
   },
   getLatestUpdate(state) {
     const times = state.allFeatures.map((f) => {
@@ -126,6 +170,9 @@ const mutations = {
   },
   ADD_RESULTS_COUNT(state, { type, count }) {
     state.resultsCount[type] += count;
+  },
+  SET_SELECTED_AREA(state, area) {
+    state.selectedArea = area;
   },
 };
 const actions = {
@@ -190,7 +237,7 @@ const actions = {
           lastReferenceValue: 'lastReferenceValue',
           lastReferenceTime: 'lastReferenceTime',
           yAxis: 'yAxis',
-          updateFrequency: 'updateFrequency'
+          updateFrequency: 'updateFrequency',
         };
 
         commit('ADD_RESULTS_COUNT', {

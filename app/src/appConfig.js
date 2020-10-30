@@ -23,20 +23,24 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'PT-N1',
-        src: './eodash-data/general/Slide1.png',
-      },
-      {
-        poi: 'RhoneDelta-N3a2',
+        poi: 'GR4-N4c',
         src: './eodash-data/general/Slide2.png',
       },
       {
-        poi: 'ES7-E1',
+        poi: 'RhoneDeltaTSM-N3a2',
+        src: './eodash-data/general/Slide1.png',
+      },
+      {
+        poi: 'FR-N1',
         src: './eodash-data/general/Slide3.png',
       },
       {
         poi: 'RO3-E11',
         src: './eodash-data/general/Slide4.png',
+      },
+      {
+        poi: 'W2-E12c',
+        src: './eodash-data/general/Slide5.png',
       },
     ],
     privacyText: '/eodash-data/general/privacy',
@@ -68,20 +72,88 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'ES41-E10a8',
+        poi: 'FR01-N1',
         src: './data/trilateral/Slide1.png',
       },
       {
-        poi: 'NorthAdriaticJAXA-N3a2',
+        poi: 'IN02-N2',
         src: './data/trilateral/Slide2.png',
       },
       {
-        poi: 'US01-N1',
+        poi: 'JP03-E9',
         src: './data/trilateral/Slide3.png',
       },
       {
-        poi: 'JP01-N5',
+        poi: 'US031-E13b',
         src: './data/trilateral/Slide4.png',
+      },
+      {
+        poi: 'BE03-N5',
+        src: './data/trilateral/Slide5.png',
+      },
+      {
+        poi: 'BR02-N7',
+        src: './data/trilateral/Slide6.png',
+      },
+    ],
+    customCountryList: [
+      { code: 'US', region: 'NORTH AMERICA' },
+      { code: 'BE', region: 'EUROPE' },
+      { code: 'HR', region: 'EUROPE' },
+      { code: 'FR', region: 'EUROPE' },
+      { code: 'DE', region: 'EUROPE' },
+      { code: 'IT', region: 'EUROPE' },
+      { code: 'SI', region: 'EUROPE' },
+      { code: 'ES', region: 'EUROPE' },
+      { code: 'JP', region: 'ASIA' },
+      { code: 'CN', region: 'ASIA' },
+      { code: 'SG', region: 'ASIA' },
+      { code: 'BD', region: 'ASIA' },
+      { code: 'IN', region: 'ASIA' },
+      { code: 'BR', region: 'SOUTH AMERICA' },
+      { code: 'CL', region: 'SOUTH AMERICA' },
+      { code: 'PE', region: 'SOUTH AMERICA' },
+      { code: 'TG', region: 'AFRICA' },
+      { code: 'TZ', region: 'AFRICA' },
+    ],
+    featureGrouping: [
+      {
+        features: [
+          'NorthAdriaticTSM_ESA-N3a2',
+          'NorthAdriaticTSM_NASA-N3a2',
+          'NorthAdriaticTSM_JAXA-N3a2',
+        ],
+        label: 'dataProvider',
+      },
+      {
+        features: [
+          'NorthAdriatic_ESA-N3a2',
+          'NorthAdriatic_NASA-N3a2',
+          'NorthAdriatic_JAXA-N3a2',
+        ],
+        label: 'dataProvider',
+      },
+      {
+        features: [
+          'W1-N1',
+          'W2-N1',
+          'W3-N1',
+        ],
+        label: 'eoSensor',
+      },
+      {
+        features: [
+          'W4-N2',
+          'W5-N2',
+        ],
+        label: 'calcMethod',
+      },
+      {
+        features: [
+          'US08-E10c',
+          'US09-E10c',
+        ],
+        label: 'eoSensor',
       },
     ],
     privacyText: '/data/trilateral/privacy',

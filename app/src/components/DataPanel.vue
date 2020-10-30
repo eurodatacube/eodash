@@ -3,11 +3,72 @@
     :style="$vuetify.breakpoint.mdAndDown && 'padding-bottom: 100px'"
   >
     <v-container class="pt-0">
-      <v-row>
+      <v-row v-if="indicatorObject">
         <v-col
           cols="12"
         >
+          <v-tabs
+            v-if="multipleTabCompare"
+            v-model="selectedSensorTab"
+            grow
+          >
+            <v-tab
+              v-for="sensorData in multipleTabCompare.features"
+              :key="sensorData.properties.indicatorObject.id"
+              :class="multipleTabCompare.features.indexOf(sensorData) == selectedSensorTab
+                ? 'primary white--text'
+                : ''"
+            >
+              {{ Array.isArray(sensorData.properties.indicatorObject[multipleTabCompare.label])
+                ? sensorData.properties.indicatorObject[multipleTabCompare.label][0]
+                : sensorData.properties.indicatorObject[multipleTabCompare.label] }}
+            </v-tab>
+          </v-tabs>
+          <v-tabs-items
+            v-if="multipleTabCompare"
+            v-model="selectedSensorTab"
+          >
+            <v-tab-item
+              v-for="sensorData in multipleTabCompare.features"
+              :key="sensorData.properties.indicatorObject.id"
+            >
+              <v-card
+                class="fill-height"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
+              >
+                <div
+                  style="height: 100%;z-index: 500; position: relative;"
+                  v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
+                  @click="dataInteract = true"
+                  v-touch="{
+                    left: () => swipe(),
+                    right: () => swipe(),
+                    up: () => swipe(),
+                    down: () => swipe(),
+                }">
+                </div>
+                <v-overlay :value="overlay" absolute
+                  v-if="!dataInteract"
+                  @click="dataInteract = true">
+                  Tap to interact
+                </v-overlay>
+                <indicator-map
+                  style="top: 0px; position: absolute;"
+                  v-if="globalData"
+                  class="pt-0 fill-height"
+                  :currentIndicator="sensorData.properties.indicatorObject"
+                />
+                <indicator-data
+                  style="top: 0px; position: absolute;"
+                  v-else
+                  class="pa-5"
+                  :currentIndicator="sensorData.properties.indicatorObject"
+                />
+              </v-card>
+            </v-tab-item>
+          </v-tabs-items>
           <v-card
+            v-else
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
           >
@@ -28,6 +89,7 @@
               Tap to interact
             </v-overlay>
             <indicator-map
+              ref="indicatorMap"
               style="top: 0px; position: absolute;"
               v-if="globalData"
               class="pt-0 fill-height"
@@ -39,78 +101,159 @@
             />
           </v-card>
         </v-col>
+
         <v-col
           cols="12"
+          md="6"
           class="py-0 my-0 d-flex justify-space-between"
         >
           <small v-if="indicatorObject && indicatorObject.updateFrequency">
-            <span v-if="indicatorObject.updateFrequency === 'Retired'">This indicator is no longer updated</span>
-            <span v-else-if="indicatorObject.updateFrequency === 'EndSeason'">Due to end of season, this indicator is no longer updated</span>
+            <span
+              v-if="indicatorObject.updateFrequency === 'Retired'"
+            >This indicator is no longer updated</span>
+            <span
+              v-else-if="indicatorObject.updateFrequency === 'EndSeason'"
+            >Due to end of season, this indicator is no longer updated</span>
             <span v-else>This data is updated: {{ indicatorObject.updateFrequency }}</span>
           </small>
           <small v-else> </small>
-          <v-dialog
-            v-model="iframeDialog"
-            width="500"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                color="primary"
-                text
-                x-small
-                v-bind="attrs"
-                @click="copySuccess = false"
-                v-on="on"
-              >
-                <v-icon left>mdi-poll-box</v-icon>
-                embed chart
-              </v-btn>
-            </template>
-
-            <v-card>
-              <v-card-title class="headline primary white--text">
-                Embed this chart into your website
-              </v-card-title>
-
-              <v-card-text class="py-5">
-                Copy and paste this code into your HTML file:
-                <code class="pa-3">{{ iframeCode }}
-                </code>
-                <div class="d-flex align-center justify-end pt-3">
-                  <v-expand-transition>
-                    <div v-if="copySuccess" class="success--text mr-3">
-                    <v-icon
-                      color="success"
-                      left
-                    >mdi-clipboard-check-outline</v-icon>
-                      <small>copied!</small>
-                    </div>
-                  </v-expand-transition>
+          <div class="d-flex align-center">
+            <v-tooltip
+              v-if="customAreaFeaturesEnabled"
+              :disabled="customAreaFilterEnabled"
+              top
+            >
+              <template v-slot:activator="{ on }">
+                <div v-on="on">
                   <v-btn
-                    small
+                    color="primary"
                     text
-                    @click="copy(iframeCode)"
+                    :x-small="$vuetify.breakpoint.xsOnly"
+                    @click="fetchCustomAreaFeatures"
+                    :disabled="!customAreaFilterEnabled"
                   >
-                    <v-icon left>mdi-content-copy</v-icon>
-                    copy to clipboard
+                    <v-icon left>mdi-map</v-icon>
+                    features for sub-area
                   </v-btn>
                 </div>
-              </v-card-text>
-
-              <v-divider></v-divider>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
+              </template>
+              Select an area on the map to start! Current limit of features to view is 5 000.
+            </v-tooltip>
+            <v-tooltip
+              v-if="customAreaIndicatorEnabled"
+              :disabled="customAreaFilterEnabled"
+              top
+            >
+              <template v-slot:activator="{ on }">
+                <div v-on="on">
+                  <v-btn
+                    color="primary"
+                    text
+                    :x-small="$vuetify.breakpoint.xsOnly"
+                    @click="fetchCustomAreaIndicator"
+                    :disabled="!customAreaFilterEnabled"
+                  >
+                    <v-icon left>mdi-poll</v-icon>
+                    chart from sub-area
+                  </v-btn>
+                </div>
+              </template>
+              Select an area on the map to start!
+            </v-tooltip>
+          </div>
+        </v-col>
+        <v-col
+          cols="12"
+          md="6"
+          class="py-0 my-0"
+        >
+          <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
+            <v-dialog
+              v-model="iframeDialog"
+              width="500"
+            >
+              <template v-slot:activator="{}">
                 <v-btn
                   color="primary"
-                  flat
-                  @click="iframeDialog = false"
+                  text
+                  @click="iframeDialog = true"
                 >
-                  Close
+                  <v-icon left>mdi-poll-box</v-icon>
+                  embed chart
                 </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
+              </template>
+
+              <v-card>
+                <v-card-title class="headline primary white--text">
+                  Embed this chart into your website
+                </v-card-title>
+
+                <v-card-text class="py-5">
+                  Copy and paste this code into your HTML file:
+                  <code class="pa-3">{{ iframeCode }}
+                  </code>
+                  <div class="d-flex align-center justify-end pt-3">
+                    <v-expand-transition>
+                      <div v-if="copySuccess" class="success--text mr-3">
+                      <v-icon
+                        color="success"
+                        left
+                      >mdi-clipboard-check-outline</v-icon>
+                        <small>copied!</small>
+                      </div>
+                    </v-expand-transition>
+                    <v-btn
+                      small
+                      text
+                      @click="copy(iframeCode)"
+                    >
+                      <v-icon left>mdi-content-copy</v-icon>
+                      copy to clipboard
+                    </v-btn>
+                  </div>
+                </v-card-text>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="primary"
+                    flat
+                    @click="iframeDialog = false"
+                  >
+                    Close
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </div>
+        </v-col>
+        <v-col
+          cols="12"
+          ref="customAreaIndicator"
+        >
+          <v-card
+            v-if="customAreaIndicator"
+            class="fill-height"
+            :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
+          >
+            <div
+              style="height: 100%;z-index: 500; position: relative;"
+              v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
+              @click="dataInteract = true"
+              v-touch="{
+                left: () => swipe(),
+                right: () => swipe(),
+                up: () => swipe(),
+                down: () => swipe(),
+            }">
+            </div>
+            <indicator-data
+              style="top: 0px; position: absolute;"
+              class="pa-5"
+            />
+          </v-card>
         </v-col>
         <v-col
           cols="12"
@@ -175,6 +318,8 @@ import {
   mapState,
 } from 'vuex';
 
+import { loadIndicatorData } from '@/utils';
+
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
@@ -194,17 +339,10 @@ export default {
     dataInteract: false,
     iframeDialog: false,
     copySuccess: false,
+    mounted: false,
+    selectedSensorTab: 0,
+    multipleTabCompare: null,
   }),
-  watch: {
-    dialog(open) {
-      if (open && this.$refs.referenceMap) {
-        this.$refs.referenceMap.onResize();
-        setTimeout(() => {
-          this.$refs.referenceMap.flyToBounds();
-        }, 200);
-      }
-    },
-  },
   computed: {
     ...mapGetters('features', [
       'getCountries',
@@ -218,7 +356,7 @@ export default {
     story() {
       let markdown;
       try {
-        markdown = require(`../../public${this.appConfig.storyPath}${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}.md`);
+        markdown = require(`../../public${this.appConfig.storyPath}${this.getLocationCode(this.indicatorObject)}.md`);
       } catch {
         try {
           markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].story}.md`);
@@ -229,10 +367,20 @@ export default {
       return this.$marked(markdown.default);
     },
     iframeCode() {
-      return `<iframe class="item" src="${window.location.origin}/iframe?poi=${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
+      return `<iframe class="item" src="${window.location.origin}/iframe?poi=${this.getLocationCode(this.indicatorObject)}${this.$route.query.sensor ? `&sensor=${this.$route.query.sensor}` : ''}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
     },
     indicatorObject() {
-      return this.$store.state.indicators.selectedIndicator;
+      let indicatorObject;
+      if (this.multipleTabCompare) {
+        const feature = this.multipleTabCompare.features[0];
+        indicatorObject = feature && feature.properties.indicatorObject;
+      } else {
+        indicatorObject = this.$store.state.indicators.selectedIndicator;
+      }
+      return indicatorObject;
+    },
+    customAreaIndicator() {
+      return this.$store.state.indicators.customAreaIndicator;
     },
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
@@ -259,8 +407,58 @@ export default {
       // search configuration mapping if layer is configured
       return lastInputData ? this.layerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
     },
+    customAreaFeaturesEnabled() {
+      let filter;
+      if (this.mounted && this.$refs.indicatorMap) {
+        filter = this.$refs.indicatorMap.customAreaFeatures;
+      }
+      return filter;
+    },
+    customAreaIndicatorEnabled() {
+      let filter;
+      if (this.mounted && this.$refs.indicatorMap) {
+        filter = this.$refs.indicatorMap.customAreaIndicator;
+      }
+      return filter;
+    },
+    customAreaFilterEnabled() {
+      return this.$refs.indicatorMap && this.$refs.indicatorMap.validDrawnArea;
+    },
+  },
+  mounted() {
+    this.mounted = true;
+    this.init();
   },
   methods: {
+    async init() {
+      await this.checkMultipleTabCompare();
+      this.selectedSensorTab = this.multipleTabCompare
+        ? this.multipleTabCompare.features
+          .indexOf(this.multipleTabCompare.features
+            .find((s) => this.getLocationCode(s.properties.indicatorObject)
+              === this.$route.query.poi))
+        : 0;
+    },
+    async checkMultipleTabCompare() {
+      let compare;
+      const { selectedIndicator } = this.$store.state.indicators;
+      const hasGrouping = this.appConfig.featureGrouping && this.appConfig.featureGrouping
+        .find((g) => g.features.find((i) => i.includes(this.getLocationCode(selectedIndicator))));
+      if (hasGrouping) {
+        compare = {};
+        compare.label = hasGrouping.label;
+        compare.features = hasGrouping.features;
+        // Pre-load all indicators to populate tab items
+        await Promise.all(compare.features.map(async (f) => {
+          const feature = this.$store.state.features.allFeatures
+            .find((i) => this.getLocationCode(i.properties.indicatorObject) === f);
+          await loadIndicatorData(this.baseConfig, feature.properties.indicatorObject);
+        }));
+        compare.features = compare.features.map((f) => this.$store.state.features.allFeatures
+          .find((i) => this.getLocationCode(i.properties.indicatorObject) === f));
+      }
+      this.multipleTabCompare = compare;
+    },
     async copy(s) {
       await navigator.clipboard.writeText(s);
       this.copySuccess = true;
@@ -269,6 +467,36 @@ export default {
       this.overlay = true;
       setTimeout(() => { this.overlay = false; }, 2000);
     },
+    fetchCustomAreaIndicator() {
+      this.$refs.indicatorMap.fetchCustomAreaIndicator();
+      this.$vuetify.goTo(this.$refs.customAreaIndicator, { container: document.querySelector('.data-panel') });
+    },
+    fetchCustomAreaFeatures() {
+      this.$refs.indicatorMap.fetchCustomAreaFeatures();
+    },
+  },
+  watch: {
+    selectedSensorTab(index) {
+      if (this.multipleTabCompare.features[index]) {
+        const poi = this.getLocationCode(this.multipleTabCompare.features[index]
+          .properties.indicatorObject);
+        this.$router.replace({ query: { ...this.$route.query, poi } }).catch(() => {});
+      }
+    },
+    dialog(open) {
+      if (open && this.$refs.referenceMap) {
+        this.$refs.referenceMap.onResize();
+        setTimeout(() => {
+          this.$refs.referenceMap.flyToBounds();
+        }, 200);
+      }
+    },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+::v-deep .v-slide-group__prev {
+  display: none !important;
+}
+</style>
