@@ -56,13 +56,20 @@
                 <v-icon :color="countrySelection === 'all' ? 'white' : 'primary'">mdi-earth</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>All countries</v-list-item-title>
+                <v-list-item-title>Available countries</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-divider></v-divider>
-            <template v-if="appConfig.id !== 'trilateral'">
+            <template v-for="region in uniqueRegions(countryItems)">
+              <v-subheader
+                v-if="region"
+                class="ml-5"
+                :key="region">
+                  {{ region.toUpperCase() }}
+              </v-subheader>
               <v-list-item
-                v-for="country in countryItems"
+                v-for="country in countryItems
+                  .filter(cI => cI.region ? cI.region === region : true)"
                 :key="country.code"
                 :value="country.code"
                 :disabled="countrySelection === country.code"
@@ -74,217 +81,6 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>{{ country.name }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </template>
-            <template v-else>
-              <v-subheader>NORTH AMERICA</v-subheader>
-              <v-list-item
-                value="US"
-                :disabled="countrySelection === 'US'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="US" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>United States of America</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-subheader>EUROPE</v-subheader>
-              <v-list-item
-                value="BE"
-                :disabled="countrySelection === 'BE'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="BE" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Belgium</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                value="HR"
-                :disabled="countrySelection === 'HR'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="HR" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Croatia</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                value="FR"
-                :disabled="countrySelection === 'FR'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="FR" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>France</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                value="DE"
-                :disabled="countrySelection === 'DE'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="DE" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Germany</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                value="IT"
-                :disabled="countrySelection === 'IT'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="IT" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Italy</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                value="SI"
-                :disabled="countrySelection === 'SI'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="SI" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Slovenia</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                value="ES"
-                :disabled="countrySelection === 'ES'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="ES" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Spain</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-subheader>ASIA</v-subheader>
-              <v-list-item
-                value="JP"
-                :disabled="countrySelection === 'JP'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="JP" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Japan</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                value="CN"
-                :disabled="countrySelection === 'CN'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="CN" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>China</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                value="SG"
-                :disabled="countrySelection === 'SG'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="SG" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Singapore</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                value="BD"
-                :disabled="countrySelection === 'BD'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="BD" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Bangladesh</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                value="IN"
-                :disabled="countrySelection === 'IN'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="IN" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>India</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-subheader>SOUTH AMERICA</v-subheader>
-              <v-list-item
-                value="BR"
-                :disabled="countrySelection === 'BR'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="BR" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Brazil</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                value="CL"
-                :disabled="countrySelection === 'CL'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="CL" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Chile</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                value="PE"
-                :disabled="countrySelection === 'PE'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="PE" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Peru</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-subheader>AFRICA</v-subheader>
-              <v-list-item
-                value="TG"
-                :disabled="countrySelection === 'TG'"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag country="TG" size='normal' />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Togo</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </template>
@@ -306,7 +102,7 @@
                 <v-icon>mdi-lightbulb-on-outline</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>All indicators</v-list-item-title>
+                <v-list-item-title>Available indicators</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-divider></v-divider>
@@ -385,32 +181,50 @@ export default {
       return countries;
     },
     countryItems() {
-      return this.getCountries
-        .filter((c) => c !== 'all')
-        .map((c) => {
-          if (Array.isArray(c)) {
-            return c.map((i) => {
-              const item = countries.features
-                .find((f) => f.properties.alpha2 === i);
-              return {
-                code: i,
-                name: item.properties.name,
-              };
-            });
-          } else { //eslint-disable-line
+      let countryItems;
+      if (this.appConfig.customCountryList) {
+        countryItems = this.appConfig.customCountryList
+          .filter((c) => this.getCountries.includes(c.code))
+          .map((c) => {
             const item = countries.features
-              .find((f) => f.properties.alpha2 === c);
+              .find((f) => f.properties.alpha2 === c.code);
             return {
-              code: c,
+              code: c.code,
               name: item.properties.name,
+              region: c.region,
             };
-          }
-        })
-        // flatten the array
-        .flat()
-        // filter out duplicates
-        .filter((thing, index, self) => self.findIndex((t) => t.code === thing.code) === index)
-        .sort((a, b) => ((a.name > b.name) ? 1 : -1));
+          });
+      } else {
+        countryItems = this.getCountries
+          .filter((c) => c !== 'all')
+          .map((c) => {
+            if (Array.isArray(c)) {
+              return c.map((i) => {
+                const item = countries.features
+                  .find((f) => f.properties.alpha2 === i);
+                return {
+                  code: i,
+                  name: item.properties.name,
+                  region: null,
+                };
+              });
+            } else { //eslint-disable-line
+              const item = countries.features
+                .find((f) => f.properties.alpha2 === c);
+              return {
+                code: c,
+                name: item.properties.name,
+                region: null,
+              };
+            }
+          })
+          // flatten the array
+          .flat()
+          // filter out duplicates
+          .filter((thing, index, self) => self.findIndex((t) => t.code === thing.code) === index)
+          .sort((a, b) => ((a.name > b.name) ? 1 : -1));
+      }
+      return countryItems;
     },
     uniqueClasses() {
       const classes = {};
@@ -481,6 +295,11 @@ export default {
     },
     setFilter(filter) {
       this.$store.commit('features/SET_FEATURE_FILTER', filter);
+    },
+    uniqueRegions(countryItems) {
+      return countryItems
+        .map((c) => c.region)
+        .filter((thing, index, self) => self.findIndex((t) => t === thing) === index);
     },
   },
   watch: {

@@ -2,11 +2,12 @@
 
 const state = {
   selectedIndicator: null,
+  customAreaIndicator: null,
 };
 
 const getters = {
-  getIndicatorFilteredInputData(state) {
-    const indicator = { ...state.selectedIndicator };
+  getIndicatorFilteredInputData: (state) => (selectedIndicator) => {
+    const indicator = selectedIndicator || { ...state.selectedIndicator };
     // filter out rows which have empty "Input Data"
     const mask = indicator.inputData.map((item) => item !== '');
     // filtering only arrays with more than 1 element to not fail on Input Data:['value'] shortcut
@@ -22,11 +23,15 @@ const getters = {
 };
 
 const mutations = {
-  SET_SELECTED_INDICATOR(state, indicatorObject) {
-    // state.selectedIndicator = indicatorObject;
+  SET_SELECTED_INDICATOR() {
   },
   INDICATOR_LOAD_FINISHED(state, indicatorObject) {
     state.selectedIndicator = indicatorObject;
+  },
+  SET_CUSTOM_AREA_INDICATOR() {
+  },
+  CUSTOM_AREA_INDICATOR_LOAD_FINISHED(state, indicatorObject) {
+    state.customAreaIndicator = indicatorObject;
   },
 };
 

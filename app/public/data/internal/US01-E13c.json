@@ -108,5 +108,16 @@
         "reference_time": "",
         "reference_value": "45.6",
         "time": "2020-03-22T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "NASA",
+        "eo_sensor": "Planet Labs/NASA (PlanetScope)",
+        "indicator_value": "Normal",
+        "input_data": "ports",
+        "measurement_value": "66",
+        "reference_time": "",
+        "reference_value": "45.6",
+        "time": "2020-03-27T00:00:00"
     }
 ]
