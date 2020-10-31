@@ -230,11 +230,12 @@
           </div>
         </v-col>
         <v-col
-          v-if="customAreaIndicator"
           cols="12"
           ref="customAreaIndicator"
+          class="pa-0"
         >
           <v-card
+            v-if="customAreaIndicator"
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
           >
