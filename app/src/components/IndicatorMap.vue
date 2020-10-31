@@ -58,23 +58,16 @@
       </l-geo-json>
       <l-marker-cluster v-if="featuresClustering"
         ref="featuresDataCluster"
-        :options="clusterOptions">
-        <l-geo-json
-          ref="featureJsonData"
-          v-for="geoJson in featureJson.data.features"
-          :key="geoJson.properties.id" :geojson="geoJson"
-          :options="featureOptions('data')"
-          :pane="tooltipPane"
+        :options="clusterOptions"
         >
-        </l-geo-json>
       </l-marker-cluster>
       <l-geo-json
           v-else
           ref="featureJsonData"
-          v-for="geoJson in featureJson.data.features"
-          :key="geoJson.properties.id" :geojson="geoJson"
+          :geojson="getDataF().features"
           :options="featureOptions('data')"
           :pane="tooltipPane"
+          :key="dataJsonKey"
         >
       </l-geo-json>
       <l-circle-marker
@@ -146,24 +139,15 @@
       </l-geo-json>
       <l-marker-cluster v-if="featuresClustering"
         ref="featuresCompareCluster" :options="clusterOptions">
-        <l-geo-json
-          ref="featureJsonCompare"
-          :visible="enableCompare"
-          v-for="geoJson in featureJson.compare.features"
-          :key="geoJson.properties.id" :geojson="geoJson"
-          :options="featureOptions('compare')"
-          :pane="shadowPane"
-        >
-        </l-geo-json>
       </l-marker-cluster>
       <l-geo-json
         v-else
         ref="featureJsonCompare"
         :visible="enableCompare"
-        v-for="geoJson in featureJson.compare.features"
-        :key="geoJson.properties.id" :geojson="geoJson"
+        :geojson="getCompareF().features"
         :options="featureOptions('compare')"
         :pane="shadowPane"
+        :key="compareJsonKey"
       >
       </l-geo-json>
       <l-circle-marker
@@ -328,6 +312,8 @@ const emptyF = {
   type: 'FeatureCollection',
   features: [],
 };
+let dataF = emptyF;
+let compareF = emptyF;
 
 export default {
   props: [
@@ -352,6 +338,8 @@ export default {
       map: null,
       compareLayerKey: 0,
       dataLayerKey: 1,
+      dataJsonKey: 0,
+      compareJsonKey: 1,
       dasharrayPoi: '3',
       zoom: null,
       center: null,
@@ -377,10 +365,6 @@ export default {
       compareLayerTime: null,
       dataLayerIndex: 0,
       compareLayerIndex: 0,
-      featureJson: {
-        data: emptyF,
-        compare: emptyF,
-      },
     };
   },
   computed: {
@@ -388,6 +372,21 @@ export default {
     ...mapGetters('indicators', [
       'getIndicatorFilteredInputData',
     ]),
+    dataJsonComputed: {
+      // to avoid each of thousands of geojson features have its own
+      // getter/setter set by vue - freezing the app on large number of pts
+      // we manually rerender relevant vue components anyway
+      get: () => this.getDataF(),
+      set: (v) => {
+        dataF = v;
+      },
+    },
+    compareJsonComputed: {
+      get: () => this.getCompareF(),
+      set: (v) => {
+        compareF = v;
+      },
+    },
     baseLayers() {
       return [
         ...this.baseConfig.baseLayers,
@@ -613,14 +612,7 @@ export default {
       this.map.on(L.Draw.Event.DRAWSTART, function () { // eslint-disable-line
         this.clearCustomAreaFilter();
       }.bind(this));
-
       this.map.on(L.Draw.Event.DRAWSTOP, function () { // eslint-disable-line
-        this.featureJson.data = emptyF;
-        this.featureJson.compare = emptyF;
-        if (this.featuresClustering) {
-          this.$refs.featuresDataCluster.mapObject.clearLayers();
-          this.$refs.featuresCompareCluster.mapObject.clearLayers();
-        }
         if (this.fetchDataClicked) {
           this.fetchFeatures('data');
           if (this.enableCompare) {
@@ -951,10 +943,6 @@ export default {
         }
         if (this.fetchDataClicked || !this.customAreaFeatures) {
           this.fetchFeatures('compare');
-          this.featureJson.compare = emptyF;
-          if (this.featuresClustering) {
-            this.$refs.featuresCompareCluster.mapObject.clearLayers();
-          }
         }
         // redraw
         this.compareLayerKey = Math.random();
@@ -968,7 +956,7 @@ export default {
             .setUrl(this.layerDisplay('data').url);
         }
         if (this.fetchDataClicked || !this.customAreaFeatures) {
-          this.featureJson.data = emptyF;
+          // this.dataJsonComputed = emptyF;
           if (this.featuresClustering) {
             this.$refs.featuresDataCluster.mapObject.clearLayers();
           }
@@ -1025,14 +1013,14 @@ export default {
           })
           .then((data) => {
             this.map.fireEvent('dataload');
-            this.featureJson[side] = data;
+            this.updateJsonLayers(data, side);
           })
           .catch(() => {
             this.map.fireEvent('dataload');
-            this.featureJson[side] = emptyF;
+            this.updateJsonLayers(emptyF, side);
           });
       } else {
-        this.featureJson[side] = emptyF;
+        this.updateJsonLayers(emptyF, side);
       }
     },
     fetchCustomAreaFeatures() {
@@ -1125,6 +1113,36 @@ export default {
       this.$refs.customAreaFilterFeatures.mapObject.clearLayers();
       this.$store.commit('features/SET_SELECTED_AREA', null);
     },
+    getDataF() {
+      return dataF;
+    },
+    getCompareF() {
+      return compareF;
+    },
+    updateJsonLayers(ftrs, side) {
+      if (this.featuresClustering) {
+        // markercluster needs manual adding of all geojsons it will show
+        // and cleanup of previous content
+        const geojsonFromData = geoJson(ftrs, {
+          ...this.featureOptions(side),
+          pane: side === 'data' ? this.tooltipPane : this.shadowPane,
+        });
+        if (side === 'data') {
+          this.$refs.featuresDataCluster.mapObject.clearLayers();
+          this.$refs.featuresDataCluster.mapObject.addLayers([geojsonFromData]);
+        } else {
+          this.$refs.featuresCompareCluster.mapObject.clearLayers();
+          this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
+        }
+      } else if (side === 'data') {
+        // normal geojson layer just needs manual refresh
+        this.dataJsonComputed = ftrs;
+        this.dataJsonKey = Math.random();
+      } else {
+        this.compareJsonComputed = ftrs;
+        this.compareJsonKey = Math.random();
+      }
+    },
   },
   watch: {
     enableCompare(on) {
@@ -1137,11 +1155,11 @@ export default {
           this.map.removeLayer(this.$refs.compareLayers.mapObject);
         }
       } else {
-        this.fetchFeatures('compare');
         if (this.$refs.compareLayer) {
           this.$refs.layersControl.mapObject.addOverlay(this.$refs.compareLayer.mapObject, this.$refs.compareLayer.name); // eslint-disable-line
         }
         this.map.addLayer(this.$refs.compareLayers.mapObject);
+        this.fetchFeatures('compare');
         this.$nextTick(() => {
           this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
           this.slider.setRightLayers(this.$refs.dataLayers.mapObject.getLayers());

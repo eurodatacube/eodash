@@ -176,6 +176,7 @@ export const indicatorsDefinition = Object.freeze({
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
       url: './eodash-data/features/{indicator}/{indicator}_{featuresTime}.geojson',
     },
+    largeTimeDuration: true,
   },
   H1: {
     indicator: 'Number of temp. treatment sites',
