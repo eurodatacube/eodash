@@ -127,7 +127,7 @@ def generateData(
         indicator_id = indicator[0]
         indicator_query = indicator[1]
         try:
-            indicator_data = geodb.get_collection(indicator_id, database='anja', query=indicator_query)
+            indicator_data = geodb.get_collection(indicator_id, database='eodash', query=indicator_query)
             for index, line in indicator_data.iterrows():
                 # Aggregate data for unique pois and write unique data to poi_dict
                 poi_key = "%s-%s" % (line[cm["aoiID"]], line[cm["indicator"]])
