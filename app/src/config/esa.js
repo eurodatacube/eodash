@@ -13,6 +13,19 @@ export const dataEndpoints = [
   },
 ];
 
+const europeLandCoverWmsDef = [
+  {
+    baseUrl: `//s2glc.creodias.eu/geoserver/S2GLC/wms?`,
+    protocol: 'WMS',
+    format: 'image/png',
+    tileSize: 512,
+    name: 'S2GLC - Europe Land Cover 2017',
+    layers: 'S2GLC_2017',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    visible: true,
+  },
+];
+
 export const indicatorsDefinition = Object.freeze({
   E1: {
     indicator: 'Status of metallic ores',
@@ -84,12 +97,16 @@ export const indicatorsDefinition = Object.freeze({
     class: 'agriculture',
     story: '/eodash-data/stories/E10a1',
     largeSubAoi: true,
+    baseLayersWMS: europeLandCoverWmsDef,
+    legendUrl: 'data/trilateral/G2-GLC_legend.png',
   },
   E10a2: {
     indicator: 'Cum. proportion of total area under active mgmt.',
     class: 'agriculture',
     story: '/eodash-data/stories/E10a2',
     largeSubAoi: true,
+    baseLayersWMS: europeLandCoverWmsDef,
+    legendUrl: 'data/trilateral/G2-GLC_legend.png',
     maxDecimals: 4,
   },
   E10a3: {
@@ -352,6 +369,8 @@ export const baseLayers = [
     visible: true,
   },
 ];
+export const baseLayersWMS = [];
+
 export const overlayLayers = [
   {
     name: 'Overlay',
@@ -361,6 +380,7 @@ export const overlayLayers = [
     maxZoom: 14,
   },
 ];
+export const overlayLayersWMS = [];
 
 export const defaultWMSDisplay = {
   baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,

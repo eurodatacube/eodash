@@ -48,6 +48,14 @@
       :options="layerOptions(null, layer)"
     >
     </LTileLayer>
+    <LWMSTileLayer
+      v-for="layer in baseLayersWMS"
+      :key="layer.name"
+      v-bind="layer"
+      :options="layerOptions(null, layer)"
+      layer-type="base"
+    >
+    </LWMSTileLayer>
     <l-layer-group ref="dataLayers">
       <l-geo-json
       ref="subaoiLayer"
@@ -175,10 +183,21 @@
       layer-type="overlay"
     >
     </LTileLayer>
+    <LWMSTileLayer
+      v-for="layer in overlayLayersWMS"
+      v-bind="layer"
+      :key="layer.name"
+      :options="layerOptions(null, layer)"
+      :pane="markerPane"
+      :opacity="opacityOverlay[zoom]"
+      layer-type="overlay"
+    >
+    </LWMSTileLayer>
     <img v-if="layerDisplay('data').legendUrl"
     :src="layerDisplay('data').legendUrl" alt=""
-      style="position: absolute; width: 250px; z-index: 700;
-      top: 10px; left: 10px; background: rgba(255, 255, 255, 0.8); ">
+    :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' : (legendExpanded && 'map-legend-expanded')}`"
+    @click="legendExpanded = !legendExpanded"
+    :style="`position: absolute; z-index: 700; top: 10px; left: 10px; background: rgba(255, 255, 255, 0.8);`">
     <div
       class="d-flex justify-center"
       style="position: relative; width: 100%; height: 100%;"
@@ -354,6 +373,7 @@ export default {
       shadowPane: 'shadowPane',
       tooltipPane: 'tooltipPane',
       popupPane: 'popupPane',
+      legendExpanded: false,
       slider: null,
       drawControl: null,
       renderTrashBin: false,
@@ -394,7 +414,22 @@ export default {
       ];
     },
     overlayLayers() {
-      return this.baseConfig.overlayLayers;
+      return [
+        ...this.baseConfig.overlayLayers,
+        ...(this.layerDisplay('data').overlayLayers || []),
+      ];
+    },
+    baseLayersWMS() {
+      return [
+        ...this.baseConfig.baseLayersWMS,
+        ...(this.layerDisplay('data').baseLayersWMS || []),
+      ];
+    },
+    overlayLayersWMS() {
+      return [
+        ...this.baseConfig.overlayLayersWMS,
+        ...(this.layerDisplay('data').overlayLayersWMS || []),
+      ];
     },
     mapDefaults() {
       return {
@@ -1231,5 +1266,14 @@ export default {
       color: white;
     }
   }
+}
+.map-legend {
+  width: 50%;
+  transition: width 0.5s ease-in-out;
+  cursor: pointer;
+}
+.map-legend-expanded {
+  width: initial;
+  max-width: 80%;
 }
 </style>
