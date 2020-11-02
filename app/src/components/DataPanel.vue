@@ -232,6 +232,7 @@
         <v-col
           cols="12"
           ref="customAreaIndicator"
+          class="pa-0"
         >
           <v-card
             v-if="customAreaIndicator"
