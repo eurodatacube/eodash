@@ -119,8 +119,10 @@ const renderVue = async () => {
       getIndicatorColor(label) {
         const colors = vuetify.preset.theme.themes.light;
         let color;
-        if (typeof label === 'undefined') {
+        if (typeof label === 'undefined') { // placeholders
           color = 'grey';
+        } else if (label === null) { // area indicators
+          color = colors.primary;
         } else if (['red'].includes(label.toLowerCase())) {
           color = colors.error;
         } else if (['blue'].includes(label.toLowerCase())) {

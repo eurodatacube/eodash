@@ -19,6 +19,7 @@
           </template>
           <template v-slot:item.indicatorValue="{ item }">
             <v-chip
+              v-if="item.indicatorValue"
               :color="item.indicatorColor" dark
               class="text-capitalize"
             >
