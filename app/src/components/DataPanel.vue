@@ -120,29 +120,6 @@
             <span v-else>This data is updated: {{ indicatorObject.updateFrequency }}</span>
           </small>
           <small v-else> </small>
-          <div class="d-flex align-center">
-            <v-tooltip
-              v-if="selectedIndicatorMapRef && selectedIndicatorMapRef.customAreaFeatures"
-              :disabled="selectedIndicatorMapRef && selectedIndicatorMapRef.validDrawnArea"
-              top
-            >
-              <template v-slot:activator="{ on }">
-                <div v-on="on">
-                  <v-btn
-                    color="primary"
-                    text
-                    :x-small="$vuetify.breakpoint.xsOnly"
-                    @click="fetchCustomAreaFeatures"
-                    :disabled="!(selectedIndicatorMapRef && selectedIndicatorMapRef.validDrawnArea)"
-                  >
-                    <v-icon left>mdi-map</v-icon>
-                    features for sub-area
-                  </v-btn>
-                </div>
-              </template>
-              Select an area on the map to start! Current limit of features to view is 5 000.
-            </v-tooltip>
-          </div>
         </v-col>
         <v-col
           cols="12"
@@ -324,7 +301,6 @@ export default {
     mounted: false,
     selectedSensorTab: 0,
     multipleTabCompare: null,
-    selectedIndicatorMapRef: null,
   }),
   computed: {
     ...mapGetters('features', [
@@ -404,7 +380,6 @@ export default {
             .find((s) => this.getLocationCode(s.properties.indicatorObject)
               === this.$route.query.poi))
         : 0;
-      this.setSelectedIndicatorMapRef();
     },
     async checkMultipleTabCompare() {
       let compare;
@@ -437,25 +412,6 @@ export default {
     scrollToCustomAreaIndicator() {
       this.$vuetify.goTo(this.$refs.customAreaIndicator, { container: document.querySelector('.data-panel') });
     },
-    fetchCustomAreaFeatures() {
-      this.selectedIndicatorMapRef.fetchCustomAreaFeatures();
-    },
-    setSelectedIndicatorMapRef() {
-      let ref;
-      if (this.mounted && this.$refs.indicatorMap) {
-        if (Array.isArray(this.$refs.indicatorMap)) {
-          // tab mode
-          const currentlyShownMap = this.$refs.indicatorMap.find(
-            (el) => el.$attrs['data-key'] === this.selectedSensorTab,
-          );
-          ref = currentlyShownMap;
-        } else {
-          // single map mode
-          ref = this.$refs.indicatorMap;
-        }
-      }
-      this.selectedIndicatorMapRef = ref;
-    },
   },
   watch: {
     selectedSensorTab(index) {
@@ -465,7 +421,6 @@ export default {
         this.$router.replace({ query: { ...this.$route.query, poi } }).catch(() => {});
         this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
       }
-      this.setSelectedIndicatorMapRef();
     },
     dialog(open) {
       if (open && this.$refs.referenceMap) {

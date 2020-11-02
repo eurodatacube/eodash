@@ -379,7 +379,7 @@ export default {
       center: null,
       bounds: null,
       enableCompare: false,
-      fetchDataClicked: false,
+      // fetchDataClicked: false,
       opacityTerrain: [1],
       opacityOverlay: [1],
       tilePane: 'tilePane',
@@ -643,7 +643,7 @@ export default {
           this.$refs.featuresDataCluster.mapObject.clearLayers();
           this.$refs.featuresCompareCluster.mapObject.clearLayers();
         }
-        if (this.fetchDataClicked) {
+        if (this.validDrawnArea) {
           this.fetchFeatures('data');
           if (this.enableCompare) {
             this.fetchFeatures('compare');
@@ -672,7 +672,7 @@ export default {
         }
       }
       this.onResize();
-      if (!this.customAreaFilter) {
+      if (!this.customAreaFeatures || this.validDrawnArea) {
         this.fetchFeatures('data');
       }
       setTimeout(() => {
@@ -971,7 +971,7 @@ export default {
           this.$refs.compareLayer.mapObject
             .setUrl(this.layerDisplay('compare').url);
         }
-        if (this.fetchDataClicked || !this.customAreaFeatures) {
+        if (!this.customAreaFeatures || this.validDrawnArea) {
           this.fetchFeatures('compare');
           this.featureJson.compare = emptyF;
           if (this.featuresClustering) {
@@ -989,7 +989,7 @@ export default {
           this.$refs.dataLayer.mapObject
             .setUrl(this.layerDisplay('data').url);
         }
-        if (this.fetchDataClicked || !this.customAreaFeatures) {
+        if (!this.customAreaFeatures || this.validDrawnArea) {
           this.featureJson.data = emptyF;
           if (this.featuresClustering) {
             this.$refs.featuresDataCluster.mapObject.clearLayers();
@@ -1055,15 +1055,6 @@ export default {
           });
       } else {
         this.featureJson[side] = emptyF;
-      }
-    },
-    fetchCustomAreaFeatures() {
-      if (!this.fetchDataClicked) {
-        this.fetchDataClicked = true;
-      }
-      this.fetchFeatures('data');
-      if (this.enableCompare) {
-        this.fetchFeatures('compare');
       }
     },
     fetchCustomAreaIndicator() {
@@ -1162,7 +1153,9 @@ export default {
           this.map.removeLayer(this.$refs.compareLayers.mapObject);
         }
       } else {
-        this.fetchFeatures('compare');
+        if (!this.customAreaFeatures || this.validDrawnArea) {
+          this.fetchFeatures('compare');
+        }
         this.$refs.layersControl.mapObject.addOverlay(this.$refs.compareLayer.mapObject, this.$refs.compareLayer.name); // eslint-disable-line
         this.map.addLayer(this.$refs.compareLayers.mapObject);
         this.$nextTick(() => {
