@@ -101,6 +101,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/E10a1',
     largeSubAoi: true,
     baseLayersWMS: europeLandCoverWmsDef,
+    legendUrl: 'data/trilateral/G2-GLC_legend.png',
   },
   E10a2: {
     indicator: 'Cum. proportion of total area under active mgmt.',
@@ -108,6 +109,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/E10a2',
     largeSubAoi: true,
     baseLayersWMS: europeLandCoverWmsDef,
+    legendUrl: 'data/trilateral/G2-GLC_legend.png',
   },
   E10a3: {
     indicator: 'Evolution of the cultivated areas for production of white asparagus',
@@ -149,7 +151,6 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/E10d',
     largeSubAoi: true,
     disableTimeSelection: true,
-    baseLayersWMS: europeLandCoverWmsDef,
   },
   E11: {
     indicator: 'Volume of activity at shopping centers',
@@ -239,7 +240,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Cropped Area - Global',
     class: 'agriculture',
     story: '/data/trilateral/N6',
-    baseLayersWMS: europeLandCoverWmsDef,
   },
   N7: {
     indicator: 'Slowdown Proxy Maps',
