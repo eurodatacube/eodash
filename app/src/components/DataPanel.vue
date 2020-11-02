@@ -54,11 +54,11 @@
                 </v-overlay>
                 <indicator-map
                   ref="indicatorMap"
-                  :data-key="index"
                   style="top: 0px; position: absolute;"
                   v-if="globalData"
                   class="pt-0 fill-height"
                   :currentIndicator="sensorData.properties.indicatorObject"
+                  v-on:fetchCustomAreaIndicator="scrollToCustomAreaIndicator"
                 />
                 <indicator-data
                   style="top: 0px; position: absolute;"
@@ -92,7 +92,7 @@
             </v-overlay>
             <indicator-map
               ref="indicatorMap"
-              :data-key="0"
+              v-on:fetchCustomAreaIndicator="scrollToCustomAreaIndicator"
               style="top: 0px; position: absolute;"
               v-if="globalData"
               class="pt-0 fill-height"
@@ -141,27 +141,6 @@
                 </div>
               </template>
               Select an area on the map to start! Current limit of features to view is 5 000.
-            </v-tooltip>
-            <v-tooltip
-              v-if="selectedIndicatorMapRef && selectedIndicatorMapRef.customAreaIndicator"
-              :disabled="selectedIndicatorMapRef && selectedIndicatorMapRef.validDrawnArea"
-              top
-            >
-              <template v-slot:activator="{ on }">
-                <div v-on="on">
-                  <v-btn
-                    color="primary"
-                    text
-                    :x-small="$vuetify.breakpoint.xsOnly"
-                    @click="fetchCustomAreaIndicator"
-                    :disabled="!(selectedIndicatorMapRef && selectedIndicatorMapRef.validDrawnArea)"
-                  >
-                    <v-icon left>mdi-poll</v-icon>
-                    chart from sub-area
-                  </v-btn>
-                </div>
-              </template>
-              Select an area on the map to start!
             </v-tooltip>
           </div>
         </v-col>
@@ -306,7 +285,6 @@
             </v-toolbar>
           <indicator-map
             ref="referenceMap"
-            :data-key="0"
             :style="`height: calc(100% - ${$vuetify.application.top}px)`"
           />
           </v-dialog>
@@ -456,8 +434,7 @@ export default {
       this.overlay = true;
       setTimeout(() => { this.overlay = false; }, 2000);
     },
-    fetchCustomAreaIndicator() {
-      this.selectedIndicatorMapRef.fetchCustomAreaIndicator();
+    scrollToCustomAreaIndicator() {
       this.$vuetify.goTo(this.$refs.customAreaIndicator, { container: document.querySelector('.data-panel') });
     },
     fetchCustomAreaFeatures() {

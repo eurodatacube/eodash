@@ -22,7 +22,6 @@
           <div v-on="on" class="d-inline-block">
             <v-btn
               color="error"
-              dark
               x-small
               fab
               class="pa-0"
@@ -36,6 +35,33 @@
           </div>
         </template>
           <span>Clear selection</span>
+      </v-tooltip>
+    </l-control>
+    <l-control position="topright"
+      v-if="customAreaIndicator && validDrawnArea && renderTrashBin">
+      <v-tooltip left>
+        <template v-slot:activator="{ on }">
+          <div v-on="on" class="d-inline-block"
+          :style="`border: 3px solid ${appConfig.branding.primaryColor};
+          border-radius: 6px;`">
+            <v-btn
+              color="white"
+              x-small
+              fab
+              depressed
+              class="pa-0"
+              :style="`${$vuetify.breakpoint.mdAndDown
+                ? 'width: 36px; height: 36px;'
+                : 'width: 30px; height: 30px;'}
+                border-radius: 4px;
+                color: ${appConfig.branding.primaryColor};`"
+              @click="fetchCustomAreaIndicator"
+            >
+              <v-icon small>mdi-poll</v-icon>
+            </v-btn>
+          </div>
+        </template>
+          <span>Draw chart from sub-area</span>
       </v-tooltip>
     </l-control>
     <LTileLayer
@@ -1089,8 +1115,13 @@ export default {
           this.$store.commit(
             'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
           );
+          this.$emit('fetchCustomAreaIndicator');
         })
         .catch((err) => {
+          this.map.fireEvent('dataload');
+          this.$store.commit(
+            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null,
+          );
           console.log(err);
         });
     },
