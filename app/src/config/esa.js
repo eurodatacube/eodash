@@ -90,6 +90,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'agriculture',
     story: '/eodash-data/stories/E10a2',
     largeSubAoi: true,
+    maxDecimals: 4,
   },
   E10a3: {
     indicator: 'Evolution of the cultivated areas for production of white asparagus',
@@ -114,6 +115,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'agriculture',
     story: '/eodash-data/stories/E10a7',
     largeSubAoi: true,
+    maxDecimals: 4,
   },
   E10a8: {
     indicator: 'Cumulative harvested area',
