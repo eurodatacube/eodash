@@ -219,11 +219,21 @@
       layer-type="overlay"
     >
     </LWMSTileLayer>
-    <img v-if="layerDisplay('data').legendUrl"
-    :src="layerDisplay('data').legendUrl" alt=""
-    :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' : (legendExpanded && 'map-legend-expanded')}`"
-    @click="legendExpanded = !legendExpanded"
-    :style="`position: absolute; z-index: 700; top: 10px; left: 10px; background: rgba(255, 255, 255, 0.8);`">
+    <div
+    :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
+      <img v-if="layerDisplay('data').legendUrl"
+      :src="layerDisplay('data').legendUrl" alt=""
+      :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' : (legendExpanded && 'map-legend-expanded')}`"
+      @click="legendExpanded = !legendExpanded"
+      :style="`background: rgba(255, 255, 255, 0.8);`">
+      <div v-if="customAreaFeatures && layerDisplay('data').features.featureLimit === dataFeaturesNum || layerDisplay('data').features.featureLimit === compareFeaturesNum"
+      :style="`width: fit-content; background: rgba(255, 255, 255, 0.8);`"
+      >
+        <h3 :class="`brand-${appConfig.id} px-3 py-2`">
+          Limit of drawn features is for performance reasons set to <span :style="`font-size: 17px;`">{{layerDisplay('data').features.featureLimit}}</span>
+        </h3>
+      </div>
+    </div>
     <div
       class="d-flex justify-center"
       style="position: relative; width: 100%; height: 100%;"
@@ -411,6 +421,8 @@ export default {
       compareLayerTime: null,
       dataLayerIndex: 0,
       compareLayerIndex: 0,
+      dataFeaturesNum: 0,
+      compareFeaturesNum: 0,
     };
   },
   computed: {
@@ -1186,17 +1198,21 @@ export default {
         if (side === 'data') {
           this.$refs.featuresDataCluster.mapObject.clearLayers();
           this.$refs.featuresDataCluster.mapObject.addLayers([geojsonFromData]);
+          this.dataFeaturesNum = ftrs.features.length;
         } else {
           this.$refs.featuresCompareCluster.mapObject.clearLayers();
           this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
+          this.compareFeaturesNum = ftrs.features.length;
         }
       } else if (side === 'data') {
         // normal geojson layer just needs manual refresh
         this.dataJsonComputed = ftrs;
         this.dataJsonKey = Math.random();
+        this.dataFeaturesNum = ftrs.features.length;
       } else {
         this.compareJsonComputed = ftrs;
         this.compareJsonKey = Math.random();
+        this.compareFeaturesNum = ftrs.features.length;
       }
     },
   },
