@@ -98,7 +98,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/E10a1',
     largeSubAoi: true,
     baseLayersWMS: europeLandCoverWmsDef,
-    legendUrl: 'data/trilateral/G2-GLC_legend.png',
+    legendUrl: 'eodash-data/data/LegendGLC.png',
   },
   E10a2: {
     indicator: 'Cum. proportion of total area under active mgmt.',
@@ -106,7 +106,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/E10a2',
     largeSubAoi: true,
     baseLayersWMS: europeLandCoverWmsDef,
-    legendUrl: 'data/trilateral/G2-GLC_legend.png',
+    legendUrl: 'eodash-data/data/LegendGLC.png',
     maxDecimals: 4,
   },
   E10a3: {
