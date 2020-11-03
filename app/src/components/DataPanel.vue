@@ -31,6 +31,7 @@
             <v-tab-item
               v-for="sensorData in multipleTabCompare.features"
               :key="sensorData.properties.indicatorObject.id"
+              :transition="false" :reverse-transition="false"
             >
               <v-card
                 class="fill-height"
