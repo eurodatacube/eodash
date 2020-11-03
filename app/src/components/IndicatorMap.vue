@@ -22,7 +22,6 @@
           <div v-on="on" class="d-inline-block">
             <v-btn
               color="error"
-              dark
               x-small
               fab
               class="pa-0"
@@ -38,6 +37,33 @@
           <span>Clear selection</span>
       </v-tooltip>
     </l-control>
+    <l-control position="topright"
+      v-if="customAreaIndicator && validDrawnArea && renderTrashBin">
+      <v-tooltip left>
+        <template v-slot:activator="{ on }">
+          <div v-on="on" class="d-inline-block"
+          :style="`border: 3px solid ${appConfig.branding.primaryColor};
+          border-radius: 6px;`">
+            <v-btn
+              color="white"
+              x-small
+              fab
+              depressed
+              class="pa-0"
+              :style="`${$vuetify.breakpoint.mdAndDown
+                ? 'width: 36px; height: 36px;'
+                : 'width: 30px; height: 30px;'}
+                border-radius: 4px;
+                color: ${appConfig.branding.primaryColor};`"
+              @click="fetchCustomAreaIndicator"
+            >
+              <v-icon small>mdi-poll</v-icon>
+            </v-btn>
+          </div>
+        </template>
+          <span>Draw chart from sub-area</span>
+      </v-tooltip>
+    </l-control>
     <LTileLayer
       v-for="layer in baseLayers"
       v-bind="layer"
@@ -48,6 +74,14 @@
       :options="layerOptions(null, layer)"
     >
     </LTileLayer>
+    <LWMSTileLayer
+      v-for="layer in baseLayersWMS"
+      :key="layer.name"
+      v-bind="layer"
+      :options="layerOptions(null, layer)"
+      layer-type="base"
+    >
+    </LWMSTileLayer>
     <l-layer-group ref="dataLayers">
       <l-geo-json
       ref="subaoiLayer"
@@ -58,23 +92,16 @@
       </l-geo-json>
       <l-marker-cluster v-if="featuresClustering"
         ref="featuresDataCluster"
-        :options="clusterOptions">
-        <l-geo-json
-          ref="featureJsonData"
-          v-for="geoJson in featureJson.data.features"
-          :key="geoJson.properties.id" :geojson="geoJson"
-          :options="featureOptions('data')"
-          :pane="tooltipPane"
+        :options="clusterOptions"
         >
-        </l-geo-json>
       </l-marker-cluster>
       <l-geo-json
           v-else
           ref="featureJsonData"
-          v-for="geoJson in featureJson.data.features"
-          :key="geoJson.properties.id" :geojson="geoJson"
+          :geojson="getDataF().features"
           :options="featureOptions('data')"
           :pane="tooltipPane"
+          :key="dataJsonKey"
         >
       </l-geo-json>
       <l-circle-marker
@@ -91,7 +118,8 @@
       >
       </l-circle-marker>
       <LTileLayer
-      v-if="layerDisplay('data').protocol === 'xyz'"
+      v-if="layerDisplay('data').protocol === 'xyz'
+        && layerDisplay('data').mapLayerEnable !== false"
         ref="dataLayer"
         :key="dataLayerKey"
         v-bind="layerDisplay('data')"
@@ -101,7 +129,8 @@
       >
       </LTileLayer>
       <LWMSTileLayer
-      v-else-if="layerDisplay('data').protocol === 'WMS'"
+      v-else-if="layerDisplay('data').protocol === 'WMS'
+        && layerDisplay('data').mapLayerEnable !== false"
         ref="dataLayer"
         :key="dataLayerKey"
         v-bind="layerDisplay('data')"
@@ -113,7 +142,8 @@
     </l-layer-group>
     <l-layer-group ref="compareLayers">
       <LTileLayer
-        v-if="layerDisplay('compare').protocol === 'xyz'"
+        v-if="layerDisplay('compare').protocol === 'xyz'
+          && layerDisplay('compare').mapLayerEnable !== false"
         ref="compareLayer"
         :key="compareLayerKey"
         v-bind="layerDisplay('compare')"
@@ -123,7 +153,8 @@
       >
       </LTileLayer>
       <LWMSTileLayer
-      v-else-if="layerDisplay('compare').protocol === 'WMS'"
+      v-else-if="layerDisplay('compare').protocol === 'WMS'
+        && layerDisplay('compare').mapLayerEnable !== false"
         ref="compareLayer"
         :key="compareLayerKey"
         v-bind="layerDisplay('compare')"
@@ -142,24 +173,15 @@
       </l-geo-json>
       <l-marker-cluster v-if="featuresClustering"
         ref="featuresCompareCluster" :options="clusterOptions">
-        <l-geo-json
-          ref="featureJsonCompare"
-          :visible="enableCompare"
-          v-for="geoJson in featureJson.compare.features"
-          :key="geoJson.properties.id" :geojson="geoJson"
-          :options="featureOptions('compare')"
-          :pane="shadowPane"
-        >
-        </l-geo-json>
       </l-marker-cluster>
       <l-geo-json
         v-else
         ref="featureJsonCompare"
         :visible="enableCompare"
-        v-for="geoJson in featureJson.compare.features"
-        :key="geoJson.properties.id" :geojson="geoJson"
+        :geojson="getCompareF().features"
         :options="featureOptions('compare')"
         :pane="shadowPane"
+        :key="compareJsonKey"
       >
       </l-geo-json>
       <l-circle-marker
@@ -187,10 +209,36 @@
       layer-type="overlay"
     >
     </LTileLayer>
-    <img v-if="layerDisplay('data').legendUrl"
-    :src="layerDisplay('data').legendUrl" alt=""
-      style="position: absolute; width: 250px; z-index: 700;
-      top: 10px; left: 10px; background: rgba(255, 255, 255, 0.8); ">
+    <LWMSTileLayer
+      v-for="layer in overlayLayersWMS"
+      v-bind="layer"
+      :key="layer.name"
+      :options="layerOptions(null, layer)"
+      :pane="markerPane"
+      :opacity="opacityOverlay[zoom]"
+      layer-type="overlay"
+    >
+    </LWMSTileLayer>
+    <div
+    :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
+      <img v-if="layerDisplay('data').legendUrl"
+      :src="layerDisplay('data').legendUrl" alt=""
+      :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' :
+      (legendExpanded && 'map-legend-expanded')}`"
+      @click="legendExpanded = !legendExpanded"
+      :style="`background: rgba(255, 255, 255, 0.8);`">
+      <div
+      v-if="customAreaFeatures && (layerDisplay('data').features.featureLimit === dataFeaturesNum ||
+      layerDisplay('data').features.featureLimit === compareFeaturesNum)"
+      :style="`width: fit-content; background: rgba(255, 255, 255, 0.8);`"
+      >
+        <h3 :class="`brand-${appConfig.id} px-3 py-2`">
+          Limit of drawn features is for performance reasons set to
+          <span :style="`font-size: 17px;`">{{layerDisplay('data').features.featureLimit}}
+          </span>
+        </h3>
+      </div>
+    </div>
     <div
       class="d-flex justify-center"
       style="position: relative; width: 100%; height: 100%;"
@@ -324,6 +372,8 @@ const emptyF = {
   type: 'FeatureCollection',
   features: [],
 };
+let dataF = emptyF;
+let compareF = emptyF;
 
 export default {
   props: [
@@ -348,12 +398,13 @@ export default {
       map: null,
       compareLayerKey: 0,
       dataLayerKey: 1,
+      dataJsonKey: 0,
+      compareJsonKey: 1,
       dasharrayPoi: '3',
       zoom: null,
       center: null,
       bounds: null,
       enableCompare: false,
-      fetchDataClicked: false,
       opacityTerrain: [1],
       opacityOverlay: [1],
       tilePane: 'tilePane',
@@ -362,6 +413,7 @@ export default {
       shadowPane: 'shadowPane',
       tooltipPane: 'tooltipPane',
       popupPane: 'popupPane',
+      legendExpanded: false,
       slider: null,
       drawControl: null,
       renderTrashBin: false,
@@ -373,10 +425,8 @@ export default {
       compareLayerTime: null,
       dataLayerIndex: 0,
       compareLayerIndex: 0,
-      featureJson: {
-        data: emptyF,
-        compare: emptyF,
-      },
+      dataFeaturesNum: 0,
+      compareFeaturesNum: 0,
     };
   },
   computed: {
@@ -384,6 +434,21 @@ export default {
     ...mapGetters('indicators', [
       'getIndicatorFilteredInputData',
     ]),
+    dataJsonComputed: {
+      // to avoid each of thousands of geojson features have its own
+      // getter/setter set by vue - freezing the app on large number of pts
+      // we manually rerender relevant vue components anyway
+      get: () => this.getDataF(),
+      set: (v) => {
+        dataF = v;
+      },
+    },
+    compareJsonComputed: {
+      get: () => this.getCompareF(),
+      set: (v) => {
+        compareF = v;
+      },
+    },
     baseLayers() {
       return [
         ...this.baseConfig.baseLayers,
@@ -391,7 +456,22 @@ export default {
       ];
     },
     overlayLayers() {
-      return this.baseConfig.overlayLayers;
+      return [
+        ...this.baseConfig.overlayLayers,
+        ...(this.layerDisplay('data').overlayLayers || []),
+      ];
+    },
+    baseLayersWMS() {
+      return [
+        ...this.baseConfig.baseLayersWMS,
+        ...(this.layerDisplay('data').baseLayersWMS || []),
+      ];
+    },
+    overlayLayersWMS() {
+      return [
+        ...this.baseConfig.overlayLayersWMS,
+        ...(this.layerDisplay('data').overlayLayersWMS || []),
+      ];
     },
     mapDefaults() {
       return {
@@ -609,15 +689,8 @@ export default {
       this.map.on(L.Draw.Event.DRAWSTART, function () { // eslint-disable-line
         this.clearCustomAreaFilter();
       }.bind(this));
-
       this.map.on(L.Draw.Event.DRAWSTOP, function () { // eslint-disable-line
-        this.featureJson.data = emptyF;
-        this.featureJson.compare = emptyF;
-        if (this.featuresClustering) {
-          this.$refs.featuresDataCluster.mapObject.clearLayers();
-          this.$refs.featuresCompareCluster.mapObject.clearLayers();
-        }
-        if (this.fetchDataClicked) {
+        if (this.validDrawnArea) {
           this.fetchFeatures('data');
           if (this.enableCompare) {
             this.fetchFeatures('compare');
@@ -646,7 +719,7 @@ export default {
         }
       }
       this.onResize();
-      if (!this.customAreaFilter) {
+      if (!this.customAreaFeatures || this.validDrawnArea) {
         this.fetchFeatures('data');
       }
       setTimeout(() => {
@@ -766,7 +839,7 @@ export default {
     },
     flyToBounds() {
       // zooms to subaoi if present or area around aoi if not
-      const boundsPad = this.indDefinition.largeSubAoi ? 5 : 0.15;
+      const boundsPad = this.indDefinition.largeSubAoi ? 5 : (this.indDefinition.midSubAoi ? 1 : 0.15);
       if (this.subAoi && this.subAoi.features.length > 0) {
         const viewBounds = this.layerDisplay('data').presetView ? geoJson(this.layerDisplay('data').presetView).getBounds() : geoJson(this.subAoi).getBounds();
         const bounds = geoJson(this.subAoi).getBounds();
@@ -778,6 +851,8 @@ export default {
         this.map.setMaxBounds(boundsMax);
         if (this.indDefinition.largeSubAoi) {
           this.map.setMinZoom(2);
+        } else if (this.indDefinition.midSubAoi) {
+          this.map.setMinZoom(10);
         } else {
           this.map.setMinZoom(13);
         }
@@ -785,13 +860,14 @@ export default {
         const cornerMax1 = latLng([this.aoi.lat - boundsPad, this.aoi.lng - boundsPad]);
         const cornerMax2 = latLng([this.aoi.lat + boundsPad, this.aoi.lng + boundsPad]);
         const boundsMax = latLngBounds(cornerMax1, cornerMax2);
-        this.map.setZoom(18);
+        this.map.setZoom(16);
         this.map.panTo(this.aoi);
         if (this.indDefinition.largeSubAoi) {
           this.map.setMinZoom(2);
+        } else if (this.indDefinition.midSubAoi) {
+          this.map.setMinZoom(9);
         } else {
-          // might need tweaking further on
-          this.map.setMinZoom(14);
+          this.map.setMinZoom(12);
         }
         // limit user movement around map
         this.map.setMaxBounds(boundsMax);
@@ -938,33 +1014,28 @@ export default {
     refreshLayer(side) {
       // compare(left) or data(right)
       if (side === 'compare' || this.indicator.compareDisplay) {
-        if (this.layerDisplay('compare').protocol === 'WMS') {
+        if (this.layerDisplay('compare').protocol === 'WMS' && this.$refs.compareLayer) {
           this.$refs.compareLayer.mapObject
             .setParams(this.layerOptions(this.currentCompareTime, this.layerDisplay('compare')));
-        } else if (this.layerDisplay('compare').protocol === 'xyz') {
+        } else if (this.layerDisplay('compare').protocol === 'xyz' && this.$refs.compareLayer) {
           this.$refs.compareLayer.mapObject
             .setUrl(this.layerDisplay('compare').url);
         }
-        if (this.fetchDataClicked || !this.customAreaFeatures) {
+        if (!this.customAreaFeatures || this.validDrawnArea) {
           this.fetchFeatures('compare');
-          this.featureJson.compare = emptyF;
-          if (this.featuresClustering) {
-            this.$refs.featuresCompareCluster.mapObject.clearLayers();
-          }
         }
         // redraw
         this.compareLayerKey = Math.random();
       }
       if (side === 'data') {
-        if (this.layerDisplay('data').protocol === 'WMS') {
+        if (this.layerDisplay('data').protocol === 'WMS' && this.$refs.dataLayer) {
           this.$refs.dataLayer.mapObject
             .setParams(this.layerOptions(this.currentTime, this.layerDisplay('data')));
-        } else if (this.layerDisplay('data').protocol === 'xyz') {
+        } else if (this.layerDisplay('data').protocol === 'xyz' && this.$refs.dataLayer) {
           this.$refs.dataLayer.mapObject
             .setUrl(this.layerDisplay('data').url);
         }
-        if (this.fetchDataClicked || !this.customAreaFeatures) {
-          this.featureJson.data = emptyF;
+        if (!this.customAreaFeatures || this.validDrawnArea) {
           if (this.featuresClustering) {
             this.$refs.featuresDataCluster.mapObject.clearLayers();
           }
@@ -1021,23 +1092,14 @@ export default {
           })
           .then((data) => {
             this.map.fireEvent('dataload');
-            this.featureJson[side] = data;
+            this.updateJsonLayers(data, side);
           })
           .catch(() => {
             this.map.fireEvent('dataload');
-            this.featureJson[side] = emptyF;
+            this.updateJsonLayers(emptyF, side);
           });
       } else {
-        this.featureJson[side] = emptyF;
-      }
-    },
-    fetchCustomAreaFeatures() {
-      if (!this.fetchDataClicked) {
-        this.fetchDataClicked = true;
-      }
-      this.fetchFeatures('data');
-      if (this.enableCompare) {
-        this.fetchFeatures('compare');
+        this.updateJsonLayers(emptyF, side);
       }
     },
     fetchCustomAreaIndicator() {
@@ -1089,8 +1151,13 @@ export default {
           this.$store.commit(
             'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
           );
+          this.$emit('fetchCustomAreaIndicator');
         })
         .catch((err) => {
+          this.map.fireEvent('dataload');
+          this.$store.commit(
+            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null,
+          );
           console.log(err);
         });
     },
@@ -1121,19 +1188,59 @@ export default {
       this.$refs.customAreaFilterFeatures.mapObject.clearLayers();
       this.$store.commit('features/SET_SELECTED_AREA', null);
     },
+    getDataF() {
+      return dataF;
+    },
+    getCompareF() {
+      return compareF;
+    },
+    updateJsonLayers(ftrs, side) {
+      if (this.featuresClustering) {
+        // markercluster needs manual adding of all geojsons it will show
+        // and cleanup of previous content
+        const geojsonFromData = geoJson(ftrs, {
+          ...this.featureOptions(side),
+          pane: side === 'data' ? this.tooltipPane : this.shadowPane,
+        });
+        if (side === 'data') {
+          this.$refs.featuresDataCluster.mapObject.clearLayers();
+          this.$refs.featuresDataCluster.mapObject.addLayers([geojsonFromData]);
+          this.dataFeaturesNum = ftrs.features.length;
+        } else {
+          this.$refs.featuresCompareCluster.mapObject.clearLayers();
+          this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
+          this.compareFeaturesNum = ftrs.features.length;
+        }
+      } else if (side === 'data') {
+        // normal geojson layer just needs manual refresh
+        this.dataJsonComputed = ftrs;
+        this.dataJsonKey = Math.random();
+        this.dataFeaturesNum = ftrs.features.length;
+      } else {
+        this.compareJsonComputed = ftrs;
+        this.compareJsonKey = Math.random();
+        this.compareFeaturesNum = ftrs.features.length;
+      }
+    },
   },
   watch: {
     enableCompare(on) {
       if (!on) {
         if (this.slider !== null) {
-          this.$refs.layersControl.mapObject.removeLayer(this.$refs.compareLayer.mapObject);
+          if (this.$refs.compareLayer) {
+            this.$refs.layersControl.mapObject.removeLayer(this.$refs.compareLayer.mapObject);
+          }
           this.map.removeControl(this.slider);
           this.map.removeLayer(this.$refs.compareLayers.mapObject);
         }
       } else {
-        this.fetchFeatures('compare');
-        this.$refs.layersControl.mapObject.addOverlay(this.$refs.compareLayer.mapObject, this.$refs.compareLayer.name); // eslint-disable-line
+        if (this.$refs.compareLayer) {
+          this.$refs.layersControl.mapObject.addOverlay(this.$refs.compareLayer.mapObject, this.$refs.compareLayer.name); // eslint-disable-line
+        }
         this.map.addLayer(this.$refs.compareLayers.mapObject);
+        if (!this.customAreaFeatures || this.validDrawnArea) {
+          this.fetchFeatures('compare');
+        }
         this.$nextTick(() => {
           this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
           this.slider.setRightLayers(this.$refs.dataLayers.mapObject.getLayers());
@@ -1205,5 +1312,14 @@ export default {
       color: white;
     }
   }
+}
+.map-legend {
+  max-width: 50%;
+  transition: max-width 0.5s ease-in-out;
+  cursor: pointer;
+}
+.map-legend-expanded {
+  width: initial;
+  max-width: 80%;
 }
 </style>

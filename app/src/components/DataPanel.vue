@@ -53,10 +53,12 @@
                   Tap to interact
                 </v-overlay>
                 <indicator-map
+                  ref="indicatorMap"
                   style="top: 0px; position: absolute;"
                   v-if="globalData"
                   class="pt-0 fill-height"
                   :currentIndicator="sensorData.properties.indicatorObject"
+                  v-on:fetchCustomAreaIndicator="scrollToCustomAreaIndicator"
                 />
                 <indicator-data
                   style="top: 0px; position: absolute;"
@@ -90,6 +92,7 @@
             </v-overlay>
             <indicator-map
               ref="indicatorMap"
+              v-on:fetchCustomAreaIndicator="scrollToCustomAreaIndicator"
               style="top: 0px; position: absolute;"
               v-if="globalData"
               class="pt-0 fill-height"
@@ -117,50 +120,6 @@
             <span v-else>This data is updated: {{ indicatorObject.updateFrequency }}</span>
           </small>
           <small v-else> </small>
-          <div class="d-flex align-center">
-            <v-tooltip
-              v-if="customAreaFeaturesEnabled"
-              :disabled="customAreaFilterEnabled"
-              top
-            >
-              <template v-slot:activator="{ on }">
-                <div v-on="on">
-                  <v-btn
-                    color="primary"
-                    text
-                    :x-small="$vuetify.breakpoint.xsOnly"
-                    @click="fetchCustomAreaFeatures"
-                    :disabled="!customAreaFilterEnabled"
-                  >
-                    <v-icon left>mdi-map</v-icon>
-                    features for sub-area
-                  </v-btn>
-                </div>
-              </template>
-              Select an area on the map to start! Current limit of features to view is 5 000.
-            </v-tooltip>
-            <v-tooltip
-              v-if="customAreaIndicatorEnabled"
-              :disabled="customAreaFilterEnabled"
-              top
-            >
-              <template v-slot:activator="{ on }">
-                <div v-on="on">
-                  <v-btn
-                    color="primary"
-                    text
-                    :x-small="$vuetify.breakpoint.xsOnly"
-                    @click="fetchCustomAreaIndicator"
-                    :disabled="!customAreaFilterEnabled"
-                  >
-                    <v-icon left>mdi-poll</v-icon>
-                    chart from sub-area
-                  </v-btn>
-                </div>
-              </template>
-              Select an area on the map to start!
-            </v-tooltip>
-          </div>
         </v-col>
         <v-col
           cols="12"
@@ -232,6 +191,7 @@
         <v-col
           cols="12"
           ref="customAreaIndicator"
+          class="pa-0"
         >
           <v-card
             v-if="customAreaIndicator"
@@ -301,7 +261,7 @@
                 <v-icon>mdi-close</v-icon>
               </v-btn>
             </v-toolbar>
-          <IndicatorMap
+          <indicator-map
             ref="referenceMap"
             :style="`height: calc(100% - ${$vuetify.application.top}px)`"
           />
@@ -407,23 +367,6 @@ export default {
       // search configuration mapping if layer is configured
       return lastInputData ? this.layerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
     },
-    customAreaFeaturesEnabled() {
-      let filter;
-      if (this.mounted && this.$refs.indicatorMap) {
-        filter = this.$refs.indicatorMap.customAreaFeatures;
-      }
-      return filter;
-    },
-    customAreaIndicatorEnabled() {
-      let filter;
-      if (this.mounted && this.$refs.indicatorMap) {
-        filter = this.$refs.indicatorMap.customAreaIndicator;
-      }
-      return filter;
-    },
-    customAreaFilterEnabled() {
-      return this.$refs.indicatorMap && this.$refs.indicatorMap.validDrawnArea;
-    },
   },
   mounted() {
     this.mounted = true;
@@ -467,12 +410,8 @@ export default {
       this.overlay = true;
       setTimeout(() => { this.overlay = false; }, 2000);
     },
-    fetchCustomAreaIndicator() {
-      this.$refs.indicatorMap.fetchCustomAreaIndicator();
+    scrollToCustomAreaIndicator() {
       this.$vuetify.goTo(this.$refs.customAreaIndicator, { container: document.querySelector('.data-panel') });
-    },
-    fetchCustomAreaFeatures() {
-      this.$refs.indicatorMap.fetchCustomAreaFeatures();
     },
   },
   watch: {
@@ -481,6 +420,7 @@ export default {
         const poi = this.getLocationCode(this.multipleTabCompare.features[index]
           .properties.indicatorObject);
         this.$router.replace({ query: { ...this.$route.query, poi } }).catch(() => {});
+        this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
       }
     },
     dialog(open) {
