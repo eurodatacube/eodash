@@ -59,77 +59,77 @@ module.exports = [
           'ES61a-E10a6',
           'ES61b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES62a-E10a6',
           'ES62b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES30a-E10a6',
           'ES30b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES22a-E10a6',
           'ES22b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES23a-E10a6',
           'ES23b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES24a-E10a6',
           'ES24b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES41a-E10a6',
           'ES41b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES42a-E10a6',
           'ES42b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES43a-E10a6',
           'ES43b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES51a-E10a6',
           'ES51b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES52a-E10a6',
           'ES52b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
     ],
   },
@@ -253,77 +253,77 @@ module.exports = [
           'ES61a-E10a6',
           'ES61b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES62a-E10a6',
           'ES62b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES30a-E10a6',
           'ES30b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES22a-E10a6',
           'ES22b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES23a-E10a6',
           'ES23b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES24a-E10a6',
           'ES24b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES41a-E10a6',
           'ES41b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES42a-E10a6',
           'ES42b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES43a-E10a6',
           'ES43b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES51a-E10a6',
           'ES51b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
       {
         features: [
           'ES52a-E10a6',
           'ES52b-E10a6',
         ],
-        label: 'description',
+        label: 'indicatorValue',
       },
     ],
     privacyText: '/data/trilateral/privacy',
