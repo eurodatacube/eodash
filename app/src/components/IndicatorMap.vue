@@ -228,8 +228,8 @@
       @click="legendExpanded = !legendExpanded"
       :style="`background: rgba(255, 255, 255, 0.8);`">
       <div
-      v-if="customAreaFeatures && layerDisplay('data').features.featureLimit === dataFeaturesNum ||
-      layerDisplay('data').features.featureLimit === compareFeaturesNum"
+      v-if="customAreaFeatures && (layerDisplay('data').features.featureLimit === dataFeaturesNum ||
+      layerDisplay('data').features.featureLimit === compareFeaturesNum)"
       :style="`width: fit-content; background: rgba(255, 255, 255, 0.8);`"
       >
         <h3 :class="`brand-${appConfig.id} px-3 py-2`">
