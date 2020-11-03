@@ -46,6 +46,15 @@ module.exports = [
     privacyText: '/eodash-data/general/privacy',
     termsText: '/eodash-data/general/terms',
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube'],
+    featureGrouping: [
+      {
+        features: [
+          'W2-E12c',
+          'W3-E12c',
+        ],
+        label: 'indicatorName',
+      },
+    ],
   },
   {
     id: 'trilateral',

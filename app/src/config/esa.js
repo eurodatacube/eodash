@@ -158,19 +158,8 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
   },
   E12c: {
-    indicator: 'Number of Trucks on Motorways (Beta)',
+    indicator: 'Number of Trucks (Beta)',
     class: 'economic',
-    story: '/eodash-data/stories/E12c',
-    customAreaFeatures: true,
-    customAreaIndicator: true,
-    largeSubAoi: true,
-    featuresClustering: true,
-    disableCompare: true,
-  },
-  E12d: {
-    indicator: 'Number of Trucks on Primary Roads (Beta)',
-    class: 'economic',
-    story: '/eodash-data/stories/E12d',
     customAreaFeatures: true,
     customAreaIndicator: true,
     largeSubAoi: true,
@@ -660,10 +649,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'Europe',
         siteName: 'global',
-        description: 'Number of Trucks on Motorways (Beta)',
+        description: 'Number of Trucks (Beta)',
         indicator: 'E12c',
         lastIndicatorValue: 'Regional Truck Traffic Motorways',
-        indicatorName: 'Regional Truck Traffic Motorways',
+        indicatorName: 'Motorways',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -791,10 +780,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'Europe',
         siteName: 'global',
-        description: 'Number of Trucks on Primary Roads (Beta)',
-        indicator: 'E12d',
+        description: 'Number of Trucks (Beta)',
+        indicator: 'E12c',
         lastIndicatorValue: 'Regional Truck Traffic Primary',
-        indicatorName: 'Regional Truck Traffic Primary',
+        indicatorName: 'Primary Roads',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -811,7 +800,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: {
-
           ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Aggregated Truck Traffic 10km',
