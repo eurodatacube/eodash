@@ -1314,8 +1314,8 @@ export default {
   }
 }
 .map-legend {
-  width: 50%;
-  transition: width 0.5s ease-in-out;
+  max-width: 50%;
+  transition: max-width 0.5s ease-in-out;
   cursor: pointer;
 }
 .map-legend-expanded {
