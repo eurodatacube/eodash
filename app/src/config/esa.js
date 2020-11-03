@@ -189,6 +189,7 @@ export const indicatorsDefinition = Object.freeze({
   E13d: {
     indicator: 'Airports: airplanes traffic',
     class: 'economic',
+    story: '/eodash-data/stories/E13d',
     mapLayerEnable: false,
     midSubAoi: true,
     features: {
