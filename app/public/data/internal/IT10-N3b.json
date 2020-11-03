@@ -2865,7 +2865,7 @@
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "",
         "input_data": "EORC product",
-        "measurement_value": "17.82",
+        "measurement_value": "19.99",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-09-26T00:00:00"
@@ -2905,11 +2905,33 @@
     },
     {
         "color_code": "",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "",
+        "input_data": "EORC product",
+        "measurement_value": "457.32",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2020-10-03T00:00:00"
+    },
+    {
+        "color_code": "",
         "data_provider": "CNR-ISMAR",
         "eo_sensor": "Sentinel-3A OLCI",
         "indicator_value": "",
         "input_data": "S3A_OL_2_WFR",
         "measurement_value": "  18.883",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2020-10-10T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "",
+        "input_data": "EORC product",
+        "measurement_value": "93.26",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-10-10T00:00:00"
@@ -2932,6 +2954,17 @@
         "indicator_value": "",
         "input_data": "S3A_OL_2_WFR",
         "measurement_value": "  71.720",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2020-10-24T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "",
+        "input_data": "EORC product",
+        "measurement_value": "35.05",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-10-24T00:00:00"
