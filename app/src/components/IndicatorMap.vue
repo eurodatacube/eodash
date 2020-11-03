@@ -797,7 +797,7 @@ export default {
     },
     flyToBounds() {
       // zooms to subaoi if present or area around aoi if not
-      const boundsPad = this.indDefinition.largeSubAoi ? 5 : 0.15;
+      const boundsPad = this.indDefinition.largeSubAoi ? 5 : (this.indDefinition.midSubAoi ? 1 : 0.15);
       if (this.subAoi && this.subAoi.features.length > 0) {
         const viewBounds = this.layerDisplay('data').presetView ? geoJson(this.layerDisplay('data').presetView).getBounds() : geoJson(this.subAoi).getBounds();
         const bounds = geoJson(this.subAoi).getBounds();
@@ -809,6 +809,8 @@ export default {
         this.map.setMaxBounds(boundsMax);
         if (this.indDefinition.largeSubAoi) {
           this.map.setMinZoom(2);
+        } else if (this.indDefinition.midSubAoi) {
+          this.map.setMinZoom(10);
         } else {
           this.map.setMinZoom(13);
         }
@@ -816,13 +818,14 @@ export default {
         const cornerMax1 = latLng([this.aoi.lat - boundsPad, this.aoi.lng - boundsPad]);
         const cornerMax2 = latLng([this.aoi.lat + boundsPad, this.aoi.lng + boundsPad]);
         const boundsMax = latLngBounds(cornerMax1, cornerMax2);
-        this.map.setZoom(18);
+        this.map.setZoom(16);
         this.map.panTo(this.aoi);
         if (this.indDefinition.largeSubAoi) {
           this.map.setMinZoom(2);
+        } else if (this.indDefinition.midSubAoi) {
+          this.map.setMinZoom(9);
         } else {
-          // might need tweaking further on
-          this.map.setMinZoom(14);
+          this.map.setMinZoom(12);
         }
         // limit user movement around map
         this.map.setMaxBounds(boundsMax);
