@@ -168,6 +168,16 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Throughput at principal hub airports',
     class: 'economic',
     story: '/eodash-data/stories/E13b',
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+    },
+    largeTimeDuration: true,
+  },
+  E13b2: {
+    indicator: 'Throughput at principal hub airports Aerospacelab archived',
+    class: 'economic',
+    story: '/eodash-data/stories/E13b',
   },
   E13d: {
     indicator: 'Airports: airplanes traffic',
