@@ -122,15 +122,9 @@ export const indicatorsDefinition = Object.freeze({
     largeSubAoi: true,
   },
   E10a6: {
-    indicator: 'Harvested parcels evolution over time',
+    indicator: 'Harvested parcels/area evolution over time',
     class: 'agriculture',
     story: '/eodash-data/stories/E10a6',
-    largeSubAoi: true,
-  },
-  E10a7: {
-    indicator: 'Harvested area evolution over time',
-    class: 'agriculture',
-    story: '/eodash-data/stories/E10a7',
     largeSubAoi: true,
     maxDecimals: 4,
   },
