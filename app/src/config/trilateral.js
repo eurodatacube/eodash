@@ -24,7 +24,7 @@ export const dataEndpoints = [
 ];
 const europeLandCoverWmsDef = [
   {
-    baseUrl: `//s2glc.creodias.eu/geoserver/S2GLC/wms?`,
+    baseUrl: '//s2glc.creodias.eu/geoserver/S2GLC/wms?',
     protocol: 'WMS',
     format: 'image/png',
     tileSize: 512,

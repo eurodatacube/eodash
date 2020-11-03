@@ -29,7 +29,7 @@
             v-model="selectedSensorTab"
           >
             <v-tab-item
-              v-for="(sensorData, index) in multipleTabCompare.features"
+              v-for="sensorData in multipleTabCompare.features"
               :key="sensorData.properties.indicatorObject.id"
             >
               <v-card

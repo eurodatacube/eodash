@@ -223,14 +223,19 @@
     :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
       <img v-if="layerDisplay('data').legendUrl"
       :src="layerDisplay('data').legendUrl" alt=""
-      :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' : (legendExpanded && 'map-legend-expanded')}`"
+      :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' :
+      (legendExpanded && 'map-legend-expanded')}`"
       @click="legendExpanded = !legendExpanded"
       :style="`background: rgba(255, 255, 255, 0.8);`">
-      <div v-if="customAreaFeatures && layerDisplay('data').features.featureLimit === dataFeaturesNum || layerDisplay('data').features.featureLimit === compareFeaturesNum"
+      <div
+      v-if="customAreaFeatures && layerDisplay('data').features.featureLimit === dataFeaturesNum ||
+      layerDisplay('data').features.featureLimit === compareFeaturesNum"
       :style="`width: fit-content; background: rgba(255, 255, 255, 0.8);`"
       >
         <h3 :class="`brand-${appConfig.id} px-3 py-2`">
-          Limit of drawn features is for performance reasons set to <span :style="`font-size: 17px;`">{{layerDisplay('data').features.featureLimit}}</span>
+          Limit of drawn features is for performance reasons set to
+          <span :style="`font-size: 17px;`">{{layerDisplay('data').features.featureLimit}}
+          </span>
         </h3>
       </div>
     </div>
@@ -400,7 +405,6 @@ export default {
       center: null,
       bounds: null,
       enableCompare: false,
-      // fetchDataClicked: false,
       opacityTerrain: [1],
       opacityOverlay: [1],
       tilePane: 'tilePane',
