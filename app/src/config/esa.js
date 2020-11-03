@@ -15,7 +15,7 @@ export const dataEndpoints = [
 
 const europeLandCoverWmsDef = [
   {
-    baseUrl: `//s2glc.creodias.eu/geoserver/S2GLC/wms?`,
+    baseUrl: '//s2glc.creodias.eu/geoserver/S2GLC/wms?',
     protocol: 'WMS',
     format: 'image/png',
     tileSize: 512,
@@ -475,7 +475,10 @@ export const globalIndicators = [
                     newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
                   }
                 });
-                const ind = Object.assign(indicator, newData);
+                const ind = {
+                  ...indicator,
+                  ...newData,
+                };
                 return ind;
               }
               return null;
@@ -702,7 +705,7 @@ export const globalIndicators = [
             },
             requestBody: {
               collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
-              select: 'id, sum_observations, osm_name, ST_AsText(geometry) as "geometry", truck_count_normalized',
+              select: 'id, sum_observations, ST_AsText(geometry) as "geometry", truck_count_normalized',
               where: 'osm_value=1 AND date_part(\'year\',time)={featuresTime} AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
               limit: '5000',
             },
@@ -710,6 +713,7 @@ export const globalIndicators = [
               radius: 3,
               weight: 1,
             },
+            featureLimit: 5000,
             allowedParameters: ['osm_name', 'truck_count_normalized', 'sum_observations'],
             dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
             callbackFunction: (requestJson) => { // geom from wkb to geojson features
@@ -766,7 +770,10 @@ export const globalIndicators = [
                   newData.colorCode.push('BLUE'); // made up data
                   newData.referenceValue.push('0'); // made up data
                 });
-                const ind = Object.assign(indicator, newData);
+                const ind = {
+                  ...indicator,
+                  ...newData,
+                };
                 return ind;
               }
               return null;
@@ -838,6 +845,7 @@ export const globalIndicators = [
               radius: 3,
               weight: 1,
             },
+            featureLimit: 5000,
             allowedParameters: ['truck_count_normalized', 'sum_observations'],
             dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
             callbackFunction: (requestJson) => { // geom from wkb to geojson features
@@ -894,7 +902,10 @@ export const globalIndicators = [
                   newData.colorCode.push('BLUE'); // made up data
                   newData.referenceValue.push('0'); // made up data
                 });
-                const ind = Object.assign(indicator, newData);
+                const ind = {
+                  ...indicator,
+                  ...newData,
+                };
                 return ind;
               }
               return null;
