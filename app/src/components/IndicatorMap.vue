@@ -22,7 +22,6 @@
           <div v-on="on" class="d-inline-block">
             <v-btn
               color="error"
-              dark
               x-small
               fab
               class="pa-0"
@@ -38,6 +37,33 @@
           <span>Clear selection</span>
       </v-tooltip>
     </l-control>
+    <l-control position="topright"
+      v-if="customAreaIndicator && validDrawnArea && renderTrashBin">
+      <v-tooltip left>
+        <template v-slot:activator="{ on }">
+          <div v-on="on" class="d-inline-block"
+          :style="`border: 3px solid ${appConfig.branding.primaryColor};
+          border-radius: 6px;`">
+            <v-btn
+              color="white"
+              x-small
+              fab
+              depressed
+              class="pa-0"
+              :style="`${$vuetify.breakpoint.mdAndDown
+                ? 'width: 36px; height: 36px;'
+                : 'width: 30px; height: 30px;'}
+                border-radius: 4px;
+                color: ${appConfig.branding.primaryColor};`"
+              @click="fetchCustomAreaIndicator"
+            >
+              <v-icon small>mdi-poll</v-icon>
+            </v-btn>
+          </div>
+        </template>
+          <span>Draw chart from sub-area</span>
+      </v-tooltip>
+    </l-control>
     <LTileLayer
       v-for="layer in baseLayers"
       v-bind="layer"
@@ -48,6 +74,14 @@
       :options="layerOptions(null, layer)"
     >
     </LTileLayer>
+    <LWMSTileLayer
+      v-for="layer in baseLayersWMS"
+      :key="layer.name"
+      v-bind="layer"
+      :options="layerOptions(null, layer)"
+      layer-type="base"
+    >
+    </LWMSTileLayer>
     <l-layer-group ref="dataLayers">
       <l-geo-json
       ref="subaoiLayer"
@@ -175,10 +209,36 @@
       layer-type="overlay"
     >
     </LTileLayer>
-    <img v-if="layerDisplay('data').legendUrl"
-    :src="layerDisplay('data').legendUrl" alt=""
-      style="position: absolute; width: 250px; z-index: 700;
-      top: 10px; left: 10px; background: rgba(255, 255, 255, 0.8); ">
+    <LWMSTileLayer
+      v-for="layer in overlayLayersWMS"
+      v-bind="layer"
+      :key="layer.name"
+      :options="layerOptions(null, layer)"
+      :pane="markerPane"
+      :opacity="opacityOverlay[zoom]"
+      layer-type="overlay"
+    >
+    </LWMSTileLayer>
+    <div
+    :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
+      <img v-if="layerDisplay('data').legendUrl"
+      :src="layerDisplay('data').legendUrl" alt=""
+      :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' :
+      (legendExpanded && 'map-legend-expanded')}`"
+      @click="legendExpanded = !legendExpanded"
+      :style="`background: rgba(255, 255, 255, 0.8);`">
+      <div
+      v-if="customAreaFeatures && (layerDisplay('data').features.featureLimit === dataFeaturesNum ||
+      layerDisplay('data').features.featureLimit === compareFeaturesNum)"
+      :style="`width: fit-content; background: rgba(255, 255, 255, 0.8);`"
+      >
+        <h3 :class="`brand-${appConfig.id} px-3 py-2`">
+          Limit of drawn features is for performance reasons set to
+          <span :style="`font-size: 17px;`">{{layerDisplay('data').features.featureLimit}}
+          </span>
+        </h3>
+      </div>
+    </div>
     <div
       class="d-flex justify-center"
       style="position: relative; width: 100%; height: 100%;"
@@ -345,7 +405,6 @@ export default {
       center: null,
       bounds: null,
       enableCompare: false,
-      fetchDataClicked: false,
       opacityTerrain: [1],
       opacityOverlay: [1],
       tilePane: 'tilePane',
@@ -354,6 +413,7 @@ export default {
       shadowPane: 'shadowPane',
       tooltipPane: 'tooltipPane',
       popupPane: 'popupPane',
+      legendExpanded: false,
       slider: null,
       drawControl: null,
       renderTrashBin: false,
@@ -365,6 +425,8 @@ export default {
       compareLayerTime: null,
       dataLayerIndex: 0,
       compareLayerIndex: 0,
+      dataFeaturesNum: 0,
+      compareFeaturesNum: 0,
     };
   },
   computed: {
@@ -394,7 +456,22 @@ export default {
       ];
     },
     overlayLayers() {
-      return this.baseConfig.overlayLayers;
+      return [
+        ...this.baseConfig.overlayLayers,
+        ...(this.layerDisplay('data').overlayLayers || []),
+      ];
+    },
+    baseLayersWMS() {
+      return [
+        ...this.baseConfig.baseLayersWMS,
+        ...(this.layerDisplay('data').baseLayersWMS || []),
+      ];
+    },
+    overlayLayersWMS() {
+      return [
+        ...this.baseConfig.overlayLayersWMS,
+        ...(this.layerDisplay('data').overlayLayersWMS || []),
+      ];
     },
     mapDefaults() {
       return {
@@ -613,7 +690,7 @@ export default {
         this.clearCustomAreaFilter();
       }.bind(this));
       this.map.on(L.Draw.Event.DRAWSTOP, function () { // eslint-disable-line
-        if (this.fetchDataClicked) {
+        if (this.validDrawnArea) {
           this.fetchFeatures('data');
           if (this.enableCompare) {
             this.fetchFeatures('compare');
@@ -642,7 +719,7 @@ export default {
         }
       }
       this.onResize();
-      if (!this.customAreaFilter) {
+      if (!this.customAreaFeatures || this.validDrawnArea) {
         this.fetchFeatures('data');
       }
       setTimeout(() => {
@@ -762,7 +839,7 @@ export default {
     },
     flyToBounds() {
       // zooms to subaoi if present or area around aoi if not
-      const boundsPad = this.indDefinition.largeSubAoi ? 5 : 0.15;
+      const boundsPad = this.indDefinition.largeSubAoi ? 5 : (this.indDefinition.midSubAoi ? 1 : 0.15);
       if (this.subAoi && this.subAoi.features.length > 0) {
         const viewBounds = this.layerDisplay('data').presetView ? geoJson(this.layerDisplay('data').presetView).getBounds() : geoJson(this.subAoi).getBounds();
         const bounds = geoJson(this.subAoi).getBounds();
@@ -774,6 +851,8 @@ export default {
         this.map.setMaxBounds(boundsMax);
         if (this.indDefinition.largeSubAoi) {
           this.map.setMinZoom(2);
+        } else if (this.indDefinition.midSubAoi) {
+          this.map.setMinZoom(10);
         } else {
           this.map.setMinZoom(13);
         }
@@ -781,13 +860,14 @@ export default {
         const cornerMax1 = latLng([this.aoi.lat - boundsPad, this.aoi.lng - boundsPad]);
         const cornerMax2 = latLng([this.aoi.lat + boundsPad, this.aoi.lng + boundsPad]);
         const boundsMax = latLngBounds(cornerMax1, cornerMax2);
-        this.map.setZoom(18);
+        this.map.setZoom(16);
         this.map.panTo(this.aoi);
         if (this.indDefinition.largeSubAoi) {
           this.map.setMinZoom(2);
+        } else if (this.indDefinition.midSubAoi) {
+          this.map.setMinZoom(9);
         } else {
-          // might need tweaking further on
-          this.map.setMinZoom(14);
+          this.map.setMinZoom(12);
         }
         // limit user movement around map
         this.map.setMaxBounds(boundsMax);
@@ -941,7 +1021,7 @@ export default {
           this.$refs.compareLayer.mapObject
             .setUrl(this.layerDisplay('compare').url);
         }
-        if (this.fetchDataClicked || !this.customAreaFeatures) {
+        if (!this.customAreaFeatures || this.validDrawnArea) {
           this.fetchFeatures('compare');
         }
         // redraw
@@ -955,8 +1035,7 @@ export default {
           this.$refs.dataLayer.mapObject
             .setUrl(this.layerDisplay('data').url);
         }
-        if (this.fetchDataClicked || !this.customAreaFeatures) {
-          // this.dataJsonComputed = emptyF;
+        if (!this.customAreaFeatures || this.validDrawnArea) {
           if (this.featuresClustering) {
             this.$refs.featuresDataCluster.mapObject.clearLayers();
           }
@@ -1023,15 +1102,6 @@ export default {
         this.updateJsonLayers(emptyF, side);
       }
     },
-    fetchCustomAreaFeatures() {
-      if (!this.fetchDataClicked) {
-        this.fetchDataClicked = true;
-      }
-      this.fetchFeatures('data');
-      if (this.enableCompare) {
-        this.fetchFeatures('compare');
-      }
-    },
     fetchCustomAreaIndicator() {
       const options = this.layerOptions(this.currentTime, this.layerDisplay('data'));
       // add custom area if present
@@ -1081,8 +1151,13 @@ export default {
           this.$store.commit(
             'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
           );
+          this.$emit('fetchCustomAreaIndicator');
         })
         .catch((err) => {
+          this.map.fireEvent('dataload');
+          this.$store.commit(
+            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null,
+          );
           console.log(err);
         });
     },
@@ -1130,17 +1205,21 @@ export default {
         if (side === 'data') {
           this.$refs.featuresDataCluster.mapObject.clearLayers();
           this.$refs.featuresDataCluster.mapObject.addLayers([geojsonFromData]);
+          this.dataFeaturesNum = ftrs.features.length;
         } else {
           this.$refs.featuresCompareCluster.mapObject.clearLayers();
           this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
+          this.compareFeaturesNum = ftrs.features.length;
         }
       } else if (side === 'data') {
         // normal geojson layer just needs manual refresh
         this.dataJsonComputed = ftrs;
         this.dataJsonKey = Math.random();
+        this.dataFeaturesNum = ftrs.features.length;
       } else {
         this.compareJsonComputed = ftrs;
         this.compareJsonKey = Math.random();
+        this.compareFeaturesNum = ftrs.features.length;
       }
     },
   },
@@ -1159,7 +1238,9 @@ export default {
           this.$refs.layersControl.mapObject.addOverlay(this.$refs.compareLayer.mapObject, this.$refs.compareLayer.name); // eslint-disable-line
         }
         this.map.addLayer(this.$refs.compareLayers.mapObject);
-        this.fetchFeatures('compare');
+        if (!this.customAreaFeatures || this.validDrawnArea) {
+          this.fetchFeatures('compare');
+        }
         this.$nextTick(() => {
           this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
           this.slider.setRightLayers(this.$refs.dataLayers.mapObject.getLayers());
@@ -1231,5 +1312,14 @@ export default {
       color: white;
     }
   }
+}
+.map-legend {
+  max-width: 50%;
+  transition: max-width 0.5s ease-in-out;
+  cursor: pointer;
+}
+.map-legend-expanded {
+  width: initial;
+  max-width: 80%;
 }
 </style>
