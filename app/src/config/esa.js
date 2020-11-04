@@ -168,7 +168,7 @@ export const indicatorsDefinition = Object.freeze({
   E13b: {
     indicator: 'Throughput at principal hub airports',
     class: 'economic',
-    story: '/eodash-data/stories/E13b',
+    story: '/eodash-data/stories/E13b_PLES',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
