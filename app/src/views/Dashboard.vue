@@ -233,6 +233,26 @@
           <v-icon :left="!$vuetify.breakpoint.xsOnly" small>mdi-account-voice</v-icon>
           <span v-if="!$vuetify.breakpoint.xsOnly">Feedback</span>
         </v-btn>
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+              color="white"
+              small
+              dark
+              class="ml-2"
+              v-bind="attrs"
+              v-on="on"
+              @click="$vuetify.theme.dark = !$vuetify.theme.dark"
+            >
+              {{
+                $vuetify.theme.dark
+                  ? 'mdi-white-balance-sunny'
+                  : 'mdi-weather-night'
+              }}
+            </v-icon>
+          </template>
+          <span>Enable {{ $vuetify.theme.dark ? 'light' : 'dark' }} mode</span>
+        </v-tooltip>
     </v-footer>
     <v-dialog
       v-model="showFeedbackDialog"

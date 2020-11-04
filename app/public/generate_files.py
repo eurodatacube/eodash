@@ -305,7 +305,6 @@ generateData(
         '/working/eodash-data/data/E10a8.csv',
         '/working/data/trilateral/E10c.csv',
         '/working/data/trilateral/E13b.csv',
-        '/working/data/trilateral/E13c.csv',
         '/working/data/trilateral/N1.csv',
         '/working/data/trilateral/N2.csv',
         '/working/data/trilateral/N3b.csv',
