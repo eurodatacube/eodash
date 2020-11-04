@@ -63,7 +63,7 @@
                 <indicator-data
                   style="top: 0px; position: absolute;"
                   v-else
-                  class="pa-5"
+                  class="pa-5 chart"
                   :currentIndicator="sensorData.properties.indicatorObject"
                 />
               </v-card>
@@ -100,7 +100,7 @@
             <indicator-data
               style="top: 0px; position: absolute;"
               v-else
-              class="pa-5"
+              class="pa-5 chart"
             />
           </v-card>
         </v-col>
@@ -211,7 +211,7 @@
             </div>
             <indicator-data
               style="top: 0px; position: absolute;"
-              class="pa-5"
+              class="pa-5 chart"
             />
           </v-card>
         </v-col>
@@ -438,5 +438,8 @@ export default {
 <style lang="scss" scoped>
 ::v-deep .v-slide-group__prev {
   display: none !important;
+}
+.chart {
+  background: #fff;
 }
 </style>
