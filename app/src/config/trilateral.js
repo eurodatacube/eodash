@@ -3626,12 +3626,12 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([40.71268,-74.005812]),
+    latlng: latLng([40.71268, -74.005812]),
     id: 19598,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        aoi: latLng([40.71268,-74.005812]),
+        aoi: latLng([40.71268, -74.005812]),
         id: 19598,
         aoiID: 'US01',
         country: ['US'],
