@@ -46,6 +46,92 @@ module.exports = [
     privacyText: '/eodash-data/general/privacy',
     termsText: '/eodash-data/general/terms',
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube'],
+    featureGrouping: [
+      {
+        features: [
+          'W2-E12c',
+          'W3-E12c',
+        ],
+        label: 'indicatorName',
+      },
+      {
+        features: [
+          'ES61a-E10a6',
+          'ES61b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES62a-E10a6',
+          'ES62b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES30a-E10a6',
+          'ES30b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES22a-E10a6',
+          'ES22b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES23a-E10a6',
+          'ES23b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES24a-E10a6',
+          'ES24b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES41a-E10a6',
+          'ES41b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES42a-E10a6',
+          'ES42b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES43a-E10a6',
+          'ES43b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES51a-E10a6',
+          'ES51b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES52a-E10a6',
+          'ES52b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+    ],
   },
   {
     id: 'trilateral',
@@ -154,6 +240,90 @@ module.exports = [
           'US09-E10c',
         ],
         label: 'eoSensor',
+      },
+      {
+        features: [
+          'W2-E12c',
+          'W3-E12c',
+        ],
+        label: 'indicatorName',
+      },
+      {
+        features: [
+          'ES61a-E10a6',
+          'ES61b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES62a-E10a6',
+          'ES62b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES30a-E10a6',
+          'ES30b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES22a-E10a6',
+          'ES22b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES23a-E10a6',
+          'ES23b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES24a-E10a6',
+          'ES24b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES41a-E10a6',
+          'ES41b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES42a-E10a6',
+          'ES42b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES43a-E10a6',
+          'ES43b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES51a-E10a6',
+          'ES51b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES52a-E10a6',
+          'ES52b-E10a6',
+        ],
+        label: 'indicatorValue',
       },
     ],
     privacyText: '/data/trilateral/privacy',
