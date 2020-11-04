@@ -110,6 +110,7 @@ export const indicatorsDefinition = Object.freeze({
     largeSubAoi: true,
     baseLayersWMS: europeLandCoverWmsDef,
     legendUrl: 'eodash-data/data/LegendGLC.png',
+    maxDecimals: 4,
   },
   E10a3: {
     indicator: 'Evolution of the cultivated areas for production of white asparagus',
@@ -118,16 +119,11 @@ export const indicatorsDefinition = Object.freeze({
     largeSubAoi: true,
   },
   E10a6: {
-    indicator: 'Harvested parcels evolution over time',
+    indicator: 'Harvested parcels/area evolution over time',
     class: 'agriculture',
     story: '/eodash-data/stories/E10a6',
     largeSubAoi: true,
-  },
-  E10a7: {
-    indicator: 'Harvested area evolution over time',
-    class: 'agriculture',
-    story: '/eodash-data/stories/E10a7',
-    largeSubAoi: true,
+    maxDecimals: 4,
   },
   E10a8: {
     indicator: 'Cumulative harvested area',
