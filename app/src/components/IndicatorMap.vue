@@ -839,7 +839,7 @@ export default {
     },
     flyToBounds() {
       // zooms to subaoi if present or area around aoi if not
-      const boundsPad = this.indDefinition.largeSubAoi ? 5 : (this.indDefinition.midSubAoi ? 1 : 0.15);
+      const boundsPad = this.indDefinition.largeSubAoi ? 5 : (this.indDefinition.midSubAoi ? 1 : 0.15); // eslint-disable-line
       if (this.subAoi && this.subAoi.features.length > 0) {
         const viewBounds = this.layerDisplay('data').presetView ? geoJson(this.layerDisplay('data').presetView).getBounds() : geoJson(this.subAoi).getBounds();
         const bounds = geoJson(this.subAoi).getBounds();
