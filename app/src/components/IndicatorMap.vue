@@ -257,10 +257,9 @@
         background: rgba(255, 255, 255, 0.6); font-size: 16px; pointer-events: none;">
           {{indicator.compareDisplay.mapLabel}}
       </h3>
-      <v-row
+      <v-sheet
         v-if="!disableTimeSelection"
-        class="justify-center align-center timeSelection"
-        :class="enableCompare && !indicator.compareDisplay && 'mr-5 ml-0'"
+        class="row justify-center align-center"
         style="position: absolute; bottom: 30px; z-index: 1000; width: auto; max-width: 100%;"
       >
         <v-col
@@ -334,7 +333,7 @@
             </template>
           </v-select>
         </v-col>
-      </v-row>
+      </v-sheet>
     </div>
   </l-map>
 </template>
@@ -1271,11 +1270,6 @@ export default {
   background-color: rgba(255, 255, 255, 0.8);
   transform: translate3d(-8px, 32px, 0);
   padding: 2px 4px;
-}
-.timeSelection {
-  background: #ffffff;
-  border-radius: 4px;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.65);
 }
 ::v-deep .leaflet-sbs-divider {
   background-color: var(--v-primary-base);
