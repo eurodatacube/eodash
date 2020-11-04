@@ -2,7 +2,6 @@
   <div class="fill-height pb-8">
     <v-tabs
       v-model="tab"
-      :color="$vuetify.theme.themes.light.primary"
       icons-and-text
       grow
     >

@@ -89,11 +89,14 @@ const renderVue = async () => {
   await store.dispatch('config/checkBrand');
   store.dispatch('features/loadAllEndpoints');
 
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+
   const vuetify = new Vuetify({
     theme: {
       options: {
         customProperties: true,
       },
+      dark: mq.matches,
       themes: {
         light: {
           primary: store.state.config.appConfig
@@ -109,8 +112,26 @@ const renderVue = async () => {
           warning: '#FFC107',
           grey: '#AAA',
         },
+        dark: {
+          primary: store.state.config.appConfig
+            ? store.state.config.appConfig.branding.primaryColor
+            : '#004170',
+          secondary: store.state.config.appConfig
+            ? store.state.config.appConfig.branding.secondaryColor
+            : '#424242',
+          accent: '#82B1FF',
+          error: '#FF5252',
+          info: '#2196F3',
+          success: '#4CAF50',
+          warning: '#FFC107',
+          grey: '#AAA',
+        },
       },
     },
+  });
+
+  mq.addEventListener('change', (e) => {
+    vuetify.framework.theme.dark = e.matches;
   });
 
   // Global helper functions

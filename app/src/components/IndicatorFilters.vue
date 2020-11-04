@@ -2,7 +2,6 @@
   <div style="width: 100%" class="fill-height">
     <v-tabs
       v-model="tab"
-      :color="$vuetify.theme.themes.light.primary"
       grow
       activeClass="tabActive"
       icons-and-text
@@ -321,6 +320,11 @@ export default {
 .v-list-item__icon .flag {
   border: 1px solid lightgray;
   background-position-x: -1px;
+}
+.v-application.theme--dark {
+  .v-list-item__icon .flag {
+    border: 1px solid transparent;
+  }
 }
 .itemActive {
   background: var(--v-primary-base);
