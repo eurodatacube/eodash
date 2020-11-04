@@ -159,6 +159,7 @@ export const indicatorsDefinition = Object.freeze({
     largeSubAoi: true,
     featuresClustering: true,
     disableCompare: true,
+    story: '/eodash-data/stories/E12c',
   },
   E13a: {
     indicator: 'Throughput at principal rail stations',
