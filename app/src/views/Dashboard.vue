@@ -223,16 +223,7 @@
             <img :src="require('@/assets/EOX_Logo_weiss.svg')" height="11px" class="my-0" />
           </a>
         </small>
-        <v-btn
-          dark
-          small
-          color="secondary"
-          class="ml-1"
-          @click="dialog = true"
-        >
-          <v-icon :left="!$vuetify.breakpoint.xsOnly" small>mdi-account-voice</v-icon>
-          <span v-if="!$vuetify.breakpoint.xsOnly">Feedback</span>
-        </v-btn>
+        <feedback-button />
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
             <v-icon
@@ -254,39 +245,13 @@
           <span>Enable {{ $vuetify.theme.dark ? 'light' : 'dark' }} mode</span>
         </v-tooltip>
     </v-footer>
-    <v-dialog
-      v-model="dialog"
-      width="85%"
-      :fullscreen="$vuetify.breakpoint.xsOnly"
-      :hide-overlay="$vuetify.breakpoint.xsOnly"
-      transition="dialog-bottom-transition"
-    >
-      <v-toolbar v-if="$vuetify.breakpoint.xsOnly" dark color="primary">
-        <v-toolbar-title>How can we improve eodash?
-        </v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn icon dark @click="dialog = false">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-toolbar>
-      <v-card :class="$vuetify.breakpoint.mdAndUp && 'pa-5'"
-        style="overflow-y: auto; height: 100%;">
-        <v-card-text>
-          <Feedback />
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="dialog = false">Back</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
 <script>
 import Welcome from '@/views/Welcome.vue';
 import About from '@/views/About.vue';
-import Feedback from '@/views/Feedback.vue';
+import FeedbackButton from '@/components/FeedbackButton.vue';
 import SelectionPanel from '@/components/SelectionPanel.vue';
 import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
@@ -306,7 +271,7 @@ export default {
   components: {
     Welcome,
     About,
-    Feedback,
+    FeedbackButton,
     SelectionPanel,
     CenterPanel,
     DataPanel,
@@ -319,7 +284,6 @@ export default {
     drawerLeft: true,
     drawerRight: false,
     showText: null,
-    dialog: false,
     dataPanelFullWidth: false,
     dataPanelTemporary: false,
     panelKey: 0,
