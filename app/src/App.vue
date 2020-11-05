@@ -21,7 +21,10 @@
     </div>
     <template v-else>
       <router-view />
-      <cookie-law v-if="showCookieNotice" @accept="acceptCookies" theme="blood-orange">
+      <cookie-law
+        v-if="showCookieNotice" @accept="acceptCookies"
+        :theme="$vuetify.theme.dark ? 'blood-orange' : 'base'"
+      >
         <div slot-scope="props" style="width: 100%;">
           <div class="d-flex align-center justify-center mb-5">
             <small class="mb-0">
