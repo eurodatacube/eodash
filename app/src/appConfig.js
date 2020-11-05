@@ -23,8 +23,8 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'GR4-N4c',
-        src: './eodash-data/general/Slide2.png',
+        poi: 'UK7-E13d',
+        src: './eodash-data/general/Slide6.png',
       },
       {
         poi: 'RhoneDeltaTSM-N3a2',
