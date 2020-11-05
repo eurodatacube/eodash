@@ -127,7 +127,7 @@
     </v-navigation-drawer>
     <v-dialog
       v-if="$vuetify.breakpoint.smAndDown"
-      v-model="drawerRight"
+      v-model="dialog"
       persistent
       fullscreen
       hide-overlay
@@ -283,6 +283,7 @@ export default {
   data: () => ({
     drawerLeft: true,
     drawerRight: false,
+    dialog: false,
     showText: null,
     dataPanelFullWidth: false,
     dataPanelTemporary: false,
@@ -348,9 +349,18 @@ export default {
     },
   },
   watch: {
+    dialog(newValue) {
+      if (newValue === false && !this.$vuetify.breakpoint.mdAndUp) {
+        this.clickMobileClose();
+        this.dialog = false;
+      }
+    },
     indicatorSelected(selected) {
       if (selected) {
         this.drawerRight = true;
+        if (!this.$vuetify.breakpoint.mdAndUp) {
+          this.dialog = true;
+        }
       }
       this.$store.commit('indicators/SET_CUSTOM_AREA_INDICATOR', null);
       this.panelKey = Math.random();
