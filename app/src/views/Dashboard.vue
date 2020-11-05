@@ -291,6 +291,7 @@ import SelectionPanel from '@/components/SelectionPanel.vue';
 import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
 import closeMixin from '@/mixins/close';
+import dialogMixin from '@/mixins/dialogMixin';
 
 export default {
   metaInfo() {
@@ -313,7 +314,7 @@ export default {
   props: {
     source: String,
   },
-  mixins: [closeMixin],
+  mixins: [closeMixin, dialogMixin],
   data: () => ({
     drawerLeft: true,
     drawerRight: false,
