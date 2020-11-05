@@ -228,7 +228,7 @@
           small
           color="secondary"
           class="ml-1"
-          @click="showFeedbackDialog = true"
+          @click="dialog = true"
         >
           <v-icon :left="!$vuetify.breakpoint.xsOnly" small>mdi-account-voice</v-icon>
           <span v-if="!$vuetify.breakpoint.xsOnly">Feedback</span>
@@ -255,7 +255,7 @@
         </v-tooltip>
     </v-footer>
     <v-dialog
-      v-model="showFeedbackDialog"
+      v-model="dialog"
       width="85%"
       :fullscreen="$vuetify.breakpoint.xsOnly"
       :hide-overlay="$vuetify.breakpoint.xsOnly"
@@ -265,7 +265,7 @@
         <v-toolbar-title>How can we improve eodash?
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon dark @click="showFeedbackDialog = false">
+        <v-btn icon dark @click="dialog = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
@@ -276,7 +276,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="showFeedbackDialog = false">Back</v-btn>
+          <v-btn color="primary" text @click="dialog = false">Back</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -318,7 +318,7 @@ export default {
     drawerLeft: true,
     drawerRight: false,
     showText: null,
-    showFeedbackDialog: false,
+    dialog: false,
     dataPanelFullWidth: false,
     dataPanelTemporary: false,
     panelKey: 0,
