@@ -89,7 +89,7 @@ const renderVue = async () => {
   await store.dispatch('config/checkBrand');
   store.dispatch('features/loadAllEndpoints');
 
-  const mq = window.matchMedia('screen and (prefers-color-scheme: dark)');
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
 
   const vuetify = new Vuetify({
     theme: {
@@ -130,9 +130,21 @@ const renderVue = async () => {
     },
   });
 
-  mq.addEventListener('change', (e) => {
-    vuetify.framework.theme.dark = e.matches;
-  });
+  try {
+    // Chrome & Firefox
+    mq.addEventListener('change', (e) => {
+      vuetify.framework.theme.dark = e.matches;
+    });
+  } catch (e1) {
+    try {
+      // Safari
+      mq.addListener((e) => {
+        vuetify.framework.theme.dark = e.matches;
+      });
+    } catch (e2) {
+      console.error(e2);
+    }
+  }
 
   // Global helper functions
   Vue.mixin({
