@@ -298,14 +298,11 @@ export default {
     },
   },
   created() {
-    // this.$vuetify.theme.dark = true;
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
     this.drawerRight = this.$vuetify.breakpoint.mdAndUp;
     if (!this.$vuetify.breakpoint.mdAndUp) {
       this.dialog = true;
     }
-    // push to router history so back button interception works
-    // this.$router.push('/').catch(err => {}); // eslint-disable-line
   },
   mounted() {
     this.fixFullHeight();
@@ -356,11 +353,6 @@ export default {
     },
   },
   watch: {
-    dialog(newValue) {
-      if (newValue === false && !this.$vuetify.breakpoint.mdAndUp) {
-        this.clickMobileClose();
-      }
-    },
     indicatorSelected(selected) {
       if (selected) {
         this.drawerRight = true;
