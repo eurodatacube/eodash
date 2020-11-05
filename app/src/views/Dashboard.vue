@@ -301,6 +301,9 @@ export default {
     // this.$vuetify.theme.dark = true;
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
     this.drawerRight = this.$vuetify.breakpoint.mdAndUp;
+    if (!this.$vuetify.breakpoint.mdAndUp) {
+      this.dialog = true;
+    }
     // push to router history so back button interception works
     // this.$router.push('/').catch(err => {}); // eslint-disable-line
   },
@@ -336,6 +339,7 @@ export default {
     },
     clickMobileClose() {
       this.drawerRight = false;
+      this.dialog = false;
       this.showText = null;
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
     },
@@ -352,7 +356,6 @@ export default {
     dialog(newValue) {
       if (newValue === false && !this.$vuetify.breakpoint.mdAndUp) {
         this.clickMobileClose();
-        this.dialog = false;
       }
     },
     indicatorSelected(selected) {
