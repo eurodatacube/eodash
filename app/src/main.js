@@ -130,9 +130,21 @@ const renderVue = async () => {
     },
   });
 
-  mq.addEventListener('change', (e) => {
-    vuetify.framework.theme.dark = e.matches;
-  });
+  try {
+    // Chrome & Firefox
+    mq.addEventListener('change', (e) => {
+      vuetify.framework.theme.dark = e.matches;
+    });
+  } catch (e1) {
+    try {
+      // Safari
+      mq.addListener((e) => {
+        vuetify.framework.theme.dark = e.matches;
+      });
+    } catch (e2) {
+      console.error(e2);
+    }
+  }
 
   // Global helper functions
   Vue.mixin({
