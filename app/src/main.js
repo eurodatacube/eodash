@@ -89,7 +89,7 @@ const renderVue = async () => {
   await store.dispatch('config/checkBrand');
   store.dispatch('features/loadAllEndpoints');
 
-  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+  const mq = window.matchMedia('screen and (prefers-color-scheme: dark)');
 
   const vuetify = new Vuetify({
     theme: {
