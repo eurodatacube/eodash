@@ -245,11 +245,7 @@ export const indicatorsDefinition = Object.freeze({
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
   },
-  CAMS_NO2: {
-    indicator: 'Air quality',
-    class: 'air',
-  },
-  CAMS_PM25: {
+  CAMS_AQ: {
     indicator: 'Air quality',
     class: 'air',
   },
@@ -506,12 +502,13 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
+        aoiID: 'GCAQ1',
         dataLoadFinished: true,
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'CAMS daily averaged NO2',
-        indicator: 'CAMS_NO2',
+        description: 'CAMS Air Quality',
+        indicator: 'CAMS_AQ',
         lastIndicatorValue: null,
         indicatorName: 'CAMS daily averaged NO2',
         subAoi: {
@@ -520,8 +517,7 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        aoiID: 'World',
-        time: getDailyDates('2020-01-01', '2020-10-14'),
+        time: getDailyDates('2020-01-01', DateTime.utc().minus({ days: 1 }).toFormat('yyyy-LL-dd')),
         inputData: [''],
         yAxis: 'NO2 (μmol/m2)',
         display: {
@@ -532,7 +528,7 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/cams_no2.png',
           maxZoom: 13,
           minZoom: 1,
-          attribution: '{ <a href="https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis" target="_blank">Further information on source data</a> }',
+          attribution: '{ <a href="https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis" target="_blank">CAMS source data information</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
         },
       },
@@ -541,12 +537,13 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
+        aoiID: 'GCAQ2',
         dataLoadFinished: true,
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'CAMS daily averaged PM2.5',
-        indicator: 'CAMS_PM25',
+        description: 'CAMS Air Quality',
+        indicator: 'CAMS_AQ',
         lastIndicatorValue: null,
         indicatorName: 'CAMS daily averaged PM2.5',
         subAoi: {
@@ -555,8 +552,7 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        aoiID: 'World',
-        time: getDailyDates('2020-01-01', '2020-10-14'),
+        time: getDailyDates('2020-01-01', DateTime.utc().minus({ days: 1 }).toFormat('yyyy-LL-dd')),
         inputData: [''],
         yAxis: 'NO2 (μmol/m2)',
         display: {
@@ -567,7 +563,7 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/cams_pm25.png',
           maxZoom: 13,
           minZoom: 1,
-          attribution: '{ <a href="https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis" target="_blank">Further information on source data</a> }',
+          attribution: '{ <a href="https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis" target="_blank">CAMS source data information</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
         },
       },
