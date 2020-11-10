@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%; height: 100%;"
-    v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10c', 'N1', 'N3', 'N3b']
+    v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10c', 'N1', 'N3', 'N3b', 'E8']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -215,7 +215,7 @@ export default {
             data: [refData[3], measData[3], measData[8]],
             backgroundColor: refColors[3],
           });
-        } else if (['E10a2', 'E10a6', 'E10a7'].includes(indicatorCode)) {
+        } else if (['E10a2', 'E10a6', 'E10a7', 'E8'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
           const referenceValue = indicator.referenceValue.map(Number);
@@ -231,20 +231,19 @@ export default {
               uniqueRefs.push(ref);
             }
           });
-
-          datasets.push({
-            label: '2019',
-            data: uniqueRefs,
-            fill: false,
-            borderColor: 'red',
-            backgroundColor: 'red',
-          });
           datasets.push({
             label: '2020',
             data: uniqueMeas,
             fill: false,
-            borderColor: 'darkcyan',
-            backgroundColor: 'darkcyan',
+            borderColor: refColors[1],
+            backgroundColor: refColors[1],
+          });
+          datasets.push({
+            label: '2019',
+            data: uniqueRefs,
+            fill: false,
+            borderColor: refColors[0],
+            backgroundColor: refColors[0],
           });
         } else if (['N2', 'E10c'].includes(indicatorCode)) {
           /* Group data by year in month slices */
@@ -657,7 +656,9 @@ export default {
           fontColor: 'rgba(0, 0, 0, 0.8)',
         },
       };
-      if (!Number.isNaN(reference) && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'N4c'].includes(indicatorCode)) {
+      if (!Number.isNaN(reference)
+        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'N4c', 'E8']
+          .includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
           label: {
@@ -678,20 +679,10 @@ export default {
             content: `on/off: ${this.formatNumRef(low)}`,
           },
         });
-      } else if (['E11', 'E8', 'E1a', 'E1', 'E2'].includes(indicatorCode)) {
+      } else if (['E11', 'E1a', 'E1', 'E2'].includes(indicatorCode)) {
         if (indicatorCode === 'E11') {
           low = 0.3 * reference;
           high = 0.7 * reference;
-        } else if (indicatorCode === 'E8') {
-          const ruleString = this.indicatorObject.rule;
-          // find [low, high] via regex
-          const regExp = new RegExp(/\[([\s\S]*?)\]/); // eslint-disable-line no-useless-escape
-          const matches = regExp.exec(ruleString);
-          if (matches && matches.length > 1) {
-            const splitNum = matches[1].split(',');
-            low = Number.parseFloat(splitNum[0]);
-            high = Number.parseFloat(splitNum[1]);
-          }
         } else if (['E1a', 'E1', 'E2'].includes(indicatorCode)) {
           low = 0.7 * reference;
           high = 1.3 * reference;
@@ -732,7 +723,7 @@ export default {
         }
       }
 
-      if (['E10a2', 'E10a6', 'E10a7', 'E10c'].includes(indicatorCode)) {
+      if (['E10a2', 'E10a6', 'E10a7', 'E10c', 'E8'].includes(indicatorCode)) {
         /* Recalculate to get min max months in data converted to one year */
         timeMinMax = this.getMinMaxDate(
           this.indicatorObject.time.map((date) => (
@@ -892,6 +883,16 @@ export default {
             },
           },
         };
+      }
+      if (['E8'].includes(indicatorCode)) {
+        yAxes[0].ticks.suggestedMin = Math.min(
+          ...this.indicatorObject.measurement
+            .filter((d) => !Number.isNaN(d)),
+        );
+        yAxes[0].ticks.suggestedMax = Math.max(
+          ...this.indicatorObject.measurement
+            .filter((d) => !Number.isNaN(d)),
+        );
       }
       if (['E10a6', 'E10a7'].includes(indicatorCode)) {
         yAxes[0].ticks.beginAtZero = true;
