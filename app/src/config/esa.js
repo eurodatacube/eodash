@@ -208,6 +208,10 @@ export const indicatorsDefinition = Object.freeze({
     customAreaIndicator: true,
     largeTimeDuration: true,
   },
+  N1b: {
+    indicator: 'Air quality',
+    class: 'air',
+  },
   N2: {
     indicator: 'CO2 emissions',
     class: 'air',

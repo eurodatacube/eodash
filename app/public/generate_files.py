@@ -337,6 +337,7 @@ generateData(
         '/working/eodash-data/data/E13b_PLES.csv',
         '/working/eodash-data/data/E13d.csv',
         '/working/eodash-data/data/N1_PLES_Europe.csv',
+        '/working/eodash-data/data/N1_NO2_CAMS_20201106_aa_v1.csv',
         '/working/eodash-data/data/N3.csv',
         '/working/eodash-data/data/N4a.csv',
         '/working/eodash-data/data/N4c.csv',
