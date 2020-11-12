@@ -22,18 +22,17 @@ export const dataEndpoints = [
   },
   */
 ];
-const europeLandCoverWmsDef = [
-  {
-    baseUrl: '//s2glc.creodias.eu/geoserver/S2GLC/wms?',
-    protocol: 'WMS',
-    format: 'image/png',
-    tileSize: 512,
-    name: 'S2GLC - Europe Land Cover 2017',
-    layers: 'S2GLC_2017',
-    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-    visible: true,
-  },
-];
+const europeLandCoverWmsDef = {
+  baseUrl: '//s2glc.creodias.eu/geoserver/S2GLC/wms?',
+  protocol: 'WMS',
+  format: 'image/png',
+  tileSize: 512,
+  name: 'S2GLC - Europe Land Cover 2017',
+  layers: 'S2GLC_2017',
+  attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+  visible: true,
+};
+
 export const indicatorsDefinition = Object.freeze({
   E1: {
     indicator: 'Status of metallic ores',
@@ -100,7 +99,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'agriculture',
     story: '/data/trilateral/E10a1',
     largeSubAoi: true,
-    baseLayersWMS: europeLandCoverWmsDef,
+    baseLayersWMS: [europeLandCoverWmsDef],
     legendUrl: 'eodash-data/data/LegendGLC.png',
   },
   E10a2: {
@@ -108,7 +107,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'agriculture',
     story: '/eodash-data/stories/E10a2',
     largeSubAoi: true,
-    baseLayersWMS: europeLandCoverWmsDef,
+    baseLayersWMS: [europeLandCoverWmsDef],
     legendUrl: 'eodash-data/data/LegendGLC.png',
     maxDecimals: 4,
   },
@@ -504,6 +503,9 @@ export const baseLayers = [
   },
 ];
 export const baseLayersWMS = [];
+export const baseLayersLeftMap = [baseLayers[0], baseLayers[1]];
+export const baseLayersWMSLeftMap = [];
+
 export const overlayLayers = [
   {
     name: 'Overlay',
@@ -514,6 +516,8 @@ export const overlayLayers = [
   },
 ];
 export const overlayLayersWMS = [];
+export const overlayLayersLeftMap = [overlayLayers[0]];
+export const overlayLayersWMSLeftMap = [];
 
 export const defaultWMSDisplay = {
   baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,

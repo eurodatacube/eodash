@@ -14,6 +14,14 @@
     <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
     <l-control-layers position="topright"></l-control-layers>
     <l-control-zoom position="topright"></l-control-zoom>
+    <LWMSTileLayer
+      v-for="layer in baseLayersWMS"
+      :key="layer.name"
+      v-bind="layer"
+      :options="layerOptions(null, layer)"
+      layer-type="base"
+    >
+    </LWMSTileLayer>
     <LTileLayer
       v-for="layer in baseLayers"
       :key="layer.name"
@@ -44,6 +52,15 @@
       :options="layerOptions(null, layer)"
     >
     </LTileLayer>
+    <LWMSTileLayer
+      v-for="layer in overlayLayersWMS"
+      v-bind="layer"
+      :key="layer.name"
+      :options="layerOptions(null, layer)"
+      :opacity="opacityOverlay[zoom]"
+      layer-type="overlay"
+    >
+    </LWMSTileLayer>
     <l-marker-cluster ref="clusterLayer" :options="clusterOptions">
       <l-marker v-for="(feature) in getGroupedFeatures.filter((f) => f.latlng)"
         :key="feature.id"
@@ -114,7 +131,7 @@ import {
   geoJson, Point, DivIcon, featureGroup,
 } from 'leaflet';
 import {
-  LMap, LTileLayer, LGeoJson, LMarker, LIcon, LTooltip,
+  LMap, LTileLayer, LWMSTileLayer, LGeoJson, LMarker, LIcon, LTooltip,
   LControlLayers, LControlAttribution, LControlZoom,
 } from 'vue2-leaflet';
 import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster';
@@ -129,6 +146,7 @@ export default {
   components: {
     LMap,
     LTileLayer,
+    LWMSTileLayer,
     LGeoJson,
     LMarker,
     LIcon,
@@ -162,10 +180,16 @@ export default {
     ...mapGetters('features', ['getGroupedFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayers() {
-      return this.baseConfig.baseLayers;
+      return this.baseConfig.baseLayersLeftMap;
+    },
+    baseLayersWMS() {
+      return this.baseConfig.baseLayersWMSLeftMap;
     },
     overlayLayers() {
-      return this.baseConfig.overlayLayers;
+      return this.baseConfig.overlayLayersLeftMap;
+    },
+    overlayLayersWMS() {
+      return this.baseConfig.overlayLayersWMSLeftMap;
     },
     countriesJson() {
       return countries;
