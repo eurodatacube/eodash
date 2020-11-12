@@ -87,6 +87,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Inventory Levels',
     class: 'economic',
     story: '/eodash-data/stories/E8',
+    maxDecimals: 5,
   },
   E9: {
     indicator: 'Construction activity',
