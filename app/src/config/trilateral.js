@@ -677,7 +677,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W2',
-        time: getMonthlyDates('2004-10-01', '2020-09-01'),
+        time: getMonthlyDates('2004-10-01', '2020-10-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -715,7 +715,7 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         aoi: null,
         aoiID: 'W3',
-        time: getMonthlyDates('2015-01-01', '2020-09-01'),
+        time: getMonthlyDates('2015-01-01', '2020-10-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
