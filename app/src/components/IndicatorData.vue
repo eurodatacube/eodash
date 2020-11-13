@@ -226,9 +226,11 @@ export default {
             }
           });
           indicator.referenceTime.forEach((date, i) => {
-            const ref = { t: date.set({ year: 2000 }), y: referenceValue[i] };
-            if (typeof uniqueRefs.find((item) => item.t.equals(ref.t)) === 'undefined') {
-              uniqueRefs.push(ref);
+            if (indicator.referenceValue[i] !== '') {
+              const ref = { t: date.set({ year: 2000 }), y: referenceValue[i] };
+              if (typeof uniqueRefs.find((item) => item.t.equals(ref.t)) === 'undefined') {
+                uniqueRefs.push(ref);
+              }
             }
           });
           datasets.push({
@@ -238,13 +240,15 @@ export default {
             borderColor: refColors[1],
             backgroundColor: refColors[1],
           });
-          datasets.push({
-            label: '2019',
-            data: uniqueRefs,
-            fill: false,
-            borderColor: refColors[0],
-            backgroundColor: refColors[0],
-          });
+          if (uniqueRefs.length > 0) {
+            datasets.push({
+              label: '2019',
+              data: uniqueRefs,
+              fill: false,
+              borderColor: refColors[0],
+              backgroundColor: refColors[0],
+            });
+          }
         } else if (['N2', 'E10c'].includes(indicatorCode)) {
           /* Group data by year in month slices */
           const data = indicator.time.map((date, i) => {

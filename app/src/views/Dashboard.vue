@@ -44,13 +44,32 @@
       clipped
       style="overflow: hidden"
     >
-      <template v-if="$vuetify.breakpoint.smAndDown">
+      <template v-if="$vuetify.breakpoint.xsOnly">
         <v-list-item style="background: var(--v-primary-base)">
           <v-list-item-content>
             <h3 class="text-uppercase white--text">
               {{ appConfig && appConfig.branding.appName }}
             </h3>
           </v-list-item-content>
+          <v-list-item-action
+            class="align-center"
+          >
+            <v-icon
+              style="position: absolute;"
+              color="white"
+              small
+              dark
+              v-bind="attrs"
+              v-on="on"
+              @click="$vuetify.theme.dark = !$vuetify.theme.dark"
+            >
+              {{
+                $vuetify.theme.dark
+                  ? 'mdi-white-balance-sunny'
+                  : 'mdi-weather-night'
+              }}
+            </v-icon>
+          </v-list-item-action>
         </v-list-item>
 
         <v-divider></v-divider>
@@ -203,6 +222,26 @@
       style="z-index: 5"
       :height="$vuetify.breakpoint.xsOnly ? '60px' : '40px'"
     >
+        <v-tooltip top v-if="$vuetify.breakpoint.smAndUp">
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+              color="white"
+              small
+              dark
+              class="mr-2"
+              v-bind="attrs"
+              v-on="on"
+              @click="$vuetify.theme.dark = !$vuetify.theme.dark"
+            >
+              {{
+                $vuetify.theme.dark
+                  ? 'mdi-white-balance-sunny'
+                  : 'mdi-weather-night'
+              }}
+            </v-icon>
+          </template>
+          <span>Enable {{ $vuetify.theme.dark ? 'light' : 'dark' }} mode</span>
+        </v-tooltip>
         <v-spacer></v-spacer>
         <small>
           <a href="https://eurodatacube.com" target="_blank" class="white--text mx-1">EDC</a>

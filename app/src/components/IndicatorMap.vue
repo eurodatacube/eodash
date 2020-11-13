@@ -1308,7 +1308,7 @@ export default {
   }
 }
 .map-legend {
-  max-width: 50%;
+  max-width: 20vw;
   transition: max-width 0.5s ease-in-out;
   cursor: pointer;
 }
