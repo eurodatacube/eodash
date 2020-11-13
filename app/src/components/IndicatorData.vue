@@ -489,6 +489,7 @@ export default {
           const mean7dRef = [];
           const mean7d2020 = [];
 
+          console.log(indicator);
           indicator.referenceValue.forEach((item, i) => {
             const t = indicator.time[i];
             if (item !== '') {
@@ -511,21 +512,11 @@ export default {
             data: measurement.map((meas, i) => ({ y: meas, t: indicator.time[i] })),
             fill: false,
             showLine: true,
-            backgroundColor: 'red',
             borderColor: 'red',
             spanGaps: false,
             pointStyle: 'line',
             pointRadius: 0,
-          });
-          datasets.push({
-            label: '2017-2019 7d mean',
-            data: mean7dRef,
-            fill: false,
-            pointRadius: 0,
-            borderColor: 'grey',
-            pointStyle: 'line',
-            spanGaps: false,
-            borderDash: [6, 3],
+            borderWidth: 1.5,
           });
           datasets.push({
             label: '2020 7d mean',
@@ -533,9 +524,21 @@ export default {
             fill: false,
             pointRadius: 0,
             borderColor: 'red',
-            pointStyle: 'line',
+            pointStyle: 'dash',
             spanGaps: false,
             borderDash: [6, 3],
+            borderWidth: 2,
+          });
+          datasets.push({
+            label: '2017-2019 7d mean',
+            data: mean7dRef,
+            fill: false,
+            pointRadius: 0,
+            borderColor: 'grey',
+            pointStyle: 'dash',
+            spanGaps: false,
+            borderDash: [6, 3],
+            borderWidth: 2,
           });
           datasets.push({
             label: '2017-2019 range',
@@ -543,7 +546,7 @@ export default {
             fill: 4,
             pointRadius: 0,
             spanGaps: false,
-            backgroundColor: 'rgba(0,0,0,0.1)',
+            backgroundColor: 'rgba(0,0,0,0.2)',
             borderColor: 'rgba(0,0,0,0.0)',
             pointStyle: 'rect',
           });
@@ -1046,6 +1049,10 @@ export default {
       if (['E10c', 'E10a2', 'E10a6', 'E10a7'].includes(indicatorCode)) {
         yAxes[0].ticks.suggestedMin += 1;
         yAxes[0].ticks.suggestedMax -= 1;
+      }
+
+      if (['N1b'].includes(indicatorCode)) {
+        //legend.labels.usePointStyle = true;
       }
 
       if (['N3'].includes(indicatorCode)) {
