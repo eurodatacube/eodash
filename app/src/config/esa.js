@@ -209,7 +209,7 @@ export const indicatorsDefinition = Object.freeze({
     largeTimeDuration: true,
   },
   N1b: {
-    indicator: 'Air quality',
+    indicator: 'CAMS Air quality',
     class: 'air',
   },
   N2: {
@@ -249,10 +249,6 @@ export const indicatorsDefinition = Object.freeze({
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HH"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
-  },
-  CAMS_AQ: {
-    indicator: 'Air quality',
-    class: 'air',
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
@@ -513,7 +509,7 @@ export const globalIndicators = [
         city: 'World',
         siteName: 'global',
         description: 'CAMS Air Quality',
-        indicator: 'CAMS_AQ',
+        indicator: 'N1b',
         lastIndicatorValue: null,
         indicatorName: 'CAMS daily averaged NO2',
         subAoi: {
@@ -548,7 +544,7 @@ export const globalIndicators = [
         city: 'World',
         siteName: 'global',
         description: 'CAMS Air Quality',
-        indicator: 'CAMS_AQ',
+        indicator: 'N1b',
         lastIndicatorValue: null,
         indicatorName: 'CAMS daily averaged PM2.5',
         subAoi: {

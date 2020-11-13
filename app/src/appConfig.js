@@ -49,8 +49,8 @@ module.exports = [
     featureGrouping: [
       {
         features: [
-          'GCAQ1-CAMS_AQ',
-          'GCAQ2-CAMS_AQ',
+          'GCAQ1-N1b',
+          'GCAQ2-N1b',
         ],
         label: 'indicatorName',
       },
