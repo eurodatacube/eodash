@@ -14,16 +14,8 @@
     <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
     <l-control-layers position="topright"></l-control-layers>
     <l-control-zoom position="topright"></l-control-zoom>
-    <LWMSTileLayer
-      v-for="layer in baseLayersWMS"
-      :key="layer.name"
-      v-bind="layer"
-      :options="layerOptions(null, layer)"
-      layer-type="base"
-    >
-    </LWMSTileLayer>
     <LTileLayer
-      v-for="layer in baseLayers"
+      v-for="layer in baseLayers.filter(b => b.protocol === 'xyz')"
       :key="layer.name"
       v-bind="layer"
       layer-type="base"
@@ -31,6 +23,14 @@
       :options="layerOptions(null, layer)"
     >
     </LTileLayer>
+    <LWMSTileLayer
+      v-for="layer in baseLayers.filter(b => b.protocol === 'WMS')"
+      :key="layer.name"
+      v-bind="layer"
+      :options="layerOptions(null, layer)"
+      layer-type="base"
+    >
+    </LWMSTileLayer>
     <l-geo-json
     :geojson="countriesJson"
     :optionsStyle="countriesStyle"
@@ -44,7 +44,7 @@
     :optionsStyle="subAoiStyle">
     </l-geo-json>
     <LTileLayer
-      v-for="layer in overlayLayers"
+      v-for="layer in overlayLayers.filter(b => b.protocol === 'xyz')"
       :key="layer.name"
       v-bind="layer"
       layer-type="overlay"
@@ -53,7 +53,7 @@
     >
     </LTileLayer>
     <LWMSTileLayer
-      v-for="layer in overlayLayersWMS"
+      v-for="layer in overlayLayers.filter(b => b.protocol === 'WMS')"
       v-bind="layer"
       :key="layer.name"
       :options="layerOptions(null, layer)"
@@ -182,14 +182,8 @@ export default {
     baseLayers() {
       return this.baseConfig.baseLayersLeftMap;
     },
-    baseLayersWMS() {
-      return this.baseConfig.baseLayersWMSLeftMap;
-    },
     overlayLayers() {
       return this.baseConfig.overlayLayersLeftMap;
-    },
-    overlayLayersWMS() {
-      return this.baseConfig.overlayLayersWMSLeftMap;
     },
     countriesJson() {
       return countries;
