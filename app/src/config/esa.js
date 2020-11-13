@@ -208,6 +208,7 @@ export const indicatorsDefinition = Object.freeze({
     customAreaIndicator: true,
     largeTimeDuration: true,
   },
+  N1a: {},
   N1b: {
     indicator: 'CAMS Air quality',
     class: 'air',
@@ -518,7 +519,7 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        time: getDailyDates('2020-01-01', DateTime.utc().minus({ days: 1 }).toFormat('yyyy-LL-dd')),
+        time: getDailyDates('2020-01-01', DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
         inputData: [''],
         yAxis: 'NO2 (μmol/m2)',
         display: {
@@ -553,7 +554,7 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        time: getDailyDates('2020-01-01', DateTime.utc().minus({ days: 1 }).toFormat('yyyy-LL-dd')),
+        time: getDailyDates('2020-01-01', DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
         inputData: [''],
         yAxis: 'NO2 (μmol/m2)',
         display: {

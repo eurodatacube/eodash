@@ -316,7 +316,7 @@ export default {
           colorCode = indObj.lastColorCode;
         }
         if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')
-          && ['N1', 'N1b', 'N3b', 'E10a3', 'E10a8'].includes(indObj.indicator)) {
+          && ['N1', 'N1a', 'N1b', 'N3b', 'E10a3', 'E10a8'].includes(indObj.indicator)) {
           colorCode = 'BLUE';
         }
       }

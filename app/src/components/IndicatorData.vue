@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%; height: 100%;"
-    v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10c', 'N1', 'N3', 'N3b', 'E8', 'N1b']
+    v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10c', 'N1', 'N3', 'N3b', 'E8', 'N1a', 'N1b']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -483,13 +483,11 @@ export default {
               borderColor: value,
             });
           });
-        } else if (['N1b'].includes(indicatorCode)) {
+        } else if (['N1a', 'N1b'].includes(indicatorCode)) {
           const maxRef = [];
           const minRef = [];
           const mean7dRef = [];
           const mean7d2020 = [];
-
-          console.log(indicator);
           indicator.referenceValue.forEach((item, i) => {
             const t = indicator.time[i];
             if (item !== '') {
@@ -1049,10 +1047,6 @@ export default {
       if (['E10c', 'E10a2', 'E10a6', 'E10a7'].includes(indicatorCode)) {
         yAxes[0].ticks.suggestedMin += 1;
         yAxes[0].ticks.suggestedMax -= 1;
-      }
-
-      if (['N1b'].includes(indicatorCode)) {
-        //legend.labels.usePointStyle = true;
       }
 
       if (['N3'].includes(indicatorCode)) {

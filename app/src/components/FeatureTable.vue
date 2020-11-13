@@ -90,7 +90,7 @@ export default {
           color = this.getIndicatorColor(indObj.lastColorCode);
         }
         if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')
-          && ['N1', 'N1b', 'N3b'].includes(indObj.indicator)) {
+          && ['N1', 'N1a', 'N1b', 'N3b'].includes(indObj.indicator)) {
           color = this.getIndicatorColor('BLUE');
           if (indObj.aoi === null) {
             color = 'black';
