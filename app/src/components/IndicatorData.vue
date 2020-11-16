@@ -491,7 +491,7 @@ export default {
           indicator.referenceValue.forEach((item, i) => {
             const t = indicator.time[i];
             if (item !== '') {
-              const obj = item.replace(/[[\]]/g, '').split(',')
+              const obj = item.replace(/[[\] ]/g, '').split(',')
                 .map((str) => (str === '' ? Number.NaN : Number(str)));
               maxRef.push({ y: obj[0], t });
               minRef.push({ y: obj[1], t });
