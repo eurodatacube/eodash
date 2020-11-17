@@ -59,8 +59,6 @@
               color="white"
               small
               dark
-              v-bind="attrs"
-              v-on="on"
               @click="$vuetify.theme.dark = !$vuetify.theme.dark"
             >
               {{
