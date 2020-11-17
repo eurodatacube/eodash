@@ -354,17 +354,23 @@ export default {
     dataHrefCSV() {
       let dataHref = 'data:text/csv;charset=utf-8,';
       const exportKeys = [
-        'time', 'measurement',
+        'time', 'aoi', 'measurement',
         'indicatorValue', 'referenceTime', 'referenceValue',
         'dataProvider', 'eoSensor', 'colorCode', 'inputData',
       ];
-      const header = `${exportKeys.join()}\n`;
+      const header = `${exportKeys.concat('aoi').join()}\n`;
       let csv = header;
       for (let i = 0; i < this.indicatorObject.time.length; i++) {
         let row = '';
         for (let kk = 0; kk < exportKeys.length; kk++) {
           const cKey = exportKeys[kk];
-          row += `"${this.indicatorObject[cKey][i]}",`;
+          let txtVal = '';
+          if (cKey === 'aoi') {
+            txtVal = `"${this.indicatorObject[cKey]}",`;
+          } else {
+            txtVal = `"${this.indicatorObject[cKey][i]}",`;
+          }
+          row += txtVal;
         }
         row = `${row.slice(0, -1)}\n`;
         csv += row;
@@ -375,7 +381,7 @@ export default {
     downloadFileName() {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
       const currInd = this.indicatorObject;
-      return `${currDate}_${currInd.aoiID}-${currInd.indicator}.csv`;
+      return `${currInd.city}_${currDate}_${currInd.aoiID}-${currInd.indicator}.csv`;
     },
     customAreaIndicator() {
       return this.$store.state.indicators.customAreaIndicator;
