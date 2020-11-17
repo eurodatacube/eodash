@@ -402,6 +402,13 @@ export default {
       this.$store.commit('indicators/SET_CUSTOM_AREA_INDICATOR', null);
       this.panelKey = Math.random();
     },
+    dialog(someIndicatorSelected) {
+      if (this.$vuetify.breakpoint.smAndDown) {
+        if (!someIndicatorSelected) {
+          this.clickMobileClose();
+        }
+      }
+    },
   },
 };
 </script>
