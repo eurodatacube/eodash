@@ -449,7 +449,7 @@ export default {
       },
     },
     baseLayers() {
-      // excepts an array of objects
+      // expects an array of objects
       return this.layerDisplay('data').baseLayers ? this.layerDisplay('data').baseLayers : this.baseConfig.baseLayersRightMap;
     },
     overlayLayers() {

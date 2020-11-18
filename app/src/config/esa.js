@@ -317,7 +317,7 @@ export const layerNameMapping = Object.freeze({
   },
   S1GRD: {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-    layers: 'E8_SENTINbaseLayerEL1',
+    layers: 'E8_SENTINEL1',
     attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
   },
   'S1A - GRD': {
