@@ -42,7 +42,7 @@
         v-if="tutorials"
         flat
         :multiple="false"
-        mandatory
+        v-model="panel"
       >
         <v-expansion-panel
           key="welcome"
@@ -97,6 +97,9 @@ export default {
   components: {
     NewsCarousel,
   },
+  data: () => ({
+    panel: 0,
+  }),
   computed: {
     ...mapGetters('features', [
       'getCountries',
@@ -132,5 +135,9 @@ export default {
 <style lang="scss" scoped>
 .panel-outlined {
   border: 1px solid var(--v-primary-base);
+  border-radius: 4px;
+}
+.v-expansion-panel:not(:first-child) {
+  margin-top: 16px;
 }
 </style>
