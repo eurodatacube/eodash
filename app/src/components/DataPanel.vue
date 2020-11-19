@@ -37,6 +37,7 @@
                 class="fill-height"
                 :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
               >
+                <full-screen-button />
                 <div
                   style="height: 100%;z-index: 500; position: relative;"
                   v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
@@ -75,6 +76,7 @@
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
           >
+            <full-screen-button />
             <div
               style="height: 100%;z-index: 500; position: relative;"
               v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
@@ -295,6 +297,7 @@ import { DateTime } from 'luxon';
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
+import FullScreenButton from '@/components/FullScreenButton.vue';
 
 export default {
   props: [
@@ -304,6 +307,7 @@ export default {
     ExpandableContent,
     IndicatorData,
     IndicatorMap,
+    FullScreenButton,
   },
   data: () => ({
     dialog: false,

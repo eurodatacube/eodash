@@ -1267,6 +1267,9 @@ export default {
     }
   }
 }
+::v-deep .leaflet-top {
+  top: 40px;
+}
 .map-legend {
   max-width: 20vw;
   transition: max-width 0.5s ease-in-out;
