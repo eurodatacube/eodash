@@ -4,25 +4,13 @@ import { Wkt } from 'wicket';
 import { DateTime } from 'luxon';
 import { latLng, latLngBounds } from 'leaflet';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
+import { baseLayers, overlayLayers } from '@/config/layers';
 
 export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [
   {
     type: 'eox',
     provider: './data/internal/pois_eodash.json',
-  },
-];
-
-const europeLandCoverWmsDef = [
-  {
-    baseUrl: '//s2glc.creodias.eu/geoserver/S2GLC/wms?',
-    protocol: 'WMS',
-    format: 'image/png',
-    tileSize: 512,
-    name: 'S2GLC - Europe Land Cover 2017',
-    layers: 'S2GLC_2017',
-    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-    visible: true,
   },
 ];
 
@@ -98,7 +86,10 @@ export const indicatorsDefinition = Object.freeze({
     class: 'agriculture',
     story: '/eodash-data/stories/E10a1',
     largeSubAoi: true,
-    baseLayersWMS: europeLandCoverWmsDef,
+    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
+      ...baseLayers.S2GLC,
+      visible: true,
+    }],
     legendUrl: 'eodash-data/data/LegendGLC.png',
   },
   E10a2: {
@@ -106,7 +97,10 @@ export const indicatorsDefinition = Object.freeze({
     class: 'agriculture',
     story: '/eodash-data/stories/E10a2',
     largeSubAoi: true,
-    baseLayersWMS: europeLandCoverWmsDef,
+    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
+      ...baseLayers.S2GLC,
+      visible: true,
+    }],
     legendUrl: 'eodash-data/data/LegendGLC.png',
     maxDecimals: 4,
   },
@@ -349,34 +343,19 @@ export const mapDefaults = Object.freeze({
   bounds: latLngBounds(latLng([35, -10]), latLng([70, 33])),
 });
 
-export const baseLayers = [
-  {
-    name: 'EOxCloudless 2019',
-    url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2019_3857/default/g/{z}/{y}/{x}.jpg',
-    attribution: '{ EOxCloudless 2019: <a xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" target="_blank" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" target="_blank" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2019) }',
-    visible: false,
-    maxNativeZoom: 15,
-  },
-  {
-    name: 'Terrain light',
-    url: '//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg',
-    attribution: '{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
-    maxNativeZoom: 16,
-    visible: true,
-  },
-];
-export const baseLayersWMS = [];
+export const baseLayersLeftMap = [{
+  ...baseLayers.terrainLight, visible: true,
+}, baseLayers.cloudless, baseLayers.S2GLC];
+export const baseLayersRightMap = [{
+  ...baseLayers.terrainLight, visible: true,
+}, baseLayers.cloudless];
 
-export const overlayLayers = [
-  {
-    name: 'Overlay',
-    url: '//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg',
-    attribution: '{ Overlay: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors, Made with Natural Earth, Rendering &copy; <a href="//eox.at" target="_blank">EOX</a> }',
-    visible: true,
-    maxZoom: 14,
-  },
-];
-export const overlayLayersWMS = [];
+export const overlayLayersLeftMap = [{
+  ...overlayLayers.eoxOverlay, visible: true,
+}];
+export const overlayLayersRightMap = [{
+  ...overlayLayers.eoxOverlay, visible: true,
+}];
 
 export const defaultWMSDisplay = {
   baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,

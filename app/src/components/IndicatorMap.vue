@@ -65,7 +65,7 @@
       </v-tooltip>
     </l-control>
     <LTileLayer
-      v-for="layer in baseLayers"
+      v-for="layer in baseLayers.filter(b => b.protocol === 'xyz')"
       v-bind="layer"
       ref="baseLayers"
       layer-type="base"
@@ -75,7 +75,7 @@
     >
     </LTileLayer>
     <LWMSTileLayer
-      v-for="layer in baseLayersWMS"
+      v-for="layer in baseLayers.filter(b => b.protocol === 'WMS')"
       :key="layer.name"
       v-bind="layer"
       :options="layerOptions(null, layer)"
@@ -200,7 +200,7 @@
       </l-circle-marker>
     </l-layer-group>
     <LTileLayer
-      v-for="layer in overlayLayers"
+      v-for="layer in overlayLayers.filter(b => b.protocol === 'xyz')"
       :key="layer.name"
       v-bind="layer"
       :pane="markerPane"
@@ -210,7 +210,7 @@
     >
     </LTileLayer>
     <LWMSTileLayer
-      v-for="layer in overlayLayersWMS"
+      v-for="layer in overlayLayers.filter(b => b.protocol === 'WMS')"
       v-bind="layer"
       :key="layer.name"
       :options="layerOptions(null, layer)"
@@ -449,28 +449,11 @@ export default {
       },
     },
     baseLayers() {
-      return [
-        ...this.baseConfig.baseLayers,
-        ...(this.layerDisplay('data').baseLayers || []),
-      ];
+      // expects an array of objects
+      return this.layerDisplay('data').baseLayers ? this.layerDisplay('data').baseLayers : this.baseConfig.baseLayersRightMap;
     },
     overlayLayers() {
-      return [
-        ...this.baseConfig.overlayLayers,
-        ...(this.layerDisplay('data').overlayLayers || []),
-      ];
-    },
-    baseLayersWMS() {
-      return [
-        ...this.baseConfig.baseLayersWMS,
-        ...(this.layerDisplay('data').baseLayersWMS || []),
-      ];
-    },
-    overlayLayersWMS() {
-      return [
-        ...this.baseConfig.overlayLayersWMS,
-        ...(this.layerDisplay('data').overlayLayersWMS || []),
-      ];
+      return this.layerDisplay('data').overlayLayers ? this.layerDisplay('data').overlayLayers : this.baseConfig.overlayLayersRightMap;
     },
     mapDefaults() {
       return {
@@ -1159,29 +1142,6 @@ export default {
           );
           console.log(err);
         });
-    },
-    refreshBaselayersSelection() {
-      /*
-       if there were additional baseLayers added on top of default ones in previous indicator
-       new baseLayer probably had visible:true set
-       if you manually de-select and select this new baseLayer via layers control
-       and newly selected indicator does not have it configured
-       no baseLayer is selected in the map, even though default visible property
-       is applied to respective this.$refs.baseLayers entity (terrain light)
-       this code re-selects the terrain light via layer selection control
-      */
-      // find HTML element <label> in layer control selection which contains "Terrain light" in it
-      const baseLayerLabelsLayerSel = this.$refs.layersControl.mapObject._baseLayersList.children;
-      // check if additional baseLayer is going to be removed in current map tick
-      if (baseLayerLabelsLayerSel.length !== this.baseLayers.length) {
-        for (let i = 0; i < baseLayerLabelsLayerSel.length; i++) {
-          // if span in layer selection div contains string
-          if (baseLayerLabelsLayerSel[i].children[0].children[1].innerHTML.includes('Terrain')) {
-            // click on respective radio input button to re-enable default layer
-            baseLayerLabelsLayerSel[i].children[0].children[0].click();
-          }
-        }
-      }
     },
     clearCustomAreaFilter() {
       this.$refs.customAreaFilterFeatures.mapObject.clearLayers();
