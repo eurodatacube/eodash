@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%; height: 100%;"
-    v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10c', 'N1', 'N3', 'N3b', 'E8']
+    v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10c', 'N1', 'N3', 'N3b', 'E8', 'N1a', 'N1b']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -455,6 +455,99 @@ export default {
             label: 'hide_',
             data: stdDevMin,
             fill: 2,
+            pointRadius: 0,
+            spanGaps: false,
+            backgroundColor: 'rgba(0,0,0,0.0)',
+            borderColor: 'rgba(0,0,0,0.0)',
+            pointStyle: 'rect',
+          });
+
+          // Find unique indicator values
+          const indicatorValues = {};
+          indicator.indicatorValue.map((val, i) => {
+            let key = val.toLowerCase();
+            key = key.charAt(0).toUpperCase() + key.slice(1);
+            if (key !== '' && typeof indicatorValues[key] === 'undefined') {
+              indicatorValues[key] = this.getIndicatorColor(
+                indicator.colorCode[i],
+              );
+            }
+            return null;
+          });
+
+          Object.entries(indicatorValues).forEach(([key, value]) => {
+            datasets.push({
+              label: key,
+              data: [],
+              backgroundColor: value,
+              borderColor: value,
+            });
+          });
+        } else if (['N1a', 'N1b'].includes(indicatorCode)) {
+          const maxRef = [];
+          const minRef = [];
+          const mean7dRef = [];
+          const mean7d2020 = [];
+          indicator.referenceValue.forEach((item, i) => {
+            const t = indicator.time[i];
+            if (item !== '') {
+              const obj = item.replace(/[[\] ]/g, '').split(',')
+                .map((str) => (str === '' ? Number.NaN : Number(str)));
+              maxRef.push({ y: obj[0], t });
+              minRef.push({ y: obj[1], t });
+              mean7dRef.push({ y: obj[2], t });
+              mean7d2020.push({ y: obj[3], t });
+            } else {
+              maxRef.push({ y: Number.NaN, t });
+              minRef.push({ y: Number.NaN, t });
+              mean7dRef.push({ y: Number.NaN, t });
+              mean7d2020.push({ y: Number.NaN, t });
+            }
+          });
+
+          datasets.push({
+            label: '2020',
+            data: measurement.map((meas, i) => ({ y: meas, t: indicator.time[i] })),
+            backgroundColor: 'rgba(255,255,255,0.0)',
+            borderColor: 'red',
+            spanGaps: false,
+            pointRadius: 0,
+            borderWidth: 1.5,
+          });
+          datasets.push({
+            label: '2020 7d mean',
+            data: mean7d2020,
+            backgroundColor: 'rgba(255,255,255,0.0)',
+            pointRadius: 0,
+            borderColor: 'red',
+            spanGaps: false,
+            borderDash: [6, 3],
+            borderWidth: 2,
+          });
+          datasets.push({
+            label: '2017-2019 7d mean',
+            data: mean7dRef,
+            backgroundColor: 'rgba(255,255,255,0.0)',
+            pointRadius: 0,
+            borderColor: 'grey',
+            spanGaps: false,
+            borderDash: [6, 3],
+            borderWidth: 2,
+          });
+          datasets.push({
+            label: '2017-2019 range',
+            data: maxRef,
+            fill: 4,
+            pointRadius: 0,
+            spanGaps: false,
+            backgroundColor: 'rgba(0,0,0,0.2)',
+            borderColor: 'rgba(0,0,0,0.0)',
+            pointStyle: 'rect',
+          });
+          datasets.push({
+            label: 'hide_',
+            data: minRef,
+            fill: 3,
             pointRadius: 0,
             spanGaps: false,
             backgroundColor: 'rgba(0,0,0,0.0)',

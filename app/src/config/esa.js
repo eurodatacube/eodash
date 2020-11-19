@@ -202,6 +202,11 @@ export const indicatorsDefinition = Object.freeze({
     customAreaIndicator: true,
     largeTimeDuration: true,
   },
+  N1a: {},
+  N1b: {
+    indicator: 'CAMS Air quality',
+    class: 'air',
+  },
   N2: {
     indicator: 'CO2 emissions',
     class: 'air',
@@ -369,6 +374,17 @@ export const defaultWMSDisplay = {
   minZoom: 7,
 };
 
+const getDailyDates = (start, end) => {
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+    currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
+  }
+  return dateArray;
+};
+
 const getWeeklyDates = (start, end) => {
   let currentDate = DateTime.fromISO(start);
   const stopDate = DateTime.fromISO(end);
@@ -460,6 +476,76 @@ export const globalIndicators = [
             },
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'GCAQ1',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'CAMS Air Quality',
+        indicator: 'N1b',
+        lastIndicatorValue: null,
+        indicatorName: 'CAMS daily averaged NO2',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        time: getDailyDates('2020-01-01', DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
+        inputData: [''],
+        yAxis: 'NO2 (μmol/m2)',
+        display: {
+          ...defaultWMSDisplay,
+          baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
+          name: 'CAMS daily averaged NO2',
+          layers: 'composition_europe_no2_analysis_surface',
+          legendUrl: 'eodash-data/data/cams_no2.png',
+          maxZoom: 13,
+          minZoom: 1,
+          attribution: '{ <a href="https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis" target="_blank">CAMS source data information</a> }',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'GCAQ2',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'CAMS Air Quality',
+        indicator: 'N1b',
+        lastIndicatorValue: null,
+        indicatorName: 'CAMS daily averaged PM2.5',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        time: getDailyDates('2020-01-01', DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
+        inputData: [''],
+        yAxis: 'NO2 (μmol/m2)',
+        display: {
+          ...defaultWMSDisplay,
+          baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
+          name: 'CAMS daily averaged PM2.5',
+          layers: 'composition_europe_pm2p5_analysis_surface',
+          legendUrl: 'eodash-data/data/cams_pm25.png',
+          maxZoom: 13,
+          minZoom: 1,
+          attribution: '{ <a href="https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis" target="_blank">CAMS source data information</a> }',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
         },
       },
     },
