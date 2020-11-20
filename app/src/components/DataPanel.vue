@@ -355,10 +355,10 @@ export default {
       let dataHref = 'data:text/csv;charset=utf-8,';
       const exportKeys = [
         'time', 'aoi', 'measurement',
-        'indicatorValue', 'referenceTime', 'referenceValue',
+        'indicatorValue', 'referenceTime', /* 'referenceValue',*/
         'dataProvider', 'eoSensor', 'colorCode', 'inputData',
       ];
-      const header = `${exportKeys.concat('aoi').join()}\n`;
+      const header = `${exportKeys.join()}\n`;
       let csv = header;
       for (let i = 0; i < this.indicatorObject.time.length; i++) {
         let row = '';
