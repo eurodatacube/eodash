@@ -141,62 +141,7 @@
               <v-icon left>mdi-download</v-icon>
               download csv
             </v-btn>
-            <v-dialog
-              v-model="iframeDialog"
-              width="500"
-            >
-              <template v-slot:activator="{}">
-                <v-btn
-                  color="primary"
-                  text
-                  small
-                  @click="iframeDialog = true"
-                >
-                  <v-icon left>mdi-poll-box</v-icon>
-                  embed chart
-                </v-btn>
-              </template>
-              <v-card>
-                <v-card-title class="headline primary white--text">
-                  Embed this chart into your website
-                </v-card-title>
-                <v-card-text class="py-5">
-                  Copy and paste this code into your HTML file:
-                  <code class="pa-3">{{ iframeCode }}
-                  </code>
-                  <div class="d-flex align-center justify-end pt-3">
-                    <v-expand-transition>
-                      <div v-if="copySuccess" class="success--text mr-3">
-                      <v-icon
-                        color="success"
-                        left
-                      >mdi-clipboard-check-outline</v-icon>
-                        <small>copied!</small>
-                      </div>
-                    </v-expand-transition>
-                    <v-btn
-                      small
-                      text
-                      @click="copy(iframeCode)"
-                    >
-                      <v-icon left>mdi-content-copy</v-icon>
-                      copy to clipboard
-                    </v-btn>
-                  </div>
-                </v-card-text>
-                <v-divider></v-divider>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    color="primary"
-                    flat
-                    @click="iframeDialog = false"
-                  >
-                    Close
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+            <iframe-button :indicatorObject="indicatorObject"/>
           </div>
         </v-col>
         <v-col
@@ -291,12 +236,15 @@ import {
 
 import { loadIndicatorData } from '@/utils';
 import { DateTime } from 'luxon';
+import dialogMixin from '@/mixins/dialogMixin';
 
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
+import IframeButton from '@/components/IframeButton.vue';
 
 export default {
+  mixins: [dialogMixin],
   props: [
     'expanded',
   ],
@@ -304,13 +252,12 @@ export default {
     ExpandableContent,
     IndicatorData,
     IndicatorMap,
+    IframeButton,
   },
   data: () => ({
     dialog: false,
     overlay: false,
     dataInteract: false,
-    iframeDialog: false,
-    copySuccess: false,
     mounted: false,
     selectedSensorTab: 0,
     multipleTabCompare: null,
@@ -337,9 +284,6 @@ export default {
         }
       }
       return this.$marked(markdown.default);
-    },
-    iframeCode() {
-      return `<iframe class="item" src="${window.location.origin}/iframe?poi=${this.getLocationCode(this.indicatorObject)}${this.$route.query.sensor ? `&sensor=${this.$route.query.sensor}` : ''}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
     },
     indicatorObject() {
       let indicatorObject;
@@ -445,10 +389,6 @@ export default {
           .find((i) => this.getLocationCode(i.properties.indicatorObject) === f));
       }
       this.multipleTabCompare = compare;
-    },
-    async copy(s) {
-      await navigator.clipboard.writeText(s);
-      this.copySuccess = true;
     },
     swipe() {
       this.overlay = true;
