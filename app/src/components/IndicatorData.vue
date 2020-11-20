@@ -1,6 +1,7 @@
 <template>
   <div style="width: 100%; height: 100%;"
-    v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10c', 'N1', 'N3', 'N3b', 'E8', 'N1a', 'N1b']
+    v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8',
+      'E10c', 'N1', 'N3', 'N3b', 'E8', 'N1a', 'N1b']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -1100,7 +1101,7 @@ export default {
         },
         tooltips: {
           callbacks: {
-            label: function (context, data) {
+            label: function (context, data) { // eslint-disable-line
               let label = data.datasets[context.datasetIndex].label || '';
               if (label) {
                 label += ': ';
