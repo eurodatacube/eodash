@@ -1268,7 +1268,7 @@ export default {
   }
 }
 ::v-deep .leaflet-top {
-  top: 40px;
+  top: 38px;
 }
 .map-legend {
   max-width: 20vw;
