@@ -108,8 +108,9 @@
 
         <v-col
           cols="12"
-          md="6"
-          class="py-0 my-0 d-flex justify-space-between"
+          sm="5"
+          class="py-0 my-0 d-flex align-center"
+          :class="$vuetify.breakpoint.xsOnly ? 'justify-center' : 'justify-space-between'"
         >
           <small v-if="indicatorObject && indicatorObject.updateFrequency">
             <span
@@ -124,10 +125,22 @@
         </v-col>
         <v-col
           cols="12"
-          md="6"
+          sm="7"
           class="py-0 my-0"
         >
           <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
+            <v-btn
+              color="primary"
+              text
+              small
+              :href="dataHrefCSV"
+              :download="downloadFileName"
+              target="_blank"
+              v-if="indicatorObject && !indicatorObject.hasOwnProperty('display')"
+            >
+              <v-icon left>mdi-download</v-icon>
+              download csv
+            </v-btn>
             <iframe-button :indicatorObject="indicatorObject"/>
           </div>
         </v-col>
@@ -222,6 +235,7 @@ import {
 } from 'vuex';
 
 import { loadIndicatorData } from '@/utils';
+import { DateTime } from 'luxon';
 import dialogMixin from '@/mixins/dialogMixin';
 
 import ExpandableContent from '@/components/ExpandableContent.vue';
@@ -280,6 +294,38 @@ export default {
         indicatorObject = this.$store.state.indicators.selectedIndicator;
       }
       return indicatorObject;
+    },
+    dataHrefCSV() {
+      let dataHref = 'data:text/csv;charset=utf-8,';
+      const exportKeys = [
+        'time', 'aoi', 'measurement',
+        'indicatorValue', 'referenceTime', /* 'referenceValue',*/
+        'dataProvider', 'eoSensor', 'colorCode', 'inputData',
+      ];
+      const header = `${exportKeys.join()}\n`;
+      let csv = header;
+      for (let i = 0; i < this.indicatorObject.time.length; i++) {
+        let row = '';
+        for (let kk = 0; kk < exportKeys.length; kk++) {
+          const cKey = exportKeys[kk];
+          let txtVal = '';
+          if (cKey === 'aoi') {
+            txtVal = `"${this.indicatorObject[cKey]}",`;
+          } else {
+            txtVal = `"${this.indicatorObject[cKey][i]}",`;
+          }
+          row += txtVal;
+        }
+        row = `${row.slice(0, -1)}\n`;
+        csv += row;
+      }
+      dataHref += encodeURI(csv);
+      return dataHref;
+    },
+    downloadFileName() {
+      const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
+      const currInd = this.indicatorObject;
+      return `${currInd.city}_${currDate}_${currInd.aoiID}-${currInd.indicator}.csv`;
     },
     customAreaIndicator() {
       return this.$store.state.indicators.customAreaIndicator;

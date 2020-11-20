@@ -4,6 +4,7 @@ import { Wkt } from 'wicket';
 import { latLng, latLngBounds } from 'leaflet';
 import { DateTime } from 'luxon';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
+import { baseLayers, overlayLayers } from '@/config/layers';
 
 export const dataPath = './data/internal/';
 export const dataEndpoints = [
@@ -22,18 +23,7 @@ export const dataEndpoints = [
   },
   */
 ];
-const europeLandCoverWmsDef = [
-  {
-    baseUrl: '//s2glc.creodias.eu/geoserver/S2GLC/wms?',
-    protocol: 'WMS',
-    format: 'image/png',
-    tileSize: 512,
-    name: 'S2GLC - Europe Land Cover 2017',
-    layers: 'S2GLC_2017',
-    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-    visible: true,
-  },
-];
+
 export const indicatorsDefinition = Object.freeze({
   E1: {
     indicator: 'Status of metallic ores',
@@ -100,7 +90,10 @@ export const indicatorsDefinition = Object.freeze({
     class: 'agriculture',
     story: '/data/trilateral/E10a1',
     largeSubAoi: true,
-    baseLayersWMS: europeLandCoverWmsDef,
+    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
+      ...baseLayers.S2GLC,
+      visible: true,
+    }],
     legendUrl: 'eodash-data/data/LegendGLC.png',
   },
   E10a2: {
@@ -108,7 +101,10 @@ export const indicatorsDefinition = Object.freeze({
     class: 'agriculture',
     story: '/eodash-data/stories/E10a2',
     largeSubAoi: true,
-    baseLayersWMS: europeLandCoverWmsDef,
+    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
+      ...baseLayers.S2GLC,
+      visible: true,
+    }],
     legendUrl: 'eodash-data/data/LegendGLC.png',
     maxDecimals: 4,
   },
@@ -175,6 +171,10 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: '/data/trilateral/E13c',
     largeSubAoi: true,
+    baseLayers: [{
+      ...baseLayers.cloudless,
+      visible: true,
+    }, baseLayers.terrainLight],
   },
   H1: {
     indicator: 'Number of temp. treatment sites',
@@ -487,33 +487,24 @@ export const mapDefaults = Object.freeze({
   bounds: latLngBounds(latLng([-70, -170]), latLng([70, 170])),
 });
 
-export const baseLayers = [
-  {
-    name: 'EOxCloudless 2019',
-    url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2019_3857/default/g/{z}/{y}/{x}.jpg',
-    attribution: '{ EOxCloudless 2019: <a xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" target="_blank" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" target="_blank" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2019) }',
-    visible: false,
-    maxNativeZoom: 15,
-  },
-  {
-    name: 'Terrain light',
-    url: '//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg',
-    attribution: '{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
-    maxNativeZoom: 16,
-    visible: true,
-  },
-];
-export const baseLayersWMS = [];
-export const overlayLayers = [
-  {
-    name: 'Overlay',
-    url: '//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg',
-    attribution: '{ Overlay: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors, Made with Natural Earth, Rendering &copy; <a href="//eox.at" target="_blank">EOX</a> }',
-    visible: true,
-    maxZoom: 14,
-  },
-];
-export const overlayLayersWMS = [];
+export const baseLayersLeftMap = [{
+  ...baseLayers.terrainLight, visible: true,
+}, baseLayers.cloudless];
+export const baseLayersRightMap = [{
+  ...baseLayers.terrainLight, visible: true,
+}, baseLayers.cloudless];
+
+export const overlayLayersLeftMap = [{
+  ...overlayLayers.eoxOverlay, visible: true,
+}];
+export const overlayLayersRightMap = [{
+  ...overlayLayers.eoxOverlay, visible: true,
+}];
+
+const mapBoxHighResoSubst = [{
+  ...baseLayers.mapboxHighReso,
+  visible: true,
+}, baseLayers.terrainLight, baseLayers.cloudless];
 
 export const defaultWMSDisplay = {
   baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -677,7 +668,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W2',
-        time: getMonthlyDates('2004-10-01', '2020-09-01'),
+        time: getMonthlyDates('2004-10-01', '2020-10-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1162,7 +1153,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((13.82676706185932 44.707877452151976,13.826080416351507 44.63853985102104,13.828140352874945 44.60726198073148,13.830543612152288 44.580858170237136,13.824707125335882 44.56324896519081,13.831230257660101 44.53388844187968,13.83226022592182 44.50059527839493,13.14012155404682 44.49471803960046,12.29417428842182 44.482961784844655,12.22825631967182 44.70494937295371,12.28318796029682 44.82439215066662,12.375198458343695 44.80027974205457,12.408844088226507 44.82134821071279,12.466865633636663 44.848433626253936,12.50840768685932 44.941643892166006,12.435623263031195 44.97274112720852,12.430816744476507 45.017413877251585,12.314430330902288 44.96496839839778,12.346874331146429 45.11150096790739,12.3191510187685 45.20785209529116,12.239371393829535 45.20857774137082,12.210467909485052 45.2901538238102,12.22276315560932 45.377400919461266,12.30790719857807 45.48533806813408,12.48368844857807 45.559425118958345,12.622390841156195 45.527685472129804,12.436309908539007 45.47089417163262,12.428413485199163 45.41838351593179,12.782894228607367 45.546202443810486,12.887307261139105 45.60069590187233,12.977987383514593 45.62249048564204,13.101626490265081 45.63083382762503,13.086563204437445 45.72456591874726,13.210159395843695 45.76864898557,13.344055269867132 45.73942388451784,13.406883333831976 45.72384688466227,13.44499215951557 45.67565051875911,13.56034860482807 45.78397406598729,13.65647897592182 45.76194293851278,13.773208712249945 45.66413479361571,13.71965036264057 45.5603866467064,13.48619088998432 45.44295880636075,13.59605417123432 45.16671702535331,13.71690378060932 44.97954140088225,13.778701876312445 44.951120616125884,13.81852731576557 44.86042018307063,13.82402047982807 44.77737580152348,13.82676706185932 44.707877452151976))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-07', '2020-10-27'),
+        time: getWeeklyDates('2020-01-07', '2020-11-10'),
         inputData: [''], // just for enabling eo data button for now
         display: {
           ...defaultWMSDisplay,
@@ -1408,7 +1399,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((4.19585670915520126 43.49375380380885758, 4.19491064380215573 43.49564593451494687, 4.62253218337875094 43.49564593451494687, 4.69632528091630519 43.49753806522103616, 4.69537921556325966 43.48618528098449332, 4.6736197124432115 43.46442577786444161, 4.64523775185184462 43.45401905898093986, 4.67172758173712044 43.42090677162434531, 4.70389380374066945 43.41428431415302924, 4.71146232656503461 43.43698988262612204, 4.75592739815817644 43.43320562121393635, 4.78525542410258886 43.41806857556520782, 4.81647558075309234 43.38495628820861327, 4.83918114922618603 43.38495628820861327, 4.82877443034268428 43.40671579132866498, 4.81552951540004681 43.424691033036531, 4.81836771145918341 43.43604381727307384, 4.86661704446450738 43.41050005274084356, 4.87040130587668951 43.41523037950607034, 4.84012721457923156 43.44928873221571308, 4.85999458699318865 43.4682100392766273, 4.88459228617237251 43.42942135980175777, 4.89499900505587426 43.43793594797917024, 4.91297424676374028 43.43509775192003275, 4.92621916170637775 43.44172020939134882, 4.94608653412033483 43.49280773845580939, 5.21949942115050369 43.49753806522103616, 5.23558253215227776 43.4899695423966719, 5.24693531638882504 43.4672639739235791, 5.23842072821141436 43.43415168656698455, 5.21476909438527514 43.41428431415302924, 5.16557369602690564 43.39157874567993645, 5.08988846778326032 43.39157874567993645, 5.014203239539615 43.39252481103297754, 5.01893356630484355 43.3792798960903454, 5.03690880801270868 43.3565743276172455, 5.07096716072234965 43.34143728196851697, 5.11070190555026294 43.33859908590937948, 5.15327484643731371 43.34427547802765446, 5.21760729044441174 43.34049121661547588, 5.27247908092105533 43.35373613155811512, 5.30275317221851239 43.37265743861902223, 5.33208119816292569 43.36698104650074725, 5.35194857057688189 43.3565743276172455, 5.36140922410733811 43.34143728196851697, 5.36992381228474791 43.32535417096674735, 5.36992381228474791 43.3130553213771492, 5.36613955087256578 43.29791827572842067, 5.36613955087256578 43.28845762219796711, 5.37654626975606753 43.27521270725532787, 5.38600692328652286 43.26102172695964754, 5.38316872722738626 43.25250713878223507, 5.37276200834388451 43.24210041989873332, 5.35478676663601938 43.23263976636827977, 5.35005643987079083 43.22128698213172981, 5.35857102804820151 43.21088026324823517, 5.37749233510911218 43.21655665536650304, 5.39925183822916033 43.21939485142564052, 5.42195740670225401 43.21561059001346194, 5.45412362870580303 43.21939485142564052, 5.50331902706417253 43.20141960971777451, 5.50615722312331002 42.99990768951906972, 4.19301851309606466 42.99896162416602152, 4.19585670915520126 43.49375380380885758))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-07', '2020-10-27'),
+        time: getWeeklyDates('2020-01-07', '2020-11-10'),
         inputData: [''],
         display: {
           ...defaultWMSDisplay,
@@ -1531,7 +1522,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((13.82676706185932 44.707877452151976,13.826080416351507 44.63853985102104,13.828140352874945 44.60726198073148,13.830543612152288 44.580858170237136,13.824707125335882 44.56324896519081,13.831230257660101 44.53388844187968,13.83226022592182 44.50059527839493,13.14012155404682 44.49471803960046,12.29417428842182 44.482961784844655,12.22825631967182 44.70494937295371,12.28318796029682 44.82439215066662,12.375198458343695 44.80027974205457,12.408844088226507 44.82134821071279,12.466865633636663 44.848433626253936,12.50840768685932 44.941643892166006,12.435623263031195 44.97274112720852,12.430816744476507 45.017413877251585,12.314430330902288 44.96496839839778,12.346874331146429 45.11150096790739,12.3191510187685 45.20785209529116,12.239371393829535 45.20857774137082,12.210467909485052 45.2901538238102,12.22276315560932 45.377400919461266,12.30790719857807 45.48533806813408,12.48368844857807 45.559425118958345,12.622390841156195 45.527685472129804,12.436309908539007 45.47089417163262,12.428413485199163 45.41838351593179,12.782894228607367 45.546202443810486,12.887307261139105 45.60069590187233,12.977987383514593 45.62249048564204,13.101626490265081 45.63083382762503,13.086563204437445 45.72456591874726,13.210159395843695 45.76864898557,13.344055269867132 45.73942388451784,13.406883333831976 45.72384688466227,13.44499215951557 45.67565051875911,13.56034860482807 45.78397406598729,13.65647897592182 45.76194293851278,13.773208712249945 45.66413479361571,13.71965036264057 45.5603866467064,13.48619088998432 45.44295880636075,13.59605417123432 45.16671702535331,13.71690378060932 44.97954140088225,13.778701876312445 44.951120616125884,13.81852731576557 44.86042018307063,13.82402047982807 44.77737580152348,13.82676706185932 44.707877452151976))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-07', '2020-10-27'),
+        time: getWeeklyDates('2020-01-07', '2020-11-10'),
         inputData: [''],
         display: {
           ...defaultWMSDisplay,
@@ -1572,7 +1563,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((4.19585670915520126 43.49375380380885758, 4.19491064380215573 43.49564593451494687, 4.62253218337875094 43.49564593451494687, 4.69632528091630519 43.49753806522103616, 4.69537921556325966 43.48618528098449332, 4.6736197124432115 43.46442577786444161, 4.64523775185184462 43.45401905898093986, 4.67172758173712044 43.42090677162434531, 4.70389380374066945 43.41428431415302924, 4.71146232656503461 43.43698988262612204, 4.75592739815817644 43.43320562121393635, 4.78525542410258886 43.41806857556520782, 4.81647558075309234 43.38495628820861327, 4.83918114922618603 43.38495628820861327, 4.82877443034268428 43.40671579132866498, 4.81552951540004681 43.424691033036531, 4.81836771145918341 43.43604381727307384, 4.86661704446450738 43.41050005274084356, 4.87040130587668951 43.41523037950607034, 4.84012721457923156 43.44928873221571308, 4.85999458699318865 43.4682100392766273, 4.88459228617237251 43.42942135980175777, 4.89499900505587426 43.43793594797917024, 4.91297424676374028 43.43509775192003275, 4.92621916170637775 43.44172020939134882, 4.94608653412033483 43.49280773845580939, 5.21949942115050369 43.49753806522103616, 5.23558253215227776 43.4899695423966719, 5.24693531638882504 43.4672639739235791, 5.23842072821141436 43.43415168656698455, 5.21476909438527514 43.41428431415302924, 5.16557369602690564 43.39157874567993645, 5.08988846778326032 43.39157874567993645, 5.014203239539615 43.39252481103297754, 5.01893356630484355 43.3792798960903454, 5.03690880801270868 43.3565743276172455, 5.07096716072234965 43.34143728196851697, 5.11070190555026294 43.33859908590937948, 5.15327484643731371 43.34427547802765446, 5.21760729044441174 43.34049121661547588, 5.27247908092105533 43.35373613155811512, 5.30275317221851239 43.37265743861902223, 5.33208119816292569 43.36698104650074725, 5.35194857057688189 43.3565743276172455, 5.36140922410733811 43.34143728196851697, 5.36992381228474791 43.32535417096674735, 5.36992381228474791 43.3130553213771492, 5.36613955087256578 43.29791827572842067, 5.36613955087256578 43.28845762219796711, 5.37654626975606753 43.27521270725532787, 5.38600692328652286 43.26102172695964754, 5.38316872722738626 43.25250713878223507, 5.37276200834388451 43.24210041989873332, 5.35478676663601938 43.23263976636827977, 5.35005643987079083 43.22128698213172981, 5.35857102804820151 43.21088026324823517, 5.37749233510911218 43.21655665536650304, 5.39925183822916033 43.21939485142564052, 5.42195740670225401 43.21561059001346194, 5.45412362870580303 43.21939485142564052, 5.50331902706417253 43.20141960971777451, 5.50615722312331002 42.99990768951906972, 4.19301851309606466 42.99896162416602152, 4.19585670915520126 43.49375380380885758))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-07', '2020-10-27'),
+        time: getWeeklyDates('2020-01-07', '2020-11-10'),
         inputData: [''],
         display: {
           ...defaultWMSDisplay,
@@ -1911,15 +1902,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -1961,15 +1944,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -2011,15 +1986,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -2061,15 +2028,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -2111,15 +2070,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -2161,15 +2112,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -2211,15 +2154,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -2261,15 +2196,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -2311,15 +2238,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -2361,15 +2280,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -2411,15 +2322,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -2461,15 +2364,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -2511,15 +2406,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -2643,15 +2530,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -2693,15 +2572,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -2743,15 +2614,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -2793,15 +2656,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -2843,15 +2698,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -2893,15 +2740,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -2943,15 +2782,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -2993,15 +2824,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -3043,15 +2866,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -3093,15 +2908,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -3143,15 +2950,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: [
-            {
-              name: 'Mapbox high resolution',
-              url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-              attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-              visible: true,
-              maxNativeZoom: 18,
-            },
-          ],
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -3647,7 +3446,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.08802032470703 40.556591288249905, -73.98571014404297 40.556591288249905, -73.98571014404297 40.63349613448494, -74.08802032470703 40.63349613448494, -74.08802032470703 40.556591288249905))').toJson(),
           }],
         },
-        time: ['2020-01-02', '2020-01-09', '2020-01-11', '2020-01-16', '2020-01-17', '2020-01-19', '2020-01-23', '2020-01-24', '2020-01-30', '2020-05-02', '2020-05-05', '2020-01-02', '2020-01-09', '2020-01-11', '2020-01-16', '2020-01-17', '2020-01-19', '2020-01-20', '2020-01-21', '2020-01-22', '2020-01-23', '2020-01-24', '2020-01-30', '2020-02-02', '2020-02-03', '2020-02-29', '2020-03-08', '2020-03-18', '2020-03-22', '2020-03-27', '2020-05-02', '2020-05-05', '2020-05-09', '2020-05-10', '2020-05-13', '2020-05-14', '2020-05-16', '2020-05-19', '2020-05-20', '2020-05-21'],
+        time: ['2020-01-02', '2020-01-09', '2020-01-11', '2020-01-16', '2020-01-17', '2020-01-19', '2020-01-20', '2020-01-21', '2020-01-22', '2020-01-23', '2020-01-24', '2020-01-30', '2020-02-02', '2020-02-03', '2020-02-29', '2020-03-08', '2020-03-18', '2020-03-22', '2020-03-27', '2020-05-02', '2020-05-05', '2020-05-09', '2020-05-10', '2020-05-13', '2020-05-14', '2020-05-16', '2020-05-19', '2020-05-20', '2020-05-21'],
         inputData: ['ports'],
       },
     },
@@ -3678,7 +3477,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-122.6348876953125 37.61314357137536, -122.25654602050781 37.61314357137536, -122.25654602050781 37.88081521949766, -122.6348876953125 37.88081521949766, -122.6348876953125 37.61314357137536))').toJson(),
           }],
         },
-        time: ['2020-01-02', '2020-01-03', '2020-01-05', '2020-01-07', '2020-01-10', '2020-01-11', '2020-01-12', '2020-01-13', '2020-01-14', '2020-01-17', '2020-01-18', '2020-01-23', '2020-01-27', '2020-01-30', '2020-01-31', '2020-05-01', '2020-05-03', '2020-05-04', '2020-05-05', '2020-05-06', '2020-05-07', '2020-05-08', '2020-01-02', '2020-01-03', '2020-01-05', '2020-01-07', '2020-01-10', '2020-01-11', '2020-01-12', '2020-01-13', '2020-01-14', '2020-01-17', '2020-01-18', '2020-01-22', '2020-01-23', '2020-01-27', '2020-01-30', '2020-01-31', '2020-02-03', '2020-02-27', '2020-02-29', '2020-03-03', '2020-03-08', '2020-03-10', '2020-03-11', '2020-04-21', '2020-05-01', '2020-05-03', '2020-05-04', '2020-05-05', '2020-05-06', '2020-05-07', '2020-05-08', '2020-05-09', '2020-05-15', '2020-05-16', '2020-05-17', '2020-05-19', '2020-05-20', '2020-05-21'],
+        time: ['2020-01-02', '2020-01-03', '2020-01-05', '2020-01-07', '2020-01-10', '2020-01-11', '2020-01-12', '2020-01-13', '2020-01-14', '2020-01-17', '2020-01-18', '2020-01-22', '2020-01-23', '2020-01-27', '2020-01-30', '2020-01-31', '2020-02-03', '2020-02-27', '2020-02-29', '2020-03-03', '2020-03-08', '2020-03-10', '2020-03-11', '2020-04-21', '2020-05-01', '2020-05-03', '2020-05-04', '2020-05-05', '2020-05-06', '2020-05-07', '2020-05-08', '2020-05-09', '2020-05-15', '2020-05-16', '2020-05-17', '2020-05-19', '2020-05-20', '2020-05-21'],
         inputData: ['ports'],
       },
     },
@@ -3714,6 +3513,7 @@ export const globalIndicators = [
           ...defaultWMSDisplay,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Sentinel-2 L2A',
           dateFormatFunction: shS2TimeFunction,
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           features: {
@@ -3756,6 +3556,7 @@ export const globalIndicators = [
           ...defaultWMSDisplay,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Sentinel-2 L2A',
           dateFormatFunction: shS2TimeFunction,
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           features: {
@@ -3798,6 +3599,7 @@ export const globalIndicators = [
           ...defaultWMSDisplay,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Sentinel-2 L2A',
           dateFormatFunction: shS2TimeFunction,
           attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           features: {
