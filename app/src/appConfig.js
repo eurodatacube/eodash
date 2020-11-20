@@ -20,6 +20,7 @@ module.exports = [
     customCSS: 'esa',
     aboutText: '/eodash-data/general/about',
     welcomeText: '/eodash-data/general/welcome',
+    tutorialText: '/eodash-data/general/tutorials',
     showNewsCarousel: true,
     newsCarouselitems: [
       {
@@ -47,6 +48,13 @@ module.exports = [
     termsText: '/eodash-data/general/terms',
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube'],
     featureGrouping: [
+      {
+        features: [
+          'GCAQ1-N1b',
+          'GCAQ2-N1b',
+        ],
+        label: 'indicatorName',
+      },
       {
         features: [
           'W2-E12c',
@@ -131,7 +139,14 @@ module.exports = [
         ],
         label: 'indicatorValue',
       },
-    ],
+    ].concat([
+      'NL3', 'TR3', 'GR6', 'ES63', 'RS1', 'DE16', 'CH2', 'UK10', 'SK4', 'BE7',
+      'RO9', 'HU5', 'DE13', 'DK1', 'IE3', 'DE17', 'FI4', 'PT3', 'SI3', 'UK11',
+      'LU2', 'FR15', 'ES12', 'FR16', 'IT10', 'MC1', 'DE18', 'IT37', 'CY2',
+      'NO2', 'FR10', 'ME1', 'CZ6', 'XK1', 'IS1', 'LV3', 'IT11', 'BA1', 'MK1',
+      'BG4', 'SE22', 'EE1', 'AL1', 'IT38', 'ES65', 'MT2', 'AT5', 'LT3', 'PL6',
+      'HR3', 'OS1',
+    ].map((val) => ({ features: [`${val}-N1b`, `${val}-N1a`], label: 'indicatorName' }))),
   },
   {
     id: 'trilateral',

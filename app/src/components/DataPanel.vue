@@ -108,8 +108,9 @@
 
         <v-col
           cols="12"
-          md="6"
-          class="py-0 my-0 d-flex justify-space-between"
+          sm="5"
+          class="py-0 my-0 d-flex align-center"
+          :class="$vuetify.breakpoint.xsOnly ? 'justify-center' : 'justify-space-between'"
         >
           <small v-if="indicatorObject && indicatorObject.updateFrequency">
             <span
@@ -124,69 +125,23 @@
         </v-col>
         <v-col
           cols="12"
-          md="6"
+          sm="7"
           class="py-0 my-0"
         >
           <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
-            <v-dialog
-              v-model="iframeDialog"
-              width="500"
+            <v-btn
+              color="primary"
+              text
+              small
+              :href="dataHrefCSV"
+              :download="downloadFileName"
+              target="_blank"
+              v-if="indicatorObject && !indicatorObject.hasOwnProperty('display')"
             >
-              <template v-slot:activator="{}">
-                <v-btn
-                  color="primary"
-                  text
-                  @click="iframeDialog = true"
-                >
-                  <v-icon left>mdi-poll-box</v-icon>
-                  embed chart
-                </v-btn>
-              </template>
-
-              <v-card>
-                <v-card-title class="headline primary white--text">
-                  Embed this chart into your website
-                </v-card-title>
-
-                <v-card-text class="py-5">
-                  Copy and paste this code into your HTML file:
-                  <code class="pa-3">{{ iframeCode }}
-                  </code>
-                  <div class="d-flex align-center justify-end pt-3">
-                    <v-expand-transition>
-                      <div v-if="copySuccess" class="success--text mr-3">
-                      <v-icon
-                        color="success"
-                        left
-                      >mdi-clipboard-check-outline</v-icon>
-                        <small>copied!</small>
-                      </div>
-                    </v-expand-transition>
-                    <v-btn
-                      small
-                      text
-                      @click="copy(iframeCode)"
-                    >
-                      <v-icon left>mdi-content-copy</v-icon>
-                      copy to clipboard
-                    </v-btn>
-                  </div>
-                </v-card-text>
-
-                <v-divider></v-divider>
-
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    color="primary"
-                    flat
-                    @click="iframeDialog = false"
-                  >
-                    Close
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+              <v-icon left>mdi-download</v-icon>
+              download csv
+            </v-btn>
+            <iframe-button :indicatorObject="indicatorObject"/>
           </div>
         </v-col>
         <v-col
@@ -280,12 +235,16 @@ import {
 } from 'vuex';
 
 import { loadIndicatorData } from '@/utils';
+import { DateTime } from 'luxon';
+import dialogMixin from '@/mixins/dialogMixin';
 
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
+import IframeButton from '@/components/IframeButton.vue';
 
 export default {
+  mixins: [dialogMixin],
   props: [
     'expanded',
   ],
@@ -293,13 +252,12 @@ export default {
     ExpandableContent,
     IndicatorData,
     IndicatorMap,
+    IframeButton,
   },
   data: () => ({
     dialog: false,
     overlay: false,
     dataInteract: false,
-    iframeDialog: false,
-    copySuccess: false,
     mounted: false,
     selectedSensorTab: 0,
     multipleTabCompare: null,
@@ -327,9 +285,6 @@ export default {
       }
       return this.$marked(markdown.default);
     },
-    iframeCode() {
-      return `<iframe class="item" src="${window.location.origin}/iframe?poi=${this.getLocationCode(this.indicatorObject)}${this.$route.query.sensor ? `&sensor=${this.$route.query.sensor}` : ''}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
-    },
     indicatorObject() {
       let indicatorObject;
       if (this.multipleTabCompare) {
@@ -339,6 +294,38 @@ export default {
         indicatorObject = this.$store.state.indicators.selectedIndicator;
       }
       return indicatorObject;
+    },
+    dataHrefCSV() {
+      let dataHref = 'data:text/csv;charset=utf-8,';
+      const exportKeys = [
+        'time', 'aoi', 'measurement',
+        'indicatorValue', 'referenceTime', /* 'referenceValue', */
+        'dataProvider', 'eoSensor', 'colorCode', 'inputData',
+      ];
+      const header = `${exportKeys.join()}\n`;
+      let csv = header;
+      for (let i = 0; i < this.indicatorObject.time.length; i++) {
+        let row = '';
+        for (let kk = 0; kk < exportKeys.length; kk++) {
+          const cKey = exportKeys[kk];
+          let txtVal = '';
+          if (cKey === 'aoi') {
+            txtVal = `"${this.indicatorObject[cKey]}",`;
+          } else {
+            txtVal = `"${this.indicatorObject[cKey][i]}",`;
+          }
+          row += txtVal;
+        }
+        row = `${row.slice(0, -1)}\n`;
+        csv += row;
+      }
+      dataHref += encodeURI(csv);
+      return dataHref;
+    },
+    downloadFileName() {
+      const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
+      const currInd = this.indicatorObject;
+      return `${currInd.city}_${currDate}_${currInd.aoiID}-${currInd.indicator}.csv`;
     },
     customAreaIndicator() {
       return this.$store.state.indicators.customAreaIndicator;
@@ -402,10 +389,6 @@ export default {
           .find((i) => this.getLocationCode(i.properties.indicatorObject) === f));
       }
       this.multipleTabCompare = compare;
-    },
-    async copy(s) {
-      await navigator.clipboard.writeText(s);
-      this.copySuccess = true;
     },
     swipe() {
       this.overlay = true;

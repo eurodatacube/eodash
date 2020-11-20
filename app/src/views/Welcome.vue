@@ -38,12 +38,48 @@
       <v-col
         cols="12"
       >
-        <v-card outlined class="pa-5">
-          <div
-            v-html="welcome"
-            class="md-body"
-          ></div>
-        </v-card>
+      <v-expansion-panels
+        v-if="tutorials"
+        flat
+        :multiple="false"
+        v-model="panel"
+      >
+        <v-expansion-panel
+          key="welcome"
+          class="panel-outlined"
+        >
+          <v-expansion-panel-header>
+            <h3 v-html="welcome.split('</h3>')[0]"></h3>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <div
+              v-html="welcome.split('</h3>')[1]"
+              class="md-body"
+            ></div>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+        <v-expansion-panel
+          v-if="tutorials"
+          key="tutorials"
+          class="panel-outlined"
+        >
+          <v-expansion-panel-header>
+            <h3 v-html="tutorials.split('</h3>')[0]"></h3>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <div
+              v-html="tutorials.split('</h3>')[1]"
+              class="md-body"
+            ></div>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+      <v-card v-else outlined class="pa-5">
+        <div
+          v-html="welcome"
+          class="md-body"
+        ></div>
+      </v-card>
       </v-col>
     </v-row>
   </div>
@@ -61,6 +97,9 @@ export default {
   components: {
     NewsCarousel,
   },
+  data: () => ({
+    panel: 0,
+  }),
   computed: {
     ...mapGetters('features', [
       'getCountries',
@@ -77,6 +116,10 @@ export default {
     welcome() {
       return this.$marked(require(`../../public${this.appConfig.welcomeText}.md`).default);
     },
+    tutorials() {
+      return this.appConfig.tutorialText
+        && this.$marked(require(`../../public${this.appConfig.tutorialText}.md`).default);
+    },
   },
   methods: {
     featureLength(type) {
@@ -88,3 +131,13 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.panel-outlined {
+  border: 1px solid var(--v-primary-base);
+  border-radius: 4px;
+}
+.v-expansion-panel:not(:first-child) {
+  margin-top: 16px;
+}
+</style>
