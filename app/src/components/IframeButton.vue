@@ -7,6 +7,7 @@
       <v-btn
         color="primary"
         text
+        small
         @click="dialog = true"
       >
         <v-icon left>mdi-poll-box</v-icon>
