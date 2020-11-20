@@ -390,10 +390,6 @@ export default {
       }
       this.multipleTabCompare = compare;
     },
-    async copy(s) {
-      await navigator.clipboard.writeText(s);
-      this.copySuccess = true;
-    },
     swipe() {
       this.overlay = true;
       setTimeout(() => { this.overlay = false; }, 2000);

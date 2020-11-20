@@ -76,5 +76,11 @@ export default {
       return `<iframe class="item" src="${window.location.origin}/iframe?poi=${this.getLocationCode(this.indicatorObject)}${this.$route.query.sensor ? `&sensor=${this.$route.query.sensor}` : ''}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
     },
   },
+  methods: {
+    async copy(s) {
+      await navigator.clipboard.writeText(s);
+      this.copySuccess = true;
+    },
+  },
 };
 </script>
