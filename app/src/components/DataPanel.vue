@@ -299,7 +299,7 @@ export default {
       let dataHref = 'data:text/csv;charset=utf-8,';
       const exportKeys = [
         'time', 'aoi', 'measurement',
-        'indicatorValue', 'referenceTime', /* 'referenceValue',*/
+        'indicatorValue', 'referenceTime', /* 'referenceValue', */
         'dataProvider', 'eoSensor', 'colorCode', 'inputData',
       ];
       const header = `${exportKeys.join()}\n`;
