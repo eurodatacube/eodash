@@ -6,10 +6,13 @@
         fab
         :raised="false"
         x-small
-        class="btn elevation-3"
+        class="fs-btn elevation-3"
+        :class="touch && 'fs-btn-touch'"
         @click="toggleFullscreen"
       >
-        <v-icon>{{ fullscreen 
+        <v-icon
+          :class="touch && 'fs-icon-touch'"
+        >{{ fullscreen 
           ? 'mdi-fullscreen-exit'
           : 'mdi-fullscreen' }}</v-icon>
       </v-btn>
@@ -26,7 +29,13 @@ Vue.use(fullscreen);
 export default {
   data: () => ({
     fullscreen: false,
+    touch: false,
   }),
+  mounted() {
+    this.$nextTick(() => {
+      this.touch = window.L.Browser.touch;
+    });
+  },
   methods: {
     toggleFullscreen(event) {
       // Toggle fullscreen Element in the container element
@@ -43,7 +52,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.btn {
+.fs-btn {
   position: absolute;
   top: 0;
   right: 0;
@@ -52,5 +61,14 @@ export default {
   border-radius: 5px;
   width: 26px;
   height: 26px;
+}
+.fs-btn-touch {
+  width: 34px;
+  height: 34px;
+  border: 2px solid rgba(0,0,0,.2);
+  box-shadow: none !important;
+}
+.fs-icon-touch {
+  font-size: 24px !important;
 }
 </style>

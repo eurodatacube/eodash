@@ -51,6 +51,11 @@
   padding: 3px;
 }
 
+.leaflet-touch .leaflet-control-layers-toggle {
+  width: 30px !important;
+  height: 30px !important;
+}
+
 .v-application.theme--dark {
   .md-body {
     h1,
