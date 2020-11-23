@@ -20,6 +20,7 @@ module.exports = [
     customCSS: 'esa',
     aboutText: '/eodash-data/general/about',
     welcomeText: '/eodash-data/general/welcome',
+    tutorialText: '/eodash-data/general/tutorials',
     showNewsCarousel: true,
     newsCarouselitems: [
       {
