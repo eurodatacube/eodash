@@ -431,32 +431,30 @@ const actions = {
         delimiter: ',',
         complete: (result) => {
           const { data } = result;
-          if (data[0].aoi) { // only continue if AOI column is present
-            const featureObjs = {};
-            for (let rr = 0; rr < data.length; rr += 1) {
-              const uniqueKey = `${data[rr].aoi}_d`;
-              featureObjs[uniqueKey] = data[rr];
-              featureObjs[uniqueKey].indicator = 'd';
-              featureObjs[uniqueKey].indicatorValue = [''];
-              featureObjs[uniqueKey].dummyFeature = true;
-            }
-            const features = [];
-            const keys = Object.keys(featureObjs);
-
-            for (let kk = 0; kk < keys.length; kk += 1) {
-              const coordinates = keys[kk].split('_')[0].split(',').map(Number);
-              featureObjs[keys[kk]].id = globalIdCounter; // to connect indicator & feature
-              features.push({
-                latlng: latLng(coordinates),
-                id: globalIdCounter,
-                properties: {
-                  indicatorObject: featureObjs[keys[kk]],
-                },
-              });
-              globalIdCounter += 1;
-            }
-            resolve(features);
+          const featureObjs = {};
+          for (let rr = 0; rr < data.length; rr += 1) {
+            const uniqueKey = `${data[rr].aoi}_d`;
+            featureObjs[uniqueKey] = data[rr];
+            featureObjs[uniqueKey].indicator = 'd';
+            featureObjs[uniqueKey].indicatorValue = [''];
+            featureObjs[uniqueKey].dummyFeature = true;
           }
+          const features = [];
+          const keys = Object.keys(featureObjs);
+
+          for (let kk = 0; kk < keys.length; kk += 1) {
+            const coordinates = keys[kk].split('_')[0].split(',').map(Number);
+            featureObjs[keys[kk]].id = globalIdCounter; // to connect indicator & feature
+            features.push({
+              latlng: latLng(coordinates),
+              id: globalIdCounter,
+              properties: {
+                indicatorObject: featureObjs[keys[kk]],
+              },
+            });
+            globalIdCounter += 1;
+          }
+          resolve(features);
         },
       });
     });
