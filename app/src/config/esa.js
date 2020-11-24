@@ -238,6 +238,7 @@ export const indicatorsDefinition = Object.freeze({
   N4c: {
     indicator: 'Changes in land fill sites',
     class: 'land',
+    story: '/eodash-data/stories/N4c',
     replaceDataMap: {
       time: [DateTime.fromISO('2020-02-26T00:00:00'), DateTime.fromISO('2020-05-20T00:00:00'), DateTime.fromISO('2020-06-06T00:00:00')],
       eoSensor: ['Pleiades', 'Pleiades', 'Deimos'],
