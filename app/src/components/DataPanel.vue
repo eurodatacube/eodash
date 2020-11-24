@@ -57,7 +57,7 @@
                 <indicator-map
                   ref="indicatorMap"
                   style="top: 0px; position: absolute;"
-                  v-if="globalData"
+                  v-if="showMap"
                   class="pt-0 fill-height"
                   :currentIndicator="sensorData.properties.indicatorObject"
                   v-on:fetchCustomAreaIndicator="scrollToCustomAreaIndicator"
@@ -97,7 +97,7 @@
               ref="indicatorMap"
               v-on:fetchCustomAreaIndicator="scrollToCustomAreaIndicator"
               style="top: 0px; position: absolute;"
-              v-if="globalData"
+              v-if="showMap"
               class="pt-0 fill-height"
             />
             <indicator-data
@@ -138,7 +138,7 @@
               :href="dataHrefCSV"
               :download="downloadFileName"
               target="_blank"
-              v-if="indicatorObject && !indicatorObject.hasOwnProperty('display')"
+              v-if="indicatorObject && !showMap"
             >
               <v-icon left>mdi-download</v-icon>
               download csv
@@ -337,7 +337,8 @@ export default {
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
     },
-    globalData() {
+    showMap() {
+      // if returns true, we are showing map, if false we show chart
       return ['all'].includes(this.indicatorObject.country) || Array.isArray(this.indicatorObject.country);
     },
     externalData() {
