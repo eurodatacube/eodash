@@ -22,7 +22,7 @@ export const indicatorsDefinition = Object.freeze({
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
-      allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification'],
+      allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification', 'TIMESTAMP UTC', 'TYPE_NAME', 'LENGTH'],
     },
   },
   E1a: {
