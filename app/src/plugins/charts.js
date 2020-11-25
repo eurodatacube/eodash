@@ -96,12 +96,9 @@ class MyLogScale extends Chart.Scale {
 
   determineDataLimits() {
     const me = this;
-    const min = 0.1;
-    const max = 10;
-
-    me.min = Number.isFinite(min) ? Math.max(0, min) : null;
-    me.max = Number.isFinite(max) ? Math.max(0, max) : null;
-
+    const { min, max } = me.options;
+    me.min = Number.isFinite(min) ? Math.max(0, min) : 0.1;
+    me.max = Number.isFinite(max) ? Math.max(0, max) : 10;
     me.handleTickRangeOptions();
   }
 

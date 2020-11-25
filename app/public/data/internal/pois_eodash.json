@@ -920,6 +920,26 @@
         "yAxis": "Number of flying planes"
     },
     {
+        "aoi": "40.717,1.358",
+        "aoiID": "ES19",
+        "city": "Barcelona",
+        "country": "ES",
+        "description": "Water Quality Time Series",
+        "indicator": "N3",
+        "indicatorName": "Chlorophyll-a concentration at Casablanca Aeronet-OC fixed station",
+        "lastColorCode": "GREEN",
+        "lastIndicatorValue": "LOW",
+        "lastMeasurement": "NaN",
+        "lastReferenceTime": "2020-11-07T00:00:00",
+        "lastReferenceValue": "[-1.158 0.313]",
+        "lastTime": "2020-11-07T00:00:00",
+        "region": "Ebro Delta",
+        "siteName": "Casablanca Aeronet-OC fixed station",
+        "subAoi": "",
+        "updateFrequency": "Weekly",
+        "yAxis": "Chlorophyll-a concentration [mg m-3]"
+    },
+    {
         "aoi": "42.643,-1.648",
         "aoiID": "ES22a",
         "city": "Comunidad Foral de Navarra",
