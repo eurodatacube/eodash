@@ -43,6 +43,7 @@
       app
       clipped
       style="overflow: hidden"
+      class="drawerLeft"
     >
       <template v-if="$vuetify.breakpoint.xsOnly">
         <v-list-item style="background: var(--v-primary-base)">
