@@ -86,38 +86,44 @@ export default {
 </style>
 
 <style lang="scss">
+.data-panel .showFullScreenButton .leaflet-top {
+  top: 38px;
+}
+.data-panel .showFullScreenButton .leaflet-touch .leaflet-top {
+  top: 45px;
+}
 // global setting to have the fullscreen container
 // 100% width and height, to fix safari issues
-*|*:fullscreen:not(:root) {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  width: 100% !important;
-  // height: 100% !important;
-  margin: 0 !important;
-  min-width: 0 !important;
-  max-width: none !important;
-  min-height: 0 !important;
-  max-height: none !important;
-  box-sizing: border-box !important;
-  object-fit: contain;
-  transform: none !important;
-}
-.fullscreenElement {
-  width: 100% !important;
-  height: calc(100vh - 104px)!important;
-}
-.fullScreenActive .drawerLeft,
-.fullScreenActive header,
-.fullScreenActive footer,
-.fullScreenActive .Cookie {
-  display: none;
-}
-.fullScreenActive .data-panel {
-  height: 100vh !important;
-  margin-top: 0 !important;
-  width: 100vw !important;
-}
+// *|*:fullscreen:not(:root) {
+//   position: fixed !important;
+//   top: 0 !important;
+//   left: 0 !important;
+//   right: 0 !important;
+//   bottom: 0 !important;
+//   width: 100% !important;
+//   // height: 100% !important;
+//   margin: 0 !important;
+//   min-width: 0 !important;
+//   max-width: none !important;
+//   min-height: 0 !important;
+//   max-height: none !important;
+//   box-sizing: border-box !important;
+//   object-fit: contain;
+//   transform: none !important;
+// }
+// .fullscreenElement {
+//   width: 100% !important;
+//   height: calc(100vh - 104px)!important;
+// }
+// .fullScreenActive .drawerLeft,
+// .fullScreenActive header,
+// .fullScreenActive footer,
+// .fullScreenActive .Cookie {
+//   display: none;
+// }
+// .fullScreenActive .data-panel {
+//   height: 100vh !important;
+//   margin-top: 0 !important;
+//   width: 100vw !important;
+// }
 </style>

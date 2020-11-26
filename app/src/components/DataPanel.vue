@@ -2,7 +2,7 @@
   <div style="height: auto;"
     :style="$vuetify.breakpoint.mdAndDown && 'padding-bottom: 100px'"
   >
-    <v-container class="pt-0">
+    <v-container class="pt-0" :class="showFullScreen && 'showFullScreenButton'">
       <v-row v-if="indicatorObject">
         <v-col
           cols="12"
@@ -37,7 +37,7 @@
                 class="fill-height"
                 :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
               >
-                <full-screen-button />
+                <full-screen-button v-if="showFullScreen" />
                 <div
                   style="height: 100%;z-index: 500; position: relative;"
                   v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
@@ -76,7 +76,7 @@
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
           >
-            <full-screen-button />
+            <full-screen-button v-if="showFullScreen" />
             <div
               style="height: 100%;z-index: 500; position: relative;"
               v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
@@ -276,6 +276,9 @@ export default {
       'appConfig',
       'baseConfig',
     ]),
+    showFullScreen() {
+      return !this.$browserDetect.isSafari && !this.$browserDetect.isIOS;
+    },
     story() {
       let markdown;
       try {
