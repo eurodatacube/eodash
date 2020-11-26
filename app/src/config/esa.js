@@ -375,16 +375,16 @@ export const defaultWMSDisplay = {
   minZoom: 7,
 };
 
-// const getDailyDates = (start, end) => {
-//   let currentDate = DateTime.fromISO(start);
-//   const stopDate = DateTime.fromISO(end);
-//   const dateArray = [];
-//   while (currentDate <= stopDate) {
-//     dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
-//     currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
-//   }
-//   return dateArray;
-// };
+const getDailyDates = (start, end) => {
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+    currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
+  }
+  return dateArray;
+};
 
 const getWeeklyDates = (start, end) => {
   let currentDate = DateTime.fromISO(start);
