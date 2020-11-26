@@ -25,8 +25,18 @@
               height="100%"
               allowfullscreen
               frameborder="0"
+              @click="autoPlayIframe = true"
               :class="!autoPlayIframe && 'untouchable'"
             ></iframe>
+            <v-btn
+              v-if="item.iframe && !autoPlayIframe"
+              fab x-large
+              @click="onClickIframe(item)"
+              color="primary"
+              class="playButton"
+            >
+              <v-icon>mdi-play</v-icon>
+            </v-btn>
             <v-fade-transition>
               <v-overlay
                 v-if="hover && !autoPlayIframe"
@@ -34,15 +44,7 @@
                 :color="$vuetify.theme.themes.light.primary"
               >
                 <v-btn
-                  v-if="item.iframe"
-                  @click="onClickIframe(item)"
-                  color="primary"
-                >
-                  <v-icon left>mdi-play</v-icon>
-                  Play Video
-                </v-btn>
-                <v-btn
-                  v-else
+                  v-if="!item.iframe"
                   @click="onClickItem(item)"
                   color="primary"
                 >View indicator</v-btn>
@@ -102,7 +104,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.untouchable {
-  pointer-events: none !important;
+::v-deep .v-responsive__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.playButton {
+  position: absolute;
+  z-index: 999;
 }
 </style>
