@@ -10,7 +10,7 @@ import os.path
 # 0 - Targeted 1- General
 
 
-output_file = 'data/lockdown_data.json'
+output_file = '../src/assets/lockdown_data.json'
 
 DATAFILE = 'OxCGRT_Download_{}_Full.csv'.format(
     datetime.datetime.utcnow().strftime("%Y-%m-%d")

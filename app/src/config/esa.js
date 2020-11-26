@@ -202,13 +202,11 @@ export const indicatorsDefinition = Object.freeze({
     customAreaIndicator: true,
     largeTimeDuration: true,
   },
-  /*
   N1a: {},
   N1b: {
     indicator: 'CAMS Air quality',
     class: 'air',
   },
-  */
   N2: {
     indicator: 'CO2 emissions',
     class: 'air',
@@ -483,7 +481,6 @@ export const globalIndicators = [
       },
     },
   },
-  /*
   {
     properties: {
       indicatorObject: {
@@ -554,7 +551,6 @@ export const globalIndicators = [
       },
     },
   },
-  */
   {
     id: 9999,
     latlng: latLng([45.197522, 13.029785]),
