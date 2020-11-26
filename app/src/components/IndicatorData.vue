@@ -667,25 +667,6 @@ export default {
             borderColor: colors,
           });
         }
-        /*
-        if (![].includes(indicatorCode)) {
-          // Add default labels for lockdown annotations
-          datasets.push({
-            label: 'test',
-            data: [],
-            backgroundColor: 'rgba(207, 199, 62, 0.4)',
-            borderColor: 'rgba(207, 199, 62, 0.4)',
-            hidden: true,
-          });
-          datasets.push({
-            label: 'test2',
-            data: [],
-            backgroundColor: 'rgba(207, 62, 62, 0.3)',
-            borderColor: 'rgba(207, 62, 62, 0.3)',
-            hidden: true,
-          });
-        }
-        */
         dataCollection = {
           labels,
           datasets,
@@ -825,32 +806,43 @@ export default {
         });
       }
 
-      // Introduce background area annotations for lockdown times
-      // Find country based on alpha-3 code
-      const currCountry = countries.features.find(
-        (cntr) => cntr.properties.alpha2 === this.indicatorObject.country,
-      );
-      if (Object.prototype.hasOwnProperty.call(lockdownTimes, currCountry.id)) {
-        const lckTs = lockdownTimes[currCountry.id]['C7_Restrictions on internal movement'];
-        for (let i = 0; i < lckTs.length; i++) {
-          let areaColor = 'rgba(0, 0, 0, 0.0)';
-          if (lckTs[i].value === 1) {
-            areaColor = 'rgba(207, 199, 62, 0.4)';
-          } else if (lckTs[i].value === 2) {
-            areaColor = 'rgba(207, 62, 62, 0.3)';
-          }
-
-          if (lckTs[i].value !== 0) {
-            annotations.push({
-              drawTime: 'beforeDatasetsDraw',
-              type: 'box',
-              xScaleID: 'x-axis-0',
-              xMin: lckTs[i].start,
-              xMax: lckTs[i].end,
-              borderColor: areaColor,
-              borderWidth: 0,
-              backgroundColor: areaColor,
-            });
+      // Introduce background area annotations for lockdown times, does not
+      // work for all chart types, so we make sure it is not any of those charts
+      if (!['E10a8'].includes(indicatorCode)) {
+        // Find country based on alpha-3 code
+        const currCountry = countries.features.find(
+          (cntr) => cntr.properties.alpha2 === this.indicatorObject.country,
+        );
+        if (Object.prototype.hasOwnProperty.call(lockdownTimes, currCountry.id)) {
+          const lckTs = lockdownTimes[currCountry.id]['C7_Restrictions on internal movement'];
+          for (let i = 0; i < lckTs.length; i++) {
+            let areaColor = 'rgba(0, 0, 0, 0.0)';
+            if (lckTs[i].value === 1) {
+              areaColor = 'rgba(207, 199, 62, 0.4)';
+            } else if (lckTs[i].value === 2) {
+              areaColor = 'rgba(207, 62, 62, 0.3)';
+            }
+            // We also have special date handling for some chart types as we
+            // simulate year agnostic rendering, so we convert all dates to
+            // one year
+            let start = DateTime.fromISO(lckTs[i].start);
+            let end = DateTime.fromISO(lckTs[i].end);
+            if (['E10a2', 'E10a6', 'E10a7', 'E10c', 'E8'].includes(indicatorCode)) {
+              start = start.set({ year: 2000 });
+              end = end.set({ year: 2000 });
+            }
+            if (lckTs[i].value !== 0) {
+              annotations.push({
+                drawTime: 'beforeDatasetsDraw',
+                type: 'box',
+                xScaleID: 'x-axis-0',
+                xMin: start.toISODate(),
+                xMax: end.toISODate(),
+                borderColor: areaColor,
+                borderWidth: 0,
+                backgroundColor: areaColor,
+              });
+            }
           }
         }
       }
@@ -976,9 +968,13 @@ export default {
             const { usePointStyle } = labels;
             const overrideStyle = labels.pointStyle;
             let labelSet = chart._getSortedDatasetMetas();
-            labelSet = labelSet.filter(
-              (meta) => !datasets[meta.index].label.startsWith('hide_'),
-            );
+            labelSet = labelSet.filter((meta) => {
+              let includeLabel = false;
+              if (Object.prototype.hasOwnProperty.call(datasets[meta.index], 'label')) {
+                includeLabel = !datasets[meta.index].label.startsWith('hide_');
+              }
+              return includeLabel;
+            });
             const labelObjects = labelSet.map((meta) => {
               const style = meta.controller.getStyle(usePointStyle ? 0 : undefined);
               const borderWidth = 2;
@@ -1005,14 +1001,14 @@ export default {
 
             // Now we add our default 2 lockdown labels
             labelObjects.push({
-              text: 'light lockdown',
+              text: 'soft restrictions',
               fillStyle: 'rgba(207, 199, 62, 0.4)',
               hidden: false,
               lineWidth: 0,
               datasetIndex: -1,
             });
             labelObjects.push({
-              text: 'strong lockdown',
+              text: 'hard restrictions',
               fillStyle: 'rgba(207, 62, 62, 0.3)',
               hidden: false,
               lineWidth: 0,
