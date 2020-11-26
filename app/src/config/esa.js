@@ -206,6 +206,7 @@ export const indicatorsDefinition = Object.freeze({
   N1b: {
     indicator: 'CAMS Air quality',
     class: 'air',
+    story: '/eodash-data/stories/N1_CAMS',
   },
   N2: {
     indicator: 'CO2 emissions',
