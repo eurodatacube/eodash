@@ -277,7 +277,9 @@ export default {
       'baseConfig',
     ]),
     showFullScreen() {
-      return !this.$browserDetect.isSafari && !this.$browserDetect.isIOS;
+      const isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+      const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      return !isSafari && !iOS;
     },
     story() {
       let markdown;
