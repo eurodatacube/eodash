@@ -1,9 +1,11 @@
 <template>
   <v-carousel
-    :continuous="autoPlay"
-    cycle
+    v-model="currentSlide"
+    continuous
+    :cycle="!autoPlayIframe"
     height="auto"
     hide-delimiter-background
+    :hide-delimiters="autoPlayIframe"
     show-arrows-on-hover
     :style="`background: ${$vuetify.theme.themes.light.primary}`"
   >
@@ -14,15 +16,33 @@
             v-for="(item, i) in items"
             :key="i"
             :aspect-ratio="16/9"
-            :src="item.src"
+            :src="item.src && item.src"
           >
+            <iframe
+              v-if="item.iframe"
+              :src="iframeSrc(item.iframe)"
+              width="100%"
+              height="100%"
+              allowfullscreen
+              frameborder="0"
+              :class="!autoPlayIframe && 'untouchable'"
+            ></iframe>
             <v-fade-transition>
               <v-overlay
-                v-if="hover"
+                v-if="hover && !autoPlayIframe"
                 absolute
                 :color="$vuetify.theme.themes.light.primary"
               >
                 <v-btn
+                  v-if="item.iframe"
+                  @click="onClickIframe(item)"
+                  color="primary"
+                >
+                  <v-icon left>mdi-play</v-icon>
+                  Play Video
+                </v-btn>
+                <v-btn
+                  v-else
                   @click="onClickItem(item)"
                   color="primary"
                 >View indicator</v-btn>
@@ -39,7 +59,8 @@
 export default {
   data() {
     return {
-      autoPlay: true,
+      currentSlide: 0,
+      autoPlayIframe: false,
       items: this.$store.state.config.appConfig.newsCarouselitems,
     };
   },
@@ -57,6 +78,31 @@ export default {
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature.properties.indicatorObject);
       }
     },
+    onClickIframe() {
+      this.autoPlayIframe = true;
+    },
+    iframeSrc(src) {
+      let newSrc;
+      if (this.autoPlayIframe) {
+        newSrc = `${src}?autoplay=1`;
+      } else {
+        newSrc = src;
+      }
+      return newSrc;
+    },
+  },
+  watch: {
+    currentSlide() {
+      if (this.autoPlayIframe) {
+        this.autoPlayIframe = false;
+      }
+    },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.untouchable {
+  pointer-events: none !important;
+}
+</style>
