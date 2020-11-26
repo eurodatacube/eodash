@@ -628,6 +628,7 @@ export default {
             }
             return output;
           });
+
           // Filter by undefined and time
           features = features.filter((d) => (
             typeof d !== 'undefined'));
@@ -666,6 +667,25 @@ export default {
             borderColor: colors,
           });
         }
+        /*
+        if (![].includes(indicatorCode)) {
+          // Add default labels for lockdown annotations
+          datasets.push({
+            label: 'test',
+            data: [],
+            backgroundColor: 'rgba(207, 199, 62, 0.4)',
+            borderColor: 'rgba(207, 199, 62, 0.4)',
+            hidden: true,
+          });
+          datasets.push({
+            label: 'test2',
+            data: [],
+            backgroundColor: 'rgba(207, 62, 62, 0.3)',
+            borderColor: 'rgba(207, 62, 62, 0.3)',
+            hidden: true,
+          });
+        }
+        */
         dataCollection = {
           labels,
           datasets,
@@ -835,7 +855,6 @@ export default {
         }
       }
 
-      const filter = (legendItem) => !`${legendItem.text}`.startsWith('hide_');
       let xAxes = {};
       if (!['E10a1', 'E10a2', 'E10a3', 'E10a5', 'E10a6', 'E10a7', 'E10a8', 'E10c', 'E12c', 'E12d', 'N2'].includes(indicatorCode)) {
         xAxes = [{
@@ -949,10 +968,58 @@ export default {
         },
       }];
 
-
       const legend = {
         labels: {
-          filter,
+          generateLabels: (chart) => {
+            const { datasets } = chart.data;
+            const { labels } = chart.legend.options;
+            const { usePointStyle } = labels;
+            const overrideStyle = labels.pointStyle;
+            let labelSet = chart._getSortedDatasetMetas();
+            labelSet = labelSet.filter(
+              (meta) => !datasets[meta.index].label.startsWith('hide_'),
+            );
+            const labelObjects = labelSet.map((meta) => {
+              const style = meta.controller.getStyle(usePointStyle ? 0 : undefined);
+              const borderWidth = 2;
+              let hidden = false;
+              if (meta.hidden === true) {
+                hidden = true;
+              }
+              return {
+                text: datasets[meta.index].label,
+                fillStyle: style.backgroundColor,
+                hidden,
+                lineCap: style.borderCapStyle,
+                lineDash: style.borderDash,
+                lineDashOffset: style.borderDashOffset,
+                lineJoin: style.borderJoinStyle,
+                lineWidth: borderWidth,
+                strokeStyle: style.borderColor,
+                pointStyle: overrideStyle || style.pointStyle,
+                rotation: style.rotation,
+                // Below is extra data used for toggling the datasets
+                datasetIndex: meta.index,
+              };
+            }, this);
+
+            // Now we add our default 2 lockdown labels
+            labelObjects.push({
+              text: 'light lockdown',
+              fillStyle: 'rgba(207, 199, 62, 0.4)',
+              hidden: false,
+              lineWidth: 0,
+              datasetIndex: -1,
+            });
+            labelObjects.push({
+              text: 'strong lockdown',
+              fillStyle: 'rgba(207, 62, 62, 0.3)',
+              hidden: false,
+              lineWidth: 0,
+              datasetIndex: -1,
+            });
+            return labelObjects;
+          },
         },
       };
 
