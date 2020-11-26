@@ -79,6 +79,8 @@ import BarChart from '@/components/BarChart.vue';
 import LineChart from '@/components/LineChart.vue';
 import MapChart from '@/components/MapChart.vue';
 import NUTS from '@/assets/NUTS_RG_03M_2016_4326_ESL2-DEL3.json';
+import lockdownTimes from '@/assets/lockdown_data.json';
+import countries from '@/assets/countries.json';
 
 export default {
   props: [
@@ -802,6 +804,37 @@ export default {
           },
         });
       }
+
+      // Introduce background area annotations for lockdown times
+      // Find country based on alpha-3 code
+      const currCountry = countries.features.find(
+        (cntr) => cntr.properties.alpha2 === this.indicatorObject.country,
+      );
+      if (Object.prototype.hasOwnProperty.call(lockdownTimes, currCountry.id)) {
+        const lckTs = lockdownTimes[currCountry.id]['C7_Restrictions on internal movement'];
+        for (let i = 0; i < lckTs.length; i++) {
+          let areaColor = 'rgba(0, 0, 0, 0.0)';
+          if (lckTs[i].value === 1) {
+            areaColor = 'rgba(207, 199, 62, 0.4)';
+          } else if (lckTs[i].value === 2) {
+            areaColor = 'rgba(207, 62, 62, 0.3)';
+          }
+
+          if (lckTs[i].value !== 0) {
+            annotations.push({
+              drawTime: 'beforeDatasetsDraw',
+              type: 'box',
+              xScaleID: 'x-axis-0',
+              xMin: lckTs[i].start,
+              xMax: lckTs[i].end,
+              borderColor: areaColor,
+              borderWidth: 0,
+              backgroundColor: areaColor,
+            });
+          }
+        }
+      }
+
       const filter = (legendItem) => !`${legendItem.text}`.startsWith('hide_');
       let xAxes = {};
       if (!['E10a1', 'E10a2', 'E10a3', 'E10a5', 'E10a6', 'E10a7', 'E10a8', 'E10c', 'E12c', 'E12d', 'N2'].includes(indicatorCode)) {
