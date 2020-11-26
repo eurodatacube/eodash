@@ -3,24 +3,24 @@ import csv
 import requests
 import datetime
 import json
+import os.path
 
 # 0 - No measures
 # 1 - recommend movement restriction 2 - restrict movement
 # 0 - Targeted 1- General
 
 
-#print("Downloading the latest OxCGRT lockdown data")
-output_file = 'lockdown_data.json'
-#url = 'https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv'
-file_path = 'lockdown_data_test.csv'
+output_file = 'data/lockdown_data.json'
 
 DATAFILE = 'OxCGRT_Download_{}_Full.csv'.format(
     datetime.datetime.utcnow().strftime("%Y-%m-%d")
 )
 url = 'https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv'
-myfile = requests.get(url, allow_redirects=True)
 
-open(DATAFILE, 'wb').write(myfile.content)
+if not os.path.isfile(DATAFILE):
+    print("Downloading the latest OxCGRT lockdown data")
+    myfile = requests.get(url, allow_redirects=True)
+    open(DATAFILE, 'wb').write(myfile.content)
 
 with open(DATAFILE) as csvfile:
     reader = csv.DictReader(csvfile, delimiter=",", quotechar='"')
