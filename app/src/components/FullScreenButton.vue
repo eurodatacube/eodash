@@ -12,7 +12,7 @@
       >
         <v-icon
           :class="touch && 'fs-icon-touch'"
-        >{{ fullscreen 
+        >{{ fullscreen
           ? 'mdi-fullscreen-exit'
           : 'mdi-fullscreen' }}</v-icon>
       </v-btn>
@@ -24,6 +24,7 @@
 <script>
 import fullscreen from 'vue-fullscreen';
 import Vue from 'vue';
+
 Vue.use(fullscreen);
 
 export default {
@@ -40,27 +41,26 @@ export default {
   methods: {
     toggleFullscreen(event) {
       // Toggle fullscreen Element in the container element
-      const parentElement = event.target.closest('.v-btn').parentElement;
+      const { parentElement } = event.target.closest('.v-btn');
       this.fullScreenElement = parentElement;
       this.$fullscreen.toggle(parentElement, {
         wrap: false,
         callback: this.fullscreenChange,
-      })
+      });
     },
-    fullscreenChange (fullscreen) {
-      this.fullscreen = fullscreen;
+    fullscreenChange(fullscreenActive) {
+      this.fullscreen = fullscreenActive;
       const app = document.querySelector('.v-application');
-      if (fullscreen) {
+      if (fullscreenActive) {
         app.classList.add('fullScreenActive');
         this.fullScreenElement.classList.add('fullscreenElement');
-      }
-      else {
+      } else {
         app.classList.remove('fullScreenActive');
         this.fullScreenElement.classList.remove('fullscreenElement');
       }
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>
