@@ -43,6 +43,7 @@
       app
       clipped
       style="overflow: hidden"
+      class="drawerLeft"
     >
       <template v-if="$vuetify.breakpoint.xsOnly">
         <v-list-item style="background: var(--v-primary-base)">
@@ -261,26 +262,6 @@
         </a>
       </small>
       <feedback-button />
-      <v-tooltip top>
-        <template v-slot:activator="{ on, attrs }">
-          <v-icon
-            color="white"
-            small
-            dark
-            class="ml-2"
-            v-bind="attrs"
-            v-on="on"
-            @click="$vuetify.theme.dark = !$vuetify.theme.dark"
-          >
-            {{
-              $vuetify.theme.dark
-                ? 'mdi-white-balance-sunny'
-                : 'mdi-weather-night'
-            }}
-          </v-icon>
-        </template>
-        <span>Enable {{ $vuetify.theme.dark ? 'light' : 'dark' }} mode</span>
-      </v-tooltip>
     </v-footer>
   </div>
 </template>

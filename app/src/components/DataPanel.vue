@@ -2,7 +2,7 @@
   <div style="height: auto;"
     :style="$vuetify.breakpoint.mdAndDown && 'padding-bottom: 100px'"
   >
-    <v-container class="pt-0">
+    <v-container class="pt-0" :class="showFullScreen && 'showFullScreenButton'">
       <v-row v-if="indicatorObject">
         <v-col
           cols="12"
@@ -37,6 +37,7 @@
                 class="fill-height"
                 :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
               >
+                <full-screen-button v-if="showFullScreen" />
                 <div
                   style="height: 100%;z-index: 500; position: relative;"
                   v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
@@ -56,7 +57,7 @@
                 <indicator-map
                   ref="indicatorMap"
                   style="top: 0px; position: absolute;"
-                  v-if="globalData"
+                  v-if="showMap"
                   class="pt-0 fill-height"
                   :currentIndicator="sensorData.properties.indicatorObject"
                   v-on:fetchCustomAreaIndicator="scrollToCustomAreaIndicator"
@@ -75,6 +76,7 @@
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
           >
+            <full-screen-button v-if="showFullScreen" />
             <div
               style="height: 100%;z-index: 500; position: relative;"
               v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
@@ -95,7 +97,7 @@
               ref="indicatorMap"
               v-on:fetchCustomAreaIndicator="scrollToCustomAreaIndicator"
               style="top: 0px; position: absolute;"
-              v-if="globalData"
+              v-if="showMap"
               class="pt-0 fill-height"
             />
             <indicator-data
@@ -136,7 +138,7 @@
               :href="dataHrefCSV"
               :download="downloadFileName"
               target="_blank"
-              v-if="indicatorObject && !indicatorObject.hasOwnProperty('display')"
+              v-if="indicatorObject && !showMap"
             >
               <v-icon left>mdi-download</v-icon>
               download csv
@@ -241,6 +243,7 @@ import dialogMixin from '@/mixins/dialogMixin';
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
+import FullScreenButton from '@/components/FullScreenButton.vue';
 import IframeButton from '@/components/IframeButton.vue';
 
 export default {
@@ -252,6 +255,7 @@ export default {
     ExpandableContent,
     IndicatorData,
     IndicatorMap,
+    FullScreenButton,
     IframeButton,
   },
   data: () => ({
@@ -272,6 +276,11 @@ export default {
       'appConfig',
       'baseConfig',
     ]),
+    showFullScreen() {
+      const isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+      const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      return !isSafari && !iOS;
+    },
     story() {
       let markdown;
       try {
@@ -333,7 +342,8 @@ export default {
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
     },
-    globalData() {
+    showMap() {
+      // if returns true, we are showing map, if false we show chart
       return ['all'].includes(this.indicatorObject.country) || Array.isArray(this.indicatorObject.country);
     },
     externalData() {

@@ -23,7 +23,7 @@
           :key="category"
           :cols="$vuetify.breakpoint.smAndDown && '12'"
         >
-          <v-card outlined class="pa-5 text-center">
+          <v-card outlined class="px-4 py-2 text-center">
             <h2 class="primary--text display-3">
               <v-icon
                 x-large

@@ -1048,9 +1048,11 @@ export default {
 
       if (['N3'].includes(indicatorCode)) {
         yAxes[0].type = 'myLogScale';
+        if (this.indicatorObject.aoiID === 'ES19') {
+          yAxes[0].min = 0.02;
+          yAxes[0].max = 1;
+        }
         yAxes[0].ticks = {
-          min: 0.1,
-          max: 10,
           callback: (...args) => {
             const value = Chart.Ticks.formatters.logarithmic.call(this, ...args);
             if (value.length) {

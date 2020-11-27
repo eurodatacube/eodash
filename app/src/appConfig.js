@@ -24,24 +24,23 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'UK7-E13d',
-        src: './eodash-data/general/Slide6.png',
+        poi: 'Barcelona-N3a2',
+        src: './eodash-data/general/Slide9.png',
       },
       {
-        poi: 'RhoneDeltaTSM-N3a2',
-        src: './eodash-data/general/Slide1.png',
+        iframe: 'https://www.youtube.com/embed/Ofb2pNQc424',
       },
       {
-        poi: 'FR-N1',
-        src: './eodash-data/general/Slide3.png',
+        poi: 'FI4-E13',
+        src: './eodash-data/general/Slide10.png',
       },
       {
-        poi: 'RO3-E11',
-        src: './eodash-data/general/Slide4.png',
+        poi: 'World-N1',
+        src: './eodash-data/general/Slide11.png',
       },
       {
-        poi: 'W2-E12c',
-        src: './eodash-data/general/Slide5.png',
+        poi: 'BE9-E8',
+        src: './eodash-data/general/Slide12.png',
       },
     ],
     privacyText: '/eodash-data/general/privacy',

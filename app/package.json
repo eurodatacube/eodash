@@ -1,6 +1,6 @@
 {
   "name": "race-dashboard",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -31,6 +31,7 @@
     "vue-chartjs": "^3.5.0",
     "vue-cookie-law": "^1.13.3",
     "vue-country-flag": "^2.0.1",
+    "vue-fullscreen": "^2.1.6",
     "vue-matomo": "^3.13.5-0",
     "vue-meta": "^2.3.3",
     "vue-papa-parse": "^2.0.0",
