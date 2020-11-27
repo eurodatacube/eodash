@@ -28,7 +28,7 @@ module.exports = [
         src: './eodash-data/general/Slide9.png',
       },
       {
-        iframe: 'https://www.youtube.com/watch?v=Ofb2pNQc424&feature=emb_logo',
+        iframe: 'https://www.youtube.com/embed/ARpxtAKsORw',
       },
       {
         poi: 'FI4-E13',
