@@ -228,14 +228,16 @@ export default {
     uniqueClasses() {
       const classes = {};
       const indDef = this.baseConfig.indicatorsDefinition;
-      Object.keys(indDef).map((key) => {
-        if (typeof classes[indDef[key].class] === 'undefined') {
-          classes[indDef[key].class] = [key];
-        } else {
-          classes[indDef[key].class].push(key);
-        }
-        return null;
-      });
+      Object.keys(indDef)
+        .filter((key) => indDef[key].hideInFilters !== true)
+        .map((key) => {
+          if (typeof classes[indDef[key].class] === 'undefined') {
+            classes[indDef[key].class] = [key];
+          } else {
+            classes[indDef[key].class].push(key);
+          }
+          return null;
+        });
       return classes;
     },
     indicatorItems() {
