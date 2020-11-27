@@ -756,7 +756,7 @@ export default {
         },
       };
       if (!Number.isNaN(reference)
-        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'N4c', 'E8']
+        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'N4c', 'E8', 'E12c', 'E12d']
           .includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
@@ -806,12 +806,13 @@ export default {
 
       // Introduce background area annotations for lockdown times, does not
       // work for all chart types, so we make sure it is not any of those charts
-      if (!['E10a3', 'E10a8', 'N2'].includes(indicatorCode)) {
+      if (!['E10a3', 'E10a8', 'N2', 'E12c', 'E12d'].includes(indicatorCode)) {
         // Find country based on alpha-3 code
         const currCountry = countries.features.find(
           (cntr) => cntr.properties.alpha2 === this.indicatorObject.country,
         );
-        if (Object.prototype.hasOwnProperty.call(lockdownTimes, currCountry.id)) {
+        if (typeof currCountry !== 'undefined'
+          && Object.prototype.hasOwnProperty.call(lockdownTimes, currCountry.id)) {
           const lckTs = lockdownTimes[currCountry.id]['C7_Restrictions on internal movement'];
           for (let i = 0; i < lckTs.length; i++) {
             let areaColor = 'rgba(0, 0, 0, 0.0)';
@@ -999,7 +1000,8 @@ export default {
 
             // Now we add our default 2 lockdown labels but we exclude indicators
             // where it is not applicable
-            if (!['E10a1', 'E10a5', 'E10a8', 'N2', 'N4c'].includes(this.indicatorObject.indicator)) {
+            if (!['E10a1', 'E10a5', 'E10a8', 'N2', 'N4c', 'E12c', 'E12d']
+              .includes(this.indicatorObject.indicator)) {
               labelObjects.push({
                 text: 'soft restrictions',
                 fillStyle: 'rgba(207, 199, 62, 0.4)',
