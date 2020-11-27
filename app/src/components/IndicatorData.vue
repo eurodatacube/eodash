@@ -817,9 +817,9 @@ export default {
           for (let i = 0; i < lckTs.length; i++) {
             let areaColor = 'rgba(0, 0, 0, 0.0)';
             if (lckTs[i].value === 1) {
-              areaColor = 'rgba(207, 199, 62, 0.4)';
+              areaColor = 'rgba(204, 143, 143, 0.24)';
             } else if (lckTs[i].value === 2) {
-              areaColor = 'rgba(207, 62, 62, 0.3)';
+              areaColor = 'rgba(207, 109, 109, 0.54)';
             }
             // We also have special date handling for some chart types as we
             // simulate year agnostic rendering, so we convert all dates to
@@ -997,21 +997,20 @@ export default {
                 datasetIndex: meta.index,
               };
             }, this);
-
             // Now we add our default 2 lockdown labels but we exclude indicators
             // where it is not applicable
             if (!['E10a1', 'E10a5', 'E10a8', 'N2', 'N4c', 'E12c', 'E12d']
               .includes(this.indicatorObject.indicator)) {
               labelObjects.push({
-                text: 'soft restrictions',
-                fillStyle: 'rgba(207, 199, 62, 0.4)',
+                text: 'soft movement restrictions',
+                fillStyle: 'rgba(204, 143, 143, 0.24)',
                 hidden: false,
                 lineWidth: 0,
                 datasetIndex: -1,
               });
               labelObjects.push({
-                text: 'hard restrictions',
-                fillStyle: 'rgba(207, 62, 62, 0.3)',
+                text: 'hard movement restrictions',
+                fillStyle: 'rgba(207, 109, 109, 0.54)',
                 hidden: false,
                 lineWidth: 0,
                 datasetIndex: -1,
