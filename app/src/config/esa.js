@@ -203,7 +203,10 @@ export const indicatorsDefinition = Object.freeze({
     largeTimeDuration: true,
   },
   /*
-  N1a: {},
+  N1a: {
+    hideInFilters: true,
+    class: 'air',
+  },
   N1b: {
     indicator: 'CAMS Air quality',
     class: 'air',
