@@ -28,6 +28,9 @@ module.exports = [
         src: './eodash-data/general/Slide6.png',
       },
       {
+        iframe: 'https://www.youtube.com/embed/ARpxtAKsORw',
+      },
+      {
         poi: 'RhoneDeltaTSM-N3a2',
         src: './eodash-data/general/Slide1.png',
       },
