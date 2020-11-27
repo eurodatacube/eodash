@@ -152,7 +152,6 @@ export default {
             label: labelref,
             data: referenceValue,
             fill: false,
-            borderColor: 'red',
             backgroundColor: 'grey',
           });
           datasets.push({
@@ -160,7 +159,6 @@ export default {
             label: labelmeas,
             data: measurement,
             fill: false,
-            borderColor: 'darkcyan',
             backgroundColor: 'black',
           });
         } else if (['N3b'].includes(indicatorCode)) {
@@ -808,7 +806,7 @@ export default {
 
       // Introduce background area annotations for lockdown times, does not
       // work for all chart types, so we make sure it is not any of those charts
-      if (!['E10a8'].includes(indicatorCode)) {
+      if (!['E10a3', 'E10a8', 'N2'].includes(indicatorCode)) {
         // Find country based on alpha-3 code
         const currCountry = countries.features.find(
           (cntr) => cntr.properties.alpha2 === this.indicatorObject.country,
@@ -999,21 +997,24 @@ export default {
               };
             }, this);
 
-            // Now we add our default 2 lockdown labels
-            labelObjects.push({
-              text: 'soft restrictions',
-              fillStyle: 'rgba(207, 199, 62, 0.4)',
-              hidden: false,
-              lineWidth: 0,
-              datasetIndex: -1,
-            });
-            labelObjects.push({
-              text: 'hard restrictions',
-              fillStyle: 'rgba(207, 62, 62, 0.3)',
-              hidden: false,
-              lineWidth: 0,
-              datasetIndex: -1,
-            });
+            // Now we add our default 2 lockdown labels but we exclude indicators
+            // where it is not applicable
+            if (!['E10a1', 'E10a5', 'E10a8', 'N2', 'N4c'].includes(this.indicatorObject.indicator)) {
+              labelObjects.push({
+                text: 'soft restrictions',
+                fillStyle: 'rgba(207, 199, 62, 0.4)',
+                hidden: false,
+                lineWidth: 0,
+                datasetIndex: -1,
+              });
+              labelObjects.push({
+                text: 'hard restrictions',
+                fillStyle: 'rgba(207, 62, 62, 0.3)',
+                hidden: false,
+                lineWidth: 0,
+                datasetIndex: -1,
+              });
+            }
             return labelObjects;
           },
         },
