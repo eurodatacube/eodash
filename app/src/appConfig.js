@@ -46,6 +46,9 @@ module.exports = [
     privacyText: '/eodash-data/general/privacy',
     termsText: '/eodash-data/general/terms',
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube'],
+    // The label parameter can be used as string to select the parameter identifier
+    // or it can be an array of strings the same size as features to set custom
+    // tab titles for each of the tabbed groups
     featureGrouping: [
       {
         features: [
@@ -145,7 +148,7 @@ module.exports = [
       'NO2', 'FR10', 'ME1', 'CZ6', 'XK1', 'IS1', 'LV3', 'IT11', 'BA1', 'MK1',
       'BG4', 'SE22', 'EE1', 'AL1', 'IT38', 'ES65', 'MT2', 'AT5', 'LT3', 'PL6',
       'HR3', 'OS1',
-    ].map((val) => ({ features: [`${val}-N1b`, `${val}-N1a`], label: 'indicatorName' }))),
+    ].map((val) => ({ features: [`${val}-N1b`, `${val}-N1a`, `${val}-N1c`, `${val}-N1d`], label: ['NO2', 'PM 2.5', 'PM10', 'O3'] }))),
   },
   {
     id: 'trilateral',

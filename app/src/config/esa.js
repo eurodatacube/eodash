@@ -215,6 +215,14 @@ export const indicatorsDefinition = Object.freeze({
       url: 'https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis',
     },
   },
+  N1c: {
+    hideInFilters: true,
+    class: 'air',
+  },
+  N1d: {
+    hideInFilters: true,
+    class: 'air',
+  },
   N2: {
     indicator: 'CO2 emissions',
     class: 'air',
@@ -383,16 +391,16 @@ export const defaultWMSDisplay = {
   minZoom: 7,
 };
 
-// const getDailyDates = (start, end) => {
-//   let currentDate = DateTime.fromISO(start);
-//   const stopDate = DateTime.fromISO(end);
-//   const dateArray = [];
-//   while (currentDate <= stopDate) {
-//     dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
-//     currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
-//   }
-//   return dateArray;
-// };
+const getDailyDates = (start, end) => {
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+    currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
+  }
+  return dateArray;
+};
 
 const getWeeklyDates = (start, end) => {
   let currentDate = DateTime.fromISO(start);
@@ -489,7 +497,6 @@ export const globalIndicators = [
       },
     },
   },
-  /*
   {
     properties: {
       indicatorObject: {
@@ -560,7 +567,6 @@ export const globalIndicators = [
       },
     },
   },
-  */
   {
     id: 9999,
     latlng: latLng([45.197522, 13.029785]),
