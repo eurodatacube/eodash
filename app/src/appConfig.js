@@ -54,8 +54,10 @@ module.exports = [
         features: [
           'GCAQ1-N1b',
           'GCAQ2-N1b',
+          'GCAQ3-N1b',
+          'GCAQ4-N1b',
         ],
-        label: 'indicatorName',
+        label: ['NO2', 'PM 2.5', 'PM10', 'O3'],
       },
       {
         features: [

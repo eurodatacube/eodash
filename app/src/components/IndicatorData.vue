@@ -1002,14 +1002,14 @@ export default {
             if (!['E10a1', 'E10a5', 'E10a8', 'N2', 'N4c', 'E12c', 'E12d']
               .includes(this.indicatorObject.indicator)) {
               labelObjects.push({
-                text: 'soft movement restrictions',
+                text: 'Low Restrictions',
                 fillStyle: 'rgba(204, 143, 143, 0.24)',
                 hidden: false,
                 lineWidth: 0,
                 datasetIndex: -1,
               });
               labelObjects.push({
-                text: 'hard movement restrictions',
+                text: 'High Restrictions',
                 fillStyle: 'rgba(207, 109, 109, 0.54)',
                 hidden: false,
                 lineWidth: 0,
