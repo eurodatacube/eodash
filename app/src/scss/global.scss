@@ -56,6 +56,10 @@
   height: 30px !important;
 }
 
+.v-input {
+  background: #fff;
+}
+
 .v-application.theme--dark {
   .md-body {
     h1,
@@ -70,7 +74,10 @@
   a, .primary--text {
     color: #fff !important;
   }
-  .v-dialog--fullscreen {
+  .v-input, {
+    background: #1E1E1E;
+  }
+  .v-dialog--fullscreen, {
     background: #363636;
   }
   .v-tab--active {
