@@ -553,12 +553,12 @@ const getWeeklyDates = (start, end) => {
 
 const getFortnightIntervalDates = (start, end) => {
   let currentDate = DateTime.fromISO(start);
-  const stopDate = DateTime.fromISO(end).minus({ weeks: 2 });
+  const stopDate = end === 'now' ? DateTime.utc().minus({ days: 13 }) : DateTime.fromISO(end).minus({ days: 13 });
   const dateArray = [];
   while (currentDate <= stopDate) {
     dateArray.push([
       DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'),
-      DateTime.fromISO(currentDate).plus({ weeks: 2 }).toFormat('yyyy-MM-dd'),
+      DateTime.fromISO(currentDate).plus({ days: 13 }).toFormat('yyyy-MM-dd'),
     ]);
     currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
   }
@@ -591,7 +591,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W1',
-        time: getFortnightIntervalDates('2019-01-07', '2020-11-30'),
+        time: getFortnightIntervalDates('2019-01-07', 'now'),
         inputData: [''],
         yAxis: 'Tropospheric NO2 (μmol/m2)',
         customAreaIndicator: true,
@@ -604,7 +604,7 @@ export const globalIndicators = [
           attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           minZoom: 1,
           maxNativeZoom: 8,
-          dateFormatFunction: (date) => DateTime.fromISO(date[1]).toFormat('yyyy-MM-dd'),
+          dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           areaIndicator: {
             url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
             callbackFunction: (requestJson, indicator) => {
