@@ -20,28 +20,132 @@ module.exports = [
     customCSS: 'esa',
     aboutText: '/eodash-data/general/about',
     welcomeText: '/eodash-data/general/welcome',
+    tutorialText: '/eodash-data/general/tutorials',
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'PT-N1',
-        src: './eodash-data/general/Slide1.png',
+        poi: 'Barcelona-N3a2',
+        src: './eodash-data/general/Slide9.png',
       },
       {
-        poi: 'RhoneDelta-N3a2',
-        src: './eodash-data/general/Slide2.png',
+        iframe: 'https://www.youtube.com/embed/Ofb2pNQc424',
       },
       {
-        poi: 'ES7-E1',
-        src: './eodash-data/general/Slide3.png',
+        poi: 'FI4-E13',
+        src: './eodash-data/general/Slide10.png',
       },
       {
-        poi: 'RO3-E11',
-        src: './eodash-data/general/Slide4.png',
+        poi: 'World-N1',
+        src: './eodash-data/general/Slide11.png',
+      },
+      {
+        poi: 'BE9-E8',
+        src: './eodash-data/general/Slide12.png',
       },
     ],
     privacyText: '/eodash-data/general/privacy',
     termsText: '/eodash-data/general/terms',
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube'],
+    featureGrouping: [
+      {
+        features: [
+          'GCAQ1-N1b',
+          'GCAQ2-N1b',
+        ],
+        label: 'indicatorName',
+      },
+      {
+        features: [
+          'W2-E12c',
+          'W3-E12c',
+        ],
+        label: 'indicatorName',
+      },
+      {
+        features: [
+          'ES61a-E10a6',
+          'ES61b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES62a-E10a6',
+          'ES62b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES30a-E10a6',
+          'ES30b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES22a-E10a6',
+          'ES22b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES23a-E10a6',
+          'ES23b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES24a-E10a6',
+          'ES24b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES41a-E10a6',
+          'ES41b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES42a-E10a6',
+          'ES42b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES43a-E10a6',
+          'ES43b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES51a-E10a6',
+          'ES51b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES52a-E10a6',
+          'ES52b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+    ].concat([
+      'NL3', 'TR3', 'GR6', 'ES63', 'RS1', 'DE16', 'CH2', 'UK10', 'SK4', 'BE7',
+      'RO9', 'HU5', 'DE13', 'DK1', 'IE3', 'DE17', 'FI4', 'PT3', 'SI3', 'UK11',
+      'LU2', 'FR15', 'ES12', 'FR16', 'IT10', 'MC1', 'DE18', 'IT37', 'CY2',
+      'NO2', 'FR10', 'ME1', 'CZ6', 'XK1', 'IS1', 'LV3', 'IT11', 'BA1', 'MK1',
+      'BG4', 'SE22', 'EE1', 'AL1', 'IT38', 'ES65', 'MT2', 'AT5', 'LT3', 'PL6',
+      'HR3', 'OS1',
+    ].map((val) => ({ features: [`${val}-N1b`, `${val}-N1a`], label: 'indicatorName' }))),
   },
   {
     id: 'trilateral',
@@ -68,20 +172,28 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'ES41-E10a8',
+        poi: 'FR01-N1',
         src: './data/trilateral/Slide1.png',
       },
       {
-        poi: 'NorthAdriaticJAXA-N3a2',
+        poi: 'IN02-N2',
         src: './data/trilateral/Slide2.png',
       },
       {
-        poi: 'US01-N1',
+        poi: 'JP03-E9',
         src: './data/trilateral/Slide3.png',
       },
       {
-        poi: 'JP01-N5',
+        poi: 'US031-E13b',
         src: './data/trilateral/Slide4.png',
+      },
+      {
+        poi: 'BE03-N5',
+        src: './data/trilateral/Slide5.png',
+      },
+      {
+        poi: 'BR02-N7',
+        src: './data/trilateral/Slide6.png',
       },
     ],
     customCountryList: [
@@ -103,6 +215,130 @@ module.exports = [
       { code: 'PE', region: 'SOUTH AMERICA' },
       { code: 'TG', region: 'AFRICA' },
       { code: 'TZ', region: 'AFRICA' },
+    ],
+    featureGrouping: [
+      {
+        features: [
+          'NorthAdriaticTSM_ESA-N3a2',
+          'NorthAdriaticTSM_NASA-N3a2',
+          'NorthAdriaticTSM_JAXA-N3a2',
+        ],
+        label: 'dataProvider',
+      },
+      {
+        features: [
+          'NorthAdriatic_ESA-N3a2',
+          'NorthAdriatic_NASA-N3a2',
+          'NorthAdriatic_JAXA-N3a2',
+        ],
+        label: 'dataProvider',
+      },
+      {
+        features: [
+          'W1-N1',
+          'W2-N1',
+          'W3-N1',
+        ],
+        label: 'eoSensor',
+      },
+      {
+        features: [
+          'W4-N2',
+          'W5-N2',
+        ],
+        label: 'calcMethod',
+      },
+      {
+        features: [
+          'US08-E10c',
+          'US09-E10c',
+        ],
+        label: 'eoSensor',
+      },
+      {
+        features: [
+          'W2-E12c',
+          'W3-E12c',
+        ],
+        label: 'indicatorName',
+      },
+      {
+        features: [
+          'ES61a-E10a6',
+          'ES61b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES62a-E10a6',
+          'ES62b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES30a-E10a6',
+          'ES30b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES22a-E10a6',
+          'ES22b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES23a-E10a6',
+          'ES23b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES24a-E10a6',
+          'ES24b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES41a-E10a6',
+          'ES41b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES42a-E10a6',
+          'ES42b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES43a-E10a6',
+          'ES43b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES51a-E10a6',
+          'ES51b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
+      {
+        features: [
+          'ES52a-E10a6',
+          'ES52b-E10a6',
+        ],
+        label: 'indicatorValue',
+      },
     ],
     privacyText: '/data/trilateral/privacy',
     termsText: '/data/trilateral/terms',

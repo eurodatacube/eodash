@@ -41,3 +41,55 @@
     height: 100%;
   }
 }
+
+.leaflet-control-layers-toggle {
+  width: 26px !important;
+  height: 26px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+}
+
+.leaflet-touch .leaflet-control-layers-toggle {
+  width: 30px !important;
+  height: 30px !important;
+}
+
+.v-input {
+  background: #fff;
+}
+
+.v-application.theme--dark {
+  .md-body {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #fff !important;
+    }
+  }
+  a, .primary--text {
+    color: #fff !important;
+  }
+  .v-input, {
+    background: #1E1E1E;
+  }
+  .v-dialog--fullscreen, {
+    background: #363636;
+  }
+  .v-tab--active {
+    color: #fff !important;
+  }
+  .leaflet-control-zoom, .leaflet-control-zoom a {
+    // color: #363636 !important;
+    background: #363636 !important;
+    color: #fff !important;
+  }
+  .leaflet-control-layers,.leaflet-draw-toolbar a {
+    // background: #363636 !important;
+    filter: invert(1);
+  }
+}

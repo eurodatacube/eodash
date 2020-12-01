@@ -2,7 +2,6 @@
   <div class="fill-height pb-8">
     <v-tabs
       v-model="tab"
-      :color="$vuetify.theme.themes.light.primary"
       icons-and-text
       grow
     >
@@ -68,7 +67,8 @@
                       {{ baseConfig.indicatorClassesIcons[baseConfig
                           .indicatorsDefinition[feature.properties.indicatorObject.indicator].class]
                           ? baseConfig.indicatorClassesIcons[baseConfig
-                            .indicatorsDefinition[feature.properties.indicatorObject.indicator].class]
+                            .indicatorsDefinition[feature.properties
+                              .indicatorObject.indicator].class]
                           : 'mdi-lightbulb-on-outline'}}
                     </v-icon>
                 </div>
@@ -76,7 +76,7 @@
              <v-list-item-content
               :class="currentlySelected(feature) && 'font-weight-bold'"
              >
-              {{feature.properties.indicatorObject.indicatorName}}
+              {{feature.properties.indicatorObject.description}}
               </v-list-item-content>
              </v-list-item>
             </v-list>
@@ -191,7 +191,7 @@ export default {
   }),
   computed: {
     ...mapGetters('features', [
-      'getFeatures',
+      'getGroupedFeatures',
       'getIndicators',
     ]),
     ...mapState('config', ['baseConfig']),
@@ -199,11 +199,15 @@ export default {
       return countries;
     },
     globalIndicators() {
-      return this.getFeatures
-        .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName));
+      return this.getGroupedFeatures && this.getGroupedFeatures
+        .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName))
+        .sort((a, b) => ((a.properties.indicatorObject.indicatorName
+          > b.properties.indicatorObject.indicatorName)
+          ? 1
+          : -1));
     },
     someGlobalIndicator() {
-      return this.globalIndicators
+      return this.globalIndicators && this.globalIndicators
         .filter((i) => this.$store.state.features.featureFilters.indicators
           .includes(i.properties.indicatorObject.indicator));
     },
@@ -230,7 +234,7 @@ export default {
       this.$store.commit('features/SET_FEATURE_FILTER', { indicators: [] });
     },
     getUniqueKey(indicatorObject) {
-      return `${indicatorObject.indicator}-${indicatorObject.aoiID}`;
+      return this.getLocationCode(indicatorObject);
     },
     currentlySelected(feature) {
       return this.$store.state.indicators.selectedIndicator

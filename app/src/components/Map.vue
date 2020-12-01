@@ -15,7 +15,7 @@
     <l-control-layers position="topright"></l-control-layers>
     <l-control-zoom position="topright"></l-control-zoom>
     <LTileLayer
-      v-for="layer in baseLayers"
+      v-for="layer in baseLayers.filter(b => b.protocol === 'xyz')"
       :key="layer.name"
       v-bind="layer"
       layer-type="base"
@@ -23,6 +23,14 @@
       :options="layerOptions(null, layer)"
     >
     </LTileLayer>
+    <LWMSTileLayer
+      v-for="layer in baseLayers.filter(b => b.protocol === 'WMS')"
+      :key="layer.name"
+      v-bind="layer"
+      :options="layerOptions(null, layer)"
+      layer-type="base"
+    >
+    </LWMSTileLayer>
     <l-geo-json
     :geojson="countriesJson"
     :optionsStyle="countriesStyle"
@@ -36,7 +44,7 @@
     :optionsStyle="subAoiStyle">
     </l-geo-json>
     <LTileLayer
-      v-for="layer in overlayLayers"
+      v-for="layer in overlayLayers.filter(b => b.protocol === 'xyz')"
       :key="layer.name"
       v-bind="layer"
       layer-type="overlay"
@@ -44,34 +52,48 @@
       :options="layerOptions(null, layer)"
     >
     </LTileLayer>
+    <LWMSTileLayer
+      v-for="layer in overlayLayers.filter(b => b.protocol === 'WMS')"
+      v-bind="layer"
+      :key="layer.name"
+      :options="layerOptions(null, layer)"
+      :opacity="opacityOverlay[zoom]"
+      layer-type="overlay"
+    >
+    </LWMSTileLayer>
     <l-marker-cluster ref="clusterLayer" :options="clusterOptions">
-      <l-marker v-for="(feature) in getFeatures.filter((f) => f.latlng)"
+      <l-marker v-for="(feature) in getGroupedFeatures.filter((f) => f.latlng)"
         :key="feature.id"
         ref="markers"
         :lat-lng="feature.latlng"
-        :name='`${feature.id}`'
+        :name='`${getLocationCode(feature.properties.indicatorObject)}`'
         @click="selectIndicator(feature)"
       >
         <l-icon
-          :icon-anchor="currentSelected === feature.id ? [18, 18] : [14, 14]"
+          :icon-anchor="currentSelected === getLocationCode(feature.properties.indicatorObject)
+            ? [18, 18]
+            : [14, 14]"
           style="outline: none;"
         >
           <div
             :style="`display: flex; align-items: center;
               justify-content: center;
               border-radius: 50%;
-              border: 2px ${currentSelected === feature.id
-                ? 'dashed var(--v-primary-base)'
-                : 'solid white'};
-              width: ${currentSelected === feature.id ? '36px' : '28px'};
-              height: ${currentSelected === feature.id ? '36px' : '28px'};
+              border: 2px ${currentSelected ===
+                getLocationCode(feature.properties.indicatorObject)
+                  ? 'dashed var(--v-primary-base)'
+                  : 'solid white'};
+              width: ${currentSelected ===
+                getLocationCode(feature.properties.indicatorObject) ? '36px' : '28px'};
+              height: ${currentSelected ===
+                getLocationCode(feature.properties.indicatorObject) ? '36px' : '28px'};
               background-color: ${getColor(feature.properties.indicatorObject)}`"
           >
               <v-icon
                 color="white"
                 class="pa-1"
                 icon-url="/test"
-                :small="currentSelected !== feature.id"
+                :small="currentSelected !== getLocationCode(feature.properties.indicatorObject)"
               >
                 {{ baseConfig.indicatorClassesIcons[baseConfig
                     .indicatorsDefinition[feature.properties.indicatorObject.indicator].class]
@@ -109,7 +131,7 @@ import {
   geoJson, Point, DivIcon, featureGroup,
 } from 'leaflet';
 import {
-  LMap, LTileLayer, LGeoJson, LMarker, LIcon, LTooltip,
+  LMap, LTileLayer, LWMSTileLayer, LGeoJson, LMarker, LIcon, LTooltip,
   LControlLayers, LControlAttribution, LControlZoom,
 } from 'vue2-leaflet';
 import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster';
@@ -124,6 +146,7 @@ export default {
   components: {
     LMap,
     LTileLayer,
+    LWMSTileLayer,
     LGeoJson,
     LMarker,
     LIcon,
@@ -154,13 +177,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('features', ['getFeatures']),
+    ...mapGetters('features', ['getGroupedFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayers() {
-      return this.baseConfig.baseLayers;
+      return this.baseConfig.baseLayersLeftMap;
     },
     overlayLayers() {
-      return this.baseConfig.overlayLayers;
+      return this.baseConfig.overlayLayersLeftMap;
     },
     countriesJson() {
       return countries;
@@ -175,7 +198,7 @@ export default {
           let selCluster = null;
           if (this.currentSelected !== null && this.$refs.clusterLayer) {
             const selectedMarker = this.$refs.markers.find(
-              (item) => parseInt(item.name, 10) === this.currentSelected,
+              (item) => item.name === this.currentSelected,
             );
             if (selectedMarker) {
               selCluster = this.$refs.clusterLayer.mapObject.getVisibleParent(
@@ -278,7 +301,7 @@ export default {
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'indicators/INDICATOR_LOAD_FINISHED') {
         if (mutation.payload !== null && mutation.payload.aoi !== null) {
-          this.currentSelected = mutation.payload.id;
+          this.currentSelected = this.getLocationCode(mutation.payload);
           if (mutation.payload.subAoi) {
             this.subAoi = mutation.payload.subAoi;
           }
@@ -298,6 +321,9 @@ export default {
       const { indicatorObject } = feature.properties;
       if (!indicatorObject.dummyFeature) {
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
+        const query = { ...this.$route.query };
+        delete query.sensor;
+        this.$router.replace({ query }).catch(() => {});
       }
     },
     getColor(indObj) {
@@ -308,7 +334,7 @@ export default {
           colorCode = indObj.lastColorCode;
         }
         if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')
-          && ['N1', 'N3b', 'E10a3', 'E10a8'].includes(indObj.indicator)) {
+          && ['N1', 'N1a', 'N1b', 'N3b', 'E10a3', 'E10a8'].includes(indObj.indicator)) {
           colorCode = 'BLUE';
         }
       }
@@ -331,10 +357,12 @@ export default {
           } else if (['E10a3', 'E10a8', 'N4c'].includes(indicatorObject.indicator)) {
             label += 'multiple';
           } else if (['E10a6', 'E10a7'].includes(indicatorObject.indicator)) {
-            const indVal =  Number(indicatorObject.lastMeasurement).toPrecision(4);
-            label += `${indVal}%`;
-          } else if (['N1', 'N3b'].includes(indicatorObject.indicator)) {
+            const newIndVal = Number(indicatorObject.lastMeasurement).toPrecision(4);
+            label += `${newIndVal}%`;
+          } else if (['N1', 'N3b', 'N1b'].includes(indicatorObject.indicator)) {
             label = '';
+          } else if (indVal === null) {
+            label = null;
           } else {
             label += indVal;
           }
@@ -388,7 +416,7 @@ export default {
     },
   },
   watch: {
-    getFeatures(features) {
+    getGroupedFeatures(features) {
       const featuresOnMap = features.filter((f) => f.latlng);
       if (featuresOnMap.length > 0) {
         const maxZoomFit = 8;
@@ -468,7 +496,7 @@ export default {
   margin: 1px;
 }
 ::v-deep .leaflet-control-mouseposition {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.8);
   transform: translate3d(-8px, 32px, 0);
   padding: 2px 4px;
 }

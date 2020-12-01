@@ -43,14 +43,32 @@
       app
       clipped
       style="overflow: hidden"
+      class="drawerLeft"
     >
-      <template v-if="$vuetify.breakpoint.smAndDown">
+      <template v-if="$vuetify.breakpoint.xsOnly">
         <v-list-item style="background: var(--v-primary-base)">
           <v-list-item-content>
             <h3 class="text-uppercase white--text">
               {{ appConfig && appConfig.branding.appName }}
             </h3>
           </v-list-item-content>
+          <v-list-item-action
+            class="align-center"
+          >
+            <v-icon
+              style="position: absolute;"
+              color="white"
+              small
+              dark
+              @click="$vuetify.theme.dark = !$vuetify.theme.dark"
+            >
+              {{
+                $vuetify.theme.dark
+                  ? 'mdi-white-balance-sunny'
+                  : 'mdi-weather-night'
+              }}
+            </v-icon>
+          </v-list-item-action>
         </v-list-item>
 
         <v-divider></v-divider>
@@ -87,6 +105,7 @@
       :width="dataPanelFullWidth ? '100%' : '40%'"
       :style="`margin-top: ${$vuetify.application.top}px;
         height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px`"
+      class="data-panel"
     >
       <v-toolbar v-if="$store.state.indicators.selectedIndicator" flat>
         <v-btn v-if="dataPanelFullWidth" icon @click="setDataPanelWidth(false)">
@@ -99,13 +118,19 @@
           :class="$store.state.indicators.selectedIndicator.description ===
             $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
         >
-          {{ $store.state.indicators.selectedIndicator.city }},
-          {{ $store.state.indicators.selectedIndicator.description }}
+          {{ $store.state.features.allFeatures
+              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
+              .properties.indicatorObject.city }},
+          {{ $store.state.features.allFeatures
+              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
+              .properties.indicatorObject.description }}
           <div v-if="
             $store.state.indicators.selectedIndicator.description !==
             $store.state.indicators.selectedIndicator.indicatorName"
             class="subheading" style="font-size: 0.8em">
-            {{ $store.state.indicators.selectedIndicator.indicatorName }}
+            {{ $store.state.features.allFeatures
+              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
+              .properties.indicatorObject.indicatorName }}
           </div>
         </v-toolbar-title>
       </v-toolbar>
@@ -120,7 +145,7 @@
     </v-navigation-drawer>
     <v-dialog
       v-if="$vuetify.breakpoint.smAndDown"
-      v-model="drawerRight"
+      v-model="dialog"
       persistent
       fullscreen
       hide-overlay
@@ -151,7 +176,7 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
-      <div class="scrollContainer">
+      <div class="scrollContainer data-panel">
 
         <h4 v-if="
             ($store.state.indicators.selectedIndicator && (
@@ -159,7 +184,9 @@
               $store.state.indicators.selectedIndicator.indicatorName))"
           class="px-4 py-2"
         >
-          {{ $store.state.indicators.selectedIndicator.indicatorName }}
+          {{ $store.state.features.allFeatures
+              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
+              .properties.indicatorObject.indicatorName }}
         </h4>
         <data-panel
           v-if="$store.state.indicators.selectedIndicator"
@@ -194,74 +221,60 @@
       style="z-index: 5"
       :height="$vuetify.breakpoint.xsOnly ? '60px' : '40px'"
     >
-        <v-spacer></v-spacer>
-        <small>
-          <a href="https://eurodatacube.com" target="_blank" class="white--text mx-1">EDC</a>
-          <span>service for</span>
-          <a href="https://earth.esa.int" target="_blank" class="white--text mx-1">ESA</a>
-          <span> | </span>
-          <a href="terms_and_conditions" target="_blank" class="white--text">Legal</a>
-          <span> | </span>
-          <a href="/privacy" target="_blank" class="white--text">Privacy</a>
-        </small>
-        <v-spacer></v-spacer>
-        <small class="justify-right">
-          <a href="https://github.com/eurodatacube/eodash" target="_blank" class="white--text">eodash</a>
-          <span> v{{ `${$store.getters.appVersion
-            .split('.')[0]}.${$store.getters.appVersion
-            .split('.')[1]}` }} by</span>
-          <a href="https://eox.at" target="_blank" class="white--text mx-1">
-            <img :src="require('@/assets/EOX_Logo_weiss.svg')" height="11px" class="my-0" />
-          </a>
-        </small>
-        <v-btn
-          dark
-          small
-          color="secondary"
-          class="ml-1"
-          @click="showFeedbackDialog = true"
-        >
-          <v-icon :left="!$vuetify.breakpoint.xsOnly" small>mdi-account-voice</v-icon>
-          <span v-if="!$vuetify.breakpoint.xsOnly">Feedback</span>
-        </v-btn>
+      <v-tooltip top v-if="$vuetify.breakpoint.smAndUp">
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+            color="white"
+            small
+            dark
+            class="mr-2"
+            v-bind="attrs"
+            v-on="on"
+            @click="$vuetify.theme.dark = !$vuetify.theme.dark"
+          >
+            {{
+              $vuetify.theme.dark
+                ? 'mdi-white-balance-sunny'
+                : 'mdi-weather-night'
+            }}
+          </v-icon>
+        </template>
+        <span>Enable {{ $vuetify.theme.dark ? 'light' : 'dark' }} mode</span>
+      </v-tooltip>
+      <v-spacer></v-spacer>
+      <small>
+        <a href="https://eurodatacube.com" target="_blank" class="white--text mx-1">EDC</a>
+        <span>service for</span>
+        <a href="https://earth.esa.int" target="_blank" class="white--text mx-1">ESA</a>
+        <span> | </span>
+        <a href="terms_and_conditions" target="_blank" class="white--text">Legal</a>
+        <span> | </span>
+        <a href="/privacy" target="_blank" class="white--text">Privacy</a>
+      </small>
+      <v-spacer></v-spacer>
+      <small class="justify-right">
+        <a href="https://github.com/eurodatacube/eodash" target="_blank" class="white--text">eodash</a>
+        <span> v{{ `${$store.getters.appVersion
+          .split('.')[0]}.${$store.getters.appVersion
+          .split('.')[1]}` }} by</span>
+        <a href="https://eox.at" target="_blank" class="white--text mx-1">
+          <img :src="require('@/assets/EOX_Logo_weiss.svg')" height="11px" class="my-0" />
+        </a>
+      </small>
+      <feedback-button />
     </v-footer>
-    <v-dialog
-      v-model="showFeedbackDialog"
-      width="85%"
-      :fullscreen="$vuetify.breakpoint.xsOnly"
-      :hide-overlay="$vuetify.breakpoint.xsOnly"
-      transition="dialog-bottom-transition"
-    >
-      <v-toolbar v-if="$vuetify.breakpoint.xsOnly" dark color="primary">
-        <v-toolbar-title>How can we improve eodash?
-        </v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn icon dark @click="showFeedbackDialog = false">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-toolbar>
-      <v-card :class="$vuetify.breakpoint.mdAndUp && 'pa-5'"
-        style="overflow-y: auto; height: 100%;">
-        <v-card-text>
-          <Feedback />
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="showFeedbackDialog = false">Back</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
 <script>
 import Welcome from '@/views/Welcome.vue';
 import About from '@/views/About.vue';
-import Feedback from '@/views/Feedback.vue';
+import FeedbackButton from '@/components/FeedbackButton.vue';
 import SelectionPanel from '@/components/SelectionPanel.vue';
 import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
 import closeMixin from '@/mixins/close';
+import dialogMixin from '@/mixins/dialogMixin';
 
 export default {
   metaInfo() {
@@ -276,7 +289,7 @@ export default {
   components: {
     Welcome,
     About,
-    Feedback,
+    FeedbackButton,
     SelectionPanel,
     CenterPanel,
     DataPanel,
@@ -284,12 +297,12 @@ export default {
   props: {
     source: String,
   },
-  mixins: [closeMixin],
+  mixins: [closeMixin, dialogMixin],
   data: () => ({
     drawerLeft: true,
     drawerRight: false,
+    dialog: false,
     showText: null,
-    showFeedbackDialog: false,
     dataPanelFullWidth: false,
     dataPanelTemporary: false,
     panelKey: 0,
@@ -303,11 +316,11 @@ export default {
     },
   },
   created() {
-    // this.$vuetify.theme.dark = true;
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
     this.drawerRight = this.$vuetify.breakpoint.mdAndUp;
-    // push to router history so back button interception works
-    // this.$router.push('/').catch(err => {}); // eslint-disable-line
+    if (!this.$vuetify.breakpoint.mdAndUp) {
+      this.dialog = true;
+    }
   },
   mounted() {
     this.fixFullHeight();
@@ -341,12 +354,16 @@ export default {
     },
     clickMobileClose() {
       this.drawerRight = false;
+      this.dialog = false;
       this.showText = null;
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
     },
     displayShowText(text) {
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
       this.drawerRight = true;
+      if (!this.$vuetify.breakpoint.mdAndUp) {
+        this.dialog = true;
+      }
       this.showText = text;
     },
     close() {
@@ -357,8 +374,19 @@ export default {
     indicatorSelected(selected) {
       if (selected) {
         this.drawerRight = true;
+        if (!this.$vuetify.breakpoint.mdAndUp) {
+          this.dialog = true;
+        }
       }
+      this.$store.commit('indicators/SET_CUSTOM_AREA_INDICATOR', null);
       this.panelKey = Math.random();
+    },
+    dialog(someIndicatorSelected) {
+      if (this.$vuetify.breakpoint.smAndDown) {
+        if (!someIndicatorSelected) {
+          this.clickMobileClose();
+        }
+      }
     },
   },
 };

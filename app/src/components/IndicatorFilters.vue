@@ -2,7 +2,6 @@
   <div style="width: 100%" class="fill-height">
     <v-tabs
       v-model="tab"
-      :color="$vuetify.theme.themes.light.primary"
       grow
       activeClass="tabActive"
       icons-and-text
@@ -68,7 +67,8 @@
                   {{ region.toUpperCase() }}
               </v-subheader>
               <v-list-item
-                v-for="country in countryItems.filter(cI => cI.region ? cI.region === region : true)"
+                v-for="country in countryItems
+                  .filter(cI => cI.region ? cI.region === region : true)"
                 :key="country.code"
                 :value="country.code"
                 :disabled="countrySelection === country.code"
@@ -183,9 +183,7 @@ export default {
       let countryItems;
       if (this.appConfig.customCountryList) {
         countryItems = this.appConfig.customCountryList
-          .filter((c) => {
-            return this.getCountries.includes(c.code);
-          })
+          .filter((c) => this.getCountries.includes(c.code))
           .map((c) => {
             const item = countries.features
               .find((f) => f.properties.alpha2 === c.code);
@@ -230,14 +228,16 @@ export default {
     uniqueClasses() {
       const classes = {};
       const indDef = this.baseConfig.indicatorsDefinition;
-      Object.keys(indDef).map((key) => {
-        if (typeof classes[indDef[key].class] === 'undefined') {
-          classes[indDef[key].class] = [key];
-        } else {
-          classes[indDef[key].class].push(key);
-        }
-        return null;
-      });
+      Object.keys(indDef)
+        .filter((key) => indDef[key].hideInFilters !== true)
+        .map((key) => {
+          if (typeof classes[indDef[key].class] === 'undefined') {
+            classes[indDef[key].class] = [key];
+          } else {
+            classes[indDef[key].class].push(key);
+          }
+          return null;
+        });
       return classes;
     },
     indicatorItems() {
@@ -299,7 +299,7 @@ export default {
     },
     uniqueRegions(countryItems) {
       return countryItems
-        .map(c => c.region)
+        .map((c) => c.region)
         .filter((thing, index, self) => self.findIndex((t) => t === thing) === index);
     },
   },
@@ -322,6 +322,11 @@ export default {
 .v-list-item__icon .flag {
   border: 1px solid lightgray;
   background-position-x: -1px;
+}
+.v-application.theme--dark {
+  .v-list-item__icon .flag {
+    border: 1px solid transparent;
+  }
 }
 .itemActive {
   background: var(--v-primary-base);

@@ -1,4 +1,4 @@
-/* eslint no-shadow: ["error", { "allow": ["state"] }] */
+/* eslint no-shadow: ["error", { "allow": ["state", "getters"] }] */
 import { Wkt } from 'wicket';
 import { latLng } from 'leaflet';
 import countriesJson from '@/assets/countries.json';
@@ -11,6 +11,7 @@ const state = {
     indicators: [],
   },
   selectedFeatures: [],
+  selectedArea: null,
   resultsCount: {
     economic: 0,
     agriculture: 0,
@@ -95,6 +96,31 @@ const getters = {
         ? 1 : -1));
     return features;
   },
+  getGroupedFeatures(state, getters, rootState) {
+    let allFeatures = [];
+    if (state.allFeatures.length > 0) {
+      const groupedFeatures = [];
+      if (rootState.config.appConfig.featureGrouping) {
+        rootState.config.appConfig.featureGrouping.forEach((fG) => {
+          const firstFeature = getters.getFeatures
+            .find((f) => `${f.properties.indicatorObject.aoiID}-${f.properties.indicatorObject.indicator}` === fG.features[0]);
+          if (firstFeature) {
+            groupedFeatures.push(firstFeature);
+          }
+        });
+      }
+      const restFeatures = rootState.config.appConfig.featureGrouping
+        ? getters.getFeatures
+          .filter((f) => {
+            const locationCode = `${f.properties.indicatorObject.aoiID}-${f.properties.indicatorObject.indicator}`;
+            return !rootState.config.appConfig.featureGrouping
+              .find((fG) => fG.features.includes(locationCode));
+          })
+        : getters.getFeatures;
+      allFeatures = groupedFeatures.concat(restFeatures);
+    }
+    return allFeatures;
+  },
   getLatestUpdate(state) {
     const times = state.allFeatures.map((f) => {
       let time = f.properties.indicatorObject.Time;
@@ -144,6 +170,9 @@ const mutations = {
   },
   ADD_RESULTS_COUNT(state, { type, count }) {
     state.resultsCount[type] += count;
+  },
+  SET_SELECTED_AREA(state, area) {
+    state.selectedArea = area;
   },
 };
 const actions = {
@@ -402,32 +431,30 @@ const actions = {
         delimiter: ',',
         complete: (result) => {
           const { data } = result;
-          if (data[0].aoi) { // only continue if AOI column is present
-            const featureObjs = {};
-            for (let rr = 0; rr < data.length; rr += 1) {
-              const uniqueKey = `${data[rr].aoi}_d`;
-              featureObjs[uniqueKey] = data[rr];
-              featureObjs[uniqueKey].indicator = 'd';
-              featureObjs[uniqueKey].indicatorValue = [''];
-              featureObjs[uniqueKey].dummyFeature = true;
-            }
-            const features = [];
-            const keys = Object.keys(featureObjs);
-
-            for (let kk = 0; kk < keys.length; kk += 1) {
-              const coordinates = keys[kk].split('_')[0].split(',').map(Number);
-              featureObjs[keys[kk]].id = globalIdCounter; // to connect indicator & feature
-              features.push({
-                latlng: latLng(coordinates),
-                id: globalIdCounter,
-                properties: {
-                  indicatorObject: featureObjs[keys[kk]],
-                },
-              });
-              globalIdCounter += 1;
-            }
-            resolve(features);
+          const featureObjs = {};
+          for (let rr = 0; rr < data.length; rr += 1) {
+            const uniqueKey = `${data[rr].aoi}_d`;
+            featureObjs[uniqueKey] = data[rr];
+            featureObjs[uniqueKey].indicator = 'd';
+            featureObjs[uniqueKey].indicatorValue = [''];
+            featureObjs[uniqueKey].dummyFeature = true;
           }
+          const features = [];
+          const keys = Object.keys(featureObjs);
+
+          for (let kk = 0; kk < keys.length; kk += 1) {
+            const coordinates = keys[kk].split('_')[0].split(',').map(Number);
+            featureObjs[keys[kk]].id = globalIdCounter; // to connect indicator & feature
+            features.push({
+              latlng: latLng(coordinates),
+              id: globalIdCounter,
+              properties: {
+                indicatorObject: featureObjs[keys[kk]],
+              },
+            });
+            globalIdCounter += 1;
+          }
+          resolve(features);
         },
       });
     });

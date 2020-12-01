@@ -19,6 +19,7 @@
           </template>
           <template v-slot:item.indicatorValue="{ item }">
             <v-chip
+              v-if="item.indicatorValue"
               :color="item.indicatorColor" dark
               class="text-capitalize"
             >
@@ -40,7 +41,7 @@ import {
 
 export default {
   computed: {
-    ...mapGetters('features', ['getFeatures']),
+    ...mapGetters('features', ['getGroupedFeatures']),
     ...mapState('config', ['baseConfig']),
     headers() {
       return [
@@ -61,7 +62,7 @@ export default {
       ];
     },
     allFeatures() {
-      return this.getFeatures.map((f) => ({
+      return this.getGroupedFeatures.map((f) => ({
         country: f.properties.indicatorObject.country,
         location: f.properties.indicatorObject.city,
         type: this.getClass(f),
@@ -89,7 +90,7 @@ export default {
           color = this.getIndicatorColor(indObj.lastColorCode);
         }
         if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')
-          && ['N1', 'N3b'].includes(indObj.indicator)) {
+          && ['N1', 'N1a', 'N1b', 'N3b'].includes(indObj.indicator)) {
           color = this.getIndicatorColor('BLUE');
           if (indObj.aoi === null) {
             color = 'black';

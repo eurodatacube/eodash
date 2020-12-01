@@ -1,9 +1,11 @@
 <template>
   <v-carousel
-    :continuous="autoPlay"
-    cycle
-    :height="$vuetify.breakpoint.lgAndUp ? 350 : 200"
+    v-model="currentSlide"
+    continuous
+    :cycle="!autoPlayIframe"
+    height="auto"
     hide-delimiter-background
+    :hide-delimiters="autoPlayIframe"
     show-arrows-on-hover
     :style="`background: ${$vuetify.theme.themes.light.primary}`"
   >
@@ -13,16 +15,36 @@
           <v-carousel-item
             v-for="(item, i) in items"
             :key="i"
-            contain
-            :src="item.src"
+            :aspect-ratio="16/9"
+            :src="item.src && item.src"
           >
+            <iframe
+              v-if="item.iframe"
+              :src="iframeSrc(item.iframe)"
+              width="100%"
+              height="100%"
+              allowfullscreen
+              frameborder="0"
+              @click="autoPlayIframe = true"
+              :class="!autoPlayIframe && 'untouchable'"
+            ></iframe>
+            <v-btn
+              v-if="item.iframe && !autoPlayIframe"
+              fab x-large
+              @click="onClickIframe(item)"
+              color="primary"
+              class="playButton"
+            >
+              <v-icon>mdi-play</v-icon>
+            </v-btn>
             <v-fade-transition>
               <v-overlay
-                v-if="hover"
+                v-if="hover && !autoPlayIframe"
                 absolute
                 :color="$vuetify.theme.themes.light.primary"
               >
                 <v-btn
+                  v-if="!item.iframe"
                   @click="onClickItem(item)"
                   color="primary"
                 >View indicator</v-btn>
@@ -39,7 +61,8 @@
 export default {
   data() {
     return {
-      autoPlay: true,
+      currentSlide: 0,
+      autoPlayIframe: false,
       items: this.$store.state.config.appConfig.newsCarouselitems,
     };
   },
@@ -57,6 +80,37 @@ export default {
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature.properties.indicatorObject);
       }
     },
+    onClickIframe() {
+      this.autoPlayIframe = true;
+    },
+    iframeSrc(src) {
+      let newSrc;
+      if (this.autoPlayIframe) {
+        newSrc = `${src}?autoplay=1`;
+      } else {
+        newSrc = src;
+      }
+      return newSrc;
+    },
+  },
+  watch: {
+    currentSlide() {
+      if (this.autoPlayIframe) {
+        this.autoPlayIframe = false;
+      }
+    },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+::v-deep .v-responsive__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.playButton {
+  position: absolute;
+  z-index: 999;
+}
+</style>

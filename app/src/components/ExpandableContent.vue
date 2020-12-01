@@ -16,7 +16,8 @@
         </div>
       </div>
     </v-expand-transition>
-    <div v-if="needsExpand && !contentExpanded" class="fadeOut"></div>
+    <div v-if="needsExpand && !contentExpanded"
+      :class="$vuetify.theme.dark ? 'fadeOut--dark' : 'fadeOut'"></div>
     <v-btn
       v-if="needsExpand"
       small
@@ -71,5 +72,13 @@ export default {
   bottom: 27px;
   background: transparent;
   background: linear-gradient(0deg, white, #ffffff00);
+}
+.fadeOut--dark {
+  width: 100%;
+  height: 45px;
+  position: absolute;
+  bottom: 27px;
+  background: transparent;
+  background: linear-gradient(0deg, #363636, #36363600);
 }
 </style>
