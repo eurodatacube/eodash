@@ -520,7 +520,7 @@ export const globalIndicators = [
         yAxis: 'NO2 (μmol/m2)',
         display: {
           ...defaultWMSDisplay,
-          // styles: 'sh_Purples_surface_concentration',
+          styles: 'sh_OrangesTransparent40_surface_concentration',
           baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged NO2',
           layers: 'composition_europe_no2_analysis_surface',
