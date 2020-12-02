@@ -427,10 +427,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Air Quality',
+        description: 'TROPOMI NO2',
         indicator: 'N1',
         lastIndicatorValue: null,
-        indicatorName: 'Air Quality',
+        indicatorName: 'TROPOMI NO2',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
