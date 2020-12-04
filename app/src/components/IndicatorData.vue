@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%; height: 100%;"
     v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8',
-      'E10c', 'N1', 'N3', 'N3b', 'E8', 'N1a', 'N1b']
+      'E10c', 'N1', 'N3', 'N3b', 'E8', 'N1a', 'N1b', 'N1c', 'N1d']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -79,6 +79,8 @@ import BarChart from '@/components/BarChart.vue';
 import LineChart from '@/components/LineChart.vue';
 import MapChart from '@/components/MapChart.vue';
 import NUTS from '@/assets/NUTS_RG_03M_2016_4326_ESL2-DEL3.json';
+import lockdownTimes from '@/assets/lockdown_data.json';
+import countries from '@/assets/countries.json';
 
 export default {
   props: [
@@ -150,7 +152,6 @@ export default {
             label: labelref,
             data: referenceValue,
             fill: false,
-            borderColor: 'red',
             backgroundColor: 'grey',
           });
           datasets.push({
@@ -158,7 +159,6 @@ export default {
             label: labelmeas,
             data: measurement,
             fill: false,
-            borderColor: 'darkcyan',
             backgroundColor: 'black',
           });
         } else if (['N3b'].includes(indicatorCode)) {
@@ -484,7 +484,7 @@ export default {
               borderColor: value,
             });
           });
-        } else if (['N1a', 'N1b'].includes(indicatorCode)) {
+        } else if (['N1a', 'N1b', 'N1c', 'N1d'].includes(indicatorCode)) {
           const maxRef = [];
           const minRef = [];
           const mean7dRef = [];
@@ -626,6 +626,7 @@ export default {
             }
             return output;
           });
+
           // Filter by undefined and time
           features = features.filter((d) => (
             typeof d !== 'undefined'));
@@ -755,7 +756,7 @@ export default {
         },
       };
       if (!Number.isNaN(reference)
-        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'N4c', 'E8']
+        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'N4c', 'E8', 'E12c', 'E12d']
           .includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
@@ -802,7 +803,49 @@ export default {
           },
         });
       }
-      const filter = (legendItem) => !`${legendItem.text}`.startsWith('hide_');
+
+      // Introduce background area annotations for lockdown times, does not
+      // work for all chart types, so we make sure it is not any of those charts
+      if (!['E10a3', 'E10a8', 'N2', 'E12c', 'E12d'].includes(indicatorCode)) {
+        // Find country based on alpha-3 code
+        const currCountry = countries.features.find(
+          (cntr) => cntr.properties.alpha2 === this.indicatorObject.country,
+        );
+        if (typeof currCountry !== 'undefined'
+          && Object.prototype.hasOwnProperty.call(lockdownTimes, currCountry.id)) {
+          const lckTs = lockdownTimes[currCountry.id]['C7_Restrictions on internal movement'];
+          for (let i = 0; i < lckTs.length; i++) {
+            let areaColor = 'rgba(0, 0, 0, 0.0)';
+            if (lckTs[i].value === 1) {
+              areaColor = 'rgba(204, 143, 143, 0.24)';
+            } else if (lckTs[i].value === 2) {
+              areaColor = 'rgba(207, 109, 109, 0.54)';
+            }
+            // We also have special date handling for some chart types as we
+            // simulate year agnostic rendering, so we convert all dates to
+            // one year
+            let start = DateTime.fromISO(lckTs[i].start);
+            let end = DateTime.fromISO(lckTs[i].end);
+            if (['E10a2', 'E10a6', 'E10a7', 'E10c', 'E8'].includes(indicatorCode)) {
+              start = start.set({ year: 2000 });
+              end = end.set({ year: 2000 });
+            }
+            if (lckTs[i].value !== 0) {
+              annotations.push({
+                drawTime: 'beforeDatasetsDraw',
+                type: 'box',
+                xScaleID: 'x-axis-0',
+                xMin: start.toISODate(),
+                xMax: end.toISODate(),
+                borderColor: areaColor,
+                borderWidth: 0,
+                backgroundColor: areaColor,
+              });
+            }
+          }
+        }
+      }
+
       let xAxes = {};
       if (!['E10a1', 'E10a2', 'E10a3', 'E10a5', 'E10a6', 'E10a7', 'E10a8', 'E10c', 'E12c', 'E12d', 'N2'].includes(indicatorCode)) {
         xAxes = [{
@@ -916,10 +959,65 @@ export default {
         },
       }];
 
-
       const legend = {
         labels: {
-          filter,
+          generateLabels: (chart) => {
+            const { datasets } = chart.data;
+            const { labels } = chart.legend.options;
+            const { usePointStyle } = labels;
+            const overrideStyle = labels.pointStyle;
+            let labelSet = chart._getSortedDatasetMetas();
+            labelSet = labelSet.filter((meta) => {
+              let includeLabel = false;
+              if (Object.prototype.hasOwnProperty.call(datasets[meta.index], 'label')) {
+                includeLabel = !datasets[meta.index].label.startsWith('hide_');
+              }
+              return includeLabel;
+            });
+            const labelObjects = labelSet.map((meta) => {
+              const style = meta.controller.getStyle(usePointStyle ? 0 : undefined);
+              const borderWidth = 2;
+              let hidden = false;
+              if (meta.hidden === true) {
+                hidden = true;
+              }
+              return {
+                text: datasets[meta.index].label,
+                fillStyle: style.backgroundColor,
+                hidden,
+                lineCap: style.borderCapStyle,
+                lineDash: style.borderDash,
+                lineDashOffset: style.borderDashOffset,
+                lineJoin: style.borderJoinStyle,
+                lineWidth: borderWidth,
+                strokeStyle: style.borderColor,
+                pointStyle: overrideStyle || style.pointStyle,
+                rotation: style.rotation,
+                // Below is extra data used for toggling the datasets
+                datasetIndex: meta.index,
+              };
+            }, this);
+            // Now we add our default 2 lockdown labels but we exclude indicators
+            // where it is not applicable
+            if (!['E10a1', 'E10a5', 'E10a8', 'N2', 'N4c', 'E12c', 'E12d']
+              .includes(this.indicatorObject.indicator)) {
+              labelObjects.push({
+                text: 'Low Restrictions',
+                fillStyle: 'rgba(204, 143, 143, 0.24)',
+                hidden: false,
+                lineWidth: 0,
+                datasetIndex: -1,
+              });
+              labelObjects.push({
+                text: 'High Restrictions',
+                fillStyle: 'rgba(207, 109, 109, 0.54)',
+                hidden: false,
+                lineWidth: 0,
+                datasetIndex: -1,
+              });
+            }
+            return labelObjects;
+          },
         },
       };
 
