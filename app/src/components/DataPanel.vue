@@ -29,6 +29,7 @@
           </v-tabs>
           <v-tabs-items
             v-if="multipleTabCompare"
+            touchless
             v-model="selectedSensorTab"
           >
             <v-tab-item

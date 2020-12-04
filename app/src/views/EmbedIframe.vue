@@ -47,6 +47,7 @@
       </div>
       <v-tabs-items
         v-if="multipleTabCompare"
+        touchless
         v-model="selectedSensorTab"
         class="fill-height"
       >
