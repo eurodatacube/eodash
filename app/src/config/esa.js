@@ -556,6 +556,7 @@ export const globalIndicators = [
         yAxis: 'PM2.5 (μg/m3)',
         display: {
           ...defaultWMSDisplay,
+          styles: 'sh_PurplesTransparent40_surface_concentration',
           baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged PM2.5',
           layers: 'composition_europe_pm2p5_analysis_surface',
@@ -591,6 +592,7 @@ export const globalIndicators = [
         yAxis: 'PM10 (μg/m3)',
         display: {
           ...defaultWMSDisplay,
+          styles: 'sh_GreensTransparent40_surface_concentration',
           baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged PM2.5',
           layers: 'composition_europe_pm10_analysis_surface',
@@ -626,6 +628,7 @@ export const globalIndicators = [
         yAxis: 'O3 (μg/m3)',
         display: {
           ...defaultWMSDisplay,
+          styles: 'sh_OrangesTransparent240_surface_concentration',
           baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged PM2.5',
           layers: 'composition_europe_o3_analysis_surface',
