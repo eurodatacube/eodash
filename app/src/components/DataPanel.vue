@@ -280,7 +280,7 @@ export default {
       'baseConfig',
     ]),
     showFullScreen() {
-      const isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+      const isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/); // eslint-disable-line
       const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
       return !isSafari && !iOS;
     },

@@ -3880,6 +3880,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
+<<<<<<< HEAD
         "aoi": "53.32,-6.23",
         "aoiID": "IE3",
         "city": "Dublin",
@@ -3893,6 +3894,21 @@
         "lastReferenceTime": "2017-2019",
         "lastReferenceValue": "[ 18.42 , 5.78 ,, ]",
         "lastTime": "2020-12-31T00:00:00",
+=======
+        "aoi": "41.48886657649801,13.75227256314178",
+        "aoiID": "IT15",
+        "city": "Cassino",
+        "country": "IT",
+        "description": "Finished goods production: output inventory level",
+        "indicator": "E8",
+        "indicatorName": "Finished goods production: output inventory level",
+        "lastColorCode": "RED",
+        "lastIndicatorValue": "low",
+        "lastMeasurement": "0.021110571958085432",
+        "lastReferenceTime": "2019-11-23",
+        "lastReferenceValue": "0.029833211017681695",
+        "lastTime": "2020-11-23T16:56:53",
+>>>>>>> e17ff0b878620aa67577a78ee15cdb8bc300229f
         "region": "",
         "siteName": "",
         "subAoi": "",
