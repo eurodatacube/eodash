@@ -13,19 +13,23 @@
             grow
           >
             <v-tab
-              v-for="sensorData in multipleTabCompare.features"
+              v-for="(sensorData, index) in multipleTabCompare.features"
               :key="sensorData.properties.indicatorObject.id"
               :class="multipleTabCompare.features.indexOf(sensorData) == selectedSensorTab
                 ? 'primary white--text'
                 : ''"
             >
-              {{ Array.isArray(sensorData.properties.indicatorObject[multipleTabCompare.label])
+              {{ Array.isArray(multipleTabCompare.label)
+                ? multipleTabCompare.label[index]
+                : (Array.isArray(sensorData.properties.indicatorObject[multipleTabCompare.label])
                 ? sensorData.properties.indicatorObject[multipleTabCompare.label][0]
-                : sensorData.properties.indicatorObject[multipleTabCompare.label] }}
+                : sensorData.properties.indicatorObject[multipleTabCompare.label])
+              }}
             </v-tab>
           </v-tabs>
           <v-tabs-items
             v-if="multipleTabCompare"
+            touchless
             v-model="selectedSensorTab"
           >
             <v-tab-item
