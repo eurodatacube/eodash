@@ -181,6 +181,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/E13d',
     mapLayerEnable: false,
     midSubAoi: true,
+    mapTimeLabelExtended: true,
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
       url: './eodash-data/features/{indicator}/{indicator}_{featuresTime}.geojson',
