@@ -301,7 +301,7 @@ export default {
     indicatorObject() {
       let indicatorObject;
       if (this.multipleTabCompare) {
-        const feature = this.multipleTabCompare.features[0];
+        const feature = this.multipleTabCompare.features[this.selectedSensorTab];
         indicatorObject = feature && feature.properties.indicatorObject;
       } else {
         indicatorObject = this.$store.state.indicators.selectedIndicator;
