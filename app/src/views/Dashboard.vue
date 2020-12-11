@@ -107,6 +107,7 @@
         height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px`"
       class="data-panel"
     >
+      <banner v-if="appConfig.newsBanner" />
       <v-toolbar v-if="$store.state.indicators.selectedIndicator" flat>
         <v-btn v-if="dataPanelFullWidth" icon @click="setDataPanelWidth(false)">
           <v-icon>mdi-close</v-icon>
@@ -177,6 +178,7 @@
         </v-btn>
       </v-toolbar>
       <div class="scrollContainer data-panel">
+        <banner v-if="appConfig.newsBanner" />
 
         <h4 v-if="
             ($store.state.indicators.selectedIndicator && (
@@ -269,6 +271,7 @@
 <script>
 import Welcome from '@/views/Welcome.vue';
 import About from '@/views/About.vue';
+import Banner from '@/components/Banner.vue';
 import FeedbackButton from '@/components/FeedbackButton.vue';
 import SelectionPanel from '@/components/SelectionPanel.vue';
 import CenterPanel from '@/components/CenterPanel.vue';
@@ -289,6 +292,7 @@ export default {
   components: {
     Welcome,
     About,
+    Banner,
     FeedbackButton,
     SelectionPanel,
     CenterPanel,

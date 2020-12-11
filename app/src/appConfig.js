@@ -18,6 +18,11 @@ module.exports = [
     },
     storyPath: '/eodash-data/stories/',
     customCSS: 'esa',
+    newsBanner: {
+      color: 'green darken-1',
+      icon: 'pine-tree',
+      text: 'The dashboard will be updated less frequently in the holiday season.<br />Happy holidays and stay safe!',
+    },
     aboutText: '/eodash-data/general/about',
     welcomeText: '/eodash-data/general/welcome',
     tutorialText: '/eodash-data/general/tutorials',
