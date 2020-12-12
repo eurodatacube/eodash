@@ -1,3 +1,15 @@
+#!/usr/bin/python
+"""
+Helper script to create location and data separation
+
+Usage:
+docker run --rm -it -v $PWD/../src/assets:/assets -v $PWD:/working eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/retrieve_oxcgrt_lockdown_data.py
+
+If issues with write permission you might have to add a user as parameter
+with the same user id as your local account, e.g. "--user 1001"
+"""
+
+
 import os
 import csv
 import requests
@@ -10,9 +22,9 @@ import os.path
 # 0 - Targeted 1- General
 
 
-output_file = '../src/assets/lockdown_data.json'
+output_file = '/assets/lockdown_data.json'
 
-DATAFILE = 'OxCGRT_Download_{}_Full.csv'.format(
+DATAFILE = '/working/OxCGRT_Download_{}_Full.csv'.format(
     datetime.datetime.utcnow().strftime("%Y-%m-%d")
 )
 url = 'https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv'
