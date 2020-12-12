@@ -35,8 +35,8 @@ module.exports = [
         src: './eodash-data/general/Slide10.png',
       },
       {
-        poi: 'World-N1',
-        src: './eodash-data/general/Slide11.png',
+        poi: 'UK10-N1a',
+        src: './eodash-data/general/Slide13.png',
       },
       {
         poi: 'BE9-E8',
