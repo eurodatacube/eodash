@@ -61,7 +61,7 @@
                 <indicator-map
                   ref="indicatorMap"
                   style="top: 0px; position: absolute;"
-                  v-if="showMap"
+                  v-if="['all'].includes(sensorData.properties.indicatorObject.country) || Array.isArray(sensorData.properties.indicatorObject.country)"
                   class="pt-0 fill-height"
                   :currentIndicator="sensorData.properties.indicatorObject"
                   v-on:fetchCustomAreaIndicator="scrollToCustomAreaIndicator"
