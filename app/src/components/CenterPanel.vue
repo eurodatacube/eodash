@@ -28,6 +28,7 @@
         <v-menu v-if="globalIndicators && globalIndicators.length > 0"
           offset-y
           :value="openGlobalPanel"
+          attach=".globalIndicators"
         >
           <template v-slot:activator="{ on }">
             <v-btn
@@ -271,5 +272,10 @@ export default {
   box-sizing: content-box;
   margin-right: 4px;
   cursor: pointer;
+}
+::v-deep .v-menu__content {
+  max-width: initial;
+  top: 38px !important;
+  left: 0px !important;
 }
 </style>
