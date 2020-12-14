@@ -210,6 +210,10 @@ export const indicatorsDefinition = Object.freeze({
     hideInFilters: true,
     class: 'air',
     story: '/eodash-data/stories/N1_CAMS',
+    externalData: {
+      label: 'Copernicus Data [ECMWF]',
+      url: 'https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis',
+    },
   },
   N1b: {
     indicator: 'CAMS Air quality',
@@ -224,11 +228,19 @@ export const indicatorsDefinition = Object.freeze({
     hideInFilters: true,
     class: 'air',
     story: '/eodash-data/stories/N1_CAMS',
+    externalData: {
+      label: 'Copernicus Data [ECMWF]',
+      url: 'https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis',
+    },
   },
   N1d: {
     hideInFilters: true,
     class: 'air',
     story: '/eodash-data/stories/N1_CAMS',
+    externalData: {
+      label: 'Copernicus Data [ECMWF]',
+      url: 'https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis',
+    },
   },
   N2: {
     indicator: 'CO2 emissions',
