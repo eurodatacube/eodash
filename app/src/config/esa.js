@@ -209,6 +209,7 @@ export const indicatorsDefinition = Object.freeze({
   N1a: {
     hideInFilters: true,
     class: 'air',
+    story: '/eodash-data/stories/N1_CAMS',
   },
   N1b: {
     indicator: 'CAMS Air quality',
@@ -222,10 +223,12 @@ export const indicatorsDefinition = Object.freeze({
   N1c: {
     hideInFilters: true,
     class: 'air',
+    story: '/eodash-data/stories/N1_CAMS',
   },
   N1d: {
     hideInFilters: true,
     class: 'air',
+    story: '/eodash-data/stories/N1_CAMS',
   },
   N2: {
     indicator: 'CO2 emissions',
