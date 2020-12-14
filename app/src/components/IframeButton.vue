@@ -10,8 +10,14 @@
         small
         @click="dialog = true"
       >
-        <v-icon left>mdi-poll-box</v-icon>
-        embed chart
+        <template v-if="showMap">
+          <v-icon left>mdi-map-search</v-icon>
+          embed map
+        </template>
+        <template v-else>
+          <v-icon left>mdi-poll-box</v-icon>
+          embed chart
+        </template>
       </v-btn>
     </template>
 
@@ -74,6 +80,9 @@ export default {
   computed: {
     iframeCode() {
       return `<iframe class="item" src="${window.location.origin}/iframe?poi=${this.getLocationCode(this.indicatorObject)}${this.$route.query.sensor ? `&sensor=${this.$route.query.sensor}` : ''}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
+    },
+    showMap() {
+      return ['all'].includes(this.indicatorObject.country) || Array.isArray(this.indicatorObject.country);
     },
   },
   methods: {
