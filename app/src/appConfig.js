@@ -35,8 +35,8 @@ module.exports = [
         src: './eodash-data/general/Slide10.png',
       },
       {
-        poi: 'World-N1',
-        src: './eodash-data/general/Slide11.png',
+        poi: 'UK10-N1a',
+        src: './eodash-data/general/Slide13.png',
       },
       {
         poi: 'BE9-E8',
@@ -66,91 +66,20 @@ module.exports = [
         ],
         label: 'indicatorName',
       },
-      {
-        features: [
-          'ES61a-E10a6',
-          'ES61b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES62a-E10a6',
-          'ES62b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES30a-E10a6',
-          'ES30b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES22a-E10a6',
-          'ES22b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES23a-E10a6',
-          'ES23b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES24a-E10a6',
-          'ES24b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES41a-E10a6',
-          'ES41b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES42a-E10a6',
-          'ES42b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES43a-E10a6',
-          'ES43b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES51a-E10a6',
-          'ES51b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES52a-E10a6',
-          'ES52b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
     ].concat([
-      'NL3', 'TR3', 'GR6', 'ES63', 'RS1', 'DE16', 'CH2', 'UK10', 'SK4', 'BE7',
-      'RO9', 'HU5', 'DE13', 'DK1', 'IE3', 'DE17', 'FI4', 'PT3', 'SI3', 'UK11',
-      'LU2', 'FR15', 'ES12', 'FR16', 'IT10', 'MC1', 'DE18', 'IT37', 'CY2',
-      'NO2', 'FR10', 'ME1', 'CZ6', 'XK1', 'IS1', 'LV3', 'IT11', 'BA1', 'MK1',
-      'BG4', 'SE22', 'EE1', 'AL1', 'IT38', 'ES65', 'MT2', 'AT5', 'LT3', 'PL6',
-      'HR3', 'OS1',
-    ].map((val) => ({ features: [`${val}-N1b`, `${val}-N1a`, `${val}-N1c`, `${val}-N1d`], label: ['NO2', 'PM 2.5', 'PM10', 'O3'] }))),
+      'AT4', 'BE6', 'CH1', 'DE12', 'DE13', 'DE14', 'DE15', 'DK1', 'ES10', 'ES11', 'ES14', 'ES15', 'FI4', 'FR13', 'FR8', 'GR2', 'IE1', 'IT13', 'IT9', 'NL1', 'NO1', 'PL6', 'PT1', 'SE23', 'TR1', 'UK4', 'UK5', 'UK6', 'UK7', 'UK8']
+      .map((val) => ({ features: [`${val}-E13d`, `${val}a-E13d`], label: ['Airports traffic', 'Detected airplanes'] })))
+      .concat([
+        'ES22', 'ES23', 'ES24', 'ES30', 'ES41', 'ES42', 'ES43', 'ES51', 'ES52', 'ES61', 'ES62']
+        .map((val) => ({ features: [`${val}a-E10a6`, `${val}b-E10a6`], label: 'indicatorValue' })))
+      .concat([
+        'NL3', 'TR3', 'GR6', 'ES63', 'RS1', 'DE16', 'CH2', 'UK10', 'SK4', 'BE7',
+        'RO9', 'HU5', 'DE13', 'DK1', 'IE3', 'DE17', 'FI4', 'PT3', 'SI3', 'UK11',
+        'LU2', 'FR15', 'ES12', 'FR16', 'IT10', 'MC1', 'DE18', 'IT37', 'CY2',
+        'NO2', 'FR10', 'ME1', 'CZ6', 'XK1', 'IS1', 'LV3', 'IT11', 'BA1', 'MK1',
+        'BG4', 'SE22', 'EE1', 'AL1', 'IT38', 'ES65', 'MT2', 'AT5', 'LT3', 'PL6',
+        'HR3', 'OS1',
+      ].map((val) => ({ features: [`${val}-N1b`, `${val}-N1a`, `${val}-N1c`, `${val}-N1d`], label: ['NO2', 'PM 2.5', 'PM10', 'O3'] }))),
   },
   {
     id: 'trilateral',
@@ -267,84 +196,9 @@ module.exports = [
         ],
         label: 'indicatorName',
       },
-      {
-        features: [
-          'ES61a-E10a6',
-          'ES61b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES62a-E10a6',
-          'ES62b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES30a-E10a6',
-          'ES30b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES22a-E10a6',
-          'ES22b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES23a-E10a6',
-          'ES23b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES24a-E10a6',
-          'ES24b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES41a-E10a6',
-          'ES41b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES42a-E10a6',
-          'ES42b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES43a-E10a6',
-          'ES43b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES51a-E10a6',
-          'ES51b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-      {
-        features: [
-          'ES52a-E10a6',
-          'ES52b-E10a6',
-        ],
-        label: 'indicatorValue',
-      },
-    ],
+    ].concat([
+      'ES22', 'ES23', 'ES24', 'ES30', 'ES41', 'ES42', 'ES43', 'ES51', 'ES52', 'ES61', 'ES62']
+      .map((val) => ({ features: [`${val}a-E10a6`, `${val}b-E10a6`], label: 'indicatorValue' }))),
     privacyText: '/data/trilateral/privacy',
     termsText: '/data/trilateral/terms',
     feedbackTwitterHandles: ['ESA_EO', 'esa', 'NASAEarth', 'NASA', 'JAXA_en', 'JAXA_jp', 'eurodatacube'],

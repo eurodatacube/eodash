@@ -61,7 +61,8 @@
                 <indicator-map
                   ref="indicatorMap"
                   style="top: 0px; position: absolute;"
-                  v-if="showMap"
+                  v-if="['all'].includes(sensorData.properties.indicatorObject.country) ||
+                  Array.isArray(sensorData.properties.indicatorObject.country)"
                   class="pt-0 fill-height"
                   :currentIndicator="sensorData.properties.indicatorObject"
                   v-on:fetchCustomAreaIndicator="scrollToCustomAreaIndicator"
@@ -301,7 +302,7 @@ export default {
     indicatorObject() {
       let indicatorObject;
       if (this.multipleTabCompare) {
-        const feature = this.multipleTabCompare.features[0];
+        const feature = this.multipleTabCompare.features[this.selectedSensorTab];
         indicatorObject = feature && feature.properties.indicatorObject;
       } else {
         indicatorObject = this.$store.state.indicators.selectedIndicator;
@@ -367,7 +368,7 @@ export default {
       const lastInputData = (this.indicatorObject && this.indicatorObject.inputData)
         ? this.indicatorObject.inputData[this.indicatorObject.inputData.length - 1] : null;
       // search configuration mapping if layer is configured
-      return lastInputData ? this.layerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
+      return (!this.showMap && lastInputData) ? this.layerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
     },
   },
   mounted() {

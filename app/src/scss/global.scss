@@ -60,11 +60,6 @@
   background: #fff;
 }
 
-// prevent menu items from displaying over dialog
-.v-menu__content {
-  z-index: 201 !important;
-}
-
 .v-application.theme--dark {
   .md-body {
     h1,

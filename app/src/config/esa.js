@@ -179,11 +179,15 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Airports: airplanes traffic',
     class: 'economic',
     story: '/eodash-data/stories/E13d',
-    mapLayerEnable: false,
+    baseLayers: [baseLayers.terrainLight, {
+      ...baseLayers.cloudless,
+      visible: true,
+    }],
     midSubAoi: true,
+    mapTimeLabelExtended: true,
     features: {
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
-      url: './eodash-data/features/{indicator}/{indicator}_{featuresTime}.geojson',
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
     largeTimeDuration: true,
   },
@@ -205,6 +209,11 @@ export const indicatorsDefinition = Object.freeze({
   N1a: {
     hideInFilters: true,
     class: 'air',
+    story: '/eodash-data/stories/N1_CAMS',
+    externalData: {
+      label: 'Copernicus Data [ECMWF]',
+      url: 'https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis',
+    },
   },
   N1b: {
     indicator: 'CAMS Air quality',
@@ -218,10 +227,20 @@ export const indicatorsDefinition = Object.freeze({
   N1c: {
     hideInFilters: true,
     class: 'air',
+    story: '/eodash-data/stories/N1_CAMS',
+    externalData: {
+      label: 'Copernicus Data [ECMWF]',
+      url: 'https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis',
+    },
   },
   N1d: {
     hideInFilters: true,
     class: 'air',
+    story: '/eodash-data/stories/N1_CAMS',
+    externalData: {
+      label: 'Copernicus Data [ECMWF]',
+      url: 'https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis',
+    },
   },
   N2: {
     indicator: 'CO2 emissions',
