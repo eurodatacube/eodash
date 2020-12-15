@@ -4,6 +4,6 @@ Chlorophyll-a concentration is an indicator of algae abundance which fluctuates 
 
 ### Water Quality Time Series
 
-The displayed time series show weekly **Chl concentration anomalies (%)** as calculated from **[MODIS](https://oceancolor.gsfc.nasa.gov/data/aqua/)**  (<span style="color:#47a">blue</span>). 
+The displayed time series show weekly **Chl concentration anomalies (%)** as calculated from **[NASA's MODIS Aqua satellite](https://oceancolor.gsfc.nasa.gov/data/aqua/)**  (<span style="color:#47a">blue</span>). 
 
 
