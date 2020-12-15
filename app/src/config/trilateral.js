@@ -209,7 +209,8 @@ export const indicatorsDefinition = Object.freeze({
     sensorColorMap: {
       'Sentinel-3A OLCI': '#a37',
       'Aqua MODIS': '#47a',
-      'GCOM-C/SGLI': '#cb4',
+      'MODIS Aqua': '#47a',
+      'GCOM-C/SGLI': '#6ce',
     },
   },
   N3a2: {
