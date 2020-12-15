@@ -3037,6 +3037,17 @@
     },
     {
         "color_code": "",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "",
+        "input_data": "EORC product",
+        "measurement_value": "21.56",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2020-11-07T00:00:00"
+    },
+    {
+        "color_code": "",
         "data_provider": "CNR-ISMAR",
         "eo_sensor": "Sentinel-3A OLCI",
         "indicator_value": "",
@@ -3045,5 +3056,60 @@
         "reference_time": "",
         "reference_value": "",
         "time": "2020-11-14T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "",
+        "input_data": "EORC product",
+        "measurement_value": "58.23",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2020-11-14T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "  78.369",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2020-11-21T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "",
+        "input_data": "EORC product",
+        "measurement_value": "70.74",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2020-11-21T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "  22.235",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2020-11-28T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "",
+        "input_data": "EORC product",
+        "measurement_value": "-42.63",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2020-11-28T00:00:00"
     }
 ]
