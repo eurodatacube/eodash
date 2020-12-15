@@ -182,6 +182,7 @@ export default {
               fill: false,
               borderColor: colorUsed,
               backgroundColor: colorUsed,
+              cubicInterpolationMode: 'monotone',
             });
           }
         } else if (['N4c'].includes(indicatorCode)) {
