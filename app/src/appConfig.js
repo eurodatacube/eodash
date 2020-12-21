@@ -179,6 +179,13 @@ module.exports = [
     displayDummyLocations: './data/trilateral/dummylocations.csv',
     storyPath: '/data/trilateral/',
     customCSS: 'trilateral',
+    newsBanner: {
+      color: 'green darken-1',
+      icon: 'pine-tree',
+      text: 'The dashboard will be updated less frequently in the holiday season.<br />Happy holidays and stay safe!',
+      startDate: '2020-12-21',
+      endDate: '2021-01-06',
+    },
     aboutText: '/data/trilateral/about',
     welcomeText: '/data/trilateral/welcome',
     showNewsCarousel: true,
