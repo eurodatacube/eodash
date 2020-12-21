@@ -28,7 +28,7 @@ export default {
       'appConfig',
     ]),
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
