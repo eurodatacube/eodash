@@ -7,7 +7,6 @@
       flat
       color="primary"
       class="white--text"
-      v-show="!isFullScreen"
     >
       <v-app-bar-nav-icon @click.stop="drawerLeft = !drawerLeft" dark />
       <v-toolbar-title
@@ -53,7 +52,6 @@
       clipped
       style="overflow: hidden"
       class="drawerLeft"
-      v-show="!isFullScreen"
     >
       <template v-if="$vuetify.breakpoint.xsOnly">
         <v-list-item style="background: var(--v-primary-base)">
@@ -117,123 +115,9 @@
         </v-btn>
         <v-divider></v-divider>
       </template>
-      <selection-panel style="overflow:hidden" />
     </v-navigation-drawer>
-    <v-navigation-drawer
-      v-if="$vuetify.breakpoint.mdAndUp"
-      v-model="drawerRight"
-      right
-      stateless
-      app
-      clipped
-      temporary
-      hide-overlay
-      :width="dataPanelFullWidth ? '100%' : '40%'"
-      :style="`margin-top: ${$vuetify.application.top}px;
-        height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px`"
-      class="data-panel"
-    >
-      <banner v-if="currentNews" ref="newsBanner" />
-      <v-toolbar v-if="$store.state.indicators.selectedIndicator" flat>
-        <v-btn v-if="dataPanelFullWidth" icon @click="setDataPanelWidth(false)">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-        <v-btn v-else icon @click="setDataPanelWidth(true)">
-          <v-icon>mdi-arrow-expand</v-icon>
-        </v-btn>
-        <v-toolbar-title v-if="$store.state.indicators.selectedIndicator"
-          :class="$store.state.indicators.selectedIndicator.description ===
-            $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
-        >
-          {{ $store.state.features.allFeatures
-              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
-              .properties.indicatorObject.city }},
-          {{ $store.state.features.allFeatures
-              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
-              .properties.indicatorObject.description }}
-          <div v-if="
-            $store.state.indicators.selectedIndicator.description !==
-            $store.state.indicators.selectedIndicator.indicatorName
-            && $store.state.indicators.customAreaIndicator === null"
-            class="subheading" style="font-size: 0.8em">
-            {{ $store.state.features.allFeatures
-              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
-              .properties.indicatorObject.indicatorName }}
-          </div>
-        </v-toolbar-title>
-      </v-toolbar>
-      <data-panel
-        v-if="$store.state.indicators.selectedIndicator"
-        :key="panelKey"
-        :newsBanner="$refs.newsBanner"
-        :expanded="dataPanelFullWidth" class="px-5" />
-      <template v-else>
-        <Welcome v-if="showText === 'welcome'" />
-        <About v-else-if="showText === 'about'" />
-      </template>
-    </v-navigation-drawer>
-    <v-dialog
-      v-if="$vuetify.breakpoint.smAndDown"
-      v-model="dialog"
-      persistent
-      fullscreen
-      hide-overlay
-      transition="dialog-bottom-transition"
-      style="overflow:hidden"
-      v-show="!isFullScreen"
-    >
-      <v-toolbar dark color="primary">
-        <v-toolbar-title style="overflow: unset; white-space: pre-wrap;"
-          v-if="$store.state.indicators.selectedIndicator"
-        >{{ $store.state.indicators.selectedIndicator.city }},
-          {{ $store.state.indicators.selectedIndicator.description }}
-        </v-toolbar-title>
-        <v-toolbar-title v-else class="text-capitalize">
-          {{ showText }}
-        </v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn
-          v-if="showText === 'welcome'
-            && $vuetify.breakpoint.smAndDown
-            && !$store.state.indicators.selectedIndicator"
-          @click="clickMobileClose"
-          color="secondary"
-        >
-          <v-icon left>mdi-arrow-right</v-icon>
-          Start exploring!
-        </v-btn>
-        <v-btn v-else icon dark @click="clickMobileClose">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-toolbar>
-      <div
-        class="scrollContainer data-panel"
-        :style="{background: $vuetify.theme.themes[theme].background}"
-      >
-        <banner v-if="currentNews" />
 
-        <h4 v-if="
-            ($store.state.indicators.selectedIndicator && (
-              $store.state.indicators.selectedIndicator.description !==
-              $store.state.indicators.selectedIndicator.indicatorName))"
-          class="px-4 py-2"
-        >
-          {{ $store.state.features.allFeatures
-              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
-              .properties.indicatorObject.indicatorName }}
-        </h4>
-        <data-panel
-          v-if="$store.state.indicators.selectedIndicator"
-          :newsBanner="$refs.newsBanner"
-          :expanded="dataPanelFullWidth" class="fill-height" />
-        <template v-else>
-          <Welcome v-if="showText === 'welcome'" style="padding-bottom: 135px !important" />
-          <About v-else-if="showText === 'about'" style="padding-bottom: 100px !important" />
-        </template>
-      </div>
-    </v-dialog>
     <v-content style="height: 100vh; height: calc(var(--vh, 1vh) * 100); overflow:hidden"
-      :style="$vuetify.breakpoint.mdAndUp && 'width: 60%;'"
     >
       <v-container
         class="fill-height pa-0"
@@ -242,28 +126,73 @@
         <v-row class="fill-height">
           <v-col
             cols="12"
-            class="pt-0 fill-height"
+            class="pt-0 fill-height scrollContainer"
           >
-            <center-panel />
+            <custom-dashboard-grid />
           </v-col>
         </v-row>
       </v-container>
     </v-content>
-    <global-footer v-if="!isFullScreen"/>
+    <v-footer
+      app
+      color="primary"
+      class="d-flex justify-center align-center white--text text-center"
+      style="z-index: 5"
+      :height="$vuetify.breakpoint.xsOnly ? '60px' : '40px'"
+    >
+      <v-tooltip top v-if="$vuetify.breakpoint.smAndUp">
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+            color="white"
+            small
+            dark
+            class="mr-2"
+            v-bind="attrs"
+            v-on="on"
+            @click="$vuetify.theme.dark = !$vuetify.theme.dark"
+          >
+            {{
+              $vuetify.theme.dark
+                ? 'mdi-white-balance-sunny'
+                : 'mdi-weather-night'
+            }}
+          </v-icon>
+        </template>
+        <span>Enable {{ $vuetify.theme.dark ? 'light' : 'dark' }} mode</span>
+      </v-tooltip>
+      <v-spacer></v-spacer>
+      <small>
+        <a href="https://eurodatacube.com" target="_blank" class="white--text mx-1">EDC</a>
+        <span>service for</span>
+        <a href="https://earth.esa.int" target="_blank" class="white--text mx-1">ESA</a>
+        <span> | </span>
+        <a href="terms_and_conditions" target="_blank" class="white--text">Legal</a>
+        <span> | </span>
+        <a href="/privacy" target="_blank" class="white--text">Privacy</a>
+      </small>
+      <v-spacer></v-spacer>
+      <small class="justify-right">
+        <a href="https://github.com/eurodatacube/eodash" target="_blank" class="white--text">eodash</a>
+        <span> v{{ `${$store.getters.appVersion
+          .split('.')[0]}.${$store.getters.appVersion
+          .split('.')[1]}` }} by</span>
+        <a href="https://eox.at" target="_blank" class="white--text mx-1">
+          <img :src="require('@/assets/EOX_Logo_weiss.svg')" height="11px" class="my-0" />
+        </a>
+      </small>
+      <feedback-button />
+    </v-footer>
   </div>
 </template>
 
 <script>
 import Welcome from '@/views/Welcome.vue';
 import About from '@/views/About.vue';
-import Banner from '@/components/Banner.vue';
+import FeedbackButton from '@/components/FeedbackButton.vue';
 import SelectionPanel from '@/components/SelectionPanel.vue';
-import CenterPanel from '@/components/CenterPanel.vue';
-import DataPanel from '@/components/DataPanel.vue';
-import GlobalFooter from '@/components/GlobalFooter.vue';
+import CustomDashboardGrid from '@/components/CustomDashboardGrid.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
-import { mapState } from 'vuex';
 
 export default {
   metaInfo() {
@@ -278,11 +207,9 @@ export default {
   components: {
     Welcome,
     About,
-    Banner,
+    FeedbackButton,
     SelectionPanel,
-    CenterPanel,
-    DataPanel,
-    GlobalFooter,
+    CustomDashboardGrid,
   },
   props: {
     source: String,
@@ -304,26 +231,6 @@ export default {
     indicatorSelected() {
       return this.$store.state.indicators.selectedIndicator;
     },
-    currentNews() {
-      let currentNews;
-      if (this.appConfig && this.appConfig.newsBanner) {
-        const currentDate = new Date().getTime();
-        const startDate = new Date(this.appConfig.newsBanner.startDate).getTime();
-        // set end date + 1 to include last day
-        let endDate = new Date(this.appConfig.newsBanner.endDate);
-        endDate.setDate(endDate.getDate() + 1);
-        endDate = endDate.getTime();
-        if (startDate < currentDate
-          && currentDate < endDate) {
-          currentNews = this.appConfig.newsBanner;
-        }
-      }
-      return currentNews;
-    },
-    theme() {
-      return (this.$vuetify.theme.dark) ? 'dark' : 'light';
-    },
-    ...mapState(['isFullScreen']),
   },
   created() {
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
@@ -410,6 +317,9 @@ export default {
   border: 1px solid var(--v-primary-base);
 }
 ::v-deep .v-dialog--fullscreen {
+  background: white;
+}
+::v-deep .v-dialog--fullscreen {
   header,
   header .v-toolbar__content {
     height: auto !important;
@@ -427,4 +337,12 @@ export default {
 ::v-deep .v-navigation-drawer--temporary:not(.v-navigation-drawer--close) {
     box-shadow: none;
 }
+</style>
+
+<style lang="scss" scoped>
+  .scrollContainer {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+  }
 </style>
