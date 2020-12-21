@@ -22,6 +22,8 @@ module.exports = [
       color: 'green darken-1',
       icon: 'pine-tree',
       text: 'The dashboard will be updated less frequently in the holiday season.<br />Happy holidays and stay safe!',
+      startDate: '2020-12-21',
+      endDate: '2021-01-06',
     },
     aboutText: '/eodash-data/general/about',
     welcomeText: '/eodash-data/general/welcome',

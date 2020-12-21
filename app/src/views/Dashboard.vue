@@ -107,7 +107,7 @@
         height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px`"
       class="data-panel"
     >
-      <banner v-if="appConfig.newsBanner" />
+      <banner v-if="currentNews" />
       <v-toolbar v-if="$store.state.indicators.selectedIndicator" flat>
         <v-btn v-if="dataPanelFullWidth" icon @click="setDataPanelWidth(false)">
           <v-icon>mdi-close</v-icon>
@@ -178,7 +178,7 @@
         </v-btn>
       </v-toolbar>
       <div class="scrollContainer data-panel">
-        <banner v-if="appConfig.newsBanner" />
+        <banner v-if="currentNews" />
 
         <h4 v-if="
             ($store.state.indicators.selectedIndicator && (
@@ -317,6 +317,22 @@ export default {
     },
     indicatorSelected() {
       return this.$store.state.indicators.selectedIndicator;
+    },
+    currentNews() {
+      let currentNews;
+      if (this.appConfig && this.appConfig.newsBanner) {
+        const currentDate = new Date().getTime();
+        const startDate = new Date(this.appConfig.newsBanner.startDate).getTime();
+        // set end date + 1 to include last day
+        let endDate = new Date(this.appConfig.newsBanner.endDate);
+        endDate.setDate(endDate.getDate() + 1);
+        endDate = endDate.getTime();
+        if (startDate < currentDate
+          && currentDate < endDate) {
+          currentNews = this.appConfig.newsBanner;
+        }
+      }
+      return currentNews;
     },
   },
   created() {
