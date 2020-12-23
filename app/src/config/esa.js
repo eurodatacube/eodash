@@ -145,6 +145,8 @@ export const indicatorsDefinition = Object.freeze({
   E12b: {
     indicator: 'Throughput at border crossing points',
     class: 'economic',
+    story: '/eodash-data/stories/E12b',
+    maxDecimals: 3,
   },
   E12c: {
     indicator: 'Number of Trucks (Beta)',

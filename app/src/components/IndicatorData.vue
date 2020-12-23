@@ -757,7 +757,7 @@ export default {
         },
       };
       if (!Number.isNaN(reference)
-        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'N4c', 'E8', 'E12c', 'E12d']
+        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'N4c', 'E8', 'E12c', 'E12d', 'E12b']
           .includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
@@ -1028,6 +1028,17 @@ export default {
         }];
         yAxes[0].stacked = true;
         yAxes[0].ticks.beginAtZero = true;
+        yAxes[0].ticks.suggestedMin = Math.min(
+          ...this.indicatorObject.measurement
+            .filter((d) => !Number.isNaN(d)),
+        );
+        yAxes[0].ticks.suggestedMax = Math.max(
+          ...this.indicatorObject.measurement
+            .filter((d) => !Number.isNaN(d)),
+        );
+      }
+      
+      if (['E12b'].includes(indicatorCode)) {
         yAxes[0].ticks.suggestedMin = Math.min(
           ...this.indicatorObject.measurement
             .filter((d) => !Number.isNaN(d)),
