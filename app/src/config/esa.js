@@ -272,6 +272,11 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'CMEMS Water Quality',
     class: 'water',
     largeTimeDuration: true,
+    largeSubAoi: true,
+    externalData: {
+      label: 'Copernicus Marine Service - Product Details',
+      url: 'https://resources.marine.copernicus.eu/?option=com_csw%20&view=details%20&product_id=OCEANCOLOUR_MED_CHL_L4_NRT_OBSERVATIONS_009_041',
+    },
   },
   N4c: {
     indicator: 'Changes in land fill sites',
@@ -1202,7 +1207,7 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           ...defaultWMSDisplay,
-          baseUrl: 'https://downloads.eox.at/cmems-wms',
+          baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-med-chl-multi-l4-interp_1km_daily-rt-v02?COLORSCALERANGE=0.03%2C10&STYLES=boxfill%2Frainbow',
           name: 'CMEMS',
           layers: 'CHL',
           minZoom: 1,
