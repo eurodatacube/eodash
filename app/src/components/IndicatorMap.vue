@@ -493,7 +493,8 @@ export default {
       return (this.layerDisplay('data') && typeof this.layerDisplay('data').customAreaFeatures !== 'undefined') ? this.layerDisplay('data').customAreaFeatures : this.indDefinition.customAreaFeatures;
     },
     customAreaIndicator() {
-      return (this.layerDisplay('data') && typeof this.layerDisplay('data').customAreaIndicator !== 'undefined') ? this.layerDisplay('data').customAreaIndicator : this.indDefinition.customAreaIndicator;
+      return this.layerDisplay('data').customAreaIndicator || this.indDefinition.customAreaIndicator || this.indicator.customAreaIndicator;
+      // return (this.layerDisplay('data') && typeof this.layerDisplay('data').customAreaIndicator !== 'undefined') ? this.layerDisplay('data').customAreaIndicator : this.indDefinition.customAreaIndicator;
     },
     customAreaFilter() {
       return this.customAreaFeatures || this.customAreaIndicator;
@@ -680,6 +681,22 @@ export default {
         }
       }.bind(this));
 
+      this.drawSelectedArea();
+      this.onResize();
+      if (!this.customAreaFeatures || this.validDrawnArea) {
+        this.fetchFeatures('data');
+      }
+      setTimeout(() => {
+        this.flyToBounds();
+      }, 100);
+    },
+    onResize() {
+      // to fix panel size for reference image window
+      if (this.map) {
+        this.map._onResize();
+      }
+    },
+    drawSelectedArea() {
       if (this.customAreaFilter) {
         this.drawControl.addTo(this.map);
         this.renderTrashBin = true;
@@ -699,19 +716,6 @@ export default {
             },
           }));
         }
-      }
-      this.onResize();
-      if (!this.customAreaFeatures || this.validDrawnArea) {
-        this.fetchFeatures('data');
-      }
-      setTimeout(() => {
-        this.flyToBounds();
-      }, 100);
-    },
-    onResize() {
-      // to fix panel size for reference image window
-      if (this.map) {
-        this.map._onResize();
       }
     },
     featureOptions(side) {
