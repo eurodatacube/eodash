@@ -92,13 +92,13 @@ default_array_map = {
 }
 
 
-def try_parsing_date(text):
+def try_parsing_date(text, line):
     for fmt in ('%Y-%m-%dT%H:%M:%S', '%Y-%m-%d'):
         try:
-            return datetime.datetime.strptime(text, fmt)
+            return datetime.datetime.strptime(text.strip(), fmt)
         except ValueError:
             pass
-    raise ValueError('time not provided in valid format')
+    raise ValueError(f'time "{text}" not provided in valid format, full line "{line}"')
 
 
 def generateData(
@@ -136,7 +136,7 @@ def generateData(
                     object_always_present = {
                         "eo_sensor": line[cm_arr["eo_sensor"]],
                         "input_data": line[cm_arr["input_data"]],
-                        "time": try_parsing_date(line[cm_arr["time"]]),
+                        "time": try_parsing_date(line[cm_arr["time"]], line),
                         "measurement_value": line[cm_arr["measurement_value"]],
                         "reference_time": line[cm_arr["reference_time"]],
                         "reference_value": line[cm_arr["reference_value"]],
@@ -151,7 +151,7 @@ def generateData(
                     poi_data_always = [{
                         "eo_sensor": line[cm_arr["eo_sensor"]],
                         "input_data": line[cm_arr["input_data"]],
-                        "time": try_parsing_date(line[cm_arr["time"]]),
+                        "time": try_parsing_date(line[cm_arr["time"]], line),
                         "measurement_value": line[cm_arr["measurement_value"]],
                         "color_code": line[cm_arr["color_code"]],
                         "indicator_value": line[cm_arr["indicator_value"]],
@@ -200,7 +200,7 @@ def generateData(
                         object_always_present = {
                             "eo_sensor": line[cm_arr["eo_sensor"]],
                             "input_data": line[cm_arr["input_data"]],
-                            "time": try_parsing_date(line[cm_arr["time"]]),
+                            "time": try_parsing_date(line[cm_arr["time"]], line),
                             "measurement_value": line[cm_arr["measurement_value"]],
                             "reference_time": line[cm_arr["reference_time"]],
                             "reference_value": line[cm_arr["reference_value"]],
@@ -215,7 +215,7 @@ def generateData(
                         poi_data_always = [{
                             "eo_sensor": line[cm_arr["eo_sensor"]],
                             "input_data": line[cm_arr["input_data"]],
-                            "time": try_parsing_date(line[cm_arr["time"]]),
+                            "time": try_parsing_date(line[cm_arr["time"]], line),
                             "measurement_value": line[cm_arr["measurement_value"]],
                             "color_code": line[cm_arr["color_code"]],
                             "indicator_value": line[cm_arr["indicator_value"]],
