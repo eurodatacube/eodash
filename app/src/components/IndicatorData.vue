@@ -1091,6 +1091,13 @@ export default {
             .filter((d) => !Number.isNaN(d)),
         );
       }
+      if (['E9'].includes(indicatorCode)) {
+        yAxes[0].ticks.suggestedMin = 0;
+        yAxes[0].ticks.suggestedMax = Math.max(
+          ...this.indicatorObject.measurement
+            .filter((d) => !Number.isNaN(d)),
+        );
+      }
       if (['E10a6', 'E10a7'].includes(indicatorCode)) {
         yAxes[0].ticks.beginAtZero = true;
         plugins = {
