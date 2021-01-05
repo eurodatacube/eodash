@@ -277,6 +277,7 @@ export const indicatorsDefinition = Object.freeze({
       label: 'Copernicus Marine Service - Product Details',
       url: 'https://resources.marine.copernicus.eu/?option=com_csw%20&view=details%20&product_id=OCEANCOLOUR_MED_CHL_L4_NRT_OBSERVATIONS_009_041',
     },
+    story: '/eodash-data/stories/N3c',
   },
   N4c: {
     indicator: 'Changes in land fill sites',
