@@ -1180,6 +1180,26 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
+        "aoi": "33.94, -118.41",
+        "aoiID": "US021",
+        "city": "Los Angeles",
+        "country": "US",
+        "description": "Activity (cars/containers)",
+        "indicator": "E9",
+        "indicatorName": "Car Density",
+        "lastColorCode": "BLUE",
+        "lastIndicatorValue": "low",
+        "lastMeasurement": "0.71007984",
+        "lastReferenceTime": "",
+        "lastReferenceValue": "1",
+        "lastTime": "2020-09-25T00:00:00",
+        "region": "",
+        "siteName": "LAX Airport",
+        "subAoi": "POLYGON((139.7497065 35.5751547, 139.7497065 35.5188386, 139.8288279 35.5188386, 139.8288279 35.5751547, 139.7497065 35.5751547))",
+        "updateFrequency": "Monthly",
+        "yAxis": "Car Density"
+    },
+    {
         "aoi": "37.7775,-122.416389",
         "aoiID": "US03",
         "city": "San Francisco ",
