@@ -493,7 +493,7 @@ export default {
       return (this.layerDisplay('data') && typeof this.layerDisplay('data').customAreaFeatures !== 'undefined') ? this.layerDisplay('data').customAreaFeatures : this.indDefinition.customAreaFeatures;
     },
     customAreaIndicator() {
-      return this.layerDisplay('data').customAreaIndicator || this.indDefinition.customAreaIndicator || this.indicator.customAreaIndicator;
+      return true;
       // return (this.layerDisplay('data') && typeof this.layerDisplay('data').customAreaIndicator !== 'undefined') ? this.layerDisplay('data').customAreaIndicator : this.indDefinition.customAreaIndicator;
     },
     customAreaFilter() {
