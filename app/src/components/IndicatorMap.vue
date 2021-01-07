@@ -570,7 +570,7 @@ export default {
     },
     subAoiInverse() {
       // create an inverse of subaoi, using difference of whole world and subaoi
-      const subaoiInv = JSON.parse(JSON.stringify(this.subAoi)); 
+      const subaoiInv = JSON.parse(JSON.stringify(this.subAoi));
       // both Object.assign({}, this.subAoi) and { ...this.subAoi } create shallow copy
       if (subaoiInv.features.length === 1) {
         const globalBox = {
