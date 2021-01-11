@@ -1404,10 +1404,10 @@ export const globalIndicators = [
         aoiID: 'UK9',
         country: ['GB'],
         city: 'Weymouth',
-        description: 'Throughput at border crossing - boats',
+        description: 'Throughput at border crossing',
         indicator: 'E12b',
         lastIndicatorValue: null,
-        indicatorName: 'Throughput at border crossing - boats',
+        indicatorName: 'Throughput at border crossing',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1443,47 +1443,6 @@ export const globalIndicators = [
         id: 9988,
         aoi: latLng([50.04, 8.5]),
         aoiID: 'DE18',
-        country: ['GB'],
-        city: 'Frankfurt am Main',
-        description: 'Airports: Throughput',
-        indicator: 'E13b',
-        lastIndicatorValue: null,
-        indicatorName: 'Airports: Throughput',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((8.48988970032559 50.040038957464404,8.538984854134183 50.051944468546566,8.54130228272305 50.04610231822141,8.490576345833402 50.0318797727199,8.48988970032559 50.040038957464404))').toJson(),
-          }],
-        },
-        lastColorCode: null,
-        time: ['2020-05-12T13:35:00'],
-        inputData: [''],
-        display: {
-          ...defaultWMSDisplay,
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          layers: 'ICEYE-E13B',
-          minZoom: 5,
-          maxZoom: 18,
-          name: 'Airports: Detected planes',
-          features: {
-            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-            url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
-          },
-        },
-      },
-    },
-  },
-  {
-    id: 9988,
-    latlng: latLng([50.04, 8.5]),
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        id: 9988,
-        aoi: latLng([50.04, 8.5]),
-        aoiID: 'DE18',
         country: ['DE'],
         city: 'Frankfurt am Main',
         description: 'Airports: Throughput',
@@ -1495,7 +1454,7 @@ export const globalIndicators = [
           features: [{
             type: 'Feature',
             properties: {},
-            geometry: wkt.read('POLYGON((8.48988970032559 50.040038957464404,8.538984854134183 50.051944468546566,8.54130228272305 50.04610231822141,8.490576345833402 50.0318797727199,8.48988970032559 50.040038957464404))').toJson(),
+            geometry: wkt.read('POLYGON((8.516043 50.03769,8.516043 50.04915,8.533462 50.04915,8.533462 50.03769,8.516043 50.03769))').toJson(),
           }],
         },
         lastColorCode: null,
@@ -1503,12 +1462,14 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           ...defaultWMSDisplay,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd"),
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'ICEYE-E13B',
           minZoom: 5,
           maxZoom: 18,
           name: 'Airports: Detected planes',
           features: {
+            allowedParameters: [],
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
           },
@@ -1536,7 +1497,7 @@ export const globalIndicators = [
           features: [{
             type: 'Feature',
             properties: {},
-            geometry: wkt.read('POLYGON((-1.2776132020341424 40.437228976199975,-1.1701531800614862 40.437228976199975,-1.1701531800614862 40.37030065084321,-1.2776132020341424 40.37030065084321,-1.2776132020341424 40.437228976199975))').toJson(),
+            geometry: wkt.read('POLYGON((-1.245922 40.394281,-1.245922 40.429571,-1.20747 40.429571,-1.20747 40.394281,-1.245922 40.394281))').toJson(),
           }],
         },
         lastColorCode: null,
@@ -1544,12 +1505,14 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           ...defaultWMSDisplay,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd"),
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'ICEYE-E13B',
           minZoom: 5,
           maxZoom: 18,
           name: 'Airports: Detected planes',
           features: {
+            allowedParameters: [],
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
           },
