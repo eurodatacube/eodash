@@ -305,81 +305,65 @@ export const layerNameMapping = Object.freeze({
   '[NEW] Planetscope COVID-19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLANETSCOPE_COVID-19',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   'PlanetScope - COVID19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLANETSCOPE_COVID-19',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   'Planetscope COVID-19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLANETSCOPE_COVID-19',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   '[NEW] Planet COVID-19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLANETSCOPE_COVID-19',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   '[NEW] Pleiades': {
     baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   'Pleiades - COVID19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_COVID19',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   'Deimos - COVID19': {
     baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'DEIMOS',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   '[NEW] Pleiades COVID-19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_COVID19',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   '[NEW] Pleiades COVID19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_COVID19',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   '[NEW] Pleiades - 2.8m - COVID19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_28_COVID19',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   '[NEW] Pleiades 16bit': {
     baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_16BIT',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   'Sentinel 2 L2A': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
     dateFormatFunction: shS2TimeFunction,
   },
   S2L2A: {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
     dateFormatFunction: shS2TimeFunction,
   },
   S1GRD: {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'E8_SENTINEL1',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
   },
   'S1A - GRD': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'E8_SENTINEL1',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
   },
-  N3a2: {}, // just for enabling eo data button for now,
 });
 
 export const indicatorClassesIcons = Object.freeze({
@@ -419,7 +403,7 @@ export const defaultWMSDisplay = {
   transparent: true,
   tileSize: 512,
   opacity: 1,
-  attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   minZoom: 7,
 };
 
@@ -491,9 +475,7 @@ export const globalIndicators = [
           name: 'Tropospheric NO2',
           layers: 'NO2-VISUALISATION',
           minZoom: 1,
-          maxNativeZoom: 8,
           legendUrl: 'eodash-data/data/no2Legend.png',
-          attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           areaIndicator: {
             url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
@@ -711,7 +693,6 @@ export const globalIndicators = [
           layers: 'N3_CUSTOM',
           legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
-          attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
@@ -752,7 +733,6 @@ export const globalIndicators = [
           layers: 'N3_CUSTOM',
           legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
-          attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
@@ -793,7 +773,6 @@ export const globalIndicators = [
           layers: 'N3_CUSTOM_TSMNN',
           legendUrl: 'eodash-data/data/waterLegend_tsm.png',
           maxZoom: 13,
-          attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
@@ -834,7 +813,6 @@ export const globalIndicators = [
           layers: 'N3_CUSTOM_TSMNN',
           legendUrl: 'eodash-data/data/waterLegend_tsm.png',
           maxZoom: 13,
-          attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
@@ -874,7 +852,6 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/E12c-legend.png',
           minZoom: 1,
           maxZoom: 10,
-          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-01-01')}/${DateTime.fromISO(date).toFormat('yyyy-12-31')}`,
           presetView: {
             type: 'FeatureCollection',
@@ -1005,7 +982,6 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/E12c-legend.png',
           minZoom: 1,
           maxZoom: 10,
-          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-01-01')}/${DateTime.fromISO(date).toFormat('yyyy-12-31')}`,
           presetView: {
             type: 'FeatureCollection',
@@ -1137,7 +1113,6 @@ export const globalIndicators = [
           layers: 'N3_CUSTOM',
           legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
-          attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
@@ -1178,7 +1153,6 @@ export const globalIndicators = [
           layers: 'N3_CUSTOM_TSMNN',
           legendUrl: 'eodash-data/data/waterLegend_tsm.png',
           maxZoom: 13,
-          attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
@@ -1214,9 +1188,7 @@ export const globalIndicators = [
           name: 'CMEMS',
           layers: 'CHL',
           minZoom: 1,
-          maxNativeZoom: 13,
           legendUrl: 'eodash-data/data/cmems-legend.png',
-          attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T00:00:00Z'"),
         },
       },
