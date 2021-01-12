@@ -461,7 +461,7 @@ export const layerNameMapping = Object.freeze({
     },
   },
   'SGLI L2 Reflectance 8-day composited': {
-    url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fagriculture%2Fgcom-c-{time}.tif&resampling_method=bilinear&bidx=1&rescale=0%2C1&color_map=cfastie',
+    url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fagriculture%2Fgcom-c-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-1%2C1&color_map=cfastie',
     protocol: 'xyz',
     tileSize: 256,
     legendUrl: 'data/trilateral/NDVI.png',
