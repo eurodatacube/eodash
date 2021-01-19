@@ -35,6 +35,15 @@ export const indicatorsDefinition = Object.freeze({
       allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification'],
     },
   },
+  E1_S2: {
+    indicator: 'Status of metallic ores',
+    class: 'economic',
+    story: '/data/trilateral/E1_S2',
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+    },
+  },
   E1a: {
     indicator: 'Status of non-metallic ores',
     class: 'economic',
@@ -43,6 +52,15 @@ export const indicatorsDefinition = Object.freeze({
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
       allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification'],
+    },
+  },
+  E1a_S2: {
+    indicator: 'Status of metallic ores',
+    class: 'economic',
+    story: '/data/trilateral/E1a_S2',
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
   },
   E2: {
