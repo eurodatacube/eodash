@@ -58,7 +58,7 @@ Vue.use(VueRouter);
 
 const routes = [
   { path: '/', component: Dashboard },
-  { path: '/dashboard', component: DashboardCustom },
+  { path: '/dashboard/:viewingId?', component: DashboardCustom },
   { path: '/privacy', component: Privacy },
   { path: '/terms_and_conditions', component: Terms },
   { path: '/challenges', component: Challenges },
@@ -100,7 +100,8 @@ const renderVue = async () => {
       options: {
         customProperties: true,
       },
-      dark: mq.matches,
+      dark: false,
+      // dark: mq.matches,
       themes: {
         light: {
           primary: store.state.config.appConfig
