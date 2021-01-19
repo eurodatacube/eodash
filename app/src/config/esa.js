@@ -285,10 +285,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Changes in land fill sites',
     class: 'land',
     story: '/eodash-data/stories/N4c',
-    replaceDataMap: {
-      time: [DateTime.fromISO('2020-02-26T00:00:00'), DateTime.fromISO('2020-05-20T00:00:00'), DateTime.fromISO('2020-06-06T00:00:00')],
-      eoSensor: ['Pleiades', 'Pleiades', 'Deimos'],
-    },
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HH"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
@@ -442,6 +438,29 @@ const getFortnightIntervalDates = (start, end) => {
     currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
   }
   return dateArray;
+};
+
+// AOI_ID key with value = array of additional ISO times to be used in map
+// export const additionalMapTimes = {
+//   'AT4-E13b': {
+//     time: ['2020-11-19T15:37:27'],
+//     eoSensor: ['DEIMOS'],
+//     inputData: ['Sentinel 2 L2A'],
+//     colorCode: ['BLUE'],
+//   },
+// };
+// AOI_ID key with value = array of ISO times to be excluded from map - overrides set 'Input Data' on the entries
+// export const excludeMapTimes = {
+//   'AT4-E13b': ['2020-10-04T09:57:22'],
+// };
+
+export const replaceMapTimes = {
+  'GR4-N4c': {
+    time: ['2020-02-26T00:00:00', '2020-05-20T00:00:00', '2020-06-06T00:00:00'],
+    eoSensor: ['Pleiades', 'Pleiades', 'Deimos'],
+    colorCode: Array(3).fill('BLUE'),
+    inputData: ['Pleiades - COVID19', 'Pleiades - COVID19', 'Deimos - COVID19'],
+  },
 };
 
 const wkt = new Wkt();
