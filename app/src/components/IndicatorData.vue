@@ -779,11 +779,11 @@ export default {
             content: `on/off: ${this.formatNumRef(low)}`,
           },
         });
-      } else if (['E11', 'E1a', 'E1', 'E2'].includes(indicatorCode)) {
+      } else if (['E11', 'E1a', 'E1', 'E2', 'E2_S2', 'E1a_S2', 'E1_S2'].includes(indicatorCode)) {
         if (indicatorCode === 'E11') {
           low = 0.3 * reference;
           high = 0.7 * reference;
-        } else if (['E1a', 'E1', 'E2'].includes(indicatorCode)) {
+        } else if (['E1a', 'E1', 'E2', 'E2_S2', 'E1a_S2', 'E1_S2'].includes(indicatorCode)) {
           low = 0.7 * reference;
           high = 1.3 * reference;
         }
@@ -1037,13 +1037,18 @@ export default {
             .filter((d) => !Number.isNaN(d)),
         );
       }
-      
+
       if (['E12b'].includes(indicatorCode)) {
-        yAxes[0].ticks.suggestedMin = Math.min(
+        // update used yaxis chart max to be max value
+        yAxes[0].ticks.suggestedMax = Math.max(
           ...this.indicatorObject.measurement
             .filter((d) => !Number.isNaN(d)),
         );
-        yAxes[0].ticks.suggestedMax = Math.max(
+      }
+
+      if (['E12b', 'E1a', 'E1', 'E2', 'E2_S2', 'E1a_S2', 'E1_S2'].includes(indicatorCode)) {
+      // update used yaxis chart min to be min value
+        yAxes[0].ticks.suggestedMin = Math.min(
           ...this.indicatorObject.measurement
             .filter((d) => !Number.isNaN(d)),
         );
