@@ -468,13 +468,13 @@ export default {
       return this.baseConfig.indicatorsDefinition[this.indicator.indicator];
     },
     additionalMapTimes() {
-      return this.baseConfig.additionalMapTimes[`${this.indicator.aoiID}-${this.indicator.indicator}`];
+      return this.baseConfig.additionalMapTimes && this.baseConfig.additionalMapTimes[`${this.indicator.aoiID}-${this.indicator.indicator}`];
     },
     excludeMapTimes() {
-      return this.baseConfig.excludeMapTimes[`${this.indicator.aoiID}-${this.indicator.indicator}`];
+      return this.baseConfig.excludeMapTimes && this.baseConfig.excludeMapTimes[`${this.indicator.aoiID}-${this.indicator.indicator}`];
     },
     replaceMapTimes() {
-      return this.baseConfig.replaceMapTimes[`${this.indicator.aoiID}-${this.indicator.indicator}`];
+      return this.baseConfig.replaceMapTimes && this.baseConfig.replaceMapTimes[`${this.indicator.aoiID}-${this.indicator.indicator}`];
     },
     indicator() {
       return this.getIndicatorFilteredInputData(this.currentIndicator || null);

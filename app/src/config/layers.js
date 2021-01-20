@@ -1,4 +1,4 @@
-export const baseLayers = {
+export const baseLayers = Object.freeze({
   cloudless: {
     name: 'EOxCloudless 2019',
     url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2019_3857/default/g/{z}/{y}/{x}.jpg',
@@ -33,9 +33,9 @@ export const baseLayers = {
     maxNativeZoom: 18,
     protocol: 'xyz',
   },
-};
+});
 
-export const overlayLayers = {
+export const overlayLayers = Object.freeze({
   eoxOverlay: {
     name: 'Overlay',
     url: '//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg',
@@ -44,4 +44,4 @@ export const overlayLayers = {
     maxZoom: 14,
     protocol: 'xyz',
   },
-};
+});

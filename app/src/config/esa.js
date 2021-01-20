@@ -5,6 +5,7 @@ import { DateTime } from 'luxon';
 import { latLng, latLngBounds } from 'leaflet';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
+import { E13bRemovedFtrs } from '@/config/otherdata';
 
 export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [
@@ -449,10 +450,18 @@ const getFortnightIntervalDates = (start, end) => {
 //     colorCode: ['BLUE'],
 //   },
 // };
-// AOI_ID key with value = array of ISO times to be excluded from map - overrides set 'Input Data' on the entries
+// AOI_ID key with value = array of ISO times to be excluded from map
+// overrides set 'Input Data' on the entries
 // export const excludeMapTimes = {
 //   'AT4-E13b': ['2020-10-04T09:57:22'],
 // };
+
+export const additionalMapTimes = {
+  ...E13bRemovedFtrs,
+};
+
+export const excludeMapTimes = {
+};
 
 export const replaceMapTimes = {
   'GR4-N4c': {
