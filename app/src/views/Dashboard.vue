@@ -33,14 +33,25 @@
         >
           About
         </v-btn>
-        <v-btn
-          text
-          dark
-          small
-          to="/dashboard"
+        <v-badge
+          bordered
+          color="info"
+          :content="$store.state.dashboard.dashboardConfig
+            && $store.state.dashboard.dashboardConfig.features.length"
+          :value="$store.state.dashboard.dashboardConfig
+            && $store.state.dashboard.dashboardConfig.features.length"
+          overlap
         >
-          Custom Dashboard
-        </v-btn>
+          <v-btn
+            v-if="$store.state.dashboard.dashboardConfig"
+            text
+            dark
+            small
+            to="/dashboard"
+          >
+            Custom Dashboard
+          </v-btn>
+        </v-badge>
       </template>
       <v-spacer></v-spacer>
       <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />

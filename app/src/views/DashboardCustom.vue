@@ -1,50 +1,74 @@
 <template>
-  <div class="scrollContainer">
-    <v-container
-      style="background: #fff">
-      <v-row>
-        <v-col cols="12" class="d-flex align-center justify-space-between">
-          <div class="dashboardTitle">
-            <v-text-field
-              v-if="dashboardEditingId"
-              v-model="dashboardTitle"
-              hint="Edit dashboard title"
-              persistent-hint
-              color="primary"
-              class="display-2 font-weight-light primary--text mt-7 mb-5"
-              :rules="[v => !!v || 'Title required']"
-              @input="modified = true"
-            ></v-text-field>
-            <h1
-              v-else
-              class="display-2 font-weight-light primary--text mt-7 mb-5">
-              {{ dashboardTitle }}</h1>
-          </div>
-          <div>
-            <v-fade-transition mode="out-in">
-              <v-btn
-                v-if="modified"
-                color="success"
-                :loading="saveLoading"
-                :disabled="saveLoading"
-                @click="saveCurrentDashboardState"
-              >
-                <v-icon left>
-                  {{ saveSuccess ? 'mdi-check' : 'mdi-content-save' }}
-                </v-icon>
-                {{ saveSuccess ? 'Saved!' : 'Save Changes' }}
-              </v-btn>
-            </v-fade-transition>
-          </div>
-        </v-col>
-      </v-row>
-      <custom-dashboard-grid
-        v-if="dashboardFeatures"
-        :dashboardFeatures="dashboardFeatures"
-        :enableEditing="!!dashboardEditingId"
-        @updateFeatures="updateFeatures"
-      />
-    </v-container>
+  <div class="dashboard fill-height">
+    <v-app-bar
+      app
+      clipped-left
+      clipped-right
+      flat
+      color="primary"
+      class="white--text"
+    >
+      <v-btn icon to="/" class="white--text" style="text-decoration: none">
+        <v-icon>mdi-arrow-left</v-icon>
+      </v-btn>
+      <!-- <router-link to="/" class="white--text" style="text-decoration: none"> -->
+      <!-- <v-toolbar-title
+        v-if="$vuetify.breakpoint.mdAndUp"
+        class="text-uppercase mr-5"
+      >
+        {{ appConfig && appConfig.branding.appName }}
+      </v-toolbar-title> -->
+      <v-spacer></v-spacer>
+      <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
+    </v-app-bar>
+    <div class="scrollContainer">
+      <v-container
+        style="background: #fff">
+        <v-row>
+          <v-col cols="12" class="d-flex align-center justify-space-between">
+            <div class="dashboardTitle">
+              <v-text-field
+                v-if="dashboardEditingId || newDashboard"
+                v-model="dashboardTitle"
+                hint="Edit dashboard title"
+                persistent-hint
+                color="primary"
+                class="display-2 font-weight-light primary--text mt-7 mb-5"
+                :rules="[v => !!v || 'Title required']"
+                @input="modified = true"
+              ></v-text-field>
+              <h1
+                v-else
+                class="display-2 font-weight-light primary--text mt-7 mb-5">
+                {{ dashboardTitle }}</h1>
+            </div>
+            <div>
+              <v-fade-transition mode="out-in">
+                <v-btn
+                  v-if="modified"
+                  color="success"
+                  :loading="saveLoading"
+                  :disabled="saveLoading"
+                  @click="saveCurrentDashboardState"
+                >
+                  <v-icon left>
+                    {{ saveSuccess ? 'mdi-check' : 'mdi-content-save' }}
+                  </v-icon>
+                  {{ saveSuccess ? 'Saved!' : 'Save Changes' }}
+                </v-btn>
+              </v-fade-transition>
+            </div>
+          </v-col>
+        </v-row>
+        <custom-dashboard-grid
+          v-if="dashboardFeatures"
+          :dashboardFeatures="dashboardFeatures"
+          :enableEditing="!!dashboardEditingId || newDashboard"
+          @updateFeatures="updateFeatures"
+        />
+      </v-container>
+      {{$store.state.features.allFeatures}}
+    </div>
   </div>
 </template>
 
@@ -71,22 +95,29 @@ export default {
     modified: false,
     saveLoading: false,
     saveSuccess: false,
+    newDashboard: false,
   }),
   computed: {
     ...mapState('config', [
       'appConfig',
       'baseConfig',
     ]),
+    ...mapState('dashboard', [
+      'dashboardConfig',
+    ]),
   },
   mounted() {
     if (this.$route.params.viewingId) {
       this.dashboardViewingId = this.$route.params.viewingId;
-    }
-    if (this.$route.params.editingId) {
-      this.dashboardEditingId = this.$route.params.editingId;
+      if (this.$route.params.editingId) {
+        this.dashboardEditingId = this.$route.params.editingId;
+      }
+    } else {
+      this.newDashboard = true;
+      this.loadFeatures(this.dashboardConfig.features, this);
     }
     this.$store.subscribe((mutation) => {
-      if (mutation.type === 'features/ADD_NEW_FEATURES') {
+      if (mutation.type === 'features/ADD_NEW_FEATURES' && this.dashboardViewingId) {
         this.fetchDashboard();
       }
       // if (mutation.type === 'dashboard/SET_DASHBOARD_TITLE') {
@@ -136,24 +167,28 @@ export default {
     },
     async saveCurrentDashboardState() {
       this.saveLoading = true;
-      try {
-        const response = await axios.post(`${this.appConfig.customDashboardUrl}/${this.dashboardViewingId}/${this.dashboardEditingId}`, {
-          title: this.dashboardTitle,
-          features: this.dashboardFeatures,
-        });
-        if (response.status === 200) {
+      if (this.newDashboard) {
+        console.log('new');
+      } else {
+        try {
+          const response = await axios.post(`${this.appConfig.customDashboardUrl}/${this.dashboardViewingId}/${this.dashboardEditingId}`, {
+            title: this.dashboardTitle,
+            features: this.dashboardFeatures,
+          });
+          if (response.status === 200) {
+            // show snackbar ?
+            this.saveSuccess = true;
+            setTimeout(() => {
+              this.modified = false;
+              this.saveSuccess = false;
+            }, 3000);
+            this.saveLoading = false;
+          }
+        } catch (error) {
           // show snackbar ?
-          this.saveSuccess = true;
-          setTimeout(() => {
-            this.modified = false;
-            this.saveSuccess = false;
-          }, 3000);
           this.saveLoading = false;
+          console.log(error);
         }
-      } catch (error) {
-        // show snackbar ?
-        this.saveLoading = false;
-        console.log(error);
       }
     },
   },
@@ -166,6 +201,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.header__logo {
+  height: 32px;
+}
 .scrollContainer {
   overflow-y: scroll;
 }

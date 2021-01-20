@@ -493,6 +493,7 @@ import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
 import FullScreenButton from '@/components/FullScreenButton.vue';
 import IframeButton from '@/components/IframeButton.vue';
+import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 
 export default {
   mixins: [dialogMixin],
@@ -506,6 +507,7 @@ export default {
     IndicatorMap,
     FullScreenButton,
     IframeButton,
+    AddToDashboardButton,
   },
   data: () => ({
     dialog: false,

@@ -8,6 +8,15 @@ const getters = {
 };
 
 const mutations = {
+  ADD_DASHBOARD_FEATURES(state, dashboardFeatures) {
+    if (state.dashboardConfig) {
+      state.dashboardConfig.features = state.dashboardConfig.features.concat(dashboardFeatures);
+    } else {
+      state.dashboardConfig = {
+        features: dashboardFeatures,
+      };
+    }
+  },
   SET_DASHBOARD_FEATURES(state, dashboardFeatures) {
     if (state.dashboardConfig) {
       state.dashboardConfig.features = dashboardFeatures;
