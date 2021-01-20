@@ -82,9 +82,16 @@
       layer-type="base"
     >
     </LWMSTileLayer>
+    <l-geo-json
+    :geojson="subAoiInverse"
+    :pane="popupPane"
+    layer-type="overlay"
+    name='Reference area overlay'
+    :optionsStyle="subAoiInverseStyle"
+    >
+    </l-geo-json>
     <l-layer-group ref="dataLayers">
       <l-geo-json
-      ref="subaoiLayer"
       :geojson="indicator.subAoi"
       :pane="tooltipPane"
       :optionsStyle="subAoiStyle('data')"
@@ -164,7 +171,6 @@
       >
       </LWMSTileLayer>
       <l-geo-json
-        ref="subaoiCompareLayer"
         :geojson="indicator.subAoi"
         :pane="shadowPane"
         :visible="enableCompare"
@@ -366,6 +372,8 @@ import 'leaflet-draw/dist/leaflet.draw.css';
 import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css'; // eslint-disable-line import/no-extraneous-dependencies
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'; // eslint-disable-line import/no-extraneous-dependencies
+import turfDifference from '@turf/difference';
+
 
 const emptyF = {
   type: 'FeatureCollection',
@@ -448,6 +456,13 @@ export default {
         compareF = v;
       },
     },
+    subAoiInverseStyle() {
+      return {
+        stroke: false,
+        fillColor: this.getIndicatorColor('primary'),
+        fillOpacity: 0.5,
+      };
+    },
     baseLayers() {
       // expects an array of objects
       return this.layerDisplay('data').baseLayers ? this.layerDisplay('data').baseLayers : this.baseConfig.baseLayersRightMap;
@@ -500,7 +515,6 @@ export default {
     },
     customAreaIndicator() {
       return this.layerDisplay('data').customAreaIndicator || this.indDefinition.customAreaIndicator || this.indicator.customAreaIndicator;
-      // return (this.layerDisplay('data') && typeof this.layerDisplay('data').customAreaIndicator !== 'undefined') ? this.layerDisplay('data').customAreaIndicator : this.indDefinition.customAreaIndicator;
     },
     customAreaFilter() {
       return this.customAreaFeatures || this.customAreaIndicator;
@@ -629,6 +643,24 @@ export default {
     subAoi() {
       return this.indicator.subAoi;
     },
+    subAoiInverse() {
+      // create an inverse of subaoi, using difference of whole world and subaoi
+      const subaoiInv = JSON.parse(JSON.stringify(this.subAoi));
+      // both Object.assign({}, this.subAoi) and { ...this.subAoi } create shallow copy
+      if (subaoiInv.features.length === 1) {
+        const globalBox = {
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            type: 'Polygon',
+            coordinates: [[[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]]],
+          },
+        };
+        const diff = turfDifference(globalBox, subaoiInv.features[0]);
+        subaoiInv.features[0] = diff;
+      }
+      return subaoiInv;
+    },
     clusterOptions() {
       return {
         disableClusteringAtZoom: 13,
@@ -695,15 +727,6 @@ export default {
       this.map = this.$refs.map.mapObject;
       const layerButtons = document.querySelectorAll('.leaflet-control-layers-toggle');
       layerButtons.forEach((lB) => lB.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${this.appConfig.branding.primaryColor}" width="32px" height="32px"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>`); // eslint-disable-line
-
-      this.$refs.subaoiLayer.mapObject.bindTooltip('Reference area', {
-        direction: 'top',
-        pane: this.popupPane,
-      });
-      this.$refs.subaoiCompareLayer.mapObject.bindTooltip('Reference area', {
-        direction: 'top',
-        pane: this.popupPane,
-      });
       // update leaflet controls
       L.control.mousePosition({ // eslint-disable-line no-undef
         emptyString: '',

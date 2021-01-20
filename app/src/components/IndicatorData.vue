@@ -380,7 +380,7 @@ export default {
           let referenceValue = [];
           const stdDev = [];
           indicator.referenceValue.forEach((item) => {
-            if (!Number.isNaN(item) && item !== 'NaN') {
+            if (!Number.isNaN(item) && item !== 'NaN' && item !== '[NaN NaN]') {
               const obj = JSON.parse(item.replace(/,/g, '.').replace(' ', ','));
               if (obj[0] !== -999 && obj[1] !== -999) {
                 referenceValue.push(obj[0]);
