@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import config from './modules/config';
+import dashboard from './modules/dashboard';
 import features from './modules/features';
 import indicators from './modules/indicators';
 
@@ -9,6 +10,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   modules: {
     config,
+    dashboard,
     features,
     indicators,
   },

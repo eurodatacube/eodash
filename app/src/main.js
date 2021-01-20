@@ -58,7 +58,8 @@ Vue.use(VueRouter);
 
 const routes = [
   { path: '/', component: Dashboard },
-  { path: '/dashboard/:viewingId?', component: DashboardCustom },
+  { path: '/dashboard/:viewingId/edit/:editingId?', component: DashboardCustom },
+  { path: '/dashboard/:viewingId', component: DashboardCustom },
   { path: '/privacy', component: Privacy },
   { path: '/terms_and_conditions', component: Terms },
   { path: '/challenges', component: Challenges },

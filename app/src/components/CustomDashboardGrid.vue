@@ -1,44 +1,42 @@
 <template>
-  <v-container style="background: #fff">
-    <h1 class="display-2 font-weight-light primary--text mt-7 mb-5">
-      Test Custom Dashboard</h1>
-    <v-row>
-      <template
-        v-for="(element, index) in dashboardFeatures"
+<v-row>
+    <template
+      v-for="(element, index) in features"
+    >
+      <v-col v-if="!element.indicatorObject" :key="index" cols="12">
+        Error: {{ element }}
+      </v-col>
+      <v-col
+        v-else
+        :key="element.poi"
+        cols="12"
+        :md="element.width > 1 ? (element.width > 2 ? (element.width > 3 ? 12 : 8) : 6) : 4"
+        style="position: relative;"
       >
-        <v-col v-if="!element.indicatorObject" :key="index" cols="12">
-          Error: {{ element }}
-        </v-col>
-        <v-col
-          v-else
-          :key="element.poi"
-          cols="12"
-          :md="element.width > 1 ? (element.width > 2 ? (element.width > 3 ? 12 : 8) : 6) : 4"
-          style="position: relative;"
+        <v-card
+          class="pa-0"
+          style="height: 500px"
+          outlined
+          tile
         >
-          <v-card
-            class="pa-0"
-            style="height: 500px"
-            outlined
-            tile
-          >
-            <indicator-map
-              ref="indicatorMap"
-              style="top: 0px; position: absolute;"
-              v-if="['all'].includes(element.indicatorObject.country) ||
-              Array.isArray(element.indicatorObject.country)"
-              class="pt-0 fill-height"
-              :currentIndicator="element.indicatorObject"
+          <indicator-map
+            ref="indicatorMap"
+            style="top: 0px; position: absolute;"
+            v-if="['all'].includes(element.indicatorObject.country) ||
+            Array.isArray(element.indicatorObject.country)"
+            class="pt-0 fill-height"
+            :currentIndicator="element.indicatorObject"
 
-            />
-            <!-- v-on:fetchCustomAreaIndicator="scrollToCustomAreaIndicator" -->
-            <indicator-data
-              style="top: 0px; position: absolute;"
-              v-else
-              class="pa-5 chart"
-              :currentIndicator="element.indicatorObject"
-            />
-          </v-card>
+          />
+          <!-- v-on:fetchCustomAreaIndicator="scrollToCustomAreaIndicator" -->
+          <indicator-data
+            style="top: 0px; position: absolute;"
+            v-else
+            class="pa-5 chart"
+            :currentIndicator="element.indicatorObject"
+          />
+        </v-card>
+        <template v-if="enableEditing">
           <div class="buttonContainer containerTop">
             <v-btn
               v-if="element.width > 1"
@@ -84,7 +82,7 @@
               </v-icon>
             </v-btn>
             <v-btn
-              v-if="index < dashboardFeatures.length - 1"
+              v-if="index < features.length - 1"
               class="my-2"
               fab
               dark
@@ -97,10 +95,10 @@
               </v-icon>
             </v-btn>
           </div>
-        </v-col>
-      </template>
-    </v-row>
-  </v-container>
+        </template>
+      </v-col>
+    </template>
+  </v-row>
 </template>
 
 <script>
@@ -110,31 +108,45 @@ import IndicatorMap from '@/components/IndicatorMap.vue';
 export default {
   props: {
     dashboardFeatures: Array,
+    enableEditing: Boolean,
   },
   components: {
     IndicatorData,
     IndicatorMap,
   },
+  data: () => ({
+    features: null,
+  }),
+  created() {
+    this.features = this.dashboardFeatures;
+  },
   methods: {
+    updateFeatures() {
+      this.$emit('updateFeatures', this.features);
+    },
     resizeSmaller(element) {
-      this.dashboardFeatures.find((e) => e.poi === element.poi).width -= 1;
+      this.features.find((e) => e.poi === element.poi).width -= 1;
+      this.updateFeatures();
     },
     resizeLarger(element) {
-      this.dashboardFeatures.find((e) => e.poi === element.poi).width += 1;
+      this.features.find((e) => e.poi === element.poi).width += 1;
+      this.updateFeatures();
     },
     moveLower(element) {
       this.arrayMove(
-        this.dashboardFeatures,
-        this.dashboardFeatures.indexOf(element),
-        this.dashboardFeatures.indexOf(element) - 1,
+        this.features,
+        this.features.indexOf(element),
+        this.features.indexOf(element) - 1,
       );
+      this.updateFeatures();
     },
     moveHigher(element) {
       this.arrayMove(
-        this.dashboardFeatures,
-        this.dashboardFeatures.indexOf(element),
-        this.dashboardFeatures.indexOf(element) + 1,
+        this.features,
+        this.features.indexOf(element),
+        this.features.indexOf(element) + 1,
       );
+      this.updateFeatures();
     },
     arrayMove(arr, oldIndex, newIndex) {
       if (newIndex >= arr.length) {
