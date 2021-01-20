@@ -535,7 +535,8 @@ export default {
         eoSensor = this.replaceMapTimes.eoSensor; // just for display
       }
       if (this.replaceMapTimes && Array.isArray(this.replaceMapTimes.inputData)) {
-        inputData = this.replaceMapTimes.inputData; // needs to be used unless indicator.display is used (that overrides it) to get WMS layer viewed
+        inputData = this.replaceMapTimes.inputData;
+        // needs to be used unless indicator.display is used (that overrides it)
       }
       if (this.replaceMapTimes && Array.isArray(this.replaceMapTimes.colorCode)) {
         colorCode = this.replaceMapTimes.colorCode;
@@ -549,22 +550,23 @@ export default {
         const mergedInputData = inputData.concat(this.additionalMapTimes.inputData);
         const mergedColorCode = colorCode.concat(this.additionalMapTimes.colorCode);
         // combine the arrays
-        let list = [];
+        const list = [];
         for (let j = 0; j < mergedTimes.length; j++) {
-          list.push({'time': mergedTimes[j],
-          'eoSensor': mergedSensors[j],
-          'inputData': mergedInputData[j],
-          'colorCode': mergedColorCode[j],
-        });
+          list.push({
+            time: mergedTimes[j],
+            eoSensor: mergedSensors[j],
+            inputData: mergedInputData[j],
+            colorCode: mergedColorCode[j],
+          });
         }
         // sort mapping by time asc
         list.sort((a, b) => (a.time.toMillis() - b.time.toMillis()));
         // separate them back out
         for (let k = 0; k < list.length; k++) {
-            mergedTimes[k] = list[k].time;
-            mergedSensors[k] = list[k].eoSensor;
-            mergedInputData[k] = list[k].inputData;
-            mergedColorCode[k] = list[k].colorCode;
+          mergedTimes[k] = list[k].time;
+          mergedSensors[k] = list[k].eoSensor;
+          mergedInputData[k] = list[k].inputData;
+          mergedColorCode[k] = list[k].colorCode;
         }
         times = mergedTimes;
         eoSensor = mergedSensors;
@@ -574,15 +576,16 @@ export default {
       if (this.excludeMapTimes && Array.isArray(this.excludeMapTimes)) {
         // exclude times and respective entries from other arrays
         const dtObjects = this.excludeMapTimes.map((t) => DateTime.fromISO(t));
-        const indToDelete = times.reduce(function(a, e, i) {
+        const indToDelete = times.reduce((a, e, i) => {
           // find if any time is in to be deleted
-          const found = dtObjects.find(time => time.toMillis() === e.toMillis());
-          if (found != undefined) {
+          const found = dtObjects.find((time) => time.toMillis() === e.toMillis());
+          if (typeof found !== 'undefined') {
             // add its index to list
             a.push(i);
           }
           return a;
-        }.bind(this), []);
+        }, []);
+        // set items in all arrays to null
         indToDelete.forEach((i) => {
           times[i] = null;
           if (typeof eoSensor[i] !== 'undefined') {
@@ -595,12 +598,15 @@ export default {
             colorCode[i] = null;
           }
         });
-        times = times.filter(e => e !== null);
-        eoSensor = eoSensor.filter(e => e !== null);
-        inputData = inputData.filter(e => e !== null);
-        colorCode = colorCode.filter(e => e !== null);
+        // filter out nulls
+        times = times.filter((e) => e !== null);
+        eoSensor = eoSensor.filter((e) => e !== null);
+        inputData = inputData.filter((e) => e !== null);
+        colorCode = colorCode.filter((e) => e !== null);
       }
-      return {time: times, eoSensor: eoSensor, inputData: inputData, colorCode: colorCode,};
+      return {
+        time: times, eoSensor, inputData, colorCode,
+      };
     },
     arrayOfObjects() {
       const selectionOptions = [];

@@ -53,7 +53,6 @@ export const indicatorsDefinition = Object.freeze({
   E3: {
     indicator: 'Inventory levels of factory inputs',
     class: 'economic',
-    //story: '/eodash-data/stories/E3',
   },
   E4: {
     indicator: 'Production activity of intermediate goods',
@@ -72,7 +71,6 @@ export const indicatorsDefinition = Object.freeze({
   E7: {
     indicator: 'Production activity of finished goods',
     class: 'economic',
-    //story: '/eodash-data/stories/E7',
   },
   E8: {
     indicator: 'Inventory Levels',
@@ -144,7 +142,6 @@ export const indicatorsDefinition = Object.freeze({
   E11a: {
     indicator: 'Indicator definition placeholder',
     class: 'economic',
-    //story: '/eodash-data/stories/E11a',
   },
   E12a: {
     indicator: 'Volume of activity logistic interchange centers',
@@ -1263,7 +1260,7 @@ export const globalIndicators = [
           minZoom: 5,
           name: 'Oil silos volume change',
           features: {
-            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd"),
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
           },
           baseLayers: [{
@@ -1308,7 +1305,7 @@ export const globalIndicators = [
           maxZoom: 19,
           name: 'Disneyland Paris',
           features: {
-            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd"),
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
           },
           baseLayers: [{
@@ -1353,7 +1350,7 @@ export const globalIndicators = [
           maxZoom: 19,
           name: 'Warsaw parking lot',
           features: {
-            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd"),
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
           },
           baseLayers: [{
@@ -1398,7 +1395,7 @@ export const globalIndicators = [
           maxZoom: 18,
           name: 'Weimouth ships',
           features: {
-            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd"),
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
           },
           baseLayers: [{
@@ -1437,7 +1434,7 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           ...defaultWMSDisplay,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd"),
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'ICEYE-E13B',
           minZoom: 5,
@@ -1484,7 +1481,7 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           ...defaultWMSDisplay,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd"),
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'ICEYE-E13B',
           minZoom: 5,
