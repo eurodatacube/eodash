@@ -3,7 +3,7 @@
   <v-app id="inspire" :class="`fill-height brand-${appConfig.id}`">
     <div v-if="comingSoon"
       class="fill-height d-flex justify-center align-center"
-      style="background: white"
+      :style="{background: $vuetify.theme.themes[theme].background}"
     >
       <countdown v-if="countDownTime" :time="countDownTime" @end="comingSoon = false">
         <template slot-scope="props">
@@ -95,6 +95,9 @@ export default {
     ]),
     showCookieNotice() {
       return this.$route.path !== '/iframe';
+    },
+    theme() {
+      return (this.$vuetify.theme.dark) ? 'dark' : 'light';
     },
   },
   created() {
