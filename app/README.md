@@ -39,7 +39,7 @@ git update-index --no-assume-unchanged public/shConfig.js
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+npm start
 ```
 
 The dashboard using the included data should now be accessible at
