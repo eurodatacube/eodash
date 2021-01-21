@@ -767,8 +767,6 @@ export default {
       this.slider = L.control.sideBySide(this.$refs.compareLayers.mapObject.getLayers(), this.$refs.dataLayers.mapObject.getLayers()); // eslint-disable-line
       this.drawControl = new L.Control.Draw(this.drawOptions);
       this.map.on(L.Draw.Event.CREATED, function (e) { // eslint-disable-line
-        // add newly drawn layer to layer group
-        this.$refs.customAreaFilterFeatures.mapObject.addLayer(e.layer);
         // set global area as json
         this.$store.commit('features/SET_SELECTED_AREA', e.layer.toGeoJSON());
       }.bind(this)); // eslint-disable-line
@@ -776,16 +774,8 @@ export default {
       this.map.on(L.Draw.Event.DRAWSTART, function () { // eslint-disable-line
         this.clearCustomAreaFilter();
       }.bind(this));
-      this.map.on(L.Draw.Event.DRAWSTOP, function () { // eslint-disable-line
-        if (this.validDrawnArea) {
-          this.fetchFeatures('data');
-          if (this.enableCompare) {
-            this.fetchFeatures('compare');
-          }
-        }
-      }.bind(this));
 
-      this.drawSelectedArea();
+      this.initialDrawSelectedArea();
       this.onResize();
       if (!this.customAreaFeatures || this.validDrawnArea) {
         this.fetchFeatures('data');
@@ -800,26 +790,32 @@ export default {
         this.map._onResize();
       }
     },
-    drawSelectedArea() {
+    initialDrawSelectedArea() {
       if (this.customAreaFilter) {
+        // add draw controls
         this.drawControl.addTo(this.map);
         this.renderTrashBin = true;
-        let ftrs = null;
-        if (this.validDrawnArea) {
-          const jsonGeom = this.drawnArea;
-          ftrs = [{
-            type: 'Feature',
-            properties: {},
-            geometry: jsonGeom,
-          }];
+        this.updateSelectedAreaFeature();
+      }
+    },
+    updateSelectedAreaFeature() {
+      let ftrs = null;
+      if (this.validDrawnArea) {
+        this.fetchFeatures('data');
+        if (this.enableCompare) {
+          this.fetchFeatures('compare');
         }
-        if (ftrs) {
-          this.$refs.customAreaFilterFeatures.mapObject.addLayer(geoJson(ftrs, {
-            style: {
-              color: this.appConfig.branding.primaryColor,
-            },
-          }));
-        }
+        ftrs = { ...this.drawnArea };
+      }
+      if (ftrs) {
+        // add feature to be drawn into layer
+        this.$refs.customAreaFilterFeatures.mapObject.addLayer(geoJson(ftrs, {
+          style: {
+            color: this.appConfig.branding.primaryColor,
+          },
+        }));
+      } else {
+        this.$refs.customAreaFilterFeatures.mapObject.clearLayers();
       }
     },
     featureOptions(side) {
@@ -1260,7 +1256,6 @@ export default {
         });
     },
     clearCustomAreaFilter() {
-      this.$refs.customAreaFilterFeatures.mapObject.clearLayers();
       this.$store.commit('features/SET_SELECTED_AREA', null);
     },
     getDataF() {
@@ -1278,13 +1273,17 @@ export default {
           pane: side === 'data' ? this.tooltipPane : this.shadowPane,
         });
         if (side === 'data') {
-          this.$refs.featuresDataCluster.mapObject.clearLayers();
-          this.$refs.featuresDataCluster.mapObject.addLayers([geojsonFromData]);
-          this.dataFeaturesNum = ftrs.features.length;
+          if (this.$refs.featuresDataCluster) {
+            this.$refs.featuresDataCluster.mapObject.clearLayers();
+            this.$refs.featuresDataCluster.mapObject.addLayers([geojsonFromData]);
+            this.dataFeaturesNum = ftrs.features.length;
+          }
         } else {
-          this.$refs.featuresCompareCluster.mapObject.clearLayers();
-          this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
-          this.compareFeaturesNum = ftrs.features.length;
+          if (this.$refs.featuresDataCluster) {
+            this.$refs.featuresCompareCluster.mapObject.clearLayers();
+            this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
+            this.compareFeaturesNum = ftrs.features.length;
+          }
         }
       } else if (side === 'data') {
         // normal geojson layer just needs manual refresh
@@ -1322,6 +1321,10 @@ export default {
           this.slider.addTo(this.map);
         });
       }
+    },
+    drawnArea() {
+      // watch on drawn area prop change triggering update of draw layer and fetching custom features
+      this.updateSelectedAreaFeature();
     },
   },
 };
