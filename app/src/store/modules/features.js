@@ -10,7 +10,6 @@ const state = {
     countries: [],
     indicators: [],
   },
-  selectedFeatures: [],
   selectedArea: null,
   resultsCount: {
     economic: 0,
@@ -164,9 +163,6 @@ const mutations = {
     if (indicators) {
       state.featureFilters.indicators = indicators;
     }
-  },
-  SET_SELECTED_FEATURES(state, features) {
-    state.selectedFeatures = features;
   },
   ADD_RESULTS_COUNT(state, { type, count }) {
     state.resultsCount[type] += count;

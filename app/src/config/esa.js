@@ -512,9 +512,9 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           areaIndicator: {
             url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-            callbackFunction: (requestJson, indicator) => {
-              if (Array.isArray(requestJson.C0)) {
-                const data = requestJson.C0;
+            callbackFunction: (responseJson, indicator) => {
+              if (Array.isArray(responseJson.C0)) {
+                const data = responseJson.C0;
                 const newData = {
                   time: [],
                   measurement: [],
@@ -913,10 +913,10 @@ export const globalIndicators = [
             featureLimit: 5000,
             allowedParameters: ['osm_name', 'truck_count_normalized', 'sum_observations'],
             dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
-            callbackFunction: (requestJson) => { // geom from wkb to geojson features
+            callbackFunction: (responseJson) => { // geom from wkb to geojson features
               const ftrs = [];
-              if (Array.isArray(requestJson[0].src)) {
-                requestJson[0].src.forEach((ftr) => {
+              if (Array.isArray(responseJson[0].src)) {
+                responseJson[0].src.forEach((ftr) => {
                   ftrs.push({
                     type: 'Feature',
                     properties: ftr,
@@ -944,9 +944,9 @@ export const globalIndicators = [
               group: 'time',
               where: 'osm_value=1 AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
             },
-            callbackFunction: (requestJson, indicator) => {
-              if (Array.isArray(requestJson[0].src)) {
-                const data = requestJson[0].src;
+            callbackFunction: (responseJson, indicator) => {
+              if (Array.isArray(responseJson[0].src)) {
+                const data = responseJson[0].src;
                 const newData = {
                   time: [],
                   measurement: [],
@@ -1043,10 +1043,10 @@ export const globalIndicators = [
             featureLimit: 5000,
             allowedParameters: ['truck_count_normalized', 'sum_observations'],
             dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
-            callbackFunction: (requestJson) => { // geom from wkb to geojson features
+            callbackFunction: (responseJson) => { // geom from wkb to geojson features
               const ftrs = [];
-              if (Array.isArray(requestJson[0].src)) {
-                requestJson[0].src.forEach((ftr) => {
+              if (Array.isArray(responseJson[0].src)) {
+                responseJson[0].src.forEach((ftr) => {
                   ftrs.push({
                     type: 'Feature',
                     properties: ftr,
@@ -1074,9 +1074,9 @@ export const globalIndicators = [
               group: 'time',
               where: 'osm_value=3 AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
             },
-            callbackFunction: (requestJson, indicator) => {
-              if (Array.isArray(requestJson[0].src)) {
-                const data = requestJson[0].src;
+            callbackFunction: (responseJson, indicator) => {
+              if (Array.isArray(responseJson[0].src)) {
+                const data = responseJson[0].src;
                 const newData = {
                   time: [],
                   measurement: [],
