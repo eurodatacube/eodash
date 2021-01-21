@@ -1,7 +1,7 @@
 <template>
   <div
     class="fill-height pa-10"
-    style="background: white; padding-top: 85px !important;"
+    style="padding-top: 85px !important;"
   >
    <v-app-bar
       app

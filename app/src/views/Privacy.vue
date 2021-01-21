@@ -5,7 +5,6 @@
   >
     <div
       class="fill-height pa-10 pt-5"
-      style="background: white;"
     >
     <v-app-bar
         app

@@ -420,9 +420,6 @@ export default {
   border: 1px solid var(--v-primary-base);
 }
 ::v-deep .v-dialog--fullscreen {
-  background: white;
-}
-::v-deep .v-dialog--fullscreen {
   header,
   header .v-toolbar__content {
     height: auto !important;
