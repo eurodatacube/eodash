@@ -17,7 +17,7 @@ export const dataEndpoints = [
 
 export const indicatorsDefinition = Object.freeze({
   E1: {
-    indicator: 'Status of metallic ores',
+    indicator: 'Status of metallic ores (Archived)',
     class: 'economic',
     story: '/eodash-data/stories/E1',
     features: {
@@ -26,8 +26,17 @@ export const indicatorsDefinition = Object.freeze({
       allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification', 'TIMESTAMP UTC', 'TYPE_NAME', 'LENGTH'],
     },
   },
+  E1_S2: {
+    indicator: 'Status of metallic ores',
+    class: 'economic',
+    story: '/eodash-data/stories/E1',
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+    },
+  },
   E1a: {
-    indicator: 'Status of non-metallic ores',
+    indicator: 'Status of non-metallic ores (Archived)',
     class: 'economic',
     story: '/eodash-data/stories/E1a',
     features: {
@@ -36,14 +45,32 @@ export const indicatorsDefinition = Object.freeze({
       allowedParameters: ['classification'],
     },
   },
+  E1a_S2: {
+    indicator: 'Status of non-metallic ores (Archived)',
+    class: 'economic',
+    story: '/eodash-data/stories/E1a',
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+    },
+  },
   E2: {
-    indicator: 'Volume of oil stockpiled',
+    indicator: 'Volume of oil stockpiled (Archived)',
     class: 'economic',
     story: '/eodash-data/stories/E2',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
       allowedParameters: ['classification'],
+    },
+  },
+  E2_S2: {
+    indicator: 'Volume of oil stockpiled',
+    class: 'economic',
+    story: '/eodash-data/stories/E2',
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
   },
   E2a: {
