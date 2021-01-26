@@ -38,7 +38,7 @@ export const indicatorsDefinition = Object.freeze({
   E1_S2: {
     indicator: 'Status of metallic ores',
     class: 'economic',
-    story: '/data/trilateral/E1_S2',
+    story: '/data/trilateral/E1',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
@@ -57,7 +57,7 @@ export const indicatorsDefinition = Object.freeze({
   E1a_S2: {
     indicator: 'Status of metallic ores',
     class: 'economic',
-    story: '/data/trilateral/E1a_S2',
+    story: '/data/trilateral/E1a',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
