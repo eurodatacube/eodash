@@ -5,6 +5,7 @@ import { DateTime } from 'luxon';
 import { latLng, latLngBounds } from 'leaflet';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
+import { E13bRemovedFtrs } from '@/config/otherdata';
 
 export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [
@@ -165,6 +166,10 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: '/eodash-data/stories/E11',
   },
+  E11a: {
+    indicator: 'Indicator definition placeholder',
+    class: 'economic',
+  },
   E12a: {
     indicator: 'Volume of activity logistic interchange centers',
     class: 'economic',
@@ -173,6 +178,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Throughput at border crossing points',
     class: 'economic',
     story: '/eodash-data/stories/E12b',
+    midSubAoi: true,
     maxDecimals: 3,
   },
   E12c: {
@@ -312,10 +318,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Changes in land fill sites',
     class: 'land',
     story: '/eodash-data/stories/N4c',
-    replaceDataMap: {
-      time: [DateTime.fromISO('2020-02-26T00:00:00'), DateTime.fromISO('2020-05-20T00:00:00'), DateTime.fromISO('2020-06-06T00:00:00')],
-      eoSensor: ['Pleiades', 'Pleiades', 'Deimos'],
-    },
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HH"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
@@ -332,81 +334,65 @@ export const layerNameMapping = Object.freeze({
   '[NEW] Planetscope COVID-19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLANETSCOPE_COVID-19',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   'PlanetScope - COVID19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLANETSCOPE_COVID-19',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   'Planetscope COVID-19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLANETSCOPE_COVID-19',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   '[NEW] Planet COVID-19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLANETSCOPE_COVID-19',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   '[NEW] Pleiades': {
     baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   'Pleiades - COVID19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_COVID19',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   'Deimos - COVID19': {
     baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'DEIMOS',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   '[NEW] Pleiades COVID-19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_COVID19',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   '[NEW] Pleiades COVID19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_COVID19',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   '[NEW] Pleiades - 2.8m - COVID19': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_28_COVID19',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   '[NEW] Pleiades 16bit': {
     baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_16BIT',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
   },
   'Sentinel 2 L2A': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
     dateFormatFunction: shS2TimeFunction,
   },
   S2L2A: {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
     dateFormatFunction: shS2TimeFunction,
   },
   S1GRD: {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'E8_SENTINEL1',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
   },
   'S1A - GRD': {
     baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'E8_SENTINEL1',
-    attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
   },
-  N3a2: {}, // just for enabling eo data button for now,
 });
 
 export const indicatorClassesIcons = Object.freeze({
@@ -446,7 +432,7 @@ export const defaultWMSDisplay = {
   transparent: true,
   tileSize: 512,
   opacity: 1,
-  attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.3 and 8.2 of the Terms and Conditions</a> }',
+  attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   minZoom: 7,
 };
 
@@ -487,6 +473,37 @@ const getFortnightIntervalDates = (start, end) => {
   return dateArray;
 };
 
+// AOI_ID key with value = array of additional ISO times to be used in map
+// export const additionalMapTimes = {
+//   'AT4-E13b': {
+//     time: ['2020-11-19T15:37:27'],
+//     eoSensor: ['DEIMOS'],
+//     inputData: ['Sentinel 2 L2A'],
+//     colorCode: ['BLUE'],
+//   },
+// };
+// AOI_ID key with value = array of ISO times to be excluded from map
+// overrides set 'Input Data' on the entries
+// export const excludeMapTimes = {
+//   'AT4-E13b': ['2020-10-04T09:57:22'],
+// };
+
+export const additionalMapTimes = {
+  ...E13bRemovedFtrs,
+};
+
+export const excludeMapTimes = {
+};
+
+export const replaceMapTimes = {
+  'GR4-N4c': {
+    time: ['2020-02-26T00:00:00', '2020-05-20T00:00:00', '2020-06-06T00:00:00'],
+    eoSensor: ['Pleiades', 'Pleiades', 'Deimos'],
+    colorCode: Array(3).fill('BLUE'),
+    inputData: ['Pleiades - COVID19', 'Pleiades - COVID19', 'Deimos - COVID19'],
+  },
+};
+
 const wkt = new Wkt();
 
 export const globalIndicators = [
@@ -518,9 +535,7 @@ export const globalIndicators = [
           name: 'Tropospheric NO2',
           layers: 'NO2-VISUALISATION',
           minZoom: 1,
-          maxNativeZoom: 8,
           legendUrl: 'eodash-data/data/no2Legend.png',
-          attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           areaIndicator: {
             url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
@@ -729,7 +744,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((13.82676706185932 44.707877452151976,13.826080416351507 44.63853985102104,13.828140352874945 44.60726198073148,13.830543612152288 44.580858170237136,13.824707125335882 44.56324896519081,13.831230257660101 44.53388844187968,13.83226022592182 44.50059527839493,13.14012155404682 44.49471803960046,12.29417428842182 44.482961784844655,12.22825631967182 44.70494937295371,12.28318796029682 44.82439215066662,12.375198458343695 44.80027974205457,12.408844088226507 44.82134821071279,12.466865633636663 44.848433626253936,12.50840768685932 44.941643892166006,12.435623263031195 44.97274112720852,12.430816744476507 45.017413877251585,12.314430330902288 44.96496839839778,12.346874331146429 45.11150096790739,12.3191510187685 45.20785209529116,12.239371393829535 45.20857774137082,12.210467909485052 45.2901538238102,12.22276315560932 45.377400919461266,12.30790719857807 45.48533806813408,12.48368844857807 45.559425118958345,12.622390841156195 45.527685472129804,12.436309908539007 45.47089417163262,12.428413485199163 45.41838351593179,12.782894228607367 45.546202443810486,12.887307261139105 45.60069590187233,12.977987383514593 45.62249048564204,13.101626490265081 45.63083382762503,13.086563204437445 45.72456591874726,13.210159395843695 45.76864898557,13.344055269867132 45.73942388451784,13.406883333831976 45.72384688466227,13.44499215951557 45.67565051875911,13.56034860482807 45.78397406598729,13.65647897592182 45.76194293851278,13.773208712249945 45.66413479361571,13.71965036264057 45.5603866467064,13.48619088998432 45.44295880636075,13.59605417123432 45.16671702535331,13.71690378060932 44.97954140088225,13.778701876312445 44.951120616125884,13.81852731576557 44.86042018307063,13.82402047982807 44.77737580152348,13.82676706185932 44.707877452151976))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-07', '2020-12-15'),
+        time: getWeeklyDates('2020-01-07', '2021-01-12'),
         inputData: [''],
         display: {
           ...defaultWMSDisplay,
@@ -738,7 +753,6 @@ export const globalIndicators = [
           layers: 'N3_CUSTOM',
           legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
-          attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
@@ -770,7 +784,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((4.19585670915520126 43.49375380380885758, 4.19491064380215573 43.49564593451494687, 4.62253218337875094 43.49564593451494687, 4.69632528091630519 43.49753806522103616, 4.69537921556325966 43.48618528098449332, 4.6736197124432115 43.46442577786444161, 4.64523775185184462 43.45401905898093986, 4.67172758173712044 43.42090677162434531, 4.70389380374066945 43.41428431415302924, 4.71146232656503461 43.43698988262612204, 4.75592739815817644 43.43320562121393635, 4.78525542410258886 43.41806857556520782, 4.81647558075309234 43.38495628820861327, 4.83918114922618603 43.38495628820861327, 4.82877443034268428 43.40671579132866498, 4.81552951540004681 43.424691033036531, 4.81836771145918341 43.43604381727307384, 4.86661704446450738 43.41050005274084356, 4.87040130587668951 43.41523037950607034, 4.84012721457923156 43.44928873221571308, 4.85999458699318865 43.4682100392766273, 4.88459228617237251 43.42942135980175777, 4.89499900505587426 43.43793594797917024, 4.91297424676374028 43.43509775192003275, 4.92621916170637775 43.44172020939134882, 4.94608653412033483 43.49280773845580939, 5.21949942115050369 43.49753806522103616, 5.23558253215227776 43.4899695423966719, 5.24693531638882504 43.4672639739235791, 5.23842072821141436 43.43415168656698455, 5.21476909438527514 43.41428431415302924, 5.16557369602690564 43.39157874567993645, 5.08988846778326032 43.39157874567993645, 5.014203239539615 43.39252481103297754, 5.01893356630484355 43.3792798960903454, 5.03690880801270868 43.3565743276172455, 5.07096716072234965 43.34143728196851697, 5.11070190555026294 43.33859908590937948, 5.15327484643731371 43.34427547802765446, 5.21760729044441174 43.34049121661547588, 5.27247908092105533 43.35373613155811512, 5.30275317221851239 43.37265743861902223, 5.33208119816292569 43.36698104650074725, 5.35194857057688189 43.3565743276172455, 5.36140922410733811 43.34143728196851697, 5.36992381228474791 43.32535417096674735, 5.36992381228474791 43.3130553213771492, 5.36613955087256578 43.29791827572842067, 5.36613955087256578 43.28845762219796711, 5.37654626975606753 43.27521270725532787, 5.38600692328652286 43.26102172695964754, 5.38316872722738626 43.25250713878223507, 5.37276200834388451 43.24210041989873332, 5.35478676663601938 43.23263976636827977, 5.35005643987079083 43.22128698213172981, 5.35857102804820151 43.21088026324823517, 5.37749233510911218 43.21655665536650304, 5.39925183822916033 43.21939485142564052, 5.42195740670225401 43.21561059001346194, 5.45412362870580303 43.21939485142564052, 5.50331902706417253 43.20141960971777451, 5.50615722312331002 42.99990768951906972, 4.19301851309606466 42.99896162416602152, 4.19585670915520126 43.49375380380885758))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-07', '2020-12-15'),
+        time: getWeeklyDates('2020-01-07', '2021-01-12'),
         inputData: [''],
         display: {
           ...defaultWMSDisplay,
@@ -779,7 +793,6 @@ export const globalIndicators = [
           layers: 'N3_CUSTOM',
           legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
-          attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
@@ -811,7 +824,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((13.82676706185932 44.707877452151976,13.826080416351507 44.63853985102104,13.828140352874945 44.60726198073148,13.830543612152288 44.580858170237136,13.824707125335882 44.56324896519081,13.831230257660101 44.53388844187968,13.83226022592182 44.50059527839493,13.14012155404682 44.49471803960046,12.29417428842182 44.482961784844655,12.22825631967182 44.70494937295371,12.28318796029682 44.82439215066662,12.375198458343695 44.80027974205457,12.408844088226507 44.82134821071279,12.466865633636663 44.848433626253936,12.50840768685932 44.941643892166006,12.435623263031195 44.97274112720852,12.430816744476507 45.017413877251585,12.314430330902288 44.96496839839778,12.346874331146429 45.11150096790739,12.3191510187685 45.20785209529116,12.239371393829535 45.20857774137082,12.210467909485052 45.2901538238102,12.22276315560932 45.377400919461266,12.30790719857807 45.48533806813408,12.48368844857807 45.559425118958345,12.622390841156195 45.527685472129804,12.436309908539007 45.47089417163262,12.428413485199163 45.41838351593179,12.782894228607367 45.546202443810486,12.887307261139105 45.60069590187233,12.977987383514593 45.62249048564204,13.101626490265081 45.63083382762503,13.086563204437445 45.72456591874726,13.210159395843695 45.76864898557,13.344055269867132 45.73942388451784,13.406883333831976 45.72384688466227,13.44499215951557 45.67565051875911,13.56034860482807 45.78397406598729,13.65647897592182 45.76194293851278,13.773208712249945 45.66413479361571,13.71965036264057 45.5603866467064,13.48619088998432 45.44295880636075,13.59605417123432 45.16671702535331,13.71690378060932 44.97954140088225,13.778701876312445 44.951120616125884,13.81852731576557 44.86042018307063,13.82402047982807 44.77737580152348,13.82676706185932 44.707877452151976))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-07', '2020-12-15'),
+        time: getWeeklyDates('2020-01-07', '2021-01-12'),
         inputData: [''],
         display: {
           ...defaultWMSDisplay,
@@ -820,7 +833,6 @@ export const globalIndicators = [
           layers: 'N3_CUSTOM_TSMNN',
           legendUrl: 'eodash-data/data/waterLegend_tsm.png',
           maxZoom: 13,
-          attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
@@ -852,7 +864,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((4.19585670915520126 43.49375380380885758, 4.19491064380215573 43.49564593451494687, 4.62253218337875094 43.49564593451494687, 4.69632528091630519 43.49753806522103616, 4.69537921556325966 43.48618528098449332, 4.6736197124432115 43.46442577786444161, 4.64523775185184462 43.45401905898093986, 4.67172758173712044 43.42090677162434531, 4.70389380374066945 43.41428431415302924, 4.71146232656503461 43.43698988262612204, 4.75592739815817644 43.43320562121393635, 4.78525542410258886 43.41806857556520782, 4.81647558075309234 43.38495628820861327, 4.83918114922618603 43.38495628820861327, 4.82877443034268428 43.40671579132866498, 4.81552951540004681 43.424691033036531, 4.81836771145918341 43.43604381727307384, 4.86661704446450738 43.41050005274084356, 4.87040130587668951 43.41523037950607034, 4.84012721457923156 43.44928873221571308, 4.85999458699318865 43.4682100392766273, 4.88459228617237251 43.42942135980175777, 4.89499900505587426 43.43793594797917024, 4.91297424676374028 43.43509775192003275, 4.92621916170637775 43.44172020939134882, 4.94608653412033483 43.49280773845580939, 5.21949942115050369 43.49753806522103616, 5.23558253215227776 43.4899695423966719, 5.24693531638882504 43.4672639739235791, 5.23842072821141436 43.43415168656698455, 5.21476909438527514 43.41428431415302924, 5.16557369602690564 43.39157874567993645, 5.08988846778326032 43.39157874567993645, 5.014203239539615 43.39252481103297754, 5.01893356630484355 43.3792798960903454, 5.03690880801270868 43.3565743276172455, 5.07096716072234965 43.34143728196851697, 5.11070190555026294 43.33859908590937948, 5.15327484643731371 43.34427547802765446, 5.21760729044441174 43.34049121661547588, 5.27247908092105533 43.35373613155811512, 5.30275317221851239 43.37265743861902223, 5.33208119816292569 43.36698104650074725, 5.35194857057688189 43.3565743276172455, 5.36140922410733811 43.34143728196851697, 5.36992381228474791 43.32535417096674735, 5.36992381228474791 43.3130553213771492, 5.36613955087256578 43.29791827572842067, 5.36613955087256578 43.28845762219796711, 5.37654626975606753 43.27521270725532787, 5.38600692328652286 43.26102172695964754, 5.38316872722738626 43.25250713878223507, 5.37276200834388451 43.24210041989873332, 5.35478676663601938 43.23263976636827977, 5.35005643987079083 43.22128698213172981, 5.35857102804820151 43.21088026324823517, 5.37749233510911218 43.21655665536650304, 5.39925183822916033 43.21939485142564052, 5.42195740670225401 43.21561059001346194, 5.45412362870580303 43.21939485142564052, 5.50331902706417253 43.20141960971777451, 5.50615722312331002 42.99990768951906972, 4.19301851309606466 42.99896162416602152, 4.19585670915520126 43.49375380380885758))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-07', '2020-12-15'),
+        time: getWeeklyDates('2020-01-07', '2021-01-12'),
         inputData: [''],
         display: {
           ...defaultWMSDisplay,
@@ -861,7 +873,6 @@ export const globalIndicators = [
           layers: 'N3_CUSTOM_TSMNN',
           legendUrl: 'eodash-data/data/waterLegend_tsm.png',
           maxZoom: 13,
-          attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
@@ -901,7 +912,6 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/E12c-legend.png',
           minZoom: 1,
           maxZoom: 10,
-          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-01-01')}/${DateTime.fromISO(date).toFormat('yyyy-12-31')}`,
           presetView: {
             type: 'FeatureCollection',
@@ -1032,7 +1042,6 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/E12c-legend.png',
           minZoom: 1,
           maxZoom: 10,
-          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-01-01')}/${DateTime.fromISO(date).toFormat('yyyy-12-31')}`,
           presetView: {
             type: 'FeatureCollection',
@@ -1155,7 +1164,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((2.516544 40.485512,2.522036 41.562459,2.291387 41.480243,2.211372 41.416219,2.164693 41.3132,2.049368 41.27401,1.917569 41.26782,1.692412 41.212083,1.448034 41.174899,1.266809 41.129423,1.16796 41.077707,0.950799 41.027932,0.726123 40.810478,0.849188 40.722691,0.85468 40.68523,0.659705 40.6644,0.549872 40.576882,0.483966 40.485017,2.516544 40.485512))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-11-03', '2020-12-15'),
+        time: getWeeklyDates('2020-11-03', '2021-01-12'),
         inputData: [''],
         display: {
           ...defaultWMSDisplay,
@@ -1164,7 +1173,6 @@ export const globalIndicators = [
           layers: 'N3_CUSTOM',
           legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
-          attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
@@ -1196,7 +1204,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((2.516544 40.485512,2.522036 41.562459,2.291387 41.480243,2.211372 41.416219,2.164693 41.3132,2.049368 41.27401,1.917569 41.26782,1.692412 41.212083,1.448034 41.174899,1.266809 41.129423,1.16796 41.077707,0.950799 41.027932,0.726123 40.810478,0.849188 40.722691,0.85468 40.68523,0.659705 40.6644,0.549872 40.576882,0.483966 40.485017,2.516544 40.485512))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-11-03', '2020-12-15'),
+        time: getWeeklyDates('2020-11-03', '2021-01-12'),
         inputData: [''],
         display: {
           ...defaultWMSDisplay,
@@ -1205,7 +1213,6 @@ export const globalIndicators = [
           layers: 'N3_CUSTOM_TSMNN',
           legendUrl: 'eodash-data/data/waterLegend_tsm.png',
           maxZoom: 13,
-          attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
@@ -1241,10 +1248,281 @@ export const globalIndicators = [
           name: 'CMEMS',
           layers: 'CHL',
           minZoom: 1,
-          maxNativeZoom: 13,
           legendUrl: 'eodash-data/data/cmems-legend.png',
-          attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3.2 of the Terms and Conditions</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T00:00:00Z'"),
+        },
+      },
+    },
+  },
+  {
+    id: 9993,
+    latlng: latLng([51.954, 4.094]),
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        id: 9993,
+        aoi: latLng([51.954, 4.094]),
+        aoiID: 'NL3',
+        country: ['NL'],
+        city: 'Rotterdam port',
+        description: 'Oil Storage Volume',
+        indicator: 'E3',
+        lastIndicatorValue: null,
+        indicatorName: 'Oil Storage Volume',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((4.097986 51.948021,4.100561 51.954105,4.088116 51.957331,4.086485 51.953787,4.09584 51.948127,4.097986 51.948021))').toJson(),
+          }],
+        },
+        lastColorCode: null,
+        time: ['2020-02-04', '2020-04-13', '2020-07-17'],
+        inputData: [''],
+        display: {
+          ...defaultWMSDisplay,
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          layers: 'ICEYE-E3',
+          minZoom: 5,
+          name: 'Oil silos volume change',
+          features: {
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
+            url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+          },
+          baseLayers: [{
+            ...baseLayers.cloudless,
+            visible: true,
+          }, baseLayers.terrainLight],
+        },
+      },
+    },
+  },
+  {
+    id: 9991,
+    latlng: latLng([48.87, 2.78]),
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        id: 9991,
+        aoi: latLng([48.87, 2.78]),
+        aoiID: 'FR16',
+        country: ['FR'],
+        city: 'Disneyland Paris',
+        description: 'Volume of activity at shopping center',
+        indicator: 'E11',
+        lastIndicatorValue: null,
+        indicatorName: 'Volume of activity at shopping center',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((2.76907 48.861299,2.76907 48.881707,2.798724 48.881707,2.798724 48.861299,2.76907 48.861299))').toJson(),
+          }],
+        },
+        lastColorCode: null,
+        time: ['2020-03-20'],
+        inputData: [''],
+        display: {
+          ...defaultWMSDisplay,
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          layers: 'ICEYE-E11',
+          minZoom: 5,
+          maxZoom: 19,
+          name: 'Disneyland Paris',
+          features: {
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
+            url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+          },
+          baseLayers: [{
+            ...baseLayers.cloudless,
+            visible: true,
+          }, baseLayers.terrainLight],
+        },
+      },
+    },
+  },
+  {
+    id: 9990,
+    latlng: latLng([52.244, 21.045]),
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        id: 9990,
+        aoi: latLng([52.244, 21.045]),
+        aoiID: 'PL7',
+        country: ['PL'],
+        city: 'Warsaw',
+        description: 'Volume of activity at parking lot',
+        indicator: 'E11a',
+        lastIndicatorValue: null,
+        indicatorName: 'Volume of activity at parking lot',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((21.038904 52.235632,21.038904 52.248981,21.052294 52.248981,21.052294 52.235632,21.038904 52.235632))').toJson(),
+          }],
+        },
+        lastColorCode: null,
+        time: ['2020-02-07', '2020-04-13'],
+        inputData: [''],
+        display: {
+          ...defaultWMSDisplay,
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          layers: 'ICEYE-E11A',
+          minZoom: 5,
+          maxZoom: 19,
+          name: 'Warsaw parking lot',
+          features: {
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
+            url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+          },
+          baseLayers: [{
+            ...baseLayers.cloudless,
+            visible: true,
+          }, baseLayers.terrainLight],
+        },
+      },
+    },
+  },
+  {
+    id: 9989,
+    latlng: latLng([50.604, -2.37]),
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        id: 9989,
+        aoi: latLng([50.604, -2.37]),
+        aoiID: 'UK9',
+        country: ['GB'],
+        city: 'Weymouth',
+        description: 'Ports: throughput',
+        indicator: 'E12b',
+        lastIndicatorValue: null,
+        indicatorName: 'Ports: throughput',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-2.393477 50.585198,-2.393477 50.624746,-2.337859 50.624746,-2.337859 50.585198,-2.393477 50.585198))').toJson(),
+          }],
+        },
+        lastColorCode: null,
+        time: ['2020-08-29'],
+        inputData: [''],
+        display: {
+          ...defaultWMSDisplay,
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          layers: 'ICEYE-E12B',
+          minZoom: 5,
+          maxZoom: 18,
+          name: 'Weimouth ships',
+          features: {
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
+            url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+          },
+          baseLayers: [{
+            ...baseLayers.cloudless,
+            visible: true,
+          }, baseLayers.terrainLight],
+        },
+      },
+    },
+  },
+  {
+    id: 9988,
+    latlng: latLng([50.04, 8.5]),
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        id: 9988,
+        aoi: latLng([50.04, 8.5]),
+        aoiID: 'DE18',
+        country: ['DE'],
+        city: 'Frankfurt am Main',
+        description: 'Airports: Throughput',
+        indicator: 'E13b',
+        lastIndicatorValue: null,
+        indicatorName: 'Airports: Throughput',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((8.516043 50.03769,8.516043 50.04915,8.533462 50.04915,8.533462 50.03769,8.516043 50.03769))').toJson(),
+          }],
+        },
+        lastColorCode: null,
+        time: ['2020-05-12T13:35:00'],
+        inputData: [''],
+        display: {
+          ...defaultWMSDisplay,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          layers: 'ICEYE-E13B',
+          minZoom: 5,
+          maxZoom: 18,
+          name: 'Airports: Detected planes',
+          features: {
+            allowedParameters: [],
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+            url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+          },
+          baseLayers: [{
+            ...baseLayers.cloudless,
+            visible: true,
+          }, baseLayers.terrainLight],
+        },
+      },
+    },
+  },
+  {
+    id: 9987,
+    latlng: latLng([40.413, -1.23]),
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        id: 9987,
+        aoi: latLng([40.413, -1.23]),
+        aoiID: 'ES17',
+        country: ['ES'],
+        city: 'Teruel',
+        description: 'Airports: Throughput',
+        indicator: 'E13b',
+        lastIndicatorValue: null,
+        indicatorName: 'Airports: Throughput',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-1.245922 40.394281,-1.245922 40.429571,-1.20747 40.429571,-1.20747 40.394281,-1.245922 40.394281))').toJson(),
+          }],
+        },
+        lastColorCode: null,
+        time: ['2020-03-20T03:50:00', '2020-08-25T03:15:00'],
+        inputData: [''],
+        display: {
+          ...defaultWMSDisplay,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          layers: 'ICEYE-E13B',
+          minZoom: 5,
+          maxZoom: 18,
+          name: 'Airports: Detected planes',
+          features: {
+            allowedParameters: [],
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+            url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+          },
+          baseLayers: [{
+            ...baseLayers.cloudless,
+            visible: true,
+          }, baseLayers.terrainLight],
         },
       },
     },

@@ -3,7 +3,6 @@
     <v-card
       v-if="$store.state.indicators.selectedIndicator"
       class="fill-height elevation-3 d-flex flex-column"
-      style="background: white;"
     >
       <v-card-title v-if="$store.state.indicators.selectedIndicator"
         :class="$store.state.indicators.selectedIndicator.description ===

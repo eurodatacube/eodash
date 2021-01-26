@@ -82,9 +82,16 @@
       layer-type="base"
     >
     </LWMSTileLayer>
+    <l-geo-json
+    :geojson="subAoiInverse"
+    :pane="popupPane"
+    layer-type="overlay"
+    name='Reference area overlay'
+    :optionsStyle="subAoiInverseStyle"
+    >
+    </l-geo-json>
     <l-layer-group ref="dataLayers">
       <l-geo-json
-      ref="subaoiLayer"
       :geojson="indicator.subAoi"
       :pane="tooltipPane"
       :optionsStyle="subAoiStyle('data')"
@@ -164,7 +171,6 @@
       >
       </LWMSTileLayer>
       <l-geo-json
-        ref="subaoiCompareLayer"
         :geojson="indicator.subAoi"
         :pane="shadowPane"
         :visible="enableCompare"
@@ -366,6 +372,8 @@ import 'leaflet-draw/dist/leaflet.draw.css';
 import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css'; // eslint-disable-line import/no-extraneous-dependencies
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'; // eslint-disable-line import/no-extraneous-dependencies
+import turfDifference from '@turf/difference';
+
 
 const emptyF = {
   type: 'FeatureCollection',
@@ -448,6 +456,13 @@ export default {
         compareF = v;
       },
     },
+    subAoiInverseStyle() {
+      return {
+        stroke: false,
+        fillColor: this.getIndicatorColor('primary'),
+        fillOpacity: 0.5,
+      };
+    },
     baseLayers() {
       // expects an array of objects
       return this.layerDisplay('data').baseLayers ? this.layerDisplay('data').baseLayers : this.baseConfig.baseLayersRightMap;
@@ -464,11 +479,17 @@ export default {
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
     },
-    indicatorsDefinition() {
-      return this.baseConfig.indicatorsDefinition;
-    },
     indDefinition() {
-      return this.indicatorsDefinition[this.indicator.indicator];
+      return this.baseConfig.indicatorsDefinition[this.indicator.indicator];
+    },
+    additionalMapTimes() {
+      return this.baseConfig.additionalMapTimes && this.baseConfig.additionalMapTimes[`${this.indicator.aoiID}-${this.indicator.indicator}`];
+    },
+    excludeMapTimes() {
+      return this.baseConfig.excludeMapTimes && this.baseConfig.excludeMapTimes[`${this.indicator.aoiID}-${this.indicator.indicator}`];
+    },
+    replaceMapTimes() {
+      return this.baseConfig.replaceMapTimes && this.baseConfig.replaceMapTimes[`${this.indicator.aoiID}-${this.indicator.indicator}`];
     },
     indicator() {
       return this.getIndicatorFilteredInputData(this.currentIndicator || null);
@@ -494,7 +515,6 @@ export default {
     },
     customAreaIndicator() {
       return this.layerDisplay('data').customAreaIndicator || this.indDefinition.customAreaIndicator || this.indicator.customAreaIndicator;
-      // return (this.layerDisplay('data') && typeof this.layerDisplay('data').customAreaIndicator !== 'undefined') ? this.layerDisplay('data').customAreaIndicator : this.indDefinition.customAreaIndicator;
     },
     customAreaFilter() {
       return this.customAreaFeatures || this.customAreaIndicator;
@@ -504,34 +524,109 @@ export default {
     },
     usedTimes() {
       let times = this.indicator.time;
-      if (this.layerDisplay('data').replaceDataMap && this.layerDisplay('data').replaceDataMap.time) {
-        times = this.layerDisplay('data').replaceDataMap.time;
-      }
-      return times;
-    },
-    usedEoSensor() {
       let eoSensor = Array.isArray(this.indicator.eoSensor) && this.indicator.eoSensor;
-      if (this.layerDisplay('data').replaceDataMap && this.layerDisplay('data').replaceDataMap.eoSensor) {
-        eoSensor = this.layerDisplay('data').replaceDataMap.eoSensor;
+      let inputData = Array.isArray(this.indicator.inputData) && this.indicator.inputData;
+      let colorCode = Array.isArray(this.indicator.colorCode) && this.indicator.colorCode;
+      // completely replace given times or eoSensor
+      if (this.replaceMapTimes && Array.isArray(this.replaceMapTimes.time)) {
+        times = this.replaceMapTimes.time;
       }
-      return eoSensor;
+      if (this.replaceMapTimes && Array.isArray(this.replaceMapTimes.eoSensor)) {
+        eoSensor = this.replaceMapTimes.eoSensor; // just for display
+      }
+      if (this.replaceMapTimes && Array.isArray(this.replaceMapTimes.inputData)) {
+        inputData = this.replaceMapTimes.inputData;
+        // needs to be used unless indicator.display is used (that overrides it)
+      }
+      if (this.replaceMapTimes && Array.isArray(this.replaceMapTimes.colorCode)) {
+        colorCode = this.replaceMapTimes.colorCode;
+      }
+      if (this.additionalMapTimes) {
+        // add additional times and eoSensor to original arrays
+        // sort time ascending and sort arrays based on time array via helper list combining all
+        const dtObjects = this.additionalMapTimes.time.map((t) => DateTime.fromISO(t));
+        const mergedTimes = times.concat(dtObjects);
+        const mergedSensors = eoSensor.concat(this.additionalMapTimes.eoSensor);
+        const mergedInputData = inputData.concat(this.additionalMapTimes.inputData);
+        const mergedColorCode = colorCode.concat(this.additionalMapTimes.colorCode);
+        // combine the arrays
+        const list = [];
+        for (let j = 0; j < mergedTimes.length; j++) {
+          list.push({
+            time: mergedTimes[j],
+            eoSensor: mergedSensors[j],
+            inputData: mergedInputData[j],
+            colorCode: mergedColorCode[j],
+          });
+        }
+        // sort mapping by time asc
+        list.sort((a, b) => (a.time.toMillis() - b.time.toMillis()));
+        // separate them back out
+        for (let k = 0; k < list.length; k++) {
+          mergedTimes[k] = list[k].time;
+          mergedSensors[k] = list[k].eoSensor;
+          mergedInputData[k] = list[k].inputData;
+          mergedColorCode[k] = list[k].colorCode;
+        }
+        times = mergedTimes;
+        eoSensor = mergedSensors;
+        inputData = mergedInputData;
+        colorCode = mergedColorCode;
+      }
+      if (this.excludeMapTimes && Array.isArray(this.excludeMapTimes)) {
+        // exclude times and respective entries from other arrays
+        const dtObjects = this.excludeMapTimes.map((t) => DateTime.fromISO(t));
+        const indToDelete = times.reduce((a, e, i) => {
+          // find if any time is in to be deleted
+          const found = dtObjects.find((time) => time.toMillis() === e.toMillis());
+          if (typeof found !== 'undefined') {
+            // add its index to list
+            a.push(i);
+          }
+          return a;
+        }, []);
+        // set items in all arrays to null
+        indToDelete.forEach((i) => {
+          times[i] = null;
+          if (typeof eoSensor[i] !== 'undefined') {
+            eoSensor[i] = null;
+          }
+          if (typeof inputData[i] !== 'undefined') {
+            inputData[i] = null;
+          }
+          if (typeof colorCode[i] !== 'undefined') {
+            colorCode[i] = null;
+          }
+        });
+        // filter out nulls
+        times = times.filter((e) => e !== null);
+        eoSensor = eoSensor.filter((e) => e !== null);
+        inputData = inputData.filter((e) => e !== null);
+        colorCode = colorCode.filter((e) => e !== null);
+      }
+      return {
+        time: times, eoSensor, inputData, colorCode,
+      };
     },
     arrayOfObjects() {
       const selectionOptions = [];
-      for (let i = 0; i < this.usedTimes.length; i += 1) {
-        let label = this.getTimeLabel(this.usedTimes[i]);
-        if (this.usedEoSensor) {
-          label += ` - ${this.usedEoSensor[i]}`;
+      for (let i = 0; i < this.usedTimes.time.length; i += 1) {
+        let label = this.getTimeLabel(this.usedTimes.time[i]);
+        if (this.usedTimes.eoSensor) {
+          const eoSensor = this.usedTimes.eoSensor.length === 1
+            ? this.usedTimes.eoSensor[0]
+            : this.usedTimes.eoSensor[i];
+          label += ` - ${eoSensor}`;
         }
         selectionOptions.push({
-          value: this.usedTimes[i],
+          value: this.usedTimes.time[i],
           name: label,
         });
       }
       return selectionOptions;
     },
     currentTime() {
-      let returnTime = this.usedTimes[this.usedTimes.length - 1];
+      let returnTime = this.usedTimes.time[this.usedTimes.time.length - 1];
       if (this.dataLayerTime !== null) {
         returnTime = this.dataLayerTime;
       }
@@ -553,6 +648,24 @@ export default {
     },
     subAoi() {
       return this.indicator.subAoi;
+    },
+    subAoiInverse() {
+      // create an inverse of subaoi, using difference of whole world and subaoi
+      const subaoiInv = JSON.parse(JSON.stringify(this.subAoi));
+      // both Object.assign({}, this.subAoi) and { ...this.subAoi } create shallow copy
+      if (subaoiInv.features.length === 1) {
+        const globalBox = {
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            type: 'Polygon',
+            coordinates: [[[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]]],
+          },
+        };
+        const diff = turfDifference(globalBox, subaoiInv.features[0]);
+        subaoiInv.features[0] = diff;
+      }
+      return subaoiInv;
     },
     clusterOptions() {
       return {
@@ -602,8 +715,8 @@ export default {
     },
   },
   mounted() {
-    this.dataLayerIndex = this.usedTimes.length - 1;
-    this.dataLayerTime = { value: this.usedTimes[this.dataLayerIndex] };
+    this.dataLayerIndex = this.usedTimes.time.length - 1;
+    this.dataLayerTime = { value: this.usedTimes.time[this.dataLayerIndex] };
     this.compareLayerTime = { value: this.getInitialCompareTime() };
   },
   methods: {
@@ -620,15 +733,6 @@ export default {
       this.map = this.$refs.map.mapObject;
       const layerButtons = document.querySelectorAll('.leaflet-control-layers-toggle');
       layerButtons.forEach((lB) => lB.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${this.appConfig.branding.primaryColor}" width="32px" height="32px"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>`); // eslint-disable-line
-
-      this.$refs.subaoiLayer.mapObject.bindTooltip('Reference area', {
-        direction: 'top',
-        pane: this.popupPane,
-      });
-      this.$refs.subaoiCompareLayer.mapObject.bindTooltip('Reference area', {
-        direction: 'top',
-        pane: this.popupPane,
-      });
       // update leaflet controls
       L.control.mousePosition({ // eslint-disable-line no-undef
         emptyString: '',
@@ -769,15 +873,15 @@ export default {
       };
     },
     getColorCode(side) {
-      const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
+      const i = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
       let currentValue = null;
       // compensate for color code with only one entry, still showing it
-      if (this.indicator && this.indicator.colorCode) {
-        const colors = this.indicator.colorCode;
+      if (this.usedTimes.colorCode) {
+        const colors = this.usedTimes.colorCode;
         if (Array.isArray(colors) && colors.length === 1) {
           currentValue = colors[0]; // eslint-disable-line prefer-destructuring
-        } else if (Array.isArray(colors) && colors[index]) {
-          currentValue = colors[index]; // eslint-disable-line prefer-destructuring
+        } else if (Array.isArray(colors) && colors[i]) {
+          currentValue = colors[i]; // eslint-disable-line prefer-destructuring
         }
       }
       return currentValue;
@@ -799,10 +903,10 @@ export default {
       };
     },
     shLayerConfig(side) {
-      const index = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
-      const inputData = this.indicator.inputData.length === 1
-        ? this.indicator.inputData[0]
-        : this.indicator.inputData[index];
+      const i = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
+      const inputData = this.usedTimes.inputData.length === 1
+        ? this.usedTimes.inputData[0]
+        : this.usedTimes.inputData[i];
       if (this.layerNameMapping.hasOwnProperty(inputData)) { // eslint-disable-line
         return this.layerNameMapping[inputData];
       }
@@ -987,7 +1091,7 @@ export default {
       // find closest entry one year before latest time
       if (this.indDefinition.largeTimeDuration) {
         // if interval, use just start to get closest
-        const times = this.usedTimes.map((item) => (Array.isArray(item) ? item[0] : item));
+        const times = this.usedTimes.time.map((item) => (Array.isArray(item) ? item[0] : item));
         const lastTimeEntry = DateTime.fromISO(times[times.length - 1]);
         const oneYearBefore = lastTimeEntry.minus({ years: 1 });
         // select closest to one year before
@@ -1000,10 +1104,10 @@ export default {
         // Get index and return object from original times as there are also
         // arrays of time tuple arrays
         const foundIndex = times.indexOf(closestOneYearBefore);
-        return this.usedTimes[foundIndex];
+        return this.usedTimes.time[foundIndex];
       }
       // use first time
-      return this.usedTimes[0];
+      return this.usedTimes.time[0];
     },
     refreshLayer(side) {
       // compare(left) or data(right)
