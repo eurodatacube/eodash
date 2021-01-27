@@ -844,7 +844,7 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: Array(9).fill(['Nightlights']),
+        eoSensor: ['Nightlights'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -853,7 +853,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((139.34275817871094 35.049654646456474, 140.34809152322123 35.049654646456474, 140.34809152322123 35.93543243408203, 139.34275817871094 35.93543243408203, 139.34275817871094 35.049654646456474))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2020-09-01'),
+        time: getMonthlyDates('2020-01-01', '2020-11-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -885,7 +885,7 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: Array(9).fill(['Nightlights']),
+        eoSensor: ['Nightlights'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -894,7 +894,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((115.91229248046875 39.627200509676186, 116.86084804657003 39.627200509676186, 116.86084804657003 40.32575607299805, 115.91229248046875 40.32575607299805, 115.91229248046875 39.627200509676186,))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2020-09-01'),
+        time: getMonthlyDates('2020-01-01', '2020-11-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -926,7 +926,7 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: Array(9).fill(['Nightlights']),
+        eoSensor: ['Nightlights'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -935,7 +935,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((2.083559989929199 50.965508184133796, 2.416559993631381 50.965508184133796, 2.416559993631381 51.087730407714844, 2.083559989929199 51.087730407714844, 2.083559989929199 50.965508184133796))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2020-09-01'),
+        time: getMonthlyDates('2020-01-01', '2020-11-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -967,7 +967,7 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: Array(9).fill(['Nightlights']),
+        eoSensor: ['Nightlights'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -976,7 +976,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((3.6453969478607178 51.06661950775742, 3.85839695022878 51.06661950775742, 3.85839695022878 51.28873062133789, 3.6453969478607178 51.28873062133789, 3.6453969478607178 51.06661950775742))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2020-09-01'),
+        time: getMonthlyDates('2020-01-01', '2020-11-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1008,7 +1008,7 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: Array(9).fill(['Nightlights']),
+        eoSensor: ['Nightlights'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1017,7 +1017,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-118.68741607666016 33.42670324365463, -117.0733049476039 33.42670324365463, -117.0733049476039 34.34392547607422, -118.68741607666016 34.34392547607422, -118.68741607666016 33.42670324365463))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2020-09-01'),
+        time: getMonthlyDates('2020-01-01', '2020-11-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1049,7 +1049,7 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: Array(9).fill(['Nightlights']),
+        eoSensor: ['Nightlights'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1058,7 +1058,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-122.63569641113281 37.119795894876006, -121.53514084334165 37.119795894876006, -121.53514084334165 38.35512924194336, -122.63569641113281 38.35512924194336, -122.63569641113281 37.119795894876006))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2020-09-01'),
+        time: getMonthlyDates('2020-01-01', '2020-11-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1090,7 +1090,7 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: Array(9).fill(['Nightlights']),
+        eoSensor: ['Nightlights'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1099,7 +1099,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-71.74516 41.54467, -74.43395 41.54943, -74.43219 40.47812, -71.74516 40.48343, -71.74516 41.54467))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2020-09-01'),
+        time: getMonthlyDates('2020-01-01', '2020-11-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1261,7 +1261,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-122.603302 37.396346,-122.603302 38.153997,-121.69693 38.153997,-121.69693 37.396346,-122.603302 37.396346))').toJson(),
           }],
         },
-        time: [['2020-03-02'], ['2020-04-03'], ['2020-04-19'], ['2020-05-04'], ['2020-05-05'], ['2020-05-19'], ['2020-05-21'], ['2020-05-24'], ['2020-06-01'], ['2020-06-03'], ['2020-06-06'], ['2020-06-13'], ['2020-06-18'], ['2020-06-21'], ['2020-06-22'], ['2020-06-23'], ['2020-06-26'], ['2020-06-28'], ['2020-07-01'], ['2020-07-03'], ['2020-07-06'], ['2020-07-08'], ['2020-07-13']],
+        time: [['2020-03-02'], ['2020-04-03'], ['2020-04-19'], ['2020-05-04'], ['2020-05-05'], ['2020-05-19'], ['2020-05-21'], ['2020-05-24'], ['2020-06-01'], ['2020-06-03'], ['2020-06-06'], ['2020-06-13'], ['2020-06-18'], ['2020-06-21'], ['2020-06-22'], ['2020-06-23'], ['2020-06-26'], ['2020-06-28'], ['2020-07-01'], ['2020-07-03'], ['2020-07-06'], ['2020-07-08'], ['2020-07-13'], ['2020-08-09'], ['2020-08-27'], ['2020-09-06'], ['2020-10-03'], ['2020-10-12'], ['2020-10-19'], ['2020-10-21'], ['2020-10-26'],['2020-10-28']],
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1302,7 +1302,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2020-09-30').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2020-12-23').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)).concat(getWeeklyDates('2021-01-01', '2021-01-15')),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1583,7 +1583,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-122.603302 37.396346,-122.603302 38.153997,-121.69693 38.153997,-121.69693 37.396346,-122.603302 37.396346))').toJson(),
           }],
         },
-        time: [['2020_03_02'], ['2020_04_03'], ['2020_04_19'], ['2020_05_04'], ['2020_05_05'], ['2020_05_21'], ['2020_05_24'], ['2020_05_28'], ['2020-06-01'], ['2020-06-03'], ['2020-06-06'], ['2020-06-13'], ['2020-06-21'], ['2020-06-22'], ['2020-06-23'], ['2020-06-25'], ['2020-06-28'], ['2020-07-01'], ['2020-07-03']],
+        time: [['2020_03_02'], ['2020_04_03'], ['2020_04_19'], ['2020_05_04'], ['2020_05_05'], ['2020_05_21'], ['2020_05_24'], ['2020_05_28'], ['2020-06-01'], ['2020-06-03'], ['2020-06-06'], ['2020-06-13'], ['2020-06-21'], ['2020-06-22'], ['2020-06-23'], ['2020-06-25'], ['2020-06-28'], ['2020-07-01'], ['2020-07-03'], ['2020-08-09'], ['2020-08-27'], ['2020-09-16'], ['2020-09-17'], ['2020-09-21'], ['2020-09-26'], ['2020-10-01'], ['2020-10-03'], ['2020-10-12'], ['2020-10-19'], ['2020-10-21'],['2020-10-26'],['2020-10-28']],
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1825,7 +1825,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2020-09-30').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2020-12-23').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)).concat(getWeeklyDates('2021-01-01', '2021-01-15')),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -3381,7 +3381,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Number of Ships in Port',
         lastColorCode: 'BLUE',
-        eoSensor: Array(50).fill(['Planet Labs/NASA (PlanetScope)']),
+        eoSensor: ['Planet Labs/NASA (PlanetScope)'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3412,7 +3412,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Number of Ships in Port',
         lastColorCode: 'BLUE',
-        eoSensor: Array(40).fill(['Planet Labs/NASA (PlanetScope)']),
+        eoSensor: ['Planet Labs/NASA (PlanetScope)'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3443,7 +3443,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Number of Ships in Port',
         lastColorCode: 'BLUE',
-        eoSensor: Array(60).fill(['Planet Labs/NASA (PlanetScope)']),
+        eoSensor: ['Planet Labs/NASA (PlanetScope)'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3475,7 +3475,7 @@ export const globalIndicators = [
         indicatorName: 'Number of parked airplanes',
         lastColorCode: 'BLUE',
         inputData: [],
-        eoSensor: Array(50).fill(['Sentinel-2']),
+        eoSensor: ['Sentinel-2'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3517,7 +3517,7 @@ export const globalIndicators = [
         indicatorName: 'Number of parked airplanes',
         lastColorCode: 'BLUE',
         inputData: [],
-        eoSensor: Array(50).fill(['Sentinel-2']),
+        eoSensor: ['Sentinel-2'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3559,7 +3559,7 @@ export const globalIndicators = [
         indicatorName: 'Number of parked airplanes',
         lastColorCode: 'BLUE',
         inputData: [],
-        eoSensor: Array(50).fill(['Sentinel-2']),
+        eoSensor: ['Sentinel-2'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
