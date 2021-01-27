@@ -4,7 +4,6 @@ import { Wkt } from 'wicket';
 import { latLng, latLngBounds } from 'leaflet';
 import { DateTime } from 'luxon';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
-import { baseLayers, overlayLayers } from '@/config/layers';
 
 export const dataPath = './data/internal/';
 export const dataEndpoints = [
@@ -853,7 +852,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((139.34275817871094 35.049654646456474, 140.34809152322123 35.049654646456474, 140.34809152322123 35.93543243408203, 139.34275817871094 35.93543243408203, 139.34275817871094 35.049654646456474))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2020-09-01'),
+        time: getMonthlyDates('2020-01-01', '2020-11-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -894,7 +893,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((115.91229248046875 39.627200509676186, 116.86084804657003 39.627200509676186, 116.86084804657003 40.32575607299805, 115.91229248046875 40.32575607299805, 115.91229248046875 39.627200509676186,))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2020-09-01'),
+        time: getMonthlyDates('2020-01-01', '2020-11-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -935,7 +934,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((2.083559989929199 50.965508184133796, 2.416559993631381 50.965508184133796, 2.416559993631381 51.087730407714844, 2.083559989929199 51.087730407714844, 2.083559989929199 50.965508184133796))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2020-09-01'),
+        time: getMonthlyDates('2020-01-01', '2020-11-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -976,7 +975,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((3.6453969478607178 51.06661950775742, 3.85839695022878 51.06661950775742, 3.85839695022878 51.28873062133789, 3.6453969478607178 51.28873062133789, 3.6453969478607178 51.06661950775742))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2020-09-01'),
+        time: getMonthlyDates('2020-01-01', '2020-11-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1017,7 +1016,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-118.68741607666016 33.42670324365463, -117.0733049476039 33.42670324365463, -117.0733049476039 34.34392547607422, -118.68741607666016 34.34392547607422, -118.68741607666016 33.42670324365463))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2020-09-01'),
+        time: getMonthlyDates('2020-01-01', '2020-11-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1058,7 +1057,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-122.63569641113281 37.119795894876006, -121.53514084334165 37.119795894876006, -121.53514084334165 38.35512924194336, -122.63569641113281 38.35512924194336, -122.63569641113281 37.119795894876006))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2020-09-01'),
+        time: getMonthlyDates('2020-01-01', '2020-11-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1099,7 +1098,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-71.74516 41.54467, -74.43395 41.54943, -74.43219 40.47812, -71.74516 40.48343, -71.74516 41.54467))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2020-09-01'),
+        time: getMonthlyDates('2020-01-01', '2020-11-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
