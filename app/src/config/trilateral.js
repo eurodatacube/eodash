@@ -844,7 +844,7 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: Array(9).fill(['Nightlights']),
+        eoSensor: ['Nightlights'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -885,7 +885,7 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: Array(9).fill(['Nightlights']),
+        eoSensor: ['Nightlights'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -926,7 +926,7 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: Array(9).fill(['Nightlights']),
+        eoSensor: ['Nightlights'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -967,7 +967,7 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: Array(9).fill(['Nightlights']),
+        eoSensor: ['Nightlights'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1008,7 +1008,7 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: Array(9).fill(['Nightlights']),
+        eoSensor: ['Nightlights'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1049,7 +1049,7 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: Array(9).fill(['Nightlights']),
+        eoSensor: ['Nightlights'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1090,7 +1090,7 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: Array(9).fill(['Nightlights']),
+        eoSensor: ['Nightlights'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3381,7 +3381,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Number of Ships in Port',
         lastColorCode: 'BLUE',
-        eoSensor: Array(50).fill(['Planet Labs/NASA (PlanetScope)']),
+        eoSensor: ['Planet Labs/NASA (PlanetScope)'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3412,7 +3412,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Number of Ships in Port',
         lastColorCode: 'BLUE',
-        eoSensor: Array(40).fill(['Planet Labs/NASA (PlanetScope)']),
+        eoSensor: ['Planet Labs/NASA (PlanetScope)'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3443,7 +3443,7 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Number of Ships in Port',
         lastColorCode: 'BLUE',
-        eoSensor: Array(60).fill(['Planet Labs/NASA (PlanetScope)']),
+        eoSensor: ['Planet Labs/NASA (PlanetScope)'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3475,7 +3475,7 @@ export const globalIndicators = [
         indicatorName: 'Number of parked airplanes',
         lastColorCode: 'BLUE',
         inputData: [],
-        eoSensor: Array(50).fill(['Sentinel-2']),
+        eoSensor: ['Sentinel-2'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3517,7 +3517,7 @@ export const globalIndicators = [
         indicatorName: 'Number of parked airplanes',
         lastColorCode: 'BLUE',
         inputData: [],
-        eoSensor: Array(50).fill(['Sentinel-2']),
+        eoSensor: ['Sentinel-2'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3559,7 +3559,7 @@ export const globalIndicators = [
         indicatorName: 'Number of parked airplanes',
         lastColorCode: 'BLUE',
         inputData: [],
-        eoSensor: Array(50).fill(['Sentinel-2']),
+        eoSensor: ['Sentinel-2'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
