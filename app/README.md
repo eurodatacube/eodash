@@ -20,6 +20,8 @@ Used to build interactive map. Needs some hacking here and there, but nonetheles
 ## Project setup
 ```
 npm install
+# optional - not needed for trilateral dashboard, necessary for race due to some data being not public
+git submodule update --init
 ```
 
 In order for most "EO Data" links to work you need to use a proper SH instance
@@ -39,7 +41,7 @@ git update-index --no-assume-unchanged public/shConfig.js
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+npm start
 ```
 
 The dashboard using the included data should now be accessible at

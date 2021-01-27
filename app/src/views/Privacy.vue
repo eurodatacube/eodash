@@ -5,7 +5,6 @@
   >
     <div
       class="fill-height pa-10 pt-5"
-      style="background: white;"
     >
     <v-app-bar
         app
@@ -37,6 +36,7 @@
           />
         </v-col>
       </v-row>
+      <global-footer />
     </div>
   </div>
 </template>
@@ -46,7 +46,12 @@ import {
   mapState,
 } from 'vuex';
 
+import GlobalFooter from '@/components/GlobalFooter.vue';
+
 export default {
+  components: {
+    GlobalFooter,
+  },
   metaInfo() {
     const { appConfig } = this.$store.state.config;
     return {

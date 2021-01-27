@@ -10,7 +10,6 @@ const state = {
     countries: [],
     indicators: [],
   },
-  selectedFeatures: [],
   selectedArea: null,
   resultsCount: {
     economic: 0,
@@ -165,9 +164,6 @@ const mutations = {
       state.featureFilters.indicators = indicators;
     }
   },
-  SET_SELECTED_FEATURES(state, features) {
-    state.selectedFeatures = features;
-  },
   ADD_RESULTS_COUNT(state, { type, count }) {
     state.resultsCount[type] += count;
   },
@@ -266,7 +262,7 @@ const actions = {
                   let ftrs = [];
                   try {
                     // assuming sub-aoi does not change over time
-                    if (data[rr][value] !== '') {
+                    if (!['', '/'].includes(data[rr][value])) {
                       wkt.read(data[rr][value]);
                       const jsonGeom = wkt.toJson();
                       // create a feature collection

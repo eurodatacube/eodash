@@ -86,7 +86,7 @@ export default {
       let color;
       if (indObj) {
         if (Object.prototype.hasOwnProperty.call(indObj, 'lastColorCode')
-          && indObj.lastColorCode !== '') {
+          && !['', '/'].includes(indObj.lastColorCode)) {
           color = this.getIndicatorColor(indObj.lastColorCode);
         }
         if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')

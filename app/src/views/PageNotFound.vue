@@ -1,7 +1,7 @@
 <template>
   <div
     class="fill-height pa-10"
-    style="background: white; padding-top: 85px !important;"
+    style="padding-top: 85px !important;"
   >
    <v-app-bar
       app
@@ -35,6 +35,7 @@
         </div>
       </v-col>
     </v-row>
+    <global-footer />
   </div>
 </template>
 
@@ -43,7 +44,12 @@ import {
   mapState,
 } from 'vuex';
 
+import GlobalFooter from '@/components/GlobalFooter.vue';
+
 export default {
+  components: {
+    GlobalFooter,
+  },
   metaInfo() {
     const { appConfig } = this.$store.state.config;
     return {
