@@ -4,6 +4,7 @@ import { Wkt } from 'wicket';
 import { latLng, latLngBounds } from 'leaflet';
 import { DateTime } from 'luxon';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
+import { baseLayers, overlayLayers } from '@/config/layers';
 
 export const dataPath = './data/internal/';
 export const dataEndpoints = [
@@ -1301,7 +1302,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2021-01-15').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2020-12-23').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)).concat(getWeeklyDates('2021-01-01', '2021-01-15')),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1824,7 +1825,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2021-01-15').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2020-12-23').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)).concat(getWeeklyDates('2021-01-01', '2021-01-15')),
         inputData: [''],
         display: {
           protocol: 'xyz',
