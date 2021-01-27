@@ -228,7 +228,7 @@ export default {
             }
           });
           indicator.referenceTime.forEach((date, i) => {
-            if (indicator.referenceValue[i] !== '') {
+            if (!['', '/'].includes(indicator.referenceValue[i])) {
               const ref = { t: date.set({ year: 2000 }), y: referenceValue[i] };
               if (typeof uniqueRefs.find((item) => item.t.equals(ref.t)) === 'undefined') {
                 uniqueRefs.push(ref);
@@ -300,7 +300,7 @@ export default {
           indicator.referenceValue.forEach((item, i) => {
             const t = indicator.time[i];
             data.push({ y: measurement[i], t });
-            if (!Number.isNaN(item) && item !== 'NaN') {
+            if (!Number.isNaN(item) && !['NaN', '/'].includes(item)) {
               const obj = JSON.parse(item);
               // [median,std,max,min,percentage valid pixels]
               median.push({ y: obj[0], t });
@@ -380,7 +380,7 @@ export default {
           let referenceValue = [];
           const stdDev = [];
           indicator.referenceValue.forEach((item) => {
-            if (!Number.isNaN(item) && item !== 'NaN' && item !== '[NaN NaN]') {
+            if (!Number.isNaN(item) && !['NaN', '[NaN NaN]', '/'].includes(item)) {
               const obj = JSON.parse(item.replace(/,/g, '.').replace(' ', ','));
               if (obj[0] !== -999 && obj[1] !== -999) {
                 referenceValue.push(obj[0]);
@@ -469,7 +469,7 @@ export default {
           indicator.indicatorValue.map((val, i) => {
             let key = val.toLowerCase();
             key = key.charAt(0).toUpperCase() + key.slice(1);
-            if (key !== '' && typeof indicatorValues[key] === 'undefined') {
+            if (!['', '/'].includes(key) && typeof indicatorValues[key] === 'undefined') {
               indicatorValues[key] = this.getIndicatorColor(
                 indicator.colorCode[i],
               );
@@ -492,7 +492,7 @@ export default {
           const mean7d2020 = [];
           indicator.referenceValue.forEach((item, i) => {
             const t = indicator.time[i];
-            if (item !== '') {
+            if (!['', '/'].includes(item)) {
               const obj = item.replace(/[[\] ]/g, '').split(',')
                 .map((str) => (str === '' ? Number.NaN : Number(str)));
               maxRef.push({ y: obj[0], t });
@@ -562,7 +562,7 @@ export default {
           indicator.indicatorValue.map((val, i) => {
             let key = val.toLowerCase();
             key = key.charAt(0).toUpperCase() + key.slice(1);
-            if (key !== '' && typeof indicatorValues[key] === 'undefined') {
+            if (!['', '/'].includes(key) && typeof indicatorValues[key] === 'undefined') {
               indicatorValues[key] = this.getIndicatorColor(
                 indicator.colorCode[i],
               );
@@ -1067,7 +1067,7 @@ export default {
                   let labelRes = '';
                   const percentage = context.chart.data.datasets[context.datasetIndex]
                     .indLabels[context.dataIndex];
-                  if (percentage !== '') {
+                  if (!['', '/'].includes(percentage)) {
                     const percVal = Number((percentage * 100).toPrecision(4));
                     if (percVal > 0) {
                       labelRes = `+${percVal}%`;
