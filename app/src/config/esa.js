@@ -298,6 +298,11 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Changes in land fill sites',
     class: 'land',
     story: '/eodash-data/stories/N4a',
+    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
+      ...baseLayers.S2GLC,
+      visible: true,
+    }],
+    legendUrl: 'eodash-data/data/LegendGLC.png',
   },
   N4b: {
     indicator: 'Illegal waste levels',
@@ -322,6 +327,11 @@ export const indicatorsDefinition = Object.freeze({
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HH"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
+    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
+      ...baseLayers.S2GLC,
+      visible: true,
+    }],
+    legendUrl: 'eodash-data/data/LegendGLC.png',
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
