@@ -177,7 +177,10 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
-      <div class="scrollContainer data-panel">
+      <div
+        class="scrollContainer data-panel"
+        :style="{background: $vuetify.theme.themes[theme].background}"
+      >
         <banner v-if="currentNews" />
 
         <h4 v-if="
@@ -285,6 +288,9 @@ export default {
         }
       }
       return currentNews;
+    },
+    theme() {
+      return (this.$vuetify.theme.dark) ? 'dark' : 'light';
     },
   },
   created() {
