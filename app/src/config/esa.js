@@ -1437,7 +1437,7 @@ export const globalIndicators = [
           name: 'Weimouth ships',
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
-            url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+            url: './eodash-data/features/E12b/E12b_{aoiID}_{featuresTime}.geojson',
           },
           baseLayers: [{
             ...baseLayers.cloudless,
