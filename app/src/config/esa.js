@@ -195,6 +195,10 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Throughput at principal rail stations',
     class: 'economic',
   },
+  E13c: {
+    class: 'economic',
+    story: '',
+  },
   E13b: {
     indicator: 'Throughput at principal hub airports',
     class: 'economic',
