@@ -3246,6 +3246,17 @@
     },
     {
         "color_code": "",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "",
+        "input_data": "EORC product",
+        "measurement_value": "34.00",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2020-12-26T00:00:00"
+    },
+    {
+        "color_code": "",
         "data_provider": "NASA OBPG",
         "eo_sensor": "Aqua MODIS",
         "indicator_value": "",
@@ -3290,6 +3301,17 @@
     },
     {
         "color_code": "",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "",
+        "input_data": "EORC product",
+        "measurement_value": "10.15",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2021-01-09T00:00:00"
+    },
+    {
+        "color_code": "",
         "data_provider": "NASA OBPG",
         "eo_sensor": "Aqua MODIS",
         "indicator_value": "",
@@ -3298,6 +3320,17 @@
         "reference_time": "",
         "reference_value": "",
         "time": "2021-01-11T12:10:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "",
+        "input_data": "EORC product",
+        "measurement_value": "10.67",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2021-01-16T00:00:00"
     },
     {
         "color_code": "",
