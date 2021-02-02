@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%; height: 100%;"
     v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8',
-      'E10c', 'N1', 'N3', 'N3b', 'E8', 'N1a', 'N1b', 'N1c', 'N1d']
+      'E10c', 'N1', 'N3', 'N3b', 'E8', 'N1a', 'N1b', 'N1c', 'N1d', 'E12b']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -485,7 +485,7 @@ export default {
               borderColor: value,
             });
           });
-        } else if (['N1a', 'N1b', 'N1c', 'N1d'].includes(indicatorCode)) {
+        } else if (['N1a', 'N1b', 'N1c', 'N1d', 'E12b'].includes(indicatorCode)) {
           const maxRef = [];
           const minRef = [];
           const mean7dRef = [];
@@ -757,7 +757,7 @@ export default {
         },
       };
       if (!Number.isNaN(reference)
-        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'N4c', 'E8', 'E12c', 'E12d', 'E12b']
+        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'N4c', 'E8', 'E12c', 'E12d']
           .includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
