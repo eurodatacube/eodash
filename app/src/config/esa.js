@@ -1410,7 +1410,7 @@ export const globalIndicators = [
         country: ['GB'],
         city: 'Weymouth',
         description: 'Ports: throughput',
-        indicator: 'E12b',
+        indicator: 'E13c',
         lastIndicatorValue: null,
         indicatorName: 'Ports: throughput',
         subAoi: {
