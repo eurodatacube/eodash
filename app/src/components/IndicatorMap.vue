@@ -522,6 +522,9 @@ export default {
     featuresClustering() {
       return (this.layerDisplay('data') && typeof this.layerDisplay('data').featuresClustering !== 'undefined') ? this.layerDisplay('data').featuresClustering : this.indDefinition.featuresClustering;
     },
+    featuresStatic() {
+      return (this.layerDisplay('data') && typeof this.layerDisplay('data').featuresStatic !== 'undefined') ? this.layerDisplay('data').featuresStatic : this.indDefinition.featuresStatic;
+    },
     usedTimes() {
       let times = this.indicator.time;
       let eoSensor = Array.isArray(this.indicator.eoSensor) && this.indicator.eoSensor;
@@ -836,9 +839,11 @@ export default {
             layer.bindTooltip(tooltip, { pane: this.popupPane });
           }
           // to make clustering work
-          layer.getLatLng = () => geoJson(feature).getBounds().getCenter(); //eslint-disable-line
-          layer.setLatLng = () => { }; //eslint-disable-line
-          layer._latlng = layer.getLatLng(); //eslint-disable-line
+          if (this.featuresClustering) {
+            layer.getLatLng = () => geoJson(feature).getBounds().getCenter(); //eslint-disable-line
+            layer.setLatLng = () => { }; //eslint-disable-line
+            layer._latlng = layer.getLatLng(); //eslint-disable-line
+          }
         }.bind(this),
         // point circle marker styling
         pointToLayer: function (feature, latlng) { // eslint-disable-line
@@ -1115,7 +1120,10 @@ export default {
           this.$refs.compareLayer.mapObject
             .setUrl(this.layerDisplay('compare').url);
         }
-        if (!this.customAreaFeatures || this.validDrawnArea) {
+        if (!this.featuresStatic && (!this.customAreaFeatures || this.validDrawnArea)) {
+          if (this.featuresClustering) {
+            this.$refs.featuresCompareCluster.mapObject.clearLayers();
+          }
           this.fetchFeatures('compare');
         }
         // redraw
@@ -1129,7 +1137,7 @@ export default {
           this.$refs.dataLayer.mapObject
             .setUrl(this.layerDisplay('data').url);
         }
-        if (!this.customAreaFeatures || this.validDrawnArea) {
+        if (!this.featuresStatic && (!this.customAreaFeatures || this.validDrawnArea)) {
           if (this.featuresClustering) {
             this.$refs.featuresDataCluster.mapObject.clearLayers();
           }
@@ -1272,14 +1280,12 @@ export default {
           ...this.featureOptions(side),
           pane: side === 'data' ? this.tooltipPane : this.shadowPane,
         });
-        if (side === 'data') {
-          if (this.$refs.featuresDataCluster) {
+        if (this.$refs.featuresDataCluster) {
+          if (side === 'data') {
             this.$refs.featuresDataCluster.mapObject.clearLayers();
             this.$refs.featuresDataCluster.mapObject.addLayers([geojsonFromData]);
             this.dataFeaturesNum = ftrs.features.length;
-          }
-        } else {
-          if (this.$refs.featuresDataCluster) {
+          } else {
             this.$refs.featuresCompareCluster.mapObject.clearLayers();
             this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
             this.compareFeaturesNum = ftrs.features.length;
@@ -1323,7 +1329,7 @@ export default {
       }
     },
     drawnArea() {
-      // watch on drawn area prop change triggering update of draw layer and fetching custom features
+      // watch on drawn area prop change triggering update of draw layer, fetching custom features
       this.updateSelectedAreaFeature();
     },
   },
