@@ -87,7 +87,6 @@ def convert(path2, indicator):
     # go over each individual entry of the geojson, extract geometry and date
     for index, row in gdf.iterrows():
         data = {}
-        new_csv_content = gpd.GeoDataFrame(columns=column_names_csv)
         # find nearest point (aoi_id)
         _, nearest_geom = shapely.ops.nearest_points(row.geometry, multipoint)
         # get relevant aoi_id
@@ -112,10 +111,10 @@ def convert(path2, indicator):
         # data['Color code'] = found['lastColorCode']
         data['Sub-AOI'] = found['subAoi'].iloc[0]
         # data['Update Frequency'] = found['updateFrequency']
-        
-        data['Input Data'] = single_entry_time[0]['input_data']
-        data['Input Data'] = single_entry_time[0]['input_data']
-        data['EO Sensor'] = single_entry_time[0]['eo_sensor']
+        # data['Input Data'] = single_entry_time[0]['input_data']
+        # data['EO Sensor'] = single_entry_time[0]['eo_sensor']        
+        data['Input Data'] = 'Sentinel 2 L2A'
+        data['EO Sensor'] = 'Sentinel 2'
         # dirty and superslow way of merging columns of csv with actual limited data (merge all columns dataframe with sparser dataframe containing only some data)
         # todo, redo this for performance reasons
         csv_read = pd.read_csv(output_csv_path, header=0)
