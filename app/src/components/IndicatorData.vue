@@ -508,7 +508,7 @@ export default {
           });
 
           datasets.push({
-            label: '2020',
+            label: 'Value',
             data: measurement.map((meas, i) => ({ y: meas, t: indicator.time[i] })),
             backgroundColor: 'rgba(255,255,255,0.0)',
             borderColor: 'red',
@@ -517,7 +517,7 @@ export default {
             borderWidth: 1.5,
           });
           datasets.push({
-            label: '2020 7d mean',
+            label: '7-day mean',
             data: mean7d2020,
             backgroundColor: 'rgba(255,255,255,0.0)',
             pointRadius: 0,
