@@ -334,7 +334,7 @@ export default {
           colorCode = indObj.lastColorCode;
         }
         if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')
-          && ['N1', 'N1a', 'N1b', 'N3b', 'E10a3', 'E10a8'].includes(indObj.indicator)) {
+          && ['N1', 'N1a', 'N1b', 'N3b', 'E10a3', 'E10a8', 'E12b'].includes(indObj.indicator)) {
           colorCode = 'BLUE';
         }
       }
@@ -359,7 +359,7 @@ export default {
           } else if (['E10a6', 'E10a7'].includes(indicatorObject.indicator)) {
             const newIndVal = Number(indicatorObject.lastMeasurement).toPrecision(4);
             label += `${newIndVal}%`;
-          } else if (['N1', 'N3b', 'N1b'].includes(indicatorObject.indicator)) {
+          } else if (['N1', 'N3b', 'N1b', 'E12b'].includes(indicatorObject.indicator)) {
             label = '';
           } else if (indVal === null) {
             label = null;
