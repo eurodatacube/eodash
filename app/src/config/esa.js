@@ -195,6 +195,10 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Throughput at principal rail stations',
     class: 'economic',
   },
+  E13c: {
+    class: 'economic',
+    story: '',
+  },
   E13b: {
     indicator: 'Throughput at principal hub airports',
     class: 'economic',
@@ -1410,7 +1414,7 @@ export const globalIndicators = [
         country: ['GB'],
         city: 'Weymouth',
         description: 'Ports: throughput',
-        indicator: 'E12b',
+        indicator: 'E13c',
         lastIndicatorValue: null,
         indicatorName: 'Ports: throughput',
         subAoi: {
@@ -1433,7 +1437,7 @@ export const globalIndicators = [
           name: 'Weimouth ships',
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
-            url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+            url: './eodash-data/features/E12b/E12b_{aoiID}_{featuresTime}.geojson',
           },
           baseLayers: [{
             ...baseLayers.cloudless,
