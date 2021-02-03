@@ -460,8 +460,11 @@ export default {
       return {
         stroke: false,
         fillColor: this.getIndicatorColor('primary'),
-        fillOpacity: 0.5,
+        fillOpacity: this.subAoiFillOpacity || 0.5,
       };
+    },
+    subAoiFillOpacity() {
+      return (this.layerDisplay('data') && typeof this.layerDisplay('data').subAoiFillOpacity !== 'undefined') ? this.layerDisplay('data').subAoiFillOpacity : this.indDefinition.subAoiFillOpacity;
     },
     baseLayers() {
       // expects an array of objects
@@ -1006,6 +1009,9 @@ export default {
       }
       if (typeof sourceOptionsObj.maxNativeZoom !== 'undefined') {
         additionalSettings.maxNativeZoom = sourceOptionsObj.maxNativeZoom;
+      }
+      if (typeof sourceOptionsObj.bounds !== 'undefined') {
+        additionalSettings.bounds = sourceOptionsObj.bounds;
       }
       if (time !== null) {
         // time as is gets automatically injected to WMS query OR xyz url {time} template
