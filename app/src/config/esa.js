@@ -337,6 +337,12 @@ export const indicatorsDefinition = Object.freeze({
     }],
     legendUrl: 'eodash-data/data/LegendGLC.png',
   },
+  GG: {
+    indicator: 'Mobility',
+    class: 'economic',
+    disableTimeSelection: true,
+    countrySelection: true,
+  },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
     class: 'economic',
@@ -521,6 +527,32 @@ export const replaceMapTimes = {
 const wkt = new Wkt();
 
 export const globalIndicators = [
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'GG',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Google Mobility Data',
+        indicator: 'GG',
+        lastIndicatorValue: null,
+        indicatorName: 'Google Mobility Data',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        inputData: [''],
+        yAxis: 'NO2 (μmol/m2)',
+        time: ['TBD'],
+        display: {
+        },
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {

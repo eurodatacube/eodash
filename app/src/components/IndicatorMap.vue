@@ -205,26 +205,37 @@
       >
       </l-circle-marker>
     </l-layer-group>
-    <LTileLayer
-      v-for="layer in overlayLayers.filter(b => b.protocol === 'xyz')"
-      :key="layer.name"
-      v-bind="layer"
-      :pane="markerPane"
-      :opacity="opacityOverlay[zoom]"
-      :options="layerOptions(null, layer)"
-      layer-type="overlay"
+    <l-layer-group ref="overlayLayers" v-if="!countrySelection">
+      <LTileLayer
+        v-for="layer in overlayLayers.filter(b => b.protocol === 'xyz')"
+        :key="layer.name"
+        v-bind="layer"
+        :pane="markerPane"
+        :opacity="opacityOverlay[zoom]"
+        :options="layerOptions(null, layer)"
+        layer-type="overlay"
+      >
+      </LTileLayer>
+      <LWMSTileLayer
+        v-for="layer in overlayLayers.filter(b => b.protocol === 'WMS')"
+        v-bind="layer"
+        :key="layer.name"
+        :options="layerOptions(null, layer)"
+        :pane="markerPane"
+        :opacity="opacityOverlay[zoom]"
+        layer-type="overlay"
+      >
+      </LWMSTileLayer>
+    </l-layer-group>
+    <l-geo-json
+    v-if="countrySelection"
+    :geojson="countriesJson"
+    :optionsStyle="countriesStyle"
+    :options="countriesOptions()"
+    name="Country vectors"
+    layer-type="overlay"
     >
-    </LTileLayer>
-    <LWMSTileLayer
-      v-for="layer in overlayLayers.filter(b => b.protocol === 'WMS')"
-      v-bind="layer"
-      :key="layer.name"
-      :options="layerOptions(null, layer)"
-      :pane="markerPane"
-      :opacity="opacityOverlay[zoom]"
-      layer-type="overlay"
-    >
-    </LWMSTileLayer>
+    </l-geo-json>
     <div
     :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
       <img v-if="layerDisplay('data').legendUrl"
@@ -374,6 +385,8 @@ import 'leaflet.markercluster/dist/MarkerCluster.css'; // eslint-disable-line im
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'; // eslint-disable-line import/no-extraneous-dependencies
 import turfDifference from '@turf/difference';
 
+import countries from '@/assets/countries.json';
+
 
 const emptyF = {
   type: 'FeatureCollection',
@@ -441,6 +454,18 @@ export default {
     ...mapGetters('indicators', [
       'getIndicatorFilteredInputData',
     ]),
+    countriesJson() {
+      return countries;
+    },
+    countriesStyle() {
+      return {
+        color: '#222',
+        weight: 1,
+        fillColor: '#fff',
+        opacity: 1,
+        fillOpacity: 0.5,
+      };
+    },
     dataJsonComputed: {
       // to avoid each of thousands of geojson features have its own
       // getter/setter set by vue - freezing the app on large number of pts
@@ -506,6 +531,9 @@ export default {
     },
     disableTimeSelection() {
       return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableTimeSelection !== 'undefined') ? this.layerDisplay('data').disableTimeSelection : this.indDefinition.disableTimeSelection;
+    },
+    countrySelection() {
+      return (this.layerDisplay('data') && typeof this.layerDisplay('data').countrySelection !== 'undefined') ? this.layerDisplay('data').countrySelection : this.indDefinition.countrySelection;
     },
     disableCompareButton() {
       return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableCompare !== 'undefined') ? this.layerDisplay('data').disableCompare : this.indDefinition.disableCompare;
@@ -723,6 +751,9 @@ export default {
     this.compareLayerTime = { value: this.getInitialCompareTime() };
   },
   methods: {
+    selectCountry(feature) {
+      console.log(feature);
+    },
     zoomUpdated(zoom) {
       this.zoom = zoom;
     },
@@ -820,6 +851,27 @@ export default {
       } else {
         this.$refs.customAreaFilterFeatures.mapObject.clearLayers();
       }
+    },
+    countriesOptions() {
+      return {
+        onEachFeature: function onEachFeature(feature, layer) {
+          layer.on('mouseover', () => {
+            this.popupName = feature.properties.name;
+            // open popup
+            /*
+            var popup = L.popup()
+              .setLatLng(e.latlng)
+              .setContent('<h1 style="color: grey; margin-bottom: 0;">'+ feature.properties.Name +'</h1>')
+              .openOn(this.$refs.myMapRef.mapObject);
+            */
+          });
+          layer.on('click', () => {
+            // const countryName = feature.properties.name;
+            const countryA2 = feature.properties.alpha2;
+            this.fetchMobilityData(countryA2);
+          });
+        }.bind(this),
+      };
     },
     featureOptions(side) {
       const style = (this.layerDisplay(side).features && this.layerDisplay(side).features.style) ? this.layerDisplay(side).features.style : {}; // eslint-disable-line
@@ -1203,6 +1255,29 @@ export default {
       } else {
         this.updateJsonLayers(emptyF, side);
       }
+    },
+    fetchMobilityData(countryCode) {
+      const dataUrl = `./eodash-data/internal/${countryCode}-GG.json`;
+      this.map.fireEvent('dataloading');
+      fetch(dataUrl).then((r) => r.json())
+        .then((indicator) => {
+          indicator.indicator = 'GG'; // eslint-disable-line
+          indicator.time = indicator.Values.map((row) => DateTime.fromISO(row.date)); // eslint-disable-line
+          indicator.measurement = [0]; // eslint-disable-line
+          indicator.country = indicator.CountryCode; // eslint-disable-line
+          this.map.fireEvent('dataload');
+          this.$store.commit(
+            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
+          );
+          this.$emit('fetchCustomAreaIndicator');
+        })
+        .catch((err) => {
+          this.map.fireEvent('dataload');
+          this.$store.commit(
+            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null,
+          );
+          console.log(err);
+        });
     },
     fetchCustomAreaIndicator() {
       const options = this.layerOptions(this.currentTime, this.layerDisplay('data'));

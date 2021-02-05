@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%; height: 100%;"
     v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8',
-      'E10c', 'N1', 'N3', 'N3b', 'E8', 'N1a', 'N1b', 'N1c', 'N1d', 'E12b']
+      'E10c', 'N1', 'N3', 'N3b', 'E8', 'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -160,6 +160,35 @@ export default {
             data: measurement,
             fill: false,
             backgroundColor: 'black',
+          });
+        } else if (['GG'].includes(indicatorCode)) {
+          const vals = indicator.Values;
+          const datasetsObj = {
+            grocery: [],
+            parks: [],
+            residential: [],
+            retail_recreation: [],
+            transit_stations: [],
+          };
+          for (let entry = 0; entry < vals.length; entry += 1) {
+            const t = DateTime.fromISO(vals[entry].date);
+            datasetsObj.grocery.push({ t, y: vals[entry].grocery });
+            datasetsObj.parks.push({ t, y: vals[entry].parks });
+            datasetsObj.residential.push({ t, y: vals[entry].residential });
+            datasetsObj.retail_recreation.push({ t, y: vals[entry].retail_recreation });
+            datasetsObj.transit_stations.push({ t, y: vals[entry].transit_stations });
+          }
+          Object.keys(datasetsObj).forEach((key, idx) => {
+            datasets.push({
+              label: key,
+              data: datasetsObj[key],
+              fill: false,
+              borderColor: refColors[idx],
+              backgroundColor: refColors[idx],
+              borderWidth: 1,
+              pointRadius: 2,
+              cubicInterpolationMode: 'monotone',
+            });
           });
         } else if (['N3b'].includes(indicatorCode)) {
           const sensors = Array.from(new Set(indicator.eoSensor)).sort();
