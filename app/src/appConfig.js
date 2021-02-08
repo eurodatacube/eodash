@@ -117,31 +117,27 @@ module.exports = [
     },
     aboutText: '/data/trilateral/about',
     welcomeText: '/data/trilateral/welcome',
+    tutorialText: '/data/trilateral/tutorials',
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'FR01-N1',
-        src: './data/trilateral/Slide1.png',
+        poi: 'JP01-N5',
+        src: './data/trilateral/Slide4.png',
+      },
+       {
+        iframe: 'https://www.youtube.com/embed/URPzd29SGmE',
       },
       {
-        poi: 'IN02-N2',
+        poi: 'BarcelonaTSM_ESA-N3a2',
         src: './data/trilateral/Slide2.png',
       },
       {
-        poi: 'JP03-E9',
+        poi: 'W1-N1',
         src: './data/trilateral/Slide3.png',
       },
       {
-        poi: 'US031-E13b',
-        src: './data/trilateral/Slide4.png',
-      },
-      {
-        poi: 'BE03-N5',
-        src: './data/trilateral/Slide5.png',
-      },
-      {
-        poi: 'BR02-N7',
-        src: './data/trilateral/Slide6.png',
+        poi: 'US041-E13b',
+        src: './data/trilateral/Slide1.png',
       },
     ],
     customCountryList: [
