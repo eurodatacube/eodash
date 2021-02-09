@@ -6,7 +6,6 @@ import 'chartjs-chart-geo';
 const BubbleMap = generateChart('bubbleMap', 'bubbleMap');
 const { reactiveProp } = mixins;
 
-
 export default {
   extends: BubbleMap,
   mixins: [reactiveProp],
