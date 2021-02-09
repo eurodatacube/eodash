@@ -124,7 +124,7 @@ module.exports = [
         poi: 'JP01-N5',
         src: './data/trilateral/Slide4.png',
       },
-       {
+      {
         iframe: 'https://www.youtube.com/embed/URPzd29SGmE',
       },
       {
