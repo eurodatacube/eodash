@@ -357,11 +357,12 @@ export default {
     getColor(indObj) {
       let colorCode;
       if (indObj) {
-        if (Object.prototype.hasOwnProperty.call(indObj, 'lastColorCode')
+        if(indObj.updateFrequency && indObj.updateFrequency.toLowerCase() === 'archived') {
+          colorCode = 'grey';
+        } else if (Object.prototype.hasOwnProperty.call(indObj, 'lastColorCode')
           && !['', '/'].includes(indObj.lastColorCode)) {
           colorCode = indObj.lastColorCode;
-        }
-        if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')
+        } else if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')
           && ['N1', 'N1a', 'N1b', 'N3b', 'E10a3', 'E10a8', 'E12b'].includes(indObj.indicator)) {
           colorCode = 'BLUE';
         }
@@ -395,7 +396,13 @@ export default {
             label += indVal;
           }
         }
+
+        // Overwrite label if archived
+        if (indicatorObject.updateFrequency && indicatorObject.updateFrequency.toLowerCase() === 'archived') {
+          label = 'Archived';
+        }
       }
+
       return label;
     },
     resetClusterLayer() {

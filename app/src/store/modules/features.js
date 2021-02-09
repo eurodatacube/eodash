@@ -99,6 +99,7 @@ const getters = {
     features = features
       .sort((a, b) => ((a.properties.indicatorObject.country > b.properties.indicatorObject.country)
         ? 1 : -1));
+
     return features;
   },
   getGroupedFeatures(state, getters, rootState) {
