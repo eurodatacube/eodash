@@ -71,7 +71,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.27729970000000004",
+        "measurement_value": "0.2772997",
         "reference_time": "",
         "reference_value": "",
         "time": "2018-04-23T10:30:00"
@@ -93,7 +93,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.21483920000000004",
+        "measurement_value": "0.2148392",
         "reference_time": "",
         "reference_value": "",
         "time": "2018-05-09T10:30:00"
@@ -104,7 +104,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.16208150000000002",
+        "measurement_value": "0.1620815",
         "reference_time": "",
         "reference_value": "",
         "time": "2018-05-17T10:30:00"
@@ -126,7 +126,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.08968477",
+        "measurement_value": "0.111342209",
         "reference_time": "",
         "reference_value": "",
         "time": "2018-06-02T10:30:00"
@@ -137,7 +137,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.15021110000000001",
+        "measurement_value": "0.162220011",
         "reference_time": "",
         "reference_value": "",
         "time": "2018-06-10T10:30:00"
@@ -148,7 +148,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.24967129999999998",
+        "measurement_value": "0.26277476",
         "reference_time": "",
         "reference_value": "",
         "time": "2018-06-18T10:30:00"
@@ -159,7 +159,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.4076112",
+        "measurement_value": "0.414613679",
         "reference_time": "",
         "reference_value": "",
         "time": "2018-06-26T10:30:00"
@@ -170,7 +170,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.5666201999999999",
+        "measurement_value": "0.563739814",
         "reference_time": "",
         "reference_value": "",
         "time": "2018-07-04T10:30:00"
@@ -181,7 +181,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.6899026999999999",
+        "measurement_value": "0.68242192",
         "reference_time": "",
         "reference_value": "",
         "time": "2018-07-12T10:30:00"
@@ -192,7 +192,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.7583261",
+        "measurement_value": "0.742872987",
         "reference_time": "",
         "reference_value": "",
         "time": "2018-07-20T10:30:00"
@@ -203,7 +203,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.7902934",
+        "measurement_value": "0.772264907",
         "reference_time": "",
         "reference_value": "",
         "time": "2018-07-28T10:30:00"
@@ -214,7 +214,128 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.11494960000000001",
+        "measurement_value": "0.798036246",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2018-08-05T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.807603108",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2018-08-13T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.816760384",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2018-08-21T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.811377096",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2018-08-29T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.799023137",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2018-09-06T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.777920956",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2018-09-14T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.745239019",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2018-09-22T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.706760706",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2018-09-30T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.661046329",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2018-10-08T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.586110056",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2018-10-16T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.503677291",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2018-10-24T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.1149496",
         "reference_time": "",
         "reference_value": "",
         "time": "2019-03-06T10:30:00"
@@ -236,7 +357,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.22691799999999998",
+        "measurement_value": "0.226918",
         "reference_time": "",
         "reference_value": "",
         "time": "2019-03-22T10:30:00"
@@ -258,7 +379,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.31307890000000005",
+        "measurement_value": "0.3130789",
         "reference_time": "",
         "reference_value": "",
         "time": "2019-04-07T10:30:00"
@@ -302,7 +423,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.24744770000000002",
+        "measurement_value": "0.2474477",
         "reference_time": "",
         "reference_value": "",
         "time": "2019-05-09T10:30:00"
@@ -324,7 +445,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.15930020000000003",
+        "measurement_value": "0.1593002",
         "reference_time": "",
         "reference_value": "",
         "time": "2019-05-25T10:30:00"
@@ -335,7 +456,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.1325136",
+        "measurement_value": "0.150868938",
         "reference_time": "",
         "reference_value": "",
         "time": "2019-06-02T10:30:00"
@@ -346,7 +467,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.15271479999999998",
+        "measurement_value": "0.16886351",
         "reference_time": "",
         "reference_value": "",
         "time": "2019-06-10T10:30:00"
@@ -357,7 +478,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.212662",
+        "measurement_value": "0.223394105",
         "reference_time": "",
         "reference_value": "",
         "time": "2019-06-18T10:30:00"
@@ -368,7 +489,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.3191529000000001",
+        "measurement_value": "0.321671271",
         "reference_time": "",
         "reference_value": "",
         "time": "2019-06-26T10:30:00"
@@ -379,7 +500,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.4795515",
+        "measurement_value": "0.474608544",
         "reference_time": "",
         "reference_value": "",
         "time": "2019-07-04T10:30:00"
@@ -390,7 +511,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.6128344",
+        "measurement_value": "0.60229514",
         "reference_time": "",
         "reference_value": "",
         "time": "2019-07-12T10:30:00"
@@ -401,7 +522,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.6970068",
+        "measurement_value": "0.683303954",
         "reference_time": "",
         "reference_value": "",
         "time": "2019-07-20T10:30:00"
@@ -412,7 +533,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.7617871",
+        "measurement_value": "0.745232516",
         "reference_time": "",
         "reference_value": "",
         "time": "2019-07-28T10:30:00"
@@ -423,7 +544,128 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.29028940000000003",
+        "measurement_value": "0.783876727",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2019-08-05T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.812561593",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2019-08-13T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.817557414",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2019-08-21T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.814458581",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2019-08-29T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.797442419",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2019-09-06T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.780093606",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2019-09-14T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.756186698",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2019-09-22T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.729152977",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2019-09-30T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.698969258",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2019-10-08T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.656657345",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2019-10-16T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.577500481",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2019-10-24T10:30:00"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "JAXA",
+        "eo_sensor": "GCOM-C SGLI",
+        "indicator_value": "Normal",
+        "input_data": "SGLI L2 Reflectance 8-day composited",
+        "measurement_value": "0.2902894",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-03-05T10:30:00"
@@ -467,7 +709,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.26365459999999996",
+        "measurement_value": "0.2636546",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-04-06T10:30:00"
@@ -478,7 +720,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.24256170000000002",
+        "measurement_value": "0.2425617",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-04-14T10:30:00"
@@ -500,7 +742,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.20731970000000002",
+        "measurement_value": "0.2073197",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-04-30T10:30:00"
@@ -544,7 +786,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.14645460000000002",
+        "measurement_value": "0.178557717",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-06-01T10:30:00"
@@ -555,7 +797,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.1948727",
+        "measurement_value": "0.21654627",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-06-09T10:30:00"
@@ -566,7 +808,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.3521843",
+        "measurement_value": "0.358734554",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-06-17T10:30:00"
@@ -577,7 +819,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.5582368560000001",
+        "measurement_value": "0.513377816",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-06-25T00:00:00"
@@ -588,7 +830,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.582596287",
+        "measurement_value": "0.75654487",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-07-03T00:00:00"
@@ -599,7 +841,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.5874032610000001",
+        "measurement_value": "0.79821155",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-07-11T00:00:00"
@@ -610,7 +852,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.591510988",
+        "measurement_value": "0.827570124",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-07-19T00:00:00"
@@ -621,7 +863,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.5829523839999999",
+        "measurement_value": "0.844440572",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-07-27T00:00:00"
@@ -632,7 +874,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.564102103",
+        "measurement_value": "0.84857842",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-08-04T00:00:00"
@@ -643,7 +885,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.543837297",
+        "measurement_value": "0.845848322",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-08-12T00:00:00"
@@ -654,7 +896,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.534516005",
+        "measurement_value": "0.841848429",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-08-20T00:00:00"
@@ -665,7 +907,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.526304506",
+        "measurement_value": "0.832890325",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-08-28T00:00:00"
@@ -676,7 +918,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.5089076770000001",
+        "measurement_value": "0.814271869",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-09-05T00:00:00"
@@ -687,7 +929,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.424668704",
+        "measurement_value": "0.771619272",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-09-13T00:00:00"
@@ -698,7 +940,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.381456112",
+        "measurement_value": "0.703831958",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-09-21T00:00:00"
@@ -709,7 +951,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.33767214700000003",
+        "measurement_value": "0.546198827",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-09-29T00:00:00"
@@ -720,7 +962,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.32783150699999997",
+        "measurement_value": "0.521629458",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-10-07T00:00:00"
@@ -731,7 +973,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.308649148",
+        "measurement_value": "0.454011172",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-10-15T00:00:00"
@@ -742,7 +984,7 @@
         "eo_sensor": "GCOM-C SGLI",
         "indicator_value": "Normal",
         "input_data": "SGLI L2 Reflectance 8-day composited",
-        "measurement_value": "0.28981466100000003",
+        "measurement_value": "0.335145398",
         "reference_time": "",
         "reference_value": "",
         "time": "2020-10-23T00:00:00"
