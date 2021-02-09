@@ -230,6 +230,47 @@ export const indicatorsDefinition = Object.freeze({
     },
     largeTimeDuration: true,
   },
+  E13e: {
+    indicator: 'Maritime traffic: cargo',
+    class: 'economic',
+    story: '/eodash-data/stories/E13e',
+  },
+  E13f: {
+    indicator: 'Maritime traffic: fishing',
+    hideInFilters: true,
+    class: 'economic',
+    story: '/eodash-data/stories/E13f',
+  },
+  E13g: {
+    indicator: 'Maritime traffic: tanker',
+    hideInFilters: true,
+    class: 'economic',
+    story: '/eodash-data/stories/E13g',
+  },
+  E13h: {
+    indicator: 'Maritime traffic: tug',
+    hideInFilters: true,
+    class: 'economic',
+    story: '/eodash-data/stories/E13h',
+  },
+  E13i: {
+    indicator: 'Maritime traffic: search, rescue',
+    hideInFilters: true,
+    class: 'economic',
+    story: '/eodash-data/stories/E13i',
+  },
+  E13l: {
+    indicator: 'Maritime traffic: pleasure craft',
+    hideInFilters: true,
+    class: 'economic',
+    story: '/eodash-data/stories/E13l',
+  },
+  E13m: {
+    indicator: 'Maritime traffic: passenger',
+    hideInFilters: true,
+    class: 'economic',
+    story: '/eodash-data/stories/E13m',
+  },
   H1: {
     indicator: 'Number of temp. treatment sites',
     class: 'health',

@@ -68,6 +68,26 @@ module.exports = [
       },
       {
         features: [
+          'IT16-E13e',
+          'IT16-E13f',
+          'IT16-E13g',
+          'IT16-E13h',
+          'IT16-E13i',
+        ],
+        label: ['Cargo', 'Fishing', 'Tanker', 'Tug', 'SearchRescue'],
+      },
+      {
+        features: [
+          'IT3-E13e',
+          'IT3-E13f',
+          'IT3-E13g',
+          'IT3-E13l',
+          'IT3-E13m',
+        ],
+        label: ['Cargo', 'Fishing', 'Tanker', 'Cruise', 'Passenger'],
+      },
+      {
+        features: [
           'W2-E12c',
           'W3-E12c',
         ],
