@@ -557,6 +557,15 @@ const getFortnightIntervalDates = (start, end) => {
   return dateArray;
 };
 
+export const additionalMapTimes = {
+  'JP02-E13b': {
+    time: ['2020-08-05T00:00:00', '2020-08-15T00:00:00', '2020-08-16T00:00:00', '2020-08-20T00:00:00', '2020-08-21T00:00:00', '2020-08-25T00:00:00', '2020-09-04T00:00:00', '2020-09-28T00:00:00', '2020-10-24T00:00:00'],
+    eoSensor: Array(9).fill('Planet'),
+    inputData: Array(9).fill('airports'),
+    colorCode: Array(9).fill('PRIMARY'),
+  },
+};
+
 const wkt = new Wkt();
 
 export const globalIndicators = [
