@@ -68,15 +68,6 @@ module.exports = [
       },
       {
         features: [
-          'World-N3c',
-          'Atlantic-N3c',
-          'BlackSea-N3c',
-          'Baltic-N3c',
-        ],
-        label: ['Mediterranean', 'Atlantic', 'Black Sea', 'Baltic'],
-      },
-      {
-        features: [
           'W2-E12c',
           'W3-E12c',
         ],

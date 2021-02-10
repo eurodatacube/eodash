@@ -446,6 +446,19 @@ export const defaultWMSDisplay = {
   minZoom: 7,
 };
 
+export const cmemsDisplay = {
+  protocol: 'WMS',
+  format: 'image/png',
+  transparent: true,
+  tileSize: 256,
+  attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+  minZoom: 1,
+  name: 'CMEMS',
+  layers: 'CHL',
+  legendUrl: 'eodash-data/data/cmems-legend-med.png',
+  dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T00:00:00Z'"),
+};
+
 const getDailyDates = (start, end) => {
   let currentDate = DateTime.fromISO(start);
   const stopDate = DateTime.fromISO(end);
@@ -1233,7 +1246,7 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: true,
         country: 'all',
-        city: 'Mediterranean',
+        city: 'Europe',
         siteName: 'global',
         description: 'CMEMS Water Quality',
         indicator: 'N3c',
@@ -1256,140 +1269,24 @@ export const globalIndicators = [
           label: 'Copernicus Marine Service - Product Details',
           url: 'https://resources.marine.copernicus.eu/?option=com_csw%20&view=details%20&product_id=OCEANCOLOUR_MED_CHL_L4_NRT_OBSERVATIONS_009_041',
         },
-        display: {
-          ...defaultWMSDisplay,
-          baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-med-chl-multi-l4-interp_1km_daily-rt-v02?COLORSCALERANGE=0.03%2C10&STYLES=boxfill%2Frainbow',
-          name: 'CMEMS',
-          layers: 'CHL',
-          minZoom: 1,
-          legendUrl: 'eodash-data/data/cmems-legend-med.png',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T00:00:00Z'"),
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Atlantic coasts',
-        siteName: 'global',
-        description: 'CMEMS Water Quality',
-        indicator: 'N3c',
-        lastIndicatorValue: null,
-        indicatorName: 'CMEMS Water Quality',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-5.3536 42.8782,13.2 42.8782,13.2 61.272,-5.3536 61.272,-5.3536 42.8782))').toJson(),
-          }],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Atlantic',
-        time: getDailyDates('2020-01-01', DateTime.utc().minus({ days: 1 }).toFormat('yyyy-LL-dd')),
-        inputData: [''],
-        externalData: {
-          label: 'Copernicus Marine Service - Product Details',
-          url: 'https://resources.marine.copernicus.eu/?option=com_csw%20&view=details%20&product_id=OCEANCOLOUR_ATL_CHL_L4_NRT_OBSERVATIONS_009_037',
-        },
-        display: {
-          ...defaultWMSDisplay,
-          baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-atl-bio-multi-l4-chl_interpolated_1km_daily-rt?COLORSCALERANGE=0.1%2C35&STYLES=boxfill%2Frainbow',
-          name: 'CMEMS',
-          layers: 'CHL',
-          minZoom: 1,
-          tileSize: 256,
-          bounds: latLngBounds(latLng([42.8782, -5.3536]), latLng([61.272, 13.2])),
-          legendUrl: 'eodash-data/data/cmems-legend-atl.png',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T00:00:00Z'"),
+        display: [{
+          ...cmemsDisplay,
+          baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-med-chl-multi-l4-interp_1km_daily-rt-v02?COLORSCALERANGE=0.1%2C35&STYLES=boxfill%2Frainbow',
+          name: 'Mediterranean',
           subAoiFillOpacity: 0.8,
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Black Sea',
-        siteName: 'global',
-        description: 'CMEMS Water Quality',
-        indicator: 'N3c',
-        lastIndicatorValue: null,
-        indicatorName: 'CMEMS Water Quality',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((26.5 40,42 40,42 48,26.5 48,26.5 40))').toJson(),
-          }],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'BlackSea',
-        time: getDailyDates('2020-01-01', DateTime.utc().minus({ days: 1 }).toFormat('yyyy-LL-dd')),
-        inputData: [''],
-        externalData: {
-          label: 'Copernicus Marine Service - Product Details',
-          url: 'https://resources.marine.copernicus.eu/?option=com_csw%20&view=details%20&product_id=OCEANCOLOUR_BS_CHL_L4_NRT_OBSERVATIONS_009_045',
-        },
-        display: {
-          ...defaultWMSDisplay,
-          baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-bs-chl-multi-l4-interp_1km_daily-rt-v02?COLORSCALERANGE=0.25%2C20&STYLES=boxfill%2Frainbow',
-          name: 'CMEMS',
-          layers: 'CHL',
-          minZoom: 1,
-          tileSize: 512,
-          legendUrl: 'eodash-data/data/cmems-legend-bls.png',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T00:00:00Z'"),
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Baltic Sea',
-        siteName: 'global',
-        description: 'CMEMS Water Quality',
-        indicator: 'N3c',
-        lastIndicatorValue: null,
-        indicatorName: 'CMEMS Water Quality',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((9.2 53.25,30.25 53.25,30.25 65.85,9.25 65.85,9.2 53.25))').toJson(),
-          }],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Baltic',
-        time: getDailyDates('2020-01-01', DateTime.utc().minus({ days: 1 }).toFormat('yyyy-LL-dd')),
-        inputData: [''],
-        externalData: {
-          label: 'Copernicus Marine Service - Product Details',
-          url: 'https://resources.marine.copernicus.eu/?option=com_csw%20&view=details%20&product_id=OCEANCOLOUR_BAL_CHL_L3_NRT_OBSERVATIONS_009_049',
-        },
-        display: {
-          ...defaultWMSDisplay,
-          baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-bal-chl-olci_a-l3-nn_1km_daily-rt-v02?COLORSCALERANGE=0.25%2C5&STYLES=boxfill%2Frainbow',
-          name: 'CMEMS',
-          layers: 'CHL',
-          minZoom: 1,
-          tileSize: 512,
-          legendUrl: 'eodash-data/data/cmems-legend-bal.png',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T00:00:00Z'"),
-        },
+        }, {
+          ...cmemsDisplay,
+          baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-atl-bio-multi-l4-chl_interpolated_1km_daily-rt?COLORSCALERANGE=0.1%2C35&STYLES=boxfill%2Frainbow',
+          name: 'Atlantic coast',
+        }, {
+          ...cmemsDisplay,
+          baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-bs-chl-multi-l4-interp_1km_daily-rt-v02?COLORSCALERANGE=0.1%2C35&STYLES=boxfill%2Frainbow',
+          name: 'Black sea',
+        }, {
+          ...cmemsDisplay,
+          baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-bal-chl-olci_a-l3-nn_1km_daily-rt-v02?COLORSCALERANGE=0.1%2C35&STYLES=boxfill%2Frainbow',
+          name: 'Baltic sea',
+        }],
       },
     },
   },
