@@ -204,6 +204,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/N1',
     largeTimeDuration: true,
     largeSubAoi: true,
+    maxMapZoom: 8,
   },
   NASAPopulation: {
     indicator: 'Population',
@@ -326,12 +327,6 @@ export const layerNameMapping = Object.freeze({
   },
   'LANDSAT-8-NIR': {
     layers: 'LANDSAT-8-NIR',
-  },
-  N1: {
-    maxMapZoom: 8,
-  },
-  NASAPopulation: {
-    maxMapZoom: 8,
   },
   'ALOS-2': {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2FALOS_SAMPLE%2Falos2-s1-beijing_{time}.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536',
@@ -644,6 +639,7 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
+          minZoom: 1,
           maxNativeZoom: 6,
           tileSize: 256,
           opacity: 0.95,
@@ -683,6 +679,7 @@ export const globalIndicators = [
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
+          minZoom: 1,
           opacity: 0.95,
           tileSize: 256,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/OMNO2d_HRMDifference/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=-3e15%2C3e15&color_map=rdbu_r',
@@ -722,6 +719,7 @@ export const globalIndicators = [
         display: {
           protocol: 'xyz',
           tileSize: 256,
+          minZoom: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2-mean/xco2_16day_mean.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.000408%2C0.000419&color_map=rdylbu_r',
           name: 'Greenhouse Gases (NASA)',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
@@ -731,6 +729,7 @@ export const globalIndicators = [
         compareDisplay: {
           protocol: 'xyz',
           tileSize: 256,
+          minZoom: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2-base/xco2_16day_base.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.000408%2C0.000419&color_map=rdylbu_r',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           mapLabel: 'Baseline',
@@ -766,6 +765,7 @@ export const globalIndicators = [
         display: {
           protocol: 'xyz',
           tileSize: 256,
+          minZoom: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2-diff/xco2_16day_diff.{time}.tif&resampling_method=bilinear&bidx=1&rescale=-0.000001%2C0.000001&color_map=rdbu_r',
           name: 'Greenhouse Gases (NASA)',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
@@ -797,7 +797,8 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 6,
+          minZoom: 1,
+          maxMapZoom: 7,
           url: 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/GPW_Population_Density_2020/default/{time}/GoogleMapsCompatible_Level7/{z}/{y}/{x}.png',
           name: 'Population',
           tileSize: 256,
@@ -2352,6 +2353,7 @@ export const globalIndicators = [
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
+          minZoom: 1,
           opacity: 0.7,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/agriculture-cropmonitor/CropMonitor_{time}.tif&resampling_method=nearest&bidx=1&color_map=custom_cropmonitor',
           name: 'Agriculture GEOGLAM',
@@ -2402,6 +2404,7 @@ export const globalIndicators = [
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
+          minZoom: 6,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/Togo/togo_cropland_v7-1_cog_v2.tif&resampling_method=bilinear&bidx=1&rescale=0,1&color_map=magma',
           name: 'Togo',
           legendUrl: './data/trilateral/TG01_E19d_legend.png',
