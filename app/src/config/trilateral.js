@@ -440,9 +440,6 @@ export const layerNameMapping = Object.freeze({
     legendUrl: 'data/trilateral/NDVI.png',
     dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
   },
-  N5: {
-    maxMapZoom: 15,
-  },
 });
 
 export const indicatorClassesIcons = Object.freeze({
