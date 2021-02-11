@@ -438,7 +438,6 @@ export const cmemsDisplay = {
   tileSize: 256,
   minZoom: 1,
   layers: 'CHL',
-  subAoiFillOpacity: 0.8,
   legendUrl: 'eodash-data/data/cmems-legend.png',
   dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T00:00:00Z'"),
 };
