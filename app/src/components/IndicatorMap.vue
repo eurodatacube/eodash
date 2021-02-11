@@ -907,7 +907,7 @@ export default {
       // following configuration merging is done:
       // defaultLayersDisplay (to avoid having to configure it before)
       // indDefinition - indicator code specific configuration
-      // display - coming from js configuration - esa.js OR 
+      // display - coming from js configuration - esa.js OR
       // configFromInputData - coming from input data reference from csvs
 
       if (displayTmp) {
