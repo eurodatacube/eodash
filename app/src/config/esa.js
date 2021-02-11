@@ -342,19 +342,15 @@ export const indicatorsDefinition = Object.freeze({
 export const layerNameMapping = Object.freeze({
   // "inputdata" -> wms layer name and baseurl
   '[NEW] Planetscope COVID-19': {
-    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLANETSCOPE_COVID-19',
   },
   'PlanetScope - COVID19': {
-    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLANETSCOPE_COVID-19',
   },
   'Planetscope COVID-19': {
-    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLANETSCOPE_COVID-19',
   },
   '[NEW] Planet COVID-19': {
-    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLANETSCOPE_COVID-19',
   },
   '[NEW] Pleiades': {
@@ -362,7 +358,6 @@ export const layerNameMapping = Object.freeze({
     layers: 'NEW_PLEIADES',
   },
   'Pleiades - COVID19': {
-    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_COVID19',
   },
   'Deimos - COVID19': {
@@ -370,15 +365,12 @@ export const layerNameMapping = Object.freeze({
     layers: 'DEIMOS',
   },
   '[NEW] Pleiades COVID-19': {
-    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_COVID19',
   },
   '[NEW] Pleiades COVID19': {
-    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_COVID19',
   },
   '[NEW] Pleiades - 2.8m - COVID19': {
-    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_28_COVID19',
   },
   '[NEW] Pleiades 16bit': {
@@ -386,21 +378,17 @@ export const layerNameMapping = Object.freeze({
     layers: 'NEW_PLEIADES_16BIT',
   },
   'Sentinel 2 L2A': {
-    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
     dateFormatFunction: shS2TimeFunction,
   },
   S2L2A: {
-    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
     dateFormatFunction: shS2TimeFunction,
   },
   S1GRD: {
-    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'E8_SENTINEL1',
   },
   'S1A - GRD': {
-    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'E8_SENTINEL1',
   },
 });
@@ -447,14 +435,10 @@ export const defaultWMSDisplay = {
 };
 
 export const cmemsDisplay = {
-  protocol: 'WMS',
-  format: 'image/png',
-  transparent: true,
   tileSize: 256,
-  attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   minZoom: 1,
-  name: 'CMEMS',
   layers: 'CHL',
+  subAoiFillOpacity: 0.8,
   legendUrl: 'eodash-data/data/cmems-legend-med.png',
   dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T00:00:00Z'"),
 };
@@ -553,7 +537,6 @@ export const globalIndicators = [
         yAxis: 'Tropospheric NO2 (μmol/m2)',
         customAreaIndicator: true,
         display: {
-          ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Tropospheric NO2',
           layers: 'NO2-VISUALISATION',
@@ -619,7 +602,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'NO2 (μmol/m2)',
         display: {
-          ...defaultWMSDisplay,
           styles: 'sh_OrangesTransparent40_surface_concentration',
           baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged NO2',
@@ -655,7 +637,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'PM2.5 (μg/m3)',
         display: {
-          ...defaultWMSDisplay,
           styles: 'sh_PurplesTransparent40_surface_concentration',
           baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged PM2.5',
@@ -691,7 +672,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'PM10 (μg/m3)',
         display: {
-          ...defaultWMSDisplay,
           styles: 'sh_GreensTransparent40_surface_concentration',
           baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged PM2.5',
@@ -727,7 +707,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'O3 (μg/m3)',
         display: {
-          ...defaultWMSDisplay,
           styles: 'sh_OrangesTransparent240_surface_concentration',
           baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged PM2.5',
@@ -770,7 +749,6 @@ export const globalIndicators = [
         time: getWeeklyDates('2020-01-07', '2021-01-26'),
         inputData: [''],
         display: {
-          ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'N3_CUSTOM',
@@ -810,7 +788,6 @@ export const globalIndicators = [
         time: getWeeklyDates('2020-01-07', '2021-01-26'),
         inputData: [''],
         display: {
-          ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'N3_CUSTOM',
@@ -850,7 +827,6 @@ export const globalIndicators = [
         time: getWeeklyDates('2020-01-07', '2021-01-26'),
         inputData: [''],
         display: {
-          ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'N3_CUSTOM_TSMNN',
@@ -890,7 +866,6 @@ export const globalIndicators = [
         time: getWeeklyDates('2020-01-07', '2021-01-26'),
         inputData: [''],
         display: {
-          ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'N3_CUSTOM_TSMNN',
@@ -928,7 +903,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: {
-          ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Aggregated Truck Traffic 10km',
           layers: 'E12C_NEW_MOTORWAY',
@@ -1058,7 +1032,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: {
-          ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Aggregated Truck Traffic 10km',
           layers: 'E12D_NEW_PRIMARYROADS',
@@ -1190,7 +1163,6 @@ export const globalIndicators = [
         time: getWeeklyDates('2020-11-03', '2021-01-26'),
         inputData: [''],
         display: {
-          ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'N3_CUSTOM',
@@ -1230,7 +1202,6 @@ export const globalIndicators = [
         time: getWeeklyDates('2020-11-03', '2021-01-26'),
         inputData: [''],
         display: {
-          ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'N3_CUSTOM_TSMNN',
@@ -1257,7 +1228,7 @@ export const globalIndicators = [
           features: [{
             type: 'Feature',
             properties: {},
-            geometry: wkt.read('POLYGON((-6 30,36.3 30,36.3 45.8,-6 45.8,-6 30))').toJson(),
+            geometry: wkt.read('POLYGON((-6 30,36.3 30,36.3 63.8,-6 63.8,-6 30))').toJson(),
           }],
         },
         lastColorCode: null,
@@ -1272,20 +1243,23 @@ export const globalIndicators = [
         display: [{
           ...cmemsDisplay,
           baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-med-chl-multi-l4-interp_1km_daily-rt-v02?COLORSCALERANGE=0.1%2C35&STYLES=boxfill%2Frainbow',
-          name: 'Mediterranean',
-          subAoiFillOpacity: 0.8,
+          name: 'Mediterranean CHL',
+          bounds: latLngBounds(latLng([30, -6]), latLng([46, 36.5])),
         }, {
           ...cmemsDisplay,
           baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-atl-bio-multi-l4-chl_interpolated_1km_daily-rt?COLORSCALERANGE=0.1%2C35&STYLES=boxfill%2Frainbow',
-          name: 'Atlantic coast',
+          name: 'Atlantic coast CHL',
+          bounds: latLngBounds(latLng([40, -12]), latLng([64, 13.5])),
         }, {
           ...cmemsDisplay,
           baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-bs-chl-multi-l4-interp_1km_daily-rt-v02?COLORSCALERANGE=0.1%2C35&STYLES=boxfill%2Frainbow',
-          name: 'Black sea',
+          name: 'Black sea CHL',
+          bounds: latLngBounds(latLng([40, 26.5]), latLng([48, 42])),
         }, {
           ...cmemsDisplay,
           baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-bal-chl-olci_a-l3-nn_1km_daily-rt-v02?COLORSCALERANGE=0.1%2C35&STYLES=boxfill%2Frainbow',
-          name: 'Baltic sea',
+          name: 'Baltic sea CHL',
+          bounds: latLngBounds(latLng([53.25, 9]), latLng([65.85, 30.5])),
         }],
       },
     },
@@ -1317,7 +1291,6 @@ export const globalIndicators = [
         time: ['2020-02-04', '2020-04-13', '2020-07-17'],
         inputData: [''],
         display: {
-          ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'ICEYE-E3',
           minZoom: 5,
@@ -1361,7 +1334,6 @@ export const globalIndicators = [
         time: ['2020-03-20'],
         inputData: [''],
         display: {
-          ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'ICEYE-E11',
           minZoom: 5,
@@ -1406,7 +1378,6 @@ export const globalIndicators = [
         time: ['2020-02-07', '2020-04-13'],
         inputData: [''],
         display: {
-          ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'ICEYE-E11A',
           minZoom: 5,
@@ -1451,7 +1422,6 @@ export const globalIndicators = [
         time: ['2020-08-29'],
         inputData: [''],
         display: {
-          ...defaultWMSDisplay,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'ICEYE-E12B',
           minZoom: 5,
@@ -1496,7 +1466,6 @@ export const globalIndicators = [
         time: ['2020-05-12T13:35:00'],
         inputData: [''],
         display: {
-          ...defaultWMSDisplay,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'ICEYE-E13B',
@@ -1543,7 +1512,6 @@ export const globalIndicators = [
         time: ['2020-03-20T03:50:00', '2020-08-25T03:15:00'],
         inputData: [''],
         display: {
-          ...defaultWMSDisplay,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'ICEYE-E13B',
