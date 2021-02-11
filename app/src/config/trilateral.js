@@ -476,7 +476,7 @@ const mapBoxHighResoSubst = [{
   visible: true,
 }, baseLayers.terrainLight, baseLayers.cloudless];
 
-export const defaultWMSDisplay = {
+export const defaultLayersDisplay = {
   baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
   protocol: 'WMS',
   dateFormatFunction: shTimeFunction,

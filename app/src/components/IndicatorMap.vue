@@ -905,10 +905,10 @@ export default {
       // first check if special compare layer configured
       let displayTmp = side === 'compare' && this.indicator.compareDisplay ? this.indicator.compareDisplay : this.indicator.display;
       // following configuration merging is done:
-      // default WMS display (to avoid having to configure it before)
+      // defaultLayersDisplay (to avoid having to configure it before)
       // indDefinition - indicator code specific configuration
-      // configFromInputData - coming from input data reference from csvs OR
-      // OR display - coming from js configuration - esa.js
+      // display - coming from js configuration - esa.js OR 
+      // configFromInputData - coming from input data reference from csvs
 
       if (displayTmp) {
         // from layer configuration
@@ -934,12 +934,8 @@ export default {
       usedConfigForMerge.forEach((item) => {
         // merge configs for each layer
         name = item.name || name;
-        if (side === 'compare') {
-          // distinguish left/right layer in layer selection
-          name += ' - compare (left)';
-        }
         finalConfigs.push({
-          ...this.baseConfig.defaultWMSDisplay,
+          ...this.baseConfig.defaultLayersDisplay,
           ...this.indDefinition,
           ...item,
           name,
