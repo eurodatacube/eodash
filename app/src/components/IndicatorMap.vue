@@ -409,7 +409,7 @@ export default {
       dataLayerKeyXYZ: [41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55],
       dataLayerKeyWMS: [61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75],
       dataJsonKey: 0,
-      compareJsonKey: 1,
+      compareJsonKey: -1,
       zoom: null,
       center: null,
       bounds: null,
