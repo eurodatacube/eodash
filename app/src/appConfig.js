@@ -74,7 +74,7 @@ module.exports = [
           'IT16-E13h',
           'IT16-E13i',
         ],
-        label: ['Cargo', 'Fishing', 'Tanker', 'Tug', 'SearchRescue'],
+        label: ['Cargo', 'Fishing', 'Tanker', 'Tug', 'Search Rescue'],
       },
       {
         features: [
