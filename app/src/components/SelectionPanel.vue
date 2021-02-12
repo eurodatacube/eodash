@@ -8,9 +8,7 @@
 
 <script>
 // Utilities
-import {
-  mapGetters,
-} from 'vuex';
+import { mapGetters } from 'vuex';
 
 import IndicatorFilters from '@/components/IndicatorFilters.vue';
 
@@ -19,9 +17,7 @@ export default {
     IndicatorFilters,
   },
   computed: {
-    ...mapGetters('features', [
-      'getCountries',
-    ]),
+    ...mapGetters('features', ['getCountries']),
     countryItems() {
       const countries = this.getCountries;
       return countries;

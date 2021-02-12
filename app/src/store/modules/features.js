@@ -9,13 +9,13 @@ const state = {
   featureFilters: {
     countries: [],
     indicators: [],
+    includeArchived: false,
   },
   selectedArea: null,
   resultsCount: {
     economic: 0,
     agriculture: 0,
     environment: 0,
-    health: 0,
   },
 };
 
@@ -72,6 +72,7 @@ const getters = {
   },
   getFeatures(state) {
     let features = state.allFeatures;
+
     if (state.featureFilters.countries.length > 0) {
       features = features
         .filter((f) => {
@@ -90,9 +91,15 @@ const getters = {
         .filter((f) => state.featureFilters.indicators
           .includes(f.properties.indicatorObject.indicator));
     }
+
+    if (!state.featureFilters.includeArchived) {
+      features = features.filter((f) => (f.properties.indicatorObject.updateFrequency ? f.properties.indicatorObject.updateFrequency.toLowerCase() !== 'archived' : true));
+    }
+
     features = features
       .sort((a, b) => ((a.properties.indicatorObject.country > b.properties.indicatorObject.country)
         ? 1 : -1));
+
     return features;
   },
   getGroupedFeatures(state, getters, rootState) {
@@ -156,12 +163,19 @@ const mutations = {
       state.featureFilters.indicators = indicators;
     }
   },
-  SET_FEATURE_FILTER(state, { countries, indicators }) {
-    if (countries) {
-      state.featureFilters.countries = countries;
+  SET_FEATURE_FILTER(state, options) {
+    if (!options) return;
+
+    const hasFeature = (f) => Object.keys(options).includes(f);
+
+    if (hasFeature('countries')) {
+      state.featureFilters.countries = options.countries;
     }
-    if (indicators) {
-      state.featureFilters.indicators = indicators;
+    if (hasFeature('indicators')) {
+      state.featureFilters.indicators = options.indicators;
+    }
+    if (hasFeature('includeArchived')) {
+      state.featureFilters.includeArchived = options.includeArchived;
     }
   },
   ADD_RESULTS_COUNT(state, { type, count }) {
