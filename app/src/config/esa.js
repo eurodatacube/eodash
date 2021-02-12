@@ -230,6 +230,41 @@ export const indicatorsDefinition = Object.freeze({
     },
     largeTimeDuration: true,
   },
+  E13e: {
+    indicator: 'Maritime traffic: AIS data',
+    class: 'economic',
+    story: '/eodash-data/stories/E13e',
+  },
+    E13f: {
+    indicator: 'Maritime traffic: AIS data',
+    class: 'economic',
+    story: '/eodash-data/stories/E13e',
+  },
+    E13g: {
+    indicator: 'Maritime traffic: AIS data',
+    class: 'economic',
+    story: '/eodash-data/stories/E13e',
+  },
+    E13h: {
+    indicator: 'Maritime traffic: AIS data',
+    class: 'economic',
+    story: '/eodash-data/stories/E13e',
+  },
+    E13i: {
+    indicator: 'Maritime traffic: AIS data',
+    class: 'economic',
+    story: '/eodash-data/stories/E13e',
+  },
+    E13l: {
+    indicator: 'Maritime traffic: AIS data',
+    class: 'economic',
+    story: '/eodash-data/stories/E13e',
+  },
+    E13m: {
+    indicator: 'Maritime traffic: AIS data',
+    class: 'economic',
+    story: '/eodash-data/stories/E13e',
+  },
   H1: {
     indicator: 'Number of temp. treatment sites',
     class: 'health',
