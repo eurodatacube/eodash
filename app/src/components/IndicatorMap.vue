@@ -38,7 +38,7 @@
       </v-tooltip>
     </l-control>
     <l-control position="topright"
-      v-if="customAreaIndicator && validDrawnArea && renderTrashBin">
+      v-if="mergedConfigs()[0].customAreaIndicator && validDrawnArea && renderTrashBin">
       <v-tooltip left>
         <template v-slot:activator="{ on }">
           <div v-on="on" class="d-inline-block"
@@ -97,7 +97,7 @@
       :optionsStyle="subAoiStyle('data')"
       >
       </l-geo-json>
-      <l-marker-cluster v-if="featuresClustering"
+      <l-marker-cluster v-if="mergedConfigs()[0].featuresClustering"
         ref="featuresDataCluster"
         :options="clusterOptions"
         >
@@ -115,9 +115,9 @@
         v-if="showAoi"
         :lat-lng="aoi"
         :radius="12"
-        :color="$vuetify.theme.themes.light.primary"
+        :color="appConfig.branding.primaryColor"
         :weight="2"
-        :dashArray="dasharrayPoi"
+        :dashArray="'3'"
         :fill="true"
         :fillColor="getAoiFill('data')"
         :fillOpacity="1"
@@ -125,23 +125,23 @@
       >
       </l-circle-marker>
       <LTileLayer
-      v-if="layerDisplay('data').protocol === 'xyz'
-        && layerDisplay('data').mapLayerEnable !== false"
-        ref="dataLayer"
-        :key="dataLayerKey"
-        v-bind="layerDisplay('data')"
-        :options="layerOptions(currentTime, layerDisplay('data'))"
+      v-for="(layerConfig, i) in mergedConfigs().filter(l => l.protocol === 'xyz')"
+        ref="dataLayerArrayXYZ"
+        :data-key-originalindex="i"
+        :key="dataLayerKeyXYZ[i]"
+        v-bind="layerConfig"
+        :options="layerOptions(currentTime, layerConfig)"
         :pane="overlayPane"
         layer-type="overlay"
       >
       </LTileLayer>
       <LWMSTileLayer
-      v-else-if="layerDisplay('data').protocol === 'WMS'
-        && layerDisplay('data').mapLayerEnable !== false"
-        ref="dataLayer"
-        :key="dataLayerKey"
-        v-bind="layerDisplay('data')"
-        :options="layerOptions(currentTime, layerDisplay('data'))"
+      v-for="(layerConfig, i) in mergedConfigs().filter(l => l.protocol === 'WMS')"
+        ref="dataLayerArrayWMS"
+        :data-key-originalindex="i"
+        :key="dataLayerKeyWMS[i]"
+        v-bind="layerConfig"
+        :options="layerOptions(currentTime, layerConfig)"
         :pane="overlayPane"
         layer-type="overlay"
       >
@@ -149,24 +149,24 @@
     </l-layer-group>
     <l-layer-group ref="compareLayers">
       <LTileLayer
-        v-if="layerDisplay('compare').protocol === 'xyz'
-          && layerDisplay('compare').mapLayerEnable !== false"
-        ref="compareLayer"
-        :key="compareLayerKey"
-        v-bind="layerDisplay('compare')"
+      v-for="(layerConfig, i) in mergedConfigs('compare').filter(l => l.protocol === 'xyz')"
+        ref="compareLayerArrayXYZ"
+        :data-key-originalindex="i"
+        :key="compareLayerKeyXYZ[i]"
+        v-bind="layerConfig"
         :visible="enableCompare"
-        :options="layerOptions(currentCompareTime, layerDisplay('compare'))"
+        :options="layerOptions(currentCompareTime, layerConfig)"
         :pane="overlayPane"
       >
       </LTileLayer>
       <LWMSTileLayer
-      v-else-if="layerDisplay('compare').protocol === 'WMS'
-        && layerDisplay('compare').mapLayerEnable !== false"
-        ref="compareLayer"
-        :key="compareLayerKey"
-        v-bind="layerDisplay('compare')"
+      v-for="(layerConfig, i) in mergedConfigs('compare').filter(l => l.protocol === 'WMS')"
+        ref="compareLayerArrayWMS"
+        :data-key-originalindex="i"
+        :key="compareLayerKeyWMS[i]"
+        v-bind="layerConfig"
         :visible="enableCompare"
-        :options="layerOptions(currentCompareTime, layerDisplay('compare'))"
+        :options="layerOptions(currentCompareTime, layerConfig)"
         :pane="overlayPane"
       >
       </LWMSTileLayer>
@@ -177,7 +177,7 @@
         :optionsStyle="subAoiStyle('compare')"
       >
       </l-geo-json>
-      <l-marker-cluster v-if="featuresClustering"
+      <l-marker-cluster v-if="mergedConfigs()[0].featuresClustering"
         ref="featuresCompareCluster" :options="clusterOptions">
       </l-marker-cluster>
       <l-geo-json
@@ -195,9 +195,9 @@
         :lat-lng="aoi"
         :visible="enableCompare"
         :radius="12"
-        :color="$vuetify.theme.themes.light.primary"
+        :color="appConfig.branding.primaryColor"
         :weight="2"
-        :dashArray="dasharrayPoi"
+        :dashArray="3"
         :fill="true"
         :fillColor="getAoiFill('compare')"
         :fillOpacity="1"
@@ -227,20 +227,21 @@
     </LWMSTileLayer>
     <div
     :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
-      <img v-if="layerDisplay('data').legendUrl"
-      :src="layerDisplay('data').legendUrl" alt=""
+      <img v-if="mergedConfigs()[0].legendUrl"
+      :src="mergedConfigs()[0].legendUrl" alt=""
       :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' :
       (legendExpanded && 'map-legend-expanded')}`"
       @click="legendExpanded = !legendExpanded"
       :style="`background: rgba(255, 255, 255, 0.8);`">
       <div
-      v-if="customAreaFeatures && (layerDisplay('data').features.featureLimit === dataFeaturesNum ||
-      layerDisplay('data').features.featureLimit === compareFeaturesNum)"
+      v-if="mergedConfigs()[0].customAreaFeatures &&
+      (mergedConfigs()[0].features.featureLimit === dataFeaturesCount ||
+      mergedConfigs()[0].features.featureLimit === compareFeaturesCount)"
       :style="`width: fit-content; background: rgba(255, 255, 255, 0.8);`"
       >
         <h3 :class="`brand-${appConfig.id} px-3 py-2`">
           Limit of drawn features is for performance reasons set to
-          <span :style="`font-size: 17px;`">{{layerDisplay('data').features.featureLimit}}
+          <span :style="`font-size: 17px;`">{{mergedConfigs()[0].features.featureLimit}}
           </span>
         </h3>
       </div>
@@ -264,7 +265,7 @@
           {{indicator.compareDisplay.mapLabel}}
       </h3>
       <v-sheet
-        v-if="!disableTimeSelection"
+        v-if="!mergedConfigs()[0].disableTimeSelection"
         class="row justify-center align-center"
         style="position: absolute; bottom: 30px; z-index: 1000; width: auto; max-width: 100%;"
       >
@@ -327,7 +328,7 @@
             @click:append="dataLayerIncrease"
           >
             <template v-slot:prepend
-            v-if="!disableCompareButton">
+            v-if="!mergedConfigs()[0].disableCompare">
               <v-tooltip
                 bottom
               >
@@ -403,11 +404,12 @@ export default {
   data() {
     return {
       map: null,
-      compareLayerKey: 0,
-      dataLayerKey: 1,
+      compareLayerKeyXYZ: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      compareLayerKeyWMS: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35],
+      dataLayerKeyXYZ: [41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55],
+      dataLayerKeyWMS: [61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75],
       dataJsonKey: 0,
-      compareJsonKey: 1,
-      dasharrayPoi: '3',
+      compareJsonKey: -1,
       zoom: null,
       center: null,
       bounds: null,
@@ -432,8 +434,8 @@ export default {
       compareLayerTime: null,
       dataLayerIndex: 0,
       compareLayerIndex: 0,
-      dataFeaturesNum: 0,
-      compareFeaturesNum: 0,
+      dataFeaturesCount: 0,
+      compareFeaturesCount: 0,
     };
   },
   computed: {
@@ -460,24 +462,21 @@ export default {
       return {
         stroke: false,
         fillColor: this.getIndicatorColor('primary'),
-        fillOpacity: 0.5,
+        fillOpacity: this.mergedConfigs()[0].subAoiFillOpacity || 0.5,
       };
     },
     baseLayers() {
       // expects an array of objects
-      return this.layerDisplay('data').baseLayers ? this.layerDisplay('data').baseLayers : this.baseConfig.baseLayersRightMap;
+      return this.mergedConfigs()[0].baseLayers || this.baseConfig.baseLayersRightMap;
     },
     overlayLayers() {
-      return this.layerDisplay('data').overlayLayers ? this.layerDisplay('data').overlayLayers : this.baseConfig.overlayLayersRightMap;
+      return this.mergedConfigs()[0].overlayLayers || this.baseConfig.overlayLayersRightMap;
     },
     mapDefaults() {
       return {
         ...this.baseConfig.mapDefaults,
-        ...this.shLayerConfig('data'),
+        ...this.mergedConfigs()[0],
       };
-    },
-    layerNameMapping() {
-      return this.baseConfig.layerNameMapping;
     },
     indDefinition() {
       return this.baseConfig.indicatorsDefinition[this.indicator.indicator];
@@ -504,26 +503,9 @@ export default {
     drawnArea() {
       return this.$store.state.features.selectedArea;
     },
-    disableTimeSelection() {
-      return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableTimeSelection !== 'undefined') ? this.layerDisplay('data').disableTimeSelection : this.indDefinition.disableTimeSelection;
-    },
-    disableCompareButton() {
-      return (this.layerDisplay('data') && typeof this.layerDisplay('data').disableCompare !== 'undefined') ? this.layerDisplay('data').disableCompare : this.indDefinition.disableCompare;
-    },
-    customAreaFeatures() {
-      return (this.layerDisplay('data') && typeof this.layerDisplay('data').customAreaFeatures !== 'undefined') ? this.layerDisplay('data').customAreaFeatures : this.indDefinition.customAreaFeatures;
-    },
-    customAreaIndicator() {
-      return this.layerDisplay('data').customAreaIndicator || this.indDefinition.customAreaIndicator || this.indicator.customAreaIndicator;
-    },
     customAreaFilter() {
-      return this.customAreaFeatures || this.customAreaIndicator;
-    },
-    featuresClustering() {
-      return (this.layerDisplay('data') && typeof this.layerDisplay('data').featuresClustering !== 'undefined') ? this.layerDisplay('data').featuresClustering : this.indDefinition.featuresClustering;
-    },
-    featuresStatic() {
-      return (this.layerDisplay('data') && typeof this.layerDisplay('data').featuresStatic !== 'undefined') ? this.layerDisplay('data').featuresStatic : this.indDefinition.featuresStatic;
+      return this.mergedConfigs()[0].customAreaFeatures
+        || this.mergedConfigs()[0].customAreaIndicator;
     },
     usedTimes() {
       let times = this.indicator.time;
@@ -685,8 +667,8 @@ export default {
           });
         },
         polygonOptions: {
-          fillColor: this.$vuetify.theme.themes.light.primary,
-          color: this.$vuetify.theme.themes.light.primary,
+          fillColor: this.appConfig.branding.primaryColor,
+          color: this.appConfig.branding.primaryColor,
           weight: 0.5,
           opacity: 1,
           fillOpacity: 0.3,
@@ -780,7 +762,7 @@ export default {
 
       this.initialDrawSelectedArea();
       this.onResize();
-      if (!this.customAreaFeatures || this.validDrawnArea) {
+      if (!this.mergedConfigs()[0].customAreaFeatures || this.validDrawnArea) {
         this.fetchFeatures('data');
       }
       setTimeout(() => {
@@ -822,11 +804,11 @@ export default {
       }
     },
     featureOptions(side) {
-      const style = (this.layerDisplay(side).features && this.layerDisplay(side).features.style) ? this.layerDisplay(side).features.style : {}; // eslint-disable-line
+      const style = (this.mergedConfigs(side)[0].features && this.mergedConfigs(side)[0].features.style) ? this.mergedConfigs(side)[0].features.style : {}; // eslint-disable-line
       return {
         onEachFeature: function onEachFeature(feature, layer) {
           // if featuresParameters available, show only properties from mapping, otherwise dump all
-          const allowedParams = this.layerDisplay(side).features ? this.layerDisplay(side).features.allowedParameters : null; // eslint-disable-line
+          const allowedParams = this.mergedConfigs(side)[0].features ? this.mergedConfigs(side)[0].features.allowedParameters : null; // eslint-disable-line
           const allKeys = Object.keys(feature.properties);
           let tooltip = '';
           for (let i = 0; i < allKeys.length; i++) {
@@ -839,7 +821,7 @@ export default {
             layer.bindTooltip(tooltip, { pane: this.popupPane });
           }
           // to make clustering work
-          if (this.featuresClustering) {
+          if (this.mergedConfigs()[0].featuresClustering) {
             layer.getLatLng = () => geoJson(feature).getBounds().getCenter(); //eslint-disable-line
             layer.setLatLng = () => { }; //eslint-disable-line
             layer._latlng = layer.getLatLng(); //eslint-disable-line
@@ -891,48 +873,83 @@ export default {
       const currentValue = this.getColorCode(side);
       return currentValue
         ? this.getIndicatorColor(currentValue)
-        : this.$vuetify.theme.themes.light.primary;
+        : this.appConfig.branding.primaryColor;
     },
     subAoiStyle(side) {
       const currentValue = this.getColorCode(side);
       return {
         color: currentValue
           ? this.getIndicatorColor(currentValue)
-          : this.$vuetify.theme.themes.light.primary,
+          : this.appConfig.branding.primaryColor,
         weight: 3,
         fill: false,
       };
     },
-    shLayerConfig(side) {
+    configFromInputData(side) {
       const i = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
       const inputData = this.usedTimes.inputData.length === 1
         ? this.usedTimes.inputData[0]
         : this.usedTimes.inputData[i];
-      if (this.layerNameMapping.hasOwnProperty(inputData)) { // eslint-disable-line
-        return this.layerNameMapping[inputData];
+      if (this.baseConfig.layerNameMapping.hasOwnProperty(inputData)) { // eslint-disable-line
+        let config = this.baseConfig.layerNameMapping[inputData];
+        if (!Array.isArray(config)) {
+          // assure array is returned
+          config = [config];
+        }
+        return config;
       }
-      return {};
+      // empty config used later for merging
+      return [];
     },
-    layerDisplay(side) {
-      // if display not specified (global layers), suspect SIN layer
+    mergedConfigs(side = 'data') {
       // first check if special compare layer configured
-      const displayTmp = side === 'compare' && this.indicator.compareDisplay ? this.indicator.compareDisplay : this.indicator.display;
-      let name = this.indicator.description;
-      if (side === 'compare') {
-        name += ' - compare (left)';
+      let displayTmp = side === 'compare' && this.indicator.compareDisplay ? this.indicator.compareDisplay : this.indicator.display;
+      // following configuration merging is done:
+      // defaultLayersDisplay (to avoid having to configure it before)
+      // indDefinition - indicator code specific configuration
+      // display - coming from js configuration - esa.js OR
+      // configFromInputData - coming from input data reference from csvs
+
+      if (displayTmp) {
+        // from layer configuration
+        if (!Array.isArray(displayTmp)) {
+          // always make an Array of layer configurations
+          displayTmp = [displayTmp];
+        }
       }
-      return displayTmp || {
-        ...this.baseConfig.defaultWMSDisplay,
-        ...this.indDefinition,
-        ...this.shLayerConfig(side),
-        name,
-      };
+      const finalConfigs = [];
+      let usedConfigForMerge = {};
+      let name = this.indicator.description;
+
+      if (!displayTmp && this.configFromInputData(side).length === 0) {
+        // no additional config specified, use defaults
+        usedConfigForMerge = [{ name }];
+      } else if (!displayTmp) {
+        // use configFromInputData
+        usedConfigForMerge = this.configFromInputData(side);
+      } else {
+        // use displayTmp even if configFromInputData set too
+        usedConfigForMerge = displayTmp;
+      }
+      usedConfigForMerge.forEach((item) => {
+        // merge configs for each layer
+        name = item.name || name;
+        finalConfigs.push({
+          ...this.baseConfig.defaultLayersDisplay,
+          ...this.indDefinition,
+          ...item,
+          name,
+        });
+      });
+      return finalConfigs;
     },
     flyToBounds() {
       // zooms to subaoi if present or area around aoi if not
-      const boundsPad = this.indDefinition.largeSubAoi ? 5 : (this.indDefinition.midSubAoi ? 1 : 0.15); // eslint-disable-line
+      const boundsPad = this.mergedConfigs()[0].largeSubAoi ? 5 : (this.mergedConfigs()[0].midSubAoi ? 1 : 0.15); // eslint-disable-line
       if (this.subAoi && this.subAoi.features.length > 0) {
-        const viewBounds = this.layerDisplay('data').presetView ? geoJson(this.layerDisplay('data').presetView).getBounds() : geoJson(this.subAoi).getBounds();
+        const viewBounds = this.mergedConfigs()[0].presetView
+          ? geoJson(this.mergedConfigs()[0].presetView).getBounds()
+          : geoJson(this.subAoi).getBounds();
         const bounds = geoJson(this.subAoi).getBounds();
         const cornerMax1 = latLng([bounds.getSouth() - boundsPad, bounds.getWest() - boundsPad]);
         const cornerMax2 = latLng([bounds.getNorth() + boundsPad, bounds.getEast() + boundsPad]);
@@ -940,10 +957,10 @@ export default {
         this.map.fitBounds(viewBounds);
         // limit user movement around map
         this.map.setMaxBounds(boundsMax);
-        if (this.indDefinition.largeSubAoi) {
+        if (this.mergedConfigs()[0].largeSubAoi) {
           this.map.setMinZoom(2);
-        } else if (this.indDefinition.midSubAoi) {
-          this.map.setMinZoom(10);
+        } else if (this.mergedConfigs()[0].midSubAoi) {
+          this.map.setMinZoom(9);
         } else {
           this.map.setMinZoom(13);
         }
@@ -953,9 +970,9 @@ export default {
         const boundsMax = latLngBounds(cornerMax1, cornerMax2);
         this.map.setZoom(16);
         this.map.panTo(this.aoi);
-        if (this.indDefinition.largeSubAoi) {
+        if (this.mergedConfigs()[0].largeSubAoi) {
           this.map.setMinZoom(2);
-        } else if (this.indDefinition.midSubAoi) {
+        } else if (this.mergedConfigs()[0].midSubAoi) {
           this.map.setMinZoom(9);
         } else {
           this.map.setMinZoom(12);
@@ -972,17 +989,17 @@ export default {
     getTimeLabel(time) {
       if (Array.isArray(time) && time.length === 2) {
         // show start - end
-        if (this.indDefinition.mapTimeLabelExtended) {
+        if (this.mergedConfigs()[0].mapTimeLabelExtended) {
           return time.map((d) => DateTime.fromISO(d).toISO({ suppressMilliseconds: true })).join(' - ');
         }
         return time.map((d) => DateTime.fromISO(d).toISODate()).join(' - ');
       } else if (time instanceof DateTime) { // eslint-disable-line no-else-return
-        if (this.indDefinition.mapTimeLabelExtended) {
+        if (this.mergedConfigs()[0].mapTimeLabelExtended) {
           return time.toISO({ suppressMilliseconds: true });
         }
         return time.toISODate();
       }
-      if (this.indDefinition.mapTimeLabelExtended) {
+      if (this.mergedConfigs()[0].mapTimeLabelExtended) {
         return DateTime.fromISO(time).toISO({ suppressMilliseconds: true });
       }
       return DateTime.fromISO(time).toISODate();
@@ -1007,6 +1024,9 @@ export default {
       if (typeof sourceOptionsObj.maxNativeZoom !== 'undefined') {
         additionalSettings.maxNativeZoom = sourceOptionsObj.maxNativeZoom;
       }
+      if (typeof sourceOptionsObj.bounds !== 'undefined') {
+        additionalSettings.bounds = sourceOptionsObj.bounds;
+      }
       if (time !== null) {
         // time as is gets automatically injected to WMS query OR xyz url {time} template
         const fixTime = time.value || time;
@@ -1030,15 +1050,15 @@ export default {
         .map((i) => i.value)
         .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
       this.dataLayerIndex = newIndex;
-      this.refreshLayer('data');
+      this.refreshLayers('data');
       this.$nextTick(() => {
         this.slider.setRightLayers(this.$refs.dataLayers.mapObject.getLayers());
       });
       if (this.indicator.compareDisplay) {
-        // shared time on both layers in case of compareDisplay being set
+        // shared time on both sides in case of compareDisplay being set
         this.compareLayerTime = this.dataLayerTime;
         this.compareLayerIndex = newIndex;
-        this.refreshLayer('compare');
+        this.refreshLayers('compare');
         this.$nextTick(() => {
           this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
         });
@@ -1055,7 +1075,7 @@ export default {
         .map((i) => i.value)
         .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
       this.compareLayerIndex = newIndex;
-      this.refreshLayer('compare');
+      this.refreshLayers('compare');
       this.$nextTick(() => {
         this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
       });
@@ -1090,7 +1110,7 @@ export default {
     },
     getInitialCompareTime() {
       // find closest entry one year before latest time
-      if (this.indDefinition.largeTimeDuration) {
+      if (this.mergedConfigs()[0].largeTimeDuration) {
         // if interval, use just start to get closest
         const times = this.usedTimes.time.map((item) => (Array.isArray(item) ? item[0] : item));
         const lastTimeEntry = DateTime.fromISO(times[times.length - 1]);
@@ -1110,52 +1130,75 @@ export default {
       // use first time
       return this.usedTimes.time[0];
     },
-    refreshLayer(side) {
+    refreshLayers(side) {
       // compare(left) or data(right)
       if (side === 'compare' || this.indicator.compareDisplay) {
-        if (this.layerDisplay('compare').protocol === 'WMS' && this.$refs.compareLayer) {
-          this.$refs.compareLayer.mapObject
-            .setParams(this.layerOptions(this.currentCompareTime, this.layerDisplay('compare')));
-        } else if (this.layerDisplay('compare').protocol === 'xyz' && this.$refs.compareLayer) {
-          this.$refs.compareLayer.mapObject
-            .setUrl(this.layerDisplay('compare').url);
+        if (this.$refs.compareLayerArrayWMS) {
+          // change source parameters because of time change
+          this.$refs.compareLayerArrayWMS.forEach((item) => {
+            // vue refs do not maintain order while creating v-for :refs
+            // use data-key-originalindex helper property (index from original config array)
+            const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
+            item.mapObject
+              .setParams(this.layerOptions(this.currentCompareTime, this.mergedConfigs('compare')[originalIndex]));
+            this.compareLayerKeyWMS[originalIndex] = Math.random();
+          });
+          // using ref inside v-for populating $refs will not work in VUE 3
+          // https://v3.vuejs.org/guide/migration/array-refs.html#frontmatter-title
         }
-        if (!this.featuresStatic && (!this.customAreaFeatures || this.validDrawnArea)) {
-          if (this.featuresClustering) {
+        if (this.$refs.compareLayerArrayXYZ) {
+          this.$refs.compareLayerArrayXYZ.forEach((item) => {
+            const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
+            item.mapObject
+              .setUrl(this.mergedConfigs('compare')[originalIndex].url);
+            this.compareLayerKeyXYZ[originalIndex] = Math.random();
+          });
+        }
+        if (!this.mergedConfigs()[0].featuresStatic
+          && (!this.mergedConfigs()[0].customAreaFeatures || this.validDrawnArea)) {
+          if (this.mergedConfigs()[0].featuresClustering) {
             this.$refs.featuresCompareCluster.mapObject.clearLayers();
           }
           this.fetchFeatures('compare');
         }
-        // redraw
-        this.compareLayerKey = Math.random();
       }
       if (side === 'data') {
-        if (this.layerDisplay('data').protocol === 'WMS' && this.$refs.dataLayer) {
-          this.$refs.dataLayer.mapObject
-            .setParams(this.layerOptions(this.currentTime, this.layerDisplay('data')));
-        } else if (this.layerDisplay('data').protocol === 'xyz' && this.$refs.dataLayer) {
-          this.$refs.dataLayer.mapObject
-            .setUrl(this.layerDisplay('data').url);
+        if (this.$refs.dataLayerArrayWMS) {
+          this.$refs.dataLayerArrayWMS.forEach((item) => {
+            const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
+            item.mapObject
+              .setParams(this.layerOptions(this.currentTime, this.mergedConfigs()[originalIndex]));
+            // force redraw all data layers
+            this.dataLayerKeyWMS[originalIndex] = Math.random();
+          });
         }
-        if (!this.featuresStatic && (!this.customAreaFeatures || this.validDrawnArea)) {
-          if (this.featuresClustering) {
+        if (this.$refs.dataLayerArrayXYZ) {
+          this.$refs.dataLayerArrayXYZ.forEach((item) => {
+            const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
+            item.mapObject
+              .setUrl(this.mergedConfigs()[originalIndex].url);
+            this.dataLayerKeyXYZ[originalIndex] = Math.random();
+          });
+        }
+        if (!this.mergedConfigs()[0].featuresStatic
+          && (!this.mergedConfigs()[0].customAreaFeatures || this.validDrawnArea)) {
+          if (this.mergedConfigs()[0].featuresClustering) {
             this.$refs.featuresDataCluster.mapObject.clearLayers();
           }
           this.fetchFeatures('data');
         }
-        // redraw
-        this.dataLayerKey = Math.random();
       }
     },
     fetchFeatures(side) {
-      if (this.layerDisplay(side).features) {
+      if (this.mergedConfigs(side)[0].features) {
         const options = this.layerOptions(side === 'compare' ? this.currentCompareTime : this.currentTime,
-          this.layerDisplay(side));
+          this.mergedConfigs(side)[0]);
         // add custom area if present
         let customArea = {};
         if (this.validDrawnArea) {
-          customArea = typeof this.layerDisplay('data').features.areaFormatFunction === 'function'
-            ? this.layerDisplay('data').features.areaFormatFunction(this.drawnArea) : { area: JSON.stringify(this.drawnArea) };
+          customArea = typeof this.mergedConfigs()[0].features.areaFormatFunction === 'function'
+            ? this.mergedConfigs()[0].features.areaFormatFunction(this.drawnArea)
+            : { area: JSON.stringify(this.drawnArea) };
         }
         const templateSubst = {
           ...this.indicator,
@@ -1163,11 +1206,11 @@ export default {
           ...customArea,
         };
         const templateRe = /\{ *([\w_ -]+) *\}/g;
-        const url = template(templateRe, this.layerDisplay(side).features.url, templateSubst);
+        const url = template(templateRe, this.mergedConfigs()[0].features.url, templateSubst);
         let requestBody = null;
-        if (this.layerDisplay(side).features.requestBody) {
+        if (this.mergedConfigs()[0].features.requestBody) {
           requestBody = {
-            ...this.layerDisplay(side).features.requestBody,
+            ...this.mergedConfigs()[0].features.requestBody,
           };
           const params = Object.keys(requestBody);
           for (let i = 0; i < params.length; i += 1) {
@@ -1177,8 +1220,8 @@ export default {
         }
         const requestOpts = {
           credentials: 'same-origin',
-          method: this.layerDisplay('data').features.requestMethod || 'GET',
-          headers: this.layerDisplay('data').features.requestHeaders || {},
+          method: this.mergedConfigs()[0].features.requestMethod || 'GET',
+          headers: this.mergedConfigs()[0].features.requestHeaders || {},
         };
         if (requestBody) {
           requestOpts.body = JSON.stringify(requestBody);
@@ -1187,8 +1230,8 @@ export default {
         fetch(url, requestOpts).then((r) => r.json())
           .then((rawdata) => {
             // if custom response -> feature mapping function configured, apply it
-            if (typeof this.layerDisplay('data').features.callbackFunction === 'function') {
-              return this.layerDisplay('data').features.callbackFunction(rawdata);
+            if (typeof this.mergedConfigs()[0].features.callbackFunction === 'function') {
+              return this.mergedConfigs()[0].features.callbackFunction(rawdata);
             }
             return rawdata;
           })
@@ -1205,12 +1248,13 @@ export default {
       }
     },
     fetchCustomAreaIndicator() {
-      const options = this.layerOptions(this.currentTime, this.layerDisplay('data'));
+      const options = this.layerOptions(this.currentTime, this.mergedConfigs()[0]);
       // add custom area if present
       let customArea = {};
       if (this.validDrawnArea) {
-        customArea = typeof this.layerDisplay('data').areaIndicator.areaFormatFunction === 'function'
-          ? this.layerDisplay('data').areaIndicator.areaFormatFunction(this.drawnArea) : { area: JSON.stringify(this.drawnArea) };
+        customArea = typeof this.mergedConfigs()[0].areaIndicator.areaFormatFunction === 'function'
+          ? this.mergedConfigs()[0].areaIndicator.areaFormatFunction(this.drawnArea)
+          : { area: JSON.stringify(this.drawnArea) };
       }
       const templateSubst = {
         ...this.indicator,
@@ -1218,11 +1262,11 @@ export default {
         ...customArea,
       };
       const templateRe = /\{ *([\w_ -]+) *\}/g;
-      const url = template(templateRe, this.layerDisplay('data').areaIndicator.url, templateSubst);
+      const url = template(templateRe, this.mergedConfigs()[0].areaIndicator.url, templateSubst);
       let requestBody = null;
-      if (this.layerDisplay('data').areaIndicator.requestBody) {
+      if (this.mergedConfigs()[0].areaIndicator.requestBody) {
         requestBody = {
-          ...this.layerDisplay('data').areaIndicator.requestBody,
+          ...this.mergedConfigs()[0].areaIndicator.requestBody,
         };
         const params = Object.keys(requestBody);
         for (let i = 0; i < params.length; i += 1) {
@@ -1232,8 +1276,8 @@ export default {
       }
       const requestOpts = {
         credentials: 'same-origin',
-        method: this.layerDisplay('data').areaIndicator.requestMethod || 'GET',
-        headers: this.layerDisplay('data').areaIndicator.requestHeaders || {},
+        method: this.mergedConfigs()[0].areaIndicator.requestMethod || 'GET',
+        headers: this.mergedConfigs()[0].areaIndicator.requestHeaders || {},
       };
       if (requestBody) {
         requestOpts.body = JSON.stringify(requestBody);
@@ -1241,10 +1285,10 @@ export default {
       this.map.fireEvent('dataloading');
       fetch(url, requestOpts).then((r) => r.json())
         .then((rawdata) => {
-          if (typeof this.layerDisplay('data').areaIndicator.callbackFunction === 'function') {
+          if (typeof this.mergedConfigs()[0].areaIndicator.callbackFunction === 'function') {
             // merge data from current indicator data and new data from api
             // returns new indicator object to set as custom area indicator
-            return this.layerDisplay('data').areaIndicator.callbackFunction(rawdata, this.indicator);
+            return this.mergedConfigs()[0].areaIndicator.callbackFunction(rawdata, this.indicator);
           }
           return rawdata;
         })
@@ -1273,7 +1317,7 @@ export default {
       return compareF;
     },
     updateJsonLayers(ftrs, side) {
-      if (this.featuresClustering) {
+      if (this.mergedConfigs()[0].featuresClustering) {
         // markercluster needs manual adding of all geojsons it will show
         // and cleanup of previous content
         const geojsonFromData = geoJson(ftrs, {
@@ -1284,22 +1328,22 @@ export default {
           if (side === 'data') {
             this.$refs.featuresDataCluster.mapObject.clearLayers();
             this.$refs.featuresDataCluster.mapObject.addLayers([geojsonFromData]);
-            this.dataFeaturesNum = ftrs.features.length;
+            this.dataFeaturesCount = ftrs.features.length;
           } else {
             this.$refs.featuresCompareCluster.mapObject.clearLayers();
             this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
-            this.compareFeaturesNum = ftrs.features.length;
+            this.compareFeaturesCount = ftrs.features.length;
           }
         }
       } else if (side === 'data') {
         // normal geojson layer just needs manual refresh
         this.dataJsonComputed = ftrs;
         this.dataJsonKey = Math.random();
-        this.dataFeaturesNum = ftrs.features.length;
+        this.dataFeaturesCount = ftrs.features.length;
       } else {
         this.compareJsonComputed = ftrs;
         this.compareJsonKey = Math.random();
-        this.compareFeaturesNum = ftrs.features.length;
+        this.compareFeaturesCount = ftrs.features.length;
       }
     },
   },
@@ -1318,7 +1362,7 @@ export default {
           this.$refs.layersControl.mapObject.addOverlay(this.$refs.compareLayer.mapObject, this.$refs.compareLayer.name); // eslint-disable-line
         }
         this.map.addLayer(this.$refs.compareLayers.mapObject);
-        if (!this.customAreaFeatures || this.validDrawnArea) {
+        if (!this.mergedConfigs()[0].customAreaFeatures || this.validDrawnArea) {
           this.fetchFeatures('compare');
         }
         this.$nextTick(() => {
