@@ -836,16 +836,9 @@ export default {
     countriesOptions() {
       return {
         onEachFeature: function onEachFeature(feature, layer) {
-          let offset = L.point(0, 0);
-          // Correct issues with positions because of multipolygon
-          if (feature.properties.alpha2 === 'FR') {
-            offset = L.point(-40, -40);
-          } else if (feature.properties.alpha2 === 'IT') {
-            offset = L.point(-9, -40);
-          }
           layer.bindTooltip(
             () => feature.properties.name,
-            { direction: 'top', offset },
+            { direction: 'top', sticky: true },
           );
 
           layer.on('click', () => {
@@ -1356,8 +1349,9 @@ export default {
         })
         .catch((err) => {
           this.map.fireEvent('dataload');
+          // It seems data could not be loaded lets show a no data found message
           this.$store.commit(
-            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null,
+            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', { isEmpty: true },
           );
           console.log(err);
         });

@@ -162,9 +162,14 @@
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
           >
           <v-card-title
-            style="margin-top: -20px; padding-top: 5px"
+            style="padding-top: 5px"
             v-if="customAreaIndicator.title">
               {{ customAreaIndicator.title }}
+          </v-card-title>
+          <v-card-title
+            style="padding-top: 5px"
+            v-if="customAreaIndicator.isEmpty">
+              No data found for selection
           </v-card-title>
             <div
               style="height: 100%;z-index: 500; position: relative;"
@@ -178,6 +183,7 @@
             }">
             </div>
             <indicator-data
+              v-if="!customAreaIndicator.isEmpty"
               style="margin-top: -40px;"
               class="pa-5 chart"
             />

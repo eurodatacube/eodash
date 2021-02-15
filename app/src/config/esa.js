@@ -569,9 +569,9 @@ export const globalIndicators = [
         city: 'World',
         siteName: 'global',
         description: 'Mobility Data',
+        indicatorName: '(select country to load data)',
         indicator: 'GG',
         lastIndicatorValue: null,
-        indicatorName: 'Mobility Data',
         subAoi: {
           type: 'FeatureCollection',
           features: [],

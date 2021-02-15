@@ -48,7 +48,7 @@ with open(DATAFILE) as csvfile:
     for row in reader:
 
         # For now we skip subregional data
-        if row["sub_region_1"] == '':
+        if row["sub_region_1"] == '' and row["sub_region_2"] == '' and row["metro_area"] == '' :
             location_key = row["country_region_code"]
 
             if not location_key in mobility_data:
