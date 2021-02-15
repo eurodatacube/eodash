@@ -535,10 +535,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Google Mobility Data',
+        description: 'Mobility Data',
         indicator: 'GG',
         lastIndicatorValue: null,
-        indicatorName: 'Google Mobility Data',
+        indicatorName: 'Mobility Data',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -546,7 +546,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         inputData: [''],
-        yAxis: 'NO2 (μmol/m2)',
+        yAxis: 'percent change from baseline',
         time: ['TBD'],
         display: {
         },

@@ -447,6 +447,8 @@ export default {
       compareLayerIndex: 0,
       dataFeaturesNum: 0,
       compareFeaturesNum: 0,
+      selectedCountry: null,
+      selectedLayer: null,
     };
   },
   computed: {
@@ -855,20 +857,59 @@ export default {
     countriesOptions() {
       return {
         onEachFeature: function onEachFeature(feature, layer) {
-          layer.on('mouseover', () => {
-            this.popupName = feature.properties.name;
-            // open popup
-            /*
-            var popup = L.popup()
-              .setLatLng(e.latlng)
-              .setContent('<h1 style="color: grey; margin-bottom: 0;">'+ feature.properties.Name +'</h1>')
-              .openOn(this.$refs.myMapRef.mapObject);
-            */
-          });
+          let offset = L.point(0, 0);
+          // Correct issues with positions because of multipolygon
+          if (feature.properties.alpha2 === 'FR') {
+            offset = L.point(-40, -40);
+          } else if (feature.properties.alpha2 === 'IT') {
+            offset = L.point(-9, -40);
+          }
+          layer.bindTooltip(
+            () => feature.properties.name,
+            { direction: 'top', offset },
+          );
+
           layer.on('click', () => {
             // const countryName = feature.properties.name;
             const countryA2 = feature.properties.alpha2;
             this.fetchMobilityData(countryA2);
+            if (this.selectedLayer !== null) {
+              this.selectedLayer.setStyle({
+                color: '#222',
+                weight: 1,
+                fillColor: '#fff',
+                opacity: 1,
+                fillOpacity: 0.5,
+              });
+            }
+            this.selectedCountry = countryA2;
+            this.selectedLayer = layer;
+            this.popupName = feature.properties.name;
+          });
+          layer.on('mouseover', (e) => {
+            const currLayer = e.target;
+            currLayer.setStyle({
+              weight: 2,
+              color: this.$vuetify.theme.currentTheme.primary,
+              fillColor: this.$vuetify.theme.currentTheme.primary,
+              fillOpacity: 0.7,
+            });
+
+            if (!L.Browser.ie && !L.Browser.opera) {
+              layer.bringToFront();
+            }
+          });
+          layer.on('mouseout', (e) => {
+            const currLayer = e.target;
+            if (this.selectedCountry !== feature.properties.alpha2) {
+              currLayer.setStyle({
+                color: '#222',
+                weight: 1,
+                fillColor: '#fff',
+                opacity: 1,
+                fillOpacity: 0.5,
+              });
+            }
           });
         }.bind(this),
       };
@@ -1265,6 +1306,8 @@ export default {
           indicator.time = indicator.Values.map((row) => DateTime.fromISO(row.date)); // eslint-disable-line
           indicator.measurement = [0]; // eslint-disable-line
           indicator.country = indicator.CountryCode; // eslint-disable-line
+          indicator.title = indicator.CountryName; // eslint-disable-line
+          indicator.yAxis = this.indicator.yAxis; // eslint-disable-line
           this.map.fireEvent('dataload');
           this.$store.commit(
             'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
@@ -1412,6 +1455,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep .leaflet-tooltip-top {
+  background: #00000099;
+  border-radius: 3px;
+  color: #fff;
+  pointer-events: none;
+  white-space: nowrap;
+  border: none;
+  &:before {
+    border-top-color: #00000099;
+  }
+}
 ::v-deep .leaflet-control-attribution:active :not(.attribution-icon),
 ::v-deep .leaflet-control-attribution:hover :not(.attribution-icon),
 ::v-deep .leaflet-control-attribution .attribution-icon {

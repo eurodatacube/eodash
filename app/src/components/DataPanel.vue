@@ -161,6 +161,11 @@
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
           >
+          <v-card-title
+            style="margin-top: -20px; padding-top: 5px"
+            v-if="customAreaIndicator.title">
+              {{ customAreaIndicator.title }}
+          </v-card-title>
             <div
               style="height: 100%;z-index: 500; position: relative;"
               v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
@@ -173,7 +178,7 @@
             }">
             </div>
             <indicator-data
-              style="top: 0px; position: absolute;"
+              style="margin-top: -40px;"
               class="pa-5 chart"
             />
           </v-card>
