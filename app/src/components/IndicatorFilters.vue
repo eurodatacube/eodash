@@ -1,13 +1,5 @@
 <template>
   <div style="width: 100%" class="fill-height">
-    <v-checkbox
-      :value="featureFilters.includeArchived"
-      label="Include archived indicators"
-      @change="
-        setFilter({ includeArchived: !featureFilters.includeArchived })
-      "
-    >
-    </v-checkbox>
     <v-tabs v-model="tab" grow activeClass="tabActive" icons-and-text>
       <v-tab>
         <v-badge
@@ -36,7 +28,7 @@
     </v-tabs>
     <v-tabs-items
       v-model="tab"
-      :style="`height: calc(100% - 72px); overflow-y: auto`"
+      :style="`height: calc(100% - 102px); overflow-y: auto`"
     >
       <v-tab-item class="fill-height">
         <v-list
@@ -158,6 +150,20 @@
         </v-list>
       </v-tab-item>
     </v-tabs-items>
+    <div class="d-flex align-center justify-center" style="width: 100%; height: 30px">
+      <v-checkbox
+        :value="featureFilters.includeArchived"
+        label="Include archived indicators"
+        color="primary"
+        dense
+        hide-details
+        class="ma-0"
+        @change="
+          setFilter({ includeArchived: !featureFilters.includeArchived })
+        "
+      >
+      </v-checkbox>
+    </div>
   </div>
 </template>
 
