@@ -38,7 +38,7 @@ export const baseLayers = Object.freeze({
 
 export const overlayLayers = Object.freeze({
   eoxOverlay: {
-    name: 'Overlay',
+    name: 'Overlay labels',
     url: '//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg',
     attribution: '{ Overlay: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors, Made with Natural Earth, Rendering &copy; <a href="//eox.at" target="_blank">EOX</a> }',
     visible: false,

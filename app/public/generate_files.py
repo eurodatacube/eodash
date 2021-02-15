@@ -343,6 +343,13 @@ generateData(
         '/working/eodash-data/data/N1d_O3_CAMS.csv',
         '/working/eodash-data/data/N4a.csv',
         '/working/eodash-data/data/N4c.csv',
+        '/working/eodash-data/data/E13e_cargo.csv',
+        '/working/eodash-data/data/E13f_fishing.csv',
+        '/working/eodash-data/data/E13g_tanker.csv',
+        '/working/eodash-data/data/E13h_gioiatauro_tug.csv',
+        '/working/eodash-data/data/E13i_gioiatauro_SearchRescue.csv',
+        '/working/eodash-data/data/E13l_genova_pleasure.csv',
+        '/working/eodash-data/data/E13m_genova_passenger.csv',
     ],
     [
         ['E1', ''],

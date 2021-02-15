@@ -3322,6 +3322,17 @@
         "time": "2021-01-11T12:10:00"
     },
     {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-17.488",
+        "reference_time": "2021-01-16T00:00:00",
+        "reference_value": "/",
+        "time": "2021-01-16T00:00:00"
+    },
+    {
         "color_code": "",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
@@ -3342,5 +3353,27 @@
         "reference_time": "",
         "reference_value": "",
         "time": "2021-01-18T11:30:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-26.993000000000002",
+        "reference_time": "2021-01-23T00:00:00",
+        "reference_value": "/",
+        "time": "2021-01-23T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2021-01-30T00:00:00",
+        "reference_value": "/",
+        "time": "2021-01-30T00:00:00"
     }
 ]

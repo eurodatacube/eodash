@@ -68,6 +68,26 @@ module.exports = [
       },
       {
         features: [
+          'IT16-E13e',
+          'IT16-E13f',
+          'IT16-E13g',
+          'IT16-E13h',
+          'IT16-E13i',
+        ],
+        label: ['Cargo', 'Fishing', 'Tanker', 'Tug', 'Search Rescue'],
+      },
+      {
+        features: [
+          'IT3-E13e',
+          'IT3-E13f',
+          'IT3-E13g',
+          'IT3-E13l',
+          'IT3-E13m',
+        ],
+        label: ['Cargo', 'Fishing', 'Tanker', 'Cruise', 'Passenger'],
+      },
+      {
+        features: [
           'W2-E12c',
           'W3-E12c',
         ],
@@ -117,31 +137,27 @@ module.exports = [
     },
     aboutText: '/data/trilateral/about',
     welcomeText: '/data/trilateral/welcome',
+    tutorialText: '/data/trilateral/tutorials',
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'FR01-N1',
-        src: './data/trilateral/Slide1.png',
-      },
-      {
-        poi: 'IN02-N2',
-        src: './data/trilateral/Slide2.png',
-      },
-      {
-        poi: 'JP03-E9',
-        src: './data/trilateral/Slide3.png',
-      },
-      {
-        poi: 'US031-E13b',
+        poi: 'JP01-N5',
         src: './data/trilateral/Slide4.png',
       },
       {
-        poi: 'BE03-N5',
-        src: './data/trilateral/Slide5.png',
+        iframe: 'https://www.youtube.com/embed/URPzd29SGmE',
       },
       {
-        poi: 'BR02-N7',
-        src: './data/trilateral/Slide6.png',
+        poi: 'BarcelonaTSM_ESA-N3a2',
+        src: './data/trilateral/Slide2.png',
+      },
+      {
+        poi: 'W1-N1',
+        src: './data/trilateral/Slide3.png',
+      },
+      {
+        poi: 'US041-E13b',
+        src: './data/trilateral/Slide1.png',
       },
     ],
     customCountryList: [
