@@ -28,7 +28,7 @@
     </v-tabs>
     <v-tabs-items
       v-model="tab"
-      :style="`height: calc(100% - 102px); overflow-y: auto`"
+      :style="`height: calc(100% - 112px); overflow-y: auto`"
     >
       <v-tab-item class="fill-height">
         <v-list
@@ -150,7 +150,7 @@
         </v-list>
       </v-tab-item>
     </v-tabs-items>
-    <div class="d-flex align-center justify-center" style="width: 100%; height: 30px">
+    <div class="d-flex align-center justify-center" style="width: 100%; height: 40px">
       <v-checkbox
         :value="featureFilters.includeArchived"
         label="Include archived indicators"
