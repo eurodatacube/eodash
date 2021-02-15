@@ -1,7 +1,9 @@
 <template>
   <div style="width: 100%; height: 100%;"
     v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8',
-      'E10c', 'N1', 'N3', 'N3b', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13e', 'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG']
+      'E10c', 'N1', 'N3', 'N3b', 'E8',
+      'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
+      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -246,7 +248,7 @@ export default {
             data: [refData[3], measData[3], measData[8]],
             backgroundColor: refColors[3],
           });
-        } else if (['E10a2', 'E10a6', 'E10a7', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13e'].includes(indicatorCode)) {
+        } else if (['E10a2', 'E10a6', 'E10a7', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
           const referenceValue = indicator.referenceValue.map(Number);
@@ -786,7 +788,7 @@ export default {
         },
       };
       if (!Number.isNaN(reference)
-        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'N4c', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13e', 'E12c', 'E12d']
+        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'N4c', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m', 'E12c', 'E12d']
           .includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
@@ -856,7 +858,7 @@ export default {
             // one year
             let start = DateTime.fromISO(lckTs[i].start);
             let end = DateTime.fromISO(lckTs[i].end);
-            if (['E10a2', 'E10a6', 'E10a7', 'E10c', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13e'].includes(indicatorCode)) {
+            if (['E10a2', 'E10a6', 'E10a7', 'E10c', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m'].includes(indicatorCode)) {
               start = start.set({ year: 2000 });
               end = end.set({ year: 2000 });
             }
@@ -894,7 +896,7 @@ export default {
         }
       }
 
-      if (['E10a2', 'E10a6', 'E10a7', 'E10c', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13e'].includes(indicatorCode)) {
+      if (['E10a2', 'E10a6', 'E10a7', 'E10c', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m'].includes(indicatorCode)) {
         /* Recalculate to get min max months in data converted to one year */
         timeMinMax = this.getMinMaxDate(
           this.indicatorObject.time.map((date) => (
