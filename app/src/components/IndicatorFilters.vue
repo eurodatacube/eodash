@@ -150,7 +150,9 @@
         </v-list>
       </v-tab-item>
     </v-tabs-items>
-    <div class="d-flex align-center justify-center" style="width: 100%; height: 40px">
+    <v-sheet
+      class="d-flex align-center justify-center"
+      :style="`width: 100%; height: 40px; ${$vuetify.breakpoint.xsOnly ? 'position: absolute; bottom: 0;' : ''}`">
       <v-checkbox
         :value="featureFilters.includeArchived"
         label="Include archived indicators"
@@ -163,7 +165,7 @@
         "
       >
       </v-checkbox>
-    </div>
+    </v-sheet>
   </div>
 </template>
 
