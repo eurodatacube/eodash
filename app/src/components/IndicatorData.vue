@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%; height: 100%;"
     v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8',
-      'E10c', 'N1', 'N3', 'N3b', 'E8', 'N1a', 'N1b', 'N1c', 'N1d', 'E12b']
+      'E10c', 'N1', 'N3', 'N3b', 'N3a2', 'E8', 'N1a', 'N1b', 'N1c', 'N1d', 'E12b']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -290,7 +290,7 @@ export default {
               borderWidth: 2,
             });
           });
-        } else if (['N1'].includes(indicatorCode)) {
+        } else if (['N1', 'N3a2'].includes(indicatorCode)) {
           const stdDevMin = [];
           const stdDevMax = [];
           const min = [];

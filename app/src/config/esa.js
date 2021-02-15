@@ -297,6 +297,8 @@ export const indicatorsDefinition = Object.freeze({
     class: 'water',
     story: '/eodash-data/stories/N3a2',
     largeSubAoi: true,
+    customAreaIndicator: true,
+    largeTimeDuration: true,
   },
   N4a: {
     indicator: 'Changes in land fill sites',
@@ -450,6 +452,40 @@ export const defaultWMSDisplay = {
   minZoom: 7,
 };
 
+const fisShConfig = {
+  url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+  callbackFunction: (responseJson, indicator) => {
+    if (Array.isArray(responseJson.C0)) {
+      const data = responseJson.C0;
+      const newData = {
+        time: [],
+        measurement: [],
+        referenceValue: [],
+        colorCode: [],
+      };
+      data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
+        ? 1
+        : -1));
+      data.forEach((row) => {
+        if (row.basicStats.max < 5000) {
+          // leaving out falsely set nodata values disrupting the chart
+          newData.time.push(DateTime.fromISO(row.date));
+          newData.colorCode.push('');
+          newData.measurement.push(row.basicStats.mean);
+          newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
+        }
+      });
+      const ind = {
+        ...indicator,
+        ...newData,
+      };
+      return ind;
+    }
+    return null;
+  },
+  areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+};
+
 const getDailyDates = (start, end) => {
   let currentDate = DateTime.fromISO(start);
   const stopDate = DateTime.fromISO(end);
@@ -551,39 +587,7 @@ export const globalIndicators = [
           minZoom: 1,
           legendUrl: 'eodash-data/data/no2Legend.png',
           dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
-          areaIndicator: {
-            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-            callbackFunction: (responseJson, indicator) => {
-              if (Array.isArray(responseJson.C0)) {
-                const data = responseJson.C0;
-                const newData = {
-                  time: [],
-                  measurement: [],
-                  referenceValue: [],
-                  colorCode: [],
-                };
-                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
-                  ? 1
-                  : -1));
-                data.forEach((row) => {
-                  if (row.basicStats.max < 5000) {
-                    // leaving out falsely set nodata values disrupting the chart
-                    newData.time.push(DateTime.fromISO(row.date));
-                    newData.colorCode.push('');
-                    newData.measurement.push(row.basicStats.mean);
-                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
-                  }
-                });
-                const ind = {
-                  ...indicator,
-                  ...newData,
-                };
-                return ind;
-              }
-              return null;
-            },
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
-          },
+          areaIndicator: fisShConfig,
         },
       },
     },
@@ -750,6 +754,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps',
         lastColorCode: null,
         eoSensor: null,
+        yAxis: 'Chlorophyll-a concentration [ % ]',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -768,6 +773,10 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          areaIndicator: {
+            ...fisShConfig,
+            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=N3_CHL_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=750m&GEOMETRY={area}`,
+          },
         },
       },
     },
@@ -808,6 +817,10 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          areaIndicator: {
+            ...fisShConfig,
+            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=N3_CHL_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=750m&GEOMETRY={area}`,
+          },
         },
       },
     },
@@ -848,6 +861,10 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/waterLegend_tsm.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          areaIndicator: {
+            ...fisShConfig,
+            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=N3_TSM_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=750m&GEOMETRY={area}`,
+          },
         },
       },
     },
@@ -888,6 +905,10 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/waterLegend_tsm.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          areaIndicator: {
+            ...fisShConfig,
+            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=N3_TSM_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=750m&GEOMETRY={area}`,
+          },
         },
       },
     },
@@ -1188,6 +1209,10 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          areaIndicator: {
+            ...fisShConfig,
+            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=N3_CHL_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=750m&GEOMETRY={area}`,
+          },
         },
       },
     },
@@ -1228,6 +1253,10 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/waterLegend_tsm.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          areaIndicator: {
+            ...fisShConfig,
+            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=N3_TSM_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=750m&GEOMETRY={area}`,
+          },
         },
       },
     },
