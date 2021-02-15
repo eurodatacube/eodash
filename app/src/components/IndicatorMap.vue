@@ -505,6 +505,9 @@ export default {
         ...this.mergedConfigs()[0],
       };
     },
+    countrySelection() {
+      return this.mergedConfigs()[0].countrySelection;
+    },
     indDefinition() {
       return this.baseConfig.indicatorsDefinition[this.indicator.indicator];
     },
