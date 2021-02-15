@@ -152,7 +152,7 @@ export default {
     cursor: pointer;
   }
 
-  ::v-deep .archived-row {
+  ::v-deep .archived-row td {
     opacity: 0.65;
   }
 }
