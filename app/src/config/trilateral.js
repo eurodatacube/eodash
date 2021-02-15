@@ -2354,7 +2354,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W6',
-        time: getMonthlyDates('2020-01-28', '2020-11-28'),
+        time: getMonthlyDates('2020-01-28', '2021-01-28'),
         inputData: [''],
         display: {
           protocol: 'xyz',
