@@ -826,6 +826,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps',
         lastColorCode: null,
         sensor: null,
+        yAxis: 'Chlorophyll-a concentration [ % ]',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -869,6 +870,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps',
         lastColorCode: null,
         eoSensor: null,
+        yAxis: 'Total Suspended Matter [ % ]',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -912,6 +914,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps',
         lastColorCode: null,
         eoSensor: null,
+        yAxis: 'Total Suspended Matter [ % ]',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1213,6 +1216,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps',
         lastColorCode: null,
         eoSensor: null,
+        yAxis: 'Chlorophyll-a concentration [ % ]',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -1256,6 +1260,7 @@ export const globalIndicators = [
         indicatorName: 'Water Quality Regional Maps',
         lastColorCode: null,
         sensor: null,
+        yAxis: 'Total Suspended Matter [ % ]',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
