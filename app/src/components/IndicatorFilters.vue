@@ -125,6 +125,7 @@
                 :key="indicator.code"
                 :value="indicator.code"
                 active-class="itemActive"
+                :class="indicator.archived ? 'archived-item' : ''"
                 :disabled="indicatorSelection === indicator.code"
               >
                 <v-list-item-icon class="ml-3 mr-4">
@@ -152,10 +153,11 @@
     </v-tabs-items>
     <v-sheet
       class="d-flex align-center justify-center"
-      :style="`width: 100%; height: 40px; ${$vuetify.breakpoint.xsOnly ? 'position: absolute; bottom: 0;' : ''}`">
+      :style="`width: 100%; height: 40px; ${$vuetify.breakpoint.xsOnly
+        ? 'position: absolute; bottom: 0;' : ''}`">
       <v-checkbox
         :value="featureFilters.includeArchived"
-        label="Include archived indicators"
+        label="Show archived indicators"
         color="primary"
         dense
         hide-details
@@ -369,5 +371,8 @@ export default {
   .v-list-item__icon .flag {
     border: 1px solid transparent;
   }
+}
+::v-deep .archived-item {
+  opacity: 0.65;
 }
 </style>

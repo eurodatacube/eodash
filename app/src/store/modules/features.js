@@ -42,12 +42,17 @@ const getters = {
               filtered = state.featureFilters.countries
                 .includes(f.properties.indicatorObject.country);
             }
+          } else if (!state.featureFilters.includeArchived) {
+            filtered = f.properties.indicatorObject.description
+              && (!f.properties.indicatorObject.description.includes('(archived)'));
           } else {
             filtered = true;
           }
           return filtered;
         })
         .map((f) => ({
+          archived: f.properties.indicatorObject.description
+            && (f.properties.indicatorObject.description.includes('(archived)')),
           code: f.properties.indicatorObject.indicator,
           indicator: f.properties.indicatorObject.description,
           class: rootState.config.baseConfig.indicatorsDefinition[
