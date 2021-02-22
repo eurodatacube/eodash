@@ -25,13 +25,12 @@
     >
       <v-tab-item class="fill-height">
         <Map ref="map" />
-        <!-- heeere -->
         <v-expansion-panels accordion class="global-indicators-panel" v-model="panel">
           <v-expansion-panel>
             <v-expansion-panel-header class="panel-header">
               <div class="d-flex align-center">
-                <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-earth</v-icon>
-                <span v-if="$vuetify.breakpoint.mdAndUp">Global Indicators</span>
+                <v-icon left color="primary">mdi-earth</v-icon>
+                <span v-if="$vuetify.breakpoint.smAndUp || panel !== undefined" >Global Indicators</span>
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content class="panel-content">
@@ -44,7 +43,7 @@
                   @click="selectGlobal(feature)"
                 >
                 <v-list-item-icon
-                class="d-flex align-center mr-0">
+                class="d-flex align-center mr-1">
                   <div
                     class="circle"
                     :style="`
@@ -56,7 +55,6 @@
                   >
                       <v-icon
                         color="white"
-                        class="pa-1"
                         icon-url="/test"
                         small
                       >
