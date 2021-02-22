@@ -17,7 +17,7 @@
           : 'mdi-fullscreen' }}</v-icon>
       </v-btn>
     </template>
-    <span>Full screen</span>
+    <span v-if="!isFullScreen">Full screen</span>
   </v-tooltip>
 </template>
 
