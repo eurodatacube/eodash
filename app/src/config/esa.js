@@ -1295,7 +1295,7 @@ export const globalIndicators = [
           ...cmemsDisplay,
           baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-bal-chl-olci_a-l3-nn_1km_daily-rt-v02?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
           name: 'Baltic sea CHL L3 Product',
-          visible: false,
+          // visible: false,
           bounds: latLngBounds(latLng([53.25, 9]), latLng([65.85, 30.5])),
         }],
       },
