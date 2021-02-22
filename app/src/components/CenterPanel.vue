@@ -30,7 +30,9 @@
             <v-expansion-panel-header class="panel-header">
               <div class="d-flex align-center">
                 <v-icon left color="primary">mdi-earth</v-icon>
-                <span v-if="$vuetify.breakpoint.smAndUp || panel !== undefined" >Global Indicators</span>
+                <span
+                  v-if="$vuetify.breakpoint.smAndUp || panel !== undefined"
+                >Global Indicators</span>
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content class="panel-content">
@@ -59,7 +61,8 @@
                         small
                       >
                         {{ baseConfig.indicatorClassesIcons[baseConfig
-                            .indicatorsDefinition[feature.properties.indicatorObject.indicator].class]
+                            .indicatorsDefinition[feature.properties.indicatorObject.indicator]
+                            .class]
                             ? baseConfig.indicatorClassesIcons[baseConfig
                               .indicatorsDefinition[feature.properties
                                 .indicatorObject.indicator].class]
@@ -184,7 +187,7 @@ export default {
   data: () => ({
     tab: null,
     openGlobalPanel: false,
-    panel: 0
+    panel: 0,
   }),
   computed: {
     ...mapGetters('features', [
