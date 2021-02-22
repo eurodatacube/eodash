@@ -1,7 +1,5 @@
-
 import Chart from 'chart.js';
 import 'chartjs-adapter-luxon'; // eslint-disable-line no-unused-vars
-
 
 /* Plugin autoregisters so does not need to be registered */
 import ChartDataLabels from 'chartjs-plugin-datalabels'; // eslint-disable-line no-unused-vars
@@ -35,7 +33,6 @@ const showZeroPlugin = {
   },
 };
 
-
 const log10 = Math.log10 || function tmp(x) {
   const exponent = Math.log(x) * log10E; // log10E = 1 / Math.LN10.
   // Check for whole powers of 10,
@@ -54,7 +51,6 @@ function isMajor(tickVal) {
   const remain = tickVal / (10 ** Math.floor(log10(tickVal)));
   return remain === 1;
 }
-
 
 function generateTicks(generationOptions, dataRange) {
   const endExp = Math.floor(log10(dataRange.max));
@@ -83,7 +79,6 @@ function generateTicks(generationOptions, dataRange) {
 
   return ticks;
 }
-
 
 class MyLogScale extends Chart.Scale {
   _parse(raw, index) { // eslint-disable-line no-unused-vars

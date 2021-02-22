@@ -375,7 +375,6 @@ import 'leaflet.markercluster/dist/MarkerCluster.css'; // eslint-disable-line im
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'; // eslint-disable-line import/no-extraneous-dependencies
 import turfDifference from '@turf/difference';
 
-
 const emptyF = {
   type: 'FeatureCollection',
   features: [],
