@@ -118,6 +118,7 @@
           sm="5"
           class="py-0 my-0 d-flex align-center"
           :class="$vuetify.breakpoint.xsOnly ? 'justify-center' : 'justify-space-between'"
+          v-if="!isFullScreen"
         >
           <small v-if="indicatorObject && indicatorObject.updateFrequency">
             <span
@@ -134,6 +135,7 @@
           cols="12"
           sm="7"
           class="py-0 my-0"
+          v-if="!isFullScreen"
         >
           <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
             <v-btn
@@ -143,7 +145,7 @@
               :href="dataHrefCSV"
               :download="downloadFileName"
               target="_blank"
-              v-if="indicatorObject && !showMap"
+              v-if="indicatorObject && !showMap && !isFullScreen"
             >
               <v-icon left>mdi-download</v-icon>
               download csv
@@ -155,6 +157,7 @@
           cols="12"
           ref="customAreaIndicator"
           class="pa-0"
+          v-if="!isFullScreen"
         >
           <v-card
             v-if="customAreaIndicator"
@@ -181,7 +184,7 @@
         <v-col
           cols="12"
         >
-        <div>
+        <div v-if="!isFullScreen">
             <expandable-content>
               <div
                 v-html="story"
@@ -281,6 +284,7 @@ export default {
       'appConfig',
       'baseConfig',
     ]),
+    ...mapState(['isFullScreen']),
     story() {
       let markdown;
       try {
@@ -435,5 +439,14 @@ export default {
 }
 .chart {
   background: #fff;
+}
+
+.v-card.fullscreenElement {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  height: 100vh !important;
 }
 </style>

@@ -14,10 +14,16 @@ const store = new Vuex.Store({
   },
   state: {
     packageVersion: process.env.PACKAGE_VERSION || '0',
+    isFullScreen: false,
   },
   getters: {
     appVersion: (state) => state.packageVersion,
   },
+  mutations: {
+    changeFullScreen(state, val) {
+      state.isFullScreen = val;
+    }
+  }
 });
 
 export default store;
