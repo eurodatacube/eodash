@@ -36,7 +36,7 @@
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content class="panel-content">
-              <v-list dense>
+              <v-list dense class="pt-0">
                 <v-list-item
                   v-for="feature in globalIndicators"
                   :key="getUniqueKey(feature.properties.indicatorObject)"
@@ -73,7 +73,9 @@
                 <v-list-item-content
                 :class="currentlySelected(feature) && 'font-weight-bold'"
                 >
-                {{feature.properties.indicatorObject.description}}
+                  <v-list-item-title>
+                  {{feature.properties.indicatorObject.description}}
+                  </v-list-item-title>
                 </v-list-item-content>
                 </v-list-item>
               </v-list>
