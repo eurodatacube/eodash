@@ -31,7 +31,7 @@
               <div class="d-flex align-center">
                 <v-icon left color="primary">mdi-earth</v-icon>
                 <span
-                  v-if="$vuetify.breakpoint.smAndUp || panel !== undefined"
+                  v-if="$vuetify.breakpoint.smAndUp || panel !== undefined && panel !== null"
                 >Global Indicators</span>
               </div>
             </v-expansion-panel-header>
