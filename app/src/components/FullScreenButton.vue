@@ -67,6 +67,9 @@ export default {
         this.fullScreenElement.classList.remove('fullscreenElement');
       }
       this.$store.commit('changeFullScreen', fullscreenActive);
+      this.$nextTick(() => {
+        window.dispatchEvent(new Event('resize')); // Fixes Safari bug(#810)
+      })
     },
   },
 };
