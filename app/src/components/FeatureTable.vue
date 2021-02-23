@@ -8,6 +8,7 @@
           :headers="headers"
           :items="allFeatures"
           :items-per-page="10"
+          :item-class="f => f.indicatorObject.updateFrequency && f.indicatorObject.updateFrequency.toLowerCase() === 'archived' ? 'archived-row' : ''"
           class="featureTable elevation-1"
           @click:row="openFeature"
           multi-sort
@@ -149,6 +150,10 @@ export default {
 .featureTable {
   ::v-deep tr {
     cursor: pointer;
+  }
+
+  ::v-deep .archived-row td {
+    opacity: 0.65;
   }
 }
 </style>

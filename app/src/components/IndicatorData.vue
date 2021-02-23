@@ -1077,7 +1077,7 @@ export default {
         );
       }
 
-      if (['E12b', 'E1a', 'E1', 'E2', 'E2_S2', 'E1a_S2', 'E1_S2'].includes(indicatorCode)) {
+      if (['E12b', 'E1a', 'E1', 'E2', 'E2_S2', 'E1a_S2', 'E1_S2', 'E13d'].includes(indicatorCode)) {
       // update used yaxis chart min to be min value
         yAxes[0].ticks.suggestedMin = Math.min(
           ...this.indicatorObject.measurement

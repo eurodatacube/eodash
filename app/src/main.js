@@ -155,11 +155,13 @@ const renderVue = async () => {
         const colors = vuetify.preset.theme.themes.light;
         let color;
         if (typeof label === 'undefined') { // placeholders
-          color = 'grey';
+          color = colors.grey;
         } else if (label === null) { // area indicators
           color = colors.primary;
         } else if (['red'].includes(label.toLowerCase())) {
           color = colors.error;
+        } else if (['grey'].includes(label.toLowerCase())) {
+          color = colors.grey;
         } else if (['blue'].includes(label.toLowerCase())) {
           color = colors.info;
         } else if (['green'].includes(label.toLowerCase())) {
