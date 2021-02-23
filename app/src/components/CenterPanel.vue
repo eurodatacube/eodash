@@ -191,7 +191,7 @@ export default {
       tab: null,
       openGlobalPanel: false,
       panel: this.$vuetify.breakpoint.xsOnly ? null : 0,
-    }
+    };
   },
   computed: {
     ...mapGetters('features', [
