@@ -1279,7 +1279,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2020-12-23').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)).concat(getWeeklyDates('2021-01-01', '2021-01-15')),
+        time: getWeeklyDates('2020-01-01', '2020-12-23').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)).concat(getWeeklyDates('2021-01-01', '2021-01-15')).concat(['2020-01-20', '2020-01-27', '2020-02-03', '2020-02-10']),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1789,7 +1789,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2020-12-23').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)).concat(getWeeklyDates('2021-01-01', '2021-01-15')),
+        time: getWeeklyDates('2020-01-01', '2020-12-23').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)).concat(getWeeklyDates('2021-01-01', '2021-01-15')).concat(['2020-01-20', '2020-01-27', '2020-02-03', '2020-02-10']),
         inputData: [''],
         display: {
           protocol: 'xyz',
