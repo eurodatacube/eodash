@@ -27,6 +27,26 @@
               {{ item.indicatorValue.toLowerCase() }}
             </v-chip>
           </template>
+          <template v-slot:item.country="{ item }">
+            <div v-if="Array.isArray(item.country)" class="table-flag-list">
+              <span v-for="(country, i) in item.country" :key="i" class="table-flag">
+                <span v-if="country === 'all'">
+                  <country-flag country="un" size="normal"></country-flag>
+                </span>
+                <span v-else>
+                  <country-flag :country="country" size="normal"></country-flag>
+                </span>
+              </span>
+            </div>
+            <div v-else>
+              <span v-if="item.country === 'all'">
+                <country-flag country="un" size="normal"></country-flag>
+              </span>
+              <span v-else>
+                 <country-flag :country="item.country" size="normal"></country-flag>
+              </span>
+            </div>
+          </template>
         </v-data-table>
       </v-col>
     </v-row>
@@ -40,7 +60,13 @@ import {
   mapState,
 } from 'vuex';
 
+import CountryFlag from 'vue-country-flag';
+
+
 export default {
+  components: {
+    CountryFlag,
+  },
   computed: {
     ...mapGetters('features', ['getGroupedFeatures']),
     ...mapState('config', ['baseConfig']),
@@ -154,6 +180,12 @@ export default {
 
   ::v-deep .archived-row td {
     opacity: 0.65;
+  }
+}
+
+.table-flag-list {
+  .table-flag:not(:last-child) {
+    margin-right: .3rem;
   }
 }
 </style>
