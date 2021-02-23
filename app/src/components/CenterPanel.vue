@@ -30,11 +30,13 @@
             <v-expansion-panel-header class="panel-header">
               <div class="d-flex align-center">
                 <v-icon left color="primary">mdi-earth</v-icon>
-                <span v-if="$vuetify.breakpoint.smAndUp || panel !== undefined" >Global Indicators</span>
+                <span
+                  v-if="$vuetify.breakpoint.smAndUp || panel !== undefined && panel !== null"
+                >Global Indicators</span>
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content class="panel-content">
-              <v-list dense>
+              <v-list dense class="pt-0">
                 <v-list-item
                   v-for="feature in globalIndicators"
                   :key="getUniqueKey(feature.properties.indicatorObject)"
@@ -59,7 +61,8 @@
                         small
                       >
                         {{ baseConfig.indicatorClassesIcons[baseConfig
-                            .indicatorsDefinition[feature.properties.indicatorObject.indicator].class]
+                            .indicatorsDefinition[feature.properties.indicatorObject.indicator]
+                            .class]
                             ? baseConfig.indicatorClassesIcons[baseConfig
                               .indicatorsDefinition[feature.properties
                                 .indicatorObject.indicator].class]
@@ -70,7 +73,9 @@
                 <v-list-item-content
                 :class="currentlySelected(feature) && 'font-weight-bold'"
                 >
-                {{feature.properties.indicatorObject.description}}
+                  <v-list-item-title>
+                  {{feature.properties.indicatorObject.description}}
+                  </v-list-item-title>
                 </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -185,7 +190,7 @@ export default {
     return {
       tab: null,
       openGlobalPanel: false,
-      panel: this.$vuetify.breakpoint.xsOnly ? null : 0
+      panel: this.$vuetify.breakpoint.xsOnly ? null : 0,
     }
   },
   computed: {
