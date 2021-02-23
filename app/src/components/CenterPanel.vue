@@ -181,11 +181,13 @@ export default {
     FeatureTable,
     Map,
   },
-  data: () => ({
-    tab: null,
-    openGlobalPanel: false,
-    panel: 0
-  }),
+  data() {
+    return {
+      tab: null,
+      openGlobalPanel: false,
+      panel: this.$vuetify.breakpoint.xsOnly ? null : 0
+    }
+  },
   computed: {
     ...mapGetters('features', [
       'getGroupedFeatures',
