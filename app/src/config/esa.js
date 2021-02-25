@@ -473,6 +473,7 @@ export const defaultLayersDisplay = {
   opacity: 1,
   attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   minZoom: 7,
+  visible: true,
 };
 
 export const cmemsDisplay = {
@@ -638,7 +639,7 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        time: getDailyDates('2020-01-01', DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
+        time: getDailyDates(DateTime.utc().minus({ years: 1, days: -1 }).toFormat('yyyy-LL-dd'), DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
         inputData: [''],
         yAxis: 'NO2 (μmol/m2)',
         display: {
@@ -673,7 +674,7 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        time: getDailyDates('2020-01-01', DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
+        time: getDailyDates(DateTime.utc().minus({ years: 1, days: -1 }).toFormat('yyyy-LL-dd'), DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
         inputData: [''],
         yAxis: 'PM2.5 (μg/m3)',
         display: {
@@ -708,7 +709,7 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        time: getDailyDates('2020-01-01', DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
+        time: getDailyDates(DateTime.utc().minus({ years: 1, days: -1 }).toFormat('yyyy-LL-dd'), DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
         inputData: [''],
         yAxis: 'PM10 (μg/m3)',
         display: {
@@ -743,7 +744,7 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        time: getDailyDates('2020-01-01', DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
+        time: getDailyDates(DateTime.utc().minus({ years: 1, days: -1 }).toFormat('yyyy-LL-dd'), DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
         inputData: [''],
         yAxis: 'O3 (μg/m3)',
         display: {
@@ -1270,7 +1271,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'World',
-        time: getDailyDates('2020-01-01', DateTime.utc().minus({ days: 1 }).toFormat('yyyy-LL-dd')),
+        time: getDailyDates('2020-01-07', DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
         inputData: [''],
         externalData: {
           label: 'Copernicus Marine Service - Product Details',
