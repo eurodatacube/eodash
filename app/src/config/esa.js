@@ -380,6 +380,12 @@ export const indicatorsDefinition = Object.freeze({
     disableTimeSelection: true,
     countrySelection: true,
   },
+  GSA: {
+    indicator: 'Mobility',
+    class: 'economic',
+    disableTimeSelection: true,
+    gsaData: true,
+  },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
     class: 'economic',
@@ -580,6 +586,32 @@ export const globalIndicators = [
         aoi: null,
         inputData: [''],
         yAxis: 'percent change from baseline',
+        time: ['TBD'],
+        display: {
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'GSA',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Truck border + sea crossing times',
+        indicatorName: '(select point to load data)',
+        indicator: 'GSA',
+        lastIndicatorValue: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        inputData: [''],
+        yAxis: 'waiting time (min)',
         time: ['TBD'],
         display: {
         },

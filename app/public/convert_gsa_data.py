@@ -99,6 +99,7 @@ with open(DATAFILE, encoding='utf-8') as csvfile:
                         "AOI": "%s,%s"%(pos[0], pos[1]),
                         "border": row["border"],
                         "name": row["name"],
+                        "borderId": border_id,
                     }
                     gsa_data[border_id] = {
                     }

@@ -236,6 +236,27 @@
     layer-type="overlay"
     >
     </l-geo-json>
+    <l-feature-group ref="gsaLayer">
+      <l-circle-marker v-for="(feature) in gsaJson"
+        :key="feature.id"
+        ref="markers"
+        :lat-lng="feature.AOI.split(',').map(Number)"
+        :name="feature.name"
+        color="#000"
+        :radius=4
+        :fillColor="appConfig.branding.primaryColor"
+        :weight=1
+        :opacity=0.8
+        :fillOpacity=0.8
+        @click="selectGSAIndicator(feature)"
+      >
+      <l-tooltip class="tooltip text-center" :options="{ direction: 'top' }">
+          <p class="ma-0">
+            <strong>{{ feature.name }}</strong>
+          </p>
+        </l-tooltip>
+      </l-circle-marker>
+    </l-feature-group>
     <div
     :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
       <img v-if="mergedConfigs()[0].legendUrl"
@@ -369,7 +390,7 @@ import { template } from '@/utils';
 import {
   LMap, LTileLayer, LWMSTileLayer, LGeoJson, LCircleMarker,
   LControlLayers, LControlAttribution, LControlZoom, LLayerGroup,
-  LFeatureGroup, LControl,
+  LFeatureGroup, LControl, LMarker, LIcon, LTooltip,
 } from 'vue2-leaflet';
 import { DateTime } from 'luxon';
 
@@ -387,6 +408,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css'; // eslint-disable
 import turfDifference from '@turf/difference';
 
 import countries from '@/assets/countries.json';
+import gsaFile from '@/assets/gsa_data.json';
 
 
 const emptyF = {
@@ -412,6 +434,9 @@ export default {
     LLayerGroup,
     LFeatureGroup,
     LControl,
+    LIcon,
+    LTooltip,
+    LMarker,
     'l-marker-cluster': Vue2LeafletMarkerCluster,
   },
   data() {
@@ -460,6 +485,9 @@ export default {
     ]),
     countriesJson() {
       return countries;
+    },
+    gsaJson() {
+      return gsaFile;
     },
     countriesStyle() {
       return {
@@ -735,6 +763,11 @@ export default {
     this.compareLayerTime = { value: this.getInitialCompareTime() };
   },
   methods: {
+    createLatLng(latlng) {
+      const llobj = latlng.split(',').map(Number);
+      console.log(llobj);
+      return llobj;
+    },
     zoomUpdated(zoom) {
       this.zoom = zoom;
     },
@@ -1329,6 +1362,32 @@ export default {
       } else {
         this.updateJsonLayers(emptyF, side);
       }
+    },
+    selectGSAIndicator(feature) {
+      const dataUrl = `./eodash-data/internal/${feature.borderId}.json`;
+      this.map.fireEvent('dataloading');
+      fetch(dataUrl).then((r) => r.json())
+        .then((indicator) => {
+          indicator.indicator = 'GSA'; // eslint-disable-line
+          indicator.time = [DateTime.local()]; // eslint-disable-line
+          indicator.measurement = [0]; // eslint-disable-line
+          // indicator.country = indicator.CountryCode; // eslint-disable-line
+          indicator.title = feature.name; // eslint-disable-line
+          indicator.yAxis = this.indicator.yAxis; // eslint-disable-line
+          this.map.fireEvent('dataload');
+          this.$store.commit(
+            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
+          );
+          this.$emit('fetchCustomAreaIndicator');
+        })
+        .catch((err) => {
+          this.map.fireEvent('dataload');
+          // It seems data could not be loaded lets show a no data found message
+          this.$store.commit(
+            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', { isEmpty: true },
+          );
+          console.log(err);
+        });
     },
     fetchMobilityData(countryCode) {
       const dataUrl = `./eodash-data/internal/${countryCode}-GG.json`;
