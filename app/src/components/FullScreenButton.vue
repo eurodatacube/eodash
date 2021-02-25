@@ -17,13 +17,14 @@
           : 'mdi-fullscreen' }}</v-icon>
       </v-btn>
     </template>
-    <span>Full screen</span>
+    <span v-if="!isFullScreen">Full screen</span>
   </v-tooltip>
 </template>
 
 <script>
 import fullscreen from 'vue-fullscreen';
 import Vue from 'vue';
+import { mapState } from 'vuex';
 
 Vue.use(fullscreen);
 
@@ -33,6 +34,9 @@ export default {
     fullScreenElement: null,
     touch: false,
   }),
+  computed: {
+    ...mapState(['isFullScreen'])
+  },
   mounted() {
     this.$nextTick(() => {
       this.touch = window.L.Browser.touch;
@@ -43,10 +47,14 @@ export default {
       // Toggle fullscreen Element in the container element
       const { parentElement } = event.target.closest('.v-btn');
       this.fullScreenElement = parentElement;
-      this.$fullscreen.toggle(parentElement, {
-        wrap: false,
-        callback: this.fullscreenChange,
-      });
+      if(this.$fullscreen.support) {
+        this.$fullscreen.toggle(parentElement, {
+          wrap: false,
+          callback: this.fullscreenChange,
+        });
+      } else {
+        this.fullscreenChange(!this.isFullScreen);
+      }
     },
     fullscreenChange(fullscreenActive) {
       this.fullscreen = fullscreenActive;
@@ -58,6 +66,10 @@ export default {
         app.classList.remove('fullScreenActive');
         this.fullScreenElement.classList.remove('fullscreenElement');
       }
+      this.$store.commit('changeFullScreen', fullscreenActive);
+      this.$nextTick(() => {
+        window.dispatchEvent(new Event('resize')); // Fixes Safari bug(#810)
+      })
     },
   },
 };
