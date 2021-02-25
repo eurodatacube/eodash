@@ -1600,7 +1600,7 @@ export const globalIndicators = [
           name: 'Water Quality Index',
           layers: 'JAXA_TSM',
           maxZoom: 13,
-          legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
+          legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
