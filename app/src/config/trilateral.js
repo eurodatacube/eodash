@@ -486,6 +486,7 @@ export const defaultLayersDisplay = {
   opacity: 1,
   attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">se of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   minZoom: 7,
+  visible: true,
 };
 
 const getMonthlyDates = (start, end) => {

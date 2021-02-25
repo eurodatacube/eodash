@@ -1350,16 +1350,10 @@ export default {
     enableCompare(on) {
       if (!on) {
         if (this.slider !== null) {
-          if (this.$refs.compareLayer) {
-            this.$refs.layersControl.mapObject.removeLayer(this.$refs.compareLayer.mapObject);
-          }
           this.map.removeControl(this.slider);
           this.map.removeLayer(this.$refs.compareLayers.mapObject);
         }
       } else {
-        if (this.$refs.compareLayer) {
-          this.$refs.layersControl.mapObject.addOverlay(this.$refs.compareLayer.mapObject, this.$refs.compareLayer.name); // eslint-disable-line
-        }
         this.map.addLayer(this.$refs.compareLayers.mapObject);
         if (!this.mergedConfigs()[0].customAreaFeatures || this.validDrawnArea) {
           this.fetchFeatures('compare');
