@@ -11,8 +11,6 @@
     v-resize="onResize"
     @ready="onMapReady()"
   >
-    <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
-    <l-control-layers position="topright" ref="layersControl"></l-control-layers>
     <l-control-zoom position="topright"></l-control-zoom>
     <l-feature-group ref="customAreaFilterFeatures"></l-feature-group>
     <l-control position="topright"
@@ -342,6 +340,8 @@
         </v-col>
       </v-sheet>
     </div>
+    <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
+    <l-control-layers position="topright" ref="layersControl"></l-control-layers>
   </l-map>
 </template>
 
