@@ -208,7 +208,8 @@ export const indicatorsDefinition = Object.freeze({
   },
   NASAPopulation: {
     indicator: 'Population',
-    class: 'economic',
+    class: 'economic', 
+    story: '/data/trilateral/NASAPopulation',
   },
   N2: {
     indicator: 'Greenhouse Gases',
