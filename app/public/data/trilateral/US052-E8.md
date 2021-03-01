@@ -1,0 +1,37 @@
+## Satellite imagery shows unrented cars filling parking lots during pandemic onset
+
+
+Indicator provided by: [JAXA](https://global.jaxa.jp/) based on data provided by [JAXA](https://global.jaxa.jp/) and [ESA](https://esa.int)
+
+As pandemic-related restrictions have brought activities, such as air travel, to a near-halt, related industries, such as car rentals, have also been affected. Data from international satellites can see this secondary impact by comparing images of rental car parking lots at airports and related venues before and during the shutdowns.
+
+Scientists are combining space-based synthetic aperture radar (SAR) data from two satellites – the Japan Aerospace Exploration Agency’s (JAXA) ALOS-2 and the European Space Agency’s (ESA) Copernicus Sentinel-1 – to observe and quantify the changes in parking patterns and the number of cars in parking lots around the Los Angeles metropolitan area.
+
+Space-based SAR can penetrate clouds and observe changes on the ground in all weather conditions during the day and at night. Combining SAR imagery from ALOS-2 and Sentinel-1 provides comprehensive coverage, since each of their orbits covers the LA area at different times of the day, giving scientists the tools to better understand how society is adapting during the pandemic.
+
+Scientists were surprised to find a significant number of parked cars at several major venues, including Dodger Stadium, even though no events were scheduled. The SAR imagery found cars parked at the stadium during both daytime hours and in the middle of the night, which would have been different if people were just attending events at the stadiums. Scientists learned that this was due to rental car companies using the spaces during the off-season to store unhired cars. Similarly, when the stadium was the site for mass COVID-19 testing, satellites observed increased car activity.
+
+JAXA researchers using data from the PALSAR-2 instrument aboard the ALOS-2 satellite generated a color composited SAR image of Dodger Stadium to better observe the changes (Figure 1). 
+
+
+Different colors in the image correspond to different capture dates: green and blue pixels were captured on May 30, 2020, while red pixels were captured on July 11, 2020. The grayscale-colored areas (white-gray-black) represent things like buildings that did not change. The red, green, and blue pixels represent changing activity in individual parking spaces. The blue-green pixels in this image (Figure 1) are cars parked at Dodger Stadium.
+
+![](./data/trilateral/US-E8-Fig1.png)
+
+*Figure 1. ALOS-2 SAR composite imagery of Dodgers Stadium.*
+
+In addition to Dodger Stadium, rental car companies used other venues around the LA region to store unhired vehicles. The satellites also found full parking lots at airports, including Palm Springs International Airport, where rental cars are commonly stored. At the Palm Springs International Airport, three radar images from the PALSAR-2 instrument found changes in the parking patterns of rental cars (Figure 2). As with the stadium image, different colors correspond to different capture dates: blue pixels were captured on March 12, 2020; green pixels on June 24; and red pixels on July 30.  
+
+![](./data/trilateral/US-E8-Fig2.png)
+
+*Figure 2. ALOS-2 Palm Springs International Airport.*
+
+A detailed analysis of JAXA’s PALSAR-2 imagery and data from ESA’s Copernicus Sentinel-1 of parking lots at Dodger Stadium, Angel Stadium of Anaheim, Santa Anita Park, and Palm Springs International Airport from January through September 2020 (Figure 3) shows that cars were stored at these venues from early-mid March to early June.  
+The ability to observe patterns in large parking lots at different times of day gives researchers a unique view of how pandemic-related shutdowns affect human activity, an important piece of understanding to our overall efforts to track changes to our planet during this time.   
+
+![](./data/trilateral/US-E8-Fig3.png)
+
+*Figure 3. Car density graph from January through September 2020. The vertical scale is from 0-5, where 5 is more cars. Abbreviations: A2 is for data from JAXA’s ALOS-2 satellite, and S1 is for ESA’s Copernicus Sentinel-1 satellite.*
+
+
+
