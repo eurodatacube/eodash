@@ -31,8 +31,8 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'US051-E9',
-        src: './eodash-data/general/Slide14.png',
+        poi: 'Barcelona-N3a2',
+        src: './eodash-data/general/Slide9.png',
       },
       {
         iframe: 'https://www.youtube.com/embed/Ofb2pNQc424',
@@ -141,15 +141,15 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'JP01-N5',
-        src: './data/trilateral/Slide4.png',
+        poi: 'US051-E9',
+        src: './data/trilateral/Slide14.png',
       },
       {
         iframe: 'https://www.youtube.com/embed/URPzd29SGmE',
       },
       {
-        poi: 'BarcelonaTSM_ESA-N3a2',
-        src: './data/trilateral/Slide2.png',
+        poi: 'JP01-N5',
+        src: './data/trilateral/Slide4.png',
       },
       {
         poi: 'W1-N1',
