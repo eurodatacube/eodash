@@ -21,7 +21,7 @@ module.exports = [
     newsBanner: {
       color: 'green darken-1',
       icon: 'calendar-star',
-      text: '<a href="https://eo4society.esa.int/2021/02/26/challenges-2021-ready-to-participate/" target="_blank">OPEN NOW: RACE Dashboard Challenges 2021!</a>.',
+      text: '<a href="https://eo4society.esa.int/2021/02/26/challenges-2021-ready-to-participate/" target="_blank">OPEN NOW: RACE Dashboard Challenges 2021!</a>',
       startDate: '2021-03-01',
       endDate: '2021-05-31',
     },
