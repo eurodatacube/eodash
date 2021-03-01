@@ -20,7 +20,7 @@ module.exports = [
     customCSS: 'esa',
     newsBanner: {
       color: 'green darken-1',
-      icon: 'emoji_events',
+      icon: 'calendar-star',
       text: 'OPEN NOW: RACE Dashboard Challenges 2021! Scroll to join now!',
       startDate: '2021-03-01',
       endDate: '2021-05-31',
@@ -31,7 +31,7 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'US051-E8',
+        poi: 'US051-E9',
         src: './eodash-data/general/Slide14.png',
       },
       {
