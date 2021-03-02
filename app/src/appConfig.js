@@ -20,10 +20,10 @@ module.exports = [
     customCSS: 'esa',
     newsBanner: {
       color: 'green darken-1',
-      icon: 'pine-tree',
-      text: 'The dashboard will be updated less frequently in the holiday season.<br />Happy holidays and stay safe!',
-      startDate: '2020-12-21',
-      endDate: '2021-01-06',
+      icon: 'calendar-star',
+      text: '<a href="https://eo4society.esa.int/2021/02/26/challenges-2021-ready-to-participate/" target="_blank">OPEN NOW: RACE Dashboard Challenges 2021!</a>',
+      startDate: '2021-03-01',
+      endDate: '2021-05-31',
     },
     aboutText: '/eodash-data/general/about',
     welcomeText: '/eodash-data/general/welcome',
@@ -141,15 +141,15 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'JP01-N5',
-        src: './data/trilateral/Slide4.png',
+        poi: 'US051-E9',
+        src: './data/trilateral/Slide14.png',
       },
       {
         iframe: 'https://www.youtube.com/embed/URPzd29SGmE',
       },
       {
-        poi: 'BarcelonaTSM_ESA-N3a2',
-        src: './data/trilateral/Slide2.png',
+        poi: 'JP01-N5',
+        src: './data/trilateral/Slide4.png',
       },
       {
         poi: 'W1-N1',
