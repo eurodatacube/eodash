@@ -600,7 +600,7 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Truck border + sea crossing times',
+        description: 'Truck border crossing times',
         indicatorName: '(select point to load data)',
         indicator: 'GSA',
         lastIndicatorValue: null,
