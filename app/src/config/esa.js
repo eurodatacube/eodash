@@ -384,7 +384,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Mobility',
     class: 'economic',
     disableTimeSelection: true,
-    gsaData: true,
+    borderSelection: true,
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',

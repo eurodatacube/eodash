@@ -234,7 +234,8 @@
     layer-type="overlay"
     >
     </l-geo-json>
-    <l-feature-group ref="gsaLayer">
+    <l-feature-group ref="gsaLayer"
+      v-if="borderSelection">
       <l-circle-marker v-for="(feature) in gsaJson"
         :key="feature.id"
         ref="markers"
@@ -535,6 +536,9 @@ export default {
     },
     countrySelection() {
       return this.mergedConfigs()[0].countrySelection;
+    },
+    borderSelection() {
+      return this.mergedConfigs()[0].borderSelection;
     },
     indDefinition() {
       return this.baseConfig.indicatorsDefinition[this.indicator.indicator];
