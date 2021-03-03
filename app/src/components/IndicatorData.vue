@@ -204,6 +204,9 @@ export default {
                 y: Number(currVals[i].waiting_time),
               });
             }
+            // It seems some timstamps are mixed in order so let us sort by date
+            // to get nice line connections through the timeline
+            datasetsObj[vals[entry]].sort((a, b) => a.t.toMillis() - b.t.toMillis());
           }
           Object.keys(indicator.values).forEach((key, idx) => {
             datasets.push({
@@ -863,7 +866,7 @@ export default {
 
       // Introduce background area annotations for lockdown times, does not
       // work for all chart types, so we make sure it is not any of those charts
-      if (!['E10a3', 'E10a8', 'N2', 'E12c', 'E12d'].includes(indicatorCode)) {
+      if (!['E10a3', 'E10a8', 'N2', 'E12c', 'E12d', 'GSA'].includes(indicatorCode)) {
         // Find country based on alpha-3 code
         const currCountry = countries.features.find(
           (cntr) => cntr.properties.alpha2 === this.indicatorObject.country,
@@ -1056,7 +1059,7 @@ export default {
             }, this);
             // Now we add our default 2 lockdown labels but we exclude indicators
             // where it is not applicable
-            if (!['E10a1', 'E10a5', 'E10a8', 'N2', 'N4c', 'E12c', 'E12d']
+            if (!['E10a1', 'E10a5', 'E10a8', 'N2', 'N4c', 'E12c', 'E12d', 'GSA']
               .includes(this.indicatorObject.indicator)) {
               labelObjects.push({
                 text: 'Low Restrictions',

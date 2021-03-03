@@ -1389,7 +1389,6 @@ export default {
           returnIndicator.measurement = [0];
           returnIndicator.title = feature.name;
           returnIndicator.yAxis = this.indicator.yAxis;
-          console.log(returnIndicator);
           this.map.fireEvent('dataload');
           this.$store.commit(
             'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', returnIndicator,
