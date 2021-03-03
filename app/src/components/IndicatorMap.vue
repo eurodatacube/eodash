@@ -242,11 +242,12 @@
         :lat-lng="feature.AOI.split(',').map(Number)"
         :name="feature.name"
         color="#000"
-        :radius=4
-        :fillColor="appConfig.branding.primaryColor"
-        :weight=1
-        :opacity=0.8
-        :fillOpacity=0.8
+        :radius="selectedBorder === feature.borderId ? 6 : 4"
+        :fillColor="selectedBorder === feature.borderId ?
+          appConfig.branding.secondaryColor : appConfig.branding.primaryColor"
+        :weight="selectedBorder === feature.borderId ? 2 : 1"
+        :opacity="selectedBorder === feature.borderId ? 1.0 : 0.7"
+        :fillOpacity="selectedBorder === feature.borderId ? 1.0 : 0.7"
         @click="selectGSAIndicator(feature)"
       >
       <l-tooltip class="tooltip text-center" :options="{ direction: 'top' }">
@@ -476,6 +477,7 @@ export default {
       dataFeaturesCount: 0,
       compareFeaturesCount: 0,
       selectedCountry: null,
+      selectedBorder: null,
       selectedLayer: null,
     };
   },
@@ -1368,6 +1370,7 @@ export default {
       }
     },
     selectGSAIndicator(feature) {
+      this.selectedBorder = feature.borderId;
       const dataUrl = `./eodash-data/internal/${feature.borderId}.json`;
       this.map.fireEvent('dataloading');
       fetch(dataUrl).then((r) => r.json())
