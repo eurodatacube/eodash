@@ -1368,15 +1368,24 @@ export default {
       this.map.fireEvent('dataloading');
       fetch(dataUrl).then((r) => r.json())
         .then((indicator) => {
-          indicator.indicator = 'GSA'; // eslint-disable-line
-          indicator.time = [DateTime.local()]; // eslint-disable-line
-          indicator.measurement = [0]; // eslint-disable-line
-          // indicator.country = indicator.CountryCode; // eslint-disable-line
-          indicator.title = feature.name; // eslint-disable-line
-          indicator.yAxis = this.indicator.yAxis; // eslint-disable-line
+          const returnIndicator = {};
+          returnIndicator.values = { ...indicator };
+          returnIndicator.indicator = 'GSA';
+          // Get all times of available border crossings to allow finding min max
+          returnIndicator.time = [];
+          Object.keys(indicator).forEach((key) => {
+            const currVals = indicator[key].values;
+            for (let i = 0; i < currVals.length; i += 1) {
+              returnIndicator.time.push(DateTime.fromISO(currVals[i].timestamp));
+            }
+          });
+          returnIndicator.measurement = [0];
+          returnIndicator.title = feature.name;
+          returnIndicator.yAxis = this.indicator.yAxis;
+          console.log(returnIndicator);
           this.map.fireEvent('dataload');
           this.$store.commit(
-            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
+            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', returnIndicator,
           );
           this.$emit('fetchCustomAreaIndicator');
         })

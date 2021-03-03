@@ -3,7 +3,7 @@
     v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8',
       'E10c', 'N1', 'N3', 'N3b', 'E8',
       'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG']
+      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -181,6 +181,31 @@ export default {
             datasetsObj.transit_stations.push({ t, y: vals[entry].transit_stations });
           }
           Object.keys(datasetsObj).forEach((key, idx) => {
+            datasets.push({
+              label: key,
+              data: datasetsObj[key],
+              fill: false,
+              borderColor: refColors[idx],
+              backgroundColor: refColors[idx],
+              borderWidth: 1,
+              pointRadius: 2,
+              cubicInterpolationMode: 'monotone',
+            });
+          });
+        } else if (['GSA'].includes(indicatorCode)) {
+          const vals = Object.keys(indicator.values);
+          const datasetsObj = {};
+          for (let entry = 0; entry < vals.length; entry += 1) {
+            datasetsObj[vals[entry]] = [];
+            const currVals = indicator.values[vals[entry]].values;
+            for (let i = 0; i < currVals.length; i += 1) {
+              datasetsObj[vals[entry]].push({
+                t: DateTime.fromISO(currVals[i].timestamp),
+                y: Number(currVals[i].waiting_time),
+              });
+            }
+          }
+          Object.keys(indicator.values).forEach((key, idx) => {
             datasets.push({
               label: key,
               data: datasetsObj[key],
