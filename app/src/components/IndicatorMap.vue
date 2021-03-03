@@ -11,8 +11,6 @@
     v-resize="onResize"
     @ready="onMapReady()"
   >
-    <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
-    <l-control-layers position="topright" ref="layersControl"></l-control-layers>
     <l-control-zoom position="topright"></l-control-zoom>
     <l-feature-group ref="customAreaFilterFeatures"></l-feature-group>
     <l-control position="topright"
@@ -374,6 +372,8 @@
         </v-col>
       </v-sheet>
     </div>
+    <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
+    <l-control-layers position="topright" ref="layersControl"></l-control-layers>
   </l-map>
 </template>
 
@@ -1528,16 +1528,10 @@ export default {
     enableCompare(on) {
       if (!on) {
         if (this.slider !== null) {
-          if (this.$refs.compareLayer) {
-            this.$refs.layersControl.mapObject.removeLayer(this.$refs.compareLayer.mapObject);
-          }
           this.map.removeControl(this.slider);
           this.map.removeLayer(this.$refs.compareLayers.mapObject);
         }
       } else {
-        if (this.$refs.compareLayer) {
-          this.$refs.layersControl.mapObject.addOverlay(this.$refs.compareLayer.mapObject, this.$refs.compareLayer.name); // eslint-disable-line
-        }
         this.map.addLayer(this.$refs.compareLayers.mapObject);
         if (!this.mergedConfigs()[0].customAreaFeatures || this.validDrawnArea) {
           this.fetchFeatures('compare');

@@ -7,6 +7,7 @@
       flat
       color="primary"
       class="white--text"
+      v-show="!isFullScreen"
     >
       <v-app-bar-nav-icon @click.stop="drawerLeft = !drawerLeft" dark />
       <v-toolbar-title
@@ -44,6 +45,7 @@
       clipped
       style="overflow: hidden"
       class="drawerLeft"
+      v-show="!isFullScreen"
     >
       <template v-if="$vuetify.breakpoint.xsOnly">
         <v-list-item style="background: var(--v-primary-base)">
@@ -152,6 +154,7 @@
       hide-overlay
       transition="dialog-bottom-transition"
       style="overflow:hidden"
+      v-show="!isFullScreen"
     >
       <v-toolbar dark color="primary">
         <v-toolbar-title style="overflow: unset; white-space: pre-wrap;"
@@ -219,7 +222,7 @@
         </v-row>
       </v-container>
     </v-content>
-    <global-footer />
+    <global-footer v-if="!isFullScreen"/>
   </div>
 </template>
 
@@ -233,6 +236,7 @@ import DataPanel from '@/components/DataPanel.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
+import { mapState } from 'vuex';
 
 export default {
   metaInfo() {
@@ -292,6 +296,7 @@ export default {
     theme() {
       return (this.$vuetify.theme.dark) ? 'dark' : 'light';
     },
+    ...mapState(['isFullScreen'])
   },
   created() {
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
