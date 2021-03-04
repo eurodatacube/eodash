@@ -241,13 +241,13 @@
         ref="markers"
         :lat-lng="feature.AOI.split(',').map(Number)"
         :name="feature.name"
-        color="#000"
+        color="#fff"
         :radius="selectedBorder === feature.borderId ? 6 : 4"
         :fillColor="selectedBorder === feature.borderId ?
           appConfig.branding.secondaryColor : appConfig.branding.primaryColor"
         :weight="selectedBorder === feature.borderId ? 2 : 1"
-        :opacity="selectedBorder === feature.borderId ? 1.0 : 0.7"
-        :fillOpacity="selectedBorder === feature.borderId ? 1.0 : 0.7"
+        :opacity="selectedBorder === feature.borderId ? 1.0 : 0.8"
+        :fillOpacity="selectedBorder === feature.borderId ? 1.0 : 0.9"
         @click="selectGSAIndicator(feature)"
       >
       <l-tooltip class="tooltip text-center" :options="{ direction: 'top' }">
