@@ -209,7 +209,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   NASAPopulation: {
     indicator: 'Population',
-    class: 'economic', 
+    class: 'economic',
     story: '/data/trilateral/NASAPopulation',
   },
   N2: {
@@ -1203,7 +1203,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.8 44.5,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))').toJson(),
           }],
         },
-        time: availableDates.JAXA_CHLA.reverse(),
+        time: availableDates.JAXA_CHLA_NorthAdriatic_JAXA.reverse(),
         inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1322,7 +1322,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((139.243472 34.838717,139.243472 35.693106,140.265201 35.693106,140.265201 34.838717,139.243472 34.838717))').toJson(),
           }],
         },
-        time: availableDates.JAXA_CHLA.reverse(),
+        time: availableDates.JAXA_CHLA_JP01.reverse(),
         inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1400,7 +1400,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((136.4 34.2, 137.4 34.2, 137.4 35.2, 136.4 35.2, 136.4 34.2))').toJson(),
           }],
         },
-        time: availableDates.JAXA_CHLA.reverse(),
+        time: availableDates.JAXA_CHLA_JP04.reverse(),
         inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1439,7 +1439,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((134.5 33.85, 135.5 33.85, 135.5 34.85, 134.5 34.85, 134.5 33.85))').toJson(),
           }],
         },
-        time: availableDates.JAXA_CHLA.reverse(),
+        time: availableDates.JAXA_CHLA_JP02.reverse(),
         inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1596,7 +1596,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.8 44.5,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))').toJson(),
           }],
         },
-        time: availableDates.JAXA_TSM.reverse(),
+        time: availableDates.JAXA_TSM_NorthAdriaticTSM_JAXA.reverse(),
         inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1635,7 +1635,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((139.243472 34.838717,139.243472 35.693106,140.265201 35.693106,140.265201 34.838717,139.243472 34.838717))').toJson(),
           }],
         },
-        time: availableDates.JAXA_TSM.reverse(),
+        time: availableDates.JAXA_TSM_JP01TSM.reverse(),
         inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1674,7 +1674,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((136.4 34.2, 137.4 34.2, 137.4 35.2, 136.4 35.2, 136.4 34.2))').toJson(),
           }],
         },
-        time: availableDates.JAXA_TSM.reverse(),
+        time: availableDates.JAXA_TSM_JP04TSM.reverse(),
         inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1713,7 +1713,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((134.5 33.85, 135.5 33.85, 135.5 34.85, 134.5 34.85, 134.5 33.85))').toJson(),
           }],
         },
-        time: availableDates.JAXA_TSM.reverse(),
+        time: availableDates.JAXA_TSM_JP02TSM.reverse(),
         inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,

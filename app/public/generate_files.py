@@ -28,14 +28,32 @@ envs = dot_env.dict()
 COLLECTIONS = [
     "N3_CUSTOM", "N3_CUSTOM_TSMNN", "E12C_NEW_MOTORWAY",
     "E12D_NEW_PRIMARYROADS", "ICEYE-E3", "ICEYE-E11", "ICEYE-E11A", "ICEYE-E12B",
-    "ICEYE-E13B", "N3_CUSTOM_TRILATERAL", "N3_CUSTOM_TRILATERAL_TSMNN", "JAXA_TSM"
+    "ICEYE-E13B","N3_CUSTOM_TRILATERAL", "N3_CUSTOM_TRILATERAL_TSMNN",
+    "JAXA_TSM", "JAXA_CHLA"
 ]
+
+# Some datasets have different dates for different areas so we need to separate
+# the request to only retrieve dates from those locations
+BBOX = {
+    "JAXA_CHLA": [
+        ("44.48,12.05,45.82,13.85", "NorthAdriatic_JAXA"),
+        ("34.838,139.24,35.6932,140.266", "JP01"),
+        ("34.2,136.4,35.2,137.4", "JP04"),
+        ("33.85,134.5,34.85,135.5", "JP02"),
+    ],
+    "JAXA_TSM": [
+        ("44.48,12.05,45.82,13.85", "NorthAdriaticTSM_JAXA"),
+        ("34.838,139.24,35.6932,140.266", "JP01TSM"),
+        ("34.2,136.4,35.2,137.4", "JP04TSM"),
+        ("33.85,134.5,34.85,135.5", "JP02TSM"),
+    ],
+}
 
 # TODO: what to do about SENTINEL-2-L2A-TRUE-COLOR collection, not BYOD
 
 WFSENDPOINT = "https://shservices.mundiwebservices.com/ogc/wfs/"
-REQUESTOPTIONS = "?REQUEST=%s&srsName=%s&BBOX=%s&TIME=%s&outputformat=%s"%(
-    "GetFeature", "EPSG:4326", "-180,90,180,-90",
+REQUESTOPTIONS = "?REQUEST=%s&srsName=%s&TIME=%s&outputformat=%s"%(
+    "GetFeature", "EPSG:4326",
     "1900-01-01/3000-02-01", "application/json"
 )
 
@@ -58,11 +76,25 @@ for key in COLLECTIONS:
     if key in envs:
         coll_id = envs[key]
         layer_name = "&TYPENAMES=DSS10-%s"%(coll_id)
-        request = "%s%s%s%s"%(
-            WFSENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS, layer_name
-        )
-        results = retrieve_entries(request, 0)
-        results_dict[key] = results
+        if key in BBOX:
+            # There are multiple locations for this dataset so we do
+            # requests for each location
+            for (val, subr_key) in BBOX[key]:
+                bbox = "&BBOX=%s"%val
+                request = "%s%s%s%s%s"%(
+                    WFSENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
+                    layer_name, bbox
+                )
+                results = retrieve_entries(request, 0)
+                results_dict[("%s_%s"%(key, subr_key))] = results
+        else:
+            bbox = "&BBOX=-180,90,180,-90"
+            request = "%s%s%s%s%s"%(
+                WFSENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
+                layer_name, bbox
+            )
+            results = retrieve_entries(request, 0)
+            results_dict[key] = results
     else:
         print("Key for %s not found in environment variables"%key)
 

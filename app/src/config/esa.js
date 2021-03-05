@@ -496,18 +496,6 @@ const getDailyDates = (start, end) => {
   return dateArray;
 };
 
-const getWeeklyDates = (start, end) => {
-  let currentDate = DateTime.fromISO(start);
-  const stopDate = DateTime.fromISO(end);
-
-  const dateArray = [];
-  while (currentDate <= stopDate) {
-    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
-    currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
-  }
-  return dateArray;
-};
-
 const getFortnightIntervalDates = (start, end) => {
   let currentDate = DateTime.fromISO(start);
   const stopDate = end === 'now' ? DateTime.utc().minus({ days: 13 }) : DateTime.fromISO(end).minus({ days: 13 });
