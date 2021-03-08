@@ -86,6 +86,7 @@ for key in COLLECTIONS:
                     layer_name, bbox
                 )
                 results = retrieve_entries(request, 0)
+                results.sort()
                 results_dict[("%s_%s"%(key, subr_key))] = results
         else:
             bbox = "&BBOX=-180,90,180,-90"
@@ -94,6 +95,7 @@ for key in COLLECTIONS:
                 layer_name, bbox
             )
             results = retrieve_entries(request, 0)
+            results.sort()
             results_dict[key] = results
     else:
         print("Key for %s not found in environment variables"%key)
