@@ -133,17 +133,17 @@
         layer-type="overlay"
       >
       </LTileLayer>
-      <LWMSTileLayer
-      v-for="(layerConfig, i) in mergedConfigs().filter(l => l.protocol === 'WMS')"
-        ref="dataLayerArrayWMS"
-        :data-key-originalindex="i"
-        :key="dataLayerKeyWMS[i]"
-        v-bind="layerConfig"
-        :options="layerOptions(currentTime, layerConfig)"
-        :pane="overlayPane"
-        layer-type="overlay"
-      >
-      </LWMSTileLayer>
+      <l-layer-group ref="dataLayerArrayWMS" layer-type="overlay" name="all layers">
+        <LWMSTileLayer
+        v-for="(layerConfig, i) in mergedConfigs().filter(l => l.protocol === 'WMS')"
+          :data-key-originalindex="i"
+          :key="dataLayerKeyWMS[i]"
+          v-bind="layerConfig"
+          :options="layerOptions(currentTime, layerConfig)"
+          :pane="overlayPane"
+        >
+        </LWMSTileLayer>
+      </l-layer-group>
     </l-layer-group>
     <l-layer-group ref="compareLayers">
       <LTileLayer
@@ -157,17 +157,18 @@
         :pane="overlayPane"
       >
       </LTileLayer>
-      <LWMSTileLayer
-      v-for="(layerConfig, i) in mergedConfigs('compare').filter(l => l.protocol === 'WMS')"
-        ref="compareLayerArrayWMS"
-        :data-key-originalindex="i"
-        :key="compareLayerKeyWMS[i]"
-        v-bind="layerConfig"
-        :visible="enableCompare"
-        :options="layerOptions(currentCompareTime, layerConfig)"
-        :pane="overlayPane"
-      >
-      </LWMSTileLayer>
+      <l-layer-group ref="compareLayerArrayWMS">
+        <LWMSTileLayer
+        v-for="(layerConfig, i) in mergedConfigs('compare').filter(l => l.protocol === 'WMS')"
+          :data-key-originalindex="i"
+          :key="compareLayerKeyWMS[i]"
+          v-bind="layerConfig"
+          :visible="enableCompare"
+          :options="layerOptions(currentCompareTime, layerConfig)"
+          :pane="overlayPane"
+        >
+        </LWMSTileLayer>
+      </l-layer-group>
       <l-geo-json
         :geojson="indicator.subAoi"
         :pane="shadowPane"
@@ -748,7 +749,11 @@ export default {
         delayIndicator: 200,
       }).addTo(this.map);
       // add A/B slider
-      this.slider = L.control.sideBySide(this.$refs.compareLayers.mapObject.getLayers(), this.$refs.dataLayers.mapObject.getLayers()); // eslint-disable-line
+      console.log(this.$refs.compareLayers.mapObject.getLayers());
+      this.slider = L.control.sideBySide(
+        this.extractActualLayers(this.$refs.compareLayers),
+        this.extractActualLayers(this.$refs.dataLayers),
+      );
       this.drawControl = new L.Control.Draw(this.drawOptions);
       this.map.on(L.Draw.Event.CREATED, function (e) { // eslint-disable-line
         // set global area as json
@@ -1051,7 +1056,10 @@ export default {
       this.dataLayerIndex = newIndex;
       this.refreshLayers('data');
       this.$nextTick(() => {
-        this.slider.setRightLayers(this.$refs.dataLayers.mapObject.getLayers());
+        console.log(this.extractActualLayers(this.$refs.dataLayers));
+        this.slider.setRightLayers(
+          this.extractActualLayers(this.$refs.dataLayers),
+        );
       });
       if (this.indicator.compareDisplay) {
         // shared time on both sides in case of compareDisplay being set
@@ -1059,9 +1067,22 @@ export default {
         this.compareLayerIndex = newIndex;
         this.refreshLayers('compare');
         this.$nextTick(() => {
-          this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
+          this.slider.setLeftLayers(
+            this.extractActualLayers(this.$refs.compareLayers),
+          );
         });
       }
+    },
+    extractActualLayers(group) {
+      let actualLayers = [];
+      if (group.$children.length > 0) {
+        group.$children.forEach((child) => {
+          actualLayers = actualLayers.concat(this.extractActualLayers(child));
+        });
+      } else {
+        actualLayers.push(group.mapObject);
+      }
+      return actualLayers;
     },
     compareLayerTimeSelection(payload) {
       // Different object returned either by arrow use or by dropdown use
@@ -1076,7 +1097,10 @@ export default {
       this.compareLayerIndex = newIndex;
       this.refreshLayers('compare');
       this.$nextTick(() => {
-        this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
+        console.log(this.extractActualLayers(this.$refs.compareLayers));
+        this.slider.setLeftLayers(
+          this.extractActualLayers(this.$refs.compareLayers),
+        );
       });
     },
     dataLayerReduce() {
@@ -1134,7 +1158,7 @@ export default {
       if (side === 'compare' || this.indicator.compareDisplay) {
         if (this.$refs.compareLayerArrayWMS) {
           // change source parameters because of time change
-          this.$refs.compareLayerArrayWMS.forEach((item) => {
+          this.$refs.compareLayerArrayWMS.$children.forEach((item) => {
             // vue refs do not maintain order while creating v-for :refs
             // use data-key-originalindex helper property (index from original config array)
             const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
@@ -1163,7 +1187,7 @@ export default {
       }
       if (side === 'data') {
         if (this.$refs.dataLayerArrayWMS) {
-          this.$refs.dataLayerArrayWMS.forEach((item) => {
+          this.$refs.dataLayerArrayWMS.$children.forEach((item) => {
             const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
             item.mapObject
               .setParams(this.layerOptions(this.currentTime, this.mergedConfigs()[originalIndex]));
@@ -1359,8 +1383,12 @@ export default {
           this.fetchFeatures('compare');
         }
         this.$nextTick(() => {
-          this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
-          this.slider.setRightLayers(this.$refs.dataLayers.mapObject.getLayers());
+          this.slider.setLeftLayers(
+            this.extractActualLayers(this.$refs.compareLayers),
+          );
+          this.slider.setRightLayers(
+            this.extractActualLayers(this.$refs.dataLayers),
+          );
           this.slider.addTo(this.map);
         });
       }
