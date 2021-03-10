@@ -1215,21 +1215,20 @@ export default {
           this.$refs.compareLayerArrayWMS.$children.forEach((item) => {
             // We check if we have a simple layer or a grouped layer
             if (item.$children.length > 0) {
+              // This is a grouped layer, we iterate over the layers
               item.$children.forEach((subItem) => {
-                // vue refs do not maintain order while creating v-for :refs
-                // use data-key-originalindex helper property (index from original config array)
-                const originalIndex = parseInt(subItem.$attrs['data-key-originalindex'], 10);
-                subItem.mapObject
-                  .setParams(this.layerOptions(this.currentCompareTime, this.mergedConfigs('compare')[originalIndex]));
-                this.compareLayerKeyWMS[originalIndex] = Math.random();
+                subItem.mapObject.setParams(this.layerOptions(
+                  this.currentTime, subItem.$options.propsData,
+                ));
+                // force redraw of layer
+                subItem.$forceUpdate();
               });
             } else {
-              // vue refs do not maintain order while creating v-for :refs
-              // use data-key-originalindex helper property (index from original config array)
-              const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
-              item.mapObject
-                .setParams(this.layerOptions(this.currentCompareTime, this.mergedConfigs('compare')[originalIndex]));
-              this.compareLayerKeyWMS[originalIndex] = Math.random();
+              item.mapObject.setParams(this.layerOptions(
+                this.currentTime, item.$options.propsData,
+              ));
+              // force redraw of layer
+              item.$forceUpdate();
             }
           });
           // using ref inside v-for populating $refs will not work in VUE 3
@@ -1258,22 +1257,18 @@ export default {
             if (item.$children.length > 0) {
               // This is a grouped layer, we iterate over the layers
               item.$children.forEach((subItem) => {
-                const originalIndex = parseInt(subItem.$attrs['data-key-originalindex'], 10);
-                subItem.mapObject
-                  .setParams(this.layerOptions(
-                    this.currentTime, this.mergedConfigs()[originalIndex],
-                  ));
-                // force redraw all data layers
-                this.dataLayerKeyWMS[originalIndex] = Math.random();
+                subItem.mapObject.setParams(this.layerOptions(
+                  this.currentTime, subItem.$options.propsData,
+                ));
+                // force redraw of layer
+                subItem.$forceUpdate();
               });
             } else {
-              const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
-              item.mapObject
-                .setParams(this.layerOptions(
-                  this.currentTime, this.mergedConfigs()[originalIndex],
-                ));
-              // force redraw all data layers
-              this.dataLayerKeyWMS[originalIndex] = Math.random();
+              item.mapObject.setParams(this.layerOptions(
+                this.currentTime, item.$options.propsData,
+              ));
+              // force redraw of layer
+              item.$forceUpdate();
             }
           });
         }
