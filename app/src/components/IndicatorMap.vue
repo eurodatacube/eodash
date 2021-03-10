@@ -186,7 +186,7 @@
             :key="cLayerConfig.name"
             v-bind="cLayerConfig"
             :visible="enableCompare"
-            :options="layerOptions(currentTime, cLayerConfig)"
+            :options="layerOptions(currentCompareTime, cLayerConfig)"
             :pane="overlayPane"
           >
           </LWMSTileLayer>
@@ -197,7 +197,7 @@
           :key="dataLayerKeyWMS[i]"
           v-bind="layerConfig"
           :visible="enableCompare"
-          :options="layerOptions(currentTime, layerConfig)"
+          :options="layerOptions(currentCompareTime, layerConfig)"
           :pane="overlayPane"
         >
         </LWMSTileLayer>
@@ -1218,14 +1218,14 @@ export default {
               // This is a grouped layer, we iterate over the layers
               item.$children.forEach((subItem) => {
                 subItem.mapObject.setParams(this.layerOptions(
-                  this.currentTime, subItem.$options.propsData,
+                  this.currentCompareTime, subItem.$options.propsData,
                 ));
                 // force redraw of layer
                 subItem.$forceUpdate();
               });
             } else {
               item.mapObject.setParams(this.layerOptions(
-                this.currentTime, item.$options.propsData,
+                this.currentCompareTime, item.$options.propsData,
               ));
               // force redraw of layer
               item.$forceUpdate();
@@ -1449,21 +1449,13 @@ export default {
   },
   watch: {
     enableCompare(on) {
-      console.log('ENABLE COMPARE');
       if (!on) {
         if (this.slider !== null) {
           this.map.removeControl(this.slider);
-          // Go through compare layers to remove all groups/layers inside
-          this.extractActualLayers(this.$refs.compareLayers).forEach((l) => {
-            console.log(l);
-            this.map.removeLayer(l);
-          });
+          this.map.removeLayer(this.$refs.compareLayers.mapObject);
         }
       } else {
-        // Go through compare layers to remove all groups/layers inside
-        this.extractActualLayers(this.$refs.compareLayers).forEach((l) => {
-          this.map.addLayer(l);
-        });
+        this.map.addLayer(this.$refs.compareLayers.mapObject);
         if (!this.mergedConfigs()[0].customAreaFeatures || this.validDrawnArea) {
           this.fetchFeatures('compare');
         }
