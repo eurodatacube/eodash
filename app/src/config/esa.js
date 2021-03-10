@@ -1267,8 +1267,8 @@ export const globalIndicators = [
           url: 'https://resources.marine.copernicus.eu/?option=com_csw%20&view=details%20&product_id=OCEANCOLOUR_MED_CHL_L4_NRT_OBSERVATIONS_009_041',
         },
         display: [{
-          name: 'grouplayername',
-          layers: [
+          name: 'CHL L4 Product',
+          combinedLayers: [
             {
               ...cmemsDisplay,
               baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-atl-bio-multi-l4-chl_interpolated_1km_daily-rt?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
