@@ -133,22 +133,35 @@
         layer-type="overlay"
       >
       </LTileLayer>
-      <l-layer-group ref="dataLayerArrayWMS">
-        <l-layer-group
-        v-for="combLayer in this.getCombinedWMSLayers()"
-          :key="combLayer.name"
-          :name="combLayer.name"
-          layer-type="overlay"
-        >
+      <template v-if="getCombinedWMSLayers().length > 0">
+        <l-layer-group ref="dataLayerArrayWMS">
+          <l-layer-group
+          v-for="combLayer in this.getCombinedWMSLayers()"
+            :key="combLayer.name"
+            :name="combLayer.name"
+            layer-type="overlay"
+          >
+            <LWMSTileLayer
+            v-for="cLayerConfig in combLayer.combinedLayers"
+              :key="cLayerConfig.name"
+              v-bind="cLayerConfig"
+              :options="layerOptions(currentTime, cLayerConfig)"
+              :pane="overlayPane"
+            >
+            </LWMSTileLayer>
+          </l-layer-group>
           <LWMSTileLayer
-          v-for="cLayerConfig in combLayer.combinedLayers"
-            :key="cLayerConfig.name"
-            v-bind="cLayerConfig"
-            :options="layerOptions(currentTime, cLayerConfig)"
+          v-for="layerConfig in this.getSimpleWMSLayers()"
+            :key="layerConfig.name"
+            v-bind="layerConfig"
+            :options="layerOptions(currentTime, layerConfig)"
             :pane="overlayPane"
+            layer-type="overlay"
           >
           </LWMSTileLayer>
         </l-layer-group>
+      </template>
+      <template v-else>
         <LWMSTileLayer
         v-for="layerConfig in this.getSimpleWMSLayers()"
           :key="layerConfig.name"
@@ -158,7 +171,7 @@
           layer-type="overlay"
         >
         </LWMSTileLayer>
-      </l-layer-group>
+      </template>
     </l-layer-group>
     <l-layer-group ref="compareLayers">
       <LTileLayer
@@ -172,23 +185,36 @@
         :pane="overlayPane"
       >
       </LTileLayer>
-      <l-layer-group ref="compareLayerArrayWMS">
-        <l-layer-group
-        v-for="combLayer in this.getCombinedWMSLayers()"
-          :key="combLayer.name"
-        >
+      <template v-if="getCombinedWMSLayers('compare').length > 0">
+        <l-layer-group ref="compareLayerArrayWMS">
+          <l-layer-group
+          v-for="combLayer in this.getCombinedWMSLayers('compare')"
+            :key="combLayer.name"
+          >
+            <LWMSTileLayer
+            v-for="cLayerConfig in combLayer.combinedLayers"
+              :key="cLayerConfig.name"
+              v-bind="cLayerConfig"
+              :visible="enableCompare"
+              :options="layerOptions(currentCompareTime, cLayerConfig)"
+              :pane="overlayPane"
+            >
+            </LWMSTileLayer>
+          </l-layer-group>
           <LWMSTileLayer
-          v-for="cLayerConfig in combLayer.combinedLayers"
-            :key="cLayerConfig.name"
-            v-bind="cLayerConfig"
+          v-for="layerConfig in this.getSimpleWMSLayers('compare')"
+            :key="layerConfig.name"
+            v-bind="layerConfig"
             :visible="enableCompare"
-            :options="layerOptions(currentCompareTime, cLayerConfig)"
+            :options="layerOptions(currentCompareTime, layerConfig)"
             :pane="overlayPane"
           >
           </LWMSTileLayer>
         </l-layer-group>
+      </template>
+      <template v-else>
         <LWMSTileLayer
-        v-for="layerConfig in this.getSimpleWMSLayers()"
+        v-for="layerConfig in this.getSimpleWMSLayers('compare')"
           :key="layerConfig.name"
           v-bind="layerConfig"
           :visible="enableCompare"
@@ -196,7 +222,7 @@
           :pane="overlayPane"
         >
         </LWMSTileLayer>
-      </l-layer-group>
+      </template>
       <l-geo-json
         :geojson="indicator.subAoi"
         :pane="shadowPane"
@@ -775,10 +801,9 @@ export default {
         delayIndicator: 200,
       }).addTo(this.map);
       // add A/B slider
-      this.slider = L.control.sideBySide(
-        this.extractActualLayers(this.$refs.compareLayers),
-        this.extractActualLayers(this.$refs.dataLayers),
-      );
+      const leftLayers = this.extractActualLayers(this.$refs.compareLayers);
+      const rightLayers = this.extractActualLayers(this.$refs.dataLayers);
+      this.slider = L.control.sideBySide(leftLayers,rightLayers);
       this.drawControl = new L.Control.Draw(this.drawOptions);
       this.map.on(L.Draw.Event.CREATED, function (e) { // eslint-disable-line
         // set global area as json
@@ -930,14 +955,14 @@ export default {
       // empty config used later for merging
       return [];
     },
-    getCombinedWMSLayers() {
-      const combLayers = this.mergedConfigs().filter((l) => (
+    getCombinedWMSLayers(side) {
+      const combLayers = this.mergedConfigs(side).filter((l) => (
         l.protocol === 'WMS' && Object.keys(l).indexOf('combinedLayers') !== -1
       ));
       return combLayers;
     },
-    getSimpleWMSLayers() {
-      const combLayers = this.mergedConfigs().filter((l) => (
+    getSimpleWMSLayers(side) {
+      const combLayers = this.mergedConfigs(side).filter((l) => (
         l.protocol === 'WMS' && Object.keys(l).indexOf('combinedLayers') === -1
       ));
       return combLayers;
@@ -1437,12 +1462,6 @@ export default {
           this.fetchFeatures('compare');
         }
         this.$nextTick(() => {
-          this.slider.setLeftLayers(
-            this.extractActualLayers(this.$refs.compareLayers),
-          );
-          this.slider.setRightLayers(
-            this.extractActualLayers(this.$refs.dataLayers),
-          );
           this.slider.addTo(this.map);
         });
       }
