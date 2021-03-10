@@ -123,10 +123,9 @@
       >
       </l-circle-marker>
       <LTileLayer
-      v-for="(layerConfig, i) in mergedConfigs().filter(l => l.protocol === 'xyz')"
+      v-for="layerConfig in mergedConfigs().filter(l => l.protocol === 'xyz')"
         ref="dataLayerArrayXYZ"
-        :data-key-originalindex="i"
-        :key="dataLayerKeyXYZ[i]"
+        :key="layerConfig.name"
         v-bind="layerConfig"
         :options="layerOptions(currentTime, layerConfig)"
         :pane="overlayPane"
@@ -141,8 +140,7 @@
           layer-type="overlay"
         >
           <LWMSTileLayer
-          v-for="(cLayerConfig, i) in combLayer.combinedLayers"
-            :data-key-originalindex="i"
+          v-for="cLayerConfig in combLayer.combinedLayers"
             :key="cLayerConfig.name"
             v-bind="cLayerConfig"
             :options="layerOptions(currentTime, cLayerConfig)"
@@ -151,9 +149,8 @@
           </LWMSTileLayer>
         </l-layer-group>
         <LWMSTileLayer
-        v-for="(layerConfig, i) in this.getSimpleWMSLayers()"
-          :data-key-originalindex="i"
-          :key="dataLayerKeyWMS[i]"
+        v-for="layerConfig in this.getSimpleWMSLayers()"
+          :key="layerConfig.name"
           v-bind="layerConfig"
           :options="layerOptions(currentTime, layerConfig)"
           :pane="overlayPane"
@@ -164,10 +161,9 @@
     </l-layer-group>
     <l-layer-group ref="compareLayers">
       <LTileLayer
-      v-for="(layerConfig, i) in mergedConfigs('compare').filter(l => l.protocol === 'xyz')"
+      v-for="layerConfig in mergedConfigs('compare').filter(l => l.protocol === 'xyz')"
         ref="compareLayerArrayXYZ"
-        :data-key-originalindex="i"
-        :key="compareLayerKeyXYZ[i]"
+        :key="layerConfig.name"
         v-bind="layerConfig"
         :visible="enableCompare"
         :options="layerOptions(currentCompareTime, layerConfig)"
@@ -181,8 +177,7 @@
           :name="combLayer.name"
         >
           <LWMSTileLayer
-          v-for="(cLayerConfig, i) in combLayer.combinedLayers"
-            :data-key-originalindex="i"
+          v-for="cLayerConfig in combLayer.combinedLayers"
             :key="cLayerConfig.name"
             v-bind="cLayerConfig"
             :visible="enableCompare"
@@ -192,9 +187,8 @@
           </LWMSTileLayer>
         </l-layer-group>
         <LWMSTileLayer
-        v-for="(layerConfig, i) in this.getSimpleWMSLayers()"
-          :data-key-originalindex="i"
-          :key="dataLayerKeyWMS[i]"
+        v-for="layerConfig in this.getSimpleWMSLayers()"
+          :key="layerConfig.name"
           v-bind="layerConfig"
           :visible="enableCompare"
           :options="layerOptions(currentCompareTime, layerConfig)"
@@ -437,10 +431,6 @@ export default {
   data() {
     return {
       map: null,
-      compareLayerKeyXYZ: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-      compareLayerKeyWMS: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35],
-      dataLayerKeyXYZ: [41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55],
-      dataLayerKeyWMS: [61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75],
       dataJsonKey: 0,
       compareJsonKey: -1,
       zoom: null,
@@ -1207,41 +1197,34 @@ export default {
       // use first time
       return this.usedTimes.time[0];
     },
+    refreshGroup(group, time) {
+      if (group) {
+        group.$children.forEach((item) => {
+          // We check if we have a simple layer or a grouped layer
+          if (item.$children.length > 0) {
+            // This is a grouped layer, we iterate over the layers
+            item.$children.forEach((subItem) => {
+              subItem.mapObject.setParams(this.layerOptions(
+                time, subItem.$options.propsData,
+              ));
+              // force redraw of layer
+              subItem.$forceUpdate();
+            });
+          } else {
+            item.mapObject.setParams(this.layerOptions(
+              time, item.$options.propsData,
+            ));
+            // force redraw of layer
+            item.$forceUpdate();
+          }
+        });
+      }
+    },
     refreshLayers(side) {
       // compare(left) or data(right)
       if (side === 'compare' || this.indicator.compareDisplay) {
-        if (this.$refs.compareLayerArrayWMS) {
-          // change source parameters because of time change
-          this.$refs.compareLayerArrayWMS.$children.forEach((item) => {
-            // We check if we have a simple layer or a grouped layer
-            if (item.$children.length > 0) {
-              // This is a grouped layer, we iterate over the layers
-              item.$children.forEach((subItem) => {
-                subItem.mapObject.setParams(this.layerOptions(
-                  this.currentCompareTime, subItem.$options.propsData,
-                ));
-                // force redraw of layer
-                subItem.$forceUpdate();
-              });
-            } else {
-              item.mapObject.setParams(this.layerOptions(
-                this.currentCompareTime, item.$options.propsData,
-              ));
-              // force redraw of layer
-              item.$forceUpdate();
-            }
-          });
-          // using ref inside v-for populating $refs will not work in VUE 3
-          // https://v3.vuejs.org/guide/migration/array-refs.html#frontmatter-title
-        }
-        if (this.$refs.compareLayerArrayXYZ) {
-          this.$refs.compareLayerArrayXYZ.forEach((item) => {
-            const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
-            item.mapObject
-              .setUrl(this.mergedConfigs('compare')[originalIndex].url);
-            this.compareLayerKeyXYZ[originalIndex] = Math.random();
-          });
-        }
+        this.refreshGroup(this.$refs.compareLayerArrayWMS, this.currentCompareTime);
+        this.refreshGroup(this.$refs.compareLayerArrayXYZ, this.currentCompareTime);
         if (!this.mergedConfigs()[0].featuresStatic
           && (!this.mergedConfigs()[0].customAreaFeatures || this.validDrawnArea)) {
           if (this.mergedConfigs()[0].featuresClustering) {
@@ -1251,35 +1234,8 @@ export default {
         }
       }
       if (side === 'data') {
-        if (this.$refs.dataLayerArrayWMS) {
-          this.$refs.dataLayerArrayWMS.$children.forEach((item) => {
-            // We check if we have a simple layer or a grouped layer
-            if (item.$children.length > 0) {
-              // This is a grouped layer, we iterate over the layers
-              item.$children.forEach((subItem) => {
-                subItem.mapObject.setParams(this.layerOptions(
-                  this.currentTime, subItem.$options.propsData,
-                ));
-                // force redraw of layer
-                subItem.$forceUpdate();
-              });
-            } else {
-              item.mapObject.setParams(this.layerOptions(
-                this.currentTime, item.$options.propsData,
-              ));
-              // force redraw of layer
-              item.$forceUpdate();
-            }
-          });
-        }
-        if (this.$refs.dataLayerArrayXYZ) {
-          this.$refs.dataLayerArrayXYZ.forEach((item) => {
-            const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
-            item.mapObject
-              .setUrl(this.mergedConfigs()[originalIndex].url);
-            this.dataLayerKeyXYZ[originalIndex] = Math.random();
-          });
-        }
+        this.refreshGroup(this.$refs.dataLayerArrayWMS, this.currentTime);
+        this.refreshGroup(this.$refs.dataLayerArrayXYZ, this.currentTime);
         if (!this.mergedConfigs()[0].featuresStatic
           && (!this.mergedConfigs()[0].customAreaFeatures || this.validDrawnArea)) {
           if (this.mergedConfigs()[0].featuresClustering) {
@@ -1288,6 +1244,10 @@ export default {
           this.fetchFeatures('data');
         }
       }
+      // This was as comment in the code before which i have restructured
+      // not completely sure where it applies so i leave it here
+      // using ref inside v-for populating $refs will not work in VUE 3
+      // https://v3.vuejs.org/guide/migration/array-refs.html#frontmatter-title
     },
     fetchFeatures(side) {
       if (this.mergedConfigs(side)[0].features) {
