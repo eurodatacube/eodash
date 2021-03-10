@@ -123,9 +123,10 @@
       >
       </l-circle-marker>
       <LTileLayer
-      v-for="layerConfig in mergedConfigs().filter(l => l.protocol === 'xyz')"
+      v-for="(layerConfig, i) in mergedConfigs().filter(l => l.protocol === 'xyz')"
         ref="dataLayerArrayXYZ"
-        :key="layerConfig.name"
+        :data-key-originalindex="i"
+        :key="dataLayerKeyXYZ[i]"
         v-bind="layerConfig"
         :options="layerOptions(currentTime, layerConfig)"
         :pane="overlayPane"
@@ -161,9 +162,10 @@
     </l-layer-group>
     <l-layer-group ref="compareLayers">
       <LTileLayer
-      v-for="layerConfig in mergedConfigs('compare').filter(l => l.protocol === 'xyz')"
+      v-for="(layerConfig, i) in mergedConfigs('compare').filter(l => l.protocol === 'xyz')"
         ref="compareLayerArrayXYZ"
-        :key="layerConfig.name"
+        :data-key-originalindex="i"
+        :key="compareLayerKeyXYZ[i]"
         v-bind="layerConfig"
         :visible="enableCompare"
         :options="layerOptions(currentCompareTime, layerConfig)"
@@ -174,7 +176,6 @@
         <l-layer-group
         v-for="combLayer in this.getCombinedWMSLayers()"
           :key="combLayer.name"
-          :name="combLayer.name"
         >
           <LWMSTileLayer
           v-for="cLayerConfig in combLayer.combinedLayers"
@@ -431,6 +432,8 @@ export default {
   data() {
     return {
       map: null,
+      compareLayerKeyXYZ: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      dataLayerKeyXYZ: [41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55],
       dataJsonKey: 0,
       compareJsonKey: -1,
       zoom: null,
@@ -1142,6 +1145,7 @@ export default {
       this.compareLayerIndex = newIndex;
       this.refreshLayers('compare');
       this.$nextTick(() => {
+        console.log(this.$refs.compareLayers);
         this.slider.setLeftLayers(
           this.extractActualLayers(this.$refs.compareLayers),
         );
@@ -1211,8 +1215,11 @@ export default {
               subItem.$forceUpdate();
             });
           } else {
+            const originalConfig = this.mergedConfigs().find((config) => (
+              config.name === item.name
+            ));
             item.mapObject.setParams(this.layerOptions(
-              time, item.$options.propsData,
+              time, originalConfig,
             ));
             // force redraw of layer
             item.$forceUpdate();
@@ -1224,7 +1231,12 @@ export default {
       // compare(left) or data(right)
       if (side === 'compare' || this.indicator.compareDisplay) {
         this.refreshGroup(this.$refs.compareLayerArrayWMS, this.currentCompareTime);
-        this.refreshGroup(this.$refs.compareLayerArrayXYZ, this.currentCompareTime);
+        if (this.$refs.compareLayerArrayXYZ) {
+          this.$refs.compareLayerArrayXYZ.forEach((item) => {
+            const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
+            this.compareLayerKeyXYZ[originalIndex] = Math.random();
+          });
+        }
         if (!this.mergedConfigs()[0].featuresStatic
           && (!this.mergedConfigs()[0].customAreaFeatures || this.validDrawnArea)) {
           if (this.mergedConfigs()[0].featuresClustering) {
@@ -1235,7 +1247,12 @@ export default {
       }
       if (side === 'data') {
         this.refreshGroup(this.$refs.dataLayerArrayWMS, this.currentTime);
-        this.refreshGroup(this.$refs.dataLayerArrayXYZ, this.currentTime);
+        if (this.$refs.dataLayerArrayXYZ) {
+          this.$refs.dataLayerArrayXYZ.forEach((item) => {
+            const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
+            this.dataLayerKeyXYZ[originalIndex] = Math.random();
+          });
+        }
         if (!this.mergedConfigs()[0].featuresStatic
           && (!this.mergedConfigs()[0].customAreaFeatures || this.validDrawnArea)) {
           if (this.mergedConfigs()[0].featuresClustering) {
