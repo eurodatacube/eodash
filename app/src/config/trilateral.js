@@ -3603,12 +3603,12 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([32.56, 30.05]),
+    latlng: latLng([30.05, 32.56]),
     id: 19679,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        aoi: latLng([32.56, 30.05]),
+        aoi: latLng([30.05, 32.56]),
         id: 19679,
         aoiID: 'EG01',
         country: ['EG'],
