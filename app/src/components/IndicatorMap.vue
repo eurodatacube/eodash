@@ -807,7 +807,7 @@ export default {
       // add A/B slider
       const leftLayers = this.extractActualLayers(this.$refs.compareLayers);
       const rightLayers = this.extractActualLayers(this.$refs.dataLayers);
-      this.slider = L.control.sideBySide(leftLayers,rightLayers);
+      this.slider = L.control.sideBySide(leftLayers, rightLayers);
       this.drawControl = new L.Control.Draw(this.drawOptions);
       this.map.on(L.Draw.Event.CREATED, function (e) { // eslint-disable-line
         // set global area as json

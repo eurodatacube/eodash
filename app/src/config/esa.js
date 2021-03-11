@@ -1267,6 +1267,7 @@ export const globalIndicators = [
         },
         display: [{
           name: 'CHL L4 Product',
+          legendUrl: 'eodash-data/data/cmems-legend.png',
           combinedLayers: [
             {
               ...cmemsDisplay,
