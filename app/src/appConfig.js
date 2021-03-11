@@ -179,6 +179,7 @@ module.exports = [
       { code: 'PE', region: 'SOUTH AMERICA' },
       { code: 'TG', region: 'AFRICA' },
       { code: 'TZ', region: 'AFRICA' },
+      { code: 'EG', region: 'AFRICA' },
     ],
     featureGrouping: [
       {
