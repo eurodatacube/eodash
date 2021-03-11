@@ -164,6 +164,7 @@
       <template v-else>
         <LWMSTileLayer
         v-for="layerConfig in this.getSimpleWMSLayers()"
+          ref="dataLayerArrayWMS"
           :key="layerConfig.name"
           v-bind="layerConfig"
           :options="layerOptions(currentTime, layerConfig)"
@@ -215,6 +216,7 @@
       <template v-else>
         <LWMSTileLayer
         v-for="layerConfig in this.getSimpleWMSLayers('compare')"
+          ref="compareLayerArrayWMS"
           :key="layerConfig.name"
           v-bind="layerConfig"
           :visible="enableCompare"
@@ -1170,7 +1172,6 @@ export default {
       this.compareLayerIndex = newIndex;
       this.refreshLayers('compare');
       this.$nextTick(() => {
-        console.log(this.$refs.compareLayers);
         this.slider.setLeftLayers(
           this.extractActualLayers(this.$refs.compareLayers),
         );
@@ -1227,29 +1228,38 @@ export default {
       return this.usedTimes.time[0];
     },
     refreshGroup(group, time) {
+      // Group can also be an array depending on type
       if (group) {
-        group.$children.forEach((item) => {
-          // We check if we have a simple layer or a grouped layer
-          if (item.$children.length > 0) {
-            // This is a grouped layer, we iterate over the layers
-            item.$children.forEach((subItem) => {
-              subItem.mapObject.setParams(this.layerOptions(
-                time, subItem.$options.propsData,
+        let toIterate;
+        if (Array.isArray(group)) {
+          toIterate = group;
+        } else {
+          toIterate = group.$children;
+        }
+        if (toIterate) {
+          toIterate.forEach((item) => {
+            // We check if we have a simple layer or a grouped layer
+            if (item.$children.length > 0) {
+              // This is a grouped layer, we iterate over the layers
+              item.$children.forEach((subItem) => {
+                subItem.mapObject.setParams(this.layerOptions(
+                  time, subItem.$options.propsData,
+                ));
+                // force redraw of layer
+                subItem.$forceUpdate();
+              });
+            } else {
+              const originalConfig = this.mergedConfigs().find((config) => (
+                config.name === item.name
+              ));
+              item.mapObject.setParams(this.layerOptions(
+                time, originalConfig,
               ));
               // force redraw of layer
-              subItem.$forceUpdate();
-            });
-          } else {
-            const originalConfig = this.mergedConfigs().find((config) => (
-              config.name === item.name
-            ));
-            item.mapObject.setParams(this.layerOptions(
-              time, originalConfig,
-            ));
-            // force redraw of layer
-            item.$forceUpdate();
-          }
-        });
+              item.$forceUpdate();
+            }
+          });
+        }
       }
     },
     refreshLayers(side) {
@@ -1462,6 +1472,12 @@ export default {
           this.fetchFeatures('compare');
         }
         this.$nextTick(() => {
+          this.slider.setLeftLayers(
+            this.extractActualLayers(this.$refs.compareLayers),
+          );
+          this.slider.setRightLayers(
+            this.extractActualLayers(this.$refs.dataLayers),
+          );
           this.slider.addTo(this.map);
         });
       }
