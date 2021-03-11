@@ -273,7 +273,7 @@
         "AOI": "50.08639899905295,12.254283500391535",
         "border": "CZ - DE",
         "borderId": "CZ-DE-151-GSA",
-        "name": "Rozvadov - Waidhaus"
+        "name": "Pomezí nad Ohří – Schirnding"
     },
     "CZ-DE-171-GSA": {
         "AOI": "49.64221599918764,12.520957499602765",
@@ -333,7 +333,7 @@
         "AOI": "47.58596699928255,7.60217999983104",
         "border": "DE - CH",
         "borderId": "DE-CH-125-GSA",
-        "name": "Saint-Louis - Weil am Rhein"
+        "name": "Basel - Weil am Rhein"
     },
     "DE-CH-84-GSA": {
         "AOI": "47.740412499044105,8.718511000039936",
@@ -455,6 +455,12 @@
         "borderId": "EE-LV-68-GSA",
         "name": "Valga - Valka"
     },
+    "EE-RU-179-GSA": {
+        "AOI": "57.643242552903054,27.38034428813765",
+        "border": "EE - RU",
+        "borderId": "EE-RU-179-GSA",
+        "name": "Luhamaa - Kashino (Luhamaa)"
+    },
     "EL-MK-6-GSA": {
         "AOI": "41.130753720723455,22.550999646251412",
         "border": "EL - MK",
@@ -525,7 +531,7 @@
         "AOI": "48.57371049938147,7.80168849957116",
         "border": "FR - DE",
         "borderId": "FR-DE-126-GSA",
-        "name": "Strasbourg - Offenburg"
+        "name": "Strasbourg - Kehl"
     },
     "FR-DE-145-GSA": {
         "AOI": "49.20415499913863,6.957055999638081",
@@ -651,7 +657,7 @@
         "AOI": "48.01297699945802,17.175972999649517",
         "border": "HU - SK",
         "borderId": "HU-SK-133-GSA",
-        "name": "Ratja - Bratislava"
+        "name": "Rajka - Bratislava"
     },
     "HU-SK-147-GSA": {
         "AOI": "48.53122749904661,21.253952000137637",
@@ -808,6 +814,12 @@
         "border": "PL - SK",
         "borderId": "PL-SK-87-GSA",
         "name": "Laliki - Serafinov"
+    },
+    "PL-UA-29-GSA": {
+        "AOI": "50.27427563469011,23.588613164575015",
+        "border": "PL - UA",
+        "borderId": "PL-UA-29-GSA",
+        "name": "Tomaszow  - Lviv"
     },
     "PL-UA-63-GSA": {
         "AOI": "51.18543592962085,23.807972399206687",

@@ -81,8 +81,8 @@ with open(DATAFILE, encoding='utf-8') as csvfile:
     for row in reader:
 
         entry_id = row["id"]
-        from_country = row["from country"]
-        to_country = row["to country"]
+        from_country = row["from_country"]
+        to_country = row["to_country"]
         crossing_id = "%s-%s"%(from_country, to_country)
         border_id = "%s-%s-%s"%(row["border"].replace(" ", ""), entry_id, indicator_code)
 
@@ -93,7 +93,7 @@ with open(DATAFILE, encoding='utf-8') as csvfile:
             pos = transformer.transform(res_rec.record.Coord_X, res_rec.record.Coord_Y)
 
              # We ignore entries where data availabiltiy is 0
-            if row["Data availability (%)"] != "0" and row["waiting time (min)"] != "":
+            if row["data_availability"] != "0" and row["waiting_time_min"] != "":
                 if not border_id in gsa_data_overview:
                     gsa_data_overview[border_id] = {
                         "AOI": "%s,%s"%(pos[0], pos[1]),
@@ -115,11 +115,12 @@ with open(DATAFILE, encoding='utf-8') as csvfile:
                 # TODO: Lets calculate the color to be shown (maybe we dont need this
                 # as we are showing a timeline?)
                 # color = interpolate_tuple((255, 0, 0), (255, 255, 0), 50)
-           
-                current_date = datetime.datetime.strptime(row['timestamp'], "%Y-%m-%d %H:%M:%S%z")
+                
+                # Adding 00 minutes to timezone offset
+                current_date = datetime.datetime.strptime("%s:00"%(row['timestamp']), "%Y-%m-%d %H:%M:%S%z")
                 gsa_data[border_id][crossing_id]["values"].append({
                     "timestamp": current_date,
-                    "waiting_time": row["waiting time (min)"],
+                    "waiting_time": row["waiting_time_min"],
                     # "color": color
                     # "green": row["green status ratio (%)"],
                     # "yellow": row["yellow status ratio (%)"],
