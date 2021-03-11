@@ -122,6 +122,7 @@
         :pane="tooltipPane"
       >
       </l-circle-marker>
+      <!-- XYZ grouping is not implemented yet -->
       <LTileLayer
       v-for="(layerConfig, i) in mergedConfigs().filter(l => l.protocol === 'xyz')"
         ref="dataLayerArrayXYZ"
@@ -175,6 +176,7 @@
       </template>
     </l-layer-group>
     <l-layer-group ref="compareLayers">
+      <!-- XYZ grouping is not implemented yet -->
       <LTileLayer
       v-for="(layerConfig, i) in mergedConfigs('compare').filter(l => l.protocol === 'xyz')"
         ref="compareLayerArrayXYZ"
@@ -1242,6 +1244,8 @@ export default {
             if (item.$children.length > 0) {
               // This is a grouped layer, we iterate over the layers
               item.$children.forEach((subItem) => {
+                // TODO: propsData do not have all the parameters we need (like dateFormatFunction)
+                // TODO extend this getting the mergedConfigs in a same way as when non-grouped
                 subItem.mapObject.setParams(this.layerOptions(
                   time, subItem.$options.propsData,
                 ));
@@ -1296,10 +1300,6 @@ export default {
           this.fetchFeatures('data');
         }
       }
-      // This was as comment in the code before which i have restructured
-      // not completely sure where it applies so i leave it here
-      // using ref inside v-for populating $refs will not work in VUE 3
-      // https://v3.vuejs.org/guide/migration/array-refs.html#frontmatter-title
     },
     fetchFeatures(side) {
       if (this.mergedConfigs(side)[0].features) {
