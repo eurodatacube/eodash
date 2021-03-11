@@ -95,6 +95,7 @@ for key in COLLECTIONS:
                 layer_name, bbox
             )
             results = retrieve_entries(request, 0)
+            results = list(set(results))
             results.sort()
             results_dict[key] = results
     else:

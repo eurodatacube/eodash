@@ -565,7 +565,6 @@ export const globalIndicators = [
         time: getFortnightIntervalDates('2019-01-07', 'now'),
         inputData: [''],
         yAxis: 'Tropospheric NO2 (μmol/m2)',
-        customAreaIndicator: true,
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Tropospheric NO2',
@@ -1267,25 +1266,31 @@ export const globalIndicators = [
           url: 'https://resources.marine.copernicus.eu/?option=com_csw%20&view=details%20&product_id=OCEANCOLOUR_MED_CHL_L4_NRT_OBSERVATIONS_009_041',
         },
         display: [{
-          ...cmemsDisplay,
-          baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-atl-bio-multi-l4-chl_interpolated_1km_daily-rt?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
-          name: 'Atlantic coast CHL L4 Product',
-          bounds: latLngBounds(latLng([20, -45]), latLng([66, 10.5])),
-        }, {
-          ...cmemsDisplay,
-          baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-med-chl-multi-l4-interp_1km_daily-rt-v02?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
-          name: 'Mediterranean CHL L4 Product',
-          bounds: latLngBounds(latLng([30, -6]), latLng([46, 37])),
-        }, {
-          ...cmemsDisplay,
-          baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-bs-chl-multi-l4-interp_1km_daily-rt-v02?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
-          name: 'Black sea CHL L4 Product',
-          bounds: latLngBounds(latLng([40, 26.5]), latLng([48, 42])),
+          name: 'CHL L4 Product',
+          legendUrl: 'eodash-data/data/cmems-legend.png',
+          combinedLayers: [
+            {
+              ...cmemsDisplay,
+              baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-atl-bio-multi-l4-chl_interpolated_1km_daily-rt?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
+              name: 'Atlantic coast CHL L4 Product',
+              bounds: latLngBounds(latLng([20, -45]), latLng([66, 10.5])),
+            }, {
+              ...cmemsDisplay,
+              baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-med-chl-multi-l4-interp_1km_daily-rt-v02?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
+              name: 'Mediterranean CHL L4 Product',
+              bounds: latLngBounds(latLng([30, -6]), latLng([46, 37])),
+            }, {
+              ...cmemsDisplay,
+              baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-bs-chl-multi-l4-interp_1km_daily-rt-v02?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
+              name: 'Black sea CHL L4 Product',
+              bounds: latLngBounds(latLng([40, 26.5]), latLng([48, 42])),
+            },
+          ],
         }, {
           ...cmemsDisplay,
           baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-bal-chl-olci_a-l3-nn_1km_daily-rt-v02?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
           name: 'Baltic sea CHL L3 Product',
-          // visible: false,
+          visible: false,
           bounds: latLngBounds(latLng([53.25, 9]), latLng([65.85, 30.5])),
         }],
       },
