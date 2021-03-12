@@ -1,5 +1,5 @@
 <template>
-<v-row>
+<v-row class="pb-10">
     <template
       v-for="(element, index) in features"
     >
@@ -37,33 +37,44 @@
           />
         </v-card>
         <template v-if="enableEditing">
-          <div class="buttonContainer containerTop">
+          <div class="buttonContainer containerTop" v-show="!popupOpen">
             <v-btn
-              v-if="element.width > 1"
               class="my-2"
-              style="background: white"
+              :style="element.width > 1 ? 'background: white' : 'background: white;visibility: hidden'"
               fab
               outlined
               x-small
               color="primary"
-              @click="resizeSmaller(element)"
+              @click="resizeFeatureShrink(element)"
             >
               <v-icon dark>
                 mdi-arrow-collapse
               </v-icon>
             </v-btn>
             <v-btn
-              v-if="element.width < 4"
               class="my-2"
-              style="background: white"
+              :style="element.width < 4 ? 'background: white' : 'background: white;visibility: hidden'"
               fab
               outlined
               x-small
               color="primary"
-              @click="resizeLarger(element)"
+              @click="resizeFeatureExpand(element)"
             >
               <v-icon dark>
                 mdi-arrow-expand
+              </v-icon>
+            </v-btn>
+            <v-btn
+              class="my-2"
+              fab
+              outlined
+              x-small
+              color="primary"
+              style="background: white"
+              @click="removeFeature(element)"
+            >
+              <v-icon dark>
+                mdi-close
               </v-icon>
             </v-btn>
           </div>
@@ -75,7 +86,7 @@
               dark
               x-small
               color="primary"
-              @click="moveLower(element)"
+              @click="moveFeatureUp(element)"
             >
               <v-icon dark>
                 mdi-chevron-left
@@ -88,7 +99,7 @@
               dark
               x-small
               color="primary"
-              @click="moveHigher(element)"
+              @click="moveFeatureDown(element)"
             >
               <v-icon dark>
                 mdi-chevron-right
@@ -104,59 +115,61 @@
 <script>
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
+import { loadIndicatorData } from '@/utils';
+import { mapGetters, mapState, mapActions } from 'vuex';
 
 export default {
   props: {
-    dashboardFeatures: Array,
     enableEditing: Boolean,
+    popupOpen: Boolean,
   },
   components: {
     IndicatorData,
     IndicatorMap,
   },
   data: () => ({
-    features: null,
+    features: [],
   }),
-  created() {
-    this.features = this.dashboardFeatures;
+  computed: {
+    ...mapGetters('dashboard', {
+      vuexFeatures: 'features'
+    }),
+    ...mapState('config', [
+      'appConfig',
+      'baseConfig',
+    ]),
+  },
+  watch: {
+    vuexFeatures: {
+      immediate: true,
+      deep: true,
+      async handler(features) {
+        if(!features) return;
+        console.log('ft', features, this)
+        this.features = await Promise.all(features.map(async (f) => {
+          const feature = this.$store.state.features.allFeatures
+            .find((i) => this.getLocationCode(i.properties.indicatorObject) === f.poi);
+          const indicatorObject = await loadIndicatorData(
+            this.baseConfig,
+            feature.properties.indicatorObject,
+          );
+          return {
+            ...f,
+            indicatorObject,
+          };
+        }));
+      }
+    },
   },
   methods: {
-    updateFeatures() {
-      this.$emit('updateFeatures', this.features);
-    },
-    resizeSmaller(element) {
-      this.features.find((e) => e.poi === element.poi).width -= 1;
-      this.updateFeatures();
-    },
-    resizeLarger(element) {
-      this.features.find((e) => e.poi === element.poi).width += 1;
-      this.updateFeatures();
-    },
-    moveLower(element) {
-      this.arrayMove(
-        this.features,
-        this.features.indexOf(element),
-        this.features.indexOf(element) - 1,
-      );
-      this.updateFeatures();
-    },
-    moveHigher(element) {
-      this.arrayMove(
-        this.features,
-        this.features.indexOf(element),
-        this.features.indexOf(element) + 1,
-      );
-      this.updateFeatures();
-    },
-    arrayMove(arr, oldIndex, newIndex) {
-      if (newIndex >= arr.length) {
-        let k = newIndex - arr.length + 1;
-        while (k--) {
-          arr.push(undefined);
-        }
-      }
-      arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
-    },
+    ...mapActions('dashboard', [
+      'removeFeature',
+      'addMarketingInfo',
+      'resizeFeatureShrink',
+      'resizeFeatureExpand',
+      'moveFeatureUp',
+      'moveFeatureDown',
+    ]),
   },
 };
 </script>

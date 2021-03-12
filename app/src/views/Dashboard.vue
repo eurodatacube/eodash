@@ -157,10 +157,14 @@
             $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
         >
           {{ $store.state.features.allFeatures
-              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
+              .find(f => getLocationCode(f && f.properties.indicatorObject) === $route.query.poi) &&
+              $store.state.features.allFeatures
+              .find(f => getLocationCode(f && f.properties.indicatorObject) === $route.query.poi)
               .properties.indicatorObject.city }},
           {{ $store.state.features.allFeatures
-              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
+              .find(f => getLocationCode(f && f.properties.indicatorObject) === $route.query.poi)
+              && $store.state.features.allFeatures
+              .find(f => getLocationCode(f && f.properties.indicatorObject) === $route.query.poi)
               .properties.indicatorObject.description }}
           <div v-if="
             $store.state.indicators.selectedIndicator.description !==
@@ -168,7 +172,9 @@
             && $store.state.indicators.customAreaIndicator === null"
             class="subheading" style="font-size: 0.8em">
             {{ $store.state.features.allFeatures
-              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
+              .find(f => getLocationCode(f && f.properties.indicatorObject) === $route.query.poi) &&
+              $store.state.features.allFeatures
+              .find(f => getLocationCode(f && f.properties.indicatorObject) === $route.query.poi)
               .properties.indicatorObject.indicatorName }}
           </div>
         </v-toolbar-title>
@@ -230,7 +236,9 @@
           class="px-4 py-2"
         >
           {{ $store.state.features.allFeatures
-              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
+              .find(f => getLocationCode(f && f.properties.indicatorObject) === $route.query.poi) &&
+              $store.state.features.allFeatures
+              .find(f => getLocationCode(f && f.properties.indicatorObject) === $route.query.poi)
               .properties.indicatorObject.indicatorName }}
         </h4>
         <data-panel

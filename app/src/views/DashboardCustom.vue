@@ -29,14 +29,14 @@
         <v-col cols="12" class="d-flex align-center justify-space-between">
           <div class="dashboardTitle">
             <v-text-field
-              v-if="dashboardEditingId || newDashboard"
+              v-if="newDashboard || hasEditingPrivilege"
+              @keydown.enter="editTitle"
               v-model="dashboardTitle"
-              hint="Edit dashboard title"
+              hint="Edit dashboard title - Press Enter to save"
               persistent-hint
               color="primary"
               class="display-2 font-weight-light primary--text mt-7 mb-5"
               :rules="[v => !!v || 'Title required']"
-              @input="modified = true"
             ></v-text-field>
             <h1
               v-else
@@ -44,28 +44,108 @@
               {{ dashboardTitle }}</h1>
           </div>
           <div>
-            <v-fade-transition mode="out-in">
-              <v-btn
-                v-if="modified"
-                color="success"
-                :loading="saveLoading"
-                :disabled="saveLoading"
-                @click="saveCurrentDashboardState"
-              >
-                <v-icon left>
-                  {{ saveSuccess ? 'mdi-check' : 'mdi-content-save' }}
-                </v-icon>
-                {{ saveSuccess ? 'Saved!' : 'Save Changes' }}
-              </v-btn>
-            </v-fade-transition>
+            <v-btn @click="disconnect" color="red" class="mr-4" style="color: white">
+              <template v-if="!(dashboardConfig && dashboardConfig.id)">
+                <v-icon left color="white">mdi-delete</v-icon>
+                delete
+              </template>
+              <template v-else>
+                <v-icon left color="white">mdi-connection</v-icon>
+                disconnect
+              </template>
+            </v-btn>
+            <v-btn
+              color="suvverss"
+              v-if="!newDashboard"
+              @click="viewLinksFn"
+            >
+              <v-icon left>mdi-link</v-icon>
+              view links
+            </v-btn>
+            <v-dialog
+              v-model="popupOpen"
+              width="50%"
+              :fullscreen="$vuetify.breakpoint.xsOnly"
+              :hide-overlay="$vuetify.breakpoint.xsOnly"
+              transition="dialog-bottom-transition"
+            >
+
+              <template v-slot:activator="{}">
+                <v-btn
+                  color="success"
+                  v-if="newDashboard"
+                  @click="saveCurrentDashboardState"
+                >
+                  <v-icon left> mdi-content-save </v-icon>
+                    Save Dashboard
+                </v-btn>
+              </template>
+              <v-card :class="$vuetify.breakpoint.mdAndUp && 'px-10 py-4'"
+                style="overflow-y: auto; height: 100%;">
+                <v-card-text class="text-center" v-if="!success && !viewLinks">
+                  <h1 class="display-2 font-weight-light primary--text mb-3">Save this Dashboard</h1>
+                  <h2 class="font-weight-light primary--text mb-8">Create a permanent link to your Dashboard configuration</h2>
+                  <v-card outlined class="pa-5">
+                    <v-form ref="form" v-model="valid" lazy-validation class="text-left">
+                      <v-row>
+                        <v-col cols="12">
+                          <h2 class="mb-3">Dashboard Title</h2>
+                            <v-text-field v-model="popupTitle" hint="You will be able to change this later" persistent-hint :rules="titleRules" placeholder="Title" required outlined validate-on-blur></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                          <h2 class="mb-3">Your interests</h2>
+                          <v-combobox
+                            v-model="interests"
+                            :items="interestOptions"
+                            placeholder="Your interests"
+                            outlined
+                            multiple
+                            small-chips
+                            hint="This helps us provide better, personalized content to you"
+                            persistent-hint
+                          ></v-combobox>
+                        </v-col>
+                        <v-col cols="12">
+                          <h2 class="mb-3">Your email address</h2>
+                            <v-text-field hint="You will receive your dashboard links to this address" persistent-hint v-model="email" :rules="emailRules" placeholder="E-mail" required outlined validate-on-blur></v-text-field>
+                        </v-col>
+                        <v-col cols="12" class="pb-0">
+                          <h2 class="mb-3">Newsletter</h2>
+                            <v-switch class="no-margin-bottom" v-model="consent" :label="consent ? 'Receive updates about new features and data' : 'Do not receive updates about new features and data'"></v-switch>
+                        </v-col>
+                      </v-row>
+                  </v-form>
+                  </v-card>
+                </v-card-text>
+                <v-card-text class="text-center" v-else>
+                  <h2 class="display-2 font-weight-light primary--text mb-3"> {{ dashboardConfig.title }}</h2>
+                  <h2 v-if="!viewLinks" class="font-weight-light primary--text mb-8 success--text">Dashboard saved!</h2>
+                  <v-card outlined class="pa-5 text-left">
+                    <v-row>
+                      <v-col cols="12">
+                        <h2 class="mb-3">Viewing link:</h2>
+                        <v-text-field ref="viewingLink" @click:append="copyViewingLink" readonly outlined append-icon="mdi-content-copy" persistent-hint hint="Read-only link to your Dashboard" :value="viewingLink"/>
+                      </v-col>
+                      <v-col cols="12" v-if="viewLinks ? $store.state.dashboard.dashboardConfig && $store.state.dashboard.dashboardConfig.editKey : true">
+                        <h2 class="mb-3">Editing link:</h2>
+                        <v-text-field ref="editingLink" @click:append="copyEditingLink" readonly outlined append-icon="mdi-content-copy" persistent-hint hint="Use this link to make changes to your dashboard" :value="editingLink"/>
+                      </v-col>
+                    </v-row>
+                  </v-card>
+                </v-card-text>
+                <v-card-actions v-if="!success && !viewLinks">
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" text @click="popupOpen = false" x-large>Back</v-btn>
+                  <v-btn color="success" @click="submitMarketingData" x-large :loading="saving">Submit</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </div>
         </v-col>
       </v-row>
       <custom-dashboard-grid
-        v-if="dashboardFeatures"
-        :dashboardFeatures="dashboardFeatures"
-        :enableEditing="!!dashboardEditingId || newDashboard"
-        @updateFeatures="updateFeatures"
+        :enableEditing="!!(newDashboard || hasEditingPrivilege)"
+        :popupOpen="popupOpen"
       />
       <global-footer />
     </div>
@@ -76,26 +156,42 @@
 import {
   mapState,
   mapMutations,
+  mapActions
 } from 'vuex';
 
 import { loadIndicatorData } from '@/utils';
 import axios from 'axios';
-
+import GlobalFooter from '@/components/GlobalFooter.vue'
 import CustomDashboardGrid from '@/components/CustomDashboardGrid.vue';
+
+import {debounce} from 'debounce';
 
 export default {
   components: {
     CustomDashboardGrid,
+    GlobalFooter,
   },
   data: () => ({
-    dashboardTitle: null,
-    dashboardFeatures: null,
-    dashboardViewingId: null,
-    dashboardEditingId: null,
-    modified: false,
-    saveLoading: false,
-    saveSuccess: false,
-    newDashboard: false,
+    popupOpen: false,
+
+    success: false,
+    viewLinks: false,
+    saving: false,
+    popupTitle: '',
+    dashboardTitle: '',
+
+    valid: true,
+    consent: false,
+    titleRules: [
+      v => !!v || "Required",
+    ],
+    email: '',
+    emailRules: [
+      v => !!v || "Required",
+      v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+    ],
+    interestOptions: ['Health', 'Technology', 'Cooking'],
+    interests: [],
   }),
   computed: {
     ...mapState('config', [
@@ -105,97 +201,108 @@ export default {
     ...mapState('dashboard', [
       'dashboardConfig',
     ]),
-  },
-  mounted() {
-    if (this.$route.params.viewingId) {
-      this.dashboardViewingId = this.$route.params.viewingId;
-      if (this.$route.params.editingId) {
-        this.dashboardEditingId = this.$route.params.editingId;
-      }
-    } else {
-      this.newDashboard = true;
-      this.loadFeatures(this.dashboardConfig.features, this);
+    newDashboard() {
+      return !this.$store.state.dashboard?.dashboardConfig?.marketingInfo;
+    },
+    hasEditingPrivilege() {
+      return this.$store.state.dashboard?.dashboardConfig?.editKey;
+    },
+    viewingLink() {
+      return this.$store.state.dashboard.dashboardConfig && this.$store.state.dashboard.dashboardConfig.id ? `${window.location.origin}/dashboard?id=${this.$store.state.dashboard.dashboardConfig.id}` : 'Loading...'
+    },
+    editingLink() {
+      return this.$store.state.dashboard.dashboardConfig && this.$store.state.dashboard.dashboardConfig.id ? `${window.location.origin}/dashboard?id=${this.$store.state.dashboard.dashboardConfig.id}&editKey=${this.$store.state.dashboard.dashboardConfig.editKey}` : 'Loading...'
     }
-    this.$store.subscribe((mutation) => {
-      if (mutation.type === 'features/ADD_NEW_FEATURES' && this.dashboardViewingId) {
-        this.fetchDashboard();
-      }
-      // if (mutation.type === 'dashboard/SET_DASHBOARD_TITLE') {
-      //   this.dashboardTitle = mutation.payload;
-      // }
-      if (mutation.type === 'dashboard/SET_DASHBOARD_FEATURES') {
-        this.dashboardFeatures = mutation.payload;
-      }
-    });
   },
-  methods: {
-    ...mapMutations('dashboard', [
-      'SET_DASHBOARD_FEATURES',
-      'SET_DASHBOARD_TITLE',
-    ]),
-    async fetchDashboard() {
-      try {
-        const response = await axios.get(`${this.appConfig.customDashboardUrl}/${this.dashboardViewingId}`);
-        this.dashboardTitle = response.data.title;
-        this.SET_DASHBOARD_TITLE(response.data.title);
-        this.loadFeatures(response.data.features, this);
-      } catch (error) {
-        console.log(error);
+  async created() {
+    let id = null;
+    let editKey = null;
+    if (this.$route.query.id) {
+      id = this.$route.query.id;
+      if (this.$route.query.editKey) {
+        editKey = this.$route.query.editKey;
       }
-    },
-    async loadFeatures(features) {
-      let dashboardFeatures = features;
-      // Pre-load all indicators to populate items
-      dashboardFeatures = await Promise.all(dashboardFeatures.map(async (f) => {
-        const feature = this.$store.state.features.allFeatures
-          .find((i) => this.getLocationCode(i.properties.indicatorObject) === f.poi);
-        const indicatorObject = await loadIndicatorData(
-          this.baseConfig,
-          feature.properties.indicatorObject,
-        );
-        return {
-          ...f,
-          indicatorObject,
-        };
-      }));
-      this.SET_DASHBOARD_FEATURES(dashboardFeatures);
-    },
-    updateFeatures(updated) {
-      this.modified = true;
-      this.dashboardFeatures = updated;
-      this.SET_DASHBOARD_FEATURES(updated);
-    },
-    async saveCurrentDashboardState() {
-      this.saveLoading = true;
-      if (this.newDashboard) {
-        console.log('new');
-      } else {
-        try {
-          const response = await axios.post(`${this.appConfig.customDashboardUrl}/${this.dashboardViewingId}/${this.dashboardEditingId}`, {
-            title: this.dashboardTitle,
-            features: this.dashboardFeatures,
-          });
-          if (response.status === 200) {
-            // show snackbar ?
-            this.saveSuccess = true;
-            setTimeout(() => {
-              this.modified = false;
-              this.saveSuccess = false;
-            }, 3000);
-            this.saveLoading = false;
-          }
-        } catch (error) {
-          // show snackbar ?
-          this.saveLoading = false;
-          console.log(error);
-        }
-      }
-    },
+    }
+
+    console.log(id, editKey)
+
+    if(id) {
+      this.disconnect();
+      await this.listen({id, editKey});
+    }
+
+    if(this.dashboardConfig && this.dashboardConfig.title)
+    this.dashboardTitle = this.dashboardConfig.title
+
+    if(!this.dashboardConfig) {
+      this.$router.push('/')
+    }
   },
   watch: {
-    dashboardTitle(newTitle) {
-      this.SET_DASHBOARD_TITLE(newTitle);
+    dashboardConfig: {
+      deep: true,
+      handler(v) {
+        if(!v) {
+          this.$router.push('/')
+        } else {
+          this.dashboardTitle = v.title;
+        }
+      }
+    }
+  },
+  methods: {
+    ...mapActions('dashboard', [
+      'changeTitle',
+      'addMarketingInfo',
+      'disconnect',
+      'listen'
+    ]),
+    editTitle() {
+      if(this.hasEditingPrivilege || this.newDashboard) {
+        this.changeTitle(this.dashboardTitle);
+      }
     },
+    async saveCurrentDashboardState() {
+      if (this.newDashboard) {
+        this.popupTitle = this.dashboardConfig.title;
+        this.popupOpen = true;
+      }
+    },
+    submitMarketingData() {
+      this.loading = true;
+      this.changeTitle(this.popupTitle)
+      if (this.$refs.form.validate()) {
+        this.changeTitle(this.popupTitle);
+        this.addMarketingInfo({
+          email: this.email,
+          consent: this.consent,
+          interests: this.interests
+        })
+        this.success = true;
+      }
+      this.loading = false;
+    },
+    reset() {
+      this.$refs.form.reset();
+    },
+    resetValidation() {
+      this.$refs.form.resetValidation();
+    },
+    copyViewingLink() {
+      console.log(this.$refs.viewingLink)
+      this.$refs.viewingLink.$el.querySelector('input').select();
+      this.$refs.viewingLink.$el.querySelector('input').setSelectionRange(0, 99999)
+      document.execCommand('copy')
+    },
+    copyEditingLink() {
+      this.$refs.editingLink.$el.querySelector('input').select();
+      this.$refs.editingLink.$el.querySelector('input').setSelectionRange(0, 99999)
+      document.execCommand('copy')
+    },
+    viewLinksFn() {
+      this.viewLinks = true;
+      this.popupOpen = true;
+    }
   },
 };
 </script>
@@ -210,5 +317,11 @@ export default {
 ::v-deep .dashboardTitle .v-input input {
   max-height: fit-content;
   color: var(--v-primary-base);
+}
+</style>
+
+<style lang="scss">
+.no-margin-bottom .v-input__slot {
+  margin-bottom: 0;
 }
 </style>
