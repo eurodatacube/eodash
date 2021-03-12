@@ -30,21 +30,13 @@
           <template v-slot:item.country="{ item }">
             <div v-if="Array.isArray(item.country)" class="table-flag-list">
               <span v-for="(country, i) in item.country" :key="i" class="table-flag">
-                <span v-if="country === 'all'">
-                  <country-flag country="un" size="normal"></country-flag>
-                </span>
-                <span v-else>
-                  <country-flag :country="country" size="normal"></country-flag>
-                </span>
+                <v-icon v-if="country === 'all'" class="ml-1">mdi-earth</v-icon>
+                <country-flag v-else :country="country" size="normal"></country-flag>
               </span>
             </div>
-            <div v-else>
-              <span v-if="item.country === 'all'">
-                <country-flag country="un" size="normal"></country-flag>
-              </span>
-              <span v-else>
-                 <country-flag :country="item.country" size="normal"></country-flag>
-              </span>
+            <div v-else class="d-flex justify-center">
+              <v-icon v-if="item.country === 'all'" class="ml-1">mdi-earth</v-icon>
+              <country-flag v-else :country="item.country" size="normal"></country-flag>
             </div>
           </template>
         </v-data-table>
