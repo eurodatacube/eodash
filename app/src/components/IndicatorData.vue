@@ -429,17 +429,6 @@ export default {
           }
 
           datasets.push({
-            label: 'hide_',
-            data: measurement.map((val) => (
-              Number.isNaN(val) ? Number.NaN : (10 ** val)
-            )),
-            fill: false,
-            showLine: false,
-            backgroundColor: colors,
-            borderColor: colors,
-            spanGaps: false,
-          });
-          datasets.push({
             label: 'Weekly climatology of chlorophyll conc. (CHL_clim) 2017-2019',
             data: referenceValue,
             fill: false,
@@ -451,7 +440,7 @@ export default {
           datasets.push({
             label: 'Standard deviation (STD)',
             data: stdDevMax,
-            fill: 3,
+            fill: '+1',
             pointRadius: 0,
             spanGaps: false,
             backgroundColor: 'rgba(0,0,0,0.1)',
@@ -461,7 +450,7 @@ export default {
           datasets.push({
             label: 'hide_',
             data: stdDevMin,
-            fill: 2,
+            fill: '-1',
             pointRadius: 0,
             spanGaps: false,
             backgroundColor: 'rgba(0,0,0,0.0)',
@@ -483,11 +472,24 @@ export default {
           });
 
           Object.entries(indicatorValues).forEach(([key, value]) => {
+            const currMeas = measurement.map((row, i) => {
+              let val = row;
+              if (indicator.indicatorValue[i] !== key.toUpperCase()) {
+                val = NaN;
+              }
+              return val;
+            });
+            console.log(currMeas);
             datasets.push({
               label: key,
-              data: [],
+              data: currMeas.map((val) => (
+                Number.isNaN(val) ? Number.NaN : (10 ** val)
+              )),
               backgroundColor: value,
               borderColor: value,
+              fill: false,
+              showLine: false,
+              spanGaps: false,
             });
           });
         } else if (['N1a', 'N1b', 'N1c', 'N1d', 'E12b'].includes(indicatorCode)) {
