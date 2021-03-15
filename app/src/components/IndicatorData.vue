@@ -479,7 +479,6 @@ export default {
               }
               return val;
             });
-            console.log(currMeas);
             datasets.push({
               label: key,
               data: currMeas.map((val) => (
