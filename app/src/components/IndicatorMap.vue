@@ -1555,4 +1555,8 @@ export default {
   width: initial;
   max-width: 80%;
 }
+
+::v-deep .leaflet-top.leaflet-right {
+  margin-top: 45px;
+}
 </style>

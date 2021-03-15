@@ -78,7 +78,7 @@ export default {
 <style lang="scss" scoped>
 .fs-btn {
   position: absolute;
-  top: 115px;
+  top: 0;
   right: 0;
   z-index: 999;
   margin: 10px;
