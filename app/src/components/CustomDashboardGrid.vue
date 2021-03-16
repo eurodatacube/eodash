@@ -78,7 +78,7 @@
               </v-icon>
             </v-btn>
           </div>
-          <div class="buttonContainer containerBottom">
+          <div class="buttonContainer containerBottom" v-show="!popupOpen">
             <v-btn
               v-if="index > 0"
               class="my-2"
@@ -145,7 +145,6 @@ export default {
       deep: true,
       async handler(features) {
         if(!features) return;
-        console.log('ft', features, this)
         this.features = await Promise.all(features.map(async (f) => {
           const feature = this.$store.state.features.allFeatures
             .find((i) => this.getLocationCode(i.properties.indicatorObject) === f.poi);
