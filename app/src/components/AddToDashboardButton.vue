@@ -43,23 +43,21 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('dashboard', [
-      'ADD_FEATURE',
-      'REMOVE_FEATURE',
-    ]),
     ...mapActions('dashboard', [
       'exists',
+      'addFeature',
+      'removeFeature'
     ]),
     async addToDashboard() {
       if(!this.alreadyAdded)
-        this.ADD_FEATURE(
+        this.addFeature(
           {
             poi: this.getLocationCode(this.indicatorObject),
             width: 4,
           },
         );
         else
-          this.REMOVE_FEATURE(
+          this.removeFeature(
           {
             poi: this.getLocationCode(this.indicatorObject),
             width: 4,
