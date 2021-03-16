@@ -28,7 +28,7 @@
             </v-chip>
           </template>
           <template v-slot:item.country="{ item }">
-            <div v-if="Array.isArray(item.country)" class="table-flag-list">
+            <div v-if="Array.isArray(item.country)" class="table-flag d-flex justify-center" >
               <span v-for="(country, i) in item.country" :key="i" class="table-flag">
                 <v-icon v-if="country === 'all'" class="ml-1">mdi-earth</v-icon>
                 <country-flag v-else :country="country" size="normal"></country-flag>
