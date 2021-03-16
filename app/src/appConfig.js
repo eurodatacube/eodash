@@ -16,7 +16,7 @@ module.exports = [
       twitterCardImagePath: './img/ESA/twitter_card.jpg',
       imagePath: './img/ESA',
     },
-    storyPath: './eodash-data/stories/',
+    storyPath: '/eodash-data/stories/',
     customCSS: 'esa',
     newsBanner: {
       color: 'green darken-1',
@@ -25,9 +25,9 @@ module.exports = [
       startDate: '2021-05-20',
       endDate: '2021-12-31',
     },
-    aboutText: './eodash-data/general/about',
-    welcomeText: './eodash-data/general/welcome',
-    tutorialText: './eodash-data/general/tutorials',
+    aboutText: '/eodash-data/general/about',
+    welcomeText: '/eodash-data/general/welcome',
+    tutorialText: '/eodash-data/general/tutorials',
     showNewsCarousel: true,
     newsCarouselitems: [
       {
@@ -205,7 +205,7 @@ module.exports = [
       imagePath: './img/trilateral',
     },
     displayDummyLocations: './data/trilateral/dummylocations.csv',
-    storyPath: './data/trilateral/',
+    storyPath: '/data/trilateral/',
     customCSS: 'trilateral',
     newsBanner: {
       color: 'green darken-1',
@@ -214,8 +214,8 @@ module.exports = [
       startDate: '2021-04-29',
       endDate: '2021-08-30',
     },
-    aboutText: './data/trilateral/about',
-    welcomeText: './data/trilateral/welcome',
+    aboutText: '/data/trilateral/about',
+    welcomeText: '/data/trilateral/welcome',
     showNewsCarousel: true,
     newsCarouselitems: [
       {
