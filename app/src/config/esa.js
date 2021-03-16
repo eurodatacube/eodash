@@ -9,12 +9,12 @@ import { E13bRemovedFtrs } from "@/config/otherdata";
 import availableDates from "@/config/data_dates.json";
 import l3mapsData from "@/config/tropomiCO.json";
 
-export const dataPath = "/eodash-data/internal/";
+export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [
   {
-    type: "eox",
-    provider: "/data/internal/pois_eodash.json"
-  }
+    type: 'eox',
+    provider: './data/internal/pois_eodash.json',
+  },
 ];
 
 export const indicatorsDefinition = Object.freeze({
@@ -34,64 +34,57 @@ export const indicatorsDefinition = Object.freeze({
     hideInFilters: true
   },
   E1: {
-    indicator: "Status of metallic ores (Archived)",
-    class: "economic",
-    story: "/eodash-data/stories/E1",
+    indicator: 'Status of metallic ores (Archived)',
+    class: 'economic',
+    story: './eodash-data/stories/E1',
     features: {
-      dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-      url: "/eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson",
-      allowedParameters: [
-        "TYPE_SUMMARY",
-        "SPEED (KNOTSx10)",
-        "classification",
-        "TIMESTAMP UTC",
-        "TYPE_NAME",
-        "LENGTH"
-      ]
-    }
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+      allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification', 'TIMESTAMP UTC', 'TYPE_NAME', 'LENGTH'],
+    },
   },
   E1_S2: {
-    indicator: "Status of metallic ores",
-    class: "economic",
-    story: "/eodash-data/stories/E1",
+    indicator: 'Status of metallic ores',
+    class: 'economic',
+    story: './eodash-data/stories/E1',
     features: {
       dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: "./eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson"
     }
   },
   E1a: {
-    indicator: "Status of non-metallic ores (Archived)",
-    class: "economic",
-    story: "/eodash-data/stories/E1a",
+    indicator: 'Status of non-metallic ores (Archived)',
+    class: 'economic',
+    story: './eodash-data/stories/E1a',
     features: {
-      dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-      url: "/eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson",
-      allowedParameters: ["classification"]
-    }
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+      allowedParameters: ['classification'],
+    },
   },
   E1a_S2: {
-    indicator: "Status of non-metallic ores (Archived)",
-    class: "economic",
-    story: "/eodash-data/stories/E1a",
+    indicator: 'Status of non-metallic ores (Archived)',
+    class: 'economic',
+    story: './eodash-data/stories/E1a',
     features: {
       dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: "./eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson"
     }
   },
   E2: {
-    indicator: "Volume of oil stockpiled (Archived)",
-    class: "economic",
-    story: "/eodash-data/stories/E2",
+    indicator: 'Volume of oil stockpiled (Archived)',
+    class: 'economic',
+    story: './eodash-data/stories/E2',
     features: {
-      dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-      url: "/eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson",
-      allowedParameters: ["classification"]
-    }
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+      allowedParameters: ['classification'],
+    },
   },
   E2_S2: {
-    indicator: "Volume of oil stockpiled",
-    class: "economic",
-    story: "/eodash-data/stories/E2",
+    indicator: 'Volume of oil stockpiled',
+    class: 'economic',
+    story: './eodash-data/stories/E2',
     features: {
       dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: "./eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson"
@@ -106,14 +99,14 @@ export const indicatorsDefinition = Object.freeze({
     class: "economic"
   },
   E4: {
-    indicator: "Production activity of intermediate goods",
-    class: "economic",
-    story: "/eodash-data/stories/E4"
+    indicator: 'Production activity of intermediate goods',
+    class: 'economic',
+    story: './eodash-data/stories/E4',
   },
   E5: {
-    indicator: "Inventory levels of intermediate goods",
-    class: "economic",
-    story: "/eodash-data/stories/E5"
+    indicator: 'Inventory levels of intermediate goods',
+    class: 'economic',
+    story: './eodash-data/stories/E5',
   },
   E6: {
     indicator: "Inventory levels of factory inputs",
@@ -124,19 +117,19 @@ export const indicatorsDefinition = Object.freeze({
     class: "economic"
   },
   E8: {
-    indicator: "Inventory Levels",
-    class: "economic",
-    story: "/eodash-data/stories/E8",
-    maxDecimals: 5
+    indicator: 'Inventory Levels',
+    class: 'economic',
+    story: './eodash-data/stories/E8',
+    maxDecimals: 5,
   },
   E9: {
     indicator: "Construction activity",
     class: "economic"
   },
   E10a1: {
-    indicator: "Harvesting activity",
-    class: "agriculture",
-    story: "/eodash-data/stories/E10a1",
+    indicator: 'Harvesting activity',
+    class: 'agriculture',
+    story: './eodash-data/stories/E10a1',
     largeSubAoi: true,
     baseLayers: [
       baseLayers.cloudless,
@@ -149,9 +142,9 @@ export const indicatorsDefinition = Object.freeze({
     legendUrl: "eodash-data/data/LegendGLC.png"
   },
   E10a2: {
-    indicator: "Cum. proportion of total area under active mgmt.",
-    class: "agriculture",
-    story: "/eodash-data/stories/E10a2",
+    indicator: 'Cum. proportion of total area under active mgmt.',
+    class: 'agriculture',
+    story: './eodash-data/stories/E10a2',
     largeSubAoi: true,
     baseLayers: [
       baseLayers.cloudless,
@@ -165,33 +158,28 @@ export const indicatorsDefinition = Object.freeze({
     maxDecimals: 4
   },
   E10a3: {
-    indicator: "Evolution of the cultivated areas for production of white asparagus",
-    class: "agriculture",
-    story: "/eodash-data/stories/E10a2",
-    largeSubAoi: true
+    indicator: 'Evolution of the cultivated areas for production of white asparagus',
+    class: 'agriculture',
+    story: './eodash-data/stories/E10a2',
+    largeSubAoi: true,
   },
   E10a5: {
-    indicator: "Harvesting activity",
-    class: "agriculture",
-    story: "/eodash-data/stories/E10a5",
-    largeSubAoi: true
+    indicator: 'Harvesting activity',
+    class: 'agriculture',
+    story: './eodash-data/stories/E10a5',
+    largeSubAoi: true,
   },
   E10a6: {
-    indicator: "Harvested parcels/area evolution over time",
-    class: "agriculture",
-    story: "/eodash-data/stories/E10a6",
+    indicator: 'Harvested parcels/area evolution over time',
+    class: 'agriculture',
+    story: './eodash-data/stories/E10a6',
     largeSubAoi: true,
     maxDecimals: 4
   },
   E10a8: {
-    indicator: "Cumulative harvested area",
-    class: "agriculture",
-    story: "/eodash-data/stories/E10a8",
-    largeSubAoi: true
-  },
-  E10a9: {
-    indicator: "Tomatoes cultivation",
-    class: "agriculture",
+    indicator: 'Cumulative harvested area',
+    class: 'agriculture',
+    story: './eodash-data/stories/E10a8',
     largeSubAoi: true,
     story: "/eodash-data/stories/E10a9"
   },
@@ -205,9 +193,9 @@ export const indicatorsDefinition = Object.freeze({
     class: "agriculture"
   },
   E11: {
-    indicator: "Volume of activity at shopping centers",
-    class: "economic",
-    story: "/eodash-data/stories/E11"
+    indicator: 'Volume of activity at shopping centers',
+    class: 'economic',
+    story: './eodash-data/stories/E11',
   },
   E11a: {
     indicator: "Indicator definition placeholder",
@@ -218,9 +206,9 @@ export const indicatorsDefinition = Object.freeze({
     class: "economic"
   },
   E12b: {
-    indicator: "Throughput at border crossing points",
-    class: "economic",
-    story: "/eodash-data/stories/E12b",
+    indicator: 'Throughput at border crossing points',
+    class: 'economic',
+    story: './eodash-data/stories/E12b',
     midSubAoi: true,
     maxDecimals: 3
   },
@@ -232,7 +220,7 @@ export const indicatorsDefinition = Object.freeze({
     largeSubAoi: true,
     featuresClustering: true,
     disableCompare: true,
-    story: "/eodash-data/stories/E12c"
+    story: './eodash-data/stories/E12c',
   },
   E13a: {
     indicator: "Throughput at principal rail stations",
@@ -243,42 +231,33 @@ export const indicatorsDefinition = Object.freeze({
     story: ""
   },
   E13b: {
-    indicator: "Throughput at principal hub airports",
-    class: "economic",
-    story: "/eodash-data/stories/E13b_PLES",
+    indicator: 'Throughput at principal hub airports',
+    class: 'economic',
+    story: './eodash-data/stories/E13b_PLES',
     features: {
-      dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-      url: "/eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson"
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
     largeTimeDuration: true
   },
   E13b2: {
-    indicator: "Throughput at principal hub airports Aerospacelab archived",
-    class: "economic",
-    story: "/eodash-data/stories/E13b"
+    indicator: 'Throughput at principal hub airports Aerospacelab archived',
+    class: 'economic',
+    story: './eodash-data/stories/E13b',
   },
   E13d: {
-    indicator: "Airports: airplanes traffic",
-    class: "economic",
-    story: "/eodash-data/stories/E13d"
-  },
-  E13d2: {
-    indicator: "Airports: airplanes traffic",
-    class: "economic",
-    story: "/eodash-data/stories/E13d",
-    hideInFilters: true,
-    baseLayers: [
-      baseLayers.terrainLight,
-      {
-        ...baseLayers.cloudless,
-        visible: true
-      }
-    ],
+    indicator: 'Airports: airplanes traffic',
+    class: 'economic',
+    story: './eodash-data/stories/E13d',
+    baseLayers: [baseLayers.terrainLight, {
+      ...baseLayers.cloudless,
+      visible: true,
+    }],
     midSubAoi: true,
     mapTimeLabelExtended: true,
     features: {
-      dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-      url: "/eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson"
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
     largeTimeDuration: true
   },
@@ -333,9 +312,9 @@ export const indicatorsDefinition = Object.freeze({
     class: "health"
   },
   N1: {
-    indicator: "Air quality",
-    class: "air",
-    story: "/eodash-data/stories/N1",
+    indicator: 'Air quality',
+    class: 'air',
+    story: './eodash-data/stories/N1',
     externalData: {
       label: "Sentinel-5p Mapping Service",
       url: "https://maps.s5p-pal.com"
@@ -344,8 +323,8 @@ export const indicatorsDefinition = Object.freeze({
   },
   N1a: {
     hideInFilters: true,
-    class: "air",
-    story: "/eodash-data/stories/N1_CAMS",
+    class: 'air',
+    story: './eodash-data/stories/N1_CAMS',
     externalData: {
       label: "Copernicus Data [ECMWF]",
       url:
@@ -353,9 +332,9 @@ export const indicatorsDefinition = Object.freeze({
     }
   },
   N1b: {
-    indicator: "CAMS Air quality",
-    class: "air",
-    story: "/eodash-data/stories/N1_CAMS",
+    indicator: 'CAMS Air quality',
+    class: 'air',
+    story: './eodash-data/stories/N1_CAMS',
     externalData: {
       label: "Copernicus Data [ECMWF]",
       url:
@@ -364,8 +343,8 @@ export const indicatorsDefinition = Object.freeze({
   },
   N1c: {
     hideInFilters: true,
-    class: "air",
-    story: "/eodash-data/stories/N1_CAMS",
+    class: 'air',
+    story: './eodash-data/stories/N1_CAMS',
     externalData: {
       label: "Copernicus Data [ECMWF]",
       url:
@@ -374,8 +353,8 @@ export const indicatorsDefinition = Object.freeze({
   },
   N1d: {
     hideInFilters: true,
-    class: "air",
-    story: "/eodash-data/stories/N1_CAMS",
+    class: 'air',
+    story: './eodash-data/stories/N1_CAMS',
     externalData: {
       label: "Copernicus Data [ECMWF]",
       url:
@@ -393,30 +372,26 @@ export const indicatorsDefinition = Object.freeze({
     largeTimeDuration: true
   },
   N3: {
-    indicator: "CHL concentration",
-    class: "water",
-    story: "/eodash-data/stories/N3",
-    largeSubAoi: true
+    indicator: 'CHL concentration',
+    class: 'water',
+    story: './eodash-data/stories/N3',
+    largeSubAoi: true,
   },
   N3a2: {
-    indicator: "CHL concentration",
-    class: "water",
-    story: "/eodash-data/stories/N3a2",
-    largeSubAoi: true
+    indicator: 'CHL concentration',
+    class: 'water',
+    story: './eodash-data/stories/N3a2',
+    largeSubAoi: true,
   },
   N4a: {
-    indicator: "Changes in land fill sites",
-    class: "land",
-    story: "/eodash-data/stories/N4a",
-    baseLayers: [
-      baseLayers.cloudless,
-      baseLayers.terrainLight,
-      {
-        ...baseLayers.S2GLC,
-        visible: true
-      }
-    ],
-    legendUrl: "eodash-data/data/LegendGLC.png"
+    indicator: 'Changes in land fill sites',
+    class: 'land',
+    story: './eodash-data/stories/N4a',
+    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
+      ...baseLayers.S2GLC,
+      visible: true,
+    }],
+    legendUrl: 'eodash-data/data/LegendGLC.png',
   },
   N4b: {
     indicator: "Illegal waste levels",
@@ -427,15 +402,19 @@ export const indicatorsDefinition = Object.freeze({
     class: "water",
     largeTimeDuration: true,
     largeSubAoi: true,
-    story: "/eodash-data/stories/N3c"
+    externalData: {
+      label: 'Copernicus Marine Service - Product Details',
+      url: 'https://resources.marine.copernicus.eu/?option=com_csw%20&view=details%20&product_id=OCEANCOLOUR_MED_CHL_L4_NRT_OBSERVATIONS_009_041',
+    },
+    story: './eodash-data/stories/N3c',
   },
   N4c: {
-    indicator: "Changes in land fill sites",
-    class: "land",
-    story: "/eodash-data/stories/N4c",
+    indicator: 'Changes in land fill sites',
+    class: 'land',
+    story: './eodash-data/stories/N4c',
     features: {
-      dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HH"),
-      url: "/eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson"
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HH"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
     baseLayers: [
       baseLayers.cloudless,

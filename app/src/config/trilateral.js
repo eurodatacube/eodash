@@ -8,12 +8,12 @@ import { baseLayers, overlayLayers } from "@/config/layers";
 import availableDates from "@/config/data_dates.json";
 import store from "../store";
 
-export const dataPath = "/data/internal/";
+export const dataPath = './data/internal/';
 export const dataEndpoints = [
   {
-    type: "eox",
-    provider: "/data/internal/pois_trilateral.json"
-  }
+    type: 'eox',
+    provider: './data/internal/pois_trilateral.json',
+  },
   /*
   {
     type: 'nasa',
@@ -28,38 +28,38 @@ export const dataEndpoints = [
 
 export const indicatorsDefinition = Object.freeze({
   E1: {
-    indicator: "Status of metallic ores",
-    class: "economic",
-    story: "/data/trilateral/E1",
+    indicator: 'Status of metallic ores',
+    class: 'economic',
+    story: './data/trilateral/E1',
     features: {
-      dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-      url: "/eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson",
-      allowedParameters: ["TYPE_SUMMARY", "SPEED (KNOTSx10)", "classification"]
-    }
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+      allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification'],
+    },
   },
   E1_S2: {
-    indicator: "Status of metallic ores",
-    class: "economic",
-    story: "/data/trilateral/E1",
+    indicator: 'Status of metallic ores',
+    class: 'economic',
+    story: './data/trilateral/E1',
     features: {
       dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: "./eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson"
     }
   },
   E1a: {
-    indicator: "Status of non-metallic ores",
-    class: "economic",
-    story: "/data/trilateral/E1a",
+    indicator: 'Status of non-metallic ores',
+    class: 'economic',
+    story: './data/trilateral/E1a',
     features: {
-      dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-      url: "/eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson",
-      allowedParameters: ["TYPE_SUMMARY", "SPEED (KNOTSx10)", "classification"]
-    }
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+      allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification'],
+    },
   },
   E1a_S2: {
-    indicator: "Status of metallic ores",
-    class: "economic",
-    story: "/data/trilateral/E1a",
+    indicator: 'Status of metallic ores',
+    class: 'economic',
+    story: './data/trilateral/E1a',
     features: {
       dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: "./eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson"
@@ -94,19 +94,21 @@ export const indicatorsDefinition = Object.freeze({
     class: "economic"
   },
   E8: {
-    indicator: "Inventory Levels",
-    class: "economic"
+    indicator: 'Inventory Levels',
+    class: 'economic',
+    story: './data/trilateral/E8_tri',
+    largeSubAoi: true,
   },
   E9: {
-    indicator: "Construction activity",
-    class: "economic",
-    story: "/data/trilateral/E9",
-    largeSubAoi: true
+    indicator: 'Construction activity',
+    class: 'economic',
+    story: './data/trilateral/E9',
+    largeSubAoi: true,
   },
   E10a1: {
-    indicator: "Harvesting activity",
-    class: "agriculture",
-    story: "/data/trilateral/E10a1",
+    indicator: 'Harvesting activity',
+    class: 'agriculture',
+    story: './data/trilateral/E10a1',
     largeSubAoi: true,
     baseLayers: [
       baseLayers.cloudless,
@@ -119,9 +121,9 @@ export const indicatorsDefinition = Object.freeze({
     legendUrl: "eodash-data/data/LegendGLC.png"
   },
   E10a2: {
-    indicator: "Cum. proportion of total area under active mgmt.",
-    class: "agriculture",
-    story: "/eodash-data/stories/E10a2",
+    indicator: 'Cum. proportion of total area under active mgmt.',
+    class: 'agriculture',
+    story: './eodash-data/stories/E10a2',
     largeSubAoi: true,
     baseLayers: [
       baseLayers.cloudless,
@@ -135,38 +137,38 @@ export const indicatorsDefinition = Object.freeze({
     maxDecimals: 4
   },
   E10a3: {
-    indicator: "Evolution of the cultivated areas for production of white asparagus",
-    class: "agriculture",
-    story: "/eodash-data/stories/E10a2",
-    largeSubAoi: true
+    indicator: 'Evolution of the cultivated areas for production of white asparagus',
+    class: 'agriculture',
+    story: './eodash-data/stories/E10a2',
+    largeSubAoi: true,
   },
   E10a6: {
-    indicator: "Harvested parcels/area evolution over time",
-    class: "agriculture",
-    story: "/eodash-data/stories/E10a6",
+    indicator: 'Harvested parcels/area evolution over time',
+    class: 'agriculture',
+    story: './eodash-data/stories/E10a6',
     largeSubAoi: true,
     maxDecimals: 4
   },
   E10a8: {
-    indicator: "Cumulative harvested area",
-    class: "agriculture",
-    story: "/eodash-data/stories/E10a8",
-    largeSubAoi: true
+    indicator: 'Cumulative harvested area',
+    class: 'agriculture',
+    story: './eodash-data/stories/E10a8',
+    largeSubAoi: true,
   },
   E10b: {
     indicator: "Field preparation activity",
     class: "agriculture"
   },
   E10c: {
-    indicator: "Rice Planted Area",
-    class: "agriculture",
-    story: "/data/trilateral/US05-E10c",
-    largeSubAoi: true
+    indicator: 'Rice Planted Area',
+    class: 'agriculture',
+    story: './data/trilateral/US05-E10c',
+    largeSubAoi: true,
   },
   E10d: {
-    indicator: "Cropped Area - Regional",
-    class: "agriculture",
-    story: "/data/trilateral/E10d",
+    indicator: 'Cropped Area - Regional',
+    class: 'agriculture',
+    story: './data/trilateral/E10d',
     largeSubAoi: true,
     disableTimeSelection: true
   },
@@ -187,15 +189,15 @@ export const indicatorsDefinition = Object.freeze({
     class: "economic"
   },
   E13b: {
-    indicator: "Throughput at principal hub airports",
-    class: "economic",
-    story: "/data/trilateral/E13b",
-    largeSubAoi: true
+    indicator: 'Throughput at principal hub airports',
+    class: 'economic',
+    story: './data/trilateral/E13b',
+    largeSubAoi: true,
   },
   E13c: {
-    indicator: "Number of Ships in Port",
-    class: "economic",
-    story: "/data/trilateral/E13c",
+    indicator: 'Number of Ships in Port',
+    class: 'economic',
+    story: './data/trilateral/E13c',
     largeSubAoi: true,
     baseLayers: [
       {
@@ -210,9 +212,9 @@ export const indicatorsDefinition = Object.freeze({
     class: "health"
   },
   N1: {
-    indicator: "Air quality",
-    class: "air",
-    story: "/data/trilateral/N1",
+    indicator: 'Air quality',
+    class: 'air',
+    story: './data/trilateral/N1',
     largeTimeDuration: true,
     largeSubAoi: true,
     maxMapZoom: 8
@@ -223,9 +225,9 @@ export const indicatorsDefinition = Object.freeze({
     story: "/data/trilateral/NASAPopulation"
   },
   N2: {
-    indicator: "Greenhouse Gases",
-    class: "air",
-    story: "/data/trilateral/N2",
+    indicator: 'Greenhouse Gases',
+    class: 'air',
+    story: './data/trilateral/N2',
     largeTimeDuration: true,
     largeSubAoi: true
   },
@@ -234,9 +236,9 @@ export const indicatorsDefinition = Object.freeze({
     class: "water"
   },
   N3b: {
-    indicator: "Chl-a concentration anomaly",
-    class: "water",
-    story: "/data/trilateral/N3b",
+    indicator: 'Chl-a concentration anomaly',
+    class: 'water',
+    story: './data/trilateral/N3b',
     sensorColorMap: {
       "Sentinel-3A OLCI": "#a37",
       "Aqua MODIS": "#47a",
@@ -245,10 +247,10 @@ export const indicatorsDefinition = Object.freeze({
     }
   },
   N3a2: {
-    indicator: "CHL concentration",
-    class: "water",
-    story: "/eodash-data/stories/N3a2",
-    largeSubAoi: true
+    indicator: 'CHL concentration',
+    class: 'water',
+    story: './eodash-data/stories/N3a2',
+    largeSubAoi: true,
   },
   N4a: {
     indicator: "Changes in land fill sites",
@@ -259,26 +261,26 @@ export const indicatorsDefinition = Object.freeze({
     class: "land"
   },
   N5: {
-    indicator: "Nightlights (Suomi NPP VIIRS)",
-    class: "economic",
-    story: "/data/trilateral/N5",
-    largeSubAoi: true
+    indicator: 'Nightlights (Suomi NPP VIIRS)',
+    class: 'economic',
+    story: './data/trilateral/N5',
+    largeSubAoi: true,
   },
   N6: {
-    indicator: "Cropped Area - Global",
-    class: "agriculture",
-    story: "/data/trilateral/N6"
+    indicator: 'Cropped Area - Global',
+    class: 'agriculture',
+    story: './data/trilateral/N6',
   },
   N7: {
-    indicator: "Slowdown Proxy Maps",
-    class: "economic",
-    story: "/data/trilateral/N7",
-    largeSubAoi: true
+    indicator: 'Slowdown Proxy Maps',
+    class: 'economic',
+    story: './data/trilateral/N7',
+    largeSubAoi: true,
   },
   N8: {
-    indicator: "Recovery Proxy Maps",
-    class: "economic",
-    story: "/data/trilateral/N8",
+    indicator: 'Recovery Proxy Maps',
+    class: 'economic',
+    story: './data/trilateral/N8',
     largeSubAoi: true,
     disableTimeSelection: true
   },
@@ -1481,9 +1483,9 @@ export const globalIndicators = [
         inputData: [""],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
-          name: "Water Quality Index",
-          layers: "N3_CUSTOM_TRILATERAL",
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral.png",
+          name: 'Water Quality Index',
+          layers: 'N3_CUSTOM_TRILATERAL',
+          legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           maxZoom: 13,
           dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
         }
@@ -1592,16 +1594,15 @@ export const globalIndicators = [
         display: {
           protocol: "xyz",
           maxNativeZoom: 18,
-          url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-nas-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r",
-          name: "Water Quality Index",
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral.png",
-          attribution:
-            '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy_MM_dd")
-        }
-      }
-    }
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-nas-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
+          name: 'Water Quality Index',
+          legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+        },
+      },
+    },
   },
   {
     latlng: latLng([45.197522, 13.0297851]),
@@ -1747,16 +1748,15 @@ export const globalIndicators = [
         display: {
           protocol: "xyz",
           maxNativeZoom: 18,
-          url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r",
-          name: "Water Quality Regional Maps",
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral.png",
-          attribution:
-            '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy_MM_dd")
-        }
-      }
-    }
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
+          name: 'Water Quality Regional Maps',
+          legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+        },
+      },
+    },
   },
   {
     latlng: latLng([41.0114, -73.09]),
@@ -1797,16 +1797,15 @@ export const globalIndicators = [
         display: {
           protocol: "xyz",
           maxNativeZoom: 18,
-          url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-ny-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r",
-          name: "Water Quality Index",
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral.png",
-          attribution:
-            '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy_MM_dd")
-        }
-      }
-    }
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-ny-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
+          name: 'Water Quality Index',
+          legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+        },
+      },
+    },
   },
   {
     latlng: latLng([35.61, 139.78]),
@@ -1891,9 +1890,9 @@ export const globalIndicators = [
         inputData: [""],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
-          name: "Water Quality Index",
-          layers: "N3_CUSTOM_TRILATERAL",
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral.png",
+          name: 'Water Quality Index',
+          layers: 'N3_CUSTOM_TRILATERAL',
+          legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           maxZoom: 13,
           dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
         }
@@ -2154,9 +2153,9 @@ export const globalIndicators = [
         inputData: [""],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
-          name: "Water Quality Index",
-          layers: "N3_CUSTOM_TRILATERAL_TSMNN",
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral_tsm.png",
+          name: 'Water Quality Index',
+          layers: 'N3_CUSTOM_TRILATERAL_TSMNN',
+          legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
           maxZoom: 13,
           dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
         }
@@ -2199,9 +2198,9 @@ export const globalIndicators = [
         inputData: [""],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
-          name: "Water Quality Index",
-          layers: "N3_CUSTOM_TRILATERAL_TSMNN",
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral_tsm.png",
+          name: 'Water Quality Index',
+          layers: 'N3_CUSTOM_TRILATERAL_TSMNN',
+          legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
           maxZoom: 13,
           dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
         }
@@ -2304,16 +2303,15 @@ export const globalIndicators = [
         display: {
           protocol: "xyz",
           maxNativeZoom: 18,
-          url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r",
-          name: "Water Quality Regional Maps",
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral_tsm.png",
-          attribution:
-            '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy_MM_dd")
-        }
-      }
-    }
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
+          name: 'Water Quality Regional Maps',
+          legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+        },
+      },
+    },
   },
   {
     latlng: latLng([45.197522, 13.0297851]),
@@ -2600,16 +2598,15 @@ export const globalIndicators = [
         display: {
           protocol: "xyz",
           maxNativeZoom: 18,
-          url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-nas-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r",
-          name: "Water Quality Index",
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral_tsm.png",
-          attribution:
-            '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy_MM_dd")
-        }
-      }
-    }
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-nas-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
+          name: 'Water Quality Index',
+          legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+        },
+      },
+    },
   },
   {
     latlng: latLng([41.0114, -73.09]),
@@ -2650,16 +2647,15 @@ export const globalIndicators = [
         display: {
           protocol: "xyz",
           maxNativeZoom: 18,
-          url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-ny-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r",
-          name: "Water Quality Index",
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral_tsm.png",
-          attribution:
-            '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy_MM_dd")
-        }
-      }
-    }
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-ny-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
+          name: 'Water Quality Index',
+          legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+        },
+      },
+    },
   },
   {
     latlng: latLng([39.9, 116.38]),
@@ -3310,17 +3306,14 @@ export const globalIndicators = [
           maxNativeZoom: 6,
           minZoom: 1,
           opacity: 0.7,
-          url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/agriculture-cropmonitor/CropMonitor_{time}.tif&resampling_method=nearest&bidx=1&color_map=custom_cropmonitor",
-          name: "Agriculture GEOGLAM",
-          legendUrl: "/data/trilateral/agriculture-GEOGLAM-legend.png",
-          attribution:
-            '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMM"),
-          featuresStatic: true,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/agriculture-cropmonitor/CropMonitor_{time}.tif&resampling_method=nearest&bidx=1&color_map=custom_cropmonitor',
+          name: 'Agriculture GEOGLAM',
+          legendUrl: './data/trilateral/agriculture-GEOGLAM-legend.png',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
           features: {
-            url: "/eodash-data/features/{indicator}/{indicator}_{aoiID}.geojson",
-            allowedParameters: ["ADM0_NAME", "Name"],
+            url: './eodash-data/features/{indicator}/{indicator}_{aoiID}.geojson',
+            allowedParameters: ['ADM0_NAME', 'Name'],
             style: {
               color: "#696868",
               opacity: 0.5
@@ -3723,17 +3716,15 @@ export const globalIndicators = [
         display: {
           protocol: "xyz",
           maxNativeZoom: 18,
-          minZoom: 6,
-          url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/Togo/togo_cropland_v7-1_cog_v2.tif&resampling_method=bilinear&bidx=1&rescale=0,1&color_map=magma",
-          name: "Togo",
-          legendUrl: "/data/trilateral/TG01_E19d_legend.png",
-          attribution:
-            '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          disableCompare: true
-        }
-      }
-    }
+          opacity: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/Togo/togo_cropland_v7-1_cog_v2.tif&resampling_method=bilinear&bidx=1&rescale=0,1&color_map=magma',
+          name: 'Togo',
+          legendUrl: './data/trilateral/TG01_E19d_legend.png',
+          attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+          disableCompare: true,
+        },
+      },
+    },
   },
   {
     latlng: latLng([39.9, 116.38]),
@@ -5210,46 +5201,13 @@ export const globalIndicators = [
           name: "Sentinel-2 L2A",
           dateFormatFunction: shS2TimeFunction,
           features: {
-            dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-            url: "/eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson"
-          }
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+            url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+          },
         },
-        time: [
-          "2020-01-01T10:09:07",
-          "2020-01-06T10:09:06",
-          "2020-01-11T10:09:06",
-          "2020-02-05T10:09:03",
-          "2020-02-15T10:09:05",
-          "2020-02-20T10:09:08",
-          "2020-03-11T10:09:10",
-          "2020-03-16T10:09:09",
-          "2020-03-31T10:09:09",
-          "2020-04-05T10:09:08",
-          "2020-04-10T10:09:08",
-          "2020-04-15T10:09:11",
-          "2020-04-25T10:09:13",
-          "2020-04-30T10:09:08",
-          "2020-05-10T10:09:10",
-          "2020-05-25T10:09:17",
-          "2020-06-09T10:09:14",
-          "2020-06-24T10:09:17",
-          "2020-06-29T10:09:14",
-          "2020-07-09T10:09:13",
-          "2020-07-14T10:09:16",
-          "2020-07-19T10:09:13",
-          "2020-07-24T10:09:17",
-          "2020-07-29T10:09:14",
-          "2020-08-08T10:09:15",
-          "2020-08-13T10:09:17",
-          "2020-08-18T10:09:15",
-          "2020-08-23T10:09:17",
-          "2020-08-28T10:09:15",
-          "2020-09-07T10:09:14",
-          "2020-09-12T10:09:14",
-          "2020-09-17T10:09:13"
-        ]
-      }
-    }
+        time: ['2020-01-01T10:09:07', '2020-01-06T10:09:06', '2020-01-11T10:09:06', '2020-02-05T10:09:03', '2020-02-15T10:09:05', '2020-02-20T10:09:08', '2020-03-11T10:09:10', '2020-03-16T10:09:09', '2020-03-31T10:09:09', '2020-04-05T10:09:08', '2020-04-10T10:09:08', '2020-04-15T10:09:11', '2020-04-25T10:09:13', '2020-04-30T10:09:08', '2020-05-10T10:09:10', '2020-05-25T10:09:17', '2020-06-09T10:09:14', '2020-06-24T10:09:17', '2020-06-29T10:09:14', '2020-07-09T10:09:13', '2020-07-14T10:09:16', '2020-07-19T10:09:13', '2020-07-24T10:09:17', '2020-07-29T10:09:14', '2020-08-08T10:09:15', '2020-08-13T10:09:17', '2020-08-18T10:09:15', '2020-08-23T10:09:17', '2020-08-28T10:09:15', '2020-09-07T10:09:14', '2020-09-12T10:09:14', '2020-09-17T10:09:13'],
+      },
+    },
   },
   {
     latlng: latLng([51.469716296645025, -0.4580423952680147]),
@@ -5290,46 +5248,13 @@ export const globalIndicators = [
           name: "Sentinel-2 L2A",
           dateFormatFunction: shS2TimeFunction,
           features: {
-            dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-            url: "/eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson"
-          }
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+            url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+          },
         },
-        time: [
-          "2019-12-08T11:16:45",
-          "2019-12-15T11:06:46",
-          "2019-12-23T11:16:43",
-          "2019-12-25T11:06:45",
-          "2019-12-30T11:06:46",
-          "2020-01-09T11:06:46",
-          "2020-01-19T11:06:45",
-          "2020-02-01T11:16:41",
-          "2020-02-11T11:16:43",
-          "2020-03-24T11:06:47",
-          "2020-03-27T11:16:44",
-          "2020-04-06T11:16:45",
-          "2020-04-11T11:16:44",
-          "2020-04-21T11:16:43",
-          "2020-04-23T11:06:52",
-          "2020-04-26T11:16:50",
-          "2020-05-06T11:16:52",
-          "2020-05-21T11:16:48",
-          "2020-05-28T11:06:52",
-          "2020-05-31T11:16:50",
-          "2020-06-15T11:16:54",
-          "2020-06-22T11:06:57",
-          "2020-06-25T11:16:54",
-          "2020-07-20T11:16:50",
-          "2020-07-22T11:06:56",
-          "2020-08-09T11:16:51",
-          "2020-08-11T11:06:57",
-          "2020-09-13T11:16:52",
-          "2020-09-15T11:06:53",
-          "2020-09-18T11:16:50",
-          "2020-09-20T11:06:56",
-          "2020-09-28T11:16:51"
-        ]
-      }
-    }
+        time: ['2019-12-08T11:16:45', '2019-12-15T11:06:46', '2019-12-23T11:16:43', '2019-12-25T11:06:45', '2019-12-30T11:06:46', '2020-01-09T11:06:46', '2020-01-19T11:06:45', '2020-02-01T11:16:41', '2020-02-11T11:16:43', '2020-03-24T11:06:47', '2020-03-27T11:16:44', '2020-04-06T11:16:45', '2020-04-11T11:16:44', '2020-04-21T11:16:43', '2020-04-23T11:06:52', '2020-04-26T11:16:50', '2020-05-06T11:16:52', '2020-05-21T11:16:48', '2020-05-28T11:06:52', '2020-05-31T11:16:50', '2020-06-15T11:16:54', '2020-06-22T11:06:57', '2020-06-25T11:16:54', '2020-07-20T11:16:50', '2020-07-22T11:06:56', '2020-08-09T11:16:51', '2020-08-11T11:06:57', '2020-09-13T11:16:52', '2020-09-15T11:06:53', '2020-09-18T11:16:50', '2020-09-20T11:06:56', '2020-09-28T11:16:51'],
+      },
+    },
   },
   {
     latlng: latLng([49.006976345624935, 2.559786183921451]),
@@ -5370,53 +5295,13 @@ export const globalIndicators = [
           name: "Sentinel-2 L2A",
           dateFormatFunction: shS2TimeFunction,
           features: {
-            dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-            url: "/eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson"
-          }
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+            url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+          },
         },
-        time: [
-          "2019-12-25T11:07:19",
-          "2019-12-30T11:07:19",
-          "2020-01-06T10:57:23",
-          "2020-01-16T10:57:22",
-          "2020-01-19T11:07:18",
-          "2020-01-21T10:57:21",
-          "2020-02-13T11:07:17",
-          "2020-02-18T11:07:20",
-          "2020-03-19T11:07:24",
-          "2020-03-24T11:07:20",
-          "2020-03-26T10:57:26",
-          "2020-04-05T10:57:25",
-          "2020-04-08T11:07:21",
-          "2020-04-10T10:57:26",
-          "2020-04-13T11:07:23",
-          "2020-04-15T10:57:23",
-          "2020-04-20T10:57:29",
-          "2020-04-23T11:07:26",
-          "2020-04-25T10:57:23",
-          "2020-05-15T10:57:27",
-          "2020-05-18T11:07:24",
-          "2020-05-20T10:57:33",
-          "2020-05-25T10:57:31",
-          "2020-05-28T11:07:25",
-          "2020-05-30T10:57:34",
-          "2020-06-02T11:07:30",
-          "2020-06-22T11:07:30",
-          "2020-06-24T10:57:30",
-          "2020-07-09T10:57:32",
-          "2020-07-12T11:07:29",
-          "2020-07-27T11:07:27",
-          "2020-07-29T10:57:34",
-          "2020-08-06T11:07:27",
-          "2020-08-11T11:07:30",
-          "2020-09-02T10:57:31",
-          "2020-09-12T10:57:31",
-          "2020-09-15T11:07:26",
-          "2020-09-17T10:57:32",
-          "2020-09-22T10:57:30"
-        ]
-      }
-    }
+        time: ['2019-12-25T11:07:19', '2019-12-30T11:07:19', '2020-01-06T10:57:23', '2020-01-16T10:57:22', '2020-01-19T11:07:18', '2020-01-21T10:57:21', '2020-02-13T11:07:17', '2020-02-18T11:07:20', '2020-03-19T11:07:24', '2020-03-24T11:07:20', '2020-03-26T10:57:26', '2020-04-05T10:57:25', '2020-04-08T11:07:21', '2020-04-10T10:57:26', '2020-04-13T11:07:23', '2020-04-15T10:57:23', '2020-04-20T10:57:29', '2020-04-23T11:07:26', '2020-04-25T10:57:23', '2020-05-15T10:57:27', '2020-05-18T11:07:24', '2020-05-20T10:57:33', '2020-05-25T10:57:31', '2020-05-28T11:07:25', '2020-05-30T10:57:34', '2020-06-02T11:07:30', '2020-06-22T11:07:30', '2020-06-24T10:57:30', '2020-07-09T10:57:32', '2020-07-12T11:07:29', '2020-07-27T11:07:27', '2020-07-29T10:57:34', '2020-08-06T11:07:27', '2020-08-11T11:07:30', '2020-09-02T10:57:31', '2020-09-12T10:57:31', '2020-09-15T11:07:26', '2020-09-17T10:57:32', '2020-09-22T10:57:30'],
+      },
+    },
   },
   {
     id: 19681,
@@ -5454,9 +5339,9 @@ export const globalIndicators = [
         inputData: [""],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
-          name: "Water Quality Index",
-          layers: "N3_CUSTOM_TRILATERAL_TSMNN",
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral_tsm.png",
+          name: 'Water Quality Index',
+          layers: 'N3_CUSTOM_TRILATERAL_TSMNN',
+          legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
           maxZoom: 13,
           dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
         }
@@ -5499,9 +5384,9 @@ export const globalIndicators = [
         inputData: [""],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
-          name: "Water Quality Index",
-          layers: "N3_CUSTOM_TRILATERAL",
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral.png",
+          name: 'Water Quality Index',
+          layers: 'N3_CUSTOM_TRILATERAL',
+          legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           maxZoom: 13,
           dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
         }

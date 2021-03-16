@@ -13,10 +13,10 @@ module.exports = [
       rootPath: 'https://race.esa.int',
       googleSiteVerification: 'RfWilP51Q2wsZnVlKbxUTovIx90QqqLRFLebGpAeq14',
       shortDescription: 'The RACE platform demonstrates how the use of EO data can help shed new light on societal and economic changes currently taking place owing to the coronavirus pandemic.',
-      twitterCardImagePath: '/img/ESA/twitter_card.jpg',
-      imagePath: '/img/ESA',
+      twitterCardImagePath: './img/ESA/twitter_card.jpg',
+      imagePath: './img/ESA',
     },
-    storyPath: '/eodash-data/stories/',
+    storyPath: './eodash-data/stories/',
     customCSS: 'esa',
     newsBanner: {
       color: 'green darken-1',
@@ -25,9 +25,9 @@ module.exports = [
       startDate: '2021-05-20',
       endDate: '2021-12-31',
     },
-    aboutText: '/eodash-data/general/about',
-    welcomeText: '/eodash-data/general/welcome',
-    tutorialText: '/eodash-data/general/tutorials',
+    aboutText: './eodash-data/general/about',
+    welcomeText: './eodash-data/general/welcome',
+    tutorialText: './eodash-data/general/tutorials',
     showNewsCarousel: true,
     newsCarouselitems: [
       {
@@ -47,9 +47,8 @@ module.exports = [
         src: './eodash-data/general/Slide13.png',
       },
     ],
-    privacyText: '/eodash-data/general/privacy',
-    termsText: '/eodash-data/general/terms',
-    challengesText: '/eodash-data/general/challenges',
+    privacyText: './eodash-data/general/privacy',
+    termsText: './eodash-data/general/terms',
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube'],
     // The label parameter can be used as string to select the parameter identifier
     // or it can be an array of strings the same size as features to set custom
@@ -202,11 +201,11 @@ module.exports = [
       rootPath: 'https://eodashboard.org',
       googleSiteVerification: 'iHN2SaSR9qF7T3lOqNYSF4kaq_ZgK-I31SSgO5RKXW8',
       shortDescription: 'The Earth Observing Dashboard combines the resources, technical knowledge and expertise of three partner agencies ESA, JAXA, and NASA to strengthen our global understanding of the environmental and economic effects of the COVID-19 pandemic.',
-      twitterCardImagePath: '/img/trilateral/twitter_card.png',
-      imagePath: '/img/trilateral',
+      twitterCardImagePath: './img/trilateral/twitter_card.png',
+      imagePath: './img/trilateral',
     },
     displayDummyLocations: './data/trilateral/dummylocations.csv',
-    storyPath: '/data/trilateral/',
+    storyPath: './data/trilateral/',
     customCSS: 'trilateral',
     newsBanner: {
       color: 'green darken-1',
@@ -215,10 +214,8 @@ module.exports = [
       startDate: '2021-04-29',
       endDate: '2021-08-30',
     },
-    aboutText: '/data/trilateral/about',
-    welcomeText: '/data/trilateral/welcome',
-    tutorialText: '/data/trilateral/tutorials',
-    challengesText: '/eodash-data/general/eodashboardhackathon',
+    aboutText: './data/trilateral/about',
+    welcomeText: './data/trilateral/welcome',
     showNewsCarousel: true,
     newsCarouselitems: [
       {
@@ -319,8 +316,8 @@ module.exports = [
     ].concat([
       'ES22', 'ES23', 'ES24', 'ES30', 'ES41', 'ES42', 'ES43', 'ES51', 'ES52', 'ES61', 'ES62']
       .map((val) => ({ features: [`${val}a-E10a6`, `${val}b-E10a6`], label: 'indicatorValue' }))),
-    privacyText: '/data/trilateral/privacy',
-    termsText: '/data/trilateral/terms',
+    privacyText: './data/trilateral/privacy',
+    termsText: './data/trilateral/terms',
     feedbackTwitterHandles: ['ESA_EO', 'esa', 'NASAEarth', 'NASA', 'JAXA_en', 'JAXA_jp', 'eurodatacube'],
     countDownTimer: '2020-06-25T13:30:00.000+02:00',
     countDownMatch: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at'],
