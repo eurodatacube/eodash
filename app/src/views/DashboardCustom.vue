@@ -264,7 +264,7 @@ export default {
     },
     async saveCurrentDashboardState() {
       if (this.newDashboard) {
-        this.popupTitle = this.dashboardConfig.title;
+        this.popupTitle = this.dashboardTitle;
         this.popupOpen = true;
       }
     },
