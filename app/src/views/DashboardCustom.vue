@@ -235,6 +235,10 @@ export default {
     if(!this.dashboardConfig) {
       this.$router.push('/')
     }
+
+    if(id || editKey) {
+      this.$router.replace({query: null});
+    }
   },
   watch: {
     dashboardConfig: {
