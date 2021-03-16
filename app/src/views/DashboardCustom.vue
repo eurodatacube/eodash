@@ -107,7 +107,7 @@
                         </v-col>
                         <v-col cols="12">
                           <h2 class="mb-3">Your email address</h2>
-                            <v-text-field hint="You will receive your dashboard links to this address" persistent-hint v-model="email" :rules="emailRules" placeholder="E-mail" required outlined validate-on-blur></v-text-field>
+                            <v-text-field hint="You will receive your dashboard links to this address" persistent-hint v-model="email" :rules="emailRules" placeholder="E-mail" required outlined></v-text-field>
                         </v-col>
                         <v-col cols="12" class="pb-0">
                           <h2 class="mb-3">Newsletter</h2>
