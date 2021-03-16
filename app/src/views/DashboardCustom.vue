@@ -224,8 +224,6 @@ export default {
       }
     }
 
-    console.log(id, editKey)
-
     if(id) {
       this.disconnect();
       await this.listen({id, editKey});
@@ -289,7 +287,6 @@ export default {
       this.$refs.form.resetValidation();
     },
     copyViewingLink() {
-      console.log(this.$refs.viewingLink)
       this.$refs.viewingLink.$el.querySelector('input').select();
       this.$refs.viewingLink.$el.querySelector('input').setSelectionRange(0, 99999)
       document.execCommand('copy')
