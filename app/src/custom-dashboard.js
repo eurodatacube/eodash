@@ -156,6 +156,6 @@ class CustomDashboardApi extends EventEmitter {
   }
 }
 
-const customDashboardApiFactory = () => new CustomDashboardApi(io('wss://dev-eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/'));
+const customDashboardApiFactory = () => new CustomDashboardApi(io('ws://localhost:8080'));
 
 export default customDashboardApiFactory;
