@@ -52,14 +52,14 @@ export default {
       if(!this.alreadyAdded)
         this.addFeature(
           {
-            id: this.getLocationCode(this.indicatorObject),
+            poi: this.getLocationCode(this.indicatorObject),
             width: 4,
           },
         );
         else
           this.removeFeature(
           {
-            id: this.getLocationCode(this.indicatorObject),
+            poi: this.getLocationCode(this.indicatorObject),
             width: 4,
           },
           );

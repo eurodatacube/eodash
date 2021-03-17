@@ -34,6 +34,7 @@ const mutations = {
       return;
     
 
+
     api.on('edit', (dto) => {
       dto.features = dto.features.map(f => {
         const newF = Object.assign({}, f);
@@ -136,9 +137,11 @@ const actions = {
     },
     f
   ) {
-    if (state.api) 
+    if (state.api) {
+      f.id = f.poi;
+      delete f.poi;
       return state.api.addFeature(f);
-    
+    }
 
 
     commit('ADD_FEATURE', f);
