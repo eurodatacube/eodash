@@ -99,6 +99,9 @@ export default {
       dataLayerIndex: 0,
     };
   },
+  created() {
+    this.indicatorObject.time = this.indicatorObject.time.map(d => DateTime.isDateTime(d) ? d : DateTime.fromISO(d))
+  },
   mounted() {
     const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
     this.dataLayerTime = d.toFormat('dd. MMM');

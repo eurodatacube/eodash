@@ -274,6 +274,7 @@
               style="top: 0px; position: absolute;"
               v-else
               class="pa-5 chart"
+              :currentIndicator="customAreaIndicator"
             />
           </v-card>
           <v-row
@@ -323,6 +324,7 @@
               </div>
             </v-col>
           </v-row>
+          <AddToDashboardButton class="mt-3" v-if="customAreaIndicator" style="float:right" :indicatorObject="customAreaIndicator"></AddToDashboardButton>
         </v-col>
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"

@@ -22,13 +22,12 @@
           <indicator-map
             ref="indicatorMap"
             style="top: 0px; position: absolute;"
-            v-if="['all'].includes(element.indicatorObject.country) ||
-            Array.isArray(element.indicatorObject.country)"
+            v-if="(['all'].includes(element.indicatorObject.country) ||
+            Array.isArray(element.indicatorObject.country)) && !element.includesIndicator"
             class="pt-0 fill-height"
             :currentIndicator="element.indicatorObject"
 
           />
-          <!-- v-on:fetchCustomAreaIndicator="scrollToCustomAreaIndicator" -->
           <indicator-data
             style="top: 0px; position: absolute;"
             v-else
@@ -146,6 +145,8 @@ export default {
       async handler(features) {
         if(!features) return;
         this.features = await Promise.all(features.map(async (f) => {
+          if(f.includesIndicator) return f;
+
           const feature = this.$store.state.features.allFeatures
             .find((i) => this.getLocationCode(i.properties.indicatorObject) === f.poi);
           const indicatorObject = await loadIndicatorData(
