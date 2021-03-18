@@ -73,7 +73,7 @@
               @click="removeFeature(element)"
             >
               <v-icon dark>
-                mdi-close
+                mdi-delete
               </v-icon>
             </v-btn>
           </div>
