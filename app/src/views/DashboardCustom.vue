@@ -103,6 +103,9 @@
                             small-chips
                             hint="This helps us provide better, personalized content to you"
                             persistent-hint
+                            required
+                            :rules="interestsRules"
+                            validate-on-blur
                           ></v-combobox>
                         </v-col>
                         <v-col cols="12">
@@ -189,6 +192,9 @@ export default {
     emailRules: [
       v => !!v || "Required",
       v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+    ],
+    interestsRules: [
+      v => !!(v instanceof Array && v.length > 0) || "Required",
     ],
     interestOptions: ['Health', 'Technology', 'Cooking'],
     interests: [],
