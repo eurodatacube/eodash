@@ -236,8 +236,10 @@ export default {
       this.$router.push('/')
     }
 
-    if(id || editKey) {
-      this.$router.replace({query: null});
+    if(editKey) {
+      this.$router.replace({query: {
+        id
+      }});
     }
   },
   watch: {
