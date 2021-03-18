@@ -99,9 +99,6 @@ export default {
       dataLayerIndex: 0,
     };
   },
-  created() {
-    this.indicatorObject.time = this.indicatorObject.time.map(d => DateTime.isDateTime(d) ? d : DateTime.fromISO(d))
-  },
   mounted() {
     const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
     this.dataLayerTime = d.toFormat('dd. MMM');
@@ -879,9 +876,13 @@ export default {
       return dataCollection;
     },
     indicatorObject() {
-      return this.currentIndicator
+      const indicatorObject = this.currentIndicator
         || this.$store.state.indicators.customAreaIndicator
         || this.$store.state.indicators.selectedIndicator;
+
+      indicatorObject.time = indicatorObject.time.map(d => DateTime.isDateTime(d) ? d : DateTime.fromISO(d))
+
+      return indicatorObject;
     },
     indDefinition() {
       return this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator];
