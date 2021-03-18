@@ -419,6 +419,7 @@ generateData(
         '/working/eodash-data/data/E10a5.csv',
         '/working/eodash-data/data/E10a6.csv',
         '/working/eodash-data/data/E10a8.csv',
+        '/working/eodash-data/data/E10a9.csv',
         '/working/eodash-data/data/E11.csv',
         '/working/eodash-data/data/E12b.csv',
         '/working/eodash-data/data/E13b2.csv',  # archived
