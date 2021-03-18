@@ -60,7 +60,7 @@
               @click="viewLinksFn"
             >
               <v-icon left>mdi-link</v-icon>
-              view links
+              share
             </v-btn>
             <v-dialog
               v-model="popupOpen"
