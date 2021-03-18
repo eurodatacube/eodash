@@ -192,6 +192,8 @@ export default {
     ],
     interestOptions: ['Health', 'Technology', 'Cooking'],
     interests: [],
+
+    reconnecting: false,
   }),
   computed: {
     ...mapState('config', [
@@ -225,8 +227,10 @@ export default {
     }
 
     if(id) {
+      this.reconnecting = true;
       this.disconnect();
       await this.listen({id, editKey});
+      this.reconnecting = false;
     }
 
     if(this.dashboardConfig && this.dashboardConfig.title)
@@ -246,7 +250,7 @@ export default {
     dashboardConfig: {
       deep: true,
       handler(v) {
-        if(!v) {
+        if(!v && !this.reconnecting) {
           this.$router.push('/')
         } else {
           this.dashboardTitle = v.title;
