@@ -13,7 +13,7 @@
         :md="element.width > 1 ? (element.width > 2 ? (element.width > 3 ? 12 : 8) : 6) : 4"
         style="position: relative;"
       >
-        <span> {{ element.title }} </span>
+        <span v-if="element.title"> {{ element.title }} </span>
         <v-card
           class="pa-0"
           style="height: 500px"
@@ -37,7 +37,7 @@
           />
         </v-card>
         <template v-if="enableEditing">
-          <div class="buttonContainer containerTop" v-show="!popupOpen">
+          <div class="buttonContainer containerRight containerTop" v-show="!popupOpen">
             <v-btn
               class="my-2"
               :style="element.width > 1 ? 'background: white' : 'background: white;visibility: hidden'"
@@ -78,7 +78,7 @@
               </v-icon>
             </v-btn>
           </div>
-          <div class="buttonContainer containerBottom" v-show="!popupOpen">
+          <div class="buttonContainer containerRight containerBottom" v-show="!popupOpen">
             <v-btn
               v-if="index > 0"
               class="my-2"
@@ -103,6 +103,21 @@
             >
               <v-icon dark>
                 mdi-chevron-right
+              </v-icon>
+            </v-btn>
+          </div>
+
+          <div class="buttonContainer containerLeft containerBottom" v-show="!popupOpen">
+            <v-btn
+              class="my-2"
+              fab
+              dark
+              x-small
+              color="primary"
+              @click="redirectToPoi(element.indicatorObject)"
+            >
+              <v-icon dark>
+                mdi-information-variant
               </v-icon>
             </v-btn>
           </div>
@@ -171,6 +186,10 @@ export default {
       'moveFeatureUp',
       'moveFeatureDown',
     ]),
+    redirectToPoi(indicatorObject) {
+      console.log('i', indicatorObject);
+      this.$router.push(`/?poi=${this.getLocationCode(indicatorObject)}`);
+    }
   },
 };
 </script>
@@ -178,10 +197,15 @@ export default {
 <style lang="scss" scoped>
 .buttonContainer {
   position: absolute;
-  right: -3px;
   display: flex;
   flex-direction: column;
   z-index: 999;
+}
+.containerRight {
+  right: -3px;
+}
+.containerLeft {
+  left: -3px;
 }
 .containerTop {
   top: 10%;
