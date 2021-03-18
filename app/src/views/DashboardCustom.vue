@@ -44,7 +44,7 @@
               {{ dashboardTitle }}</h1>
           </div>
           <div>
-            <v-btn @click="disconnect" color="red" class="mr-4" style="color: white">
+            <v-btn v-if="hasEditingPrivilege" @click="disconnect" color="red" class="mr-4" style="color: white">
               <template v-if="!(dashboardConfig && dashboardConfig.id)">
                 <v-icon left color="white">mdi-delete</v-icon>
                 discard
@@ -244,6 +244,13 @@ export default {
       this.$router.replace({query: {
         id
       }});
+    }
+  },
+  beforeDestroy() {
+    if(!this.hasEditingPrivilege) {
+      this.reconnecting = true;
+      this.disconnect();
+      this.reconnecting = false;
     }
   },
   watch: {
