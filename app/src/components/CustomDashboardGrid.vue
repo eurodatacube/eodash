@@ -13,6 +13,7 @@
         :md="element.width > 1 ? (element.width > 2 ? (element.width > 3 ? 12 : 8) : 6) : 4"
         style="position: relative;"
       >
+        <span> {{ element.title }} </span>
         <v-card
           class="pa-0"
           style="height: 500px"
