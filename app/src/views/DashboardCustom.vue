@@ -77,7 +77,7 @@
                   @click="saveCurrentDashboardState"
                 >
                   <v-icon left> mdi-content-save </v-icon>
-                    Save Dashboard
+                    Publish Dashboard
                 </v-btn>
               </template>
               <v-card :class="$vuetify.breakpoint.mdAndUp && 'px-10 py-4'"
