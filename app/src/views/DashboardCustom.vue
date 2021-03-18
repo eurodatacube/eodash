@@ -47,7 +47,7 @@
             <v-btn @click="disconnect" color="red" class="mr-4" style="color: white">
               <template v-if="!(dashboardConfig && dashboardConfig.id)">
                 <v-icon left color="white">mdi-delete</v-icon>
-                delete
+                discard
               </template>
               <template v-else>
                 <v-icon left color="white">mdi-connection</v-icon>
