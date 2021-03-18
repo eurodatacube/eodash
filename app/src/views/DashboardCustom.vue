@@ -247,7 +247,7 @@ export default {
     }
   },
   beforeDestroy() {
-    if(!this.hasEditingPrivilege) {
+    if(!this.hasEditingPrivilege && !this.newDashboard) {
       this.reconnecting = true;
       this.disconnect();
       this.reconnecting = false;
