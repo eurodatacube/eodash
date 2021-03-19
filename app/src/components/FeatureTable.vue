@@ -27,6 +27,18 @@
               {{ item.indicatorValue.toLowerCase() }}
             </v-chip>
           </template>
+          <template v-slot:item.country="{ item }">
+            <div v-if="Array.isArray(item.country)" class="table-flag d-flex justify-center" >
+              <span v-for="(country, i) in item.country" :key="i" class="table-flag">
+                <v-icon v-if="country === 'all'" class="ml-1">mdi-earth</v-icon>
+                <country-flag v-else :country="country" size="normal"></country-flag>
+              </span>
+            </div>
+            <div v-else class="d-flex justify-center">
+              <v-icon v-if="item.country === 'all'" class="ml-1">mdi-earth</v-icon>
+              <country-flag v-else :country="item.country" size="normal"></country-flag>
+            </div>
+          </template>
         </v-data-table>
       </v-col>
     </v-row>
@@ -40,7 +52,13 @@ import {
   mapState,
 } from 'vuex';
 
+import CountryFlag from 'vue-country-flag';
+
+
 export default {
+  components: {
+    CountryFlag,
+  },
   computed: {
     ...mapGetters('features', ['getGroupedFeatures']),
     ...mapState('config', ['baseConfig']),
@@ -154,6 +172,12 @@ export default {
 
   ::v-deep .archived-row td {
     opacity: 0.65;
+  }
+}
+
+.table-flag-list {
+  .table-flag:not(:last-child) {
+    margin-right: .3rem;
   }
 }
 </style>
