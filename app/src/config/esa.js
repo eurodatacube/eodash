@@ -379,12 +379,14 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     disableTimeSelection: true,
     countrySelection: true,
+    story: '/eodash-data/stories/GG-GG',
   },
   GSA: {
     indicator: 'Mobility',
     class: 'economic',
     disableTimeSelection: true,
     borderSelection: true,
+    story: '/eodash-data/stories/GSA-GSA',
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
