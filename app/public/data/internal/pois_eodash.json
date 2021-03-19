@@ -3320,6 +3320,26 @@
         "yAxis": "Number of ships at piers"
     },
     {
+        "aoi": "43.543789,-5.673299",
+        "aoiID": "ES7",
+        "city": "Gijon",
+        "country": "ES",
+        "description": "Changes in commercial fluxes",
+        "indicator": "E13n",
+        "indicatorName": "",
+        "lastColorCode": "GREEN",
+        "lastIndicatorValue": "Incoming International",
+        "lastMeasurement": "122.16",
+        "lastReferenceTime": "2019-02-01T00:00:00",
+        "lastReferenceValue": "100",
+        "lastTime": "2020-09-01T00:00:00",
+        "region": " Asturias",
+        "siteName": "Gijon - Puerto de el Musel",
+        "subAoi": "MULTIPOLYGON(((-5.745693166363597 43.606589880518278,-5.745693166363597 43.498881312972017,-5.589786620005102 43.498881312972017,-5.589786620005102 43.606589880518278,-5.745693166363597 43.606589880518278)))",
+        "updateFrequency": "Once",
+        "yAxis": "% Variation compated  to Febuary 2019"
+    },
+    {
         "aoi": "43.543783,-5.673290",
         "aoiID": "ES7",
         "city": "Gijon",

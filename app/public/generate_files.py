@@ -436,6 +436,7 @@ generateData(
         '/working/eodash-data/data/E13i_gioiatauro_SearchRescue.csv',
         '/working/eodash-data/data/E13l_genova_pleasure.csv',
         '/working/eodash-data/data/E13m_genova_passenger.csv',
+        '/working/eodash-data/data/E13n_traffic.csv',
     ],
     [
         ['E1', ''],
