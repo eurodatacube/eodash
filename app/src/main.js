@@ -88,8 +88,8 @@ marked.setOptions({ renderer: mdRendererLinksTargetBlank });
 Vue.prototype.$marked = marked;
 
 const renderVue = async () => {
-  await store.dispatch("config/checkBrand");
-  store.dispatch("features/loadAllEndpoints");
+  await store.dispatch('config/checkBrand');
+  await store.dispatch('features/loadAllEndpoints');
 
   const mq = window.matchMedia("(prefers-color-scheme: dark)");
 
