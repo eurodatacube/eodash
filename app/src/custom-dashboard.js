@@ -151,6 +151,22 @@ class CustomDashboardApi extends EventEmitter {
     });
   }
 
+  changeFeatureTitle(featureId, newTitle) {
+    return new Promise((resolve, reject) => {
+      this.socket.emit('feature-change-title', {
+        id: featureId,
+        newTitle
+      }, (response) => {
+        if (response ?. error) 
+          return reject(response);
+        
+
+
+        return resolve();
+      });
+    });
+  }
+
   disconnect() {
     this.socket.disconnect();
   }

@@ -112,6 +112,15 @@ const mutations = {
     Vue.set(state.dashboardConfig.features, index + 1, state.dashboardConfig.features[index])
     Vue.set(state.dashboardConfig.features, index, temp)
   },
+  CHANGE_FEATURE_TITLE(state, {poi, newTitle}) {
+    const index = state.dashboardConfig.features.findIndex(e => e.poi === poi);
+    if (index === -1) 
+      return;
+    
+
+
+    Vue.set(state.dashboardConfig.features[index], 'title', newTitle)
+  },
   SET_DASHBOARD_FEATURES(state, dashboardFeatures) {
     if (state.dashboardConfig) {
       state.dashboardConfig.features = dashboardFeatures;
@@ -272,6 +281,20 @@ const actions = {
 
 
     commit('MOVE_FEATURE_DOWN', f)
+  },
+  changeFeatureTitle(
+    {
+      commit,
+      state
+    },
+    {poi, newTitle}
+  ) {
+    if (state.api) 
+      return state.api.changeFeatureTitle(poi, newTitle);
+    
+
+
+    commit('CHANGE_FEATURE_TITLE', {poi, newTitle})
   },
   disconnect(
     {state, commit}
