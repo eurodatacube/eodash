@@ -281,6 +281,7 @@ export const indicatorsDefinition = Object.freeze({
   E13n: {
     indicator: 'Changes in traffic fluxes',
     class: 'economic',
+    story: '/eodash-data/stories/E1',
   },
   H1: {
     indicator: 'Number of temp. treatment sites',
