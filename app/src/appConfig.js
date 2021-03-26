@@ -31,8 +31,8 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'Barcelona-N3a2',
-        src: './eodash-data/general/Slide9.png',
+        poi: 'ES7-E13n',
+        src: './eodash-data/general/Slide15.png',
       },
       {
         iframe: 'https://www.youtube.com/embed/Ofb2pNQc424',
