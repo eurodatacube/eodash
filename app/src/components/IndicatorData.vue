@@ -255,6 +255,33 @@ export default {
               borderWidth: 2,
             });
           }
+        } else if (['E13n'].includes(indicatorCode)) {
+          console.log(indicator);
+          // Group by indicator value
+          const types = {};
+          indicator.indicatorValue.forEach((ind, idx) => {
+            if (Object.keys(types).includes(ind)) {
+              types[ind].push({
+                t: DateTime.fromISO(indicator.time[idx]),
+                y: Number(indicator.measurement[idx]),
+              });
+            } else {
+              types[ind] = [{
+                t: DateTime.fromISO(indicator.time[idx]),
+                y: Number(indicator.measurement[idx]),
+              }];
+            }
+          });
+          Object.keys(types).forEach((key, i) => {
+            datasets.push({
+              label: key,
+              fill: false,
+              data: types[key],
+              backgroundColor: refColors[i],
+              borderColor: refColors[i],
+              borderWidth: 2,
+            });
+          });
         } else if (['N2', 'E10c'].includes(indicatorCode)) {
           /* Group data by year in month slices */
           const data = indicator.time.map((date, i) => {
