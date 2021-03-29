@@ -3,7 +3,7 @@
     v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8',
       'E10c', 'N1', 'N3', 'N3b', 'E8',
       'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA']
+      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA', 'CV']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -209,6 +209,27 @@ export default {
             datasetsObj[vals[entry]].sort((a, b) => a.t.toMillis() - b.t.toMillis());
           }
           Object.keys(indicator.values).forEach((key, idx) => {
+            datasets.push({
+              label: key,
+              data: datasetsObj[key],
+              fill: false,
+              borderColor: refColors[idx],
+              backgroundColor: refColors[idx],
+              borderWidth: 1,
+              pointRadius: 2,
+              cubicInterpolationMode: 'monotone',
+            });
+          });
+        } else if (['CV'].includes(indicatorCode)) {
+          const vals = indicator.Values;
+          const datasetsObj = {
+            confirmed: [],
+          };
+          for (let entry = 0; entry < vals.length; entry += 1) {
+            const t = DateTime.fromISO(vals[entry].date);
+            datasetsObj.confirmed.push({ t, y: Number(vals[entry].confirmed) });
+          }
+          Object.keys(datasetsObj).forEach((key, idx) => {
             datasets.push({
               label: key,
               data: datasetsObj[key],

@@ -932,6 +932,7 @@ export default {
       }
     },
     countriesOptions() {
+      const currentIndicator = this.indicator;
       return {
         onEachFeature: function onEachFeature(feature, layer) {
           layer.bindTooltip(
@@ -942,7 +943,8 @@ export default {
           layer.on('click', () => {
             // const countryName = feature.properties.name;
             const countryA2 = feature.properties.alpha2;
-            this.fetchMobilityData(countryA2);
+            console.log(currentIndicator.aoiID);
+            this.fetchMobilityData(countryA2, currentIndicator.aoiID);
             if (this.selectedLayer !== null) {
               this.selectedLayer.setStyle({
                 color: '#222',
@@ -1517,12 +1519,12 @@ export default {
           console.log(err);
         });
     },
-    fetchMobilityData(countryCode) {
-      const dataUrl = `./eodash-data/internal/${countryCode}-GG.json`;
+    fetchMobilityData(countryCode, aoiID) {
+      const dataUrl = `./eodash-data/internal/${countryCode}-${aoiID}.json`;
       this.map.fireEvent('dataloading');
       fetch(dataUrl).then((r) => r.json())
         .then((indicator) => {
-          indicator.indicator = 'GG'; // eslint-disable-line
+          indicator.indicator = aoiID; // eslint-disable-line
           indicator.time = indicator.Values.map((row) => DateTime.fromISO(row.date)); // eslint-disable-line
           indicator.measurement = [0]; // eslint-disable-line
           indicator.country = indicator.CountryCode; // eslint-disable-line
