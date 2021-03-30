@@ -3,7 +3,7 @@
     v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8',
       'E10c', 'N1', 'N3', 'N3b', 'E8',
       'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA', 'CV']
+      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA', 'CV', 'OW']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -228,6 +228,34 @@ export default {
           for (let entry = 0; entry < vals.length; entry += 1) {
             const t = DateTime.fromISO(vals[entry].date);
             datasetsObj.confirmed.push({ t, y: Number(vals[entry].confirmed) });
+          }
+          Object.keys(datasetsObj).forEach((key, idx) => {
+            datasets.push({
+              label: key,
+              data: datasetsObj[key],
+              fill: false,
+              borderColor: refColors[idx],
+              backgroundColor: refColors[idx],
+              borderWidth: 1,
+              pointRadius: 2,
+              cubicInterpolationMode: 'monotone',
+            });
+          });
+        } else if (['OW'].includes(indicatorCode)) {
+          const vals = indicator.Values;
+          const pI = [
+            'total_vaccinations', 'people_fully_vaccinated',
+            'daily_vaccinations',
+          ];
+          const datasetsObj = {};
+          for (let idx = 0; idx < pI.length; idx += 1) {
+            datasetsObj[pI[idx]] = [];
+          }
+          for (let entry = 0; entry < vals.length; entry += 1) {
+            const t = DateTime.fromISO(vals[entry].date);
+            for (let idx = 0; idx < pI.length; idx += 1) {
+              datasetsObj[pI[idx]].push({ t, y: vals[entry][pI[idx]] });
+            }
           }
           Object.keys(datasetsObj).forEach((key, idx) => {
             datasets.push({
@@ -1163,6 +1191,20 @@ export default {
           ...this.indicatorObject.measurement
             .filter((d) => !Number.isNaN(d)),
         );
+      }
+      if (['CV', 'OW'].includes(indicatorCode)) {
+        yAxes[0].ticks.beginAtZero = true;
+        yAxes[0].ticks = {
+          lineHeight: 1,
+          suggestedMin: Math.min(
+            ...this.indicatorObject.measurement
+              .filter((d) => !Number.isNaN(d)),
+          ),
+          suggestedMax: Math.max(
+            ...this.indicatorObject.measurement
+              .filter((d) => !Number.isNaN(d)),
+          ),
+        };
       }
 
       if (['E10a1', 'E10a5'].includes(indicatorCode)) {

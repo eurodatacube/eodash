@@ -400,6 +400,13 @@ export const indicatorsDefinition = Object.freeze({
     countrySelection: true,
     // story: '/eodash-data/stories/CV-CV',
   },
+  OW: {
+    indicator: 'Vaccinations',
+    class: 'economic',
+    disableTimeSelection: true,
+    countrySelection: true,
+    // story: '/eodash-data/stories/CV-CV',
+  },
   GSA: {
     indicator: 'Mobility',
     class: 'economic',
@@ -648,6 +655,32 @@ export const globalIndicators = [
         aoi: null,
         inputData: [''],
         yAxis: 'aggregated covid cases',
+        time: ['TBD'],
+        display: {
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'OW',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Vaccination Data',
+        indicatorName: '(select country to load data)',
+        indicator: 'OW',
+        lastIndicatorValue: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        inputData: [''],
+        yAxis: 'vaccination data',
         time: ['TBD'],
         display: {
         },
