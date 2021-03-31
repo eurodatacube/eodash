@@ -6,6 +6,7 @@ import { latLng, latLngBounds } from 'leaflet';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { E13bRemovedFtrs } from '@/config/otherdata';
+import availableDates from '@/config/data_dates.json';
 
 export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [
@@ -218,6 +219,12 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Airports: airplanes traffic',
     class: 'economic',
     story: '/eodash-data/stories/E13d',
+  },
+  E13d2: {
+    indicator: 'Airports: airplanes traffic',
+    class: 'economic',
+    story: '/eodash-data/stories/E13d',
+    hideInFilters: true,
     baseLayers: [baseLayers.terrainLight, {
       ...baseLayers.cloudless,
       visible: true,
@@ -225,8 +232,8 @@ export const indicatorsDefinition = Object.freeze({
     midSubAoi: true,
     mapTimeLabelExtended: true,
     features: {
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
+      url: './eodash-data/features/E13d/E13d_{aoiID}_{featuresTime}.geojson',
     },
     largeTimeDuration: true,
   },
@@ -270,6 +277,11 @@ export const indicatorsDefinition = Object.freeze({
     hideInFilters: true,
     class: 'economic',
     story: '/eodash-data/stories/E13e',
+  },
+  E13n: {
+    indicator: 'Changes in traffic fluxes',
+    class: 'economic',
+    story: '/eodash-data/stories/E1',
   },
   H1: {
     indicator: 'Number of temp. treatment sites',
@@ -509,18 +521,6 @@ const getDailyDates = (start, end) => {
   return dateArray;
 };
 
-const getWeeklyDates = (start, end) => {
-  let currentDate = DateTime.fromISO(start);
-  const stopDate = DateTime.fromISO(end);
-
-  const dateArray = [];
-  while (currentDate <= stopDate) {
-    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
-    currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
-  }
-  return dateArray;
-};
-
 const getFortnightIntervalDates = (start, end) => {
   let currentDate = DateTime.fromISO(start);
   const stopDate = end === 'now' ? DateTime.utc().minus({ days: 13 }) : DateTime.fromISO(end).minus({ days: 13 });
@@ -642,7 +642,6 @@ export const globalIndicators = [
         time: getFortnightIntervalDates('2019-01-07', 'now'),
         inputData: [''],
         yAxis: 'Tropospheric NO2 (μmol/m2)',
-        customAreaIndicator: true,
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Tropospheric NO2',
@@ -853,7 +852,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.839389 44.499195,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-04', '2021-02-20'),
+        time: availableDates.N3_CUSTOM,
         inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -892,7 +891,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((4.19585670915520126 43.49375380380885758, 4.19491064380215573 43.49564593451494687, 4.62253218337875094 43.49564593451494687, 4.69632528091630519 43.49753806522103616, 4.69537921556325966 43.48618528098449332, 4.6736197124432115 43.46442577786444161, 4.64523775185184462 43.45401905898093986, 4.67172758173712044 43.42090677162434531, 4.70389380374066945 43.41428431415302924, 4.71146232656503461 43.43698988262612204, 4.75592739815817644 43.43320562121393635, 4.78525542410258886 43.41806857556520782, 4.81647558075309234 43.38495628820861327, 4.83918114922618603 43.38495628820861327, 4.82877443034268428 43.40671579132866498, 4.81552951540004681 43.424691033036531, 4.81836771145918341 43.43604381727307384, 4.86661704446450738 43.41050005274084356, 4.87040130587668951 43.41523037950607034, 4.84012721457923156 43.44928873221571308, 4.85999458699318865 43.4682100392766273, 4.88459228617237251 43.42942135980175777, 4.89499900505587426 43.43793594797917024, 4.91297424676374028 43.43509775192003275, 4.92621916170637775 43.44172020939134882, 4.94608653412033483 43.49280773845580939, 5.21949942115050369 43.49753806522103616, 5.23558253215227776 43.4899695423966719, 5.24693531638882504 43.4672639739235791, 5.23842072821141436 43.43415168656698455, 5.21476909438527514 43.41428431415302924, 5.16557369602690564 43.39157874567993645, 5.08988846778326032 43.39157874567993645, 5.014203239539615 43.39252481103297754, 5.01893356630484355 43.3792798960903454, 5.03690880801270868 43.3565743276172455, 5.07096716072234965 43.34143728196851697, 5.11070190555026294 43.33859908590937948, 5.15327484643731371 43.34427547802765446, 5.21760729044441174 43.34049121661547588, 5.27247908092105533 43.35373613155811512, 5.30275317221851239 43.37265743861902223, 5.33208119816292569 43.36698104650074725, 5.35194857057688189 43.3565743276172455, 5.36140922410733811 43.34143728196851697, 5.36992381228474791 43.32535417096674735, 5.36992381228474791 43.3130553213771492, 5.36613955087256578 43.29791827572842067, 5.36613955087256578 43.28845762219796711, 5.37654626975606753 43.27521270725532787, 5.38600692328652286 43.26102172695964754, 5.38316872722738626 43.25250713878223507, 5.37276200834388451 43.24210041989873332, 5.35478676663601938 43.23263976636827977, 5.35005643987079083 43.22128698213172981, 5.35857102804820151 43.21088026324823517, 5.37749233510911218 43.21655665536650304, 5.39925183822916033 43.21939485142564052, 5.42195740670225401 43.21561059001346194, 5.45412362870580303 43.21939485142564052, 5.50331902706417253 43.20141960971777451, 5.50615722312331002 42.99990768951906972, 4.19301851309606466 42.99896162416602152, 4.19585670915520126 43.49375380380885758))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-04', '2021-02-20'),
+        time: availableDates.N3_CUSTOM,
         inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -931,7 +930,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.839389 44.499195,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-04', '2021-02-20'),
+        time: availableDates.N3_CUSTOM_TSMNN,
         inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -970,7 +969,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((4.19585670915520126 43.49375380380885758, 4.19491064380215573 43.49564593451494687, 4.62253218337875094 43.49564593451494687, 4.69632528091630519 43.49753806522103616, 4.69537921556325966 43.48618528098449332, 4.6736197124432115 43.46442577786444161, 4.64523775185184462 43.45401905898093986, 4.67172758173712044 43.42090677162434531, 4.70389380374066945 43.41428431415302924, 4.71146232656503461 43.43698988262612204, 4.75592739815817644 43.43320562121393635, 4.78525542410258886 43.41806857556520782, 4.81647558075309234 43.38495628820861327, 4.83918114922618603 43.38495628820861327, 4.82877443034268428 43.40671579132866498, 4.81552951540004681 43.424691033036531, 4.81836771145918341 43.43604381727307384, 4.86661704446450738 43.41050005274084356, 4.87040130587668951 43.41523037950607034, 4.84012721457923156 43.44928873221571308, 4.85999458699318865 43.4682100392766273, 4.88459228617237251 43.42942135980175777, 4.89499900505587426 43.43793594797917024, 4.91297424676374028 43.43509775192003275, 4.92621916170637775 43.44172020939134882, 4.94608653412033483 43.49280773845580939, 5.21949942115050369 43.49753806522103616, 5.23558253215227776 43.4899695423966719, 5.24693531638882504 43.4672639739235791, 5.23842072821141436 43.43415168656698455, 5.21476909438527514 43.41428431415302924, 5.16557369602690564 43.39157874567993645, 5.08988846778326032 43.39157874567993645, 5.014203239539615 43.39252481103297754, 5.01893356630484355 43.3792798960903454, 5.03690880801270868 43.3565743276172455, 5.07096716072234965 43.34143728196851697, 5.11070190555026294 43.33859908590937948, 5.15327484643731371 43.34427547802765446, 5.21760729044441174 43.34049121661547588, 5.27247908092105533 43.35373613155811512, 5.30275317221851239 43.37265743861902223, 5.33208119816292569 43.36698104650074725, 5.35194857057688189 43.3565743276172455, 5.36140922410733811 43.34143728196851697, 5.36992381228474791 43.32535417096674735, 5.36992381228474791 43.3130553213771492, 5.36613955087256578 43.29791827572842067, 5.36613955087256578 43.28845762219796711, 5.37654626975606753 43.27521270725532787, 5.38600692328652286 43.26102172695964754, 5.38316872722738626 43.25250713878223507, 5.37276200834388451 43.24210041989873332, 5.35478676663601938 43.23263976636827977, 5.35005643987079083 43.22128698213172981, 5.35857102804820151 43.21088026324823517, 5.37749233510911218 43.21655665536650304, 5.39925183822916033 43.21939485142564052, 5.42195740670225401 43.21561059001346194, 5.45412362870580303 43.21939485142564052, 5.50331902706417253 43.20141960971777451, 5.50615722312331002 42.99990768951906972, 4.19301851309606466 42.99896162416602152, 4.19585670915520126 43.49375380380885758))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-04', '2021-02-20'),
+        time: availableDates.N3_CUSTOM_TSMNN,
         inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1006,7 +1005,7 @@ export const globalIndicators = [
         eoSensor: ['2017-06-30', '2018-06-30', '2019-06-30', '2020-06-30'],
         aoi: null,
         aoiID: 'W2',
-        time: ['2017-04-01', '2018-04-01', '2019-04-01', '2020-04-01'],
+        time: availableDates.E12C_NEW_MOTORWAY,
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: {
@@ -1135,7 +1134,7 @@ export const globalIndicators = [
         eoSensor: ['2017-06-30', '2018-06-30', '2019-06-30', '2020-06-30'],
         aoi: null,
         aoiID: 'W3',
-        time: ['2017-04-01', '2018-04-01', '2019-04-01', '2020-04-01'],
+        time: availableDates.E12D_NEW_PRIMARYROADS,
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: {
@@ -1267,7 +1266,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((2.516544 40.485512,2.522036 41.562459,2.291387 41.480243,2.211372 41.416219,2.164693 41.3132,2.049368 41.27401,1.917569 41.26782,1.692412 41.212083,1.448034 41.174899,1.266809 41.129423,1.16796 41.077707,0.950799 41.027932,0.726123 40.810478,0.849188 40.722691,0.85468 40.68523,0.659705 40.6644,0.549872 40.576882,0.483966 40.485017,2.516544 40.485512))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-10-31', '2021-02-20'),
+        time: availableDates.N3_CUSTOM,
         inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1306,7 +1305,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((2.516544 40.485512,2.522036 41.562459,2.291387 41.480243,2.211372 41.416219,2.164693 41.3132,2.049368 41.27401,1.917569 41.26782,1.692412 41.212083,1.448034 41.174899,1.266809 41.129423,1.16796 41.077707,0.950799 41.027932,0.726123 40.810478,0.849188 40.722691,0.85468 40.68523,0.659705 40.6644,0.549872 40.576882,0.483966 40.485017,2.516544 40.485512))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-10-31', '2021-02-20'),
+        time: availableDates.N3_CUSTOM_TSMNN,
         inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1344,25 +1343,31 @@ export const globalIndicators = [
           url: 'https://resources.marine.copernicus.eu/?option=com_csw%20&view=details%20&product_id=OCEANCOLOUR_MED_CHL_L4_NRT_OBSERVATIONS_009_041',
         },
         display: [{
-          ...cmemsDisplay,
-          baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-atl-bio-multi-l4-chl_interpolated_1km_daily-rt?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
-          name: 'Atlantic coast CHL L4 Product',
-          bounds: latLngBounds(latLng([20, -45]), latLng([66, 10.5])),
-        }, {
-          ...cmemsDisplay,
-          baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-med-chl-multi-l4-interp_1km_daily-rt-v02?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
-          name: 'Mediterranean CHL L4 Product',
-          bounds: latLngBounds(latLng([30, -6]), latLng([46, 37])),
-        }, {
-          ...cmemsDisplay,
-          baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-bs-chl-multi-l4-interp_1km_daily-rt-v02?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
-          name: 'Black sea CHL L4 Product',
-          bounds: latLngBounds(latLng([40, 26.5]), latLng([48, 42])),
+          name: 'CHL L4 Product',
+          legendUrl: 'eodash-data/data/cmems-legend.png',
+          combinedLayers: [
+            {
+              ...cmemsDisplay,
+              baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-atl-bio-multi-l4-chl_interpolated_1km_daily-rt?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
+              name: 'Atlantic coast CHL L4 Product',
+              bounds: latLngBounds(latLng([20, -45]), latLng([66, 10.5])),
+            }, {
+              ...cmemsDisplay,
+              baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-med-chl-multi-l4-interp_1km_daily-rt-v02?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
+              name: 'Mediterranean CHL L4 Product',
+              bounds: latLngBounds(latLng([30, -6]), latLng([46, 37])),
+            }, {
+              ...cmemsDisplay,
+              baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-bs-chl-multi-l4-interp_1km_daily-rt-v02?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
+              name: 'Black sea CHL L4 Product',
+              bounds: latLngBounds(latLng([40, 26.5]), latLng([48, 42])),
+            },
+          ],
         }, {
           ...cmemsDisplay,
           baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-bal-chl-olci_a-l3-nn_1km_daily-rt-v02?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
           name: 'Baltic sea CHL L3 Product',
-          // visible: false,
+          visible: false,
           bounds: latLngBounds(latLng([53.25, 9]), latLng([65.85, 30.5])),
         }],
       },
@@ -1392,7 +1397,7 @@ export const globalIndicators = [
           }],
         },
         lastColorCode: null,
-        time: ['2020-02-04', '2020-04-13', '2020-07-17'],
+        time: availableDates['ICEYE-E3'],
         inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1435,7 +1440,7 @@ export const globalIndicators = [
           }],
         },
         lastColorCode: null,
-        time: ['2020-03-20'],
+        time: availableDates['ICEYE-E11'],
         inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1479,7 +1484,7 @@ export const globalIndicators = [
           }],
         },
         lastColorCode: null,
-        time: ['2020-02-07', '2020-04-13'],
+        time: availableDates['ICEYE-E11A'],
         inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1523,7 +1528,7 @@ export const globalIndicators = [
           }],
         },
         lastColorCode: null,
-        time: ['2020-08-29'],
+        time: availableDates['ICEYE-E12B'],
         inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,

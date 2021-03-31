@@ -31,8 +31,8 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'Barcelona-N3a2',
-        src: './eodash-data/general/Slide9.png',
+        poi: 'ES7-E13n',
+        src: './eodash-data/general/Slide15.png',
       },
       {
         iframe: 'https://www.youtube.com/embed/Ofb2pNQc424',
@@ -95,7 +95,7 @@ module.exports = [
       },
     ].concat([
       'AT4', 'BE6', 'CH1', 'DE12', 'DE13', 'DE14', 'DE15', 'DK1', 'ES10', 'ES11', 'ES14', 'ES15', 'FI4', 'FR13', 'FR8', 'GR2', 'IE1', 'IT13', 'IT9', 'NL1', 'NO1', 'PL6', 'PT1', 'SE23', 'TR1', 'UK4', 'UK5', 'UK6', 'UK7', 'UK8']
-      .map((val) => ({ features: [`${val}-E13d`, `${val}a-E13d`], label: ['Airports traffic', 'Detected airplanes'] })))
+      .map((val) => ({ features: [`${val}-E13d`, `${val}-E13d2`], label: ['Airports traffic', 'Detected airplanes'] })))
       .concat([
         'ES22', 'ES23', 'ES24', 'ES30', 'ES41', 'ES42', 'ES43', 'ES51', 'ES52', 'ES61', 'ES62']
         .map((val) => ({ features: [`${val}a-E10a6`, `${val}b-E10a6`], label: 'indicatorValue' })))
@@ -165,6 +165,7 @@ module.exports = [
       { code: 'BE', region: 'EUROPE' },
       { code: 'HR', region: 'EUROPE' },
       { code: 'FR', region: 'EUROPE' },
+      { code: 'GB', region: 'EUROPE' },
       { code: 'DE', region: 'EUROPE' },
       { code: 'IT', region: 'EUROPE' },
       { code: 'SI', region: 'EUROPE' },
@@ -179,6 +180,7 @@ module.exports = [
       { code: 'PE', region: 'SOUTH AMERICA' },
       { code: 'TG', region: 'AFRICA' },
       { code: 'TZ', region: 'AFRICA' },
+      { code: 'EG', region: 'AFRICA' },
     ],
     featureGrouping: [
       {

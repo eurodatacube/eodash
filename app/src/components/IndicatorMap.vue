@@ -122,6 +122,7 @@
         :pane="tooltipPane"
       >
       </l-circle-marker>
+      <!-- XYZ grouping is not implemented yet -->
       <LTileLayer
       v-for="(layerConfig, i) in mergedConfigs().filter(l => l.protocol === 'xyz')"
         ref="dataLayerArrayXYZ"
@@ -133,19 +134,49 @@
         layer-type="overlay"
       >
       </LTileLayer>
-      <LWMSTileLayer
-      v-for="(layerConfig, i) in mergedConfigs().filter(l => l.protocol === 'WMS')"
-        ref="dataLayerArrayWMS"
-        :data-key-originalindex="i"
-        :key="dataLayerKeyWMS[i]"
-        v-bind="layerConfig"
-        :options="layerOptions(currentTime, layerConfig)"
-        :pane="overlayPane"
-        layer-type="overlay"
-      >
-      </LWMSTileLayer>
+      <template v-if="getCombinedWMSLayers().length > 0">
+        <l-layer-group ref="dataLayerArrayWMS">
+          <l-layer-group
+          v-for="combLayer in this.getCombinedWMSLayers()"
+            :key="combLayer.name"
+            :name="combLayer.name"
+            layer-type="overlay"
+          >
+            <LWMSTileLayer
+            v-for="cLayerConfig in combLayer.combinedLayers"
+              :key="cLayerConfig.name"
+              v-bind="cLayerConfig"
+              :options="layerOptions(currentTime, cLayerConfig)"
+              :pane="overlayPane"
+            >
+            </LWMSTileLayer>
+          </l-layer-group>
+          <LWMSTileLayer
+          v-for="layerConfig in this.getSimpleWMSLayers()"
+            :key="layerConfig.name"
+            v-bind="layerConfig"
+            :options="layerOptions(currentTime, layerConfig)"
+            :pane="overlayPane"
+            layer-type="overlay"
+          >
+          </LWMSTileLayer>
+        </l-layer-group>
+      </template>
+      <template v-else>
+        <LWMSTileLayer
+        v-for="layerConfig in this.getSimpleWMSLayers()"
+          ref="dataLayerArrayWMS"
+          :key="layerConfig.name"
+          v-bind="layerConfig"
+          :options="layerOptions(currentTime, layerConfig)"
+          :pane="overlayPane"
+          layer-type="overlay"
+        >
+        </LWMSTileLayer>
+      </template>
     </l-layer-group>
     <l-layer-group ref="compareLayers">
+      <!-- XYZ grouping is not implemented yet -->
       <LTileLayer
       v-for="(layerConfig, i) in mergedConfigs('compare').filter(l => l.protocol === 'xyz')"
         ref="compareLayerArrayXYZ"
@@ -157,17 +188,45 @@
         :pane="overlayPane"
       >
       </LTileLayer>
-      <LWMSTileLayer
-      v-for="(layerConfig, i) in mergedConfigs('compare').filter(l => l.protocol === 'WMS')"
-        ref="compareLayerArrayWMS"
-        :data-key-originalindex="i"
-        :key="compareLayerKeyWMS[i]"
-        v-bind="layerConfig"
-        :visible="enableCompare"
-        :options="layerOptions(currentCompareTime, layerConfig)"
-        :pane="overlayPane"
-      >
-      </LWMSTileLayer>
+      <template v-if="getCombinedWMSLayers('compare').length > 0">
+        <l-layer-group ref="compareLayerArrayWMS">
+          <l-layer-group
+          v-for="combLayer in this.getCombinedWMSLayers('compare')"
+            :key="combLayer.name"
+          >
+            <LWMSTileLayer
+            v-for="cLayerConfig in combLayer.combinedLayers"
+              :key="cLayerConfig.name"
+              v-bind="cLayerConfig"
+              :visible="enableCompare"
+              :options="layerOptions(currentCompareTime, cLayerConfig)"
+              :pane="overlayPane"
+            >
+            </LWMSTileLayer>
+          </l-layer-group>
+          <LWMSTileLayer
+          v-for="layerConfig in this.getSimpleWMSLayers('compare')"
+            :key="layerConfig.name"
+            v-bind="layerConfig"
+            :visible="enableCompare"
+            :options="layerOptions(currentCompareTime, layerConfig)"
+            :pane="overlayPane"
+          >
+          </LWMSTileLayer>
+        </l-layer-group>
+      </template>
+      <template v-else>
+        <LWMSTileLayer
+        v-for="layerConfig in this.getSimpleWMSLayers('compare')"
+          ref="compareLayerArrayWMS"
+          :key="layerConfig.name"
+          v-bind="layerConfig"
+          :visible="enableCompare"
+          :options="layerOptions(currentCompareTime, layerConfig)"
+          :pane="overlayPane"
+        >
+        </LWMSTileLayer>
+      </template>
       <l-geo-json
         :geojson="indicator.subAoi"
         :pane="shadowPane"
@@ -445,9 +504,7 @@ export default {
     return {
       map: null,
       compareLayerKeyXYZ: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-      compareLayerKeyWMS: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35],
       dataLayerKeyXYZ: [41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55],
-      dataLayerKeyWMS: [61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75],
       dataJsonKey: 0,
       compareJsonKey: -1,
       zoom: null,
@@ -818,7 +875,9 @@ export default {
         delayIndicator: 200,
       }).addTo(this.map);
       // add A/B slider
-      this.slider = L.control.sideBySide(this.$refs.compareLayers.mapObject.getLayers(), this.$refs.dataLayers.mapObject.getLayers()); // eslint-disable-line
+      const leftLayers = this.extractActualLayers(this.$refs.compareLayers);
+      const rightLayers = this.extractActualLayers(this.$refs.dataLayers);
+      this.slider = L.control.sideBySide(leftLayers, rightLayers);
       this.drawControl = new L.Control.Draw(this.drawOptions);
       this.map.on(L.Draw.Event.CREATED, function (e) { // eslint-disable-line
         // set global area as json
@@ -1023,6 +1082,18 @@ export default {
       // empty config used later for merging
       return [];
     },
+    getCombinedWMSLayers(side) {
+      const combLayers = this.mergedConfigs(side).filter((l) => (
+        l.protocol === 'WMS' && Object.keys(l).indexOf('combinedLayers') !== -1
+      ));
+      return combLayers;
+    },
+    getSimpleWMSLayers(side) {
+      const combLayers = this.mergedConfigs(side).filter((l) => (
+        l.protocol === 'WMS' && Object.keys(l).indexOf('combinedLayers') === -1
+      ));
+      return combLayers;
+    },
     mergedConfigs(side = 'data') {
       // first check if special compare layer configured
       let displayTmp = side === 'compare' && this.indicator.compareDisplay ? this.indicator.compareDisplay : this.indicator.display;
@@ -1056,10 +1127,22 @@ export default {
       usedConfigForMerge.forEach((item) => {
         // merge configs for each layer
         name = item.name || name;
+        // Check to see if we have grouped layers, if we do we need to add
+        // the default to them too
+        const extendedItem = item;
+        if (Object.keys(item).indexOf('combinedLayers') !== -1) {
+          for (let i = 0; i < item.combinedLayers.length; i += 1) {
+            extendedItem.combinedLayers[i] = {
+              ...this.baseConfig.defaultLayersDisplay,
+              ...this.indDefinition,
+              ...item.combinedLayers[i],
+            };
+          }
+        }
         finalConfigs.push({
           ...this.baseConfig.defaultLayersDisplay,
           ...this.indDefinition,
-          ...item,
+          ...extendedItem,
           name,
         });
       });
@@ -1174,7 +1257,9 @@ export default {
       this.dataLayerIndex = newIndex;
       this.refreshLayers('data');
       this.$nextTick(() => {
-        this.slider.setRightLayers(this.$refs.dataLayers.mapObject.getLayers());
+        this.slider.setRightLayers(
+          this.extractActualLayers(this.$refs.dataLayers),
+        );
       });
       if (this.indicator.compareDisplay) {
         // shared time on both sides in case of compareDisplay being set
@@ -1182,9 +1267,22 @@ export default {
         this.compareLayerIndex = newIndex;
         this.refreshLayers('compare');
         this.$nextTick(() => {
-          this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
+          this.slider.setLeftLayers(
+            this.extractActualLayers(this.$refs.compareLayers),
+          );
         });
       }
+    },
+    extractActualLayers(group) {
+      let actualLayers = [];
+      if (group.$children.length > 0) {
+        group.$children.forEach((child) => {
+          actualLayers = actualLayers.concat(this.extractActualLayers(child));
+        });
+      } else {
+        actualLayers.push(group.mapObject);
+      }
+      return actualLayers;
     },
     compareLayerTimeSelection(payload) {
       // Different object returned either by arrow use or by dropdown use
@@ -1199,7 +1297,9 @@ export default {
       this.compareLayerIndex = newIndex;
       this.refreshLayers('compare');
       this.$nextTick(() => {
-        this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
+        this.slider.setLeftLayers(
+          this.extractActualLayers(this.$refs.compareLayers),
+        );
       });
     },
     dataLayerReduce() {
@@ -1252,27 +1352,50 @@ export default {
       // use first time
       return this.usedTimes.time[0];
     },
+    refreshGroup(group, time) {
+      // Group can also be an array depending on type
+      if (group) {
+        let toIterate;
+        if (Array.isArray(group)) {
+          toIterate = group;
+        } else {
+          toIterate = group.$children;
+        }
+        if (toIterate) {
+          toIterate.forEach((item) => {
+            // We check if we have a simple layer or a grouped layer
+            if (item.$children.length > 0) {
+              // This is a grouped layer, we iterate over the layers
+              item.$children.forEach((subItem) => {
+                // TODO: propsData do not have all the parameters we need (like dateFormatFunction)
+                // TODO extend this getting the mergedConfigs in a same way as when non-grouped
+                subItem.mapObject.setParams(this.layerOptions(
+                  time, subItem.$options.propsData,
+                ));
+                // force redraw of layer
+                subItem.$forceUpdate();
+              });
+            } else {
+              const originalConfig = this.mergedConfigs().find((config) => (
+                config.name === item.name
+              ));
+              item.mapObject.setParams(this.layerOptions(
+                time, originalConfig,
+              ));
+              // force redraw of layer
+              item.$forceUpdate();
+            }
+          });
+        }
+      }
+    },
     refreshLayers(side) {
       // compare(left) or data(right)
       if (side === 'compare' || this.indicator.compareDisplay) {
-        if (this.$refs.compareLayerArrayWMS) {
-          // change source parameters because of time change
-          this.$refs.compareLayerArrayWMS.forEach((item) => {
-            // vue refs do not maintain order while creating v-for :refs
-            // use data-key-originalindex helper property (index from original config array)
-            const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
-            item.mapObject
-              .setParams(this.layerOptions(this.currentCompareTime, this.mergedConfigs('compare')[originalIndex]));
-            this.compareLayerKeyWMS[originalIndex] = Math.random();
-          });
-          // using ref inside v-for populating $refs will not work in VUE 3
-          // https://v3.vuejs.org/guide/migration/array-refs.html#frontmatter-title
-        }
+        this.refreshGroup(this.$refs.compareLayerArrayWMS, this.currentCompareTime);
         if (this.$refs.compareLayerArrayXYZ) {
           this.$refs.compareLayerArrayXYZ.forEach((item) => {
             const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
-            item.mapObject
-              .setUrl(this.mergedConfigs('compare')[originalIndex].url);
             this.compareLayerKeyXYZ[originalIndex] = Math.random();
           });
         }
@@ -1285,20 +1408,10 @@ export default {
         }
       }
       if (side === 'data') {
-        if (this.$refs.dataLayerArrayWMS) {
-          this.$refs.dataLayerArrayWMS.forEach((item) => {
-            const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
-            item.mapObject
-              .setParams(this.layerOptions(this.currentTime, this.mergedConfigs()[originalIndex]));
-            // force redraw all data layers
-            this.dataLayerKeyWMS[originalIndex] = Math.random();
-          });
-        }
+        this.refreshGroup(this.$refs.dataLayerArrayWMS, this.currentTime);
         if (this.$refs.dataLayerArrayXYZ) {
           this.$refs.dataLayerArrayXYZ.forEach((item) => {
             const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
-            item.mapObject
-              .setUrl(this.mergedConfigs()[originalIndex].url);
             this.dataLayerKeyXYZ[originalIndex] = Math.random();
           });
         }
@@ -1543,8 +1656,12 @@ export default {
           this.fetchFeatures('compare');
         }
         this.$nextTick(() => {
-          this.slider.setLeftLayers(this.$refs.compareLayers.mapObject.getLayers());
-          this.slider.setRightLayers(this.$refs.dataLayers.mapObject.getLayers());
+          this.slider.setLeftLayers(
+            this.extractActualLayers(this.$refs.compareLayers),
+          );
+          this.slider.setRightLayers(
+            this.extractActualLayers(this.$refs.dataLayers),
+          );
           this.slider.addTo(this.map);
         });
       }
@@ -1632,5 +1749,9 @@ export default {
 .map-legend-expanded {
   width: initial;
   max-width: 80%;
+}
+
+::v-deep .leaflet-top.leaflet-right {
+  margin-top: 45px;
 }
 </style>
