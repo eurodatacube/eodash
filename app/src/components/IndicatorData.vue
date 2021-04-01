@@ -188,6 +188,8 @@ export default {
               cubicInterpolationMode: 'monotone',
               borderWidth: 1,
               pointRadius: 2,
+            });
+          });
         } else if (['GG'].includes(indicatorCode)) {
           const vals = indicator.Values;
           const datasetsObj = {
