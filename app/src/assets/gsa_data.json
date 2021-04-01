@@ -1,0 +1,890 @@
+{
+    "AT-CH-176-GSA": {
+        "AOI": "47.456103498978365,9.639319000234217",
+        "border": "AT - CH",
+        "borderId": "AT-CH-176-GSA",
+        "name": "Höchst - Sankt Margrethen"
+    },
+    "AT-CZ-78-GSA": {
+        "AOI": "48.7857899995532,16.63875350040605",
+        "border": "AT - CZ",
+        "borderId": "AT-CZ-78-GSA",
+        "name": "Drasenhofen - Mikulov"
+    },
+    "AT-CZ-88-GSA": {
+        "AOI": "48.643899999411715,14.453327999747005",
+        "border": "AT - CZ",
+        "borderId": "AT-CZ-88-GSA",
+        "name": "Wullowitz - Dolní Dvořiště"
+    },
+    "AT-DE-108-GSA": {
+        "AOI": "47.547173998996605,9.735844999620564",
+        "border": "AT - DE",
+        "borderId": "AT-DE-108-GSA",
+        "name": "Lochau - Lindau"
+    },
+    "AT-DE-122-GSA": {
+        "AOI": "48.410799499247155,13.42560900027317",
+        "border": "AT - DE",
+        "borderId": "AT-DE-122-GSA",
+        "name": "St.Marienkirchen bei Schärding - Rushtorf an der Rott"
+    },
+    "AT-DE-144-GSA": {
+        "AOI": "47.60502499911091,12.19359299999618",
+        "border": "AT - DE",
+        "borderId": "AT-DE-144-GSA",
+        "name": "Kufstein - Kiefersfelden"
+    },
+    "AT-DE-98-GSA": {
+        "AOI": "47.76829499930517,12.943369999560423",
+        "border": "AT - DE",
+        "borderId": "AT-DE-98-GSA",
+        "name": "Wals Siezenheim - Piding"
+    },
+    "AT-HU-163-GSA": {
+        "AOI": "47.92417799951302,17.110728499802786",
+        "border": "AT - HU",
+        "borderId": "AT-HU-163-GSA",
+        "name": "Hegyeshalom - Nickelsdorf"
+    },
+    "AT-HU-86-GSA": {
+        "AOI": "46.9848379995238,16.276150499688416",
+        "border": "AT - HU",
+        "borderId": "AT-HU-86-GSA",
+        "name": "Heiligenkreuz im Lafnitztal - Rábafüzes"
+    },
+    "AT-IT-41-GSA": {
+        "AOI": "47.00493082124322,11.508206393784628",
+        "border": "AT - IT",
+        "borderId": "AT-IT-41-GSA",
+        "name": "Brenner - Brennero"
+    },
+    "AT-IT-60-GSA": {
+        "AOI": "46.534190041613435,13.641447025840671",
+        "border": "AT - IT",
+        "borderId": "AT-IT-60-GSA",
+        "name": "Thörl-Maglern - Tarvisio"
+    },
+    "AT-SI-116-GSA": {
+        "AOI": "46.69152299919162,15.647042499813955",
+        "border": "AT - SI",
+        "borderId": "AT-SI-116-GSA",
+        "name": "Spielfeld - Sentilij"
+    },
+    "AT-SI-160-GSA": {
+        "AOI": "46.48150349918189,14.008900000234549",
+        "border": "AT - SI",
+        "borderId": "AT-SI-160-GSA",
+        "name": "Schlatten - Hrušica"
+    },
+    "AT-SK-80-GSA": {
+        "AOI": "48.07156799946139,17.073183000176297",
+        "border": "AT - SK",
+        "borderId": "AT-SK-80-GSA",
+        "name": "Kittsee - Jarovce"
+    },
+    "BA-HR-13-GSA": {
+        "AOI": "45.150241517652596,17.251634959113932",
+        "border": "BA - HR",
+        "borderId": "BA-HR-13-GSA",
+        "name": "Stara Gradiška - Svilaj (Svilaj)"
+    },
+    "BA-HR-40-GSA": {
+        "AOI": "45.06164136468723,18.49249793392325",
+        "border": "BA - HR",
+        "borderId": "BA-HR-40-GSA",
+        "name": "Šamac"
+    },
+    "BE-DE-10-GSA": {
+        "AOI": "50.71799049960706,6.120182500342222",
+        "border": "BE - DE",
+        "borderId": "BE-DE-10-GSA",
+        "name": "Todleger - Lichtenbusch"
+    },
+    "BE-DE-150-GSA": {
+        "AOI": "50.23671449951706,6.181202999552145",
+        "border": "BE - DE",
+        "borderId": "BE-DE-150-GSA",
+        "name": "Sankt-Vith - Steinebrück"
+    },
+    "BE-FR-130-GSA": {
+        "AOI": "50.43997949928635,3.6677314995827377",
+        "border": "BE - FR",
+        "borderId": "BE-FR-130-GSA",
+        "name": "Valenciennes - Mons"
+    },
+    "BE-FR-131-GSA": {
+        "AOI": "51.057155499189996,2.5628619998793503",
+        "border": "BE - FR",
+        "borderId": "BE-FR-131-GSA",
+        "name": "Veurne - Ghyvelde"
+    },
+    "BE-FR-134-GSA": {
+        "AOI": "49.96291949916913,4.533121999606665",
+        "border": "BE - FR",
+        "borderId": "BE-FR-134-GSA",
+        "name": "Brüly - Gué-d'Hossus"
+    },
+    "BE-FR-135-GSA": {
+        "AOI": "50.7645144990959,3.1685364996415606",
+        "border": "BE - FR",
+        "borderId": "BE-FR-135-GSA",
+        "name": "Mouscron - Lille"
+    },
+    "BE-FR-136-GSA": {
+        "AOI": "50.6037539992813,3.2738035002044854",
+        "border": "BE - FR",
+        "borderId": "BE-FR-136-GSA",
+        "name": "Tournai -  Camphin-en-Pévèle"
+    },
+    "BE-FR-28-GSA": {
+        "AOI": "49.55051202815532,5.806722251365692",
+        "border": "BE - FR",
+        "borderId": "BE-FR-28-GSA",
+        "name": "Aubange -Moint-Saint-Martin"
+    },
+    "BE-FR-74-GSA": {
+        "AOI": "49.76260199926958,5.062526499933044",
+        "border": "BE - FR",
+        "borderId": "BE-FR-74-GSA",
+        "name": "Bouillon - Bazeilles"
+    },
+    "BE-LU-76-GSA": {
+        "AOI": "49.638227499298594,5.906436999617763",
+        "border": "BE - LU",
+        "borderId": "BE-LU-76-GSA",
+        "name": "Weyler - Mamer"
+    },
+    "BE-NL-14-GSA": {
+        "AOI": "51.37691022700245,4.3042773451938245",
+        "border": "BE - NL",
+        "borderId": "BE-NL-14-GSA",
+        "name": "Zandvliet - Ossendrecht"
+    },
+    "BE-NL-152-GSA": {
+        "AOI": "50.755145499563305,5.694856499813472",
+        "border": "BE - NL",
+        "borderId": "BE-NL-152-GSA",
+        "name": "Visé - Mariadorp"
+    },
+    "BE-NL-156-GSA": {
+        "AOI": "50.95841599932473,5.754313500136006",
+        "border": "BE - NL",
+        "borderId": "BE-NL-156-GSA",
+        "name": "Maasmechelen - Beek"
+    },
+    "BE-NL-157-GSA": {
+        "AOI": "51.266909499581864,5.396009999861551",
+        "border": "BE - NL",
+        "borderId": "BE-NL-157-GSA",
+        "name": "Lommel - Valkenswaard"
+    },
+    "BE-NL-167-GSA": {
+        "AOI": "51.485808999287435,4.734748000049673",
+        "border": "BE - NL",
+        "borderId": "BE-NL-167-GSA",
+        "name": "Meer - Galder"
+    },
+    "BE-NL-94-GSA": {
+        "AOI": "51.31918649919125,5.20836049975027",
+        "border": "BE - NL",
+        "borderId": "BE-NL-94-GSA",
+        "name": "Postel - Dalem"
+    },
+    "BG-EL-5-GSA": {
+        "AOI": "41.379020703232044,23.363131431581703",
+        "border": "BG - EL",
+        "borderId": "BG-EL-5-GSA",
+        "name": "Kulata - Promachonas"
+    },
+    "BG-EL-58-GSA": {
+        "AOI": "41.747639561806885,26.166473982613713",
+        "border": "BG - EL",
+        "borderId": "BG-EL-58-GSA",
+        "name": "Svilengrad - Ormenio"
+    },
+    "BG-RO-22-GSA": {
+        "AOI": "44.00253333229603,22.948474983990504",
+        "border": "BG - RO",
+        "borderId": "BG-RO-22-GSA",
+        "name": "Vidin - Calafat"
+    },
+    "BG-RO-61-GSA": {
+        "AOI": "43.88754532533946,26.00659194512711",
+        "border": "BG - RO",
+        "borderId": "BG-RO-61-GSA",
+        "name": "Ruse - Giurgiu"
+    },
+    "BG-RS-38-GSA": {
+        "AOI": "43.84927499056574,22.379869526411245",
+        "border": "BG - RS",
+        "borderId": "BG-RS-38-GSA",
+        "name": "Staropatitsa - Zajecar"
+    },
+    "BG-RS-52-GSA": {
+        "AOI": "42.99766946840353,22.83389108040719",
+        "border": "BG - RS",
+        "borderId": "BG-RS-52-GSA",
+        "name": "Kalotina - Dimitrovgrad (Kalotina)"
+    },
+    "BG-TR-56-GSA": {
+        "AOI": "41.716122779759786,26.35666338744415",
+        "border": "BG - TR",
+        "borderId": "BG-TR-56-GSA",
+        "name": "Svilengrad - Kazanova (Svilengrad)"
+    },
+    "BY-LT-129-GSA": {
+        "AOI": "54.274887499687686,25.37820600029824",
+        "border": "BY - LT",
+        "borderId": "BY-LT-129-GSA",
+        "name": "Ashmyany - Medininkai"
+    },
+    "BY-LT-164-GSA": {
+        "AOI": "54.54436049958942,25.699562499910986",
+        "border": "BY - LT",
+        "borderId": "BY-LT-164-GSA",
+        "name": "Medinikai - Ashmyany (Medininkai)"
+    },
+    "BY-LT-165-GSA": {
+        "AOI": "53.941585999720516,23.97040449956168",
+        "border": "BY - LT",
+        "borderId": "BY-LT-165-GSA",
+        "name": "Hrodna - Druskinikai"
+    },
+    "BY-LV-124-GSA": {
+        "AOI": "55.82059849947616,27.629130499812213",
+        "border": "BY - LV",
+        "borderId": "BY-LV-124-GSA",
+        "name": "Vyerkhnyad zvinsk -Pāternieki (Pāternieki)"
+    },
+    "BY-PL-20-GSA": {
+        "AOI": "53.521365209475384,23.65967392620471",
+        "border": "BY - PL",
+        "borderId": "BY-PL-20-GSA",
+        "name": "Hrodna - Kuźnica"
+    },
+    "BY-PL-90-GSA": {
+        "AOI": "52.11589499952643,23.56616299989863",
+        "border": "BY - PL",
+        "borderId": "BY-PL-90-GSA",
+        "name": "Kukuryki - Brest (Kukuryki)"
+    },
+    "CZ-DE-151-GSA": {
+        "AOI": "50.08639899905295,12.254283500391535",
+        "border": "CZ - DE",
+        "borderId": "CZ-DE-151-GSA",
+        "name": "Pomezí nad Ohří – Schirnding"
+    },
+    "CZ-DE-171-GSA": {
+        "AOI": "49.64221599918764,12.520957499602765",
+        "border": "CZ - DE",
+        "borderId": "CZ-DE-171-GSA",
+        "name": "Rozvadov - Waldhaus"
+    },
+    "CZ-DE-81-GSA": {
+        "AOI": "50.78322449906442,13.898318499975442",
+        "border": "CZ - DE",
+        "borderId": "CZ-DE-81-GSA",
+        "name": "Petrovice - Breitenau"
+    },
+    "CZ-PL-105-GSA": {
+        "AOI": "50.68643549944904,15.98372250017077",
+        "border": "CZ - PL",
+        "borderId": "CZ-PL-105-GSA",
+        "name": "Královec - Lubawka"
+    },
+    "CZ-PL-12-GSA": {
+        "AOI": "50.872017464115594,14.82856164304107",
+        "border": "CZ - PL",
+        "borderId": "CZ-PL-12-GSA",
+        "name": "Hrádek nad Nisou - Porajów"
+    },
+    "CZ-PL-93-GSA": {
+        "AOI": "49.93624599913025,18.406674000199533",
+        "border": "CZ - PL",
+        "borderId": "CZ-PL-93-GSA",
+        "name": "Bohumín  -  Gorzyczki"
+    },
+    "CZ-PL-96-GSA": {
+        "AOI": "49.76337499927934,18.613004999706657",
+        "border": "CZ - PL",
+        "borderId": "CZ-PL-96-GSA",
+        "name": "Chotěbuz  - Cieszyn"
+    },
+    "CZ-SK-137-GSA": {
+        "AOI": "49.49527249913213,18.76583999992773",
+        "border": "CZ - SK",
+        "borderId": "CZ-SK-137-GSA",
+        "name": "Mosty u Jablunkova - Svrčinovec"
+    },
+    "CZ-SK-148-GSA": {
+        "AOI": "49.18228249986338,18.131069999665836",
+        "border": "CZ - SK",
+        "borderId": "CZ-SK-148-GSA",
+        "name": "Střelná  - Strelenka"
+    },
+    "CZ-SK-83-GSA": {
+        "AOI": "48.68618299912772,16.987133999846346",
+        "border": "CZ - SK",
+        "borderId": "CZ-SK-83-GSA",
+        "name": "Lanzhot - Brodské"
+    },
+    "DE-CH-125-GSA": {
+        "AOI": "47.58596699928255,7.60217999983104",
+        "border": "DE - CH",
+        "borderId": "DE-CH-125-GSA",
+        "name": "Basel - Weil am Rhein"
+    },
+    "DE-CH-84-GSA": {
+        "AOI": "47.740412499044105,8.718511000039936",
+        "border": "DE - CH",
+        "borderId": "DE-CH-84-GSA",
+        "name": "Gottmadingen - Thayngen"
+    },
+    "DE-LU-107-GSA": {
+        "AOI": "49.479264499458246,6.367430499806329",
+        "border": "DE - LU",
+        "borderId": "DE-LU-107-GSA",
+        "name": "Perl - Remerschen"
+    },
+    "DE-LU-79-GSA": {
+        "AOI": "49.73325099920649,6.5019454997698825",
+        "border": "DE - LU",
+        "borderId": "DE-LU-79-GSA",
+        "name": "Trier - Mertert"
+    },
+    "DE-NL-109-GSA": {
+        "AOI": "53.18048899939578,7.227094999868725",
+        "border": "DE - NL",
+        "borderId": "DE-NL-109-GSA",
+        "name": "Bunde - Winscholen"
+    },
+    "DE-NL-120-GSA": {
+        "AOI": "52.31377949935692,7.043092499910849",
+        "border": "DE - NL",
+        "borderId": "DE-NL-120-GSA",
+        "name": "Gilde haus - De Lutte"
+    },
+    "DE-NL-142-GSA": {
+        "AOI": "50.8186499992073,6.024960499913878",
+        "border": "DE - NL",
+        "borderId": "DE-NL-142-GSA",
+        "name": "Aachen -Heerlen"
+    },
+    "DE-NL-159-GSA": {
+        "AOI": "51.34182599922465,6.194030000374954",
+        "border": "DE - NL",
+        "borderId": "DE-NL-159-GSA",
+        "name": "Kaldenkirchen - Venlo"
+    },
+    "DE-NL-161-GSA": {
+        "AOI": "51.38399199933,6.2164289997076985",
+        "border": "DE - NL",
+        "borderId": "DE-NL-161-GSA",
+        "name": "Loisenburg - Venlo"
+    },
+    "DE-NL-175-GSA": {
+        "AOI": "51.89877799927102,6.165483000407972",
+        "border": "DE - NL",
+        "borderId": "DE-NL-175-GSA",
+        "name": "Elten -  Beek"
+    },
+    "DE-NL-99-GSA": {
+        "AOI": "52.722823499250886,7.063885500161798",
+        "border": "DE - NL",
+        "borderId": "DE-NL-99-GSA",
+        "name": "Meppen - Emmen"
+    },
+    "DE-PL-149-GSA": {
+        "AOI": "52.31529749934665,14.57785100017774",
+        "border": "DE - PL",
+        "borderId": "DE-PL-149-GSA",
+        "name": "Güldendorf - Slubice"
+    },
+    "DE-PL-153-GSA": {
+        "AOI": "51.18076899905345,15.0086910000576",
+        "border": "DE - PL",
+        "borderId": "DE-PL-153-GSA",
+        "name": "Görlitz - Zgorzelec"
+    },
+    "DE-PL-162-GSA": {
+        "AOI": "53.33549899961474,14.408407999984465",
+        "border": "DE - PL",
+        "borderId": "DE-PL-162-GSA",
+        "name": "Nadrensee - Kolbaskowo"
+    },
+    "DE-PL-33-GSA": {
+        "AOI": "50.883705611867654,14.818918098210329",
+        "border": "DE - PL",
+        "borderId": "DE-PL-33-GSA",
+        "name": "Zittau - Porajów"
+    },
+    "DE-PL-91-GSA": {
+        "AOI": "51.6666044990697,14.752862999973711",
+        "border": "DE - PL",
+        "borderId": "DE-PL-91-GSA",
+        "name": "Klein Bademeusel - Jaglowice"
+    },
+    "DK-DE-32-GSA": {
+        "AOI": "54.80577799949785,9.327226500058146",
+        "border": "DK - DE",
+        "borderId": "DK-DE-32-GSA",
+        "name": "Frøslev  - Simondys"
+    },
+    "DK-SE-39-GSA": {
+        "AOI": "55.57997144309097,12.810460301586005",
+        "border": "DK - SE",
+        "borderId": "DK-SE-39-GSA",
+        "name": "Copenhagen - Malmo"
+    },
+    "EE-LV-103-GSA": {
+        "AOI": "57.87444249957543,24.3813314996227",
+        "border": "EE - LV",
+        "borderId": "EE-LV-103-GSA",
+        "name": "Metsapoole - Ainazi"
+    },
+    "EE-LV-172-GSA": {
+        "AOI": "57.58128249944886,27.046810499621223",
+        "border": "EE - LV",
+        "borderId": "EE-LV-172-GSA",
+        "name": "Misso - Ape"
+    },
+    "EE-LV-68-GSA": {
+        "AOI": "57.774814999378776,26.02707049999432",
+        "border": "EE - LV",
+        "borderId": "EE-LV-68-GSA",
+        "name": "Valga - Valka"
+    },
+    "EE-RU-179-GSA": {
+        "AOI": "57.643242552903054,27.38034428813765",
+        "border": "EE - RU",
+        "borderId": "EE-RU-179-GSA",
+        "name": "Luhamaa - Kashino (Luhamaa)"
+    },
+    "EL-MK-6-GSA": {
+        "AOI": "41.130753720723455,22.550999646251412",
+        "border": "EL - MK",
+        "borderId": "EL-MK-6-GSA",
+        "name": "Bogorodica - Evzonoi"
+    },
+    "EL-TR-53-GSA": {
+        "AOI": "40.94028995201581,26.319750559594166",
+        "border": "EL - TR",
+        "borderId": "EL-TR-53-GSA",
+        "name": "Peplos - Ipsala"
+    },
+    "FI-NO-106-GSA": {
+        "AOI": "69.91078949977418,27.031749500077904",
+        "border": "FI - NO",
+        "borderId": "FI-NO-106-GSA",
+        "name": "Utsjoki - Roavvegieddi"
+    },
+    "FI-SE-46-GSA": {
+        "AOI": "65.84148349970415,24.143950000554643",
+        "border": "FI - SE",
+        "borderId": "FI-SE-46-GSA",
+        "name": "Tornio - Haparanda"
+    },
+    "FR-CH-112-GSA": {
+        "AOI": "46.188654999115315,6.203538499672401",
+        "border": "FR - CH",
+        "borderId": "FR-CH-112-GSA",
+        "name": "Gaillard - Thônex"
+    },
+    "FR-CH-115-GSA": {
+        "AOI": "47.575238999294385,7.563346500241756",
+        "border": "FR - CH",
+        "borderId": "FR-CH-115-GSA",
+        "name": "Saint-Louis - Basel"
+    },
+    "FR-CH-138-GSA": {
+        "AOI": "46.14691599913622,6.09634050033767",
+        "border": "FR - CH",
+        "borderId": "FR-CH-138-GSA",
+        "name": "Neydens - Geneve"
+    },
+    "FR-CH-155-GSA": {
+        "AOI": "47.49378099947961,6.985316499911498",
+        "border": "FR - CH",
+        "borderId": "FR-CH-155-GSA",
+        "name": "Lebetain - Boncourt"
+    },
+    "FR-CH-55-GSA": {
+        "AOI": "46.27280049943696,6.242732999835023",
+        "border": "FR - CH",
+        "borderId": "FR-CH-55-GSA",
+        "name": "Veigy - Collonge Bellerive"
+    },
+    "FR-DE-104-GSA": {
+        "AOI": "48.4913954994173,7.770243000000015",
+        "border": "FR - DE",
+        "borderId": "FR-DE-104-GSA",
+        "name": "Strasbourg - Offenburg"
+    },
+    "FR-DE-119-GSA": {
+        "AOI": "48.97835299945947,8.157345500136529",
+        "border": "FR - DE",
+        "borderId": "FR-DE-119-GSA",
+        "name": "Roeschwoog -Hagenbach"
+    },
+    "FR-DE-126-GSA": {
+        "AOI": "48.57371049938147,7.80168849957116",
+        "border": "FR - DE",
+        "borderId": "FR-DE-126-GSA",
+        "name": "Strasbourg - Kehl"
+    },
+    "FR-DE-145-GSA": {
+        "AOI": "49.20415499913863,6.957055999638081",
+        "border": "FR - DE",
+        "borderId": "FR-DE-145-GSA",
+        "name": "Forbach - Saarbrücken"
+    },
+    "FR-DE-17-GSA": {
+        "AOI": "47.775253999593055,7.529937499953508",
+        "border": "FR - DE",
+        "borderId": "FR-DE-17-GSA",
+        "name": "Ottmarsheim - Steinenstadt"
+    },
+    "FR-ES-123-GSA": {
+        "AOI": "42.848766499489656,0.7354990003686513",
+        "border": "FR - ES",
+        "borderId": "FR-ES-123-GSA",
+        "name": "Fos - Les"
+    },
+    "FR-ES-2-GSA": {
+        "AOI": "42.46583559645556,2.866496689178902",
+        "border": "FR - ES",
+        "borderId": "FR-ES-2-GSA",
+        "name": "Le Perthus - La Jonquera"
+    },
+    "FR-ES-35-GSA": {
+        "AOI": "42.79287639429666,-0.5439315493496554",
+        "border": "FR - ES",
+        "borderId": "FR-ES-35-GSA",
+        "name": "Canfranc - Sarrance"
+    },
+    "FR-ES-49-GSA": {
+        "AOI": "43.33983349946963,-1.7526934996704941",
+        "border": "FR - ES",
+        "borderId": "FR-ES-49-GSA",
+        "name": "Hendaye - Behobia"
+    },
+    "FR-ES-73-GSA": {
+        "AOI": "42.434592998916045,1.940842499910671",
+        "border": "FR - ES",
+        "borderId": "FR-ES-73-GSA",
+        "name": "Bourg-Madane - Puigcerdà"
+    },
+    "FR-IT-113-GSA": {
+        "AOI": "45.14013249909681,6.688168000001195",
+        "border": "FR - IT",
+        "borderId": "FR-IT-113-GSA",
+        "name": "Modane - Bardonecchia"
+    },
+    "FR-IT-132-GSA": {
+        "AOI": "43.78869449940547,7.529484999680276",
+        "border": "FR - IT",
+        "borderId": "FR-IT-132-GSA",
+        "name": "Menton - Ventimiglia"
+    },
+    "FR-IT-141-GSA": {
+        "AOI": "45.8461079995264,6.9207355002251925",
+        "border": "FR - IT",
+        "borderId": "FR-IT-141-GSA",
+        "name": "Les Houches - Courmayeur"
+    },
+    "FR-LU-128-GSA": {
+        "AOI": "49.47271549942924,6.121356499603885",
+        "border": "FR - LU",
+        "borderId": "FR-LU-128-GSA",
+        "name": "Volmerange les-Mines - Dudelange"
+    },
+    "HR-HU-15-GSA": {
+        "AOI": "46.41192600367762,16.700686027682906",
+        "border": "HR - HU",
+        "borderId": "HR-HU-15-GSA",
+        "name": "Hodošan  - Letenye"
+    },
+    "HR-RS-37-GSA": {
+        "AOI": "45.04775746721875,19.103465743920722",
+        "border": "HR - RS",
+        "borderId": "HR-RS-37-GSA",
+        "name": "Lipovac - Batrovci (Lipovac)"
+    },
+    "HR-SI-44-GSA": {
+        "AOI": "46.270684610763965,15.867490395551929",
+        "border": "HR - SI",
+        "borderId": "HR-SI-44-GSA",
+        "name": "Gornji Macelj - Kozminci"
+    },
+    "HR-SI-89-GSA": {
+        "AOI": "45.84430649944091,15.694946499931088",
+        "border": "HR - SI",
+        "borderId": "HR-SI-89-GSA",
+        "name": "Klokočevac Samoborski -Cerina"
+    },
+    "HR-SI-97-GSA": {
+        "AOI": "45.48931749944058,14.277484000097822",
+        "border": "HR - SI",
+        "borderId": "HR-SI-97-GSA",
+        "name": "Rupa - Jelšane"
+    },
+    "HU-RO-140-GSA": {
+        "AOI": "47.1186084990519,21.790991999817656",
+        "border": "HU - RO",
+        "borderId": "HU-RO-140-GSA",
+        "name": "Biharkeresztes - Oradea"
+    },
+    "HU-RO-7-GSA": {
+        "AOI": "46.21336100791587,20.759365551640094",
+        "border": "HU - RO",
+        "borderId": "HU-RO-7-GSA",
+        "name": "Nagylak - Nădlac"
+    },
+    "HU-RS-166-GSA": {
+        "AOI": "46.175856275353,19.97873675446587",
+        "border": "HU - RS",
+        "borderId": "HU-RS-166-GSA",
+        "name": "Röszke - Szeged (Röszke)"
+    },
+    "HU-SI-139-GSA": {
+        "AOI": "46.51993999956316,16.524697499884287",
+        "border": "HU - SI",
+        "borderId": "HU-SI-139-GSA",
+        "name": "0Muraszemenye - Lendava"
+    },
+    "HU-SK-133-GSA": {
+        "AOI": "48.01297699945802,17.175972999649517",
+        "border": "HU - SK",
+        "borderId": "HU-SK-133-GSA",
+        "name": "Rajka - Bratislava"
+    },
+    "HU-SK-147-GSA": {
+        "AOI": "48.53122749904661,21.253952000137637",
+        "border": "HU - SK",
+        "borderId": "HU-SK-147-GSA",
+        "name": "Hidasnemeti - Seña"
+    },
+    "HU-SK-174-GSA": {
+        "AOI": "48.05713249953779,18.96733050028991",
+        "border": "HU - SK",
+        "borderId": "HU-SK-174-GSA",
+        "name": "Hont - Šahy"
+    },
+    "HU-UA-158-GSA": {
+        "AOI": "48.41358949982556,22.171591000029398",
+        "border": "HU - UA",
+        "borderId": "HU-UA-158-GSA",
+        "name": "Záhony - Chop"
+    },
+    "IE-UK-101-GSA": {
+        "AOI": "54.83138999949608,-7.480799999763555",
+        "border": "IE - UK",
+        "borderId": "IE-UK-101-GSA",
+        "name": "Lifford - Strabane"
+    },
+    "IE-UK-34-GSA": {
+        "AOI": "55.036738999494794,-7.368608500224692",
+        "border": "IE - UK",
+        "borderId": "IE-UK-34-GSA",
+        "name": "Bridge End - Coshquin"
+    },
+    "IE-UK-67-GSA": {
+        "AOI": "54.29435099959243,-7.873866999874589",
+        "border": "IE - UK",
+        "borderId": "IE-UK-67-GSA",
+        "name": "Toam - Belcoo"
+    },
+    "IE-UK-71-GSA": {
+        "AOI": "54.11358999962288,-6.36388399957365",
+        "border": "IE - UK",
+        "borderId": "IE-UK-71-GSA",
+        "name": "Dundalk - Meigh"
+    },
+    "IE-UK-95-GSA": {
+        "AOI": "54.400844999394664,-6.9763904996853086",
+        "border": "IE - UK",
+        "borderId": "IE-UK-95-GSA",
+        "name": "Scarnageeragh - Aughnacloy"
+    },
+    "IT-CH-100-GSA": {
+        "AOI": "45.83977754447344,9.03569130286372",
+        "border": "IT - CH",
+        "borderId": "IT-CH-100-GSA",
+        "name": "Maslianico - Chiasso"
+    },
+    "IT-CH-127-GSA": {
+        "AOI": "46.196588999563865,8.151644999752653",
+        "border": "IT - CH",
+        "borderId": "IT-CH-127-GSA",
+        "name": "Iselle - Gondo"
+    },
+    "IT-CH-92-GSA": {
+        "AOI": "45.86445799905026,7.172716500139135",
+        "border": "IT - CH",
+        "borderId": "IT-CH-92-GSA",
+        "name": "Saint Rhémy - Bourg-Saint Pierre"
+    },
+    "IT-SI-102-GSA": {
+        "AOI": "45.69962599948813,13.835562000190752",
+        "border": "IT - SI",
+        "borderId": "IT-SI-102-GSA",
+        "name": "Trieste - Sežana"
+    },
+    "LT-PL-110-GSA": {
+        "AOI": "54.30877199926964,23.120401000392622",
+        "border": "LT - PL",
+        "borderId": "LT-PL-110-GSA",
+        "name": "Marijampole - Suwalki"
+    },
+    "LT-RU-48-GSA": {
+        "AOI": "54.64116399965212,22.744716000380688",
+        "border": "LT - RU",
+        "borderId": "LT-RU-48-GSA",
+        "name": "Kybartai - Chernyshevskoe (Kybartai)"
+    },
+    "LV-LT-170-GSA": {
+        "AOI": "55.744336999307954,26.30977549959266",
+        "border": "LV - LT",
+        "borderId": "LV-LT-170-GSA",
+        "name": "Medumi - Zarasai"
+    },
+    "LV-LT-66-GSA": {
+        "AOI": "56.36517649938627,23.673736999875317",
+        "border": "LV - LT",
+        "borderId": "LV-LT-66-GSA",
+        "name": "Jelgava - Joniškis"
+    },
+    "LV-LT-75-GSA": {
+        "AOI": "56.0772504995537,21.123188500446172",
+        "border": "LV - LT",
+        "borderId": "LV-LT-75-GSA",
+        "name": "Liepaja - Palanga"
+    },
+    "LV-LT-82-GSA": {
+        "AOI": "56.27463899955014,24.365341999605082",
+        "border": "LV - LT",
+        "borderId": "LV-LT-82-GSA",
+        "name": "Brunava - Saločiai"
+    },
+    "LV-RU-18-GSA": {
+        "AOI": "56.35581399974715,28.19385900020344",
+        "border": "LV - RU",
+        "borderId": "LV-RU-18-GSA",
+        "name": "Terehova - Zasitino (Terehova)"
+    },
+    "NO-SE-117-GSA": {
+        "AOI": "63.33626699957986,12.059399000422992",
+        "border": "NO - SE",
+        "borderId": "NO-SE-117-GSA",
+        "name": "Tevedalen - Storlien"
+    },
+    "NO-SE-143-GSA": {
+        "AOI": "59.4871799993362,11.749053499794028",
+        "border": "NO - SE",
+        "borderId": "NO-SE-143-GSA",
+        "name": "Marker - Töcksfors"
+    },
+    "NO-SE-59-GSA": {
+        "AOI": "59.09435349902562,11.251647500131067",
+        "border": "NO - SE",
+        "borderId": "NO-SE-59-GSA",
+        "name": "Sponvika"
+    },
+    "NO-SE-72-GSA": {
+        "AOI": "68.4352029994909,18.10678050030924",
+        "border": "NO - SE",
+        "borderId": "NO-SE-72-GSA",
+        "name": "Riksgränsen"
+    },
+    "PL-SK-111-GSA": {
+        "AOI": "49.417636999291275,21.696161000099877",
+        "border": "PL - SK",
+        "borderId": "PL-SK-111-GSA",
+        "name": "Dukla - Ladomirová"
+    },
+    "PL-SK-154-GSA": {
+        "AOI": "49.407697499063815,19.658278500068654",
+        "border": "PL - SK",
+        "borderId": "PL-SK-154-GSA",
+        "name": "Trstená - Jablonka"
+    },
+    "PL-SK-87-GSA": {
+        "AOI": "49.50892499924324,18.962461999759253",
+        "border": "PL - SK",
+        "borderId": "PL-SK-87-GSA",
+        "name": "Laliki - Serafinov"
+    },
+    "PL-UA-29-GSA": {
+        "AOI": "50.27427563469011,23.588613164575015",
+        "border": "PL - UA",
+        "borderId": "PL-UA-29-GSA",
+        "name": "Tomaszow  - Lviv"
+    },
+    "PL-UA-63-GSA": {
+        "AOI": "51.18543592962085,23.807972399206687",
+        "border": "PL - UA",
+        "borderId": "PL-UA-63-GSA",
+        "name": "Chelm - Liubomlskyi"
+    },
+    "PT-ES-114-GSA": {
+        "AOI": "42.03366549911849,-8.654239999975028",
+        "border": "PT - ES",
+        "borderId": "PT-ES-114-GSA",
+        "name": "Valença - Tui"
+    },
+    "PT-ES-25-GSA": {
+        "AOI": "37.23897949980538,-7.420451499674963",
+        "border": "PT - ES",
+        "borderId": "PT-ES-25-GSA",
+        "name": "Monte Francisco - Ayamonte"
+    },
+    "PT-ES-3-GSA": {
+        "AOI": "41.81364117293686,-7.4147127238734605",
+        "border": "PT - ES",
+        "borderId": "PT-ES-3-GSA",
+        "name": "Vila verde da Raia - Oimbra"
+    },
+    "PT-ES-65-GSA": {
+        "AOI": "38.883731499420236,-7.0356120003679035",
+        "border": "PT - ES",
+        "borderId": "PT-ES-65-GSA",
+        "name": "Elvás - Badajoz"
+    },
+    "PT-ES-69-GSA": {
+        "AOI": "41.741788499132426,-6.5652749998400175",
+        "border": "PT - ES",
+        "borderId": "PT-ES-69-GSA",
+        "name": "Quintanilha - San Martín del Pedroso"
+    },
+    "PT-ES-70-GSA": {
+        "AOI": "40.60697149914202,-6.825190000293363",
+        "border": "PT - ES",
+        "borderId": "PT-ES-70-GSA",
+        "name": "Vilar Formoso - Fuentes de Oñoro"
+    },
+    "PT-ES-85-GSA": {
+        "AOI": "37.961143499484294,-7.251772000099541",
+        "border": "PT - ES",
+        "borderId": "PT-ES-85-GSA",
+        "name": "Vila Verde de Ficalho - Rosal de la Frontera"
+    },
+    "RO-RS-173-GSA": {
+        "AOI": "45.22962899931763,21.275310499741405",
+        "border": "RO - RS",
+        "borderId": "RO-RS-173-GSA",
+        "name": "Moravita -Vrsac (Stamora Moravița)"
+    },
+    "RO-UA-121-GSA": {
+        "AOI": "47.99583349980695,23.00202599969781",
+        "border": "RO - UA",
+        "borderId": "RO-UA-121-GSA",
+        "name": "Halmeu - Botar"
+    },
+    "SK-UA-146-GSA": {
+        "AOI": "48.65480499982216,22.265528999794594",
+        "border": "SK - UA",
+        "borderId": "SK-UA-146-GSA",
+        "name": "Vižné Nemecké - Uzhhorod (Vižné Nemecké)"
+    }
+}

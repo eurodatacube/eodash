@@ -386,6 +386,20 @@ export const indicatorsDefinition = Object.freeze({
     }],
     legendUrl: 'eodash-data/data/LegendGLC.png',
   },
+  GG: {
+    indicator: 'Mobility',
+    class: 'economic',
+    disableTimeSelection: true,
+    countrySelection: true,
+    story: '/eodash-data/stories/GG-GG',
+  },
+  GSA: {
+    indicator: 'Mobility',
+    class: 'economic',
+    disableTimeSelection: true,
+    borderSelection: true,
+    story: '/eodash-data/stories/GSA-GSA',
+  },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
     class: 'economic',
@@ -555,6 +569,58 @@ export const replaceMapTimes = {
 const wkt = new Wkt();
 
 export const globalIndicators = [
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'GG',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Mobility Data',
+        indicatorName: '(select country to load data)',
+        indicator: 'GG',
+        lastIndicatorValue: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        inputData: [''],
+        yAxis: 'percent change from baseline',
+        time: ['TBD'],
+        display: {
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'GSA',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Truck border crossing times',
+        indicatorName: '(select point to load data)',
+        indicator: 'GSA',
+        lastIndicatorValue: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        inputData: [''],
+        yAxis: 'waiting time (min)',
+        time: ['TBD'],
+        display: {
+        },
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {
