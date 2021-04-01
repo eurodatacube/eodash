@@ -334,6 +334,11 @@ export const indicatorsDefinition = Object.freeze({
       url: 'https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis',
     },
   },
+  NASAPopulation: {
+    indicator: 'Population',
+    class: 'economic',
+    story: '/data/trilateral/NASAPopulation',
+  },
   N2: {
     indicator: 'CO2 emissions',
     class: 'air',
@@ -385,6 +390,20 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }],
     legendUrl: 'eodash-data/data/LegendGLC.png',
+  },
+  GG: {
+    indicator: 'Mobility',
+    class: 'economic',
+    disableTimeSelection: true,
+    countrySelection: true,
+    story: '/eodash-data/stories/GG-GG',
+  },
+  GSA: {
+    indicator: 'Mobility',
+    class: 'economic',
+    disableTimeSelection: true,
+    borderSelection: true,
+    story: '/eodash-data/stories/GSA-GSA',
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
@@ -555,6 +574,58 @@ export const replaceMapTimes = {
 const wkt = new Wkt();
 
 export const globalIndicators = [
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'GG',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Mobility Data',
+        indicatorName: '(select country to load data)',
+        indicator: 'GG',
+        lastIndicatorValue: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        inputData: [''],
+        yAxis: 'percent change from baseline',
+        time: ['TBD'],
+        display: {
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'GSA',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Truck border crossing times',
+        indicatorName: '(select point to load data)',
+        indicator: 'GSA',
+        lastIndicatorValue: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        inputData: [''],
+        yAxis: 'waiting time (min)',
+        time: ['TBD'],
+        display: {
+        },
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {
@@ -756,6 +827,39 @@ export const globalIndicators = [
           minZoom: 1,
           attribution: '{ <a href="https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis" target="_blank">CAMS source data information</a> }',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Population',
+        indicator: 'NASAPopulation',
+        lastIndicatorValue: null,
+        indicatorName: 'Population density 2020',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'W6',
+        time: ['2020-05-01T00:00:00Z'],
+        inputData: [''],
+        display: {
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Population',
+          layers: 'POPULATION_DENSITY',
+          legendUrl: 'data/trilateral/NASAPopulation_legend.png',
+          minZoom: 1,
+          maxMapZoom: 7,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+          disableCompare: true,
         },
       },
     },
