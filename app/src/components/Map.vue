@@ -325,7 +325,9 @@ export default {
           if (featuresOnMap.length === 1 && featuresOnMap[0].properties.indicatorObject.subAoi
           && featuresOnMap[0].properties.indicatorObject.subAoi.features.length > 0) {
             this.$nextTick(() => {
-              const bounds = geoJson(featuresOnMap[0].properties.indicatorObject.subAoi).getBounds();
+              const bounds = geoJson(
+                featuresOnMap[0].properties.indicatorObject.subAoi,
+              ).getBounds();
               this.map.fitBounds(bounds, {
                 padding: [25, 25],
               });
@@ -357,7 +359,7 @@ export default {
     getColor(indObj) {
       let colorCode;
       if (indObj) {
-        if(indObj.updateFrequency && indObj.updateFrequency.toLowerCase() === 'archived') {
+        if (indObj.updateFrequency && indObj.updateFrequency.toLowerCase() === 'archived') {
           colorCode = 'grey';
         } else if (Object.prototype.hasOwnProperty.call(indObj, 'lastColorCode')
           && !['', '/'].includes(indObj.lastColorCode)) {

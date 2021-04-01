@@ -31,8 +31,8 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'Barcelona-N3a2',
-        src: './eodash-data/general/Slide9.png',
+        poi: 'ES7-E13n',
+        src: './eodash-data/general/Slide15.png',
       },
       {
         iframe: 'https://www.youtube.com/embed/Ofb2pNQc424',
@@ -165,6 +165,7 @@ module.exports = [
       { code: 'BE', region: 'EUROPE' },
       { code: 'HR', region: 'EUROPE' },
       { code: 'FR', region: 'EUROPE' },
+      { code: 'GB', region: 'EUROPE' },
       { code: 'DE', region: 'EUROPE' },
       { code: 'IT', region: 'EUROPE' },
       { code: 'SI', region: 'EUROPE' },
