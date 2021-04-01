@@ -162,7 +162,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Tomatoes cultivation',
     class: 'agriculture',
     largeSubAoi: true,
-    // story: '/eodash-data/stories/E10a9',
+    story: '/eodash-data/stories/E10a9',
   },
   E10b: {
     indicator: 'Field preparation activity',
