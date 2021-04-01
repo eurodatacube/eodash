@@ -165,14 +165,9 @@ export default {
           });
         } else if (['E10a9'].includes(indicatorCode)) {
           const categories = [
-            'Foreigner-Ext Worker',
-            'Foreigner-Int Worker',
-            'Foreigner (Ita SIM-Ext)',
-            'Foreigner (Ita SIM-Int)',
-            'Italian-Ext Worker',
-            'Italian-Int Worker',
-            'Masked-Int Worker',
-            'Masked-Ext Worker',
+            'National Workers',
+            'Foreign Workers',
+            'Unknown',
           ];
           categories.forEach((key, idx) => {
             const data = indicator.measurement.map((row, rowIdx) => ({
