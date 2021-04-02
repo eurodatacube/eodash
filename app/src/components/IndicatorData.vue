@@ -1,9 +1,9 @@
 <template>
   <div style="width: 100%; height: 100%;"
-    v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8',
+    v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10a9',
       'E10c', 'N1', 'N3', 'N3b', 'E8',
       'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-      'N1a', 'N1b', 'N1c', 'N1d', 'E12b']
+      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -162,6 +162,85 @@ export default {
             data: measurement,
             fill: false,
             backgroundColor: 'black',
+          });
+        } else if (['E10a9'].includes(indicatorCode)) {
+          const categories = [
+            'National Workers',
+            'Foreign Workers',
+            'Unknown',
+          ];
+          categories.forEach((key, idx) => {
+            const data = indicator.measurement.map((row, rowIdx) => ({
+              t: indicator.time[rowIdx],
+              y: row[idx],
+            }));
+            datasets.push({
+              label: key,
+              data,
+              fill: false,
+              borderColor: refColors[idx],
+              backgroundColor: refColors[idx],
+              cubicInterpolationMode: 'monotone',
+              borderWidth: 1,
+              pointRadius: 2,
+            });
+          });
+        } else if (['GG'].includes(indicatorCode)) {
+          const vals = indicator.Values;
+          const datasetsObj = {
+            grocery: [],
+            parks: [],
+            residential: [],
+            retail_recreation: [],
+            transit_stations: [],
+          };
+          for (let entry = 0; entry < vals.length; entry += 1) {
+            const t = DateTime.fromISO(vals[entry].date);
+            datasetsObj.grocery.push({ t, y: vals[entry].grocery });
+            datasetsObj.parks.push({ t, y: vals[entry].parks });
+            datasetsObj.residential.push({ t, y: vals[entry].residential });
+            datasetsObj.retail_recreation.push({ t, y: vals[entry].retail_recreation });
+            datasetsObj.transit_stations.push({ t, y: vals[entry].transit_stations });
+          }
+          Object.keys(datasetsObj).forEach((key, idx) => {
+            datasets.push({
+              label: key,
+              data: datasetsObj[key],
+              fill: false,
+              borderColor: refColors[idx],
+              backgroundColor: refColors[idx],
+              borderWidth: 1,
+              pointRadius: 2,
+              cubicInterpolationMode: 'monotone',
+            });
+          });
+        } else if (['GSA'].includes(indicatorCode)) {
+          const vals = Object.keys(indicator.values);
+          const datasetsObj = {};
+          for (let entry = 0; entry < vals.length; entry += 1) {
+            datasetsObj[vals[entry]] = [];
+            const currVals = indicator.values[vals[entry]].values;
+            for (let i = 0; i < currVals.length; i += 1) {
+              datasetsObj[vals[entry]].push({
+                t: DateTime.fromISO(currVals[i].timestamp),
+                y: Number(currVals[i].waiting_time),
+              });
+            }
+            // It seems some timstamps are mixed in order so let us sort by date
+            // to get nice line connections through the timeline
+            datasetsObj[vals[entry]].sort((a, b) => a.t.toMillis() - b.t.toMillis());
+          }
+          Object.keys(indicator.values).forEach((key, idx) => {
+            datasets.push({
+              label: key,
+              data: datasetsObj[key],
+              fill: false,
+              borderColor: refColors[idx],
+              backgroundColor: refColors[idx],
+              borderWidth: 1,
+              pointRadius: 2,
+              cubicInterpolationMode: 'monotone',
+            });
           });
         } else if (['N3b'].includes(indicatorCode)) {
           const sensors = Array.from(new Set(indicator.eoSensor)).sort();
@@ -790,7 +869,7 @@ export default {
         },
       };
       if (!Number.isNaN(reference)
-        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'N4c', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m', 'E12c', 'E12d']
+        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'E10a9', 'N4c', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m', 'E12c', 'E12d']
           .includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
@@ -840,7 +919,7 @@ export default {
 
       // Introduce background area annotations for lockdown times, does not
       // work for all chart types, so we make sure it is not any of those charts
-      if (!['E10a3', 'E10a8', 'N2', 'E12c', 'E12d'].includes(indicatorCode)) {
+      if (!['E10a3', 'E10a8', 'N2', 'E12c', 'E12d', 'GSA'].includes(indicatorCode)) {
         // Find country based on alpha-3 code
         const currCountry = countries.features.find(
           (cntr) => cntr.properties.alpha2 === this.indicatorObject.country,
@@ -993,6 +1072,14 @@ export default {
         },
       }];
 
+      // This indicator has an array of values so we need to calculate min/max
+      // different
+      if (['E10a9'].includes(indicatorCode)) {
+        const measFlat = this.indicatorObject.measurement.flat();
+        yAxes[0].ticks.suggestedMin = Math.min(...measFlat);
+        yAxes[0].ticks.suggestedMax = Math.max(...measFlat);
+      }
+
       const legend = {
         labels: {
           generateLabels: (chart) => {
@@ -1033,7 +1120,7 @@ export default {
             }, this);
             // Now we add our default 2 lockdown labels but we exclude indicators
             // where it is not applicable
-            if (!['E10a1', 'E10a5', 'E10a8', 'N2', 'N4c', 'E12c', 'E12d']
+            if (!['E10a1', 'E10a5', 'E10a8', 'N2', 'N4c', 'E12c', 'E12d', 'GSA']
               .includes(this.indicatorObject.indicator)) {
               labelObjects.push({
                 text: 'Low Restrictions',
