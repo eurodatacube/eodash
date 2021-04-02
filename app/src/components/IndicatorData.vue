@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%; height: 100%;"
-    v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8',
+    v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10a9',
       'E10c', 'N1', 'N3', 'N3b', 'E8',
       'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
       'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA']
@@ -162,6 +162,28 @@ export default {
             data: measurement,
             fill: false,
             backgroundColor: 'black',
+          });
+        } else if (['E10a9'].includes(indicatorCode)) {
+          const categories = [
+            'National Workers',
+            'Foreign Workers',
+            'Unknown',
+          ];
+          categories.forEach((key, idx) => {
+            const data = indicator.measurement.map((row, rowIdx) => ({
+              t: indicator.time[rowIdx],
+              y: row[idx],
+            }));
+            datasets.push({
+              label: key,
+              data,
+              fill: false,
+              borderColor: refColors[idx],
+              backgroundColor: refColors[idx],
+              cubicInterpolationMode: 'monotone',
+              borderWidth: 1,
+              pointRadius: 2,
+            });
           });
         } else if (['GG'].includes(indicatorCode)) {
           const vals = indicator.Values;
@@ -847,7 +869,7 @@ export default {
         },
       };
       if (!Number.isNaN(reference)
-        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'N4c', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m', 'E12c', 'E12d']
+        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'E10a9', 'N4c', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m', 'E12c', 'E12d']
           .includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
@@ -1049,6 +1071,14 @@ export default {
           ) + 1,
         },
       }];
+
+      // This indicator has an array of values so we need to calculate min/max
+      // different
+      if (['E10a9'].includes(indicatorCode)) {
+        const measFlat = this.indicatorObject.measurement.flat();
+        yAxes[0].ticks.suggestedMin = Math.min(...measFlat);
+        yAxes[0].ticks.suggestedMax = Math.max(...measFlat);
+      }
 
       const legend = {
         labels: {
