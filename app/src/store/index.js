@@ -1,20 +1,20 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import VuexPersistence from 'vuex-persist';
 import config from './modules/config';
 import dashboard from './modules/dashboard';
 import features from './modules/features';
 import indicators from './modules/indicators';
-import VuexPersistence from 'vuex-persist';
 
 const vuexLocal = new VuexPersistence({
   storage: localStorage,
   reducer: (state) => (
     {
       dashboard: {
-        dashboardConfig: state.dashboard.dashboardConfig
-      }
+        dashboardConfig: state.dashboard.dashboardConfig,
+      },
     }
-  )
+  ),
 });
 
 
@@ -25,7 +25,7 @@ const store = new Vuex.Store({
     config,
     dashboard,
     features,
-    indicators
+    indicators,
   },
   state: {
     packageVersion: process.env.PACKAGE_VERSION || '0',
@@ -36,7 +36,7 @@ const store = new Vuex.Store({
     },
   },
   getters: {
-    appVersion: (state) => state.packageVersion
+    appVersion: (state) => state.packageVersion,
   },
   mutations: {
     changeFullScreen(state, val) {

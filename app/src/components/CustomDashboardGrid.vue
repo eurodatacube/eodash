@@ -212,7 +212,7 @@ export default {
   }),
   computed: {
     ...mapGetters('dashboard', {
-      vuexFeatures: 'features'
+      vuexFeatures: 'features',
     }),
     ...mapState('config', [
       'appConfig',
@@ -225,7 +225,7 @@ export default {
       deep: true,
       async handler(features) {
         this.features = await Promise.all(features.map(async (f) => {
-          if(f.includesIndicator || f.text) return f;
+          if (f.includesIndicator || f.text) return f;
 
           const feature = this.$store.state.features.allFeatures
             .find((i) => this.getLocationCode(i.properties.indicatorObject) === f.poi);
@@ -234,11 +234,11 @@ export default {
             feature.properties.indicatorObject,
           );
 
-          if(f.mapInfo) {
-            this.$set(this.localZoom, f.poi, f.mapInfo.zoom)
-            this.$set(this.localCenter, f.poi, f.mapInfo.center)
-            this.$set(this.serverZoom, f.poi, f.mapInfo.zoom)
-            this.$set(this.serverCenter, f.poi, f.mapInfo.center)
+          if (f.mapInfo) {
+            this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
+            this.$set(this.localCenter, f.poi, f.mapInfo.center);
+            this.$set(this.serverZoom, f.poi, f.mapInfo.zoom);
+            this.$set(this.serverCenter, f.poi, f.mapInfo.center);
           }
 
           return {
@@ -246,7 +246,7 @@ export default {
             indicatorObject,
           };
         }));
-      }
+      },
     },
   },
   methods: {
@@ -258,14 +258,14 @@ export default {
       'moveFeatureUp',
       'moveFeatureDown',
       'changeFeatureTitle',
-      'changeFeatureMapInfo'
+      'changeFeatureMapInfo',
     ]),
     onMapReady(poi) {
       setTimeout(() => {
         this.localCenter[poi].lat = this.serverCenter[poi].lat;
         this.localCenter[poi].lng = this.serverCenter[poi].lng;
         this.localZoom[poi] = this.serverZoom[poi];
-      }, 1000)
+      }, 1000);
     },
     // updateMapPositionChanged(poi) {
     //   if(
@@ -278,24 +278,24 @@ export default {
     //   return this.mapPositionChanged[poi] = this.localZoom[poi] !== this.serverZoom[poi] || this.localCenter[poi].lat !== this.serverCenter[poi].lat || this.localCenter[poi].lng !== this.serverCenter[poi].lng;
     // },
     update(el) {
-      if(el.mapInfo) {
+      if (el.mapInfo) {
         return this.changeFeatureMapInfo({
           poi: el.poi,
           zoom: this.localZoom[el.poi],
-          center: this.localCenter[el.poi]
-        })
+          center: this.localCenter[el.poi],
+        });
       }
 
-      if(el.text) this.$emit('updateTextFeature', el)
+      if (el.text) this.$emit('updateTextFeature', el);
     },
     redirectToPoi(indicatorObject) {
       this.$router.push(`/?poi=${this.getLocationCode(indicatorObject)}`);
     },
     changeFeatureTitleFn(poi, newTitle) {
       this.dialog = false;
-      this.changeFeatureTitle({poi, newTitle});
-    }
-  }
+      this.changeFeatureTitle({ poi, newTitle });
+    },
+  },
 };
 </script>
 

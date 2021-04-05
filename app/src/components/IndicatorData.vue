@@ -880,7 +880,7 @@ export default {
         || this.$store.state.indicators.customAreaIndicator
         || this.$store.state.indicators.selectedIndicator;
 
-      indicatorObject.time = indicatorObject.time.map(d => DateTime.isDateTime(d) ? d : DateTime.fromISO(d))
+      indicatorObject.time = indicatorObject.time.map((d) => (DateTime.isDateTime(d) ? d : DateTime.fromISO(d)));
 
       return indicatorObject;
     },

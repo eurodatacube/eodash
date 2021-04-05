@@ -52,7 +52,7 @@ Vue.use(VueMatomo, {
   userId: undefined,
   cookieDomain: undefined,
   domains: undefined,
-  preInitActions: []
+  preInitActions: [],
 });
 
 Vue.use(VueMeta);
@@ -96,7 +96,7 @@ const renderVue = async () => {
   const vuetify = new Vuetify({
     theme: {
       options: {
-        customProperties: true
+        customProperties: true,
       },
       dark: false,
       // dark: mq.matches,
@@ -180,9 +180,15 @@ const renderVue = async () => {
         }
         return color;
       },
-      getLocationCode: indicatorObject => `${indicatorObject.aoiID}-${indicatorObject.indicator}`,
-      trackEvent: (action, name, value) => window._paq.push(["trackEvent", action, name, value])
-    }
+      getLocationCode: (indicatorObject) => `${
+        indicatorObject.aoiID
+      }-${
+        indicatorObject.indicator
+      }`,
+      trackEvent: (action, name, value) => window._paq.push(
+        ['trackEvent', action, name, value],
+      ),
+    },
   });
 
   // Global filters
@@ -195,24 +201,25 @@ const renderVue = async () => {
     store,
     router,
     vuetify,
-    render: h => h(App)
-  }).$mount("#app");
+    render: (h) => h(App),
+  }).$mount('#app');
 };
 
-if (store.state.dashboard?.dashboardConfig?.id) {
-  store.commit("dashboard/ADD_API", customDashboardApiFactory());
+if (store.state.dashboard ?. dashboardConfig ?. id) {
+  store.commit('dashboard/ADD_API', customDashboardApiFactory());
 
-  const id = store.state.dashboard?.dashboardConfig?.id;
-  const editKey = store.state.dashboard?.dashboardConfig?.editKey;
+  const id = store.state.dashboard ?. dashboardConfig ?. id;
+  const editKey = store.state.dashboard ?. dashboardConfig ?. editKey;
 
-  store.state.dashboard.api.listen(id, editKey).then(response => {
+  store.state.dashboard.api.listen(id, editKey).then((response) => {
     if (response.error) {
       console.error(response);
       store.commit("dashboard/disconnect");
     }
 
-    response.features = response.features.map(f => {
-      const newF = Object.assign({}, f);
+
+    response.features = response.features.map((f) => {
+      const newF = { ...f };
       delete newF.id;
       newF.poi = f.id;
       return newF;
@@ -221,11 +228,11 @@ if (store.state.dashboard?.dashboardConfig?.id) {
     store.commit("dashboard/SET", {
       ...response,
       ...(id && {
-        id
+        id,
       }),
       ...(editKey && {
-        editKey
-      })
+        editKey,
+      }),
     });
   });
 }

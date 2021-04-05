@@ -485,11 +485,11 @@ export default {
   props: {
     currentIndicator: Object,
     zoomProp: {
-      required: false
+      required: false,
     },
     centerProp: {
-      required: false
-    }
+      required: false,
+    },
   },
   components: {
     LMap,
@@ -1617,7 +1617,7 @@ export default {
           return rawdata;
         })
         .then((indicator) => {
-          if(indicator) {
+          if (indicator) {
             indicator.poi = this.drawnArea.geometry.coordinates.flat(Infinity).join('-');
             indicator.includesIndicator = true;
           }
@@ -1656,12 +1656,12 @@ export default {
           if (side === 'data') {
             this.$refs.featuresDataCluster.mapObject.clearLayers();
             this.$refs.featuresDataCluster.mapObject.addLayers([geojsonFromData]);
-            this.dataFeaturesCount = ftrs.features.length;
-          } else {
-            this.$refs.featuresCompareCluster.mapObject.clearLayers();
-            this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
-            this.compareFeaturesCount = ftrs.features.length;
+            this.dataFeaturesNum = ftrs.features.length;
           }
+        } else if (this.$refs.featuresDataCluster) {
+          this.$refs.featuresCompareCluster.mapObject.clearLayers();
+          this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
+          this.compareFeaturesNum = ftrs.features.length;
         }
       } else if (side === 'data') {
         // normal geojson layer just needs manual refresh
@@ -1676,14 +1676,20 @@ export default {
     },
   },
   watch: {
-    zoomProp: {immediate: true, deep: true, handler(v) {
-      if(v)
-      this.zoom = v;
-    }},
-    centerProp: {immediate: true, deep: true, handler(v) {
-      if(v)
-      this.center = v;
-    }},
+    zoomProp: {
+      immediate: true,
+      deep: true,
+      handler(v) {
+        if (v) this.zoom = v;
+      },
+    },
+    centerProp: {
+      immediate: true,
+      deep: true,
+      handler(v) {
+        if (v) this.center = v;
+      },
+    },
     enableCompare(on) {
       if (!on) {
         if (this.slider !== null) {

@@ -65,14 +65,14 @@
 <script>
 import {
   mapActions,
-  mapState
+  mapState,
 } from 'vuex';
 
 export default {
   props: {
     indicatorObject: Object,
     zoom: Number,
-    center: Object
+    center: Object,
   },
   data: () => ({
     alreadyAdded: false,
@@ -80,33 +80,31 @@ export default {
     title: '',
   }),
   computed: {
-    ...mapState('dashboard', ['dashboardConfig'])
+    ...mapState('dashboard', ['dashboardConfig']),
   },
   watch: {
     dashboardConfig: {
       deep: true,
       immediate: true,
       async handler() {
-        this.alreadyAdded = await this.exists({poi: this.indicatorObject.poi || this.getLocationCode(this.indicatorObject) });
-      }
+        this.alreadyAdded = await this.exists({ poi: this.indicatorObject.poi || this.getLocationCode(this.indicatorObject) });
+      },
     },
     indicatorObject: {
       deep: true,
       async handler() {
-        if(this.indicatorObject)
-        this.alreadyAdded = await this.exists({poi: this.indicatorObject.poi || this.getLocationCode(this.indicatorObject) });
-      }
-    }
+        if (this.indicatorObject) this.alreadyAdded = await this.exists({ poi: this.indicatorObject.poi || this.getLocationCode(this.indicatorObject) });
+      },
+    },
   },
   created() {
-    if(this.indicatorObject) 
-      this.title = this.indicatorObject.city.trim() + ', ' +this.indicatorObject.description.trim()
+    if (this.indicatorObject) { this.title = `${this.indicatorObject.city.trim()}, ${this.indicatorObject.description.trim()}`; }
   },
   methods: {
     ...mapActions('dashboard', [
       'exists',
       'addFeature',
-      'removeFeature'
+      'removeFeature',
     ]),
     async toggle() {
       if (!this.alreadyAdded) {
@@ -121,8 +119,8 @@ export default {
               mapInfo: {
                 zoom: this.zoom,
                 center: this.center,
-              }
-            })
+              },
+            }),
           },
         );
       } else {

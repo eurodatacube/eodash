@@ -4,18 +4,16 @@ import customDashboardApiFactory from '../../custom-dashboard';
 
 const state = {
   api: null,
-  dashboardConfig: null
+  dashboardConfig: null,
 };
 
 const getters = {
   features(state) {
-    if (! state.dashboardConfig) 
-      return null;
-    
+    if (!state.dashboardConfig) { return null; }
 
 
     return state.dashboardConfig.features;
-  }
+  },
 };
 
 const mutations = {
@@ -25,46 +23,44 @@ const mutations = {
   },
   SET(state, dashboardConfig) {
     Vue.set(state, 'dashboardConfig', {
-      ... state.dashboardConfig,
-      ...dashboardConfig
+      ...state.dashboardConfig,
+      ...dashboardConfig,
     });
   },
   ADD_API(state, api) {
-    if (!api) 
-      return;
-    
+    if (!api) { return; }
 
 
     api.on('edit', (dto) => {
-      dto.features = dto.features.map(f => {
-        const newF = Object.assign({}, f);
+      dto.features = dto.features.map((f) => {
+        const newF = { ...f };
         delete newF.id;
         newF.poi = f.id;
         return newF;
-      })
+      });
 
       Vue.set(state, 'dashboardConfig', {
-        ... state.dashboardConfig,
-        ...dto
+        ...state.dashboardConfig,
+        ...dto,
       });
-    })
+    });
 
     state.api = api;
   },
   ADD_FEATURE(state, feature) {
     if (state.dashboardConfig) {
-      state.dashboardConfig.features.push(feature)
+      state.dashboardConfig.features.push(feature);
     } else {
       state.dashboardConfig = {
-        features: [feature]
+        features: [feature],
       };
     }
   },
-  REMOVE_FEATURE(state, {poi}) {
+  REMOVE_FEATURE(state, { poi }) {
     if (state.dashboardConfig) {
-      const index = state.dashboardConfig.features.findIndex(f => f.poi === poi);
+      const index = state.dashboardConfig.features.findIndex((f) => f.poi === poi);
       if (index !== -1) {
-        state.dashboardConfig.features.splice(index, 1)
+        state.dashboardConfig.features.splice(index, 1);
       }
     }
   },
@@ -73,96 +69,83 @@ const mutations = {
       state.dashboardConfig.title = dashboardTitle;
     } else {
       state.dashboardConfig = {
-        title: dashboardTitle
+        title: dashboardTitle,
       };
     }
   },
   ADD_MARKETING_INFO(state, marketingInfo) {
-    if (! state.dashboardConfig.marketingInfo) {
+    if (!state.dashboardConfig.marketingInfo) {
       state.dashboardConfig.marketingInfo = marketingInfo;
     }
   },
-  RESIZE_FEATURE_SHRINK(state, {poi}) {
+  RESIZE_FEATURE_SHRINK(state, { poi }) {
     state.dashboardConfig.features.find((e) => e.poi === poi).width -= 1;
   },
-  RESIZE_FEATURE_EXPAND(state, {poi}) {
+  RESIZE_FEATURE_EXPAND(state, { poi }) {
     state.dashboardConfig.features.find((e) => e.poi === poi).width += 1;
   },
-  MOVE_FEATURE_UP(state, {poi}) {
+  MOVE_FEATURE_UP(state, { poi }) {
+    const index = state.dashboardConfig.features.findIndex((e) => e.poi === poi);
 
-    const index = state.dashboardConfig.features.findIndex(e => e.poi === poi);
-
-    if (index === -1 || index === 0) 
-      return;
-    
+    if (index === -1 || index === 0) { return; }
 
 
-    const temp = Object.assign({}, state.dashboardConfig.features[index - 1]);
+    const temp = { ...state.dashboardConfig.features[index - 1] };
     Vue.set(state.dashboardConfig.features, index - 1, state.dashboardConfig.features[index]);
     Vue.set(state.dashboardConfig.features, index, temp);
   },
-  MOVE_FEATURE_DOWN(state, {poi}) {
-    const index = state.dashboardConfig.features.findIndex(e => e.poi === poi);
-    if (index === -1 || index === state.dashboardConfig.features.length - 1) 
-      return;
-    
+  MOVE_FEATURE_DOWN(state, { poi }) {
+    const index = state.dashboardConfig.features.findIndex((e) => e.poi === poi);
+    if (index === -1 || index === state.dashboardConfig.features.length - 1) { return; }
 
 
-    const temp = Object.assign({}, state.dashboardConfig.features[index + 1]);
-    Vue.set(state.dashboardConfig.features, index + 1, state.dashboardConfig.features[index])
-    Vue.set(state.dashboardConfig.features, index, temp)
+    const temp = { ...state.dashboardConfig.features[index + 1] };
+    Vue.set(state.dashboardConfig.features, index + 1, state.dashboardConfig.features[index]);
+    Vue.set(state.dashboardConfig.features, index, temp);
   },
-  CHANGE_FEATURE_TITLE(state, {poi, newTitle}) {
-    const index = state.dashboardConfig.features.findIndex(e => e.poi === poi);
-    if (index === -1) 
-      return;
-    
+  CHANGE_FEATURE_TITLE(state, { poi, newTitle }) {
+    const index = state.dashboardConfig.features.findIndex((e) => e.poi === poi);
+    if (index === -1) { return; }
 
 
-    Vue.set(state.dashboardConfig.features[index], 'title', newTitle)
+    Vue.set(state.dashboardConfig.features[index], 'title', newTitle);
   },
-  CHANGE_FEATURE_MAP_INFO(state, {poi, mapInfo}) {
-    const index = state.dashboardConfig.features.findIndex(e => e.poi === poi);
-    if (index === -1) 
-      return;
-    
+  CHANGE_FEATURE_MAP_INFO(state, { poi, mapInfo }) {
+    const index = state.dashboardConfig.features.findIndex((e) => e.poi === poi);
+    if (index === -1) { return; }
 
 
-    Vue.set(state.dashboardConfig.features[index], 'mapInfo', mapInfo)
+    Vue.set(state.dashboardConfig.features[index], 'mapInfo', mapInfo);
   },
-  CHANGE_FEATURE_TEXT(state, {poi, text}) {
-    const index = state.dashboardConfig.features.findIndex(e => e.poi === poi);
-    if (index === -1) 
-      return;
-    
+  CHANGE_FEATURE_TEXT(state, { poi, text }) {
+    const index = state.dashboardConfig.features.findIndex((e) => e.poi === poi);
+    if (index === -1) { return; }
 
 
-    Vue.set(state.dashboardConfig.features[index], 'text', text)
+    Vue.set(state.dashboardConfig.features[index], 'text', text);
   },
   SET_DASHBOARD_FEATURES(state, dashboardFeatures) {
     if (state.dashboardConfig) {
       state.dashboardConfig.features = dashboardFeatures;
     } else {
       state.dashboardConfig = {
-        features: dashboardFeatures
+        features: dashboardFeatures,
       };
     }
-  }
+  },
 
 };
 
 const actions = {
   exists: ({
-    state
-  }, {poi}) => {
-    return !!(state ?. dashboardConfig ?. features ?. find(feature => feature.poi === poi));
-  },
+    state,
+  }, { poi }) => !!(state ?. dashboardConfig ?. features ?. find((feature) => feature.poi === poi)),
   addFeature(
     {
       commit,
-      state
+      state,
     },
-    f
+    f,
   ) {
     if (state.api) {
       f.id = f.poi;
@@ -176,13 +159,11 @@ const actions = {
   removeFeature(
     {
       commit,
-      state
+      state,
     },
-    f
+    f,
   ) {
-    if (state.api) 
-      return state.api.removeFeature(f.poi);
-    
+    if (state.api) { return state.api.removeFeature(f.poi); }
 
 
     commit('REMOVE_FEATURE', f);
@@ -190,13 +171,11 @@ const actions = {
   changeTitle(
     {
       commit,
-      state
+      state,
     },
-    t
+    t,
   ) {
-    if (state.api) 
-      return state.api.changeTitle(t);
-    
+    if (state.api) { return state.api.changeTitle(t); }
 
 
     commit('CHANGE_TITLE', t);
@@ -204,36 +183,32 @@ const actions = {
   addMarketingInfo(
     {
       commit,
-      state
+      state,
     },
-    m
+    m,
   ) {
-    if (state.api) 
-      return state.api.addMarketingInfo(m);
-    
+    if (state.api) { return state.api.addMarketingInfo(m); }
 
 
-    commit('ADD_MARKETING_INFO', m)
+    commit('ADD_MARKETING_INFO', m);
 
     commit('ADD_API', customDashboardApiFactory());
     return new Promise((resolve, reject) => {
-      state.api.create(state.dashboardConfig.title, state.dashboardConfig.features.map(f => {
-        const newF = Object.assign({}, f);
+      state.api.create(state.dashboardConfig.title, state.dashboardConfig.features.map((f) => {
+        const newF = { ...f };
         delete newF.poi;
         newF.id = f.poi;
         return newF;
-      })).then(response => {
-        if (response.error) 
-          reject(response);
-        
+      })).then((response) => {
+        if (response.error) { reject(response); }
 
 
-        response.features = response.features.map(f => {
-          const newF = Object.assign({}, f);
+        response.features = response.features.map((f) => {
+          const newF = { ...f };
           delete newF.id;
           newF.poi = f.id;
           return newF;
-        })
+        });
 
         commit('SET', response);
 
@@ -242,115 +217,99 @@ const actions = {
           resolve();
         });
       });
-    })
+    });
   },
   resizeFeatureShrink(
     {
       commit,
-      state
+      state,
     },
-    f
+    f,
   ) {
-    if (state.api) 
-      return state.api.shrinkFeature(f.poi);
-    
+    if (state.api) { return state.api.shrinkFeature(f.poi); }
 
 
-    commit('RESIZE_FEATURE_SHRINK', f)
+    commit('RESIZE_FEATURE_SHRINK', f);
   },
   resizeFeatureExpand(
     {
       commit,
-      state
+      state,
     },
-    f
+    f,
   ) {
-    if (state.api) 
-      return state.api.expandFeature(f.poi);
-    
+    if (state.api) { return state.api.expandFeature(f.poi); }
 
 
-    commit('RESIZE_FEATURE_EXPAND', f)
+    commit('RESIZE_FEATURE_EXPAND', f);
   },
   moveFeatureUp(
     {
       commit,
-      state
+      state,
     },
-    f
+    f,
   ) {
-    if (state.api) 
-      return state.api.moveFeatureUp(f.poi);
-    
+    if (state.api) { return state.api.moveFeatureUp(f.poi); }
 
 
-    commit('MOVE_FEATURE_UP', f)
+    commit('MOVE_FEATURE_UP', f);
   },
   moveFeatureDown(
     {
       commit,
-      state
+      state,
     },
-    f
+    f,
   ) {
-    if (state.api) 
-      return state.api.moveFeatureDown(f.poi);
-    
+    if (state.api) { return state.api.moveFeatureDown(f.poi); }
 
 
-    commit('MOVE_FEATURE_DOWN', f)
+    commit('MOVE_FEATURE_DOWN', f);
   },
   changeFeatureTitle(
     {
       commit,
-      state
+      state,
     },
-    {poi, newTitle}
+    { poi, newTitle },
   ) {
-    if (state.api) 
-      return state.api.changeFeatureTitle(poi, newTitle);
-    
+    if (state.api) { return state.api.changeFeatureTitle(poi, newTitle); }
 
 
-    commit('CHANGE_FEATURE_TITLE', {poi, newTitle})
+    commit('CHANGE_FEATURE_TITLE', { poi, newTitle });
   },
   changeFeatureMapInfo(
     {
       commit,
-      state
+      state,
     },
     {
       poi,
       ...mapInfo
-    }
+    },
   ) {
-    if (state.api) 
-      return state.api.changeFeatureMapInfo(poi, mapInfo);
-    
+    if (state.api) { return state.api.changeFeatureMapInfo(poi, mapInfo); }
 
 
-    commit('CHANGE_FEATURE_MAP_INFO', {poi, mapInfo})
+    commit('CHANGE_FEATURE_MAP_INFO', { poi, mapInfo });
   },
   changeFeatureText(
     {
       commit,
-      state
+      state,
     },
-    {poi, text}
+    { poi, text },
   ) {
-    if (state.api) 
-      return state.api.changeFeatureText(poi, text);
-    
+    if (state.api) { return state.api.changeFeatureText(poi, text); }
 
 
-    commit('CHANGE_FEATURE_TEXT', {poi, text})
+    commit('CHANGE_FEATURE_TEXT', { poi, text });
   },
   disconnect(
-    {state, commit}
+    { state, commit },
   ) {
-    if (state.api) 
-      state.api.disconnect();
-    
+    if (state.api) { state.api.disconnect(); }
 
 
     commit('NULLIFY');
@@ -358,36 +317,34 @@ const actions = {
   async listen(
     {
       state,
-      commit
+      commit,
     },
-    {id, editKey}
+    { id, editKey },
   ) {
     commit('ADD_API', customDashboardApiFactory());
 
     const response = await state.api.listen(id, editKey);
 
-    if (response.error) 
-      throw response;
-    
+    if (response.error) { throw response; }
 
 
-    response.features = response.features.map(f => {
-      const newF = Object.assign({}, f);
+    response.features = response.features.map((f) => {
+      const newF = { ...f };
       delete newF.id;
       newF.poi = f.id;
       return newF;
-    })
+    });
 
     commit('SET', {
-      ... response,
+      ...response,
       ...(id && {
-        id
+        id,
       }),
       ...(editKey && {
-        editKey
-      })
+        editKey,
+      }),
     });
-  }
+  },
 };
 
 export default {
@@ -395,5 +352,5 @@ export default {
   state,
   getters,
   mutations,
-  actions
+  actions,
 };

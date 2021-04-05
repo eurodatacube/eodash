@@ -236,10 +236,10 @@
 <script>
 import {
   mapState,
-  mapActions
+  mapActions,
 } from 'vuex';
 
-import GlobalFooter from '@/components/GlobalFooter.vue'
+import GlobalFooter from '@/components/GlobalFooter.vue';
 import CustomDashboardGrid from '@/components/CustomDashboardGrid.vue';
 
 export default {
@@ -266,18 +266,18 @@ export default {
     consent: false,
 
     requiredRule: [
-      v => !!v || "Required",
+      (v) => !!v || 'Required',
     ],
     titleRules: [
-      v => !!v || "Required",
+      (v) => !!v || 'Required',
     ],
     email: '',
     emailRules: [
-      v => !!v || "Required",
-      v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+      (v) => !!v || 'Required',
+      (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
     ],
     interestsRules: [
-      v => !!(v instanceof Array && v.length > 0) || "Required",
+      (v) => !!(v instanceof Array && v.length > 0) || 'Required',
     ],
 
     interestOptions: ['Health', 'Technology', 'Cooking'],
@@ -300,11 +300,11 @@ export default {
       return this.$store.state.dashboard?.dashboardConfig?.editKey;
     },
     viewingLink() {
-      return this.$store.state.dashboard.dashboardConfig && this.$store.state.dashboard.dashboardConfig.id ? `${window.location.origin}/dashboard?id=${this.$store.state.dashboard.dashboardConfig.id}` : 'Loading...'
+      return this.$store.state.dashboard.dashboardConfig && this.$store.state.dashboard.dashboardConfig.id ? `${window.location.origin}/dashboard?id=${this.$store.state.dashboard.dashboardConfig.id}` : 'Loading...';
     },
     editingLink() {
-      return this.$store.state.dashboard.dashboardConfig && this.$store.state.dashboard.dashboardConfig.id ? `${window.location.origin}/dashboard?id=${this.$store.state.dashboard.dashboardConfig.id}&editKey=${this.$store.state.dashboard.dashboardConfig.editKey}` : 'Loading...'
-    }
+      return this.$store.state.dashboard.dashboardConfig && this.$store.state.dashboard.dashboardConfig.id ? `${window.location.origin}/dashboard?id=${this.$store.state.dashboard.dashboardConfig.id}&editKey=${this.$store.state.dashboard.dashboardConfig.editKey}` : 'Loading...';
+    },
   },
   async created() {
     let id = null;
@@ -316,28 +316,29 @@ export default {
       }
     }
 
-    if(id) {
+    if (id) {
       this.reconnecting = true;
       this.disconnect();
-      await this.listen({id, editKey});
+      await this.listen({ id, editKey });
       this.reconnecting = false;
     }
 
-    if(this.dashboardConfig && this.dashboardConfig.title)
-    this.dashboardTitle = this.dashboardConfig.title
+    if (this.dashboardConfig && this.dashboardConfig.title) this.dashboardTitle = this.dashboardConfig.title;
 
-    if(!this.dashboardConfig) {
-      this.$router.push('/')
+    if (!this.dashboardConfig) {
+      this.$router.push('/');
     }
 
-    if(editKey) {
-      this.$router.replace({query: {
-        id
-      }});
+    if (editKey) {
+      this.$router.replace({
+        query: {
+          id,
+        },
+      });
     }
   },
   beforeDestroy() {
-    if(!this.hasEditingPrivilege && !this.newDashboard) {
+    if (!this.hasEditingPrivilege && !this.newDashboard) {
       this.reconnecting = true;
       this.disconnect();
       this.reconnecting = false;
@@ -347,13 +348,13 @@ export default {
     dashboardConfig: {
       deep: true,
       handler(v) {
-        if(!v && !this.reconnecting) {
-          this.$router.push('/')
+        if (!v && !this.reconnecting) {
+          this.$router.push('/');
         } else {
           this.dashboardTitle = v.title;
         }
-      }
-    }
+      },
+    },
   },
   methods: {
     ...mapActions('dashboard', [
@@ -365,7 +366,7 @@ export default {
       'changeFeatureText',
     ]),
     editTitle() {
-      if(this.hasEditingPrivilege || this.newDashboard) {
+      if (this.hasEditingPrivilege || this.newDashboard) {
         this.changeTitle(this.dashboardTitle);
       }
     },
@@ -377,14 +378,14 @@ export default {
     },
     submitMarketingData() {
       this.loading = true;
-      this.changeTitle(this.popupTitle)
+      this.changeTitle(this.popupTitle);
       if (this.$refs.form.validate()) {
         this.changeTitle(this.popupTitle);
         this.addMarketingInfo({
           email: this.email,
           consent: this.consent,
-          interests: this.interests
-        })
+          interests: this.interests,
+        });
         this.success = true;
       }
       this.loading = false;
@@ -395,44 +396,44 @@ export default {
           poi: `${this.newTextFeatureTitle}-${Date.now()}`,
           title: this.newTextFeatureTitle,
           text: this.newTextFeatureText,
-        })
+        });
       }
-      this.newTextFeatureDialog = false
-      this.newTextFeatureTitle = ''
-      this.newTextFeatureText = ''
-      this.textFeatureUpdate = ''
+      this.newTextFeatureDialog = false;
+      this.newTextFeatureTitle = '';
+      this.newTextFeatureText = '';
+      this.textFeatureUpdate = '';
     },
     updateTextFeature() {
       if (this.$refs.textForm.validate()) {
         this.changeFeatureText({
           poi: this.textFeatureUpdate,
           text: this.newTextFeatureText,
-        })
+        });
       }
-      this.newTextFeatureDialog = false
-      this.newTextFeatureTitle = ''
-      this.newTextFeatureText = ''
-      this.textFeatureUpdate = ''
+      this.newTextFeatureDialog = false;
+      this.newTextFeatureTitle = '';
+      this.newTextFeatureText = '';
+      this.textFeatureUpdate = '';
     },
     openTextFeatureUpdate(el) {
-      this.newTextFeatureText = el.text
+      this.newTextFeatureText = el.text;
       this.newTextFeatureDialog = true;
       this.textFeatureUpdate = el.poi;
     },
     copyViewingLink() {
       this.$refs.viewingLink.$el.querySelector('input').select();
-      this.$refs.viewingLink.$el.querySelector('input').setSelectionRange(0, 99999)
-      document.execCommand('copy')
+      this.$refs.viewingLink.$el.querySelector('input').setSelectionRange(0, 99999);
+      document.execCommand('copy');
     },
     copyEditingLink() {
       this.$refs.editingLink.$el.querySelector('input').select();
-      this.$refs.editingLink.$el.querySelector('input').setSelectionRange(0, 99999)
-      document.execCommand('copy')
+      this.$refs.editingLink.$el.querySelector('input').setSelectionRange(0, 99999);
+      document.execCommand('copy');
     },
     viewLinksFn() {
       this.viewLinks = true;
       this.popupOpen = true;
-    }
+    },
   },
 };
 </script>

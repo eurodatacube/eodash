@@ -328,8 +328,8 @@ export default {
     },
     ...mapState(['isFullScreen']),
     queryIndicatorObject() {
-      return this.$store.state.features.allFeatures.find(f => this.getLocationCode(f && f.properties.indicatorObject) === this.$route.query.poi)
-    }
+      return this.$store.state.features.allFeatures.find((f) => this.getLocationCode(f && f.properties.indicatorObject) === this.$route.query.poi);
+    },
   },
   created() {
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
