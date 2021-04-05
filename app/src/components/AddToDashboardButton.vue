@@ -71,6 +71,8 @@ import {
 export default {
   props: {
     indicatorObject: Object,
+    zoom: Number,
+    center: Object
   },
   data: () => ({
     alreadyAdded: false,
@@ -115,16 +117,18 @@ export default {
             includesIndicator: this.indicatorObject.includesIndicator,
             ...(this.indicatorObject.includesIndicator && { indicatorObject: this.indicatorObject }),
             title: this.title,
+            ...(this.zoom && this.center && {
+              mapInfo: {
+                zoom: this.zoom,
+                center: this.center,
+              }
+            })
           },
         );
       } else {
         this.removeFeature(
           {
             poi: this.indicatorObject.poi || this.getLocationCode(this.indicatorObject),
-            width: 4,
-            includesIndicator: this.indicatorObject.includesIndicator,
-            ...(this.indicatorObject.includesIndicator && { indicatorObject: this.indicatorObject }),
-            title: this.title,
           },
         );
       }

@@ -121,6 +121,24 @@ const mutations = {
 
     Vue.set(state.dashboardConfig.features[index], 'title', newTitle)
   },
+  CHANGE_FEATURE_MAP_INFO(state, {poi, mapInfo}) {
+    const index = state.dashboardConfig.features.findIndex(e => e.poi === poi);
+    if (index === -1) 
+      return;
+    
+
+
+    Vue.set(state.dashboardConfig.features[index], 'mapInfo', mapInfo)
+  },
+  CHANGE_FEATURE_TEXT(state, {poi, text}) {
+    const index = state.dashboardConfig.features.findIndex(e => e.poi === poi);
+    if (index === -1) 
+      return;
+    
+
+
+    Vue.set(state.dashboardConfig.features[index], 'text', text)
+  },
   SET_DASHBOARD_FEATURES(state, dashboardFeatures) {
     if (state.dashboardConfig) {
       state.dashboardConfig.features = dashboardFeatures;
@@ -295,6 +313,37 @@ const actions = {
 
 
     commit('CHANGE_FEATURE_TITLE', {poi, newTitle})
+  },
+  changeFeatureMapInfo(
+    {
+      commit,
+      state
+    },
+    {
+      poi,
+      ...mapInfo
+    }
+  ) {
+    if (state.api) 
+      return state.api.changeFeatureMapInfo(poi, mapInfo);
+    
+
+
+    commit('CHANGE_FEATURE_MAP_INFO', {poi, mapInfo})
+  },
+  changeFeatureText(
+    {
+      commit,
+      state
+    },
+    {poi, text}
+  ) {
+    if (state.api) 
+      return state.api.changeFeatureText(poi, text);
+    
+
+
+    commit('CHANGE_FEATURE_TEXT', {poi, text})
   },
   disconnect(
     {state, commit}

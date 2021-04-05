@@ -70,6 +70,9 @@
                   Array.isArray(sensorData.properties.indicatorObject.country)"
                   class="pt-0 fill-height"
                   :currentIndicator="sensorData.properties.indicatorObject"
+                  v-on:fetchCustomAreaIndicator="scrollToCustomAreaIndicator"
+                  @update:center="c => center = c"
+                  @update:zoom="z => zoom = z"
                 />
                 <indicator-data
                   style="top: 0px; position: absolute;"
@@ -208,6 +211,8 @@
               style="top: 0px; position: absolute;"
               v-show="false"
               class="pt-0 fill-height"
+              @update:center="c => center = c"
+              @update:zoom="z => zoom = z"
             />
             <indicator-data
               v-if="!customAreaIndicator.isEmpty"
@@ -240,6 +245,52 @@
                 </v-col>
               </v-row>
           </v-card>
+        </v-col>
+
+        <v-col
+          cols="12"
+          sm="5"
+          class="py-0 my-0 d-flex align-center"
+          :class="$vuetify.breakpoint.xsOnly ? 'justify-center' : 'justify-space-between'"
+        >
+          <small v-if="indicatorObject && indicatorObject.updateFrequency">
+            <span
+              v-if="indicatorObject.updateFrequency === 'Retired'"
+            >This indicator is no longer updated</span>
+            <span
+              v-else-if="indicatorObject.updateFrequency === 'EndSeason'"
+            >Due to end of season, this indicator is no longer updated</span>
+            <span v-else>This data is updated: {{ indicatorObject.updateFrequency }}</span>
+          </small>
+          <small v-else> </small>
+        </v-col>
+        <v-col
+          cols="12"
+          sm="7"
+          class="py-0 my-0"
+        >
+          <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
+            <v-btn
+              color="primary"
+              text
+              small
+              :href="dataHrefCSV"
+              :download="downloadFileName"
+              target="_blank"
+              v-if="indicatorObject && !showMap"
+            >
+              <v-icon left>mdi-download</v-icon>
+              download csv
+            </v-btn>
+            <iframe-button :indicatorObject="indicatorObject"/>
+            <add-to-dashboard-button :indicatorObject="indicatorObject" :zoom="zoom" :center="center"/>
+          </div>
+        </v-col>
+        <v-col
+          cols="12"
+          ref="customAreaIndicator"
+          class="pa-0"
+        >
           <v-card
             v-else
             class="fill-height"
@@ -520,6 +571,8 @@ export default {
     mounted: false,
     selectedSensorTab: 0,
     multipleTabCompare: null,
+    zoom: null,
+    center: null,
   }),
   computed: {
     ...mapGetters('features', [

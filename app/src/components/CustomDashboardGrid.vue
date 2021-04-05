@@ -3,7 +3,7 @@
     <template
       v-for="(element, index) in features"
     >
-      <v-col v-if="!element.indicatorObject" :key="index" cols="12">
+      <v-col v-if="!element.indicatorObject && !element.text" :key="index" cols="12">
         Error: {{ element }}
       </v-col>
       <v-col
@@ -18,9 +18,9 @@
           width="500"
         >
           <template v-slot:activator="{ on }">
-            <div class="d-flex align-center" @click="featureTitle = element.title">
+            <div class="d-flex align-center">
               <span v-if="element.title" @click="redirectToPoi(element.indicatorObject)" style="cursor: pointer"> {{ element.title }} </span>
-              <v-icon v-on="on" right small style="cursor: pointer">mdi-pencil</v-icon>
+              <v-icon @click="featureTitle = element.title" v-on="on" right small style="cursor: pointer">mdi-pencil</v-icon>
             </div>
           </template>
 
@@ -64,14 +64,19 @@
           outlined
           tile
         >
+          <div class="pa-5" v-if="element.text" v-html="element.__generatedText__"></div>
           <indicator-map
             ref="indicatorMap"
             style="top: 0px; position: absolute;"
-            v-if="(['all'].includes(element.indicatorObject.country) ||
+            v-else-if="(['all'].includes(element.indicatorObject.country) ||
             Array.isArray(element.indicatorObject.country)) && !element.includesIndicator"
             class="pt-0 fill-height"
             :currentIndicator="element.indicatorObject"
-
+            :centerProp="localCenter[element.poi]"
+            :zoomProp="localZoom[element.poi]"
+            @update:center="c => localCenter[element.poi] = c"
+            @update:zoom="z => localZoom[element.poi] = z"
+            @ready="onMapReady(element.poi)"
           />
           <indicator-data
             style="top: 0px; position: absolute;"
@@ -111,16 +116,41 @@
             <v-btn
               class="my-2"
               fab
-              outlined
+              dark
               x-small
-              color="primary"
+              color="error"
               style="background: white"
               @click="removeFeature(element)"
             >
-              <v-icon dark>
+              <v-icon>
                 mdi-delete
               </v-icon>
             </v-btn>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                  class="my-2"
+                  fab
+                  outlined
+                  x-small
+                  color="primary"
+                  style="background: white"
+                  @click="update(element)"
+                  v-if="element.mapInfo || element.text"
+                >
+                  <v-icon v-if="element.mapInfo" dark>
+                    mdi-map-outline
+                  </v-icon>
+                  <v-icon v-else dark>
+                    mdi-pencil
+                  </v-icon>
+                </v-btn>
+              </template>
+              <span v-if="element.mapInfo">Update map position</span>
+              <span v-else>Update text</span>
+            </v-tooltip>
           </div>
           <div class="buttonContainer containerRight containerBottom" v-show="!popupOpen && !dialog">
             <v-btn
@@ -175,6 +205,10 @@ export default {
     features: [],
     dialog: false,
     featureTitle: '',
+    localZoom: {},
+    localCenter: {},
+    serverZoom: {},
+    serverCenter: {},
   }),
   computed: {
     ...mapGetters('dashboard', {
@@ -191,7 +225,7 @@ export default {
       deep: true,
       async handler(features) {
         this.features = await Promise.all(features.map(async (f) => {
-          if(f.includesIndicator) return f;
+          if(f.includesIndicator || f.text) return f;
 
           const feature = this.$store.state.features.allFeatures
             .find((i) => this.getLocationCode(i.properties.indicatorObject) === f.poi);
@@ -199,6 +233,14 @@ export default {
             this.baseConfig,
             feature.properties.indicatorObject,
           );
+
+          if(f.mapInfo) {
+            this.$set(this.localZoom, f.poi, f.mapInfo.zoom)
+            this.$set(this.localCenter, f.poi, f.mapInfo.center)
+            this.$set(this.serverZoom, f.poi, f.mapInfo.zoom)
+            this.$set(this.serverCenter, f.poi, f.mapInfo.center)
+          }
+
           return {
             ...f,
             indicatorObject,
@@ -215,8 +257,37 @@ export default {
       'resizeFeatureExpand',
       'moveFeatureUp',
       'moveFeatureDown',
-      'changeFeatureTitle'
+      'changeFeatureTitle',
+      'changeFeatureMapInfo'
     ]),
+    onMapReady(poi) {
+      setTimeout(() => {
+        this.localCenter[poi].lat = this.serverCenter[poi].lat;
+        this.localCenter[poi].lng = this.serverCenter[poi].lng;
+        this.localZoom[poi] = this.serverZoom[poi];
+      }, 1000)
+    },
+    // updateMapPositionChanged(poi) {
+    //   if(
+    //     !this.localZoom[poi] ||
+    //     !this.localCenter[poi] ||
+    //     !this.serverZoom[poi] ||
+    //     !this.serverCenter[poi]
+    //   ) return this.mapPositionChanged[poi] = false
+
+    //   return this.mapPositionChanged[poi] = this.localZoom[poi] !== this.serverZoom[poi] || this.localCenter[poi].lat !== this.serverCenter[poi].lat || this.localCenter[poi].lng !== this.serverCenter[poi].lng;
+    // },
+    update(el) {
+      if(el.mapInfo) {
+        return this.changeFeatureMapInfo({
+          poi: el.poi,
+          zoom: this.localZoom[el.poi],
+          center: this.localCenter[el.poi]
+        })
+      }
+
+      if(el.text) this.$emit('updateTextFeature', el)
+    },
     redirectToPoi(indicatorObject) {
       this.$router.push(`/?poi=${this.getLocationCode(indicatorObject)}`);
     },

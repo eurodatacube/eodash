@@ -167,6 +167,38 @@ class CustomDashboardApi extends EventEmitter {
     });
   }
 
+  changeFeatureMapInfo(id, mapInfo) {
+    return new Promise((resolve, reject) => {
+      this.socket.emit('feature-change-map-info', {
+        id,
+        ...mapInfo
+      }, (response) => {
+        if (response ?. error) 
+          return reject(response);
+        
+
+
+        return resolve();
+      });
+    });
+  }
+
+  changeFeatureText(id, text) {
+    return new Promise((resolve, reject) => {
+      this.socket.emit('feature-change-text', {
+        id,
+        text
+      }, (response) => {
+        if (response ?. error) 
+          return reject(response);
+        
+
+
+        return resolve();
+      });
+    });
+  }
+
   disconnect() {
     this.socket.disconnect();
   }
