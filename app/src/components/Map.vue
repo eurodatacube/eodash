@@ -365,7 +365,7 @@ export default {
           && !['', '/'].includes(indObj.lastColorCode)) {
           colorCode = indObj.lastColorCode;
         } else if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')
-          && ['N1', 'N1a', 'N1b', 'N3b', 'E10a3', 'E10a8', 'E12b'].includes(indObj.indicator)) {
+          && ['N1', 'N1a', 'N1b', 'N3b', 'E10a3', 'E10a8', 'E10a9', 'E12b'].includes(indObj.indicator)) {
           colorCode = 'BLUE';
         }
       }
@@ -385,7 +385,7 @@ export default {
             } else {
               label += `${percVal}%`;
             }
-          } else if (['E10a3', 'E10a8', 'N4c'].includes(indicatorObject.indicator)) {
+          } else if (['E10a3', 'E10a8', 'E10a9', 'N4c'].includes(indicatorObject.indicator)) {
             label += 'multiple';
           } else if (['E10a6', 'E10a7'].includes(indicatorObject.indicator)) {
             const newIndVal = Number(indicatorObject.lastMeasurement).toPrecision(4);

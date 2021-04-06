@@ -3487,6 +3487,17 @@
         "time": "2021-02-20T00:00:00"
     },
     {
+        "color_code": "",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "NaN",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2021-02-20T11:30:00"
+    },
+    {
         "color_code": "/",
         "data_provider": "CNR-ISMAR",
         "eo_sensor": "Sentinel-3A OLCI",
@@ -3509,6 +3520,17 @@
         "time": "2021-02-27T00:00:00"
     },
     {
+        "color_code": "",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-21.37560685",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2021-02-27T11:30:00"
+    },
+    {
         "color_code": "/",
         "data_provider": "CNR-ISMAR",
         "eo_sensor": "Sentinel-3A OLCI",
@@ -3529,6 +3551,17 @@
         "reference_time": "",
         "reference_value": "",
         "time": "2021-03-06T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-79.63000825",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2021-03-06T11:30:00"
     },
     {
         "color_code": "/",
@@ -3554,6 +3587,28 @@
     },
     {
         "color_code": "",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-71.89789906",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2021-03-13T11:30:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "12.798",
+        "reference_time": "2021-03-20T00:00:00",
+        "reference_value": "/",
+        "time": "2021-03-20T00:00:00"
+    },
+    {
+        "color_code": "",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "",
@@ -3562,5 +3617,16 @@
         "reference_time": "",
         "reference_value": "",
         "time": "2021-03-20T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "",
+        "input_data": "EORC product",
+        "measurement_value": "103.91",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2021-03-27T00:00:00"
     }
 ]
