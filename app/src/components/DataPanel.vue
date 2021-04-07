@@ -430,6 +430,15 @@ export default {
           .properties.indicatorObject);
         this.$router.replace({ query: { ...this.$route.query, poi } }).catch(() => {});
         this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
+        if (this.$refs.indicatorMap
+          && this.$refs.indicatorMap.length > 0 
+          && this.$refs.indicatorMap[index]) {
+          const refMap = this.$refs.indicatorMap[index];
+          refMap.fetchMobilityData(
+            refMap.selectedCountry,
+            refMap.currentIndicator.aoiID,
+          );
+        }
       }
     },
     dialog(open) {
