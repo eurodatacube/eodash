@@ -900,7 +900,9 @@ export default {
     onResize() {
       // to fix panel size for reference image window
       if (this.map) {
-        this.map._onResize();
+        setTimeout(() => {
+          this.map.invalidateSize();
+        }, 100);
       }
     },
     initialDrawSelectedArea() {
