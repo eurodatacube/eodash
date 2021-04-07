@@ -939,9 +939,7 @@ export default {
           );
 
           layer.on('click', () => {
-            // const countryName = feature.properties.name;
             const countryA2 = feature.properties.alpha2;
-            console.log(currentIndicator.aoiID);
             this.fetchMobilityData(countryA2, currentIndicator.aoiID);
             if (this.selectedLayer !== null) {
               this.selectedLayer.setStyle({

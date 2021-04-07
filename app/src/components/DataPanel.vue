@@ -431,8 +431,10 @@ export default {
         this.$router.replace({ query: { ...this.$route.query, poi } }).catch(() => {});
         this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
         if (this.$refs.indicatorMap
-          && this.$refs.indicatorMap.length > 0 
-          && this.$refs.indicatorMap[index]) {
+          && this.$refs.indicatorMap.length > 0
+          && this.$refs.indicatorMap[index]
+          && ['CV', 'OW'].includes(this.$refs.indicatorMap[index].currentIndicator.aoiID)) {
+          // For now we only refetch data when switching tabs for CV and OW data
           const refMap = this.$refs.indicatorMap[index];
           refMap.fetchMobilityData(
             refMap.selectedCountry,
