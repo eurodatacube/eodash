@@ -59,6 +59,15 @@ module.exports = [
     featureGrouping: [
       {
         features: [
+          'CDS-CDS1',
+          'CDS-CDS2',
+          'CDS-CDS3',
+          'CDS-CDS4',
+        ],
+        label: ['Temperature', 'Relative humidity', 'Wind U', 'Wind V'],
+      },
+      {
+        features: [
           'GCAQ1-N1b',
           'GCAQ2-N1b',
           'GCAQ3-N1b',
