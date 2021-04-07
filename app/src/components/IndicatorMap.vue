@@ -451,7 +451,7 @@ import { template } from '@/utils';
 import {
   LMap, LTileLayer, LWMSTileLayer, LGeoJson, LCircleMarker,
   LControlLayers, LControlAttribution, LControlZoom, LLayerGroup,
-  LFeatureGroup, LControl, LMarker, LIcon, LTooltip,
+  LFeatureGroup, LControl, LTooltip,
 } from 'vue2-leaflet';
 import { DateTime } from 'luxon';
 
@@ -495,9 +495,7 @@ export default {
     LLayerGroup,
     LFeatureGroup,
     LControl,
-    LIcon,
     LTooltip,
-    LMarker,
     'l-marker-cluster': Vue2LeafletMarkerCluster,
   },
   data() {
