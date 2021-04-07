@@ -262,26 +262,60 @@
       >
       </l-circle-marker>
     </l-layer-group>
-    <LTileLayer
-      v-for="layer in overlayLayers.filter(b => b.protocol === 'xyz')"
-      :key="layer.name"
-      v-bind="layer"
-      :pane="markerPane"
-      :opacity="opacityOverlay[zoom]"
-      :options="layerOptions(null, layer)"
-      layer-type="overlay"
+    <l-layer-group ref="overlayLayers" v-if="!countrySelection">
+      <LTileLayer
+        v-for="layer in overlayLayers.filter(b => b.protocol === 'xyz')"
+        :key="layer.name"
+        v-bind="layer"
+        :pane="markerPane"
+        :opacity="opacityOverlay[zoom]"
+        :options="layerOptions(null, layer)"
+        layer-type="overlay"
+      >
+      </LTileLayer>
+      <LWMSTileLayer
+        v-for="layer in overlayLayers.filter(b => b.protocol === 'WMS')"
+        v-bind="layer"
+        :key="layer.name"
+        :options="layerOptions(null, layer)"
+        :pane="markerPane"
+        :opacity="opacityOverlay[zoom]"
+        layer-type="overlay"
+      >
+      </LWMSTileLayer>
+    </l-layer-group>
+    <l-geo-json
+    v-if="countrySelection"
+    :geojson="countriesJson"
+    :optionsStyle="countriesStyle"
+    :options="countriesOptions()"
+    name="Country vectors"
+    layer-type="overlay"
     >
-    </LTileLayer>
-    <LWMSTileLayer
-      v-for="layer in overlayLayers.filter(b => b.protocol === 'WMS')"
-      v-bind="layer"
-      :key="layer.name"
-      :options="layerOptions(null, layer)"
-      :pane="markerPane"
-      :opacity="opacityOverlay[zoom]"
-      layer-type="overlay"
-    >
-    </LWMSTileLayer>
+    </l-geo-json>
+    <l-feature-group ref="gsaLayer"
+      v-if="borderSelection">
+      <l-circle-marker v-for="(feature) in gsaJson"
+        :key="feature.id"
+        ref="markers"
+        :lat-lng="feature.AOI.split(',').map(Number)"
+        :name="feature.name"
+        color="#fff"
+        :radius="selectedBorder === feature.borderId ? 6 : 4"
+        :fillColor="selectedBorder === feature.borderId ?
+          appConfig.branding.secondaryColor : appConfig.branding.primaryColor"
+        :weight="selectedBorder === feature.borderId ? 2 : 1"
+        :opacity="selectedBorder === feature.borderId ? 1.0 : 0.8"
+        :fillOpacity="selectedBorder === feature.borderId ? 1.0 : 0.9"
+        @click="selectGSAIndicator(feature)"
+      >
+      <l-tooltip class="tooltip text-center" :options="{ direction: 'top' }">
+          <p class="ma-0">
+            <strong>{{ feature.name }}</strong>
+          </p>
+        </l-tooltip>
+      </l-circle-marker>
+    </l-feature-group>
     <div
     :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
       <img v-if="mergedConfigs()[0].legendUrl"
@@ -417,7 +451,7 @@ import { template } from '@/utils';
 import {
   LMap, LTileLayer, LWMSTileLayer, LGeoJson, LCircleMarker,
   LControlLayers, LControlAttribution, LControlZoom, LLayerGroup,
-  LFeatureGroup, LControl,
+  LFeatureGroup, LControl, LMarker, LIcon, LTooltip,
 } from 'vue2-leaflet';
 import { DateTime } from 'luxon';
 
@@ -433,6 +467,10 @@ import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css'; // eslint-disable-line import/no-extraneous-dependencies
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'; // eslint-disable-line import/no-extraneous-dependencies
 import turfDifference from '@turf/difference';
+
+import countries from '@/assets/countries.json';
+import gsaFile from '@/assets/gsa_data.json';
+
 
 const emptyF = {
   type: 'FeatureCollection',
@@ -457,6 +495,9 @@ export default {
     LLayerGroup,
     LFeatureGroup,
     LControl,
+    LIcon,
+    LTooltip,
+    LMarker,
     'l-marker-cluster': Vue2LeafletMarkerCluster,
   },
   data() {
@@ -492,6 +533,9 @@ export default {
       compareLayerIndex: 0,
       dataFeaturesCount: 0,
       compareFeaturesCount: 0,
+      selectedCountry: null,
+      selectedBorder: null,
+      selectedLayer: null,
     };
   },
   computed: {
@@ -499,6 +543,21 @@ export default {
     ...mapGetters('indicators', [
       'getIndicatorFilteredInputData',
     ]),
+    countriesJson() {
+      return countries;
+    },
+    gsaJson() {
+      return gsaFile;
+    },
+    countriesStyle() {
+      return {
+        color: '#222',
+        weight: 1,
+        fillColor: '#fff',
+        opacity: 1,
+        fillOpacity: 0.5,
+      };
+    },
     dataJsonComputed: {
       // to avoid each of thousands of geojson features have its own
       // getter/setter set by vue - freezing the app on large number of pts
@@ -533,6 +592,12 @@ export default {
         ...this.baseConfig.mapDefaults,
         ...this.mergedConfigs()[0],
       };
+    },
+    countrySelection() {
+      return this.mergedConfigs()[0].countrySelection;
+    },
+    borderSelection() {
+      return this.mergedConfigs()[0].borderSelection;
     },
     indDefinition() {
       return this.baseConfig.indicatorsDefinition[this.indicator.indicator];
@@ -761,6 +826,11 @@ export default {
     this.compareLayerTime = { value: this.getInitialCompareTime() };
   },
   methods: {
+    createLatLng(latlng) {
+      const llobj = latlng.split(',').map(Number);
+      console.log(llobj);
+      return llobj;
+    },
     zoomUpdated(zoom) {
       this.zoom = zoom;
     },
@@ -860,6 +930,59 @@ export default {
       } else {
         this.$refs.customAreaFilterFeatures.mapObject.clearLayers();
       }
+    },
+    countriesOptions() {
+      return {
+        onEachFeature: function onEachFeature(feature, layer) {
+          layer.bindTooltip(
+            () => feature.properties.name,
+            { direction: 'top', sticky: true },
+          );
+
+          layer.on('click', () => {
+            // const countryName = feature.properties.name;
+            const countryA2 = feature.properties.alpha2;
+            this.fetchMobilityData(countryA2);
+            if (this.selectedLayer !== null) {
+              this.selectedLayer.setStyle({
+                color: '#222',
+                weight: 1,
+                fillColor: '#fff',
+                opacity: 1,
+                fillOpacity: 0.5,
+              });
+            }
+            this.selectedCountry = countryA2;
+            this.selectedLayer = layer;
+            this.popupName = feature.properties.name;
+          });
+          layer.on('mouseover', (e) => {
+            const currLayer = e.target;
+            currLayer.setStyle({
+              weight: 2,
+              color: this.$vuetify.theme.currentTheme.primary,
+              fillColor: this.$vuetify.theme.currentTheme.primary,
+              fillOpacity: 0.7,
+            });
+
+            if (!L.Browser.ie && !L.Browser.opera) {
+              layer.bringToFront();
+            }
+          });
+          layer.on('mouseout', (e) => {
+            const currLayer = e.target;
+            if (this.selectedCountry !== feature.properties.alpha2) {
+              currLayer.setStyle({
+                color: '#222',
+                weight: 1,
+                fillColor: '#fff',
+                opacity: 1,
+                fillOpacity: 0.5,
+              });
+            }
+          });
+        }.bind(this),
+      };
     },
     featureOptions(side) {
       const style = (this.mergedConfigs(side)[0].features && this.mergedConfigs(side)[0].features.style) ? this.mergedConfigs(side)[0].features.style : {}; // eslint-disable-line
@@ -1359,6 +1482,67 @@ export default {
         this.updateJsonLayers(emptyF, side);
       }
     },
+    selectGSAIndicator(feature) {
+      this.selectedBorder = feature.borderId;
+      const dataUrl = `./eodash-data/internal/${feature.borderId}.json`;
+      this.map.fireEvent('dataloading');
+      fetch(dataUrl).then((r) => r.json())
+        .then((indicator) => {
+          const returnIndicator = {};
+          returnIndicator.values = { ...indicator };
+          returnIndicator.indicator = 'GSA';
+          // Get all times of available border crossings to allow finding min max
+          returnIndicator.time = [];
+          Object.keys(indicator).forEach((key) => {
+            const currVals = indicator[key].values;
+            for (let i = 0; i < currVals.length; i += 1) {
+              returnIndicator.time.push(DateTime.fromISO(currVals[i].timestamp));
+            }
+          });
+          returnIndicator.measurement = [0];
+          returnIndicator.title = feature.name;
+          returnIndicator.yAxis = this.indicator.yAxis;
+          this.map.fireEvent('dataload');
+          this.$store.commit(
+            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', returnIndicator,
+          );
+          this.$emit('fetchCustomAreaIndicator');
+        })
+        .catch((err) => {
+          this.map.fireEvent('dataload');
+          // It seems data could not be loaded lets show a no data found message
+          this.$store.commit(
+            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', { isEmpty: true },
+          );
+          console.log(err);
+        });
+    },
+    fetchMobilityData(countryCode) {
+      const dataUrl = `./eodash-data/internal/${countryCode}-GG.json`;
+      this.map.fireEvent('dataloading');
+      fetch(dataUrl).then((r) => r.json())
+        .then((indicator) => {
+          indicator.indicator = 'GG'; // eslint-disable-line
+          indicator.time = indicator.Values.map((row) => DateTime.fromISO(row.date)); // eslint-disable-line
+          indicator.measurement = [0]; // eslint-disable-line
+          indicator.country = indicator.CountryCode; // eslint-disable-line
+          indicator.title = indicator.CountryName; // eslint-disable-line
+          indicator.yAxis = this.indicator.yAxis; // eslint-disable-line
+          this.map.fireEvent('dataload');
+          this.$store.commit(
+            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
+          );
+          this.$emit('fetchCustomAreaIndicator');
+        })
+        .catch((err) => {
+          this.map.fireEvent('dataload');
+          // It seems data could not be loaded lets show a no data found message
+          this.$store.commit(
+            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', { isEmpty: true },
+          );
+          console.log(err);
+        });
+    },
     fetchCustomAreaIndicator() {
       const options = this.layerOptions(this.currentTime, this.mergedConfigs()[0]);
       // add custom area if present
@@ -1491,6 +1675,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep .leaflet-tooltip-top {
+  background: #00000099;
+  border-radius: 3px;
+  color: #fff;
+  pointer-events: none;
+  white-space: nowrap;
+  border: none;
+  &:before {
+    border-top-color: #00000099;
+  }
+}
 ::v-deep .leaflet-control-attribution:active :not(.attribution-icon),
 ::v-deep .leaflet-control-attribution:hover :not(.attribution-icon),
 ::v-deep .leaflet-control-attribution .attribution-icon {
@@ -1554,5 +1749,9 @@ export default {
 .map-legend-expanded {
   width: initial;
   max-width: 80%;
+}
+
+::v-deep .leaflet-top.leaflet-right {
+  margin-top: 45px;
 }
 </style>

@@ -325,7 +325,9 @@ export default {
           if (featuresOnMap.length === 1 && featuresOnMap[0].properties.indicatorObject.subAoi
           && featuresOnMap[0].properties.indicatorObject.subAoi.features.length > 0) {
             this.$nextTick(() => {
-              const bounds = geoJson(featuresOnMap[0].properties.indicatorObject.subAoi).getBounds();
+              const bounds = geoJson(
+                featuresOnMap[0].properties.indicatorObject.subAoi,
+              ).getBounds();
               this.map.fitBounds(bounds, {
                 padding: [25, 25],
               });
@@ -357,13 +359,13 @@ export default {
     getColor(indObj) {
       let colorCode;
       if (indObj) {
-        if(indObj.updateFrequency && indObj.updateFrequency.toLowerCase() === 'archived') {
+        if (indObj.updateFrequency && indObj.updateFrequency.toLowerCase() === 'archived') {
           colorCode = 'grey';
         } else if (Object.prototype.hasOwnProperty.call(indObj, 'lastColorCode')
           && !['', '/'].includes(indObj.lastColorCode)) {
           colorCode = indObj.lastColorCode;
         } else if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')
-          && ['N1', 'N1a', 'N1b', 'N3b', 'E10a3', 'E10a8', 'E12b'].includes(indObj.indicator)) {
+          && ['N1', 'N1a', 'N1b', 'N3b', 'E10a3', 'E10a8', 'E10a9', 'E12b'].includes(indObj.indicator)) {
           colorCode = 'BLUE';
         }
       }
@@ -383,7 +385,7 @@ export default {
             } else {
               label += `${percVal}%`;
             }
-          } else if (['E10a3', 'E10a8', 'N4c'].includes(indicatorObject.indicator)) {
+          } else if (['E10a3', 'E10a8', 'E10a9', 'N4c'].includes(indicatorObject.indicator)) {
             label += 'multiple';
           } else if (['E10a6', 'E10a7'].includes(indicatorObject.indicator)) {
             const newIndVal = Number(indicatorObject.lastMeasurement).toPrecision(4);

@@ -93,7 +93,12 @@ export async function loadIndicatorData(baseConfig, payload) {
               val = DateTime.fromISO(val);
             } else if (['measurement'].includes(key)) {
               if (val.length > 0) {
-                val = Number(val);
+                // We have a special array case here
+                if (val[0] === '[') {
+                  val = val.replace(/[[\]']+/g, '').split(',').map(Number);
+                } else {
+                  val = Number(val);
+                }
               } else {
                 val = Number.NaN;
               }
@@ -105,7 +110,12 @@ export async function loadIndicatorData(baseConfig, payload) {
               val = DateTime.fromISO(val);
             } else if (['measurement'].includes(key)) {
               if (val.length > 0) {
-                val = Number(val);
+                // We have a special array case here
+                if (val[0] === '[') {
+                  val = val.replace(/[[\]']+/g, '').split(',').map(Number);
+                } else {
+                  val = Number(val);
+                }
               } else {
                 val = Number.NaN;
               }

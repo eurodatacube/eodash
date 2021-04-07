@@ -20,10 +20,10 @@ import shapely
 import pandas as pd
 import numpy as np
 
-new_suffix = 'a'  # suffix of new indicator to create
+new_suffix = '2'  # suffix of new indicator code
 indicator = 'E13d'  # indicator to fetch jsons of
 column_names_csv = ['AOI', 'Country', 'Region', 'City', 'Site Name', 'Description', 'Method', 'EO Sensor', 'Input Data', 'Indicator code', 'Time', 'Measurement Value', 'Reference Description', 'Reference time', 'Reference value', 'Rule', 'Indicator Value', 'Sub-AOI', 'Y axis', 'Indicator Name', 'Color code', 'Data Provider', 'AOI_ID', 'Update Frequency']
-list_of_dates_to_process = ['201807', '201808', '201809', '201810', '201811', '201812', '201901', '201902', '201903', '201904', '201905', '201906', '201907', '201908', '201909', '201910', '201911', '201912', '202001', '202002', '202003', '202004', '202005', '202006', '202007', '202008', '202009']  # to be updated
+list_of_dates_to_process = ['201807', '201808', '201809', '201810', '201811', '201812', '201901', '201902', '201903', '201904', '201905', '201906', '201907', '201908', '201909', '201910', '201911', '201912', '202001', '202002', '202003', '202004', '202005', '202006', '202007', '202008', '202009', '202010', '202011', '202012', '202101', '202102']  # to be updated
 
 def split_aoi(aoi):
     # splits aoi column into lat, lon variables
@@ -91,28 +91,26 @@ def convert(path2, indicator):
         _, nearest_geom = shapely.ops.nearest_points(row.geometry, multipoint)
         # get relevant aoi_id
         found = gdf_internal.loc[(gdf_internal['lon'] == nearest_geom.x) & (gdf_internal['lat'] == nearest_geom.y)]
-        # update AOI_ID, adding suffix in case poi without suffix was found
+        updated_time = try_parsing_date(row['TIMESTAMP UTC']).strftime('%Y-%m-%dT%H:%M:00')  # remove seconds
         aoiId = f"{found['aoiID'].iloc[0]}"
-        if not aoiId.endswith(new_suffix):
-            aoiId = f"{aoiId}{new_suffix}"
         data['AOI_ID'] = aoiId
         # update AOI, adding last digit to lon to avoid same digits as source
-        data['AOI'] = f"{found['aoi'].iloc[0]}1"
+        data['AOI'] = f"{found['aoi'].iloc[0]}"
         # add time
-        data['Time'] = row['TIMESTAMP UTC']
+        data['Time'] = updated_time
         # add values for some columns from internal
-        data['Region'] = found['region'].iloc[0]
+        data['Region'] = ""
         data['Country'] = 'all'  # needs update to 'all' in case if we want to display map (showMap function)
         data['City'] = found['city'].iloc[0]
         data['Description'] = found['description'].iloc[0]
-        data['Indicator code'] = f"{found['indicator'].iloc[0]}"
+        data['Indicator code'] = f"{found['indicator'].iloc[0]}{new_suffix}"
         data['Site Name'] = found['siteName'].iloc[0]
         data['Indicator Name'] = found['indicatorName'].iloc[0]
         # data['Color code'] = found['lastColorCode']
         data['Sub-AOI'] = found['subAoi'].iloc[0]
         # data['Update Frequency'] = found['updateFrequency']
         # data['Input Data'] = single_entry_time[0]['input_data']
-        # data['EO Sensor'] = single_entry_time[0]['eo_sensor']        
+        # data['EO Sensor'] = single_entry_time[0]['eo_sensor']
         data['Input Data'] = 'Sentinel 2 L2A'
         data['EO Sensor'] = 'Sentinel 2'
         # dirty and superslow way of merging columns of csv with actual limited data (merge all columns dataframe with sparser dataframe containing only some data)
@@ -123,8 +121,8 @@ def convert(path2, indicator):
         # save csv
         save.to_csv(output_csv_path, mode='w', index=False)
 
-        time_for_filename = try_parsing_date(row['TIMESTAMP UTC']).strftime('%Y%m%dT%H%M%S')
-        key_for_ftrs_dict = f'{aoiId}_{time_for_filename}'
+        updated_time_without_s = try_parsing_date(row['TIMESTAMP UTC']).strftime('%Y%m%dT%H%M')  # format for filenames
+        key_for_ftrs_dict = f'{aoiId}_{updated_time_without_s}'
         properties = row.to_dict()
         # remove geometry column
         del properties['geometry']

@@ -158,6 +158,12 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/E10a8',
     largeSubAoi: true,
   },
+  E10a9: {
+    indicator: 'Tomatoes cultivation',
+    class: 'agriculture',
+    largeSubAoi: true,
+    story: '/eodash-data/stories/E10a9',
+  },
   E10b: {
     indicator: 'Field preparation activity',
     class: 'agriculture',
@@ -219,6 +225,12 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Airports: airplanes traffic',
     class: 'economic',
     story: '/eodash-data/stories/E13d',
+  },
+  E13d2: {
+    indicator: 'Airports: airplanes traffic',
+    class: 'economic',
+    story: '/eodash-data/stories/E13d',
+    hideInFilters: true,
     baseLayers: [baseLayers.terrainLight, {
       ...baseLayers.cloudless,
       visible: true,
@@ -226,8 +238,8 @@ export const indicatorsDefinition = Object.freeze({
     midSubAoi: true,
     mapTimeLabelExtended: true,
     features: {
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
+      url: './eodash-data/features/E13d/E13d_{aoiID}_{featuresTime}.geojson',
     },
     largeTimeDuration: true,
   },
@@ -271,6 +283,11 @@ export const indicatorsDefinition = Object.freeze({
     hideInFilters: true,
     class: 'economic',
     story: '/eodash-data/stories/E13e',
+  },
+  E13n: {
+    indicator: 'Changes in traffic fluxes',
+    class: 'economic',
+    story: '/eodash-data/stories/E1',
   },
   H1: {
     indicator: 'Number of temp. treatment sites',
@@ -322,6 +339,11 @@ export const indicatorsDefinition = Object.freeze({
       label: 'Copernicus Data [ECMWF]',
       url: 'https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis',
     },
+  },
+  NASAPopulation: {
+    indicator: 'Population',
+    class: 'economic',
+    story: '/data/trilateral/NASAPopulation',
   },
   N2: {
     indicator: 'CO2 emissions',
@@ -375,6 +397,20 @@ export const indicatorsDefinition = Object.freeze({
     }],
     legendUrl: 'eodash-data/data/LegendGLC.png',
   },
+  GG: {
+    indicator: 'Mobility',
+    class: 'economic',
+    disableTimeSelection: true,
+    countrySelection: true,
+    story: '/eodash-data/stories/GG-GG',
+  },
+  GSA: {
+    indicator: 'Mobility',
+    class: 'economic',
+    disableTimeSelection: true,
+    borderSelection: true,
+    story: '/eodash-data/stories/GSA-GSA',
+  },
   CDS1: {
     indicator: 'Global temperature',
     class: 'air',
@@ -382,10 +418,6 @@ export const indicatorsDefinition = Object.freeze({
   CDS2: {
     indicator: 'Relative humidity',
     class: 'air',
-  },
-  PD: {
-    indicator: 'Population density',
-    class: 'land',
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
@@ -556,6 +588,58 @@ export const replaceMapTimes = {
 const wkt = new Wkt();
 
 export const globalIndicators = [
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'GG',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Mobility Data',
+        indicatorName: '(select country to load data)',
+        indicator: 'GG',
+        lastIndicatorValue: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        inputData: [''],
+        yAxis: 'percent change from baseline',
+        time: ['TBD'],
+        display: {
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'GSA',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Truck border crossing times',
+        indicatorName: '(select point to load data)',
+        indicator: 'GSA',
+        lastIndicatorValue: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        inputData: [''],
+        yAxis: 'waiting time (min)',
+        time: ['TBD'],
+        display: {
+        },
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {
@@ -764,6 +848,39 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Population',
+        indicator: 'NASAPopulation',
+        lastIndicatorValue: null,
+        indicatorName: 'Population density 2020',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'W6',
+        time: ['2020-05-01T00:00:00Z'],
+        inputData: [''],
+        display: {
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Population',
+          layers: 'POPULATION_DENSITY',
+          legendUrl: 'data/trilateral/NASAPopulation_legend.png',
+          minZoom: 1,
+          maxMapZoom: 7,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+          disableCompare: true,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
         aoiID: 'CDSTemp',
         dataLoadFinished: true,
         country: 'all',
@@ -820,39 +937,6 @@ export const globalIndicators = [
           name: 'Global temperature',
           layers: 'VIS_RELHUMIDITY1000HPA',
           legendUrl: 'eodash-data/data/humidity.png',
-          minZoom: 1,
-          maxZoom: 13,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        aoiID: 'PD',
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Population density',
-        indicator: 'PD',
-        lastIndicatorValue: null,
-        indicatorName: 'Population density',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        time: availableDates.POPULATION_DENSITY,
-        inputData: [],
-        yAxis: 'Population density',
-        display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'Population density',
-          layers: 'POPULATION_DENSITY',
-          // legendUrl: '',
           minZoom: 1,
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
