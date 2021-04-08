@@ -411,6 +411,9 @@ generateData(
     "/working/data/internal/pois_eodash.json",
     "/working/eodash-data/internal/",
     [
+        '/working/eodash-data/data/C1.csv',
+        '/working/eodash-data/data/C2.csv',
+        '/working/eodash-data/data/C3.csv',
         '/working/eodash-data/data/E4.csv',
         '/working/eodash-data/data/E8.csv',
         '/working/eodash-data/data/E10a1.csv',
