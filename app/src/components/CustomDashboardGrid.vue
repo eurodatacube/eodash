@@ -64,7 +64,7 @@
           outlined
           tile
         >
-          <div class="pa-5" v-if="element.text" v-html="element.__generatedText__"></div>
+          <div class="pa-5" v-if="element.text" v-html="convertToMarkdown(element.text)"></div>
           <indicator-map
             ref="indicatorMap"
             style="top: 0px; position: absolute;"
@@ -295,6 +295,9 @@ export default {
       this.dialog = false;
       this.changeFeatureTitle({ poi, newTitle });
     },
+    convertToMarkdown(text) {
+      return this.$marked(text);
+    }
   },
 };
 </script>
