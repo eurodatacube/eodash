@@ -163,7 +163,8 @@
             $store.state.indicators.selectedIndicator.indicatorName
             && $store.state.indicators.customAreaIndicator === null"
             class="subheading" style="font-size: 0.8em">
-            {{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.indicatorName }}
+            {{ queryIndicatorObject
+              && queryIndicatorObject.properties.indicatorObject.indicatorName }}
           </div>
         </v-toolbar-title>
       </v-toolbar>
@@ -223,7 +224,8 @@
               $store.state.indicators.selectedIndicator.indicatorName))"
           class="px-4 py-2"
         >
-          {{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.indicatorName }}
+          {{ queryIndicatorObject
+            && queryIndicatorObject.properties.indicatorObject.indicatorName }}
         </h4>
         <data-panel
           v-if="$store.state.indicators.selectedIndicator"

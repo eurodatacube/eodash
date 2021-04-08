@@ -120,7 +120,13 @@
           </div>
           <div>
             <div class="d-flex justify-"></div>
-              <v-btn v-if="hasEditingPrivilege || !(dashboardConfig && dashboardConfig.id)" @click="disconnect" color="red" class="mr-4" style="color: white">
+              <v-btn
+                v-if="hasEditingPrivilege || !(dashboardConfig && dashboardConfig.id)"
+                @click="disconnect"
+                color="red"
+                class="mr-4"
+                style="color: white"
+              >
                 <template v-if="!(dashboardConfig && dashboardConfig.id)">
                   <v-icon left color="white">mdi-delete</v-icon>
                   discard
@@ -159,14 +165,27 @@
                 <v-card :class="$vuetify.breakpoint.mdAndUp && 'px-10 py-4'"
                   style="overflow-y: auto; height: 100%;">
                   <v-card-text class="text-center" v-if="!success && !viewLinks">
-                    <h1 class="display-2 font-weight-light primary--text mb-3">Save this Dashboard</h1>
-                    <h2 class="font-weight-light primary--text mb-8">Create a permanent link to your Dashboard configuration</h2>
+                    <h1
+                      class="display-2 font-weight-light primary--text mb-3"
+                    >Save this Dashboard</h1>
+                    <h2
+                      class="font-weight-light primary--text mb-8"
+                    >Create a permanent link to your Dashboard configuration</h2>
                     <v-card outlined class="pa-5">
                       <v-form ref="form" v-model="valid" lazy-validation class="text-left">
                         <v-row>
                           <v-col cols="12">
                             <h2 class="mb-3">Dashboard Title</h2>
-                              <v-text-field v-model="popupTitle" hint="You will be able to change this later" persistent-hint :rules="titleRules" placeholder="Title" required outlined validate-on-blur></v-text-field>
+                              <v-text-field
+                                v-model="popupTitle"
+                                hint="You will be able to change this later"
+                                persistent-hint
+                                :rules="titleRules"
+                                placeholder="Title"
+                                required
+                                outlined
+                                validate-on-blur
+                              ></v-text-field>
                           </v-col>
                           <v-col cols="12">
                             <h2 class="mb-3">Your interests</h2>
@@ -186,28 +205,69 @@
                           </v-col>
                           <v-col cols="12">
                             <h2 class="mb-3">Your email address</h2>
-                              <v-text-field hint="You will receive your dashboard links to this address" persistent-hint v-model="email" :rules="emailRules" placeholder="E-mail" required outlined></v-text-field>
+                              <v-text-field
+                                hint="You will receive your dashboard links to this address"
+                                persistent-hint
+                                v-model="email"
+                                :rules="emailRules"
+                                placeholder="E-mail"
+                                required
+                                outlined></v-text-field>
                           </v-col>
                           <v-col cols="12" class="pb-0">
                             <h2 class="mb-3">Newsletter</h2>
-                              <v-switch class="no-margin-bottom" v-model="consent" :label="consent ? 'Receive updates about new features and data' : 'Do not receive updates about new features and data'"></v-switch>
+                              <v-switch
+                              class="no-margin-bottom"
+                              v-model="consent"
+                              :label="consent
+                                ? 'Receive updates about new features and data'
+                                : 'Do not receive updates about new features and data'"
+                            ></v-switch>
                           </v-col>
                         </v-row>
                     </v-form>
                     </v-card>
                   </v-card-text>
                   <v-card-text class="text-center" v-else>
-                    <h2 class="display-2 font-weight-light primary--text mb-3"> {{ dashboardConfig.title }}</h2>
-                    <h2 v-if="!viewLinks" class="font-weight-light primary--text mb-8 success--text">Dashboard saved!</h2>
+                    <h2
+                      class="display-2 font-weight-light primary--text mb-3"
+                    > {{ dashboardConfig.title }}</h2>
+                    <h2
+                      v-if="!viewLinks"
+                      class="font-weight-light primary--text mb-8 success--text"
+                    >Dashboard saved!</h2>
                     <v-card outlined class="pa-5 text-left">
                       <v-row>
                         <v-col cols="12">
                           <h2 class="mb-3">Viewing link:</h2>
-                          <v-text-field ref="viewingLink" @click:append="copyViewingLink" readonly outlined append-icon="mdi-content-copy" persistent-hint hint="Read-only link to your Dashboard" :value="viewingLink"/>
+                          <v-text-field
+                            ref="viewingLink"
+                            @click:append="copyViewingLink"
+                            readonly
+                            outlined
+                            append-icon="mdi-content-copy"
+                            persistent-hint
+                            hint="Read-only link to your Dashboard"
+                            :value="viewingLink"
+                          />
                         </v-col>
-                        <v-col cols="12" v-if="viewLinks ? $store.state.dashboard.dashboardConfig && $store.state.dashboard.dashboardConfig.editKey : true">
+                        <v-col
+                          cols="12"
+                          v-if="viewLinks
+                            ? $store.state.dashboard.dashboardConfig
+                              && $store.state.dashboard.dashboardConfig.editKey
+                            : true">
                           <h2 class="mb-3">Editing link:</h2>
-                          <v-text-field ref="editingLink" @click:append="copyEditingLink" readonly outlined append-icon="mdi-content-copy" persistent-hint hint="Use this link to make changes to your dashboard" :value="editingLink"/>
+                          <v-text-field
+                            ref="editingLink"
+                            @click:append="copyEditingLink"
+                            readonly
+                            outlined
+                            append-icon="mdi-content-copy"
+                            persistent-hint
+                            hint="Use this link to make changes to your dashboard"
+                            :value="editingLink"
+                          />
                         </v-col>
                       </v-row>
                     </v-card>
@@ -215,11 +275,18 @@
                   <v-card-actions v-if="!success && !viewLinks">
                     <v-spacer></v-spacer>
                     <v-btn color="primary" text @click="popupOpen = false" x-large>Back</v-btn>
-                    <v-btn color="success" @click="submitMarketingData" x-large :loading="saving">Submit</v-btn>
+                    <v-btn
+                      color="success"
+                      @click="submitMarketingData"
+                      x-large
+                      :loading="saving">Submit</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-            <div class="text-right" v-if="hasEditingPrivilege"><small>Changes to the dashboard are saved automatically</small></div>
+            <div
+              class="text-right"
+              v-if="hasEditingPrivilege"
+            ><small>Changes to the dashboard are saved automatically</small></div>
           </div>
         </v-col>
       </v-row>
@@ -300,10 +367,16 @@ export default {
       return this.$store.state.dashboard?.dashboardConfig?.editKey;
     },
     viewingLink() {
-      return this.$store.state.dashboard.dashboardConfig && this.$store.state.dashboard.dashboardConfig.id ? `${window.location.origin}/dashboard?id=${this.$store.state.dashboard.dashboardConfig.id}` : 'Loading...';
+      return (this.$store.state.dashboard.dashboardConfig
+        && this.$store.state.dashboard.dashboardConfig.id)
+        ? `${window.location.origin}/dashboard?id=${this.$store.state.dashboard.dashboardConfig.id}`
+        : 'Loading...';
     },
     editingLink() {
-      return this.$store.state.dashboard.dashboardConfig && this.$store.state.dashboard.dashboardConfig.id ? `${window.location.origin}/dashboard?id=${this.$store.state.dashboard.dashboardConfig.id}&editKey=${this.$store.state.dashboard.dashboardConfig.editKey}` : 'Loading...';
+      return (this.$store.state.dashboard.dashboardConfig
+        && this.$store.state.dashboard.dashboardConfig.id)
+        ? `${window.location.origin}/dashboard?id=${this.$store.state.dashboard.dashboardConfig.id}&editKey=${this.$store.state.dashboard.dashboardConfig.editKey}`
+        : 'Loading...';
     },
   },
   async created() {
@@ -323,7 +396,9 @@ export default {
       this.reconnecting = false;
     }
 
-    if (this.dashboardConfig && this.dashboardConfig.title) this.dashboardTitle = this.dashboardConfig.title;
+    if (this.dashboardConfig && this.dashboardConfig.title) {
+      this.dashboardTitle = this.dashboardConfig.title;
+    }
 
     if (!this.dashboardConfig) {
       this.$router.push('/');
