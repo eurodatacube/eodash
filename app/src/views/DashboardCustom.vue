@@ -49,7 +49,7 @@
               <template v-slot:activator="{ on }">
                 <v-btn
                     v-on="on"
-                    v-if="hasEditingPrivilege"
+                    v-if="newDashboard || hasEditingPrivilege"
                     small
                     class="my-4"
                   >
@@ -285,7 +285,7 @@
               </v-dialog>
             <div
               class="text-right"
-              v-if="hasEditingPrivilege"
+              v-if="newDashboard || hasEditingPrivilege"
             ><small>Changes to the dashboard are saved automatically</small></div>
           </div>
         </v-col>
