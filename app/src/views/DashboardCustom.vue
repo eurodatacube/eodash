@@ -107,7 +107,7 @@
                     @click="createTextFeature"
                     v-if="!textFeatureUpdate"
                   >
-                    create
+                    add
                   </v-btn>
                   <v-btn
                     color="success"
@@ -470,6 +470,7 @@ export default {
           poi: `${this.newTextFeatureTitle}-${Date.now()}`,
           title: this.newTextFeatureTitle,
           text: this.newTextFeatureText,
+          width: 2,
         });
       }
       this.newTextFeatureDialog = false;
