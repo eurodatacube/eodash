@@ -42,6 +42,9 @@
               v-else
               class="display-2 font-weight-light primary--text mt-7 mb-5">
               {{ dashboardTitle }}</h1>
+          </div>
+          <div>
+            <div class="d-flex justify-"></div>
             <v-dialog
               v-model="newTextFeatureDialog"
               width="500"
@@ -50,17 +53,16 @@
                 <v-btn
                     v-on="on"
                     v-if="newDashboard || hasEditingPrivilege"
-                    small
-                    class="my-4"
+                    class="mx-4"
                   >
                     <v-icon left> mdi-text-box-plus </v-icon>
-                    <span>Create text block</span>
+                    <span>Add text block</span>
                 </v-btn>
               </template>
 
               <v-card>
                 <v-card-title v-if="!textFeatureUpdate" class="headline grey lighten-2">
-                  Create text block
+                  Add text block
                 </v-card-title>
                 <v-card-title v-else class="headline grey lighten-2">
                   Update text block
@@ -117,172 +119,169 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-          </div>
-          <div>
-            <div class="d-flex justify-"></div>
-              <v-btn
-                v-if="hasEditingPrivilege || !(dashboardConfig && dashboardConfig.id)"
-                @click="disconnect"
-                color="red"
-                class="mr-4"
-                style="color: white"
-              >
-                <template v-if="!(dashboardConfig && dashboardConfig.id)">
-                  <v-icon left color="white">mdi-delete</v-icon>
-                  discard
-                </template>
-                <template v-else>
-                  <v-icon left color="white">mdi-connection</v-icon>
-                  disconnect
-                </template>
-              </v-btn>
-              <v-btn
-                color="suvverss"
-                v-if="!newDashboard"
-                @click="viewLinksFn"
-              >
-                <v-icon left>mdi-link</v-icon>
-                share
-              </v-btn>
-              <v-dialog
-                v-model="popupOpen"
-                width="50%"
-                :fullscreen="$vuetify.breakpoint.xsOnly"
-                :hide-overlay="$vuetify.breakpoint.xsOnly"
-                transition="dialog-bottom-transition"
-              >
+            <v-btn
+              v-if="hasEditingPrivilege || !(dashboardConfig && dashboardConfig.id)"
+              @click="disconnect"
+              color="red"
+              class="mr-4"
+              style="color: white"
+            >
+              <template v-if="!(dashboardConfig && dashboardConfig.id)">
+                <v-icon left color="white">mdi-delete</v-icon>
+                discard
+              </template>
+              <template v-else>
+                <v-icon left color="white">mdi-connection</v-icon>
+                disconnect
+              </template>
+            </v-btn>
+            <v-btn
+              color="suvverss"
+              v-if="!newDashboard"
+              @click="viewLinksFn"
+            >
+              <v-icon left>mdi-link</v-icon>
+              share
+            </v-btn>
+            <v-dialog
+              v-model="popupOpen"
+              width="50%"
+              :fullscreen="$vuetify.breakpoint.xsOnly"
+              :hide-overlay="$vuetify.breakpoint.xsOnly"
+              transition="dialog-bottom-transition"
+            >
 
-                <template v-slot:activator="{}">
-                  <v-btn
-                    color="success"
-                    v-if="newDashboard"
-                    @click="saveCurrentDashboardState"
-                  >
-                    <v-icon left> mdi-content-save </v-icon>
-                      Publish Dashboard
-                  </v-btn>
-                </template>
-                <v-card :class="$vuetify.breakpoint.mdAndUp && 'px-10 py-4'"
-                  style="overflow-y: auto; height: 100%;">
-                  <v-card-text class="text-center" v-if="!success && !viewLinks">
-                    <h1
-                      class="display-2 font-weight-light primary--text mb-3"
-                    >Save this Dashboard</h1>
-                    <h2
-                      class="font-weight-light primary--text mb-8"
-                    >Create a permanent link to your Dashboard configuration</h2>
-                    <v-card outlined class="pa-5">
-                      <v-form ref="form" v-model="valid" lazy-validation class="text-left">
-                        <v-row>
-                          <v-col cols="12">
-                            <h2 class="mb-3">Dashboard Title</h2>
-                              <v-text-field
-                                v-model="popupTitle"
-                                hint="You will be able to change this later"
-                                persistent-hint
-                                :rules="titleRules"
-                                placeholder="Title"
-                                required
-                                outlined
-                                validate-on-blur
-                              ></v-text-field>
-                          </v-col>
-                          <v-col cols="12">
-                            <h2 class="mb-3">Your interests</h2>
-                            <v-combobox
-                              v-model="interests"
-                              :items="interestOptions"
-                              placeholder="Your interests"
-                              outlined
-                              multiple
-                              small-chips
-                              hint="This helps us provide better, personalized content to you"
-                              persistent-hint
-                              required
-                              :rules="interestsRules"
-                              validate-on-blur
-                            ></v-combobox>
-                          </v-col>
-                          <v-col cols="12">
-                            <h2 class="mb-3">Your email address</h2>
-                              <v-text-field
-                                hint="You will receive your dashboard links to this address"
-                                persistent-hint
-                                v-model="email"
-                                :rules="emailRules"
-                                placeholder="E-mail"
-                                required
-                                outlined></v-text-field>
-                          </v-col>
-                          <v-col cols="12" class="pb-0">
-                            <h2 class="mb-3">Newsletter</h2>
-                              <v-switch
-                              class="no-margin-bottom"
-                              v-model="consent"
-                              :label="consent
-                                ? 'Receive updates about new features and data'
-                                : 'Do not receive updates about new features and data'"
-                            ></v-switch>
-                          </v-col>
-                        </v-row>
-                    </v-form>
-                    </v-card>
-                  </v-card-text>
-                  <v-card-text class="text-center" v-else>
-                    <h2
-                      class="display-2 font-weight-light primary--text mb-3"
-                    > {{ dashboardConfig.title }}</h2>
-                    <h2
-                      v-if="!viewLinks"
-                      class="font-weight-light primary--text mb-8 success--text"
-                    >Dashboard saved!</h2>
-                    <v-card outlined class="pa-5 text-left">
+              <template v-slot:activator="{}">
+                <v-btn
+                  color="success"
+                  v-if="newDashboard"
+                  @click="saveCurrentDashboardState"
+                >
+                  <v-icon left> mdi-content-save </v-icon>
+                    Publish Dashboard
+                </v-btn>
+              </template>
+              <v-card :class="$vuetify.breakpoint.mdAndUp && 'px-10 py-4'"
+                style="overflow-y: auto; height: 100%;">
+                <v-card-text class="text-center" v-if="!success && !viewLinks">
+                  <h1
+                    class="display-2 font-weight-light primary--text mb-3"
+                  >Save this Dashboard</h1>
+                  <h2
+                    class="font-weight-light primary--text mb-8"
+                  >Create a permanent link to your Dashboard configuration</h2>
+                  <v-card outlined class="pa-5">
+                    <v-form ref="form" v-model="valid" lazy-validation class="text-left">
                       <v-row>
                         <v-col cols="12">
-                          <h2 class="mb-3">Viewing link:</h2>
-                          <v-text-field
-                            ref="viewingLink"
-                            @click:append="copyViewingLink"
-                            readonly
-                            outlined
-                            append-icon="mdi-content-copy"
-                            persistent-hint
-                            hint="Read-only link to your Dashboard"
-                            :value="viewingLink"
-                          />
+                          <h2 class="mb-3">Dashboard Title</h2>
+                            <v-text-field
+                              v-model="popupTitle"
+                              hint="You will be able to change this later"
+                              persistent-hint
+                              :rules="titleRules"
+                              placeholder="Title"
+                              required
+                              outlined
+                              validate-on-blur
+                            ></v-text-field>
                         </v-col>
-                        <v-col
-                          cols="12"
-                          v-if="viewLinks
-                            ? $store.state.dashboard.dashboardConfig
-                              && $store.state.dashboard.dashboardConfig.editKey
-                            : true">
-                          <h2 class="mb-3">Editing link:</h2>
-                          <v-text-field
-                            ref="editingLink"
-                            @click:append="copyEditingLink"
-                            readonly
+                        <v-col cols="12">
+                          <h2 class="mb-3">Your interests</h2>
+                          <v-combobox
+                            v-model="interests"
+                            :items="interestOptions"
+                            placeholder="Your interests"
                             outlined
-                            append-icon="mdi-content-copy"
+                            multiple
+                            small-chips
+                            hint="This helps us provide better, personalized content to you"
                             persistent-hint
-                            hint="Use this link to make changes to your dashboard"
-                            :value="editingLink"
-                          />
+                            required
+                            :rules="interestsRules"
+                            validate-on-blur
+                          ></v-combobox>
+                        </v-col>
+                        <v-col cols="12">
+                          <h2 class="mb-3">Your email address</h2>
+                            <v-text-field
+                              hint="You will receive your dashboard links to this address"
+                              persistent-hint
+                              v-model="email"
+                              :rules="emailRules"
+                              placeholder="E-mail"
+                              required
+                              outlined></v-text-field>
+                        </v-col>
+                        <v-col cols="12" class="pb-0">
+                          <h2 class="mb-3">Newsletter</h2>
+                            <v-switch
+                            class="no-margin-bottom"
+                            v-model="consent"
+                            :label="consent
+                              ? 'Receive updates about new features and data'
+                              : 'Do not receive updates about new features and data'"
+                          ></v-switch>
                         </v-col>
                       </v-row>
-                    </v-card>
-                  </v-card-text>
-                  <v-card-actions v-if="!success && !viewLinks">
-                    <v-spacer></v-spacer>
-                    <v-btn color="primary" text @click="popupOpen = false" x-large>Back</v-btn>
-                    <v-btn
-                      color="success"
-                      @click="submitMarketingData"
-                      x-large
-                      :loading="saving">Submit</v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
+                  </v-form>
+                  </v-card>
+                </v-card-text>
+                <v-card-text class="text-center" v-else>
+                  <h2
+                    class="display-2 font-weight-light primary--text mb-3"
+                  > {{ dashboardConfig.title }}</h2>
+                  <h2
+                    v-if="!viewLinks"
+                    class="font-weight-light primary--text mb-8 success--text"
+                  >Dashboard saved!</h2>
+                  <v-card outlined class="pa-5 text-left">
+                    <v-row>
+                      <v-col cols="12">
+                        <h2 class="mb-3">Viewing link:</h2>
+                        <v-text-field
+                          ref="viewingLink"
+                          @click:append="copyViewingLink"
+                          readonly
+                          outlined
+                          append-icon="mdi-content-copy"
+                          persistent-hint
+                          hint="Read-only link to your Dashboard"
+                          :value="viewingLink"
+                        />
+                      </v-col>
+                      <v-col
+                        cols="12"
+                        v-if="viewLinks
+                          ? $store.state.dashboard.dashboardConfig
+                            && $store.state.dashboard.dashboardConfig.editKey
+                          : true">
+                        <h2 class="mb-3">Editing link:</h2>
+                        <v-text-field
+                          ref="editingLink"
+                          @click:append="copyEditingLink"
+                          readonly
+                          outlined
+                          append-icon="mdi-content-copy"
+                          persistent-hint
+                          hint="Use this link to make changes to your dashboard"
+                          :value="editingLink"
+                        />
+                      </v-col>
+                    </v-row>
+                  </v-card>
+                </v-card-text>
+                <v-card-actions v-if="!success && !viewLinks">
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" text @click="popupOpen = false" x-large>Back</v-btn>
+                  <v-btn
+                    color="success"
+                    @click="submitMarketingData"
+                    x-large
+                    :loading="saving">Submit</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
             <div
               class="text-right"
               v-if="newDashboard || hasEditingPrivilege"
