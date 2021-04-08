@@ -1046,6 +1046,26 @@ export default {
         }];
       }
 
+      if (['E13d', 'E13n', 'C1', 'C2', 'C3'].includes(indicatorCode)) {
+        xAxes = [{
+          type: 'time',
+          time: {
+            unit: 'month',
+            displayFormats: {
+              month: 'MMM yy',
+            },
+            tooltipFormat: 'MMM yyyy',
+          },
+          distribution: 'series',
+          ticks: {
+            min: timeMinMax[0],
+            max: timeMinMax[1],
+          },
+        }];
+      }
+
+      
+
       let plugins = {
         datalabels: {
           display: false,

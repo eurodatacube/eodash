@@ -59,6 +59,22 @@ module.exports = [
     featureGrouping: [
       {
         features: [
+          'IT16-C1',
+          'IT16-C2',
+          'IT16-C3',
+        ],
+        label: ['Boats & NO2', 'People & NO2', 'Cars & NO2'],
+      },
+      {
+        features: [
+          'IT3-C1',
+          'IT3-C2',
+          'IT3-C3',
+        ],
+        label: ['Boats & NO2', 'People & NO2', 'Cars & NO2'],
+      },
+      {
+        features: [
           'GCAQ1-N1b',
           'GCAQ2-N1b',
           'GCAQ3-N1b',
