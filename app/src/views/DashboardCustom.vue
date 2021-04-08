@@ -54,16 +54,16 @@
                     class="my-4"
                   >
                     <v-icon left> mdi-text-box-plus </v-icon>
-                    <span>Create text indicator</span>
+                    <span>Create text block</span>
                 </v-btn>
               </template>
 
               <v-card>
                 <v-card-title v-if="!textFeatureUpdate" class="headline grey lighten-2">
-                  Create text indicator
+                  Create text block
                 </v-card-title>
                 <v-card-title v-else class="headline grey lighten-2">
-                  Update text indicator
+                  Update text block
                 </v-card-title>
 
                 <v-card-text>
