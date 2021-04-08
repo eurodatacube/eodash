@@ -334,8 +334,7 @@ export default {
               borderWidth: 2,
             });
           }
-        } else if (['E13n'].includes(indicatorCode)) {
-          console.log(indicator);
+        } else if (['E13n', 'C1', 'C2', 'C3'].includes(indicatorCode)) {
           // Group by indicator value
           const types = {};
           indicator.indicatorValue.forEach((ind, idx) => {
