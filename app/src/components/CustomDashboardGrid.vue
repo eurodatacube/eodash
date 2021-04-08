@@ -86,7 +86,7 @@
           />
         </v-card>
         <template v-if="enableEditing">
-          <div class="buttonContainer containerRight containerTop" v-show="!popupOpen && !dialog">
+          <div class="buttonContainer containerRight containerTop">
             <v-btn
               class="my-2"
               :style="element.width > 1 ? 'background: white' : 'background: white;visibility: hidden'"
@@ -152,7 +152,7 @@
               <span v-else>Update text</span>
             </v-tooltip>
           </div>
-          <div class="buttonContainer containerRight containerBottom" v-show="!popupOpen && !dialog">
+          <div class="buttonContainer containerRight containerBottom">
             <v-btn
               :style="index > 0 ? '' : 'visibility: hidden'"
               class="my-2"
@@ -307,7 +307,7 @@ export default {
   position: absolute;
   display: flex;
   flex-direction: column;
-  z-index: 999;
+  z-index: 1;
 }
 .containerRight {
   right: -3px;
