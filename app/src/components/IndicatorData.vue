@@ -383,8 +383,7 @@ export default {
               borderWidth: 2,
             });
           }
-        } else if (['E13n'].includes(indicatorCode)) {
-          console.log(indicator);
+        } else if (['E13n', 'C1', 'C2', 'C3'].includes(indicatorCode)) {
           // Group by indicator value
           const types = {};
           indicator.indicatorValue.forEach((ind, idx) => {
@@ -1095,6 +1094,26 @@ export default {
           },
         }];
       }
+
+      if (['E13d', 'E13n', 'C1', 'C2', 'C3'].includes(indicatorCode)) {
+        xAxes = [{
+          type: 'time',
+          time: {
+            unit: 'month',
+            displayFormats: {
+              month: 'MMM yy',
+            },
+            tooltipFormat: 'MMM yyyy',
+          },
+          distribution: 'series',
+          ticks: {
+            min: timeMinMax[0],
+            max: timeMinMax[1],
+          },
+        }];
+      }
+
+      
 
       let plugins = {
         datalabels: {

@@ -17,6 +17,21 @@ export const dataEndpoints = [
 ];
 
 export const indicatorsDefinition = Object.freeze({
+  C1: {
+    indicator: 'Combined 1',
+    class: 'combined',
+    // story: '/eodash-data/stories/C1',
+  },
+  C2: {
+    indicator: 'Combined 2',
+    class: 'combined',
+    // story: '/eodash-data/stories/C2',
+  },
+  C3: {
+    indicator: 'Combined 3',
+    class: 'combined',
+    // story: '/eodash-data/stories/C3',
+  },
   E1: {
     indicator: 'Status of metallic ores (Archived)',
     class: 'economic',
@@ -508,6 +523,7 @@ export const indicatorClassesIcons = Object.freeze({
   water: 'mdi-water',
   land: 'mdi-image-filter-hdr',
   health: 'mdi-hospital-box-outline',
+  combined: 'mdi-set-center',
 });
 
 export const mapDefaults = Object.freeze({
