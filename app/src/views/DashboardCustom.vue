@@ -18,10 +18,12 @@
             : $router.push({ path: '/' })"
           class="white--text" style="text-decoration: none">
           <v-toolbar-title
-            v-if="$vuetify.breakpoint.mdAndUp"
-            class="text-uppercase mr-5"
+            class="text-uppercase mr-5 d-flex align-center"
           >
-            <v-icon dark left>mdi-arrow-left</v-icon> {{ appConfig && appConfig.branding.appName }}
+            <v-icon dark left>mdi-arrow-left</v-icon>
+            <span v-if="$vuetify.breakpoint.mdAndUp">
+              {{ appConfig && appConfig.branding.appName }}
+            </span>
           </v-toolbar-title>
         </a>
         <v-spacer></v-spacer>
