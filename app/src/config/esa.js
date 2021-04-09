@@ -421,14 +421,14 @@ export const indicatorsDefinition = Object.freeze({
   },
   CV: {
     indicator: 'Covid cases',
-    class: 'economic',
+    class: 'health',
     disableTimeSelection: true,
     countrySelection: true,
     // story: '/eodash-data/stories/CV-CV',
   },
   OW: {
     indicator: 'Vaccinations',
-    class: 'economic',
+    class: 'health',
     disableTimeSelection: true,
     countrySelection: true,
     // story: '/eodash-data/stories/CV-CV',
