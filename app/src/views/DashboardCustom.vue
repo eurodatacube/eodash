@@ -31,9 +31,12 @@
             <v-text-field
               v-if="newDashboard || hasEditingPrivilege"
               @keydown.enter="editTitle"
+              @input="dashboardTitleChanged = false"
               v-model="dashboardTitle"
-              hint="Edit dashboard title - Press Enter to save"
-              persistent-hint
+              :hint="dashboardTitleChanged
+                ? 'Title saved'
+                : 'Press Enter to save title'"
+              label="Dashboard title"
               color="primary"
               class="display-2 font-weight-light primary--text mt-7 mb-5"
               :rules="[v => !!v || 'Title required']"
@@ -136,7 +139,7 @@
               </template>
             </v-btn>
             <v-btn
-              color="suvverss"
+              color="info"
               v-if="!newDashboard"
               @click="viewLinksFn"
             >
@@ -216,7 +219,7 @@
                         <v-col cols="12" class="pb-0">
                           <h2 class="mb-3">Newsletter</h2>
                             <v-switch
-                            class="no-margin-bottom"
+                            hide-details
                             v-model="consent"
                             :label="consent
                               ? 'Receive updates about new features and data'
@@ -285,7 +288,14 @@
             <div
               class="text-right"
               v-if="newDashboard || hasEditingPrivilege"
-            ><small>Changes to the dashboard are saved automatically</small></div>
+            >
+              <small v-if="newDashboard">Changes to the dashboard are saved locally until published</small>
+              <template v-if="hasEditingPrivilege">
+                <small v-if="savingChanges === null">Changes to the dashboard are saved automatically</small>
+                <small v-else-if="savingChanges === true">Saving changes...</small>
+                <small v-else>Changes saved</small>
+              </template>
+            </div>
           </div>
         </v-col>
       </v-row>
@@ -326,6 +336,8 @@ export default {
     saving: false,
     popupTitle: '',
     dashboardTitle: '',
+    dashboardTitleChanged: false,
+    savingChanges: null,
 
     textValid: true,
     valid: true,
@@ -439,12 +451,14 @@ export default {
       'addFeature',
       'changeFeatureText',
     ]),
-    editTitle() {
+    async editTitle() {
       if (this.hasEditingPrivilege || this.newDashboard) {
-        this.changeTitle(this.dashboardTitle);
+        const changed = await this.changeTitle(this.dashboardTitle);
+        this.dashboardTitleChanged = true;
       }
     },
     async saveCurrentDashboardState() {
+      debugger;
       if (this.newDashboard) {
         this.popupTitle = this.dashboardTitle;
         this.popupOpen = true;
@@ -520,14 +534,15 @@ export default {
 .scrollContainer {
   overflow-y: scroll;
 }
-::v-deep .dashboardTitle .v-input input {
-  max-height: fit-content;
-  color: var(--v-primary-base);
-}
-</style>
-
-<style lang="scss">
-.no-margin-bottom .v-input__slot {
-  margin-bottom: 0;
+::v-deep .dashboardTitle .v-input {
+  input {
+    max-height: fit-content;
+    color: var(--v-primary-base);
+  }
+  label:not(.v-label--active) {
+    font-size: inherit;
+    height: 48px;
+    line-height: 48px;
+  }
 }
 </style>
