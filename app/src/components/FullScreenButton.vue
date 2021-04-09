@@ -35,7 +35,7 @@ export default {
     touch: false,
   }),
   computed: {
-    ...mapState(['isFullScreen'])
+    ...mapState(['isFullScreen']),
   },
   mounted() {
     this.$nextTick(() => {
@@ -47,7 +47,7 @@ export default {
       // Toggle fullscreen Element in the container element
       const { parentElement } = event.target.closest('.v-btn');
       this.fullScreenElement = parentElement;
-      if(this.$fullscreen.support) {
+      if (this.$fullscreen.support) {
         this.$fullscreen.toggle(parentElement, {
           wrap: false,
           callback: this.fullscreenChange,
@@ -69,7 +69,7 @@ export default {
       this.$store.commit('changeFullScreen', fullscreenActive);
       this.$nextTick(() => {
         window.dispatchEvent(new Event('resize')); // Fixes Safari bug(#810)
-      })
+      });
     },
   },
 };
