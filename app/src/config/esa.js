@@ -443,18 +443,22 @@ export const indicatorsDefinition = Object.freeze({
   CDS1: {
     indicator: 'CDS Data',
     class: 'air',
+    story: '/eodash-data/stories/CDS',
   },
   CDS2: {
     indicator: 'Relative humidity',
     class: 'air',
+    story: '/eodash-data/stories/CDS',
   },
   CDS3: {
     indicator: 'Wind U field',
     class: 'air',
+    story: '/eodash-data/stories/CDS',
   },
   CDS4: {
     indicator: 'Wind V field',
     class: 'air',
+    story: '/eodash-data/stories/CDS',
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
