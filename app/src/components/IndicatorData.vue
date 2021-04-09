@@ -3,7 +3,7 @@
     v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10a9',
       'E10c', 'N1', 'N3', 'N3b', 'E8',
       'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA']
+      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA', 'CV', 'OW']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -242,6 +242,55 @@ export default {
               cubicInterpolationMode: 'monotone',
             });
           });
+        } else if (['CV'].includes(indicatorCode)) {
+          const vals = indicator.Values;
+          const datasetsObj = {
+            confirmed: [],
+          };
+          for (let entry = 0; entry < vals.length; entry += 1) {
+            const t = DateTime.fromISO(vals[entry].date);
+            datasetsObj.confirmed.push({ t, y: Number(vals[entry].confirmed) });
+          }
+          Object.keys(datasetsObj).forEach((key, idx) => {
+            datasets.push({
+              label: key,
+              data: datasetsObj[key],
+              fill: false,
+              borderColor: refColors[idx],
+              backgroundColor: refColors[idx],
+              borderWidth: 1,
+              pointRadius: 2,
+              cubicInterpolationMode: 'monotone',
+            });
+          });
+        } else if (['OW'].includes(indicatorCode)) {
+          const vals = indicator.Values;
+          const pI = [
+            'total_vaccinations', 'people_fully_vaccinated',
+            'daily_vaccinations',
+          ];
+          const datasetsObj = {};
+          for (let idx = 0; idx < pI.length; idx += 1) {
+            datasetsObj[pI[idx]] = [];
+          }
+          for (let entry = 0; entry < vals.length; entry += 1) {
+            const t = DateTime.fromISO(vals[entry].date);
+            for (let idx = 0; idx < pI.length; idx += 1) {
+              datasetsObj[pI[idx]].push({ t, y: vals[entry][pI[idx]] });
+            }
+          }
+          Object.keys(datasetsObj).forEach((key, idx) => {
+            datasets.push({
+              label: key,
+              data: datasetsObj[key],
+              fill: false,
+              borderColor: refColors[idx],
+              backgroundColor: refColors[idx],
+              borderWidth: 1,
+              pointRadius: 2,
+              cubicInterpolationMode: 'monotone',
+            });
+          });
         } else if (['N3b'].includes(indicatorCode)) {
           const sensors = Array.from(new Set(indicator.eoSensor)).sort();
           for (let pp = 0; pp < sensors.length; pp += 1) {
@@ -334,8 +383,7 @@ export default {
               borderWidth: 2,
             });
           }
-        } else if (['E13n'].includes(indicatorCode)) {
-          console.log(indicator);
+        } else if (['E13n', 'C1', 'C2', 'C3'].includes(indicatorCode)) {
           // Group by indicator value
           const types = {};
           indicator.indicatorValue.forEach((ind, idx) => {
@@ -1047,6 +1095,25 @@ export default {
         }];
       }
 
+      if (['E13d', 'E13n', 'C1', 'C2', 'C3'].includes(indicatorCode)) {
+        xAxes = [{
+          type: 'time',
+          time: {
+            unit: 'month',
+            displayFormats: {
+              month: 'MMM yy',
+            },
+            tooltipFormat: 'MMM yyyy',
+          },
+          distribution: 'series',
+          ticks: {
+            min: timeMinMax[0],
+            max: timeMinMax[1],
+          },
+        }];
+      }
+
+
       let plugins = {
         datalabels: {
           display: false,
@@ -1172,6 +1239,20 @@ export default {
           ...this.indicatorObject.measurement
             .filter((d) => !Number.isNaN(d)),
         );
+      }
+      if (['CV', 'OW'].includes(indicatorCode)) {
+        yAxes[0].ticks.beginAtZero = true;
+        yAxes[0].ticks = {
+          lineHeight: 1,
+          suggestedMin: Math.min(
+            ...this.indicatorObject.measurement
+              .filter((d) => !Number.isNaN(d)),
+          ),
+          suggestedMax: Math.max(
+            ...this.indicatorObject.measurement
+              .filter((d) => !Number.isNaN(d)),
+          ),
+        };
       }
 
       if (['E10a1', 'E10a5'].includes(indicatorCode)) {

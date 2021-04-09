@@ -59,6 +59,31 @@ module.exports = [
     featureGrouping: [
       {
         features: [
+          'IT16-C1',
+          'IT16-C2',
+          'IT16-C3',
+        ],
+        label: ['Boats & NO2', 'People & NO2', 'Cars & NO2'],
+      },
+      {
+        features: [
+          'IT3-C1',
+          'IT3-C2',
+          'IT3-C3',
+        ],
+        label: ['Boats & NO2', 'People & NO2', 'Cars & NO2'],
+      },
+      {
+        features: [
+          'CDS-CDS1',
+          'CDS-CDS2',
+          'CDS-CDS3',
+          'CDS-CDS4',
+        ],
+        label: ['Temperature', 'Relative humidity', 'Wind U', 'Wind V'],
+      },
+      {
+        features: [
           'GCAQ1-N1b',
           'GCAQ2-N1b',
           'GCAQ3-N1b',
@@ -92,6 +117,13 @@ module.exports = [
           'W3-E12c',
         ],
         label: 'indicatorName',
+      },
+      {
+        features: [
+          'CV-CV',
+          'OW-OW',
+        ],
+        label: ['Cases', 'Vaccinations'],
       },
     ].concat([
       'AT4', 'BE6', 'CH1', 'DE12', 'DE13', 'DE14', 'DE15', 'DK1', 'ES10', 'ES11', 'ES14', 'ES15', 'FI4', 'FR13', 'FR8', 'GR2', 'IE1', 'IT13', 'IT9', 'NL1', 'NO1', 'PL6', 'PT1', 'SE23', 'TR1', 'UK4', 'UK5', 'UK6', 'UK7', 'UK8']

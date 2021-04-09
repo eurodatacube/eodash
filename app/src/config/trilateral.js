@@ -272,6 +272,13 @@ export const indicatorsDefinition = Object.freeze({
     largeSubAoi: true,
     disableTimeSelection: true,
   },
+  GG: {
+    indicator: 'Mobility',
+    class: 'economic',
+    disableTimeSelection: true,
+    countrySelection: true,
+    story: '/eodash-data/stories/GG-GG',
+  },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
     class: 'economic',
@@ -550,6 +557,32 @@ export const additionalMapTimes = {
 const wkt = new Wkt();
 
 export const globalIndicators = [
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'GG',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Mobility Data',
+        indicatorName: '(select country to load data)',
+        indicator: 'GG',
+        lastIndicatorValue: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        inputData: [''],
+        yAxis: 'percent change from baseline',
+        time: ['TBD'],
+        display: {
+        },
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {

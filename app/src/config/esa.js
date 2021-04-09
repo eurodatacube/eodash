@@ -17,6 +17,21 @@ export const dataEndpoints = [
 ];
 
 export const indicatorsDefinition = Object.freeze({
+  C1: {
+    indicator: 'Combined 1',
+    class: 'combined',
+    // story: '/eodash-data/stories/C1',
+  },
+  C2: {
+    indicator: 'Combined 2',
+    class: 'combined',
+    // story: '/eodash-data/stories/C2',
+  },
+  C3: {
+    indicator: 'Combined 3',
+    class: 'combined',
+    // story: '/eodash-data/stories/C3',
+  },
   E1: {
     indicator: 'Status of metallic ores (Archived)',
     class: 'economic',
@@ -404,12 +419,46 @@ export const indicatorsDefinition = Object.freeze({
     countrySelection: true,
     story: '/eodash-data/stories/GG-GG',
   },
+  CV: {
+    indicator: 'Covid cases',
+    class: 'health',
+    disableTimeSelection: true,
+    countrySelection: true,
+    // story: '/eodash-data/stories/CV-CV',
+  },
+  OW: {
+    indicator: 'Vaccinations',
+    class: 'health',
+    disableTimeSelection: true,
+    countrySelection: true,
+    // story: '/eodash-data/stories/CV-CV',
+  },
   GSA: {
     indicator: 'Mobility',
     class: 'economic',
     disableTimeSelection: true,
     borderSelection: true,
     story: '/eodash-data/stories/GSA-GSA',
+  },
+  CDS1: {
+    indicator: 'CDS Data',
+    class: 'air',
+    story: '/eodash-data/stories/CDS',
+  },
+  CDS2: {
+    indicator: 'Relative humidity',
+    class: 'air',
+    story: '/eodash-data/stories/CDS',
+  },
+  CDS3: {
+    indicator: 'Wind U field',
+    class: 'air',
+    story: '/eodash-data/stories/CDS',
+  },
+  CDS4: {
+    indicator: 'Wind V field',
+    class: 'air',
+    story: '/eodash-data/stories/CDS',
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
@@ -472,12 +521,13 @@ export const layerNameMapping = Object.freeze({
 });
 
 export const indicatorClassesIcons = Object.freeze({
-  economic: 'mdi-currency-eur',
   agriculture: 'mdi-barley',
-  air: 'mdi-weather-windy',
   water: 'mdi-water',
   land: 'mdi-image-filter-hdr',
   health: 'mdi-hospital-box-outline',
+  combined: 'mdi-set-center',
+  air: 'mdi-weather-windy',
+  economic: 'mdi-currency-eur',
 });
 
 export const mapDefaults = Object.freeze({
@@ -626,6 +676,58 @@ export const globalIndicators = [
         aoi: null,
         inputData: [''],
         yAxis: 'waiting time (min)',
+        time: ['TBD'],
+        display: {
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'CV',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Covid19 Data',
+        indicatorName: '(select country to load data)',
+        indicator: 'CV',
+        lastIndicatorValue: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        inputData: [''],
+        yAxis: 'aggregated covid cases',
+        time: ['TBD'],
+        display: {
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'OW',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Vaccination Data',
+        indicatorName: '(select country to load data)',
+        indicator: 'OW',
+        lastIndicatorValue: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        inputData: [''],
+        yAxis: 'vaccination data',
         time: ['TBD'],
         display: {
         },
@@ -866,6 +968,138 @@ export const globalIndicators = [
           maxMapZoom: 7,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
           disableCompare: true,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'CDS',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'CDS Data',
+        indicator: 'CDS1',
+        lastIndicatorValue: null,
+        indicatorName: 'Temperature - Climate Data Store',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        time: availableDates.VIS_2MTEMPERATURE,
+        inputData: [],
+        yAxis: 'Temperature °C',
+        display: {
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Global temperature',
+          layers: 'VIS_2MTEMPERATURE',
+          legendUrl: 'eodash-data/data/temperature.png',
+          minZoom: 1,
+          maxZoom: 13,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'CDS',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Relative humidity 1000HPA (CDS)',
+        indicator: 'CDS2',
+        lastIndicatorValue: null,
+        indicatorName: 'Relative humidity 1000HPA - Climate Data Store',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        time: availableDates.VIS_RELHUMIDITY1000HPA,
+        inputData: [],
+        yAxis: 'Relative Humidity 1000HPA',
+        display: {
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Global temperature',
+          layers: 'VIS_RELHUMIDITY1000HPA',
+          legendUrl: 'eodash-data/data/humidity.png',
+          minZoom: 1,
+          maxZoom: 13,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'CDS',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Wind U field (CDS)',
+        indicator: 'CDS3',
+        lastIndicatorValue: null,
+        indicatorName: 'Wind U field - Climate Data Store',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        time: availableDates.VIS_WIND_U_10M,
+        inputData: [],
+        yAxis: 'wind',
+        display: {
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Global temperature',
+          layers: 'VIS_WIND_U_10M',
+          legendUrl: 'eodash-data/data/windu_cds.png',
+          minZoom: 1,
+          maxZoom: 13,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'CDS',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Wind V field (CDS)',
+        indicator: 'CDS4',
+        lastIndicatorValue: null,
+        indicatorName: 'Wind V field - Climate Data Store',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        time: availableDates.VIS_WIND_V_10M,
+        inputData: [],
+        yAxis: 'wind',
+        display: {
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Global temperature',
+          layers: 'VIS_WIND_V_10M',
+          legendUrl: 'eodash-data/data/windv_cds.png',
+          minZoom: 1,
+          maxZoom: 13,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
     },
