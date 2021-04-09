@@ -517,13 +517,13 @@ export const layerNameMapping = Object.freeze({
 });
 
 export const indicatorClassesIcons = Object.freeze({
-  economic: 'mdi-currency-eur',
   agriculture: 'mdi-barley',
-  air: 'mdi-weather-windy',
   water: 'mdi-water',
   land: 'mdi-image-filter-hdr',
   health: 'mdi-hospital-box-outline',
   combined: 'mdi-set-center',
+  air: 'mdi-weather-windy',
+  economic: 'mdi-currency-eur',
 });
 
 export const mapDefaults = Object.freeze({
