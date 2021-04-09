@@ -94,7 +94,7 @@
               outlined
               x-small
               color="primary"
-              @click="resizeFeatureShrink(element)"
+              @click="performChange('resizeFeatureShrink', element)"
             >
               <v-icon dark>
                 mdi-arrow-collapse
@@ -107,7 +107,7 @@
               outlined
               x-small
               color="primary"
-              @click="resizeFeatureExpand(element)"
+              @click="performChange('resizeFeatureExpand', element)"
             >
               <v-icon dark>
                 mdi-arrow-expand
@@ -120,7 +120,7 @@
               x-small
               color="error"
               style="background: white"
-              @click="removeFeature(element)"
+              @click="performChange('removeFeature', element)"
             >
               <v-icon>
                 mdi-delete
@@ -160,7 +160,7 @@
               dark
               x-small
               color="primary"
-              @click="moveFeatureUp(element)"
+              @click="performChange('moveFeatureUp', element)"
             >
               <v-icon dark>
                 mdi-chevron-left
@@ -173,7 +173,7 @@
               dark
               x-small
               color="primary"
-              @click="moveFeatureDown(element)"
+              @click="performChange('moveFeatureDown', element)"
             >
               <v-icon dark>
                 mdi-chevron-right
@@ -279,11 +279,14 @@ export default {
     // },
     update(el) {
       if (el.mapInfo) {
-        return this.changeFeatureMapInfo({
-          poi: el.poi,
-          zoom: this.localZoom[el.poi],
-          center: this.localCenter[el.poi],
-        });
+        return this.performChange(
+          'changeFeatureMapInfo',
+          {
+            poi: el.poi,
+            zoom: this.localZoom[el.poi],
+            center: this.localCenter[el.poi],
+          },
+        );
       }
 
       if (el.text) this.$emit('updateTextFeature', el);
@@ -293,11 +296,21 @@ export default {
     },
     changeFeatureTitleFn(poi, newTitle) {
       this.dialog = false;
-      this.changeFeatureTitle({ poi, newTitle });
+      this.performChange(
+        'changeFeatureTitle',
+        { poi, newTitle },
+      );
     },
     convertToMarkdown(text) {
       return this.$marked(text);
-    }
+    },
+    async performChange(method, params) {
+      this.$emit('change');
+      const changed = await this[method](params);
+      if (changed !== undefined) {
+        this.$emit('save');
+      }
+    },
   },
 };
 </script>

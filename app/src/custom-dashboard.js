@@ -49,7 +49,7 @@ class CustomDashboardApi extends EventEmitter {
         if (response ?. error) { return reject(response); }
 
 
-        return resolve();
+        return resolve(response);
       });
     });
   }
@@ -60,7 +60,7 @@ class CustomDashboardApi extends EventEmitter {
         if (response ?. error) { return reject(response); }
 
 
-        return resolve();
+        return resolve(response);
       });
     });
   }
@@ -71,7 +71,7 @@ class CustomDashboardApi extends EventEmitter {
         if (response ?. error) { return reject(response); }
 
 
-        return resolve();
+        return resolve(response);
       });
     });
   }
@@ -82,7 +82,7 @@ class CustomDashboardApi extends EventEmitter {
         if (response ?. error) { return reject(response); }
 
 
-        return resolve();
+        return resolve(response);
       });
     });
   }
@@ -93,7 +93,7 @@ class CustomDashboardApi extends EventEmitter {
         if (response ?. error) { return reject(response); }
 
 
-        return resolve();
+        return resolve(response);
       });
     });
   }
@@ -104,7 +104,7 @@ class CustomDashboardApi extends EventEmitter {
         if (response ?. error) { return reject(response); }
 
 
-        return resolve();
+        return resolve(response);
       });
     });
   }
@@ -115,7 +115,7 @@ class CustomDashboardApi extends EventEmitter {
         if (response ?. error) { return reject(response); }
 
 
-        return resolve();
+        return resolve(response);
       });
     });
   }
@@ -126,7 +126,7 @@ class CustomDashboardApi extends EventEmitter {
         if (response ?. error) { return reject(response); }
 
 
-        return resolve();
+        return resolve(response);
       });
     });
   }
@@ -140,7 +140,7 @@ class CustomDashboardApi extends EventEmitter {
         if (response ?. error) { return reject(response); }
 
 
-        return resolve();
+        return resolve(response);
       });
     });
   }
@@ -154,7 +154,7 @@ class CustomDashboardApi extends EventEmitter {
         if (response ?. error) { return reject(response); }
 
 
-        return resolve();
+        return resolve(response);
       });
     });
   }
@@ -168,7 +168,7 @@ class CustomDashboardApi extends EventEmitter {
         if (response ?. error) { return reject(response); }
 
 
-        return resolve();
+        return resolve(response);
       });
     });
   }

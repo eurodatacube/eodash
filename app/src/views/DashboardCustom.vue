@@ -286,14 +286,18 @@
               </v-card>
             </v-dialog>
             <div
-              class="text-right"
+              class="text-right mt-3"
               v-if="newDashboard || hasEditingPrivilege"
             >
-              <small v-if="newDashboard">Changes to the dashboard are saved locally until published</small>
+              <small
+                v-if="newDashboard"
+              >Changes to the dashboard are saved locally until published</small>
               <template v-if="hasEditingPrivilege">
-                <small v-if="savingChanges === null">Changes to the dashboard are saved automatically</small>
-                <small v-else-if="savingChanges === true">Saving changes...</small>
-                <small v-else>Changes saved</small>
+                <v-icon
+                  small
+                  left
+                >{{ displaySavingChanges ? 'mdi-cached' : 'mdi-cloud-check-outline' }}</v-icon>
+                <small>{{ displaySavingChanges ? 'saving...' : 'saved to cloud' }}</small>
               </template>
             </div>
           </div>
@@ -303,6 +307,8 @@
         :enableEditing="!!(newDashboard || hasEditingPrivilege)"
         :popupOpen="popupOpen || newTextFeatureDialog"
         @updateTextFeature="openTextFeatureUpdate"
+        @change="savingChanges = true"
+        @save="savingChanges = false"
       />
       <global-footer />
     </div>
@@ -338,6 +344,8 @@ export default {
     dashboardTitle: '',
     dashboardTitleChanged: false,
     savingChanges: null,
+    displaySavingChanges: null,
+    savingTimeout: null,
 
     textValid: true,
     valid: true,
@@ -429,6 +437,7 @@ export default {
       this.disconnect();
       this.reconnecting = false;
     }
+    clearTimeout(this.savingTimeout);
   },
   watch: {
     dashboardConfig: {
@@ -440,6 +449,16 @@ export default {
           this.dashboardTitle = v.title;
         }
       },
+    },
+    savingChanges(saving) {
+      if (saving) {
+        this.displaySavingChanges = true;
+        clearTimeout(this.savingTimeout);
+        this.savingTimeout = setTimeout(
+          () => this.displaySavingChanges = false, // eslint-disable-line
+          3000,
+        );
+      }
     },
   },
   methods: {
@@ -453,12 +472,11 @@ export default {
     ]),
     async editTitle() {
       if (this.hasEditingPrivilege || this.newDashboard) {
-        const changed = await this.changeTitle(this.dashboardTitle);
+        this.performChange('changeTitle', this.dashboardTitle);
         this.dashboardTitleChanged = true;
       }
     },
     async saveCurrentDashboardState() {
-      debugger;
       if (this.newDashboard) {
         this.popupTitle = this.dashboardTitle;
         this.popupOpen = true;
@@ -466,9 +484,9 @@ export default {
     },
     submitMarketingData() {
       this.loading = true;
-      this.changeTitle(this.popupTitle);
+      this.performChange('changeTitle', this.popupTitle);
       if (this.$refs.form.validate()) {
-        this.changeTitle(this.popupTitle);
+        this.performChange('changeTitle', this.popupTitle);
         this.addMarketingInfo({
           email: this.email,
           consent: this.consent,
@@ -480,24 +498,30 @@ export default {
     },
     createTextFeature() {
       if (this.$refs.textForm.validate()) {
-        this.addFeature({
-          poi: `${this.newTextFeatureTitle}-${Date.now()}`,
-          title: this.newTextFeatureTitle,
-          text: this.newTextFeatureText,
-          width: 2,
-        });
+        this.performChange(
+          'addFeature',
+          {
+            poi: `${this.newTextFeatureTitle}-${Date.now()}`,
+            title: this.newTextFeatureTitle,
+            text: this.newTextFeatureText,
+            width: 2,
+          },
+        );
+        this.newTextFeatureDialog = false;
+        this.newTextFeatureTitle = '';
+        this.newTextFeatureText = '';
+        this.textFeatureUpdate = '';
       }
-      this.newTextFeatureDialog = false;
-      this.newTextFeatureTitle = '';
-      this.newTextFeatureText = '';
-      this.textFeatureUpdate = '';
     },
     updateTextFeature() {
       if (this.$refs.textForm.validate()) {
-        this.changeFeatureText({
-          poi: this.textFeatureUpdate,
-          text: this.newTextFeatureText,
-        });
+        this.performChange(
+          'changeFeatureText',
+          {
+            poi: this.textFeatureUpdate,
+            text: this.newTextFeatureText,
+          },
+        );
       }
       this.newTextFeatureDialog = false;
       this.newTextFeatureTitle = '';
@@ -522,6 +546,13 @@ export default {
     viewLinksFn() {
       this.viewLinks = true;
       this.popupOpen = true;
+    },
+    async performChange(method, params) {
+      this.savingChanges = true;
+      const changed = await this[method](params);
+      if (changed !== undefined) {
+        this.savingChanges = false;
+      }
     },
   },
 };
