@@ -17,37 +17,37 @@
     </template>
 
     <v-card>
-      <v-card-title class="headline grey lighten-2">
-        Choose title for custom indicator
-      </v-card-title>
+      <v-form @submit.prevent="toggle">
+        <v-card-title class="headline mb-5">
+          Title for custom dashboard element
+        </v-card-title>
 
-      <v-card-text>
-        <v-text-field
-          placeholder="Title"
-          filled
-          dense
-          v-model="title"
-          class="mt-10"
-        ></v-text-field>
-      </v-card-text>
+        <v-card-text>
+          <v-text-field
+            placeholder="Title"
+            outlined
+            v-model="title"
+            autofocus
+          ></v-text-field>
+        </v-card-text>
 
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn
-          color="primary"
-          text
-          @click="dialog = false"
-        >
-          cancel
-        </v-btn>
-        <v-btn
-          color="success"
-          @click="toggle"
-          :disabled="!title.length"
-        >
-          add
-        </v-btn>
-      </v-card-actions>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            text
+            @click="dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-btn
+            color="primary"
+            :disabled="!title.length"
+          >
+            add
+          </v-btn>
+        </v-card-actions>
+      </v-form>
     </v-card>
   </v-dialog>
   <v-btn

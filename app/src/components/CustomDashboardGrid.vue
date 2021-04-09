@@ -25,18 +25,19 @@
           </template>
 
           <v-card>
-            <v-card-title class="headline grey lighten-2">
-              Choose title for custom indicator
+            <v-card-title class="headline primary--text mb-5">
+              Title for custom dashboard element
             </v-card-title>
 
             <v-card-text>
-              <v-text-field
-                placeholder="Title"
-                filled
-                dense
-                v-model="featureTitle"
-                class="mt-10"
-              ></v-text-field>
+              <v-form @submit.prevent="changeFeatureTitleFn(element.poi, featureTitle)">
+                <v-text-field
+                  placeholder="Title"
+                  outlined
+                  autofocus
+                  v-model="featureTitle"
+                ></v-text-field>
+              </v-form>
             </v-card-text>
 
             <v-card-actions>
@@ -49,7 +50,7 @@
                 cancel
               </v-btn>
               <v-btn
-                color="success"
+                color="primary"
                 @click="changeFeatureTitleFn(element.poi, featureTitle)"
                 :disabled="!featureTitle.length"
               >
