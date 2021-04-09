@@ -296,7 +296,7 @@ export default {
     theme() {
       return (this.$vuetify.theme.dark) ? 'dark' : 'light';
     },
-    ...mapState(['isFullScreen'])
+    ...mapState(['isFullScreen']),
   },
   created() {
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;

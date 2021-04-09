@@ -8,7 +8,8 @@
           :headers="headers"
           :items="allFeatures"
           :items-per-page="10"
-          :item-class="f => f.indicatorObject.updateFrequency && f.indicatorObject.updateFrequency.toLowerCase() === 'archived' ? 'archived-row' : ''"
+          :item-class="f => f.indicatorObject.updateFrequency
+            && f.indicatorObject.updateFrequency.toLowerCase() === 'archived' ? 'archived-row' : ''"
           class="featureTable elevation-1"
           @click:row="openFeature"
           multi-sort
