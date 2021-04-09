@@ -5,6 +5,7 @@ import customDashboardApiFactory from '../../custom-dashboard';
 const state = {
   api: null,
   dashboardConfig: null,
+  featureAdded: null,
 };
 
 const getters = {
@@ -55,6 +56,7 @@ const mutations = {
         features: [feature],
       };
     }
+    state.featureAdded = true;
   },
   REMOVE_FEATURE(state, { poi }) {
     if (state.dashboardConfig) {

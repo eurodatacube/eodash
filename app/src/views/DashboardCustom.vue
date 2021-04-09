@@ -14,14 +14,18 @@
         color="primary"
         class="white--text"
       >
-        <router-link to="/" class="white--text" style="text-decoration: none">
-        <v-toolbar-title
-          v-if="$vuetify.breakpoint.mdAndUp"
-          class="text-uppercase mr-5"
-        >
-          {{ appConfig && appConfig.branding.appName }}
-        </v-toolbar-title>
-        </router-link>
+        <a
+          @click="$store.state.dashboard.featureAdded
+            ? $router.go(-1)
+            : $router.push({ path: '/' })"
+          class="white--text" style="text-decoration: none">
+          <v-toolbar-title
+            v-if="$vuetify.breakpoint.mdAndUp"
+            class="text-uppercase mr-5"
+          >
+            <v-icon dark left>mdi-arrow-left</v-icon> {{ appConfig && appConfig.branding.appName }}
+          </v-toolbar-title>
+        </a>
         <v-spacer></v-spacer>
         <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
       </v-app-bar>
