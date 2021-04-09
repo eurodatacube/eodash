@@ -1113,7 +1113,6 @@ export default {
         }];
       }
 
-      
 
       let plugins = {
         datalabels: {
