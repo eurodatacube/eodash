@@ -1,5 +1,5 @@
 <template>
-<v-row class="pb-10">
+<v-row>
     <template
       v-for="(element, index) in features"
     >

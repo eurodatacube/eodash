@@ -1,11 +1,9 @@
 <template>
   <div
-    class="fill-height scrollContainer"
-    :style="`margin-top: ${$vuetify.application.top}px !important;`"
+    class="fill-height scrollContainer pa-10 pt-5"
+    :style="`margin-top: ${$vuetify.application.top}px !important;
+      height: calc(100% - ${$vuetify.application.top}px)`"
   >
-    <div
-      class="fill-height pa-10 pt-5"
-    >
     <v-app-bar
         app
         clipped-left
@@ -51,98 +49,19 @@
               {{ dashboardTitle }}</h1>
           </div>
         </v-col>
-        <v-col cols="12" md="6" :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
-          <div>
-            <div class="d-flex justify-"></div>
-            <v-dialog
-              v-model="newTextFeatureDialog"
-              width="500"
-            >
-              <template v-slot:activator="{ on }">
-                <v-btn
-                    v-on="on"
-                    v-if="newDashboard || hasEditingPrivilege"
-                    :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : 'mr-4'"
-                    :block="$vuetify.breakpoint.xsOnly"
-                  >
-                    <v-icon left> mdi-text-box-plus </v-icon>
-                    <span>Add text block</span>
-                </v-btn>
-              </template>
-
-              <v-card>
-                <v-card-title class="headline primary--text mb-5">
-                  {{ !textFeatureUpdate ? 'Add text block' : 'Update text block' }}
-                </v-card-title>
-
-                <v-card-text>
-                  <v-form
-                    ref="textForm"
-                    v-model="textValid"
-                    lazy-validation
-                    class="text-left"
-                    @submit.prevent="!textFeatureUpdate
-                      ? createTextFeature
-                      : updateTextFeature"
-                    >
-                    <v-text-field
-                      outlined
-                      label="Title"
-                      :autofocus="!textFeatureUpdate ? true : false"
-                      v-model="newTextFeatureTitle"
-                      :rules="requiredRule"
-                      validate-on-blur
-                      v-if="!textFeatureUpdate"
-                    ></v-text-field>
-
-                    <v-textarea
-                      outlined
-                      label="Text"
-                      :auto-grow="true"
-                      :autofocus="textFeatureUpdate"
-                      :messages="markdownMessage"
-                      v-model="newTextFeatureText"
-                      :rules="requiredRule"
-                      validate-on-blur
-                      class="mt-5"
-                    >
-                      <template v-slot:message="{ message }">
-                        <span v-html="message"></span>
-                      </template>
-                    </v-textarea>
-                  </v-form>
-                </v-card-text>
-
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    color="primary"
-                    text
-                    @click="() => (newTextFeatureDialog = false, textFeatureUpdate = '')"
-                  >
-                    cancel
-                  </v-btn>
-                  <v-btn
-                    color="primary"
-                    @click="createTextFeature"
-                    v-if="!textFeatureUpdate"
-                  >
-                    add
-                  </v-btn>
-                  <v-btn
-                    color="primary"
-                    @click="updateTextFeature"
-                    v-else
-                  >
-                    update
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+        <v-col
+          cols="12"
+          md="6"
+          class="d-flex align-center"
+        >
+          <div
+            :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'"
+            style="width: 100%"
+          >
             <v-btn
               v-if="hasEditingPrivilege || !(dashboardConfig && dashboardConfig.id)"
               @click="disconnect"
-              color="red"
+              :color="!(dashboardConfig && dashboardConfig.id) ? 'red' : 'grey'"
               :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : 'mr-4'"
               :block="$vuetify.breakpoint.xsOnly"
               style="color: white"
@@ -314,7 +233,8 @@
               </v-card>
             </v-dialog>
             <div
-              class="text-right mt-3"
+              class="mt-3"
+              :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'"
               v-if="newDashboard || hasEditingPrivilege"
             >
               <small
@@ -325,12 +245,15 @@
                   small
                   left
                 >{{ displaySavingChanges ? 'mdi-cached' : 'mdi-cloud-check-outline' }}</v-icon>
-                <small>{{ displaySavingChanges ? 'saving...' : 'saved to cloud' }}</small>
+                <small>
+                  {{ displaySavingChanges ? 'saving changes...' : 'changes saved to cloud' }}
+                </small>
               </template>
             </div>
           </div>
         </v-col>
       </v-row>
+      <v-divider v-if="$vuetify.breakpoint.smAndDown" class="my-10"></v-divider>
       <custom-dashboard-grid
         :enableEditing="!!(newDashboard || hasEditingPrivilege)"
         :popupOpen="popupOpen || newTextFeatureDialog"
@@ -338,8 +261,98 @@
         @change="savingChanges = true"
         @save="savingChanges = false"
       />
+      <v-dialog
+        v-model="newTextFeatureDialog"
+        width="500"
+      >
+        <template v-slot:activator="{ on }">
+          <v-row class="my-5">
+            <v-col cols="12" class="text-center">
+              <v-btn
+                  color="primary"
+                  x-large
+                  v-on="on"
+                  v-if="newDashboard || hasEditingPrivilege"
+                  :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : 'mr-4'"
+                  :block="$vuetify.breakpoint.xsOnly"
+                >
+                  <v-icon left> mdi-text-box-plus </v-icon>
+                  <span>Add text block</span>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </template>
+
+        <v-card>
+          <v-card-title class="headline primary--text mb-5">
+            {{ !textFeatureUpdate ? 'Add text block' : 'Update text block' }}
+          </v-card-title>
+
+          <v-card-text>
+            <v-form
+              ref="textForm"
+              v-model="textValid"
+              lazy-validation
+              class="text-left"
+              @submit.prevent="!textFeatureUpdate
+                ? createTextFeature
+                : updateTextFeature"
+              >
+              <v-text-field
+                outlined
+                label="Title"
+                :autofocus="!textFeatureUpdate ? true : false"
+                v-model="newTextFeatureTitle"
+                :rules="requiredRule"
+                validate-on-blur
+                v-if="!textFeatureUpdate"
+              ></v-text-field>
+
+              <v-textarea
+                outlined
+                label="Text"
+                :auto-grow="true"
+                :autofocus="textFeatureUpdate"
+                :messages="markdownMessage"
+                v-model="newTextFeatureText"
+                :rules="requiredRule"
+                validate-on-blur
+                class="mt-5"
+              >
+                <template v-slot:message="{ message }">
+                  <span v-html="message"></span>
+                </template>
+              </v-textarea>
+            </v-form>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              text
+              @click="() => (newTextFeatureDialog = false, textFeatureUpdate = '')"
+            >
+              cancel
+            </v-btn>
+            <v-btn
+              color="primary"
+              @click="createTextFeature"
+              v-if="!textFeatureUpdate"
+            >
+              add
+            </v-btn>
+            <v-btn
+              color="primary"
+              @click="updateTextFeature"
+              v-else
+            >
+              update
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <global-footer />
-    </div>
   </div>
 </template>
 
@@ -533,7 +546,7 @@ export default {
             poi: `${this.newTextFeatureTitle}-${Date.now()}`,
             title: this.newTextFeatureTitle,
             text: this.newTextFeatureText,
-            width: 2,
+            width: 4,
           },
         );
         this.newTextFeatureDialog = false;

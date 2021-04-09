@@ -43,6 +43,7 @@
           <v-btn
             color="primary"
             :disabled="!title.length"
+            type="submit"
           >
             add
           </v-btn>
