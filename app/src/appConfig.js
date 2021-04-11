@@ -21,7 +21,7 @@ module.exports = [
     newsBanner: {
       color: 'green darken-1',
       icon: 'calendar-star',
-      text: '<a href="https://eo4society.esa.int/2021/03/02/rapid-action-on-coronavirus-and-eo-race-challenge-1/" target="_blank">OPEN NOW: RACE Dashboard Challenges 2021!</a>',
+      text: '<a href="https://eo4society.esa.int/2021/04/01/rapid-action-on-coronavirus-and-eo-race-dashboard-challenge-2/" target="_blank">RACE Dashboard Challenge #2 now Open!</a>',
       startDate: '2021-03-01',
       endDate: '2021-05-31',
     },
@@ -35,7 +35,7 @@ module.exports = [
         src: './eodash-data/general/Slide15.png',
       },
       {
-        iframe: 'https://www.youtube.com/embed/Ofb2pNQc424',
+        src: './eodash-data/general/Challenge2.png',
       },
       {
         poi: 'FI4-E13',
