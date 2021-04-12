@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="!initialLoading"
     class="fill-height scrollContainer pa-10 pt-5"
     :style="`margin-top: ${$vuetify.application.top}px !important;
       height: calc(100% - ${$vuetify.application.top}px)`"
@@ -398,6 +399,8 @@ export default {
     valid: true,
     consent: false,
 
+    initialLoading: true,
+
     requiredRule: [
       (v) => !!v || 'Required',
     ],
@@ -471,6 +474,8 @@ export default {
       this.$router.push('/');
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
     }
+
+    this.initialLoading = false;
   },
   beforeDestroy() {
     if (!this.hasEditingPrivilege && !this.newDashboard) {
