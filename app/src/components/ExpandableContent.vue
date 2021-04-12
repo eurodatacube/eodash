@@ -33,17 +33,24 @@
 
 <script>
 export default {
+  props: {
+    minHeight: {
+      default: 150,
+    },
+    disableExpand: {
+      default: false,
+    },
+  },
   data: () => ({
-    minHeight: 150,
     contentExpanded: false,
     needsExpand: false,
     observer: null,
   }),
   mounted() {
-    this.needsExpand = this.$refs.content.clientHeight > this.minHeight;
+    this.needsExpand = !this.disableExpand && this.$refs.content.clientHeight > this.minHeight;
     // Create the observer (and what to do on changes...)
     this.observer = new MutationObserver(function () { // eslint-disable-line
-      this.needsExpand = this.$refs.content.clientHeight > this.minHeight;
+      this.needsExpand = !this.disableExpand && this.$refs.content.clientHeight > this.minHeight;
     }.bind(this));
 
     // Setup the observer
