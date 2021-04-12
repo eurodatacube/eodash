@@ -181,7 +181,7 @@
                   <v-card-text class="text-center" v-else>
                     <h2
                       class="display-2 font-weight-light primary--text mb-3"
-                    > {{ dashboardConfig.title }}</h2>
+                    > {{ dashboardConfig && dashboardConfig.title }}</h2>
                     <h2
                       v-if="!viewLinks"
                       class="font-weight-light primary--text mb-8 success--text"
@@ -488,7 +488,7 @@ export default {
           this.$router.push('/');
           this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
         } else {
-          this.dashboardTitle = v.title;
+          this.dashboardTitle = v ? v.title : null;
         }
       },
     },
@@ -529,7 +529,7 @@ export default {
       this.performChange('changeTitle', this.popupTitle);
       if (this.$refs.form.validate()) {
         this.performChange('changeTitle', this.popupTitle);
-        const success = await this.addMarketingInfo({
+        await this.addMarketingInfo({
           email: this.email,
           consent: this.consent,
           interests: this.interests,

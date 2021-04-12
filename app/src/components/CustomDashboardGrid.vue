@@ -225,28 +225,30 @@ export default {
       immediate: true,
       deep: true,
       async handler(features) {
-        this.features = await Promise.all(features.map(async (f) => {
-          if (f.includesIndicator || f.text) return f;
-
-          const feature = this.$store.state.features.allFeatures
-            .find((i) => this.getLocationCode(i.properties.indicatorObject) === f.poi);
-          const indicatorObject = await loadIndicatorData(
-            this.baseConfig,
-            feature.properties.indicatorObject,
-          );
-
-          if (f.mapInfo) {
-            this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
-            this.$set(this.localCenter, f.poi, f.mapInfo.center);
-            this.$set(this.serverZoom, f.poi, f.mapInfo.zoom);
-            this.$set(this.serverCenter, f.poi, f.mapInfo.center);
-          }
-
-          return {
-            ...f,
-            indicatorObject,
-          };
-        }));
+        if (features) {
+          this.features = await Promise.all(features.map(async (f) => {
+            if (f.includesIndicator || f.text) return f;
+  
+            const feature = this.$store.state.features.allFeatures
+              .find((i) => this.getLocationCode(i.properties.indicatorObject) === f.poi);
+            const indicatorObject = await loadIndicatorData(
+              this.baseConfig,
+              feature.properties.indicatorObject,
+            );
+  
+            if (f.mapInfo) {
+              this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
+              this.$set(this.localCenter, f.poi, f.mapInfo.center);
+              this.$set(this.serverZoom, f.poi, f.mapInfo.zoom);
+              this.$set(this.serverCenter, f.poi, f.mapInfo.center);
+            }
+  
+            return {
+              ...f,
+              indicatorObject,
+            };
+          }));
+        }
       },
     },
   },
