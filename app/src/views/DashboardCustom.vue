@@ -528,15 +528,22 @@ export default {
         this.popupOpen = true;
       }
     },
-    submitMarketingData() {
+    async submitMarketingData() {
       this.loading = true;
       this.performChange('changeTitle', this.popupTitle);
       if (this.$refs.form.validate()) {
         this.performChange('changeTitle', this.popupTitle);
-        this.addMarketingInfo({
+        const success = await this.addMarketingInfo({
           email: this.email,
           consent: this.consent,
           interests: this.interests,
+        });
+        this.$router.replace({
+          path: 'dashboard',
+          query: {
+            id: this.$store.state.dashboard.dashboardConfig.id,
+            editKey: this.$store.state.dashboard.dashboardConfig.editKey,
+          },
         });
         this.success = true;
       }
