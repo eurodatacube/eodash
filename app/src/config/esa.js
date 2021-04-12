@@ -432,6 +432,7 @@ export const indicatorsDefinition = Object.freeze({
     countrySelection: true,
     hideInFilters: true,
   },
+  /*
   GSA: {
     indicator: 'Mobility',
     class: 'economic',
@@ -439,6 +440,7 @@ export const indicatorsDefinition = Object.freeze({
     borderSelection: true,
     story: '/eodash-data/stories/GSA-GSA',
   },
+  */
   CDS1: {
     indicator: 'CDS Data',
     class: 'air',
@@ -658,6 +660,7 @@ export const globalIndicators = [
       },
     },
   },
+  /*
   {
     properties: {
       indicatorObject: {
@@ -684,6 +687,7 @@ export const globalIndicators = [
       },
     },
   },
+  */
   {
     properties: {
       indicatorObject: {
