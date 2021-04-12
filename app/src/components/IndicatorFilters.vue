@@ -136,7 +136,15 @@
                   }}</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title
+                  <v-list-item-title v-if="indicator.filterTextOverwrite"
+                    v-text="indicator.filterTextOverwrite"
+                    style="
+                      text-overflow: unset;
+                      overflow: unset;
+                      white-space: pre-wrap;
+                    "
+                  ></v-list-item-title>
+                  <v-list-item-title v-else
                     v-text="indicator.indicator"
                     style="
                       text-overflow: unset;
