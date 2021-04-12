@@ -161,7 +161,9 @@
         </v-col>
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
-          :style="`margin-top: ${customAreaIndicator ? '30px' : ''}; height: ${$vuetify.breakpoint.mdAndDown ? 'auto' : (expanded ? wrapperHeight + 'px' : wrapperHeight/2 - buttonRowHeight + 'px') }`"
+          :style="`height: ${$vuetify.breakpoint.mdAndDown
+                  ? 'auto'
+                  : (expanded ? wrapperHeight + 'px' : wrapperHeight/2 - buttonRowHeight + 'px') }`"
         >
           <v-row
             class="mt-0 fill-height scrollContainer"
