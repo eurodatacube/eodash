@@ -86,7 +86,7 @@ export default {
         country: f.properties.indicatorObject.country,
         location: f.properties.indicatorObject.city,
         type: this.getClass(f),
-        indicator: f.properties.indicatorObject.description,
+        indicator: this.getIndicator(f.properties.indicatorObject),
         indicatorValue: this.getIndicatorLabel(f.properties.indicatorObject),
         indicatorColor: this.getColor(f.properties.indicatorObject),
         indicatorObject: f.properties.indicatorObject,
@@ -101,6 +101,14 @@ export default {
       const code = item.properties.indicatorObject.indicator;
       const validClass = typeof this.baseConfig.indicatorsDefinition[code] !== 'undefined' ? this.baseConfig.indicatorsDefinition[code].class : this.baseConfig.indicatorsDefinition.d.class;
       return validClass;
+    },
+    getIndicator(indObj) {
+      let ind = indObj.description;
+      if (this.baseConfig.indicatorsDefinition[indObj.indicator]
+        && this.baseConfig.indicatorsDefinition[indObj.indicator].indicatorOverwrite) {
+        ind = this.baseConfig.indicatorsDefinition[indObj.indicator].indicatorOverwrite;
+      }
+      return ind;
     },
     getColor(indObj) {
       let color;

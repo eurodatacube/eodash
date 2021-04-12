@@ -136,8 +136,8 @@
                   }}</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title v-if="indicator.filterTextOverwrite"
-                    v-text="indicator.filterTextOverwrite"
+                  <v-list-item-title v-if="indicator.indicatorOverwrite"
+                    v-text="indicator.indicatorOverwrite"
                     style="
                       text-overflow: unset;
                       overflow: unset;
