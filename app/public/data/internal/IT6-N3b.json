@@ -3661,5 +3661,27 @@
         "reference_time": "",
         "reference_value": "",
         "time": "2021-03-27T11:30:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "",
+        "input_data": "EORC product",
+        "measurement_value": "84.14",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2021-04-03T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "40.49990399",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2021-04-03T11:30:00"
     }
 ]

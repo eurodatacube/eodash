@@ -19,18 +19,18 @@ export const dataEndpoints = [
 export const indicatorsDefinition = Object.freeze({
   C1: {
     indicator: 'Combined 1',
+    indicatorOverwrite: 'Port Activity & Air Quality',
     class: 'combined',
-    // story: '/eodash-data/stories/C1',
   },
   C2: {
     indicator: 'Combined 2',
     class: 'combined',
-    // story: '/eodash-data/stories/C2',
+    hideInFilters: true,
   },
   C3: {
     indicator: 'Combined 3',
     class: 'combined',
-    // story: '/eodash-data/stories/C3',
+    hideInFilters: true,
   },
   E1: {
     indicator: 'Status of metallic ores (Archived)',
@@ -424,14 +424,13 @@ export const indicatorsDefinition = Object.freeze({
     class: 'health',
     disableTimeSelection: true,
     countrySelection: true,
-    // story: '/eodash-data/stories/CV-CV',
   },
   OW: {
     indicator: 'Vaccinations',
     class: 'health',
     disableTimeSelection: true,
     countrySelection: true,
-    // story: '/eodash-data/stories/CV-CV',
+    hideInFilters: true,
   },
   GSA: {
     indicator: 'Mobility',
@@ -449,16 +448,19 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Relative humidity',
     class: 'air',
     story: '/eodash-data/stories/CDS',
+    hideInFilters: true,
   },
   CDS3: {
     indicator: 'Wind U field',
     class: 'air',
     story: '/eodash-data/stories/CDS',
+    hideInFilters: true,
   },
   CDS4: {
     indicator: 'Wind V field',
     class: 'air',
     story: '/eodash-data/stories/CDS',
+    hideInFilters: true,
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',

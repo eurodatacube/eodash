@@ -58,6 +58,9 @@ const getters = {
           class: rootState.config.baseConfig.indicatorsDefinition[
             f.properties.indicatorObject.indicator
           ].class,
+          indicatorOverwrite: rootState.config.baseConfig.indicatorsDefinition[
+            f.properties.indicatorObject.indicator
+          ].indicatorOverwrite,
         })),
     ].flat(2))].sort();
     return indicators;
