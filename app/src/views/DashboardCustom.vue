@@ -70,7 +70,7 @@
             >
               <template v-if="!(dashboardConfig && dashboardConfig.id)">
                 <v-icon left color="white">mdi-delete</v-icon>
-                discard
+                discard dashboard
               </template>
               <template v-else>
                 <v-icon left color="white">mdi-connection</v-icon>
@@ -465,6 +465,7 @@ export default {
 
     if (!this.dashboardConfig) {
       this.$router.push('/');
+      this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
     }
 
     if (editKey) {
@@ -489,6 +490,7 @@ export default {
       handler(v) {
         if (!v && !this.reconnecting) {
           this.$router.push('/');
+          this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
         } else {
           this.dashboardTitle = v.title;
         }
