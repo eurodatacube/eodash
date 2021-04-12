@@ -231,6 +231,10 @@
                       x-large
                       :loading="saving">Submit</v-btn>
                   </v-card-actions>
+                  <v-card-actions v-else>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" text @click="popupOpen = false" x-large>Close</v-btn>
+                  </v-card-actions>
                 </v-form>
               </v-card>
             </v-dialog>
@@ -466,14 +470,6 @@ export default {
     if (!this.dashboardConfig) {
       this.$router.push('/');
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
-    }
-
-    if (editKey) {
-      this.$router.replace({
-        query: {
-          id,
-        },
-      });
     }
   },
   beforeDestroy() {
