@@ -71,7 +71,4 @@ export default {
 .header__logo {
     height: 32px;
 }
-.scrollContainer {
-  overflow-y: auto;
-}
 </style>
