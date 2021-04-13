@@ -33,23 +33,69 @@
       <v-row class="d-flex">
         <v-col cols="12" md="6">
           <div class="dashboardTitle">
-            <v-text-field
-              v-if="newDashboard || hasEditingPrivilege"
-              @keydown.enter="editTitle"
-              @input="dashboardTitleChanged = false"
-              v-model="dashboardTitle"
-              :hint="dashboardTitleChanged
-                ? 'Title saved'
-                : 'Press Enter to save title'"
-              label="Dashboard title"
-              color="primary"
-              class="display-2 font-weight-light primary--text mt-7 mb-5"
-              :rules="[v => !!v || 'Title required']"
-            ></v-text-field>
-            <h1
-              v-else
-              class="display-2 font-weight-light primary--text mt-7 mb-5">
-              {{ dashboardTitle }}</h1>
+            <div class="d-flex">
+              <h1
+                class="display-2 font-weight-light primary--text mt-7 mb-5">
+                {{ dashboardTitle }}</h1>
+              <v-dialog
+                v-if="newDashboard || hasEditingPrivilege"
+                v-model="titleDialog"
+                width="500"
+              >
+                <template>
+                  <div class="d-flex align-center ml-2">
+                    <v-btn
+                      v-if="newDashboard || hasEditingPrivilege"
+                      icon
+                      large
+                      @click="newDashboardTitle = dashboardTitle; titleDialog = true"
+                    >
+                      <v-icon
+                      >mdi-pencil</v-icon>
+                    </v-btn>
+                  </div>
+                </template>
+
+                <v-card>
+                  <v-card-title class="headline primary--text mb-5">
+                    Title for your Dashboard
+                  </v-card-title>
+
+                  <v-card-text>
+                    <v-form
+                      @submit.prevent="dashboardTitle = newDashboardTitle;
+                      editTitle;
+                      titleDialog = false">
+                      <v-text-field
+                        placeholder="Title"
+                        outlined
+                        autofocus
+                        v-model="newDashboardTitle"
+                      ></v-text-field>
+                    </v-form>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="primary"
+                      text
+                      @click="titleDialog = false"
+                    >
+                      cancel
+                    </v-btn>
+                    <v-btn
+                      color="primary"
+                      @click="dashboardTitle = newDashboardTitle; editTitle; titleDialog = false"
+                      :disabled="!newDashboardTitle.length"
+                      :rules="[v => !!v || 'Title required']"
+                    >
+                      change
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </div>
           </div>
         </v-col>
         <v-col
@@ -386,6 +432,9 @@ export default {
     newTextFeatureText: '',
     textFeatureUpdate: '',
 
+    newDashboardTitle: '',
+    titleDialog: false,
+
     popupOpen: false,
 
     success: false,
@@ -462,6 +511,10 @@ export default {
       }
     }
 
+    if (this.newDashboard) {
+      this.dashboardTitle = 'My Dashboard';
+    }
+
     if (id) {
       this.reconnecting = true;
       this.disconnect();
@@ -523,7 +576,6 @@ export default {
     async editTitle() {
       if (this.hasEditingPrivilege || this.newDashboard) {
         this.performChange('changeTitle', this.dashboardTitle);
-        this.dashboardTitleChanged = true;
       }
     },
     async saveCurrentDashboardState() {
@@ -611,6 +663,10 @@ export default {
         this.savingChanges = false;
       }
     },
+    onPencilClick() {
+      this.editingTitle = true;
+      this.$refs.titleInput.focus();
+    },
   },
 };
 </script>
@@ -632,5 +688,14 @@ export default {
     height: 48px;
     line-height: 48px;
   }
+}
+// edit icon next to title
+::v-deep .display-2 {
+  .v-input__icon.v-input__icon--append .v-icon {
+    font-size: 40px;
+  }
+}
+::v-deep .display-2 ::v-deep .v-input__append-inner {
+  align-self: center !important;
 }
 </style>

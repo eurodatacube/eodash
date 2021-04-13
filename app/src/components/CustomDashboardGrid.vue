@@ -20,7 +20,14 @@
           <template v-slot:activator="{ on }">
             <div class="d-flex align-center">
               <span v-if="element.title" @click="redirectToPoi(element.indicatorObject)" style="cursor: pointer"> {{ element.title }} </span>
-              <v-icon v-if="enableEditing" @click="featureTitle = element.title" v-on="on" right small style="cursor: pointer">mdi-pencil</v-icon>
+              <v-btn
+                v-if="enableEditing"
+                icon
+                small
+                @click="featureTitle = element.title"
+              >
+                <v-icon small>mdi-pencil</v-icon>
+              </v-btn>
             </div>
           </template>
 
