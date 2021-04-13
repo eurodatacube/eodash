@@ -85,7 +85,7 @@
               :block="$vuetify.breakpoint.xsOnly"
               @click="viewLinksFn"
             >
-              <v-icon left>mdi-link</v-icon>
+              <v-icon left>mdi-share</v-icon>
               share
             </v-btn>
             <v-dialog
@@ -198,7 +198,10 @@
                             outlined
                             append-icon="mdi-content-copy"
                             persistent-hint
-                            hint="Read-only link to your Dashboard"
+                            :hint="$store.state.dashboard.dashboardConfig
+                              && $store.state.dashboard.dashboardConfig.editKey
+                                ? 'Read-only link to your Dashboard'
+                                : 'Read-only link to this Dashboard'"
                             :value="viewingLink"
                           />
                         </v-col>
