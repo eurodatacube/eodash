@@ -118,14 +118,25 @@
         >
           About
         </v-btn>
-        <v-btn
-          block
-          text
-          color="primary"
-          to="/dashboard"
+        <v-badge
+          bordered
+          color="info"
+          :content="$store.state.dashboard.dashboardConfig
+            && $store.state.dashboard.dashboardConfig.features.length"
+          :value="$store.state.dashboard.dashboardConfig
+            && $store.state.dashboard.dashboardConfig.features.length"
+          overlap
         >
-          Custom Dashboard
-        </v-btn>
+          <v-btn
+            v-if="$store.state.dashboard.dashboardConfig"
+            block
+            text
+            color="primary"
+            to="/dashboard"
+          >
+            Custom Dashboard
+          </v-btn>
+        </v-badge>
         <v-divider></v-divider>
       </template>
       <selection-panel style="overflow:hidden" />
@@ -433,6 +444,14 @@ export default {
   width: 0;
 }
 ::v-deep .v-navigation-drawer--temporary:not(.v-navigation-drawer--close) {
-    box-shadow: none;
+  box-shadow: none;
+}
+::v-deep .v-navigation-drawer {
+  .v-badge {
+    min-width: 100% !important;
+  }
+  .v-badge__badge {
+    transform: translateX(-45px);
+  }
 }
 </style>
