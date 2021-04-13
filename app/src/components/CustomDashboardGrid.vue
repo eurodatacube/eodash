@@ -1,5 +1,6 @@
 <template>
-<v-row>
+  <loading-animation v-if="features.length === 0" style="height: 400px" />
+  <v-row v-else>
     <template
       v-for="(element, index) in features"
     >
@@ -230,6 +231,7 @@
 <script>
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
+import LoadingAnimation from '@/components/LoadingAnimation.vue';
 import { loadIndicatorData } from '@/utils';
 import { mapGetters, mapState, mapActions } from 'vuex';
 
@@ -241,6 +243,7 @@ export default {
   components: {
     IndicatorData,
     IndicatorMap,
+    LoadingAnimation,
   },
   data: () => ({
     features: [],
