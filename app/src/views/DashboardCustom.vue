@@ -108,6 +108,16 @@
             style="width: 100%"
           >
             <v-btn
+              color="info"
+              v-if="!newDashboard"
+              :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : ''"
+              :block="$vuetify.breakpoint.xsOnly"
+              @click="viewLinksFn"
+            >
+              <v-icon left>mdi-share</v-icon>
+              share
+            </v-btn>
+            <v-btn
               v-if="hasEditingPrivilege || !(dashboardConfig && dashboardConfig.id)"
               @click="disconnect"
               :color="!(dashboardConfig && dashboardConfig.id) ? 'red' : 'grey'"
@@ -121,18 +131,8 @@
               </template>
               <template v-else>
                 <v-icon left color="white">mdi-connection</v-icon>
-                disconnect
+                disconnect from dashboard
               </template>
-            </v-btn>
-            <v-btn
-              color="info"
-              v-if="!newDashboard"
-              :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : ''"
-              :block="$vuetify.breakpoint.xsOnly"
-              @click="viewLinksFn"
-            >
-              <v-icon left>mdi-share</v-icon>
-              share
             </v-btn>
             <v-dialog
               v-model="popupOpen"
