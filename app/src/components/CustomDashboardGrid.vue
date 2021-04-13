@@ -13,27 +13,30 @@
         :md="element.width > 1 ? (element.width > 2 ? (element.width > 3 ? 12 : 8) : 6) : 4"
         style="position: relative;"
       >
-        <v-dialog
-          v-model="dialog"
-          width="500"
-        >
-          <template v-slot:activator="{ on }">
-            <div class="d-flex align-center">
-              <span v-if="element.title" @click="redirectToPoi(element.indicatorObject)" style="cursor: pointer"> {{ element.title }} </span>
+        <div class="d-flex align-center">
+          <span v-if="element.title" @click="redirectToPoi(element.indicatorObject)" style="cursor: pointer"> {{ element.title }} </span>
+          <v-tooltip right>
+            <template v-slot:activator="{ on }">
               <v-btn
                 v-if="enableEditing"
                 icon
                 small
+                v-on="on"
                 @click="featureTitle = element.title"
               >
                 <v-icon small>mdi-pencil</v-icon>
               </v-btn>
-            </div>
-          </template>
-
+            </template>
+            <span>Edit element title</span>
+          </v-tooltip>
+        </div>
+        <v-dialog
+          v-model="dialog"
+          width="500"
+        >
           <v-card>
             <v-card-title class="headline primary--text mb-5">
-              Title for custom dashboard element
+              Title for dashboard element
             </v-card-title>
 
             <v-card-text>
@@ -95,46 +98,64 @@
         </v-card>
         <template v-if="enableEditing">
           <div class="buttonContainer containerRight containerTop">
-            <v-btn
-              class="my-2"
-              :style="element.width > 1 ? 'background: white' : 'background: white;visibility: hidden'"
-              fab
-              outlined
-              x-small
-              color="primary"
-              @click="performChange('resizeFeatureShrink', element)"
-            >
-              <v-icon dark>
-                mdi-arrow-collapse
-              </v-icon>
-            </v-btn>
-            <v-btn
-              class="my-2"
-              :style="element.width < 4 ? 'background: white' : 'background: white;visibility: hidden'"
-              fab
-              outlined
-              x-small
-              color="primary"
-              @click="performChange('resizeFeatureExpand', element)"
-            >
-              <v-icon dark>
-                mdi-arrow-expand
-              </v-icon>
-            </v-btn>
-            <v-btn
-              class="my-2"
-              fab
-              dark
-              x-small
-              color="error"
-              style="background: white"
-              @click="performChange('removeFeature', element)"
-            >
-              <v-icon>
-                mdi-delete
-              </v-icon>
-            </v-btn>
-            <v-tooltip bottom>
+            <v-tooltip left>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  class="my-2"
+                  :style="element.width > 1 ? 'background: white' : 'background: white;visibility: hidden'"
+                  fab
+                  outlined
+                  x-small
+                  color="primary"
+                  v-on="on"
+                  @click="performChange('resizeFeatureShrink', element)"
+                >
+                  <v-icon dark>
+                    mdi-arrow-collapse
+                  </v-icon>
+                </v-btn>
+              </template>
+              <span>Shrink element</span>
+            </v-tooltip>
+            <v-tooltip left>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  class="my-2"
+                  :style="element.width < 4 ? 'background: white' : 'background: white;visibility: hidden'"
+                  fab
+                  outlined
+                  x-small
+                  color="primary"
+                  v-on="on"
+                  @click="performChange('resizeFeatureExpand', element)"
+                >
+                  <v-icon dark>
+                    mdi-arrow-expand
+                  </v-icon>
+                </v-btn>
+              </template>
+              <span>Expand element</span>
+            </v-tooltip>
+            <v-tooltip left>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  class="my-2"
+                  fab
+                  dark
+                  x-small
+                  color="error"
+                  style="background: white"
+                  v-on="on"
+                  @click="performChange('removeFeature', element)"
+                >
+                  <v-icon>
+                    mdi-delete
+                  </v-icon>
+                </v-btn>
+              </template>
+              <span>Delete element</span>
+            </v-tooltip>
+            <v-tooltip left>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   v-bind="attrs"
@@ -161,32 +182,44 @@
             </v-tooltip>
           </div>
           <div class="buttonContainer containerRight containerBottom">
-            <v-btn
-              :style="index > 0 ? '' : 'visibility: hidden'"
-              class="my-2"
-              fab
-              dark
-              x-small
-              color="primary"
-              @click="performChange('moveFeatureUp', element)"
-            >
-              <v-icon dark>
-                mdi-chevron-left
-              </v-icon>
-            </v-btn>
-            <v-btn
-              :style="index < features.length - 1 ? '' : 'visibility: hidden'"
-              class="my-2"
-              fab
-              dark
-              x-small
-              color="primary"
-              @click="performChange('moveFeatureDown', element)"
-            >
-              <v-icon dark>
-                mdi-chevron-right
-              </v-icon>
-            </v-btn>
+            <v-tooltip left>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  :style="index > 0 ? '' : 'visibility: hidden'"
+                  class="my-2"
+                  fab
+                  dark
+                  x-small
+                  color="primary"
+                  v-on="on"
+                  @click="performChange('moveFeatureUp', element)"
+                >
+                  <v-icon dark>
+                    mdi-chevron-left
+                  </v-icon>
+                </v-btn>
+              </template>
+              <span>Move element left</span>
+            </v-tooltip>
+            <v-tooltip left>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  :style="index < features.length - 1 ? '' : 'visibility: hidden'"
+                  class="my-2"
+                  fab
+                  dark
+                  x-small
+                  color="primary"
+                  v-on="on"
+                  @click="performChange('moveFeatureDown', element)"
+                >
+                  <v-icon dark>
+                    mdi-chevron-right
+                  </v-icon>
+                </v-btn>
+              </template>
+              <span>Move element right</span>
+            </v-tooltip>
           </div>
         </template>
       </v-col>

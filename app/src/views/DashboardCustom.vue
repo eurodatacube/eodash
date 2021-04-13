@@ -37,25 +37,27 @@
               <h1
                 class="display-2 font-weight-light primary--text mt-7 mb-5">
                 {{ dashboardTitle }}</h1>
-              <v-dialog
-                v-if="newDashboard || hasEditingPrivilege"
-                v-model="titleDialog"
-                width="500"
-              >
-                <template>
-                  <div class="d-flex align-center ml-2">
+              <div class="d-flex align-center ml-2">
+                <v-tooltip right>
+                  <template v-slot:activator="{ on }">
                     <v-btn
-                      v-if="newDashboard || hasEditingPrivilege"
                       icon
                       large
+                      v-on="on"
                       @click="newDashboardTitle = dashboardTitle; titleDialog = true"
                     >
                       <v-icon
                       >mdi-pencil</v-icon>
                     </v-btn>
-                  </div>
-                </template>
-
+                  </template>
+                  <span>Edit dashboard title</span>
+                </v-tooltip>
+              </div>
+              <v-dialog
+                v-if="newDashboard || hasEditingPrivilege"
+                v-model="titleDialog"
+                width="500"
+              >
                 <v-card>
                   <v-card-title class="headline primary--text mb-5">
                     Title for your Dashboard
@@ -110,7 +112,7 @@
             <v-btn
               color="info"
               v-if="!newDashboard"
-              :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : ''"
+              :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : 'mr-4'"
               :block="$vuetify.breakpoint.xsOnly"
               @click="viewLinksFn"
             >
@@ -121,7 +123,7 @@
               v-if="hasEditingPrivilege || !(dashboardConfig && dashboardConfig.id)"
               @click="disconnect"
               :color="!(dashboardConfig && dashboardConfig.id) ? 'red' : 'grey'"
-              :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : 'mr-4'"
+              :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : ''"
               :block="$vuetify.breakpoint.xsOnly"
               style="color: white"
             >
@@ -131,7 +133,7 @@
               </template>
               <template v-else>
                 <v-icon left color="white">mdi-connection</v-icon>
-                disconnect from dashboard
+                close editing mode
               </template>
             </v-btn>
             <v-dialog
