@@ -103,7 +103,7 @@
               <template v-slot:activator="{ on }">
                 <v-btn
                   class="my-2"
-                  :style="element.width > 1 ? 'background: white' : 'background: white;visibility: hidden'"
+                  :style="`background: var(--v-background-base); ${element.width > 1 ? '' : 'visibility: hidden'}`"
                   fab
                   outlined
                   x-small
@@ -122,7 +122,7 @@
               <template v-slot:activator="{ on }">
                 <v-btn
                   class="my-2"
-                  :style="element.width < 4 ? 'background: white' : 'background: white;visibility: hidden'"
+                  :style="`background: var(--v-background-base); ${element.width < 4 ? '' : 'visibility: hidden'}`"
                   fab
                   outlined
                   x-small
@@ -145,7 +145,6 @@
                   dark
                   x-small
                   color="error"
-                  style="background: white"
                   v-on="on"
                   @click="performChange('removeFeature', element)"
                 >
@@ -166,7 +165,7 @@
                   outlined
                   x-small
                   color="primary"
-                  style="background: white"
+                  style="background: var(--v-background-base)"
                   @click="update(element)"
                   v-if="element.mapInfo || element.text"
                 >
