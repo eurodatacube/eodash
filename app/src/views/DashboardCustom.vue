@@ -123,7 +123,7 @@
               v-if="hasEditingPrivilege || !(dashboardConfig && dashboardConfig.id)"
               @click="disconnect"
               :color="!(dashboardConfig && dashboardConfig.id) ? 'red' : 'grey'"
-              :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : 'mr-4'"
+              :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : ''"
               :block="$vuetify.breakpoint.xsOnly"
               style="color: white"
             >
@@ -133,7 +133,7 @@
               </template>
               <template v-else>
                 <v-icon left color="white">mdi-connection</v-icon>
-                close editing mode
+                disconnect from dashboard
               </template>
             </v-btn>
             <v-dialog
