@@ -187,7 +187,7 @@
             </div>
             <indicator-data
               v-if="!customAreaIndicator.isEmpty"
-              style="margin-top: -40px;"
+              style="margin-top: 0px;"
               class="pa-5 chart"
             />
           </v-card>
