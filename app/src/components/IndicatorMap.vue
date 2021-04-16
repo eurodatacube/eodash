@@ -1549,6 +1549,9 @@ export default {
           indicator.country = indicator.CountryCode; // eslint-disable-line
           indicator.title = indicator.CountryName; // eslint-disable-line
           indicator.yAxis = this.indicator.yAxis; // eslint-disable-line
+          indicator.includesIndicator = true;
+          indicator.city = indicator.CountryName;
+          indicator.description = this.indicator.description;
           this.map.fireEvent('dataload');
           this.$store.commit(
             'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
