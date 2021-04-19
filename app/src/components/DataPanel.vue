@@ -8,7 +8,7 @@
       <v-row v-if="indicatorObject">
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
-          :style="`height: ${expanded ? 'auto' : wrapperHeight/2 + buttonRowHeight + 'px' }`"
+          :style="`height: ${expanded ? 'auto' : wrapperHeight/2 + buttonRowHeight - eoDataBtnHeight + 'px' }`"
         >
           <v-tabs
             v-if="multipleTabCompare"
@@ -42,7 +42,7 @@
             >
               <v-card
                 class="fill-height"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 90 : 80}%;`"
               >
                 <full-screen-button />
                 <div
@@ -82,7 +82,7 @@
           <v-card
             v-else
             class="fill-height"
-            :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
+            :style="`height: ${$vuetify.breakpoint.mdAndUp ? 90 : 80}%;`"
           >
             <full-screen-button />
             <div
@@ -163,7 +163,7 @@
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: ${$vuetify.breakpoint.mdAndDown
                   ? 'auto'
-                  : (expanded ? wrapperHeight + 'px' : wrapperHeight/2 - buttonRowHeight + 'px') }`"
+                  : (expanded ? wrapperHeight + 'px' : wrapperHeight/2 - buttonRowHeight + eoDataBtnHeight + 'px') }`"
         >
           <v-row
             class="mt-0 fill-height scrollContainer"
@@ -177,7 +177,7 @@
               <v-card
                 v-if="customAreaIndicator"
                 class="fill-height"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 90 : 80}%;`"
               >
               <v-card-title
                 style="padding-top: 5px"
@@ -212,7 +212,7 @@
               v-if="!isFullScreen"
             >
               <expandable-content
-                :minHeight="wrapperHeight/2 - buttonRowHeight - 80"
+                :minHeight="wrapperHeight/2 - buttonRowHeight - eoDataBtnHeight - 80"
                 :disableExpand="expanded"
               >
                 <div
@@ -223,6 +223,7 @@
               <v-btn
                 v-if="eodataEnabled"
                 @click="dialog = true"
+                ref="EODataBtn"
                 color="primary"
                 large
                 block
@@ -408,6 +409,12 @@ export default {
     buttonRowHeight() {
       if (this.mounted) {
         return this.$refs.buttonRow.clientHeight;
+      }
+      return 0;
+    },
+    eoDataBtnHeight() {
+      if (this.mounted && this.$refs.EODataBtn != null) {
+        return this.$refs.EODataBtn.$el.clientHeight;
       }
       return 0;
     },
