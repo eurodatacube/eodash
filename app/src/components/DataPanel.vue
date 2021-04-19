@@ -8,7 +8,7 @@
       <v-row v-if="indicatorObject">
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
-          :style="`height: ${expanded ? 'auto' : wrapperHeight/2 + buttonRowHeight - eoDataBtnHeight + 'px' }`"
+          :style="`height: ${expanded ? 'auto' : wrapperHeight/2 - eoDataBtnHeight + 'px' }`"
         >
           <v-tabs
             v-if="multipleTabCompare"
@@ -116,7 +116,6 @@
           </v-card>
           <v-row
             class="mt-0"
-            ref="buttonRow"
           >
             <v-col
               cols="12"
@@ -163,7 +162,7 @@
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: ${$vuetify.breakpoint.mdAndDown
                   ? 'auto'
-                  : (expanded ? wrapperHeight + 'px' : wrapperHeight/2 - buttonRowHeight + eoDataBtnHeight + 'px') }`"
+                  : (expanded ? wrapperHeight + 'px' : wrapperHeight/2 + eoDataBtnHeight + 'px') }`"
         >
           <v-row
             class="mt-0 fill-height scrollContainer"
@@ -212,7 +211,7 @@
               v-if="!isFullScreen"
             >
               <expandable-content
-                :minHeight="wrapperHeight/2 - buttonRowHeight - eoDataBtnHeight - 80"
+                :minHeight="wrapperHeight/2 - eoDataBtnHeight - 80"
                 :disableExpand="expanded"
               >
                 <div
@@ -403,12 +402,6 @@ export default {
     wrapperHeight() {
       if (this.mounted) {
         return this.$refs.wrapper.clientHeight;
-      }
-      return 0;
-    },
-    buttonRowHeight() {
-      if (this.mounted) {
-        return this.$refs.buttonRow.clientHeight;
       }
       return 0;
     },
