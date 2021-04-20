@@ -181,6 +181,7 @@
                 v-if="customAreaIndicator"
                 class="fill-height"
                 :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
+                ref="indicatorData"
               >
               <v-card-title
                 style="padding-top: 5px"
@@ -205,17 +206,18 @@
                 </div>
                 <indicator-data
                   v-if="!customAreaIndicator.isEmpty"
-                  style="margin-top: 0;"
+                  style="margin-top: 0px;"
                   class="pa-5 chart"
                 />
               </v-card>
             </v-col>
             <v-col
               cols="12"
+              :style="`margin-top: ${customAreaIndicator ? '25px' : ''}`"
               v-if="!isFullScreen"
             >
               <expandable-content
-                :minHeight="wrapperHeight - mapPanelHeight - buttonRowHeight - eoDataBtnHeight"
+                :minHeight="wrapperHeight - mapPanelHeight - buttonRowHeight - eoDataBtnHeight - indicatorDataHeight"
                 :disableExpand="expanded"
               >
                 <div
@@ -425,6 +427,12 @@ export default {
     mapPanelHeight() {
       if (this.mounted) {
         return this.$refs.mapPanel.$el.clientHeight;
+      }
+      return 0;
+    },
+    indicatorDataHeight() {
+      if (this.mounted && this.$refs.indicatorData != null) {
+        return this.$refs.indicatorData.$el.clientHeight;
       }
       return 0;
     },
