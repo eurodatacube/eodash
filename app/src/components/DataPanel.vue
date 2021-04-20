@@ -164,7 +164,9 @@
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: ${$vuetify.breakpoint.mdAndDown
                   ? 'auto'
-                  : (expanded ? wrapperHeight + 'px' : wrapperHeight - mapPanelHeight - buttonRowHeight + eoDataBtnHeight + 'px') }`"
+                  : (expanded
+                    ? wrapperHeight + 'px'
+                    : wrapperHeight - mapPanelHeight - buttonRowHeight + eoDataBtnHeight + 'px') }`"
         >
           <v-row
             class="mt-0 fill-height scrollContainer"
