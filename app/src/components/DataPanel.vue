@@ -8,7 +8,7 @@
       <v-row v-if="indicatorObject">
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
-          :style="`height: ${expanded ? 'auto' : wrapperHeight/2 - eoDataBtnHeight + 'px' }`"
+          :style="`height: ${expanded ? 'auto' : 'auto' }`"
         >
           <v-tabs
             v-if="multipleTabCompare"
@@ -42,7 +42,7 @@
             >
               <v-card
                 class="fill-height"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 90 : 80}%;`"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
               >
                 <full-screen-button />
                 <div
@@ -82,7 +82,8 @@
           <v-card
             v-else
             class="fill-height"
-            :style="`height: ${$vuetify.breakpoint.mdAndUp ? 90 : 80}%;`"
+            :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
+            ref="mapPanel"
           >
             <full-screen-button />
             <div
@@ -116,6 +117,7 @@
           </v-card>
           <v-row
             class="mt-0"
+            ref="buttonRow"
           >
             <v-col
               cols="12"
@@ -162,7 +164,7 @@
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: ${$vuetify.breakpoint.mdAndDown
                   ? 'auto'
-                  : (expanded ? wrapperHeight + 'px' : wrapperHeight/2 + eoDataBtnHeight + 'px') }`"
+                  : (expanded ? wrapperHeight + 'px' : wrapperHeight - mapPanelHeight - buttonRowHeight + eoDataBtnHeight + 'px') }`"
         >
           <v-row
             class="mt-0 fill-height scrollContainer"
@@ -176,7 +178,7 @@
               <v-card
                 v-if="customAreaIndicator"
                 class="fill-height"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 90 : 80}%;`"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
               >
               <v-card-title
                 style="padding-top: 5px"
@@ -211,7 +213,7 @@
               v-if="!isFullScreen"
             >
               <expandable-content
-                :minHeight="wrapperHeight/2 - eoDataBtnHeight - 80"
+                :minHeight="wrapperHeight - mapPanelHeight - buttonRowHeight - eoDataBtnHeight - 80"
                 :disableExpand="expanded"
               >
                 <div
@@ -234,6 +236,7 @@
                 :href= "externalData.url"
                 target="_blank"
                 color="primary"
+                ref="externalDataBtn"
                 large
                 block
                 class="my-5"
@@ -405,9 +408,21 @@ export default {
       }
       return 0;
     },
+    buttonRowHeight() {
+      if (this.mounted) {
+        return this.$refs.buttonRow.clientHeight;
+      }
+      return 0;
+    },
     eoDataBtnHeight() {
       if (this.mounted && this.$refs.EODataBtn != null) {
         return this.$refs.EODataBtn.$el.clientHeight;
+      }
+      return 0;
+    },
+    mapPanelHeight() {
+      if (this.mounted) {
+        return this.$refs.mapPanel.$el.clientHeight;
       }
       return 0;
     },
