@@ -3,7 +3,9 @@
     <v-expand-transition>
       <div
         v-if="needsExpand"
-        :style="`overflow: hidden; height: ${contentExpanded ? 'auto' : `${minHeight}px`}`">
+        :style="`overflow: hidden; height: ${(contentExpanded || disableExpand)
+                                            ? 'auto'
+                                            : `${minHeight}px`}`">
         <div ref="content">
           <slot></slot>
         </div>
@@ -16,10 +18,10 @@
         </div>
       </div>
     </v-expand-transition>
-    <div v-if="needsExpand && !contentExpanded"
+    <div v-if="needsExpand && (!contentExpanded && !disableExpand)"
       :class="$vuetify.theme.dark ? 'fadeOut--dark' : 'fadeOut'"></div>
     <v-btn
-      v-if="needsExpand"
+      v-if="needsExpand && !disableExpand"
       small
       text
       block
@@ -47,10 +49,10 @@ export default {
     observer: null,
   }),
   mounted() {
-    this.needsExpand = !this.disableExpand && this.$refs.content.clientHeight > this.minHeight;
+    this.needsExpand = this.$refs.content.clientHeight > this.minHeight;
     // Create the observer (and what to do on changes...)
     this.observer = new MutationObserver(function () { // eslint-disable-line
-      this.needsExpand = !this.disableExpand && this.$refs.content.clientHeight > this.minHeight;
+      this.needsExpand = this.$refs.content.clientHeight > this.minHeight;
     }.bind(this));
 
     // Setup the observer
