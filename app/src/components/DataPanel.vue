@@ -205,7 +205,7 @@
                 </div>
                 <indicator-data
                   v-if="!customAreaIndicator.isEmpty"
-                  style="margin-top: -40px;"
+                  style="margin-top: 0;"
                   class="pa-5 chart"
                 />
               </v-card>
@@ -215,7 +215,7 @@
               v-if="!isFullScreen"
             >
               <expandable-content
-                :minHeight="wrapperHeight - mapPanelHeight - buttonRowHeight - eoDataBtnHeight - 80"
+                :minHeight="wrapperHeight - mapPanelHeight - buttonRowHeight - eoDataBtnHeight"
                 :disableExpand="expanded"
               >
                 <div
