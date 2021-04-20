@@ -217,7 +217,8 @@
               v-if="!isFullScreen"
             >
               <expandable-content
-                :minHeight="wrapperHeight - mapPanelHeight - buttonRowHeight - eoDataBtnHeight - indicatorDataHeight"
+                :minHeight="wrapperHeight - mapPanelHeight
+                          - buttonRowHeight - eoDataBtnHeight - indicatorDataHeight"
                 :disableExpand="expanded"
               >
                 <div
