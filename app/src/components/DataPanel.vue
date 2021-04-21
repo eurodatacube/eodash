@@ -166,7 +166,7 @@
                   ? 'auto'
                   : (expanded
                     ? wrapperHeight + 'px'
-                    : wrapperHeight - mapPanelHeight - buttonRowHeight + 'px') }`"
+                    : wrapperHeight - mapPanelHeight - buttonRowHeight - eoDataBtnHeight + 'px') }`"
         >
           <v-row
             class="mt-0 fill-height scrollContainer"
@@ -423,7 +423,7 @@ export default {
       if (this.mounted && this.$refs.EODataBtn != null) {
         return this.$refs.EODataBtn.$el.clientHeight;
       }
-      return 0;
+      return 28;
     },
     mapPanelHeight() {
       if (this.mounted) {
