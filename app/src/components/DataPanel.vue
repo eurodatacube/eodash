@@ -166,7 +166,7 @@
                   ? 'auto'
                   : (expanded
                     ? wrapperHeight + 'px'
-                    : wrapperHeight - mapPanelHeight - buttonRowHeight + eoDataBtnHeight + 20 + 'px') }`"
+                    : wrapperHeight - mapPanelHeight - buttonRowHeight - (multipleTabCompare ? 48 : 0) + eoDataBtnHeight + 20 + 'px') }`"
         >
           <v-row
             class="mt-0 fill-height scrollContainer"
