@@ -4,7 +4,7 @@
     :style="$vuetify.breakpoint.mdAndDown && 'padding-bottom: 100px'"
     ref="wrapper"
   >
-    <v-container class="pt-0">
+    <v-container class="pt-0 pb-0">
       <v-row v-if="indicatorObject">
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
@@ -162,11 +162,12 @@
         </v-col>
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
-          :style="`height: ${$vuetify.breakpoint.mdAndDown
+          :style="`padding-bottom: 0px; height: ${$vuetify.breakpoint.mdAndDown
                   ? 'auto'
                   : (expanded
                     ? wrapperHeight + 'px'
-                    : wrapperHeight - mapPanelHeight - buttonRowHeight - (multipleTabCompare ? 48 : 0) + eoDataBtnHeight + 20 + 'px') }`"
+                    : wrapperHeight - mapPanelHeight
+                    - buttonRowHeight - (multipleTabCompare ? 48 : 0) + 'px') }`"
         >
           <v-row
             class="mt-0 fill-height scrollContainer"
@@ -213,13 +214,14 @@
             </v-col>
             <v-col
               cols="12"
-              :style="`margin-top: ${customAreaIndicator ? '25px' : ''}`"
+              class="pb-0"
+              :style="`margin-top: ${customAreaIndicator ? '25px' : '0px'}`"
               v-if="!isFullScreen"
             >
               <expandable-content
-                :minHeight="wrapperHeight - mapPanelHeight
+                :minHeight="wrapperHeight - mapPanelHeight - (multipleTabCompare ? 48 : 0)
                           - buttonRowHeight - eoDataBtnHeight
-                          - indicatorDataHeight - 60"
+                          - indicatorDataHeight - 80"
                 :disableExpand="expanded"
               >
                 <div
@@ -234,7 +236,7 @@
                 color="primary"
                 large
                 block
-                class="my-5"
+                class="my-1"
               ><span><v-icon left>mdi-satellite-variant</v-icon>EO Data</span>
               </v-btn>
               <v-btn
@@ -245,7 +247,7 @@
                 ref="externalDataBtn"
                 large
                 block
-                class="my-5"
+                class="my-1"
               ><span><v-icon left>mdi-open-in-new</v-icon>{{externalData.label}}</span>
               </v-btn>
               <v-dialog
