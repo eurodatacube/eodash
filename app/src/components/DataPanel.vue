@@ -176,7 +176,7 @@
               cols="12"
               ref="customAreaIndicator"
               class="pa-0"
-              v-if="!isFullScreen"
+              v-if="!isFullScreen && customAreaIndicator"
             >
               <v-card
                 v-if="customAreaIndicator"
@@ -221,7 +221,7 @@
               <expandable-content
                 :minHeight="wrapperHeight - mapPanelHeight - (multipleTabCompare ? 48 : 0)
                           - buttonRowHeight - eoDataBtnHeight
-                          - indicatorDataHeight - 80"
+                          - indicatorDataHeight - 64"
                 :disableExpand="expanded"
               >
                 <div
