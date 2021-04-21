@@ -1,6 +1,6 @@
 <template>
   <div
-    style="height: calc(100% - 64px)"
+    style="height: calc(100% - 104px)"
     :style="$vuetify.breakpoint.mdAndDown && 'padding-bottom: 100px'"
     ref="wrapper"
   >
@@ -166,7 +166,7 @@
                   ? 'auto'
                   : (expanded
                     ? wrapperHeight + 'px'
-                    : wrapperHeight - mapPanelHeight - buttonRowHeight - eoDataBtnHeight + 'px') }`"
+                    : wrapperHeight - mapPanelHeight - buttonRowHeight + eoDataBtnHeight + 20 + 'px') }`"
         >
           <v-row
             class="mt-0 fill-height scrollContainer"
@@ -218,7 +218,8 @@
             >
               <expandable-content
                 :minHeight="wrapperHeight - mapPanelHeight
-                          - buttonRowHeight - eoDataBtnHeight - indicatorDataHeight"
+                          - buttonRowHeight - eoDataBtnHeight
+                          - indicatorDataHeight - 60"
                 :disableExpand="expanded"
               >
                 <div
@@ -423,7 +424,7 @@ export default {
       if (this.mounted && this.$refs.EODataBtn != null) {
         return this.$refs.EODataBtn.$el.clientHeight;
       }
-      return 28;
+      return 0;
     },
     mapPanelHeight() {
       if (this.mounted) {
