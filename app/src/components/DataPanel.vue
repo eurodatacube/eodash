@@ -8,7 +8,7 @@
       <v-row v-if="indicatorObject">
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
-          :style="`height: ${expanded ? 'auto' : 'auto' }`"
+          :style="`height: auto`"
         >
           <v-tabs
             v-if="multipleTabCompare"
@@ -166,7 +166,7 @@
                   ? 'auto'
                   : (expanded
                     ? wrapperHeight + 'px'
-                    : wrapperHeight - mapPanelHeight - buttonRowHeight + eoDataBtnHeight + 'px') }`"
+                    : wrapperHeight - mapPanelHeight - buttonRowHeight + 'px') }`"
         >
           <v-row
             class="mt-0 fill-height scrollContainer"
