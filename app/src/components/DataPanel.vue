@@ -1,6 +1,6 @@
 <template>
   <div
-    style="height: calc(100% - 104px)"
+    style="height: calc(100% - 64px)"
     :style="$vuetify.breakpoint.mdAndDown && 'padding-bottom: 100px'"
     ref="wrapper"
   >
@@ -190,7 +190,6 @@
           </v-card>
           <v-row
             class="mt-0"
-            ref="buttonRow"
           >
             <v-col
               cols="12"
@@ -214,6 +213,7 @@
               cols="12"
               sm="7"
               v-if="!isFullScreen"
+              ref="buttonRow"
             >
               <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
                 <v-btn
@@ -239,7 +239,7 @@
                   ? 'auto'
                   : (expanded
                     ? wrapperHeight + 'px'
-                    : wrapperHeight - mapPanelHeight
+                    : wrapperHeight - mapPanelHeight - (showMap ? 40 : 0)
                     - buttonRowHeight - (multipleTabCompare ? 48 : 0) + 'px') }`"
         >
           <v-row
@@ -295,8 +295,8 @@
             >
               <expandable-content
                 :minHeight="wrapperHeight - mapPanelHeight - (multipleTabCompare ? 48 : 0)
-                          - buttonRowHeight - eoDataBtnHeight
-                          - indicatorDataHeight - 64"
+                          - buttonRowHeight - eoDataBtnHeight - (showMap ? 40 : 0)
+                          - indicatorDataHeight - 60"
                 :disableExpand="expanded"
               >
                 <div
@@ -492,7 +492,7 @@ export default {
       return 0;
     },
     buttonRowHeight() {
-      if (this.mounted) {
+      if (this.mounted && this.$refs.buttonRow != null) {
         return this.$refs.buttonRow.clientHeight;
       }
       return 0;
@@ -504,7 +504,7 @@ export default {
       return 0;
     },
     mapPanelHeight() {
-      if (this.mounted) {
+      if (this.mounted && this.$refs.mapPanel != null) {
         return this.$refs.mapPanel.$el.clientHeight;
       }
       return 0;
