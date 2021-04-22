@@ -42,6 +42,7 @@
             >
               <v-card
                 class="fill-height"
+                v-if="!customAreaIndicator"
                 :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
               >
                 <full-screen-button />
@@ -77,8 +78,74 @@
                   :currentIndicator="sensorData.properties.indicatorObject"
                 />
               </v-card>
+              <v-card
+                v-if="customAreaIndicator && !expanded"
+                class="fill-height"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
+                ref="indicatorData"
+              >
+              <v-card-title
+                style="padding-top: 5px"
+                v-if="customAreaIndicator.title">
+                  {{ customAreaIndicator.title }}
+              </v-card-title>
+              <v-card-title
+                style="padding-top: 5px"
+                v-if="customAreaIndicator.isEmpty">
+                  No data found for selection
+              </v-card-title>
+                <div
+                  style="height: 100%;z-index: 500; position: relative;"
+                  v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
+                  @click="dataInteract = true"
+                  v-touch="{
+                    left: () => swipe(),
+                    right: () => swipe(),
+                    up: () => swipe(),
+                    down: () => swipe(),
+                }">
+                </div>
+                <indicator-data
+                  v-if="!customAreaIndicator.isEmpty"
+                  style="margin-top: 0px;"
+                  class="pa-5 chart"
+                />
+              </v-card>
             </v-tab-item>
           </v-tabs-items>
+          <v-card
+            v-else-if="customAreaIndicator && !expanded"
+            class="fill-height"
+            :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
+            ref="indicatorData"
+          >
+          <v-card-title
+            style="padding-top: 5px"
+            v-if="customAreaIndicator.title">
+              {{ customAreaIndicator.title }}
+          </v-card-title>
+          <v-card-title
+            style="padding-top: 5px"
+            v-if="customAreaIndicator.isEmpty">
+              No data found for selection
+          </v-card-title>
+            <div
+              style="height: 100%;z-index: 500; position: relative;"
+              v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
+              @click="dataInteract = true"
+              v-touch="{
+                left: () => swipe(),
+                right: () => swipe(),
+                up: () => swipe(),
+                down: () => swipe(),
+            }">
+            </div>
+            <indicator-data
+              v-if="!customAreaIndicator.isEmpty"
+              style="margin-top: 0px;"
+              class="pa-5 chart"
+            />
+          </v-card>
           <v-card
             v-else
             class="fill-height"
@@ -176,7 +243,7 @@
               cols="12"
               ref="customAreaIndicator"
               class="pa-0"
-              v-if="!isFullScreen && customAreaIndicator"
+              v-if="!isFullScreen && customAreaIndicator && expanded"
             >
               <v-card
                 v-if="customAreaIndicator"
