@@ -69,7 +69,6 @@
                   Array.isArray(sensorData.properties.indicatorObject.country)"
                   class="pt-0 fill-height"
                   :currentIndicator="sensorData.properties.indicatorObject"
-                  v-on:fetchCustomAreaIndicator="scrollToCustomAreaIndicator"
                 />
                 <indicator-data
                   style="top: 0px; position: absolute;"
@@ -179,7 +178,6 @@
             </v-overlay>
             <indicator-map
               ref="indicatorMap"
-              v-on:fetchCustomAreaIndicator="scrollToCustomAreaIndicator"
               style="top: 0px; position: absolute;"
               v-if="showMap"
               class="pt-0 fill-height"
