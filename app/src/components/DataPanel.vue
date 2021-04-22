@@ -42,7 +42,7 @@
             >
               <v-card
                 class="fill-height"
-                v-if="!customAreaIndicator"
+                v-if="!customAreaIndicator || expanded"
                 :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
               >
                 <full-screen-button />
@@ -81,12 +81,16 @@
               <v-card
                 v-if="customAreaIndicator && !expanded"
                 class="fill-height"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 40 : 60}vh;`"
+                style="border: none; !important"
                 ref="indicatorData"
+                outlined
               >
               <v-card-title
-                style="padding-top: 5px"
-                v-if="customAreaIndicator.title">
+                style="padding-top: 10px; padding-bottom: 0px;">
+                  <v-btn icon @click="customAreaIndicator = false">
+                    <v-icon medium>mdi-close</v-icon>
+                  </v-btn>
                   {{ customAreaIndicator.title }}
               </v-card-title>
               <v-card-title
@@ -108,7 +112,7 @@
                 <indicator-data
                   v-if="!customAreaIndicator.isEmpty"
                   style="margin-top: 0px;"
-                  class="pa-5 chart"
+                  class="px-5 py-0 chart"
                 />
               </v-card>
             </v-tab-item>
@@ -116,12 +120,16 @@
           <v-card
             v-else-if="customAreaIndicator && !expanded"
             class="fill-height"
-            :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
+            :style="`height: ${$vuetify.breakpoint.mdAndUp ? 40 : 60}vh;`"
+            style="border: none; !important"
             ref="indicatorData"
+            outlined
           >
           <v-card-title
-            style="padding-top: 5px"
-            v-if="customAreaIndicator.title">
+            style="padding-top: 10px; padding-bottom: 0px;">
+              <v-btn icon @click="customAreaIndicator = false">
+                <v-icon medium>mdi-close</v-icon>
+              </v-btn>
               {{ customAreaIndicator.title }}
           </v-card-title>
           <v-card-title
@@ -248,8 +256,10 @@
               <v-card
                 v-if="customAreaIndicator"
                 class="fill-height"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? 70 : 40) : 60}vh;`"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 50 : 60}vh;`"
+                style="border: none; !important"
                 ref="indicatorData"
+                outlined
               >
               <v-card-title
                 style="padding-top: 5px"
@@ -282,7 +292,7 @@
             <v-col
               cols="12"
               class="pb-0"
-              :style="`margin-top: ${customAreaIndicator ? '25px' : '0px'}`"
+              :style="`margin-top: ${customAreaIndicator && expanded ? '25px' : '0px'}`"
               v-if="!isFullScreen"
             >
               <expandable-content
