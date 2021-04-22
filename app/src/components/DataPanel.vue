@@ -87,7 +87,9 @@
               >
               <v-card-title
                 style="padding-top: 10px; padding-bottom: 0px;">
-                  <v-btn icon @click="$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null)">
+                  <v-btn
+                    icon
+                    @click="$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null)">
                     <v-icon medium>mdi-close</v-icon>
                   </v-btn>
                   {{ customAreaIndicator.title }}
@@ -126,7 +128,9 @@
           >
           <v-card-title
             style="padding-top: 10px; padding-bottom: 0px;">
-              <v-btn icon @click="$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null)">
+              <v-btn
+                icon
+                @click="$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null)">
                 <v-icon medium>mdi-close</v-icon>
               </v-btn>
               {{ customAreaIndicator.title }}
