@@ -5,3 +5,5 @@
 * [Multi-mission exploitation for Water Quality Monitoring](https://medium.com/euro-data-cube/coronavirus-and-water-quality-whats-the-correlation-bf727d343e61)
 
 * [Lockdown is also changing our Planet at night 🌃](https://medium.com/euro-data-cube/lockdown-is-also-changing-our-planet-at-night-520deffec252)
+
+* [**World food supply amid a pandemic**. Part-1: Monitoring world’s crop conditions with satellite imagery](https://medium.com/euro-data-cube/world-food-supply-amid-a-pandemic-3940ef855f07)

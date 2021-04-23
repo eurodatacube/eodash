@@ -173,6 +173,10 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
+        poi: 'GG-GG',
+        src: './data/trilateral/GoogleMobility.png',
+      },
+      {
         poi: 'US051-E9',
         src: './data/trilateral/Slide14.png',
       },
@@ -186,10 +190,6 @@ module.exports = [
       {
         poi: 'W1-N1',
         src: './data/trilateral/Slide3.png',
-      },
-      {
-        poi: 'US041-E13b',
-        src: './data/trilateral/Slide1.png',
       },
     ],
     customCountryList: [
