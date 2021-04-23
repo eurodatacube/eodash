@@ -194,6 +194,7 @@
         </v-col>
         <v-col
           cols="12"
+          :style="`margin-top: ${customAreaIndicator ? '30px' : ''}`"
         >
         <div v-if="!isFullScreen">
             <expandable-content>
