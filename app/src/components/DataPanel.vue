@@ -378,7 +378,7 @@ export default {
   mixins: [dialogMixin],
   props: [
     'expanded',
-    'hasBanner',
+    'newsBanner',
   ],
   components: {
     ExpandableContent,
@@ -521,8 +521,8 @@ export default {
       return 0;
     },
     bannerHeight() {
-      if (this.hasBanner != null) {
-        return 90;
+      if (this.newsBanner != null) {
+        return this.newsBanner.$el.clientHeight;
       }
       return 0;
     },

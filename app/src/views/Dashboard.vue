@@ -109,7 +109,7 @@
         height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px`"
       class="data-panel"
     >
-      <banner v-if="currentNews" />
+      <banner v-if="currentNews" ref="newsBanner" />
       <v-toolbar v-if="$store.state.indicators.selectedIndicator" flat>
         <v-btn v-if="dataPanelFullWidth" icon @click="setDataPanelWidth(false)">
           <v-icon>mdi-close</v-icon>
@@ -140,7 +140,7 @@
       <data-panel
         v-if="$store.state.indicators.selectedIndicator"
         :key="panelKey"
-        :hasBanner="currentNews"
+        :newsBanner="$refs.newsBanner"
         :expanded="dataPanelFullWidth" class="px-5" />
       <template v-else>
         <Welcome v-if="showText === 'welcome'" />
@@ -199,7 +199,7 @@
         </h4>
         <data-panel
           v-if="$store.state.indicators.selectedIndicator"
-          :hasBanner="currentNews"
+          :newsBanner="$refs.newsBanner"
           :expanded="dataPanelFullWidth" class="fill-height" />
         <template v-else>
           <Welcome v-if="showText === 'welcome'" style="padding-bottom: 135px !important" />
