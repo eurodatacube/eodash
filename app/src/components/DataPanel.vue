@@ -503,8 +503,13 @@ export default {
       return 0;
     },
     eoDataBtnHeight() {
-      if (this.mounted && this.$refs.EODataBtn != null) {
-        return this.$refs.EODataBtn.$el.clientHeight;
+      if (this.mounted) {
+        if (this.$refs.EODataBtn != null) {
+          return this.$refs.EODataBtn.$el.clientHeight;
+        }
+        if (this.$refs.externalDataBtn != null) {
+          return this.$refs.externalDataBtn.$el.clientHeight;
+        }
       }
       return 0;
     },
