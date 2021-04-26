@@ -140,6 +140,7 @@
       <data-panel
         v-if="$store.state.indicators.selectedIndicator"
         :key="panelKey"
+        :hasBanner="currentNews"
         :expanded="dataPanelFullWidth" class="px-5" />
       <template v-else>
         <Welcome v-if="showText === 'welcome'" />
@@ -198,6 +199,7 @@
         </h4>
         <data-panel
           v-if="$store.state.indicators.selectedIndicator"
+          :hasBanner="currentNews"
           :expanded="dataPanelFullWidth" class="fill-height" />
         <template v-else>
           <Welcome v-if="showText === 'welcome'" style="padding-bottom: 135px !important" />

@@ -1,7 +1,7 @@
 <template>
   <div
-    style="height: calc(100% - 64px)"
-    :style="$vuetify.breakpoint.mdAndDown && 'padding-bottom: 100px'"
+    :style="`height: calc(100% - 64px - ${bannerHeight}px);
+    $vuetify.breakpoint.mdAndDown && 'padding-bottom: 100px'`"
     ref="wrapper"
   >
     <v-container class="pt-0 pb-0">
@@ -378,6 +378,7 @@ export default {
   mixins: [dialogMixin],
   props: [
     'expanded',
+    'hasBanner',
   ],
   components: {
     ExpandableContent,
@@ -516,6 +517,12 @@ export default {
     indicatorDataHeight() {
       if (this.mounted && this.$refs.indicatorData != null) {
         return this.$refs.indicatorData.$el.clientHeight;
+      }
+      return 0;
+    },
+    bannerHeight() {
+      if (this.hasBanner != null) {
+        return 90;
       }
       return 0;
     },
