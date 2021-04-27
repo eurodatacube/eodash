@@ -43,7 +43,8 @@
               <v-card
                 class="fill-height"
                 v-if="!customAreaIndicator || expanded"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? ( bannerHeight ? 60 : 70) : 40) : 60}vh;`"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ?
+                                  (expanded ? ( bannerHeight ? 60 : 70) : 40) : 60}vh;`"
               >
                 <full-screen-button />
                 <div
@@ -160,7 +161,8 @@
           <v-card
             v-else
             class="fill-height"
-            :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded ? (bannerHeight ? 65 : 70) : 40) : 60}vh;`"
+            :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
+                              ? (bannerHeight ? 65 : 70) : 40) : 60}vh;`"
             ref="mapPanel"
           >
             <full-screen-button />
