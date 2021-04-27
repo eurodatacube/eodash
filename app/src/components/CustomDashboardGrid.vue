@@ -23,7 +23,7 @@
                 icon
                 small
                 v-on="on"
-                @click="featureTitle = element.title"
+                @click="featureTitle = element.title; dialog = true"
               >
                 <v-icon small>mdi-pencil</v-icon>
               </v-btn>
