@@ -129,7 +129,8 @@
               .properties.indicatorObject.description }}
           <div v-if="
             $store.state.indicators.selectedIndicator.description !==
-            $store.state.indicators.selectedIndicator.indicatorName"
+            $store.state.indicators.selectedIndicator.indicatorName
+            && $store.state.indicators.customAreaIndicator === null"
             class="subheading" style="font-size: 0.8em">
             {{ $store.state.features.allFeatures
               .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
