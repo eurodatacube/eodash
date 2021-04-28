@@ -81,7 +81,7 @@
               <v-card
                 v-if="customAreaIndicator && !expanded"
                 class="fill-height"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 40 : 60}vh;`"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 43 : 60}vh;`"
                 style="border: none; !important"
                 ref="indicatorData"
                 outlined
@@ -122,7 +122,7 @@
           <v-card
             v-else-if="customAreaIndicator && !expanded"
             class="fill-height"
-            :style="`height: ${$vuetify.breakpoint.mdAndUp ? 40 : 60}vh;`"
+            :style="`height: ${$vuetify.breakpoint.mdAndUp ? 43 : 60}vh;`"
             style="border: none; !important"
             ref="indicatorData"
             outlined
@@ -234,7 +234,7 @@
                   <v-icon left>mdi-download</v-icon>
                   download csv
                 </v-btn>
-                <iframe-button :indicatorObject="indicatorObject"/>
+                <iframe-button :indicatorObject="indicatorObject" v-if="!customAreaIndicator || expanded"/>
               </div>
             </v-col>
           </v-row>
@@ -246,7 +246,8 @@
                   : (expanded
                     ? wrapperHeight + 'px'
                     : wrapperHeight - mapPanelHeight - (showMap ? 40 : 0)
-                    - buttonRowHeight - (multipleTabCompare ? 48 : 0) + 'px') }`"
+                    - buttonRowHeight
+                    - (multipleTabCompare ? 48 : 0) + 'px') }`"
         >
           <v-row
             class="mt-0 fill-height scrollContainer"
