@@ -532,7 +532,7 @@ export default {
       this.$router.push('/');
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
     }
-
+    this.editTitle();
     this.initialLoading = false;
   },
   beforeDestroy() {
