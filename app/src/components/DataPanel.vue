@@ -296,14 +296,14 @@
             <v-col
               cols="12"
               class="pb-0"
-              :style="`margin-top: ${customAreaIndicator && expanded ? '25px' : '0px'}`"
+              :style="`margin-top: ${customAreaIndicator && expanded ? '30px' : '0px'}`"
               v-if="!isFullScreen"
             >
               <expandable-content
                 :minHeight="wrapperHeight - mapPanelHeight - (multipleTabCompare ? 48 : 0)
                           - buttonRowHeight - eoDataBtnHeight - (showMap ? 40 : 0)
                           - indicatorDataHeight - 60"
-                :disableExpand="expanded"
+                :disableExpand="expanded || $vuetify.breakpoint.mdAndDown"
               >
                 <div
                   v-html="story"
