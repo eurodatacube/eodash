@@ -1,7 +1,7 @@
 <template>
   <div
-    :style="`height: calc(100% - 64px - ${bannerHeight}px);
-    $vuetify.breakpoint.mdAndDown && 'padding-bottom: 100px'`"
+    :style="`${$vuetify.breakpoint.mdAndDown ? 'padding-bottom: 100px; height: auto;' 
+    : 'height: calc(100% - 64px - ' + bannerHeight + 'px);'}`"
     ref="wrapper"
   >
     <v-container class="pt-0 pb-0">
