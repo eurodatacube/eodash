@@ -66,7 +66,7 @@
                   <v-card-text>
                     <v-form
                       @submit.prevent="dashboardTitle = newDashboardTitle;
-                      editTitle;
+                      editTitle();
                       titleDialog = false">
                       <v-text-field
                         placeholder="Title"
@@ -88,7 +88,7 @@
                     </v-btn>
                     <v-btn
                       color="primary"
-                      @click="dashboardTitle = newDashboardTitle; editTitle; titleDialog = false"
+                      @click="dashboardTitle = newDashboardTitle; editTitle(); titleDialog = false"
                       :disabled="!newDashboardTitle.length"
                       :rules="[v => !!v || 'Title required']"
                     >
