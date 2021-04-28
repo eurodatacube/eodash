@@ -1,6 +1,6 @@
 <template>
   <div
-    :style="`${$vuetify.breakpoint.mdAndDown ? 'padding-bottom: 100px; height: auto;' 
+    :style="`${$vuetify.breakpoint.mdAndDown ? 'padding-bottom: 100px; height: auto;'
     : 'height: calc(100% - 64px - ' + bannerHeight + 'px);'}`"
     ref="wrapper"
   >
@@ -234,7 +234,10 @@
                   <v-icon left>mdi-download</v-icon>
                   download csv
                 </v-btn>
-                <iframe-button :indicatorObject="indicatorObject" v-if="!customAreaIndicator || expanded"/>
+                <iframe-button
+                  :indicatorObject="indicatorObject"
+                  v-if="!customAreaIndicator || expanded"
+                />
               </div>
             </v-col>
           </v-row>
