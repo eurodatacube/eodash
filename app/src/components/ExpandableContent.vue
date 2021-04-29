@@ -3,7 +3,9 @@
     <v-expand-transition>
       <div
         v-if="needsExpand"
-        :style="`overflow: hidden; height: ${contentExpanded ? 'auto' : `${minHeight}px`}`">
+        :style="`overflow: hidden; height: ${(contentExpanded || disableExpand)
+                                            ? 'auto'
+                                            : `${minHeight}px`}`">
         <div ref="content">
           <slot></slot>
         </div>
@@ -16,10 +18,10 @@
         </div>
       </div>
     </v-expand-transition>
-    <div v-if="needsExpand && !contentExpanded"
+    <div v-if="needsExpand && (!contentExpanded && !disableExpand)"
       :class="$vuetify.theme.dark ? 'fadeOut--dark' : 'fadeOut'"></div>
     <v-btn
-      v-if="needsExpand"
+      v-if="needsExpand && !disableExpand"
       small
       text
       block
@@ -33,8 +35,15 @@
 
 <script>
 export default {
+  props: {
+    minHeight: {
+      default: 150,
+    },
+    disableExpand: {
+      default: false,
+    },
+  },
   data: () => ({
-    minHeight: 150,
     contentExpanded: false,
     needsExpand: false,
     observer: null,
