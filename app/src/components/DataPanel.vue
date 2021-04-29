@@ -42,8 +42,8 @@
             >
               <v-card
                 class="fill-height"
-                v-if="!customAreaIndicator || expanded"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ?
+                :style="`${!(!customAreaIndicator || expanded) ? 'display: none;' : ''}
+                height: ${$vuetify.breakpoint.mdAndUp ?
                                   (expanded ? ( bannerHeight ? 60 : 70) : 40) : 60}vh;`"
               >
                 <full-screen-button />
@@ -90,7 +90,7 @@
                 style="padding-top: 10px; padding-bottom: 0px;">
                   <v-btn
                     icon
-                    @click="$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null)">
+                    @click="clearSelection">
                     <v-icon medium>mdi-close</v-icon>
                   </v-btn>
                   {{ customAreaIndicator.title }}
@@ -131,7 +131,7 @@
             style="padding-top: 10px; padding-bottom: 0px;">
               <v-btn
                 icon
-                @click="$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null)">
+                @click="clearSelection">
                 <v-icon medium>mdi-close</v-icon>
               </v-btn>
               {{ customAreaIndicator.title }}
@@ -578,6 +578,14 @@ export default {
     },
     scrollToCustomAreaIndicator() {
       this.$vuetify.goTo(this.$refs.customAreaIndicator, { container: document.querySelector('.data-panel') });
+    },
+    clearSelection() {
+      const refMap = this.$refs.indicatorMap[this.selectedSensorTab];
+      refMap.selectedCountry = null;
+      refMap.selecectedLayer = null;
+      this.$store.state.indicators.customAreaIndicator = null;
+      this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
+      refMap.onResize();
     },
   },
   watch: {
