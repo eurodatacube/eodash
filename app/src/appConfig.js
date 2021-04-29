@@ -180,11 +180,11 @@ module.exports = [
         src: './data/trilateral/GoogleMobility.png',
       },
       {
-       poi: 'US051-E9',
+        poi: 'US051-E9',
         src: './data/trilateral/Slide14.png',
       },
       {
-         iframe: 'https://www.youtube.com/embed/URPzd29SGmE',
+        iframe: 'https://www.youtube.com/embed/URPzd29SGmE',
       },
       {
         poi: 'JP01-N5',
