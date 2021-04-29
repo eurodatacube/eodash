@@ -41,7 +41,7 @@ jobs:
     - name: sync s3
       uses: jakejarvis/s3-sync-action@v0.5.1
       with:
-        args: --delete --follow-symlinks
+        args: --delete --follow-symlinks --size-only
       env:
         SOURCE_DIR: 'app/dist'
         DEST_DIR: 'feature-branches/${GITHUB_REF##*/}'
