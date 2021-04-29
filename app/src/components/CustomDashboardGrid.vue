@@ -13,7 +13,7 @@
         cols="12"
         :md="element.width > 1 ? (element.width > 2 ? (element.width > 3 ? 12 : 8) : 6) : 4"
         style="position: relative;"
-      >
+      > 
         <div class="d-flex align-center">
           <span v-if="element.title" @click="redirectToPoi(element.indicatorObject)" style="cursor: pointer"> {{ element.title }} </span>
           <v-tooltip right>
@@ -177,7 +177,7 @@
                   </v-icon>
                 </v-btn>
               </template>
-              <span v-if="element.mapInfo">Update map position</span>
+              <span v-if="element.mapInfo">Save map position</span>
               <span v-else>Update text</span>
             </v-tooltip>
           </div>
