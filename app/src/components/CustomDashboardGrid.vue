@@ -86,8 +86,8 @@
             :currentIndicator="element.indicatorObject"
             :centerProp="localCenter[element.poi]"
             :zoomProp="localZoom[element.poi]"
-            @update:center="c => localCenter[element.poi] = c"
-            @update:zoom="z => localZoom[element.poi] = z"
+            @update:center="c => {localCenter[element.poi] = c; showSaveMapButton = true}"
+            @update:zoom="z => {localZoom[element.poi] = z; showSaveMapButton = true}"
             @ready="onMapReady(element.poi)"
           />
           <indicator-data
@@ -167,18 +167,18 @@
                   color="primary"
                   style="background: var(--v-background-base)"
                   @click="update(element)"
-                  v-if="element.mapInfo || element.text"
+                  v-if="(element.mapInfo && showSaveMapButton) || element.text"
                 >
-                  <v-icon v-if="element.mapInfo" dark>
+                  <v-icon v-if="element.mapInfo && showSaveMapButton" dark>
                     mdi-map-outline
                   </v-icon>
-                  <v-icon v-else dark>
+                  <v-icon v-if="!element.mapInfo" dark>
                     mdi-pencil
                   </v-icon>
                 </v-btn>
               </template>
-              <span v-if="element.mapInfo">Save map position</span>
-              <span v-else>Update text</span>
+              <span v-if="element.mapInfo && showSaveMapButton">Save map position</span>
+              <span v-if="!element.mapInfo">Update text</span>
             </v-tooltip>
           </div>
           <div class="buttonContainer containerRight containerBottom">
@@ -252,6 +252,7 @@ export default {
     localCenter: {},
     serverZoom: {},
     serverCenter: {},
+    showSaveMapButton: false
   }),
   computed: {
     ...mapGetters('dashboard', {
@@ -324,6 +325,7 @@ export default {
     // },
     update(el) {
       if (el.mapInfo) {
+        this.showSaveMapButton = false;
         return this.performChange(
           'changeFeatureMapInfo',
           {
