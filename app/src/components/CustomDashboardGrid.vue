@@ -13,9 +13,13 @@
         cols="12"
         :md="element.width > 1 ? (element.width > 2 ? (element.width > 3 ? 12 : 8) : 6) : 4"
         style="position: relative;"
-      > 
+      >
         <div class="d-flex align-center">
-          <span v-if="element.title" @click="redirectToPoi(element.indicatorObject)" style="cursor: pointer"> {{ element.title }} </span>
+          <span
+            v-if="element.title" @click="redirectToPoi(element.indicatorObject)"
+            style="cursor: pointer">
+            {{ element.title }}
+          </span>
           <v-tooltip right>
             <template v-slot:activator="{ on }">
               <v-btn
@@ -103,7 +107,8 @@
               <template v-slot:activator="{ on }">
                 <v-btn
                   class="my-2"
-                  :style="`background: var(--v-background-base); ${element.width > 1 ? '' : 'visibility: hidden'}`"
+                  :style="`background: var(--v-background-base);
+                          ${element.width > 1 ? '' : 'visibility: hidden'}`"
                   fab
                   outlined
                   x-small
@@ -122,7 +127,8 @@
               <template v-slot:activator="{ on }">
                 <v-btn
                   class="my-2"
-                  :style="`background: var(--v-background-base); ${element.width < 4 ? '' : 'visibility: hidden'}`"
+                  :style="`background: var(--v-background-base);
+                          ${element.width < 4 ? '' : 'visibility: hidden'}`"
                   fab
                   outlined
                   x-small
@@ -252,7 +258,7 @@ export default {
     localCenter: {},
     serverZoom: {},
     serverCenter: {},
-    showSaveMapButton: false
+    showSaveMapButton: false,
   }),
   computed: {
     ...mapGetters('dashboard', {
@@ -271,21 +277,21 @@ export default {
         if (features) {
           this.features = await Promise.all(features.map(async (f) => {
             if (f.includesIndicator || f.text) return f;
-  
+
             const feature = this.$store.state.features.allFeatures
               .find((i) => this.getLocationCode(i.properties.indicatorObject) === f.poi);
             const indicatorObject = await loadIndicatorData(
               this.baseConfig,
               feature.properties.indicatorObject,
             );
-  
+
             if (f.mapInfo) {
               this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
               this.$set(this.localCenter, f.poi, f.mapInfo.center);
               this.$set(this.serverZoom, f.poi, f.mapInfo.zoom);
               this.$set(this.serverCenter, f.poi, f.mapInfo.center);
             }
-  
+
             return {
               ...f,
               indicatorObject,
