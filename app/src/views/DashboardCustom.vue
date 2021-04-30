@@ -132,8 +132,8 @@
                 discard dashboard
               </template>
               <template v-else>
-                <v-icon left color="white">mdi-connection</v-icon>
-                disconnect from dashboard
+                <v-icon left color="white">mdi-exit-to-app</v-icon>
+                exit edit mode
               </template>
             </v-btn>
             <v-dialog
