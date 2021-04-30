@@ -42,6 +42,10 @@
   }
 }
 
+.scrollContainer {
+  overflow-y: auto;
+}
+
 .leaflet-control-layers-toggle {
   width: 26px !important;
   height: 26px !important;

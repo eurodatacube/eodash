@@ -163,15 +163,18 @@ module.exports = [
     newsBanner: {
       color: 'green darken-1',
       icon: 'pine-tree',
-      text: 'The dashboard will be updated less frequently in the holiday season.<br />Happy holidays and stay safe!',
-      startDate: '2020-12-21',
-      endDate: '2021-01-06',
+      text: '<a href="https://www.eodashboardhackathon.org" target="_blank">Join us for the EO Dashboard Hackathon!</a>',
+      startDate: '2021-04-29',
+      endDate: '2021-06-23',
     },
     aboutText: '/data/trilateral/about',
     welcomeText: '/data/trilateral/welcome',
     tutorialText: '/data/trilateral/tutorials',
     showNewsCarousel: true,
     newsCarouselitems: [
+      {
+        src: './data/trilateral/Hackathon.png',
+      },
       {
         poi: 'GG-GG',
         src: './data/trilateral/GoogleMobility.png',
@@ -186,10 +189,6 @@ module.exports = [
       {
         poi: 'JP01-N5',
         src: './data/trilateral/Slide4.png',
-      },
-      {
-        poi: 'W1-N1',
-        src: './data/trilateral/Slide3.png',
       },
     ],
     customCountryList: [
