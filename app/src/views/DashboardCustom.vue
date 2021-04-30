@@ -39,7 +39,7 @@
                 {{ dashboardTitle }}</h1>
               <div class="d-flex align-center ml-2">
                 <v-tooltip right>
-                  <template v-slot:activator="{ on }" v-if="hasEditingPrivilege">
+                  <template v-slot:activator="{ on }" v-if="hasEditingPrivilege || newDashboard">
                     <v-btn
                       icon
                       large
