@@ -87,6 +87,7 @@
             v-else-if="(['all'].includes(element.indicatorObject.country) ||
             Array.isArray(element.indicatorObject.country)) && !element.includesIndicator"
             class="pt-0 fill-height"
+            :hideCustomAreaControls="!enableEditing"
             :currentIndicator="element.indicatorObject"
             :centerProp="localCenter[element.poi]"
             :zoomProp="localZoom[element.poi]"

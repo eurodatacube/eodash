@@ -490,6 +490,9 @@ export default {
     centerProp: {
       required: false,
     },
+    hideCustomAreaControls: {
+      required: false,
+    },
   },
   components: {
     LMap,
@@ -916,7 +919,7 @@ export default {
       }
     },
     initialDrawSelectedArea() {
-      if (this.customAreaFilter) {
+      if (this.customAreaFilter && !this.hideCustomAreaControls) {
         // add draw controls
         this.drawControl.addTo(this.map);
         this.renderTrashBin = true;
