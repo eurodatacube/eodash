@@ -269,7 +269,6 @@ export default {
     showTooltip() {
       return (element) => {
         if (this.localCenter[element.poi].lat !== this.serverCenter[element.poi].lat) {
-          console.log(true)
           return true;
         }
         if (this.localCenter[element.poi].lng !== this.serverCenter[element.poi].lng) {
