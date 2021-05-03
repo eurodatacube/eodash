@@ -90,8 +90,8 @@
             :currentIndicator="element.indicatorObject"
             :centerProp="localCenter[element.poi]"
             :zoomProp="localZoom[element.poi]"
-            @update:center="c => {localCenter[element.poi] = c; element.showSaveMapButton = true}"
-            @update:zoom="z => {localZoom[element.poi] = z; element.showSaveMapButton = true}"
+            @update:center="c => {localCenter[element.poi] = c}"
+            @update:zoom="z => {localZoom[element.poi] = z}"
             @ready="onMapReady(element.poi)"
           />
           <indicator-data
@@ -161,7 +161,7 @@
               </template>
               <span>Delete element</span>
             </v-tooltip>
-            <v-tooltip left>
+            <v-tooltip v-if="showTooltip(element) || element.text" left>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   v-bind="attrs"
@@ -173,7 +173,6 @@
                   color="primary"
                   style="background: var(--v-background-base)"
                   @click="update(element)"
-                  v-if="element.mapInfo || element.text"
                 >
                   <v-icon v-if="element.mapInfo" dark>
                     mdi-map-outline
@@ -183,7 +182,7 @@
                   </v-icon>
                 </v-btn>
               </template>
-              <span v-if="element.mapInfo && element.showSaveMapButton">Save map position</span>
+              <span v-if="element.mapInfo && showTooltip(element)">Save map position</span>
               <span v-if="!element.mapInfo">Update text</span>
             </v-tooltip>
           </div>
@@ -267,6 +266,21 @@ export default {
       'appConfig',
       'baseConfig',
     ]),
+    showTooltip() {
+      return (element) => {
+        if (this.localCenter[element.poi].lat !== this.serverCenter[element.poi].lat) {
+          console.log(true)
+          return true;
+        }
+        if (this.localCenter[element.poi].lng !== this.serverCenter[element.poi].lng) {
+          return true;
+        }
+        if (this.localZoom[element.poi] !== this.serverZoom[element.poi]) {
+          return true;
+        }
+        return false;
+      }
+    },
   },
   watch: {
     vuexFeatures: {
@@ -328,25 +342,8 @@ export default {
 
     //   return this.mapPositionChanged[poi] = this.localZoom[poi] !== this.serverZoom[poi] || this.localCenter[poi].lat !== this.serverCenter[poi].lat || this.localCenter[poi].lng !== this.serverCenter[poi].lng;
     // },
-    showTooltip(element) {
-      // console.log(this.localCenter[element.poi].lat, this.serverCenter[element.poi].lat)
-      // return (this.localCenter[element.poi].lat === this.serverCenter[element.poi].lat
-      //         && this.localCenter[element.poi].lng === this.serverCenter[element.poi].lng
-      //         && this.localZoom[element.poi] === this.serverZoom[element.poi]) || element.text
-      if (this.localCenter[element.poi].lat !== this.serverCenter[element.poi].lat) {
-        return true;
-      }
-      if (this.localCenter[element.poi].lng !== this.serverCenter[element.poi].lng) {
-        return true;
-      }
-      if (this.localZoom[element.poi] !== this.serverZoom[element.poi]) {
-        return true;
-      }
-      return false;
-    },
     update(el) {
       if (el.mapInfo) {
-        // el.showSaveMapButton = false;
         return this.performChange(
           'changeFeatureMapInfo',
           {
