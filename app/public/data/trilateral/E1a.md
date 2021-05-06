@@ -7,3 +7,5 @@ Earth observation can contribute to monitoring commodity markets in several ways
 <iframe title="Prices for almost all commodities have fallen since the start of the year" aria-label="chart" id="datawrapper-chart-PNmee" src="https://datawrapper.dwcdn.net/PNmee/3/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="500"></iframe>
 
 
+On the indicator chart, for each day, the light/dark red chart background indicates whether there were **restrictions or lockdown** measure in place in the country where the city is located. This information is based on [Oxford University’s coronavirus government response tracker](https://covidtracker.bsg.ox.ac.uk/). 
+
