@@ -109,7 +109,7 @@ with open(date_data_file, "w") as fp:
 
 ###############################################################################
 
-delete_files = True
+delete_files = False
 
 geoDB_map = {
     "aoi": "aoi",
