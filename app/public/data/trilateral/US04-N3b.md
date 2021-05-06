@@ -6,4 +6,5 @@ Chlorophyll-a concentration is an indicator of algae abundance which fluctuates 
 
 The displayed time series show weekly **Chl concentration anomalies (%)** as calculated from **[NASA's MODIS Aqua satellite](https://oceancolor.gsfc.nasa.gov/data/aqua/)**  (<span style="color:#47a">blue</span>). 
 
+On the indicator chart, for each day, the light/dark red chart background indicates whether there were **restrictions or lockdown** measure in place in the country where the city is located. This information is based on [Oxford University’s coronavirus government response tracker](https://covidtracker.bsg.ox.ac.uk/). 
 

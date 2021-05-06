@@ -9,3 +9,4 @@ Chl-a is an indicator of phytoplankton abundance which fluctuates naturally with
 
 Another indicator, **Total Suspended Matter (TSM)** concentration, will be a help to understand the environmental changes, because the satellite Chl is sometimes influenced by other light-absorption components such as dissolved organic matter and the TSM shows more direct influence of the suspended-matter upwelling by the winds and the river outflow especially in the bay areas. 
 
+On the indicator chart, for each day, the light/dark red chart background indicates whether there were **restrictions or lockdown** measure in place in the country where the city is located. This information is based on [Oxford University’s coronavirus government response tracker](https://covidtracker.bsg.ox.ac.uk/). 

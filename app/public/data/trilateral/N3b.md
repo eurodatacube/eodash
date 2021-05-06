@@ -4,6 +4,7 @@ The **Water Quality index** was designed to assess the effect of the lockdown an
 
 Chlorophyll-a concentration is an indicator of algae abundance which fluctuates naturally over space and time, as a result of combined atmospheric and oceanic effects (e.g., marine currents and upwelling). In coastal areas, strongly influenced by river inputs and human activities, high Chl concentration can result from the discharge of urban sewage, industrial runoffs, and fertilizers from agriculture activities over watersheds. In particular, nutrient inputs of anthropogenic origin affect the natural amount of phytoplankton in marine and inland waters, representing a continuous threat to biodiversity and leading to undesirable modifications of phytoplankton concentration (i.e., eutrophication).  
 
+
 ### Water Quality Time Series
 
 The displayed time series show weekly **Chl concentration anomalies (%)** as calculated from **[Sentinel-3](http://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-3)** (<span style="color:#a37">purple</span>), **[MODIS](https://oceancolor.gsfc.nasa.gov/data/aqua/)**  (<span style="color:#47a">blue</span>) and **[GCOM-C](https://global.jaxa.jp/projects/sat/gcom_c/)**(<span style="color:#03A9F4">light blue</span>) around the **Alta Aqua Oceanographic Tower** (AAOT at 45.30 N, 12.50 E) in the North Adriatic Sea, the **Mediterranean sub-basin** most influenced by river runoff, in particular by the **Po River**, which is the largest river in Italy and which runs along many different industrialized areas. 
@@ -23,3 +24,6 @@ Finally, we cannot exclude **a mutual role of a decrease of human activities tha
 ![](data/trilateral/N3b_Figure2.png)
 
 *Figure 2. STop) S2-derived turbidity maps in the last inland branch of the Po River March, 19th 2020 (beginning of lockdown) and April, 8th (middle of lockdown), (Bottom) Time series of the Po river water discharge at Pontelagoscuro station.*
+
+On the indicator chart, for each day, the light/dark red chart background indicates whether there were **restrictions or lockdown** measure in place in the country where the city is located. This information is based on [Oxford University’s coronavirus government response tracker](https://covidtracker.bsg.ox.ac.uk/). 
+

@@ -15,6 +15,8 @@ Indicator provided by: [ESA](https://esa.int) based on data provided by [ESA](ht
 
 In accordance with the weekly mean anomaly maps of Chl concentration, the time series show **after the lockdown date (March, 11th) predominant presence of days recording good water quality and, in particular, a total absence of Red dots**.  
 
+On the indicator chart, for each day, the light/dark red chart background indicates whether there were **restrictions or lockdown** measure in place in the country where the city is located. This information is based on [Oxford University’s coronavirus government response tracker](https://covidtracker.bsg.ox.ac.uk/). 
+
 -
 
 **Chlorophyll-a (Chl) concentration** is an indicator of algae abundance and productivity. In open ocean, it fluctuates naturally over space and time as a result of atmospheric (wind) and oceanic (currents) conditions. In coastal areas, strongly influenced by river inputs and human activities, higher concentration can also result from the discharge in coastal waters of urban sewage, industrial runoffs, and fertilizers from agriculture activities over the watershed. 
