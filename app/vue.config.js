@@ -4,7 +4,6 @@ const fs = require('fs');
 const packageJson = fs.readFileSync('./package.json');
 const version = JSON.parse(packageJson).version || 0;
 const RemoveServiceWorkerPlugin = require('webpack-remove-serviceworker-plugin');
-const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const appConfig = require('./src/appConfig');
 
 const pages = {};
@@ -44,6 +43,7 @@ appConfig.map((b) => { // eslint-disable-line
   };
 });
 
+
 module.exports = {
   pages,
   lintOnSave: process.env.NODE_ENV !== 'production',
@@ -71,23 +71,6 @@ module.exports = {
         },
       }),
       new RemoveServiceWorkerPlugin({ filename: 'service-worker.js' }),
-      new ImageminPlugin({
-        disable: process.env.NODE_ENV !== 'production',
-      }),
     ],
-  },
-};
-
-
-module.exports = {
-  chainWebpack: (config) => {
-    config.module
-      .rule('vue')
-      .use('vue-loader')
-      .loader('vue-loader')
-      .tap((options) => {
-        options.prettify = false;
-        return options;
-      });
   },
 };
