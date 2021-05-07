@@ -162,8 +162,8 @@ module.exports = [
     customCSS: 'trilateral',
     newsBanner: {
       color: 'green darken-1',
-      icon: 'pine-tree',
-      text: '<a href="https://www.eodashboardhackathon.org" target="_blank">Join us for the EO Dashboard Hackathon!</a>',
+      icon: 'calendar-star',
+      text: '<b><a href="https://www.eodashboardhackathon.org" target="_blank">Join us for the EO Dashboard Hackathon!</a><b>',
       startDate: '2021-04-29',
       endDate: '2021-06-23',
     },

@@ -15,3 +15,5 @@ Relatively large rivers, **Arakawa**, **Sumida**, **Edogawa**, and **Tama-River*
 Another indicator, **Total Suspended Matter (TSM)** concentration, will be a help to understand the environmental changes, because the satellite Chl is sometimes influenced by other light-absorption components such as dissolved organic matter and the TSM shows more direct influence of the suspended-matter upwelling by the winds and the river outflow especially in the bay areas. 
 
 Weekly anomaly of the TSM concentration map and time series are introduced in the dashboard. Similarly to the Chl, TSM did not show clear anomaly from late March to April 2020 except for some increase event due to the river outflow after the heavy rains. In the case of Tokyo Bay, the natural change seemed dominant for TSM rather than the low ship traffic.
+
+On the indicator chart, for each day, the light/dark red chart background indicates whether there were **restrictions or lockdown** measure in place in the country where the city is located. This information is based on [Oxford University’s coronavirus government response tracker](https://covidtracker.bsg.ox.ac.uk/). 
