@@ -64,7 +64,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     # Upload eodash-data to S3
-    - name: sync eodash-data s3
+    - name: sync eodashdata s3
       uses: jakejarvis/s3-sync-action@v0.5.1
       with:
         args: --delete --follow-symlinks --size-only
