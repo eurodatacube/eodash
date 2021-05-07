@@ -37,14 +37,40 @@ jobs:
         files: 'app/dist/shConfig.js'
         replacements: '$SH_INSTANCE_ID=${{ secrets.SH_INSTANCE_ID }},$SH_INSTANCE_ID_TRILATERAL=${{ secrets.SH_INSTANCE_ID_TRILATERAL }},$MAPBOX_ACCESS_TOKEN=${{ secrets.MAPBOX_ACCESS_TOKEN }},$GEODB_INSTANCE_ID=${{ secrets.GEODB_INSTANCE_ID }}'
 
-    # Upload to S3
-    - name: sync s3
+    # Upload build client to S3
+    - name: sync client s3
+      uses: jakejarvis/s3-sync-action@v0.5.1
+      with:
+        args: --delete --follow-symlinks --exclude 'data'  --exclude 'eodash-data'
+      env:
+        SOURCE_DIR: 'app/dist'
+        DEST_DIR: 'feature-branches/${GITHUB_REF##*/}'
+        AWS_REGION: 'eu-central-1'
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    # Upload data to S3
+    - name: sync data s3
       uses: jakejarvis/s3-sync-action@v0.5.1
       with:
         args: --delete --follow-symlinks --size-only
       env:
-        SOURCE_DIR: 'app/dist'
-        DEST_DIR: 'feature-branches/${GITHUB_REF##*/}'
+        SOURCE_DIR: 'app/dist/data'
+        DEST_DIR: 'feature-branches/${GITHUB_REF##*/}/data'
+        AWS_REGION: 'eu-central-1'
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    # Upload eodash-data to S3
+    - name: sync data s3
+      uses: jakejarvis/s3-sync-action@v0.5.1
+      with:
+        args: --delete --follow-symlinks --size-only
+      env:
+        SOURCE_DIR: 'app/dist/eodash-data'
+        DEST_DIR: 'feature-branches/${GITHUB_REF##*/}/eodash-data'
         AWS_REGION: 'eu-central-1'
         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
