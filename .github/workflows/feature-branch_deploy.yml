@@ -41,7 +41,7 @@ jobs:
     - name: sync client s3
       uses: jakejarvis/s3-sync-action@v0.5.1
       with:
-        args: --delete --follow-symlinks --exclude 'app/dist/data'  --exclude 'app/dist/eodash-data'
+        args: --delete --follow-symlinks --exclude 'data/*'  --exclude 'eodash-data/*'
       env:
         SOURCE_DIR: 'app/dist'
         DEST_DIR: 'feature-branches/${GITHUB_REF##*/}'
