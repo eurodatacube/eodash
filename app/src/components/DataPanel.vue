@@ -152,6 +152,12 @@
                 down: () => swipe(),
             }">
             </div>
+            <indicator-map
+              ref="indicatorMap"
+              style="top: 0px; position: absolute;"
+              v-show="false"
+              class="pt-0 fill-height"
+            />
             <indicator-data
               v-if="!customAreaIndicator.isEmpty"
               style="margin-top: 0px;"
@@ -580,7 +586,9 @@ export default {
       this.$vuetify.goTo(this.$refs.customAreaIndicator, { container: document.querySelector('.data-panel') });
     },
     clearSelection() {
-      const refMap = this.$refs.indicatorMap[this.selectedSensorTab];
+      const refMap = Array.isArray(this.$refs.indicatorMap)
+        ? this.$refs.indicatorMap[this.selectedSensorTab]
+        : this.$refs.indicatorMap;
       refMap.selectedCountry = null;
       refMap.selecectedLayer = null;
       this.$store.state.indicators.customAreaIndicator = null;
