@@ -35,7 +35,8 @@ module.exports = [
         src: './eodash-data/general/Slide15.png',
       },
       {
-        src: './eodash-data/general/Challenge2.png',
+        poi: 'IT3-C1',
+        src: './eodash-data/general/Slide16.png',
       },
       {
         poi: 'FI4-E13',
@@ -46,8 +47,7 @@ module.exports = [
         src: './eodash-data/general/Slide13.png',
       },
       {
-        poi: 'BE9-E8',
-        src: './eodash-data/general/Slide12.png',
+        src: './eodash-data/general/Challenge2.png',
       },
     ],
     privacyText: '/eodash-data/general/privacy',
