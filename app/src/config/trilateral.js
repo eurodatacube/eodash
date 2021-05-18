@@ -882,7 +882,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           maxNativeZoom: 18,
           tileSize: 256,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_tk_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_tk_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
           name: 'Nightlights',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
           legendUrl: 'data/trilateral/N5-nighlights-legend.png',
@@ -921,7 +921,7 @@ export const globalIndicators = [
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_be_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_be_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
           name: 'Nightlights',
           tileSize: 256,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
@@ -961,7 +961,7 @@ export const globalIndicators = [
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_du_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_du_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
           name: 'Nightlights',
           tileSize: 256,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
@@ -1001,7 +1001,7 @@ export const globalIndicators = [
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_gh_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_gh_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
           name: 'Nightlights',
           tileSize: 256,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
@@ -1041,7 +1041,7 @@ export const globalIndicators = [
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_la_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_la_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
           name: 'Nightlights',
           tileSize: 256,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
@@ -1081,7 +1081,7 @@ export const globalIndicators = [
         display: {
           protocol: 'xyz',
           maxNativeZoom: 18,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_sf_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_sf_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
           name: 'Nightlights',
           tileSize: 256,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
@@ -1122,7 +1122,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           maxNativeZoom: 18,
           tileSize: 256,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_ny_{time}_cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_ny_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
           name: 'Nightlights',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
           legendUrl: 'data/trilateral/N5-nighlights-legend.png',
