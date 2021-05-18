@@ -269,14 +269,16 @@ export default {
     ]),
     showTooltip() {
       return (element) => {
-        if (this.localCenter[element.poi].lat !== this.serverCenter[element.poi].lat) {
-          return true;
-        }
-        if (this.localCenter[element.poi].lng !== this.serverCenter[element.poi].lng) {
-          return true;
-        }
-        if (this.localZoom[element.poi] !== this.serverZoom[element.poi]) {
-          return true;
+        if(this.localCenter[element.poi] && this.serverCenter[element.poi]) {
+          if (this.localCenter[element.poi].lat !== this.serverCenter[element.poi].lat) {
+            return true;
+          }
+          if (this.localCenter[element.poi].lng !== this.serverCenter[element.poi].lng) {
+            return true;
+          }
+          if (this.localZoom[element.poi] !== this.serverZoom[element.poi]) {
+            return true;
+          }
         }
         return false;
       }
