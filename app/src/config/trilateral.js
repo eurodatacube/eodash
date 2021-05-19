@@ -283,6 +283,10 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Facebook population density',
     class: 'economic',
     disableTimeSelection: true,
+    baseLayers: [{
+      ...baseLayers.cloudless,
+      visible: true,
+    }, baseLayers.terrainLight],
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
