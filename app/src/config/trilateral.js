@@ -880,6 +880,7 @@ export const globalIndicators = [
           type: 'FeatureCollection',
           features: [],
         },
+        updateFrequency: 'archived',
         lastColorCode: null,
         aoi: null,
         aoiID: 'W6',
