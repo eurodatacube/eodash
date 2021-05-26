@@ -1567,7 +1567,13 @@ export default {
         const params = Object.keys(requestBody);
         for (let i = 0; i < params.length; i += 1) {
           // substitute template strings with values
-          requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
+          if (typeof requestBody[params[i]] === 'string') {
+            requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
+          }
+          // Convert geojsons back to an object
+          if (params[i] === 'geojson') {
+            requestBody[params[i]] = JSON.parse(requestBody[params[i]]);
+          }
         }
       }
       const requestOpts = {
