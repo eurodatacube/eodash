@@ -256,6 +256,13 @@ module.exports = [
         ],
         label: 'indicatorName',
       },
+      {
+        features: [
+          'CV-CV',
+          'OW-OW',
+        ],
+        label: ['Cases', 'Vaccinations'],
+      },
     ].concat([
       'ES22', 'ES23', 'ES24', 'ES30', 'ES41', 'ES42', 'ES43', 'ES51', 'ES52', 'ES61', 'ES62']
       .map((val) => ({ features: [`${val}a-E10a6`, `${val}b-E10a6`], label: 'indicatorValue' }))),

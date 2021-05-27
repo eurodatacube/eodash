@@ -279,6 +279,19 @@ export const indicatorsDefinition = Object.freeze({
     countrySelection: true,
     story: '/eodash-data/stories/GG-GG',
   },
+  CV: {
+    indicator: 'Covid cases',
+    class: 'health',
+    disableTimeSelection: true,
+    countrySelection: true,
+  },
+  OW: {
+    indicator: 'Vaccinations',
+    class: 'health',
+    disableTimeSelection: true,
+    countrySelection: true,
+    hideInFilters: true,
+  },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
     class: 'economic',
@@ -577,6 +590,58 @@ export const globalIndicators = [
         aoi: null,
         inputData: [''],
         yAxis: 'percent change from baseline',
+        time: ['TBD'],
+        display: {
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'CV',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Covid19 Data',
+        indicatorName: '(select country to load data)',
+        indicator: 'CV',
+        lastIndicatorValue: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        inputData: [''],
+        yAxis: 'aggregated covid cases',
+        time: ['TBD'],
+        display: {
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'OW',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Vaccination Data',
+        indicatorName: '(select country to load data)',
+        indicator: 'OW',
+        lastIndicatorValue: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        inputData: [''],
+        yAxis: 'vaccination data',
         time: ['TBD'],
         display: {
         },
