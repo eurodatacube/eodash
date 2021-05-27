@@ -284,6 +284,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'health',
     disableTimeSelection: true,
     countrySelection: true,
+    story: '/eodash-data/stories/CV-CV',
   },
   OW: {
     indicator: 'Vaccinations',
@@ -291,6 +292,7 @@ export const indicatorsDefinition = Object.freeze({
     disableTimeSelection: true,
     countrySelection: true,
     hideInFilters: true,
+    story: '/eodash-data/stories/OW-OW',
   },
   FB: {
     indicator: 'Facebook population density',
@@ -877,7 +879,6 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          maxZoom: 10,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/dataforgood-fb-population-density/cog.tif&rescale=0,69&resampling_method=nearest&color_map=ylorrd',
           name: 'Facebook population density',
           legendUrl: 'data/trilateral/FbPopulation_legend.png',
@@ -895,7 +896,6 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          maxZoom: 10,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/dataforgood-fb-population-density/cog.tif&rescale=0,69&resampling_method=nearest&color_map=ylorrd',
           mapLabel: 'Population density',
         },

@@ -424,6 +424,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'health',
     disableTimeSelection: true,
     countrySelection: true,
+    story: '/eodash-data/stories/CV-CV',
   },
   OW: {
     indicator: 'Vaccinations',
@@ -431,6 +432,7 @@ export const indicatorsDefinition = Object.freeze({
     disableTimeSelection: true,
     countrySelection: true,
     hideInFilters: true,
+    story: '/eodash-data/stories/OW-OW',
   },
   /*
   GSA: {
