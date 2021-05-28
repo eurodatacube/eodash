@@ -443,6 +443,12 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/GSA-GSA',
   },
   */
+  TT: {
+    indicator: 'Mobility',
+    class: 'economic',
+    disableTimeSelection: true,
+    borderSelection: true,
+  },
   CDS1: {
     indicator: 'CDS Data',
     class: 'air',
@@ -690,6 +696,32 @@ export const globalIndicators = [
     },
   },
   */
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'TT',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'TomTom Traffic data',
+        indicatorName: '(select point to load data)',
+        indicator: 'TT',
+        lastIndicatorValue: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        inputData: [''],
+        yAxis: 'traffic (%)',
+        time: ['TBD'],
+        display: {
+        },
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {
