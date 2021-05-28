@@ -316,6 +316,29 @@
         </l-tooltip>
       </l-circle-marker>
     </l-feature-group>
+    <l-feature-group ref="tomtomLayer"
+      v-if="tomtomCitySelection">
+      <l-circle-marker v-for="(feature) in tomtomCityJson"
+        :key="feature.locationId"
+        ref="markers"
+        :lat-lng="feature.AOI.split(',').map(Number)"
+        :name="feature.name"
+        color="#fff"
+        :radius="selectedCity === feature.locationId ? 6 : 4"
+        :fillColor="selectedCity === feature.locationId ?
+          appConfig.branding.secondaryColor : appConfig.branding.primaryColor"
+        :weight="selectedCity === feature.locationId ? 2 : 1"
+        :opacity="selectedCity === feature.locationId ? 1.0 : 0.8"
+        :fillOpacity="selectedCity === feature.locationId ? 1.0 : 0.9"
+        @click="selectTTIndicator(feature)"
+      >
+      <l-tooltip class="tooltip text-center" :options="{ direction: 'top' }">
+          <p class="ma-0">
+            <strong>{{ feature.name }}</strong>
+          </p>
+        </l-tooltip>
+      </l-circle-marker>
+    </l-feature-group>
     <div
     :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
       <img v-if="mergedConfigs()[0].legendUrl"
@@ -470,6 +493,7 @@ import turfDifference from '@turf/difference';
 
 import countries from '@/assets/countries.json';
 import gsaFile from '@/assets/gsa_data.json';
+import ttFile from '@/assets/tomtom_cities.json';
 
 
 const emptyF = {
@@ -533,6 +557,7 @@ export default {
       compareFeaturesCount: 0,
       selectedCountry: null,
       selectedBorder: null,
+      selectedCity: null,
       selectedLayer: null,
     };
   },
@@ -546,6 +571,9 @@ export default {
     },
     gsaJson() {
       return gsaFile;
+    },
+    tomtomCityJson() {
+      return ttFile;
     },
     countriesStyle() {
       return {
@@ -596,6 +624,9 @@ export default {
     },
     borderSelection() {
       return this.mergedConfigs()[0].borderSelection;
+    },
+    tomtomCitySelection() {
+      return this.mergedConfigs()[0].tomtomCitySelection;
     },
     indDefinition() {
       return this.baseConfig.indicatorsDefinition[this.indicator.indicator];
@@ -1502,6 +1533,41 @@ export default {
             for (let i = 0; i < currVals.length; i += 1) {
               returnIndicator.time.push(DateTime.fromISO(currVals[i].timestamp));
             }
+          });
+          returnIndicator.measurement = [0];
+          returnIndicator.title = feature.name;
+          returnIndicator.yAxis = this.indicator.yAxis;
+          this.map.fireEvent('dataload');
+          this.$store.commit(
+            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', returnIndicator,
+          );
+          this.$emit('fetchCustomAreaIndicator');
+        })
+        .catch((err) => {
+          this.map.fireEvent('dataload');
+          // It seems data could not be loaded lets show a no data found message
+          this.$store.commit(
+            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', { isEmpty: true },
+          );
+          console.log(err);
+        });
+    },
+    selectTTIndicator(feature) {
+      this.selectedCity = feature.locationId;
+      const start = DateTime.local().minus({ days: 7 }).toFormat('yyyy-LL-dd');
+      const end = DateTime.local().toFormat('yyyy-LL-dd');
+      const dataUrl = `https://wz8460c013.execute-api.eu-west-1.amazonaws.com/media/history/date-range/${feature.locationId}/${start}/${end}`;
+      this.map.fireEvent('dataloading');
+      fetch(dataUrl, {
+        headers: { 'x-api-key': shConfig.tomtomToken },
+      }).then((r) => r.json())
+        .then((indicator) => {
+          const returnIndicator = {};
+          returnIndicator.values = indicator.data;
+          returnIndicator.indicator = 'TT';
+          returnIndicator.time = [];
+          indicator.data.forEach((obj) => {
+            returnIndicator.time.push(DateTime.fromISO(obj.Date));
           });
           returnIndicator.measurement = [0];
           returnIndicator.title = feature.name;

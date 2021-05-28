@@ -1,10 +1,12 @@
 {
     "ESP_a-coruna": {
-        "AOI": "-8.377,43.330",
-        "name": "A Coruna (Spain)"
+        "AOI": "43.330,-8.377",
+        "name": "A Coruna (Spain)",
+        "locationId": "ESP_a-coruna"
     },
     "DNK_aarhus": {
-        "AOI": "10.210,56.150",
-        "name": "Aarhus (Denmark)"
+        "AOI": "56.150,10.210",
+        "name": "Aarhus (Denmark)",
+        "locationId": "DNK_aarhus"
     }
 }

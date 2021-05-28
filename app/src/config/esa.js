@@ -447,7 +447,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Mobility',
     class: 'economic',
     disableTimeSelection: true,
-    borderSelection: true,
+    tomtomCitySelection: true,
   },
   CDS1: {
     indicator: 'CDS Data',
@@ -715,7 +715,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         inputData: [''],
-        yAxis: 'traffic (%)',
+        yAxis: 'Traffic Index [%]',
         time: ['TBD'],
         display: {
         },

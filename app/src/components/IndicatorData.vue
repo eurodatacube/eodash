@@ -3,7 +3,7 @@
     v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10a9',
       'E10c', 'N1', 'N3', 'N3b', 'E8',
       'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA', 'CV', 'OW']
+      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA', 'CV', 'OW', 'TT']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -231,6 +231,38 @@ export default {
             datasetsObj[vals[entry]].sort((a, b) => a.t.toMillis() - b.t.toMillis());
           }
           Object.keys(indicator.values).forEach((key, idx) => {
+            datasets.push({
+              label: key,
+              data: datasetsObj[key],
+              fill: false,
+              borderColor: refColors[idx],
+              backgroundColor: refColors[idx],
+              borderWidth: 1,
+              pointRadius: 2,
+              cubicInterpolationMode: 'monotone',
+            });
+          });
+        } else if (['TT'].includes(indicatorCode)) {
+          const vals = indicator.values;
+          const datasetsObj = {
+            'Average 2018': [],
+            'Average 2019': [],
+            Live: [],
+          };
+
+          for (let idx = 0; idx < vals.length; idx += 1) {
+            const t = DateTime.fromISO(`${vals[idx].Date}T${vals[idx].Hour}`);
+            datasetsObj['Average 2018'].push({
+              t, y: Number(vals[idx].TrafficIndexAverage2018),
+            });
+            datasetsObj['Average 2019'].push({
+              t, y: Number(vals[idx].TrafficIndexAverage2019),
+            });
+            datasetsObj.Live.push({
+              t, y: Number(vals[idx].TrafficIndexLive),
+            });
+          }
+          Object.keys(datasetsObj).forEach((key, idx) => {
             datasets.push({
               label: key,
               data: datasetsObj[key],
@@ -1024,7 +1056,18 @@ export default {
           xAxes[0].distribution = 'series';
         }
       }
-
+      if (['TT'].includes(indicatorCode)) {
+        xAxes = [{
+          type: 'time',
+          time: {
+            unit: 'day',
+          },
+          ticks: {
+            min: timeMinMax[0],
+            max: timeMinMax[1],
+          },
+        }];
+      }
       if (['E10a2', 'E10a6', 'E10a7', 'E10c', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m'].includes(indicatorCode)) {
         /* Recalculate to get min max months in data converted to one year */
         timeMinMax = this.getMinMaxDate(
@@ -1187,7 +1230,7 @@ export default {
             }, this);
             // Now we add our default 2 lockdown labels but we exclude indicators
             // where it is not applicable
-            if (!['E10a1', 'E10a5', 'E10a8', 'N2', 'N4c', 'E12c', 'E12d', 'GSA']
+            if (!['E10a1', 'E10a5', 'E10a8', 'N2', 'N4c', 'E12c', 'E12d', 'GSA', 'TT']
               .includes(this.indicatorObject.indicator)) {
               labelObjects.push({
                 text: 'Low Restrictions',
