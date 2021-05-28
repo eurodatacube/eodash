@@ -3,4 +3,5 @@ const shConfig = {
   shInstanceIdTrilateral: '$SH_INSTANCE_ID_TRILATERAL',
   mbAccessToken: '$MAPBOX_ACCESS_TOKEN',
   geodbInstanceId: '$GEODB_INSTANCE_ID',
+  tomtomToken: '$TOMTOM_ACCESS_TOKEN',
 };
