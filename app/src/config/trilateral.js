@@ -699,7 +699,7 @@ export const globalIndicators = [
             requestBody: {
               datasetId: 'no2',
               dateRange: ['202001', '202101'],
-              geojson: '{"type": "Feature","properties": {},"geometry": {area} }',
+              geojson: '{area}',
             },
             callbackFunction: (responseJson, indicator) => {
               /*
