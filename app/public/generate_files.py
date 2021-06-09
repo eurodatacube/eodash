@@ -386,7 +386,6 @@ generateData(
     "/working/data/internal/pois_trilateral.json",
     "/working/data/internal/",
     [
-        '/working/data/trilateral/E9.csv',
         '/working/data/trilateral/E10a1.csv',
         '/working/eodash-data/data/E10a2.csv',
         '/working/eodash-data/data/E10a3.csv',
@@ -400,7 +399,7 @@ generateData(
     [
         ['E1', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'],
         ['E1a', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'],
-        ['E8_tri', ''],
+        ['E9_tri', ''],
         ['N3_tri', ''],
         ['N1_tri', ''],
     ]
