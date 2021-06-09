@@ -4031,8 +4031,10 @@ const slowdownIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 6,
+          maxNativeZoom: 5,
           minZoom: 0,
+          opacity: 0.6,
+          tileSize: 256,
           url: '//obs.eu-de.otc.t-systems.com/s5p-pal-l3-external/maps/s5p-l3-co/3day/{time}/{z}/{x}/{-y}.png',
           name: 'Tropospheric CO',
           legendUrl: 'data/trilateral/s5pCOLegend.png',

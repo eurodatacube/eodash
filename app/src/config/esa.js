@@ -1964,6 +1964,8 @@ export const globalIndicators = [
           protocol: 'xyz',
           maxNativeZoom: 6,
           minZoom: 0,
+          opacity: 0.6,
+          tileSize: 256,
           name: 'Tropospheric CO',
           url: '//obs.eu-de.otc.t-systems.com/s5p-pal-l3-external/maps/s5p-l3-co/3day/{time}/{z}/{x}/{-y}.png',
           legendUrl: 'data/trilateral/s5pCOLegend.png',
