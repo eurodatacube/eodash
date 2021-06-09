@@ -408,7 +408,6 @@ export const layerNameMapping = Object.freeze({
     siteMapping: (eoID) => {
       const mapping = {
         SG01: 'sg',
-        JP03: 'tk',
       };
       return mapping[eoID];
     },
@@ -576,6 +575,10 @@ export const additionalMapTimes = {
     inputData: Array(9).fill('airports'),
     colorCode: Array(9).fill('PRIMARY'),
   },
+};
+
+export const excludeMapTimes = {
+  'SG01-E9': ['2020-06-11T00:00:00', '2020-06-23T00:00:00', '2020-07-17T00:00:00', '2020-07-29T00:00:00', '2020-08-10T00:00:00'],
 };
 
 const wkt = new Wkt();
