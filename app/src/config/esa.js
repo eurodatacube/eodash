@@ -954,7 +954,7 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Population (archived)',
+        description: 'Population',
         indicator: 'NASAPopulation',
         lastIndicatorValue: null,
         indicatorName: 'Population density 2020',
