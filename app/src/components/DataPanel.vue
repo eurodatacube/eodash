@@ -114,6 +114,7 @@
                 <indicator-data
                   v-if="!customAreaIndicator.isEmpty"
                   style="margin-top: 0px;"
+                  :style="`height: ${mapPanelHeight - 15}px`"
                   class="px-5 py-0 chart"
                 />
               </v-card>
