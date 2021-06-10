@@ -568,6 +568,20 @@ const getFortnightIntervalDates = (start, end) => {
   return dateArray;
 };
 
+const getDaily2DayIntervalDates = (start, end) => {
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push([
+      DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'),
+      DateTime.fromISO(currentDate).plus({ days: 2 }).toFormat('yyyy-MM-dd'),
+    ]);
+    currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
+  }
+  return dateArray;
+};
+
 export const additionalMapTimes = {
   'JP02-E13b': {
     time: ['2020-08-05T00:00:00', '2020-08-15T00:00:00', '2020-08-16T00:00:00', '2020-08-20T00:00:00', '2020-08-21T00:00:00', '2020-08-25T00:00:00', '2020-09-04T00:00:00', '2020-09-28T00:00:00', '2020-10-24T00:00:00'],
@@ -3994,6 +4008,60 @@ const slowdownIndicators = [
     geometry: wkt.read('POLYGON((-44.292 -23.472,-42.369 -23.472,-42.369 -22.278,-44.292 -22.278,-44.292 -23.472))').toJson(),
     time: ['2020-01-12'],
     cog: 'RiodeJaneiro_S1_TD155_SPM_20200112-20200217_20200324-20200429_th-0.3.cog',
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'TROPOMI CO',
+        indicator: 'N1',
+        lastIndicatorValue: null,
+        indicatorName: 'TROPOMI CO',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World-CO',
+        time: getDaily2DayIntervalDates('2018-04-30', DateTime.utc().minus({ days: 3 }).toFormat('yyyy-LL-dd')),
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 5,
+          minZoom: 0,
+          opacity: 0.6,
+          tileSize: 256,
+          url: '//obs.eu-de.otc.t-systems.com/s5p-pal-l3-external/maps/s5p-l3-co/3day/{time}/{z}/{x}/{-y}.png',
+          name: 'Tropospheric CO',
+          legendUrl: 'data/trilateral/s5pCOLegend.png',
+          dateFormatFunction: (date) => {
+            // example path 2021/06/nrt-20210606-20210608-20210609
+            const d1 = DateTime.fromISO(date[0]);
+            const d2 = DateTime.fromISO(date[0]).plus({ days: 2 });
+            const arr = [DateTime.fromISO(date[0]).plus({ days: 5 }), DateTime.utc()];
+            const d3 = arr.reduce((pr, cu) => (pr < cu ? pr : cu)); // lower of "now" and d1+5
+            let prefix = '001';
+            if (d3.diff(d1, 'days').toObject().days < 5) {
+              // two last products - difference from d1 and d3 lower than 5 days
+              // the filename starts with 'nrt' otherwise '001'
+              prefix = 'nrt';
+            }
+            // example dates
+            // 17,19,22 .5
+            // 3,5,8. 6
+            // 4,6,9. 6
+            // 5,7,9. 6
+            // 6,8,9. 6 (today is 9.6.)
+            const filePathFormatted = `${d1.toFormat('yyyy')}/${d1.toFormat('LL')}/${prefix}-${d1.toFormat('yyyyLLdd')}-${d2.toFormat('yyyyLLdd')}-${d3.toFormat('yyyyLLdd')}`;
+            return filePathFormatted;
+          },
+        },
+      },
+    },
   },
 ];
 
