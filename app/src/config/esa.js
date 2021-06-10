@@ -1957,7 +1957,7 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        aoiID: 'World-CO',
+        aoiID: 'WorldCO',
         time: getDaily2DayIntervalDates('2018-04-30', DateTime.utc().minus({ days: 3 }).toFormat('yyyy-LL-dd')),
         inputData: [''],
         display: {
