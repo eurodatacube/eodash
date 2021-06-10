@@ -4,10 +4,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 DSC",
         "indicator_value": "high",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "1.135032332",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2019-12-31T00:00:00"
     },
     {
@@ -15,10 +15,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 ASC",
         "indicator_value": "high",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "1.136227545",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-01-05T00:00:00"
     },
     {
@@ -26,10 +26,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 ASC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.968752165",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-01-11T00:00:00"
     },
     {
@@ -37,10 +37,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.674400913",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-01-12T00:00:00"
     },
     {
@@ -48,10 +48,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.72080639",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-01-24T00:00:00"
     },
     {
@@ -59,10 +59,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 ASC",
         "indicator_value": "high",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "1.055389222",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-01-29T00:00:00"
     },
     {
@@ -70,10 +70,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.707873716",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-02-05T00:00:00"
     },
     {
@@ -81,10 +81,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 ASC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.948243608",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-02-08T00:00:00"
     },
     {
@@ -92,10 +92,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.802586535",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-02-17T00:00:00"
     },
     {
@@ -103,10 +103,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 DSC",
         "indicator_value": "high",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "1.065163168",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-02-18T00:00:00"
     },
     {
@@ -114,10 +114,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 ASC",
         "indicator_value": "high",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "1.074850299",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-03-05T00:00:00"
     },
     {
@@ -125,10 +125,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 DSC",
         "indicator_value": "high",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "1.265398739",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-03-17T00:00:00"
     },
     {
@@ -136,10 +136,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 ASC",
         "indicator_value": "normal",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "1.0",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-03-21T00:00:00"
     },
     {
@@ -147,10 +147,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 ASC",
         "indicator_value": "normal",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "1.0",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-03-29T00:00:00"
     },
     {
@@ -158,10 +158,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 ASC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.875632232",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-04-04T00:00:00"
     },
     {
@@ -169,10 +169,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.714340053",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-04-05T00:00:00"
     },
     {
@@ -180,10 +180,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 ASC",
         "indicator_value": "high",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "1.875249501",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-04-10T00:00:00"
     },
     {
@@ -191,10 +191,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.828451883",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-04-17T00:00:00"
     },
     {
@@ -202,10 +202,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 ASC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.895136146",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-04-18T00:00:00"
     },
     {
@@ -213,10 +213,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.927250052",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-04-19T00:00:00"
     },
     {
@@ -224,10 +224,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 ASC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.823852295",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-04-22T00:00:00"
     },
     {
@@ -235,10 +235,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.675362018",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-04-28T00:00:00"
     },
     {
@@ -246,10 +246,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.843666793",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-04-29T00:00:00"
     },
     {
@@ -257,10 +257,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 ASC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.872754491",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-05-04T00:00:00"
     },
     {
@@ -268,10 +268,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.863160812",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-05-12T00:00:00"
     },
     {
@@ -279,10 +279,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.842145302",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-05-23T00:00:00"
     },
     {
@@ -290,10 +290,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.807039424",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-05-26T00:00:00"
     },
     {
@@ -301,10 +301,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 ASC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.78743158",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-05-30T00:00:00"
     },
     {
@@ -312,10 +312,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 ASC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.805389222",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-06-09T00:00:00"
     },
     {
@@ -323,10 +323,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 ASC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.762142313",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-06-13T00:00:00"
     },
     {
@@ -334,10 +334,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 ASC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.777211945",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-06-27T00:00:00"
     },
     {
@@ -345,10 +345,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.80600989",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-06-28T00:00:00"
     },
     {
@@ -356,10 +356,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 ASC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.746007984",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-07-03T00:00:00"
     },
     {
@@ -367,10 +367,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 ASC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.75770803",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-07-11T00:00:00"
     },
     {
@@ -378,10 +378,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.854119033",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-07-21T00:00:00"
     },
     {
@@ -389,10 +389,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.812476227",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-07-22T00:00:00"
     },
     {
@@ -400,10 +400,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 ASC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.79733943",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-07-25T00:00:00"
     },
     {
@@ -411,10 +411,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.753138075",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-08-03T00:00:00"
     },
     {
@@ -422,10 +422,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.809291208",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-08-04T00:00:00"
     },
     {
@@ -433,10 +433,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 ASC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.726702695",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-08-08T00:00:00"
     },
     {
@@ -444,10 +444,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 ASC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.666320238",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-08-22T00:00:00"
     },
     {
@@ -455,10 +455,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.66717383",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-08-27T00:00:00"
     },
     {
@@ -466,10 +466,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 ASC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.699101796",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-09-01T00:00:00"
     },
     {
@@ -477,10 +477,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 ASC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.665592739",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-09-05T00:00:00"
     },
     {
@@ -488,10 +488,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.688094332",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-09-08T00:00:00"
     },
     {
@@ -499,10 +499,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "A2 ASC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.605522067",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-09-19T00:00:00"
     },
     {
@@ -510,10 +510,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 DSC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.542411563",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-09-20T00:00:00"
     },
     {
@@ -521,10 +521,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "S1 ASC",
         "indicator_value": "low",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "0.71007984",
-        "reference_time": "",
-        "reference_value": "1",
+        "reference_time": "/",
+        "reference_value": "1.0",
         "time": "2020-09-25T00:00:00"
     }
 ]

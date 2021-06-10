@@ -384,9 +384,9 @@ export default {
       let label = '(coming soon)';
       if (feature) {
         const { indicatorObject } = feature.properties;
-        if (Object.prototype.hasOwnProperty.call(indicatorObject, 'lastIndicatorValue')) {
+        if (Object.prototype.hasOwnProperty.call(indicatorObject, 'lastIndicatorValue') || Object.prototype.hasOwnProperty.call(indicatorObject, 'lastMeasurement')) {
           label = 'Latest value: ';
-          const indVal = indicatorObject.lastIndicatorValue;
+          const indVal = indicatorObject.lastIndicatorValue !== '' ? indicatorObject.lastIndicatorValue : indicatorObject.lastMeasurement;
           if (['E10a1', 'E10a5'].includes(indicatorObject.indicator)) {
             const percVal = Number((indVal * 100).toPrecision(4));
             if (percVal > 0) {

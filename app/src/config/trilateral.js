@@ -95,8 +95,6 @@ export const indicatorsDefinition = Object.freeze({
   E8: {
     indicator: 'Inventory Levels',
     class: 'economic',
-    story: '/data/trilateral/E8_tri',
-    largeSubAoi: true,
   },
   E9: {
     indicator: 'Construction activity',
@@ -408,7 +406,6 @@ export const layerNameMapping = Object.freeze({
     siteMapping: (eoID) => {
       const mapping = {
         SG01: 'sg',
-        JP03: 'tk',
       };
       return mapping[eoID];
     },
@@ -565,6 +562,20 @@ const getFortnightIntervalDates = (start, end) => {
       DateTime.fromISO(currentDate).plus({ days: 13 }).toFormat('yyyy-MM-dd'),
     ]);
     currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
+  }
+  return dateArray;
+};
+
+const getDaily2DayIntervalDates = (start, end) => {
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push([
+      DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'),
+      DateTime.fromISO(currentDate).plus({ days: 2 }).toFormat('yyyy-MM-dd'),
+    ]);
+    currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
   }
   return dateArray;
 };
@@ -753,7 +764,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W2',
-        time: getMonthlyDates('2004-10-01', '2021-04-01'),
+        time: getMonthlyDates('2004-10-01', '2021-05-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -792,7 +803,7 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         aoi: null,
         aoiID: 'W3',
-        time: getMonthlyDates('2015-01-01', '2021-04-01'),
+        time: getMonthlyDates('2015-01-01', '2021-05-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -955,7 +966,6 @@ export const globalIndicators = [
           type: 'FeatureCollection',
           features: [],
         },
-        updateFrequency: 'archived',
         lastColorCode: null,
         aoi: null,
         aoiID: 'W6',
@@ -1438,7 +1448,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2021-05-12').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2021-05-26').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1948,7 +1958,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2021-05-12').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2021-05-26').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -2513,7 +2523,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W6',
-        time: getMonthlyDates('2020-01-28', '2021-04-28'),
+        time: getMonthlyDates('2020-01-28', '2021-05-28'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -3794,6 +3804,64 @@ export const globalIndicators = [
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/sc/{featuresTime}.geojson',
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'TROPOMI CO',
+        indicator: 'N1',
+        lastIndicatorValue: null,
+        indicatorName: 'TROPOMI CO',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'WorldCO',
+        time: getDaily2DayIntervalDates('2018-04-30', DateTime.utc().minus({ days: 3 }).toFormat('yyyy-LL-dd')),
+        inputData: [''],
+        externalData: {
+          label: 'Sentinel-5p Mapping Service',
+          url: 'https://maps.s5p-pal.com',
+        },
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 5,
+          minZoom: 0,
+          opacity: 0.6,
+          tileSize: 256,
+          url: '//obs.eu-de.otc.t-systems.com/s5p-pal-l3-external/maps/s5p-l3-co/3day/{time}/{z}/{x}/{-y}.png',
+          name: 'Tropospheric CO',
+          legendUrl: 'data/trilateral/s5pCOLegend.png',
+          dateFormatFunction: (date) => {
+            // example path 2021/06/nrt-20210606-20210608-20210609
+            const d1 = DateTime.fromISO(date[0]);
+            const d2 = DateTime.fromISO(date[0]).plus({ days: 2 });
+            const arr = [DateTime.fromISO(date[0]).plus({ days: 5 }), DateTime.utc()];
+            const d3 = arr.reduce((pr, cu) => (pr < cu ? pr : cu)); // lower of "now" and d1+5
+            let prefix = '001';
+            if (d3.diff(d1, 'days').toObject().days < 5) {
+              // two last products - difference from d1 and d3 lower than 5 days
+              // the filename starts with 'nrt' otherwise '001'
+              prefix = 'nrt';
+            }
+            // example dates
+            // 17,19,22 .5
+            // 3,5,8. 6
+            // 4,6,9. 6
+            // 5,7,9. 6
+            // 6,8,9. 6 (today is 9.6.)
+            const filePathFormatted = `${d1.toFormat('yyyy')}/${d1.toFormat('LL')}/${prefix}-${d1.toFormat('yyyyLLdd')}-${d2.toFormat('yyyyLLdd')}-${d3.toFormat('yyyyLLdd')}`;
+            return filePathFormatted;
           },
         },
       },
