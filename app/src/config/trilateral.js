@@ -3829,6 +3829,10 @@ export const globalIndicators = [
         aoiID: 'WorldCO',
         time: getDaily2DayIntervalDates('2018-04-30', DateTime.utc().minus({ days: 3 }).toFormat('yyyy-LL-dd')),
         inputData: [''],
+        externalData: {
+          label: 'Sentinel-5p Mapping Service',
+          url: 'https://maps.s5p-pal.com',
+        },
         display: {
           protocol: 'xyz',
           maxNativeZoom: 5,
