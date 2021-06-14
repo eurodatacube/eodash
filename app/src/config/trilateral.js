@@ -95,8 +95,6 @@ export const indicatorsDefinition = Object.freeze({
   E8: {
     indicator: 'Inventory Levels',
     class: 'economic',
-    story: '/data/trilateral/E8_tri',
-    largeSubAoi: true,
   },
   E9: {
     indicator: 'Construction activity',
@@ -279,6 +277,30 @@ export const indicatorsDefinition = Object.freeze({
     countrySelection: true,
     story: '/eodash-data/stories/GG-GG',
   },
+  CV: {
+    indicator: 'Covid cases',
+    class: 'health',
+    disableTimeSelection: true,
+    countrySelection: true,
+    story: '/eodash-data/stories/CV-CV',
+  },
+  OW: {
+    indicator: 'Vaccinations',
+    class: 'health',
+    disableTimeSelection: true,
+    countrySelection: true,
+    hideInFilters: true,
+    story: '/eodash-data/stories/OW-OW',
+  },
+  FB: {
+    indicator: 'Facebook population density',
+    class: 'economic',
+    disableTimeSelection: true,
+    baseLayers: [{
+      ...baseLayers.cloudless,
+      visible: true,
+    }, baseLayers.terrainLight],
+  },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
     class: 'economic',
@@ -384,7 +406,6 @@ export const layerNameMapping = Object.freeze({
     siteMapping: (eoID) => {
       const mapping = {
         SG01: 'sg',
-        JP03: 'tk',
       };
       return mapping[eoID];
     },
@@ -545,6 +566,20 @@ const getFortnightIntervalDates = (start, end) => {
   return dateArray;
 };
 
+const getDaily2DayIntervalDates = (start, end) => {
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push([
+      DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'),
+      DateTime.fromISO(currentDate).plus({ days: 2 }).toFormat('yyyy-MM-dd'),
+    ]);
+    currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
+  }
+  return dateArray;
+};
+
 export const additionalMapTimes = {
   'JP02-E13b': {
     time: ['2020-08-05T00:00:00', '2020-08-15T00:00:00', '2020-08-16T00:00:00', '2020-08-20T00:00:00', '2020-08-21T00:00:00', '2020-08-25T00:00:00', '2020-09-04T00:00:00', '2020-09-28T00:00:00', '2020-10-24T00:00:00'],
@@ -577,6 +612,58 @@ export const globalIndicators = [
         aoi: null,
         inputData: [''],
         yAxis: 'percent change from baseline',
+        time: ['TBD'],
+        display: {
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'CV',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Covid19 Data',
+        indicatorName: '(select country to load data)',
+        indicator: 'CV',
+        lastIndicatorValue: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        inputData: [''],
+        yAxis: 'aggregated covid cases',
+        time: ['TBD'],
+        display: {
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'OW',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Vaccination Data',
+        indicatorName: '(select country to load data)',
+        indicator: 'OW',
+        lastIndicatorValue: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        inputData: [''],
+        yAxis: 'vaccination data',
         time: ['TBD'],
         display: {
         },
@@ -677,7 +764,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W2',
-        time: getMonthlyDates('2004-10-01', '2021-04-01'),
+        time: getMonthlyDates('2004-10-01', '2021-05-01'),
         inputData: [''],
         display: {
           customAreaIndicator: true,
@@ -765,7 +852,7 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         aoi: null,
         aoiID: 'W3',
-        time: getMonthlyDates('2015-01-01', '2021-04-01'),
+        time: getMonthlyDates('2015-01-01', '2021-05-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -824,6 +911,53 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2-base/xco2_16day_base.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.000408%2C0.000419&color_map=rdylbu_r',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           mapLabel: 'Baseline',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Facebook population density',
+        indicator: 'FB',
+        lastIndicatorValue: null,
+        indicatorName: 'Facebook population density',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'W7',
+        time: ['TBD'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          tileSize: 256,
+          minZoom: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/dataforgood-fb-population-density/cog.tif&rescale=0,69&resampling_method=nearest&color_map=ylorrd',
+          name: 'Facebook population density',
+          legendUrl: 'data/trilateral/FbPopulation_legend.png',
+          mapLabel: 'Population density',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((2.1 48.6,2.6 48.6,2.6 49.0,2.1 49.0,2.1 48.6))').toJson(),
+            }],
+          },
+        },
+        compareDisplay: {
+          protocol: 'xyz',
+          tileSize: 256,
+          minZoom: 1,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/dataforgood-fb-population-density/cog.tif&rescale=0,69&resampling_method=nearest&color_map=ylorrd',
+          mapLabel: 'Population density',
         },
       },
     },
@@ -925,7 +1059,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((139.34275817871094 35.049654646456474, 140.34809152322123 35.049654646456474, 140.34809152322123 35.93543243408203, 139.34275817871094 35.93543243408203, 139.34275817871094 35.049654646456474))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2021-02-01'),
+        time: getMonthlyDates('2020-01-01', '2021-03-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -965,7 +1099,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((115.91229248046875 39.627200509676186, 116.86084804657003 39.627200509676186, 116.86084804657003 40.32575607299805, 115.91229248046875 40.32575607299805, 115.91229248046875 39.627200509676186,))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2021-02-01'),
+        time: getMonthlyDates('2020-01-01', '2021-03-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1005,7 +1139,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((2.083559989929199 50.965508184133796, 2.416559993631381 50.965508184133796, 2.416559993631381 51.087730407714844, 2.083559989929199 51.087730407714844, 2.083559989929199 50.965508184133796))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2021-02-01'),
+        time: getMonthlyDates('2020-01-01', '2021-03-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1045,7 +1179,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((3.6453969478607178 51.06661950775742, 3.85839695022878 51.06661950775742, 3.85839695022878 51.28873062133789, 3.6453969478607178 51.28873062133789, 3.6453969478607178 51.06661950775742))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2021-02-01'),
+        time: getMonthlyDates('2020-01-01', '2021-03-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1085,7 +1219,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-118.68741607666016 33.42670324365463, -117.0733049476039 33.42670324365463, -117.0733049476039 34.34392547607422, -118.68741607666016 34.34392547607422, -118.68741607666016 33.42670324365463))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2021-02-01'),
+        time: getMonthlyDates('2020-01-01', '2021-03-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1125,7 +1259,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-122.63569641113281 37.119795894876006, -121.53514084334165 37.119795894876006, -121.53514084334165 38.35512924194336, -122.63569641113281 38.35512924194336, -122.63569641113281 37.119795894876006))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2021-02-01'),
+        time: getMonthlyDates('2020-01-01', '2021-03-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1165,7 +1299,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-71.74516 41.54467, -74.43395 41.54943, -74.43219 40.47812, -71.74516 40.48343, -71.74516 41.54467))').toJson(),
           }],
         },
-        time: getMonthlyDates('2020-01-01', '2021-02-01'),
+        time: getMonthlyDates('2020-01-01', '2021-03-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1363,7 +1497,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2021-04-21').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2021-05-26').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1873,7 +2007,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2021-04-21').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2021-05-26').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1883,6 +2017,539 @@ export const globalIndicators = [
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
           tileSize: 256,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([39.9, 116.38]),
+    id: 9899,
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([39.9, 116.38]),
+        id: 9899,
+        aoiID: 'CN01',
+        country: ['CN'],
+        city: 'Beijing',
+        siteName: 'Beijing',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
+        lastIndicatorValue: null,
+        indicatorName: 'Cars and Construction',
+        lastColorCode: null,
+        eoSensor: ['2020-01-01 compared to 2020-01-29 - 2020-03-01 - Derived from Sentinel-1'],
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((116.073303 39.766325,116.073303 40.212441,116.729736 40.212441,116.729736 39.766325,116.073303 39.766325))').toJson(),
+          }],
+        },
+        time: ['2019-11-01'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FBeijing_S1_TA142_SPM_20191101-20200101_20200129-20200301_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
+          tileSize: 256,
+          legendUrl: 'data/trilateral/N7-legend.png',
+          disableCompare: true,
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([38.904722, -77.016389]),
+    id: 9898,
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([38.904722, -77.016389]),
+        id: 9898,
+        aoiID: 'US10',
+        country: ['US'],
+        city: 'Washington, D.C.',
+        siteName: 'Washington, D.C.',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
+        lastIndicatorValue: null,
+        indicatorName: 'Cars and Construction',
+        lastColorCode: null,
+        eoSensor: ['2020-02-06 compared to 2020-03-28 - 2020-04-24 - Derived from Sentinel-1'],
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-78.1073 38.432077,-78.1073 39.846504,-75.81665 39.846504,-75.81665 38.432077,-78.1073 38.432077))').toJson(),
+          }],
+        },
+        time: ['2020-01-03'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FDC_S1_TA004_SPM_20200103-20200206_20200328-20200424_th-0.3.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
+          tileSize: 256,
+          legendUrl: 'data/trilateral/N7-legend.png',
+          disableCompare: true,
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([51.036138, 2.285374]),
+    id: 9897,
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([51.036138, 2.285374]),
+        id: 9897,
+        aoiID: 'FR03',
+        country: ['FR'],
+        city: 'Port of Dunkirk',
+        siteName: 'Port of Dunkirk',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
+        lastIndicatorValue: null,
+        indicatorName: 'Cars and Construction',
+        lastColorCode: null,
+        eoSensor: ['2020-02-15 compared to 2020-04-01 - 2020-04-31 - Derived from Sentinel-1'],
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((1.590599 50.733177,1.554903 50.877173,1.737368 50.954146,2.040781 51.014635,2.304379 51.063831,2.503451 51.082805,2.902968 51.242053,3.147346 51.340768,3.605898 51.369056,3.783793 50.857979,2.622312 50.729565,2.570141 50.840647,1.590599 50.733177))').toJson(),
+          }],
+        },
+        time: ['2020-01-01'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FDunkirk_S1_TA161_SPM_20200101-20200215_20200401-20200431_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
+          tileSize: 256,
+          legendUrl: 'data/trilateral/N7-legend.png',
+          disableCompare: true,
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([51.091559, 3.740081]),
+    id: 9896,
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([51.091559, 3.740081]),
+        id: 9896,
+        aoiID: 'BE03',
+        country: ['BE'],
+        city: 'Port of Ghent',
+        siteName: 'Port of Ghent',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
+        lastIndicatorValue: null,
+        indicatorName: 'Cars and Construction',
+        lastColorCode: null,
+        eoSensor: ['2020-02-06 compared to 2020-04-01 - 2020-04-30 - Derived from Sentinel-1'],
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((4.196128 51.382924,4.333419 51.41247,4.441879 51.280437,4.637796 50.920723,4.122786 50.848204,3.396523 50.729818,3.228982 51.273398,3.719247 51.354086,3.852456 51.345509,3.908761 51.37295,3.951333 51.414081,4.019997 51.409798,4.058449 51.375522,4.196128 51.382924))').toJson(),
+          }],
+        },
+        time: ['2020-01-03'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FGhent_S1_TA161_SPM_20200103-20200206_20200401-20200430_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
+          tileSize: 256,
+          legendUrl: 'data/trilateral/N7-legend.png',
+          disableCompare: true,
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([-12.05, -77.033333]),
+    id: 9895,
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([-12.05, -77.033333]),
+        id: 9895,
+        aoiID: 'PE01',
+        country: ['PE'],
+        city: 'Lima',
+        siteName: 'Lima',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
+        lastIndicatorValue: null,
+        indicatorName: 'Cars and Construction',
+        lastColorCode: null,
+        eoSensor: ['2020-03-02 compared to 2020-03-26 - 2020-05-01 - Derived from Sentinel-1'],
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-77.175522 -11.727546,-77.001114 -11.668376,-76.884041 -11.661315,-76.80027 -11.628362,-76.684227 -11.637777,-76.68148 -11.723512,-76.527672 -11.822325,-76.529388 -11.950326,-76.531448 -12.166883,-76.422958 -12.381922,-76.432228 -12.423166,-76.70517 -12.579026,-76.816406 -12.517028,-76.80748 -12.391647,-76.935196 -12.290359,-77.075958 -12.1991,-77.232513 -12.152787,-77.290878 -12.070881,-77.285385 -11.743008,-77.175522 -11.727546))').toJson(),
+          }],
+        },
+        time: ['2020-01-14'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FLima_S1_TA018_SPM_20200114-20200302_20200326-20200501_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
+          tileSize: 256,
+          legendUrl: 'data/trilateral/N7-legend.png',
+          disableCompare: true,
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([34.05, -118.25]),
+    id: 9894,
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([34.05, -118.25]),
+        id: 9894,
+        aoiID: 'US02A2',
+        country: ['US'],
+        city: 'Los Angeles - A2',
+        siteName: 'Los Angeles',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
+        lastIndicatorValue: null,
+        indicatorName: 'Cars and Construction',
+        lastColorCode: null,
+        eoSensor: ['2020-02-28 compared to 2020-04-01 - 2020-04-30 - Derived from Sentinel-1'],
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-118.762208 33.532178,-118.951722 34.379654,-117.954713 34.542704,-117.946473 34.424978,-116.996156 34.567586,-116.83548 34.004829,-116.765442 33.403902,-118.762208 33.532178))').toJson(),
+          }],
+        },
+        time: ['2020-01-01'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FLosAngeles_A2_SPM_10m_20200101-20200228_20200401-20200430_th-0.35.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
+          tileSize: 256,
+          legendUrl: 'data/trilateral/N7-legend.png',
+          disableCompare: true,
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([34.05, -118.25]),
+    id: 9893,
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([34.05, -118.25]),
+        id: 9893,
+        aoiID: 'US02',
+        country: ['US'],
+        city: 'Los Angeles',
+        siteName: 'Los Angeles',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
+        lastIndicatorValue: null,
+        indicatorName: 'Cars and Construction',
+        lastColorCode: null,
+        eoSensor: ['2020-02-28 compared to 2020-04-01 - 2020-04-30 - Derived from Sentinel-1'],
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-118.762208 33.532178,-118.951722 34.379654,-117.954713 34.542704,-117.946473 34.424978,-116.996156 34.567586,-116.83548 34.004829,-116.765442 33.403902,-118.762208 33.532178))').toJson(),
+          }],
+        },
+        time: ['2020-01-03'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FLosAngeles_S1_TA064_SPM_20200103-20200228_20200401-20200430_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
+          tileSize: 256,
+          legendUrl: 'data/trilateral/N7-legend.png',
+          disableCompare: true,
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([19.076, 72.8777]),
+    id: 9892,
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([19.076, 72.8777]),
+        id: 9892,
+        aoiID: 'IN02',
+        country: ['IN'],
+        city: 'Mumbai',
+        siteName: 'Mumbai',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
+        lastIndicatorValue: null,
+        indicatorName: 'Cars and Construction',
+        lastColorCode: null,
+        eoSensor: ['2020-01-22 compared to 2020-03-22 - 2020-04-27 - Derived from Sentinel-1'],
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((72.773438 19.458823,73.168945 19.456234,73.910522 19.292998,73.646851 18.586379,72.789917 18.659257,72.677307 18.940062,72.773438 19.458823))').toJson(),
+          }],
+        },
+        time: ['2020-01-10'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FMumbai_S1_TD034_SPM_20200110-20200122_20200322-20200427_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
+          tileSize: 256,
+          legendUrl: 'data/trilateral/N7-legend.png',
+          disableCompare: true,
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([41.0114, -73.09]),
+    id: 9891,
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([41.0114, -73.09]),
+        id: 9891,
+        aoiID: 'US04',
+        country: ['US'],
+        city: 'New York',
+        siteName: 'New York',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
+        lastIndicatorValue: null,
+        indicatorName: 'Cars and Construction',
+        lastColorCode: null,
+        eoSensor: ['2020-02-15 compared to 2020-04-01 - 2020-04-31 - Derived from Sentinel-1'],
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-75.140991 40.245992,-75.38269 41.137296,-72.894287 41.693424,-71.5979 40.876141,-75.140991 40.245992))').toJson(),
+          }],
+        },
+        time: ['2020-01-01'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FNewyork_S1_TA033_SPM_20200101-20200215_20200401-20200431_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
+          tileSize: 256,
+          legendUrl: 'data/trilateral/N7-legend.png',
+          disableCompare: true,
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([37.7775, -122.416389]),
+    id: 9890,
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([37.7775, -122.416389]),
+        id: 9890,
+        aoiID: 'US03',
+        country: ['US'],
+        city: 'San Francisco',
+        siteName: 'San Francisco',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
+        lastIndicatorValue: null,
+        indicatorName: 'Cars and Construction',
+        lastColorCode: null,
+        eoSensor: ['2020-02-15 compared to 2020-04-03 - 2020-04-27 - Derived from Sentinel-1'],
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-122.639688 37.099778,-122.639688 38.190951,-120.953755 38.190951,-120.953755 37.099778,-122.639688 37.099778))').toJson(),
+          }],
+        },
+        time: ['2020-01-28'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FSanFrancisco_S1_TA035_SPM_20200128-20200215_20200403-20200427_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
+          tileSize: 256,
+          legendUrl: 'data/trilateral/N7-legend.png',
+          disableCompare: true,
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([-33.45, -70.666667]),
+    id: 9889,
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([-33.45, -70.666667]),
+        id: 9889,
+        aoiID: 'CL01',
+        country: ['CL'],
+        city: 'Santiago',
+        siteName: 'Santiago',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
+        lastIndicatorValue: null,
+        indicatorName: 'Cars and Construction',
+        lastColorCode: null,
+        eoSensor: ['2020-02-01 compared to 2020-04-01 - 2020-06-12 - Derived from Sentinel-1'],
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-71.292757 -34.157073,-70.540193 -33.911254,-70.482515 -32.918589,-71.608614 -33.02228,-71.520723 -33.495397,-71.292757 -34.157073))').toJson(),
+          }],
+        },
+        time: ['2020-01-08'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FSantiago_S1_TA018_SPM_20200108-20200201_20200401-20200612_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
+          tileSize: 256,
+          legendUrl: 'data/trilateral/N7-legend.png',
+          disableCompare: true,
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([-23.55, -46.633333]),
+    id: 9888,
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([-23.55, -46.633333]),
+        id: 9888,
+        aoiID: 'BR02',
+        country: ['BR'],
+        city: 'Sao Paulo',
+        siteName: 'Sao Paulo',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
+        lastIndicatorValue: null,
+        indicatorName: 'Cars and Construction',
+        lastColorCode: null,
+        eoSensor: ['2020-02-04 compared to 2020-03-29 - 2020-04-28 - Derived from Sentinel-1'],
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-46.55 -23.45, -46.75 -23.45, -46.75 -23.65, -46.55 -23.65, -46.55 -23.45))').toJson(),
+          }],
+        },
+        time: ['2020-01-05'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FSaoPaulo_S1_TD053_SPM_20200105-20200204_20200329-20200428_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
+          tileSize: 256,
+          legendUrl: 'data/trilateral/N7-legend.png',
+          disableCompare: true,
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
+  },
+  {
+    latlng: latLng([1.264856, 103.847663]),
+    id: 9887,
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([1.264856, 103.847663]),
+        id: 9887,
+        aoiID: 'SG01',
+        country: ['SG'],
+        city: 'Singapore',
+        siteName: 'Singapore',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
+        lastIndicatorValue: null,
+        indicatorName: 'Cars and Construction',
+        lastColorCode: null,
+        eoSensor: ['2020-02-12 compared to 2020-04-24 - 2020-05-30 - Derived from Sentinel-1'],
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((104.37973 0.99284,102.851257 0.882991,102.849197 1.135637,103.430786 1.351193,103.331223 1.542706,103.142395 1.631936,103.145485 1.68959,103.497734 1.72425,103.988342 1.68959,104.195023 1.766459,104.293556 1.609629,104.315186 1.356342,104.385223 1.012406,104.37973 0.99284))').toJson(),
+          }],
+        },
+        time: ['2020-01-07'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 18,
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FSingapore_S1_TA171_SPM_20200107-20200212_20200424-20200530_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
+          tileSize: 256,
+          legendUrl: 'data/trilateral/N7-legend.png',
+          disableCompare: true,
+          baseLayers: mapBoxHighResoSubst,
         },
       },
     },
@@ -1905,7 +2572,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W6',
-        time: getMonthlyDates('2020-01-28', '2021-03-28'),
+        time: getMonthlyDates('2020-01-28', '2021-05-28'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -3186,6 +3853,64 @@ export const globalIndicators = [
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/sc/{featuresTime}.geojson',
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'TROPOMI CO',
+        indicator: 'N1',
+        lastIndicatorValue: null,
+        indicatorName: 'TROPOMI CO',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'WorldCO',
+        time: getDaily2DayIntervalDates('2018-04-30', DateTime.utc().minus({ days: 3 }).toFormat('yyyy-LL-dd')),
+        inputData: [''],
+        externalData: {
+          label: 'Sentinel-5p Mapping Service',
+          url: 'https://maps.s5p-pal.com',
+        },
+        display: {
+          protocol: 'xyz',
+          maxNativeZoom: 5,
+          minZoom: 0,
+          opacity: 0.6,
+          tileSize: 256,
+          url: '//obs.eu-de.otc.t-systems.com/s5p-pal-l3-external/maps/s5p-l3-co/3day/{time}/{z}/{x}/{-y}.png',
+          name: 'Tropospheric CO',
+          legendUrl: 'data/trilateral/s5pCOLegend.png',
+          dateFormatFunction: (date) => {
+            // example path 2021/06/nrt-20210606-20210608-20210609
+            const d1 = DateTime.fromISO(date[0]);
+            const d2 = DateTime.fromISO(date[0]).plus({ days: 2 });
+            const arr = [DateTime.fromISO(date[0]).plus({ days: 5 }), DateTime.utc()];
+            const d3 = arr.reduce((pr, cu) => (pr < cu ? pr : cu)); // lower of "now" and d1+5
+            let prefix = '001';
+            if (d3.diff(d1, 'days').toObject().days < 5) {
+              // two last products - difference from d1 and d3 lower than 5 days
+              // the filename starts with 'nrt' otherwise '001'
+              prefix = 'nrt';
+            }
+            // example dates
+            // 17,19,22 .5
+            // 3,5,8. 6
+            // 4,6,9. 6
+            // 5,7,9. 6
+            // 6,8,9. 6 (today is 9.6.)
+            const filePathFormatted = `${d1.toFormat('yyyy')}/${d1.toFormat('LL')}/${prefix}-${d1.toFormat('yyyyLLdd')}-${d2.toFormat('yyyyLLdd')}-${d3.toFormat('yyyyLLdd')}`;
+            return filePathFormatted;
           },
         },
       },

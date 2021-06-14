@@ -72,6 +72,7 @@ def retrieve_entries(url, offset):
         res.extend(retrieve_entries(url, offset+1))
     return res
 
+
 print("Fetching information of available dates for BYOD data")
 for key in COLLECTIONS:
     # fetch identifier from environment
@@ -106,6 +107,7 @@ for key in COLLECTIONS:
 print("Writing results to %s"%date_data_file)
 with open(date_data_file, "w") as fp:
     json.dump(results_dict, fp, indent=4, sort_keys=True)
+
 
 ###############################################################################
 
@@ -384,13 +386,11 @@ generateData(
     "/working/data/internal/pois_trilateral.json",
     "/working/data/internal/",
     [
-        '/working/data/trilateral/E8.csv',
-        '/working/data/trilateral/E9.csv',
         '/working/data/trilateral/E10a1.csv',
         '/working/eodash-data/data/E10a2.csv',
         '/working/eodash-data/data/E10a3.csv',
-        '/working/eodash-data/data/E10a6.csv',
-        '/working/eodash-data/data/E10a8.csv',
+        '/working/data/trilateral/E10a6.csv',
+        '/working/data/trilateral/E10a8.csv',
         '/working/data/trilateral/E10c.csv',
         '/working/data/trilateral/E13b.csv',
         '/working/data/trilateral/N2.csv',
@@ -399,10 +399,12 @@ generateData(
     [
         ['E1', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'],
         ['E1a', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'],
+        ['E9_tri', ''],
         ['N3_tri', ''],
         ['N1_tri', ''],
     ]
 )
+
 
 print("Generating data for eodashboard")
 # Generate for eodash
@@ -416,17 +418,13 @@ generateData(
         '/working/eodash-data/data/C1.csv',
         '/working/eodash-data/data/C2.csv',
         '/working/eodash-data/data/C3.csv',
-        '/working/eodash-data/data/E4.csv',
-        '/working/eodash-data/data/E8.csv',
         '/working/eodash-data/data/E10a1.csv',
         '/working/eodash-data/data/E10a2.csv',
         '/working/eodash-data/data/E10a3.csv',
         '/working/eodash-data/data/E10a5.csv',
-        '/working/eodash-data/data/E10a6.csv',
-        '/working/eodash-data/data/E10a8.csv',
+        '/working/data/trilateral/E10a6.csv',
+        '/working/data/trilateral/E10a8.csv',
         '/working/eodash-data/data/E10a9.csv',
-        '/working/eodash-data/data/E11.csv',
-        '/working/eodash-data/data/E12b.csv',
         '/working/eodash-data/data/E13b2.csv',  # archived
         '/working/eodash-data/data/E13d_detections.csv',
         '/working/eodash-data/data/N1a_PM25_CAMS.csv',
@@ -446,15 +444,19 @@ generateData(
     ],
     [
         ['E1', ''],
-        ['E1a', ''],
-        ['E2', ''],
-        ['E5', ''],
         ['E1_S2', ''],
+        ['E1a', ''],
         ['E1a_S2', ''],
+        ['E2', ''],
         ['E2_S2', ''],
+        ['E4', ''],
+        ['E5', ''],
+        ['E8', ''],
+        ['E11', ''],
+        ['E12b', ''],
         ['E13b', ''],
+        ['E13d', ''],
         ['N3', ''],
         ['N1', ''],
-        ['E13d', ''],
     ]
 )

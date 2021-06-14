@@ -1169,6 +1169,10 @@ export default {
         } else {
           this.map.setMinZoom(13);
         }
+      } else if (this.mergedConfigs()[0].presetView) {
+        // if only preset view move map there without limiting movement
+        const viewBounds = geoJson(this.mergedConfigs()[0].presetView).getBounds();
+        this.map.fitBounds(viewBounds);
       } else if (this.aoi) {
         const cornerMax1 = latLng([this.aoi.lat - boundsPad, this.aoi.lng - boundsPad]);
         const cornerMax2 = latLng([this.aoi.lat + boundsPad, this.aoi.lng + boundsPad]);

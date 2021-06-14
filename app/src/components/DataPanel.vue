@@ -4,7 +4,7 @@
     : 'height: calc(100% - 64px - ' + bannerHeight + 'px);'}`"
     ref="wrapper"
   >
-    <v-container class="pt-0 pb-0">
+    <div class="pt-0 pb-0" :style="expanded ? `width: 100%;` : ``">
       <v-row v-if="indicatorObject">
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
@@ -114,6 +114,7 @@
                 <indicator-data
                   v-if="!customAreaIndicator.isEmpty"
                   style="margin-top: 0px;"
+                  :style="`height: ${mapPanelHeight - 15}px`"
                   class="px-5 py-0 chart"
                 />
               </v-card>
@@ -366,7 +367,7 @@
           </v-row>
         </v-col>
       </v-row>
-    </v-container>
+    </div>
   </div>
 </template>
 
