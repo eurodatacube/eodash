@@ -724,7 +724,7 @@ export const globalIndicators = [
                     newData.time.push(DateTime.fromISO(row.date));
                     newData.colorCode.push('');
                     newData.measurement.push(row.basicStats.mean);
-                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
+                    newData.referenceValue.push(`[null, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
                   }
                 });
                 const ind = {
@@ -766,6 +766,7 @@ export const globalIndicators = [
         aoiID: 'W2',
         time: getMonthlyDates('2004-10-01', '2021-05-01'),
         inputData: [''],
+        yAxis: 'OMI NO2',
         display: {
           customAreaIndicator: true,
           protocol: 'xyz',
@@ -778,7 +779,7 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
           legendUrl: 'eodash-data/data/no2Legend.png',
           areaIndicator: {
-            url: 'https://l47o73bjpk.execute-api.us-east-1.amazonaws.com/v1/timelapse',
+            url: 'https://08dvkxus0a.execute-api.us-east-1.amazonaws.com/v1/timelapse',
             requestMethod: 'POST',
             requestHeaders: {
               'Content-Type': 'application/json',
@@ -786,31 +787,22 @@ export const globalIndicators = [
             requestBody: {
               datasetId: 'no2',
               dateRange: ['202001', '202101'],
-              geojson: '{area}',
+              geojson: '{geojson}',
             },
             callbackFunction: (responseJson, indicator) => {
-              /*
-              if (Array.isArray(responseJson[0].src)) {
-                const data = responseJson[0].src;
+              if (Array.isArray(responseJson)) {
+                const data = responseJson;
                 const newData = {
                   time: [],
                   measurement: [],
                   colorCode: [],
                   referenceValue: [],
                 };
-                data.sort((a, b) => ((DateTime.fromISO(a.time) > DateTime.fromISO(b.time))
-                  ? 1
-                  : -1));
                 data.forEach((row) => {
-                  let updateDate = row.time;
-                  // temporary workaround until DB gets updated 2020-01-01 - 2020-04-01
-                  if (row.time === '2020-01-01T00:00:00') {
-                    updateDate = '2020-04-01T00:00:00';
-                  }
-                  newData.time.push(DateTime.fromISO(updateDate)); // actual data
-                  newData.measurement.push(Math.round(row.sum * 10) / 10); // actual data
-                  newData.colorCode.push('BLUE'); // made up data
-                  newData.referenceValue.push('0'); // made up data
+                  newData.time.push(DateTime.fromFormat(row.date, 'yyyyMM'));
+                  newData.colorCode.push('');
+                  newData.measurement.push(row.mean);
+                  newData.referenceValue.push(`[${row.median}, null, null, null]`);
                 });
                 const ind = {
                   ...indicator,
@@ -819,11 +811,16 @@ export const globalIndicators = [
                 return ind;
               }
               return null;
-              */
-              console.log(responseJson);
-              console.log(indicator);
             },
-            areaFormatFunction: (area) => ({ area: JSON.stringify(area) }),
+            areaFormatFunction: (area) => (
+              {
+                geojson: JSON.stringify({
+                  type: 'Feature',
+                  properties: {},
+                  geometry: area,
+                }),
+              }
+            ),
           },
         },
       },
