@@ -191,7 +191,6 @@ const actions = {
   ) {
     if (state.api) { return state.api.addMarketingInfo(m); }
 
-
     commit('ADD_MARKETING_INFO', m);
 
     commit('ADD_API', customDashboardApiFactory());
@@ -214,12 +213,21 @@ const actions = {
 
         commit('SET', response);
 
-
         state.api.addMarketingInfo(state.dashboardConfig.marketingInfo).then(() => {
           resolve();
         });
       });
     });
+  },
+  addToMailingList(
+    {
+      state,
+    },
+    m,
+  ) {
+    if (state.api) {
+      return state.api.addToMailingList(m.email, m.name, m.viewURL, m.editURL, m.interests);
+    }
   },
   resizeFeatureShrink(
     {

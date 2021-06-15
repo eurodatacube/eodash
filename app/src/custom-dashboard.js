@@ -1,5 +1,6 @@
 import EventEmitter from 'eventemitter3';
 import io from 'socket.io-client';
+import axios from 'axios';
 
 class CustomDashboardApi extends EventEmitter {
   constructor(socket) {
@@ -7,7 +8,6 @@ class CustomDashboardApi extends EventEmitter {
     this.socket = socket;
 
     this.socket.on('connect_error', console.error);
-
     this.socket.on('edit', (dto) => {
       this.emit('edit', dto);
     });
@@ -171,6 +171,25 @@ class CustomDashboardApi extends EventEmitter {
         return resolve(response);
       });
     });
+  }
+
+  async addToMailingList(email, name, viewURL, editURL, interests) {
+    const res = await axios.post('https://listmonk.eox.at/api/subscribers', {
+      email,
+      name,
+      status: 'enabled',
+      lists: [2],
+      attribs: {
+        dashboardURLView: viewURL,
+        dashboardURLEdit: editURL,
+        interests,
+      },
+    }, {
+      headers: {
+        dashboardapikey: shConfig.listmonkApiKey,
+      },
+    });
+    return res;
   }
 
   disconnect() {

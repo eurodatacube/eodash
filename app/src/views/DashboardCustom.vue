@@ -204,6 +204,15 @@
                             ></v-combobox>
                           </v-col>
                           <v-col cols="12">
+                            <h2 class="mb-3">Your name</h2>
+                              <v-text-field
+                                v-model="name"
+                                :rules="nameRules"
+                                placeholder="Name"
+                                required
+                                outlined></v-text-field>
+                          </v-col>
+                          <v-col cols="12">
                             <h2 class="mb-3">Your email address</h2>
                               <v-text-field
                                 hint="You will receive your dashboard links to this address"
@@ -213,16 +222,6 @@
                                 placeholder="E-mail"
                                 required
                                 outlined></v-text-field>
-                          </v-col>
-                          <v-col cols="12" class="pb-0">
-                            <h2 class="mb-3">Newsletter</h2>
-                              <v-switch
-                              hide-details
-                              v-model="consent"
-                              :label="consent
-                                ? 'Receive updates about new features and data'
-                                : 'Do not receive updates about new features and data'"
-                            ></v-switch>
                           </v-col>
                       </v-row>
                     </v-card>
@@ -473,6 +472,10 @@ export default {
     interestOptions: ['Health', 'Technology', 'Cooking'],
     interests: [],
 
+    name: '',
+    nameRules: [
+      (v) => !!v || 'Required',
+    ],
     reconnecting: false,
     markdownMessage: 'You can use <a href="https://guides.github.com/features/mastering-markdown/" rel="noopener" target="_blank" tabindex="-1">markdown</a>',
   }),
@@ -570,6 +573,7 @@ export default {
     ...mapActions('dashboard', [
       'changeTitle',
       'addMarketingInfo',
+      'addToMailingList',
       'disconnect',
       'listen',
       'addFeature',
@@ -594,6 +598,13 @@ export default {
         await this.addMarketingInfo({
           email: this.email,
           consent: this.consent,
+          interests: this.interests,
+        });
+        await this.addToMailingList({
+          email: this.email,
+          name: this.name,
+          viewURL: 'https://race.esa.int/view',
+          editURL: 'https://race.esa.int/edit',
           interests: this.interests,
         });
         this.$router.replace({
