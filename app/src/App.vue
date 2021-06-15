@@ -131,14 +131,15 @@ export default {
         // Read route query and validate country and indicator if in query
         const { country } = this.$route.query;
         const { indicator } = this.$route.query;
+        console.log(indicator);
         // validate query for country - need to be among available
         const selectedCountry = this.getCountryItems
           .map((item) => item.code).flat().find((f) => f === country);
         let selectedIndicator = this.getIndicators
           .map((item) => item.code).find((f) => f === indicator);
-        // If selectedIndicator is undefined it could be an archived indicator
-        // so we activate them here and look again
-        if (typeof selectedIndicator === 'undefined') {
+        // If selectedIndicator is undefined and indicator has been provided
+        // it could be an archived indicator so we activate
+        if (typeof indicator !== 'undefined' && typeof selectedIndicator === 'undefined') {
           this.$store.commit('features/SET_FEATURE_FILTER', { includeArchived: true });
           selectedIndicator = this.getIndicators
             .map((item) => item.code).find((f) => f === indicator);
