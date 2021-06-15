@@ -1962,7 +1962,7 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 6,
+          maxNativeZoom: 5,
           minZoom: 0,
           opacity: 0.6,
           tileSize: 256,
