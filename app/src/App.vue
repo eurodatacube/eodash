@@ -131,7 +131,6 @@ export default {
         // Read route query and validate country and indicator if in query
         const { country } = this.$route.query;
         const { indicator } = this.$route.query;
-        console.log(indicator);
         // validate query for country - need to be among available
         const selectedCountry = this.getCountryItems
           .map((item) => item.code).flat().find((f) => f === country);
