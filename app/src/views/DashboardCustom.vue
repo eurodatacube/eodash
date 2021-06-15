@@ -603,8 +603,8 @@ export default {
         await this.addToMailingList({
           email: this.email,
           name: this.name,
-          viewURL: 'https://race.esa.int/view',
-          editURL: 'https://race.esa.int/edit',
+          viewURL: this.viewingLink,
+          editURL: this.editingLink,
           interests: this.interests,
         });
         this.$router.replace({
