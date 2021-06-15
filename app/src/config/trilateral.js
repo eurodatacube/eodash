@@ -779,7 +779,7 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
           legendUrl: 'eodash-data/data/no2Legend.png',
           areaIndicator: {
-            url: 'https://08dvkxus0a.execute-api.us-east-1.amazonaws.com/v1/timelapse',
+            url: 'https://hf1ae9all1.execute-api.us-east-1.amazonaws.com/v1/timelapse',
             requestMethod: 'POST',
             requestHeaders: {
               'Content-Type': 'application/json',
