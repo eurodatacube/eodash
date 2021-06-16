@@ -612,7 +612,6 @@ export default {
         this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
         if (this.$refs.indicatorMap
           && this.$refs.indicatorMap.length > 0
-          // && this.$refs.indicatorMap[index]
           && ['CV', 'OW'].includes(currID)) {
           // For now we only refetch data when switching tabs for CV and OW data
           // Check if a country is selected for the customAreaIndicator
