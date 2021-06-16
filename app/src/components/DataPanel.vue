@@ -603,17 +603,37 @@ export default {
         const poi = this.getLocationCode(this.multipleTabCompare.features[index]
           .properties.indicatorObject);
         this.$router.replace({ query: { ...this.$route.query, poi } }).catch(() => {});
+        let currCountry = null;
+        let currID = null;
+        if (this.customAreaIndicator !== null) {
+          currCountry = this.customAreaIndicator.country;
+          currID = this.customAreaIndicator.indicator;
+        }
         this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
         if (this.$refs.indicatorMap
           && this.$refs.indicatorMap.length > 0
-          && this.$refs.indicatorMap[index]
-          && ['CV', 'OW'].includes(this.$refs.indicatorMap[index].currentIndicator.aoiID)) {
+          // && this.$refs.indicatorMap[index]
+          && ['CV', 'OW'].includes(currID)) {
           // For now we only refetch data when switching tabs for CV and OW data
+          // Check if a country is selected for the customAreaIndicator
           const refMap = this.$refs.indicatorMap[index];
-          refMap.fetchMobilityData(
-            refMap.selectedCountry,
-            refMap.currentIndicator.aoiID,
-          );
+          if (currCountry && currID) {
+            if (refMap) {
+              // console.log(this.$refs.indicatorMap[index].indicator);
+              refMap.fetchMobilityData(
+                currCountry,
+                this.$refs.indicatorMap[index].indicator.aoiID,
+              );
+            } else {
+              // console.log(this.$refs.indicatorMap[index].indicator);
+              // TODO: There should be a better way of doing this
+              setTimeout(() => (
+                this.$refs.indicatorMap[index].fetchMobilityData(
+                  currCountry, this.$refs.indicatorMap[index].indicator.aoiID,
+                )
+              ), 500);
+            }
+          }
         }
       }
       if (this.$refs.indicatorMap
