@@ -619,19 +619,17 @@ export default {
           const refMap = this.$refs.indicatorMap[index];
           if (currCountry && currID) {
             if (refMap) {
-              // console.log(this.$refs.indicatorMap[index].indicator);
               refMap.fetchMobilityData(
                 currCountry,
                 this.$refs.indicatorMap[index].indicator.aoiID,
               );
             } else {
-              // console.log(this.$refs.indicatorMap[index].indicator);
               // TODO: There should be a better way of doing this
-              setTimeout(() => (
+              setTimeout(() => {
                 this.$refs.indicatorMap[index].fetchMobilityData(
                   currCountry, this.$refs.indicatorMap[index].indicator.aoiID,
-                )
-              ), 500);
+                );
+              }, 500);
             }
           }
         }
