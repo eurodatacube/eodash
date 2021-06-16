@@ -603,7 +603,7 @@ export default {
         await this.addToMailingList({
           email: this.email,
           name: this.name,
-          lists: this.$store.state.config.appConfig.id === 'esa' ? [2] : [3],
+          lists: this.$store.state.config.appConfig.mailingList,
           viewURL: this.viewingLink,
           editURL: this.editingLink,
           interests: this.interests,

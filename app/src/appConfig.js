@@ -1,6 +1,7 @@
 module.exports = [
   {
     id: 'esa',
+    mailingList: [2],
     match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'localhost2'],
     branding: {
       appName: 'Rapid Action on coronavirus and EO',
@@ -189,6 +190,7 @@ module.exports = [
   },
   {
     id: 'trilateral',
+    mailingList: [3],
     match: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'eodash-trilateral-testing.eox.at', 'localhost'],
     branding: {
       appName: 'Earth Observing Dashboard',
