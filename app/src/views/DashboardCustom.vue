@@ -600,9 +600,11 @@ export default {
           consent: this.consent,
           interests: this.interests,
         });
+        console.log(this.$store.state);
         await this.addToMailingList({
           email: this.email,
           name: this.name,
+          lists: this.$store.state.config.appConfig.id === 'esa' ? [2] : [3],
           viewURL: this.viewingLink,
           editURL: this.editingLink,
           interests: this.interests,

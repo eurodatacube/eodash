@@ -226,7 +226,7 @@ const actions = {
     m,
   ) {
     if (state.api) {
-      return state.api.addToMailingList(m.email, m.name, m.viewURL, m.editURL, m.interests);
+      return state.api.addToMailingList(m.email, m.name, m.lists, m.viewURL, m.editURL, m.interests);
     }
   },
   resizeFeatureShrink(
