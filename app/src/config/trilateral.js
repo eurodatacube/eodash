@@ -790,6 +790,7 @@ export const globalIndicators = [
               geojson: '{geojson}',
             },
             callbackFunction: (responseJson, indicator) => {
+              let ind = null;
               if (Array.isArray(responseJson)) {
                 const data = responseJson;
                 const newData = {
@@ -804,13 +805,19 @@ export const globalIndicators = [
                   newData.measurement.push(row.mean);
                   newData.referenceValue.push(`[${row.median}, null, null, null]`);
                 });
-                const ind = {
+                ind = {
                   ...indicator,
                   ...newData,
                 };
-                return ind;
+              } else if (Object.keys(responseJson).indexOf('detail') !== -1) {
+                // This will happen if area selection is too large
+                if (responseJson.detail[0].msg.startsWith('AOI cannot exceed')) {
+                  console.log('AOI cannot exceed 200 000 km²');
+                } else {
+                  console.log(responseJson.detail[0].msg);
+                }
               }
-              return null;
+              return ind;
             },
             areaFormatFunction: (area) => (
               {
