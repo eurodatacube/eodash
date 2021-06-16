@@ -600,7 +600,6 @@ export default {
           consent: this.consent,
           interests: this.interests,
         });
-        console.log(this.$store.state);
         await this.addToMailingList({
           email: this.email,
           name: this.name,
