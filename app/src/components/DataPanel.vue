@@ -532,7 +532,35 @@ export default {
       return dataHref;
     },
     dataCustomHrefCSV() {
-      return '';
+      let dataHref = 'data:text/csv;charset=utf-8,';
+      const exportKeys = [
+        'time', 'aoi', 'measurement',
+      ];
+      // TODO: Separate data arrays in referenceValue and add them as columns
+      // let referenceKeys = [];
+      const header = `${exportKeys.join()}\n`;
+      let csv = header;
+      for (let i = 0; i < this.customAreaIndicator.time.length; i++) {
+        let row = '';
+        for (let kk = 0; kk < exportKeys.length; kk++) {
+          const cKey = exportKeys[kk];
+          let txtVal = '';
+          if (cKey === 'aoi') {
+            if (i === 0 && this.$store.state.features.selectedArea !== null) {
+              txtVal = `"${JSON.stringify(this.$store.state.features.selectedArea)}",`;
+            } else {
+              txtVal = ',';
+            }
+          } else {
+            txtVal = `"${this.customAreaIndicator[cKey][i]}",`;
+          }
+          row += txtVal;
+        }
+        row = `${row.slice(0, -1)}\n`;
+        csv += row;
+      }
+      dataHref += encodeURI(csv);
+      return dataHref;
     },
     downloadFileName() {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
