@@ -164,6 +164,37 @@
               style="margin-top: 0px;"
               class="pa-5 chart"
             />
+            <v-row
+                class="mt-0"
+              >
+                <v-col
+                  cols="12"
+                  sm="5"
+                >
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="7"
+                  v-if="!isFullScreen"
+                  ref="customButtonRow"
+                  style="margin-top: -30px;"
+                >
+                  <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
+                    <v-btn
+                      color="primary"
+                      text
+                      small
+                      :href="dataCustomHrefCSV"
+                      :download="downloadFileName"
+                      target="_blank"
+                      v-if="customAreaIndicator && !isFullScreen"
+                    >
+                      <v-icon left>mdi-download</v-icon>
+                      download csv
+                    </v-btn>
+                  </div>
+                </v-col>
+              </v-row>
           </v-card>
           <v-card
             v-else
@@ -303,6 +334,37 @@
                   class="pa-5 chart"
                 />
               </v-card>
+              <v-row
+                class="mt-0"
+              >
+                <v-col
+                  cols="12"
+                  sm="5"
+                >
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="7"
+                  v-if="!isFullScreen"
+                  ref="customButtonRow"
+                  style="margin-top: -30px;"
+                >
+                  <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
+                    <v-btn
+                      color="primary"
+                      text
+                      small
+                      :href="dataCustomHrefCSV"
+                      :download="downloadFileName"
+                      target="_blank"
+                      v-if="customAreaIndicator && !isFullScreen"
+                    >
+                      <v-icon left>mdi-download</v-icon>
+                      download csv
+                    </v-btn>
+                  </div>
+                </v-col>
+              </v-row>
             </v-col>
             <v-col
               cols="12"
@@ -468,6 +530,9 @@ export default {
       }
       dataHref += encodeURI(csv);
       return dataHref;
+    },
+    dataCustomHrefCSV() {
+      return '';
     },
     downloadFileName() {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
