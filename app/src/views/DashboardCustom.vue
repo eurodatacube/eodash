@@ -459,6 +459,7 @@ export default {
     ],
     titleRules: [
       (v) => !!v || 'Required',
+      (v) => /^[\w\-\s]+$/.test(v) || 'Invalid title',
     ],
     email: '',
     emailRules: [
