@@ -606,6 +606,7 @@ export default {
           lists: this.$store.state.config.appConfig.mailingList,
           viewURL: this.viewingLink,
           editURL: this.editingLink,
+          dashboardTitle: this.dashboardTitle,
           interests: this.interests,
         });
         this.$router.replace({
