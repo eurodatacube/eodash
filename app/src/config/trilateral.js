@@ -6,6 +6,7 @@ import { DateTime } from 'luxon';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
+import store from '../store';
 
 export const dataPath = './data/internal/';
 export const dataEndpoints = [
@@ -812,7 +813,10 @@ export const globalIndicators = [
               } else if (Object.keys(responseJson).indexOf('detail') !== -1) {
                 // This will happen if area selection is too large
                 if (responseJson.detail[0].msg.startsWith('AOI cannot exceed')) {
-                  console.log('AOI cannot exceed 200 000 km²');
+                  store.commit('sendAlert', {
+                    message: 'AOI cannot exceed 200 000 km²',
+                    type: 'error',
+                  });
                 } else {
                   console.log(responseJson.detail[0].msg);
                 }
