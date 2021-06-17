@@ -469,7 +469,15 @@ export default {
       (v) => !!(v instanceof Array && v.length > 0) || 'Required',
     ],
 
-    interestOptions: ['Health', 'Technology', 'Cooking'],
+    interestOptions: [
+      'Environmental monitoring',
+      'Climate',
+      'Health',
+      'Economy',
+      'Earth science',
+      'EO Platforms & Technology',
+      'Education',
+    ],
     interests: [],
 
     name: '',
