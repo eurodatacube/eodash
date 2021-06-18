@@ -1,12 +1,1197 @@
 {
-    "ESP_a-coruna": {
-        "AOI": "43.330,-8.377",
-        "name": "A Coruna (Spain)",
-        "locationId": "ESP_a-coruna"
-    },
-    "DNK_aarhus": {
-        "AOI": "56.150,10.210",
-        "name": "Aarhus (Denmark)",
-        "locationId": "DNK_aarhus"
-    }
+  "ESP_a-coruna": {
+    "AOI": "43.371,-8.396",
+    "name": "A Coruna (Spain)",
+    "locationId": "ESP_a-coruna"
+  },
+  "DNK_aarhus": {
+    "AOI": "56.158,10.212",
+    "name": "Aarhus (Denmark)",
+    "locationId": "DNK_aarhus"
+  },
+  "TUR_adana": {
+    "AOI": "36.983,35.332",
+    "name": "Adana (Turkey)",
+    "locationId": "TUR_adana"
+  },
+  "ESP_alicante": {
+    "AOI": "38.345,-0.481",
+    "name": "Alicante (Spain)",
+    "locationId": "ESP_alicante"
+  },
+  "NLD_almere": {
+    "AOI": "52.372,5.217",
+    "name": "Almere (Netherlands)",
+    "locationId": "NLD_almere"
+  },
+  "NLD_amersfoort": {
+    "AOI": "52.157,5.389",
+    "name": "Amersfoort (Netherlands)",
+    "locationId": "NLD_amersfoort"
+  },
+  "NLD_amsterdam": {
+    "AOI": "52.373,4.891",
+    "name": "Amsterdam (Netherlands)",
+    "locationId": "NLD_amsterdam"
+  },
+  "TUR_ankara": {
+    "AOI": "39.897,32.862",
+    "name": "Ankara (Turkey)",
+    "locationId": "TUR_ankara"
+  },
+  "TUR_antalya": {
+    "AOI": "36.886,30.71",
+    "name": "Antalya (Turkey)",
+    "locationId": "TUR_antalya"
+  },
+  "BEL_antwerp": {
+    "AOI": "51.221,4.399",
+    "name": "Antwerp (Belgium)",
+    "locationId": "BEL_antwerp"
+  },
+  "NLD_apeldoorn": {
+    "AOI": "52.216,5.965",
+    "name": "Apeldoorn (Netherlands)",
+    "locationId": "NLD_apeldoorn"
+  },
+  "NLD_arnhem": {
+    "AOI": "51.98,5.912",
+    "name": "Arnhem (Netherlands)",
+    "locationId": "NLD_arnhem"
+  },
+  "GRC_athens": {
+    "AOI": "37.975,23.736",
+    "name": "Athens (Greece)",
+    "locationId": "GRC_athens"
+  },
+  "DEU_augsburg": {
+    "AOI": "48.366,10.893",
+    "name": "Augsburg (Germany)",
+    "locationId": "DEU_augsburg"
+  },
+  "FRA_avignon": {
+    "AOI": "43.949,4.806",
+    "name": "Avignon (France)",
+    "locationId": "FRA_avignon"
+  },
+  "ESP_barcelona": {
+    "AOI": "41.388,2.17",
+    "name": "Barcelona (Spain)",
+    "locationId": "ESP_barcelona"
+  },
+  "ITA_bari": {
+    "AOI": "41.126,16.872",
+    "name": "Bari (Italy)",
+    "locationId": "ITA_bari"
+  },
+  "CHE_basel": {
+    "AOI": "47.56,7.581",
+    "name": "Basel (Switzerland)",
+    "locationId": "CHE_basel"
+  },
+  "GBR_belfast": {
+    "AOI": "54.597,-5.93",
+    "name": "Belfast (United Kingdom)",
+    "locationId": "GBR_belfast"
+  },
+  "NOR_bergen": {
+    "AOI": "60.388,5.332",
+    "name": "Bergen (Norway)",
+    "locationId": "NOR_bergen"
+  },
+  "DEU_berlin": {
+    "AOI": "52.523,13.411",
+    "name": "Berlin (Germany)",
+    "locationId": "DEU_berlin"
+  },
+  "CHE_bern": {
+    "AOI": "46.948,7.448",
+    "name": "Bern (Switzerland)",
+    "locationId": "CHE_bern"
+  },
+  "POL_bialystok": {
+    "AOI": "53.143,23.164",
+    "name": "Bialystok (Poland)",
+    "locationId": "POL_bialystok"
+  },
+  "DEU_bielefeld": {
+    "AOI": "52.023,8.533",
+    "name": "Bielefeld (Germany)",
+    "locationId": "DEU_bielefeld"
+  },
+  "POL_bielsko-biala": {
+    "AOI": "49.808,19.056",
+    "name": "Bielsko-Biala (Poland)",
+    "locationId": "POL_bielsko-biala"
+  },
+  "ESP_bilbao": {
+    "AOI": "43.257,-2.923",
+    "name": "Bilbao (Spain)",
+    "locationId": "ESP_bilbao"
+  },
+  "GBR_birmingham": {
+    "AOI": "52.483,-1.893",
+    "name": "Birmingham-Wolverhampton (United Kingdom)",
+    "locationId": "GBR_birmingham"
+  },
+  "ITA_bologna": {
+    "AOI": "44.494,11.347",
+    "name": "Bologna (Italy)",
+    "locationId": "ITA_bologna"
+  },
+  "DEU_bonn": {
+    "AOI": "50.733,7.096",
+    "name": "Bonn (Germany)",
+    "locationId": "DEU_bonn"
+  },
+  "FRA_bordeaux": {
+    "AOI": "44.835,-0.575",
+    "name": "Bordeaux (France)",
+    "locationId": "FRA_bordeaux"
+  },
+  "GBR_bournemouth": {
+    "AOI": "50.722,-1.879",
+    "name": "Bournemouth (United Kingdom)",
+    "locationId": "GBR_bournemouth"
+  },
+  "PRT_braga": {
+    "AOI": "41.552,-8.423",
+    "name": "Braga (Portugal)",
+    "locationId": "PRT_braga"
+  },
+  "SVK_bratislava": {
+    "AOI": "48.146,17.107",
+    "name": "Bratislava (Slovakia)",
+    "locationId": "SVK_bratislava"
+  },
+  "NLD_breda": {
+    "AOI": "51.589,4.774",
+    "name": "Breda (Netherlands)",
+    "locationId": "NLD_breda"
+  },
+  "DEU_bremen": {
+    "AOI": "53.075,8.807",
+    "name": "Bremen (Germany)",
+    "locationId": "DEU_bremen"
+  },
+  "ITA_brescia": {
+    "AOI": "45.54,10.223",
+    "name": "Brescia (Italy)",
+    "locationId": "ITA_brescia"
+  },
+  "FRA_brest": {
+    "AOI": "48.39,-4.487",
+    "name": "Brest (France)",
+    "locationId": "FRA_brest"
+  },
+  "GBR_brighton-and-hove": {
+    "AOI": "50.833,-0.117",
+    "name": "Brighton and Hove (United Kingdom)",
+    "locationId": "GBR_brighton-and-hove"
+  },
+  "GBR_bristol": {
+    "AOI": "51.455,-2.592",
+    "name": "Bristol (United Kingdom)",
+    "locationId": "GBR_bristol"
+  },
+  "CZE_brno": {
+    "AOI": "49.192,16.613",
+    "name": "Brno (Czechia)",
+    "locationId": "CZE_brno"
+  },
+  "BEL_bruges": {
+    "AOI": "51.209,3.225",
+    "name": "Bruges (Belgium)",
+    "locationId": "BEL_bruges"
+  },
+  "BEL_brussels": {
+    "AOI": "50.846,4.356",
+    "name": "Brussels (Belgium)",
+    "locationId": "BEL_brussels"
+  },
+  "ROU_bucharest": {
+    "AOI": "44.436,26.102",
+    "name": "Bucharest (Romania)",
+    "locationId": "ROU_bucharest"
+  },
+  "HUN_budapest": {
+    "AOI": "47.498,19.041",
+    "name": "Budapest (Hungary)",
+    "locationId": "HUN_budapest"
+  },
+  "TUR_bursa": {
+    "AOI": "40.186,29.057",
+    "name": "Bursa (Turkey)",
+    "locationId": "TUR_bursa"
+  },
+  "POL_bydgoszcz": {
+    "AOI": "53.121,17.993",
+    "name": "Bydgoszcz (Poland)",
+    "locationId": "POL_bydgoszcz"
+  },
+  "ESP_cadiz": {
+    "AOI": "36.53,-6.293",
+    "name": "Cadiz (Spain)",
+    "locationId": "ESP_cadiz"
+  },
+  "ITA_cagliari": {
+    "AOI": "39.215,9.109",
+    "name": "Cagliari (Italy)",
+    "locationId": "ITA_cagliari"
+  },
+  "GBR_cardiff": {
+    "AOI": "51.481,-3.18",
+    "name": "Cardiff (United Kingdom)",
+    "locationId": "GBR_cardiff"
+  },
+  "ESP_cartagena": {
+    "AOI": "37.606,-0.991",
+    "name": "Cartagena (Spain)",
+    "locationId": "ESP_cartagena"
+  },
+  "ITA_catania": {
+    "AOI": "37.502,15.088",
+    "name": "Catania (Italy)",
+    "locationId": "ITA_catania"
+  },
+  "BEL_charleroi": {
+    "AOI": "50.411,4.444",
+    "name": "Charleroi (Belgium)",
+    "locationId": "BEL_charleroi"
+  },
+  "FRA_clermont-ferrand": {
+    "AOI": "45.777,3.083",
+    "name": "Clermont-Ferrand (France)",
+    "locationId": "FRA_clermont-ferrand"
+  },
+  "PRT_coimbra": {
+    "AOI": "40.211,-8.429",
+    "name": "Coimbra (Portugal)",
+    "locationId": "PRT_coimbra"
+  },
+  "DEU_cologne": {
+    "AOI": "50.941,6.96",
+    "name": "Cologne (Germany)",
+    "locationId": "DEU_cologne"
+  },
+  "DNK_copenhagen": {
+    "AOI": "55.676,12.569",
+    "name": "Copenhagen (Denmark)",
+    "locationId": "DNK_copenhagen"
+  },
+  "ESP_cordoba": {
+    "AOI": "37.885,-4.779",
+    "name": "Cordoba (Spain)",
+    "locationId": "ESP_cordoba"
+  },
+  "IRL_cork": {
+    "AOI": "51.898,-8.471",
+    "name": "Cork (Ireland)",
+    "locationId": "IRL_cork"
+  },
+  "GBR_coventry": {
+    "AOI": "52.406,-1.509",
+    "name": "Coventry (United Kingdom)",
+    "locationId": "GBR_coventry"
+  },
+  "NLD_den-bosch": {
+    "AOI": "51.69,5.304",
+    "name": "Den Bosch (Netherlands)",
+    "locationId": "NLD_den-bosch"
+  },
+  "FRA_dijon": {
+    "AOI": "47.333,5.048",
+    "name": "Dijon (France)",
+    "locationId": "FRA_dijon"
+  },
+  "DEU_dresden": {
+    "AOI": "51.051,13.734",
+    "name": "Dresden (Germany)",
+    "locationId": "DEU_dresden"
+  },
+  "IRL_dublin": {
+    "AOI": "53.344,-6.267",
+    "name": "Dublin (Ireland)",
+    "locationId": "IRL_dublin"
+  },
+  "DEU_dusseldorf": {
+    "AOI": "51.225,6.776",
+    "name": "Dusseldorf (Germany)",
+    "locationId": "DEU_dusseldorf"
+  },
+  "GBR_edinburgh": {
+    "AOI": "55.95,-3.188",
+    "name": "Edinburgh (United Kingdom)",
+    "locationId": "GBR_edinburgh"
+  },
+  "NLD_eindhoven": {
+    "AOI": "51.437,5.478",
+    "name": "Eindhoven (Netherlands)",
+    "locationId": "NLD_eindhoven"
+  },
+  "ITA_florence": {
+    "AOI": "43.769,11.257",
+    "name": "Florence (Italy)",
+    "locationId": "ITA_florence"
+  },
+  "DEU_frankfurt-am-main": {
+    "AOI": "50.111,8.679",
+    "name": "Frankfurt am Main (Germany)",
+    "locationId": "DEU_frankfurt-am-main"
+  },
+  "DEU_freiburg": {
+    "AOI": "48,7.85",
+    "name": "Freiburg (Germany)",
+    "locationId": "DEU_freiburg"
+  },
+  "PRT_funchal": {
+    "AOI": "32.648,-16.905",
+    "name": "Funchal (Portugal)",
+    "locationId": "PRT_funchal"
+  },
+  "TUR_gaziantep": {
+    "AOI": "37.066,37.376",
+    "name": "Gaziantep (Turkey)",
+    "locationId": "TUR_gaziantep"
+  },
+  "POL_gdansk-gdynia-sopot": {
+    "AOI": "54.356,18.646",
+    "name": "Gdansk, Gdynia and Sopot (Poland)",
+    "locationId": "POL_gdansk-gdynia-sopot"
+  },
+  "CHE_geneva": {
+    "AOI": "46.204,6.14",
+    "name": "Geneva (Switzerland)",
+    "locationId": "CHE_geneva"
+  },
+  "ITA_genoa": {
+    "AOI": "44.407,8.934",
+    "name": "Genoa (Italy)",
+    "locationId": "ITA_genoa"
+  },
+  "BEL_ghent": {
+    "AOI": "51.054,3.722",
+    "name": "Ghent (Belgium)",
+    "locationId": "BEL_ghent"
+  },
+  "ESP_gijon": {
+    "AOI": "43.545,-5.662",
+    "name": "Gijon (Spain)",
+    "locationId": "ESP_gijon"
+  },
+  "GBR_glasgow": {
+    "AOI": "55.866,-4.257",
+    "name": "Glasgow (United Kingdom)",
+    "locationId": "GBR_glasgow"
+  },
+  "SWE_gothenburg": {
+    "AOI": "57.697,11.986",
+    "name": "Gothenburg (Sweden)",
+    "locationId": "SWE_gothenburg"
+  },
+  "ESP_granada": {
+    "AOI": "37.176,-3.598",
+    "name": "Granada (Spain)",
+    "locationId": "ESP_granada"
+  },
+  "AUT_graz": {
+    "AOI": "47.07,15.438",
+    "name": "Graz (Austria)",
+    "locationId": "AUT_graz"
+  },
+  "FRA_grenoble": {
+    "AOI": "45.194,5.732",
+    "name": "Grenoble (France)",
+    "locationId": "FRA_grenoble"
+  },
+  "NLD_groningen": {
+    "AOI": "53.214,6.566",
+    "name": "Groningen (Netherlands)",
+    "locationId": "NLD_groningen"
+  },
+  "NLD_haarlem": {
+    "AOI": "52.379,4.638",
+    "name": "Haarlem (Netherlands)",
+    "locationId": "NLD_haarlem"
+  },
+  "DEU_hamburg": {
+    "AOI": "53.554,9.992",
+    "name": "Hamburg (Germany)",
+    "locationId": "DEU_hamburg"
+  },
+  "DEU_hannover": {
+    "AOI": "52.372,9.736",
+    "name": "Hannover (Germany)",
+    "locationId": "DEU_hannover"
+  },
+  "FIN_helsinki": {
+    "AOI": "60.17,24.938",
+    "name": "Helsinki (Finland)",
+    "locationId": "FIN_helsinki"
+  },
+  "GBR_hull": {
+    "AOI": "53.744,-0.332",
+    "name": "Hull (United Kingdom)",
+    "locationId": "GBR_hull"
+  },
+  "AUT_innsbruck": {
+    "AOI": "47.263,11.395",
+    "name": "Innsbruck (Austria)",
+    "locationId": "AUT_innsbruck"
+  },
+  "TUR_istanbul": {
+    "AOI": "41.013,28.975",
+    "name": "Istanbul (Turkey)",
+    "locationId": "TUR_istanbul"
+  },
+  "TUR_izmir": {
+    "AOI": "38.419,27.13",
+    "name": "Izmir (Turkey)",
+    "locationId": "TUR_izmir"
+  },
+  "DEU_karlsruhe": {
+    "AOI": "49.008,8.404",
+    "name": "Karlsruhe (Germany)",
+    "locationId": "DEU_karlsruhe"
+  },
+  "POL_katowice-urban-area": {
+    "AOI": "50.195,18.995",
+    "name": "Katowice urban area (Poland)",
+    "locationId": "POL_katowice-urban-area"
+  },
+  "TUR_kayseri": {
+    "AOI": "38.723,35.489",
+    "name": "Kayseri (Turkey)",
+    "locationId": "TUR_kayseri"
+  },
+  "DEU_kiel": {
+    "AOI": "54.323,10.136",
+    "name": "Kiel (Germany)",
+    "locationId": "DEU_kiel"
+  },
+  "UKR_kiev": {
+    "AOI": "50.448,30.543",
+    "name": "Kyiv (Ukraine)",
+    "locationId": "UKR_kiev"
+  },
+  "TUR_konya": {
+    "AOI": "37.872,32.499",
+    "name": "Konya (Turkey)",
+    "locationId": "TUR_konya"
+  },
+  "BEL_kortrijk": {
+    "AOI": "50.828,3.265",
+    "name": "Kortrijk (Belgium)",
+    "locationId": "BEL_kortrijk"
+  },
+  "SVK_kosice": {
+    "AOI": "48.717,21.26",
+    "name": "Kosice (Slovakia)",
+    "locationId": "SVK_kosice"
+  },
+  "POL_krakow": {
+    "AOI": "50.055,19.928",
+    "name": "Krakow (Poland)",
+    "locationId": "POL_krakow"
+  },
+  "ESP_las-palmas": {
+    "AOI": "28.125,-15.43",
+    "name": "Las Palmas (Spain)",
+    "locationId": "ESP_las-palmas"
+  },
+  "CHE_lausanne": {
+    "AOI": "46.52,6.632",
+    "name": "Lausanne (Switzerland)",
+    "locationId": "CHE_lausanne"
+  },
+  "FRA_le-havre": {
+    "AOI": "49.493,0.106",
+    "name": "Le Havre (France)",
+    "locationId": "FRA_le-havre"
+  },
+  "FRA_le-mans": {
+    "AOI": "48.008,0.199",
+    "name": "Le Mans (France)",
+    "locationId": "FRA_le-mans"
+  },
+  "GBR_leeds-bradford": {
+    "AOI": "53.82,-1.626",
+    "name": "Leeds-Bradford (United Kingdom)",
+    "locationId": "GBR_leeds-bradford"
+  },
+  "GBR_leicester": {
+    "AOI": "52.635,-1.129",
+    "name": "Leicester (United Kingdom)",
+    "locationId": "GBR_leicester"
+  },
+  "NLD_leiden": {
+    "AOI": "52.161,4.49",
+    "name": "Leiden (Netherlands)",
+    "locationId": "NLD_leiden"
+  },
+  "DEU_leipzig": {
+    "AOI": "51.34,12.371",
+    "name": "Leipzig (Germany)",
+    "locationId": "DEU_leipzig"
+  },
+  "BEL_leuven": {
+    "AOI": "50.88,4.701",
+    "name": "Leuven (Belgium)",
+    "locationId": "BEL_leuven"
+  },
+  "BEL_liege": {
+    "AOI": "50.644,5.572",
+    "name": "Liege (Belgium)",
+    "locationId": "BEL_liege"
+  },
+  "FRA_lille": {
+    "AOI": "50.631,3.063",
+    "name": "Lille (France)",
+    "locationId": "FRA_lille"
+  },
+  "IRL_limerick": {
+    "AOI": "52.664,-8.627",
+    "name": "Limerick (Ireland)",
+    "locationId": "IRL_limerick"
+  },
+  "AUT_linz": {
+    "AOI": "48.306,14.286",
+    "name": "Linz (Austria)",
+    "locationId": "AUT_linz"
+  },
+  "PRT_lisbon": {
+    "AOI": "38.707,-9.136",
+    "name": "Lisbon (Portugal)",
+    "locationId": "PRT_lisbon"
+  },
+  "GBR_liverpool": {
+    "AOI": "53.411,-2.978",
+    "name": "Liverpool (United Kingdom)",
+    "locationId": "GBR_liverpool"
+  },
+  "ITA_livorno": {
+    "AOI": "43.552,10.308",
+    "name": "Livorno (Italy)",
+    "locationId": "ITA_livorno"
+  },
+  "SVN_ljubljana": {
+    "AOI": "46.051,14.506",
+    "name": "Ljubljana (Slovenia)",
+    "locationId": "SVN_ljubljana"
+  },
+  "POL_lodz": {
+    "AOI": "51.759,19.459",
+    "name": "Lodz (Poland)",
+    "locationId": "POL_lodz"
+  },
+  "GBR_london": {
+    "AOI": "51.5,-0.126",
+    "name": "London (United Kingdom)",
+    "locationId": "GBR_london"
+  },
+  "POL_lublin": {
+    "AOI": "51.247,22.574",
+    "name": "Lublin (Poland)",
+    "locationId": "POL_lublin"
+  },
+  "CHE_lugano": {
+    "AOI": "46.004,8.954",
+    "name": "Lugano (Switzerland)",
+    "locationId": "CHE_lugano"
+  },
+  "LUX_luxembourg": {
+    "AOI": "49.61,6.13",
+    "name": "Luxembourg (Luxembourg)",
+    "locationId": "LUX_luxembourg"
+  },
+  "FRA_lyon": {
+    "AOI": "45.767,4.834",
+    "name": "Lyon (France)",
+    "locationId": "FRA_lyon"
+  },
+  "ESP_madrid": {
+    "AOI": "40.417,-3.7",
+    "name": "Madrid (Spain)",
+    "locationId": "ESP_madrid"
+  },
+  "ESP_malaga": {
+    "AOI": "36.72,-4.42",
+    "name": "Malaga (Spain)",
+    "locationId": "ESP_malaga"
+  },
+  "SWE_malmo": {
+    "AOI": "55.603,13.001",
+    "name": "Malmo (Sweden)",
+    "locationId": "SWE_malmo"
+  },
+  "GBR_manchester": {
+    "AOI": "53.481,-2.234",
+    "name": "Manchester (United Kingdom)",
+    "locationId": "GBR_manchester"
+  },
+  "DEU_mannheim": {
+    "AOI": "49.485,8.477",
+    "name": "Mannheim (Germany)",
+    "locationId": "DEU_mannheim"
+  },
+  "FRA_marseille": {
+    "AOI": "43.295,5.374",
+    "name": "Marseille (France)",
+    "locationId": "FRA_marseille"
+  },
+  "TUR_mersin": {
+    "AOI": "36.8,34.632",
+    "name": "Mersin (Turkey)",
+    "locationId": "TUR_mersin"
+  },
+  "ITA_messina": {
+    "AOI": "38.192,15.556",
+    "name": "Messina (Italy)",
+    "locationId": "ITA_messina"
+  },
+  "GBR_middlesbrough": {
+    "AOI": "54.573,-1.238",
+    "name": "Middlesbrough (United Kingdom)",
+    "locationId": "GBR_middlesbrough"
+  },
+  "ITA_milan": {
+    "AOI": "45.464,9.188",
+    "name": "Milan (Italy)",
+    "locationId": "ITA_milan"
+  },
+  "ITA_modena": {
+    "AOI": "44.647,10.925",
+    "name": "Modena (Italy)",
+    "locationId": "ITA_modena"
+  },
+  "DEU_monchengladbach": {
+    "AOI": "51.192,6.44",
+    "name": "Monchengladbach (Germany)",
+    "locationId": "DEU_monchengladbach"
+  },
+  "BEL_mons": {
+    "AOI": "50.453,3.949",
+    "name": "Mons (Belgium)",
+    "locationId": "BEL_mons"
+  },
+  "FRA_montpellier": {
+    "AOI": "43.608,3.88",
+    "name": "Montpellier (France)",
+    "locationId": "FRA_montpellier"
+  },
+  "RUS_moscow": {
+    "AOI": "55.756,37.618",
+    "name": "Moscow region (oblast) (Russia)",
+    "locationId": "RUS_moscow"
+  },
+  "DEU_munich": {
+    "AOI": "48.139,11.58",
+    "name": "Munich (Germany)",
+    "locationId": "DEU_munich"
+  },
+  "DEU_munster": {
+    "AOI": "51.965,7.628",
+    "name": "Munster (Germany)",
+    "locationId": "DEU_munster"
+  },
+  "ESP_murcia": {
+    "AOI": "37.984,-1.13",
+    "name": "Murcia (Spain)",
+    "locationId": "ESP_murcia"
+  },
+  "BEL_namur": {
+    "AOI": "50.465,4.865",
+    "name": "Namur (Belgium)",
+    "locationId": "BEL_namur"
+  },
+  "FRA_nancy": {
+    "AOI": "48.691,6.182",
+    "name": "Nancy (France)",
+    "locationId": "FRA_nancy"
+  },
+  "FRA_nantes": {
+    "AOI": "47.218,-1.557",
+    "name": "Nantes (France)",
+    "locationId": "FRA_nantes"
+  },
+  "ITA_naples": {
+    "AOI": "40.84,14.253",
+    "name": "Naples (Italy)",
+    "locationId": "ITA_naples"
+  },
+  "GBR_newcastle-sunderland": {
+    "AOI": "54.935,-1.394",
+    "name": "Newcastle-Sunderland (United Kingdom)",
+    "locationId": "GBR_newcastle-sunderland"
+  },
+  "FRA_nice": {
+    "AOI": "43.703,7.266",
+    "name": "Nice (France)",
+    "locationId": "FRA_nice"
+  },
+  "NLD_nijmegen": {
+    "AOI": "51.842,5.859",
+    "name": "Nijmegen (Netherlands)",
+    "locationId": "NLD_nijmegen"
+  },
+  "RUS_nizhny-novgorod": {
+    "AOI": "56.327,44.006",
+    "name": "Nizhny Novgorod (Russia)",
+    "locationId": "RUS_nizhny-novgorod"
+  },
+  "GBR_nottingham": {
+    "AOI": "52.955,-1.149",
+    "name": "Nottingham (United Kingdom)",
+    "locationId": "GBR_nottingham"
+  },
+  "RUS_novosibirsk": {
+    "AOI": "55.031,82.92",
+    "name": "Novosibirsk (Russia)",
+    "locationId": "RUS_novosibirsk"
+  },
+  "DEU_nuremberg": {
+    "AOI": "49.451,11.08",
+    "name": "Nuremberg (Germany)",
+    "locationId": "DEU_nuremberg"
+  },
+  "DNK_odense": {
+    "AOI": "55.396,10.391",
+    "name": "Odense (Denmark)",
+    "locationId": "DNK_odense"
+  },
+  "FRA_orleans": {
+    "AOI": "47.901,1.904",
+    "name": "Orleans (France)",
+    "locationId": "FRA_orleans"
+  },
+  "NOR_oslo": {
+    "AOI": "59.914,10.739",
+    "name": "Oslo (Norway)",
+    "locationId": "NOR_oslo"
+  },
+  "CZE_ostrava": {
+    "AOI": "49.841,18.291",
+    "name": "Ostrava (Czechia)",
+    "locationId": "CZE_ostrava"
+  },
+  "ESP_oviedo": {
+    "AOI": "43.36,-5.845",
+    "name": "Oviedo (Spain)",
+    "locationId": "ESP_oviedo"
+  },
+  "ITA_padua": {
+    "AOI": "45.41,11.877",
+    "name": "Padua (Italy)",
+    "locationId": "ITA_padua"
+  },
+  "ITA_palermo": {
+    "AOI": "38.116,13.361",
+    "name": "Palermo (Italy)",
+    "locationId": "ITA_palermo"
+  },
+  "ESP_palma-de-mallorca": {
+    "AOI": "39.567,2.65",
+    "name": "Palma de Mallorca (Spain)",
+    "locationId": "ESP_palma-de-mallorca"
+  },
+  "ESP_pamplona": {
+    "AOI": "42.818,-1.644",
+    "name": "Pamplona (Spain)",
+    "locationId": "ESP_pamplona"
+  },
+  "FRA_paris": {
+    "AOI": "48.857,2.351",
+    "name": "Paris (France)",
+    "locationId": "FRA_paris"
+  },
+  "ITA_parma": {
+    "AOI": "44.808,10.33",
+    "name": "Parma (Italy)",
+    "locationId": "ITA_parma"
+  },
+  "ITA_pescara": {
+    "AOI": "42.465,14.214",
+    "name": "Pescara (Italy)",
+    "locationId": "ITA_pescara"
+  },
+  "PRT_porto": {
+    "AOI": "41.15,-8.61",
+    "name": "Porto (Portugal)",
+    "locationId": "PRT_porto"
+  },
+  "GBR_portsmouth": {
+    "AOI": "50.799,-1.091",
+    "name": "Portsmouth (United Kingdom)",
+    "locationId": "GBR_portsmouth"
+  },
+  "POL_poznan": {
+    "AOI": "52.4,16.928",
+    "name": "Poznan (Poland)",
+    "locationId": "POL_poznan"
+  },
+  "CZE_prague": {
+    "AOI": "50.088,14.42",
+    "name": "Prague (Czechia)",
+    "locationId": "CZE_prague"
+  },
+  "ITA_prato": {
+    "AOI": "43.88,11.096",
+    "name": "Prato (Italy)",
+    "locationId": "ITA_prato"
+  },
+  "GBR_preston": {
+    "AOI": "53.758,-2.703",
+    "name": "Preston (United Kingdom)",
+    "locationId": "GBR_preston"
+  },
+  "ITA_ravenna": {
+    "AOI": "44.416,12.197",
+    "name": "Ravenna (Italy)",
+    "locationId": "ITA_ravenna"
+  },
+  "GBR_reading": {
+    "AOI": "51.455,-0.969",
+    "name": "Reading (United Kingdom)",
+    "locationId": "GBR_reading"
+  },
+  "ITA_reggio-calabria": {
+    "AOI": "38.115,15.65",
+    "name": "Reggio Calabria (Italy)",
+    "locationId": "ITA_reggio-calabria"
+  },
+  "ITA_reggio-emilia": {
+    "AOI": "44.696,10.628",
+    "name": "Reggio Emilia (Italy)",
+    "locationId": "ITA_reggio-emilia"
+  },
+  "FRA_reims": {
+    "AOI": "49.257,4.033",
+    "name": "Reims (France)",
+    "locationId": "FRA_reims"
+  },
+  "FRA_rennes": {
+    "AOI": "48.112,-1.68",
+    "name": "Rennes (France)",
+    "locationId": "FRA_rennes"
+  },
+  "ISL_reykjavik": {
+    "AOI": "64.147,-21.942",
+    "name": "Reykjavik (Iceland)",
+    "locationId": "ISL_reykjavik"
+  },
+  "LVA_riga": {
+    "AOI": "56.946,24.104",
+    "name": "Riga (Latvia)",
+    "locationId": "LVA_riga"
+  },
+  "ITA_rome": {
+    "AOI": "41.891,12.494",
+    "name": "Rome (Italy)",
+    "locationId": "ITA_rome"
+  },
+  "NLD_rotterdam": {
+    "AOI": "51.923,4.471",
+    "name": "Rotterdam (Netherlands)",
+    "locationId": "NLD_rotterdam"
+  },
+  "FRA_rouen": {
+    "AOI": "49.442,1.098",
+    "name": "Rouen (France)",
+    "locationId": "FRA_rouen"
+  },
+  "DEU_ruhr-region-east": {
+    "AOI": "51.515,7.309",
+    "name": "Ruhr region east (Germany)",
+    "locationId": "DEU_ruhr-region-east"
+  },
+  "DEU_ruhr-region-west": {
+    "AOI": "51.459,6.906",
+    "name": "Ruhr region west (Germany)",
+    "locationId": "DEU_ruhr-region-west"
+  },
+  "FRA_saint-etienne": {
+    "AOI": "45.44,4.388",
+    "name": "Saint-Etienne (France)",
+    "locationId": "FRA_saint-etienne"
+  },
+  "RUS_saint-petersburg": {
+    "AOI": "59.938,30.312",
+    "name": "Saint Petersburg (Russia)",
+    "locationId": "RUS_saint-petersburg"
+  },
+  "AUT_salzburg": {
+    "AOI": "47.8,13.044",
+    "name": "Salzburg (Austria)",
+    "locationId": "AUT_salzburg"
+  },
+  "ESP_san-sebastian": {
+    "AOI": "43.321,-1.985",
+    "name": "San Sebastian (Spain)",
+    "locationId": "ESP_san-sebastian"
+  },
+  "ESP_santa-cruz-de-tenerife": {
+    "AOI": "28.47,-16.255",
+    "name": "Santa Cruz de Tenerife (Spain)",
+    "locationId": "ESP_santa-cruz-de-tenerife"
+  },
+  "ESP_santander": {
+    "AOI": "43.461,-3.809",
+    "name": "Santander (Spain)",
+    "locationId": "ESP_santander"
+  },
+  "ESP_seville": {
+    "AOI": "37.383,-5.996",
+    "name": "Seville (Spain)",
+    "locationId": "ESP_seville"
+  },
+  "GBR_sheffield": {
+    "AOI": "53.383,-1.465",
+    "name": "Sheffield (United Kingdom)",
+    "locationId": "GBR_sheffield"
+  },
+  "BGR_sofia": {
+    "AOI": "42.696,23.326",
+    "name": "Sofia (Bulgaria)",
+    "locationId": "BGR_sofia"
+  },
+  "GBR_southampton": {
+    "AOI": "50.905,-1.403",
+    "name": "Southampton (United Kingdom)",
+    "locationId": "GBR_southampton"
+  },
+  "NOR_stavanger": {
+    "AOI": "58.964,5.726",
+    "name": "Stavanger (Norway)",
+    "locationId": "NOR_stavanger"
+  },
+  "SWE_stockholm": {
+    "AOI": "59.333,18.064",
+    "name": "Stockholm (Sweden)",
+    "locationId": "SWE_stockholm"
+  },
+  "GBR_stoke-on-trent": {
+    "AOI": "53.026,-2.177",
+    "name": "Stoke-on-Trent (United Kingdom)",
+    "locationId": "GBR_stoke-on-trent"
+  },
+  "FRA_strasbourg": {
+    "AOI": "48.583,7.744",
+    "name": "Strasbourg (France)",
+    "locationId": "FRA_strasbourg"
+  },
+  "DEU_stuttgart": {
+    "AOI": "48.777,9.181",
+    "name": "Stuttgart (Germany)",
+    "locationId": "DEU_stuttgart"
+  },
+  "GBR_swansea": {
+    "AOI": "51.622,-3.943",
+    "name": "Swansea (United Kingdom)",
+    "locationId": "GBR_swansea"
+  },
+  "POL_szczecin": {
+    "AOI": "53.417,14.532",
+    "name": "Szczecin (Poland)",
+    "locationId": "POL_szczecin"
+  },
+  "EST_tallinn": {
+    "AOI": "59.443,24.753",
+    "name": "Tallinn (Estonia)",
+    "locationId": "EST_tallinn"
+  },
+  "FIN_tampere": {
+    "AOI": "61.498,23.76",
+    "name": "Tampere (Finland)",
+    "locationId": "FIN_tampere"
+  },
+  "ITA_taranto": {
+    "AOI": "40.469,17.24",
+    "name": "Taranto (Italy)",
+    "locationId": "ITA_taranto"
+  },
+  "NLD_the-hague": {
+    "AOI": "52.08,4.31",
+    "name": "The Hague (Netherlands)",
+    "locationId": "NLD_the-hague"
+  },
+  "GRC_thessaloniki": {
+    "AOI": "40.635,22.943",
+    "name": "Thessaloniki (Greece)",
+    "locationId": "GRC_thessaloniki"
+  },
+  "NLD_tilburg": {
+    "AOI": "51.555,5.09",
+    "name": "Tilburg (Netherlands)",
+    "locationId": "NLD_tilburg"
+  },
+  "FRA_toulon": {
+    "AOI": "43.125,5.931",
+    "name": "Toulon (France)",
+    "locationId": "FRA_toulon"
+  },
+  "FRA_toulouse": {
+    "AOI": "43.604,1.445",
+    "name": "Toulouse (France)",
+    "locationId": "FRA_toulouse"
+  },
+  "FRA_tours": {
+    "AOI": "47.39,0.689",
+    "name": "Tours (France)",
+    "locationId": "FRA_tours"
+  },
+  "ITA_trieste": {
+    "AOI": "45.654,13.779",
+    "name": "Trieste (Italy)",
+    "locationId": "ITA_trieste"
+  },
+  "NOR_trondheim": {
+    "AOI": "63.435,10.398",
+    "name": "Trondheim (Norway)",
+    "locationId": "NOR_trondheim"
+  },
+  "ITA_turin": {
+    "AOI": "45.068,7.683",
+    "name": "Turin (Italy)",
+    "locationId": "ITA_turin"
+  },
+  "FIN_turku": {
+    "AOI": "60.451,22.269",
+    "name": "Turku (Finland)",
+    "locationId": "FIN_turku"
+  },
+  "SWE_uppsala": {
+    "AOI": "59.858,17.645",
+    "name": "Uppsala (Sweden)",
+    "locationId": "SWE_uppsala"
+  },
+  "NLD_utrecht": {
+    "AOI": "52.091,5.123",
+    "name": "Utrecht (Netherlands)",
+    "locationId": "NLD_utrecht"
+  },
+  "ESP_valencia": {
+    "AOI": "39.47,-0.377",
+    "name": "Valencia (Spain)",
+    "locationId": "ESP_valencia"
+  },
+  "ESP_valladolid": {
+    "AOI": "41.653,-4.728",
+    "name": "Valladolid (Spain)",
+    "locationId": "ESP_valladolid"
+  },
+  "ITA_verona": {
+    "AOI": "45.438,10.992",
+    "name": "Verona (Italy)",
+    "locationId": "ITA_verona"
+  },
+  "AUT_vienna": {
+    "AOI": "48.209,16.373",
+    "name": "Vienna (Austria)",
+    "locationId": "AUT_vienna"
+  },
+  "ESP_vigo": {
+    "AOI": "42.231,-8.712",
+    "name": "Vigo (Spain)",
+    "locationId": "ESP_vigo"
+  },
+  "LTU_vilnius": {
+    "AOI": "54.689,25.28",
+    "name": "Vilnius (Lithuania)",
+    "locationId": "LTU_vilnius"
+  },
+  "ESP_vitoria-gasteiz": {
+    "AOI": "42.847,-2.672",
+    "name": "Vitoria-Gasteiz (Spain)",
+    "locationId": "ESP_vitoria-gasteiz"
+  },
+  "POL_warsaw": {
+    "AOI": "52.235,21.008",
+    "name": "Warsaw (Poland)",
+    "locationId": "POL_warsaw"
+  },
+  "DEU_wiesbaden": {
+    "AOI": "50.084,8.239",
+    "name": "Wiesbaden (Germany)",
+    "locationId": "DEU_wiesbaden"
+  },
+  "POL_wroclaw": {
+    "AOI": "51.111,17.026",
+    "name": "Wroclaw (Poland)",
+    "locationId": "POL_wroclaw"
+  },
+  "DEU_wuppertal": {
+    "AOI": "51.256,7.151",
+    "name": "Wuppertal (Germany)",
+    "locationId": "DEU_wuppertal"
+  },
+  "RUS_yekaterinburg": {
+    "AOI": "56.838,60.595",
+    "name": "Yekaterinburg (Russia)",
+    "locationId": "RUS_yekaterinburg"
+  },
+  "ESP_zaragoza": {
+    "AOI": "41.657,-0.879",
+    "name": "Zaragoza (Spain)",
+    "locationId": "ESP_zaragoza"
+  },
+  "CHE_zurich": {
+    "AOI": "47.369,8.538",
+    "name": "Zurich (Switzerland)",
+    "locationId": "CHE_zurich"
+  },
+  "NLD_zwolle": {
+    "AOI": "52.513,6.092",
+    "name": "Zwolle (Netherlands)",
+    "locationId": "NLD_zwolle"
+  },
+  "DEU_kassel": {
+    "AOI": "51.319,9.495",
+    "name": "Kassel (Germany)",
+    "locationId": "DEU_kassel"
+  },
+  "RUS_omsk": {
+    "AOI": "54.99,73.374",
+    "name": "Omsk (Russia)",
+    "locationId": "RUS_omsk"
+  },
+  "RUS_kazan": {
+    "AOI": "55.797,49.109",
+    "name": "Kazan (Russia)",
+    "locationId": "RUS_kazan"
+  },
+  "RUS_chelyabinsk": {
+    "AOI": "55.16,61.401",
+    "name": "Chelyabinsk (Russia)",
+    "locationId": "RUS_chelyabinsk"
+  },
+  "RUS_samara": {
+    "AOI": "53.216,50.186",
+    "name": "Samara (Russia)",
+    "locationId": "RUS_samara"
+  },
+  "RUS_rostov-on-don": {
+    "AOI": "47.222,39.72",
+    "name": "Rostov-on-Don (Russia)",
+    "locationId": "RUS_rostov-on-don"
+  },
+  "RUS_tomsk": {
+    "AOI": "56.488,84.947",
+    "name": "Tomsk (Russia)",
+    "locationId": "RUS_tomsk"
+  },
+  "UKR_kharkiv": {
+    "AOI": "49.986,36.274",
+    "name": "Kharkiv (Ukraine)",
+    "locationId": "UKR_kharkiv"
+  },
+  "UKR_odessa": {
+    "AOI": "46.477,30.707",
+    "name": "Odessa (Ukraine)",
+    "locationId": "UKR_odessa"
+  },
+  "UKR_dnipro": {
+    "AOI": "48.473,35.002",
+    "name": "Dnipro (Ukraine)",
+    "locationId": "UKR_dnipro"
+  }
 }
