@@ -77,6 +77,31 @@
                   class="pa-5 chart"
                   :currentIndicator="sensorData.properties.indicatorObject"
                 />
+                <v-row class="mt-0">
+                  <v-col cols="12" sm="5" ></v-col>
+                  <v-col
+                    cols="12"
+                    sm="7"
+                    v-if="!isFullScreen"
+                    ref="customButtonRow"
+                    style="margin-top: -12px;"
+                  >
+                    <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
+                      <v-btn
+                        color="primary"
+                        text
+                        small
+                        :href="dataCustomHrefCSV"
+                        :download="downloadFileName"
+                        target="_blank"
+                        v-if="customAreaIndicator && !isFullScreen"
+                      >
+                        <v-icon left>mdi-download</v-icon>
+                        download csv
+                      </v-btn>
+                    </div>
+                  </v-col>
+                </v-row>
               </v-card>
               <v-card
                 v-if="customAreaIndicator && !expanded"
@@ -118,6 +143,31 @@
                   class="px-5 py-0 chart"
                 />
               </v-card>
+              <v-row class="mt-0">
+                <v-col cols="12" sm="5" ></v-col>
+                <v-col
+                  cols="12"
+                  sm="7"
+                  v-if="!isFullScreen"
+                  ref="customButtonRow"
+                  style="margin-top: -12px;"
+                >
+                  <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
+                    <v-btn
+                      color="primary"
+                      text
+                      small
+                      :href="dataCustomHrefCSV"
+                      :download="downloadFileName"
+                      target="_blank"
+                      v-if="customAreaIndicator && !isFullScreen"
+                    >
+                      <v-icon left>mdi-download</v-icon>
+                      download csv
+                    </v-btn>
+                  </div>
+                </v-col>
+              </v-row>
             </v-tab-item>
           </v-tabs-items>
           <v-card
@@ -164,14 +214,8 @@
               style="margin-top: 0px;"
               class="pa-5 chart"
             />
-            <v-row
-                class="mt-0"
-              >
-                <v-col
-                  cols="12"
-                  sm="5"
-                >
-                </v-col>
+            <v-row class="mt-0">
+                <v-col cols="12" sm="5" ></v-col>
                 <v-col
                   cols="12"
                   sm="7"
@@ -439,6 +483,7 @@ import {
   mapState,
 } from 'vuex';
 
+import { Wkt } from 'wicket';
 import { loadIndicatorData } from '@/utils';
 import { DateTime } from 'luxon';
 import dialogMixin from '@/mixins/dialogMixin';
@@ -538,6 +583,7 @@ export default {
       ];
       // TODO: Separate data arrays in referenceValue and add them as columns
       // let referenceKeys = [];
+      const wkt = new Wkt();
       const header = `${exportKeys.join()}\n`;
       let csv = header;
       for (let i = 0; i < this.customAreaIndicator.time.length; i++) {
@@ -547,7 +593,7 @@ export default {
           let txtVal = '';
           if (cKey === 'aoi') {
             if (i === 0 && this.$store.state.features.selectedArea !== null) {
-              txtVal = `"${JSON.stringify(this.$store.state.features.selectedArea)}",`;
+              txtVal = `"${wkt.read(JSON.stringify(this.$store.state.features.selectedArea)).write()}",`;
             } else {
               txtVal = ',';
             }
