@@ -15,6 +15,7 @@ import App from './App.vue';
 import Dashboard from './views/Dashboard.vue';
 import Privacy from './views/Privacy.vue';
 import PageNotFound from './views/PageNotFound.vue';
+import Challenges from './views/Challenges.vue';
 import Terms from './views/Terms.vue';
 import EmbedIframe from './views/EmbedIframe.vue';
 import store from './store';
@@ -58,6 +59,7 @@ const routes = [
   { path: '/', component: Dashboard },
   { path: '/privacy', component: Privacy },
   { path: '/terms_and_conditions', component: Terms },
+  { path: '/race-challenges', component: Challenges },
   { path: '/iframe', component: EmbedIframe },
   { path: '*', component: PageNotFound },
 ];
