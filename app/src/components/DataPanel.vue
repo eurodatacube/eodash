@@ -92,7 +92,7 @@
                         text
                         small
                         :href="dataCustomHrefCSV"
-                        :download="downloadFileName"
+                        :download="customAOIDownloadFilename"
                         target="_blank"
                         v-if="customAreaIndicator && !isFullScreen"
                       >
@@ -158,7 +158,7 @@
                       text
                       small
                       :href="dataCustomHrefCSV"
-                      :download="downloadFileName"
+                      :download="customAOIDownloadFilename"
                       target="_blank"
                       v-if="customAreaIndicator && !isFullScreen"
                     >
@@ -229,7 +229,7 @@
                       text
                       small
                       :href="dataCustomHrefCSV"
-                      :download="downloadFileName"
+                      :download="customAOIDownloadFilename"
                       target="_blank"
                       v-if="customAreaIndicator && !isFullScreen"
                     >
@@ -399,7 +399,7 @@
                       text
                       small
                       :href="dataCustomHrefCSV"
-                      :download="downloadFileName"
+                      :download="customAOIDownloadFilename"
                       target="_blank"
                       v-if="customAreaIndicator && !isFullScreen"
                     >
@@ -612,6 +612,10 @@ export default {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
       const currInd = this.indicatorObject;
       return `${currInd.city}_${currDate}_${currInd.aoiID}-${currInd.indicator}.csv`;
+    },
+    customAOIDownloadFilename() {
+      const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
+      return `user_AOI_${currDate}_${this.indicatorObject.indicator}.csv`;
     },
     customAreaIndicator() {
       return this.$store.state.indicators.customAreaIndicator;
