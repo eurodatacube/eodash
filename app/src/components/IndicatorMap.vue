@@ -1556,6 +1556,7 @@ export default {
           ? this.mergedConfigs()[0].areaIndicator.areaFormatFunction(this.drawnArea)
           : { area: JSON.stringify(this.drawnArea) };
       }
+      this.indicator.title = 'User defined area of interest';
       const templateSubst = {
         ...this.indicator,
         ...options,

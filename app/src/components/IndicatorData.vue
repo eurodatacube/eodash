@@ -1187,7 +1187,7 @@ export default {
             }, this);
             // Now we add our default 2 lockdown labels but we exclude indicators
             // where it is not applicable
-            if (!['E10a1', 'E10a5', 'E10a8', 'N2', 'N4c', 'E12c', 'E12d', 'GSA']
+            if (!['E10a1', 'E10a5', 'E10a8', 'N2', 'N4c', 'E12c', 'E12d', 'GSA', 'N1']
               .includes(this.indicatorObject.indicator)) {
               labelObjects.push({
                 text: 'Low Restrictions',
