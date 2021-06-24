@@ -15,6 +15,10 @@ const store = new Vuex.Store({
   state: {
     packageVersion: process.env.PACKAGE_VERSION || '0',
     isFullScreen: false,
+    alert: {
+      message: '',
+      type: '',
+    },
   },
   getters: {
     appVersion: (state) => state.packageVersion,
@@ -22,6 +26,10 @@ const store = new Vuex.Store({
   mutations: {
     changeFullScreen(state, val) {
       state.isFullScreen = val;
+    },
+    sendAlert(state, payload) {
+      state.alert.message = payload.message;
+      state.alert.type = payload.type;
     },
   },
 });

@@ -77,6 +77,31 @@
                   class="pa-5 chart"
                   :currentIndicator="sensorData.properties.indicatorObject"
                 />
+                <v-row class="mt-0">
+                  <v-col cols="12" sm="5" ></v-col>
+                  <v-col
+                    cols="12"
+                    sm="7"
+                    v-if="!isFullScreen"
+                    ref="customButtonRow"
+                    style="margin-top: -12px;"
+                  >
+                    <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
+                      <v-btn
+                        color="primary"
+                        text
+                        small
+                        :href="dataCustomHrefCSV"
+                        :download="customAOIDownloadFilename"
+                        target="_blank"
+                        v-if="customAreaIndicator && !isFullScreen"
+                      >
+                        <v-icon left>mdi-download</v-icon>
+                        download csv
+                      </v-btn>
+                    </div>
+                  </v-col>
+                </v-row>
               </v-card>
               <v-card
                 v-if="customAreaIndicator && !expanded"
@@ -118,6 +143,31 @@
                   class="px-5 py-0 chart"
                 />
               </v-card>
+              <v-row class="mt-0">
+                <v-col cols="12" sm="5" ></v-col>
+                <v-col
+                  cols="12"
+                  sm="7"
+                  v-if="!isFullScreen"
+                  ref="customButtonRow"
+                  style="margin-top: -12px;"
+                >
+                  <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
+                    <v-btn
+                      color="primary"
+                      text
+                      small
+                      :href="dataCustomHrefCSV"
+                      :download="customAOIDownloadFilename"
+                      target="_blank"
+                      v-if="customAreaIndicator && !isFullScreen"
+                    >
+                      <v-icon left>mdi-download</v-icon>
+                      download csv
+                    </v-btn>
+                  </div>
+                </v-col>
+              </v-row>
             </v-tab-item>
           </v-tabs-items>
           <v-card
@@ -164,6 +214,31 @@
               style="margin-top: 0px;"
               class="pa-5 chart"
             />
+            <v-row class="mt-0">
+                <v-col cols="12" sm="5" ></v-col>
+                <v-col
+                  cols="12"
+                  sm="7"
+                  v-if="!isFullScreen"
+                  ref="customButtonRow"
+                  style="margin-top: -30px;"
+                >
+                  <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
+                    <v-btn
+                      color="primary"
+                      text
+                      small
+                      :href="dataCustomHrefCSV"
+                      :download="customAOIDownloadFilename"
+                      target="_blank"
+                      v-if="customAreaIndicator && !isFullScreen"
+                    >
+                      <v-icon left>mdi-download</v-icon>
+                      download csv
+                    </v-btn>
+                  </div>
+                </v-col>
+              </v-row>
           </v-card>
           <v-card
             v-else
@@ -303,6 +378,37 @@
                   class="pa-5 chart"
                 />
               </v-card>
+              <v-row
+                class="mt-0"
+              >
+                <v-col
+                  cols="12"
+                  sm="5"
+                >
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="7"
+                  v-if="!isFullScreen"
+                  ref="customButtonRow"
+                  style="margin-top: -30px;"
+                >
+                  <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
+                    <v-btn
+                      color="primary"
+                      text
+                      small
+                      :href="dataCustomHrefCSV"
+                      :download="customAOIDownloadFilename"
+                      target="_blank"
+                      v-if="customAreaIndicator && !isFullScreen"
+                    >
+                      <v-icon left>mdi-download</v-icon>
+                      download csv
+                    </v-btn>
+                  </div>
+                </v-col>
+              </v-row>
             </v-col>
             <v-col
               cols="12"
@@ -377,6 +483,7 @@ import {
   mapState,
 } from 'vuex';
 
+import { Wkt } from 'wicket';
 import { loadIndicatorData } from '@/utils';
 import { DateTime } from 'luxon';
 import dialogMixin from '@/mixins/dialogMixin';
@@ -469,10 +576,46 @@ export default {
       dataHref += encodeURI(csv);
       return dataHref;
     },
+    dataCustomHrefCSV() {
+      let dataHref = 'data:text/csv;charset=utf-8,';
+      const exportKeys = [
+        'time', 'aoi', 'measurement',
+      ];
+      // TODO: Separate data arrays in referenceValue and add them as columns
+      // let referenceKeys = [];
+      const wkt = new Wkt();
+      const header = `${exportKeys.join()}\n`;
+      let csv = header;
+      for (let i = 0; i < this.customAreaIndicator.time.length; i++) {
+        let row = '';
+        for (let kk = 0; kk < exportKeys.length; kk++) {
+          const cKey = exportKeys[kk];
+          let txtVal = '';
+          if (cKey === 'aoi') {
+            if (i === 0 && this.$store.state.features.selectedArea !== null) {
+              txtVal = `"${wkt.read(JSON.stringify(this.$store.state.features.selectedArea)).write()}",`;
+            } else {
+              txtVal = ',';
+            }
+          } else {
+            txtVal = `"${this.customAreaIndicator[cKey][i]}",`;
+          }
+          row += txtVal;
+        }
+        row = `${row.slice(0, -1)}\n`;
+        csv += row;
+      }
+      dataHref += encodeURI(csv);
+      return dataHref;
+    },
     downloadFileName() {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
       const currInd = this.indicatorObject;
       return `${currInd.city}_${currDate}_${currInd.aoiID}-${currInd.indicator}.csv`;
+    },
+    customAOIDownloadFilename() {
+      const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
+      return `user_AOI_${currDate}_${this.indicatorObject.indicator}.csv`;
     },
     customAreaIndicator() {
       return this.$store.state.indicators.customAreaIndicator;

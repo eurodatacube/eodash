@@ -6,6 +6,7 @@ import { DateTime } from 'luxon';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
+import store from '../store';
 
 export const dataPath = './data/internal/';
 export const dataEndpoints = [
@@ -724,7 +725,7 @@ export const globalIndicators = [
                     newData.time.push(DateTime.fromISO(row.date));
                     newData.colorCode.push('');
                     newData.measurement.push(row.basicStats.mean);
-                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
+                    newData.referenceValue.push(`[null, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
                   }
                 });
                 const ind = {
@@ -766,7 +767,9 @@ export const globalIndicators = [
         aoiID: 'W2',
         time: getMonthlyDates('2004-10-01', '2021-05-01'),
         inputData: [''],
+        yAxis: 'NO2 [µmol/m²]',
         display: {
+          customAreaIndicator: true,
           protocol: 'xyz',
           minZoom: 1,
           maxNativeZoom: 6,
@@ -776,6 +779,60 @@ export const globalIndicators = [
           name: 'Air Quality (NASA)',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
           legendUrl: 'eodash-data/data/no2Legend.png',
+          areaIndicator: {
+            url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/timelapse',
+            requestMethod: 'POST',
+            requestHeaders: {
+              'Content-Type': 'application/json',
+            },
+            requestBody: {
+              datasetId: 'no2',
+              dateRange: ['202001', '202101'],
+              geojson: '{geojson}',
+            },
+            callbackFunction: (responseJson, indicator) => {
+              let ind = null;
+              if (Array.isArray(responseJson)) {
+                const data = responseJson;
+                const newData = {
+                  time: [],
+                  measurement: [],
+                  colorCode: [],
+                  referenceValue: [],
+                };
+                data.forEach((row) => {
+                  newData.time.push(DateTime.fromFormat(row.date, 'yyyyMM'));
+                  newData.colorCode.push('');
+                  newData.measurement.push(row.mean / 1e14);
+                  newData.referenceValue.push(`[${row.median / 1e14}, null, null, null]`);
+                });
+                ind = {
+                  ...indicator,
+                  ...newData,
+                };
+              } else if (Object.keys(responseJson).indexOf('detail') !== -1) {
+                // This will happen if area selection is too large
+                if (responseJson.detail[0].msg.startsWith('AOI cannot exceed')) {
+                  store.commit('sendAlert', {
+                    message: 'AOI cannot exceed 200 000 km²',
+                    type: 'error',
+                  });
+                } else {
+                  console.log(responseJson.detail[0].msg);
+                }
+              }
+              return ind;
+            },
+            areaFormatFunction: (area) => (
+              {
+                geojson: JSON.stringify({
+                  type: 'Feature',
+                  properties: {},
+                  geometry: area,
+                }),
+              }
+            ),
+          },
         },
       },
     },
