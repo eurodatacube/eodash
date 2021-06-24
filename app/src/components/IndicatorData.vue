@@ -462,8 +462,10 @@ export default {
               const obj = JSON.parse(item);
               // [median,std,max,min,percentage valid pixels]
               median.push({ y: obj[0], t });
-              stdDevMin.push({ y: measurement[i] - obj[1], t });
-              stdDevMax.push({ y: measurement[i] + obj[1], t });
+              if (obj[1] !== null) {
+                stdDevMin.push({ y: measurement[i] - obj[1], t });
+                stdDevMax.push({ y: measurement[i] + obj[1], t });
+              }
               max.push({ y: obj[2], t });
               min.push({ y: obj[3], t });
             } else {
@@ -483,58 +485,73 @@ export default {
             spanGaps: false,
             borderWidth: 2,
           });
-          datasets.push({
-            label: 'Median',
-            data: median,
-            fill: false,
-            pointRadius: 0,
-            borderColor: 'black',
-            borderWidth: 1,
-            pointStyle: 'line',
-            spanGaps: false,
-          });
-          datasets.push({
-            label: 'Min',
-            data: min,
-            fill: false,
-            pointRadius: 0,
-            backgroundColor: refColors[4],
-            borderColor: refColors[4],
-            borderWidth: 1,
-            pointStyle: 'line',
-            spanGaps: false,
-          });
-          datasets.push({
-            label: 'Max',
-            data: max,
-            fill: false,
-            pointRadius: 0,
-            backgroundColor: refColors[1],
-            borderColor: refColors[1],
-            borderWidth: 1,
-            pointStyle: 'line',
-            spanGaps: false,
-          });
-          datasets.push({
-            label: 'Standard deviation (STD)',
-            data: stdDevMax,
-            fill: '+1',
-            pointRadius: 0,
-            spanGaps: false,
-            backgroundColor: 'rgba(0,0,0,0.1)',
-            borderColor: 'rgba(0,0,0,0.0)',
-            pointStyle: 'rect',
-          });
-          datasets.push({
-            label: 'hide_',
-            data: stdDevMin,
-            fill: '-1',
-            pointRadius: 0,
-            spanGaps: false,
-            backgroundColor: 'rgba(0,0,0,0.0)',
-            borderColor: 'rgba(0,0,0,0.0)',
-            pointStyle: 'rect',
-          });
+          // Check for empty array, if it is the case do not include data
+          if (typeof (median.find((a) => a.y !== null)) !== 'undefined') {
+            datasets.push({
+              label: 'Median',
+              data: median,
+              fill: false,
+              pointRadius: 0,
+              borderColor: 'black',
+              borderWidth: 1,
+              pointStyle: 'line',
+              spanGaps: false,
+            });
+          }
+          // Check for empty array, if it is the case do not include data
+          if (typeof (min.find((a) => a.y !== null)) !== 'undefined') {
+            datasets.push({
+              label: 'Min',
+              data: min,
+              fill: false,
+              pointRadius: 0,
+              backgroundColor: refColors[4],
+              borderColor: refColors[4],
+              borderWidth: 1,
+              pointStyle: 'line',
+              spanGaps: false,
+            });
+          }
+          // Check for empty array, if it is the case do not include data
+          if (typeof (max.find((a) => a.y !== null)) !== 'undefined') {
+            datasets.push({
+              label: 'Max',
+              data: max,
+              fill: false,
+              pointRadius: 0,
+              backgroundColor: refColors[1],
+              borderColor: refColors[1],
+              borderWidth: 1,
+              pointStyle: 'line',
+              spanGaps: false,
+            });
+          }
+          // Check for empty array, if it is the case do not include data
+          if (typeof (stdDevMax.find((a) => a.y !== null)) !== 'undefined') {
+            datasets.push({
+              label: 'Standard deviation (STD)',
+              data: stdDevMax,
+              fill: '+1',
+              pointRadius: 0,
+              spanGaps: false,
+              backgroundColor: 'rgba(0,0,0,0.1)',
+              borderColor: 'rgba(0,0,0,0.0)',
+              pointStyle: 'rect',
+            });
+          }
+          // Check for empty array, if it is the case do not include data
+          if (typeof (stdDevMin.find((a) => a.y !== null)) !== 'undefined') {
+            datasets.push({
+              label: 'hide_',
+              data: stdDevMin,
+              fill: '-1',
+              pointRadius: 0,
+              spanGaps: false,
+              backgroundColor: 'rgba(0,0,0,0.0)',
+              borderColor: 'rgba(0,0,0,0.0)',
+              pointStyle: 'rect',
+            });
+          }
         } else if (['N3'].includes(indicatorCode)) {
           let referenceValue = [];
           const stdDev = [];

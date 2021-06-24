@@ -57,6 +57,7 @@
           </div>
         </div>
       </cookie-law>
+      <alert />
     </template>
   </v-app>
 </template>
@@ -73,11 +74,14 @@ import { loadIndicatorData } from '@/utils';
 import axios from 'axios';
 import { Wkt } from 'wicket';
 
+import Alert from './components/Alert.vue';
+
 const wkt = new Wkt();
 
 export default {
   components: {
     CookieLaw,
+    Alert,
   },
   data: () => ({
     showPrivacyDialog: false,

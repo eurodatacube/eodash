@@ -878,8 +878,8 @@ export default {
       this.slider = L.control.sideBySide(leftLayers, rightLayers);
       this.drawControl = new L.Control.Draw(this.drawOptions);
       this.map.on(L.Draw.Event.CREATED, function (e) { // eslint-disable-line
-        // set global area as json
-        this.$store.commit('features/SET_SELECTED_AREA', e.layer.toGeoJSON());
+        // set global area geometry as json
+        this.$store.commit('features/SET_SELECTED_AREA', e.layer.toGeoJSON().geometry);
       }.bind(this)); // eslint-disable-line
       // only draw one feature at a time
       this.map.on(L.Draw.Event.DRAWSTART, function () { // eslint-disable-line
@@ -1572,7 +1572,13 @@ export default {
         const params = Object.keys(requestBody);
         for (let i = 0; i < params.length; i += 1) {
           // substitute template strings with values
-          requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
+          if (typeof requestBody[params[i]] === 'string') {
+            requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
+          }
+          // Convert geojsons back to an object
+          if (params[i] === 'geojson') {
+            requestBody[params[i]] = JSON.parse(requestBody[params[i]]);
+          }
         }
       }
       const requestOpts = {
