@@ -767,7 +767,7 @@ export const globalIndicators = [
         aoiID: 'W2',
         time: getMonthlyDates('2004-10-01', '2021-05-01'),
         inputData: [''],
-        yAxis: 'OMI NO2',
+        yAxis: 'NO2 [µmol/m²]',
         display: {
           customAreaIndicator: true,
           protocol: 'xyz',
@@ -803,8 +803,8 @@ export const globalIndicators = [
                 data.forEach((row) => {
                   newData.time.push(DateTime.fromFormat(row.date, 'yyyyMM'));
                   newData.colorCode.push('');
-                  newData.measurement.push(row.mean);
-                  newData.referenceValue.push(`[${row.median}, null, null, null]`);
+                  newData.measurement.push(row.mean / 1e14);
+                  newData.referenceValue.push(`[${row.median / 1e14}, null, null, null]`);
                 });
                 ind = {
                   ...indicator,
