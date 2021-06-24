@@ -49,6 +49,7 @@ module.exports = [
     ],
     privacyText: '/eodash-data/general/privacy',
     termsText: '/eodash-data/general/terms',
+    challengesText: '/eodash-data/general/challenges',
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube'],
     // The label parameter can be used as string to select the parameter identifier
     // or it can be an array of strings the same size as features to set custom
