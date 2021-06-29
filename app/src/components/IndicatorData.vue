@@ -3,7 +3,7 @@
     v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10a9',
       'E10c', 'N1', 'N3', 'N3b', 'E8',
       'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA', 'CV', 'OW']
+      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA', 'CV', 'OW', 'OX']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -447,6 +447,24 @@ export default {
               borderColor: refColors[yLength - i],
               borderWidth: 2,
             });
+          });
+        } else if (['OX'].includes(indicatorCode)) {
+          const data = [];
+          indicator.measurement.forEach((item, i) => {
+            data.push({
+              t: indicator.time[i],
+              y: item,
+            });
+          });
+          datasets.push({
+            label: 'oilx',
+            data,
+            fill: false,
+            borderColor: refColors[0],
+            backgroundColor: refColors[0],
+            cubicInterpolationMode: 'monotone',
+            borderWidth: 1,
+            pointRadius: 2,
           });
         } else if (['N1'].includes(indicatorCode)) {
           const stdDevMin = [];
@@ -1240,7 +1258,7 @@ export default {
             .filter((d) => !Number.isNaN(d)),
         );
       }
-      if (['CV', 'OW'].includes(indicatorCode)) {
+      if (['CV', 'OW', 'OX'].includes(indicatorCode)) {
         yAxes[0].ticks.beginAtZero = true;
         yAxes[0].ticks = {
           lineHeight: 1,

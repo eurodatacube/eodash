@@ -411,6 +411,10 @@ export const indicatorsDefinition = Object.freeze({
     }],
     legendUrl: 'eodash-data/data/LegendGLC.png',
   },
+  OX: {
+    indicator: 'Oilx',
+    class: 'economic',
+  },
   GG: {
     indicator: 'Mobility',
     class: 'economic',

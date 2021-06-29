@@ -79,7 +79,7 @@ with open(DATAFILE) as f:
                 "eo_sensor": "",
                 "indicator_value": "",
                 "input_data": "",
-                "measurement_value": entry["Rate"],
+                "measurement_value": "%s"%entry["Rate"],
                 "reference_time": "",
                 "reference_value": "",
                 "time": datetime.datetime.strptime(entry["Date"], '%Y-%m-%d')
