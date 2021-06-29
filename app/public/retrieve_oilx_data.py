@@ -85,6 +85,9 @@ with open(DATAFILE) as f:
                 "time": datetime.datetime.strptime(entry["Date"], '%Y-%m-%d')
             })
         for site in cluster["sites"]:
+            # retrieve band information
+            for index, element in enumerate(site["properties"]["series"]):
+                poi_data[index]["indicator_value"] = element["Band"]
             poi_key = "%s-%s" % (site["properties"]["id"], indicator_code)
             coords = site["geometry"]["coordinates"]
             poi_dict[poi_key] = {
@@ -96,9 +99,9 @@ with open(DATAFILE) as f:
                 "siteName": "",
                 "city": site["properties"]["name"],
                 "region": "",
-                "description": "description",
+                "description": "Crude Oil Storage Index",
                 "indicatorName": "%s cluster"%cluster["name"],
-                "yAxis": "yaxis label",
+                "yAxis": "[%]",
                 "subAoi": "",
                 "updateFrequency": "weekly",
                 "poi_data": poi_data,
@@ -130,7 +133,7 @@ for poi_key in poi_dict:
     # Save latest valid values for unique poi list
     poi_dict[poi_key]["lastTime"] = ([""] + [i["time"] for i in curr_data if i["time"] not in ["", 'NaN', '/']])[-1]
     poi_dict[poi_key]["lastMeasurement"] = ([""] + [i["measurement_value"] for i in curr_data if i["measurement_value"] not in ["", 'NaN', '/']])[-1]
-    poi_dict[poi_key]["lastColorCode"] = ([""] + [i["color_code"] for i in curr_data if i["color_code"] not in ["", 'NaN', '/']])[-1]
+    poi_dict[poi_key]["lastColorCode"] = ([""] + [i["indicator_value"] for i in curr_data if i["indicator_value"] not in ["", 'NaN', '/']])[-1].split(" ")[0]
     poi_dict[poi_key]["lastIndicatorValue"] = ([""] + [i["indicator_value"] for i in curr_data if i["indicator_value"] not in ["", 'NaN', '/']])[-1]
     poi_dict[poi_key]["lastReferenceTime"] = ([""] + [i["reference_time"] for i in curr_data if i["reference_time"] not in ["", 'NaN', '/']])[-1]
     poi_dict[poi_key]["lastReferenceValue"] = ([""] + [i["reference_value"] for i in curr_data if i["reference_value"] not in ["", 'NaN', '/']])[-1]

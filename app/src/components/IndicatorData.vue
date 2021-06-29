@@ -450,21 +450,76 @@ export default {
           });
         } else if (['OX'].includes(indicatorCode)) {
           const data = [];
+          
           indicator.measurement.forEach((item, i) => {
+            const lev = indicator.indicatorValue[i];
             data.push({
               t: indicator.time[i],
               y: item,
+              color: indicator.indicatorValue[i],
             });
           });
+
           datasets.push({
-            label: 'oilx',
+            label: 'Very low',
+            data: data.filter((entry) => entry.color === 'Red (Low)'),
+            fill: false,
+            borderColor: 'red',
+            backgroundColor: 'red',
+            borderWidth: 0,
+            pointRadius: 3,
+            showLine: false,
+          });
+          datasets.push({
+            label: 'Low',
+            data: data.filter((entry) => entry.color === 'Orange (Low)'),
+            fill: false,
+            borderColor: 'orange',
+            backgroundColor: 'orange',
+            borderWidth: 0,
+            pointRadius: 3,
+            showLine: false,
+          });
+          datasets.push({
+            label: 'Regular',
+            data: data.filter((entry) => entry.color === 'Green'),
+            fill: false,
+            borderColor: 'green',
+            backgroundColor: 'green',
+            borderWidth: 0,
+            pointRadius: 3,
+            showLine: false,
+          });
+          datasets.push({
+            label: 'High',
+            data: data.filter((entry) => entry.color === 'Orange (High)'),
+            fill: false,
+            borderColor: 'orange',
+            backgroundColor: 'orange',
+            borderWidth: 0,
+            pointRadius: 3,
+            showLine: false,
+          });
+          datasets.push({
+            label: 'Very high',
+            data: data.filter((entry) => entry.color === 'Red (High)'),
+            fill: false,
+            borderColor: 'red',
+            backgroundColor: 'red',
+            borderWidth: 0,
+            pointRadius: 3,
+            showLine: false,
+          });
+          datasets.push({
+            label: 'Cluster storage utilization',
             data,
             fill: false,
-            borderColor: refColors[0],
-            backgroundColor: refColors[0],
-            cubicInterpolationMode: 'monotone',
+            borderColor: 'grey',
+            backgroundColor: 'grey',
             borderWidth: 1,
-            pointRadius: 2,
+            pointRadius: 0,
+            showLine: true,
+            lineTension: 0,
           });
         } else if (['N1'].includes(indicatorCode)) {
           const stdDevMin = [];
