@@ -401,6 +401,26 @@ export default {
             label += `${newIndVal}%`;
           } else if (['N1', 'N3b', 'N1b', 'E12b', 'C1', 'C2', 'C3'].includes(indicatorObject.indicator)) {
             label = '';
+          } else if (indicatorObject.indicator === 'OX') {
+            switch (indicatorObject.lastIndicatorValue) {
+              case 'Red (Low)':
+                label = 'Very low';
+                break;
+              case 'Orange (Low)':
+                label = 'Low';
+                break;
+              case 'Green':
+                label = 'Regular';
+                break;
+              case 'Orange (High)':
+                label = 'High';
+                break;
+              case 'Red (High)':
+                label = 'Very High';
+                break;
+              default:
+                label = '';
+            }
           } else if (indVal === null) {
             label = null;
           } else {

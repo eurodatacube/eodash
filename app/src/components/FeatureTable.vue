@@ -148,6 +148,26 @@ export default {
             }
           } else if (['E10a3', 'E10a8', 'N4c', 'C1', 'C2', 'C3'].includes(poi.indicator)) {
             text = 'multiple';
+          } else if (poi.indicator === 'OX') {
+            switch (poi.lastIndicatorValue) {
+              case 'Red (Low)':
+                text = 'Very low';
+                break;
+              case 'Orange (Low)':
+                text = 'Low';
+                break;
+              case 'Green':
+                text = 'Regular';
+                break;
+              case 'Orange (High)':
+                text = 'High';
+                break;
+              case 'Red (High)':
+                text = 'Very High';
+                break;
+              default:
+                text = '';
+            }
           } else {
             text = lastValue;
           }
