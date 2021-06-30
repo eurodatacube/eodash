@@ -425,6 +425,7 @@ generateData(
         '/working/data/trilateral/E10a6.csv',
         '/working/data/trilateral/E10a8.csv',
         '/working/eodash-data/data/E10a9.csv',
+        '/working/eodash-data/data/E10a10.csv',
         '/working/eodash-data/data/E13b2.csv',  # archived
         '/working/eodash-data/data/E13d_detections.csv',
         '/working/eodash-data/data/N1a_PM25_CAMS.csv',

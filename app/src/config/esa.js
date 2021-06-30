@@ -179,6 +179,12 @@ export const indicatorsDefinition = Object.freeze({
     largeSubAoi: true,
     story: '/eodash-data/stories/E10a9',
   },
+  E10a10: {
+    indicator: 'Harvesting evolution over time',
+    class: 'agriculture',
+    // largeSubAoi: true,
+    // story: '/eodash-data/stories/E10a10',
+  },
   E10b: {
     indicator: 'Field preparation activity',
     class: 'agriculture',
