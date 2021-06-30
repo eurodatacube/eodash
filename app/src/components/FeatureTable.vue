@@ -146,7 +146,7 @@ export default {
             } else {
               text = lastValue;
             }
-          } else if (['E10a3', 'E10a8', 'N4c', 'C1', 'C2', 'C3'].includes(poi.indicator)) {
+          } else if (['E10a3', 'E10a8', 'N4c', 'C1', 'C2', 'C3', 'E10a10'].includes(poi.indicator)) {
             text = 'multiple';
           } else {
             text = lastValue;

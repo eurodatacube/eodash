@@ -3,7 +3,7 @@
     v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10a9',
       'E10c', 'N1', 'N3', 'N3b', 'E8',
       'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA', 'CV', 'OW']
+      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA', 'CV', 'OW', 'E10a10']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -383,6 +383,31 @@ export default {
               borderWidth: 2,
             });
           }
+        } else if (['E10a10'].includes(indicatorCode)) {
+          const data = [];
+          const refData = [];
+          indicator.time.forEach((t, i) => {
+            data.push({ t, y: measurement[i] * 100 });
+            refData.push({ t, y: indicator.referenceValue[i] * 100 });
+          });
+          datasets.push({
+            label: 'Observation',
+            data,
+            fill: false,
+            borderColor: refColors[1],
+            backgroundColor: refColors[1],
+            borderWidth: 2,
+            pointRadius: 2,
+          });
+          datasets.push({
+            label: 'Model',
+            data: refData,
+            fill: false,
+            borderColor: refColors[0],
+            backgroundColor: refColors[0],
+            borderWidth: 2,
+            pointRadius: 2,
+          });
         } else if (['E13n', 'C1', 'C2', 'C3'].includes(indicatorCode)) {
           // Group by indicator value
           const types = {};
@@ -934,7 +959,7 @@ export default {
         },
       };
       if (!Number.isNaN(reference)
-        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'E10a9', 'N4c', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m', 'E12c', 'E12d']
+        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'E10a9', 'N4c', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m', 'E12c', 'E12d', 'E10a10']
           .includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
@@ -1381,7 +1406,7 @@ export default {
           padding: -20,
         };
       }
-      if (['E10c', 'E10a2', 'E10a6', 'E10a7'].includes(indicatorCode)) {
+      if (['E10c', 'E10a2', 'E10a6', 'E10a7', 'E10a10'].includes(indicatorCode)) {
         yAxes[0].ticks.suggestedMin += 1;
         yAxes[0].ticks.suggestedMax -= 1;
       }

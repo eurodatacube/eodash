@@ -57,6 +57,55 @@ module.exports = [
     featureGrouping: [
       {
         features: [
+          'ATa-E10a10',
+          'ATb-E10a10',
+          'ATc-E10a10',
+        ],
+        label: ['Maize', 'Winter rapseed', 'Winter wheat'],
+      },
+      {
+        features: [
+          'EEb-E10a10',
+          'EEc-E10a10',
+        ],
+        label: ['Winter rapseed', 'Winter wheat'],
+      },
+      {
+        features: [
+          'UKb-E10a10',
+        ],
+        label: ['Winter rapseed'],
+      },
+      {
+        features: [
+          'SEb-E10a10',
+          'SEc-E10a10',
+        ],
+        label: ['Winter rapseed', 'Winter wheat'],
+      },
+      {
+        features: [
+          'BGa-E10a10',
+          'BGb-E10a10',
+        ],
+        label: ['Maize', 'Winter rapseed'],
+      },
+      {
+        features: [
+          'DEb-E10a10',
+          'DEc-E10a10',
+        ],
+        label: ['Winter rapseed', 'Winter wheat'],
+      },
+      {
+        features: [
+          'CZb-E10a10',
+          'CZc-E10a10',
+        ],
+        label: ['Winter rapseed', 'Winter wheat'],
+      },
+      {
+        features: [
           'IT16-C1',
           'IT16-C2',
           'IT16-C3',
