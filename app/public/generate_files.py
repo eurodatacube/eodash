@@ -422,7 +422,6 @@ generateData(
         '/working/eodash-data/data/E10a2.csv',
         '/working/eodash-data/data/E10a3.csv',
         '/working/eodash-data/data/E10a5.csv',
-        '/working/data/trilateral/E10a6.csv',
         '/working/data/trilateral/E10a8.csv',
         '/working/eodash-data/data/E10a9.csv',
         '/working/eodash-data/data/E13b2.csv',  # archived
@@ -452,6 +451,7 @@ generateData(
         ['E4', ''],
         ['E5', ''],
         ['E8', ''],
+        ['E10a6', ''],
         ['E10a10', ''],
         ['E11', ''],
         ['E12b', ''],
