@@ -182,8 +182,7 @@ export const indicatorsDefinition = Object.freeze({
   E10a10: {
     indicator: 'Harvesting evolution over time',
     class: 'agriculture',
-    // largeSubAoi: true,
-    // story: '/eodash-data/stories/E10a10',
+    story: '/eodash-data/stories/E10a10',
   },
   E10b: {
     indicator: 'Field preparation activity',
