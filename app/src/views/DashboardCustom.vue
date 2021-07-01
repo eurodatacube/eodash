@@ -192,6 +192,7 @@
                             <v-combobox
                               v-model="interests"
                               :items="interestOptions"
+                              type="button"
                               placeholder="Your interests"
                               outlined
                               multiple
