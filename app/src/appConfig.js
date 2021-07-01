@@ -31,19 +31,19 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'ES7-E13n',
-        src: './eodash-data/general/Slide15.png',
+        poi: 'WorldCO-N1',
+        src: './eodash-data/general/Slide17.png',
       },
       {
         poi: 'IT3-C1',
         src: './eodash-data/general/Slide16.png',
       },
       {
-        poi: 'FI4-E13',
-        src: './eodash-data/general/Slide10.png',
+        poi: 'ES7-E13n',
+        src: './eodash-data/general/Slide15.png',
       },
       {
-        poi: 'UK10-N1a',
+        poi: 'IT11-N1a',
         src: './eodash-data/general/Slide13.png',
       },
     ],
@@ -210,9 +210,9 @@ module.exports = [
     newsBanner: {
       color: 'green darken-1',
       icon: 'calendar-star',
-      text: '<b><a href="https://www.eodashboardhackathon.org" target="_blank">Join us for the EO Dashboard Hackathon!</a><b>',
+      text: '<b><a href="https://www.eodashboardhackathon.org" target="_blank">EO Dashboard Hackathon NEWS!</a><b>',
       startDate: '2021-04-29',
-      endDate: '2021-06-23',
+      endDate: '2021-08-30',
     },
     aboutText: '/data/trilateral/about',
     welcomeText: '/data/trilateral/welcome',
@@ -227,15 +227,16 @@ module.exports = [
         src: './data/trilateral/GoogleMobility.png',
       },
       {
-        poi: 'US051-E9',
-        src: './data/trilateral/Slide14.png',
+        poi: 'WorldCO-N1',
+        src: './data/trilateral/Slide17.png',
       },
       {
-        iframe: 'https://www.youtube.com/embed/URPzd29SGmE',
+        poi: 'W7-FB',
+        src: './data/trilateral/Slide21.png',
       },
       {
-        poi: 'JP01-N5',
-        src: './data/trilateral/Slide4.png',
+        poi: 'W2-N1',
+        src: './data/trilateral/Slide19.png',
       },
     ],
     customCountryList: [
