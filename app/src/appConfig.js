@@ -217,6 +217,7 @@ module.exports = [
     aboutText: '/data/trilateral/about',
     welcomeText: '/data/trilateral/welcome',
     tutorialText: '/data/trilateral/tutorials',
+    challengesText: '/eodash-data/general/eodashboardhackathon',
     showNewsCarousel: true,
     newsCarouselitems: [
       {
