@@ -59,7 +59,7 @@ const routes = [
   { path: '/', component: Dashboard },
   { path: '/privacy', component: Privacy },
   { path: '/terms_and_conditions', component: Terms },
-  { path: '/race-challenges', component: Challenges },
+  { path: '/challenges', component: Challenges },
   { path: '/iframe', component: EmbedIframe },
   { path: '*', component: PageNotFound },
 ];
