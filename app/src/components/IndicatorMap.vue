@@ -1196,6 +1196,11 @@ export default {
       }
     },
     getTimeLabel(time) {
+      // Check if custom function was configured
+      if (this.mergedConfigs()[0].labelFormatFunction) {
+        return this.mergedConfigs()[0].labelFormatFunction(time);
+      }
+      // If not try default approach
       if (Array.isArray(time) && time.length === 2) {
         // show start - end
         if (this.mergedConfigs()[0].mapTimeLabelExtended) {
