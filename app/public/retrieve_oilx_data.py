@@ -70,7 +70,6 @@ with open(DATAFILE) as f:
     content = json.load(f)
     clusters = (content["data"])
     for cluster in clusters:
-        series = cluster["series"]
         poi_data = []
         for entry in cluster["series"]:
             poi_data.append({
@@ -86,8 +85,11 @@ with open(DATAFILE) as f:
             })
         for site in cluster["sites"]:
             # retrieve band information
+            curr_poi_data = []
             for index, element in enumerate(site["properties"]["series"]):
-                poi_data[index]["indicator_value"] = element["Band"]
+                curr_el = dict(poi_data[index])
+                curr_el["indicator_value"] = element["Band"]
+                curr_poi_data.append(curr_el)
             poi_key = "%s-%s" % (site["properties"]["id"], indicator_code)
             coords = site["geometry"]["coordinates"]
             poi_dict[poi_key] = {
@@ -104,7 +106,7 @@ with open(DATAFILE) as f:
                 "yAxis": "[%]",
                 "subAoi": "",
                 "updateFrequency": "weekly",
-                "poi_data": poi_data,
+                "poi_data": curr_poi_data,
             }
 
 def date_converter(obj):
