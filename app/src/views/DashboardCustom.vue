@@ -3,8 +3,7 @@
     v-if="!initialLoading"
     class="fill-height scrollContainer pa-10 pt-5"
     :style="`margin-top: ${$vuetify.application.top}px !important;
-      height: calc(100% - ${$vuetify.application.top}px);
-      z-index: 9999;`"
+      height: calc(100% - ${$vuetify.application.top}px);`"
   >
     <v-app-bar
         app
@@ -143,6 +142,7 @@
               :fullscreen="$vuetify.breakpoint.xsOnly"
               :hide-overlay="$vuetify.breakpoint.xsOnly"
               transition="dialog-bottom-transition"
+              style="z-index: 9999;"
             >
 
               <template v-slot:activator="{}">
