@@ -3,7 +3,8 @@
     v-if="!initialLoading"
     class="fill-height scrollContainer pa-10 pt-5"
     :style="`margin-top: ${$vuetify.application.top}px !important;
-      height: calc(100% - ${$vuetify.application.top}px)`"
+      height: calc(100% - ${$vuetify.application.top}px);
+      z-index: 9999;`"
   >
     <v-app-bar
         app
