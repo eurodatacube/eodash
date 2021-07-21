@@ -171,11 +171,11 @@
                       class="display-2 font-weight-light primary--text mb-3"
                     >Save this Dashboard</h1>
                     <h2
-                      class="font-weight-light primary--text mb-8"
+                      class="font-weight-light primary--text mb-4"
                     >Create a permanent link to your Dashboard configuration</h2>
-                    <v-card outlined class="pa-5">
+                    <v-card outlined class="pa-3">
                         <v-row>
-                          <v-col cols="12">
+                          <v-col cols="12" class="pb-2 pt-4">
                             <h2 class="mb-3">Dashboard Title</h2>
                               <v-text-field
                                 v-model="popupTitle"
@@ -188,7 +188,7 @@
                                 validate-on-blur
                               ></v-text-field>
                           </v-col>
-                          <v-col cols="12">
+                          <v-col cols="12" class="pb-2 pt-0">
                             <h2 class="mb-3">Your interests</h2>
                             <v-combobox
                               v-model="interests"
@@ -205,7 +205,7 @@
                               validate-on-blur
                             ></v-combobox>
                           </v-col>
-                          <v-col cols="12">
+                          <v-col cols="12" class="pb-2 pt-0">
                             <h2 class="mb-3">Your name</h2>
                               <v-text-field
                                 v-model="name"
@@ -214,7 +214,7 @@
                                 required
                                 outlined></v-text-field>
                           </v-col>
-                          <v-col cols="12">
+                          <v-col cols="12" class="pb-2 pt-0">
                             <h2 class="mb-3">Your email address</h2>
                               <v-text-field
                                 hint="You will receive your dashboard links to this address"
@@ -224,6 +224,19 @@
                                 placeholder="E-mail"
                                 required
                                 outlined></v-text-field>
+                          </v-col>
+                          <v-col cols="12" class="pb-2 pt-0">
+                            <v-checkbox
+                              v-model="privacyConsent"
+                              :rules="privacyRules"
+                              required>
+                              <template v-slot:label>
+                                I have read and acepted the
+                                <a @click.stop href='https://race.esa.int/privacy' target="_blank">
+                                  Privacy Notice and Consent Form
+                                </a>
+                              </template>
+                            </v-checkbox>
                           </v-col>
                       </v-row>
                     </v-card>
@@ -487,6 +500,10 @@ export default {
     nameRules: [
       (v) => !!v || 'Required',
     ],
+    privacyConsent: false,
+    privacyRules: [
+      (v) => !!v || 'Required',
+    ],
     reconnecting: false,
     markdownMessage: 'You can use <a href="https://guides.github.com/features/mastering-markdown/" rel="noopener" target="_blank" tabindex="-1">markdown</a>',
   }),
@@ -723,5 +740,11 @@ export default {
 }
 ::v-deep .display-2 ::v-deep .v-input__append-inner {
   align-self: center !important;
+}
+</style>
+
+<style> /* specific style to fix spacing in v-checkbox */
+.v-input--selection-controls .v-input__slot > .v-label {
+  display: inline !important;
 }
 </style>
