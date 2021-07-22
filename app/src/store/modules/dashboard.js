@@ -33,7 +33,7 @@ const mutations = {
 
 
     api.on('edit', (dto) => {
-      dto.features = dto.features.map((f) => {
+      dto.features = dto.features.map((f) => { // eslint-disable-line
         const newF = { ...f };
         delete newF.id;
         newF.poi = f.id;
@@ -142,7 +142,7 @@ const actions = {
   exists: ({
     state,
   }, { poi }) => !!(state ?. dashboardConfig ?. features ?. find((feature) => feature.poi === poi)),
-  addFeature(
+  addFeature( // eslint-disable-line
     {
       commit,
       state,
@@ -150,15 +150,15 @@ const actions = {
     f,
   ) {
     if (state.api) {
-      f.id = f.poi;
-      delete f.poi;
+      f.id = f.poi; // eslint-disable-line
+      delete f.poi; // eslint-disable-line
       return state.api.addFeature(f);
     }
 
 
     commit('ADD_FEATURE', f);
   },
-  removeFeature(
+  removeFeature( // eslint-disable-line
     {
       commit,
       state,
@@ -170,7 +170,7 @@ const actions = {
 
     commit('REMOVE_FEATURE', f);
   },
-  changeTitle(
+  changeTitle( // eslint-disable-line
     {
       commit,
       state,
@@ -204,7 +204,7 @@ const actions = {
         if (response.error) { reject(response); }
 
 
-        response.features = response.features.map((f) => {
+        response.features = response.features.map((f) => { // eslint-disable-line
           const newF = { ...f };
           delete newF.id;
           newF.poi = f.id;
@@ -219,7 +219,7 @@ const actions = {
       });
     });
   },
-  addToMailingList(
+  addToMailingList( // eslint-disable-line
     {
       state,
     },
@@ -231,7 +231,7 @@ const actions = {
       );
     }
   },
-  resizeFeatureShrink(
+  resizeFeatureShrink( // eslint-disable-line
     {
       commit,
       state,
@@ -243,7 +243,7 @@ const actions = {
 
     commit('RESIZE_FEATURE_SHRINK', f);
   },
-  resizeFeatureExpand(
+  resizeFeatureExpand( // eslint-disable-line
     {
       commit,
       state,
@@ -255,7 +255,7 @@ const actions = {
 
     commit('RESIZE_FEATURE_EXPAND', f);
   },
-  moveFeatureUp(
+  moveFeatureUp( // eslint-disable-line
     {
       commit,
       state,
@@ -267,7 +267,7 @@ const actions = {
 
     commit('MOVE_FEATURE_UP', f);
   },
-  moveFeatureDown(
+  moveFeatureDown( // eslint-disable-line
     {
       commit,
       state,
@@ -279,7 +279,7 @@ const actions = {
 
     commit('MOVE_FEATURE_DOWN', f);
   },
-  changeFeatureTitle(
+  changeFeatureTitle( // eslint-disable-line
     {
       commit,
       state,
@@ -291,7 +291,7 @@ const actions = {
 
     commit('CHANGE_FEATURE_TITLE', { poi, newTitle });
   },
-  changeFeatureMapInfo(
+  changeFeatureMapInfo( // eslint-disable-line
     {
       commit,
       state,
@@ -306,7 +306,7 @@ const actions = {
 
     commit('CHANGE_FEATURE_MAP_INFO', { poi, mapInfo });
   },
-  changeFeatureText(
+  changeFeatureText( // eslint-disable-line
     {
       commit,
       state,
