@@ -6,6 +6,7 @@ class CustomDashboardApi extends EventEmitter {
   constructor(socket) {
     super();
     this.socket = socket;
+    this.axios = axios;
 
     this.socket.on('connect_error', console.error);
     this.socket.on('edit', (dto) => {
@@ -174,7 +175,7 @@ class CustomDashboardApi extends EventEmitter {
   }
 
   async addToMailingList(email, name, lists, viewURL, editURL, dashboardTitle, interests) {
-    const res = await axios.post('https://listmonk.eox.at/api/subscribers', {
+    const res = await this.axios.post('https://listmonk.eox.at/api/subscribers', {
       email,
       name,
       status: 'enabled',

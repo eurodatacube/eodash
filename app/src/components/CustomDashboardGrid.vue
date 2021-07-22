@@ -342,9 +342,11 @@ export default {
     //     !this.serverCenter[poi]
     //   ) return this.mapPositionChanged[poi] = false
 
-    //   return this.mapPositionChanged[poi] = this.localZoom[poi] !== this.serverZoom[poi] || this.localCenter[poi].lat !== this.serverCenter[poi].lat || this.localCenter[poi].lng !== this.serverCenter[poi].lng;
+    //   return this.mapPositionChanged[poi] = this.localZoom[poi] !== this.serverZoom[poi]
+    //    || this.localCenter[poi].lat !== this.serverCenter[poi].lat
+    //    || this.localCenter[poi].lng !== this.serverCenter[poi].lng;
     // },
-    update(el) {
+    update(el) { // eslint-disable-line
       if (el.mapInfo) {
         return this.performChange(
           'changeFeatureMapInfo',
@@ -355,7 +357,7 @@ export default {
           },
         );
       }
-
+      // TODO: Should we make sure something is returned here?
       if (el.text) this.$emit('updateTextFeature', el);
     },
     redirectToPoi(indicatorObject) {
