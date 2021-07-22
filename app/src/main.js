@@ -79,7 +79,7 @@ Vue.use(Vuetify, {
 Vue.use(browserDetect);
 
 const mdRendererLinksTargetBlank = new marked.Renderer();
-mdRendererLinksTargetBlank.link = function (href, title, text) {
+mdRendererLinksTargetBlank.link = function (href, title, text) { // eslint-disable-line
   // eslint-disable-line func-names
   const link = marked.Renderer.prototype.link.call(this, href, title, text);
   return link.replace('<a', '<a target="_blank" ');
@@ -217,7 +217,7 @@ if (store.state.dashboard ?. dashboardConfig ?. id) {
     }
 
 
-    response.features = response.features.map((f) => {
+    response.features = response.features.map((f) => { // eslint-disable-line
       const newF = { ...f };
       delete newF.id;
       newF.poi = f.id;
