@@ -1,12 +1,12 @@
 // config global variables here for now
 // temporary solution
-import { Wkt } from "wicket";
-import { latLng, latLngBounds } from "leaflet";
-import { DateTime } from "luxon";
-import { shTimeFunction, shS2TimeFunction } from "@/utils";
-import { baseLayers, overlayLayers } from "@/config/layers";
-import availableDates from "@/config/data_dates.json";
-import store from "../store";
+import { Wkt } from 'wicket';
+import { latLng, latLngBounds } from 'leaflet';
+import { DateTime } from 'luxon';
+import { shTimeFunction, shS2TimeFunction } from '@/utils';
+import { baseLayers, overlayLayers } from '@/config/layers';
+import availableDates from '@/config/data_dates.json';
+import store from '../store';
 
 export const dataPath = './data/internal/';
 export const dataEndpoints = [
@@ -42,9 +42,9 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: './data/trilateral/E1',
     features: {
-      dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-      url: "./eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson"
-    }
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+    },
   },
   E1a: {
     indicator: 'Status of non-metallic ores',
@@ -61,37 +61,37 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: './data/trilateral/E1a',
     features: {
-      dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-      url: "./eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson"
-    }
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+    },
   },
   E2: {
-    indicator: "Volume of oil stockpiled",
-    class: "economic"
+    indicator: 'Volume of oil stockpiled',
+    class: 'economic',
   },
   E2a: {
-    indicator: "Level of flaring activity",
-    class: "economic"
+    indicator: 'Level of flaring activity',
+    class: 'economic',
   },
   E3: {
-    indicator: "Inventory levels of factory inputs",
-    class: "economic"
+    indicator: 'Inventory levels of factory inputs',
+    class: 'economic',
   },
   E4: {
-    indicator: "Production activity of intermediate goods",
-    class: "economic"
+    indicator: 'Production activity of intermediate goods',
+    class: 'economic',
   },
   E5: {
-    indicator: "Inventory levels of intermediate goods",
-    class: "economic"
+    indicator: 'Inventory levels of intermediate goods',
+    class: 'economic',
   },
   E6: {
-    indicator: "Inventory levels of factory inputs",
-    class: "economic"
+    indicator: 'Inventory levels of factory inputs',
+    class: 'economic',
   },
   E7: {
-    indicator: "Production activity of finished goods",
-    class: "economic"
+    indicator: 'Production activity of finished goods',
+    class: 'economic',
   },
   E8: {
     indicator: 'Inventory Levels',
@@ -115,10 +115,10 @@ export const indicatorsDefinition = Object.freeze({
       baseLayers.terrainLight,
       {
         ...baseLayers.S2GLC,
-        visible: true
-      }
+        visible: true,
+      },
     ],
-    legendUrl: "eodash-data/data/LegendGLC.png"
+    legendUrl: 'eodash-data/data/LegendGLC.png',
   },
   E10a2: {
     indicator: 'Cum. proportion of total area under active mgmt.',
@@ -130,11 +130,11 @@ export const indicatorsDefinition = Object.freeze({
       baseLayers.terrainLight,
       {
         ...baseLayers.S2GLC,
-        visible: true
-      }
+        visible: true,
+      },
     ],
-    legendUrl: "eodash-data/data/LegendGLC.png",
-    maxDecimals: 4
+    legendUrl: 'eodash-data/data/LegendGLC.png',
+    maxDecimals: 4,
   },
   E10a3: {
     indicator: 'Evolution of the cultivated areas for production of white asparagus',
@@ -147,7 +147,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'agriculture',
     story: './eodash-data/stories/E10a6',
     largeSubAoi: true,
-    maxDecimals: 4
+    maxDecimals: 4,
   },
   E10a8: {
     indicator: 'Cumulative harvested area',
@@ -156,8 +156,8 @@ export const indicatorsDefinition = Object.freeze({
     largeSubAoi: true,
   },
   E10b: {
-    indicator: "Field preparation activity",
-    class: "agriculture"
+    indicator: 'Field preparation activity',
+    class: 'agriculture',
   },
   E10c: {
     indicator: 'Rice Planted Area',
@@ -170,23 +170,23 @@ export const indicatorsDefinition = Object.freeze({
     class: 'agriculture',
     story: './data/trilateral/E10d',
     largeSubAoi: true,
-    disableTimeSelection: true
+    disableTimeSelection: true,
   },
   E11: {
-    indicator: "Volume of activity at shopping centers",
-    class: "economic"
+    indicator: 'Volume of activity at shopping centers',
+    class: 'economic',
   },
   E12a: {
-    indicator: "Volume of activity logistic interchange centers",
-    class: "economic"
+    indicator: 'Volume of activity logistic interchange centers',
+    class: 'economic',
   },
   E12b: {
-    indicator: "Throughput at border crossing points",
-    class: "economic"
+    indicator: 'Throughput at border crossing points',
+    class: 'economic',
   },
   E13a: {
-    indicator: "Throughput at principal rail stations",
-    class: "economic"
+    indicator: 'Throughput at principal rail stations',
+    class: 'economic',
   },
   E13b: {
     indicator: 'Throughput at principal hub airports',
@@ -202,14 +202,14 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers: [
       {
         ...baseLayers.cloudless,
-        visible: true
+        visible: true,
       },
-      baseLayers.terrainLight
-    ]
+      baseLayers.terrainLight,
+    ],
   },
   H1: {
-    indicator: "Number of temp. treatment sites",
-    class: "health"
+    indicator: 'Number of temp. treatment sites',
+    class: 'health',
   },
   N1: {
     indicator: 'Air quality',
@@ -217,34 +217,34 @@ export const indicatorsDefinition = Object.freeze({
     story: './data/trilateral/N1',
     largeTimeDuration: true,
     largeSubAoi: true,
-    maxMapZoom: 8
+    maxMapZoom: 8,
   },
   NASAPopulation: {
-    indicator: "Population",
-    class: "economic",
-    story: "/data/trilateral/NASAPopulation"
+    indicator: 'Population',
+    class: 'economic',
+    story: '/data/trilateral/NASAPopulation',
   },
   N2: {
     indicator: 'Greenhouse Gases',
     class: 'air',
     story: './data/trilateral/N2',
     largeTimeDuration: true,
-    largeSubAoi: true
+    largeSubAoi: true,
   },
   N3: {
-    indicator: "Water Quality",
-    class: "water"
+    indicator: 'Water Quality',
+    class: 'water',
   },
   N3b: {
     indicator: 'Chl-a concentration anomaly',
     class: 'water',
     story: './data/trilateral/N3b',
     sensorColorMap: {
-      "Sentinel-3A OLCI": "#a37",
-      "Aqua MODIS": "#47a",
-      "MODIS Aqua": "#47a",
-      "GCOM-C/SGLI": "#6ce"
-    }
+      'Sentinel-3A OLCI': '#a37',
+      'Aqua MODIS': '#47a',
+      'MODIS Aqua': '#47a',
+      'GCOM-C/SGLI': '#6ce',
+    },
   },
   N3a2: {
     indicator: 'CHL concentration',
@@ -253,12 +253,12 @@ export const indicatorsDefinition = Object.freeze({
     largeSubAoi: true,
   },
   N4a: {
-    indicator: "Changes in land fill sites",
-    class: "land"
+    indicator: 'Changes in land fill sites',
+    class: 'land',
   },
   N4b: {
-    indicator: "Illegal waste levels",
-    class: "land"
+    indicator: 'Illegal waste levels',
+    class: 'land',
   },
   N5: {
     indicator: 'Nightlights (Suomi NPP VIIRS)',
@@ -282,288 +282,288 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: './data/trilateral/N8',
     largeSubAoi: true,
-    disableTimeSelection: true
+    disableTimeSelection: true,
   },
   GG: {
-    indicator: "Mobility",
-    class: "economic",
+    indicator: 'Mobility',
+    class: 'economic',
     disableTimeSelection: true,
     countrySelection: true,
-    story: "/eodash-data/stories/GG-GG"
+    story: '/eodash-data/stories/GG-GG',
   },
   CV: {
-    indicator: "Covid cases",
-    class: "health",
+    indicator: 'Covid cases',
+    class: 'health',
     disableTimeSelection: true,
     countrySelection: true,
-    story: "/eodash-data/stories/CV-CV"
+    story: '/eodash-data/stories/CV-CV',
   },
   OW: {
-    indicator: "Vaccinations",
-    class: "health",
+    indicator: 'Vaccinations',
+    class: 'health',
     disableTimeSelection: true,
     countrySelection: true,
     hideInFilters: true,
-    story: "/eodash-data/stories/OW-OW"
+    story: '/eodash-data/stories/OW-OW',
   },
   FB: {
-    indicator: "Facebook population density",
-    class: "economic",
+    indicator: 'Facebook population density',
+    class: 'economic',
     disableTimeSelection: true,
     baseLayers: [
       {
         ...baseLayers.cloudless,
-        visible: true
+        visible: true,
       },
-      baseLayers.terrainLight
-    ]
+      baseLayers.terrainLight,
+    ],
   },
   d: {
     // dummy for locations without Indicator code
-    indicator: "Upcoming data",
-    class: "economic"
-  }
+    indicator: 'Upcoming data',
+    class: 'economic',
+  },
 });
 
 export const layerNameMapping = Object.freeze({
   // "inputdata" -> wms layer name and baseurl
-  "[NEW] Planetscope COVID-19": {
-    layers: "NEW_PLANETSCOPE_COVID-19"
+  '[NEW] Planetscope COVID-19': {
+    layers: 'NEW_PLANETSCOPE_COVID-19',
   },
-  "PlanetScope - COVID19": {
-    layers: "NEW_PLANETSCOPE_COVID-19"
+  'PlanetScope - COVID19': {
+    layers: 'NEW_PLANETSCOPE_COVID-19',
   },
-  "Planetscope COVID-19": {
-    layers: "NEW_PLANETSCOPE_COVID-19"
+  'Planetscope COVID-19': {
+    layers: 'NEW_PLANETSCOPE_COVID-19',
   },
-  "[NEW] Planet COVID-19": {
-    layers: "NEW_PLANETSCOPE_COVID-19"
+  '[NEW] Planet COVID-19': {
+    layers: 'NEW_PLANETSCOPE_COVID-19',
   },
-  "[NEW] Pleiades": {
+  '[NEW] Pleiades': {
     baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-    layers: "NEW_PLEIADES"
+    layers: 'NEW_PLEIADES',
   },
-  "Pleiades - COVID19": {
-    layers: "NEW_PLEIADES_COVID19"
+  'Pleiades - COVID19': {
+    layers: 'NEW_PLEIADES_COVID19',
   },
-  "[NEW] Pleiades COVID-19": {
-    layers: "NEW_PLEIADES_COVID19"
+  '[NEW] Pleiades COVID-19': {
+    layers: 'NEW_PLEIADES_COVID19',
   },
-  "[NEW] Pleiades COVID19": {
-    layers: "NEW_PLEIADES_COVID19"
+  '[NEW] Pleiades COVID19': {
+    layers: 'NEW_PLEIADES_COVID19',
   },
-  "[NEW] Pleiades - 2.8m - COVID19": {
-    layers: "NEW_PLEIADES_28_COVID19"
+  '[NEW] Pleiades - 2.8m - COVID19': {
+    layers: 'NEW_PLEIADES_28_COVID19',
   },
-  "[NEW] Pleiades 16bit": {
+  '[NEW] Pleiades 16bit': {
     baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-    layers: "NEW_PLEIADES_16BIT"
+    layers: 'NEW_PLEIADES_16BIT',
   },
-  "Sentinel 2 L2A": {
-    layers: "SENTINEL-2-L2A-TRUE-COLOR"
+  'Sentinel 2 L2A': {
+    layers: 'SENTINEL-2-L2A-TRUE-COLOR',
   },
   S2L2A: {
-    layers: "SENTINEL-2-L2A-TRUE-COLOR"
+    layers: 'SENTINEL-2-L2A-TRUE-COLOR',
   },
   S1GRD: {
-    layers: "E8_SENTINEL1"
+    layers: 'E8_SENTINEL1',
   },
-  "S1A - GRD": {
-    layers: "E8_SENTINEL1"
+  'S1A - GRD': {
+    layers: 'E8_SENTINEL1',
   },
-  "LANDSAT-8-TRUE-COLOUR": {
-    layers: "LANDSAT-8-TRUE-COLOUR"
+  'LANDSAT-8-TRUE-COLOUR': {
+    layers: 'LANDSAT-8-TRUE-COLOUR',
   },
-  "LANDSAT-8-NIR": {
-    layers: "LANDSAT-8-NIR"
+  'LANDSAT-8-NIR': {
+    layers: 'LANDSAT-8-NIR',
   },
-  "ALOS-2": {
+  'ALOS-2': {
     url:
-      "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2FALOS_SAMPLE%2Falos2-s1-beijing_{time}.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536",
-    protocol: "xyz",
+      'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2FALOS_SAMPLE%2Falos2-s1-beijing_{time}.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536',
+    protocol: 'xyz',
     tileSize: 256,
-    dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy_MM_dd")
+    dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
   },
   GOSAT_XCO2: {
     url:
-      "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/GOSAT_XCO2_{time}_{site}_BG_circle_cog.tif&resampling_method=nearest",
-    protocol: "xyz",
+      'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/GOSAT_XCO2_{time}_{site}_BG_circle_cog.tif&resampling_method=nearest',
+    protocol: 'xyz',
     maxNativeZoom: 12,
     maxMapZoom: 12,
     tileSize: 256,
-    dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMM"),
-    siteMapping: eoID => {
+    dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
+    siteMapping: (eoID) => {
       const mapping = {
-        CN01: "be",
-        CN02: "sh",
-        BD01: "dh",
-        IN01: "dl",
-        IN02: "mb",
-        US01: "ny",
-        JP01: "tk"
+        CN01: 'be',
+        CN02: 'sh',
+        BD01: 'dh',
+        IN01: 'dl',
+        IN02: 'mb',
+        US01: 'ny',
+        JP01: 'tk',
       };
       return mapping[eoID];
     },
-    legendUrl: "data/trilateral/N2-XCO2-legend.png"
+    legendUrl: 'data/trilateral/N2-XCO2-legend.png',
   },
   airport_tk: {
     url:
-      "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fairport%2Ftk_{time}.tif&resampling_method=bilinear&bidx=1",
-    protocol: "xyz",
+      'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fairport%2Ftk_{time}.tif&resampling_method=bilinear&bidx=1',
+    protocol: 'xyz',
     tileSize: 256,
-    dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy_MM_dd"),
-    siteMapping: eoID => {
+    dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+    siteMapping: (eoID) => {
       const mapping = {
-        JP02: "tk" // just to fix transition
+        JP02: 'tk', // just to fix transition
       };
       return mapping[eoID];
-    }
+    },
   },
   industry: {
     url:
-      "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Findustry%2F{site}_{time}.tif&resampling_method=bilinear&bidx=1",
-    protocol: "xyz",
+      'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Findustry%2F{site}_{time}.tif&resampling_method=bilinear&bidx=1',
+    protocol: 'xyz',
     tileSize: 256,
-    dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy_MM_dd"),
-    siteMapping: eoID => {
+    dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+    siteMapping: (eoID) => {
       const mapping = {
-        SG01: "sg"
+        SG01: 'sg',
       };
       return mapping[eoID];
-    }
+    },
   },
   ports: {
     url:
-      "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fplanet%2F{site}-{time}.tif&resampling_method=bilinear&bidx=1%2C2%2C3",
-    protocol: "xyz",
+      'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fplanet%2F{site}-{time}.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+    protocol: 'xyz',
     tileSize: 256,
-    dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy_MM_dd"),
-    siteMapping: eoID => {
+    dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+    siteMapping: (eoID) => {
       const mapping = {
-        US01: "ny",
-        US02: "la",
-        US03: "sf"
+        US01: 'ny',
+        US02: 'la',
+        US03: 'sf',
       };
       return mapping[eoID];
     },
     features: {
-      dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy_MM_dd"),
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
       url:
-        "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/{site}/{featuresTime}.geojson",
+        'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/{site}/{featuresTime}.geojson',
       allowedParameters: {
         // can also be a simple list
-        verified: {}
-      }
-    }
+        verified: {},
+      },
+    },
   },
   airports: {
     url:
-      "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/planet/{z}/{x}/{y}?date={time}&site={site}",
-    name: "Throughput at principal hub airports",
-    protocol: "xyz",
+      'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/planet/{z}/{x}/{y}?date={time}&site={site}',
+    name: 'Throughput at principal hub airports',
+    protocol: 'xyz',
     tileSize: 256,
-    dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy_MM_dd"),
-    siteMapping: eoID => {
+    dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+    siteMapping: (eoID) => {
       const mapping = {
-        US021: "la",
-        US022: "la",
-        US031: "sf",
-        US032: "sf",
-        US033: "sf",
-        US034: "sf",
-        US035: "sf",
-        US036: "sf",
-        US037: "sf",
-        US041: "ny",
-        US042: "ny",
-        CN011: "be",
-        CN012: "be",
-        JP02: "tk",
-        JP012: "tk"
+        US021: 'la',
+        US022: 'la',
+        US031: 'sf',
+        US032: 'sf',
+        US033: 'sf',
+        US034: 'sf',
+        US035: 'sf',
+        US036: 'sf',
+        US037: 'sf',
+        US041: 'ny',
+        US042: 'ny',
+        CN011: 'be',
+        CN012: 'be',
+        JP02: 'tk',
+        JP012: 'tk',
       };
       return mapping[eoID];
     },
     features: {
-      dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy_MM_dd"),
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
       url:
-        "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/{site}/{featuresTime}.geojson",
-      allowedParameters: ["Country", "label", "score"]
-    }
+        'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/{site}/{featuresTime}.geojson',
+      allowedParameters: ['Country', 'label', 'score'],
+    },
   },
-  "SGLI L2 Reflectance 8-day composited": {
+  'SGLI L2 Reflectance 8-day composited': {
     url:
-      "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fagriculture%2Fgcom-c-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-1%2C1&color_map=cfastie",
-    protocol: "xyz",
+      'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fagriculture%2Fgcom-c-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-1%2C1&color_map=cfastie',
+    protocol: 'xyz',
     tileSize: 256,
-    legendUrl: "data/trilateral/NDVI.png",
-    dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy_MM_dd")
-  }
+    legendUrl: 'data/trilateral/NDVI.png',
+    dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+  },
 });
 
 export const indicatorClassesIcons = Object.freeze({
-  economic: "mdi-cash",
-  agriculture: "mdi-barley",
-  air: "mdi-weather-windy",
-  water: "mdi-water",
-  land: "mdi-image-filter-hdr",
-  health: "mdi-hospital-box-outline"
+  economic: 'mdi-cash',
+  agriculture: 'mdi-barley',
+  air: 'mdi-weather-windy',
+  water: 'mdi-water',
+  land: 'mdi-image-filter-hdr',
+  health: 'mdi-hospital-box-outline',
 });
 
 export const mapDefaults = Object.freeze({
   minMapZoom: 0,
   maxMapZoom: 18,
-  bounds: latLngBounds(latLng([-70, -170]), latLng([70, 170]))
+  bounds: latLngBounds(latLng([-70, -170]), latLng([70, 170])),
 });
 
 export const baseLayersLeftMap = [
   {
     ...baseLayers.terrainLight,
-    visible: true
+    visible: true,
   },
-  baseLayers.cloudless
+  baseLayers.cloudless,
 ];
 export const baseLayersRightMap = [
   {
     ...baseLayers.terrainLight,
-    visible: true
+    visible: true,
   },
-  baseLayers.cloudless
+  baseLayers.cloudless,
 ];
 
 export const overlayLayersLeftMap = [
   {
     ...overlayLayers.eoxOverlay,
-    visible: true
-  }
+    visible: true,
+  },
 ];
 export const overlayLayersRightMap = [
   {
     ...overlayLayers.eoxOverlay,
-    visible: true
-  }
+    visible: true,
+  },
 ];
 
 const mapBoxHighResoSubst = [
   {
     ...baseLayers.mapboxHighReso,
-    visible: true
+    visible: true,
   },
   baseLayers.terrainLight,
-  baseLayers.cloudless
+  baseLayers.cloudless,
 ];
 
 export const defaultLayersDisplay = {
   baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-  protocol: "WMS",
+  protocol: 'WMS',
   dateFormatFunction: shTimeFunction,
-  format: "image/png",
+  format: 'image/png',
   transparent: true,
   tileSize: 512,
   opacity: 1,
   attribution:
     '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">se of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   minZoom: 7,
-  visible: true
+  visible: true,
 };
 
 const getMonthlyDates = (start, end) => {
@@ -571,7 +571,7 @@ const getMonthlyDates = (start, end) => {
   const stopDate = DateTime.fromISO(end);
   const dateArray = [];
   while (currentDate <= stopDate) {
-    dateArray.push(DateTime.fromISO(currentDate).toFormat("yyyy-MM-dd"));
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
     currentDate = DateTime.fromISO(currentDate).plus({ months: 1 });
   }
   return dateArray;
@@ -582,7 +582,7 @@ const getDailyDates = (start, end) => {
   const stopDate = DateTime.fromISO(end);
   const dateArray = [];
   while (currentDate <= stopDate) {
-    dateArray.push(DateTime.fromISO(currentDate).toFormat("yyyy-MM-dd"));
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
     currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
   }
   return dateArray;
@@ -593,7 +593,7 @@ const getWeeklyDates = (start, end) => {
   const stopDate = DateTime.fromISO(end);
   const dateArray = [];
   while (currentDate <= stopDate) {
-    dateArray.push(DateTime.fromISO(currentDate).toFormat("yyyy-MM-dd"));
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
     currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
   }
   return dateArray;
@@ -601,15 +601,14 @@ const getWeeklyDates = (start, end) => {
 
 const getFortnightIntervalDates = (start, end) => {
   let currentDate = DateTime.fromISO(start);
-  const stopDate =
-    end === "now" ? DateTime.utc().minus({ days: 13 }) : DateTime.fromISO(end).minus({ days: 13 });
+  const stopDate = end === 'now' ? DateTime.utc().minus({ days: 13 }) : DateTime.fromISO(end).minus({ days: 13 });
   const dateArray = [];
   while (currentDate <= stopDate) {
     dateArray.push([
-      DateTime.fromISO(currentDate).toFormat("yyyy-MM-dd"),
+      DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'),
       DateTime.fromISO(currentDate)
         .plus({ days: 13 })
-        .toFormat("yyyy-MM-dd")
+        .toFormat('yyyy-MM-dd'),
     ]);
     currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
   }
@@ -622,10 +621,10 @@ const getDaily2DayIntervalDates = (start, end) => {
   const dateArray = [];
   while (currentDate <= stopDate) {
     dateArray.push([
-      DateTime.fromISO(currentDate).toFormat("yyyy-MM-dd"),
+      DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'),
       DateTime.fromISO(currentDate)
         .plus({ days: 2 })
-        .toFormat("yyyy-MM-dd")
+        .toFormat('yyyy-MM-dd'),
     ]);
     currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
   }
@@ -633,22 +632,22 @@ const getDaily2DayIntervalDates = (start, end) => {
 };
 
 export const additionalMapTimes = {
-  "JP02-E13b": {
+  'JP02-E13b': {
     time: [
-      "2020-08-05T00:00:00",
-      "2020-08-15T00:00:00",
-      "2020-08-16T00:00:00",
-      "2020-08-20T00:00:00",
-      "2020-08-21T00:00:00",
-      "2020-08-25T00:00:00",
-      "2020-09-04T00:00:00",
-      "2020-09-28T00:00:00",
-      "2020-10-24T00:00:00"
+      '2020-08-05T00:00:00',
+      '2020-08-15T00:00:00',
+      '2020-08-16T00:00:00',
+      '2020-08-20T00:00:00',
+      '2020-08-21T00:00:00',
+      '2020-08-25T00:00:00',
+      '2020-09-04T00:00:00',
+      '2020-09-28T00:00:00',
+      '2020-10-24T00:00:00',
     ],
-    eoSensor: Array(9).fill("Planet"),
-    inputData: Array(9).fill("airports"),
-    colorCode: Array(9).fill("PRIMARY")
-  }
+    eoSensor: Array(9).fill('Planet'),
+    inputData: Array(9).fill('airports'),
+    colorCode: Array(9).fill('PRIMARY'),
+  },
 };
 
 const wkt = new Wkt();
@@ -657,114 +656,114 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        aoiID: "GG",
+        aoiID: 'GG',
         dataLoadFinished: true,
-        country: "all",
-        city: "World",
-        siteName: "global",
-        description: "Mobility Data",
-        indicatorName: "(select country to load data)",
-        indicator: "GG",
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Mobility Data',
+        indicatorName: '(select country to load data)',
+        indicator: 'GG',
         lastIndicatorValue: null,
         subAoi: {
-          type: "FeatureCollection",
-          features: []
+          type: 'FeatureCollection',
+          features: [],
         },
         lastColorCode: null,
         aoi: null,
-        inputData: [""],
-        yAxis: "percent change from baseline",
-        time: ["TBD"],
-        display: {}
-      }
-    }
+        inputData: [''],
+        yAxis: 'percent change from baseline',
+        time: ['TBD'],
+        display: {},
+      },
+    },
   },
   {
     properties: {
       indicatorObject: {
-        aoiID: "CV",
+        aoiID: 'CV',
         dataLoadFinished: true,
-        country: "all",
-        city: "World",
-        siteName: "global",
-        description: "Covid19 Data",
-        indicatorName: "(select country to load data)",
-        indicator: "CV",
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Covid19 Data',
+        indicatorName: '(select country to load data)',
+        indicator: 'CV',
         lastIndicatorValue: null,
         subAoi: {
-          type: "FeatureCollection",
-          features: []
+          type: 'FeatureCollection',
+          features: [],
         },
         lastColorCode: null,
         aoi: null,
-        inputData: [""],
-        yAxis: "aggregated covid cases",
-        time: ["TBD"],
-        display: {}
-      }
-    }
+        inputData: [''],
+        yAxis: 'aggregated covid cases',
+        time: ['TBD'],
+        display: {},
+      },
+    },
   },
   {
     properties: {
       indicatorObject: {
-        aoiID: "OW",
+        aoiID: 'OW',
         dataLoadFinished: true,
-        country: "all",
-        city: "World",
-        siteName: "global",
-        description: "Vaccination Data",
-        indicatorName: "(select country to load data)",
-        indicator: "OW",
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Vaccination Data',
+        indicatorName: '(select country to load data)',
+        indicator: 'OW',
         lastIndicatorValue: null,
         subAoi: {
-          type: "FeatureCollection",
-          features: []
+          type: 'FeatureCollection',
+          features: [],
         },
         lastColorCode: null,
         aoi: null,
-        inputData: [""],
-        yAxis: "vaccination data",
-        time: ["TBD"],
-        display: {}
-      }
-    }
+        inputData: [''],
+        yAxis: 'vaccination data',
+        time: ['TBD'],
+        display: {},
+      },
+    },
   },
   {
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        country: "all",
-        city: "World",
-        siteName: "global",
-        description: "Air Quality",
-        indicator: "N1",
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Air Quality',
+        indicator: 'N1',
         lastIndicatorValue: null,
-        indicatorName: "Air Quality - TROPOMI: NO2",
-        eoSensor: "ESA TROPOMI",
+        indicatorName: 'Air Quality - TROPOMI: NO2',
+        eoSensor: 'ESA TROPOMI',
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
-              geometry: wkt.read("POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))").toJson()
-            }
-          ]
+              geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
+            },
+          ],
         },
         lastColorCode: null,
         aoi: null,
-        aoiID: "W1",
-        time: getFortnightIntervalDates("2019-01-07", "now"),
-        inputData: [""],
-        yAxis: "Tropospheric NO2 (μmol/m2)",
+        aoiID: 'W1',
+        time: getFortnightIntervalDates('2019-01-07', 'now'),
+        inputData: [''],
+        yAxis: 'Tropospheric NO2 (μmol/m2)',
         display: {
           customAreaIndicator: true,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: "Air Quality (NO2) - ESA",
-          layers: "NO2-VISUALISATION",
-          legendUrl: "eodash-data/data/no2Legend.png",
+          name: 'Air Quality (NO2) - ESA',
+          layers: 'NO2-VISUALISATION',
+          legendUrl: 'eodash-data/data/no2Legend.png',
           minZoom: 1,
-          dateFormatFunction: date => DateTime.fromISO(date[0]).toFormat("yyyy-MM-dd"),
+          dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           areaIndicator: {
             url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
             callbackFunction: (requestJson, indicator) => {
@@ -774,84 +773,84 @@ export const globalIndicators = [
                   time: [],
                   measurement: [],
                   referenceValue: [],
-                  colorCode: []
+                  colorCode: [],
                 };
                 data.sort((a, b) => (DateTime.fromISO(a.date) > DateTime.fromISO(b.date) ? 1 : -1));
-                data.forEach(row => {
+                data.forEach((row) => {
                   if (row.basicStats.max < 5000) {
                     // leaving out falsely set nodata values disrupting the chart
                     newData.time.push(DateTime.fromISO(row.date));
-                    newData.colorCode.push("");
+                    newData.colorCode.push('');
                     newData.measurement.push(row.basicStats.mean);
                     newData.referenceValue.push(
-                      `[null, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`
+                      `[null, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`,
                     );
                   }
                 });
                 const ind = {
                   ...indicator,
-                  ...newData
+                  ...newData,
                 };
                 return ind;
               }
               return null;
             },
-            areaFormatFunction: area => ({ area: wkt.read(JSON.stringify(area)).write() })
-          }
-        }
-      }
-    }
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
   },
   {
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        country: "all",
-        city: "World",
-        siteName: "global",
-        description: "Air Quality",
-        indicator: "N1",
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Air Quality',
+        indicator: 'N1',
         lastIndicatorValue: null,
-        indicatorName: "Air Quality - OMI: NO2",
-        eoSensor: "NASA OMI",
+        indicatorName: 'Air Quality - OMI: NO2',
+        eoSensor: 'NASA OMI',
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
-              geometry: wkt.read("POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))").toJson()
-            }
-          ]
+              geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
+            },
+          ],
         },
         lastColorCode: null,
         aoi: null,
-        aoiID: "W2",
-        time: getMonthlyDates("2004-10-01", "2021-06-01"),
-        inputData: [""],
-        yAxis: "NO2 [µmol/m²]",
+        aoiID: 'W2',
+        time: getMonthlyDates('2004-10-01', '2021-06-01'),
+        inputData: [''],
+        yAxis: 'NO2 [µmol/m²]',
         display: {
           customAreaIndicator: true,
-          protocol: "xyz",
+          protocol: 'xyz',
           minZoom: 1,
           maxNativeZoom: 6,
           tileSize: 256,
           opacity: 0.95,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x.png?url=s3://covid-eo-data/OMNO2d_HRM/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=0%2C1.08398547e16&color_map=reds",
-          name: "Air Quality (NASA)",
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMM"),
-          legendUrl: "eodash-data/data/no2Legend.png",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x.png?url=s3://covid-eo-data/OMNO2d_HRM/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=0%2C1.08398547e16&color_map=reds',
+          name: 'Air Quality (NASA)',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
+          legendUrl: 'eodash-data/data/no2Legend.png',
           areaIndicator: {
-            url: "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/timelapse",
-            requestMethod: "POST",
+            url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/timelapse',
+            requestMethod: 'POST',
             requestHeaders: {
-              "Content-Type": "application/json"
+              'Content-Type': 'application/json',
             },
             requestBody: {
-              datasetId: "no2",
-              dateRange: ["202001", "202101"],
-              geojson: "{geojson}"
+              datasetId: 'no2',
+              dateRange: ['202001', '202101'],
+              geojson: '{geojson}',
             },
             callbackFunction: (responseJson, indicator) => {
               let ind = null;
@@ -861,24 +860,24 @@ export const globalIndicators = [
                   time: [],
                   measurement: [],
                   colorCode: [],
-                  referenceValue: []
+                  referenceValue: [],
                 };
-                data.forEach(row => {
-                  newData.time.push(DateTime.fromFormat(row.date, "yyyyMM"));
-                  newData.colorCode.push("");
+                data.forEach((row) => {
+                  newData.time.push(DateTime.fromFormat(row.date, 'yyyyMM'));
+                  newData.colorCode.push('');
                   newData.measurement.push(row.mean / 1e14);
                   newData.referenceValue.push(`[${row.median / 1e14}, null, null, null]`);
                 });
                 ind = {
                   ...indicator,
-                  ...newData
+                  ...newData,
                 };
-              } else if (Object.keys(responseJson).indexOf("detail") !== -1) {
+              } else if (Object.keys(responseJson).indexOf('detail') !== -1) {
                 // This will happen if area selection is too large
-                if (responseJson.detail[0].msg.startsWith("AOI cannot exceed")) {
-                  store.commit("sendAlert", {
-                    message: "AOI cannot exceed 200 000 km²",
-                    type: "error"
+                if (responseJson.detail[0].msg.startsWith('AOI cannot exceed')) {
+                  store.commit('sendAlert', {
+                    message: 'AOI cannot exceed 200 000 km²',
+                    type: 'error',
                   });
                 } else {
                   console.log(responseJson.detail[0].msg);
@@ -886,237 +885,237 @@ export const globalIndicators = [
               }
               return ind;
             },
-            areaFormatFunction: area => ({
+            areaFormatFunction: (area) => ({
               geojson: JSON.stringify({
-                type: "Feature",
+                type: 'Feature',
                 properties: {},
-                geometry: area
-              })
-            })
-          }
-        }
-      }
-    }
+                geometry: area,
+              }),
+            }),
+          },
+        },
+      },
+    },
   },
   {
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        country: "all",
-        city: "World",
-        siteName: "global",
-        description: "Air Quality",
-        indicator: "N1",
-        lastIndicatorValue: "OMI: Difference Nitrogen dioxide",
-        indicatorName: "Air Quality - OMI: Monthly NO2 Compared to Baseline (2015-2019)",
-        eoSensor: "NASA OMI Difference",
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Air Quality',
+        indicator: 'N1',
+        lastIndicatorValue: 'OMI: Difference Nitrogen dioxide',
+        indicatorName: 'Air Quality - OMI: Monthly NO2 Compared to Baseline (2015-2019)',
+        eoSensor: 'NASA OMI Difference',
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
-              geometry: wkt.read("POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))").toJson()
-            }
-          ]
+              geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
+            },
+          ],
         },
-        lastColorCode: "primary",
+        lastColorCode: 'primary',
         aoi: null,
-        aoiID: "W3",
-        time: getMonthlyDates("2015-01-01", "2021-06-01"),
-        inputData: [""],
+        aoiID: 'W3',
+        time: getMonthlyDates('2015-01-01', '2021-06-01'),
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 6,
           minZoom: 1,
           opacity: 0.95,
           tileSize: 256,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/OMNO2d_HRMDifference/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=-3e15%2C3e15&color_map=rdbu_r",
-          name: "Air Quality (NASA)",
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMM"),
-          legendUrl: "data/trilateral/N1-NO2DiffLegend.png",
-          disableCompare: true
-        }
-      }
-    }
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/OMNO2d_HRMDifference/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=-3e15%2C3e15&color_map=rdbu_r',
+          name: 'Air Quality (NASA)',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
+          legendUrl: 'data/trilateral/N1-NO2DiffLegend.png',
+          disableCompare: true,
+        },
+      },
+    },
   },
   {
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        country: "all",
-        city: "World",
-        siteName: "global",
-        description: "Greenhouse Gases",
-        indicator: "N2",
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Greenhouse Gases',
+        indicator: 'N2',
         lastIndicatorValue: null,
-        indicatorName: "Greenhouse Gases - OCO-2: Mean CO2",
-        calcMethod: "Mean CO2",
+        indicatorName: 'Greenhouse Gases - OCO-2: Mean CO2',
+        calcMethod: 'Mean CO2',
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
-              geometry: wkt.read("POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))").toJson()
-            }
-          ]
+              geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
+            },
+          ],
         },
         lastColorCode: null,
         aoi: null,
-        aoiID: "W4",
-        time: getDailyDates("2020-01-01", "2020-12-15"),
-        inputData: [""],
+        aoiID: 'W4',
+        time: getDailyDates('2020-01-01', '2020-12-15'),
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2-mean/xco2_16day_mean.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.000408%2C0.000419&color_map=rdylbu_r",
-          name: "Greenhouse Gases (NASA)",
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy_MM_dd"),
-          legendUrl: "data/trilateral/N2-co2mean-legend.png",
-          mapLabel: "Mean"
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2-mean/xco2_16day_mean.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.000408%2C0.000419&color_map=rdylbu_r',
+          name: 'Greenhouse Gases (NASA)',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          legendUrl: 'data/trilateral/N2-co2mean-legend.png',
+          mapLabel: 'Mean',
         },
         compareDisplay: {
-          protocol: "xyz",
+          protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2-base/xco2_16day_base.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.000408%2C0.000419&color_map=rdylbu_r",
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy_MM_dd"),
-          mapLabel: "Baseline"
-        }
-      }
-    }
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2-base/xco2_16day_base.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.000408%2C0.000419&color_map=rdylbu_r',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          mapLabel: 'Baseline',
+        },
+      },
+    },
   },
   {
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        country: "all",
-        city: "World",
-        siteName: "global",
-        description: "Facebook population density",
-        indicator: "FB",
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Facebook population density',
+        indicator: 'FB',
         lastIndicatorValue: null,
-        indicatorName: "Facebook population density",
+        indicatorName: 'Facebook population density',
         subAoi: {
-          type: "FeatureCollection",
-          features: []
+          type: 'FeatureCollection',
+          features: [],
         },
         lastColorCode: null,
         aoi: null,
-        aoiID: "W7",
-        time: ["TBD"],
-        inputData: [""],
+        aoiID: 'W7',
+        time: ['TBD'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/dataforgood-fb-population-density/cog.tif&rescale=0,69&resampling_method=nearest&color_map=ylorrd",
-          name: "Facebook population density",
-          legendUrl: "data/trilateral/FbPopulation_legend.png",
-          mapLabel: "Population density",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/dataforgood-fb-population-density/cog.tif&rescale=0,69&resampling_method=nearest&color_map=ylorrd',
+          name: 'Facebook population density',
+          legendUrl: 'data/trilateral/FbPopulation_legend.png',
+          mapLabel: 'Population density',
           presetView: {
-            type: "FeatureCollection",
+            type: 'FeatureCollection',
             features: [
               {
-                type: "Feature",
+                type: 'Feature',
                 properties: {},
                 geometry: wkt
-                  .read("POLYGON((2.1 48.6,2.6 48.6,2.6 49.0,2.1 49.0,2.1 48.6))")
-                  .toJson()
-              }
-            ]
-          }
+                  .read('POLYGON((2.1 48.6,2.6 48.6,2.6 49.0,2.1 49.0,2.1 48.6))')
+                  .toJson(),
+              },
+            ],
+          },
         },
         compareDisplay: {
-          protocol: "xyz",
+          protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/dataforgood-fb-population-density/cog.tif&rescale=0,69&resampling_method=nearest&color_map=ylorrd",
-          mapLabel: "Population density"
-        }
-      }
-    }
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/dataforgood-fb-population-density/cog.tif&rescale=0,69&resampling_method=nearest&color_map=ylorrd',
+          mapLabel: 'Population density',
+        },
+      },
+    },
   },
   {
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        country: "all",
-        city: "World",
-        siteName: "global",
-        description: "Greenhouse Gases",
-        indicator: "N2",
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Greenhouse Gases',
+        indicator: 'N2',
         lastIndicatorValue: null,
-        indicatorName: "Greenhouse Gases - OCO-2: Difference CO2",
-        calcMethod: "Difference CO2",
+        indicatorName: 'Greenhouse Gases - OCO-2: Difference CO2',
+        calcMethod: 'Difference CO2',
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
-              geometry: wkt.read("POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))").toJson()
-            }
-          ]
+              geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
+            },
+          ],
         },
         lastColorCode: null,
         aoi: null,
-        aoiID: "W5",
-        time: getDailyDates("2020-01-01", "2020-12-15"),
-        inputData: [""],
+        aoiID: 'W5',
+        time: getDailyDates('2020-01-01', '2020-12-15'),
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2-diff/xco2_16day_diff.{time}.tif&resampling_method=bilinear&bidx=1&rescale=-0.000001%2C0.000001&color_map=rdbu_r",
-          name: "Greenhouse Gases (NASA)",
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy_MM_dd"),
-          legendUrl: "data/trilateral/N2-co2diff-legend.png",
-          disableCompare: true
-        }
-      }
-    }
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2-diff/xco2_16day_diff.{time}.tif&resampling_method=bilinear&bidx=1&rescale=-0.000001%2C0.000001&color_map=rdbu_r',
+          name: 'Greenhouse Gases (NASA)',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          legendUrl: 'data/trilateral/N2-co2diff-legend.png',
+          disableCompare: true,
+        },
+      },
+    },
   },
   {
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        country: "all",
-        city: "World",
-        siteName: "global",
-        description: "Population",
-        indicator: "NASAPopulation",
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Population',
+        indicator: 'NASAPopulation',
         lastIndicatorValue: null,
-        indicatorName: "Population density 2020",
+        indicatorName: 'Population density 2020',
         subAoi: {
-          type: "FeatureCollection",
-          features: []
+          type: 'FeatureCollection',
+          features: [],
         },
         lastColorCode: null,
         aoi: null,
-        aoiID: "W6",
-        time: ["2020-05-14T00:00:00Z"],
-        inputData: [""],
+        aoiID: 'W6',
+        time: ['2020-05-14T00:00:00Z'],
+        inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: "Population",
-          layers: "POPULATION_DENSITY",
-          legendUrl: "data/trilateral/NASAPopulation_legend.png",
+          name: 'Population',
+          layers: 'POPULATION_DENSITY',
+          legendUrl: 'data/trilateral/NASAPopulation_legend.png',
           minZoom: 1,
           maxMapZoom: 7,
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
-          disableCompare: true
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+          disableCompare: true,
+        },
+      },
+    },
   },
   {
     latlng: latLng([35.61, 139.78]),
@@ -1126,44 +1125,44 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([35.61, 139.78]),
         id: 9998,
-        aoiID: "JP01",
-        country: ["JP"],
-        city: "Tokyo",
-        siteName: "Tokyo",
-        description: "Nightlights",
-        indicator: "N5",
+        aoiID: 'JP01',
+        country: ['JP'],
+        city: 'Tokyo',
+        siteName: 'Tokyo',
+        description: 'Nightlights',
+        indicator: 'N5',
         lastIndicatorValue: null,
-        indicatorName: "Night light composite maps (Suomi NPP VIIRS)",
+        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: ["Nightlights"],
+        eoSensor: ['Nightlights'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((139.34275817871094 35.049654646456474, 140.34809152322123 35.049654646456474, 140.34809152322123 35.93543243408203, 139.34275817871094 35.93543243408203, 139.34275817871094 35.049654646456474))"
+                  'POLYGON((139.34275817871094 35.049654646456474, 140.34809152322123 35.049654646456474, 140.34809152322123 35.93543243408203, 139.34275817871094 35.93543243408203, 139.34275817871094 35.049654646456474))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: getMonthlyDates("2020-01-01", "2021-03-01"),
-        inputData: [""],
+        time: getMonthlyDates('2020-01-01', '2021-03-01'),
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           tileSize: 256,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_tk_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno",
-          name: "Nightlights",
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMM"),
-          legendUrl: "data/trilateral/N5-nighlights-legend.png"
-        }
-      }
-    }
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_tk_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
+          name: 'Nightlights',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
+          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
+        },
+      },
+    },
   },
   {
     latlng: latLng([39.9, 116.38]),
@@ -1173,44 +1172,44 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([39.9, 116.38]),
         id: 9997,
-        aoiID: "CN01",
-        country: ["CN"],
-        city: "Beijing",
-        siteName: "Beijing",
-        description: "Nightlights",
-        indicator: "N5",
+        aoiID: 'CN01',
+        country: ['CN'],
+        city: 'Beijing',
+        siteName: 'Beijing',
+        description: 'Nightlights',
+        indicator: 'N5',
         lastIndicatorValue: null,
-        indicatorName: "Night light composite maps (Suomi NPP VIIRS)",
+        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: ["Nightlights"],
+        eoSensor: ['Nightlights'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((115.91229248046875 39.627200509676186, 116.86084804657003 39.627200509676186, 116.86084804657003 40.32575607299805, 115.91229248046875 40.32575607299805, 115.91229248046875 39.627200509676186,))"
+                  'POLYGON((115.91229248046875 39.627200509676186, 116.86084804657003 39.627200509676186, 116.86084804657003 40.32575607299805, 115.91229248046875 40.32575607299805, 115.91229248046875 39.627200509676186,))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: getMonthlyDates("2020-01-01", "2021-03-01"),
-        inputData: [""],
+        time: getMonthlyDates('2020-01-01', '2021-03-01'),
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_be_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno",
-          name: "Nightlights",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_be_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
+          name: 'Nightlights',
           tileSize: 256,
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMM"),
-          legendUrl: "data/trilateral/N5-nighlights-legend.png"
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
+          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
+        },
+      },
+    },
   },
   {
     latlng: latLng([51.036138, 2.285374]),
@@ -1220,44 +1219,44 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([51.036138, 2.285374]),
         id: 9996,
-        aoiID: "FR03",
-        country: ["FR"],
-        city: "Port of Dunkirk",
-        siteName: "Port of Dunkirk",
-        description: "Nightlights",
-        indicator: "N5",
+        aoiID: 'FR03',
+        country: ['FR'],
+        city: 'Port of Dunkirk',
+        siteName: 'Port of Dunkirk',
+        description: 'Nightlights',
+        indicator: 'N5',
         lastIndicatorValue: null,
-        indicatorName: "Night light composite maps (Suomi NPP VIIRS)",
+        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: ["Nightlights"],
+        eoSensor: ['Nightlights'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((2.083559989929199 50.965508184133796, 2.416559993631381 50.965508184133796, 2.416559993631381 51.087730407714844, 2.083559989929199 51.087730407714844, 2.083559989929199 50.965508184133796))"
+                  'POLYGON((2.083559989929199 50.965508184133796, 2.416559993631381 50.965508184133796, 2.416559993631381 51.087730407714844, 2.083559989929199 51.087730407714844, 2.083559989929199 50.965508184133796))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: getMonthlyDates("2020-01-01", "2021-03-01"),
-        inputData: [""],
+        time: getMonthlyDates('2020-01-01', '2021-03-01'),
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_du_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno",
-          name: "Nightlights",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_du_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
+          name: 'Nightlights',
           tileSize: 256,
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMM"),
-          legendUrl: "data/trilateral/N5-nighlights-legend.png"
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
+          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
+        },
+      },
+    },
   },
   {
     latlng: latLng([51.091559, 3.740081]),
@@ -1267,44 +1266,44 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([51.091559, 3.740081]),
         id: 9995,
-        aoiID: "BE03",
-        country: ["BE"],
-        city: "Port of Ghent",
-        siteName: "Port of Ghent",
-        description: "Nightlights",
-        indicator: "N5",
+        aoiID: 'BE03',
+        country: ['BE'],
+        city: 'Port of Ghent',
+        siteName: 'Port of Ghent',
+        description: 'Nightlights',
+        indicator: 'N5',
         lastIndicatorValue: null,
-        indicatorName: "Night light composite maps (Suomi NPP VIIRS)",
+        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: ["Nightlights"],
+        eoSensor: ['Nightlights'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((3.6453969478607178 51.06661950775742, 3.85839695022878 51.06661950775742, 3.85839695022878 51.28873062133789, 3.6453969478607178 51.28873062133789, 3.6453969478607178 51.06661950775742))"
+                  'POLYGON((3.6453969478607178 51.06661950775742, 3.85839695022878 51.06661950775742, 3.85839695022878 51.28873062133789, 3.6453969478607178 51.28873062133789, 3.6453969478607178 51.06661950775742))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: getMonthlyDates("2020-01-01", "2021-03-01"),
-        inputData: [""],
+        time: getMonthlyDates('2020-01-01', '2021-03-01'),
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_gh_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno",
-          name: "Nightlights",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_gh_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
+          name: 'Nightlights',
           tileSize: 256,
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMM"),
-          legendUrl: "data/trilateral/N5-nighlights-legend.png"
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
+          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
+        },
+      },
+    },
   },
   {
     latlng: latLng([34.05, -118.25]),
@@ -1314,44 +1313,44 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([34.05, -118.25]),
         id: 9994,
-        aoiID: "US02",
-        country: ["US"],
-        city: "Los Angeles",
-        siteName: "Los Angeles",
-        description: "Nightlights",
-        indicator: "N5",
+        aoiID: 'US02',
+        country: ['US'],
+        city: 'Los Angeles',
+        siteName: 'Los Angeles',
+        description: 'Nightlights',
+        indicator: 'N5',
         lastIndicatorValue: null,
-        indicatorName: "Night light composite maps (Suomi NPP VIIRS)",
+        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: ["Nightlights"],
+        eoSensor: ['Nightlights'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-118.68741607666016 33.42670324365463, -117.0733049476039 33.42670324365463, -117.0733049476039 34.34392547607422, -118.68741607666016 34.34392547607422, -118.68741607666016 33.42670324365463))"
+                  'POLYGON((-118.68741607666016 33.42670324365463, -117.0733049476039 33.42670324365463, -117.0733049476039 34.34392547607422, -118.68741607666016 34.34392547607422, -118.68741607666016 33.42670324365463))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: getMonthlyDates("2020-01-01", "2021-03-01"),
-        inputData: [""],
+        time: getMonthlyDates('2020-01-01', '2021-03-01'),
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_la_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno",
-          name: "Nightlights",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_la_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
+          name: 'Nightlights',
           tileSize: 256,
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMM"),
-          legendUrl: "data/trilateral/N5-nighlights-legend.png"
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
+          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
+        },
+      },
+    },
   },
   {
     latlng: latLng([37.7775, -122.416389]),
@@ -1361,44 +1360,44 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([37.7775, -122.416389]),
         id: 9993,
-        aoiID: "US03",
-        country: ["US"],
-        city: "San Francisco",
-        siteName: "San Francisco",
-        description: "Nightlights",
-        indicator: "N5",
+        aoiID: 'US03',
+        country: ['US'],
+        city: 'San Francisco',
+        siteName: 'San Francisco',
+        description: 'Nightlights',
+        indicator: 'N5',
         lastIndicatorValue: null,
-        indicatorName: "Night light composite maps (Suomi NPP VIIRS)",
+        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: ["Nightlights"],
+        eoSensor: ['Nightlights'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-122.63569641113281 37.119795894876006, -121.53514084334165 37.119795894876006, -121.53514084334165 38.35512924194336, -122.63569641113281 38.35512924194336, -122.63569641113281 37.119795894876006))"
+                  'POLYGON((-122.63569641113281 37.119795894876006, -121.53514084334165 37.119795894876006, -121.53514084334165 38.35512924194336, -122.63569641113281 38.35512924194336, -122.63569641113281 37.119795894876006))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: getMonthlyDates("2020-01-01", "2021-03-01"),
-        inputData: [""],
+        time: getMonthlyDates('2020-01-01', '2021-03-01'),
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_sf_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno",
-          name: "Nightlights",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_sf_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
+          name: 'Nightlights',
           tileSize: 256,
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMM"),
-          legendUrl: "data/trilateral/N5-nighlights-legend.png"
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
+          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
+        },
+      },
+    },
   },
   {
     latlng: latLng([41.0114, -73.09]),
@@ -1408,44 +1407,44 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([41.0114, -73.09]),
         id: 9992,
-        aoiID: "US04",
-        country: ["US"],
-        city: "New York",
-        siteName: "New York",
-        description: "Nightlights",
-        indicator: "N5",
+        aoiID: 'US04',
+        country: ['US'],
+        city: 'New York',
+        siteName: 'New York',
+        description: 'Nightlights',
+        indicator: 'N5',
         lastIndicatorValue: null,
-        indicatorName: "Night light composite maps (Suomi NPP VIIRS)",
+        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: ["Nightlights"],
+        eoSensor: ['Nightlights'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-71.74516 41.54467, -74.43395 41.54943, -74.43219 40.47812, -71.74516 40.48343, -71.74516 41.54467))"
+                  'POLYGON((-71.74516 41.54467, -74.43395 41.54943, -74.43219 40.47812, -71.74516 40.48343, -71.74516 41.54467))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: getMonthlyDates("2020-01-01", "2021-03-01"),
-        inputData: [""],
+        time: getMonthlyDates('2020-01-01', '2021-03-01'),
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           tileSize: 256,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_ny_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno",
-          name: "Nightlights",
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyyMM"),
-          legendUrl: "data/trilateral/N5-nighlights-legend.png"
-        }
-      }
-    }
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_ny_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
+          name: 'Nightlights',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
+          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
+        },
+      },
+    },
   },
   {
     id: 19999,
@@ -1455,42 +1454,42 @@ export const globalIndicators = [
         dataLoadFinished: true,
         id: 19999,
         aoi: latLng([45.197522, 13.029785]),
-        aoiID: "NorthAdriatic_ESA",
-        country: ["HR", "IT", "SI"],
-        city: "North Adriatic - Chlorophyll-a concentration",
-        siteName: "North Adriatic",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'NorthAdriatic_ESA',
+        country: ['HR', 'IT', 'SI'],
+        city: 'North Adriatic - Chlorophyll-a concentration',
+        siteName: 'North Adriatic',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (ESA)",
+        indicatorName: 'Water Quality Regional Maps (ESA)',
         lastColorCode: null,
-        dataProvider: "ESA",
+        dataProvider: 'ESA',
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.839389 44.499195,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))"
+                  'POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.839389 44.499195,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: availableDates.N3_CUSTOM_TRILATERAL,
-        inputData: [""],
+        inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
           name: 'Water Quality Index',
           layers: 'N3_CUSTOM_TRILATERAL',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           maxZoom: 13,
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
   },
   {
     latlng: latLng([45.197522, 13.0297851]),
@@ -1500,99 +1499,99 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([45.197522, 13.0297851]),
         id: 19998,
-        aoiID: "NorthAdriatic_NASA",
-        country: ["HR", "IT", "SI"],
-        city: "North Adriatic - Chlorophyll-a concentration",
-        siteName: "North Adriatic",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'NorthAdriatic_NASA',
+        country: ['HR', 'IT', 'SI'],
+        city: 'North Adriatic - Chlorophyll-a concentration',
+        siteName: 'North Adriatic',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (NASA)",
+        indicatorName: 'Water Quality Regional Maps (NASA)',
         lastColorCode: null,
-        dataProvider: "NASA",
+        dataProvider: 'NASA',
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,14 44.5,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))"
+                  'POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,14 44.5,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: [
-          ["2020-01-01"],
-          ["2020-01-08"],
-          ["2020-01-15"],
-          ["2020-01-22"],
-          ["2020-01-29"],
-          ["2020-02-05"],
-          ["2020-02-12"],
-          ["2020-02-19"],
-          ["2020-02-26"],
-          ["2020-03-04"],
-          ["2020-03-11"],
-          ["2020-03-18"],
-          ["2020-03-25"],
-          ["2020-04-01"],
-          ["2020-04-08"],
-          ["2020-04-15"],
-          ["2020-04-22"],
-          ["2020-04-29"],
-          ["2020-05-06"],
-          ["2020-05-13"],
-          ["2020-05-20"],
-          ["2020-05-27"],
-          ["2020-06-03"],
-          ["2020-06-10"],
-          ["2020-06-17"],
-          ["2020-06-24"],
-          ["2020-07-01"],
-          ["2020-07-08"],
-          ["2020-07-15"],
-          ["2020-07-22"],
-          ["2020-07-29"],
-          ["2020-08-05"],
-          ["2020-08-12"],
-          ["2020-09-02"],
-          ["2020-09-09"],
-          ["2020-09-16"],
-          ["2020-09-23"],
-          ["2020-09-30"],
-          ["2020-10-14"],
-          ["2020-10-21"],
-          ["2020-10-28"],
-          ["2020-11-11"],
-          ["2020-11-18"],
-          ["2020-11-25"],
-          ["2020-12-09"],
-          ["2020-12-16"],
-          ["2020-12-23"],
-          ["2020-12-30"],
-          ["2021-01-06"],
-          ["2021-01-13"],
-          ["2021-01-20"],
-          ["2021-01-27"],
-          ["2021-02-03"],
-          ["2021-02-10"],
-          ["2021-02-17"],
-          ["2021-02-24"],
-          ["2021-03-03"],
-          ["2021-03-10"],
-          ["2021-03-17"],
-          ["2021-03-24"],
-          ["2021-03-31"],
-          ["2021-04-07"],
-          ["2021-04-14"],
-          ["2021-04-21"]
+          ['2020-01-01'],
+          ['2020-01-08'],
+          ['2020-01-15'],
+          ['2020-01-22'],
+          ['2020-01-29'],
+          ['2020-02-05'],
+          ['2020-02-12'],
+          ['2020-02-19'],
+          ['2020-02-26'],
+          ['2020-03-04'],
+          ['2020-03-11'],
+          ['2020-03-18'],
+          ['2020-03-25'],
+          ['2020-04-01'],
+          ['2020-04-08'],
+          ['2020-04-15'],
+          ['2020-04-22'],
+          ['2020-04-29'],
+          ['2020-05-06'],
+          ['2020-05-13'],
+          ['2020-05-20'],
+          ['2020-05-27'],
+          ['2020-06-03'],
+          ['2020-06-10'],
+          ['2020-06-17'],
+          ['2020-06-24'],
+          ['2020-07-01'],
+          ['2020-07-08'],
+          ['2020-07-15'],
+          ['2020-07-22'],
+          ['2020-07-29'],
+          ['2020-08-05'],
+          ['2020-08-12'],
+          ['2020-09-02'],
+          ['2020-09-09'],
+          ['2020-09-16'],
+          ['2020-09-23'],
+          ['2020-09-30'],
+          ['2020-10-14'],
+          ['2020-10-21'],
+          ['2020-10-28'],
+          ['2020-11-11'],
+          ['2020-11-18'],
+          ['2020-11-25'],
+          ['2020-12-09'],
+          ['2020-12-16'],
+          ['2020-12-23'],
+          ['2020-12-30'],
+          ['2021-01-06'],
+          ['2021-01-13'],
+          ['2021-01-20'],
+          ['2021-01-27'],
+          ['2021-02-03'],
+          ['2021-02-10'],
+          ['2021-02-17'],
+          ['2021-02-24'],
+          ['2021-03-03'],
+          ['2021-03-10'],
+          ['2021-03-17'],
+          ['2021-03-24'],
+          ['2021-03-31'],
+          ['2021-04-07'],
+          ['2021-04-14'],
+          ['2021-04-21'],
         ],
-        inputData: [""],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-nas-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
@@ -1612,44 +1611,44 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([45.197522, 13.0297851]),
         id: 19994,
-        aoiID: "NorthAdriatic_JAXA",
-        country: ["HR", "IT", "SI"],
-        city: "North Adriatic - Chlorophyll-a concentration",
-        siteName: "North Adriatic",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'NorthAdriatic_JAXA',
+        country: ['HR', 'IT', 'SI'],
+        city: 'North Adriatic - Chlorophyll-a concentration',
+        siteName: 'North Adriatic',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (JAXA)",
+        indicatorName: 'Water Quality Regional Maps (JAXA)',
         lastColorCode: null,
-        dataProvider: "JAXA",
+        dataProvider: 'JAXA',
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.8 44.5,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))"
+                  'POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.8 44.5,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: availableDates.JAXA_CHLA_NorthAdriatic_JAXA,
-        inputData: [""],
+        inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: "Water Quality Index",
-          layers: "JAXA_CHLA",
+          name: 'Water Quality Index',
+          layers: 'JAXA_CHLA',
           maxZoom: 13,
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral.png",
+          legendUrl: '/data/trilateral/WaterQuality_legend_trilateral.png',
           attribution:
             '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
   },
   {
     latlng: latLng([37.7775, -122.416389]),
@@ -1659,94 +1658,94 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([37.7775, -122.416389]),
         id: 19997,
-        aoiID: "US03",
-        country: ["US"],
-        city: "San Francisco - Chlorophyll-a concentration",
-        siteName: "San Francisco",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'US03',
+        country: ['US'],
+        city: 'San Francisco - Chlorophyll-a concentration',
+        siteName: 'San Francisco',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (NASA)",
+        indicatorName: 'Water Quality Regional Maps (NASA)',
         lastColorCode: null,
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-122.603302 37.396346,-122.603302 38.153997,-121.69693 38.153997,-121.69693 37.396346,-122.603302 37.396346))"
+                  'POLYGON((-122.603302 37.396346,-122.603302 38.153997,-121.69693 38.153997,-121.69693 37.396346,-122.603302 37.396346))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: [
-          ["2020-03-02"],
-          ["2020-04-03"],
-          ["2020-04-19"],
-          ["2020-05-04"],
-          ["2020-05-05"],
-          ["2020-05-19"],
-          ["2020-05-21"],
-          ["2020-05-24"],
-          ["2020-06-01"],
-          ["2020-06-03"],
-          ["2020-06-06"],
-          ["2020-06-13"],
-          ["2020-06-18"],
-          ["2020-06-21"],
-          ["2020-06-22"],
-          ["2020-06-23"],
-          ["2020-06-26"],
-          ["2020-06-28"],
-          ["2020-07-01"],
-          ["2020-07-03"],
-          ["2020-07-06"],
-          ["2020-07-08"],
-          ["2020-07-13"],
-          ["2020-08-09"],
-          ["2020-08-27"],
-          ["2020-09-06"],
-          ["2020-10-03"],
-          ["2020-10-12"],
-          ["2020-10-19"],
-          ["2020-10-21"],
-          ["2020-10-26"],
-          ["2020-10-28"],
-          ["2020-11-29"],
-          ["2020-12-06"],
-          ["2020-12-15"],
-          ["2020-12-22"],
-          ["2020-12-31"],
-          ["2021-01-07"],
-          ["2021-01-09"],
-          ["2021-01-14"],
-          ["2021-01-16"],
-          ["2021-01-19"],
-          ["2021-01-23"],
-          ["2021-01-29"],
-          ["2021-02-01"],
-          ["2021-02-03"],
-          ["2021-02-08"],
-          ["2021-02-17"],
-          ["2021-02-23"],
-          ["2021-02-24"],
-          ["2021-02-28"],
-          ["2021-03-05"],
-          ["2021-03-12"],
-          ["2021-03-21"],
-          ["2021-03-25"],
-          ["2021-04-06"],
-          ["2021-04-09"],
-          ["2021-04-14"],
-          ["2021-04-24"]
+          ['2020-03-02'],
+          ['2020-04-03'],
+          ['2020-04-19'],
+          ['2020-05-04'],
+          ['2020-05-05'],
+          ['2020-05-19'],
+          ['2020-05-21'],
+          ['2020-05-24'],
+          ['2020-06-01'],
+          ['2020-06-03'],
+          ['2020-06-06'],
+          ['2020-06-13'],
+          ['2020-06-18'],
+          ['2020-06-21'],
+          ['2020-06-22'],
+          ['2020-06-23'],
+          ['2020-06-26'],
+          ['2020-06-28'],
+          ['2020-07-01'],
+          ['2020-07-03'],
+          ['2020-07-06'],
+          ['2020-07-08'],
+          ['2020-07-13'],
+          ['2020-08-09'],
+          ['2020-08-27'],
+          ['2020-09-06'],
+          ['2020-10-03'],
+          ['2020-10-12'],
+          ['2020-10-19'],
+          ['2020-10-21'],
+          ['2020-10-26'],
+          ['2020-10-28'],
+          ['2020-11-29'],
+          ['2020-12-06'],
+          ['2020-12-15'],
+          ['2020-12-22'],
+          ['2020-12-31'],
+          ['2021-01-07'],
+          ['2021-01-09'],
+          ['2021-01-14'],
+          ['2021-01-16'],
+          ['2021-01-19'],
+          ['2021-01-23'],
+          ['2021-01-29'],
+          ['2021-02-01'],
+          ['2021-02-03'],
+          ['2021-02-08'],
+          ['2021-02-17'],
+          ['2021-02-23'],
+          ['2021-02-24'],
+          ['2021-02-28'],
+          ['2021-03-05'],
+          ['2021-03-12'],
+          ['2021-03-21'],
+          ['2021-03-25'],
+          ['2021-04-06'],
+          ['2021-04-09'],
+          ['2021-04-14'],
+          ['2021-04-24'],
         ],
-        inputData: [""],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
@@ -1766,36 +1765,36 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([41.0114, -73.09]),
         id: 19996,
-        aoiID: "US04",
-        country: ["US"],
-        city: "New York - Chlorophyll-a concentration",
-        siteName: "New York",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'US04',
+        country: ['US'],
+        city: 'New York - Chlorophyll-a concentration',
+        siteName: 'New York',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (NASA)",
+        indicatorName: 'Water Quality Regional Maps (NASA)',
         lastColorCode: null,
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))"
+                  'POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: getWeeklyDates("2020-01-01", "2021-06-16").filter(
-          item => !["2020-08-19", "2020-08-26"].includes(item)
+        time: getWeeklyDates('2020-01-01', '2021-06-16').filter(
+          (item) => !['2020-08-19', '2020-08-26'].includes(item),
         ),
-        inputData: [""],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-ny-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
@@ -1815,44 +1814,44 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([35.61, 139.78]),
         id: 19995,
-        aoiID: "JP01",
-        country: ["JP"],
-        city: "Tokyo - Chlorophyll-a concentration",
-        siteName: "Tokyo",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'JP01',
+        country: ['JP'],
+        city: 'Tokyo - Chlorophyll-a concentration',
+        siteName: 'Tokyo',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (JAXA)",
+        indicatorName: 'Water Quality Regional Maps (JAXA)',
         lastColorCode: null,
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((139.243472 34.838717,139.243472 35.693106,140.265201 35.693106,140.265201 34.838717,139.243472 34.838717))"
+                  'POLYGON((139.243472 34.838717,139.243472 35.693106,140.265201 35.693106,140.265201 34.838717,139.243472 34.838717))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: availableDates.JAXA_CHLA_JP01,
-        inputData: [""],
+        inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: "Water Quality Index",
-          layers: "JAXA_CHLA",
+          name: 'Water Quality Index',
+          layers: 'JAXA_CHLA',
           maxZoom: 13,
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral.png",
+          legendUrl: '/data/trilateral/WaterQuality_legend_trilateral.png',
           attribution:
             '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
   },
   {
     id: 19993,
@@ -1862,42 +1861,42 @@ export const globalIndicators = [
         dataLoadFinished: true,
         id: 19993,
         aoi: latLng([43.4, 4.94]),
-        aoiID: "RhoneDelta",
-        country: ["FR"],
-        city: "Rhone Delta - Chlorophyll-a concentration",
-        siteName: "Fos-sur-Mer",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'RhoneDelta',
+        country: ['FR'],
+        city: 'Rhone Delta - Chlorophyll-a concentration',
+        siteName: 'Fos-sur-Mer',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (ESA)",
+        indicatorName: 'Water Quality Regional Maps (ESA)',
         lastColorCode: null,
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((4.19585670915520126 43.49375380380885758, 4.19491064380215573 43.49564593451494687, 4.62253218337875094 43.49564593451494687, 4.69632528091630519 43.49753806522103616, 4.69537921556325966 43.48618528098449332, 4.6736197124432115 43.46442577786444161, 4.64523775185184462 43.45401905898093986, 4.67172758173712044 43.42090677162434531, 4.70389380374066945 43.41428431415302924, 4.71146232656503461 43.43698988262612204, 4.75592739815817644 43.43320562121393635, 4.78525542410258886 43.41806857556520782, 4.81647558075309234 43.38495628820861327, 4.83918114922618603 43.38495628820861327, 4.82877443034268428 43.40671579132866498, 4.81552951540004681 43.424691033036531, 4.81836771145918341 43.43604381727307384, 4.86661704446450738 43.41050005274084356, 4.87040130587668951 43.41523037950607034, 4.84012721457923156 43.44928873221571308, 4.85999458699318865 43.4682100392766273, 4.88459228617237251 43.42942135980175777, 4.89499900505587426 43.43793594797917024, 4.91297424676374028 43.43509775192003275, 4.92621916170637775 43.44172020939134882, 4.94608653412033483 43.49280773845580939, 5.21949942115050369 43.49753806522103616, 5.23558253215227776 43.4899695423966719, 5.24693531638882504 43.4672639739235791, 5.23842072821141436 43.43415168656698455, 5.21476909438527514 43.41428431415302924, 5.16557369602690564 43.39157874567993645, 5.08988846778326032 43.39157874567993645, 5.014203239539615 43.39252481103297754, 5.01893356630484355 43.3792798960903454, 5.03690880801270868 43.3565743276172455, 5.07096716072234965 43.34143728196851697, 5.11070190555026294 43.33859908590937948, 5.15327484643731371 43.34427547802765446, 5.21760729044441174 43.34049121661547588, 5.27247908092105533 43.35373613155811512, 5.30275317221851239 43.37265743861902223, 5.33208119816292569 43.36698104650074725, 5.35194857057688189 43.3565743276172455, 5.36140922410733811 43.34143728196851697, 5.36992381228474791 43.32535417096674735, 5.36992381228474791 43.3130553213771492, 5.36613955087256578 43.29791827572842067, 5.36613955087256578 43.28845762219796711, 5.37654626975606753 43.27521270725532787, 5.38600692328652286 43.26102172695964754, 5.38316872722738626 43.25250713878223507, 5.37276200834388451 43.24210041989873332, 5.35478676663601938 43.23263976636827977, 5.35005643987079083 43.22128698213172981, 5.35857102804820151 43.21088026324823517, 5.37749233510911218 43.21655665536650304, 5.39925183822916033 43.21939485142564052, 5.42195740670225401 43.21561059001346194, 5.45412362870580303 43.21939485142564052, 5.50331902706417253 43.20141960971777451, 5.50615722312331002 42.99990768951906972, 4.19301851309606466 42.99896162416602152, 4.19585670915520126 43.49375380380885758))"
+                  'POLYGON((4.19585670915520126 43.49375380380885758, 4.19491064380215573 43.49564593451494687, 4.62253218337875094 43.49564593451494687, 4.69632528091630519 43.49753806522103616, 4.69537921556325966 43.48618528098449332, 4.6736197124432115 43.46442577786444161, 4.64523775185184462 43.45401905898093986, 4.67172758173712044 43.42090677162434531, 4.70389380374066945 43.41428431415302924, 4.71146232656503461 43.43698988262612204, 4.75592739815817644 43.43320562121393635, 4.78525542410258886 43.41806857556520782, 4.81647558075309234 43.38495628820861327, 4.83918114922618603 43.38495628820861327, 4.82877443034268428 43.40671579132866498, 4.81552951540004681 43.424691033036531, 4.81836771145918341 43.43604381727307384, 4.86661704446450738 43.41050005274084356, 4.87040130587668951 43.41523037950607034, 4.84012721457923156 43.44928873221571308, 4.85999458699318865 43.4682100392766273, 4.88459228617237251 43.42942135980175777, 4.89499900505587426 43.43793594797917024, 4.91297424676374028 43.43509775192003275, 4.92621916170637775 43.44172020939134882, 4.94608653412033483 43.49280773845580939, 5.21949942115050369 43.49753806522103616, 5.23558253215227776 43.4899695423966719, 5.24693531638882504 43.4672639739235791, 5.23842072821141436 43.43415168656698455, 5.21476909438527514 43.41428431415302924, 5.16557369602690564 43.39157874567993645, 5.08988846778326032 43.39157874567993645, 5.014203239539615 43.39252481103297754, 5.01893356630484355 43.3792798960903454, 5.03690880801270868 43.3565743276172455, 5.07096716072234965 43.34143728196851697, 5.11070190555026294 43.33859908590937948, 5.15327484643731371 43.34427547802765446, 5.21760729044441174 43.34049121661547588, 5.27247908092105533 43.35373613155811512, 5.30275317221851239 43.37265743861902223, 5.33208119816292569 43.36698104650074725, 5.35194857057688189 43.3565743276172455, 5.36140922410733811 43.34143728196851697, 5.36992381228474791 43.32535417096674735, 5.36992381228474791 43.3130553213771492, 5.36613955087256578 43.29791827572842067, 5.36613955087256578 43.28845762219796711, 5.37654626975606753 43.27521270725532787, 5.38600692328652286 43.26102172695964754, 5.38316872722738626 43.25250713878223507, 5.37276200834388451 43.24210041989873332, 5.35478676663601938 43.23263976636827977, 5.35005643987079083 43.22128698213172981, 5.35857102804820151 43.21088026324823517, 5.37749233510911218 43.21655665536650304, 5.39925183822916033 43.21939485142564052, 5.42195740670225401 43.21561059001346194, 5.45412362870580303 43.21939485142564052, 5.50331902706417253 43.20141960971777451, 5.50615722312331002 42.99990768951906972, 4.19301851309606466 42.99896162416602152, 4.19585670915520126 43.49375380380885758))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: availableDates.N3_CUSTOM_TRILATERAL,
-        inputData: [""],
+        inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
           name: 'Water Quality Index',
           layers: 'N3_CUSTOM_TRILATERAL',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           maxZoom: 13,
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
   },
   {
     latlng: latLng([34.7, 136.9]),
@@ -1907,170 +1906,170 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([34.7, 136.9]),
         id: 19989,
-        aoiID: "JP04",
-        country: ["JP"],
-        city: "Nagoya - Chlorophyll-a concentration",
-        siteName: "Nagoya",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'JP04',
+        country: ['JP'],
+        city: 'Nagoya - Chlorophyll-a concentration',
+        siteName: 'Nagoya',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (JAXA)",
+        indicatorName: 'Water Quality Regional Maps (JAXA)',
         lastColorCode: null,
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
-                .read("POLYGON((136.4 34.2, 137.4 34.2, 137.4 35.2, 136.4 35.2, 136.4 34.2))")
-                .toJson()
-            }
-          ]
+                .read('POLYGON((136.4 34.2, 137.4 34.2, 137.4 35.2, 136.4 35.2, 136.4 34.2))')
+                .toJson(),
+            },
+          ],
         },
         time: [
-          "2018-01-27",
-          "2018-02-03",
-          "2018-02-17",
-          "2018-02-24",
-          "2018-03-10",
-          "2018-03-17",
-          "2018-03-24",
-          "2018-03-31",
-          "2018-04-07",
-          "2018-04-14",
-          "2018-04-21",
-          "2018-04-28",
-          "2018-05-12",
-          "2018-05-19",
-          "2018-06-02",
-          "2018-06-09",
-          "2018-06-16",
-          "2018-06-23",
-          "2018-06-30",
-          "2018-07-07",
-          "2018-07-21",
-          "2018-08-04",
-          "2018-08-11",
-          "2018-08-18",
-          "2018-08-25",
-          "2018-09-01",
-          "2018-09-08",
-          "2018-09-29",
-          "2018-10-06",
-          "2018-10 20",
-          "2018-10-27",
-          "2018-11-10",
-          "2018-11-17",
-          "2018-11-24",
-          "2018-12-01",
-          "2018-12-15",
-          "2018-12-22",
-          "2018-12-29",
-          "2019-01-05",
-          "2019-01-12",
-          "2019-01-19",
-          "2019-01-26",
-          "2019-02-02",
-          "2019-02-09",
-          "2019-02-16",
-          "2019-02-23",
-          "2019-03-02",
-          "2019-03-09",
-          "2019-03-16",
-          "2019-03-23",
-          "2019-03-30",
-          "2019-04-06",
-          "2019-04-13",
-          "2019-04 20",
-          "2019-04-27",
-          "2019-05-04",
-          "2019-05-11",
-          "2019-05-18",
-          "2019-05-25",
-          "2019-06-08",
-          "2019-06-22",
-          "2019-06-29",
-          "2019-07-27",
-          "2019-08-03",
-          "2019-08-10",
-          "2019-08-17",
-          "2019-08-24",
-          "2019-08-31",
-          "2019-09-07",
-          "2019-09-14",
-          "2019-09-28",
-          "2019-10-05",
-          "2019-10-12",
-          "2019-10-26",
-          "2019-11-02",
-          "2019-11-09",
-          "2019-11-16",
-          "2019-11-23",
-          "2019-11-30",
-          "2019-12-07",
-          "2019-12-14",
-          "2019-12-21",
-          "2019-12-28",
-          "2020-01-04",
-          "2020-01-11",
-          "2020-01-18",
-          "2020-02-01",
-          "2020-02-08",
-          "2020-02-15",
-          "2020-02-22",
-          "2020-02-29",
-          "2020-03-07",
-          "2020-03-14",
-          "2020-03-21",
-          "2020-03-28",
-          "2020-04-04",
-          "2020-04-11",
-          "2020-04-18",
-          "2020-04-25",
-          "2020-05-02",
-          "2020-05-09",
-          "2020-05-16",
-          "2020-05-23",
-          "2020-05-30",
-          "2020-06-06",
-          "2020-06-13",
-          "2020-06 20",
-          "2020-07-18",
-          "2020-08-01",
-          "2020-08-08",
-          "2020-08-15",
-          "2020-08-22",
-          "2020-08-29",
-          "2020-09-05",
-          "2020-09-12",
-          "2020-09-19",
-          "2020-09-26",
-          "2020-10-03",
-          "2020-10-10",
-          "2020-10-17",
-          "2020-10-24",
-          "2020-10-31",
-          "2020-11-07",
-          "2020-11-14",
-          "2020-11-21",
-          "2020-11-28",
-          "2020-12-05"
+          '2018-01-27',
+          '2018-02-03',
+          '2018-02-17',
+          '2018-02-24',
+          '2018-03-10',
+          '2018-03-17',
+          '2018-03-24',
+          '2018-03-31',
+          '2018-04-07',
+          '2018-04-14',
+          '2018-04-21',
+          '2018-04-28',
+          '2018-05-12',
+          '2018-05-19',
+          '2018-06-02',
+          '2018-06-09',
+          '2018-06-16',
+          '2018-06-23',
+          '2018-06-30',
+          '2018-07-07',
+          '2018-07-21',
+          '2018-08-04',
+          '2018-08-11',
+          '2018-08-18',
+          '2018-08-25',
+          '2018-09-01',
+          '2018-09-08',
+          '2018-09-29',
+          '2018-10-06',
+          '2018-10 20',
+          '2018-10-27',
+          '2018-11-10',
+          '2018-11-17',
+          '2018-11-24',
+          '2018-12-01',
+          '2018-12-15',
+          '2018-12-22',
+          '2018-12-29',
+          '2019-01-05',
+          '2019-01-12',
+          '2019-01-19',
+          '2019-01-26',
+          '2019-02-02',
+          '2019-02-09',
+          '2019-02-16',
+          '2019-02-23',
+          '2019-03-02',
+          '2019-03-09',
+          '2019-03-16',
+          '2019-03-23',
+          '2019-03-30',
+          '2019-04-06',
+          '2019-04-13',
+          '2019-04 20',
+          '2019-04-27',
+          '2019-05-04',
+          '2019-05-11',
+          '2019-05-18',
+          '2019-05-25',
+          '2019-06-08',
+          '2019-06-22',
+          '2019-06-29',
+          '2019-07-27',
+          '2019-08-03',
+          '2019-08-10',
+          '2019-08-17',
+          '2019-08-24',
+          '2019-08-31',
+          '2019-09-07',
+          '2019-09-14',
+          '2019-09-28',
+          '2019-10-05',
+          '2019-10-12',
+          '2019-10-26',
+          '2019-11-02',
+          '2019-11-09',
+          '2019-11-16',
+          '2019-11-23',
+          '2019-11-30',
+          '2019-12-07',
+          '2019-12-14',
+          '2019-12-21',
+          '2019-12-28',
+          '2020-01-04',
+          '2020-01-11',
+          '2020-01-18',
+          '2020-02-01',
+          '2020-02-08',
+          '2020-02-15',
+          '2020-02-22',
+          '2020-02-29',
+          '2020-03-07',
+          '2020-03-14',
+          '2020-03-21',
+          '2020-03-28',
+          '2020-04-04',
+          '2020-04-11',
+          '2020-04-18',
+          '2020-04-25',
+          '2020-05-02',
+          '2020-05-09',
+          '2020-05-16',
+          '2020-05-23',
+          '2020-05-30',
+          '2020-06-06',
+          '2020-06-13',
+          '2020-06 20',
+          '2020-07-18',
+          '2020-08-01',
+          '2020-08-08',
+          '2020-08-15',
+          '2020-08-22',
+          '2020-08-29',
+          '2020-09-05',
+          '2020-09-12',
+          '2020-09-19',
+          '2020-09-26',
+          '2020-10-03',
+          '2020-10-10',
+          '2020-10-17',
+          '2020-10-24',
+          '2020-10-31',
+          '2020-11-07',
+          '2020-11-14',
+          '2020-11-21',
+          '2020-11-28',
+          '2020-12-05',
         ],
-        inputData: [""],
+        inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: "Water Quality Index",
-          layers: "JAXA_CHLA",
+          name: 'Water Quality Index',
+          layers: 'JAXA_CHLA',
           maxZoom: 13,
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral.png",
+          legendUrl: '/data/trilateral/WaterQuality_legend_trilateral.png',
           attribution:
             '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
   },
   {
     latlng: latLng([34.35, 135]),
@@ -2080,42 +2079,42 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([34.35, 135]),
         id: 19988,
-        aoiID: "JP02",
-        country: ["JP"],
-        city: "Kobe - Chlorophyll-a concentration",
-        siteName: "Kobe",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'JP02',
+        country: ['JP'],
+        city: 'Kobe - Chlorophyll-a concentration',
+        siteName: 'Kobe',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (JAXA)",
+        indicatorName: 'Water Quality Regional Maps (JAXA)',
         lastColorCode: null,
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
-                .read("POLYGON((134.5 33.85, 135.5 33.85, 135.5 34.85, 134.5 34.85, 134.5 33.85))")
-                .toJson()
-            }
-          ]
+                .read('POLYGON((134.5 33.85, 135.5 33.85, 135.5 34.85, 134.5 34.85, 134.5 33.85))')
+                .toJson(),
+            },
+          ],
         },
         time: availableDates.JAXA_CHLA_JP02,
-        inputData: [""],
+        inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: "Water Quality Index",
-          layers: "JAXA_CHLA",
+          name: 'Water Quality Index',
+          layers: 'JAXA_CHLA',
           maxZoom: 13,
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral.png",
+          legendUrl: '/data/trilateral/WaterQuality_legend_trilateral.png',
           attribution:
             '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
   },
   {
     id: 19992,
@@ -2125,42 +2124,42 @@ export const globalIndicators = [
         dataLoadFinished: true,
         id: 19992,
         aoi: latLng([45.197522, 13.0297851]),
-        aoiID: "NorthAdriaticTSM_ESA",
-        country: ["HR", "IT", "SI"],
-        city: "North Adriatic - Total Suspended Matter",
-        siteName: "North Adriatic",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'NorthAdriaticTSM_ESA',
+        country: ['HR', 'IT', 'SI'],
+        city: 'North Adriatic - Total Suspended Matter',
+        siteName: 'North Adriatic',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (ESA)",
+        indicatorName: 'Water Quality Regional Maps (ESA)',
         lastColorCode: null,
-        dataProvider: "ESA",
+        dataProvider: 'ESA',
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.839389 44.499195,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))"
+                  'POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.839389 44.499195,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: availableDates.N3_CUSTOM_TRILATERAL_TSMNN,
-        inputData: [""],
+        inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
           name: 'Water Quality Index',
           layers: 'N3_CUSTOM_TRILATERAL_TSMNN',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
           maxZoom: 13,
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
   },
   {
     id: 19991,
@@ -2170,42 +2169,42 @@ export const globalIndicators = [
         dataLoadFinished: true,
         id: 19991,
         aoi: latLng([43.4, 4.9400001]),
-        aoiID: "RhoneDeltaTSM",
-        country: ["FR"],
-        city: "Rhone Delta - Total Suspended Matter",
-        siteName: "Fos-sur-Mer",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'RhoneDeltaTSM',
+        country: ['FR'],
+        city: 'Rhone Delta - Total Suspended Matter',
+        siteName: 'Fos-sur-Mer',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (ESA)",
+        indicatorName: 'Water Quality Regional Maps (ESA)',
         lastColorCode: null,
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((4.19585670915520126 43.49375380380885758, 4.19491064380215573 43.49564593451494687, 4.62253218337875094 43.49564593451494687, 4.69632528091630519 43.49753806522103616, 4.69537921556325966 43.48618528098449332, 4.6736197124432115 43.46442577786444161, 4.64523775185184462 43.45401905898093986, 4.67172758173712044 43.42090677162434531, 4.70389380374066945 43.41428431415302924, 4.71146232656503461 43.43698988262612204, 4.75592739815817644 43.43320562121393635, 4.78525542410258886 43.41806857556520782, 4.81647558075309234 43.38495628820861327, 4.83918114922618603 43.38495628820861327, 4.82877443034268428 43.40671579132866498, 4.81552951540004681 43.424691033036531, 4.81836771145918341 43.43604381727307384, 4.86661704446450738 43.41050005274084356, 4.87040130587668951 43.41523037950607034, 4.84012721457923156 43.44928873221571308, 4.85999458699318865 43.4682100392766273, 4.88459228617237251 43.42942135980175777, 4.89499900505587426 43.43793594797917024, 4.91297424676374028 43.43509775192003275, 4.92621916170637775 43.44172020939134882, 4.94608653412033483 43.49280773845580939, 5.21949942115050369 43.49753806522103616, 5.23558253215227776 43.4899695423966719, 5.24693531638882504 43.4672639739235791, 5.23842072821141436 43.43415168656698455, 5.21476909438527514 43.41428431415302924, 5.16557369602690564 43.39157874567993645, 5.08988846778326032 43.39157874567993645, 5.014203239539615 43.39252481103297754, 5.01893356630484355 43.3792798960903454, 5.03690880801270868 43.3565743276172455, 5.07096716072234965 43.34143728196851697, 5.11070190555026294 43.33859908590937948, 5.15327484643731371 43.34427547802765446, 5.21760729044441174 43.34049121661547588, 5.27247908092105533 43.35373613155811512, 5.30275317221851239 43.37265743861902223, 5.33208119816292569 43.36698104650074725, 5.35194857057688189 43.3565743276172455, 5.36140922410733811 43.34143728196851697, 5.36992381228474791 43.32535417096674735, 5.36992381228474791 43.3130553213771492, 5.36613955087256578 43.29791827572842067, 5.36613955087256578 43.28845762219796711, 5.37654626975606753 43.27521270725532787, 5.38600692328652286 43.26102172695964754, 5.38316872722738626 43.25250713878223507, 5.37276200834388451 43.24210041989873332, 5.35478676663601938 43.23263976636827977, 5.35005643987079083 43.22128698213172981, 5.35857102804820151 43.21088026324823517, 5.37749233510911218 43.21655665536650304, 5.39925183822916033 43.21939485142564052, 5.42195740670225401 43.21561059001346194, 5.45412362870580303 43.21939485142564052, 5.50331902706417253 43.20141960971777451, 5.50615722312331002 42.99990768951906972, 4.19301851309606466 42.99896162416602152, 4.19585670915520126 43.49375380380885758))"
+                  'POLYGON((4.19585670915520126 43.49375380380885758, 4.19491064380215573 43.49564593451494687, 4.62253218337875094 43.49564593451494687, 4.69632528091630519 43.49753806522103616, 4.69537921556325966 43.48618528098449332, 4.6736197124432115 43.46442577786444161, 4.64523775185184462 43.45401905898093986, 4.67172758173712044 43.42090677162434531, 4.70389380374066945 43.41428431415302924, 4.71146232656503461 43.43698988262612204, 4.75592739815817644 43.43320562121393635, 4.78525542410258886 43.41806857556520782, 4.81647558075309234 43.38495628820861327, 4.83918114922618603 43.38495628820861327, 4.82877443034268428 43.40671579132866498, 4.81552951540004681 43.424691033036531, 4.81836771145918341 43.43604381727307384, 4.86661704446450738 43.41050005274084356, 4.87040130587668951 43.41523037950607034, 4.84012721457923156 43.44928873221571308, 4.85999458699318865 43.4682100392766273, 4.88459228617237251 43.42942135980175777, 4.89499900505587426 43.43793594797917024, 4.91297424676374028 43.43509775192003275, 4.92621916170637775 43.44172020939134882, 4.94608653412033483 43.49280773845580939, 5.21949942115050369 43.49753806522103616, 5.23558253215227776 43.4899695423966719, 5.24693531638882504 43.4672639739235791, 5.23842072821141436 43.43415168656698455, 5.21476909438527514 43.41428431415302924, 5.16557369602690564 43.39157874567993645, 5.08988846778326032 43.39157874567993645, 5.014203239539615 43.39252481103297754, 5.01893356630484355 43.3792798960903454, 5.03690880801270868 43.3565743276172455, 5.07096716072234965 43.34143728196851697, 5.11070190555026294 43.33859908590937948, 5.15327484643731371 43.34427547802765446, 5.21760729044441174 43.34049121661547588, 5.27247908092105533 43.35373613155811512, 5.30275317221851239 43.37265743861902223, 5.33208119816292569 43.36698104650074725, 5.35194857057688189 43.3565743276172455, 5.36140922410733811 43.34143728196851697, 5.36992381228474791 43.32535417096674735, 5.36992381228474791 43.3130553213771492, 5.36613955087256578 43.29791827572842067, 5.36613955087256578 43.28845762219796711, 5.37654626975606753 43.27521270725532787, 5.38600692328652286 43.26102172695964754, 5.38316872722738626 43.25250713878223507, 5.37276200834388451 43.24210041989873332, 5.35478676663601938 43.23263976636827977, 5.35005643987079083 43.22128698213172981, 5.35857102804820151 43.21088026324823517, 5.37749233510911218 43.21655665536650304, 5.39925183822916033 43.21939485142564052, 5.42195740670225401 43.21561059001346194, 5.45412362870580303 43.21939485142564052, 5.50331902706417253 43.20141960971777451, 5.50615722312331002 42.99990768951906972, 4.19301851309606466 42.99896162416602152, 4.19585670915520126 43.49375380380885758))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: availableDates.N3_CUSTOM_TRILATERAL_TSMNN,
-        inputData: [""],
+        inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
           name: 'Water Quality Index',
           layers: 'N3_CUSTOM_TRILATERAL_TSMNN',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
           maxZoom: 13,
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
   },
   {
     latlng: latLng([37.7775, -122.4163891]),
@@ -2215,93 +2214,93 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([37.7775, -122.4163891]),
         id: 19990,
-        aoiID: "US03SPM",
-        country: ["US"],
-        city: "San Francisco - Total Suspended Matter",
-        siteName: "San Francisco",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'US03SPM',
+        country: ['US'],
+        city: 'San Francisco - Total Suspended Matter',
+        siteName: 'San Francisco',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (NASA)",
+        indicatorName: 'Water Quality Regional Maps (NASA)',
         lastColorCode: null,
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-122.603302 37.396346,-122.603302 38.153997,-121.69693 38.153997,-121.69693 37.396346,-122.603302 37.396346))"
+                  'POLYGON((-122.603302 37.396346,-122.603302 38.153997,-121.69693 38.153997,-121.69693 37.396346,-122.603302 37.396346))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: [
-          ["2020_03_02"],
-          ["2020_04_03"],
-          ["2020_04_19"],
-          ["2020_05_04"],
-          ["2020_05_05"],
-          ["2020_05_21"],
-          ["2020_05_24"],
-          ["2020_05_28"],
-          ["2020-06-01"],
-          ["2020-06-03"],
-          ["2020-06-06"],
-          ["2020-06-13"],
-          ["2020-06-21"],
-          ["2020-06-22"],
-          ["2020-06-23"],
-          ["2020-06-25"],
-          ["2020-06-28"],
-          ["2020-07-01"],
-          ["2020-07-03"],
-          ["2020-08-09"],
-          ["2020-08-27"],
-          ["2020-09-16"],
-          ["2020-09-17"],
-          ["2020-09-21"],
-          ["2020-09-26"],
-          ["2020-10-01"],
-          ["2020-10-03"],
-          ["2020-10-12"],
-          ["2020-10-19"],
-          ["2020-10-21"],
-          ["2020-10-26"],
-          ["2020-10-28"],
-          ["2020-11-29"],
-          ["2020-12-06"],
-          ["2020-12-22"],
-          ["2020-12-31"],
-          ["2021-01-07"],
-          ["2021-01-09"],
-          ["2021-01-14"],
-          ["2021-01-16"],
-          ["2021-01-19"],
-          ["2021-01-23"],
-          ["2021-01-29"],
-          ["2021-02-01"],
-          ["2021-02-03"],
-          ["2021-02-08"],
-          ["2021-02-17"],
-          ["2021-02-23"],
-          ["2021-02-24"],
-          ["2021-02-28"],
-          ["2021-03-05"],
-          ["2021-03-12"],
-          ["2021-03-21"],
-          ["2021-03-25"],
-          ["2021-04-06"],
-          ["2021-04-09"],
-          ["2021-04-14"],
-          ["2021-04-24"]
+          ['2020_03_02'],
+          ['2020_04_03'],
+          ['2020_04_19'],
+          ['2020_05_04'],
+          ['2020_05_05'],
+          ['2020_05_21'],
+          ['2020_05_24'],
+          ['2020_05_28'],
+          ['2020-06-01'],
+          ['2020-06-03'],
+          ['2020-06-06'],
+          ['2020-06-13'],
+          ['2020-06-21'],
+          ['2020-06-22'],
+          ['2020-06-23'],
+          ['2020-06-25'],
+          ['2020-06-28'],
+          ['2020-07-01'],
+          ['2020-07-03'],
+          ['2020-08-09'],
+          ['2020-08-27'],
+          ['2020-09-16'],
+          ['2020-09-17'],
+          ['2020-09-21'],
+          ['2020-09-26'],
+          ['2020-10-01'],
+          ['2020-10-03'],
+          ['2020-10-12'],
+          ['2020-10-19'],
+          ['2020-10-21'],
+          ['2020-10-26'],
+          ['2020-10-28'],
+          ['2020-11-29'],
+          ['2020-12-06'],
+          ['2020-12-22'],
+          ['2020-12-31'],
+          ['2021-01-07'],
+          ['2021-01-09'],
+          ['2021-01-14'],
+          ['2021-01-16'],
+          ['2021-01-19'],
+          ['2021-01-23'],
+          ['2021-01-29'],
+          ['2021-02-01'],
+          ['2021-02-03'],
+          ['2021-02-08'],
+          ['2021-02-17'],
+          ['2021-02-23'],
+          ['2021-02-24'],
+          ['2021-02-28'],
+          ['2021-03-05'],
+          ['2021-03-12'],
+          ['2021-03-21'],
+          ['2021-03-25'],
+          ['2021-04-06'],
+          ['2021-04-09'],
+          ['2021-04-14'],
+          ['2021-04-24'],
         ],
-        inputData: [""],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
@@ -2321,44 +2320,44 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([45.197522, 13.0297851]),
         id: 19987,
-        aoiID: "NorthAdriaticTSM_JAXA",
-        country: ["HR", "IT", "SI"],
-        city: "North Adriatic - Total Suspended Matter",
-        siteName: "North Adriatic",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'NorthAdriaticTSM_JAXA',
+        country: ['HR', 'IT', 'SI'],
+        city: 'North Adriatic - Total Suspended Matter',
+        siteName: 'North Adriatic',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (JAXA)",
+        indicatorName: 'Water Quality Regional Maps (JAXA)',
         lastColorCode: null,
-        dataProvider: "JAXA",
+        dataProvider: 'JAXA',
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.8 44.5,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))"
+                  'POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.8 44.5,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: availableDates.JAXA_TSM_NorthAdriaticTSM_JAXA,
-        inputData: [""],
+        inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: "Water Quality Index",
-          layers: "JAXA_TSM",
+          name: 'Water Quality Index',
+          layers: 'JAXA_TSM',
           maxZoom: 13,
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral.png",
+          legendUrl: '/data/trilateral/WaterQuality_legend_trilateral.png',
           attribution:
             '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
   },
   {
     latlng: latLng([35.61, 139.78]),
@@ -2368,44 +2367,44 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([35.61, 139.78]),
         id: 19986,
-        aoiID: "JP01TSM",
-        country: ["JP"],
-        city: "Tokyo - Total Suspended Matter",
-        siteName: "Tokyo",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'JP01TSM',
+        country: ['JP'],
+        city: 'Tokyo - Total Suspended Matter',
+        siteName: 'Tokyo',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (JAXA)",
+        indicatorName: 'Water Quality Regional Maps (JAXA)',
         lastColorCode: null,
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((139.243472 34.838717,139.243472 35.693106,140.265201 35.693106,140.265201 34.838717,139.243472 34.838717))"
+                  'POLYGON((139.243472 34.838717,139.243472 35.693106,140.265201 35.693106,140.265201 34.838717,139.243472 34.838717))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: availableDates.JAXA_TSM_JP01TSM,
-        inputData: [""],
+        inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: "Water Quality Index",
-          layers: "JAXA_TSM",
+          name: 'Water Quality Index',
+          layers: 'JAXA_TSM',
           maxZoom: 13,
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral.png",
+          legendUrl: '/data/trilateral/WaterQuality_legend_trilateral.png',
           attribution:
             '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
   },
   {
     latlng: latLng([34.7, 136.9]),
@@ -2415,42 +2414,42 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([34.7, 136.9]),
         id: 19985,
-        aoiID: "JP04TSM",
-        country: ["JP"],
-        city: "Nagoya - Total Suspended Matter",
-        siteName: "Nagoya",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'JP04TSM',
+        country: ['JP'],
+        city: 'Nagoya - Total Suspended Matter',
+        siteName: 'Nagoya',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (JAXA)",
+        indicatorName: 'Water Quality Regional Maps (JAXA)',
         lastColorCode: null,
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
-                .read("POLYGON((136.4 34.2, 137.4 34.2, 137.4 35.2, 136.4 35.2, 136.4 34.2))")
-                .toJson()
-            }
-          ]
+                .read('POLYGON((136.4 34.2, 137.4 34.2, 137.4 35.2, 136.4 35.2, 136.4 34.2))')
+                .toJson(),
+            },
+          ],
         },
         time: availableDates.JAXA_TSM_JP04TSM,
-        inputData: [""],
+        inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: "Water Quality Index",
-          layers: "JAXA_TSM",
+          name: 'Water Quality Index',
+          layers: 'JAXA_TSM',
           maxZoom: 13,
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral.png",
+          legendUrl: '/data/trilateral/WaterQuality_legend_trilateral.png',
           attribution:
             '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
   },
   {
     latlng: latLng([34.35, 135]),
@@ -2460,42 +2459,42 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([34.35, 135]),
         id: 19984,
-        aoiID: "JP02TSM",
-        country: ["JP"],
-        city: "Kobe - Total Suspended Matter",
-        siteName: "Kobe",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'JP02TSM',
+        country: ['JP'],
+        city: 'Kobe - Total Suspended Matter',
+        siteName: 'Kobe',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (JAXA)",
+        indicatorName: 'Water Quality Regional Maps (JAXA)',
         lastColorCode: null,
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
-                .read("POLYGON((134.5 33.85, 135.5 33.85, 135.5 34.85, 134.5 34.85, 134.5 33.85))")
-                .toJson()
-            }
-          ]
+                .read('POLYGON((134.5 33.85, 135.5 33.85, 135.5 34.85, 134.5 34.85, 134.5 33.85))')
+                .toJson(),
+            },
+          ],
         },
         time: availableDates.JAXA_TSM_JP02TSM,
-        inputData: [""],
+        inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: "Water Quality Index",
-          layers: "JAXA_TSM",
+          name: 'Water Quality Index',
+          layers: 'JAXA_TSM',
           maxZoom: 13,
-          legendUrl: "/data/trilateral/WaterQuality_legend_trilateral.png",
+          legendUrl: '/data/trilateral/WaterQuality_legend_trilateral.png',
           attribution:
             '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
   },
   {
     latlng: latLng([45.197522, 13.0297851]),
@@ -2505,98 +2504,98 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([45.197522, 13.0297851]),
         id: 19983,
-        aoiID: "NorthAdriaticTSM_NASA",
-        country: ["HR", "IT", "SI"],
-        city: "North Adriatic - Total Suspended Matter",
-        siteName: "North Adriatic",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'NorthAdriaticTSM_NASA',
+        country: ['HR', 'IT', 'SI'],
+        city: 'North Adriatic - Total Suspended Matter',
+        siteName: 'North Adriatic',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (NASA)",
+        indicatorName: 'Water Quality Regional Maps (NASA)',
         lastColorCode: null,
-        dataProvider: "NASA",
+        dataProvider: 'NASA',
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,14 44.5,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))"
+                  'POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,14 44.5,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: [
-          ["2020-01-01"],
-          ["2020-01-08"],
-          ["2020-01-15"],
-          ["2020-01-22"],
-          ["2020-01-29"],
-          ["2020-02-05"],
-          ["2020-02-12"],
-          ["2020-02-19"],
-          ["2020-02-26"],
-          ["2020-03-04"],
-          ["2020-03-11"],
-          ["2020-03-18"],
-          ["2020-03-25"],
-          ["2020-04-01"],
-          ["2020-04-08"],
-          ["2020-04-15"],
-          ["2020-04-22"],
-          ["2020-04-29"],
-          ["2020-05-06"],
-          ["2020-05-13"],
-          ["2020-05-20"],
-          ["2020-05-27"],
-          ["2020-06-03"],
-          ["2020-06-10"],
-          ["2020-06-17"],
-          ["2020-06-24"],
-          ["2020-07-01"],
-          ["2020-07-08"],
-          ["2020-07-15"],
-          ["2020-07-22"],
-          ["2020-07-29"],
-          ["2020-08-05"],
-          ["2020-08-12"],
-          ["2020-09-02"],
-          ["2020-09-09"],
-          ["2020-09-16"],
-          ["2020-09-23"],
-          ["2020-09-30"],
-          ["2020-10-14"],
-          ["2020-10-21"],
-          ["2020-10-28"],
-          ["2020-11-11"],
-          ["2020-11-18"],
-          ["2020-11-25"],
-          ["2020-12-16"],
-          ["2020-12-23"],
-          ["2020-12-30"],
-          ["2021-01-06"],
-          ["2021-01-13"],
-          ["2021-01-20"],
-          ["2021-01-27"],
-          ["2021-02-03"],
-          ["2021-02-10"],
-          ["2021-02-17"],
-          ["2021-02-24"],
-          ["2021-03-03"],
-          ["2021-03-10"],
-          ["2021-03-17"],
-          ["2021-03-24"],
-          ["2021-03-31"],
-          ["2021-04-07"],
-          ["2021-04-14"],
-          ["2021-04-21"]
+          ['2020-01-01'],
+          ['2020-01-08'],
+          ['2020-01-15'],
+          ['2020-01-22'],
+          ['2020-01-29'],
+          ['2020-02-05'],
+          ['2020-02-12'],
+          ['2020-02-19'],
+          ['2020-02-26'],
+          ['2020-03-04'],
+          ['2020-03-11'],
+          ['2020-03-18'],
+          ['2020-03-25'],
+          ['2020-04-01'],
+          ['2020-04-08'],
+          ['2020-04-15'],
+          ['2020-04-22'],
+          ['2020-04-29'],
+          ['2020-05-06'],
+          ['2020-05-13'],
+          ['2020-05-20'],
+          ['2020-05-27'],
+          ['2020-06-03'],
+          ['2020-06-10'],
+          ['2020-06-17'],
+          ['2020-06-24'],
+          ['2020-07-01'],
+          ['2020-07-08'],
+          ['2020-07-15'],
+          ['2020-07-22'],
+          ['2020-07-29'],
+          ['2020-08-05'],
+          ['2020-08-12'],
+          ['2020-09-02'],
+          ['2020-09-09'],
+          ['2020-09-16'],
+          ['2020-09-23'],
+          ['2020-09-30'],
+          ['2020-10-14'],
+          ['2020-10-21'],
+          ['2020-10-28'],
+          ['2020-11-11'],
+          ['2020-11-18'],
+          ['2020-11-25'],
+          ['2020-12-16'],
+          ['2020-12-23'],
+          ['2020-12-30'],
+          ['2021-01-06'],
+          ['2021-01-13'],
+          ['2021-01-20'],
+          ['2021-01-27'],
+          ['2021-02-03'],
+          ['2021-02-10'],
+          ['2021-02-17'],
+          ['2021-02-24'],
+          ['2021-03-03'],
+          ['2021-03-10'],
+          ['2021-03-17'],
+          ['2021-03-24'],
+          ['2021-03-31'],
+          ['2021-04-07'],
+          ['2021-04-14'],
+          ['2021-04-21'],
         ],
-        inputData: [""],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-nas-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
@@ -2616,36 +2615,36 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([41.0114, -73.09]),
         id: 19982,
-        aoiID: "US04TSM",
-        country: ["US"],
-        city: "New York - Total Suspended Matter",
-        siteName: "New York",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'US04TSM',
+        country: ['US'],
+        city: 'New York - Total Suspended Matter',
+        siteName: 'New York',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (NASA)",
+        indicatorName: 'Water Quality Regional Maps (NASA)',
         lastColorCode: null,
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))"
+                  'POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: getWeeklyDates("2020-01-01", "2021-06-16").filter(
-          item => !["2020-08-19", "2020-08-26"].includes(item)
+        time: getWeeklyDates('2020-01-01', '2021-06-16').filter(
+          (item) => !['2020-08-19', '2020-08-26'].includes(item),
         ),
-        inputData: [""],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-ny-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
@@ -2665,45 +2664,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([39.9, 116.38]),
         id: 9899,
-        aoiID: "CN01",
-        country: ["CN"],
-        city: "Beijing",
-        siteName: "Beijing",
-        description: "Slowdown Proxy Maps",
-        indicator: "N7",
+        aoiID: 'CN01',
+        country: ['CN'],
+        city: 'Beijing',
+        siteName: 'Beijing',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
         lastIndicatorValue: null,
-        indicatorName: "Cars and Construction",
+        indicatorName: 'Cars and Construction',
         lastColorCode: null,
-        eoSensor: ["2020-01-01 compared to 2020-01-29 - 2020-03-01 - Derived from Sentinel-1"],
+        eoSensor: ['2020-01-01 compared to 2020-01-29 - 2020-03-01 - Derived from Sentinel-1'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((116.073303 39.766325,116.073303 40.212441,116.729736 40.212441,116.729736 39.766325,116.073303 39.766325))"
+                  'POLYGON((116.073303 39.766325,116.073303 40.212441,116.729736 40.212441,116.729736 39.766325,116.073303 39.766325))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["2019-11-01"],
-        inputData: [""],
+        time: ['2019-11-01'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FBeijing_S1_TA142_SPM_20191101-20200101_20200129-20200301_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3",
-          name: "Movement slowdown",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FBeijing_S1_TA142_SPM_20191101-20200101_20200129-20200301_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
           tileSize: 256,
-          legendUrl: "data/trilateral/N7-legend.png",
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([38.904722, -77.016389]),
@@ -2713,45 +2712,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([38.904722, -77.016389]),
         id: 9898,
-        aoiID: "US10",
-        country: ["US"],
-        city: "Washington, D.C.",
-        siteName: "Washington, D.C.",
-        description: "Slowdown Proxy Maps",
-        indicator: "N7",
+        aoiID: 'US10',
+        country: ['US'],
+        city: 'Washington, D.C.',
+        siteName: 'Washington, D.C.',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
         lastIndicatorValue: null,
-        indicatorName: "Cars and Construction",
+        indicatorName: 'Cars and Construction',
         lastColorCode: null,
-        eoSensor: ["2020-02-06 compared to 2020-03-28 - 2020-04-24 - Derived from Sentinel-1"],
+        eoSensor: ['2020-02-06 compared to 2020-03-28 - 2020-04-24 - Derived from Sentinel-1'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-78.1073 38.432077,-78.1073 39.846504,-75.81665 39.846504,-75.81665 38.432077,-78.1073 38.432077))"
+                  'POLYGON((-78.1073 38.432077,-78.1073 39.846504,-75.81665 39.846504,-75.81665 38.432077,-78.1073 38.432077))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["2020-01-03"],
-        inputData: [""],
+        time: ['2020-01-03'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FDC_S1_TA004_SPM_20200103-20200206_20200328-20200424_th-0.3.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3",
-          name: "Movement slowdown",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FDC_S1_TA004_SPM_20200103-20200206_20200328-20200424_th-0.3.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
           tileSize: 256,
-          legendUrl: "data/trilateral/N7-legend.png",
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([51.036138, 2.285374]),
@@ -2761,45 +2760,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([51.036138, 2.285374]),
         id: 9897,
-        aoiID: "FR03",
-        country: ["FR"],
-        city: "Port of Dunkirk",
-        siteName: "Port of Dunkirk",
-        description: "Slowdown Proxy Maps",
-        indicator: "N7",
+        aoiID: 'FR03',
+        country: ['FR'],
+        city: 'Port of Dunkirk',
+        siteName: 'Port of Dunkirk',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
         lastIndicatorValue: null,
-        indicatorName: "Cars and Construction",
+        indicatorName: 'Cars and Construction',
         lastColorCode: null,
-        eoSensor: ["2020-02-15 compared to 2020-04-01 - 2020-04-31 - Derived from Sentinel-1"],
+        eoSensor: ['2020-02-15 compared to 2020-04-01 - 2020-04-31 - Derived from Sentinel-1'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((1.590599 50.733177,1.554903 50.877173,1.737368 50.954146,2.040781 51.014635,2.304379 51.063831,2.503451 51.082805,2.902968 51.242053,3.147346 51.340768,3.605898 51.369056,3.783793 50.857979,2.622312 50.729565,2.570141 50.840647,1.590599 50.733177))"
+                  'POLYGON((1.590599 50.733177,1.554903 50.877173,1.737368 50.954146,2.040781 51.014635,2.304379 51.063831,2.503451 51.082805,2.902968 51.242053,3.147346 51.340768,3.605898 51.369056,3.783793 50.857979,2.622312 50.729565,2.570141 50.840647,1.590599 50.733177))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["2020-01-01"],
-        inputData: [""],
+        time: ['2020-01-01'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FDunkirk_S1_TA161_SPM_20200101-20200215_20200401-20200431_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3",
-          name: "Movement slowdown",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FDunkirk_S1_TA161_SPM_20200101-20200215_20200401-20200431_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
           tileSize: 256,
-          legendUrl: "data/trilateral/N7-legend.png",
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([51.091559, 3.740081]),
@@ -2809,45 +2808,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([51.091559, 3.740081]),
         id: 9896,
-        aoiID: "BE03",
-        country: ["BE"],
-        city: "Port of Ghent",
-        siteName: "Port of Ghent",
-        description: "Slowdown Proxy Maps",
-        indicator: "N7",
+        aoiID: 'BE03',
+        country: ['BE'],
+        city: 'Port of Ghent',
+        siteName: 'Port of Ghent',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
         lastIndicatorValue: null,
-        indicatorName: "Cars and Construction",
+        indicatorName: 'Cars and Construction',
         lastColorCode: null,
-        eoSensor: ["2020-02-06 compared to 2020-04-01 - 2020-04-30 - Derived from Sentinel-1"],
+        eoSensor: ['2020-02-06 compared to 2020-04-01 - 2020-04-30 - Derived from Sentinel-1'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((4.196128 51.382924,4.333419 51.41247,4.441879 51.280437,4.637796 50.920723,4.122786 50.848204,3.396523 50.729818,3.228982 51.273398,3.719247 51.354086,3.852456 51.345509,3.908761 51.37295,3.951333 51.414081,4.019997 51.409798,4.058449 51.375522,4.196128 51.382924))"
+                  'POLYGON((4.196128 51.382924,4.333419 51.41247,4.441879 51.280437,4.637796 50.920723,4.122786 50.848204,3.396523 50.729818,3.228982 51.273398,3.719247 51.354086,3.852456 51.345509,3.908761 51.37295,3.951333 51.414081,4.019997 51.409798,4.058449 51.375522,4.196128 51.382924))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["2020-01-03"],
-        inputData: [""],
+        time: ['2020-01-03'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FGhent_S1_TA161_SPM_20200103-20200206_20200401-20200430_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3",
-          name: "Movement slowdown",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FGhent_S1_TA161_SPM_20200103-20200206_20200401-20200430_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
           tileSize: 256,
-          legendUrl: "data/trilateral/N7-legend.png",
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([-12.05, -77.033333]),
@@ -2857,45 +2856,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([-12.05, -77.033333]),
         id: 9895,
-        aoiID: "PE01",
-        country: ["PE"],
-        city: "Lima",
-        siteName: "Lima",
-        description: "Slowdown Proxy Maps",
-        indicator: "N7",
+        aoiID: 'PE01',
+        country: ['PE'],
+        city: 'Lima',
+        siteName: 'Lima',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
         lastIndicatorValue: null,
-        indicatorName: "Cars and Construction",
+        indicatorName: 'Cars and Construction',
         lastColorCode: null,
-        eoSensor: ["2020-03-02 compared to 2020-03-26 - 2020-05-01 - Derived from Sentinel-1"],
+        eoSensor: ['2020-03-02 compared to 2020-03-26 - 2020-05-01 - Derived from Sentinel-1'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-77.175522 -11.727546,-77.001114 -11.668376,-76.884041 -11.661315,-76.80027 -11.628362,-76.684227 -11.637777,-76.68148 -11.723512,-76.527672 -11.822325,-76.529388 -11.950326,-76.531448 -12.166883,-76.422958 -12.381922,-76.432228 -12.423166,-76.70517 -12.579026,-76.816406 -12.517028,-76.80748 -12.391647,-76.935196 -12.290359,-77.075958 -12.1991,-77.232513 -12.152787,-77.290878 -12.070881,-77.285385 -11.743008,-77.175522 -11.727546))"
+                  'POLYGON((-77.175522 -11.727546,-77.001114 -11.668376,-76.884041 -11.661315,-76.80027 -11.628362,-76.684227 -11.637777,-76.68148 -11.723512,-76.527672 -11.822325,-76.529388 -11.950326,-76.531448 -12.166883,-76.422958 -12.381922,-76.432228 -12.423166,-76.70517 -12.579026,-76.816406 -12.517028,-76.80748 -12.391647,-76.935196 -12.290359,-77.075958 -12.1991,-77.232513 -12.152787,-77.290878 -12.070881,-77.285385 -11.743008,-77.175522 -11.727546))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["2020-01-14"],
-        inputData: [""],
+        time: ['2020-01-14'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FLima_S1_TA018_SPM_20200114-20200302_20200326-20200501_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3",
-          name: "Movement slowdown",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FLima_S1_TA018_SPM_20200114-20200302_20200326-20200501_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
           tileSize: 256,
-          legendUrl: "data/trilateral/N7-legend.png",
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([34.05, -118.25]),
@@ -2905,45 +2904,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([34.05, -118.25]),
         id: 9894,
-        aoiID: "US02A2",
-        country: ["US"],
-        city: "Los Angeles - A2",
-        siteName: "Los Angeles",
-        description: "Slowdown Proxy Maps",
-        indicator: "N7",
+        aoiID: 'US02A2',
+        country: ['US'],
+        city: 'Los Angeles - A2',
+        siteName: 'Los Angeles',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
         lastIndicatorValue: null,
-        indicatorName: "Cars and Construction",
+        indicatorName: 'Cars and Construction',
         lastColorCode: null,
-        eoSensor: ["2020-02-28 compared to 2020-04-01 - 2020-04-30 - Derived from Sentinel-1"],
+        eoSensor: ['2020-02-28 compared to 2020-04-01 - 2020-04-30 - Derived from Sentinel-1'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-118.762208 33.532178,-118.951722 34.379654,-117.954713 34.542704,-117.946473 34.424978,-116.996156 34.567586,-116.83548 34.004829,-116.765442 33.403902,-118.762208 33.532178))"
+                  'POLYGON((-118.762208 33.532178,-118.951722 34.379654,-117.954713 34.542704,-117.946473 34.424978,-116.996156 34.567586,-116.83548 34.004829,-116.765442 33.403902,-118.762208 33.532178))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["2020-01-01"],
-        inputData: [""],
+        time: ['2020-01-01'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FLosAngeles_A2_SPM_10m_20200101-20200228_20200401-20200430_th-0.35.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3",
-          name: "Movement slowdown",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FLosAngeles_A2_SPM_10m_20200101-20200228_20200401-20200430_th-0.35.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
           tileSize: 256,
-          legendUrl: "data/trilateral/N7-legend.png",
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([34.05, -118.25]),
@@ -2953,45 +2952,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([34.05, -118.25]),
         id: 9893,
-        aoiID: "US02",
-        country: ["US"],
-        city: "Los Angeles",
-        siteName: "Los Angeles",
-        description: "Slowdown Proxy Maps",
-        indicator: "N7",
+        aoiID: 'US02',
+        country: ['US'],
+        city: 'Los Angeles',
+        siteName: 'Los Angeles',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
         lastIndicatorValue: null,
-        indicatorName: "Cars and Construction",
+        indicatorName: 'Cars and Construction',
         lastColorCode: null,
-        eoSensor: ["2020-02-28 compared to 2020-04-01 - 2020-04-30 - Derived from Sentinel-1"],
+        eoSensor: ['2020-02-28 compared to 2020-04-01 - 2020-04-30 - Derived from Sentinel-1'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-118.762208 33.532178,-118.951722 34.379654,-117.954713 34.542704,-117.946473 34.424978,-116.996156 34.567586,-116.83548 34.004829,-116.765442 33.403902,-118.762208 33.532178))"
+                  'POLYGON((-118.762208 33.532178,-118.951722 34.379654,-117.954713 34.542704,-117.946473 34.424978,-116.996156 34.567586,-116.83548 34.004829,-116.765442 33.403902,-118.762208 33.532178))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["2020-01-03"],
-        inputData: [""],
+        time: ['2020-01-03'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FLosAngeles_S1_TA064_SPM_20200103-20200228_20200401-20200430_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3",
-          name: "Movement slowdown",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FLosAngeles_S1_TA064_SPM_20200103-20200228_20200401-20200430_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
           tileSize: 256,
-          legendUrl: "data/trilateral/N7-legend.png",
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([19.076, 72.8777]),
@@ -3001,45 +3000,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([19.076, 72.8777]),
         id: 9892,
-        aoiID: "IN02",
-        country: ["IN"],
-        city: "Mumbai",
-        siteName: "Mumbai",
-        description: "Slowdown Proxy Maps",
-        indicator: "N7",
+        aoiID: 'IN02',
+        country: ['IN'],
+        city: 'Mumbai',
+        siteName: 'Mumbai',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
         lastIndicatorValue: null,
-        indicatorName: "Cars and Construction",
+        indicatorName: 'Cars and Construction',
         lastColorCode: null,
-        eoSensor: ["2020-01-22 compared to 2020-03-22 - 2020-04-27 - Derived from Sentinel-1"],
+        eoSensor: ['2020-01-22 compared to 2020-03-22 - 2020-04-27 - Derived from Sentinel-1'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((72.773438 19.458823,73.168945 19.456234,73.910522 19.292998,73.646851 18.586379,72.789917 18.659257,72.677307 18.940062,72.773438 19.458823))"
+                  'POLYGON((72.773438 19.458823,73.168945 19.456234,73.910522 19.292998,73.646851 18.586379,72.789917 18.659257,72.677307 18.940062,72.773438 19.458823))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["2020-01-10"],
-        inputData: [""],
+        time: ['2020-01-10'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FMumbai_S1_TD034_SPM_20200110-20200122_20200322-20200427_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3",
-          name: "Movement slowdown",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FMumbai_S1_TD034_SPM_20200110-20200122_20200322-20200427_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
           tileSize: 256,
-          legendUrl: "data/trilateral/N7-legend.png",
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([41.0114, -73.09]),
@@ -3049,45 +3048,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([41.0114, -73.09]),
         id: 9891,
-        aoiID: "US04",
-        country: ["US"],
-        city: "New York",
-        siteName: "New York",
-        description: "Slowdown Proxy Maps",
-        indicator: "N7",
+        aoiID: 'US04',
+        country: ['US'],
+        city: 'New York',
+        siteName: 'New York',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
         lastIndicatorValue: null,
-        indicatorName: "Cars and Construction",
+        indicatorName: 'Cars and Construction',
         lastColorCode: null,
-        eoSensor: ["2020-02-15 compared to 2020-04-01 - 2020-04-31 - Derived from Sentinel-1"],
+        eoSensor: ['2020-02-15 compared to 2020-04-01 - 2020-04-31 - Derived from Sentinel-1'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-75.140991 40.245992,-75.38269 41.137296,-72.894287 41.693424,-71.5979 40.876141,-75.140991 40.245992))"
+                  'POLYGON((-75.140991 40.245992,-75.38269 41.137296,-72.894287 41.693424,-71.5979 40.876141,-75.140991 40.245992))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["2020-01-01"],
-        inputData: [""],
+        time: ['2020-01-01'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FNewyork_S1_TA033_SPM_20200101-20200215_20200401-20200431_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3",
-          name: "Movement slowdown",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FNewyork_S1_TA033_SPM_20200101-20200215_20200401-20200431_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
           tileSize: 256,
-          legendUrl: "data/trilateral/N7-legend.png",
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([37.7775, -122.416389]),
@@ -3097,45 +3096,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([37.7775, -122.416389]),
         id: 9890,
-        aoiID: "US03",
-        country: ["US"],
-        city: "San Francisco",
-        siteName: "San Francisco",
-        description: "Slowdown Proxy Maps",
-        indicator: "N7",
+        aoiID: 'US03',
+        country: ['US'],
+        city: 'San Francisco',
+        siteName: 'San Francisco',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
         lastIndicatorValue: null,
-        indicatorName: "Cars and Construction",
+        indicatorName: 'Cars and Construction',
         lastColorCode: null,
-        eoSensor: ["2020-02-15 compared to 2020-04-03 - 2020-04-27 - Derived from Sentinel-1"],
+        eoSensor: ['2020-02-15 compared to 2020-04-03 - 2020-04-27 - Derived from Sentinel-1'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-122.639688 37.099778,-122.639688 38.190951,-120.953755 38.190951,-120.953755 37.099778,-122.639688 37.099778))"
+                  'POLYGON((-122.639688 37.099778,-122.639688 38.190951,-120.953755 38.190951,-120.953755 37.099778,-122.639688 37.099778))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["2020-01-28"],
-        inputData: [""],
+        time: ['2020-01-28'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FSanFrancisco_S1_TA035_SPM_20200128-20200215_20200403-20200427_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3",
-          name: "Movement slowdown",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FSanFrancisco_S1_TA035_SPM_20200128-20200215_20200403-20200427_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
           tileSize: 256,
-          legendUrl: "data/trilateral/N7-legend.png",
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([-33.45, -70.666667]),
@@ -3145,45 +3144,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([-33.45, -70.666667]),
         id: 9889,
-        aoiID: "CL01",
-        country: ["CL"],
-        city: "Santiago",
-        siteName: "Santiago",
-        description: "Slowdown Proxy Maps",
-        indicator: "N7",
+        aoiID: 'CL01',
+        country: ['CL'],
+        city: 'Santiago',
+        siteName: 'Santiago',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
         lastIndicatorValue: null,
-        indicatorName: "Cars and Construction",
+        indicatorName: 'Cars and Construction',
         lastColorCode: null,
-        eoSensor: ["2020-02-01 compared to 2020-04-01 - 2020-06-12 - Derived from Sentinel-1"],
+        eoSensor: ['2020-02-01 compared to 2020-04-01 - 2020-06-12 - Derived from Sentinel-1'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-71.292757 -34.157073,-70.540193 -33.911254,-70.482515 -32.918589,-71.608614 -33.02228,-71.520723 -33.495397,-71.292757 -34.157073))"
+                  'POLYGON((-71.292757 -34.157073,-70.540193 -33.911254,-70.482515 -32.918589,-71.608614 -33.02228,-71.520723 -33.495397,-71.292757 -34.157073))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["2020-01-08"],
-        inputData: [""],
+        time: ['2020-01-08'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FSantiago_S1_TA018_SPM_20200108-20200201_20200401-20200612_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3",
-          name: "Movement slowdown",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FSantiago_S1_TA018_SPM_20200108-20200201_20200401-20200612_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
           tileSize: 256,
-          legendUrl: "data/trilateral/N7-legend.png",
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([-23.55, -46.633333]),
@@ -3193,45 +3192,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([-23.55, -46.633333]),
         id: 9888,
-        aoiID: "BR02",
-        country: ["BR"],
-        city: "Sao Paulo",
-        siteName: "Sao Paulo",
-        description: "Slowdown Proxy Maps",
-        indicator: "N7",
+        aoiID: 'BR02',
+        country: ['BR'],
+        city: 'Sao Paulo',
+        siteName: 'Sao Paulo',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
         lastIndicatorValue: null,
-        indicatorName: "Cars and Construction",
+        indicatorName: 'Cars and Construction',
         lastColorCode: null,
-        eoSensor: ["2020-02-04 compared to 2020-03-29 - 2020-04-28 - Derived from Sentinel-1"],
+        eoSensor: ['2020-02-04 compared to 2020-03-29 - 2020-04-28 - Derived from Sentinel-1'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-46.55 -23.45, -46.75 -23.45, -46.75 -23.65, -46.55 -23.65, -46.55 -23.45))"
+                  'POLYGON((-46.55 -23.45, -46.75 -23.45, -46.75 -23.65, -46.55 -23.65, -46.55 -23.45))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["2020-01-05"],
-        inputData: [""],
+        time: ['2020-01-05'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FSaoPaulo_S1_TD053_SPM_20200105-20200204_20200329-20200428_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3",
-          name: "Movement slowdown",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FSaoPaulo_S1_TD053_SPM_20200105-20200204_20200329-20200428_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
           tileSize: 256,
-          legendUrl: "data/trilateral/N7-legend.png",
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([1.264856, 103.847663]),
@@ -3241,68 +3240,68 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([1.264856, 103.847663]),
         id: 9887,
-        aoiID: "SG01",
-        country: ["SG"],
-        city: "Singapore",
-        siteName: "Singapore",
-        description: "Slowdown Proxy Maps",
-        indicator: "N7",
+        aoiID: 'SG01',
+        country: ['SG'],
+        city: 'Singapore',
+        siteName: 'Singapore',
+        description: 'Slowdown Proxy Maps',
+        indicator: 'N7',
         lastIndicatorValue: null,
-        indicatorName: "Cars and Construction",
+        indicatorName: 'Cars and Construction',
         lastColorCode: null,
-        eoSensor: ["2020-02-12 compared to 2020-04-24 - 2020-05-30 - Derived from Sentinel-1"],
+        eoSensor: ['2020-02-12 compared to 2020-04-24 - 2020-05-30 - Derived from Sentinel-1'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((104.37973 0.99284,102.851257 0.882991,102.849197 1.135637,103.430786 1.351193,103.331223 1.542706,103.142395 1.631936,103.145485 1.68959,103.497734 1.72425,103.988342 1.68959,104.195023 1.766459,104.293556 1.609629,104.315186 1.356342,104.385223 1.012406,104.37973 0.99284))"
+                  'POLYGON((104.37973 0.99284,102.851257 0.882991,102.849197 1.135637,103.430786 1.351193,103.331223 1.542706,103.142395 1.631936,103.145485 1.68959,103.497734 1.72425,103.988342 1.68959,104.195023 1.766459,104.293556 1.609629,104.315186 1.356342,104.385223 1.012406,104.37973 0.99284))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["2020-01-07"],
-        inputData: [""],
+        time: ['2020-01-07'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FSingapore_S1_TA171_SPM_20200107-20200212_20200424-20200530_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3",
-          name: "Movement slowdown",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2FSingapore_S1_TA171_SPM_20200107-20200212_20200424-20200530_th-0.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3',
+          name: 'Movement slowdown',
           tileSize: 256,
-          legendUrl: "data/trilateral/N7-legend.png",
+          legendUrl: 'data/trilateral/N7-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        country: "all",
-        city: "World",
-        siteName: "global",
-        description: "Cropped Area - Global",
-        indicator: "N6",
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Cropped Area - Global',
+        indicator: 'N6',
         lastIndicatorValue: null,
-        indicatorName: "Cropped Area",
+        indicatorName: 'Cropped Area',
         subAoi: {
-          type: "FeatureCollection",
-          features: []
+          type: 'FeatureCollection',
+          features: [],
         },
         lastColorCode: null,
         aoi: null,
-        aoiID: "W6",
-        time: getMonthlyDates("2020-01-28", "2021-06-28"),
-        inputData: [""],
+        aoiID: 'W6',
+        time: getMonthlyDates('2020-01-28', '2021-06-28'),
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 6,
           minZoom: 1,
           opacity: 0.7,
@@ -3315,13 +3314,13 @@ export const globalIndicators = [
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}.geojson',
             allowedParameters: ['ADM0_NAME', 'Name'],
             style: {
-              color: "#696868",
-              opacity: 0.5
-            }
-          }
-        }
-      }
-    }
+              color: '#696868',
+              opacity: 0.5,
+            },
+          },
+        },
+      },
+    },
   },
   {
     latlng: latLng([6.133333, 1.216667]),
@@ -3331,24 +3330,24 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([6.133333, 1.216667]),
         id: 19799,
-        aoiID: "TG01",
-        country: ["TG"],
-        city: "Togo",
-        siteName: "Togo",
-        description: "Cropped Area - Regional",
-        indicator: "E10d",
+        aoiID: 'TG01',
+        country: ['TG'],
+        city: 'Togo',
+        siteName: 'Togo',
+        description: 'Cropped Area - Regional',
+        indicator: 'E10d',
         lastIndicatorValue: null,
-        indicatorName: "Cropped Area - Regional",
+        indicatorName: 'Cropped Area - Regional',
         lastColorCode: null,
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: {
-                type: "MultiPolygon",
+                type: 'MultiPolygon',
                 coordinates: [
                   [
                     [
@@ -3703,18 +3702,18 @@ export const globalIndicators = [
                       [-0.143020000999968, 11.10149],
                       [-0.14732, 11.11248],
                       [-0.14201, 11.13898],
-                      [0.0, 11.11002]
-                    ]
-                  ]
-                ]
-              }
-            }
-          ]
+                      [0.0, 11.11002],
+                    ],
+                  ],
+                ],
+              },
+            },
+          ],
         },
-        time: ["TBD"],
-        inputData: [""],
+        time: ['TBD'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/Togo/togo_cropland_v7-1_cog_v2.tif&resampling_method=bilinear&bidx=1&rescale=0,1&color_map=magma',
@@ -3734,45 +3733,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([39.9, 116.38]),
         id: 9799,
-        aoiID: "CN01",
-        country: ["CN"],
-        city: "Beijing",
-        siteName: "Beijing",
-        description: "Recovery Proxy Maps",
-        indicator: "N8",
-        lastIndicatorValue: "normal",
-        indicatorName: "Recovery Proxy Maps",
-        lastColorCode: "BLUE",
-        eoSensor: ["Recovery Proxy Maps"],
+        aoiID: 'CN01',
+        country: ['CN'],
+        city: 'Beijing',
+        siteName: 'Beijing',
+        description: 'Recovery Proxy Maps',
+        indicator: 'N8',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Recovery Proxy Maps',
+        lastColorCode: 'BLUE',
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((116.073303 39.766325,116.073303 40.212441,116.729736 40.212441,116.729736 39.766325,116.073303 39.766325))"
+                  'POLYGON((116.073303 39.766325,116.073303 40.212441,116.729736 40.212441,116.729736 39.766325,116.073303 39.766325))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["TBD"],
-        inputData: [""],
+        time: ['TBD'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-be.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24",
-          name: "Recovery Proxy Maps",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-be.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
+          name: 'Recovery Proxy Maps',
           tileSize: 256,
-          legendUrl: "data/trilateral/N8-legend.png",
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([38.904722, -77.016389]),
@@ -3782,45 +3781,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([38.904722, -77.016389]),
         id: 9798,
-        aoiID: "US10",
-        country: ["US"],
-        city: "Washington, D.C.",
-        siteName: "Washington, D.C.",
-        description: "Recovery Proxy Maps",
-        indicator: "N8",
-        lastIndicatorValue: "normal",
-        indicatorName: "Recovery Proxy Maps",
-        lastColorCode: "BLUE",
-        eoSensor: ["Recovery Proxy Maps"],
+        aoiID: 'US10',
+        country: ['US'],
+        city: 'Washington, D.C.',
+        siteName: 'Washington, D.C.',
+        description: 'Recovery Proxy Maps',
+        indicator: 'N8',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Recovery Proxy Maps',
+        lastColorCode: 'BLUE',
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-78.1073 38.432077,-78.1073 39.846504,-75.81665 39.846504,-75.81665 38.432077,-78.1073 38.432077))"
+                  'POLYGON((-78.1073 38.432077,-78.1073 39.846504,-75.81665 39.846504,-75.81665 38.432077,-78.1073 38.432077))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["TBD"],
-        inputData: [""],
+        time: ['TBD'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-dc.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24",
-          name: "Recovery Proxy Maps",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-dc.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
+          name: 'Recovery Proxy Maps',
           tileSize: 256,
-          legendUrl: "data/trilateral/N8-legend.png",
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([51.036138, 2.285374]),
@@ -3830,45 +3829,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([51.036138, 2.285374]),
         id: 9797,
-        aoiID: "FR03",
-        country: ["FR"],
-        city: "Port of Dunkirk",
-        siteName: "Port of Dunkirk",
-        description: "Recovery Proxy Maps",
-        indicator: "N8",
-        lastIndicatorValue: "normal",
-        indicatorName: "Recovery Proxy Maps",
-        lastColorCode: "BLUE",
-        eoSensor: ["Recovery Proxy Maps"],
+        aoiID: 'FR03',
+        country: ['FR'],
+        city: 'Port of Dunkirk',
+        siteName: 'Port of Dunkirk',
+        description: 'Recovery Proxy Maps',
+        indicator: 'N8',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Recovery Proxy Maps',
+        lastColorCode: 'BLUE',
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((1.590599 50.733177,1.554903 50.877173,1.737368 50.954146,2.040781 51.014635,2.304379 51.063831,2.503451 51.082805,2.902968 51.242053,3.147346 51.340768,3.605898 51.369056,3.783793 50.857979,2.622312 50.729565,2.570141 50.840647,1.590599 50.733177))"
+                  'POLYGON((1.590599 50.733177,1.554903 50.877173,1.737368 50.954146,2.040781 51.014635,2.304379 51.063831,2.503451 51.082805,2.902968 51.242053,3.147346 51.340768,3.605898 51.369056,3.783793 50.857979,2.622312 50.729565,2.570141 50.840647,1.590599 50.733177))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["TBD"],
-        inputData: [""],
+        time: ['TBD'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-du.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24",
-          name: "Recovery Proxy Maps",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-du.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
+          name: 'Recovery Proxy Maps',
           tileSize: 256,
-          legendUrl: "data/trilateral/N8-legend.png",
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([51.091559, 3.740081]),
@@ -3878,45 +3877,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([51.091559, 3.740081]),
         id: 9796,
-        aoiID: "BE03",
-        country: ["BE"],
-        city: "Port of Ghent",
-        siteName: "Port of Ghent",
-        description: "Recovery Proxy Maps",
-        indicator: "N8",
-        lastIndicatorValue: "normal",
-        indicatorName: "Recovery Proxy Maps",
-        lastColorCode: "BLUE",
-        eoSensor: ["Recovery Proxy Maps"],
+        aoiID: 'BE03',
+        country: ['BE'],
+        city: 'Port of Ghent',
+        siteName: 'Port of Ghent',
+        description: 'Recovery Proxy Maps',
+        indicator: 'N8',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Recovery Proxy Maps',
+        lastColorCode: 'BLUE',
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((4.196128 51.382924,4.333419 51.41247,4.441879 51.280437,4.637796 50.920723,4.122786 50.848204,3.396523 50.729818,3.228982 51.273398,3.719247 51.354086,3.852456 51.345509,3.908761 51.37295,3.951333 51.414081,4.019997 51.409798,4.058449 51.375522,4.196128 51.382924))"
+                  'POLYGON((4.196128 51.382924,4.333419 51.41247,4.441879 51.280437,4.637796 50.920723,4.122786 50.848204,3.396523 50.729818,3.228982 51.273398,3.719247 51.354086,3.852456 51.345509,3.908761 51.37295,3.951333 51.414081,4.019997 51.409798,4.058449 51.375522,4.196128 51.382924))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["TBD"],
-        inputData: [""],
+        time: ['TBD'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-gh.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24",
-          name: "Recovery Proxy Maps",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-gh.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
+          name: 'Recovery Proxy Maps',
           tileSize: 256,
-          legendUrl: "data/trilateral/N8-legend.png",
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([35.61, 139.78]),
@@ -3926,45 +3925,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([35.61, 139.78]),
         id: 9795,
-        aoiID: "JP01",
-        country: ["JP"],
-        city: "Tokyo",
-        siteName: "Tokyo",
-        description: "Recovery Proxy Maps",
-        indicator: "N8",
-        lastIndicatorValue: "normal",
-        indicatorName: "Recovery Proxy Maps",
-        lastColorCode: "BLUE",
-        eoSensor: ["Recovery Proxy Maps"],
+        aoiID: 'JP01',
+        country: ['JP'],
+        city: 'Tokyo',
+        siteName: 'Tokyo',
+        description: 'Recovery Proxy Maps',
+        indicator: 'N8',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Recovery Proxy Maps',
+        lastColorCode: 'BLUE',
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((138.705139 34.89269,138.705139 36.461054,140.902405 36.461054,140.902405 34.89269,138.705139 34.89269))"
+                  'POLYGON((138.705139 34.89269,138.705139 36.461054,140.902405 36.461054,140.902405 34.89269,138.705139 34.89269))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["TBD"],
-        inputData: [""],
+        time: ['TBD'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-tk.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24",
-          name: "Recovery Proxy Maps",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-tk.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
+          name: 'Recovery Proxy Maps',
           tileSize: 256,
-          legendUrl: "data/trilateral/N8-legend.png",
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([6.133333, 1.216667]),
@@ -3974,45 +3973,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([6.133333, 1.216667]),
         id: 9794,
-        aoiID: "TG01",
-        country: ["TG"],
-        city: "Togo",
-        siteName: "Togo",
-        description: "Recovery Proxy Maps",
-        indicator: "N8",
-        lastIndicatorValue: "normal",
-        indicatorName: "Recovery Proxy Maps",
-        lastColorCode: "BLUE",
-        eoSensor: ["Recovery Proxy Maps"],
+        aoiID: 'TG01',
+        country: ['TG'],
+        city: 'Togo',
+        siteName: 'Togo',
+        description: 'Recovery Proxy Maps',
+        indicator: 'N8',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Recovery Proxy Maps',
+        lastColorCode: 'BLUE',
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-0.895386 11.342718,-0.719604 10.233843,-0.285645 8.488672,-0.001373 6.311204,0.244446 5.719846,0.884399 5.745808,1.148071 6.019019,1.51062 6.181516,1.972046 6.255237,2.292023 6.283904,2.308502 7.075,2.28241 7.544933,2.15744 8.598674,1.573792 9.62106,1.308746 10.268979,1.595764 11.053082,1.329346 11.474641,0.810242 11.633406,0.236206 11.59036,-0.348816 11.470604,-0.895386 11.342718))"
+                  'POLYGON((-0.895386 11.342718,-0.719604 10.233843,-0.285645 8.488672,-0.001373 6.311204,0.244446 5.719846,0.884399 5.745808,1.148071 6.019019,1.51062 6.181516,1.972046 6.255237,2.292023 6.283904,2.308502 7.075,2.28241 7.544933,2.15744 8.598674,1.573792 9.62106,1.308746 10.268979,1.595764 11.053082,1.329346 11.474641,0.810242 11.633406,0.236206 11.59036,-0.348816 11.470604,-0.895386 11.342718))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["TBD"],
-        inputData: [""],
+        time: ['TBD'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-togo.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24",
-          name: "Recovery Proxy Maps",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-togo.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
+          name: 'Recovery Proxy Maps',
           tileSize: 256,
-          legendUrl: "data/trilateral/N8-legend.png",
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([34.05, -118.25]),
@@ -4022,45 +4021,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([34.05, -118.25]),
         id: 9793,
-        aoiID: "US02",
-        country: ["US"],
-        city: "Los Angeles",
-        siteName: "Los Angeles",
-        description: "Recovery Proxy Maps",
-        indicator: "N8",
-        lastIndicatorValue: "normal",
-        indicatorName: "Recovery Proxy Maps",
-        lastColorCode: "BLUE",
-        eoSensor: ["Recovery Proxy Maps"],
+        aoiID: 'US02',
+        country: ['US'],
+        city: 'Los Angeles',
+        siteName: 'Los Angeles',
+        description: 'Recovery Proxy Maps',
+        indicator: 'N8',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Recovery Proxy Maps',
+        lastColorCode: 'BLUE',
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-118.762208 33.532178,-118.951722 34.379654,-117.954713 34.542704,-117.946473 34.424978,-116.996156 34.567586,-116.83548 34.004829,-116.765442 33.403902,-118.762208 33.532178))"
+                  'POLYGON((-118.762208 33.532178,-118.951722 34.379654,-117.954713 34.542704,-117.946473 34.424978,-116.996156 34.567586,-116.83548 34.004829,-116.765442 33.403902,-118.762208 33.532178))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["TBD"],
-        inputData: [""],
+        time: ['TBD'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-la.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24",
-          name: "Recovery Proxy Maps",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-la.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
+          name: 'Recovery Proxy Maps',
           tileSize: 256,
-          legendUrl: "data/trilateral/N8-legend.png",
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([-6.8, 39.283333]),
@@ -4070,45 +4069,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([-6.8, 39.283333]),
         id: 9792,
-        aoiID: "TZ01",
-        country: ["TZ"],
-        city: "Dar El Salam",
-        siteName: "Dar El Salam",
-        description: "Recovery Proxy Maps",
-        indicator: "N8",
-        lastIndicatorValue: "normal",
-        indicatorName: "Recovery Proxy Maps",
-        lastColorCode: "BLUE",
-        eoSensor: ["Recovery Proxy Maps"],
+        aoiID: 'TZ01',
+        country: ['TZ'],
+        city: 'Dar El Salam',
+        siteName: 'Dar El Salam',
+        description: 'Recovery Proxy Maps',
+        indicator: 'N8',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Recovery Proxy Maps',
+        lastColorCode: 'BLUE',
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((38.645611 -6.64517,38.645611 -6.4528,38.876152 -6.402137,39.04747 -6.458599,39.298096 -6.708936,39.502716 -6.879392,39.569492 -7.019461,39.536533 -7.202066,39.435081 -7.223865,39.252262 -7.249409,38.969193 -7.305942,38.787575 -7.334205,38.740883 -7.063415,38.67239 -6.78616,38.645611 -6.64517))"
+                  'POLYGON((38.645611 -6.64517,38.645611 -6.4528,38.876152 -6.402137,39.04747 -6.458599,39.298096 -6.708936,39.502716 -6.879392,39.569492 -7.019461,39.536533 -7.202066,39.435081 -7.223865,39.252262 -7.249409,38.969193 -7.305942,38.787575 -7.334205,38.740883 -7.063415,38.67239 -6.78616,38.645611 -6.64517))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["TBD"],
-        inputData: [""],
+        time: ['TBD'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-dar.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24",
-          name: "Recovery Proxy Maps",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-dar.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
+          name: 'Recovery Proxy Maps',
           tileSize: 256,
-          legendUrl: "data/trilateral/N8-legend.png",
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([41.0114, -73.09]),
@@ -4118,45 +4117,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([41.0114, -73.09]),
         id: 9791,
-        aoiID: "US04",
-        country: ["US"],
-        city: "New York",
-        siteName: "New York",
-        description: "Recovery Proxy Maps",
-        indicator: "N8",
-        lastIndicatorValue: "normal",
-        indicatorName: "Recovery Proxy Maps",
-        lastColorCode: "BLUE",
-        eoSensor: ["Recovery Proxy Maps"],
+        aoiID: 'US04',
+        country: ['US'],
+        city: 'New York',
+        siteName: 'New York',
+        description: 'Recovery Proxy Maps',
+        indicator: 'N8',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Recovery Proxy Maps',
+        lastColorCode: 'BLUE',
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-75.140991 40.245992,-75.38269 41.137296,-72.894287 41.693424,-71.5979 40.876141,-75.140991 40.245992))"
+                  'POLYGON((-75.140991 40.245992,-75.38269 41.137296,-72.894287 41.693424,-71.5979 40.876141,-75.140991 40.245992))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["TBD"],
-        inputData: [""],
+        time: ['TBD'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-ny.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24",
-          name: "Recovery Proxy Maps",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-ny.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
+          name: 'Recovery Proxy Maps',
           tileSize: 256,
-          legendUrl: "data/trilateral/N8-legend.png",
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([37.7775, -122.416389]),
@@ -4166,45 +4165,45 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([37.7775, -122.416389]),
         id: 9790,
-        aoiID: "US03",
-        country: ["US"],
-        city: "San Francisco",
-        siteName: "San Francisco",
-        description: "Recovery Proxy Maps",
-        indicator: "N8",
-        lastIndicatorValue: "normal",
-        indicatorName: "Recovery Proxy Maps",
-        lastColorCode: "BLUE",
-        eoSensor: ["Recovery Proxy Maps"],
+        aoiID: 'US03',
+        country: ['US'],
+        city: 'San Francisco',
+        siteName: 'San Francisco',
+        description: 'Recovery Proxy Maps',
+        indicator: 'N8',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Recovery Proxy Maps',
+        lastColorCode: 'BLUE',
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-122.639688 37.099778,-122.639688 38.190951,-120.953755 38.190951,-120.953755 37.099778,-122.639688 37.099778))"
+                  'POLYGON((-122.639688 37.099778,-122.639688 38.190951,-120.953755 38.190951,-120.953755 37.099778,-122.639688 37.099778))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: ["TBD"],
-        inputData: [""],
+        time: ['TBD'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-sf.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24",
-          name: "Recovery Proxy Maps",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-sf.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
+          name: 'Recovery Proxy Maps',
           tileSize: 256,
-          legendUrl: "data/trilateral/N8-legend.png",
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([38.715, -121.944]),
@@ -4214,43 +4213,43 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([38.715, -121.944]),
         id: 9789,
-        aoiID: "US06",
-        country: ["US"],
-        city: "Sacramento",
-        siteName: "Sacramento",
-        description: "Recovery Proxy Maps",
-        indicator: "N8",
-        lastIndicatorValue: "normal",
-        indicatorName: "Recovery Proxy Maps",
-        lastColorCode: "BLUE",
-        eoSensor: ["Recovery Proxy Maps"],
+        aoiID: 'US06',
+        country: ['US'],
+        city: 'Sacramento',
+        siteName: 'Sacramento',
+        description: 'Recovery Proxy Maps',
+        indicator: 'N8',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Recovery Proxy Maps',
+        lastColorCode: 'BLUE',
+        eoSensor: ['Recovery Proxy Maps'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
-                .read("POLYGON((-120.8 38, -120.8 40, -122.8 40, -122.8 38, -120.8 38))")
-                .toJson()
-            }
-          ]
+                .read('POLYGON((-120.8 38, -120.8 40, -122.8 40, -122.8 38, -120.8 38))')
+                .toJson(),
+            },
+          ],
         },
-        time: ["TBD"],
-        inputData: [""],
+        time: ['TBD'],
+        inputData: [''],
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 18,
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-sacramento.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24",
-          name: "Recovery Proxy Maps",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-sacramento.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
+          name: 'Recovery Proxy Maps',
           tileSize: 256,
-          legendUrl: "data/trilateral/N8-legend.png",
+          legendUrl: 'data/trilateral/N8-legend.png',
           disableCompare: true,
-          baseLayers: mapBoxHighResoSubst
-        }
-      }
-    }
+          baseLayers: mapBoxHighResoSubst,
+        },
+      },
+    },
   },
   {
     latlng: latLng([33.94, -118.41]),
@@ -4260,52 +4259,52 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([33.94, -118.41]),
         id: 19699,
-        aoiID: "US021",
-        country: ["US"],
-        city: "Los Angeles",
-        siteName: "Los Angeles International Airport - LAX",
-        description: "Airports: throughput",
-        indicator: "E13b",
-        lastIndicatorValue: "normal",
+        aoiID: 'US021',
+        country: ['US'],
+        city: 'Los Angeles',
+        siteName: 'Los Angeles International Airport - LAX',
+        description: 'Airports: throughput',
+        indicator: 'E13b',
+        lastIndicatorValue: 'normal',
         indicatorName:
-          "Los Angeles International Airport - LAX, Throughput at principal hub airports",
-        lastColorCode: "BLUE",
+          'Los Angeles International Airport - LAX, Throughput at principal hub airports',
+        lastColorCode: 'BLUE',
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-118.44 33.93, -118.38 33.93, -118.38 33.95, -118.44 33.95, -118.44 33.93))"
+                  'POLYGON((-118.44 33.93, -118.38 33.93, -118.38 33.95, -118.44 33.95, -118.44 33.93))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: [
-          ["2020-01-10"],
-          ["2020-02-01"],
-          ["2020-04-21"],
-          ["2020-05-05"],
-          ["2020-05-17"],
-          ["2020-05-20"],
-          ["2020-06-08"],
-          ["2020-06-15"],
-          ["2020-07-04"],
-          ["2020-07-10"],
-          ["2020-08-18"],
-          ["2020-08-28"],
-          ["2020-09-22"],
-          ["2020-09-30"],
-          ["2020-10-02"],
-          ["2020-10-15"]
+          ['2020-01-10'],
+          ['2020-02-01'],
+          ['2020-04-21'],
+          ['2020-05-05'],
+          ['2020-05-17'],
+          ['2020-05-20'],
+          ['2020-06-08'],
+          ['2020-06-15'],
+          ['2020-07-04'],
+          ['2020-07-10'],
+          ['2020-08-18'],
+          ['2020-08-28'],
+          ['2020-09-22'],
+          ['2020-09-30'],
+          ['2020-10-02'],
+          ['2020-10-15'],
         ],
-        inputData: ["airports"]
-      }
-    }
+        inputData: ['airports'],
+      },
+    },
   },
   {
     latlng: latLng([34.057, -117.6]),
@@ -4315,51 +4314,51 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([34.057, -117.6]),
         id: 19698,
-        aoiID: "US022",
-        country: ["US"],
-        city: "Ontario",
-        siteName: "Ontario International Airport - ONT",
-        description: "Airports: throughput",
-        indicator: "E13b",
-        lastIndicatorValue: "normal",
-        indicatorName: "Ontario International Airport - ONT, Throughput at principal hub airports",
-        lastColorCode: "BLUE",
+        aoiID: 'US022',
+        country: ['US'],
+        city: 'Ontario',
+        siteName: 'Ontario International Airport - ONT',
+        description: 'Airports: throughput',
+        indicator: 'E13b',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Ontario International Airport - ONT, Throughput at principal hub airports',
+        lastColorCode: 'BLUE',
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-117.575 34.048, -117.63 34.048, -117.63 34.065, -117.575 34.065, -117.575 34.048))"
+                  'POLYGON((-117.575 34.048, -117.63 34.048, -117.63 34.065, -117.575 34.065, -117.575 34.048))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: [
-          ["2020-01-14"],
-          ["2020-02-03"],
-          ["2020-03-22"],
-          ["2020-04-15"],
-          ["2020-05-04"],
-          ["2020-05-23"],
-          ["2020-05-24"],
-          ["2020-06-11"],
-          ["2020-07-06"],
-          ["2020-07-21"],
-          ["2020-08-01"],
-          ["2020-08-16"],
-          ["2020-09-01"],
-          ["2020-09-19"],
-          ["2020-10-04"],
-          ["2020-10-27"]
+          ['2020-01-14'],
+          ['2020-02-03'],
+          ['2020-03-22'],
+          ['2020-04-15'],
+          ['2020-05-04'],
+          ['2020-05-23'],
+          ['2020-05-24'],
+          ['2020-06-11'],
+          ['2020-07-06'],
+          ['2020-07-21'],
+          ['2020-08-01'],
+          ['2020-08-16'],
+          ['2020-09-01'],
+          ['2020-09-19'],
+          ['2020-10-04'],
+          ['2020-10-27'],
         ],
-        inputData: ["airports"]
-      }
-    }
+        inputData: ['airports'],
+      },
+    },
   },
   {
     latlng: latLng([37.622, -122.378]),
@@ -4369,53 +4368,53 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([37.622, -122.378]),
         id: 19697,
-        aoiID: "US031",
-        country: ["US"],
-        city: "San Francisco",
-        siteName: "San Francisco International Airport - SFO",
-        description: "Airports: throughput",
-        indicator: "E13b",
-        lastIndicatorValue: "normal",
+        aoiID: 'US031',
+        country: ['US'],
+        city: 'San Francisco',
+        siteName: 'San Francisco International Airport - SFO',
+        description: 'Airports: throughput',
+        indicator: 'E13b',
+        lastIndicatorValue: 'normal',
         indicatorName:
-          "San Francisco International Airport - SFO, Throughput at principal hub airports",
-        lastColorCode: "BLUE",
+          'San Francisco International Airport - SFO, Throughput at principal hub airports',
+        lastColorCode: 'BLUE',
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-122.4 37.605, -122.355 37.605, -122.355 37.64, -122.4 37.64, -122.4 37.605))"
+                  'POLYGON((-122.4 37.605, -122.355 37.605, -122.355 37.64, -122.4 37.64, -122.4 37.605))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: [
-          ["2020-01-11"],
-          ["2020-02-20"],
-          ["2020-03-09"],
-          ["2020-04-03"],
-          ["2020-05-05"],
-          ["2020-05-19"],
-          ["2020-05-26"],
-          ["2020-06-04"],
-          ["2020-06-23"],
-          ["2020-07-06"],
-          ["2020-07-14"],
-          ["2020-08-07"],
-          ["2020-08-13"],
-          ["2020-09-23"],
-          ["2020-09-30"],
-          ["2020-10-12"],
-          ["2020-10-26"]
+          ['2020-01-11'],
+          ['2020-02-20'],
+          ['2020-03-09'],
+          ['2020-04-03'],
+          ['2020-05-05'],
+          ['2020-05-19'],
+          ['2020-05-26'],
+          ['2020-06-04'],
+          ['2020-06-23'],
+          ['2020-07-06'],
+          ['2020-07-14'],
+          ['2020-08-07'],
+          ['2020-08-13'],
+          ['2020-09-23'],
+          ['2020-09-30'],
+          ['2020-10-12'],
+          ['2020-10-26'],
         ],
-        inputData: ["airports"]
-      }
-    }
+        inputData: ['airports'],
+      },
+    },
   },
   {
     latlng: latLng([37.363, -121.93]),
@@ -4425,51 +4424,51 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([37.363, -121.93]),
         id: 19696,
-        aoiID: "US032",
-        country: ["US"],
-        city: "San Jose",
-        siteName: "Norman Y. Mineta San Jose International Airport - SJC",
-        description: "Airports: throughput",
-        indicator: "E13b",
-        lastIndicatorValue: "normal",
+        aoiID: 'US032',
+        country: ['US'],
+        city: 'San Jose',
+        siteName: 'Norman Y. Mineta San Jose International Airport - SJC',
+        description: 'Airports: throughput',
+        indicator: 'E13b',
+        lastIndicatorValue: 'normal',
         indicatorName:
-          "Norman Y. Mineta San Jose International Airport - SJC, Throughput at principal hub airports",
-        lastColorCode: "BLUE",
+          'Norman Y. Mineta San Jose International Airport - SJC, Throughput at principal hub airports',
+        lastColorCode: 'BLUE',
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-121.945 37.35, -121.912 37.35, -121.912 37.377, -121.945 37.377, -121.945 37.35))"
+                  'POLYGON((-121.945 37.35, -121.912 37.35, -121.912 37.377, -121.945 37.377, -121.945 37.35))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: [
-          ["2020-01-12"],
-          ["2020-02-10"],
-          ["2020-03-12"],
-          ["2020-04-07"],
-          ["2020-05-07"],
-          ["2020-05-16"],
-          ["2020-05-29"],
-          ["2020-06-21"],
-          ["2020-06-29"],
-          ["2020-07-22"],
-          ["2020-07-31"],
-          ["2020-08-03"],
-          ["2020-08-08"],
-          ["2020-10-20"],
-          ["2020-10-31"]
+          ['2020-01-12'],
+          ['2020-02-10'],
+          ['2020-03-12'],
+          ['2020-04-07'],
+          ['2020-05-07'],
+          ['2020-05-16'],
+          ['2020-05-29'],
+          ['2020-06-21'],
+          ['2020-06-29'],
+          ['2020-07-22'],
+          ['2020-07-31'],
+          ['2020-08-03'],
+          ['2020-08-08'],
+          ['2020-10-20'],
+          ['2020-10-31'],
         ],
-        inputData: ["airports"]
-      }
-    }
+        inputData: ['airports'],
+      },
+    },
   },
   {
     latlng: latLng([37.722, -122.226]),
@@ -4479,49 +4478,49 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([37.722, -122.226]),
         id: 19695,
-        aoiID: "US033",
-        country: ["US"],
-        city: "Oakland",
-        siteName: "Oakland International Airport - OAK",
-        description: "Airports: throughput",
-        indicator: "E13b",
-        lastIndicatorValue: "normal",
-        indicatorName: "Oakland International Airport - OAK, Throughput at principal hub airports",
-        lastColorCode: "BLUE",
+        aoiID: 'US033',
+        country: ['US'],
+        city: 'Oakland',
+        siteName: 'Oakland International Airport - OAK',
+        description: 'Airports: throughput',
+        indicator: 'E13b',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Oakland International Airport - OAK, Throughput at principal hub airports',
+        lastColorCode: 'BLUE',
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-122.252 37.7, -122.2 37.7, -122.2 37.745, -122.252 37.745, -122.252 37.7))"
+                  'POLYGON((-122.252 37.7, -122.2 37.7, -122.2 37.745, -122.252 37.745, -122.252 37.7))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: [
-          ["2020-01-13"],
-          ["2020-02-15"],
-          ["2020-03-19"],
-          ["2020-04-15"],
-          ["2020-05-04"],
-          ["2020-05-27"],
-          ["2020-06-11"],
-          ["2020-06-18"],
-          ["2020-07-07"],
-          ["2020-07-27"],
-          ["2020-08-04"],
-          ["2020-09-22"],
-          ["2020-09-24"],
-          ["2020-10-15"]
+          ['2020-01-13'],
+          ['2020-02-15'],
+          ['2020-03-19'],
+          ['2020-04-15'],
+          ['2020-05-04'],
+          ['2020-05-27'],
+          ['2020-06-11'],
+          ['2020-06-18'],
+          ['2020-07-07'],
+          ['2020-07-27'],
+          ['2020-08-04'],
+          ['2020-09-22'],
+          ['2020-09-24'],
+          ['2020-10-15'],
         ],
-        inputData: ["airports"]
-      }
-    }
+        inputData: ['airports'],
+      },
+    },
   },
   {
     latlng: latLng([37.6585, -122.121]),
@@ -4531,34 +4530,34 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([37.6585, -122.121]),
         id: 19694,
-        aoiID: "US034",
-        country: ["US"],
-        city: "Hayward",
-        siteName: "Hayward Executive Airport - HWD",
-        description: "Airports: throughput",
-        indicator: "E13b",
-        lastIndicatorValue: "normal",
-        indicatorName: "Hayward Executive Airport - HWD, Throughput at principal hub airports",
-        lastColorCode: "BLUE",
+        aoiID: 'US034',
+        country: ['US'],
+        city: 'Hayward',
+        siteName: 'Hayward Executive Airport - HWD',
+        description: 'Airports: throughput',
+        indicator: 'E13b',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Hayward Executive Airport - HWD, Throughput at principal hub airports',
+        lastColorCode: 'BLUE',
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-122.132 37.653, -122.11 37.653, -122.11 37.664, -122.132 37.664, -122.132 37.653))"
+                  'POLYGON((-122.132 37.653, -122.11 37.653, -122.11 37.664, -122.132 37.664, -122.132 37.653))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: [["2020-01-13"], ["2020-02-18"], ["2020-03-12"], ["2020-04-22"], ["2020-05-19"]],
-        inputData: ["airports"]
-      }
-    }
+        time: [['2020-01-13'], ['2020-02-18'], ['2020-03-12'], ['2020-04-22'], ['2020-05-19']],
+        inputData: ['airports'],
+      },
+    },
   },
   {
     latlng: latLng([38.216, -122.276]),
@@ -4568,46 +4567,46 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([38.216, -122.276]),
         id: 19693,
-        aoiID: "US035",
-        country: ["US"],
-        city: "Napa",
-        siteName: "Napa County Airport - APC",
-        description: "Airports: throughput",
-        indicator: "E13b",
-        lastIndicatorValue: "normal",
-        indicatorName: "Napa County Airport - APC, Throughput at principal hub airports",
-        lastColorCode: "BLUE",
+        aoiID: 'US035',
+        country: ['US'],
+        city: 'Napa',
+        siteName: 'Napa County Airport - APC',
+        description: 'Airports: throughput',
+        indicator: 'E13b',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Napa County Airport - APC, Throughput at principal hub airports',
+        lastColorCode: 'BLUE',
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-122.286 38.206, -122.266 38.206, -122.266 38.226, -122.286 38.226, -122.286 38.206))"
+                  'POLYGON((-122.286 38.206, -122.266 38.206, -122.266 38.226, -122.286 38.226, -122.286 38.206))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: [
-          ["2020-01-13"],
-          ["2020-02-06"],
-          ["2020-03-10"],
-          ["2020-04-07"],
-          ["2020-06-28"],
-          ["2020-07-17"],
-          ["2020-07-25"],
-          ["2020-08-09"],
-          ["2020-09-04"],
-          ["2020-10-21"],
-          ["2020-10-28"]
+          ['2020-01-13'],
+          ['2020-02-06'],
+          ['2020-03-10'],
+          ['2020-04-07'],
+          ['2020-06-28'],
+          ['2020-07-17'],
+          ['2020-07-25'],
+          ['2020-08-09'],
+          ['2020-09-04'],
+          ['2020-10-21'],
+          ['2020-10-28'],
         ],
-        inputData: ["airports"]
-      }
-    }
+        inputData: ['airports'],
+      },
+    },
   },
   {
     latlng: latLng([38.144, -122.557]),
@@ -4617,34 +4616,34 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([38.144, -122.557]),
         id: 19692,
-        aoiID: "US036",
-        country: ["US"],
-        city: "Marin",
-        siteName: "Marin County Airport - NOT",
-        description: "Airports: throughput",
-        indicator: "E13b",
-        lastIndicatorValue: "normal",
-        indicatorName: "Marin County Airport - NOT, Throughput at principal hub airports",
-        lastColorCode: "BLUE",
+        aoiID: 'US036',
+        country: ['US'],
+        city: 'Marin',
+        siteName: 'Marin County Airport - NOT',
+        description: 'Airports: throughput',
+        indicator: 'E13b',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Marin County Airport - NOT, Throughput at principal hub airports',
+        lastColorCode: 'BLUE',
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-122.565 38.137, -122.55 38.137, -122.55 38.150, -122.565 38.150, -122.565 38.137))"
+                  'POLYGON((-122.565 38.137, -122.55 38.137, -122.55 38.150, -122.565 38.150, -122.565 38.137))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: [["2020-02-07"], ["2020-03-12"], ["2020-04-02"]],
-        inputData: ["airports"]
-      }
-    }
+        time: [['2020-02-07'], ['2020-03-12'], ['2020-04-02']],
+        inputData: ['airports'],
+      },
+    },
   },
   {
     latlng: latLng([37.99, -122.057]),
@@ -4654,34 +4653,34 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([37.99, -122.057]),
         id: 19691,
-        aoiID: "US037",
-        country: ["US"],
-        city: "Buchannan",
-        siteName: "Buchannan Field Airport - CCR",
-        description: "Airports: throughput",
-        indicator: "E13b",
-        lastIndicatorValue: "normal",
-        indicatorName: "Buchannan Field Airport - CCR, Throughput at principal hub airports",
-        lastColorCode: "BLUE",
+        aoiID: 'US037',
+        country: ['US'],
+        city: 'Buchannan',
+        siteName: 'Buchannan Field Airport - CCR',
+        description: 'Airports: throughput',
+        indicator: 'E13b',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Buchannan Field Airport - CCR, Throughput at principal hub airports',
+        lastColorCode: 'BLUE',
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-122.064 37.98, -122.05 37.98, -122.05 38.0, -122.064 38.0, -122.064 37.98))"
+                  'POLYGON((-122.064 37.98, -122.05 37.98, -122.05 38.0, -122.064 38.0, -122.064 37.98))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: [["2020-03-12"]],
-        inputData: ["airports"]
-      }
-    }
+        time: [['2020-03-12']],
+        inputData: ['airports'],
+      },
+    },
   },
   {
     latlng: latLng([40.642, -73.788]),
@@ -4691,52 +4690,52 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([40.642, -73.788]),
         id: 19690,
-        aoiID: "US041",
-        country: ["US"],
-        city: "New York",
-        siteName: "John F. Kennedy International Airport - JFK",
-        description: "Airports: throughput",
-        indicator: "E13b",
-        lastIndicatorValue: "normal",
+        aoiID: 'US041',
+        country: ['US'],
+        city: 'New York',
+        siteName: 'John F. Kennedy International Airport - JFK',
+        description: 'Airports: throughput',
+        indicator: 'E13b',
+        lastIndicatorValue: 'normal',
         indicatorName:
-          "John F. Kennedy International Airport - JFK, Throughput at principal hub airports",
-        lastColorCode: "BLUE",
+          'John F. Kennedy International Airport - JFK, Throughput at principal hub airports',
+        lastColorCode: 'BLUE',
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-73.825 40.62, -73.753 40.62, -73.753 40.664, -73.825 40.664, -73.825 40.62))"
+                  'POLYGON((-73.825 40.62, -73.753 40.62, -73.753 40.664, -73.825 40.664, -73.825 40.62))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: [
-          ["2020-01-16"],
-          ["2020-02-17"],
-          ["2020-03-15"],
-          ["2020-04-15"],
-          ["2020-05-14"],
-          ["2020-05-27"],
-          ["2020-05-30"],
-          ["2020-06-04"],
-          ["2020-06-10"],
-          ["2020-07-02"],
-          ["2020-07-06"],
-          ["2020-08-10"],
-          ["2020-08-26"],
-          ["2020-09-16"],
-          ["2020-09-25"],
-          ["2020-10-06"]
+          ['2020-01-16'],
+          ['2020-02-17'],
+          ['2020-03-15'],
+          ['2020-04-15'],
+          ['2020-05-14'],
+          ['2020-05-27'],
+          ['2020-05-30'],
+          ['2020-06-04'],
+          ['2020-06-10'],
+          ['2020-07-02'],
+          ['2020-07-06'],
+          ['2020-08-10'],
+          ['2020-08-26'],
+          ['2020-09-16'],
+          ['2020-09-25'],
+          ['2020-10-06'],
         ],
-        inputData: ["airports"]
-      }
-    }
+        inputData: ['airports'],
+      },
+    },
   },
   {
     latlng: latLng([40.689, -74.172]),
@@ -4746,53 +4745,53 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([40.689, -74.172]),
         id: 19689,
-        aoiID: "US042",
-        country: ["US"],
-        city: "Newark",
-        siteName: "Newark Liberty International Airport - EWR",
-        description: "Airports: throughput",
-        indicator: "E13b",
-        lastIndicatorValue: "normal",
+        aoiID: 'US042',
+        country: ['US'],
+        city: 'Newark',
+        siteName: 'Newark Liberty International Airport - EWR',
+        description: 'Airports: throughput',
+        indicator: 'E13b',
+        lastIndicatorValue: 'normal',
         indicatorName:
-          "Newark Liberty International Airport - EWR, Throughput at principal hub airports",
-        lastColorCode: "BLUE",
+          'Newark Liberty International Airport - EWR, Throughput at principal hub airports',
+        lastColorCode: 'BLUE',
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-74.19 40.67, -74.155 40.67, -74.155 40.708, -74.19 40.708, -74.19 40.67))"
+                  'POLYGON((-74.19 40.67, -74.155 40.67, -74.155 40.708, -74.19 40.708, -74.19 40.67))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: [
-          ["2020-01-20"],
-          ["2020-02-19"],
-          ["2020-03-09"],
-          ["2020-04-06"],
-          ["2020-05-05"],
-          ["2020-05-20"],
-          ["2020-05-31"],
-          ["2020-06-01"],
-          ["2020-06-09"],
-          ["2020-07-19"],
-          ["2020-07-21"],
-          ["2020-08-03"],
-          ["2020-08-17"],
-          ["2020-09-13"],
-          ["2020-09-21"],
-          ["2020-10-08"],
-          ["2020-10-15"]
+          ['2020-01-20'],
+          ['2020-02-19'],
+          ['2020-03-09'],
+          ['2020-04-06'],
+          ['2020-05-05'],
+          ['2020-05-20'],
+          ['2020-05-31'],
+          ['2020-06-01'],
+          ['2020-06-09'],
+          ['2020-07-19'],
+          ['2020-07-21'],
+          ['2020-08-03'],
+          ['2020-08-17'],
+          ['2020-09-13'],
+          ['2020-09-21'],
+          ['2020-10-08'],
+          ['2020-10-15'],
         ],
-        inputData: ["airports"]
-      }
-    }
+        inputData: ['airports'],
+      },
+    },
   },
   {
     latlng: latLng([40.072, 116.593]),
@@ -4802,35 +4801,35 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([40.072, 116.593]),
         id: 19688,
-        aoiID: "CN011",
-        country: ["CN"],
-        city: "Beijing",
-        siteName: "Beijing Capital International Airport - PEK",
-        description: "Airports: throughput",
-        indicator: "E13b",
-        lastIndicatorValue: "normal",
+        aoiID: 'CN011',
+        country: ['CN'],
+        city: 'Beijing',
+        siteName: 'Beijing Capital International Airport - PEK',
+        description: 'Airports: throughput',
+        indicator: 'E13b',
+        lastIndicatorValue: 'normal',
         indicatorName:
-          "Beijing Capital International Airport - PEK, Throughput at principal hub airports",
-        lastColorCode: "BLUE",
+          'Beijing Capital International Airport - PEK, Throughput at principal hub airports',
+        lastColorCode: 'BLUE',
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((116.566 40.05, 116.621 40.05, 116.621 40.105, 116.566 40.105, 116.566 40.05))"
+                  'POLYGON((116.566 40.05, 116.621 40.05, 116.621 40.105, 116.566 40.105, 116.566 40.05))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
-        time: [["2020-01-12"], ["2020-02-10"], ["2020-03-12"], ["2020-04-11"], ["2020-05-05"]],
-        inputData: ["airports"]
-      }
-    }
+        time: [['2020-01-12'], ['2020-02-10'], ['2020-03-12'], ['2020-04-11'], ['2020-05-05']],
+        inputData: ['airports'],
+      },
+    },
   },
   {
     latlng: latLng([39.495, 116.419]),
@@ -4840,44 +4839,44 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([39.495, 116.419]),
         id: 19687,
-        aoiID: "CN012",
-        country: ["CN"],
-        city: "Beijing Daxing",
-        siteName: "Beijing Daxing International Airport - PKX",
-        description: "Airports: throughput",
-        indicator: "E13b",
-        lastIndicatorValue: "normal",
+        aoiID: 'CN012',
+        country: ['CN'],
+        city: 'Beijing Daxing',
+        siteName: 'Beijing Daxing International Airport - PKX',
+        description: 'Airports: throughput',
+        indicator: 'E13b',
+        lastIndicatorValue: 'normal',
         indicatorName:
-          "Beijing Daxing International Airport - PKX, Throughput at principal hub airports",
-        lastColorCode: "BLUE",
+          'Beijing Daxing International Airport - PKX, Throughput at principal hub airports',
+        lastColorCode: 'BLUE',
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((116.362 39.466, 116.476 39.466, 116.476 39.524, 116.362 39.524, 116.362 39.466))"
+                  'POLYGON((116.362 39.466, 116.476 39.466, 116.476 39.524, 116.362 39.524, 116.362 39.466))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: [
-          ["2020-01-09"],
-          ["2020-01-12"],
-          ["2020-01-14"],
-          ["2020-02-18"],
-          ["2020-03-13"],
-          ["2020-03-19"],
-          ["2020-04-11"],
-          ["2020-05-14"]
+          ['2020-01-09'],
+          ['2020-01-12'],
+          ['2020-01-14'],
+          ['2020-02-18'],
+          ['2020-03-13'],
+          ['2020-03-19'],
+          ['2020-04-11'],
+          ['2020-05-14'],
         ],
-        inputData: ["airports"]
-      }
-    }
+        inputData: ['airports'],
+      },
+    },
   },
   {
     latlng: latLng([35.774, 140.385]),
@@ -4887,49 +4886,49 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([35.774, 140.385]),
         id: 19685,
-        aoiID: "JP012",
-        country: ["JP"],
-        city: "Narita",
-        siteName: "Narita International Airport - NRT",
-        description: "Airports: throughput",
-        indicator: "E13b",
-        lastIndicatorValue: "normal",
-        indicatorName: "Narita International Airport - NRT, Throughput at principal hub airports",
-        lastColorCode: "BLUE",
+        aoiID: 'JP012',
+        country: ['JP'],
+        city: 'Narita',
+        siteName: 'Narita International Airport - NRT',
+        description: 'Airports: throughput',
+        indicator: 'E13b',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Narita International Airport - NRT, Throughput at principal hub airports',
+        lastColorCode: 'BLUE',
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((140.364 35.742, 140.406 35.742, 140.406 35.806, 140.364 35.806, 140.364 35.742))"
+                  'POLYGON((140.364 35.742, 140.406 35.742, 140.406 35.806, 140.364 35.806, 140.364 35.742))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: [
-          ["2020-01-19"],
-          ["2020-02-05"],
-          ["2020-03-19"],
-          ["2020-04-10"],
-          ["2020-05-16"],
-          ["2020-08-11"],
-          ["2020-08-11"],
-          ["2020-08-14"],
-          ["2020-09-02"],
-          ["2020-09-09"],
-          ["2020-09-10"],
-          ["2020-10-02"],
-          ["2020-10-22"],
-          ["2020-10-25"]
+          ['2020-01-19'],
+          ['2020-02-05'],
+          ['2020-03-19'],
+          ['2020-04-10'],
+          ['2020-05-16'],
+          ['2020-08-11'],
+          ['2020-08-11'],
+          ['2020-08-14'],
+          ['2020-09-02'],
+          ['2020-09-09'],
+          ['2020-09-10'],
+          ['2020-10-02'],
+          ['2020-10-22'],
+          ['2020-10-25'],
         ],
-        inputData: ["airports"]
-      }
-    }
+        inputData: ['airports'],
+      },
+    },
   },
   {
     latlng: latLng([34.05, -118.251]),
@@ -4939,85 +4938,85 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([34.05, -118.251]),
         id: 19599,
-        aoiID: "US02",
-        country: ["US"],
-        city: "Los Angeles",
-        siteName: "Los Angeles",
-        description: "Ports: Ship throughput",
-        indicator: "E13c",
-        lastIndicatorValue: "normal",
-        indicatorName: "Number of Ships in Port",
-        lastColorCode: "BLUE",
-        eoSensor: ["Planet Labs/NASA (PlanetScope)"],
+        aoiID: 'US02',
+        country: ['US'],
+        city: 'Los Angeles',
+        siteName: 'Los Angeles',
+        description: 'Ports: Ship throughput',
+        indicator: 'E13c',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Number of Ships in Port',
+        lastColorCode: 'BLUE',
+        eoSensor: ['Planet Labs/NASA (PlanetScope)'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-118.780756 33.420203,-118.780756 33.950165,-117.92406 33.950165,-117.92406 33.420203,-118.780756 33.420203))"
+                  'POLYGON((-118.780756 33.420203,-118.780756 33.950165,-117.92406 33.950165,-117.92406 33.420203,-118.780756 33.420203))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: [
-          "2020-01-01",
-          "2020-01-06",
-          "2020-01-07",
-          "2020-01-09",
-          "2020-01-10",
-          "2020-01-12",
-          "2020-01-13",
-          "2020-01-14",
-          "2020-01-17",
-          "2020-01-18",
-          "2020-01-19",
-          "2020-01-22",
-          "2020-01-23",
-          "2020-01-24",
-          "2020-01-27",
-          "2020-01-28",
-          "2020-01-29",
-          "2020-01-30",
-          "2020-01-31",
-          "2020-02-02",
-          "2020-02-03",
-          "2020-02-27",
-          "2020-02-29",
-          "2020-03-03",
-          "2020-03-08",
-          "2020-03-15",
-          "2020-03-21",
-          "2020-03-22",
-          "2020-03-27",
-          "2020-04-23",
-          "2020-04-24",
-          "2020-05-01",
-          "2020-05-02",
-          "2020-05-03",
-          "2020-05-04",
-          "2020-05-05",
-          "2020-05-06",
-          "2020-05-07",
-          "2020-05-08",
-          "2020-05-09",
-          "2020-05-11",
-          "2020-05-12",
-          "2020-05-13",
-          "2020-05-14",
-          "2020-05-15",
-          "2020-05-16",
-          "2020-05-17",
-          "2020-05-19",
-          "2020-05-20",
-          "2020-05-21"
+          '2020-01-01',
+          '2020-01-06',
+          '2020-01-07',
+          '2020-01-09',
+          '2020-01-10',
+          '2020-01-12',
+          '2020-01-13',
+          '2020-01-14',
+          '2020-01-17',
+          '2020-01-18',
+          '2020-01-19',
+          '2020-01-22',
+          '2020-01-23',
+          '2020-01-24',
+          '2020-01-27',
+          '2020-01-28',
+          '2020-01-29',
+          '2020-01-30',
+          '2020-01-31',
+          '2020-02-02',
+          '2020-02-03',
+          '2020-02-27',
+          '2020-02-29',
+          '2020-03-03',
+          '2020-03-08',
+          '2020-03-15',
+          '2020-03-21',
+          '2020-03-22',
+          '2020-03-27',
+          '2020-04-23',
+          '2020-04-24',
+          '2020-05-01',
+          '2020-05-02',
+          '2020-05-03',
+          '2020-05-04',
+          '2020-05-05',
+          '2020-05-06',
+          '2020-05-07',
+          '2020-05-08',
+          '2020-05-09',
+          '2020-05-11',
+          '2020-05-12',
+          '2020-05-13',
+          '2020-05-14',
+          '2020-05-15',
+          '2020-05-16',
+          '2020-05-17',
+          '2020-05-19',
+          '2020-05-20',
+          '2020-05-21',
         ],
-        inputData: ["ports"]
-      }
-    }
+        inputData: ['ports'],
+      },
+    },
   },
   {
     latlng: latLng([40.6, -74.05]),
@@ -5027,64 +5026,64 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([40.6, -74.05]),
         id: 19598,
-        aoiID: "US01",
-        country: ["US"],
-        city: "New York",
-        siteName: "New York",
-        description: "Ports: Ship throughput",
-        indicator: "E13c",
-        lastIndicatorValue: "normal",
-        indicatorName: "Number of Ships in Port",
-        lastColorCode: "BLUE",
-        eoSensor: ["Planet Labs/NASA (PlanetScope)"],
+        aoiID: 'US01',
+        country: ['US'],
+        city: 'New York',
+        siteName: 'New York',
+        description: 'Ports: Ship throughput',
+        indicator: 'E13c',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Number of Ships in Port',
+        lastColorCode: 'BLUE',
+        eoSensor: ['Planet Labs/NASA (PlanetScope)'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-73.973021 40.772228,-74.035505 40.762347,-74.11241 40.663458,-74.194807 40.643663,-74.303297 40.504408,-74.226393 40.44643,-73.990873 40.404614,-73.793119 40.395201,-73.646177 40.446953,-73.616652 40.583198,-73.751234 40.595191,-73.791746 40.660333,-73.87895 40.657207,-73.975767 40.611873,-74.001173 40.661895,-73.938688 40.748303,-73.973021 40.772228))"
+                  'POLYGON((-73.973021 40.772228,-74.035505 40.762347,-74.11241 40.663458,-74.194807 40.643663,-74.303297 40.504408,-74.226393 40.44643,-73.990873 40.404614,-73.793119 40.395201,-73.646177 40.446953,-73.616652 40.583198,-73.751234 40.595191,-73.791746 40.660333,-73.87895 40.657207,-73.975767 40.611873,-74.001173 40.661895,-73.938688 40.748303,-73.973021 40.772228))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: [
-          "2020-01-02",
-          "2020-01-09",
-          "2020-01-11",
-          "2020-01-16",
-          "2020-01-17",
-          "2020-01-19",
-          "2020-01-20",
-          "2020-01-21",
-          "2020-01-22",
-          "2020-01-23",
-          "2020-01-24",
-          "2020-01-30",
-          "2020-02-02",
-          "2020-02-03",
-          "2020-02-29",
-          "2020-03-08",
-          "2020-03-18",
-          "2020-03-22",
-          "2020-03-27",
-          "2020-05-02",
-          "2020-05-05",
-          "2020-05-09",
-          "2020-05-10",
-          "2020-05-13",
-          "2020-05-14",
-          "2020-05-16",
-          "2020-05-19",
-          "2020-05-20",
-          "2020-05-21"
+          '2020-01-02',
+          '2020-01-09',
+          '2020-01-11',
+          '2020-01-16',
+          '2020-01-17',
+          '2020-01-19',
+          '2020-01-20',
+          '2020-01-21',
+          '2020-01-22',
+          '2020-01-23',
+          '2020-01-24',
+          '2020-01-30',
+          '2020-02-02',
+          '2020-02-03',
+          '2020-02-29',
+          '2020-03-08',
+          '2020-03-18',
+          '2020-03-22',
+          '2020-03-27',
+          '2020-05-02',
+          '2020-05-05',
+          '2020-05-09',
+          '2020-05-10',
+          '2020-05-13',
+          '2020-05-14',
+          '2020-05-16',
+          '2020-05-19',
+          '2020-05-20',
+          '2020-05-21',
         ],
-        inputData: ["ports"]
-      }
-    }
+        inputData: ['ports'],
+      },
+    },
   },
   {
     latlng: latLng([37.7775, -122.416389]),
@@ -5094,73 +5093,73 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([37.7775, -122.416389]),
         id: 19597,
-        aoiID: "US03",
-        country: ["US"],
-        city: "San Francisco",
-        siteName: "San Francisco",
-        description: "Ports: Ship throughput",
-        indicator: "E13c",
-        lastIndicatorValue: "normal",
-        indicatorName: "Number of Ships in Port",
-        lastColorCode: "BLUE",
-        eoSensor: ["Planet Labs/NASA (PlanetScope)"],
+        aoiID: 'US03',
+        country: ['US'],
+        city: 'San Francisco',
+        siteName: 'San Francisco',
+        description: 'Ports: Ship throughput',
+        indicator: 'E13c',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Number of Ships in Port',
+        lastColorCode: 'BLUE',
+        eoSensor: ['Planet Labs/NASA (PlanetScope)'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-122.6348876953125 37.61314357137536, -122.25654602050781 37.61314357137536, -122.25654602050781 37.88081521949766, -122.6348876953125 37.88081521949766, -122.6348876953125 37.61314357137536))"
+                  'POLYGON((-122.6348876953125 37.61314357137536, -122.25654602050781 37.61314357137536, -122.25654602050781 37.88081521949766, -122.6348876953125 37.88081521949766, -122.6348876953125 37.61314357137536))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: [
-          "2020-01-02",
-          "2020-01-03",
-          "2020-01-05",
-          "2020-01-07",
-          "2020-01-10",
-          "2020-01-11",
-          "2020-01-12",
-          "2020-01-13",
-          "2020-01-14",
-          "2020-01-17",
-          "2020-01-18",
-          "2020-01-22",
-          "2020-01-23",
-          "2020-01-27",
-          "2020-01-30",
-          "2020-01-31",
-          "2020-02-03",
-          "2020-02-27",
-          "2020-02-29",
-          "2020-03-03",
-          "2020-03-08",
-          "2020-03-10",
-          "2020-03-11",
-          "2020-04-21",
-          "2020-05-01",
-          "2020-05-03",
-          "2020-05-04",
-          "2020-05-05",
-          "2020-05-06",
-          "2020-05-07",
-          "2020-05-08",
-          "2020-05-09",
-          "2020-05-15",
-          "2020-05-16",
-          "2020-05-17",
-          "2020-05-19",
-          "2020-05-20",
-          "2020-05-21"
+          '2020-01-02',
+          '2020-01-03',
+          '2020-01-05',
+          '2020-01-07',
+          '2020-01-10',
+          '2020-01-11',
+          '2020-01-12',
+          '2020-01-13',
+          '2020-01-14',
+          '2020-01-17',
+          '2020-01-18',
+          '2020-01-22',
+          '2020-01-23',
+          '2020-01-27',
+          '2020-01-30',
+          '2020-01-31',
+          '2020-02-03',
+          '2020-02-27',
+          '2020-02-29',
+          '2020-03-03',
+          '2020-03-08',
+          '2020-03-10',
+          '2020-03-11',
+          '2020-04-21',
+          '2020-05-01',
+          '2020-05-03',
+          '2020-05-04',
+          '2020-05-05',
+          '2020-05-06',
+          '2020-05-07',
+          '2020-05-08',
+          '2020-05-09',
+          '2020-05-15',
+          '2020-05-16',
+          '2020-05-17',
+          '2020-05-19',
+          '2020-05-20',
+          '2020-05-21',
         ],
-        inputData: ["ports"]
-      }
-    }
+        inputData: ['ports'],
+      },
+    },
   },
   {
     latlng: latLng([41.80710100142961, 12.253597669510512]),
@@ -5170,35 +5169,35 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([41.80710100142961, 12.253597669510512]),
         id: 19684,
-        aoiID: "IT9",
-        country: ["IT"],
-        city: "Rome",
-        siteName: "Aeroporto di Roma-Fiumicino",
-        description: "Airports: throughput",
-        indicator: "E13b",
-        lastIndicatorValue: "normal",
-        indicatorName: "Number of parked airplanes",
-        lastColorCode: "BLUE",
+        aoiID: 'IT9',
+        country: ['IT'],
+        city: 'Rome',
+        siteName: 'Aeroporto di Roma-Fiumicino',
+        description: 'Airports: throughput',
+        indicator: 'E13b',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Number of parked airplanes',
+        lastColorCode: 'BLUE',
         inputData: [],
-        eoSensor: ["Sentinel-2"],
+        eoSensor: ['Sentinel-2'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((12.24143 41.775408,12.250614 41.779761,12.251129 41.786353,12.256365 41.788017,12.261343 41.785585,12.271214 41.789169,12.265806 41.796016,12.271729 41.79832,12.26984 41.802799,12.273016 41.803614,12.274067 41.802159,12.280183 41.803998,12.2822 41.807805,12.263403 41.850767,12.253833 41.848753,12.268424 41.813003,12.237525 41.804142,12.231946 41.818216,12.228856 41.820231,12.2189 41.817449,12.240272 41.775632,12.24143 41.775408))"
+                  'POLYGON((12.24143 41.775408,12.250614 41.779761,12.251129 41.786353,12.256365 41.788017,12.261343 41.785585,12.271214 41.789169,12.265806 41.796016,12.271729 41.79832,12.26984 41.802799,12.273016 41.803614,12.274067 41.802159,12.280183 41.803998,12.2822 41.807805,12.263403 41.850767,12.253833 41.848753,12.268424 41.813003,12.237525 41.804142,12.231946 41.818216,12.228856 41.820231,12.2189 41.817449,12.240272 41.775632,12.24143 41.775408))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          layers: "SENTINEL-2-L2A-TRUE-COLOR",
-          name: "Sentinel-2 L2A",
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Sentinel-2 L2A',
           dateFormatFunction: shS2TimeFunction,
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -5217,35 +5216,35 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([51.469716296645025, -0.4580423952680147]),
         id: 19683,
-        aoiID: "UK4",
-        country: ["GB"],
-        city: "Heathrow",
-        siteName: "London Heathrow Airport",
-        description: "Airports: throughput",
-        indicator: "E13b",
-        lastIndicatorValue: "normal",
-        indicatorName: "Number of parked airplanes",
-        lastColorCode: "BLUE",
+        aoiID: 'UK4',
+        country: ['GB'],
+        city: 'Heathrow',
+        siteName: 'London Heathrow Airport',
+        description: 'Airports: throughput',
+        indicator: 'E13b',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Number of parked airplanes',
+        lastColorCode: 'BLUE',
         inputData: [],
-        eoSensor: ["Sentinel-2"],
+        eoSensor: ['Sentinel-2'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((-0.451641 51.455745,-0.461125 51.457751,-0.472798 51.458366,-0.475931 51.460291,-0.474772 51.462537,-0.476575 51.46251,-0.478764 51.461414,-0.488033 51.461735,-0.48872 51.463286,-0.491724 51.463499,-0.49211 51.464836,-0.491209 51.469889,-0.490952 51.474193,-0.493441 51.475503,-0.495071 51.475823,-0.494299 51.478363,-0.487347 51.479459,-0.480738 51.479565,-0.427222 51.479699,-0.426064 51.478871,-0.426364 51.476465,-0.418382 51.475957,-0.414348 51.471787,-0.416236 51.469729,-0.419712 51.469461,-0.420785 51.470745,-0.423746 51.473204,-0.426321 51.472937,-0.426793 51.472028,-0.423446 51.469381,-0.423703 51.468018,-0.426364 51.464622,-0.441685 51.45858,-0.445075 51.459275,-0.445547 51.456387,-0.451641 51.455745))"
+                  'POLYGON((-0.451641 51.455745,-0.461125 51.457751,-0.472798 51.458366,-0.475931 51.460291,-0.474772 51.462537,-0.476575 51.46251,-0.478764 51.461414,-0.488033 51.461735,-0.48872 51.463286,-0.491724 51.463499,-0.49211 51.464836,-0.491209 51.469889,-0.490952 51.474193,-0.493441 51.475503,-0.495071 51.475823,-0.494299 51.478363,-0.487347 51.479459,-0.480738 51.479565,-0.427222 51.479699,-0.426064 51.478871,-0.426364 51.476465,-0.418382 51.475957,-0.414348 51.471787,-0.416236 51.469729,-0.419712 51.469461,-0.420785 51.470745,-0.423746 51.473204,-0.426321 51.472937,-0.426793 51.472028,-0.423446 51.469381,-0.423703 51.468018,-0.426364 51.464622,-0.441685 51.45858,-0.445075 51.459275,-0.445547 51.456387,-0.451641 51.455745))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          layers: "SENTINEL-2-L2A-TRUE-COLOR",
-          name: "Sentinel-2 L2A",
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Sentinel-2 L2A',
           dateFormatFunction: shS2TimeFunction,
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -5264,35 +5263,35 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([49.006976345624935, 2.559786183921451]),
         id: 19682,
-        aoiID: "FR8",
-        country: ["FR"],
-        city: "Paris",
-        siteName: "Aeroport Roissy Charles de Gaulle",
-        description: "Airports: throughput",
-        indicator: "E13b",
-        lastIndicatorValue: "normal",
-        indicatorName: "Number of parked airplanes",
-        lastColorCode: "BLUE",
+        aoiID: 'FR8',
+        country: ['FR'],
+        city: 'Paris',
+        siteName: 'Aeroport Roissy Charles de Gaulle',
+        description: 'Airports: throughput',
+        indicator: 'E13b',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Number of parked airplanes',
+        lastColorCode: 'BLUE',
         inputData: [],
-        eoSensor: ["Sentinel-2"],
+        eoSensor: ['Sentinel-2'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((2.515894 48.998476,2.521901 49.008156,2.516238 49.009282,2.50903 49.003091,2.490135 49.010011,2.498452 49.024531,2.506089 49.024868,2.509221 49.027062,2.530291 49.029089,2.573626 49.031395,2.585639 49.027514,2.584609 49.018626,2.589157 49.014575,2.600483 49.015362,2.633581 49.002656,2.632974 48.99791,2.64177 48.998416,2.65035 48.995461,2.649555 48.990807,2.636045 48.98743,2.634576 48.991511,2.636425 48.991905,2.636167 48.995705,2.623983 48.994326,2.620121 48.991173,2.587398 48.989908,2.585767 48.991653,2.567147 48.989063,2.548785 48.989739,2.543722 48.982589,2.520297 48.984841,2.516693 48.992328,2.511287 48.988613,2.508799 48.989063,2.512746 48.997732,2.515894 48.998476))"
+                  'POLYGON((2.515894 48.998476,2.521901 49.008156,2.516238 49.009282,2.50903 49.003091,2.490135 49.010011,2.498452 49.024531,2.506089 49.024868,2.509221 49.027062,2.530291 49.029089,2.573626 49.031395,2.585639 49.027514,2.584609 49.018626,2.589157 49.014575,2.600483 49.015362,2.633581 49.002656,2.632974 48.99791,2.64177 48.998416,2.65035 48.995461,2.649555 48.990807,2.636045 48.98743,2.634576 48.991511,2.636425 48.991905,2.636167 48.995705,2.623983 48.994326,2.620121 48.991173,2.587398 48.989908,2.585767 48.991653,2.567147 48.989063,2.548785 48.989739,2.543722 48.982589,2.520297 48.984841,2.516693 48.992328,2.511287 48.988613,2.508799 48.989063,2.512746 48.997732,2.515894 48.998476))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          layers: "SENTINEL-2-L2A-TRUE-COLOR",
-          name: "Sentinel-2 L2A",
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Sentinel-2 L2A',
           dateFormatFunction: shS2TimeFunction,
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -5311,42 +5310,42 @@ export const globalIndicators = [
         dataLoadFinished: true,
         id: 19681,
         aoi: latLng([40.985, 1.769]),
-        aoiID: "BarcelonaTSM_ESA",
-        country: ["ES"],
-        city: "Barcelona - Total Suspended Matter",
-        siteName: "Barcelona",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'BarcelonaTSM_ESA',
+        country: ['ES'],
+        city: 'Barcelona - Total Suspended Matter',
+        siteName: 'Barcelona',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (ESA)",
+        indicatorName: 'Water Quality Regional Maps (ESA)',
         lastColorCode: null,
-        dataProvider: "ESA",
+        dataProvider: 'ESA',
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((2.516544 40.485512,2.522036 41.562459,2.291387 41.480243,2.211372 41.416219,2.164693 41.3132,2.049368 41.27401,1.917569 41.26782,1.692412 41.212083,1.448034 41.174899,1.266809 41.129423,1.16796 41.077707,0.950799 41.027932,0.726123 40.810478,0.849188 40.722691,0.85468 40.68523,0.659705 40.6644,0.549872 40.576882,0.483966 40.485017,2.516544 40.485512))"
+                  'POLYGON((2.516544 40.485512,2.522036 41.562459,2.291387 41.480243,2.211372 41.416219,2.164693 41.3132,2.049368 41.27401,1.917569 41.26782,1.692412 41.212083,1.448034 41.174899,1.266809 41.129423,1.16796 41.077707,0.950799 41.027932,0.726123 40.810478,0.849188 40.722691,0.85468 40.68523,0.659705 40.6644,0.549872 40.576882,0.483966 40.485017,2.516544 40.485512))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: availableDates.N3_CUSTOM_TRILATERAL_TSMNN,
-        inputData: [""],
+        inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
           name: 'Water Quality Index',
           layers: 'N3_CUSTOM_TRILATERAL_TSMNN',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
           maxZoom: 13,
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
   },
   {
     id: 19680,
@@ -5356,42 +5355,42 @@ export const globalIndicators = [
         dataLoadFinished: true,
         id: 19680,
         aoi: latLng([40.985, 1.769]),
-        aoiID: "Barcelona_ESA",
-        country: ["ES"],
-        city: "Barcelona - Chlorophyll-a concentration",
-        siteName: "Barcelona",
-        description: "Water Quality Regional Maps",
-        indicator: "N3a2",
+        aoiID: 'Barcelona_ESA',
+        country: ['ES'],
+        city: 'Barcelona - Chlorophyll-a concentration',
+        siteName: 'Barcelona',
+        description: 'Water Quality Regional Maps',
+        indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: "Water Quality Regional Maps (ESA)",
+        indicatorName: 'Water Quality Regional Maps (ESA)',
         lastColorCode: null,
         eoSensor: null,
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((2.516544 40.485512,2.522036 41.562459,2.291387 41.480243,2.211372 41.416219,2.164693 41.3132,2.049368 41.27401,1.917569 41.26782,1.692412 41.212083,1.448034 41.174899,1.266809 41.129423,1.16796 41.077707,0.950799 41.027932,0.726123 40.810478,0.849188 40.722691,0.85468 40.68523,0.659705 40.6644,0.549872 40.576882,0.483966 40.485017,2.516544 40.485512))"
+                  'POLYGON((2.516544 40.485512,2.522036 41.562459,2.291387 41.480243,2.211372 41.416219,2.164693 41.3132,2.049368 41.27401,1.917569 41.26782,1.692412 41.212083,1.448034 41.174899,1.266809 41.129423,1.16796 41.077707,0.950799 41.027932,0.726123 40.810478,0.849188 40.722691,0.85468 40.68523,0.659705 40.6644,0.549872 40.576882,0.483966 40.485017,2.516544 40.485512))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: availableDates.N3_CUSTOM_TRILATERAL,
-        inputData: [""],
+        inputData: [''],
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
           name: 'Water Quality Index',
           layers: 'N3_CUSTOM_TRILATERAL',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           maxZoom: 13,
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy-MM-dd")
-        }
-      }
-    }
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
   },
   {
     latlng: latLng([30.05, 32.56]),
@@ -5401,158 +5400,158 @@ export const globalIndicators = [
         dataLoadFinished: true,
         aoi: latLng([30.05, 32.56]),
         id: 19679,
-        aoiID: "EG01",
-        country: ["EG"],
-        city: "Suez",
-        siteName: "Suez Canal",
-        description: "Ports: Ship throughput",
-        indicator: "E13c",
-        lastIndicatorValue: "normal",
-        indicatorName: "Number of Ships in Port",
-        lastColorCode: "BLUE",
-        eoSensor: ["Planet Labs/NASA (PlanetScope)"],
+        aoiID: 'EG01',
+        country: ['EG'],
+        city: 'Suez',
+        siteName: 'Suez Canal',
+        description: 'Ports: Ship throughput',
+        indicator: 'E13c',
+        lastIndicatorValue: 'normal',
+        indicatorName: 'Number of Ships in Port',
+        lastColorCode: 'BLUE',
+        eoSensor: ['Planet Labs/NASA (PlanetScope)'],
         subAoi: {
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: [
             {
-              type: "Feature",
+              type: 'Feature',
               properties: {},
               geometry: wkt
                 .read(
-                  "POLYGON((32.115951 30.282752,31.882492 31.099946,31.951157 31.721123,32.739426 31.67906,32.780624 31.562119,32.59111 30.323064,32.654282 29.990587,32.648788 29.819163,32.445541 29.840608,32.393356 30.152216,32.115951 30.282752))"
+                  'POLYGON((32.115951 30.282752,31.882492 31.099946,31.951157 31.721123,32.739426 31.67906,32.780624 31.562119,32.59111 30.323064,32.654282 29.990587,32.648788 29.819163,32.445541 29.840608,32.393356 30.152216,32.115951 30.282752))',
                 )
-                .toJson()
-            }
-          ]
+                .toJson(),
+            },
+          ],
         },
         time: [
-          "2020-01-01",
-          "2020-01-02",
-          "2020-01-03",
-          "2020-01-04",
-          "2020-01-05",
-          "2020-01-06",
-          "2020-01-07",
-          "2020-01-08",
-          "2020-01-09",
-          "2020-01-12",
-          "2020-01-13",
-          "2020-01-14",
-          "2020-01-15",
-          "2020-01-17",
-          "2020-01-18",
-          "2020-01-19",
-          "2020-01-21",
-          "2020-01-22",
-          "2020-01-23",
-          "2020-01-24",
-          "2020-01-25",
-          "2020-01-26",
-          "2020-01-27",
-          "2020-01-28",
-          "2020-01-29",
-          "2020-01-30",
-          "2020-01-31",
-          "2020-02-02",
-          "2020-02-03",
-          "2020-02-27",
-          "2020-02-29",
-          "2020-03-03",
-          "2020-03-08",
-          "2020-04-21",
-          "2020-04-23",
-          "2020-04-24",
-          "2020-05-01",
-          "2020-05-02",
-          "2020-05-03",
-          "2020-05-04",
-          "2020-05-05",
-          "2020-05-06",
-          "2020-05-08",
-          "2020-05-09",
-          "2020-05-10",
-          "2020-05-11",
-          "2020-05-12",
-          "2020-05-13",
-          "2020-05-14",
-          "2020-05-15",
-          "2020-05-16",
-          "2020-05-17",
-          "2020-05-19",
-          "2020-05-20",
-          "2020-05-21",
-          "2020-08-06",
-          "2020-08-07",
-          "2020-08-08",
-          "2020-08-09",
-          "2020-08-10"
+          '2020-01-01',
+          '2020-01-02',
+          '2020-01-03',
+          '2020-01-04',
+          '2020-01-05',
+          '2020-01-06',
+          '2020-01-07',
+          '2020-01-08',
+          '2020-01-09',
+          '2020-01-12',
+          '2020-01-13',
+          '2020-01-14',
+          '2020-01-15',
+          '2020-01-17',
+          '2020-01-18',
+          '2020-01-19',
+          '2020-01-21',
+          '2020-01-22',
+          '2020-01-23',
+          '2020-01-24',
+          '2020-01-25',
+          '2020-01-26',
+          '2020-01-27',
+          '2020-01-28',
+          '2020-01-29',
+          '2020-01-30',
+          '2020-01-31',
+          '2020-02-02',
+          '2020-02-03',
+          '2020-02-27',
+          '2020-02-29',
+          '2020-03-03',
+          '2020-03-08',
+          '2020-04-21',
+          '2020-04-23',
+          '2020-04-24',
+          '2020-05-01',
+          '2020-05-02',
+          '2020-05-03',
+          '2020-05-04',
+          '2020-05-05',
+          '2020-05-06',
+          '2020-05-08',
+          '2020-05-09',
+          '2020-05-10',
+          '2020-05-11',
+          '2020-05-12',
+          '2020-05-13',
+          '2020-05-14',
+          '2020-05-15',
+          '2020-05-16',
+          '2020-05-17',
+          '2020-05-19',
+          '2020-05-20',
+          '2020-05-21',
+          '2020-08-06',
+          '2020-08-07',
+          '2020-08-08',
+          '2020-08-09',
+          '2020-08-10',
         ],
-        inputData: [""],
+        inputData: [''],
         display: {
           url:
-            "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/planet/{z}/{x}/{y}?date={time}&site=sc",
-          protocol: "xyz",
+            'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/planet/{z}/{x}/{y}?date={time}&site=sc',
+          protocol: 'xyz',
           tileSize: 256,
-          dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy_MM_dd"),
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           features: {
-            dateFormatFunction: date => DateTime.fromISO(date).toFormat("yyyy_MM_dd"),
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url:
-              "https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/sc/{featuresTime}.geojson"
-          }
-        }
-      }
-    }
+              'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/sc/{featuresTime}.geojson',
+          },
+        },
+      },
+    },
   },
   {
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        country: "all",
-        city: "World",
-        siteName: "global",
-        description: "TROPOMI CO",
-        indicator: "N1",
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'TROPOMI CO',
+        indicator: 'N1',
         lastIndicatorValue: null,
-        indicatorName: "TROPOMI CO",
+        indicatorName: 'TROPOMI CO',
         subAoi: {
-          type: "FeatureCollection",
-          features: []
+          type: 'FeatureCollection',
+          features: [],
         },
         lastColorCode: null,
         aoi: null,
-        aoiID: "WorldCO",
+        aoiID: 'WorldCO',
         time: getDaily2DayIntervalDates(
-          "2018-04-30",
+          '2018-04-30',
           DateTime.utc()
             .minus({ days: 3 })
-            .toFormat("yyyy-LL-dd")
+            .toFormat('yyyy-LL-dd'),
         ),
-        inputData: [""],
+        inputData: [''],
         externalData: {
-          label: "Sentinel-5p Mapping Service",
-          url: "https://maps.s5p-pal.com"
+          label: 'Sentinel-5p Mapping Service',
+          url: 'https://maps.s5p-pal.com',
         },
         display: {
-          protocol: "xyz",
+          protocol: 'xyz',
           maxNativeZoom: 5,
           minZoom: 0,
           opacity: 0.6,
           tileSize: 256,
           url:
-            "//obs.eu-de.otc.t-systems.com/s5p-pal-l3-external/maps/s5p-l3-co/3day/{time}/{z}/{x}/{-y}.png",
-          name: "Tropospheric CO",
-          legendUrl: "data/trilateral/s5pCOLegend.png",
-          dateFormatFunction: date => {
+            '//obs.eu-de.otc.t-systems.com/s5p-pal-l3-external/maps/s5p-l3-co/3day/{time}/{z}/{x}/{-y}.png',
+          name: 'Tropospheric CO',
+          legendUrl: 'data/trilateral/s5pCOLegend.png',
+          dateFormatFunction: (date) => {
             // example path 2021/06/nrt-20210606-20210608-20210609
             const d1 = DateTime.fromISO(date[0]);
             const d2 = DateTime.fromISO(date[0]).plus({ days: 2 });
             const arr = [DateTime.fromISO(date[0]).plus({ days: 5 }), DateTime.utc()];
             const d3 = arr.reduce((pr, cu) => (pr < cu ? pr : cu)); // lower of "now" and d1+5
-            let prefix = "001";
-            if (d3.diff(d1, "days").toObject().days < 5) {
+            let prefix = '001';
+            if (d3.diff(d1, 'days').toObject().days < 5) {
               // two last products - difference from d1 and d3 lower than 5 days
               // the filename starts with 'nrt' otherwise '001'
-              prefix = "nrt";
+              prefix = 'nrt';
             }
             // example dates
             // 17,19,22 .5
@@ -5560,17 +5559,17 @@ export const globalIndicators = [
             // 4,6,9. 6
             // 5,7,9. 6
             // 6,8,9. 6 (today is 9.6.)
-            const filePathFormatted = `${d1.toFormat("yyyy")}/${d1.toFormat(
-              "LL"
-            )}/${prefix}-${d1.toFormat("yyyyLLdd")}-${d2.toFormat("yyyyLLdd")}-${d3.toFormat(
-              "yyyyLLdd"
+            const filePathFormatted = `${d1.toFormat('yyyy')}/${d1.toFormat(
+              'LL',
+            )}/${prefix}-${d1.toFormat('yyyyLLdd')}-${d2.toFormat('yyyyLLdd')}-${d3.toFormat(
+              'yyyyLLdd',
             )}`;
             return filePathFormatted;
-          }
-        }
-      }
-    }
-  }
+          },
+        },
+      },
+    },
+  },
 ];
 
 const createSlowDownIndicator = (id, aoiID, city, country, aoi, geometry, cog, eoSensor, time) => ({
@@ -5585,262 +5584,260 @@ const createSlowDownIndicator = (id, aoiID, city, country, aoi, geometry, cog, e
       country,
       city,
       siteName: city,
-      description: "Slowdown Proxy Maps",
-      indicator: "N7",
+      description: 'Slowdown Proxy Maps',
+      indicator: 'N7',
       lastIndicatorValue: null,
-      indicatorName: "Cars and Construction",
+      indicatorName: 'Cars and Construction',
       lastColorCode: null,
       eoSensor,
       subAoi: {
-        type: "FeatureCollection",
+        type: 'FeatureCollection',
         features: [
           {
-            type: "Feature",
+            type: 'Feature',
             properties: {},
-            geometry
-          }
-        ]
+            geometry,
+          },
+        ],
       },
       time,
-      inputData: [""],
+      inputData: [''],
       display: {
-        protocol: "xyz",
+        protocol: 'xyz',
         maxNativeZoom: 18,
         url: `https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2F${cog}.tif&resampling_method=bilinear&bidx=1%2C2%2C3`,
-        name: "Movement slowdown",
+        name: 'Movement slowdown',
         tileSize: 256,
-        legendUrl: "data/trilateral/N7-legend.png",
+        legendUrl: 'data/trilateral/N7-legend.png',
         disableCompare: true,
-        baseLayers: mapBoxHighResoSubst
-      }
-    }
-  }
+        baseLayers: mapBoxHighResoSubst,
+      },
+    },
+  },
 });
 
 const slowdownIndicators = [
   {
     aoi: latLng([39.9, 116.38]),
-    aoiID: "CN01",
-    country: ["CN"],
-    city: "Beijing",
-    eoSensor: ["2020-01-01 compared to 2020-01-29 - 2020-03-01 - Derived from Sentinel-1"],
+    aoiID: 'CN01',
+    country: ['CN'],
+    city: 'Beijing',
+    eoSensor: ['2020-01-01 compared to 2020-01-29 - 2020-03-01 - Derived from Sentinel-1'],
     geometry: wkt
       .read(
-        "POLYGON((116.073303 39.766325,116.073303 40.212441,116.729736 40.212441,116.729736 39.766325,116.073303 39.766325))"
+        'POLYGON((116.073303 39.766325,116.073303 40.212441,116.729736 40.212441,116.729736 39.766325,116.073303 39.766325))',
       )
       .toJson(),
-    time: ["2019-11-01"],
-    cog: "Beijing_S1_TA142_SPM_20191101-20200101_20200129-20200301_th-0.cog"
+    time: ['2019-11-01'],
+    cog: 'Beijing_S1_TA142_SPM_20191101-20200101_20200129-20200301_th-0.cog',
   },
   {
     aoi: latLng([38.904722, -77.016389]),
-    aoiID: "US10",
-    country: ["US"],
-    city: "Washington, D.C.",
-    eoSensor: ["2020-02-06 compared to 2020-03-28 - 2020-04-24 - Derived from Sentinel-1"],
+    aoiID: 'US10',
+    country: ['US'],
+    city: 'Washington, D.C.',
+    eoSensor: ['2020-02-06 compared to 2020-03-28 - 2020-04-24 - Derived from Sentinel-1'],
     geometry: wkt
       .read(
-        "POLYGON((-78.1073 38.432077,-78.1073 39.846504,-75.81665 39.846504,-75.81665 38.432077,-78.1073 38.432077))"
+        'POLYGON((-78.1073 38.432077,-78.1073 39.846504,-75.81665 39.846504,-75.81665 38.432077,-78.1073 38.432077))',
       )
       .toJson(),
-    time: ["2020-01-03"],
-    cog: "DC_S1_TA004_SPM_20200103-20200206_20200328-20200424_th-0.3.cog"
+    time: ['2020-01-03'],
+    cog: 'DC_S1_TA004_SPM_20200103-20200206_20200328-20200424_th-0.3.cog',
   },
   {
     aoi: latLng([51.036138, 2.285374]),
-    aoiID: "FR03",
-    country: ["FR"],
-    city: "Port of Dunkirk",
-    eoSensor: ["2020-02-15 compared to 2020-04-01 - 2020-04-31 - Derived from Sentinel-1"],
+    aoiID: 'FR03',
+    country: ['FR'],
+    city: 'Port of Dunkirk',
+    eoSensor: ['2020-02-15 compared to 2020-04-01 - 2020-04-31 - Derived from Sentinel-1'],
     geometry: wkt
       .read(
-        "POLYGON((1.590599 50.733177,1.554903 50.877173,1.737368 50.954146,2.040781 51.014635,2.304379 51.063831,2.503451 51.082805,2.902968 51.242053,3.147346 51.340768,3.605898 51.369056,3.783793 50.857979,2.622312 50.729565,2.570141 50.840647,1.590599 50.733177))"
+        'POLYGON((1.590599 50.733177,1.554903 50.877173,1.737368 50.954146,2.040781 51.014635,2.304379 51.063831,2.503451 51.082805,2.902968 51.242053,3.147346 51.340768,3.605898 51.369056,3.783793 50.857979,2.622312 50.729565,2.570141 50.840647,1.590599 50.733177))',
       )
       .toJson(),
-    time: ["2020-01-01"],
-    cog: "Dunkirk_S1_TA161_SPM_20200101-20200215_20200401-20200431_th-0.cog"
+    time: ['2020-01-01'],
+    cog: 'Dunkirk_S1_TA161_SPM_20200101-20200215_20200401-20200431_th-0.cog',
   },
   {
     aoi: latLng([51.091559, 3.740081]),
-    aoiID: "BE03",
-    country: ["BE"],
-    city: "Port of Ghent",
-    eoSensor: ["2020-02-06 compared to 2020-04-01 - 2020-04-30 - Derived from Sentinel-1"],
+    aoiID: 'BE03',
+    country: ['BE'],
+    city: 'Port of Ghent',
+    eoSensor: ['2020-02-06 compared to 2020-04-01 - 2020-04-30 - Derived from Sentinel-1'],
     geometry: wkt
       .read(
-        "POLYGON((4.196128 51.382924,4.333419 51.41247,4.441879 51.280437,4.637796 50.920723,4.122786 50.848204,3.396523 50.729818,3.228982 51.273398,3.719247 51.354086,3.852456 51.345509,3.908761 51.37295,3.951333 51.414081,4.019997 51.409798,4.058449 51.375522,4.196128 51.382924))"
+        'POLYGON((4.196128 51.382924,4.333419 51.41247,4.441879 51.280437,4.637796 50.920723,4.122786 50.848204,3.396523 50.729818,3.228982 51.273398,3.719247 51.354086,3.852456 51.345509,3.908761 51.37295,3.951333 51.414081,4.019997 51.409798,4.058449 51.375522,4.196128 51.382924))',
       )
       .toJson(),
-    time: ["2020-01-03"],
-    cog: "Ghent_S1_TA161_SPM_20200103-20200206_20200401-20200430_th-0.cog"
+    time: ['2020-01-03'],
+    cog: 'Ghent_S1_TA161_SPM_20200103-20200206_20200401-20200430_th-0.cog',
   },
   {
     aoi: latLng([-12.05, -77.033333]),
-    aoiID: "PE01",
-    country: ["PE"],
-    city: "Lima",
-    eoSensor: ["2020-03-02 compared to 2020-03-26 - 2020-05-01 - Derived from Sentinel-1"],
+    aoiID: 'PE01',
+    country: ['PE'],
+    city: 'Lima',
+    eoSensor: ['2020-03-02 compared to 2020-03-26 - 2020-05-01 - Derived from Sentinel-1'],
     geometry: wkt
       .read(
-        "POLYGON((-77.175522 -11.727546,-77.001114 -11.668376,-76.884041 -11.661315,-76.80027 -11.628362,-76.684227 -11.637777,-76.68148 -11.723512,-76.527672 -11.822325,-76.529388 -11.950326,-76.531448 -12.166883,-76.422958 -12.381922,-76.432228 -12.423166,-76.70517 -12.579026,-76.816406 -12.517028,-76.80748 -12.391647,-76.935196 -12.290359,-77.075958 -12.1991,-77.232513 -12.152787,-77.290878 -12.070881,-77.285385 -11.743008,-77.175522 -11.727546))"
+        'POLYGON((-77.175522 -11.727546,-77.001114 -11.668376,-76.884041 -11.661315,-76.80027 -11.628362,-76.684227 -11.637777,-76.68148 -11.723512,-76.527672 -11.822325,-76.529388 -11.950326,-76.531448 -12.166883,-76.422958 -12.381922,-76.432228 -12.423166,-76.70517 -12.579026,-76.816406 -12.517028,-76.80748 -12.391647,-76.935196 -12.290359,-77.075958 -12.1991,-77.232513 -12.152787,-77.290878 -12.070881,-77.285385 -11.743008,-77.175522 -11.727546))',
       )
       .toJson(),
-    time: ["2020-01-14"],
-    cog: "Lima_S1_TA018_SPM_20200114-20200302_20200326-20200501_th-0.cog"
+    time: ['2020-01-14'],
+    cog: 'Lima_S1_TA018_SPM_20200114-20200302_20200326-20200501_th-0.cog',
   },
   {
     aoi: latLng([34.05, -118.25]),
-    aoiID: "US02A2",
-    country: ["US"],
-    city: "Los Angeles - A2",
-    eoSensor: ["2020-02-28 compared to 2020-04-01 - 2020-04-30 - Derived from Sentinel-1"],
+    aoiID: 'US02A2',
+    country: ['US'],
+    city: 'Los Angeles - A2',
+    eoSensor: ['2020-02-28 compared to 2020-04-01 - 2020-04-30 - Derived from Sentinel-1'],
     geometry: wkt
       .read(
-        "POLYGON((-118.762208 33.532178,-118.951722 34.379654,-117.954713 34.542704,-117.946473 34.424978,-116.996156 34.567586,-116.83548 34.004829,-116.765442 33.403902,-118.762208 33.532178))"
+        'POLYGON((-118.762208 33.532178,-118.951722 34.379654,-117.954713 34.542704,-117.946473 34.424978,-116.996156 34.567586,-116.83548 34.004829,-116.765442 33.403902,-118.762208 33.532178))',
       )
       .toJson(),
-    time: ["2020-01-01"],
-    cog: "LosAngeles_A2_SPM_10m_20200101-20200228_20200401-20200430_th-0.35.cog"
+    time: ['2020-01-01'],
+    cog: 'LosAngeles_A2_SPM_10m_20200101-20200228_20200401-20200430_th-0.35.cog',
   },
   {
     aoi: latLng([34.05, -118.25]),
-    aoiID: "US02",
-    country: ["US"],
-    city: "Los Angeles",
-    eoSensor: ["2020-02-28 compared to 2020-04-01 - 2020-04-30 - Derived from Sentinel-1"],
+    aoiID: 'US02',
+    country: ['US'],
+    city: 'Los Angeles',
+    eoSensor: ['2020-02-28 compared to 2020-04-01 - 2020-04-30 - Derived from Sentinel-1'],
     geometry: wkt
       .read(
-        "POLYGON((-118.762208 33.532178,-118.951722 34.379654,-117.954713 34.542704,-117.946473 34.424978,-116.996156 34.567586,-116.83548 34.004829,-116.765442 33.403902,-118.762208 33.532178))"
+        'POLYGON((-118.762208 33.532178,-118.951722 34.379654,-117.954713 34.542704,-117.946473 34.424978,-116.996156 34.567586,-116.83548 34.004829,-116.765442 33.403902,-118.762208 33.532178))',
       )
       .toJson(),
-    time: ["2020-01-03"],
-    cog: "LosAngeles_S1_TA064_SPM_20200103-20200228_20200401-20200430_th-0.cog"
+    time: ['2020-01-03'],
+    cog: 'LosAngeles_S1_TA064_SPM_20200103-20200228_20200401-20200430_th-0.cog',
   },
   {
     aoi: latLng([19.076, 72.8777]),
-    aoiID: "IN02",
-    country: ["IN"],
-    city: "Mumbai",
-    eoSensor: ["2020-01-22 compared to 2020-03-22 - 2020-04-27 - Derived from Sentinel-1"],
+    aoiID: 'IN02',
+    country: ['IN'],
+    city: 'Mumbai',
+    eoSensor: ['2020-01-22 compared to 2020-03-22 - 2020-04-27 - Derived from Sentinel-1'],
     geometry: wkt
       .read(
-        "POLYGON((72.773438 19.458823,73.168945 19.456234,73.910522 19.292998,73.646851 18.586379,72.789917 18.659257,72.677307 18.940062,72.773438 19.458823))"
+        'POLYGON((72.773438 19.458823,73.168945 19.456234,73.910522 19.292998,73.646851 18.586379,72.789917 18.659257,72.677307 18.940062,72.773438 19.458823))',
       )
       .toJson(),
-    time: ["2020-01-10"],
-    cog: "Mumbai_S1_TD034_SPM_20200110-20200122_20200322-20200427_th-0.cog"
+    time: ['2020-01-10'],
+    cog: 'Mumbai_S1_TD034_SPM_20200110-20200122_20200322-20200427_th-0.cog',
   },
   {
     aoi: latLng([41.0114, -73.09]),
-    aoiID: "US04",
-    country: ["US"],
-    city: "New York",
-    eoSensor: ["2020-02-15 compared to 2020-04-01 - 2020-04-31 - Derived from Sentinel-1"],
+    aoiID: 'US04',
+    country: ['US'],
+    city: 'New York',
+    eoSensor: ['2020-02-15 compared to 2020-04-01 - 2020-04-31 - Derived from Sentinel-1'],
     geometry: wkt
       .read(
-        "POLYGON((-75.140991 40.245992,-75.38269 41.137296,-72.894287 41.693424,-71.5979 40.876141,-75.140991 40.245992))"
+        'POLYGON((-75.140991 40.245992,-75.38269 41.137296,-72.894287 41.693424,-71.5979 40.876141,-75.140991 40.245992))',
       )
       .toJson(),
-    time: ["2020-01-01"],
-    cog: "Newyork_S1_TA033_SPM_20200101-20200215_20200401-20200431_th-0.cog"
+    time: ['2020-01-01'],
+    cog: 'Newyork_S1_TA033_SPM_20200101-20200215_20200401-20200431_th-0.cog',
   },
   {
     aoi: latLng([37.7775, -122.416389]),
-    aoiID: "US03",
-    country: ["US"],
-    city: "San Francisco",
-    eoSensor: ["2020-02-15 compared to 2020-04-03 - 2020-04-27 - Derived from Sentinel-1"],
+    aoiID: 'US03',
+    country: ['US'],
+    city: 'San Francisco',
+    eoSensor: ['2020-02-15 compared to 2020-04-03 - 2020-04-27 - Derived from Sentinel-1'],
     geometry: wkt
       .read(
-        "POLYGON((-122.639688 37.099778,-122.639688 38.190951,-120.953755 38.190951,-120.953755 37.099778,-122.639688 37.099778))"
+        'POLYGON((-122.639688 37.099778,-122.639688 38.190951,-120.953755 38.190951,-120.953755 37.099778,-122.639688 37.099778))',
       )
       .toJson(),
-    time: ["2020-01-28"],
-    cog: "SanFrancisco_S1_TA035_SPM_20200128-20200215_20200403-20200427_th-0.cog"
+    time: ['2020-01-28'],
+    cog: 'SanFrancisco_S1_TA035_SPM_20200128-20200215_20200403-20200427_th-0.cog',
   },
   {
     aoi: latLng([-33.45, -70.666667]),
-    aoiID: "CL01",
-    country: ["CL"],
-    city: "Santiago",
-    eoSensor: ["2020-02-01 compared to 2020-04-01 - 2020-06-12 - Derived from Sentinel-1"],
+    aoiID: 'CL01',
+    country: ['CL'],
+    city: 'Santiago',
+    eoSensor: ['2020-02-01 compared to 2020-04-01 - 2020-06-12 - Derived from Sentinel-1'],
     geometry: wkt
       .read(
-        "POLYGON((-71.292757 -34.157073,-70.540193 -33.911254,-70.482515 -32.918589,-71.608614 -33.02228,-71.520723 -33.495397,-71.292757 -34.157073))"
+        'POLYGON((-71.292757 -34.157073,-70.540193 -33.911254,-70.482515 -32.918589,-71.608614 -33.02228,-71.520723 -33.495397,-71.292757 -34.157073))',
       )
       .toJson(),
-    time: ["2020-01-08"],
-    cog: "Santiago_S1_TA018_SPM_20200108-20200201_20200401-20200612_th-0.cog"
+    time: ['2020-01-08'],
+    cog: 'Santiago_S1_TA018_SPM_20200108-20200201_20200401-20200612_th-0.cog',
   },
   {
     aoi: latLng([-23.55, -46.633333]),
-    aoiID: "BR02",
-    country: ["BR"],
-    city: "Sao Paulo",
-    eoSensor: ["2020-02-04 compared to 2020-03-29 - 2020-04-28 - Derived from Sentinel-1"],
+    aoiID: 'BR02',
+    country: ['BR'],
+    city: 'Sao Paulo',
+    eoSensor: ['2020-02-04 compared to 2020-03-29 - 2020-04-28 - Derived from Sentinel-1'],
     geometry: wkt
-      .read("POLYGON((-46.55 -23.45, -46.75 -23.45, -46.75 -23.65, -46.55 -23.65, -46.55 -23.45))")
+      .read('POLYGON((-46.55 -23.45, -46.75 -23.45, -46.75 -23.65, -46.55 -23.65, -46.55 -23.45))')
       .toJson(),
-    time: ["2020-01-05"],
-    cog: "SaoPaulo_S1_TD053_SPM_20200105-20200204_20200329-20200428_th-0.cog"
+    time: ['2020-01-05'],
+    cog: 'SaoPaulo_S1_TD053_SPM_20200105-20200204_20200329-20200428_th-0.cog',
   },
   {
     aoi: latLng([1.264856, 103.847663]),
-    aoiID: "SG01",
-    country: ["SG"],
-    city: "Singapore",
-    eoSensor: ["2020-02-12 compared to 2020-04-24 - 2020-05-30 - Derived from Sentinel-1"],
+    aoiID: 'SG01',
+    country: ['SG'],
+    city: 'Singapore',
+    eoSensor: ['2020-02-12 compared to 2020-04-24 - 2020-05-30 - Derived from Sentinel-1'],
     geometry: wkt
       .read(
-        "POLYGON((104.37973 0.99284,102.851257 0.882991,102.849197 1.135637,103.430786 1.351193,103.331223 1.542706,103.142395 1.631936,103.145485 1.68959,103.497734 1.72425,103.988342 1.68959,104.195023 1.766459,104.293556 1.609629,104.315186 1.356342,104.385223 1.012406,104.37973 0.99284))"
+        'POLYGON((104.37973 0.99284,102.851257 0.882991,102.849197 1.135637,103.430786 1.351193,103.331223 1.542706,103.142395 1.631936,103.145485 1.68959,103.497734 1.72425,103.988342 1.68959,104.195023 1.766459,104.293556 1.609629,104.315186 1.356342,104.385223 1.012406,104.37973 0.99284))',
       )
       .toJson(),
-    time: ["2020-01-07"],
-    cog: "Singapore_S1_TA171_SPM_20200107-20200212_20200424-20200530_th-0.cog"
+    time: ['2020-01-07'],
+    cog: 'Singapore_S1_TA171_SPM_20200107-20200212_20200424-20200530_th-0.cog',
   },
   {
     aoi: latLng([35, 137]),
-    aoiID: "JP01",
-    country: ["JP"],
-    city: "Aichi",
-    eoSensor: ["2020-01-09 compared to 2020-04-26 - 2020-05-08 - Derived from Sentinel-1"],
+    aoiID: 'JP01',
+    country: ['JP'],
+    city: 'Aichi',
+    eoSensor: ['2020-01-09 compared to 2020-04-26 - 2020-05-08 - Derived from Sentinel-1'],
     geometry: wkt
       .read(
-        "POLYGON((135.864 34.257,138.0622 34.257,138.0622 35.771,135.864 35.771,135.864 34.257))"
+        'POLYGON((135.864 34.257,138.0622 34.257,138.0622 35.771,135.864 35.771,135.864 34.257))',
       )
       .toJson(),
-    time: ["2020-01-09"],
-    cog: "Aichi_S1_TA112_SPM_20200109-20200214_20200426-20200508_th-0.35.cog"
+    time: ['2020-01-09'],
+    cog: 'Aichi_S1_TA112_SPM_20200109-20200214_20200426-20200508_th-0.35.cog',
   },
   {
     aoi: latLng([-22.875, -43.3305]),
-    aoiID: "BR03",
-    country: ["BR"],
-    city: "Rio de Janeiro",
-    eoSensor: ["2020-01-12 compared to 2020-03-24 - 2020-04-29 - Derived from Sentinel-1"],
+    aoiID: 'BR03',
+    country: ['BR'],
+    city: 'Rio de Janeiro',
+    eoSensor: ['2020-01-12 compared to 2020-03-24 - 2020-04-29 - Derived from Sentinel-1'],
     geometry: wkt
       .read(
-        "POLYGON((-44.292 -23.472,-42.369 -23.472,-42.369 -22.278,-44.292 -22.278,-44.292 -23.472))"
+        'POLYGON((-44.292 -23.472,-42.369 -23.472,-42.369 -22.278,-44.292 -22.278,-44.292 -23.472))',
       )
       .toJson(),
-    time: ["2020-01-12"],
-    cog: "RiodeJaneiro_S1_TD155_SPM_20200112-20200217_20200324-20200429_th-0.3.cog"
-  }
+    time: ['2020-01-12'],
+    cog: 'RiodeJaneiro_S1_TD155_SPM_20200112-20200217_20200324-20200429_th-0.3.cog',
+  },
 ];
 
 const idOffset = 30000;
-slowdownIndicators.forEach((ind, idx) =>
-  globalIndicators.push(
-    createSlowDownIndicator(
-      idOffset + idx,
-      ind.aoiID,
-      ind.city,
-      ind.country,
-      ind.aoi,
-      ind.geometry,
-      ind.cog,
-      ind.eoSensor,
-      ind.time
-    )
-  )
-);
+slowdownIndicators.forEach((ind, idx) => globalIndicators.push(
+  createSlowDownIndicator(
+    idOffset + idx,
+    ind.aoiID,
+    ind.city,
+    ind.country,
+    ind.aoi,
+    ind.geometry,
+    ind.cog,
+    ind.eoSensor,
+    ind.time,
+  ),
+));

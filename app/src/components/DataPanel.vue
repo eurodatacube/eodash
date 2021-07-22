@@ -70,9 +70,6 @@
                   Array.isArray(sensorData.properties.indicatorObject.country)"
                   class="pt-0 fill-height"
                   :currentIndicator="sensorData.properties.indicatorObject"
-                  v-on:fetchCustomAreaIndicator="scrollToCustomAreaIndicator"
-                  @update:center="c => center = c"
-                  @update:zoom="z => zoom = z"
                 />
                 <indicator-data
                   style="top: 0px; position: absolute;"
@@ -211,8 +208,6 @@
               style="top: 0px; position: absolute;"
               v-show="false"
               class="pt-0 fill-height"
-              @update:center="c => center = c"
-              @update:zoom="z => zoom = z"
             />
             <indicator-data
               v-if="!customAreaIndicator.isEmpty"
@@ -245,52 +240,6 @@
                 </v-col>
               </v-row>
           </v-card>
-        </v-col>
-
-        <v-col
-          cols="12"
-          sm="5"
-          class="py-0 my-0 d-flex align-center"
-          :class="$vuetify.breakpoint.xsOnly ? 'justify-center' : 'justify-space-between'"
-        >
-          <small v-if="indicatorObject && indicatorObject.updateFrequency">
-            <span
-              v-if="indicatorObject.updateFrequency === 'Retired'"
-            >This indicator is no longer updated</span>
-            <span
-              v-else-if="indicatorObject.updateFrequency === 'EndSeason'"
-            >Due to end of season, this indicator is no longer updated</span>
-            <span v-else>This data is updated: {{ indicatorObject.updateFrequency }}</span>
-          </small>
-          <small v-else> </small>
-        </v-col>
-        <v-col
-          cols="12"
-          sm="7"
-          class="py-0 my-0"
-        >
-          <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
-            <v-btn
-              color="primary"
-              text
-              small
-              :href="dataHrefCSV"
-              :download="downloadFileName"
-              target="_blank"
-              v-if="indicatorObject && !showMap"
-            >
-              <v-icon left>mdi-download</v-icon>
-              download csv
-            </v-btn>
-            <iframe-button :indicatorObject="indicatorObject"/>
-            <add-to-dashboard-button :indicatorObject="indicatorObject" :zoom="zoom" :center="center"/>
-          </div>
-        </v-col>
-        <v-col
-          cols="12"
-          ref="customAreaIndicator"
-          class="pa-0"
-        >
           <v-card
             v-else
             class="fill-height"
@@ -325,7 +274,6 @@
               style="top: 0px; position: absolute;"
               v-else
               class="pa-5 chart"
-              :currentIndicator="customAreaIndicator"
             />
           </v-card>
           <v-row
@@ -372,12 +320,10 @@
                   :indicatorObject="indicatorObject"
                   v-if="!customAreaIndicator || expanded"
                 />
+                <add-to-dashboard-button :indicatorObject="indicatorObject" :zoom="zoom" :center="center"/>
               </div>
             </v-col>
           </v-row>
-          <div class="mt-3" style="float:right">
-            <AddToDashboardButton  v-if="customAreaIndicator" :indicatorObject="customAreaIndicator"></AddToDashboardButton>
-          </div>
         </v-col>
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
@@ -433,6 +379,9 @@
                   class="pa-5 chart"
                 />
               </v-card>
+              <div class="mt-3" style="float:right">
+                <AddToDashboardButton  v-if="customAreaIndicator" :indicatorObject="customAreaIndicator"></AddToDashboardButton>
+              </div>
               <v-row
                 class="mt-0"
               >
@@ -537,12 +486,10 @@ import {
   mapGetters,
   mapState,
 } from 'vuex';
-
 import { Wkt } from 'wicket';
 import { loadIndicatorData } from '@/utils';
 import { DateTime } from 'luxon';
 import dialogMixin from '@/mixins/dialogMixin';
-
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
@@ -861,7 +808,6 @@ export default {
 .chart {
   background: #fff;
 }
-
 .v-card.fullscreenElement {
   position: fixed !important;
   top: 0 !important;

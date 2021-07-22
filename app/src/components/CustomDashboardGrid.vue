@@ -269,7 +269,7 @@ export default {
     ]),
     showTooltip() {
       return (element) => {
-        if(this.localCenter[element.poi] && this.serverCenter[element.poi]) {
+        if (this.localCenter[element.poi] && this.serverCenter[element.poi]) {
           if (this.localCenter[element.poi].lat !== this.serverCenter[element.poi].lat) {
             return true;
           }
@@ -281,7 +281,7 @@ export default {
           }
         }
         return false;
-      }
+      };
     },
   },
   watch: {

@@ -47,7 +47,7 @@ const store = new Vuex.Store({
       state.alert.type = payload.type;
     },
   },
-  plugins: [vuexLocal.plugin]
+  plugins: [vuexLocal.plugin],
 });
 
 export default store;
