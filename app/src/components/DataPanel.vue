@@ -320,7 +320,10 @@
                   :indicatorObject="indicatorObject"
                   v-if="!customAreaIndicator || expanded"
                 />
-                <add-to-dashboard-button :indicatorObject="indicatorObject" :zoom="zoom" :center="center"/>
+                <add-to-dashboard-button
+                  :indicatorObject="indicatorObject"
+                  :zoom="zoom"
+                  :center="center"/>
               </div>
             </v-col>
           </v-row>
@@ -380,7 +383,10 @@
                 />
               </v-card>
               <div class="mt-3" style="float:right">
-                <AddToDashboardButton  v-if="customAreaIndicator" :indicatorObject="customAreaIndicator"></AddToDashboardButton>
+                <AddToDashboardButton
+                  v-if="customAreaIndicator"
+                  :indicatorObject="customAreaIndicator">
+                </AddToDashboardButton>
               </div>
               <v-row
                 class="mt-0"

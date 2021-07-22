@@ -20,7 +20,6 @@ import Challenges from './views/Challenges.vue';
 import Terms from './views/Terms.vue';
 import EmbedIframe from './views/EmbedIframe.vue';
 import store from './store';
-import charts from './plugins/charts';
 import customDashboardApiFactory from './custom-dashboard';
 // eslint-disable-line no-unused-vars
 

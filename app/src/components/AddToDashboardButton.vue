@@ -88,13 +88,19 @@ export default {
       deep: true,
       immediate: true,
       async handler() {
-        this.alreadyAdded = await this.exists({ poi: this.indicatorObject.poi || this.getLocationCode(this.indicatorObject) });
+        this.alreadyAdded = await this.exists(
+          { poi: this.indicatorObject.poi || this.getLocationCode(this.indicatorObject) },
+        );
       },
     },
     indicatorObject: {
       deep: true,
       async handler() {
-        if (this.indicatorObject) this.alreadyAdded = await this.exists({ poi: this.indicatorObject.poi || this.getLocationCode(this.indicatorObject) });
+        if (this.indicatorObject) {
+          this.alreadyAdded = await this.exists(
+            { poi: this.indicatorObject.poi || this.getLocationCode(this.indicatorObject) },
+          );
+        }
       },
     },
   },
@@ -114,7 +120,8 @@ export default {
             poi: this.indicatorObject.poi || this.getLocationCode(this.indicatorObject),
             width: 4,
             includesIndicator: this.indicatorObject.includesIndicator,
-            ...(this.indicatorObject.includesIndicator && { indicatorObject: this.indicatorObject }),
+            ...(this.indicatorObject.includesIndicator
+              && { indicatorObject: this.indicatorObject }),
             title: this.title,
             ...(this.zoom && this.center && {
               mapInfo: {

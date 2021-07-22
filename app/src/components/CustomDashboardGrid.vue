@@ -342,7 +342,9 @@ export default {
     //     !this.serverCenter[poi]
     //   ) return this.mapPositionChanged[poi] = false
 
-    //   return this.mapPositionChanged[poi] = this.localZoom[poi] !== this.serverZoom[poi] || this.localCenter[poi].lat !== this.serverCenter[poi].lat || this.localCenter[poi].lng !== this.serverCenter[poi].lng;
+    //   return this.mapPositionChanged[poi] = this.localZoom[poi] !== this.serverZoom[poi]
+    //    || this.localCenter[poi].lat !== this.serverCenter[poi].lat
+    //    || this.localCenter[poi].lng !== this.serverCenter[poi].lng;
     // },
     update(el) {
       if (el.mapInfo) {
