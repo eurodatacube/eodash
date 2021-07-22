@@ -13,13 +13,16 @@ import marked from 'marked';
 import L from 'leaflet';
 import App from './App.vue';
 import Dashboard from './views/Dashboard.vue';
+import DashboardCustom from './views/DashboardCustom.vue';
 import Privacy from './views/Privacy.vue';
 import PageNotFound from './views/PageNotFound.vue';
 import Challenges from './views/Challenges.vue';
 import Terms from './views/Terms.vue';
 import EmbedIframe from './views/EmbedIframe.vue';
 import store from './store';
-import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
+import charts from './plugins/charts';
+import customDashboardApiFactory from './custom-dashboard';
+// eslint-disable-line no-unused-vars
 
 // Set UTC as default time zone behavior for whole client
 Settings.defaultZoneName = 'utc';
@@ -57,17 +60,15 @@ Vue.use(VueRouter);
 
 const routes = [
   { path: '/', component: Dashboard },
+  { path: '/dashboard/:viewingId/edit/:editingId?', component: DashboardCustom },
+  { path: '/dashboard/:viewingId?', component: DashboardCustom },
   { path: '/privacy', component: Privacy },
   { path: '/terms_and_conditions', component: Terms },
   { path: '/challenges', component: Challenges },
   { path: '/iframe', component: EmbedIframe },
   { path: '*', component: PageNotFound },
 ];
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes,
-});
+const router = new VueRouter({ mode: 'history', base: process.env.BASE_URL, routes });
 
 Vue.use(Vuetify, {
   directives: {
@@ -78,18 +79,17 @@ Vue.use(Vuetify, {
 Vue.use(browserDetect);
 
 const mdRendererLinksTargetBlank = new marked.Renderer();
-mdRendererLinksTargetBlank.link = function (href, title, text) { // eslint-disable-line func-names
+mdRendererLinksTargetBlank.link = function (href, title, text) {
+  // eslint-disable-line func-names
   const link = marked.Renderer.prototype.link.call(this, href, title, text);
   return link.replace('<a', '<a target="_blank" ');
 };
-marked.setOptions({
-  renderer: mdRendererLinksTargetBlank,
-});
+marked.setOptions({ renderer: mdRendererLinksTargetBlank });
 Vue.prototype.$marked = marked;
 
 const renderVue = async () => {
   await store.dispatch('config/checkBrand');
-  store.dispatch('features/loadAllEndpoints');
+  await store.dispatch('features/loadAllEndpoints');
 
   const mq = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -156,9 +156,11 @@ const renderVue = async () => {
       getIndicatorColor(label) {
         const colors = vuetify.preset.theme.themes.light;
         let color;
-        if (typeof label === 'undefined') { // placeholders
+        if (typeof label === 'undefined') {
+          // placeholders
           color = colors.grey;
-        } else if (label === null) { // area indicators
+        } else if (label === null) {
+          // area indicators
           color = colors.primary;
         } else if (['red'].includes(label.toLowerCase())) {
           color = colors.error;
@@ -177,16 +179,22 @@ const renderVue = async () => {
         }
         return color;
       },
-      getLocationCode: (indicatorObject) => `${indicatorObject.aoiID}-${indicatorObject.indicator}`,
-      trackEvent: (action, name, value) => window._paq.push(['trackEvent', action, name, value]),
+      getLocationCode: (indicatorObject) => `${
+        indicatorObject.aoiID
+      }-${
+        indicatorObject.indicator
+      }`,
+      trackEvent: (action, name, value) => window._paq.push(
+        ['trackEvent', action, name, value],
+      ),
     },
   });
 
   // Global filters
-  Vue.filter('truncate',
-    (text, stop, clamp) => text
-      .slice(0, stop) + (stop < text.length
-      ? clamp || '...' : ''));
+  Vue.filter(
+    'truncate',
+    (text, stop, clamp) => text.slice(0, stop) + (stop < text.length ? clamp || '...' : ''),
+  );
 
   new Vue({
     store,
@@ -195,5 +203,37 @@ const renderVue = async () => {
     render: (h) => h(App),
   }).$mount('#app');
 };
+
+if (store.state.dashboard ?. dashboardConfig ?. id) {
+  store.commit('dashboard/ADD_API', customDashboardApiFactory());
+
+  const id = store.state.dashboard ?. dashboardConfig ?. id;
+  const editKey = store.state.dashboard ?. dashboardConfig ?. editKey;
+
+  store.state.dashboard.api.listen(id, editKey).then((response) => {
+    if (response.error) {
+      console.error(response);
+      store.commit('dashboard/disconnect');
+    }
+
+
+    response.features = response.features.map((f) => {
+      const newF = { ...f };
+      delete newF.id;
+      newF.poi = f.id;
+      return newF;
+    });
+
+    store.commit('dashboard/SET', {
+      ...response,
+      ...(id && {
+        id,
+      }),
+      ...(editKey && {
+        editKey,
+      }),
+    });
+  });
+}
 
 renderVue();

@@ -33,6 +33,25 @@
         >
           About
         </v-btn>
+        <v-badge
+          bordered
+          color="info"
+          :content="$store.state.dashboard.dashboardConfig
+            && $store.state.dashboard.dashboardConfig.features.length"
+          :value="$store.state.dashboard.dashboardConfig
+            && $store.state.dashboard.dashboardConfig.features.length"
+          overlap
+        >
+          <v-btn
+            v-if="$store.state.dashboard.dashboardConfig"
+            text
+            dark
+            small
+            to="/dashboard"
+          >
+            Custom Dashboard
+          </v-btn>
+        </v-badge>
       </template>
       <v-spacer></v-spacer>
       <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
@@ -79,6 +98,14 @@
           block
           text
           color="primary"
+          to="/"
+        >
+          Start
+        </v-btn>
+        <v-btn
+          block
+          text
+          color="primary"
           @click="displayShowText('welcome')"
         >
           Welcome
@@ -91,6 +118,25 @@
         >
           About
         </v-btn>
+        <v-badge
+          bordered
+          color="info"
+          :content="$store.state.dashboard.dashboardConfig
+            && $store.state.dashboard.dashboardConfig.features.length"
+          :value="$store.state.dashboard.dashboardConfig
+            && $store.state.dashboard.dashboardConfig.features.length"
+          overlap
+        >
+          <v-btn
+            v-if="$store.state.dashboard.dashboardConfig"
+            block
+            text
+            color="primary"
+            to="/dashboard"
+          >
+            Custom Dashboard
+          </v-btn>
+        </v-badge>
         <v-divider></v-divider>
       </template>
       <selection-panel style="overflow:hidden" />
@@ -121,20 +167,15 @@
           :class="$store.state.indicators.selectedIndicator.description ===
             $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
         >
-          {{ $store.state.features.allFeatures
-              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
-              .properties.indicatorObject.city }},
-          {{ $store.state.features.allFeatures
-              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
-              .properties.indicatorObject.description }}
+          {{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.city }},
+          {{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.description }}
           <div v-if="
             $store.state.indicators.selectedIndicator.description !==
             $store.state.indicators.selectedIndicator.indicatorName
             && $store.state.indicators.customAreaIndicator === null"
             class="subheading" style="font-size: 0.8em">
-            {{ $store.state.features.allFeatures
-              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
-              .properties.indicatorObject.indicatorName }}
+            {{ queryIndicatorObject
+              && queryIndicatorObject.properties.indicatorObject.indicatorName }}
           </div>
         </v-toolbar-title>
       </v-toolbar>
@@ -194,9 +235,8 @@
               $store.state.indicators.selectedIndicator.indicatorName))"
           class="px-4 py-2"
         >
-          {{ $store.state.features.allFeatures
-              .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
-              .properties.indicatorObject.indicatorName }}
+          {{ queryIndicatorObject
+            && queryIndicatorObject.properties.indicatorObject.indicatorName }}
         </h4>
         <data-panel
           v-if="$store.state.indicators.selectedIndicator"
@@ -300,6 +340,9 @@ export default {
       return (this.$vuetify.theme.dark) ? 'dark' : 'light';
     },
     ...mapState(['isFullScreen']),
+    queryIndicatorObject() {
+      return this.$store.state.features.allFeatures.find((f) => this.getLocationCode(f && f.properties.indicatorObject) === this.$route.query.poi);
+    },
   },
   created() {
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
@@ -401,6 +444,14 @@ export default {
   width: 0;
 }
 ::v-deep .v-navigation-drawer--temporary:not(.v-navigation-drawer--close) {
-    box-shadow: none;
+  box-shadow: none;
+}
+::v-deep .v-navigation-drawer {
+  .v-badge {
+    min-width: 100% !important;
+  }
+  .v-badge__badge {
+    transform: translateX(-45px);
+  }
 }
 </style>

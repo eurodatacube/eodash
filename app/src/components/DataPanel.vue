@@ -320,6 +320,7 @@
                   :indicatorObject="indicatorObject"
                   v-if="!customAreaIndicator || expanded"
                 />
+                <add-to-dashboard-button :indicatorObject="indicatorObject" :zoom="zoom" :center="center"/>
               </div>
             </v-col>
           </v-row>
@@ -378,6 +379,9 @@
                   class="pa-5 chart"
                 />
               </v-card>
+              <div class="mt-3" style="float:right">
+                <AddToDashboardButton  v-if="customAreaIndicator" :indicatorObject="customAreaIndicator"></AddToDashboardButton>
+              </div>
               <v-row
                 class="mt-0"
               >
@@ -482,17 +486,16 @@ import {
   mapGetters,
   mapState,
 } from 'vuex';
-
 import { Wkt } from 'wicket';
 import { loadIndicatorData } from '@/utils';
 import { DateTime } from 'luxon';
 import dialogMixin from '@/mixins/dialogMixin';
-
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
 import FullScreenButton from '@/components/FullScreenButton.vue';
 import IframeButton from '@/components/IframeButton.vue';
+import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 
 export default {
   mixins: [dialogMixin],
@@ -506,6 +509,7 @@ export default {
     IndicatorMap,
     FullScreenButton,
     IframeButton,
+    AddToDashboardButton,
   },
   data: () => ({
     dialog: false,
@@ -514,6 +518,8 @@ export default {
     mounted: false,
     selectedSensorTab: 0,
     multipleTabCompare: null,
+    zoom: null,
+    center: null,
   }),
   computed: {
     ...mapGetters('features', [
@@ -802,7 +808,6 @@ export default {
 .chart {
   background: #fff;
 }
-
 .v-card.fullscreenElement {
   position: fixed !important;
   top: 0 !important;
