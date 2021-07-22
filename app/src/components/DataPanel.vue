@@ -143,31 +143,6 @@
                   class="px-5 py-0 chart"
                 />
               </v-card>
-              <v-row class="mt-0">
-                <v-col cols="12" sm="5" ></v-col>
-                <v-col
-                  cols="12"
-                  sm="7"
-                  v-if="!isFullScreen"
-                  ref="customButtonRow"
-                  style="margin-top: -12px;"
-                >
-                  <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
-                    <v-btn
-                      color="primary"
-                      text
-                      small
-                      :href="dataCustomHrefCSV"
-                      :download="customAOIDownloadFilename"
-                      target="_blank"
-                      v-if="customAreaIndicator && !isFullScreen"
-                    >
-                      <v-icon left>mdi-download</v-icon>
-                      download csv
-                    </v-btn>
-                  </div>
-                </v-col>
-              </v-row>
             </v-tab-item>
           </v-tabs-items>
           <v-card
@@ -215,30 +190,30 @@
               class="pa-5 chart"
             />
             <v-row class="mt-0">
-                <v-col cols="12" sm="5" ></v-col>
-                <v-col
-                  cols="12"
-                  sm="7"
-                  v-if="!isFullScreen"
-                  ref="customButtonRow"
-                  style="margin-top: -30px;"
-                >
-                  <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
-                    <v-btn
-                      color="primary"
-                      text
-                      small
-                      :href="dataCustomHrefCSV"
-                      :download="customAOIDownloadFilename"
-                      target="_blank"
-                      v-if="customAreaIndicator && !isFullScreen"
-                    >
-                      <v-icon left>mdi-download</v-icon>
-                      download csv
-                    </v-btn>
-                  </div>
-                </v-col>
-              </v-row>
+              <v-col cols="12" sm="5" ></v-col>
+              <v-col
+                cols="12"
+                sm="7"
+                v-if="!isFullScreen"
+                ref="customButtonRow"
+                style="margin-top: -30px;"
+              >
+                <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
+                  <v-btn
+                    color="primary"
+                    text
+                    small
+                    :href="dataCustomHrefCSV"
+                    :download="customAOIDownloadFilename"
+                    target="_blank"
+                    v-if="customAreaIndicator && !isFullScreen"
+                  >
+                    <v-icon left>mdi-download</v-icon>
+                    download csv
+                  </v-btn>
+                </div>
+              </v-col>
+            </v-row>
           </v-card>
           <v-card
             v-else
@@ -320,6 +295,18 @@
                   :indicatorObject="indicatorObject"
                   v-if="!customAreaIndicator || expanded"
                 />
+                <v-btn
+                  color="primary"
+                  text
+                  small
+                  :href="dataCustomHrefCSV"
+                  :download="customAOIDownloadFilename"
+                  target="_blank"
+                  v-if="customAreaIndicator && !isFullScreen"
+                >
+                  <v-icon left>mdi-download</v-icon>
+                  download csv
+                </v-btn>
                 <add-to-dashboard-button
                   :indicatorObject="indicatorObject"
                   :zoom="zoom"
