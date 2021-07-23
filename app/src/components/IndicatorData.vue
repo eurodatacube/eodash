@@ -876,15 +876,9 @@ export default {
       return dataCollection;
     },
     indicatorObject() {
-      const indicatorObject = this.currentIndicator
+      return this.currentIndicator
         || this.$store.state.indicators.customAreaIndicator
         || this.$store.state.indicators.selectedIndicator;
-
-      indicatorObject.time = indicatorObject.time.map(
-        (d) => (DateTime.isDateTime(d) ? d : DateTime.fromISO(d)),
-      );
-
-      return indicatorObject;
     },
     indDefinition() {
       return this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator];

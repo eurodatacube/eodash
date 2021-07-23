@@ -198,6 +198,7 @@
                 ref="customButtonRow"
                 style="margin-top: -30px;"
               >
+                <!--non tabbed custom area indicator not expanded-->
                 <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
                   <v-btn
                     color="primary"
@@ -206,7 +207,14 @@
                     :href="dataCustomHrefCSV"
                     :download="customAOIDownloadFilename"
                     target="_blank"
-                    v-if="customAreaIndicator && !isFullScreen"
+                    v-if="
+                      customAreaIndicator &&
+                      !isFullScreen &&
+                      !showMap &&
+                      !this.baseConfig.indicatorsDefinition[
+                        indicatorObject.indicator
+                      ].countrySelection
+                    "
                   >
                     <v-icon left>mdi-download</v-icon>
                     download csv
@@ -295,6 +303,7 @@
                   :indicatorObject="indicatorObject"
                   v-if="!customAreaIndicator || expanded"
                 />
+                <!--Custom CSV for tabbed map not expanded-->
                 <v-btn
                   color="primary"
                   text
@@ -302,7 +311,13 @@
                   :href="dataCustomHrefCSV"
                   :download="customAOIDownloadFilename"
                   target="_blank"
-                  v-if="customAreaIndicator && !isFullScreen"
+                  v-if="
+                    customAreaIndicator &&
+                    !isFullScreen &&
+                    !this.baseConfig.indicatorsDefinition[
+                      indicatorObject.indicator
+                    ].countrySelection
+                  "
                 >
                   <v-icon left>mdi-download</v-icon>
                   download csv
@@ -388,9 +403,9 @@
                   sm="7"
                   v-if="!isFullScreen"
                   ref="customButtonRow"
-                  style="margin-top: -30px;"
                 >
                   <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
+                    <!--download button for tabbed custom aoi selection expanded view-->
                     <v-btn
                       color="primary"
                       text
@@ -398,7 +413,13 @@
                       :href="dataCustomHrefCSV"
                       :download="customAOIDownloadFilename"
                       target="_blank"
-                      v-if="customAreaIndicator && !isFullScreen"
+                      v-if="
+                        customAreaIndicator &&
+                        !isFullScreen &&
+                        !this.baseConfig.indicatorsDefinition[
+                          indicatorObject.indicator
+                        ].countrySelection
+                      "
                     >
                       <v-icon left>mdi-download</v-icon>
                       download csv
