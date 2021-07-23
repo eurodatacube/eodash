@@ -232,7 +232,7 @@
                               required>
                               <template v-slot:label>
                                 I have read and acepted the
-                                <a @click.stop href='https://race.esa.int/privacy' target="_blank">
+                                <a @click.stop href='/privacy' target="_blank">
                                   Privacy Notice and Consent Form
                                 </a>
                               </template>
