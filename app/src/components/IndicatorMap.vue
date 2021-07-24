@@ -9,6 +9,8 @@
     @update:center="centerUpdated"
     @update:bounds="boundsUpdated"
     v-resize="onResize"
+    :center="center"
+    :zoom="zoom"
     @ready="onMapReady()"
   >
     <l-control-zoom position="topright"></l-control-zoom>
@@ -480,9 +482,18 @@ let dataF = emptyF;
 let compareF = emptyF;
 
 export default {
-  props: [
-    'currentIndicator',
-  ],
+  props: {
+    currentIndicator: Object,
+    zoomProp: {
+      required: false,
+    },
+    centerProp: {
+      required: false,
+    },
+    hideCustomAreaControls: {
+      required: false,
+    },
+  },
   components: {
     LMap,
     LTileLayer,
@@ -831,12 +842,15 @@ export default {
     },
     zoomUpdated(zoom) {
       this.zoom = zoom;
+      this.$emit('update:zoom', zoom);
     },
     centerUpdated(center) {
       this.center = center;
+      this.$emit('update:center', center);
     },
     boundsUpdated(bounds) {
       this.bounds = bounds;
+      this.$emit('update:bounds', bounds);
     },
     onMapReady() {
       this.map = this.$refs.map.mapObject;
@@ -891,6 +905,7 @@ export default {
       if (!this.mergedConfigs()[0].customAreaFeatures || this.validDrawnArea) {
         this.fetchFeatures('data');
       }
+      this.$emit('ready');
       setTimeout(() => {
         this.flyToBounds();
       }, 100);
@@ -904,7 +919,7 @@ export default {
       }
     },
     initialDrawSelectedArea() {
-      if (this.customAreaFilter) {
+      if (this.customAreaFilter && !this.hideCustomAreaControls) {
         // add draw controls
         this.drawControl.addTo(this.map);
         this.renderTrashBin = true;
@@ -1537,6 +1552,9 @@ export default {
           indicator.country = indicator.CountryCode; // eslint-disable-line
           indicator.title = indicator.CountryName; // eslint-disable-line
           indicator.yAxis = this.indicator.yAxis; // eslint-disable-line
+          indicator.includesIndicator = true; // eslint-disable-line
+          indicator.city = indicator.CountryName; // eslint-disable-line
+          indicator.description = this.indicator.description; // eslint-disable-line
           this.map.fireEvent('dataload');
           this.$store.commit(
             'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
@@ -1640,12 +1658,12 @@ export default {
           if (side === 'data') {
             this.$refs.featuresDataCluster.mapObject.clearLayers();
             this.$refs.featuresDataCluster.mapObject.addLayers([geojsonFromData]);
-            this.dataFeaturesCount = ftrs.features.length;
-          } else {
-            this.$refs.featuresCompareCluster.mapObject.clearLayers();
-            this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
-            this.compareFeaturesCount = ftrs.features.length;
+            this.dataFeaturesNum = ftrs.features.length;
           }
+        } else if (this.$refs.featuresDataCluster) {
+          this.$refs.featuresCompareCluster.mapObject.clearLayers();
+          this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
+          this.compareFeaturesNum = ftrs.features.length;
         }
       } else if (side === 'data') {
         // normal geojson layer just needs manual refresh
@@ -1660,6 +1678,20 @@ export default {
     },
   },
   watch: {
+    zoomProp: {
+      immediate: true,
+      deep: true,
+      handler(v) {
+        if (v) this.zoom = v;
+      },
+    },
+    centerProp: {
+      immediate: true,
+      deep: true,
+      handler(v) {
+        if (v) this.center = v;
+      },
+    },
     enableCompare(on) {
       if (!on) {
         if (this.slider !== null) {

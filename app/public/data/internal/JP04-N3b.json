@@ -1208,5 +1208,27 @@
         "reference_time": "",
         "reference_value": "",
         "time": "2021-05-22T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "",
+        "input_data": "EORC product",
+        "measurement_value": "-35.97",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2021-06-10T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "",
+        "input_data": "EORC product",
+        "measurement_value": " 95.13",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2021-06-12T00:00:00"
     }
 ]

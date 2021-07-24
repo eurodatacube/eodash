@@ -131,7 +131,6 @@ export default {
         }
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
-
         // Read route query and validate country and indicator if in query
         const { country } = this.$route.query;
         const { indicator } = this.$route.query;
@@ -152,7 +151,6 @@ export default {
           indicators: selectedIndicator,
         });
       }
-
       // Url query replacement
       if (mutation.type === 'features/SET_FEATURE_FILTER') {
         if (Array.isArray(mutation.payload.countries) && mutation.payload.countries.length === 0) {
@@ -180,7 +178,6 @@ export default {
           }
         }
       }
-
       if (mutation.type === 'features/SET_SELECTED_AREA') {
         if (mutation.payload) {
           const area = wkt.read(JSON.stringify(mutation.payload)).write();
@@ -191,7 +188,6 @@ export default {
           this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
         }
       }
-
       if (['indicators/SET_SELECTED_INDICATOR'].includes(mutation.type)) {
         if (mutation.payload && !( // If dummy feature selected ignore
           Object.prototype.hasOwnProperty.call(mutation.payload, 'dummyFeature')
