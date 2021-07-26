@@ -391,14 +391,14 @@
                   class="pa-5 chart"
                 />
               </v-card>
-              <div class="mt-3" style="float:right">
+              <div class="mt-6" style="float:right">
                 <AddToDashboardButton
                   v-if="customAreaIndicator"
                   :indicatorObject="customAreaIndicator">
                 </AddToDashboardButton>
               </div>
               <v-row
-                class="mt-0"
+                class="mt-3"
               >
                 <v-col
                   cols="12"

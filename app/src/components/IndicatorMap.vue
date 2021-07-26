@@ -1626,8 +1626,8 @@ export default {
         })
         .then((indicator) => {
           if (indicator) {
-            indicator.poi = this.drawnArea.coordinates.flat(Infinity).join('-');
-            indicator.includesIndicator = true;
+            indicator.poi = this.drawnArea.coordinates.flat(Infinity).join('-'); // eslint-disable-line
+            indicator.includesIndicator = true; // eslint-disable-line
           }
           this.map.fireEvent('dataload');
           this.$store.commit(
