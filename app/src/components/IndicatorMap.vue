@@ -919,10 +919,12 @@ export default {
       }
     },
     initialDrawSelectedArea() {
-      if (this.customAreaFilter && !this.hideCustomAreaControls) {
-        // add draw controls
-        this.drawControl.addTo(this.map);
-        this.renderTrashBin = true;
+      if (this.customAreaFilter) {
+        if (!this.hideCustomAreaControls) {
+          // add draw controls
+          this.drawControl.addTo(this.map);
+          this.renderTrashBin = true;
+        }
         this.updateSelectedAreaFeature();
       }
     },
