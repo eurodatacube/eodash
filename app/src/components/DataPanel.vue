@@ -323,11 +323,13 @@
                   download csv
                 </v-btn>
                 <AddToDashboardButton
-                  v-if="customAreaIndicator"
+                  v-if="customAreaIndicator && !expanded"
                   :indicatorObject="customAreaIndicator">
                 </AddToDashboardButton>
                 <add-to-dashboard-button
-                  v-else
+                  v-else-if="!this.baseConfig.indicatorsDefinition[
+                    indicatorObject.indicator
+                  ].countrySelection"
                   :indicatorObject="indicatorObject"
                   :zoom="zoom"
                   :center="center"/>
