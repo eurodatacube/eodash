@@ -27,7 +27,7 @@ jobs:
       run: |
         cd app/
         npm install --prefer-offline --no-audit
-        npm run build --mode staging
+        npm run build -- --mode staging
 
     # Inject SH Config file
     - name: replace instance ID

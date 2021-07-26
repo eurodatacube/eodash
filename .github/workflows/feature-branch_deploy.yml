@@ -28,7 +28,7 @@ jobs:
         cd app/
         sed -e "s,// publicPath: '/',publicPath: '/${GITHUB_REF##*/}'," -i vue.config.js
         npm install --prefer-offline --no-audit
-        npm run build --mode development
+        npm run build -- --mode development
 
     # Inject SH Config file
     - name: replace instance ID
