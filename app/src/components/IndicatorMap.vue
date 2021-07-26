@@ -1625,6 +1625,10 @@ export default {
           return rawdata;
         })
         .then((indicator) => {
+          if (indicator) {
+            indicator.poi = this.drawnArea.coordinates.flat(Infinity).join('-');
+            indicator.includesIndicator = true;
+          }
           this.map.fireEvent('dataload');
           this.$store.commit(
             'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
