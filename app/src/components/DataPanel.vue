@@ -70,6 +70,8 @@
                   Array.isArray(sensorData.properties.indicatorObject.country)"
                   class="pt-0 fill-height"
                   :currentIndicator="sensorData.properties.indicatorObject"
+                  @update:center="c => center = c"
+                  @update:zoom="z => zoom = z"
                 />
                 <indicator-data
                   style="top: 0px; position: absolute;"
@@ -183,6 +185,8 @@
               style="top: 0px; position: absolute;"
               v-show="false"
               class="pt-0 fill-height"
+              @update:center="c => center = c"
+              @update:zoom="z => zoom = z"
             />
             <indicator-data
               v-if="!customAreaIndicator.isEmpty"
@@ -251,6 +255,8 @@
               ref="indicatorMap"
               style="top: 0px; position: absolute;"
               v-if="showMap"
+              @update:center="c => center = c"
+              @update:zoom="z => zoom = z"
               class="pt-0 fill-height"
             />
             <indicator-data
@@ -491,6 +497,8 @@
                 </v-toolbar>
               <indicator-map
                 ref="referenceMap"
+                @update:center="c => center = c"
+                @update:zoom="z => zoom = z"
                 :style="`height: calc(100% - ${$vuetify.application.top}px)`"
               />
               </v-dialog>
