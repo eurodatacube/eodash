@@ -148,7 +148,7 @@ ESA Web Analytics uses the following cookies:
 |_pk_id |First party (Matomo) |Persistent |Contains a visitor id used to identify unique visitors|Used to store a few details about the user such as the unique visitor ID| 6 months|
 |_pk_ref  |First party (Matomo) |Persistent|  To identify from where they came  |Used to store the attribution information, the referrer initially used to visit the website  |6 months|
 |_pk_ses, _pk_cvar, _pk_hsr |First party (Matomo) |Persistent |None |Short lived cookies used to temporarily store data for the visit |30 minutes|
-|_pk_testcookie |First party (Matomo)|  Session None| Used to check whether the visitor’s browser supports cookies  |Is created and should be then directly deleted|
+|_pk_testcookie |First party (Matomo)|  Session | None| Used to check whether the visitor’s browser supports cookies  |Is created and should be then directly deleted|
 
 ### Consent for personal data processing
 
