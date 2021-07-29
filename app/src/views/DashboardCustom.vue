@@ -123,7 +123,7 @@
               v-if="hasEditingPrivilege || !(dashboardConfig && dashboardConfig.id)"
               @click="disconnect"
               :color="!(dashboardConfig && dashboardConfig.id) ? 'red' : 'grey'"
-              :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : ''"
+              :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : 'mr-4'"
               :block="$vuetify.breakpoint.xsOnly"
               style="color: white"
             >
@@ -631,7 +631,7 @@ export default {
         await this.addToMailingList({
           email: this.email,
           name: this.name,
-          lists: this.$store.state.config.appConfig.mailingList,
+          lists: this.$store.state.config.appConfig.mailingList[process.env.NODE_ENV],
           viewURL: this.viewingLink,
           editURL: this.editingLink,
           dashboardTitle: this.dashboardTitle,

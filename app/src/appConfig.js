@@ -1,7 +1,11 @@
 module.exports = [
   {
     id: 'esa',
-    mailingList: [2],
+    mailingList: {
+      development: [2],
+      staging: [2],
+      production: [4],
+    },
     match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'localhost2'],
     branding: {
       appName: 'Rapid Action on coronavirus and EO',
@@ -187,11 +191,14 @@ module.exports = [
         'BG4', 'SE22', 'EE1', 'AL1', 'IT38', 'ES65', 'MT2', 'AT5', 'LT3', 'PL6',
         'HR3', 'OS1',
       ].map((val) => ({ features: [`${val}-N1b`, `${val}-N1a`, `${val}-N1c`, `${val}-N1d`], label: ['NO2', 'PM 2.5', 'PM10', 'O3'] }))),
-    customDashboardUrl: 'https://eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/dashboards',
   },
   {
     id: 'trilateral',
-    mailingList: [3],
+    mailingList: {
+      development: [3],
+      staging: [3],
+      production: [5],
+    },
     match: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'eodash-trilateral-testing.eox.at', 'localhost'],
     branding: {
       appName: 'Earth Observing Dashboard',

@@ -322,15 +322,17 @@
                   <v-icon left>mdi-download</v-icon>
                   download csv
                 </v-btn>
-                <!-- <AddToDashboardButton
-                  v-if="customAreaIndicator"
+                <AddToDashboardButton
+                  v-if="customAreaIndicator && !expanded"
                   :indicatorObject="customAreaIndicator">
                 </AddToDashboardButton>
                 <add-to-dashboard-button
-                  v-else
+                  v-else-if="!this.baseConfig.indicatorsDefinition[
+                    indicatorObject.indicator
+                  ].countrySelection"
                   :indicatorObject="indicatorObject"
                   :zoom="zoom"
-                  :center="center"/> -->
+                  :center="center"/>
               </div>
             </v-col>
           </v-row>
@@ -389,14 +391,14 @@
                   class="pa-5 chart"
                 />
               </v-card>
-              <div class="mt-3" style="float:right">
-                <!-- <AddToDashboardButton
+              <div class="mt-6" style="float:right">
+                <AddToDashboardButton
                   v-if="customAreaIndicator"
                   :indicatorObject="customAreaIndicator">
-                </AddToDashboardButton> -->
+                </AddToDashboardButton>
               </div>
               <v-row
-                class="mt-0"
+                class="mt-3"
               >
                 <v-col
                   cols="12"
@@ -514,7 +516,7 @@ import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
 import FullScreenButton from '@/components/FullScreenButton.vue';
 import IframeButton from '@/components/IframeButton.vue';
-// import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
+import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 
 export default {
   mixins: [dialogMixin],
@@ -528,7 +530,7 @@ export default {
     IndicatorMap,
     FullScreenButton,
     IframeButton,
-    // AddToDashboardButton,
+    AddToDashboardButton,
   },
   data: () => ({
     dialog: false,
