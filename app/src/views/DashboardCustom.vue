@@ -636,7 +636,6 @@ export default {
           editURL: this.editingLink,
           dashboardTitle: this.dashboardTitle,
           interests: this.interests,
-          ...(process.env.NODE_ENV !== 'production' && { dev: true })
         });
         this.$router.replace({
           path: 'dashboard',

@@ -185,6 +185,7 @@ class CustomDashboardApi extends EventEmitter {
         dashboardURLEdit: editURL,
         dashboardTitle,
         interests,
+        ...(process.env.NODE_ENV !== 'production' && { dev: true })
       },
     }, {
       headers: {
