@@ -631,11 +631,12 @@ export default {
         await this.addToMailingList({
           email: this.email,
           name: this.name,
-          lists: this.$store.state.config.appConfig.mailingList,
+          lists: this.$store.state.config.appConfig.mailingList[process.env.NODE_ENV],
           viewURL: this.viewingLink,
           editURL: this.editingLink,
           dashboardTitle: this.dashboardTitle,
           interests: this.interests,
+          ...(process.env.NODE_ENV !== 'production' && { dev: true })
         });
         this.$router.replace({
           path: 'dashboard',
