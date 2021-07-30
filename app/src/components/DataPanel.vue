@@ -70,6 +70,8 @@
                   Array.isArray(sensorData.properties.indicatorObject.country)"
                   class="pt-0 fill-height"
                   :currentIndicator="sensorData.properties.indicatorObject"
+                  @update:center="c => center = c"
+                  @update:zoom="z => zoom = z"
                 />
                 <indicator-data
                   style="top: 0px; position: absolute;"
@@ -183,6 +185,8 @@
               style="top: 0px; position: absolute;"
               v-show="false"
               class="pt-0 fill-height"
+              @update:center="c => center = c"
+              @update:zoom="z => zoom = z"
             />
             <indicator-data
               v-if="!customAreaIndicator.isEmpty"
@@ -251,6 +255,8 @@
               ref="indicatorMap"
               style="top: 0px; position: absolute;"
               v-if="showMap"
+              @update:center="c => center = c"
+              @update:zoom="z => zoom = z"
               class="pt-0 fill-height"
             />
             <indicator-data
@@ -323,11 +329,13 @@
                   download csv
                 </v-btn>
                 <!-- <AddToDashboardButton
-                  v-if="customAreaIndicator"
+                  v-if="customAreaIndicator && !expanded"
                   :indicatorObject="customAreaIndicator">
-                </AddToDashboardButton>
-                <add-to-dashboard-button
-                  v-else
+                </AddToDashboardButton> -->
+                <!-- <add-to-dashboard-button
+                  v-else-if="!this.baseConfig.indicatorsDefinition[
+                    indicatorObject.indicator
+                  ].countrySelection"
                   :indicatorObject="indicatorObject"
                   :zoom="zoom"
                   :center="center"/> -->
@@ -389,14 +397,14 @@
                   class="pa-5 chart"
                 />
               </v-card>
-              <div class="mt-3" style="float:right">
+              <div class="mt-6" style="float:right">
                 <!-- <AddToDashboardButton
                   v-if="customAreaIndicator"
                   :indicatorObject="customAreaIndicator">
                 </AddToDashboardButton> -->
               </div>
               <v-row
-                class="mt-0"
+                class="mt-3"
               >
                 <v-col
                   cols="12"
@@ -489,6 +497,8 @@
                 </v-toolbar>
               <indicator-map
                 ref="referenceMap"
+                @update:center="c => center = c"
+                @update:zoom="z => zoom = z"
                 :style="`height: calc(100% - ${$vuetify.application.top}px)`"
               />
               </v-dialog>

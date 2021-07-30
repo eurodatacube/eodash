@@ -919,10 +919,12 @@ export default {
       }
     },
     initialDrawSelectedArea() {
-      if (this.customAreaFilter && !this.hideCustomAreaControls) {
-        // add draw controls
-        this.drawControl.addTo(this.map);
-        this.renderTrashBin = true;
+      if (this.customAreaFilter) {
+        if (!this.hideCustomAreaControls) {
+          // add draw controls
+          this.drawControl.addTo(this.map);
+          this.renderTrashBin = true;
+        }
         this.updateSelectedAreaFeature();
       }
     },
@@ -1623,6 +1625,10 @@ export default {
           return rawdata;
         })
         .then((indicator) => {
+          if (indicator) {
+            indicator.poi = this.drawnArea.coordinates.flat(Infinity).join('-'); // eslint-disable-line
+            indicator.includesIndicator = true; // eslint-disable-line
+          }
           this.map.fireEvent('dataload');
           this.$store.commit(
             'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
