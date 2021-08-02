@@ -225,7 +225,7 @@
                                 required
                                 outlined></v-text-field>
                           </v-col>
-                          <v-col cols="12" class="pb-2 pt-0">
+                          <v-col cols="12" class="pb-0 pt-0">
                             <v-checkbox
                               v-model="privacyConsent"
                               :rules="privacyRules"
@@ -235,6 +235,14 @@
                                 <a @click.stop href='/privacy' target="_blank">
                                   Privacy Notice and Consent Form
                                 </a>
+                              </template>
+                            </v-checkbox>
+                          </v-col>
+                          <v-col cols="12" class="pb-2 pt-0">
+                            <v-checkbox
+                              v-model="newsletterConsent">
+                              <template v-slot:label>
+                                I want to sty up-to-date about {{ appConfig && appConfig.branding.appName }} via newsletter
                               </template>
                             </v-checkbox>
                           </v-col>
@@ -465,7 +473,7 @@ export default {
 
     textValid: true,
     valid: true,
-    consent: false,
+    newsletterConsent: false,
 
     initialLoading: true,
 
@@ -627,6 +635,7 @@ export default {
           interests: this.interests,
         });
         await this.addToMailingList({
+          newsletterConsent: this.newsletterConsent,
           email: this.email,
           name: this.name,
           lists: this.$store.state.config.appConfig.mailingList[process.env.NODE_ENV],
