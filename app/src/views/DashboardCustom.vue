@@ -624,8 +624,6 @@ export default {
       if (this.$refs.form.validate()) {
         this.performChange('changeTitle', this.popupTitle);
         await this.addMarketingInfo({
-          email: this.email,
-          consent: this.consent,
           interests: this.interests,
         });
         await this.addToMailingList({
