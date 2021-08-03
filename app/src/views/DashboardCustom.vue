@@ -242,7 +242,7 @@
                             <v-checkbox
                               v-model="newsletterConsent">
                               <template v-slot:label>
-                                I want to sty up-to-date about {{ appConfig && appConfig.branding.appName }} via newsletter
+                                I want to stay up-to-date about {{ appConfig && appConfig.branding.appName }} via newsletter
                               </template>
                             </v-checkbox>
                           </v-col>
