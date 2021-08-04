@@ -194,6 +194,10 @@ class CustomDashboardApi extends EventEmitter {
       dashboardTitle,
       interests,
       ...(process.env.NODE_ENV !== 'production' && { dev: true }),
+    }, {
+      headers: {
+        dashboardapikey: shConfig.listmonkApiKey,
+      },
     });
     return res;
   }
