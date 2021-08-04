@@ -179,6 +179,7 @@ class CustomDashboardApi extends EventEmitter {
     name,
     lists,
     newsletterOptIn,
+    dashboardId,
     dashboardURLView,
     dashboardURLEdit,
     dashboardTitle,
@@ -189,11 +190,12 @@ class CustomDashboardApi extends EventEmitter {
       name,
       lists,
       newsletterOptIn,
+      dashboardId,
       dashboardURLView,
       dashboardURLEdit,
       dashboardTitle,
       interests,
-      ...(process.env.NODE_ENV !== 'production' && { dev: true }),
+      dev: process.env.NODE_ENV !== 'production',
     }, {
       headers: {
         dashboardapikey: shConfig.listmonkApiKey,

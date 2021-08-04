@@ -231,6 +231,7 @@ const actions = {
         m.name,
         m.lists,
         m.newsletterOptIn,
+        m.dashboardId,
         m.dashboardURLView,
         m.dashboardURLEdit,
         m.dashboardTitle,

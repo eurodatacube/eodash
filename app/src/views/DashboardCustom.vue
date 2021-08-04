@@ -640,6 +640,7 @@ export default {
           name: this.name,
           lists: this.$store.state.config.appConfig.mailingList[process.env.NODE_ENV],
           newsletterOptIn: this.newsletterOptIn,
+          dashboardId: this.$store.state.dashboard.dashboardConfig.id,
           dashboardURLView: this.viewingLink,
           dashboardURLEdit: this.editingLink,
           dashboardTitle: this.dashboardTitle,
