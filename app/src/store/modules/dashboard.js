@@ -229,7 +229,7 @@ const actions = {
       return state.api.addToMailingList(
         m.email,
         m.name,
-        m.lists,
+        m.listId,
         m.newsletterOptIn,
         m.dashboardId,
         m.dashboardURLView,

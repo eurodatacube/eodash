@@ -638,7 +638,7 @@ export default {
         await this.addToMailingList({
           email: this.email,
           name: this.name,
-          lists: this.$store.state.config.appConfig.mailingList[process.env.NODE_ENV],
+          listId: this.$store.state.config.appConfig.mailingList[process.env.NODE_ENV],
           newsletterOptIn: this.newsletterOptIn,
           dashboardId: this.$store.state.dashboard.dashboardConfig.id,
           dashboardURLView: this.viewingLink,

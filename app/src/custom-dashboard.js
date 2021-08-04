@@ -177,7 +177,7 @@ class CustomDashboardApi extends EventEmitter {
   async addToMailingList(
     email,
     name,
-    lists,
+    listId,
     newsletterOptIn,
     dashboardId,
     dashboardURLView,
@@ -188,7 +188,7 @@ class CustomDashboardApi extends EventEmitter {
     const res = await this.axios.post('https://listmonk.eox.at/add_to_mailing_list', {
       email,
       name,
-      lists,
+      listId,
       newsletterOptIn,
       dashboardId,
       dashboardURLView,
