@@ -227,7 +227,14 @@ const actions = {
   ) {
     if (state.api) {
       return state.api.addToMailingList(
-        m.email, m.name, m.lists, m.viewURL, m.editURL, m.dashboardTitle, m.interests,
+        m.email,
+        m.name,
+        m.lists,
+        m.newsletterOptIn,
+        m.dashboardURLView,
+        m.dashboardURLEdit,
+        m.dashboardTitle,
+        m.interests,
       );
     }
   },

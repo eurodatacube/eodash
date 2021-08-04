@@ -240,9 +240,10 @@
                           </v-col>
                           <v-col cols="12" class="pb-2 pt-0">
                             <v-checkbox
-                              v-model="newsletterConsent">
+                              v-model="newsletterOptIn">
                               <template v-slot:label>
-                                I want to stay up-to-date about {{ appConfig && appConfig.branding.appName }} via newsletter
+                                I want to stay up-to-date about {{ appConfig
+                                  && appConfig.branding.appName }} via newsletter
                               </template>
                             </v-checkbox>
                           </v-col>
@@ -473,7 +474,7 @@ export default {
 
     textValid: true,
     valid: true,
-    newsletterConsent: false,
+    newsletterOptIn: false,
 
     initialLoading: true,
 
@@ -635,12 +636,12 @@ export default {
           interests: this.interests,
         });
         await this.addToMailingList({
-          newsletterConsent: this.newsletterConsent,
           email: this.email,
           name: this.name,
           lists: this.$store.state.config.appConfig.mailingList[process.env.NODE_ENV],
-          viewURL: this.viewingLink,
-          editURL: this.editingLink,
+          newsletterOptIn: this.newsletterOptIn,
+          dashboardURLView: this.viewingLink,
+          dashboardURLEdit: this.editingLink,
           dashboardTitle: this.dashboardTitle,
           interests: this.interests,
         });
