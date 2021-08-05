@@ -328,17 +328,17 @@
                   <v-icon left>mdi-download</v-icon>
                   download csv
                 </v-btn>
-                <!-- <AddToDashboardButton
+                <AddToDashboardButton
                   v-if="customAreaIndicator && !expanded"
                   :indicatorObject="customAreaIndicator">
-                </AddToDashboardButton> -->
-                <!-- <add-to-dashboard-button
+                </AddToDashboardButton>
+                <add-to-dashboard-button
                   v-else-if="!this.baseConfig.indicatorsDefinition[
                     indicatorObject.indicator
                   ].countrySelection"
                   :indicatorObject="indicatorObject"
                   :zoom="zoom"
-                  :center="center"/> -->
+                  :center="center"/>
               </div>
             </v-col>
           </v-row>
@@ -398,10 +398,10 @@
                 />
               </v-card>
               <div class="mt-6" style="float:right">
-                <!-- <AddToDashboardButton
+                <AddToDashboardButton
                   v-if="customAreaIndicator"
                   :indicatorObject="customAreaIndicator">
-                </AddToDashboardButton> -->
+                </AddToDashboardButton>
               </div>
               <v-row
                 class="mt-3"
@@ -524,7 +524,7 @@ import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
 import FullScreenButton from '@/components/FullScreenButton.vue';
 import IframeButton from '@/components/IframeButton.vue';
-// import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
+import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 
 export default {
   mixins: [dialogMixin],
@@ -538,7 +538,7 @@ export default {
     IndicatorMap,
     FullScreenButton,
     IframeButton,
-    // AddToDashboardButton,
+    AddToDashboardButton,
   },
   data: () => ({
     dialog: false,

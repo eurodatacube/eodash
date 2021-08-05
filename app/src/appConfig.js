@@ -2,9 +2,9 @@ module.exports = [
   {
     id: 'esa',
     mailingList: {
-      development: [2],
-      staging: [2],
-      production: [4],
+      development: 2,
+      staging: 2,
+      production: 4,
     },
     match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'localhost2'],
     branding: {
@@ -195,9 +195,9 @@ module.exports = [
   {
     id: 'trilateral',
     mailingList: {
-      development: [3],
-      staging: [3],
-      production: [5],
+      development: 3,
+      staging: 3,
+      production: 5,
     },
     match: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'eodash-trilateral-testing.eox.at', 'localhost'],
     branding: {
