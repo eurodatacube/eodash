@@ -36,20 +36,19 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'WorldCO-N1',
-        src: './eodash-data/general/Slide17.png',
+        src: './eodash-data/general/Slide22.png',
       },
       {
-        poi: 'IT3-C1',
-        src: './eodash-data/general/Slide16.png',
+        poi: 'ATa-E10a10',
+        src: './eodash-data/general/Slide23.png',
       },
       {
         poi: 'ES7-E13n',
         src: './eodash-data/general/Slide15.png',
       },
       {
-        poi: 'IT11-N1a',
-        src: './eodash-data/general/Slide13.png',
+        poi: 'World-N3c',
+        src: './eodash-data/general/Slide24.png',
       },
     ],
     privacyText: '/eodash-data/general/privacy',
@@ -220,9 +219,9 @@ module.exports = [
     newsBanner: {
       color: 'green darken-1',
       icon: 'calendar-star',
-      text: '<b><a href="https://www.eodashboardhackathon.org" target="_blank">EO Dashboard Hackathon NEWS!</a><b>',
-      startDate: '2021-04-29',
-      endDate: '2021-08-30',
+      text: '<b><a href="https://www.eodashboardhackathon.org/awards/" target="_blank">EO Dashboard Hackathon RESULTS!</a><b>',
+      startDate: '2021-08-03',
+      endDate: '2021-09-30',
     },
     aboutText: '/data/trilateral/about',
     welcomeText: '/data/trilateral/welcome',
