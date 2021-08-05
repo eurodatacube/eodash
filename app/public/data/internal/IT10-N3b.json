@@ -4048,6 +4048,17 @@
         "time": "2021-06-26T11:30:00"
     },
     {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "15.87",
+        "reference_time": "2021-07-03T00:00:00",
+        "reference_value": "/",
+        "time": "2021-07-03T00:00:00"
+    },
+    {
         "color_code": "",
         "data_provider": "NASA OBPG",
         "eo_sensor": "Aqua MODIS",
@@ -4059,6 +4070,17 @@
         "time": "2021-07-03T11:30:00"
     },
     {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-35.31",
+        "reference_time": "2021-07-10T00:00:00",
+        "reference_value": "/",
+        "time": "2021-07-10T00:00:00"
+    },
+    {
         "color_code": "",
         "data_provider": "NASA OBPG",
         "eo_sensor": "Aqua MODIS",
@@ -4068,5 +4090,16 @@
         "reference_time": "",
         "reference_value": "",
         "time": "2021-07-10T11:30:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2021-07-17T00:00:00",
+        "reference_value": "/",
+        "time": "2021-07-17T00:00:00"
     }
 ]

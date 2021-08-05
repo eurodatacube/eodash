@@ -26,8 +26,8 @@ module.exports = [
     newsBanner: {
       color: 'green darken-1',
       icon: 'calendar-star',
-      text: '<a href="https://eo4society.esa.int/2021/05/17/race-dashboard-challenges-2021-stay-tuned-for-upcoming-opportunities/" target="_blank">RACE Dashboard Challenges 2021</a>',
-      startDate: '2021-05-20',
+      text: '<a href="https://eo4society.esa.int/2021/08/01/rapid-action-on-coronavirus-and-eo-race-dashboard-challenge-3/" target="_blank">RACE Dashboard Challenges 2021</a>',
+      startDate: '2021-08-01',
       endDate: '2021-12-31',
     },
     aboutText: '/eodash-data/general/about',
