@@ -1,7 +1,7 @@
 
 ## PRIVACY NOTICE AND CONSENT FORM
 
-#### Introduction
+### Introduction
 
 The European Space Agency (herein the “Agency” or “ESA”) is an intergovernmental organisation established by its Convention opened for signature in Paris on 30 May 1975 having its headquarters located at 24 rue du Général Bertrand, CS 30798, 75345 Paris Cedex 07, France.
 Protection of Personal Data is of great importance for ESA, which strives to ensure a high level of protection as required by the ESA Framework on Personal Data Protection (herein the “ESA PDP Framework”) which applies in this field. ESA implements appropriate measures to preserve the rights of data subjects, to ensure the processing of personal data for specified and legitimate purposes, in a not excessive manner, as necessary for the purposes for which the personal data were collected or for which they are further processed, in conditions protecting confidentiality, integrity and safety of personal data and generally to implement the principles set forth in the PDP Framework, available at: http://www.esa.int/About_Us/Law_at_ESA/Highlights_of_ESA_rules_and_regulations
@@ -55,7 +55,7 @@ Your personal data are collected and further processed to:
 
 In addition, the principles set forth in Article 5 of the Policy on Personal Data Protection will be complied with.
 
-### (6) What is the legitimate purpose for processing your personal data? 
+### (6) What is the legitimate purpose for processing your personal data?
 
 Your personal data will be collected because it is necessary for: 
 
@@ -71,10 +71,9 @@ The Agency may disclose your personal data to any of the following third-party r
 
 EOX IT Services GmbH (Austria) https://eox.at/
 
-The Agency does not consider your personal data as an asset for sale and, thus, does not does not sell your personal data to any third parties.
-  
+The Agency does not consider your personal data as an asset for sale and, thus, does not sell your personal data to any third parties.
 
-### (8) How long do we retain your personal data for? 
+### (8) How long do we retain your personal data for?
 
 The Agency may keep your personal data for as long as necessary for the fulfilment of the above-mentioned purposes, and in no case for longer than one month after your relationship with ESA has finished or you have requested the erasure of your personal data. The same retention applies to the data processor, mentioned below:
 Process: EOX IT Services GmbH (Austria) https://eox.at/
@@ -89,7 +88,7 @@ If you choose to make a request for the erasure of personal data, you understand
 The above-mentioned request should be submitted to the ESA DPO, as first point of contact, by sending an email to: dpo@esa.int
 You may also be allowed access to your personal data and have the possibility to erase, rectify, complete or amend it by sending an email to: dpo@esa.int
 
-### (10)  What could you do in case of a data protection incident?
+### (10) What could you do in case of a data protection incident?
 In case of a data protection incident, you should contact ESA DPO, as first point of contact, by sending an email to: dpo@esa.int
 In case you wish to submit a complaint, you are required to comply with the Rules of Procedure of the Supervisory Authority set forth by ESA PDP Framework. You will be required to demonstrate that a data protection incident occurred in relation to your personal data, following a decision of the Agency or at least to justify serious reasons to believe that such incident occurred. 
 
@@ -143,12 +142,12 @@ To improve the accuracy of the produced reports, information is also stored in a
 ESA Web Analytics uses the following cookies:
 
 
-|Cookie Name |  First Party or Third Party cookie?  | Session or Persistent cookie? | Type of personal data collected|  Purpose|  Expires| 
-|:------------- |:---------------| :-------------|:-------------|:-------------|:-------------|
-|_pk_id |First party (Matomo) |Persistent |Contains a visitor id used to identify unique visitors|Used to store a few details about the user such as the unique visitor ID| 6 months|
-|_pk_ref  |First party (Matomo) |Persistent|  To identify from where they came  |Used to store the attribution information, the referrer initially used to visit the website  |6 months|
-|_pk_ses, _pk_cvar, _pk_hsr |First party (Matomo) |Persistent |None |Short lived cookies used to temporarily store data for the visit |30 minutes|
-|_pk_testcookie |First party (Matomo)|  Session | None| Used to check whether the visitor’s browser supports cookies  |Is created and should be then directly deleted|
+| Cookie Name                   | First Party or Third Party cookie? | Session or Persistent cookie? | Type of personal data collected                        | Purpose                                                                                     | Expires        |
+| :-------------                | :---------------                   | :-------------                | :-------------                                         | :-------------                                                                              | :------------- |
+| \_pk_id                       | First party (Matomo)               | Persistent                    | Contains a visitor id used to identify unique visitors | Used to store a few details about the user such as the unique visitor ID                    | 6 months       |
+| \_pk_ref                      | First party (Matomo)               | Persistent                    | To identify from where they came                       | Used to store the attribution information, the referrer initially used to visit the website | 6 months       |
+| \_pk_ses, \_pk_cvar, \_pk_hsr | First party (Matomo)               | Persistent                    | None                                                   | Short lived cookies used to temporarily store data for the visit                            | 30 minutes     |
+| \_pk_testcookie               | First party (Matomo)               | Session                       | None                                                   | Used to check whether the visitor’s browser supports cookies                                | Is created and should be then directly deleted |
 
 ### Consent for personal data processing
 
@@ -156,12 +155,13 @@ ESA collects information for production of anonymised statistics, by default ESA
 
 ### Disclosure and access to information
 
-ESA Web Analytics (Matomo) reports are accessed by the by ESA staff or EOX IT Services GmbH (Austria) https://eox.at/, to maintain relevant systems.  All analytics data communication is encrypted via HTTPS protocol. 
+ESA Web Analytics (Matomo) reports are accessed by ESA staff or EOX IT Services GmbH (Austria) https://eox.at/, to maintain relevant systems. All analytics data communication is encrypted via HTTPS protocol.
 
 ### How to withdraw your consent and/or delete cookies?
 
 The cookies used on this website can be disabled by following your browser instructions, in the “Help,” “Tools” or “Edit” menu of the browser.
 
 ### Contact
+
 You may address requests for information on ESA Web Analytics data or the ESA cookie policy to the webmaster: eodash@esa.int and questions concerning the processing of personal data to the ESA DPO: dpo@esa.int.
 
