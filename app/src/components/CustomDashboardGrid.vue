@@ -41,7 +41,11 @@
           outlined
           tile
         >
-          <div class="pa-5" v-if="element.text" v-html="convertToMarkdown(element.text)"></div>
+          <div
+            class="pa-5 textArea"
+            v-if="element.text"
+            v-html="convertToMarkdown(element.text)"
+          ></div>
           <indicator-map
             ref="indicatorMap"
             style="top: 0px; position: absolute;"
@@ -406,5 +410,8 @@ export default {
 }
 .chart {
   background: #fff;
+}
+::v-deep .textArea img, ::v-deep .textArea video, ::v-deep .textArea iframe {
+  max-width: 100%;
 }
 </style>
