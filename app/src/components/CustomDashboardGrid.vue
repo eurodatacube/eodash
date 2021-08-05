@@ -27,7 +27,7 @@
                 icon
                 small
                 v-on="on"
-                @click="featureTitle = element.title; dialog = true"
+                @click="featureTitle = element.title; featurePOI = element.poi; dialog = true"
               >
                 <v-icon small>mdi-pencil</v-icon>
               </v-btn>
@@ -35,45 +35,6 @@
             <span>Edit element title</span>
           </v-tooltip>
         </div>
-        <v-dialog
-          v-model="dialog"
-          width="500"
-        >
-          <v-card>
-            <v-card-title class="headline primary--text mb-5">
-              Title for dashboard element
-            </v-card-title>
-
-            <v-card-text>
-              <v-form @submit.prevent="changeFeatureTitleFn(element.poi, featureTitle)">
-                <v-text-field
-                  placeholder="Title"
-                  outlined
-                  autofocus
-                  v-model="featureTitle"
-                ></v-text-field>
-              </v-form>
-            </v-card-text>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                color="primary"
-                text
-                @click="dialog = false"
-              >
-                cancel
-              </v-btn>
-              <v-btn
-                color="primary"
-                @click="changeFeatureTitleFn(element.poi, featureTitle)"
-                :disabled="!featureTitle.length"
-              >
-                change
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
         <v-card
           class="pa-0"
           style="height: 500px"
@@ -230,6 +191,45 @@
         </template>
       </v-col>
     </template>
+    <v-dialog
+      v-model="dialog"
+      width="500"
+    >
+      <v-card>
+        <v-card-title class="headline primary--text mb-5">
+          Title for dashboard element
+        </v-card-title>
+
+        <v-card-text>
+          <v-form @submit.prevent="changeFeatureTitleFn(featurePOI, featureTitle)">
+            <v-text-field
+              placeholder="Title"
+              outlined
+              autofocus
+              v-model="featureTitle"
+            ></v-text-field>
+          </v-form>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            text
+            @click="dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-btn
+            color="primary"
+            @click="changeFeatureTitleFn(featurePOI, featureTitle)"
+            :disabled="!featureTitle.length"
+          >
+            change
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-row>
 </template>
 
@@ -254,6 +254,7 @@ export default {
     features: [],
     dialog: false,
     featureTitle: '',
+    featurePOI: null,
     localZoom: {},
     localCenter: {},
     serverZoom: {},

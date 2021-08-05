@@ -2,9 +2,9 @@ module.exports = [
   {
     id: 'esa',
     mailingList: {
-      development: [2],
-      staging: [2],
-      production: [4],
+      development: 2,
+      staging: 2,
+      production: 4,
     },
     match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'localhost2'],
     branding: {
@@ -26,8 +26,8 @@ module.exports = [
     newsBanner: {
       color: 'green darken-1',
       icon: 'calendar-star',
-      text: '<a href="https://eo4society.esa.int/2021/05/17/race-dashboard-challenges-2021-stay-tuned-for-upcoming-opportunities/" target="_blank">RACE Dashboard Challenges 2021</a>',
-      startDate: '2021-05-20',
+      text: '<a href="https://eo4society.esa.int/2021/08/01/rapid-action-on-coronavirus-and-eo-race-dashboard-challenge-3/" target="_blank">RACE Dashboard Challenges 2021</a>',
+      startDate: '2021-08-01',
       endDate: '2021-12-31',
     },
     aboutText: '/eodash-data/general/about',
@@ -36,20 +36,19 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'WorldCO-N1',
-        src: './eodash-data/general/Slide17.png',
+        src: './eodash-data/general/Slide22.png',
       },
       {
-        poi: 'IT3-C1',
-        src: './eodash-data/general/Slide16.png',
+        poi: 'ATa-E10a10',
+        src: './eodash-data/general/Slide23.png',
       },
       {
         poi: 'ES7-E13n',
         src: './eodash-data/general/Slide15.png',
       },
       {
-        poi: 'IT11-N1a',
-        src: './eodash-data/general/Slide13.png',
+        poi: 'World-N3c',
+        src: './eodash-data/general/Slide24.png',
       },
     ],
     privacyText: '/eodash-data/general/privacy',
@@ -195,9 +194,9 @@ module.exports = [
   {
     id: 'trilateral',
     mailingList: {
-      development: [3],
-      staging: [3],
-      production: [5],
+      development: 3,
+      staging: 3,
+      production: 5,
     },
     match: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'eodash-trilateral-testing.eox.at', 'localhost'],
     branding: {
@@ -220,9 +219,9 @@ module.exports = [
     newsBanner: {
       color: 'green darken-1',
       icon: 'calendar-star',
-      text: '<b><a href="https://www.eodashboardhackathon.org" target="_blank">EO Dashboard Hackathon NEWS!</a><b>',
-      startDate: '2021-04-29',
-      endDate: '2021-08-30',
+      text: '<b><a href="https://www.eodashboardhackathon.org/awards/" target="_blank">EO Dashboard Hackathon RESULTS!</a><b>',
+      startDate: '2021-08-03',
+      endDate: '2021-09-30',
     },
     aboutText: '/data/trilateral/about',
     welcomeText: '/data/trilateral/welcome',

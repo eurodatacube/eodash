@@ -174,19 +174,28 @@ class CustomDashboardApi extends EventEmitter {
     });
   }
 
-  async addToMailingList(email, name, lists, viewURL, editURL, dashboardTitle, interests) {
-    const res = await this.axios.post('https://listmonk.eox.at/api/subscribers', {
+  async addToMailingList(
+    email,
+    name,
+    listId,
+    newsletterOptIn,
+    dashboardId,
+    dashboardURLView,
+    dashboardURLEdit,
+    dashboardTitle,
+    interests,
+  ) {
+    const res = await this.axios.post('https://listmonk.eox.at/add_to_mailing_list', {
       email,
       name,
-      status: 'enabled',
-      lists,
-      attribs: {
-        dashboardURLView: viewURL,
-        dashboardURLEdit: editURL,
-        dashboardTitle,
-        interests,
-        ...(process.env.NODE_ENV !== 'production' && { dev: true })
-      },
+      listId,
+      newsletterOptIn,
+      dashboardId,
+      dashboardURLView,
+      dashboardURLEdit,
+      dashboardTitle,
+      interests,
+      dev: process.env.NODE_ENV !== 'production',
     }, {
       headers: {
         dashboardapikey: shConfig.listmonkApiKey,
