@@ -27,7 +27,7 @@
                 icon
                 small
                 v-on="on"
-                @click="featureTitle = element.title; dialog = true"
+                @click="featureTitle = element.title; featurePOI = element.poi; dialog = true"
               >
                 <v-icon small>mdi-pencil</v-icon>
               </v-btn>
@@ -45,7 +45,7 @@
             </v-card-title>
 
             <v-card-text>
-              <v-form @submit.prevent="changeFeatureTitleFn(element.poi, featureTitle)">
+              <v-form @submit.prevent="changeFeatureTitleFn(featurePOI, featureTitle)">
                 <v-text-field
                   placeholder="Title"
                   outlined
@@ -66,7 +66,7 @@
               </v-btn>
               <v-btn
                 color="primary"
-                @click="changeFeatureTitleFn(element.poi, featureTitle)"
+                @click="changeFeatureTitleFn(featurePOI, featureTitle)"
                 :disabled="!featureTitle.length"
               >
                 change
@@ -254,6 +254,7 @@ export default {
     features: [],
     dialog: false,
     featureTitle: '',
+    featurePOI: null,
     localZoom: {},
     localCenter: {},
     serverZoom: {},
