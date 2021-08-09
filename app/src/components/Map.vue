@@ -399,7 +399,7 @@ export default {
           } else if (['E10a6', 'E10a7'].includes(indicatorObject.indicator)) {
             const newIndVal = Number(indicatorObject.lastMeasurement).toPrecision(4);
             label += `${newIndVal}%`;
-          } else if (['N1', 'N3b', 'N1b', 'E12b', 'C1', 'C2', 'C3'].includes(indicatorObject.indicator)) {
+          } else if (['N1', 'N3b', 'N1b', 'E12b', 'C1', 'C2', 'C3', 'E10a10'].includes(indicatorObject.indicator)) {
             label = '';
           } else if (indicatorObject.indicator === 'OX') {
             switch (indicatorObject.lastIndicatorValue) {

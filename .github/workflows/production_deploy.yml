@@ -34,7 +34,7 @@ jobs:
       uses: datamonsters/replace-action@v2
       with:
         files: 'app/dist/shConfig.js'
-        replacements: '$SH_INSTANCE_ID=${{ secrets.SH_INSTANCE_ID }},$SH_INSTANCE_ID_TRILATERAL=${{ secrets.SH_INSTANCE_ID_TRILATERAL }},$MAPBOX_ACCESS_TOKEN=${{ secrets.MAPBOX_ACCESS_TOKEN }},$GEODB_INSTANCE_ID=${{ secrets.GEODB_INSTANCE_ID }}'
+        replacements: '$SH_INSTANCE_ID=${{ secrets.SH_INSTANCE_ID }},$SH_INSTANCE_ID_TRILATERAL=${{ secrets.SH_INSTANCE_ID_TRILATERAL }},$MAPBOX_ACCESS_TOKEN=${{ secrets.MAPBOX_ACCESS_TOKEN }},$GEODB_INSTANCE_ID=${{ secrets.GEODB_INSTANCE_ID }},$LISTMONK_API_KEY=${{ secrets.LISTMONK_API_KEY }}'
 
     # Upload to S3
     - name: sync s3

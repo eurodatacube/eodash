@@ -1,6 +1,11 @@
 module.exports = [
   {
     id: 'esa',
+    mailingList: {
+      development: 2,
+      staging: 2,
+      production: 4,
+    },
     match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'localhost2'],
     branding: {
       appName: 'Rapid Action on coronavirus and EO',
@@ -21,8 +26,8 @@ module.exports = [
     newsBanner: {
       color: 'green darken-1',
       icon: 'calendar-star',
-      text: '<a href="https://eo4society.esa.int/2021/05/17/race-dashboard-challenges-2021-stay-tuned-for-upcoming-opportunities/" target="_blank">RACE Dashboard Challenges 2021</a>',
-      startDate: '2021-05-20',
+      text: '<a href="https://eo4society.esa.int/2021/08/01/rapid-action-on-coronavirus-and-eo-race-dashboard-challenge-3/" target="_blank">RACE Dashboard Challenges 2021</a>',
+      startDate: '2021-08-01',
       endDate: '2021-12-31',
     },
     aboutText: '/eodash-data/general/about',
@@ -31,29 +36,78 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
+        src: './eodash-data/general/Slide22.png',
+      },
+      {
+        poi: 'ATa-E10a10',
+        src: './eodash-data/general/Slide23.png',
+      },
+      {
         poi: 'ES7-E13n',
         src: './eodash-data/general/Slide15.png',
       },
       {
-        poi: 'IT3-C1',
-        src: './eodash-data/general/Slide16.png',
-      },
-      {
-        poi: 'FI4-E13',
-        src: './eodash-data/general/Slide10.png',
-      },
-      {
-        poi: 'UK10-N1a',
-        src: './eodash-data/general/Slide13.png',
+        poi: 'World-N3c',
+        src: './eodash-data/general/Slide24.png',
       },
     ],
     privacyText: '/eodash-data/general/privacy',
     termsText: '/eodash-data/general/terms',
+    challengesText: '/eodash-data/general/challenges',
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube'],
     // The label parameter can be used as string to select the parameter identifier
     // or it can be an array of strings the same size as features to set custom
     // tab titles for each of the tabbed groups
     featureGrouping: [
+      {
+        features: [
+          'ATa-E10a10',
+          'ATb-E10a10',
+          'ATc-E10a10',
+        ],
+        label: ['Maize', 'Winter rapseed', 'Winter wheat'],
+      },
+      {
+        features: [
+          'EEb-E10a10',
+          'EEc-E10a10',
+        ],
+        label: ['Winter rapseed', 'Winter wheat'],
+      },
+      {
+        features: [
+          'UKb-E10a10',
+        ],
+        label: ['Winter rapseed'],
+      },
+      {
+        features: [
+          'SEb-E10a10',
+          'SEc-E10a10',
+        ],
+        label: ['Winter rapseed', 'Winter wheat'],
+      },
+      {
+        features: [
+          'BGa-E10a10',
+          'BGb-E10a10',
+        ],
+        label: ['Maize', 'Winter rapseed'],
+      },
+      {
+        features: [
+          'DEb-E10a10',
+          'DEc-E10a10',
+        ],
+        label: ['Winter rapseed', 'Winter wheat'],
+      },
+      {
+        features: [
+          'CZb-E10a10',
+          'CZc-E10a10',
+        ],
+        label: ['Winter rapseed', 'Winter wheat'],
+      },
       {
         features: [
           'IT16-C1',
@@ -139,6 +193,11 @@ module.exports = [
   },
   {
     id: 'trilateral',
+    mailingList: {
+      development: 3,
+      staging: 3,
+      production: 5,
+    },
     match: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'eodash-trilateral-testing.eox.at', 'localhost'],
     branding: {
       appName: 'Earth Observing Dashboard',
@@ -160,13 +219,14 @@ module.exports = [
     newsBanner: {
       color: 'green darken-1',
       icon: 'calendar-star',
-      text: '<b><a href="https://www.eodashboardhackathon.org" target="_blank">Join us for the EO Dashboard Hackathon!</a><b>',
-      startDate: '2021-04-29',
-      endDate: '2021-06-23',
+      text: '<b><a href="https://www.eodashboardhackathon.org/awards/" target="_blank">EO Dashboard Hackathon RESULTS!</a><b>',
+      startDate: '2021-08-03',
+      endDate: '2021-09-30',
     },
     aboutText: '/data/trilateral/about',
     welcomeText: '/data/trilateral/welcome',
     tutorialText: '/data/trilateral/tutorials',
+    challengesText: '/eodash-data/general/eodashboardhackathon',
     showNewsCarousel: true,
     newsCarouselitems: [
       {
@@ -177,15 +237,16 @@ module.exports = [
         src: './data/trilateral/GoogleMobility.png',
       },
       {
-        poi: 'US051-E9',
-        src: './data/trilateral/Slide14.png',
+        poi: 'WorldCO-N1',
+        src: './data/trilateral/Slide17.png',
       },
       {
-        iframe: 'https://www.youtube.com/embed/URPzd29SGmE',
+        poi: 'W7-FB',
+        src: './data/trilateral/Slide21.png',
       },
       {
-        poi: 'JP01-N5',
-        src: './data/trilateral/Slide4.png',
+        poi: 'W2-N1',
+        src: './data/trilateral/Slide19.png',
       },
     ],
     customCountryList: [

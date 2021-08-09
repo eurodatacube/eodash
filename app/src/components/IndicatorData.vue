@@ -3,7 +3,7 @@
     v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10a9',
       'E10c', 'N1', 'N3', 'N3b', 'E8',
       'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA', 'CV', 'OW', 'OX']
+      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA', 'CV', 'OW', 'OX', 'E10a10']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -383,6 +383,31 @@ export default {
               borderWidth: 2,
             });
           }
+        } else if (['E10a10'].includes(indicatorCode)) {
+          const data = [];
+          const refData = [];
+          indicator.time.forEach((t, i) => {
+            data.push({ t, y: measurement[i] * 100 });
+            refData.push({ t, y: indicator.referenceValue[i] * 100 });
+          });
+          datasets.push({
+            label: 'Observation',
+            data,
+            fill: false,
+            borderColor: refColors[1],
+            backgroundColor: refColors[1],
+            borderWidth: 2,
+            pointRadius: 2,
+          });
+          datasets.push({
+            label: 'Model',
+            data: refData,
+            fill: false,
+            borderColor: refColors[0],
+            backgroundColor: refColors[0],
+            borderWidth: 2,
+            pointRadius: 2,
+          });
         } else if (['E13n', 'C1', 'C2', 'C3'].includes(indicatorCode)) {
           // Group by indicator value
           const types = {};
@@ -535,8 +560,10 @@ export default {
               const obj = JSON.parse(item);
               // [median,std,max,min,percentage valid pixels]
               median.push({ y: obj[0], t });
-              stdDevMin.push({ y: measurement[i] - obj[1], t });
-              stdDevMax.push({ y: measurement[i] + obj[1], t });
+              if (obj[1] !== null) {
+                stdDevMin.push({ y: measurement[i] - obj[1], t });
+                stdDevMax.push({ y: measurement[i] + obj[1], t });
+              }
               max.push({ y: obj[2], t });
               min.push({ y: obj[3], t });
             } else {
@@ -556,58 +583,73 @@ export default {
             spanGaps: false,
             borderWidth: 2,
           });
-          datasets.push({
-            label: 'Median',
-            data: median,
-            fill: false,
-            pointRadius: 0,
-            borderColor: 'black',
-            borderWidth: 1,
-            pointStyle: 'line',
-            spanGaps: false,
-          });
-          datasets.push({
-            label: 'Min',
-            data: min,
-            fill: false,
-            pointRadius: 0,
-            backgroundColor: refColors[4],
-            borderColor: refColors[4],
-            borderWidth: 1,
-            pointStyle: 'line',
-            spanGaps: false,
-          });
-          datasets.push({
-            label: 'Max',
-            data: max,
-            fill: false,
-            pointRadius: 0,
-            backgroundColor: refColors[1],
-            borderColor: refColors[1],
-            borderWidth: 1,
-            pointStyle: 'line',
-            spanGaps: false,
-          });
-          datasets.push({
-            label: 'Standard deviation (STD)',
-            data: stdDevMax,
-            fill: '+1',
-            pointRadius: 0,
-            spanGaps: false,
-            backgroundColor: 'rgba(0,0,0,0.1)',
-            borderColor: 'rgba(0,0,0,0.0)',
-            pointStyle: 'rect',
-          });
-          datasets.push({
-            label: 'hide_',
-            data: stdDevMin,
-            fill: '-1',
-            pointRadius: 0,
-            spanGaps: false,
-            backgroundColor: 'rgba(0,0,0,0.0)',
-            borderColor: 'rgba(0,0,0,0.0)',
-            pointStyle: 'rect',
-          });
+          // Check for empty array, if it is the case do not include data
+          if (typeof (median.find((a) => a.y !== null)) !== 'undefined') {
+            datasets.push({
+              label: 'Median',
+              data: median,
+              fill: false,
+              pointRadius: 0,
+              borderColor: 'black',
+              borderWidth: 1,
+              pointStyle: 'line',
+              spanGaps: false,
+            });
+          }
+          // Check for empty array, if it is the case do not include data
+          if (typeof (min.find((a) => a.y !== null)) !== 'undefined') {
+            datasets.push({
+              label: 'Min',
+              data: min,
+              fill: false,
+              pointRadius: 0,
+              backgroundColor: refColors[4],
+              borderColor: refColors[4],
+              borderWidth: 1,
+              pointStyle: 'line',
+              spanGaps: false,
+            });
+          }
+          // Check for empty array, if it is the case do not include data
+          if (typeof (max.find((a) => a.y !== null)) !== 'undefined') {
+            datasets.push({
+              label: 'Max',
+              data: max,
+              fill: false,
+              pointRadius: 0,
+              backgroundColor: refColors[1],
+              borderColor: refColors[1],
+              borderWidth: 1,
+              pointStyle: 'line',
+              spanGaps: false,
+            });
+          }
+          // Check for empty array, if it is the case do not include data
+          if (typeof (stdDevMax.find((a) => a.y !== null)) !== 'undefined') {
+            datasets.push({
+              label: 'Standard deviation (STD)',
+              data: stdDevMax,
+              fill: '+1',
+              pointRadius: 0,
+              spanGaps: false,
+              backgroundColor: 'rgba(0,0,0,0.1)',
+              borderColor: 'rgba(0,0,0,0.0)',
+              pointStyle: 'rect',
+            });
+          }
+          // Check for empty array, if it is the case do not include data
+          if (typeof (stdDevMin.find((a) => a.y !== null)) !== 'undefined') {
+            datasets.push({
+              label: 'hide_',
+              data: stdDevMin,
+              fill: '-1',
+              pointRadius: 0,
+              spanGaps: false,
+              backgroundColor: 'rgba(0,0,0,0.0)',
+              borderColor: 'rgba(0,0,0,0.0)',
+              pointStyle: 'rect',
+            });
+          }
         } else if (['N3'].includes(indicatorCode)) {
           let referenceValue = [];
           const stdDev = [];
@@ -990,7 +1032,7 @@ export default {
         },
       };
       if (!Number.isNaN(reference)
-        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'E10a9', 'N4c', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m', 'E12c', 'E12d']
+        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'E10a9', 'N4c', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m', 'E12c', 'E12d', 'E10a10']
           .includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
@@ -1437,7 +1479,7 @@ export default {
           padding: -20,
         };
       }
-      if (['E10c', 'E10a2', 'E10a6', 'E10a7'].includes(indicatorCode)) {
+      if (['E10c', 'E10a2', 'E10a6', 'E10a7', 'E10a10'].includes(indicatorCode)) {
         yAxes[0].ticks.suggestedMin += 1;
         yAxes[0].ticks.suggestedMax -= 1;
       }

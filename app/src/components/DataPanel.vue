@@ -70,6 +70,8 @@
                   Array.isArray(sensorData.properties.indicatorObject.country)"
                   class="pt-0 fill-height"
                   :currentIndicator="sensorData.properties.indicatorObject"
+                  @update:center="c => center = c"
+                  @update:zoom="z => zoom = z"
                 />
                 <indicator-data
                   style="top: 0px; position: absolute;"
@@ -143,31 +145,6 @@
                   class="px-5 py-0 chart"
                 />
               </v-card>
-              <v-row class="mt-0">
-                <v-col cols="12" sm="5" ></v-col>
-                <v-col
-                  cols="12"
-                  sm="7"
-                  v-if="!isFullScreen"
-                  ref="customButtonRow"
-                  style="margin-top: -12px;"
-                >
-                  <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
-                    <v-btn
-                      color="primary"
-                      text
-                      small
-                      :href="dataCustomHrefCSV"
-                      :download="customAOIDownloadFilename"
-                      target="_blank"
-                      v-if="customAreaIndicator && !isFullScreen"
-                    >
-                      <v-icon left>mdi-download</v-icon>
-                      download csv
-                    </v-btn>
-                  </div>
-                </v-col>
-              </v-row>
             </v-tab-item>
           </v-tabs-items>
           <v-card
@@ -208,6 +185,8 @@
               style="top: 0px; position: absolute;"
               v-show="false"
               class="pt-0 fill-height"
+              @update:center="c => center = c"
+              @update:zoom="z => zoom = z"
             />
             <indicator-data
               v-if="!customAreaIndicator.isEmpty"
@@ -215,30 +194,38 @@
               class="pa-5 chart"
             />
             <v-row class="mt-0">
-                <v-col cols="12" sm="5" ></v-col>
-                <v-col
-                  cols="12"
-                  sm="7"
-                  v-if="!isFullScreen"
-                  ref="customButtonRow"
-                  style="margin-top: -30px;"
-                >
-                  <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
-                    <v-btn
-                      color="primary"
-                      text
-                      small
-                      :href="dataCustomHrefCSV"
-                      :download="customAOIDownloadFilename"
-                      target="_blank"
-                      v-if="customAreaIndicator && !isFullScreen"
-                    >
-                      <v-icon left>mdi-download</v-icon>
-                      download csv
-                    </v-btn>
-                  </div>
-                </v-col>
-              </v-row>
+              <v-col cols="12" sm="5" ></v-col>
+              <v-col
+                cols="12"
+                sm="7"
+                v-if="!isFullScreen"
+                ref="customButtonRow"
+                style="margin-top: -30px;"
+              >
+                <!--non tabbed custom area indicator not expanded-->
+                <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
+                  <v-btn
+                    color="primary"
+                    text
+                    small
+                    :href="dataCustomHrefCSV"
+                    :download="customAOIDownloadFilename"
+                    target="_blank"
+                    v-if="
+                      customAreaIndicator &&
+                      !isFullScreen &&
+                      !showMap &&
+                      !this.baseConfig.indicatorsDefinition[
+                        indicatorObject.indicator
+                      ].countrySelection
+                    "
+                  >
+                    <v-icon left>mdi-download</v-icon>
+                    download csv
+                  </v-btn>
+                </div>
+              </v-col>
+            </v-row>
           </v-card>
           <v-card
             v-else
@@ -268,6 +255,8 @@
               ref="indicatorMap"
               style="top: 0px; position: absolute;"
               v-if="showMap"
+              @update:center="c => center = c"
+              @update:zoom="z => zoom = z"
               class="pt-0 fill-height"
             />
             <indicator-data
@@ -320,6 +309,36 @@
                   :indicatorObject="indicatorObject"
                   v-if="!customAreaIndicator || expanded"
                 />
+                <!--Custom CSV for tabbed map not expanded-->
+                <v-btn
+                  color="primary"
+                  text
+                  small
+                  :href="dataCustomHrefCSV"
+                  :download="customAOIDownloadFilename"
+                  target="_blank"
+                  v-if="
+                    customAreaIndicator &&
+                    !isFullScreen &&
+                    !this.baseConfig.indicatorsDefinition[
+                      indicatorObject.indicator
+                    ].countrySelection
+                  "
+                >
+                  <v-icon left>mdi-download</v-icon>
+                  download csv
+                </v-btn>
+                <AddToDashboardButton
+                  v-if="customAreaIndicator && !expanded"
+                  :indicatorObject="customAreaIndicator">
+                </AddToDashboardButton>
+                <add-to-dashboard-button
+                  v-else-if="!this.baseConfig.indicatorsDefinition[
+                    indicatorObject.indicator
+                  ].countrySelection"
+                  :indicatorObject="indicatorObject"
+                  :zoom="zoom"
+                  :center="center"/>
               </div>
             </v-col>
           </v-row>
@@ -378,8 +397,14 @@
                   class="pa-5 chart"
                 />
               </v-card>
+              <div class="mt-6" style="float:right">
+                <AddToDashboardButton
+                  v-if="customAreaIndicator"
+                  :indicatorObject="customAreaIndicator">
+                </AddToDashboardButton>
+              </div>
               <v-row
-                class="mt-0"
+                class="mt-3"
               >
                 <v-col
                   cols="12"
@@ -391,9 +416,9 @@
                   sm="7"
                   v-if="!isFullScreen"
                   ref="customButtonRow"
-                  style="margin-top: -30px;"
                 >
                   <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
+                    <!--download button for tabbed custom aoi selection expanded view-->
                     <v-btn
                       color="primary"
                       text
@@ -401,7 +426,13 @@
                       :href="dataCustomHrefCSV"
                       :download="customAOIDownloadFilename"
                       target="_blank"
-                      v-if="customAreaIndicator && !isFullScreen"
+                      v-if="
+                        customAreaIndicator &&
+                        !isFullScreen &&
+                        !this.baseConfig.indicatorsDefinition[
+                          indicatorObject.indicator
+                        ].countrySelection
+                      "
                     >
                       <v-icon left>mdi-download</v-icon>
                       download csv
@@ -466,6 +497,8 @@
                 </v-toolbar>
               <indicator-map
                 ref="referenceMap"
+                @update:center="c => center = c"
+                @update:zoom="z => zoom = z"
                 :style="`height: calc(100% - ${$vuetify.application.top}px)`"
               />
               </v-dialog>
@@ -482,17 +515,16 @@ import {
   mapGetters,
   mapState,
 } from 'vuex';
-
 import { Wkt } from 'wicket';
 import { loadIndicatorData } from '@/utils';
 import { DateTime } from 'luxon';
 import dialogMixin from '@/mixins/dialogMixin';
-
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
 import FullScreenButton from '@/components/FullScreenButton.vue';
 import IframeButton from '@/components/IframeButton.vue';
+import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 
 export default {
   mixins: [dialogMixin],
@@ -506,6 +538,7 @@ export default {
     IndicatorMap,
     FullScreenButton,
     IframeButton,
+    AddToDashboardButton,
   },
   data: () => ({
     dialog: false,
@@ -514,6 +547,8 @@ export default {
     mounted: false,
     selectedSensorTab: 0,
     multipleTabCompare: null,
+    zoom: null,
+    center: null,
   }),
   computed: {
     ...mapGetters('features', [
@@ -802,7 +837,6 @@ export default {
 .chart {
   background: #fff;
 }
-
 .v-card.fullscreenElement {
   position: fixed !important;
   top: 0 !important;
