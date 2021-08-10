@@ -229,7 +229,7 @@ export default {
           });
       } else {
         countryItems = this.getCountries
-          .filter((c) => c !== 'all')
+          .filter((c) => c !== 'all' && c !== 'indicatorall')
           .map((c) => {
             if (Array.isArray(c)) {
               return c.map((i) => {

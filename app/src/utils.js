@@ -83,6 +83,11 @@ export async function loadIndicatorData(baseConfig, payload) {
         time: 'time',
         siteName: 'site_name_arr',
       };
+      // Global indicator case where we do not want the siteName to be overwritten
+      if (payload.country === 'indicatorall') {
+        delete mapping.siteName;
+      }
+
       const parsedData = {};
       for (let i = 0; i < data.length; i += 1) {
         Object.entries(mapping).forEach(([key, value]) => {

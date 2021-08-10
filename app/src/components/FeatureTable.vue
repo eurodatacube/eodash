@@ -31,12 +31,16 @@
           <template v-slot:item.country="{ item }">
             <div v-if="Array.isArray(item.country)" class="table-flag d-flex justify-center" >
               <span v-for="(country, i) in item.country" :key="i" class="table-flag">
-                <v-icon v-if="country === 'all'" class="ml-1">mdi-earth</v-icon>
+                <v-icon v-if="country === 'all' || country === 'indicatorall'" class="ml-1">
+                  mdi-earth
+                </v-icon>
                 <country-flag v-else :country="country" size="normal"></country-flag>
               </span>
             </div>
             <div v-else class="d-flex justify-center">
-              <v-icon v-if="item.country === 'all'" class="ml-1">mdi-earth</v-icon>
+              <v-icon v-if="item.country === 'all' || item.country === 'indicatorall'" class="ml-1">
+                mdi-earth
+              </v-icon>
               <country-flag v-else :country="item.country" size="normal"></country-flag>
             </div>
           </template>

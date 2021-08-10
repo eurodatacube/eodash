@@ -30,7 +30,12 @@ DATAFILE = "/working/oilx_{}.json".format(
     datetime.datetime.utcnow().strftime("%Y-%m-%d")
 )
 
+EUDATAFILE = "/working/oilx_EU_{}.json".format(
+    datetime.datetime.utcnow().strftime("%Y-%m-%d")
+)
+
 api_url = "http://esarace.oilx.co/esarace/v1/clusters"
+europe_url = "http://esarace.oilx.co/esarace/v1/europe"
 
 # Handle global data
 if not os.path.isfile(DATAFILE):
@@ -163,3 +168,37 @@ for output_file in pois_files:
 for poi_key in poi_dict:
     with open("%s%s.json" % (output_folder, poi_key), "w") as gp:
         json.dump(poi_dict[poi_key]["poi_data"], gp, indent=4, default=date_converter, sort_keys=True)
+
+
+
+
+# Handle EU data
+if not os.path.isfile(EUDATAFILE):
+    print("Downloading the latest oilx EU data")
+    myfile = requests.get(
+        europe_url,
+        headers={'Authorization': 'OilXApiKeyV1 %s' % os.getenv('OILX_KEY')},
+        allow_redirects=True
+    )
+    open(EUDATAFILE, "wb").write(myfile.content)
+
+with open(EUDATAFILE) as f:
+    content = json.load(f)
+    poi_data = []
+    for entry in content["data"]:
+        poi_data.append({
+            "color_code": entry["Band"],
+            "data_provider": "OILX",
+            "eo_sensor": "",
+            "indicator_value": entry["Band"],
+            "input_data": "",
+            "measurement_value": "%s"%entry["Rate"],
+            "reference_time": "",
+            "reference_value": "",
+            "time": datetime.datetime.strptime(entry["Date"], '%Y-%m-%d'),
+            "siteName": "global",
+        })
+
+# Generate  json file for EU
+with open("%s%s.json" % (output_folder, "EU1-OX"), "w") as gp:
+    json.dump(poi_data, gp, indent=4, default=date_converter, sort_keys=True)

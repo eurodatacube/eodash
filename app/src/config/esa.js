@@ -1939,6 +1939,32 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
+        dataLoadFinished: false,
+        id: 9987,
+        aoi: latLng([40.413, -1.23]),
+        aoiID: 'EU1',
+        country: 'indicatorall',
+        city: 'Europe',
+        siteName: 'global',
+        description: 'Crude oil storage Index (EU)',
+        indicator: 'OX',
+        lastIndicatorValue: null,
+        indicatorName: 'Crude oil storage Index (EU)',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        time: [],
+        inputData: [''],
+        display: {
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
         dataLoadFinished: true,
         country: 'all',
         city: 'World',
