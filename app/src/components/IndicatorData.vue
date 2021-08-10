@@ -475,29 +475,39 @@ export default {
           });
         } else if (['OX'].includes(indicatorCode)) {
           const data = [];
-          
+          const average = [];
+          let counter = 0;
+          let tmpVal = 0;
+          let tmpTime = 0;
           indicator.measurement.forEach((item, i) => {
-            const lev = indicator.indicatorValue[i];
             data.push({
               t: indicator.time[i],
               y: item,
               color: indicator.indicatorValue[i],
             });
+            if (counter < 4) {
+              tmpVal += item;
+              tmpTime += indicator.time[i].toMillis();
+              counter += 1;
+            } else {
+              average.push({
+                t: DateTime.fromMillis(tmpTime / 4),
+                y: tmpVal / 4,
+              });
+              counter = 0;
+              tmpVal = 0;
+              tmpTime = 0;
+            }
           });
-
-          datasets.push({
-            label: 'Very low',
-            data: data.filter((entry) => entry.color === 'Red (Low)'),
-            fill: false,
-            borderColor: 'red',
-            backgroundColor: 'red',
-            borderWidth: 0,
-            pointRadius: 3,
-            showLine: false,
+          const lowData = [];
+          data.forEach((entry) => {
+            if (entry.color === 'Red (Low)' || entry.color === 'Orange (Low)') {
+              lowData.push({ t: entry.t, y: 0.35 });
+            }
           });
           datasets.push({
-            label: 'Low',
-            data: data.filter((entry) => entry.color === 'Orange (Low)'),
+            label: 'Site Low',
+            data: lowData,
             fill: false,
             borderColor: 'orange',
             backgroundColor: 'orange',
@@ -505,9 +515,16 @@ export default {
             pointRadius: 3,
             showLine: false,
           });
+
+          const regularData = [];
+          data.forEach((entry) => {
+            if (entry.color === 'Green') {
+              regularData.push({ t: entry.t, y: 0.5 });
+            }
+          });
           datasets.push({
-            label: 'Regular',
-            data: data.filter((entry) => entry.color === 'Green'),
+            label: 'Site Regular',
+            data: regularData,
             fill: false,
             borderColor: 'green',
             backgroundColor: 'green',
@@ -515,19 +532,15 @@ export default {
             pointRadius: 3,
             showLine: false,
           });
-          datasets.push({
-            label: 'High',
-            data: data.filter((entry) => entry.color === 'Orange (High)'),
-            fill: false,
-            borderColor: 'orange',
-            backgroundColor: 'orange',
-            borderWidth: 0,
-            pointRadius: 3,
-            showLine: false,
+          const highData = [];
+          data.forEach((entry) => {
+            if (entry.color === 'Red (High)' || entry.color === 'Orange (High)') {
+              highData.push({ t: entry.t, y: 0.65 });
+            }
           });
           datasets.push({
-            label: 'Very high',
-            data: data.filter((entry) => entry.color === 'Red (High)'),
+            label: 'Site High',
+            data: highData,
             fill: false,
             borderColor: 'red',
             backgroundColor: 'red',
@@ -535,6 +548,7 @@ export default {
             pointRadius: 3,
             showLine: false,
           });
+
           datasets.push({
             label: 'Cluster storage utilization',
             data,
@@ -545,6 +559,16 @@ export default {
             pointRadius: 0,
             showLine: true,
             lineTension: 0,
+          });
+          datasets.push({
+            label: 'Monthly cluster storage average',
+            data: average,
+            fill: false,
+            borderColor: 'black',
+            backgroundColor: 'black',
+            borderWidth: 1,
+            pointRadius: 0,
+            showLine: true,
           });
         } else if (['N1'].includes(indicatorCode)) {
           const stdDevMin = [];
@@ -1228,6 +1252,24 @@ export default {
         }];
       }
 
+      if (['OX'].includes(indicatorCode)) {
+        xAxes = [{
+          type: 'time',
+          time: {
+            unit: 'month',
+            displayFormats: {
+              month: 'MMM yy',
+            },
+            tooltipFormat: 'dd. MMM yy',
+          },
+          distribution: 'linear',
+          ticks: {
+            min: timeMinMax[0],
+            max: timeMinMax[1],
+          },
+        }];
+      }
+
 
       let plugins = {
         datalabels: {
@@ -1552,6 +1594,32 @@ export default {
           },
         },
       };
+
+      if (['OX'].includes(indicatorCode)) {
+        defaultSettings.hover = {
+          mode: 'nearest',
+        };
+        yAxes[0].ticks = {
+          callback: (...args) => {
+            let returnString;
+            if (args[0] === 0.35) {
+              returnString = 'Low';
+            } else if (args[0] === 0.65) {
+              returnString = 'High';
+            }
+            return returnString;
+          },
+          min: 0.3,
+          max: 0.7,
+          label: '',
+        };
+        yAxes[0].scaleLabel.display = false;
+        defaultSettings.tooltips = {
+          callbacks: {
+            label: () => '',
+          },
+        };
+      }
 
       if (['N3'].includes(indicatorCode)) {
         defaultSettings.tooltips = {
