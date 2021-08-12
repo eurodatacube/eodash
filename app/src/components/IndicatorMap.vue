@@ -480,8 +480,6 @@ const emptyF = {
   type: 'FeatureCollection',
   features: [],
 };
-let dataF = emptyF;
-let compareF = emptyF;
 
 export default {
   props: {
@@ -548,8 +546,8 @@ export default {
       selectedBorder: null,
       selectedLayer: null,
       ro: null,
-      dataJson: {features: null},
-      compareJson: {features: null},
+      dataJson: { features: null },
+      compareJson: { features: null },
     };
   },
   computed: {
@@ -1653,12 +1651,6 @@ export default {
     clearCustomAreaFilter() {
       this.$store.commit('features/SET_SELECTED_AREA', null);
     },
-    getDataF() {
-      return dataF;
-    },
-    getCompareF() {
-      return compareF;
-    },
     updateJsonLayers(ftrs, side) {
       if (this.mergedConfigs()[0].featuresClustering) {
         // markercluster needs manual adding of all geojsons it will show
@@ -1672,12 +1664,10 @@ export default {
             this.$refs.featuresDataCluster.mapObject.clearLayers();
             this.$refs.featuresDataCluster.mapObject.addLayers([geojsonFromData]);
             this.dataFeaturesCount = ftrs.features.length;
-          } else {
-            if (this.$refs.featuresCompareCluster) {
-              this.$refs.featuresCompareCluster.mapObject.clearLayers();
-              this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
-              this.compareFeaturesCount = ftrs.features.length;
-            }
+          } else if (this.$refs.featuresCompareCluster) {
+            this.$refs.featuresCompareCluster.mapObject.clearLayers();
+            this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
+            this.compareFeaturesCount = ftrs.features.length;
           }
         }
       } else if (side === 'data') {
