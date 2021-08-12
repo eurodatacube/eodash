@@ -191,7 +191,7 @@
             <indicator-data
               v-if="!customAreaIndicator.isEmpty"
               style="margin-top: 0px;"
-              class="pa-5 chart"
+              class="pa-2 chart"
             />
             <v-row class="mt-0">
               <v-col cols="12" sm="5" ></v-col>
@@ -266,7 +266,7 @@
             />
           </v-card>
           <v-row
-            class="mt-0"
+            :class="customAreaIndicator && !expanded ? 'mt-6' : 'mt-0'"
           >
             <v-col
               cols="12"
@@ -290,6 +290,8 @@
               cols="12"
               sm="7"
               v-if="!isFullScreen"
+              :style="customAreaIndicator && !expanded
+                ? 'margin-bottom: -40px; margin-top: 20px;' : ''"
               ref="buttonRow"
             >
               <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
