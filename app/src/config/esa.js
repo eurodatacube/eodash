@@ -420,6 +420,7 @@ export const indicatorsDefinition = Object.freeze({
   OX: {
     indicator: 'Crude Oil Storage Utilization',
     class: 'economic',
+    story: '/eodash-data/stories/OX',
   },
   GG: {
     indicator: 'Mobility',
