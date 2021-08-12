@@ -367,6 +367,7 @@ export default {
     },
     redirectToPoi(indicatorObject) {
       this.$router.push(`/?poi=${this.getLocationCode(indicatorObject)}`);
+      this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
     },
     changeFeatureTitleFn(poi, newTitle) {
       this.dialog = false;
