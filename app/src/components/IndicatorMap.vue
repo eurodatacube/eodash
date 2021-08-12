@@ -106,7 +106,7 @@
         <l-geo-json
             v-else
             ref="featureJsonData"
-            :geojson="getDataF().features"
+            :geojson="dataJson.features"
             :options="featureOptions('data')"
             :pane="tooltipPane"
             :key="dataJsonKey"
@@ -244,7 +244,7 @@
           v-else
           ref="featureJsonCompare"
           :visible="enableCompare"
-          :geojson="getCompareF().features"
+          :geojson="compareJson.features"
           :options="featureOptions('compare')"
           :pane="shadowPane"
           :key="compareJsonKey"
@@ -548,6 +548,8 @@ export default {
       selectedBorder: null,
       selectedLayer: null,
       ro: null,
+      dataJson: {features: null},
+      compareJson: {features: null},
     };
   },
   computed: {
@@ -569,21 +571,6 @@ export default {
         opacity: 1,
         fillOpacity: 0.5,
       };
-    },
-    dataJsonComputed: {
-      // to avoid each of thousands of geojson features have its own
-      // getter/setter set by vue - freezing the app on large number of pts
-      // we manually rerender relevant vue components anyway
-      get: () => this.getDataF(),
-      set: (v) => {
-        dataF = v;
-      },
-    },
-    compareJsonComputed: {
-      get: () => this.getCompareF(),
-      set: (v) => {
-        compareF = v;
-      },
     },
     subAoiInverseStyle() {
       return {
@@ -1693,11 +1680,11 @@ export default {
         }
       } else if (side === 'data') {
         // normal geojson layer just needs manual refresh
-        this.dataJsonComputed = ftrs;
+        this.dataJson = Object.freeze(ftrs);
         this.dataJsonKey = Math.random();
         this.dataFeaturesCount = ftrs.features.length;
       } else {
-        this.compareJsonComputed = ftrs;
+        this.compareJson = Object.freeze(ftrs);;
         this.compareJsonKey = Math.random();
         this.compareFeaturesCount = ftrs.features.length;
       }
