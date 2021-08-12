@@ -480,8 +480,8 @@ const emptyF = {
   type: 'FeatureCollection',
   features: [],
 };
-let dataF = emptyF;
-let compareF = emptyF;
+const dataF = emptyF;
+const compareF = emptyF;
 
 export default {
   props: {
@@ -548,8 +548,8 @@ export default {
       selectedBorder: null,
       selectedLayer: null,
       ro: null,
-      dataJson: {features: null},
-      compareJson: {features: null},
+      dataJson: { features: null },
+      compareJson: { features: null },
     };
   },
   computed: {
@@ -1684,7 +1684,7 @@ export default {
         this.dataJsonKey = Math.random();
         this.dataFeaturesCount = ftrs.features.length;
       } else {
-        this.compareJson = Object.freeze(ftrs);;
+        this.compareJson = Object.freeze(ftrs);
         this.compareJsonKey = Math.random();
         this.compareFeaturesCount = ftrs.features.length;
       }
