@@ -237,6 +237,10 @@ module.exports = [
         src: './data/trilateral/Hackathon.png',
       },
       {
+        poi: 'W4-N2',
+        src: './data/trilateral/CustomDash-tri.png',
+      },
+      {
         poi: 'GG-GG',
         src: './data/trilateral/GoogleMobility.png',
       },
