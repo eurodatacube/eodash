@@ -1671,12 +1671,14 @@ export default {
           if (side === 'data') {
             this.$refs.featuresDataCluster.mapObject.clearLayers();
             this.$refs.featuresDataCluster.mapObject.addLayers([geojsonFromData]);
-            this.dataFeaturesNum = ftrs.features.length;
+            this.dataFeaturesCount = ftrs.features.length;
+          } else {
+            if (this.$refs.featuresCompareCluster) {
+              this.$refs.featuresCompareCluster.mapObject.clearLayers();
+              this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
+              this.compareFeaturesCount = ftrs.features.length;
+            }
           }
-        } else if (this.$refs.featuresDataCluster) {
-          this.$refs.featuresCompareCluster.mapObject.clearLayers();
-          this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
-          this.compareFeaturesNum = ftrs.features.length;
         }
       } else if (side === 'data') {
         // normal geojson layer just needs manual refresh
@@ -1684,7 +1686,7 @@ export default {
         this.dataJsonKey = Math.random();
         this.dataFeaturesCount = ftrs.features.length;
       } else {
-        this.compareJson = Object.freeze(ftrs);;
+        this.compareJson = Object.freeze(ftrs);
         this.compareJsonKey = Math.random();
         this.compareFeaturesCount = ftrs.features.length;
       }
