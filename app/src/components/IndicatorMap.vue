@@ -104,7 +104,7 @@
           >
         </l-marker-cluster>
         <l-geo-json
-            v-else
+            v-else-if="dataJson.features"
             ref="featureJsonData"
             :geojson="dataJson.features"
             :options="featureOptions('data')"
@@ -241,7 +241,7 @@
           ref="featuresCompareCluster" :options="clusterOptions">
         </l-marker-cluster>
         <l-geo-json
-          v-else
+          v-else-if="compareJson.features"
           ref="featureJsonCompare"
           :visible="enableCompare"
           :geojson="compareJson.features"
