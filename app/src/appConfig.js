@@ -36,6 +36,10 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
+        poi: 'IT_492-E10a9',
+        src: './eodash-data/general/CustomDash.png',
+      },
+      {
         src: './eodash-data/general/Slide22.png',
       },
       {
@@ -231,6 +235,10 @@ module.exports = [
     newsCarouselitems: [
       {
         src: './data/trilateral/Hackathon.png',
+      },
+      {
+        poi: 'W4-N2',
+        src: './data/trilateral/CustomDash-tri.png',
       },
       {
         poi: 'GG-GG',
