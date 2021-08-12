@@ -1181,8 +1181,14 @@ export default {
           ? geoJson(this.mergedConfigs()[0].presetView).getBounds()
           : geoJson(this.subAoi).getBounds();
         const bounds = geoJson(this.subAoi).getBounds();
-        const cornerMax1 = latLng([bounds.getSouth() - boundsPad, bounds.getWest() - boundsPad]);
-        const cornerMax2 = latLng([bounds.getNorth() + boundsPad, bounds.getEast() + boundsPad]);
+        const southBound = bounds.getSouth() - boundsPad;
+        const westBound = bounds.getWest() - boundsPad;
+        const northBound = bounds.getNorth() + boundsPad;
+        const eastBound = bounds.getEast() + boundsPad;
+        const cornerMax1 = latLng([
+          southBound > -90 ? southBound : -90, westBound > -180 ? westBound : -180]);
+        const cornerMax2 = latLng([
+          northBound < 90 ? northBound : 90, eastBound < 180 ? eastBound : 180]);
         const boundsMax = latLngBounds(cornerMax1, cornerMax2);
         this.map.fitBounds(viewBounds);
         // limit user movement around map
@@ -1199,8 +1205,14 @@ export default {
         const viewBounds = geoJson(this.mergedConfigs()[0].presetView).getBounds();
         this.map.fitBounds(viewBounds);
       } else if (this.aoi) {
-        const cornerMax1 = latLng([this.aoi.lat - boundsPad, this.aoi.lng - boundsPad]);
-        const cornerMax2 = latLng([this.aoi.lat + boundsPad, this.aoi.lng + boundsPad]);
+        const southBound = this.aoi.lat - boundsPad;
+        const westBound = this.aoi.lng - boundsPad;
+        const northBound = this.aoi.lat + boundsPad;
+        const eastBound = this.aoi.lng + boundsPad;
+        const cornerMax1 = latLng([
+          southBound > -90 ? southBound : -90, westBound > -180 ? westBound : -180]);
+        const cornerMax2 = latLng([
+          northBound < 90 ? northBound : 90, eastBound < 180 ? eastBound : 180]);
         const boundsMax = latLngBounds(cornerMax1, cornerMax2);
         this.map.setZoom(16);
         this.map.panTo(this.aoi);
