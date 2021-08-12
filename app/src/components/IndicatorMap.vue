@@ -480,8 +480,6 @@ const emptyF = {
   type: 'FeatureCollection',
   features: [],
 };
-const dataF = emptyF;
-const compareF = emptyF;
 
 export default {
   props: {
@@ -1653,12 +1651,6 @@ export default {
     clearCustomAreaFilter() {
       this.$store.commit('features/SET_SELECTED_AREA', null);
     },
-    getDataF() {
-      return dataF;
-    },
-    getCompareF() {
-      return compareF;
-    },
     updateJsonLayers(ftrs, side) {
       if (this.mergedConfigs()[0].featuresClustering) {
         // markercluster needs manual adding of all geojsons it will show
@@ -1671,12 +1663,12 @@ export default {
           if (side === 'data') {
             this.$refs.featuresDataCluster.mapObject.clearLayers();
             this.$refs.featuresDataCluster.mapObject.addLayers([geojsonFromData]);
-            this.dataFeaturesNum = ftrs.features.length;
+            this.dataFeaturesCount = ftrs.features.length;
+          } else if (this.$refs.featuresCompareCluster) {
+            this.$refs.featuresCompareCluster.mapObject.clearLayers();
+            this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
+            this.compareFeaturesCount = ftrs.features.length;
           }
-        } else if (this.$refs.featuresDataCluster) {
-          this.$refs.featuresCompareCluster.mapObject.clearLayers();
-          this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
-          this.compareFeaturesNum = ftrs.features.length;
         }
       } else if (side === 'data') {
         // normal geojson layer just needs manual refresh

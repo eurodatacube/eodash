@@ -290,7 +290,8 @@
               cols="12"
               sm="7"
               v-if="!isFullScreen"
-              :style="customAreaIndicator && !expanded ? 'margin-bottom: -40px; margin-top: 20px;' : ''"
+              :style="customAreaIndicator && !expanded
+                ? 'margin-bottom: -40px; margin-top: 20px;' : ''"
               ref="buttonRow"
             >
               <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
