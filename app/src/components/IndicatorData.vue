@@ -3,7 +3,7 @@
     v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10a9',
       'E10c', 'N1', 'N3', 'N3b', 'E8',
       'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA', 'CV', 'OW', 'E10a10']
+      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA', 'CV', 'OW', 'OX', 'E10a10']
       .includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
@@ -472,6 +472,103 @@ export default {
               borderColor: refColors[yLength - i],
               borderWidth: 2,
             });
+          });
+        } else if (['OX'].includes(indicatorCode)) {
+          const data = [];
+          const average = [];
+          let counter = 0;
+          let tmpVal = 0;
+          let tmpTime = 0;
+          indicator.measurement.forEach((item, i) => {
+            data.push({
+              t: indicator.time[i],
+              y: item,
+              color: indicator.indicatorValue[i],
+            });
+            if (counter < 4) {
+              tmpVal += item;
+              tmpTime += indicator.time[i].toMillis();
+              counter += 1;
+            } else {
+              average.push({
+                t: DateTime.fromMillis(tmpTime / 4),
+                y: tmpVal / 4,
+              });
+              counter = 0;
+              tmpVal = 0;
+              tmpTime = 0;
+            }
+          });
+          const lowData = [];
+          data.forEach((entry) => {
+            if (entry.color === 'Red (Low)' || entry.color === 'Orange (Low)') {
+              lowData.push({ t: entry.t, y: 0.35 });
+            }
+          });
+          datasets.push({
+            label: 'Site Low',
+            data: lowData,
+            fill: false,
+            borderColor: 'orange',
+            backgroundColor: 'orange',
+            borderWidth: 0,
+            pointRadius: 3,
+            showLine: false,
+          });
+
+          const regularData = [];
+          data.forEach((entry) => {
+            if (entry.color === 'Green') {
+              regularData.push({ t: entry.t, y: 0.5 });
+            }
+          });
+          datasets.push({
+            label: 'Site Regular',
+            data: regularData,
+            fill: false,
+            borderColor: this.getIndicatorColor('BLUE'),
+            backgroundColor: this.getIndicatorColor('BLUE'),
+            borderWidth: 0,
+            pointRadius: 3,
+            showLine: false,
+          });
+          const highData = [];
+          data.forEach((entry) => {
+            if (entry.color === 'Red (High)' || entry.color === 'Orange (High)') {
+              highData.push({ t: entry.t, y: 0.65 });
+            }
+          });
+          datasets.push({
+            label: 'Site High',
+            data: highData,
+            fill: false,
+            borderColor: 'red',
+            backgroundColor: 'red',
+            borderWidth: 0,
+            pointRadius: 3,
+            showLine: false,
+          });
+
+          datasets.push({
+            label: 'Cluster storage utilization',
+            data,
+            fill: false,
+            borderColor: 'grey',
+            backgroundColor: 'grey',
+            borderWidth: 1,
+            pointRadius: 0,
+            showLine: true,
+            lineTension: 0,
+          });
+          datasets.push({
+            label: 'Monthly cluster storage average',
+            data: average,
+            fill: false,
+            borderColor: 'black',
+            backgroundColor: 'black',
+            borderWidth: 1,
+            pointRadius: 0,
+            showLine: true,
           });
         } else if (['N1'].includes(indicatorCode)) {
           const stdDevMin = [];
@@ -1161,6 +1258,24 @@ export default {
         }];
       }
 
+      if (['OX'].includes(indicatorCode)) {
+        xAxes = [{
+          type: 'time',
+          time: {
+            unit: 'month',
+            displayFormats: {
+              month: 'MMM yy',
+            },
+            tooltipFormat: 'dd. MMM yy',
+          },
+          distribution: 'linear',
+          ticks: {
+            min: timeMinMax[0],
+            max: timeMinMax[1],
+          },
+        }];
+      }
+
 
       let plugins = {
         datalabels: {
@@ -1288,7 +1403,7 @@ export default {
             .filter((d) => !Number.isNaN(d)),
         );
       }
-      if (['CV', 'OW'].includes(indicatorCode)) {
+      if (['CV', 'OW', 'OX'].includes(indicatorCode)) {
         yAxes[0].ticks.beginAtZero = true;
         yAxes[0].ticks = {
           lineHeight: 1,
@@ -1485,6 +1600,32 @@ export default {
           },
         },
       };
+
+      if (['OX'].includes(indicatorCode)) {
+        defaultSettings.hover = {
+          mode: 'nearest',
+        };
+        yAxes[0].ticks = {
+          callback: (...args) => {
+            let returnString;
+            if (args[0] === 0.35) {
+              returnString = 'Low';
+            } else if (args[0] === 0.65) {
+              returnString = 'High';
+            }
+            return returnString;
+          },
+          min: 0.3,
+          max: 0.7,
+          label: '',
+        };
+        yAxes[0].scaleLabel.display = false;
+        defaultSettings.tooltips = {
+          callbacks: {
+            label: () => '',
+          },
+        };
+      }
 
       if (['N3'].includes(indicatorCode)) {
         defaultSettings.tooltips = {

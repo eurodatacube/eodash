@@ -31,12 +31,16 @@
           <template v-slot:item.country="{ item }">
             <div v-if="Array.isArray(item.country)" class="table-flag d-flex justify-center" >
               <span v-for="(country, i) in item.country" :key="i" class="table-flag">
-                <v-icon v-if="country === 'all'" class="ml-1">mdi-earth</v-icon>
+                <v-icon v-if="country === 'all' || country === 'indicatorall'" class="ml-1">
+                  mdi-earth
+                </v-icon>
                 <country-flag v-else :country="country" size="normal"></country-flag>
               </span>
             </div>
             <div v-else class="d-flex justify-center">
-              <v-icon v-if="item.country === 'all'" class="ml-1">mdi-earth</v-icon>
+              <v-icon v-if="item.country === 'all' || item.country === 'indicatorall'" class="ml-1">
+                mdi-earth
+              </v-icon>
               <country-flag v-else :country="item.country" size="normal"></country-flag>
             </div>
           </template>
@@ -148,6 +152,26 @@ export default {
             }
           } else if (['E10a3', 'E10a8', 'N4c', 'C1', 'C2', 'C3', 'E10a10'].includes(poi.indicator)) {
             text = 'multiple';
+          } else if (poi.indicator === 'OX') {
+            switch (poi.lastIndicatorValue) {
+              case 'Red (Low)':
+                text = 'Very low';
+                break;
+              case 'Orange (Low)':
+                text = 'Low';
+                break;
+              case 'Green':
+                text = 'Regular';
+                break;
+              case 'Orange (High)':
+                text = 'High';
+                break;
+              case 'Red (High)':
+                text = 'Very High';
+                break;
+              default:
+                text = '';
+            }
           } else {
             text = lastValue;
           }
