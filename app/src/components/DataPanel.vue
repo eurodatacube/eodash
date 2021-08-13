@@ -300,7 +300,10 @@
                   :href="dataHrefCSV"
                   :download="downloadFileName"
                   target="_blank"
-                  v-if="indicatorObject && !showMap && !isFullScreen"
+                  v-if="indicatorObject
+                    && !showMap
+                    && !isFullScreen
+                    && !['OX'].includes(indicatorObject.indicator)"
                 >
                   <v-icon left>mdi-download</v-icon>
                   download csv

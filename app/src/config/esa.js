@@ -1947,10 +1947,10 @@ export const globalIndicators = [
         country: 'indicatorall',
         city: 'Europe',
         siteName: 'global',
-        description: 'Crude oil storage Index (EU)',
+        description: 'Crude Oil Storage Index (EU)',
         indicator: 'OX',
         lastIndicatorValue: null,
-        indicatorName: 'Crude oil storage Index (EU)',
+        indicatorName: 'Crude Oil Storage Index (EU)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
