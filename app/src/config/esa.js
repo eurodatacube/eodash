@@ -308,7 +308,7 @@ export const indicatorsDefinition = Object.freeze({
   E13n: {
     indicator: 'Changes in traffic fluxes',
     class: 'economic',
-    story: '/eodash-data/stories/E1',
+    story: '/eodash-data/stories/E13n',
   },
   H1: {
     indicator: 'Number of temp. treatment sites',
@@ -416,6 +416,11 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }],
     legendUrl: 'eodash-data/data/LegendGLC.png',
+  },
+  OX: {
+    indicator: 'Crude Oil Storage Utilization',
+    class: 'economic',
+    story: '/eodash-data/stories/OX',
   },
   GG: {
     indicator: 'Mobility',
@@ -1928,6 +1933,32 @@ export const globalIndicators = [
             ...baseLayers.cloudless,
             visible: true,
           }, baseLayers.terrainLight],
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: false,
+        id: 9987,
+        aoi: latLng([40.413, -1.23]),
+        aoiID: 'EU1',
+        country: 'indicatorall',
+        city: 'Europe',
+        siteName: 'global',
+        description: 'Crude Oil Storage Index (EU)',
+        indicator: 'OX',
+        lastIndicatorValue: null,
+        indicatorName: 'Crude Oil Storage Index (EU)',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        time: [],
+        inputData: [''],
+        display: {
         },
       },
     },

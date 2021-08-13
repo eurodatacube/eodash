@@ -1,160 +1,174 @@
 <template>
-  <l-map
-    ref="map"
-    style="height: 100%; width: 100%; background: #cad2d3; z-index: 1;"
-    :options="defaultMapOptions"
-    :maxZoom="mapDefaults.maxMapZoom"
-    :minZoom="mapDefaults.minMapZoom"
-    @update:zoom="zoomUpdated"
-    @update:center="centerUpdated"
-    @update:bounds="boundsUpdated"
-    v-resize="onResize"
-    :center="center"
-    :zoom="zoom"
-    @ready="onMapReady()"
-  >
-    <l-control-zoom position="topright"></l-control-zoom>
-    <l-feature-group ref="customAreaFilterFeatures"></l-feature-group>
-    <l-control position="topright"
-      v-if="customAreaFilter && validDrawnArea && renderTrashBin">
-      <v-tooltip left>
-        <template v-slot:activator="{ on }">
-          <div v-on="on" class="d-inline-block">
-            <v-btn
-              color="error"
-              x-small
-              fab
-              class="pa-0"
-              :style="`${$vuetify.breakpoint.mdAndDown
-                ? 'width: 30px; height: 30px;'
-                : 'width: 26px; height: 26px;'} border-radius: 4px`"
-              @click="clearCustomAreaFilter"
-            >
-              <v-icon small>mdi-delete</v-icon>
-            </v-btn>
-          </div>
-        </template>
-          <span>Clear selection</span>
-      </v-tooltip>
-    </l-control>
-    <l-control position="topright"
-      v-if="mergedConfigs()[0].customAreaIndicator && validDrawnArea && renderTrashBin">
-      <v-tooltip left>
-        <template v-slot:activator="{ on }">
-          <div v-on="on" class="d-inline-block"
-          :style="`border: 3px solid ${appConfig.branding.primaryColor};
-          border-radius: 6px;`">
-            <v-btn
-              color="white"
-              x-small
-              fab
-              depressed
-              class="pa-0"
-              :style="`${$vuetify.breakpoint.mdAndDown
-                ? 'width: 36px; height: 36px;'
-                : 'width: 30px; height: 30px;'}
-                border-radius: 4px;
-                color: ${appConfig.branding.primaryColor};`"
-              @click="fetchCustomAreaIndicator"
-            >
-              <v-icon small>mdi-poll</v-icon>
-            </v-btn>
-          </div>
-        </template>
-          <span>Draw chart from sub-area</span>
-      </v-tooltip>
-    </l-control>
-    <LTileLayer
-      v-for="layer in baseLayers.filter(b => b.protocol === 'xyz')"
-      v-bind="layer"
-      ref="baseLayers"
-      layer-type="base"
-      :key="layer.name"
-      :opacity="opacityTerrain[zoom]"
-      :options="layerOptions(null, layer)"
+  <div ref="container" style="height: 100%; width: 100%;">
+    <l-map
+      ref="map"
+      style="height: 100%; width: 100%; background: #cad2d3; z-index: 1;"
+      :options="defaultMapOptions"
+      :maxZoom="mapDefaults.maxMapZoom"
+      :minZoom="mapDefaults.minMapZoom"
+      @update:zoom="zoomUpdated"
+      @update:center="centerUpdated"
+      @update:bounds="boundsUpdated"
+      v-resize="onResize"
+      :center="center"
+      :zoom="zoom"
+      @ready="onMapReady()"
     >
-    </LTileLayer>
-    <LWMSTileLayer
-      v-for="layer in baseLayers.filter(b => b.protocol === 'WMS')"
-      :key="layer.name"
-      v-bind="layer"
-      :options="layerOptions(null, layer)"
-      layer-type="base"
-    >
-    </LWMSTileLayer>
-    <l-geo-json
-    :geojson="subAoiInverse"
-    :pane="popupPane"
-    layer-type="overlay"
-    name='Reference area overlay'
-    :optionsStyle="subAoiInverseStyle"
-    >
-    </l-geo-json>
-    <l-layer-group ref="dataLayers">
-      <l-geo-json
-      :geojson="indicator.subAoi"
-      :pane="tooltipPane"
-      :optionsStyle="subAoiStyle('data')"
-      >
-      </l-geo-json>
-      <l-marker-cluster v-if="mergedConfigs()[0].featuresClustering"
-        ref="featuresDataCluster"
-        :options="clusterOptions"
-        >
-      </l-marker-cluster>
-      <l-geo-json
-          v-else
-          ref="featureJsonData"
-          :geojson="getDataF().features"
-          :options="featureOptions('data')"
-          :pane="tooltipPane"
-          :key="dataJsonKey"
-        >
-      </l-geo-json>
-      <l-circle-marker
-        v-if="showAoi"
-        :lat-lng="aoi"
-        :radius="12"
-        :color="appConfig.branding.primaryColor"
-        :weight="2"
-        :dashArray="'3'"
-        :fill="true"
-        :fillColor="getAoiFill('data')"
-        :fillOpacity="1"
-        :pane="tooltipPane"
-      >
-      </l-circle-marker>
-      <!-- XYZ grouping is not implemented yet -->
+      <l-control-zoom position="topright"></l-control-zoom>
+      <l-feature-group ref="customAreaFilterFeatures"></l-feature-group>
+      <l-control position="topright"
+        v-if="customAreaFilter && validDrawnArea && renderTrashBin">
+        <v-tooltip left>
+          <template v-slot:activator="{ on }">
+            <div v-on="on" class="d-inline-block">
+              <v-btn
+                color="error"
+                x-small
+                fab
+                class="pa-0"
+                :style="`${$vuetify.breakpoint.mdAndDown
+                  ? 'width: 30px; height: 30px;'
+                  : 'width: 26px; height: 26px;'} border-radius: 4px`"
+                @click="clearCustomAreaFilter"
+              >
+                <v-icon small>mdi-delete</v-icon>
+              </v-btn>
+            </div>
+          </template>
+            <span>Clear selection</span>
+        </v-tooltip>
+      </l-control>
+      <l-control position="topright"
+        v-if="mergedConfigs()[0].customAreaIndicator && validDrawnArea && renderTrashBin">
+        <v-tooltip left>
+          <template v-slot:activator="{ on }">
+            <div v-on="on" class="d-inline-block"
+            :style="`border: 3px solid ${appConfig.branding.primaryColor};
+            border-radius: 6px;`">
+              <v-btn
+                color="white"
+                x-small
+                fab
+                depressed
+                class="pa-0"
+                :style="`${$vuetify.breakpoint.mdAndDown
+                  ? 'width: 36px; height: 36px;'
+                  : 'width: 30px; height: 30px;'}
+                  border-radius: 4px;
+                  color: ${appConfig.branding.primaryColor};`"
+                @click="fetchCustomAreaIndicator"
+              >
+                <v-icon small>mdi-poll</v-icon>
+              </v-btn>
+            </div>
+          </template>
+            <span>Draw chart from sub-area</span>
+        </v-tooltip>
+      </l-control>
       <LTileLayer
-      v-for="(layerConfig, i) in mergedConfigs().filter(l => l.protocol === 'xyz')"
-        ref="dataLayerArrayXYZ"
-        :data-key-originalindex="i"
-        :key="dataLayerKeyXYZ[i]"
-        v-bind="layerConfig"
-        :options="layerOptions(currentTime, layerConfig)"
-        :pane="overlayPane"
-        layer-type="overlay"
+        v-for="layer in baseLayers.filter(b => b.protocol === 'xyz')"
+        v-bind="layer"
+        ref="baseLayers"
+        layer-type="base"
+        :key="layer.name"
+        :opacity="opacityTerrain[zoom]"
+        :options="layerOptions(null, layer)"
       >
       </LTileLayer>
-      <template v-if="getCombinedWMSLayers().length > 0">
-        <l-layer-group ref="dataLayerArrayWMS">
-          <l-layer-group
-          v-for="combLayer in this.getCombinedWMSLayers()"
-            :key="combLayer.name"
-            :name="combLayer.name"
-            layer-type="overlay"
+      <LWMSTileLayer
+        v-for="layer in baseLayers.filter(b => b.protocol === 'WMS')"
+        :key="layer.name"
+        v-bind="layer"
+        :options="layerOptions(null, layer)"
+        layer-type="base"
+      >
+      </LWMSTileLayer>
+      <l-geo-json
+      :geojson="subAoiInverse"
+      :pane="popupPane"
+      layer-type="overlay"
+      name='Reference area overlay'
+      :optionsStyle="subAoiInverseStyle"
+      >
+      </l-geo-json>
+      <l-layer-group ref="dataLayers">
+        <l-geo-json
+        :geojson="indicator.subAoi"
+        :pane="tooltipPane"
+        :optionsStyle="subAoiStyle('data')"
+        >
+        </l-geo-json>
+        <l-marker-cluster v-if="mergedConfigs()[0].featuresClustering"
+          ref="featuresDataCluster"
+          :options="clusterOptions"
           >
+        </l-marker-cluster>
+        <l-geo-json
+            v-else-if="dataJson.features"
+            ref="featureJsonData"
+            :geojson="dataJson.features"
+            :options="featureOptions('data')"
+            :pane="tooltipPane"
+            :key="dataJsonKey"
+          >
+        </l-geo-json>
+        <l-circle-marker
+          v-if="showAoi"
+          :lat-lng="aoi"
+          :radius="12"
+          :color="appConfig.branding.primaryColor"
+          :weight="2"
+          :dashArray="'3'"
+          :fill="true"
+          :fillColor="getAoiFill('data')"
+          :fillOpacity="1"
+          :pane="tooltipPane"
+        >
+        </l-circle-marker>
+        <!-- XYZ grouping is not implemented yet -->
+        <LTileLayer
+        v-for="(layerConfig, i) in mergedConfigs().filter(l => l.protocol === 'xyz')"
+          ref="dataLayerArrayXYZ"
+          :data-key-originalindex="i"
+          :key="dataLayerKeyXYZ[i]"
+          v-bind="layerConfig"
+          :options="layerOptions(currentTime, layerConfig)"
+          :pane="overlayPane"
+          layer-type="overlay"
+        >
+        </LTileLayer>
+        <template v-if="getCombinedWMSLayers().length > 0">
+          <l-layer-group ref="dataLayerArrayWMS">
+            <l-layer-group
+            v-for="combLayer in this.getCombinedWMSLayers()"
+              :key="combLayer.name"
+              :name="combLayer.name"
+              layer-type="overlay"
+            >
+              <LWMSTileLayer
+              v-for="cLayerConfig in combLayer.combinedLayers"
+                :key="cLayerConfig.name"
+                v-bind="cLayerConfig"
+                :options="layerOptions(currentTime, cLayerConfig)"
+                :pane="overlayPane"
+              >
+              </LWMSTileLayer>
+            </l-layer-group>
             <LWMSTileLayer
-            v-for="cLayerConfig in combLayer.combinedLayers"
-              :key="cLayerConfig.name"
-              v-bind="cLayerConfig"
-              :options="layerOptions(currentTime, cLayerConfig)"
+            v-for="layerConfig in this.getSimpleWMSLayers()"
+              :key="layerConfig.name"
+              v-bind="layerConfig"
+              :options="layerOptions(currentTime, layerConfig)"
               :pane="overlayPane"
+              layer-type="overlay"
             >
             </LWMSTileLayer>
           </l-layer-group>
+        </template>
+        <template v-else>
           <LWMSTileLayer
           v-for="layerConfig in this.getSimpleWMSLayers()"
+            ref="dataLayerArrayWMS"
             :key="layerConfig.name"
             v-bind="layerConfig"
             :options="layerOptions(currentTime, layerConfig)"
@@ -162,52 +176,52 @@
             layer-type="overlay"
           >
           </LWMSTileLayer>
-        </l-layer-group>
-      </template>
-      <template v-else>
-        <LWMSTileLayer
-        v-for="layerConfig in this.getSimpleWMSLayers()"
-          ref="dataLayerArrayWMS"
-          :key="layerConfig.name"
+        </template>
+      </l-layer-group>
+      <l-layer-group ref="compareLayers">
+        <!-- XYZ grouping is not implemented yet -->
+        <LTileLayer
+        v-for="(layerConfig, i) in mergedConfigs('compare').filter(l => l.protocol === 'xyz')"
+          ref="compareLayerArrayXYZ"
+          :data-key-originalindex="i"
+          :key="compareLayerKeyXYZ[i]"
           v-bind="layerConfig"
-          :options="layerOptions(currentTime, layerConfig)"
+          :visible="enableCompare"
+          :options="layerOptions(currentCompareTime, layerConfig)"
           :pane="overlayPane"
-          layer-type="overlay"
         >
-        </LWMSTileLayer>
-      </template>
-    </l-layer-group>
-    <l-layer-group ref="compareLayers">
-      <!-- XYZ grouping is not implemented yet -->
-      <LTileLayer
-      v-for="(layerConfig, i) in mergedConfigs('compare').filter(l => l.protocol === 'xyz')"
-        ref="compareLayerArrayXYZ"
-        :data-key-originalindex="i"
-        :key="compareLayerKeyXYZ[i]"
-        v-bind="layerConfig"
-        :visible="enableCompare"
-        :options="layerOptions(currentCompareTime, layerConfig)"
-        :pane="overlayPane"
-      >
-      </LTileLayer>
-      <template v-if="getCombinedWMSLayers('compare').length > 0">
-        <l-layer-group ref="compareLayerArrayWMS">
-          <l-layer-group
-          v-for="combLayer in this.getCombinedWMSLayers('compare')"
-            :key="combLayer.name"
-          >
+        </LTileLayer>
+        <template v-if="getCombinedWMSLayers('compare').length > 0">
+          <l-layer-group ref="compareLayerArrayWMS">
+            <l-layer-group
+            v-for="combLayer in this.getCombinedWMSLayers('compare')"
+              :key="combLayer.name"
+            >
+              <LWMSTileLayer
+              v-for="cLayerConfig in combLayer.combinedLayers"
+                :key="cLayerConfig.name"
+                v-bind="cLayerConfig"
+                :visible="enableCompare"
+                :options="layerOptions(currentCompareTime, cLayerConfig)"
+                :pane="overlayPane"
+              >
+              </LWMSTileLayer>
+            </l-layer-group>
             <LWMSTileLayer
-            v-for="cLayerConfig in combLayer.combinedLayers"
-              :key="cLayerConfig.name"
-              v-bind="cLayerConfig"
+            v-for="layerConfig in this.getSimpleWMSLayers('compare')"
+              :key="layerConfig.name"
+              v-bind="layerConfig"
               :visible="enableCompare"
-              :options="layerOptions(currentCompareTime, cLayerConfig)"
+              :options="layerOptions(currentCompareTime, layerConfig)"
               :pane="overlayPane"
             >
             </LWMSTileLayer>
           </l-layer-group>
+        </template>
+        <template v-else>
           <LWMSTileLayer
           v-for="layerConfig in this.getSimpleWMSLayers('compare')"
+            ref="compareLayerArrayWMS"
             :key="layerConfig.name"
             v-bind="layerConfig"
             :visible="enableCompare"
@@ -215,229 +229,217 @@
             :pane="overlayPane"
           >
           </LWMSTileLayer>
-        </l-layer-group>
-      </template>
-      <template v-else>
-        <LWMSTileLayer
-        v-for="layerConfig in this.getSimpleWMSLayers('compare')"
-          ref="compareLayerArrayWMS"
-          :key="layerConfig.name"
-          v-bind="layerConfig"
+        </template>
+        <l-geo-json
+          :geojson="indicator.subAoi"
+          :pane="shadowPane"
           :visible="enableCompare"
-          :options="layerOptions(currentCompareTime, layerConfig)"
-          :pane="overlayPane"
+          :optionsStyle="subAoiStyle('compare')"
+        >
+        </l-geo-json>
+        <l-marker-cluster v-if="mergedConfigs()[0].featuresClustering"
+          ref="featuresCompareCluster" :options="clusterOptions">
+        </l-marker-cluster>
+        <l-geo-json
+          v-else-if="compareJson.features"
+          ref="featureJsonCompare"
+          :visible="enableCompare"
+          :geojson="compareJson.features"
+          :options="featureOptions('compare')"
+          :pane="shadowPane"
+          :key="compareJsonKey"
+        >
+        </l-geo-json>
+        <l-circle-marker
+          v-if="showAoi"
+          :lat-lng="aoi"
+          :visible="enableCompare"
+          :radius="12"
+          :color="appConfig.branding.primaryColor"
+          :weight="2"
+          :dashArray="3"
+          :fill="true"
+          :fillColor="getAoiFill('compare')"
+          :fillOpacity="1"
+          :pane="shadowPane"
+        >
+        </l-circle-marker>
+      </l-layer-group>
+      <l-layer-group ref="overlayLayers" v-if="!countrySelection">
+        <LTileLayer
+          v-for="layer in overlayLayers.filter(b => b.protocol === 'xyz')"
+          :key="layer.name"
+          v-bind="layer"
+          :pane="markerPane"
+          :opacity="opacityOverlay[zoom]"
+          :options="layerOptions(null, layer)"
+          layer-type="overlay"
+        >
+        </LTileLayer>
+        <LWMSTileLayer
+          v-for="layer in overlayLayers.filter(b => b.protocol === 'WMS')"
+          v-bind="layer"
+          :key="layer.name"
+          :options="layerOptions(null, layer)"
+          :pane="markerPane"
+          :opacity="opacityOverlay[zoom]"
+          layer-type="overlay"
         >
         </LWMSTileLayer>
-      </template>
+      </l-layer-group>
       <l-geo-json
-        :geojson="indicator.subAoi"
-        :pane="shadowPane"
-        :visible="enableCompare"
-        :optionsStyle="subAoiStyle('compare')"
+      v-if="countrySelection"
+      :geojson="countriesJson"
+      :optionsStyle="countriesStyle"
+      :options="countriesOptions()"
+      name="Country vectors"
+      layer-type="overlay"
       >
       </l-geo-json>
-      <l-marker-cluster v-if="mergedConfigs()[0].featuresClustering"
-        ref="featuresCompareCluster" :options="clusterOptions">
-      </l-marker-cluster>
-      <l-geo-json
-        v-else
-        ref="featureJsonCompare"
-        :visible="enableCompare"
-        :geojson="getCompareF().features"
-        :options="featureOptions('compare')"
-        :pane="shadowPane"
-        :key="compareJsonKey"
-      >
-      </l-geo-json>
-      <l-circle-marker
-        v-if="showAoi"
-        :lat-lng="aoi"
-        :visible="enableCompare"
-        :radius="12"
-        :color="appConfig.branding.primaryColor"
-        :weight="2"
-        :dashArray="3"
-        :fill="true"
-        :fillColor="getAoiFill('compare')"
-        :fillOpacity="1"
-        :pane="shadowPane"
-      >
-      </l-circle-marker>
-    </l-layer-group>
-    <l-layer-group ref="overlayLayers" v-if="!countrySelection">
-      <LTileLayer
-        v-for="layer in overlayLayers.filter(b => b.protocol === 'xyz')"
-        :key="layer.name"
-        v-bind="layer"
-        :pane="markerPane"
-        :opacity="opacityOverlay[zoom]"
-        :options="layerOptions(null, layer)"
-        layer-type="overlay"
-      >
-      </LTileLayer>
-      <LWMSTileLayer
-        v-for="layer in overlayLayers.filter(b => b.protocol === 'WMS')"
-        v-bind="layer"
-        :key="layer.name"
-        :options="layerOptions(null, layer)"
-        :pane="markerPane"
-        :opacity="opacityOverlay[zoom]"
-        layer-type="overlay"
-      >
-      </LWMSTileLayer>
-    </l-layer-group>
-    <l-geo-json
-    v-if="countrySelection"
-    :geojson="countriesJson"
-    :optionsStyle="countriesStyle"
-    :options="countriesOptions()"
-    name="Country vectors"
-    layer-type="overlay"
-    >
-    </l-geo-json>
-    <l-feature-group ref="gsaLayer"
-      v-if="borderSelection">
-      <l-circle-marker v-for="(feature) in gsaJson"
-        :key="feature.id"
-        ref="markers"
-        :lat-lng="feature.AOI.split(',').map(Number)"
-        :name="feature.name"
-        color="#fff"
-        :radius="selectedBorder === feature.borderId ? 6 : 4"
-        :fillColor="selectedBorder === feature.borderId ?
-          appConfig.branding.secondaryColor : appConfig.branding.primaryColor"
-        :weight="selectedBorder === feature.borderId ? 2 : 1"
-        :opacity="selectedBorder === feature.borderId ? 1.0 : 0.8"
-        :fillOpacity="selectedBorder === feature.borderId ? 1.0 : 0.9"
-        @click="selectGSAIndicator(feature)"
-      >
-      <l-tooltip class="tooltip text-center" :options="{ direction: 'top' }">
-          <p class="ma-0">
-            <strong>{{ feature.name }}</strong>
-          </p>
-        </l-tooltip>
-      </l-circle-marker>
-    </l-feature-group>
-    <div
-    :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
-      <img v-if="mergedConfigs()[0].legendUrl"
-      :src="mergedConfigs()[0].legendUrl" alt=""
-      :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' :
-      (legendExpanded && 'map-legend-expanded')}`"
-      @click="legendExpanded = !legendExpanded"
-      :style="`background: rgba(255, 255, 255, 0.8);`">
+      <l-feature-group ref="gsaLayer"
+        v-if="borderSelection">
+        <l-circle-marker v-for="(feature) in gsaJson"
+          :key="feature.id"
+          ref="markers"
+          :lat-lng="feature.AOI.split(',').map(Number)"
+          :name="feature.name"
+          color="#fff"
+          :radius="selectedBorder === feature.borderId ? 6 : 4"
+          :fillColor="selectedBorder === feature.borderId ?
+            appConfig.branding.secondaryColor : appConfig.branding.primaryColor"
+          :weight="selectedBorder === feature.borderId ? 2 : 1"
+          :opacity="selectedBorder === feature.borderId ? 1.0 : 0.8"
+          :fillOpacity="selectedBorder === feature.borderId ? 1.0 : 0.9"
+          @click="selectGSAIndicator(feature)"
+        >
+        <l-tooltip class="tooltip text-center" :options="{ direction: 'top' }">
+            <p class="ma-0">
+              <strong>{{ feature.name }}</strong>
+            </p>
+          </l-tooltip>
+        </l-circle-marker>
+      </l-feature-group>
       <div
-      v-if="mergedConfigs()[0].customAreaFeatures &&
-      (mergedConfigs()[0].features.featureLimit === dataFeaturesCount ||
-      mergedConfigs()[0].features.featureLimit === compareFeaturesCount)"
-      :style="`width: fit-content; background: rgba(255, 255, 255, 0.8);`"
-      >
-        <h3 :class="`brand-${appConfig.id} px-3 py-2`">
-          Limit of drawn features is for performance reasons set to
-          <span :style="`font-size: 17px;`">{{mergedConfigs()[0].features.featureLimit}}
-          </span>
-        </h3>
+      :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
+        <img v-if="mergedConfigs()[0].legendUrl"
+        :src="mergedConfigs()[0].legendUrl" alt=""
+        :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' :
+        (legendExpanded && 'map-legend-expanded')}`"
+        @click="legendExpanded = !legendExpanded"
+        :style="`background: rgba(255, 255, 255, 0.8);`">
+        <div
+        v-if="mergedConfigs()[0].customAreaFeatures &&
+        (mergedConfigs()[0].features.featureLimit === dataFeaturesCount ||
+        mergedConfigs()[0].features.featureLimit === compareFeaturesCount)"
+        :style="`width: fit-content; background: rgba(255, 255, 255, 0.8);`"
+        >
+          <h3 :class="`brand-${appConfig.id} px-3 py-2`">
+            Limit of drawn features is for performance reasons set to
+            <span :style="`font-size: 17px;`">{{mergedConfigs()[0].features.featureLimit}}
+            </span>
+          </h3>
+        </div>
       </div>
-    </div>
-    <div
-      class="d-flex justify-center"
-      style="position: relative; width: 100%; height: 100%;"
-      @click.stop=""
-      @dblclick.stop=""
-    >
-      <h3 :class="`brand-${appConfig.id} px-3 py-1`"
-        v-if="enableCompare && indicator.compareDisplay && indicator.compareDisplay.mapLabel"
-        style="position:absolute; z-index:1000; right: 0px; bottom: 45%;
-        background: rgba(255, 255, 255, 0.6); font-size: 16px; pointer-events: none;">
-          {{indicator.display.mapLabel}}
-      </h3>
-      <h3 :class="`brand-${appConfig.id} px-3 py-1`"
-        v-if="enableCompare && indicator.compareDisplay && indicator.display.mapLabel"
-        style="position:absolute; z-index:1000; left: 0px; bottom: 45%;
-        background: rgba(255, 255, 255, 0.6); font-size: 16px; pointer-events: none;">
-          {{indicator.compareDisplay.mapLabel}}
-      </h3>
-      <v-sheet
-        v-if="!mergedConfigs()[0].disableTimeSelection"
-        class="row justify-center align-center"
-        style="position: absolute; bottom: 30px; z-index: 1000; width: auto; max-width: 100%;"
+      <div
+        class="d-flex justify-center"
+        style="position: relative; width: 100%; height: 100%;"
+        @click.stop=""
+        @dblclick.stop=""
       >
-        <v-col
-          v-if="enableCompare && !indicator.compareDisplay"
-          cols="6"
-          class="pr-0"
+        <h3 :class="`brand-${appConfig.id} px-3 py-1`"
+          v-if="enableCompare && indicator.compareDisplay && indicator.compareDisplay.mapLabel"
+          style="position:absolute; z-index:1000; right: 0px; bottom: 45%;
+          background: rgba(255, 255, 255, 0.6); font-size: 16px; pointer-events: none;">
+            {{indicator.display.mapLabel}}
+        </h3>
+        <h3 :class="`brand-${appConfig.id} px-3 py-1`"
+          v-if="enableCompare && indicator.compareDisplay && indicator.display.mapLabel"
+          style="position:absolute; z-index:1000; left: 0px; bottom: 45%;
+          background: rgba(255, 255, 255, 0.6); font-size: 16px; pointer-events: none;">
+            {{indicator.compareDisplay.mapLabel}}
+        </h3>
+        <v-sheet
+          v-if="!mergedConfigs()[0].disableTimeSelection"
+          class="row justify-center align-center"
+          style="position: absolute; bottom: 30px; z-index: 1000; width: auto; max-width: 100%;"
         >
-          <v-select
-            v-if="enableCompare"
-            outlined
-            dense
-            autofocus
-            hide-details
-            :prepend-inner-icon="(arrayOfObjects && compareLayerTime) && (arrayOfObjects
-              .map((i) => i.value)
-              .indexOf(compareLayerTime.value) > 0
-                ? 'mdi-arrow-left-drop-circle'
-                : 'mdi-asterisk')"
-            :append-icon="(arrayOfObjects && compareLayerTime) && (arrayOfObjects
-              .map((i) => i.value)
-              .indexOf(compareLayerTime.value) < arrayOfObjects.length - 1
-                ? 'mdi-arrow-right-drop-circle'
-                : 'mdi-asterisk')"
-            menu-props="auto"
-            :items="arrayOfObjects"
-            item-value="value"
-            item-text="name"
-            v-model="compareLayerTime"
-            @change="compareLayerTimeSelection"
-            @click:prepend-inner="compareLayerReduce"
-            @click:append="compareLayerIncrease"
-          ></v-select>
-        </v-col>
-        <v-col
-          :cols="enableCompare && !indicator.compareDisplay ? 6 : 12"
-        >
-          <v-select
-            outlined
-            dense
-            autofocus
-            hide-details
-            :prepend-inner-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
-              .map((i) => i.value)
-              .indexOf(dataLayerTime.value) > 0
-                ? 'mdi-arrow-left-drop-circle'
-                : 'mdi-asterisk')"
-            :append-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
-              .map((i) => i.value)
-              .indexOf(dataLayerTime.value) < arrayOfObjects.length - 1
-                ? 'mdi-arrow-right-drop-circle'
-                : 'mdi-asterisk')"
-            menu-props="auto"
-            :items="arrayOfObjects"
-            item-value="value"
-            item-text="name"
-            v-model="dataLayerTime"
-            @change="dataLayerTimeSelection"
-            @click:prepend-inner="dataLayerReduce"
-            @click:append="dataLayerIncrease"
+          <v-col
+            v-if="enableCompare && !indicator.compareDisplay"
+            cols="6"
+            class="pr-0"
           >
-            <template v-slot:prepend
-            v-if="!mergedConfigs()[0].disableCompare">
-              <v-tooltip
-                bottom
-              >
-                <template v-slot:activator="{ on }">
-                  <v-icon v-on="on" @click="enableCompare = !enableCompare">mdi-compare</v-icon>
-                </template>
-                Compare two images
-              </v-tooltip>
-            </template>
-          </v-select>
-        </v-col>
-      </v-sheet>
-    </div>
-    <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
-    <l-control-layers position="topright" ref="layersControl"></l-control-layers>
-  </l-map>
+            <v-select
+              v-if="enableCompare"
+              outlined
+              dense
+              autofocus
+              hide-details
+              :prepend-inner-icon="(arrayOfObjects && compareLayerTime) && (arrayOfObjects
+                .map((i) => i.value)
+                .indexOf(compareLayerTime.value) > 0
+                  ? 'mdi-arrow-left-drop-circle'
+                  : 'mdi-asterisk')"
+              :append-icon="(arrayOfObjects && compareLayerTime) && (arrayOfObjects
+                .map((i) => i.value)
+                .indexOf(compareLayerTime.value) < arrayOfObjects.length - 1
+                  ? 'mdi-arrow-right-drop-circle'
+                  : 'mdi-asterisk')"
+              menu-props="auto"
+              :items="arrayOfObjects"
+              item-value="value"
+              item-text="name"
+              v-model="compareLayerTime"
+              @change="compareLayerTimeSelection"
+              @click:prepend-inner="compareLayerReduce"
+              @click:append="compareLayerIncrease"
+            ></v-select>
+          </v-col>
+          <v-col
+            :cols="enableCompare && !indicator.compareDisplay ? 6 : 12"
+          >
+            <v-select
+              outlined
+              dense
+              autofocus
+              hide-details
+              :prepend-inner-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
+                .map((i) => i.value)
+                .indexOf(dataLayerTime.value) > 0
+                  ? 'mdi-arrow-left-drop-circle'
+                  : 'mdi-asterisk')"
+              :append-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
+                .map((i) => i.value)
+                .indexOf(dataLayerTime.value) < arrayOfObjects.length - 1
+                  ? 'mdi-arrow-right-drop-circle'
+                  : 'mdi-asterisk')"
+              menu-props="auto"
+              :items="arrayOfObjects"
+              item-value="value"
+              item-text="name"
+              v-model="dataLayerTime"
+              @change="dataLayerTimeSelection"
+              @click:prepend-inner="dataLayerReduce"
+              @click:append="dataLayerIncrease"
+            >
+              <template v-slot:prepend
+              v-if="!mergedConfigs()[0].disableCompare">
+                <v-tooltip
+                  bottom
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-icon v-on="on" @click="enableCompare = !enableCompare">mdi-compare</v-icon>
+                  </template>
+                  Compare two images
+                </v-tooltip>
+              </template>
+            </v-select>
+          </v-col>
+        </v-sheet>
+      </div>
+      <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
+      <l-control-layers position="topright" ref="layersControl"></l-control-layers>
+    </l-map>
+  </div>
 </template>
 
 <script>
@@ -478,8 +480,6 @@ const emptyF = {
   type: 'FeatureCollection',
   features: [],
 };
-let dataF = emptyF;
-let compareF = emptyF;
 
 export default {
   props: {
@@ -545,6 +545,9 @@ export default {
       selectedCountry: null,
       selectedBorder: null,
       selectedLayer: null,
+      ro: null,
+      dataJson: { features: null },
+      compareJson: { features: null },
     };
   },
   computed: {
@@ -566,21 +569,6 @@ export default {
         opacity: 1,
         fillOpacity: 0.5,
       };
-    },
-    dataJsonComputed: {
-      // to avoid each of thousands of geojson features have its own
-      // getter/setter set by vue - freezing the app on large number of pts
-      // we manually rerender relevant vue components anyway
-      get: () => this.getDataF(),
-      set: (v) => {
-        dataF = v;
-      },
-    },
-    compareJsonComputed: {
-      get: () => this.getCompareF(),
-      set: (v) => {
-        compareF = v;
-      },
     },
     subAoiInverseStyle() {
       return {
@@ -833,6 +821,11 @@ export default {
     this.dataLayerIndex = this.usedTimes.time.length - 1;
     this.dataLayerTime = { value: this.usedTimes.time[this.dataLayerIndex] };
     this.compareLayerTime = { value: this.getInitialCompareTime() };
+    this.ro = new ResizeObserver(this.onResize)
+      .observe(this.$refs.container);
+  },
+  destroyed() {
+    delete this.ro;
   },
   methods: {
     createLatLng(latlng) {
@@ -1173,8 +1166,14 @@ export default {
           ? geoJson(this.mergedConfigs()[0].presetView).getBounds()
           : geoJson(this.subAoi).getBounds();
         const bounds = geoJson(this.subAoi).getBounds();
-        const cornerMax1 = latLng([bounds.getSouth() - boundsPad, bounds.getWest() - boundsPad]);
-        const cornerMax2 = latLng([bounds.getNorth() + boundsPad, bounds.getEast() + boundsPad]);
+        const southBound = bounds.getSouth() - boundsPad;
+        const westBound = bounds.getWest() - boundsPad;
+        const northBound = bounds.getNorth() + boundsPad;
+        const eastBound = bounds.getEast() + boundsPad;
+        const cornerMax1 = latLng([
+          southBound > -90 ? southBound : -90, westBound > -180 ? westBound : -180]);
+        const cornerMax2 = latLng([
+          northBound < 90 ? northBound : 90, eastBound < 180 ? eastBound : 180]);
         const boundsMax = latLngBounds(cornerMax1, cornerMax2);
         this.map.fitBounds(viewBounds);
         // limit user movement around map
@@ -1191,8 +1190,14 @@ export default {
         const viewBounds = geoJson(this.mergedConfigs()[0].presetView).getBounds();
         this.map.fitBounds(viewBounds);
       } else if (this.aoi) {
-        const cornerMax1 = latLng([this.aoi.lat - boundsPad, this.aoi.lng - boundsPad]);
-        const cornerMax2 = latLng([this.aoi.lat + boundsPad, this.aoi.lng + boundsPad]);
+        const southBound = this.aoi.lat - boundsPad;
+        const westBound = this.aoi.lng - boundsPad;
+        const northBound = this.aoi.lat + boundsPad;
+        const eastBound = this.aoi.lng + boundsPad;
+        const cornerMax1 = latLng([
+          southBound > -90 ? southBound : -90, westBound > -180 ? westBound : -180]);
+        const cornerMax2 = latLng([
+          northBound < 90 ? northBound : 90, eastBound < 180 ? eastBound : 180]);
         const boundsMax = latLngBounds(cornerMax1, cornerMax2);
         this.map.setZoom(16);
         this.map.panTo(this.aoi);
@@ -1646,12 +1651,6 @@ export default {
     clearCustomAreaFilter() {
       this.$store.commit('features/SET_SELECTED_AREA', null);
     },
-    getDataF() {
-      return dataF;
-    },
-    getCompareF() {
-      return compareF;
-    },
     updateJsonLayers(ftrs, side) {
       if (this.mergedConfigs()[0].featuresClustering) {
         // markercluster needs manual adding of all geojsons it will show
@@ -1664,20 +1663,20 @@ export default {
           if (side === 'data') {
             this.$refs.featuresDataCluster.mapObject.clearLayers();
             this.$refs.featuresDataCluster.mapObject.addLayers([geojsonFromData]);
-            this.dataFeaturesNum = ftrs.features.length;
+            this.dataFeaturesCount = ftrs.features.length;
+          } else if (this.$refs.featuresCompareCluster) {
+            this.$refs.featuresCompareCluster.mapObject.clearLayers();
+            this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
+            this.compareFeaturesCount = ftrs.features.length;
           }
-        } else if (this.$refs.featuresDataCluster) {
-          this.$refs.featuresCompareCluster.mapObject.clearLayers();
-          this.$refs.featuresCompareCluster.mapObject.addLayers([geojsonFromData]);
-          this.compareFeaturesNum = ftrs.features.length;
         }
       } else if (side === 'data') {
         // normal geojson layer just needs manual refresh
-        this.dataJsonComputed = ftrs;
+        this.dataJson = Object.freeze(ftrs);
         this.dataJsonKey = Math.random();
         this.dataFeaturesCount = ftrs.features.length;
       } else {
-        this.compareJsonComputed = ftrs;
+        this.compareJson = Object.freeze(ftrs);
         this.compareJsonKey = Math.random();
         this.compareFeaturesCount = ftrs.features.length;
       }
