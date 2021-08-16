@@ -69,48 +69,48 @@ module.exports = [
           'ATb-E10a10',
           'ATc-E10a10',
         ],
-        label: ['Maize', 'Winter rapseed', 'Winter wheat'],
+        label: ['Maize', 'Winter rapeseed', 'Winter wheat'],
       },
       {
         features: [
           'EEb-E10a10',
           'EEc-E10a10',
         ],
-        label: ['Winter rapseed', 'Winter wheat'],
+        label: ['Winter rapeseed', 'Winter wheat'],
       },
       {
         features: [
           'UKb-E10a10',
         ],
-        label: ['Winter rapseed'],
+        label: ['Winter rapeseed'],
       },
       {
         features: [
           'SEb-E10a10',
           'SEc-E10a10',
         ],
-        label: ['Winter rapseed', 'Winter wheat'],
+        label: ['Winter rapeseed', 'Winter wheat'],
       },
       {
         features: [
           'BGa-E10a10',
           'BGb-E10a10',
         ],
-        label: ['Maize', 'Winter rapseed'],
+        label: ['Maize', 'Winter rapeseed'],
       },
       {
         features: [
           'DEb-E10a10',
           'DEc-E10a10',
         ],
-        label: ['Winter rapseed', 'Winter wheat'],
+        label: ['Winter rapeseed', 'Winter wheat'],
       },
       {
         features: [
           'CZb-E10a10',
           'CZc-E10a10',
         ],
-        label: ['Winter rapseed', 'Winter wheat'],
+        label: ['Winter rapeseed', 'Winter wheat'],
       },
       {
         features: [

@@ -391,6 +391,7 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }],
     legendUrl: 'eodash-data/data/LegendGLC.png',
+    disableCSV: true,
   },
   N4b: {
     indicator: 'Illegal waste levels',
@@ -416,11 +417,13 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }],
     legendUrl: 'eodash-data/data/LegendGLC.png',
+    disableCSV: true,
   },
   OX: {
     indicator: 'Crude Oil Storage Utilization',
     class: 'economic',
     story: '/eodash-data/stories/OX',
+    disableCSV: true,
   },
   GG: {
     indicator: 'Mobility',
