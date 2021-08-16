@@ -305,7 +305,9 @@
                   v-if="indicatorObject
                     && !showMap
                     && !isFullScreen
-                    && !['OX'].includes(indicatorObject.indicator)"
+                    && !this.baseConfig.indicatorsDefinition[
+                      indicatorObject.indicator
+                    ].disableCSV"
                 >
                   <v-icon left>mdi-download</v-icon>
                   download csv
