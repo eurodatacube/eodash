@@ -336,6 +336,7 @@
       </v-row>
       <v-divider v-if="$vuetify.breakpoint.smAndDown" class="my-10"></v-divider>
       <custom-dashboard-grid
+        v-if="$store.state.features.allFeatures.length > 0"
         :enableEditing="!!(newDashboard || hasEditingPrivilege)"
         :popupOpen="popupOpen || newTextFeatureDialog"
         @updateTextFeature="openTextFeatureUpdate"
@@ -525,7 +526,8 @@ export default {
       'dashboardConfig',
     ]),
     newDashboard() {
-      return !this.$store.state.dashboard?.dashboardConfig?.marketingInfo;
+      return this.$store.state.dashboard.dashboardConfig
+        && !this.$store.state.dashboard?.dashboardConfig?.marketingInfo;
     },
     hasEditingPrivilege() {
       return this.$store.state.dashboard?.dashboardConfig?.editKey;
