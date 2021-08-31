@@ -566,8 +566,19 @@ export default {
       this.reconnecting = false;
     }
 
-    if (this.dashboardConfig && this.dashboardConfig.title) {
-      this.dashboardTitle = this.dashboardConfig.title;
+    if (this.dashboardConfig) {
+      if (this.dashboardConfig.title) {
+        this.dashboardTitle = this.dashboardConfig.title;
+      }
+      if (this.dashboardConfig.id && !id) {
+        this.$router.replace({
+          path: 'dashboard',
+          query: {
+            id: this.dashboardConfig.id,
+            ...this.dashboardConfig.editKey && { editKey: this.dashboardConfig.editKey },
+          },
+        });
+      }
     }
 
     if (!this.dashboardConfig) {
