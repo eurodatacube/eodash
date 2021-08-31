@@ -14,7 +14,7 @@
         class="white--text"
       >
         <a
-          @click="$store.state.dashboard.featureAdded
+          @click="$store.state.indicators.selectedIndicator
             ? $router.go(-1)
             : $router.push({ path: '/' })"
           class="white--text" style="text-decoration: none">
