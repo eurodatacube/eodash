@@ -1,0 +1,134 @@
+[
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Area",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "2.69",
+        "reference_time": "2019-05-19",
+        "reference_value": "0.08",
+        "time": "2020-05-17T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Area",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "5.66",
+        "reference_time": "2019-05-26",
+        "reference_value": "0.2",
+        "time": "2020-05-24T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Area",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "16.73",
+        "reference_time": "2019-06-02",
+        "reference_value": "0.83",
+        "time": "2020-05-31T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Area",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "36.88",
+        "reference_time": "2019-06-09",
+        "reference_value": "9.79",
+        "time": "2020-06-07T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Area",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "55.09",
+        "reference_time": "2019-06-16",
+        "reference_value": "29.44",
+        "time": "2020-06-14T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Area",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "71.75",
+        "reference_time": "2019-06-23",
+        "reference_value": "57.5",
+        "time": "2020-06-21T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Area",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "79.55",
+        "reference_time": "2019-06-30",
+        "reference_value": "78.99",
+        "time": "2020-06-28T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Area",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "85.05",
+        "reference_time": "2019-07-07",
+        "reference_value": "86.7",
+        "time": "2020-07-05T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Area",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "87.82",
+        "reference_time": "2019-07-14",
+        "reference_value": "89.19",
+        "time": "2020-07-12T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Area",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "89.83",
+        "reference_time": "2019-07-21",
+        "reference_value": "91.46",
+        "time": "2020-07-19T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Area",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "91.1",
+        "reference_time": "2019-07-28",
+        "reference_value": "92.97",
+        "time": "2020-07-26T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Area",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "91.72",
+        "reference_time": "2019-08-04",
+        "reference_value": "93.76",
+        "time": "2020-08-02T00:00:00"
+    }
+]

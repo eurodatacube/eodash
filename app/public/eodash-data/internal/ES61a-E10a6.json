@@ -1,0 +1,134 @@
+[
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Parcels",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "10.37",
+        "reference_time": "2019-05-19",
+        "reference_value": "8.83",
+        "time": "2020-05-17T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Parcels",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "21.85",
+        "reference_time": "2019-05-26",
+        "reference_value": "15.09",
+        "time": "2020-05-24T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Parcels",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "31.04",
+        "reference_time": "2019-06-02",
+        "reference_value": "23.22",
+        "time": "2020-05-31T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Parcels",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "49.11",
+        "reference_time": "2019-06-09",
+        "reference_value": "39.31",
+        "time": "2020-06-07T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Parcels",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "65.45",
+        "reference_time": "2019-06-16",
+        "reference_value": "56.77",
+        "time": "2020-06-14T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Parcels",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "73.22",
+        "reference_time": "2019-06-23",
+        "reference_value": "68.37",
+        "time": "2020-06-21T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Parcels",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "84.37",
+        "reference_time": "2019-06-30",
+        "reference_value": "76.42",
+        "time": "2020-06-28T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Parcels",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "89.17",
+        "reference_time": "2019-07-07",
+        "reference_value": "81.5",
+        "time": "2020-07-05T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Parcels",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "91.97",
+        "reference_time": "2019-07-14",
+        "reference_value": "85.76",
+        "time": "2020-07-12T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Parcels",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "93.16",
+        "reference_time": "2019-07-21",
+        "reference_value": "88.8",
+        "time": "2020-07-19T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Parcels",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "94.05",
+        "reference_time": "2019-07-28",
+        "reference_value": "90.89",
+        "time": "2020-07-26T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "UCLouvain",
+        "eo_sensor": "Sentinel-1; Sentinel-2",
+        "indicator_value": "Harvested Parcels",
+        "input_data": "S2 L2A; S1 - SLC",
+        "measurement_value": "94.49",
+        "reference_time": "2019-08-04",
+        "reference_value": "92.38",
+        "time": "2020-08-02T00:00:00"
+    }
+]
