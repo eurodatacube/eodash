@@ -1076,5 +1076,71 @@
         "reference_time": "2019-08-22T11:06:56",
         "reference_value": "18",
         "time": "2021-07-28T11:30:49"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "PLES",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "High",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "27",
+        "reference_time": "2019-08-22T11:06:56",
+        "reference_value": "18",
+        "time": "2021-08-05T11:40:46"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "PLES",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "High",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "24",
+        "reference_time": "2019-08-22T11:06:56",
+        "reference_value": "18",
+        "time": "2021-08-12T11:30:49"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "PLES",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "High",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "27",
+        "reference_time": "2019-08-22T11:06:56",
+        "reference_value": "18",
+        "time": "2021-08-15T11:40:45"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "PLES",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "High",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "29",
+        "reference_time": "2019-08-22T11:06:56",
+        "reference_value": "18",
+        "time": "2021-08-17T11:30:47"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "PLES",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "High",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "25",
+        "reference_time": "2019-08-22T11:06:56",
+        "reference_value": "18",
+        "time": "2021-08-20T11:40:42"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "PLES",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Normal",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "21",
+        "reference_time": "2019-08-22T11:06:56",
+        "reference_value": "18",
+        "time": "2021-08-22T11:30:49"
     }
 ]
