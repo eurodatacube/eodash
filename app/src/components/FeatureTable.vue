@@ -122,7 +122,7 @@ export default {
           color = this.getIndicatorColor(indObj.lastColorCode);
         }
         if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')
-          && ['N1', 'N1a', 'N1b', 'N3b', 'E12b', 'C1', 'C2', 'C3'].includes(indObj.indicator)) {
+          && ['N1', 'N1a', 'N1b', 'N3b', 'E8', 'E12b', 'C1', 'C2', 'C3'].includes(indObj.indicator)) {
           color = this.getIndicatorColor('BLUE');
           if (indObj.aoi === null) {
             color = 'black';
@@ -150,6 +150,8 @@ export default {
             } else {
               text = lastValue;
             }
+          } else if (['E8'].includes(indicatorObject.indicator)) {
+            text = poi.lastIndicatorValue.toPrecision(3);
           } else if (['E10a3', 'E10a8', 'N4c', 'C1', 'C2', 'C3', 'E10a10'].includes(poi.indicator)) {
             text = 'multiple';
           } else if (poi.indicator === 'OX') {

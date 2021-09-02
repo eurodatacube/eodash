@@ -347,7 +347,7 @@ export default {
             data: [refData[3], measData[3], measData[8]],
             backgroundColor: refColors[3],
           });
-        } else if (['E10a2', 'E10a6', 'E10a7', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m'].includes(indicatorCode)) {
+        } else if (['E10a2', 'E10a6', 'E10a7', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
           const referenceValue = indicator.referenceValue.map(Number);
@@ -784,7 +784,7 @@ export default {
               spanGaps: false,
             });
           });
-        } else if (['N1a', 'N1b', 'N1c', 'N1d', 'E12b'].includes(indicatorCode)) {
+        } else if (['N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8'].includes(indicatorCode)) {
           const maxRef = [];
           const minRef = [];
           const mean7dRef = [];
@@ -1132,7 +1132,7 @@ export default {
             // one year
             let start = DateTime.fromISO(lckTs[i].start);
             let end = DateTime.fromISO(lckTs[i].end);
-            if (['E10a2', 'E10a6', 'E10a7', 'E10c', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m'].includes(indicatorCode)) {
+            if (['E10a2', 'E10a6', 'E10a7', 'E10c', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m'].includes(indicatorCode)) {
               start = start.set({ year: 2000 });
               end = end.set({ year: 2000 });
             }
@@ -1170,7 +1170,7 @@ export default {
         }
       }
 
-      if (['E10a2', 'E10a6', 'E10a7', 'E10c', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m'].includes(indicatorCode)) {
+      if (['E10a2', 'E10a6', 'E10a7', 'E10c', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m'].includes(indicatorCode)) {
         /* Recalculate to get min max months in data converted to one year */
         timeMinMax = this.getMinMaxDate(
           this.indicatorObject.time.map((date) => (
@@ -1301,6 +1301,11 @@ export default {
           ) + 1,
         },
       }];
+
+      if (['E8'].includes(indicatorCode)) {
+        yAxes[0].ticks.suggestedMin += 1;
+        yAxes[0].ticks.suggestedMax -= 1;
+      }
 
       // This indicator has an array of values so we need to calculate min/max
       // different
@@ -1460,16 +1465,6 @@ export default {
             },
           },
         };
-      }
-      if (['E8'].includes(indicatorCode)) {
-        yAxes[0].ticks.suggestedMin = Math.min(
-          ...this.indicatorObject.measurement
-            .filter((d) => !Number.isNaN(d)),
-        );
-        yAxes[0].ticks.suggestedMax = Math.max(
-          ...this.indicatorObject.measurement
-            .filter((d) => !Number.isNaN(d)),
-        );
       }
       if (['E9'].includes(indicatorCode)) {
         yAxes[0].ticks.suggestedMin = 0;

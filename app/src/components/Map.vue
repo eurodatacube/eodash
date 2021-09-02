@@ -373,7 +373,7 @@ export default {
           && !['', '/'].includes(indObj.lastColorCode)) {
           colorCode = indObj.lastColorCode;
         } else if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')
-          && ['N1', 'N1a', 'N1b', 'N3b', 'E10a3', 'E10a8', 'E10a9', 'E12b', 'C1', 'C2', 'C3']
+          && ['N1', 'N1a', 'N1b', 'N3b', 'E8', 'E10a3', 'E10a8', 'E10a9', 'E12b', 'C1', 'C2', 'C3']
             .includes(indObj.indicator)) {
           colorCode = 'BLUE';
         }
@@ -394,6 +394,8 @@ export default {
             } else {
               label += `${percVal}%`;
             }
+          } else if (['E8'].includes(indicatorObject.indicator)) {
+            label = indVal.toPrecision(3);
           } else if (['E10a3', 'E10a8', 'E10a9', 'N4c'].includes(indicatorObject.indicator)) {
             label += 'multiple';
           } else if (['E10a6', 'E10a7'].includes(indicatorObject.indicator)) {
