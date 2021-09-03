@@ -36,16 +36,20 @@
           </v-tooltip>
         </div>
         <v-card
-          class="pa-0"
+          class="pa-0 elementCard"
           style="height: 500px"
           outlined
           tile
         >
           <div
-            class="pa-5 textArea"
             v-if="element.text"
-            v-html="convertToMarkdown(element.text)"
-          ></div>
+            class="textAreaContainer"
+          >
+            <div
+              class="pa-5 textArea"
+              v-html="convertToMarkdown(element.text)"
+            ></div>
+          </div>
           <indicator-map
             ref="indicatorMap"
             style="top: 0px; position: absolute;"
@@ -422,5 +426,12 @@ export default {
 }
 ::v-deep .textArea img, ::v-deep .textArea video, ::v-deep .textArea iframe {
   max-width: 100%;
+}
+.elementCard {
+  overflow: hidden;
+}
+.textAreaContainer {
+  overflow-y: auto;
+  height: 100%;
 }
 </style>
