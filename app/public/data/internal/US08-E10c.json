@@ -6961,5 +6961,16 @@
         "reference_time": "",
         "reference_value": "",
         "time": "2021-07-02T04:13:38"
+    },
+    {
+        "color_code": "Blue",
+        "data_provider": "ESA",
+        "eo_sensor": "Sentinel-2A/2B",
+        "indicator_value": "NDVI at point",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "0.0",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2021-07-04T04:13:38"
     }
 ]
