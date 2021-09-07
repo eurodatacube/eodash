@@ -9,3 +9,5 @@
 * [The pandemic disruption of air traffic -as seen from Space](https://medium.com/euro-data-cube/the-pandemic-disruption-of-air-traffic-as-seen-from-space-6dad64201b9a)
 
 * [Lockdown is also changing our Planet at night 🌃](https://medium.com/euro-data-cube/lockdown-is-also-changing-our-planet-at-night-520deffec252)
+
+* [CUSTOM DASHBOARD TUTORIAL](https://medium.com/euro-data-cube/creating-powerful-visuals-of-covid-19-impacts-on-human-activities-8879fa75121d)
