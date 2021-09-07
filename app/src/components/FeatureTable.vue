@@ -150,7 +150,7 @@ export default {
             } else {
               text = lastValue;
             }
-          } else if (['E8'].includes(indicatorObject.indicator)) {
+          } else if (['E8'].includes(poi.indicator)) {
             text = poi.lastIndicatorValue.toPrecision(3);
           } else if (['E10a3', 'E10a8', 'N4c', 'C1', 'C2', 'C3', 'E10a10'].includes(poi.indicator)) {
             text = 'multiple';
