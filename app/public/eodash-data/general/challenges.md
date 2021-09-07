@@ -7,6 +7,24 @@ Replying to this question has been the objective of the Rapid Action on COVID19 
 The investigation is ongoing new challenges are regularly released, open to anyone with innovative ideas to exploit the wealth of data available to discover some novel analytic approaches that allow improved understanding of pandemic-related processes in different aspects of society, economy and the environment.
 Here follows a list of challenges to date, with info on winners and the indicators they derived, already embedded or about to be embedded in the dashboard.
 
+### [OPEN NOW: Challenge #3 – Multithematic](https://eo4society.esa.int/2021/08/01/rapid-action-on-coronavirus-and-eo-race-dashboard-challenge-3/)
+
+**Objectives**
+
+Design and develop an indicator of the pandemic’s impacts on society on any of the transport and pollution, socio-economic impact, recovery themes or propose a completely new theme.
+
+**Technical Guide**: upcoming
+
+**Status**: <span style="color:green">OPEN --> [learn more & sign up](https://eo4society.esa.int/2021/08/01/rapid-action-on-coronavirus-and-eo-race-dashboard-challenge-3/)</span>
+
+### [Challenge #2 - How to combine socio-economic indicators into one impact metric across European regions?](https://eo4society.esa.int/2021/04/01/rapid-action-on-coronavirus-and-eo-race-dashboard-challenge-2/)
+
+**Objectives**
+
+Develop an integrated socio-economic indicator (based on several sub-indicators/proxies) to characterise the pandemic’s impact on socio-economic activity in a region/country at a point in time by use of EO-based and interdisciplinary data available in the RACE dashboard and the Euro Data Cube.
+
+**Status**: <span style="color:red">Closed.</span>  No prize assigned.
+
 ### [Challenge #1 - How does the pandemic affect shipping traffic and related air and water quality?](https://eo4society.esa.int/2021/03/02/rapid-action-on-coronavirus-and-eo-race-challenge-1/)
 
 **Objectives**
@@ -21,21 +39,6 @@ This challenge's winner is [Alessandro Cimbelli](https://eo4society.esa.int/2021
 
 The indicator is now being upscaled to a larger AOI, in order to have it integrated in the dashboard.
 
-### [Challenge #2 - How to combine socio-economic indicators into one impact metric across European regions?](https://eo4society.esa.int/2021/04/01/rapid-action-on-coronavirus-and-eo-race-dashboard-challenge-2/)
-
-**Objectives**
-
-Develop an integrated socio-economic indicator (based on several sub-indicators/proxies) to characterise the pandemic’s impact on socio-economic activity in a region/country at a point in time by use of EO-based and interdisciplinary data available in the RACE dashboard and the Euro Data Cube.
-
-**Status**: Closed. No prize assigned.
-
-### [Challenge #3 – Multithematic](https://eo4society.esa.int/2021/08/01/rapid-action-on-coronavirus-and-eo-race-dashboard-challenge-3/)
-
-**Objectives**
-
-Design and develop an indicator of the pandemic’s impacts on society on any of the transport and pollution, socio-economic impact, recovery themes or propose a completely new theme.
-
-**Status**: <span style="color:green">Upcoming, opens on 01 September 2021.</span>Upcoming, opens on 01 September 2021.
 
 ## Dashboard Challenges 2020
 
