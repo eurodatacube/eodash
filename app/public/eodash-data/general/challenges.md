@@ -13,7 +13,7 @@ Here follows a list of challenges to date, with info on winners and the indicato
 
 Design and develop an indicator of the pandemic’s impacts on society on any of the transport and pollution, socio-economic impact, recovery themes or propose a completely new theme.
 
-**[Technical Guide](https://race.esa.int/eodash-data/general/Technical_Guide_RACE_Challenges_2021-2.pdf)**
+**[Technical Guide](eodash-data/general/Technical_Guide_RACE_Challenges_2021-2.pdf)**
 
 **Status**: <span style="color:green">OPEN --> [learn more & sign up](https://eo4society.esa.int/2021/08/01/rapid-action-on-coronavirus-and-eo-race-dashboard-challenge-3/)</span>
 
