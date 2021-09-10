@@ -41,6 +41,7 @@ module.exports = [
       },
       {
         src: './eodash-data/general/Slide22.png',
+        href: '/challenges',
       },
       {
         poi: 'ATa-E10a10',

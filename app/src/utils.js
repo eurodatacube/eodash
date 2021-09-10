@@ -137,3 +137,19 @@ export async function loadIndicatorData(baseConfig, payload) {
   }
   return indicatorObject;
 }
+
+export function isExternalUrl(urlString) {
+  try {
+    // throws exception when url does not have a scheme
+    const url = new URL(urlString);
+    // does this url originate from original website
+    if (url.origin !== new URL(document.URL, document.baseURI).origin) {
+      return true;
+    }
+  } catch (_e) {
+    // throws an exception if url is malformed
+    /* eslint-disable no-new */
+    new URL(urlString, document.baseURI);
+  }
+  return false;
+}
