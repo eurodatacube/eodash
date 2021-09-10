@@ -65,55 +65,6 @@ module.exports = [
     featureGrouping: [
       {
         features: [
-          'ATa-E10a10',
-          'ATb-E10a10',
-          'ATc-E10a10',
-        ],
-        label: ['Maize', 'Winter rapeseed', 'Winter wheat'],
-      },
-      {
-        features: [
-          'EEb-E10a10',
-          'EEc-E10a10',
-        ],
-        label: ['Winter rapeseed', 'Winter wheat'],
-      },
-      {
-        features: [
-          'UKb-E10a10',
-        ],
-        label: ['Winter rapeseed'],
-      },
-      {
-        features: [
-          'SEb-E10a10',
-          'SEc-E10a10',
-        ],
-        label: ['Winter rapeseed', 'Winter wheat'],
-      },
-      {
-        features: [
-          'BGa-E10a10',
-          'BGb-E10a10',
-        ],
-        label: ['Maize', 'Winter rapeseed'],
-      },
-      {
-        features: [
-          'DEb-E10a10',
-          'DEc-E10a10',
-        ],
-        label: ['Winter rapeseed', 'Winter wheat'],
-      },
-      {
-        features: [
-          'CZb-E10a10',
-          'CZc-E10a10',
-        ],
-        label: ['Winter rapeseed', 'Winter wheat'],
-      },
-      {
-        features: [
           'IT16-C1',
           'IT16-C2',
           'IT16-C3',
@@ -186,6 +137,9 @@ module.exports = [
       .concat([
         'ES22', 'ES23', 'ES24', 'ES30', 'ES41', 'ES42', 'ES43', 'ES51', 'ES52', 'ES61', 'ES62']
         .map((val) => ({ features: [`${val}a-E10a6`, `${val}b-E10a6`], label: 'indicatorValue' })))
+      .concat([
+        'AT', 'BG', 'CZ', 'DE', 'DK', 'EE', 'FR', 'HR', 'HU', 'LT', 'LV', 'PL', 'RO', 'SE', 'SK', 'UK']
+        .map((val) => ({ features: [`${val}a-E10a10`, `${val}b-E10a10`], label: ['Winter cereal', 'Winter rapeseed'] })))
       .concat([
         'NL3', 'TR3', 'GR6', 'ES63', 'RS1', 'DE16', 'CH2', 'UK10', 'SK4', 'BE7',
         'RO9', 'HU5', 'DE13', 'DK1', 'IE3', 'DE17', 'FI4', 'PT3', 'SI3', 'UK11',
