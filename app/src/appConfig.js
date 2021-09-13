@@ -36,8 +36,8 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'IT_492-E10a9',
         src: './eodash-data/general/CustomDash.png',
+        href: 'https://medium.com/euro-data-cube/creating-powerful-visuals-of-covid-19-impacts-on-human-activities-8879fa75121d',
       },
       {
         src: './eodash-data/general/Slide22.png',
