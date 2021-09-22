@@ -34,8 +34,8 @@ EUDATAFILE = "/working/oilx_EU_{}.json".format(
     datetime.datetime.utcnow().strftime("%Y-%m-%d")
 )
 
-api_url = "http://esarace.oilx.co/esarace/v1/clusters"
-europe_url = "http://esarace.oilx.co/esarace/v1/europe"
+api_url = "https://esarace.oilx.co/esarace/v1/clusters"
+europe_url = "https://esarace.oilx.co/esarace/v1/europe"
 
 # Handle global data
 if not os.path.isfile(DATAFILE):

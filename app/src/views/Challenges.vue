@@ -26,8 +26,7 @@
         <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
       </v-app-bar>
       <v-row class="d-flex" justify="center">
-        <v-col
-          v-col md="6" xs="12"
+        <v-col md="6" xs="12"
         >
           <div
             v-html="challenges"

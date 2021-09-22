@@ -47,7 +47,10 @@
                   v-if="!item.iframe"
                   @click="onClickItem(item)"
                   color="primary"
-                >View indicator</v-btn>
+                >
+                <span v-if="item.poi">View indicator</span>
+                <span v-else>Go to link</span>
+              </v-btn>
               </v-overlay>
             </v-fade-transition>
           </v-carousel-item>
@@ -58,6 +61,8 @@
 </template>
 
 <script>
+import { isExternalUrl } from '@/utils';
+
 export default {
   data() {
     return {
@@ -68,7 +73,7 @@ export default {
   },
   methods: {
     onClickItem(item) {
-      const { poi } = item;
+      const { poi, href } = item;
       if (poi) {
         const aoiId = poi.split('-')[0];
         const indicatorCode = poi.split('-')[1];
@@ -78,6 +83,12 @@ export default {
             && indicatorObject.indicator === indicatorCode;
         });
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature.properties.indicatorObject);
+      } else if (href) {
+        if (isExternalUrl(href)) {
+          window.open(href);
+        } else {
+          window.open(href, '_self');
+        }
       }
     },
     onClickIframe() {
