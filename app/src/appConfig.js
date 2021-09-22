@@ -35,9 +35,8 @@ module.exports = [
     tutorialText: '/eodash-data/general/tutorials',
     showNewsCarousel: true,
     newsCarouselitems: [
-      
       {
-        iframe: 'https://www.youtube.com/embed/0Qe2AV9cLnc'
+        iframe: 'https://www.youtube.com/embed/0Qe2AV9cLnc',
       },
       {
         src: './eodash-data/general/Slide22.png',
@@ -194,11 +193,11 @@ module.exports = [
     newsCarouselitems: [
       {
         src: './data/trilateral/Hackathon.png',
-        href: 'https://www.eodashboardhackathon.org/'
+        href: 'https://www.eodashboardhackathon.org/',
       },
       {
         src: './data/trilateral/CustomDash-tri.png',
-        href: 'https://medium.com/euro-data-cube/creating-powerful-visuals-of-covid-19-impacts-on-human-activities-8879fa75121d'
+        href: 'https://medium.com/euro-data-cube/creating-powerful-visuals-of-covid-19-impacts-on-human-activities-8879fa75121d',
       },
       {
         poi: 'GG-GG',
