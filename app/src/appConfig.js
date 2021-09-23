@@ -35,9 +35,8 @@ module.exports = [
     tutorialText: '/eodash-data/general/tutorials',
     showNewsCarousel: true,
     newsCarouselitems: [
-      
       {
-        iframe: 'https://www.youtube.com/embed/0Qe2AV9cLnc'
+        iframe: 'https://www.youtube.com/embed/0Qe2AV9cLnc',
       },
       {
         src: './eodash-data/general/Slide22.png',
@@ -68,55 +67,6 @@ module.exports = [
     // or it can be an array of strings the same size as features to set custom
     // tab titles for each of the tabbed groups
     featureGrouping: [
-      {
-        features: [
-          'ATa-E10a10',
-          'ATb-E10a10',
-          'ATc-E10a10',
-        ],
-        label: ['Maize', 'Winter rapeseed', 'Winter wheat'],
-      },
-      {
-        features: [
-          'EEb-E10a10',
-          'EEc-E10a10',
-        ],
-        label: ['Winter rapeseed', 'Winter wheat'],
-      },
-      {
-        features: [
-          'UKb-E10a10',
-        ],
-        label: ['Winter rapeseed'],
-      },
-      {
-        features: [
-          'SEb-E10a10',
-          'SEc-E10a10',
-        ],
-        label: ['Winter rapeseed', 'Winter wheat'],
-      },
-      {
-        features: [
-          'BGa-E10a10',
-          'BGb-E10a10',
-        ],
-        label: ['Maize', 'Winter rapeseed'],
-      },
-      {
-        features: [
-          'DEb-E10a10',
-          'DEc-E10a10',
-        ],
-        label: ['Winter rapeseed', 'Winter wheat'],
-      },
-      {
-        features: [
-          'CZb-E10a10',
-          'CZc-E10a10',
-        ],
-        label: ['Winter rapeseed', 'Winter wheat'],
-      },
       {
         features: [
           'IT16-C1',
@@ -192,6 +142,9 @@ module.exports = [
         'ES22', 'ES23', 'ES24', 'ES30', 'ES41', 'ES42', 'ES43', 'ES51', 'ES52', 'ES61', 'ES62']
         .map((val) => ({ features: [`${val}a-E10a6`, `${val}b-E10a6`], label: 'indicatorValue' })))
       .concat([
+        'AT', 'BG', 'CZ', 'DE', 'DK', 'EE', 'FR', 'HR', 'HU', 'LT', 'LV', 'PL', 'RO', 'SE', 'SK', 'UK']
+        .map((val) => ({ features: [`${val}a-E10a10`, `${val}b-E10a10`], label: ['Winter cereal', 'Winter rapeseed'] })))
+      .concat([
         'NL3', 'TR3', 'GR6', 'ES63', 'RS1', 'DE16', 'CH2', 'UK10', 'SK4', 'BE7',
         'RO9', 'HU5', 'DE13', 'DK1', 'IE3', 'DE17', 'FI4', 'PT3', 'SI3', 'UK11',
         'LU2', 'FR15', 'ES12', 'FR16', 'IT10', 'MC1', 'DE18', 'IT37', 'CY2',
@@ -240,11 +193,11 @@ module.exports = [
     newsCarouselitems: [
       {
         src: './data/trilateral/Hackathon.png',
-        href: 'https://www.eodashboardhackathon.org/'
+        href: 'https://www.eodashboardhackathon.org/',
       },
       {
         src: './data/trilateral/CustomDash-tri.png',
-        href: 'https://medium.com/euro-data-cube/creating-powerful-visuals-of-covid-19-impacts-on-human-activities-8879fa75121d'
+        href: 'https://medium.com/euro-data-cube/creating-powerful-visuals-of-covid-19-impacts-on-human-activities-8879fa75121d',
       },
       {
         poi: 'GG-GG',
