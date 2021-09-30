@@ -977,7 +977,7 @@ export default {
         || this.$store.state.indicators.customAreaIndicator
         || this.$store.state.indicators.selectedIndicator;
       // only do this on custom AOIs otherwise we get infinite loop
-      if (indicatorObject.hasOwnProperty('aoi')) {
+      if (Object.prototype.hasOwnProperty.call(indicatorObject, 'aoi')) {
         indicatorObject.time = indicatorObject.time.map(
           (d) => (DateTime.isDateTime(d) ? d : DateTime.fromISO(d)),
         );
