@@ -976,10 +976,12 @@ export default {
       const indicatorObject = this.currentIndicator
         || this.$store.state.indicators.customAreaIndicator
         || this.$store.state.indicators.selectedIndicator;
-
-      indicatorObject.time = indicatorObject.time.map(
-        (d) => (DateTime.isDateTime(d) ? d : DateTime.fromISO(d)),
-      );
+      // only do this on custom AOIs otherwise we get infinite loop
+      if (Object.prototype.hasOwnProperty.call(indicatorObject, 'aoi')) {
+        indicatorObject.time = indicatorObject.time.map(
+          (d) => (DateTime.isDateTime(d) ? d : DateTime.fromISO(d)),
+        );
+      }
 
       return indicatorObject;
     },
