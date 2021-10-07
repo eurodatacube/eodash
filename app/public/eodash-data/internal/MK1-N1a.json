@@ -6959,7 +6959,7 @@
         "input_data": "",
         "measurement_value": "16.23",
         "reference_time": "2017-2019",
-        "reference_value": "[12.54,7.62,12.5419047619048,]",
+        "reference_value": "[12.54,7.62,12.5419047619048,19.3528571428571]",
         "time": "2021-09-25T00:00:00"
     },
     {
@@ -6970,7 +6970,7 @@
         "input_data": "",
         "measurement_value": "21.72",
         "reference_time": "2017-2019",
-        "reference_value": "[10.92,7.58,12.2690476190476,]",
+        "reference_value": "[10.92,7.58,12.2690476190476,19.8614285714286]",
         "time": "2021-09-26T00:00:00"
     },
     {
@@ -6981,7 +6981,106 @@
         "input_data": "",
         "measurement_value": "28.12",
         "reference_time": "2017-2019",
-        "reference_value": "[8.57,7.95,11.3466666666667,]",
+        "reference_value": "[8.57,7.95,11.3466666666667,20.1371428571429]",
         "time": "2021-09-27T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "23.81",
+        "reference_time": "2017-2019",
+        "reference_value": "[13.2,10.81,11.7233333333333,19.7157142857143]",
+        "time": "2021-09-28T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "16.39",
+        "reference_time": "2017-2019",
+        "reference_value": "[15.95,11.64,12.7533333333333,20.6214285714286]",
+        "time": "2021-09-29T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "13.71",
+        "reference_time": "2017-2019",
+        "reference_value": "[15.1,12.22,14.017619047619,21.35]",
+        "time": "2021-09-30T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "18.03",
+        "reference_time": "2017-2019",
+        "reference_value": "[18.55,13.81,14.7304761904762,21.7828571428571]",
+        "time": "2021-10-01T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "22.57",
+        "reference_time": "2017-2019",
+        "reference_value": "[19.55,14.29,15.5042857142857,22.4985714285714]",
+        "time": "2021-10-02T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "26.82",
+        "reference_time": "2017-2019",
+        "reference_value": "[22.01,9.98,15.7685714285714,22.8557142857143]",
+        "time": "2021-10-03T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "31.15",
+        "reference_time": "2017-2019",
+        "reference_value": "[16.74,9,15.8333333333333,]",
+        "time": "2021-10-04T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "28.82",
+        "reference_time": "2017-2019",
+        "reference_value": "[21.13,13.69,15.6442857142857,]",
+        "time": "2021-10-05T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "18.89",
+        "reference_time": "2017-2019",
+        "reference_value": "[22.74,11.01,15.3566666666667,]",
+        "time": "2021-10-06T00:00:00"
     }
 ]
