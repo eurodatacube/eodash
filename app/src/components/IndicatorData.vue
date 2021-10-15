@@ -973,17 +973,9 @@ export default {
       return dataCollection;
     },
     indicatorObject() {
-      const indicatorObject = this.currentIndicator
+      return this.currentIndicator
         || this.$store.state.indicators.customAreaIndicator
         || this.$store.state.indicators.selectedIndicator;
-      // only do this on custom AOIs otherwise we get infinite loop
-      if (Object.prototype.hasOwnProperty.call(indicatorObject, 'aoi')) {
-        indicatorObject.time = indicatorObject.time.map(
-          (d) => (DateTime.isDateTime(d) ? d : DateTime.fromISO(d)),
-        );
-      }
-
-      return indicatorObject;
     },
     indDefinition() {
       return this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator];
