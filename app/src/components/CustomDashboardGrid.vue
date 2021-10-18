@@ -317,9 +317,11 @@ export default {
                 indicatorObject: {
                   ...f.indicatorObject,
                   time: convertedTimes,
-                }
+                },
               };
-            } else if (f.text) {
+            }
+
+            if (f.text) {
               return f;
             }
 
@@ -329,7 +331,7 @@ export default {
               this.baseConfig,
               feature.properties.indicatorObject,
             );
-            
+
             if (f.mapInfo && (firstCall || f.poi === this.savedPoi)) {
               this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
               this.$set(this.localCenter, f.poi, f.mapInfo.center);
