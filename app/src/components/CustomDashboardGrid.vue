@@ -242,6 +242,7 @@
 </template>
 
 <script>
+import { DateTime } from 'luxon';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
 import LoadingAnimation from '@/components/LoadingAnimation.vue';
@@ -307,7 +308,22 @@ export default {
             firstCall = true;
           }
           this.features = await Promise.all(features.map(async (f) => {
-            if (f.includesIndicator || f.text) return f;
+            if (f.includesIndicator) {
+              const convertedTimes = f.indicatorObject.time.map(
+                (d) => (DateTime.isDateTime(d) ? d : DateTime.fromISO(d)),
+              );
+              return {
+                ...f,
+                indicatorObject: {
+                  ...f.indicatorObject,
+                  time: convertedTimes,
+                },
+              };
+            }
+
+            if (f.text) {
+              return f;
+            }
 
             const feature = this.$store.state.features.allFeatures
               .find((i) => this.getLocationCode(i.properties.indicatorObject) === f.poi);
