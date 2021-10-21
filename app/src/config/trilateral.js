@@ -860,7 +860,7 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         aoi: null,
         aoiID: 'W3',
-        time: getMonthlyDates('2015-01-01', '2021-08-01'),
+        time: getMonthlyDates('2015-01-01', '2021-09-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
