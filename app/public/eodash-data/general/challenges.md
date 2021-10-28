@@ -17,7 +17,7 @@ Design and develop an indicator of the pandemic’s impacts on society on any of
 
 **Status**: <span style="color:green">OPEN --> [learn more & sign up](https://eo4society.esa.int/2021/08/01/rapid-action-on-coronavirus-and-eo-race-dashboard-challenge-3/)</span>
 
-<img src="./eodash-data/general/Slide22.jpg">
+<img src="./eodash-data/general/Slide22.png">
 
 ---
 
