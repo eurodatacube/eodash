@@ -69,6 +69,12 @@ country_mapping = {
     "Teesport" : "GB",
     "Trieste" : "IT",
     "Sullom Voe" : "GB",
+    "Le Havre": "FR",
+    "Godorf Wesseling": "DE",
+    "Fos-Lavera": "FR",
+    "Algeciras": "ES",
+    "Cartagena": "ES",
+    "Tarragona": "ES"
 }
 
 with open(DATAFILE) as f:
