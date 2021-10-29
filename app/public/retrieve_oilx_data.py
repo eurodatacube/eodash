@@ -3,7 +3,7 @@
 Helper script to create location and data separation from mobility data
 
 Usage:
-docker run --rm -it -v $PWD/../src/assets:/assets $PWD:/working eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/retrieve_oilx_data.py
+docker run --rm -it -v $PWD/../src/assets:/assets -v $PWD:/working eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/retrieve_oilx_data.py
 
 If issues with write permission you might have to add a user as parameter
 with the same user id as your local account, e.g. "--user 1001"
@@ -106,7 +106,7 @@ with open(DATAFILE) as f:
             poi_dict[poi_key] = {
                 # Unique poi data
                 "aoi": "%s,%s"%(coords[1], coords[0]),
-                "aoiID": site["properties"]["id"],
+                "aoiID": "%s"%site["properties"]["id"],
                 "country": country_mapping[site["properties"]["name"]],
                 "indicator": indicator_code,
                 "siteName": "",
