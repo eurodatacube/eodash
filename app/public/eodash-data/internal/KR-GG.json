@@ -5491,6 +5491,87 @@
             "retail_recreation": 4,
             "transit_stations": -8,
             "workplaces": -4
+        },
+        {
+            "date": "2021-10-17T00:00:00",
+            "grocery": 33,
+            "parks": 34,
+            "residential": 3,
+            "retail_recreation": 11,
+            "transit_stations": -3,
+            "workplaces": -4
+        },
+        {
+            "date": "2021-10-18T00:00:00",
+            "grocery": 29,
+            "parks": 54,
+            "residential": 1,
+            "retail_recreation": 17,
+            "transit_stations": 4,
+            "workplaces": 5
+        },
+        {
+            "date": "2021-10-19T00:00:00",
+            "grocery": 25,
+            "parks": 40,
+            "residential": 0,
+            "retail_recreation": 16,
+            "transit_stations": 3,
+            "workplaces": 5
+        },
+        {
+            "date": "2021-10-20T00:00:00",
+            "grocery": 26,
+            "parks": 61,
+            "residential": 1,
+            "retail_recreation": 12,
+            "transit_stations": 3,
+            "workplaces": 4
+        },
+        {
+            "date": "2021-10-21T00:00:00",
+            "grocery": 20,
+            "parks": 43,
+            "residential": 1,
+            "retail_recreation": 10,
+            "transit_stations": 0,
+            "workplaces": 5
+        },
+        {
+            "date": "2021-10-22T00:00:00",
+            "grocery": 24,
+            "parks": 41,
+            "residential": 2,
+            "retail_recreation": 9,
+            "transit_stations": 2,
+            "workplaces": 3
+        },
+        {
+            "date": "2021-10-23T00:00:00",
+            "grocery": 25,
+            "parks": 50,
+            "residential": 2,
+            "retail_recreation": 10,
+            "transit_stations": 1,
+            "workplaces": -4
+        },
+        {
+            "date": "2021-10-24T00:00:00",
+            "grocery": 19,
+            "parks": 66,
+            "residential": 1,
+            "retail_recreation": 15,
+            "transit_stations": 5,
+            "workplaces": -5
+        },
+        {
+            "date": "2021-10-25T00:00:00",
+            "grocery": 35,
+            "parks": 70,
+            "residential": 1,
+            "retail_recreation": 21,
+            "transit_stations": 7,
+            "workplaces": 5
         }
     ]
 }

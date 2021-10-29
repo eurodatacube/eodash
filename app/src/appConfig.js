@@ -39,25 +39,23 @@ module.exports = [
         iframe: 'https://www.youtube.com/embed/0Qe2AV9cLnc',
       },
       {
+        poi: '100043-OX',
+        src: './eodash-data/general/Slide26.png',
+      },
+      {
         src: './eodash-data/general/Slide22.png',
         href: '/challenges',
+      },
+      {
+        poi: 'CZ7-E8',
+        src: './eodash-data/general/Slide25.png',
       },
       {
         src: './eodash-data/general/CustomDash.png',
         href: 'https://medium.com/euro-data-cube/creating-powerful-visuals-of-covid-19-impacts-on-human-activities-8879fa75121d',
       },
-      {
-        poi: 'ATa-E10a10',
-        src: './eodash-data/general/Slide23.png',
-      },
-      {
-        poi: 'ES7-E13n',
-        src: './eodash-data/general/Slide15.png',
-      },
-      {
-        poi: 'World-N3c',
-        src: './eodash-data/general/Slide24.png',
-      },
+
+
     ],
     privacyText: '/eodash-data/general/privacy',
     termsText: '/eodash-data/general/terms',

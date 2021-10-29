@@ -17,6 +17,8 @@ Design and develop an indicator of the pandemic’s impacts on society on any of
 
 **Status**: <span style="color:green">OPEN --> [learn more & sign up](https://eo4society.esa.int/2021/08/01/rapid-action-on-coronavirus-and-eo-race-dashboard-challenge-3/)</span>
 
+![](eodash-data/general/Slide22.png)
+
 ---
 
 ### [Challenge #2 - How to combine socio-economic indicators into one impact metric across European regions?](https://eo4society.esa.int/2021/04/01/rapid-action-on-coronavirus-and-eo-race-dashboard-challenge-2/)
