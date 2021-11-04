@@ -4552,5 +4552,16 @@
         "reference_time": "2021-10-16T00:00:00",
         "reference_value": "/",
         "time": "2021-10-16T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-34.964",
+        "reference_time": "2021-10-23T00:00:00",
+        "reference_value": "/",
+        "time": "2021-10-23T00:00:00"
     }
 ]
