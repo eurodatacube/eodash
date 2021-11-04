@@ -755,7 +755,117 @@
         "input_data": "",
         "measurement_value": "0.0192530704507768",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0571084009530016,0.0359749335155742,0.0485536142314151,]",
+        "reference_value": "[0.0571084009530016,0.0359749335155742,0.0485536142314151,0.0196281605851973]",
         "time": "2021-08-26T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0212617985986252",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0632411851376219,0.0347296174865791,0.0501827702832902,0.0214606627109339]",
+        "time": "2021-09-01T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0238671190833997",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0670656286702278,0.0347296174865791,0.0537780118565252,0.0217168579659718]",
+        "time": "2021-09-07T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0200216562158904",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0595387894127685,0.0379751938971333,0.0518634750206777,0.0220048757143646]",
+        "time": "2021-09-13T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0221258518438038",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0628347656984478,0.0379751938971333,0.0514673213137862,0.0216590657688287]",
+        "time": "2021-09-19T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0228296892467918",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0607994989139983,0.0488764888661581,0.0529411086000277,0.0215674966282296]",
+        "time": "2021-10-07T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0197469487940933",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.065448545587044,0.0491473380199268,0.0563153133733052,0.0214864307892306]",
+        "time": "2021-10-13T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0218826543268068",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0648783804342276,0.0456352043921468,0.0549545471131063,0.0213906650808082]",
+        "time": "2021-10-19T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0225423921215243",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0703072319883833,0.0456352043921468,0.0545724532821465,0.0221092882430052]",
+        "time": "2021-10-25T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0219028182806845",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0651328377182317,0.0466766844979402,0.05415397299042,0.0221160095609645]",
+        "time": "2021-10-31T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0219028182806845",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0651328377182317,0.0466766844979402,0.0531948152273605,]",
+        "time": "2021-10-31T00:00:00"
     }
 ]
