@@ -4543,6 +4543,17 @@
         "time": "2021-10-09T00:00:00"
     },
     {
+        "color_code": "",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "134.9678466",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2021-10-09T11:30:00"
+    },
+    {
         "color_code": "/",
         "data_provider": "CNR-ISMAR",
         "eo_sensor": "Sentinel-3A OLCI",
@@ -4552,5 +4563,38 @@
         "reference_time": "2021-10-16T00:00:00",
         "reference_value": "/",
         "time": "2021-10-16T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "78.65817689",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2021-10-16T11:30:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-34.964",
+        "reference_time": "2021-10-23T00:00:00",
+        "reference_value": "/",
+        "time": "2021-10-23T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-29.05718345",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2021-10-23T11:30:00"
     }
 ]
