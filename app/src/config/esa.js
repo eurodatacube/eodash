@@ -33,6 +33,16 @@ export const indicatorsDefinition = Object.freeze({
     class: 'combined',
     hideInFilters: true,
   },
+  E200: {
+    indicator: 'Changes in Ships traffic within the Port',
+    class: 'economic',
+    story: '/eodash-data/stories/E1',
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+      allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification', 'TIMESTAMP UTC', 'TYPE_NAME', 'LENGTH'],
+    },
+  },
   E1: {
     indicator: 'Status of metallic ores (Archived)',
     class: 'economic',
