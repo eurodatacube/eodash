@@ -1620,7 +1620,13 @@ export default {
         requestOpts.body = JSON.stringify(requestBody);
       }
       this.map.fireEvent('dataloading');
-      fetch(url, requestOpts).then((r) => r.json())
+      fetch(url, requestOpts).then((response) => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        } else {
+          return response.json();
+        }
+      })
         .then((rawdata) => {
           if (typeof this.mergedConfigs()[0].areaIndicator.callbackFunction === 'function') {
             // merge data from current indicator data and new data from api
@@ -1646,6 +1652,11 @@ export default {
             'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null,
           );
           console.log(err);
+          this.$store.commit('sendAlert', {
+            message: `Error requesting data, error message: ${err}.</br>
+              If the issue persists, please use the feedback button to let us know.`,
+            type: 'error',
+          });
         });
     },
     clearCustomAreaFilter() {
