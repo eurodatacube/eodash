@@ -9,7 +9,7 @@
     prominent>
     <v-row align="center">
       <v-col class="grow">
-        {{ $store.state.alert.message }}
+        <span v-html="$store.state.alert.message"></span>
       </v-col>
       <v-col class="shrink">
         <v-btn icon @click="clearAlert">
