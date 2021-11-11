@@ -36,7 +36,7 @@ export const indicatorsDefinition = Object.freeze({
   E200: {
     indicator: 'Changes in Ships traffic within the Port',
     class: 'economic',
-    story: '/eodash-data/stories/E1',
+    story: '/eodash-data/stories/E200',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
