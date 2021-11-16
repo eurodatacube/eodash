@@ -31,7 +31,7 @@
         <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
       </v-app-bar>
       <v-row class="d-flex">
-        <v-col cols="12" md="6">
+        <v-col cols="12" md="6" xl="8">
           <div class="dashboardTitle">
             <div class="d-flex">
               <h1
@@ -120,6 +120,7 @@
         <v-col
           cols="12"
           md="6"
+          xl="4"
           class="d-flex align-center"
         >
           <div
