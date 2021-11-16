@@ -98,6 +98,14 @@
                 </v-card>
               </v-dialog>
             </div>
+            <p v-if="newDashboard || hasEditingPrivilege">
+              Disclaimer: By editing, saving and sharing this custom dashboard, you agree to not include any content that suggest affiliation with the <strong>{{ $store.state.config.appConfig.branding.appName }}</strong> providers (such as logos).
+              A violation of this agreement will result in the deletion of this custom dashboard without warning.<br />
+              <small>For additional information, see article 8.5 (logo usage) of the <a href="/terms_and_conditions" target="_blank">Terms and Conditions of this website</a>.</small>
+            </p>
+            <p v-else>
+              <em>This Custom Dashboard was user-generated and is not affiliated with the {{ $store.state.config.appConfig.branding.appName }} providers.</em>
+            </p>
           </div>
         </v-col>
         <v-col
