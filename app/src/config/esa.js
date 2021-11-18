@@ -54,7 +54,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E1_S2: {
-    indicator: 'Status of metallic ores',
+    indicator: 'Status of metallic ores (Archived)',
     class: 'economic',
     story: '/eodash-data/stories/E1',
     features: {
@@ -92,7 +92,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E2_S2: {
-    indicator: 'Volume of oil stockpiled',
+    indicator: 'Volume of oil stockpiled (Archived)',
     class: 'economic',
     story: '/eodash-data/stories/E2',
     features: {
