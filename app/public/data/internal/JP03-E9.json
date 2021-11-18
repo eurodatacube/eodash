@@ -372,5 +372,27 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-06-23T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "ALOS-2",
+        "indicator_value": "/",
+        "input_data": "industry",
+        "measurement_value": "1.113883182",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-07-17T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "ALOS-2",
+        "indicator_value": "/",
+        "input_data": "industry",
+        "measurement_value": "0.712813489",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-08-18T00:00:00"
     }
 ]
