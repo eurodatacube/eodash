@@ -669,5 +669,71 @@
         "reference_time": "/",
         "reference_value": "1",
         "time": "2021-06-12T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "ALOS-2",
+        "indicator_value": "low",
+        "input_data": "/",
+        "measurement_value": "0.688288288",
+        "reference_time": "/",
+        "reference_value": "1",
+        "time": "2021-07-10T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "ALOS-2",
+        "indicator_value": "low",
+        "input_data": "/",
+        "measurement_value": "0.706906907",
+        "reference_time": "/",
+        "reference_value": "1",
+        "time": "2021-07-24T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "ALOS-2",
+        "indicator_value": "low",
+        "input_data": "/",
+        "measurement_value": "0.716461916",
+        "reference_time": "/",
+        "reference_value": "1",
+        "time": "2021-08-07T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "ALOS-2",
+        "indicator_value": "low",
+        "input_data": "/",
+        "measurement_value": "0.717772318",
+        "reference_time": "/",
+        "reference_value": "1",
+        "time": "2021-08-21T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "ALOS-2",
+        "indicator_value": "low",
+        "input_data": "/",
+        "measurement_value": "0.752880153",
+        "reference_time": "/",
+        "reference_value": "1",
+        "time": "2021-09-04T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "JAXA",
+        "eo_sensor": "ALOS-2",
+        "indicator_value": "low",
+        "input_data": "/",
+        "measurement_value": "0.682118482",
+        "reference_time": "/",
+        "reference_value": "1",
+        "time": "2021-09-18T00:00:00"
     }
 ]
