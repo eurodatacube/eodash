@@ -5752,6 +5752,24 @@
             "retail_recreation": 2,
             "transit_stations": 28,
             "workplaces": 8
+        },
+        {
+            "date": "2021-11-15T00:00:00",
+            "grocery": 25,
+            "parks": -23,
+            "residential": 1,
+            "retail_recreation": -3,
+            "transit_stations": 6,
+            "workplaces": 24
+        },
+        {
+            "date": "2021-11-16T00:00:00",
+            "grocery": 27,
+            "parks": -32,
+            "residential": 1,
+            "retail_recreation": -5,
+            "transit_stations": 6,
+            "workplaces": 30
         }
     ]
 }
