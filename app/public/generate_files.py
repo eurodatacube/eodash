@@ -397,11 +397,12 @@ generateData(
         '/working/data/trilateral/N3b.csv',
     ],
     [
-        ['E1', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'],
-        ['E1a', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'],
+        #['E1', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'], archived
+        #['E1a', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'], archived
         ['E9_tri', ''],
         ['N3_tri', ''],
         ['N1_tri', ''],
+        ['E200', ''],
     ]
 )
 
@@ -443,11 +444,11 @@ generateData(
         '/working/eodash-data/data/E13n_traffic.csv',
     ],
     [
-        ['E1', ''],
+        #['E1', ''], archived
         ['E1_S2', ''],
-        ['E1a', ''],
+        #['E1a', ''], archived
         ['E1a_S2', ''],
-        ['E2', ''],
+        #['E2', ''], archived
         ['E2_S2', ''],
         ['E4', ''],
         ['E5', ''],
@@ -460,5 +461,6 @@ generateData(
         ['E13d', ''],
         ['N3', ''],
         ['N1', ''],
+        ['E200', ''],
     ]
 )
