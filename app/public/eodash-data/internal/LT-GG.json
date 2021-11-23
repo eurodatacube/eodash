@@ -5770,6 +5770,33 @@
             "retail_recreation": -17,
             "transit_stations": -8,
             "workplaces": -3
+        },
+        {
+            "date": "2021-11-17T00:00:00",
+            "grocery": 42,
+            "parks": 19,
+            "residential": 2,
+            "retail_recreation": -16,
+            "transit_stations": -10,
+            "workplaces": -4
+        },
+        {
+            "date": "2021-11-18T00:00:00",
+            "grocery": 39,
+            "parks": 8,
+            "residential": 2,
+            "retail_recreation": -17,
+            "transit_stations": -9,
+            "workplaces": -4
+        },
+        {
+            "date": "2021-11-19T00:00:00",
+            "grocery": 44,
+            "parks": 15,
+            "residential": 1,
+            "retail_recreation": -17,
+            "transit_stations": -7,
+            "workplaces": -3
         }
     ]
 }
