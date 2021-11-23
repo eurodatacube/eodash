@@ -27,16 +27,28 @@ export const dataEndpoints = [
 ];
 
 export const indicatorsDefinition = Object.freeze({
-  E200: {
+  E13c: {
     indicator: 'Changes in Ships traffic within the Port',
     class: 'economic',
     story: '/eodash-data/stories/E1',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+      url: './eodash-data/features/E200/E200_{aoiID}_{featuresTime}.geojson',
       allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification', 'TIMESTAMP UTC', 'TYPE_NAME', 'LENGTH'],
     },
   },
+  /*
+  E13c: {
+    indicator: 'Number of Ships in Port',
+    class: 'economic',
+    story: '/data/trilateral/E13c',
+    largeSubAoi: true,
+    baseLayers: [{
+      ...baseLayers.cloudless,
+      visible: true,
+    }, baseLayers.terrainLight],
+  },
+  */
   E1: {
     indicator: 'Status of metallic ores',
     class: 'economic',
@@ -193,16 +205,6 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: '/data/trilateral/E13b',
     largeSubAoi: true,
-  },
-  E13c: {
-    indicator: 'Number of Ships in Port',
-    class: 'economic',
-    story: '/data/trilateral/E13c',
-    largeSubAoi: true,
-    baseLayers: [{
-      ...baseLayers.cloudless,
-      visible: true,
-    }, baseLayers.terrainLight],
   },
   H1: {
     indicator: 'Number of temp. treatment sites',
