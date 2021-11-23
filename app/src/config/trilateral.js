@@ -30,7 +30,8 @@ export const indicatorsDefinition = Object.freeze({
   E200: {
     indicator: 'Changes in Ships traffic within the Port',
     class: 'economic',
-    story: '/eodash-data/stories/E1',
+    story: '/data/trilateral/E13c',
+    largeSubAoi: true,
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
@@ -193,16 +194,6 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: '/data/trilateral/E13b',
     largeSubAoi: true,
-  },
-  E13c: {
-    indicator: 'Number of Ships in Port',
-    class: 'economic',
-    story: '/data/trilateral/E13c',
-    largeSubAoi: true,
-    baseLayers: [{
-      ...baseLayers.cloudless,
-      visible: true,
-    }, baseLayers.terrainLight],
   },
   H1: {
     indicator: 'Number of temp. treatment sites',
@@ -441,6 +432,10 @@ export const layerNameMapping = Object.freeze({
         verified: {},
       },
     },
+    baseLayers: [{
+      ...baseLayers.cloudless,
+      visible: true,
+    }, baseLayers.terrainLight],
   },
   airports: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/planet/{z}/{x}/{y}?date={time}&site={site}',
@@ -3034,7 +3029,7 @@ export const globalIndicators = [
         city: 'Los Angeles',
         siteName: 'Los Angeles',
         description: 'Ports: Ship throughput',
-        indicator: 'E13c',
+        indicator: 'E200',
         lastIndicatorValue: 'normal',
         indicatorName: 'Number of Ships in Port',
         lastColorCode: 'BLUE',
@@ -3065,7 +3060,7 @@ export const globalIndicators = [
         city: 'New York',
         siteName: 'New York',
         description: 'Ports: Ship throughput',
-        indicator: 'E13c',
+        indicator: 'E200',
         lastIndicatorValue: 'normal',
         indicatorName: 'Number of Ships in Port',
         lastColorCode: 'BLUE',
@@ -3096,7 +3091,7 @@ export const globalIndicators = [
         city: 'San Francisco',
         siteName: 'San Francisco',
         description: 'Ports: Ship throughput',
-        indicator: 'E13c',
+        indicator: 'E200',
         lastIndicatorValue: 'normal',
         indicatorName: 'Number of Ships in Port',
         lastColorCode: 'BLUE',
@@ -3328,7 +3323,7 @@ export const globalIndicators = [
         city: 'Suez',
         siteName: 'Suez Canal',
         description: 'Ports: Ship throughput',
-        indicator: 'E13c',
+        indicator: 'E200',
         lastIndicatorValue: 'normal',
         indicatorName: 'Number of Ships in Port',
         lastColorCode: 'BLUE',
