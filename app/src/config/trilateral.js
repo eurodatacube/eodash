@@ -36,19 +36,12 @@ export const indicatorsDefinition = Object.freeze({
       url: './eodash-data/features/E200/E200_{aoiID}_{featuresTime}.geojson',
       allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification', 'TIMESTAMP UTC', 'TYPE_NAME', 'LENGTH'],
     },
-  },
-  /*
-  E13c: {
-    indicator: 'Number of Ships in Port',
-    class: 'economic',
-    story: '/data/trilateral/E13c',
     largeSubAoi: true,
     baseLayers: [{
       ...baseLayers.cloudless,
       visible: true,
     }, baseLayers.terrainLight],
   },
-  */
   E1: {
     indicator: 'Status of metallic ores',
     class: 'economic',
