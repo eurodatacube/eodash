@@ -99,21 +99,25 @@
               </v-dialog>
             </div>
             <p v-if="newDashboard || hasEditingPrivilege">
-              Disclaimer: By editing, saving and sharing this custom dashboard, you agree to not
-              include any content that suggest affiliation with the
-              <strong>{{ $store.state.config.appConfig.branding.appName }}</strong>
-              providers (such as logos). A violation of this agreement will result in the deletion
-              of this custom dashboard without warning.<br />
-              <small>
-                For additional information, see article 8.5 (logo usage) of the
-                <a href="/terms_and_conditions" target="_blank">
-                  Terms and Conditions of this website
-                </a>.
-              </small>
+              Disclaimer: By editing, saving and sharing this custom dashboard, you agree to the
+              <a href="/terms_and_conditions" target="_blank">
+                Terms and Conditions of this website
+              </a>. Any violation of this agreement will result in
+              the deletion of this custom dashboard without warning.
             </p>
             <p v-else>
-              <em>This Custom Dashboard was user-generated and is not affiliated with
-                the {{ $store.state.config.appConfig.branding.appName }} providers.</em>
+              <em>
+                This Custom Dashboard was user-generated and is not an official product of the
+                {{ $store.state.config.appConfig.branding.appName }} project. Some of the content
+                on this page originates from the
+                {{ $store.state.config.appConfig.branding.appName }},
+                <a :href="rootLink" target="_blank">
+                  {{ rootLink }}
+                </a>.
+                <a href="/terms_and_conditions" target="_blank">
+                  Terms and Conditions
+                </a> apply.
+              </em>
             </p>
           </div>
         </v-col>
@@ -561,6 +565,9 @@ export default {
         && this.$store.state.dashboard.dashboardConfig.id)
         ? `${window.location.origin}/dashboard?id=${this.$store.state.dashboard.dashboardConfig.id}&editKey=${this.$store.state.dashboard.dashboardConfig.editKey}`
         : 'Loading...';
+    },
+    rootLink() {
+      return document.location.origin;
     },
   },
   async created() {
