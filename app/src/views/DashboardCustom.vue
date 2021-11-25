@@ -100,10 +100,11 @@
             </div>
             <p v-if="newDashboard || hasEditingPrivilege">
               Disclaimer: By editing, saving and sharing this custom dashboard, you agree to the
-              <a href="/terms_and_conditions" target="_blank">
-                Terms and Conditions of this website
-              </a>. Any violation of this agreement will result in
-              the deletion of this custom dashboard without warning.
+              <a
+                href="/terms_and_conditions"
+                target="_blank"
+              >Terms and Conditions of this website</a>. Any violation of this agreement will
+              result in the deletion of this custom dashboard without warning.
             </p>
             <p v-else>
               <em>
@@ -111,12 +112,8 @@
                 {{ $store.state.config.appConfig.branding.appName }} project. Some of the content
                 on this page originates from the
                 {{ $store.state.config.appConfig.branding.appName }},
-                <a :href="rootLink" target="_blank">
-                  {{ rootLink }}
-                </a>.
-                <a href="/terms_and_conditions" target="_blank">
-                  Terms and Conditions
-                </a> apply.
+                <a :href="rootLink" target="_blank">{{ rootLink }}</a>.
+                <a href="/terms_and_conditions" target="_blank">Terms and Conditions</a> apply.
               </em>
             </p>
           </div>
