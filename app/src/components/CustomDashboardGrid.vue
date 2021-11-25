@@ -54,6 +54,7 @@
             ref="indicatorMap"
             style="top: 0px; position: absolute;"
             v-else-if="(['all'].includes(element.indicatorObject.country) ||
+            appConfig.configuredMapPois.includes(`${element.indicatorObject.aoiID}-${element.indicatorObject.indicator}`) ||
             Array.isArray(element.indicatorObject.country)) && !element.includesIndicator"
             class="pt-0 fill-height"
             :hideCustomAreaControls="!enableEditing"
