@@ -182,7 +182,7 @@ export default {
       'baseConfig',
     ]),
     globalData() {
-      return ['all'].includes(this.indicatorObject.country) ||this.appConfig.configuredMapPois.includes(`${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`) || Array.isArray(this.indicatorObject.country);
+      return ['all'].includes(this.indicatorObject.country) || this.appConfig.configuredMapPois.includes(`${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`) || Array.isArray(this.indicatorObject.country);
     },
     selectedIndicator() {
       return this.$store.state.indicators.selectedIndicator;
