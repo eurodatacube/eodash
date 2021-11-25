@@ -20,7 +20,7 @@ export const dataEndpoints = [
 export const indicatorsDefinition = Object.freeze({
   C1: {
     indicator: 'Combined 1',
-    indicatorOverwrite: 'Port Activity & Air Quality',
+    indicatorOverwrite: 'Ports and Shipping - impact on air quality',
     class: 'combined',
   },
   C2: {
@@ -33,6 +33,16 @@ export const indicatorsDefinition = Object.freeze({
     class: 'combined',
     hideInFilters: true,
   },
+  E200: {
+    indicator: 'Changes in Ships traffic within the Port',
+    class: 'economic',
+    story: '/eodash-data/stories/E200',
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+      allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification', 'TIMESTAMP UTC', 'TYPE_NAME', 'LENGTH'],
+    },
+  },
   E1: {
     indicator: 'Status of metallic ores (Archived)',
     class: 'economic',
@@ -44,7 +54,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E1_S2: {
-    indicator: 'Status of metallic ores',
+    indicator: 'Status of metallic ores (Archived)',
     class: 'economic',
     story: '/eodash-data/stories/E1',
     features: {
@@ -82,7 +92,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E2_S2: {
-    indicator: 'Volume of oil stockpiled',
+    indicator: 'Volume of oil stockpiled (Archived)',
     class: 'economic',
     story: '/eodash-data/stories/E2',
     features: {
@@ -265,7 +275,7 @@ export const indicatorsDefinition = Object.freeze({
     largeTimeDuration: true,
   },
   E13e: {
-    indicator: 'Maritime traffic: cargo',
+    indicator: 'Ports and Shipping - traffic (AIS)',
     class: 'economic',
     story: '/eodash-data/stories/E13e',
   },
@@ -306,7 +316,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/E13e',
   },
   E13n: {
-    indicator: 'Changes in traffic fluxes',
+    indicator: 'Ports and Shipping - traffic (AIS, Sentinel-1, mobile)',
     class: 'economic',
     story: '/eodash-data/stories/E13n',
   },
@@ -1815,10 +1825,10 @@ export const globalIndicators = [
         aoiID: 'UK9',
         country: ['GB'],
         city: 'Weymouth',
-        description: 'Ports: throughput',
+        description: 'Ports and Shipping - impact on cruises',
         indicator: 'E13c',
         lastIndicatorValue: null,
-        indicatorName: 'Ports: throughput',
+        indicatorName: 'Ports and Shipping - impact on cruises',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
