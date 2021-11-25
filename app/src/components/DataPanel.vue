@@ -67,6 +67,7 @@
                   ref="indicatorMap"
                   style="top: 0px; position: absolute;"
                   v-if="['all'].includes(sensorData.properties.indicatorObject.country) ||
+                  appConfig.configuredMapPois.includes(`${sensorData.properties.indicatorObject.aoiID}-${sensorData.properties.indicatorObject.indicator}`) ||
                   Array.isArray(sensorData.properties.indicatorObject.country)"
                   class="pt-0 fill-height"
                   :currentIndicator="sensorData.properties.indicatorObject"
@@ -667,7 +668,7 @@ export default {
     },
     showMap() {
       // if returns true, we are showing map, if false we show chart
-      return ['all'].includes(this.indicatorObject.country) || Array.isArray(this.indicatorObject.country);
+      return ['all'].includes(this.indicatorObject.country) || this.appConfig.configuredMapPois.includes(`${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`) || Array.isArray(this.indicatorObject.country);
     },
     externalData() {
       const dataFromDefinition = this.baseConfig.indicatorsDefinition[

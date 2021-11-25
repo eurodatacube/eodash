@@ -61,6 +61,7 @@ module.exports = [
     termsText: '/eodash-data/general/terms',
     challengesText: '/eodash-data/general/challenges',
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube'],
+    configuredMapPois: [],
     // The label parameter can be used as string to select the parameter identifier
     // or it can be an array of strings the same size as features to set custom
     // tab titles for each of the tabbed groups
@@ -236,6 +237,7 @@ module.exports = [
       { code: 'TZ', region: 'AFRICA' },
       { code: 'EG', region: 'AFRICA' },
     ],
+    configuredMapPois: ['DE1-E13c', 'PL1-E13c', 'BE3-E13c', 'FR3-E13c', 'IT3-E13c'],
     featureGrouping: [
       {
         features: [

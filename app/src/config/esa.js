@@ -20,7 +20,7 @@ export const dataEndpoints = [
 export const indicatorsDefinition = Object.freeze({
   C1: {
     indicator: 'Combined 1',
-    indicatorOverwrite: 'Port Activity & Air Quality',
+    indicatorOverwrite: 'Ports and Shipping - impact on air quality',
     class: 'combined',
   },
   C2: {
@@ -275,7 +275,7 @@ export const indicatorsDefinition = Object.freeze({
     largeTimeDuration: true,
   },
   E13e: {
-    indicator: 'Maritime traffic: cargo',
+    indicator: 'Ports and Shipping - traffic (AIS)',
     class: 'economic',
     story: '/eodash-data/stories/E13e',
   },
@@ -316,7 +316,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/E13e',
   },
   E13n: {
-    indicator: 'Changes in traffic fluxes',
+    indicator: 'Ports and Shipping - traffic (AIS, Sentinel-1, mobile)',
     class: 'economic',
     story: '/eodash-data/stories/E13n',
   },
@@ -1825,10 +1825,10 @@ export const globalIndicators = [
         aoiID: 'UK9',
         country: ['GB'],
         city: 'Weymouth',
-        description: 'Ports: throughput',
+        description: 'Ports and Shipping - impact on cruises',
         indicator: 'E13c',
         lastIndicatorValue: null,
-        indicatorName: 'Ports: throughput',
+        indicatorName: 'Ports and Shipping - impact on cruises',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
