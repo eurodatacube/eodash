@@ -67,7 +67,11 @@
                   ref="indicatorMap"
                   style="top: 0px; position: absolute;"
                   v-if="['all'].includes(sensorData.properties.indicatorObject.country) ||
-                  appConfig.configuredMapPois.includes(`${sensorData.properties.indicatorObject.aoiID}-${sensorData.properties.indicatorObject.indicator}`) ||
+                  appConfig.configuredMapPois.includes(
+                    sensorData.properties.indicatorObject.aoiID
+                    + '-'
+                    + sensorData.properties.indicatorObject.indicator
+                  ) ||
                   Array.isArray(sensorData.properties.indicatorObject.country)"
                   class="pt-0 fill-height"
                   :currentIndicator="sensorData.properties.indicatorObject"
