@@ -191,8 +191,8 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        src: './data/trilateral/Hackathon.png',
-        href: 'https://www.eodashboardhackathon.org/',
+        src: './data/trilateral/Slide27.png',
+        href: 'https://www.eodashboard.org/?indicator=E13c',
       },
       {
         src: './data/trilateral/CustomDash-tri.png',
