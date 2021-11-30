@@ -5221,6 +5221,33 @@
             "retail_recreation": null,
             "transit_stations": 205,
             "workplaces": null
+        },
+        {
+            "date": "2021-11-25T00:00:00",
+            "grocery": null,
+            "parks": null,
+            "residential": null,
+            "retail_recreation": null,
+            "transit_stations": 225,
+            "workplaces": null
+        },
+        {
+            "date": "2021-11-26T00:00:00",
+            "grocery": null,
+            "parks": null,
+            "residential": null,
+            "retail_recreation": null,
+            "transit_stations": 205,
+            "workplaces": null
+        },
+        {
+            "date": "2021-11-27T00:00:00",
+            "grocery": null,
+            "parks": 210,
+            "residential": null,
+            "retail_recreation": null,
+            "transit_stations": 166,
+            "workplaces": null
         }
     ]
 }
