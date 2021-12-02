@@ -392,7 +392,6 @@ generateData(
         '/working/data/trilateral/E10a6.csv',
         '/working/data/trilateral/E10a8.csv',
         '/working/data/trilateral/E10c.csv',
-        '/working/data/trilateral/E13b.csv',
         '/working/data/trilateral/N2.csv',
         '/working/data/trilateral/N3b.csv',
     ],
@@ -402,6 +401,7 @@ generateData(
         ['E9_tri', ''],
         ['N3_tri', ''],
         ['N1_tri', ''],
+        ['E13b_tri', ''],
         ['E13c_tri', ''],
     ]
 )
