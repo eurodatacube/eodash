@@ -191,8 +191,9 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
+        poi: 'US01-E13c',
         src: './data/trilateral/Slide27.png',
-        href: 'https://www.eodashboard.org/?indicator=E13c',
+        indicator: 'E13c',
       },
       {
         src: './data/trilateral/CustomDash-tri.png',
