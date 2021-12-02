@@ -28,7 +28,7 @@ module.exports = [
       icon: 'calendar-star',
       text: '<a href="https://eo4society.esa.int/2021/08/01/rapid-action-on-coronavirus-and-eo-race-dashboard-challenge-3/" target="_blank">Sign up for the RACE Dashboard Challenge #3</a>',
       startDate: '2021-08-01',
-      endDate: '2021-12-31',
+      endDate: '2021-11-30',
     },
     aboutText: '/eodash-data/general/about',
     welcomeText: '/eodash-data/general/welcome',
