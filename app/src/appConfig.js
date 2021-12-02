@@ -28,7 +28,7 @@ module.exports = [
       icon: 'calendar-star',
       text: '<a href="https://eo4society.esa.int/2021/08/01/rapid-action-on-coronavirus-and-eo-race-dashboard-challenge-3/" target="_blank">Sign up for the RACE Dashboard Challenge #3</a>',
       startDate: '2021-08-01',
-      endDate: '2021-12-31',
+      endDate: '2021-11-30',
     },
     aboutText: '/eodash-data/general/about',
     welcomeText: '/eodash-data/general/welcome',
@@ -191,8 +191,9 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        src: './data/trilateral/Hackathon.png',
-        href: 'https://www.eodashboardhackathon.org/',
+        poi: 'US01-E13c',
+        src: './data/trilateral/Slide27.png',
+        indicator: 'E13c',
       },
       {
         src: './data/trilateral/CustomDash-tri.png',
@@ -237,7 +238,10 @@ module.exports = [
       { code: 'TZ', region: 'AFRICA' },
       { code: 'EG', region: 'AFRICA' },
     ],
-    configuredMapPois: ['DE1-E13c', 'PL1-E13c', 'BE3-E13c', 'FR3-E13c', 'IT3-E13c'],
+    configuredMapPois: [
+      'DE1-E13c', 'PL1-E13c', 'BE3-E13c', 'FR3-E13c', 'IT3-E13c',
+      'IT9-E13b', 'FR8-E13b', 'UK4-E13b',
+    ],
     featureGrouping: [
       {
         features: [

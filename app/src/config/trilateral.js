@@ -3,7 +3,7 @@
 import { Wkt } from 'wicket';
 import { latLng, latLngBounds } from 'leaflet';
 import { DateTime } from 'luxon';
-import { shTimeFunction, shS2TimeFunction } from '@/utils';
+import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import store from '../store';
@@ -196,6 +196,10 @@ export const indicatorsDefinition = Object.freeze({
   E13b: {
     indicator: 'Throughput at principal hub airports',
     class: 'economic',
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+    },
     story: '/data/trilateral/E13b',
     largeSubAoi: true,
   },
@@ -584,15 +588,6 @@ const getDaily2DayIntervalDates = (start, end) => {
     currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
   }
   return dateArray;
-};
-
-export const additionalMapTimes = {
-  'JP02-E13b': {
-    time: ['2020-08-05T00:00:00', '2020-08-15T00:00:00', '2020-08-16T00:00:00', '2020-08-20T00:00:00', '2020-08-21T00:00:00', '2020-08-25T00:00:00', '2020-09-04T00:00:00', '2020-09-28T00:00:00', '2020-10-24T00:00:00'],
-    eoSensor: Array(9).fill('Planet'),
-    inputData: Array(9).fill('airports'),
-    colorCode: Array(9).fill('PRIMARY'),
-  },
 };
 
 const wkt = new Wkt();
@@ -3106,129 +3101,6 @@ export const globalIndicators = [
         },
         time: ['2020-01-02', '2020-01-03', '2020-01-05', '2020-01-07', '2020-01-10', '2020-01-11', '2020-01-12', '2020-01-13', '2020-01-14', '2020-01-17', '2020-01-18', '2020-01-22', '2020-01-23', '2020-01-27', '2020-01-30', '2020-01-31', '2020-02-03', '2020-02-27', '2020-02-29', '2020-03-03', '2020-03-08', '2020-03-10', '2020-03-11', '2020-04-21', '2020-05-01', '2020-05-03', '2020-05-04', '2020-05-05', '2020-05-06', '2020-05-07', '2020-05-08', '2020-05-09', '2020-05-15', '2020-05-16', '2020-05-17', '2020-05-19', '2020-05-20', '2020-05-21'],
         inputData: ['ports'],
-      },
-    },
-  },
-  {
-    latlng: latLng([41.80710100142961, 12.253597669510512]),
-    id: 19684,
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        aoi: latLng([41.80710100142961, 12.253597669510512]),
-        id: 19684,
-        aoiID: 'IT9',
-        country: ['IT'],
-        city: 'Rome',
-        siteName: 'Aeroporto di Roma-Fiumicino',
-        description: 'Airports: throughput',
-        indicator: 'E13b',
-        lastIndicatorValue: 'normal',
-        indicatorName: 'Number of parked airplanes',
-        lastColorCode: 'BLUE',
-        inputData: [],
-        eoSensor: ['Sentinel-2'],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((12.24143 41.775408,12.250614 41.779761,12.251129 41.786353,12.256365 41.788017,12.261343 41.785585,12.271214 41.789169,12.265806 41.796016,12.271729 41.79832,12.26984 41.802799,12.273016 41.803614,12.274067 41.802159,12.280183 41.803998,12.2822 41.807805,12.263403 41.850767,12.253833 41.848753,12.268424 41.813003,12.237525 41.804142,12.231946 41.818216,12.228856 41.820231,12.2189 41.817449,12.240272 41.775632,12.24143 41.775408))').toJson(),
-          }],
-        },
-        display: {
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-          name: 'Sentinel-2 L2A',
-          dateFormatFunction: shS2TimeFunction,
-          features: {
-            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-            url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
-          },
-        },
-        time: ['2020-01-01T10:09:07', '2020-01-06T10:09:06', '2020-01-11T10:09:06', '2020-02-05T10:09:03', '2020-02-15T10:09:05', '2020-02-20T10:09:08', '2020-03-11T10:09:10', '2020-03-16T10:09:09', '2020-03-31T10:09:09', '2020-04-05T10:09:08', '2020-04-10T10:09:08', '2020-04-15T10:09:11', '2020-04-25T10:09:13', '2020-04-30T10:09:08', '2020-05-10T10:09:10', '2020-05-25T10:09:17', '2020-06-09T10:09:14', '2020-06-24T10:09:17', '2020-06-29T10:09:14', '2020-07-09T10:09:13', '2020-07-14T10:09:16', '2020-07-19T10:09:13', '2020-07-24T10:09:17', '2020-07-29T10:09:14', '2020-08-08T10:09:15', '2020-08-13T10:09:17', '2020-08-18T10:09:15', '2020-08-23T10:09:17', '2020-08-28T10:09:15', '2020-09-07T10:09:14', '2020-09-12T10:09:14', '2020-09-17T10:09:13'],
-      },
-    },
-  },
-  {
-    latlng: latLng([51.469716296645025, -0.4580423952680147]),
-    id: 19683,
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        aoi: latLng([51.469716296645025, -0.4580423952680147]),
-        id: 19683,
-        aoiID: 'UK4',
-        country: ['GB'],
-        city: 'Heathrow',
-        siteName: 'London Heathrow Airport',
-        description: 'Airports: throughput',
-        indicator: 'E13b',
-        lastIndicatorValue: 'normal',
-        indicatorName: 'Number of parked airplanes',
-        lastColorCode: 'BLUE',
-        inputData: [],
-        eoSensor: ['Sentinel-2'],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-0.451641 51.455745,-0.461125 51.457751,-0.472798 51.458366,-0.475931 51.460291,-0.474772 51.462537,-0.476575 51.46251,-0.478764 51.461414,-0.488033 51.461735,-0.48872 51.463286,-0.491724 51.463499,-0.49211 51.464836,-0.491209 51.469889,-0.490952 51.474193,-0.493441 51.475503,-0.495071 51.475823,-0.494299 51.478363,-0.487347 51.479459,-0.480738 51.479565,-0.427222 51.479699,-0.426064 51.478871,-0.426364 51.476465,-0.418382 51.475957,-0.414348 51.471787,-0.416236 51.469729,-0.419712 51.469461,-0.420785 51.470745,-0.423746 51.473204,-0.426321 51.472937,-0.426793 51.472028,-0.423446 51.469381,-0.423703 51.468018,-0.426364 51.464622,-0.441685 51.45858,-0.445075 51.459275,-0.445547 51.456387,-0.451641 51.455745))').toJson(),
-          }],
-        },
-        display: {
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-          name: 'Sentinel-2 L2A',
-          dateFormatFunction: shS2TimeFunction,
-          features: {
-            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-            url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
-          },
-        },
-        time: ['2019-12-08T11:16:45', '2019-12-15T11:06:46', '2019-12-23T11:16:43', '2019-12-25T11:06:45', '2019-12-30T11:06:46', '2020-01-09T11:06:46', '2020-01-19T11:06:45', '2020-02-01T11:16:41', '2020-02-11T11:16:43', '2020-03-24T11:06:47', '2020-03-27T11:16:44', '2020-04-06T11:16:45', '2020-04-11T11:16:44', '2020-04-21T11:16:43', '2020-04-23T11:06:52', '2020-04-26T11:16:50', '2020-05-06T11:16:52', '2020-05-21T11:16:48', '2020-05-28T11:06:52', '2020-05-31T11:16:50', '2020-06-15T11:16:54', '2020-06-22T11:06:57', '2020-06-25T11:16:54', '2020-07-20T11:16:50', '2020-07-22T11:06:56', '2020-08-09T11:16:51', '2020-08-11T11:06:57', '2020-09-13T11:16:52', '2020-09-15T11:06:53', '2020-09-18T11:16:50', '2020-09-20T11:06:56', '2020-09-28T11:16:51'],
-      },
-    },
-  },
-  {
-    latlng: latLng([49.006976345624935, 2.559786183921451]),
-    id: 19682,
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        aoi: latLng([49.006976345624935, 2.559786183921451]),
-        id: 19682,
-        aoiID: 'FR8',
-        country: ['FR'],
-        city: 'Paris',
-        siteName: 'Aeroport Roissy Charles de Gaulle',
-        description: 'Airports: throughput',
-        indicator: 'E13b',
-        lastIndicatorValue: 'normal',
-        indicatorName: 'Number of parked airplanes',
-        lastColorCode: 'BLUE',
-        inputData: [],
-        eoSensor: ['Sentinel-2'],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((2.515894 48.998476,2.521901 49.008156,2.516238 49.009282,2.50903 49.003091,2.490135 49.010011,2.498452 49.024531,2.506089 49.024868,2.509221 49.027062,2.530291 49.029089,2.573626 49.031395,2.585639 49.027514,2.584609 49.018626,2.589157 49.014575,2.600483 49.015362,2.633581 49.002656,2.632974 48.99791,2.64177 48.998416,2.65035 48.995461,2.649555 48.990807,2.636045 48.98743,2.634576 48.991511,2.636425 48.991905,2.636167 48.995705,2.623983 48.994326,2.620121 48.991173,2.587398 48.989908,2.585767 48.991653,2.567147 48.989063,2.548785 48.989739,2.543722 48.982589,2.520297 48.984841,2.516693 48.992328,2.511287 48.988613,2.508799 48.989063,2.512746 48.997732,2.515894 48.998476))').toJson(),
-          }],
-        },
-        display: {
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-          name: 'Sentinel-2 L2A',
-          dateFormatFunction: shS2TimeFunction,
-          features: {
-            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-            url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
-          },
-        },
-        time: ['2019-12-25T11:07:19', '2019-12-30T11:07:19', '2020-01-06T10:57:23', '2020-01-16T10:57:22', '2020-01-19T11:07:18', '2020-01-21T10:57:21', '2020-02-13T11:07:17', '2020-02-18T11:07:20', '2020-03-19T11:07:24', '2020-03-24T11:07:20', '2020-03-26T10:57:26', '2020-04-05T10:57:25', '2020-04-08T11:07:21', '2020-04-10T10:57:26', '2020-04-13T11:07:23', '2020-04-15T10:57:23', '2020-04-20T10:57:29', '2020-04-23T11:07:26', '2020-04-25T10:57:23', '2020-05-15T10:57:27', '2020-05-18T11:07:24', '2020-05-20T10:57:33', '2020-05-25T10:57:31', '2020-05-28T11:07:25', '2020-05-30T10:57:34', '2020-06-02T11:07:30', '2020-06-22T11:07:30', '2020-06-24T10:57:30', '2020-07-09T10:57:32', '2020-07-12T11:07:29', '2020-07-27T11:07:27', '2020-07-29T10:57:34', '2020-08-06T11:07:27', '2020-08-11T11:07:30', '2020-09-02T10:57:31', '2020-09-12T10:57:31', '2020-09-15T11:07:26', '2020-09-17T10:57:32', '2020-09-22T10:57:30'],
       },
     },
   },

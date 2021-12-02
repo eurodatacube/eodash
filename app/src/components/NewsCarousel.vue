@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     onClickItem(item) {
-      const { poi, href } = item;
+      const { poi, indicator, href } = item;
       if (poi) {
         const aoiId = poi.split('-')[0];
         const indicatorCode = poi.split('-')[1];
@@ -82,6 +82,11 @@ export default {
           return indicatorObject.aoiID === aoiId
             && indicatorObject.indicator === indicatorCode;
         });
+        if (indicator) {
+          this.$store.commit('features/SET_FEATURE_FILTER', {
+            indicators: [indicator],
+          });
+        }
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature.properties.indicatorObject);
       } else if (href) {
         if (isExternalUrl(href)) {
