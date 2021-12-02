@@ -237,7 +237,10 @@ module.exports = [
       { code: 'TZ', region: 'AFRICA' },
       { code: 'EG', region: 'AFRICA' },
     ],
-    configuredMapPois: ['DE1-E13c', 'PL1-E13c', 'BE3-E13c', 'FR3-E13c', 'IT3-E13c'],
+    configuredMapPois: [
+      'DE1-E13c', 'PL1-E13c', 'BE3-E13c', 'FR3-E13c', 'IT3-E13c',
+      'IT9-E13b', 'FR8-E13b', 'UK4-E13b'
+    ],
     featureGrouping: [
       {
         features: [
