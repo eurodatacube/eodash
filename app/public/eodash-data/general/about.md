@@ -39,7 +39,7 @@ Across all European countries and ESA Member States, the dashboard showcases exa
 [<img src="./eodash-data/general/39_FS-TEP.png" width="15%">](https://foodsecurity-tep.net/)
 [<img src="./eodash-data/general/40_OILX.png" width="15%">](https://www.oilx.co/)
 [<img src="./eodash-data/general/41_ARESYS.png" width="15%">](https://www.aresys.it/)
-
+[<img src="./eodash-data/general/42_C3S.png" width="15%">](https://climate.copernicus.eu/)
 
 ##### Disclaimer
 
