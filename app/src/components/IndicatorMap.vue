@@ -706,6 +706,7 @@ export default {
         eoSensor = eoSensor.filter((e) => e !== null);
         inputData = inputData.filter((e) => e !== null);
         colorCode = colorCode.filter((e) => e !== null);
+        console.log(eoSensor);
       }
       return {
         time: times, eoSensor, inputData, colorCode,
@@ -1276,6 +1277,7 @@ export default {
       return additionalSettings;
     },
     dataLayerTimeSelection(payload) {
+      console.log('HELLLOO');
       // Different object returned either by arrow use or by dropdown use
       if (Array.isArray(payload) || !(payload.value)) {
         this.dataLayerTime = { value: payload, name: `${payload}` };
@@ -1439,6 +1441,7 @@ export default {
         }
       }
       if (side === 'data') {
+        console.log('REFRESH LAYER');
         this.refreshGroup(this.$refs.dataLayerArrayWMS, this.currentTime);
         if (this.$refs.dataLayerArrayXYZ) {
           this.$refs.dataLayerArrayXYZ.forEach((item) => {
