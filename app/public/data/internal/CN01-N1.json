@@ -988,5 +988,38 @@
         "reference_time": "2021-10-04T00:00:00",
         "reference_value": "[184.68405, 30.959808, 323.36093, 123.164696, 100.0]",
         "time": "2021-10-04T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "253.55278",
+        "reference_time": "2021-10-18T00:00:00",
+        "reference_value": "[257.1149, 25.12513, 304.00418, 176.93747, 100.0]",
+        "time": "2021-10-18T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "216.66043",
+        "reference_time": "2021-11-01T00:00:00",
+        "reference_value": "[220.41965, 25.883255, 269.3912, 156.4449, 100.0]",
+        "time": "2021-11-01T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "567.7156",
+        "reference_time": "2021-11-15T00:00:00",
+        "reference_value": "[575.3383, 44.373333, 675.92334, 462.36847, 100.0]",
+        "time": "2021-11-15T00:00:00"
     }
 ]
