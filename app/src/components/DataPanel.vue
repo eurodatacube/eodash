@@ -688,10 +688,14 @@ export default {
       return null;
     },
     eodataEnabled() {
-      const lastInputData = (this.indicatorObject && this.indicatorObject.inputData)
-        ? this.indicatorObject.inputData[this.indicatorObject.inputData.length - 1] : null;
-      // search configuration mapping if layer is configured
-      return (!this.showMap && lastInputData) ? this.layerNameMapping.hasOwnProperty(lastInputData) : false; // eslint-disable-line
+      let matchingInputDataAgainstConfig = [];
+      if (this.indicatorObject && this.indicatorObject.inputData) {
+        matchingInputDataAgainstConfig = this.indicatorObject.inputData
+          .filter((item) => Object.prototype.hasOwnProperty.call(this.layerNameMapping, item));
+      }
+      // showMap triggers dispay of the map directly, so EO Data button is hidden
+      // search configuration mapping if layer is configured for at least one inputData value
+      return !this.showMap || matchingInputDataAgainstConfig.length > 0;
     },
     wrapperHeight() {
       if (this.mounted) {

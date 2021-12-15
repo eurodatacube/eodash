@@ -729,20 +729,22 @@ export default {
       return selectionOptions;
     },
     currentTime() {
-      let returnTime = this.usedTimes.time[this.usedTimes.time.length - 1];
+      let returnTime = null;
       if (this.dataLayerTime !== null) {
         returnTime = this.dataLayerTime;
+      } else {
+        returnTime = this.usedTimes.time[this.usedTimes.time.length - 1];
       }
       return returnTime;
     },
     currentCompareTime() {
-      let returnTime = this.getInitialCompareTime();
-      if (this.compareLayerTime !== null) {
-        returnTime = this.compareLayerTime;
-      }
+      let returnTime = null;
       if (this.indicator.compareDisplay) {
-        // shared time on both layers in case of compareDisplay being set
         returnTime = this.dataLayerTime;
+      } else if (this.compareLayerTime !== null) {
+        returnTime = this.compareLayerTime;
+      } else {
+        returnTime = this.getInitialCompareTime();
       }
       return returnTime;
     },
