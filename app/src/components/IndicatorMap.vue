@@ -1385,7 +1385,7 @@ export default {
       // use first time
       return this.usedTimes.time[0];
     },
-    refreshGroup(group, time) {
+    refreshGroup(group, time, side) {
       // Group can also be an array depending on type
       if (group) {
         let toIterate;
@@ -1402,6 +1402,7 @@ export default {
               item.$children.forEach((subItem) => {
                 // TODO: propsData do not have all the parameters we need (like dateFormatFunction)
                 // TODO extend this getting the mergedConfigs in a same way as when non-grouped
+                subItem.mapObject.setUrl(subItem.$options.propsData.baseUrl);
                 subItem.mapObject.setParams(this.layerOptions(
                   time, subItem.$options.propsData,
                 ));
@@ -1409,9 +1410,11 @@ export default {
                 subItem.$forceUpdate();
               });
             } else {
-              const originalConfig = this.mergedConfigsData.find((config) => (
+              const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
+              const originalConfig = usedConfig.find((config) => (
                 config.name === item.name
               ));
+              item.mapObject.setUrl(originalConfig.baseUrl);
               item.mapObject.setParams(this.layerOptions(
                 time, originalConfig,
               ));
@@ -1425,7 +1428,7 @@ export default {
     refreshLayers(side) {
       // compare(left) or data(right)
       if (side === 'compare' || this.indicator.compareDisplay) {
-        this.refreshGroup(this.$refs.compareLayerArrayWMS, this.currentCompareTime);
+        this.refreshGroup(this.$refs.compareLayerArrayWMS, this.currentCompareTime, 'compare');
         if (this.$refs.compareLayerArrayXYZ) {
           this.$refs.compareLayerArrayXYZ.forEach((item) => {
             const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
@@ -1441,7 +1444,7 @@ export default {
         }
       }
       if (side === 'data') {
-        this.refreshGroup(this.$refs.dataLayerArrayWMS, this.currentTime);
+        this.refreshGroup(this.$refs.dataLayerArrayWMS, this.currentTime, 'data');
         if (this.$refs.dataLayerArrayXYZ) {
           this.$refs.dataLayerArrayXYZ.forEach((item) => {
             const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);

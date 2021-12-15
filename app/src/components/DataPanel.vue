@@ -695,7 +695,7 @@ export default {
       }
       // showMap triggers dispay of the map directly, so EO Data button is hidden
       // search configuration mapping if layer is configured for at least one inputData value
-      return !this.showMap || matchingInputDataAgainstConfig.length > 0;
+      return !this.showMap && matchingInputDataAgainstConfig.length > 0;
     },
     wrapperHeight() {
       if (this.mounted) {
