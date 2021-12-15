@@ -31,7 +31,7 @@
         <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
       </v-app-bar>
       <v-row class="d-flex">
-        <v-col cols="12" md="6">
+        <v-col cols="12" md="6" xl="8">
           <div class="dashboardTitle">
             <div class="d-flex">
               <h1
@@ -98,11 +98,30 @@
                 </v-card>
               </v-dialog>
             </div>
+            <p v-if="newDashboard || hasEditingPrivilege">
+              Disclaimer: By editing, saving and sharing this custom dashboard, you agree to the
+              <a
+                href="/terms_and_conditions"
+                target="_blank"
+              >Terms and Conditions of this website</a>. Any violation of this agreement will
+              result in the deletion of this custom dashboard without warning.
+            </p>
+            <p v-else>
+              <em>
+                This Custom Dashboard was user-generated and is not an official product of the
+                {{ $store.state.config.appConfig.branding.appName }} project. Some of the content
+                on this page originates from the
+                {{ $store.state.config.appConfig.branding.appName }},
+                <a :href="rootLink" target="_blank">{{ rootLink }}</a>.
+                <a href="/terms_and_conditions" target="_blank">Terms and Conditions</a> apply.
+              </em>
+            </p>
           </div>
         </v-col>
         <v-col
           cols="12"
           md="6"
+          xl="4"
           class="d-flex align-center"
         >
           <div
@@ -543,6 +562,9 @@ export default {
         && this.$store.state.dashboard.dashboardConfig.id)
         ? `${window.location.origin}/dashboard?id=${this.$store.state.dashboard.dashboardConfig.id}&editKey=${this.$store.state.dashboard.dashboardConfig.editKey}`
         : 'Loading...';
+    },
+    rootLink() {
+      return document.location.origin;
     },
   },
   async created() {
