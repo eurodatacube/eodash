@@ -1272,9 +1272,9 @@ export default {
           additionalSettings.featuresTime = typeof sourceOptionsObj.features.dateFormatFunction === 'function'
             ? sourceOptionsObj.features.dateFormatFunction(fixTime) : fixTime;
         }
-      }format: "image/png"
+      }
       const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
-      'format', 'width', 'height', 'transparent', 'srs'];
+        'format', 'width', 'height', 'transparent', 'srs'];
       paramsToPassThrough.forEach((param) => {
         if (typeof sourceOptionsObj[param] !== 'undefined') {
           additionalSettings[param] = sourceOptionsObj[param];
