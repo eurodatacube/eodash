@@ -39,7 +39,7 @@
         </v-tooltip>
       </l-control>
       <l-control position="topright"
-        v-if="mergedConfigs()[0].customAreaIndicator && validDrawnArea && renderTrashBin">
+        v-if="mergedConfigsData[0].customAreaIndicator && validDrawnArea && renderTrashBin">
         <v-tooltip left>
           <template v-slot:activator="{ on }">
             <div v-on="on" class="d-inline-block"
@@ -98,7 +98,7 @@
         :optionsStyle="subAoiStyle('data')"
         >
         </l-geo-json>
-        <l-marker-cluster v-if="mergedConfigs()[0].featuresClustering"
+        <l-marker-cluster v-if="mergedConfigsData[0].featuresClustering"
           ref="featuresDataCluster"
           :options="clusterOptions"
           >
@@ -127,7 +127,7 @@
         </l-circle-marker>
         <!-- XYZ grouping is not implemented yet -->
         <LTileLayer
-        v-for="(layerConfig, i) in mergedConfigs().filter(l => l.protocol === 'xyz')"
+        v-for="(layerConfig, i) in mergedConfigsData.filter(l => l.protocol === 'xyz')"
           ref="dataLayerArrayXYZ"
           :data-key-originalindex="i"
           :key="dataLayerKeyXYZ[i]"
@@ -181,7 +181,7 @@
       <l-layer-group ref="compareLayers">
         <!-- XYZ grouping is not implemented yet -->
         <LTileLayer
-        v-for="(layerConfig, i) in mergedConfigs('compare').filter(l => l.protocol === 'xyz')"
+        v-for="(layerConfig, i) in mergedConfigsCompare.filter(l => l.protocol === 'xyz')"
           ref="compareLayerArrayXYZ"
           :data-key-originalindex="i"
           :key="compareLayerKeyXYZ[i]"
@@ -237,7 +237,7 @@
           :optionsStyle="subAoiStyle('compare')"
         >
         </l-geo-json>
-        <l-marker-cluster v-if="mergedConfigs()[0].featuresClustering"
+        <l-marker-cluster v-if="mergedConfigsData[0].featuresClustering"
           ref="featuresCompareCluster" :options="clusterOptions">
         </l-marker-cluster>
         <l-geo-json
@@ -321,21 +321,21 @@
       </l-feature-group>
       <div
       :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
-        <img v-if="mergedConfigs()[0].legendUrl"
-        :src="mergedConfigs()[0].legendUrl" alt=""
+        <img v-if="mergedConfigsData[0].legendUrl"
+        :src="mergedConfigsData[0].legendUrl" alt=""
         :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' :
         (legendExpanded && 'map-legend-expanded')}`"
         @click="legendExpanded = !legendExpanded"
         :style="`background: rgba(255, 255, 255, 0.8);`">
         <div
-        v-if="mergedConfigs()[0].customAreaFeatures &&
-        (mergedConfigs()[0].features.featureLimit === dataFeaturesCount ||
-        mergedConfigs()[0].features.featureLimit === compareFeaturesCount)"
+        v-if="mergedConfigsData[0].customAreaFeatures &&
+        (mergedConfigsData[0].features.featureLimit === dataFeaturesCount ||
+        mergedConfigsData[0].features.featureLimit === compareFeaturesCount)"
         :style="`width: fit-content; background: rgba(255, 255, 255, 0.8);`"
         >
           <h3 :class="`brand-${appConfig.id} px-3 py-2`">
             Limit of drawn features is for performance reasons set to
-            <span :style="`font-size: 17px;`">{{mergedConfigs()[0].features.featureLimit}}
+            <span :style="`font-size: 17px;`">{{mergedConfigsData[0].features.featureLimit}}
             </span>
           </h3>
         </div>
@@ -359,7 +359,7 @@
             {{indicator.compareDisplay.mapLabel}}
         </h3>
         <v-sheet
-          v-if="!mergedConfigs()[0].disableTimeSelection"
+          v-if="!mergedConfigsData[0].disableTimeSelection"
           class="row justify-center align-center"
           style="position: absolute; bottom: 30px; z-index: 1000; width: auto; max-width: 100%;"
         >
@@ -422,7 +422,7 @@
               @click:append="dataLayerIncrease"
             >
               <template v-slot:prepend
-              v-if="!mergedConfigs()[0].disableCompare">
+              v-if="!mergedConfigsData[0].disableCompare">
                 <v-tooltip
                   bottom
                 >
@@ -574,27 +574,27 @@ export default {
       return {
         stroke: false,
         fillColor: this.getIndicatorColor('primary'),
-        fillOpacity: this.mergedConfigs()[0].subAoiFillOpacity || 0.5,
+        fillOpacity: this.mergedConfigsData[0].subAoiFillOpacity || 0.5,
       };
     },
     baseLayers() {
       // expects an array of objects
-      return this.mergedConfigs()[0].baseLayers || this.baseConfig.baseLayersRightMap;
+      return this.mergedConfigsData[0].baseLayers || this.baseConfig.baseLayersRightMap;
     },
     overlayLayers() {
-      return this.mergedConfigs()[0].overlayLayers || this.baseConfig.overlayLayersRightMap;
+      return this.mergedConfigsData[0].overlayLayers || this.baseConfig.overlayLayersRightMap;
     },
     mapDefaults() {
       return {
         ...this.baseConfig.mapDefaults,
-        ...this.mergedConfigs()[0],
+        ...this.mergedConfigsData[0],
       };
     },
     countrySelection() {
-      return this.mergedConfigs()[0].countrySelection;
+      return this.mergedConfigsData[0].countrySelection;
     },
     borderSelection() {
-      return this.mergedConfigs()[0].borderSelection;
+      return this.mergedConfigsData[0].borderSelection;
     },
     indDefinition() {
       return this.baseConfig.indicatorsDefinition[this.indicator.indicator];
@@ -622,8 +622,14 @@ export default {
       return this.$store.state.features.selectedArea;
     },
     customAreaFilter() {
-      return this.mergedConfigs()[0].customAreaFeatures
-        || this.mergedConfigs()[0].customAreaIndicator;
+      return this.mergedConfigsData[0].customAreaFeatures
+        || this.mergedConfigsData[0].customAreaIndicator;
+    },
+    mergedConfigsData() {
+      return this.mergedConfigs();
+    },
+    mergedConfigsCompare() {
+      return this.mergedConfigs('compare');
     },
     usedTimes() {
       let times = this.indicator.time;
@@ -896,7 +902,7 @@ export default {
 
       this.initialDrawSelectedArea();
       this.onResize();
-      if (!this.mergedConfigs()[0].customAreaFeatures || this.validDrawnArea) {
+      if (!this.mergedConfigsData[0].customAreaFeatures || this.validDrawnArea) {
         this.fetchFeatures('data');
       }
       this.$emit('ready');
@@ -995,12 +1001,18 @@ export default {
         }.bind(this),
       };
     },
-    featureOptions(side) {
-      const style = (this.mergedConfigs(side)[0].features && this.mergedConfigs(side)[0].features.style) ? this.mergedConfigs(side)[0].features.style : {}; // eslint-disable-line
+    featureOptions(side = 'data') {
+      let style = null;
+      if (side === 'data') {
+        style = (this.mergedConfigsData[0].features && this.mergedConfigsData[0].features.style) ? this.mergedConfigsData[0].features.style : {}; // eslint-disable-line
+      } else {
+        style = (this.mergedConfigsCompare[0].features && this.mergedConfigsCompare[0].features.style) ? this.mergedConfigsCompare[0].features.style : {}; // eslint-disable-line
+      }
       return {
         onEachFeature: function onEachFeature(feature, layer) {
           // if featuresParameters available, show only properties from mapping, otherwise dump all
-          const allowedParams = this.mergedConfigs(side)[0].features ? this.mergedConfigs(side)[0].features.allowedParameters : null; // eslint-disable-line
+          const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
+          const allowedParams = usedConfig[0].features ? usedConfig[0].features.allowedParameters : null; // eslint-disable-line
           const allKeys = Object.keys(feature.properties);
           let tooltip = '';
           for (let i = 0; i < allKeys.length; i++) {
@@ -1013,7 +1025,7 @@ export default {
             layer.bindTooltip(tooltip, { pane: this.popupPane });
           }
           // to make clustering work
-          if (this.mergedConfigs()[0].featuresClustering) {
+          if (this.mergedConfigsData[0].featuresClustering) {
             layer.getLatLng = () => geoJson(feature).getBounds().getCenter(); //eslint-disable-line
             layer.setLatLng = () => { }; //eslint-disable-line
             layer._latlng = layer.getLatLng(); //eslint-disable-line
@@ -1093,17 +1105,19 @@ export default {
       // empty config used later for merging
       return [];
     },
-    getCombinedWMSLayers(side) {
-      const combLayers = this.mergedConfigs(side).filter((l) => (
+    getCombinedWMSLayers(side = 'data') {
+      const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
+      const combLayers = usedConfig.filter((l) => (
         l.protocol === 'WMS' && Object.keys(l).indexOf('combinedLayers') !== -1
       ));
       return combLayers;
     },
-    getSimpleWMSLayers(side) {
-      const combLayers = this.mergedConfigs(side).filter((l) => (
+    getSimpleWMSLayers(side = 'data') {
+      const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
+      const simpleLayers = usedConfig.filter((l) => (
         l.protocol === 'WMS' && Object.keys(l).indexOf('combinedLayers') === -1
       ));
-      return combLayers;
+      return simpleLayers;
     },
     mergedConfigs(side = 'data') {
       // first check if special compare layer configured
@@ -1161,10 +1175,10 @@ export default {
     },
     flyToBounds() {
       // zooms to subaoi if present or area around aoi if not
-      const boundsPad = this.mergedConfigs()[0].largeSubAoi ? 5 : (this.mergedConfigs()[0].midSubAoi ? 1 : 0.15); // eslint-disable-line
+      const boundsPad = this.mergedConfigsData[0].largeSubAoi ? 5 : (this.mergedConfigsData[0].midSubAoi ? 1 : 0.15); // eslint-disable-line
       if (this.subAoi && this.subAoi.features.length > 0) {
-        const viewBounds = this.mergedConfigs()[0].presetView
-          ? geoJson(this.mergedConfigs()[0].presetView).getBounds()
+        const viewBounds = this.mergedConfigsData[0].presetView
+          ? geoJson(this.mergedConfigsData[0].presetView).getBounds()
           : geoJson(this.subAoi).getBounds();
         const bounds = geoJson(this.subAoi).getBounds();
         const southBound = bounds.getSouth() - boundsPad;
@@ -1179,16 +1193,16 @@ export default {
         this.map.fitBounds(viewBounds);
         // limit user movement around map
         this.map.setMaxBounds(boundsMax);
-        if (this.mergedConfigs()[0].largeSubAoi) {
+        if (this.mergedConfigsData[0].largeSubAoi) {
           this.map.setMinZoom(2);
-        } else if (this.mergedConfigs()[0].midSubAoi) {
+        } else if (this.mergedConfigsData[0].midSubAoi) {
           this.map.setMinZoom(9);
         } else {
           this.map.setMinZoom(13);
         }
-      } else if (this.mergedConfigs()[0].presetView) {
+      } else if (this.mergedConfigsData[0].presetView) {
         // if only preset view move map there without limiting movement
-        const viewBounds = geoJson(this.mergedConfigs()[0].presetView).getBounds();
+        const viewBounds = geoJson(this.mergedConfigsData[0].presetView).getBounds();
         this.map.fitBounds(viewBounds);
       } else if (this.aoi) {
         const southBound = this.aoi.lat - boundsPad;
@@ -1202,9 +1216,9 @@ export default {
         const boundsMax = latLngBounds(cornerMax1, cornerMax2);
         this.map.setZoom(16);
         this.map.panTo(this.aoi);
-        if (this.mergedConfigs()[0].largeSubAoi) {
+        if (this.mergedConfigsData[0].largeSubAoi) {
           this.map.setMinZoom(2);
-        } else if (this.mergedConfigs()[0].midSubAoi) {
+        } else if (this.mergedConfigsData[0].midSubAoi) {
           this.map.setMinZoom(9);
         } else {
           this.map.setMinZoom(12);
@@ -1220,23 +1234,23 @@ export default {
     },
     getTimeLabel(time) {
       // Check if custom function was configured
-      if (this.mergedConfigs()[0].labelFormatFunction) {
-        return this.mergedConfigs()[0].labelFormatFunction(time);
+      if (this.mergedConfigsData[0].labelFormatFunction) {
+        return this.mergedConfigsData[0].labelFormatFunction(time);
       }
       // If not try default approach
       if (Array.isArray(time) && time.length === 2) {
         // show start - end
-        if (this.mergedConfigs()[0].mapTimeLabelExtended) {
+        if (this.mergedConfigsData[0].mapTimeLabelExtended) {
           return time.map((d) => DateTime.fromISO(d).toISO({ suppressMilliseconds: true })).join(' - ');
         }
         return time.map((d) => DateTime.fromISO(d).toISODate()).join(' - ');
       } else if (time instanceof DateTime) { // eslint-disable-line no-else-return
-        if (this.mergedConfigs()[0].mapTimeLabelExtended) {
+        if (this.mergedConfigsData[0].mapTimeLabelExtended) {
           return time.toISO({ suppressMilliseconds: true });
         }
         return time.toISODate();
       }
-      if (this.mergedConfigs()[0].mapTimeLabelExtended) {
+      if (this.mergedConfigsData[0].mapTimeLabelExtended) {
         return DateTime.fromISO(time).toISO({ suppressMilliseconds: true });
       }
       return DateTime.fromISO(time).toISODate();
@@ -1249,21 +1263,6 @@ export default {
         );
         additionalSettings.site = currSite;
       }
-      if (typeof sourceOptionsObj.minZoom !== 'undefined') {
-        additionalSettings.minZoom = sourceOptionsObj.minZoom;
-      }
-      if (typeof sourceOptionsObj.maxZoom !== 'undefined') {
-        additionalSettings.maxZoom = sourceOptionsObj.maxZoom;
-      }
-      if (typeof sourceOptionsObj.minNativeZoom !== 'undefined') {
-        additionalSettings.minNativeZoom = sourceOptionsObj.minNativeZoom;
-      }
-      if (typeof sourceOptionsObj.maxNativeZoom !== 'undefined') {
-        additionalSettings.maxNativeZoom = sourceOptionsObj.maxNativeZoom;
-      }
-      if (typeof sourceOptionsObj.bounds !== 'undefined') {
-        additionalSettings.bounds = sourceOptionsObj.bounds;
-      }
       if (time !== null) {
         // time as is gets automatically injected to WMS query OR xyz url {time} template
         const fixTime = time.value || time;
@@ -1273,7 +1272,14 @@ export default {
           additionalSettings.featuresTime = typeof sourceOptionsObj.features.dateFormatFunction === 'function'
             ? sourceOptionsObj.features.dateFormatFunction(fixTime) : fixTime;
         }
-      }
+      }format: "image/png"
+      const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
+      'format', 'width', 'height', 'transparent', 'srs'];
+      paramsToPassThrough.forEach((param) => {
+        if (typeof sourceOptionsObj[param] !== 'undefined') {
+          additionalSettings[param] = sourceOptionsObj[param];
+        }
+      });
       return additionalSettings;
     },
     dataLayerTimeSelection(payload) {
@@ -1364,7 +1370,7 @@ export default {
     },
     getInitialCompareTime() {
       // find closest entry one year before latest time
-      if (this.mergedConfigs()[0].largeTimeDuration) {
+      if (this.mergedConfigsData[0].largeTimeDuration) {
         // if interval, use just start to get closest
         const times = this.usedTimes.time.map((item) => (Array.isArray(item) ? item[0] : item));
         const lastTimeEntry = DateTime.fromISO(times[times.length - 1]);
@@ -1408,7 +1414,7 @@ export default {
                 subItem.$forceUpdate();
               });
             } else {
-              const originalConfig = this.mergedConfigs().find((config) => (
+              const originalConfig = this.mergedConfigsData.find((config) => (
                 config.name === item.name
               ));
               item.mapObject.setParams(this.layerOptions(
@@ -1431,9 +1437,9 @@ export default {
             this.compareLayerKeyXYZ[originalIndex] = Math.random();
           });
         }
-        if (!this.mergedConfigs()[0].featuresStatic
-          && (!this.mergedConfigs()[0].customAreaFeatures || this.validDrawnArea)) {
-          if (this.mergedConfigs()[0].featuresClustering) {
+        if (!this.mergedConfigsData[0].featuresStatic
+          && (!this.mergedConfigsData[0].customAreaFeatures || this.validDrawnArea)) {
+          if (this.mergedConfigsData[0].featuresClustering) {
             this.$refs.featuresCompareCluster.mapObject.clearLayers();
           }
           this.fetchFeatures('compare');
@@ -1447,9 +1453,9 @@ export default {
             this.dataLayerKeyXYZ[originalIndex] = Math.random();
           });
         }
-        if (!this.mergedConfigs()[0].featuresStatic
-          && (!this.mergedConfigs()[0].customAreaFeatures || this.validDrawnArea)) {
-          if (this.mergedConfigs()[0].featuresClustering) {
+        if (!this.mergedConfigsData[0].featuresStatic
+          && (!this.mergedConfigsData[0].customAreaFeatures || this.validDrawnArea)) {
+          if (this.mergedConfigsData[0].featuresClustering) {
             this.$refs.featuresDataCluster.mapObject.clearLayers();
           }
           this.fetchFeatures('data');
@@ -1457,14 +1463,15 @@ export default {
       }
     },
     fetchFeatures(side) {
-      if (this.mergedConfigs(side)[0].features) {
+      const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
+      if (usedConfig[0].features) {
         const options = this.layerOptions(side === 'compare' ? this.currentCompareTime : this.currentTime,
-          this.mergedConfigs(side)[0]);
+          usedConfig[0]);
         // add custom area if present
         let customArea = {};
         if (this.validDrawnArea) {
-          customArea = typeof this.mergedConfigs()[0].features.areaFormatFunction === 'function'
-            ? this.mergedConfigs()[0].features.areaFormatFunction(this.drawnArea)
+          customArea = typeof this.mergedConfigsData[0].features.areaFormatFunction === 'function'
+            ? this.mergedConfigsData[0].features.areaFormatFunction(this.drawnArea)
             : { area: JSON.stringify(this.drawnArea) };
         }
         const templateSubst = {
@@ -1473,11 +1480,11 @@ export default {
           ...customArea,
         };
         const templateRe = /\{ *([\w_ -]+) *\}/g;
-        const url = template(templateRe, this.mergedConfigs()[0].features.url, templateSubst);
+        const url = template(templateRe, this.mergedConfigsData[0].features.url, templateSubst);
         let requestBody = null;
-        if (this.mergedConfigs()[0].features.requestBody) {
+        if (this.mergedConfigsData[0].features.requestBody) {
           requestBody = {
-            ...this.mergedConfigs()[0].features.requestBody,
+            ...this.mergedConfigsData[0].features.requestBody,
           };
           const params = Object.keys(requestBody);
           for (let i = 0; i < params.length; i += 1) {
@@ -1487,8 +1494,8 @@ export default {
         }
         const requestOpts = {
           credentials: 'same-origin',
-          method: this.mergedConfigs()[0].features.requestMethod || 'GET',
-          headers: this.mergedConfigs()[0].features.requestHeaders || {},
+          method: this.mergedConfigsData[0].features.requestMethod || 'GET',
+          headers: this.mergedConfigsData[0].features.requestHeaders || {},
         };
         if (requestBody) {
           requestOpts.body = JSON.stringify(requestBody);
@@ -1497,8 +1504,8 @@ export default {
         fetch(url, requestOpts).then((r) => r.json())
           .then((rawdata) => {
             // if custom response -> feature mapping function configured, apply it
-            if (typeof this.mergedConfigs()[0].features.callbackFunction === 'function') {
-              return this.mergedConfigs()[0].features.callbackFunction(rawdata);
+            if (typeof this.mergedConfigsData[0].features.callbackFunction === 'function') {
+              return this.mergedConfigsData[0].features.callbackFunction(rawdata);
             }
             return rawdata;
           })
@@ -1601,12 +1608,12 @@ export default {
         });
     },
     fetchCustomAreaIndicator() {
-      const options = this.layerOptions(this.currentTime, this.mergedConfigs()[0]);
+      const options = this.layerOptions(this.currentTime, this.mergedConfigsData[0]);
       // add custom area if present
       let customArea = {};
       if (this.validDrawnArea) {
-        customArea = typeof this.mergedConfigs()[0].areaIndicator.areaFormatFunction === 'function'
-          ? this.mergedConfigs()[0].areaIndicator.areaFormatFunction(this.drawnArea)
+        customArea = typeof this.mergedConfigsData[0].areaIndicator.areaFormatFunction === 'function'
+          ? this.mergedConfigsData[0].areaIndicator.areaFormatFunction(this.drawnArea)
           : { area: JSON.stringify(this.drawnArea) };
       }
       this.indicator.title = 'User defined area of interest';
@@ -1616,11 +1623,11 @@ export default {
         ...customArea,
       };
       const templateRe = /\{ *([\w_ -]+) *\}/g;
-      const url = template(templateRe, this.mergedConfigs()[0].areaIndicator.url, templateSubst);
+      const url = template(templateRe, this.mergedConfigsData[0].areaIndicator.url, templateSubst);
       let requestBody = null;
-      if (this.mergedConfigs()[0].areaIndicator.requestBody) {
+      if (this.mergedConfigsData[0].areaIndicator.requestBody) {
         requestBody = {
-          ...this.mergedConfigs()[0].areaIndicator.requestBody,
+          ...this.mergedConfigsData[0].areaIndicator.requestBody,
         };
         const params = Object.keys(requestBody);
         for (let i = 0; i < params.length; i += 1) {
@@ -1636,8 +1643,8 @@ export default {
       }
       const requestOpts = {
         credentials: 'same-origin',
-        method: this.mergedConfigs()[0].areaIndicator.requestMethod || 'GET',
-        headers: this.mergedConfigs()[0].areaIndicator.requestHeaders || {},
+        method: this.mergedConfigsData[0].areaIndicator.requestMethod || 'GET',
+        headers: this.mergedConfigsData[0].areaIndicator.requestHeaders || {},
       };
       if (requestBody) {
         requestOpts.body = JSON.stringify(requestBody);
@@ -1650,13 +1657,13 @@ export default {
           return response.json();
         }
       })
-        .then((rawdata) => {
-          if (typeof this.mergedConfigs()[0].areaIndicator.callbackFunction === 'function') {
+        .then((rwdata) => {
+          if (typeof this.mergedConfigsData[0].areaIndicator.callbackFunction === 'function') {
             // merge data from current indicator data and new data from api
             // returns new indicator object to set as custom area indicator
-            return this.mergedConfigs()[0].areaIndicator.callbackFunction(rawdata, this.indicator);
+            return this.mergedConfigsData[0].areaIndicator.callbackFunction(rwdata, this.indicator);
           }
-          return rawdata;
+          return rwdata;
         })
         .then((indicator) => {
           if (indicator) {
@@ -1686,7 +1693,7 @@ export default {
       this.$store.commit('features/SET_SELECTED_AREA', null);
     },
     updateJsonLayers(ftrs, side) {
-      if (this.mergedConfigs()[0].featuresClustering) {
+      if (this.mergedConfigsData[0].featuresClustering) {
         // markercluster needs manual adding of all geojsons it will show
         // and cleanup of previous content
         const geojsonFromData = geoJson(ftrs, {
@@ -1739,7 +1746,7 @@ export default {
         }
       } else {
         this.map.addLayer(this.$refs.compareLayers.mapObject);
-        if (!this.mergedConfigs()[0].customAreaFeatures || this.validDrawnArea) {
+        if (!this.mergedConfigsData[0].customAreaFeatures || this.validDrawnArea) {
           this.fetchFeatures('compare');
         }
         this.$nextTick(() => {
