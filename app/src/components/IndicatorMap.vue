@@ -1002,16 +1002,11 @@ export default {
       };
     },
     featureOptions(side = 'data') {
-      let style = null;
-      if (side === 'data') {
-        style = (this.mergedConfigsData[0].features && this.mergedConfigsData[0].features.style) ? this.mergedConfigsData[0].features.style : {}; // eslint-disable-line
-      } else {
-        style = (this.mergedConfigsCompare[0].features && this.mergedConfigsCompare[0].features.style) ? this.mergedConfigsCompare[0].features.style : {}; // eslint-disable-line
-      }
+      const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
+      const style = (usedConfig[0].features && usedConfig[0].features.style) ? usedConfig[0].features.style : {}; // eslint-disable-line
       return {
         onEachFeature: function onEachFeature(feature, layer) {
           // if featuresParameters available, show only properties from mapping, otherwise dump all
-          const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
           const allowedParams = usedConfig[0].features ? usedConfig[0].features.allowedParameters : null; // eslint-disable-line
           const allKeys = Object.keys(feature.properties);
           let tooltip = '';
