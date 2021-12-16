@@ -9,3 +9,5 @@
 * [**World food supply amid a pandemic. Part-1**: Monitoring world’s crop conditions with satellite imagery](https://medium.com/euro-data-cube/world-food-supply-amid-a-pandemic-3940ef855f07)
 
 * [**World food supply amid a pandemic. Part-2**: How has the pandemic impacted agriculture activities worldwide?](https://sara-aparicio.medium.com/87215c8edbdc)
+
+* [**How to Create Custom Dashboards using EODASH**](https://medium.com/euro-data-cube/creating-powerful-visuals-of-covid-19-impacts-on-human-activities-8879fa75121d)
