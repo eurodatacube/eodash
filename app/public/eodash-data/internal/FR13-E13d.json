@@ -394,5 +394,27 @@
         "reference_time": "2018-05-01T00:00:00",
         "reference_value": "22.23928571428572",
         "time": "2021-07-01T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "NTNU_USF_UTFPR",
+        "eo_sensor": "Sentinel 2",
+        "indicator_value": "Normal",
+        "input_data": "/",
+        "measurement_value": "13.516666666666666",
+        "reference_time": "2018-05-01T00:00:00",
+        "reference_value": "22.23928571428572",
+        "time": "2021-08-01T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "NTNU_USF_UTFPR",
+        "eo_sensor": "Sentinel 2",
+        "indicator_value": "Normal",
+        "input_data": "/",
+        "measurement_value": "22.8904761904762",
+        "reference_time": "2018-05-01T00:00:00",
+        "reference_value": "22.23928571428572",
+        "time": "2021-09-01T00:00:00"
     }
 ]
