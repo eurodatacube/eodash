@@ -43,10 +43,6 @@ module.exports = [
         src: './eodash-data/general/Slide26.png',
       },
       {
-        src: './eodash-data/general/Slide22.png',
-        href: '/challenges',
-      },
-      {
         poi: 'CZ7-E8',
         src: './eodash-data/general/Slide25.png',
       },
