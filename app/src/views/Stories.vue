@@ -6,7 +6,7 @@
         :value="true"
       >
       <div
-        style="width: 100%; position: absolute; z-index: 1;
+        style="width: 100%; position: absolute; z-index: 2;
         box-shadow: inset 0 30px 25px -20px #0008;"
       >
         <v-btn
