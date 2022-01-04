@@ -1,5 +1,11 @@
 <template>
   <div class="dashboard fill-height">
+    <transition name="fade">
+      <Stories
+        v-if="showStoriesOverlay"
+        @dismiss="showStoriesOverlay = false"
+      />
+    </transition>
     <v-app-bar
       app
       clipped-left
@@ -32,6 +38,14 @@
           @click="displayShowText('about')"
         >
           About
+        </v-btn>
+        <v-btn
+          text
+          dark
+          small
+          @click="showStoriesOverlay = true"
+        >
+          Stories
         </v-btn>
         <v-badge
           bordered
@@ -118,6 +132,14 @@
         >
           About
         </v-btn>
+        <v-btn
+          block
+          text
+          color="primary"
+          @click="showStoriesOverlay = true"
+        >
+          Stories
+        </v-btn>
         <v-badge
           bordered
           color="info"
@@ -152,7 +174,8 @@
       hide-overlay
       :width="dataPanelFullWidth ? '100%' : '40%'"
       :style="`margin-top: ${$vuetify.application.top}px;
-        height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px`"
+        height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px;
+        z-index: 1;`"
       class="data-panel"
     >
       <banner v-if="currentNews" ref="newsBanner" />
@@ -272,6 +295,7 @@
 <script>
 import Welcome from '@/views/Welcome.vue';
 import About from '@/views/About.vue';
+import Stories from '@/views/Stories.vue';
 import Banner from '@/components/Banner.vue';
 import SelectionPanel from '@/components/SelectionPanel.vue';
 import CenterPanel from '@/components/CenterPanel.vue';
@@ -294,6 +318,7 @@ export default {
   components: {
     Welcome,
     About,
+    Stories,
     Banner,
     SelectionPanel,
     CenterPanel,
@@ -312,6 +337,7 @@ export default {
     dataPanelFullWidth: false,
     dataPanelTemporary: false,
     panelKey: 0,
+    showStoriesOverlay: false,
   }),
   computed: {
     appConfig() {
