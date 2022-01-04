@@ -1,17 +1,14 @@
 <template>
   <div style="width: 100%; height: 100%;"
-    v-if="!['E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10a9',
-      'E10c', 'N1', 'N3', 'N3b', 'E8',
-      'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA', 'CV', 'OW', 'OX', 'E10a10']
-      .includes(indicatorObject.indicator)">
+    v-if="barChartIndicators.includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
         class="fill-height"
         :width="null"
         :height="null"
         :chart-data='datacollection'
-        :options='chartOptions()'></bar-chart>
+        :options='chartOptions()'
+        v-bind="indicatorObject"></bar-chart>
   </div>
   <div style="width: 100%; height: 100%;"
     v-else-if="['E10a3', 'E10a8'].includes(indicatorObject.indicator)">
@@ -81,8 +78,6 @@ import BarChart from '@/components/BarChart.vue';
 import LineChart from '@/components/LineChart.vue';
 import MapChart from '@/components/MapChart.vue';
 import NUTS from '@/assets/NUTS_RG_03M_2016_4326_ESL2-DEL3.json';
-import lockdownTimes from '@/assets/lockdown_data.json';
-import countries from '@/assets/countries.json';
 
 export default {
   props: [
@@ -97,8 +92,21 @@ export default {
     return {
       dataLayerTime: null,
       dataLayerIndex: 0,
+      multiParsChartIndicators: ['GG', 'E10a', 'E10a9', 'CV', 'E10c', 'N3b'],
+      lineChartIndicators: ['E12', 'E8', 'N1b', 'N1', 'N3'],
+      barChartIndicators: [
+        'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
+        'E1a_S2', 'E2_S2', 'E4', 'E5',
+      ],
+      mapchartIndicators: [],
     };
   },
+  /*
+  'E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10a9',
+      'E10c', 'N1', 'N3', 'N3b', 'E8',
+      'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
+      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA', 'CV', 'OW', 'OX', 'E10a10'
+      */
   mounted() {
     const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
     this.dataLayerTime = d.toFormat('dd. MMM');
@@ -1025,12 +1033,8 @@ export default {
       return [timeMin, timeMax];
     },
     chartOptions() {
-      const indicatorCode = this.indicatorObject.indicator;
-      const reference = Number.parseFloat(this.indicatorObject.referenceValue);
-      let timeMinMax = this.getMinMaxDate(this.indicatorObject.time);
-      const annotations = [];
-      let low = 0;
-      let high = 0;
+      const customSettings = {};
+
       const defaultAnnotationSettings = {
         type: 'line',
         mode: 'horizontal',
@@ -1055,9 +1059,13 @@ export default {
           fontColor: 'rgba(0, 0, 0, 0.8)',
         },
       };
-      if (!Number.isNaN(reference)
-        && !['E10a1', 'E10a2', 'E10a5', 'E10a6', 'E10a7', 'E10a9', 'N4c', 'E8', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m', 'E12c', 'E12d', 'E10a10']
-          .includes(indicatorCode)) {
+      const indicatorCode = this.indicatorObject.indicator;
+      const reference = Number.parseFloat(this.indicatorObject.referenceValue);
+      const annotations = [];
+      let low = 0;
+      let high = 0;
+
+      if (!Number.isNaN(reference) && ['E13b'].includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
           label: {
@@ -1078,11 +1086,13 @@ export default {
             content: `on/off: ${this.formatNumRef(low)}`,
           },
         });
-      } else if (['E11', 'E1a', 'E1', 'E2', 'E2_S2', 'E1a_S2', 'E1_S2', 'E200'].includes(indicatorCode)) {
+      } else if ([
+        'E11', 'E1a', 'E1', 'E2', 'E2_S2', 'E1a_S2', 'E1_S2', 'E200'
+        ].includes(indicatorCode)) {
         if (indicatorCode === 'E11') {
           low = 0.3 * reference;
           high = 0.7 * reference;
-        } else if (['E1a', 'E1', 'E2', 'E2_S2', 'E1a_S2', 'E1_S2', 'E200'].includes(indicatorCode)) {
+        } else {
           low = 0.7 * reference;
           high = 1.3 * reference;
         }
@@ -1104,50 +1114,20 @@ export default {
         });
       }
 
-      // Introduce background area annotations for lockdown times, does not
-      // work for all chart types, so we make sure it is not any of those charts
-      if (!['E10a3', 'E10a8', 'N2', 'E12c', 'E12d', 'GSA'].includes(indicatorCode)) {
-        // Find country based on alpha-3 code
-        const currCountry = countries.features.find(
-          (cntr) => cntr.properties.alpha2 === this.indicatorObject.country,
-        );
-        if (typeof currCountry !== 'undefined'
-          && Object.prototype.hasOwnProperty.call(lockdownTimes, currCountry.id)) {
-          const lckTs = lockdownTimes[currCountry.id]['C7_Restrictions on internal movement'];
-          for (let i = 0; i < lckTs.length; i++) {
-            let areaColor = 'rgba(0, 0, 0, 0.0)';
-            if (lckTs[i].value === 1) {
-              areaColor = 'rgba(204, 143, 143, 0.24)';
-            } else if (lckTs[i].value === 2) {
-              areaColor = 'rgba(207, 109, 109, 0.54)';
-            }
-            // We also have special date handling for some chart types as we
-            // simulate year agnostic rendering, so we convert all dates to
-            // one year
-            let start = DateTime.fromISO(lckTs[i].start);
-            let end = DateTime.fromISO(lckTs[i].end);
-            if (['E10a2', 'E10a6', 'E10a7', 'E10c', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m'].includes(indicatorCode)) {
-              start = start.set({ year: 2000 });
-              end = end.set({ year: 2000 });
-            }
-            if (lckTs[i].value !== 0) {
-              annotations.push({
-                drawTime: 'beforeDatasetsDraw',
-                type: 'box',
-                xScaleID: 'x-axis-0',
-                xMin: start.toISODate(),
-                xMax: end.toISODate(),
-                borderColor: areaColor,
-                borderWidth: 0,
-                backgroundColor: areaColor,
-              });
-            }
-          }
-        }
-      }
+      return {
+        ...customSettings,
+        annotation: {
+          annotations,
+        },
+      };
+
+      /*
+
 
       let xAxes = {};
-      if (!['E10a1', 'E10a2', 'E10a3', 'E10a5', 'E10a6', 'E10a7', 'E10a8', 'E10c', 'E12c', 'E12d', 'N2'].includes(indicatorCode)) {
+      if (![
+        'E10a1', 'E10a2', 'E10a3', 'E10a5', 'E10a6', 'E10a7', 'E10a8',
+        'E10c', 'E12c', 'E12d', 'N2'].includes(indicatorCode)) {
         xAxes = [{
           type: 'time',
           time: {
@@ -1164,14 +1144,16 @@ export default {
         }
       }
 
-      if (['E10a2', 'E10a6', 'E10a7', 'E10c', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m'].includes(indicatorCode)) {
-        /* Recalculate to get min max months in data converted to one year */
+      if ([
+        'E10a2', 'E10a6', 'E10a7', 'E10c', 'E13e', 'E13f', 'E13g', 'E13h',
+        'E13i', 'E13l', 'E13m'].includes(indicatorCode)) {
+        // Recalculate to get min max months in data converted to one year
         timeMinMax = this.getMinMaxDate(
           this.indicatorObject.time.map((date) => (
             date.set({ year: 2000 })
           )),
         );
-        /* Check also for reference time */
+        // Check also for reference time
         const refTimeMinMax = this.getMinMaxDate(
           this.indicatorObject.referenceTime.map((date) => (
             date.set({ year: 2000 })
@@ -1395,7 +1377,9 @@ export default {
         );
       }
 
-      if (['E12b', 'E1a', 'E1', 'E2', 'E2_S2', 'E1a_S2', 'E1_S2', 'E13d', 'E200'].includes(indicatorCode)) {
+      if ([
+        'E12b', 'E1a', 'E1', 'E2', 'E2_S2', 'E1a_S2',
+        'E1_S2', 'E13d', 'E200'].includes(indicatorCode)) {
       // update used yaxis chart min to be min value
         yAxes[0].ticks.suggestedMin = Math.min(
           ...this.indicatorObject.measurement
@@ -1720,6 +1704,8 @@ export default {
           annotations,
         },
       };
+
+      */
     },
   },
 };
