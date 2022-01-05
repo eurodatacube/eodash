@@ -30,9 +30,24 @@
         <v-spacer></v-spacer>
         <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
       </v-app-bar>
-      <v-row class="d-flex">
-        <v-col cols="12" md="6" xl="8">
-          <div class="dashboardTitle">
+      <v-row class="d-flex" style="position: relative">
+        <v-img
+          v-if="officialDashboard"
+          :src="`https://picsum.photos/1000/800`"
+          style="position: absolute; top: 0; width: calc(100% + 56px); max-width: unset;
+          height: 100%; margin: -8px -28px 0 -28px">
+        </v-img>
+        <v-col
+          cols="12"
+          md="6"
+          xl="8"
+          :style="`z-index: 1; ${officialDashboard
+            ? 'padding-top: 100px; padding-bottom: 100px'
+            : ''}`"
+        >
+          <div class="dashboardTitle" :style="`${officialDashboard
+            ? 'text-shadow: 0 0 20px #0009'
+            : ''}`">
             <div class="d-flex">
               <h1
                 class="display-2 font-weight-light primary--text mt-7 mb-5">
@@ -98,24 +113,30 @@
                 </v-card>
               </v-dialog>
             </div>
-            <p v-if="newDashboard || hasEditingPrivilege">
-              Disclaimer: By editing, saving and sharing this custom dashboard, you agree to the
-              <a
-                href="/terms_and_conditions"
-                target="_blank"
-              >Terms and Conditions of this website</a>. Any violation of this agreement will
-              result in the deletion of this custom dashboard without warning.
-            </p>
-            <p v-else>
-              <em>
-                This Custom Dashboard was user-generated and is not an official product of the
-                {{ $store.state.config.appConfig.branding.appName }} project. Some of the content
-                on this page originates from the
-                {{ $store.state.config.appConfig.branding.appName }},
-                <a :href="rootLink" target="_blank">{{ rootLink }}</a>.
-                <a href="/terms_and_conditions" target="_blank">Terms and Conditions</a> apply.
-              </em>
-            </p>
+            <template v-if="officialDashboard">
+              <p>Official Dashboard Subtitle goes here, to describe what this official dashboard is all about.</p>
+              <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
+            </template>
+            <template v-else>
+              <p v-if="newDashboard || hasEditingPrivilege">
+                Disclaimer: By editing, saving and sharing this custom dashboard, you agree to the
+                <a
+                  href="/terms_and_conditions"
+                  target="_blank"
+                >Terms and Conditions of this website</a>. Any violation of this agreement will
+                result in the deletion of this custom dashboard without warning.
+              </p>
+              <p v-else>
+                <em>
+                  This Custom Dashboard was user-generated and is not an official product of the
+                  {{ appConfig && appConfig.branding.appName }} project. Some of the content
+                  on this page originates from the
+                  {{ appConfig && appConfig.branding.appName }},
+                  <a :href="rootLink" target="_blank">{{ rootLink }}</a>.
+                  <a href="/terms_and_conditions" target="_blank">Terms and Conditions</a> apply.
+                </em>
+              </p>
+            </template>
           </div>
         </v-col>
         <v-col
@@ -123,6 +144,7 @@
           md="6"
           xl="4"
           class="d-flex align-center"
+          style="z-index: 1"
         >
           <div
             :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'"
@@ -142,7 +164,7 @@
               v-if="hasEditingPrivilege || !(dashboardConfig && dashboardConfig.id)"
               @click="disconnect"
               :color="!(dashboardConfig && dashboardConfig.id) ? 'red' : 'grey'"
-              :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : 'mr-4'"
+              :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : ''"
               :block="$vuetify.breakpoint.xsOnly"
               style="color: white"
             >
@@ -535,6 +557,7 @@ export default {
     ],
     reconnecting: false,
     markdownMessage: 'You can use <a href="https://guides.github.com/features/mastering-markdown/" rel="noopener" target="_blank" tabindex="-1">markdown</a>',
+    officialDashboard: false,
   }),
   computed: {
     ...mapState('config', [
