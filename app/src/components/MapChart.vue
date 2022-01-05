@@ -60,10 +60,10 @@ export default {
               labelString: this.$attrs.yAxis,
               padding: 2,
             },
-          }]
-        }
-      }
+          }],
+        },
+      },
     };
-  }
+  },
 };
 </script>

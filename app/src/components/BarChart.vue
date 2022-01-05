@@ -12,8 +12,14 @@ export default {
   props: ['options'],
   mounted() {
     const extendedSettings = Object.assign(this.defaultOptions, this.options);
-    extendedSettings.annotation.annotations.push(...this.movementRestrictions);
-    const [min, max] = this.minMaxDate;
+    let [min, max] = this.minMaxDate(this.$attrs.time);
+    if (extendedSettings.sameYearComparison) {
+      [min, max] = this.minMaxDate(
+        this.$attrs.time.map((date) => date.set({ year: 2000 })),
+      );
+    } else {
+      extendedSettings.annotation.annotations.push(...this.movementRestrictions);
+    }
     extendedSettings.scales.xAxes[0].ticks.min = min;
     extendedSettings.scales.xAxes[0].ticks.max = max;
     this.renderChart(this.chartData, extendedSettings);
@@ -22,8 +28,14 @@ export default {
     options: {
       handler() {
         const extendedSettings = Object.assign(this.defaultOptions, this.options);
-        extendedSettings.annotation.annotations.push(...this.movementRestrictions);
-        const [min, max] = this.minMaxDate;
+        let [min, max] = this.minMaxDate(this.$attrs.time);
+        if (extendedSettings.sameYearComparison) {
+          [min, max] = this.minMaxDate(
+            this.$attrs.time.map((date) => date.set({ year: 2000 })),
+          );
+        } else {
+          extendedSettings.annotation.annotations.push(...this.movementRestrictions);
+        }
         extendedSettings.scales.xAxes[0].ticks.min = min;
         extendedSettings.scales.xAxes[0].ticks.max = max;
         this.renderChart(this.chartData, extendedSettings);
@@ -79,25 +91,22 @@ export default {
                   datasetIndex: meta.index,
                 };
               }, this);
-              // Now we add our default 2 lockdown labels but we exclude indicators
-              // where it is not applicable
-              // if (!['E10a1', 'E10a5', 'E10a8', 'N2', 'N4c', 'E12c', 'E12d', 'GSA', 'N1']
-              //  .includes(this.$attrs.indicator)) {
-              labelObjects.push({
-                text: 'Low Restrictions',
-                fillStyle: 'rgba(204, 143, 143, 0.24)',
-                hidden: false,
-                lineWidth: 0,
-                datasetIndex: -1,
-              });
-              labelObjects.push({
-                text: 'High Restrictions',
-                fillStyle: 'rgba(207, 109, 109, 0.54)',
-                hidden: false,
-                lineWidth: 0,
-                datasetIndex: -1,
-              });
-              // }
+              if (!this.options.sameYearComparison) {
+                labelObjects.push({
+                  text: 'Low Restrictions',
+                  fillStyle: 'rgba(204, 143, 143, 0.24)',
+                  hidden: false,
+                  lineWidth: 0,
+                  datasetIndex: -1,
+                });
+                labelObjects.push({
+                  text: 'High Restrictions',
+                  fillStyle: 'rgba(207, 109, 109, 0.54)',
+                  hidden: false,
+                  lineWidth: 0,
+                  datasetIndex: -1,
+                });
+              }
               return labelObjects;
             },
           },
@@ -112,6 +121,8 @@ export default {
               },
               tooltipFormat: 'dd. MMM yy',
             },
+            // TODO: add barThickness to correct datasets
+            // barThickness: 'flex',
             distribution: 'series',
             ticks: {},
           }],
@@ -137,15 +148,17 @@ export default {
       },
     };
   },
-  computed: {
-    minMaxDate() {
-      let timeMin = Math.min.apply(null, this.$attrs.time.map((d) => d.toMillis()));
-      let timeMax = Math.max.apply(null, this.$attrs.time.map((d) => d.toMillis()));
-      const buffer = (timeMax - timeMin) / this.$attrs.time.length;
+  methods: {
+    minMaxDate(timedata) {
+      let timeMin = Math.min.apply(null, timedata.map((d) => d.toMillis()));
+      let timeMax = Math.max.apply(null, timedata.map((d) => d.toMillis()));
+      const buffer = (timeMax - timeMin) / timedata.length;
       timeMin -= buffer;
       timeMax += buffer;
       return [timeMin, timeMax];
     },
+  },
+  computed: {
     movementRestrictions() {
       // Find country based on alpha-3 code
       const currCountry = countries.features.find(

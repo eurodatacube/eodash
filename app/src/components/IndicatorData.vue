@@ -60,7 +60,7 @@
       </v-row>
   </div>
   <div style="width: 100%; height: 100%;" v-else>
-    <line-chart v-if='datacollection'
+    <line-chart v-if='lineChartIndicators.includes(indicatorObject.indicator)'
       id="chart"
       class="fill-height"
       :width="null"
@@ -94,11 +94,18 @@ export default {
     return {
       dataLayerTime: null,
       dataLayerIndex: 0,
-      multiParsChartIndicators: ['GG', 'E10a', 'E10a9', 'CV', 'E10c', 'N3b'],
-      lineChartIndicators: ['E12', 'E8', 'N1b', 'N1', 'N3'],
+      lineChartIndicators: [
+        'E12', 'E12b', 'E8', 'N1b', 'N1', 'N3', 'N3b',
+        'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10',
+        // Year overlap comparison
+        'E10a2', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E10a6',
+
+      ],
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
-        'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1'
+        'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1',
+        'E13n',
+        'E10a1', 'E10a5', // Year group comparison
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
     };
@@ -146,34 +153,7 @@ export default {
         const { measurement } = indicator;
         const colors = [];
         const datasets = [];
-        if (['E10a1', 'E10a5'].includes(indicatorCode)) {
-          const referenceValue = indicator.referenceValue.map(Number);
-          for (let i = 0; i < indicator.time.length; i += 1) {
-            if (!Number.isNaN(indicator.time[i].toMillis())) {
-              const d = indicator.time[i];
-              const formattedDate = d.toFormat('dd. MMM');
-              labels.push(formattedDate);
-            } else {
-              labels.push(i);
-            }
-          }
-          const labelref = '2019';
-          const labelmeas = '2020';
-          datasets.push({
-            indLabels: Array(indicator.indicatorValue.length).join('.').split('.'),
-            label: labelref,
-            data: referenceValue,
-            fill: false,
-            backgroundColor: 'grey',
-          });
-          datasets.push({
-            indLabels: indicator.indicatorValue,
-            label: labelmeas,
-            data: measurement,
-            fill: false,
-            backgroundColor: 'black',
-          });
-        } else if (['E10a9'].includes(indicatorCode)) {
+        if (['E10a9'].includes(indicatorCode)) {
           const categories = [
             'National Workers',
             'Foreign Workers',
@@ -357,31 +337,34 @@ export default {
             data: [refData[3], measData[3], measData[8]],
             backgroundColor: refColors[3],
           });
-        } else if (['E10a2', 'E10a6', 'E10a7', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m'].includes(indicatorCode)) {
+        } else if (['E10a1', 'E10a5'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
           const referenceValue = indicator.referenceValue.map(Number);
           indicator.time.forEach((date, i) => {
-            const meas = { t: date.set({ year: 2000 }), y: measurement[i] };
-            if (typeof uniqueRefs.find((item) => item.t.equals(meas.t)) === 'undefined') {
+            const meas = {
+              t: date.set({
+                year: 2000, day: 1, hour: 1, minute: 0, second: 0,
+              }),
+              y: measurement[i],
+              indicatorValue: indicator.indicatorValue[i],
+            };
+            if (typeof uniqueMeas.find((item) => item.t.equals(meas.t)) === 'undefined') {
               uniqueMeas.push(meas);
             }
           });
           indicator.referenceTime.forEach((date, i) => {
             if (!['', '/'].includes(indicator.referenceValue[i])) {
-              const ref = { t: date.set({ year: 2000 }), y: referenceValue[i] };
+              const ref = {
+                t: date.set({
+                  year: 2000, day: 1, hour: 1, minute: 0, second: 0,
+                }),
+                y: referenceValue[i],
+              };
               if (typeof uniqueRefs.find((item) => item.t.equals(ref.t)) === 'undefined') {
                 uniqueRefs.push(ref);
               }
             }
-          });
-          datasets.push({
-            label: '2020',
-            data: uniqueMeas,
-            fill: false,
-            borderColor: refColors[1],
-            backgroundColor: refColors[1],
-            borderWidth: 2,
           });
           if (uniqueRefs.length > 0) {
             datasets.push({
@@ -393,6 +376,56 @@ export default {
               borderWidth: 2,
             });
           }
+          datasets.push({
+            label: '2020',
+            data: uniqueMeas,
+            fill: false,
+            borderColor: refColors[1],
+            backgroundColor: refColors[1],
+            borderWidth: 2,
+          });
+        } else if (['E10a2', 'E10a6', 'E10a7', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m'].includes(indicatorCode)) {
+          const uniqueRefs = [];
+          const uniqueMeas = [];
+          const referenceValue = indicator.referenceValue.map(Number);
+          indicator.time.forEach((date, i) => {
+            const meas = {
+              t: date.set({ year: 2000 }),
+              y: measurement[i],
+            };
+            if (typeof uniqueMeas.find((item) => item.t.equals(meas.t)) === 'undefined') {
+              uniqueMeas.push(meas);
+            }
+          });
+          indicator.referenceTime.forEach((date, i) => {
+            if (!['', '/'].includes(indicator.referenceValue[i])) {
+              const ref = {
+                t: date.set({ year: 2000 }),
+                y: referenceValue[i],
+              };
+              if (typeof uniqueRefs.find((item) => item.t.equals(ref.t)) === 'undefined') {
+                uniqueRefs.push(ref);
+              }
+            }
+          });
+          if (uniqueRefs.length > 0) {
+            datasets.push({
+              label: '2019',
+              data: uniqueRefs,
+              fill: false,
+              borderColor: refColors[0],
+              backgroundColor: refColors[0],
+              borderWidth: 2,
+            });
+          }
+          datasets.push({
+            label: '2020',
+            data: uniqueMeas,
+            fill: false,
+            borderColor: refColors[1],
+            backgroundColor: refColors[1],
+            borderWidth: 2,
+          });
         } else if (['E10a10'].includes(indicatorCode)) {
           const data = [];
           const refData = [];
@@ -1089,8 +1122,8 @@ export default {
           },
         });
       } else if ([
-        'E11', 'E1a', 'E1', 'E2', 'E2_S2', 'E1a_S2', 'E1_S2', 'E200'
-        ].includes(indicatorCode)) {
+        'E11', 'E1a', 'E1', 'E2', 'E2_S2', 'E1a_S2', 'E1_S2', 'E200',
+      ].includes(indicatorCode)) {
         if (indicatorCode === 'E11') {
           low = 0.3 * reference;
           high = 0.7 * reference;
@@ -1113,6 +1146,18 @@ export default {
             ...defaultAnnotationSettings.label,
             content: `high: ${this.formatNumRef(high)}`,
           },
+        });
+      }
+
+      // Add specifically reference value as annotation
+      if (!Number.isNaN(reference) && ['E13n'].includes(indicatorCode)) {
+        annotations.push({
+          ...defaultAnnotationSettings,
+          label: {
+            ...defaultAnnotationSettings.label,
+            content: `reference: ${this.formatNumRef(reference)}`,
+          },
+          value: reference,
         });
       }
 
@@ -1143,6 +1188,13 @@ export default {
             },
           },
         };
+      }
+
+      if ([
+        'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E10a1', 'E10a2', 'E10a5', 'E10a6',
+      ].includes(indicatorCode)) {
+        // Special time range for same year comparisons
+        customSettings.sameYearComparison = true;
       }
 
       if (['E10a8'].includes(indicatorCode)) {
@@ -1180,296 +1232,9 @@ export default {
         };
       }
 
-      return {
-        ...customSettings,
-        annotation: {
-          annotations,
-        },
-      };
-
-      /*
-
-
-      let xAxes = {};
-      if (![
-        'E10a1', 'E10a2', 'E10a3', 'E10a5', 'E10a6', 'E10a7', 'E10a8',
-        'E10c', 'E12c', 'E12d', 'N2'].includes(indicatorCode)) {
-        xAxes = [{
-          type: 'time',
-          time: {
-            unit: 'week',
-          },
-          ticks: {
-            min: timeMinMax[0],
-            max: timeMinMax[1],
-          },
-          barThickness: 'flex',
-        }];
-        if (!['N3', 'N3b'].includes(indicatorCode)) {
-          xAxes[0].distribution = 'series';
-        }
-      }
-
-      if ([
-        'E10a2', 'E10a6', 'E10a7', 'E10c', 'E13e', 'E13f', 'E13g', 'E13h',
-        'E13i', 'E13l', 'E13m'].includes(indicatorCode)) {
-        // Recalculate to get min max months in data converted to one year
-        timeMinMax = this.getMinMaxDate(
-          this.indicatorObject.time.map((date) => (
-            date.set({ year: 2000 })
-          )),
-        );
-        // Check also for reference time
-        const refTimeMinMax = this.getMinMaxDate(
-          this.indicatorObject.referenceTime.map((date) => (
-            date.set({ year: 2000 })
-          )),
-        );
-        xAxes = [{
-          type: 'time',
-          time: {
-            unit: 'month',
-            displayFormats: {
-              month: 'MMM',
-            },
-            tooltipFormat: 'dd. MMM',
-          },
-          ticks: {
-            min: (timeMinMax[0] < refTimeMinMax[0]) ? timeMinMax[0] : refTimeMinMax[0],
-            max: (timeMinMax[1] > refTimeMinMax[1]) ? timeMinMax[1] : refTimeMinMax[1],
-          },
-        }];
-      }
-
-      if (['N2'].includes(indicatorCode)) {
-        timeMinMax = this.getMinMaxDate(
-          this.indicatorObject.time.map((date) => (
-            date.set({ year: 2000 })
-          )),
-        );
-        xAxes = [{
-          type: 'time',
-          time: {
-            unit: 'month',
-            displayFormats: {
-              month: 'MMM',
-            },
-            tooltipFormat: 'dd. MMM',
-          },
-          distribution: 'series',
-          ticks: {
-            min: timeMinMax[0],
-            max: timeMinMax[1],
-          },
-        }];
-      }
-
-      if (['E12c', 'E12d'].includes(indicatorCode)) {
-        xAxes = [{
-          type: 'time',
-          time: {
-            unit: 'year',
-            displayFormats: {
-              year: 'yyyy',
-            },
-            tooltipFormat: 'yyyy-MM-dd - yyyy-06-30',
-          },
-          distribution: 'series',
-          ticks: {
-            min: timeMinMax[0],
-            max: timeMinMax[1],
-          },
-        }];
-      }
-
-      if (['E13d', 'E13n', 'C1', 'C2', 'C3'].includes(indicatorCode)) {
-        xAxes = [{
-          type: 'time',
-          time: {
-            unit: 'month',
-            displayFormats: {
-              month: 'MMM yy',
-            },
-            tooltipFormat: 'MMM yyyy',
-          },
-          distribution: 'series',
-          ticks: {
-            min: timeMinMax[0],
-            max: timeMinMax[1],
-          },
-        }];
-      }
-
-      if (['OX'].includes(indicatorCode)) {
-        xAxes = [{
-          type: 'time',
-          time: {
-            unit: 'month',
-            displayFormats: {
-              month: 'MMM yy',
-            },
-            tooltipFormat: 'dd. MMM yy',
-          },
-          distribution: 'linear',
-          ticks: {
-            min: timeMinMax[0],
-            max: timeMinMax[1],
-          },
-        }];
-      }
-
-
-      let plugins = {
-        datalabels: {
-          display: false,
-        },
-      };
-
-      const yAxes = [{
-        scaleLabel: {
-          display: true,
-          labelString: this.indicatorObject.yAxis,
-          padding: 2,
-        },
-        ticks: {
-          lineHeight: 1,
-          suggestedMin: Math.min(
-            ...this.indicatorObject.measurement
-              .filter((d) => !Number.isNaN(d)),
-          ) - 1,
-          suggestedMax: Math.max(
-            ...this.indicatorObject.measurement
-              .filter((d) => !Number.isNaN(d)),
-          ) + 1,
-        },
-      }];
-
-      if (['E8'].includes(indicatorCode)) {
-        yAxes[0].ticks.suggestedMin += 1;
-        yAxes[0].ticks.suggestedMax -= 1;
-      }
-
-      // This indicator has an array of values so we need to calculate min/max
-      // different
-      if (['E10a9'].includes(indicatorCode)) {
-        const measFlat = this.indicatorObject.measurement.flat();
-        yAxes[0].ticks.suggestedMin = Math.min(...measFlat);
-        yAxes[0].ticks.suggestedMax = Math.max(...measFlat);
-      }
-
-      const legend = {
-        labels: {
-          generateLabels: (chart) => {
-            const { datasets } = chart.data;
-            const { labels } = chart.legend.options;
-            const { usePointStyle } = labels;
-            const overrideStyle = labels.pointStyle;
-            let labelSet = chart._getSortedDatasetMetas();
-            labelSet = labelSet.filter((meta) => {
-              let includeLabel = false;
-              if (Object.prototype.hasOwnProperty.call(datasets[meta.index], 'label')) {
-                includeLabel = !datasets[meta.index].label.startsWith('hide_');
-              }
-              return includeLabel;
-            });
-            const labelObjects = labelSet.map((meta) => {
-              const style = meta.controller.getStyle(usePointStyle ? 0 : undefined);
-              const borderWidth = 2;
-              let hidden = false;
-              if (meta.hidden === true) {
-                hidden = true;
-              }
-              return {
-                text: datasets[meta.index].label,
-                fillStyle: style.backgroundColor,
-                hidden,
-                lineCap: style.borderCapStyle,
-                lineDash: style.borderDash,
-                lineDashOffset: style.borderDashOffset,
-                lineJoin: style.borderJoinStyle,
-                lineWidth: borderWidth,
-                strokeStyle: style.borderColor,
-                pointStyle: overrideStyle || style.pointStyle,
-                rotation: style.rotation,
-                // Below is extra data used for toggling the datasets
-                datasetIndex: meta.index,
-              };
-            }, this);
-            // Now we add our default 2 lockdown labels but we exclude indicators
-            // where it is not applicable
-            if (!['E10a1', 'E10a5', 'E10a8', 'N2', 'N4c', 'E12c', 'E12d', 'GSA', 'N1']
-              .includes(this.indicatorObject.indicator)) {
-              labelObjects.push({
-                text: 'Low Restrictions',
-                fillStyle: 'rgba(204, 143, 143, 0.24)',
-                hidden: false,
-                lineWidth: 0,
-                datasetIndex: -1,
-              });
-              labelObjects.push({
-                text: 'High Restrictions',
-                fillStyle: 'rgba(207, 109, 109, 0.54)',
-                hidden: false,
-                lineWidth: 0,
-                datasetIndex: -1,
-              });
-            }
-            return labelObjects;
-          },
-        },
-      };
-
-      if (['N4c'].includes(indicatorCode)) {
-        xAxes = [{
-          stacked: true,
-        }];
-        yAxes[0].stacked = true;
-        yAxes[0].ticks.beginAtZero = true;
-        yAxes[0].ticks.suggestedMin = Math.min(
-          ...this.indicatorObject.measurement
-            .filter((d) => !Number.isNaN(d)),
-        );
-        yAxes[0].ticks.suggestedMax = Math.max(
-          ...this.indicatorObject.measurement
-            .filter((d) => !Number.isNaN(d)),
-        );
-      }
-
-      if (['E12b'].includes(indicatorCode)) {
-        // update used yaxis chart max to be max value
-        yAxes[0].ticks.suggestedMax = Math.max(
-          ...this.indicatorObject.measurement
-            .filter((d) => !Number.isNaN(d)),
-        );
-      }
-
-      if ([
-        'E12b', 'E1a', 'E1', 'E2', 'E2_S2', 'E1a_S2',
-        'E1_S2', 'E13d', 'E200'].includes(indicatorCode)) {
-      // update used yaxis chart min to be min value
-        yAxes[0].ticks.suggestedMin = Math.min(
-          ...this.indicatorObject.measurement
-            .filter((d) => !Number.isNaN(d)),
-        );
-      }
-      if (['CV', 'OW', 'OX'].includes(indicatorCode)) {
-        yAxes[0].ticks.beginAtZero = true;
-        yAxes[0].ticks = {
-          lineHeight: 1,
-          suggestedMin: Math.min(
-            ...this.indicatorObject.measurement
-              .filter((d) => !Number.isNaN(d)),
-          ),
-          suggestedMax: Math.max(
-            ...this.indicatorObject.measurement
-              .filter((d) => !Number.isNaN(d)),
-          ),
-        };
-      }
-
+      // Custom labels for bar comparisons
       if (['E10a1', 'E10a5'].includes(indicatorCode)) {
-        yAxes[0].ticks.beginAtZero = true;
-        plugins = {
+        customSettings.plugins = {
           datalabels: {
             labels: {
               value: {
@@ -1478,10 +1243,12 @@ export default {
                 offset: 10,
                 formatter: (value, context) => {
                   let labelRes = '';
-                  const percentage = context.chart.data.datasets[context.datasetIndex]
-                    .indLabels[context.dataIndex];
-                  if (!['', '/'].includes(percentage)) {
-                    const percVal = Number((percentage * 100).toPrecision(4));
+                  const percentage = Number(
+                    context.chart.data.datasets[context.datasetIndex]
+                      .data[context.dataIndex].indicatorValue,
+                  );
+                  if (!Number.isNaN(percentage)) {
+                    const percVal = (percentage * 100).toPrecision(4);
                     if (percVal > 0) {
                       labelRes = `+${percVal}%`;
                     } else {
@@ -1493,7 +1260,7 @@ export default {
                 color: (context) => {
                   let color = 'red';
                   if (context.chart.data.datasets[context.datasetIndex]
-                    .indLabels[context.dataIndex] > 0) {
+                    .data[context.dataIndex].indicatorValue > 0) {
                     color = 'green';
                   }
                   return color;
@@ -1504,214 +1271,18 @@ export default {
                 anchor: 'end',
                 align: 'end',
                 offset: -6,
-                formatter: (value) => value.toFixed(1),
+                formatter: (value) => value.y.toFixed(1),
               },
             },
           },
         };
       }
-      if (['E9'].includes(indicatorCode)) {
-        yAxes[0].ticks.suggestedMin = 0;
-        yAxes[0].ticks.suggestedMax = Math.max(
-          ...this.indicatorObject.measurement
-            .filter((d) => !Number.isNaN(d)),
-        );
-      }
-      if (['E10a6', 'E10a7'].includes(indicatorCode)) {
-        yAxes[0].ticks.beginAtZero = true;
-        plugins = {
-          datalabels: {
-            labels: {
-              title: {
-                color: (context) => context.dataset.backgroundColor,
-                font: {
-                  size: 10,
-                },
-                anchor: 'end',
-                align: 'end',
-                offset: (context) => {
-                  if (context.chart.data.datasets.length === 2) {
-                    if (context.datasetIndex === 0) {
-                      if (!Number.isNaN(context.chart.data.datasets[1].data[context.dataIndex].y)
-                        && context.chart.data.datasets[0].data[context.dataIndex].y
-                        > context.chart.data.datasets[1].data[context.dataIndex].y) {
-                        return 0;
-                      }
-                      return -28;
-                    }
-                    if (!Number.isNaN(context.chart.data.datasets[0].data[context.dataIndex].y)
-                      && context.chart.data.datasets[0].data[context.dataIndex].y
-                      > context.chart.data.datasets[1].data[context.dataIndex].y) {
-                      return -28;
-                    }
-                    return 0;
-                  }
-                  return 0;
-                },
-                formatter: (value) => `${value.y.toFixed(1)}%`,
-              },
-            },
-          },
-        };
-      }
-
-      if (['N2', 'E12c', 'E12d'].includes(indicatorCode)) {
-        yAxes[0].ticks.beginAtZero = true;
-      }
-
-      if (['E10c', 'E10a2', 'E10a6', 'E10a7', 'E10a10'].includes(indicatorCode)) {
-        yAxes[0].ticks.suggestedMin += 1;
-        yAxes[0].ticks.suggestedMax -= 1;
-      }
-
-      if (['N3'].includes(indicatorCode)) {
-        yAxes[0].type = 'myLogScale';
-        if (this.indicatorObject.aoiID === 'ES19') {
-          yAxes[0].min = 0.02;
-          yAxes[0].max = 1;
-        }
-        yAxes[0].ticks = {
-          callback: (...args) => {
-            const value = Chart.Ticks.formatters.logarithmic.call(this, ...args);
-            if (value.length) {
-              return Number(value).toLocaleString();
-            }
-            return value;
-          },
-        };
-        legend.labels.usePointStyle = true;
-        legend.labels.boxWidth = 5;
-        legend.onClick = function onClick(e, legendItem) {
-          if (legendItem.text === 'Standard deviation (STD)') {
-            const masterIndex = legendItem.datasetIndex;
-            const slaveIndex = 3;
-            const ci = this.chart;
-            const masterMeta = ci.getDatasetMeta(masterIndex);
-            const meta = ci.getDatasetMeta(slaveIndex);
-            if (masterMeta.hidden === null) {
-              masterMeta.hidden = true;
-              meta.hidden = true;
-            } else {
-              masterMeta.hidden = !masterMeta.hidden;
-              meta.hidden = !meta.hidden;
-            }
-            ci.update();
-          } else {
-            Chart.defaults.global.legend.onClick.call(this, e, legendItem);
-          }
-        };
-      }
-
-      const defaultSettings = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins,
-        legend,
-        scales: {
-          xAxes,
-          yAxes,
-        },
-        pan: {
-          enabled: true,
-          mode: 'x',
-        },
-        zoom: {
-          enabled: true,
-          mode: 'x',
-        },
-        tooltips: {
-          callbacks: {
-            label: function (context, data) { // eslint-disable-line
-              let label = data.datasets[context.datasetIndex].label || '';
-              if (label) {
-                label += ': ';
-              }
-              label += this.roundValueInd(Number(context.value));
-              return label;
-            }.bind(this),
-          },
-        },
-      };
-
-      if (['OX'].includes(indicatorCode)) {
-        defaultSettings.hover = {
-          mode: 'nearest',
-        };
-        yAxes[0].ticks = {
-          callback: (...args) => {
-            let returnString;
-            if (args[0] === 0.35) {
-              returnString = 'Low';
-            } else if (args[0] === 0.65) {
-              returnString = 'High';
-            }
-            return returnString;
-          },
-          min: 0.3,
-          max: 0.7,
-          label: '',
-        };
-        yAxes[0].scaleLabel.display = false;
-        defaultSettings.tooltips = {
-          callbacks: {
-            label: () => '',
-          },
-        };
-      }
-
-      if (['N3'].includes(indicatorCode)) {
-        defaultSettings.tooltips = {
-          callbacks: {
-            label: (context) => {
-              const { datasets } = this.datacollection;
-              const val = datasets[context.datasetIndex].data[context.index];
-              return `Value (Log10): ${Math.log10(val).toPrecision(4)}`;
-            },
-          },
-        };
-      }
-
-      if (['E10a3'].includes(indicatorCode)) {
-        
-
-        defaultSettings.pan.mode = 'xy';
-        defaultSettings.zoom.mode = 'xy';
-
-        defaultSettings.tooltips = {
-          callbacks: {
-            label: (context) => {
-              const { datasets } = this.datacollection;
-              const obj = datasets[context.datasetIndex].data[context.index];
-              return obj.name;
-            },
-            footer: (context) => {
-              const { datasets } = this.datacollection;
-              const obj = datasets[context[0].datasetIndex].data[context[0].index];
-              const refT = obj.referenceTime;
-              const refV = Number(obj.referenceValue);
-              const labelOutput = [
-                `${obj.time.toISODate()}:  ${obj.value.toPrecision(4)}`,
-                `${refT.toISODate()}:  ${refV.toPrecision(4)}`,
-              ];
-              if (refV !== 0) {
-                labelOutput.push(
-                  `${(((obj.value - refV) / refV) * 100).toPrecision(2)} %`,
-                );
-              }
-              return labelOutput;
-            },
-          },
-        };
-      }
-
       return {
-        ...defaultSettings,
+        ...customSettings,
         annotation: {
           annotations,
         },
       };
-
-      */
     },
   },
 };
