@@ -11,14 +11,15 @@
         v-bind="indicatorObject"></bar-chart>
   </div>
   <div style="width: 100%; height: 100%;"
-    v-else-if="['E10a3', 'E10a8'].includes(indicatorObject.indicator)">
+    v-else-if="mapchartIndicators.includes(indicatorObject.indicator)">
       <map-chart
         id="chart"
         class="fill-height"
         :width="null"
         :height="null"
         :chart-data='datacollection'
-        :options='chartOptions()'>
+        :options='chartOptions()'
+        v-bind="indicatorObject">
       </map-chart>
       <img v-if="indicatorObject.indicator=='E10a3'"
         :src="require('@/assets/E10a3_label.jpg')" alt="color legend"
@@ -65,7 +66,8 @@
       :width="null"
       :height="null"
       :chart-data='datacollection'
-      :options='chartOptions()'></line-chart>
+      :options='chartOptions()'
+      v-bind="indicatorObject"></line-chart>
   </div>
 </template>
 
@@ -96,9 +98,9 @@ export default {
       lineChartIndicators: ['E12', 'E8', 'N1b', 'N1', 'N3'],
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
-        'E1a_S2', 'E2_S2', 'E4', 'E5',
+        'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1'
       ],
-      mapchartIndicators: [],
+      mapchartIndicators: ['E10a3', 'E10a8'],
     };
   },
   /*
@@ -117,7 +119,7 @@ export default {
       const indicator = { ...this.indicatorObject };
       const indicatorCode = indicator.indicator;
       const selectionOptions = [];
-      if (['E10a3', 'E10a8'].includes(indicatorCode)) {
+      if (this.mapchartIndicators.includes(indicatorCode)) {
         // Find all unique day/month available
         const timeset = new Set(
           indicator.time.map((d) => d.toFormat('dd. MMM')),
@@ -1114,6 +1116,70 @@ export default {
         });
       }
 
+      if (['E10a3'].includes(indicatorCode)) {
+        // Special tooltip information for this indicator
+        customSettings.tooltips = {
+          callbacks: {
+            label: (context) => {
+              const { datasets } = this.datacollection;
+              const obj = datasets[context.datasetIndex].data[context.index];
+              return obj.name;
+            },
+            footer: (context) => {
+              const { datasets } = this.datacollection;
+              const obj = datasets[context[0].datasetIndex].data[context[0].index];
+              const refT = obj.referenceTime;
+              const refV = Number(obj.referenceValue);
+              const labelOutput = [
+                `${obj.time.toISODate()}:  ${obj.value.toPrecision(4)}`,
+                `${refT.toISODate()}:  ${refV.toPrecision(4)}`,
+              ];
+              if (refV !== 0) {
+                labelOutput.push(
+                  `${(((obj.value - refV) / refV) * 100).toPrecision(2)} %`,
+                );
+              }
+              return labelOutput;
+            },
+          },
+        };
+      }
+
+      if (['E10a8'].includes(indicatorCode)) {
+        // Special geo configuration for this indicator
+        customSettings.geo = {
+          radiusScale: {
+            display: true,
+            range: [5, 25],
+            ticks: {
+              max: 2000000,
+            },
+          },
+        };
+        // Special tooltip information for this indicator
+        customSettings.tooltips = {
+          callbacks: {
+            label: (context) => {
+              const { datasets } = this.datacollection;
+              const obj = datasets[context.datasetIndex].data[context.index];
+              return obj.name;
+            },
+            footer: (context) => {
+              const { datasets } = this.datacollection;
+              const obj = datasets[context[0].datasetIndex].data[context[0].index];
+              const refV = Number(obj.referenceValue);
+              const labelOutput = [
+                `${obj.time.toISODate()}:`,
+                `${(refV).toPrecision(4)} % harvested`,
+                `${(100 - refV).toPrecision(4)} % not harvested`,
+                `Max. area: ${obj.value} ha`,
+              ];
+              return labelOutput;
+            },
+          },
+        };
+      }
+
       return {
         ...customSettings,
         annotation: {
@@ -1493,13 +1559,6 @@ export default {
         yAxes[0].ticks.beginAtZero = true;
       }
 
-      if (['E10a3', 'E10a8'].includes(indicatorCode)) {
-        yAxes[0].ticks = {
-          suggestedMin: Number.NaN,
-          suggestedMax: Number.NaN,
-          padding: -20,
-        };
-      }
       if (['E10c', 'E10a2', 'E10a6', 'E10a7', 'E10a10'].includes(indicatorCode)) {
         yAxes[0].ticks.suggestedMin += 1;
         yAxes[0].ticks.suggestedMax -= 1;
@@ -1613,20 +1672,10 @@ export default {
       }
 
       if (['E10a3'].includes(indicatorCode)) {
-        defaultSettings.geo = {
-          radiusScale: {
-            display: true,
-            size: [1, 20],
-          },
-        };
-
-        defaultSettings.scale = {
-          projection: 'mercator',
-        };
+        
 
         defaultSettings.pan.mode = 'xy';
         defaultSettings.zoom.mode = 'xy';
-        defaultSettings.legend.display = false;
 
         defaultSettings.tooltips = {
           callbacks: {
@@ -1649,49 +1698,6 @@ export default {
                   `${(((obj.value - refV) / refV) * 100).toPrecision(2)} %`,
                 );
               }
-              return labelOutput;
-            },
-          },
-        };
-      }
-
-      if (['E10a8'].includes(indicatorCode)) {
-        defaultSettings.geo = {
-          radiusScale: {
-            display: true,
-            range: [5, 25],
-            ticks: {
-              max: 2000000,
-            },
-          },
-        };
-
-        defaultSettings.scale = {
-          projection: 'mercator',
-          max: 20,
-        };
-
-        defaultSettings.pan.mode = 'xy';
-        defaultSettings.zoom.mode = 'xy';
-        defaultSettings.legend.display = false;
-
-        defaultSettings.tooltips = {
-          callbacks: {
-            label: (context) => {
-              const { datasets } = this.datacollection;
-              const obj = datasets[context.datasetIndex].data[context.index];
-              return obj.name;
-            },
-            footer: (context) => {
-              const { datasets } = this.datacollection;
-              const obj = datasets[context[0].datasetIndex].data[context[0].index];
-              const refV = Number(obj.referenceValue);
-              const labelOutput = [
-                `${obj.time.toISODate()}:`,
-                `${(refV).toPrecision(4)} % harvested`,
-                `${(100 - refV).toPrecision(4)} % not harvested`,
-                `Max. area: ${obj.value} ha`,
-              ];
               return labelOutput;
             },
           },

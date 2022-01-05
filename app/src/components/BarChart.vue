@@ -16,10 +16,7 @@ export default {
     const [min, max] = this.minMaxDate;
     extendedSettings.scales.xAxes[0].ticks.min = min;
     extendedSettings.scales.xAxes[0].ticks.max = max;
-    this.renderChart(
-      this.chartData,
-      Object.assign(this.defaultOptions, this.options),
-    );
+    this.renderChart(this.chartData, extendedSettings);
   },
   watch: {
     options: {
@@ -29,10 +26,7 @@ export default {
         const [min, max] = this.minMaxDate;
         extendedSettings.scales.xAxes[0].ticks.min = min;
         extendedSettings.scales.xAxes[0].ticks.max = max;
-        this.renderChart(
-          this.chartData,
-          Object.assign(this.defaultOptions, this.options),
-        );
+        this.renderChart(this.chartData, extendedSettings);
       },
       deep: true,
     },

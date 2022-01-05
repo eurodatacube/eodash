@@ -11,15 +11,59 @@ export default {
   mixins: [reactiveProp],
   props: ['options'],
   mounted() {
-    this.renderChart(this.chartData, this.options);
+    this.renderChart(
+      this.chartData,
+      Object.assign(this.defaultOptions, this.options),
+    );
   },
   watch: {
     options: {
       handler() {
-        this.renderChart(this.chartData, this.options);
+        this.renderChart(
+          this.chartData,
+          Object.assign(this.defaultOptions, this.options),
+        );
       },
       deep: true,
     },
   },
+  data() {
+    return {
+      defaultOptions: {
+        plugins: {
+          datalabels: {
+            display: false,
+          },
+        },
+        geo: {
+          radiusScale: {
+            display: true,
+            size: [1, 20],
+          },
+        },
+        scale: {
+          projection: 'mercator',
+        },
+        legend: {
+          display: false,
+        },
+        scales: {
+          xAxes: {},
+          yAxes: [{
+            ticks: {
+              suggestedMin: Number.NaN,
+              suggestedMax: Number.NaN,
+              padding: -20,
+            },
+            scaleLabel: {
+              display: true,
+              labelString: this.$attrs.yAxis,
+              padding: 2,
+            },
+          }]
+        }
+      }
+    };
+  }
 };
 </script>
