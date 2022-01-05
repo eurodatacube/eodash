@@ -4,6 +4,7 @@
     class="fill-height scrollContainer pa-10 pt-5"
     :style="`margin-top: ${$vuetify.application.top}px !important;
       height: calc(100% - ${$vuetify.application.top}px);`"
+    id="scroll-target"
   >
     <v-app-bar
         app
@@ -30,7 +31,11 @@
         <v-spacer></v-spacer>
         <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
       </v-app-bar>
-      <v-row class="d-flex" style="position: relative">
+      <v-row
+        class="d-flex"
+        id="headerRow"
+        :style="`position: relative; ${storyModeEnabled ? 'height: calc(100vh - 104px)' : ''}`"
+      >
         <v-img
           v-if="officialDashboard"
           :src="`https://picsum.photos/1000/800`"
@@ -41,6 +46,7 @@
           cols="12"
           md="6"
           xl="8"
+          class="d-flex align-center"
           :style="`z-index: 1; ${officialDashboard
             ? 'padding-top: 100px; padding-bottom: 100px'
             : ''}`"
@@ -114,7 +120,8 @@
               </v-dialog>
             </div>
             <template v-if="officialDashboard">
-              <p>Official Dashboard Subtitle goes here, to describe what this official dashboard is all about.</p>
+              <p>Official Dashboard Subtitle goes here, to describe what this
+                official dashboard is all about.</p>
               <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
             </template>
             <template v-else>
@@ -137,9 +144,23 @@
                 </em>
               </p>
             </template>
+            <div>
+              <v-btn
+                v-if="storyModeEnabled"
+                x-large
+                color="primary"
+                class="my-5"
+                @click="scrollToStart"
+              >
+                <v-icon left>mdi-arrow-right</v-icon>
+                Start
+              </v-btn>
+            </div>
           </div>
         </v-col>
         <v-col
+          v-if="!storyModeEnabled
+            || (hasEditingPrivilege || !(dashboardConfig && dashboardConfig.id))"
           cols="12"
           md="6"
           xl="4"
@@ -377,9 +398,11 @@
       </v-row>
       <v-divider v-if="$vuetify.breakpoint.smAndDown" class="my-10"></v-divider>
       <custom-dashboard-grid
+        ref="customDashboardGrid"
         v-if="$store.state.features.allFeatures.length > 0"
         :enableEditing="!!(newDashboard || hasEditingPrivilege)"
         :popupOpen="popupOpen || newTextFeatureDialog"
+        :storyMode="storyModeEnabled"
         @updateTextFeature="openTextFeatureUpdate"
         @change="savingChanges = true"
         @save="savingChanges = false"
@@ -557,7 +580,8 @@ export default {
     ],
     reconnecting: false,
     markdownMessage: 'You can use <a href="https://guides.github.com/features/mastering-markdown/" rel="noopener" target="_blank" tabindex="-1">markdown</a>',
-    officialDashboard: false,
+    officialDashboard: true,
+    storyModeEnabled: true,
   }),
   computed: {
     ...mapState('config', [
@@ -776,6 +800,15 @@ export default {
     onPencilClick() {
       this.editingTitle = true;
       this.$refs.titleInput.focus();
+    },
+    scrollToStart() {
+      this.$vuetify.goTo(
+        this.$refs.customDashboardGrid,
+        {
+          container: document.querySelector('.scrollContainer'),
+          offset: -56,
+        },
+      );
     },
   },
 };

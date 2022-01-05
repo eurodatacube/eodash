@@ -1,6 +1,10 @@
 <template>
   <loading-animation v-if="features.length === 0" style="height: 400px" />
-  <v-row v-else>
+  <v-row
+    v-else
+    id="elementsContainer"
+    v-scroll:#scroll-target="onScroll"
+  >
     <template
       v-for="(element, index) in features"
     >
@@ -14,7 +18,10 @@
         :md="element.width > 1 ? (element.width > 2 ? (element.width > 3 ? 12 : 8) : 6) : 4"
         style="position: relative;"
       >
-        <div class="d-flex align-center">
+        <div
+          v-if="!storyMode"
+          class="d-flex align-center"
+        >
           <span
             v-if="element.title" @click="redirectToPoi(element.indicatorObject)"
             style="cursor: pointer">
@@ -37,7 +44,7 @@
         </div>
         <v-card
           class="pa-0 elementCard"
-          style="height: 500px"
+          :style="`height: ${storyMode ? 'calc(100vh - 140px)' : '500px'}`"
           outlined
           tile
         >
@@ -241,6 +248,32 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-fab-transition
+      v-if="storyMode"
+    >
+      <div
+        v-if="navigationButtonVisible"
+        class="primary d-flex flex-column align-center"
+        style="position: absolute; bottom: 60px; right: 70px; border-radius: 30px; z-index: 1"
+      >
+        <v-btn
+          fab
+          icon
+          @click="goStep(-1)"
+        >
+          <v-icon>mdi-arrow-up</v-icon>
+        </v-btn>
+          {{ currentRow }} / {{ numberOfRows }}
+        <v-btn
+          fab
+          icon
+          :disabled="currentRow === numberOfRows"
+          @click="goStep(+1)"
+        >
+          <v-icon>mdi-arrow-down</v-icon>
+        </v-btn>
+      </div>
+    </v-fab-transition>
   </v-row>
 </template>
 
@@ -256,6 +289,7 @@ export default {
   props: {
     enableEditing: Boolean,
     popupOpen: Boolean,
+    storyMode: Boolean,
   },
   components: {
     IndicatorData,
@@ -272,6 +306,7 @@ export default {
     serverZoom: {},
     serverCenter: {},
     savedPoi: null,
+    offsetTop: 0,
   }),
   computed: {
     ...mapGetters('dashboard', {
@@ -296,6 +331,26 @@ export default {
         }
         return false;
       };
+    },
+    navigationButtonVisible() {
+      return this.offsetTop >= document.querySelector('#headerRow').clientHeight;
+    },
+    numberOfRows() {
+      let noOfRows;
+      if (this.navigationButtonVisible) {
+        const container = document.querySelector('#elementsContainer').clientHeight;
+        const row = document.querySelector('.elementCard').clientHeight;
+        noOfRows = Math.round(container / row);
+      }
+      return noOfRows;
+    },
+    currentRow() {
+      let currentRow;
+      if (this.numberOfRows) {
+        currentRow = Math.round((this.offsetTop - document.querySelector('#headerRow').clientHeight)
+          / document.querySelector('.elementCard').clientHeight) + 1;
+      }
+      return currentRow;
     },
   },
   watch: {
@@ -416,6 +471,27 @@ export default {
       if (changed !== undefined) {
         this.$emit('save');
       }
+    },
+    onScroll(e) {
+      this.offsetTop = e.target.scrollTop;
+    },
+    goStep(direction) {
+      let position;
+      if (this.currentRow === 1 && direction === -1) {
+        position = 0; // scroll back to story intro
+      } else {
+        const rowPadding = 24;
+        const startingPoint = document.querySelector('#elementsContainer').offsetTop;
+        const rowHeight = document.querySelector('.elementCard').clientHeight + rowPadding;
+        const target = rowHeight * (this.currentRow - 1 + direction);
+        position = startingPoint + target;
+      }
+      this.$vuetify.goTo(
+        position,
+        {
+          container: document.querySelector('.scrollContainer'),
+        },
+      );
     },
   },
 };
