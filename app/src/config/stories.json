@@ -1,12 +1,84 @@
 {
   "trilateral": {
-    "Biomass": {
+    "Water": {
       "official-story-demo": {
         "originalDashboardId": "d069a45701e3a0e3",
-        "title": "Demo of official story",
+        "title": "Danube Delta, Romania (demo of official story)",
+        "subtitle": "Created by EOX to test the story feature",
+        "image": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2021/09/danube_delta/23450077-1-eng-GB/Danube_Delta.jpg"
+      },
+      "another-official-story-demo": {
+        "originalDashboardId": "d069a45701e3a0e3",
+        "title": "Qeshm Island, Iran (another demo of official story)",
         "subtitle": "Created by EOX to test the story feature",
         "image": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2021/05/qeshm_island_iran/23301805-2-eng-GB/Qeshm_Island_Iran.jpg"
+      },
+      "a-second-official-story-demo": {
+        "originalDashboardId": "d069a45701e3a0e3",
+        "title": "Kuala Lumpur, Malaysia",
+        "subtitle": "Subtitle goes here",
+        "image": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2021/11/kuala_lumpur_malaysia2/23795471-1-eng-GB/Kuala_Lumpur_Malaysia.jpg"
+      },
+      "a-third-official-story-demo": {
+        "originalDashboardId": "d069a45701e3a0e3",
+        "title": "Rivers (another demo)",
+        "subtitle": "Another Subtitle",
+        "image": "https://images.pexels.com/photos/709552/pexels-photo-709552.jpeg?cs=srgb&dl=pexels-ian-turnell-709552.jpg&fm=jpg"
+      },
+      "a-fourth-official-story-demo": {
+        "originalDashboardId": "d069a45701e3a0e3",
+        "title": "Cancun, Mexiko (another demo of official story)",
+        "subtitle": "Another Subtitle",
+        "image": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2021/11/cancun_mexico/23776867-2-eng-GB/Cancun_Mexico.jpg"
+      },
+      "a-fifth-official-story-demo": {
+        "originalDashboardId": "d069a45701e3a0e3",
+        "title": "Random image",
+        "subtitle": "A very long subtitle to get an impression on how very long subtitle might ending up to look like",
+        "image": "https://picsum.photos/800/600"
+      },
+      "a-sixth-official-story-demo": {
+        "originalDashboardId": "d069a45701e3a0e3",
+        "title": "Another random image",
+        "subtitle": "A short subtitle",
+        "image": "https://picsum.photos/900/700"
+      },
+      "a-sevenh-official-story-demo": {
+        "originalDashboardId": "d069a45701e3a0e3",
+        "title": "Another random image",
+        "subtitle": "A short subtitle",
+        "image": "https://picsum.photos/800/700"
       }
-    }
+    },
+    "Land": {
+      "land-official-story-demo": {
+        "originalDashboardId": "d069a45701e3a0e3",
+        "title": "Rice fields (story demo)",
+        "subtitle": "Created by EOX to test the story feature",
+        "image": "https://images.pexels.com/photos/1573885/pexels-photo-1573885.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+      },
+      "land-another-official-story-demo": {
+        "originalDashboardId": "d069a45701e3a0e3",
+        "title": "Agricultural fields",
+        "subtitle": "Created by EOX to test the story feature",
+        "image": "https://images.pexels.com/photos/440731/pexels-photo-440731.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+      },
+      "land-a-second-official-story-demo": {
+        "originalDashboardId": "d069a45701e3a0e3",
+        "title": "Dry soil",
+        "subtitle": "Subtitle goes here",
+        "image": "https://images.pexels.com/photos/1097016/pexels-photo-1097016.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+      },
+      "land-a-third-official-story-demo": {
+        "originalDashboardId": "d069a45701e3a0e3",
+        "title": "Fields close to a river (another demo)",
+        "subtitle": "Another Subtitle",
+        "image": "https://images.pexels.com/photos/2464069/pexels-photo-2464069.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+      }
+    },
+    "Atmosphere": {},
+    "Biomass": {},
+    "Polar": {},
+    "COVID-19": {}
   }
 }
