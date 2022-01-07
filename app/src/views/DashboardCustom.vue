@@ -61,18 +61,22 @@
             :src="dashboardHeaderImage"
             style="position: absolute; top: 0; width: calc(100% + 56px); max-width: unset;
             height: 100%; margin: -8px -28px 0 -28px">
+            <div
+              style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;
+              box-shadow: 0 -400px 150px -130px inset #0005"
+            ></div>
           </v-img>
           <v-col
             cols="12"
             md="6"
             xl="8"
-            class="d-flex align-center"
+            class="d-flex align-end"
             :style="`z-index: 1; ${officialDashboard
               ? 'padding-top: 100px; padding-bottom: 100px'
               : ''}`"
           >
             <div class="dashboardTitle" :style="`${officialDashboard
-              ? 'text-shadow: 0 0 20px #0009'
+              ? 'text-shadow: 0 0 20px #000e'
               : ''}`">
               <div class="d-flex">
                 <h1
@@ -168,7 +172,7 @@
                 <v-btn
                   v-if="storyModeEnabled"
                   x-large
-                  color="primary"
+                  color="secondary"
                   class="my-5"
                   @click="scrollToStart"
                 >
