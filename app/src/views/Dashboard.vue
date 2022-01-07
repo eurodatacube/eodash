@@ -1,6 +1,9 @@
 <template>
   <div class="dashboard fill-height">
-    <transition name="fade">
+    <transition
+      v-if="appConfig && appConfig.enableStories"
+      name="fade"
+    >
       <Stories
         v-if="showStoriesOverlay"
         @dismiss="showStoriesOverlay = false"
@@ -40,6 +43,7 @@
           About
         </v-btn>
         <v-btn
+          v-if="appConfig && appConfig.enableStories"
           text
           dark
           small
@@ -133,6 +137,7 @@
           About
         </v-btn>
         <v-btn
+          v-if="appConfig && appConfig.enableStories"
           block
           text
           color="primary"

@@ -31,473 +31,473 @@
         <v-spacer></v-spacer>
         <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
       </v-app-bar>
-      <v-row
-        class="d-flex"
-        id="headerRow"
-        :style="`position: relative; ${storyModeEnabled ? 'height: calc(100vh - 104px)' : ''}`"
-      >
-        <v-img
-          v-if="officialDashboard"
-          :src="`https://picsum.photos/1000/800`"
-          style="position: absolute; top: 0; width: calc(100% + 56px); max-width: unset;
-          height: 100%; margin: -8px -28px 0 -28px">
-        </v-img>
-        <v-col
-          cols="12"
-          md="6"
-          xl="8"
-          class="d-flex align-center"
-          :style="`z-index: 1; ${officialDashboard
-            ? 'padding-top: 100px; padding-bottom: 100px'
-            : ''}`"
+        <v-row
+          class="d-flex"
+          id="headerRow"
+          :style="`position: relative; ${storyModeEnabled ? 'height: calc(100vh - 104px)' : ''}`"
         >
-          <div class="dashboardTitle" :style="`${officialDashboard
-            ? 'text-shadow: 0 0 20px #0009'
-            : ''}`">
-            <div class="d-flex">
-              <h1
-                class="display-2 font-weight-light primary--text mt-7 mb-5">
-                {{ dashboardTitle }}</h1>
-              <div class="d-flex align-center ml-2">
-                <v-tooltip right>
-                  <template v-slot:activator="{ on }" v-if="hasEditingPrivilege || newDashboard">
-                    <v-btn
-                      icon
-                      large
-                      v-on="on"
-                      @click="newDashboardTitle = dashboardTitle; titleDialog = true"
-                    >
-                      <v-icon
-                      >mdi-pencil</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Edit dashboard title</span>
-                </v-tooltip>
-              </div>
-              <v-dialog
-                v-if="newDashboard || hasEditingPrivilege"
-                v-model="titleDialog"
-                width="500"
-              >
-                <v-card>
-                  <v-card-title class="headline primary--text mb-5">
-                    Title for your Dashboard
-                  </v-card-title>
-
-                  <v-card-text>
-                    <v-form
-                      @submit.prevent="dashboardTitle = newDashboardTitle;
-                      editTitle();
-                      titleDialog = false">
-                      <v-text-field
-                        placeholder="Title"
-                        outlined
-                        autofocus
-                        v-model="newDashboardTitle"
-                      ></v-text-field>
-                    </v-form>
-                  </v-card-text>
-
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      color="primary"
-                      text
-                      @click="titleDialog = false"
-                    >
-                      cancel
-                    </v-btn>
-                    <v-btn
-                      color="primary"
-                      @click="dashboardTitle = newDashboardTitle; editTitle(); titleDialog = false"
-                      :disabled="!newDashboardTitle.length"
-                      :rules="[v => !!v || 'Title required']"
-                    >
-                      change
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </div>
-            <template v-if="officialDashboard">
-              <p>Official Dashboard Subtitle goes here, to describe what this
-                official dashboard is all about.</p>
-              <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
-            </template>
-            <template v-else>
-              <p v-if="newDashboard || hasEditingPrivilege">
-                Disclaimer: By editing, saving and sharing this custom dashboard, you agree to the
-                <a
-                  href="/terms_and_conditions"
-                  target="_blank"
-                >Terms and Conditions of this website</a>. Any violation of this agreement will
-                result in the deletion of this custom dashboard without warning.
-              </p>
-              <p v-else>
-                <em>
-                  This Custom Dashboard was user-generated and is not an official product of the
-                  {{ appConfig && appConfig.branding.appName }} project. Some of the content
-                  on this page originates from the
-                  {{ appConfig && appConfig.branding.appName }},
-                  <a :href="rootLink" target="_blank">{{ rootLink }}</a>.
-                  <a href="/terms_and_conditions" target="_blank">Terms and Conditions</a> apply.
-                </em>
-              </p>
-            </template>
-            <div>
-              <v-btn
-                v-if="storyModeEnabled"
-                x-large
-                color="primary"
-                class="my-5"
-                @click="scrollToStart"
-              >
-                <v-icon left>mdi-arrow-right</v-icon>
-                Start
-              </v-btn>
-            </div>
-          </div>
-        </v-col>
-        <v-col
-          v-if="!storyModeEnabled
-            || (hasEditingPrivilege || !(dashboardConfig && dashboardConfig.id))"
-          cols="12"
-          md="6"
-          xl="4"
-          class="d-flex align-center"
-          style="z-index: 1"
-        >
-          <div
-            :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'"
-            style="width: 100%"
+          <v-img
+            v-if="officialDashboard"
+            :src="`https://picsum.photos/1000/800`"
+            style="position: absolute; top: 0; width: calc(100% + 56px); max-width: unset;
+            height: 100%; margin: -8px -28px 0 -28px">
+          </v-img>
+          <v-col
+            cols="12"
+            md="6"
+            xl="8"
+            class="d-flex align-center"
+            :style="`z-index: 1; ${officialDashboard
+              ? 'padding-top: 100px; padding-bottom: 100px'
+              : ''}`"
           >
-            <v-btn
-              color="info"
-              v-if="!newDashboard"
-              :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : 'mr-4'"
-              :block="$vuetify.breakpoint.xsOnly"
-              @click="viewLinksFn"
-            >
-              <v-icon left>mdi-share</v-icon>
-              share
-            </v-btn>
-            <v-btn
-              v-if="hasEditingPrivilege || !(dashboardConfig && dashboardConfig.id)"
-              @click="disconnect"
-              :color="!(dashboardConfig && dashboardConfig.id) ? 'red' : 'grey'"
-              :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : ''"
-              :block="$vuetify.breakpoint.xsOnly"
-              style="color: white"
-            >
-              <template v-if="!(dashboardConfig && dashboardConfig.id)">
-                <v-icon left color="white">mdi-delete</v-icon>
-                discard dashboard
+            <div class="dashboardTitle" :style="`${officialDashboard
+              ? 'text-shadow: 0 0 20px #0009'
+              : ''}`">
+              <div class="d-flex">
+                <h1
+                  class="display-2 font-weight-light primary--text mt-7 mb-5">
+                  {{ dashboardTitle }}</h1>
+                <div class="d-flex align-center ml-2">
+                  <v-tooltip right>
+                    <template v-slot:activator="{ on }" v-if="hasEditingPrivilege || newDashboard">
+                      <v-btn
+                        icon
+                        large
+                        v-on="on"
+                        @click="newDashboardTitle = dashboardTitle; titleDialog = true"
+                      >
+                        <v-icon
+                        >mdi-pencil</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Edit dashboard title</span>
+                  </v-tooltip>
+                </div>
+                <v-dialog
+                  v-if="newDashboard || hasEditingPrivilege"
+                  v-model="titleDialog"
+                  width="500"
+                >
+                  <v-card>
+                    <v-card-title class="headline primary--text mb-5">
+                      Title for your Dashboard
+                    </v-card-title>
+
+                    <v-card-text>
+                      <v-form
+                        @submit.prevent="dashboardTitle = newDashboardTitle;
+                        editTitle();
+                        titleDialog = false">
+                        <v-text-field
+                          placeholder="Title"
+                          outlined
+                          autofocus
+                          v-model="newDashboardTitle"
+                        ></v-text-field>
+                      </v-form>
+                    </v-card-text>
+
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="primary"
+                        text
+                        @click="titleDialog = false"
+                      >
+                        cancel
+                      </v-btn>
+                      <v-btn
+                        color="primary"
+                      @click="dashboardTitle = newDashboardTitle; editTitle(); titleDialog = false"
+                        :disabled="!newDashboardTitle.length"
+                        :rules="[v => !!v || 'Title required']"
+                      >
+                        change
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </div>
+              <template v-if="officialDashboard">
+                <p>Official Dashboard Subtitle goes here, to describe what this
+                  official dashboard is all about.</p>
+                <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
               </template>
               <template v-else>
-                <v-icon left color="white">mdi-exit-to-app</v-icon>
-                exit edit mode
+                <p v-if="newDashboard || hasEditingPrivilege">
+                  Disclaimer: By editing, saving and sharing this custom dashboard, you agree to the
+                  <a
+                    href="/terms_and_conditions"
+                    target="_blank"
+                  >Terms and Conditions of this website</a>. Any violation of this agreement will
+                  result in the deletion of this custom dashboard without warning.
+                </p>
+                <p v-else>
+                  <em>
+                    This Custom Dashboard was user-generated and is not an official product of the
+                    {{ appConfig && appConfig.branding.appName }} project. Some of the content
+                    on this page originates from the
+                    {{ appConfig && appConfig.branding.appName }},
+                    <a :href="rootLink" target="_blank">{{ rootLink }}</a>.
+                    <a href="/terms_and_conditions" target="_blank">Terms and Conditions</a> apply.
+                  </em>
+                </p>
               </template>
-            </v-btn>
-            <v-dialog
-              v-model="popupOpen"
-              width="50%"
-              :fullscreen="$vuetify.breakpoint.xsOnly"
-              :hide-overlay="$vuetify.breakpoint.xsOnly"
-              transition="dialog-bottom-transition"
-              style="z-index: 9999;"
-            >
-
-              <template v-slot:activator="{}">
+              <div>
                 <v-btn
-                  color="success"
-                  v-if="newDashboard"
-                  :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : ''"
-                  :block="$vuetify.breakpoint.xsOnly"
-                  @click="saveCurrentDashboardState"
-                >
-                  <v-icon left> mdi-content-save </v-icon>
-                    Save Dashboard
-                </v-btn>
-              </template>
-              <v-card :class="$vuetify.breakpoint.mdAndUp && 'px-10 py-4'"
-                style="overflow-y: auto; height: 100%;">
-                <v-form
-                  ref="form"
-                  v-model="valid"
-                  lazy-validation
-                  class="text-left"
-                  @submit.prevent="submitMarketingData"
-                >
-                  <v-card-text class="text-center" v-if="!success && !viewLinks">
-                    <h1
-                      class="display-2 font-weight-light primary--text mb-3"
-                    >Save this Dashboard</h1>
-                    <h2
-                      class="font-weight-light primary--text mb-4"
-                    >Create a permanent link to your Dashboard configuration</h2>
-                    <v-card outlined class="pa-3">
-                        <v-row>
-                          <v-col cols="12" class="pb-2 pt-4">
-                            <h2 class="mb-3">Dashboard Title</h2>
-                              <v-text-field
-                                v-model="popupTitle"
-                                hint="You will be able to change this later"
-                                persistent-hint
-                                :rules="titleRules"
-                                placeholder="Title"
-                                required
-                                outlined
-                                validate-on-blur
-                              ></v-text-field>
-                          </v-col>
-                          <v-col cols="12" class="pb-2 pt-0">
-                            <h2 class="mb-3">Your interests</h2>
-                            <v-combobox
-                              v-model="interests"
-                              :items="interestOptions"
-                              type="button"
-                              placeholder="Your interests"
-                              outlined
-                              multiple
-                              small-chips
-                              hint="This helps us provide better, personalized content to you"
-                              persistent-hint
-                              required
-                              :rules="interestsRules"
-                              validate-on-blur
-                            ></v-combobox>
-                          </v-col>
-                          <v-col cols="12" class="pb-2 pt-0">
-                            <h2 class="mb-3">Your name</h2>
-                              <v-text-field
-                                v-model="name"
-                                :rules="nameRules"
-                                placeholder="Name"
-                                required
-                                outlined></v-text-field>
-                          </v-col>
-                          <v-col cols="12" class="pb-2 pt-0">
-                            <h2 class="mb-3">Your email address</h2>
-                              <v-text-field
-                                hint="You will receive your dashboard links to this address"
-                                persistent-hint
-                                v-model="email"
-                                :rules="emailRules"
-                                placeholder="E-mail"
-                                required
-                                outlined></v-text-field>
-                          </v-col>
-                          <v-col cols="12" class="pb-0 pt-0">
-                            <v-checkbox
-                              v-model="privacyConsent"
-                              :rules="privacyRules"
-                              required>
-                              <template v-slot:label>
-                                I have read and acepted the
-                                <a @click.stop href='/privacy' target="_blank">
-                                  Privacy Notice and Consent Form
-                                </a>
-                              </template>
-                            </v-checkbox>
-                          </v-col>
-                          <v-col cols="12" class="pb-2 pt-0">
-                            <v-checkbox
-                              v-model="newsletterOptIn">
-                              <template v-slot:label>
-                                I want to stay up-to-date about {{ appConfig
-                                  && appConfig.branding.appName }} via newsletter
-                              </template>
-                            </v-checkbox>
-                          </v-col>
-                      </v-row>
-                    </v-card>
-                  </v-card-text>
-                  <v-card-text class="text-center" v-else>
-                    <h2
-                      class="display-2 font-weight-light primary--text mb-3"
-                    > {{ dashboardConfig && dashboardConfig.title }}</h2>
-                    <h2
-                      v-if="!viewLinks"
-                      class="font-weight-light primary--text mb-8 success--text"
-                    >Dashboard saved!</h2>
-                    <v-card outlined class="pa-5 text-left">
-                      <v-row>
-                        <v-col cols="12">
-                          <h2 class="mb-3">Viewing link:</h2>
-                          <v-text-field
-                            ref="viewingLink"
-                            @click:append="copyViewingLink"
-                            readonly
-                            outlined
-                            append-icon="mdi-content-copy"
-                            persistent-hint
-                            :hint="$store.state.dashboard.dashboardConfig
-                              && $store.state.dashboard.dashboardConfig.editKey
-                                ? 'Read-only link to your Dashboard'
-                                : 'Read-only link to this Dashboard'"
-                            :value="viewingLink"
-                          />
-                        </v-col>
-                        <v-col
-                          cols="12"
-                          v-if="viewLinks
-                            ? $store.state.dashboard.dashboardConfig
-                              && $store.state.dashboard.dashboardConfig.editKey
-                            : true">
-                          <h2 class="mb-3">Editing link:</h2>
-                          <v-text-field
-                            ref="editingLink"
-                            @click:append="copyEditingLink"
-                            readonly
-                            outlined
-                            append-icon="mdi-content-copy"
-                            persistent-hint
-                            hint="Use this link to make changes to your dashboard"
-                            :value="editingLink"
-                          />
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </v-card-text>
-                  <v-card-actions v-if="!success && !viewLinks">
-                    <v-spacer></v-spacer>
-                    <v-btn color="primary" text @click="popupOpen = false" x-large>Back</v-btn>
-                    <v-btn
-                      color="success"
-                      type="submit"
-                      x-large
-                      :loading="saving">Submit</v-btn>
-                  </v-card-actions>
-                  <v-card-actions v-else>
-                    <v-spacer></v-spacer>
-                    <v-btn color="primary" text @click="popupOpen = false" x-large>Close</v-btn>
-                  </v-card-actions>
-                </v-form>
-              </v-card>
-            </v-dialog>
-            <div
-              class="mt-3"
-              :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'"
-              v-if="newDashboard || hasEditingPrivilege"
-            >
-              <small
-                v-if="newDashboard"
-              >Changes to the dashboard are saved locally until published</small>
-              <template v-if="hasEditingPrivilege">
-                <v-icon
-                  small
-                  left
-                >{{ displaySavingChanges ? 'mdi-cached' : 'mdi-cloud-check-outline' }}</v-icon>
-                <small>
-                  {{ displaySavingChanges ? 'saving changes...' : 'changes saved to cloud' }}
-                </small>
-              </template>
-            </div>
-          </div>
-        </v-col>
-      </v-row>
-      <v-divider v-if="$vuetify.breakpoint.smAndDown" class="my-10"></v-divider>
-      <custom-dashboard-grid
-        ref="customDashboardGrid"
-        v-if="$store.state.features.allFeatures.length > 0"
-        :enableEditing="!!(newDashboard || hasEditingPrivilege)"
-        :popupOpen="popupOpen || newTextFeatureDialog"
-        :storyMode="storyModeEnabled"
-        @updateTextFeature="openTextFeatureUpdate"
-        @change="savingChanges = true"
-        @save="savingChanges = false"
-      />
-      <v-dialog
-        v-model="newTextFeatureDialog"
-        width="500"
-      >
-        <template v-slot:activator="{ on }">
-          <v-row class="my-5">
-            <v-col cols="12" class="text-center">
-              <v-btn
-                  color="primary"
+                  v-if="storyModeEnabled"
                   x-large
-                  v-on="on"
-                  v-if="newDashboard || hasEditingPrivilege"
-                  :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : 'mr-4'"
-                  :block="$vuetify.breakpoint.xsOnly"
+                  color="primary"
+                  class="my-5"
+                  @click="scrollToStart"
                 >
-                  <v-icon left> mdi-text-box-plus </v-icon>
-                  <span>Add text block</span>
+                  <v-icon left>mdi-arrow-right</v-icon>
+                  Start
+                </v-btn>
+              </div>
+            </div>
+          </v-col>
+          <v-col
+            v-if="!storyModeEnabled
+              || (hasEditingPrivilege || !(dashboardConfig && dashboardConfig.id))"
+            cols="12"
+            md="6"
+            xl="4"
+            class="d-flex align-center"
+            style="z-index: 1"
+          >
+            <div
+              :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'"
+              style="width: 100%"
+            >
+              <v-btn
+                color="info"
+                v-if="!newDashboard"
+                :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : 'mr-4'"
+                :block="$vuetify.breakpoint.xsOnly"
+                @click="viewLinksFn"
+              >
+                <v-icon left>mdi-share</v-icon>
+                share
               </v-btn>
-            </v-col>
-          </v-row>
-        </template>
-
-        <v-card>
-          <v-card-title class="headline primary--text mb-5">
-            {{ !textFeatureUpdate ? 'Add text block' : 'Update text block' }}
-          </v-card-title>
-
-          <v-card-text>
-            <v-form
-              ref="textForm"
-              v-model="textValid"
-              lazy-validation
-              class="text-left"
-              @submit.prevent="!textFeatureUpdate
-                ? createTextFeature
-                : updateTextFeature"
+              <v-btn
+                v-if="hasEditingPrivilege || !(dashboardConfig && dashboardConfig.id)"
+                @click="disconnect"
+                :color="!(dashboardConfig && dashboardConfig.id) ? 'red' : 'grey'"
+                :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : ''"
+                :block="$vuetify.breakpoint.xsOnly"
+                style="color: white"
               >
-              <v-text-field
-                outlined
-                label="Title"
-                :autofocus="!textFeatureUpdate ? true : false"
-                v-model="newTextFeatureTitle"
-                :rules="requiredRule"
-                validate-on-blur
-                v-if="!textFeatureUpdate"
-              ></v-text-field>
-
-              <v-textarea
-                outlined
-                label="Text"
-                :auto-grow="true"
-                :autofocus="textFeatureUpdate"
-                :messages="markdownMessage"
-                v-model="newTextFeatureText"
-                :rules="requiredRule"
-                validate-on-blur
-                class="mt-5"
-              >
-                <template v-slot:message="{ message }">
-                  <span v-html="message"></span>
+                <template v-if="!(dashboardConfig && dashboardConfig.id)">
+                  <v-icon left color="white">mdi-delete</v-icon>
+                  discard dashboard
                 </template>
-              </v-textarea>
-            </v-form>
-          </v-card-text>
+                <template v-else>
+                  <v-icon left color="white">mdi-exit-to-app</v-icon>
+                  exit edit mode
+                </template>
+              </v-btn>
+              <v-dialog
+                v-model="popupOpen"
+                width="50%"
+                :fullscreen="$vuetify.breakpoint.xsOnly"
+                :hide-overlay="$vuetify.breakpoint.xsOnly"
+                transition="dialog-bottom-transition"
+                style="z-index: 9999;"
+              >
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="primary"
-              text
-              @click="() => (newTextFeatureDialog = false, textFeatureUpdate = '')"
-            >
-              cancel
-            </v-btn>
-            <v-btn
-              color="primary"
-              @click="createTextFeature"
-              v-if="!textFeatureUpdate"
-            >
-              add
-            </v-btn>
-            <v-btn
-              color="primary"
-              @click="updateTextFeature"
-              v-else
-            >
-              update
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+                <template v-slot:activator="{}">
+                  <v-btn
+                    color="success"
+                    v-if="newDashboard"
+                    :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : ''"
+                    :block="$vuetify.breakpoint.xsOnly"
+                    @click="saveCurrentDashboardState"
+                  >
+                    <v-icon left> mdi-content-save </v-icon>
+                      Save Dashboard
+                  </v-btn>
+                </template>
+                <v-card :class="$vuetify.breakpoint.mdAndUp && 'px-10 py-4'"
+                  style="overflow-y: auto; height: 100%;">
+                  <v-form
+                    ref="form"
+                    v-model="valid"
+                    lazy-validation
+                    class="text-left"
+                    @submit.prevent="submitMarketingData"
+                  >
+                    <v-card-text class="text-center" v-if="!success && !viewLinks">
+                      <h1
+                        class="display-2 font-weight-light primary--text mb-3"
+                      >Save this Dashboard</h1>
+                      <h2
+                        class="font-weight-light primary--text mb-4"
+                      >Create a permanent link to your Dashboard configuration</h2>
+                      <v-card outlined class="pa-3">
+                          <v-row>
+                            <v-col cols="12" class="pb-2 pt-4">
+                              <h2 class="mb-3">Dashboard Title</h2>
+                                <v-text-field
+                                  v-model="popupTitle"
+                                  hint="You will be able to change this later"
+                                  persistent-hint
+                                  :rules="titleRules"
+                                  placeholder="Title"
+                                  required
+                                  outlined
+                                  validate-on-blur
+                                ></v-text-field>
+                            </v-col>
+                            <v-col cols="12" class="pb-2 pt-0">
+                              <h2 class="mb-3">Your interests</h2>
+                              <v-combobox
+                                v-model="interests"
+                                :items="interestOptions"
+                                type="button"
+                                placeholder="Your interests"
+                                outlined
+                                multiple
+                                small-chips
+                                hint="This helps us provide better, personalized content to you"
+                                persistent-hint
+                                required
+                                :rules="interestsRules"
+                                validate-on-blur
+                              ></v-combobox>
+                            </v-col>
+                            <v-col cols="12" class="pb-2 pt-0">
+                              <h2 class="mb-3">Your name</h2>
+                                <v-text-field
+                                  v-model="name"
+                                  :rules="nameRules"
+                                  placeholder="Name"
+                                  required
+                                  outlined></v-text-field>
+                            </v-col>
+                            <v-col cols="12" class="pb-2 pt-0">
+                              <h2 class="mb-3">Your email address</h2>
+                                <v-text-field
+                                  hint="You will receive your dashboard links to this address"
+                                  persistent-hint
+                                  v-model="email"
+                                  :rules="emailRules"
+                                  placeholder="E-mail"
+                                  required
+                                  outlined></v-text-field>
+                            </v-col>
+                            <v-col cols="12" class="pb-0 pt-0">
+                              <v-checkbox
+                                v-model="privacyConsent"
+                                :rules="privacyRules"
+                                required>
+                                <template v-slot:label>
+                                  I have read and acepted the
+                                  <a @click.stop href='/privacy' target="_blank">
+                                    Privacy Notice and Consent Form
+                                  </a>
+                                </template>
+                              </v-checkbox>
+                            </v-col>
+                            <v-col cols="12" class="pb-2 pt-0">
+                              <v-checkbox
+                                v-model="newsletterOptIn">
+                                <template v-slot:label>
+                                  I want to stay up-to-date about {{ appConfig
+                                    && appConfig.branding.appName }} via newsletter
+                                </template>
+                              </v-checkbox>
+                            </v-col>
+                        </v-row>
+                      </v-card>
+                    </v-card-text>
+                    <v-card-text class="text-center" v-else>
+                      <h2
+                        class="display-2 font-weight-light primary--text mb-3"
+                      > {{ dashboardConfig && dashboardConfig.title }}</h2>
+                      <h2
+                        v-if="!viewLinks"
+                        class="font-weight-light primary--text mb-8 success--text"
+                      >Dashboard saved!</h2>
+                      <v-card outlined class="pa-5 text-left">
+                        <v-row>
+                          <v-col cols="12">
+                            <h2 class="mb-3">Viewing link:</h2>
+                            <v-text-field
+                              ref="viewingLink"
+                              @click:append="copyViewingLink"
+                              readonly
+                              outlined
+                              append-icon="mdi-content-copy"
+                              persistent-hint
+                              :hint="$store.state.dashboard.dashboardConfig
+                                && $store.state.dashboard.dashboardConfig.editKey
+                                  ? 'Read-only link to your Dashboard'
+                                  : 'Read-only link to this Dashboard'"
+                              :value="viewingLink"
+                            />
+                          </v-col>
+                          <v-col
+                            cols="12"
+                            v-if="viewLinks
+                              ? $store.state.dashboard.dashboardConfig
+                                && $store.state.dashboard.dashboardConfig.editKey
+                              : true">
+                            <h2 class="mb-3">Editing link:</h2>
+                            <v-text-field
+                              ref="editingLink"
+                              @click:append="copyEditingLink"
+                              readonly
+                              outlined
+                              append-icon="mdi-content-copy"
+                              persistent-hint
+                              hint="Use this link to make changes to your dashboard"
+                              :value="editingLink"
+                            />
+                          </v-col>
+                        </v-row>
+                      </v-card>
+                    </v-card-text>
+                    <v-card-actions v-if="!success && !viewLinks">
+                      <v-spacer></v-spacer>
+                      <v-btn color="primary" text @click="popupOpen = false" x-large>Back</v-btn>
+                      <v-btn
+                        color="success"
+                        type="submit"
+                        x-large
+                        :loading="saving">Submit</v-btn>
+                    </v-card-actions>
+                    <v-card-actions v-else>
+                      <v-spacer></v-spacer>
+                      <v-btn color="primary" text @click="popupOpen = false" x-large>Close</v-btn>
+                    </v-card-actions>
+                  </v-form>
+                </v-card>
+              </v-dialog>
+              <div
+                class="mt-3"
+                :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'"
+                v-if="newDashboard || hasEditingPrivilege"
+              >
+                <small
+                  v-if="newDashboard"
+                >Changes to the dashboard are saved locally until published</small>
+                <template v-if="hasEditingPrivilege">
+                  <v-icon
+                    small
+                    left
+                  >{{ displaySavingChanges ? 'mdi-cached' : 'mdi-cloud-check-outline' }}</v-icon>
+                  <small>
+                    {{ displaySavingChanges ? 'saving changes...' : 'changes saved to cloud' }}
+                  </small>
+                </template>
+              </div>
+            </div>
+          </v-col>
+        </v-row>
+        <v-divider v-if="$vuetify.breakpoint.smAndDown" class="my-10"></v-divider>
+        <custom-dashboard-grid
+          ref="customDashboardGrid"
+          v-if="$store.state.features.allFeatures.length > 0"
+          :enableEditing="!!(newDashboard || hasEditingPrivilege)"
+          :popupOpen="popupOpen || newTextFeatureDialog"
+          :storyMode="storyModeEnabled"
+          @updateTextFeature="openTextFeatureUpdate"
+          @change="savingChanges = true"
+          @save="savingChanges = false"
+        />
+        <v-dialog
+          v-model="newTextFeatureDialog"
+          width="500"
+        >
+          <template v-slot:activator="{ on }">
+            <v-row class="my-5">
+              <v-col cols="12" class="text-center">
+                <v-btn
+                    color="primary"
+                    x-large
+                    v-on="on"
+                    v-if="newDashboard || hasEditingPrivilege"
+                    :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : 'mr-4'"
+                    :block="$vuetify.breakpoint.xsOnly"
+                  >
+                    <v-icon left> mdi-text-box-plus </v-icon>
+                    <span>Add text block</span>
+                </v-btn>
+              </v-col>
+            </v-row>
+          </template>
+
+          <v-card>
+            <v-card-title class="headline primary--text mb-5">
+              {{ !textFeatureUpdate ? 'Add text block' : 'Update text block' }}
+            </v-card-title>
+
+            <v-card-text>
+              <v-form
+                ref="textForm"
+                v-model="textValid"
+                lazy-validation
+                class="text-left"
+                @submit.prevent="!textFeatureUpdate
+                  ? createTextFeature
+                  : updateTextFeature"
+                >
+                <v-text-field
+                  outlined
+                  label="Title"
+                  :autofocus="!textFeatureUpdate ? true : false"
+                  v-model="newTextFeatureTitle"
+                  :rules="requiredRule"
+                  validate-on-blur
+                  v-if="!textFeatureUpdate"
+                ></v-text-field>
+
+                <v-textarea
+                  outlined
+                  label="Text"
+                  :auto-grow="true"
+                  :autofocus="textFeatureUpdate"
+                  :messages="markdownMessage"
+                  v-model="newTextFeatureText"
+                  :rules="requiredRule"
+                  validate-on-blur
+                  class="mt-5"
+                >
+                  <template v-slot:message="{ message }">
+                    <span v-html="message"></span>
+                  </template>
+                </v-textarea>
+              </v-form>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="primary"
+                text
+                @click="() => (newTextFeatureDialog = false, textFeatureUpdate = '')"
+              >
+                cancel
+              </v-btn>
+              <v-btn
+                color="primary"
+                @click="createTextFeature"
+                v-if="!textFeatureUpdate"
+              >
+                add
+              </v-btn>
+              <v-btn
+                color="primary"
+                @click="updateTextFeature"
+                v-else
+              >
+                update
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       <global-footer />
   </div>
 </template>
@@ -580,8 +580,8 @@ export default {
     ],
     reconnecting: false,
     markdownMessage: 'You can use <a href="https://guides.github.com/features/mastering-markdown/" rel="noopener" target="_blank" tabindex="-1">markdown</a>',
-    officialDashboard: true,
-    storyModeEnabled: true,
+    officialDashboard: false,
+    storyModeEnabled: false,
   }),
   computed: {
     ...mapState('config', [
@@ -615,6 +615,10 @@ export default {
     },
   },
   async created() {
+    if (this.$route.path === '/story') {
+      this.storyModeEnabled = true;
+    }
+
     let id = null;
     let editKey = null;
     if (this.$route.query.id) {
@@ -631,7 +635,7 @@ export default {
     if (id) {
       this.reconnecting = true;
       this.disconnect();
-      await this.listen({ id, editKey });
+        await this.listen({ id, editKey });
       this.reconnecting = false;
     }
 

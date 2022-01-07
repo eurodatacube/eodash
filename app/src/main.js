@@ -57,19 +57,6 @@ Vue.use(VueMatomo, {
 
 Vue.use(VueMeta);
 Vue.use(VueRouter);
-
-const routes = [
-  { path: '/', component: Dashboard },
-  { path: '/dashboard/:viewingId/edit/:editingId?', component: DashboardCustom },
-  { path: '/dashboard/:viewingId?', component: DashboardCustom },
-  { path: '/privacy', component: Privacy },
-  { path: '/terms_and_conditions', component: Terms },
-  { path: '/challenges', component: Challenges },
-  { path: '/iframe', component: EmbedIframe },
-  { path: '*', component: PageNotFound },
-];
-const router = new VueRouter({ mode: 'history', base: process.env.BASE_URL, routes });
-
 Vue.use(Vuetify, {
   directives: {
     Touch,
@@ -195,6 +182,20 @@ const renderVue = async () => {
     'truncate',
     (text, stop, clamp) => text.slice(0, stop) + (stop < text.length ? clamp || '...' : ''),
   );
+
+  const routes = [
+    { path: '/', component: Dashboard },
+    { path: '/dashboard/:viewingId?', component: DashboardCustom },
+    ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
+      ? [{ path: '/story/:viewingId?', component: DashboardCustom }]
+      : []),
+    { path: '/privacy', component: Privacy },
+    { path: '/terms_and_conditions', component: Terms },
+    { path: '/challenges', component: Challenges },
+    { path: '/iframe', component: EmbedIframe },
+    { path: '*', component: PageNotFound },
+  ];
+  const router = new VueRouter({ mode: 'history', base: process.env.BASE_URL, routes });
 
   new Vue({
     store,
