@@ -99,7 +99,9 @@
                           >
                             <v-img
                               class="white--text align-end"
-                              :aspect-ratio="((index + 1) % 4 === 1 || (index + 1) % 4 === 0) ? 2/1 : 1/1"
+                              :aspect-ratio="((index + 1) % 4 === 1 || (index + 1) % 4 === 0)
+                                ? 2/1
+                                : 1/1"
                               :src="story[1].image"
                             >
                               <v-fade-transition>
@@ -148,8 +150,10 @@ export default {
       'appConfig',
     ]),
     carouselEntries() {
-      return Object.entries(storiesConfig[this.appConfig.id]['Water'])
-        .concat(Object.entries(storiesConfig[this.appConfig.id]['Land']));
+      // temporary for demo purposes
+      return Object.entries(storiesConfig[this.appConfig.id].Water)
+        .concat(Object.entries(storiesConfig[this.appConfig.id].Land))
+        .sort((a, b) => a[0].length - b[0].length);
     },
   },
   created() {
