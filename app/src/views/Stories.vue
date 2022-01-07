@@ -26,24 +26,29 @@
                 v-model="carouselModel"
               >
                 <v-carousel-item
-                  v-for="(color, i) in colors"
-                  :key="color"
+                  v-for="(story, i) in carouselEntries"
+                  :key="i"
                 >
-                  <v-sheet
-                    :color="color"
+                  <v-img
+                    :src="story[1].image"
                     height="100%"
-                    tile
+                    class="white--text align-end"
                   >
-                    <v-row
-                      class="fill-height"
-                      align="center"
-                      justify="center"
+                    <v-fade-transition>
+                      <div
+                        v-if="hover"
+                        style="position: absolute; top: 0; left: 0; width: 100%;
+                        height: 100%; background: #0008; z-index: -1"></div>
+                    </v-fade-transition>
+                    <v-list-item-title
+                      class="text-h5 mb-3 ml-8"
                     >
-                      <div class="text-h2">
-                        Slide {{ i + 1 }}
-                      </div>
-                    </v-row>
-                  </v-sheet>
+                      {{ story[1].title }}
+                    </v-list-item-title>
+                    <v-list-item-subtitle class="ml-5 mb-5">
+                      {{ story[1].subtitle }}
+                    </v-list-item-subtitle>
+                  </v-img>
                 </v-carousel-item>
               </v-carousel>
             </section>
@@ -74,9 +79,9 @@
                       no-gutters
                     >
                       <v-col
-                        v-for="i in 9"
-                        :key="i"
-                        :cols="(i % 4 === 1 || i % 4 === 0) ? 8 : 4"
+                        v-for="(story, index) in storyEntries(theme)"
+                        :key="story[0]"
+                        :cols="((index + 1) % 4 === 1 || (index + 1) % 4 === 0) ? 8 : 4"
                       >
                         <v-hover
                           v-slot="{ hover }"
@@ -88,8 +93,8 @@
                           >
                             <v-img
                               class="white--text align-end"
-                              :aspect-ratio="(i % 4 === 1 || i % 4 === 0) ? 2/1 : 1/1"
-                              :src="`https://picsum.photos/100${i}/80${i}`"
+                              :aspect-ratio="((index + 1) % 4 === 1 || (index + 1) % 4 === 0) ? 2/1 : 1/1"
+                              :src="story[1].image"
                             >
                               <v-fade-transition>
                                 <div
@@ -100,10 +105,10 @@
                               <v-list-item-title
                                 class="text-h5 mb-1 ml-5"
                               >
-                                {{ themes[tab] }} story nr. {{ i }}
+                                {{ story[1].title }}
                               </v-list-item-title>
                               <v-list-item-subtitle class="ml-5 mb-5">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                {{ story[1].subtitle }}
                               </v-list-item-subtitle>
                             </v-img>
                           </v-card>
@@ -124,34 +129,32 @@ import {
   mapState,
 } from 'vuex';
 
+import storiesConfig from '../config/stories.json';
+
 export default {
   data: () => ({
     carouselModel: 0,
-    themes: [
-      'Water',
-      'Land',
-      'Atmosphere',
-      'Biomass',
-      'Polar',
-      'COVID-19',
-    ],
-    colors: [
-      'primary',
-      'secondary',
-      'yellow darken-2',
-      'red',
-      'orange',
-    ],
+    themes: null,
     tab: null,
   }),
   computed: {
     ...mapState('config', [
       'appConfig',
     ]),
+    carouselEntries() {
+      return Object.entries(storiesConfig[this.appConfig.id]['Water'])
+        .concat(Object.entries(storiesConfig[this.appConfig.id]['Land']));
+    },
+  },
+  created() {
+    this.themes = Object.keys(storiesConfig[this.appConfig.id]);
   },
   methods: {
     dismiss() {
       this.$emit('dismiss');
+    },
+    storyEntries(theme) {
+      return Object.entries(storiesConfig[this.appConfig.id][theme]);
     },
     selectStory() {
       //
@@ -170,6 +173,9 @@ export default {
   transition: opacity .5s;
 }
 ::v-deep .v-image__image {
-  box-shadow: inset 0 -90px 50px -20px #0006;
+  box-shadow: inset 0 -90px 50px -20px #000a;
+}
+::v-deep .v-list-item__title, .v-list-item__subtitle {
+  white-space: unset;
 }
 </style>

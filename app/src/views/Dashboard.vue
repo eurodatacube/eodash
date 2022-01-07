@@ -342,7 +342,7 @@ export default {
     dataPanelFullWidth: false,
     dataPanelTemporary: false,
     panelKey: 0,
-    showStoriesOverlay: false,
+    showStoriesOverlay: true,
   }),
   computed: {
     appConfig() {
