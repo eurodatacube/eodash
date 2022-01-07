@@ -28,27 +28,33 @@
                 <v-carousel-item
                   v-for="(story, i) in carouselEntries"
                   :key="i"
+                  @click="selectStory(story)"
+                  style="cursor: pointer"
                 >
-                  <v-img
-                    :src="story[1].image"
-                    height="100%"
-                    class="white--text align-end"
+                  <v-hover
+                    v-slot="{ hover }"
                   >
-                    <v-fade-transition>
-                      <div
-                        v-if="hover"
-                        style="position: absolute; top: 0; left: 0; width: 100%;
-                        height: 100%; background: #0008; z-index: -1"></div>
-                    </v-fade-transition>
-                    <v-list-item-title
-                      class="text-h5 mb-3 ml-8"
+                    <v-img
+                      :src="story[1].image"
+                      height="100%"
+                      class="white--text align-end"
                     >
-                      {{ story[1].title }}
-                    </v-list-item-title>
-                    <v-list-item-subtitle class="ml-5 mb-5">
-                      {{ story[1].subtitle }}
-                    </v-list-item-subtitle>
-                  </v-img>
+                      <v-fade-transition>
+                        <div
+                          v-if="hover"
+                          style="position: absolute; top: 0; left: 0; width: 100%;
+                          height: 100%; background: #0008; z-index: -1"></div>
+                      </v-fade-transition>
+                      <v-list-item-title
+                        class="text-h5 mb-1 ml-8"
+                      >
+                        {{ story[1].title }}
+                      </v-list-item-title>
+                      <v-list-item-subtitle class="ml-8 mb-15">
+                        {{ story[1].subtitle }}
+                      </v-list-item-subtitle>
+                    </v-img>
+                  </v-hover>
                 </v-carousel-item>
               </v-carousel>
             </section>
@@ -89,7 +95,7 @@
                           <v-card
                             flat
                             tile
-                            @click="selectStory"
+                            @click="selectStory(story)"
                           >
                             <v-img
                               class="white--text align-end"
@@ -156,8 +162,8 @@ export default {
     storyEntries(theme) {
       return Object.entries(storiesConfig[this.appConfig.id][theme]);
     },
-    selectStory() {
-      //
+    selectStory(story) {
+      this.$router.push(`/story?id=${story[0]}`);
     },
   },
 };
