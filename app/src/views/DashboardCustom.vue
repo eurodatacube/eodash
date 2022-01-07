@@ -604,6 +604,7 @@ export default {
     markdownMessage: 'You can use <a href="https://guides.github.com/features/mastering-markdown/" rel="noopener" target="_blank" tabindex="-1">markdown</a>',
     officialDashboard: false,
     storyModeEnabled: false,
+    dashboardError: null,
   }),
   computed: {
     ...mapState('config', [
