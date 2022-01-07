@@ -1,0 +1,84 @@
+[
+  {
+    "marketingInfo": {
+      "interests": [
+        "Environmental monitoring"
+      ]
+    },
+    "features": [
+      {
+        "width": 3,
+        "title": "Andalucia, Harvesting evolution over time",
+        "id": "ES61a-E10a6"
+      },
+      {
+        "width": 1,
+        "text": "# Hello World!\n\nThis chart is an example of something happening.\n\n## About one\nThis is some interesting text.",
+        "id": "Test-1641381462468",
+        "title": "Test",
+        "__generatedText__": "<h1>Hello World</h1>\n<p>This chart is an example of something happening.</p>\n<h2>About one</h2>\n<p>This is some interesting text.</p>\n"
+      },
+      {
+        "width": 3,
+        "mapInfo": {
+          "zoom": 7,
+          "center": {
+            "lng": 32.33276367187501,
+            "lat": 30.770159115784214
+          }
+        },
+        "id": "EG01-E13c",
+        "title": "Suez, Ports: Ship throughput"
+      },
+      {
+        "width": 1,
+        "text": "# Step Number 2\nSome more very interesting text!",
+        "id": "Story Step 2-1641401461936",
+        "title": "Story Step 2",
+        "__generatedText__": "<h1>Step Number 2</h1>\n<p>Some more very interesting text!</p>\n"
+      },
+      {
+        "width": 1,
+        "text": "# Step 3\nMaybe on the left side as well?",
+        "id": "Step 3-1641401478024",
+        "title": "Step 3",
+        "__generatedText__": "<h1>Step 3</h1>\n<p>Maybe on the left side as well?</p>\n"
+      },
+      {
+        "width": 3,
+        "mapInfo": {
+          "zoom": 1,
+          "center": {
+            "lng": 0,
+            "lat": 0
+          }
+        },
+        "id": "WorldCO-N1",
+        "title": "World, TROPOMI CO"
+      },
+      {
+        "width": 4,
+        "mapInfo": {
+          "zoom": 13,
+          "center": {
+            "lng": 18.532390594482425,
+            "lat": 54.53104356424324
+          }
+        },
+        "id": "PL1-E13c",
+        "title": "Gdynia, Ports and Shipping - Major Harbours"
+      },
+      {
+        "width": 2,
+        "title": "Paris, Air Quality",
+        "id": "FR01-N1"
+      },
+      {
+        "width": 2,
+        "title": "Milan, Air Quality",
+        "id": "IT05-N1"
+      }
+    ],
+    "title": "My Dashboard Test"
+  }
+]

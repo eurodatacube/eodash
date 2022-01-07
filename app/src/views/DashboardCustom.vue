@@ -58,7 +58,7 @@
         >
           <v-img
             v-if="officialDashboard"
-            :src="`https://picsum.photos/1000/800`"
+            :src="dashboardHeaderImage"
             style="position: absolute; top: 0; width: calc(100% + 56px); max-width: unset;
             height: 100%; margin: -8px -28px 0 -28px">
           </v-img>
@@ -141,8 +141,7 @@
                 </v-dialog>
               </div>
               <template v-if="officialDashboard">
-                <p>Official Dashboard Subtitle goes here, to describe what this
-                  official dashboard is all about.</p>
+                <p v-html="dashboardSubTitle"></p>
                 <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
               </template>
               <template v-else>
@@ -180,8 +179,9 @@
             </div>
           </v-col>
           <v-col
-            v-if="!storyModeEnabled
-              || (hasEditingPrivilege || !(dashboardConfig && dashboardConfig.id))"
+            v-if="!localDashboardFeatures
+              && (!(storyModeEnabled)
+                || (hasEditingPrivilege || !(dashboardConfig && dashboardConfig.id)))"
             cols="12"
             md="6"
             xl="4"
@@ -424,6 +424,7 @@
           :enableEditing="!!(newDashboard || hasEditingPrivilege)"
           :popupOpen="popupOpen || newTextFeatureDialog"
           :storyMode="storyModeEnabled"
+          :localFeatures="localDashboardFeatures"
           @updateTextFeature="openTextFeatureUpdate"
           @change="savingChanges = true"
           @save="savingChanges = false"
@@ -530,6 +531,8 @@ import {
   mapActions,
 } from 'vuex';
 
+import axios from 'axios';
+
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import CustomDashboardGrid from '@/components/CustomDashboardGrid.vue';
 
@@ -554,6 +557,8 @@ export default {
     saving: false,
     popupTitle: '',
     dashboardTitle: '',
+    dashboardSubTitle: null,
+    dashboardHeaderImage: null,
     dashboardTitleChanged: false,
     savingChanges: null,
     displaySavingChanges: null,
@@ -605,6 +610,7 @@ export default {
     officialDashboard: false,
     storyModeEnabled: false,
     dashboardError: null,
+    localDashboardFeatures: null,
   }),
   computed: {
     ...mapState('config', [
@@ -656,14 +662,38 @@ export default {
     }
 
     if (id) {
-      this.reconnecting = true;
-      this.disconnect();
-      try {
-        await this.listen({ id, editKey });
-      } catch (error) {
-        this.dashboardError = error.message;
+      const storiesConfig = require('../config/stories.json');
+      const existingConfiguration = this.getDeepProperty(storiesConfig[this.appConfig.id], id);
+      if (
+        !editKey
+        && this.appConfig.enableStories
+        && existingConfiguration
+      ) {
+        // replace with local custom dashboard
+        const localDashboard = await axios
+          .get(`/data/dashboards/${existingConfiguration.originalDashboardId}.json`);
+        const localDashboardContent = localDashboard.data[0];
+        this.officialDashboard = true;
+        this.dashboardTitle = existingConfiguration.title;
+        this.dashboardSubTitle = existingConfiguration.subtitle;
+        this.dashboardHeaderImage = existingConfiguration.image;
+        const localFeatures = localDashboardContent.features.map((f) => {
+          const newF = { ...f };
+          delete newF.id;
+          newF.poi = f.id;
+          return newF;
+        });
+        this.localDashboardFeatures = localFeatures;
+      } else {
+        this.reconnecting = true;
+        this.disconnect();
+        try {
+          await this.listen({ id, editKey });
+        } catch (error) {
+          this.dashboardError = error.message;
+        }
+        this.reconnecting = false;
       }
-      this.reconnecting = false;
     }
 
     if (this.dashboardConfig) {
@@ -680,7 +710,6 @@ export default {
         });
       }
     }
-
     if (!this.dashboardConfig) {
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
     }
@@ -727,6 +756,7 @@ export default {
       'listen',
       'addFeature',
       'changeFeatureText',
+      'setLocalDashboard',
     ]),
     async editTitle() {
       if (this.hasEditingPrivilege || this.newDashboard) {
@@ -839,6 +869,23 @@ export default {
           offset: -56,
         },
       );
+    },
+    getDeepProperty(obj, prop) {
+      // https://stackoverflow.com/a/33445021
+      /* eslint-disable */
+      if (typeof obj === 'object' && obj !== null) {
+        if (obj.hasOwnProperty(prop)) {
+          return obj[prop];
+        }
+        for (var p in obj) {
+          if (obj.hasOwnProperty(p) &&
+              this.getDeepProperty(obj[p], prop)) { 
+            return obj[p][prop];
+          }
+        }
+      }
+      return false;
+      /* eslint-enable */
     },
   },
 };

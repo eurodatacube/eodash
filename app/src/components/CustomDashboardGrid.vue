@@ -290,6 +290,7 @@ export default {
     enableEditing: Boolean,
     popupOpen: Boolean,
     storyMode: Boolean,
+    localFeatures: Array,
   },
   components: {
     IndicatorData,
@@ -357,51 +358,18 @@ export default {
     vuexFeatures: {
       immediate: true,
       deep: true,
-      async handler(features) {
+      handler(features) {
         if (features) {
-          // check if this.serverZoom is empty
-          // (meaning it's the first call that must go through every time)
-          let firstCall = false;
-          if (Object.keys(this.serverZoom).length === 0) {
-            firstCall = true;
-          }
-          this.features = await Promise.all(features.map(async (f) => {
-            if (f.includesIndicator) {
-              const convertedTimes = f.indicatorObject.time.map(
-                (d) => (DateTime.isDateTime(d) ? d : DateTime.fromISO(d)),
-              );
-              return {
-                ...f,
-                indicatorObject: {
-                  ...f.indicatorObject,
-                  time: convertedTimes,
-                },
-              };
-            }
-
-            if (f.text) {
-              return f;
-            }
-
-            const feature = this.$store.state.features.allFeatures
-              .find((i) => this.getLocationCode(i.properties.indicatorObject) === f.poi);
-            const indicatorObject = await loadIndicatorData(
-              this.baseConfig,
-              feature.properties.indicatorObject,
-            );
-
-            if (f.mapInfo && (firstCall || f.poi === this.savedPoi)) {
-              this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
-              this.$set(this.localCenter, f.poi, f.mapInfo.center);
-              this.$set(this.serverZoom, f.poi, f.mapInfo.zoom);
-              this.$set(this.serverCenter, f.poi, f.mapInfo.center);
-            }
-
-            return {
-              ...f,
-              indicatorObject,
-            };
-          }));
+          this.parseFeatures(features);
+        }
+      },
+    },
+    localFeatures: {
+      immediate: true,
+      deep: true,
+      handler(features) {
+        if (features) {
+          this.parseFeatures(features);
         }
       },
     },
@@ -492,6 +460,51 @@ export default {
           container: document.querySelector('.scrollContainer'),
         },
       );
+    },
+    async parseFeatures(features) {
+      // check if this.serverZoom is empty
+      // (meaning it's the first call that must go through every time)
+      let firstCall = false;
+      if (Object.keys(this.serverZoom).length === 0) {
+        firstCall = true;
+      }
+      this.features = await Promise.all(features.map(async (f) => {
+        if (f.includesIndicator) {
+          const convertedTimes = f.indicatorObject.time.map(
+            (d) => (DateTime.isDateTime(d) ? d : DateTime.fromISO(d)),
+          );
+          return {
+            ...f,
+            indicatorObject: {
+              ...f.indicatorObject,
+              time: convertedTimes,
+            },
+          };
+        }
+
+        if (f.text) {
+          return f;
+        }
+
+        const feature = this.$store.state.features.allFeatures
+          .find((i) => this.getLocationCode(i.properties.indicatorObject) === f.poi);
+        const indicatorObject = await loadIndicatorData(
+          this.baseConfig,
+          feature.properties.indicatorObject,
+        );
+
+        if (f.mapInfo && (firstCall || f.poi === this.savedPoi)) {
+          this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
+          this.$set(this.localCenter, f.poi, f.mapInfo.center);
+          this.$set(this.serverZoom, f.poi, f.mapInfo.zoom);
+          this.$set(this.serverCenter, f.poi, f.mapInfo.center);
+        }
+
+        return {
+          ...f,
+          indicatorObject,
+        };
+      }));
     },
   },
 };
