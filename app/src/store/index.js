@@ -15,6 +15,8 @@ const vuexLocal = new VuexPersistence({
       },
     }
   ),
+  // don't allow storing a 'SET' mutation without editing key, i.e. only for viewing mode
+  filter: (mutation) => !(mutation.type === 'dashboard/SET' && !mutation?.payload?.editKey),
 });
 
 
