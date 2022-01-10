@@ -97,25 +97,21 @@ export default {
       lineChartIndicators: [
         'E12', 'E12b', 'E8', 'N1b', 'N1', 'N3', 'N3b',
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
+        'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8',
         // Year overlap comparison
         'E10a2', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E10a6',
 
       ],
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
-        'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1',
-        'E13n',
-        'E10a1', 'E10a5', // Year group comparison
+        'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1', 'E13n',
+        // Year group comparison
+        'E10a1', 'E10a5', 
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
     };
   },
-  /*
-  'E10a2', 'E10a3', 'E10a6', 'E10a7', 'E10a8', 'E10a9',
-      'E10c', 'N1', 'N3', 'N3b', 'E8',
-      'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-      'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'GG', 'GSA', 'CV', 'OW', 'OX', 'E10a10'
-      */
+
   mounted() {
     const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
     this.dataLayerTime = d.toFormat('dd. MMM');
@@ -152,6 +148,9 @@ export default {
       if (indicator) {
         const { measurement } = indicator;
         const colors = [];
+
+        // Definition of data structure type of indicator
+
         const measDecompose = {
           E10a9: ['National Workers', 'Foreign Workers', 'Unknown'],
         };
@@ -161,6 +160,10 @@ export default {
           OW: ['total_vaccinations', 'people_fully_vaccinated', 'daily_vaccinations'],
           // GSA: ['waiting_time'] // Currently not in use, left for reference
         };
+        const twoYearComparison = [
+          'E10a2', 'E10a6', 'E10a7', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
+          'E10a1', 'E10a5', // Special case
+        ];
         const referenceDecompose = {
           N1: {
             measurementConfig: {
@@ -209,13 +212,45 @@ export default {
               },
             ],
           },
+          N1a: {
+            measurementConfig: {
+              label: 'Value',
+              backgroundColor: 'rgba(255,255,255,0.0)',
+              borderColor: 'red',
+              spanGaps: false,
+              pointRadius: 0,
+              borderWidth: 1.5,
+            },
+            referenceData: [
+              { 
+                key: '7-day mean', index: 3, borderColor: 'red',
+                backgroundColor: 'rgba(255,255,255,0.0)', borderDash: [6, 3],
+                borderWidth: 2,
+              },
+              { 
+                key: '2017-2019 7d mean', index: 2, borderColor: 'grey',
+                backgroundColor: 'rgba(255,255,255,0.0)', borderDash: [6, 3],
+              },
+              { 
+                key: 'hide_', index: 1, borderColor: 'rgba(0,0,0,0.0)',
+                backgroundColor: 'rgba(0,0,0,0)', fill: '4',
+              },
+              { 
+                key: '2017-2019 range', index: 0, borderColor: 'rgba(0,0,0,0.0)',
+                backgroundColor: 'rgba(0,0,0,0.2)', fill: '3',
+              },
+            ],
+            valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
+                .map((str) => (str === '' ? Number.NaN : Number(str))))
+          }
         };
+        referenceDecompose['N1b'] = referenceDecompose['N1a'];
+        referenceDecompose['N1c'] = referenceDecompose['N1a'];
+        referenceDecompose['N1d'] = referenceDecompose['N1a'];
+        referenceDecompose['E12b'] = referenceDecompose['N1a'];
+        referenceDecompose['E8'] = referenceDecompose['N1a'];
 
-        const twoYearComparison = [
-          'E10a2', 'E10a6', 'E10a7', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-          'E10a1', 'E10a5', // Special case
-        ];
-
+        // Generators based on data type
         if (Object.keys(referenceDecompose).includes(indicatorCode)) {
           if ('measurementConfig' in referenceDecompose[indicatorCode]) {
             const data = indicator.measurement.map((val, rowIdx) => ({
@@ -231,7 +266,12 @@ export default {
             const data = [];
             indicator.referenceValue.forEach((item, rowIdx) => {
               if (!Number.isNaN(item) && !['NaN', '[NaN NaN]', '/'].includes(item)) {
-                const obj = JSON.parse(item.replace(/,/g, '.').replace(' ', ','));
+                let obj;
+                if ('valueDecompose' in referenceDecompose[indicatorCode]) {
+                  obj = referenceDecompose[indicatorCode].valueDecompose(item);
+                } else {
+                  obj = JSON.parse(item.replace(/,/g, '.').replace(' ', ','));
+                }
                 if ('index' in entry) {
                   data.push({
                     t: indicator.time[rowIdx],
@@ -253,12 +293,12 @@ export default {
             datasets.push({
               label: entry.key,
               data,
-              fill: 'fill' in entry ? entry.fill : false,
               borderColor: entry.color,
               backgroundColor: entry.color,
               borderWidth: 1,
               pointRadius: 0,
               spanGaps: false,
+              ... entry,
             });
           });
         }
@@ -636,99 +676,6 @@ export default {
             pointRadius: 0,
             showLine: true,
           });
-        } else if (['N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8'].includes(indicatorCode)) {
-          const maxRef = [];
-          const minRef = [];
-          const mean7dRef = [];
-          const mean7d2020 = [];
-          indicator.referenceValue.forEach((item, i) => {
-            const t = indicator.time[i];
-            if (!['', '/'].includes(item)) {
-              const obj = item.replace(/[[\] ]/g, '').split(',')
-                .map((str) => (str === '' ? Number.NaN : Number(str)));
-              maxRef.push({ y: obj[0], t });
-              minRef.push({ y: obj[1], t });
-              mean7dRef.push({ y: obj[2], t });
-              mean7d2020.push({ y: obj[3], t });
-            } else {
-              maxRef.push({ y: Number.NaN, t });
-              minRef.push({ y: Number.NaN, t });
-              mean7dRef.push({ y: Number.NaN, t });
-              mean7d2020.push({ y: Number.NaN, t });
-            }
-          });
-
-          datasets.push({
-            label: 'Value',
-            data: measurement.map((meas, i) => ({ y: meas, t: indicator.time[i] })),
-            backgroundColor: 'rgba(255,255,255,0.0)',
-            borderColor: 'red',
-            spanGaps: false,
-            pointRadius: 0,
-            borderWidth: 1.5,
-          });
-          datasets.push({
-            label: '7-day mean',
-            data: mean7d2020,
-            backgroundColor: 'rgba(255,255,255,0.0)',
-            pointRadius: 0,
-            borderColor: 'red',
-            spanGaps: false,
-            borderDash: [6, 3],
-            borderWidth: 2,
-          });
-          datasets.push({
-            label: '2017-2019 7d mean',
-            data: mean7dRef,
-            backgroundColor: 'rgba(255,255,255,0.0)',
-            pointRadius: 0,
-            borderColor: 'grey',
-            spanGaps: false,
-            borderDash: [6, 3],
-            borderWidth: 2,
-          });
-          datasets.push({
-            label: '2017-2019 range',
-            data: maxRef,
-            fill: 4,
-            pointRadius: 0,
-            spanGaps: false,
-            backgroundColor: 'rgba(0,0,0,0.2)',
-            borderColor: 'rgba(0,0,0,0.0)',
-            pointStyle: 'rect',
-          });
-          datasets.push({
-            label: 'hide_',
-            data: minRef,
-            fill: 3,
-            pointRadius: 0,
-            spanGaps: false,
-            backgroundColor: 'rgba(0,0,0,0.0)',
-            borderColor: 'rgba(0,0,0,0.0)',
-            pointStyle: 'rect',
-          });
-
-          // Find unique indicator values
-          const indicatorValues = {};
-          indicator.indicatorValue.map((val, i) => {
-            let key = val.toLowerCase();
-            key = key.charAt(0).toUpperCase() + key.slice(1);
-            if (!['', '/'].includes(key) && typeof indicatorValues[key] === 'undefined') {
-              indicatorValues[key] = this.getIndicatorColor(
-                indicator.colorCode[i],
-              );
-            }
-            return null;
-          });
-
-          Object.entries(indicatorValues).forEach(([key, value]) => {
-            datasets.push({
-              label: key,
-              data: [],
-              backgroundColor: value,
-              borderColor: value,
-            });
-          });
         } else if (['E10a3', 'E10a8'].includes(indicatorCode)) {
           const nutsFeatures = NUTS.features;
           const outline = [];
@@ -805,18 +752,7 @@ export default {
             data: filteredFeatures,
             clipMap: 'items',
           });
-        }/* else {
-          const data = indicator.time.map((date, i) => {
-            colors.push(this.getIndicatorColor(indicator.colorCode[i]));
-            return { t: date, y: measurement[i] };
-          });
-          datasets.push({
-            data,
-            label: indicator.yAxis,
-            backgroundColor: colors,
-            borderColor: colors,
-          });
-        } */
+        }
       }
       return { labels, datasets };
     },
