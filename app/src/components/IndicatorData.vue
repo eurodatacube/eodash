@@ -173,9 +173,15 @@ export default {
               borderWidth: 2,
             },
             referenceData: [
-              { key: 'Median', index: 0, color: 'black' },
-              { key: 'Min', index: 3, color: refColors[4] },
-              { key: 'Max', index: 2, color: refColors[1] },
+              {
+                key: 'Median', index: 0, color: 'black', fill: false,
+              },
+              {
+                key: 'Min', index: 3, color: refColors[4], fill: false,
+              },
+              {
+                key: 'Max', index: 2, color: refColors[1], fill: false,
+              },
               {
                 key: 'Standard deviation (STD)',
                 calc: (meas, obj) => meas - obj[1],
@@ -186,27 +192,39 @@ export default {
                 key: 'hide_',
                 calc: (meas, obj) => meas + obj[1],
                 color: 'rgba(0,0,0,0.1)',
+                fill: false,
               },
             ],
+            valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
+              .map((str) => (str === '' ? Number.NaN : Number(str)))),
           },
           N3: {
             referenceData: [
               {
                 key: 'Weekly climatology of chlorophyll conc. (CHL_clim) 2017-2019',
                 calc: (meas, obj) => 10 ** obj[0],
+                borderWidth: 3,
                 color: 'black',
+                fill: false,
                 pointStyle: 'line',
+                spanGaps: false,
               },
               {
                 key: 'Standard deviation (STD)',
-                calc: (meas, obj) => 10 ** (meas - obj[1]),
-                color: 'rgba(0,0,0,0.1)',
+                calc: (meas, obj) => 10 ** (obj[0] - obj[1]),
+                backgroundColor: 'rgba(0,0,0,0.1)',
+                borderColor: 'rgba(0,0,0,0)',
                 fill: '+1',
+                pointStyle: 'rect',
+                spanGaps: false,
               },
               {
                 key: 'hide_',
-                calc: (meas, obj) => 10 ** (meas + obj[1]),
-                color: 'rgba(0,0,0,0.1)',
+                calc: (meas, obj) => 10 ** (obj[0] + obj[1]),
+                backgroundColor: 'rgba(0,0,0,0)',
+                borderColor: 'rgba(0,0,0,0)',
+                fill: false,
+                spanGaps: false,
               },
             ],
           },
@@ -408,7 +426,7 @@ export default {
             color2019 = 'grey';
             color2020 = 'black';
           }
-          if ( (indicatorCode === 'E10a1' && indicator.aoiID === 'ES8')
+          if ((indicatorCode === 'E10a1' && indicator.aoiID === 'ES8')
               || indicatorCode === 'E10a5') {
             // ES8 has different days as reference value, can only be grouped
             // when having same date, we set them all to day 1 of month
@@ -989,7 +1007,7 @@ export default {
           };
         }
       }
-      if(indicatorCode === 'E10a5'){
+      if (indicatorCode === 'E10a5') {
         customSettings.yAxisRange = [
           0,
           Math.max(
@@ -997,6 +1015,9 @@ export default {
               .filter((d) => !Number.isNaN(d)),
           ),
         ];
+      }
+      if (indicatorCode === 'E10a9') {
+        customSettings.distribution = 'series';
       }
 
       if (['E10a3'].includes(indicatorCode)) {
@@ -1033,6 +1054,44 @@ export default {
       ].includes(indicatorCode)) {
         // Special time range for same year comparisons
         customSettings.sameYearComparison = true;
+      }
+
+      if (['E10a6', 'E10a7'].includes(indicatorCode)) {
+        // Adding labels to each point
+        customSettings.plugins = {
+          datalabels: {
+            labels: {
+              title: {
+                color: (context) => context.dataset.backgroundColor,
+                font: {
+                  size: 10,
+                },
+                anchor: 'end',
+                align: 'end',
+                offset: (context) => {
+                  if (context.chart.data.datasets.length === 2) {
+                    if (context.datasetIndex === 0) {
+                      if (!Number.isNaN(context.chart.data.datasets[1].data[context.dataIndex].y)
+                        && context.chart.data.datasets[0].data[context.dataIndex].y
+                        > context.chart.data.datasets[1].data[context.dataIndex].y) {
+                        return 0;
+                      }
+                      return -28;
+                    }
+                    if (!Number.isNaN(context.chart.data.datasets[0].data[context.dataIndex].y)
+                      && context.chart.data.datasets[0].data[context.dataIndex].y
+                      > context.chart.data.datasets[1].data[context.dataIndex].y) {
+                      return -28;
+                    }
+                    return 0;
+                  }
+                  return 0;
+                },
+                formatter: (value) => `${value.y.toFixed(1)}%`,
+              },
+            },
+          },
+        };
       }
 
       if (['E10a8'].includes(indicatorCode)) {
@@ -1097,6 +1156,52 @@ export default {
         customSettings.tooltips = {
           callbacks: {
             label: () => '',
+          },
+        };
+      }
+
+      // Special logarithmic scale
+      if (['N3'].includes(indicatorCode)) {
+        customSettings.distribution = 'series';
+        customSettings.yAxisOverwrite = {
+          type: 'myLogScale',
+          ticks: {
+            callback: (...args) => {
+              const value = Chart.Ticks.formatters.logarithmic.call(this, ...args);
+              if (value.length) {
+                return Number(value).toLocaleString();
+              }
+              return value;
+            },
+          },
+        };
+        if (this.indicatorObject.aoiID === 'ES19') {
+          customSettings.yAxisOverwrite.min = 0.02;
+          customSettings.yAxisOverwrite.max = 1;
+        }
+        customSettings.labelsExtend = {
+          usePointStyle: true,
+          boxWidth: 5,
+        };
+        customSettings.legendExtend = {
+          onClick: function onClick(e, legendItem) {
+            if (legendItem.text === 'Standard deviation (STD)') {
+              const masterIndex = legendItem.datasetIndex;
+              const slaveIndex = 3;
+              const ci = this.chart;
+              const masterMeta = ci.getDatasetMeta(masterIndex);
+              const meta = ci.getDatasetMeta(slaveIndex);
+              if (masterMeta.hidden === null) {
+                masterMeta.hidden = true;
+                meta.hidden = true;
+              } else {
+                masterMeta.hidden = !masterMeta.hidden;
+                meta.hidden = !meta.hidden;
+              }
+              ci.update();
+            } else {
+              Chart.defaults.global.legend.onClick.call(this, e, legendItem);
+            }
           },
         };
       }

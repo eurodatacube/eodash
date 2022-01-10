@@ -76,6 +76,7 @@ export default {
                   hidden: false,
                   lineWidth: 0,
                   datasetIndex: -1,
+                  pointStyle: 'rect',
                 });
                 labelObjects.push({
                   text: 'High Restrictions',
@@ -83,11 +84,14 @@ export default {
                   hidden: false,
                   lineWidth: 0,
                   datasetIndex: -1,
+                  pointStyle: 'rect',
                 });
               }
               return labelObjects;
             },
+            ...this.options.labelsExtend,
           },
+          ...this.options.legendExtend,
         },
         scales: {
           xAxes: [{
@@ -99,7 +103,7 @@ export default {
               },
               tooltipFormat: 'dd. MMM yy',
             },
-            distribution: 'linear',
+            distribution: this.options.distribution ? this.options.distribution : 'linear',
             ticks: {},
           }],
           yAxes: [{
