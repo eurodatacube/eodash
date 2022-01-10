@@ -259,14 +259,16 @@
         <v-btn
           fab
           icon
+          :dark="$vuetify.theme.dark ? false : true"
           @click="goStep(-1)"
         >
           <v-icon>mdi-arrow-up</v-icon>
         </v-btn>
-          {{ currentRow }} / {{ numberOfRows }}
+        <span class="white--text">{{ currentRow }} / {{ numberOfRows }}</span>
         <v-btn
           fab
           icon
+          :dark="$vuetify.theme.dark ? false : true"
           :disabled="currentRow === numberOfRows"
           @click="goStep(+1)"
         >
