@@ -11,34 +11,12 @@ export default {
   mixins: [reactiveProp],
   props: ['options'],
   mounted() {
-    const extendedSettings = Object.assign(this.defaultOptions, this.options);
-    let [min, max] = this.minMaxDate(this.$attrs.time);
-    if (extendedSettings.sameYearComparison) {
-      [min, max] = this.minMaxDate(
-        this.$attrs.time.map((date) => date.set({ year: 2000 })),
-      );
-    } else {
-      extendedSettings.annotation.annotations.push(...this.movementRestrictions);
-    }
-    extendedSettings.scales.xAxes[0].ticks.min = min;
-    extendedSettings.scales.xAxes[0].ticks.max = max;
-    this.renderChart(this.chartData, extendedSettings);
+    this.render();
   },
   watch: {
     options: {
       handler() {
-        const extendedSettings = Object.assign(this.defaultOptions, this.options);
-        let [min, max] = this.minMaxDate(this.$attrs.time);
-        if (extendedSettings.sameYearComparison) {
-          [min, max] = this.minMaxDate(
-            this.$attrs.time.map((date) => date.set({ year: 2000 })),
-          );
-        } else {
-          extendedSettings.annotation.annotations.push(...this.movementRestrictions);
-        }
-        extendedSettings.scales.xAxes[0].ticks.min = min;
-        extendedSettings.scales.xAxes[0].ticks.max = max;
-        this.renderChart(this.chartData, extendedSettings);
+        this.render();
       },
       deep: true,
     },
@@ -114,7 +92,7 @@ export default {
         scales: {
           xAxes: [{
             type: 'time',
-            time: {
+            time: this.options.timeConfig ? this.options.timeConfig : {
               unit: 'week',
               displayFormats: {
                 month: 'MMM yy',
@@ -149,6 +127,26 @@ export default {
     };
   },
   methods: {
+    render() {
+      const extendedSettings = Object.assign(this.defaultOptions, this.options);
+      let [min, max] = this.minMaxDate(this.$attrs.time);
+      if (extendedSettings.sameYearComparison) {
+        [min, max] = this.minMaxDate(
+          this.$attrs.time.map((date) => date.set({ year: 2000 })),
+        );
+      } else {
+        extendedSettings.annotation.annotations.push(...this.movementRestrictions);
+      }
+      if ('yAxisRange' in extendedSettings) {
+        extendedSettings.scales.yAxes[0].ticks = {
+          suggestedMin: extendedSettings.yAxisRange[0],
+          suggestedMax: extendedSettings.yAxisRange[1],
+        };
+      }
+      extendedSettings.scales.xAxes[0].ticks.min = min;
+      extendedSettings.scales.xAxes[0].ticks.max = max;
+      this.renderChart(this.chartData, extendedSettings);
+    },
     minMaxDate(timedata) {
       let timeMin = Math.min.apply(null, timedata.map((d) => d.toMillis()));
       let timeMax = Math.max.apply(null, timedata.map((d) => d.toMillis()));

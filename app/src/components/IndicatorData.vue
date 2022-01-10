@@ -104,9 +104,9 @@ export default {
       ],
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
-        'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1', 'E13n',
+        'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1', 'C2', 'C3', 'E13n',
         // Year group comparison
-        'E10a1', 'E10a5', 
+        'E10a1', 'E10a5',
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
     };
@@ -222,33 +222,45 @@ export default {
               borderWidth: 1.5,
             },
             referenceData: [
-              { 
-                key: '7-day mean', index: 3, borderColor: 'red',
-                backgroundColor: 'rgba(255,255,255,0.0)', borderDash: [6, 3],
+              {
+                key: '7-day mean',
+                index: 3,
+                borderColor: 'red',
+                backgroundColor: 'rgba(255,255,255,0.0)',
+                borderDash: [6, 3],
                 borderWidth: 2,
               },
-              { 
-                key: '2017-2019 7d mean', index: 2, borderColor: 'grey',
-                backgroundColor: 'rgba(255,255,255,0.0)', borderDash: [6, 3],
+              {
+                key: '2017-2019 7d mean',
+                index: 2,
+                borderColor: 'grey',
+                backgroundColor: 'rgba(255,255,255,0.0)',
+                borderDash: [6, 3],
               },
-              { 
-                key: 'hide_', index: 1, borderColor: 'rgba(0,0,0,0.0)',
-                backgroundColor: 'rgba(0,0,0,0)', fill: '4',
+              {
+                key: 'hide_',
+                index: 1,
+                borderColor: 'rgba(0,0,0,0.0)',
+                backgroundColor: 'rgba(0,0,0,0)',
+                fill: '4',
               },
-              { 
-                key: '2017-2019 range', index: 0, borderColor: 'rgba(0,0,0,0.0)',
-                backgroundColor: 'rgba(0,0,0,0.2)', fill: '3',
+              {
+                key: '2017-2019 range',
+                index: 0,
+                borderColor: 'rgba(0,0,0,0.0)',
+                backgroundColor: 'rgba(0,0,0,0.2)',
+                fill: '3',
               },
             ],
             valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
-                .map((str) => (str === '' ? Number.NaN : Number(str))))
-          }
+              .map((str) => (str === '' ? Number.NaN : Number(str)))),
+          },
         };
-        referenceDecompose['N1b'] = referenceDecompose['N1a'];
-        referenceDecompose['N1c'] = referenceDecompose['N1a'];
-        referenceDecompose['N1d'] = referenceDecompose['N1a'];
-        referenceDecompose['E12b'] = referenceDecompose['N1a'];
-        referenceDecompose['E8'] = referenceDecompose['N1a'];
+        referenceDecompose.N1b = referenceDecompose.N1a;
+        referenceDecompose.N1c = referenceDecompose.N1a;
+        referenceDecompose.N1d = referenceDecompose.N1a;
+        referenceDecompose.E12b = referenceDecompose.N1a;
+        referenceDecompose.E8 = referenceDecompose.N1a;
 
         // Generators based on data type
         if (Object.keys(referenceDecompose).includes(indicatorCode)) {
@@ -298,7 +310,7 @@ export default {
               borderWidth: 1,
               pointRadius: 0,
               spanGaps: false,
-              ... entry,
+              ...entry,
             });
           });
         }
@@ -753,6 +765,25 @@ export default {
             clipMap: 'items',
           });
         }
+        if (datasets.length === 0) {
+          // No special handling of dataset is required we use default generator
+          const data = indicator.time.map((date, i) => {
+            colors.push(this.getIndicatorColor(indicator.colorCode[i]));
+            return { t: date, y: indicator.measurement[i] };
+          });
+          const conf = {
+            data,
+            label: indicator.yAxis,
+            backgroundColor: colors,
+            borderColor: colors,
+          };
+          if (this.barChartIndicators.includes(indicatorCode)
+            && !twoYearComparison.includes(indicatorCode)) {
+            // Add barthicknes config to specific indicators
+            conf.barThickness = 'flex';
+          }
+          datasets.push(conf);
+        }
       }
       return { labels, datasets };
     },
@@ -900,6 +931,28 @@ export default {
           },
           value: reference,
         });
+      }
+
+      if (['C1', 'C2', 'C3'].includes(indicatorCode)) {
+        customSettings.yAxisRange = [
+          Math.min(
+            ...this.indicatorObject.measurement
+              .filter((d) => !Number.isNaN(d)),
+          ) - 2,
+          Math.max(
+            ...this.indicatorObject.measurement
+              .filter((d) => !Number.isNaN(d)),
+          ),
+        ];
+        if (indicatorCode === 'C2' && this.indicatorObject.aoiID === 'IT16') {
+          // Special max value
+          customSettings.yAxisRange[1] = 20000;
+        }
+        customSettings.timeConfig = {
+          unit: 'month',
+          displayFormats: { month: 'MMM yyyy' },
+          tooltipFormat: 'MMM yyyy',
+        };
       }
 
       if (['E10a3'].includes(indicatorCode)) {
