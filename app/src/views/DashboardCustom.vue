@@ -80,7 +80,7 @@
               : ''}`">
               <div class="d-flex">
                 <h1
-                  class="display-2 font-weight-light primary--text mt-7 mb-5">
+                  class="display-2 font-weight-light white--text mt-7 mb-5">
                   {{ dashboardTitle }}</h1>
                 <div class="d-flex align-center ml-2">
                   <v-tooltip right>
@@ -145,7 +145,7 @@
                 </v-dialog>
               </div>
               <template v-if="officialDashboard">
-                <p v-html="dashboardSubTitle"></p>
+                <p v-html="dashboardSubTitle" class="white--text"></p>
                 <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
               </template>
               <template v-else>
