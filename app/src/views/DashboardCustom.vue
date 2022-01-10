@@ -675,7 +675,7 @@ export default {
       ) {
         // replace with local custom dashboard
         const localDashboard = await axios
-          .get(`/data/dashboards/${existingConfiguration.originalDashboardId}.json`);
+          .get(`./data/dashboards/${existingConfiguration.originalDashboardId}.json`);
         const localDashboardContent = localDashboard.data[0];
         this.officialDashboard = true;
         this.dashboardTitle = existingConfiguration.title;
