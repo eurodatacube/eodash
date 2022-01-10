@@ -57,7 +57,7 @@ export default {
             },
             scaleLabel: {
               display: true,
-              labelString: this.$attrs.yAxis,
+              labelString: this.options.yAxis,
               padding: 2,
             },
           }],

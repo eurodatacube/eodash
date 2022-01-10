@@ -7,8 +7,7 @@
         :width="null"
         :height="null"
         :chart-data='datacollection'
-        :options='chartOptions()'
-        v-bind="indicatorObject"></bar-chart>
+        :options='chartOptions()'></bar-chart>
   </div>
   <div style="width: 100%; height: 100%;"
     v-else-if="mapchartIndicators.includes(indicatorObject.indicator)">
@@ -18,8 +17,7 @@
         :width="null"
         :height="null"
         :chart-data='datacollection'
-        :options='chartOptions()'
-        v-bind="indicatorObject">
+        :options='chartOptions()'>
       </map-chart>
       <img v-if="indicatorObject.indicator=='E10a3'"
         :src="require('@/assets/E10a3_label.jpg')" alt="color legend"
@@ -66,8 +64,7 @@
       :width="null"
       :height="null"
       :chart-data='datacollection'
-      :options='chartOptions()'
-      v-bind="indicatorObject"></line-chart>
+      :options='chartOptions()'></line-chart>
   </div>
 </template>
 
@@ -107,6 +104,10 @@ export default {
         'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1', 'C2', 'C3', 'E13n',
         // Year group comparison
         'E10a1', 'E10a5',
+      ],
+      twoYearComparison: [
+        'E10a2', 'E10a6', 'E10a7', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
+        'E10a1', 'E10a5', // Special case
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
     };
@@ -160,10 +161,7 @@ export default {
           OW: ['total_vaccinations', 'people_fully_vaccinated', 'daily_vaccinations'],
           // GSA: ['waiting_time'] // Currently not in use, left for reference
         };
-        const twoYearComparison = [
-          'E10a2', 'E10a6', 'E10a7', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-          'E10a1', 'E10a5', // Special case
-        ];
+
         const referenceDecompose = {
           N1: {
             measurementConfig: {
@@ -229,6 +227,7 @@ export default {
                 backgroundColor: 'rgba(255,255,255,0.0)',
                 borderDash: [6, 3],
                 borderWidth: 2,
+                spanGaps: false,
               },
               {
                 key: '2017-2019 7d mean',
@@ -236,6 +235,8 @@ export default {
                 borderColor: 'grey',
                 backgroundColor: 'rgba(255,255,255,0.0)',
                 borderDash: [6, 3],
+                borderWidth: 2,
+                spanGaps: false,
               },
               {
                 key: 'hide_',
@@ -243,6 +244,7 @@ export default {
                 borderColor: 'rgba(0,0,0,0.0)',
                 backgroundColor: 'rgba(0,0,0,0)',
                 fill: '4',
+                spanGaps: false,
               },
               {
                 key: '2017-2019 range',
@@ -250,6 +252,7 @@ export default {
                 borderColor: 'rgba(0,0,0,0.0)',
                 backgroundColor: 'rgba(0,0,0,0.2)',
                 fill: '3',
+                spanGaps: false,
               },
             ],
             valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
@@ -394,12 +397,21 @@ export default {
         }
 
         // Generate datasets for charts that show two year comparisons (bar and line)
-        if (twoYearComparison.includes(indicatorCode)) {
+        if (this.twoYearComparison.includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
+          let color2019 = refColors[0];
+          let color2020 = refColors[1];
           const referenceValue = indicator.referenceValue.map(Number);
           let datemodifier = { year: 2000 };
           if (['E10a1', 'E10a5'].includes(indicatorCode)) {
+            color2019 = 'grey';
+            color2020 = 'black';
+          }
+          if ( (indicatorCode === 'E10a1' && indicator.aoiID === 'ES8')
+              || indicatorCode === 'E10a5') {
+            // ES8 has different days as reference value, can only be grouped
+            // when having same date, we set them all to day 1 of month
             datemodifier = {
               year: 2000, day: 1, hour: 1, minute: 0, second: 0,
             };
@@ -430,8 +442,8 @@ export default {
               label: '2019',
               data: uniqueRefs,
               fill: false,
-              borderColor: refColors[0],
-              backgroundColor: refColors[0],
+              borderColor: color2019,
+              backgroundColor: color2019,
               borderWidth: 2,
             });
           }
@@ -439,8 +451,8 @@ export default {
             label: '2020',
             data: uniqueMeas,
             fill: false,
-            borderColor: refColors[1],
-            backgroundColor: refColors[1],
+            borderColor: color2020,
+            backgroundColor: color2020,
             borderWidth: 2,
           });
         }
@@ -778,7 +790,7 @@ export default {
             borderColor: colors,
           };
           if (this.barChartIndicators.includes(indicatorCode)
-            && !twoYearComparison.includes(indicatorCode)) {
+            && !this.twoYearComparison.includes(indicatorCode)) {
             // Add barthicknes config to specific indicators
             conf.barThickness = 'flex';
           }
@@ -872,7 +884,7 @@ export default {
       let low = 0;
       let high = 0;
 
-      if (!Number.isNaN(reference) && ['E13b'].includes(indicatorCode)) {
+      if (!Number.isNaN(reference) && ['E13b', 'E200'].includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
           label: {
@@ -955,6 +967,38 @@ export default {
         };
       }
 
+      if (['E13d', 'E13n', 'OX'].includes(indicatorCode)) {
+        customSettings.timeConfig = {
+          unit: 'month',
+          displayFormats: { month: 'MMM yy' },
+          tooltipFormat: 'MMM yy',
+        };
+      }
+
+      if (this.twoYearComparison.includes(indicatorCode)) {
+        customSettings.timeConfig = {
+          unit: 'month',
+          displayFormats: { month: 'MMM' },
+          tooltipFormat: 'MMM',
+        };
+        // Special case for comparison as has multiple entries per month
+        if (indicatorCode === 'E10a1' && this.indicatorObject.aoiID === 'DE11') {
+          customSettings.timeConfig = {
+            displayFormats: { month: 'dd. MMM' },
+            tooltipFormat: 'dd. MMM',
+          };
+        }
+      }
+      if(indicatorCode === 'E10a5'){
+        customSettings.yAxisRange = [
+          0,
+          Math.max(
+            ...this.indicatorObject.measurement
+              .filter((d) => !Number.isNaN(d)),
+          ),
+        ];
+      }
+
       if (['E10a3'].includes(indicatorCode)) {
         // Special tooltip information for this indicator
         customSettings.tooltips = {
@@ -1026,6 +1070,37 @@ export default {
         };
       }
 
+      // Special chart display for oilx data
+      if (['OX'].includes(indicatorCode)) {
+        customSettings.hover = {
+          mode: 'nearest',
+        };
+        customSettings.yAxisOverwrite = {
+          ticks: {
+            callback: (...args) => {
+              let returnString;
+              if (args[0] === 0.35) {
+                returnString = 'Low';
+              } else if (args[0] === 0.65) {
+                returnString = 'High';
+              }
+              return returnString;
+            },
+            min: 0.3,
+            max: 0.7,
+            label: '',
+          },
+          scaleLabel: {
+            display: false,
+          },
+        };
+        customSettings.tooltips = {
+          callbacks: {
+            label: () => '',
+          },
+        };
+      }
+
       // Custom labels for bar comparisons
       if (['E10a1', 'E10a5'].includes(indicatorCode)) {
         customSettings.plugins = {
@@ -1042,7 +1117,7 @@ export default {
                       .data[context.dataIndex].indicatorValue,
                   );
                   if (!Number.isNaN(percentage)) {
-                    const percVal = (percentage * 100).toPrecision(4);
+                    const percVal = (percentage * 100).toPrecision(2);
                     if (percVal > 0) {
                       labelRes = `+${percVal}%`;
                     } else {
@@ -1076,6 +1151,8 @@ export default {
         annotation: {
           annotations,
         },
+        yAxis: this.indicatorObject.yAxis,
+        country: this.indicatorObject.country,
       };
     },
   },

@@ -99,15 +99,13 @@ export default {
               },
               tooltipFormat: 'dd. MMM yy',
             },
-            // TODO: add barThickness to correct datasets
-            // barThickness: 'flex',
             distribution: 'series',
             ticks: {},
           }],
           yAxes: [{
             scaleLabel: {
               display: true,
-              labelString: this.$attrs.yAxis,
+              labelString: this.options.yAxis,
               padding: 2,
             },
           }],
@@ -129,12 +127,7 @@ export default {
   methods: {
     render() {
       const extendedSettings = Object.assign(this.defaultOptions, this.options);
-      let [min, max] = this.minMaxDate(this.$attrs.time);
-      if (extendedSettings.sameYearComparison) {
-        [min, max] = this.minMaxDate(
-          this.$attrs.time.map((date) => date.set({ year: 2000 })),
-        );
-      } else {
+      if (!extendedSettings.sameYearComparison) {
         extendedSettings.annotation.annotations.push(...this.movementRestrictions);
       }
       if ('yAxisRange' in extendedSettings) {
@@ -143,14 +136,17 @@ export default {
           suggestedMax: extendedSettings.yAxisRange[1],
         };
       }
+      const [min, max] = this.minMaxDate();
       extendedSettings.scales.xAxes[0].ticks.min = min;
       extendedSettings.scales.xAxes[0].ticks.max = max;
       this.renderChart(this.chartData, extendedSettings);
     },
-    minMaxDate(timedata) {
-      let timeMin = Math.min.apply(null, timedata.map((d) => d.toMillis()));
-      let timeMax = Math.max.apply(null, timedata.map((d) => d.toMillis()));
-      const buffer = (timeMax - timeMin) / timedata.length;
+    minMaxDate() {
+      const alldata = this.chartData.datasets.map((ds) => ds.data.map((d) => d.t.toMillis()));
+      const flattenedData = [].concat(...alldata);
+      let timeMin = Math.min(...flattenedData);
+      let timeMax = Math.max(...flattenedData);
+      const buffer = (timeMax - timeMin) / (flattenedData.length / alldata.length);
       timeMin -= buffer;
       timeMax += buffer;
       return [timeMin, timeMax];
@@ -160,7 +156,7 @@ export default {
     movementRestrictions() {
       // Find country based on alpha-3 code
       const currCountry = countries.features.find(
-        (cntr) => cntr.properties.alpha2 === this.$attrs.country,
+        (cntr) => cntr.properties.alpha2 === this.options.country,
       );
       const annotations = [];
       if (typeof currCountry !== 'undefined'
