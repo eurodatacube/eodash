@@ -153,7 +153,8 @@ export default {
       // temporary for demo purposes
       return Object.entries(storiesConfig[this.appConfig.id].Water)
         .concat(Object.entries(storiesConfig[this.appConfig.id].Land))
-        .sort((a, b) => a[0].length - b[0].length);
+        .sort((a, b) => a[0].length - b[0].length)
+        .splice(0, 5);
     },
   },
   created() {
