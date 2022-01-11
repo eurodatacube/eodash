@@ -168,7 +168,10 @@ class MyLogScale extends Chart.Scale {
   getPixelForValue(value) {
     const me = this;
     let currVal = value;
-    if (value === undefined || value === 0) {
+    if (typeof value === 'object') {
+      currVal = value.y;
+    }
+    if (currVal === undefined || currVal === 0) {
       currVal = me.min;
     }
     return me.getPixelForDecimal(currVal === me.min
