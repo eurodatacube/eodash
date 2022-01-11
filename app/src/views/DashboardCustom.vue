@@ -71,8 +71,8 @@
           </v-img>
           <v-col
             cols="12"
-            md="6"
-            xl="8"
+            :md="storyModeEnabled ? 12 : 6"
+            :xl="storyModeEnabled ? 12 : 8"
             class="d-flex align-end"
             :style="`z-index: 1; ${officialDashboard
               ? 'padding-top: 100px; padding-bottom: 100px'
