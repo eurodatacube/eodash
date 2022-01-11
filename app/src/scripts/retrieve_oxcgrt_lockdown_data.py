@@ -3,7 +3,7 @@
 Helper script to create location and data separation
 
 Usage:
-docker run --rm -it -v $PWD/../src/assets:/assets -v $PWD:/working eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/retrieve_oxcgrt_lockdown_data.py
+docker run --rm -it -v $PWD/../assets:/assets -v $PWD:/working eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/retrieve_oxcgrt_lockdown_data.py
 
 If issues with write permission you might have to add a user as parameter
 with the same user id as your local account, e.g. "--user 1001"

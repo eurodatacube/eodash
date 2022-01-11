@@ -3,7 +3,7 @@
 Helper script to create location and data separation
 
 Usage:
-docker run --rm -it -v $PWD/../src/assets:/assets -v $PWD:/working eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/convert_gsa_data.py
+docker run --rm -it -v $PWD/../assets:/assets -v $PWD:/working -v $PWD/../../public/eodash-data:/eodash-data eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/convert_gsa_data.py
 
 If issues with write permission you might have to add a user as parameter
 with the same user id as your local account, e.g. "--user 1001"
@@ -63,13 +63,13 @@ def interpolate_tuple( startcolor, goalcolor, percentage ):
 
 indicator_code = 'GSA'
 overview_file = '/assets/gsa_data.json'
-output_folder = '/working/eodash-data/internal/'
+output_folder = '/eodash-data/internal/'
 
-DATAFILE = '/working/eodash-data/data/GSA_mobility.csv'
+DATAFILE = '/eodash-data/data/GSA_mobility.csv'
 
 
 transformer = pyproj.Transformer.from_crs("epsg:3857", "epsg:4326")
-ctr = shapefile.Reader('/working/eodash-data/data/borders_GL2017_Roads_EU27_UK_coord_names/borders_GL2017_Roads_EU27_UK_coord_names')
+ctr = shapefile.Reader('/eodash-data/data/borders_GL2017_Roads_EU27_UK_coord_names/borders_GL2017_Roads_EU27_UK_coord_names')
 geomet = ctr.shapeRecords()
 
 with open(DATAFILE, encoding='utf-8') as csvfile:
