@@ -254,7 +254,11 @@
       <div
         v-if="navigationButtonVisible"
         class="primary d-flex flex-column align-center"
-        style="position: absolute; bottom: 60px; right: 70px; border-radius: 30px; z-index: 1"
+        :style="`position: absolute; border-radius: 30px; z-index: 1; ${
+          $vuetify.breakpoint.smAndUp
+            ? 'bottom: 60px; right: 70px;'
+            : 'bottom: 65px; right: 30px;'
+          }`"
       >
         <v-btn
           fab

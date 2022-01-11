@@ -46,11 +46,18 @@
                           height: 100%; background: #0008; z-index: -1"></div>
                       </v-fade-transition>
                       <v-list-item-title
-                        class="text-h5 mb-1 ml-8"
+                        :class="$vuetify.breakpoint.smAndAbove
+                        ? 'text-h5 mb-1 ml-8'
+                        : 'text-h5 mb-1 ml-5'"
                       >
                         {{ story[1].title }}
                       </v-list-item-title>
-                      <v-list-item-subtitle class="ml-8 mb-15">
+                      <v-list-item-subtitle
+                        class="ml-8 mb-15"
+                        :class="$vuetify.breakpoint.smAndAbove
+                          ? 'ml-8 mb-15'
+                          : 'ml-5 mb-15'"
+                      >
                         {{ story[1].subtitle }}
                       </v-list-item-subtitle>
                     </v-img>
@@ -111,11 +118,16 @@
                                   height: 100%; background: #0008; z-index: -1"></div>
                               </v-fade-transition>
                               <v-list-item-title
-                                class="text-h5 mb-1 ml-5"
+                                :class="$vuetify.breakpoint.smAndAbove
+                                  ? 'text-h5 mb-1 ml-5'
+                                  : 'ma-2 mr-3 line-clamp'"
                               >
                                 {{ story[1].title }}
                               </v-list-item-title>
-                              <v-list-item-subtitle class="ml-5 mb-5">
+                              <v-list-item-subtitle
+                                v-if="$vuetify.breakpoint.smAndAbove"
+                                class="ml-5 mb-5"
+                              >
                                 {{ story[1].subtitle }}
                               </v-list-item-subtitle>
                             </v-img>
@@ -188,5 +200,17 @@ export default {
 }
 ::v-deep .v-list-item__title, .v-list-item__subtitle {
   white-space: unset;
+}
+.line-clamp {
+  // fallback
+  @supports not (display: -webkit-box) {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  // might not work on all browsers
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>

@@ -1,7 +1,10 @@
 <template>
   <div
     v-if="!initialLoading"
-    class="fill-height scrollContainer pa-10 pt-5"
+    class="fill-height scrollContainer"
+    :class="$vuetify.breakpoint.smAndAbove
+      ? 'pa-10 pt-5'
+      : 'pa-5'"
     :style="`margin-top: ${$vuetify.application.top}px !important;
       height: calc(100% - ${$vuetify.application.top}px);`"
     id="scroll-target"
