@@ -18,7 +18,7 @@ import requests
 from dotenv.main import find_dotenv, DotEnv
 from xcube_geodb.core.geodb import GeoDBClient
 
-dot_env = DotEnv("/working/.env")
+dot_env = DotEnv("/public/.env")
 dot_env.set_as_environment_variables()
 geodb = GeoDBClient()
 envs = dot_env.dict()
