@@ -104,11 +104,12 @@ export default {
         'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1', 'C2', 'C3', 'E13n',
         'E12c', 'E12d',
         // Year group comparison
-        'E10a1', 'E10a5',
+        'E10a1', 'E10a5', 'N2',
       ],
-      twoYearComparison: [
-        'E10a2', 'E10a6', 'E10a7', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-        'E10a1', 'E10a5', // Special case
+      multiYearComparison: [
+        'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
+        'E10a2', 'E10a6', 'E10a7',
+        'E10a1', 'E10a5', 'E10c', 'N2', // Special case
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
     };
@@ -421,7 +422,8 @@ export default {
         }
 
         // Generate datasets for charts that show two year comparisons (bar and line)
-        if (this.twoYearComparison.includes(indicatorCode)) {
+        if (this.multiYearComparison.includes(indicatorCode)
+            && !['E10c', 'N2'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
           let color2019 = refColors[0];
@@ -814,7 +816,7 @@ export default {
             borderColor: colors,
           };
           if (this.barChartIndicators.includes(indicatorCode)
-            && !this.twoYearComparison.includes(indicatorCode)) {
+            && !this.multiYearComparison.includes(indicatorCode)) {
             // Add barthicknes config to specific indicators
             conf.barThickness = 'flex';
           }
@@ -866,14 +868,6 @@ export default {
       }
       // use default
       return this.formatNumRef(val, 2);
-    },
-    getMinMaxDate(timeData) {
-      let timeMin = Math.min.apply(null, timeData.map((d) => d.toMillis()));
-      let timeMax = Math.max.apply(null, timeData.map((d) => d.toMillis()));
-      const buffer = (timeMax - timeMin) / timeData.length;
-      timeMin -= buffer;
-      timeMax += buffer;
-      return [timeMin, timeMax];
     },
     chartOptions() {
       const customSettings = {};
@@ -1010,7 +1004,7 @@ export default {
         };
       }
 
-      if (this.twoYearComparison.includes(indicatorCode)) {
+      if (this.multiYearComparison.includes(indicatorCode)) {
         customSettings.timeConfig = {
           unit: 'month',
           displayFormats: { month: 'MMM' },
@@ -1022,6 +1016,10 @@ export default {
             displayFormats: { month: 'dd. MMM' },
             tooltipFormat: 'dd. MMM',
           };
+        }
+        // Another special case to also show days in tooltip
+        if (indicatorCode === 'E10c') {
+          customSettings.timeConfig.tooltipFormat = 'dd. MMM';
         }
       }
       if (indicatorCode === 'E10a5') {
@@ -1066,9 +1064,7 @@ export default {
         };
       }
 
-      if ([
-        'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E10a1', 'E10a2', 'E10a5', 'E10a6',
-      ].includes(indicatorCode)) {
+      if (this.multiYearComparison.includes(indicatorCode)) {
         // Special time range for same year comparisons
         customSettings.sameYearComparison = true;
       }
@@ -1276,6 +1272,11 @@ export default {
             },
           },
         };
+      }
+
+      // Barplots that shall begin at zero
+      if (['E9'].includes(indicatorCode)) {
+        customSettings.beginAtZero = true;
       }
 
       customSettings.tooltips = {

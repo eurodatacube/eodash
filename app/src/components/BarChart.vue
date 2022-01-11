@@ -97,7 +97,7 @@ export default {
               displayFormats: {
                 month: 'MMM yy',
               },
-              tooltipFormat: 'dd. MMM yy',
+              tooltipFormat: 'dd. MMM yyyy',
             },
             distribution: 'series',
             ticks: {},
@@ -107,6 +107,9 @@ export default {
               display: true,
               labelString: this.options.yAxis,
               padding: 2,
+            },
+            ticks: {
+              beginAtZero: this.options.beginAtZero ? this.options.beginAtZero : false,
             },
           }],
         },
