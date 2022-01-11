@@ -426,14 +426,8 @@ export default {
             && !['E10c', 'N2'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
-          let color2019 = refColors[0];
-          let color2020 = refColors[1];
           const referenceValue = indicator.referenceValue.map(Number);
           let datemodifier = { year: 2000 };
-          if (['E10a1', 'E10a5'].includes(indicatorCode)) {
-            color2019 = 'grey';
-            color2020 = 'black';
-          }
           if ((indicatorCode === 'E10a1' && indicator.aoiID === 'ES8')
               || indicatorCode === 'E10a5') {
             // ES8 has different days as reference value, can only be grouped
@@ -468,8 +462,8 @@ export default {
               label: '2019',
               data: uniqueRefs,
               fill: false,
-              borderColor: color2019,
-              backgroundColor: color2019,
+              borderColor: refColors[0],
+              backgroundColor: refColors[0],
               borderWidth: 2,
             });
           }
@@ -477,8 +471,8 @@ export default {
             label: '2020',
             data: uniqueMeas,
             fill: false,
-            borderColor: color2020,
-            backgroundColor: color2020,
+            borderColor: refColors[1],
+            backgroundColor: refColors[1],
             borderWidth: 2,
           });
         }
