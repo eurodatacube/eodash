@@ -30,6 +30,7 @@ export default {
   data() {
     return {
       defaultOptions: {
+        maintainAspectRatio: false,
         plugins: {
           datalabels: {
             display: false,
@@ -48,7 +49,7 @@ export default {
           display: false,
         },
         scales: {
-          xAxes: {},
+          xAxes: [],
           yAxes: [{
             ticks: {
               suggestedMin: Number.NaN,

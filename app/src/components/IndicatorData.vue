@@ -96,12 +96,13 @@ export default {
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8',
         // Year overlap comparison
-        'E10a2', 'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E10a6',
-
+        'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
+        'E10a2', 'E10a6',
       ],
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
         'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1', 'C2', 'C3', 'E13n',
+        'E12c', 'E12d',
         // Year group comparison
         'E10a1', 'E10a5',
       ],
@@ -305,7 +306,12 @@ export default {
                 } else {
                   obj = JSON.parse(item.replace(/,/g, '.').replace(' ', ','));
                 }
-                if ('index' in entry) {
+                if (obj[0] === -999 && obj[1] === -999) {
+                  data.push({
+                    t: indicator.time[rowIdx],
+                    y: Number.NaN,
+                  });
+                } else if ('index' in entry) {
                   data.push({
                     t: indicator.time[rowIdx],
                     y: obj[entry.index],
@@ -993,6 +999,17 @@ export default {
         };
       }
 
+      // Showing only year as label
+      if (['E12c', 'E12d'].includes(indicatorCode)) {
+        customSettings.timeConfig = {
+          unit: 'year',
+          displayFormats: {
+            year: 'yyyy',
+          },
+          tooltipFormat: 'yyyy-MM-dd - yyyy-06-30',
+        };
+      }
+
       if (this.twoYearComparison.includes(indicatorCode)) {
         customSettings.timeConfig = {
           unit: 'month',
@@ -1204,6 +1221,15 @@ export default {
             }
           },
         };
+        customSettings.tooltips = {
+          callbacks: {
+            label: (context) => {
+              const { datasets } = this.datacollection;
+              const val = datasets[context.datasetIndex].data[context.index];
+              return `Value (Log10): ${Math.log10(val.y).toPrecision(4)}`;
+            },
+          },
+        };
       }
 
       // Custom labels for bar comparisons
@@ -1251,6 +1277,20 @@ export default {
           },
         };
       }
+
+      customSettings.tooltips = {
+        callbacks: {
+          label: function (context, data) { // eslint-disable-line
+            let label = data.datasets[context.datasetIndex].label || '';
+            if (label) {
+              label += ': ';
+            }
+            label += this.roundValueInd(Number(context.value));
+            return label;
+          }.bind(this),
+        },
+      };
+
       return {
         ...customSettings,
         annotation: {
