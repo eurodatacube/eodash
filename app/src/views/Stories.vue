@@ -36,8 +36,8 @@
                     v-slot="{ hover }"
                   >
                     <v-img
-                      :src="withBase(story[1].image)"
-                      :lazy-src="withBase(story[1].imagePlaceholder)"
+                      :src="story[1].image"
+                      :lazy-src="story[1].imagePlaceholder"
                       height="100%"
                       class="white--text align-end"
                       eager
@@ -123,8 +123,8 @@
                               :aspect-ratio="((index + 1) % 4 === 1 || (index + 1) % 4 === 0)
                                 ? 2/1
                                 : 1/1"
-                              :src="withBase(story[1].image)"
-                              :lazy-src="withBase(story[1].imagePlaceholder)"
+                              :src="story[1].image"
+                              :lazy-src="story[1].imagePlaceholder"
                             >
                               <template v-slot:placeholder>
                                 <v-row
