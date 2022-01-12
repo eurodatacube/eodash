@@ -5,7 +5,7 @@ Also creates a csv for additional indicator with `suffix` to allow grouped view 
 
 Usage:
 # update `list_of_dates_to_process` with dates in YYYYMM format and do:
-docker run --rm -it -v $PWD:/working eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/convert_monthly.py
+docker run --rm -it -v $PWD:/working -v $PWD/../../public:/public eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/convert_monthly.py
 
 """
 import json
@@ -46,8 +46,8 @@ def try_parsing_date(text, formats=('%Y-%m-%dT%H:%M:%S',)):
     raise ValueError('time not provided in valid format')
 
 
-featuresPath = f'/working/eodash-data/features/{indicator}/'
-output_csv_path = f'/working/eodash-data/data/{indicator}_detections.csv'
+featuresPath = f'/public/eodash-data/features/{indicator}/'
+output_csv_path = f'/public/eodash-data/data/{indicator}_detections.csv'
 if not os.path.exists(output_csv_path):
     with open(output_csv_path, 'w') as csvv:
         w = csv.writer(csvv)
@@ -58,20 +58,20 @@ if not os.path.exists(output_csv_path):
 def convert(path2, indicator):
     # initialize output
     new_features = {}  # key=aoiId_time -fname, ftrs
-    path = f'/working/eodash-data/features/{indicator}/{indicator}_{path2}.geojson'
+    path = f'/public/eodash-data/features/{indicator}/{indicator}_{path2}.geojson'
     yyyy = path.split('_')[1][0:4]
     mm = path.split('_')[1][4:6]
     # load monthly geojson with date & geometry of detection as 1 feature
     gdf = gpd.read_file(path)
     # load individual geojson for first poi from glob (does not matter which is taken), as usually these data match
-    poi_json_glob = f'/working/eodash-data/internal/*{indicator}*.json'
+    poi_json_glob = f'/public/eodash-data/internal/*{indicator}*.json'
     poi_json_path = glob(poi_json_glob)[0]
     with open(poi_json_path) as poi_json:
         poiJson = json.load(poi_json)
         # extract matching entry based on time of monthly file - to later extract for example Input Data value etc.
         single_entry_time = [i for i in poiJson if i['time'] == f'{yyyy}-{mm}-01T00:00:00']
 
-    internal_data_path = '/working/data/internal/pois_eodash.json'
+    internal_data_path = '/public/data/internal/pois_eodash.json'
     with open(internal_data_path) as inte:
         internalJson = json.load(inte)
     # filter only pois from selected indicator
