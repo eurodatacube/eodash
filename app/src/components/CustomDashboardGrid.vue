@@ -267,7 +267,7 @@
           :dark="$vuetify.theme.dark ? false : true"
           @click="goStep(-1)"
         >
-          <v-icon>mdi-arrow-left</v-icon>
+          <v-icon>{{ currentRow === 1 ? 'mdi-home' : 'mdi-arrow-left' }}</v-icon>
         </v-btn>
         <span class="white--text">{{ currentRow }} / {{ numberOfRows }}</span>
         <v-btn
