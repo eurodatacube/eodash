@@ -6,7 +6,8 @@
       ? 'pa-10 pt-5'
       : 'pa-5'"
     :style="`margin-top: ${$vuetify.application.top}px !important;
-      height: calc(100% - ${$vuetify.application.top}px);`"
+      height: calc(100% - ${$vuetify.application.top}px);
+      overflow-y: ${storyModeEnabled ? 'hidden' : 'auto'}`"
     id="scroll-target"
   >
     <v-app-bar
@@ -451,6 +452,7 @@
           @updateTextFeature="openTextFeatureUpdate"
           @change="savingChanges = true"
           @save="savingChanges = false"
+          @scrollTo="pageScroll"
         />
         <v-dialog
           v-model="newTextFeatureDialog"
@@ -544,6 +546,13 @@
           </v-card>
         </v-dialog>
       </template>
+      <v-overlay
+        v-if="storyModeEnabled"
+        :value="scrollOverlay"
+        z-index="4"
+        opacity="1"
+        :color="$vuetify.theme.dark ? '#212121' : '#fff'"
+      ></v-overlay>
       <global-footer />
   </div>
 </template>
@@ -635,6 +644,7 @@ export default {
     dashboardError: null,
     localDashboardFeatures: null,
     localDashboardId: null,
+    scrollOverlay: false,
   }),
   computed: {
     ...mapState('config', [
@@ -903,13 +913,26 @@ export default {
       this.$refs.titleInput.focus();
     },
     scrollToStart() {
-      this.$vuetify.goTo(
-        this.$refs.customDashboardGrid,
-        {
-          container: document.querySelector('.scrollContainer'),
-          offset: -56,
-        },
-      );
+      this.pageScroll({
+        target: this.$refs.customDashboardGrid,
+        offset: -56,
+      });
+    },
+    pageScroll({ target, offset = 0 }) {
+      this.scrollOverlay = true;
+      setTimeout(async () => {
+        await this.$vuetify.goTo(
+          target,
+          {
+            container: document.querySelector('.scrollContainer'),
+            offset,
+            duration: 0,
+          },
+        );
+        setTimeout(() => {
+          this.scrollOverlay = false;
+        }, 200);
+      }, 200);
     },
     getDeepProperty(obj, prop) {
       // https://stackoverflow.com/a/33445021
@@ -935,9 +958,6 @@ export default {
 <style lang="scss" scoped>
 .header__logo {
   height: 32px;
-}
-.scrollContainer {
-  overflow-y: scroll;
 }
 ::v-deep .dashboardTitle .v-input {
   input {
