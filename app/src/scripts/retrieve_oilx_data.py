@@ -155,8 +155,8 @@ for poi_key in poi_dict:
 
 # Append locations to pois files
 pois_files = [
-    # "/working/data/internal/pois_trilateral.json",
-    "/working/data/internal/pois_eodash.json",
+    # "/public/data/internal/pois_trilateral.json",
+    "/public/data/internal/pois_eodash.json",
 ]
 
 output_dict = {key: {subkey: poi_dict[key][subkey] for subkey in outKeys} for key in poi_dict}
