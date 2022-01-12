@@ -381,7 +381,7 @@ def generateData(
 print("Fetching data for official stories")
 stories_config = '/config/stories.json'
 dashboards_folder = '/public/data/dashboards'
-dashboards_endpoint = "https://dev-eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/get?id="
+dashboards_endpoint = "https://eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/get?id="
 with open(stories_config) as json_file:
     stories_data = json.load(json_file)
     # For now we only fetch data for trilateral
