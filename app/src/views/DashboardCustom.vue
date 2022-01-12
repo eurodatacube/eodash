@@ -63,8 +63,21 @@
           <v-img
             v-if="officialDashboard"
             :src="dashboardHeaderImage"
+            :lazy-src="dashboardHeaderImagePlaceholder"
             style="position: absolute; top: 0; width: calc(100% + 56px); max-width: unset;
             height: 100%; margin: -8px -28px 0 -28px">
+            <template v-slot:placeholder>
+              <v-row
+                class="fill-height ma-0"
+                align="center"
+                justify="center"
+              >
+                <v-progress-circular
+                  indeterminate
+                  color="grey lighten-5"
+                ></v-progress-circular>
+              </v-row>
+            </template>
             <div
               style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;
               box-shadow: 0 -400px 150px -130px inset #0005"
@@ -591,6 +604,7 @@ export default {
     dashboardTitle: '',
     dashboardSubTitle: null,
     dashboardHeaderImage: null,
+    dashboardHeaderImagePlaceholder: null,
     dashboardTitleChanged: false,
     savingChanges: null,
     displaySavingChanges: null,
@@ -730,6 +744,7 @@ export default {
         this.dashboardTitle = existingConfiguration.title;
         this.dashboardSubTitle = existingConfiguration.subtitle;
         this.dashboardHeaderImage = existingConfiguration.image;
+        this.dashboardHeaderImagePlaceholder = existingConfiguration.imagePlaceholder;
         const localFeatures = localDashboardContent.features.map((f) => {
           const newF = { ...f };
           delete newF.id;
