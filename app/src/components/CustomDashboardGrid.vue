@@ -70,6 +70,7 @@
             :currentIndicator="element.indicatorObject"
             :centerProp="localCenter[element.poi]"
             :zoomProp="localZoom[element.poi]"
+            disableAutoFocus
             @update:center="c => {localCenter[element.poi] = c}"
             @update:zoom="z => {localZoom[element.poi] = z}"
             @ready="onMapReady(element.poi)"
@@ -253,10 +254,10 @@
     >
       <div
         v-if="navigationButtonVisible"
-        class="primary d-flex flex-column align-center"
-        :style="`position: absolute; border-radius: 30px; z-index: 1; ${
+        class="primary d-flex align-center"
+        :style="`position: absolute; border-radius: 30px; z-index: 5; ${
           $vuetify.breakpoint.smAndUp
-            ? 'bottom: 60px; right: 70px;'
+            ? 'bottom: 67px; right: 25px;'
             : 'bottom: 65px; right: 30px;'
           }`"
       >
@@ -266,7 +267,7 @@
           :dark="$vuetify.theme.dark ? false : true"
           @click="goStep(-1)"
         >
-          <v-icon>mdi-arrow-up</v-icon>
+          <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
         <span class="white--text">{{ currentRow }} / {{ numberOfRows }}</span>
         <v-btn
@@ -276,7 +277,7 @@
           :disabled="currentRow === numberOfRows"
           @click="goStep(+1)"
         >
-          <v-icon>mdi-arrow-down</v-icon>
+          <v-icon>mdi-arrow-right</v-icon>
         </v-btn>
       </div>
     </v-fab-transition>
@@ -460,12 +461,7 @@ export default {
         const target = rowHeight * (this.currentRow - 1 + direction);
         position = startingPoint + target;
       }
-      this.$vuetify.goTo(
-        position,
-        {
-          container: document.querySelector('.scrollContainer'),
-        },
-      );
+      this.$emit('scrollTo', { target: position });
     },
     async parseFeatures(features) {
       // check if this.serverZoom is empty
