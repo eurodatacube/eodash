@@ -17,9 +17,11 @@ import datetime
 import collections
 import json
 import requests
-from dotenv import load_dotenv
+from dotenv.main import DotEnv
 
-load_dotenv()
+dot_env = DotEnv("/public/.env")
+dot_env.set_as_environment_variables()
+envs = dot_env.dict()
 
 
 output_folder = "/public/eodash-data/internal/"
@@ -42,7 +44,7 @@ if not os.path.isfile(DATAFILE):
     print("Downloading the latest oilx data")
     myfile = requests.get(
         api_url,
-        headers={'Authorization': 'OilXApiKeyV1 %s' % os.getenv('OILX_KEY')},
+        headers={'Authorization': 'OilXApiKeyV1 %s' % envs['OILX_KEY']},
         allow_redirects=True
     )
     open(DATAFILE, "wb").write(myfile.content)
