@@ -697,6 +697,7 @@ export default {
   async created() {
     if (this.$route.path === '/story') {
       this.storyModeEnabled = true;
+      document.onkeydown = this.onKeyPress;
     }
 
     let id = null;
@@ -933,6 +934,25 @@ export default {
           this.scrollOverlay = false;
         }, 200);
       }, 200);
+    },
+    onKeyPress(event) {
+      const e = event || window.event;
+      if (e.keyCode === 38) { // up
+        e.preventDefault();
+      } else if (e.keyCode === 40) { // down
+        e.preventDefault();
+      } else if (e.keyCode === 37) { // left
+        e.preventDefault();
+        this.$refs.customDashboardGrid.goStep(-1);
+      } else if (e.keyCode === 39) { // right
+        e.preventDefault();
+        if (!this.$refs.customDashboardGrid.currentRow) {
+          this.scrollToStart();
+        } else if (this.$refs.customDashboardGrid.currentRow
+          !== this.$refs.customDashboardGrid.numberOfRows) {
+          this.$refs.customDashboardGrid.goStep(1);
+        }
+      }
     },
     getDeepProperty(obj, prop) {
       // https://stackoverflow.com/a/33445021
