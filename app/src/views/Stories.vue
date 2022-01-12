@@ -30,15 +30,30 @@
                   :key="i"
                   @click="selectStory(story)"
                   style="cursor: pointer"
+                  eager
                 >
                   <v-hover
                     v-slot="{ hover }"
                   >
                     <v-img
                       :src="story[1].image"
+                      :lazy-src="story[1].imagePlaceholder"
                       height="100%"
                       class="white--text align-end"
+                      eager
                     >
+                      <template v-slot:placeholder>
+                        <v-row
+                          class="fill-height ma-0"
+                          align="center"
+                          justify="center"
+                        >
+                          <v-progress-circular
+                            indeterminate
+                            color="grey lighten-5"
+                          ></v-progress-circular>
+                        </v-row>
+                      </template>
                       <v-fade-transition>
                         <div
                           v-if="hover"
@@ -46,15 +61,14 @@
                           height: 100%; background: #0008; z-index: -1"></div>
                       </v-fade-transition>
                       <v-list-item-title
-                        :class="$vuetify.breakpoint.smAndAbove
+                        :class="!$vuetify.breakpoint.mobile
                         ? 'text-h5 mb-1 ml-8'
                         : 'text-h5 mb-1 ml-5'"
                       >
                         {{ story[1].title }}
                       </v-list-item-title>
                       <v-list-item-subtitle
-                        class="ml-8 mb-15"
-                        :class="$vuetify.breakpoint.smAndAbove
+                        :class="!$vuetify.breakpoint.mobile
                           ? 'ml-8 mb-15'
                           : 'ml-5 mb-15'"
                       >
@@ -110,7 +124,20 @@
                                 ? 2/1
                                 : 1/1"
                               :src="story[1].image"
+                              :lazy-src="story[1].imagePlaceholder"
                             >
+                              <template v-slot:placeholder>
+                                <v-row
+                                  class="fill-height ma-0"
+                                  align="center"
+                                  justify="center"
+                                >
+                                  <v-progress-circular
+                                    indeterminate
+                                    color="grey lighten-5"
+                                  ></v-progress-circular>
+                                </v-row>
+                              </template>
                               <v-fade-transition>
                                 <div
                                   v-if="hover"
@@ -118,14 +145,14 @@
                                   height: 100%; background: #0008; z-index: -1"></div>
                               </v-fade-transition>
                               <v-list-item-title
-                                :class="$vuetify.breakpoint.smAndAbove
+                                :class="!$vuetify.breakpoint.mobile
                                   ? 'text-h5 mb-1 ml-5'
                                   : 'ma-2 mr-3 line-clamp'"
                               >
                                 {{ story[1].title }}
                               </v-list-item-title>
                               <v-list-item-subtitle
-                                v-if="$vuetify.breakpoint.smAndAbove"
+                                v-if="!$vuetify.breakpoint.mobile"
                                 class="ml-5 mb-5"
                               >
                                 {{ story[1].subtitle }}
