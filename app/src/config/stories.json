@@ -5,8 +5,8 @@
         "originalDashboardId": "d069a45701e3a0e3",
         "title": "Danube Delta, Romania (demo of official story)",
         "subtitle": "Created by EOX to test the story feature",
-        "image": "data/story-images/Danube_Delta.jpg",
-        "imagePlaceholder": "data/story-images/Danube_Delta_placeholder.jpg"
+        "image": "./data/story-images/Danube_Delta.jpg",
+        "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg"
       },
       "another-official-story-demo": {
         "originalDashboardId": "d069a45701e3a0e3",
