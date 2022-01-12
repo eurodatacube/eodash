@@ -3,7 +3,7 @@
 Helper script to create location and data separation from mobility data
 
 Usage:
-docker run --rm -it -v $PWD:/working eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/retrieve_mobility_data.py
+docker run --rm -it -v $PWD:/working -v $PWD/../../public:/public eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/retrieve_mobility_data.py
 
 If issues with write permission you might have to add a user as parameter
 with the same user id as your local account, e.g. "--user 1001"
@@ -18,7 +18,7 @@ import json
 import requests
 
 
-output_folder = '/working/eodash-data/internal/'
+output_folder = '/public/eodash-data/internal/'
 indicator_code = 'GG'
 
 DATAFILE = '/working/Global_Mobility_Report_Download_{}.csv'.format(

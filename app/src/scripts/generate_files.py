@@ -3,7 +3,7 @@
 Helper script to create location and data separation
 
 Usage:
-docker run --rm -it -v $PWD/../src/config:/config -v $PWD:/working eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/generate_files.py
+docker run --rm -it -v $PWD/../config:/config -v $PWD:/working -v $PWD/../../public:/public eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/generate_files.py
 
 If issues with write permission you might have to add a user as parameter
 with the same user id as your local account, e.g. "--user 1001"
@@ -18,7 +18,7 @@ import requests
 from dotenv.main import find_dotenv, DotEnv
 from xcube_geodb.core.geodb import GeoDBClient
 
-dot_env = DotEnv("/working/.env")
+dot_env = DotEnv("/public/.env")
 dot_env.set_as_environment_variables()
 geodb = GeoDBClient()
 envs = dot_env.dict()
@@ -382,18 +382,18 @@ print("Generating data for trilateral")
 generateData(
     default_map,
     default_array_map,
-    "/working/data/trilateral/",
-    "/working/data/internal/pois_trilateral.json",
-    "/working/data/internal/",
+    "/public/data/trilateral/",
+    "/public/data/internal/pois_trilateral.json",
+    "/public/data/internal/",
     [
-        '/working/data/trilateral/E10a1.csv',
-        '/working/eodash-data/data/E10a2.csv',
-        '/working/eodash-data/data/E10a3.csv',
-        '/working/data/trilateral/E10a6.csv',
-        '/working/data/trilateral/E10a8.csv',
-        '/working/data/trilateral/E10c.csv',
-        '/working/data/trilateral/N2.csv',
-        '/working/data/trilateral/N3b.csv',
+        '/public/data/trilateral/E10a1.csv',
+        '/public/eodash-data/data/E10a2.csv',
+        '/public/eodash-data/data/E10a3.csv',
+        '/public/data/trilateral/E10a6.csv',
+        '/public/data/trilateral/E10a8.csv',
+        '/public/data/trilateral/E10c.csv',
+        '/public/data/trilateral/N2.csv',
+        '/public/data/trilateral/N3b.csv',
     ],
     [
         #['E1', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'], archived
@@ -412,36 +412,36 @@ print("Generating data for eodashboard")
 generateData(
     default_map,
     default_array_map,
-    "/working/eodash-data/data/",
-    "/working/data/internal/pois_eodash.json",
-    "/working/eodash-data/internal/",
+    "/public/eodash-data/data/",
+    "/public/data/internal/pois_eodash.json",
+    "/public/eodash-data/internal/",
     [
-        '/working/eodash-data/data/C1.csv',
-        '/working/eodash-data/data/C2.csv',
-        '/working/eodash-data/data/C3.csv',
-        '/working/eodash-data/data/E8.csv',
-        '/working/eodash-data/data/E10a1.csv',
-        '/working/eodash-data/data/E10a2.csv',
-        '/working/eodash-data/data/E10a3.csv',
-        '/working/eodash-data/data/E10a5.csv',
-        '/working/data/trilateral/E10a8.csv',
-        '/working/eodash-data/data/E10a9.csv',
-        '/working/eodash-data/data/E13b2.csv',  # archived
-        '/working/eodash-data/data/E13d_detections.csv',
-        '/working/eodash-data/data/N1a_PM25_CAMS.csv',
-        '/working/eodash-data/data/N1b_NO2_CAMS.csv',
-        '/working/eodash-data/data/N1c_PM10_CAMS.csv',
-        '/working/eodash-data/data/N1d_O3_CAMS.csv',
-        #'/working/eodash-data/data/N4a.csv',
-        #'/working/eodash-data/data/N4c.csv',
-        '/working/eodash-data/data/E13e_cargo.csv',
-        '/working/eodash-data/data/E13f_fishing.csv',
-        '/working/eodash-data/data/E13g_tanker.csv',
-        '/working/eodash-data/data/E13h_gioiatauro_tug.csv',
-        '/working/eodash-data/data/E13i_gioiatauro_SearchRescue.csv',
-        '/working/eodash-data/data/E13l_genova_pleasure.csv',
-        '/working/eodash-data/data/E13m_genova_passenger.csv',
-        '/working/eodash-data/data/E13n_traffic.csv',
+        '/public/eodash-data/data/C1.csv',
+        '/public/eodash-data/data/C2.csv',
+        '/public/eodash-data/data/C3.csv',
+        '/public/eodash-data/data/E8.csv',
+        '/public/eodash-data/data/E10a1.csv',
+        '/public/eodash-data/data/E10a2.csv',
+        '/public/eodash-data/data/E10a3.csv',
+        '/public/eodash-data/data/E10a5.csv',
+        '/public/data/trilateral/E10a8.csv',
+        '/public/eodash-data/data/E10a9.csv',
+        '/public/eodash-data/data/E13b2.csv',  # archived
+        '/public/eodash-data/data/E13d_detections.csv',
+        '/public/eodash-data/data/N1a_PM25_CAMS.csv',
+        '/public/eodash-data/data/N1b_NO2_CAMS.csv',
+        '/public/eodash-data/data/N1c_PM10_CAMS.csv',
+        '/public/eodash-data/data/N1d_O3_CAMS.csv',
+        #'/public/eodash-data/data/N4a.csv',
+        #'/public/eodash-data/data/N4c.csv',
+        '/public/eodash-data/data/E13e_cargo.csv',
+        '/public/eodash-data/data/E13f_fishing.csv',
+        '/public/eodash-data/data/E13g_tanker.csv',
+        '/public/eodash-data/data/E13h_gioiatauro_tug.csv',
+        '/public/eodash-data/data/E13i_gioiatauro_SearchRescue.csv',
+        '/public/eodash-data/data/E13l_genova_pleasure.csv',
+        '/public/eodash-data/data/E13m_genova_passenger.csv',
+        '/public/eodash-data/data/E13n_traffic.csv',
     ],
     [
         #['E1', ''], archived

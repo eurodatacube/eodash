@@ -3,7 +3,7 @@
 Helper script to create location and data separation from mobility data
 
 Usage:
-docker run --rm -it -v $PWD/../src/assets:/assets -v $PWD:/working eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/retrieve_oilx_data.py
+docker run --rm -it -v $PWD:/working -v $PWD/../../public:/public eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/retrieve_oilx_data.py
 
 If issues with write permission you might have to add a user as parameter
 with the same user id as your local account, e.g. "--user 1001"
@@ -17,12 +17,14 @@ import datetime
 import collections
 import json
 import requests
-from dotenv import load_dotenv
+from dotenv.main import DotEnv
 
-load_dotenv()
+dot_env = DotEnv("/public/.env")
+dot_env.set_as_environment_variables()
+envs = dot_env.dict()
 
 
-output_folder = "/working/eodash-data/internal/"
+output_folder = "/public/eodash-data/internal/"
 indicator_code = "OX"
 
 
@@ -42,7 +44,7 @@ if not os.path.isfile(DATAFILE):
     print("Downloading the latest oilx data")
     myfile = requests.get(
         api_url,
-        headers={'Authorization': 'OilXApiKeyV1 %s' % os.getenv('OILX_KEY')},
+        headers={'Authorization': 'OilXApiKeyV1 %s' % envs['OILX_KEY']},
         allow_redirects=True
     )
     open(DATAFILE, "wb").write(myfile.content)
@@ -153,8 +155,8 @@ for poi_key in poi_dict:
 
 # Append locations to pois files
 pois_files = [
-    # "/working/data/internal/pois_trilateral.json",
-    "/working/data/internal/pois_eodash.json",
+    # "/public/data/internal/pois_trilateral.json",
+    "/public/data/internal/pois_eodash.json",
 ]
 
 output_dict = {key: {subkey: poi_dict[key][subkey] for subkey in outKeys} for key in poi_dict}
