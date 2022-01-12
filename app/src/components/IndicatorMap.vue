@@ -372,7 +372,7 @@
               v-if="enableCompare"
               outlined
               dense
-              autofocus
+              :autofocus="!disableAutoFocus"
               hide-details
               :prepend-inner-icon="(arrayOfObjects && compareLayerTime) && (arrayOfObjects
                 .map((i) => i.value)
@@ -400,7 +400,7 @@
             <v-select
               outlined
               dense
-              autofocus
+              :autofocus="!disableAutoFocus"
               hide-details
               :prepend-inner-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
                 .map((i) => i.value)
@@ -493,6 +493,7 @@ export default {
     hideCustomAreaControls: {
       required: false,
     },
+    disableAutoFocus: Boolean,
   },
   components: {
     LMap,
