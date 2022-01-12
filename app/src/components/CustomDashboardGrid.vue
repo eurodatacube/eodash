@@ -264,7 +264,9 @@
         <v-btn
           fab
           icon
+          small
           :dark="$vuetify.theme.dark ? false : true"
+          class="ma-1"
           @click="goStep(-1)"
         >
           <v-icon>{{ currentRow === 1 ? 'mdi-home' : 'mdi-arrow-left' }}</v-icon>
@@ -273,8 +275,10 @@
         <v-btn
           fab
           icon
+          small
           :dark="$vuetify.theme.dark ? false : true"
           :disabled="currentRow === numberOfRows"
+          class="ma-1"
           @click="goStep(+1)"
         >
           <v-icon>mdi-arrow-right</v-icon>
