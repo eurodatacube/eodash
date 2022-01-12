@@ -174,6 +174,9 @@ const renderVue = async () => {
       trackEvent: (action, name, value) => window._paq.push(
         ['trackEvent', action, name, value],
       ),
+      withBase: (location) => (location.includes('://')
+        ? location
+        : `${process.env.BASE_URL.replace('/', '')}${location}`),
     },
   });
 

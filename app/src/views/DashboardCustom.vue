@@ -62,8 +62,8 @@
         >
           <v-img
             v-if="officialDashboard"
-            :src="dashboardHeaderImage"
-            :lazy-src="dashboardHeaderImagePlaceholder"
+            :src="withBase(dashboardHeaderImage)"
+            :lazy-src="withBase(dashboardHeaderImagePlaceholder)"
             style="position: absolute; top: 0; width: calc(100% + 56px); max-width: unset;
             height: 100%; margin: -8px -28px 0 -28px">
             <template v-slot:placeholder>
