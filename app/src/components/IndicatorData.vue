@@ -896,6 +896,20 @@ export default {
       let low = 0;
       let high = 0;
 
+      // Default tooltips
+      customSettings.tooltips = {
+        callbacks: {
+          label: function (context, data) { // eslint-disable-line
+            let label = data.datasets[context.datasetIndex].label || '';
+            if (label) {
+              label += ': ';
+            }
+            label += this.roundValueInd(Number(context.value));
+            return label;
+          }.bind(this),
+        },
+      };
+
       if (!Number.isNaN(reference) && ['E13b', 'E200'].includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
@@ -1272,19 +1286,6 @@ export default {
       if (['E9'].includes(indicatorCode)) {
         customSettings.beginAtZero = true;
       }
-
-      customSettings.tooltips = {
-        callbacks: {
-          label: function (context, data) { // eslint-disable-line
-            let label = data.datasets[context.datasetIndex].label || '';
-            if (label) {
-              label += ': ';
-            }
-            label += this.roundValueInd(Number(context.value));
-            return label;
-          }.bind(this),
-        },
-      };
 
       return {
         ...customSettings,
