@@ -955,5 +955,27 @@
         "reference_time": "2019-07-25T10:57:33",
         "reference_value": "80",
         "time": "2021-12-21T10:57:29"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "PLES",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Normal",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "61",
+        "reference_time": "2019-07-25T10:57:33",
+        "reference_value": "80",
+        "time": "2021-12-31T10:57:30"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "PLES",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Low",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "54",
+        "reference_time": "2019-07-25T10:57:33",
+        "reference_value": "80",
+        "time": "2022-01-05T10:57:24"
     }
 ]

@@ -7883,7 +7883,7 @@
         "input_data": "",
         "measurement_value": "7.79",
         "reference_time": "2017-2019",
-        "reference_value": "[11.07,6.43,9.05571428571429,]",
+        "reference_value": "[11.07,6.43,9.05571428571429,8.58714285714286]",
         "time": "2021-12-18T00:00:00"
     },
     {
@@ -7894,7 +7894,7 @@
         "input_data": "",
         "measurement_value": "6.3",
         "reference_time": "2017-2019",
-        "reference_value": "[10.59,9.83,8.51285714285714,]",
+        "reference_value": "[10.59,9.83,8.51285714285714,9.47714285714286]",
         "time": "2021-12-19T00:00:00"
     },
     {
@@ -7905,7 +7905,128 @@
         "input_data": "",
         "measurement_value": "6.7",
         "reference_time": "2017-2019",
-        "reference_value": "[10.59,5.73,7.83190476190476,]",
+        "reference_value": "[10.59,5.73,7.83190476190476,11.0871428571429]",
         "time": "2021-12-20T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "8.81",
+        "reference_time": "2017-2019",
+        "reference_value": "[8.94,4.81,7.24523809523809,11.2385714285714]",
+        "time": "2021-12-21T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "17.1",
+        "reference_time": "2017-2019",
+        "reference_value": "[8.23,3.26,7.17428571428571,11.0214285714286]",
+        "time": "2021-12-22T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "22.95",
+        "reference_time": "2017-2019",
+        "reference_value": "[8.6,3.82,7.25428571428571,11.0042857142857]",
+        "time": "2021-12-23T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "9.02",
+        "reference_time": "2017-2019",
+        "reference_value": "[7.33,4.66,7.76095238095238,10.9271428571429]",
+        "time": "2021-12-24T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "6.27",
+        "reference_time": "2017-2019",
+        "reference_value": "[12.85,5.04,8.85666666666667,10.2214285714286]",
+        "time": "2021-12-25T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "6.18",
+        "reference_time": "2017-2019",
+        "reference_value": "[16.13,6.59,9.73285714285714,8.28]",
+        "time": "2021-12-26T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "6.16",
+        "reference_time": "2017-2019",
+        "reference_value": "[23.65,4.51,10.26,5.53142857142857]",
+        "time": "2021-12-27T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "3.87",
+        "reference_time": "2017-2019",
+        "reference_value": "[26.14,6.79,11.1138095238095,5.12571428571429]",
+        "time": "2021-12-28T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "3.51",
+        "reference_time": "2017-2019",
+        "reference_value": "[18.85,7.02,,]",
+        "time": "2021-12-29T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "3.71",
+        "reference_time": "2017-2019",
+        "reference_value": "[15.01,4.78,,]",
+        "time": "2021-12-30T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "6.18",
+        "reference_time": "2017-2019",
+        "reference_value": "[17.2,4.51,,]",
+        "time": "2021-12-31T00:00:00"
     }
 ]
