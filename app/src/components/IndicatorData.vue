@@ -94,7 +94,7 @@ export default {
       lineChartIndicators: [
         'E12', 'E12b', 'E8', 'N1b', 'N1', 'N3', 'N3b',
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
-        'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8',
+        'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'E13o',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6',
@@ -116,6 +116,7 @@ export default {
   },
 
   mounted() {
+    console.log(this.indicatorObject);
     const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
     this.dataLayerTime = d.toFormat('dd. MMM');
   },
@@ -284,6 +285,7 @@ export default {
         referenceDecompose.N1d = referenceDecompose.N1a;
         referenceDecompose.E12b = referenceDecompose.N1a;
         referenceDecompose.E8 = referenceDecompose.N1a;
+        referenceDecompose.E13o = referenceDecompose.N1;
 
         // Generators based on data type
         if (Object.keys(referenceDecompose).includes(indicatorCode)) {
@@ -342,7 +344,6 @@ export default {
             });
           });
         }
-
         // Add special points for N3
         if (indicatorCode === 'N3') {
           // Find unique indicator values

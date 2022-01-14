@@ -320,6 +320,11 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: '/eodash-data/stories/E13n',
   },
+  E13o: {
+    indicator: 'Cargo shipping density',
+    class: 'economic',
+    // story: '/eodash-data/stories/N1',
+  },
   H1: {
     indicator: 'Number of temp. treatment sites',
     class: 'health',
@@ -611,6 +616,17 @@ const getDailyDates = (start, end) => {
   return dateArray;
 };
 
+const getMonthlyDates = (start, end) => {
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+    currentDate = DateTime.fromISO(currentDate).plus({ months: 1 });
+  }
+  return dateArray;
+};
+
 const getFortnightIntervalDates = (start, end) => {
   let currentDate = DateTime.fromISO(start);
   const stopDate = end === 'now' ? DateTime.utc().minus({ days: 13 }) : DateTime.fromISO(end).minus({ days: 13 });
@@ -821,6 +837,70 @@ export const globalIndicators = [
                   ...indicator,
                   ...newData,
                 };
+                return ind;
+              }
+              return null;
+            },
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Cargo shipping density',
+        indicator: 'E13o',
+        lastIndicatorValue: null,
+        indicatorName: 'Cargo shipping density',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        time: getMonthlyDates('2019-01-01', '2021-10-01'),
+        inputData: [''],
+        yAxis: 'Cargo shipping density',
+        display: {
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          customAreaIndicator: true,
+          name: 'Cargo shipping density',
+          layers: 'VIS_SHIPPINGDENSITY_CARGO',
+          minZoom: 1,
+          // legendUrl: 'eodash-data/data/no2Legend.png',
+          dateFormatFunction: (date) => date,
+          areaIndicator: {
+            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=RAW_SHIPPINGDENSITY_CARGO&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            callbackFunction: (responseJson, indicator) => {
+              if (Array.isArray(responseJson.C0)) {
+                const data = responseJson.C0;
+                const newData = {
+                  time: [],
+                  measurement: [],
+                  referenceValue: [],
+                  colorCode: [],
+                };
+                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
+                  ? 1
+                  : -1));
+                data.forEach((row) => {
+                  newData.time.push(DateTime.fromISO(row.date));
+                  newData.colorCode.push('');
+                  newData.measurement.push(row.basicStats.mean);
+                  newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
+                });
+                const ind = {
+                  ...indicator,
+                  ...newData,
+                };
+                console.log(ind);
                 return ind;
               }
               return null;
