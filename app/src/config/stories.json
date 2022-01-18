@@ -9,11 +9,11 @@
         "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg"
       },
       "another-official-story-demo": {
-        "originalDashboardId": "d069a45701e3a0e3",
-        "title": "Rivers (another demo of official story)",
+        "originalDashboardId": "c4df3549d0a02fed",
+        "title": "Sentinel-5P",
         "subtitle": "Created by EOX to test the story feature",
-        "image": "https://picsum.photos/1000/800?image=11",
-        "imagePlaceholder": "https://picsum.photos/10/6?image=11"
+        "image": "./data/story-images/sentinel-5P.jpg",
+        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
       },
       "a-second-official-story-demo": {
         "originalDashboardId": "d069a45701e3a0e3",
