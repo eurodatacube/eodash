@@ -854,10 +854,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Cargo shipping density',
+        description: 'Passenger ship density',
         indicator: 'E13o',
         lastIndicatorValue: null,
-        indicatorName: 'Cargo shipping density',
+        indicatorName: 'Passenger ship density',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -867,17 +867,17 @@ export const globalIndicators = [
         aoiID: 'World',
         time: getMonthlyDates('2019-01-01', '2021-10-01'),
         inputData: [''],
-        yAxis: 'Cargo shipping density',
+        yAxis: 'Passenger ship density',
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           customAreaIndicator: true,
-          name: 'Cargo shipping density',
-          layers: 'VIS_SHIPPINGDENSITY_CARGO',
+          name: 'Passenger shipping density',
+          layers: 'VIS_SHIPPINGDENSITY_PASSENGER',
           minZoom: 1,
           // legendUrl: 'eodash-data/data/no2Legend.png',
           dateFormatFunction: (date) => date,
           areaIndicator: {
-            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=RAW_SHIPPINGDENSITY_CARGO&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=RAW_SHIPPINGDENSITY_PASSENGER&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
             callbackFunction: (responseJson, indicator) => {
               if (Array.isArray(responseJson.C0)) {
                 const data = responseJson.C0;
