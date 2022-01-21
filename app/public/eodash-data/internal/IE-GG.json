@@ -6256,6 +6256,69 @@
             "retail_recreation": -24,
             "transit_stations": -40,
             "workplaces": -3
+        },
+        {
+            "date": "2022-01-10T00:00:00",
+            "grocery": 9,
+            "parks": 14,
+            "residential": 11,
+            "retail_recreation": -16,
+            "transit_stations": -44,
+            "workplaces": -31
+        },
+        {
+            "date": "2022-01-11T00:00:00",
+            "grocery": 10,
+            "parks": 37,
+            "residential": 10,
+            "retail_recreation": -15,
+            "transit_stations": -44,
+            "workplaces": -30
+        },
+        {
+            "date": "2022-01-12T00:00:00",
+            "grocery": 9,
+            "parks": 27,
+            "residential": 11,
+            "retail_recreation": -17,
+            "transit_stations": -43,
+            "workplaces": -30
+        },
+        {
+            "date": "2022-01-13T00:00:00",
+            "grocery": 9,
+            "parks": 12,
+            "residential": 12,
+            "retail_recreation": -18,
+            "transit_stations": -45,
+            "workplaces": -29
+        },
+        {
+            "date": "2022-01-14T00:00:00",
+            "grocery": 10,
+            "parks": 20,
+            "residential": 11,
+            "retail_recreation": -17,
+            "transit_stations": -43,
+            "workplaces": -26
+        },
+        {
+            "date": "2022-01-15T00:00:00",
+            "grocery": 12,
+            "parks": 21,
+            "residential": 4,
+            "retail_recreation": -17,
+            "transit_stations": -34,
+            "workplaces": -1
+        },
+        {
+            "date": "2022-01-16T00:00:00",
+            "grocery": 1,
+            "parks": 39,
+            "residential": 4,
+            "retail_recreation": -14,
+            "transit_stations": -35,
+            "workplaces": 1
         }
     ]
 }
