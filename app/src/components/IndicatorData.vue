@@ -1205,27 +1205,6 @@ export default {
           usePointStyle: true,
           boxWidth: 5,
         };
-        customSettings.legendExtend = {
-          onClick: function onClick(e, legendItem) {
-            if (legendItem.text === 'Standard deviation (STD)') {
-              const masterIndex = legendItem.datasetIndex;
-              const slaveIndex = 3;
-              const ci = this.chart;
-              const masterMeta = ci.getDatasetMeta(masterIndex);
-              const meta = ci.getDatasetMeta(slaveIndex);
-              if (masterMeta.hidden === null) {
-                masterMeta.hidden = true;
-                meta.hidden = true;
-              } else {
-                masterMeta.hidden = !masterMeta.hidden;
-                meta.hidden = !meta.hidden;
-              }
-              ci.update();
-            } else {
-              Chart.defaults.global.legend.onClick.call(this, e, legendItem);
-            }
-          },
-        };
         customSettings.tooltips = {
           callbacks: {
             label: (context) => {
@@ -1233,6 +1212,37 @@ export default {
               const val = datasets[context.datasetIndex].data[context.index];
               return `Value (Log10): ${Math.log10(val.y).toPrecision(4)}`;
             },
+          },
+        };
+      }
+
+      // Special handling for chart including STD representation
+      if (['N1', 'N3', 'E13o'].includes(indicatorCode)) {
+        customSettings.legendExtend = {
+          onClick: function onClick(e, legendItem) {
+            if (legendItem.text === 'Standard deviation (STD)') {
+              const masterIndex = legendItem.datasetIndex;
+              const ci = this.chart;
+              // Find corresponding dataset we want to hide
+              const hideIndex = ci.config.data.datasets.findIndex(
+                (item) => item.label === 'hide_',
+              );
+              console.log(hideIndex);
+              if (hideIndex !== -1) {
+                const masterMeta = ci.getDatasetMeta(masterIndex);
+                const meta = ci.getDatasetMeta(hideIndex);
+                if (masterMeta.hidden === null) {
+                  masterMeta.hidden = true;
+                  meta.hidden = true;
+                } else {
+                  masterMeta.hidden = !masterMeta.hidden;
+                  meta.hidden = !meta.hidden;
+                }
+                ci.update();
+              }
+            } else {
+              Chart.defaults.global.legend.onClick.call(this, e, legendItem);
+            }
           },
         };
       }
