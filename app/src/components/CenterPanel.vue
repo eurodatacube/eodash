@@ -24,7 +24,7 @@
       class="fill-height pb-7"
     >
       <v-tab-item class="fill-height">
-        <Map ref="map" />
+        <OlMap ref="map" v-if="getGroupedFeatures && getGroupedFeatures.length"/>
         <v-expansion-panels accordion class="global-indicators-panel" v-model="panel">
           <v-expansion-panel>
             <v-expansion-panel-header class="panel-header">
@@ -177,14 +177,14 @@ import {
 } from 'vuex';
 
 import FeatureTable from '@/components/FeatureTable.vue';
-import Map from '@/components/Map.vue';
+import OlMap from '@/components/map/OlMap.vue';
 
 import countries from '@/assets/countries.json';
 
 export default {
   components: {
     FeatureTable,
-    Map,
+    OlMap,
   },
   data() {
     return {
