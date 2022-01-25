@@ -31,6 +31,8 @@ jobs:
 
     # Run linter
     - name: Run linter
-      run: npm run lint
+      run: |
+        cd app/    
+        npm run lint
 
     # TODO: Run tests...
