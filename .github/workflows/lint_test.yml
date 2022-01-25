@@ -25,7 +25,9 @@ jobs:
 
     # Install dependencies
     - name: Install dependencies
-      run: npm ci --prefer-offline --no-audit
+      run: |
+        cd app/
+        npm ci --prefer-offline --no-audit
 
     # Run linter
     - name: Run linter
