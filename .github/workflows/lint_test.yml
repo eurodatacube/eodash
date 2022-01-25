@@ -23,7 +23,11 @@ jobs:
       with:
         node-version: '12.x'
 
-    # Lint
+    # Install dependencies
+    - name: Install dependencies
+      run: npm ci --prefer-offline --no-audit
+
+    # Run linter
     - name: Run linter
       run: npm run lint
 
