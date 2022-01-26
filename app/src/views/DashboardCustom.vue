@@ -7,7 +7,7 @@
       : 'pa-5'"
     :style="`margin-top: ${$vuetify.application.top}px !important;
       height: calc(100% - ${$vuetify.application.top}px);
-      overflow-y: ${storyModeEnabled ? 'hidden' : 'auto'}`"
+      overflow-y: ${storyModeEnabled ? 'hidden' : 'auto'}; overflow-x: hidden`"
     id="scroll-target"
   >
     <v-app-bar
@@ -462,6 +462,7 @@
           :popupOpen="popupOpen || newTextFeatureDialog"
           :storyMode="storyModeEnabled"
           :localFeatures="localDashboardFeatures"
+          :dashboardMeta="{ title: dashboardTitle }"
           @updateTextFeature="openTextFeatureUpdate"
           @change="savingChanges = true"
           @save="savingChanges = false"

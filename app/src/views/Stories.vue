@@ -108,7 +108,9 @@
                       <v-col
                         v-for="(story, index) in storyEntries(theme)"
                         :key="story[0]"
-                        :cols="((index + 1) % 4 === 1 || (index + 1) % 4 === 0) ? 8 : 4"
+                        :cols="$vuetify.breakpoint.xsOnly
+                          ? 12
+                          : (((index + 1) % 4 === 1 || (index + 1) % 4 === 0) ? 8 : 4)"
                       >
                         <v-hover
                           v-slot="{ hover }"
