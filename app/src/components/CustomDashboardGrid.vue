@@ -24,7 +24,7 @@
     <div
       v-if="$vuetify.breakpoint.xsOnly && navigationButtonVisible"
       class="secondary white--text d-flex align-center pa-7"
-      style="position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; z-index: 6"
+      style="position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; z-index: 6"
     >
       <small style="width: 60%">
         {{ dashboardMeta.title }}
@@ -36,7 +36,7 @@
       <div
         v-if="navigationButtonVisible"
         class="secondary d-flex align-center"
-        :style="`position: absolute; border-radius: 30px; z-index: 7; ${
+        :style="`position: fixed; border-radius: 30px; z-index: 7; ${
           $vuetify.breakpoint.smAndUp
             ? 'bottom: 67px; right: 25px;'
             : 'bottom: 6px; right: 9px;'
