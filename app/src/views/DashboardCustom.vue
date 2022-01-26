@@ -58,7 +58,8 @@
         <v-row
           class="d-flex"
           id="headerRow"
-          :style="`position: relative; ${storyModeEnabled ? 'height: calc(100vh - 104px)' : ''}`"
+          :style="`position: relative; ${storyModeEnabled
+            ? 'height: calc((var(--vh, 1vh) * 100) - 104px)' : ''}`"
         >
           <v-img
             v-if="officialDashboard"

@@ -36,7 +36,7 @@
     </div>
     <v-card
       class="pa-0 elementCard"
-      :style="`height: ${storyMode ? 'calc(100vh - 140px)' : '500px'}`"
+      :style="`height: ${storyMode ? 'calc((var(--vh, 1vh) * 100) - 140px)' : '500px'}`"
       outlined
       tile
     >
@@ -95,7 +95,7 @@
       >
         <div
           class="mobilePaddingBottom"
-          style="height: 40vh"
+          style="height: calc(var(--vh, 1vh) * 40)"
         >
         </div>
         <v-navigation-drawer
