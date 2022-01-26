@@ -154,7 +154,7 @@ export default {
       if (this.currentRow === 1 && direction === -1) {
         position = 0; // scroll back to story intro
       } else {
-        const rowPadding = 24;
+        const rowPadding = 26;
         const startingPoint = document.querySelector('#elementsContainer').offsetTop;
         const rowHeight = document.querySelector('.elementCard').clientHeight + rowPadding;
         const target = rowHeight * (this.currentRow - 1 + direction);
