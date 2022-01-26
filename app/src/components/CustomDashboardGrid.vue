@@ -25,6 +25,10 @@
       v-if="$vuetify.breakpoint.xsOnly && navigationButtonVisible"
       class="secondary white--text d-flex align-center pa-7"
       style="position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; z-index: 6"
+      v-touch="{
+        left: () => goStep(1),
+        right: () => goStep(-1),
+      }"
     >
       <small style="width: 60%">
         {{ dashboardMeta.title }}
@@ -41,6 +45,10 @@
             ? 'bottom: 67px; right: 25px;'
             : 'bottom: 6px; right: 9px;'
           }`"
+        v-touch="{
+          left: () => goStep(1),
+          right: () => goStep(-1),
+        }"
       >
         <v-btn
           fab
