@@ -105,12 +105,12 @@
           temporary
           style="z-index: 1; max-height: 100%;"
           v-touch="{
-            up: () => startFullScreenInteraction('#textAreaContainer'),
-            down: () => endFullScreenInteraction('#textAreaContainer'),
+            up: () => startFullScreenInteraction(`#textAreaContainer-${index}`),
+            down: () => endFullScreenInteraction(`#textAreaContainer-${index}`),
           }"
         >
           <div
-            id="textAreaContainer"
+            :id="`textAreaContainer-${index}`"
             class="textAreaContainer fill-height"
             :style="!showText ? 'overflow-y: hidden' : ''"
           >
