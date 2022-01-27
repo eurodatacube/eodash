@@ -94,7 +94,8 @@ export default {
       lineChartIndicators: [
         'E12', 'E12b', 'E8', 'N1b', 'N1', 'N3', 'N3b',
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
-        'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'E13o',
+        'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8',
+        'E13o', 'E13p', 'E13q', 'E13r',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6',
@@ -286,6 +287,9 @@ export default {
         referenceDecompose.E12b = referenceDecompose.N1a;
         referenceDecompose.E8 = referenceDecompose.N1a;
         referenceDecompose.E13o = referenceDecompose.N1;
+        referenceDecompose.E13p = referenceDecompose.N1;
+        referenceDecompose.E13q = referenceDecompose.N1;
+        referenceDecompose.E13r = referenceDecompose.N1;
 
         // Generators based on data type
         if (Object.keys(referenceDecompose).includes(indicatorCode)) {
@@ -1217,7 +1221,7 @@ export default {
       }
 
       // Special handling for chart including STD representation
-      if (['N1', 'N3', 'E13o'].includes(indicatorCode)) {
+      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r'].includes(indicatorCode)) {
         customSettings.legendExtend = {
           onClick: function onClick(e, legendItem) {
             if (legendItem.text === 'Standard deviation (STD)') {
