@@ -6319,6 +6319,78 @@
             "retail_recreation": 81,
             "transit_stations": 39,
             "workplaces": 59
+        },
+        {
+            "date": "2022-01-17T00:00:00",
+            "grocery": 102,
+            "parks": 95,
+            "residential": 0,
+            "retail_recreation": 85,
+            "transit_stations": 34,
+            "workplaces": 62
+        },
+        {
+            "date": "2022-01-18T00:00:00",
+            "grocery": 106,
+            "parks": 103,
+            "residential": 0,
+            "retail_recreation": 82,
+            "transit_stations": 38,
+            "workplaces": 59
+        },
+        {
+            "date": "2022-01-19T00:00:00",
+            "grocery": 103,
+            "parks": 100,
+            "residential": 0,
+            "retail_recreation": 77,
+            "transit_stations": 34,
+            "workplaces": 53
+        },
+        {
+            "date": "2022-01-20T00:00:00",
+            "grocery": 85,
+            "parks": 86,
+            "residential": -5,
+            "retail_recreation": 68,
+            "transit_stations": 25,
+            "workplaces": 48
+        },
+        {
+            "date": "2022-01-21T00:00:00",
+            "grocery": -89,
+            "parks": -82,
+            "residential": -77,
+            "retail_recreation": -91,
+            "transit_stations": -85,
+            "workplaces": -87
+        },
+        {
+            "date": "2022-01-22T00:00:00",
+            "grocery": -90,
+            "parks": -88,
+            "residential": -8,
+            "retail_recreation": -91,
+            "transit_stations": -83,
+            "workplaces": -87
+        },
+        {
+            "date": "2022-01-23T00:00:00",
+            "grocery": -84,
+            "parks": -76,
+            "residential": -23,
+            "retail_recreation": -85,
+            "transit_stations": -80,
+            "workplaces": -79
+        },
+        {
+            "date": "2022-01-24T00:00:00",
+            "grocery": -11,
+            "parks": -1,
+            "residential": -39,
+            "retail_recreation": -16,
+            "transit_stations": -38,
+            "workplaces": -17
         }
     ]
 }
