@@ -107,7 +107,7 @@ function generatePointsCircle(count, clusterCenter, resolution) {
   const angleStep = (Math.PI * 2) / count;
   const res = [];
   let angle;
-  legLength = Math.max(legLength, 35) * resolution; // Minimum distance to get outside the cluster icon.
+  legLength = Math.max(legLength, 35) * resolution; // Min distance to get outside the cluster icon.
 
   for (let i = 0; i < count; ++i) {
     // Clockwise, like spiral.
