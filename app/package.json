@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "private": true,
   "engines": {
-    "node": "14.x"
+    "node": "12.x"
   },
   "scripts": {
     "serve": "vue-cli-service serve",
