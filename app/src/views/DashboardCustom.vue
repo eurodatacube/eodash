@@ -407,7 +407,6 @@
                 :rules="requiredRule"
                 validate-on-blur
                 v-if="!textFeatureUpdate"
-                :class="$vuetify.theme.dark ? 'darkModeCaret' : ''"
               ></v-text-field>
 
               <v-textarea
@@ -420,7 +419,6 @@
                 :rules="requiredRule"
                 validate-on-blur
                 class="mt-5"
-                :class="$vuetify.theme.dark ? 'darkModeCaret' : ''"
               >
                 <template v-slot:message="{ message }">
                   <span v-html="message"></span>
@@ -786,10 +784,6 @@ export default {
 }
 ::v-deep .display-2 ::v-deep .v-input__append-inner {
   align-self: center !important;
-}
-
-.darkModeCaret ::v-deep input, .darkModeCaret ::v-deep textarea {
-  caret-color: #FFF;
 }
 </style>
 
