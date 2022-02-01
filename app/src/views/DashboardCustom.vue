@@ -406,6 +406,7 @@
                 v-model="newTextFeatureTitle"
                 :rules="requiredRule"
                 @blur="checkValidation(newTextFeatureTitle)"
+                @input="checkValidation(newTextFeatureTitle)"
                 v-if="!textFeatureUpdate"
               ></v-text-field>
 
@@ -418,6 +419,7 @@
                 v-model="newTextFeatureText"
                 :rules="requiredRule"
                 @blur="checkValidation(newTextFeatureText)"
+                @input="checkValidation(newTextFeatureText)"
                 class="mt-5"
               >
                 <template v-slot:message="{ message }">
