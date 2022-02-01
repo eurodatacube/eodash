@@ -405,7 +405,7 @@
                 :autofocus="!textFeatureUpdate ? true : false"
                 v-model="newTextFeatureTitle"
                 :rules="requiredRule"
-                validate-on-blur
+                @blur="checkValidation(newTextFeatureTitle)"
                 v-if="!textFeatureUpdate"
               ></v-text-field>
 
@@ -414,10 +414,10 @@
                 label="Text"
                 :auto-grow="true"
                 :autofocus="textFeatureUpdate"
-                :messages="markdownMessage"
+                :messages="[]"
                 v-model="newTextFeatureText"
                 :rules="requiredRule"
-                validate-on-blur
+                @blur="checkValidation(newTextFeatureText)"
                 class="mt-5"
               >
                 <template v-slot:message="{ message }">
@@ -425,6 +425,8 @@
                 </template>
               </v-textarea>
             </v-form>
+
+            <p>You can use <a href="https://guides.github.com/features/mastering-markdown/" rel="noopener" target="_blank" tabindex="-1">Markdown</a></p>
           </v-card-text>
 
           <v-card-actions>
@@ -753,6 +755,11 @@ export default {
     onPencilClick() {
       this.editingTitle = true;
       this.$refs.titleInput.focus();
+    },
+    checkValidation(item) {
+      if (!item) {
+        this.$refs.textForm.resetValidation();
+      }
     },
   },
 };
