@@ -365,6 +365,7 @@
       <v-dialog
         v-model="newTextFeatureDialog"
         width="500"
+        @click:outside="resetTextFeature()"
       >
         <template v-slot:activator="{ on }">
           <v-row class="my-5">
@@ -402,31 +403,33 @@
               <v-text-field
                 outlined
                 label="Title"
-                :autofocus="!textFeatureUpdate ? true : false"
+                :autofocus="!textFeatureUpdate"
                 v-model="newTextFeatureTitle"
                 :rules="requiredRule"
-                validate-on-blur
+                @blur="checkValidation(newTextFeatureTitle)"
+                @input="checkValidation(newTextFeatureTitle)"
                 v-if="!textFeatureUpdate"
-                :class="$vuetify.theme.dark ? 'darkModeCaret' : ''"
               ></v-text-field>
 
               <v-textarea
                 outlined
                 label="Text"
                 :auto-grow="true"
-                :autofocus="textFeatureUpdate"
-                :messages="markdownMessage"
+                :autofocus="!!textFeatureUpdate"
+                :messages="[]"
                 v-model="newTextFeatureText"
                 :rules="requiredRule"
-                validate-on-blur
+                @blur="checkValidation(newTextFeatureText)"
+                @input="checkValidation(newTextFeatureText)"
                 class="mt-5"
-                :class="$vuetify.theme.dark ? 'darkModeCaret' : ''"
               >
                 <template v-slot:message="{ message }">
                   <span v-html="message"></span>
                 </template>
               </v-textarea>
             </v-form>
+
+            <p>You can use <a href="https://guides.github.com/features/mastering-markdown/" rel="noopener" target="_blank" tabindex="-1">Markdown</a></p>
           </v-card-text>
 
           <v-card-actions>
@@ -434,7 +437,7 @@
             <v-btn
               color="primary"
               text
-              @click="() => (newTextFeatureDialog = false, textFeatureUpdate = '')"
+              @click="resetTextFeature()"
             >
               cancel
             </v-btn>
@@ -442,12 +445,14 @@
               color="primary"
               @click="createTextFeature"
               v-if="!textFeatureUpdate"
+              :disabled="newTextFeatureTitle.length == 0 || newTextFeatureText.length == 0"
             >
               add
             </v-btn>
             <v-btn
               color="primary"
               @click="updateTextFeature"
+              :disabled="newTextFeatureText.length == 0"
               v-else
             >
               update
@@ -705,10 +710,8 @@ export default {
             width: 4,
           },
         );
-        this.newTextFeatureDialog = false;
-        this.newTextFeatureTitle = '';
-        this.newTextFeatureText = '';
-        this.textFeatureUpdate = '';
+
+        this.resetTextFeature();
       }
     },
     updateTextFeature() {
@@ -721,10 +724,15 @@ export default {
           },
         );
       }
+
+      this.resetTextFeature();
+    },
+    resetTextFeature() {
       this.newTextFeatureDialog = false;
       this.newTextFeatureTitle = '';
       this.newTextFeatureText = '';
       this.textFeatureUpdate = '';
+      this.$refs.textForm.resetValidation();
     },
     openTextFeatureUpdate(el) {
       this.newTextFeatureText = el.text;
@@ -756,6 +764,11 @@ export default {
       this.editingTitle = true;
       this.$refs.titleInput.focus();
     },
+    checkValidation(item) {
+      if (!item) {
+        this.$refs.textForm.resetValidation();
+      }
+    },
   },
 };
 </script>
@@ -786,10 +799,6 @@ export default {
 }
 ::v-deep .display-2 ::v-deep .v-input__append-inner {
   align-self: center !important;
-}
-
-.darkModeCaret ::v-deep input, .darkModeCaret ::v-deep textarea {
-  caret-color: #FFF;
 }
 </style>
 
