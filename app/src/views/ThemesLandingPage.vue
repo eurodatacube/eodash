@@ -27,10 +27,12 @@
       <v-row class="landing-page" justify="center">
         <div class="hero">
           <div class="overlay d-flex flex-column justify-center align-center">
-            <h1 class="text-h1 mb-5 white--text">You and Earth Observation</h1>
+            <h2 class="text-h2 mb-5 white--text">You and Earth Observation</h2>
             <h5 class="text-h5 mb-10 white--text">A Tri-Agency Dashboard by NASA, ESA, JAXA</h5>
             <p class="mb-10 white--text">
+              <!-- eslint-disable vue/no-v-html -->
               International collaboration among space agencies is central to the success of satellite Earth observations and data analysis. These partnerships foster more comprehensive measurements, robust datasets, and cost-effective missions.
+              <!-- eslint-enable -->
             </p>
             <v-btn
               elevation="2"
@@ -40,8 +42,22 @@
             >Start Exploring</v-btn>
           </div>
         </div>
-        <div>
-          <h2 class="text-h2">More Content</h2>
+        <div class="section">
+          <v-container class="lighten-5" fluid>
+            <v-row no-gutters>
+              <template v-for="(theme, i) in themes">
+                <v-col :key="theme.slug" class="px-1" cols="12" xs="12" sm="12" md="6" lg="2">
+                  <v-btn
+                    elevation="1"
+                    :color="theme.color"
+                    style="min-width: 100%; max-width: 100%;"
+                    class="black--text"
+                    large
+                  >{{ theme.name }}</v-btn>
+                </v-col>
+              </template>
+            </v-row>
+          </v-container>
         </div>
       </v-row>
       <global-footer />
@@ -51,6 +67,7 @@
 
 <script>
 import {
+  mapGetters,
   mapState,
 } from 'vuex';
 
@@ -68,9 +85,7 @@ export default {
   },
   computed: {
     ...mapState('config', ['appConfig']),
-    challenges() {
-      return this.$marked(require(`../../public${this.appConfig.challengesText}.md`).default);
-    },
+    ...mapState({ themes: state => state.themes.themes }),
   },
 };
 </script>
@@ -94,6 +109,16 @@ export default {
     p {
       max-width: 700px;
     }
+  }
+}
+
+.section {
+  min-height: 70vh;
+  min-width: 100vw;
+
+  .button-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   }
 }
 </style>
