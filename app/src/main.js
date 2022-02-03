@@ -19,6 +19,7 @@ import PageNotFound from './views/PageNotFound.vue';
 import Challenges from './views/Challenges.vue';
 import Terms from './views/Terms.vue';
 import EmbedIframe from './views/EmbedIframe.vue';
+import ThemesLandingPage from './views/ThemesLandingPage.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 import customDashboardApiFactory from './custom-dashboard';
@@ -66,6 +67,7 @@ const routes = [
   { path: '/terms_and_conditions', component: Terms },
   { path: '/challenges', component: Challenges },
   { path: '/iframe', component: EmbedIframe },
+  { path: '/themes', component: ThemesLandingPage },
   { path: '*', component: PageNotFound },
 ];
 const router = new VueRouter({ mode: 'history', base: process.env.BASE_URL, routes });
