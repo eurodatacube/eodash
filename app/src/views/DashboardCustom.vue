@@ -402,7 +402,7 @@
               <v-text-field
                 outlined
                 label="Title"
-                :autofocus="!textFeatureUpdate ? true : false"
+                :autofocus="!textFeatureUpdate"
                 v-model="newTextFeatureTitle"
                 :rules="requiredRule"
                 @blur="checkValidation(newTextFeatureTitle)"
@@ -414,7 +414,7 @@
                 outlined
                 label="Text"
                 :auto-grow="true"
-                :autofocus="textFeatureUpdate"
+                :autofocus="!!textFeatureUpdate"
                 :messages="[]"
                 v-model="newTextFeatureText"
                 :rules="requiredRule"
