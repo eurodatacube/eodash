@@ -437,7 +437,7 @@
             <v-btn
               color="primary"
               text
-              @click="() => (newTextFeatureDialog = false, textFeatureUpdate = '')"
+              @click="resetTextFeature()"
             >
               cancel
             </v-btn>
@@ -732,6 +732,7 @@ export default {
       this.newTextFeatureTitle = '';
       this.newTextFeatureText = '';
       this.textFeatureUpdate = '';
+      this.$refs.textForm.resetValidation();
     },
     openTextFeatureUpdate(el) {
       this.newTextFeatureText = el.text;
