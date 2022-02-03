@@ -365,6 +365,7 @@
       <v-dialog
         v-model="newTextFeatureDialog"
         width="500"
+        @click:outside="resetTextFeature()"
       >
         <template v-slot:activator="{ on }">
           <v-row class="my-5">
@@ -709,10 +710,8 @@ export default {
             width: 4,
           },
         );
-        this.newTextFeatureDialog = false;
-        this.newTextFeatureTitle = '';
-        this.newTextFeatureText = '';
-        this.textFeatureUpdate = '';
+
+        this.resetTextFeature();
       }
     },
     updateTextFeature() {
@@ -725,6 +724,10 @@ export default {
           },
         );
       }
+
+      this.resetTextFeature();
+    },
+    resetTextFeature() {
       this.newTextFeatureDialog = false;
       this.newTextFeatureTitle = '';
       this.newTextFeatureText = '';
