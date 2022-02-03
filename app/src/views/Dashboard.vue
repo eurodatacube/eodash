@@ -33,6 +33,16 @@
         >
           About
         </v-btn>
+
+        <v-btn
+          text
+          dark
+          small
+          @click="$router.push('/themes')"
+        >
+          Themes
+        </v-btn>
+
         <v-badge
           bordered
           color="info"
