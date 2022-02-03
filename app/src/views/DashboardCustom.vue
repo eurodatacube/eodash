@@ -444,12 +444,14 @@
               color="primary"
               @click="createTextFeature"
               v-if="!textFeatureUpdate"
+              :disabled="newTextFeatureTitle.length == 0 || newTextFeatureText.length == 0"
             >
               add
             </v-btn>
             <v-btn
               color="primary"
               @click="updateTextFeature"
+              :disabled="newTextFeatureText.length == 0"
               v-else
             >
               update
