@@ -246,4 +246,9 @@ export default {
 
 <style lang="scss">
 @import "~@/scss/global.scss";
+
+.v-application.theme--dark input,
+.v-application.theme--dark textarea {
+    caret-color: currentcolor;
+}
 </style>
