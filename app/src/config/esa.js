@@ -326,16 +326,19 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/E13o',
   },
   E13p: {
+    hideInFilters: true,
     indicator: 'Vessel density for cargo',
     class: 'economic',
     story: '/eodash-data/stories/E13o',
   },
   E13q: {
+    hideInFilters: true,
     indicator: 'Vessel density for tankers',
     class: 'economic',
     story: '/eodash-data/stories/E13o',
   },
   E13r: {
+    hideInFilters: true,
     indicator: 'Vessel density for others',
     class: 'economic',
     story: '/eodash-data/stories/E13o',
