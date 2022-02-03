@@ -3949,6 +3949,90 @@
             "people_vaccinated_per_hundred": 11.62,
             "total_vaccinations": 11710636.0,
             "total_vaccinations_per_hundred": 21.3
+        },
+        {
+            "daily_vaccinations": 62640.0,
+            "daily_vaccinations_per_million": 1139.0,
+            "daily_vaccinations_raw": 73496.0,
+            "date": "2022-01-27T00:00:00",
+            "people_fully_vaccinated": 5250282.0,
+            "people_fully_vaccinated_per_hundred": 9.55,
+            "people_vaccinated": 6406701.0,
+            "people_vaccinated_per_hundred": 11.65,
+            "total_vaccinations": 11784132.0,
+            "total_vaccinations_per_hundred": 21.43
+        },
+        {
+            "daily_vaccinations": 60170.0,
+            "daily_vaccinations_per_million": 1094.0,
+            "daily_vaccinations_raw": 74833.0,
+            "date": "2022-01-28T00:00:00",
+            "people_fully_vaccinated": 5300954.0,
+            "people_fully_vaccinated_per_hundred": 9.64,
+            "people_vaccinated": 6426628.0,
+            "people_vaccinated_per_hundred": 11.69,
+            "total_vaccinations": 11858965.0,
+            "total_vaccinations_per_hundred": 21.57
+        },
+        {
+            "daily_vaccinations": 66314.0,
+            "daily_vaccinations_per_million": 1206.0,
+            "daily_vaccinations_raw": 128182.0,
+            "date": "2022-01-29T00:00:00",
+            "people_fully_vaccinated": 5380151.0,
+            "people_fully_vaccinated_per_hundred": 9.78,
+            "people_vaccinated": 6469965.0,
+            "people_vaccinated_per_hundred": 11.77,
+            "total_vaccinations": 11987147.0,
+            "total_vaccinations_per_hundred": 21.8
+        },
+        {
+            "daily_vaccinations": 80780.0,
+            "daily_vaccinations_per_million": 1469.0,
+            "daily_vaccinations_raw": 120440.0,
+            "date": "2022-01-30T00:00:00",
+            "people_fully_vaccinated": 5447350.0,
+            "people_fully_vaccinated_per_hundred": 9.91,
+            "people_vaccinated": 6519171.0,
+            "people_vaccinated_per_hundred": 11.86,
+            "total_vaccinations": 12107587.0,
+            "total_vaccinations_per_hundred": 22.02
+        },
+        {
+            "daily_vaccinations": 99848.0,
+            "daily_vaccinations_per_million": 1816.0,
+            "daily_vaccinations_raw": 144987.0,
+            "date": "2022-01-31T00:00:00",
+            "people_fully_vaccinated": 5530890.0,
+            "people_fully_vaccinated_per_hundred": 10.06,
+            "people_vaccinated": 6572987.0,
+            "people_vaccinated_per_hundred": 11.95,
+            "total_vaccinations": 12252574.0,
+            "total_vaccinations_per_hundred": 22.28
+        },
+        {
+            "daily_vaccinations": 117923.0,
+            "daily_vaccinations_per_million": 2145.0,
+            "daily_vaccinations_raw": 198672.0,
+            "date": "2022-02-01T00:00:00",
+            "people_fully_vaccinated": 5644983.0,
+            "people_fully_vaccinated_per_hundred": 10.27,
+            "people_vaccinated": 6650827.0,
+            "people_vaccinated_per_hundred": 12.1,
+            "total_vaccinations": 12451246.0,
+            "total_vaccinations_per_hundred": 22.64
+        },
+        {
+            "daily_vaccinations": 134622.0,
+            "daily_vaccinations_per_million": 2448.0,
+            "daily_vaccinations_raw": 201745.0,
+            "date": "2022-02-02T00:00:00",
+            "people_fully_vaccinated": 5764722.0,
+            "people_fully_vaccinated_per_hundred": 10.48,
+            "people_vaccinated": 6726073.0,
+            "people_vaccinated_per_hundred": 12.23,
+            "total_vaccinations": 12652991.0,
+            "total_vaccinations_per_hundred": 23.01
         }
     ]
 }
