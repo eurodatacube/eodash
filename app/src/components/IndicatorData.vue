@@ -95,6 +95,7 @@ export default {
         'E12', 'E12b', 'E8', 'N1b', 'N1', 'N3', 'N3b',
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8',
+        'E13o', 'E13p', 'E13q', 'E13r',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6',
@@ -116,6 +117,7 @@ export default {
   },
 
   mounted() {
+    console.log(this.indicatorObject);
     const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
     this.dataLayerTime = d.toFormat('dd. MMM');
   },
@@ -284,6 +286,10 @@ export default {
         referenceDecompose.N1d = referenceDecompose.N1a;
         referenceDecompose.E12b = referenceDecompose.N1a;
         referenceDecompose.E8 = referenceDecompose.N1a;
+        referenceDecompose.E13o = referenceDecompose.N1;
+        referenceDecompose.E13p = referenceDecompose.N1;
+        referenceDecompose.E13q = referenceDecompose.N1;
+        referenceDecompose.E13r = referenceDecompose.N1;
 
         // Generators based on data type
         if (Object.keys(referenceDecompose).includes(indicatorCode)) {
@@ -342,7 +348,6 @@ export default {
             });
           });
         }
-
         // Add special points for N3
         if (indicatorCode === 'N3') {
           // Find unique indicator values
@@ -1204,27 +1209,6 @@ export default {
           usePointStyle: true,
           boxWidth: 5,
         };
-        customSettings.legendExtend = {
-          onClick: function onClick(e, legendItem) {
-            if (legendItem.text === 'Standard deviation (STD)') {
-              const masterIndex = legendItem.datasetIndex;
-              const slaveIndex = 3;
-              const ci = this.chart;
-              const masterMeta = ci.getDatasetMeta(masterIndex);
-              const meta = ci.getDatasetMeta(slaveIndex);
-              if (masterMeta.hidden === null) {
-                masterMeta.hidden = true;
-                meta.hidden = true;
-              } else {
-                masterMeta.hidden = !masterMeta.hidden;
-                meta.hidden = !meta.hidden;
-              }
-              ci.update();
-            } else {
-              Chart.defaults.global.legend.onClick.call(this, e, legendItem);
-            }
-          },
-        };
         customSettings.tooltips = {
           callbacks: {
             label: (context) => {
@@ -1232,6 +1216,37 @@ export default {
               const val = datasets[context.datasetIndex].data[context.index];
               return `Value (Log10): ${Math.log10(val.y).toPrecision(4)}`;
             },
+          },
+        };
+      }
+
+      // Special handling for chart including STD representation
+      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r'].includes(indicatorCode)) {
+        customSettings.legendExtend = {
+          onClick: function onClick(e, legendItem) {
+            if (legendItem.text === 'Standard deviation (STD)') {
+              const masterIndex = legendItem.datasetIndex;
+              const ci = this.chart;
+              // Find corresponding dataset we want to hide
+              const hideIndex = ci.config.data.datasets.findIndex(
+                (item) => item.label === 'hide_',
+              );
+              console.log(hideIndex);
+              if (hideIndex !== -1) {
+                const masterMeta = ci.getDatasetMeta(masterIndex);
+                const meta = ci.getDatasetMeta(hideIndex);
+                if (masterMeta.hidden === null) {
+                  masterMeta.hidden = true;
+                  meta.hidden = true;
+                } else {
+                  masterMeta.hidden = !masterMeta.hidden;
+                  meta.hidden = !meta.hidden;
+                }
+                ci.update();
+              }
+            } else {
+              Chart.defaults.global.legend.onClick.call(this, e, legendItem);
+            }
           },
         };
       }
