@@ -880,7 +880,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'World',
-        time: getMonthlyDates('2017-01-01', '2019-12-01'),
+        time: getMonthlyDates('2017-01-01', '2020-12-01'),
         inputData: [''],
         yAxis: 'Vessel density',
         display: {
@@ -944,7 +944,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'World',
-        time: getMonthlyDates('2017-01-01', '2019-12-01'),
+        time: getMonthlyDates('2017-01-01', '2020-12-01'),
         inputData: [''],
         yAxis: 'Vessel density for cargo',
         display: {
@@ -1008,7 +1008,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'World',
-        time: getMonthlyDates('2017-01-01', '2019-12-01'),
+        time: getMonthlyDates('2017-01-01', '2020-12-01'),
         inputData: [''],
         yAxis: 'Vessel density for tankers',
         display: {
@@ -1072,7 +1072,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'World',
-        time: getMonthlyDates('2017-01-01', '2019-12-01'),
+        time: getMonthlyDates('2017-01-01', '2020-12-01'),
         inputData: [''],
         yAxis: 'Vessel density for others',
         display: {
