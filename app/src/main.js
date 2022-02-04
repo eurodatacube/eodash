@@ -60,14 +60,14 @@ Vue.use(VueMeta);
 Vue.use(VueRouter);
 
 const routes = [
-  { path: '/', component: Dashboard },
+  { path: '/', component: ThemesLandingPage },
+  { path: '/dashboard', component: Dashboard },
   { path: '/dashboard/:viewingId/edit/:editingId?', component: DashboardCustom },
   { path: '/dashboard/:viewingId?', component: DashboardCustom },
   { path: '/privacy', component: Privacy },
   { path: '/terms_and_conditions', component: Terms },
   { path: '/challenges', component: Challenges },
   { path: '/iframe', component: EmbedIframe },
-  { path: '/themes', component: ThemesLandingPage },
   { path: '*', component: PageNotFound },
 ];
 const router = new VueRouter({ mode: 'history', base: process.env.BASE_URL, routes });
