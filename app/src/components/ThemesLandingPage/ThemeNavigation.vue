@@ -8,6 +8,7 @@
             :color="theme.color"
             style="min-width: 100%; max-width: 100%; color: rgba(0, 0, 0, 0.9);"
             large
+            @click="$router.push('/themes/' + theme.slug)"
           >{{ theme.name }}</v-btn>
         </v-col>
       </template>
