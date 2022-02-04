@@ -1,138 +1,112 @@
 <template>
-    <!--<v-overlay
-        absolute
-        opacity="0.9"
-        z-index="7"
-        :value="true"
+  <v-container
+    class="pa-0 ma-0"
+    style="max-width: 100%"
+  >
+    <v-row
+      no-gutters
+    >
+      <v-col
+        v-for="(story, index) in stories"
+        :key="story.slug"
+        :cols="$vuetify.breakpoint.xsOnly
+          ? 12
+          : (((index + 1) % 4 === 1 || (index + 1) % 4 === 0) ? 8 : 4)"
       >
-      <div
-        style="width: 100%; position: absolute; z-index: 2;
-        box-shadow: inset 0 30px 25px -20px #0008;"
-      >
-        <v-btn
-          text
-          class="ma-3"
-          @click="dismiss"
+        <v-hover
+          v-slot="{ hover }"
+          style="cursor: pointer;"
         >
-          <v-icon left>mdi-arrow-left</v-icon>
-          {{ appConfig && appConfig.branding.appName}}
-        </v-btn>
-      </div>--> <!--
-        <div class="fill-height pt-16 d-flex justify-center" style="overflow-y: auto">
-          <div class="flex-grow-1" style="width: 100%; max-width: none">
-            <section class="tabs">
-              <v-tabs
-                background-color="primary"
-                center-active
-                centered
-                dark
-                v-model="tab"
+          <v-card
+            flat
+            tile
+            style="position: relative;"
+          >
+
+            <v-btn 
+              class="theme-tag black--text" 
+              style="z-index: 90;" 
+              :color="findTheme(story.theme).color"
+              small>
+
+              {{ findTheme(story.theme).name }}
+            </v-btn>
+
+            <v-img
+              class="white--text align-end"
+              :aspect-ratio="((index + 1) % 4 === 1 || (index + 1) % 4 === 0)
+                ? 2/1
+                : 1/1"
+              :src="story.image"
+              :lazy-src="story.imagePlaceholder"
+            >
+              <template v-slot:placeholder>
+                <v-row
+                  class="fill-height ma-0"
+                  align="center"
+                  justify="center"
+                >
+                  <v-progress-circular
+                    indeterminate
+                    color="grey lighten-5"
+                  ></v-progress-circular>
+                </v-row>
+              </template>
+              <v-fade-transition>
+                <div
+                  v-if="hover"
+                  style="position: absolute; top: 0; left: 0; width: 100%;
+                  height: 100%; background: #0008; z-index: -1"></div>
+              </v-fade-transition>
+              <v-list-item-title
+                :class="!$vuetify.breakpoint.mobile
+                  ? 'text-h5 mb-1 ml-5'
+                  : 'ma-2 mr-3 line-clamp'"
               >
-                <v-tab
-                  v-for="(theme, index) in themes"
-                  :key="index"
-                  v-html="theme"
-                ></v-tab>
-              </v-tabs>
-              <v-tabs-items v-model="tab">
-                <v-tab-item
-                  v-for="(theme, index) in themes"
-                  :key="index"
-                >-->
-                  <v-container
-                    class="pa-0 ma-0"
-                    style="max-width: 100%"
-                  >
-                    <v-row
-                      no-gutters
-                    >
-                      <v-col
-                        v-for="(story, index) in stories"
-                        :key="story.slug"
-                        :cols="$vuetify.breakpoint.xsOnly
-                          ? 12
-                          : (((index + 1) % 4 === 1 || (index + 1) % 4 === 0) ? 8 : 4)"
-                      >
-                        <v-hover
-                          v-slot="{ hover }"
-                          
-                        >
-                          <v-card
-                            flat
-                            tile
-                            @click="selectStory(story)"
-                          >
-                            <v-img
-                              class="white--text align-end"
-                              :aspect-ratio="((index + 1) % 4 === 1 || (index + 1) % 4 === 0)
-                                ? 2/1
-                                : 1/1"
-                              :src="story.image"
-                              :lazy-src="story.imagePlaceholder"
-                            >
-                              <template v-slot:placeholder>
-                                <v-row
-                                  class="fill-height ma-0"
-                                  align="center"
-                                  justify="center"
-                                >
-                                  <v-progress-circular
-                                    indeterminate
-                                    color="grey lighten-5"
-                                  ></v-progress-circular>
-                                </v-row>
-                              </template>
-                              <v-fade-transition>
-                                <div
-                                  v-if="hover"
-                                  style="position: absolute; top: 0; left: 0; width: 100%;
-                                  height: 100%; background: #0008; z-index: -1"></div>
-                              </v-fade-transition>
-                              <v-list-item-title
-                                :class="!$vuetify.breakpoint.mobile
-                                  ? 'text-h5 mb-1 ml-5'
-                                  : 'ma-2 mr-3 line-clamp'"
-                              >
-                                {{ story.title }}
-                              </v-list-item-title>
-                              <v-list-item-subtitle
-                                v-if="!$vuetify.breakpoint.mobile"
-                                class="ml-5 mb-5"
-                              >
-                                {{ story.subtitle }}
-                              </v-list-item-subtitle>
-                            </v-img>
-                          </v-card>
-                        </v-hover>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                <!--</v-tab-item>
-              </v-tabs-items>
-            </section>
-          </div>
-        </div>-->
-    <!--</v-overlay>-->
+                {{ story.title }}
+              </v-list-item-title>
+              <v-list-item-subtitle
+                v-if="!$vuetify.breakpoint.mobile"
+                class="ml-5 mb-5"
+              >
+                {{ story.subtitle }}
+              </v-list-item-subtitle>
+            </v-img>
+          </v-card>
+        </v-hover>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 import {
   mapState,
+  mapGetters,
 } from 'vuex';
 
 import storiesConfig from '../../config/stories.json';
 import storiesRaw from '../../config/stories2.json';
 
+import StoriesCard from './StoriesCard';
+
 export default {
   data: () => ({
     carouselModel: 0,
-    themes: null,
+    //themes: null,
     tab: null,
   }),
+  components: {
+    StoriesCard,
+  },
   computed: {
     ...mapState('config', [
       'appConfig',
     ]),
+
+    ...mapGetters({
+      themes: 'themes/getThemes',
+    }),
 
     stories() {
       return storiesRaw;
@@ -158,6 +132,9 @@ export default {
     },
     selectStory(story) {
       this.$router.push(`/story?id=${story[0]}`);
+    },
+    findTheme(slug) {
+      return this.themes.find(theme => theme.slug === slug)
     },
   },
 };
@@ -189,5 +166,12 @@ export default {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.theme-tag {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  border-radius: 6px;
 }
 </style>
