@@ -31,7 +31,7 @@
           <div class="stories mx-lg-16 px-lg-16 mt-16">
             <h2 class="text-h2 mb-5">Stories</h2>
             <div class="stories-grid">
-
+              <stories-grid />
             </div>
           </div>
         </div>
@@ -50,12 +50,14 @@ import GlobalFooter from '@/components/GlobalFooter.vue';
 
 import Hero from '@/components/ThemesLandingPage/Hero.vue';
 import ThemeNavigation from '@/components/ThemesLandingPage/ThemeNavigation.vue';
+import StoriesGrid from '@/components/ThemesLandingPage/StoriesGrid.vue';
 
 export default {
   components: {
     GlobalFooter,
     Hero,
     ThemeNavigation,
+    StoriesGrid,
   },
   metaInfo() {
     const { appConfig } = this.$store.state.config;
