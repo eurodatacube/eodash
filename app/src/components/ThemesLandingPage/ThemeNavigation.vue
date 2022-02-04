@@ -5,6 +5,7 @@
         <v-col :key="theme.slug" class="px-1" cols="12" xs="12" sm="12" md="6" lg="2">
           <v-btn
             elevation="1"
+            class="mb-2 mb-lg-0"
             :color="theme.color"
             style="min-width: 100%; max-width: 100%; color: rgba(0, 0, 0, 0.9);"
             large
