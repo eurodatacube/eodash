@@ -4,37 +4,37 @@ const state = {
     {
       name: 'Atmospheric Composition',
       slug: 'atmospheric-composition',
-      color: '#EA9A00',
+      color: '#F79300', // #EA9A00
     },
 
     {
       name: 'Water Quality',
       slug: 'water-quality',
-      color: '#00B4BF',
+      color: '#00BFB5', // #00B4BF
     },
 
     {
       name: 'Ocean',
       slug: 'ocean',
-      color: '#045CE0',
+      color: '#00A3D9', // #045CE0
     },
 
     {
       name: 'Agriculture',
       slug: 'agriculture',
-      color: '#8EB100',
+      color: '#96BA00', // #8EB100
     },
 
     {
       name: 'Biomass and Landcover',
       slug: 'biomass-landcover',
-      color: '#117A00',
+      color: '#2FA700', // #117A00
     },
 
     {
       name: 'Cryosphere',
       slug: 'cryosphere',
-      color: '#BBB',
+      color: '#ABACC3', // #BBB
     },
   ],
 };
