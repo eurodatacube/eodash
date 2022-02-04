@@ -88,8 +88,6 @@ import {
 import storiesConfig from '../../config/stories.json';
 import storiesRaw from '../../config/stories2.json';
 
-import StoriesCard from './StoriesCard';
-
 export default {
   data: () => ({
     carouselModel: 0,
@@ -97,7 +95,6 @@ export default {
     tab: null,
   }),
   components: {
-    StoriesCard,
   },
   computed: {
     ...mapState('config', [
