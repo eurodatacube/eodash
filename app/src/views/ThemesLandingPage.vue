@@ -50,8 +50,7 @@
                   <v-btn
                     elevation="1"
                     :color="theme.color"
-                    style="min-width: 100%; max-width: 100%;"
-                    class="black--text"
+                    style="min-width: 100%; max-width: 100%; color: rgba(0, 0, 0, 0.9);"
                     large
                   >{{ theme.name }}</v-btn>
                 </v-col>
