@@ -28,11 +28,8 @@
         <hero />
         <div class="section pb-16">
           <theme-navigation />
-          <div class="stories mx-lg-16 px-lg-16 mt-16">
-            <h2 class="text-h2 mb-5">Stories</h2>
-            <div class="stories-grid">
-              <stories-grid />
-            </div>
+          <div class="stories mx-lg-16 px-lg-16 mt-16 d-flex flex-column justify-start align-center">
+            <stories-grid />
           </div>
         </div>
       </v-row>
@@ -75,8 +72,6 @@ export default {
 .landing-page {
   width: 100vw;
 }
-
-
 .section {
   min-height: 70vh;
   min-width: 100vw;
