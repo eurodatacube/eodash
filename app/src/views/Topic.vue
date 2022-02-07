@@ -10,7 +10,7 @@
         clipped-left
         clipped-right
         flat
-        color="primary"
+        :color="topic.color"
         class="white--text"
       >
         <router-link to="/" class="white--text" style="text-decoration: none">
@@ -18,7 +18,7 @@
           v-if="$vuetify.breakpoint.mdAndUp"
           class="text-uppercase mr-5"
         >
-          {{ appConfig && appConfig.branding.appName }}&nbsp;&nbsp;/&nbsp;&nbsp;abc
+          <span class="mr-3">{{ appConfig && appConfig.branding.appName }}</span>/<span class="ml-3" style="border-radius: 4px; text-transform: none; background: #FFF4; font-size: 90%; padding: 2px 5px;">{{ topic.name }}</span>
         </v-toolbar-title>
         </router-link>
         <v-spacer></v-spacer>
@@ -27,7 +27,7 @@
       <v-row class="topic-page" justify="center">
 
       </v-row>
-      <global-footer />
+      <global-footer :color="topic.color" />
     </div>
   </div>
 </template>
@@ -51,11 +51,12 @@ export default {
   },
 
   created () {
-    let result = this.themes.find(theme => theme.slug === this.$route.params.topic);
+    let result = this.themes.find(theme => theme.slug === this.$route.params.slug);
 
     if (result) {
       this.topic = result;
     } else {
+      console.log('Cannot find slug "' + this.$route.params.slug + '"');
       this.$router.push('/404');
     }
   },
