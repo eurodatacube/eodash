@@ -18,20 +18,14 @@
           v-if="$vuetify.breakpoint.mdAndUp"
           class="text-uppercase mr-5"
         >
-          {{ appConfig && appConfig.branding.appName }}
+          {{ appConfig && appConfig.branding.appName }}&nbsp;&nbsp;/&nbsp;&nbsp;abc
         </v-toolbar-title>
         </router-link>
         <v-spacer></v-spacer>
         <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
       </v-app-bar>
-      <v-row class="landing-page" justify="center">
-        <hero />
-        <div class="section pb-16">
-          <theme-navigation />
-          <div class="mx-lg-16 px-lg-16 mt-16 d-flex flex-column justify-start align-center">
-            <stories-grid />
-          </div>
-        </div>
+      <v-row class="topic-page" justify="center">
+
       </v-row>
       <global-footer />
     </div>
@@ -45,17 +39,27 @@ import {
 
 import GlobalFooter from '@/components/GlobalFooter.vue';
 
-import Hero from '@/components/ThemesLandingPage/Hero.vue';
-import ThemeNavigation from '@/components/ThemesLandingPage/ThemeNavigation.vue';
-import StoriesGrid from '@/components/ThemesLandingPage/StoriesGrid.vue';
-
 export default {
+  data() {
+    return {
+      topic: '',
+    };
+  },
+
   components: {
     GlobalFooter,
-    Hero,
-    ThemeNavigation,
-    StoriesGrid,
   },
+
+  created () {
+    let result = this.themes.find(theme => theme.slug === this.$route.params.topic);
+
+    if (result) {
+      this.topic = result;
+    } else {
+      this.$router.push('/404');
+    }
+  },
+
   metaInfo() {
     const { appConfig } = this.$store.state.config;
     return {
@@ -64,21 +68,18 @@ export default {
   },
   computed: {
     ...mapState('config', ['appConfig']),
+    ...mapState({ themes: state => state.themes.themes }),
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.landing-page {
+.topic-page {
   width: 100vw;
+  height: 100vh;
 }
 .section {
   min-height: 70vh;
   min-width: 100vw;
-
-  .button-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  }
 }
 </style>

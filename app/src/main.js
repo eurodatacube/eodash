@@ -20,6 +20,7 @@ import Challenges from './views/Challenges.vue';
 import Terms from './views/Terms.vue';
 import EmbedIframe from './views/EmbedIframe.vue';
 import ThemesLandingPage from './views/ThemesLandingPage.vue';
+import Topic from './views/Topic.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 import customDashboardApiFactory from './custom-dashboard';
@@ -61,6 +62,7 @@ Vue.use(VueRouter);
 
 const routes = [
   { path: '/', component: ThemesLandingPage },
+  { path: '/topics/:slug', component: Topic },
   { path: '/dashboard', component: Dashboard },
   { path: '/dashboard/:viewingId/edit/:editingId?', component: DashboardCustom },
   { path: '/dashboard/:viewingId?', component: DashboardCustom },
