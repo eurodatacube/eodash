@@ -9,8 +9,7 @@
       <h2 class="text-h2 mb-5 white--text">You and Earth Observation</h2>
       <!--<h5 class="text-h5 mb-10 white--text">A Tri-Agency Dashboard by NASA, ESA, JAXA</h5>-->
       <h5 class="text-h5 mb-5 white--text">
-        <img src="../../../public/data/trilateral/Trilateral_Logo.svg" height="40" />
-        {{ $store.config.branding.headerLogo }}
+        <img :src="appConfig && appConfig.branding.headerLogo" height="40" style="pointer-events: none;" />
       </h5>
       <p class="mb-10 white--text">
         <!-- eslint-disable vue/no-v-html -->
@@ -28,8 +27,15 @@
 </template>
 
 <script>
+import {
+  mapState,
+} from 'vuex';
+
 export default {
   props: {},
+  computed: {
+    ...mapState('config', ['appConfig']),
+  },
 };
 </script>
 
