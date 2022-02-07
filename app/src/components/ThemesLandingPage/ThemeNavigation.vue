@@ -5,13 +5,13 @@
         Topics  v
       </v-btn>
       <v-row no-gutters class="button-row" style="z-index: 1000;" :class="{active: isExtended}">
-        <template v-for="(theme, i) in themes">
+        <template v-for="theme in themes">
           <v-col :key="theme.slug" class="px-1" cols="12" xs="12" sm="12" md="6" lg="2">
             <v-btn
               elevation="1"
-              class="mb-2 mb-lg-0"
+              class="mb-2 mb-lg-0 white--text"
               :color="theme.color"
-              style="min-width: 100%; max-width: 100%; color: rgba(0, 0, 0, 0.9);"
+              style="min-width: 100%; max-width: 100%;"
               large
               @click="$router.push('/themes/' + theme.slug)"
             >{{ theme.name }}</v-btn>
@@ -21,13 +21,13 @@
     </div>
     <div class="normal-menu d-none d-md-flex">
       <v-row no-gutters class="button-row-2">
-        <template v-for="(theme, i) in themes">
+        <template v-for="theme in themes">
           <v-col :key="theme.slug" class="px-1" cols="12" xs="12" sm="12" md="6" lg="2">
             <v-btn
               elevation="1"
-              class="mb-2 mb-lg-0"
+              class="mb-2 mb-lg-0 white--text"
               :color="theme.color"
-              style="min-width: 100%; max-width: 100%; color: rgba(0, 0, 0, 0.9);"
+              style="min-width: 100%; max-width: 100%;"
               large
               @click="$router.push('/themes/' + theme.slug)"
             >{{ theme.name }}</v-btn>
@@ -39,20 +39,20 @@
 </template>
 
 <script>
-  import {
+import {
   mapState,
 } from 'vuex';
 
 export default {
   props: {},
-  data () {
+  data() {
     return {
       isExtended: false,
-    }
+    };
   },
   computed: {
     ...mapState({ themes: state => state.themes.themes }),
-  }
+  },
 };
 </script>
 

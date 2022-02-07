@@ -16,8 +16,8 @@
       </p>
       <v-btn
         elevation="2"
-        color="white"
-        class="black--text"
+        color="secondary"
+        class="white--text"
         x-large
       >Start Exploring</v-btn>
     </div>

@@ -24,7 +24,7 @@
           >
 
             <v-btn 
-              class="theme-tag black--text" 
+              class="theme-tag white--text" 
               style="z-index: 90;" 
               :color="findTheme(story.theme).color"
               small>
