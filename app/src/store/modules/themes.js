@@ -1,5 +1,6 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 const state = {
+  currentTheme: '',
   themes: [
     {
       name: 'Atmospheric Composition',
