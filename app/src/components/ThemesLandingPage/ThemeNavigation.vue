@@ -1,5 +1,5 @@
 <template>
-  <v-container class="lighten-5" fluid>
+  <v-container class="lighten-5 pa-0" fluid>
     <div class="mobile-menu d-flex d-md-none">
       <v-expansion-panels accordion>
         <v-expansion-panel>
@@ -11,11 +11,11 @@
               <template v-for="theme in themes">
                 <v-col :key="theme.slug" class="px-1" cols="12" xs="12" sm="12" md="6" lg="2">
                   <v-btn
-                    elevation="1"
-                    class="mb-2 mb-lg-0 white--text"
+                    class="elevation-0 py-2 white--text"
                     :color="theme.color"
                     style="min-width: 100%; max-width: 100%;"
                     large
+                    tile
                     @click="$router.push({name: 'topic', params: {slug: theme.slug}})"
                   >{{ theme.name }}</v-btn>
                 </v-col>
@@ -27,16 +27,16 @@
     </div>
 
     <div class="normal-menu d-none d-md-flex">
-      <v-row no-gutters class="button-row-2">
+      <v-row no-gutters class="button-row-2 pa-0">
         <template v-for="theme in themes">
-          <v-col :key="theme.slug" class="px-1" cols="12" xs="12" sm="12" md="6" lg="2">
+          <v-col no-gutters :key="theme.slug" class="" cols="12" xs="12" sm="12" md="6" lg="2">
             <v-btn
-              elevation="1"
-              class="mb-2 mb-lg-0 white--text"
+              class="elevation-0 py-2 white--text"
               :color="theme.color"
               style="min-width: 100%; max-width: 100%;"
               large
-              @click="$router.push({name: 'topic', params: {slug: theme.slug}})"
+              tile
+              @click="$router.push({name: theme.slug})"
             >{{ theme.name }}</v-btn>
           </v-col>
         </template>
@@ -63,10 +63,14 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .extender {
   width: 100vw;
   height: 30px;
   background: #777;
+}
+
+.mobile-menu ::v-deep .v-expansion-panel-content__wrap {
+  padding: 0 !important;
 }
 </style>
