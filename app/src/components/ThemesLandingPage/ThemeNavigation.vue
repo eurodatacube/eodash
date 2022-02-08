@@ -16,7 +16,7 @@
                     style="min-width: 100%; max-width: 100%;"
                     large
                     tile
-                    @click="$router.push({name: 'topic', params: {slug: theme.slug}})"
+                    @click="$router.push({name: theme.slug})"
                   >{{ theme.name }}</v-btn>
                 </v-col>
               </template>
