@@ -9,7 +9,7 @@
           <v-expansion-panel-content>
             <v-row no-gutters class="button-row" style="z-index: 1000;">
               <template v-for="theme in themes">
-                <v-col :key="theme.slug" class="px-1" cols="12" xs="12" sm="12" md="6" lg="2">
+                <v-col :key="theme.slug" cols="12" xs="12" sm="12" md="6" lg="2">
                   <v-btn
                     class="elevation-0 py-2 white--text"
                     :color="theme.color"
