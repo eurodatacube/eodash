@@ -51,7 +51,7 @@ export default {
   },
 
   created () {
-    let result = this.themes.find(theme => theme.slug === this.$route.params.slug);
+    let result = this.themes.find(theme => ('/' + theme.slug) === this.$route.path);
 
     if (result) {
       this.topic = result;
