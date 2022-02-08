@@ -187,7 +187,6 @@ const renderVue = async () => {
 
   const routes = [
     { path: '/themes', component: ThemesLandingPage },
-    { path: '/topics/:slug', name: 'topic', component: Topic },
     { path: '/', component: Dashboard },
     { path: '/dashboard/:viewingId?', component: DashboardCustom },
     ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
@@ -197,6 +196,12 @@ const renderVue = async () => {
     { path: '/terms_and_conditions', component: Terms },
     { path: '/challenges', component: Challenges },
     { path: '/iframe', component: EmbedIframe },
+    { path: '/ocean', name: 'ocean', component: Topic },
+    { path: '/biomass', name: 'biomass', component: Topic },
+    { path: '/atmospheric-composition', name: 'atmospheric-composition', component: Topic },
+    { path: '/water-quality', name: 'water-quality', component: Topic },
+    { path: '/agriculture', name: 'agriculture', component: Topic },
+    { path: '/cryosphere', name: 'cryosphere', component: Topic },
     { path: '*', component: PageNotFound },
   ];
   const router = new VueRouter({ mode: 'history', base: process.env.BASE_URL, routes });
