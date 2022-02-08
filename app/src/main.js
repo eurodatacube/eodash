@@ -62,7 +62,7 @@ Vue.use(VueRouter);
 
 const routes = [
   { path: '/', component: ThemesLandingPage },
-  { path: '/topics/:slug', component: Topic },
+  { path: '/topics/:slug', name: 'topic', component: Topic },
   { path: '/dashboard', component: Dashboard },
   { path: '/dashboard/:viewingId/edit/:editingId?', component: DashboardCustom },
   { path: '/dashboard/:viewingId?', component: DashboardCustom },
