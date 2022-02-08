@@ -1,14 +1,5 @@
 <template>
   <div class="dashboard fill-height">
-    <transition
-      v-if="appConfig && appConfig.enableStories"
-      name="fade"
-    >
-      <Stories
-        v-if="showStoriesOverlay"
-        @dismiss="showStoriesOverlay = false"
-      />
-    </transition>
     <v-app-bar
       app
       clipped-left
@@ -45,15 +36,6 @@
 
         <v-btn
           v-if="appConfig && appConfig.enableStories"
-          text
-          dark
-          small
-          @click="showStoriesOverlay = true"
-        >
-          Stories
-        </v-btn>
-
-        <v-btn
           text
           dark
           small
@@ -152,9 +134,9 @@
           block
           text
           color="primary"
-          @click="showStoriesOverlay = true"
+          @click="$router.push('/themes')"
         >
-          Stories
+          Themes
         </v-btn>
         <v-badge
           bordered
@@ -311,7 +293,6 @@
 <script>
 import Welcome from '@/views/Welcome.vue';
 import About from '@/views/About.vue';
-import Stories from '@/views/Stories.vue';
 import Banner from '@/components/Banner.vue';
 import SelectionPanel from '@/components/SelectionPanel.vue';
 import CenterPanel from '@/components/CenterPanel.vue';
@@ -334,7 +315,6 @@ export default {
   components: {
     Welcome,
     About,
-    Stories,
     Banner,
     SelectionPanel,
     CenterPanel,
@@ -353,7 +333,6 @@ export default {
     dataPanelFullWidth: false,
     dataPanelTemporary: false,
     panelKey: 0,
-    showStoriesOverlay: true,
   }),
   computed: {
     appConfig() {
