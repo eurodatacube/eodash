@@ -16,7 +16,7 @@
                     :color="theme.color"
                     style="min-width: 100%; max-width: 100%;"
                     large
-                    @click="$router.push('/themes/' + theme.slug)"
+                    @click="$router.push({name: 'topic', params: {slug: theme.slug}})"
                   >{{ theme.name }}</v-btn>
                 </v-col>
               </template>
@@ -36,7 +36,7 @@
               :color="theme.color"
               style="min-width: 100%; max-width: 100%;"
               large
-              @click="$router.push('/topics/' + theme.slug)"
+              @click="$router.push({name: 'topic', params: {slug: theme.slug}})"
             >{{ theme.name }}</v-btn>
           </v-col>
         </template>
