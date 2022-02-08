@@ -1,0 +1,38 @@
+name: Lint and Test
+
+on:
+  pull_request:
+    branches:
+      - "**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-18.04
+
+    steps:
+
+    # Checkout code including submodule
+    - uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.REPOSITORY_READ_TOKEN }}
+        submodules: true
+
+    # Install node
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+
+    # Install dependencies
+    - name: Install dependencies
+      run: |
+        cd app/
+        npm install --prefer-offline --no-audit
+
+    # Run linter
+    - name: Run linter
+      run: |
+        cd app/    
+        npm run lint
+
+    # TODO: Run tests...

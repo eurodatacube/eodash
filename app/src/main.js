@@ -19,6 +19,8 @@ import PageNotFound from './views/PageNotFound.vue';
 import Challenges from './views/Challenges.vue';
 import Terms from './views/Terms.vue';
 import EmbedIframe from './views/EmbedIframe.vue';
+import ThemesLandingPage from './views/ThemesLandingPage.vue';
+import Topic from './views/Topic.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 import customDashboardApiFactory from './custom-dashboard';
@@ -184,6 +186,8 @@ const renderVue = async () => {
   );
 
   const routes = [
+    { path: '/themes', component: ThemesLandingPage },
+    { path: '/topics/:slug', name: 'topic', component: Topic },
     { path: '/', component: Dashboard },
     { path: '/dashboard/:viewingId?', component: DashboardCustom },
     ...(store.state.config.appConfig && store.state.config.appConfig.enableStories

@@ -361,5 +361,16 @@
         "reference_time": "2019-08-22T11:06:56",
         "reference_value": "15",
         "time": "2021-12-30T11:26:22"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "PLES",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "High",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "24",
+        "reference_time": "2019-08-22T11:06:56",
+        "reference_value": "15",
+        "time": "2022-01-19T11:26:20"
     }
 ]

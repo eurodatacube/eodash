@@ -880,10 +880,8 @@ export default {
             width: 4,
           },
         );
-        this.newTextFeatureDialog = false;
-        this.newTextFeatureTitle = '';
-        this.newTextFeatureText = '';
-        this.textFeatureUpdate = '';
+
+        this.resetTextFeature();
       }
     },
     updateTextFeature() {
@@ -896,10 +894,15 @@ export default {
           },
         );
       }
+
+      this.resetTextFeature();
+    },
+    resetTextFeature() {
       this.newTextFeatureDialog = false;
       this.newTextFeatureTitle = '';
       this.newTextFeatureText = '';
       this.textFeatureUpdate = '';
+      this.$refs.textForm.resetValidation();
     },
     openTextFeatureUpdate(el) {
       this.newTextFeatureText = el.text;
@@ -931,6 +934,7 @@ export default {
       this.editingTitle = true;
       this.$refs.titleInput.focus();
     },
+<<<<<<< HEAD
     scrollToStart() {
       this.pageScroll({
         target: this.$refs.customDashboardGrid,

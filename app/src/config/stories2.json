@@ -1,0 +1,131 @@
+[
+  {
+    "originalDashboardId": "d069a45701e3a0e3",
+    "slug": "official-story-demo",
+    "title": "Danube Delta, Romania (demo of official story)",
+    "subtitle": "Created by EOX to test the story feature",
+    "image": "./data/story-images/Danube_Delta.jpg",
+    "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg",
+    "theme": "ocean"
+  },
+
+  {
+    "originalDashboardId": "c4df3549d0a02fed",
+    "slug": "another-official-story-demo",
+    "title": "Sentinel-5P",
+    "subtitle": "Created by EOX to test the story feature",
+    "image": "./data/story-images/sentinel-5P.jpg",
+    "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg",
+    "theme": "ocean"
+  },
+
+  {
+    "originalDashboardId": "d069a45701e3a0e3",
+    "slug": "a-third-official-story-demo",
+    "title": "Beaches (demo)",
+    "subtitle": "Subtitle goes here",
+    "image": "https://picsum.photos/1000/800?image=12",
+    "imagePlaceholder": " /10/6?image=12",
+    "theme": "ocean"
+  },
+
+  {
+    "originalDashboardId": "d069a45701e3a0e3",
+    "slug": "a-fourth-official-story-demo",
+    "title": "Oceans (another demo)",
+    "subtitle": "Another Subtitle",
+    "image": "https://picsum.photos/1000/800?image=13",
+    "imagePlaceholder": "https://picsum.photos/10/6?image=13",
+    "theme": "ocean"
+  },
+
+  {
+    "originalDashboardId": "d069a45701e3a0e3",
+    "slug": "a-fifth-official-story-demo",
+    "title": "Cancun, Mexiko (another demo of official story)",
+    "subtitle": "Another Subtitle",
+    "image": "https://picsum.photos/1000/800?image=14",
+    "imagePlaceholder": "https://picsum.photos/10/6?image=14",
+    "theme": "ocean"
+  },
+
+  {
+    "originalDashboardId": "d069a45701e3a0e3",
+    "slug": "a-sixth-official-story-demo",
+    "title": "Random image",
+    "subtitle": "A very long subtitle to get an impression of how a very long subtitle might end up looking like",
+    "image": "https://picsum.photos/1000/800?image=15",
+    "imagePlaceholder": "https://picsum.photos/10/6?image=15",
+    "theme": "ocean"
+  },
+
+  {
+    "originalDashboardId": "d069a45701e3a0e3",
+    "slug": "a-seventh-official-story-demo",
+    "title": "Another random image",
+    "subtitle": "A short subtitle",
+    "image": "https://picsum.photos/1000/800?image=16",
+    "imagePlaceholder": "https://picsum.photos/10/6?image=16",
+    "theme": "ocean"
+  },
+
+  {
+    "originalDashboardId": "d069a45701e3a0e3",
+    "slug": "an-eigth-official-story-demo",
+    "title": "Another random image",
+    "subtitle": "A short subtitle",
+    "image": "https://picsum.photos/1000/800?image=16",
+    "imagePlaceholder": "https://picsum.photos/10/6?image=16",
+    "theme": "ocean"
+  },
+
+  {
+    "originalDashboardId": "d069a45701e3a0e3",
+    "slug": "a-ninth-official-story-demo",
+    "title": "Another random image",
+    "subtitle": "A short subtitle",
+    "image": "https://picsum.photos/1000/800?image=17",
+    "imagePlaceholder": "https://picsum.photos/10/6?image=17",
+    "theme": "ocean"
+  },
+
+  {
+    "originalDashboardId": "d069a45701e3a0e3",
+    "slug": "land-1",
+    "title": "Rice fields (story demo)",
+    "subtitle": "Created by EOX to test the story feature",
+    "image": "https://picsum.photos/1000/800?image=18",
+    "imagePlaceholder": "https://picsum.photos/10/6?image=18",
+    "theme": "biomass-landcover"
+  },
+
+  {
+    "originalDashboardId": "d069a45701e3a0e3",
+    "slug": "land-2",
+    "title": "Agricultural fields",
+    "subtitle": "Created by EOX to test the story feature",
+    "image": "https://picsum.photos/1000/800?image=19",
+    "imagePlaceholder": "https://picsum.photos/10/6?image=19",
+    "theme": "biomass-landcover"
+  },
+
+  {
+    "originalDashboardId": "d069a45701e3a0e3",
+    "slug": "land-3",
+    "title": "Dry soil",
+    "subtitle": "Subtitle goes here",
+    "image": "https://picsum.photos/1000/800?image=27",
+    "imagePlaceholder": "https://picsum.photos/10/6?image=27",
+    "theme": "biomass-landcover"
+  },
+
+  {
+    "originalDashboardId": "d069a45701e3a0e3",
+    "slug": "land-4",
+    "title": "Plants",
+    "subtitle": "Another Subtitle",
+    "image": "https://picsum.photos/1000/800?image=25",
+    "imagePlaceholder": "https://picsum.photos/10/6?image=25",
+    "theme": "biomass-landcover"
+  }
+]
