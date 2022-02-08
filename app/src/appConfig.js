@@ -160,7 +160,7 @@ module.exports = [
       appName: 'Earth Observing Dashboard',
       primaryColor: '#333333',
       secondaryColor: '#004170',
-      headerLogo: './data/trilateral/Trilateral_Logo.svg',
+      headerLogo: '/data/trilateral/Trilateral_Logo.svg',
       faviconPath: './public/img/trilateral/favicon.ico',
     },
     pageMeta: {
