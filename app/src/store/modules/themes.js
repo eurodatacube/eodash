@@ -9,18 +9,6 @@ const state = {
     },
 
     {
-      name: 'Water Quality',
-      slug: 'water-quality',
-      color: '#006f69',
-    },
-
-    {
-      name: 'Ocean',
-      slug: 'ocean',
-      color: '#0064b3',
-    },
-
-    {
       name: 'Agriculture',
       slug: 'agriculture',
       color: '#766100',
@@ -30,6 +18,18 @@ const state = {
       name: 'Biomass and Landcover',
       slug: 'biomass',
       color: '#1d7300',
+    },
+
+    {
+      name: 'Water Quality',
+      slug: 'water-quality',
+      color: '#006f69',
+    },
+
+    {
+      name: 'Ocean',
+      slug: 'ocean',
+      color: '#0064b3',
     },
 
     {
