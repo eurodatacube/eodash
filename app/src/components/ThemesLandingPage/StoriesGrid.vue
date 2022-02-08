@@ -30,6 +30,7 @@
               class="theme-tag white--text" 
               style="z-index: 90;" 
               :color="findTheme(story.theme).color"
+              @click="$router.push({name: findTheme(story.theme).slug})"
               small>
 
               {{ findTheme(story.theme).name }}
