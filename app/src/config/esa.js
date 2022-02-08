@@ -320,6 +320,29 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: '/eodash-data/stories/E13n',
   },
+  E13o: {
+    indicator: 'Vessel density for all',
+    class: 'economic',
+    story: '/eodash-data/stories/E13o',
+  },
+  E13p: {
+    hideInFilters: true,
+    indicator: 'Vessel density for cargo',
+    class: 'economic',
+    story: '/eodash-data/stories/E13o',
+  },
+  E13q: {
+    hideInFilters: true,
+    indicator: 'Vessel density for tankers',
+    class: 'economic',
+    story: '/eodash-data/stories/E13o',
+  },
+  E13r: {
+    hideInFilters: true,
+    indicator: 'Vessel density for others',
+    class: 'economic',
+    story: '/eodash-data/stories/E13o',
+  },
   H1: {
     indicator: 'Number of temp. treatment sites',
     class: 'health',
@@ -611,6 +634,17 @@ const getDailyDates = (start, end) => {
   return dateArray;
 };
 
+const getMonthlyDates = (start, end) => {
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+    currentDate = DateTime.fromISO(currentDate).plus({ months: 1 });
+  }
+  return dateArray;
+};
+
 const getFortnightIntervalDates = (start, end) => {
   let currentDate = DateTime.fromISO(start);
   const stopDate = end === 'now' ? DateTime.utc().minus({ days: 13 }) : DateTime.fromISO(end).minus({ days: 13 });
@@ -821,6 +855,262 @@ export const globalIndicators = [
                   ...indicator,
                   ...newData,
                 };
+                return ind;
+              }
+              return null;
+            },
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Vessel density',
+        indicator: 'E13o',
+        lastIndicatorValue: null,
+        indicatorName: 'Vessel density',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        time: getMonthlyDates('2017-01-01', '2020-12-01'),
+        inputData: [''],
+        yAxis: 'Vessel density',
+        display: {
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          customAreaIndicator: true,
+          name: 'Vessel density',
+          layers: 'VIS_VESSELDENSITY_ALL',
+          minZoom: 1,
+          // legendUrl: 'eodash-data/data/no2Legend.png',
+          dateFormatFunction: (date) => date,
+          areaIndicator: {
+            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=RAW_VESSELDENSITY_ALL&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            callbackFunction: (responseJson, indicator) => {
+              if (Array.isArray(responseJson.C0)) {
+                const data = responseJson.C0;
+                const newData = {
+                  time: [],
+                  measurement: [],
+                  referenceValue: [],
+                  colorCode: [],
+                };
+                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
+                  ? 1
+                  : -1));
+                data.forEach((row) => {
+                  newData.time.push(DateTime.fromISO(row.date));
+                  newData.colorCode.push('');
+                  newData.measurement.push(row.basicStats.mean);
+                  newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
+                });
+                const ind = {
+                  ...indicator,
+                  ...newData,
+                };
+                console.log(ind);
+                return ind;
+              }
+              return null;
+            },
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Vessel density for cargo',
+        indicator: 'E13p',
+        lastIndicatorValue: null,
+        indicatorName: 'Vessel density for cargo',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        time: getMonthlyDates('2017-01-01', '2020-12-01'),
+        inputData: [''],
+        yAxis: 'Vessel density for cargo',
+        display: {
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          customAreaIndicator: true,
+          name: 'Vessel density for cargo',
+          layers: 'VIS_VESSELDENSITY_CARGO',
+          minZoom: 1,
+          // legendUrl: 'eodash-data/data/no2Legend.png',
+          dateFormatFunction: (date) => date,
+          areaIndicator: {
+            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=RAW_VESSELDENSITY_CARGO&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            callbackFunction: (responseJson, indicator) => {
+              if (Array.isArray(responseJson.C0)) {
+                const data = responseJson.C0;
+                const newData = {
+                  time: [],
+                  measurement: [],
+                  referenceValue: [],
+                  colorCode: [],
+                };
+                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
+                  ? 1
+                  : -1));
+                data.forEach((row) => {
+                  newData.time.push(DateTime.fromISO(row.date));
+                  newData.colorCode.push('');
+                  newData.measurement.push(row.basicStats.mean);
+                  newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
+                });
+                const ind = {
+                  ...indicator,
+                  ...newData,
+                };
+                console.log(ind);
+                return ind;
+              }
+              return null;
+            },
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Vessel density for tankers',
+        indicator: 'E13q',
+        lastIndicatorValue: null,
+        indicatorName: 'Vessel density for tankers',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        time: getMonthlyDates('2017-01-01', '2020-12-01'),
+        inputData: [''],
+        yAxis: 'Vessel density for tankers',
+        display: {
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          customAreaIndicator: true,
+          name: 'Vessel density for tankers',
+          layers: 'VIS_VESSELDENSITY_TANKER',
+          minZoom: 1,
+          // legendUrl: 'eodash-data/data/no2Legend.png',
+          dateFormatFunction: (date) => date,
+          areaIndicator: {
+            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=RAW_VESSELDENSITY_TANKER&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            callbackFunction: (responseJson, indicator) => {
+              if (Array.isArray(responseJson.C0)) {
+                const data = responseJson.C0;
+                const newData = {
+                  time: [],
+                  measurement: [],
+                  referenceValue: [],
+                  colorCode: [],
+                };
+                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
+                  ? 1
+                  : -1));
+                data.forEach((row) => {
+                  newData.time.push(DateTime.fromISO(row.date));
+                  newData.colorCode.push('');
+                  newData.measurement.push(row.basicStats.mean);
+                  newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
+                });
+                const ind = {
+                  ...indicator,
+                  ...newData,
+                };
+                console.log(ind);
+                return ind;
+              }
+              return null;
+            },
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Vessel density for others',
+        indicator: 'E13r',
+        lastIndicatorValue: null,
+        indicatorName: 'Vessel density for others',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        time: getMonthlyDates('2017-01-01', '2020-12-01'),
+        inputData: [''],
+        yAxis: 'Vessel density for others',
+        display: {
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          customAreaIndicator: true,
+          name: 'Vessel density for others',
+          layers: 'VIS_VESSELDENSITY_OTHER',
+          minZoom: 1,
+          // legendUrl: 'eodash-data/data/no2Legend.png',
+          dateFormatFunction: (date) => date,
+          areaIndicator: {
+            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=RAW_VESSELDENSITY_OTHER&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            callbackFunction: (responseJson, indicator) => {
+              if (Array.isArray(responseJson.C0)) {
+                const data = responseJson.C0;
+                const newData = {
+                  time: [],
+                  measurement: [],
+                  referenceValue: [],
+                  colorCode: [],
+                };
+                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
+                  ? 1
+                  : -1));
+                data.forEach((row) => {
+                  newData.time.push(DateTime.fromISO(row.date));
+                  newData.colorCode.push('');
+                  newData.measurement.push(row.basicStats.mean);
+                  newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
+                });
+                const ind = {
+                  ...indicator,
+                  ...newData,
+                };
+                console.log(ind);
                 return ind;
               }
               return null;

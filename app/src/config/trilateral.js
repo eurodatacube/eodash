@@ -1521,7 +1521,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2021-12-22').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2022-01-19').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -2037,7 +2037,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2021-12-22').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2022-01-19').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
         inputData: [''],
         display: {
           protocol: 'xyz',

@@ -373,6 +373,7 @@
               outlined
               dense
               :autofocus="!disableAutoFocus"
+              attach
               hide-details
               :prepend-inner-icon="(arrayOfObjects && compareLayerTime) && (arrayOfObjects
                 .map((i) => i.value)
@@ -401,6 +402,7 @@
               outlined
               dense
               :autofocus="!disableAutoFocus"
+              attach
               hide-details
               :prepend-inner-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
                 .map((i) => i.value)
@@ -1846,5 +1848,9 @@ export default {
 
 ::v-deep .leaflet-top.leaflet-right {
   margin-top: 45px;
+}
+
+::v-deep .v-menu__content {
+  transform: translate(1%, -87%);
 }
 </style>

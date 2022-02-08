@@ -64,6 +64,15 @@ module.exports = [
     featureGrouping: [
       {
         features: [
+          'World-E13o',
+          'World-E13p',
+          'World-E13q',
+          'World-E13r',
+        ],
+        label: ['All', 'Cargo', 'Tanker', 'Others'],
+      },
+      {
+        features: [
           'IT16-C1',
           'IT16-C2',
           'IT16-C3',
