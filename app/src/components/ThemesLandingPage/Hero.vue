@@ -11,17 +11,11 @@
       <h5 class="text-h5 mb-5 white--text">
         <img :src="appConfig && appConfig.branding.headerLogo" height="40" style="pointer-events: none;" />
       </h5>
-      <p class="mb-10 white--text">
+      <p class="white--text pa-0" style="font-size: 18px;">
         <!-- eslint-disable vue/no-v-html -->
         International collaboration among space agencies is central to the success of satellite Earth observations and data analysis. These partnerships foster more comprehensive measurements, robust datasets, and cost-effective missions.
         <!-- eslint-enable -->
       </p>
-      <v-btn
-        elevation="2"
-        color="secondary"
-        class="white--text"
-        x-large
-      >Start Exploring</v-btn>
     </div>
   </div>
 </template>
