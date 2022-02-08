@@ -934,7 +934,6 @@ export default {
       this.editingTitle = true;
       this.$refs.titleInput.focus();
     },
-<<<<<<< HEAD
     scrollToStart() {
       this.pageScroll({
         target: this.$refs.customDashboardGrid,
