@@ -23,6 +23,7 @@
             flat
             tile
             style="position: relative;"
+            v-if="findTheme(story.theme)"
           >
 
             <v-btn 
@@ -118,9 +119,6 @@ export default {
         .sort((a, b) => a[0].length - b[0].length)
         .splice(0, 5);
     },
-  },
-  created() {
-    this.themes = Object.keys(storiesConfig[this.appConfig.id]);
   },
   methods: {
     dismiss() {
