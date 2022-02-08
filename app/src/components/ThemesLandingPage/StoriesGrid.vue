@@ -1,6 +1,6 @@
 <template>
   <v-container
-    class="pa-0 ma-0"
+    class="pa-12 ma-0"
     style="max-width: 1300px;"
   >
     <h2 class="text-h2 mb-10">Stories</h2>
