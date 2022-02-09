@@ -12,6 +12,7 @@
         flat
         :color="topic.color"
         class="white--text"
+        style="z-index: 10;"
       >
         <router-link to="/" class="white--text" style="text-decoration: none">
         <v-toolbar-title
@@ -35,10 +36,52 @@
           class="topic-header d-flex justify-center align-center"
           :style="{background: topic.color}"
         >
-          <div class="backdrop">
-          </div>
-          <h2 class="text-h2 white--text">{{ topic.name }}</h2>
+          <h2 class="text-h2 mt-8 white--text">{{ topic.name }}</h2>
         </div>
+
+        <theme-navigation style="position: sticky; top: 64px; z-index: 10;" />
+
+        <v-container
+          class="ma-0 pb-16 d-flex flex-column"
+          style="max-width: 1400px;"
+        >
+          <stories-grid class="pt-16 pb-16" />
+          <v-row no-gutters class="d-flex flex-row px-3 px-md-8 pt-16 pb-8">
+            <template>
+              <v-col cols="12" xs="12" sm="12" md="6" lg="6" class="d-flex flex-column justify-center">
+                <div class="info-section d-flex flex-column justify-center
+                pb-8 pb-md-0 pr-xs-0 pr-sm-0 pr-md-8 pr-lg-8 pr-xl-8">
+                  <h3 class="text-h3 mb-10">Explore {{ topic.name }} Datasets</h3>
+
+                  <p class="mb-10" style="font-size: 18px;">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+                    eu fugiat nulla pariatur.
+                  </p>
+
+                  <v-btn
+                    elevation="1"
+                    class="py-2 white--text"
+                    block
+                    max-height="44"
+                    :color="topic.color"
+                    large
+                  >Explore</v-btn>
+                </div>
+              </v-col>
+
+              <v-col cols="12" xs="12" sm="12" md="6" lg="6" class="info-section d-flex flex-column justify-center">
+                <img
+                  src="@/assets/datasets.jpg" 
+                  width="100%" 
+                  class="pl-xs-0 pl-sm-0 pl-md-8 pl-lg-8 pl-xl-8"
+                />
+              </v-col>
+            </template>
+          </v-row>
+        </v-container>
       </v-row>
       <global-footer :color="topic.color" />
     </div>
@@ -51,6 +94,8 @@ import {
 } from 'vuex';
 
 import GlobalFooter from '@/components/GlobalFooter.vue';
+import StoriesGrid from '@/components/ThemesLandingPage/StoriesGrid.vue';
+import ThemeNavigation from '@/components/ThemesLandingPage/ThemeNavigation.vue';
 
 export default {
   data() {
@@ -61,6 +106,8 @@ export default {
 
   components: {
     GlobalFooter,
+    StoriesGrid,
+    ThemeNavigation,
   },
 
   created() {
@@ -94,7 +141,7 @@ export default {
 }
 .topic-header {
   width: 100vw;
-  height: 30vh;
+  height: 24vh;
   position: relative;
 }
 
