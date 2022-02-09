@@ -27,9 +27,9 @@
             v-if="findTheme(story.theme)"
           >
 
-            <v-btn 
-              class="theme-tag white--text" 
-              style="z-index: 5;" 
+            <v-btn
+              class="theme-tag white--text"
+              style="z-index: 5;"
               :color="findTheme(story.theme).color"
               @click="$router.push({name: findTheme(story.theme).slug})"
               small>
@@ -97,11 +97,10 @@ export default {
     topic: {
       type: String,
       default: '',
-    }
+    },
   },
   data: () => ({
     carouselModel: 0,
-    //themes: null,
     tab: null,
   }),
   components: {
@@ -143,7 +142,7 @@ export default {
       this.$router.push(`/story?id=${story[0]}`);
     },
     findTheme(slug) {
-      return this.themes.find(theme => theme.slug === slug)
+      return this.themes.find((theme) => theme.slug === slug);
     },
   },
 };

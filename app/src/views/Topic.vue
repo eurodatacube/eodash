@@ -48,7 +48,9 @@
           <stories-grid :topic="$route.path.substring(1)" class="pt-16 pb-16" />
           <v-row no-gutters class="d-flex flex-row px-3 px-md-8 pt-16 pb-8">
             <template>
-              <v-col cols="12" xs="12" sm="12" md="6" lg="6" class="d-flex flex-column justify-center">
+              <v-col cols="12" xs="12" sm="12" md="6" lg="6"
+                class="d-flex flex-column justify-center"
+              >
                 <div class="info-section d-flex flex-column justify-center
                 pb-8 pb-md-0 pr-xs-0 pr-sm-0 pr-md-8 pr-lg-8 pr-xl-8">
                   <h3 class="text-h3 mb-10">Explore {{ topic.name }} Datasets</h3>
@@ -72,10 +74,12 @@
                 </div>
               </v-col>
 
-              <v-col cols="12" xs="12" sm="12" md="6" lg="6" class="info-section d-flex flex-column justify-center">
+              <v-col cols="12" xs="12" sm="12" md="6" lg="6"
+                class="info-section d-flex flex-column justify-center"
+              >
                 <img
-                  src="@/assets/datasets.jpg" 
-                  width="100%" 
+                  src="@/assets/datasets.jpg"
+                  width="100%"
                   class="pl-xs-0 pl-sm-0 pl-md-8 pl-lg-8 pl-xl-8"
                 />
               </v-col>
