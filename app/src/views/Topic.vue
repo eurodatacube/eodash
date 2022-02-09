@@ -45,7 +45,7 @@
           class="ma-0 pb-16 d-flex flex-column"
           style="max-width: 1400px;"
         >
-          <stories-grid :topic="$route.path.substring(1)" class="pt-16 pb-16" />
+          <stories-grid :topic="$route.name" class="pt-16 pb-16" />
           <v-row no-gutters class="d-flex flex-row px-3 px-md-8 pt-16 pb-8">
             <template>
               <v-col cols="12" xs="12" sm="12" md="6" lg="6"
@@ -115,7 +115,7 @@ export default {
   },
 
   created() {
-    const result = this.themes.find((theme) => (`/${theme.slug}`) === this.$route.path);
+    const result = this.themes.find((theme) => theme.slug === this.$route.name);
 
     if (result) {
       this.topic = result;
