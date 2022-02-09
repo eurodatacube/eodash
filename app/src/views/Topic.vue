@@ -45,7 +45,7 @@
           class="ma-0 pb-16 d-flex flex-column"
           style="max-width: 1400px;"
         >
-          <stories-grid class="pt-16 pb-16" />
+          <stories-grid :topic="$route.path.substring(1)" class="pt-16 pb-16" />
           <v-row no-gutters class="d-flex flex-row px-3 px-md-8 pt-16 pb-8">
             <template>
               <v-col cols="12" xs="12" sm="12" md="6" lg="6" class="d-flex flex-column justify-center">
