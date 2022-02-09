@@ -1,6 +1,9 @@
+import stories from '../../config/stories2.json';
+
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 const state = {
   currentTheme: '',
+  stories,
   themes: [
     {
       name: 'Atmospheric Composition',
@@ -42,7 +45,8 @@ const state = {
 
 const getters = {
   getThemes: (state)           => state.themes,
-  getTheme:  (state) => (slug) => state.themes.find(theme => theme.slug === slug),
+  getTheme: (state) => (slug) => state.themes.find(theme => theme.slug === slug),
+  getStories: (state)           => state.stories,
 };
 
 const mutations = {

@@ -2,19 +2,24 @@
   <div class="hero">
     <div class="overlay d-flex flex-row">
       <!--<div class="hero-section d-flex flex-column justify-center align-center image">
-        
+
       </div>-->
     </div>
     <div class="hero-section d-flex flex-column justify-center align-center">
       <h2 class="text-h2 mb-5 white--text">You and Earth Observation</h2>
       <!--<h5 class="text-h5 mb-10 white--text">A Tri-Agency Dashboard by NASA, ESA, JAXA</h5>-->
       <h5 class="text-h5 mb-5 white--text">
-        <img :src="appConfig && appConfig.branding.headerLogo" height="40" style="pointer-events: none;" />
+        <img
+          :src="appConfig && appConfig.branding.headerLogo"
+          height="40"
+          style="pointer-events: none;"
+        />
       </h5>
       <p class="white--text pa-0" style="font-size: 18px;">
-        <!-- eslint-disable vue/no-v-html -->
-        International collaboration among space agencies is central to the success of satellite Earth observations and data analysis. These partnerships foster more comprehensive measurements, robust datasets, and cost-effective missions.
-        <!-- eslint-enable -->
+        International collaboration among space agencies is central to
+        the success of satellite Earth observations and data analysis.
+        These partnerships foster more comprehensive measurements,
+        robust datasets, and cost-effective missions.
       </p>
     </div>
   </div>
@@ -63,7 +68,6 @@ export default {
       position: absolute;
       left: 0;
       top: 0;
-      
       width: 100%;
       height: 100%;
       background-size: cover;

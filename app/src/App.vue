@@ -20,7 +20,7 @@
       </countdown>
     </div>
     <template v-else>
-      <router-view />
+      <router-view :key="$route.path" />
       <cookie-law
         v-if="showCookieNotice" @accept="acceptCookies"
         :theme="$vuetify.theme.dark ? 'blood-orange' : 'base'"

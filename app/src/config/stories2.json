@@ -10,6 +10,26 @@
   },
 
   {
+    "originalDashboardId": "d069a45701e3a0e3",
+    "slug": "official-story-demo",
+    "title": "Foreign  Sea Creatures Found in the Pacific Ocean",
+    "subtitle": "Biologists are actively researching a newly discovered species",
+    "image": "https://picsum.photos/id/1002/800/600",
+    "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg",
+    "theme": "ocean"
+  },
+
+  {
+    "originalDashboardId": "d069a45701e3a0e3",
+    "slug": "official-story-demo",
+    "title": "Coral Reefs around Australia Getting Increasingly Smaller",
+    "subtitle": "Scientists suggest an alien lifeform may be to blame",
+    "image": "https://picsum.photos/id/124/3504/2336",
+    "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg",
+    "theme": "ocean"
+  },
+
+  {
     "originalDashboardId": "c4df3549d0a02fed",
     "slug": "another-official-story-demo",
     "title": "Sentinel-5P",
@@ -19,11 +39,22 @@
     "theme": "cryosphere"
   },
 
+
+  {
+    "originalDashboardId": "c4df3549d0a02fed",
+    "slug": "another-official-story-demo",
+    "title": "Penguins Cuddle Even More Than Previously Thought",
+    "subtitle": "Aerial photography finds the feathery creatures packed into balls",
+    "image": "./data/story-images/penguins.jpg",
+    "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg",
+    "theme": "cryosphere"
+  },
+
   {
     "originalDashboardId": "d069a45701e3a0e3",
     "slug": "a-third-official-story-demo",
     "title": "Increased Vegetation around the Chernobyl Plant",
-    "subtitle": "Subtitle goes here",
+    "subtitle": "Wildlife is flourishing in the abandoned area in spite of still highly radioactive soil",
     "image": "https://picsum.photos/1000/800?image=18",
     "imagePlaceholder": " /10/6?image=12",
     "theme": "biomass"
@@ -46,6 +77,26 @@
     "subtitle": "Another Subtitle",
     "image": "https://picsum.photos/id/1064/900/600",
     "imagePlaceholder": "https://picsum.photos/id/1064/900/600",
+    "theme": "atmospheric-composition"
+  },
+
+  {
+    "originalDashboardId": "d069a45701e3a0e3",
+    "slug": "official-story-demo",
+    "title": "Cities Experience Clearer Air During Lockdowns",
+    "subtitle": "See how the COVID-19 pandemic actually helped reduce air pollution in metropolitan areas.",
+    "image": "https://picsum.photos/id/141/900/600",
+    "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg",
+    "theme": "atmospheric-composition"
+  },
+
+  {
+    "originalDashboardId": "c4df3549d0a02fed",
+    "slug": "another-official-story-demo",
+    "title": "Recent Illegal Emissions of CFC-11 Destroy Our Ozone Layer",
+    "subtitle": "Rapid action is needed to prevent chlorofluorocarbons from eating away our ozone.",
+    "image": "https://picsum.photos/id/203/900/600",
+    "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg",
     "theme": "atmospheric-composition"
   }
 ]
