@@ -38,10 +38,10 @@
           class="ma-0 pt-16 pb-16 d-flex flex-row"
           style="max-width: 1400px;"
         >
-          <v-row no-gutters class="button-row px-3 px-md-8" style="z-index: 1000;">
+          <v-row no-gutters class="d-flex flex-row px-3 px-md-8">
             <template>
               <v-col cols="12" xs="12" sm="12" md="6" lg="6">
-                <div class="d-flex flex-column pb-8 pb-md-0 pr-xs-0 pr-sm-0 pr-md-8 pr-lg-8 pr-xl-8">
+                <div class="info-section d-flex flex-column justify-center pb-8 pb-md-0 pr-xs-0 pr-sm-0 pr-md-8 pr-lg-8 pr-xl-8">
                   <h3 class="text-h3 mb-10">Explore Datasets</h3>
 
                   <p class="mb-10" style="font-size: 18px;">
@@ -52,13 +52,14 @@
                     elevation="1"
                     class="py-2 white--text"
                     block
+                    max-height="44"
                     color="primary"
                     large
                   >Explore</v-btn>
                 </div>
               </v-col>
 
-              <v-col cols="12" xs="12" sm="12" md="6" lg="6">
+              <v-col cols="12" xs="12" sm="12" md="6" lg="6" class="info-section d-flex flex-column justify-center">
                 <img src="@/assets/datasets.jpg" width="100%" class="pl-xs-0 pl-sm-0 pl-md-8 pl-lg-8 pl-xl-8">
               </v-col>
             </template>
@@ -116,5 +117,9 @@ export default {
 
 .appbar {
   z-index: 30;
+}
+
+.info-section {
+  height: 40vh;
 }
 </style>
