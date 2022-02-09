@@ -18,14 +18,23 @@
           v-if="$vuetify.breakpoint.mdAndUp"
           class="text-uppercase mr-5"
         >
-          <span class="mr-3">{{ appConfig && appConfig.branding.appName }}</span>/<router-link class="ml-3 topic-button" :to="{name: topic.slug}">{{ topic.name }}</router-link>
+          <span class="mr-3">{{ appConfig && appConfig.branding.appName }}</span>
+
+          /
+
+          <router-link class="ml-3 topic-button" :to="{name: topic.slug}">
+            {{ topic.name }}
+          </router-link>
         </v-toolbar-title>
         </router-link>
         <v-spacer></v-spacer>
         <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
       </v-app-bar>
       <v-row class="topic-page" justify="center">
-        <div class="topic-header d-flex justify-center align-center" :style="{background: topic.color}">
+        <div
+          class="topic-header d-flex justify-center align-center"
+          :style="{background: topic.color}"
+        >
           <div class="backdrop">
           </div>
           <h2 class="text-h2 white--text">{{ topic.name }}</h2>
@@ -54,13 +63,13 @@ export default {
     GlobalFooter,
   },
 
-  created () {
-    let result = this.themes.find(theme => ('/' + theme.slug) === this.$route.path);
+  created() {
+    const result = this.themes.find((theme) => (`/${theme.slug}`) === this.$route.path);
 
     if (result) {
       this.topic = result;
     } else {
-      console.log('Cannot find slug "' + this.$route.params.slug + '"');
+      console.log(`Cannot find slug "${this.$route.params.slug}"`);
       this.$router.push('/404');
     }
   },
@@ -73,7 +82,7 @@ export default {
   },
   computed: {
     ...mapState('config', ['appConfig']),
-    ...mapState({ themes: state => state.themes.themes }),
+    ...mapState({ themes: (state) => state.themes.themes }),
   },
 };
 </script>
