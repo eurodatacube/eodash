@@ -1,6 +1,11 @@
 <template>
   <div
     class="fill-height scrollContainer"
+    :class="$vuetify.breakpoint.smAndAbove
+      ? ' pt-5'
+      : ''"
+    :style="`margin-top: ${$vuetify.application.top}px; overflow-x: hidden;
+      height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px);`"
   >
     <div
       class="px-3"
@@ -36,10 +41,10 @@
           class="topic-header d-flex justify-center align-center"
           :style="{background: topic.color}"
         >
-          <h2 class="text-h2 mt-8 white--text text-center">{{ topic.name }}</h2>
+          <h2 class="text-h2 white--text text-center">{{ topic.name }}</h2>
         </div>
 
-        <theme-navigation style="position: sticky; top: 64px; z-index: 10;" />
+        <theme-navigation style="position: sticky; top: 0; z-index: 10;" />
 
         <v-container
           class="ma-0 pb-16 d-flex flex-column"
