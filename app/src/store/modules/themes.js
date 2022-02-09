@@ -44,9 +44,9 @@ const state = {
 };
 
 const getters = {
-  getThemes: (state)           => state.themes,
-  getTheme: (state) => (slug) => state.themes.find(theme => theme.slug === slug),
-  getStories: (state)           => state.stories,
+  getThemes: (state) => state.themes,
+  getTheme: (state) => (slug) => state.themes.find((theme) => theme.slug === slug),
+  getStories: (state) => state.stories,
 };
 
 const mutations = {
