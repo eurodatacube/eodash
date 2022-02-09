@@ -118,9 +118,8 @@ export default {
     filteredStories() {
       if (this.topic) {
         return this.stories.filter((story) => story.theme === this.topic);
-      } else {
-        return this.stories;
       }
+      return this.stories;
     },
 
     carouselEntries() {
