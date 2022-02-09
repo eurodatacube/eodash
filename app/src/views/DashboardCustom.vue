@@ -60,7 +60,9 @@
           class="d-flex"
           id="headerRow"
           :style="`position: relative; ${storyModeEnabled
-            ? 'height: calc((var(--vh, 1vh) * 100) - 104px)' : ''}`"
+            ? `height: calc((var(--vh, 1vh) * 100) - ${$vuetify.breakpoint.xsOnly
+              ? '124' : '104'}px)`
+              : ''}`"
         >
           <v-img
             v-if="officialDashboard"
