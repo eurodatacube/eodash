@@ -3,7 +3,7 @@
     class="ma-0"
     style="max-width: 1300px;"
   >
-    <h2 class="text-h2 mb-10">Stories</h2>
+    <h3 class="text-h3 mb-10">Stories</h3>
 
     <v-row
       no-gutters
