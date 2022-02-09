@@ -36,9 +36,9 @@
 
         <v-container
           class="ma-0 pt-16 pb-16 d-flex flex-row"
-          style="max-width: 1300px;"
+          style="max-width: 1400px;"
         >
-          <v-row no-gutters class="button-row" style="z-index: 1000;">
+          <v-row no-gutters class="button-row px-3 px-md-8" style="z-index: 1000;">
             <template>
               <v-col cols="12" xs="12" sm="12" md="6" lg="6">
                 <div class="d-flex flex-column pb-8 pb-md-0 pr-xs-0 pr-sm-0 pr-md-8 pr-lg-8 pr-xl-8">

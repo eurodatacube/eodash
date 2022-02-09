@@ -1,7 +1,7 @@
 <template>
   <v-container
-    class="ma-0"
-    style="max-width: 1300px;"
+    class="ma-0  px-4 px-md-8"
+    style="max-width: 1400px;"
   >
     <h3 class="text-h3 mb-10">Stories</h3>
 
