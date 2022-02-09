@@ -7,9 +7,10 @@
 
     <v-row
       no-gutters
+      v-if="filteredStories"
     >
       <v-col
-        v-for="(story, index) in stories"
+        v-for="(story, index) in filteredStories"
         :key="story.slug"
         :cols="$vuetify.breakpoint.xsOnly
           ? 12
@@ -90,9 +91,14 @@ import {
 } from 'vuex';
 
 import storiesConfig from '../../config/stories.json';
-import storiesRaw from '../../config/stories2.json';
 
 export default {
+  props: {
+    topic: {
+      type: String,
+      default: '',
+    }
+  },
   data: () => ({
     carouselModel: 0,
     //themes: null,
@@ -107,10 +113,15 @@ export default {
 
     ...mapGetters({
       themes: 'themes/getThemes',
+      stories: 'themes/getStories',
     }),
 
-    stories() {
-      return storiesRaw;
+    filteredStories() {
+      if (this.topic) {
+        return this.stories.filter((story) => story.theme === this.topic);
+      } else {
+        return this.stories;
+      }
     },
 
     carouselEntries() {
