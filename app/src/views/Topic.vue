@@ -36,7 +36,7 @@
           class="topic-header d-flex justify-center align-center"
           :style="{background: topic.color}"
         >
-          <h2 class="text-h2 mt-8 white--text">{{ topic.name }}</h2>
+          <h2 class="text-h2 mt-8 white--text text-center">{{ topic.name }}</h2>
         </div>
 
         <theme-navigation style="position: sticky; top: 64px; z-index: 10;" />
