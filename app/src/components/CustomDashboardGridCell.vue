@@ -214,7 +214,7 @@
             </v-btn>
           </template>
           <span v-if="element.mapInfo && showTooltip(element)">Save map position</span>
-          <span v-if="!element.mapInfo">Update text</span>
+          <span v-if="element.text">Update text</span>
         </v-tooltip>
       </div>
       <div class="buttonContainer containerRight containerBottom">
@@ -343,21 +343,19 @@ export default {
       'changeFeatureMapInfo',
       'changeFeatureTitle',
     ]),
-    showTooltip() {
-      return (element) => {
-        if (this.localCenter[element.poi] && this.serverCenter[element.poi]) {
-          if (this.localCenter[element.poi].lat !== this.serverCenter[element.poi].lat) {
-            return true;
-          }
-          if (this.localCenter[element.poi].lng !== this.serverCenter[element.poi].lng) {
-            return true;
-          }
-          if (this.localZoom[element.poi] !== this.serverZoom[element.poi]) {
-            return true;
-          }
+    showTooltip(element) {
+      if (this.localCenter[element.poi] && this.serverCenter[element.poi]) {
+        if (this.localCenter[element.poi].lat !== this.serverCenter[element.poi].lat) {
+          return true;
         }
-        return false;
-      };
+        if (this.localCenter[element.poi].lng !== this.serverCenter[element.poi].lng) {
+          return true;
+        }
+        if (this.localZoom[element.poi] !== this.serverZoom[element.poi]) {
+          return true;
+        }
+      }
+      return false;
     },
     onMapReady(poi) {
       setTimeout(() => {
