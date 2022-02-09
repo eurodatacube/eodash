@@ -5,10 +5,9 @@
     :class="$vuetify.breakpoint.smAndAbove
       ? 'pa-10 pt-5'
       : 'pa-5'"
-    :style="`margin-top: ${$vuetify.application.top}px !important;
-      margin-bottom: ${$vuetify.application.top}px !important;
-      height: calc(100% - ${$vuetify.application.top}px);
-      overflow-y: ${storyModeEnabled ? 'hidden' : 'auto'}; overflow-x: hidden`"
+      :style="`margin-top: ${$vuetify.application.top}px;
+        height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px);
+        overflow-y: ${storyModeEnabled ? 'hidden' : 'auto'}; overflow-x: hidden`"
     id="scroll-target"
   >
     <v-app-bar
