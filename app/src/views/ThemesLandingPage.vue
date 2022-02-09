@@ -26,12 +26,44 @@
       </v-app-bar>
       <v-row class="landing-page" justify="center">
         <hero />
+
         <div class="section pb-16">
           <theme-navigation />
-          <div class="mx-lg-16 px-lg-16 mt-16 d-flex flex-column justify-start align-center">
+          <div class="mt-16 d-flex flex-column justify-start align-center">
             <stories-grid />
           </div>
         </div>
+
+        <v-container
+          class="ma-0 pt-16 pb-16 d-flex flex-row"
+          style="max-width: 1300px;"
+        >
+          <v-row no-gutters class="button-row" style="z-index: 1000;">
+            <template>
+              <v-col cols="12" xs="12" sm="12" md="6" lg="6">
+                <div class="d-flex flex-column pb-8 pb-md-0 pr-xs-0 pr-sm-0 pr-md-8 pr-lg-8 pr-xl-8">
+                  <h3 class="text-h3 mb-10">Explore Datasets</h3>
+
+                  <p class="mb-10" style="font-size: 18px;">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                  </p>
+
+                  <v-btn
+                    elevation="1"
+                    class="py-2 white--text"
+                    block
+                    color="primary"
+                    large
+                  >Explore</v-btn>
+                </div>
+              </v-col>
+
+              <v-col cols="12" xs="12" sm="12" md="6" lg="6">
+                <img src="@/assets/datasets.jpg" width="100%" class="pl-xs-0 pl-sm-0 pl-md-8 pl-lg-8 pl-xl-8">
+              </v-col>
+            </template>
+          </v-row>
+        </v-container>
       </v-row>
       <global-footer />
     </div>
