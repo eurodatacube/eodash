@@ -11,7 +11,7 @@
         clipped-right
         flat
         color="primary"
-        class="white--text"
+        class="white--text appbar"
       >
         <router-link to="/" class="white--text" style="text-decoration: none">
         <v-toolbar-title
@@ -80,5 +80,9 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   }
+}
+
+.appbar {
+  z-index: 30;
 }
 </style>

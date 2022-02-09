@@ -28,7 +28,7 @@
 
             <v-btn 
               class="theme-tag white--text" 
-              style="z-index: 90;" 
+              style="z-index: 5;" 
               :color="findTheme(story.theme).color"
               @click="$router.push({name: findTheme(story.theme).slug})"
               small>
