@@ -65,8 +65,8 @@ export default {
 
 <style lang="scss" scoped>
 .theme-nav {
-  position: sticky; 
-  top: 0; 
+  position: sticky;
+  top: 0;
   z-index: 10;
 }
 
