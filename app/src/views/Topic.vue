@@ -123,11 +123,6 @@ export default {
     this.$store.commit('themes/SET_CURRENT_THEME', this.$route.name);
   },
 
-  beforeDestroy() {
-    // Un-assign our previously set theme.
-    this.$store.commit('themes/SET_CURRENT_THEME', '');
-  },
-
   metaInfo() {
     const { appConfig } = this.$store.state.config;
     return {
