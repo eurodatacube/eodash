@@ -1,8 +1,10 @@
+import axios from 'axios';
 import stories from '../../config/stories2.json';
 
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 const state = {
   currentTheme: '',
+  currentPOIsIncludedInTheme: [],
   stories,
   themes: [
     {
@@ -60,10 +62,26 @@ const mutations = {
       state.currentTheme = '';
     }
   },
+  SET_CURRENT_THEME_POIS(state, pois) {
+    state.currentPOIsIncludedInTheme = pois;
+  },
 };
 
 const actions = {
-
+  async loadTheme({ commit, state }, theme) {
+    commit('SET_CURRENT_THEME', theme);
+    const matchingStories = state.stories
+      .filter((story) => story.theme === theme);
+    let storyIDs = [];
+    for (const story of matchingStories) { // eslint-disable-line
+      const storyDashboard = await axios // eslint-disable-line
+        .get(`./data/dashboards/${story.originalDashboardId}.json`);
+      const storyDashboardContent = storyDashboard.data;
+      const storyPOIs = storyDashboardContent.features.map((f) => f.id);
+      storyIDs = [...new Set([...storyIDs, ...storyPOIs])];
+    }
+    commit('SET_CURRENT_THEME_POIS', storyIDs);
+  },
 };
 
 export default {
