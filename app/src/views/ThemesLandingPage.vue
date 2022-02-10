@@ -1,6 +1,11 @@
 <template>
   <div
     class="fill-height scrollContainer"
+    :class="$vuetify.breakpoint.smAndAbove
+      ? ' pt-5'
+      : ''"
+    :style="`margin-top: ${$vuetify.application.top}px; overflow-x: hidden;
+      height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px);`"
   >
     <div
       class="px-3"

@@ -43,7 +43,6 @@ export default {
     position: relative;
     height: 50vh;
     width: 100vw;
-    margin-top: 76px;
     background: #00040f;
 
     .hero-section {
