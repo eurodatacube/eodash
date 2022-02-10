@@ -63,7 +63,7 @@ const mutations = {
     }
   },
 
-  RESET_THEME (state) {
+  RESET_THEME(state) {
     state.currentTheme = '';
   },
 

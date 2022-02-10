@@ -14,7 +14,9 @@
         v-if="$vuetify.breakpoint.mdAndUp"
         class="text-uppercase mr-5"
       >
-        <router-link to="/" style="text-decoration: none;">{{ appConfig && appConfig.branding.appName }}</router-link>
+        <router-link to="/" style="text-decoration: none;">
+          {{ appConfig && appConfig.branding.appName }}
+        </router-link>
         <template v-if="getCurrentTheme">
           <span class="mx-3">/</span>
           <router-link class="topic-button" :to="{name: getCurrentTheme.slug}">
@@ -273,9 +275,9 @@
         </v-row>
       </v-container>
     </v-content>
-    <global-footer 
-      v-if="!isFullScreen" 
-      :color="getCurrentTheme ? getCurrentTheme.color : 'primary'" 
+    <global-footer
+      v-if="!isFullScreen"
+      :color="getCurrentTheme ? getCurrentTheme.color : 'primary'"
     />
   </div>
 </template>
