@@ -10,7 +10,7 @@
       v-if="filteredStories"
     >
       <v-col
-        v-for="(story, index) in filteredStories"
+        v-for="(story, index) in content"
         :key="story.slug"
         :cols="$vuetify.breakpoint.xsOnly
           ? 12
@@ -98,6 +98,10 @@ export default {
       type: String,
       default: '',
     },
+    items: {
+      type: Array,
+      default: () => [],
+    },
   },
   data: () => ({
     carouselModel: 0,
@@ -120,6 +124,14 @@ export default {
         return this.stories.filter((story) => story.theme === this.topic);
       }
       return this.stories;
+    },
+
+    content() {
+      if (this.items.length === 0) {
+        return this.filteredStories;
+      }
+
+      return this.items;
     },
 
     carouselEntries() {
