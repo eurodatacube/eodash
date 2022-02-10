@@ -101,6 +101,7 @@
 import {
   mapState,
   mapGetters,
+  mapActions,
 } from 'vuex';
 
 import GlobalFooter from '@/components/GlobalFooter.vue';
@@ -120,7 +121,7 @@ export default {
   },
 
   created() {
-    this.$store.commit('themes/SET_CURRENT_THEME', this.$route.name);
+    this.loadTheme(this.$route.name);
   },
 
   metaInfo() {
@@ -134,6 +135,9 @@ export default {
     ...mapGetters({
       topic: 'themes/getCurrentTheme',
     }),
+  },
+  methods: {
+    ...mapActions('themes', ['loadTheme']),
   },
 };
 </script>
