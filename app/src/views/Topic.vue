@@ -44,7 +44,7 @@
           <h2 class="text-h2 white--text text-center">{{ topic.name }}</h2>
         </div>
 
-        <theme-navigation style="position: sticky; top: 0; z-index: 10;" />
+        <theme-navigation />
 
         <v-container
           class="ma-0 pb-16 d-flex flex-column"

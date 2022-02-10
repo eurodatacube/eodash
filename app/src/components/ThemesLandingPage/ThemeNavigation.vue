@@ -1,5 +1,5 @@
 <template>
-  <v-container class="lighten-5 pa-0" fluid>
+  <v-container class="theme-nav lighten-5 pa-0" fluid>
     <div class="mobile-menu d-flex d-md-none">
       <v-expansion-panels accordion>
         <v-expansion-panel>
@@ -64,10 +64,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.extender {
-  width: 100vw;
-  height: 30px;
-  background: #777;
+.theme-nav {
+  position: sticky; 
+  top: 0; 
+  z-index: 10;
 }
 
 .mobile-menu ::v-deep .v-expansion-panel-content__wrap {
