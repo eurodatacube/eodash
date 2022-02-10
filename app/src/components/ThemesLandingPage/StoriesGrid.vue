@@ -25,6 +25,7 @@
             tile
             style="position: relative;"
             v-if="findTheme(story.theme)"
+            @click="$router.push('/story?id=' + story.originalDashboardId)"
           >
 
             <v-btn
