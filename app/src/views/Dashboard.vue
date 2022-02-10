@@ -34,16 +34,6 @@
           About
         </v-btn>
 
-        <v-btn
-          v-if="appConfig && appConfig.enableStories"
-          text
-          dark
-          small
-          @click="$router.push('/themes')"
-        >
-          Themes
-        </v-btn>
-
         <v-badge
           bordered
           color="info"
@@ -128,15 +118,6 @@
           @click="displayShowText('about')"
         >
           About
-        </v-btn>
-        <v-btn
-          v-if="appConfig && appConfig.enableStories"
-          block
-          text
-          color="primary"
-          @click="$router.push('/themes')"
-        >
-          Themes
         </v-btn>
         <v-badge
           bordered
