@@ -157,7 +157,7 @@ export default {
   transition: opacity .5s;
 }
 ::v-deep .v-image__image {
-  box-shadow: inset 0 -90px 50px -20px #000a;
+  box-shadow: inset 0 -110px 50px -20px #000b;
 }
 ::v-deep .v-list-item__title, .v-list-item__subtitle {
   white-space: unset;
