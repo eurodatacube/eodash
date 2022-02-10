@@ -30,7 +30,7 @@
         <div class="section pb-16">
           <theme-navigation />
           <div class="mt-16 d-flex flex-column justify-start align-center">
-            <stories-grid />
+            <stories-grid :items="oneOfEachTopic" />
           </div>
         </div>
 
@@ -86,6 +86,7 @@
 <script>
 import {
   mapState,
+  mapGetters,
 } from 'vuex';
 
 import GlobalFooter from '@/components/GlobalFooter.vue';
@@ -109,6 +110,21 @@ export default {
   },
   computed: {
     ...mapState('config', ['appConfig']),
+    ...mapGetters({
+      themes: 'themes/getThemes',
+      stories: 'themes/getStories',
+    }),
+
+    oneOfEachTopic() {
+      return this.themes
+        // For each theme, select one of the matching stories randomly.
+        .map((theme) => {
+          const filtered = this.stories.filter((story) => story.theme === theme.slug);
+          return filtered[Math.floor(Math.random() * filtered.length)];
+        })
+        // Remove undefined entries if there is no story for a given topic.
+        .filter((story) => !!story);
+    },
   },
 };
 </script>
