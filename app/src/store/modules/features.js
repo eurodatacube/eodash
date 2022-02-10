@@ -9,7 +9,7 @@ const state = {
   featureFilters: {
     countries: [],
     indicators: [],
-    themes: ['ocean'],
+    themes: [],
     includeArchived: false,
   },
   selectedArea: null,

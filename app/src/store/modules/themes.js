@@ -81,6 +81,7 @@ const actions = {
       storyIDs = [...new Set([...storyIDs, ...storyPOIs])];
     }
     commit('SET_CURRENT_THEME_POIS', storyIDs);
+    commit('features/SET_FEATURE_FILTER', { themes: [theme] }, { root: true });
   },
 };
 
