@@ -62,6 +62,11 @@ const mutations = {
       state.currentTheme = '';
     }
   },
+
+  RESET_THEME (state) {
+    state.currentTheme = '';
+  },
+
   SET_CURRENT_THEME_POIS(state, pois) {
     state.currentPOIsIncludedInTheme = pois;
   },
