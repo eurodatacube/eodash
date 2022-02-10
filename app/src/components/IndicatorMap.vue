@@ -372,6 +372,7 @@
               v-if="enableCompare"
               outlined
               dense
+              attach
               autofocus
               hide-details
               :prepend-inner-icon="(arrayOfObjects && compareLayerTime) && (arrayOfObjects
@@ -400,6 +401,7 @@
             <v-select
               outlined
               dense
+              attach
               autofocus
               hide-details
               :prepend-inner-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
@@ -1845,5 +1847,9 @@ export default {
 
 ::v-deep .leaflet-top.leaflet-right {
   margin-top: 45px;
+}
+
+::v-deep .v-menu__content {
+  transform: translate(1%, -87%);
 }
 </style>

@@ -55,11 +55,11 @@ with open(DATAFILE) as csvfile:
             lockdown_data[location_key] = {
                 "CountryName": row["CountryName"],
                 "RegionName": row["RegionName"],
-                "C7_Restrictions on internal movement": [],
+                "C6_Stay at home requirements": [],
             }
             prev_data[location_key] = {}
 
-        for key in ["C7_Restrictions on internal movement"]:
+        for key in ["C6_Stay at home requirements"]:
 
             if not key in prev_data[location_key]:
                 prev_data[location_key][key] = {
@@ -79,7 +79,7 @@ with open(DATAFILE) as csvfile:
                     lockdown_data[prev_location][key].append({
                         "start": p_data["prev_time"],
                         "end": prev_date,
-                        "value": p_data["prev_val"],
+                        "value": p_data["prev_val"] if float(p_data["prev_val"]) < 3 else 2,
                         "flag": prev_flag,
                     })
                 elif p_data["prev_val"] != flag_value:
@@ -89,7 +89,7 @@ with open(DATAFILE) as csvfile:
                         lockdown_data[location_key][key].append({
                             "start": p_data["prev_time"],
                             "end": prev_date,
-                            "value": p_data["prev_val"],
+                            "value": p_data["prev_val"] if float(p_data["prev_val"]) < 3 else 2,
                             "flag": prev_flag,
                         })
                         p_data["prev_time"] = currDate
@@ -101,16 +101,16 @@ with open(DATAFILE) as csvfile:
 
                 current_location = location_key
                 prev_date = currDate
-                prev_flag = row["C7_Flag"]
+                prev_flag = row["C6_Flag"]
                 prev_location = location_key
 
     # When we reach the end of the rows we also make sure to "close" the last interval here
-    for key in ["C7_Restrictions on internal movement"]:
+    for key in ["C6_Stay at home requirements"]:
         p_data = prev_data[prev_location][key]
         lockdown_data[prev_location][key].append({
             "start": p_data["prev_time"],
             "end": prev_date,
-            "value": p_data["prev_val"],
+            "value": p_data["prev_val"] if float(p_data["prev_val"]) < 3 else 2,
             "flag": prev_flag,
         })
 
