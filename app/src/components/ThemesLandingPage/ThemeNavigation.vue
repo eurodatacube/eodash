@@ -16,7 +16,7 @@
                     style="min-width: 100%; max-width: 100%;"
                     large
                     tile
-                    @click="$router.push({name: theme.slug})"
+                    @click="navigate(theme.slug)"
                   >{{ theme.name }}</v-btn>
                 </v-col>
               </template>
@@ -36,7 +36,7 @@
               style="min-width: 100%; max-width: 100%;"
               large
               tile
-              @click="$router.push({name: theme.slug})"
+              @click="navigate(theme.slug)"
             >{{ theme.name }}</v-btn>
           </v-col>
         </template>
@@ -56,6 +56,11 @@ export default {
     return {
       isExtended: false,
     };
+  },
+  methods: {
+    navigate(slug) {
+      if (this.$route.name !== slug) this.$router.push({ name: slug });
+    },
   },
   computed: {
     ...mapState({ themes: (state) => state.themes.themes }),
