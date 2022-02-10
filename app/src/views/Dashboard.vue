@@ -5,7 +5,7 @@
       clipped-left
       clipped-right
       flat
-      color="primary"
+      :color="getCurrentTheme ? getCurrentTheme.color : 'primary'"
       class="white--text"
       v-show="!isFullScreen"
     >
@@ -14,7 +14,13 @@
         v-if="$vuetify.breakpoint.mdAndUp"
         class="text-uppercase mr-5"
       >
-        {{ appConfig && appConfig.branding.appName }}
+        <router-link to="/" style="text-decoration: none;">{{ appConfig && appConfig.branding.appName }}</router-link>
+        <template v-if="getCurrentTheme">
+          <span class="mx-3">/</span>
+          <router-link class="topic-button" :to="{name: getCurrentTheme.slug}">
+            {{ getCurrentTheme.name }}
+          </router-link>
+        </template>
       </v-toolbar-title>
       <template v-if="!$vuetify.breakpoint.xsOnly">
         <v-btn
@@ -267,7 +273,10 @@
         </v-row>
       </v-container>
     </v-content>
-    <global-footer v-if="!isFullScreen"/>
+    <global-footer 
+      v-if="!isFullScreen" 
+      :color="getCurrentTheme ? getCurrentTheme.color : 'primary'" 
+    />
   </div>
 </template>
 
@@ -281,7 +290,7 @@ import DataPanel from '@/components/DataPanel.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   metaInfo() {
@@ -347,6 +356,10 @@ export default {
         (f) => this.getLocationCode(f && f.properties.indicatorObject) === this.$route.query.poi,
       );
     },
+
+    ...mapGetters({
+      getCurrentTheme: 'themes/getCurrentTheme',
+    }),
   },
   created() {
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
@@ -447,5 +460,15 @@ export default {
   .v-badge__badge {
     transform: translateX(-45px);
   }
+}
+
+.topic-button {
+  border-radius: 4px;
+  background: #FFF4;
+  text-transform: none;
+  font-size: 90%;
+  padding: 2px 5px;
+  text-decoration: none;
+  color: #FFF;
 }
 </style>
