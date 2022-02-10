@@ -774,7 +774,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W2',
-        time: getMonthlyDates('2004-10-01', '2021-12-01'),
+        time: getMonthlyDates('2004-10-01', '2022-01-01'),
         inputData: [''],
         yAxis: 'NO2 [µmol/m²]',
         display: {
@@ -869,7 +869,7 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         aoi: null,
         aoiID: 'W3',
-        time: getMonthlyDates('2015-01-01', '2021-12-01'),
+        time: getMonthlyDates('2015-01-01', '2022-01-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
