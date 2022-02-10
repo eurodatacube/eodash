@@ -52,10 +52,10 @@ const getters = {
 
 const mutations = {
   SET_CURRENT_THEME(state, slug) {
-    let res = state.themes.find((theme) => theme.slug === slug);
+    const theme = state.themes.find((theme) => theme.slug === slug);
 
-    if (res) {
-      state.currentTheme = res;
+    if (theme) {
+      state.currentTheme = theme;
     } else {
       state.currentTheme = '';
     }
