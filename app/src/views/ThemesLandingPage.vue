@@ -26,6 +26,17 @@
           {{ appConfig && appConfig.branding.appName }}
         </v-toolbar-title>
         </router-link>
+
+        <v-btn
+          text
+          dark
+          small
+          elevation="1"
+          @click="$router.push('/explore')"
+        >
+          Explore
+        </v-btn>
+
         <v-spacer></v-spacer>
         <img class="header__logo" height="32" :src="appConfig && appConfig.branding.headerLogo" />
       </v-app-bar>
@@ -118,6 +129,7 @@ export default {
     ...mapGetters({
       themes: 'themes/getThemes',
       stories: 'themes/getStories',
+      currentTheme: 'themes/getCurrentTheme',
     }),
 
     oneOfEachTopic() {
@@ -132,6 +144,8 @@ export default {
     },
   },
   created() {
+    this.$store.commit('themes/RESET_THEME');
+
     if (this.$route.query && Object.keys(this.$route.query).length !== 0) {
       this.$router.replace({
         name: 'explore',
