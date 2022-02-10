@@ -186,8 +186,14 @@ const renderVue = async () => {
   );
 
   const routes = [
-    { path: '/themes', component: ThemesLandingPage },
-    { path: '/', component: Dashboard },
+    ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
+      ? [
+        { path: '/', name: 'landing', component: ThemesLandingPage },
+        { path: '/explore', name: 'explore', component: Dashboard },
+      ]
+      : [
+        { path: '/', name: 'explore', component: Dashboard },
+      ]),
     { path: '/dashboard/:viewingId?', component: DashboardCustom },
     ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
       ? [{ path: '/story/:viewingId?', component: DashboardCustom }]

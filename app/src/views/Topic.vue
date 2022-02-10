@@ -19,7 +19,7 @@
         class="white--text"
         style="z-index: 10;"
       >
-        <router-link to="/themes" class="white--text" style="text-decoration: none">
+        <router-link to="/" class="white--text" style="text-decoration: none">
         <v-toolbar-title
           v-if="$vuetify.breakpoint.mdAndUp"
           class="text-uppercase mr-5"

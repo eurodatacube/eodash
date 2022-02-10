@@ -131,6 +131,14 @@ export default {
         .filter((story) => !!story);
     },
   },
+  created() {
+    if (this.$route.query && Object.keys(this.$route.query).length !== 0) {
+      this.$router.replace({
+        name: 'explore',
+        query: this.$route.query,
+      });
+    }
+  },
 };
 </script>
 
