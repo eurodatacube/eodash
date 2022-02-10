@@ -39,12 +39,12 @@
     >
       <div
         v-if="navigationButtonVisible"
-        class="secondary d-flex align-center"
+        class="d-flex align-center"
         :style="`position: fixed; border-radius: 30px; z-index: 7; ${
           $vuetify.breakpoint.smAndUp
             ? 'bottom: 67px; right: 25px;'
             : 'bottom: 6px; right: 9px;'
-          }`"
+          }; background: ${themeColor ? themeColor : 'var(--v-secondary-base)'}`"
         v-touch="{
           left: () => goStep(1),
           right: () => goStep(-1),
@@ -91,6 +91,7 @@ export default {
     storyMode: Boolean,
     localFeatures: Array,
     dashboardMeta: Object,
+    themeColor: String,
   },
   components: {
     LoadingAnimation,

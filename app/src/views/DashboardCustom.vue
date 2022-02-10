@@ -15,7 +15,7 @@
         clipped-left
         clipped-right
         flat
-        color="primary"
+        :color="getCurrentTheme ? getCurrentTheme.color : 'primary'"
         class="white--text"
       >
         <a
@@ -30,6 +30,12 @@
             <span v-if="$vuetify.breakpoint.mdAndUp">
               {{ appConfig && appConfig.branding.appName }}
             </span>
+            <template v-if="getCurrentTheme">
+              <span class="mx-3">/</span>
+              <router-link class="topic-button" :to="{name: getCurrentTheme.slug}">
+                {{ getCurrentTheme.name }}
+              </router-link>
+            </template>
           </v-toolbar-title>
         </a>
         <v-spacer></v-spacer>
@@ -195,8 +201,9 @@
               >
                 <v-btn
                   x-large
-                  color="secondary"
+                  :color="getCurrentTheme ? getCurrentTheme.color : 'primary'"
                   class="my-5 mr-3"
+                  dark
                   @click="scrollToStart"
                   :block="$vuetify.breakpoint.xsOnly"
                 >
@@ -468,6 +475,7 @@
           :storyMode="storyModeEnabled"
           :localFeatures="localDashboardFeatures"
           :dashboardMeta="{ title: dashboardTitle }"
+          :themeColor="getCurrentTheme ? getCurrentTheme.color : 'primary'"
           @updateTextFeature="openTextFeatureUpdate"
           @change="savingChanges = true"
           @save="savingChanges = false"
@@ -572,13 +580,16 @@
         opacity="1"
         :color="$vuetify.theme.dark ? '#212121' : '#fff'"
       ></v-overlay>
-      <global-footer />
+      <global-footer
+        :color="getCurrentTheme ? getCurrentTheme.color : 'primary'"
+      />
   </div>
 </template>
 
 <script>
 import {
   mapState,
+  mapGetters,
   mapActions,
 } from 'vuex';
 
@@ -674,6 +685,10 @@ export default {
     ...mapState('dashboard', [
       'dashboardConfig',
     ]),
+    ...mapGetters('themes', [
+      'getStories',
+      'getCurrentTheme',
+    ]),
     newDashboard() {
       return this.$store.state.dashboard.dashboardConfig
         && !this.$store.state.dashboard?.dashboardConfig?.marketingInfo;
@@ -736,6 +751,15 @@ export default {
     if (id) {
       const storiesConfig = require('../config/stories.json');
       const existingConfiguration = this.getDeepProperty(storiesConfig[this.appConfig.id], id);
+      if (this.storyModeEnabled && !this.getCurrentTheme) {
+        let dashboardId = id;
+        if (existingConfiguration) {
+          dashboardId = existingConfiguration.originalDashboardId;
+        }
+        const currentTheme = this.getStories
+          .find((s) => s.originalDashboardId === dashboardId).theme;
+        this.loadTheme(currentTheme);
+      }
       if (
         !editKey
         && this.appConfig.enableStories
@@ -831,6 +855,7 @@ export default {
       'addFeature',
       'changeFeatureText',
     ]),
+    ...mapActions('themes', ['loadTheme']),
     async editTitle() {
       if (this.hasEditingPrivilege || this.newDashboard) {
         this.performChange('changeTitle', this.dashboardTitle);
@@ -1022,6 +1047,15 @@ export default {
 }
 ::v-deep .display-2 ::v-deep .v-input__append-inner {
   align-self: center !important;
+}
+.topic-button {
+  border-radius: 4px;
+  background: #FFF4;
+  text-transform: none;
+  font-size: 90%;
+  padding: 2px 5px;
+  text-decoration: none;
+  color: #FFF;
 }
 </style>
 
