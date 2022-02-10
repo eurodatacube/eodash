@@ -46,11 +46,20 @@ const state = {
 const getters = {
   getThemes: (state) => state.themes,
   getTheme: (state) => (slug) => state.themes.find((theme) => theme.slug === slug),
+  getCurrentTheme: (state) => state.currentTheme,
   getStories: (state) => state.stories,
 };
 
 const mutations = {
+  SET_CURRENT_THEME(state, slug) {
+    let res = state.themes.find((theme) => theme.slug === slug);
 
+    if (res) {
+      state.currentTheme = res;
+    } else {
+      state.currentTheme = '';
+    }
+  },
 };
 
 const actions = {

@@ -100,6 +100,7 @@
 <script>
 import {
   mapState,
+  mapGetters,
 } from 'vuex';
 
 import GlobalFooter from '@/components/GlobalFooter.vue';
@@ -109,7 +110,6 @@ import ThemeNavigation from '@/components/ThemesLandingPage/ThemeNavigation.vue'
 export default {
   data() {
     return {
-      topic: '',
     };
   },
 
@@ -120,14 +120,12 @@ export default {
   },
 
   created() {
-    const result = this.themes.find((theme) => theme.slug === this.$route.name);
+    this.$store.commit('themes/SET_CURRENT_THEME', this.$route.name);
+  },
 
-    if (result) {
-      this.topic = result;
-    } else {
-      console.log(`Cannot find slug "${this.$route.params.slug}"`);
-      this.$router.push('/404');
-    }
+  beforeDestroy() {
+    // Un-assign our previously set theme.
+    this.$store.commit('themes/SET_CURRENT_THEME', '');
   },
 
   metaInfo() {
@@ -138,7 +136,9 @@ export default {
   },
   computed: {
     ...mapState('config', ['appConfig']),
-    ...mapState({ themes: (state) => state.themes.themes }),
+    ...mapGetters({
+      topic: 'themes/getCurrentTheme',
+    }),
   },
 };
 </script>
