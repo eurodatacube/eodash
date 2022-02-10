@@ -34,6 +34,15 @@
         </v-toolbar-title>
         </router-link>
         <v-spacer></v-spacer>
+        <v-btn
+          text
+          dark
+          small
+          class="mr-3"
+          @click="$router.push('/explore')"
+        >
+          Explore
+        </v-btn>
         <img class="header__logo" height="32" :src="appConfig && appConfig.branding.headerLogo" />
       </v-app-bar>
       <v-row class="topic-page" justify="center">
