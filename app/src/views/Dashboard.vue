@@ -318,7 +318,7 @@ export default {
   },
   mixins: [closeMixin, dialogMixin],
   data: () => ({
-    drawerLeft: true,
+    drawerLeft: false,
     drawerRight: false,
     dialog: false,
     showText: null,
