@@ -37,11 +37,11 @@
       <span v-if="$route.name === 'explore'">
         <span class="divider ml-4 mr-5">/</span>
 
-        <span
+        <router-link :to="{name: 'explore'}"
           class="breadcrumb highlighted"
         >
           <span>Explore</span>
-        </span>
+        </router-link>
       </span>
     </v-toolbar-title>
 
