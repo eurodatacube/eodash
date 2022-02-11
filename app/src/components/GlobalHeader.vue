@@ -4,7 +4,7 @@
     clipped-left
     clipped-right
     flat
-    color="primary"
+    :color="currentTheme ? currentTheme.color : 'primary'"
     class="global-header white--text"
   >
     <slot name="left"></slot>
@@ -20,7 +20,7 @@
     <slot name="right"></slot>
 
     <v-spacer></v-spacer>
-    <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
+    <img class="header__logo" height="32" :src="appConfig && appConfig.branding.headerLogo" />
   </v-app-bar>
 </template>
 
