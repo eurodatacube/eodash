@@ -10,7 +10,7 @@
     <div
       class="px-3"
     >
-      <global-header />
+      <global-header :isFullScreen="false" />
       <v-row class="landing-page" justify="center">
         <hero />
 

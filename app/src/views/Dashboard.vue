@@ -73,11 +73,11 @@
     </v-app-bar>-->
 
     <global-header
-      :on-menu-pressed="() => drawerLeft = !drawerLeft"
-      :is-fullscreen="isFullscreen"
+      :isFullscreen="isFullScreen"
+      :displayShowText="displayShowText"
     />
 
-    <v-navigation-drawer
+    <!--<v-navigation-drawer
       v-model="drawerLeft"
       left
       app
@@ -160,7 +160,7 @@
         <v-divider></v-divider>
       </template>
       <selection-panel style="overflow:hidden" />
-    </v-navigation-drawer>
+    </v-navigation-drawer>-->
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.mdAndUp"
       v-model="drawerRight"
@@ -297,7 +297,6 @@
 import Welcome from '@/views/Welcome.vue';
 import About from '@/views/About.vue';
 import Banner from '@/components/Banner.vue';
-import SelectionPanel from '@/components/SelectionPanel.vue';
 import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
 import GlobalHeader from '@/components/GlobalHeader.vue';
@@ -320,7 +319,6 @@ export default {
     Welcome,
     About,
     Banner,
-    SelectionPanel,
     CenterPanel,
     DataPanel,
     GlobalHeader,

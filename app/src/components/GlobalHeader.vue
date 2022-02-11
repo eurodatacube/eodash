@@ -9,10 +9,101 @@
     v-show="!isFullScreen"
   >
     <v-app-bar-nav-icon
-      v-if="$route.name === 'explore'"
-      @click.stop="onMenuPressed"
+      @click.stop="switchMenu"
+      v-if="$vuetify.breakpoint.smOnly"
       dark
     />
+
+    <!-- mobile menu -->
+
+    <v-navigation-drawer
+      v-model="drawerLeft"
+      left
+      app
+      clipped
+      style="overflow: hidden;"
+      class="drawerLeft"
+      hide-overlay
+      width="70vw"
+      v-show="!isFullScreen"
+    >
+      <template>
+        <v-list-item style="background: var(--v-primary-base)">
+          <v-list-item-content>
+            <h3 class="text-uppercase white--text">
+              {{ appConfig && appConfig.branding.appName }}
+            </h3>
+          </v-list-item-content>
+          <v-list-item-action
+            class="align-center"
+          >
+            <v-icon
+              style="position: absolute;"
+              color="white"
+              small
+              dark
+              @click="$vuetify.theme.dark = !$vuetify.theme.dark"
+            >
+              {{
+                $vuetify.theme.dark
+                  ? 'mdi-white-balance-sunny'
+                  : 'mdi-weather-night'
+              }}
+            </v-icon>
+          </v-list-item-action>
+        </v-list-item>
+
+        <v-divider></v-divider>
+
+        <v-btn
+          block
+          text
+          color="primary"
+          :to="{name: 'landing'}"
+        >
+          Home
+        </v-btn>
+        <v-btn
+          block
+          text
+          color="primary"
+          @click="displayShowText('welcome')"
+        >
+          Welcome
+        </v-btn>
+        <v-btn
+          block
+          text
+          color="primary"
+          @click="displayShowText('about')"
+        >
+          About
+        </v-btn>
+        <v-badge
+          bordered
+          color="info"
+          :content="$store.state.dashboard.dashboardConfig
+            && $store.state.dashboard.dashboardConfig.features.length"
+          :value="$store.state.dashboard.dashboardConfig
+            && $store.state.dashboard.dashboardConfig.features.length"
+          overlap
+        >
+          <v-btn
+            v-if="$store.state.dashboard.dashboardConfig"
+            block
+            text
+            color="primary"
+            to="/dashboard"
+          >
+            Custom Dashboard
+          </v-btn>
+        </v-badge>
+        <v-divider></v-divider>
+      </template>
+
+    </v-navigation-drawer>
+
+    <!-- mobile menu end -->
 
     <v-toolbar-title
       v-if="$vuetify.breakpoint.mdAndUp"
@@ -107,11 +198,22 @@ export default {
     },
 
     /**
-     * A callback function that is executed when the user presses the menu button.
+     * A callback function when the header needs to do something beyond its scope.
+     * @values true, false
      */
-    onMenuPressed: {
+    displayShowText: {
       type: Function,
       default: () => {},
+    },
+  },
+  data() {
+    return {
+      drawerLeft: false,
+    };
+  },
+  methods: {
+    switchMenu() {
+      this.drawerLeft = !this.drawerLeft;
     },
   },
   computed: {
@@ -172,5 +274,16 @@ export default {
       padding: 3px 6px;
     }
   }
+}
+
+.drawerLeft {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+}
+
+.drawerLeft, .drawerLeft * {
+  z-index: 13 !important;
 }
 </style>
