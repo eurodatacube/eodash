@@ -47,6 +47,7 @@
                     max-height="44"
                     color="primary"
                     large
+                    @click="$router.push({ name: 'explore' })"
                   >Explore</v-btn>
                 </div>
               </v-col>
