@@ -76,7 +76,6 @@
         small
         class="mr-3"
         @click="$router.push({ name: 'explore' })"
-        v-if="isThemePageActive || $route.name === 'landing'"
       >
         Explore
       </v-btn>
