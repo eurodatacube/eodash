@@ -17,11 +17,17 @@
         <router-link to="/" style="text-decoration: none;">
           {{ appConfig && appConfig.branding.appName }}
         </router-link>
+
         <template v-if="getCurrentTheme">
           <span class="mx-3">/</span>
           <router-link class="topic-button" :to="{name: getCurrentTheme.slug}">
             {{ getCurrentTheme.name }}
           </router-link>
+        </template>
+
+        <template>
+          <span class="mx-3">/</span>
+          <span class="current topic-button">Explore</span>
         </template>
       </v-toolbar-title>
       <template v-if="!$vuetify.breakpoint.xsOnly">
@@ -472,5 +478,10 @@ export default {
   padding: 2px 5px;
   text-decoration: none;
   color: #FFF;
+
+  &.current {
+    background: transparent;
+    font-weight: bold;
+  }
 }
 </style>

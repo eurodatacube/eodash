@@ -29,7 +29,7 @@
           /
 
           <router-link class="ml-3 topic-button" :to="{name: topic.slug}">
-            {{ topic.name }}
+            <b>{{ topic.name }}</b>
           </router-link>
         </v-toolbar-title>
         </router-link>

@@ -23,7 +23,7 @@
           v-if="$vuetify.breakpoint.mdAndUp"
           class="text-uppercase mr-5"
         >
-          {{ appConfig && appConfig.branding.appName }}
+          <b>{{ appConfig && appConfig.branding.appName }}</b>
         </v-toolbar-title>
         </router-link>
 
