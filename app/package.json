@@ -7,12 +7,11 @@
     "build": "vue-cli-service build",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
-    "postinstall": "find ./node_modules/@turf/difference ../@turf/difference -name \"*.mjs\" | xargs rm",
     "start": "npm run serve"
   },
   "dependencies": {
     "@chenfengyuan/vue-countdown": "^1.1.5",
-    "@turf/difference": "^6.0.2",
+    "@turf/difference": "^6.5.0",
     "axios": "^0.21.1",
     "chart.js": "^2.9.3",
     "chartjs-adapter-luxon": "^0.2.1",
