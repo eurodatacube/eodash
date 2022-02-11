@@ -3,7 +3,7 @@ import stories from '../../config/stories2.json';
 
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 const state = {
-  currentTheme: '',
+  currentTheme: null,
   currentPOIsIncludedInTheme: [],
   stories,
   themes: [
@@ -54,17 +54,11 @@ const getters = {
 
 const mutations = {
   SET_CURRENT_THEME(state, slug) {
-    const theme = state.themes.find((t) => t.slug === slug);
-
-    if (theme) {
-      state.currentTheme = theme;
-    } else {
-      state.currentTheme = '';
+    let theme;
+    if (slug) {
+      theme = state.themes.find((t) => t.slug === slug);
     }
-  },
-
-  RESET_THEME(state) {
-    state.currentTheme = '';
+    state.currentTheme = theme;
   },
 
   SET_CURRENT_THEME_POIS(state, pois) {
@@ -75,18 +69,20 @@ const mutations = {
 const actions = {
   async loadTheme({ commit, state }, theme) {
     commit('SET_CURRENT_THEME', theme);
-    const matchingStories = state.stories
-      .filter((story) => story.theme === theme);
     let storyIDs = [];
-    for (const story of matchingStories) { // eslint-disable-line
-      const storyDashboard = await axios // eslint-disable-line
-        .get(`./data/dashboards/${story.originalDashboardId}.json`);
-      const storyDashboardContent = storyDashboard.data;
-      const storyPOIs = storyDashboardContent.features.map((f) => f.id);
-      storyIDs = [...new Set([...storyIDs, ...storyPOIs])];
+    if (theme) {
+      const matchingStories = state.stories
+        .filter((story) => story.theme === theme);
+      for (const story of matchingStories) { // eslint-disable-line
+        const storyDashboard = await axios // eslint-disable-line
+          .get(`./data/dashboards/${story.originalDashboardId}.json`);
+        const storyDashboardContent = storyDashboard.data;
+        const storyPOIs = storyDashboardContent.features.map((f) => f.id);
+        storyIDs = [...new Set([...storyIDs, ...storyPOIs])];
+      }
     }
     commit('SET_CURRENT_THEME_POIS', storyIDs);
-    commit('features/SET_FEATURE_FILTER', { themes: [theme] }, { root: true });
+    commit('features/SET_FEATURE_FILTER', { themes: theme ? [theme] : [] }, { root: true });
   },
 };
 
