@@ -14,7 +14,7 @@
         v-if="$vuetify.breakpoint.mdAndUp"
         class="text-uppercase mr-5"
       >
-        <router-link to="/" style="text-decoration: none;">
+        <router-link to="/" style="text-decoration: none; color: #FFF !important">
           {{ appConfig && appConfig.branding.appName }}
         </router-link>
 
@@ -479,9 +479,8 @@ export default {
   text-decoration: none;
   color: #FFF;
 
-  &.current {
+  &.disabled {
     background: transparent;
-    font-weight: bold;
   }
 }
 </style>
