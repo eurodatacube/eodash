@@ -9,9 +9,9 @@
     v-show="!isFullScreen"
   >
     <v-app-bar-nav-icon
-      v-if="$route.name === 'explore'" 
-      @click.stop="onMenuPressed" 
-      dark 
+      v-if="$route.name === 'explore'"
+      @click.stop="onMenuPressed"
+      dark
     />
 
     <v-toolbar-title
@@ -22,7 +22,7 @@
       <router-link :to="{name: 'landing'}">
         {{ appConfig && appConfig.branding.appName }}
       </router-link>
- 
+
       <span v-if="currentTheme" class="currentTheme">
         <span class="divider ml-4 mr-5">/</span>
 
@@ -37,14 +37,14 @@
       <span v-if="$route.name === 'explore'">
         <span class="divider ml-4 mr-5">/</span>
 
-        <span 
-          class="breadcrumb highlighted" 
+        <span
+          class="breadcrumb highlighted"
         >
           <span>Explore</span>
         </span>
       </span>
     </v-toolbar-title>
-    
+
     <slot name="right"></slot>
 
     <v-badge
@@ -113,7 +113,7 @@ export default {
     onMenuPressed: {
       type: Function,
       default: () => {},
-    }
+    },
   },
   computed: {
     ...mapState('config', [
@@ -134,7 +134,7 @@ export default {
           return true;
 
         default:
-          return false
+          return false;
       }
     },
   },
