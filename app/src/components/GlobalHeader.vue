@@ -14,7 +14,9 @@
       class="text-uppercase mr-5 breadcrumb logo"
       :class="{highlighted: $route.name === 'landing'}"
     >
-      {{ appConfig && appConfig.branding.appName }}
+      <router-link :to="{name: 'landing'}">
+        {{ appConfig && appConfig.branding.appName }}
+      </router-link>
     </v-toolbar-title>
     
     <slot name="right"></slot>
@@ -57,6 +59,10 @@ export default {
     text-decoration: none;
     font-weight: normal;
     color: #FFF;
+
+    a {
+      text-decoration: none;
+    }
 
     &.logo {
       font-size: 110%;
