@@ -30,7 +30,7 @@
           class="breadcrumb"
           :class="{highlighted: isThemePageActive}"
         >
-          {{ currentTheme.name }}
+          <span>{{ currentTheme.name }}</span>
         </router-link>
       </span>
 
@@ -40,7 +40,7 @@
         <span 
           class="breadcrumb highlighted" 
         >
-          Explore
+          <span>Explore</span>
         </span>
       </span>
     </v-toolbar-title>
@@ -152,7 +152,11 @@ export default {
     text-decoration: none;
     font-weight: normal;
     color: #FFF;
-    text-align: center;
+
+    span {
+      width: 100%;
+      text-align: center;
+    }
 
     a {
       text-decoration: none;
