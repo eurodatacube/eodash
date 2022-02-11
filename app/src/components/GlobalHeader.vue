@@ -24,7 +24,7 @@
       </router-link>
  
       <span v-if="currentTheme" class="currentTheme">
-        <span class="divider ml-3 mr-3">/</span>
+        <span class="divider ml-4 mr-5">/</span>
 
         <router-link :to="{name: currentTheme.slug}"
           class="breadcrumb"
@@ -35,7 +35,7 @@
       </span>
 
       <span v-if="$route.name === 'explore'">
-        <span class="divider ml-3 mr-3">/</span>
+        <span class="divider ml-4 mr-5">/</span>
 
         <span 
           class="breadcrumb highlighted" 
@@ -148,7 +148,7 @@ export default {
     background: transparent;
     text-transform: none;
     padding: 0;
-    font-size: 90%;
+    font-size: 93%;
     text-decoration: none;
     font-weight: normal;
     color: #FFF;
@@ -170,7 +170,7 @@ export default {
 
     &.highlighted {
       background: #FFF4;
-      padding: 3px 5px;
+      padding: 3px 6px;
     }
   }
 }
