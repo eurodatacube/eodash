@@ -8,7 +8,7 @@
     class="global-header white--text"
     v-show="!isFullScreen"
   >
-    <v-app-bar-nav-icon 
+    <v-app-bar-nav-icon
       v-if="$route.name === 'explore'" 
       @click.stop="onMenuPressed" 
       dark 
@@ -23,15 +23,15 @@
         {{ appConfig && appConfig.branding.appName }}
       </router-link>
  
-      <span v-if="currentTheme">
+      <span v-if="currentTheme" class="currentTheme">
         <span class="divider ml-3 mr-3">/</span>
 
-        <span 
-          class="breadcrumb" 
+        <router-link :to="{name: currentTheme.slug}"
+          class="breadcrumb"
           :class="{highlighted: isThemePageActive}"
         >
           {{ currentTheme.name }}
-        </span>
+        </router-link>
       </span>
 
       <span v-if="$route.name === 'explore'">
@@ -76,7 +76,7 @@
         small
         class="mr-3"
         @click="$router.push({ name: 'explore' })"
-        v-if="isThemePageActive"
+        v-if="isThemePageActive || $route.name === 'landing'"
       >
         Explore
       </v-btn>
@@ -109,7 +109,6 @@ export default {
 
     /**
      * A callback function that is executed when the user presses the menu button.
-     * @values true, false
      */
     onMenuPressed: {
       type: Function,
