@@ -47,7 +47,21 @@
 
     <slot name="right"></slot>
 
+    <v-spacer></v-spacer>
+
+    <span class="button-group mr-6">
+      <v-btn
+        text
+        dark
+        small
+        @click="$router.push({ name: 'explore' })"
+      >
+        Explore
+      </v-btn>
+    </span>
+
     <v-badge
+      class="mr-6"
       bordered
       color="info"
       :content="$store.state.dashboard.dashboardConfig
@@ -66,20 +80,6 @@
         Custom Dashboard
       </v-btn>
     </v-badge>
-
-    <v-spacer></v-spacer>
-
-    <span class="button-group mr-9">
-      <v-btn
-        text
-        dark
-        small
-        class="mr-3"
-        @click="$router.push({ name: 'explore' })"
-      >
-        Explore
-      </v-btn>
-    </span>
 
     <img class="header__logo" height="32" :src="appConfig && appConfig.branding.headerLogo" />
   </v-app-bar>
