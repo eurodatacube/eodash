@@ -11,7 +11,7 @@
 
     <v-toolbar-title
       v-if="$vuetify.breakpoint.mdAndUp"
-      class="text-uppercase mr-5 logo"
+      class="text-uppercase mr-5 breadcrumb logo"
       :class="{highlighted: $route.name === 'landing'}"
     >
       {{ appConfig && appConfig.branding.appName }}
@@ -59,7 +59,7 @@ export default {
     color: #FFF;
 
     &.logo {
-      font-size: 105%;
+      font-size: 110%;
     }
 
     &.highlighted {
