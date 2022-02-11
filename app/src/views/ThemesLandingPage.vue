@@ -75,6 +75,7 @@
 import {
   mapState,
   mapGetters,
+  mapActions,
 } from 'vuex';
 
 import GlobalFooter from '@/components/GlobalFooter.vue';
@@ -118,7 +119,7 @@ export default {
     },
   },
   created() {
-    this.$store.commit('themes/RESET_THEME');
+    this.loadTheme(null);
 
     if (this.$route.query && Object.keys(this.$route.query).length !== 0) {
       this.$router.replace({
@@ -126,6 +127,9 @@ export default {
         query: this.$route.query,
       });
     }
+  },
+  methods: {
+    ...mapActions('themes', ['loadTheme']),
   },
 };
 </script>
