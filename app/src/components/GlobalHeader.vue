@@ -8,7 +8,11 @@
     class="global-header white--text"
     v-show="!isFullScreen"
   >
-    <slot name="left"></slot>
+    <v-app-bar-nav-icon 
+      v-if="$route.name === 'explore'" 
+      @click.stop="onMenuPressed" 
+      dark 
+    />
 
     <v-toolbar-title
       v-if="$vuetify.breakpoint.mdAndUp"
@@ -29,9 +33,39 @@
           {{ currentTheme.name }}
         </span>
       </span>
+
+      <span v-if="$route.name === 'explore'">
+        <span class="divider ml-3 mr-3">/</span>
+
+        <span 
+          class="breadcrumb highlighted" 
+        >
+          Explore
+        </span>
+      </span>
     </v-toolbar-title>
     
     <slot name="right"></slot>
+
+    <v-badge
+      bordered
+      color="info"
+      :content="$store.state.dashboard.dashboardConfig
+        && $store.state.dashboard.dashboardConfig.features.length"
+      :value="$store.state.dashboard.dashboardConfig
+        && $store.state.dashboard.dashboardConfig.features.length"
+      overlap
+    >
+      <v-btn
+        v-if="$store.state.dashboard.dashboardConfig"
+        text
+        dark
+        small
+        to="/dashboard"
+      >
+        Custom Dashboard
+      </v-btn>
+    </v-badge>
 
     <v-spacer></v-spacer>
 
@@ -64,10 +98,23 @@ import {
  */
 export default {
   props: {
+    /**
+     * Determines whether the header should be hidden.
+     * @values true, false
+     */
     isFullScreen: {
       type: Boolean,
       default: false,
     },
+
+    /**
+     * A callback function that is executed when the user presses the menu button.
+     * @values true, false
+     */
+    onMenuPressed: {
+      type: Function,
+      default: () => {},
+    }
   },
   computed: {
     ...mapState('config', [
@@ -86,9 +133,10 @@ export default {
         case 'agriculture':
         case 'cryosphere':
           return true;
-      }
 
-      return false;
+        default:
+          return false
+      }
     },
   },
 };
