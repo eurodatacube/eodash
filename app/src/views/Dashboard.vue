@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard fill-height">
-    <v-app-bar
+    <!--<v-app-bar
       app
       clipped-left
       clipped-right
@@ -70,7 +70,12 @@
       </template>
       <v-spacer></v-spacer>
       <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
-    </v-app-bar>
+    </v-app-bar>-->
+
+    <global-header
+      :on-menu-pressed="() => drawerLeft = !drawerLeft"
+      :is-fullscreen="isFullscreen"
+    />
 
     <v-navigation-drawer
       v-model="drawerLeft"
@@ -295,6 +300,7 @@ import Banner from '@/components/Banner.vue';
 import SelectionPanel from '@/components/SelectionPanel.vue';
 import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
+import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
@@ -317,6 +323,7 @@ export default {
     SelectionPanel,
     CenterPanel,
     DataPanel,
+    GlobalHeader,
     GlobalFooter,
   },
   props: {

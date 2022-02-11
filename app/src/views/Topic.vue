@@ -10,41 +10,7 @@
     <div
       class="px-3"
     >
-      <v-app-bar
-        app
-        clipped-left
-        clipped-right
-        flat
-        :color="topic.color"
-        class="white--text"
-        style="z-index: 10;"
-      >
-        <router-link to="/" class="white--text" style="text-decoration: none">
-        <v-toolbar-title
-          v-if="$vuetify.breakpoint.mdAndUp"
-          class="text-uppercase mr-5"
-        >
-          <span class="mr-3">{{ appConfig && appConfig.branding.appName }}</span>
-
-          /
-
-          <router-link class="ml-3 topic-button" :to="{name: topic.slug}">
-            <b>{{ topic.name }}</b>
-          </router-link>
-        </v-toolbar-title>
-        </router-link>
-        <v-spacer></v-spacer>
-        <v-btn
-          text
-          dark
-          small
-          class="mr-3"
-          @click="$router.push('/explore')"
-        >
-          Explore
-        </v-btn>
-        <img class="header__logo" height="32" :src="appConfig && appConfig.branding.headerLogo" />
-      </v-app-bar>
+      <global-header />
       <v-row class="topic-page" justify="center">
         <div
           class="topic-header d-flex justify-center align-center"
@@ -113,6 +79,7 @@ import {
   mapActions,
 } from 'vuex';
 
+import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import StoriesGrid from '@/components/ThemesLandingPage/StoriesGrid.vue';
 import ThemeNavigation from '@/components/ThemesLandingPage/ThemeNavigation.vue';
@@ -124,6 +91,7 @@ export default {
   },
 
   components: {
+    GlobalHeader,
     GlobalFooter,
     StoriesGrid,
     ThemeNavigation,

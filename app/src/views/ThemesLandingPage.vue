@@ -10,36 +10,7 @@
     <div
       class="px-3"
     >
-      <v-app-bar
-        app
-        clipped-left
-        clipped-right
-        flat
-        color="primary"
-        class="white--text appbar"
-      >
-        <router-link to="/" class="white--text" style="text-decoration: none">
-        <v-toolbar-title
-          v-if="$vuetify.breakpoint.mdAndUp"
-          class="text-uppercase mr-5"
-        >
-          <b>{{ appConfig && appConfig.branding.appName }}</b>
-        </v-toolbar-title>
-        </router-link>
-
-        <v-btn
-          text
-          dark
-          small
-          elevation="1"
-          @click="$router.push('/explore')"
-        >
-          Explore
-        </v-btn>
-
-        <v-spacer></v-spacer>
-        <img class="header__logo" height="32" :src="appConfig && appConfig.branding.headerLogo" />
-      </v-app-bar>
+      <global-header />
       <v-row class="landing-page" justify="center">
         <hero />
 
@@ -106,6 +77,7 @@ import {
 } from 'vuex';
 
 import GlobalFooter from '@/components/GlobalFooter.vue';
+import GlobalHeader from '@/components/GlobalHeader.vue';
 
 import Hero from '@/components/ThemesLandingPage/Hero.vue';
 import ThemeNavigation from '@/components/ThemesLandingPage/ThemeNavigation.vue';
@@ -114,6 +86,7 @@ import StoriesGrid from '@/components/ThemesLandingPage/StoriesGrid.vue';
 export default {
   components: {
     GlobalFooter,
+    GlobalHeader,
     Hero,
     ThemeNavigation,
     StoriesGrid,
@@ -176,5 +149,20 @@ export default {
 
 .info-section {
   height: 40vh;
+}
+
+.topic-button {
+  border-radius: 4px;
+  background: #FFF4;
+  text-transform: none;
+  font-size: 105%;
+  padding: 3px 7px;
+  text-decoration: none;
+  font-weight: normal;
+  color: #FFF;
+
+  &.disabled {
+    background: transparent;
+  }
 }
 </style>
