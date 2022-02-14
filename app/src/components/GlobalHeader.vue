@@ -140,37 +140,39 @@
 
     <v-spacer></v-spacer>
 
-    <span class="button-group mr-6">
-      <v-btn
-        text
-        dark
-        small
-        @click="$router.push({ name: 'explore' })"
-      >
-        Explore
-      </v-btn>
-    </span>
+    <div v-if="!isMenuButtonActive">
+      <span class="button-group mr-6">
+        <v-btn
+          text
+          dark
+          small
+          @click="$router.push({ name: 'explore' })"
+        >
+          Explore
+        </v-btn>
+      </span>
 
-    <v-badge
-      class="mr-6"
-      bordered
-      color="info"
-      :content="$store.state.dashboard.dashboardConfig
-        && $store.state.dashboard.dashboardConfig.features.length"
-      :value="$store.state.dashboard.dashboardConfig
-        && $store.state.dashboard.dashboardConfig.features.length"
-      overlap
-    >
-      <v-btn
-        v-if="$store.state.dashboard.dashboardConfig"
-        text
-        dark
-        small
-        to="/dashboard"
+      <v-badge
+        class="mr-6"
+        bordered
+        color="info"
+        :content="$store.state.dashboard.dashboardConfig
+          && $store.state.dashboard.dashboardConfig.features.length"
+        :value="$store.state.dashboard.dashboardConfig
+          && $store.state.dashboard.dashboardConfig.features.length"
+        overlap
       >
-        Custom Dashboard
-      </v-btn>
-    </v-badge>
+        <v-btn
+          v-if="$store.state.dashboard.dashboardConfig"
+          text
+          dark
+          small
+          to="/dashboard"
+        >
+          Custom Dashboard
+        </v-btn>
+      </v-badge>
+    </div>
 
     <img class="header__logo" height="32" :src="appConfig && appConfig.branding.headerLogo" />
   </v-app-bar>
