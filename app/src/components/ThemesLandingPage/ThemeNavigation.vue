@@ -72,7 +72,7 @@ export default {
 .theme-nav {
   position: sticky;
   top: -1px;
-  z-index: 10;
+  z-index: 3;
 }
 
 .mobile-menu ::v-deep .v-expansion-panel-content__wrap {
