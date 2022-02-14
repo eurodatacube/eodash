@@ -108,17 +108,18 @@ export default {
     }),
 
     oneOfEachTopic() {
-      let res = Object.entries(this.stories.trilateral)
+      const res = Object.entries(this.stories.trilateral)
         .map(([slug, theme]) => {
-            let obj = Object.values(theme)[
-              ~~(Math.random() * Object.keys(theme).length)
-            ];
+          let obj = Object.values(theme)[
+            // eslint-disable-next-line
+            ~~(Math.random() * Object.keys(theme).length)
+          ];
 
-            if (obj) {
-              obj = Object.assign(obj, {theme: slug});
-            }
+          if (obj) {
+            obj = Object.assign(obj, { theme: slug });
+          }
 
-            return obj;
+          return obj;
         })
         .filter((story) => !!story);
 

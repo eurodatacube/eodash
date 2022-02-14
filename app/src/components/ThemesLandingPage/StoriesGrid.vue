@@ -134,10 +134,9 @@ export default {
 
     filteredStories() {
       if (this.topic) {
-        return Object.values(this.stories.trilateral[this.topic])
-      } else {
-        return this.items;
+        return Object.values(this.stories.trilateral[this.topic]);
       }
+      return this.items;
     },
 
     content() {
