@@ -7,11 +7,10 @@
 
     <v-row
       no-gutters
-      v-if="filteredStories"
     >
       <v-col
-        v-for="(story, index) in content"
-        :key="story.originalDashboardId"
+        v-for="(story, index) in items"
+        :key="story.id"
         :cols="$vuetify.breakpoint.xsOnly
           ? 12
           : (((index + 1) % 4 === 1 || (index + 1) % 4 === 0) ? 8 : 4)"
@@ -24,10 +23,10 @@
             flat
             tile
             style="position: relative;"
-            @click="$router.push('/story?id=' + story.originalDashboardId)"
+            @click="$router.push('/story?id=' + story.id)"
           >
 
-            <!--<v-btn
+            <v-btn
               class="theme-tag white--text"
               style="z-index: 2;"
               :color="findTheme(story.theme).color"
@@ -35,7 +34,7 @@
               small>
 
               {{ findTheme(story.theme).name }}
-            </v-btn>-->
+            </v-btn>
 
             <v-img
               class="white--text align-end"
@@ -94,10 +93,6 @@ import storiesConfig from '../../config/stories.json';
 
 export default {
   props: {
-    topic: {
-      type: String,
-      default: '',
-    },
     items: {
       type: Array,
       default: () => [],
@@ -106,7 +101,6 @@ export default {
   data: () => ({
     carouselModel: 0,
     tab: null,
-    theme: {},
   }),
   components: {
   },
@@ -114,12 +108,9 @@ export default {
     ...mapState('config', [
       'appConfig',
     ]),
-
-    ...mapGetters({
-      themes: 'themes/getThemes',
-      stories: 'themes/getStories',
-    }),
-
+    ...mapGetters('themes', [
+      'getThemes',
+    ]),
     headingClass() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs': return 'text-h4';
@@ -131,32 +122,6 @@ export default {
         default: return 'text-h2';
       }
     },
-
-    filteredStories() {
-      if (this.topic) {
-        return Object.values(this.stories.trilateral[this.topic]);
-      }
-      return this.items;
-    },
-
-    content() {
-      if (!this.items.length) {
-        return this.filteredStories;
-      }
-
-      return this.items;
-    },
-
-    carouselEntries() {
-      // temporary for demo purposes
-      return Object.entries(storiesConfig[this.appConfig.id].Water)
-        .concat(Object.entries(storiesConfig[this.appConfig.id].Land))
-        .sort((a, b) => a[0].length - b[0].length)
-        .splice(0, 5);
-    },
-  },
-  mounted() {
-    this.theme = this.themes.find((theme) => theme.slug === this.$route.name);
   },
   methods: {
     dismiss() {
@@ -167,6 +132,9 @@ export default {
     },
     selectStory(story) {
       this.$router.push(`/story?id=${story[0]}`);
+    },
+    findTheme(slug) {
+      return this.getThemes.find((theme) => theme.slug === slug || this.theme);
     },
   },
 };

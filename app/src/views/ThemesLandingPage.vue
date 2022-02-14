@@ -17,7 +17,7 @@
         <div class="section pb-16">
           <theme-navigation />
           <div class="mt-16 d-flex flex-column justify-start align-center">
-            <stories-grid :items="oneOfEachTopic" />
+            <stories-grid :items="oneOfEachTheme" />
           </div>
         </div>
 
@@ -94,36 +94,22 @@ export default {
     StoriesGrid,
   },
   metaInfo() {
-    const { appConfig } = this.$store.state.config;
     return {
-      title: appConfig ? appConfig.branding.appName : 'eodash',
+      title: this.appConfig ? this.appConfig.branding.appName : 'eodash',
     };
   },
   computed: {
     ...mapState('config', ['appConfig']),
-    ...mapGetters({
-      themes: 'themes/getThemes',
-      stories: 'themes/getStories',
-      currentTheme: 'themes/getCurrentTheme',
-    }),
-
-    oneOfEachTopic() {
-      const res = Object.entries(this.stories.trilateral)
-        .map(([slug, theme]) => {
-          let obj = Object.values(theme)[
-            // eslint-disable-next-line
-            ~~(Math.random() * Object.keys(theme).length)
-          ];
-
-          if (obj) {
-            obj = Object.assign(obj, { theme: slug });
-          }
-
-          return obj;
-        })
+    ...mapGetters('themes', [
+      'getStories',
+      'getThemes',
+    ]),
+    oneOfEachTheme() {
+      return this.getThemes
+        .map((theme) => this.getStories(theme.slug)[
+          Math.floor(Math.random() * this.getStories(theme.slug).length)
+        ])
         .filter((story) => !!story);
-
-      return res;
     },
   },
   created() {
@@ -164,7 +150,7 @@ export default {
   height: 40vh;
 }
 
-.topic-button {
+.theme-button {
   border-radius: 4px;
   background: #FFF4;
   text-transform: none;

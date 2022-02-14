@@ -49,7 +49,14 @@ const getters = {
   getThemes: (state) => state.themes,
   getTheme: (state) => (slug) => state.themes.find((theme) => theme.slug === slug),
   getCurrentTheme: (state) => state.currentTheme,
-  getStories: (state) => state.stories,
+  getStories: (state, _, rootState) => (theme) => {
+    const brandStories = state.stories[rootState.config.appConfig.id];
+    return theme
+      ? Object.entries(brandStories[theme]).map((s) => ({ ...s[1], theme, id: s[0] }))
+      : Object.entries(brandStories).reduce((acc, [themeKey, themeStories]) => acc.concat([
+        ...Object.entries(themeStories).map(([id, story]) => ({ ...story, theme: themeKey, id })),
+      ]), []);
+  },
 };
 
 const mutations = {
@@ -67,11 +74,11 @@ const mutations = {
 };
 
 const actions = {
-  async loadTheme({ commit, state }, theme) {
+  async loadTheme({ commit, state, rootState }, theme) {
     commit('SET_CURRENT_THEME', theme);
     let storyIDs = [];
     if (theme) {
-      const matchingStories = Object.values(state.stories.trilateral[theme]);
+      const matchingStories = Object.values(state.stories[rootState.config.appConfig.id][theme]);
 
       for (const story of matchingStories) { // eslint-disable-line
         const storyDashboard = await axios // eslint-disable-line

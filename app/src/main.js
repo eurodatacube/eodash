@@ -20,7 +20,7 @@ import Challenges from './views/Challenges.vue';
 import Terms from './views/Terms.vue';
 import EmbedIframe from './views/EmbedIframe.vue';
 import ThemesLandingPage from './views/ThemesLandingPage.vue';
-import Topic from './views/Topic.vue';
+import ThemeSinglePage from './views/ThemeSinglePage.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 import customDashboardApiFactory from './custom-dashboard';
@@ -202,12 +202,12 @@ const renderVue = async () => {
     { path: '/terms_and_conditions', component: Terms },
     { path: '/challenges', component: Challenges },
     { path: '/iframe', component: EmbedIframe },
-    { path: '/ocean', name: 'ocean', component: Topic },
-    { path: '/biomass-and-landcover', name: 'biomass-and-landcover', component: Topic },
-    { path: '/atmospheric-composition', name: 'atmospheric-composition', component: Topic },
-    { path: '/water-quality', name: 'water-quality', component: Topic },
-    { path: '/agriculture', name: 'agriculture', component: Topic },
-    { path: '/cryosphere', name: 'cryosphere', component: Topic },
+    { path: '/ocean', name: 'ocean', component: ThemeSinglePage },
+    { path: '/biomass-and-landcover', name: 'biomass-and-landcover', component: ThemeSinglePage },
+    { path: '/atmospheric-composition', name: 'atmospheric-composition', component: ThemeSinglePage },
+    { path: '/water-quality', name: 'water-quality', component: ThemeSinglePage },
+    { path: '/agriculture', name: 'agriculture', component: ThemeSinglePage },
+    { path: '/cryosphere', name: 'cryosphere', component: ThemeSinglePage },
     { path: '*', component: PageNotFound },
   ];
   const router = new VueRouter({ mode: 'history', base: process.env.BASE_URL, routes });

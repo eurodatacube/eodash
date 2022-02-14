@@ -4,7 +4,7 @@
       <v-expansion-panels accordion>
         <v-expansion-panel>
           <v-expansion-panel-header>
-            Topics
+            Thematic Areas
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-row no-gutters class="button-row" style="z-index: 1000;">

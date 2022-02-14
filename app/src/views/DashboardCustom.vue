@@ -32,7 +32,7 @@
             </span>
             <template v-if="getCurrentTheme">
               <span class="mx-3">/</span>
-              <router-link class="topic-button" :to="{name: getCurrentTheme.slug}">
+              <router-link class="theme-button" :to="{name: getCurrentTheme.slug}">
                 {{ getCurrentTheme.name }}
               </router-link>
             </template>
@@ -1045,7 +1045,7 @@ export default {
 ::v-deep .display-2 ::v-deep .v-input__append-inner {
   align-self: center !important;
 }
-.topic-button {
+.theme-button {
   border-radius: 4px;
   background: #FFF4;
   text-transform: none;

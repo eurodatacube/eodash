@@ -11,12 +11,14 @@
       class="px-3"
     >
       <global-header />
-      <v-row class="topic-page" justify="center">
+      <v-row class="theme-page" justify="center">
         <div
-          class="topic-header d-flex justify-center align-center"
-          :style="{background: topic.color, height: headerSize}"
+          class="theme-header d-flex justify-center align-center"
+          :style="{background: getCurrentTheme.color, height: headerSize}"
         >
-          <h2 class="white--text text-center" :class="[headingClass]">{{ topic.name }}</h2>
+          <h2 class="white--text text-center" :class="[headingClass]">
+            {{ getCurrentTheme.name }}
+          </h2>
         </div>
 
         <theme-navigation />
@@ -25,7 +27,7 @@
           class="ma-0 pb-16 d-flex flex-column"
           style="max-width: 1400px;"
         >
-          <stories-grid :topic="$route.name" class="pt-16 pb-16" />
+          <stories-grid :items="getStories(getCurrentTheme.slug)" class="pt-16 pb-16" />
           <v-row no-gutters class="d-flex flex-row px-3 px-md-8 pt-16 pb-8">
             <template>
               <v-col cols="12" xs="12" sm="12" md="6" lg="6"
@@ -33,7 +35,9 @@
               >
                 <div class="info-section d-flex flex-column justify-center
                 pb-8 pb-md-0 pr-xs-0 pr-sm-0 pr-md-8 pr-lg-8 pr-xl-8">
-                  <h3 class="mb-10" :class="[headingClass]">Explore {{ topic.name }} Datasets</h3>
+                  <h3 class="mb-10" :class="[headingClass]">
+                    Explore {{ getCurrentTheme.name }} Datasets
+                  </h3>
 
                   <p class="mb-10" style="font-size: 18px;">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -48,7 +52,7 @@
                     class="py-2 white--text"
                     block
                     max-height="44"
-                    :color="topic.color"
+                    :color="getCurrentTheme.color"
                     large
                     @click="$router.push({name: 'explore'})"
                   >Explore</v-btn>
@@ -68,7 +72,7 @@
           </v-row>
         </v-container>
       </v-row>
-      <global-footer :color="topic.color" />
+      <global-footer :color="getCurrentTheme.color" />
     </div>
   </div>
 </template>
@@ -110,9 +114,10 @@ export default {
   },
   computed: {
     ...mapState('config', ['appConfig']),
-    ...mapGetters({
-      topic: 'themes/getCurrentTheme',
-    }),
+    ...mapGetters('themes', [
+      'getStories',
+      'getCurrentTheme',
+    ]),
 
     headingClass() {
       switch (this.$vuetify.breakpoint.name) {
@@ -145,17 +150,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.topic-page {
+.theme-page {
   width: 100vw;
   min-height: 100vh;
 }
-.topic-header {
+.theme-header {
   width: 100vw;
   height: 24vh;
   position: relative;
 }
 
-.topic-header .backdrop {
+.theme-header .backdrop {
   position: absolute;
   left: 0;
   top: 0;
@@ -165,7 +170,7 @@ export default {
   background-size: cover;
 }
 
-.topic-button {
+.theme-button {
   border-radius: 4px;
   background: #FFF4;
   text-transform: none;
