@@ -98,5 +98,16 @@
     "image": "https://picsum.photos/id/203/900/600",
     "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg",
     "theme": "atmospheric-composition"
+  },
+  
+  
+  {
+    "originalDashboardId": "b551d84c73fc049d",
+    "slug": "air-quality-story-demo",
+    "title": "ESA Air Quality Demo Story 1",
+    "subtitle": "This demo story shows information about Air Quality in Australia",
+    "image": "https://picsum.photos/id/203/900/600",
+    "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg",
+    "theme": "atmospheric-composition"
   }
 ]
