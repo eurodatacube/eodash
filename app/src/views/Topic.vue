@@ -116,7 +116,7 @@ export default {
 
     headingClass() {
       switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return 'text-h4 px-4';
+        case 'xs': return 'text-h4';
         case 'sm': return 'text-h3';
         case 'md': return 'text-h3';
         case 'lg': return 'text-h2';
