@@ -194,9 +194,9 @@ const renderVue = async () => {
       : [
         { path: '/', name: 'explore', component: Dashboard },
       ]),
-    { path: '/dashboard/:viewingId?', component: DashboardCustom },
+    { path: '/dashboard', component: DashboardCustom },
     ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
-      ? [{ path: '/story/:viewingId?', component: DashboardCustom }]
+      ? [{ path: '/story', component: DashboardCustom }]
       : []),
     { path: '/privacy', component: Privacy },
     { path: '/terms_and_conditions', component: Terms },
