@@ -6,7 +6,7 @@
         "title": "Impact of COVID-19 on winter cereals growth and harvest",
         "subtitle": "Another Subtitle",
         "image": "https://picsum.photos/id/107/900/600",
-        "imagePlaceholder": "https://picsum.photos/10/6?image=13",
+        "imagePlaceholder": "https://picsum.photos/10/6?image=13"
       }
     },
     "Atmosphere": {
@@ -15,31 +15,28 @@
         "title": "Carbon emissions reduced by 37% during COVID-19 pandemic",
         "subtitle": "Another Subtitle",
         "image": "https://picsum.photos/id/1064/900/600",
-        "imagePlaceholder": "https://picsum.photos/id/1064/900/600",
+        "imagePlaceholder": "https://picsum.photos/id/1064/900/600"
       },
-
       "official-cov-story-demo": {
         "originalDashboardId": "90179989b23d5f75",
         "title": "Cities Experience Clearer Air During Lockdowns",
         "subtitle": "See how the COVID-19 pandemic actually helped reduce air pollution in metropolitan areas.",
         "image": "https://picsum.photos/id/141/900/600",
-        "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg",
+        "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg"
       },
-
       "another-official-story-demo": {
         "originalDashboardId": "c4df3549d0a02fed",
         "title": "Recent Illegal Emissions of CFC-11 Destroy Our Ozone Layer",
         "subtitle": "Rapid action is needed to prevent chlorofluorocarbons from eating away our ozone.",
         "image": "https://picsum.photos/id/203/900/600",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg",
+        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
       },
-
       "air-quality-story-demo": {
         "originalDashboardId": "b551d84c73fc049d",
         "title": "ESA Air Quality Demo Story 1",
         "subtitle": "This demo story shows information about Air Quality in Australia",
         "image": "https://picsum.photos/id/203/900/600",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg",
+        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
       }
     },
     "Biomass": {
@@ -48,7 +45,7 @@
         "title": "Increased Vegetation around the Chernobyl Plant",
         "subtitle": "Wildlife is flourishing in the abandoned area in spite of still highly radioactive soil",
         "image": "https://picsum.photos/1000/800?image=18",
-        "imagePlaceholder": " /10/6?image=12",
+        "imagePlaceholder": " /10/6?image=12"
       }
     },
     "Cryosphere": {
@@ -57,15 +54,14 @@
         "title": "Sentinel-5P",
         "subtitle": "Created by EOX to test the story feature",
         "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg",
+        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
       },
-
       "yet-another-official-story-demo": {
         "originalDashboardId": "c4df3549d0a02fed",
         "title": "Penguins Cuddle Even More Than Previously Thought",
         "subtitle": "Aerial photography finds the feathery creatures packed into balls",
         "image": "./data/story-images/penguins.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg",
+        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
       }
     },
     "Ocean": {
@@ -76,7 +72,6 @@
         "image": "./data/story-images/Danube_Delta.jpg",
         "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg"
       },
-
       "official-story-demo2": {
         "originalDashboardId": "d069a45701e3a0e3",
         "title": "Foreign  Sea Creatures Found in the Pacific Ocean",
@@ -84,7 +79,6 @@
         "image": "https://picsum.photos/id/1002/800/600",
         "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg"
       },
-
       "official-story-demo3": {
         "originalDashboardId": "d069a45701e3a0e3",
         "title": "Coral Reefs around Australia Getting Increasingly Smaller",
