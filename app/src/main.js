@@ -9,7 +9,7 @@ import { Settings } from 'luxon';
 import VueCountdown from '@chenfengyuan/vue-countdown';
 
 import browserDetect from 'vue-browser-detect-plugin';
-import marked from 'marked';
+import { marked } from 'marked';
 import L from 'leaflet';
 import App from './App.vue';
 import Dashboard from './views/Dashboard.vue';

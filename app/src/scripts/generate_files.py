@@ -74,35 +74,38 @@ def retrieve_entries(url, offset):
 
 
 print("Fetching information of available dates for BYOD data")
-for key in COLLECTIONS:
-    # fetch identifier from environment
-    if key in envs:
-        coll_id = envs[key]
-        layer_name = "&TYPENAMES=DSS10-%s"%(coll_id)
-        if key in BBOX:
-            # There are multiple locations for this dataset so we do
-            # requests for each location
-            for (val, subr_key) in BBOX[key]:
-                bbox = "&BBOX=%s"%val
+try:
+    for key in COLLECTIONS:
+        # fetch identifier from environment
+        if key in envs:
+            coll_id = envs[key]
+            layer_name = "&TYPENAMES=DSS10-%s"%(coll_id)
+            if key in BBOX:
+                # There are multiple locations for this dataset so we do
+                # requests for each location
+                for (val, subr_key) in BBOX[key]:
+                    bbox = "&BBOX=%s"%val
+                    request = "%s%s%s%s%s"%(
+                        WFSENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
+                        layer_name, bbox
+                    )
+                    results = retrieve_entries(request, 0)
+                    results.sort()
+                    results_dict[("%s_%s"%(key, subr_key))] = results
+            else:
+                bbox = "&BBOX=-180,90,180,-90"
                 request = "%s%s%s%s%s"%(
                     WFSENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
                     layer_name, bbox
                 )
                 results = retrieve_entries(request, 0)
+                results = list(set(results))
                 results.sort()
-                results_dict[("%s_%s"%(key, subr_key))] = results
+                results_dict[key] = results
         else:
-            bbox = "&BBOX=-180,90,180,-90"
-            request = "%s%s%s%s%s"%(
-                WFSENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
-                layer_name, bbox
-            )
-            results = retrieve_entries(request, 0)
-            results = list(set(results))
-            results.sort()
-            results_dict[key] = results
-    else:
-        print("Key for %s not found in environment variables"%key)
+            print("Key for %s not found in environment variables"%key)
+except:
+    print("Issue retrieving BYOD information")
 
 print("Writing results to %s"%date_data_file)
 with open(date_data_file, "w") as fp:
