@@ -1,6 +1,6 @@
 {
   "trilateral": {
-    "Agriculture": {
+    "agriculture": {
       "a-fourth-official-story-demo": {
         "originalDashboardId": "d069a45701e3a0e3",
         "title": "Impact of COVID-19 on winter cereals growth and harvest",
@@ -9,7 +9,7 @@
         "imagePlaceholder": "https://picsum.photos/10/6?image=13"
       }
     },
-    "Atmosphere": {
+    "atmosphere": {
       "a-fifth-official-story-demo": {
         "originalDashboardId": "90179989b23d5f75",
         "title": "Carbon emissions reduced by 37% during COVID-19 pandemic",
@@ -39,7 +39,7 @@
         "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
       }
     },
-    "Biomass": {
+    "biomass": {
       "a-third-official-story-demo": {
         "originalDashboardId": "d069a45701e3a0e3",
         "title": "Increased Vegetation around the Chernobyl Plant",
@@ -48,7 +48,7 @@
         "imagePlaceholder": " /10/6?image=12"
       }
     },
-    "Cryosphere": {
+    "cryosphere": {
       "another-official-story-demo": {
         "originalDashboardId": "c4df3549d0a02fed",
         "title": "Sentinel-5P",
@@ -64,7 +64,7 @@
         "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
       }
     },
-    "Ocean": {
+    "ocean": {
       "official-story-demo": {
         "originalDashboardId": "d069a45701e3a0e3",
         "title": "Danube Delta, Romania (demo of official story)",
@@ -87,6 +87,6 @@
         "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg"
       }
     },
-    "Water": {}
+    "water": {}
   }
 }
