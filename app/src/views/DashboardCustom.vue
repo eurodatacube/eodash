@@ -686,7 +686,6 @@ export default {
       'dashboardConfig',
     ]),
     ...mapGetters('themes', [
-      'getStories',
       'getCurrentTheme',
     ]),
     newDashboard() {
@@ -752,13 +751,11 @@ export default {
       const storiesConfig = require('../config/stories.json');
       const existingConfiguration = this.getDeepProperty(storiesConfig[this.appConfig.id], id);
       if (this.storyModeEnabled && !this.getCurrentTheme) {
-        let dashboardId = id;
         if (existingConfiguration) {
-          dashboardId = existingConfiguration.originalDashboardId;
+          const currentTheme = Object.entries(storiesConfig[this.appConfig.id])
+            .find((stories) => Object.values(stories[1]).includes(existingConfiguration))[0];
+          this.loadTheme(currentTheme);
         }
-        const currentTheme = this.getStories
-          .find((s) => s.originalDashboardId === dashboardId).theme;
-        this.loadTheme(currentTheme);
       }
       if (
         !editKey
