@@ -14,9 +14,9 @@
       <v-row class="topic-page" justify="center">
         <div
           class="topic-header d-flex justify-center align-center"
-          :style="{background: topic.color}"
+          :style="{background: topic.color, height: headerSize}"
         >
-          <h2 class="text-h2 white--text text-center">{{ topic.name }}</h2>
+          <h2 class="white--text text-center" :class="[headingClass]">{{ topic.name }}</h2>
         </div>
 
         <theme-navigation />
@@ -33,7 +33,7 @@
               >
                 <div class="info-section d-flex flex-column justify-center
                 pb-8 pb-md-0 pr-xs-0 pr-sm-0 pr-md-8 pr-lg-8 pr-xl-8">
-                  <h3 class="text-h3 mb-10">Explore {{ topic.name }} Datasets</h3>
+                  <h3 class="mb-10" :class="[headingClass]">Explore {{ topic.name }} Datasets</h3>
 
                   <p class="mb-10" style="font-size: 18px;">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -113,6 +113,30 @@ export default {
     ...mapGetters({
       topic: 'themes/getCurrentTheme',
     }),
+
+    headingClass() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return 'text-h4 px-4';
+        case 'sm': return 'text-h3';
+        case 'md': return 'text-h3';
+        case 'lg': return 'text-h2';
+        case 'xl': return 'text-h2';
+
+        default: return 'text-h2';
+      }
+    },
+
+    headerSize() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return '12vh';
+        case 'sm': return '18vh';
+        case 'md': return '24vh';
+        case 'lg': return '24vh';
+        case 'xl': return '24vh';
+
+        default: return '24vh';
+      }
+    },
   },
   methods: {
     ...mapActions('themes', ['loadTheme']),

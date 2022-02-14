@@ -3,7 +3,7 @@
     class="ma-0  px-4 px-md-8"
     style="max-width: 1400px;"
   >
-    <h3 class="text-h3 mb-10">Stories</h3>
+    <h3 class="mb-10" :class="[headingClass]">Stories</h3>
 
     <v-row
       no-gutters
@@ -119,6 +119,18 @@ export default {
       themes: 'themes/getThemes',
       stories: 'themes/getStories',
     }),
+
+    headingClass() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return 'text-h4';
+        case 'sm': return 'text-h3';
+        case 'md': return 'text-h3';
+        case 'lg': return 'text-h2';
+        case 'xl': return 'text-h2';
+
+        default: return 'text-h2';
+      }
+    },
 
     filteredStories() {
       if (this.topic) {
