@@ -5,12 +5,12 @@
     clipped-right
     flat
     :color="currentTheme ? currentTheme.color : 'primary'"
-    class="global-header white--text"
+    class="white--text"
     v-show="!isFullScreen"
   >
     <v-app-bar-nav-icon
       @click.stop="switchMenu"
-      v-if="isMenuButtonActive"
+      v-if="$vuetify.breakpoint.smAndDown"
       dark
     />
 
@@ -107,52 +107,57 @@
 
     <v-toolbar-title
       v-if="$vuetify.breakpoint.mdAndUp"
-      class="text-uppercase mr-5 breadcrumb logo"
-      :class="{highlighted: $route.name === 'landing'}"
     >
-      <router-link :to="{name: 'landing'}">
+      <v-btn
+        text
+        dark
+        class="logo"
+        :to="{name: 'landing'}"
+        exact
+      >
         {{ appConfig && appConfig.branding.appName }}
-      </router-link>
-
-      <span v-if="currentTheme" class="currentTheme">
-        <span class="divider ml-4 mr-5">/</span>
-
-        <router-link :to="{name: currentTheme.slug}"
-          class="breadcrumb"
-          :class="{highlighted: isThemePageActive}"
-        >
-          <span>{{ currentTheme.name }}</span>
-        </router-link>
-      </span>
-
-      <span v-if="$route.name === 'explore'">
-        <span class="divider ml-4 mr-5">/</span>
-
-        <router-link :to="{name: 'explore'}"
-          class="breadcrumb highlighted"
-        >
-          <span>Explore</span>
-        </router-link>
-      </span>
+      </v-btn>
     </v-toolbar-title>
 
-    <slot name="right"></slot>
+    <template v-if="currentTheme">
+      <v-icon dark class="mx-2">mdi-chevron-right</v-icon>
+
+      <v-btn
+        text
+        dark
+        small
+        :to="{name: currentTheme.slug}"
+      >
+        {{ currentTheme.name }}
+      </v-btn>
+    </template>
+
+    <template v-if="$route.name === 'explore'">
+      <v-icon dark class="mx-2">mdi-chevron-right</v-icon>
+      <v-btn
+        text
+        dark
+        small
+        :to="{name: 'explore'}"
+      >
+        Datasets
+      </v-btn>
+    </template>
 
     <v-spacer></v-spacer>
 
-    <div v-if="!isMenuButtonActive">
-      <span class="button-group mr-6">
-        <v-btn
-          text
-          dark
-          small
-          @click="$store.state.indicators.selectedIndicator
-            ? $router.go(-1)
-            : $router.push({ name: 'explore' })"
-        >
-          Explore
-        </v-btn>
-      </span>
+    <template v-if="$vuetify.breakpoint.mdAndUp">
+      <v-btn
+        v-if="$route.name != 'explore'"
+        text
+        dark
+        small
+        @click="$store.state.indicators.selectedIndicator
+          ? $router.go(-1)
+          : $router.push({ name: 'explore' })"
+      >
+        Explore Datasets
+      </v-btn>
 
       <v-badge
         class="mr-6"
@@ -174,9 +179,9 @@
           Custom Dashboard
         </v-btn>
       </v-badge>
-    </div>
+    </template>
 
-    <img class="header__logo" height="32" :src="appConfig && appConfig.branding.headerLogo" />
+    <img height="32" :src="appConfig && appConfig.branding.headerLogo" />
   </v-app-bar>
 </template>
 
@@ -242,58 +247,15 @@ export default {
           return false;
       }
     },
-
-    isMenuButtonActive() {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return true;
-        case 'sm': return true;
-        case 'md': return false;
-        case 'lg': return false;
-        case 'xl': return false;
-
-        default: return 'text-h2';
-      }
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.global-header {
-  .breadcrumb {
-    border-radius: 4px;
-    background: transparent;
-    text-transform: none;
-    padding: 0;
-    font-size: 93%;
-    text-decoration: none;
-    font-weight: normal;
-    color: #FFF;
-
-    span {
-      width: 100%;
-      text-align: center;
-    }
-
-    a {
-      text-decoration: none;
-      color: #FFF !important;
-    }
-
-    &.logo {
-      font-size: 110%;
-      padding: 3px 7px;
-    }
-
-    &.highlighted {
-      background: #FFF4;
-      padding: 3px 6px;
-    }
-  }
-}
-
 .logo {
   font-size: 1.25rem;
+  letter-spacing: initial;
+  font-weight: initial;
 }
 
 .drawerLeft {

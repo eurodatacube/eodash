@@ -30,7 +30,7 @@
               <v-col cols="12" xs="12" sm="12" md="6" lg="6">
                 <div class="info-section d-flex flex-column justify-center
                 pb-8 pb-md-0 pr-xs-0 pr-sm-0 pr-md-8 pr-lg-8 pr-xl-8">
-                  <h3 class="text-h3 mb-10">Explore Datasets</h3>
+                  <h3 class="text-h3 mb-10">EODASHBOARD Datasets</h3>
 
                   <p class="mb-10" style="font-size: 18px;">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -48,7 +48,7 @@
                     color="primary"
                     large
                     @click="$router.push({ name: 'explore' })"
-                  >Explore</v-btn>
+                  >Explore Datasets</v-btn>
                 </div>
               </v-col>
 

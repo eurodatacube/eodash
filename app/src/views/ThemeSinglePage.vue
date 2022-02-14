@@ -36,7 +36,7 @@
                 <div class="info-section d-flex flex-column justify-center
                 pb-8 pb-md-0 pr-xs-0 pr-sm-0 pr-md-8 pr-lg-8 pr-xl-8">
                   <h3 class="mb-10" :class="[headingClass]">
-                    Explore {{ getCurrentTheme.name }} Datasets
+                    {{ getCurrentTheme.name }} Datasets
                   </h3>
 
                   <p class="mb-10" style="font-size: 18px;">
@@ -55,7 +55,7 @@
                     :color="getCurrentTheme.color"
                     large
                     @click="$router.push({name: 'explore'})"
-                  >Explore</v-btn>
+                  >Explore Datasets</v-btn>
                 </div>
               </v-col>
 
