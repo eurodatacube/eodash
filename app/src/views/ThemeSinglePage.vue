@@ -17,7 +17,7 @@
           :style="{background: getCurrentTheme.color, height: headerSize}"
         >
           <h2 class="white--text text-center" :class="[headingClass]">
-            {{ getCurrentTheme.name }}
+            {{ getCurrentTheme.description }}
           </h2>
         </div>
 
