@@ -10,7 +10,7 @@
   >
     <v-app-bar-nav-icon
       @click.stop="switchMenu"
-      v-if="$vuetify.breakpoint.smOnly"
+      v-if="isMenuButtonActive"
       dark
     />
 
@@ -30,7 +30,7 @@
       <template>
         <v-list-item style="background: var(--v-primary-base)">
           <v-list-item-content>
-            <h3 class="text-uppercase white--text">
+            <h3 class="logo text-uppercase white--text">
               {{ appConfig && appConfig.branding.appName }}
             </h3>
           </v-list-item-content>
@@ -238,6 +238,18 @@ export default {
           return false;
       }
     },
+
+    isMenuButtonActive() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return true;
+        case 'sm': return true;
+        case 'md': return false;
+        case 'lg': return false;
+        case 'xl': return false;
+
+        default: return 'text-h2';
+      }
+    },
   },
 };
 </script>
@@ -274,6 +286,10 @@ export default {
       padding: 3px 6px;
     }
   }
+}
+
+.logo {
+  font-size: 1.25rem;
 }
 
 .drawerLeft {
