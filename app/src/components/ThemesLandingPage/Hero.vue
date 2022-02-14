@@ -5,8 +5,10 @@
 
       </div>-->
     </div>
-    <div class="hero-section d-flex flex-column justify-center align-center">
-      <h2 class="text-h2 mb-5 white--text">You and Earth Observation</h2>
+    <div class="hero-section d-flex flex-column justify-center align-center px-3">
+      <h2 class="mb-5 white--text" :class="$vuetify.breakpoint.xsOnly ? 'text-h4' : 'text-h2'" >
+        Earth Observation And You
+      </h2>
       <!--<h5 class="text-h5 mb-10 white--text">A Tri-Agency Dashboard by NASA, ESA, JAXA</h5>-->
       <h5 class="text-h5 mb-5 white--text">
         <img
