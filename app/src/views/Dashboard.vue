@@ -1,83 +1,10 @@
 <template>
   <div class="dashboard fill-height">
-    <!--<v-app-bar
-      app
-      clipped-left
-      clipped-right
-      flat
-      :color="getCurrentTheme ? getCurrentTheme.color : 'primary'"
-      class="white--text"
-      v-show="!isFullScreen"
-    >
-      <v-app-bar-nav-icon @click.stop="drawerLeft = !drawerLeft" dark />
-      <v-toolbar-title
-        v-if="$vuetify.breakpoint.mdAndUp"
-        class="text-uppercase mr-5"
-      >
-        <router-link to="/" style="text-decoration: none; color: #FFF !important">
-          {{ appConfig && appConfig.branding.appName }}
-        </router-link>
-
-        <template v-if="getCurrentTheme">
-          <span class="mx-3">/</span>
-          <router-link class="topic-button" :to="{name: getCurrentTheme.slug}">
-            {{ getCurrentTheme.name }}
-          </router-link>
-        </template>
-
-        <template>
-          <span class="mx-3">/</span>
-          <span class="current topic-button">Explore</span>
-        </template>
-      </v-toolbar-title>
-      <template v-if="!$vuetify.breakpoint.xsOnly">
-        <v-btn
-          text
-          dark
-          small
-          @click="displayShowText('welcome')"
-        >
-          Welcome
-        </v-btn>
-        <v-btn
-          text
-          dark
-          small
-          @click="displayShowText('about')"
-        >
-          About
-        </v-btn>
-
-        <v-badge
-          bordered
-          color="info"
-          :content="$store.state.dashboard.dashboardConfig
-            && $store.state.dashboard.dashboardConfig.features.length"
-          :value="$store.state.dashboard.dashboardConfig
-            && $store.state.dashboard.dashboardConfig.features.length"
-          overlap
-        >
-          <v-btn
-            v-if="$store.state.dashboard.dashboardConfig"
-            text
-            dark
-            small
-            to="/dashboard"
-          >
-            Custom Dashboard
-          </v-btn>
-        </v-badge>
-      </template>
-      <v-spacer></v-spacer>
-      <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
-    </v-app-bar>-->
-
     <global-header
       :isFullscreen="isFullScreen"
       :displayShowText="displayShowText"
     />
-
-    <!--<v-navigation-drawer
+    <v-navigation-drawer
       v-model="drawerLeft"
       left
       app
@@ -160,7 +87,7 @@
         <v-divider></v-divider>
       </template>
       <selection-panel style="overflow:hidden" />
-    </v-navigation-drawer>-->
+    </v-navigation-drawer>
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.mdAndUp"
       v-model="drawerRight"
@@ -301,6 +228,7 @@ import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
+import SelectionPanel from '@/components/SelectionPanel.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
@@ -323,6 +251,7 @@ export default {
     DataPanel,
     GlobalHeader,
     GlobalFooter,
+    SelectionPanel,
   },
   props: {
     source: String,
@@ -472,20 +401,6 @@ export default {
   }
   .v-badge__badge {
     transform: translateX(-45px);
-  }
-}
-
-.topic-button {
-  border-radius: 4px;
-  background: #FFF4;
-  text-transform: none;
-  font-size: 90%;
-  padding: 2px 5px;
-  text-decoration: none;
-  color: #FFF;
-
-  &.disabled {
-    background: transparent;
   }
 }
 </style>

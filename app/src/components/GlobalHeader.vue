@@ -146,7 +146,9 @@
           text
           dark
           small
-          @click="$router.push({ name: 'explore' })"
+          @click="$store.state.indicators.selectedIndicator
+            ? $router.go(-1)
+            : $router.push({ name: 'explore' })"
         >
           Explore
         </v-btn>
