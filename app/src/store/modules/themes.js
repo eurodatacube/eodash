@@ -9,7 +9,7 @@ const state = {
   themes: [
     {
       name: 'Atmospheric Composition',
-      slug: 'atmospheric-composition',
+      slug: 'atmosphere',
       color: '#955200',
     },
 
@@ -27,7 +27,7 @@ const state = {
 
     {
       name: 'Water Quality',
-      slug: 'water-quality',
+      slug: 'water',
       color: '#006f69',
     },
 
@@ -71,8 +71,8 @@ const actions = {
     commit('SET_CURRENT_THEME', theme);
     let storyIDs = [];
     if (theme) {
-      const matchingStories = state.stories
-        .filter((story) => story.theme === theme);
+      const matchingStories = Object.values(state.stories.trilateral[theme]);
+
       for (const story of matchingStories) { // eslint-disable-line
         const storyDashboard = await axios // eslint-disable-line
           .get(`./data/dashboards/${story.originalDashboardId}.json`);

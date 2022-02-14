@@ -11,7 +11,7 @@
     >
       <v-col
         v-for="(story, index) in content"
-        :key="story.slug"
+        :key="story.originalDashboardId"
         :cols="$vuetify.breakpoint.xsOnly
           ? 12
           : (((index + 1) % 4 === 1 || (index + 1) % 4 === 0) ? 8 : 4)"
@@ -24,11 +24,10 @@
             flat
             tile
             style="position: relative;"
-            v-if="findTheme(story.theme)"
             @click="$router.push('/story?id=' + story.originalDashboardId)"
           >
 
-            <v-btn
+            <!--<v-btn
               class="theme-tag white--text"
               style="z-index: 2;"
               :color="findTheme(story.theme).color"
@@ -36,7 +35,7 @@
               small>
 
               {{ findTheme(story.theme).name }}
-            </v-btn>
+            </v-btn>-->
 
             <v-img
               class="white--text align-end"
@@ -107,6 +106,7 @@ export default {
   data: () => ({
     carouselModel: 0,
     tab: null,
+    theme: {},
   }),
   components: {
   },
@@ -134,13 +134,14 @@ export default {
 
     filteredStories() {
       if (this.topic) {
-        return this.stories.filter((story) => story.theme === this.topic);
+        return Object.values(this.stories.trilateral[this.topic])
+      } else {
+        return this.items;
       }
-      return this.stories;
     },
 
     content() {
-      if (this.items.length === 0) {
+      if (!this.items.length) {
         return this.filteredStories;
       }
 
@@ -155,6 +156,9 @@ export default {
         .splice(0, 5);
     },
   },
+  mounted() {
+    this.theme = this.themes.find((theme) => theme.slug === this.$route.name);
+  },
   methods: {
     dismiss() {
       this.$emit('dismiss');
@@ -164,9 +168,6 @@ export default {
     },
     selectStory(story) {
       this.$router.push(`/story?id=${story[0]}`);
-    },
-    findTheme(slug) {
-      return this.themes.find((theme) => theme.slug === slug);
     },
   },
 };

@@ -108,14 +108,21 @@ export default {
     }),
 
     oneOfEachTopic() {
-      return this.themes
-        // For each theme, select one of the matching stories randomly.
-        .map((theme) => {
-          const filtered = this.stories.filter((story) => story.theme === theme.slug);
-          return filtered[Math.floor(Math.random() * filtered.length)];
+      let res = Object.entries(this.stories.trilateral)
+        .map(([slug, theme]) => {
+            let obj = Object.values(theme)[
+              ~~(Math.random() * Object.keys(theme).length)
+            ];
+
+            if (obj) {
+              obj = Object.assign(obj, {theme: slug});
+            }
+
+            return obj;
         })
-        // Remove undefined entries if there is no story for a given topic.
         .filter((story) => !!story);
+
+      return res;
     },
   },
   created() {
