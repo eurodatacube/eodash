@@ -1,5 +1,5 @@
 import axios from 'axios';
-import stories from '../../config/stories2.json';
+import stories from '../../config/stories.json';
 
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 const state = {
@@ -9,7 +9,7 @@ const state = {
   themes: [
     {
       name: 'Atmospheric Composition',
-      slug: 'atmosphere',
+      slug: 'atmospheric-composition',
       color: '#955200',
     },
 
@@ -21,13 +21,13 @@ const state = {
 
     {
       name: 'Biomass and Landcover',
-      slug: 'biomass',
+      slug: 'biomass-and-landcover',
       color: '#1d7300',
     },
 
     {
       name: 'Water Quality',
-      slug: 'water',
+      slug: 'water-quality',
       color: '#006f69',
     },
 

@@ -229,7 +229,7 @@ export default {
     isThemePageActive() {
       switch (this.$route.name) {
         case 'ocean':
-        case 'biomass':
+        case 'biomass-and-landcover':
         case 'atmospheric-composition':
         case 'water-quality':
         case 'agriculture':
