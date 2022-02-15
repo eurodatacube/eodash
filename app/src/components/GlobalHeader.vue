@@ -223,7 +223,6 @@ export default {
 
     /**
      * A callback function when the header needs to do something beyond its scope.
-     * @values true, false
      */
     displayShowText: {
       type: Function,
