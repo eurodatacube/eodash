@@ -202,12 +202,17 @@ const renderVue = async () => {
     { path: '/terms_and_conditions', component: Terms },
     { path: '/challenges', component: Challenges },
     { path: '/iframe', component: EmbedIframe },
-    { path: '/ocean', name: 'ocean', component: ThemeSinglePage },
-    { path: '/biomass-and-landcover', name: 'biomass-and-landcover', component: ThemeSinglePage },
-    { path: '/atmospheric-composition', name: 'atmospheric-composition', component: ThemeSinglePage },
-    { path: '/water-quality', name: 'water-quality', component: ThemeSinglePage },
-    { path: '/agriculture', name: 'agriculture', component: ThemeSinglePage },
-    { path: '/cryosphere', name: 'cryosphere', component: ThemeSinglePage },
+    ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
+      ? [
+        { path: '/ocean', name: 'ocean', component: ThemeSinglePage },
+        { path: '/biomass-and-landcover', name: 'biomass-and-landcover', component: ThemeSinglePage },
+        { path: '/atmospheric-composition', name: 'atmospheric-composition', component: ThemeSinglePage },
+        { path: '/water-quality', name: 'water-quality', component: ThemeSinglePage },
+        { path: '/agriculture', name: 'agriculture', component: ThemeSinglePage },
+        { path: '/cryosphere', name: 'cryosphere', component: ThemeSinglePage },
+      ]
+      : []
+    ),
     { path: '*', component: PageNotFound },
   ];
   const router = new VueRouter({ mode: 'history', base: process.env.BASE_URL, routes });
