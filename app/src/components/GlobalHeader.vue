@@ -79,6 +79,21 @@
         >
           About
         </v-btn>
+
+        <v-divider></v-divider>
+
+        <v-btn
+          v-if="$route.name !== 'explore'"
+          text
+          color="primary"
+          block
+          @click="$store.state.indicators.selectedIndicator
+            ? $router.go(-1)
+            : $router.push({ name: 'explore' })"
+        >
+          Explore Datasets
+      </v-btn>
+
         <v-badge
           bordered
           color="info"
