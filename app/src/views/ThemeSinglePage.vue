@@ -13,12 +13,20 @@
       <global-header />
       <v-row class="theme-page" justify="center">
         <div
-          class="theme-header d-flex justify-center align-center"
+          class="theme-header d-flex flex-column justify-center align-center"
           :style="{background: getCurrentTheme.color, height: headerSize}"
         >
           <h2 class="white--text text-center" :class="[headingClass]">
             {{ getCurrentTheme.description }}
           </h2>
+
+          <p
+            class="mt-10 text-center"
+            v-if="$vuetify.breakpoint.lgAndUp"
+            style="max-width: 700px"
+          >
+            {{ getCurrentTheme.longDescription }}
+          </p>
         </div>
 
         <theme-navigation />
@@ -135,11 +143,11 @@ export default {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs': return '12vh';
         case 'sm': return '18vh';
-        case 'md': return '24vh';
-        case 'lg': return '24vh';
-        case 'xl': return '24vh';
+        case 'md': return '30vh';
+        case 'lg': return '30vh';
+        case 'xl': return '30vh';
 
-        default: return '24vh';
+        default: return '30vh';
       }
     },
   },
