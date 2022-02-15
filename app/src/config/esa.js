@@ -1457,7 +1457,7 @@ export const globalIndicators = [
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'SO2',
           layers: 'VIS_SO2_DAILY_DATA',
-          // legendUrl: 'eodash-data/data/windu_cds.png',
+          legendUrl: 'eodash-data/data/colorbarso2.svg',
           minZoom: 1,
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
