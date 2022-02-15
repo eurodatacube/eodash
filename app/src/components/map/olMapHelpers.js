@@ -17,7 +17,7 @@ import {
   Style,
   Text,
 } from 'ol/style';
-import { indicatorClassesIcons } from '../../config/trilateral';
+import { indicatorClassesUnicode } from '../../config/trilateral';
 import { getColor } from './olMapColors';
 
 /**
@@ -75,7 +75,10 @@ const outerCircle = new CircleStyle({
 
 const textStyle = new Text({
   text: '',
-  font: 'normal normal 400 14px "Material Design Icons"',
+  fill: new Fill({
+    color: 'white',
+  }),
+  font: '18px "Material Design Icons"',
 });
 
 
@@ -89,9 +92,13 @@ function clusterMemberStyle(clusterMember, vm) {
   const { indicatorObject } = clusterMember.getProperties().properties;
   const memberStyle = new Style({
     image: new CircleStyle({
-      radius: 10,
+      radius: 12,
       fill: new Fill({
         color: getColor(indicatorObject, vm),
+      }),
+      stroke: new Stroke({
+        color: 'white',
+        width: 2,
       }),
     }),
     text: textStyle,
@@ -99,7 +106,7 @@ function clusterMemberStyle(clusterMember, vm) {
   });
   const indicatorCode = indicatorObject.indicator;
   const indicator = store.getters['features/getIndicators'].find((i) => i.code === indicatorCode);
-  const icon = indicatorClassesIcons[indicator.class];
+  const icon = indicatorClassesUnicode[indicator.class];
   textStyle.setText(icon);
   return memberStyle;
 }
