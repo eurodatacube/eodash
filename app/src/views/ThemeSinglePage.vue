@@ -21,7 +21,7 @@
           </h2>
 
           <p
-            class="mt-10 text-center"
+            class="mt-10 text-center white--text"
             v-if="$vuetify.breakpoint.lgAndUp"
             style="max-width: 700px"
           >
