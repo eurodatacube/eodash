@@ -32,6 +32,7 @@ COLLECTIONS = [
     "JAXA_TSM", "JAXA_CHLA",
     "VIS_2MTEMPERATURE", "VIS_RELHUMIDITY1000HPA", "POPULATION_DENSITY",
     "VIS_WIND_U_10M", "VIS_WIND_V_10M",
+    "VIS_SO2_DAILY_DATA",
 ]
 
 # Some datasets have different dates for different areas so we need to separate
