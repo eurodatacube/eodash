@@ -1,54 +1,14 @@
 import axios from 'axios';
+
 import stories from '../../config/stories.json';
+import themes from '../../config/themes.json';
 
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 const state = {
   currentTheme: null,
   currentPOIsIncludedInTheme: [],
   stories,
-  themes: [
-    {
-      name: 'Atmospheric Composition',
-      slug: 'atmospheric-composition',
-      color: '#a65200',
-      description: 'The Planet\'s Protective Blanket',
-    },
-
-    {
-      name: 'Agriculture',
-      slug: 'agriculture',
-      color: '#766100',
-      description: 'The Backbone of the Economic System',
-    },
-
-    {
-      name: 'Biomass and Landcover',
-      slug: 'biomass-and-landcover',
-      color: '#1d7300',
-      description: 'The Green Lung of our Planet',
-    },
-
-    {
-      name: 'Water Quality',
-      slug: 'water-quality',
-      color: '#006f69',
-      description: 'The Basis for Human Well-Being',
-    },
-
-    {
-      name: 'Ocean',
-      slug: 'ocean',
-      color: '#0064b3',
-      description: 'The Climate Kitchen',
-    },
-
-    {
-      name: 'Cryosphere',
-      slug: 'cryosphere',
-      color: '#616161',
-      description: 'The Planet\'s Climate Control',
-    },
-  ],
+  themes,
 };
 
 const getters = {
