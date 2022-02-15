@@ -72,11 +72,11 @@ export default {
       overlayLayers.forEach((l) => {
         this.$map.addLayer(l);
       });
-      const indicatorFeatureLayers = createIndicatorFeatureLayers(this.getGroupedFeatures);
+      const indicatorFeatureLayers = createIndicatorFeatureLayers(this.getGroupedFeatures, this);
       indicatorFeatureLayers.forEach((l) => {
         this.$map.addLayer(l);
       });
-      initInteractions(this.$map);
+      initInteractions(this.$map, this);
     });
   },
   methods: {},

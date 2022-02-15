@@ -6,6 +6,7 @@ import { LineString, Point, Polygon } from 'ol/geom';
 import { Vector as VectorLayer } from 'ol/layer';
 import { createEmpty, extend, getWidth } from 'ol/extent';
 import monotoneChainConvexHull from 'monotone-chain-convex-hull';
+import store from '@/store';
 
 import { Feature } from 'ol';
 import { fromLonLat } from 'ol/proj';
@@ -16,6 +17,8 @@ import {
   Style,
   Text,
 } from 'ol/style';
+import { indicatorClassesIcons } from '../../config/trilateral';
+import { getColor } from './olMapColors';
 
 /**
  * generate a layer from a given config Object
@@ -69,23 +72,36 @@ const outerCircle = new CircleStyle({
   fill: outerCircleFill,
 });
 
-const singleCircle = new CircleStyle({
-  radius: 10,
-  fill: new Fill({
-    color: 'orangered',
-  }),
+
+const textStyle = new Text({
+  text: '',
+  font: 'normal normal 400 14px "Material Design Icons"',
 });
+
 
 /**
  * Single feature style, users for clusters with 1 feature and cluster circles.
  * @param {Feature} clusterMember A feature from a cluster.
+ * @param {Object} vm vue instance
  * @return {Style} An icon style for the cluster member's location.
  */
-function clusterMemberStyle(clusterMember) {
-  return new Style({
+function clusterMemberStyle(clusterMember, vm) {
+  const { indicatorObject } = clusterMember.getProperties().properties;
+  const memberStyle = new Style({
+    image: new CircleStyle({
+      radius: 10,
+      fill: new Fill({
+        color: getColor(indicatorObject, vm),
+      }),
+    }),
+    text: textStyle,
     geometry: clusterMember.getGeometry(),
-    image: singleCircle,
   });
+  const indicatorCode = indicatorObject.indicator;
+  const indicator = store.getters['features/getIndicators'].find((i) => i.code === indicatorCode);
+  const icon = indicatorClassesIcons[indicator.class];
+  textStyle.setText(icon);
+  return memberStyle;
 }
 
 let clickFeature;
@@ -140,6 +156,13 @@ function clusterCircleStyle(cluster, resolution) {
   ).reduce((styles, coordinates, i) => {
     const point = new Point(coordinates);
     const line = new LineString([centerCoordinates, coordinates]);
+    const offsetStyle = clusterMemberStyle(
+      new Feature({
+        ...clusterMembers[i].getProperties(),
+        geometry: point,
+      }),
+      this,
+    );
     styles.unshift(
       new Style({
         geometry: line,
@@ -147,12 +170,7 @@ function clusterCircleStyle(cluster, resolution) {
       }),
     );
     styles.push(
-      clusterMemberStyle(
-        new Feature({
-          ...clusterMembers[i].getProperties(),
-          geometry: point,
-        }),
-      ),
+      offsetStyle,
     );
     return styles;
   }, []);
@@ -181,33 +199,36 @@ function clusterHullStyle(cluster) {
   });
 }
 
-function clusterStyle(feature) {
-  const size = feature.get('features').length;
-  if (size > 1) {
-    return [
-      new Style({
-        image: outerCircle,
-      }),
-      new Style({
-        image: innerCircle,
-        text: new Text({
-          text: size.toString(),
-          fill: textFill,
-          font: '12px sans-serif',
+function createClusterStyle(vm) {
+  return ((feature) => {
+    const size = feature.get('features').length;
+    if (size > 1) {
+      return [
+        new Style({
+          image: outerCircle,
         }),
-      }),
-    ];
-  }
-  const originalFeature = feature.get('features')[0];
-  return clusterMemberStyle(originalFeature);
+        new Style({
+          image: innerCircle,
+          text: new Text({
+            text: size.toString(),
+            fill: textFill,
+            font: '12px sans-serif',
+          }),
+        }),
+      ];
+    }
+    const originalFeature = feature.get('features')[0];
+    return clusterMemberStyle(originalFeature, vm);
+  });
 }
 
 /**
  * creates an OL Layer out of the existing grouped feature object
  * @param {Object} indicators Grouped Features
+ * @param {Object} vm vue instance
  * @returns {*} ol cluster layer
  */
-export function createIndicatorFeatureLayers(indicators) {
+export function createIndicatorFeatureLayers(indicators, vm) {
   const features = indicators.filter((i) => i.latlng).map((i) => {
     const feature = new Feature({
       properties: i.properties,
@@ -230,7 +251,7 @@ export function createIndicatorFeatureLayers(indicators) {
   const clusters = new VectorLayer({
     name: 'clusters',
     source: clusterSource,
-    style: clusterStyle,
+    style: createClusterStyle(vm),
   });
 
   // Layer displaying the convex hull of the hovered cluster.
@@ -240,11 +261,13 @@ export function createIndicatorFeatureLayers(indicators) {
     style: clusterHullStyle,
   });
 
+  console.log(vm);
+  debugger;
   // Layer displaying the expanded view of overlapping cluster members.
   const clusterCircles = new VectorLayer({
     name: 'clusterCircles',
     source: clusterSource,
-    style: clusterCircleStyle,
+    style: clusterCircleStyle.bind(vm),
   });
   return [clusterHulls, clusters, clusterCircles];
 }
@@ -252,9 +275,10 @@ export function createIndicatorFeatureLayers(indicators) {
 /**
  *
  * @param {Object} map ol map
+ * @param {Object} vm vue instance
  */
 // eslint-disable-next-line import/prefer-default-export
-export function initInteractions(map) {
+export function initInteractions(map, vm) {
   const clusters = map.getLayers().getArray().find((l) => l.get('name') === 'clusters');
   const clusterHulls = map.getLayers().getArray().find((l) => l.get('name') === 'clusterHulls');
   const clusterCircles = map.getLayers().getArray().find((l) => l.get('name') === 'clusterCircles');
@@ -274,7 +298,7 @@ export function initInteractions(map) {
     });
   };
   map.on('pointermove', pointermoveInteraction);
-
+  console.log(vm);
   clickInteraction = (event) => {
     clusters.getFeatures(event.pixel).then((features) => {
       if (features.length > 0) {
@@ -293,7 +317,7 @@ export function initInteractions(map) {
             // eslint-disable-next-line prefer-destructuring
             clickFeature = features[0];
             clickResolution = resolution;
-            clusterCircles.setStyle(clusterCircleStyle);
+            clusterCircles.setStyle(clusterCircleStyle.bind(vm));
           } else {
             // Zoom to the extent of the cluster members.
             view.fit(extent, { duration: 500, padding: [50, 50, 50, 50] });
