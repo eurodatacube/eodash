@@ -82,6 +82,8 @@
 
         <v-divider></v-divider>
 
+        <theme-navigation class="mb-6" />
+
         <v-btn
           v-if="$route.name !== 'explore'"
           text
@@ -206,6 +208,8 @@ import {
   mapGetters,
 } from 'vuex';
 
+import ThemeNavigation from './ThemesLandingPage/ThemeNavigation.vue';
+
 /**
  * A global navbar component that adapts to different environments.
  * @displayName GlobalHeader
@@ -228,6 +232,9 @@ export default {
       type: Function,
       default: () => {},
     },
+  },
+  components: {
+    ThemeNavigation,
   },
   data() {
     return {
