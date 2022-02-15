@@ -13,12 +13,41 @@ import { fromLonLat } from 'ol/proj';
 import {
   Circle as CircleStyle,
   Fill,
+  Icon,
   Stroke,
   Style,
   Text,
 } from 'ol/style';
-import { indicatorClassesUnicode } from '../../config/trilateral';
+import { indicatorClassesIcons } from '../../config/trilateral';
 import { getColor } from './olMapColors';
+
+const onStylesLoaded = [];
+
+const indicatorClassesStyles = Object.keys(indicatorClassesIcons).reduce((acc, key) => {
+  const image = new Image();
+  image.addEventListener('load', () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = image.width;
+    canvas.height = image.height;
+    const context = canvas.getContext('2d');
+    context.globalCompositeOperation = 'screen';
+    context.fillStyle = 'white';
+    context.fillRect(0, 0, image.width, image.height);
+    context.globalCompositeOperation = 'destination-in';
+    context.drawImage(image, 0, 0);
+    acc[key] = new Icon({
+      scale: 0.66,
+      img: canvas,
+      imgSize: [image.width, image.height],
+    });
+    if (Object.keys(acc).length === Object.keys(indicatorClassesIcons).length) {
+      onStylesLoaded.forEach((cb) => cb());
+    }
+  });
+  image.src = `https://cdn.jsdelivr.net/npm/@mdi/svg@latest/svg/${indicatorClassesIcons[key].substr(4)}.svg`;
+  return acc;
+}, {});
+
 
 /**
  * generate a layer from a given config Object
@@ -90,7 +119,9 @@ const textStyle = new Text({
  */
 function clusterMemberStyle(clusterMember, vm) {
   const { indicatorObject } = clusterMember.getProperties().properties;
-  const memberStyle = new Style({
+  const indicatorCode = indicatorObject.indicator;
+  const indicator = store.getters['features/getIndicators'].find((i) => i.code === indicatorCode);
+  const circleStyle = new Style({
     image: new CircleStyle({
       radius: 12,
       fill: new Fill({
@@ -104,10 +135,11 @@ function clusterMemberStyle(clusterMember, vm) {
     text: textStyle,
     geometry: clusterMember.getGeometry(),
   });
-  const indicatorCode = indicatorObject.indicator;
-  const indicator = store.getters['features/getIndicators'].find((i) => i.code === indicatorCode);
-  const icon = indicatorClassesUnicode[indicator.class];
-  textStyle.setText(icon);
+  const iconStyle = new Style({
+    image: indicatorClassesStyles[indicator.class],
+    geometry: clusterMember.getGeometry(),
+  });
+  const memberStyle = [circleStyle, iconStyle];
   return memberStyle;
 }
 
@@ -177,7 +209,7 @@ function clusterCircleStyle(cluster, resolution) {
       }),
     );
     styles.push(
-      offsetStyle,
+      ...offsetStyle,
     );
     return styles;
   }, []);
@@ -259,6 +291,9 @@ export function createIndicatorFeatureLayers(indicators, vm) {
     name: 'clusters',
     source: clusterSource,
     style: createClusterStyle(vm),
+  });
+  onStylesLoaded.push(() => {
+    clusters.changed();
   });
 
   // Layer displaying the convex hull of the hovered cluster.

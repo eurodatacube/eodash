@@ -500,15 +500,6 @@ export const indicatorClassesIcons = Object.freeze({
   health: 'mdi-hospital-box-outline',
 });
 
-export const indicatorClassesUnicode = Object.freeze({
-  economic: String.fromCodePoint(0xF0114),
-  agriculture: String.fromCodePoint(0xF0073),
-  air: String.fromCodePoint(0xF059D),
-  water: String.fromCodePoint(0xF058C),
-  land: String.fromCodePoint(0xF02F5),
-  health: String.fromCodePoint(0xF0FF7),
-});
-
 export const mapDefaults = Object.freeze({
   minMapZoom: 0,
   maxMapZoom: 18,
