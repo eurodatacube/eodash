@@ -36,6 +36,13 @@ export default {
       opacityCountries: [1, 1, 1, 1, 0.7, 0.7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     };
   },
+  watch: {
+    getGroupedFeatures(value) {
+      if (value.length) {
+        this.initMap();
+      }
+    },
+  },
   computed: {
     ...mapGetters('features', ['getGroupedFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
@@ -60,14 +67,14 @@ export default {
     },
   },
   mounted() {
-    this.$nextTick(() => {
-      this.$map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
-      this.$map.updateSize();
+    this.$map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
+  },
+  methods: {
+    initMap() {
       const layers = this.baseLayers.map(createLayerFromConfig);
       layers.forEach((l) => {
         this.$map.addLayer(l);
       });
-      // const overlayLayers = createLayersFromConfig(this.overlayLayers);
       const overlayLayers = this.overlayLayers.map(createLayerFromConfig);
       overlayLayers.forEach((l) => {
         this.$map.addLayer(l);
@@ -77,9 +84,8 @@ export default {
         this.$map.addLayer(l);
       });
       initInteractions(this.$map, this);
-    });
+    },
   },
-  methods: {},
   beforeDestroy() {
     cleanupClusterInteraction(this.$map);
   },

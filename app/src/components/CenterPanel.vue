@@ -24,7 +24,7 @@
       class="fill-height pb-7"
     >
       <v-tab-item class="fill-height">
-        <OlMap ref="map" v-if="getGroupedFeatures && getGroupedFeatures.length"/>
+        <OlMap ref="map" />
         <v-expansion-panels accordion class="global-indicators-panel" v-model="panel">
           <v-expansion-panel>
             <v-expansion-panel-header class="panel-header">
