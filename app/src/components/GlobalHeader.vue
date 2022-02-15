@@ -59,7 +59,7 @@
           block
           text
           color="primary"
-          :to="{name: 'landing'}"
+          to="/"
         >
           Home
         </v-btn>
