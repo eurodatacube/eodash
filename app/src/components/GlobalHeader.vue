@@ -55,6 +55,8 @@
 
         <v-divider></v-divider>
 
+        <theme-navigation class="mb-6" />
+
         <v-btn
           block
           text
@@ -79,10 +81,6 @@
         >
           About
         </v-btn>
-
-        <v-divider></v-divider>
-
-        <theme-navigation class="mb-6" />
 
         <v-btn
           v-if="$route.name !== 'explore'"
