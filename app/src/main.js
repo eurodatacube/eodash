@@ -11,6 +11,7 @@ import VueCountdown from '@chenfengyuan/vue-countdown';
 import browserDetect from 'vue-browser-detect-plugin';
 import { marked } from 'marked';
 import L from 'leaflet';
+import createMapInstance from '@/components/map/mapInstance';
 import App from './App.vue';
 import Dashboard from './views/Dashboard.vue';
 import DashboardCustom from './views/DashboardCustom.vue';
@@ -57,6 +58,7 @@ Vue.use(VueMatomo, {
 
 Vue.use(VueMeta);
 Vue.use(VueRouter);
+Vue.prototype.$map = createMapInstance();
 
 const routes = [
   { path: '/', component: Dashboard },
@@ -204,18 +206,17 @@ const renderVue = async () => {
   }).$mount('#app');
 };
 
-if (store.state.dashboard ?. dashboardConfig ?. id) {
+if (store.state.dashboard?.dashboardConfig?.id) {
   store.commit('dashboard/ADD_API', customDashboardApiFactory());
 
-  const id = store.state.dashboard ?. dashboardConfig ?. id;
-  const editKey = store.state.dashboard ?. dashboardConfig ?. editKey;
+  const id = store.state.dashboard?.dashboardConfig?.id;
+  const editKey = store.state.dashboard?.dashboardConfig?.editKey;
 
   store.state.dashboard.api.listen(id, editKey).then((response) => {
     if (response.error) {
       console.error(response);
       store.commit('dashboard/disconnect');
     }
-
 
     response.features = response.features.map((f) => { // eslint-disable-line
       const newF = { ...f };

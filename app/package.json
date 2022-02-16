@@ -2,6 +2,9 @@
   "name": "race-dashboard",
   "version": "3.0.0",
   "private": true,
+  "engines": {
+    "node": "12.x"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -29,6 +32,8 @@
     "leaflet-side-by-side": "github:lubojr/leaflet-side-by-side#85dc573d0a27d2ffce91562fe27072c35d7e3e32",
     "luxon": "^1.24.1",
     "marked": "^4.0.10",
+    "monotone-chain-convex-hull": "^1.0.0",
+    "ol": "^6.12.0",
     "register-service-worker": "^1.7.1",
     "socket.io-client": "^4.0.0",
     "vue": "^2.6.11",
