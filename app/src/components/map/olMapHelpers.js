@@ -8,6 +8,7 @@ import { createEmpty, extend, getWidth } from 'ol/extent';
 import monotoneChainConvexHull from 'monotone-chain-convex-hull';
 import store from '@/store';
 
+import { asArray } from 'ol/color';
 import { Feature } from 'ol';
 import { fromLonLat } from 'ol/proj';
 import {
@@ -75,15 +76,13 @@ const circleDistanceMultiplier = 1;
 const circleFootSeparation = 28;
 const circleStartAngle = Math.PI / 2;
 
-const convexHullFill = new Fill({
-  color: 'rgba(255, 153, 0, 0.5)',
-});
+const convexHullFill = new Fill({});
 const convexHullStroke = new Stroke({
-  color: 'rgba(204, 85, 0, 1)',
-  width: 1.5,
+  width: 0.5,
+  lineDash: [4, 4],
 });
 const outerCircleFill = new Fill({
-  color: 'rgba(58, 104, 142, 0.7)',
+  color: 'rgba(58, 104, 142, 0.5)',
 });
 const innerCircleFill = new Fill({
   color: '#282828',
@@ -97,7 +96,7 @@ const innerCircle = new CircleStyle({
   fill: innerCircleFill,
 });
 const outerCircle = new CircleStyle({
-  radius: 20,
+  radius: 18,
   fill: outerCircleFill,
 });
 
@@ -296,6 +295,12 @@ export function createIndicatorFeatureLayers(indicators, vm) {
     clusters.changed();
   });
 
+  const themeColor = vm.$vuetify.theme.themes.light.primary;
+  const fillColor = [...asArray(themeColor)];
+  fillColor[3] = 0.3;
+  convexHullFill.setColor(fillColor);
+  convexHullStroke.setColor(themeColor);
+
   // Layer displaying the convex hull of the hovered cluster.
   const clusterHulls = new VectorLayer({
     name: 'clusterHulls',
@@ -303,8 +308,6 @@ export function createIndicatorFeatureLayers(indicators, vm) {
     style: clusterHullStyle,
   });
 
-  console.log(vm);
-  debugger;
   // Layer displaying the expanded view of overlapping cluster members.
   const clusterCircles = new VectorLayer({
     name: 'clusterCircles',
@@ -340,7 +343,7 @@ export function initInteractions(map, vm) {
     });
   };
   map.on('pointermove', pointermoveInteraction);
-  console.log(vm);
+
   clickInteraction = (event) => {
     clusters.getFeatures(event.pixel).then((features) => {
       if (features.length > 0) {
