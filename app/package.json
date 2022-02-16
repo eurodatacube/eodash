@@ -2,6 +2,9 @@
   "name": "race-dashboard",
   "version": "3.0.0",
   "private": true,
+  "engines": {
+    "node": "12.x"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -30,6 +33,8 @@
     "luxon": "^1.24.1",
     "marked": "^4.0.10",
     "medium-zoom": "^1.0.6",
+    "monotone-chain-convex-hull": "^1.0.0",
+    "ol": "^6.12.0",
     "recaptcha-v3": "^1.10.0",
     "register-service-worker": "^1.7.1",
     "socket.io-client": "^4.0.0",
