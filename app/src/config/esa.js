@@ -1462,6 +1462,10 @@ export const globalIndicators = [
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           customAreaIndicator: true,
+          baseLayers: [{
+            ...baseLayers.cloudless,
+            visible: true,
+          }, baseLayers.terrainLight],
           areaIndicator: {
             url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
             callbackFunction: (responseJson, indicator) => {
