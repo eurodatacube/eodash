@@ -11,6 +11,7 @@ import VueCountdown from '@chenfengyuan/vue-countdown';
 import browserDetect from 'vue-browser-detect-plugin';
 import { marked } from 'marked';
 import L from 'leaflet';
+import createMapInstance from '@/components/map/mapInstance';
 import App from './App.vue';
 import Dashboard from './views/Dashboard.vue';
 import DashboardCustom from './views/DashboardCustom.vue';
@@ -221,11 +222,11 @@ const renderVue = async () => {
   }).$mount('#app');
 };
 
-if (store.state.dashboard ?. dashboardConfig ?. id) {
+if (store.state.dashboard?.dashboardConfig?.id) {
   store.commit('dashboard/ADD_API', customDashboardApiFactory());
 
-  const id = store.state.dashboard ?. dashboardConfig ?. id;
-  const editKey = store.state.dashboard ?. dashboardConfig ?. editKey;
+  const id = store.state.dashboard?.dashboardConfig?.id;
+  const editKey = store.state.dashboard?.dashboardConfig?.editKey;
 
   store.state.dashboard.api.listen(id, editKey).then((response) => {
     if (response.error) {
