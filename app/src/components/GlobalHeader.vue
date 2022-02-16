@@ -145,6 +145,18 @@
       >
         {{ currentTheme.name }}
       </v-btn>
+
+      <v-icon
+        dark
+        small
+        class="mr-3 rounded"
+        style="background: rgba(255, 255, 255, 0.2)"
+        color="white"
+        v-if="$route.name === 'explore'"
+        @click="loadTheme(null)"
+      >
+        mdi-close
+      </v-icon>
     </template>
 
     <template v-if="$route.name === 'explore'">
@@ -204,6 +216,7 @@
 import {
   mapState,
   mapGetters,
+  mapActions,
 } from 'vuex';
 
 import ThemeNavigation from './ThemesLandingPage/ThemeNavigation.vue';
@@ -240,6 +253,10 @@ export default {
     };
   },
   methods: {
+    ...mapActions({
+      loadTheme: 'themes/loadTheme',
+    }),
+
     switchMenu() {
       this.drawerLeft = !this.drawerLeft;
     },
