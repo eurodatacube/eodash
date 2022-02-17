@@ -53,6 +53,12 @@ module.exports = {
     'vuetify',
   ],
   configureWebpack: {
+    devServer: {
+      watchOptions: {
+        poll: false,
+        ignored: /node_modules/,
+      },
+    },
     module: {
       rules: [{
         test: /\.md$/,
