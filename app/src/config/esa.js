@@ -1334,7 +1334,7 @@ export const globalIndicators = [
           baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
           name: 'WSF_Evolution',
           layers: 'WSF_Evolution',
-          // legendUrl: 'data/trilateral/NASAPopulation_legend.png',
+          legendUrl: 'eodash-data/data/wsf_legend.png',
           minZoom: 1,
           maxMapZoom: 14,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),

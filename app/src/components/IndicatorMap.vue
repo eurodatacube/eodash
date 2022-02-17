@@ -1280,7 +1280,6 @@ export default {
           additionalSettings[param] = sourceOptionsObj[param];
         }
       });
-      console.log(additionalSettings);
       return additionalSettings;
     },
     dataLayerTimeSelection(payload) {
