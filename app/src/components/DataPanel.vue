@@ -256,10 +256,13 @@
               @click="dataInteract = true">
               Tap to interact
             </v-overlay>
+            <indicator-globe
+              v-if="showGlobe"
+            />
             <indicator-map
               ref="indicatorMap"
               style="top: 0px; position: absolute;"
-              v-if="showMap"
+              v-else-if="showMap"
               @update:center="c => center = c"
               @update:zoom="z => zoom = z"
               class="pt-0 fill-height"
@@ -534,6 +537,7 @@ import dialogMixin from '@/mixins/dialogMixin';
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
+import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import FullScreenButton from '@/components/FullScreenButton.vue';
 import IframeButton from '@/components/IframeButton.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
@@ -548,6 +552,7 @@ export default {
     ExpandableContent,
     IndicatorData,
     IndicatorMap,
+    IndicatorGlobe,
     FullScreenButton,
     IframeButton,
     AddToDashboardButton,
@@ -673,6 +678,10 @@ export default {
     showMap() {
       // if returns true, we are showing map, if false we show chart
       return ['all'].includes(this.indicatorObject.country) || this.appConfig.configuredMapPois.includes(`${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`) || Array.isArray(this.indicatorObject.country);
+    },
+    showGlobe() {
+      // TODO actual selection of used indicators
+      return `${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}` === 'WorldCO-N1';
     },
     externalData() {
       const dataFromDefinition = this.baseConfig.indicatorsDefinition[
