@@ -315,7 +315,7 @@ export default {
   background: transparent;
 
   .closebutton {
-    background: #f77;
+    background: rgba(255, 255, 255, 0.2);
   }
 }
 </style>
