@@ -1265,18 +1265,22 @@ export default {
         const fixTime = time.value || time;
         additionalSettings.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
           ? sourceOptionsObj.dateFormatFunction(fixTime) : fixTime;
+        if (sourceOptionsObj.specialEnvTime) {
+          additionalSettings.env = `year:${additionalSettings.time}`;
+        }
         if (sourceOptionsObj.features) {
           additionalSettings.featuresTime = typeof sourceOptionsObj.features.dateFormatFunction === 'function'
             ? sourceOptionsObj.features.dateFormatFunction(fixTime) : fixTime;
         }
       }
       const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
-        'format', 'width', 'height', 'transparent', 'srs'];
+        'format', 'width', 'height', 'transparent', 'srs', 'env'];
       paramsToPassThrough.forEach((param) => {
         if (typeof sourceOptionsObj[param] !== 'undefined') {
           additionalSettings[param] = sourceOptionsObj[param];
         }
       });
+      console.log(additionalSettings);
       return additionalSettings;
     },
     dataLayerTimeSelection(payload) {
