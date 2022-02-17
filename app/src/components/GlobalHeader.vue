@@ -137,26 +137,30 @@
     <template v-if="currentTheme">
       <v-icon dark class="mx-2">mdi-chevron-right</v-icon>
 
-      <v-btn
-        text
-        dark
-        small
-        :to="{name: currentTheme.slug}"
-      >
-        {{ currentTheme.name }}
-      </v-btn>
-
-      <v-icon
-        dark
-        small
-        class="mr-3 rounded"
-        style="background: rgba(255, 255, 255, 0.2)"
-        color="white"
-        v-if="$route.name === 'explore'"
-        @click="loadTheme(null)"
-      >
-        mdi-close
-      </v-icon>
+      <v-tooltip right close-delay="1000" nudge-left="32" max-width="20">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            text
+            dark
+            small
+            v-bind="attrs"
+            v-on="on"
+            :to="{name: currentTheme.slug}"
+          >
+            {{ currentTheme.name }}
+          </v-btn>
+        </template>
+        <v-icon
+            dark
+            small
+            class="mr-3 rounded closebutton"
+            color="white"
+            v-if="$route.name === 'explore'"
+            @click="loadTheme(null)"
+          >
+            mdi-close
+          </v-icon>
+      </v-tooltip>
     </template>
 
     <template v-if="$route.name === 'explore'">
@@ -303,5 +307,15 @@ export default {
 
 .drawerLeft, .drawerLeft * {
   z-index: 13 !important;
+}
+
+// This CSS setting makes tooltips clickable within this component.
+.v-tooltip__content {
+  pointer-events: initial;
+  background: transparent;
+
+  .closebutton {
+    background: #f77;
+  }
 }
 </style>
