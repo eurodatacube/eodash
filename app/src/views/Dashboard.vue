@@ -3,6 +3,7 @@
     <global-header
       :isFullscreen="isFullScreen"
       :displayShowText="displayShowText"
+      :switchDrawer="() => { drawerLeft = !drawerLeft }"
     />
     <v-navigation-drawer
       v-model="drawerLeft"

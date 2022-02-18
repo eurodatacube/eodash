@@ -14,6 +14,12 @@
       dark
     />
 
+    <v-app-bar-nav-icon
+      @click.stop="switchDrawer"
+      v-else
+      dark
+    />
+
     <!-- mobile menu -->
 
     <v-navigation-drawer
@@ -247,6 +253,14 @@ export default {
      * A callback function when the header needs to do something beyond its scope.
      */
     displayShowText: {
+      type: Function,
+      default: () => {},
+    },
+
+    /**
+     * Another callback allowing us to switch the Dashboard drawer from this component.
+     */
+    switchDrawer: {
       type: Function,
       default: () => {},
     },
