@@ -61,7 +61,10 @@
 
         <v-divider></v-divider>
 
-        <theme-navigation class="mb-6" />
+        <theme-navigation
+          class="mb-6"
+          v-if="appConfig.enableStories"
+        />
 
         <v-btn
           block
