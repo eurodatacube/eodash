@@ -127,6 +127,7 @@
         text
         dark
         class="logo"
+        :class="{'no-highlight': !appConfig.enableStories}"
         :to="{name: 'landing'}"
         exact
       >
@@ -143,6 +144,7 @@
             text
             dark
             small
+            :class="{'no-highlight': !appConfig.enableStories}"
             v-bind="attrs"
             v-on="on"
             :to="{name: currentTheme.slug}"
@@ -169,6 +171,7 @@
         text
         dark
         small
+        :class="{'no-highlight': !appConfig.enableStories}"
         :to="{name: 'explore'}"
       >
         Datasets
@@ -316,6 +319,14 @@ export default {
 
   .closebutton {
     background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.no-highlight {
+  padding: 0;
+
+  &::before {
+    background-color: transparent !important;
   }
 }
 </style>
