@@ -184,22 +184,24 @@
       </v-btn>
     </template>
 
-    <v-btn
-      text
-      dark
-      small
-      @click="displayShowText('welcome')"
-    >
-      Welcome
-    </v-btn>
-    <v-btn
-      text
-      dark
-      small
-      @click="displayShowText('about')"
-    >
-      About
-    </v-btn>
+    <span v-if="$vuetify.breakpoint.mdAndUp">
+      <v-btn
+        text
+        dark
+        small
+        @click="displayShowText('welcome')"
+      >
+        Welcome
+      </v-btn>
+      <v-btn
+        text
+        dark
+        small
+        @click="displayShowText('about')"
+      >
+        About
+      </v-btn>
+    </span>
 
     <v-spacer></v-spacer>
 
