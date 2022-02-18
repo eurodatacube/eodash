@@ -134,7 +134,7 @@
         dark
         class="logo"
         :class="{'no-highlight': !appConfig.enableStories}"
-        :to="{name: 'landing'}"
+        to="/"
         exact
       >
         {{ appConfig && appConfig.branding.appName }}
