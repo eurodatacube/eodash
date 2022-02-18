@@ -171,7 +171,7 @@
       </v-tooltip>
     </template>
 
-    <template v-if="$route.name === 'explore'">
+    <template v-if="$route.name === 'explore' && appConfig.storiesEnabled">
       <v-icon dark class="mx-2">mdi-chevron-right</v-icon>
       <v-btn
         text
@@ -183,6 +183,23 @@
         Datasets
       </v-btn>
     </template>
+
+    <v-btn
+      text
+      dark
+      small
+      @click="displayShowText('welcome')"
+    >
+      Welcome
+    </v-btn>
+    <v-btn
+      text
+      dark
+      small
+      @click="displayShowText('about')"
+    >
+      About
+    </v-btn>
 
     <v-spacer></v-spacer>
 
