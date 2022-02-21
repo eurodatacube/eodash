@@ -22,10 +22,10 @@
         </div>
 
         <v-container
-          class="ma-0 pt-16 pb-16 d-flex flex-row"
+          class="ma-0 pt-16 pb-16 d-flex flex-column"
           style="max-width: 1400px;"
         >
-          <v-row no-gutters class="d-flex flex-row px-3 px-md-8">
+          <v-row no-gutters class="d-flex flex-row px-3 pb-16 px-md-8">
             <template>
               <v-col cols="12" xs="12" sm="12" md="6" lg="6">
                 <div class="info-section d-flex flex-column justify-center
@@ -61,6 +61,57 @@
                   width="100%"
                   class="pl-xs-0 pl-sm-0 pl-md-8 pl-lg-8 pl-xl-8"
                 />
+              </v-col>
+            </template>
+          </v-row>
+
+          <v-row no-gutters class="d-flex flex-row align-start px-3 pt-16 px-md-8">
+            <template>
+              <v-col
+                cols="12" xs="12" sm="12" md="6" lg="6"
+                class="info-section d-flex flex-column justify-center"
+              >
+                <img
+                  src="/data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg"
+                  width="100%"
+                  class="pr-xs-0 pr-sm-0 pr-md-8 pr-lg-8 pr-xl-8"
+                />
+              </v-col>
+
+              <v-col cols="12" xs="12" sm="12" md="6" lg="6">
+                <div class="info-section d-flex flex-column justify-center
+                pb-8 pb-md-0 pl-xs-0 pl-sm-0 pl-md-8 pl-lg-8 pl-xl-8">
+                  <h3 class="text-h3">A Tri-Agency Dashboard by NASA, ESA, JAXA</h3>
+
+                  <p class="mt-10">
+                    International collaboration among space agencies is central to the success of
+                    satellite Earth observations and data analysis. These partnerships foster more
+                    comprehensive measurements, robust datasets, and cost-effective missions.
+                  </p>
+
+                  <p>
+                    The tri-agency COVID-19 Dashboard is a concerted effort between the <b>European
+                    Space Agency (ESA)</b>, <b>Japan Aerospace Exploration Agency (JAXA)</b>, and
+                    <b>National Aeronautics and Space Administration (NASA)</b>. The dashboard
+                    combines the resources, technical knowledge and expertise of the three partner
+                    agencies to strengthen our global understanding of the environmental and
+                    economic effects of the COVID-19 pandemic.
+                  </p>
+
+                  <p>
+                    Use the dashboard to explore environmental and economic indicators based on
+                    remote sensing data from ESA, JAXA and NASA, and investigate how social
+                    distancing measures and regional shelter-in-place guidelines have affected
+                    Earth’s air, land, and water. Explore individual countries and regions
+                    across the world to see how the indicators in each specific location have
+                    changed over time.
+                  </p>
+
+                  <p>
+                    Together, ESA, JAXA, and NASA will continue to update
+                    this dashboard with the most current information.
+                  </p>
+                </div>
               </v-col>
             </template>
           </v-row>
@@ -104,6 +155,7 @@ export default {
       'getStories',
       'getThemes',
     ]),
+
     oneOfEachTheme() {
       return this.getThemes
         .map((theme) => this.getStories(theme.slug)[
@@ -147,7 +199,7 @@ export default {
 }
 
 .info-section {
-  height: 40vh;
+  min-height: 40vh;
 }
 
 .theme-button {
