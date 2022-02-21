@@ -7,8 +7,8 @@
   "features": [
     {
       "width": 3,
-      "title": "Andalucia, Harvesting evolution over time",
-      "id": "ES61a-E10a6"
+      "title": "Venice Water Quality",
+      "id": "IT10-N3b"
     },
     {
       "width": 1,
@@ -52,8 +52,8 @@
           "lat": 0
         }
       },
-      "id": "WorldCO-N1",
-      "title": "World, TROPOMI CO"
+      "id": "RhoneDeltaTSM-N3a2",
+      "title": "Rhone Delta - Total Suspended Matter"
     },
     {
       "width": 4,
@@ -69,13 +69,13 @@
     },
     {
       "width": 2,
-      "title": "Milan, Air Quality",
-      "id": "IT05-N1"
+      "title": "Chlorophyll-a concentration anomaly in New York",
+      "id": "US04-N3b"
     },
     {
       "width": 2,
-      "title": "Paris, Air Quality",
-      "id": "FR01-N1"
+      "title": "Chlorophyll-a concentration anomaly in Ise Bay",
+      "id": "JP04-N3b"
     }
   ],
   "title": "My Dashboard Test"
