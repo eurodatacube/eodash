@@ -82,14 +82,14 @@
         >
           Welcome
         </v-btn>
-        <v-btn
+        <!--<v-btn
           block
           text
           color="primary"
           @click="displayShowText('about')"
         >
           About
-        </v-btn>
+        </v-btn>-->
 
         <v-btn
           v-if="$route.name !== 'explore'"
@@ -193,17 +193,18 @@
         dark
         small
         @click="displayShowText('welcome')"
+        v-if="$route.name === 'explore'"
       >
         Welcome
       </v-btn>
-      <v-btn
+      <!--<v-btn
         text
         dark
         small
         @click="displayShowText('about')"
       >
         About
-      </v-btn>
+      </v-btn>-->
     </span>
 
     <v-spacer></v-spacer>
