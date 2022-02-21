@@ -82,14 +82,15 @@
         >
           Welcome
         </v-btn>
-        <!--<v-btn
+        <v-btn
           block
           text
           color="primary"
           @click="displayShowText('about')"
+          v-if="!(appConfig && appConfig.enableStories)"
         >
           About
-        </v-btn>-->
+        </v-btn>
 
         <v-btn
           v-if="$route.name !== 'explore'"
@@ -197,14 +198,15 @@
       >
         Welcome
       </v-btn>
-      <!--<v-btn
+      <v-btn
         text
         dark
         small
         @click="displayShowText('about')"
+        v-if="!(appConfig && appConfig.enableStories)"
       >
         About
-      </v-btn>-->
+      </v-btn>
     </span>
 
     <v-spacer></v-spacer>
