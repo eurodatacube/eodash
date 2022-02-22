@@ -117,7 +117,6 @@ export default {
   },
 
   mounted() {
-    console.log(this.indicatorObject);
     const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
     this.dataLayerTime = d.toFormat('dd. MMM');
   },
