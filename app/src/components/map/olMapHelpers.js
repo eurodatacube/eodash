@@ -21,7 +21,7 @@ import {
 import { indicatorClassesIcons } from '../../config/trilateral';
 import { getColor } from './olMapColors';
 // eslint-disable-next-line import/no-cycle
-import { getHoverFeature } from './centerMapInteractions';
+import { getClickFeature, getClickResolution, getHoverFeature } from './centerMapInteractions';
 
 const onStylesLoaded = [];
 
@@ -143,8 +143,6 @@ function clusterMemberStyle(clusterMember, vm) {
   return memberStyle;
 }
 
-let clickFeature;
-let clickResolution;
 
 /**
  * From
@@ -181,8 +179,8 @@ function generatePointsCircle(count, clusterCenter, resolution) {
  * @param {number} resolution The current view resolution.
  * @return {Style} A style to render an expanded view of the cluster members.
  */
-function clusterCircleStyle(cluster, resolution) {
-  if (cluster !== clickFeature || resolution !== clickResolution) {
+export function clusterCircleStyle(cluster, resolution) {
+  if (cluster !== getClickFeature() || resolution !== getClickResolution()) {
     return;
   }
   const clusterMembers = cluster.get('features');

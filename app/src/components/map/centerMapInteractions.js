@@ -1,14 +1,22 @@
 import { createEmpty, extend, getWidth } from 'ol/extent';
 // eslint-disable-next-line import/no-cycle
-import { clusterHullStyle } from './olMapHelpers';
+import { clusterCircleStyle, clusterHullStyle } from './olMapHelpers';
 
 
 let hoverFeature;
 let clickInteraction;
 let pointermoveInteraction;
+let clickFeature;
+let clickResolution;
 
 export function getHoverFeature() {
   return hoverFeature;
+}
+export function getClickFeature() {
+  return clickFeature;
+}
+export function getClickResolution() {
+  return clickResolution;
 }
 
 /**
@@ -66,7 +74,7 @@ export function initCenterMapInteractions(map, vm) {
             .features[0].getProperties().properties;
           if (!indicatorObject.dummyFeature) {
             vm.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
-            const query = { ...this.$route.query };
+            const query = { ...vm.$route.query };
             delete query.sensor;
             vm.$router.replace({ query }).catch(() => {});
           }
