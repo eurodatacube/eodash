@@ -10,12 +10,17 @@ import {
 
 import countries from '@/assets/countries.json';
 import {
-  createLayerFromConfig, createIndicatorFeatureLayers, initInteractions, cleanupClusterInteraction,
+  createLayerFromConfig, createIndicatorFeatureLayers, cleanupClusterInteraction,
 } from '@/components/map/olMapHelpers';
+import { initCenterMapInteractions } from '@/components/map/centerMapInteractions';
 import 'ol/ol.css';
+import getMapInstance from '@/components/map/mapInstance';
 
 export default {
   components: {},
+  props: {
+    mapId: String,
+  },
   data() {
     return {
       map: null,
@@ -67,27 +72,28 @@ export default {
     },
   },
   mounted() {
-    this.$map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
+    getMapInstance(this.mapId).map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
   },
   methods: {
     initMap() {
+      const { map } = getMapInstance(this.mapId);
       const layers = this.baseLayers.map(createLayerFromConfig);
       layers.forEach((l) => {
-        this.$map.addLayer(l);
+        map.addLayer(l);
       });
       const overlayLayers = this.overlayLayers.map(createLayerFromConfig);
       overlayLayers.forEach((l) => {
-        this.$map.addLayer(l);
+        map.addLayer(l);
       });
       const indicatorFeatureLayers = createIndicatorFeatureLayers(this.getGroupedFeatures, this);
       indicatorFeatureLayers.forEach((l) => {
-        this.$map.addLayer(l);
+        map.addLayer(l);
       });
-      initInteractions(this.$map, this);
+      initCenterMapInteractions(map, this);
     },
   },
   beforeDestroy() {
-    cleanupClusterInteraction(this.$map);
+    cleanupClusterInteraction(getMapInstance(this.mapId).map);
   },
 };
 </script>
