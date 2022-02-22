@@ -21,7 +21,7 @@ import {
 import { indicatorClassesIcons } from '../../config/trilateral';
 import { getColor } from './olMapColors';
 // eslint-disable-next-line import/no-cycle
-import { getClickFeature, getClickResolution, getHoverFeature } from './centerMapInteractions';
+import { getClickedClusterMember, getHoverFeature } from './centerMapInteractions';
 
 const onStylesLoaded = [];
 
@@ -92,6 +92,7 @@ const textFill = new Fill({
   color: '#fff',
 });
 
+
 const innerCircle = new CircleStyle({
   radius: 14,
   fill: innerCircleFill,
@@ -99,6 +100,19 @@ const innerCircle = new CircleStyle({
 const outerCircle = new CircleStyle({
   radius: 18,
   fill: outerCircleFill,
+});
+
+const innerCircleSelected = new CircleStyle({
+  radius: 14,
+  fill: new Fill({
+    color: 'rgba(40, 40, 40, 0.2)',
+  }),
+});
+const outerCircleSelected = new CircleStyle({
+  radius: 18,
+  fill: new Fill({
+    color: 'rgba(58, 104, 142, 0.2)',
+  }),
 });
 
 
@@ -180,10 +194,10 @@ function generatePointsCircle(count, clusterCenter, resolution) {
  * @return {Style} A style to render an expanded view of the cluster members.
  */
 export function clusterCircleStyle(cluster, resolution) {
-  if (cluster !== getClickFeature() || resolution !== getClickResolution()) {
+  const clusterMembers = cluster.get('features');
+  if (!clusterMembers.includes(getClickedClusterMember())) {
     return;
   }
-  const clusterMembers = cluster.get('features');
   const centerCoordinates = cluster.getGeometry().getCoordinates();
   // eslint-disable-next-line consistent-return
   return generatePointsCircle(
@@ -234,16 +248,17 @@ export function clusterHullStyle(cluster) {
 
 function createClusterStyle(vm) {
   return ((feature) => {
-    const size = feature.get('features').length;
-    if (size > 1) {
+    const clusterMembers = feature.get('features');
+    if (clusterMembers.length > 1) {
+      const hasClickedFeature = clusterMembers.includes(getClickedClusterMember());
       return [
         new Style({
-          image: outerCircle,
+          image: hasClickedFeature ? outerCircleSelected : outerCircle,
         }),
         new Style({
-          image: innerCircle,
+          image: hasClickedFeature ? innerCircleSelected : innerCircle,
           text: new Text({
-            text: size.toString(),
+            text: clusterMembers.length.toString(),
             fill: textFill,
             font: '12px sans-serif',
           }),

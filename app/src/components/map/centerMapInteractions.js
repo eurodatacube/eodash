@@ -1,22 +1,39 @@
 import { createEmpty, extend, getWidth } from 'ol/extent';
 // eslint-disable-next-line import/no-cycle
-import { clusterCircleStyle, clusterHullStyle } from './olMapHelpers';
+import { clusterHullStyle } from './olMapHelpers';
 
 
 let hoverFeature;
 let clickInteraction;
 let pointermoveInteraction;
-let clickFeature;
+// any member of a clicked cluster.
+// cannot use cluster feature itself, because it changes after `changed`
+let clickedClusterMember;
 let clickResolution;
 
 export function getHoverFeature() {
   return hoverFeature;
 }
-export function getClickFeature() {
-  return clickFeature;
+export function getClickedClusterMember() {
+  return clickedClusterMember;
 }
 export function getClickResolution() {
   return clickResolution;
+}
+
+/**
+ * opens the indicator panel for a given indicator feature
+ * @param {*} feature ol feature
+ * @param {*} vm vue instance
+ */
+function openIndicator(feature, vm) {
+  const { indicatorObject } = feature.getProperties().properties;
+  if (!indicatorObject.dummyFeature) {
+    vm.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
+    const query = { ...vm.$route.query };
+    delete query.sensor;
+    vm.$router.replace({ query }).catch(() => {});
+  }
 }
 
 /**
@@ -29,25 +46,30 @@ export function initCenterMapInteractions(map, vm) {
   const clusters = map.getLayers().getArray().find((l) => l.get('name') === 'clusters');
   const clusterHulls = map.getLayers().getArray().find((l) => l.get('name') === 'clusterHulls');
   const clusterCircles = map.getLayers().getArray().find((l) => l.get('name') === 'clusterCircles');
-  pointermoveInteraction = (event) => {
-    clusters.getFeatures(event.pixel).then((features) => {
-      if (features[0] !== hoverFeature) {
-        // Display the convex hull on hover.
-        // eslint-disable-next-line prefer-destructuring
-        hoverFeature = features[0];
-        clusterHulls.setStyle(clusterHullStyle);
-        // Change the cursor style to indicate that the cluster is clickable.
-        // eslint-disable-next-line no-param-reassign
-        map.getTargetElement().style.cursor = hoverFeature
-          ? 'pointer'
-          : '';
-      }
-    });
+  pointermoveInteraction = async (event) => {
+    const singleCircleFeatures = await clusterCircles.getFeatures(event.pixel);
+    const clusterFeatures = await clusters.getFeatures(event.pixel);
+    if (clusterFeatures[0] !== hoverFeature) {
+      // Display the convex hull on hover.
+      // eslint-disable-next-line prefer-destructuring
+      hoverFeature = clusterFeatures[0];
+      clusterHulls.setStyle(clusterHullStyle);
+      // Change the cursor style to indicate that the cluster is clickable.
+    }
+    // eslint-disable-next-line no-param-reassign
+    map.getTargetElement().style.cursor = hoverFeature || singleCircleFeatures.length
+      ? 'pointer'
+      : '';
   };
   map.on('pointermove', pointermoveInteraction);
 
-  clickInteraction = (event) => {
-    clusters.getFeatures(event.pixel).then((features) => {
+  clickInteraction = async (event) => {
+    // features of expanded clusters
+    const singleCircleFeatures = await clusterCircles.getFeatures(event.pixel);
+    if (singleCircleFeatures.length) {
+      openIndicator(singleCircleFeatures[0], vm);
+    } else {
+      const features = await clusters.getFeatures(event.pixel);
       if (features.length > 0) {
         const clusterMembers = features[0].get('features');
         if (clusterMembers.length > 1) {
@@ -58,29 +80,30 @@ export function initCenterMapInteractions(map, vm) {
           const resolution = map.getView().getResolution();
           if (
             view.getZoom() === view.getMaxZoom()
-            || (getWidth(extent) < resolution && getWidth(extent) < resolution)
+              || (getWidth(extent) < resolution && getWidth(extent) < resolution)
           ) {
             // Show an expanded view of the cluster members.
             // eslint-disable-next-line prefer-destructuring
-            clickFeature = features[0];
+            clickedClusterMember = clusterMembers[0];
             clickResolution = resolution;
-            clusterCircles.setStyle(clusterCircleStyle.bind(vm));
+            clusterCircles.changed();
+            clusters.changed();
+            map.getView().once('change:resolution', () => {
+              clickedClusterMember = undefined;
+            });
           } else {
             // Zoom to the extent of the cluster members.
             view.fit(extent, { duration: 500, padding: [50, 50, 50, 50] });
           }
         } else {
-          const { indicatorObject } = features[0].getProperties()
-            .features[0].getProperties().properties;
-          if (!indicatorObject.dummyFeature) {
-            vm.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
-            const query = { ...vm.$route.query };
-            delete query.sensor;
-            vm.$router.replace({ query }).catch(() => {});
-          }
+          openIndicator(features[0].getProperties().features[0], vm);
         }
+      } else {
+        clickedClusterMember = undefined;
+        clusters.changed();
+        clusterCircles.changed();
       }
-    });
+    }
   };
 
   map.on('click', clickInteraction);
