@@ -21,6 +21,7 @@ export default {
   props: {
     mapId: String,
   },
+  props: {},
   data() {
     return {
       map: null,
@@ -72,11 +73,11 @@ export default {
     },
   },
   mounted() {
-    getMapInstance(this.mapId).map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
+    getMapInstance('centerMap').map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
   },
   methods: {
     initMap() {
-      const { map } = getMapInstance(this.mapId);
+      const { map } = getMapInstance('centerMap');
       const layers = this.baseLayers.map(createLayerFromConfig);
       layers.forEach((l) => {
         map.addLayer(l);
@@ -93,7 +94,7 @@ export default {
     },
   },
   beforeDestroy() {
-    cleanupClusterInteraction(getMapInstance(this.mapId).map);
+    cleanupClusterInteraction(getMapInstance('centerMap').map);
   },
 };
 </script>
