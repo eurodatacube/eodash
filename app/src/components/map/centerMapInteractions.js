@@ -1,4 +1,5 @@
 import { createEmpty, extend, getWidth } from 'ol/extent';
+// eslint-disable-next-line import/no-cycle
 import { clusterHullStyle } from './olMapHelpers';
 
 
@@ -61,7 +62,8 @@ export function initCenterMapInteractions(map, vm) {
             view.fit(extent, { duration: 500, padding: [50, 50, 50, 50] });
           }
         } else {
-          const { indicatorObject } = features[0].getProperties().features[0].getProperties().properties;
+          const { indicatorObject } = features[0].getProperties()
+            .features[0].getProperties().properties;
           if (!indicatorObject.dummyFeature) {
             vm.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
             const query = { ...this.$route.query };

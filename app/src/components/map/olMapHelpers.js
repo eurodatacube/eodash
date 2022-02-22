@@ -20,6 +20,7 @@ import {
 } from 'ol/style';
 import { indicatorClassesIcons } from '../../config/trilateral';
 import { getColor } from './olMapColors';
+// eslint-disable-next-line import/no-cycle
 import { getHoverFeature } from './centerMapInteractions';
 
 const onStylesLoaded = [];
@@ -57,7 +58,6 @@ const indicatorClassesStyles = Object.keys(indicatorClassesIcons).reduce((acc, k
 // eslint-disable-next-line import/prefer-default-export
 export function createLayerFromConfig(config) {
   let source;
-  console.log(config);
   if (config.protocol === 'xyz') {
     source = new XYZSource({
       attributions: config.attribution,
