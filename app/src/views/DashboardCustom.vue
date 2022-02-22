@@ -670,7 +670,7 @@ export default {
       }
     },
     async submitMarketingData() {
-      this.loading = true;
+      this.saving = true;
       this.performChange('changeTitle', this.popupTitle);
       if (this.$refs.form.validate()) {
         this.performChange('changeTitle', this.popupTitle);
@@ -697,7 +697,7 @@ export default {
         });
         this.success = true;
       }
-      this.loading = false;
+      this.saving = false;
     },
     createTextFeature() {
       if (this.$refs.textForm.validate()) {
