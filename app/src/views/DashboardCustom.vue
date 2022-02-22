@@ -677,17 +677,23 @@ export default {
         await this.addMarketingInfo({
           interests: this.interests,
         });
-        await this.addToMailingList({
-          email: this.email,
-          name: this.name,
-          listId: this.$store.state.config.appConfig.mailingList[process.env.NODE_ENV],
-          newsletterOptIn: this.newsletterOptIn,
-          dashboardId: this.$store.state.dashboard.dashboardConfig.id,
-          dashboardURLView: this.viewingLink,
-          dashboardURLEdit: this.editingLink,
-          dashboardTitle: this.dashboardTitle,
-          interests: this.interests,
-        });
+
+        try {
+          await this.addToMailingList({
+            email: this.email,
+            name: this.name,
+            listId: this.$store.state.config.appConfig.mailingList[process.env.NODE_ENV],
+            newsletterOptIn: this.newsletterOptIn,
+            dashboardId: this.$store.state.dashboard.dashboardConfig.id,
+            dashboardURLView: this.viewingLink,
+            dashboardURLEdit: this.editingLink,
+            dashboardTitle: this.dashboardTitle,
+            interests: this.interests,
+          });
+        } catch (e) {
+          console.log(`could not add to mailing list: ${e}`)
+        }
+
         this.$router.replace({
           path: 'dashboard',
           query: {
