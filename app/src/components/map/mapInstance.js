@@ -5,7 +5,7 @@ import View from 'ol/View';
  * creates the map instance, to be used as single vue instance property only.
  * @returns {Map}
  */
-export default function createMapInstance() {
+function createMapInstance() {
   const map = new Map({
     view: new View({
       zoom: 0,
@@ -16,4 +16,26 @@ export default function createMapInstance() {
   });
 
   return map;
+}
+
+
+class VueMap {
+  constructor() {
+    this.map = createMapInstance();
+  }
+}
+const mapRegistry = {};
+
+/**
+ * Returns the ol map with the given id.
+ * Will instantiate a new map if not already existing.
+ * @param {string} id id of map
+ * @returns {Map} ol map
+ */
+export default function getMapInstance(id) {
+  const map = mapRegistry[id];
+  if (!map) {
+    mapRegistry[id] = new VueMap();
+  }
+  return mapRegistry[id];
 }
