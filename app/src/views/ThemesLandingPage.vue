@@ -72,7 +72,7 @@
                 class="info-section d-flex flex-column justify-center"
               >
                 <img
-                  src="/data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg"
+                  src="https://eodashboard.org/data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg"
                   width="100%"
                   class="pr-xs-0 pr-sm-0 pr-md-8 pr-lg-8 pr-xl-8"
                 />
