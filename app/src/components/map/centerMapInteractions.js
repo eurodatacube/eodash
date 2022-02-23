@@ -1,6 +1,6 @@
 import { createEmpty, extend, getWidth } from 'ol/extent';
 // eslint-disable-next-line import/no-cycle
-import { clusterHullStyle } from './olMapHelpers';
+import { clusterHullStyle, generatePointsCircle } from './olMapHelpers';
 
 
 let hoverFeature;
@@ -65,9 +65,23 @@ export function initCenterMapInteractions(map, vm) {
 
   clickInteraction = async (event) => {
     // features of expanded clusters
-    const singleCircleFeatures = await clusterCircles.getFeatures(event.pixel);
-    if (singleCircleFeatures.length) {
-      openIndicator(singleCircleFeatures[0], vm);
+    const openClusterFeatures = await clusterCircles.getFeatures(event.pixel);
+    if (openClusterFeatures.length) {
+      const feature = openClusterFeatures[0];
+      const members = feature.get('features');
+      const coords = generatePointsCircle(members.length, feature.getGeometry().getCoordinates(),
+        map.getView().getResolution());
+      let dist = Infinity;
+      let index;
+      for (let i = 0, ii = coords.length; i < ii; ++i) {
+        const newDist = (event.coordinate[0] - coords[i][0]) ** 2
+          + (event.coordinate[1] - coords[i][1]) ** 2;
+        if (newDist < dist) {
+          index = i;
+          dist = newDist;
+        }
+      }
+      openIndicator(members[index], vm);
     } else {
       const features = await clusters.getFeatures(event.pixel);
       if (features.length > 0) {

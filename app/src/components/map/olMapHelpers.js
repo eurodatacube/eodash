@@ -168,7 +168,7 @@ function clusterMemberStyle(clusterMember, vm) {
  * @param {number} resolution Current view resolution.
  * @return {Array<Array<number>>} An array of coordinates representing the cluster members.
  */
-function generatePointsCircle(count, clusterCenter, resolution) {
+export function generatePointsCircle(count, clusterCenter, resolution) {
   const circumference = circleDistanceMultiplier * circleFootSeparation * (2 + count);
   let legLength = circumference / (Math.PI * 2); // radius from circumference
   const angleStep = (Math.PI * 2) / count;
