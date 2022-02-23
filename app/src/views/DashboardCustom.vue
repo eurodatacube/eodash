@@ -691,7 +691,7 @@ export default {
             interests: this.interests,
           });
         } catch (e) {
-          console.log(`could not add to mailing list: ${e}`)
+          console.log(`could not add to mailing list: ${e}`);
         }
 
         this.$router.replace({
