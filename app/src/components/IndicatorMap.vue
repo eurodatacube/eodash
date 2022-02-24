@@ -360,7 +360,7 @@
         </h3>
         <v-sheet
           v-if="!mergedConfigsData[0].disableTimeSelection"
-          class="row justify-center align-center"
+          class="row justify-center align-center rounded"
           style="position: absolute; bottom: 30px; z-index: 1000; width: auto; max-width: 100%;"
         >
           <v-col
@@ -397,6 +397,7 @@
           </v-col>
           <v-col
             :cols="enableCompare && !indicator.compareDisplay ? 6 : 12"
+            class="d-flex flex-row align-center"
           >
             <v-select
               outlined
@@ -435,6 +436,14 @@
                 </v-tooltip>
               </template>
             </v-select>
+
+            <v-btn
+              elevation="2"
+              class="ml-3 white--text"
+              color="secondary"
+              fab
+              small
+            ><v-icon small>mdi-content-save</v-icon></v-btn>
           </v-col>
         </v-sheet>
       </div>
