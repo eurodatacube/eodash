@@ -65,7 +65,7 @@ const textStyle = new Text({
   }),
   font: '18px "Material Design Icons"',
 });
-const onStylesLoaded = [];
+let onStylesLoaded = [];
 
 const indicatorClassesStyles = Object.keys(indicatorClassesIcons).reduce((acc, key) => {
   const image = new Image();
@@ -86,6 +86,7 @@ const indicatorClassesStyles = Object.keys(indicatorClassesIcons).reduce((acc, k
     });
     if (Object.keys(acc).length === Object.keys(indicatorClassesIcons).length) {
       onStylesLoaded.forEach((cb) => cb());
+      onStylesLoaded = undefined;
     }
   });
   image.src = `https://cdn.jsdelivr.net/npm/@mdi/svg@latest/svg/${indicatorClassesIcons[key].substr(4)}.svg`;
@@ -347,9 +348,11 @@ export default class Cluster {
       // style: this.createClusterStyle(),
       style: this.clusterStyle.bind(this),
     });
-    onStylesLoaded.push(() => {
-      clusters.changed();
-    });
+    if (onStylesLoaded) {
+      onStylesLoaded.push(() => {
+        clusters.changed();
+      });
+    }
 
     const themeColor = this.vm.$vuetify.theme.themes.light.primary;
     const fillColor = [...asArray(themeColor)];
