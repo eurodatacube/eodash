@@ -377,12 +377,12 @@ export default {
             .includes(indObj.indicator)) {
           colorCode = 'BLUE';
         }
-        
+
         if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')
           && ['OX'].includes(indObj.indicator)) {
-            if (colorCode == 'Green') {
-              colorCode = 'BLUE';
-            }
+          if (colorCode === 'Green') {
+            colorCode = 'BLUE';
+          }
         }
       }
       return this.getIndicatorColor(colorCode);

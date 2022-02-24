@@ -697,7 +697,7 @@ export default {
           const regularData = [];
           data.forEach((entry) => {
             if (entry.color === 'Green') {
-              regularData.push({ t: entry.t, y: min+((max-min)/2) });
+              regularData.push({ t: entry.t, y: min + ((max - min) / 2) });
             }
           });
           datasets.push({
@@ -1215,8 +1215,8 @@ export default {
               }
               return returnString;
             },
-            min: min,
-            max: max,
+            min,
+            max,
             label: '',
           },
           scaleLabel: {

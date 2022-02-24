@@ -130,9 +130,9 @@ export default {
         }
         if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')
           && ['OX'].includes(indObj.indicator)) {
-            if (indObj.lastColorCode == 'Green') {
-              color = this.getIndicatorColor('BLUE');
-            }
+          if (indObj.lastColorCode === 'Green') {
+            color = this.getIndicatorColor('BLUE');
+          }
         }
       }
       return color;
