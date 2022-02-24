@@ -1,5 +1,6 @@
 import Map from 'ol/Map';
 import View from 'ol/View';
+import 'ol/ol.css';
 
 /**
  * creates the map instance, to be used as single vue instance property only.

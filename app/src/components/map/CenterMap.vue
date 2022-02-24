@@ -9,17 +9,14 @@ import {
 } from 'vuex';
 
 import countries from '@/assets/countries.json';
-import {
-  createLayerFromConfig, createIndicatorFeatureLayers, cleanupClusterInteraction,
-} from '@/components/map/olMapHelpers';
-import { initCenterMapInteractions } from '@/components/map/centerMapInteractions';
-import 'ol/ol.css';
-import getMapInstance from '@/components/map/mapInstance';
+import LayerControl from '@/components/map/LayerControl.vue';
+import { createLayerFromConfig } from '@/components/map/layers';
+import Cluster from '@/components/map/Cluster';
+import getMapInstance from '@/components/map/map';
+
 
 export default {
-  components: {},
-  props: {
-    mapId: String,
+  components: {
   },
   props: {},
   data() {
@@ -86,16 +83,11 @@ export default {
       overlayLayers.forEach((l) => {
         map.addLayer(l);
       });
-      const indicatorFeatureLayers = createIndicatorFeatureLayers(this.getGroupedFeatures, this);
-      indicatorFeatureLayers.forEach((l) => {
-        map.addLayer(l);
-      });
-      initCenterMapInteractions(map, this);
+      const cluster = new Cluster('centerMap', this, this.getGroupedFeatures);
+      cluster.initMapInteractions();
     },
   },
-  beforeDestroy() {
-    cleanupClusterInteraction(getMapInstance('centerMap').map);
-  },
+  beforeDestroy() {},
 };
 </script>
 
