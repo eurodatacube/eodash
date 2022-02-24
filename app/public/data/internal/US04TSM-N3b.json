@@ -1703,5 +1703,38 @@
         "reference_time": "",
         "reference_value": "",
         "time": "2022-01-22T18:20:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "MODIS Aqua",
+        "indicator_value": "",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-36.55756731",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2022-01-29T18:20:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "MODIS Aqua",
+        "indicator_value": "",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-24.18210785",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2022-02-05T18:20:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "MODIS Aqua",
+        "indicator_value": "",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-33.61923752",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2022-02-12T18:20:00"
     }
 ]

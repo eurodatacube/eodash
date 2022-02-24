@@ -3,11 +3,22 @@
     v-if="barChartIndicators.includes(indicatorObject.indicator)">
       <bar-chart v-if='datacollection'
         id="chart"
+        ref="barChart"
         class="fill-height"
         :width="null"
         :height="null"
         :chart-data='datacollection'
+        @extentChanged="extentChanged"
         :options='chartOptions()'></bar-chart>
+        <v-btn
+          ref="zoomResetButton"
+          style="position: absolute; right: 40px; top: 13px;display: none;"
+          elevation="2"
+          x-small
+          @click="resetBCZoom"
+        >
+          Reset
+        </v-btn>
   </div>
   <div style="width: 100%; height: 100%;"
     v-else-if="mapchartIndicators.includes(indicatorObject.indicator)">
@@ -59,12 +70,22 @@
   </div>
   <div style="width: 100%; height: 100%;" v-else>
     <line-chart v-if='lineChartIndicators.includes(indicatorObject.indicator)'
-      id="chart"
+      id="chart" ref="lineChart"
+      @extentChanged="extentChanged"
       class="fill-height"
       :width="null"
       :height="null"
       :chart-data='datacollection'
       :options='chartOptions()'></line-chart>
+    <v-btn
+      ref="zoomResetButton"
+      style="position: absolute; right: 40px; top: 13px;display: none;"
+      elevation="2"
+      x-small
+      @click="resetLCZoom"
+    >
+      Reset
+    </v-btn>
   </div>
 </template>
 
@@ -634,6 +655,8 @@ export default {
           let counter = 0;
           let tmpVal = 0;
           let tmpTime = 0;
+          const min = Math.min(...this.indicatorObject.measurement);
+          const max = Math.max(...this.indicatorObject.measurement);
           indicator.measurement.forEach((item, i) => {
             data.push({
               t: indicator.time[i],
@@ -657,7 +680,7 @@ export default {
           const lowData = [];
           data.forEach((entry) => {
             if (entry.color === 'Red (Low)' || entry.color === 'Orange (Low)') {
-              lowData.push({ t: entry.t, y: 0.35 });
+              lowData.push({ t: entry.t, y: min });
             }
           });
           datasets.push({
@@ -674,7 +697,7 @@ export default {
           const regularData = [];
           data.forEach((entry) => {
             if (entry.color === 'Green') {
-              regularData.push({ t: entry.t, y: 0.5 });
+              regularData.push({ t: entry.t, y: min + ((max - min) / 2) });
             }
           });
           datasets.push({
@@ -690,7 +713,7 @@ export default {
           const highData = [];
           data.forEach((entry) => {
             if (entry.color === 'Red (High)' || entry.color === 'Orange (High)') {
-              highData.push({ t: entry.t, y: 0.65 });
+              highData.push({ t: entry.t, y: max });
             }
           });
           datasets.push({
@@ -834,6 +857,24 @@ export default {
     },
   },
   methods: {
+    // I am not saving display state of button as data property because
+    // changing it rerenders complete chart which nullifies use of this
+    // functionality
+    extentChanged(val) {
+      if (val) {
+        this.$refs.zoomResetButton.$el.style.display = 'block';
+      } else {
+        this.$refs.zoomResetButton.$el.style.display = 'none';
+      }
+    },
+    resetLCZoom() {
+      this.extentChanged(false);
+      this.$refs.lineChart._data._chart.resetZoom();
+    },
+    resetBCZoom() {
+      this.extentChanged(false);
+      this.$refs.barChart._data._chart.resetZoom();
+    },
     dataLayerTimeSelection(payload) {
       this.dataLayerTime = payload;
       const newIndex = this.arrayOfObjects
@@ -1160,19 +1201,22 @@ export default {
         customSettings.hover = {
           mode: 'nearest',
         };
+        // We use min max values to define y axis scale range
+        const min = Math.min(...this.indicatorObject.measurement);
+        const max = Math.max(...this.indicatorObject.measurement);
         customSettings.yAxisOverwrite = {
           ticks: {
             callback: (...args) => {
               let returnString;
-              if (args[0] === 0.35) {
+              if (args[0] === min) {
                 returnString = 'Low';
-              } else if (args[0] === 0.65) {
+              } else if (args[0] === max) {
                 returnString = 'High';
               }
               return returnString;
             },
-            min: 0.3,
-            max: 0.7,
+            min,
+            max,
             label: '',
           },
           scaleLabel: {
