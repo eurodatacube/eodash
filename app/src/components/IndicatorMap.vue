@@ -441,6 +441,8 @@
               elevation="2"
               class="ml-3 white--text"
               color="secondary"
+              :disabled="this.dataLayerTime.value.ts === this.savedTime.ts"
+              @click="uploadTime()"
               fab
               small
             ><v-icon small>mdi-content-save</v-icon></v-btn>
@@ -549,6 +551,7 @@ export default {
       },
       dataLayerTime: null,
       compareLayerTime: null,
+      savedTime: null,
       dataLayerIndex: 0,
       compareLayerIndex: 0,
       dataFeaturesCount: 0,
@@ -839,6 +842,7 @@ export default {
   mounted() {
     this.dataLayerIndex = this.usedTimes.time.length - 1;
     this.dataLayerTime = { value: this.usedTimes.time[this.dataLayerIndex] };
+    this.savedTime = this.usedTimes.time[this.dataLayerIndex];
     this.compareLayerTime = { value: this.getInitialCompareTime() };
     this.ro = new ResizeObserver(this.onResize)
       .observe(this.$refs.container);
@@ -1730,6 +1734,10 @@ export default {
         this.compareJsonKey = Math.random();
         this.compareFeaturesCount = ftrs.features.length;
       }
+    },
+
+    uploadTime() {
+
     },
   },
   watch: {
