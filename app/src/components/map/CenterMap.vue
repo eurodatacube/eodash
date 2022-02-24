@@ -83,8 +83,8 @@ export default {
       overlayLayers.forEach((l) => {
         map.addLayer(l);
       });
-      const cluster = new Cluster('centerMap', this, this.getGroupedFeatures);
-      cluster.initMapInteractions();
+      const cluster = new Cluster(map, this, this.getGroupedFeatures);
+      cluster.setActive(true);
     },
   },
   beforeDestroy() {},

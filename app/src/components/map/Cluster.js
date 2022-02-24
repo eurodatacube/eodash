@@ -17,8 +17,6 @@ import { asArray } from 'ol/color';
 import { Feature } from 'ol';
 import { fromLonLat } from 'ol/proj';
 import { getColor } from './olMapColors';
-import getMapInstance from './map';
-
 import { indicatorClassesIcons } from '../../config/trilateral';
 
 const circleDistanceMultiplier = 1;
@@ -168,15 +166,36 @@ export default class Cluster {
   /**
    * cluster component, will create layers and interaction and add
    * them to the given map
-   * @param {string} mapId Map Id
+   * @param {*} map ol map
    * @param {*} vm Vue Instance
    * @param {Array} indicators array of indicators
    */
-  constructor(mapId, vm, indicators) {
-    this.map = getMapInstance(mapId).map;
+  constructor(map, vm, indicators) {
+    this.map = map;
     this.vm = vm;
     this.indicators = indicators;
-    this.layers = this.createIndicatorFeatureLayers();
+    this.createIndicatorFeatureLayers();
+    this.createInteractions();
+  }
+
+  /**
+   * adding layer and interactions if active=true, otherwise removing them from the map
+   * @param {boolean} active
+   */
+  setActive(active) {
+    if (active) {
+      [this.clusters, this.clusterHulls, this.clusterCircles].forEach((l) => {
+        this.map.addLayer(l);
+      });
+      this.map.on('pointermove', this.pointermoveInteraction);
+      this.map.on('click', this.clickInteraction);
+    } else {
+      [this.clusters, this.clusterHulls, this.clusterCircles].forEach((l) => {
+        this.map.removeLayer(l);
+      });
+      this.map.un('pointermove', this.pointermoveInteraction);
+      this.map.un('click', this.clickInteraction);
+    }
   }
 
   /**
@@ -194,21 +213,15 @@ export default class Cluster {
     }
   }
 
-  initMapInteractions() {
-    this.layers.forEach((l) => {
-      this.map.addLayer(l);
-    });
-    const clusters = this.map.getLayers().getArray().find((l) => l.get('name') === 'clusters');
-    const clusterHulls = this.map.getLayers().getArray().find((l) => l.get('name') === 'clusterHulls');
-    const clusterCircles = this.map.getLayers().getArray().find((l) => l.get('name') === 'clusterCircles');
-    const pointermoveInteraction = async (event) => {
-      const singleCircleFeatures = await clusterCircles.getFeatures(event.pixel);
-      const clusterFeatures = await clusters.getFeatures(event.pixel);
+  createInteractions() {
+    this.pointermoveInteraction = async (event) => {
+      const singleCircleFeatures = await this.clusterCircles.getFeatures(event.pixel);
+      const clusterFeatures = await this.clusters.getFeatures(event.pixel);
       if (clusterFeatures[0] !== this.hoverFeature) {
         // Display the convex hull on hover.
         // eslint-disable-next-line prefer-destructuring
         this.hoverFeature = clusterFeatures[0];
-        clusterHulls.setStyle(this.clusterHullStyle.bind(this));
+        this.clusterHulls.setStyle(this.clusterHullStyle.bind(this));
         // Change the cursor style to indicate that the cluster is clickable.
       }
       // eslint-disable-next-line no-param-reassign
@@ -216,11 +229,9 @@ export default class Cluster {
         ? 'pointer'
         : '';
     };
-    this.map.on('pointermove', pointermoveInteraction);
-
-    const clickInteraction = async (event) => {
+    this.clickInteraction = async (event) => {
       // features of expanded clusters
-      const openClusterFeatures = await clusterCircles.getFeatures(event.pixel);
+      const openClusterFeatures = await this.clusterCircles.getFeatures(event.pixel);
       if (openClusterFeatures.length) {
         const feature = openClusterFeatures[0];
         const members = feature.get('features');
@@ -238,7 +249,7 @@ export default class Cluster {
         }
         this.openIndicator(members[index]);
       } else {
-        const features = await clusters.getFeatures(event.pixel);
+        const features = await this.clusters.getFeatures(event.pixel);
         if (features.length > 0) {
           const clusterMembers = features[0].get('features');
           if (clusterMembers.length > 1) {
@@ -255,8 +266,8 @@ export default class Cluster {
               // eslint-disable-next-line prefer-destructuring
               this.clickedClusterMember = clusterMembers[0];
               this.clickResolution = resolution;
-              clusterCircles.changed();
-              clusters.changed();
+              this.clusterCircles.changed();
+              this.clusters.changed();
               this.map.getView().once('change:resolution', () => {
                 this.clickedClusterMember = undefined;
               });
@@ -269,12 +280,11 @@ export default class Cluster {
           }
         } else {
           this.clickedClusterMember = undefined;
-          clusters.changed();
-          clusterCircles.changed();
+          this.clusters.changed();
+          this.clusterCircles.changed();
         }
       }
     };
-    this.map.on('click', clickInteraction);
   }
 
   /**
@@ -342,7 +352,7 @@ export default class Cluster {
     });
 
     // Layer displaying the clusters and individual features.
-    const clusters = new VectorLayer({
+    this.clusters = new VectorLayer({
       name: 'clusters',
       source: clusterSource,
       // style: this.createClusterStyle(),
@@ -361,19 +371,18 @@ export default class Cluster {
     convexHullStroke.setColor(themeColor);
 
     // Layer displaying the convex hull of the hovered cluster.
-    const clusterHulls = new VectorLayer({
+    this.clusterHulls = new VectorLayer({
       name: 'clusterHulls',
       source: clusterSource,
       style: this.clusterHullStyle.bind(this),
     });
 
     // Layer displaying the expanded view of overlapping cluster members.
-    const clusterCircles = new VectorLayer({
+    this.clusterCircles = new VectorLayer({
       name: 'clusterCircles',
       source: clusterSource,
       style: clusterCircleStyle.bind(this),
     });
-    return [clusterHulls, clusters, clusterCircles];
   }
 
   /**
