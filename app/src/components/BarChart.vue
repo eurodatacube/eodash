@@ -116,10 +116,12 @@ export default {
         pan: {
           enabled: true,
           mode: 'x',
+          onPanComplete: this.extentChangedEvent,
         },
         zoom: {
           enabled: true,
           mode: 'x',
+          onZoomComplete: this.extentChangedEvent,
         },
         annotation: {
           annotations: [],
@@ -128,6 +130,9 @@ export default {
     };
   },
   methods: {
+    extentChangedEvent() {
+      this.$emit('extentChanged', true);
+    },
     render() {
       const extendedSettings = Object.assign(this.defaultOptions, this.options);
       if (!extendedSettings.sameYearComparison) {
