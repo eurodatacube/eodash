@@ -442,7 +442,7 @@
               class="ml-3 white--text"
               color="secondary"
               :disabled="this.dataLayerTime.value.ts === this.savedTime.ts"
-              @click="uploadTime()"
+              @click="saveTime()"
               fab
               small
             ><v-icon small>mdi-content-save</v-icon></v-btn>
@@ -505,6 +505,9 @@ export default {
     },
     hideCustomAreaControls: {
       required: false,
+    },
+    updateCallback: {
+      required: true,
     },
   },
   components: {
@@ -1736,8 +1739,8 @@ export default {
       }
     },
 
-    uploadTime() {
-
+    saveTime() {
+      this.savedTime = this.dataLayerTime.value;
     },
   },
   watch: {
