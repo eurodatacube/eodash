@@ -63,6 +63,7 @@
             :currentIndicator="element.indicatorObject"
             :centerProp="localCenter[element.poi]"
             :zoomProp="localZoom[element.poi]"
+            :onDataLayerTimeUpdate="onDataLayerTimeUpdate"
             @update:center="c => {localCenter[element.poi] = c}"
             @update:zoom="z => {localZoom[element.poi] = z}"
             @ready="onMapReady(element.poi)"
@@ -134,7 +135,7 @@
               </template>
               <span>Delete element</span>
             </v-tooltip>
-            <v-tooltip v-if="showTooltip(element) || element.text" left>
+            <v-tooltip v-if="savedTime !== dataLayerTime || showTooltip(element) || element.text" left>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   v-bind="attrs"
@@ -155,7 +156,7 @@
                   </v-icon>
                 </v-btn>
               </template>
-              <span v-if="element.mapInfo && showTooltip(element)">Save map position</span>
+              <span v-if="element.mapInfo && showTooltip(element)">Save map configuration</span>
               <span v-if="!element.mapInfo">Update text</span>
             </v-tooltip>
           </div>
@@ -272,6 +273,8 @@ export default {
     serverZoom: {},
     serverCenter: {},
     savedPoi: null,
+    dataLayerTime: null,
+    savedTime: null,
   }),
   computed: {
     ...mapGetters('dashboard', {
@@ -390,6 +393,7 @@ export default {
             poi: el.poi,
             zoom: this.localZoom[el.poi],
             center: this.localCenter[el.poi],
+            dataLayerTime: this.dataLayerTime,
           },
         );
       }
@@ -417,6 +421,14 @@ export default {
         this.$emit('save');
       }
     },
+
+    onDataLayerTimeUpdate(payload) {
+      console.log('time update');
+      console.log(payload);
+      
+      this.dataLayerTime = payload.dataLayerTime;
+      this.savedTime = payload.savedTime;
+    }
   },
 };
 </script>
