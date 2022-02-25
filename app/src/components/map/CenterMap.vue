@@ -9,7 +9,6 @@ import {
 } from 'vuex';
 
 import countries from '@/assets/countries.json';
-import LayerControl from '@/components/map/LayerControl.vue';
 import { createLayerFromConfig } from '@/components/map/layers';
 import Cluster from '@/components/map/Cluster';
 import getMapInstance from '@/components/map/map';
