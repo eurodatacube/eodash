@@ -1,5 +1,5 @@
 <template>
-  <div ref="container" style="height: 100%; width: 100%;">
+  <div class="rounded" ref="container" style="height: 100%; width: 100%;">
     <l-map
       ref="map"
       style="height: 100%; width: 100%; background: #cad2d3; z-index: 1;"
@@ -436,16 +436,6 @@
                 </v-tooltip>
               </template>
             </v-select>
-
-            <v-btn
-              elevation="2"
-              class="ml-3 white--text"
-              color="secondary"
-              :disabled="this.dataLayerTime.value.ts === this.savedTime.ts"
-              @click="saveTime()"
-              fab
-              small
-            ><v-icon small>mdi-content-save</v-icon></v-btn>
           </v-col>
         </v-sheet>
       </div>
@@ -508,6 +498,10 @@ export default {
     },
     updateCallback: {
       required: true,
+    },
+    onDataLayerTimeUpdate: {
+      type: Function,
+      default: () => {},
     },
   },
   components: {
@@ -1296,6 +1290,12 @@ export default {
       return additionalSettings;
     },
     dataLayerTimeSelection(payload) {
+      // Let CustomDashboardGrid know that layer time has been updated.
+      this.onDataLayerTimeUpdate({
+        dataLayerTime: payload,
+        savedTime: this.savedTime,
+      });
+
       // Different object returned either by arrow use or by dropdown use
       if (Array.isArray(payload) || !(payload.value)) {
         this.dataLayerTime = { value: payload, name: `${payload}` };
