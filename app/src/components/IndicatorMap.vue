@@ -497,7 +497,7 @@ export default {
       required: false,
     },
     updateCallback: {
-      required: true,
+      required: false,
     },
     onDataLayerTimeUpdate: {
       type: Function,
@@ -843,6 +843,11 @@ export default {
     this.compareLayerTime = { value: this.getInitialCompareTime() };
     this.ro = new ResizeObserver(this.onResize)
       .observe(this.$refs.container);
+
+    this.onDataLayerTimeUpdate({
+      dataLayerTime: this.dataLayerTime,
+      savedTime: this.savedTime,
+    });
   },
   destroyed() {
     delete this.ro;
