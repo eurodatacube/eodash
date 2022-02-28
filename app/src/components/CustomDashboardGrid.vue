@@ -398,7 +398,7 @@ export default {
           poi: el.poi,
           zoom: this.localZoom[el.poi],
           center: this.localCenter[el.poi],
-          dataLayerTime: this.dataLayerTime.toString(),
+          dataLayerTime: JSON.stringify(this.dataLayerTime),
         });
 
         return this.performChange(
@@ -407,7 +407,7 @@ export default {
             poi: el.poi,
             zoom: this.localZoom[el.poi],
             center: this.localCenter[el.poi],
-            dataLayerTime: this.dataLayerTime.toString(),
+            dataLayerTime: JSON.stringify(this.dataLayerTime),
           },
         );
       }
