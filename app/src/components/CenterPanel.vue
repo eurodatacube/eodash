@@ -24,7 +24,7 @@
       class="fill-height pb-7"
     >
       <v-tab-item class="fill-height">
-        <OlMap ref="map" />
+        <CenterMap ref="map" />
         <v-expansion-panels accordion class="global-indicators-panel" v-model="panel">
           <v-expansion-panel>
             <v-expansion-panel-header class="panel-header">
@@ -180,14 +180,14 @@ import {
 } from 'vuex';
 
 import FeatureTable from '@/components/FeatureTable.vue';
-import OlMap from '@/components/map/OlMap.vue';
+import CenterMap from '@/components/map/CenterMap.vue';
 
 import countries from '@/assets/countries.json';
 
 export default {
   components: {
     FeatureTable,
-    OlMap,
+    CenterMap,
   },
   data() {
     return {

@@ -9,13 +9,15 @@ import {
 } from 'vuex';
 
 import countries from '@/assets/countries.json';
-import {
-  createLayerFromConfig, createIndicatorFeatureLayers, initInteractions, cleanupClusterInteraction,
-} from '@/components/map/olMapHelpers';
-import 'ol/ol.css';
+import { createLayerFromConfig } from '@/components/map/layers';
+import Cluster from '@/components/map/Cluster';
+import getMapInstance from '@/components/map/map';
+
 
 export default {
-  components: {},
+  components: {
+  },
+  props: {},
   data() {
     return {
       map: null,
@@ -67,28 +69,24 @@ export default {
     },
   },
   mounted() {
-    this.$map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
+    getMapInstance('centerMap').map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
   },
   methods: {
     initMap() {
+      const { map } = getMapInstance('centerMap');
       const layers = this.baseLayers.map(createLayerFromConfig);
       layers.forEach((l) => {
-        this.$map.addLayer(l);
+        map.addLayer(l);
       });
       const overlayLayers = this.overlayLayers.map(createLayerFromConfig);
       overlayLayers.forEach((l) => {
-        this.$map.addLayer(l);
+        map.addLayer(l);
       });
-      const indicatorFeatureLayers = createIndicatorFeatureLayers(this.getGroupedFeatures, this);
-      indicatorFeatureLayers.forEach((l) => {
-        this.$map.addLayer(l);
-      });
-      initInteractions(this.$map, this);
+      const cluster = new Cluster(map, this, this.getGroupedFeatures);
+      cluster.setActive(true);
     },
   },
-  beforeDestroy() {
-    cleanupClusterInteraction(this.$map);
-  },
+  beforeDestroy() {},
 };
 </script>
 
