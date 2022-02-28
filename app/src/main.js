@@ -11,7 +11,6 @@ import VueCountdown from '@chenfengyuan/vue-countdown';
 import browserDetect from 'vue-browser-detect-plugin';
 import { marked } from 'marked';
 import L from 'leaflet';
-import createMapInstance from '@/components/map/mapInstance';
 import App from './App.vue';
 import Dashboard from './views/Dashboard.vue';
 import DashboardCustom from './views/DashboardCustom.vue';
@@ -58,7 +57,6 @@ Vue.use(VueMatomo, {
 
 Vue.use(VueMeta);
 Vue.use(VueRouter);
-Vue.prototype.$map = createMapInstance();
 
 const routes = [
   { path: '/', component: Dashboard },
