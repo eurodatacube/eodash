@@ -63,7 +63,8 @@
             :currentIndicator="element.indicatorObject"
             :centerProp="localCenter[element.poi]"
             :zoomProp="localZoom[element.poi]"
-            :onDataLayerTimeUpdate="onDataLayerTimeUpdate"
+            :dataLayerTimeProp="localDataLayerTime"
+            @update:datalayertime="onDataLayerTimeUpdate"
             @update:center="c => {localCenter[element.poi] = c}"
             @update:zoom="z => {localZoom[element.poi] = z}"
             @ready="onMapReady(element.poi)"
@@ -136,11 +137,9 @@
               <span>Delete element</span>
             </v-tooltip>
             <v-tooltip v-if="
-              ((savedTime && dataLayerTime)
+              (savedTime && dataLayerTime)
                 ? savedTime.toString() !== dataLayerTime.toString()
-                : false)
-                || showTooltip(element)
-                || element.text
+                : false
             " left>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -276,8 +275,10 @@ export default {
     featurePOI: null,
     localZoom: {},
     localCenter: {},
+    localDataLayerTime: {},
     serverZoom: {},
     serverCenter: {},
+    serverDataLayerTime: {},
     savedPoi: null,
     dataLayerTime: null,
     savedTime: null,
@@ -345,10 +346,14 @@ export default {
             );
 
             if (f.mapInfo && (firstCall || f.poi === this.savedPoi)) {
+              let time = DateTime.fromISO(f.mapInfo.dataLayerTime);
+
               this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
               this.$set(this.localCenter, f.poi, f.mapInfo.center);
+              this.$set(this.localDataLayerTime, f.poi, time);
               this.$set(this.serverZoom, f.poi, f.mapInfo.zoom);
               this.$set(this.serverCenter, f.poi, f.mapInfo.center);
+              this.$set(this.serverDataLayerTime, f.poi, time);
             }
 
             return {
@@ -398,7 +403,7 @@ export default {
           poi: el.poi,
           zoom: this.localZoom[el.poi],
           center: this.localCenter[el.poi],
-          dataLayerTime: JSON.stringify(this.dataLayerTime),
+          dataLayerTime: this.dataLayerTime,
         });
 
         return this.performChange(
@@ -407,7 +412,7 @@ export default {
             poi: el.poi,
             zoom: this.localZoom[el.poi],
             center: this.localCenter[el.poi],
-            dataLayerTime: JSON.stringify(this.dataLayerTime),
+            dataLayerTime: this.dataLayerTime,
           },
         );
       }
