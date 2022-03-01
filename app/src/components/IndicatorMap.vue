@@ -487,6 +487,7 @@ const emptyF = {
 export default {
   props: {
     currentIndicator: Object,
+    dataLayerTimeProp: Object,
     zoomProp: {
       required: false,
     },
@@ -498,10 +499,6 @@ export default {
     },
     updateCallback: {
       required: false,
-    },
-    onDataLayerTimeUpdate: {
-      type: Function,
-      default: () => {},
     },
   },
   components: {
@@ -838,13 +835,21 @@ export default {
   },
   mounted() {
     this.dataLayerIndex = this.usedTimes.time.length - 1;
-    this.dataLayerTime = { value: this.usedTimes.time[this.dataLayerIndex] };
+
+    let serverTime = this.dataLayerTimeProp[
+      this.currentIndicator.aoiID + '-' + this.currentIndicator.indicator
+    ];
+
+    this.dataLayerTime = { 
+      value: this.usedTimes.time.find((time) => time.ts === serverTime.ts),
+    };
+
     this.savedTime = this.usedTimes.time[this.dataLayerIndex];
     this.compareLayerTime = { value: this.getInitialCompareTime() };
     this.ro = new ResizeObserver(this.onResize)
       .observe(this.$refs.container);
 
-    this.onDataLayerTimeUpdate({
+    this.dataLayerTimeUpdated({
       dataLayerTime: this.dataLayerTime,
       savedTime: this.savedTime,
     });
@@ -868,6 +873,9 @@ export default {
     boundsUpdated(bounds) {
       this.bounds = bounds;
       this.$emit('update:bounds', bounds);
+    },
+    dataLayerTimeUpdated(time) {
+      this.$emit('update:datalayertime', time);
     },
     onMapReady() {
       this.map = this.$refs.map.mapObject;
@@ -1296,7 +1304,7 @@ export default {
     },
     dataLayerTimeSelection(payload) {
       // Let CustomDashboardGrid know that layer time has been updated.
-      this.onDataLayerTimeUpdate({
+      this.dataLayerTimeUpdated({
         dataLayerTime: payload,
         savedTime: this.savedTime,
       });
