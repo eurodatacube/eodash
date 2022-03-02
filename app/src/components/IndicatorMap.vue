@@ -836,13 +836,21 @@ export default {
   mounted() {
     this.dataLayerIndex = this.usedTimes.time.length - 1;
 
-    let serverTime = this.dataLayerTimeProp[
-      this.currentIndicator.aoiID + '-' + this.currentIndicator.indicator
-    ];
+    // Load the data layer time from the prop if there is one. Otherwise,
+    // just select the last time in the list.
+    if (this.dataLayerTimeProp) {
+      let serverTime = this.dataLayerTimeProp[
+        this.currentIndicator.aoiID + '-' + this.currentIndicator.indicator
+      ];
 
-    this.dataLayerTime = { 
-      value: this.usedTimes.time.find((time) => time.ts === serverTime.ts),
-    };
+      this.dataLayerTime = {
+        value: this.usedTimes.time.find(time => time.ts === serverTime.ts),
+      };
+    } else {
+      this.dataLayerTime = {
+        value: this.usedTimes.time[this.dataLayerIndex],
+      }
+    }
 
     this.savedTime = this.usedTimes.time[this.dataLayerIndex];
     this.compareLayerTime = { value: this.getInitialCompareTime() };
