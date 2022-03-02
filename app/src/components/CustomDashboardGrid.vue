@@ -63,8 +63,8 @@
             :currentIndicator="element.indicatorObject"
             :centerProp="localCenter[element.poi]"
             :zoomProp="localZoom[element.poi]"
-            :dataLayerTimeProp="localDataLayerTime"
-            @update:datalayertime="onDataLayerTimeUpdate"
+            :dataLayerTimeProp="localDataLayerTime[element.poi]"
+            @update:datalayertime="dataLayerTimeUpdated(element.poi)"
             @update:center="c => {localCenter[element.poi] = c}"
             @update:zoom="z => {localZoom[element.poi] = z}"
             @ready="onMapReady(element.poi)"
@@ -137,9 +137,7 @@
               <span>Delete element</span>
             </v-tooltip>
             <v-tooltip v-if="
-              (savedTime && dataLayerTime)
-                ? savedTime.toString() !== dataLayerTime.toString()
-                : false
+              showTooltip(element)
             " left>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -303,6 +301,9 @@ export default {
           if (this.localZoom[element.poi] !== this.serverZoom[element.poi]) {
             return true;
           }
+          /*if (this.localUNIXTime(element) !== this.serverUNIXTime(element)) {
+            return true;
+          }*/
         }
         return false;
       };
@@ -346,14 +347,22 @@ export default {
             );
 
             if (f.mapInfo && (firstCall || f.poi === this.savedPoi)) {
-              let time = DateTime.fromISO(f.mapInfo.dataLayerTime);
+              let time;
+
+              /*if (f.mapInfo.dataLayerTime.hasOwnProperty('value')) {
+                time = DateTime.fromISO(f.mapInfo.dataLayerTime.value);
+              } else {
+                time = DateTime.fromISO(f.mapInfo.dataLayerTime);
+              }*/
+
+              console.log(f.mapInfo);
 
               this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
               this.$set(this.localCenter, f.poi, f.mapInfo.center);
-              this.$set(this.localDataLayerTime, f.poi, time);
+              this.$set(this.localDataLayerTime, f.poi, f.mapInfo.dataLayerTime);
               this.$set(this.serverZoom, f.poi, f.mapInfo.zoom);
               this.$set(this.serverCenter, f.poi, f.mapInfo.center);
-              this.$set(this.serverDataLayerTime, f.poi, time);
+              this.$set(this.serverDataLayerTime, f.poi, f.mapInfo.dataLayerTime);
             }
 
             return {
@@ -364,6 +373,12 @@ export default {
         }
       },
     },
+    localDataLayerTime: {
+      deep: true,
+      handler (value) {
+        console.log(value);
+      },
+    }
   },
   methods: {
     ...mapActions('dashboard', [
@@ -376,11 +391,16 @@ export default {
       'changeFeatureTitle',
       'changeFeatureMapInfo',
     ]),
+    dataLayerTimeUpdated(value, poi) {
+      console.log(value);
+      this.localDataLayerTime[poi] = value;
+    },
     onMapReady(poi) {
       setTimeout(() => {
         this.localCenter[poi].lat = this.serverCenter[poi].lat;
         this.localCenter[poi].lng = this.serverCenter[poi].lng;
         this.localZoom[poi] = this.serverZoom[poi];
+        this.localDataLayerTime[poi] = this.serverDataLayerTime[poi];
       }, 1000);
     },
     // updateMapPositionChanged(poi) {
@@ -399,20 +419,13 @@ export default {
       if (el.mapInfo) {
         this.savedPoi = el.poi;
 
-        console.log({
-          poi: el.poi,
-          zoom: this.localZoom[el.poi],
-          center: this.localCenter[el.poi],
-          dataLayerTime: this.dataLayerTime,
-        });
-
         return this.performChange(
           'changeFeatureMapInfo',
           {
             poi: el.poi,
             zoom: this.localZoom[el.poi],
             center: this.localCenter[el.poi],
-            dataLayerTime: this.dataLayerTime,
+            dataLayerTime: this.localDataLayerTime[el.poi],
           },
         );
       }
@@ -439,14 +452,6 @@ export default {
       if (changed !== undefined) {
         this.$emit('save');
       }
-    },
-
-    onDataLayerTimeUpdate(payload) {
-      console.log('time update');
-      console.log(payload);
-
-      this.dataLayerTime = payload.dataLayerTime;
-      this.savedTime = payload.savedTime;
     },
   },
 };

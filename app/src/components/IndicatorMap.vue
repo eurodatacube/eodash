@@ -487,7 +487,9 @@ const emptyF = {
 export default {
   props: {
     currentIndicator: Object,
-    dataLayerTimeProp: Object,
+    dataLayerTimeProp: {
+      required: false,
+    },
     zoomProp: {
       required: false,
     },
@@ -834,41 +836,15 @@ export default {
     },
   },
   mounted() {
+    console.log(this.localDataLayerTime);
     this.dataLayerIndex = this.usedTimes.time.length - 1;
 
-    // Load the data layer time from the prop if there is one. Otherwise,
-    // just select the last time in the list.
-    if (this.dataLayerTimeProp) {
-      let serverTime = this.dataLayerTimeProp[
-        this.currentIndicator.aoiID + '-' + this.currentIndicator.indicator
-      ];
-
-      let searchResult = this.usedTimes.time.find(time => time.ts === serverTime.ts);
-
-      if (searchResult) {
-        this.dataLayerTime = {
-          value: searchResult,
-        };
-      } else {
-        this.dataLayerTime = {
-          value: this.usedTimes.time[this.dataLayerIndex],
-        }
-      }
-    } else {
-      this.dataLayerTime = {
-        value: this.usedTimes.time[this.dataLayerIndex],
-      }
-    }
+    this.dataLayerTime = this.usedTimes.time[this.dataLayerIndex];
 
     this.savedTime = this.usedTimes.time[this.dataLayerIndex];
     this.compareLayerTime = { value: this.getInitialCompareTime() };
     this.ro = new ResizeObserver(this.onResize)
       .observe(this.$refs.container);
-
-    this.dataLayerTimeUpdated({
-      dataLayerTime: this.dataLayerTime,
-      savedTime: this.savedTime,
-    });
   },
   destroyed() {
     delete this.ro;
@@ -891,6 +867,7 @@ export default {
       this.$emit('update:bounds', bounds);
     },
     dataLayerTimeUpdated(time) {
+      console.log(time);
       this.$emit('update:datalayertime', time);
     },
     onMapReady() {
@@ -1319,12 +1296,6 @@ export default {
       return additionalSettings;
     },
     dataLayerTimeSelection(payload) {
-      // Let CustomDashboardGrid know that layer time has been updated.
-      this.dataLayerTimeUpdated({
-        dataLayerTime: payload,
-        savedTime: this.savedTime,
-      });
-
       // Different object returned either by arrow use or by dropdown use
       if (Array.isArray(payload) || !(payload.value)) {
         this.dataLayerTime = { value: payload, name: `${payload}` };
@@ -1352,6 +1323,7 @@ export default {
           );
         });
       }
+      this.dataLayerTimeUpdated(this.dataLayerTime);
     },
     extractActualLayers(group) {
       let actualLayers = [];
@@ -1787,6 +1759,13 @@ export default {
         if (v) this.center = v;
       },
     },
+    /*dataLayerTimeProp: {
+      immediate: true,
+      deep: true,
+      handler(v) {
+        if (v) this.dataLayerTime = v;
+      },
+    },*/
     enableCompare(on) {
       if (!on) {
         if (this.slider !== null) {
