@@ -843,9 +843,17 @@ export default {
         this.currentIndicator.aoiID + '-' + this.currentIndicator.indicator
       ];
 
-      this.dataLayerTime = {
-        value: this.usedTimes.time.find(time => time.ts === serverTime.ts),
-      };
+      let searchResult = this.usedTimes.time.find(time => time.ts === serverTime.ts);
+
+      if (searchResult) {
+        this.dataLayerTime = {
+          value: searchResult,
+        };
+      } else {
+        this.dataLayerTime = {
+          value: this.usedTimes.time[this.dataLayerIndex],
+        }
+      }
     } else {
       this.dataLayerTime = {
         value: this.usedTimes.time[this.dataLayerIndex],
