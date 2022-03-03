@@ -69,6 +69,7 @@
             @update:datalayertime="d => {localDataLayerTime[element.poi] = d}"
             @update:center="c => {localCenter[element.poi] = c}"
             @update:zoom="z => {localZoom[element.poi] = z}"
+            @compareEnabled="tooltipTrigger = !tooltipTrigger"
             @ready="onMapReady(element.poi)"
           />
           <indicator-data
@@ -282,6 +283,7 @@ export default {
     localEnableCompare: {},
     serverEnableCompare: {},
     savedPoi: null,
+    tooltipTrigger: false,
   }),
   computed: {
     ...mapGetters('dashboard', {
@@ -314,6 +316,9 @@ export default {
                 !== this.serverCompareLayerTime[element.poi]) {
             return true;
           }
+        }
+        if (this.tooltipTrigger) {
+          return true;
         }
         return false;
       };
@@ -415,6 +420,7 @@ export default {
     update(el) { // eslint-disable-line
       if (el.mapInfo) {
         this.savedPoi = el.poi;
+        this.tooltipTrigger = false;
 
         return this.performChange(
           'changeFeatureMapInfo',

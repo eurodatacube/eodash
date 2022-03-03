@@ -1801,6 +1801,7 @@ export default {
           this.slider.addTo(this.map);
         });
       }
+      this.$emit('compareEnabled');
     },
     drawnArea() {
       // watch on drawn area prop change triggering update of draw layer, fetching custom features
