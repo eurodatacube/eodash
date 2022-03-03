@@ -418,6 +418,7 @@
               :items="arrayOfObjects"
               item-value="value"
               item-text="name"
+              return-object
               v-model="dataLayerTime"
               @change="dataLayerTimeSelection"
               @click:prepend-inner="dataLayerReduce"
@@ -832,7 +833,11 @@ export default {
   },
   mounted() {
     this.dataLayerIndex = this.usedTimes.time.length - 1;
-    this.dataLayerTime = { value: this.usedTimes.time[this.dataLayerIndex] };
+
+    if (!this.dataLayerTimeProp) {
+      this.dataLayerTime = { value: this.usedTimes.time[this.dataLayerIndex] };
+    }
+
     this.compareLayerTime = { value: this.getInitialCompareTime() };
     this.ro = new ResizeObserver(this.onResize)
       .observe(this.$refs.container);
@@ -1313,7 +1318,7 @@ export default {
           );
         });
       }
-      this.dataLayerTimeUpdated(this.dataLayerTime);
+      this.dataLayerTimeUpdated(this.dataLayerTime.name);
     },
     extractActualLayers(group) {
       let actualLayers = [];
@@ -1744,6 +1749,13 @@ export default {
       handler(v) {
         if (v) this.center = v;
       },
+    },
+    dataLayerTimeProp: {
+      immediate: true,
+      deep: true,
+      handler(v) {
+        if (v) this.dataLayerTime = this.arrayOfObjects.find((item) => item.name === v);
+      }
     },
     enableCompare(on) {
       if (!on) {
