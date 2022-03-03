@@ -64,7 +64,7 @@
             :centerProp="localCenter[element.poi]"
             :zoomProp="localZoom[element.poi]"
             :dataLayerTimeProp="localDataLayerTime[element.poi]"
-            @update:datalayertime="dataLayerTimeUpdated(element.poi)"
+            @update:datalayertime="d => {localDataLayerTime[element.poi] = d}"
             @update:center="c => {localCenter[element.poi] = c}"
             @update:zoom="z => {localZoom[element.poi] = z}"
             @ready="onMapReady(element.poi)"
@@ -136,9 +136,7 @@
               </template>
               <span>Delete element</span>
             </v-tooltip>
-            <v-tooltip v-if="
-              showTooltip(element)
-            " left>
+            <v-tooltip v-if="showTooltip(element) || element.text" left>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   v-bind="attrs"
@@ -159,7 +157,7 @@
                   </v-icon>
                 </v-btn>
               </template>
-              <span v-if="element.mapInfo">Save map configuration</span>
+              <span v-if="element.mapInfo && showTooltip(element)">Save map configuration</span>
               <span v-if="!element.mapInfo">Update text</span>
             </v-tooltip>
           </div>
@@ -278,8 +276,6 @@ export default {
     serverCenter: {},
     serverDataLayerTime: {},
     savedPoi: null,
-    dataLayerTime: null,
-    savedTime: null,
   }),
   computed: {
     ...mapGetters('dashboard', {
@@ -301,9 +297,11 @@ export default {
           if (this.localZoom[element.poi] !== this.serverZoom[element.poi]) {
             return true;
           }
-          /*if (this.localUNIXTime(element) !== this.serverUNIXTime(element)) {
+        }
+        if (this.localDataLayerTime[element.poi]) {
+          if (this.localDataLayerTime[element.poi] !== this.serverDataLayerTime[element.poi]) {
             return true;
-          }*/
+          }
         }
         return false;
       };
@@ -347,16 +345,6 @@ export default {
             );
 
             if (f.mapInfo && (firstCall || f.poi === this.savedPoi)) {
-              let time;
-
-              /*if (f.mapInfo.dataLayerTime.hasOwnProperty('value')) {
-                time = DateTime.fromISO(f.mapInfo.dataLayerTime.value);
-              } else {
-                time = DateTime.fromISO(f.mapInfo.dataLayerTime);
-              }*/
-
-              console.log(f.mapInfo);
-
               this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
               this.$set(this.localCenter, f.poi, f.mapInfo.center);
               this.$set(this.localDataLayerTime, f.poi, f.mapInfo.dataLayerTime);
@@ -373,12 +361,6 @@ export default {
         }
       },
     },
-    localDataLayerTime: {
-      deep: true,
-      handler (value) {
-        console.log(value);
-      },
-    }
   },
   methods: {
     ...mapActions('dashboard', [
@@ -391,10 +373,6 @@ export default {
       'changeFeatureTitle',
       'changeFeatureMapInfo',
     ]),
-    dataLayerTimeUpdated(value, poi) {
-      console.log(value);
-      this.localDataLayerTime[poi] = value;
-    },
     onMapReady(poi) {
       setTimeout(() => {
         this.localCenter[poi].lat = this.serverCenter[poi].lat;
@@ -418,7 +396,6 @@ export default {
     update(el) { // eslint-disable-line
       if (el.mapInfo) {
         this.savedPoi = el.poi;
-
         return this.performChange(
           'changeFeatureMapInfo',
           {

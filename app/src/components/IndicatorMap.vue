@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded" ref="container" style="height: 100%; width: 100%;">
+  <div ref="container" style="height: 100%; width: 100%;">
     <l-map
       ref="map"
       style="height: 100%; width: 100%; background: #cad2d3; z-index: 1;"
@@ -360,7 +360,7 @@
         </h3>
         <v-sheet
           v-if="!mergedConfigsData[0].disableTimeSelection"
-          class="row justify-center align-center rounded"
+          class="row justify-center align-center"
           style="position: absolute; bottom: 30px; z-index: 1000; width: auto; max-width: 100%;"
         >
           <v-col
@@ -397,7 +397,6 @@
           </v-col>
           <v-col
             :cols="enableCompare && !indicator.compareDisplay ? 6 : 12"
-            class="d-flex flex-row align-center"
           >
             <v-select
               outlined
@@ -499,9 +498,6 @@ export default {
     hideCustomAreaControls: {
       required: false,
     },
-    updateCallback: {
-      required: false,
-    },
   },
   components: {
     LMap,
@@ -547,7 +543,6 @@ export default {
       },
       dataLayerTime: null,
       compareLayerTime: null,
-      savedTime: null,
       dataLayerIndex: 0,
       compareLayerIndex: 0,
       dataFeaturesCount: 0,
@@ -836,12 +831,8 @@ export default {
     },
   },
   mounted() {
-    console.log(this.localDataLayerTime);
     this.dataLayerIndex = this.usedTimes.time.length - 1;
-
-    this.dataLayerTime = this.usedTimes.time[this.dataLayerIndex];
-
-    this.savedTime = this.usedTimes.time[this.dataLayerIndex];
+    this.dataLayerTime = { value: this.usedTimes.time[this.dataLayerIndex] };
     this.compareLayerTime = { value: this.getInitialCompareTime() };
     this.ro = new ResizeObserver(this.onResize)
       .observe(this.$refs.container);
@@ -867,7 +858,6 @@ export default {
       this.$emit('update:bounds', bounds);
     },
     dataLayerTimeUpdated(time) {
-      console.log(time);
       this.$emit('update:datalayertime', time);
     },
     onMapReady() {
@@ -1739,10 +1729,6 @@ export default {
         this.compareFeaturesCount = ftrs.features.length;
       }
     },
-
-    saveTime() {
-      this.savedTime = this.dataLayerTime.value;
-    },
   },
   watch: {
     zoomProp: {
@@ -1759,13 +1745,6 @@ export default {
         if (v) this.center = v;
       },
     },
-    /*dataLayerTimeProp: {
-      immediate: true,
-      deep: true,
-      handler(v) {
-        if (v) this.dataLayerTime = v;
-      },
-    },*/
     enableCompare(on) {
       if (!on) {
         if (this.slider !== null) {
