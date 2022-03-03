@@ -152,6 +152,8 @@ const actions = {
       delete f.poi; // eslint-disable-line
       return state.api.addFeature(f);
     }
+
+
     commit('ADD_FEATURE', f);
   },
   removeFeature( // eslint-disable-line
