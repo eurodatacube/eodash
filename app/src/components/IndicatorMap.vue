@@ -842,7 +842,9 @@ export default {
       this.dataLayerTime = { value: this.usedTimes.time[this.dataLayerIndex] };
     }
 
-    this.compareLayerTime = { value: this.getInitialCompareTime() };
+    if (!this.compareLayerTimeProp) {
+      this.compareLayerTime = { value: this.getInitialCompareTime() };
+    }
 
     this.ro = new ResizeObserver(this.onResize)
       .observe(this.$refs.container);
