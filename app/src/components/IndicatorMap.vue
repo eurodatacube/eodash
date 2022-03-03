@@ -877,7 +877,6 @@ export default {
       this.$emit('update:datalayertime', time);
     },
     compareLayerTimeUpdated(time) {
-      console.log(`compareLayerTimeUpdated: ${time}`);
       this.$emit('update:comparelayertime', time);
     },
     onMapReady() {

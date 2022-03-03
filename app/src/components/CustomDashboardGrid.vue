@@ -416,9 +416,6 @@ export default {
       if (el.mapInfo) {
         this.savedPoi = el.poi;
 
-        console.log('localCompareLayerTime [CustomDashboardGrid]');
-        console.log(this.localCompareLayerTime[el.poi]);
-
         return this.performChange(
           'changeFeatureMapInfo',
           {
