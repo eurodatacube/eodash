@@ -64,6 +64,8 @@
             :centerProp="localCenter[element.poi]"
             :zoomProp="localZoom[element.poi]"
             :dataLayerTimeProp="localDataLayerTime[element.poi]"
+            :compareLayerTimeProp="localCompareLayerTime[element.poi]"
+            @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
             @update:datalayertime="d => {localDataLayerTime[element.poi] = d}"
             @update:center="c => {localCenter[element.poi] = c}"
             @update:zoom="z => {localZoom[element.poi] = z}"
@@ -272,9 +274,13 @@ export default {
     localZoom: {},
     localCenter: {},
     localDataLayerTime: {},
+    localCompareLayerTime: {},
     serverZoom: {},
     serverCenter: {},
     serverDataLayerTime: {},
+    serverCompareLayerTime: {},
+    localEnableCompare: {},
+    serverEnableCompare: {},
     savedPoi: null,
   }),
   computed: {
@@ -300,6 +306,11 @@ export default {
         }
         if (this.localDataLayerTime[element.poi]) {
           if (this.localDataLayerTime[element.poi] !== this.serverDataLayerTime[element.poi]) {
+            return true;
+          }
+        }
+        if (this.localCompareLayerTime[element.poi]) {
+          if (this.localCompareLayerTime[element.poi] !== this.serverCompareLayerTime[element.poi]) {
             return true;
           }
         }
@@ -348,9 +359,15 @@ export default {
               this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
               this.$set(this.localCenter, f.poi, f.mapInfo.center);
               this.$set(this.localDataLayerTime, f.poi, f.mapInfo.dataLayerTime);
+
               this.$set(this.serverZoom, f.poi, f.mapInfo.zoom);
               this.$set(this.serverCenter, f.poi, f.mapInfo.center);
               this.$set(this.serverDataLayerTime, f.poi, f.mapInfo.dataLayerTime);
+
+              if (f.mapInfo.dataLayerTime) {
+                this.$set(this.localCompareLayerTime, f.poi, f.mapInfo.compareLayerTime);
+                this.$set(this.serverCompareLayerTime, f.poi, f.mapInfo.compareLayerTime);
+              }
             }
 
             return {
@@ -379,6 +396,7 @@ export default {
         this.localCenter[poi].lng = this.serverCenter[poi].lng;
         this.localZoom[poi] = this.serverZoom[poi];
         this.localDataLayerTime[poi] = this.serverDataLayerTime[poi];
+        this.localCompareLayerTime[poi] = this.serverCompareLayerTime[poi];
       }, 1000);
     },
     // updateMapPositionChanged(poi) {
@@ -396,6 +414,10 @@ export default {
     update(el) { // eslint-disable-line
       if (el.mapInfo) {
         this.savedPoi = el.poi;
+
+        console.log('localCompareLayerTime [CustomDashboardGrid]');
+        console.log(this.localCompareLayerTime[el.poi]);
+
         return this.performChange(
           'changeFeatureMapInfo',
           {
@@ -403,6 +425,9 @@ export default {
             zoom: this.localZoom[el.poi],
             center: this.localCenter[el.poi],
             dataLayerTime: this.localDataLayerTime[el.poi],
+            compareLayerTime: this.localCompareLayerTime[el.poi] 
+              ? this.localCompareLayerTime[el.poi] 
+              : undefined,
           },
         );
       }
