@@ -310,7 +310,8 @@ export default {
           }
         }
         if (this.localCompareLayerTime[element.poi]) {
-          if (this.localCompareLayerTime[element.poi] !== this.serverCompareLayerTime[element.poi]) {
+          if (this.localCompareLayerTime[element.poi]
+                !== this.serverCompareLayerTime[element.poi]) {
             return true;
           }
         }
@@ -425,8 +426,8 @@ export default {
             zoom: this.localZoom[el.poi],
             center: this.localCenter[el.poi],
             dataLayerTime: this.localDataLayerTime[el.poi],
-            compareLayerTime: this.localCompareLayerTime[el.poi] 
-              ? this.localCompareLayerTime[el.poi] 
+            compareLayerTime: this.localCompareLayerTime[el.poi]
+              ? this.localCompareLayerTime[el.poi]
               : undefined,
           },
         );

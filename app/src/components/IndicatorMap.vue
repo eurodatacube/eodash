@@ -848,7 +848,7 @@ export default {
       .observe(this.$refs.container);
 
     if (this.compareLayerTimeProp) {
-      this.$nextTick(() => this.enableCompare = true);
+      this.$nextTick(() => { this.enableCompare = true; });
     }
   },
   destroyed() {
@@ -875,7 +875,7 @@ export default {
       this.$emit('update:datalayertime', time);
     },
     compareLayerTimeUpdated(time) {
-      console.log('compareLayerTimeUpdated: ' + time);
+      console.log(`compareLayerTimeUpdated: ${time}`);
       this.$emit('update:comparelayertime', time);
     },
     onMapReady() {
@@ -1770,14 +1770,14 @@ export default {
       deep: true,
       handler(v) {
         if (v) this.dataLayerTime = this.arrayOfObjects.find((item) => item.name === v);
-      }
+      },
     },
     compareLayerTimeProp: {
       immediate: true,
       deep: true,
       handler(v) {
         if (v) this.compareLayerTime = this.arrayOfObjects.find((item) => item.name === v);
-      }
+      },
     },
     enableCompare(on) {
       if (!on) {
