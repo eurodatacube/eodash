@@ -389,6 +389,7 @@
               :items="arrayOfObjects"
               item-value="value"
               item-text="name"
+              return-object
               v-model="compareLayerTime"
               @change="compareLayerTimeSelection"
               @click:prepend-inner="compareLayerReduce"
@@ -488,6 +489,9 @@ export default {
   props: {
     currentIndicator: Object,
     dataLayerTimeProp: {
+      required: false,
+    },
+    compareLayerTimeProp: {
       required: false,
     },
     zoomProp: {
@@ -839,8 +843,13 @@ export default {
     }
 
     this.compareLayerTime = { value: this.getInitialCompareTime() };
+
     this.ro = new ResizeObserver(this.onResize)
       .observe(this.$refs.container);
+
+    if (this.compareLayerTimeProp) {
+      this.$nextTick(() => this.enableCompare = true);
+    }
   },
   destroyed() {
     delete this.ro;
@@ -864,6 +873,10 @@ export default {
     },
     dataLayerTimeUpdated(time) {
       this.$emit('update:datalayertime', time);
+    },
+    compareLayerTimeUpdated(time) {
+      console.log('compareLayerTimeUpdated: ' + time);
+      this.$emit('update:comparelayertime', time);
     },
     onMapReady() {
       this.map = this.$refs.map.mapObject;
@@ -1348,6 +1361,8 @@ export default {
           this.extractActualLayers(this.$refs.compareLayers),
         );
       });
+
+      this.compareLayerTimeUpdated(this.compareLayerTime.name);
     },
     dataLayerReduce() {
       const currentIndex = this.arrayOfObjects
@@ -1755,6 +1770,13 @@ export default {
       deep: true,
       handler(v) {
         if (v) this.dataLayerTime = this.arrayOfObjects.find((item) => item.name === v);
+      }
+    },
+    compareLayerTimeProp: {
+      immediate: true,
+      deep: true,
+      handler(v) {
+        if (v) this.compareLayerTime = this.arrayOfObjects.find((item) => item.name === v);
       }
     },
     enableCompare(on) {
