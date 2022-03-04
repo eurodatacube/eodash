@@ -391,7 +391,7 @@
               item-text="name"
               return-object
               v-model="compareLayerTime"
-              @change="compareLayerTimeSelection"
+              @change.prevent="compareLayerTimeSelection"
               @click:prepend-inner="compareLayerReduce"
               @click:append="compareLayerIncrease"
             ></v-select>
@@ -431,7 +431,7 @@
                   bottom
                 >
                   <template v-slot:activator="{ on }">
-                    <v-icon v-on="on" @click="enableCompare = !enableCompare">mdi-compare</v-icon>
+                    <v-icon v-on="on" @click="enableCompareUpdated(!enableCompare)">mdi-compare</v-icon>
                   </template>
                   Compare two images
                 </v-tooltip>
@@ -493,6 +493,9 @@ export default {
     },
     compareLayerTimeProp: {
       required: false,
+    },
+    enableCompareProp: {
+      required: true,
     },
     zoomProp: {
       required: false,
@@ -846,6 +849,10 @@ export default {
       this.compareLayerTime = { value: this.getInitialCompareTime() };
     }
 
+    if (this.enableCompareProp) {
+      this.enableCompare = this.enableCompareProp;
+    }
+
     this.ro = new ResizeObserver(this.onResize)
       .observe(this.$refs.container);
 
@@ -878,6 +885,10 @@ export default {
     },
     compareLayerTimeUpdated(time) {
       this.$emit('update:comparelayertime', time);
+    },
+    enableCompareUpdated(isEnabled) {
+      this.enableCompare = isEnabled;
+      this.$emit('update:enablecompare', isEnabled);
     },
     onMapReady() {
       this.map = this.$refs.map.mapObject;
