@@ -391,7 +391,7 @@
               item-text="name"
               return-object
               v-model="compareLayerTime"
-              @change.prevent="compareLayerTimeSelection"
+              @change="compareLayerTimeSelection"
               @click:prepend-inner="compareLayerReduce"
               @click:append="compareLayerIncrease"
             ></v-select>
@@ -431,7 +431,12 @@
                   bottom
                 >
                   <template v-slot:activator="{ on }">
-                    <v-icon v-on="on" @click="enableCompareUpdated(!enableCompare)">mdi-compare</v-icon>
+                    <v-icon
+                      v-on="on"
+                      @click="enableCompareUpdated(!enableCompare)"
+                    >
+                      mdi-compare
+                    </v-icon>
                   </template>
                   Compare two images
                 </v-tooltip>
