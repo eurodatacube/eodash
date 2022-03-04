@@ -433,7 +433,7 @@
                   <template v-slot:activator="{ on }">
                     <v-icon
                       v-on="on"
-                      @click="enableCompareUpdated(!enableCompare)"
+                      @click="enableCompare = !enableCompare"
                     >
                       mdi-compare
                     </v-icon>
@@ -498,9 +498,6 @@ export default {
     },
     compareLayerTimeProp: {
       required: false,
-    },
-    enableCompareProp: {
-      required: true,
     },
     zoomProp: {
       required: false,
@@ -890,10 +887,6 @@ export default {
     },
     compareLayerTimeUpdated(time) {
       this.$emit('update:comparelayertime', time);
-    },
-    enableCompareUpdated(isEnabled) {
-      this.enableCompare = isEnabled;
-      this.$emit('update:enablecompare', isEnabled);
     },
     onMapReady() {
       this.map = this.$refs.map.mapObject;
@@ -1802,6 +1795,9 @@ export default {
           this.map.removeControl(this.slider);
           this.map.removeLayer(this.$refs.compareLayers.mapObject);
         }
+
+        // Unset compare time for server storage
+        this.compareLayerTimeUpdated(undefined);
       } else {
         this.map.addLayer(this.$refs.compareLayers.mapObject);
         if (!this.mergedConfigsData[0].customAreaFeatures || this.validDrawnArea) {
@@ -1817,6 +1813,11 @@ export default {
           this.slider.addTo(this.map);
         });
       }
+
+      // Set a default value when the user enables compare mode
+      this.compareLayerTime[el.poi] = this.dataLayerIndex;
+      this.compareLayerTimeUpdated(this.compareLayerTime.name);
+
       this.$emit('compareEnabled');
     },
     drawnArea() {
