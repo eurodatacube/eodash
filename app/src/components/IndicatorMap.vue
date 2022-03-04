@@ -848,11 +848,7 @@ export default {
     }
 
     if (!this.compareLayerTimeProp) {
-      this.compareLayerTime = { value: this.getInitialCompareTime() };
-    }
-
-    if (this.enableCompareProp) {
-      this.enableCompare = this.enableCompareProp;
+      this.compareLayerTime = { value: this.currentCompareTime };
     }
 
     this.ro = new ResizeObserver(this.onResize)
@@ -1812,11 +1808,15 @@ export default {
           );
           this.slider.addTo(this.map);
         });
-      }
 
-      // Set a default value when the user enables compare mode
-      this.compareLayerTime[el.poi] = this.dataLayerIndex;
-      this.compareLayerTimeUpdated(this.compareLayerTime.name);
+        // The following two calls set initial compare
+        // and data layer times containing name and value.
+        const cTime = this.arrayOfObjects.find((v) => v.value === this.compareLayerTime.value);
+        this.compareLayerTimeUpdated(cTime.name);
+
+        const dTime = this.arrayOfObjects.find((v) => v.value === this.dataLayerTime.value);
+        this.dataLayerTimeUpdated(dTime.name);
+      }
 
       this.$emit('compareEnabled');
     },
