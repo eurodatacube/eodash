@@ -65,10 +65,8 @@
             :zoomProp="localZoom[element.poi]"
             :dataLayerTimeProp="localDataLayerTime[element.poi]"
             :compareLayerTimeProp="localCompareLayerTime[element.poi]"
-            :enableCompareProp="enableCompare[element.poi]"
             @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
             @update:datalayertime="d => {localDataLayerTime[element.poi] = d}"
-            @update:enablecompare="d => {enableCompare[element.poi] = d}"
             @update:center="c => {localCenter[element.poi] = c}"
             @update:zoom="z => {localZoom[element.poi] = z}"
             @compareEnabled="tooltipTrigger = !tooltipTrigger"
@@ -312,11 +310,9 @@ export default {
             return true;
           }
         }
-        if (this.localCompareLayerTime[element.poi]) {
-          if (this.localCompareLayerTime[element.poi]
-                !== this.serverCompareLayerTime[element.poi]) {
-            return true;
-          }
+        if (this.localCompareLayerTime[element.poi]
+              !== this.serverCompareLayerTime[element.poi]) {
+          return true;
         }
         if (this.tooltipTrigger) {
           return true;
@@ -375,12 +371,6 @@ export default {
                 this.$set(this.localCompareLayerTime, f.poi, f.mapInfo.compareLayerTime);
                 this.$set(this.serverCompareLayerTime, f.poi, f.mapInfo.compareLayerTime);
               }
-
-              if (f.mapInfo.compareLayerTime) {
-                this.$set(this.enableCompare, f.poi, true);
-              } else {
-                this.$set(this.enableCompare, f.poi, false);
-              }
             }
 
             return {
@@ -436,7 +426,7 @@ export default {
             zoom: this.localZoom[el.poi],
             center: this.localCenter[el.poi],
             dataLayerTime: this.localDataLayerTime[el.poi],
-            compareLayerTime: this.enableCompare[el.poi]
+            compareLayerTime: this.localCompareLayerTime[el.poi]
               ? this.localCompareLayerTime[el.poi]
               : undefined,
           },
