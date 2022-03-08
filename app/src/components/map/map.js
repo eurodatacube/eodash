@@ -1,5 +1,6 @@
 import Map from 'ol/Map';
 import View from 'ol/View';
+import { FullScreen, defaults as defaultControls } from 'ol/control';
 import 'ol/ol.css';
 
 /**
@@ -8,6 +9,7 @@ import 'ol/ol.css';
  */
 function createMapInstance() {
   const map = new Map({
+    controls: defaultControls().extend([new FullScreen()]),
     view: new View({
       zoom: 0,
       center: [0, 0],
