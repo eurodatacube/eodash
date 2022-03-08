@@ -67,13 +67,7 @@ const outerCircleTransparent = new CircleStyle({
     color: 'rgba(58, 104, 142, 0.2)',
   }),
 });
-const textStyle = new Text({
-  text: '',
-  fill: new Fill({
-    color: 'white',
-  }),
-  font: '18px "Material Design Icons"',
-});
+
 let onStylesLoaded = [];
 
 const indicatorClassesStyles = Object.keys(indicatorClassesIcons).reduce((acc, key) => {
@@ -444,7 +438,6 @@ export default class Cluster {
     const indicatorCode = indicatorObject.indicator;
     const indicator = store.getters['features/getIndicators'].find((i) => i.code === indicatorCode);
     const isSelected = isFeatureSelected(clusterMember);
-    textStyle.setFont(isSelected ? '22px "Material Design Icons"' : '18px "Material Design Icons"');
     const circleStyle = new Style({
       image: new CircleStyle({
         radius: isSelected ? 16 : 12,
@@ -456,11 +449,14 @@ export default class Cluster {
           width: 2,
         }),
       }),
-      text: textStyle,
       geometry: clusterMember.getGeometry(),
     });
+    const image = indicatorClassesStyles[indicator.class];
+    if (image) {
+      image.setScale(isSelected ? 1 : 0.66);
+    }
     const iconStyle = new Style({
-      image: indicatorClassesStyles[indicator.class],
+      image,
       geometry: clusterMember.getGeometry(),
     });
     const memberStyle = [circleStyle, iconStyle];
