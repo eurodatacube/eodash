@@ -84,6 +84,9 @@ export default {
       });
       const cluster = new Cluster(map, this, this.getGroupedFeatures);
       cluster.setActive(true);
+      this.$watch('$store.state.indicators.selectedIndicator', () => {
+        cluster.reRender();
+      });
     },
   },
   beforeDestroy() {},
