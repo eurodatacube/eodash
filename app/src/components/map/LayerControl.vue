@@ -1,7 +1,9 @@
 <template>
-  <v-card class="layerControl pa-1">
-    <v-icon v-if="!show" @click="show = true" class="layerIcon"> mdi-layers </v-icon>
-    <div v-else>
+  <v-card class="layerControl">
+    <v-icon v-if="!show" @click="show = true" class="layerIcon ma-1">
+      mdi-layers
+    </v-icon>
+    <div v-else class="pa-2">
         <v-radio-group v-model="selectedBaseLayer" class="mt-0" hide-details>
           <v-radio v-for="l in baseLayers" :key="l.name" :label="l.name">
             <template v-slot:label>
@@ -11,7 +13,7 @@
         </v-radio-group>
         <v-divider class="my-1" />
         <v-checkbox v-for="n in overlayConfigs" :key="n.name" :label="n.name"
-          :value="n.visible" dense class="my-0 py-0" hide-details
+          :input-value="n.visible" dense class="my-0 py-0" hide-details
           @change="setVisible($event, n)">
             <template v-slot:label>
               <span class="label">{{n.name}}</span>
@@ -89,12 +91,9 @@ export default {
 <style lang="scss" scoped>
   .layerControl {
     position: absolute;
-    top: 110px;
+    top: 105px;
     right: 10px;
     z-index: 2;
-    border-radius: 3px;
-    -webkit-box-shadow: 0px 0px 5px 2px rgba(255,255,255,0.63) !important;
-    box-shadow: 0px 0px 5px 2px rgba(255,255,255,0.63) !important;
   }
 
   .label {
