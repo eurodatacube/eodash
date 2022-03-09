@@ -32,19 +32,19 @@
     </template>
     <template v-else>
       <v-row
-        class="d-flex"
+        class="d-flex my-0 mt-n5"
         id="headerRow"
         :style="`position: relative; ${storyModeEnabled
-          ? `height: calc((var(--vh, 1vh) * 100) - ${$vuetify.breakpoint.xsOnly
-            ? '124' : '104'}px)`
+          ? `height: calc((var(--vh, 1vh) * 100) - ${$vuetify.application.top
+            + $vuetify.application.footer}px)`
             : ''}`"
       >
         <v-img
           v-if="officialDashboard"
           :src="dashboardHeaderImage"
           :lazy-src="dashboardHeaderImagePlaceholder"
-          style="position: absolute; top: 0; width: calc(100% + 56px); max-width: unset;
-          height: 100%; margin: -8px -28px 0 -28px">
+          style="position: absolute; width: calc(100% + 56px); max-width: unset;
+          height: 100%; margin: 0 -28px 0 -28px">
           <template v-slot:placeholder>
             <v-row
               class="fill-height ma-0"
@@ -67,17 +67,19 @@
           :md="storyModeEnabled ? 12 : 6"
           :xl="storyModeEnabled ? 12 : 8"
           class="d-flex align-end"
-          :style="`z-index: 1; ${officialDashboard
-            ? 'padding-top: 100px; padding-bottom: 100px'
+          :class="`${officialDashboard
+            ? 'py-4 py-md-16'
             : ''}`"
+          style="z-index: 1"
         >
           <div class="dashboardTitle" :style="`${officialDashboard
             ? 'text-shadow: 0 0 20px #000e'
             : ''}`">
             <div class="d-flex">
               <h1
-                class="display-2 font-weight-light mt-7 mb-5"
-                :class="storyModeEnabled ? 'white--text' : ''"
+                class="display-1 display-md-2 font-weight-light my-0 mt-md-7 mb-md-5"
+                :class="officialDashboard ? 'white--text' : ''"
+                :style="`${$vuetify.breakpoint.xsOnly ? 'font-size: 4vh !important': ''}`"
               >
                 {{ dashboardTitle }}</h1>
               <div class="d-flex align-center ml-2">
