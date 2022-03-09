@@ -9,7 +9,7 @@
         "imagePlaceholder": "https://picsum.photos/10/6?image=13"
       }
     },
-    "atmospheric-composition": {
+    "air-quality": {
       "a-fifth-official-story-demo": {
         "originalDashboardId": "90179989b23d5f75",
         "title": "Carbon emissions reduced by 37% during COVID-19 pandemic",
@@ -64,7 +64,7 @@
         "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
       }
     },
-    "ocean": {
+    "water-and-ocean": {
       "official-story-demo": {
         "originalDashboardId": "d069a45701e3a0e3",
         "title": "Danube Delta, Romania (demo of official story)",
@@ -86,7 +86,6 @@
         "image": "https://picsum.photos/id/124/3504/2336",
         "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg"
       }
-    },
-    "water-quality": {}
+    }
   }
 }

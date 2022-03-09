@@ -9,7 +9,11 @@
           <v-expansion-panel-content>
             <v-row no-gutters class="button-row" style="z-index: 1000;">
               <template v-for="theme in themes">
-                <v-col :key="theme.slug" cols="12" xs="12" sm="12" md="6" lg="2">
+                <v-col :key="theme.slug" cols="12" xs="12" sm="12" md="6"
+                  :style="$vuetify.breakpoint.lgAndUp
+                    ? `flex: 0 0 20%; max-width: initial`
+                    : ''"
+                >
                   <v-btn
                     class="elevation-0 py-2 white--text"
                     :color="theme.color"
@@ -29,7 +33,11 @@
     <div class="normal-menu d-none d-md-flex">
       <v-row no-gutters class="button-row-2 pa-0">
         <template v-for="theme in themes">
-          <v-col no-gutters :key="theme.slug" class="" cols="12" xs="12" sm="12" md="6" lg="2">
+          <v-col no-gutters :key="theme.slug" class="" cols="12" xs="12" sm="12" md="6"
+            :style="$vuetify.breakpoint.lgAndUp
+              ? `flex: 0 0 20%; max-width: initial`
+              : ''"
+          >
             <v-btn
               class="elevation-0 py-2 white--text"
               :color="theme.color"

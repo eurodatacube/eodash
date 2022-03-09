@@ -204,10 +204,9 @@ const renderVue = async () => {
     { path: '/iframe', component: EmbedIframe },
     ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
       ? [
-        { path: '/ocean', name: 'ocean', component: ThemeSinglePage },
+        { path: '/water-and-ocean', name: 'water-and-ocean', component: ThemeSinglePage },
         { path: '/biomass-and-landcover', name: 'biomass-and-landcover', component: ThemeSinglePage },
-        { path: '/atmospheric-composition', name: 'atmospheric-composition', component: ThemeSinglePage },
-        { path: '/water-quality', name: 'water-quality', component: ThemeSinglePage },
+        { path: '/air-quality', name: 'air-quality', component: ThemeSinglePage },
         { path: '/agriculture', name: 'agriculture', component: ThemeSinglePage },
         { path: '/cryosphere', name: 'cryosphere', component: ThemeSinglePage },
       ]

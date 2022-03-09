@@ -1,7 +1,7 @@
 [
 	{
-      "name": "Atmospheric Composition",
-      "slug": "atmospheric-composition",
+      "name": "Air Quality",
+      "slug": "air-quality",
       "color": "#a65200",
       "description": "The Planet's Protective Blanket",
       "longDescription": "It surrounds our planet, keeps us warm, gives us oxygen to breathe and is where the weather is made. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
@@ -24,16 +24,8 @@
     },
 
 	{
-      "name": "Water Quality",
-      "slug": "water-quality",
-      "color": "#006f69",
-      "description": "The Basis for Human Well-Being",
-      "longDescription": "Clean water is essential for human health since contamination with microorganisms like Escherichia coli can lead to gastrointestinal discomfort. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
-    },
-
-	{
-      "name": "Ocean",
-      "slug": "ocean",
+      "name": "Water and Ocean",
+      "slug": "water-and-ocean",
       "color": "#0064b3",
       "description": "The Climate Kitchen",
       "longDescription": "The place where, billions of years ago, life started making its own thing, creating an incredible diversity of animals within the massive water bodies on early Earth. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
