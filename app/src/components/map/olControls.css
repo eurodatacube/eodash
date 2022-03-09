@@ -11,9 +11,14 @@
   margin: 0px;
 }
 
+
 .ol-control button:focus {
-  background-color: inherit !important;
-  color: #1E1E1E !important
+  background-color: white !important;
+  color: #1E1E1E
+}
+
+.ol-control button:focus > span {
+  color: #1E1E1E
 }
 
 .ol-control button:hover {
@@ -25,32 +30,14 @@
   background-color: unset !important;
 }
 
-.ol-attribution button {
-  color: unset;
-  background-color: inherit;
-}
-
-.ol-attribution > button {
-  background-color: unset !important;
-  color: #1E1E1E !important
-}
-
-.ol-attribution > button:hover > span {
-  color: #1E1E1E !important
-}
-
-.ol-attribution-collpase {
-  background-color: unset !important;
-  color: #1E1E1E !important
-}
-
 .ol-attribution > ul {
   font-size: 10px;
-  color: #1E1E1E !important
+  text-shadow: none;
+  color: white;
 }
 
-.ol-attribution > ul > li > a {
-  color: #1E1E1E !important
+.ol-attribution {
+  background-color: #1E1E1E !important
 }
 
 .ol-zoom {
