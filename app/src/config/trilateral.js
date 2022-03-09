@@ -6,6 +6,7 @@ import { DateTime } from 'luxon';
 import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
+import l3mapsData from '@/config/tropomiCO.json';
 import store from '../store';
 
 export const dataPath = './data/internal/';
@@ -581,20 +582,6 @@ const getFortnightIntervalDates = (start, end) => {
       DateTime.fromISO(currentDate).plus({ days: 13 }).toFormat('yyyy-MM-dd'),
     ]);
     currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
-  }
-  return dateArray;
-};
-
-const getDaily2DayIntervalDates = (start, end) => {
-  let currentDate = DateTime.fromISO(start);
-  const stopDate = DateTime.fromISO(end);
-  const dateArray = [];
-  while (currentDate <= stopDate) {
-    dateArray.push([
-      DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'),
-      DateTime.fromISO(currentDate).plus({ days: 2 }).toFormat('yyyy-MM-dd'),
-    ]);
-    currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
   }
   return dateArray;
 };
@@ -1402,7 +1389,9 @@ export const globalIndicators = [
           ['2020-12-09'], ['2020-12-16'], ['2020-12-23'], ['2020-12-30'], ['2021-01-06'], ['2021-01-13'], ['2021-01-20'], ['2021-01-27'], ['2021-02-03'], ['2021-02-10'], ['2021-02-17'],
           ['2021-02-24'], ['2021-03-03'], ['2021-03-10'], ['2021-03-17'], ['2021-03-24'], ['2021-03-31'], ['2021-04-07'], ['2021-04-14'], ['2021-04-21'], ['2021-04-21'], ['2021-04-28'],
           ['2021-05-05'], ['2021-05-12'], ['2021-05-19'], ['2021-05-26'], ['2021-06-02'], ['2021-06-09'], ['2021-06-16'], ['2021-06-23'], ['2021-06-30'], ['2021-07-07'], ['2021-07-14'],
-          ['2021-07-21'], ['2021-07-28'], ['2021-08-04'], ['2021-08-11'], ['2021-08-18'], ['2021-08-25'], ['2021-09-01'], ['2021-10-06'], ['2021-10-13'], ['2021-10-20']],
+          ['2021-07-21'], ['2021-07-28'], ['2021-08-04'], ['2021-08-11'], ['2021-08-18'], ['2021-08-25'], ['2021-09-01'], ['2021-10-06'], ['2021-10-13'], ['2021-10-20'], ['2021-10-27'],
+          ['2021-11-03'], ['2021-11-10'], ['2021-11-17'], ['2021-11-24'], ['2021-12-01'], ['2021-12-08'], ['2021-12-15'], ['2021-12-22'], ['2021-12-29'], ['2022-01-05'], ['2022-01-12'],
+          ['2022-01-19'], ['2022-01-26'], ['2022-02-06'], ['2022-02-09']],
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1997,7 +1986,8 @@ export const globalIndicators = [
           ['2020-11-18'], ['2020-11-25'], ['2020-12-16'], ['2020-12-23'], ['2020-12-30'], ['2021-01-06'], ['2021-01-13'], ['2021-01-20'], ['2021-01-27'], ['2021-02-03'], ['2021-02-10'], ['2021-02-17'], ['2021-02-24'], ['2021-03-03'],
           ['2021-03-10'], ['2021-03-17'], ['2021-03-24'], ['2021-03-31'], ['2021-04-07'], ['2021-04-14'], ['2021-04-21'], ['2021-04-28'], ['2021-05-05'], ['2021-05-12'], ['2021-05-19'], ['2021-05-26'], ['2021-06-02'], ['2021-06-09'],
           ['2021-06-16'], ['2021-06-23'], ['2021-06-30'], ['2021-07-07'], ['2021-07-14'], ['2021-07-21'], ['2021-07-28'], ['2021-08-04'], ['2021-08-11'], ['2021-08-18'], ['2021-08-25'], ['2021-09-01'], ['2021-10-06'], ['2021-10-13'],
-          ['2021-10-20']],
+          ['2021-10-20'], ['2021-10-27'], ['2021-11-03'], ['2021-11-10'], ['2021-11-17'], ['2021-11-24'], ['2021-12-01'], ['2021-12-08'], ['2021-12-15'], ['2021-12-22'], ['2021-12-29'], ['2022-01-05'], ['2022-01-12'], ['2022-01-19'],
+          ['2022-01-26'], ['2022-02-06'], ['2022-02-09']],
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -2069,7 +2059,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W6',
-        time: getMonthlyDates('2020-01-28', '2021-11-28'),
+        time: getMonthlyDates('2020-01-28', '2022-01-28'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -3250,42 +3240,20 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'WorldCO',
-        time: getDaily2DayIntervalDates('2018-04-30', DateTime.utc().minus({ days: 3 }).toFormat('yyyy-LL-dd')),
+        time: l3mapsData.l3maps,
         inputData: [''],
-        externalData: {
-          label: 'Sentinel-5p Mapping Service',
-          url: 'https://maps.s5p-pal.com',
-        },
         display: {
           protocol: 'xyz',
           maxNativeZoom: 5,
           minZoom: 0,
           opacity: 0.6,
           tileSize: 256,
-          url: '//obs.eu-nl.otc.t-systems.com/s5p-pal-nl-l3-external/maps/s5p-l3-co/3day/{time}/{z}/{x}/{-y}.png',
           name: 'Tropospheric CO',
+          // url: '//obs.eu-de.otc.t-systems.com/s5p-pal-l3-external/maps/{time}/{z}/{x}/{-y}.png',
+          url: '//obs.eu-nl.otc.t-systems.com/s5p-pal-nl-l3-external/maps/{time}/{z}/{x}/{-y}.png',
           legendUrl: 'data/trilateral/s5pCOLegend.png',
-          dateFormatFunction: (date) => {
-            // example path 2021/06/nrt-20210606-20210608-20210609
-            const d1 = DateTime.fromISO(date[0]);
-            const d2 = DateTime.fromISO(date[0]).plus({ days: 2 });
-            const arr = [DateTime.fromISO(date[0]).plus({ days: 5 }), DateTime.utc()];
-            const d3 = arr.reduce((pr, cu) => (pr < cu ? pr : cu)); // lower of "now" and d1+5
-            let prefix = '001';
-            if (d3.diff(d1, 'days').toObject().days < 5) {
-              // two last products - difference from d1 and d3 lower than 5 days
-              // the filename starts with 'nrt' otherwise '001'
-              prefix = 'nrt';
-            }
-            // example dates
-            // 17,19,22 .5
-            // 3,5,8. 6
-            // 4,6,9. 6
-            // 5,7,9. 6
-            // 6,8,9. 6 (today is 9.6.)
-            const filePathFormatted = `${d1.toFormat('yyyy')}/${d1.toFormat('LL')}/${prefix}-${d1.toFormat('yyyyLLdd')}-${d2.toFormat('yyyyLLdd')}-${d3.toFormat('yyyyLLdd')}`;
-            return filePathFormatted;
-          },
+          dateFormatFunction: (date) => date[0],
+          labelFormatFunction: (date) => date[1],
         },
       },
     },

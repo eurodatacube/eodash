@@ -85,10 +85,16 @@
                 class="pt-0 fill-height"
                 :hideCustomAreaControls="!enableEditing"
                 :currentIndicator="element.indicatorObject"
+                disableAutoFocus
                 :centerProp="localCenter[element.poi]"
                 :zoomProp="localZoom[element.poi]"
+                :dataLayerTimeProp="localDataLayerTime[element.poi]"
+                :compareLayerTimeProp="localCompareLayerTime[element.poi]"
                 @update:center="c => {localCenter[element.poi] = c}"
                 @update:zoom="z => {localZoom[element.poi] = z}"
+                @update:datalayertime="d => {localDataLayerTime[element.poi] = d}"
+                @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
+                @compareEnabled="tooltipTrigger = !tooltipTrigger"
                 @ready="onMapReady(element.poi)"
               />
               <indicator-data
@@ -221,7 +227,7 @@
                     </v-icon>
                   </v-btn>
                 </template>
-                <span v-if="element.mapInfo && showTooltip(element)">Save map position</span>
+                <span v-if="element.mapInfo && showTooltip(element)">Save map configuration</span>
                 <span v-if="element.text">Update text</span>
               </v-tooltip>
             </div>
@@ -396,12 +402,17 @@ export default {
     featurePOI: null,
     localZoom: {},
     localCenter: {},
+    localDataLayerTime: {},
+    localCompareLayerTime: {},
     serverZoom: {},
     serverCenter: {},
+    serverDataLayerTime: {},
+    serverCompareLayerTime: {},
     enableCompare: {},
     savedPoi: null,
     offsetTop: 0,
     showText: false,
+    tooltipTrigger: false,
   }),
   computed: {
     ...mapGetters('dashboard', {
@@ -426,6 +437,18 @@ export default {
           if (this.localZoom[element.poi] !== this.serverZoom[element.poi]) {
             return true;
           }
+        }
+        if (this.localDataLayerTime[element.poi]) {
+          if (this.localDataLayerTime[element.poi] !== this.serverDataLayerTime[element.poi]) {
+            return true;
+          }
+        }
+        if (this.localCompareLayerTime[element.poi]
+              !== this.serverCompareLayerTime[element.poi]) {
+          return true;
+        }
+        if (this.tooltipTrigger) {
+          return true;
         }
         return false;
       };
@@ -487,11 +510,14 @@ export default {
         this.localCenter[poi].lat = this.serverCenter[poi].lat;
         this.localCenter[poi].lng = this.serverCenter[poi].lng;
         this.localZoom[poi] = this.serverZoom[poi];
+        this.localDataLayerTime[poi] = this.serverDataLayerTime[poi];
+        this.localCompareLayerTime[poi] = this.serverCompareLayerTime[poi];
       }, 1000);
     },
     update(el) { // eslint-disable-line
       if (el.mapInfo) {
         this.savedPoi = el.poi;
+        this.tooltipTrigger = false;
 
         return this.performChange(
           'changeFeatureMapInfo',
@@ -499,6 +525,10 @@ export default {
             poi: el.poi,
             zoom: this.localZoom[el.poi],
             center: this.localCenter[el.poi],
+            dataLayerTime: this.localDataLayerTime[el.poi],
+            compareLayerTime: this.localCompareLayerTime[el.poi]
+              ? this.localCompareLayerTime[el.poi]
+              : undefined,
           },
         );
       }
@@ -577,8 +607,16 @@ export default {
         if (f.mapInfo && (firstCall || f.poi === this.savedPoi)) {
           this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
           this.$set(this.localCenter, f.poi, f.mapInfo.center);
+          this.$set(this.localDataLayerTime, f.poi, f.mapInfo.dataLayerTime);
+
           this.$set(this.serverZoom, f.poi, f.mapInfo.zoom);
           this.$set(this.serverCenter, f.poi, f.mapInfo.center);
+          this.$set(this.serverDataLayerTime, f.poi, f.mapInfo.dataLayerTime);
+
+          if (f.mapInfo.dataLayerTime) {
+            this.$set(this.localCompareLayerTime, f.poi, f.mapInfo.compareLayerTime);
+            this.$set(this.serverCompareLayerTime, f.poi, f.mapInfo.compareLayerTime);
+          }
         }
 
         return {
