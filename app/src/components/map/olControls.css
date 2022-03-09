@@ -1,0 +1,70 @@
+.ol-control {
+  z-index: 2;
+  background-color: inherit;
+  padding: 2px;
+  box-shadow: none !important;
+}
+
+.ol-control button {
+  color: unset;
+  background-color: inherit;
+  margin: 0px;
+}
+
+.ol-control button:focus {
+  background-color: inherit !important;
+  color: #1E1E1E !important
+}
+
+.ol-control button:hover {
+  background-color: inherit;
+  color: #1E1E1E
+}
+
+.ol-attribution > button > span {
+  background-color: unset !important;
+}
+
+.ol-attribution button {
+  color: unset;
+  background-color: inherit;
+}
+
+.ol-attribution > button {
+  background-color: unset !important;
+  color: #1E1E1E !important
+}
+
+.ol-attribution > button:hover > span {
+  color: #1E1E1E !important
+}
+
+.ol-attribution-collpase {
+  background-color: unset !important;
+  color: #1E1E1E !important
+}
+
+.ol-attribution > ul {
+  font-size: 10px;
+  color: #1E1E1E !important
+}
+
+.ol-attribution > ul > li > a {
+  color: #1E1E1E !important
+}
+
+.ol-zoom {
+  left: unset;
+  top: 45px !important;
+  right: 10px !important;
+}
+
+.ol-full-screen {
+  left: unset;
+  top: 10px !important;
+  right: 10px !important;
+}
+
+.ol-full-screen > button:focus {
+  color: white;
+}

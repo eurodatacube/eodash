@@ -118,19 +118,5 @@ export default {
 </script>
 
 <style lang="scss" >
-  .ol-zoom {
-    left: unset;
-    top: 45px !important;
-    right: 10px !important;
-    -webkit-box-shadow: 0px 0px 5px 2px rgba(255,255,255,0.63);
-    box-shadow: 0px 0px 5px 2px rgba(255,255,255,0.63);
-  }
 
-  .ol-full-screen {
-    left: unset;
-    top: 10px !important;
-    right: 10px !important;
-    -webkit-box-shadow: 0px 0px 5px 2px rgba(255,255,255,0.63);
-    box-shadow: 0px 0px 5px 2px rgba(255,255,255,0.63);
-  }
 </style>

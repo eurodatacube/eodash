@@ -1,7 +1,11 @@
 import Map from 'ol/Map';
 import View from 'ol/View';
-import { FullScreen, defaults as defaultControls } from 'ol/control';
+import Attribution from 'ol/control/Attribution';
+import FullScreen from 'ol/control/FullScreen';
+import Zoom from 'ol/control/Zoom';
+
 import 'ol/ol.css';
+import './olControls.css';
 
 /**
  * creates the map instance, to be used as single vue instance property only.
@@ -9,7 +13,17 @@ import 'ol/ol.css';
  */
 function createMapInstance() {
   const map = new Map({
-    controls: defaultControls().extend([new FullScreen()]),
+    controls: [
+      new FullScreen({
+        className: 'theme--dark v-card ol-full-screen',
+      }),
+      new Zoom({
+        className: 'theme--dark v-card ol-zoom',
+      }),
+      new Attribution({
+        className: 'theme--dark v-card ol-attribution',
+      }),
+    ],
     view: new View({
       zoom: 0,
       center: [0, 0],
