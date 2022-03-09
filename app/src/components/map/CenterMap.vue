@@ -90,8 +90,8 @@ export default {
       });
 
       const view = map.getView();
-      view.on('change:resolution', (e) => {
-        this.updateOverlayOpacity(overlayLayers, e.target);
+      map.on('moveend', () => {
+        this.updateOverlayOpacity(overlayLayers, view);
       });
       this.updateOverlayOpacity(overlayLayers, view);
 
