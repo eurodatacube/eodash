@@ -130,7 +130,7 @@
                 >
                   <v-btn
                     icon
-                    dark
+                    :dark="$vuetify.theme.dark ? true : false"
                     absolute
                     class="ma-2"
                     style="right: 0"
