@@ -77,13 +77,10 @@ export default {
   },
   methods: {
     setVisible(value, layerConfig) {
-      debugger;
       const olLayers = getMapInstance(this.mapId).map.getLayers().getArray();
       const layer = olLayers.find((l) => l.get('name') === layerConfig.name);
       layer.setVisible(value);
     },
-  },
-  beforeDestroy() {
   },
 };
 </script>
