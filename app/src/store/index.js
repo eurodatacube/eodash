@@ -5,6 +5,7 @@ import config from './modules/config';
 import dashboard from './modules/dashboard';
 import features from './modules/features';
 import indicators from './modules/indicators';
+import themes from './modules/themes';
 
 const vuexLocal = new VuexPersistence({
   storage: localStorage,
@@ -15,6 +16,8 @@ const vuexLocal = new VuexPersistence({
       },
     }
   ),
+  // don't allow storing a 'SET' mutation without editing key, i.e. only for viewing mode
+  filter: (mutation) => !(mutation.type === 'dashboard/SET' && !mutation?.payload?.editKey),
 });
 
 
@@ -26,6 +29,7 @@ const store = new Vuex.Store({
     dashboard,
     features,
     indicators,
+    themes,
   },
   state: {
     packageVersion: process.env.PACKAGE_VERSION || '0',

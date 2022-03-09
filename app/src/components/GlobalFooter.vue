@@ -1,7 +1,7 @@
 <template>
   <v-footer
     app
-    color="primary"
+    :color="color"
     class="d-flex justify-center align-center white--text text-center"
     style="z-index: 5"
     :height="$vuetify.breakpoint.xsOnly ? '60px' : '40px'"
@@ -54,6 +54,12 @@
 import FeedbackButton from '@/components/FeedbackButton.vue';
 
 export default {
+  props: {
+    color: {
+      type: String,
+      default: 'primary',
+    },
+  },
   components: {
     FeedbackButton,
   },

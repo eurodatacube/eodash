@@ -111,7 +111,6 @@ print("Writing results to %s"%date_data_file)
 with open(date_data_file, "w") as fp:
     json.dump(results_dict, fp, indent=4, sort_keys=True)
 
-
 ###############################################################################
 
 delete_files = False
@@ -379,6 +378,29 @@ def generateData(
         with open("%s%s.json" % (output_folder, poi_key), "w") as gp:
             json.dump(poi_dict[poi_key]["poi_data"], gp, indent=4, default=date_converter, sort_keys=True)
 
+
+#################
+# Retrieval of official stories
+print("Fetching data for official stories")
+stories_config = '/config/stories.json'
+dashboards_folder = '/public/data/dashboards'
+dashboards_endpoint = "https://eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/get?id="
+with open(stories_config) as json_file:
+    stories_data = json.load(json_file)
+    # For now we only fetch data for trilateral
+    for category in stories_data['trilateral'].values():
+        if category:
+            for entry in category.values():
+                if 'originalDashboardId' in entry:
+                    dash_id = entry['originalDashboardId']
+                    resp = requests.get(dashboards_endpoint+dash_id)
+                    if resp.status_code == 200:
+                        with open("%s/%s.json"%(dashboards_folder, dash_id), "wb") as f:
+                            f.write(resp.content)
+                    else:
+                        print ('Issue retrieving story with dashboard id %s'%dash_id)
+
+#################
 
 print("Generating data for trilateral")
 # Generate for trilateral

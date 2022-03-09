@@ -27,10 +27,10 @@ with open("/assets/countries.json", "r") as countries_file:
 
 countries_obj = json.loads(countries_data)
 
-DATAFILE = "/working/covid19_confirmed_global_{}.csv".format(
+DATAFILE = "/working/tmp/covid19_confirmed_global_{}.csv".format(
     datetime.datetime.utcnow().strftime("%Y-%m-%d")
 )
-US_DATAFILE = "/working/covid19_confirmed_US_{}.csv".format(
+US_DATAFILE = "/working/tmp/covid19_confirmed_US_{}.csv".format(
     datetime.datetime.utcnow().strftime("%Y-%m-%d")
 )
 url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
@@ -115,7 +115,7 @@ with open(US_DATAFILE) as csvfile:
                     + int(row[date])
                 )
 
-VACC_DATAFILE = "/working/vaccinations_global_{}.csv".format(
+VACC_DATAFILE = "/working/tmp/vaccinations_global_{}.csv".format(
     datetime.datetime.utcnow().strftime("%Y-%m-%d")
 )
 indicator_code_vacc = "OW"
