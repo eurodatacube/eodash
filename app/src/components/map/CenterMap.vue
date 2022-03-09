@@ -116,7 +116,3 @@ export default {
   beforeDestroy() {},
 };
 </script>
-
-<style lang="scss" >
-
-</style>
