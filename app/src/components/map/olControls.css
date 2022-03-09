@@ -1,43 +1,35 @@
+
+
 .ol-control {
   z-index: 2;
-  background-color: inherit;
+  background-color: white;
   padding: 2px;
   box-shadow: none !important;
 }
 
+.theme--dark .ol-control {
+  background-color: #1E1E1E;
+}
+
 .ol-control button {
   color: unset;
-  background-color: inherit;
+  background-color: unset;
   margin: 0px;
 }
 
+.ol-control button:hover {
+  background-color: unset;
+}
 
 .ol-control button:focus {
-  background-color: white !important;
-  color: #1E1E1E
+  background-color: unset;
 }
 
-.ol-control button:focus > span {
-  color: #1E1E1E
-}
-
-.ol-control button:hover {
-  background-color: inherit;
-  color: #1E1E1E
-}
-
-.ol-attribution > button > span {
-  background-color: unset !important;
-}
 
 .ol-attribution > ul {
   font-size: 10px;
+  color: unset;
   text-shadow: none;
-  color: white;
-}
-
-.ol-attribution {
-  background-color: #1E1E1E !important
 }
 
 .ol-zoom {
@@ -50,8 +42,4 @@
   left: unset;
   top: 10px !important;
   right: 10px !important;
-}
-
-.ol-full-screen > button:focus {
-  color: white;
 }
