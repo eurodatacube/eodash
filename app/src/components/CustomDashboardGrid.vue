@@ -502,8 +502,8 @@ export default {
       'resizeFeatureExpand',
       'moveFeatureUp',
       'moveFeatureDown',
-      'changeFeatureMapInfo',
       'changeFeatureTitle',
+      'changeFeatureMapInfo',
     ]),
     onMapReady(poi) {
       setTimeout(() => {
