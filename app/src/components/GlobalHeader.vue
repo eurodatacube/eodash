@@ -93,7 +93,7 @@
         </v-btn>
 
         <v-btn
-          v-if="$route.name !== 'explore'"
+          v-if="$route.name !== 'explore' && (appConfig && appConfig.enableStories)"
           text
           color="primary"
           block
@@ -203,17 +203,17 @@
         dark
         small
         @click="displayShowText('about')"
-        v-if="!(appConfig && appConfig.enableStories)"
+        v-if="$route.name === 'explore' && !(appConfig && appConfig.enableStories)"
       >
         About
       </v-btn>
     </span>
 
-    <v-spacer></v-spacer>
+    <v-spacer v-if="appConfig && appConfig.enableStories"></v-spacer>
 
     <template v-if="$vuetify.breakpoint.mdAndUp">
       <v-btn
-        v-if="$route.name != 'explore'"
+        v-if="$route.name != 'explore' && (appConfig && appConfig.enableStories)"
         text
         dark
         small
@@ -245,6 +245,8 @@
         </v-btn>
       </v-badge>
     </template>
+
+    <v-spacer v-if="!(appConfig && appConfig.enableStories)"></v-spacer>
 
     <img height="32" :src="appConfig && appConfig.branding.headerLogo" />
   </v-app-bar>
