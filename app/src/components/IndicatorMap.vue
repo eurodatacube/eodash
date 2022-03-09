@@ -373,7 +373,6 @@
               outlined
               dense
               attach
-              autofocus
               hide-details
               :prepend-inner-icon="(arrayOfObjects && compareLayerTime) && (arrayOfObjects
                 .map((i) => i.value)
@@ -391,6 +390,8 @@
               item-text="name"
               return-object
               v-model="compareLayerTime"
+              @focus="focusSelect(true)"
+              @blur="focusSelect(false)"
               @change="compareLayerTimeSelection"
               @click:prepend-inner="compareLayerReduce"
               @click:append="compareLayerIncrease"
@@ -403,7 +404,6 @@
               outlined
               dense
               attach
-              autofocus
               hide-details
               :prepend-inner-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
                 .map((i) => i.value)
@@ -421,6 +421,8 @@
               item-text="name"
               return-object
               v-model="dataLayerTime"
+              @focus="focusSelect(true)"
+              @blur="focusSelect(false)"
               @change="dataLayerTimeSelection"
               @click:prepend-inner="dataLayerReduce"
               @click:append="dataLayerIncrease"
@@ -862,6 +864,14 @@ export default {
     delete this.ro;
   },
   methods: {
+    focusSelect(on) {
+      const lMap = this.$refs.map.mapObject;
+      if (on) {
+        lMap.scrollWheelZoom.disable();
+      } else {
+        lMap.scrollWheelZoom.enable();
+      }
+    },
     createLatLng(latlng) {
       const llobj = latlng.split(',').map(Number);
       return llobj;
