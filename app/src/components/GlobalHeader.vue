@@ -75,6 +75,7 @@
           Home
         </v-btn>
         <v-btn
+          v-if="$route.name === 'explore'"
           block
           text
           color="primary"
@@ -83,11 +84,11 @@
           Welcome
         </v-btn>
         <v-btn
+          v-if="$route.name === 'explore'"
           block
           text
           color="primary"
           @click="displayShowText('about')"
-          v-if="!(appConfig && appConfig.enableStories)"
         >
           About
         </v-btn>
@@ -190,20 +191,20 @@
 
     <span v-if="$vuetify.breakpoint.mdAndUp">
       <v-btn
+        v-if="$route.name === 'explore'"
         text
         dark
         small
         @click="displayShowText('welcome')"
-        v-if="$route.name === 'explore'"
       >
         Welcome
       </v-btn>
       <v-btn
+        v-if="$route.name === 'explore'"
         text
         dark
         small
         @click="displayShowText('about')"
-        v-if="$route.name === 'explore' && !(appConfig && appConfig.enableStories)"
       >
         About
       </v-btn>
