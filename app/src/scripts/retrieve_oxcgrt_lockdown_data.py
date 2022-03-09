@@ -24,7 +24,7 @@ import os.path
 
 output_file = '/assets/lockdown_data.json'
 
-DATAFILE = '/working/OxCGRT_Download_{}_Full.csv'.format(
+DATAFILE = '/working/tmp/OxCGRT_Download_{}_Full.csv'.format(
     datetime.datetime.utcnow().strftime("%Y-%m-%d")
 )
 url = 'https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv'
