@@ -6,6 +6,6 @@ Volcanic SO2 emissions can also pose a threat to aviation, along with volcanic a
 
 Below is an example of sulfur dioxide emissions captured by the [Copernicus Sentinel-5p](https://sentinel.esa.int/web/sentinel/missions/sentinel-5p) satellite on 06 October 2021 when large amounts of SO2 from the [Cumbre Vieja volcanic eruption](https://www.esa.int/ESA_Multimedia/Images/2021/10/La_Palma_lava_flows_into_the_sea#.YiYvOOYIkkQ.link) were transported over the Atlantic Ocean towards Central America. 
 
-![](eodash-data/stories/Fig1-N9.png)
+![](./eodash-data/stories/N9-Fig1.png)
 
 
