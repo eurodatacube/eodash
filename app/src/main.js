@@ -19,6 +19,8 @@ import PageNotFound from './views/PageNotFound.vue';
 import Challenges from './views/Challenges.vue';
 import Terms from './views/Terms.vue';
 import EmbedIframe from './views/EmbedIframe.vue';
+import ThemesLandingPage from './views/ThemesLandingPage.vue';
+import ThemeSinglePage from './views/ThemeSinglePage.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 import customDashboardApiFactory from './custom-dashboard';
@@ -57,19 +59,6 @@ Vue.use(VueMatomo, {
 
 Vue.use(VueMeta);
 Vue.use(VueRouter);
-
-const routes = [
-  { path: '/', component: Dashboard },
-  { path: '/dashboard/:viewingId/edit/:editingId?', component: DashboardCustom },
-  { path: '/dashboard/:viewingId?', component: DashboardCustom },
-  { path: '/privacy', component: Privacy },
-  { path: '/terms_and_conditions', component: Terms },
-  { path: '/challenges', component: Challenges },
-  { path: '/iframe', component: EmbedIframe },
-  { path: '*', component: PageNotFound },
-];
-const router = new VueRouter({ mode: 'history', base: process.env.BASE_URL, routes });
-
 Vue.use(Vuetify, {
   directives: {
     Touch,
@@ -195,6 +184,37 @@ const renderVue = async () => {
     'truncate',
     (text, stop, clamp) => text.slice(0, stop) + (stop < text.length ? clamp || '...' : ''),
   );
+
+  const routes = [
+    ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
+      ? [
+        { path: '/', name: 'landing', component: ThemesLandingPage },
+        { path: '/explore', name: 'explore', component: Dashboard },
+      ]
+      : [
+        { path: '/', name: 'explore', component: Dashboard },
+      ]),
+    { path: '/dashboard', component: DashboardCustom },
+    ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
+      ? [{ path: '/story', component: DashboardCustom }]
+      : []),
+    { path: '/privacy', component: Privacy },
+    { path: '/terms_and_conditions', component: Terms },
+    { path: '/challenges', component: Challenges },
+    { path: '/iframe', component: EmbedIframe },
+    ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
+      ? [
+        { path: '/water-and-ocean', name: 'water-and-ocean', component: ThemeSinglePage },
+        { path: '/biomass-and-landcover', name: 'biomass-and-landcover', component: ThemeSinglePage },
+        { path: '/air-quality', name: 'air-quality', component: ThemeSinglePage },
+        { path: '/agriculture', name: 'agriculture', component: ThemeSinglePage },
+        { path: '/cryosphere', name: 'cryosphere', component: ThemeSinglePage },
+      ]
+      : []
+    ),
+    { path: '*', component: PageNotFound },
+  ];
+  const router = new VueRouter({ mode: 'history', base: process.env.BASE_URL, routes });
 
   new Vue({
     store,
