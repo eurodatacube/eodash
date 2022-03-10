@@ -319,7 +319,7 @@ export const indicatorsDefinition = Object.freeze({
       label: 'Copernicus Sentinel-5p Mapping Portal',
       url: 'https://maps.s5p-pal.com/so2/',
     },
-    story: '/eodash-data/stories/SO2-N9',
+    story: '/eodash-data/stories/SO2-N1',
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
