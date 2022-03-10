@@ -12,10 +12,10 @@ class VueMap {
   constructor() {
     this.controls = [
       new FullScreen({
-        className: 'v-card ol-full-screen',
+        className: 'v-card primary--text ol-full-screen',
       }),
       new Zoom({
-        className: 'v-card ol-zoom',
+        className: 'v-card primary--text ol-zoom',
       }),
       new Attribution({
         className: 'v-card ol-attribution',

@@ -1,6 +1,6 @@
 <template>
   <v-card class="layerControl">
-    <v-icon v-if="!show" @click="show = true" class="layerIcon ma-1">
+    <v-icon v-if="!show" @click="show = true" color="primary" class="layerIcon ma-1">
       mdi-layers
     </v-icon>
     <div v-else class="pa-2">
