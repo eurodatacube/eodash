@@ -1443,10 +1443,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'SO2 Daily',
-        indicator: 'N9',
+        description: 'TROPOMI SO2',
+        indicator: 'N1',
         lastIndicatorValue: null,
-        indicatorName: 'SO2 Daily',
+        indicatorName: 'TROPOMI SO2',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
