@@ -98,7 +98,11 @@ export default {
       async handler() {
         if (this.indicatorObject) {
           this.alreadyAdded = await this.exists(
-            { poi: this.indicatorObject.poi || this.getLocationCode(this.indicatorObject) },
+            {
+              poi: this.indicatorObject.poi
+              || this.getLocationCode(this.indicatorObject)
+              + Date.now(),
+            },
           );
         }
       },
@@ -117,7 +121,9 @@ export default {
       if (!this.alreadyAdded) {
         this.addFeature(
           {
-            poi: this.indicatorObject.poi || this.getLocationCode(this.indicatorObject),
+            poi: this.indicatorObject.poi
+              || this.getLocationCode(this.indicatorObject)
+              + `@${Date.now()}`,
             width: 4,
             includesIndicator: this.indicatorObject.includesIndicator,
             ...(this.indicatorObject.includesIndicator
