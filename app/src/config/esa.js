@@ -512,15 +512,6 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/CDS',
     hideInFilters: true,
   },
-  N9: {
-    indicator: 'SO2 daily',
-    class: 'air',
-    externalData: {
-      label: 'Copernicus Sentinel-5p Mapping Portal',
-      url: 'https://maps.s5p-pal.com/so2/',
-    },
-    story: '/eodash-data/stories/SO2-N9',
-  },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
     class: 'economic',

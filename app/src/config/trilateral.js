@@ -312,15 +312,6 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.terrainLight],
   },
-  N9: {
-    indicator: 'SO2',
-    class: 'air',
-    externalData: {
-      label: 'Copernicus Sentinel-5p Mapping Portal',
-      url: 'https://maps.s5p-pal.com/so2/',
-    },
-    story: '/eodash-data/stories/SO2-N1',
-  },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
     class: 'economic',
@@ -1022,7 +1013,7 @@ export const globalIndicators = [
         city: 'World',
         siteName: 'global',
         description: 'SO2',
-        indicator: 'N9',
+        indicator: 'N1',
         lastIndicatorValue: null,
         indicatorName: 'TROPOMI SO2',
         subAoi: {
