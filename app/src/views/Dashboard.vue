@@ -100,8 +100,7 @@
       hide-overlay
       :width="dataPanelFullWidth ? '100%' : '40%'"
       :style="`margin-top: ${$vuetify.application.top}px;
-        height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px;
-        z-index: 1;`"
+        height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px;`"
       class="data-panel"
     >
       <banner v-if="currentNews" ref="newsBanner" />
