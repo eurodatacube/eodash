@@ -310,7 +310,7 @@ export default {
           if (Object.keys(this.serverZoom).length === 0) {
             firstCall = true;
           }
-          this.features = await Promise.all(features.map(async (f) => {
+           this.features = await Promise.all(features.map(async (f) => {
             if (f.includesIndicator) {
               const convertedTimes = f.indicatorObject.time.map(
                 (d) => (DateTime.isDateTime(d) ? d : DateTime.fromISO(d)),
@@ -328,8 +328,20 @@ export default {
               return f;
             }
 
+            var poiString;
+
+            if (f.poi.includes('@')) {
+              const [poi, time] = f.poi.split('@');
+              poiString = poi;
+            } else {
+              poiString = f.poi;
+            }
+
+            console.log(`poiString: ${poiString}`);
+            console.log(`f.poi: ${f.poi}`);
+
             const feature = this.$store.state.features.allFeatures
-              .find((i) => this.getLocationCode(i.properties.indicatorObject) === f.poi);
+              .find((i) => this.getLocationCode(i.properties.indicatorObject) === poiString);
             const indicatorObject = await loadIndicatorData(
               this.baseConfig,
               feature.properties.indicatorObject,
