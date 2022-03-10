@@ -1,28 +1,35 @@
 import Map from 'ol/Map';
 import View from 'ol/View';
+import Attribution from 'ol/control/Attribution';
+import FullScreen from 'ol/control/FullScreen';
+import Zoom from 'ol/control/Zoom';
+
 import 'ol/ol.css';
-
-/**
- * creates the map instance, to be used as single vue instance property only.
- * @returns {Map}
- */
-function createMapInstance() {
-  const map = new Map({
-    view: new View({
-      zoom: 0,
-      center: [0, 0],
-      padding: [0, 0, 0, 0],
-      enableRotation: false,
-    }),
-  });
-
-  return map;
-}
+import './olControls.css';
 
 
 class VueMap {
   constructor() {
-    this.map = createMapInstance();
+    this.controls = [
+      new FullScreen({
+        className: 'v-card primary--text ol-full-screen',
+      }),
+      new Zoom({
+        className: 'v-card primary--text ol-zoom',
+      }),
+      new Attribution({
+        className: 'v-card ol-attribution',
+      }),
+    ];
+    this.map = new Map({
+      controls: this.controls,
+      view: new View({
+        zoom: 0,
+        center: [0, 0],
+        padding: [0, 0, 0, 0],
+        enableRotation: false,
+      }),
+    });
   }
 }
 const mapRegistry = {};

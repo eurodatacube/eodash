@@ -40,29 +40,34 @@ const innerCircle = new CircleStyle({
   radius: 14,
   fill: innerCircleFill,
 });
+const selectedStroke = new Stroke({
+  color: '#282828',
+  width: 1.5,
+  lineDash: [6, 4],
+});
 const outerCircle = new CircleStyle({
   radius: 18,
   fill: outerCircleFill,
 });
-const innerCircleSelected = new CircleStyle({
+const outerCircleSelected = new CircleStyle({
+  radius: 18,
+  fill: outerCircleFill,
+  stroke: selectedStroke,
+});
+
+const innerCircleTransparent = new CircleStyle({
   radius: 14,
   fill: new Fill({
     color: 'rgba(40, 40, 40, 0.2)',
   }),
 });
-const outerCircleSelected = new CircleStyle({
+const outerCircleTransparent = new CircleStyle({
   radius: 18,
   fill: new Fill({
     color: 'rgba(58, 104, 142, 0.2)',
   }),
 });
-const textStyle = new Text({
-  text: '',
-  fill: new Fill({
-    color: 'white',
-  }),
-  font: '18px "Material Design Icons"',
-});
+
 let onStylesLoaded = [];
 
 const indicatorClassesStyles = Object.keys(indicatorClassesIcons).reduce((acc, key) => {
@@ -129,9 +134,10 @@ function generatePointsCircle(count, clusterCenter, resolution) {
  */
 function clusterCircleStyle(cluster, resolution) {
   const clusterMembers = cluster.get('features');
-  if (!clusterMembers.includes(this.clickedClusterMember)) {
+  if (!clusterMembers.includes(this.clickedClusterMember) || !this.expanded) {
     return;
   }
+  // collapse after next re-render (resolution change)
   const centerCoordinates = cluster.getGeometry().getCoordinates();
   // eslint-disable-next-line consistent-return
   return generatePointsCircle(
@@ -161,6 +167,18 @@ function clusterCircleStyle(cluster, resolution) {
   }, []);
 }
 
+
+/**
+ * returns true if given ol indicator feature is currently selected
+ * @param {*} feature ol indicator feature
+ * @returns {boolean}
+ */
+function isFeatureSelected(feature) {
+  const { indicatorObject } = feature.getProperties().properties;
+  const { selectedIndicator } = store.state.indicators;
+  return selectedIndicator && selectedIndicator.indicator === indicatorObject.indicator
+  && selectedIndicator.aoiID === indicatorObject.aoiID;
+}
 
 export default class Cluster {
   /**
@@ -199,14 +217,23 @@ export default class Cluster {
   }
 
   /**
+   * forces a re-render of the cluster layers.
+   * some actions can change the styles, without forcing a re-render themselves,
+   * like a change of the selected indicator.
+   */
+  reRender() {
+    this.clusters.changed();
+    this.clusterCircles.changed();
+  }
+
+  /**
  * opens the indicator panel for a given indicator feature
  * @param {*} feature ol feature
- * @param {*} vm vue instance
  */
   openIndicator(feature) {
     const { indicatorObject } = feature.getProperties().properties;
     if (!indicatorObject.dummyFeature) {
-      this.vm.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
+      store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
       const query = { ...this.vm.$route.query };
       delete query.sensor;
       this.vm.$router.replace({ query }).catch(() => {});
@@ -230,6 +257,7 @@ export default class Cluster {
         : '';
     };
     this.clickInteraction = async (event) => {
+      this.clickedClusterMember = undefined;
       // features of expanded clusters
       const openClusterFeatures = await this.clusterCircles.getFeatures(event.pixel);
       if (openClusterFeatures.length) {
@@ -248,6 +276,7 @@ export default class Cluster {
           }
         }
         this.openIndicator(members[index]);
+        this.clickedClusterMember = members[index];
       } else {
         const features = await this.clusters.getFeatures(event.pixel);
         if (features.length > 0) {
@@ -265,11 +294,10 @@ export default class Cluster {
               // Show an expanded view of the cluster members.
               // eslint-disable-next-line prefer-destructuring
               this.clickedClusterMember = clusterMembers[0];
-              this.clickResolution = resolution;
-              this.clusterCircles.changed();
-              this.clusters.changed();
+              this.expanded = true;
+              this.reRender();
               this.map.getView().once('change:resolution', () => {
-                this.clickedClusterMember = undefined;
+                this.expanded = false;
               });
             } else {
               // Zoom to the extent of the cluster members.
@@ -279,9 +307,7 @@ export default class Cluster {
             this.openIndicator(features[0].getProperties().features[0]);
           }
         } else {
-          this.clickedClusterMember = undefined;
-          this.clusters.changed();
-          this.clusterCircles.changed();
+          this.reRender();
         }
       }
     };
@@ -310,12 +336,29 @@ export default class Cluster {
     const clusterMembers = feature.get('features');
     if (clusterMembers.length > 1) {
       const hasClickedFeature = clusterMembers.includes(this.clickedClusterMember);
+      const hasSelectedIndicator = clusterMembers.some(isFeatureSelected);
+      if (hasClickedFeature && this.expanded) {
+        // "expanded" style, will collapse after resolution change
+        return [
+          new Style({
+            image: outerCircleTransparent,
+          }),
+          new Style({
+            image: innerCircleTransparent,
+            text: new Text({
+              text: clusterMembers.length.toString(),
+              fill: textFill,
+              font: '12px sans-serif',
+            }),
+          }),
+        ];
+      }
       return [
         new Style({
-          image: hasClickedFeature ? outerCircleSelected : outerCircle,
+          image: hasSelectedIndicator ? outerCircleSelected : outerCircle,
         }),
         new Style({
-          image: hasClickedFeature ? innerCircleSelected : innerCircle,
+          image: innerCircle,
           text: new Text({
             text: clusterMembers.length.toString(),
             fill: textFill,
@@ -394,22 +437,26 @@ export default class Cluster {
     const { indicatorObject } = clusterMember.getProperties().properties;
     const indicatorCode = indicatorObject.indicator;
     const indicator = store.getters['features/getIndicators'].find((i) => i.code === indicatorCode);
+    const isSelected = isFeatureSelected(clusterMember);
     const circleStyle = new Style({
       image: new CircleStyle({
-        radius: 12,
+        radius: isSelected ? 16 : 12,
         fill: new Fill({
           color: getColor(indicatorObject, this.vm),
         }),
-        stroke: new Stroke({
+        stroke: isSelected ? selectedStroke : new Stroke({
           color: 'white',
           width: 2,
         }),
       }),
-      text: textStyle,
       geometry: clusterMember.getGeometry(),
     });
+    const image = indicatorClassesStyles[indicator.class];
+    if (image) {
+      image.setScale(isSelected ? 1 : 0.66);
+    }
     const iconStyle = new Style({
-      image: indicatorClassesStyles[indicator.class],
+      image,
       geometry: clusterMember.getGeometry(),
     });
     const memberStyle = [circleStyle, iconStyle];

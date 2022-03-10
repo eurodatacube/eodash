@@ -1,0 +1,45 @@
+
+
+.ol-control {
+  z-index: 2;
+  background-color: white;
+  padding: 2px;
+  box-shadow: none !important;
+}
+
+.theme--dark .ol-control {
+  background-color: #1E1E1E;
+}
+
+.ol-control button {
+  color: unset;
+  background-color: unset;
+  margin: 0px;
+}
+
+.ol-control button:hover {
+  background-color: unset;
+}
+
+.ol-control button:focus {
+  background-color: unset;
+}
+
+
+.ol-attribution > ul {
+  font-size: 10px;
+  color: unset;
+  text-shadow: none;
+}
+
+.ol-zoom {
+  left: unset;
+  top: 45px !important;
+  right: 10px !important;
+}
+
+.ol-full-screen {
+  left: unset;
+  top: 10px !important;
+  right: 10px !important;
+}
