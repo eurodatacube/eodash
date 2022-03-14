@@ -16,8 +16,13 @@
 
         <div class="section pb-16">
           <theme-navigation />
-          <div class="mt-16 d-flex flex-column justify-start align-center">
+
+          <div class="mt-16 mb-16 d-flex flex-column justify-start align-center">
             <stories-grid :items="oneOfEachTheme" />
+          </div>
+
+          <div class="mx-4 mx-md-8">
+            <newsletter-banner />
           </div>
         </div>
 
@@ -134,6 +139,7 @@ import GlobalHeader from '@/components/GlobalHeader.vue';
 
 import Hero from '@/components/ThemesLandingPage/Hero.vue';
 import ThemeNavigation from '@/components/ThemesLandingPage/ThemeNavigation.vue';
+import NewsletterBanner from '@/components/ThemesLandingPage/NewsletterBanner.vue';
 import StoriesGrid from '@/components/ThemesLandingPage/StoriesGrid.vue';
 
 export default {
@@ -142,6 +148,7 @@ export default {
     GlobalHeader,
     Hero,
     ThemeNavigation,
+    NewsletterBanner,
     StoriesGrid,
   },
   metaInfo() {
