@@ -249,6 +249,27 @@
 
     <v-spacer v-if="!(appConfig && appConfig.enableStories)"></v-spacer>
 
+    <v-menu
+      offset-y
+      v-if="!(appConfig && appConfig.enableStories) && !hasNewsletterSubscription"
+      close-on-click
+      :close-on-content-click="false"
+      translation="scale-transition"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          class="mr-8"
+          color="secondary"
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          Get our newsletter
+        </v-btn>
+      </template>
+      <newsletter-banner :always-sm="true" @submit="d => { hasNewsletterSubscription = true }" />
+    </v-menu>
+
     <img height="32" :src="appConfig && appConfig.branding.headerLogo" />
   </v-app-bar>
 </template>
@@ -261,6 +282,7 @@ import {
 } from 'vuex';
 
 import ThemeNavigation from './ThemesLandingPage/ThemeNavigation.vue';
+import NewsletterBanner from './ThemesLandingPage/NewsletterBanner.vue';
 
 /**
  * A global navbar component that adapts to different environments.
@@ -295,10 +317,12 @@ export default {
   },
   components: {
     ThemeNavigation,
+    NewsletterBanner,
   },
   data() {
     return {
       drawerLeft: false,
+      hasNewsletterSubscription: false,
     };
   },
   methods: {
@@ -309,6 +333,10 @@ export default {
     switchMenu() {
       this.drawerLeft = !this.drawerLeft;
     },
+  },
+  mounted() {
+    // Check if the user is already subscribed
+    this.hasNewsletterSubscription = localStorage.getItem('hasNewsletterSubscription') === 'true';
   },
   computed: {
     ...mapState('config', [
