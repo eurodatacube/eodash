@@ -1,7 +1,7 @@
 <template>
   <v-card class="eodash-newsletter-banner pa-6">
-    <div class="close-button">
-      <!--<v-icon>mdi-close</v-icon>-->
+    <div class="close-button" @click="$emit('close')">
+      <v-icon>mdi-close</v-icon>
     </div>
     <v-row v-if="alwaysSm || $vuetify.breakpoint.smAndDown">
       <v-col>
