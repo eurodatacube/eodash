@@ -1,24 +1,37 @@
 <template>
   <v-card class="eodash-newsletter-banner pa-6">
     <div class="close-button">
-      <v-icon>mdi-close</v-icon>
+      <!--<v-icon>mdi-close</v-icon>-->
     </div>
-    <v-row v-if="$vuetify.breakpoint.smAndDown">
+    <v-row v-if="alwaysSm || $vuetify.breakpoint.smAndDown">
       <v-col>
-        <h3>{{ heading }}</h3>
+        <h3 class="text-h5 font-weight-medium">{{ heading }}</h3>
 
         <p>{{ description }}</p>
 
         <v-text-field
+          v-model="name"
+          label="Name"
+          :rules="[rules.required]"
+          block
+        />
+
+        <v-text-field
+          v-model="email"
           label="Email address"
+          :rules="[rules.required, rules.email]"
           block
         />
 
         <v-btn
           color="primary"
           block
+          :loading="isLoading"
+          :disabled="isFinished"
+          @click="submit"
         >
-          Subscribe
+          <v-icon v-if="isFinished">mdi-check</v-icon>
+          <span v-else>Submit</span>
         </v-btn>
       </v-col>
     </v-row>
@@ -31,7 +44,9 @@
       </v-col>
 
       <v-text-field
+        v-model="email"
         label="Email address"
+        :rules="[rules.required, rules.email]"
         class="mr-8"
       />
 
@@ -46,29 +61,78 @@
 </template>
 
 <script>
-import Vue from 'vue';
+import {
+  mapActions,
+} from 'vuex';
 
 export default {
   data: () => ({
     heading: 'Subscribe to our newsletter',
-    description: 'Get the latest updates to our platform, delivered straight to your inbox.',
+    description: 'Get our latest platform updates delivered straight to your inbox.',
+    name: '',
+    email: '',
+    isLoading: false,
+    isFinished: false,
+    isNewsletterSubscribed: false,
+    rules: {
+      required: (value) => !!value || 'Required.',
+      counter: (value) => value.length <= 20 || 'Max 20 characters',
+      email: (value) => {
+        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return pattern.test(value) || 'Invalid e-mail.';
+      },
+    },
   }),
   computed: {
-    paddingClasses () {
+    paddingClasses() {
       switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return ['pa-4']
-        case 'sm': return ['pa-4']
-        case 'md': return ['pa-12']
-        case 'lg': return ['pa-12']
-        case 'xl': return ['pa-12']
+        case 'xs': return ['pa-4'];
+        case 'sm': return ['pa-4'];
+        case 'md': return ['pa-12'];
+        case 'lg': return ['pa-12'];
+        case 'xl': default: return ['pa-12'];
       }
-    }
+    },
   },
-  mounted() {
-    
+  props: {
+    /**
+     * Designates if the banner should always use the small layout.
+     * For use in embedded situations where a full size banner is inapproriate.
+     */
+    alwaysSm: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
-    
+    ...mapActions('dashboard', [
+      'addToMailingList',
+    ]),
+
+    async submit() {
+      console.log('submitting');
+      this.isLoading = true;
+
+
+      this.addToMailingList({
+        email: this.email,
+        name: this.name,
+        listId: this.$store.state.config.appConfig.mailingList[process.env.NODE_ENV],
+        newsletterOptIn: true,
+      })
+        .then(() => {
+          console.log('successfully added to mailing list');
+          this.isFinished = true;
+          window.setTimeout(() => {
+            this.isLoading = false;
+            this.isNewsletterSubscribed = true;
+            localStorage.setItem('hasNewsletterSubscription', 'true');
+            this.$emit('submit');
+          }, 200);
+        })
+        .catch((e) => console.log(`could not add to mailing list: ${e}`));
+      this.isLoading = false;
+    },
   },
 };
 </script>
