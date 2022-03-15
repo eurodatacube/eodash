@@ -25,6 +25,7 @@
 
         <v-btn
           color="primary"
+          class="mt-6"
           block
           :loading="isLoading"
           :disabled="isFinished"
