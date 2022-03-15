@@ -255,6 +255,7 @@
       close-on-click
       :close-on-content-click="false"
       translation="scale-transition"
+      v-model="showNewsletterModal"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -263,11 +264,16 @@
           dark
           v-bind="attrs"
           v-on="on"
+          @click="d => { showNewsletterModal = true }"
         >
           Get our newsletter
         </v-btn>
       </template>
-      <newsletter-banner :always-sm="true" @submit="d => { hasNewsletterSubscription = true }" />
+      <newsletter-banner 
+        :always-sm="true"
+        @submit="d => { hasNewsletterSubscription = true }"
+        @close="d => { showNewsletterModal = false }"
+      />
     </v-menu>
 
     <img height="32" :src="appConfig && appConfig.branding.headerLogo" />
@@ -323,6 +329,7 @@ export default {
     return {
       drawerLeft: false,
       hasNewsletterSubscription: false,
+      showNewsletterModal: false,
     };
   },
   methods: {
