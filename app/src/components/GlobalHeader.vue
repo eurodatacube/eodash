@@ -249,13 +249,14 @@
 
     <v-spacer v-if="!(appConfig && appConfig.enableStories)"></v-spacer>
 
-    <v-menu
-      offset-y
-      v-if="!(appConfig && appConfig.enableStories) && !hasNewsletterSubscription"
-      close-on-click
-      :close-on-content-click="false"
-      translation="scale-transition"
+    <v-dialog
       v-model="showNewsletterModal"
+      width="50%"
+      :fullscreen="$vuetify.breakpoint.xsOnly"
+      :hide-overlay="$vuetify.breakpoint.xsOnly"
+      transition="dialog-bottom-transition"
+      style="z-index: 9999;"
+      v-if="!(appConfig && appConfig.enableStories) && !hasNewsletterSubscription"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -269,12 +270,18 @@
           Get our newsletter
         </v-btn>
       </template>
-      <newsletter-banner 
+      <!--<newsletter-banner
         :always-sm="true"
         @submit="d => { hasNewsletterSubscription = true }"
         @close="d => { showNewsletterModal = false }"
-      />
-    </v-menu>
+      />-->
+
+      <modal
+        title="Subscribe to our newsletter"
+        @submit="d => { hasNewsletterSubscription = true }"
+        @close="d => { showNewsletterModal = false }"
+        always-sm />
+    </v-dialog>
 
     <img height="32" :src="appConfig && appConfig.branding.headerLogo" />
   </v-app-bar>
@@ -289,6 +296,7 @@ import {
 
 import ThemeNavigation from './ThemesLandingPage/ThemeNavigation.vue';
 import NewsletterBanner from './ThemesLandingPage/NewsletterBanner.vue';
+import Modal from './Modal.vue';
 
 /**
  * A global navbar component that adapts to different environments.
@@ -324,6 +332,7 @@ export default {
   components: {
     ThemeNavigation,
     NewsletterBanner,
+    Modal,
   },
   data() {
     return {
