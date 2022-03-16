@@ -139,7 +139,6 @@ import GlobalHeader from '@/components/GlobalHeader.vue';
 
 import Hero from '@/components/ThemesLandingPage/Hero.vue';
 import ThemeNavigation from '@/components/ThemesLandingPage/ThemeNavigation.vue';
-import NewsletterBanner from '@/components/ThemesLandingPage/NewsletterBanner.vue';
 import StoriesGrid from '@/components/ThemesLandingPage/StoriesGrid.vue';
 
 export default {
@@ -148,7 +147,6 @@ export default {
     GlobalHeader,
     Hero,
     ThemeNavigation,
-    NewsletterBanner,
     StoriesGrid,
   },
   metaInfo() {
