@@ -1,6 +1,6 @@
 <template>
   <v-card class="eodash-newsletter-banner pa-6">
-    <div class="close-button" @click="$emit('close')">
+    <div class="close-button" @click="close">
       <v-icon>mdi-close</v-icon>
     </div>
     <v-row v-if="alwaysSm || $vuetify.breakpoint.smAndDown">
@@ -9,31 +9,38 @@
 
         <p>{{ description }}</p>
 
-        <v-text-field
-          v-model="name"
-          label="Name"
-          :rules="[rules.required]"
-          block
-        />
-
-        <v-text-field
-          v-model="email"
-          label="Email address"
-          :rules="[rules.required, rules.email]"
-          block
-        />
-
-        <v-btn
-          color="primary"
-          class="mt-6"
-          block
-          :loading="isLoading"
-          :disabled="isFinished"
-          @click="submit"
+        <v-form
+          lazy-validation
+          ref="form"
+          class="mt-10"
         >
-          <v-icon v-if="isFinished">mdi-check</v-icon>
-          <span v-else>Submit</span>
-        </v-btn>
+          <v-text-field
+            v-model="name"
+            label="Name"
+            :rules="[rules.required]"
+            outlined
+            block
+          />
+
+          <v-text-field
+            v-model="email"
+            label="Email address"
+            :rules="[rules.required, rules.email]"
+            outlined
+            block
+          />
+
+          <v-btn
+            color="primary"
+            class="mt-2"
+            block
+            :loading="isLoading"
+            :disabled="isFinished"
+            @click="submit"
+          >
+            <span>Submit</span>
+          </v-btn>
+        </v-form>
       </v-col>
     </v-row>
 
@@ -110,29 +117,46 @@ export default {
       'addToMailingList',
     ]),
 
+    /**
+     * Called
+     * For use in embedded situations where a full size banner is inapproriate.
+     */
+    close() {
+      this.$refs.form.resetValidation();
+      this.$emit('close');
+    },
+
     async submit() {
       console.log('submitting');
-      this.isLoading = true;
 
+      const isValid = this.$refs.form.validate();
 
-      this.addToMailingList({
-        email: this.email,
-        name: this.name,
-        listId: this.$store.state.config.appConfig.mailingList[process.env.NODE_ENV],
-        newsletterOptIn: true,
-      })
-        .then(() => {
-          console.log('successfully added to mailing list');
-          this.isFinished = true;
-          window.setTimeout(() => {
-            this.isLoading = false;
-            this.isNewsletterSubscribed = true;
-            localStorage.setItem('hasNewsletterSubscription', 'true');
-            this.$emit('submit');
-          }, 200);
+      if (isValid) {
+        // Since the form is valid, and we're now initiating the request,
+        // it's time to let the user know something is happening.
+        this.isLoading = true;
+
+        // Do the API call.
+        this.addToMailingList({
+          email: this.email,
+          name: this.name,
+          listId: this.$store.state.config.appConfig.mailingList[process.env.NODE_ENV],
+          newsletterOptIn: true,
         })
-        .catch((e) => console.log(`could not add to mailing list: ${e}`));
-      this.isLoading = false;
+          .then(() => {
+            console.log('successfully added to mailing list');
+            this.isFinished = true;
+            window.setTimeout(() => {
+              this.isLoading = false;
+              this.isNewsletterSubscribed = true;
+              localStorage.setItem('hasNewsletterSubscription', 'true');
+              this.$emit('submit');
+            }, 200);
+          })
+          .catch((e) => console.log(`could not add to mailing list: ${e}`));
+
+        this.isLoading = false;
+      }
     },
   },
 };
