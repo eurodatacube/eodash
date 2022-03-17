@@ -398,6 +398,11 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: '/data/trilateral/NASAPopulation',
   },
+  WSF: {
+    indicator: 'World Settlement Footprint',
+    class: 'economic',
+    story: '/eodash-data/stories/WSF-WSF',
+  },
   N2: {
     indicator: 'CO2 emissions',
     class: 'air',
@@ -641,6 +646,17 @@ const getMonthlyDates = (start, end) => {
   while (currentDate <= stopDate) {
     dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
     currentDate = DateTime.fromISO(currentDate).plus({ months: 1 });
+  }
+  return dateArray;
+};
+
+const getYearlyDates = (start, end) => {
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy'));
+    currentDate = DateTime.fromISO(currentDate).plus({ years: 1 });
   }
   return dateArray;
 };
@@ -1290,6 +1306,40 @@ export const globalIndicators = [
           maxMapZoom: 7,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
           disableCompare: true,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'WSF Evolution',
+        indicator: 'WSF',
+        lastIndicatorValue: null,
+        indicatorName: 'World Settlement Footprint (WSF) Evolution',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'WSF',
+        time: getYearlyDates('1985', '2015'),
+        inputData: [''],
+        display: {
+          baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
+          name: 'WSF_Evolution',
+          layers: 'WSF_Evolution',
+          legendUrl: 'eodash-data/data/wsf_legend.png',
+          minZoom: 1,
+          maxMapZoom: 14,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
+          labelFormatFunction: (date) => date,
+          specialEnvTime: true,
         },
       },
     },
