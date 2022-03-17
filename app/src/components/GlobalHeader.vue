@@ -124,7 +124,6 @@
             Custom Dashboard
           </v-btn>
         </v-badge>
-        <v-divider></v-divider>
 
         <v-dialog
           v-model="showNewsletterModal"
@@ -133,11 +132,11 @@
           :hide-overlay="$vuetify.breakpoint.xsOnly"
           transition="dialog-bottom-transition"
           style="z-index: 9999;"
-          v-if="!(appConfig && appConfig.enableStories) && $vuetify.breakpoint.mdAndDown"
+          v-if="!(appConfig && appConfig.enableStories)"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              class="mr-8"
+              class="my-4 flex-grow-1 d-flex newsletter-button"
               color="secondary"
               dark
               tile
@@ -156,6 +155,10 @@
             @close="d => { showNewsletterModal = false }"
             always-sm />
         </v-dialog>
+
+        <v-divider></v-divider>
+      
+        <indicator-filters />
       </template>
 
     </v-navigation-drawer>
@@ -322,6 +325,7 @@ import {
 
 import ThemeNavigation from './ThemesLandingPage/ThemeNavigation.vue';
 import Modal from './Modal.vue';
+import IndicatorFilters from './IndicatorFilters.vue';
 
 /**
  * A global navbar component that adapts to different environments.
@@ -357,6 +361,7 @@ export default {
   components: {
     ThemeNavigation,
     Modal,
+    IndicatorFilters,
   },
   data() {
     return {
