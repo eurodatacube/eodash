@@ -125,6 +125,37 @@
           </v-btn>
         </v-badge>
         <v-divider></v-divider>
+
+        <v-dialog
+          v-model="showNewsletterModal"
+          width="50%"
+          :fullscreen="$vuetify.breakpoint.xsOnly"
+          :hide-overlay="$vuetify.breakpoint.xsOnly"
+          transition="dialog-bottom-transition"
+          style="z-index: 9999;"
+          v-if="!(appConfig && appConfig.enableStories) && $vuetify.breakpoint.mdAndDown"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              class="mr-8"
+              color="secondary"
+              dark
+              tile
+              block
+              v-bind="attrs"
+              v-on="on"
+              @click="d => { showNewsletterModal = true }"
+            >
+              Get our newsletter
+            </v-btn>
+          </template>
+
+          <modal
+            title="Subscribe to our newsletter"
+            @submit="d => { showNewsletterModal = false }"
+            @close="d => { showNewsletterModal = false }"
+            always-sm />
+        </v-dialog>
       </template>
 
     </v-navigation-drawer>
@@ -256,7 +287,7 @@
       :hide-overlay="$vuetify.breakpoint.xsOnly"
       transition="dialog-bottom-transition"
       style="z-index: 9999;"
-      v-if="!(appConfig && appConfig.enableStories)"
+      v-if="!(appConfig && appConfig.enableStories) && $vuetify.breakpoint.lgAndUp"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -270,11 +301,6 @@
           Get our newsletter
         </v-btn>
       </template>
-      <!--<newsletter-banner
-        :always-sm="true"
-        @submit="d => { hasNewsletterSubscription = true }"
-        @close="d => { showNewsletterModal = false }"
-      />-->
 
       <modal
         title="Subscribe to our newsletter"
