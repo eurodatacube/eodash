@@ -295,7 +295,6 @@ import {
 } from 'vuex';
 
 import ThemeNavigation from './ThemesLandingPage/ThemeNavigation.vue';
-import NewsletterBanner from './ThemesLandingPage/NewsletterBanner.vue';
 import Modal from './Modal.vue';
 
 /**
@@ -331,7 +330,6 @@ export default {
   },
   components: {
     ThemeNavigation,
-    NewsletterBanner,
     Modal,
   },
   data() {
