@@ -278,7 +278,7 @@
 
       <modal
         title="Subscribe to our newsletter"
-        @submit="d => { hasNewsletterSubscription = true }"
+        @submit="d => { showNewsletterModal = false }"
         @close="d => { showNewsletterModal = false }"
         always-sm />
     </v-dialog>
