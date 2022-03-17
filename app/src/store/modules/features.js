@@ -9,6 +9,7 @@ const state = {
   featureFilters: {
     countries: [],
     indicators: [],
+    themes: [],
     includeArchived: false,
   },
   selectedArea: null,
@@ -20,12 +21,21 @@ const state = {
 };
 
 const getters = {
-  getCountries(state) {
+  getCountries(state, _, rootState) {
     return [...new Set([
       state.allFeatures
-        .filter((f) => (state.featureFilters.indicators.length > 0
-          ? state.featureFilters.indicators.includes(f.properties.indicatorObject.indicator)
-          : true))
+        .filter((f) => {
+          if (state.featureFilters.indicators.length > 0) {
+            return state.featureFilters.indicators.includes(f.properties.indicatorObject.indicator);
+          }
+          if (state.featureFilters.themes.length > 0) {
+            return rootState.themes.currentPOIsIncludedInTheme
+              .includes(`${
+                f.properties.indicatorObject.aoiID}-${
+                f.properties.indicatorObject.indicator}`);
+          }
+          return true;
+        })
         .map((f) => f.properties.indicatorObject.country),
     ].flat(2))].sort();
   },
@@ -42,6 +52,11 @@ const getters = {
               filtered = state.featureFilters.countries
                 .includes(f.properties.indicatorObject.country);
             }
+          } else if (state.featureFilters.themes.length > 0) {
+            filtered = rootState.themes.currentPOIsIncludedInTheme
+              .includes(`${
+                f.properties.indicatorObject.aoiID}-${
+                f.properties.indicatorObject.indicator}`);
           } else if (!state.featureFilters.includeArchived) {
             filtered = f.properties.indicatorObject.description
               && (!f.properties.indicatorObject.description.includes('(archived)'));
@@ -78,7 +93,7 @@ const getters = {
       })
       .sort((a, b) => ((a.name > b.name) ? 1 : -1));
   },
-  getFeatures(state) {
+  getFeatures(state, _, rootState) {
     let features = state.allFeatures;
 
     if (state.featureFilters.countries.length > 0) {
@@ -98,6 +113,13 @@ const getters = {
       features = features
         .filter((f) => state.featureFilters.indicators
           .includes(f.properties.indicatorObject.indicator));
+    }
+    if (state.featureFilters.themes.length > 0) {
+      features = features
+        .filter((f) => rootState.themes.currentPOIsIncludedInTheme
+          .includes(`${
+            f.properties.indicatorObject.aoiID}-${
+            f.properties.indicatorObject.indicator}`));
     }
 
     if (!state.featureFilters.includeArchived) {
@@ -181,6 +203,9 @@ const mutations = {
     }
     if (hasFeature('indicators')) {
       state.featureFilters.indicators = options.indicators;
+    }
+    if (hasFeature('themes')) {
+      state.featureFilters.themes = options.themes;
     }
     if (hasFeature('includeArchived')) {
       state.featureFilters.includeArchived = options.includeArchived;

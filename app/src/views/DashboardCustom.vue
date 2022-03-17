@@ -1,41 +1,86 @@
 <template>
   <div
     v-if="!initialLoading"
-    class="fill-height scrollContainer pa-10 pt-5"
-    :style="`margin-top: ${$vuetify.application.top}px !important;
-      height: calc(100% - ${$vuetify.application.top}px);`"
+    class="fill-height scrollContainer"
+    :class="$vuetify.breakpoint.smAndAbove
+      ? 'pa-10 pt-5'
+      : 'pa-5'"
+      :style="`margin-top: ${$vuetify.application.top}px;
+        height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px);
+        overflow-y: ${storyModeEnabled ? 'hidden' : 'auto'}; overflow-x: hidden`"
+    id="scroll-target"
   >
-    <v-app-bar
-        app
-        clipped-left
-        clipped-right
-        flat
-        color="primary"
-        class="white--text"
+    <global-header />
+    <template
+      v-if="dashboardError"
+    >
+    <v-row class="d-flex fill-height">
+      <v-col
+        cols="12"
+        class="d-flex align-center justify-center fill-height"
       >
-        <a
-          @click="$store.state.indicators.selectedIndicator
-            ? $router.go(-1)
-            : $router.push({ path: '/' })"
-          class="white--text" style="text-decoration: none">
-          <v-toolbar-title
-            class="text-uppercase mr-5 d-flex align-center"
-          >
-            <v-icon dark left>mdi-arrow-left</v-icon>
-            <span v-if="$vuetify.breakpoint.mdAndUp">
-              {{ appConfig && appConfig.branding.appName }}
-            </span>
-          </v-toolbar-title>
-        </a>
-        <v-spacer></v-spacer>
-        <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
-      </v-app-bar>
-      <v-row class="d-flex">
-        <v-col cols="12" md="6" xl="8">
-          <div class="dashboardTitle">
+        <div class="text-center">
+          <h1 class="display-3 font-weight-light mt-5 mb-5 primary--text">404</h1>
+          <h1
+            class="display-1 font-weight-light mt-5 mb-5 primary--text"
+          >{{ storyModeEnabled ? 'Story' : 'Dashboard' }} not found</h1>
+          <p class="mt-5 mb-5">Error: {{ dashboardError }}.</p>
+          <p>Go back to the <router-link to="/" >Dashboard</router-link></p>
+        </div>
+      </v-col>
+    </v-row>
+    </template>
+    <template v-else>
+      <v-row
+        class="d-flex my-0 mt-n5"
+        id="headerRow"
+        :style="`position: relative; ${storyModeEnabled
+          ? `height: calc((var(--vh, 1vh) * 100) - ${$vuetify.application.top
+            + $vuetify.application.footer}px)`
+            : ''}`"
+      >
+        <v-img
+          v-if="officialDashboard"
+          :src="dashboardHeaderImage"
+          :lazy-src="dashboardHeaderImagePlaceholder"
+          style="position: absolute; width: calc(100% + 56px); max-width: unset;
+          height: 100%; margin: 0 -28px 0 -28px">
+          <template v-slot:placeholder>
+            <v-row
+              class="fill-height ma-0"
+              align="center"
+              justify="center"
+            >
+              <v-progress-circular
+                indeterminate
+                color="grey lighten-5"
+              ></v-progress-circular>
+            </v-row>
+          </template>
+          <div
+            style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;
+            box-shadow: 0 -400px 150px -130px inset #0005"
+          ></div>
+        </v-img>
+        <v-col
+          cols="12"
+          :md="storyModeEnabled ? 12 : 6"
+          :xl="storyModeEnabled ? 12 : 8"
+          class="d-flex align-end"
+          :class="`${officialDashboard
+            ? 'py-4 py-md-16'
+            : ''}`"
+          style="z-index: 1"
+        >
+          <div class="dashboardTitle" :style="`${officialDashboard
+            ? 'text-shadow: 0 0 20px #000e'
+            : ''}`">
             <div class="d-flex">
               <h1
-                class="display-2 font-weight-light primary--text mt-7 mb-5">
+                class="display-1 display-md-2 font-weight-light my-0 mt-md-7 mb-md-5"
+                :class="officialDashboard ? 'white--text' : ''"
+                :style="`${$vuetify.breakpoint.xsOnly ? 'font-size: 4vh !important': ''}`"
+              >
                 {{ dashboardTitle }}</h1>
               <div class="d-flex align-center ml-2">
                 <v-tooltip right>
@@ -88,7 +133,8 @@
                     </v-btn>
                     <v-btn
                       color="primary"
-                      @click="dashboardTitle = newDashboardTitle; editTitle(); titleDialog = false"
+                      @click="dashboardTitle = newDashboardTitle;
+                      editTitle(); titleDialog = false"
                       :disabled="!newDashboardTitle.length"
                       :rules="[v => !!v || 'Title required']"
                     >
@@ -98,48 +144,83 @@
                 </v-card>
               </v-dialog>
             </div>
-            <p v-if="newDashboard || hasEditingPrivilege">
-              Disclaimer: By editing, saving and sharing this custom dashboard, you agree to the
-              <a
-                href="/terms_and_conditions"
-                target="_blank"
-              >Terms and Conditions of this website</a>. Any violation of this agreement will
-              result in the deletion of this custom dashboard without warning.
-            </p>
-            <p v-else>
-              <em>
-                This Custom Dashboard was user-generated and is not an official product of the
-                {{ $store.state.config.appConfig.branding.appName }} project. Some of the content
-                on this page originates from the
-                {{ $store.state.config.appConfig.branding.appName }},
-                <a :href="rootLink" target="_blank">{{ rootLink }}</a>.
-                <a href="/terms_and_conditions" target="_blank">Terms and Conditions</a> apply.
-              </em>
-            </p>
+            <template v-if="officialDashboard">
+              <p v-html="dashboardSubTitle" class="white--text"></p>
+              <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
+            </template>
+            <template v-else>
+              <p v-if="newDashboard || hasEditingPrivilege">
+                Disclaimer: By editing, saving and sharing this custom dashboard, you agree to the
+                <a
+                  href="/terms_and_conditions"
+                  target="_blank"
+                >Terms and Conditions of this website</a>. Any violation of this agreement will
+                result in the deletion of this custom dashboard without warning.
+              </p>
+              <p v-else>
+                <em>
+                  This Custom Dashboard was user-generated and is not an official product of the
+                  {{ appConfig && appConfig.branding.appName }} project. Some of the content
+                  on this page originates from the
+                  {{ appConfig && appConfig.branding.appName }},
+                  <a :href="rootLink" target="_blank">{{ rootLink }}</a>.
+                  <a href="/terms_and_conditions" target="_blank">Terms and Conditions</a> apply.
+                </em>
+              </p>
+            </template>
+            <div
+              v-if="storyModeEnabled"
+            >
+              <v-btn
+                x-large
+                :color="getCurrentTheme ? getCurrentTheme.color : 'primary'"
+                class="my-5 mr-3"
+                dark
+                @click="scrollToStart"
+                :block="$vuetify.breakpoint.xsOnly"
+              >
+                <v-icon left>mdi-arrow-right</v-icon>
+                Start
+              </v-btn>
+              <v-btn
+                v-if="!newDashboard"
+                color="white"
+                outlined
+                x-large
+                :block="$vuetify.breakpoint.xsOnly"
+                @click="viewLinksFn"
+              >
+                <v-icon left>mdi-share-variant</v-icon>
+                share
+              </v-btn>
+            </div>
           </div>
         </v-col>
         <v-col
+          v-if="!storyModeEnabled"
           cols="12"
           md="6"
           xl="4"
           class="d-flex align-center"
+          style="z-index: 1"
         >
           <div
             :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'"
             style="width: 100%"
           >
             <v-btn
-              color="info"
               v-if="!newDashboard"
+              color="info"
               :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : 'mr-4'"
               :block="$vuetify.breakpoint.xsOnly"
               @click="viewLinksFn"
             >
-              <v-icon left>mdi-share</v-icon>
+              <v-icon left>mdi-share-variant</v-icon>
               share
             </v-btn>
             <v-btn
-              v-if="hasEditingPrivilege || !(dashboardConfig && dashboardConfig.id)"
+              v-if="!localDashboardFeatures &&
+                (hasEditingPrivilege || !(dashboardConfig && dashboardConfig.id))"
               @click="disconnect"
               :color="!(dashboardConfig && dashboardConfig.id) ? 'red' : 'grey'"
               :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : 'mr-4'"
@@ -290,8 +371,12 @@
                             persistent-hint
                             :hint="$store.state.dashboard.dashboardConfig
                               && $store.state.dashboard.dashboardConfig.editKey
-                                ? 'Read-only link to your Dashboard'
-                                : 'Read-only link to this Dashboard'"
+                                ? `Read-only link to your ${storyModeEnabled
+                                  ? 'Story'
+                                  : 'Dashboard'}`
+                                : `Read-only link to this ${storyModeEnabled
+                                  ? 'Story'
+                                  : 'Dashboard'}`"
                             :value="viewingLink"
                           />
                         </v-col>
@@ -333,9 +418,9 @@
               </v-card>
             </v-dialog>
             <div
+              v-if="!localDashboardFeatures && (newDashboard || hasEditingPrivilege)"
               class="mt-3"
               :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'"
-              v-if="newDashboard || hasEditingPrivilege"
             >
               <small
                 v-if="newDashboard"
@@ -355,17 +440,22 @@
       </v-row>
       <v-divider v-if="$vuetify.breakpoint.smAndDown" class="my-10"></v-divider>
       <custom-dashboard-grid
+        ref="customDashboardGrid"
         v-if="$store.state.features.allFeatures.length > 0"
         :enableEditing="!!(newDashboard || hasEditingPrivilege)"
         :popupOpen="popupOpen || newTextFeatureDialog"
+        :storyMode="storyModeEnabled"
+        :localFeatures="localDashboardFeatures"
+        :dashboardMeta="{ title: dashboardTitle }"
+        :themeColor="getCurrentTheme ? getCurrentTheme.color : 'primary'"
         @updateTextFeature="openTextFeatureUpdate"
         @change="savingChanges = true"
         @save="savingChanges = false"
+        @scrollTo="pageScroll"
       />
       <v-dialog
         v-model="newTextFeatureDialog"
         width="500"
-        @click:outside="resetTextFeature()"
       >
         <template v-slot:activator="{ on }">
           <v-row class="my-5">
@@ -403,11 +493,10 @@
               <v-text-field
                 outlined
                 label="Title"
-                :autofocus="!textFeatureUpdate"
+                :autofocus="!textFeatureUpdate ? true : false"
                 v-model="newTextFeatureTitle"
                 :rules="requiredRule"
-                @blur="checkValidation(newTextFeatureTitle)"
-                @input="checkValidation(newTextFeatureTitle)"
+                validate-on-blur
                 v-if="!textFeatureUpdate"
               ></v-text-field>
 
@@ -415,12 +504,11 @@
                 outlined
                 label="Text"
                 :auto-grow="true"
-                :autofocus="!!textFeatureUpdate"
-                :messages="[]"
+                :autofocus="textFeatureUpdate"
+                :messages="markdownMessage"
                 v-model="newTextFeatureText"
                 :rules="requiredRule"
-                @blur="checkValidation(newTextFeatureText)"
-                @input="checkValidation(newTextFeatureText)"
+                validate-on-blur
                 class="mt-5"
               >
                 <template v-slot:message="{ message }">
@@ -428,8 +516,6 @@
                 </template>
               </v-textarea>
             </v-form>
-
-            <p>You can use <a href="https://guides.github.com/features/mastering-markdown/" rel="noopener" target="_blank" tabindex="-1">Markdown</a></p>
           </v-card-text>
 
           <v-card-actions>
@@ -437,7 +523,7 @@
             <v-btn
               color="primary"
               text
-              @click="resetTextFeature()"
+              @click="() => (newTextFeatureDialog = false, textFeatureUpdate = '')"
             >
               cancel
             </v-btn>
@@ -445,14 +531,12 @@
               color="primary"
               @click="createTextFeature"
               v-if="!textFeatureUpdate"
-              :disabled="newTextFeatureTitle.length == 0 || newTextFeatureText.length == 0"
             >
               add
             </v-btn>
             <v-btn
               color="primary"
               @click="updateTextFeature"
-              :disabled="newTextFeatureText.length == 0"
               v-else
             >
               update
@@ -460,22 +544,37 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <global-footer />
+    </template>
+    <v-overlay
+      v-if="storyModeEnabled"
+      :value="scrollOverlay"
+      z-index="4"
+      opacity="1"
+      :color="$vuetify.theme.dark ? '#212121' : '#fff'"
+    ></v-overlay>
+    <global-footer
+      :color="getCurrentTheme ? getCurrentTheme.color : 'primary'"
+    />
   </div>
 </template>
 
 <script>
 import {
   mapState,
+  mapGetters,
   mapActions,
 } from 'vuex';
 
+import axios from 'axios';
+
+import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import CustomDashboardGrid from '@/components/CustomDashboardGrid.vue';
 
 export default {
   components: {
     CustomDashboardGrid,
+    GlobalHeader,
     GlobalFooter,
   },
   data: () => ({
@@ -494,6 +593,9 @@ export default {
     saving: false,
     popupTitle: '',
     dashboardTitle: '',
+    dashboardSubTitle: null,
+    dashboardHeaderImage: null,
+    dashboardHeaderImagePlaceholder: null,
     dashboardTitleChanged: false,
     savingChanges: null,
     displaySavingChanges: null,
@@ -542,6 +644,12 @@ export default {
     ],
     reconnecting: false,
     markdownMessage: 'You can use <a href="https://guides.github.com/features/mastering-markdown/" rel="noopener" target="_blank" tabindex="-1">markdown</a>',
+    officialDashboard: false,
+    storyModeEnabled: false,
+    dashboardError: null,
+    localDashboardFeatures: null,
+    localDashboardId: null,
+    scrollOverlay: false,
   }),
   computed: {
     ...mapState('config', [
@@ -551,6 +659,9 @@ export default {
     ...mapState('dashboard', [
       'dashboardConfig',
     ]),
+    ...mapGetters('themes', [
+      'getCurrentTheme',
+    ]),
     newDashboard() {
       return this.$store.state.dashboard.dashboardConfig
         && !this.$store.state.dashboard?.dashboardConfig?.marketingInfo;
@@ -559,15 +670,32 @@ export default {
       return this.$store.state.dashboard?.dashboardConfig?.editKey;
     },
     viewingLink() {
-      return (this.$store.state.dashboard.dashboardConfig
-        && this.$store.state.dashboard.dashboardConfig.id)
-        ? `${window.location.origin}/dashboard?id=${this.$store.state.dashboard.dashboardConfig.id}`
-        : 'Loading...';
+      let link = 'Loading...';
+      if (this.localDashboardId) {
+        if (this.storyModeEnabled) {
+          link = `${window.location.origin}/story?id=${this.localDashboardId}`;
+        } else {
+          link = `${window.location.origin}/dashboard?id=${this.localDashboardId}`;
+        }
+      } else if (this.$store.state.dashboard.dashboardConfig
+        && this.$store.state.dashboard.dashboardConfig.id) {
+        if (this.storyModeEnabled) {
+          link = `${window.location.origin}/story?id=${this.$store.state.dashboard
+            .dashboardConfig.id}`;
+        } else {
+          link = `${window.location.origin}/dashboard?id=${this.$store.state.dashboard
+            .dashboardConfig.id}`;
+        }
+      }
+      return link;
     },
     editingLink() {
       return (this.$store.state.dashboard.dashboardConfig
         && this.$store.state.dashboard.dashboardConfig.id)
-        ? `${window.location.origin}/dashboard?id=${this.$store.state.dashboard.dashboardConfig.id}&editKey=${this.$store.state.dashboard.dashboardConfig.editKey}`
+        ? `${window.location.origin}/${this.storyModeEnabled
+          ? 'story'
+          : 'dashboard'}?id=${this.$store.state.dashboard
+          .dashboardConfig.id}&editKey=${this.$store.state.dashboard.dashboardConfig.editKey}`
         : 'Loading...';
     },
     rootLink() {
@@ -575,6 +703,11 @@ export default {
     },
   },
   async created() {
+    if (this.$route.path === '/story') {
+      this.storyModeEnabled = true;
+      document.onkeydown = this.onKeyPress;
+    }
+
     let id = null;
     let editKey = null;
     if (this.$route.query.id) {
@@ -589,10 +722,47 @@ export default {
     }
 
     if (id) {
-      this.reconnecting = true;
-      this.disconnect();
-      await this.listen({ id, editKey });
-      this.reconnecting = false;
+      const storiesConfig = require('../config/stories.json');
+      const existingConfiguration = this.getDeepProperty(storiesConfig[this.appConfig.id], id);
+      if (this.storyModeEnabled && !this.getCurrentTheme) {
+        if (existingConfiguration) {
+          const currentTheme = Object.entries(storiesConfig[this.appConfig.id])
+            .find((stories) => Object.values(stories[1]).includes(existingConfiguration))[0];
+          this.loadTheme(currentTheme);
+        }
+      }
+      if (
+        !editKey
+        && this.appConfig.enableStories
+        && existingConfiguration
+      ) {
+        // replace with local custom dashboard
+        const localDashboard = await axios
+          .get(`./data/dashboards/${existingConfiguration.originalDashboardId}.json`);
+        const localDashboardContent = localDashboard.data;
+        this.officialDashboard = true;
+        this.localDashboardId = id;
+        this.dashboardTitle = existingConfiguration.title;
+        this.dashboardSubTitle = existingConfiguration.subtitle;
+        this.dashboardHeaderImage = existingConfiguration.image;
+        this.dashboardHeaderImagePlaceholder = existingConfiguration.imagePlaceholder;
+        const localFeatures = localDashboardContent.features.map((f) => {
+          const newF = { ...f };
+          delete newF.id;
+          newF.poi = f.id;
+          return newF;
+        });
+        this.localDashboardFeatures = localFeatures;
+      } else {
+        this.reconnecting = true;
+        this.disconnect();
+        try {
+          await this.listen({ id, editKey });
+        } catch (error) {
+          this.dashboardError = error.message;
+        }
+        this.reconnecting = false;
+      }
     }
 
     if (this.dashboardConfig) {
@@ -609,9 +779,7 @@ export default {
         });
       }
     }
-
     if (!this.dashboardConfig) {
-      this.$router.push('/');
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
     }
     this.editTitle();
@@ -658,6 +826,7 @@ export default {
       'addFeature',
       'changeFeatureText',
     ]),
+    ...mapActions('themes', ['loadTheme']),
     async editTitle() {
       if (this.hasEditingPrivilege || this.newDashboard) {
         this.performChange('changeTitle', this.dashboardTitle);
@@ -670,24 +839,30 @@ export default {
       }
     },
     async submitMarketingData() {
-      this.loading = true;
+      this.saving = true;
       this.performChange('changeTitle', this.popupTitle);
       if (this.$refs.form.validate()) {
         this.performChange('changeTitle', this.popupTitle);
         await this.addMarketingInfo({
           interests: this.interests,
         });
-        await this.addToMailingList({
-          email: this.email,
-          name: this.name,
-          listId: this.$store.state.config.appConfig.mailingList[process.env.NODE_ENV],
-          newsletterOptIn: this.newsletterOptIn,
-          dashboardId: this.$store.state.dashboard.dashboardConfig.id,
-          dashboardURLView: this.viewingLink,
-          dashboardURLEdit: this.editingLink,
-          dashboardTitle: this.dashboardTitle,
-          interests: this.interests,
-        });
+
+        try {
+          await this.addToMailingList({
+            email: this.email,
+            name: this.name,
+            listId: this.$store.state.config.appConfig.mailingList[process.env.NODE_ENV],
+            newsletterOptIn: this.newsletterOptIn,
+            dashboardId: this.$store.state.dashboard.dashboardConfig.id,
+            dashboardURLView: this.viewingLink,
+            dashboardURLEdit: this.editingLink,
+            dashboardTitle: this.dashboardTitle,
+            interests: this.interests,
+          });
+        } catch (e) {
+          console.log(`could not add to mailing list: ${e}`);
+        }
+
         this.$router.replace({
           path: 'dashboard',
           query: {
@@ -697,7 +872,7 @@ export default {
         });
         this.success = true;
       }
-      this.loading = false;
+      this.saving = false;
     },
     createTextFeature() {
       if (this.$refs.textForm.validate()) {
@@ -764,10 +939,63 @@ export default {
       this.editingTitle = true;
       this.$refs.titleInput.focus();
     },
-    checkValidation(item) {
-      if (!item) {
-        this.$refs.textForm.resetValidation();
+    scrollToStart() {
+      this.pageScroll({
+        target: this.$refs.customDashboardGrid,
+        offset: -56,
+      });
+    },
+    pageScroll({ target, offset = 0 }) {
+      this.scrollOverlay = true;
+      setTimeout(async () => {
+        await this.$vuetify.goTo(
+          target,
+          {
+            container: document.querySelector('.scrollContainer'),
+            offset,
+            duration: 0,
+          },
+        );
+        setTimeout(() => {
+          this.scrollOverlay = false;
+        }, 200);
+      }, 200);
+    },
+    onKeyPress(event) {
+      const e = event || window.event;
+      if (e.keyCode === 38) { // up
+        e.preventDefault();
+      } else if (e.keyCode === 40) { // down
+        e.preventDefault();
+      } else if (e.keyCode === 37) { // left
+        e.preventDefault();
+        this.$refs.customDashboardGrid.goStep(-1);
+      } else if (e.keyCode === 39) { // right
+        e.preventDefault();
+        if (!this.$refs.customDashboardGrid.currentRow) {
+          this.scrollToStart();
+        } else if (this.$refs.customDashboardGrid.currentRow
+          !== this.$refs.customDashboardGrid.numberOfRows) {
+          this.$refs.customDashboardGrid.goStep(1);
+        }
       }
+    },
+    getDeepProperty(obj, prop) {
+      // https://stackoverflow.com/a/33445021
+      /* eslint-disable */
+      if (typeof obj === 'object' && obj !== null) {
+        if (obj.hasOwnProperty(prop)) {
+          return obj[prop];
+        }
+        for (var p in obj) {
+          if (obj.hasOwnProperty(p) &&
+              this.getDeepProperty(obj[p], prop)) { 
+            return obj[p][prop];
+          }
+        }
+      }
+      return false;
+      /* eslint-enable */
     },
   },
 };
@@ -776,9 +1004,6 @@ export default {
 <style lang="scss" scoped>
 .header__logo {
   height: 32px;
-}
-.scrollContainer {
-  overflow-y: scroll;
 }
 ::v-deep .dashboardTitle .v-input {
   input {
@@ -799,6 +1024,15 @@ export default {
 }
 ::v-deep .display-2 ::v-deep .v-input__append-inner {
   align-self: center !important;
+}
+.theme-button {
+  border-radius: 4px;
+  background: #FFF4;
+  text-transform: none;
+  font-size: 90%;
+  padding: 2px 5px;
+  text-decoration: none;
+  color: #FFF;
 }
 </style>
 

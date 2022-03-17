@@ -372,8 +372,8 @@
               v-if="enableCompare"
               outlined
               dense
+              :autofocus="!disableAutoFocus"
               attach
-              autofocus
               hide-details
               :prepend-inner-icon="(arrayOfObjects && compareLayerTime) && (arrayOfObjects
                 .map((i) => i.value)
@@ -389,7 +389,10 @@
               :items="arrayOfObjects"
               item-value="value"
               item-text="name"
+              return-object
               v-model="compareLayerTime"
+              @focus="focusSelect(true)"
+              @blur="focusSelect(false)"
               @change="compareLayerTimeSelection"
               @click:prepend-inner="compareLayerReduce"
               @click:append="compareLayerIncrease"
@@ -401,8 +404,8 @@
             <v-select
               outlined
               dense
+              :autofocus="!disableAutoFocus"
               attach
-              autofocus
               hide-details
               :prepend-inner-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
                 .map((i) => i.value)
@@ -418,7 +421,10 @@
               :items="arrayOfObjects"
               item-value="value"
               item-text="name"
+              return-object
               v-model="dataLayerTime"
+              @focus="focusSelect(true)"
+              @blur="focusSelect(false)"
               @change="dataLayerTimeSelection"
               @click:prepend-inner="dataLayerReduce"
               @click:append="dataLayerIncrease"
@@ -429,7 +435,12 @@
                   bottom
                 >
                   <template v-slot:activator="{ on }">
-                    <v-icon v-on="on" @click="enableCompare = !enableCompare">mdi-compare</v-icon>
+                    <v-icon
+                      v-on="on"
+                      @click="enableCompare = !enableCompare"
+                    >
+                      mdi-compare
+                    </v-icon>
                   </template>
                   Compare two images
                 </v-tooltip>
@@ -486,6 +497,12 @@ const emptyF = {
 export default {
   props: {
     currentIndicator: Object,
+    dataLayerTimeProp: {
+      required: false,
+    },
+    compareLayerTimeProp: {
+      required: false,
+    },
     zoomProp: {
       required: false,
     },
@@ -495,6 +512,7 @@ export default {
     hideCustomAreaControls: {
       required: false,
     },
+    disableAutoFocus: Boolean,
   },
   components: {
     LMap,
@@ -829,15 +847,34 @@ export default {
   },
   mounted() {
     this.dataLayerIndex = this.usedTimes.time.length - 1;
-    this.dataLayerTime = { value: this.usedTimes.time[this.dataLayerIndex] };
-    this.compareLayerTime = { value: this.getInitialCompareTime() };
+
+    if (!this.dataLayerTimeProp) {
+      this.dataLayerTime = { value: this.usedTimes.time[this.dataLayerIndex] };
+    }
+
+    if (!this.compareLayerTimeProp) {
+      this.compareLayerTime = { value: this.currentCompareTime };
+    }
+
     this.ro = new ResizeObserver(this.onResize)
       .observe(this.$refs.container);
+
+    if (this.compareLayerTimeProp) {
+      this.$nextTick(() => { this.enableCompare = true; });
+    }
   },
   destroyed() {
     delete this.ro;
   },
   methods: {
+    focusSelect(on) {
+      const lMap = this.$refs.map.mapObject;
+      if (on) {
+        lMap.scrollWheelZoom.disable();
+      } else {
+        lMap.scrollWheelZoom.enable();
+      }
+    },
     createLatLng(latlng) {
       const llobj = latlng.split(',').map(Number);
       return llobj;
@@ -853,6 +890,12 @@ export default {
     boundsUpdated(bounds) {
       this.bounds = bounds;
       this.$emit('update:bounds', bounds);
+    },
+    dataLayerTimeUpdated(time) {
+      this.$emit('update:datalayertime', time);
+    },
+    compareLayerTimeUpdated(time) {
+      this.$emit('update:comparelayertime', time);
     },
     onMapReady() {
       this.map = this.$refs.map.mapObject;
@@ -1310,6 +1353,7 @@ export default {
           );
         });
       }
+      this.dataLayerTimeUpdated(this.dataLayerTime.name);
     },
     extractActualLayers(group) {
       let actualLayers = [];
@@ -1339,6 +1383,8 @@ export default {
           this.extractActualLayers(this.$refs.compareLayers),
         );
       });
+
+      this.compareLayerTimeUpdated(this.compareLayerTime.name);
     },
     dataLayerReduce() {
       const currentIndex = this.arrayOfObjects
@@ -1741,12 +1787,29 @@ export default {
         if (v) this.center = v;
       },
     },
+    dataLayerTimeProp: {
+      immediate: true,
+      deep: true,
+      handler(v) {
+        if (v) this.dataLayerTime = this.arrayOfObjects.find((item) => item.name === v);
+      },
+    },
+    compareLayerTimeProp: {
+      immediate: true,
+      deep: true,
+      handler(v) {
+        if (v) this.compareLayerTime = this.arrayOfObjects.find((item) => item.name === v);
+      },
+    },
     enableCompare(on) {
       if (!on) {
         if (this.slider !== null) {
           this.map.removeControl(this.slider);
           this.map.removeLayer(this.$refs.compareLayers.mapObject);
         }
+
+        // Unset compare time for server storage
+        this.compareLayerTimeUpdated(undefined);
       } else {
         this.map.addLayer(this.$refs.compareLayers.mapObject);
         if (!this.mergedConfigsData[0].customAreaFeatures || this.validDrawnArea) {
@@ -1761,7 +1824,17 @@ export default {
           );
           this.slider.addTo(this.map);
         });
+
+        // The following two calls set initial compare
+        // and data layer times containing name and value.
+        const cTime = this.arrayOfObjects.find((v) => v.value === this.compareLayerTime.value);
+        this.compareLayerTimeUpdated(cTime.name);
+
+        const dTime = this.arrayOfObjects.find((v) => v.value === this.dataLayerTime.value);
+        this.dataLayerTimeUpdated(dTime.name);
       }
+
+      this.$emit('compareEnabled');
     },
     drawnArea() {
       // watch on drawn area prop change triggering update of draw layer, fetching custom features

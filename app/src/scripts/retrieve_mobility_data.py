@@ -21,7 +21,7 @@ import requests
 output_folder = '/public/eodash-data/internal/'
 indicator_code = 'GG'
 
-DATAFILE = '/working/Global_Mobility_Report_Download_{}.csv'.format(
+DATAFILE = '/working/tmp/Global_Mobility_Report_Download_{}.csv'.format(
     datetime.datetime.utcnow().strftime("%Y-%m-%d")
 )
 url = 'https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv'

@@ -1,62 +1,10 @@
 <template>
   <div class="dashboard fill-height">
-    <v-app-bar
-      app
-      clipped-left
-      clipped-right
-      flat
-      color="primary"
-      class="white--text"
-      v-show="!isFullScreen"
-    >
-      <v-app-bar-nav-icon @click.stop="drawerLeft = !drawerLeft" dark />
-      <v-toolbar-title
-        v-if="$vuetify.breakpoint.mdAndUp"
-        class="text-uppercase mr-5"
-      >
-        {{ appConfig && appConfig.branding.appName }}
-      </v-toolbar-title>
-      <template v-if="!$vuetify.breakpoint.xsOnly">
-        <v-btn
-          text
-          dark
-          small
-          @click="displayShowText('welcome')"
-        >
-          Welcome
-        </v-btn>
-        <v-btn
-          text
-          dark
-          small
-          @click="displayShowText('about')"
-        >
-          About
-        </v-btn>
-        <v-badge
-          bordered
-          color="info"
-          :content="$store.state.dashboard.dashboardConfig
-            && $store.state.dashboard.dashboardConfig.features.length"
-          :value="$store.state.dashboard.dashboardConfig
-            && $store.state.dashboard.dashboardConfig.features.length"
-          overlap
-        >
-          <v-btn
-            v-if="$store.state.dashboard.dashboardConfig"
-            text
-            dark
-            small
-            to="/dashboard"
-          >
-            Custom Dashboard
-          </v-btn>
-        </v-badge>
-      </template>
-      <v-spacer></v-spacer>
-      <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
-    </v-app-bar>
-
+    <global-header
+      :isFullscreen="isFullScreen"
+      :displayShowText="displayShowText"
+      :switchDrawer="() => { drawerLeft = !drawerLeft }"
+    />
     <v-navigation-drawer
       v-model="drawerLeft"
       left
@@ -152,7 +100,7 @@
       hide-overlay
       :width="dataPanelFullWidth ? '100%' : '40%'"
       :style="`margin-top: ${$vuetify.application.top}px;
-        height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px`"
+        height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px;`"
       class="data-panel"
     >
       <banner v-if="currentNews" ref="newsBanner" />
@@ -265,7 +213,10 @@
         </v-row>
       </v-container>
     </v-content>
-    <global-footer v-if="!isFullScreen"/>
+    <global-footer
+      v-if="!isFullScreen"
+      :color="getCurrentTheme ? getCurrentTheme.color : 'primary'"
+    />
   </div>
 </template>
 
@@ -273,13 +224,14 @@
 import Welcome from '@/views/Welcome.vue';
 import About from '@/views/About.vue';
 import Banner from '@/components/Banner.vue';
-import SelectionPanel from '@/components/SelectionPanel.vue';
 import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
+import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
+import SelectionPanel from '@/components/SelectionPanel.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   metaInfo() {
@@ -295,17 +247,18 @@ export default {
     Welcome,
     About,
     Banner,
-    SelectionPanel,
     CenterPanel,
     DataPanel,
+    GlobalHeader,
     GlobalFooter,
+    SelectionPanel,
   },
   props: {
     source: String,
   },
   mixins: [closeMixin, dialogMixin],
   data: () => ({
-    drawerLeft: true,
+    drawerLeft: false,
     drawerRight: false,
     dialog: false,
     showText: null,
@@ -345,6 +298,10 @@ export default {
         (f) => this.getLocationCode(f && f.properties.indicatorObject) === this.$route.query.poi,
       );
     },
+
+    ...mapGetters({
+      getCurrentTheme: 'themes/getCurrentTheme',
+    }),
   },
   created() {
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
@@ -354,10 +311,6 @@ export default {
     }
   },
   mounted() {
-    this.fixFullHeight();
-    window.addEventListener('resize', () => {
-      this.fixFullHeight();
-    });
     setTimeout(() => {
       // only show when no poi is selected
       if (!this.$route.query.poi) {
@@ -367,12 +320,6 @@ export default {
     }, 2000);
   },
   methods: {
-    fixFullHeight() {
-      // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
-      const vh = window.innerHeight * 0.01;
-      // Then we set the value in the --vh custom property to the root of the document
-      document.documentElement.style.setProperty('--vh', `${vh}px`);
-    },
     setDataPanelWidth(enable) {
       if (enable) {
         this.dataPanelTemporary = true;
