@@ -277,7 +277,6 @@ export default {
             window.setTimeout(() => {
               this.isLoading = false;
               this.isNewsletterSubscribed = true;
-              localStorage.setItem('hasNewsletterSubscription', 'true');
               this.$emit('submit');
             }, 200);
           })
