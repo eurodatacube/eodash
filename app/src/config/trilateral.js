@@ -291,6 +291,11 @@ export const indicatorsDefinition = Object.freeze({
     class: 'water',
     // story: '/data/trilateral/N8',
   },
+  N12: {
+    indicator: 'FNF Brazil',
+    class: 'water',
+    // story: '/data/trilateral/N8',
+  },
   GG: {
     indicator: 'Mobility',
     class: 'economic',
@@ -1190,6 +1195,39 @@ export const globalIndicators = [
       },
     },
   },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Global',
+        siteName: 'global',
+        description: 'FNF Brazil',
+        indicator: 'N12',
+        lastIndicatorValue: null,
+        indicatorName: 'FNF Brazil',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        time: ['2015', '2016', '2017'],
+        inputData: [''],
+        display: [{
+          protocol: 'xyz',
+          minZoom: 1,
+          maxNativeZoom: 18,
+          tileSize: 256,
+          // url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_tk_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
+          url: 'http://13.115.142.91/examind/api/WS/wmts/JAXA_WMTS_Preview/FNF_Brazil_full-resolution_2017/873d5042-7976-4e1d-ada7-7fba0d1dad3d/{z}/{x}/{y}.png',
+          name: 'Nightlights',
+        }],
+      },
+    },
+  },
+  
   {
     latlng: latLng([35.61, 139.78]),
     id: 9998,
