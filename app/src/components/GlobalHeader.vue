@@ -256,7 +256,7 @@
       :hide-overlay="$vuetify.breakpoint.xsOnly"
       transition="dialog-bottom-transition"
       style="z-index: 9999;"
-      v-if="!(appConfig && appConfig.enableStories) && !hasNewsletterSubscription"
+      v-if="!(appConfig && appConfig.enableStories)"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -349,10 +349,6 @@ export default {
     switchMenu() {
       this.drawerLeft = !this.drawerLeft;
     },
-  },
-  mounted() {
-    // Check if the user is already subscribed
-    this.hasNewsletterSubscription = localStorage.getItem('hasNewsletterSubscription') === 'true';
   },
   computed: {
     ...mapState('config', [
