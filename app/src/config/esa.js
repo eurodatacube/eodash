@@ -401,7 +401,7 @@ export const indicatorsDefinition = Object.freeze({
   WSF: {
     indicator: 'World Settlement Footprint',
     class: 'economic',
-    // story: '/data/trilateral/NASAPopulation',
+    story: '/eodash-data/stories/WSF-WSF',
   },
   N2: {
     indicator: 'CO2 emissions',
