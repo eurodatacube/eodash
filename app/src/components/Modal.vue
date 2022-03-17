@@ -126,7 +126,7 @@
             color="success"
             type="submit"
             x-large
-            :loading="isLoading">Submit</v-btn>
+            :loading="isLoading">Subscribe</v-btn>
         </v-card-actions>
       </v-form>
     </v-card>
