@@ -32,6 +32,7 @@
       hide-overlay
       width="70vw"
       v-show="!isFullScreen"
+      v-if="$vuetify.breakpoint.smAndDown"
     >
       <template>
         <v-list-item style="background: var(--v-primary-base)">
@@ -307,7 +308,6 @@
 
       <modal
         title="Subscribe to our newsletter"
-        @submit="d => { showNewsletterModal = false }"
         @close="d => { showNewsletterModal = false }"
         always-sm />
     </v-dialog>
