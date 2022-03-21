@@ -14,7 +14,7 @@ import {
 import ClusterSource from 'ol/source/Cluster';
 import VectorSource from 'ol/source/Vector';
 import { asArray } from 'ol/color';
-import { Feature } from 'ol';
+import { Feature, Overlay } from 'ol';
 import { fromLonLat } from 'ol/proj';
 import { getColor } from './olMapColors';
 import { indicatorClassesIcons } from '../../config/trilateral';
@@ -125,6 +125,31 @@ function generatePointsCircle(count, clusterCenter, resolution) {
   return res;
 }
 
+/**
+ * get the cluster member of an (open) cluster feature by calculating the points circle
+ * @param {*} map ol map
+ * @param {*} openClusterFeature cluster feature
+ * @param {Array} coordinate coordinate
+ * @returns {*} Object with feature and calculated coords
+ */
+function getClusterMemberForCoordinate(map, openClusterFeature, coordinate) {
+  const members = openClusterFeature.get('features');
+  const coords = generatePointsCircle(members.length,
+    openClusterFeature.getGeometry().getCoordinates(),
+    map.getView().getResolution());
+  let dist = Infinity;
+  let index;
+  for (let i = 0, ii = coords.length; i < ii; ++i) {
+    const newDist = (coordinate[0] - coords[i][0]) ** 2
+      + (coordinate[1] - coords[i][1]) ** 2;
+    if (newDist < dist) {
+      index = i;
+      dist = newDist;
+    }
+  }
+  return { feature: members[index], coords: coords[index] };
+}
+
 
 /**
  * Style for clusters with features that are too close to each other, activated on click.
@@ -199,20 +224,29 @@ export default class Cluster {
   /**
    * adding layer and interactions if active=true, otherwise removing them from the map
    * @param {boolean} active
+   * @param {Function} overlayCallback callback function for populating overlay
    */
-  setActive(active) {
+  setActive(active, overlayCallback) {
     if (active) {
       [this.clusters, this.clusterHulls, this.clusterCircles].forEach((l) => {
         this.map.addLayer(l);
       });
-      this.map.on('pointermove', this.pointermoveInteraction);
+      this.map.on('pointermove', this.pointermoveInteraction.bind(this, overlayCallback));
       this.map.on('click', this.clickInteraction);
+      const overlay = new Overlay({
+        element: document.getElementById('centerMapOverlay'),
+        id: 'clusterOverlay',
+        offset: [0, -22],
+        positioning: 'bottom-center',
+      });
+      this.map.addOverlay(overlay);
     } else {
       [this.clusters, this.clusterHulls, this.clusterCircles].forEach((l) => {
         this.map.removeLayer(l);
       });
       this.map.un('pointermove', this.pointermoveInteraction);
       this.map.un('click', this.clickInteraction);
+      this.map.getOverlayById('clusterOverlay').setMap(null);
     }
   }
 
@@ -241,42 +275,54 @@ export default class Cluster {
   }
 
   createInteractions() {
-    this.pointermoveInteraction = async (event) => {
-      const singleCircleFeatures = await this.clusterCircles.getFeatures(event.pixel);
+    this.pointermoveInteraction = async (callback, event) => {
+      const openClusterFeatures = await this.clusterCircles.getFeatures(event.pixel);
       const clusterFeatures = await this.clusters.getFeatures(event.pixel);
       if (clusterFeatures[0] !== this.hoverFeature) {
         // Display the convex hull on hover.
         // eslint-disable-next-line prefer-destructuring
         this.hoverFeature = clusterFeatures[0];
         this.clusterHulls.setStyle(this.clusterHullStyle.bind(this));
-        // Change the cursor style to indicate that the cluster is clickable.
       }
+      // Change the cursor style to indicate that the cluster is clickable.
       // eslint-disable-next-line no-param-reassign
-      this.map.getTargetElement().style.cursor = this.hoverFeature || singleCircleFeatures.length
+      this.map.getTargetElement().style.cursor = this.hoverFeature || openClusterFeatures.length
         ? 'pointer'
         : '';
+      // show or hide popup
+      const overlay = this.map.getOverlayById('clusterOverlay');
+      if (openClusterFeatures.length || (this.hoverFeature && this.hoverFeature.get('features').length === 1)) {
+        let coords;
+        let hoverFeature;
+        if (openClusterFeatures.length) {
+          const clusterObject = getClusterMemberForCoordinate(this.map,
+            openClusterFeatures[0],
+            event.coordinate);
+          coords = clusterObject.coords;
+          hoverFeature = clusterObject.feature;
+        } else {
+          [hoverFeature] = this.hoverFeature.get('features');
+          coords = hoverFeature.getGeometry().getCoordinates();
+        }
+        overlay.setMap(this.map);
+        overlay.setPosition(coords);
+        const { indicatorObject } = hoverFeature.getProperties().properties;
+        callback(indicatorObject);
+        overlay.getElement().style.display = 'block';
+      } else {
+        overlay.setMap(null);
+      }
     };
     this.clickInteraction = async (event) => {
       this.clickedClusterMember = undefined;
       // features of expanded clusters
       const openClusterFeatures = await this.clusterCircles.getFeatures(event.pixel);
       if (openClusterFeatures.length) {
-        const feature = openClusterFeatures[0];
-        const members = feature.get('features');
-        const coords = generatePointsCircle(members.length, feature.getGeometry().getCoordinates(),
-          this.map.getView().getResolution());
-        let dist = Infinity;
-        let index;
-        for (let i = 0, ii = coords.length; i < ii; ++i) {
-          const newDist = (event.coordinate[0] - coords[i][0]) ** 2
-            + (event.coordinate[1] - coords[i][1]) ** 2;
-          if (newDist < dist) {
-            index = i;
-            dist = newDist;
-          }
-        }
-        this.openIndicator(members[index]);
-        this.clickedClusterMember = members[index];
+        const clickedClusterMember = getClusterMemberForCoordinate(this.map,
+          openClusterFeatures[0],
+          event.coordinate).feature;
+        this.openIndicator(clickedClusterMember);
+        this.clickedClusterMember = clickedClusterMember;
       } else {
         const features = await this.clusters.getFeatures(event.pixel);
         if (features.length > 0) {
@@ -459,7 +505,7 @@ export default class Cluster {
       geometry: clusterMember.getGeometry(),
     });
     const memberStyle = [circleStyle, iconStyle];
-    if (isSelected && indicatorObject.subAoi) {
+    if (isSelected && indicatorObject.subAoi && indicatorObject.subAoi.length) {
       const subAoiColor = [...asArray(getColor(indicatorObject, this.vm)
         || this.appConfig.branding.primaryColor)];
       // set opacity of rgba color
