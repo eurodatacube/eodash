@@ -11,7 +11,7 @@
               <template v-for="theme in themes">
                 <v-col :key="theme.slug" cols="12" xs="12" sm="12" md="6"
                   :style="$vuetify.breakpoint.lgAndUp
-                    ? `flex: 0 0 20%; max-width: initial`
+                    ? `flex: 0 0 ${100.0 / themes.length}%; max-width: initial`
                     : ''"
                 >
                   <v-btn
@@ -34,9 +34,7 @@
       <v-row no-gutters class="button-row-2 pa-0">
         <template v-for="theme in themes">
           <v-col no-gutters :key="theme.slug" class="" cols="12" xs="12" sm="12" md="6"
-            :style="$vuetify.breakpoint.lgAndUp
-              ? `flex: 0 0 20%; max-width: initial`
-              : ''"
+            :style="`flex: 0 0 ${100.0 / themes.length}%; max-width: initial`"
           >
             <v-btn
               class="elevation-0 py-2 white--text"
