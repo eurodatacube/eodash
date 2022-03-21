@@ -234,7 +234,7 @@ export default class Cluster {
       this.map.on('pointermove', this.pointermoveInteraction.bind(this, overlayCallback));
       this.map.on('click', this.clickInteraction);
       const overlay = new Overlay({
-        element: document.getElementById('centerMapOverlay'),
+        element: document.getElementById(`${this.map.get('id')}Overlay`),
         id: 'clusterOverlay',
         offset: [0, -22],
         positioning: 'bottom-center',
