@@ -73,7 +73,7 @@
       <v-btn
         color="primary"
         text
-        @click="close"
+        @click="$emit('close')"
         x-large
       >Back</v-btn>
       <v-btn

@@ -11,6 +11,7 @@
         <newsletter-form
           v-else
           @submit="submit"
+          @close="close"
         />
       </v-card>
     </transition>
