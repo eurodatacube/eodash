@@ -306,10 +306,9 @@ export default class Cluster {
           } else {
             this.openIndicator(features[0].getProperties().features[0]);
           }
-        } else {
-          this.reRender();
         }
       }
+      this.reRender();
     };
   }
 
@@ -460,6 +459,22 @@ export default class Cluster {
       geometry: clusterMember.getGeometry(),
     });
     const memberStyle = [circleStyle, iconStyle];
+    if (isSelected && indicatorObject.subAoi) {
+      const subAoiColor = [...asArray(getColor(indicatorObject, this.vm)
+        || this.appConfig.branding.primaryColor)];
+      // set opacity of rgba color
+      subAoiColor[3] = 0.5;
+      memberStyle.push(new Style({
+        fill: new Fill({
+          color: subAoiColor,
+        }),
+        stroke: new Stroke({
+          color: 'white',
+          width: 1,
+        }),
+        geometry: indicatorObject.subAoi[0].getGeometry(),
+      }));
+    }
     return memberStyle;
   }
 }
