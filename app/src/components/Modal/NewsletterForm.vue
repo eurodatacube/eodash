@@ -134,7 +134,7 @@ export default {
       },
     },
   }),
-  mounted () {
+  mounted() {
 
   },
   props: {
@@ -149,8 +149,8 @@ export default {
     },
   },
   methods: {
-    increaseProgress () {
-      this.progress = this.progress + 0.6;
+    increaseProgress() {
+      this.progress += 0.6;
 
       if (this.progress >= 110.0) {
         this.progress = 0.0;
@@ -158,9 +158,9 @@ export default {
       }
     },
 
-    submit () {
+    submit() {
       this.$emit('submit');
-    }
+    },
   },
 };
 </script>

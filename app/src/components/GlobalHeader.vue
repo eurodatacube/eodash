@@ -158,7 +158,7 @@
         </v-dialog>
 
         <v-divider></v-divider>
-      
+
         <indicator-filters />
       </template>
 

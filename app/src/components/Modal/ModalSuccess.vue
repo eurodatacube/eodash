@@ -1,10 +1,16 @@
 <template>
   <div class="modal-success">
-    <v-progress-linear :value="progress" :size="48" color="white" background-color="transparent"></v-progress-linear>
+    <v-progress-linear
+      :value="progress"
+      :size="48"
+      color="white"
+      background-color="transparent"
+    />
+
     <div class="d-flex flex-column align-center justify-center py-16">
       <v-icon size="64" color="green lighten-4">mdi-check</v-icon>
       <h2 class="white--text my-4">You have successfully subscribed to our newsletter.</h2>
-      
+
       <v-btn class="mt-4 green darken-3 white--text" @click="$emit('close')">Dismiss</v-btn>
     </div>
   </div>
@@ -15,7 +21,7 @@ export default {
   data: () => ({
 
   }),
-  mounted () {
+  mounted() {
     setTimeout(this.close, 3000);
   },
   props: {
@@ -30,9 +36,9 @@ export default {
     },
   },
   methods: {
-    close () {
+    close() {
       this.$emit('close');
-    }
+    },
   },
 };
 </script>

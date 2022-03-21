@@ -7,7 +7,7 @@
           v-if="isFinished"
           @close="close"
         />
-        
+
         <newsletter-form
           v-else
           @submit="submit"
@@ -34,7 +34,7 @@ export default {
   data: () => ({
     isFinished: false,
   }),
-  mounted () {
+  mounted() {
   },
   props: {
     /**
@@ -56,7 +56,7 @@ export default {
      * Reset Vuetify form validation and signal our surroundings that we want to be closed.
      */
     close() {
-      //this.$refs.form.resetValidation();
+      // this.$refs.form.resetValidation();
       this.$emit('close');
     },
 
