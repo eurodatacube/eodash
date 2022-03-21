@@ -209,6 +209,7 @@ const renderVue = async () => {
         { path: '/air-quality', name: 'air-quality', component: ThemeSinglePage },
         { path: '/agriculture', name: 'agriculture', component: ThemeSinglePage },
         { path: '/cryosphere', name: 'cryosphere', component: ThemeSinglePage },
+        { path: '/covid-19', name: 'covid-19', component: ThemeSinglePage },
       ]
       : []
     ),
