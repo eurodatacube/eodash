@@ -1216,13 +1216,13 @@ export const globalIndicators = [
         time: ['2015', '2016', '2017'],
         inputData: [''],
         display: [{
-          protocol: 'xyz',
           minZoom: 1,
-          maxNativeZoom: 18,
-          tileSize: 256,
-          // url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_tk_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
+          tileSize: 512,
+          // http://13.115.142.91/examind/api/WS/wms/JAXA_WMS_Preview?service=WMS&request=GetMap&version=1.1.1&layers=FNF_Brazil_2016&styles=&format=image%2Fpng&transparent=true&srs=EPSG%3A4326&width=940&height=500&bbox=-60.64453125,-21.005859375,-19.3359375,0.966796875
+          // baseUrl: 'http://13.115.142.91/examind/api/WS/wms/JAXA_WMS_Preview?',
+          // layers: 'FNF_Brazil_2017',
           url: 'http://13.115.142.91/examind/api/WS/wmts/JAXA_WMTS_Preview/FNF_Brazil_full-resolution_2017/873d5042-7976-4e1d-ada7-7fba0d1dad3d/{z}/{x}/{y}.png',
-          name: 'Nightlights',
+          name: 'FNF Brazil',
         }],
       },
     },
