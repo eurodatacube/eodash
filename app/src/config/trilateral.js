@@ -30,6 +30,7 @@ export const dataEndpoints = [
 export const indicatorsDefinition = Object.freeze({
   E13c: {
     indicator: 'Changes in Ships traffic within the Port',
+    themes: ['covid-19', 'water-and-ocean'],
     class: 'economic',
     story: '/data/trilateral/E13c',
     features: {
@@ -45,6 +46,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   E1: {
     indicator: 'Status of metallic ores',
+    themes: ['biomass-and-landcover'],
     class: 'economic',
     story: '/data/trilateral/E1',
     features: {
@@ -55,6 +57,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   E1_S2: {
     indicator: 'Status of metallic ores',
+    themes: ['biomass-and-landcover'],
     class: 'economic',
     story: '/data/trilateral/E1',
     features: {
@@ -64,6 +67,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   E1a: {
     indicator: 'Status of non-metallic ores',
+    themes: ['biomass-and-landcover'],
     class: 'economic',
     story: '/data/trilateral/E1a',
     features: {
@@ -74,6 +78,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   E1a_S2: {
     indicator: 'Status of metallic ores',
+    themes: ['biomass-and-landcover'],
     class: 'economic',
     story: '/data/trilateral/E1a',
     features: {
@@ -83,44 +88,54 @@ export const indicatorsDefinition = Object.freeze({
   },
   E2: {
     indicator: 'Volume of oil stockpiled',
+    themes: ['covid-19'],
     class: 'economic',
   },
   E2a: {
     indicator: 'Level of flaring activity',
+    themes: ['covid-19'],
     class: 'economic',
   },
   E3: {
     indicator: 'Inventory levels of factory inputs',
+    themes: ['covid-19'],
     class: 'economic',
   },
   E4: {
     indicator: 'Production activity of intermediate goods',
+    themes: ['covid-19'],
     class: 'economic',
   },
   E5: {
     indicator: 'Inventory levels of intermediate goods',
+    themes: ['covid-19'],
     class: 'economic',
   },
   E6: {
     indicator: 'Inventory levels of factory inputs',
+    themes: ['covid-19'],
     class: 'economic',
   },
   E7: {
     indicator: 'Production activity of finished goods',
+    themes: ['covid-19'],
     class: 'economic',
   },
   E8: {
     indicator: 'Inventory Levels',
+    themes: ['covid-19'],
     class: 'economic',
   },
   E9: {
     indicator: 'Construction activity',
+    themes: ['covid-19'],
     class: 'economic',
     story: '/data/trilateral/E9',
     largeSubAoi: true,
   },
   E10a1: {
     indicator: 'Harvesting activity',
+    themes: ['agriculture'],
     class: 'agriculture',
     story: '/data/trilateral/E10a1',
     largeSubAoi: true,
@@ -132,6 +147,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   E10a2: {
     indicator: 'Cum. proportion of total area under active mgmt.',
+    themes: ['agriculture'],
     class: 'agriculture',
     story: '/eodash-data/stories/E10a2',
     largeSubAoi: true,
@@ -144,12 +160,14 @@ export const indicatorsDefinition = Object.freeze({
   },
   E10a3: {
     indicator: 'Evolution of the cultivated areas for production of white asparagus',
+    themes: ['agriculture'],
     class: 'agriculture',
     story: '/eodash-data/stories/E10a2',
     largeSubAoi: true,
   },
   E10a6: {
     indicator: 'Harvested parcels/area evolution over time',
+    themes: ['agriculture'],
     class: 'agriculture',
     story: '/eodash-data/stories/E10a6',
     largeSubAoi: true,
@@ -157,22 +175,26 @@ export const indicatorsDefinition = Object.freeze({
   },
   E10a8: {
     indicator: 'Cumulative harvested area',
+    themes: ['agriculture'],
     class: 'agriculture',
     story: '/eodash-data/stories/E10a8',
     largeSubAoi: true,
   },
   E10b: {
     indicator: 'Field preparation activity',
+    themes: ['agriculture'],
     class: 'agriculture',
   },
   E10c: {
     indicator: 'Rice Planted Area',
+    themes: ['agriculture'],
     class: 'agriculture',
     story: '/data/trilateral/US05-E10c',
     largeSubAoi: true,
   },
   E10d: {
     indicator: 'Cropped Area - Regional',
+    themes: ['agriculture'],
     class: 'agriculture',
     story: '/data/trilateral/E10d',
     largeSubAoi: true,
@@ -180,22 +202,27 @@ export const indicatorsDefinition = Object.freeze({
   },
   E11: {
     indicator: 'Volume of activity at shopping centers',
+    themes: ['covid-19'],
     class: 'economic',
   },
   E12a: {
     indicator: 'Volume of activity logistic interchange centers',
+    themes: ['covid-19'],
     class: 'economic',
   },
   E12b: {
     indicator: 'Throughput at border crossing points',
+    themes: ['covid-19'],
     class: 'economic',
   },
   E13a: {
     indicator: 'Throughput at principal rail stations',
+    themes: ['covid-19'],
     class: 'economic',
   },
   E13b: {
     indicator: 'Throughput at principal hub airports',
+    themes: ['covid-19'],
     class: 'economic',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -206,10 +233,12 @@ export const indicatorsDefinition = Object.freeze({
   },
   H1: {
     indicator: 'Number of temp. treatment sites',
+    themes: ['covid-19'],
     class: 'health',
   },
   N1: {
     indicator: 'Air quality',
+    themes: ['air-quality'],
     class: 'air',
     story: '/data/trilateral/N1',
     largeTimeDuration: true,
@@ -218,16 +247,19 @@ export const indicatorsDefinition = Object.freeze({
   },
   NASAPopulation: {
     indicator: 'Population',
+    themes: ['air-quality', 'agriculture', 'biomass-and-landcover', 'water-and-ocean', 'cryosphere', 'covid-19'],
     class: 'economic',
     story: '/data/trilateral/NASAPopulation',
   },
   WSF: {
     indicator: 'World Settlement Footprint',
+    themes: ['air-quality', 'agriculture', 'biomass-and-landcover', 'water-and-ocean', 'cryosphere', 'covid-19'],
     class: 'economic',
     story: '/eodash-data/stories/WSF-WSF',
   },
   N2: {
     indicator: 'Greenhouse Gases',
+    themes: ['air-quality'],
     class: 'air',
     story: '/data/trilateral/N2',
     largeTimeDuration: true,
@@ -235,10 +267,12 @@ export const indicatorsDefinition = Object.freeze({
   },
   N3: {
     indicator: 'Water Quality',
+    themes: ['water-and-ocean'],
     class: 'water',
   },
   N3b: {
     indicator: 'Chl-a concentration anomaly',
+    themes: ['water-and-ocean'],
     class: 'water',
     story: '/data/trilateral/N3b',
     sensorColorMap: {
@@ -250,37 +284,44 @@ export const indicatorsDefinition = Object.freeze({
   },
   N3a2: {
     indicator: 'CHL concentration',
+    themes: ['water-and-ocean'],
     class: 'water',
     story: '/eodash-data/stories/N3a2',
     largeSubAoi: true,
   },
   N4a: {
     indicator: 'Changes in land fill sites',
+    themes: ['air-quality', 'biomass-and-landcover'],
     class: 'land',
   },
   N4b: {
     indicator: 'Illegal waste levels',
+    themes: ['air-quality', 'biomass-and-landcover'],
     class: 'land',
   },
   N5: {
     indicator: 'Nightlights (Suomi NPP VIIRS)',
+    themes: ['air-quality', 'agriculture', 'biomass-and-landcover', 'water-and-ocean', 'cryosphere', 'covid-19'],
     class: 'economic',
     story: '/data/trilateral/N5',
     largeSubAoi: true,
   },
   N6: {
     indicator: 'Cropped Area - Global',
+    themes: ['agriculture'],
     class: 'agriculture',
     story: '/data/trilateral/N6',
   },
   N7: {
     indicator: 'Slowdown Proxy Maps',
+    themes: ['air-quality', 'agriculture', 'biomass-and-landcover', 'water-and-ocean', 'cryosphere', 'covid-19'],
     class: 'economic',
     story: '/data/trilateral/N7',
     largeSubAoi: true,
   },
   N8: {
     indicator: 'Recovery Proxy Maps',
+    themes: ['air-quality', 'agriculture', 'biomass-and-landcover', 'water-and-ocean', 'cryosphere', 'covid-19'],
     class: 'economic',
     story: '/data/trilateral/N8',
     largeSubAoi: true,
@@ -288,6 +329,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   GG: {
     indicator: 'Mobility',
+    themes: ['air-quality', 'agriculture', 'biomass-and-landcover', 'water-and-ocean', 'cryosphere', 'covid-19'],
     class: 'economic',
     disableTimeSelection: true,
     countrySelection: true,
@@ -295,6 +337,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   CV: {
     indicator: 'Covid cases',
+    themes: ['covid-19'],
     class: 'health',
     disableTimeSelection: true,
     countrySelection: true,
@@ -302,6 +345,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   OW: {
     indicator: 'Vaccinations',
+    themes: ['covid-19'],
     class: 'health',
     disableTimeSelection: true,
     countrySelection: true,
@@ -310,6 +354,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   FB: {
     indicator: 'Facebook population density',
+    themes: ['air-quality', 'agriculture', 'biomass-and-landcover', 'water-and-ocean', 'cryosphere', 'covid-19'],
     class: 'economic',
     disableTimeSelection: true,
     baseLayers: [{
