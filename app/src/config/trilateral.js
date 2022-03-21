@@ -221,6 +221,11 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: '/data/trilateral/NASAPopulation',
   },
+  WSF: {
+    indicator: 'World Settlement Footprint',
+    class: 'economic',
+    story: '/eodash-data/stories/WSF-WSF',
+  },
   N2: {
     indicator: 'Greenhouse Gases',
     class: 'air',
@@ -539,6 +544,17 @@ export const defaultLayersDisplay = {
   visible: true,
 };
 
+const getYearlyDates = (start, end) => {
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy'));
+    currentDate = DateTime.fromISO(currentDate).plus({ years: 1 });
+  }
+  return dateArray;
+};
+
 const getMonthlyDates = (start, end) => {
   let currentDate = DateTime.fromISO(start);
   const stopDate = DateTime.fromISO(end);
@@ -674,10 +690,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Air Quality',
+        description: 'NO2',
         indicator: 'N1',
         lastIndicatorValue: null,
-        indicatorName: 'Air Quality - TROPOMI: NO2',
+        indicatorName: 'TROPOMI: NO2',
         eoSensor: 'ESA TROPOMI',
         subAoi: {
           type: 'FeatureCollection',
@@ -880,7 +896,7 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Greenhouse Gases',
+        description: 'CO2',
         indicator: 'N2',
         lastIndicatorValue: null,
         indicatorName: 'Greenhouse Gases - OCO-2: Mean CO2',
@@ -896,7 +912,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W4',
-        time: getDailyDates('2020-01-01', '2021-06-15'),
+        time: getDailyDates('2020-01-01', '2021-10-15'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -989,7 +1005,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W5',
-        time: getDailyDates('2020-01-01', '2021-06-15'),
+        time: getDailyDates('2020-01-01', '2021-10-15'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1000,6 +1016,77 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           legendUrl: 'data/trilateral/N2-co2diff-legend.png',
           disableCompare: true,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'SO2',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'SO2',
+        indicator: 'N1',
+        lastIndicatorValue: null,
+        indicatorName: 'TROPOMI SO2',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        time: availableDates.VIS_SO2_DAILY_DATA,
+        inputData: [],
+        yAxis: 'SO2',
+        display: {
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'SO2',
+          layers: 'VIS_SO2_DAILY_DATA',
+          legendUrl: 'eodash-data/data/colorbarso2.svg',
+          minZoom: 1,
+          maxZoom: 13,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          baseLayers: [{
+            ...baseLayers.cloudless,
+            visible: true,
+          }, baseLayers.terrainLight],
+          areaIndicator: {
+            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            callbackFunction: (responseJson, indicator) => {
+              if (Array.isArray(responseJson.C0)) {
+                const data = responseJson.C0;
+                const newData = {
+                  time: [],
+                  measurement: [],
+                  referenceValue: [],
+                  colorCode: [],
+                };
+                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
+                  ? 1
+                  : -1));
+                data.forEach((row) => {
+                  if (row.basicStats.max < 5000) {
+                    // leaving out falsely set nodata values disrupting the chart
+                    newData.time.push(DateTime.fromISO(row.date));
+                    newData.colorCode.push('');
+                    newData.measurement.push(row.basicStats.mean);
+                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
+                  }
+                });
+                const ind = {
+                  ...indicator,
+                  ...newData,
+                };
+                return ind;
+              }
+              return null;
+            },
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -1033,6 +1120,40 @@ export const globalIndicators = [
           maxMapZoom: 7,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
           disableCompare: true,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'WSF Evolution',
+        indicator: 'WSF',
+        lastIndicatorValue: null,
+        indicatorName: 'World Settlement Footprint (WSF) Evolution',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'WSF',
+        time: getYearlyDates('1985', '2015'),
+        inputData: [''],
+        display: {
+          baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
+          name: 'WSF_Evolution',
+          layers: 'WSF_Evolution',
+          legendUrl: 'eodash-data/data/wsf_legend.png',
+          minZoom: 1,
+          maxMapZoom: 14,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
+          labelFormatFunction: (date) => date,
+          specialEnvTime: true,
         },
       },
     },
@@ -1510,7 +1631,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2022-01-19').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2022-02-09').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -2027,7 +2148,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2022-01-19').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2022-02-09').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -3229,7 +3350,7 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'TROPOMI CO',
+        description: 'CO',
         indicator: 'N1',
         lastIndicatorValue: null,
         indicatorName: 'TROPOMI CO',

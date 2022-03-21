@@ -5050,6 +5050,17 @@
     },
     {
         "color_code": "",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "",
+        "input_data": "EORC product",
+        "measurement_value": "-49.37",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2022-02-05T00:00:00"
+    },
+    {
+        "color_code": "",
         "data_provider": "NASA OBPG",
         "eo_sensor": "Aqua MODIS",
         "indicator_value": "",
@@ -5068,6 +5079,17 @@
         "measurement_value": "-8.534",
         "reference_time": "2022-02-12T00:00:00",
         "reference_value": "/",
+        "time": "2022-02-12T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "",
+        "input_data": "EORC product",
+        "measurement_value": "-39.05",
+        "reference_time": "",
+        "reference_value": "",
         "time": "2022-02-12T00:00:00"
     },
     {
@@ -5091,5 +5113,49 @@
         "reference_time": "2022-02-19T00:00:00",
         "reference_value": "/",
         "time": "2022-02-19T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "",
+        "input_data": "EORC product",
+        "measurement_value": "-18.64",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2022-02-19T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-59.478",
+        "reference_time": "2022-02-26T00:00:00",
+        "reference_value": "/",
+        "time": "2022-02-26T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "",
+        "input_data": "EORC product",
+        "measurement_value": "-16.48",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2022-02-26T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-50.737",
+        "reference_time": "2022-03-05T00:00:00",
+        "reference_value": "/",
+        "time": "2022-03-05T00:00:00"
     }
 ]
