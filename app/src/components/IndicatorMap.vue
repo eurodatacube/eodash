@@ -91,7 +91,7 @@
       :optionsStyle="subAoiInverseStyle"
       >
       </l-geo-json>
-      <l-layer-group ref="dataLayers">
+      <l-layer-group ref="dataLayers" v-if="dataLayerTime">
         <l-geo-json
         :geojson="indicator.subAoi"
         :pane="tooltipPane"
@@ -178,7 +178,7 @@
           </LWMSTileLayer>
         </template>
       </l-layer-group>
-      <l-layer-group ref="compareLayers">
+      <l-layer-group ref="compareLayers" v-if="compareLayerTime">
         <!-- XYZ grouping is not implemented yet -->
         <LTileLayer
         v-for="(layerConfig, i) in mergedConfigsCompare.filter(l => l.protocol === 'xyz')"
@@ -358,85 +358,17 @@
           background: rgba(255, 255, 255, 0.6); font-size: 16px; pointer-events: none;">
             {{indicator.compareDisplay.mapLabel}}
         </h3>
-        <v-sheet
+        <indicator-time-selection
           v-if="!mergedConfigsData[0].disableTimeSelection"
-          class="row justify-center align-center"
-          style="position: absolute; bottom: 30px; z-index: 1000; width: auto; max-width: 100%;"
-        >
-          <v-col
-            v-if="enableCompare && !indicator.compareDisplay"
-            cols="6"
-            class="pr-0"
-          >
-            <v-select
-              v-if="enableCompare"
-              outlined
-              dense
-              attach
-              autofocus
-              hide-details
-              :prepend-inner-icon="(arrayOfObjects && compareLayerTime) && (arrayOfObjects
-                .map((i) => i.value)
-                .indexOf(compareLayerTime.value) > 0
-                  ? 'mdi-arrow-left-drop-circle'
-                  : 'mdi-asterisk')"
-              :append-icon="(arrayOfObjects && compareLayerTime) && (arrayOfObjects
-                .map((i) => i.value)
-                .indexOf(compareLayerTime.value) < arrayOfObjects.length - 1
-                  ? 'mdi-arrow-right-drop-circle'
-                  : 'mdi-asterisk')"
-              menu-props="auto"
-              :items="arrayOfObjects"
-              item-value="value"
-              item-text="name"
-              v-model="compareLayerTime"
-              @change="compareLayerTimeSelection"
-              @click:prepend-inner="compareLayerReduce"
-              @click:append="compareLayerIncrease"
-            ></v-select>
-          </v-col>
-          <v-col
-            :cols="enableCompare && !indicator.compareDisplay ? 6 : 12"
-          >
-            <v-select
-              outlined
-              dense
-              attach
-              autofocus
-              hide-details
-              :prepend-inner-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
-                .map((i) => i.value)
-                .indexOf(dataLayerTime.value) > 0
-                  ? 'mdi-arrow-left-drop-circle'
-                  : 'mdi-asterisk')"
-              :append-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
-                .map((i) => i.value)
-                .indexOf(dataLayerTime.value) < arrayOfObjects.length - 1
-                  ? 'mdi-arrow-right-drop-circle'
-                  : 'mdi-asterisk')"
-              menu-props="auto"
-              :items="arrayOfObjects"
-              item-value="value"
-              item-text="name"
-              v-model="dataLayerTime"
-              @change="dataLayerTimeSelection"
-              @click:prepend-inner="dataLayerReduce"
-              @click:append="dataLayerIncrease"
-            >
-              <template v-slot:prepend
-              v-if="!mergedConfigsData[0].disableCompare">
-                <v-tooltip
-                  bottom
-                >
-                  <template v-slot:activator="{ on }">
-                    <v-icon v-on="on" @click="enableCompare = !enableCompare">mdi-compare</v-icon>
-                  </template>
-                  Compare two images
-                </v-tooltip>
-              </template>
-            </v-select>
-          </v-col>
-        </v-sheet>
+          :autofocus="!disableAutoFocus"
+          :available-values="arrayOfObjects"
+          :indicator="indicator"
+          :compare-active.sync="enableCompare"
+          :compare-time.sync="compareLayerTime"
+          :original-time.sync="dataLayerTime"
+          :enable-compare="!mergedConfigsData[0].disableCompare"
+          @focusSelect="focusSelect"
+        />
       </div>
       <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
       <l-control-layers position="topright" ref="layersControl"></l-control-layers>
@@ -477,6 +409,7 @@ import turfDifference from '@turf/difference';
 import countries from '@/assets/countries.json';
 import gsaFile from '@/assets/gsa_data.json';
 
+import IndicatorTimeSelection from './IndicatorTimeSelection.vue';
 
 const emptyF = {
   type: 'FeatureCollection',
@@ -486,6 +419,12 @@ const emptyF = {
 export default {
   props: {
     currentIndicator: Object,
+    dataLayerTimeProp: {
+      required: false,
+    },
+    compareLayerTimeProp: {
+      required: false,
+    },
     zoomProp: {
       required: false,
     },
@@ -495,6 +434,7 @@ export default {
     hideCustomAreaControls: {
       required: false,
     },
+    disableAutoFocus: Boolean,
   },
   components: {
     LMap,
@@ -510,6 +450,7 @@ export default {
     LControl,
     LTooltip,
     'l-marker-cluster': Vue2LeafletMarkerCluster,
+    IndicatorTimeSelection,
   },
   data() {
     return {
@@ -540,8 +481,6 @@ export default {
       },
       dataLayerTime: null,
       compareLayerTime: null,
-      dataLayerIndex: 0,
-      compareLayerIndex: 0,
       dataFeaturesCount: 0,
       compareFeaturesCount: 0,
       selectedCountry: null,
@@ -828,16 +767,33 @@ export default {
     },
   },
   mounted() {
-    this.dataLayerIndex = this.usedTimes.time.length - 1;
-    this.dataLayerTime = { value: this.usedTimes.time[this.dataLayerIndex] };
-    this.compareLayerTime = { value: this.getInitialCompareTime() };
+    if (!this.dataLayerTimeProp) {
+      this.dataLayerTime = { value: this.usedTimes.time[this.usedTimes.time.length - 1] };
+    }
+
+    if (!this.compareLayerTimeProp) {
+      this.compareLayerTime = { value: this.currentCompareTime };
+    }
+
     this.ro = new ResizeObserver(this.onResize)
       .observe(this.$refs.container);
+
+    if (this.compareLayerTimeProp) {
+      this.$nextTick(() => { this.enableCompare = true; });
+    }
   },
   destroyed() {
     delete this.ro;
   },
   methods: {
+    focusSelect(on) {
+      const lMap = this.$refs.map.mapObject;
+      if (on) {
+        lMap.scrollWheelZoom.disable();
+      } else {
+        lMap.scrollWheelZoom.enable();
+      }
+    },
     createLatLng(latlng) {
       const llobj = latlng.split(',').map(Number);
       return llobj;
@@ -853,6 +809,12 @@ export default {
     boundsUpdated(bounds) {
       this.bounds = bounds;
       this.$emit('update:bounds', bounds);
+    },
+    dataLayerTimeUpdated(time) {
+      this.$emit('update:datalayertime', time);
+    },
+    compareLayerTimeUpdated(time) {
+      this.$emit('update:comparelayertime', time);
     },
     onMapReady() {
       this.map = this.$refs.map.mapObject;
@@ -1057,7 +1019,7 @@ export default {
       };
     },
     getColorCode(side) {
-      const i = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
+      const i = this.getCurrentIndex(side);
       let currentValue = null;
       // compensate for color code with only one entry, still showing it
       if (this.usedTimes.colorCode) {
@@ -1076,6 +1038,11 @@ export default {
         ? this.getIndicatorColor(currentValue)
         : this.appConfig.branding.primaryColor;
     },
+    getCurrentIndex(side) {
+      return side === 'compare'
+        ? this.arrayOfObjects.findIndex((o) => o.value === this.compareLayerTime.value)
+        : this.arrayOfObjects.findIndex((o) => o.value === this.dataLayerTime.value);
+    },
     subAoiStyle(side) {
       const currentValue = this.getColorCode(side);
       return {
@@ -1087,7 +1054,7 @@ export default {
       };
     },
     configFromInputData(side) {
-      const i = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
+      const i = this.getCurrentIndex(side);
       const inputData = this.usedTimes.inputData.length === 1
         ? this.usedTimes.inputData[0]
         : this.usedTimes.inputData[i];
@@ -1265,13 +1232,16 @@ export default {
         const fixTime = time.value || time;
         additionalSettings.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
           ? sourceOptionsObj.dateFormatFunction(fixTime) : fixTime;
+        if (sourceOptionsObj.specialEnvTime) {
+          additionalSettings.env = `year:${additionalSettings.time}`;
+        }
         if (sourceOptionsObj.features) {
           additionalSettings.featuresTime = typeof sourceOptionsObj.features.dateFormatFunction === 'function'
             ? sourceOptionsObj.features.dateFormatFunction(fixTime) : fixTime;
         }
       }
       const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
-        'format', 'width', 'height', 'transparent', 'srs'];
+        'format', 'width', 'height', 'transparent', 'srs', 'env'];
       paramsToPassThrough.forEach((param) => {
         if (typeof sourceOptionsObj[param] !== 'undefined') {
           additionalSettings[param] = sourceOptionsObj[param];
@@ -1279,17 +1249,8 @@ export default {
       });
       return additionalSettings;
     },
-    dataLayerTimeSelection(payload) {
-      // Different object returned either by arrow use or by dropdown use
-      if (Array.isArray(payload) || !(payload.value)) {
-        this.dataLayerTime = { value: payload, name: `${payload}` };
-      } else {
-        this.dataLayerTime = payload;
-      }
-      const newIndex = this.arrayOfObjects
-        .map((i) => i.value)
-        .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
-      this.dataLayerIndex = newIndex;
+    dataLayerTimeSelection(timeObj) {
+      this.dataLayerTime = timeObj;
       this.refreshLayers('data');
       this.$nextTick(() => {
         this.slider.setRightLayers(
@@ -1299,7 +1260,6 @@ export default {
       if (this.indicator.compareDisplay) {
         // shared time on both sides in case of compareDisplay being set
         this.compareLayerTime = this.dataLayerTime;
-        this.compareLayerIndex = newIndex;
         this.refreshLayers('compare');
         this.$nextTick(() => {
           this.slider.setLeftLayers(
@@ -1307,6 +1267,7 @@ export default {
           );
         });
       }
+      this.dataLayerTimeUpdated(this.dataLayerTime.name);
     },
     extractActualLayers(group) {
       let actualLayers = [];
@@ -1319,51 +1280,16 @@ export default {
       }
       return actualLayers;
     },
-    compareLayerTimeSelection(payload) {
-      // Different object returned either by arrow use or by dropdown use
-      if (Array.isArray(payload) || !(payload.value)) {
-        this.compareLayerTime = { value: payload, name: `${payload}` };
-      } else {
-        this.compareLayerTime = payload;
-      }
-      const newIndex = this.arrayOfObjects
-        .map((i) => i.value)
-        .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
-      this.compareLayerIndex = newIndex;
+    compareLayerTimeSelection(timeObj) {
+      this.compareLayerTime = timeObj;
       this.refreshLayers('compare');
       this.$nextTick(() => {
         this.slider.setLeftLayers(
           this.extractActualLayers(this.$refs.compareLayers),
         );
       });
-    },
-    dataLayerReduce() {
-      const currentIndex = this.arrayOfObjects
-        .map((i) => i.value)
-        .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
-      this.dataLayerIndex = currentIndex - 1;
-      this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex - 1]);
-    },
-    dataLayerIncrease() {
-      const currentIndex = this.arrayOfObjects
-        .map((i) => i.value)
-        .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
-      this.dataLayerIndex = currentIndex + 1;
-      this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex + 1]);
-    },
-    compareLayerReduce() {
-      const currentIndex = this.arrayOfObjects
-        .map((i) => i.value)
-        .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
-      this.compareLayerIndex = currentIndex - 1;
-      this.compareLayerTimeSelection(this.arrayOfObjects[currentIndex - 1]);
-    },
-    compareLayerIncrease() {
-      const currentIndex = this.arrayOfObjects
-        .map((i) => i.value)
-        .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
-      this.compareLayerIndex = currentIndex + 1;
-      this.compareLayerTimeSelection(this.arrayOfObjects[currentIndex + 1]);
+
+      this.compareLayerTimeUpdated(this.compareLayerTime.name);
     },
     getInitialCompareTime() {
       // find closest entry one year before latest time
@@ -1738,12 +1664,35 @@ export default {
         if (v) this.center = v;
       },
     },
+    dataLayerTime(timeObj) {
+      this.dataLayerTimeSelection(timeObj);
+    },
+    compareLayerTime(timeObj) {
+      this.compareLayerTimeSelection(timeObj);
+    },
+    dataLayerTimeProp: {
+      immediate: true,
+      deep: true,
+      handler(v) {
+        if (v) this.dataLayerTime = this.arrayOfObjects.find((item) => item.name === v);
+      },
+    },
+    compareLayerTimeProp: {
+      immediate: true,
+      deep: true,
+      handler(v) {
+        if (v) this.compareLayerTime = this.arrayOfObjects.find((item) => item.name === v);
+      },
+    },
     enableCompare(on) {
       if (!on) {
         if (this.slider !== null) {
           this.map.removeControl(this.slider);
           this.map.removeLayer(this.$refs.compareLayers.mapObject);
         }
+
+        // Unset compare time for server storage
+        this.compareLayerTimeUpdated(undefined);
       } else {
         this.map.addLayer(this.$refs.compareLayers.mapObject);
         if (!this.mergedConfigsData[0].customAreaFeatures || this.validDrawnArea) {
@@ -1758,7 +1707,17 @@ export default {
           );
           this.slider.addTo(this.map);
         });
+
+        // The following two calls set initial compare
+        // and data layer times containing name and value.
+        const cTime = this.arrayOfObjects.find((v) => v.value === this.compareLayerTime.value);
+        this.compareLayerTimeUpdated(cTime.name);
+
+        const dTime = this.arrayOfObjects.find((v) => v.value === this.dataLayerTime.value);
+        this.dataLayerTimeUpdated(dTime.name);
       }
+
+      this.$emit('compareEnabled');
     },
     drawnArea() {
       // watch on drawn area prop change triggering update of draw layer, fetching custom features

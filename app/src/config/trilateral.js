@@ -6,6 +6,7 @@ import { DateTime } from 'luxon';
 import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
+import l3mapsData from '@/config/tropomiCO.json';
 import store from '../store';
 
 export const dataPath = './data/internal/';
@@ -219,6 +220,11 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Population',
     class: 'economic',
     story: '/data/trilateral/NASAPopulation',
+  },
+  WSF: {
+    indicator: 'World Settlement Footprint',
+    class: 'economic',
+    story: '/eodash-data/stories/WSF-WSF',
   },
   N2: {
     indicator: 'Greenhouse Gases',
@@ -538,6 +544,17 @@ export const defaultLayersDisplay = {
   visible: true,
 };
 
+const getYearlyDates = (start, end) => {
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy'));
+    currentDate = DateTime.fromISO(currentDate).plus({ years: 1 });
+  }
+  return dateArray;
+};
+
 const getMonthlyDates = (start, end) => {
   let currentDate = DateTime.fromISO(start);
   const stopDate = DateTime.fromISO(end);
@@ -581,20 +598,6 @@ const getFortnightIntervalDates = (start, end) => {
       DateTime.fromISO(currentDate).plus({ days: 13 }).toFormat('yyyy-MM-dd'),
     ]);
     currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
-  }
-  return dateArray;
-};
-
-const getDaily2DayIntervalDates = (start, end) => {
-  let currentDate = DateTime.fromISO(start);
-  const stopDate = DateTime.fromISO(end);
-  const dateArray = [];
-  while (currentDate <= stopDate) {
-    dateArray.push([
-      DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'),
-      DateTime.fromISO(currentDate).plus({ days: 2 }).toFormat('yyyy-MM-dd'),
-    ]);
-    currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
   }
   return dateArray;
 };
@@ -687,10 +690,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Air Quality',
+        description: 'NO2',
         indicator: 'N1',
         lastIndicatorValue: null,
-        indicatorName: 'Air Quality - TROPOMI: NO2',
+        indicatorName: 'TROPOMI: NO2',
         eoSensor: 'ESA TROPOMI',
         subAoi: {
           type: 'FeatureCollection',
@@ -893,7 +896,7 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Greenhouse Gases',
+        description: 'CO2',
         indicator: 'N2',
         lastIndicatorValue: null,
         indicatorName: 'Greenhouse Gases - OCO-2: Mean CO2',
@@ -909,7 +912,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W4',
-        time: getDailyDates('2020-01-01', '2021-06-15'),
+        time: getDailyDates('2020-01-01', '2021-10-15'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1002,7 +1005,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W5',
-        time: getDailyDates('2020-01-01', '2021-06-15'),
+        time: getDailyDates('2020-01-01', '2021-10-15'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1013,6 +1016,77 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           legendUrl: 'data/trilateral/N2-co2diff-legend.png',
           disableCompare: true,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'SO2',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'SO2',
+        indicator: 'N1',
+        lastIndicatorValue: null,
+        indicatorName: 'TROPOMI SO2',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        time: availableDates.VIS_SO2_DAILY_DATA,
+        inputData: [],
+        yAxis: 'SO2',
+        display: {
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'SO2',
+          layers: 'VIS_SO2_DAILY_DATA',
+          legendUrl: 'eodash-data/data/colorbarso2.svg',
+          minZoom: 1,
+          maxZoom: 13,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          baseLayers: [{
+            ...baseLayers.cloudless,
+            visible: true,
+          }, baseLayers.terrainLight],
+          areaIndicator: {
+            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            callbackFunction: (responseJson, indicator) => {
+              if (Array.isArray(responseJson.C0)) {
+                const data = responseJson.C0;
+                const newData = {
+                  time: [],
+                  measurement: [],
+                  referenceValue: [],
+                  colorCode: [],
+                };
+                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
+                  ? 1
+                  : -1));
+                data.forEach((row) => {
+                  if (row.basicStats.max < 5000) {
+                    // leaving out falsely set nodata values disrupting the chart
+                    newData.time.push(DateTime.fromISO(row.date));
+                    newData.colorCode.push('');
+                    newData.measurement.push(row.basicStats.mean);
+                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
+                  }
+                });
+                const ind = {
+                  ...indicator,
+                  ...newData,
+                };
+                return ind;
+              }
+              return null;
+            },
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -1046,6 +1120,40 @@ export const globalIndicators = [
           maxMapZoom: 7,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
           disableCompare: true,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'WSF Evolution',
+        indicator: 'WSF',
+        lastIndicatorValue: null,
+        indicatorName: 'World Settlement Footprint (WSF) Evolution',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'WSF',
+        time: getYearlyDates('1985', '2015'),
+        inputData: [''],
+        display: {
+          baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
+          name: 'WSF_Evolution',
+          layers: 'WSF_Evolution',
+          legendUrl: 'eodash-data/data/wsf_legend.png',
+          minZoom: 1,
+          maxMapZoom: 14,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
+          labelFormatFunction: (date) => date,
+          specialEnvTime: true,
         },
       },
     },
@@ -1402,7 +1510,9 @@ export const globalIndicators = [
           ['2020-12-09'], ['2020-12-16'], ['2020-12-23'], ['2020-12-30'], ['2021-01-06'], ['2021-01-13'], ['2021-01-20'], ['2021-01-27'], ['2021-02-03'], ['2021-02-10'], ['2021-02-17'],
           ['2021-02-24'], ['2021-03-03'], ['2021-03-10'], ['2021-03-17'], ['2021-03-24'], ['2021-03-31'], ['2021-04-07'], ['2021-04-14'], ['2021-04-21'], ['2021-04-21'], ['2021-04-28'],
           ['2021-05-05'], ['2021-05-12'], ['2021-05-19'], ['2021-05-26'], ['2021-06-02'], ['2021-06-09'], ['2021-06-16'], ['2021-06-23'], ['2021-06-30'], ['2021-07-07'], ['2021-07-14'],
-          ['2021-07-21'], ['2021-07-28'], ['2021-08-04'], ['2021-08-11'], ['2021-08-18'], ['2021-08-25'], ['2021-09-01'], ['2021-10-06'], ['2021-10-13'], ['2021-10-20']],
+          ['2021-07-21'], ['2021-07-28'], ['2021-08-04'], ['2021-08-11'], ['2021-08-18'], ['2021-08-25'], ['2021-09-01'], ['2021-10-06'], ['2021-10-13'], ['2021-10-20'], ['2021-10-27'],
+          ['2021-11-03'], ['2021-11-10'], ['2021-11-17'], ['2021-11-24'], ['2021-12-01'], ['2021-12-08'], ['2021-12-15'], ['2021-12-22'], ['2021-12-29'], ['2022-01-05'], ['2022-01-12'],
+          ['2022-01-19'], ['2022-01-26'], ['2022-02-06'], ['2022-02-09']],
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1521,7 +1631,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2022-01-19').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2022-02-09').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1997,7 +2107,8 @@ export const globalIndicators = [
           ['2020-11-18'], ['2020-11-25'], ['2020-12-16'], ['2020-12-23'], ['2020-12-30'], ['2021-01-06'], ['2021-01-13'], ['2021-01-20'], ['2021-01-27'], ['2021-02-03'], ['2021-02-10'], ['2021-02-17'], ['2021-02-24'], ['2021-03-03'],
           ['2021-03-10'], ['2021-03-17'], ['2021-03-24'], ['2021-03-31'], ['2021-04-07'], ['2021-04-14'], ['2021-04-21'], ['2021-04-28'], ['2021-05-05'], ['2021-05-12'], ['2021-05-19'], ['2021-05-26'], ['2021-06-02'], ['2021-06-09'],
           ['2021-06-16'], ['2021-06-23'], ['2021-06-30'], ['2021-07-07'], ['2021-07-14'], ['2021-07-21'], ['2021-07-28'], ['2021-08-04'], ['2021-08-11'], ['2021-08-18'], ['2021-08-25'], ['2021-09-01'], ['2021-10-06'], ['2021-10-13'],
-          ['2021-10-20']],
+          ['2021-10-20'], ['2021-10-27'], ['2021-11-03'], ['2021-11-10'], ['2021-11-17'], ['2021-11-24'], ['2021-12-01'], ['2021-12-08'], ['2021-12-15'], ['2021-12-22'], ['2021-12-29'], ['2022-01-05'], ['2022-01-12'], ['2022-01-19'],
+          ['2022-01-26'], ['2022-02-06'], ['2022-02-09']],
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -2037,7 +2148,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2022-01-19').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2022-02-09').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -3239,7 +3350,7 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'TROPOMI CO',
+        description: 'CO',
         indicator: 'N1',
         lastIndicatorValue: null,
         indicatorName: 'TROPOMI CO',
@@ -3250,42 +3361,20 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'WorldCO',
-        time: getDaily2DayIntervalDates('2018-04-30', DateTime.utc().minus({ days: 3 }).toFormat('yyyy-LL-dd')),
+        time: l3mapsData.l3maps,
         inputData: [''],
-        externalData: {
-          label: 'Sentinel-5p Mapping Service',
-          url: 'https://maps.s5p-pal.com',
-        },
         display: {
           protocol: 'xyz',
           maxNativeZoom: 5,
           minZoom: 0,
           opacity: 0.6,
           tileSize: 256,
-          url: '//obs.eu-nl.otc.t-systems.com/s5p-pal-nl-l3-external/maps/s5p-l3-co/3day/{time}/{z}/{x}/{-y}.png',
           name: 'Tropospheric CO',
+          // url: '//obs.eu-de.otc.t-systems.com/s5p-pal-l3-external/maps/{time}/{z}/{x}/{-y}.png',
+          url: '//obs.eu-nl.otc.t-systems.com/s5p-pal-nl-l3-external/maps/{time}/{z}/{x}/{-y}.png',
           legendUrl: 'data/trilateral/s5pCOLegend.png',
-          dateFormatFunction: (date) => {
-            // example path 2021/06/nrt-20210606-20210608-20210609
-            const d1 = DateTime.fromISO(date[0]);
-            const d2 = DateTime.fromISO(date[0]).plus({ days: 2 });
-            const arr = [DateTime.fromISO(date[0]).plus({ days: 5 }), DateTime.utc()];
-            const d3 = arr.reduce((pr, cu) => (pr < cu ? pr : cu)); // lower of "now" and d1+5
-            let prefix = '001';
-            if (d3.diff(d1, 'days').toObject().days < 5) {
-              // two last products - difference from d1 and d3 lower than 5 days
-              // the filename starts with 'nrt' otherwise '001'
-              prefix = 'nrt';
-            }
-            // example dates
-            // 17,19,22 .5
-            // 3,5,8. 6
-            // 4,6,9. 6
-            // 5,7,9. 6
-            // 6,8,9. 6 (today is 9.6.)
-            const filePathFormatted = `${d1.toFormat('yyyy')}/${d1.toFormat('LL')}/${prefix}-${d1.toFormat('yyyyLLdd')}-${d2.toFormat('yyyyLLdd')}-${d3.toFormat('yyyyLLdd')}`;
-            return filePathFormatted;
-          },
+          dateFormatFunction: (date) => date[0],
+          labelFormatFunction: (date) => date[1],
         },
       },
     },
