@@ -7,7 +7,7 @@ import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import l3mapsData from '@/config/tropomiCO.json';
-import { shFisAreaIndicatorStdConfig } from '@/config/esa.js';
+import { shFisAreaIndicatorStdConfig } from '@/config/esa';
 import store from '../store';
 
 export const dataPath = './data/internal/';
