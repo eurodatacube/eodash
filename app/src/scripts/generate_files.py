@@ -26,17 +26,28 @@ envs = dot_env.dict()
 # Function to fetch all available dates for BYOD collections
 # Make sure all appropiate collection ids are set in your docker environment
 COLLECTIONS = [
-    "E12C_NEW_MOTORWAY",
-    "E12D_NEW_PRIMARYROADS", "ICEYE-E3", "ICEYE-E11", "ICEYE-E11A", "ICEYE-E12B",
-    "ICEYE-E13B","N3_CUSTOM_TRILATERAL", "N3_CUSTOM_TRILATERAL_TSMNN",
-    "JAXA_TSM", "JAXA_CHLA",
-    "VIS_2MTEMPERATURE", "VIS_RELHUMIDITY1000HPA", "POPULATION_DENSITY",
-    "VIS_WIND_U_10M", "VIS_WIND_V_10M",
-    "VIS_SO2_DAILY_DATA",
 ]
 
 MIGRATED_COLLECTIONS = [
-    "N3_CUSTOM", "N3_CUSTOM_TSMNN", 
+    "N3_CUSTOM",
+    "N3_CUSTOM_TSMNN",
+    "E12C_NEW_MOTORWAY",
+    "E12D_NEW_PRIMARYROADS",
+    "ICEYE-E3",
+    "ICEYE-E11",
+    "ICEYE-E11A",
+    "ICEYE-E12B",
+    "ICEYE-E13B",
+    "N3_CUSTOM_TRILATERAL",
+    "N3_CUSTOM_TRILATERAL_TSMNN",
+    "JAXA_TSM",
+    "JAXA_CHLA",
+    "VIS_2MTEMPERATURE",
+    "VIS_RELHUMIDITY1000HPA",
+    "POPULATION_DENSITY",
+    "VIS_WIND_U_10M",
+    "VIS_WIND_V_10M",
+    "VIS_SO2_DAILY_DATA",
 ]
 
 ZARRCOLLECTIONS = [
@@ -62,7 +73,7 @@ BBOX = {
 
 # TODO: what to do about SENTINEL-2-L2A-TRUE-COLOR collection, not BYOD
 
-WFSENDPOINT = "https://shservices.mundiwebservices.com/ogc/wfs/"
+# WFSENDPOINT = "https://shservices.mundiwebservices.com/ogc/wfs/"
 MIGRATEDENDPOINT ="https://services.sentinel-hub.com/ogc/wfs/"
 REQUESTOPTIONS = "?REQUEST=%s&srsName=%s&TIME=%s&outputformat=%s"%(
     "GetFeature", "EPSG:4326",
@@ -89,42 +100,42 @@ def retrieve_entries(url, offset):
     return res
 
 
-print("Fetching information of available dates for BYOD data from deprecated server")
-try:
-    for key in COLLECTIONS:
-        # fetch identifier from environment
-        if key in envs:
-            coll_id = envs[key]
-            layer_name = "&TYPENAMES=DSS10-%s"%(coll_id)
-            if key in BBOX:
-                # There are multiple locations for this dataset so we do
-                # requests for each location
-                for (val, subr_key) in BBOX[key]:
-                    bbox = "&BBOX=%s"%val
-                    request = "%s%s%s%s%s"%(
-                        WFSENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
-                        layer_name, bbox
-                    )
-                    results = retrieve_entries(request, 0)
-                    results.sort()
-                    results_dict[("%s_%s"%(key, subr_key))] = results
-            else:
-                bbox = "&BBOX=-180,90,180,-90"
-                request = "%s%s%s%s%s"%(
-                    WFSENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
-                    layer_name, bbox
-                )
-                results = retrieve_entries(request, 0)
-                results = list(set(results))
-                results.sort()
-                results_dict[key] = results
-        else:
-            print("Key for %s not found in environment variables"%key)
-except Exception as e:
-    print("Issue retrieving BYOD information from deprecated server")
-    template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-    message = template.format(type(e).__name__, e.args)
-    print (message)
+# print("Fetching information of available dates for BYOD data from deprecated server")
+# try:
+#     for key in COLLECTIONS:
+#         # fetch identifier from environment
+#         if key in envs:
+#             coll_id = envs[key]
+#             layer_name = "&TYPENAMES=DSS10-%s"%(coll_id)
+#             if key in BBOX:
+#                 # There are multiple locations for this dataset so we do
+#                 # requests for each location
+#                 for (val, subr_key) in BBOX[key]:
+#                     bbox = "&BBOX=%s"%val
+#                     request = "%s%s%s%s%s"%(
+#                         WFSENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
+#                         layer_name, bbox
+#                     )
+#                     results = retrieve_entries(request, 0)
+#                     results.sort()
+#                     results_dict[("%s_%s"%(key, subr_key))] = results
+#             else:
+#                 bbox = "&BBOX=-180,90,180,-90"
+#                 request = "%s%s%s%s%s"%(
+#                     WFSENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
+#                     layer_name, bbox
+#                 )
+#                 results = retrieve_entries(request, 0)
+#                 results = list(set(results))
+#                 results.sort()
+#                 results_dict[key] = results
+#         else:
+#             print("Key for %s not found in environment variables"%key)
+# except Exception as e:
+#     print("Issue retrieving BYOD information from deprecated server")
+#     template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+#     message = template.format(type(e).__name__, e.args)
+#     print (message)
 
 print("Fetching information of available dates for BYOD data from new server")
 try:

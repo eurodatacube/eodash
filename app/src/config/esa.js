@@ -902,7 +902,7 @@ export const globalIndicators = [
         time: getMonthlyDates('2017-01-01', '2020-12-01'),
         inputData: [''],
         yAxis: 'Vessel density',
-        display: {
+        display: { // TODO: MIGRATE
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           customAreaIndicator: true,
           name: 'Vessel density',
@@ -966,7 +966,7 @@ export const globalIndicators = [
         time: getMonthlyDates('2017-01-01', '2020-12-01'),
         inputData: [''],
         yAxis: 'Vessel density for cargo',
-        display: {
+        display: {// TODO: MIGRATE
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           customAreaIndicator: true,
           name: 'Vessel density for cargo',
@@ -1030,7 +1030,7 @@ export const globalIndicators = [
         time: getMonthlyDates('2017-01-01', '2020-12-01'),
         inputData: [''],
         yAxis: 'Vessel density for tankers',
-        display: {
+        display: {// TODO: MIGRATE
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           customAreaIndicator: true,
           name: 'Vessel density for tankers',
@@ -1094,7 +1094,7 @@ export const globalIndicators = [
         time: getMonthlyDates('2017-01-01', '2020-12-01'),
         inputData: [''],
         yAxis: 'Vessel density for others',
-        display: {
+        display: {// TODO: MIGRATE
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           customAreaIndicator: true,
           name: 'Vessel density for others',
@@ -1298,9 +1298,9 @@ export const globalIndicators = [
         time: ['2020-05-01T00:00:00Z'],
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Population',
-          layers: 'POPULATION_DENSITY',
+          layers: 'AWS_POPULATION_DENSITY',
           legendUrl: 'data/trilateral/NASAPopulation_legend.png',
           minZoom: 1,
           maxMapZoom: 7,
@@ -1366,9 +1366,9 @@ export const globalIndicators = [
         inputData: [],
         yAxis: 'Temperature °C',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Global temperature',
-          layers: 'VIS_2MTEMPERATURE',
+          layers: 'AWS_VIS_2MTEMPERATURE',
           legendUrl: 'eodash-data/data/temperature.png',
           minZoom: 1,
           maxZoom: 13,
@@ -1399,9 +1399,9 @@ export const globalIndicators = [
         inputData: [],
         yAxis: 'Relative Humidity 1000HPA',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Global temperature',
-          layers: 'VIS_RELHUMIDITY1000HPA',
+          layers: 'AWS_VIS_RELHUMIDITY1000HPA',
           legendUrl: 'eodash-data/data/humidity.png',
           minZoom: 1,
           maxZoom: 13,
@@ -1432,9 +1432,9 @@ export const globalIndicators = [
         inputData: [],
         yAxis: 'wind',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Global temperature',
-          layers: 'VIS_WIND_U_10M',
+          layers: 'AWS_VIS_WIND_U_10M',
           legendUrl: 'eodash-data/data/windu_cds.png',
           minZoom: 1,
           maxZoom: 13,
@@ -1465,9 +1465,9 @@ export const globalIndicators = [
         inputData: [],
         yAxis: 'wind',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Global temperature',
-          layers: 'VIS_WIND_V_10M',
+          layers: 'AWS_VIS_WIND_V_10M',
           legendUrl: 'eodash-data/data/windv_cds.png',
           minZoom: 1,
           maxZoom: 13,
@@ -1498,9 +1498,9 @@ export const globalIndicators = [
         inputData: [],
         yAxis: 'SO2',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'SO2',
-          layers: 'VIS_SO2_DAILY_DATA',
+          layers: 'AWS_VIS_SO2_DAILY_DATA',
           legendUrl: 'eodash-data/data/colorbarso2.svg',
           minZoom: 1,
           maxZoom: 13,
@@ -1511,7 +1511,7 @@ export const globalIndicators = [
             visible: true,
           }, baseLayers.terrainLight],
           areaIndicator: {
-            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_SO2_DAILY_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
             callbackFunction: (responseJson, indicator) => {
               if (Array.isArray(responseJson.C0)) {
                 const data = responseJson.C0;
@@ -1578,7 +1578,7 @@ export const globalIndicators = [
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM',
+          layers: 'AWS_N3_CUSTOM',
           legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1617,7 +1617,7 @@ export const globalIndicators = [
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM',
+          layers: 'AWS_N3_CUSTOM',
           legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1656,7 +1656,7 @@ export const globalIndicators = [
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM_TSMNN',
+          layers: 'AWS_N3_CUSTOM_TSMNN',
           legendUrl: 'eodash-data/data/waterLegend_tsm.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1695,7 +1695,7 @@ export const globalIndicators = [
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM_TSMNN',
+          layers: 'AWS_N3_CUSTOM_TSMNN',
           legendUrl: 'eodash-data/data/waterLegend_tsm.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1730,9 +1730,9 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Aggregated Truck Traffic 10km',
-          layers: 'E12C_NEW_MOTORWAY',
+          layers: 'AWS_E12C_NEW_MOTORWAY',
           legendUrl: 'eodash-data/data/E12c-legend.png',
           minZoom: 1,
           maxZoom: 10,
@@ -1859,9 +1859,9 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Aggregated Truck Traffic 10km',
-          layers: 'E12D_NEW_PRIMARYROADS',
+          layers: 'AWS_E12D_NEW_PRIMARYROADS',
           legendUrl: 'eodash-data/data/E12c-legend.png',
           minZoom: 1,
           maxZoom: 10,
@@ -1992,7 +1992,7 @@ export const globalIndicators = [
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM',
+          layers: 'AWS_N3_CUSTOM',
           legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -2121,8 +2121,8 @@ export const globalIndicators = [
         time: availableDates['ICEYE-E3'],
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          layers: 'ICEYE-E3',
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          layers: 'AWS_ICEYE-E3',
           minZoom: 5,
           name: 'Oil silos volume change',
           features: {
@@ -2164,8 +2164,8 @@ export const globalIndicators = [
         time: availableDates['ICEYE-E11'],
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          layers: 'ICEYE-E11',
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          layers: 'AWS_ICEYE-E11',
           minZoom: 5,
           maxZoom: 19,
           name: 'Disneyland Paris',
@@ -2208,8 +2208,8 @@ export const globalIndicators = [
         time: availableDates['ICEYE-E11A'],
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          layers: 'ICEYE-E11A',
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          layers: 'AWS_ICEYE-E11A',
           minZoom: 5,
           maxZoom: 19,
           name: 'Warsaw parking lot',
@@ -2252,8 +2252,8 @@ export const globalIndicators = [
         time: availableDates['ICEYE-E12B'],
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          layers: 'ICEYE-E12B',
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          layers: 'AWS_ICEYE-E12B',
           minZoom: 5,
           maxZoom: 18,
           name: 'Weimouth ships',
@@ -2297,8 +2297,8 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          layers: 'ICEYE-E13B',
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          layers: 'AWS_ICEYE-E13B',
           minZoom: 5,
           maxZoom: 18,
           name: 'Airports: Detected planes',
@@ -2343,8 +2343,8 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          layers: 'ICEYE-E13B',
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          layers: 'AWS_ICEYE-E13B',
           minZoom: 5,
           maxZoom: 18,
           name: 'Airports: Detected planes',
