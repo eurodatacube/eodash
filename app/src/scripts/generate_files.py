@@ -447,7 +447,7 @@ def generateData(
         with open("%s%s.json" % (output_folder, poi_key), "w") as gp:
             json.dump(poi_dict[poi_key]["poi_data"], gp, indent=4, default=date_converter, sort_keys=True)
 
-'''
+
 #################
 # Retrieval of official stories
 print("Fetching data for official stories")
@@ -558,5 +558,3 @@ generateData(
         ['E200', ''],
     ]
 )
-
-'''

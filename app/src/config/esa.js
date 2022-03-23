@@ -902,7 +902,7 @@ export const globalIndicators = [
         time: getMonthlyDates('2017-01-01', '2020-12-01'),
         inputData: [''],
         yAxis: 'Vessel density',
-        display: { // TODO: MIGRATE
+        display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           customAreaIndicator: true,
           name: 'Vessel density',
@@ -966,7 +966,7 @@ export const globalIndicators = [
         time: getMonthlyDates('2017-01-01', '2020-12-01'),
         inputData: [''],
         yAxis: 'Vessel density for cargo',
-        display: {// TODO: MIGRATE
+        display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           customAreaIndicator: true,
           name: 'Vessel density for cargo',
@@ -1030,7 +1030,7 @@ export const globalIndicators = [
         time: getMonthlyDates('2017-01-01', '2020-12-01'),
         inputData: [''],
         yAxis: 'Vessel density for tankers',
-        display: {// TODO: MIGRATE
+        display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           customAreaIndicator: true,
           name: 'Vessel density for tankers',
@@ -1094,7 +1094,7 @@ export const globalIndicators = [
         time: getMonthlyDates('2017-01-01', '2020-12-01'),
         inputData: [''],
         yAxis: 'Vessel density for others',
-        display: {// TODO: MIGRATE
+        display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           customAreaIndicator: true,
           name: 'Vessel density for others',

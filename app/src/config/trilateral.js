@@ -701,7 +701,7 @@ export const globalIndicators = [
         time: getFortnightIntervalDates('2019-01-07', 'now'),
         inputData: [''],
         yAxis: 'Tropospheric NO2 (μmol/m2)',
-        display: { // TODO migrate
+        display: {
           customAreaIndicator: true,
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Air Quality (NO2) - ESA',
