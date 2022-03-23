@@ -247,7 +247,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   NASAPopulation: {
     indicator: 'Population',
-    themes: ['air-quality', 'agriculture', 'biomass-and-landcover', 'water-and-ocean', 'cryosphere', 'covid-19'],
+    themes: ['covid-19'],
     class: 'economic',
     story: '/data/trilateral/NASAPopulation',
   },
@@ -364,6 +364,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
+    themes: ['air-quality', 'agriculture', 'biomass-and-landcover', 'water-and-ocean', 'cryosphere', 'covid-19'],
     class: 'economic',
   },
 });
