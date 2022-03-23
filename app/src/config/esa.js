@@ -1295,17 +1295,16 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W6',
-        time: ['2020-05-01T00:00:00Z'],
+        time: [],
         inputData: [''],
         display: {
+          disableTimeSelection: true,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Population',
           layers: 'AWS_POPULATION_DENSITY',
           legendUrl: 'data/trilateral/NASAPopulation_legend.png',
           minZoom: 1,
           maxMapZoom: 7,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
-          disableCompare: true,
         },
       },
     },
@@ -1506,10 +1505,6 @@ export const globalIndicators = [
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           customAreaIndicator: true,
-          baseLayers: [{
-            ...baseLayers.cloudless,
-            visible: true,
-          }, baseLayers.terrainLight],
           areaIndicator: {
             url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_SO2_DAILY_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
             callbackFunction: (responseJson, indicator) => {
@@ -2031,7 +2026,7 @@ export const globalIndicators = [
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM_TSMNN',
+          layers: 'AWS_N3_CUSTOM_TSMNN',
           legendUrl: 'eodash-data/data/waterLegend_tsm.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),

@@ -382,14 +382,6 @@ export const layerNameMapping = Object.freeze({
     baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'JAXA_CARS_CONTAINERS_ALOS2',
   },
-  /*
-  'ALOS-2': {
-    url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2FALOS_SAMPLE%2Falos2-s1-beijing_{time}.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536',
-    protocol: 'xyz',
-    tileSize: 256,
-    dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-  },
-  */
   GOSAT_XCO2: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/GOSAT_XCO2_{time}_{site}_BG_circle_cog.tif&resampling_method=nearest',
     protocol: 'xyz',
