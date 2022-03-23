@@ -17,13 +17,11 @@
         attach
         hide-details
         :prepend-inner-icon="(availableValues && compareTime) && (availableValues
-          .map((i) => i.value)
-          .indexOf(compareTime.value) > 0
+          .findIndex((i) => i.value === compareTime.value) > 0
             ? 'mdi-arrow-left-drop-circle'
             : 'mdi-asterisk')"
         :append-icon="(availableValues && compareTime) && (availableValues
-          .map((i) => i.value)
-          .indexOf(compareTime.value) < availableValues.length - 1
+          .findIndex((i) => i.value === compareTime.value) < availableValues.length - 1
             ? 'mdi-arrow-right-drop-circle'
             : 'mdi-asterisk')"
         menu-props="auto"
@@ -49,13 +47,11 @@
         attach
         hide-details
         :prepend-inner-icon="(availableValues && originalTime) && (availableValues
-          .map((i) => i.value)
-          .indexOf(originalTime.value) > 0
+          .findIndex((v) => v.value === originalTime.value) > 0
             ? 'mdi-arrow-left-drop-circle'
             : 'mdi-asterisk')"
         :append-icon="(availableValues && originalTime) && (availableValues
-          .map((i) => i.value)
-          .indexOf(originalTime.value) < availableValues.length - 1
+          .findIndex((i) => i.value === originalTime.value) < availableValues.length - 1
             ? 'mdi-arrow-right-drop-circle'
             : 'mdi-asterisk')"
         menu-props="auto"
