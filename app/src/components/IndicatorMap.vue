@@ -1804,8 +1804,4 @@ export default {
 ::v-deep .leaflet-top.leaflet-right {
   margin-top: 45px;
 }
-
-::v-deep .v-menu__content {
-  transform: translate(1%, -87%);
-}
 </style>

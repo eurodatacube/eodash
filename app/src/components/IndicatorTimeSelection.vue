@@ -4,7 +4,7 @@
     style="position: absolute; bottom: 30px; z-index: 1000; width: auto; max-width: 100%;"
   >
     <v-col
-      v-if="compareActive && !indicator.compareDisplay"
+      v-if="currentlyComparing"
       cols="6"
       class="pr-0"
     >
@@ -37,7 +37,7 @@
       ></v-select>
     </v-col>
     <v-col
-      :cols="compareActive && !indicator.compareDisplay ? 6 : 12"
+      :cols="currentlyComparing ? 6 : 12"
     >
       <v-select
         ref="originalTimeSelect"
@@ -114,13 +114,21 @@ export default {
     },
     indicator: {
       type: Object,
-      required: true,
     },
   },
   data: () => ({
     compareTimeModel: null,
     originalTimeModel: null,
   }),
+  computed: {
+    currentlyComparing() {
+      let pass = true;
+      if (this.indicator) {
+        pass = !this.indicator.compareDisplay;
+      }
+      return this.compareActive && pass;
+    },
+  },
   created() {
     this.compareTimeModel = this.compareTime;
     this.originalTimeModel = this.originalTime;
@@ -164,5 +172,8 @@ export default {
 <style scoped>
 ::v-deep .mdi-asterisk {
   visibility: hidden;
+}
+::v-deep .v-menu__content {
+  transform: translate(1%, -87%);
 }
 </style>
