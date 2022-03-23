@@ -164,3 +164,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+::v-deep .mdi-asterisk {
+  visibility: hidden;
+}
+</style>
