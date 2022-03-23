@@ -1019,9 +1019,7 @@ export default {
       };
     },
     getColorCode(side) {
-      const i = side === 'compare'
-        ? this.arrayOfObjects.findIndex((o) => o.value === this.compareLayerTime.value)
-        : this.arrayOfObjects.findIndex((o) => o.value === this.dataLayerTime.value);
+      const i = this.getCurrentIndex(side);
       let currentValue = null;
       // compensate for color code with only one entry, still showing it
       if (this.usedTimes.colorCode) {
@@ -1040,6 +1038,11 @@ export default {
         ? this.getIndicatorColor(currentValue)
         : this.appConfig.branding.primaryColor;
     },
+    getCurrentIndex(side) {
+      return side === 'compare'
+        ? this.arrayOfObjects.findIndex((o) => o.value === this.compareLayerTime.value)
+        : this.arrayOfObjects.findIndex((o) => o.value === this.dataLayerTime.value);
+    },
     subAoiStyle(side) {
       const currentValue = this.getColorCode(side);
       return {
@@ -1051,9 +1054,7 @@ export default {
       };
     },
     configFromInputData(side) {
-      const i = side === 'compare'
-        ? this.arrayOfObjects.findIndex((o) => o.value === this.compareLayerTime.value)
-        : this.arrayOfObjects.findIndex((o) => o.value === this.dataLayerTime.value);
+      const i = this.getCurrentIndex(side);
       const inputData = this.usedTimes.inputData.length === 1
         ? this.usedTimes.inputData[0]
         : this.usedTimes.inputData[i];
