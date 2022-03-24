@@ -122,8 +122,7 @@ export default {
         this.addFeature(
           {
             poi: this.indicatorObject.poi
-              || this.getLocationCode(this.indicatorObject)
-              + `@${Date.now()}`,
+              || `${this.getLocationCode(this.indicatorObject)}@${Date.now()}`,
             width: 4,
             includesIndicator: this.indicatorObject.includesIndicator,
             ...(this.indicatorObject.includesIndicator
