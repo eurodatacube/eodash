@@ -192,21 +192,20 @@ const renderVue = async () => {
         { path: '/', name: 'explore', component: Dashboard },
       ]),
     { path: '/dashboard', component: DashboardCustom },
-    ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
-      ? [{ path: '/story', component: DashboardCustom }]
-      : []),
+    { path: '/story', component: DashboardCustom },
     { path: '/privacy', component: Privacy },
     { path: '/terms_and_conditions', component: Terms },
     { path: '/challenges', component: Challenges },
     { path: '/iframe', component: EmbedIframe },
     ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
       ? [
-        { path: '/water-and-ocean', name: 'water-and-ocean', component: ThemeSinglePage },
-        { path: '/biomass-and-landcover', name: 'biomass-and-landcover', component: ThemeSinglePage },
         { path: '/air-quality', name: 'air-quality', component: ThemeSinglePage },
         { path: '/agriculture', name: 'agriculture', component: ThemeSinglePage },
-        { path: '/cryosphere', name: 'cryosphere', component: ThemeSinglePage },
+        { path: '/biomass-and-landcover', name: 'biomass-and-landcover', component: ThemeSinglePage },
         { path: '/covid-19', name: 'covid-19', component: ThemeSinglePage },
+        { path: '/cryosphere', name: 'cryosphere', component: ThemeSinglePage },
+        { path: '/economy', name: 'economy', component: ThemeSinglePage },
+        { path: '/oceans', name: 'oceans', component: ThemeSinglePage },
       ]
       : []
     ),

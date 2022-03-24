@@ -447,7 +447,7 @@
         :storyMode="storyModeEnabled"
         :localFeatures="localDashboardFeatures"
         :dashboardMeta="{ title: dashboardTitle }"
-        :themeColor="getCurrentTheme ? getCurrentTheme.color : 'primary'"
+        :themeColor="getCurrentTheme ? getCurrentTheme.color : undefined"
         @updateTextFeature="openTextFeatureUpdate"
         @change="savingChanges = true"
         @save="savingChanges = false"
@@ -733,7 +733,6 @@ export default {
       }
       if (
         !editKey
-        && this.appConfig.enableStories
         && existingConfiguration
       ) {
         // replace with local custom dashboard
