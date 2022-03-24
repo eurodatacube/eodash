@@ -25,7 +25,7 @@
 
 	{
       "name": "Water and Ocean",
-      "slug": "water-and-ocean",
+      "slug": "oceans",
       "color": "#0064b3",
       "description": "The Climate Kitchen",
       "longDescription": "The place where, billions of years ago, life started making its own thing, creating an incredible diversity of animals within the massive water bodies on early Earth. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
@@ -37,5 +37,19 @@
       "color": "#616161",
       "description": "The Planet's Climate Control",
       "longDescription": "Places so cold that groups of penguin have to hurdle into groups and stay in close proximity to keep themselves warm. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+    },
+		{
+      "name": "Covid-19",
+      "slug": "covid-19",
+      "color": "#616161",
+      "description": "The COVID-19 pandemic",
+      "longDescription": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+    },
+		{
+      "name": "Economy",
+      "slug": "economy",
+      "color": "#616161",
+      "description": "Economy",
+      "longDescription": " Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
     }
 ]
