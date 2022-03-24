@@ -540,12 +540,6 @@ export const layerNameMapping = Object.freeze({
   '[NEW] Pleiades': {
     layers: 'NEW_PLEIADES',
   },
-  'Pleiades - COVID19': {
-    layers: 'NEW_PLEIADES_COVID19',
-  },
-  'Deimos - COVID19': {
-    layers: 'DEIMOS',
-  },
   '[NEW] Pleiades COVID-19': {
     layers: 'NEW_PLEIADES_COVID19',
   },
@@ -695,12 +689,6 @@ export const excludeMapTimes = {
 };
 
 export const replaceMapTimes = {
-  'GR4-N4c': {
-    time: ['2020-02-26T00:00:00', '2020-05-20T00:00:00', '2020-06-06T00:00:00'],
-    eoSensor: ['Pleiades', 'Pleiades', 'Deimos'],
-    colorCode: Array(3).fill('BLUE'),
-    inputData: ['Pleiades - COVID19', 'Pleiades - COVID19', 'Deimos - COVID19'],
-  },
 };
 
 const wkt = new Wkt();

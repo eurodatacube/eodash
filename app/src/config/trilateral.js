@@ -341,9 +341,6 @@ export const layerNameMapping = Object.freeze({
   '[NEW] Pleiades': {
     layers: 'NEW_PLEIADES',
   },
-  'Pleiades - COVID19': {
-    layers: 'NEW_PLEIADES_COVID19',
-  },
   '[NEW] Pleiades COVID-19': {
     layers: 'NEW_PLEIADES_COVID19',
   },
