@@ -381,7 +381,7 @@ export default class Cluster {
     const clusterMembers = feature.get('features');
     if (clusterMembers.length > 1) {
       const hasClickedFeature = clusterMembers.includes(this.clickedClusterMember);
-      const hasSelectedIndicator = clusterMembers.some(isFeatureSelected);
+      const selectedIndicatorFeature = clusterMembers.find(isFeatureSelected);
       if (hasClickedFeature && this.expanded) {
         // "expanded" style, will collapse after resolution change
         return [
@@ -398,9 +398,9 @@ export default class Cluster {
           }),
         ];
       }
-      return [
+      const styles = [
         new Style({
-          image: hasSelectedIndicator ? outerCircleSelected : outerCircle,
+          image: selectedIndicatorFeature ? outerCircleSelected : outerCircle,
         }),
         new Style({
           image: innerCircle,
@@ -411,6 +411,14 @@ export default class Cluster {
           }),
         }),
       ];
+      // display subaoi of selected indicator, also when cluster is collapsed
+      if (selectedIndicatorFeature) {
+        const selectedIndicatorObject = selectedIndicatorFeature.get('properties').indicatorObject;
+        if (selectedIndicatorObject.subAoi && selectedIndicatorObject.subAoi.length) {
+          styles.push(this.getStyleForSubaoi(selectedIndicatorObject));
+        }
+      }
+      return styles;
     }
     const originalFeature = feature.get('features')[0];
     return this.clusterMemberStyle(originalFeature, this.vm);
@@ -506,21 +514,29 @@ export default class Cluster {
     });
     const memberStyle = [circleStyle, iconStyle];
     if (isSelected && indicatorObject.subAoi && indicatorObject.subAoi.length) {
-      const subAoiColor = [...asArray(getColor(indicatorObject, this.vm)
-        || this.appConfig.branding.primaryColor)];
-      // set opacity of rgba color
-      subAoiColor[3] = 0.5;
-      memberStyle.push(new Style({
-        fill: new Fill({
-          color: subAoiColor,
-        }),
-        stroke: new Stroke({
-          color: 'white',
-          width: 1,
-        }),
-        geometry: indicatorObject.subAoi[0].getGeometry(),
-      }));
+      memberStyle.push(this.getStyleForSubaoi(indicatorObject));
     }
     return memberStyle;
+  }
+
+  /**
+   * @param {*} indicatorObject indicator object containing the subaoi
+   * @returns {*} SubAOI Style
+   */
+  getStyleForSubaoi(indicatorObject) {
+    const subAoiColor = [...asArray(getColor(indicatorObject, this.vm)
+        || this.vm.appConfig.branding.primaryColor)];
+      // set opacity of rgba color
+    subAoiColor[3] = 0.5;
+    return new Style({
+      fill: new Fill({
+        color: subAoiColor,
+      }),
+      stroke: new Stroke({
+        color: 'white',
+        width: 1,
+      }),
+      geometry: indicatorObject.subAoi[0].getGeometry(),
+    });
   }
 }
