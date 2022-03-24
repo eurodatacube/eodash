@@ -23,7 +23,7 @@ dot_env.set_as_environment_variables()
 geodb = GeoDBClient()
 envs = dot_env.dict()
 
-# Function to fetch all available dates for BYOD collections
+# Function to fetch all available dates for BYOD collections.
 # Make sure all appropiate collection ids are set in your docker environment
 COLLECTIONS = [
 ]
