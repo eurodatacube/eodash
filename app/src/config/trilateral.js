@@ -339,7 +339,6 @@ export const layerNameMapping = Object.freeze({
     layers: 'NEW_PLANETSCOPE_COVID-19',
   },
   '[NEW] Pleiades': {
-    baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES',
   },
   'Pleiades - COVID19': {
@@ -355,7 +354,6 @@ export const layerNameMapping = Object.freeze({
     layers: 'NEW_PLEIADES_28_COVID19',
   },
   '[NEW] Pleiades 16bit': {
-    baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_16BIT',
   },
   'Sentinel 2 L2A': {
@@ -380,7 +378,6 @@ export const layerNameMapping = Object.freeze({
     layers: 'E8_SENTINEL1',
   },
   'ALOS-2': {
-    baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'JAXA_CARS_CONTAINERS_ALOS2',
   },
   GOSAT_XCO2: {
