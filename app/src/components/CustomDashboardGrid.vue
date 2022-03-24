@@ -669,7 +669,7 @@ export default {
           feature.properties.indicatorObject,
         );
 
-        if (f.mapInfo && (firstCall || f.poi === this.savedPoi)) {
+        if (f.mapInfo && (true || poiString === this.savedPoi)) {
           this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
           this.$set(this.localCenter, f.poi, f.mapInfo.center);
           this.$set(this.localDataLayerTime, f.poi, f.mapInfo.dataLayerTime);
