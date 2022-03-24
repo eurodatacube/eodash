@@ -82,11 +82,18 @@ const indicatorClassesStyles = Object.keys(indicatorClassesIcons).reduce((acc, k
     context.fillRect(0, 0, image.width, image.height);
     context.globalCompositeOperation = 'destination-in';
     context.drawImage(image, 0, 0);
-    acc[key] = new Icon({
-      scale: 0.66,
-      img: canvas,
-      imgSize: [image.width, image.height],
-    });
+    acc[key] = {
+      small: new Icon({
+        scale: 0.66,
+        img: canvas,
+        imgSize: [image.width, image.height],
+      }),
+      large: new Icon({
+        scale: 1,
+        img: canvas,
+        imgSize: [image.width, image.height],
+      }),
+    };
     if (Object.keys(acc).length === Object.keys(indicatorClassesIcons).length) {
       onStylesLoaded.forEach((cb) => cb());
       onStylesLoaded = undefined;
@@ -504,10 +511,7 @@ export default class Cluster {
       }),
       geometry: clusterMember.getGeometry(),
     });
-    const image = indicatorClassesStyles[indicator.class];
-    if (image) {
-      image.setScale(isSelected ? 1 : 0.66);
-    }
+    const image = indicatorClassesStyles[indicator.class][isSelected ? 'large' : 'small'];
     const iconStyle = new Style({
       image,
       geometry: clusterMember.getGeometry(),
