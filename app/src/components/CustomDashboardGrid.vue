@@ -651,8 +651,19 @@ export default {
           return f;
         }
 
+        let poiString;
+
+        if (f.poi.includes('@')) {
+          // eslint-disable-next-line
+          const [poi, _time] = f.poi.split('@');
+          poiString = poi;
+        } else {
+          poiString = f.poi;
+        }
+
         const feature = this.$store.state.features.allFeatures
-          .find((i) => this.getLocationCode(i.properties.indicatorObject) === f.poi);
+          .find((i) => this.getLocationCode(i.properties.indicatorObject) === poiString);
+
         const indicatorObject = await loadIndicatorData(
           this.baseConfig,
           feature.properties.indicatorObject,
