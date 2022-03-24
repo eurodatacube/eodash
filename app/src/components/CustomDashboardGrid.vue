@@ -676,15 +676,26 @@ export default {
 .chart {
   background: #fff;
 }
-::v-deep .textArea img, ::v-deep .textArea video, ::v-deep .textArea iframe {
-  max-width: 100%;
-}
 .elementCard {
   overflow: hidden;
 }
 .textAreaContainer {
   overflow-y: auto;
+}
+.textAreaContainer,
+.textArea {
   height: 100%;
+}
+::v-deep .textArea img,
+::v-deep .textArea video,
+::v-deep .textArea iframe {
+  max-width: 100%;
+}
+::v-deep .textArea p:only-child,
+::v-deep .textArea p:only-child img:only-child,
+::v-deep .textArea p:only-child video:only-child,
+::v-deep .textArea p:only-child iframe:only-child {
+  max-height: 100%;
 }
 ::v-deep .v-navigation-drawer--open {
   transform: translateY(0%) !important;
@@ -695,7 +706,7 @@ export default {
 }
 </style>
 
-<style>
+<style lang="scss">
 .medium-zoom-overlay {
   z-index: 1;
   opacity: .8 !important;
