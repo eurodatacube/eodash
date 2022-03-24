@@ -1455,7 +1455,7 @@ export const globalIndicators = [
         time: availableDates.N3_CUSTOM_TRILATERAL,
         inputData: [''],
         display: {
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM_TRILATERAL',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
@@ -1701,7 +1701,7 @@ export const globalIndicators = [
         time: availableDates.N3_CUSTOM_TRILATERAL,
         inputData: [''],
         display: {
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM_TRILATERAL',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
@@ -1818,7 +1818,7 @@ export const globalIndicators = [
         time: availableDates.N3_CUSTOM_TRILATERAL_TSMNN,
         inputData: [''],
         display: {
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM_TRILATERAL_TSMNN',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
@@ -1857,7 +1857,7 @@ export const globalIndicators = [
         time: availableDates.N3_CUSTOM_TRILATERAL_TSMNN,
         inputData: [''],
         display: {
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM_TRILATERAL_TSMNN',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
@@ -3241,7 +3241,7 @@ export const globalIndicators = [
         time: availableDates.N3_CUSTOM_TRILATERAL_TSMNN,
         inputData: [''],
         display: {
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM_TRILATERAL_TSMNN',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
@@ -3280,7 +3280,7 @@ export const globalIndicators = [
         time: availableDates.N3_CUSTOM_TRILATERAL,
         inputData: [''],
         display: {
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM_TRILATERAL',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
