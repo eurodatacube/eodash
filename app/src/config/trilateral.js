@@ -7,6 +7,7 @@ import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import l3mapsData from '@/config/tropomiCO.json';
+import { shFisAreaIndicatorStdConfig } from '@/config/esa';
 import store from '../store';
 
 export const dataPath = './data/internal/';
@@ -382,14 +383,6 @@ export const layerNameMapping = Object.freeze({
     baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'JAXA_CARS_CONTAINERS_ALOS2',
   },
-  /*
-  'ALOS-2': {
-    url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2FALOS_SAMPLE%2Falos2-s1-beijing_{time}.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536',
-    protocol: 'xyz',
-    tileSize: 256,
-    dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-  },
-  */
   GOSAT_XCO2: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/GOSAT_XCO2_{time}_{site}_BG_circle_cog.tif&resampling_method=nearest',
     protocol: 'xyz',
@@ -1042,50 +1035,17 @@ export const globalIndicators = [
         inputData: [],
         yAxis: 'SO2',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'SO2',
-          layers: 'VIS_SO2_DAILY_DATA',
+          layers: 'AWS_VIS_SO2_DAILY_DATA',
           legendUrl: 'eodash-data/data/colorbarso2.svg',
           minZoom: 1,
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           customAreaIndicator: true,
-          baseLayers: [{
-            ...baseLayers.cloudless,
-            visible: true,
-          }, baseLayers.terrainLight],
           areaIndicator: {
-            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-            callbackFunction: (responseJson, indicator) => {
-              if (Array.isArray(responseJson.C0)) {
-                const data = responseJson.C0;
-                const newData = {
-                  time: [],
-                  measurement: [],
-                  referenceValue: [],
-                  colorCode: [],
-                };
-                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
-                  ? 1
-                  : -1));
-                data.forEach((row) => {
-                  if (row.basicStats.max < 5000) {
-                    // leaving out falsely set nodata values disrupting the chart
-                    newData.time.push(DateTime.fromISO(row.date));
-                    newData.colorCode.push('');
-                    newData.measurement.push(row.basicStats.mean);
-                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
-                  }
-                });
-                const ind = {
-                  ...indicator,
-                  ...newData,
-                };
-                return ind;
-              }
-              return null;
-            },
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+            ...shFisAreaIndicatorStdConfig,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_SO2_DAILY_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
           },
         },
       },
@@ -1112,9 +1072,9 @@ export const globalIndicators = [
         time: ['2020-05-14T00:00:00Z'],
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Population',
-          layers: 'POPULATION_DENSITY',
+          layers: 'AWS_POPULATION_DENSITY',
           legendUrl: 'data/trilateral/NASAPopulation_legend.png',
           minZoom: 1,
           maxMapZoom: 7,
@@ -1467,9 +1427,9 @@ export const globalIndicators = [
         time: availableDates.N3_CUSTOM_TRILATERAL,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM_TRILATERAL',
+          layers: 'AWS_N3_CUSTOM_TRILATERAL',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1555,9 +1515,9 @@ export const globalIndicators = [
         time: availableDates.JAXA_CHLA_NorthAdriatic_JAXA,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'JAXA_CHLA',
+          layers: 'AWS_JAXA_CHLA',
           maxZoom: 13,
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1674,9 +1634,9 @@ export const globalIndicators = [
         time: availableDates.JAXA_CHLA_JP01,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'JAXA_CHLA',
+          layers: 'AWS_JAXA_CHLA',
           maxZoom: 13,
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1713,9 +1673,9 @@ export const globalIndicators = [
         time: availableDates.N3_CUSTOM_TRILATERAL,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM_TRILATERAL',
+          layers: 'AWS_N3_CUSTOM_TRILATERAL',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1752,9 +1712,9 @@ export const globalIndicators = [
         time: availableDates.JAXA_CHLA_JP04,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'JAXA_CHLA',
+          layers: 'AWS_JAXA_CHLA',
           maxZoom: 13,
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1791,9 +1751,9 @@ export const globalIndicators = [
         time: availableDates.JAXA_CHLA_JP02,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'JAXA_CHLA',
+          layers: 'AWS_JAXA_CHLA',
           maxZoom: 13,
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1830,9 +1790,9 @@ export const globalIndicators = [
         time: availableDates.N3_CUSTOM_TRILATERAL_TSMNN,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM_TRILATERAL_TSMNN',
+          layers: 'AWS_N3_CUSTOM_TRILATERAL_TSMNN',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1869,9 +1829,9 @@ export const globalIndicators = [
         time: availableDates.N3_CUSTOM_TRILATERAL_TSMNN,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM_TRILATERAL_TSMNN',
+          layers: 'AWS_N3_CUSTOM_TRILATERAL_TSMNN',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1948,9 +1908,9 @@ export const globalIndicators = [
         time: availableDates.JAXA_TSM_NorthAdriaticTSM_JAXA,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'JAXA_TSM',
+          layers: 'AWS_JAXA_TSM',
           maxZoom: 13,
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1987,9 +1947,9 @@ export const globalIndicators = [
         time: availableDates.JAXA_TSM_JP01TSM,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'JAXA_TSM',
+          layers: 'AWS_JAXA_TSM',
           maxZoom: 13,
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -2026,9 +1986,9 @@ export const globalIndicators = [
         time: availableDates.JAXA_TSM_JP04TSM,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'JAXA_TSM',
+          layers: 'AWS_JAXA_TSM',
           maxZoom: 13,
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -2065,9 +2025,9 @@ export const globalIndicators = [
         time: availableDates.JAXA_TSM_JP02TSM,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'JAXA_TSM',
+          layers: 'AWS_JAXA_TSM',
           maxZoom: 13,
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -3253,9 +3213,9 @@ export const globalIndicators = [
         time: availableDates.N3_CUSTOM_TRILATERAL_TSMNN,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM_TRILATERAL_TSMNN',
+          layers: 'AWS_N3_CUSTOM_TRILATERAL_TSMNN',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -3292,9 +3252,9 @@ export const globalIndicators = [
         time: availableDates.N3_CUSTOM_TRILATERAL,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM_TRILATERAL',
+          layers: 'AWS_N3_CUSTOM_TRILATERAL',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),

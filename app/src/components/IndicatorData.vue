@@ -99,7 +99,7 @@ export default {
         'E12', 'E12b', 'E8', 'N1b', 'N1', 'N3', 'N3b',
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
-        'E13o', 'E13p', 'E13q', 'E13r',
+        'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6',
@@ -298,6 +298,10 @@ export default {
         referenceDecompose.E13q = referenceDecompose.N1;
         referenceDecompose.E13r = referenceDecompose.N1;
         referenceDecompose.N9 = referenceDecompose.N1;
+        referenceDecompose.CDS1 = referenceDecompose.N1;
+        referenceDecompose.CDS2 = referenceDecompose.N1;
+        referenceDecompose.CDS3 = referenceDecompose.N1;
+        referenceDecompose.CDS4 = referenceDecompose.N1;
 
         // Generators based on data type
         if (Object.keys(referenceDecompose).includes(indicatorCode)) {
@@ -1231,7 +1235,7 @@ export default {
       }
 
       // Special handling for chart including STD representation
-      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r'].includes(indicatorCode)) {
+      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4'].includes(indicatorCode)) {
         customSettings.legendExtend = {
           onClick: function onClick(e, legendItem) {
             if (legendItem.text === 'Standard deviation (STD)') {
