@@ -375,11 +375,14 @@
 
 <script>
 import { DateTime } from 'luxon';
+import mediumZoom from 'medium-zoom';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
 import LoadingAnimation from '@/components/LoadingAnimation.vue';
 import { loadIndicatorData } from '@/utils';
 import { mapGetters, mapState, mapActions } from 'vuex';
+
+const zoom = mediumZoom();
 
 export default {
   props: {
@@ -547,7 +550,19 @@ export default {
       );
     },
     convertToMarkdown(text) {
+      // each time markdown is rendered, register its images for the zoom feature
+      this.registerImageZoom();
       return this.$marked(text);
+    },
+    registerImageZoom() {
+      this.$nextTick(() => {
+        // detach all previously attached images
+        zoom.detach();
+        // attach all images in .textAreas
+        zoom.attach(document.querySelectorAll('.textArea img'), {
+          background: 'var(--v-background-base)',
+        });
+      });
     },
     async performChange(method, params) {
       this.$emit('change');
@@ -661,15 +676,26 @@ export default {
 .chart {
   background: #fff;
 }
-::v-deep .textArea img, ::v-deep .textArea video, ::v-deep .textArea iframe {
-  max-width: 100%;
-}
 .elementCard {
   overflow: hidden;
 }
 .textAreaContainer {
   overflow-y: auto;
+}
+.textAreaContainer,
+.textArea {
   height: 100%;
+}
+::v-deep .textArea img,
+::v-deep .textArea video,
+::v-deep .textArea iframe {
+  max-width: 100%;
+}
+::v-deep .textArea p:only-child,
+::v-deep .textArea p:only-child img:only-child,
+::v-deep .textArea p:only-child video:only-child,
+::v-deep .textArea p:only-child iframe:only-child {
+  max-height: 100%;
 }
 ::v-deep .v-navigation-drawer--open {
   transform: translateY(0%) !important;
@@ -677,5 +703,15 @@ export default {
 ::v-deep .v-navigation-drawer--close {
   visibility: visible;
   transform: translateY(60%) !important;
+}
+</style>
+
+<style lang="scss">
+.medium-zoom-overlay {
+  z-index: 1;
+  opacity: .8 !important;
+}
+.medium-zoom-image--opened {
+  z-index: 2;
 }
 </style>
