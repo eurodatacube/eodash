@@ -136,6 +136,7 @@ export default {
   font-size: 14px;
   box-shadow: none !important;
   background: rgba(0, 0, 0, 0.6);
+  color: #FFFFFF;
 }
 
 .tooltip:after {
