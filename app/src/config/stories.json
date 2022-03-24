@@ -40,6 +40,7 @@
         "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
       }
     },
+    "covid-19": {},
     "cryosphere": {
       "changes-in-arctic-sea-ice": {
         "originalDashboardId": "92bc845659abfed6",
@@ -63,7 +64,8 @@
         "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
       }
     },
-    "water-and-ocean": {
+    "economy": {},
+    "oceans": {
       "ocean-joint": {
         "originalDashboardId": "6ea3293aade90541",
         "title": "NASA-ESA-JAXA #1",
