@@ -24,6 +24,7 @@ import ThemeSinglePage from './views/ThemeSinglePage.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 import customDashboardApiFactory from './custom-dashboard';
+import getLocationCode from './mixins/getLocationCode';
 // eslint-disable-line no-unused-vars
 
 // Set UTC as default time zone behavior for whole client
@@ -168,11 +169,7 @@ const renderVue = async () => {
         }
         return color;
       },
-      getLocationCode: (indicatorObject) => `${
-        indicatorObject.aoiID
-      }-${
-        indicatorObject.indicator
-      }`,
+      getLocationCode,
       trackEvent: (action, name, value) => window._paq.push(
         ['trackEvent', action, name, value],
       ),
