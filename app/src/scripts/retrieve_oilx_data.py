@@ -28,11 +28,11 @@ output_folder = "/public/eodash-data/internal/"
 indicator_code = "OX"
 
 
-DATAFILE = "/working/oilx_{}.json".format(
+DATAFILE = "/working/tmp/oilx_{}.json".format(
     datetime.datetime.utcnow().strftime("%Y-%m-%d")
 )
 
-EUDATAFILE = "/working/oilx_EU_{}.json".format(
+EUDATAFILE = "/working/tmp/oilx_EU_{}.json".format(
     datetime.datetime.utcnow().strftime("%Y-%m-%d")
 )
 
