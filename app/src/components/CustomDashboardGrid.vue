@@ -98,11 +98,10 @@
                 @ready="onMapReady(element.poi)"
               />
               <indicator-data
-                v-else
-                disableAutoFocus
-                :currentIndicator="element.indicatorObject"
-                class="pa-5 chart"
                 style="top: 0px; position: absolute;"
+                v-else
+                class="pa-5 chart"
+                :currentIndicator="element.indicatorObject"
               />
             </div>
             <template
