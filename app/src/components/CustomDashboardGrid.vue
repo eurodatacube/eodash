@@ -413,6 +413,7 @@ export default {
     offsetTop: 0,
     showText: false,
     tooltipTrigger: false,
+    firstCall: true,
   }),
   computed: {
     ...mapGetters('dashboard', {
@@ -627,12 +628,6 @@ export default {
       this.$emit('scrollTo', { target: position });
     },
     async parseFeatures(features) {
-      // check if this.serverZoom is empty
-      // (meaning it's the first call that must go through every time)
-      let firstCall = false;
-      if (Object.keys(this.serverZoom).length === 0) {
-        firstCall = true;
-      }
       this.features = await Promise.all(features.map(async (f) => {
         if (f.includesIndicator) {
           const convertedTimes = f.indicatorObject.time.map(
@@ -669,7 +664,7 @@ export default {
           feature.properties.indicatorObject,
         );
 
-        if (f.mapInfo && (true || poiString === this.savedPoi)) {
+        if (f.mapInfo && (this.firstCall || poiString === this.savedPoi)) {
           this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
           this.$set(this.localCenter, f.poi, f.mapInfo.center);
           this.$set(this.localDataLayerTime, f.poi, f.mapInfo.dataLayerTime);
@@ -683,6 +678,8 @@ export default {
             this.$set(this.serverCompareLayerTime, f.poi, f.mapInfo.compareLayerTime);
           }
         }
+
+        this.firstCall = false;
 
         return {
           ...f,
