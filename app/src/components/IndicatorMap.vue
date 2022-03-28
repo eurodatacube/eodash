@@ -481,6 +481,8 @@ export default {
       },
       dataLayerTime: null,
       compareLayerTime: null,
+      dataLayerIndex: 0,
+      compareLayerIndex: 0,
       dataFeaturesCount: 0,
       compareFeaturesCount: 0,
       selectedCountry: null,
@@ -1039,9 +1041,7 @@ export default {
         : this.appConfig.branding.primaryColor;
     },
     getCurrentIndex(side) {
-      return side === 'compare'
-        ? this.arrayOfObjects.findIndex((o) => o.value === this.compareLayerTime.value)
-        : this.arrayOfObjects.findIndex((o) => o.value === this.dataLayerTime.value);
+      return side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
     },
     subAoiStyle(side) {
       const currentValue = this.getColorCode(side);
@@ -1251,6 +1251,10 @@ export default {
     },
     dataLayerTimeSelection(timeObj) {
       this.dataLayerTime = timeObj;
+      const newIndex = this.arrayOfObjects
+        .map((i) => i.value)
+        .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
+      this.dataLayerIndex = newIndex;
       this.refreshLayers('data');
       this.$nextTick(() => {
         this.slider.setRightLayers(
@@ -1282,6 +1286,10 @@ export default {
     },
     compareLayerTimeSelection(timeObj) {
       this.compareLayerTime = timeObj;
+      const newIndex = this.arrayOfObjects
+        .map((i) => i.value)
+        .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
+      this.compareLayerIndex = newIndex;
       this.refreshLayers('compare');
       this.$nextTick(() => {
         this.slider.setLeftLayers(
@@ -1389,62 +1397,64 @@ export default {
       }
     },
     fetchFeatures(side) {
-      const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
-      if (usedConfig[0].features) {
-        const options = this.layerOptions(side === 'compare' ? this.currentCompareTime : this.currentTime,
-          usedConfig[0]);
-        // add custom area if present
-        let customArea = {};
-        if (this.validDrawnArea) {
-          customArea = typeof this.mergedConfigsData[0].features.areaFormatFunction === 'function'
-            ? this.mergedConfigsData[0].features.areaFormatFunction(this.drawnArea)
-            : { area: JSON.stringify(this.drawnArea) };
-        }
-        const templateSubst = {
-          ...this.indicator,
-          ...options,
-          ...customArea,
-        };
-        const templateRe = /\{ *([\w_ -]+) *\}/g;
-        const url = template(templateRe, this.mergedConfigsData[0].features.url, templateSubst);
-        let requestBody = null;
-        if (this.mergedConfigsData[0].features.requestBody) {
-          requestBody = {
-            ...this.mergedConfigsData[0].features.requestBody,
-          };
-          const params = Object.keys(requestBody);
-          for (let i = 0; i < params.length; i += 1) {
-            // substitute template strings with values
-            requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
+      if (this.map) {
+        const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
+        if (usedConfig[0].features) {
+          const options = this.layerOptions(side === 'compare' ? this.currentCompareTime : this.currentTime,
+            usedConfig[0]);
+          // add custom area if present
+          let customArea = {};
+          if (this.validDrawnArea) {
+            customArea = typeof this.mergedConfigsData[0].features.areaFormatFunction === 'function'
+              ? this.mergedConfigsData[0].features.areaFormatFunction(this.drawnArea)
+              : { area: JSON.stringify(this.drawnArea) };
           }
-        }
-        const requestOpts = {
-          credentials: 'same-origin',
-          method: this.mergedConfigsData[0].features.requestMethod || 'GET',
-          headers: this.mergedConfigsData[0].features.requestHeaders || {},
-        };
-        if (requestBody) {
-          requestOpts.body = JSON.stringify(requestBody);
-        }
-        this.map.fireEvent('dataloading');
-        fetch(url, requestOpts).then((r) => r.json())
-          .then((rawdata) => {
-            // if custom response -> feature mapping function configured, apply it
-            if (typeof this.mergedConfigsData[0].features.callbackFunction === 'function') {
-              return this.mergedConfigsData[0].features.callbackFunction(rawdata);
+          const templateSubst = {
+            ...this.indicator,
+            ...options,
+            ...customArea,
+          };
+          const templateRe = /\{ *([\w_ -]+) *\}/g;
+          const url = template(templateRe, this.mergedConfigsData[0].features.url, templateSubst);
+          let requestBody = null;
+          if (this.mergedConfigsData[0].features.requestBody) {
+            requestBody = {
+              ...this.mergedConfigsData[0].features.requestBody,
+            };
+            const params = Object.keys(requestBody);
+            for (let i = 0; i < params.length; i += 1) {
+              // substitute template strings with values
+              requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
             }
-            return rawdata;
-          })
-          .then((data) => {
-            this.map.fireEvent('dataload');
-            this.updateJsonLayers(data, side);
-          })
-          .catch(() => {
-            this.map.fireEvent('dataload');
-            this.updateJsonLayers(emptyF, side);
-          });
-      } else {
-        this.updateJsonLayers(emptyF, side);
+          }
+          const requestOpts = {
+            credentials: 'same-origin',
+            method: this.mergedConfigsData[0].features.requestMethod || 'GET',
+            headers: this.mergedConfigsData[0].features.requestHeaders || {},
+          };
+          if (requestBody) {
+            requestOpts.body = JSON.stringify(requestBody);
+          }
+          this.map.fireEvent('dataloading');
+          fetch(url, requestOpts).then((r) => r.json())
+            .then((rawdata) => {
+              // if custom response -> feature mapping function configured, apply it
+              if (typeof this.mergedConfigsData[0].features.callbackFunction === 'function') {
+                return this.mergedConfigsData[0].features.callbackFunction(rawdata);
+              }
+              return rawdata;
+            })
+            .then((data) => {
+              this.map.fireEvent('dataload');
+              this.updateJsonLayers(data, side);
+            })
+            .catch(() => {
+              this.map.fireEvent('dataload');
+              this.updateJsonLayers(emptyF, side);
+            });
+        } else {
+          this.updateJsonLayers(emptyF, side);
+        }
       }
     },
     selectGSAIndicator(feature) {
