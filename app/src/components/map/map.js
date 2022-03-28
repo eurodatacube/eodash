@@ -9,7 +9,7 @@ import './olControls.css';
 
 
 class VueMap {
-  constructor() {
+  constructor(id) {
     this.controls = [
       new FullScreen({
         className: 'v-card primary--text ol-full-screen',
@@ -30,6 +30,7 @@ class VueMap {
         enableRotation: false,
       }),
     });
+    this.map.set('id', id);
   }
 }
 const mapRegistry = {};
@@ -43,7 +44,7 @@ const mapRegistry = {};
 export default function getMapInstance(id) {
   const map = mapRegistry[id];
   if (!map) {
-    mapRegistry[id] = new VueMap();
+    mapRegistry[id] = new VueMap(id);
   }
   return mapRegistry[id];
 }

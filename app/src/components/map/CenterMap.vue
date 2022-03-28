@@ -6,6 +6,11 @@
       :baseLayers="baseLayers"
       :overlayConfigs="overlayConfigs"
     />
+    <div id="centerMapOverlay" class="tooltip v-card v-sheet text-center pa-2">
+      <p class="ma-0"><strong>{{ tooltip.city }}</strong></p>
+      <p class="ma-0"><strong>{{ tooltip.indicator }}</strong></p>
+      <p class="ma-0"> {{ tooltip.label }} </p>
+    </div>
   </div>
 </template>
 
@@ -14,11 +19,11 @@ import {
   mapGetters,
   mapState,
 } from 'vuex';
-
 import LayerControl from '@/components/map/LayerControl.vue';
 import { createLayerFromConfig } from '@/components/map/layers';
 import Cluster from '@/components/map/Cluster';
 import getMapInstance from '@/components/map/map';
+import { formatLabel } from '@/components/map/formatters';
 
 
 export default {
@@ -41,6 +46,11 @@ export default {
       defaultMapOptions: {
         attributionControl: false,
         zoomControl: false,
+      },
+      tooltip: {
+        city: '',
+        indicator: '',
+        description: '',
       },
       overlayConfigs: [],
       opacityTerrain: [1],
@@ -96,7 +106,7 @@ export default {
       this.updateOverlayOpacity(overlayLayers, view);
 
       const cluster = new Cluster(map, this, this.getGroupedFeatures);
-      cluster.setActive(true);
+      cluster.setActive(true, this.overlayCallback);
       this.$watch('$store.state.indicators.selectedIndicator', () => {
         cluster.reRender();
       });
@@ -112,7 +122,34 @@ export default {
         }
       });
     },
+    overlayCallback(indicatorObject) {
+      this.tooltip = formatLabel(indicatorObject, this);
+    },
   },
   beforeDestroy() {},
 };
 </script>
+<style lang="scss" scoped>
+
+.tooltip {
+  position: relative;
+  font-size: 14px;
+  box-shadow: none !important;
+  background: rgba(0, 0, 0, 0.6);
+  color: #FFFFFF;
+}
+
+.tooltip:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.6);
+  border-bottom: 0;
+  margin-left: -10px;
+  margin-bottom: -10px;
+}
+</style>
