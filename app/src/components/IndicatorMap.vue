@@ -120,7 +120,7 @@
           :weight="2"
           :dashArray="'3'"
           :fill="true"
-          :fillColor="getAoiFill('data')"
+          :fillColor="aoiFillStyle('data')"
           :fillOpacity="1"
           :pane="tooltipPane"
         >
@@ -259,7 +259,7 @@
           :weight="2"
           :dashArray="3"
           :fill="true"
-          :fillColor="getAoiFill('compare')"
+          :fillColor="aoiFillStyle('compare')"
           :fillOpacity="1"
           :pane="shadowPane"
         >
@@ -361,7 +361,7 @@
         <indicator-time-selection
           v-if="!mergedConfigsData[0].disableTimeSelection"
           :autofocus="!disableAutoFocus"
-          :available-values="arrayOfObjects"
+          :available-values="availableTimeEntries"
           :indicator="indicator"
           :compare-active.sync="enableCompare"
           :compare-time.sync="compareLayerTime"
@@ -410,6 +410,11 @@ import countries from '@/assets/countries.json';
 import gsaFile from '@/assets/gsa_data.json';
 
 import IndicatorTimeSelection from './IndicatorTimeSelection.vue';
+
+import {
+  createConfigFromIndicator,
+  createAvailableTimeEntries,
+} from '@/helpers/mapConfig.js'
 
 const emptyF = {
   type: 'FeatureCollection',
@@ -539,20 +544,8 @@ export default {
     borderSelection() {
       return this.mergedConfigsData[0].borderSelection;
     },
-    indDefinition() {
-      return this.baseConfig.indicatorsDefinition[this.indicator.indicator];
-    },
-    additionalMapTimes() {
-      return this.baseConfig.additionalMapTimes && this.baseConfig.additionalMapTimes[`${this.indicator.aoiID}-${this.indicator.indicator}`];
-    },
-    excludeMapTimes() {
-      return this.baseConfig.excludeMapTimes && this.baseConfig.excludeMapTimes[`${this.indicator.aoiID}-${this.indicator.indicator}`];
-    },
-    replaceMapTimes() {
-      return this.baseConfig.replaceMapTimes && this.baseConfig.replaceMapTimes[`${this.indicator.aoiID}-${this.indicator.indicator}`];
-    },
     indicator() {
-      return this.getIndicatorFilteredInputData(this.currentIndicator || null);
+      return this.getIndicatorFilteredInputData(this.currentIndicator);
     },
     showAoi() {
       return this.aoi && (!this.subAoi || this.subAoi.features.length === 0);
@@ -569,120 +562,33 @@ export default {
         || this.mergedConfigsData[0].customAreaIndicator;
     },
     mergedConfigsData() {
-      return this.mergedConfigs();
+      return createConfigFromIndicator(
+        this.indicator,
+        'data',
+        this.getCurrentIndex('data')
+      )
     },
     mergedConfigsCompare() {
-      return this.mergedConfigs('compare');
+      return createConfigFromIndicator(
+        this.indicator,
+        'compare',
+        this.getCurrentIndex('compare')
+      )
     },
-    usedTimes() {
-      let times = this.indicator.time;
-      let eoSensor = Array.isArray(this.indicator.eoSensor) && this.indicator.eoSensor;
-      let inputData = Array.isArray(this.indicator.inputData) && this.indicator.inputData;
-      let colorCode = Array.isArray(this.indicator.colorCode) && this.indicator.colorCode;
-      // completely replace given times or eoSensor
-      if (this.replaceMapTimes && Array.isArray(this.replaceMapTimes.time)) {
-        times = this.replaceMapTimes.time;
-      }
-      if (this.replaceMapTimes && Array.isArray(this.replaceMapTimes.eoSensor)) {
-        eoSensor = this.replaceMapTimes.eoSensor; // just for display
-      }
-      if (this.replaceMapTimes && Array.isArray(this.replaceMapTimes.inputData)) {
-        inputData = this.replaceMapTimes.inputData;
-        // needs to be used unless indicator.display is used (that overrides it)
-      }
-      if (this.replaceMapTimes && Array.isArray(this.replaceMapTimes.colorCode)) {
-        colorCode = this.replaceMapTimes.colorCode;
-      }
-      if (this.additionalMapTimes) {
-        // add additional times and eoSensor to original arrays
-        // sort time ascending and sort arrays based on time array via helper list combining all
-        const dtObjects = this.additionalMapTimes.time.map((t) => DateTime.fromISO(t));
-        const mergedTimes = times.concat(dtObjects);
-        const mergedSensors = eoSensor.concat(this.additionalMapTimes.eoSensor);
-        const mergedInputData = inputData.concat(this.additionalMapTimes.inputData);
-        const mergedColorCode = colorCode.concat(this.additionalMapTimes.colorCode);
-        // combine the arrays
-        const list = [];
-        for (let j = 0; j < mergedTimes.length; j++) {
-          list.push({
-            time: mergedTimes[j],
-            eoSensor: mergedSensors[j],
-            inputData: mergedInputData[j],
-            colorCode: mergedColorCode[j],
-          });
-        }
-        // sort mapping by time asc
-        list.sort((a, b) => (a.time.toMillis() - b.time.toMillis()));
-        // separate them back out
-        for (let k = 0; k < list.length; k++) {
-          mergedTimes[k] = list[k].time;
-          mergedSensors[k] = list[k].eoSensor;
-          mergedInputData[k] = list[k].inputData;
-          mergedColorCode[k] = list[k].colorCode;
-        }
-        times = mergedTimes;
-        eoSensor = mergedSensors;
-        inputData = mergedInputData;
-        colorCode = mergedColorCode;
-      }
-      if (this.excludeMapTimes && Array.isArray(this.excludeMapTimes)) {
-        // exclude times and respective entries from other arrays
-        const dtObjects = this.excludeMapTimes.map((t) => DateTime.fromISO(t));
-        const indToDelete = times.reduce((a, e, i) => {
-          // find if any time is in to be deleted
-          const found = dtObjects.find((time) => time.toMillis() === e.toMillis());
-          if (typeof found !== 'undefined') {
-            // add its index to list
-            a.push(i);
-          }
-          return a;
-        }, []);
-        // set items in all arrays to null
-        indToDelete.forEach((i) => {
-          times[i] = null;
-          if (typeof eoSensor[i] !== 'undefined') {
-            eoSensor[i] = null;
-          }
-          if (typeof inputData[i] !== 'undefined') {
-            inputData[i] = null;
-          }
-          if (typeof colorCode[i] !== 'undefined') {
-            colorCode[i] = null;
-          }
-        });
-        // filter out nulls
-        times = times.filter((e) => e !== null);
-        eoSensor = eoSensor.filter((e) => e !== null);
-        inputData = inputData.filter((e) => e !== null);
-        colorCode = colorCode.filter((e) => e !== null);
-      }
-      return {
-        time: times, eoSensor, inputData, colorCode,
-      };
-    },
-    arrayOfObjects() {
-      const selectionOptions = [];
-      for (let i = 0; i < this.usedTimes.time.length; i += 1) {
-        let label = this.getTimeLabel(this.usedTimes.time[i]);
-        if (this.usedTimes.eoSensor) {
-          const eoSensor = this.usedTimes.eoSensor.length === 1
-            ? this.usedTimes.eoSensor[0]
-            : this.usedTimes.eoSensor[i];
-          label += ` - ${eoSensor}`;
-        }
-        selectionOptions.push({
-          value: this.usedTimes.time[i],
-          name: label,
-        });
-      }
-      return selectionOptions;
+    availableTimeEntries() {
+      return createAvailableTimeEntries(
+        this.indicator,
+        this.mergedConfigsData // TODO do we really need to pass the config here?
+      );
     },
     currentTime() {
       let returnTime = null;
       if (this.dataLayerTime !== null) {
         returnTime = this.dataLayerTime;
       } else {
-        returnTime = this.usedTimes.time[this.usedTimes.time.length - 1];
+        returnTime = this.mergedConfigsData[0].usedTimes.time[
+          this.mergedConfigsData[0].usedTimes.time.length - 1
+        ];
       }
       return returnTime;
     },
@@ -770,7 +676,9 @@ export default {
   },
   mounted() {
     if (!this.dataLayerTimeProp) {
-      this.dataLayerTime = { value: this.usedTimes.time[this.usedTimes.time.length - 1] };
+      this.dataLayerTime = { value: this.mergedConfigsData[0].usedTimes.time[
+        this.mergedConfigsData[0].usedTimes.time.length - 1
+      ] };
     }
 
     if (!this.compareLayerTimeProp) {
@@ -1024,8 +932,8 @@ export default {
       const i = this.getCurrentIndex(side);
       let currentValue = null;
       // compensate for color code with only one entry, still showing it
-      if (this.usedTimes.colorCode) {
-        const colors = this.usedTimes.colorCode;
+      if (this.mergedConfigsData[0].usedTimes.colorCode) {
+        const colors = this.mergedConfigsData[0].usedTimes.colorCode;
         if (Array.isArray(colors) && colors.length === 1) {
           currentValue = colors[0]; // eslint-disable-line prefer-destructuring
         } else if (Array.isArray(colors) && colors[i]) {
@@ -1034,7 +942,7 @@ export default {
       }
       return currentValue;
     },
-    getAoiFill(side) {
+    aoiFillStyle(side) {
       const currentValue = this.getColorCode(side);
       return currentValue
         ? this.getIndicatorColor(currentValue)
@@ -1044,6 +952,7 @@ export default {
       return side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
     },
     subAoiStyle(side) {
+      // return getSubAoiStyle(side);
       const currentValue = this.getColorCode(side);
       return {
         color: currentValue
@@ -1052,22 +961,6 @@ export default {
         weight: 3,
         fill: false,
       };
-    },
-    configFromInputData(side) {
-      const i = this.getCurrentIndex(side);
-      const inputData = this.usedTimes.inputData.length === 1
-        ? this.usedTimes.inputData[0]
-        : this.usedTimes.inputData[i];
-      if (this.baseConfig.layerNameMapping.hasOwnProperty(inputData)) { // eslint-disable-line
-        let config = this.baseConfig.layerNameMapping[inputData];
-        if (!Array.isArray(config)) {
-          // assure array is returned
-          config = [config];
-        }
-        return config;
-      }
-      // empty config used later for merging
-      return [];
     },
     getCombinedWMSLayers(side = 'data') {
       const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
@@ -1082,60 +975,6 @@ export default {
         l.protocol === 'WMS' && Object.keys(l).indexOf('combinedLayers') === -1
       ));
       return simpleLayers;
-    },
-    mergedConfigs(side = 'data') {
-      // first check if special compare layer configured
-      let displayTmp = side === 'compare' && this.indicator.compareDisplay ? this.indicator.compareDisplay : this.indicator.display;
-      // following configuration merging is done:
-      // defaultLayersDisplay (to avoid having to configure it before)
-      // indDefinition - indicator code specific configuration
-      // display - coming from js configuration - esa.js OR
-      // configFromInputData - coming from input data reference from csvs
-
-      if (displayTmp) {
-        // from layer configuration
-        if (!Array.isArray(displayTmp)) {
-          // always make an Array of layer configurations
-          displayTmp = [displayTmp];
-        }
-      }
-      const finalConfigs = [];
-      let usedConfigForMerge = {};
-      let name = this.indicator.description;
-
-      if (!displayTmp && this.configFromInputData(side).length === 0) {
-        // no additional config specified, use defaults
-        usedConfigForMerge = [{ name }];
-      } else if (!displayTmp) {
-        // use configFromInputData
-        usedConfigForMerge = this.configFromInputData(side);
-      } else {
-        // use displayTmp even if configFromInputData set too
-        usedConfigForMerge = displayTmp;
-      }
-      usedConfigForMerge.forEach((item) => {
-        // merge configs for each layer
-        name = item.name || name;
-        // Check to see if we have grouped layers, if we do we need to add
-        // the default to them too
-        const extendedItem = item;
-        if (Object.keys(item).indexOf('combinedLayers') !== -1) {
-          for (let i = 0; i < item.combinedLayers.length; i += 1) {
-            extendedItem.combinedLayers[i] = {
-              ...this.baseConfig.defaultLayersDisplay,
-              ...this.indDefinition,
-              ...item.combinedLayers[i],
-            };
-          }
-        }
-        finalConfigs.push({
-          ...this.baseConfig.defaultLayersDisplay,
-          ...this.indDefinition,
-          ...extendedItem,
-          name,
-        });
-      });
-      return finalConfigs;
     },
     flyToBounds() {
       // zooms to subaoi if present or area around aoi if not
@@ -1196,29 +1035,6 @@ export default {
         this.map.fitBounds(latLngBounds(this.mapDefaults.bounds));
       }
     },
-    getTimeLabel(time) {
-      // Check if custom function was configured
-      if (this.mergedConfigsData[0].labelFormatFunction) {
-        return this.mergedConfigsData[0].labelFormatFunction(time);
-      }
-      // If not try default approach
-      if (Array.isArray(time) && time.length === 2) {
-        // show start - end
-        if (this.mergedConfigsData[0].mapTimeLabelExtended) {
-          return time.map((d) => DateTime.fromISO(d).toISO({ suppressMilliseconds: true })).join(' - ');
-        }
-        return time.map((d) => DateTime.fromISO(d).toISODate()).join(' - ');
-      } else if (time instanceof DateTime) { // eslint-disable-line no-else-return
-        if (this.mergedConfigsData[0].mapTimeLabelExtended) {
-          return time.toISO({ suppressMilliseconds: true });
-        }
-        return time.toISODate();
-      }
-      if (this.mergedConfigsData[0].mapTimeLabelExtended) {
-        return DateTime.fromISO(time).toISO({ suppressMilliseconds: true });
-      }
-      return DateTime.fromISO(time).toISODate();
-    },
     layerOptions(time, sourceOptionsObj) {
       const additionalSettings = {};
       if (Object.prototype.hasOwnProperty.call(sourceOptionsObj, 'siteMapping')) {
@@ -1251,7 +1067,7 @@ export default {
     },
     dataLayerTimeSelection(timeObj) {
       this.dataLayerTime = timeObj;
-      const newIndex = this.arrayOfObjects
+      const newIndex = this.availableTimeEntries
         .map((i) => i.value)
         .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
       this.dataLayerIndex = newIndex;
@@ -1286,7 +1102,7 @@ export default {
     },
     compareLayerTimeSelection(timeObj) {
       this.compareLayerTime = timeObj;
-      const newIndex = this.arrayOfObjects
+      const newIndex = this.availableTimeEntries
         .map((i) => i.value)
         .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
       this.compareLayerIndex = newIndex;
@@ -1303,7 +1119,7 @@ export default {
       // find closest entry one year before latest time
       if (this.mergedConfigsData[0].largeTimeDuration) {
         // if interval, use just start to get closest
-        const times = this.usedTimes.time.map((item) => (Array.isArray(item) ? item[0] : item));
+        const times = this.mergedConfigsData[0].usedTimes.time.map((item) => (Array.isArray(item) ? item[0] : item));
         const lastTimeEntry = DateTime.fromISO(times[times.length - 1]);
         const oneYearBefore = lastTimeEntry.minus({ years: 1 });
         // select closest to one year before
@@ -1316,10 +1132,10 @@ export default {
         // Get index and return object from original times as there are also
         // arrays of time tuple arrays
         const foundIndex = times.indexOf(closestOneYearBefore);
-        return this.usedTimes.time[foundIndex];
+        return this.mergedConfigsData[0].usedTimes.time[foundIndex];
       }
       // use first time
-      return this.usedTimes.time[0];
+      return this.mergedConfigsData[0].usedTimes.time[0];
     },
     refreshGroup(group, time, side) {
       // Group can also be an array depending on type
@@ -1684,14 +1500,14 @@ export default {
       immediate: true,
       deep: true,
       handler(v) {
-        if (v) this.dataLayerTime = this.arrayOfObjects.find((item) => item.name === v);
+        if (v) this.dataLayerTime = this.availableTimeEntries.find((item) => item.name === v);
       },
     },
     compareLayerTimeProp: {
       immediate: true,
       deep: true,
       handler(v) {
-        if (v) this.compareLayerTime = this.arrayOfObjects.find((item) => item.name === v);
+        if (v) this.compareLayerTime = this.availableTimeEntries.find((item) => item.name === v);
       },
     },
     enableCompare(on) {
@@ -1720,10 +1536,10 @@ export default {
 
         // The following two calls set initial compare
         // and data layer times containing name and value.
-        const cTime = this.arrayOfObjects.find((v) => v.value === this.compareLayerTime.value);
+        const cTime = this.availableTimeEntries.find((v) => v.value === this.compareLayerTime.value);
         this.compareLayerTimeUpdated(cTime.name);
 
-        const dTime = this.arrayOfObjects.find((v) => v.value === this.dataLayerTime.value);
+        const dTime = this.availableTimeEntries.find((v) => v.value === this.dataLayerTime.value);
         this.dataLayerTimeUpdated(dTime.name);
       }
 
