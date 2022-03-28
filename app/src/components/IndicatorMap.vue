@@ -91,7 +91,7 @@
       :optionsStyle="subAoiInverseStyle"
       >
       </l-geo-json>
-      <l-layer-group ref="dataLayers">
+      <l-layer-group ref="dataLayers" v-if="dataLayerTime">
         <l-geo-json
         :geojson="indicator.subAoi"
         :pane="tooltipPane"
@@ -178,7 +178,7 @@
           </LWMSTileLayer>
         </template>
       </l-layer-group>
-      <l-layer-group ref="compareLayers">
+      <l-layer-group ref="compareLayers" v-if="compareLayerTime">
         <!-- XYZ grouping is not implemented yet -->
         <LTileLayer
         v-for="(layerConfig, i) in mergedConfigsCompare.filter(l => l.protocol === 'xyz')"
@@ -358,96 +358,17 @@
           background: rgba(255, 255, 255, 0.6); font-size: 16px; pointer-events: none;">
             {{indicator.compareDisplay.mapLabel}}
         </h3>
-        <v-sheet
+        <indicator-time-selection
           v-if="!mergedConfigsData[0].disableTimeSelection"
-          class="row justify-center align-center"
-          style="position: absolute; bottom: 30px; z-index: 1000; width: auto; max-width: 100%;"
-        >
-          <v-col
-            v-if="enableCompare && !indicator.compareDisplay"
-            cols="6"
-            class="pr-0"
-          >
-            <v-select
-              v-if="enableCompare"
-              outlined
-              dense
-              :autofocus="!disableAutoFocus"
-              attach
-              hide-details
-              :prepend-inner-icon="(arrayOfObjects && compareLayerTime) && (arrayOfObjects
-                .map((i) => i.value)
-                .indexOf(compareLayerTime.value) > 0
-                  ? 'mdi-arrow-left-drop-circle'
-                  : 'mdi-asterisk')"
-              :append-icon="(arrayOfObjects && compareLayerTime) && (arrayOfObjects
-                .map((i) => i.value)
-                .indexOf(compareLayerTime.value) < arrayOfObjects.length - 1
-                  ? 'mdi-arrow-right-drop-circle'
-                  : 'mdi-asterisk')"
-              menu-props="auto"
-              :items="arrayOfObjects"
-              item-value="value"
-              item-text="name"
-              return-object
-              v-model="compareLayerTime"
-              @focus="focusSelect(true)"
-              @blur="focusSelect(false)"
-              @change="compareLayerTimeSelection"
-              @click:prepend-inner="compareLayerReduce"
-              @click:append="compareLayerIncrease"
-            ></v-select>
-          </v-col>
-          <v-col
-            :cols="enableCompare && !indicator.compareDisplay ? 6 : 12"
-          >
-            <v-select
-              outlined
-              dense
-              :autofocus="!disableAutoFocus"
-              attach
-              hide-details
-              :prepend-inner-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
-                .map((i) => i.value)
-                .indexOf(dataLayerTime.value) > 0
-                  ? 'mdi-arrow-left-drop-circle'
-                  : 'mdi-asterisk')"
-              :append-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
-                .map((i) => i.value)
-                .indexOf(dataLayerTime.value) < arrayOfObjects.length - 1
-                  ? 'mdi-arrow-right-drop-circle'
-                  : 'mdi-asterisk')"
-              menu-props="auto"
-              :items="arrayOfObjects"
-              item-value="value"
-              item-text="name"
-              return-object
-              v-model="dataLayerTime"
-              @focus="focusSelect(true)"
-              @blur="focusSelect(false)"
-              @change="dataLayerTimeSelection"
-              @click:prepend-inner="dataLayerReduce"
-              @click:append="dataLayerIncrease"
-            >
-              <template v-slot:prepend
-              v-if="!mergedConfigsData[0].disableCompare">
-                <v-tooltip
-                  bottom
-                >
-                  <template v-slot:activator="{ on }">
-                    <v-icon
-                      v-on="on"
-                      @click="enableCompare = !enableCompare"
-                    >
-                      mdi-compare
-                    </v-icon>
-                  </template>
-                  Compare two images
-                </v-tooltip>
-              </template>
-            </v-select>
-          </v-col>
-        </v-sheet>
+          :autofocus="!disableAutoFocus"
+          :available-values="arrayOfObjects"
+          :indicator="indicator"
+          :compare-active.sync="enableCompare"
+          :compare-time.sync="compareLayerTime"
+          :original-time.sync="dataLayerTime"
+          :enable-compare="!mergedConfigsData[0].disableCompare"
+          @focusSelect="focusSelect"
+        />
       </div>
       <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
       <l-control-layers position="topright" ref="layersControl"></l-control-layers>
@@ -488,6 +409,7 @@ import turfDifference from '@turf/difference';
 import countries from '@/assets/countries.json';
 import gsaFile from '@/assets/gsa_data.json';
 
+import IndicatorTimeSelection from './IndicatorTimeSelection.vue';
 
 const emptyF = {
   type: 'FeatureCollection',
@@ -528,6 +450,7 @@ export default {
     LControl,
     LTooltip,
     'l-marker-cluster': Vue2LeafletMarkerCluster,
+    IndicatorTimeSelection,
   },
   data() {
     return {
@@ -846,10 +769,8 @@ export default {
     },
   },
   mounted() {
-    this.dataLayerIndex = this.usedTimes.time.length - 1;
-
     if (!this.dataLayerTimeProp) {
-      this.dataLayerTime = { value: this.usedTimes.time[this.dataLayerIndex] };
+      this.dataLayerTime = { value: this.usedTimes.time[this.usedTimes.time.length - 1] };
     }
 
     if (!this.compareLayerTimeProp) {
@@ -1100,7 +1021,7 @@ export default {
       };
     },
     getColorCode(side) {
-      const i = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
+      const i = this.getCurrentIndex(side);
       let currentValue = null;
       // compensate for color code with only one entry, still showing it
       if (this.usedTimes.colorCode) {
@@ -1119,6 +1040,9 @@ export default {
         ? this.getIndicatorColor(currentValue)
         : this.appConfig.branding.primaryColor;
     },
+    getCurrentIndex(side) {
+      return side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
+    },
     subAoiStyle(side) {
       const currentValue = this.getColorCode(side);
       return {
@@ -1130,7 +1054,7 @@ export default {
       };
     },
     configFromInputData(side) {
-      const i = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
+      const i = this.getCurrentIndex(side);
       const inputData = this.usedTimes.inputData.length === 1
         ? this.usedTimes.inputData[0]
         : this.usedTimes.inputData[i];
@@ -1325,13 +1249,8 @@ export default {
       });
       return additionalSettings;
     },
-    dataLayerTimeSelection(payload) {
-      // Different object returned either by arrow use or by dropdown use
-      if (Array.isArray(payload) || !(payload.value)) {
-        this.dataLayerTime = { value: payload, name: `${payload}` };
-      } else {
-        this.dataLayerTime = payload;
-      }
+    dataLayerTimeSelection(timeObj) {
+      this.dataLayerTime = timeObj;
       const newIndex = this.arrayOfObjects
         .map((i) => i.value)
         .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
@@ -1345,7 +1264,6 @@ export default {
       if (this.indicator.compareDisplay) {
         // shared time on both sides in case of compareDisplay being set
         this.compareLayerTime = this.dataLayerTime;
-        this.compareLayerIndex = newIndex;
         this.refreshLayers('compare');
         this.$nextTick(() => {
           this.slider.setLeftLayers(
@@ -1366,13 +1284,8 @@ export default {
       }
       return actualLayers;
     },
-    compareLayerTimeSelection(payload) {
-      // Different object returned either by arrow use or by dropdown use
-      if (Array.isArray(payload) || !(payload.value)) {
-        this.compareLayerTime = { value: payload, name: `${payload}` };
-      } else {
-        this.compareLayerTime = payload;
-      }
+    compareLayerTimeSelection(timeObj) {
+      this.compareLayerTime = timeObj;
       const newIndex = this.arrayOfObjects
         .map((i) => i.value)
         .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
@@ -1385,34 +1298,6 @@ export default {
       });
 
       this.compareLayerTimeUpdated(this.compareLayerTime.name);
-    },
-    dataLayerReduce() {
-      const currentIndex = this.arrayOfObjects
-        .map((i) => i.value)
-        .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
-      this.dataLayerIndex = currentIndex - 1;
-      this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex - 1]);
-    },
-    dataLayerIncrease() {
-      const currentIndex = this.arrayOfObjects
-        .map((i) => i.value)
-        .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
-      this.dataLayerIndex = currentIndex + 1;
-      this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex + 1]);
-    },
-    compareLayerReduce() {
-      const currentIndex = this.arrayOfObjects
-        .map((i) => i.value)
-        .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
-      this.compareLayerIndex = currentIndex - 1;
-      this.compareLayerTimeSelection(this.arrayOfObjects[currentIndex - 1]);
-    },
-    compareLayerIncrease() {
-      const currentIndex = this.arrayOfObjects
-        .map((i) => i.value)
-        .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
-      this.compareLayerIndex = currentIndex + 1;
-      this.compareLayerTimeSelection(this.arrayOfObjects[currentIndex + 1]);
     },
     getInitialCompareTime() {
       // find closest entry one year before latest time
@@ -1512,62 +1397,64 @@ export default {
       }
     },
     fetchFeatures(side) {
-      const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
-      if (usedConfig[0].features) {
-        const options = this.layerOptions(side === 'compare' ? this.currentCompareTime : this.currentTime,
-          usedConfig[0]);
-        // add custom area if present
-        let customArea = {};
-        if (this.validDrawnArea) {
-          customArea = typeof this.mergedConfigsData[0].features.areaFormatFunction === 'function'
-            ? this.mergedConfigsData[0].features.areaFormatFunction(this.drawnArea)
-            : { area: JSON.stringify(this.drawnArea) };
-        }
-        const templateSubst = {
-          ...this.indicator,
-          ...options,
-          ...customArea,
-        };
-        const templateRe = /\{ *([\w_ -]+) *\}/g;
-        const url = template(templateRe, this.mergedConfigsData[0].features.url, templateSubst);
-        let requestBody = null;
-        if (this.mergedConfigsData[0].features.requestBody) {
-          requestBody = {
-            ...this.mergedConfigsData[0].features.requestBody,
-          };
-          const params = Object.keys(requestBody);
-          for (let i = 0; i < params.length; i += 1) {
-            // substitute template strings with values
-            requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
+      if (this.map) {
+        const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
+        if (usedConfig[0].features) {
+          const options = this.layerOptions(side === 'compare' ? this.currentCompareTime : this.currentTime,
+            usedConfig[0]);
+          // add custom area if present
+          let customArea = {};
+          if (this.validDrawnArea) {
+            customArea = typeof this.mergedConfigsData[0].features.areaFormatFunction === 'function'
+              ? this.mergedConfigsData[0].features.areaFormatFunction(this.drawnArea)
+              : { area: JSON.stringify(this.drawnArea) };
           }
-        }
-        const requestOpts = {
-          credentials: 'same-origin',
-          method: this.mergedConfigsData[0].features.requestMethod || 'GET',
-          headers: this.mergedConfigsData[0].features.requestHeaders || {},
-        };
-        if (requestBody) {
-          requestOpts.body = JSON.stringify(requestBody);
-        }
-        this.map.fireEvent('dataloading');
-        fetch(url, requestOpts).then((r) => r.json())
-          .then((rawdata) => {
-            // if custom response -> feature mapping function configured, apply it
-            if (typeof this.mergedConfigsData[0].features.callbackFunction === 'function') {
-              return this.mergedConfigsData[0].features.callbackFunction(rawdata);
+          const templateSubst = {
+            ...this.indicator,
+            ...options,
+            ...customArea,
+          };
+          const templateRe = /\{ *([\w_ -]+) *\}/g;
+          const url = template(templateRe, this.mergedConfigsData[0].features.url, templateSubst);
+          let requestBody = null;
+          if (this.mergedConfigsData[0].features.requestBody) {
+            requestBody = {
+              ...this.mergedConfigsData[0].features.requestBody,
+            };
+            const params = Object.keys(requestBody);
+            for (let i = 0; i < params.length; i += 1) {
+              // substitute template strings with values
+              requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
             }
-            return rawdata;
-          })
-          .then((data) => {
-            this.map.fireEvent('dataload');
-            this.updateJsonLayers(data, side);
-          })
-          .catch(() => {
-            this.map.fireEvent('dataload');
-            this.updateJsonLayers(emptyF, side);
-          });
-      } else {
-        this.updateJsonLayers(emptyF, side);
+          }
+          const requestOpts = {
+            credentials: 'same-origin',
+            method: this.mergedConfigsData[0].features.requestMethod || 'GET',
+            headers: this.mergedConfigsData[0].features.requestHeaders || {},
+          };
+          if (requestBody) {
+            requestOpts.body = JSON.stringify(requestBody);
+          }
+          this.map.fireEvent('dataloading');
+          fetch(url, requestOpts).then((r) => r.json())
+            .then((rawdata) => {
+              // if custom response -> feature mapping function configured, apply it
+              if (typeof this.mergedConfigsData[0].features.callbackFunction === 'function') {
+                return this.mergedConfigsData[0].features.callbackFunction(rawdata);
+              }
+              return rawdata;
+            })
+            .then((data) => {
+              this.map.fireEvent('dataload');
+              this.updateJsonLayers(data, side);
+            })
+            .catch(() => {
+              this.map.fireEvent('dataload');
+              this.updateJsonLayers(emptyF, side);
+            });
+        } else {
+          this.updateJsonLayers(emptyF, side);
+        }
       }
     },
     selectGSAIndicator(feature) {
@@ -1787,6 +1674,12 @@ export default {
         if (v) this.center = v;
       },
     },
+    dataLayerTime(timeObj) {
+      this.dataLayerTimeSelection(timeObj);
+    },
+    compareLayerTime(timeObj) {
+      this.compareLayerTimeSelection(timeObj);
+    },
     dataLayerTimeProp: {
       immediate: true,
       deep: true,
@@ -1882,9 +1775,6 @@ export default {
 ::v-deep .leaflet-control-layers-toggle {
   background-image: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23003247" width="32px" height="32px"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>');
 }
-::v-deep .mdi-asterisk {
-  visibility: hidden;
-}
 ::v-deep .leaflet-bar a, ::v-deep .leaflet-control-attribution {
   color: var(--v-primary-base) !important;
 }
@@ -1923,9 +1813,5 @@ export default {
 
 ::v-deep .leaflet-top.leaflet-right {
   margin-top: 45px;
-}
-
-::v-deep .v-menu__content {
-  transform: translate(1%, -87%);
 }
 </style>
