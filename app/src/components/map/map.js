@@ -20,7 +20,15 @@ class VueMap {
         className: 'v-card primary--text ol-zoom',
       }),
       new MousePosition({
-        coordinateFormat: (coordinates) => `<span>${toStringXY(coordinates, 3)}</span>`,
+        coordinateFormat: (coordinates) => {
+          let lonValue = coordinates[0] % 360;
+          if (lonValue > 180) {
+            lonValue -= 360;
+          } else if (lonValue < -180) {
+            lonValue += 360;
+          }
+          return `<span>${toStringXY([lonValue, coordinates[1]], 3)}</span>`;
+        },
         projection: 'EPSG:4326',
         className: 'v-card ol-control primary--text ol-mouse-position',
         placeholder: false,
