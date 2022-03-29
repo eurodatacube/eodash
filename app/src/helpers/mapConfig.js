@@ -1,16 +1,16 @@
 import { DateTime } from 'luxon';
 import store from '@/store'
-import { getLocationCode } from '@/mixins/getLocationCode'
+import getLocationCode from '@/mixins/getLocationCode'
 
 let appConfig, baseConfig;
 
 const generateUsedTimes = (indicator) => {
   const replaceMapTimes = baseConfig.replaceMapTimes
-    && baseConfig.replaceMapTimes[getLocationCode(indicatorObject)]
+    && baseConfig.replaceMapTimes[getLocationCode(indicator)]
   const additionalMapTimes = baseConfig.additionalMapTimes
-    && baseConfig.additionalMapTimes[getLocationCode(indicatorObject)];
+    && baseConfig.additionalMapTimes[getLocationCode(indicator)];
   const excludeMapTimes = baseConfig.excludeMapTimes
-    && baseConfig.excludeMapTimes[getLocationCode(indicatorObject)];
+    && baseConfig.excludeMapTimes[getLocationCode(indicator)];
 
   let times = indicator.time;
   let eoSensor = Array.isArray(indicator.eoSensor) && indicator.eoSensor;
@@ -99,7 +99,7 @@ const generateUsedTimes = (indicator) => {
 }
 
 const createConfigFromIndicator = (indicatorObject, side, index) => {
-  appConfig = store.state.config.appConfig;
+  // appConfig = store.state.config.appConfig;
   baseConfig = store.state.config.baseConfig;
   const usedTimes = generateUsedTimes(indicatorObject);
   const inputDataConfig = configFromInputData(usedTimes, index)
