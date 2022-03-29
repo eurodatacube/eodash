@@ -415,6 +415,9 @@ import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
 } from '@/helpers/mapConfig.js'
+import {
+  fetchCustomAreaIndicator,
+} from '@/helpers/customAreaIndicator.js'
 
 const emptyF = {
   type: 'FeatureCollection',
@@ -1190,7 +1193,9 @@ export default {
         if (!this.mergedConfigsData[0].featuresStatic
           && (!this.mergedConfigsData[0].customAreaFeatures || this.validDrawnArea)) {
           if (this.mergedConfigsData[0].featuresClustering) {
-            this.$refs.featuresCompareCluster.mapObject.clearLayers();
+            if (this.$refs.featuresCompareCluster) {
+              this.$refs.featuresCompareCluster.mapObject.clearLayers();
+            }
           }
           this.fetchFeatures('compare');
         }
@@ -1206,7 +1211,9 @@ export default {
         if (!this.mergedConfigsData[0].featuresStatic
           && (!this.mergedConfigsData[0].customAreaFeatures || this.validDrawnArea)) {
           if (this.mergedConfigsData[0].featuresClustering) {
-            this.$refs.featuresDataCluster.mapObject.clearLayers();
+            if (this.$refs.featuresDataCluster) {
+              this.$refs.featuresDataCluster.mapObject.clearLayers();
+            }
           }
           this.fetchFeatures('data');
         }
@@ -1359,87 +1366,113 @@ export default {
           console.log(err);
         });
     },
-    fetchCustomAreaIndicator() {
+    async fetchCustomAreaIndicator() {
       const options = this.layerOptions(this.currentTime, this.mergedConfigsData[0]);
-      // add custom area if present
-      let customArea = {};
-      if (this.validDrawnArea) {
-        customArea = typeof this.mergedConfigsData[0].areaIndicator.areaFormatFunction === 'function'
-          ? this.mergedConfigsData[0].areaIndicator.areaFormatFunction(this.drawnArea)
-          : { area: JSON.stringify(this.drawnArea) };
-      }
-      this.indicator.title = 'User defined area of interest';
-      const templateSubst = {
-        ...this.indicator,
-        ...options,
-        ...customArea,
-      };
-      const templateRe = /\{ *([\w_ -]+) *\}/g;
-      const url = template(templateRe, this.mergedConfigsData[0].areaIndicator.url, templateSubst);
-      let requestBody = null;
-      if (this.mergedConfigsData[0].areaIndicator.requestBody) {
-        requestBody = {
-          ...this.mergedConfigsData[0].areaIndicator.requestBody,
-        };
-        const params = Object.keys(requestBody);
-        for (let i = 0; i < params.length; i += 1) {
-          // substitute template strings with values
-          if (typeof requestBody[params[i]] === 'string') {
-            requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
-          }
-          // Convert geojsons back to an object
-          if (params[i] === 'geojson') {
-            requestBody[params[i]] = JSON.parse(requestBody[params[i]]);
-          }
-        }
-      }
-      const requestOpts = {
-        credentials: 'same-origin',
-        method: this.mergedConfigsData[0].areaIndicator.requestMethod || 'GET',
-        headers: this.mergedConfigsData[0].areaIndicator.requestHeaders || {},
-      };
-      if (requestBody) {
-        requestOpts.body = JSON.stringify(requestBody);
-      }
       this.map.fireEvent('dataloading');
-      fetch(url, requestOpts).then((response) => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        } else {
-          return response.json();
-        }
-      })
-        .then((rwdata) => {
-          if (typeof this.mergedConfigsData[0].areaIndicator.callbackFunction === 'function') {
-            // merge data from current indicator data and new data from api
-            // returns new indicator object to set as custom area indicator
-            return this.mergedConfigsData[0].areaIndicator.callbackFunction(rwdata, this.indicator);
-          }
-          return rwdata;
-        })
-        .then((indicator) => {
-          if (indicator) {
-            indicator.poi = this.drawnArea.coordinates.flat(Infinity).join('-'); // eslint-disable-line
-            indicator.includesIndicator = true; // eslint-disable-line
-          }
-          this.map.fireEvent('dataload');
-          this.$store.commit(
-            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
-          );
-          this.$emit('fetchCustomAreaIndicator');
-        })
-        .catch((err) => {
-          this.map.fireEvent('dataload');
-          this.$store.commit(
-            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null,
-          );
-          console.log(err);
-          this.$store.commit('sendAlert', {
-            message: `Error requesting data, error message: ${err}.</br>
-              If the issue persists, please use the feedback button to let us know.`,
-            type: 'error',
-          });
+      try {
+        const customIndicator = await fetchCustomAreaIndicator(
+          options,
+          this.drawnArea,
+          this.validDrawnArea,
+          this.mergedConfigsData[0],
+          this.indicator,
+        );
+        this.map.fireEvent('dataload');
+        this.$store.commit(
+          'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', customIndicator,
+        );
+        this.$emit('fetchCustomAreaIndicator');
+      } catch (err) {
+        this.map.fireEvent('dataload');
+        this.$store.commit(
+          'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null,
+        );
+        console.log(err);
+        this.$store.commit('sendAlert', {
+          message: `Error requesting data, error message: ${err}.</br>
+            If the issue persists, please use the feedback button to let us know.`,
+          type: 'error',
         });
+      }
+    //   // add custom area if present
+    //   let customArea = {};
+    //   if (this.validDrawnArea) {
+    //     customArea = typeof this.mergedConfigsData[0].areaIndicator.areaFormatFunction === 'function'
+    //       ? this.mergedConfigsData[0].areaIndicator.areaFormatFunction(this.drawnArea)
+    //       : { area: JSON.stringify(this.drawnArea) };
+    //   }
+    //   this.indicator.title = 'User defined area of interest';
+    //   const templateSubst = {
+    //     ...this.indicator,
+    //     ...options,
+    //     ...customArea,
+    //   };
+    //   const templateRe = /\{ *([\w_ -]+) *\}/g;
+    //   const url = template(templateRe, this.mergedConfigsData[0].areaIndicator.url, templateSubst);
+    //   let requestBody = null;
+    //   if (this.mergedConfigsData[0].areaIndicator.requestBody) {
+    //     requestBody = {
+    //       ...this.mergedConfigsData[0].areaIndicator.requestBody,
+    //     };
+    //     const params = Object.keys(requestBody);
+    //     for (let i = 0; i < params.length; i += 1) {
+    //       // substitute template strings with values
+    //       if (typeof requestBody[params[i]] === 'string') {
+    //         requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
+    //       }
+    //       // Convert geojsons back to an object
+    //       if (params[i] === 'geojson') {
+    //         requestBody[params[i]] = JSON.parse(requestBody[params[i]]);
+    //       }
+    //     }
+    //   }
+    //   const requestOpts = {
+    //     credentials: 'same-origin',
+    //     method: this.mergedConfigsData[0].areaIndicator.requestMethod || 'GET',
+    //     headers: this.mergedConfigsData[0].areaIndicator.requestHeaders || {},
+    //   };
+    //   if (requestBody) {
+    //     requestOpts.body = JSON.stringify(requestBody);
+    //   }
+    //   this.map.fireEvent('dataloading');
+    //   fetch(url, requestOpts).then((response) => {
+    //     if (!response.ok) {
+    //       throw Error(response.statusText);
+    //     } else {
+    //       return response.json();
+    //     }
+    //   })
+    //     .then((rwdata) => {
+    //       if (typeof this.mergedConfigsData[0].areaIndicator.callbackFunction === 'function') {
+    //         // merge data from current indicator data and new data from api
+    //         // returns new indicator object to set as custom area indicator
+    //         return this.mergedConfigsData[0].areaIndicator.callbackFunction(rwdata, this.indicator);
+    //       }
+    //       return rwdata;
+    //     })
+    //     .then((indicator) => {
+    //       if (indicator) {
+    //         indicator.poi = this.drawnArea.coordinates.flat(Infinity).join('-'); // eslint-disable-line
+    //         indicator.includesIndicator = true; // eslint-disable-line
+    //       }
+    //       this.map.fireEvent('dataload');
+    //       this.$store.commit(
+    //         'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
+    //       );
+    //       this.$emit('fetchCustomAreaIndicator');
+    //     })
+    //     .catch((err) => {
+    //       this.map.fireEvent('dataload');
+    //       this.$store.commit(
+    //         'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null,
+    //       );
+    //       console.log(err);
+    //       this.$store.commit('sendAlert', {
+    //         message: `Error requesting data, error message: ${err}.</br>
+    //           If the issue persists, please use the feedback button to let us know.`,
+    //         type: 'error',
+    //       });
+    //     });
     },
     clearCustomAreaFilter() {
       this.$store.commit('features/SET_SELECTED_AREA', null);
