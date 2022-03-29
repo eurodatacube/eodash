@@ -53,6 +53,7 @@
   align-items: center;
   padding-left: 6px;
   padding-right: 6px;
+  pointer-events: none !important;
 }
 
 .ol-mouse-position span{
