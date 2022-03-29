@@ -1,12 +1,13 @@
 import { DateTime } from 'luxon';
-import store from '@/store'
-import getLocationCode from '@/mixins/getLocationCode'
+import store from '@/store';
+import getLocationCode from '@/mixins/getLocationCode';
 
-let appConfig, baseConfig;
+// let appConfig;
+let baseConfig;
 
 const generateUsedTimes = (indicator) => {
   const replaceMapTimes = baseConfig.replaceMapTimes
-    && baseConfig.replaceMapTimes[getLocationCode(indicator)]
+    && baseConfig.replaceMapTimes[getLocationCode(indicator)];
   const additionalMapTimes = baseConfig.additionalMapTimes
     && baseConfig.additionalMapTimes[getLocationCode(indicator)];
   const excludeMapTimes = baseConfig.excludeMapTimes
@@ -96,16 +97,7 @@ const generateUsedTimes = (indicator) => {
   return {
     time: times, eoSensor, inputData, colorCode,
   };
-}
-
-const createConfigFromIndicator = (indicatorObject, side, index) => {
-  // appConfig = store.state.config.appConfig;
-  baseConfig = store.state.config.baseConfig;
-  const usedTimes = generateUsedTimes(indicatorObject);
-  const inputDataConfig = configFromInputData(usedTimes, index)
-
-  return mergedConfigs(usedTimes, side, inputDataConfig, indicatorObject)
-}
+};
 
 const configFromInputData = (usedTimes, index) => {
   // const i = this.getCurrentIndex(side);
@@ -185,7 +177,16 @@ const mergedConfigs = (usedTimes, side = 'data', inputDataConfig, indicatorObjec
     });
   });
   return finalConfigs;
-}
+};
+
+const createConfigFromIndicator = (indicatorObject, side, index) => {
+  // appConfig = store.state.config.appConfig;
+  baseConfig = store.state.config.baseConfig;
+  const usedTimes = generateUsedTimes(indicatorObject);
+  const inputDataConfig = configFromInputData(usedTimes, index);
+
+  return mergedConfigs(usedTimes, side, inputDataConfig, indicatorObject);
+};
 
 const getTimeLabel = (time, config) => {
   // Check if custom function was configured
@@ -233,4 +234,4 @@ const createAvailableTimeEntries = (indicatorObject, config) => {
 export {
   createConfigFromIndicator,
   createAvailableTimeEntries,
-}
+};

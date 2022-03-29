@@ -1,6 +1,13 @@
 import { template } from '@/utils';
 
-const fetchCustomAreaIndicator = async (options, drawnArea, validDrawnArea, mergedConfig, indicator) => {
+const fetchCustomAreaIndicator = async (
+  options,
+  drawnArea,
+  validDrawnArea,
+  mergedConfig,
+  indicatorObject,
+) => {
+  const indicator = indicatorObject;
   // add custom area if present
   let customArea = {};
   if (validDrawnArea) {
@@ -57,19 +64,19 @@ const fetchCustomAreaIndicator = async (options, drawnArea, validDrawnArea, merg
       }
       return rwdata;
     })
-    .then((indicator) => {
-      if (indicator) {
-        indicator.poi = drawnArea.coordinates.flat(Infinity).join('-'); // eslint-disable-line
-        indicator.includesIndicator = true; // eslint-disable-line
-        return indicator;
+    .then((newIndicator) => {
+      let custom;
+      if (newIndicator) {
+        newIndicator.poi = drawnArea.coordinates.flat(Infinity).join('-'); // eslint-disable-line
+        newIndicator.includesIndicator = true; // eslint-disable-line
+        custom = newIndicator;
       }
+      return custom;
     })
     .catch((err) => {
-      throw Error(err)
+      throw Error(err);
     });
   return customIndicator;
 };
 
-export {
-  fetchCustomAreaIndicator
-}
+export default fetchCustomAreaIndicator;

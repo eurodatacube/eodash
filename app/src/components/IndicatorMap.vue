@@ -409,15 +409,13 @@ import turfDifference from '@turf/difference';
 import countries from '@/assets/countries.json';
 import gsaFile from '@/assets/gsa_data.json';
 
-import IndicatorTimeSelection from './IndicatorTimeSelection.vue';
 
 import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
-} from '@/helpers/mapConfig.js'
-import {
-  fetchCustomAreaIndicator,
-} from '@/helpers/customAreaIndicator.js'
+} from '@/helpers/mapConfig';
+import fetchCustomAreaIndicator from '@/helpers/customAreaIndicator';
+import IndicatorTimeSelection from './IndicatorTimeSelection.vue';
 
 const emptyF = {
   type: 'FeatureCollection',
@@ -568,20 +566,20 @@ export default {
       return createConfigFromIndicator(
         this.indicator,
         'data',
-        this.getCurrentIndex('data')
-      )
+        this.getCurrentIndex('data'),
+      );
     },
     mergedConfigsCompare() {
       return createConfigFromIndicator(
         this.indicator,
         'compare',
-        this.getCurrentIndex('compare')
-      )
+        this.getCurrentIndex('compare'),
+      );
     },
     availableTimeEntries() {
       return createAvailableTimeEntries(
         this.indicator,
-        this.mergedConfigsData // TODO do we really need to pass the config here?
+        this.mergedConfigsData, // TODO do we really need to pass the config here?
       );
     },
     currentTime() {
@@ -679,9 +677,11 @@ export default {
   },
   mounted() {
     if (!this.dataLayerTimeProp) {
-      this.dataLayerTime = { value: this.mergedConfigsData[0].usedTimes.time[
-        this.mergedConfigsData[0].usedTimes.time.length - 1
-      ] };
+      this.dataLayerTime = {
+        value: this.mergedConfigsData[0].usedTimes.time[
+          this.mergedConfigsData[0].usedTimes.time.length - 1
+        ],
+      };
     }
 
     if (!this.compareLayerTimeProp) {
@@ -1122,7 +1122,8 @@ export default {
       // find closest entry one year before latest time
       if (this.mergedConfigsData[0].largeTimeDuration) {
         // if interval, use just start to get closest
-        const times = this.mergedConfigsData[0].usedTimes.time.map((item) => (Array.isArray(item) ? item[0] : item));
+        const times = this.mergedConfigsData[0].usedTimes.time
+          .map((item) => (Array.isArray(item) ? item[0] : item));
         const lastTimeEntry = DateTime.fromISO(times[times.length - 1]);
         const oneYearBefore = lastTimeEntry.minus({ years: 1 });
         // select closest to one year before
@@ -1394,85 +1395,6 @@ export default {
           type: 'error',
         });
       }
-    //   // add custom area if present
-    //   let customArea = {};
-    //   if (this.validDrawnArea) {
-    //     customArea = typeof this.mergedConfigsData[0].areaIndicator.areaFormatFunction === 'function'
-    //       ? this.mergedConfigsData[0].areaIndicator.areaFormatFunction(this.drawnArea)
-    //       : { area: JSON.stringify(this.drawnArea) };
-    //   }
-    //   this.indicator.title = 'User defined area of interest';
-    //   const templateSubst = {
-    //     ...this.indicator,
-    //     ...options,
-    //     ...customArea,
-    //   };
-    //   const templateRe = /\{ *([\w_ -]+) *\}/g;
-    //   const url = template(templateRe, this.mergedConfigsData[0].areaIndicator.url, templateSubst);
-    //   let requestBody = null;
-    //   if (this.mergedConfigsData[0].areaIndicator.requestBody) {
-    //     requestBody = {
-    //       ...this.mergedConfigsData[0].areaIndicator.requestBody,
-    //     };
-    //     const params = Object.keys(requestBody);
-    //     for (let i = 0; i < params.length; i += 1) {
-    //       // substitute template strings with values
-    //       if (typeof requestBody[params[i]] === 'string') {
-    //         requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
-    //       }
-    //       // Convert geojsons back to an object
-    //       if (params[i] === 'geojson') {
-    //         requestBody[params[i]] = JSON.parse(requestBody[params[i]]);
-    //       }
-    //     }
-    //   }
-    //   const requestOpts = {
-    //     credentials: 'same-origin',
-    //     method: this.mergedConfigsData[0].areaIndicator.requestMethod || 'GET',
-    //     headers: this.mergedConfigsData[0].areaIndicator.requestHeaders || {},
-    //   };
-    //   if (requestBody) {
-    //     requestOpts.body = JSON.stringify(requestBody);
-    //   }
-    //   this.map.fireEvent('dataloading');
-    //   fetch(url, requestOpts).then((response) => {
-    //     if (!response.ok) {
-    //       throw Error(response.statusText);
-    //     } else {
-    //       return response.json();
-    //     }
-    //   })
-    //     .then((rwdata) => {
-    //       if (typeof this.mergedConfigsData[0].areaIndicator.callbackFunction === 'function') {
-    //         // merge data from current indicator data and new data from api
-    //         // returns new indicator object to set as custom area indicator
-    //         return this.mergedConfigsData[0].areaIndicator.callbackFunction(rwdata, this.indicator);
-    //       }
-    //       return rwdata;
-    //     })
-    //     .then((indicator) => {
-    //       if (indicator) {
-    //         indicator.poi = this.drawnArea.coordinates.flat(Infinity).join('-'); // eslint-disable-line
-    //         indicator.includesIndicator = true; // eslint-disable-line
-    //       }
-    //       this.map.fireEvent('dataload');
-    //       this.$store.commit(
-    //         'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
-    //       );
-    //       this.$emit('fetchCustomAreaIndicator');
-    //     })
-    //     .catch((err) => {
-    //       this.map.fireEvent('dataload');
-    //       this.$store.commit(
-    //         'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null,
-    //       );
-    //       console.log(err);
-    //       this.$store.commit('sendAlert', {
-    //         message: `Error requesting data, error message: ${err}.</br>
-    //           If the issue persists, please use the feedback button to let us know.`,
-    //         type: 'error',
-    //       });
-    //     });
     },
     clearCustomAreaFilter() {
       this.$store.commit('features/SET_SELECTED_AREA', null);
@@ -1569,10 +1491,12 @@ export default {
 
         // The following two calls set initial compare
         // and data layer times containing name and value.
-        const cTime = this.availableTimeEntries.find((v) => v.value === this.compareLayerTime.value);
+        const cTime = this.availableTimeEntries
+          .find((v) => v.value === this.compareLayerTime.value);
         this.compareLayerTimeUpdated(cTime.name);
 
-        const dTime = this.availableTimeEntries.find((v) => v.value === this.dataLayerTime.value);
+        const dTime = this.availableTimeEntries
+          .find((v) => v.value === this.dataLayerTime.value);
         this.dataLayerTimeUpdated(dTime.name);
       }
 
