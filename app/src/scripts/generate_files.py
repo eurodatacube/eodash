@@ -23,16 +23,35 @@ dot_env.set_as_environment_variables()
 geodb = GeoDBClient()
 envs = dot_env.dict()
 
-# Function to fetch all available dates for BYOD collections
+# Function to fetch all available dates for BYOD collections.
 # Make sure all appropiate collection ids are set in your docker environment
 COLLECTIONS = [
-    "N3_CUSTOM", "N3_CUSTOM_TSMNN", "E12C_NEW_MOTORWAY",
-    "E12D_NEW_PRIMARYROADS", "ICEYE-E3", "ICEYE-E11", "ICEYE-E11A", "ICEYE-E12B",
-    "ICEYE-E13B","N3_CUSTOM_TRILATERAL", "N3_CUSTOM_TRILATERAL_TSMNN",
-    "JAXA_TSM", "JAXA_CHLA",
-    "VIS_2MTEMPERATURE", "VIS_RELHUMIDITY1000HPA", "POPULATION_DENSITY",
-    "VIS_WIND_U_10M", "VIS_WIND_V_10M",
+]
+
+MIGRATED_COLLECTIONS = [
+    "N3_CUSTOM",
+    "N3_CUSTOM_TSMNN",
+    "E12C_NEW_MOTORWAY",
+    "E12D_NEW_PRIMARYROADS",
+    "ICEYE-E3",
+    "ICEYE-E11",
+    "ICEYE-E11A",
+    "ICEYE-E12B",
+    "ICEYE-E13B",
+    "N3_CUSTOM_TRILATERAL",
+    "N3_CUSTOM_TRILATERAL_TSMNN",
+    "JAXA_TSM",
+    "JAXA_CHLA",
+    "VIS_2MTEMPERATURE",
+    "VIS_RELHUMIDITY1000HPA",
+    "POPULATION_DENSITY",
+    "VIS_WIND_U_10M",
+    "VIS_WIND_V_10M",
     "VIS_SO2_DAILY_DATA",
+]
+
+ZARRCOLLECTIONS = [
+
 ]
 
 # Some datasets have different dates for different areas so we need to separate
@@ -54,7 +73,8 @@ BBOX = {
 
 # TODO: what to do about SENTINEL-2-L2A-TRUE-COLOR collection, not BYOD
 
-WFSENDPOINT = "https://shservices.mundiwebservices.com/ogc/wfs/"
+# WFSENDPOINT = "https://shservices.mundiwebservices.com/ogc/wfs/"
+MIGRATEDENDPOINT ="https://services.sentinel-hub.com/ogc/wfs/"
 REQUESTOPTIONS = "?REQUEST=%s&srsName=%s&TIME=%s&outputformat=%s"%(
     "GetFeature", "EPSG:4326",
     "1900-01-01/3000-02-01", "application/json"
@@ -65,29 +85,74 @@ results_dict = {}
 
 def retrieve_entries(url, offset):
     r = requests.get("%s&FEATURE_OFFSET=%s"%(url, (offset*100)))
-    json_resp = r.json()
-    features = json_resp["features"]
     res = []
-    [res.append(f["properties"]["date"]) for f in features if f["properties"]["date"] not in res]
-    if len(features) == 100:
-        res.extend(retrieve_entries(url, offset+1))
+    try:
+        json_resp = r.json()
+        features = json_resp["features"]
+        [res.append(f["properties"]["date"]) for f in features if f["properties"]["date"] not in res]
+        if len(features) == 100:
+            res.extend(retrieve_entries(url, offset+1))
+    except Exception as e:
+        print("Issue parsing json for request: %s"%url)
+        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        message = template.format(type(e).__name__, e.args)
+        print (message)
     return res
 
 
-print("Fetching information of available dates for BYOD data")
+# print("Fetching information of available dates for BYOD data from deprecated server")
+# try:
+#     for key in COLLECTIONS:
+#         # fetch identifier from environment
+#         if key in envs:
+#             coll_id = envs[key]
+#             layer_name = "&TYPENAMES=DSS10-%s"%(coll_id)
+#             if key in BBOX:
+#                 # There are multiple locations for this dataset so we do
+#                 # requests for each location
+#                 for (val, subr_key) in BBOX[key]:
+#                     bbox = "&BBOX=%s"%val
+#                     request = "%s%s%s%s%s"%(
+#                         WFSENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
+#                         layer_name, bbox
+#                     )
+#                     results = retrieve_entries(request, 0)
+#                     results.sort()
+#                     results_dict[("%s_%s"%(key, subr_key))] = results
+#             else:
+#                 bbox = "&BBOX=-180,90,180,-90"
+#                 request = "%s%s%s%s%s"%(
+#                     WFSENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
+#                     layer_name, bbox
+#                 )
+#                 results = retrieve_entries(request, 0)
+#                 results = list(set(results))
+#                 results.sort()
+#                 results_dict[key] = results
+#         else:
+#             print("Key for %s not found in environment variables"%key)
+# except Exception as e:
+#     print("Issue retrieving BYOD information from deprecated server")
+#     template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+#     message = template.format(type(e).__name__, e.args)
+#     print (message)
+
+print("Fetching information of available dates for BYOD data from new server")
 try:
-    for key in COLLECTIONS:
+    for key in MIGRATED_COLLECTIONS:
         # fetch identifier from environment
         if key in envs:
             coll_id = envs[key]
             layer_name = "&TYPENAMES=DSS10-%s"%(coll_id)
+            if key in ZARRCOLLECTIONS:
+                layer_name = "&TYPENAMES=zarr-%s"%(coll_id)
             if key in BBOX:
                 # There are multiple locations for this dataset so we do
                 # requests for each location
                 for (val, subr_key) in BBOX[key]:
                     bbox = "&BBOX=%s"%val
                     request = "%s%s%s%s%s"%(
-                        WFSENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
+                        MIGRATEDENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
                         layer_name, bbox
                     )
                     results = retrieve_entries(request, 0)
@@ -96,7 +161,7 @@ try:
             else:
                 bbox = "&BBOX=-180,90,180,-90"
                 request = "%s%s%s%s%s"%(
-                    WFSENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
+                    MIGRATEDENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
                     layer_name, bbox
                 )
                 results = retrieve_entries(request, 0)
@@ -105,8 +170,11 @@ try:
                 results_dict[key] = results
         else:
             print("Key for %s not found in environment variables"%key)
-except:
-    print("Issue retrieving BYOD information")
+except Exception as e:
+    print("Issue retrieving BYOD information from new server")
+    template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+    message = template.format(type(e).__name__, e.args)
+    print (message)
 
 print("Writing results to %s"%date_data_file)
 with open(date_data_file, "w") as fp:
