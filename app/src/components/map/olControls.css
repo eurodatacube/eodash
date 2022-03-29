@@ -43,3 +43,21 @@
   top: 10px !important;
   right: 10px !important;
 }
+
+.ol-mouse-position {
+  top: unset;
+  bottom: 0.5em !important;
+  right: 0.5em !important;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  padding-left: 6px;
+  padding-right: 6px;
+  pointer-events: none !important;
+}
+
+.ol-mouse-position span{
+  font-size: 12px;
+  display: inline-block;
+  padding-right: 26px;
+}
