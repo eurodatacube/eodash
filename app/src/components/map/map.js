@@ -3,6 +3,8 @@ import View from 'ol/View';
 import Attribution from 'ol/control/Attribution';
 import FullScreen from 'ol/control/FullScreen';
 import Zoom from 'ol/control/Zoom';
+import MousePosition from 'ol/control/MousePosition';
+import { toStringXY } from 'ol/coordinate';
 
 import 'ol/ol.css';
 import './olControls.css';
@@ -16,6 +18,12 @@ class VueMap {
       }),
       new Zoom({
         className: 'v-card primary--text ol-zoom',
+      }),
+      new MousePosition({
+        coordinateFormat: (coordinates) => `<span>${toStringXY(coordinates, 3)}</span>`,
+        projection: 'EPSG:4326',
+        className: 'v-card ol-control primary--text ol-mouse-position',
+        placeholder: false,
       }),
       new Attribution({
         className: 'v-card ol-attribution',
