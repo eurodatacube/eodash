@@ -1178,25 +1178,97 @@ export default {
         }
       }
     },
-    async fetchFeatures(side) {
+    async fetchData({
+      type, side, feature, countryCode, aoiID,
+    }) {
+      // fetching of customFeatures, customIndicator, gsaIndicator or mobilityData
+      // depending on fetch success/failure the map loads data or errors are shown
       if (this.map) {
-        const options = this.layerOptions(this.dataLayerTime, this.mergedConfigsData[0]);
         this.map.fireEvent('dataloading');
         try {
-          const custom = await fetchCustomAreaObjects(
-            options,
-            this.drawnArea,
-            this.validDrawnArea,
-            this.mergedConfigsData[0],
-            this.indicator,
-            'features',
-          );
+          if (type === 'customFeatures' || type === 'customIndicator') {
+            if (!this.mergedConfigsData[0].features) {
+              // TODO - this wrongly is called for indicators that should not have this
+              throw new Error('no features object defined in mapConfig');
+            }
+            const options = this.layerOptions(this.dataLayerTime, this.mergedConfigsData[0]);
+            const custom = await fetchCustomAreaObjects(
+              options,
+              this.drawnArea,
+              this.validDrawnArea,
+              this.mergedConfigsData[0],
+              this.indicator,
+              type === 'customFeatures' ? 'features' : 'areaIndicator',
+            );
+            if (type === 'customFeatures') {
+              this.updateJsonLayers(custom.customFeatures, side);
+            } else {
+              this.$store.commit(
+                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', custom.customIndicator,
+              );
+              this.$emit('fetchCustomAreaIndicator');
+            }
+          } else if (type === 'gsaIndicator' || type === 'mobilityData') {
+            this.selectedBorder = feature.borderId;
+            const dataUrl = `./eodash-data/internal/${type === 'gsaIndicator'
+              ? feature.borderId
+              : `${countryCode}-${aoiID}`}.json`;
+            fetch(dataUrl).then((response) => {
+              if (!response.ok) {
+                throw Error(response.statusText);
+              } else {
+                return response.json();
+              }
+            })
+              .then((indicator) => {
+                const returnIndicator = {};
+                returnIndicator.values = { ...indicator };
+                if (type === 'gsaIndicator') {
+                  returnIndicator.indicator = 'GSA';
+                  // Get all times of available border crossings to allow finding min max
+                  returnIndicator.time = [];
+                  Object.keys(indicator).forEach((key) => {
+                    const currVals = indicator[key].values;
+                    for (let i = 0; i < currVals.length; i += 1) {
+                      returnIndicator.time.push(DateTime.fromISO(currVals[i].timestamp));
+                    }
+                  });
+                  returnIndicator.measurement = [0];
+                  returnIndicator.title = feature.name;
+                  returnIndicator.yAxis = this.indicator.yAxis;
+                } else {
+                  returnIndicator.indicator = aoiID;
+                  returnIndicator.time = indicator.Values.map((row) => DateTime.fromISO(row.date));
+                  returnIndicator.measurement = [0];
+                  returnIndicator.country = indicator.CountryCode;
+                  returnIndicator.title = indicator.CountryName;
+                  returnIndicator.yAxis = this.indicator.yAxis;
+                  returnIndicator.includesIndicator = true;
+                  returnIndicator.city = indicator.CountryName;
+                  returnIndicator.description = this.indicator.description;
+                }
+                this.map.fireEvent('dataload');
+                this.$store.commit(
+                  'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', returnIndicator,
+                );
+                this.$emit('fetchCustomAreaIndicator');
+              });
+          }
           this.map.fireEvent('dataload');
-          this.updateJsonLayers(custom.customFeatures, side);
         } catch (err) {
           this.map.fireEvent('dataload');
-          this.updateJsonLayers(emptyF, side);
-          console.log(err);
+          if (type === 'customFeatures') {
+            this.updateJsonLayers(emptyF, side);
+          } else if (type === 'customIndicator') {
+            this.$store.commit(
+              'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null,
+            );
+          } else if (type === 'gsaIndicator' || type === 'mobilityData') {
+            this.$store.commit(
+              'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', { isEmpty: true },
+            );
+          }
+          console.error(err);
           this.$store.commit('sendAlert', {
             message: `Error requesting data, error message: ${err}.</br>
               If the issue persists, please use the feedback button to let us know.`,
@@ -1204,122 +1276,30 @@ export default {
           });
         }
       }
+    },
+    fetchFeatures(side) {
+      this.fetchData({
+        type: 'customFeatures',
+        side,
+      });
     },
     selectGSAIndicator(feature) {
-      this.selectedBorder = feature.borderId;
-      const dataUrl = `./eodash-data/internal/${feature.borderId}.json`;
-      this.map.fireEvent('dataloading');
-      fetch(dataUrl).then((response) => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        } else {
-          return response.json();
-        }
-      })
-        .then((indicator) => {
-          const returnIndicator = {};
-          returnIndicator.values = { ...indicator };
-          returnIndicator.indicator = 'GSA';
-          // Get all times of available border crossings to allow finding min max
-          returnIndicator.time = [];
-          Object.keys(indicator).forEach((key) => {
-            const currVals = indicator[key].values;
-            for (let i = 0; i < currVals.length; i += 1) {
-              returnIndicator.time.push(DateTime.fromISO(currVals[i].timestamp));
-            }
-          });
-          returnIndicator.measurement = [0];
-          returnIndicator.title = feature.name;
-          returnIndicator.yAxis = this.indicator.yAxis;
-          this.map.fireEvent('dataload');
-          this.$store.commit(
-            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', returnIndicator,
-          );
-          this.$emit('fetchCustomAreaIndicator');
-        })
-        .catch((err) => {
-          this.map.fireEvent('dataload');
-          // It seems data could not be loaded lets show a no data found message
-          this.$store.commit(
-            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', { isEmpty: true },
-          );
-          this.$store.commit('sendAlert', {
-            message: `Error requesting data, error message: ${err}.</br>
-              If the issue persists, please use the feedback button to let us know.`,
-            type: 'error',
-          });
-          console.log(err);
-        });
+      this.fetchData({
+        type: 'gsaIndicator',
+        feature,
+      });
     },
     fetchMobilityData(countryCode, aoiID) {
-      const dataUrl = `./eodash-data/internal/${countryCode}-${aoiID}.json`;
-      this.map.fireEvent('dataloading');
-      fetch(dataUrl).then((response) => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        } else {
-          return response.json();
-        }
-      })
-        .then((indicator) => {
-          indicator.indicator = aoiID; // eslint-disable-line
-          indicator.time = indicator.Values.map((row) => DateTime.fromISO(row.date)); // eslint-disable-line
-          indicator.measurement = [0]; // eslint-disable-line
-          indicator.country = indicator.CountryCode; // eslint-disable-line
-          indicator.title = indicator.CountryName; // eslint-disable-line
-          indicator.yAxis = this.indicator.yAxis; // eslint-disable-line
-          indicator.includesIndicator = true; // eslint-disable-line
-          indicator.city = indicator.CountryName; // eslint-disable-line
-          indicator.description = this.indicator.description; // eslint-disable-line
-          this.map.fireEvent('dataload');
-          this.$store.commit(
-            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
-          );
-          this.$emit('fetchCustomAreaIndicator');
-        })
-        .catch((err) => {
-          this.map.fireEvent('dataload');
-          // It seems data could not be loaded lets show a no data found message
-          this.$store.commit(
-            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', { isEmpty: true },
-          );
-          this.$store.commit('sendAlert', {
-            message: `Error requesting data, error message: ${err}.</br>
-              If the issue persists, please use the feedback button to let us know.`,
-            type: 'error',
-          });
-          console.log(err);
-        });
+      this.fetchData({
+        type: 'mobilityData',
+        countryCode,
+        aoiID,
+      });
     },
-    async fetchCustomAreaIndicator() {
-      const options = this.layerOptions(this.dataLayerTime, this.mergedConfigsData[0]);
-      this.map.fireEvent('dataloading');
-      try {
-        const custom = await fetchCustomAreaObjects(
-          options,
-          this.drawnArea,
-          this.validDrawnArea,
-          this.mergedConfigsData[0],
-          this.indicator,
-          'areaIndicator',
-        );
-        this.map.fireEvent('dataload');
-        this.$store.commit(
-          'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', custom.customIndicator,
-        );
-        this.$emit('fetchCustomAreaIndicator');
-      } catch (err) {
-        this.map.fireEvent('dataload');
-        this.$store.commit(
-          'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null,
-        );
-        console.log(err);
-        this.$store.commit('sendAlert', {
-          message: `Error requesting data, error message: ${err}.</br>
-            If the issue persists, please use the feedback button to let us know.`,
-          type: 'error',
-        });
-      }
+    fetchCustomAreaIndicator() {
+      this.fetchData({
+        type: 'customIndicator',
+      });
     },
     clearCustomAreaFilter() {
       this.$store.commit('features/SET_SELECTED_AREA', null);
