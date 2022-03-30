@@ -750,15 +750,86 @@ export const globalIndicators = [
         yAxis: 'Tropospheric NO2 (μmol/m2)',
         display: {
           customAreaIndicator: true,
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/api/v1/statistics`,
           name: 'Air Quality (NO2) - ESA',
           layers: 'NO2-VISUALISATION',
           legendUrl: 'eodash-data/data/no2Legend.png',
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           areaIndicator: {
-            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            // Layer: NO2_RAW_DATA
+            // CRS:   CRS:84
+            // Time:  2000-01-01/2050-01-01
+            // Resolution: 2500m
+            url: `https://services.sentinel-hub.com/api/v1/statistics`,
+            requestMethod: 'POST',
+            requestHeaders: {
+              'Content-Type': 'application/json',
+            },
+            requestBody: {
+              input: {
+                bounds: {
+                  geometry: {
+                    type: "Polygon",
+                    coordinates: '{area}',
+                  }
+                },
+                data: [
+                  {
+                    "dataFilter": {},
+                    "type": "byoc-972e67a7-2ca8-4bf6-964a-11fe772e3ac2",
+                  }
+                ]
+              },
+
+              aggregation: {
+                timeRange: {
+                  from: '2000-01-01T00:00:00Z',
+                  to: '2050-01-01T00:00:00Z',
+                },
+                aggregationInterval: {
+                  "of": "P1D",
+                },
+                resx: 0.0225,
+                resy: 0.0225,
+                evalscript: `
+                  //VERSION=3
+                  function setup() {
+                    return {
+                      input: [{
+                        bands: [
+                          "tropno2",
+                          "dataMask"
+                        ]
+                      }],
+                      output: [
+                        {
+                          id: "no2_raw",
+                          bands: 1,
+                          sampleType: "FLOAT32"
+                        },
+                        {
+                          id: "dataMask",
+                          bands: 1
+                        }
+                      ]
+                    }
+                  }
+
+                  function evaluatePixel(samples) {
+                    return {
+                      no2_raw:  [samples.tropno2],
+                      dataMask: [samples.dataMask]
+                    }
+                  }`
+              },
+              calculations: {
+                default: {},
+              }
+            },
             callbackFunction: (requestJson, indicator) => {
+              console.log(requestJson);
+
               if (Array.isArray(requestJson.C0)) {
                 const data = requestJson.C0;
                 const newData = {
