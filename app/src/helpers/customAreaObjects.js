@@ -50,8 +50,7 @@ const fetchCustomAreaObjects = async (
     requestOpts.body = JSON.stringify(requestBody);
   }
   // this.map.fireEvent('dataloading');
-  const customObjects = {};
-  await fetch(url, requestOpts).then((response) => {
+  const customObjects = await fetch(url, requestOpts).then((response) => {
     if (!response.ok) {
       throw Error(response.statusText);
     } else {
@@ -64,7 +63,6 @@ const fetchCustomAreaObjects = async (
         // returns new indicator object to set as custom area indicator
         return mergedConfig[lookup].callbackFunction(rwdata, indicator);
       }
-      customObjects.customFeatures = rwdata;
       return rwdata;
     })
     .then((newIndicator) => {
@@ -74,8 +72,11 @@ const fetchCustomAreaObjects = async (
         newIndicator.includesIndicator = true; // eslint-disable-line
         custom = newIndicator;
       }
-      customObjects.customIndicator = custom;
-      return custom;
+      const customObject = {
+        customFeatures: newIndicator,
+        customIndicator: custom,
+      };
+      return customObject;
     })
     .catch((err) => {
       throw Error(err);

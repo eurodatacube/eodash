@@ -1183,16 +1183,16 @@ export default {
         const options = this.layerOptions(this.dataLayerTime, this.mergedConfigsData[0]);
         this.map.fireEvent('dataloading');
         try {
-          const customFeatures = await fetchCustomAreaObjects(
+          const custom = await fetchCustomAreaObjects(
             options,
             this.drawnArea,
             this.validDrawnArea,
             this.mergedConfigsData[0],
             this.indicator,
             'features',
-          ).customFeatures;
+          );
           this.map.fireEvent('dataload');
-          this.updateJsonLayers(customFeatures, side);
+          this.updateJsonLayers(custom.customFeatures, side);
         } catch (err) {
           this.map.fireEvent('dataload');
           this.updateJsonLayers(emptyF, side);
@@ -1295,17 +1295,17 @@ export default {
       const options = this.layerOptions(this.dataLayerTime, this.mergedConfigsData[0]);
       this.map.fireEvent('dataloading');
       try {
-        const customIndicator = await fetchCustomAreaObjects(
+        const custom = await fetchCustomAreaObjects(
           options,
           this.drawnArea,
           this.validDrawnArea,
           this.mergedConfigsData[0],
           this.indicator,
           'areaIndicator',
-        ).customIndicator;
+        );
         this.map.fireEvent('dataload');
         this.$store.commit(
-          'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', customIndicator,
+          'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', custom.customIndicator,
         );
         this.$emit('fetchCustomAreaIndicator');
       } catch (err) {
