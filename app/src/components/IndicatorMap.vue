@@ -132,7 +132,7 @@
           :data-key-originalindex="i"
           :key="dataLayerKeyXYZ[i]"
           v-bind="layerConfig"
-          :options="layerOptions(currentTime, layerConfig)"
+          :options="layerOptions(dataLayerTime, layerConfig)"
           :pane="overlayPane"
           layer-type="overlay"
         >
@@ -149,7 +149,7 @@
               v-for="cLayerConfig in combLayer.combinedLayers"
                 :key="cLayerConfig.name"
                 v-bind="cLayerConfig"
-                :options="layerOptions(currentTime, cLayerConfig)"
+                :options="layerOptions(dataLayerTime, cLayerConfig)"
                 :pane="overlayPane"
               >
               </LWMSTileLayer>
@@ -158,7 +158,7 @@
             v-for="layerConfig in this.getSimpleWMSLayers()"
               :key="layerConfig.name"
               v-bind="layerConfig"
-              :options="layerOptions(currentTime, layerConfig)"
+              :options="layerOptions(dataLayerTime, layerConfig)"
               :pane="overlayPane"
               layer-type="overlay"
             >
@@ -171,7 +171,7 @@
             ref="dataLayerArrayWMS"
             :key="layerConfig.name"
             v-bind="layerConfig"
-            :options="layerOptions(currentTime, layerConfig)"
+            :options="layerOptions(dataLayerTime, layerConfig)"
             :pane="overlayPane"
             layer-type="overlay"
           >
@@ -187,7 +187,7 @@
           :key="compareLayerKeyXYZ[i]"
           v-bind="layerConfig"
           :visible="enableCompare"
-          :options="layerOptions(currentCompareTime, layerConfig)"
+          :options="layerOptions(compareLayerTime, layerConfig)"
           :pane="overlayPane"
         >
         </LTileLayer>
@@ -202,7 +202,7 @@
                 :key="cLayerConfig.name"
                 v-bind="cLayerConfig"
                 :visible="enableCompare"
-                :options="layerOptions(currentCompareTime, cLayerConfig)"
+                :options="layerOptions(compareLayerTime, cLayerConfig)"
                 :pane="overlayPane"
               >
               </LWMSTileLayer>
@@ -212,7 +212,7 @@
               :key="layerConfig.name"
               v-bind="layerConfig"
               :visible="enableCompare"
-              :options="layerOptions(currentCompareTime, layerConfig)"
+              :options="layerOptions(compareLayerTime, layerConfig)"
               :pane="overlayPane"
             >
             </LWMSTileLayer>
@@ -225,7 +225,7 @@
             :key="layerConfig.name"
             v-bind="layerConfig"
             :visible="enableCompare"
-            :options="layerOptions(currentCompareTime, layerConfig)"
+            :options="layerOptions(compareLayerTime, layerConfig)"
             :pane="overlayPane"
           >
           </LWMSTileLayer>
@@ -359,6 +359,7 @@
             {{indicator.compareDisplay.mapLabel}}
         </h3>
         <indicator-time-selection
+          ref="timeSelection"
           v-if="!mergedConfigsData[0].disableTimeSelection"
           :autofocus="!disableAutoFocus"
           :available-values="availableTimeEntries"
@@ -367,6 +368,7 @@
           :compare-time.sync="compareLayerTime"
           :original-time.sync="dataLayerTime"
           :enable-compare="!mergedConfigsData[0].disableCompare"
+          :large-time-duration="mergedConfigsData[0].largeTimeDuration"
           @focusSelect="focusSelect"
         />
       </div>
@@ -385,13 +387,13 @@ import {
 import {
   geoJson, latLngBounds, latLng, circleMarker, DivIcon, Point,
 } from 'leaflet';
-import { template } from '@/utils';
+import { template } from '@/utils'; // TODO: MIGRATE
 import {
   LMap, LTileLayer, LWMSTileLayer, LGeoJson, LCircleMarker,
   LControlLayers, LControlAttribution, LControlZoom, LLayerGroup,
   LFeatureGroup, LControl, LTooltip,
 } from 'vue2-leaflet';
-import { DateTime } from 'luxon';
+import { DateTime } from 'luxon'; // TODO: MIGRATE
 
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-mouse-position';
@@ -582,28 +584,6 @@ export default {
         this.mergedConfigsData, // TODO do we really need to pass the config here?
       );
     },
-    currentTime() {
-      let returnTime = null;
-      if (this.dataLayerTime !== null) {
-        returnTime = this.dataLayerTime;
-      } else {
-        returnTime = this.mergedConfigsData[0].usedTimes.time[
-          this.mergedConfigsData[0].usedTimes.time.length - 1
-        ];
-      }
-      return returnTime;
-    },
-    currentCompareTime() {
-      let returnTime = null;
-      if (this.indicator.compareDisplay) {
-        returnTime = this.dataLayerTime;
-      } else if (this.compareLayerTime !== null) {
-        returnTime = this.compareLayerTime;
-      } else {
-        returnTime = this.getInitialCompareTime();
-      }
-      return returnTime;
-    },
     aoi() {
       return this.indicator.aoi;
     },
@@ -685,7 +665,9 @@ export default {
     }
 
     if (!this.compareLayerTimeProp) {
-      this.compareLayerTime = { value: this.currentCompareTime };
+      this.$nextTick(() => {
+        this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
+      });
     }
 
     this.ro = new ResizeObserver(this.onResize)
@@ -1118,29 +1100,6 @@ export default {
 
       this.compareLayerTimeUpdated(this.compareLayerTime.name);
     },
-    getInitialCompareTime() {
-      // find closest entry one year before latest time
-      if (this.mergedConfigsData[0].largeTimeDuration) {
-        // if interval, use just start to get closest
-        const times = this.mergedConfigsData[0].usedTimes.time
-          .map((item) => (Array.isArray(item) ? item[0] : item));
-        const lastTimeEntry = DateTime.fromISO(times[times.length - 1]);
-        const oneYearBefore = lastTimeEntry.minus({ years: 1 });
-        // select closest to one year before
-        const closestOneYearBefore = times.find((item, i) => (
-          i === times.length - 1 || (
-            Math.abs(oneYearBefore.toMillis() - DateTime.fromISO(item).toMillis())
-            < Math.abs(oneYearBefore.toMillis() - DateTime.fromISO(times[i + 1]).toMillis())
-          )
-        ));
-        // Get index and return object from original times as there are also
-        // arrays of time tuple arrays
-        const foundIndex = times.indexOf(closestOneYearBefore);
-        return this.mergedConfigsData[0].usedTimes.time[foundIndex];
-      }
-      // use first time
-      return this.mergedConfigsData[0].usedTimes.time[0];
-    },
     refreshGroup(group, time, side) {
       // Group can also be an array depending on type
       if (group) {
@@ -1184,7 +1143,7 @@ export default {
     refreshLayers(side) {
       // compare(left) or data(right)
       if (side === 'compare' || this.indicator.compareDisplay) {
-        this.refreshGroup(this.$refs.compareLayerArrayWMS, this.currentCompareTime, 'compare');
+        this.refreshGroup(this.$refs.compareLayerArrayWMS, this.compareLayerTime, 'compare');
         if (this.$refs.compareLayerArrayXYZ) {
           this.$refs.compareLayerArrayXYZ.forEach((item) => {
             const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
@@ -1202,7 +1161,7 @@ export default {
         }
       }
       if (side === 'data') {
-        this.refreshGroup(this.$refs.dataLayerArrayWMS, this.currentTime, 'data');
+        this.refreshGroup(this.$refs.dataLayerArrayWMS, this.dataLayerTime, 'data');
         if (this.$refs.dataLayerArrayXYZ) {
           this.$refs.dataLayerArrayXYZ.forEach((item) => {
             const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
@@ -1224,7 +1183,7 @@ export default {
       if (this.map) {
         const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
         if (usedConfig[0].features) {
-          const options = this.layerOptions(side === 'compare' ? this.currentCompareTime : this.currentTime,
+          const options = this.layerOptions(side === 'compare' ? this.compareLayerTime : this.dataLayerTime,
             usedConfig[0]);
           // add custom area if present
           let customArea = {};
@@ -1368,7 +1327,7 @@ export default {
         });
     },
     async fetchCustomAreaIndicator() {
-      const options = this.layerOptions(this.currentTime, this.mergedConfigsData[0]);
+      const options = this.layerOptions(this.dataLayerTime, this.mergedConfigsData[0]);
       this.map.fireEvent('dataloading');
       try {
         const customIndicator = await fetchCustomAreaIndicator(
