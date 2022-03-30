@@ -387,7 +387,6 @@ import {
 import {
   geoJson, latLngBounds, latLng, circleMarker, DivIcon, Point,
 } from 'leaflet';
-import { template } from '@/utils'; // TODO: MIGRATE
 import {
   LMap, LTileLayer, LWMSTileLayer, LGeoJson, LCircleMarker,
   LControlLayers, LControlAttribution, LControlZoom, LLayerGroup,
@@ -416,7 +415,7 @@ import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
 } from '@/helpers/mapConfig';
-import fetchCustomAreaIndicator from '@/helpers/customAreaIndicator';
+import fetchCustomAreaObjects from '@/helpers/customAreaObjects';
 import IndicatorTimeSelection from './IndicatorTimeSelection.vue';
 
 const emptyF = {
@@ -1179,64 +1178,30 @@ export default {
         }
       }
     },
-    fetchFeatures(side) {
+    async fetchFeatures(side) {
       if (this.map) {
-        const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
-        if (usedConfig[0].features) {
-          const options = this.layerOptions(side === 'compare' ? this.compareLayerTime : this.dataLayerTime,
-            usedConfig[0]);
-          // add custom area if present
-          let customArea = {};
-          if (this.validDrawnArea) {
-            customArea = typeof this.mergedConfigsData[0].features.areaFormatFunction === 'function'
-              ? this.mergedConfigsData[0].features.areaFormatFunction(this.drawnArea)
-              : { area: JSON.stringify(this.drawnArea) };
-          }
-          const templateSubst = {
-            ...this.indicator,
-            ...options,
-            ...customArea,
-          };
-          const templateRe = /\{ *([\w_ -]+) *\}/g;
-          const url = template(templateRe, this.mergedConfigsData[0].features.url, templateSubst);
-          let requestBody = null;
-          if (this.mergedConfigsData[0].features.requestBody) {
-            requestBody = {
-              ...this.mergedConfigsData[0].features.requestBody,
-            };
-            const params = Object.keys(requestBody);
-            for (let i = 0; i < params.length; i += 1) {
-              // substitute template strings with values
-              requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
-            }
-          }
-          const requestOpts = {
-            credentials: 'same-origin',
-            method: this.mergedConfigsData[0].features.requestMethod || 'GET',
-            headers: this.mergedConfigsData[0].features.requestHeaders || {},
-          };
-          if (requestBody) {
-            requestOpts.body = JSON.stringify(requestBody);
-          }
-          this.map.fireEvent('dataloading');
-          fetch(url, requestOpts).then((r) => r.json())
-            .then((rawdata) => {
-              // if custom response -> feature mapping function configured, apply it
-              if (typeof this.mergedConfigsData[0].features.callbackFunction === 'function') {
-                return this.mergedConfigsData[0].features.callbackFunction(rawdata);
-              }
-              return rawdata;
-            })
-            .then((data) => {
-              this.map.fireEvent('dataload');
-              this.updateJsonLayers(data, side);
-            })
-            .catch(() => {
-              this.map.fireEvent('dataload');
-              this.updateJsonLayers(emptyF, side);
-            });
-        } else {
+        const options = this.layerOptions(this.dataLayerTime, this.mergedConfigsData[0]);
+        this.map.fireEvent('dataloading');
+        try {
+          const customFeatures = await fetchCustomAreaObjects(
+            options,
+            this.drawnArea,
+            this.validDrawnArea,
+            this.mergedConfigsData[0],
+            this.indicator,
+            'features',
+          ).customFeatures;
+          this.map.fireEvent('dataload');
+          this.updateJsonLayers(customFeatures, side);
+        } catch (err) {
+          this.map.fireEvent('dataload');
           this.updateJsonLayers(emptyF, side);
+          console.log(err);
+          this.$store.commit('sendAlert', {
+            message: `Error requesting data, error message: ${err}.</br>
+              If the issue persists, please use the feedback button to let us know.`,
+            type: 'error',
+          });
         }
       }
     },
@@ -1330,13 +1295,14 @@ export default {
       const options = this.layerOptions(this.dataLayerTime, this.mergedConfigsData[0]);
       this.map.fireEvent('dataloading');
       try {
-        const customIndicator = await fetchCustomAreaIndicator(
+        const customIndicator = await fetchCustomAreaObjects(
           options,
           this.drawnArea,
           this.validDrawnArea,
           this.mergedConfigsData[0],
           this.indicator,
-        );
+          'areaIndicator',
+        ).customIndicator;
         this.map.fireEvent('dataload');
         this.$store.commit(
           'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', customIndicator,

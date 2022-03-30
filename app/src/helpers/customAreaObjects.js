@@ -1,18 +1,19 @@
 import { template } from '@/utils';
 
-const fetchCustomAreaIndicator = async (
+const fetchCustomAreaObjects = async (
   options,
   drawnArea,
   validDrawnArea,
   mergedConfig,
   indicatorObject,
+  lookup,
 ) => {
   const indicator = indicatorObject;
   // add custom area if present
   let customArea = {};
   if (validDrawnArea) {
-    customArea = typeof mergedConfig.areaIndicator.areaFormatFunction === 'function'
-      ? mergedConfig.areaIndicator.areaFormatFunction(drawnArea)
+    customArea = typeof mergedConfig[lookup].areaFormatFunction === 'function'
+      ? mergedConfig[lookup].areaFormatFunction(drawnArea)
       : { area: JSON.stringify(drawnArea) };
   }
   indicator.title = 'User defined area of interest';
@@ -22,11 +23,11 @@ const fetchCustomAreaIndicator = async (
     ...customArea,
   };
   const templateRe = /\{ *([\w_ -]+) *\}/g;
-  const url = template(templateRe, mergedConfig.areaIndicator.url, templateSubst);
+  const url = template(templateRe, mergedConfig[lookup].url, templateSubst);
   let requestBody = null;
-  if (mergedConfig.areaIndicator.requestBody) {
+  if (mergedConfig[lookup].requestBody) {
     requestBody = {
-      ...mergedConfig.areaIndicator.requestBody,
+      ...mergedConfig[lookup].requestBody,
     };
     const params = Object.keys(requestBody);
     for (let i = 0; i < params.length; i += 1) {
@@ -42,14 +43,15 @@ const fetchCustomAreaIndicator = async (
   }
   const requestOpts = {
     credentials: 'same-origin',
-    method: mergedConfig.areaIndicator.requestMethod || 'GET',
-    headers: mergedConfig.areaIndicator.requestHeaders || {},
+    method: mergedConfig[lookup].requestMethod || 'GET',
+    headers: mergedConfig[lookup].requestHeaders || {},
   };
   if (requestBody) {
     requestOpts.body = JSON.stringify(requestBody);
   }
   // this.map.fireEvent('dataloading');
-  const customIndicator = await fetch(url, requestOpts).then((response) => {
+  const customObjects = {};
+  await fetch(url, requestOpts).then((response) => {
     if (!response.ok) {
       throw Error(response.statusText);
     } else {
@@ -57,11 +59,12 @@ const fetchCustomAreaIndicator = async (
     }
   })
     .then((rwdata) => {
-      if (typeof mergedConfig.areaIndicator.callbackFunction === 'function') {
+      if (typeof mergedConfig[lookup].callbackFunction === 'function') {
         // merge data from current indicator data and new data from api
         // returns new indicator object to set as custom area indicator
-        return mergedConfig.areaIndicator.callbackFunction(rwdata, indicator);
+        return mergedConfig[lookup].callbackFunction(rwdata, indicator);
       }
+      customObjects.customFeatures = rwdata;
       return rwdata;
     })
     .then((newIndicator) => {
@@ -71,12 +74,13 @@ const fetchCustomAreaIndicator = async (
         newIndicator.includesIndicator = true; // eslint-disable-line
         custom = newIndicator;
       }
+      customObjects.customIndicator = custom;
       return custom;
     })
     .catch((err) => {
       throw Error(err);
     });
-  return customIndicator;
+  return customObjects;
 };
 
-export default fetchCustomAreaIndicator;
+export default fetchCustomAreaObjects;
