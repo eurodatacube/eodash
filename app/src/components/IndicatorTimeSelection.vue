@@ -87,6 +87,8 @@
 </template>
 
 <script>
+import { DateTime } from 'luxon';
+
 export default {
   props: {
     autofocus: {
@@ -115,6 +117,9 @@ export default {
     indicator: {
       type: Object,
     },
+    largeTimeDuration: {
+      type: Boolean,
+    },
   },
   data: () => ({
     compareTimeModel: null,
@@ -130,7 +135,15 @@ export default {
     },
   },
   created() {
-    this.compareTimeModel = this.compareTime;
+    if (!this.compareTime) {
+      if (this.indicator && this.indicator.compareDisplay) {
+        this.compareTimeModel = this.originalTime;
+      } else {
+        this.compareTimeModel = this.getInitialCompareTime();
+      }
+    } else {
+      this.compareTimeModel = this.compareTime;
+    }
     this.originalTimeModel = this.originalTime;
   },
   methods: {
@@ -138,6 +151,29 @@ export default {
       const newIndex = this.availableValues
         .findIndex((i) => i.value === this[modelName].value) + adjust;
       this[modelName] = this.availableValues[newIndex];
+    },
+    getInitialCompareTime() {
+      // find closest entry one year before latest time
+      if (this.largeTimeDuration) {
+        // if interval, use just start to get closest
+        const times = this.availableValues
+          .map((item) => (Array.isArray(item.value) ? item.value[0] : item.value));
+        const lastTimeEntry = DateTime.fromISO(times[times.length - 1]);
+        const oneYearBefore = lastTimeEntry.minus({ years: 1 });
+        // select closest to one year before
+        const closestOneYearBefore = times.find((item, i) => (
+          i === times.length - 1 || (
+            Math.abs(oneYearBefore.toMillis() - DateTime.fromISO(item).toMillis())
+            < Math.abs(oneYearBefore.toMillis() - DateTime.fromISO(times[i + 1]).toMillis())
+          )
+        ));
+        // Get index and return object from original times as there are also
+        // arrays of time tuple arrays
+        const foundIndex = times.indexOf(closestOneYearBefore);
+        return this.availableValues[foundIndex];
+      }
+      // use first time
+      return this.availableValues[0];
     },
   },
   watch: {
