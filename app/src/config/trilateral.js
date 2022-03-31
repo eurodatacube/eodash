@@ -363,6 +363,11 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.terrainLight],
   },
+  NPP: {
+    indicator: 'NPP',
+    class: 'air',
+    themes: ['covid-19', 'air-quality'],
+  },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
     themes: ['air-quality', 'agriculture', 'biomass-and-landcover', 'economy', 'oceans', 'cryosphere', 'covid-19'],
@@ -1055,6 +1060,46 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           legendUrl: 'data/trilateral/N2-co2diff-legend.png',
           disableCompare: true,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'NPP',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'NPP',
+        indicator: 'NPP',
+        lastIndicatorValue: null,
+        indicatorName: 'TROPOMI NPP',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        time: availableDates.PP,
+        inputData: [],
+        yAxis: 'NPP',
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'NPP',
+          layers: 'PP',
+          // legendUrl: 'eodash-data/data/colorbarso2.svg',
+          minZoom: 2,
+          maxZoom: 13,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          /*
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...shFisAreaIndicatorStdConfig,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=PPA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+          },
+          */
         },
       },
     },

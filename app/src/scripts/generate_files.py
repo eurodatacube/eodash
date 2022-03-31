@@ -48,10 +48,11 @@ MIGRATED_COLLECTIONS = [
     "VIS_WIND_U_10M",
     "VIS_WIND_V_10M",
     "VIS_SO2_DAILY_DATA",
+    "PP"
 ]
 
 ZARRCOLLECTIONS = [
-
+    "PP",
 ]
 
 # Some datasets have different dates for different areas so we need to separate
@@ -447,7 +448,7 @@ def generateData(
         with open("%s%s.json" % (output_folder, poi_key), "w") as gp:
             json.dump(poi_dict[poi_key]["poi_data"], gp, indent=4, default=date_converter, sort_keys=True)
 
-
+'''
 #################
 # Retrieval of official stories
 print("Fetching data for official stories")
@@ -558,3 +559,5 @@ generateData(
         ['E200', ''],
     ]
 )
+
+'''
