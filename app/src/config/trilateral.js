@@ -765,6 +765,7 @@ export const globalIndicators = [
             requestMethod: 'POST',
             requestHeaders: {
               'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': 'https://eodashboard.org',
               Authorization: `Bearer ${shConfig.shInstanceId}`,
             },
             requestBody: {
@@ -907,7 +908,6 @@ export const globalIndicators = [
             requestMethod: 'POST',
             requestHeaders: {
               'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin' : 'https://eodashboard.org',
             },
             requestBody: {
               datasetId: 'no2',
