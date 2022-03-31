@@ -136,7 +136,7 @@ export default {
   },
   created() {
     if (!this.compareTime) {
-      if (this.indicator.compareDisplay) {
+      if (this.indicator && this.indicator.compareDisplay) {
         this.compareTimeModel = this.originalTime;
       } else {
         this.compareTimeModel = this.getInitialCompareTime();
