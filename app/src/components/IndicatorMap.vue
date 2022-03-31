@@ -860,12 +860,11 @@ export default {
       };
     },
     featureOptions(side = 'data') {
-      const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
-      const style = (usedConfig[0].features && usedConfig[0].features.style) ? usedConfig[0].features.style : {}; // eslint-disable-line
+      const style = (this.usedConfig(side)[0].features && this.usedConfig(side)[0].features.style) ? this.usedConfig(side)[0].features.style : {}; // eslint-disable-line
       return {
         onEachFeature: function onEachFeature(feature, layer) {
           // if featuresParameters available, show only properties from mapping, otherwise dump all
-          const allowedParams = usedConfig[0].features ? usedConfig[0].features.allowedParameters : null; // eslint-disable-line
+          const allowedParams = this.usedConfig(side)[0].features ? this.usedConfig(side)[0].features.allowedParameters : null; // eslint-disable-line
           const allKeys = Object.keys(feature.properties);
           let tooltip = '';
           for (let i = 0; i < allKeys.length; i++) {
@@ -947,15 +946,13 @@ export default {
       };
     },
     getCombinedWMSLayers(side = 'data') {
-      const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
-      const combLayers = usedConfig.filter((l) => (
+      const combLayers = this.usedConfig(side).filter((l) => (
         l.protocol === 'WMS' && Object.keys(l).indexOf('combinedLayers') !== -1
       ));
       return combLayers;
     },
     getSimpleWMSLayers(side = 'data') {
-      const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
-      const simpleLayers = usedConfig.filter((l) => (
+      const simpleLayers = this.usedConfig(side).filter((l) => (
         l.protocol === 'WMS' && Object.keys(l).indexOf('combinedLayers') === -1
       ));
       return simpleLayers;
@@ -1124,8 +1121,7 @@ export default {
                 subItem.$forceUpdate();
               });
             } else {
-              const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
-              const originalConfig = usedConfig.find((config) => (
+              const originalConfig = this.usedConfig(side).find((config) => (
                 config.name === item.name
               ));
               item.mapObject.setUrl(originalConfig.baseUrl);
@@ -1178,33 +1174,45 @@ export default {
         }
       }
     },
+    usedConfig(side) {
+      return side === 'data'
+        ? this.mergedConfigsData
+        : this.mergedConfigsCompare;
+    },
     async fetchData({
       type, side, feature, countryCode, aoiID,
     }) {
       // fetching of customFeatures, customIndicator, gsaIndicator or mobilityData
       // depending on fetch success/failure the map loads data or errors are shown
+      const usedTime = side === 'data'
+        ? this.dataLayerTime
+        : this.compareLayerTime;
       if (this.map) {
         this.map.fireEvent('dataloading');
         try {
           if (type === 'customFeatures' || type === 'customIndicator') {
-            if (!this.mergedConfigsData[0].features) {
-              // TODO - this wrongly is called for indicators that should not have this
-              throw new Error('no features object defined in mapConfig');
+            if (type === 'customFeatures' && !this.usedConfig(side)[0].features) {
+              this.map.fireEvent('dataload');
+              return;
             }
-            const options = this.layerOptions(this.dataLayerTime, this.mergedConfigsData[0]);
+            if (type === 'customIndicator' && !this.usedConfig(side)[0].areaIndicator) {
+              this.map.fireEvent('dataload');
+              return;
+            }
+            const options = this.layerOptions(usedTime, this.usedConfig(side)[0]);
             const custom = await fetchCustomAreaObjects(
               options,
               this.drawnArea,
               this.validDrawnArea,
-              this.mergedConfigsData[0],
+              this.usedConfig(side)[0],
               this.indicator,
               type === 'customFeatures' ? 'features' : 'areaIndicator',
             );
             if (type === 'customFeatures') {
-              this.updateJsonLayers(custom.customFeatures, side);
+              this.updateJsonLayers(custom, side);
             } else {
               this.$store.commit(
-                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', custom.customIndicator,
+                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', custom,
               );
               this.$emit('fetchCustomAreaIndicator');
             }

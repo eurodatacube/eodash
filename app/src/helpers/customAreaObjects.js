@@ -66,17 +66,18 @@ const fetchCustomAreaObjects = async (
       return rwdata;
     })
     .then((newIndicator) => {
-      let custom;
+      let custom = {};
       if (newIndicator) {
-        newIndicator.poi = drawnArea.coordinates.flat(Infinity).join('-'); // eslint-disable-line
-        newIndicator.includesIndicator = true; // eslint-disable-line
-        custom = newIndicator;
+        if (drawnArea) {
+          custom.poi = drawnArea.coordinates.flat(Infinity).join('-');
+          custom.includesIndicator = true;
+        }
+        custom = {
+          ...newIndicator,
+          ...custom,
+        };
       }
-      const customObject = {
-        customFeatures: newIndicator,
-        customIndicator: custom,
-      };
-      return customObject;
+      return custom;
     })
     .catch((err) => {
       throw Error(err);
