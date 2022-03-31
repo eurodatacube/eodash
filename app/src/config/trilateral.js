@@ -750,7 +750,7 @@ export const globalIndicators = [
         yAxis: 'Tropospheric NO2 (μmol/m2)',
         display: {
           customAreaIndicator: true,
-          baseUrl: `https://services.sentinel-hub.com/api/v1/statistics`,
+          baseUrl: 'https://services.sentinel-hub.com/api/v1/statistics',
           name: 'Air Quality (NO2) - ESA',
           layers: 'NO2-VISUALISATION',
           legendUrl: 'eodash-data/data/no2Legend.png',
@@ -761,26 +761,26 @@ export const globalIndicators = [
             // CRS:   CRS:84
             // Time:  2000-01-01/2050-01-01
             // Resolution: 2500m
-            url: `https://services.sentinel-hub.com/api/v1/statistics`,
+            url: 'https://services.sentinel-hub.com/api/v1/statistics',
             requestMethod: 'POST',
             requestHeaders: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${shConfig.shInstanceId}`,
+              Authorization: `Bearer ${shConfig.shInstanceId}`,
             },
             requestBody: {
               input: {
                 bounds: {
                   geometry: {
-                    type: "Polygon",
+                    type: 'Polygon',
                     coordinates: '{area}',
-                  }
+                  },
                 },
                 data: [
                   {
-                    "dataFilter": {},
-                    "type": "byoc-972e67a7-2ca8-4bf6-964a-11fe772e3ac2",
-                  }
-                ]
+                    dataFilter: {},
+                    type: 'byoc-972e67a7-2ca8-4bf6-964a-11fe772e3ac2',
+                  },
+                ],
               },
 
               aggregation: {
@@ -789,7 +789,7 @@ export const globalIndicators = [
                   to: '2050-01-01T00:00:00Z',
                 },
                 aggregationInterval: {
-                  "of": "P1D",
+                  of: 'P1D',
                 },
                 resx: 0.0225,
                 resy: 0.0225,
@@ -822,11 +822,11 @@ export const globalIndicators = [
                       no2_raw:  [samples.tropno2],
                       dataMask: [samples.dataMask]
                     }
-                  }`
+                  }`,
               },
               calculations: {
                 default: {},
-              }
+              },
             },
             callbackFunction: (requestJson, indicator) => {
               console.log(requestJson);
