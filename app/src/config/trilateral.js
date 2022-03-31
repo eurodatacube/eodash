@@ -838,7 +838,7 @@ export const globalIndicators = [
             },
             requestBody: {
               datasetId: 'no2',
-              dateRange: ['202001', '202101'],
+              dateRange: ['202001', '202801'],
               geojson: '{geojson}',
             },
             callbackFunction: (responseJson, indicator) => {
@@ -852,10 +852,12 @@ export const globalIndicators = [
                   referenceValue: [],
                 };
                 data.forEach((row) => {
-                  newData.time.push(DateTime.fromFormat(row.date, 'yyyyMM'));
-                  newData.colorCode.push('');
-                  newData.measurement.push(row.mean / 1e14);
-                  newData.referenceValue.push(`[${row.median / 1e14}, null, null, null]`);
+                  if (!('error' in row)) {
+                    newData.time.push(DateTime.fromFormat(row.date, 'yyyyMM'));
+                    newData.colorCode.push('');
+                    newData.measurement.push(row.mean / 1e14);
+                    newData.referenceValue.push(`[${row.median / 1e14}, null, null, null]`);
+                  }
                 });
                 ind = {
                   ...indicator,
