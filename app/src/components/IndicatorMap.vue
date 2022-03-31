@@ -91,7 +91,7 @@
       :optionsStyle="subAoiInverseStyle"
       >
       </l-geo-json>
-      <l-layer-group ref="dataLayers" v-if="dataLayerTime">
+      <l-layer-group ref="dataLayers">
         <l-geo-json
         :geojson="indicator.subAoi"
         :pane="tooltipPane"
@@ -178,7 +178,7 @@
           </LWMSTileLayer>
         </template>
       </l-layer-group>
-      <l-layer-group ref="compareLayers" v-if="compareLayerTime">
+      <l-layer-group ref="compareLayers">
         <!-- XYZ grouping is not implemented yet -->
         <LTileLayer
         v-for="(layerConfig, i) in mergedConfigsCompare.filter(l => l.protocol === 'xyz')"
@@ -665,7 +665,9 @@ export default {
 
     if (!this.compareLayerTimeProp) {
       this.$nextTick(() => {
-        this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
+        if (this.$refs.timeSelection) {
+          this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
+        }
       });
     }
 
@@ -1024,7 +1026,7 @@ export default {
         );
         additionalSettings.site = currSite;
       }
-      if (time !== null) {
+      if (time) {
         // time as is gets automatically injected to WMS query OR xyz url {time} template
         const fixTime = time.value || time;
         additionalSettings.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
@@ -1217,7 +1219,9 @@ export default {
               this.$emit('fetchCustomAreaIndicator');
             }
           } else if (type === 'gsaIndicator' || type === 'mobilityData') {
-            this.selectedBorder = feature.borderId;
+            if (type === 'gsaIndicator') {
+              this.selectedBorder = feature.borderId;
+            }
             const dataUrl = `./eodash-data/internal/${type === 'gsaIndicator'
               ? feature.borderId
               : `${countryCode}-${aoiID}`}.json`;
@@ -1229,9 +1233,9 @@ export default {
               }
             })
               .then((indicator) => {
-                const returnIndicator = {};
-                returnIndicator.values = { ...indicator };
+                let returnIndicator = {};
                 if (type === 'gsaIndicator') {
+                  returnIndicator.values = { ...indicator };
                   returnIndicator.indicator = 'GSA';
                   // Get all times of available border crossings to allow finding min max
                   returnIndicator.time = [];
@@ -1245,6 +1249,7 @@ export default {
                   returnIndicator.title = feature.name;
                   returnIndicator.yAxis = this.indicator.yAxis;
                 } else {
+                  returnIndicator = { ...indicator };
                   returnIndicator.indicator = aoiID;
                   returnIndicator.time = indicator.Values.map((row) => DateTime.fromISO(row.date));
                   returnIndicator.measurement = [0];
