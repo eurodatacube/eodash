@@ -765,6 +765,7 @@ export const globalIndicators = [
             requestMethod: 'POST',
             requestHeaders: {
               'Content-Type': 'application/json',
+              'Authorization': `Bearer ${shConfig.shInstanceId}`,
             },
             requestBody: {
               input: {
