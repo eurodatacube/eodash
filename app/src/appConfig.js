@@ -36,8 +36,8 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        po:'WSF-WSF',
-        src:'./eodash-data/general/WSF.png',
+        po: 'WSF-WSF',
+        src: './eodash-data/general/WSF.png',
       },
       {
         poi: 'SO2-N1',
@@ -202,8 +202,8 @@ module.exports = [
         indicator: 'E13c',
       },
       {
-        po:'WSF-WSF',
-        src:'./eodash-data/general/WSF.png',
+        po: 'WSF-WSF',
+        src: './eodash-data/general/WSF.png',
       },
       {
         poi: 'SO2-N1',
