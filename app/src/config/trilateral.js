@@ -768,7 +768,7 @@ export const globalIndicators = [
             requestHeaders: {
               'Content-Type': 'application/json',
               'Access-Control-Allow-Origin': 'https://eodashboard.org',
-              'Authorization': (() => {
+              'Authorization': (() => { // eslint-disable-line
                 let bearerToken;
 
                 // Authorize our request with reCAPTCHAv3
@@ -776,7 +776,7 @@ export const globalIndicators = [
                   console.log(recaptcha);
                   recaptcha.execute('token_assisted_anonymous')
                     .then((token) => {
-                      token = bearerToken;
+                      bearerToken = token;
                       console.log(token);
                     })
                     .catch((e) => {
