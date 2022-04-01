@@ -3,6 +3,8 @@
 import { Wkt } from 'wicket';
 import { latLng, latLngBounds } from 'leaflet';
 import { DateTime } from 'luxon';
+import { load } from 'recaptcha-v3';
+
 import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
@@ -750,7 +752,7 @@ export const globalIndicators = [
         yAxis: 'Tropospheric NO2 (μmol/m2)',
         display: {
           customAreaIndicator: true,
-          baseUrl: 'https://services.sentinel-hub.com/api/v1/statistics',
+          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Air Quality (NO2) - ESA',
           layers: 'NO2-VISUALISATION',
           legendUrl: 'eodash-data/data/no2Legend.png',
@@ -766,7 +768,24 @@ export const globalIndicators = [
             requestHeaders: {
               'Content-Type': 'application/json',
               'Access-Control-Allow-Origin': 'https://eodashboard.org',
-              Authorization: `Bearer ${shConfig.shInstanceId}`,
+              'Authorization': (() => {
+                let bearerToken;
+
+                // Authorize our request with reCAPTCHAv3
+                load('6LddKgUfAAAAAKSlKdCJWo4XTQlTPcKZWrGLk7hh').then((recaptcha) => {
+                  console.log(recaptcha);
+                  recaptcha.execute('token_assisted_anonymous')
+                    .then((token) => {
+                      token = bearerToken;
+                      console.log(token);
+                    })
+                    .catch((e) => {
+                      console.error(`reCAPTCHA error: ${e}`);
+                    });
+                });
+
+                return `Bearer ${bearerToken}`;
+              })(),
             },
             requestBody: {
               input: {
