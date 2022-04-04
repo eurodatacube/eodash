@@ -392,6 +392,7 @@ import {
   LFeatureGroup, LControl, LTooltip,
 } from 'vue2-leaflet';
 import { DateTime } from 'luxon';
+import { load } from 'recaptcha-v3';
 
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-mouse-position';
@@ -1543,7 +1544,23 @@ export default {
           console.log(err);
         });
     },
-    fetchCustomAreaIndicator() {
+    async fetchCustomAreaIndicator() {
+      // Prepare our credentials for the Statistical API
+      const recaptcha = await load('6LddKgUfAAAAAKSlKdCJWo4XTQlTPcKZWrGLk7hh');
+      const token = await recaptcha.execute('token_assisted_anonymous');
+      const client_id = 'e97cf094-6512-4b31-9a41-63f34eb5e2a3';
+      var oauthUrl = `https://services.sentinel-hub.com/oauth/token/assisted?client_id=${client_id}&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F:8080&response_type=token&grant_type=client_credentials&recaptcha=${token}`;
+
+      let res = await fetch(oauthUrl);
+      let html = await res.text();
+      // Search for the postMessage JSON and extract the full message from HTML
+      let startPos = html.search('window.parent.postMessage') + 26;
+      let endPos = html.search('},') + 1;
+
+      let message = JSON.parse(html.slice(startPos, endPos));
+
+      console.log(message);
+
       const options = this.layerOptions(this.currentTime, this.mergedConfigsData[0]);
       // add custom area if present
       let customArea = {};
@@ -1582,6 +1599,10 @@ export default {
         method: this.mergedConfigsData[0].areaIndicator.requestMethod || 'GET',
         headers: this.mergedConfigsData[0].areaIndicator.requestHeaders || {},
       };
+
+      // Set the Authorization header using the Bearer token we generated using reCAPTCHA.
+      requestOpts.headers['Authorization'] = `Bearer ${message.access_token}`;
+
       if (requestBody) {
         requestOpts.body = JSON.stringify(requestBody);
       }
