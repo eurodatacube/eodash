@@ -74,6 +74,21 @@
                   v-html="convertToMarkdown(element.text)"
                 ></div>
               </div>
+              <indicator-globe
+                v-if="element.indicatorObject.showGlobe"
+                class="pt-0 fill-height"
+                style="top: 0px; position: absolute;"
+                :currentIndicator="element.indicatorObject"
+                :centerProp="localCenter[element.poi]"
+                :zoomProp="localZoom[element.poi]"
+                :dataLayerTimeProp="localDataLayerTime[element.poi]"
+                :compareLayerTimeProp="localCompareLayerTime[element.poi]"
+                @update:center="c => {localCenter[element.poi] = c}"
+                @update:zoom="z => {localZoom[element.poi] = z}"
+                @update:datalayertime="d => {localDataLayerTime[element.poi] = d}"
+                @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
+                @ready="onMapReady(element.poi)"
+              />
               <indicator-map
                 ref="indicatorMap"
                 style="top: 0px; position: absolute;"
@@ -379,6 +394,7 @@ import { DateTime } from 'luxon';
 import mediumZoom from 'medium-zoom';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
+import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import LoadingAnimation from '@/components/LoadingAnimation.vue';
 import { loadIndicatorData } from '@/utils';
 import { mapGetters, mapState, mapActions } from 'vuex';
@@ -397,6 +413,7 @@ export default {
   components: {
     IndicatorData,
     IndicatorMap,
+    IndicatorGlobe,
     LoadingAnimation,
   },
   data: () => ({

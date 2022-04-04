@@ -123,6 +123,9 @@ export default {
             ...(this.indicatorObject.includesIndicator
               && { indicatorObject: this.indicatorObject }),
             title: this.title,
+            ...(this.indicatorObject.showGlobe && {
+              mapInfo: {}
+            }),
             ...(this.zoom && this.center && {
               mapInfo: {
                 zoom: this.zoom,
