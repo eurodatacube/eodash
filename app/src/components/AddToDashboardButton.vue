@@ -124,7 +124,12 @@ export default {
               && { indicatorObject: this.indicatorObject }),
             title: this.title,
             ...(this.indicatorObject.showGlobe && {
-              mapInfo: {}
+              mapInfo: {
+                direction: null,
+                position: null,
+                right: null,
+                up: null,
+              },
             }),
             ...(this.zoom && this.center && {
               mapInfo: {

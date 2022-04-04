@@ -134,10 +134,9 @@ export default {
     },
     attributions() {
       return [
-        ...this.baseLayers.filter(l => l.visible).map(l => l.attribution),
-        ...this.overlayLayers.filter(l => l.visible).map(l => l.attribution),
-      ]
-;
+        ...this.baseLayers.filter((l) => l.visible).map((l) => l.attribution),
+        ...this.overlayLayers.filter((l) => l.visible).map((l) => l.attribution),
+      ];
     },
     indicator() {
       return this.getIndicatorFilteredInputData(this.currentIndicator);
@@ -294,6 +293,15 @@ export default {
           this.loaded = true;
         }
       });
+    },
+    globeCameraUpdated() {
+      // TODO
+      let direction; let position; let right; let
+        up;
+      this.$emit('update:direction', direction);
+      this.$emit('update:position', position);
+      this.$emit('update:right', right);
+      this.$emit('update:up', up);
     },
     dataLayerTimeUpdated(time) {
       this.$emit('update:datalayertime', time);
