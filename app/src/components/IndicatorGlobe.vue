@@ -169,11 +169,11 @@ export default {
       this.viewer.imageryLayers.add(this.dataLayer, index);
     },
     createGlobe() {
-      const imageryProvider = (id) => {
+      const imageryProvider = (config) => {
         // TODO use @/config/layers
         // TODO implement dynamic creation
         let imagery;
-        if (!id) {
+        if (!config) {
           imagery = new Cesium.WebMapTileServiceImageryProvider({
             url: 'https://tiles.maps.eox.at/wmts/1.0.0/terrain-light/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg',
             layer: 'terrain-light',
@@ -187,16 +187,21 @@ export default {
             credit: new Cesium.Credit('{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }'),
           });
         } else {
-          // WorldCO-N1 example
-          imagery = new Cesium.UrlTemplateImageryProvider({
-            url: '//obs.eu-nl.otc.t-systems.com/s5p-pal-nl-l3-external/maps/{time}/{z}/{x}/{reverseY}.png',
-            maximumLevel: 5,
-            customTags: {
-              // TODO dynamic date
-              time: () => this.dataLayerTime.value[0],
-            },
-          });
-          imagery.defaultAlpha = 0.8;
+          // TODO currently only necessary methods supported
+          switch (config.protocol) {
+            case 'xyz':
+              imagery = new Cesium.UrlTemplateImageryProvider({
+                url: config.url.replace('{-y}', '{reverseY}'),
+                maximumLevel: 5,
+                customTags: {
+                  // TODO dynamic date
+                  time: () => this.dataLayerTime.value[0],
+                },
+              });
+            break;
+            default:
+              console.log('Protocol not yet supported on Globe');
+          }
         }
         return imagery;
       };
@@ -222,8 +227,10 @@ export default {
           },
         },
       });
-      // TODO actually check which layers are used
-      this.dataLayer = this.viewer.imageryLayers.addImageryProvider(imageryProvider('WorldCO-N1'));
+      // TODO currently we only support one layer
+      this.dataLayer = this.viewer.imageryLayers.addImageryProvider(
+        imageryProvider(this.mergedConfigsData[0])
+      );
       this.viewer.scene.backgroundColor = Cesium.Color.TRANSPARENT;
       this.viewer.scene.fog.enabled = false;
       this.viewer.scene.globe.showGroundAtmosphere = false;

@@ -681,8 +681,7 @@ export default {
       return ['all'].includes(this.indicatorObject.country) || this.appConfig.configuredMapPois.includes(`${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`) || Array.isArray(this.indicatorObject.country);
     },
     showGlobe() {
-      // TODO actual selection of used indicators
-      return `${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}` === 'WorldCO-N1';
+      return this.indicatorObject.showGlobe;
     },
     externalData() {
       const dataFromDefinition = this.baseConfig.indicatorsDefinition[

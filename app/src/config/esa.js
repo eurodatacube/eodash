@@ -2424,6 +2424,7 @@ export const globalIndicators = [
         aoiID: 'WorldCO',
         time: l3mapsData.l3maps,
         inputData: [''],
+        showGlobe: true,
         display: {
           protocol: 'xyz',
           maxNativeZoom: 5,
