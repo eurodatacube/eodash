@@ -125,6 +125,10 @@
           </v-btn>
         </v-badge>
         <v-divider></v-divider>
+
+        <indicator-filters
+          v-if="$route.name === 'explore'"
+        />
       </template>
 
     </v-navigation-drawer>
@@ -261,6 +265,7 @@ import {
 } from 'vuex';
 
 import ThemeNavigation from './ThemesLandingPage/ThemeNavigation.vue';
+import IndicatorFilters from './IndicatorFilters.vue';
 
 /**
  * A global navbar component that adapts to different environments.
@@ -295,6 +300,7 @@ export default {
   },
   components: {
     ThemeNavigation,
+    IndicatorFilters,
   },
   data() {
     return {

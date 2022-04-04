@@ -7,6 +7,7 @@ import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import l3mapsData from '@/config/tropomiCO.json';
+import { shFisAreaIndicatorStdConfig } from '@/config/esa';
 import store from '../store';
 
 export const dataPath = './data/internal/';
@@ -32,6 +33,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Changes in Ships traffic within the Port',
     class: 'economic',
     story: '/data/trilateral/E13c',
+    themes: ['covid-19', 'economy', 'air-quality', 'oceans'],
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/E200/E200_{aoiID}_{featuresTime}.geojson',
@@ -47,6 +49,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Status of metallic ores',
     class: 'economic',
     story: '/data/trilateral/E1',
+    themes: ['covid-19', 'economy'],
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
@@ -57,6 +60,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Status of metallic ores',
     class: 'economic',
     story: '/data/trilateral/E1',
+    themes: ['covid-19', 'economy'],
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
@@ -66,6 +70,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Status of non-metallic ores',
     class: 'economic',
     story: '/data/trilateral/E1a',
+    themes: ['covid-19', 'economy'],
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
@@ -76,6 +81,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Status of metallic ores',
     class: 'economic',
     story: '/data/trilateral/E1a',
+    themes: ['covid-19', 'economy'],
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
@@ -84,45 +90,55 @@ export const indicatorsDefinition = Object.freeze({
   E2: {
     indicator: 'Volume of oil stockpiled',
     class: 'economic',
+    themes: ['covid-19', 'economy'],
   },
   E2a: {
     indicator: 'Level of flaring activity',
     class: 'economic',
+    themes: ['covid-19', 'economy'],
   },
   E3: {
     indicator: 'Inventory levels of factory inputs',
     class: 'economic',
+    themes: ['covid-19', 'economy'],
   },
   E4: {
     indicator: 'Production activity of intermediate goods',
     class: 'economic',
+    themes: ['covid-19', 'economy'],
   },
   E5: {
     indicator: 'Inventory levels of intermediate goods',
     class: 'economic',
+    themes: ['covid-19', 'economy'],
   },
   E6: {
     indicator: 'Inventory levels of factory inputs',
     class: 'economic',
+    themes: ['covid-19', 'economy'],
   },
   E7: {
     indicator: 'Production activity of finished goods',
     class: 'economic',
+    themes: ['covid-19', 'economy'],
   },
   E8: {
     indicator: 'Inventory Levels',
     class: 'economic',
+    themes: ['covid-19', 'economy'],
   },
   E9: {
     indicator: 'Construction activity',
     class: 'economic',
     story: '/data/trilateral/E9',
+    themes: ['covid-19', 'economy'],
     largeSubAoi: true,
   },
   E10a1: {
     indicator: 'Harvesting activity',
     class: 'agriculture',
     story: '/data/trilateral/E10a1',
+    themes: ['covid-19', 'agriculture'],
     largeSubAoi: true,
     baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
       ...baseLayers.S2GLC,
@@ -134,6 +150,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Cum. proportion of total area under active mgmt.',
     class: 'agriculture',
     story: '/eodash-data/stories/E10a2',
+    themes: ['covid-19', 'agriculture'],
     largeSubAoi: true,
     baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
       ...baseLayers.S2GLC,
@@ -146,12 +163,14 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Evolution of the cultivated areas for production of white asparagus',
     class: 'agriculture',
     story: '/eodash-data/stories/E10a2',
+    themes: ['covid-19', 'agriculture'],
     largeSubAoi: true,
   },
   E10a6: {
     indicator: 'Harvested parcels/area evolution over time',
     class: 'agriculture',
     story: '/eodash-data/stories/E10a6',
+    themes: ['covid-19', 'agriculture'],
     largeSubAoi: true,
     maxDecimals: 4,
   },
@@ -159,40 +178,48 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Cumulative harvested area',
     class: 'agriculture',
     story: '/eodash-data/stories/E10a8',
+    themes: ['covid-19', 'agriculture'],
     largeSubAoi: true,
   },
   E10b: {
     indicator: 'Field preparation activity',
     class: 'agriculture',
+    themes: ['covid-19', 'agriculture'],
   },
   E10c: {
     indicator: 'Rice Planted Area',
     class: 'agriculture',
     story: '/data/trilateral/US05-E10c',
+    themes: ['covid-19', 'agriculture'],
     largeSubAoi: true,
   },
   E10d: {
     indicator: 'Cropped Area - Regional',
     class: 'agriculture',
     story: '/data/trilateral/E10d',
+    themes: ['covid-19', 'agriculture'],
     largeSubAoi: true,
     disableTimeSelection: true,
   },
   E11: {
     indicator: 'Volume of activity at shopping centers',
     class: 'economic',
+    themes: ['covid-19', 'economy'],
   },
   E12a: {
     indicator: 'Volume of activity logistic interchange centers',
     class: 'economic',
+    themes: ['covid-19', 'economy'],
   },
   E12b: {
     indicator: 'Throughput at border crossing points',
     class: 'economic',
+    themes: ['covid-19', 'economy'],
   },
   E13a: {
     indicator: 'Throughput at principal rail stations',
     class: 'economic',
+    themes: ['covid-19', 'economy'],
   },
   E13b: {
     indicator: 'Throughput at principal hub airports',
@@ -202,16 +229,19 @@ export const indicatorsDefinition = Object.freeze({
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
     story: '/data/trilateral/E13b',
+    themes: ['covid-19', 'economy', 'air-quality'],
     largeSubAoi: true,
   },
   H1: {
     indicator: 'Number of temp. treatment sites',
     class: 'health',
+    themes: ['covid-19'],
   },
   N1: {
     indicator: 'Air quality',
     class: 'air',
     story: '/data/trilateral/N1',
+    themes: ['covid-19', 'air-quality'],
     largeTimeDuration: true,
     largeSubAoi: true,
     maxMapZoom: 8,
@@ -220,27 +250,32 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Population',
     class: 'economic',
     story: '/data/trilateral/NASAPopulation',
+    themes: ['covid-19', 'economy', 'agriculture', 'air-quality', 'oceans'],
   },
   WSF: {
     indicator: 'World Settlement Footprint',
     class: 'economic',
     story: '/eodash-data/stories/WSF-WSF',
+    themes: ['covid-19', 'economy', 'agriculture', 'air-quality', 'oceans'],
   },
   N2: {
     indicator: 'Greenhouse Gases',
     class: 'air',
     story: '/data/trilateral/N2',
+    themes: ['covid-19', 'air-quality'],
     largeTimeDuration: true,
     largeSubAoi: true,
   },
   N3: {
     indicator: 'Water Quality',
     class: 'water',
+    themes: ['covid-19', 'oceans'],
   },
   N3b: {
     indicator: 'Chl-a concentration anomaly',
     class: 'water',
     story: '/data/trilateral/N3b',
+    themes: ['covid-19', 'oceans'],
     sensorColorMap: {
       'Sentinel-3A OLCI': '#a37',
       'Aqua MODIS': '#47a',
@@ -252,37 +287,44 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'CHL concentration',
     class: 'water',
     story: '/eodash-data/stories/N3a2',
+    themes: ['covid-19', 'oceans'],
     largeSubAoi: true,
   },
   N4a: {
     indicator: 'Changes in land fill sites',
     class: 'land',
+    themes: ['covid-19', 'economy'],
   },
   N4b: {
     indicator: 'Illegal waste levels',
     class: 'land',
+    themes: ['covid-19', 'economy'],
   },
   N5: {
     indicator: 'Nightlights (Suomi NPP VIIRS)',
     class: 'economic',
     story: '/data/trilateral/N5',
+    themes: ['covid-19', 'economy', 'air-quality', 'oceans'],
     largeSubAoi: true,
   },
   N6: {
     indicator: 'Cropped Area - Global',
     class: 'agriculture',
     story: '/data/trilateral/N6',
+    themes: ['covid-19', 'agriculture'],
   },
   N7: {
     indicator: 'Slowdown Proxy Maps',
     class: 'economic',
     story: '/data/trilateral/N7',
+    themes: ['covid-19', 'economy'],
     largeSubAoi: true,
   },
   N8: {
     indicator: 'Recovery Proxy Maps',
     class: 'economic',
     story: '/data/trilateral/N8',
+    themes: ['covid-19', 'economy'],
     largeSubAoi: true,
     disableTimeSelection: true,
   },
@@ -292,6 +334,7 @@ export const indicatorsDefinition = Object.freeze({
     disableTimeSelection: true,
     countrySelection: true,
     story: '/eodash-data/stories/GG-GG',
+    themes: ['covid-19', 'economy', 'air-quality'],
   },
   CV: {
     indicator: 'Covid cases',
@@ -299,6 +342,7 @@ export const indicatorsDefinition = Object.freeze({
     disableTimeSelection: true,
     countrySelection: true,
     story: '/eodash-data/stories/CV-CV',
+    themes: ['covid-19'],
   },
   OW: {
     indicator: 'Vaccinations',
@@ -307,10 +351,12 @@ export const indicatorsDefinition = Object.freeze({
     countrySelection: true,
     hideInFilters: true,
     story: '/eodash-data/stories/OW-OW',
+    themes: ['covid-19'],
   },
   FB: {
     indicator: 'Facebook population density',
     class: 'economic',
+    themes: ['covid-19', 'economy', 'air-quality'],
     disableTimeSelection: true,
     baseLayers: [{
       ...baseLayers.cloudless,
@@ -319,6 +365,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
+    themes: ['air-quality', 'agriculture', 'biomass-and-landcover', 'economy', 'oceans', 'cryosphere', 'covid-19'],
     class: 'economic',
   },
 });
@@ -382,14 +429,6 @@ export const layerNameMapping = Object.freeze({
     baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'JAXA_CARS_CONTAINERS_ALOS2',
   },
-  /*
-  'ALOS-2': {
-    url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2FALOS_SAMPLE%2Falos2-s1-beijing_{time}.tif&resampling_method=nearest&bidx=1&rescale=0%2C65536',
-    protocol: 'xyz',
-    tileSize: 256,
-    dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-  },
-  */
   GOSAT_XCO2: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/GOSAT_XCO2_{time}_{site}_BG_circle_cog.tif&resampling_method=nearest',
     protocol: 'xyz',
@@ -777,7 +816,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W2',
-        time: getMonthlyDates('2004-10-01', '2022-01-01'),
+        time: getMonthlyDates('2004-10-01', '2022-02-01'),
         inputData: [''],
         yAxis: 'NO2 [µmol/m²]',
         display: {
@@ -799,7 +838,7 @@ export const globalIndicators = [
             },
             requestBody: {
               datasetId: 'no2',
-              dateRange: ['202001', '202101'],
+              dateRange: ['202001', '202801'],
               geojson: '{geojson}',
             },
             callbackFunction: (responseJson, indicator) => {
@@ -813,10 +852,12 @@ export const globalIndicators = [
                   referenceValue: [],
                 };
                 data.forEach((row) => {
-                  newData.time.push(DateTime.fromFormat(row.date, 'yyyyMM'));
-                  newData.colorCode.push('');
-                  newData.measurement.push(row.mean / 1e14);
-                  newData.referenceValue.push(`[${row.median / 1e14}, null, null, null]`);
+                  if (!('error' in row)) {
+                    newData.time.push(DateTime.fromFormat(row.date, 'yyyyMM'));
+                    newData.colorCode.push('');
+                    newData.measurement.push(row.mean / 1e14);
+                    newData.referenceValue.push(`[${row.median / 1e14}, null, null, null]`);
+                  }
                 });
                 ind = {
                   ...indicator,
@@ -872,7 +913,7 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         aoi: null,
         aoiID: 'W3',
-        time: getMonthlyDates('2015-01-01', '2022-01-01'),
+        time: getMonthlyDates('2015-01-01', '2022-02-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1042,50 +1083,17 @@ export const globalIndicators = [
         inputData: [],
         yAxis: 'SO2',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'SO2',
-          layers: 'VIS_SO2_DAILY_DATA',
+          layers: 'AWS_VIS_SO2_DAILY_DATA',
           legendUrl: 'eodash-data/data/colorbarso2.svg',
           minZoom: 1,
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           customAreaIndicator: true,
-          baseLayers: [{
-            ...baseLayers.cloudless,
-            visible: true,
-          }, baseLayers.terrainLight],
           areaIndicator: {
-            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-            callbackFunction: (responseJson, indicator) => {
-              if (Array.isArray(responseJson.C0)) {
-                const data = responseJson.C0;
-                const newData = {
-                  time: [],
-                  measurement: [],
-                  referenceValue: [],
-                  colorCode: [],
-                };
-                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
-                  ? 1
-                  : -1));
-                data.forEach((row) => {
-                  if (row.basicStats.max < 5000) {
-                    // leaving out falsely set nodata values disrupting the chart
-                    newData.time.push(DateTime.fromISO(row.date));
-                    newData.colorCode.push('');
-                    newData.measurement.push(row.basicStats.mean);
-                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
-                  }
-                });
-                const ind = {
-                  ...indicator,
-                  ...newData,
-                };
-                return ind;
-              }
-              return null;
-            },
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+            ...shFisAreaIndicatorStdConfig,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_SO2_DAILY_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
           },
         },
       },
@@ -1112,9 +1120,9 @@ export const globalIndicators = [
         time: ['2020-05-14T00:00:00Z'],
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Population',
-          layers: 'POPULATION_DENSITY',
+          layers: 'AWS_POPULATION_DENSITY',
           legendUrl: 'data/trilateral/NASAPopulation_legend.png',
           minZoom: 1,
           maxMapZoom: 7,
@@ -1467,9 +1475,9 @@ export const globalIndicators = [
         time: availableDates.N3_CUSTOM_TRILATERAL,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM_TRILATERAL',
+          layers: 'AWS_N3_CUSTOM_TRILATERAL',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1555,9 +1563,9 @@ export const globalIndicators = [
         time: availableDates.JAXA_CHLA_NorthAdriatic_JAXA,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'JAXA_CHLA',
+          layers: 'AWS_JAXA_CHLA',
           maxZoom: 13,
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1631,7 +1639,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2022-02-09').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2022-03-16').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1674,9 +1682,9 @@ export const globalIndicators = [
         time: availableDates.JAXA_CHLA_JP01,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'JAXA_CHLA',
+          layers: 'AWS_JAXA_CHLA',
           maxZoom: 13,
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1713,9 +1721,9 @@ export const globalIndicators = [
         time: availableDates.N3_CUSTOM_TRILATERAL,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM_TRILATERAL',
+          layers: 'AWS_N3_CUSTOM_TRILATERAL',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1752,9 +1760,9 @@ export const globalIndicators = [
         time: availableDates.JAXA_CHLA_JP04,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'JAXA_CHLA',
+          layers: 'AWS_JAXA_CHLA',
           maxZoom: 13,
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1791,9 +1799,9 @@ export const globalIndicators = [
         time: availableDates.JAXA_CHLA_JP02,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'JAXA_CHLA',
+          layers: 'AWS_JAXA_CHLA',
           maxZoom: 13,
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1830,9 +1838,9 @@ export const globalIndicators = [
         time: availableDates.N3_CUSTOM_TRILATERAL_TSMNN,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM_TRILATERAL_TSMNN',
+          layers: 'AWS_N3_CUSTOM_TRILATERAL_TSMNN',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1869,9 +1877,9 @@ export const globalIndicators = [
         time: availableDates.N3_CUSTOM_TRILATERAL_TSMNN,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM_TRILATERAL_TSMNN',
+          layers: 'AWS_N3_CUSTOM_TRILATERAL_TSMNN',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1948,9 +1956,9 @@ export const globalIndicators = [
         time: availableDates.JAXA_TSM_NorthAdriaticTSM_JAXA,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'JAXA_TSM',
+          layers: 'AWS_JAXA_TSM',
           maxZoom: 13,
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1987,9 +1995,9 @@ export const globalIndicators = [
         time: availableDates.JAXA_TSM_JP01TSM,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'JAXA_TSM',
+          layers: 'AWS_JAXA_TSM',
           maxZoom: 13,
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -2026,9 +2034,9 @@ export const globalIndicators = [
         time: availableDates.JAXA_TSM_JP04TSM,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'JAXA_TSM',
+          layers: 'AWS_JAXA_TSM',
           maxZoom: 13,
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -2065,9 +2073,9 @@ export const globalIndicators = [
         time: availableDates.JAXA_TSM_JP02TSM,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'JAXA_TSM',
+          layers: 'AWS_JAXA_TSM',
           maxZoom: 13,
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -2148,7 +2156,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2022-02-09').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2022-03-16').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -3253,9 +3261,9 @@ export const globalIndicators = [
         time: availableDates.N3_CUSTOM_TRILATERAL_TSMNN,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM_TRILATERAL_TSMNN',
+          layers: 'AWS_N3_CUSTOM_TRILATERAL_TSMNN',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -3292,9 +3300,9 @@ export const globalIndicators = [
         time: availableDates.N3_CUSTOM_TRILATERAL,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdTrilateral}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM_TRILATERAL',
+          layers: 'AWS_N3_CUSTOM_TRILATERAL',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
