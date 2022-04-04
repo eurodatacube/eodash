@@ -24,7 +24,7 @@
     <!-- End loader -->
     <indicator-time-selection
       ref="timeSelection"
-      v-if="!mergedConfigsData[0].disableTimeSelection"
+      v-if="dataLayerTime && !mergedConfigsData[0].disableTimeSelection"
       :autofocus="!disableAutoFocus"
       :available-values="availableTimeEntries"
       :indicator="indicator"
@@ -163,10 +163,12 @@ export default {
   },
   methods: {
     refreshLayers() {
-      const index = this.viewer.imageryLayers.indexOf(this.dataLayer);
-      // Remove and readd layer to make sure new time is loaded
-      this.viewer.imageryLayers.remove(this.dataLayer, false);
-      this.viewer.imageryLayers.add(this.dataLayer, index);
+      if (this.viewer){
+        const index = this.viewer.imageryLayers.indexOf(this.dataLayer);
+        // Remove and readd layer to make sure new time is loaded
+        this.viewer.imageryLayers.remove(this.dataLayer, false);
+        this.viewer.imageryLayers.add(this.dataLayer, index);
+      }
     },
     createGlobe() {
       const imageryProvider = (config) => {
@@ -194,8 +196,7 @@ export default {
                 url: config.url.replace('{-y}', '{reverseY}'),
                 maximumLevel: 5,
                 customTags: {
-                  // TODO dynamic date
-                  time: () => this.dataLayerTime.value[0],
+                  time: () => config.dateFormatFunction(this.dataLayerTime.value),
                 },
               });
             break;
