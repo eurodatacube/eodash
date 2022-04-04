@@ -38,6 +38,38 @@
         :large-time-duration="mergedConfigsData[0].largeTimeDuration"
       />
     </div>
+    <v-sheet
+      class="d-flex align-center"
+      style="position: absolute; right: 0.5em; bottom: 0.5em; border-radius: 4px;
+      z-index: 1001; padding: 2px"
+    >
+      <ul
+        v-if="showAttribution"
+        style="font-size: 10px"
+      >
+        <li
+          v-for="(attribution, key) in attributions"
+          :key="key"
+          class="mr-1"
+          style="display: inline; list-style: none; text-decoration: none"
+          v-html="attribution"
+        >
+        </li>
+      </ul>
+      <button
+        title="Attributions"
+        class="d-flex align-center justify-center"
+        style="width: 22px; height: 22px; cursor: pointer"
+        @click="showAttribution = !showAttribution"
+      >
+        <span
+          class="v-card ol-attribution-expand"
+          style="font-weight: bold; line-height: .4em; font-size: 16px"
+        >
+          {{ showAttribution ? '›' : 'i' }}
+        </span>
+      </button>
+    </v-sheet>
   </div>
 </template>
 
@@ -86,6 +118,7 @@ export default {
     compareLayerTime: null,
     dataLayerIndex: 0,
     compareLayerIndex: 0,
+    showAttribution: false,
   }),
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
@@ -99,12 +132,17 @@ export default {
     overlayLayers() {
       return this.mergedConfigsData[0].overlayLayers || this.baseConfig.overlayLayersRightMap;
     },
+    attributions() {
+      return [
+        ...this.baseLayers.filter(l => l.visible).map(l => l.attribution),
+        ...this.overlayLayers.filter(l => l.visible).map(l => l.attribution),
+      ]
+;
+    },
     indicator() {
       return this.getIndicatorFilteredInputData(this.currentIndicator);
     },
     indicatorObject() {
-      console.log(this.currentIndicator
-        || this.$store.state.indicators.selectedIndicator);
       return this.currentIndicator
         || this.$store.state.indicators.selectedIndicator;
     },
