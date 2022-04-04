@@ -1548,16 +1548,16 @@ export default {
       // Prepare our credentials for the Statistical API
       const recaptcha = await load('6LddKgUfAAAAAKSlKdCJWo4XTQlTPcKZWrGLk7hh');
       const token = await recaptcha.execute('token_assisted_anonymous');
-      const client_id = 'e97cf094-6512-4b31-9a41-63f34eb5e2a3';
-      var oauthUrl = `https://services.sentinel-hub.com/oauth/token/assisted?client_id=${client_id}&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F:8080&response_type=token&grant_type=client_credentials&recaptcha=${token}`;
+      const clientId = 'e97cf094-6512-4b31-9a41-63f34eb5e2a3';
+      const oauthUrl = `https://services.sentinel-hub.com/oauth/token/assisted?client_id=${clientId}&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F:8080&response_type=token&grant_type=client_credentials&recaptcha=${token}`;
 
-      let res = await fetch(oauthUrl);
-      let html = await res.text();
+      const res = await fetch(oauthUrl);
+      const html = await res.text();
       // Search for the postMessage JSON and extract the full message from HTML
-      let startPos = html.search('window.parent.postMessage') + 26;
-      let endPos = html.search('},') + 1;
+      const startPos = html.search('window.parent.postMessage') + 26;
+      const endPos = html.search('},') + 1;
 
-      let message = JSON.parse(html.slice(startPos, endPos));
+      const message = JSON.parse(html.slice(startPos, endPos));
 
       console.log(message);
 
@@ -1601,7 +1601,7 @@ export default {
       };
 
       // Set the Authorization header using the Bearer token we generated using reCAPTCHA.
-      requestOpts.headers['Authorization'] = `Bearer ${message.access_token}`;
+      requestOpts.headers.Authorization = `Bearer ${message.access_token}`;
 
       if (requestBody) {
         requestOpts.body = JSON.stringify(requestBody);
