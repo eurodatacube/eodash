@@ -3,7 +3,6 @@
 import { Wkt } from 'wicket';
 import { latLng, latLngBounds } from 'leaflet';
 import { DateTime } from 'luxon';
-import { load } from 'recaptcha-v3';
 
 import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
@@ -768,24 +767,6 @@ export const globalIndicators = [
             requestHeaders: {
               'Content-Type': 'application/json',
               'Access-Control-Allow-Origin': 'https://eodashboard.org',
-              'Authorization': (() => { // eslint-disable-line
-                let bearerToken;
-
-                // Authorize our request with reCAPTCHAv3
-                load('6LddKgUfAAAAAKSlKdCJWo4XTQlTPcKZWrGLk7hh').then((recaptcha) => {
-                  console.log(recaptcha);
-                  recaptcha.execute('token_assisted_anonymous')
-                    .then((token) => {
-                      bearerToken = token;
-                      console.log(token);
-                    })
-                    .catch((e) => {
-                      console.error(`reCAPTCHA error: ${e}`);
-                    });
-                });
-
-                return `Bearer ${bearerToken}`;
-              })(),
             },
             requestBody: {
               input: {
