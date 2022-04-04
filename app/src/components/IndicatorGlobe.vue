@@ -163,7 +163,7 @@ export default {
   },
   methods: {
     refreshLayers() {
-      if (this.viewer){
+      if (this.viewer) {
         const index = this.viewer.imageryLayers.indexOf(this.dataLayer);
         // Remove and readd layer to make sure new time is loaded
         this.viewer.imageryLayers.remove(this.dataLayer, false);
@@ -199,7 +199,19 @@ export default {
                   time: () => config.dateFormatFunction(this.dataLayerTime.value),
                 },
               });
-            break;
+              break;
+            case 'WMS':
+              console.log(config);
+              imagery = new Cesium.WebMapServiceImageryProvider({
+                url: config.baseUrl,
+                layers: config.layers,
+                parameters: {
+                  format: 'image/png',
+                  transparent: 'true',
+                  time: config.dateFormatFunction(this.dataLayerTime.value),
+                },
+              });
+              break;
             default:
               console.log('Protocol not yet supported on Globe');
           }
@@ -230,7 +242,7 @@ export default {
       });
       // TODO currently we only support one layer
       this.dataLayer = this.viewer.imageryLayers.addImageryProvider(
-        imageryProvider(this.mergedConfigsData[0])
+        imageryProvider(this.mergedConfigsData[0]),
       );
       this.viewer.scene.backgroundColor = Cesium.Color.TRANSPARENT;
       this.viewer.scene.fog.enabled = false;
