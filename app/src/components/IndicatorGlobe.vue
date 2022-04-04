@@ -22,27 +22,110 @@
       </div>
     </div>
     <!-- End loader -->
+    <indicator-time-selection
+      ref="timeSelection"
+      v-if="!mergedConfigsData[0].disableTimeSelection"
+      :autofocus="!disableAutoFocus"
+      :available-values="availableTimeEntries"
+      :indicator="indicator"
+      :compare-active.sync="enableCompare"
+      :compare-time.sync="compareLayerTime"
+      :original-time.sync="dataLayerTime"
+      :enable-compare="false"
+      :large-time-duration="mergedConfigsData[0].largeTimeDuration"
+    />
   </div>
 </template>
 
 <script>
 /* eslint no-undef: "off" */
+import {
+  mapState,
+  mapGetters,
+} from 'vuex';
+import {
+  createConfigFromIndicator,
+  createAvailableTimeEntries,
+} from '@/helpers/mapConfig';
+import IndicatorTimeSelection from './IndicatorTimeSelection.vue';
+
 export default {
   name: 'Globe',
-  props: [
-    'currentIndicator',
-  ],
+  props: {
+    currentIndicator: Object,
+    dataLayerTimeProp: {
+      required: false,
+    },
+    compareLayerTimeProp: {
+      required: false,
+    },
+    zoomProp: {
+      required: false,
+    },
+    centerProp: {
+      required: false,
+    },
+    hideCustomAreaControls: {
+      required: false,
+    },
+    disableAutoFocus: Boolean,
+  },
+  components: {
+    IndicatorTimeSelection,
+  },
   data: () => ({
     viewer: null,
     loaded: false,
+    enableCompare: false,
+    dataLayerTime: null,
+    dataLayer: null,
+    compareLayerTime: null,
+    dataLayerIndex: 0,
+    compareLayerIndex: 0,
   }),
   computed: {
+    ...mapState('config', ['appConfig', 'baseConfig']),
+    ...mapGetters('indicators', [
+      'getIndicatorFilteredInputData',
+    ]),
+    baseLayers() {
+      // expects an array of objects
+      return this.mergedConfigsData[0].baseLayers || this.baseConfig.baseLayersRightMap;
+    },
+    overlayLayers() {
+      return this.mergedConfigsData[0].overlayLayers || this.baseConfig.overlayLayersRightMap;
+    },
+    indicator() {
+      return this.getIndicatorFilteredInputData(this.currentIndicator);
+    },
     indicatorObject() {
+      console.log(this.currentIndicator
+        || this.$store.state.indicators.selectedIndicator);
       return this.currentIndicator
         || this.$store.state.indicators.selectedIndicator;
     },
+    mergedConfigsData() {
+      return createConfigFromIndicator(
+        this.indicator,
+        'data',
+        this.getCurrentIndex('data'),
+      );
+    },
+    availableTimeEntries() {
+      return createAvailableTimeEntries(
+        this.indicator,
+        this.mergedConfigsData, // TODO do we really need to pass the config here?
+      );
+    },
   },
   mounted() {
+    if (!this.dataLayerTimeProp) {
+      this.dataLayerTime = {
+        value: this.mergedConfigsData[0].usedTimes.time[
+          this.mergedConfigsData[0].usedTimes.time.length - 1
+        ],
+      };
+    }
     if (!window.cesiumLoaded) {
       const isDev = process.env.NODE_ENV !== 'production';
       const CESIUM_URL = `https://cdn.jsdelivr.net/npm/cesium@1.90.0/Build/${isDev
@@ -66,7 +149,25 @@ export default {
       this.createGlobe();
     }
   },
+  watch: {
+    dataLayerTime(timeObj) {
+      this.dataLayerTimeSelection(timeObj);
+    },
+    dataLayerTimeProp: {
+      immediate: true,
+      deep: true,
+      handler(v) {
+        if (v) this.dataLayerTime = this.availableTimeEntries.find((item) => item.name === v);
+      },
+    },
+  },
   methods: {
+    refreshLayers() {
+      const index = this.viewer.imageryLayers.indexOf(this.dataLayer);
+      // Remove and readd layer to make sure new time is loaded
+      this.viewer.imageryLayers.remove(this.dataLayer, false);
+      this.viewer.imageryLayers.add(this.dataLayer, index);
+    },
     createGlobe() {
       const imageryProvider = (id) => {
         // TODO use @/config/layers
@@ -92,10 +193,10 @@ export default {
             maximumLevel: 5,
             customTags: {
               // TODO dynamic date
-              time: () => 's5p-l3-co/3day/2021/07/001-20210730-20210801-20210804',
+              time: () => this.dataLayerTime.value[0],
             },
           });
-          imagery.defaultAlpha = 0.6;
+          imagery.defaultAlpha = 0.8;
         }
         return imagery;
       };
@@ -122,7 +223,7 @@ export default {
         },
       });
       // TODO actually check which layers are used
-      this.viewer.imageryLayers.addImageryProvider(imageryProvider('WorldCO-N1'));
+      this.dataLayer = this.viewer.imageryLayers.addImageryProvider(imageryProvider('WorldCO-N1'));
       this.viewer.scene.backgroundColor = Cesium.Color.TRANSPARENT;
       this.viewer.scene.fog.enabled = false;
       this.viewer.scene.globe.showGroundAtmosphere = false;
@@ -131,6 +232,24 @@ export default {
           this.loaded = true;
         }
       });
+    },
+    dataLayerTimeUpdated(time) {
+      this.$emit('update:datalayertime', time);
+    },
+    compareLayerTimeUpdated(time) {
+      this.$emit('update:comparelayertime', time);
+    },
+    dataLayerTimeSelection(timeObj) {
+      this.dataLayerTime = timeObj;
+      const newIndex = this.availableTimeEntries
+        .map((i) => i.value)
+        .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
+      this.dataLayerIndex = newIndex;
+      this.refreshLayers();
+      this.dataLayerTimeUpdated(this.dataLayerTime.name);
+    },
+    getCurrentIndex(side) {
+      return side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
     },
   },
 };

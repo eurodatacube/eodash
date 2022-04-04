@@ -258,6 +258,7 @@
             </v-overlay>
             <indicator-globe
               v-if="showGlobe"
+              class="d-flex justify-center"
             />
             <indicator-map
               ref="indicatorMap"
