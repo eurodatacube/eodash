@@ -2,7 +2,7 @@
   <div
     ref="container"
     id="cesiumContainer"
-    style="height: 100%; width: 100%; position: absolute; top: 0"
+    style="height: 100%; width: 100%; position: relative;"
   >
     <!-- Loader -->
     <div
@@ -22,22 +22,18 @@
       </div>
     </div>
     <!-- End loader -->
-    <div
-      class="d-flex justify-center"
-    >
-      <indicator-time-selection
-        ref="timeSelection"
-        v-if="dataLayerTime && !mergedConfigsData[0].disableTimeSelection"
-        :autofocus="!disableAutoFocus"
-        :available-values="availableTimeEntries"
-        :indicator="indicator"
-        :compare-active.sync="enableCompare"
-        :compare-time.sync="compareLayerTime"
-        :original-time.sync="dataLayerTime"
-        :enable-compare="false"
-        :large-time-duration="mergedConfigsData[0].largeTimeDuration"
-      />
-    </div>
+    <indicator-time-selection
+      ref="timeSelection"
+      v-if="dataLayerTime && !mergedConfigsData[0].disableTimeSelection"
+      :autofocus="!disableAutoFocus"
+      :available-values="availableTimeEntries"
+      :indicator="indicator"
+      :compare-active.sync="enableCompare"
+      :compare-time.sync="compareLayerTime"
+      :original-time.sync="dataLayerTime"
+      :enable-compare="false"
+      :large-time-duration="mergedConfigsData[0].largeTimeDuration"
+    />
   </div>
 </template>
 
@@ -167,51 +163,63 @@ export default {
   },
   methods: {
     refreshLayers() {
-      if (this.viewer){
+      if (this.viewer) {
         const index = this.viewer.imageryLayers.indexOf(this.dataLayer);
-        // Remove and readd layer to make sure new time is loaded
-        this.viewer.imageryLayers.remove(this.dataLayer, false);
-        this.viewer.imageryLayers.add(this.dataLayer, index);
+        // Remove and recreate layer to make sure new time is loaded
+        this.viewer.imageryLayers.remove(this.dataLayer, true);
+        this.dataLayer = this.viewer.imageryLayers.addImageryProvider(
+          this.createImageryProvider(this.mergedConfigsData[0]), index,
+        );
+        // this.viewer.imageryLayers.add(this.dataLayer, index);
       }
     },
-    createGlobe() {
-      const imageryProvider = (config) => {
-        // TODO use @/config/layers
-        // TODO implement dynamic creation
-        let imagery;
-        if (!config) {
-          imagery = new Cesium.WebMapTileServiceImageryProvider({
-            url: 'https://tiles.maps.eox.at/wmts/1.0.0/terrain-light/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg',
-            layer: 'terrain-light',
-            style: 'default',
-            format: 'image/jpeg',
-            tileMatrixSetID: 'WGS84',
-            maximumLevel: 12,
-            tilingScheme: new Cesium.GeographicTilingScheme({
-              numberOfLevelZeroTilesX: 2, numberOfLevelZeroTilesY: 1,
-            }),
-            credit: new Cesium.Credit('{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }'),
-          });
-        } else {
-          // TODO currently only necessary methods supported
-          switch (config.protocol) {
-            case 'xyz':
-              imagery = new Cesium.UrlTemplateImageryProvider({
-                url: config.url.replace('{-y}', '{reverseY}'),
-                maximumLevel: 5,
-                customTags: {
-                  time: () => config.dateFormatFunction(this.dataLayerTime.value),
-                },
-              });
+    createImageryProvider(config) {
+      let imagery;
+      if (!config) {
+        imagery = new Cesium.WebMapTileServiceImageryProvider({
+          url: 'https://tiles.maps.eox.at/wmts/1.0.0/terrain-light/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg',
+          layer: 'terrain-light',
+          style: 'default',
+          format: 'image/jpeg',
+          tileMatrixSetID: 'WGS84',
+          maximumLevel: 12,
+          tilingScheme: new Cesium.GeographicTilingScheme({
+            numberOfLevelZeroTilesX: 2, numberOfLevelZeroTilesY: 1,
+          }),
+          credit: new Cesium.Credit('{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }'),
+        });
+      } else {
+        // TODO currently only necessary methods supported
+        switch (config.protocol) {
+          case 'xyz':
+            imagery = new Cesium.UrlTemplateImageryProvider({
+              url: config.url.replace('{-y}', '{reverseY}'),
+              maximumLevel: 5,
+              customTags: {
+                time: () => config.dateFormatFunction(this.dataLayerTime.value),
+              },
+            });
             break;
-            default:
-              console.log('Protocol not yet supported on Globe');
-          }
+          case 'WMS':
+            imagery = new Cesium.WebMapServiceImageryProvider({
+              url: config.baseUrl,
+              layers: config.layers,
+              parameters: {
+                format: 'image/png',
+                transparent: 'true',
+                time: config.dateFormatFunction(this.dataLayerTime.value),
+              },
+            });
+            break;
+          default:
+            console.log('Protocol not yet supported on Globe component');
         }
-        return imagery;
-      };
+      }
+      return imagery;
+    },
+    createGlobe() {
       this.viewer = new Cesium.Viewer('cesiumContainer', {
-        imageryProvider: imageryProvider(),
+        imageryProvider: this.createImageryProvider(),
         baseLayerPicker: false,
         fullscreenButton: false,
         geocoder: false,
@@ -234,7 +242,7 @@ export default {
       });
       // TODO currently we only support one layer
       this.dataLayer = this.viewer.imageryLayers.addImageryProvider(
-        imageryProvider(this.mergedConfigsData[0])
+        this.createImageryProvider(this.mergedConfigsData[0]),
       );
       this.viewer.scene.backgroundColor = Cesium.Color.TRANSPARENT;
       this.viewer.scene.fog.enabled = false;
