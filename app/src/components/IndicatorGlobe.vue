@@ -2,7 +2,7 @@
   <div
     ref="container"
     id="cesiumContainer"
-    style="height: 100%; width: 100%; position: absolute; top: 0"
+    style="height: 100%; width: 100%; position: relative;"
   >
     <!-- Loader -->
     <div
@@ -22,22 +22,18 @@
       </div>
     </div>
     <!-- End loader -->
-    <div
-      class="d-flex justify-center"
-    >
-      <indicator-time-selection
-        ref="timeSelection"
-        v-if="dataLayerTime && !mergedConfigsData[0].disableTimeSelection"
-        :autofocus="!disableAutoFocus"
-        :available-values="availableTimeEntries"
-        :indicator="indicator"
-        :compare-active.sync="enableCompare"
-        :compare-time.sync="compareLayerTime"
-        :original-time.sync="dataLayerTime"
-        :enable-compare="false"
-        :large-time-duration="mergedConfigsData[0].largeTimeDuration"
-      />
-    </div>
+    <indicator-time-selection
+      ref="timeSelection"
+      v-if="dataLayerTime && !mergedConfigsData[0].disableTimeSelection"
+      :autofocus="!disableAutoFocus"
+      :available-values="availableTimeEntries"
+      :indicator="indicator"
+      :compare-active.sync="enableCompare"
+      :compare-time.sync="compareLayerTime"
+      :original-time.sync="dataLayerTime"
+      :enable-compare="false"
+      :large-time-duration="mergedConfigsData[0].largeTimeDuration"
+    />
   </div>
 </template>
 
@@ -176,8 +172,6 @@ export default {
     },
     createGlobe() {
       const imageryProvider = (config) => {
-        // TODO use @/config/layers
-        // TODO implement dynamic creation
         let imagery;
         if (!config) {
           imagery = new Cesium.WebMapTileServiceImageryProvider({
@@ -205,7 +199,6 @@ export default {
               });
               break;
             case 'WMS':
-              console.log(config);
               imagery = new Cesium.WebMapServiceImageryProvider({
                 url: config.baseUrl,
                 layers: config.layers,
