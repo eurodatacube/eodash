@@ -2,7 +2,7 @@
   <div
     ref="container"
     id="cesiumContainer"
-    style="height: 100%; width: 100%; position: relative;"
+    style="height: 100%; width: 100%; absolute; top: 0"
   >
     <!-- Loader -->
     <div
@@ -22,18 +22,22 @@
       </div>
     </div>
     <!-- End loader -->
-    <indicator-time-selection
-      ref="timeSelection"
-      v-if="dataLayerTime && !mergedConfigsData[0].disableTimeSelection"
-      :autofocus="!disableAutoFocus"
-      :available-values="availableTimeEntries"
-      :indicator="indicator"
-      :compare-active.sync="enableCompare"
-      :compare-time.sync="compareLayerTime"
-      :original-time.sync="dataLayerTime"
-      :enable-compare="false"
-      :large-time-duration="mergedConfigsData[0].largeTimeDuration"
-    />
+    <div
+      class="d-flex justify-center"
+    >
+      <indicator-time-selection
+        ref="timeSelection"
+        v-if="dataLayerTime && !mergedConfigsData[0].disableTimeSelection"
+        :autofocus="!disableAutoFocus"
+        :available-values="availableTimeEntries"
+        :indicator="indicator"
+        :compare-active.sync="enableCompare"
+        :compare-time.sync="compareLayerTime"
+        :original-time.sync="dataLayerTime"
+        :enable-compare="false"
+        :large-time-duration="mergedConfigsData[0].largeTimeDuration"
+      />
+    </div>
   </div>
 </template>
 
