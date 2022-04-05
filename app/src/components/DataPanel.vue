@@ -272,10 +272,10 @@
               @update:comparelayertime="c => comparelayertime = c"
               @compareEnabled="compareEnabled = !compareEnabled"
               class="d-flex justify-center"
+              style="top: 0px; position: absolute;"
             />
             <indicator-map
               ref="indicatorMap"
-              style="top: 0px; position: absolute;"
               v-else-if="showMap"
               @update:center="c => center = c"
               @update:zoom="z => zoom = z"
@@ -283,6 +283,7 @@
               @update:comparelayertime="c => comparelayertime = c"
               @compareEnabled="compareEnabled = !compareEnabled"
               class="pt-0 fill-height"
+              style="top: 0px; position: absolute;"
             />
             <indicator-data
               style="top: 0px; position: absolute;"

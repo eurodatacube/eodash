@@ -1,75 +1,81 @@
 <template>
   <div
-    ref="container"
-    id="cesiumContainer"
-    style="height: 100%; width: 100%; absolute; top: 0"
+    style="height: 100%; width: 100%;"
   >
-    <!-- Loader -->
     <div
-      v-if="!loaded"
-      class="fill-height d-flex align-center justify-center"
-      style="width: 100%; position: absolute; z-index: 1;"
+      ref="container"
+      id="cesiumContainer"
+      style="height: 100%; width: 100%;"
     >
+      <!-- Loader -->
       <div
-        class="fill-height"
-        style="width: 100%; position: absolute; background: var(--v-background-base); opacity: 0.3"
-      ></div>
-      <div class="sk-fold">
-        <div class="sk-fold-cube"></div>
-        <div class="sk-fold-cube"></div>
-        <div class="sk-fold-cube"></div>
-        <div class="sk-fold-cube"></div>
+        v-if="!loaded"
+        class="fill-height d-flex align-center justify-center"
+        style="width: 100%; position: absolute; z-index: 1;"
+      >
+        <div
+          class="fill-height"
+          style="width: 100%; position: absolute;
+            background: var(--v-background-base); opacity: 0.3"
+        ></div>
+        <div class="sk-fold">
+          <div class="sk-fold-cube"></div>
+          <div class="sk-fold-cube"></div>
+          <div class="sk-fold-cube"></div>
+          <div class="sk-fold-cube"></div>
+        </div>
       </div>
-    </div>
-    <!-- End loader -->
-    <div
-      class="d-flex justify-center"
-    >
-      <indicator-time-selection
-        ref="timeSelection"
-        v-if="dataLayerTime && !mergedConfigsData[0].disableTimeSelection"
-        :autofocus="!disableAutoFocus"
-        :available-values="availableTimeEntries"
-        :indicator="indicator"
-        :compare-active.sync="enableCompare"
-        :compare-time.sync="compareLayerTime"
-        :original-time.sync="dataLayerTime"
-        :enable-compare="false"
-        :large-time-duration="mergedConfigsData[0].largeTimeDuration"
-      />
-    </div>
-    <v-sheet
-      class="d-flex align-center"
-      style="position: absolute; right: 0.5em; bottom: 0.5em; border-radius: 4px;
-      z-index: 1001; padding: 2px"
-    >
-      <ul
-        v-if="showAttribution"
-        style="font-size: 10px"
+      <!-- End loader -->
+      <div
+        class="d-flex justify-center"
+        style="position: relative; width: 100%; height: 100%;"
       >
-        <li
-          v-for="(attribution, key) in attributions"
-          :key="key"
-          class="mr-1"
-          style="display: inline; list-style: none; text-decoration: none"
-          v-html="attribution"
-        >
-        </li>
-      </ul>
-      <button
-        title="Attributions"
-        class="d-flex align-center justify-center"
-        style="width: 22px; height: 22px; cursor: pointer"
-        @click="showAttribution = !showAttribution"
+        <indicator-time-selection
+          ref="timeSelection"
+          v-if="dataLayerTime && !mergedConfigsData[0].disableTimeSelection"
+          :autofocus="!disableAutoFocus"
+          :available-values="availableTimeEntries"
+          :indicator="indicator"
+          :compare-active.sync="enableCompare"
+          :compare-time.sync="compareLayerTime"
+          :original-time.sync="dataLayerTime"
+          :enable-compare="false"
+          :large-time-duration="mergedConfigsData[0].largeTimeDuration"
+        />
+      </div>
+      <v-sheet
+        class="d-flex align-center"
+        style="position: absolute; right: 0; bottom: 0; border-radius: 4px;
+        z-index: 1001; padding: 2px"
       >
-        <span
-          class="v-card ol-attribution-expand"
-          style="font-weight: bold; line-height: .4em; font-size: 16px"
+        <ul
+          v-if="showAttribution"
+          style="font-size: 10px"
         >
-          {{ showAttribution ? '›' : 'i' }}
-        </span>
-      </button>
-    </v-sheet>
+          <li
+            v-for="(attribution, key) in attributions"
+            :key="key"
+            class="mr-1"
+            style="display: inline; list-style: none; text-decoration: none"
+            v-html="attribution"
+          >
+          </li>
+        </ul>
+        <button
+          title="Attributions"
+          class="d-flex align-center justify-center"
+          style="width: 22px; height: 22px; cursor: pointer"
+          @click="showAttribution = !showAttribution"
+        >
+          <span
+            class="v-card ol-attribution-expand"
+            style="font-weight: bold; line-height: .4em; font-size: 16px"
+          >
+            {{ showAttribution ? '›' : 'i' }}
+          </span>
+        </button>
+      </v-sheet>
+    </div>
   </div>
 </template>
 
@@ -399,5 +405,9 @@ export default {
 <style scoped>
 ::v-deep .cesium-widget-credits {
     display:none !important;
+}
+
+::v-deep .cesium-viewer {
+  position: absolute
 }
 </style>
