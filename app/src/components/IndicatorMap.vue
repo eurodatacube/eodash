@@ -1560,8 +1560,6 @@ export default {
 
       const message = JSON.parse(html.slice(startPos, endPos));
 
-      console.log(message);
-
       const options = this.layerOptions(this.currentTime, this.mergedConfigsData[0]);
       // add custom area if present
       let customArea = {};
@@ -1587,13 +1585,16 @@ export default {
         // If the Statistical-API-specific bounds structure happens
         // to exist, replace that right away so we always have bounds.
         if (requestBody.input.bounds.geometry.coordinates) {
-          var coords = requestBody.input.bounds.geometry.coordinates;
+          /// This structure is an array in an array because the API demands it.
+          var coords = [[]];
 
           for (let latLong of this.drawnArea.coordinates[0]) {
             // The conversion between Leaflet's LatLong format and
-            // GeoJSON's LongLat format happens here!
-            coords.push(latLong.reverse());
+            // GeoJSON's LongLat format happens here.
+            coords[0].push(latLong.reverse());
           }
+
+          requestBody.input.bounds.geometry.coordinates = coords;
         }
 
         const params = Object.keys(requestBody);
