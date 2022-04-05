@@ -78,6 +78,8 @@ export default {
     position: Array,
     right: Array,
     up: Array,
+    datalayertime: String,
+    comparelayertime: String,
   },
   data: () => ({
     alreadyAdded: false,
@@ -133,12 +135,16 @@ export default {
                 position: this.position,
                 right: this.right,
                 up: this.up,
+                dataLayerTime: this.datalayertime,
+                compareLayerTime: this.comparelayertime,
               },
             }),
             ...(this.zoom && this.center && {
               mapInfo: {
                 zoom: this.zoom,
                 center: this.center,
+                dataLayerTime: this.datalayertime,
+                compareLayerTime: this.comparelayertime,
               },
             }),
           },

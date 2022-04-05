@@ -77,6 +77,9 @@
                   :currentIndicator="sensorData.properties.indicatorObject"
                   @update:center="c => center = c"
                   @update:zoom="z => zoom = z"
+                  @update:datalayertime="d => datalayertime = d"
+                  @update:comparelayertime="c => comparelayertime = c"
+                  @compareEnabled="compareEnabled = !compareEnabled"
                 />
                 <indicator-data
                   style="top: 0px; position: absolute;"
@@ -192,6 +195,9 @@
               class="pt-0 fill-height"
               @update:center="c => center = c"
               @update:zoom="z => zoom = z"
+              @update:datalayertime="d => datalayertime = d"
+              @update:comparelayertime="c => comparelayertime = c"
+              @compareEnabled="compareEnabled = !compareEnabled"
             />
             <indicator-data
               v-if="!customAreaIndicator.isEmpty"
@@ -262,6 +268,9 @@
               @update:position="p => position = p"
               @update:right="r => right = r"
               @update:up="u => up = u"
+              @update:datalayertime="d => datalayertime = d"
+              @update:comparelayertime="c => comparelayertime = c"
+              @compareEnabled="compareEnabled = !compareEnabled"
               class="d-flex justify-center"
             />
             <indicator-map
@@ -270,6 +279,9 @@
               v-else-if="showMap"
               @update:center="c => center = c"
               @update:zoom="z => zoom = z"
+              @update:datalayertime="d => datalayertime = d"
+              @update:comparelayertime="c => comparelayertime = c"
+              @compareEnabled="compareEnabled = !compareEnabled"
               class="pt-0 fill-height"
             />
             <indicator-data
@@ -363,6 +375,8 @@
                   :position="position"
                   :right="right"
                   :up="up"
+                  :datalayertime="datalayertime"
+                  :comparelayertime="compareEnabled ? comparelayertime : undefined"
                 />
               </div>
             </v-col>
@@ -524,6 +538,9 @@
                 ref="referenceMap"
                 @update:center="c => center = c"
                 @update:zoom="z => zoom = z"
+                @update:datalayertime="d => datalayertime = d"
+                @update:comparelayertime="c => comparelayertime = c"
+                @compareEnabled="compareEnabled = !compareEnabled"
                 :style="`height: calc(100% - ${$vuetify.application.top}px)`"
               />
               </v-dialog>
@@ -580,6 +597,9 @@ export default {
     position: null,
     right: null,
     up: null,
+    datalayertime: null,
+    comparelayertime: null,
+    compareEnabled: false,
   }),
   computed: {
     ...mapGetters('features', [
