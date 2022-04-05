@@ -383,7 +383,7 @@ import {
   mapGetters,
 } from 'vuex';
 import {
-  geoJson, latLngBounds, latLng, circleMarker, DivIcon, Point,
+  geoJson, latLngBounds, latLng, circleMarker, DivIcon, Point, rectangle,
 } from 'leaflet';
 import { template } from '@/utils';
 import {
@@ -391,6 +391,7 @@ import {
   LControlLayers, LControlAttribution, LControlZoom, LLayerGroup,
   LFeatureGroup, LControl, LTooltip,
 } from 'vue2-leaflet';
+
 import { DateTime } from 'luxon';
 import { load } from 'recaptcha-v3';
 
@@ -1582,7 +1583,21 @@ export default {
         requestBody = {
           ...this.mergedConfigsData[0].areaIndicator.requestBody,
         };
+
+        // If the Statistical-API-specific bounds structure happens
+        // to exist, replace that right away so we always have bounds.
+        if (requestBody.input.bounds.geometry.coordinates) {
+          var coords = requestBody.input.bounds.geometry.coordinates;
+
+          for (let latLong of this.drawnArea.coordinates[0]) {
+            // The conversion between Leaflet's LatLong format and
+            // GeoJSON's LongLat format happens here!
+            coords.push(latLong.reverse());
+          }
+        }
+
         const params = Object.keys(requestBody);
+        
         for (let i = 0; i < params.length; i += 1) {
           // substitute template strings with values
           if (typeof requestBody[params[i]] === 'string') {
