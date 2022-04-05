@@ -15,6 +15,7 @@ import csv
 import datetime
 import collections
 import requests
+import xml.etree.ElementTree as ET
 from dotenv.main import find_dotenv, DotEnv
 from xcube_geodb.core.geodb import GeoDBClient
 
@@ -53,6 +54,10 @@ MIGRATED_COLLECTIONS = [
 ZARRCOLLECTIONS = [
 
 ]
+
+WMSCOLLECTIONS = {
+    "ONPP_GCOMC": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?request=GetCapabilities&service=WMS&version=1.1.1"
+}
 
 # Some datasets have different dates for different areas so we need to separate
 # the request to only retrieve dates from those locations
@@ -100,42 +105,36 @@ def retrieve_entries(url, offset):
     return res
 
 
-# print("Fetching information of available dates for BYOD data from deprecated server")
-# try:
-#     for key in COLLECTIONS:
-#         # fetch identifier from environment
-#         if key in envs:
-#             coll_id = envs[key]
-#             layer_name = "&TYPENAMES=DSS10-%s"%(coll_id)
-#             if key in BBOX:
-#                 # There are multiple locations for this dataset so we do
-#                 # requests for each location
-#                 for (val, subr_key) in BBOX[key]:
-#                     bbox = "&BBOX=%s"%val
-#                     request = "%s%s%s%s%s"%(
-#                         WFSENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
-#                         layer_name, bbox
-#                     )
-#                     results = retrieve_entries(request, 0)
-#                     results.sort()
-#                     results_dict[("%s_%s"%(key, subr_key))] = results
-#             else:
-#                 bbox = "&BBOX=-180,90,180,-90"
-#                 request = "%s%s%s%s%s"%(
-#                     WFSENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
-#                     layer_name, bbox
-#                 )
-#                 results = retrieve_entries(request, 0)
-#                 results = list(set(results))
-#                 results.sort()
-#                 results_dict[key] = results
-#         else:
-#             print("Key for %s not found in environment variables"%key)
-# except Exception as e:
-#     print("Issue retrieving BYOD information from deprecated server")
-#     template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-#     message = template.format(type(e).__name__, e.args)
-#     print (message)
+print("Fetching information for WMS endpoints with time information")
+try:
+    for layer, capabilties_url in WMSCOLLECTIONS.items():
+        r = requests.get(capabilties_url)
+        times = []
+        try:
+            root = ET.fromstring(r.content)
+            for l in root.findall(".//Layer"):
+                curr_layer = l.findall("./Name")
+                if (len(curr_layer) == 1):
+                    extent = l.findall("./Extent")
+                    if (len(extent) == 1) and curr_layer[0].text == layer:
+                        time_entries = extent[0].text.split("/")
+                        for t in time_entries:
+                            if (len(t.split(","))>1):
+                                times.append(t.split(",")[1])
+                            else:
+                                times.append(t)
+            results_dict[layer] = times
+        except Exception as e:
+            print("Issue parsing XML for request: %s"%capabilties_url)
+            template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+            message = template.format(type(e).__name__, e.args)
+            print (message)
+      
+except Exception as e:
+    print("Issue retrieving BYOD information from deprecated server")
+    template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+    message = template.format(type(e).__name__, e.args)
+    print (message)
 
 print("Fetching information of available dates for BYOD data from new server")
 try:
