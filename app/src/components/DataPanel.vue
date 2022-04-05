@@ -258,6 +258,10 @@
             </v-overlay>
             <indicator-globe
               v-if="showGlobe"
+              @update:direction="d => direction = d"
+              @update:position="p => position = p"
+              @update:right="r => right = r"
+              @update:up="u => up = u"
               class="d-flex justify-center"
             />
             <indicator-map
@@ -354,7 +358,12 @@
                   ].countrySelection"
                   :indicatorObject="indicatorObject"
                   :zoom="zoom"
-                  :center="center"/>
+                  :center="center"
+                  :direction="direction"
+                  :position="position"
+                  :right="right"
+                  :up="up"
+                />
               </div>
             </v-col>
           </v-row>
@@ -567,6 +576,10 @@ export default {
     multipleTabCompare: null,
     zoom: null,
     center: null,
+    direction: null,
+    position: null,
+    right: null,
+    up: null,
   }),
   computed: {
     ...mapGetters('features', [

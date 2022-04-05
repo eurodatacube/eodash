@@ -685,7 +685,7 @@ export default {
           this.$set(this.serverDirection, f.poi, f.mapInfo.direction);
           this.$set(this.serverPosition, f.poi, f.mapInfo.position);
           this.$set(this.serverRight, f.poi, f.mapInfo.right);
-          this.$set(this.serverup, f.poi, f.mapInfo.up);
+          this.$set(this.serverUp, f.poi, f.mapInfo.up);
           this.$set(this.serverDataLayerTime, f.poi, f.mapInfo.dataLayerTime);
 
           if (f.mapInfo.dataLayerTime) {

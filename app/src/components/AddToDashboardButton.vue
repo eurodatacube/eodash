@@ -74,6 +74,10 @@ export default {
     indicatorObject: Object,
     zoom: Number,
     center: Object,
+    direction: Array,
+    position: Array,
+    right: Array,
+    up: Array,
   },
   data: () => ({
     alreadyAdded: false,
@@ -125,10 +129,10 @@ export default {
             title: this.title,
             ...(this.indicatorObject.showGlobe && {
               mapInfo: {
-                direction: null,
-                position: null,
-                right: null,
-                up: null,
+                direction: this.direction,
+                position: this.position,
+                right: this.right,
+                up: this.up,
               },
             }),
             ...(this.zoom && this.center && {
