@@ -95,10 +95,16 @@ export default {
     compareLayerTimeProp: {
       required: false,
     },
-    zoomProp: {
+    directionProp: {
       required: false,
     },
-    centerProp: {
+    positionProp: {
+      required: false,
+    },
+    rightProp: {
+      required: false,
+    },
+    upProp: {
       required: false,
     },
     hideCustomAreaControls: {
@@ -119,6 +125,8 @@ export default {
     dataLayerIndex: 0,
     compareLayerIndex: 0,
     showAttribution: false,
+    cameraIsMoving: false,
+    cameraLastPosition: {},
   }),
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
@@ -293,15 +301,78 @@ export default {
           this.loaded = true;
         }
       });
+      if (this.directionProp) {
+        [
+          this.viewer.scene.camera.direction.x,
+          this.viewer.scene.camera.direction.y,
+          this.viewer.scene.camera.direction.z,
+        ] = this.directionProp;
+      }
+      if (this.positionProp) {
+        [
+          this.viewer.scene.camera.position.x,
+          this.viewer.scene.camera.position.y,
+          this.viewer.scene.camera.position.z,
+        ] = this.positionProp;
+      }
+      if (this.rightProp) {
+        [
+          this.viewer.scene.camera.right.x,
+          this.viewer.scene.camera.right.y,
+          this.viewer.scene.camera.right.z,
+        ] = this.rightProp;
+      }
+      if (this.upProp) {
+        [
+          this.viewer.scene.camera.up.x,
+          this.viewer.scene.camera.up.y,
+          this.viewer.scene.camera.up.z,
+        ] = this.upProp;
+      }
+      this.cameraLastPosition = {
+        x: this.viewer.scene.camera.position.x,
+        y: this.viewer.scene.camera.position.y,
+        z: this.viewer.scene.camera.position.z,
+      };
+      this.viewer.clock.onTick.addEventListener(this.handleTick);
     },
-    globeCameraUpdated() {
-      // TODO
-      let direction; let position; let right; let
-        up;
+    globeCameraUpdated(direction, position, right, up) {
       this.$emit('update:direction', direction);
       this.$emit('update:position', position);
       this.$emit('update:right', right);
       this.$emit('update:up', up);
+    },
+    handleTick() {
+      // Cesium does not provide a method to know when the camera has stopped,
+      // this approach seems to work well enough but there might be a better
+      // solution
+      const c = this.viewer.scene.camera;
+      let th = [1, 1, 1];
+      // If current mode is either Columbus or Scene2D lower threshold
+      if (this.viewer.scene.mode === 1 || this.viewer.scene.mode === 2) {
+        th = [0, 0, 0];
+      }
+      if (!this.cameraIsMoving) {
+        if (Math.abs(this.cameraLastPosition.x - c.position.x) > th[0]
+                && Math.abs(this.cameraLastPosition.y - c.position.y) > th[1]
+                && Math.abs(this.cameraLastPosition.z - c.position.z) >= th[2]) {
+          this.cameraIsMoving = true;
+        }
+      } else if (Math.abs(this.cameraLastPosition.x - c.position.x) <= th[0]
+                && Math.abs(this.cameraLastPosition.y - c.position.y) <= th[1]
+                && Math.abs(this.cameraLastPosition.z - c.position.z) <= th[2]) {
+        this.cameraIsMoving = false;
+        this.globeCameraUpdated(
+          [c.direction.x, c.direction.y, c.direction.z],
+          [c.position.x, c.position.y, c.position.z],
+          [c.right.x, c.right.y, c.right.z],
+          [c.up.x, c.up.y, c.up.z],
+        );
+      } else {
+        this.cameraLastPosition.x = c.position.x;
+        this.cameraLastPosition.y = c.position.y;
+        this.cameraLastPosition.z = c.position.z;
+      }
     },
     dataLayerTimeUpdated(time) {
       this.$emit('update:datalayertime', time);
