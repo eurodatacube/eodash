@@ -454,6 +454,11 @@ export const layerNameMapping = Object.freeze({
     baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'JAXA_CARS_CONTAINERS_ALOS2',
   },
+  NO2_Cairo: {
+    baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+    layers: 'NO2_Cairo',
+    maxMapZoom: 14,
+  },
   GOSAT_XCO2: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/GOSAT_XCO2_{time}_{site}_BG_circle_cog.tif&resampling_method=nearest',
     protocol: 'xyz',

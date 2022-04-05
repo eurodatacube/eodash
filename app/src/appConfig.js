@@ -245,7 +245,7 @@ module.exports = [
     ],
     configuredMapPois: [
       'DE1-E13c', 'PL1-E13c', 'BE3-E13c', 'FR3-E13c', 'IT3-E13c',
-      'IT9-E13b', 'FR8-E13b', 'UK4-E13b', 'EG1-E13c',
+      'IT9-E13b', 'FR8-E13b', 'UK4-E13b', 'EG1-E13c', 'EG01-N1',
     ],
     featureGrouping: [
       {
