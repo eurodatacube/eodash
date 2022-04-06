@@ -845,6 +845,11 @@ export const globalIndicators = [
                 data.forEach((row) => {
                   const { stats } = row.outputs.no2_raw.bands.B0;
 
+                  // This check discards any statistical values from the Sentinel Hub
+                  // API that are higher than 5000 to avoid loading unrealistically high
+                  // values. For example, we'd be dealing with values in the range of
+                  // zillions of kilograms per square meter in the W1-N1 NO2 indicator,
+                  // which is just nuts.
                   if (stats.max < 5000) {
                     newData.time.push(DateTime.fromISO(row.interval.from));
                     newData.colorCode.push('');
