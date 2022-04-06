@@ -830,27 +830,26 @@ export const globalIndicators = [
               },
             },
             callbackFunction: (requestJson, indicator) => {
-              console.log(requestJson);
-
-              if (Array.isArray(requestJson.C0)) {
-                const data = requestJson.C0;
+              if (requestJson.status === 'OK' && requestJson.data.length > 0) {
+                const { data } = requestJson;
                 const newData = {
                   time: [],
                   measurement: [],
                   referenceValue: [],
                   colorCode: [],
                 };
-                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
-                  ? 1
-                  : -1));
+                data.sort((a, b) => (
+                  (DateTime.fromISO(a.interval.from) > DateTime.fromISO(b.interval.from))
+                    ? 1
+                    : -1));
                 data.forEach((row) => {
-                  if (row.basicStats.max < 5000) {
-                    // leaving out falsely set nodata values disrupting the chart
-                    newData.time.push(DateTime.fromISO(row.date));
-                    newData.colorCode.push('');
-                    newData.measurement.push(row.basicStats.mean);
-                    newData.referenceValue.push(`[null, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
-                  }
+                  newData.time.push(DateTime.fromISO(row.interval.from));
+                  newData.colorCode.push('');
+                  const { stats } = row.outputs.no2_raw.bands.B0;
+                  newData.measurement.push(stats.mean);
+                  newData.referenceValue.push(
+                    `[null, ${stats.stDev}, ${stats.max}, ${stats.min}]`,
+                  );
                 });
                 const ind = {
                   ...indicator,

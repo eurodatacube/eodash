@@ -1607,11 +1607,11 @@ export default {
 
           // Calculate the appropriate resolution for the current bounding box.
           requestBody.aggregation.resx = Math.abs(
-            (Math.max(...longitudes) - Math.min(...longitudes)) / 500,
+            (Math.max(...longitudes) - Math.min(...longitudes)) / 100,
           );
 
           requestBody.aggregation.resy = Math.abs(
-            (Math.max(...latitudes) - Math.min(...latitudes)) / 500,
+            (Math.max(...latitudes) - Math.min(...latitudes)) / 100,
           );
         }
 
