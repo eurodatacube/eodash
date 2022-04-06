@@ -1586,8 +1586,7 @@ export default {
         // to exist, replace that right away so we always have bounds.
         if (requestBody.input.bounds.geometry.coordinates) {
           // This structure is an array in an array because the API demands it.
-          const coords = this.drawnArea.coordinates[0]
-            .map();
+          const coords = [[]];
           // Save latitudes and longitudes since we'll need them later.
           let longitudes = [];
           let latitudes = [];
