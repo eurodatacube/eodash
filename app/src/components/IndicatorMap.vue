@@ -383,7 +383,7 @@ import {
   mapGetters,
 } from 'vuex';
 import {
-  geoJson, latLngBounds, latLng, circleMarker, DivIcon, Point, rectangle,
+  geoJson, latLngBounds, latLng, circleMarker, DivIcon, Point,
 } from 'leaflet';
 import { template } from '@/utils';
 import {
@@ -1585,16 +1585,17 @@ export default {
         // If the Statistical-API-specific bounds structure happens
         // to exist, replace that right away so we always have bounds.
         if (requestBody.input.bounds.geometry.coordinates) {
-          /// This structure is an array in an array because the API demands it.
-          var coords = [[]];
-          /// Save latitudes and longitudes since we'll need them later.
-          var longitudes = [];
-          var latitudes  = [];
+          // This structure is an array in an array because the API demands it.
+          const coords = this.drawnArea.coordinates[0]
+            .map();
+          // Save latitudes and longitudes since we'll need them later.
+          let longitudes = [];
+          let latitudes = [];
 
-          for (let latLong of this.drawnArea.coordinates[0]) {
+          for (let latLong of this.drawnArea.coordinates[0]) { // eslint-disable-line
             // The conversion between Leaflet's LatLong format and
             // GeoJSON's LongLat format happens here.
-            coords[0].push(latLong.reverse());  
+            coords[0].push(latLong.reverse());
             latitudes.push(latLong[0]);
             longitudes.push(latLong[1]);
           }
@@ -1602,21 +1603,21 @@ export default {
           requestBody.input.bounds.geometry.coordinates = coords;
 
           // Filter latitude and longitude arrays so all items are unique.
-          latitudes  = latitudes.filter((value, index, self)  => self.indexOf(value) === index);
+          latitudes = latitudes.filter((value, index, self) => self.indexOf(value) === index);
           longitudes = longitudes.filter((value, index, self) => self.indexOf(value) === index);
 
-          // Calculate the appropriate resolution for the bounding box the user has chosen.
+          // Calculate the appropriate resolution for the current bounding box.
           requestBody.aggregation.resx = Math.abs(
-            (Math.max(...longitudes) - Math.min(...longitudes)) / 500
+            (Math.max(...longitudes) - Math.min(...longitudes)) / 500,
           );
 
           requestBody.aggregation.resy = Math.abs(
-            (Math.max(...latitudes) - Math.min(...latitudes)) / 500
+            (Math.max(...latitudes) - Math.min(...latitudes)) / 500,
           );
         }
 
         const params = Object.keys(requestBody);
-        
+
         for (let i = 0; i < params.length; i += 1) {
           // substitute template strings with values
           if (typeof requestBody[params[i]] === 'string') {
