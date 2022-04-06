@@ -488,6 +488,7 @@ generateData(
         '/public/data/trilateral/N2.csv',
         '/public/data/trilateral/N3b.csv',
         '/public/data/trilateral/N1_EG.csv',
+        '/public/data/trilateral/N2_EG.csv',
     ],
     [
         #['E1', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'], archived
