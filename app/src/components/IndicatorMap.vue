@@ -1587,14 +1587,32 @@ export default {
         if (requestBody.input.bounds.geometry.coordinates) {
           /// This structure is an array in an array because the API demands it.
           var coords = [[]];
+          /// Save latitudes and longitudes since we'll need them later.
+          var longitudes = [];
+          var latitudes  = [];
 
           for (let latLong of this.drawnArea.coordinates[0]) {
             // The conversion between Leaflet's LatLong format and
             // GeoJSON's LongLat format happens here.
-            coords[0].push(latLong.reverse());
+            coords[0].push(latLong.reverse());  
+            latitudes.push(latLong[0]);
+            longitudes.push(latLong[1]);
           }
 
           requestBody.input.bounds.geometry.coordinates = coords;
+
+          // Filter latitude and longitude arrays so all items are unique.
+          latitudes  = latitudes.filter((value, index, self)  => self.indexOf(value) === index);
+          longitudes = longitudes.filter((value, index, self) => self.indexOf(value) === index);
+
+          // Calculate the appropriate resolution for the bounding box the user has chosen.
+          requestBody.aggregation.resx = Math.abs(
+            (Math.max(...longitudes) - Math.min(...longitudes)) / 500
+          );
+
+          requestBody.aggregation.resy = Math.abs(
+            (Math.max(...latitudes) - Math.min(...latitudes)) / 500
+          );
         }
 
         const params = Object.keys(requestBody);
