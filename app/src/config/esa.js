@@ -867,7 +867,6 @@ export const globalIndicators = [
         time: getFortnightIntervalDates('2019-01-07', 'now'),
         inputData: [''],
         yAxis: 'Tropospheric NO2 (μmol/m2)',
-        showGlobe: true,
         display: {
           baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
           customAreaIndicator: true,
@@ -2425,7 +2424,6 @@ export const globalIndicators = [
         aoiID: 'WorldCO',
         time: l3mapsData.l3maps,
         inputData: [''],
-        showGlobe: true,
         display: {
           protocol: 'xyz',
           maxNativeZoom: 5,
