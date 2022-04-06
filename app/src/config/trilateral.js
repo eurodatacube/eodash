@@ -843,13 +843,16 @@ export const globalIndicators = [
                     ? 1
                     : -1));
                 data.forEach((row) => {
-                  newData.time.push(DateTime.fromISO(row.interval.from));
-                  newData.colorCode.push('');
                   const { stats } = row.outputs.no2_raw.bands.B0;
-                  newData.measurement.push(stats.mean);
-                  newData.referenceValue.push(
-                    `[null, ${stats.stDev}, ${stats.max}, ${stats.min}]`,
-                  );
+
+                  if (stats.max < 5000) {
+                    newData.time.push(DateTime.fromISO(row.interval.from));
+                    newData.colorCode.push('');
+                    newData.measurement.push(stats.mean);
+                    newData.referenceValue.push(
+                      `[null, ${stats.stDev}, ${stats.max}, ${stats.min}]`,
+                    );
+                  }
                 });
                 const ind = {
                   ...indicator,
