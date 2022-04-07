@@ -74,6 +74,25 @@
                   v-html="convertToMarkdown(element.text)"
                 ></div>
               </div>
+              <indicator-globe
+                v-if="element.indicatorObject.showGlobe"
+                class="pt-0 fill-height"
+                style="top: 0px; position: absolute;"
+                :currentIndicator="element.indicatorObject"
+                :directionProp="localDirection[element.poi]"
+                :positionProp="localPosition[element.poi]"
+                :rightProp="localRight[element.poi]"
+                :upProp="localUp[element.poi]"
+                :dataLayerTimeProp="localDataLayerTime[element.poi]"
+                :compareLayerTimeProp="localCompareLayerTime[element.poi]"
+                @update:direction="d => {localDirection[element.poi] = d}"
+                @update:position="p => {localPosition[element.poi] = p}"
+                @update:right="r => {localRight[element.poi] = r}"
+                @update:up="u => {localUp[element.poi] = u}"
+                @update:datalayertime="d => {localDataLayerTime[element.poi] = d}"
+                @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
+                @ready="onMapReady(element.poi)"
+              />
               <indicator-map
                 ref="indicatorMap"
                 style="top: 0px; position: absolute;"
@@ -379,6 +398,7 @@ import { DateTime } from 'luxon';
 import mediumZoom from 'medium-zoom';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
+import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import LoadingAnimation from '@/components/LoadingAnimation.vue';
 import { loadIndicatorData } from '@/utils';
 import { mapGetters, mapState, mapActions } from 'vuex';
@@ -397,6 +417,7 @@ export default {
   components: {
     IndicatorData,
     IndicatorMap,
+    IndicatorGlobe,
     LoadingAnimation,
   },
   data: () => ({
@@ -406,10 +427,18 @@ export default {
     featurePOI: null,
     localZoom: {},
     localCenter: {},
+    localDirection: {},
+    localPosition: {},
+    localRight: {},
+    localUp: {},
     localDataLayerTime: {},
     localCompareLayerTime: {},
     serverZoom: {},
     serverCenter: {},
+    serverDirection: {},
+    serverPosition: {},
+    serverRight: {},
+    serverUp: {},
     serverDataLayerTime: {},
     serverCompareLayerTime: {},
     enableCompare: {},
@@ -439,6 +468,20 @@ export default {
             return true;
           }
           if (this.localZoom[element.poi] !== this.serverZoom[element.poi]) {
+            return true;
+          }
+        }
+        if (this.localDirection[element.poi] && this.serverDirection[element.poi]) {
+          if (this.localDirection[element.poi] !== this.serverDirection[element.poi]) {
+            return true;
+          }
+          if (this.localPosition[element.poi] !== this.serverPosition[element.poi]) {
+            return true;
+          }
+          if (this.localRight[element.poi] !== this.serverRight[element.poi]) {
+            return true;
+          }
+          if (this.localUp[element.poi] !== this.serverUp[element.poi]) {
             return true;
           }
         }
@@ -514,6 +557,10 @@ export default {
         this.localCenter[poi].lat = this.serverCenter[poi].lat;
         this.localCenter[poi].lng = this.serverCenter[poi].lng;
         this.localZoom[poi] = this.serverZoom[poi];
+        this.localDirection[poi] = this.serverDirection[poi];
+        this.localPosition[poi] = this.serverPosition[poi];
+        this.localRight[poi] = this.serverRight[poi];
+        this.localUp[poi] = this.serverUp[poi];
         this.localDataLayerTime[poi] = this.serverDataLayerTime[poi];
         this.localCompareLayerTime[poi] = this.serverCompareLayerTime[poi];
       }, 1000);
@@ -529,6 +576,10 @@ export default {
             poi: el.poi,
             zoom: this.localZoom[el.poi],
             center: this.localCenter[el.poi],
+            direction: this.localDirection[el.poi],
+            position: this.localPosition[el.poi],
+            right: this.localRight[el.poi],
+            up: this.localUp[el.poi],
             dataLayerTime: this.localDataLayerTime[el.poi],
             compareLayerTime: this.localCompareLayerTime[el.poi]
               ? this.localCompareLayerTime[el.poi]
@@ -623,10 +674,18 @@ export default {
         if (f.mapInfo && (firstCall || f.poi === this.savedPoi)) {
           this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
           this.$set(this.localCenter, f.poi, f.mapInfo.center);
+          this.$set(this.localDirection, f.poi, f.mapInfo.direction);
+          this.$set(this.localPosition, f.poi, f.mapInfo.position);
+          this.$set(this.localRight, f.poi, f.mapInfo.right);
+          this.$set(this.localUp, f.poi, f.mapInfo.up);
           this.$set(this.localDataLayerTime, f.poi, f.mapInfo.dataLayerTime);
 
           this.$set(this.serverZoom, f.poi, f.mapInfo.zoom);
           this.$set(this.serverCenter, f.poi, f.mapInfo.center);
+          this.$set(this.serverDirection, f.poi, f.mapInfo.direction);
+          this.$set(this.serverPosition, f.poi, f.mapInfo.position);
+          this.$set(this.serverRight, f.poi, f.mapInfo.right);
+          this.$set(this.serverUp, f.poi, f.mapInfo.up);
           this.$set(this.serverDataLayerTime, f.poi, f.mapInfo.dataLayerTime);
 
           if (f.mapInfo.dataLayerTime) {
