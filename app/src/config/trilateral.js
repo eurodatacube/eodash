@@ -3375,7 +3375,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           maxNativeZoom: 5,
           minZoom: 0,
-          opacity: 0.6,
+          opacity: 1.0,
           tileSize: 256,
           name: 'Tropospheric CO',
           // url: '//obs.eu-de.otc.t-systems.com/s5p-pal-l3-external/maps/{time}/{z}/{x}/{-y}.png',
