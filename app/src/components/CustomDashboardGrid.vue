@@ -70,7 +70,9 @@
                 class="textAreaContainer"
               >
                 <div
-                  :class="element.text.includes(imageFlag) ? 'imageArea fill-height' : 'pa-5 textArea'"
+                  :class="element.text.includes(imageFlag)
+                    ? 'imageArea fill-height'
+                    : 'pa-5 textArea'"
                   v-html="convertToMarkdown(element.text)"
                 ></div>
               </div>
@@ -581,7 +583,8 @@ export default {
 
         // zoom.on('open', (event) => {
         //     this.imageOpen = true;
-        //     this.currentExpandedImageCaption = this.convertToMarkdown(event.target.parentNode.innerText)
+        //     this.currentExpandedImageCaption
+        //       = this.convertToMarkdown(event.target.parentNode.innerText)
         //   },
         //   { once: true }
         // );
@@ -718,25 +721,28 @@ export default {
 ::v-deep .textArea iframe {
   max-width: 100%;
 }
-.imageArea {
-  // ::v-deep p {
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 0;
 
-    img {
-      flex-grow: 1;
-      // -webkit-flex-shrink: 0;
-      max-width: 100%;
-      max-height: calc(100% - 40px);
-      margin-bottom: 7px;
-    }
-  // }
+::v-deep > .imageArea {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    width: fit-content;
+    height: fit-content;
+    max-height: 100%;
+    display: contents;
+    text-align: center;
+  }
+
+  img {
+    max-width: 100%;
+    max-height: calc(100% - 40px);
+  }
 }
 // .imageCaption {
 //   position: absolute;

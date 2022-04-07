@@ -486,7 +486,9 @@
       >
         <v-card>
           <v-card-title class="headline primary--text mb-5">
-            {{ !textFeatureUpdate ? `Add ${newFeatureDialog} block` : `Update ${newFeatureDialog} block` }}
+            {{ !textFeatureUpdate
+              ? `Add ${newFeatureDialog} block`
+              : `Update ${newFeatureDialog} block` }}
           </v-card-title>
 
           <v-card-text>
@@ -902,7 +904,7 @@ export default {
             title: this.newTextFeatureTitle,
             text: `${this.newFeatureDialog === 'image'
               ? `${this.imageFlag}${this.newTextFeatureImageUrl}${this.imageFlag}`
-            : ''}${this.newTextFeatureText}`,
+              : ''}${this.newTextFeatureText}`,
             width: 4,
           },
         );
@@ -938,11 +940,11 @@ export default {
       if (el.text.includes(this.imageFlag)) {
         this.newFeatureDialog = 'image';
         this.newTextFeatureImageUrl = el.text.substring(
-            el.text.indexOf(this.imageFlag) + this.imageFlag.length, 
-            el.text.lastIndexOf(this.imageFlag)
+          el.text.indexOf(this.imageFlag) + this.imageFlag.length,
+          el.text.lastIndexOf(this.imageFlag),
         );
         this.newTextFeatureText = el.text.substring(
-            el.text.lastIndexOf(this.imageFlag) + + this.imageFlag.length
+          el.text.lastIndexOf(this.imageFlag) + +this.imageFlag.length,
         );
       } else {
         this.newFeatureDialog = 'text';
