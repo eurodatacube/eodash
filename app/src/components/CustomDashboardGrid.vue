@@ -75,7 +75,7 @@
                 ></div>
               </div>
               <indicator-globe
-                v-if="element.indicatorObject.showGlobe"
+                v-else-if="element.indicatorObject.showGlobe"
                 class="pt-0 fill-height"
                 style="top: 0px; position: absolute;"
                 :currentIndicator="element.indicatorObject"
