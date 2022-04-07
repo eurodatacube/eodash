@@ -70,7 +70,7 @@
                 class="textAreaContainer"
               >
                 <div
-                  class="pa-5 textArea"
+                  :class="element.text.includes(imageFlag) ? 'imageArea fill-height' : 'pa-5 textArea'"
                   v-html="convertToMarkdown(element.text)"
                 ></div>
               </div>
@@ -371,6 +371,12 @@
         </v-btn>
       </div>
     </v-fab-transition>
+    <!-- <div
+      v-if="imageOpen"
+      class="imageCaption"
+      :style="`top: ${getImageCaptionOffset}px`"
+      v-html="currentExpandedImageCaption"
+    ></div> -->
   </v-row>
 </template>
 
@@ -393,6 +399,7 @@ export default {
     localFeatures: Array,
     dashboardMeta: Object,
     themeColor: String,
+    imageFlag: String,
   },
   components: {
     IndicatorData,
@@ -417,6 +424,8 @@ export default {
     offsetTop: 0,
     showText: false,
     tooltipTrigger: false,
+    // currentExpandedImageCaption: '',
+    // imageOpen: false,
   }),
   computed: {
     ...mapGetters('dashboard', {
@@ -477,6 +486,14 @@ export default {
       }
       return currentRow;
     },
+    // getImageCaptionOffset() {
+    //   const image = document.querySelector('.medium-zoom-image--opened');
+    //   let offset;
+    //   if (image) {
+    //     offset = image.offsetTop + image.clientHeight + 35;
+    //   }
+    //   return offset;
+    // }
   },
   watch: {
     vuexFeatures: {
@@ -553,16 +570,25 @@ export default {
     convertToMarkdown(text) {
       // each time markdown is rendered, register its images for the zoom feature
       this.registerImageZoom();
-      return this.$marked(text);
+      return this.$marked(text.replace(this.imageFlag, '<img class="featuredImage" src="').replace(this.imageFlag, '" title="test"/>'));
     },
     registerImageZoom() {
       this.$nextTick(() => {
         // detach all previously attached images
         zoom.detach();
         // attach all images in .textAreas
-        zoom.attach(document.querySelectorAll('.textArea img'), {
-          background: 'var(--v-background-base)',
-        });
+        zoom.attach(document.querySelectorAll('.textAreaContainer img'));
+
+        // zoom.on('open', (event) => {
+        //     this.imageOpen = true;
+        //     this.currentExpandedImageCaption = this.convertToMarkdown(event.target.parentNode.innerText)
+        //   },
+        //   { once: true }
+        // );
+        // zoom.on('closed', () => {
+        //   this.imageOpen = false;
+        //   this.currentExpandedImageCaption = '';
+        // });
       });
     },
     async performChange(method, params) {
@@ -692,12 +718,33 @@ export default {
 ::v-deep .textArea iframe {
   max-width: 100%;
 }
-::v-deep .textArea p:only-child,
-::v-deep .textArea p:only-child img:only-child,
-::v-deep .textArea p:only-child video:only-child,
-::v-deep .textArea p:only-child iframe:only-child {
-  max-height: 100%;
+.imageArea {
+  // ::v-deep p {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+
+    img {
+      flex-grow: 1;
+      // -webkit-flex-shrink: 0;
+      max-width: 100%;
+      max-height: calc(100% - 40px);
+      margin-bottom: 7px;
+    }
+  // }
 }
+// .imageCaption {
+//   position: absolute;
+//   z-index: 2;
+//   display: flex;
+//   justify-content: center;
+//   width: 100%;
+// }
 ::v-deep .v-navigation-drawer--open {
   transform: translateY(0%) !important;
 }
@@ -711,8 +758,12 @@ export default {
 .medium-zoom-overlay {
   z-index: 1;
   opacity: .8 !important;
+  background: var(--v-background-base) !important;
 }
 .medium-zoom-image--opened {
   z-index: 2;
+}
+.imageArea :not(img):not(p) {
+  display: contents;
 }
 </style>
