@@ -9,6 +9,8 @@ import { E13bRemovedFtrs } from '@/config/otherdata';
 import availableDates from '@/config/data_dates.json';
 import l3mapsData from '@/config/tropomiCO.json';
 
+import { statisticalApiHeaders, statisticalApiBody } from './trilateral';
+
 export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [
   {
@@ -876,26 +878,66 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/no2Legend.png',
           dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           areaIndicator: {
-            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-            callbackFunction: (responseJson, indicator) => {
-              if (Array.isArray(responseJson.C0)) {
-                const data = responseJson.C0;
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              `//VERSION=3
+              function setup() {
+                return {
+                  input: [{
+                    bands: [
+                      "tropno2",
+                      "dataMask"
+                    ]
+                  }],
+                  output: [
+                    {
+                      id: "no2_raw",
+                      bands: 1,
+                      sampleType: "FLOAT32"
+                    },
+                    {
+                      id: "dataMask",
+                      bands: 1
+                    }
+                  ]
+                }
+              }
+    
+              function evaluatePixel(samples) {
+                return {
+                  no2_raw:  [samples.tropno2],
+                  dataMask: [samples.dataMask]
+                }
+              }`,
+            ),
+            callbackFunction: (requestJson, indicator) => {
+              if (requestJson.status === 'OK' && requestJson.data.length > 0) {
+                const { data } = requestJson;
                 const newData = {
                   time: [],
                   measurement: [],
                   referenceValue: [],
                   colorCode: [],
                 };
-                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
-                  ? 1
-                  : -1));
+                data.sort((a, b) => (
+                  (DateTime.fromISO(a.interval.from) > DateTime.fromISO(b.interval.from))
+                    ? 1
+                    : -1));
                 data.forEach((row) => {
-                  if (row.basicStats.max < 5000) {
-                    // leaving out falsely set nodata values disrupting the chart
-                    newData.time.push(DateTime.fromISO(row.date));
+                  const { stats } = row.outputs.no2_raw.bands.B0;
+
+                  // This check discards any statistical values from the Sentinel Hub
+                  // API that are higher than 5000 to avoid loading unrealistically high
+                  // values. For example, we'd be dealing with values in the range of
+                  // zillions of kilograms per square meter in the W1-N1 NO2 indicator,
+                  // which is just nuts.
+                  if (stats.max < 5000) {
+                    newData.time.push(DateTime.fromISO(row.interval.from));
                     newData.colorCode.push('');
-                    newData.measurement.push(row.basicStats.mean);
-                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
+                    newData.measurement.push(stats.mean);
+                    newData.referenceValue.push(
+                      `[null, ${stats.stDev}, ${stats.max}, ${stats.min}]`,
+                    );
                   }
                 });
                 const ind = {
