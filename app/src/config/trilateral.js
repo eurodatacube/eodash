@@ -8,7 +8,7 @@ import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import l3mapsData from '@/config/tropomiCO.json';
-import { shFisAreaIndicatorStdConfig } from '@/config/esa';
+// import { shFisAreaIndicatorStdConfig } from '@/config/esa';
 import store from '../store';
 
 export const dataPath = './data/internal/';
@@ -1170,8 +1170,113 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           customAreaIndicator: true,
           areaIndicator: {
-            ...shFisAreaIndicatorStdConfig,
-            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_SO2_DAILY_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            // ...shFisAreaIndicatorStdConfig,
+            // url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_SO2_DAILY_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            url: 'https://services.sentinel-hub.com/api/v1/statistics',
+            requestMethod: 'POST',
+            requestHeaders: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': 'https://eodashboard.org',
+            },
+            requestBody: {
+              input: {
+                bounds: {
+                  geometry: {
+                    type: 'Polygon',
+                    coordinates: '{area}',
+                  },
+                },
+                data: [
+                  {
+                    dataFilter: {},
+                    type: 'byoc-972e67a7-2ca8-4bf6-964a-11fe772e3ac2',
+                  },
+                ],
+              },
+              aggregation: {
+                timeRange: {
+                  from: '2000-01-01T00:00:00Z',
+                  to: '2050-01-01T00:00:00Z',
+                },
+                aggregationInterval: {
+                  of: 'P1D',
+                },
+                resx: 0.0225,
+                resy: 0.0225,
+                evalscript: `
+                  //VERSION=3
+                  function setup() {
+                    return {
+                      input: [{
+                        bands: [
+                          "tropso2",
+                          "dataMask"
+                        ]
+                      }],
+                      output: [
+                        {
+                          id: "so2_raw",
+                          bands: 1,
+                          sampleType: "FLOAT32"
+                        },
+                        {
+                          id: "dataMask",
+                          bands: 1
+                        }
+                      ]
+                    }
+                  }
+        
+                  function evaluatePixel(samples) {
+                    return {
+                      so2_raw:  [samples.tropso2],
+                      dataMask: [samples.dataMask]
+                    }
+                  }`,
+              },
+              calculations: {
+                default: {},
+              },
+            },
+            callbackFunction: (requestJson, indicator) => {
+              if (requestJson.status === 'OK' && requestJson.data.length > 0) {
+                const { data } = requestJson;
+                const newData = {
+                  time: [],
+                  measurement: [],
+                  referenceValue: [],
+                  colorCode: [],
+                };
+                data.sort((a, b) => (
+                  (DateTime.fromISO(a.interval.from) > DateTime.fromISO(b.interval.from))
+                    ? 1
+                    : -1));
+                data.forEach((row) => {
+                  const { stats } = row.outputs.so2_raw.bands.B0;
+
+                  // This check discards any statistical values from the Sentinel Hub
+                  // API that are higher than 5000 to avoid loading unrealistically high
+                  // values. For example, we'd be dealing with values in the range of
+                  // zillions of kilograms per square meter in the W1-N1 NO2 indicator,
+                  // which is just nuts.
+                  if (stats.max < 5000) {
+                    newData.time.push(DateTime.fromISO(row.interval.from));
+                    newData.colorCode.push('');
+                    newData.measurement.push(stats.mean);
+                    newData.referenceValue.push(
+                      `[null, ${stats.stDev}, ${stats.max}, ${stats.min}]`,
+                    );
+                  }
+                });
+                const ind = {
+                  ...indicator,
+                  ...newData,
+                };
+                return ind;
+              }
+              return null;
+            },
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
         },
       },
