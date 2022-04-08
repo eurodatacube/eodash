@@ -8,7 +8,7 @@ import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import l3mapsData from '@/config/tropomiCO.json';
-// import { shFisAreaIndicatorStdConfig } from '@/config/esa';
+
 import store from '../store';
 
 export const dataPath = './data/internal/';
@@ -28,6 +28,50 @@ export const dataEndpoints = [
   },
   */
 ];
+
+export const statisticalApiHeaders = {
+  url: 'https://services.sentinel-hub.com/api/v1/statistics',
+  requestMethod: 'POST',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'https://eodashboard.org',
+  },
+};
+
+export const statisticalApiBody = (evalscript) => ({
+  requestBody: {
+    input: {
+      bounds: {
+        geometry: {
+          type: 'Polygon',
+          coordinates: '{area}',
+        },
+      },
+      data: [
+        {
+          dataFilter: {},
+          type: 'byoc-972e67a7-2ca8-4bf6-964a-11fe772e3ac2',
+        },
+      ],
+    },
+
+    aggregation: {
+      timeRange: {
+        from: '2000-01-01T00:00:00Z',
+        to: '2050-01-01T00:00:00Z',
+      },
+      aggregationInterval: {
+        of: 'P1D',
+      },
+      resx: 0.0225,
+      resy: 0.0225,
+      evalscript,
+    },
+    calculations: {
+      default: {},
+    },
+  },
+});
 
 export const indicatorsDefinition = Object.freeze({
   E13c: {
