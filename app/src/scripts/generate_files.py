@@ -54,6 +54,15 @@ ZARRCOLLECTIONS = [
 
 ]
 
+STAC_COLLECTIONS = {
+    "no2-monthly": "https://staging-stac.delta-backend.xyz/collections/",
+    "no2-monthly-diff": "https://staging-stac.delta-backend.xyz/collections/",
+    "OMI_trno2-COG": "https://staging-stac.delta-backend.xyz/collections/",
+    "OMSO2PCA-COG": "https://staging-stac.delta-backend.xyz/collections/",
+    "facebook_population_density": "https://staging-stac.delta-backend.xyz/collections/",
+    "nightlights-hd-monthly": "https://staging-stac.delta-backend.xyz/collections/",
+}
+
 # Some datasets have different dates for different areas so we need to separate
 # the request to only retrieve dates from those locations
 BBOX = {
@@ -83,13 +92,13 @@ REQUESTOPTIONS = "?REQUEST=%s&srsName=%s&TIME=%s&outputformat=%s"%(
 date_data_file = '/config/data_dates.json'
 results_dict = {}
 
-def retrieve_entries(url, offset):
+def retrieve_entries(url, offset, dateproperty="date"):
     r = requests.get("%s&FEATURE_OFFSET=%s"%(url, (offset*100)))
     res = []
     try:
         json_resp = r.json()
         features = json_resp["features"]
-        [res.append(f["properties"]["date"]) for f in features if f["properties"]["date"] not in res]
+        [res.append(f["properties"][dateproperty]) for f in features if f["properties"][dateproperty] not in res]
         if len(features) == 100:
             res.extend(retrieve_entries(url, offset+1))
     except Exception as e:
@@ -99,6 +108,21 @@ def retrieve_entries(url, offset):
         print (message)
     return res
 
+print("Fetching information for STAC endpoints with time information")
+try:
+    for collection, stac_url in STAC_COLLECTIONS.items():
+        # Pagination does not seem to work on this api, so we request 1000 items
+        results = retrieve_entries(
+            "%s/%s/items?limit=1000"%(stac_url, collection), 0, "datetime"
+        )
+        results = list(set(results))
+        results.sort()
+        results_dict[collection] = results
+except Exception as e:
+    print("Issue retrieving BYOD information from deprecated server")
+    template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+    message = template.format(type(e).__name__, e.args)
+    print (message)
 
 # print("Fetching information of available dates for BYOD data from deprecated server")
 # try:
