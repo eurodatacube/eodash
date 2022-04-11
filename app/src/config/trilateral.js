@@ -38,7 +38,7 @@ export const statisticalApiHeaders = {
   },
 };
 
-export const statisticalApiBody = (evalscript) => ({
+export const statisticalApiBody = (evalscript, type) => ({
   requestBody: {
     input: {
       bounds: {
@@ -50,7 +50,7 @@ export const statisticalApiBody = (evalscript) => ({
       data: [
         {
           dataFilter: {},
-          type: 'byoc-972e67a7-2ca8-4bf6-964a-11fe772e3ac2',
+          type: type ? type : 'byoc-972e67a7-2ca8-4bf6-964a-11fe772e3ac2',
         },
       ],
     },
