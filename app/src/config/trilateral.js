@@ -1233,14 +1233,14 @@ export const globalIndicators = [
                 data: [
                   {
                     dataFilter: {},
-                    type: 'byoc-972e67a7-2ca8-4bf6-964a-11fe772e3ac2',
+                    type: 'sentinel-5p-l2',
                   },
                 ],
               },
               aggregation: {
                 timeRange: {
-                  from: '2000-01-01T00:00:00Z',
-                  to: '2050-01-01T00:00:00Z',
+                  from: '2020-01-01T00:00:00Z',
+                  to: '2020-02-01T00:00:00Z',
                 },
                 aggregationInterval: {
                   of: 'P1D',
@@ -1253,7 +1253,7 @@ export const globalIndicators = [
                     return {
                       input: [{
                         bands: [
-                          "tropso2",
+                          "SO2",
                           "dataMask"
                         ]
                       }],
@@ -1273,7 +1273,7 @@ export const globalIndicators = [
         
                   function evaluatePixel(samples) {
                     return {
-                      so2_raw:  [samples.tropso2],
+                      so2_raw:  [samples.SO2],
                       dataMask: [samples.dataMask]
                     }
                   }`,
