@@ -902,7 +902,7 @@ export const globalIndicators = [
                   ]
                 }
               }
-    
+
               function evaluatePixel(samples) {
                 return {
                   no2_raw:  [samples.tropno2],
@@ -1599,8 +1599,78 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           customAreaIndicator: true,
           areaIndicator: {
-            ...shFisAreaIndicatorStdConfig,
-            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_SO2_DAILY_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              `//VERSION=3
+              function setup() {
+                return {
+                  input: [{
+                    bands: [
+                      "tropso2",
+                      "dataMask"
+                    ]
+                  }],
+                  output: [
+                    {
+                      id: "SO2",
+                      bands: 1,
+                      sampleType: "FLOAT32"
+                    },
+                    {
+                      id: "dataMask",
+                      bands: 1
+                    }
+                  ]
+                }
+              }
+
+              function evaluatePixel(samples) {
+                return {
+                  so2_raw:  [samples.SO2],
+                  dataMask: [samples.dataMask]
+                }
+              }`,
+
+              'sentinel-5p-l2',
+            ),
+            callbackFunction: (requestJson, indicator) => {
+              if (requestJson.status === 'OK' && requestJson.data.length > 0) {
+                const { data } = requestJson;
+                const newData = {
+                  time: [],
+                  measurement: [],
+                  referenceValue: [],
+                  colorCode: [],
+                };
+                data.sort((a, b) => (
+                  (DateTime.fromISO(a.interval.from) > DateTime.fromISO(b.interval.from))
+                    ? 1
+                    : -1));
+                data.forEach((row) => {
+                  const { stats } = row.outputs.so2_raw.bands.B0;
+
+                  // This check discards any statistical values from the Sentinel Hub
+                  // API that are higher than 5000 to avoid loading unrealistically high
+                  // values. For example, we'd be dealing with values in the range of
+                  // zillions of kilograms per square meter in the W1-N1 NO2 indicator,
+                  // which is just nuts.
+                  if (stats.max < 5000) {
+                    newData.time.push(DateTime.fromISO(row.interval.from));
+                    newData.colorCode.push('');
+                    newData.measurement.push(stats.mean);
+                    newData.referenceValue.push(
+                      `[null, ${stats.stDev}, ${stats.max}, ${stats.min}]`,
+                    );
+                  }
+                });
+                const ind = {
+                  ...indicator,
+                  ...newData,
+                };
+                return ind;
+              }
+              return null;
+            },
           },
         },
       },
