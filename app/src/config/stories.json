@@ -1,6 +1,14 @@
 {
   "trilateral": {
-    "agriculture": {},
+    "agriculture": {
+    "joint-story": {
+        "originalDashboardId": "4b40596e305997ac",
+        "title": "Agriculture Story",
+        "subtitle": "Satellite data applications for environmental impacts on world crop (cereal) supply and demand",
+        "image": "./data/story-images/Agriculture.jpeg",
+        "imagePlaceholder": "./data/story-images/Agriculture.jpeg"
+      }
+    },
     "air-quality": {
       "joint-intro": {
         "originalDashboardId": "2b11a69e94e47a4a",
@@ -40,7 +48,15 @@
         "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
       }
     },
-    "covid-19": {},
+    "covid-19": {
+    "covid-19": {
+        "originalDashboardId": "7851179da7755498",
+        "title": "Covid-19",
+        "subtitle": "Covid-19 Impacts",
+        "image": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg",
+        "imagePlaceholder": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg"
+      }
+    },
     "cryosphere": {
       "changes-in-arctic-sea-ice": {
         "originalDashboardId": "92bc845659abfed6",
