@@ -730,6 +730,9 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  font-size: small;
+  padding: 10px;
 
   p {
     width: fit-content;
@@ -742,6 +745,7 @@ export default {
   img {
     max-width: 100%;
     max-height: calc(100% - 40px);
+    margin-bottom: 10px;
   }
 }
 // .imageCaption {
