@@ -940,7 +940,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W2',
-        time: getMonthlyDates('2004-10-01', '2022-01-01'),
+        time: getMonthlyDates('2004-10-01', '2022-03-01'),
         inputData: [''],
         yAxis: 'NO2 [µmol/m²]',
         display: {
@@ -962,7 +962,7 @@ export const globalIndicators = [
             },
             requestBody: {
               datasetId: 'no2',
-              dateRange: ['202001', '202101'],
+              dateRange: ['202001', '202801'],
               geojson: '{geojson}',
             },
             callbackFunction: (responseJson, indicator) => {
@@ -976,10 +976,12 @@ export const globalIndicators = [
                   referenceValue: [],
                 };
                 data.forEach((row) => {
-                  newData.time.push(DateTime.fromFormat(row.date, 'yyyyMM'));
-                  newData.colorCode.push('');
-                  newData.measurement.push(row.mean / 1e14);
-                  newData.referenceValue.push(`[${row.median / 1e14}, null, null, null]`);
+                  if (!('error' in row)) {
+                    newData.time.push(DateTime.fromFormat(row.date, 'yyyyMM'));
+                    newData.colorCode.push('');
+                    newData.measurement.push(row.mean / 1e14);
+                    newData.referenceValue.push(`[${row.median / 1e14}, null, null, null]`);
+                  }
                 });
                 ind = {
                   ...indicator,
@@ -1035,7 +1037,7 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         aoi: null,
         aoiID: 'W3',
-        time: getMonthlyDates('2015-01-01', '2022-01-01'),
+        time: getMonthlyDates('2015-01-01', '2022-03-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1866,7 +1868,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2022-02-09').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2022-03-16').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -2383,7 +2385,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2022-02-09').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2022-03-16').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -3602,7 +3604,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           maxNativeZoom: 5,
           minZoom: 0,
-          opacity: 0.6,
+          opacity: 1.0,
           tileSize: 256,
           name: 'Tropospheric CO',
           // url: '//obs.eu-de.otc.t-systems.com/s5p-pal-l3-external/maps/{time}/{z}/{x}/{-y}.png',
