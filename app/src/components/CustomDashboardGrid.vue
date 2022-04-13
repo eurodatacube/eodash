@@ -22,6 +22,7 @@
           :style="`height: ${storyMode ? 'calc((var(--vh, 1vh) * 100) - 140px)' : '500px'}`"
         >
           <div
+            v-if="!storyMode"
             class="d-flex align-center"
           >
             <span
@@ -609,9 +610,8 @@ export default {
       if (this.currentRow === 1 && direction === -1) {
         position = 0; // scroll back to story intro
       } else {
-        const rowPadding = 50;
         const startingPoint = document.querySelector('#elementsContainer').offsetTop;
-        const rowHeight = document.querySelector('.elementCard').clientHeight + rowPadding;
+        const rowHeight = document.querySelector('.elementCard').parentElement.parentElement.clientHeight;
         const target = rowHeight * (this.currentRow - 1 + direction);
         position = startingPoint + target;
       }
