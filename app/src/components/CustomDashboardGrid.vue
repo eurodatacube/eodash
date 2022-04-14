@@ -22,6 +22,7 @@
           :style="`height: ${storyMode ? 'calc((var(--vh, 1vh) * 100) - 140px)' : '500px'}`"
         >
           <div
+            v-if="!storyMode"
             class="d-flex align-center"
           >
             <span
@@ -70,7 +71,9 @@
                 class="textAreaContainer"
               >
                 <div
-                  class="pa-5 textArea"
+                  :class="element.text.includes(imageFlag)
+                    ? 'imageArea fill-height'
+                    : 'pa-5 textArea'"
                   v-html="convertToMarkdown(element.text)"
                 ></div>
               </div>
@@ -413,6 +416,7 @@ export default {
     localFeatures: Array,
     dashboardMeta: Object,
     themeColor: String,
+    imageFlag: String,
   },
   components: {
     IndicatorData,
@@ -604,16 +608,14 @@ export default {
     convertToMarkdown(text) {
       // each time markdown is rendered, register its images for the zoom feature
       this.registerImageZoom();
-      return this.$marked(text);
+      return this.$marked(text.replace(this.imageFlag, '<img class="featuredImage" src="').replace(this.imageFlag, '" title="test"/>'));
     },
     registerImageZoom() {
       this.$nextTick(() => {
         // detach all previously attached images
         zoom.detach();
         // attach all images in .textAreas
-        zoom.attach(document.querySelectorAll('.textArea img'), {
-          background: 'var(--v-background-base)',
-        });
+        zoom.attach(document.querySelectorAll('.textAreaContainer img'));
       });
     },
     async performChange(method, params) {
@@ -631,9 +633,8 @@ export default {
       if (this.currentRow === 1 && direction === -1) {
         position = 0; // scroll back to story intro
       } else {
-        const rowPadding = 50;
         const startingPoint = document.querySelector('#elementsContainer').offsetTop;
-        const rowHeight = document.querySelector('.elementCard').clientHeight + rowPadding;
+        const rowHeight = document.querySelector('.elementCard').parentElement.parentElement.clientHeight;
         const target = rowHeight * (this.currentRow - 1 + direction);
         position = startingPoint + target;
       }
@@ -751,12 +752,40 @@ export default {
 ::v-deep .textArea iframe {
   max-width: 100%;
 }
-::v-deep .textArea p:only-child,
-::v-deep .textArea p:only-child img:only-child,
-::v-deep .textArea p:only-child video:only-child,
-::v-deep .textArea p:only-child iframe:only-child {
-  max-height: 100%;
+
+::v-deep > .imageArea {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: small;
+  padding: 10px;
+
+  p {
+    width: fit-content;
+    height: fit-content;
+    max-height: 100%;
+    display: contents;
+    text-align: center;
+  }
+
+  img {
+    max-width: 100%;
+    max-height: calc(100% - 40px);
+    margin-bottom: 10px;
+  }
 }
+// .imageCaption {
+//   position: absolute;
+//   z-index: 2;
+//   display: flex;
+//   justify-content: center;
+//   width: 100%;
+// }
 ::v-deep .v-navigation-drawer--open {
   transform: translateY(0%) !important;
 }
@@ -770,8 +799,12 @@ export default {
 .medium-zoom-overlay {
   z-index: 1;
   opacity: .8 !important;
+  background: var(--v-background-base) !important;
 }
 .medium-zoom-image--opened {
   z-index: 2;
+}
+.imageArea :not(img):not(p) {
+  display: contents;
 }
 </style>
