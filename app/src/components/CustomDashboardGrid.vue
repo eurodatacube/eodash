@@ -374,12 +374,6 @@
         </v-btn>
       </div>
     </v-fab-transition>
-    <!-- <div
-      v-if="imageOpen"
-      class="imageCaption"
-      :style="`top: ${getImageCaptionOffset}px`"
-      v-html="currentExpandedImageCaption"
-    ></div> -->
   </v-row>
 </template>
 
@@ -427,8 +421,6 @@ export default {
     offsetTop: 0,
     showText: false,
     tooltipTrigger: false,
-    // currentExpandedImageCaption: '',
-    // imageOpen: false,
   }),
   computed: {
     ...mapGetters('dashboard', {
@@ -489,14 +481,6 @@ export default {
       }
       return currentRow;
     },
-    // getImageCaptionOffset() {
-    //   const image = document.querySelector('.medium-zoom-image--opened');
-    //   let offset;
-    //   if (image) {
-    //     offset = image.offsetTop + image.clientHeight + 35;
-    //   }
-    //   return offset;
-    // }
   },
   watch: {
     vuexFeatures: {
@@ -581,18 +565,6 @@ export default {
         zoom.detach();
         // attach all images in .textAreas
         zoom.attach(document.querySelectorAll('.textAreaContainer img'));
-
-        // zoom.on('open', (event) => {
-        //     this.imageOpen = true;
-        //     this.currentExpandedImageCaption
-        //       = this.convertToMarkdown(event.target.parentNode.innerText)
-        //   },
-        //   { once: true }
-        // );
-        // zoom.on('closed', () => {
-        //   this.imageOpen = false;
-        //   this.currentExpandedImageCaption = '';
-        // });
       });
     },
     async performChange(method, params) {
