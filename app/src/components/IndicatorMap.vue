@@ -85,22 +85,24 @@ import { geoJson, circleMarker } from 'leaflet';
 import DataMap from '@/components/map/DataMap.vue';
 import { DateTime } from 'luxon'; // TODO: MIGRATE
 import turfDifference from '@turf/difference';
-
-import countries from '@/assets/countries.json';
-import gsaFile from '@/assets/gsa_data.json';
-
+import GeoJSON from 'ol/format/GeoJSON';
 
 import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
 } from '@/helpers/mapConfig';
 import fetchCustomAreaObjects from '@/helpers/customAreaObjects';
+import { transformExtent } from 'ol/proj';
 import IndicatorTimeSelection from './IndicatorTimeSelection.vue';
 
 const emptyF = {
   type: 'FeatureCollection',
   features: [],
 };
+
+const geoJsonFormat = new GeoJSON({
+  featureProjection: 'EPSG:3857',
+});
 
 export default {
   props: {
@@ -172,11 +174,8 @@ export default {
     ...mapGetters('indicators', [
       'getIndicatorFilteredInputData',
     ]),
-    countriesJson() {
-      return countries;
-    },
-    gsaJson() {
-      return gsaFile;
+    mapId() {
+      return this.$route.query.poi;
     },
     countriesStyle() {
       return {
@@ -186,6 +185,21 @@ export default {
         opacity: 1,
         fillOpacity: 0.5,
       };
+    },
+    subAoiLayerConfigs() {
+      if (this.subAoiInverse) {
+        return [{
+          protocol: 'GeoJSON',
+          name: 'Reference Area Overlay',
+          data: {
+            type: 'FeatureCollection',
+            features: [this.subAoiInverse],
+          },
+          visible: true,
+          style: this.subAoiStyle('data'),
+        }];
+      }
+      return [];
     },
     subAoiInverseStyle() {
       return {
@@ -199,7 +213,9 @@ export default {
       return this.mergedConfigsData[0].baseLayers || this.baseConfig.baseLayersRightMap;
     },
     overlayLayers() {
-      return this.mergedConfigsData[0].overlayLayers || this.baseConfig.overlayLayersRightMap;
+      const overlayLayers = this.mergedConfigsData[0].overlayLayers
+        || this.baseConfig.overlayLayersRightMap;
+      return [...this.subAoiLayerConfigs, ...overlayLayers, this.mergedConfigsData[0]];
     },
     mapDefaults() {
       return {
@@ -258,67 +274,56 @@ export default {
     },
     subAoiInverse() {
       // create an inverse of subaoi, using difference of whole world and subaoi
-      const subaoiInv = JSON.parse(JSON.stringify(this.subAoi));
-      // both Object.assign({}, this.subAoi) and { ...this.subAoi } create shallow copy
-      if (subaoiInv.features.length === 1) {
-        const globalBox = {
-          type: 'Feature',
-          properties: {},
-          geometry: {
-            type: 'Polygon',
-            coordinates: [[[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]]],
-          },
-        };
-        const diff = turfDifference(globalBox, subaoiInv.features[0]);
-        subaoiInv.features[0] = diff;
+      if (this.subAoi && this.subAoi.features.length) {
+        const subaoiInv = JSON.parse(JSON.stringify(this.subAoi.features[0]));
+        // both Object.assign({}, this.subAoi) and { ...this.subAoi } create shallow copy
+        if (subaoiInv) {
+          const globalBox = {
+            type: 'Feature',
+            properties: {},
+            geometry: {
+              type: 'Polygon',
+              coordinates: [[[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]]],
+            },
+          };
+          const diff = turfDifference(globalBox, subaoiInv.geometry);
+          subaoiInv.geometry = diff.geometry;
+        }
+        return subaoiInv;
       }
-      return subaoiInv;
+      return null;
     },
-    clusterOptions() {
-      return {
-        disableClusteringAtZoom: 13,
-        animate: false,
-        // zoomToBoundsOnClick: false,
-        iconCreateFunction(cluster) { // eslint-disable-line func-names
-          // modified selected cluster style
-          const childCount = cluster.getChildCount();
-          return new DivIcon({
-            html: `<div><span>${childCount}</span></div>`,
-            className: 'marker-cluster',
-            iconSize: new Point(40, 40),
-          });
-        },
-        polygonOptions: {
-          fillColor: this.appConfig.branding.primaryColor,
-          color: this.appConfig.branding.primaryColor,
-          weight: 0.5,
-          opacity: 1,
-          fillOpacity: 0.3,
-          dashArray: 4,
-        },
-      };
+    zoomExtent() {
+      // extent to be zoomed to on mount. Padding will be applied.
+      if (this.subAoi && this.subAoi.features.length) {
+        if (this.subAoi.features[0].geometry.coordinates.length) {
+          const subAoiGeom = geoJsonFormat.readGeometry(this.subAoi.features[0].geometry);
+          return subAoiGeom.getExtent();
+        }
+        // geoJsonFormat
+        return []; // this.subAoi[0].getGeometry().getExtent();
+      }
+      if (this.mergedConfigsData[0].presetView) {
+        // pre-defined geojson view
+        const features = geoJsonFormat.readFeatures(this.mergedConfigsData[0].presetView);
+        return features[0].getExtent();
+      }
+      if (this.aoi) {
+        return transformExtent([this.aoi.lng, this.aoi.lat, this.aoi.lng, this.aoi.lat],
+          'EPSG:4326',
+          'EPSG:3857');
+      }
+      // if nothing else, fit to default bounds
+      const { bounds } = this.mapDefaults;
+      return transformExtent([bounds._southWest.lng, bounds._southWest.lat, bounds._northEast.lng, bounds._northEast.lat], 'EPSG:4326',
+        'EPSG:3857');
     },
-    drawOptions() {
-      return {
-        position: 'topright',
-        draw: {
-          polyline: false,
-          circle: false,
-          marker: false,
-          circlemarker: false,
-          polygon: {
-            shapeOptions: {
-              color: this.appConfig.branding.primaryColor,
-            },
-          },
-          rectangle: {
-            showArea: false,
-            shapeOptions: {
-              color: this.appConfig.branding.primaryColor,
-            },
-          },
-        },
-      };
+    constrainExtent() {
+      // constraining extent, map can not be moved past the bound of this extent.
+      if (this.subAoi) {
+        return this.zoomExtent;
+      }
+      return null;
     },
   },
   mounted() {
