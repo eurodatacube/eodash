@@ -10,7 +10,7 @@
         Error: {{ element }}
       </v-col>
       <v-col
-        v-else-if="!($vuetify.breakpoint.xsOnly && !!element.text)"
+        v-else
         :key="element.poi"
         cols="12"
         :md="element.width > 1 ? (element.width > 2 ? (element.width > 3 ? 12 : 8) : 6) : 4"
@@ -51,20 +51,7 @@
             tile
           >
             <div
-              v-if="features[index + 1] && features[index + 1].text
-                && $vuetify.breakpoint.xsOnly && !showText"
               class="fill-height"
-              :style="`position: absolute; width: 100%;
-                box-shadow: ${$vuetify.theme.dark ? '#363636' : 'white'} 0px -80px 30px -35px inset;
-                z-index: 3; pointer-events: none;`"
-            >
-            </div>
-            <div
-              :style="`position: relative; height: ${($vuetify.breakpoint.xsOnly
-              && features[index + 1]
-              && features[index + 1].text)
-                ? '60%'
-                : '100%'}`"
             >
               <div
                 v-if="element.text"
@@ -127,47 +114,6 @@
                 style="top: 0px; position: absolute;"
               />
             </div>
-            <template
-              v-if="$vuetify.breakpoint.xsOnly && features[index + 1] && features[index + 1].text"
-            >
-              <div
-                class="mobilePaddingBottom"
-                style="height: calc(var(--vh, 1vh) * 40)"
-              >
-              </div>
-              <v-navigation-drawer
-                v-model="showText"
-                absolute
-                bottom
-                temporary
-                style="z-index: 1; max-height: 100%;"
-                v-touch="{
-                  up: () => startFullScreenInteraction(`#textAreaContainer-${index}`),
-                  down: () => endFullScreenInteraction(`#textAreaContainer-${index}`),
-                }"
-              >
-                <div
-                  :id="`textAreaContainer-${index}`"
-                  class="textAreaContainer fill-height"
-                  :style="!showText ? 'overflow-y: hidden' : ''"
-                >
-                  <v-btn
-                    icon
-                    :dark="$vuetify.theme.dark ? true : false"
-                    absolute
-                    class="ma-2"
-                    style="right: 0"
-                    @click="showText = !showText"
-                  >
-                    <v-icon>{{  showText ? 'mdi-chevron-down' : 'mdi-chevron-up' }}</v-icon>
-                  </v-btn>
-                  <div
-                    class="pa-5 textArea"
-                    v-html="convertToMarkdown(features[index + 1].text)"
-                  ></div>
-                </div>
-              </v-navigation-drawer>
-            </template>
           </v-card>
           <template v-if="enableEditing">
             <div class="buttonContainer containerRight containerTop">
@@ -448,7 +394,6 @@ export default {
     enableCompare: {},
     savedPoi: null,
     offsetTop: 0,
-    showText: false,
     tooltipTrigger: false,
   }),
   computed: {
@@ -700,16 +645,6 @@ export default {
           indicatorObject,
         };
       }));
-    },
-    startFullScreenInteraction(selector) {
-      if (document.querySelector(selector).scrollTop === 0) {
-        this.showText = true;
-      }
-    },
-    endFullScreenInteraction(selector) {
-      if (document.querySelector(selector).scrollTop === 0) {
-        this.showText = false;
-      }
     },
   },
 };
