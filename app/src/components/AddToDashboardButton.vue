@@ -89,7 +89,11 @@ export default {
       immediate: true,
       async handler() {
         this.alreadyAdded = await this.exists(
-          { poi: this.indicatorObject.poi || this.getLocationCode(this.indicatorObject) },
+          {
+            poi: this.indicatorObject.poi
+            || this.getLocationCode(this.indicatorObject)
+            + Date.now(),
+          },
         );
       },
     },
