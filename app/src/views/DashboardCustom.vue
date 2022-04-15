@@ -259,7 +259,7 @@
               </template>
               <v-card :class="$vuetify.breakpoint.mdAndUp && 'px-10 py-4'"
                 style="overflow-y: auto; height: 100%;">
-                <v-form
+                <!-- <v-form
                   ref="form"
                   v-model="valid"
                   lazy-validation
@@ -414,7 +414,14 @@
                     <v-spacer></v-spacer>
                     <v-btn color="primary" text @click="popupOpen = false" x-large>Close</v-btn>
                   </v-card-actions>
-                </v-form>
+                </v-form> -->
+
+                <modal
+                  mode="dashboard"
+                  @submit="d => { showNewsletterModal = false }"
+                  @close="d => { showNewsletterModal = false }"
+                  always-sm
+                />
               </v-card>
             </v-dialog>
             <div
@@ -570,12 +577,14 @@ import axios from 'axios';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import CustomDashboardGrid from '@/components/CustomDashboardGrid.vue';
+import Modal from '@/components/Modal.vue';
 
 export default {
   components: {
     CustomDashboardGrid,
     GlobalHeader,
     GlobalFooter,
+    Modal,
   },
   data: () => ({
     newTextFeatureDialog: false,
