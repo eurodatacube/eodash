@@ -139,8 +139,6 @@ export default {
       center: null,
       bounds: null,
       enableCompare: false,
-      opacityTerrain: [1],
-      opacityOverlay: [1],
       tilePane: 'tilePane',
       overlayPane: 'overlayPane',
       markerPane: 'markerPane',
@@ -246,9 +244,6 @@ export default {
     indicator() {
       return this.getIndicatorFilteredInputData(this.currentIndicator);
     },
-    showAoi() {
-      return this.aoi && (!this.subAoi || this.subAoi.features.length === 0);
-    },
     validDrawnArea() {
       // allows for further validation on area size etc.
       return this.drawnArea !== null;
@@ -341,6 +336,7 @@ export default {
     },
   },
   mounted() {
+    // this.calculateExtents();
     if (!this.dataLayerTimeProp) {
       this.dataLayerTime = {
         value: this.mergedConfigsData[0].usedTimes.time[
@@ -356,9 +352,6 @@ export default {
         }
       });
     }
-
-    this.ro = new ResizeObserver(this.onResize)
-      .observe(this.$refs.container);
 
     if (this.compareLayerTimeProp) {
       this.$nextTick(() => { this.enableCompare = true; });
@@ -419,9 +412,6 @@ export default {
         this.fetchFeatures('data');
       }
       this.$emit('ready');
-      setTimeout(() => {
-        this.flyToBounds();
-      }, 100);
     },
     onResize() {
       // to fix panel size for reference image window
@@ -590,7 +580,6 @@ export default {
       return side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
     },
     subAoiStyle(side) {
-      // return getSubAoiStyle(side);
       const currentValue = this.getColorCode(side);
       return {
         color: currentValue
@@ -611,65 +600,6 @@ export default {
         l.protocol === 'WMS' && Object.keys(l).indexOf('combinedLayers') === -1
       ));
       return simpleLayers;
-    },
-    flyToBounds() {
-      // zooms to subaoi if present or area around aoi if not
-      const boundsPad = this.mergedConfigsData[0].largeSubAoi ? 5 : (this.mergedConfigsData[0].midSubAoi ? 1 : 0.15); // eslint-disable-line
-      if (this.subAoi && this.subAoi.features.length > 0) {
-        const viewBounds = this.mergedConfigsData[0].presetView
-          ? geoJson(this.mergedConfigsData[0].presetView).getBounds()
-          : geoJson(this.subAoi).getBounds();
-        const bounds = geoJson(this.subAoi).getBounds();
-        const southBound = bounds.getSouth() - boundsPad;
-        const westBound = bounds.getWest() - boundsPad;
-        const northBound = bounds.getNorth() + boundsPad;
-        const eastBound = bounds.getEast() + boundsPad;
-        const cornerMax1 = latLng([
-          southBound > -90 ? southBound : -90, westBound > -180 ? westBound : -180]);
-        const cornerMax2 = latLng([
-          northBound < 90 ? northBound : 90, eastBound < 180 ? eastBound : 180]);
-        const boundsMax = latLngBounds(cornerMax1, cornerMax2);
-        this.map.fitBounds(viewBounds);
-        // limit user movement around map
-        this.map.setMaxBounds(boundsMax);
-        if (this.mergedConfigsData[0].largeSubAoi) {
-          this.map.setMinZoom(2);
-        } else if (this.mergedConfigsData[0].midSubAoi) {
-          this.map.setMinZoom(9);
-        } else {
-          this.map.setMinZoom(13);
-        }
-      } else if (this.mergedConfigsData[0].presetView) {
-        // if only preset view move map there without limiting movement
-        const viewBounds = geoJson(this.mergedConfigsData[0].presetView).getBounds();
-        this.map.fitBounds(viewBounds);
-      } else if (this.aoi) {
-        const southBound = this.aoi.lat - boundsPad;
-        const westBound = this.aoi.lng - boundsPad;
-        const northBound = this.aoi.lat + boundsPad;
-        const eastBound = this.aoi.lng + boundsPad;
-        const cornerMax1 = latLng([
-          southBound > -90 ? southBound : -90, westBound > -180 ? westBound : -180]);
-        const cornerMax2 = latLng([
-          northBound < 90 ? northBound : 90, eastBound < 180 ? eastBound : 180]);
-        const boundsMax = latLngBounds(cornerMax1, cornerMax2);
-        this.map.setZoom(16);
-        this.map.panTo(this.aoi);
-        if (this.mergedConfigsData[0].largeSubAoi) {
-          this.map.setMinZoom(2);
-        } else if (this.mergedConfigsData[0].midSubAoi) {
-          this.map.setMinZoom(9);
-        } else {
-          this.map.setMinZoom(12);
-        }
-        // limit user movement around map
-        this.map.setMaxBounds(boundsMax);
-      } else {
-        // zoom to default bbox from config
-        this.map.setMinZoom(this.mapDefaults.minMapZoom);
-        this.map.setMaxBounds(null);
-        this.map.fitBounds(latLngBounds(this.mapDefaults.bounds));
-      }
     },
     layerOptions(time, sourceOptionsObj) {
       const additionalSettings = {};
@@ -708,11 +638,11 @@ export default {
         .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
       this.dataLayerIndex = newIndex;
       this.refreshLayers('data');
-      this.$nextTick(() => {
+      /* this.$nextTick(() => {
         this.slider.setRightLayers(
           this.extractActualLayers(this.$refs.dataLayers),
         );
-      });
+      }); */
       if (this.indicator.compareDisplay) {
         // shared time on both sides in case of compareDisplay being set
         this.compareLayerTime = this.dataLayerTime;
@@ -1050,7 +980,7 @@ export default {
         if (!this.mergedConfigsData[0].customAreaFeatures || this.validDrawnArea) {
           this.fetchFeatures('compare');
         }
-        this.$nextTick(() => {
+        /* this.$nextTick(() => {
           this.slider.setLeftLayers(
             this.extractActualLayers(this.$refs.compareLayers),
           );
@@ -1058,7 +988,7 @@ export default {
             this.extractActualLayers(this.$refs.dataLayers),
           );
           this.slider.addTo(this.map);
-        });
+        }); */
 
         // The following two calls set initial compare
         // and data layer times containing name and value.
