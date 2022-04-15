@@ -1,324 +1,24 @@
 <template>
   <div ref="container" style="height: 100%; width: 100%;">
-    <l-map
+    <DataMap
       ref="map"
+      :mapId="mapId"
       style="height: 100%; width: 100%; background: #cad2d3; z-index: 1;"
       :options="defaultMapOptions"
       :maxZoom="mapDefaults.maxMapZoom"
-      :minZoom="mapDefaults.minMapZoom"
+      :minZoom="minZoom"
+      :zoomExtent="zoomExtent"
+      :constrainExtent="constrainExtent"
       @update:zoom="zoomUpdated"
       @update:center="centerUpdated"
       @update:bounds="boundsUpdated"
       v-resize="onResize"
       :center="center"
       :zoom="zoom"
+      :overlayConfigs="overlayLayers"
+      :baseLayers="baseLayers"
       @ready="onMapReady()"
-    >
-      <l-control-zoom position="topright"></l-control-zoom>
-      <l-feature-group ref="customAreaFilterFeatures"></l-feature-group>
-      <l-control position="topright"
-        v-if="customAreaFilter && validDrawnArea && renderTrashBin">
-        <v-tooltip left>
-          <template v-slot:activator="{ on }">
-            <div v-on="on" class="d-inline-block">
-              <v-btn
-                color="error"
-                x-small
-                fab
-                class="pa-0"
-                :style="`${$vuetify.breakpoint.mdAndDown
-                  ? 'width: 30px; height: 30px;'
-                  : 'width: 26px; height: 26px;'} border-radius: 4px`"
-                @click="clearCustomAreaFilter"
-              >
-                <v-icon small>mdi-delete</v-icon>
-              </v-btn>
-            </div>
-          </template>
-            <span>Clear selection</span>
-        </v-tooltip>
-      </l-control>
-      <l-control position="topright"
-        v-if="mergedConfigsData[0].customAreaIndicator && validDrawnArea && renderTrashBin">
-        <v-tooltip left>
-          <template v-slot:activator="{ on }">
-            <div v-on="on" class="d-inline-block"
-            :style="`border: 3px solid ${appConfig.branding.primaryColor};
-            border-radius: 6px;`">
-              <v-btn
-                color="white"
-                x-small
-                fab
-                depressed
-                class="pa-0"
-                :style="`${$vuetify.breakpoint.mdAndDown
-                  ? 'width: 36px; height: 36px;'
-                  : 'width: 30px; height: 30px;'}
-                  border-radius: 4px;
-                  color: ${appConfig.branding.primaryColor};`"
-                @click="fetchCustomAreaIndicator"
-              >
-                <v-icon small>mdi-poll</v-icon>
-              </v-btn>
-            </div>
-          </template>
-            <span>Draw chart from sub-area</span>
-        </v-tooltip>
-      </l-control>
-      <LTileLayer
-        v-for="layer in baseLayers.filter(b => b.protocol === 'xyz')"
-        v-bind="layer"
-        ref="baseLayers"
-        layer-type="base"
-        :key="layer.name"
-        :opacity="opacityTerrain[zoom]"
-        :options="layerOptions(null, layer)"
-      >
-      </LTileLayer>
-      <LWMSTileLayer
-        v-for="layer in baseLayers.filter(b => b.protocol === 'WMS')"
-        :key="layer.name"
-        v-bind="layer"
-        :options="layerOptions(null, layer)"
-        layer-type="base"
-      >
-      </LWMSTileLayer>
-      <l-geo-json
-      :geojson="subAoiInverse"
-      :pane="popupPane"
-      layer-type="overlay"
-      name='Reference area overlay'
-      :optionsStyle="subAoiInverseStyle"
-      >
-      </l-geo-json>
-      <l-layer-group ref="dataLayers">
-        <l-geo-json
-        :geojson="indicator.subAoi"
-        :pane="tooltipPane"
-        :optionsStyle="subAoiStyle('data')"
-        >
-        </l-geo-json>
-        <l-marker-cluster v-if="mergedConfigsData[0].featuresClustering"
-          ref="featuresDataCluster"
-          :options="clusterOptions"
-          >
-        </l-marker-cluster>
-        <l-geo-json
-            v-else-if="dataJson.features"
-            ref="featureJsonData"
-            :geojson="dataJson.features"
-            :options="featureOptions('data')"
-            :pane="tooltipPane"
-            :key="dataJsonKey"
-          >
-        </l-geo-json>
-        <l-circle-marker
-          v-if="showAoi"
-          :lat-lng="aoi"
-          :radius="12"
-          :color="appConfig.branding.primaryColor"
-          :weight="2"
-          :dashArray="'3'"
-          :fill="true"
-          :fillColor="aoiFillStyle('data')"
-          :fillOpacity="1"
-          :pane="tooltipPane"
-        >
-        </l-circle-marker>
-        <!-- XYZ grouping is not implemented yet -->
-        <LTileLayer
-        v-for="(layerConfig, i) in mergedConfigsData.filter(l => l.protocol === 'xyz')"
-          ref="dataLayerArrayXYZ"
-          :data-key-originalindex="i"
-          :key="dataLayerKeyXYZ[i]"
-          v-bind="layerConfig"
-          :options="layerOptions(dataLayerTime, layerConfig)"
-          :pane="overlayPane"
-          layer-type="overlay"
-        >
-        </LTileLayer>
-        <template v-if="getCombinedWMSLayers().length > 0">
-          <l-layer-group ref="dataLayerArrayWMS">
-            <l-layer-group
-            v-for="combLayer in this.getCombinedWMSLayers()"
-              :key="combLayer.name"
-              :name="combLayer.name"
-              layer-type="overlay"
-            >
-              <LWMSTileLayer
-              v-for="cLayerConfig in combLayer.combinedLayers"
-                :key="cLayerConfig.name"
-                v-bind="cLayerConfig"
-                :options="layerOptions(dataLayerTime, cLayerConfig)"
-                :pane="overlayPane"
-              >
-              </LWMSTileLayer>
-            </l-layer-group>
-            <LWMSTileLayer
-            v-for="layerConfig in this.getSimpleWMSLayers()"
-              :key="layerConfig.name"
-              v-bind="layerConfig"
-              :options="layerOptions(dataLayerTime, layerConfig)"
-              :pane="overlayPane"
-              layer-type="overlay"
-            >
-            </LWMSTileLayer>
-          </l-layer-group>
-        </template>
-        <template v-else>
-          <LWMSTileLayer
-          v-for="layerConfig in this.getSimpleWMSLayers()"
-            ref="dataLayerArrayWMS"
-            :key="layerConfig.name"
-            v-bind="layerConfig"
-            :options="layerOptions(dataLayerTime, layerConfig)"
-            :pane="overlayPane"
-            layer-type="overlay"
-          >
-          </LWMSTileLayer>
-        </template>
-      </l-layer-group>
-      <l-layer-group ref="compareLayers">
-        <!-- XYZ grouping is not implemented yet -->
-        <LTileLayer
-        v-for="(layerConfig, i) in mergedConfigsCompare.filter(l => l.protocol === 'xyz')"
-          ref="compareLayerArrayXYZ"
-          :data-key-originalindex="i"
-          :key="compareLayerKeyXYZ[i]"
-          v-bind="layerConfig"
-          :visible="enableCompare"
-          :options="layerOptions(compareLayerTime, layerConfig)"
-          :pane="overlayPane"
-        >
-        </LTileLayer>
-        <template v-if="getCombinedWMSLayers('compare').length > 0">
-          <l-layer-group ref="compareLayerArrayWMS">
-            <l-layer-group
-            v-for="combLayer in this.getCombinedWMSLayers('compare')"
-              :key="combLayer.name"
-            >
-              <LWMSTileLayer
-              v-for="cLayerConfig in combLayer.combinedLayers"
-                :key="cLayerConfig.name"
-                v-bind="cLayerConfig"
-                :visible="enableCompare"
-                :options="layerOptions(compareLayerTime, cLayerConfig)"
-                :pane="overlayPane"
-              >
-              </LWMSTileLayer>
-            </l-layer-group>
-            <LWMSTileLayer
-            v-for="layerConfig in this.getSimpleWMSLayers('compare')"
-              :key="layerConfig.name"
-              v-bind="layerConfig"
-              :visible="enableCompare"
-              :options="layerOptions(compareLayerTime, layerConfig)"
-              :pane="overlayPane"
-            >
-            </LWMSTileLayer>
-          </l-layer-group>
-        </template>
-        <template v-else>
-          <LWMSTileLayer
-          v-for="layerConfig in this.getSimpleWMSLayers('compare')"
-            ref="compareLayerArrayWMS"
-            :key="layerConfig.name"
-            v-bind="layerConfig"
-            :visible="enableCompare"
-            :options="layerOptions(compareLayerTime, layerConfig)"
-            :pane="overlayPane"
-          >
-          </LWMSTileLayer>
-        </template>
-        <l-geo-json
-          :geojson="indicator.subAoi"
-          :pane="shadowPane"
-          :visible="enableCompare"
-          :optionsStyle="subAoiStyle('compare')"
-        >
-        </l-geo-json>
-        <l-marker-cluster v-if="mergedConfigsData[0].featuresClustering"
-          ref="featuresCompareCluster" :options="clusterOptions">
-        </l-marker-cluster>
-        <l-geo-json
-          v-else-if="compareJson.features"
-          ref="featureJsonCompare"
-          :visible="enableCompare"
-          :geojson="compareJson.features"
-          :options="featureOptions('compare')"
-          :pane="shadowPane"
-          :key="compareJsonKey"
-        >
-        </l-geo-json>
-        <l-circle-marker
-          v-if="showAoi"
-          :lat-lng="aoi"
-          :visible="enableCompare"
-          :radius="12"
-          :color="appConfig.branding.primaryColor"
-          :weight="2"
-          :dashArray="3"
-          :fill="true"
-          :fillColor="aoiFillStyle('compare')"
-          :fillOpacity="1"
-          :pane="shadowPane"
-        >
-        </l-circle-marker>
-      </l-layer-group>
-      <l-layer-group ref="overlayLayers" v-if="!countrySelection">
-        <LTileLayer
-          v-for="layer in overlayLayers.filter(b => b.protocol === 'xyz')"
-          :key="layer.name"
-          v-bind="layer"
-          :pane="markerPane"
-          :opacity="opacityOverlay[zoom]"
-          :options="layerOptions(null, layer)"
-          layer-type="overlay"
-        >
-        </LTileLayer>
-        <LWMSTileLayer
-          v-for="layer in overlayLayers.filter(b => b.protocol === 'WMS')"
-          v-bind="layer"
-          :key="layer.name"
-          :options="layerOptions(null, layer)"
-          :pane="markerPane"
-          :opacity="opacityOverlay[zoom]"
-          layer-type="overlay"
-        >
-        </LWMSTileLayer>
-      </l-layer-group>
-      <l-geo-json
-      v-if="countrySelection"
-      :geojson="countriesJson"
-      :optionsStyle="countriesStyle"
-      :options="countriesOptions()"
-      name="Country vectors"
-      layer-type="overlay"
-      >
-      </l-geo-json>
-      <l-feature-group ref="gsaLayer"
-        v-if="borderSelection">
-        <l-circle-marker v-for="(feature) in gsaJson"
-          :key="feature.id"
-          ref="markers"
-          :lat-lng="feature.AOI.split(',').map(Number)"
-          :name="feature.name"
-          color="#fff"
-          :radius="selectedBorder === feature.borderId ? 6 : 4"
-          :fillColor="selectedBorder === feature.borderId ?
-            appConfig.branding.secondaryColor : appConfig.branding.primaryColor"
-          :weight="selectedBorder === feature.borderId ? 2 : 1"
-          :opacity="selectedBorder === feature.borderId ? 1.0 : 0.8"
-          :fillOpacity="selectedBorder === feature.borderId ? 1.0 : 0.9"
-          @click="selectGSAIndicator(feature)"
-        >
-        <l-tooltip class="tooltip text-center" :options="{ direction: 'top' }">
-            <p class="ma-0">
-              <strong>{{ feature.name }}</strong>
-            </p>
-          </l-tooltip>
-        </l-circle-marker>
-      </l-feature-group>
+    />
       <div
       :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
         <img v-if="mergedConfigsData[0].legendUrl"
@@ -372,9 +72,6 @@
           @focusSelect="focusSelect"
         />
       </div>
-      <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
-      <l-control-layers position="topright" ref="layersControl"></l-control-layers>
-    </l-map>
   </div>
 </template>
 
@@ -384,27 +81,9 @@ import {
   mapState,
   mapGetters,
 } from 'vuex';
-import {
-  geoJson, latLngBounds, latLng, circleMarker, DivIcon, Point,
-} from 'leaflet';
-import {
-  LMap, LTileLayer, LWMSTileLayer, LGeoJson, LCircleMarker,
-  LControlLayers, LControlAttribution, LControlZoom, LLayerGroup,
-  LFeatureGroup, LControl, LTooltip,
-} from 'vue2-leaflet';
+import { geoJson, circleMarker } from 'leaflet';
+import DataMap from '@/components/map/DataMap.vue';
 import { DateTime } from 'luxon'; // TODO: MIGRATE
-
-import 'leaflet/dist/leaflet.css';
-import 'leaflet-mouse-position';
-import 'leaflet-side-by-side';
-import 'leaflet-loading';
-import 'leaflet-loading/src/Control.Loading.css';
-import 'leaflet-draw';
-import 'leaflet-draw/dist/leaflet.draw.css';
-
-import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster';
-import 'leaflet.markercluster/dist/MarkerCluster.css'; // eslint-disable-line import/no-extraneous-dependencies
-import 'leaflet.markercluster/dist/MarkerCluster.Default.css'; // eslint-disable-line import/no-extraneous-dependencies
 import turfDifference from '@turf/difference';
 
 import countries from '@/assets/countries.json';
@@ -444,19 +123,7 @@ export default {
     disableAutoFocus: Boolean,
   },
   components: {
-    LMap,
-    LTileLayer,
-    LWMSTileLayer,
-    LGeoJson,
-    LCircleMarker,
-    LControlLayers,
-    LControlAttribution,
-    LControlZoom,
-    LLayerGroup,
-    LFeatureGroup,
-    LControl,
-    LTooltip,
-    'l-marker-cluster': Vue2LeafletMarkerCluster,
+    DataMap,
     IndicatorTimeSelection,
   },
   data() {
@@ -713,41 +380,8 @@ export default {
       this.$emit('update:comparelayertime', time);
     },
     onMapReady() {
-      this.map = this.$refs.map.mapObject;
-      const layerButtons = document.querySelectorAll('.leaflet-control-layers-toggle');
-      layerButtons.forEach((lB) => lB.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${this.appConfig.branding.primaryColor}" width="32px" height="32px"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>`); // eslint-disable-line
-      // update leaflet controls
-      L.control.mousePosition({ // eslint-disable-line no-undef
-        emptyString: '',
-        formatter: (lon, lat) => `${lon.toFixed(3)}, ${lat.toFixed(3)}`,
-        position: 'bottomright',
-      }).addTo(this.map);
-      // hide attribution under icon
-      this.map.attributionControl._update = function () { // eslint-disable-line
-        const attribs = [];
-        const kk = Object.keys(this._attributions);
-        for (let i = 0; i < kk.length; i += 1) {
-          if (this._attributions[kk[i]]) {
-            attribs.push(kk[i]);
-          }
-        }
-        const prefixAndAttribs = [];
-        if (this.options.prefix) {
-          prefixAndAttribs.push(this.options.prefix);
-        }
-        if (attribs.length) {
-          prefixAndAttribs.push(attribs.join(', '));
-        }
-        this._container.innerHTML = `<div class='attribution-body'>${prefixAndAttribs.join(' | ')}</div><div class='attribution-icon'>ℹ</div>`;
-      };
-      this.map.attributionControl._update();
-      // add loading indicator
-      L.Control.loading({
-        position: 'bottomleft',
-        delayIndicator: 200,
-      }).addTo(this.map);
       // add A/B slider
-      const leftLayers = this.extractActualLayers(this.$refs.compareLayers);
+      /* const leftLayers = this.extractActualLayers(this.$refs.compareLayers);
       const rightLayers = this.extractActualLayers(this.$refs.dataLayers);
       this.slider = L.control.sideBySide(leftLayers, rightLayers);
       this.drawControl = new L.Control.Draw(this.drawOptions);
@@ -758,7 +392,7 @@ export default {
       // only draw one feature at a time
       this.map.on(L.Draw.Event.DRAWSTART, function () { // eslint-disable-line
         this.clearCustomAreaFilter();
-      }.bind(this));
+      }.bind(this)); */
 
       this.initialDrawSelectedArea();
       this.onResize();
@@ -1429,69 +1063,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .leaflet-tooltip-top {
-  background: #00000099;
-  border-radius: 3px;
-  color: #fff;
-  pointer-events: none;
-  white-space: nowrap;
-  border: none;
-  &:before {
-    border-top-color: #00000099;
-  }
-}
-::v-deep .leaflet-control-attribution:active :not(.attribution-icon),
-::v-deep .leaflet-control-attribution:hover :not(.attribution-icon),
-::v-deep .leaflet-control-attribution .attribution-icon {
-  display: inline-block;
-}
-::v-deep .leaflet-control-attribution :not(.attribution-icon),
-::v-deep .leaflet-control-attribution:active .attribution-icon,
-::v-deep .leaflet-control-attribution:hover .attribution-icon {
-  display: none;
-}
-::v-deep .attribution-icon {
-  font-size: 1.2em;
-  margin: 1px;
-}
-::v-deep .leaflet-control-mouseposition {
-  background-color: rgba(255, 255, 255, 0.8);
-  transform: translate3d(-8px, 32px, 0);
-  padding: 2px 4px;
-}
-::v-deep .leaflet-sbs-divider {
-  background-color: var(--v-primary-base);
-  opacity: 0.7;
-}
-::v-deep .leaflet-control-layers-toggle {
-  background-image: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23003247" width="32px" height="32px"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>');
-}
-::v-deep .leaflet-bar a, ::v-deep .leaflet-control-attribution {
-  color: var(--v-primary-base) !important;
-}
-::v-deep .leaflet-control-layers-toggle {
-  background-image: none;
-  svg {
-    width: 100%;
-    height: 100%;
-  }
-}
-::v-deep .leaflet-tooltip {
-  z-index: 700;
-}
-::v-deep .leaflet-draw-actions a {
-  background-color: var(--v-primary-base);
-  color: #fff;
-}
-::v-deep .marker-cluster {
-  background-color: rgba(#003247, 0.5);
-  div {
-    background-color: var(--v-primary-base);
-    span {
-      color: white;
-    }
-  }
-}
+
 .map-legend {
   max-width: 20vw;
   transition: max-width 0.5s ease-in-out;
@@ -1502,7 +1074,4 @@ export default {
   max-width: 80%;
 }
 
-::v-deep .leaflet-top.leaflet-right {
-  margin-top: 45px;
-}
 </style>
