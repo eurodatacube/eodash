@@ -17,6 +17,12 @@ const countriesSource = new VectorSource({
 /**
  * generate a layer from a given config Object
  * @param {Object} config eodash config object
+ *
+ * generic GeoJSON Vector Layer.
+ * optional styling via config
+ * @param {string} config.style.fillColor fill color
+ * @param {number} config.style.weight stroke weight
+ * @param {string} config.style.color stroke color
  * @param {*} vm vue instance
  * @returns {*} returns ol layer
  */
@@ -33,6 +39,25 @@ export function createLayerFromConfig(config) {
         stroke: new Stroke({
           width: 1,
           color: '#a2a2a2',
+        }),
+      }),
+    });
+  }
+  if (config.protocol === 'GeoJSON') {
+    return new VectorLayer({
+      name: config.name,
+      visible: config.visible,
+      updateOpacityOnZoom: false,
+      source: new VectorSource({
+        features: geoJsonFormat.readFeatures(config.data),
+      }),
+      style: new Style({
+        fill: new Fill({
+          color: config.style.fillColor || 'rgba(0, 0, 0, 0.5)',
+        }),
+        stroke: new Stroke({
+          width: config.style.weight || 3,
+          color: config.style.color || 'rgba(0, 0, 0, 0.5)',
         }),
       }),
     });
