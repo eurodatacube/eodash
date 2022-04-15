@@ -461,7 +461,9 @@ export default {
       let noOfRows;
       if (this.navigationButtonVisible) {
         const container = document.querySelector('#elementsContainer').clientHeight;
-        const row = window.innerHeight - this.$vuetify.application.top - this.$vuetify.application.footer;
+        const row = window.innerHeight
+          - this.$vuetify.application.top
+          - this.$vuetify.application.footer;
         noOfRows = Math.round(container / row);
       }
       return noOfRows;
@@ -470,7 +472,9 @@ export default {
       let currentRow;
       if (this.numberOfRows) {
         currentRow = Math.round((this.offsetTop - document.querySelector('#headerRow').clientHeight)
-          / (window.innerHeight - this.$vuetify.application.top - this.$vuetify.application.footer)) + 1;
+          / (window.innerHeight
+            - this.$vuetify.application.top
+            - this.$vuetify.application.footer)) + 1;
       }
       return currentRow;
     },
@@ -584,7 +588,9 @@ export default {
         position = 0; // scroll back to story intro
       } else {
         const startingPoint = document.querySelector('#elementsContainer').offsetTop;
-        const rowHeight = window.innerHeight - this.$vuetify.application.top - this.$vuetify.application.footer;
+        const rowHeight = window.innerHeight
+          - this.$vuetify.application.top
+          - this.$vuetify.application.footer;
         const target = rowHeight * (this.currentRow - 1 + direction);
         position = startingPoint + target;
       }
