@@ -223,6 +223,20 @@ export default {
         ...this.mergedConfigsData[0],
       };
     },
+    minZoom() {
+      if (this.subAoi || this.aoi) {
+        if (this.mergedConfigsData[0].largeSubAoi) {
+          return 2;
+        } if (this.mergedConfigsData[0].midSubAoi) {
+          return 9;
+        }
+        if ((!this.subAoi.features || !this.subAoi.features.length)) {
+          return 0;
+        }
+        return 13;
+      }
+      return this.mapDefaults.minMapZoom;
+    },
     countrySelection() {
       return this.mergedConfigsData[0].countrySelection;
     },
