@@ -42,6 +42,8 @@ export function shS2TimeFunction(date) {
 }
 
 export function template(templateRe, str, data) {
+  // copy of leaflet template function, which does not export it
+  // used for getting areaIndicator URL with properties replacing templates
   return str.replace(templateRe, (stri, key) => {
     let value = data[key];
 

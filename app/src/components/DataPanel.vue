@@ -77,6 +77,9 @@
                   :currentIndicator="sensorData.properties.indicatorObject"
                   @update:center="c => center = c"
                   @update:zoom="z => zoom = z"
+                  @update:datalayertime="d => datalayertime = d"
+                  @update:comparelayertime="c => comparelayertime = c"
+                  @compareEnabled="compareEnabled = !compareEnabled"
                 />
                 <indicator-data
                   style="top: 0px; position: absolute;"
@@ -192,6 +195,9 @@
               class="pt-0 fill-height"
               @update:center="c => center = c"
               @update:zoom="z => zoom = z"
+              @update:datalayertime="d => datalayertime = d"
+              @update:comparelayertime="c => comparelayertime = c"
+              @compareEnabled="compareEnabled = !compareEnabled"
             />
             <indicator-data
               v-if="!customAreaIndicator.isEmpty"
@@ -256,13 +262,28 @@
               @click="dataInteract = true">
               Tap to interact
             </v-overlay>
+            <indicator-globe
+              v-if="showGlobe"
+              @update:direction="d => direction = d"
+              @update:position="p => position = p"
+              @update:right="r => right = r"
+              @update:up="u => up = u"
+              @update:datalayertime="d => datalayertime = d"
+              @update:comparelayertime="c => comparelayertime = c"
+              @compareEnabled="compareEnabled = !compareEnabled"
+              class="d-flex justify-center"
+              style="top: 0px; position: absolute;"
+            />
             <indicator-map
               ref="indicatorMap"
-              style="top: 0px; position: absolute;"
-              v-if="showMap"
+              v-else-if="showMap"
               @update:center="c => center = c"
               @update:zoom="z => zoom = z"
+              @update:datalayertime="d => datalayertime = d"
+              @update:comparelayertime="c => comparelayertime = c"
+              @compareEnabled="compareEnabled = !compareEnabled"
               class="pt-0 fill-height"
+              style="top: 0px; position: absolute;"
             />
             <indicator-data
               style="top: 0px; position: absolute;"
@@ -350,7 +371,14 @@
                   ].countrySelection"
                   :indicatorObject="indicatorObject"
                   :zoom="zoom"
-                  :center="center"/>
+                  :center="center"
+                  :direction="direction"
+                  :position="position"
+                  :right="right"
+                  :up="up"
+                  :datalayertime="datalayertime"
+                  :comparelayertime="compareEnabled ? comparelayertime : undefined"
+                />
               </div>
             </v-col>
           </v-row>
@@ -511,6 +539,9 @@
                 ref="referenceMap"
                 @update:center="c => center = c"
                 @update:zoom="z => zoom = z"
+                @update:datalayertime="d => datalayertime = d"
+                @update:comparelayertime="c => comparelayertime = c"
+                @compareEnabled="compareEnabled = !compareEnabled"
                 :style="`height: calc(100% - ${$vuetify.application.top}px)`"
               />
               </v-dialog>
@@ -534,6 +565,7 @@ import dialogMixin from '@/mixins/dialogMixin';
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
+import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import FullScreenButton from '@/components/FullScreenButton.vue';
 import IframeButton from '@/components/IframeButton.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
@@ -548,6 +580,7 @@ export default {
     ExpandableContent,
     IndicatorData,
     IndicatorMap,
+    IndicatorGlobe,
     FullScreenButton,
     IframeButton,
     AddToDashboardButton,
@@ -561,6 +594,13 @@ export default {
     multipleTabCompare: null,
     zoom: null,
     center: null,
+    direction: null,
+    position: null,
+    right: null,
+    up: null,
+    datalayertime: null,
+    comparelayertime: null,
+    compareEnabled: false,
   }),
   computed: {
     ...mapGetters('features', [
@@ -673,6 +713,9 @@ export default {
     showMap() {
       // if returns true, we are showing map, if false we show chart
       return ['all'].includes(this.indicatorObject.country) || this.appConfig.configuredMapPois.includes(`${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`) || Array.isArray(this.indicatorObject.country);
+    },
+    showGlobe() {
+      return this.indicatorObject.showGlobe;
     },
     externalData() {
       const dataFromDefinition = this.baseConfig.indicatorsDefinition[

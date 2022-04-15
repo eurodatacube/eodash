@@ -35,14 +35,24 @@
               <v-col cols="12" xs="12" sm="12" md="6" lg="6">
                 <div class="info-section d-flex flex-column justify-center
                 pb-8 pb-md-0 pr-xs-0 pr-sm-0 pr-md-8 pr-lg-8 pr-xl-8">
-                  <h3 class="text-h3 mb-10">EODASHBOARD Datasets</h3>
+                  <h3 class="text-h3 mb-10">Earth Observation Datasets</h3>
 
                   <p class="mb-10" style="font-size: 18px;">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                    eu fugiat nulla pariatur.
+                    Here you can browse the Earth Observation datasets and use the interactive
+                    features, including maps that compute simple analytics by drawing an area
+                    of interest. Other datasets are tabular data, presented as charts. All charts
+                    can be downloaded as CSV. The open data and project source code can be
+                    accessed in Github:
+                    <v-btn
+                      href="https://github.com/eurodatacube/eodash"
+                      target="_blank"
+                      text
+                      small
+                    >
+                      <v-icon left>mdi-github</v-icon>
+                      eurodatacube/eodash
+                      <v-icon right>mdi-open-in-new</v-icon>
+                    </v-btn>
                   </p>
 
                   <v-btn

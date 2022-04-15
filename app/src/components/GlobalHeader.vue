@@ -159,7 +159,9 @@
 
         <v-divider></v-divider>
 
-        <indicator-filters />
+        <indicator-filters
+          v-if="$route.name === 'explore'"
+        />
       </template>
 
     </v-navigation-drawer>

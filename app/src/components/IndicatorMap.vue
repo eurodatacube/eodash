@@ -120,7 +120,7 @@
           :weight="2"
           :dashArray="'3'"
           :fill="true"
-          :fillColor="getAoiFill('data')"
+          :fillColor="aoiFillStyle('data')"
           :fillOpacity="1"
           :pane="tooltipPane"
         >
@@ -132,7 +132,7 @@
           :data-key-originalindex="i"
           :key="dataLayerKeyXYZ[i]"
           v-bind="layerConfig"
-          :options="layerOptions(currentTime, layerConfig)"
+          :options="layerOptions(dataLayerTime, layerConfig)"
           :pane="overlayPane"
           layer-type="overlay"
         >
@@ -149,7 +149,7 @@
               v-for="cLayerConfig in combLayer.combinedLayers"
                 :key="cLayerConfig.name"
                 v-bind="cLayerConfig"
-                :options="layerOptions(currentTime, cLayerConfig)"
+                :options="layerOptions(dataLayerTime, cLayerConfig)"
                 :pane="overlayPane"
               >
               </LWMSTileLayer>
@@ -158,7 +158,7 @@
             v-for="layerConfig in this.getSimpleWMSLayers()"
               :key="layerConfig.name"
               v-bind="layerConfig"
-              :options="layerOptions(currentTime, layerConfig)"
+              :options="layerOptions(dataLayerTime, layerConfig)"
               :pane="overlayPane"
               layer-type="overlay"
             >
@@ -171,7 +171,7 @@
             ref="dataLayerArrayWMS"
             :key="layerConfig.name"
             v-bind="layerConfig"
-            :options="layerOptions(currentTime, layerConfig)"
+            :options="layerOptions(dataLayerTime, layerConfig)"
             :pane="overlayPane"
             layer-type="overlay"
           >
@@ -187,7 +187,7 @@
           :key="compareLayerKeyXYZ[i]"
           v-bind="layerConfig"
           :visible="enableCompare"
-          :options="layerOptions(currentCompareTime, layerConfig)"
+          :options="layerOptions(compareLayerTime, layerConfig)"
           :pane="overlayPane"
         >
         </LTileLayer>
@@ -202,7 +202,7 @@
                 :key="cLayerConfig.name"
                 v-bind="cLayerConfig"
                 :visible="enableCompare"
-                :options="layerOptions(currentCompareTime, cLayerConfig)"
+                :options="layerOptions(compareLayerTime, cLayerConfig)"
                 :pane="overlayPane"
               >
               </LWMSTileLayer>
@@ -212,7 +212,7 @@
               :key="layerConfig.name"
               v-bind="layerConfig"
               :visible="enableCompare"
-              :options="layerOptions(currentCompareTime, layerConfig)"
+              :options="layerOptions(compareLayerTime, layerConfig)"
               :pane="overlayPane"
             >
             </LWMSTileLayer>
@@ -225,7 +225,7 @@
             :key="layerConfig.name"
             v-bind="layerConfig"
             :visible="enableCompare"
-            :options="layerOptions(currentCompareTime, layerConfig)"
+            :options="layerOptions(compareLayerTime, layerConfig)"
             :pane="overlayPane"
           >
           </LWMSTileLayer>
@@ -259,7 +259,7 @@
           :weight="2"
           :dashArray="3"
           :fill="true"
-          :fillColor="getAoiFill('compare')"
+          :fillColor="aoiFillStyle('compare')"
           :fillOpacity="1"
           :pane="shadowPane"
         >
@@ -358,96 +358,19 @@
           background: rgba(255, 255, 255, 0.6); font-size: 16px; pointer-events: none;">
             {{indicator.compareDisplay.mapLabel}}
         </h3>
-        <v-sheet
+        <indicator-time-selection
+          ref="timeSelection"
           v-if="!mergedConfigsData[0].disableTimeSelection"
-          class="row justify-center align-center"
-          style="position: absolute; bottom: 30px; z-index: 1000; width: auto; max-width: 100%;"
-        >
-          <v-col
-            v-if="enableCompare && !indicator.compareDisplay"
-            cols="6"
-            class="pr-0"
-          >
-            <v-select
-              v-if="enableCompare"
-              outlined
-              dense
-              :autofocus="!disableAutoFocus"
-              attach
-              hide-details
-              :prepend-inner-icon="(arrayOfObjects && compareLayerTime) && (arrayOfObjects
-                .map((i) => i.value)
-                .indexOf(compareLayerTime.value) > 0
-                  ? 'mdi-arrow-left-drop-circle'
-                  : 'mdi-asterisk')"
-              :append-icon="(arrayOfObjects && compareLayerTime) && (arrayOfObjects
-                .map((i) => i.value)
-                .indexOf(compareLayerTime.value) < arrayOfObjects.length - 1
-                  ? 'mdi-arrow-right-drop-circle'
-                  : 'mdi-asterisk')"
-              menu-props="auto"
-              :items="arrayOfObjects"
-              item-value="value"
-              item-text="name"
-              return-object
-              v-model="compareLayerTime"
-              @focus="focusSelect(true)"
-              @blur="focusSelect(false)"
-              @change="compareLayerTimeSelection"
-              @click:prepend-inner="compareLayerReduce"
-              @click:append="compareLayerIncrease"
-            ></v-select>
-          </v-col>
-          <v-col
-            :cols="enableCompare && !indicator.compareDisplay ? 6 : 12"
-          >
-            <v-select
-              outlined
-              dense
-              :autofocus="!disableAutoFocus"
-              attach
-              hide-details
-              :prepend-inner-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
-                .map((i) => i.value)
-                .indexOf(dataLayerTime.value) > 0
-                  ? 'mdi-arrow-left-drop-circle'
-                  : 'mdi-asterisk')"
-              :append-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
-                .map((i) => i.value)
-                .indexOf(dataLayerTime.value) < arrayOfObjects.length - 1
-                  ? 'mdi-arrow-right-drop-circle'
-                  : 'mdi-asterisk')"
-              menu-props="auto"
-              :items="arrayOfObjects"
-              item-value="value"
-              item-text="name"
-              return-object
-              v-model="dataLayerTime"
-              @focus="focusSelect(true)"
-              @blur="focusSelect(false)"
-              @change="dataLayerTimeSelection"
-              @click:prepend-inner="dataLayerReduce"
-              @click:append="dataLayerIncrease"
-            >
-              <template v-slot:prepend
-              v-if="!mergedConfigsData[0].disableCompare">
-                <v-tooltip
-                  bottom
-                >
-                  <template v-slot:activator="{ on }">
-                    <v-icon
-                      v-on="on"
-                      @click="enableCompare = !enableCompare"
-                    >
-                      mdi-compare
-                    </v-icon>
-                  </template>
-                  Compare two images
-                </v-tooltip>
-              </template>
-            </v-select>
-          </v-col>
-        </v-sheet>
+          :autofocus="!disableAutoFocus"
+          :available-values="availableTimeEntries"
+          :indicator="indicator"
+          :compare-active.sync="enableCompare"
+          :compare-time.sync="compareLayerTime"
+          :original-time.sync="dataLayerTime"
+          :enable-compare="!mergedConfigsData[0].disableCompare"
+          :large-time-duration="mergedConfigsData[0].largeTimeDuration"
+          @focusSelect="focusSelect"
+        />
       </div>
       <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
       <l-control-layers position="topright" ref="layersControl"></l-control-layers>
@@ -464,13 +387,12 @@ import {
 import {
   geoJson, latLngBounds, latLng, circleMarker, DivIcon, Point,
 } from 'leaflet';
-import { template } from '@/utils';
 import {
   LMap, LTileLayer, LWMSTileLayer, LGeoJson, LCircleMarker,
   LControlLayers, LControlAttribution, LControlZoom, LLayerGroup,
   LFeatureGroup, LControl, LTooltip,
 } from 'vue2-leaflet';
-import { DateTime } from 'luxon';
+import { DateTime } from 'luxon'; // TODO: MIGRATE
 
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-mouse-position';
@@ -488,6 +410,13 @@ import turfDifference from '@turf/difference';
 import countries from '@/assets/countries.json';
 import gsaFile from '@/assets/gsa_data.json';
 
+
+import {
+  createConfigFromIndicator,
+  createAvailableTimeEntries,
+} from '@/helpers/mapConfig';
+import fetchCustomAreaObjects from '@/helpers/customAreaObjects';
+import IndicatorTimeSelection from './IndicatorTimeSelection.vue';
 
 const emptyF = {
   type: 'FeatureCollection',
@@ -528,6 +457,7 @@ export default {
     LControl,
     LTooltip,
     'l-marker-cluster': Vue2LeafletMarkerCluster,
+    IndicatorTimeSelection,
   },
   data() {
     return {
@@ -616,20 +546,8 @@ export default {
     borderSelection() {
       return this.mergedConfigsData[0].borderSelection;
     },
-    indDefinition() {
-      return this.baseConfig.indicatorsDefinition[this.indicator.indicator];
-    },
-    additionalMapTimes() {
-      return this.baseConfig.additionalMapTimes && this.baseConfig.additionalMapTimes[`${this.indicator.aoiID}-${this.indicator.indicator}`];
-    },
-    excludeMapTimes() {
-      return this.baseConfig.excludeMapTimes && this.baseConfig.excludeMapTimes[`${this.indicator.aoiID}-${this.indicator.indicator}`];
-    },
-    replaceMapTimes() {
-      return this.baseConfig.replaceMapTimes && this.baseConfig.replaceMapTimes[`${this.indicator.aoiID}-${this.indicator.indicator}`];
-    },
     indicator() {
-      return this.getIndicatorFilteredInputData(this.currentIndicator || null);
+      return this.getIndicatorFilteredInputData(this.currentIndicator);
     },
     showAoi() {
       return this.aoi && (!this.subAoi || this.subAoi.features.length === 0);
@@ -646,133 +564,24 @@ export default {
         || this.mergedConfigsData[0].customAreaIndicator;
     },
     mergedConfigsData() {
-      return this.mergedConfigs();
+      return createConfigFromIndicator(
+        this.indicator,
+        'data',
+        this.getCurrentIndex('data'),
+      );
     },
     mergedConfigsCompare() {
-      return this.mergedConfigs('compare');
+      return createConfigFromIndicator(
+        this.indicator,
+        'compare',
+        this.getCurrentIndex('compare'),
+      );
     },
-    usedTimes() {
-      let times = this.indicator.time;
-      let eoSensor = Array.isArray(this.indicator.eoSensor) && this.indicator.eoSensor;
-      let inputData = Array.isArray(this.indicator.inputData) && this.indicator.inputData;
-      let colorCode = Array.isArray(this.indicator.colorCode) && this.indicator.colorCode;
-      // completely replace given times or eoSensor
-      if (this.replaceMapTimes && Array.isArray(this.replaceMapTimes.time)) {
-        times = this.replaceMapTimes.time;
-      }
-      if (this.replaceMapTimes && Array.isArray(this.replaceMapTimes.eoSensor)) {
-        eoSensor = this.replaceMapTimes.eoSensor; // just for display
-      }
-      if (this.replaceMapTimes && Array.isArray(this.replaceMapTimes.inputData)) {
-        inputData = this.replaceMapTimes.inputData;
-        // needs to be used unless indicator.display is used (that overrides it)
-      }
-      if (this.replaceMapTimes && Array.isArray(this.replaceMapTimes.colorCode)) {
-        colorCode = this.replaceMapTimes.colorCode;
-      }
-      if (this.additionalMapTimes) {
-        // add additional times and eoSensor to original arrays
-        // sort time ascending and sort arrays based on time array via helper list combining all
-        const dtObjects = this.additionalMapTimes.time.map((t) => DateTime.fromISO(t));
-        const mergedTimes = times.concat(dtObjects);
-        const mergedSensors = eoSensor.concat(this.additionalMapTimes.eoSensor);
-        const mergedInputData = inputData.concat(this.additionalMapTimes.inputData);
-        const mergedColorCode = colorCode.concat(this.additionalMapTimes.colorCode);
-        // combine the arrays
-        const list = [];
-        for (let j = 0; j < mergedTimes.length; j++) {
-          list.push({
-            time: mergedTimes[j],
-            eoSensor: mergedSensors[j],
-            inputData: mergedInputData[j],
-            colorCode: mergedColorCode[j],
-          });
-        }
-        // sort mapping by time asc
-        list.sort((a, b) => (a.time.toMillis() - b.time.toMillis()));
-        // separate them back out
-        for (let k = 0; k < list.length; k++) {
-          mergedTimes[k] = list[k].time;
-          mergedSensors[k] = list[k].eoSensor;
-          mergedInputData[k] = list[k].inputData;
-          mergedColorCode[k] = list[k].colorCode;
-        }
-        times = mergedTimes;
-        eoSensor = mergedSensors;
-        inputData = mergedInputData;
-        colorCode = mergedColorCode;
-      }
-      if (this.excludeMapTimes && Array.isArray(this.excludeMapTimes)) {
-        // exclude times and respective entries from other arrays
-        const dtObjects = this.excludeMapTimes.map((t) => DateTime.fromISO(t));
-        const indToDelete = times.reduce((a, e, i) => {
-          // find if any time is in to be deleted
-          const found = dtObjects.find((time) => time.toMillis() === e.toMillis());
-          if (typeof found !== 'undefined') {
-            // add its index to list
-            a.push(i);
-          }
-          return a;
-        }, []);
-        // set items in all arrays to null
-        indToDelete.forEach((i) => {
-          times[i] = null;
-          if (typeof eoSensor[i] !== 'undefined') {
-            eoSensor[i] = null;
-          }
-          if (typeof inputData[i] !== 'undefined') {
-            inputData[i] = null;
-          }
-          if (typeof colorCode[i] !== 'undefined') {
-            colorCode[i] = null;
-          }
-        });
-        // filter out nulls
-        times = times.filter((e) => e !== null);
-        eoSensor = eoSensor.filter((e) => e !== null);
-        inputData = inputData.filter((e) => e !== null);
-        colorCode = colorCode.filter((e) => e !== null);
-      }
-      return {
-        time: times, eoSensor, inputData, colorCode,
-      };
-    },
-    arrayOfObjects() {
-      const selectionOptions = [];
-      for (let i = 0; i < this.usedTimes.time.length; i += 1) {
-        let label = this.getTimeLabel(this.usedTimes.time[i]);
-        if (this.usedTimes.eoSensor) {
-          const eoSensor = this.usedTimes.eoSensor.length === 1
-            ? this.usedTimes.eoSensor[0]
-            : this.usedTimes.eoSensor[i];
-          label += ` - ${eoSensor}`;
-        }
-        selectionOptions.push({
-          value: this.usedTimes.time[i],
-          name: label,
-        });
-      }
-      return selectionOptions;
-    },
-    currentTime() {
-      let returnTime = null;
-      if (this.dataLayerTime !== null) {
-        returnTime = this.dataLayerTime;
-      } else {
-        returnTime = this.usedTimes.time[this.usedTimes.time.length - 1];
-      }
-      return returnTime;
-    },
-    currentCompareTime() {
-      let returnTime = null;
-      if (this.indicator.compareDisplay) {
-        returnTime = this.dataLayerTime;
-      } else if (this.compareLayerTime !== null) {
-        returnTime = this.compareLayerTime;
-      } else {
-        returnTime = this.getInitialCompareTime();
-      }
-      return returnTime;
+    availableTimeEntries() {
+      return createAvailableTimeEntries(
+        this.indicator,
+        this.mergedConfigsData, // TODO do we really need to pass the config here?
+      );
     },
     aoi() {
       return this.indicator.aoi;
@@ -846,14 +655,20 @@ export default {
     },
   },
   mounted() {
-    this.dataLayerIndex = this.usedTimes.time.length - 1;
-
     if (!this.dataLayerTimeProp) {
-      this.dataLayerTime = { value: this.usedTimes.time[this.dataLayerIndex] };
+      this.dataLayerTime = {
+        value: this.mergedConfigsData[0].usedTimes.time[
+          this.mergedConfigsData[0].usedTimes.time.length - 1
+        ],
+      };
     }
 
     if (!this.compareLayerTimeProp) {
-      this.compareLayerTime = { value: this.currentCompareTime };
+      this.$nextTick(() => {
+        if (this.$refs.timeSelection) {
+          this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
+        }
+      });
     }
 
     this.ro = new ResizeObserver(this.onResize)
@@ -1047,12 +862,11 @@ export default {
       };
     },
     featureOptions(side = 'data') {
-      const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
-      const style = (usedConfig[0].features && usedConfig[0].features.style) ? usedConfig[0].features.style : {}; // eslint-disable-line
+      const style = (this.usedConfig(side)[0].features && this.usedConfig(side)[0].features.style) ? this.usedConfig(side)[0].features.style : {}; // eslint-disable-line
       return {
         onEachFeature: function onEachFeature(feature, layer) {
           // if featuresParameters available, show only properties from mapping, otherwise dump all
-          const allowedParams = usedConfig[0].features ? usedConfig[0].features.allowedParameters : null; // eslint-disable-line
+          const allowedParams = this.usedConfig(side)[0].features ? this.usedConfig(side)[0].features.allowedParameters : null; // eslint-disable-line
           const allKeys = Object.keys(feature.properties);
           let tooltip = '';
           for (let i = 0; i < allKeys.length; i++) {
@@ -1100,11 +914,11 @@ export default {
       };
     },
     getColorCode(side) {
-      const i = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
+      const i = this.getCurrentIndex(side);
       let currentValue = null;
       // compensate for color code with only one entry, still showing it
-      if (this.usedTimes.colorCode) {
-        const colors = this.usedTimes.colorCode;
+      if (this.mergedConfigsData[0].usedTimes.colorCode) {
+        const colors = this.mergedConfigsData[0].usedTimes.colorCode;
         if (Array.isArray(colors) && colors.length === 1) {
           currentValue = colors[0]; // eslint-disable-line prefer-destructuring
         } else if (Array.isArray(colors) && colors[i]) {
@@ -1113,13 +927,17 @@ export default {
       }
       return currentValue;
     },
-    getAoiFill(side) {
+    aoiFillStyle(side) {
       const currentValue = this.getColorCode(side);
       return currentValue
         ? this.getIndicatorColor(currentValue)
         : this.appConfig.branding.primaryColor;
     },
+    getCurrentIndex(side) {
+      return side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
+    },
     subAoiStyle(side) {
+      // return getSubAoiStyle(side);
       const currentValue = this.getColorCode(side);
       return {
         color: currentValue
@@ -1129,89 +947,17 @@ export default {
         fill: false,
       };
     },
-    configFromInputData(side) {
-      const i = side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
-      const inputData = this.usedTimes.inputData.length === 1
-        ? this.usedTimes.inputData[0]
-        : this.usedTimes.inputData[i];
-      if (this.baseConfig.layerNameMapping.hasOwnProperty(inputData)) { // eslint-disable-line
-        let config = this.baseConfig.layerNameMapping[inputData];
-        if (!Array.isArray(config)) {
-          // assure array is returned
-          config = [config];
-        }
-        return config;
-      }
-      // empty config used later for merging
-      return [];
-    },
     getCombinedWMSLayers(side = 'data') {
-      const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
-      const combLayers = usedConfig.filter((l) => (
+      const combLayers = this.usedConfig(side).filter((l) => (
         l.protocol === 'WMS' && Object.keys(l).indexOf('combinedLayers') !== -1
       ));
       return combLayers;
     },
     getSimpleWMSLayers(side = 'data') {
-      const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
-      const simpleLayers = usedConfig.filter((l) => (
+      const simpleLayers = this.usedConfig(side).filter((l) => (
         l.protocol === 'WMS' && Object.keys(l).indexOf('combinedLayers') === -1
       ));
       return simpleLayers;
-    },
-    mergedConfigs(side = 'data') {
-      // first check if special compare layer configured
-      let displayTmp = side === 'compare' && this.indicator.compareDisplay ? this.indicator.compareDisplay : this.indicator.display;
-      // following configuration merging is done:
-      // defaultLayersDisplay (to avoid having to configure it before)
-      // indDefinition - indicator code specific configuration
-      // display - coming from js configuration - esa.js OR
-      // configFromInputData - coming from input data reference from csvs
-
-      if (displayTmp) {
-        // from layer configuration
-        if (!Array.isArray(displayTmp)) {
-          // always make an Array of layer configurations
-          displayTmp = [displayTmp];
-        }
-      }
-      const finalConfigs = [];
-      let usedConfigForMerge = {};
-      let name = this.indicator.description;
-
-      if (!displayTmp && this.configFromInputData(side).length === 0) {
-        // no additional config specified, use defaults
-        usedConfigForMerge = [{ name }];
-      } else if (!displayTmp) {
-        // use configFromInputData
-        usedConfigForMerge = this.configFromInputData(side);
-      } else {
-        // use displayTmp even if configFromInputData set too
-        usedConfigForMerge = displayTmp;
-      }
-      usedConfigForMerge.forEach((item) => {
-        // merge configs for each layer
-        name = item.name || name;
-        // Check to see if we have grouped layers, if we do we need to add
-        // the default to them too
-        const extendedItem = item;
-        if (Object.keys(item).indexOf('combinedLayers') !== -1) {
-          for (let i = 0; i < item.combinedLayers.length; i += 1) {
-            extendedItem.combinedLayers[i] = {
-              ...this.baseConfig.defaultLayersDisplay,
-              ...this.indDefinition,
-              ...item.combinedLayers[i],
-            };
-          }
-        }
-        finalConfigs.push({
-          ...this.baseConfig.defaultLayersDisplay,
-          ...this.indDefinition,
-          ...extendedItem,
-          name,
-        });
-      });
-      return finalConfigs;
     },
     flyToBounds() {
       // zooms to subaoi if present or area around aoi if not
@@ -1272,29 +1018,6 @@ export default {
         this.map.fitBounds(latLngBounds(this.mapDefaults.bounds));
       }
     },
-    getTimeLabel(time) {
-      // Check if custom function was configured
-      if (this.mergedConfigsData[0].labelFormatFunction) {
-        return this.mergedConfigsData[0].labelFormatFunction(time);
-      }
-      // If not try default approach
-      if (Array.isArray(time) && time.length === 2) {
-        // show start - end
-        if (this.mergedConfigsData[0].mapTimeLabelExtended) {
-          return time.map((d) => DateTime.fromISO(d).toISO({ suppressMilliseconds: true })).join(' - ');
-        }
-        return time.map((d) => DateTime.fromISO(d).toISODate()).join(' - ');
-      } else if (time instanceof DateTime) { // eslint-disable-line no-else-return
-        if (this.mergedConfigsData[0].mapTimeLabelExtended) {
-          return time.toISO({ suppressMilliseconds: true });
-        }
-        return time.toISODate();
-      }
-      if (this.mergedConfigsData[0].mapTimeLabelExtended) {
-        return DateTime.fromISO(time).toISO({ suppressMilliseconds: true });
-      }
-      return DateTime.fromISO(time).toISODate();
-    },
     layerOptions(time, sourceOptionsObj) {
       const additionalSettings = {};
       if (Object.prototype.hasOwnProperty.call(sourceOptionsObj, 'siteMapping')) {
@@ -1303,18 +1026,21 @@ export default {
         );
         additionalSettings.site = currSite;
       }
-      if (time !== null) {
+      if (time) {
         // time as is gets automatically injected to WMS query OR xyz url {time} template
         const fixTime = time.value || time;
         additionalSettings.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
           ? sourceOptionsObj.dateFormatFunction(fixTime) : fixTime;
+        if (sourceOptionsObj.specialEnvTime) {
+          additionalSettings.env = `year:${additionalSettings.time}`;
+        }
         if (sourceOptionsObj.features) {
           additionalSettings.featuresTime = typeof sourceOptionsObj.features.dateFormatFunction === 'function'
             ? sourceOptionsObj.features.dateFormatFunction(fixTime) : fixTime;
         }
       }
       const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
-        'format', 'width', 'height', 'transparent', 'srs'];
+        'format', 'width', 'height', 'transparent', 'srs', 'env'];
       paramsToPassThrough.forEach((param) => {
         if (typeof sourceOptionsObj[param] !== 'undefined') {
           additionalSettings[param] = sourceOptionsObj[param];
@@ -1322,14 +1048,9 @@ export default {
       });
       return additionalSettings;
     },
-    dataLayerTimeSelection(payload) {
-      // Different object returned either by arrow use or by dropdown use
-      if (Array.isArray(payload) || !(payload.value)) {
-        this.dataLayerTime = { value: payload, name: `${payload}` };
-      } else {
-        this.dataLayerTime = payload;
-      }
-      const newIndex = this.arrayOfObjects
+    dataLayerTimeSelection(timeObj) {
+      this.dataLayerTime = timeObj;
+      const newIndex = this.availableTimeEntries
         .map((i) => i.value)
         .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
       this.dataLayerIndex = newIndex;
@@ -1342,7 +1063,6 @@ export default {
       if (this.indicator.compareDisplay) {
         // shared time on both sides in case of compareDisplay being set
         this.compareLayerTime = this.dataLayerTime;
-        this.compareLayerIndex = newIndex;
         this.refreshLayers('compare');
         this.$nextTick(() => {
           this.slider.setLeftLayers(
@@ -1363,14 +1083,9 @@ export default {
       }
       return actualLayers;
     },
-    compareLayerTimeSelection(payload) {
-      // Different object returned either by arrow use or by dropdown use
-      if (Array.isArray(payload) || !(payload.value)) {
-        this.compareLayerTime = { value: payload, name: `${payload}` };
-      } else {
-        this.compareLayerTime = payload;
-      }
-      const newIndex = this.arrayOfObjects
+    compareLayerTimeSelection(timeObj) {
+      this.compareLayerTime = timeObj;
+      const newIndex = this.availableTimeEntries
         .map((i) => i.value)
         .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
       this.compareLayerIndex = newIndex;
@@ -1382,56 +1097,6 @@ export default {
       });
 
       this.compareLayerTimeUpdated(this.compareLayerTime.name);
-    },
-    dataLayerReduce() {
-      const currentIndex = this.arrayOfObjects
-        .map((i) => i.value)
-        .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
-      this.dataLayerIndex = currentIndex - 1;
-      this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex - 1]);
-    },
-    dataLayerIncrease() {
-      const currentIndex = this.arrayOfObjects
-        .map((i) => i.value)
-        .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
-      this.dataLayerIndex = currentIndex + 1;
-      this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex + 1]);
-    },
-    compareLayerReduce() {
-      const currentIndex = this.arrayOfObjects
-        .map((i) => i.value)
-        .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
-      this.compareLayerIndex = currentIndex - 1;
-      this.compareLayerTimeSelection(this.arrayOfObjects[currentIndex - 1]);
-    },
-    compareLayerIncrease() {
-      const currentIndex = this.arrayOfObjects
-        .map((i) => i.value)
-        .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
-      this.compareLayerIndex = currentIndex + 1;
-      this.compareLayerTimeSelection(this.arrayOfObjects[currentIndex + 1]);
-    },
-    getInitialCompareTime() {
-      // find closest entry one year before latest time
-      if (this.mergedConfigsData[0].largeTimeDuration) {
-        // if interval, use just start to get closest
-        const times = this.usedTimes.time.map((item) => (Array.isArray(item) ? item[0] : item));
-        const lastTimeEntry = DateTime.fromISO(times[times.length - 1]);
-        const oneYearBefore = lastTimeEntry.minus({ years: 1 });
-        // select closest to one year before
-        const closestOneYearBefore = times.find((item, i) => (
-          i === times.length - 1 || (
-            Math.abs(oneYearBefore.toMillis() - DateTime.fromISO(item).toMillis())
-            < Math.abs(oneYearBefore.toMillis() - DateTime.fromISO(times[i + 1]).toMillis())
-          )
-        ));
-        // Get index and return object from original times as there are also
-        // arrays of time tuple arrays
-        const foundIndex = times.indexOf(closestOneYearBefore);
-        return this.usedTimes.time[foundIndex];
-      }
-      // use first time
-      return this.usedTimes.time[0];
     },
     refreshGroup(group, time, side) {
       // Group can also be an array depending on type
@@ -1458,8 +1123,7 @@ export default {
                 subItem.$forceUpdate();
               });
             } else {
-              const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
-              const originalConfig = usedConfig.find((config) => (
+              const originalConfig = this.usedConfig(side).find((config) => (
                 config.name === item.name
               ));
               item.mapObject.setUrl(originalConfig.baseUrl);
@@ -1476,7 +1140,7 @@ export default {
     refreshLayers(side) {
       // compare(left) or data(right)
       if (side === 'compare' || this.indicator.compareDisplay) {
-        this.refreshGroup(this.$refs.compareLayerArrayWMS, this.currentCompareTime, 'compare');
+        this.refreshGroup(this.$refs.compareLayerArrayWMS, this.compareLayerTime, 'compare');
         if (this.$refs.compareLayerArrayXYZ) {
           this.$refs.compareLayerArrayXYZ.forEach((item) => {
             const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
@@ -1486,13 +1150,15 @@ export default {
         if (!this.mergedConfigsData[0].featuresStatic
           && (!this.mergedConfigsData[0].customAreaFeatures || this.validDrawnArea)) {
           if (this.mergedConfigsData[0].featuresClustering) {
-            this.$refs.featuresCompareCluster.mapObject.clearLayers();
+            if (this.$refs.featuresCompareCluster) {
+              this.$refs.featuresCompareCluster.mapObject.clearLayers();
+            }
           }
           this.fetchFeatures('compare');
         }
       }
       if (side === 'data') {
-        this.refreshGroup(this.$refs.dataLayerArrayWMS, this.currentTime, 'data');
+        this.refreshGroup(this.$refs.dataLayerArrayWMS, this.dataLayerTime, 'data');
         if (this.$refs.dataLayerArrayXYZ) {
           this.$refs.dataLayerArrayXYZ.forEach((item) => {
             const originalIndex = parseInt(item.$attrs['data-key-originalindex'], 10);
@@ -1502,238 +1168,151 @@ export default {
         if (!this.mergedConfigsData[0].featuresStatic
           && (!this.mergedConfigsData[0].customAreaFeatures || this.validDrawnArea)) {
           if (this.mergedConfigsData[0].featuresClustering) {
-            this.$refs.featuresDataCluster.mapObject.clearLayers();
+            if (this.$refs.featuresDataCluster) {
+              this.$refs.featuresDataCluster.mapObject.clearLayers();
+            }
           }
           this.fetchFeatures('data');
         }
       }
     },
-    fetchFeatures(side) {
-      const usedConfig = side === 'data' ? this.mergedConfigsData : this.mergedConfigsCompare;
-      if (usedConfig[0].features) {
-        const options = this.layerOptions(side === 'compare' ? this.currentCompareTime : this.currentTime,
-          usedConfig[0]);
-        // add custom area if present
-        let customArea = {};
-        if (this.validDrawnArea) {
-          customArea = typeof this.mergedConfigsData[0].features.areaFormatFunction === 'function'
-            ? this.mergedConfigsData[0].features.areaFormatFunction(this.drawnArea)
-            : { area: JSON.stringify(this.drawnArea) };
-        }
-        const templateSubst = {
-          ...this.indicator,
-          ...options,
-          ...customArea,
-        };
-        const templateRe = /\{ *([\w_ -]+) *\}/g;
-        const url = template(templateRe, this.mergedConfigsData[0].features.url, templateSubst);
-        let requestBody = null;
-        if (this.mergedConfigsData[0].features.requestBody) {
-          requestBody = {
-            ...this.mergedConfigsData[0].features.requestBody,
-          };
-          const params = Object.keys(requestBody);
-          for (let i = 0; i < params.length; i += 1) {
-            // substitute template strings with values
-            requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
-          }
-        }
-        const requestOpts = {
-          credentials: 'same-origin',
-          method: this.mergedConfigsData[0].features.requestMethod || 'GET',
-          headers: this.mergedConfigsData[0].features.requestHeaders || {},
-        };
-        if (requestBody) {
-          requestOpts.body = JSON.stringify(requestBody);
-        }
+    usedConfig(side) {
+      return side === 'data'
+        ? this.mergedConfigsData
+        : this.mergedConfigsCompare;
+    },
+    async fetchData({
+      type, side, feature, countryCode, aoiID,
+    }) {
+      // fetching of customFeatures, customIndicator, gsaIndicator or mobilityData
+      // depending on fetch success/failure the map loads data or errors are shown
+      const usedTime = side === 'data'
+        ? this.dataLayerTime
+        : this.compareLayerTime;
+      if (this.map) {
         this.map.fireEvent('dataloading');
-        fetch(url, requestOpts).then((r) => r.json())
-          .then((rawdata) => {
-            // if custom response -> feature mapping function configured, apply it
-            if (typeof this.mergedConfigsData[0].features.callbackFunction === 'function') {
-              return this.mergedConfigsData[0].features.callbackFunction(rawdata);
+        try {
+          if (type === 'customFeatures' || type === 'customIndicator') {
+            if (type === 'customFeatures' && !this.usedConfig(side)[0].features) {
+              this.map.fireEvent('dataload');
+              return;
             }
-            return rawdata;
-          })
-          .then((data) => {
-            this.map.fireEvent('dataload');
-            this.updateJsonLayers(data, side);
-          })
-          .catch(() => {
-            this.map.fireEvent('dataload');
+            if (type === 'customIndicator' && !this.usedConfig(side)[0].areaIndicator) {
+              this.map.fireEvent('dataload');
+              return;
+            }
+            const options = this.layerOptions(usedTime, this.usedConfig(side)[0]);
+            const custom = await fetchCustomAreaObjects(
+              options,
+              this.drawnArea,
+              this.validDrawnArea,
+              this.usedConfig(side)[0],
+              this.indicator,
+              type === 'customFeatures' ? 'features' : 'areaIndicator',
+            );
+            if (type === 'customFeatures') {
+              this.updateJsonLayers(custom, side);
+            } else {
+              this.$store.commit(
+                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', custom,
+              );
+              this.$emit('fetchCustomAreaIndicator');
+            }
+          } else if (type === 'gsaIndicator' || type === 'mobilityData') {
+            if (type === 'gsaIndicator') {
+              this.selectedBorder = feature.borderId;
+            }
+            const dataUrl = `./eodash-data/internal/${type === 'gsaIndicator'
+              ? feature.borderId
+              : `${countryCode}-${aoiID}`}.json`;
+            fetch(dataUrl).then((response) => {
+              if (!response.ok) {
+                throw Error(response.statusText);
+              } else {
+                return response.json();
+              }
+            })
+              .then((indicator) => {
+                let returnIndicator = {};
+                if (type === 'gsaIndicator') {
+                  returnIndicator.values = { ...indicator };
+                  returnIndicator.indicator = 'GSA';
+                  // Get all times of available border crossings to allow finding min max
+                  returnIndicator.time = [];
+                  Object.keys(indicator).forEach((key) => {
+                    const currVals = indicator[key].values;
+                    for (let i = 0; i < currVals.length; i += 1) {
+                      returnIndicator.time.push(DateTime.fromISO(currVals[i].timestamp));
+                    }
+                  });
+                  returnIndicator.measurement = [0];
+                  returnIndicator.title = feature.name;
+                  returnIndicator.yAxis = this.indicator.yAxis;
+                } else {
+                  returnIndicator = { ...indicator };
+                  returnIndicator.indicator = aoiID;
+                  returnIndicator.time = indicator.Values.map((row) => DateTime.fromISO(row.date));
+                  returnIndicator.measurement = [0];
+                  returnIndicator.country = indicator.CountryCode;
+                  returnIndicator.title = indicator.CountryName;
+                  returnIndicator.yAxis = this.indicator.yAxis;
+                  returnIndicator.includesIndicator = true;
+                  returnIndicator.city = indicator.CountryName;
+                  returnIndicator.description = this.indicator.description;
+                }
+                this.map.fireEvent('dataload');
+                this.$store.commit(
+                  'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', returnIndicator,
+                );
+                this.$emit('fetchCustomAreaIndicator');
+              });
+          }
+          this.map.fireEvent('dataload');
+        } catch (err) {
+          this.map.fireEvent('dataload');
+          if (type === 'customFeatures') {
             this.updateJsonLayers(emptyF, side);
+          } else if (type === 'customIndicator') {
+            this.$store.commit(
+              'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null,
+            );
+          } else if (type === 'gsaIndicator' || type === 'mobilityData') {
+            this.$store.commit(
+              'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', { isEmpty: true },
+            );
+          }
+          console.error(err);
+          this.$store.commit('sendAlert', {
+            message: `Error requesting data, error message: ${err}.</br>
+              If the issue persists, please use the feedback button to let us know.`,
+            type: 'error',
           });
-      } else {
-        this.updateJsonLayers(emptyF, side);
+        }
       }
+    },
+    fetchFeatures(side) {
+      this.fetchData({
+        type: 'customFeatures',
+        side,
+      });
     },
     selectGSAIndicator(feature) {
-      this.selectedBorder = feature.borderId;
-      const dataUrl = `./eodash-data/internal/${feature.borderId}.json`;
-      this.map.fireEvent('dataloading');
-      fetch(dataUrl).then((response) => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        } else {
-          return response.json();
-        }
-      })
-        .then((indicator) => {
-          const returnIndicator = {};
-          returnIndicator.values = { ...indicator };
-          returnIndicator.indicator = 'GSA';
-          // Get all times of available border crossings to allow finding min max
-          returnIndicator.time = [];
-          Object.keys(indicator).forEach((key) => {
-            const currVals = indicator[key].values;
-            for (let i = 0; i < currVals.length; i += 1) {
-              returnIndicator.time.push(DateTime.fromISO(currVals[i].timestamp));
-            }
-          });
-          returnIndicator.measurement = [0];
-          returnIndicator.title = feature.name;
-          returnIndicator.yAxis = this.indicator.yAxis;
-          this.map.fireEvent('dataload');
-          this.$store.commit(
-            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', returnIndicator,
-          );
-          this.$emit('fetchCustomAreaIndicator');
-        })
-        .catch((err) => {
-          this.map.fireEvent('dataload');
-          // It seems data could not be loaded lets show a no data found message
-          this.$store.commit(
-            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', { isEmpty: true },
-          );
-          this.$store.commit('sendAlert', {
-            message: `Error requesting data, error message: ${err}.</br>
-              If the issue persists, please use the feedback button to let us know.`,
-            type: 'error',
-          });
-          console.log(err);
-        });
+      this.fetchData({
+        type: 'gsaIndicator',
+        feature,
+      });
     },
     fetchMobilityData(countryCode, aoiID) {
-      const dataUrl = `./eodash-data/internal/${countryCode}-${aoiID}.json`;
-      this.map.fireEvent('dataloading');
-      fetch(dataUrl).then((response) => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        } else {
-          return response.json();
-        }
-      })
-        .then((indicator) => {
-          indicator.indicator = aoiID; // eslint-disable-line
-          indicator.time = indicator.Values.map((row) => DateTime.fromISO(row.date)); // eslint-disable-line
-          indicator.measurement = [0]; // eslint-disable-line
-          indicator.country = indicator.CountryCode; // eslint-disable-line
-          indicator.title = indicator.CountryName; // eslint-disable-line
-          indicator.yAxis = this.indicator.yAxis; // eslint-disable-line
-          indicator.includesIndicator = true; // eslint-disable-line
-          indicator.city = indicator.CountryName; // eslint-disable-line
-          indicator.description = this.indicator.description; // eslint-disable-line
-          this.map.fireEvent('dataload');
-          this.$store.commit(
-            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
-          );
-          this.$emit('fetchCustomAreaIndicator');
-        })
-        .catch((err) => {
-          this.map.fireEvent('dataload');
-          // It seems data could not be loaded lets show a no data found message
-          this.$store.commit(
-            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', { isEmpty: true },
-          );
-          this.$store.commit('sendAlert', {
-            message: `Error requesting data, error message: ${err}.</br>
-              If the issue persists, please use the feedback button to let us know.`,
-            type: 'error',
-          });
-          console.log(err);
-        });
+      this.fetchData({
+        type: 'mobilityData',
+        countryCode,
+        aoiID,
+      });
     },
     fetchCustomAreaIndicator() {
-      const options = this.layerOptions(this.currentTime, this.mergedConfigsData[0]);
-      // add custom area if present
-      let customArea = {};
-      if (this.validDrawnArea) {
-        customArea = typeof this.mergedConfigsData[0].areaIndicator.areaFormatFunction === 'function'
-          ? this.mergedConfigsData[0].areaIndicator.areaFormatFunction(this.drawnArea)
-          : { area: JSON.stringify(this.drawnArea) };
-      }
-      this.indicator.title = 'User defined area of interest';
-      const templateSubst = {
-        ...this.indicator,
-        ...options,
-        ...customArea,
-      };
-      const templateRe = /\{ *([\w_ -]+) *\}/g;
-      const url = template(templateRe, this.mergedConfigsData[0].areaIndicator.url, templateSubst);
-      let requestBody = null;
-      if (this.mergedConfigsData[0].areaIndicator.requestBody) {
-        requestBody = {
-          ...this.mergedConfigsData[0].areaIndicator.requestBody,
-        };
-        const params = Object.keys(requestBody);
-        for (let i = 0; i < params.length; i += 1) {
-          // substitute template strings with values
-          if (typeof requestBody[params[i]] === 'string') {
-            requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
-          }
-          // Convert geojsons back to an object
-          if (params[i] === 'geojson') {
-            requestBody[params[i]] = JSON.parse(requestBody[params[i]]);
-          }
-        }
-      }
-      const requestOpts = {
-        credentials: 'same-origin',
-        method: this.mergedConfigsData[0].areaIndicator.requestMethod || 'GET',
-        headers: this.mergedConfigsData[0].areaIndicator.requestHeaders || {},
-      };
-      if (requestBody) {
-        requestOpts.body = JSON.stringify(requestBody);
-      }
-      this.map.fireEvent('dataloading');
-      fetch(url, requestOpts).then((response) => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        } else {
-          return response.json();
-        }
-      })
-        .then((rwdata) => {
-          if (typeof this.mergedConfigsData[0].areaIndicator.callbackFunction === 'function') {
-            // merge data from current indicator data and new data from api
-            // returns new indicator object to set as custom area indicator
-            return this.mergedConfigsData[0].areaIndicator.callbackFunction(rwdata, this.indicator);
-          }
-          return rwdata;
-        })
-        .then((indicator) => {
-          if (indicator) {
-            indicator.poi = this.drawnArea.coordinates.flat(Infinity).join('-'); // eslint-disable-line
-            indicator.includesIndicator = true; // eslint-disable-line
-          }
-          this.map.fireEvent('dataload');
-          this.$store.commit(
-            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', indicator,
-          );
-          this.$emit('fetchCustomAreaIndicator');
-        })
-        .catch((err) => {
-          this.map.fireEvent('dataload');
-          this.$store.commit(
-            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null,
-          );
-          console.log(err);
-          this.$store.commit('sendAlert', {
-            message: `Error requesting data, error message: ${err}.</br>
-              If the issue persists, please use the feedback button to let us know.`,
-            type: 'error',
-          });
-        });
+      this.fetchData({
+        type: 'customIndicator',
+      });
     },
     clearCustomAreaFilter() {
       this.$store.commit('features/SET_SELECTED_AREA', null);
@@ -1784,18 +1363,24 @@ export default {
         if (v) this.center = v;
       },
     },
+    dataLayerTime(timeObj) {
+      this.dataLayerTimeSelection(timeObj);
+    },
+    compareLayerTime(timeObj) {
+      this.compareLayerTimeSelection(timeObj);
+    },
     dataLayerTimeProp: {
       immediate: true,
       deep: true,
       handler(v) {
-        if (v) this.dataLayerTime = this.arrayOfObjects.find((item) => item.name === v);
+        if (v) this.dataLayerTime = this.availableTimeEntries.find((item) => item.name === v);
       },
     },
     compareLayerTimeProp: {
       immediate: true,
       deep: true,
       handler(v) {
-        if (v) this.compareLayerTime = this.arrayOfObjects.find((item) => item.name === v);
+        if (v) this.compareLayerTime = this.availableTimeEntries.find((item) => item.name === v);
       },
     },
     enableCompare(on) {
@@ -1824,10 +1409,12 @@ export default {
 
         // The following two calls set initial compare
         // and data layer times containing name and value.
-        const cTime = this.arrayOfObjects.find((v) => v.value === this.compareLayerTime.value);
+        const cTime = this.availableTimeEntries
+          .find((v) => v.value === this.compareLayerTime.value);
         this.compareLayerTimeUpdated(cTime.name);
 
-        const dTime = this.arrayOfObjects.find((v) => v.value === this.dataLayerTime.value);
+        const dTime = this.availableTimeEntries
+          .find((v) => v.value === this.dataLayerTime.value);
         this.dataLayerTimeUpdated(dTime.name);
       }
 
@@ -1879,9 +1466,6 @@ export default {
 ::v-deep .leaflet-control-layers-toggle {
   background-image: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23003247" width="32px" height="32px"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>');
 }
-::v-deep .mdi-asterisk {
-  visibility: hidden;
-}
 ::v-deep .leaflet-bar a, ::v-deep .leaflet-control-attribution {
   color: var(--v-primary-base) !important;
 }
@@ -1920,9 +1504,5 @@ export default {
 
 ::v-deep .leaflet-top.leaflet-right {
   margin-top: 45px;
-}
-
-::v-deep .v-menu__content {
-  transform: translate(1%, -87%);
 }
 </style>
