@@ -4,6 +4,7 @@
     v-else
     id="elementsContainer"
     v-scroll:#scroll-target="onScroll"
+    :class="storyMode ? 'ma-0' : ''"
   >
     <template v-for="(element, index) in features">
       <v-col v-if="!element.indicatorObject && !element.text" :key="index" cols="12">
@@ -15,11 +16,15 @@
         cols="12"
         :md="element.width > 1 ? (element.width > 2 ? (element.width > 3 ? 12 : 8) : 6) : 4"
         style="position: relative;"
-        :class="$vuetify.breakpoint.xsOnly ? 'px-0' : ''"
+        :class="storyMode ? 'px-0 py-0' : ''"
       >
         <div
           class="d-flex flex-column"
-          :style="`height: ${storyMode ? 'calc((var(--vh, 1vh) * 100) - 140px)' : '500px'}`"
+          :style="`height: ${storyMode
+            ? `calc(var(--vh, 1vh) * ${$vuetify.breakpoint.xsOnly
+              ? getElementHeight(element.width)
+              : 100})`
+            : '500px'}`"
         >
           <div
             v-if="!storyMode"
@@ -47,7 +52,7 @@
           </div>
           <v-card
             class="pa-0 flex-grow-1 elementCard"
-            outlined
+            :outlined="!storyMode"
             tile
           >
             <div
@@ -456,7 +461,7 @@ export default {
       let noOfRows;
       if (this.navigationButtonVisible) {
         const container = document.querySelector('#elementsContainer').clientHeight;
-        const row = document.querySelector('.elementCard').clientHeight;
+        const row = window.innerHeight - this.$vuetify.application.top - this.$vuetify.application.footer;
         noOfRows = Math.round(container / row);
       }
       return noOfRows;
@@ -465,7 +470,7 @@ export default {
       let currentRow;
       if (this.numberOfRows) {
         currentRow = Math.round((this.offsetTop - document.querySelector('#headerRow').clientHeight)
-          / document.querySelector('.elementCard').clientHeight) + 1;
+          / (window.innerHeight - this.$vuetify.application.top - this.$vuetify.application.footer)) + 1;
       }
       return currentRow;
     },
@@ -579,7 +584,7 @@ export default {
         position = 0; // scroll back to story intro
       } else {
         const startingPoint = document.querySelector('#elementsContainer').offsetTop;
-        const rowHeight = document.querySelector('.elementCard').parentElement.parentElement.clientHeight;
+        const rowHeight = window.innerHeight - this.$vuetify.application.top - this.$vuetify.application.footer;
         const target = rowHeight * (this.currentRow - 1 + direction);
         position = startingPoint + target;
       }
@@ -645,6 +650,31 @@ export default {
           indicatorObject,
         };
       }));
+    },
+    getElementHeight(size) {
+      let percent;
+      switch (size) {
+        case 1: {
+          percent = 33.5;
+          break;
+        }
+        case 2: {
+          percent = 50;
+          break;
+        }
+        case 3: {
+          percent = 66.5;
+          break;
+        }
+        case 4: {
+          percent = 100;
+          break;
+        }
+        default: {
+          percent = 100;
+        }
+      }
+      return percent;
     },
   },
 };
