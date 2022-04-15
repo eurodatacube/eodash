@@ -16,8 +16,13 @@ import VectorSource from 'ol/source/Vector';
 import { asArray } from 'ol/color';
 import { Feature, Overlay } from 'ol';
 import { fromLonLat } from 'ol/proj';
+import GeoJSON from 'ol/format/GeoJSON';
 import { getColor } from './olMapColors';
 import { indicatorClassesIcons } from '../../config/trilateral';
+
+const geoJsonFormat = new GeoJSON({
+  featureProjection: 'EPSG:3857',
+});
 
 const circleDistanceMultiplier = 1;
 const circleFootSeparation = 28;
@@ -421,8 +426,8 @@ export default class Cluster {
       // display subaoi of selected indicator, also when cluster is collapsed
       if (selectedIndicatorFeature) {
         const selectedIndicatorObject = selectedIndicatorFeature.get('properties').indicatorObject;
-        if (selectedIndicatorObject.subAoi && selectedIndicatorObject.subAoi.length) {
-          styles.push(this.getStyleForSubaoi(selectedIndicatorObject));
+        if (selectedIndicatorObject.subAoi) {
+          styles.push(this.getStyleForSubaoi(selectedIndicatorObject, selectedIndicatorFeature));
         }
       }
       return styles;
@@ -517,17 +522,23 @@ export default class Cluster {
       geometry: clusterMember.getGeometry(),
     });
     const memberStyle = [circleStyle, iconStyle];
-    if (isSelected && indicatorObject.subAoi && indicatorObject.subAoi.length) {
-      memberStyle.push(this.getStyleForSubaoi(indicatorObject));
+    if (isSelected && indicatorObject.subAoi) {
+      memberStyle.push(this.getStyleForSubaoi(indicatorObject, clusterMember));
     }
     return memberStyle;
   }
 
   /**
    * @param {*} indicatorObject indicator object containing the subaoi
+   * @param {*} subAoiGeom ol geometry of subAoi
    * @returns {*} SubAOI Style
    */
-  getStyleForSubaoi(indicatorObject) {
+  getStyleForSubaoi(indicatorObject, indicatorFeature) {
+    // pre-calculate geometry once to avoid unnecessary computation in style function
+    if (!indicatorFeature.get('olSubAoiGeom')) {
+      indicatorFeature.set('olSubAoiGeom', geoJsonFormat
+        .readGeometry(indicatorObject.subAoi.features[0].geometry));
+    }
     const subAoiColor = [...asArray(getColor(indicatorObject, this.vm)
         || this.vm.appConfig.branding.primaryColor)];
       // set opacity of rgba color
@@ -540,7 +551,7 @@ export default class Cluster {
         color: 'white',
         width: 1,
       }),
-      geometry: indicatorObject.subAoi[0].getGeometry(),
+      geometry: indicatorFeature.get('olSubAoiGeom'),
     });
   }
 }
