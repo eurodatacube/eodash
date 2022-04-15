@@ -160,10 +160,15 @@
 <script>
 import {
   mapState,
+  mapActions,
 } from 'vuex';
 
 export default {
   data: () => ({
+    saving: false,
+    success: false,
+    viewLinks: false,
+    valid: true,
     form: {
       rules: {
         title: [
@@ -213,6 +218,37 @@ export default {
       'appConfig',
       'baseConfig',
     ]),
+
+    viewingLink() {
+      let link = 'Loading...';
+      if (this.localDashboardId) {
+        if (this.storyModeEnabled) {
+          link = `${window.location.origin}/story?id=${this.localDashboardId}`;
+        } else {
+          link = `${window.location.origin}/dashboard?id=${this.localDashboardId}`;
+        }
+      } else if (this.$store.state.dashboard.dashboardConfig
+        && this.$store.state.dashboard.dashboardConfig.id) {
+        if (this.storyModeEnabled) {
+          link = `${window.location.origin}/story?id=${this.$store.state.dashboard
+            .dashboardConfig.id}`;
+        } else {
+          link = `${window.location.origin}/dashboard?id=${this.$store.state.dashboard
+            .dashboardConfig.id}`;
+        }
+      }
+      return link;
+    },
+
+    editingLink() {
+      return (this.$store.state.dashboard.dashboardConfig
+        && this.$store.state.dashboard.dashboardConfig.id)
+        ? `${window.location.origin}/${this.storyModeEnabled
+          ? 'story'
+          : 'dashboard'}?id=${this.$store.state.dashboard
+          .dashboardConfig.id}&editKey=${this.$store.state.dashboard.dashboardConfig.editKey}`
+        : 'Loading...';
+    },
   },
   props: {
     /**
@@ -226,6 +262,16 @@ export default {
     },
   },
   methods: {
+    ...mapActions('dashboard', [
+      'changeTitle',
+      'addMarketingInfo',
+      'addToMailingList',
+      'disconnect',
+      'listen',
+      'addFeature',
+      'changeFeatureText',
+    ]),
+
     increaseProgress() {
       this.progress += 0.6;
 
@@ -233,6 +279,51 @@ export default {
         this.progress = 0.0;
         this.$emit('close');
       }
+    },
+
+    async performChange(method, params) {
+      this.savingChanges = true;
+      const changed = await this[method](params);
+      if (changed !== undefined) {
+        this.savingChanges = false;
+      }
+    },
+
+    async submitMarketingData() {
+      this.saving = true;
+      this.performChange('changeTitle', this.popupTitle);
+      if (this.$refs.form.validate()) {
+        this.performChange('changeTitle', this.popupTitle);
+        await this.addMarketingInfo({
+          interests: this.form.values.interests,
+        });
+
+        try {
+          await this.addToMailingList({
+            email: this.form.values.email,
+            name: this.form.values.name,
+            listId: this.$store.state.config.appConfig.mailingList[process.env.NODE_ENV],
+            newsletterOptIn: this.form.values.newsletterOptIn,
+            dashboardId: this.$store.state.dashboard.dashboardConfig.id,
+            dashboardURLView: this.viewingLink,
+            dashboardURLEdit: this.editingLink,
+            dashboardTitle: this.form.values.title,
+            interests: this.form.values.interests,
+          });
+        } catch (e) {
+          console.log(`could not add to mailing list: ${e}`);
+        }
+
+        this.$router.replace({
+          path: 'dashboard',
+          query: {
+            id: this.$store.state.dashboard.dashboardConfig.id,
+            editKey: this.$store.state.dashboard.dashboardConfig.editKey,
+          },
+        });
+        this.success = true;
+      }
+      this.saving = false;
     },
 
     submit() {
