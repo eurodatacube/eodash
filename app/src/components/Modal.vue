@@ -8,6 +8,12 @@
           @close="close"
         />
 
+        <save-dashboard-form
+          v-else-if="mode == 'dashboard'"
+          @submit="submit"
+          @close="close"
+        />
+
         <newsletter-form
           v-else
           @submit="submit"
@@ -25,11 +31,13 @@ import {
 
 import Success from '@/components/Modal/ModalSuccess.vue';
 import NewsletterForm from '@/components/Modal/NewsletterForm.vue';
+import SaveDashboardForm from '@/components/Modal/SaveDashboardForm.vue';
 
 export default {
   components: {
     Success,
     NewsletterForm,
+    SaveDashboardForm,
   },
   data: () => ({
     isFinished: false,
