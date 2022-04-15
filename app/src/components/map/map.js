@@ -11,7 +11,7 @@ import './olControls.css';
 
 
 class VueMap {
-  constructor(id) {
+  constructor(id, options) {
     this.controls = [
       new FullScreen({
         className: 'v-card primary--text ol-full-screen',
@@ -43,6 +43,8 @@ class VueMap {
         zoom: 0,
         center: [0, 0],
         padding: [0, 0, 0, 0],
+        extent: options.constrainExtent,
+        constrainOnlyCenter: true,
         enableRotation: false,
       }),
     });
@@ -55,12 +57,14 @@ const mapRegistry = {};
  * Returns the ol map with the given id.
  * Will instantiate a new map if not already existing.
  * @param {string} id id of map
+ * @param {Object} options options
+ * @param {Array} options.constrainExtent optional constraining extent
  * @returns {Map} ol map
  */
-export default function getMapInstance(id) {
+export default function getMapInstance(id, options = {}) {
   const map = mapRegistry[id];
   if (!map) {
-    mapRegistry[id] = new VueMap(id);
+    mapRegistry[id] = new VueMap(id, options);
   }
   return mapRegistry[id];
 }
