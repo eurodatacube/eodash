@@ -15,7 +15,8 @@
         :key="element.poi"
         cols="12"
         :md="element.width > 1 ? (element.width > 2 ? (element.width > 3 ? 12 : 8) : 6) : 4"
-        style="position: relative;"
+        :style="`position: relative;
+          z-index: ${element.text && `#textAreaContainer-${index}` === showTextCurrent ? 2 : 1}`"
         :class="storyMode ? 'px-0 py-0' : ''"
       >
         <div
@@ -52,23 +53,73 @@
           </div>
           <v-card
             class="pa-0 flex-grow-1 elementCard"
+            :class="element.text && storyMode
+              && `#textAreaContainer-${index}` === showTextCurrent ? 'hasOverflow' : 'noOverflow'"
+            :style="$vuetify.breakpoint.smAndUp
+              ? 'overflow: auto !important' : ''"
             :outlined="!storyMode"
             tile
           >
             <div
               class="fill-height"
             >
-              <div
+              <template
                 v-if="element.text"
-                class="textAreaContainer"
               >
+                <v-sheet
+                  v-if="$vuetify.breakpoint.xsOnly && storyMode
+                    && !element.text.includes(imageFlag)"
+                  class="fill-height textSlider"
+                  :id="`#textAreaContainer-${index}` === showTextCurrent
+                    ? 'showTextCurrent'
+                    : undefined"
+                  v-touch="{
+                    up: () => startFullScreenInteraction(`#textAreaContainer-${index}`),
+                    down: () => endFullScreenInteraction(`#textAreaContainer-${index}`),
+                  }"
+                >
+                  <div
+                    :id="`textAreaContainer-${index}`"
+                    class="textAreaContainer fill-height"
+                    :style="!showText ? 'overflow-y: hidden' : ''"
+                  >
+                    <v-btn
+                      icon
+                      :dark="$vuetify.theme.dark ? true : false"
+                      absolute
+                      class="ma-2"
+                      style="right: 0"
+                      @click="showText
+                        ? endFullScreenInteraction(`#textAreaContainer-${index}`, true)
+                        : startFullScreenInteraction(`#textAreaContainer-${index}`)"
+                    >
+                      <v-icon>{{  showText ? 'mdi-chevron-down' : 'mdi-chevron-up' }}</v-icon>
+                    </v-btn>
+                    <div
+                      class="pa-5 textArea"
+                      v-html="convertToMarkdown(element.text)"
+                    ></div>
+                    <div
+                      v-if="`#textAreaContainer-${index}` !== showTextCurrent"
+                      :style="`position: absolute; bottom: 0; width: 100%; height: 100%;
+                      box-shadow: ${$vuetify.theme.dark
+                        ? '#1e1e1e'
+                        : 'white'} 0px -80px 30px -35px inset; pointer-events: none`"
+                    ></div>
+                  </div>
+                </v-sheet>
                 <div
-                  :class="element.text.includes(imageFlag)
-                    ? 'imageArea fill-height'
-                    : 'pa-5 textArea'"
-                  v-html="convertToMarkdown(element.text)"
-                ></div>
-              </div>
+                  v-else
+                  class="textAreaContainer"
+                >
+                  <div
+                    :class="element.text.includes(imageFlag)
+                      ? 'imageArea fill-height'
+                      : 'pa-5 textArea'"
+                    v-html="convertToMarkdown(element.text)"
+                  ></div>
+                </div>
+              </template>
               <indicator-globe
                 v-else-if="element.indicatorObject.showGlobe"
                 class="pt-0 fill-height"
@@ -399,6 +450,8 @@ export default {
     enableCompare: {},
     savedPoi: null,
     offsetTop: 0,
+    showText: false,
+    showTextCurrent: null,
     tooltipTrigger: false,
   }),
   computed: {
@@ -497,6 +550,11 @@ export default {
           this.parseFeatures(features);
         }
       },
+    },
+    showText(on) {
+      if (on) {
+        document.documentElement.style.setProperty('--showTextOffset', `${this.getTopOffset(this.showTextCurrent)}px`);
+      }
     },
   },
   methods: {
@@ -657,6 +715,18 @@ export default {
         };
       }));
     },
+    startFullScreenInteraction(selector) {
+      if (document.querySelector(selector).scrollTop === 0) {
+        this.showTextCurrent = selector;
+        this.showText = true;
+      }
+    },
+    endFullScreenInteraction(selector, force) {
+      if (document.querySelector(selector).scrollTop === 0 || force) {
+        this.showText = false;
+        this.showTextCurrent = null;
+      }
+    },
     getElementHeight(size) {
       let percent;
       switch (size) {
@@ -681,6 +751,15 @@ export default {
         }
       }
       return percent;
+    },
+    getTopOffset(selector) {
+      let offset = 0;
+      const element = document.querySelector(selector);
+      if (element && selector === this.showTextCurrent) {
+        offset = (element
+          .getBoundingClientRect().top - this.$vuetify.application.top) * -1;
+      }
+      return offset;
     },
   },
 };
@@ -707,9 +786,6 @@ export default {
 }
 .chart {
   background: #fff;
-}
-.elementCard {
-  overflow: hidden;
 }
 .textAreaContainer {
   overflow-y: auto;
@@ -757,12 +833,30 @@ export default {
 //   justify-content: center;
 //   width: 100%;
 // }
-::v-deep .v-navigation-drawer--open {
-  transform: translateY(0%) !important;
+.textSlider {
+  max-height: 100% !important;
+  transform: translateY(0) !important;
+  height: 100% !important;
+  transition-property: transform, visibility, width, height;
+  transition-duration: .2s;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
 }
-::v-deep .v-navigation-drawer--close {
-  visibility: visible;
-  transform: translateY(60%) !important;
+#showTextCurrent.textSlider {
+  max-height: unset !important;
+  transform: translateY(var(--showTextOffset)) !important;
+  height: calc(var(--vh) * 100) !important;
+  // transform: translateY(-50%) !important;
+}
+.hasOverflow {
+  overflow: visible;
+}
+.noOverflow {
+  overflow: hidden;
+  /* persist overflow value from animation */
+  animation: .5s delay-overflow;
+}
+@keyframes delay-overflow {
+  from { overflow: visible; }
 }
 </style>
 
