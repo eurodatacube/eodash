@@ -219,6 +219,10 @@ export default {
       'baseConfig',
     ]),
 
+    ...mapState('dashboard', [
+      'dashboardConfig',
+    ]),
+
     viewingLink() {
       let link = 'Loading...';
       if (this.localDashboardId) {
@@ -259,6 +263,11 @@ export default {
     mode: {
       type: String,
       default: 'newsletter',
+    },
+
+    storyModeEnabled: {
+      type: Boolean,
+      required: true,
     },
   },
   methods: {

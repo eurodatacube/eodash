@@ -420,6 +420,7 @@
                   mode="dashboard"
                   @submit="d => { showNewsletterModal = false }"
                   @close="d => { showNewsletterModal = false }"
+                  :storyModeEnabled="storyModeEnabled"
                   always-sm
                 />
               </v-card>
