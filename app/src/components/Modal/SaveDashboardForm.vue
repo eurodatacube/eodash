@@ -21,7 +21,7 @@
                   v-model="form.values.title"
                   hint="You will be able to change this later"
                   persistent-hint
-                  :rules="form.rules.title"
+                  :rules="form.rules.required"
                   placeholder="Title"
                   required
                   outlined
@@ -41,7 +41,7 @@
                 hint="This helps us provide better, personalized content to you"
                 persistent-hint
                 required
-                :rules="form.rules.interests"
+                :rules="form.rules.required"
                 validate-on-blur
               ></v-combobox>
             </v-col>
@@ -71,7 +71,7 @@
                 :rules="form.rules.privacyConsent"
                 required>
                 <template v-slot:label>
-                  I have read and acepted the
+                  I have read and accepted the
                   <a @click.stop href='/privacy' target="_blank">
                     Privacy Notice and Consent Form
                   </a>
@@ -171,7 +171,7 @@ export default {
     valid: true,
     form: {
       rules: {
-        title: [
+        required: [
           (v) => !!v || 'Required',
         ],
 
@@ -291,9 +291,11 @@ export default {
 
     async submitMarketingData() {
       this.saving = true;
-      this.performChange('changeTitle', this.popupTitle);
+      this.performChange('changeTitle', this.form.values.title);
+      console.log('before validation');
       if (this.$refs.form.validate()) {
-        this.performChange('changeTitle', this.popupTitle);
+        console.log(`after validation, form.values.title: ${this.form.values.title}`);
+        this.performChange('changeTitle', this.form.values.title);
         await this.addMarketingInfo({
           interests: this.form.values.interests,
         });
