@@ -93,7 +93,7 @@
     <v-card-text class="text-center" v-else>
       <h2
         class="display-2 font-weight-light primary--text mb-3"
-      > {{ dashboardConfig && dashboardConfig.title }}</h2>
+      > <!--{{ dashboardConfig && dashboardConfig.title }}-->{{ form.values.title }}</h2>
       <h2
         v-if="!viewLinks"
         class="font-weight-light primary--text mb-8 success--text"
@@ -222,6 +222,17 @@ export default {
     ...mapState('dashboard', [
       'dashboardConfig',
     ]),
+
+    copyViewingLink() {
+      this.$refs.viewingLink.$el.querySelector('input').select();
+      this.$refs.viewingLink.$el.querySelector('input').setSelectionRange(0, 99999);
+      document.execCommand('copy');
+    },
+    copyEditingLink() {
+      this.$refs.editingLink.$el.querySelector('input').select();
+      this.$refs.editingLink.$el.querySelector('input').setSelectionRange(0, 99999);
+      document.execCommand('copy');
+    },
 
     viewingLink() {
       let link = 'Loading...';
