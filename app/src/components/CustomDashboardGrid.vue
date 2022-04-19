@@ -4,22 +4,28 @@
     v-else
     id="elementsContainer"
     v-scroll:#scroll-target="onScroll"
+    :class="storyMode ? 'ma-0' : ''"
   >
     <template v-for="(element, index) in features">
       <v-col v-if="!element.indicatorObject && !element.text" :key="index" cols="12">
         Error: {{ element }}
       </v-col>
       <v-col
-        v-else-if="!($vuetify.breakpoint.xsOnly && !!element.text)"
+        v-else
         :key="element.poi"
         cols="12"
         :md="element.width > 1 ? (element.width > 2 ? (element.width > 3 ? 12 : 8) : 6) : 4"
-        style="position: relative;"
-        :class="$vuetify.breakpoint.xsOnly ? 'px-0' : ''"
+        :style="`position: relative;
+          z-index: ${element.text && `#textAreaContainer-${index}` === showTextCurrent ? 2 : 1}`"
+        :class="storyMode ? 'px-0 py-0' : ''"
       >
         <div
           class="d-flex flex-column"
-          :style="`height: ${storyMode ? 'calc((var(--vh, 1vh) * 100) - 140px)' : '500px'}`"
+          :style="`height: ${storyMode
+            ? `calc(var(--vh, 1vh) * ${$vuetify.breakpoint.xsOnly
+              ? getElementHeight(element.width)
+              : 100})`
+            : '500px'}`"
         >
           <div
             v-if="!storyMode"
@@ -47,36 +53,73 @@
           </div>
           <v-card
             class="pa-0 flex-grow-1 elementCard"
-            outlined
+            :class="element.text && storyMode
+              && `#textAreaContainer-${index}` === showTextCurrent ? 'hasOverflow' : 'noOverflow'"
+            :style="$vuetify.breakpoint.smAndUp
+              ? 'overflow: auto !important' : ''"
+            :outlined="!storyMode"
             tile
           >
             <div
-              v-if="features[index + 1] && features[index + 1].text
-                && $vuetify.breakpoint.xsOnly && !showText"
               class="fill-height"
-              :style="`position: absolute; width: 100%;
-                box-shadow: ${$vuetify.theme.dark ? '#363636' : 'white'} 0px -80px 30px -35px inset;
-                z-index: 3; pointer-events: none;`"
             >
-            </div>
-            <div
-              :style="`position: relative; height: ${($vuetify.breakpoint.xsOnly
-              && features[index + 1]
-              && features[index + 1].text)
-                ? '60%'
-                : '100%'}`"
-            >
-              <div
+              <template
                 v-if="element.text"
-                class="textAreaContainer"
               >
+                <v-sheet
+                  v-if="$vuetify.breakpoint.xsOnly && storyMode
+                    && !element.text.includes(imageFlag)"
+                  class="fill-height textSlider"
+                  :id="`#textAreaContainer-${index}` === showTextCurrent
+                    ? 'showTextCurrent'
+                    : undefined"
+                  v-touch="{
+                    up: () => startFullScreenInteraction(`#textAreaContainer-${index}`),
+                    down: () => endFullScreenInteraction(`#textAreaContainer-${index}`),
+                  }"
+                >
+                  <div
+                    :id="`textAreaContainer-${index}`"
+                    class="textAreaContainer fill-height"
+                    :style="!showText ? 'overflow-y: hidden' : ''"
+                  >
+                    <v-btn
+                      icon
+                      :dark="$vuetify.theme.dark ? true : false"
+                      absolute
+                      class="ma-2"
+                      style="right: 0"
+                      @click="showText
+                        ? endFullScreenInteraction(`#textAreaContainer-${index}`, true)
+                        : startFullScreenInteraction(`#textAreaContainer-${index}`)"
+                    >
+                      <v-icon>{{  showText ? 'mdi-chevron-down' : 'mdi-chevron-up' }}</v-icon>
+                    </v-btn>
+                    <div
+                      class="pa-5 textArea"
+                      v-html="convertToMarkdown(element.text)"
+                    ></div>
+                    <div
+                      v-if="`#textAreaContainer-${index}` !== showTextCurrent"
+                      :style="`position: absolute; bottom: 0; width: 100%; height: 100%;
+                      box-shadow: ${$vuetify.theme.dark
+                        ? '#1e1e1e'
+                        : 'white'} 0px -80px 30px -35px inset; pointer-events: none`"
+                    ></div>
+                  </div>
+                </v-sheet>
                 <div
-                  :class="element.text.includes(imageFlag)
-                    ? 'imageArea fill-height'
-                    : 'pa-5 textArea'"
-                  v-html="convertToMarkdown(element.text)"
-                ></div>
-              </div>
+                  v-else
+                  class="textAreaContainer"
+                >
+                  <div
+                    :class="element.text.includes(imageFlag)
+                      ? 'imageArea fill-height'
+                      : 'pa-5 textArea'"
+                    v-html="convertToMarkdown(element.text)"
+                  ></div>
+                </div>
+              </template>
               <indicator-globe
                 v-else-if="element.indicatorObject.showGlobe"
                 class="pt-0 fill-height"
@@ -127,47 +170,6 @@
                 style="top: 0px; position: absolute;"
               />
             </div>
-            <template
-              v-if="$vuetify.breakpoint.xsOnly && features[index + 1] && features[index + 1].text"
-            >
-              <div
-                class="mobilePaddingBottom"
-                style="height: calc(var(--vh, 1vh) * 40)"
-              >
-              </div>
-              <v-navigation-drawer
-                v-model="showText"
-                absolute
-                bottom
-                temporary
-                style="z-index: 1; max-height: 100%;"
-                v-touch="{
-                  up: () => startFullScreenInteraction(`#textAreaContainer-${index}`),
-                  down: () => endFullScreenInteraction(`#textAreaContainer-${index}`),
-                }"
-              >
-                <div
-                  :id="`textAreaContainer-${index}`"
-                  class="textAreaContainer fill-height"
-                  :style="!showText ? 'overflow-y: hidden' : ''"
-                >
-                  <v-btn
-                    icon
-                    :dark="$vuetify.theme.dark ? true : false"
-                    absolute
-                    class="ma-2"
-                    style="right: 0"
-                    @click="showText = !showText"
-                  >
-                    <v-icon>{{  showText ? 'mdi-chevron-down' : 'mdi-chevron-up' }}</v-icon>
-                  </v-btn>
-                  <div
-                    class="pa-5 textArea"
-                    v-html="convertToMarkdown(features[index + 1].text)"
-                  ></div>
-                </div>
-              </v-navigation-drawer>
-            </template>
           </v-card>
           <template v-if="enableEditing">
             <div class="buttonContainer containerRight containerTop">
@@ -449,6 +451,7 @@ export default {
     savedPoi: null,
     offsetTop: 0,
     showText: false,
+    showTextCurrent: null,
     tooltipTrigger: false,
   }),
   computed: {
@@ -511,7 +514,9 @@ export default {
       let noOfRows;
       if (this.navigationButtonVisible) {
         const container = document.querySelector('#elementsContainer').clientHeight;
-        const row = document.querySelector('.elementCard').clientHeight;
+        const row = window.innerHeight
+          - this.$vuetify.application.top
+          - this.$vuetify.application.footer;
         noOfRows = Math.round(container / row);
       }
       return noOfRows;
@@ -520,7 +525,9 @@ export default {
       let currentRow;
       if (this.numberOfRows) {
         currentRow = Math.round((this.offsetTop - document.querySelector('#headerRow').clientHeight)
-          / document.querySelector('.elementCard').clientHeight) + 1;
+          / (window.innerHeight
+            - this.$vuetify.application.top
+            - this.$vuetify.application.footer)) + 1;
       }
       return currentRow;
     },
@@ -543,6 +550,11 @@ export default {
           this.parseFeatures(features);
         }
       },
+    },
+    showText(on) {
+      if (on) {
+        document.documentElement.style.setProperty('--showTextOffset', `${this.getTopOffset(this.showTextCurrent)}px`);
+      }
     },
   },
   methods: {
@@ -634,7 +646,9 @@ export default {
         position = 0; // scroll back to story intro
       } else {
         const startingPoint = document.querySelector('#elementsContainer').offsetTop;
-        const rowHeight = document.querySelector('.elementCard').parentElement.parentElement.clientHeight;
+        const rowHeight = window.innerHeight
+          - this.$vuetify.application.top
+          - this.$vuetify.application.footer;
         const target = rowHeight * (this.currentRow - 1 + direction);
         position = startingPoint + target;
       }
@@ -703,13 +717,49 @@ export default {
     },
     startFullScreenInteraction(selector) {
       if (document.querySelector(selector).scrollTop === 0) {
+        this.showTextCurrent = selector;
         this.showText = true;
       }
     },
-    endFullScreenInteraction(selector) {
-      if (document.querySelector(selector).scrollTop === 0) {
+    endFullScreenInteraction(selector, force) {
+      if (document.querySelector(selector).scrollTop === 0 || force) {
         this.showText = false;
+        this.showTextCurrent = null;
       }
+    },
+    getElementHeight(size) {
+      let percent;
+      switch (size) {
+        case 1: {
+          percent = 33.5;
+          break;
+        }
+        case 2: {
+          percent = 50;
+          break;
+        }
+        case 3: {
+          percent = 66.5;
+          break;
+        }
+        case 4: {
+          percent = 100;
+          break;
+        }
+        default: {
+          percent = 100;
+        }
+      }
+      return percent;
+    },
+    getTopOffset(selector) {
+      let offset = 0;
+      const element = document.querySelector(selector);
+      if (element && selector === this.showTextCurrent) {
+        offset = (element
+          .getBoundingClientRect().top - this.$vuetify.application.top) * -1;
+      }
+      return offset;
     },
   },
 };
@@ -736,9 +786,6 @@ export default {
 }
 .chart {
   background: #fff;
-}
-.elementCard {
-  overflow: hidden;
 }
 .textAreaContainer {
   overflow-y: auto;
@@ -786,12 +833,30 @@ export default {
 //   justify-content: center;
 //   width: 100%;
 // }
-::v-deep .v-navigation-drawer--open {
-  transform: translateY(0%) !important;
+.textSlider {
+  max-height: 100% !important;
+  transform: translateY(0) !important;
+  height: 100% !important;
+  transition-property: transform, visibility, width, height;
+  transition-duration: .2s;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
 }
-::v-deep .v-navigation-drawer--close {
-  visibility: visible;
-  transform: translateY(60%) !important;
+#showTextCurrent.textSlider {
+  max-height: unset !important;
+  transform: translateY(var(--showTextOffset)) !important;
+  height: calc(var(--vh) * 100) !important;
+  // transform: translateY(-50%) !important;
+}
+.hasOverflow {
+  overflow: visible;
+}
+.noOverflow {
+  overflow: hidden;
+  /* persist overflow value from animation */
+  animation: .5s delay-overflow;
+}
+@keyframes delay-overflow {
+  from { overflow: visible; }
 }
 </style>
 
