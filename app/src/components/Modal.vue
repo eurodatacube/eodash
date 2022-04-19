@@ -10,6 +10,7 @@
 
         <save-dashboard-form
           v-else-if="mode == 'dashboard'"
+          :storyModeEnabled="storyModeEnabled"
           @submit="submit"
           @close="close"
         />
@@ -53,6 +54,11 @@ export default {
     mode: {
       type: String,
       default: 'newsletter',
+    },
+
+    storyModeEnabled: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {
