@@ -7075,6 +7075,51 @@
             "retail_recreation": -15,
             "transit_stations": -28,
             "workplaces": -1
+        },
+        {
+            "date": "2022-04-11T00:00:00",
+            "grocery": 0,
+            "parks": -21,
+            "residential": 4,
+            "retail_recreation": -21,
+            "transit_stations": -25,
+            "workplaces": 2
+        },
+        {
+            "date": "2022-04-12T00:00:00",
+            "grocery": 0,
+            "parks": -20,
+            "residential": 4,
+            "retail_recreation": -22,
+            "transit_stations": -25,
+            "workplaces": 5
+        },
+        {
+            "date": "2022-04-13T00:00:00",
+            "grocery": -3,
+            "parks": -19,
+            "residential": 4,
+            "retail_recreation": -23,
+            "transit_stations": -25,
+            "workplaces": 5
+        },
+        {
+            "date": "2022-04-14T00:00:00",
+            "grocery": -6,
+            "parks": -34,
+            "residential": 2,
+            "retail_recreation": -23,
+            "transit_stations": -28,
+            "workplaces": 4
+        },
+        {
+            "date": "2022-04-15T00:00:00",
+            "grocery": -4,
+            "parks": -28,
+            "residential": 5,
+            "retail_recreation": -21,
+            "transit_stations": -24,
+            "workplaces": 2
         }
     ]
 }
