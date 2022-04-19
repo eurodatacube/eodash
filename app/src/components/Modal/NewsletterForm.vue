@@ -88,14 +88,6 @@
 <script>
 export default {
   data: () => ({
-    titles: {
-      dashboard: 'Save this dashboard',
-      newsletter: 'Subscribe to our newsletter',
-    },
-    subtitles: {
-      dashboard: 'Create a permanent link to your Dashboard configuration.',
-      newsletter: 'Get our latest platform updates delivered straight to your inbox.',
-    },
     form: {
       rules: {
         interests: [
