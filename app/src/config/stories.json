@@ -12,15 +12,15 @@
     "air-quality": {
       "joint-intro": {
         "originalDashboardId": "2b11a69e94e47a4a",
-        "title": "Intro",
-        "subtitle": "AQ - Joint Story 1",
+        "title": "NASA, ESA and JAXA, Working Together to Monitor our Atmosphere",
+        "subtitle": "Traffic, wildfires, and power plants all emit air pollutants and greenhouse gases as a product of combustion",
         "image": "./data/story-images/sentinel-5P.jpg",
         "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
       },
       "monitoring-air-pollution-from-space": {
         "originalDashboardId": "afea38efc80e9846",
-        "title": "AQ - ESA Story 1",
-        "subtitle": "Monitoring from Space how Air Pollution affects Climate Change",
+        "title": "Monitoring from Space how Air Pollution affects Climate Change",
+        "subtitle": "TROPOMI measurements reveal 700 million metric tons of CO2 released from bushfires in just 3 months",
         "image": "./data/story-images/sentinel-5P.jpg",
         "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
       },
