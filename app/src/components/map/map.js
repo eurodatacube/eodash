@@ -8,13 +8,14 @@ import { toStringXY } from 'ol/coordinate';
 
 import 'ol/ol.css';
 import './olControls.css';
+import LoadingIndicatorControl from './loadingIndicatorControl';
 
 
 class VueMap {
   constructor(id, options) {
     this.controls = [
       new FullScreen({
-        className: 'v-card primary--text ol-full-screen',
+        className: 'ol-full-screen',
       }),
       new Zoom({
         className: 'v-card primary--text ol-zoom',
@@ -47,6 +48,10 @@ class VueMap {
         constrainOnlyCenter: true,
         enableRotation: false,
       }),
+    });
+    this.map.addControl(new LoadingIndicatorControl({ map: this.map }));
+    this.map.on('loadstart', () => {
+      map.getTargetElement().classList.add('spinner');
     });
     this.map.set('id', id);
   }
