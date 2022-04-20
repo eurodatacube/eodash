@@ -7,6 +7,20 @@
         "subtitle": "Satellite data applications for environmental impacts on world crop (cereal) supply and demand",
         "image": "./data/story-images/Agriculture.jpeg",
         "imagePlaceholder": "./data/story-images/Agriculture.jpeg"
+      },
+      "crops-consume-cairos-carbon-dioxide": {
+        "originalDashboardId": "fe9c083d830b9f90",
+        "title": "Crops Consume Cairo’s Carbon Dioxide",
+        "subtitle": "Urban Monitoring of Atmospheric CO2 Change affected by Human and Ecosystem Activities",
+        "image": "./data/story-images/Egypt-Cairo.jpeg",
+        "imagePlaceholder": "./data/story-images/Egypt-Cairo.jpeg"
+      },
+      "nile-delta": {
+        "originalDashboardId": "c37008b5978bf73e",
+        "title": "AQ - JAXA Story 2",
+        "subtitle": "Nile Delta",
+        "image": "./data/story-images/Egypt-Cairo.jpeg",
+        "imagePlaceholder": "./data/story-images/Egypt-Cairo.jpeg"
       }
     },
     "air-quality": {
@@ -23,20 +37,6 @@
         "subtitle": "TROPOMI measurements reveal 700 million metric tons of CO2 released from bushfires in just 3 months",
         "image": "./data/story-images/sentinel-5P.jpg",
         "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
-      },
-      "crops-consume-cairos-carbon-dioxide": {
-        "originalDashboardId": "fe9c083d830b9f90",
-        "title": "Crops Consume Cairo’s Carbon Dioxide",
-        "subtitle": "Urban Monitoring of Atmospheric CO2 Change affected by Human and Ecosystem Activities",
-        "image": "./data/story-images/Egypt-Cairo.jpeg",
-        "imagePlaceholder": "./data/story-images/Egypt-Cairo.jpeg"
-      },
-      "nile-delta": {
-        "originalDashboardId": "c37008b5978bf73e",
-        "title": "AQ - JAXA Story 2",
-        "subtitle": "Nile Delta",
-        "image": "./data/story-images/Egypt-Cairo.jpeg",
-        "imagePlaceholder": "./data/story-images/Egypt-Cairo.jpeg"
       }
     },
     "biomass-and-landcover": {
@@ -62,15 +62,15 @@
         "originalDashboardId": "92bc845659abfed6",
         "title": "Cryosphere - Joint Story",
         "subtitle": "An International Collaboration for Understanding Changes in Arctic Sea Ice",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+        "image": "./data/story-images/SeaIce.jpeg",
+        "imagePlaceholder": "./data/story-images/SeaIce.jpeg"
       },
       "sea-ice-freeboard-thickness": {
         "originalDashboardId": "e45036dd512afea1",
         "title": "Cryo - ESA NASA 1",
         "subtitle": "Sea Ice Freeboard & Thickness from Satellite Altimetry",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+        "image": "./data/story-images/SeaIce.jpeg",
+        "imagePlaceholder": "./data/story-images/SeaIce.jpeg"
       },
       "cryo-jaxa": {
         "originalDashboardId": "e45036dd512afea1",
