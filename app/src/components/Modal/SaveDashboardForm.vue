@@ -213,6 +213,9 @@ export default {
       },
     },
   }),
+  mounted () {
+    console.log(this.$refs);
+  },
   computed: {
     ...mapState('config', [
       'appConfig',
@@ -222,48 +225,6 @@ export default {
     ...mapState('dashboard', [
       'dashboardConfig',
     ]),
-
-    copyViewingLink() {
-      this.$refs.viewingLink.$el.querySelector('input').select();
-      this.$refs.viewingLink.$el.querySelector('input').setSelectionRange(0, 99999);
-      document.execCommand('copy');
-    },
-    copyEditingLink() {
-      this.$refs.editingLink.$el.querySelector('input').select();
-      this.$refs.editingLink.$el.querySelector('input').setSelectionRange(0, 99999);
-      document.execCommand('copy');
-    },
-
-    viewingLink() {
-      let link = 'Loading...';
-      if (this.localDashboardId) {
-        if (this.storyModeEnabled) {
-          link = `${window.location.origin}/story?id=${this.localDashboardId}`;
-        } else {
-          link = `${window.location.origin}/dashboard?id=${this.localDashboardId}`;
-        }
-      } else if (this.$store.state.dashboard.dashboardConfig
-        && this.$store.state.dashboard.dashboardConfig.id) {
-        if (this.storyModeEnabled) {
-          link = `${window.location.origin}/story?id=${this.$store.state.dashboard
-            .dashboardConfig.id}`;
-        } else {
-          link = `${window.location.origin}/dashboard?id=${this.$store.state.dashboard
-            .dashboardConfig.id}`;
-        }
-      }
-      return link;
-    },
-
-    editingLink() {
-      return (this.$store.state.dashboard.dashboardConfig
-        && this.$store.state.dashboard.dashboardConfig.id)
-        ? `${window.location.origin}/${this.storyModeEnabled
-          ? 'story'
-          : 'dashboard'}?id=${this.$store.state.dashboard
-          .dashboardConfig.id}&editKey=${this.$store.state.dashboard.dashboardConfig.editKey}`
-        : 'Loading...';
-    },
   },
   props: {
     /**
@@ -350,6 +311,53 @@ export default {
 
     submit() {
       this.$emit('submit');
+    },
+
+    copyViewingLink() {
+      this.$refs.viewingLink.$el.querySelector('input').select();
+      this.$refs.viewingLink.$el.querySelector('input').setSelectionRange(0, 99999);
+      document.execCommand('copy');
+    },
+    copyEditingLink() {
+      this.$refs.editingLink.$el.querySelector('input').select();
+      this.$refs.editingLink.$el.querySelector('input').setSelectionRange(0, 99999);
+      document.execCommand('copy');
+    },
+
+    viewingLink() {
+      let link = 'Loading...';
+      if (this.localDashboardId) {
+        if (this.storyModeEnabled) {
+          link = `${window.location.origin}/story?id=${this.localDashboardId}`;
+        } else {
+          link = `${window.location.origin}/dashboard?id=${this.localDashboardId}`;
+        }
+      } else if (this.$store.state.dashboard.dashboardConfig
+        && this.$store.state.dashboard.dashboardConfig.id) {
+        if (this.storyModeEnabled) {
+          link = `${window.location.origin}/story?id=${this.$store.state.dashboard
+            .dashboardConfig.id}`;
+        } else {
+          link = `${window.location.origin}/dashboard?id=${this.$store.state.dashboard
+            .dashboardConfig.id}`;
+        }
+      }
+      return link;
+    },
+
+    editingLink() {
+      return (this.$store.state.dashboard.dashboardConfig
+        && this.$store.state.dashboard.dashboardConfig.id)
+        ? `${window.location.origin}/${this.storyModeEnabled
+          ? 'story'
+          : 'dashboard'}?id=${this.$store.state.dashboard
+          .dashboardConfig.id}&editKey=${this.$store.state.dashboard.dashboardConfig.editKey}`
+        : 'Loading...';
+    },
+
+    viewLinksFn() {
+      this.viewLinks = true;
+      this.popupOpen = true;
     },
   },
 };
