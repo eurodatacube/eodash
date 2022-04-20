@@ -28,15 +28,15 @@
         "originalDashboardId": "fe9c083d830b9f90",
         "title": "Crops Consume Cairo’s Carbon Dioxide",
         "subtitle": "Urban Monitoring of Atmospheric CO2 Change affected by Human and Ecosystem Activities",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+        "image": "./data/story-images/Egypt-Cairo.jpeg",
+        "imagePlaceholder": "./data/story-images/Egypt-Cairo.jpeg"
       },
       "nile-delta": {
         "originalDashboardId": "c37008b5978bf73e",
         "title": "AQ - JAXA Story 2",
         "subtitle": "Nile Delta",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+        "image": "./data/story-images/Egypt-Cairo.jpeg",
+        "imagePlaceholder": "./data/story-images/Egypt-Cairo.jpeg"
       }
     },
     "biomass-and-landcover": {
@@ -44,8 +44,8 @@
         "originalDashboardId": "a785d7a3c536a452",
         "title": "Biomass - Joint Story",
         "subtitle": "The Biomass Harmonization Activity",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+        "image": "./data/story-images/Biomass.jpeg",
+        "imagePlaceholder": "./data/story-images/Biomass.jpeg"
       }
     },
     "covid-19": {
@@ -76,18 +76,18 @@
         "originalDashboardId": "e45036dd512afea1",
         "title": "Cryo - JAXA",
         "subtitle": "Cryo JAXA",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+        "image": "./data/story-images/SeaIce.jpeg",
+        "imagePlaceholder": "./data/story-images/SeaIce.jpeg"
       }
     },
     "economy": {},
     "oceans": {
       "ocean-joint": {
         "originalDashboardId": "6ea3293aade90541",
-        "title": "NASA-ESA-JAXA #1",
-        "subtitle": "Ocean - Joint story 1",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+        "title": "Plants and the climate",
+        "subtitle": "Satellite images reveal a view of the ocean as rich and complex as that of the land",
+        "image": "./data/story-images/Oceans.jpeg",
+        "imagePlaceholder": "./data/story-images/Oceans.jpeg"
       }
     }
   }
