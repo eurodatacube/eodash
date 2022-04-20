@@ -22,7 +22,7 @@
         <div
           class="d-flex flex-column"
           :style="`height: ${storyMode
-            ? `calc(var(--vh, 1vh) * ${$vuetify.breakpoint.xsOnly
+            ? `calc(var(--vh, 1vh) * ${$vuetify.breakpoint.smAndDown
               ? getElementHeight(element.width)
               : 100})`
             : '500px'}`"
@@ -67,7 +67,7 @@
                 v-if="element.text"
               >
                 <v-sheet
-                  v-if="$vuetify.breakpoint.xsOnly && storyMode
+                  v-if="$vuetify.breakpoint.smAndDown && storyMode
                     && !element.text.includes(imageFlag)"
                   class="fill-height textSlider"
                   :id="`#textAreaContainer-${index}` === showTextCurrent
