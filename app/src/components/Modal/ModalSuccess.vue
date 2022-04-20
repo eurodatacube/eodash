@@ -1,12 +1,5 @@
 <template>
   <div class="modal-success">
-    <v-progress-linear
-      :value="progress"
-      :size="48"
-      color="white"
-      background-color="transparent"
-    />
-
     <div class="d-flex flex-column align-center justify-center py-16">
       <v-icon size="64" color="green lighten-4">mdi-check</v-icon>
       <h2 class="white--text my-4">You have successfully subscribed to our newsletter.</h2>
@@ -18,11 +11,8 @@
 
 <script>
 export default {
-  data: () => ({
-
-  }),
   mounted() {
-    setTimeout(this.close, 3000);
+    setTimeout(this.close, 7000);
   },
   props: {
     /**
