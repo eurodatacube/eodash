@@ -50,9 +50,6 @@ class VueMap {
       }),
     });
     this.map.addControl(new LoadingIndicatorControl({ map: this.map }));
-    this.map.on('loadstart', () => {
-      map.getTargetElement().classList.add('spinner');
-    });
     this.map.set('id', id);
   }
 }
