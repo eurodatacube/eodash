@@ -93,7 +93,11 @@
                         ? endFullScreenInteraction(`#textAreaContainer-${index}`, true)
                         : startFullScreenInteraction(`#textAreaContainer-${index}`)"
                     >
-                      <v-icon>{{  showText ? 'mdi-unfold-less-horizontal' : 'mdi-unfold-more-horizontal' }}</v-icon>
+                      <v-icon>
+                        {{  showText
+                          ? 'mdi-unfold-less-horizontal'
+                          : 'mdi-unfold-more-horizontal' }}
+                      </v-icon>
                     </v-btn>
                     <div
                       class="pa-5 textArea"
