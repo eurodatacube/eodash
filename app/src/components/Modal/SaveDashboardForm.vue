@@ -312,20 +312,22 @@ export default {
           interests: this.form.values.interests,
         });
 
-        try {
-          await this.addToMailingList({
-            email: this.form.values.email,
-            name: this.form.values.name,
-            listId: this.$store.state.config.appConfig.mailingList[process.env.NODE_ENV],
-            newsletterOptIn: this.form.values.newsletterOptIn,
-            dashboardId: this.$store.state.dashboard.dashboardConfig.id,
-            dashboardURLView: this.viewingLink,
-            dashboardURLEdit: this.editingLink,
-            dashboardTitle: this.form.values.title,
-            interests: this.form.values.interests,
-          });
-        } catch (e) {
-          console.log(`could not add to mailing list: ${e}`);
+        if (this.form.values.newsletterOptIn) {
+          try {
+            await this.addToMailingList({
+              email: this.form.values.email,
+              name: this.form.values.name,
+              listId: this.$store.state.config.appConfig.mailingList[process.env.NODE_ENV],
+              newsletterOptIn: this.form.values.newsletterOptIn,
+              dashboardId: this.$store.state.dashboard.dashboardConfig.id,
+              dashboardURLView: this.viewingLink,
+              dashboardURLEdit: this.editingLink,
+              dashboardTitle: this.form.values.title,
+              interests: this.form.values.interests,
+            });
+          } catch (e) {
+            console.log(`could not add to mailing list: ${e}`);
+          }
         }
 
         this.$router.replace({
