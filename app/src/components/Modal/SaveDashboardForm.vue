@@ -304,9 +304,7 @@ export default {
     async submitMarketingData() {
       this.saving = true;
       this.performChange('changeTitle', this.form.values.title);
-      console.log('before validation');
       if (this.$refs.form.validate()) {
-        console.log(`after validation, form.values.title: ${this.form.values.title}`);
         this.performChange('changeTitle', this.form.values.title);
         await this.addMarketingInfo({
           interests: this.form.values.interests,
@@ -326,7 +324,7 @@ export default {
               interests: this.form.values.interests,
             });
           } catch (e) {
-            console.log(`could not add to mailing list: ${e}`);
+            console.error(`could not add to mailing list: ${e}`);
           }
         }
 
