@@ -143,7 +143,7 @@
     </v-card-text>
     <v-card-actions v-if="!success && !viewLinks">
       <v-spacer></v-spacer>
-      <v-btn color="primary" text @click="popupOpen = false" x-large>Back</v-btn>
+      <v-btn color="primary" text @click="$emit('close')" x-large>Back</v-btn>
       <v-btn
         color="success"
         type="submit"
@@ -152,7 +152,7 @@
     </v-card-actions>
     <v-card-actions v-else>
       <v-spacer></v-spacer>
-      <v-btn color="primary" text @click="popupOpen = false" x-large>Close</v-btn>
+      <v-btn color="primary" text @click="$emit('close')" x-large>Close</v-btn>
     </v-card-actions>
   </v-form>
 </template>
@@ -213,9 +213,6 @@ export default {
       },
     },
   }),
-  mounted () {
-    console.log(this.$refs);
-  },
   computed: {
     ...mapState('config', [
       'appConfig',
