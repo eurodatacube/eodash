@@ -4,9 +4,10 @@ import { Control } from 'ol/control';
 
 export default class loadingIndicatorControl extends Control {
   /**
-   * @param {Object} [options] Control options.
+   * @param {Object} options Control options.
+   * @param {*} options.map ol map
    */
-  constructor(options = {}) {
+  constructor(options) {
     const { map } = options;
 
     const button = document.createElement('button');
