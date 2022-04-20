@@ -457,6 +457,7 @@ export default {
     showText: false,
     showTextCurrent: null,
     tooltipTrigger: false,
+    numberOfRows: null,
   }),
   computed: {
     ...mapGetters('dashboard', {
@@ -514,17 +515,6 @@ export default {
     navigationButtonVisible() {
       return this.offsetTop >= document.querySelector('#headerRow').clientHeight;
     },
-    numberOfRows() {
-      let noOfRows;
-      if (this.navigationButtonVisible) {
-        const container = document.querySelector('#elementsContainer').clientHeight;
-        const row = window.innerHeight
-          - this.$vuetify.application.top
-          - this.$vuetify.application.footer;
-        noOfRows = Math.round(container / row);
-      }
-      return noOfRows;
-    },
     currentRow() {
       let currentRow;
       if (this.numberOfRows) {
@@ -558,6 +548,11 @@ export default {
     showText(on) {
       if (on) {
         document.documentElement.style.setProperty('--showTextOffset', `${this.getTopOffset(this.showTextCurrent)}px`);
+      }
+    },
+    navigationButtonVisible(on) {
+      if (on && !this.numberOfRows) {
+        this.getNumberOfRows();
       }
     },
   },
@@ -764,6 +759,17 @@ export default {
           .getBoundingClientRect().top - this.$vuetify.application.top) * -1;
       }
       return offset;
+    },
+    getNumberOfRows() {
+      let noOfRows;
+      if (this.navigationButtonVisible) {
+        const container = document.querySelector('#elementsContainer').clientHeight;
+        const row = window.innerHeight
+          - this.$vuetify.application.top
+          - this.$vuetify.application.footer;
+        noOfRows = Math.round(container / row);
+      }
+      this.numberOfRows = noOfRows;
     },
   },
 };
