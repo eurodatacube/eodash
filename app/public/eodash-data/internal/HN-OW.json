@@ -4857,8 +4857,8 @@
             "date": "2022-04-08T00:00:00",
             "people_fully_vaccinated": 4583225.0,
             "people_fully_vaccinated_per_hundred": 45.55,
-            "people_vaccinated": 5300577.0,
-            "people_vaccinated_per_hundred": 52.67,
+            "people_vaccinated": null,
+            "people_vaccinated_per_hundred": null,
             "total_vaccinations": 11904698.0,
             "total_vaccinations_per_hundred": 118.3
         },
@@ -4941,8 +4941,8 @@
             "date": "2022-04-15T00:00:00",
             "people_fully_vaccinated": 4835619.0,
             "people_fully_vaccinated_per_hundred": 48.05,
-            "people_vaccinated": null,
-            "people_vaccinated_per_hundred": null,
+            "people_vaccinated": 5236883.0,
+            "people_vaccinated_per_hundred": 52.04,
             "total_vaccinations": 12118425.0,
             "total_vaccinations_per_hundred": 120.43
         }
