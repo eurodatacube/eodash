@@ -86,6 +86,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   data: () => ({
     form: {
@@ -125,6 +127,8 @@ export default {
         ],
       },
     },
+
+    isLoading: false,
   }),
   mounted() {
 
@@ -141,16 +145,14 @@ export default {
     },
   },
   methods: {
-    increaseProgress() {
-      this.progress += 0.6;
-
-      if (this.progress >= 110.0) {
-        this.progress = 0.0;
-        this.$emit('close');
-      }
-    },
+    ...mapActions('dashboard', [
+      'addMarketingInfo',
+      'addToMailingList',
+    ]),
 
     async submit() {
+      this.isLoading = true;
+
       if (this.$refs.form.validate()) {
         await this.addMarketingInfo({
           interests: this.form.values.interests,
@@ -174,6 +176,8 @@ export default {
 
         this.$emit('submit');
       }
+
+      this.isLoading = false;
     },
   },
 };
