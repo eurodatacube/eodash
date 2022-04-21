@@ -2,15 +2,10 @@
   <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3; z-index: 1">
     <LayerControl
       v-if="loaded"
-      mapId="centerMap"
+      :mapId="mapId"
       :baseLayers="baseLayers"
       :overlayConfigs="overlayConfigs"
     />
-    <div id="centerMapOverlay" class="tooltip v-card v-sheet text-center pa-2">
-      <p class="ma-0"><strong>{{ tooltip.city }}</strong></p>
-      <p class="ma-0"><strong>{{ tooltip.indicator }}</strong></p>
-      <p class="ma-0"> {{ tooltip.label }} </p>
-    </div>
   </div>
 </template>
 
@@ -21,95 +16,99 @@ import {
 } from 'vuex';
 import LayerControl from '@/components/map/LayerControl.vue';
 import { createLayerFromConfig } from '@/components/map/layers';
-import Cluster from '@/components/map/Cluster';
 import getMapInstance from '@/components/map/map';
 import { formatLabel } from '@/components/map/formatters';
+import LayerGroup from 'ol/layer/Group';
 
 
 export default {
   components: {
     LayerControl,
   },
-  props: {},
+  props: {
+    currentIndicator: String,
+    /**
+     * to do: define control management via options
+     * @property {boolean} attributionControl
+     * @property {boolean} zoomControl
+     */
+    options: Object,
+    overlayConfigs: Array,
+    baseLayers: Array,
+    mapId: String,
+    zoomExtent: Array,
+    constrainExtent: Array,
+    minZoom: Number,
+  },
   data() {
     return {
       map: null,
       loaded: false,
-      minMapZoom: 3,
-      zoom: 3,
-      maxMapZoom: 14,
-      center: [55, 10],
-      bounds: null,
-      currentSelected: null,
-      currentSelectedIndex: null,
-      subAoi: null,
       defaultMapOptions: {
         attributionControl: false,
         zoomControl: false,
       },
-      tooltip: {
-        city: '',
-        indicator: '',
-        description: '',
-      },
-      overlayConfigs: [],
       opacityTerrain: [1],
       opacityOverlay: [0, 0, 0, 0, 0, 0, 0.4, 0.4, 0.8, 0.8, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
       opacityCountries: [1, 1, 1, 1, 0.7, 0.7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     };
   },
+  watch: {
+    getGroupedFeatures(value) {
+      if (value.length) {
+        this.initMap();
+      }
+    },
+  },
   computed: {
     ...mapGetters('features', ['getGroupedFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
-    baseLayers() {
-      return this.baseConfig.baseLayersLeftMap;
-    },
     countriesJson() {
       return countries;
     },
     indicatorsDefinition: () => this.baseConfig.indicatorsDefinition,
   },
   mounted() {
-    const { map } = getMapInstance('centerMap');
-    const layers = this.baseLayers.map((l) => createLayerFromConfig(l, this));
-    layers.forEach((l) => {
-      map.addLayer(l);
-    });
-    const countriesConfig = {
-      name: 'Country vectors',
-      protocol: 'countries',
-      visible: true,
-    };
-
-    this.overlayConfigs.length = 0;
-    this.overlayConfigs.push(...[countriesConfig, ...this.baseConfig.overlayLayersLeftMap]);
-    const overlayLayers = this.overlayConfigs.map((l) => createLayerFromConfig(l, this));
-    overlayLayers.forEach((l) => {
-      map.addLayer(l);
-    });
-
-    const view = map.getView();
-    map.on('moveend', () => {
-      this.updateOverlayOpacity(overlayLayers, view);
-    });
-    this.updateOverlayOpacity(overlayLayers, view);
-
-    const cluster = new Cluster(map, this, this.getGroupedFeatures);
-    cluster.setActive(true, this.overlayCallback);
-    this.$watch('$store.state.indicators.selectedIndicator', () => {
-      cluster.reRender();
-    });
-    this.loaded = true;
-    getMapInstance('centerMap').map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
+    this.initMap();
+    const { map } = getMapInstance(this.mapId);
+    if (this.minZoom !== undefined) {
+      map.getView().setMinZoom(this.minZoom);
+    }
+    map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
+    if (this.zoomExtent) {
+      map.getView().fit(this.zoomExtent, {
+        padding: [30, 30, 30, 30],
+      });
+    }
+    this.$emit('ready', true);
   },
   methods: {
+    initMap() {
+      const { map } = getMapInstance(this.mapId, {
+        constrainExtent: this.constrainExtent,
+      });
+      const layers = this.baseLayers.map((l) => createLayerFromConfig(l, this));
+      layers.forEach((l) => {
+        map.addLayer(l);
+      });
+
+      const overlayLayers = this.overlayConfigs.map((l) => createLayerFromConfig(l, this));
+      overlayLayers.forEach((l) => {
+        map.addLayer(l);
+      });
+
+      const view = map.getView();
+      map.on('moveend', () => {
+        this.updateOverlayOpacity(overlayLayers, view);
+      });
+      this.updateOverlayOpacity(overlayLayers, view);
+      this.loaded = true;
+    },
     updateOverlayOpacity(overlayLayers, view) {
       const zoom = Math.floor(view.getZoom());
       overlayLayers.forEach((l) => {
-        if (l.get('name') === 'Country vectors') {
+        if (l.get('name') === 'Country vectors' || (l.get('updateOpacityOnZoom'))) {
           l.setOpacity(this.opacityCountries[zoom]);
-        } else {
-          l.setOpacity(this.opacityOverlay[zoom]);
         }
       });
     },
@@ -117,7 +116,10 @@ export default {
       this.tooltip = formatLabel(indicatorObject, this);
     },
   },
-  beforeDestroy() {},
+  beforeDestroy() {
+    // cleanly remove all layers
+    getMapInstance(this.mapId).map.setLayerGroup(new LayerGroup());
+  },
 };
 </script>
 <style lang="scss" scoped>

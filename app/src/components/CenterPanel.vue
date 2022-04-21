@@ -24,7 +24,7 @@
       class="fill-height pb-7"
     >
       <v-tab-item class="fill-height">
-        <CenterMap ref="map" />
+        <CenterMap ref="map" v-if="mapDataReady"/>
         <v-expansion-panels accordion class="global-indicators-panel" v-model="panel">
           <v-expansion-panel>
             <v-expansion-panel-header class="panel-header">
@@ -204,6 +204,9 @@ export default {
     ...mapState('config', ['baseConfig']),
     countries() {
       return countries;
+    },
+    mapDataReady() {
+      return !!(this.getGroupedFeatures?.length && this.$store.state.config?.baseConfig);
     },
     globalIndicators() {
       return this.getGroupedFeatures && this.getGroupedFeatures

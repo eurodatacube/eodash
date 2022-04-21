@@ -16,8 +16,12 @@ import VectorSource from 'ol/source/Vector';
 import { asArray } from 'ol/color';
 import { Feature, Overlay } from 'ol';
 import { fromLonLat } from 'ol/proj';
+import GeoJSON from 'ol/format/GeoJSON';
 import { getColor } from './olMapColors';
-import { indicatorClassesIcons } from '../../config/trilateral';
+
+const geoJsonFormat = new GeoJSON({
+  featureProjection: 'EPSG:3857',
+});
 
 const circleDistanceMultiplier = 1;
 const circleFootSeparation = 28;
@@ -69,39 +73,49 @@ const outerCircleTransparent = new CircleStyle({
 });
 
 let onStylesLoaded = [];
+let indicatorClassesStyles;
 
-const indicatorClassesStyles = Object.keys(indicatorClassesIcons).reduce((acc, key) => {
-  const image = new Image();
-  image.addEventListener('load', () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = image.width;
-    canvas.height = image.height;
-    const context = canvas.getContext('2d');
-    context.globalCompositeOperation = 'screen';
-    context.fillStyle = 'white';
-    context.fillRect(0, 0, image.width, image.height);
-    context.globalCompositeOperation = 'destination-in';
-    context.drawImage(image, 0, 0);
-    acc[key] = {
-      small: new Icon({
-        scale: 0.66,
-        img: canvas,
-        imgSize: [image.width, image.height],
-      }),
-      large: new Icon({
-        scale: 1,
-        img: canvas,
-        imgSize: [image.width, image.height],
-      }),
-    };
-    if (Object.keys(acc).length === Object.keys(indicatorClassesIcons).length) {
-      onStylesLoaded.forEach((cb) => cb());
-      onStylesLoaded = undefined;
-    }
-  });
-  image.src = `https://cdn.jsdelivr.net/npm/@mdi/svg@latest/svg/${indicatorClassesIcons[key].substr(4)}.svg`;
-  return acc;
-}, {});
+function loadImages() {
+  const { indicatorClassesIcons } = store.state.config.baseConfig;
+  indicatorClassesStyles = Object.keys(indicatorClassesIcons)
+    .reduce((acc, key) => {
+      const image = new Image();
+      acc[key] = {
+        small: null,
+        large: null,
+      };
+      image.addEventListener('load', () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = image.width;
+        canvas.height = image.height;
+        const context = canvas.getContext('2d');
+        context.globalCompositeOperation = 'screen';
+        context.fillStyle = 'white';
+        context.fillRect(0, 0, image.width, image.height);
+        context.globalCompositeOperation = 'destination-in';
+        context.drawImage(image, 0, 0);
+        acc[key] = {
+          small: new Icon({
+            scale: 0.66,
+            img: canvas,
+            imgSize: [image.width, image.height],
+          }),
+          large: new Icon({
+            scale: 1,
+            img: canvas,
+            imgSize: [image.width, image.height],
+          }),
+        };
+        if (onStylesLoaded && Object.keys(acc).length === Object.keys(indicatorClassesIcons)
+          .length) {
+          onStylesLoaded.forEach((cb) => cb());
+          onStylesLoaded = undefined;
+        }
+      });
+      image.src = `https://cdn.jsdelivr.net/npm/@mdi/svg@latest/svg/${indicatorClassesIcons[key].substr(4)}.svg`;
+      return acc;
+    }, {});
+}
 
 /**
  * From
@@ -224,6 +238,9 @@ export default class Cluster {
     this.map = map;
     this.vm = vm;
     this.indicators = indicators;
+    if (onStylesLoaded) {
+      loadImages();
+    }
     this.createIndicatorFeatureLayers();
     this.createInteractions();
   }
@@ -421,8 +438,8 @@ export default class Cluster {
       // display subaoi of selected indicator, also when cluster is collapsed
       if (selectedIndicatorFeature) {
         const selectedIndicatorObject = selectedIndicatorFeature.get('properties').indicatorObject;
-        if (selectedIndicatorObject.subAoi && selectedIndicatorObject.subAoi.length) {
-          styles.push(this.getStyleForSubaoi(selectedIndicatorObject));
+        if (selectedIndicatorObject.subAoi) {
+          styles.push(this.getStyleForSubaoi(selectedIndicatorObject, selectedIndicatorFeature));
         }
       }
       return styles;
@@ -458,12 +475,11 @@ export default class Cluster {
     this.clusters = new VectorLayer({
       name: 'clusters',
       source: clusterSource,
-      // style: this.createClusterStyle(),
       style: this.clusterStyle.bind(this),
     });
     if (onStylesLoaded) {
       onStylesLoaded.push(() => {
-        clusters.changed();
+        this.clusters.changed();
       });
     }
 
@@ -486,6 +502,11 @@ export default class Cluster {
       source: clusterSource,
       style: clusterCircleStyle.bind(this),
     });
+    if (onStylesLoaded) {
+      onStylesLoaded.push(() => {
+        this.clusterCircles.changed();
+      });
+    }
   }
 
   /**
@@ -517,17 +538,23 @@ export default class Cluster {
       geometry: clusterMember.getGeometry(),
     });
     const memberStyle = [circleStyle, iconStyle];
-    if (isSelected && indicatorObject.subAoi && indicatorObject.subAoi.length) {
-      memberStyle.push(this.getStyleForSubaoi(indicatorObject));
+    if (isSelected && indicatorObject.subAoi) {
+      memberStyle.push(this.getStyleForSubaoi(indicatorObject, clusterMember));
     }
     return memberStyle;
   }
 
   /**
    * @param {*} indicatorObject indicator object containing the subaoi
+   * @param {*} subAoiGeom ol geometry of subAoi
    * @returns {*} SubAOI Style
    */
-  getStyleForSubaoi(indicatorObject) {
+  getStyleForSubaoi(indicatorObject, indicatorFeature) {
+    // pre-calculate geometry once to avoid unnecessary computation in style function
+    if (!indicatorFeature.get('olSubAoiGeom')) {
+      indicatorFeature.set('olSubAoiGeom', geoJsonFormat
+        .readGeometry(indicatorObject.subAoi.features[0].geometry));
+    }
     const subAoiColor = [...asArray(getColor(indicatorObject, this.vm)
         || this.vm.appConfig.branding.primaryColor)];
       // set opacity of rgba color
@@ -540,7 +567,7 @@ export default class Cluster {
         color: 'white',
         width: 1,
       }),
-      geometry: indicatorObject.subAoi[0].getGeometry(),
+      geometry: indicatorFeature.get('olSubAoiGeom'),
     });
   }
 }
