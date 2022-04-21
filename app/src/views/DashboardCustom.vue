@@ -4,9 +4,9 @@
     class="fill-height scrollContainer"
     :class="$vuetify.breakpoint.smAndAbove
       ? 'pa-10 pt-5'
-      : 'pa-5'"
+      : (storyModeEnabled ? 'pa-0' : 'pa-5')"
       :style="`margin-top: ${$vuetify.application.top}px;
-        height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px);
+        height: calc((var(--vh, 1vh) * 100);
         overflow-y: ${storyModeEnabled ? 'hidden' : 'auto'}; overflow-x: hidden`"
     id="scroll-target"
   >
@@ -32,11 +32,11 @@
     </template>
     <template v-else>
       <v-row
-        class="d-flex my-0 mt-n5"
+        class="d-flex my-0"
         id="headerRow"
+        :class="storyModeEnabled ? 'pa-5' : ''"
         :style="`position: relative; ${storyModeEnabled
-          ? `height: calc((var(--vh, 1vh) * 100) - ${$vuetify.application.top
-            + $vuetify.application.footer}px)`
+          ? `height: calc(var(--vh, 1vh) * 100)`
             : ''}`"
       >
         <v-img
@@ -438,7 +438,10 @@
           </div>
         </v-col>
       </v-row>
-      <v-divider v-if="$vuetify.breakpoint.smAndDown" class="my-10"></v-divider>
+      <v-divider
+        v-if="$vuetify.breakpoint.smAndDown && !storyModeEnabled"
+        class="my-10"
+      ></v-divider>
       <custom-dashboard-grid
         ref="customDashboardGrid"
         v-if="$store.state.features.allFeatures.length > 0"
@@ -980,7 +983,7 @@ export default {
     scrollToStart() {
       this.pageScroll({
         target: this.$refs.customDashboardGrid,
-        offset: -56,
+        offset: -1 * this.$vuetify.application.top,
       });
     },
     pageScroll({ target, offset = 0 }) {

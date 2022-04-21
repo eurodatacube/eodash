@@ -7,34 +7,34 @@
         "subtitle": "Satellite data applications for environmental impacts on world crop (cereal) supply and demand",
         "image": "./data/story-images/Agriculture.jpeg",
         "imagePlaceholder": "./data/story-images/Agriculture.jpeg"
-      }
-    },
-    "air-quality": {
-      "joint-intro": {
-        "originalDashboardId": "2b11a69e94e47a4a",
-        "title": "Intro",
-        "subtitle": "AQ - Joint Story 1",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
-      },
-      "monitoring-air-pollution-from-space": {
-        "originalDashboardId": "afea38efc80e9846",
-        "title": "AQ - ESA Story 1",
-        "subtitle": "Monitoring from Space how Air Pollution affects Climate Change",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
       },
       "crops-consume-cairos-carbon-dioxide": {
         "originalDashboardId": "fe9c083d830b9f90",
         "title": "Crops Consume Cairo’s Carbon Dioxide",
         "subtitle": "Urban Monitoring of Atmospheric CO2 Change affected by Human and Ecosystem Activities",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+        "image": "./data/story-images/Egypt-Cairo.jpeg",
+        "imagePlaceholder": "./data/story-images/Egypt-Cairo.jpeg"
       },
       "nile-delta": {
         "originalDashboardId": "c37008b5978bf73e",
         "title": "AQ - JAXA Story 2",
         "subtitle": "Nile Delta",
+        "image": "./data/story-images/Egypt-Cairo.jpeg",
+        "imagePlaceholder": "./data/story-images/Egypt-Cairo.jpeg"
+      }
+    },
+    "air-quality": {
+      "joint-intro": {
+        "originalDashboardId": "2b11a69e94e47a4a",
+        "title": "NASA, ESA and JAXA, Working Together to Monitor our Atmosphere",
+        "subtitle": "Traffic, wildfires, and power plants all emit air pollutants and greenhouse gases as a product of combustion",
+        "image": "./data/story-images/sentinel-5P.jpg",
+        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+      },
+      "monitoring-air-pollution-from-space": {
+        "originalDashboardId": "afea38efc80e9846",
+        "title": "Monitoring from Space how Air Pollution affects Climate Change",
+        "subtitle": "TROPOMI measurements reveal 700 million metric tons of CO2 released from bushfires in just 3 months",
         "image": "./data/story-images/sentinel-5P.jpg",
         "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
       }
@@ -44,8 +44,8 @@
         "originalDashboardId": "a785d7a3c536a452",
         "title": "Biomass - Joint Story",
         "subtitle": "The Biomass Harmonization Activity",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+        "image": "./data/story-images/Biomass.jpeg",
+        "imagePlaceholder": "./data/story-images/Biomass.jpeg"
       }
     },
     "covid-19": {
@@ -62,32 +62,32 @@
         "originalDashboardId": "92bc845659abfed6",
         "title": "Cryosphere - Joint Story",
         "subtitle": "An International Collaboration for Understanding Changes in Arctic Sea Ice",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+        "image": "./data/story-images/SeaIce.jpeg",
+        "imagePlaceholder": "./data/story-images/SeaIce.jpeg"
       },
       "sea-ice-freeboard-thickness": {
         "originalDashboardId": "e45036dd512afea1",
         "title": "Cryo - ESA NASA 1",
         "subtitle": "Sea Ice Freeboard & Thickness from Satellite Altimetry",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+        "image": "./data/story-images/SeaIce.jpeg",
+        "imagePlaceholder": "./data/story-images/SeaIce.jpeg"
       },
       "cryo-jaxa": {
         "originalDashboardId": "e45036dd512afea1",
         "title": "Cryo - JAXA",
         "subtitle": "Cryo JAXA",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+        "image": "./data/story-images/SeaIce.jpeg",
+        "imagePlaceholder": "./data/story-images/SeaIce.jpeg"
       }
     },
     "economy": {},
     "oceans": {
       "ocean-joint": {
         "originalDashboardId": "6ea3293aade90541",
-        "title": "NASA-ESA-JAXA #1",
-        "subtitle": "Ocean - Joint story 1",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+        "title": "Plants and the climate",
+        "subtitle": "Satellite images reveal a view of the ocean as rich and complex as that of the land",
+        "image": "./data/story-images/Oceans.jpeg",
+        "imagePlaceholder": "./data/story-images/Oceans.jpeg"
       }
     }
   }
