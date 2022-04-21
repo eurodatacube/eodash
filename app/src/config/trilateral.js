@@ -466,13 +466,15 @@ export const layerNameMapping = Object.freeze({
   },
   NO2_Cairo: {
     baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-    layers: 'NO2_Cairo',
+    layers: 'NO2-TROPOMI-Cairo-Daily',
     maxMapZoom: 14,
+    legendUrl: 'https://legends.restecmap.com/images/NO2-TROPOMI-Cairo-Daily.png',
   },
   GOSAT_XCO2_JAXA: {
     baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-    layers: 'GOSAT_XCO2',
+    layers: 'XCO2-GOSAT-Cairo',
     maxMapZoom: 14,
+    legendUrl: 'https://legends.restecmap.com/images/XCO2-GOSAT-Cairo.png',
   },
   GOSAT_XCO2: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/GOSAT_XCO2_{time}_{site}_BG_circle_cog.tif&resampling_method=nearest',
