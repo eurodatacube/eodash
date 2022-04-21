@@ -1134,7 +1134,9 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          maxZoom: 13,
+          minMapZoom: 1,
+          maxZoom: 10,
+          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.xyz/mosaic/tiles/{searchid}/WebMercatorQuad/{z}/{x}/{y}@1x?assets=cog_default&rescale=-126905900761088.0%2C3673290589614899.0&colormap_name=reds',
           name: 'NO2 OMI Annual',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
@@ -1170,7 +1172,9 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          maxZoom: 13,
+          minMapZoom: 1,
+          maxZoom: 10,
+          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.xyz/mosaic/tiles/{searchid}/WebMercatorQuad/{z}/{x}/{y}@1x?assets=cog_default&rescale=0.0%2C1.0&colormap_name=viridis',
           name: 'SO2 OMI/Aura',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
@@ -1309,7 +1313,7 @@ export const globalIndicators = [
         showGlobe: true,
         display: [{
           name: 'Sea Ice Concentration',
-          // legendUrl: 'eodash-data/data/cmems-legend.png',
+          legendUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&LAYER=SIC_N&width=125&height=150&format=image/png',
           combinedLayers: [
             {
               baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',

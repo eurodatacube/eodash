@@ -1146,7 +1146,6 @@ export default {
       return actualLayers;
     },
     compareLayerTimeSelection(timeObj) {
-      console.log(this.indicator);
       if (this.indicator.display && this.indicator.display.mosaicIndicator) {
         this.generateMosaic(timeObj, 'compare');
       } else {
