@@ -243,22 +243,14 @@ export default {
       if (this.viewer) {
         const newDataLayers = [];
         this.dataLayers.forEach((layer, index) => {
-          console.log(layer);
           const lIndex = this.viewer.imageryLayers.indexOf(layer);
-          console.log(lIndex);
           // Remove and recreate layer to make sure new time is loaded
           this.viewer.imageryLayers.remove(layer, true);
           if ('combinedLayers' in this.mergedConfigsData[0]) {
-            if (lIndex !== -1) {
-              newDataLayers.push(this.viewer.imageryLayers.addImageryProvider(
-                this.createImageryProvider(this.mergedConfigsData[0].combinedLayers[index]),
-                lIndex,
-              ));
-            } else {
-              newDataLayers.push(this.viewer.imageryLayers.addImageryProvider(
-                this.createImageryProvider(this.mergedConfigsData[0].combinedLayers[index]),
-              ));
-            }
+            newDataLayers.push(this.viewer.imageryLayers.addImageryProvider(
+              this.createImageryProvider(this.mergedConfigsData[0].combinedLayers[index]),
+              lIndex,
+            ));
           } else {
             newDataLayers.push(this.viewer.imageryLayers.addImageryProvider(
               this.createImageryProvider(this.mergedConfigsData[0]), lIndex,
@@ -289,7 +281,8 @@ export default {
           case 'xyz':
             imagery = new Cesium.UrlTemplateImageryProvider({
               url: config.url.replace('{-y}', '{reverseY}'),
-              maximumLevel: 5,
+              minimumLevel: config.minZoom ? config.minZoom : 1,
+              maximumLevel: config.maxZoom ? config.maxZoom : 10,
               customTags: {
                 time: () => config.dateFormatFunction(this.dataLayerTime.value),
               },
@@ -299,6 +292,8 @@ export default {
             imagery = new Cesium.WebMapServiceImageryProvider({
               url: config.baseUrl,
               layers: config.layers,
+              minimumLevel: config.minZoom ? config.minZoom : 1,
+              maximumLevel: config.maxZoom ? config.maxZoom : 10,
               parameters: {
                 format: 'image/png',
                 transparent: 'true',
@@ -338,8 +333,9 @@ export default {
       this.dataLayers = [];
       if ('combinedLayers' in this.mergedConfigsData[0]) {
         this.mergedConfigsData[0].combinedLayers.forEach((l) => {
-          console.log(l);
-          this.dataLayers.push(this.createImageryProvider(l));
+          this.dataLayers.push(this.viewer.imageryLayers.addImageryProvider(
+            this.createImageryProvider(l),
+          ));
         });
       } else {
         this.dataLayers.push(this.viewer.imageryLayers.addImageryProvider(
