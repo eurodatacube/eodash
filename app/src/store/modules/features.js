@@ -1,9 +1,9 @@
 /* eslint no-shadow: ["error", { "allow": ["state", "getters"] }] */
-import WKT from 'ol/format/WKT';
+import { Wkt } from 'wicket';
 import { latLng } from 'leaflet';
 import countriesJson from '@/assets/countries.json';
 
-const format = new WKT();
+const format = new Wkt();
 
 let globalIdCounter = 0;
 const state = {
@@ -306,22 +306,24 @@ const actions = {
             Object.entries(pM).forEach(([key, value]) => {
               if (Object.prototype.hasOwnProperty.call(data[rr], value)) {
                 if (key === 'subAoi') {
-                  // dummy empty geometry
-                  let ftrs = [];
                   try {
                     // assuming sub-aoi does not change over time
                     if (!['', '/'].includes(data[rr][value])) {
-                      ftrs = [
-                        Object.freeze(format.readFeature(data[rr][value], {
-                          dataProjection: 'EPSG:4326',
-                          featureProjection: 'EPSG:3857',
-                        })),
-                      ];
+                      format.read(data[rr][value]);
+                      const jsonGeom = format.toJson();
+                      // create a feature collection
+                      featureObjs[uniqueKey][key] = Object.freeze({
+                        type: 'FeatureCollection',
+                        features: [{
+                          type: 'Feature',
+                          properties: {},
+                          geometry: jsonGeom,
+                        }],
+                      });
                     }
                   } catch (err) {
                     console.log(`Error parsing subAoi of locations for index ${rr}`);
                   }
-                  featureObjs[uniqueKey][key] = ftrs;
                 } else if (key === 'lastMeasurement') {
                   featureObjs[uniqueKey][key] = data[rr][value].length !== 0
                     ? Number(data[rr][value]) : NaN;

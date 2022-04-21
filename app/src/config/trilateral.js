@@ -660,10 +660,14 @@ export const baseLayersRightMap = [{
 }, baseLayers.cloudless];
 
 export const overlayLayersLeftMap = [{
-  ...overlayLayers.eoxOverlay, visible: true,
+  ...overlayLayers.eoxOverlay,
+  visible: true,
+  updateOpacityOnZoom: true,
 }];
 export const overlayLayersRightMap = [{
-  ...overlayLayers.eoxOverlay, visible: true,
+  ...overlayLayers.eoxOverlay,
+  visible: true,
+  updateOpacityOnZoom: true,
 }];
 
 const mapBoxHighResoSubst = [{
