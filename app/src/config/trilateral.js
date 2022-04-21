@@ -351,6 +351,10 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Sea Ice Concentration',
     class: 'water',
     themes: ['covid-19', 'oceans'],
+    baseLayers: [{
+      ...baseLayers.cloudless,
+      visible: true,
+    }, baseLayers.terrainLight],
     // story: '/data/trilateral/N8',
   },
   N11: {

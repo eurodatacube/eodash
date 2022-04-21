@@ -263,6 +263,7 @@ export default {
     createImageryProvider(config) {
       let imagery;
       if (!config) {
+        /*
         imagery = new Cesium.WebMapTileServiceImageryProvider({
           url: 'https://tiles.maps.eox.at/wmts/1.0.0/terrain-light/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg',
           layer: 'terrain-light',
@@ -274,6 +275,13 @@ export default {
             numberOfLevelZeroTilesX: 2, numberOfLevelZeroTilesY: 1,
           }),
           credit: new Cesium.Credit('{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }'),
+        });
+        */
+        imagery = new Cesium.UrlTemplateImageryProvider({
+          name: 'EOxCloudless 2020',
+          url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2020_3857/default/g/{z}/{y}/{x}.jpg',
+          credit: '{ EOxCloudless 2020: <a xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" target="_blank" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" target="_blank" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2020) }',
+          maximumLevel: 16,
         });
       } else {
         // TODO currently only necessary methods supported
@@ -308,8 +316,11 @@ export default {
       return imagery;
     },
     createGlobe() {
+      // TODO: Currently only one base layer can be used
+      // Find enabled baselayer
+      const baseLayerConf = this.baseLayers.filter((layer) => layer.visible);
       this.viewer = new Cesium.Viewer('cesiumContainer', {
-        imageryProvider: this.createImageryProvider(),
+        imageryProvider: this.createImageryProvider(baseLayerConf[0]),
         baseLayerPicker: false,
         fullscreenButton: false,
         geocoder: false,
