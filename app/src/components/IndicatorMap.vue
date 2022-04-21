@@ -676,6 +676,11 @@ export default {
             this.mergedConfigsData[0].usedTimes.time.length - 1
           ],
         }, 'data');
+      } else {
+        // We set this as layers wait for this property to be set to work with
+        // async mosaic id generation
+        this.dataSearchId = 'value';
+        this.compareSearchId = 'value';
       }
     }
 
@@ -1100,6 +1105,11 @@ export default {
       if (this.indicator.display.mosaicIndicator) {
         this.generateMosaic(timeObj, 'data');
       } else {
+        // We set this as layers wait for this property to be set to work with
+        // async mosaic id generation
+        this.dataSearchId = 'value';
+        this.compareSearchId = 'value';
+
         this.dataLayerTime = timeObj;
         const newIndex = this.availableTimeEntries
           .map((i) => i.value)
