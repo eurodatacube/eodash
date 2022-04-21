@@ -9,7 +9,7 @@
     >
       <!-- Loader -->
       <div
-        v-if="!loaded"
+        v-if="!loaded && dataLayerTime"
         class="fill-height d-flex align-center justify-center"
         style="width: 100%; position: absolute; z-index: 1;"
       >
@@ -147,7 +147,7 @@ export default {
     loaded: false,
     enableCompare: false,
     dataLayerTime: null,
-    dataLayer: null,
+    dataLayers: null,
     compareLayerTime: null,
     dataLayerIndex: 0,
     compareLayerIndex: 0,
@@ -241,13 +241,31 @@ export default {
   methods: {
     refreshLayers() {
       if (this.viewer) {
-        const index = this.viewer.imageryLayers.indexOf(this.dataLayer);
-        // Remove and recreate layer to make sure new time is loaded
-        this.viewer.imageryLayers.remove(this.dataLayer, true);
-        this.dataLayer = this.viewer.imageryLayers.addImageryProvider(
-          this.createImageryProvider(this.mergedConfigsData[0]), index,
-        );
-        // this.viewer.imageryLayers.add(this.dataLayer, index);
+        const newDataLayers = [];
+        this.dataLayers.forEach((layer, index) => {
+          console.log(layer);
+          const lIndex = this.viewer.imageryLayers.indexOf(layer);
+          console.log(lIndex);
+          // Remove and recreate layer to make sure new time is loaded
+          this.viewer.imageryLayers.remove(layer, true);
+          if ('combinedLayers' in this.mergedConfigsData[0]) {
+            if (lIndex !== -1) {
+              newDataLayers.push(this.viewer.imageryLayers.addImageryProvider(
+                this.createImageryProvider(this.mergedConfigsData[0].combinedLayers[index]),
+                lIndex,
+              ));
+            } else {
+              newDataLayers.push(this.viewer.imageryLayers.addImageryProvider(
+                this.createImageryProvider(this.mergedConfigsData[0].combinedLayers[index]),
+              ));
+            }
+          } else {
+            newDataLayers.push(this.viewer.imageryLayers.addImageryProvider(
+              this.createImageryProvider(this.mergedConfigsData[0]), lIndex,
+            ));
+          }
+        });
+        this.dataLayers = newDataLayers;
       }
     },
     createImageryProvider(config) {
@@ -317,10 +335,17 @@ export default {
           },
         },
       });
-      // TODO currently we only support one layer
-      this.dataLayer = this.viewer.imageryLayers.addImageryProvider(
-        this.createImageryProvider(this.mergedConfigsData[0]),
-      );
+      this.dataLayers = [];
+      if ('combinedLayers' in this.mergedConfigsData[0]) {
+        this.mergedConfigsData[0].combinedLayers.forEach((l) => {
+          console.log(l);
+          this.dataLayers.push(this.createImageryProvider(l));
+        });
+      } else {
+        this.dataLayers.push(this.viewer.imageryLayers.addImageryProvider(
+          this.createImageryProvider(this.mergedConfigsData[0]),
+        ));
+      }
       this.viewer.scene.backgroundColor = Cesium.Color.TRANSPARENT;
       this.viewer.scene.fog.enabled = false;
       this.viewer.scene.globe.showGroundAtmosphere = false;

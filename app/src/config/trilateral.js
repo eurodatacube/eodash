@@ -1299,6 +1299,7 @@ export const globalIndicators = [
         aoiID: 'World',
         time: getDailyDates('2002-06-21', '2021-12-31'),
         inputData: [''],
+        showGlobe: true,
         display: [{
           name: 'Sea Ice Concentration',
           // legendUrl: 'eodash-data/data/cmems-legend.png',
@@ -1308,12 +1309,14 @@ export const globalIndicators = [
               name: 'SIC South',
               layers: 'SIC_S',
               minZoom: 1,
+              protocol: 'WMS',
               dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
             }, {
               baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
               name: 'SIC North',
               layers: 'SIC_N',
               minZoom: 1,
+              protocol: 'WMS',
               dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
             },
           ],
