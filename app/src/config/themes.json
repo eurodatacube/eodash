@@ -2,50 +2,50 @@
   {
     "name": "Air Quality",
     "slug": "air-quality",
-    "color": "#a65200",
-    "description": "The Planet's Protective Blanket",
-    "longDescription": "It surrounds our planet, keeps us warm, gives us oxygen to breathe and is where the weather is made. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+    "color": "#4059AD",
+    "description": "Tracking what’s in the air we breathe",
+    "longDescription": "Air pollution is one of the biggest environmental challenges of our time."
   },
   {
     "name": "Agriculture",
     "slug": "agriculture",
-    "color": "#766100",
-    "description": "The Backbone of the Economic System",
-    "longDescription": "The cultivation of plants and cattle has been essential for human existence and development for many thousand years and brought many innovations. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+    "color": "#F4B942",
+    "description": "Growing Economic Systems",
+    "longDescription": ""
   },
   {
-    "name": "Biomass and Landcover",
+    "name": "Biomass",
     "slug": "biomass-and-landcover",
-    "color": "#1d7300",
-    "description": "The Green Lung of our Planet",
-    "longDescription": "Our planet is covered in a myriad of terrestrial and marine organisms which convert sunlight and carbon dioxide into glucose and oxygen. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+    "color": "#009E73",
+    "description": "Clearing the air",
+    "longDescription": ""
   },
   {
     "name": "Water and Ocean",
     "slug": "oceans",
-    "color": "#0064b3",
-    "description": "The Climate Kitchen",
-    "longDescription": "The place where, billions of years ago, life started making its own thing, creating an incredible diversity of animals within the massive water bodies on early Earth. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+    "color": "#6B9AC4",
+    "description": "Keeping current with Earth’s largest natural resource",
+    "longDescription": ""
   },
   {
     "name": "Cryosphere",
     "slug": "cryosphere",
-    "color": "#616161",
-    "description": "The Planet's Climate Control",
-    "longDescription": "Places so cold that groups of penguin have to hurdle into groups and stay in close proximity to keep themselves warm. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+    "color": "#99E1D9",
+    "description": "Tracking ice and snow’s relationship to climate",
+    "longDescription": ""
   },
   {
     "name": "Covid-19",
     "slug": "covid-19",
-    "color": "#616161",
+    "color": "#32322C",
     "description": "The COVID-19 pandemic",
-    "longDescription": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+    "longDescription": "Tracking the effects of the COVID-19 pandemic"
   },
   {
     "name": "Economy",
     "slug": "economy",
-    "color": "#616161",
+    "color": "#897dac",
     "description": "Economy",
-    "longDescription": " Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+    "longDescription": "Observing Earth's social and economic systems"
   }
 ]
