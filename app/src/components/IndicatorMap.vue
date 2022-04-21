@@ -2,6 +2,7 @@
   <div ref="container" style="height: 100%; width: 100%;">
     <DataMap
       ref="map"
+      v-if="mapDataReady"
       :mapId="mapId"
       style="height: 100%; width: 100%; background: #cad2d3; z-index: 1;"
       :options="defaultMapOptions"
@@ -174,6 +175,9 @@ export default {
     ]),
     mapId() {
       return this.$route.query.poi;
+    },
+    mapDataReady() {
+      return !!(this.indicator && this.indicator.dataLoadFinished);
     },
     countriesStyle() {
       return {

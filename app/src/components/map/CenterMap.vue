@@ -58,13 +58,6 @@ export default {
       opacityCountries: [1, 1, 1, 1, 0.7, 0.7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     };
   },
-  watch: {
-    getGroupedFeatures(value) {
-      if (value.length) {
-        this.initMap();
-      }
-    },
-  },
   computed: {
     ...mapGetters('features', ['getGroupedFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
@@ -77,41 +70,39 @@ export default {
     indicatorsDefinition: () => this.baseConfig.indicatorsDefinition,
   },
   mounted() {
+    const { map } = getMapInstance('centerMap');
+    const layers = this.baseLayers.map((l) => createLayerFromConfig(l, this));
+    layers.forEach((l) => {
+      map.addLayer(l);
+    });
+    const countriesConfig = {
+      name: 'Country vectors',
+      protocol: 'countries',
+      visible: true,
+    };
+
+    this.overlayConfigs.length = 0;
+    this.overlayConfigs.push(...[countriesConfig, ...this.baseConfig.overlayLayersLeftMap]);
+    const overlayLayers = this.overlayConfigs.map((l) => createLayerFromConfig(l, this));
+    overlayLayers.forEach((l) => {
+      map.addLayer(l);
+    });
+
+    const view = map.getView();
+    map.on('moveend', () => {
+      this.updateOverlayOpacity(overlayLayers, view);
+    });
+    this.updateOverlayOpacity(overlayLayers, view);
+
+    const cluster = new Cluster(map, this, this.getGroupedFeatures);
+    cluster.setActive(true, this.overlayCallback);
+    this.$watch('$store.state.indicators.selectedIndicator', () => {
+      cluster.reRender();
+    });
+    this.loaded = true;
     getMapInstance('centerMap').map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
   },
   methods: {
-    initMap() {
-      const { map } = getMapInstance('centerMap');
-      const layers = this.baseLayers.map((l) => createLayerFromConfig(l, this));
-      layers.forEach((l) => {
-        map.addLayer(l);
-      });
-      const countriesConfig = {
-        name: 'Country vectors',
-        protocol: 'countries',
-        visible: true,
-      };
-
-      this.overlayConfigs.length = 0;
-      this.overlayConfigs.push(...[countriesConfig, ...this.baseConfig.overlayLayersLeftMap]);
-      const overlayLayers = this.overlayConfigs.map((l) => createLayerFromConfig(l, this));
-      overlayLayers.forEach((l) => {
-        map.addLayer(l);
-      });
-
-      const view = map.getView();
-      map.on('moveend', () => {
-        this.updateOverlayOpacity(overlayLayers, view);
-      });
-      this.updateOverlayOpacity(overlayLayers, view);
-
-      const cluster = new Cluster(map, this, this.getGroupedFeatures);
-      cluster.setActive(true, this.overlayCallback);
-      this.$watch('$store.state.indicators.selectedIndicator', () => {
-        cluster.reRender();
-      });
-      this.loaded = true;
-    },
     updateOverlayOpacity(overlayLayers, view) {
       const zoom = Math.floor(view.getZoom());
       overlayLayers.forEach((l) => {
