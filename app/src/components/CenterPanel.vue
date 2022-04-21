@@ -203,7 +203,7 @@ export default {
       return countries;
     },
     mapDataReady() {
-      return !!(this.getGroupedFeatures && this.getGroupedFeatures.length);
+      return !!(this.getGroupedFeatures?.length && this.$store.state.config?.baseConfig);
     },
     globalIndicators() {
       return this.getGroupedFeatures && this.getGroupedFeatures

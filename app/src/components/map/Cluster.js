@@ -18,7 +18,6 @@ import { Feature, Overlay } from 'ol';
 import { fromLonLat } from 'ol/proj';
 import GeoJSON from 'ol/format/GeoJSON';
 import { getColor } from './olMapColors';
-import { indicatorClassesIcons } from '../../config/trilateral';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -74,39 +73,49 @@ const outerCircleTransparent = new CircleStyle({
 });
 
 let onStylesLoaded = [];
+let indicatorClassesStyles;
 
-const indicatorClassesStyles = Object.keys(indicatorClassesIcons).reduce((acc, key) => {
-  const image = new Image();
-  image.addEventListener('load', () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = image.width;
-    canvas.height = image.height;
-    const context = canvas.getContext('2d');
-    context.globalCompositeOperation = 'screen';
-    context.fillStyle = 'white';
-    context.fillRect(0, 0, image.width, image.height);
-    context.globalCompositeOperation = 'destination-in';
-    context.drawImage(image, 0, 0);
-    acc[key] = {
-      small: new Icon({
-        scale: 0.66,
-        img: canvas,
-        imgSize: [image.width, image.height],
-      }),
-      large: new Icon({
-        scale: 1,
-        img: canvas,
-        imgSize: [image.width, image.height],
-      }),
-    };
-    if (Object.keys(acc).length === Object.keys(indicatorClassesIcons).length) {
-      onStylesLoaded.forEach((cb) => cb());
-      onStylesLoaded = undefined;
-    }
-  });
-  image.src = `https://cdn.jsdelivr.net/npm/@mdi/svg@latest/svg/${indicatorClassesIcons[key].substr(4)}.svg`;
-  return acc;
-}, {});
+function loadImages() {
+  const { indicatorClassesIcons } = store.state.config.baseConfig;
+  indicatorClassesStyles = Object.keys(indicatorClassesIcons)
+    .reduce((acc, key) => {
+      const image = new Image();
+      acc[key] = {
+        small: null,
+        large: null,
+      };
+      image.addEventListener('load', () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = image.width;
+        canvas.height = image.height;
+        const context = canvas.getContext('2d');
+        context.globalCompositeOperation = 'screen';
+        context.fillStyle = 'white';
+        context.fillRect(0, 0, image.width, image.height);
+        context.globalCompositeOperation = 'destination-in';
+        context.drawImage(image, 0, 0);
+        acc[key] = {
+          small: new Icon({
+            scale: 0.66,
+            img: canvas,
+            imgSize: [image.width, image.height],
+          }),
+          large: new Icon({
+            scale: 1,
+            img: canvas,
+            imgSize: [image.width, image.height],
+          }),
+        };
+        if (onStylesLoaded && Object.keys(acc).length === Object.keys(indicatorClassesIcons)
+          .length) {
+          onStylesLoaded.forEach((cb) => cb());
+          onStylesLoaded = undefined;
+        }
+      });
+      image.src = `https://cdn.jsdelivr.net/npm/@mdi/svg@latest/svg/${indicatorClassesIcons[key].substr(4)}.svg`;
+      return acc;
+    }, {});
+}
 
 /**
  * From
@@ -229,6 +238,9 @@ export default class Cluster {
     this.map = map;
     this.vm = vm;
     this.indicators = indicators;
+    if (onStylesLoaded) {
+      loadImages();
+    }
     this.createIndicatorFeatureLayers();
     this.createInteractions();
   }
@@ -463,12 +475,11 @@ export default class Cluster {
     this.clusters = new VectorLayer({
       name: 'clusters',
       source: clusterSource,
-      // style: this.createClusterStyle(),
       style: this.clusterStyle.bind(this),
     });
     if (onStylesLoaded) {
       onStylesLoaded.push(() => {
-        clusters.changed();
+        this.clusters.changed();
       });
     }
 
@@ -491,6 +502,11 @@ export default class Cluster {
       source: clusterSource,
       style: clusterCircleStyle.bind(this),
     });
+    if (onStylesLoaded) {
+      onStylesLoaded.push(() => {
+        this.clusterCircles.changed();
+      });
+    }
   }
 
   /**
