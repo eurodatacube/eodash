@@ -1102,7 +1102,7 @@ export default {
       }
     },
     dataLayerTimeSelection(timeObj) {
-      if (this.indicator.display.mosaicIndicator) {
+      if (this.indicator.display && this.indicator.display.mosaicIndicator) {
         this.generateMosaic(timeObj, 'data');
       } else {
         // We set this as layers wait for this property to be set to work with
@@ -1146,7 +1146,8 @@ export default {
       return actualLayers;
     },
     compareLayerTimeSelection(timeObj) {
-      if (this.indicator.display.mosaicIndicator) {
+      console.log(this.indicator);
+      if (this.indicator.display && this.indicator.display.mosaicIndicator) {
         this.generateMosaic(timeObj, 'compare');
       } else {
         this.compareLayerTime = timeObj;
