@@ -332,7 +332,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Mobility',
     class: 'economic',
     disableTimeSelection: true,
-    countrySelection: true,
     story: '/eodash-data/stories/GG-GG',
     themes: ['covid-19', 'economy', 'air-quality'],
     disableCSV: true,
@@ -342,7 +341,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Covid cases',
     class: 'health',
     disableTimeSelection: true,
-    countrySelection: true,
     story: '/eodash-data/stories/CV-CV',
     themes: ['covid-19'],
     disableCSV: true,
@@ -352,7 +350,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Vaccinations',
     class: 'health',
     disableTimeSelection: true,
-    countrySelection: true,
     hideInFilters: true,
     story: '/eodash-data/stories/OW-OW',
     themes: ['covid-19'],
@@ -650,58 +647,6 @@ const getFortnightIntervalDates = (start, end) => {
 const wkt = new Wkt();
 
 export const globalIndicators = [
-  {
-    properties: {
-      indicatorObject: {
-        aoiID: 'CV',
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Covid19 Data',
-        indicatorName: '(select country to load data)',
-        indicator: 'CV',
-        lastIndicatorValue: null,
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        inputData: [''],
-        yAxis: 'aggregated covid cases',
-        time: ['TBD'],
-        display: {
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        aoiID: 'OW',
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Vaccination Data',
-        indicatorName: '(select country to load data)',
-        indicator: 'OW',
-        lastIndicatorValue: null,
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        inputData: [''],
-        yAxis: 'vaccination data',
-        time: ['TBD'],
-        display: {
-        },
-      },
-    },
-  },
   {
     properties: {
       indicatorObject: {
