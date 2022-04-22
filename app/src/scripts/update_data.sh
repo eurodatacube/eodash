@@ -21,3 +21,6 @@ docker run --user $defaultuserid --rm -it -v $PWD/../assets:/assets -v $PWD:/wor
 
 echo "Running retrieve_oilx_data script ..."
 docker run --user $defaultuserid --rm -it -v $PWD:/working -v $PWD/../../public:/public eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/retrieve_oilx_data.py
+
+echo "Re-generating capital selection data"
+docker run --user $defaultuserid --rm -it -v $PWD:/working -v $PWD/../assets:/assets -v $PWD/../../public:/public eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/create_capitals.py

@@ -336,6 +336,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/GG-GG',
     themes: ['covid-19', 'economy', 'air-quality'],
     disableCSV: true,
+    alternateDataPath: './eodash-data/internal/',
   },
   CV: {
     indicator: 'Covid cases',
@@ -344,6 +345,8 @@ export const indicatorsDefinition = Object.freeze({
     countrySelection: true,
     story: '/eodash-data/stories/CV-CV',
     themes: ['covid-19'],
+    disableCSV: true,
+    alternateDataPath: './eodash-data/internal/',
   },
   OW: {
     indicator: 'Vaccinations',
@@ -353,6 +356,8 @@ export const indicatorsDefinition = Object.freeze({
     hideInFilters: true,
     story: '/eodash-data/stories/OW-OW',
     themes: ['covid-19'],
+    disableCSV: true,
+    alternateDataPath: './eodash-data/internal/',
   },
   FB: {
     indicator: 'Facebook population density',

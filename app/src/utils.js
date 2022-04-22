@@ -65,7 +65,14 @@ export async function loadIndicatorData(baseConfig, payload) {
     indicatorObject = payload;
   } else {
     // Start loading of data from indicator
-    const url = `${baseConfig.dataPath}${[payload.aoiID, payload.indicator].join('-')}.json`;
+    let {dataPath} = baseConfig;
+    // Check if indicator uses another data path
+    const indDefs = baseConfig.indicatorsDefinition;
+    const currInd = payload.indicator;
+    if (currInd in indDefs && 'alternateDataPath' in indDefs[currInd]) {
+      dataPath = indDefs[currInd].alternateDataPath;
+    }
+    const url = `${dataPath}${[payload.aoiID, payload.indicator].join('-')}.json`;
     // Fetch location data
     const response = await axios.get(url, { credentials: 'same-origin' });
     if (response) {
