@@ -335,6 +335,7 @@ export const indicatorsDefinition = Object.freeze({
     countrySelection: true,
     story: '/eodash-data/stories/GG-GG',
     themes: ['covid-19', 'economy', 'air-quality'],
+    disableCSV: true,
   },
   CV: {
     indicator: 'Covid cases',
@@ -644,32 +645,6 @@ const getFortnightIntervalDates = (start, end) => {
 const wkt = new Wkt();
 
 export const globalIndicators = [
-  {
-    properties: {
-      indicatorObject: {
-        aoiID: 'GG',
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Mobility Data',
-        indicatorName: '(select country to load data)',
-        indicator: 'GG',
-        lastIndicatorValue: null,
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        inputData: [''],
-        yAxis: 'percent change from baseline',
-        time: ['TBD'],
-        display: {
-        },
-      },
-    },
-  },
   {
     properties: {
       indicatorObject: {
