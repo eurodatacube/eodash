@@ -12,11 +12,11 @@ with the same user id as your local account, e.g. "--user 1001"
 
 import os
 import os.path
-import csv
 import datetime
 import collections
 import json
-import requests
+import geojson
+from shapely.geometry import shape
 
 output_folder = "/public/eodash-data/internal/"
 indicators = [
@@ -57,12 +57,12 @@ with open(DATAFILE) as f, open(COUNTRIESFILE) as cf:
                     "country": f["properties"]["iso2"],
                     "indicator": indicator_code,
                     "siteName": "",
-                    "city": f["properties"]["city"],
+                    "city": f["properties"]["country"],
                     "region": "",
                     "description": description,
                     "indicatorName": "",
                     "yAxis": "[%]",
-                    "subAoi": "",
+                    "subAoi": "%s"%(shape(geojson.loads(json.dumps(iso_found["geometry"])))).wkt,
                     "updateFrequency": "weekly",
                 }
 
