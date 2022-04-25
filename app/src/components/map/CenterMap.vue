@@ -1,5 +1,6 @@
 <template>
   <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3; z-index: 1">
+    <SpecialLayer v-for="indicator in specialLayers" mapId="centerMap" :indicator="indicator" :key="indicator.indicatorName"/>
     <LayerControl
       v-if="loaded"
       mapId="centerMap"
@@ -22,31 +23,21 @@ import {
 import LayerControl from '@/components/map/LayerControl.vue';
 import { createLayerFromConfig } from '@/components/map/layers';
 import Cluster from '@/components/map/Cluster';
+import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import getMapInstance from '@/components/map/map';
 import { formatLabel } from '@/components/map/formatters';
-
 
 export default {
   components: {
     LayerControl,
+    SpecialLayer,
   },
   props: {},
   data() {
     return {
-      map: null,
       loaded: false,
       minMapZoom: 3,
       zoom: 3,
-      maxMapZoom: 14,
-      center: [55, 10],
-      bounds: null,
-      currentSelected: null,
-      currentSelectedIndex: null,
-      subAoi: null,
-      defaultMapOptions: {
-        attributionControl: false,
-        zoomControl: false,
-      },
       tooltip: {
         city: '',
         indicator: '',
@@ -63,6 +54,10 @@ export default {
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayers() {
       return this.baseConfig.baseLayersLeftMap;
+    },
+    specialLayers() {
+      return this.$store.state.indicators.selectedIndicator?.siteName === 'global'
+        ? [this.$store.state.indicators.selectedIndicator] : [];
     },
     countriesJson() {
       return countries;
