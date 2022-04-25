@@ -21,8 +21,8 @@ from shapely.geometry import shape
 output_folder = "/public/eodash-data/internal/"
 indicators = [
     ("GG", "Mobility Data"),
-    ("CV", "Covid19 Data"),
-    ("OW", "Vaccination Data")
+    ("CV", "Covid-19 cases"),
+    ("OW", "Covid-19 vaccinations")
 ]
 
 EU_COUNTRIES = [
@@ -100,10 +100,14 @@ with open(DATAFILE) as f, open(COUNTRIESFILE) as cf:
                 return obj.strftime('%Y-%m-%dT%H:%M:%S')
 
         for output_file in pois_files:
+            # We might need this separation in the future
+            '''
             if output_file.endswith("pois_eodash.json"):
                 output_dict = {key: {subkey: poi_dict[key][subkey] for subkey in outKeys} for key in poi_dict if poi_dict[key]["country"] in EU_COUNTRIES}
             else:
                 output_dict = {key: {subkey: poi_dict[key][subkey] for subkey in outKeys} for key in poi_dict}
+            '''
+            output_dict = {key: {subkey: poi_dict[key][subkey] for subkey in outKeys} for key in poi_dict}
             with open(output_file) as f:
                 json_data = json.load(f)
                 # retrieve previous data without current indicator

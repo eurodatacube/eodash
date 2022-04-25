@@ -338,7 +338,7 @@ export const indicatorsDefinition = Object.freeze({
     alternateDataPath: './eodash-data/internal/',
   },
   CV: {
-    indicator: 'Covid cases',
+    indicator: 'Covid-19 cases',
     class: 'health',
     disableTimeSelection: true,
     story: '/eodash-data/stories/CV-CV',
@@ -347,7 +347,7 @@ export const indicatorsDefinition = Object.freeze({
     alternateDataPath: './eodash-data/internal/',
   },
   OW: {
-    indicator: 'Vaccinations',
+    indicator: 'Covid-19 vaccinations',
     class: 'health',
     disableTimeSelection: true,
     hideInFilters: true,
