@@ -4,8 +4,8 @@
       mdi-layers
     </v-icon>
     <div v-else class="pa-2">
-        <v-radio-group v-model="selectedBaseLayer" class="mt-0" hide-details>
-          <v-radio v-for="l in baseLayers" :key="l.name" :label="l.name">
+        <v-radio-group v-model="selectedBaseLayer" class="mt-0" hide-details mandatory>
+          <v-radio v-for="(l, index) in baseLayers" :key="index" :label="l.name" :value="index">
             <template v-slot:label>
             <span class="label">{{l.name}}</span>
             </template>
@@ -73,7 +73,7 @@ export default {
     },
   },
   mounted() {
-    this.selectedBaseLayer = this.baseLayers.findIndex((l) => l.visible === true);
+    this.selectedBaseLayer = this.baseLayers.findIndex((l) => l.visible === true) || 0;
   },
   methods: {
     setVisible(value, layerConfig) {
