@@ -323,8 +323,9 @@ export default {
       }
       if (this.mergedConfigsData[0].presetView) {
         // pre-defined geojson view
-        const features = geoJsonFormat.readFeatures(this.mergedConfigsData[0].presetView);
-        return features[0].getExtent();
+        const presetViewGeom = geoJsonFormat.readGeometry(this.mergedConfigsData[0]
+          .presetView.features[0].geometry);
+        return presetViewGeom.getExtent();
       }
       if (this.aoi) {
         return transformExtent([this.aoi.lng, this.aoi.lat, this.aoi.lng, this.aoi.lat],
