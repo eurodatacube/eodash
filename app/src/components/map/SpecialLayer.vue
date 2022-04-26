@@ -1,7 +1,11 @@
 <script>
 import getMapInstance from '@/components/map/map';
 import { createLayerFromConfig } from '@/components/map/layers';
+import GeoJSON from 'ol/format/GeoJSON';
 
+const geoJsonFormat = new GeoJSON({
+  featureProjection: 'EPSG:3857',
+});
 /**
  * this component handles global indicators and will add and remove layers
  * and associated interactions on mount / destroy.
@@ -23,6 +27,12 @@ export default {
     const { map } = getMapInstance(this.mapId);
     const layer = createLayerFromConfig(this.indicator.display, 1);
     layer.set('name', this.indicator.indicatorName);
+    const { presetView } = this.indicator.display;
+    if (presetView?.features?.length) {
+      const presetGeom = geoJsonFormat.readGeometry(presetView.features[0].geometry);
+      map.getView().fit(presetGeom.getExtent());
+    }
+
     map.addLayer(layer);
   },
   methods: {},
