@@ -61,17 +61,7 @@ export default {
       });
     },
   },
-  computed: {
-    countriesStyle() {
-      return {
-        color: '#a2a2a2',
-        weight: 1,
-        fillColor: '#fff',
-        opacity: this.opacityCountries[this.zoom],
-        fillOpacity: this.opacityCountries[this.zoom],
-      };
-    },
-  },
+  computed: {},
   mounted() {
     this.selectedBaseLayer = this.baseLayers.findIndex((l) => l.visible === true) || 0;
   },
