@@ -2,6 +2,12 @@
 import getMapInstance from '@/components/map/map';
 import { createLayerFromConfig } from '@/components/map/layers';
 
+/**
+ * this component handles global indicators and will add and remove layers
+ * and associated interactions on mount / destroy.
+ * the view of the associated map will be updated if the given indicator
+ * demands such behavior (e.g. if a preset view is set)
+ */
 export default {
   components: {},
   props: {
