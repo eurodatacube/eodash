@@ -833,7 +833,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W2',
-        time: getMonthlyDates('2004-10-01', '2022-01-01'),
+        time: getMonthlyDates('2004-10-01', '2022-03-01'),
         inputData: [''],
         yAxis: 'NO2 [µmol/m²]',
         display: {
@@ -855,7 +855,7 @@ export const globalIndicators = [
             },
             requestBody: {
               datasetId: 'no2',
-              dateRange: ['202001', '202101'],
+              dateRange: ['202001', '202801'],
               geojson: '{geojson}',
             },
             callbackFunction: (responseJson, indicator) => {
@@ -869,10 +869,12 @@ export const globalIndicators = [
                   referenceValue: [],
                 };
                 data.forEach((row) => {
-                  newData.time.push(DateTime.fromFormat(row.date, 'yyyyMM'));
-                  newData.colorCode.push('');
-                  newData.measurement.push(row.mean / 1e14);
-                  newData.referenceValue.push(`[${row.median / 1e14}, null, null, null]`);
+                  if (!('error' in row)) {
+                    newData.time.push(DateTime.fromFormat(row.date, 'yyyyMM'));
+                    newData.colorCode.push('');
+                    newData.measurement.push(row.mean / 1e14);
+                    newData.referenceValue.push(`[${row.median / 1e14}, null, null, null]`);
+                  }
                 });
                 ind = {
                   ...indicator,
@@ -928,7 +930,7 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         aoi: null,
         aoiID: 'W3',
-        time: getMonthlyDates('2015-01-01', '2022-01-01'),
+        time: getMonthlyDates('2015-01-01', '2022-03-01'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1658,7 +1660,7 @@ export const globalIndicators = [
           ['2021-05-05'], ['2021-05-12'], ['2021-05-19'], ['2021-05-26'], ['2021-06-02'], ['2021-06-09'], ['2021-06-16'], ['2021-06-23'], ['2021-06-30'], ['2021-07-07'], ['2021-07-14'],
           ['2021-07-21'], ['2021-07-28'], ['2021-08-04'], ['2021-08-11'], ['2021-08-18'], ['2021-08-25'], ['2021-09-01'], ['2021-10-06'], ['2021-10-13'], ['2021-10-20'], ['2021-10-27'],
           ['2021-11-03'], ['2021-11-10'], ['2021-11-17'], ['2021-11-24'], ['2021-12-01'], ['2021-12-08'], ['2021-12-15'], ['2021-12-22'], ['2021-12-29'], ['2022-01-05'], ['2022-01-12'],
-          ['2022-01-19'], ['2022-01-26'], ['2022-02-06'], ['2022-02-09']],
+          ['2022-01-19'], ['2022-01-26'], ['2022-02-02'], ['2022-02-09'], ['2022-02-16'], ['2022-02-23'], ['2022-03-02'], ['2022-03-09'], ['2022-03-16']],
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1777,7 +1779,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2022-02-09').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2022-03-16').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -2254,7 +2256,7 @@ export const globalIndicators = [
           ['2021-03-10'], ['2021-03-17'], ['2021-03-24'], ['2021-03-31'], ['2021-04-07'], ['2021-04-14'], ['2021-04-21'], ['2021-04-28'], ['2021-05-05'], ['2021-05-12'], ['2021-05-19'], ['2021-05-26'], ['2021-06-02'], ['2021-06-09'],
           ['2021-06-16'], ['2021-06-23'], ['2021-06-30'], ['2021-07-07'], ['2021-07-14'], ['2021-07-21'], ['2021-07-28'], ['2021-08-04'], ['2021-08-11'], ['2021-08-18'], ['2021-08-25'], ['2021-09-01'], ['2021-10-06'], ['2021-10-13'],
           ['2021-10-20'], ['2021-10-27'], ['2021-11-03'], ['2021-11-10'], ['2021-11-17'], ['2021-11-24'], ['2021-12-01'], ['2021-12-08'], ['2021-12-15'], ['2021-12-22'], ['2021-12-29'], ['2022-01-05'], ['2022-01-12'], ['2022-01-19'],
-          ['2022-01-26'], ['2022-02-06'], ['2022-02-09']],
+          ['2022-01-26'], ['2022-02-02'], ['2022-02-09'], ['2022-02-16'], ['2022-02-23'], ['2022-03-02'], ['2022-03-09'], ['2022-03-16']],
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -2294,7 +2296,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-74.167359 40.171796,-74.167359 41.533901,-70.971225 41.533901,-70.971225 40.171796,-74.167359 40.171796))').toJson(),
           }],
         },
-        time: getWeeklyDates('2020-01-01', '2022-02-09').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
+        time: getWeeklyDates('2020-01-01', '2022-03-16').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -2326,7 +2328,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W6',
-        time: getMonthlyDates('2020-01-28', '2022-01-28'),
+        time: getMonthlyDates('2020-01-28', '2022-03-28'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -3513,7 +3515,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           maxNativeZoom: 5,
           minZoom: 0,
-          opacity: 0.6,
+          opacity: 1.0,
           tileSize: 256,
           name: 'Tropospheric CO',
           // url: '//obs.eu-de.otc.t-systems.com/s5p-pal-l3-external/maps/{time}/{z}/{x}/{-y}.png',

@@ -196,8 +196,10 @@
         </template>
       </div>
     </v-dialog>
-    <v-content style="height: 100vh; height: calc(var(--vh, 1vh) * 100); overflow:hidden"
-      :style="$vuetify.breakpoint.mdAndUp && 'width: 60%;'"
+    <v-content
+      :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
+        + $vuetify.application.footer}px); overflow:hidden; ${$vuetify.breakpoint.mdAndUp
+        && 'width: 60%;'}`"
     >
       <v-container
         class="fill-height pa-0"

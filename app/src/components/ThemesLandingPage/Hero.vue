@@ -7,7 +7,7 @@
     </div>
     <div class="hero-section d-flex flex-column justify-center align-center px-3">
       <h2 class="mb-5 white--text" :class="$vuetify.breakpoint.xsOnly ? 'text-h4' : 'text-h2'" >
-        Earth Observation And You
+        Earth Observing Dashboard
       </h2>
       <!--<h5 class="text-h5 mb-10 white--text">A Tri-Agency Dashboard by NASA, ESA, JAXA</h5>-->
       <h5 class="text-h5 mb-5 white--text">
@@ -18,10 +18,7 @@
         />
       </h5>
       <p class="white--text pa-0" style="font-size: 18px;">
-        International collaboration among space agencies is central to
-        the success of satellite Earth observations and data analysis.
-        These partnerships foster more comprehensive measurements,
-        robust datasets, and cost-effective missions.
+        Global change observed by NASA, ESA, and JAXA
       </p>
     </div>
   </div>
