@@ -48,11 +48,15 @@ MIGRATED_COLLECTIONS = [
     "VIS_WIND_U_10M",
     "VIS_WIND_V_10M",
     "VIS_SO2_DAILY_DATA",
-    "BICEP_NPP_VIS_PP"
+    "BICEP_NPP_VIS_PP",
+    "VIS_ENVISAT_SEAICETHICKNESS",
+    "VIS_CRYOSAT_SEAICETHICKNESS",
 ]
 
 ZARRCOLLECTIONS = [
     "BICEP_NPP_VIS_PP",
+    "VIS_ENVISAT_SEAICETHICKNESS",
+    "VIS_CRYOSAT_SEAICETHICKNESS",
 ]
 
 # Some datasets have different dates for different areas so we need to separate
@@ -182,7 +186,7 @@ with open(date_data_file, "w") as fp:
     json.dump(results_dict, fp, indent=4, sort_keys=True)
 
 ###############################################################################
-
+'''
 delete_files = False
 
 geoDB_map = {
@@ -559,3 +563,4 @@ generateData(
         ['E200', ''],
     ]
 )
+'''

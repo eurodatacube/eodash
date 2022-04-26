@@ -368,6 +368,18 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['covid-19', 'air-quality'],
   },
+  SIE: {
+    indicator: 'SIE',
+    class: 'water',
+    themes: ['oceans'],
+    showGlobe: true,
+  },
+  SIC: {
+    indicator: 'SIC',
+    class: 'water',
+    themes: ['oceans'],
+    showGlobe: true,
+  },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
     themes: ['air-quality', 'agriculture', 'biomass-and-landcover', 'economy', 'oceans', 'cryosphere', 'covid-19'],
@@ -1098,7 +1110,89 @@ export const globalIndicators = [
           customAreaIndicator: true,
           areaIndicator: {
             ...shFisAreaIndicatorStdConfig,
-            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=PPA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            url: ``,
+          },
+          */
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'W8',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'VIS_ENVISAT_SEAICETHICKNESS',
+        indicator: 'SIE',
+        lastIndicatorValue: null,
+        indicatorName: 'VIS_ENVISAT_SEAICETHICKNESS',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        time: availableDates.VIS_ENVISAT_SEAICETHICKNESS,
+        inputData: [],
+        yAxis: 'VIS_ENVISAT_SEAICETHICKNESS',
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'VIS_ENVISAT_SEAICETHICKNESS',
+          layers: 'VIS_ENVISAT_SEAICETHICKNESS',
+          // legendUrl: 'eodash-data/data/colorbarso2.svg',
+          minZoom: 2,
+          maxZoom: 13,
+          minMapZoom: 2,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          /*
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...shFisAreaIndicatorStdConfig,
+            url: ``,
+          },
+          */
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'W9',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'VIS_CRYOSAT_SEAICETHICKNESS',
+        indicator: 'SIC',
+        lastIndicatorValue: null,
+        indicatorName: 'TROPOMI VIS_CRYOSAT_SEAICETHICKNESS',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        time: availableDates.VIS_CRYOSAT_SEAICETHICKNESS,
+        inputData: [],
+        yAxis: 'VIS_CRYOSAT_SEAICETHICKNESS',
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'VIS_CRYOSAT_SEAICETHICKNESS',
+          layers: 'VIS_CRYOSAT_SEAICETHICKNESS',
+          // legendUrl: 'eodash-data/data/colorbarso2.svg',
+          minZoom: 2,
+          maxZoom: 13,
+          minMapZoom: 2,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          /*
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...shFisAreaIndicatorStdConfig,
+            url: ``,
           },
           */
         },
