@@ -1,6 +1,7 @@
 <template>
   <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3; z-index: 1">
-    <SpecialLayer v-for="indicator in specialLayers" mapId="centerMap" :indicator="indicator" :key="indicator.indicatorName"/>
+    <SpecialLayer v-for="indicator in specialLayers" mapId="centerMap"
+    :indicator="indicator" :key="indicator.indicatorName"/>
     <LayerControl
       v-if="loaded"
       mapId="centerMap"
@@ -66,7 +67,7 @@ export default {
   },
   mounted() {
     const { map } = getMapInstance('centerMap');
-    const layers = this.baseLayers.map((l) => createLayerFromConfig(l, this));
+    const layers = this.baseLayers.map((l) => createLayerFromConfig(l));
     layers.forEach((l) => {
       map.addLayer(l);
     });
@@ -78,7 +79,7 @@ export default {
 
     this.overlayConfigs.length = 0;
     this.overlayConfigs.push(...[countriesConfig, ...this.baseConfig.overlayLayersLeftMap]);
-    const overlayLayers = this.overlayConfigs.map((l) => createLayerFromConfig(l, this));
+    const overlayLayers = this.overlayConfigs.map((l) => createLayerFromConfig(l, 1));
     overlayLayers.forEach((l) => {
       map.addLayer(l);
     });

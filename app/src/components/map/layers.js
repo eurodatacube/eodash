@@ -13,7 +13,6 @@ const countriesSource = new VectorSource({
   features: geoJsonFormat.readFeatures(countries),
 });
 
-
 /**
  * generate a layer from a given config Object
  * @param {Object} config eodash config object
@@ -23,15 +22,16 @@ const countriesSource = new VectorSource({
  * @param {string} config.style.fillColor fill color
  * @param {number} config.style.weight stroke weight
  * @param {string} config.style.color stroke color
- * @param {*} vm vue instance
+ * @param {number} [zIndex=0] optional zIndex, defaults to 0
  * @returns {*} returns ol layer
  */
 // eslint-disable-next-line import/prefer-default-export
-export function createLayerFromConfig(config) {
+export function createLayerFromConfig(config, zIndex = 0) {
   if (config.protocol === 'countries') {
     return new VectorLayer({
       name: 'Country vectors',
       source: countriesSource,
+      zIndex,
       style: new Style({
         fill: new Fill({
           color: '#fff',
@@ -47,6 +47,7 @@ export function createLayerFromConfig(config) {
     return new VectorLayer({
       name: config.name,
       visible: config.visible,
+      zIndex,
       updateOpacityOnZoom: false,
       source: new VectorSource({
         features: geoJsonFormat.readFeatures(config.data),
@@ -75,6 +76,7 @@ export function createLayerFromConfig(config) {
     name: config.name,
     visible: config.visible,
     maxZoom: config.maxNativeZoom || config.maxZoom,
+    zIndex,
     source,
   });
 }
