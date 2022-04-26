@@ -171,7 +171,6 @@ function getClusterMemberForCoordinate(map, openClusterFeature, coordinate) {
   return { feature: members[index], coords: coords[index] };
 }
 
-
 /**
  * Style for clusters with features that are too close to each other, activated on click.
  * @param {Feature} cluster A cluster with overlapping members.
@@ -212,7 +211,6 @@ function clusterCircleStyle(cluster, resolution) {
     return styles;
   }, []);
 }
-
 
 /**
  * returns true if given ol indicator feature is currently selected
@@ -474,6 +472,7 @@ export default class Cluster {
     // Layer displaying the clusters and individual features.
     this.clusters = new VectorLayer({
       name: 'clusters',
+      zIndex: 10,
       source: clusterSource,
       style: this.clusterStyle.bind(this),
     });
@@ -492,6 +491,7 @@ export default class Cluster {
     // Layer displaying the convex hull of the hovered cluster.
     this.clusterHulls = new VectorLayer({
       name: 'clusterHulls',
+      zIndex: 9,
       source: clusterSource,
       style: this.clusterHullStyle.bind(this),
     });
@@ -499,6 +499,7 @@ export default class Cluster {
     // Layer displaying the expanded view of overlapping cluster members.
     this.clusterCircles = new VectorLayer({
       name: 'clusterCircles',
+      zIndex: 11,
       source: clusterSource,
       style: clusterCircleStyle.bind(this),
     });

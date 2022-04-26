@@ -25,7 +25,7 @@ export default {
   computed: {},
   mounted() {
     const { map } = getMapInstance(this.mapId);
-    const layer = createLayerFromConfig(this.indicator.display, 1);
+    const layer = createLayerFromConfig(this.indicator.display, 2);
     layer.set('name', this.indicator.indicatorName);
     const { presetView } = this.indicator.display;
     if (presetView?.features?.length) {
