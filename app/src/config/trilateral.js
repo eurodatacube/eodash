@@ -400,11 +400,7 @@ export const layerNameMapping = Object.freeze({
     layers: 'NEW_PLANETSCOPE_COVID-19',
   },
   '[NEW] Pleiades': {
-    baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES',
-  },
-  'Pleiades - COVID19': {
-    layers: 'NEW_PLEIADES_COVID19',
   },
   '[NEW] Pleiades COVID-19': {
     layers: 'NEW_PLEIADES_COVID19',
@@ -416,7 +412,6 @@ export const layerNameMapping = Object.freeze({
     layers: 'NEW_PLEIADES_28_COVID19',
   },
   '[NEW] Pleiades 16bit': {
-    baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_16BIT',
   },
   'Sentinel 2 L2A': {
@@ -441,7 +436,6 @@ export const layerNameMapping = Object.freeze({
     layers: 'E8_SENTINEL1',
   },
   'ALOS-2': {
-    baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'JAXA_CARS_CONTAINERS_ALOS2',
   },
   GOSAT_XCO2: {
@@ -765,14 +759,14 @@ export const globalIndicators = [
         yAxis: 'Tropospheric NO2 (μmol/m2)',
         display: {
           customAreaIndicator: true,
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Air Quality (NO2) - ESA',
           layers: 'NO2-VISUALISATION',
           legendUrl: 'eodash-data/data/no2Legend.png',
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           areaIndicator: {
-            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
             callbackFunction: (requestJson, indicator) => {
               if (Array.isArray(requestJson.C0)) {
                 const data = requestJson.C0;
