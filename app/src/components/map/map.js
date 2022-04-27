@@ -10,7 +10,6 @@ import 'ol/ol.css';
 import './olControls.css';
 import LoadingIndicatorControl from './loadingIndicatorControl';
 
-
 class VueMap {
   constructor(id, options) {
     this.controls = [
