@@ -5,9 +5,10 @@
     </v-icon>
     <div v-else class="pa-2">
         <v-radio-group v-model="selectedBaseLayer" class="mt-0" hide-details mandatory>
-          <v-radio v-for="(l, index) in baseLayers" :key="index" :label="l.name" :value="index">
+          <v-radio v-for="(c, index) in baseLayerConfigs"
+            :key="index" :label="c.name" :value="index">
             <template v-slot:label>
-            <span class="label">{{l.name}}</span>
+            <span class="label">{{c.name}}</span>
             </template>
           </v-radio>
         </v-radio-group>
@@ -26,19 +27,25 @@
 <script>
 import 'ol/ol.css';
 import getMapInstance from '@/components/map/map';
+import { createLayerFromConfig } from '@/components/map/layers';
 
+/**
+ * a component that will handle base and overlay layers and displays
+ * them in an interactive layer control
+ */
 export default {
   components: {},
   props: {
     mapId: String,
-    baseLayers: Array,
+    baseLayerConfigs: Array,
     overlayConfigs: Array,
   },
   data() {
     return {
       show: false,
       selectedBaseLayer: null,
-      selectedOverlayerLayers: null,
+      opacityOverlay: [0, 0, 0, 0, 0, 0, 0.4, 0.4, 0.8, 0.8, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
+      opacityCountries: [1, 1, 1, 1, 0.7, 0.7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     };
   },
   watch: {
@@ -51,7 +58,7 @@ export default {
     },
     selectedBaseLayer(selectedIndex) {
       const olLayers = getMapInstance(this.mapId).map.getLayers().getArray();
-      this.baseLayers.forEach((l, i) => {
+      this.baseLayerConfigs.forEach((l, i) => {
         const layer = olLayers.find((olLayer) => olLayer.get('name') === l.name);
         if (i === selectedIndex) {
           layer.setVisible(true);
@@ -63,7 +70,18 @@ export default {
   },
   computed: {},
   mounted() {
-    this.selectedBaseLayer = this.baseLayers.findIndex((l) => l.visible === true) || 0;
+    const { map } = getMapInstance(this.mapId);
+    const baseLayers = this.baseLayerConfigs.map((l) => createLayerFromConfig(l));
+    baseLayers.forEach((l) => {
+      map.addLayer(l);
+    });
+    const overlayLayers = this.overlayConfigs.map((l) => createLayerFromConfig(l, 1));
+    overlayLayers.forEach((l) => {
+      map.addLayer(l);
+    });
+    map.on('moveend', this.updateOverlayOpacity);
+    map.dispatchEvent({ type: 'moveend' });
+    this.selectedBaseLayer = this.baseLayerConfigs.findIndex((l) => l.visible === true) || 0;
   },
   methods: {
     setVisible(value, layerConfig) {
@@ -71,6 +89,29 @@ export default {
       const layer = olLayers.find((l) => l.get('name') === layerConfig.name);
       layer.setVisible(value);
     },
+    updateOverlayOpacity(e) {
+      const map = e.target;
+      const view = map.getView();
+      const zoom = Math.floor(view.getZoom());
+      const layers = map.getLayers().getArray();
+      this.overlayConfigs.forEach((c) => {
+        const layer = layers.find((l) => l.get('name') === c.name);
+        if (layer.get('name') === 'Country vectors') {
+          layer.setOpacity(this.opacityCountries[zoom]);
+        } else {
+          layer.setOpacity(this.opacityOverlay[zoom]);
+        }
+      });
+    },
+  },
+  beforeDestroy() {
+    const { map } = getMapInstance(this.mapId);
+    const layers = map.getLayers().getArray();
+    [...this.baseLayerConfigs, ...this.overlayConfigs].forEach((config) => {
+      const layer = layers.find((l) => l.get('name') === config.name);
+      map.removeLayer(layer);
+    });
+    map.un('moveend', this.updateOverlayOpacity);
   },
 };
 </script>

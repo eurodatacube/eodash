@@ -1,11 +1,12 @@
 <template>
   <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3; z-index: 1">
-    <SpecialLayer v-for="indicator in specialLayers" mapId="centerMap"
+    <SpecialLayer v-for="indicator in specialLayersConfigs" mapId="centerMap"
     :indicator="indicator" :key="indicator.indicatorName"/>
     <LayerControl
       v-if="loaded"
       mapId="centerMap"
-      :baseLayers="baseLayers"
+      :key="layerControlKey"
+      :baseLayerConfigs="baseLayerConfigs"
       :overlayConfigs="overlayConfigs"
     />
     <div id="centerMapOverlay" class="tooltip v-card v-sheet text-center pa-2">
@@ -22,7 +23,6 @@ import {
   mapState,
 } from 'vuex';
 import LayerControl from '@/components/map/LayerControl.vue';
-import { createLayerFromConfig } from '@/components/map/layers';
 import Cluster from '@/components/map/Cluster';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import getMapInstance from '@/components/map/map';
@@ -46,19 +46,28 @@ export default {
       },
       overlayConfigs: [],
       opacityTerrain: [1],
-      opacityOverlay: [0, 0, 0, 0, 0, 0, 0.4, 0.4, 0.8, 0.8, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
-      opacityCountries: [1, 1, 1, 1, 0.7, 0.7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     };
   },
   computed: {
     ...mapGetters('features', ['getGroupedFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
-    baseLayers() {
+    baseLayerConfigs() {
       return this.baseConfig.baseLayersLeftMap;
     },
-    specialLayers() {
+    specialLayersConfigs() {
       return this.$store.state.indicators.selectedIndicator?.siteName === 'global'
         ? [this.$store.state.indicators.selectedIndicator] : [];
+    },
+    layerControlKey() {
+      // this key changes only when the layers of the center map changes
+      // otherwise, there will be unneeded flickering
+      if (!this.$store.state.indicators.selectedIndicator
+      || this.$store.state.indicators.selectedIndicator?.siteName !== 'global') {
+        return '';
+      }
+      // changing keys for global indicators, as these affect the layers
+      // of the center map
+      return this.$store.state.indicators.selectedIndicator.indicator;
     },
     countriesJson() {
       return countries;
@@ -67,29 +76,13 @@ export default {
   },
   mounted() {
     const { map } = getMapInstance('centerMap');
-    const layers = this.baseLayers.map((l) => createLayerFromConfig(l));
-    layers.forEach((l) => {
-      map.addLayer(l);
-    });
     const countriesConfig = {
       name: 'Country vectors',
       protocol: 'countries',
       visible: true,
     };
-
     this.overlayConfigs.length = 0;
     this.overlayConfigs.push(...[countriesConfig, ...this.baseConfig.overlayLayersLeftMap]);
-    const overlayLayers = this.overlayConfigs.map((l) => createLayerFromConfig(l, 1));
-    overlayLayers.forEach((l) => {
-      map.addLayer(l);
-    });
-
-    const view = map.getView();
-    map.on('moveend', () => {
-      this.updateOverlayOpacity(overlayLayers, view);
-    });
-    this.updateOverlayOpacity(overlayLayers, view);
-
     const cluster = new Cluster(map, this, this.getGroupedFeatures);
     cluster.setActive(true, this.overlayCallback);
     this.$watch('$store.state.indicators.selectedIndicator', () => {
@@ -99,16 +92,6 @@ export default {
     getMapInstance('centerMap').map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
   },
   methods: {
-    updateOverlayOpacity(overlayLayers, view) {
-      const zoom = Math.floor(view.getZoom());
-      overlayLayers.forEach((l) => {
-        if (l.get('name') === 'Country vectors') {
-          l.setOpacity(this.opacityCountries[zoom]);
-        } else {
-          l.setOpacity(this.opacityOverlay[zoom]);
-        }
-      });
-    },
     overlayCallback(indicatorObject) {
       this.tooltip = formatLabel(indicatorObject, this);
     },
