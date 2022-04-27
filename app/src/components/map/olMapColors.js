@@ -1,4 +1,3 @@
-
 // eslint-disable-next-line import/prefer-default-export
 export function getColor(indObj, vm) {
   let color;

@@ -1,4 +1,3 @@
-
 // eslint-disable-next-line import/prefer-default-export
 export function formatLabel(indicatorObject, vm) {
   let label = '(coming soon)';

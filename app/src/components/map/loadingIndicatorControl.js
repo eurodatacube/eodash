@@ -1,6 +1,4 @@
-
 import { Control } from 'ol/control';
-
 
 export default class loadingIndicatorControl extends Control {
   /**
