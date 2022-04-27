@@ -52,11 +52,17 @@ export default {
     ...mapGetters('features', ['getGroupedFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
+      if (this.isGlobalIndicator) {
+        return this.baseConfig.indicatorsDefinition[this.$store
+          .state.indicators.selectedIndicator.indicator].baseLayers;
+      }
       return this.baseConfig.baseLayersLeftMap;
     },
+    isGlobalIndicator() {
+      return this.$store.state.indicators.selectedIndicator?.siteName === 'global';
+    },
     specialLayersConfigs() {
-      return this.$store.state.indicators.selectedIndicator?.siteName === 'global'
-        ? [this.$store.state.indicators.selectedIndicator] : [];
+      return this.isGlobalIndicator ? [this.$store.state.indicators.selectedIndicator] : [];
     },
     layerControlKey() {
       // this key changes only when the layers of the center map changes
