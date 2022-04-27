@@ -4,9 +4,9 @@
     class="fill-height scrollContainer"
     :class="$vuetify.breakpoint.smAndAbove
       ? 'pa-10 pt-5'
-      : 'pa-5'"
+      : (storyModeEnabled ? 'pa-0' : 'pa-5')"
       :style="`margin-top: ${$vuetify.application.top}px;
-        height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px);
+        height: calc((var(--vh, 1vh) * 100);
         overflow-y: ${storyModeEnabled ? 'hidden' : 'auto'}; overflow-x: hidden`"
     id="scroll-target"
   >
@@ -32,11 +32,11 @@
     </template>
     <template v-else>
       <v-row
-        class="d-flex my-0 mt-n5"
+        class="d-flex my-0"
         id="headerRow"
+        :class="storyModeEnabled ? 'pa-5' : ''"
         :style="`position: relative; ${storyModeEnabled
-          ? `height: calc((var(--vh, 1vh) * 100) - ${$vuetify.application.top
-            + $vuetify.application.footer}px)`
+          ? `height: calc(var(--vh, 1vh) * 100)`
             : ''}`"
       >
         <v-img
@@ -438,46 +438,60 @@
           </div>
         </v-col>
       </v-row>
-      <v-divider v-if="$vuetify.breakpoint.smAndDown" class="my-10"></v-divider>
+      <v-divider
+        v-if="$vuetify.breakpoint.smAndDown && !storyModeEnabled"
+        class="my-10"
+      ></v-divider>
       <custom-dashboard-grid
         ref="customDashboardGrid"
         v-if="$store.state.features.allFeatures.length > 0"
         :enableEditing="!!(newDashboard || hasEditingPrivilege)"
-        :popupOpen="popupOpen || newTextFeatureDialog"
+        :popupOpen="popupOpen || !!newFeatureDialog"
         :storyMode="storyModeEnabled"
         :localFeatures="localDashboardFeatures"
         :dashboardMeta="{ title: dashboardTitle }"
-        :themeColor="getCurrentTheme ? getCurrentTheme.color : 'primary'"
+        :themeColor="getCurrentTheme ? getCurrentTheme.color : undefined"
+        :image-flag="imageFlag"
         @updateTextFeature="openTextFeatureUpdate"
         @change="savingChanges = true"
         @save="savingChanges = false"
         @scrollTo="pageScroll"
       />
+      <v-row class="my-5">
+        <v-col cols="12" class="text-center">
+          <v-btn
+              color="primary"
+              x-large
+              v-if="newDashboard || hasEditingPrivilege"
+              @click="newFeatureDialog = 'text'"
+              :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : 'mr-4'"
+              :block="$vuetify.breakpoint.xsOnly"
+            >
+              <v-icon left> mdi-text-box-plus </v-icon>
+              Add text block
+          </v-btn>
+          <v-btn
+              color="primary"
+              x-large
+              v-if="newDashboard || hasEditingPrivilege"
+              @click="newFeatureDialog = 'image'"
+              :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : 'mr-4'"
+              :block="$vuetify.breakpoint.xsOnly"
+            >
+              <v-icon left>mdi-image-plus </v-icon>
+              Add image block
+          </v-btn>
+        </v-col>
+      </v-row>
       <v-dialog
-        v-model="newTextFeatureDialog"
+        :value="newFeatureDialog"
         width="500"
       >
-        <template v-slot:activator="{ on }">
-          <v-row class="my-5">
-            <v-col cols="12" class="text-center">
-              <v-btn
-                  color="primary"
-                  x-large
-                  v-on="on"
-                  v-if="newDashboard || hasEditingPrivilege"
-                  :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : 'mr-4'"
-                  :block="$vuetify.breakpoint.xsOnly"
-                >
-                  <v-icon left> mdi-text-box-plus </v-icon>
-                  <span>Add text block</span>
-              </v-btn>
-            </v-col>
-          </v-row>
-        </template>
-
         <v-card>
           <v-card-title class="headline primary--text mb-5">
-            {{ !textFeatureUpdate ? 'Add text block' : 'Update text block' }}
+            {{ !textFeatureUpdate
+              ? `Add ${newFeatureDialog} block`
+              : `Update ${newFeatureDialog} block` }}
           </v-card-title>
 
           <v-card-text>
@@ -493,21 +507,30 @@
               <v-text-field
                 outlined
                 label="Title"
-                :autofocus="!textFeatureUpdate ? true : false"
+                :autofocus="!!textFeatureUpdate"
                 v-model="newTextFeatureTitle"
                 :rules="requiredRule"
                 validate-on-blur
                 v-if="!textFeatureUpdate"
               ></v-text-field>
+              <v-text-field
+                v-if="newFeatureDialog === 'image'"
+                outlined
+                label="Image URL"
+                :autofocus="!!textFeatureUpdate"
+                v-model="newTextFeatureImageUrl"
+                :rules="requiredRule"
+                validate-on-blur
+              ></v-text-field>
 
               <v-textarea
                 outlined
-                label="Text"
+                :label="newFeatureDialog === 'text' ? 'Text' : 'Image description'"
                 :auto-grow="true"
-                :autofocus="textFeatureUpdate"
+                :autofocus="!!textFeatureUpdate"
                 :messages="markdownMessage"
                 v-model="newTextFeatureText"
-                :rules="requiredRule"
+                :rules="newFeatureDialog === 'text' ? requiredRule : []"
                 validate-on-blur
                 class="mt-5"
               >
@@ -523,7 +546,7 @@
             <v-btn
               color="primary"
               text
-              @click="() => (newTextFeatureDialog = false, textFeatureUpdate = '')"
+              @click="() => (newFeatureDialog = false, textFeatureUpdate = '')"
             >
               cancel
             </v-btn>
@@ -578,8 +601,9 @@ export default {
     GlobalFooter,
   },
   data: () => ({
-    newTextFeatureDialog: false,
+    newFeatureDialog: false,
     newTextFeatureTitle: '',
+    newTextFeatureImageUrl: '',
     newTextFeatureText: '',
     textFeatureUpdate: '',
 
@@ -650,6 +674,7 @@ export default {
     localDashboardFeatures: null,
     localDashboardId: null,
     scrollOverlay: false,
+    imageFlag: '<--IMG-->',
   }),
   computed: {
     ...mapState('config', [
@@ -733,7 +758,6 @@ export default {
       }
       if (
         !editKey
-        && this.appConfig.enableStories
         && existingConfiguration
       ) {
         // replace with local custom dashboard
@@ -881,7 +905,9 @@ export default {
           {
             poi: `${this.newTextFeatureTitle}-${Date.now()}`,
             title: this.newTextFeatureTitle,
-            text: this.newTextFeatureText,
+            text: `${this.newFeatureDialog === 'image'
+              ? `${this.imageFlag}${this.newTextFeatureImageUrl}${this.imageFlag}`
+              : ''}${this.newTextFeatureText}`,
             width: 4,
           },
         );
@@ -895,7 +921,9 @@ export default {
           'changeFeatureText',
           {
             poi: this.textFeatureUpdate,
-            text: this.newTextFeatureText,
+            text: `${this.newFeatureDialog === 'image'
+              ? `${this.imageFlag}${this.newTextFeatureImageUrl}${this.imageFlag}`
+              : ''}${this.newTextFeatureText}`,
           },
         );
       }
@@ -903,15 +931,28 @@ export default {
       this.resetTextFeature();
     },
     resetTextFeature() {
-      this.newTextFeatureDialog = false;
+      this.newFeatureDialog = false;
       this.newTextFeatureTitle = '';
+      this.newTextFeatureImageUrl = '';
       this.newTextFeatureText = '';
       this.textFeatureUpdate = '';
       this.$refs.textForm.resetValidation();
     },
     openTextFeatureUpdate(el) {
       this.newTextFeatureText = el.text;
-      this.newTextFeatureDialog = true;
+      if (el.text.includes(this.imageFlag)) {
+        this.newFeatureDialog = 'image';
+        this.newTextFeatureImageUrl = el.text.substring(
+          el.text.indexOf(this.imageFlag) + this.imageFlag.length,
+          el.text.lastIndexOf(this.imageFlag),
+        );
+        this.newTextFeatureText = el.text.substring(
+          el.text.lastIndexOf(this.imageFlag) + +this.imageFlag.length,
+        );
+      } else {
+        this.newFeatureDialog = 'text';
+        this.newTextFeatureText = el.text;
+      }
       this.textFeatureUpdate = el.poi;
     },
     copyViewingLink() {
@@ -942,7 +983,7 @@ export default {
     scrollToStart() {
       this.pageScroll({
         target: this.$refs.customDashboardGrid,
-        offset: -56,
+        offset: -1 * this.$vuetify.application.top,
       });
     },
     pageScroll({ target, offset = 0 }) {

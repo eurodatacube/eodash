@@ -1,90 +1,93 @@
 {
   "trilateral": {
     "agriculture": {
-      "a-fourth-official-story-demo": {
-        "originalDashboardId": "d069a45701e3a0e3",
-        "title": "Impact of COVID-19 on winter cereals growth and harvest",
-        "subtitle": "Another Subtitle",
-        "image": "https://picsum.photos/id/107/900/600",
-        "imagePlaceholder": "https://picsum.photos/10/6?image=13"
+      "joint-story": {
+        "originalDashboardId": "4b40596e305997ac",
+        "title": "Agriculture Story",
+        "subtitle": "Satellite data applications for environmental impacts on world crop (cereal) supply and demand",
+        "image": "./data/story-images/Agriculture.jpeg",
+        "imagePlaceholder": "./data/story-images/Agriculture.jpeg"
+      },
+      "crops-consume-cairos-carbon-dioxide": {
+        "originalDashboardId": "fe9c083d830b9f90",
+        "title": "Crops Consume Cairo’s Carbon Dioxide",
+        "subtitle": "Urban Monitoring of Atmospheric CO2 Change affected by Human and Ecosystem Activities",
+        "image": "./data/story-images/Egypt-Cairo.jpeg",
+        "imagePlaceholder": "./data/story-images/Egypt-Cairo.jpeg"
+      },
+      "nile-delta": {
+        "originalDashboardId": "c37008b5978bf73e",
+        "title": "AQ - JAXA Story 2",
+        "subtitle": "Nile Delta",
+        "image": "./data/story-images/Egypt-Cairo.jpeg",
+        "imagePlaceholder": "./data/story-images/Egypt-Cairo.jpeg"
       }
     },
     "air-quality": {
-      "a-fifth-official-story-demo": {
-        "originalDashboardId": "90179989b23d5f75",
-        "title": "Carbon emissions reduced by 37% during COVID-19 pandemic",
-        "subtitle": "Another Subtitle",
-        "image": "https://picsum.photos/id/1064/900/600",
-        "imagePlaceholder": "https://picsum.photos/id/1064/900/600"
-      },
-      "official-cov-story-demo": {
-        "originalDashboardId": "90179989b23d5f75",
-        "title": "Cities Experience Clearer Air During Lockdowns",
-        "subtitle": "See how the COVID-19 pandemic actually helped reduce air pollution in metropolitan areas.",
-        "image": "https://picsum.photos/id/141/900/600",
-        "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg"
-      },
-      "another-official-story-demo": {
-        "originalDashboardId": "c4df3549d0a02fed",
-        "title": "Recent Illegal Emissions of CFC-11 Destroy Our Ozone Layer",
-        "subtitle": "Rapid action is needed to prevent chlorofluorocarbons from eating away our ozone.",
-        "image": "https://picsum.photos/id/203/900/600",
+      "joint-intro": {
+        "originalDashboardId": "2b11a69e94e47a4a",
+        "title": "NASA, ESA and JAXA, Working Together to Monitor our Atmosphere",
+        "subtitle": "Traffic, wildfires, and power plants all emit air pollutants and greenhouse gases as a product of combustion",
+        "image": "./data/story-images/sentinel-5P.jpg",
         "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
       },
-      "air-quality-story-demo": {
-        "originalDashboardId": "b551d84c73fc049d",
-        "title": "ESA Air Quality Demo Story 1",
-        "subtitle": "This demo story shows information about Air Quality in Australia",
+      "monitoring-air-pollution-from-space": {
+        "originalDashboardId": "afea38efc80e9846",
+        "title": "Monitoring from Space how Air Pollution affects Climate Change",
+        "subtitle": "TROPOMI measurements reveal 700 million metric tons of CO2 released from bushfires in just 3 months",
         "image": "./data/story-images/sentinel-5P.jpg",
         "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
       }
     },
     "biomass-and-landcover": {
-      "a-third-official-story-demo": {
-        "originalDashboardId": "d069a45701e3a0e3",
-        "title": "Increased Vegetation around the Chernobyl Plant",
-        "subtitle": "Wildlife is flourishing in the abandoned area in spite of still highly radioactive soil",
-        "image": "https://picsum.photos/1000/800?image=18",
-        "imagePlaceholder": " /10/6?image=12"
+      "biomass-harmonization-activity": {
+        "originalDashboardId": "a785d7a3c536a452",
+        "title": "Biomass - Joint Story",
+        "subtitle": "The Biomass Harmonization Activity",
+        "image": "./data/story-images/Biomass.jpeg",
+        "imagePlaceholder": "./data/story-images/Biomass.jpeg"
+      }
+    },
+    "covid-19": {
+      "covid-19": {
+        "originalDashboardId": "7851179da7755498",
+        "title": "Covid-19",
+        "subtitle": "Covid-19 Impacts",
+        "image": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg",
+        "imagePlaceholder": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg"
       }
     },
     "cryosphere": {
-      "another-official-story-demo": {
-        "originalDashboardId": "c4df3549d0a02fed",
-        "title": "Sentinel-5P",
-        "subtitle": "Created by EOX to test the story feature",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+      "changes-in-arctic-sea-ice": {
+        "originalDashboardId": "92bc845659abfed6",
+        "title": "Cryosphere - Joint Story",
+        "subtitle": "An International Collaboration for Understanding Changes in Arctic Sea Ice",
+        "image": "./data/story-images/SeaIce.jpeg",
+        "imagePlaceholder": "./data/story-images/SeaIce.jpeg"
       },
-      "yet-another-official-story-demo": {
-        "originalDashboardId": "c4df3549d0a02fed",
-        "title": "Penguins Cuddle Even More Than Previously Thought",
-        "subtitle": "Aerial photography finds the feathery creatures packed into balls",
-        "image": "./data/story-images/penguins.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+      "sea-ice-freeboard-thickness": {
+        "originalDashboardId": "e45036dd512afea1",
+        "title": "Cryo - ESA NASA 1",
+        "subtitle": "Sea Ice Freeboard & Thickness from Satellite Altimetry",
+        "image": "./data/story-images/SeaIce.jpeg",
+        "imagePlaceholder": "./data/story-images/SeaIce.jpeg"
+      },
+      "cryo-jaxa": {
+        "originalDashboardId": "e45036dd512afea1",
+        "title": "Cryo - JAXA",
+        "subtitle": "Cryo JAXA",
+        "image": "./data/story-images/SeaIce.jpeg",
+        "imagePlaceholder": "./data/story-images/SeaIce.jpeg"
       }
     },
-    "water-and-ocean": {
-      "official-story-demo": {
-        "originalDashboardId": "d069a45701e3a0e3",
-        "title": "Danube Delta, Romania (demo of official story)",
-        "subtitle": "Created by EOX to test the story feature",
-        "image": "./data/story-images/Danube_Delta.jpg",
-        "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg"
-      },
-      "official-story-demo2": {
-        "originalDashboardId": "d069a45701e3a0e3",
-        "title": "Foreign  Sea Creatures Found in the Pacific Ocean",
-        "subtitle": "Biologists are actively researching a newly discovered species",
-        "image": "https://picsum.photos/id/1002/800/600",
-        "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg"
-      },
-      "official-story-demo3": {
-        "originalDashboardId": "d069a45701e3a0e3",
-        "title": "Coral Reefs around Australia Getting Increasingly Smaller",
-        "subtitle": "Scientists suggest an alien lifeform may be to blame",
-        "image": "https://picsum.photos/id/124/3504/2336",
-        "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg"
+    "economy": {},
+    "oceans": {
+      "ocean-joint": {
+        "originalDashboardId": "6ea3293aade90541",
+        "title": "Plants and the climate",
+        "subtitle": "Satellite images reveal a view of the ocean as rich and complex as that of the land",
+        "image": "./data/story-images/Oceans.jpeg",
+        "imagePlaceholder": "./data/story-images/Oceans.jpeg"
       }
     }
   }
