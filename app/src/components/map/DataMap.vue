@@ -3,7 +3,7 @@
     <LayerControl
       v-if="loaded"
       :mapId="mapId"
-      :baseLayers="baseLayers"
+      :baseLayerConfigs="baseLayerConfigs"
       :overlayConfigs="overlayConfigs"
     />
   </div>
@@ -15,11 +15,9 @@ import {
   mapState,
 } from 'vuex';
 import LayerControl from '@/components/map/LayerControl.vue';
-import { createLayerFromConfig } from '@/components/map/layers';
 import getMapInstance from '@/components/map/map';
 import { formatLabel } from '@/components/map/formatters';
 import LayerGroup from 'ol/layer/Group';
-
 
 export default {
   components: {
@@ -34,7 +32,7 @@ export default {
      */
     options: Object,
     overlayConfigs: Array,
-    baseLayers: Array,
+    baseLayerConfigs: Array,
     mapId: String,
     zoomExtent: Array,
     constrainExtent: Array,
@@ -84,24 +82,9 @@ export default {
   },
   methods: {
     initMap() {
-      const { map } = getMapInstance(this.mapId, {
+      getMapInstance(this.mapId, {
         constrainExtent: this.constrainExtent,
       });
-      const layers = this.baseLayers.map((l) => createLayerFromConfig(l, this));
-      layers.forEach((l) => {
-        map.addLayer(l);
-      });
-
-      const overlayLayers = this.overlayConfigs.map((l) => createLayerFromConfig(l, this));
-      overlayLayers.forEach((l) => {
-        map.addLayer(l);
-      });
-
-      const view = map.getView();
-      map.on('moveend', () => {
-        this.updateOverlayOpacity(overlayLayers, view);
-      });
-      this.updateOverlayOpacity(overlayLayers, view);
       this.loaded = true;
     },
     updateOverlayOpacity(overlayLayers, view) {

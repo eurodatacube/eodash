@@ -17,7 +17,7 @@
       :center="center"
       :zoom="zoom"
       :overlayConfigs="overlayLayers"
-      :baseLayers="baseLayers"
+      :baseLayerConfigs="baseLayers"
       @ready="onMapReady()"
     />
       <div
