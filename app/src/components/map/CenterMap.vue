@@ -44,7 +44,6 @@ export default {
         indicator: '',
         description: '',
       },
-      overlayConfigs: [],
       opacityTerrain: [1],
     };
   },
@@ -53,10 +52,23 @@ export default {
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
       if (this.isGlobalIndicator) {
+        // use their own base layers from config, if available
         return this.baseConfig.indicatorsDefinition[this.$store
-          .state.indicators.selectedIndicator.indicator].baseLayers;
+          .state.indicators.selectedIndicator.indicator].baseLayers
+          || this.baseConfig.baseLayersLeftMap;
       }
       return this.baseConfig.baseLayersLeftMap;
+    },
+    overlayConfigs() {
+      const configs = [...this.baseConfig.overlayLayersLeftMap];
+      if (!this.isGlobalIndicator) {
+        configs.push({
+          name: 'Country vectors',
+          protocol: 'countries',
+          visible: true,
+        });
+      }
+      return configs;
     },
     isGlobalIndicator() {
       return this.$store.state.indicators.selectedIndicator?.siteName === 'global';
@@ -82,13 +94,6 @@ export default {
   },
   mounted() {
     const { map } = getMapInstance('centerMap');
-    const countriesConfig = {
-      name: 'Country vectors',
-      protocol: 'countries',
-      visible: true,
-    };
-    this.overlayConfigs.length = 0;
-    this.overlayConfigs.push(...[countriesConfig, ...this.baseConfig.overlayLayersLeftMap]);
     const cluster = new Cluster(map, this, this.getGroupedFeatures);
     cluster.setActive(true, this.overlayCallback);
     this.$watch('$store.state.indicators.selectedIndicator', () => {
