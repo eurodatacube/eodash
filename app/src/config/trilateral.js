@@ -28,6 +28,50 @@ export const dataEndpoints = [
   */
 ];
 
+export const statisticalApiHeaders = {
+  url: 'https://services.sentinel-hub.com/api/v1/statistics',
+  requestMethod: 'POST',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'https://eodashboard.org',
+  },
+};
+
+export const statisticalApiBody = (evalscript, type) => ({
+  requestBody: {
+    input: {
+      bounds: {
+        geometry: {
+          type: 'Polygon',
+          coordinates: '{area}',
+        },
+      },
+      data: [
+        {
+          dataFilter: {},
+          type: type ? type : 'byoc-972e67a7-2ca8-4bf6-964a-11fe772e3ac2',
+        },
+      ],
+    },
+
+    aggregation: {
+      timeRange: {
+        from: '2000-01-01T00:00:00Z',
+        to: '2050-01-01T00:00:00Z',
+      },
+      aggregationInterval: {
+        of: 'P1D',
+      },
+      resx: 0.0225,
+      resy: 0.0225,
+      evalscript,
+    },
+    calculations: {
+      default: {},
+    },
+  },
+});
+
 export const indicatorsDefinition = Object.freeze({
   E13c: {
     indicator: 'Changes in Ships traffic within the Port',
@@ -766,26 +810,105 @@ export const globalIndicators = [
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           areaIndicator: {
-            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            // Layer: NO2_RAW_DATA
+            // CRS:   CRS:84
+            // Time:  2000-01-01/2050-01-01
+            // Resolution: 2500m
+            url: 'https://services.sentinel-hub.com/api/v1/statistics',
+            requestMethod: 'POST',
+            requestHeaders: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': 'https://eodashboard.org',
+            },
+            requestBody: {
+              input: {
+                bounds: {
+                  geometry: {
+                    type: 'Polygon',
+                    coordinates: '{area}',
+                  },
+                },
+                data: [
+                  {
+                    dataFilter: {},
+                    type: 'byoc-972e67a7-2ca8-4bf6-964a-11fe772e3ac2',
+                  },
+                ],
+              },
+
+              aggregation: {
+                timeRange: {
+                  from: '2000-01-01T00:00:00Z',
+                  to: '2050-01-01T00:00:00Z',
+                },
+                aggregationInterval: {
+                  of: 'P1D',
+                },
+                resx: 0.0225,
+                resy: 0.0225,
+                evalscript: `
+                  //VERSION=3
+                  function setup() {
+                    return {
+                      input: [{
+                        bands: [
+                          "tropno2",
+                          "dataMask"
+                        ]
+                      }],
+                      output: [
+                        {
+                          id: "no2_raw",
+                          bands: 1,
+                          sampleType: "FLOAT32"
+                        },
+                        {
+                          id: "dataMask",
+                          bands: 1
+                        }
+                      ]
+                    }
+                  }
+
+                  function evaluatePixel(samples) {
+                    return {
+                      no2_raw:  [samples.tropno2],
+                      dataMask: [samples.dataMask]
+                    }
+                  }`,
+              },
+              calculations: {
+                default: {},
+              },
+            },
             callbackFunction: (requestJson, indicator) => {
-              if (Array.isArray(requestJson.C0)) {
-                const data = requestJson.C0;
+              if (requestJson.status === 'OK' && requestJson.data.length > 0) {
+                const { data } = requestJson;
                 const newData = {
                   time: [],
                   measurement: [],
                   referenceValue: [],
                   colorCode: [],
                 };
-                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
-                  ? 1
-                  : -1));
+                data.sort((a, b) => (
+                  (DateTime.fromISO(a.interval.from) > DateTime.fromISO(b.interval.from))
+                    ? 1
+                    : -1));
                 data.forEach((row) => {
-                  if (row.basicStats.max < 5000) {
-                    // leaving out falsely set nodata values disrupting the chart
-                    newData.time.push(DateTime.fromISO(row.date));
+                  const { stats } = row.outputs.no2_raw.bands.B0;
+
+                  // This check discards any statistical values from the Sentinel Hub
+                  // API that are higher than 5000 to avoid loading unrealistically high
+                  // values. For example, we'd be dealing with values in the range of
+                  // zillions of kilograms per square meter in the W1-N1 NO2 indicator,
+                  // which is just nuts.
+                  if (stats.max < 5000) {
+                    newData.time.push(DateTime.fromISO(row.interval.from));
                     newData.colorCode.push('');
-                    newData.measurement.push(row.basicStats.mean);
-                    newData.referenceValue.push(`[null, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
+                    newData.measurement.push(stats.mean);
+                    newData.referenceValue.push(
+                      `[null, ${stats.stDev}, ${stats.max}, ${stats.min}]`,
+                    );
                   }
                 });
                 const ind = {
@@ -1226,8 +1349,113 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           customAreaIndicator: true,
           areaIndicator: {
-            ...shFisAreaIndicatorStdConfig,
-            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_SO2_DAILY_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            // ...shFisAreaIndicatorStdConfig,
+            // url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_SO2_DAILY_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            url: 'https://services.sentinel-hub.com/api/v1/statistics',
+            requestMethod: 'POST',
+            requestHeaders: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': 'https://eodashboard.org',
+            },
+            requestBody: {
+              input: {
+                bounds: {
+                  geometry: {
+                    type: 'Polygon',
+                    coordinates: '{area}',
+                  },
+                },
+                data: [
+                  {
+                    dataFilter: {},
+                    type: 'sentinel-5p-l2',
+                  },
+                ],
+              },
+              aggregation: {
+                timeRange: {
+                  from: '2020-01-01T00:00:00Z',
+                  to: '2020-02-01T00:00:00Z',
+                },
+                aggregationInterval: {
+                  of: 'P1D',
+                },
+                resx: 0.0225,
+                resy: 0.0225,
+                evalscript: `
+                  //VERSION=3
+                  function setup() {
+                    return {
+                      input: [{
+                        bands: [
+                          "SO2",
+                          "dataMask"
+                        ]
+                      }],
+                      output: [
+                        {
+                          id: "so2_raw",
+                          bands: 1,
+                          sampleType: "FLOAT32"
+                        },
+                        {
+                          id: "dataMask",
+                          bands: 1
+                        }
+                      ]
+                    }
+                  }
+        
+                  function evaluatePixel(samples) {
+                    return {
+                      so2_raw:  [samples.SO2],
+                      dataMask: [samples.dataMask]
+                    }
+                  }`,
+              },
+              calculations: {
+                default: {},
+              },
+            },
+            callbackFunction: (requestJson, indicator) => {
+              if (requestJson.status === 'OK' && requestJson.data.length > 0) {
+                const { data } = requestJson;
+                const newData = {
+                  time: [],
+                  measurement: [],
+                  referenceValue: [],
+                  colorCode: [],
+                };
+                data.sort((a, b) => (
+                  (DateTime.fromISO(a.interval.from) > DateTime.fromISO(b.interval.from))
+                    ? 1
+                    : -1));
+                data.forEach((row) => {
+                  const { stats } = row.outputs.so2_raw.bands.B0;
+
+                  // This check discards any statistical values from the Sentinel Hub
+                  // API that are higher than 5000 to avoid loading unrealistically high
+                  // values. For example, we'd be dealing with values in the range of
+                  // zillions of kilograms per square meter in the W1-N1 NO2 indicator,
+                  // which is just nuts.
+                  if (stats.max < 5000) {
+                    newData.time.push(DateTime.fromISO(row.interval.from));
+                    newData.colorCode.push('');
+                    newData.measurement.push(stats.mean);
+                    newData.referenceValue.push(
+                      `[null, ${stats.stDev}, ${stats.max}, ${stats.min}]`,
+                    );
+                  }
+                });
+                const ind = {
+                  ...indicator,
+                  ...newData,
+                };
+                return ind;
+              }
+              return null;
+            },
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
         },
       },

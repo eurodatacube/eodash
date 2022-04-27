@@ -1201,6 +1201,7 @@ export default {
               this.map.fireEvent('dataload');
               return;
             }
+
             const options = this.layerOptions(usedTime, this.usedConfig(side)[0]);
             const custom = await fetchCustomAreaObjects(
               options,
