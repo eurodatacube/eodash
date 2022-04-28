@@ -1,6 +1,10 @@
+import { Wkt } from 'wicket';
 import { template } from '@/utils';
 import { DateTime } from 'luxon';
 import { load } from 'recaptcha-v3';
+
+
+const wkt = new Wkt();
 
 export const statisticalApiHeaders = {
   url: 'https://services.sentinel-hub.com/api/v1/statistics',
@@ -17,7 +21,7 @@ export const statisticalApiBody = (evalscript, type, timeinterval) => ({
       bounds: {
         geometry: {
           type: 'Polygon',
-          coordinates: '{area}',
+          coordinates: '{coordinates}',
         },
       },
       data: [
@@ -27,19 +31,18 @@ export const statisticalApiBody = (evalscript, type, timeinterval) => ({
         },
       ],
     },
-
     aggregation: {
       timeRange: {
-        from: '2000-01-01T00:00:00Z',
-        to: '2050-01-01T00:00:00Z',
+        from: '1900-01-01T00:00:00Z',
+        to: '2050-02-01T00:00:00Z',
       },
       aggregationInterval: {
         of: timeinterval || 'P1D',
       },
       // resx: 0.0225,
       // resy: 0.0225,
-      width: 700,
-      height: 1040,
+      width: 500,
+      height: 500,
       evalscript,
     },
     calculations: {
@@ -242,10 +245,14 @@ const fetchCustomAreaObjects = async (
   const templateRe = /\{ *([\w_ -]+) *\}/g;
   const url = template(templateRe, mergedConfig[lookup].url, templateSubst);
   let requestBody = null;
-  if (mergedConfig[lookup].requestBody) {
+  if (Object.prototype.hasOwnProperty.call(mergedConfig[lookup], 'requestBody')) {
     requestBody = {
       ...mergedConfig[lookup].requestBody,
     };
+    // Here we set the current bounds geometry values
+    if (requestBody.input.bounds) {
+      requestBody.input.bounds.geometry = drawnArea;
+    }
     const params = Object.keys(requestBody);
     for (let i = 0; i < params.length; i += 1) {
       // substitute template strings with values
@@ -281,6 +288,7 @@ const fetchCustomAreaObjects = async (
   const endPos = html.search('},') + 1;
   const message = JSON.parse(html.slice(startPos, endPos));
 
+  /*
   // If the Statistical-API-specific bounds structure happens
   // to exist, replace that right away so we always have bounds.
   if (requestBody.input.bounds.geometry.coordinates) {
@@ -301,18 +309,16 @@ const fetchCustomAreaObjects = async (
     latitudes = latitudes.filter((value, index, self) => self.indexOf(value) === index);
     longitudes = longitudes.filter((value, index, self) => self.indexOf(value) === index);
     // Calculate the appropriate resolution for the current bounding box.
-    /*
     requestBody.aggregation.resx = Math.abs(
       (Math.max(...longitudes) - Math.min(...longitudes)) / 100,
     );
     requestBody.aggregation.resy = Math.abs(
       (Math.max(...latitudes) - Math.min(...latitudes)) / 100,
     );
-    */
-
-    // Set the Authorization header using the Bearer token we generated using reCAPTCHA.
-    requestOpts.headers.Authorization = `Bearer ${message.access_token}`;
   }
+  */
+  // Set the Authorization header using the Bearer token we generated using reCAPTCHA.
+  requestOpts.headers.Authorization = `Bearer ${message.access_token}`;
 
   // this.map.fireEvent('dataloading');
   const customObjects = await fetch(url, requestOpts).then((response) => {
