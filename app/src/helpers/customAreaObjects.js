@@ -1,4 +1,5 @@
 import { template } from '@/utils';
+import { DateTime } from 'luxon';
 import { load } from 'recaptcha-v3';
 
 export const statisticalApiHeaders = {
@@ -10,7 +11,7 @@ export const statisticalApiHeaders = {
   },
 };
 
-export const statisticalApiBody = (evalscript, type) => ({
+export const statisticalApiBody = (evalscript, type, timeinterval) => ({
   requestBody: {
     input: {
       bounds: {
@@ -33,10 +34,12 @@ export const statisticalApiBody = (evalscript, type) => ({
         to: '2050-01-01T00:00:00Z',
       },
       aggregationInterval: {
-        of: 'P1D',
+        of: timeinterval || 'P1D',
       },
-      resx: 0.0225,
-      resy: 0.0225,
+      // resx: 0.0225,
+      // resy: 0.0225,
+      width: 700,
+      height: 1040,
       evalscript,
     },
     calculations: {
@@ -74,6 +77,44 @@ export const shFisAreaIndicatorStdConfig = Object.freeze({
   },
   areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
 });
+
+export const parseStatAPIResponse = (requestJson, indicator) => {
+  // We need to also accept partial responses as it seems some datasets
+  // have issues on sinergise side
+  if ((requestJson.status === 'OK' || requestJson.status === 'PARTIAL')
+      && requestJson.data.length > 0) {
+    const { data } = requestJson;
+    const newData = {
+      time: [],
+      measurement: [],
+      referenceValue: [],
+      colorCode: [],
+    };
+    console.log(data);
+    data.sort((a, b) => (
+      (DateTime.fromISO(a.interval.from) > DateTime.fromISO(b.interval.from))
+        ? 1
+        : -1));
+    data.forEach((row) => {
+      // Make sure to discard possible errors from sentinelhub
+      if (!Object.prototype.hasOwnProperty.call(row, 'error')) {
+        const { stats } = row.outputs.data.bands.B0;
+        newData.time.push(DateTime.fromISO(row.interval.from));
+        newData.colorCode.push('');
+        newData.measurement.push(stats.mean);
+        newData.referenceValue.push(
+          `[null, ${stats.stDev}, ${stats.max}, ${stats.min}]`,
+        );
+      }
+    });
+    const ind = {
+      ...indicator,
+      ...newData,
+    };
+    return ind;
+  }
+  return null;
+};
 
 export const evalScriptsDefinitions = Object.freeze({
   'AWS_NO2-VISUALISATION':
@@ -131,6 +172,35 @@ export const evalScriptsDefinitions = Object.freeze({
     function evaluatePixel(samples) {
       return {
         so2_raw:  [samples.SO2],
+        dataMask: [samples.dataMask]
+      }
+    }`,
+  BICEP_NPP_VIS_PP:
+    `//VERSION=3
+    function setup() {
+      return {
+        input: [{
+          bands: [
+            "pp",
+            "dataMask"
+          ]
+        }],
+        output: [
+          {
+            id: "data",
+            bands: 1,
+          },
+          {
+            id: "dataMask",
+            bands: 1
+          }
+        ]
+      }
+    }
+    function evaluatePixel(samples) {
+      let index = samples.pp;
+      return {
+        data: [index],
         dataMask: [samples.dataMask]
       }
     }`,
@@ -220,12 +290,14 @@ const fetchCustomAreaObjects = async (
     latitudes = latitudes.filter((value, index, self) => self.indexOf(value) === index);
     longitudes = longitudes.filter((value, index, self) => self.indexOf(value) === index);
     // Calculate the appropriate resolution for the current bounding box.
+    /*
     requestBody.aggregation.resx = Math.abs(
       (Math.max(...longitudes) - Math.min(...longitudes)) / 100,
     );
     requestBody.aggregation.resy = Math.abs(
       (Math.max(...latitudes) - Math.min(...latitudes)) / 100,
     );
+    */
 
     // Set the Authorization header using the Bearer token we generated using reCAPTCHA.
     requestOpts.headers.Authorization = `Bearer ${message.access_token}`;
