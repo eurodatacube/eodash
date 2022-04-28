@@ -1,6 +1,141 @@
 import { template } from '@/utils';
 import { load } from 'recaptcha-v3';
 
+export const statisticalApiHeaders = {
+  url: 'https://services.sentinel-hub.com/api/v1/statistics',
+  requestMethod: 'POST',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'https://eodashboard.org',
+  },
+};
+
+export const statisticalApiBody = (evalscript, type) => ({
+  requestBody: {
+    input: {
+      bounds: {
+        geometry: {
+          type: 'Polygon',
+          coordinates: '{area}',
+        },
+      },
+      data: [
+        {
+          dataFilter: {},
+          type,
+        },
+      ],
+    },
+
+    aggregation: {
+      timeRange: {
+        from: '2000-01-01T00:00:00Z',
+        to: '2050-01-01T00:00:00Z',
+      },
+      aggregationInterval: {
+        of: 'P1D',
+      },
+      resx: 0.0225,
+      resy: 0.0225,
+      evalscript,
+    },
+    calculations: {
+      default: {},
+    },
+  },
+});
+
+export const shFisAreaIndicatorStdConfig = Object.freeze({
+  callbackFunction: (responseJson, indicator) => {
+    if (Array.isArray(responseJson.C0)) {
+      const data = responseJson.C0;
+      const newData = {
+        time: [],
+        measurement: [],
+        referenceValue: [],
+        colorCode: [],
+      };
+      data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
+        ? 1
+        : -1));
+      data.forEach((row) => {
+        newData.time.push(DateTime.fromISO(row.date));
+        newData.colorCode.push('');
+        newData.measurement.push(row.basicStats.mean);
+        newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
+      });
+      const ind = {
+        ...indicator,
+        ...newData,
+      };
+      return ind;
+    }
+    return null;
+  },
+  areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+});
+
+export const evalScriptsDefinitions = Object.freeze({
+  'AWS_NO2-VISUALISATION':
+    `//VERSION=3
+    function setup() {
+      return {
+        input: [{
+          bands: [
+            "tropno2",
+            "dataMask"
+          ]
+        }],
+        output: [
+          {
+            id: "no2_raw",
+            bands: 1,
+            sampleType: "FLOAT32"
+          },
+          {
+            id: "dataMask",
+            bands: 1
+          }
+        ]
+      }
+    }
+    function evaluatePixel(samples) {
+      return {
+        no2_raw:  [samples.tropno2],
+        dataMask: [samples.dataMask]
+      }
+    }`,
+  AWS_VIS_SO2_DAILY_DATA:
+    `//VERSION=3
+    function setup() {
+      return {
+        input: [{
+          bands: [
+            "tropso2",
+            "dataMask"
+          ]
+        }],
+        output: [
+          {
+            id: "SO2",
+            bands: 1,
+            sampleType: "FLOAT32"
+          },
+          {
+            id: "dataMask",
+            bands: 1
+          }
+        ]
+      }
+    }
+    function evaluatePixel(samples) {
+      return {
+        so2_raw:  [samples.SO2],
+        dataMask: [samples.dataMask]
+      }
+    }`,
+});
+
 const fetchCustomAreaObjects = async (
   options,
   drawnArea,

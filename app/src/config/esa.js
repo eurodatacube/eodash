@@ -9,7 +9,12 @@ import { E13bRemovedFtrs } from '@/config/otherdata';
 import availableDates from '@/config/data_dates.json';
 import l3mapsData from '@/config/tropomiCO.json';
 
-import { statisticalApiHeaders, statisticalApiBody } from './trilateral';
+import {
+  statisticalApiHeaders,
+  statisticalApiBody,
+  evalScriptsDefinitions,
+  shFisAreaIndicatorStdConfig,
+} from '@/helpers/customAreaObjects';
 
 export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [
@@ -699,36 +704,6 @@ export const replaceMapTimes = {
 
 const wkt = new Wkt();
 
-export const shFisAreaIndicatorStdConfig = Object.freeze({
-  callbackFunction: (responseJson, indicator) => {
-    if (Array.isArray(responseJson.C0)) {
-      const data = responseJson.C0;
-      const newData = {
-        time: [],
-        measurement: [],
-        referenceValue: [],
-        colorCode: [],
-      };
-      data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
-        ? 1
-        : -1));
-      data.forEach((row) => {
-        newData.time.push(DateTime.fromISO(row.date));
-        newData.colorCode.push('');
-        newData.measurement.push(row.basicStats.mean);
-        newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
-      });
-      const ind = {
-        ...indicator,
-        ...newData,
-      };
-      return ind;
-    }
-    return null;
-  },
-  areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
-});
-
 
 export const globalIndicators = [
   {
@@ -869,35 +844,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              `//VERSION=3
-              function setup() {
-                return {
-                  input: [{
-                    bands: [
-                      "tropno2",
-                      "dataMask"
-                    ]
-                  }],
-                  output: [
-                    {
-                      id: "no2_raw",
-                      bands: 1,
-                      sampleType: "FLOAT32"
-                    },
-                    {
-                      id: "dataMask",
-                      bands: 1
-                    }
-                  ]
-                }
-              }
-
-              function evaluatePixel(samples) {
-                return {
-                  no2_raw:  [samples.tropno2],
-                  dataMask: [samples.dataMask]
-                }
-              }`,
+              evalScriptsDefinitions['AWS_NO2-VISUALISATION'],
+              shConfig['AWS_NO2-VISUALISATION'],
             ),
             callbackFunction: (requestJson, indicator) => {
               if (requestJson.status === 'OK' && requestJson.data.length > 0) {
@@ -1482,36 +1430,7 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              `//VERSION=3
-              function setup() {
-                return {
-                  input: [{
-                    bands: [
-                      "tropso2",
-                      "dataMask"
-                    ]
-                  }],
-                  output: [
-                    {
-                      id: "SO2",
-                      bands: 1,
-                      sampleType: "FLOAT32"
-                    },
-                    {
-                      id: "dataMask",
-                      bands: 1
-                    }
-                  ]
-                }
-              }
-
-              function evaluatePixel(samples) {
-                return {
-                  so2_raw:  [samples.SO2],
-                  dataMask: [samples.dataMask]
-                }
-              }`,
-
+              evalScriptsDefinitions.AWS_VIS_SO2_DAILY_DATA,
               'sentinel-5p-l2',
             ),
             callbackFunction: (requestJson, indicator) => {
