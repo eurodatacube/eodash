@@ -90,7 +90,6 @@ export const parseStatAPIResponse = (requestJson, indicator) => {
       referenceValue: [],
       colorCode: [],
     };
-    console.log(data);
     data.sort((a, b) => (
       (DateTime.fromISO(a.interval.from) > DateTime.fromISO(b.interval.from))
         ? 1
@@ -129,9 +128,8 @@ export const evalScriptsDefinitions = Object.freeze({
         }],
         output: [
           {
-            id: "no2_raw",
+            id: "data",
             bands: 1,
-            sampleType: "FLOAT32"
           },
           {
             id: "dataMask",
@@ -141,9 +139,14 @@ export const evalScriptsDefinitions = Object.freeze({
       }
     }
     function evaluatePixel(samples) {
+      let validValue = 1
+      if (samples.pp >= 1e20 ){
+          validValue = 0
+      }
+      let index = samples.tropno2;
       return {
-        no2_raw:  [samples.tropno2],
-        dataMask: [samples.dataMask]
+        data: [index],
+        dataMask: [samples.dataMask * validValue]
       }
     }`,
   AWS_VIS_SO2_DAILY_DATA:
@@ -158,9 +161,8 @@ export const evalScriptsDefinitions = Object.freeze({
         }],
         output: [
           {
-            id: "SO2",
+            id: "data",
             bands: 1,
-            sampleType: "FLOAT32"
           },
           {
             id: "dataMask",
@@ -170,9 +172,14 @@ export const evalScriptsDefinitions = Object.freeze({
       }
     }
     function evaluatePixel(samples) {
+      let validValue = 1
+      if (samples.pp >= 1e20 ){
+          validValue = 0
+      }
+      let index = samples.tropso2;
       return {
-        so2_raw:  [samples.SO2],
-        dataMask: [samples.dataMask]
+        data: [index],
+        dataMask: [samples.dataMask * validValue]
       }
     }`,
   BICEP_NPP_VIS_PP:
@@ -198,10 +205,14 @@ export const evalScriptsDefinitions = Object.freeze({
       }
     }
     function evaluatePixel(samples) {
+      let validValue = 1
+      if (samples.pp >= 1e20 ){
+          validValue = 0
+      }
       let index = samples.pp;
       return {
         data: [index],
-        dataMask: [samples.dataMask]
+        dataMask: [samples.dataMask * validValue]
       }
     }`,
 });
