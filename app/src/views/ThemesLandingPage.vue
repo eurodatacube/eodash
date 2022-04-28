@@ -19,9 +19,6 @@
 
           <div class="mt-16 mb-16 d-flex flex-column justify-start align-center">
             <stories-grid :items="oneOfEachTheme" />
-          </div>
-
-          <div class="mx-4 mx-md-8">
             <newsletter-banner />
           </div>
         </div>
