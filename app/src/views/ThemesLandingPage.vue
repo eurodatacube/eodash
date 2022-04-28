@@ -150,6 +150,7 @@ import GlobalHeader from '@/components/GlobalHeader.vue';
 import Hero from '@/components/ThemesLandingPage/Hero.vue';
 import ThemeNavigation from '@/components/ThemesLandingPage/ThemeNavigation.vue';
 import StoriesGrid from '@/components/ThemesLandingPage/StoriesGrid.vue';
+import NewsletterBanner from '@/components/ThemesLandingPage/NewsletterBanner.vue';
 
 export default {
   components: {
@@ -158,6 +159,7 @@ export default {
     Hero,
     ThemeNavigation,
     StoriesGrid,
+    NewsletterBanner,
   },
   metaInfo() {
     return {
