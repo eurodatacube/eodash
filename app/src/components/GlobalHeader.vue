@@ -107,6 +107,7 @@
       </v-btn>
 
         <v-badge
+          v-if="$store.state.dashboard.dashboardConfig"
           bordered
           color="info"
           :content="$store.state.dashboard.dashboardConfig
@@ -116,7 +117,6 @@
           overlap
         >
           <v-btn
-            v-if="$store.state.dashboard.dashboardConfig"
             block
             text
             color="primary"
