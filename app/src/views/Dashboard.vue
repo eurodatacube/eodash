@@ -10,6 +10,7 @@
       left
       app
       clipped
+      width="300px"
       style="overflow: hidden"
       class="drawerLeft"
       v-show="!isFullScreen"

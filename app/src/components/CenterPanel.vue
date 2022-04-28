@@ -24,7 +24,7 @@
       class="fill-height pb-7"
     >
       <v-tab-item class="fill-height">
-        <CenterMap ref="map" v-if="mapDataReady"/>
+        <CenterMap ref="map" v-if="mapDataReady" class=""fill-height"/>
         <v-expansion-panels accordion class="global-indicators-panel" v-model="panel">
           <v-expansion-panel>
             <v-expansion-panel-header class="panel-header">
@@ -179,127 +179,20 @@ import {
   mapState,
 } from 'vuex';
 
-import FeatureTable from '@/components/FeatureTable.vue';
 import CenterMap from '@/components/map/CenterMap.vue';
-
-import countries from '@/assets/countries.json';
 
 export default {
   components: {
-    FeatureTable,
     CenterMap,
-  },
-  data() {
-    return {
-      tab: null,
-      openGlobalPanel: false,
-      panel: this.$vuetify.breakpoint.xsOnly ? null : 0,
-    };
   },
   computed: {
     ...mapGetters('features', [
       'getGroupedFeatures',
-      'getIndicators',
     ]),
     ...mapState('config', ['baseConfig']),
-    countries() {
-      return countries;
-    },
     mapDataReady() {
-      return !!(this.getGroupedFeatures?.length && this.$store.state.config?.baseConfig);
-    },
-    globalIndicators() {
-      return this.getGroupedFeatures && this.getGroupedFeatures
-        .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName))
-        .sort((a, b) => ((a.properties.indicatorObject.indicatorName
-          > b.properties.indicatorObject.indicatorName)
-          ? 1
-          : -1));
-    },
-    someGlobalIndicator() {
-      return this.globalIndicators && this.globalIndicators
-        .filter((i) => this.$store.state.features.featureFilters.indicators
-          .includes(i.properties.indicatorObject.indicator));
-    },
-  },
-  methods: {
-    selectGlobal(feature) {
-      this.$store.commit(
-        'indicators/SET_SELECTED_INDICATOR',
-        this.$store.state.features.allFeatures
-          .find((f) => f.properties
-            .indicatorObject.indicator === feature.properties.indicatorObject.indicator
-          && f.properties
-            .indicatorObject.aoiID === feature.properties.indicatorObject.aoiID)
-          .properties.indicatorObject,
-      );
-    },
-    mapTabClick() {
-      this.$refs.map.onResize();
-    },
-    resetCountry() {
-      this.$store.commit('features/SET_FEATURE_FILTER', { countries: [] });
-    },
-    resetIndicator() {
-      this.$store.commit('features/SET_FEATURE_FILTER', { indicators: [] });
-    },
-    getUniqueKey(indicatorObject) {
-      return this.getLocationCode(indicatorObject);
-    },
-    currentlySelected(feature) {
-      return this.$store.state.indicators.selectedIndicator
-        && this.$store.state.indicators.selectedIndicator.indicator
-          === feature.properties.indicatorObject.indicator
-        && this.$store.state.indicators.selectedIndicator.aoiID
-          === feature.properties.indicatorObject.aoiID;
-    },
-  },
-  watch: {
-    someGlobalIndicator() {
-      this.openGlobalPanel = false;
-      setTimeout(() => {
-        this.openGlobalPanel = this.someGlobalIndicator.length > 0;
-      }, 1);
-    },
-  },
-};
+      return !!(this.getGroupedFeatures?.length && this.baseConfig);
+    }
+  }
+}
 </script>
-
-<style lang="scss" scoped>
-.globalIndicators {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 1;
-}
-.circle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: var(--v-primary-base);
-  box-sizing: content-box;
-  margin-right: 4px;
-  cursor: pointer;
-}
-::v-deep .v-menu__content {
-  max-width: initial;
-  top: 38px !important;
-  left: 0px !important;
-}
-
-.global-indicators-panel {
-  position: absolute;
-  top: .4rem;
-  left: .5rem;
-  width: unset;
-
-  .panel-header {
-    padding: 0 1rem;
-  }
-
-  ::v-deep .v-expansion-panel-content__wrap {
-    padding: 0;
-  }
-}
-</style>
