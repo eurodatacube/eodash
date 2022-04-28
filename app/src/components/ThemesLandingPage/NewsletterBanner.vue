@@ -3,7 +3,9 @@
     <v-row justify="space-between">
       <v-col justify="center">
         <h5 class="text-h5">Get our newsletter</h5>
-        <p style="margin-bottom: 0px !important;">Get our latest platform updates delivered straight to your inbox.</p>
+        <p style="margin-bottom: 0px !important;">
+          Get our latest platform updates delivered straight to your inbox.
+        </p>
       </v-col>
 
       <v-row justify="end" align="center">
