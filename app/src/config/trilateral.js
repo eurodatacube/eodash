@@ -7,7 +7,13 @@ import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import l3mapsData from '@/config/tropomiCO.json';
-// import { shFisAreaIndicatorStdConfig } from '@/helpers/customAreaObjects';
+import {
+  statisticalApiHeaders,
+  statisticalApiBody,
+  evalScriptsDefinitions,
+  parseStatAPIResponse,
+  // shFisAreaIndicatorStdConfig,
+} from '@/helpers/customAreaObjects';
 import store from '../store';
 
 export const dataPath = './data/internal/';
@@ -16,16 +22,6 @@ export const dataEndpoints = [
     type: 'eox',
     provider: './data/internal/pois_trilateral.json',
   },
-  /*
-  {
-    type: 'nasa',
-    provider: 'https://h4ymwpefng.execute-api.us-east-1.amazonaws.com/v1/',
-  },
-  {
-    type: 'nasa',
-    provider: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/',
-  },
-  */
 ];
 
 export const indicatorsDefinition = Object.freeze({
@@ -1179,13 +1175,17 @@ export const globalIndicators = [
           maxZoom: 13,
           minMapZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          /*
           customAreaIndicator: true,
           areaIndicator: {
-            ...shFisAreaIndicatorStdConfig,
-            url: ``,
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.BICEP_NPP_VIS_PP,
+              shConfig.BICEP_NPP_VIS_PP,
+              'P30D',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-          */
         },
       },
     },
