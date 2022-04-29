@@ -33,7 +33,7 @@ export const statisticalApiBody = (evalscript, type, timeinterval) => ({
     aggregation: {
       timeRange: {
         from: '1900-01-01T00:00:00Z',
-        to: '2050-02-01T00:00:00Z',
+        to: '2050-01-01T00:00:00Z',
       },
       aggregationInterval: {
         of: timeinterval || 'P1D',
@@ -132,6 +132,7 @@ export const evalScriptsDefinitions = Object.freeze({
           {
             id: "data",
             bands: 1,
+            sampleType: "FLOAT32"
           },
           {
             id: "dataMask",
@@ -142,12 +143,12 @@ export const evalScriptsDefinitions = Object.freeze({
     }
     function evaluatePixel(samples) {
       let validValue = 1
-      if (samples.pp >= 1e20 ){
+      if (samples.tropno2 >= 1e20 ){
           validValue = 0
       }
       let index = samples.tropno2;
       return {
-        data: [index],
+        data:  [index],
         dataMask: [samples.dataMask * validValue]
       }
     }`,
@@ -165,6 +166,7 @@ export const evalScriptsDefinitions = Object.freeze({
           {
             id: "data",
             bands: 1,
+            sampleType: "FLOAT32"
           },
           {
             id: "dataMask",
@@ -175,7 +177,7 @@ export const evalScriptsDefinitions = Object.freeze({
     }
     function evaluatePixel(samples) {
       let validValue = 1
-      if (samples.pp >= 1e20 ){
+      if (samples.tropso2 >= 1e20 ){
           validValue = 0
       }
       let index = samples.tropso2;

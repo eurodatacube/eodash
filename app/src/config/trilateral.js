@@ -750,7 +750,7 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions['AWS_VIS_SO2_DAILY_DATA'],
+              evalScriptsDefinitions['AWS_NO2-VISUALISATION'],
               'byoc-972e67a7-2ca8-4bf6-964a-11fe772e3ac2',
               'P1D',
             ),
