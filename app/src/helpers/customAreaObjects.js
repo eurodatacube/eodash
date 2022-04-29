@@ -11,7 +11,6 @@ export const statisticalApiHeaders = {
   requestMethod: 'POST',
   requestHeaders: {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'https://eodashboard.org',
   },
 };
 
