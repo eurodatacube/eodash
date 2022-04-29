@@ -58,13 +58,13 @@ ZARRCOLLECTIONS = [
 # Some datasets have different dates for different areas so we need to separate
 # the request to only retrieve dates from those locations
 BBOX = {
-    "JAXA_CHLA": [
+    "AWS_JAXA_CHLA": [
         ("44.48,12.05,45.82,13.85", "NorthAdriatic_JAXA"),
         ("34.838,139.24,35.6932,140.266", "JP01"),
         ("34.2,136.4,35.2,137.4", "JP04"),
         ("33.85,134.5,34.85,135.5", "JP02"),
     ],
-    "JAXA_TSM": [
+    "AWS_JAXA_TSM": [
         ("44.48,12.05,45.82,13.85", "NorthAdriaticTSM_JAXA"),
         ("34.838,139.24,35.6932,140.266", "JP01TSM"),
         ("34.2,136.4,35.2,137.4", "JP04TSM"),
