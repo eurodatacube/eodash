@@ -421,7 +421,7 @@ export const layerNameMapping = Object.freeze({
     layers: 'E8_SENTINEL1',
   },
   'ALOS-2': {
-    layers: 'JAXA_CARS_CONTAINERS_ALOS2',
+    layers: 'AWS_JAXA_CARS_CONTAINERS_ALOS2',
   },
   GOSAT_XCO2: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/GOSAT_XCO2_{time}_{site}_BG_circle_cog.tif&resampling_method=nearest',
@@ -746,12 +746,12 @@ export const globalIndicators = [
           customAreaIndicator: true,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Air Quality (NO2) - ESA',
-          layers: 'NO2-VISUALISATION',
+          layers: 'AWS_NO2-VISUALISATION',
           legendUrl: 'eodash-data/data/no2Legend.png',
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           areaIndicator: {
-            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
             callbackFunction: (requestJson, indicator) => {
               if (Array.isArray(requestJson.C0)) {
                 const data = requestJson.C0;
