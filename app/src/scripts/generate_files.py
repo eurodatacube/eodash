@@ -29,25 +29,26 @@ COLLECTIONS = [
 ]
 
 MIGRATED_COLLECTIONS = [
-    "N3_CUSTOM",
-    "N3_CUSTOM_TSMNN",
-    "E12C_NEW_MOTORWAY",
-    "E12D_NEW_PRIMARYROADS",
-    "ICEYE-E3",
-    "ICEYE-E11",
-    "ICEYE-E11A",
-    "ICEYE-E12B",
-    "ICEYE-E13B",
-    "N3_CUSTOM_TRILATERAL",
-    "N3_CUSTOM_TRILATERAL_TSMNN",
-    "JAXA_TSM",
-    "JAXA_CHLA",
-    "VIS_2MTEMPERATURE",
-    "VIS_RELHUMIDITY1000HPA",
-    "POPULATION_DENSITY",
-    "VIS_WIND_U_10M",
-    "VIS_WIND_V_10M",
-    "VIS_SO2_DAILY_DATA",
+    "AWS_N3_CUSTOM",
+    "AWS_N3_CUSTOM_TSMNN",
+    "AWS_E12C_NEW_MOTORWAY",
+    "AWS_E12D_NEW_PRIMARYROADS",
+    "AWS_ICEYE-E3",
+    "AWS_ICEYE-E11",
+    "AWS_ICEYE-E11A",
+    "AWS_ICEYE-E12B",
+    "AWS_ICEYE-E13B",
+    "AWS_N3_CUSTOM_TRILATERAL",
+    "AWS_N3_CUSTOM_TRILATERAL_TSMNN",
+    "AWS_JAXA_TSM",
+    "AWS_JAXA_CHLA",
+    "AWS_VIS_2MTEMPERATURE",
+    "AWS_VIS_RELHUMIDITY1000HPA",
+    "AWS_POPULATION_DENSITY",
+    "AWS_VIS_WIND_U_10M",
+    "AWS_VIS_WIND_V_10M",
+    "AWS_VIS_SO2_DAILY_DATA",
+    "AWS_NO2-VISUALISATION",
 ]
 
 ZARRCOLLECTIONS = [
@@ -57,13 +58,13 @@ ZARRCOLLECTIONS = [
 # Some datasets have different dates for different areas so we need to separate
 # the request to only retrieve dates from those locations
 BBOX = {
-    "JAXA_CHLA": [
+    "AWS_JAXA_CHLA": [
         ("44.48,12.05,45.82,13.85", "NorthAdriatic_JAXA"),
         ("34.838,139.24,35.6932,140.266", "JP01"),
         ("34.2,136.4,35.2,137.4", "JP04"),
         ("33.85,134.5,34.85,135.5", "JP02"),
     ],
-    "JAXA_TSM": [
+    "AWS_JAXA_TSM": [
         ("44.48,12.05,45.82,13.85", "NorthAdriaticTSM_JAXA"),
         ("34.838,139.24,35.6932,140.266", "JP01TSM"),
         ("34.2,136.4,35.2,137.4", "JP04TSM"),
