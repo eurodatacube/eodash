@@ -8,44 +8,51 @@
         "image": "./data/story-images/Agriculture.jpeg",
         "imagePlaceholder": "./data/story-images/Agriculture.jpeg"
       },
-      "crops-consume-cairos-carbon-dioxide": {
-        "originalDashboardId": "fe9c083d830b9f90",
-        "title": "Crops Consume Cairo’s Carbon Dioxide",
-        "subtitle": "Urban Monitoring of Atmospheric CO2 Change affected by Human and Ecosystem Activities",
-        "image": "./data/story-images/Egypt-Cairo.jpeg",
-        "imagePlaceholder": "./data/story-images/Egypt-Cairo.jpeg"
-      },
-      "nile-delta": {
-        "originalDashboardId": "c37008b5978bf73e",
-        "title": "AQ - JAXA Story 2",
-        "subtitle": "Nile Delta",
-        "image": "./data/story-images/Egypt-Cairo.jpeg",
-        "imagePlaceholder": "./data/story-images/Egypt-Cairo.jpeg"
-      }
     },
     "air-quality": {
       "joint-intro": {
         "originalDashboardId": "2b11a69e94e47a4a",
-        "title": "NASA, ESA and JAXA, Working Together to Monitor our Atmosphere",
+        "title": "NASA, ESA and JAXA, Working Together to Monitor the air we breathe",
         "subtitle": "Traffic, wildfires, and power plants all emit air pollutants and greenhouse gases as a product of combustion",
         "image": "./data/story-images/sentinel-5P.jpg",
         "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
       },
       "monitoring-air-pollution-from-space": {
         "originalDashboardId": "afea38efc80e9846",
-        "title": "Monitoring from Space how Air Pollution affects Climate Change",
-        "subtitle": "TROPOMI measurements reveal 700 million metric tons of CO2 released from bushfires in just 3 months",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
-      }
+        "title": "Australian bushfires during 2019-2020 emitted 700 million metric tons of CO2 into the atmosphere",
+        "subtitle": "Read more about how Air Pollution affects Climate Change",
+        "image": "./data/story-images/8-wildfires.jpg",
+        "imagePlaceholder": "./data/story-images/8-wildfires.jpg"
+      },
+        "NASA-story": {
+        "originalDashboardId": "bd6db303fd0fb8e8",
+        "title": "Air pollution in India, China and the U.S. have changed significantly over the past two decades",
+        "subtitle": "Read more about how NASA scientists are measuring nitrogen dioxide (NO2) and sulfur dioxide (SO2) from space",
+        "image": "./data/story-images/7-greenhouse-gases-from-combustion.jpg",
+        "imagePlaceholder": "./data/story-images/7-greenhouse-gases-from-combustion.jpg"
+      },
+       "nile-delta": {
+        "originalDashboardId": "c37008b5978bf73e",
+        "title": "AQ - JAXA Story 2",
+        "subtitle": "Nile Delta",
+        "image": "./data/story-images/3-agriculture-crops.jpeg",
+        "imagePlaceholder": "./data/story-images/3-agriculture-crops.jpeg"
+      },
+      "crops-consume-cairos-carbon-dioxide": {
+        "originalDashboardId": "fe9c083d830b9f90",
+        "title": "Farmlands North of Cairo absorb so much atmospheric CO2 it can be measured from space",
+        "subtitle": "Read more about how crops consume Cairo's Carbon Dioxide",
+        "image": "./data/story-images/3-agriculture-crops.jpeg",
+        "imagePlaceholder": "./data/story-images/3-agriculture-crops.jpeg"
+      },
     },
     "biomass-and-landcover": {
       "biomass-harmonization-activity": {
         "originalDashboardId": "a785d7a3c536a452",
-        "title": "Biomass - Joint Story",
-        "subtitle": "The Biomass Harmonization Activity",
+        "title": "Trees and other plants pull vast amounts of carbon dioxide out of the atmosphere every year",
+        "subtitle": "Read more about taking stock of global biomass maps",
         "image": "./data/story-images/Biomass.jpeg",
-        "imagePlaceholder": "./data/story-images/Biomass.jpeg"
+        "imagePlaceholder": "./data/story-images/Biomass.jpeg"  
       }
     },
     "covid-19": {
