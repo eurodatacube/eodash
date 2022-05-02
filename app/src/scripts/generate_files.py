@@ -62,7 +62,8 @@ ZARRCOLLECTIONS = [
 ]
 
 WMSCOLLECTIONS = {
-    "ONPP_GCOMC": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?request=GetCapabilities&service=WMS&version=1.1.1"
+    "ONPP-GCOMC-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?request=GetCapabilities&service=WMS&version=1.1.1",
+    "NDVI-GCOMC-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?request=GetCapabilities&service=WMS&version=1.1.1",
 }
 
 STAC_COLLECTIONS = {
