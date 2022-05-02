@@ -162,7 +162,7 @@ export default {
       this.isLoading = true;
 
       if (this.$refs.form.validate()) {
-        var self = this;
+        const self = this;
 
         try {
           axios.post('https://listmonk.eox.at/add_to_mailing_list', {
@@ -181,7 +181,7 @@ export default {
               console.log(`successfully added to mailing list! response: ${res}`);
               this.$emit('submit');
             })
-            .catch((e)  => {
+            .catch((e) => {
               console.error(`error adding to mailing list: ${e}`);
               self.error = `${e}`;
             });
