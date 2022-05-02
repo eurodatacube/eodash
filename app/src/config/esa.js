@@ -10,9 +10,11 @@ import availableDates from '@/config/data_dates.json';
 import l3mapsData from '@/config/tropomiCO.json';
 
 import {
+  /*
   statisticalApiHeaders,
   statisticalApiBody,
   evalScriptsDefinitions,
+  */
   shFisAreaIndicatorStdConfig,
 } from '@/helpers/customAreaObjects';
 
@@ -828,39 +830,26 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/no2Legend.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           areaIndicator: {
-            ...statisticalApiHeaders,
-            ...statisticalApiBody(
-              evalScriptsDefinitions['AWS_NO2-VISUALISATION'],
-              shConfig['AWS_NO2-VISUALISATION'],
-            ),
-            callbackFunction: (requestJson, indicator) => {
-              if (requestJson.status === 'OK' && requestJson.data.length > 0) {
-                const { data } = requestJson;
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            callbackFunction: (responseJson, indicator) => {
+              if (Array.isArray(responseJson.C0)) {
+                const data = responseJson.C0;
                 const newData = {
                   time: [],
                   measurement: [],
                   referenceValue: [],
                   colorCode: [],
                 };
-                data.sort((a, b) => (
-                  (DateTime.fromISO(a.interval.from) > DateTime.fromISO(b.interval.from))
-                    ? 1
-                    : -1));
+                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
+                  ? 1
+                  : -1));
                 data.forEach((row) => {
-                  const { stats } = row.outputs.no2_raw.bands.B0;
-
-                  // This check discards any statistical values from the Sentinel Hub
-                  // API that are higher than 5000 to avoid loading unrealistically high
-                  // values. For example, we'd be dealing with values in the range of
-                  // zillions of kilograms per square meter in the W1-N1 NO2 indicator,
-                  // which is just nuts.
-                  if (stats.max < 5000) {
-                    newData.time.push(DateTime.fromISO(row.interval.from));
+                  if (row.basicStats.max < 5000) {
+                    // leaving out falsely set nodata values disrupting the chart
+                    newData.time.push(DateTime.fromISO(row.date));
                     newData.colorCode.push('');
-                    newData.measurement.push(stats.mean);
-                    newData.referenceValue.push(
-                      `[null, ${stats.stDev}, ${stats.max}, ${stats.min}]`,
-                    );
+                    newData.measurement.push(row.basicStats.mean);
+                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
                   }
                 });
                 const ind = {
@@ -873,6 +862,19 @@ export const globalIndicators = [
             },
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
+          // TODO: Preparation for switching to statistical api once things are working
+          /*
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions['AWS_NO2-VISUALISATION'],
+              'byoc-972e67a7-2ca8-4bf6-964a-11fe772e3ac2',
+              'P1D',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+          */
         },
       },
     },
@@ -1414,50 +1416,22 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           customAreaIndicator: true,
           areaIndicator: {
+            ...shFisAreaIndicatorStdConfig,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_SO2_DAILY_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+          },
+          // TODO: preparation to migrate to new statistical api, still some issues with service
+          /*
+          areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
               evalScriptsDefinitions.AWS_VIS_SO2_DAILY_DATA,
-              'sentinel-5p-l2',
+              'byoc-4ad9663f-d173-411d-8d28-3081d4d9e3aa',
+              'P7D',
             ),
-            callbackFunction: (requestJson, indicator) => {
-              if (requestJson.status === 'OK' && requestJson.data.length > 0) {
-                const { data } = requestJson;
-                const newData = {
-                  time: [],
-                  measurement: [],
-                  referenceValue: [],
-                  colorCode: [],
-                };
-                data.sort((a, b) => (
-                  (DateTime.fromISO(a.interval.from) > DateTime.fromISO(b.interval.from))
-                    ? 1
-                    : -1));
-                data.forEach((row) => {
-                  const { stats } = row.outputs.so2_raw.bands.B0;
-
-                  // This check discards any statistical values from the Sentinel Hub
-                  // API that are higher than 5000 to avoid loading unrealistically high
-                  // values. For example, we'd be dealing with values in the range of
-                  // zillions of kilograms per square meter in the W1-N1 NO2 indicator,
-                  // which is just nuts.
-                  if (stats.max < 5000) {
-                    newData.time.push(DateTime.fromISO(row.interval.from));
-                    newData.colorCode.push('');
-                    newData.measurement.push(stats.mean);
-                    newData.referenceValue.push(
-                      `[null, ${stats.stDev}, ${stats.max}, ${stats.min}]`,
-                    );
-                  }
-                });
-                const ind = {
-                  ...indicator,
-                  ...newData,
-                };
-                return ind;
-              }
-              return null;
-            },
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
+          */
         },
       },
     },

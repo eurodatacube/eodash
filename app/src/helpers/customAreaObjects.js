@@ -33,15 +33,13 @@ export const statisticalApiBody = (evalscript, type, timeinterval) => ({
     aggregation: {
       timeRange: {
         from: '1900-01-01T00:00:00Z',
-        to: '2050-01-01T00:00:00Z',
+        to: '2040-12-01T00:00:00Z',
       },
       aggregationInterval: {
         of: timeinterval || 'P1D',
       },
-      // resx: 0.0225,
-      // resy: 0.0225,
-      width: 500,
-      height: 500,
+      width: 100,
+      height: 100,
       evalscript,
     },
     calculations: {
