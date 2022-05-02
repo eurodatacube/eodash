@@ -64,6 +64,13 @@
                   </a>
                 </template>
               </v-checkbox>
+              <div class="red--text font-weight-bold">
+                {{
+                  error
+                    ? `Could not add to mailing list: ${error}`
+                    : ``
+                }}
+              </div>
             </v-col>
         </v-row>
       </v-card>
@@ -91,6 +98,7 @@ import axios from 'axios';
 
 export default {
   data: () => ({
+    error: null,
     form: {
       rules: {
         interests: [
@@ -154,6 +162,8 @@ export default {
       this.isLoading = true;
 
       if (this.$refs.form.validate()) {
+        var self = this;
+
         try {
           axios.post('https://listmonk.eox.at/add_to_mailing_list', {
             email: this.form.values.email,
@@ -167,16 +177,20 @@ export default {
               dashboardapikey: shConfig.listmonkApiKey,
             },
           })
-            .then((res) => console.log(`successfully added to mailing list! response: ${res}`))
-            .catch((e)  => console.error(`error adding to mailing list: ${e}`));
+            .then((res) => {
+              console.log(`successfully added to mailing list! response: ${res}`);
+              this.$emit('submit');
+            })
+            .catch((e)  => {
+              console.error(`error adding to mailing list: ${e}`);
+              self.error = `${e}`;
+            });
         } catch (e) {
           console.error(`could not add to mailing list: ${e}`);
         }
       }
 
       this.isLoading = false;
-
-      this.$emit('submit');
     },
   },
 };
