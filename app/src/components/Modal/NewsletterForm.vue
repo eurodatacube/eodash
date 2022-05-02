@@ -162,6 +162,10 @@ export default {
             newsletterOptIn: true,
             interests: this.form.values.interests,
             dev: process.env.NODE_ENV !== 'production',
+          }, {
+            headers: {
+              dashboardapikey: shConfig.listmonkApiKey,
+            },
           })
             .then((res) => console.log(`successfully added to mailing list! response: ${res}`))
             .catch((e)  => console.error(`error adding to mailing list: ${e}`));
