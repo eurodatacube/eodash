@@ -7,7 +7,13 @@ import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import l3mapsData from '@/config/tropomiCO.json';
-import { shFisAreaIndicatorStdConfig } from '@/config/esa';
+import {
+  statisticalApiHeaders,
+  statisticalApiBody,
+  evalScriptsDefinitions,
+  parseStatAPIResponse,
+  shFisAreaIndicatorStdConfig,
+} from '@/helpers/customAreaObjects';
 import store from '../store';
 
 export const dataPath = './data/internal/';
@@ -16,16 +22,6 @@ export const dataEndpoints = [
     type: 'eox',
     provider: './data/internal/pois_trilateral.json',
   },
-  /*
-  {
-    type: 'nasa',
-    provider: 'https://h4ymwpefng.execute-api.us-east-1.amazonaws.com/v1/',
-  },
-  {
-    type: 'nasa',
-    provider: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/',
-  },
-  */
 ];
 
 export const indicatorsDefinition = Object.freeze({
@@ -398,6 +394,21 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.terrainLight],
   },
+  NPP: {
+    indicator: 'NPP',
+    class: 'air',
+    themes: ['covid-19', 'air-quality'],
+  },
+  SIE: {
+    indicator: 'SIE',
+    class: 'water',
+    themes: ['oceans'],
+  },
+  SIC: {
+    indicator: 'SIC',
+    class: 'water',
+    themes: ['oceans'],
+  },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
     themes: ['air-quality', 'agriculture', 'biomass-and-landcover', 'economy', 'oceans', 'cryosphere', 'covid-19'],
@@ -420,11 +431,7 @@ export const layerNameMapping = Object.freeze({
     layers: 'NEW_PLANETSCOPE_COVID-19',
   },
   '[NEW] Pleiades': {
-    baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES',
-  },
-  'Pleiades - COVID19': {
-    layers: 'NEW_PLEIADES_COVID19',
   },
   '[NEW] Pleiades COVID-19': {
     layers: 'NEW_PLEIADES_COVID19',
@@ -436,7 +443,6 @@ export const layerNameMapping = Object.freeze({
     layers: 'NEW_PLEIADES_28_COVID19',
   },
   '[NEW] Pleiades 16bit': {
-    baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_16BIT',
   },
   'Sentinel 2 L2A': {
@@ -461,8 +467,7 @@ export const layerNameMapping = Object.freeze({
     layers: 'E8_SENTINEL1',
   },
   'ALOS-2': {
-    baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-    layers: 'JAXA_CARS_CONTAINERS_ALOS2',
+    layers: 'AWS_JAXA_CARS_CONTAINERS_ALOS2',
   },
   NO2_Cairo: {
     baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
@@ -674,20 +679,6 @@ const getWeeklyDates = (start, end) => {
   return dateArray;
 };
 
-const getFortnightIntervalDates = (start, end) => {
-  let currentDate = DateTime.fromISO(start);
-  const stopDate = end === 'now' ? DateTime.utc().minus({ days: 13 }) : DateTime.fromISO(end).minus({ days: 13 });
-  const dateArray = [];
-  while (currentDate <= stopDate) {
-    dateArray.push([
-      DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'),
-      DateTime.fromISO(currentDate).plus({ days: 13 }).toFormat('yyyy-MM-dd'),
-    ]);
-    currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
-  }
-  return dateArray;
-};
-
 const wkt = new Wkt();
 
 export const globalIndicators = [
@@ -792,22 +783,22 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W1',
-        time: getFortnightIntervalDates('2019-01-07', 'now'),
+        time: availableDates['AWS_NO2-VISUALISATION'],
         inputData: [''],
         yAxis: 'Tropospheric NO2 (μmol/m2)',
         display: {
           customAreaIndicator: true,
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Air Quality (NO2) - ESA',
-          layers: 'NO2-VISUALISATION',
+          layers: 'AWS_NO2-VISUALISATION',
           legendUrl: 'eodash-data/data/no2Legend.png',
           minZoom: 1,
-          dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           areaIndicator: {
-            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-            callbackFunction: (requestJson, indicator) => {
-              if (Array.isArray(requestJson.C0)) {
-                const data = requestJson.C0;
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            callbackFunction: (responseJson, indicator) => {
+              if (Array.isArray(responseJson.C0)) {
+                const data = responseJson.C0;
                 const newData = {
                   time: [],
                   measurement: [],
@@ -823,7 +814,7 @@ export const globalIndicators = [
                     newData.time.push(DateTime.fromISO(row.date));
                     newData.colorCode.push('');
                     newData.measurement.push(row.basicStats.mean);
-                    newData.referenceValue.push(`[null, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
+                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
                   }
                 });
                 const ind = {
@@ -836,6 +827,19 @@ export const globalIndicators = [
             },
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
+          // TODO: Preparation for switching to statistical api once things are working
+          /*
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions['AWS_NO2-VISUALISATION'],
+              'byoc-972e67a7-2ca8-4bf6-964a-11fe772e3ac2',
+              'P1D',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+          */
         },
       },
     },
@@ -1111,6 +1115,51 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
+        aoiID: 'NPP',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'NPP',
+        indicator: 'NPP',
+        lastIndicatorValue: null,
+        indicatorName: 'TROPOMI NPP',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        time: availableDates.BICEP_NPP_VIS_PP,
+        inputData: [],
+        yAxis: 'NPP',
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'NPP',
+          layers: 'BICEP_NPP_VIS_PP2',
+          // legendUrl: 'eodash-data/data/colorbarso2.svg',
+          minZoom: 2,
+          maxZoom: 13,
+          minMapZoom: 2,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.BICEP_NPP_VIS_PP,
+              shConfig.BICEP_NPP_VIS_PP,
+              'P30D',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
         dataLoadFinished: true,
         country: 'all',
         city: 'World',
@@ -1187,6 +1236,90 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
+        aoiID: 'W8',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Sea Ice Thickness (Envisat)',
+        indicator: 'SIE',
+        lastIndicatorValue: null,
+        indicatorName: 'Sea Ice Thickness (Envisat)',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        time: availableDates.VIS_ENVISAT_SEAICETHICKNESS,
+        inputData: [],
+        yAxis: 'Sea Ice Thickness (Envisat)',
+        showGlobe: true,
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Sea Ice Thickness (Envisat)',
+          layers: 'VIS_ENVISAT_SEAICETHICKNESS',
+          legendUrl: 'eodash-data/data/sea_ice_thickness_legend.png',
+          minZoom: 2,
+          maxZoom: 13,
+          minMapZoom: 2,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          /*
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...shFisAreaIndicatorStdConfig,
+            url: ``,
+          },
+          */
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'W9',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Sea Ice Thickness (Cryosat)',
+        indicator: 'SIC',
+        lastIndicatorValue: null,
+        indicatorName: 'Sea Ice Thickness (Cryosat)',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        time: availableDates.VIS_CRYOSAT_SEAICETHICKNESS,
+        inputData: [],
+        yAxis: 'VIS_CRYOSAT_SEAICETHICKNESS',
+        showGlobe: true,
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Sea Ice Thickness (Cryosat)',
+          layers: 'VIS_CRYOSAT_SEAICETHICKNESS',
+          legendUrl: 'eodash-data/data/sea_ice_thickness_legend.png',
+          minZoom: 2,
+          maxZoom: 13,
+          minMapZoom: 2,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          /*
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...shFisAreaIndicatorStdConfig,
+            url: ``,
+          },
+          */
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
         aoiID: 'SO2',
         dataLoadFinished: true,
         country: 'all',
@@ -1202,7 +1335,7 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        time: availableDates.VIS_SO2_DAILY_DATA,
+        time: availableDates.AWS_VIS_SO2_DAILY_DATA,
         inputData: [],
         yAxis: 'SO2',
         display: {
@@ -1218,6 +1351,19 @@ export const globalIndicators = [
             ...shFisAreaIndicatorStdConfig,
             url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_SO2_DAILY_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
           },
+          // TODO: preparation to migrate to new statistical api, still some issues with service
+          /*
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_SO2_DAILY_DATA,
+              'byoc-4ad9663f-d173-411d-8d28-3081d4d9e3aa',
+              'P7D',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+          */
         },
       },
     },
@@ -1275,7 +1421,6 @@ export const globalIndicators = [
         aoiID: 'WSF',
         time: getYearlyDates('1985', '2015'),
         inputData: [''],
-        showGlobe: true,
         display: {
           baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
           name: 'WSF_Evolution',
@@ -1700,7 +1845,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.839389 44.499195,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))').toJson(),
           }],
         },
-        time: availableDates.N3_CUSTOM_TRILATERAL,
+        time: availableDates.AWS_N3_CUSTOM_TRILATERAL,
         inputData: [''],
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1788,7 +1933,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.8 44.5,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))').toJson(),
           }],
         },
-        time: availableDates.JAXA_CHLA_NorthAdriatic_JAXA,
+        time: availableDates.AWS_JAXA_CHLA_NorthAdriatic_JAXA,
         inputData: [''],
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1907,7 +2052,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((139.243472 34.838717,139.243472 35.693106,140.265201 35.693106,140.265201 34.838717,139.243472 34.838717))').toJson(),
           }],
         },
-        time: availableDates.JAXA_CHLA_JP01,
+        time: availableDates.AWS_JAXA_CHLA_JP01,
         inputData: [''],
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1946,7 +2091,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((4.19585670915520126 43.49375380380885758, 4.19491064380215573 43.49564593451494687, 4.62253218337875094 43.49564593451494687, 4.69632528091630519 43.49753806522103616, 4.69537921556325966 43.48618528098449332, 4.6736197124432115 43.46442577786444161, 4.64523775185184462 43.45401905898093986, 4.67172758173712044 43.42090677162434531, 4.70389380374066945 43.41428431415302924, 4.71146232656503461 43.43698988262612204, 4.75592739815817644 43.43320562121393635, 4.78525542410258886 43.41806857556520782, 4.81647558075309234 43.38495628820861327, 4.83918114922618603 43.38495628820861327, 4.82877443034268428 43.40671579132866498, 4.81552951540004681 43.424691033036531, 4.81836771145918341 43.43604381727307384, 4.86661704446450738 43.41050005274084356, 4.87040130587668951 43.41523037950607034, 4.84012721457923156 43.44928873221571308, 4.85999458699318865 43.4682100392766273, 4.88459228617237251 43.42942135980175777, 4.89499900505587426 43.43793594797917024, 4.91297424676374028 43.43509775192003275, 4.92621916170637775 43.44172020939134882, 4.94608653412033483 43.49280773845580939, 5.21949942115050369 43.49753806522103616, 5.23558253215227776 43.4899695423966719, 5.24693531638882504 43.4672639739235791, 5.23842072821141436 43.43415168656698455, 5.21476909438527514 43.41428431415302924, 5.16557369602690564 43.39157874567993645, 5.08988846778326032 43.39157874567993645, 5.014203239539615 43.39252481103297754, 5.01893356630484355 43.3792798960903454, 5.03690880801270868 43.3565743276172455, 5.07096716072234965 43.34143728196851697, 5.11070190555026294 43.33859908590937948, 5.15327484643731371 43.34427547802765446, 5.21760729044441174 43.34049121661547588, 5.27247908092105533 43.35373613155811512, 5.30275317221851239 43.37265743861902223, 5.33208119816292569 43.36698104650074725, 5.35194857057688189 43.3565743276172455, 5.36140922410733811 43.34143728196851697, 5.36992381228474791 43.32535417096674735, 5.36992381228474791 43.3130553213771492, 5.36613955087256578 43.29791827572842067, 5.36613955087256578 43.28845762219796711, 5.37654626975606753 43.27521270725532787, 5.38600692328652286 43.26102172695964754, 5.38316872722738626 43.25250713878223507, 5.37276200834388451 43.24210041989873332, 5.35478676663601938 43.23263976636827977, 5.35005643987079083 43.22128698213172981, 5.35857102804820151 43.21088026324823517, 5.37749233510911218 43.21655665536650304, 5.39925183822916033 43.21939485142564052, 5.42195740670225401 43.21561059001346194, 5.45412362870580303 43.21939485142564052, 5.50331902706417253 43.20141960971777451, 5.50615722312331002 42.99990768951906972, 4.19301851309606466 42.99896162416602152, 4.19585670915520126 43.49375380380885758))').toJson(),
           }],
         },
-        time: availableDates.N3_CUSTOM_TRILATERAL,
+        time: availableDates.AWS_N3_CUSTOM_TRILATERAL,
         inputData: [''],
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1985,7 +2130,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((136.4 34.2, 137.4 34.2, 137.4 35.2, 136.4 35.2, 136.4 34.2))').toJson(),
           }],
         },
-        time: availableDates.JAXA_CHLA_JP04,
+        time: availableDates.AWS_JAXA_CHLA_JP04,
         inputData: [''],
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -2024,7 +2169,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((134.5 33.85, 135.5 33.85, 135.5 34.85, 134.5 34.85, 134.5 33.85))').toJson(),
           }],
         },
-        time: availableDates.JAXA_CHLA_JP02,
+        time: availableDates.AWS_JAXA_CHLA_JP02,
         inputData: [''],
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -2063,7 +2208,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.839389 44.499195,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))').toJson(),
           }],
         },
-        time: availableDates.N3_CUSTOM_TRILATERAL_TSMNN,
+        time: availableDates.AWS_N3_CUSTOM_TRILATERAL_TSMNN,
         inputData: [''],
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -2102,7 +2247,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((4.19585670915520126 43.49375380380885758, 4.19491064380215573 43.49564593451494687, 4.62253218337875094 43.49564593451494687, 4.69632528091630519 43.49753806522103616, 4.69537921556325966 43.48618528098449332, 4.6736197124432115 43.46442577786444161, 4.64523775185184462 43.45401905898093986, 4.67172758173712044 43.42090677162434531, 4.70389380374066945 43.41428431415302924, 4.71146232656503461 43.43698988262612204, 4.75592739815817644 43.43320562121393635, 4.78525542410258886 43.41806857556520782, 4.81647558075309234 43.38495628820861327, 4.83918114922618603 43.38495628820861327, 4.82877443034268428 43.40671579132866498, 4.81552951540004681 43.424691033036531, 4.81836771145918341 43.43604381727307384, 4.86661704446450738 43.41050005274084356, 4.87040130587668951 43.41523037950607034, 4.84012721457923156 43.44928873221571308, 4.85999458699318865 43.4682100392766273, 4.88459228617237251 43.42942135980175777, 4.89499900505587426 43.43793594797917024, 4.91297424676374028 43.43509775192003275, 4.92621916170637775 43.44172020939134882, 4.94608653412033483 43.49280773845580939, 5.21949942115050369 43.49753806522103616, 5.23558253215227776 43.4899695423966719, 5.24693531638882504 43.4672639739235791, 5.23842072821141436 43.43415168656698455, 5.21476909438527514 43.41428431415302924, 5.16557369602690564 43.39157874567993645, 5.08988846778326032 43.39157874567993645, 5.014203239539615 43.39252481103297754, 5.01893356630484355 43.3792798960903454, 5.03690880801270868 43.3565743276172455, 5.07096716072234965 43.34143728196851697, 5.11070190555026294 43.33859908590937948, 5.15327484643731371 43.34427547802765446, 5.21760729044441174 43.34049121661547588, 5.27247908092105533 43.35373613155811512, 5.30275317221851239 43.37265743861902223, 5.33208119816292569 43.36698104650074725, 5.35194857057688189 43.3565743276172455, 5.36140922410733811 43.34143728196851697, 5.36992381228474791 43.32535417096674735, 5.36992381228474791 43.3130553213771492, 5.36613955087256578 43.29791827572842067, 5.36613955087256578 43.28845762219796711, 5.37654626975606753 43.27521270725532787, 5.38600692328652286 43.26102172695964754, 5.38316872722738626 43.25250713878223507, 5.37276200834388451 43.24210041989873332, 5.35478676663601938 43.23263976636827977, 5.35005643987079083 43.22128698213172981, 5.35857102804820151 43.21088026324823517, 5.37749233510911218 43.21655665536650304, 5.39925183822916033 43.21939485142564052, 5.42195740670225401 43.21561059001346194, 5.45412362870580303 43.21939485142564052, 5.50331902706417253 43.20141960971777451, 5.50615722312331002 42.99990768951906972, 4.19301851309606466 42.99896162416602152, 4.19585670915520126 43.49375380380885758))').toJson(),
           }],
         },
-        time: availableDates.N3_CUSTOM_TRILATERAL_TSMNN,
+        time: availableDates.AWS_N3_CUSTOM_TRILATERAL_TSMNN,
         inputData: [''],
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -2181,7 +2326,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.8 44.5,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))').toJson(),
           }],
         },
-        time: availableDates.JAXA_TSM_NorthAdriaticTSM_JAXA,
+        time: availableDates.AWS_JAXA_TSM_NorthAdriaticTSM_JAXA,
         inputData: [''],
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -2220,7 +2365,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((139.243472 34.838717,139.243472 35.693106,140.265201 35.693106,140.265201 34.838717,139.243472 34.838717))').toJson(),
           }],
         },
-        time: availableDates.JAXA_TSM_JP01TSM,
+        time: availableDates.AWS_JAXA_TSM_JP01TSM,
         inputData: [''],
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -2259,7 +2404,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((136.4 34.2, 137.4 34.2, 137.4 35.2, 136.4 35.2, 136.4 34.2))').toJson(),
           }],
         },
-        time: availableDates.JAXA_TSM_JP04TSM,
+        time: availableDates.AWS_JAXA_TSM_JP04TSM,
         inputData: [''],
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -2298,7 +2443,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((134.5 33.85, 135.5 33.85, 135.5 34.85, 134.5 34.85, 134.5 33.85))').toJson(),
           }],
         },
-        time: availableDates.JAXA_TSM_JP02TSM,
+        time: availableDates.AWS_JAXA_TSM_JP02TSM,
         inputData: [''],
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -3486,7 +3631,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((2.516544 40.485512,2.522036 41.562459,2.291387 41.480243,2.211372 41.416219,2.164693 41.3132,2.049368 41.27401,1.917569 41.26782,1.692412 41.212083,1.448034 41.174899,1.266809 41.129423,1.16796 41.077707,0.950799 41.027932,0.726123 40.810478,0.849188 40.722691,0.85468 40.68523,0.659705 40.6644,0.549872 40.576882,0.483966 40.485017,2.516544 40.485512))').toJson(),
           }],
         },
-        time: availableDates.N3_CUSTOM_TRILATERAL_TSMNN,
+        time: availableDates.AWS_N3_CUSTOM_TRILATERAL_TSMNN,
         inputData: [''],
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -3525,7 +3670,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((2.516544 40.485512,2.522036 41.562459,2.291387 41.480243,2.211372 41.416219,2.164693 41.3132,2.049368 41.27401,1.917569 41.26782,1.692412 41.212083,1.448034 41.174899,1.266809 41.129423,1.16796 41.077707,0.950799 41.027932,0.726123 40.810478,0.849188 40.722691,0.85468 40.68523,0.659705 40.6644,0.549872 40.576882,0.483966 40.485017,2.516544 40.485512))').toJson(),
           }],
         },
-        time: availableDates.N3_CUSTOM_TRILATERAL,
+        time: availableDates.AWS_N3_CUSTOM_TRILATERAL,
         inputData: [''],
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,

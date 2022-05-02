@@ -16,7 +16,7 @@ export const baseLayers = Object.freeze({
     protocol: 'xyz',
   },
   S2GLC: {
-    baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     protocol: 'WMS',
     format: 'image/png',
     tileSize: 512,
