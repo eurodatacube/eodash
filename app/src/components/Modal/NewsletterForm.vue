@@ -87,6 +87,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import axios from 'axios';
 
 export default {
   data: () => ({
@@ -147,25 +148,23 @@ export default {
   methods: {
     ...mapActions('dashboard', [
       'addMarketingInfo',
-      'addToMailingList',
     ]),
 
     async submit() {
       this.isLoading = true;
 
       if (this.$refs.form.validate()) {
-        await this.addMarketingInfo({
-          interests: this.form.values.interests,
-        });
-
         try {
-          await this.addToMailingList({
+          axios.post('https://listmonk.eox.at/add_to_mailing_list', {
             email: this.form.values.email,
             name: this.form.values.name,
             listId: this.$store.state.config.appConfig.mailingList[process.env.NODE_ENV],
-            newsletterOptIn: this.form.values.newsletterOptIn,
+            newsletterOptIn: true,
             interests: this.form.values.interests,
-          });
+            dev: process.env.NODE_ENV !== 'production',
+          })
+            .then((res) => console.log(`successfully added to mailing list! response: ${res}`))
+            .catch((e)  => console.error(`error adding to mailing list: ${e}`));
         } catch (e) {
           console.error(`could not add to mailing list: ${e}`);
         }
