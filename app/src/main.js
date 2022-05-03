@@ -199,7 +199,7 @@ const renderVue = async () => {
     { path: '/iframe', component: EmbedIframe },
     ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
       ? [
-        { path: '/air-quality', name: 'air-quality', component: ThemeSinglePage },
+        { path: '/atmosphere', name: 'atmosphere', component: ThemeSinglePage },
         { path: '/agriculture', name: 'agriculture', component: ThemeSinglePage },
         { path: '/biomass-and-landcover', name: 'biomass-and-landcover', component: ThemeSinglePage },
         { path: '/covid-19', name: 'covid-19', component: ThemeSinglePage },

@@ -33,7 +33,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Changes in Ships traffic within the Port',
     class: 'economic',
     story: '/data/trilateral/E13c',
-    themes: ['covid-19', 'economy', 'air-quality', 'oceans'],
+    themes: ['covid-19', 'economy', 'atmosphere', 'oceans'],
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/E200/E200_{aoiID}_{featuresTime}.geojson',
@@ -229,7 +229,7 @@ export const indicatorsDefinition = Object.freeze({
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
     story: '/data/trilateral/E13b',
-    themes: ['covid-19', 'economy', 'air-quality'],
+    themes: ['covid-19', 'economy', 'atmosphere'],
     largeSubAoi: true,
   },
   H1: {
@@ -241,7 +241,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Air quality',
     class: 'air',
     story: '/data/trilateral/N1',
-    themes: ['covid-19', 'air-quality'],
+    themes: ['covid-19', 'atmosphere'],
     largeTimeDuration: true,
     largeSubAoi: true,
     maxMapZoom: 8,
@@ -250,19 +250,19 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Population',
     class: 'economic',
     story: '/data/trilateral/NASAPopulation',
-    themes: ['covid-19', 'economy', 'agriculture', 'air-quality', 'oceans'],
+    themes: ['covid-19', 'economy', 'agriculture', 'atmosphere', 'oceans'],
   },
   WSF: {
     indicator: 'World Settlement Footprint',
     class: 'economic',
     story: '/eodash-data/stories/WSF-WSF',
-    themes: ['covid-19', 'economy', 'agriculture', 'air-quality', 'oceans'],
+    themes: ['covid-19', 'economy', 'agriculture', 'atmosphere', 'oceans'],
   },
   N2: {
     indicator: 'Greenhouse Gases',
     class: 'air',
     story: '/data/trilateral/N2',
-    themes: ['covid-19', 'air-quality'],
+    themes: ['covid-19', 'atmosphere'],
     largeTimeDuration: true,
     largeSubAoi: true,
   },
@@ -304,7 +304,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Nightlights (Suomi NPP VIIRS)',
     class: 'economic',
     story: '/data/trilateral/N5',
-    themes: ['covid-19', 'economy', 'air-quality', 'oceans'],
+    themes: ['covid-19', 'economy', 'atmosphere', 'oceans'],
     largeSubAoi: true,
   },
   N6: {
@@ -334,7 +334,7 @@ export const indicatorsDefinition = Object.freeze({
     disableTimeSelection: true,
     countrySelection: true,
     story: '/eodash-data/stories/GG-GG',
-    themes: ['covid-19', 'economy', 'air-quality'],
+    themes: ['covid-19', 'economy', 'atmosphere'],
   },
   CV: {
     indicator: 'Covid cases',
@@ -356,7 +356,7 @@ export const indicatorsDefinition = Object.freeze({
   FB: {
     indicator: 'Facebook population density',
     class: 'economic',
-    themes: ['covid-19', 'economy', 'air-quality'],
+    themes: ['covid-19', 'economy', 'atmosphere'],
     disableTimeSelection: true,
     baseLayers: [{
       ...baseLayers.cloudless,
@@ -365,7 +365,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
-    themes: ['air-quality', 'agriculture', 'biomass-and-landcover', 'economy', 'oceans', 'cryosphere', 'covid-19'],
+    themes: ['atmosphere', 'agriculture', 'biomass-and-landcover', 'economy', 'oceans', 'cryosphere', 'covid-19'],
     class: 'economic',
   },
 });

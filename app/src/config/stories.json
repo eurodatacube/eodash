@@ -9,7 +9,7 @@
         "imagePlaceholder": "./data/story-images/Agriculture_placeholder.jpeg"
       }
     },
-    "air-quality": {
+    "atmosphere": {
       "joint-intro": {
         "originalDashboardId": "2b11a69e94e47a4a",
         "title": "NASA, ESA and JAXA, Working Together to Monitor the air we breathe",
@@ -30,13 +30,6 @@
         "subtitle": "Read more about how NASA scientists are measuring nitrogen dioxide (NO2) and sulfur dioxide (SO2) from space",
         "image": "./data/story-images/7-greenhouse-gases-from-combustion.jpg",
         "imagePlaceholder": "./data/story-images/7-greenhouse-gases-from-combustion_placeholder.jpg"
-      },
-       "nile-delta": {
-        "originalDashboardId": "c37008b5978bf73e",
-        "title": "AQ - JAXA Story 2",
-        "subtitle": "Nile Delta",
-        "image": "./data/story-images/3-agriculture-crops.jpg",
-        "imagePlaceholder": "./data/story-images/3-agriculture-crops_placeholder.jpg"
       },
       "crops-consume-cairos-carbon-dioxide": {
         "originalDashboardId": "fe9c083d830b9f90",
