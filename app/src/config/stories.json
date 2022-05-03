@@ -7,7 +7,7 @@
         "subtitle": "Satellite data applications for environmental impacts on world crop (cereal) supply and demand",
         "image": "./data/story-images/Agriculture.jpeg",
         "imagePlaceholder": "./data/story-images/Agriculture.jpeg"
-      },
+      }
     },
     "air-quality": {
       "joint-intro": {
@@ -44,7 +44,7 @@
         "subtitle": "Read more about how crops consume Cairo's Carbon Dioxide",
         "image": "./data/story-images/3-agriculture-crops.jpeg",
         "imagePlaceholder": "./data/story-images/3-agriculture-crops.jpeg"
-      },
+      }
     },
     "biomass-and-landcover": {
       "biomass-harmonization-activity": {
@@ -109,7 +109,7 @@
         "subtitle": "Read more about Satellite Sensors Tracking Ocean Color Changes to Predict Phytoplankton Health",
         "image": "./data/story-images/JAXA Ocean Cover.jpeg",
         "imagePlaceholder": "./data/story-images/JAXA Ocean Cover.jpeg"
-      },
+      }
     }
   }
 }
