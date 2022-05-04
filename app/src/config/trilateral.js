@@ -7,7 +7,13 @@ import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import l3mapsData from '@/config/tropomiCO.json';
-import { shFisAreaIndicatorStdConfig } from '@/config/esa';
+import {
+  statisticalApiHeaders,
+  statisticalApiBody,
+  evalScriptsDefinitions,
+  parseStatAPIResponse,
+  shFisAreaIndicatorStdConfig,
+} from '@/helpers/customAreaObjects';
 import store from '../store';
 
 export const dataPath = './data/internal/';
@@ -16,16 +22,6 @@ export const dataEndpoints = [
     type: 'eox',
     provider: './data/internal/pois_trilateral.json',
   },
-  /*
-  {
-    type: 'nasa',
-    provider: 'https://h4ymwpefng.execute-api.us-east-1.amazonaws.com/v1/',
-  },
-  {
-    type: 'nasa',
-    provider: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/',
-  },
-  */
 ];
 
 export const indicatorsDefinition = Object.freeze({
@@ -201,6 +197,12 @@ export const indicatorsDefinition = Object.freeze({
     largeSubAoi: true,
     disableTimeSelection: true,
   },
+  E10e: {
+    indicator: 'NDVI GCOM-C',
+    class: 'agriculture',
+    story: '/eodash-data/stories/E10e',
+    themes: ['agriculture'],
+  },
   E11: {
     indicator: 'Volume of activity at shopping centers',
     class: 'economic',
@@ -245,6 +247,18 @@ export const indicatorsDefinition = Object.freeze({
     largeTimeDuration: true,
     largeSubAoi: true,
     maxMapZoom: 8,
+  },
+  N9: {
+    indicator: 'Air quality',
+    class: 'air',
+    story: '/eodash-data/stories/N9',
+    themes: ['air-quality'],
+  },
+  N10: {
+    indicator: 'Air quality',
+    class: 'air',
+    story: '/eodash-data/stories/N10',
+    themes: ['air-quality'],
   },
   NASAPopulation: {
     indicator: 'Population',
@@ -328,6 +342,22 @@ export const indicatorsDefinition = Object.freeze({
     largeSubAoi: true,
     disableTimeSelection: true,
   },
+  N12: {
+    indicator: 'Sea Ice Concentration (GCOM-W)',
+    class: 'water',
+    themes: ['covid-19', 'oceans'],
+    baseLayers: [{
+      ...baseLayers.cloudless,
+      visible: true,
+    }, baseLayers.terrainLight],
+    story: '/eodash-data/stories/N12',
+  },
+  N11: {
+    indicator: 'GLI Ocean Primary Productivity',
+    class: 'water',
+    themes: ['covid-19', 'oceans'],
+    story: '/eodash-data/stories/N11',
+  },
   GG: {
     indicator: 'Mobility',
     class: 'economic',
@@ -362,6 +392,24 @@ export const indicatorsDefinition = Object.freeze({
       ...baseLayers.cloudless,
       visible: true,
     }, baseLayers.terrainLight],
+  },
+  NPP: {
+    indicator: 'NPP (BICEP)',
+    class: 'air',
+    story: '/eodash-data/stories/NPP',
+    themes: ['covid-19', 'air-quality'],
+  },
+  SIE: {
+    indicator: 'SIE',
+    story: '/eodash-data/stories/SIE',
+    class: 'water',
+    themes: ['oceans'],
+  },
+  SIC: {
+    indicator: 'SIC',
+    story: '/eodash-data/stories/SIC',
+    class: 'water',
+    themes: ['oceans'],
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
@@ -422,6 +470,18 @@ export const layerNameMapping = Object.freeze({
   },
   'ALOS-2': {
     layers: 'AWS_JAXA_CARS_CONTAINERS_ALOS2',
+  },
+  NO2_Cairo: {
+    baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+    layers: 'NO2-TROPOMI-Cairo-Daily',
+    maxMapZoom: 14,
+    legendUrl: 'https://legends.restecmap.com/images/NO2-TROPOMI-Cairo-Daily.png',
+  },
+  GOSAT_XCO2_JAXA: {
+    baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+    layers: 'XCO2-GOSAT-Cairo',
+    maxMapZoom: 14,
+    legendUrl: 'https://legends.restecmap.com/images/XCO2-GOSAT-Cairo.png',
   },
   GOSAT_XCO2: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/GOSAT_XCO2_{time}_{site}_BG_circle_cog.tif&resampling_method=nearest',
@@ -738,9 +798,9 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           areaIndicator: {
             url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-            callbackFunction: (requestJson, indicator) => {
-              if (Array.isArray(requestJson.C0)) {
-                const data = requestJson.C0;
+            callbackFunction: (responseJson, indicator) => {
+              if (Array.isArray(responseJson.C0)) {
+                const data = responseJson.C0;
                 const newData = {
                   time: [],
                   measurement: [],
@@ -756,7 +816,7 @@ export const globalIndicators = [
                     newData.time.push(DateTime.fromISO(row.date));
                     newData.colorCode.push('');
                     newData.measurement.push(row.basicStats.mean);
-                    newData.referenceValue.push(`[null, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
+                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
                   }
                 });
                 const ind = {
@@ -769,6 +829,19 @@ export const globalIndicators = [
             },
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
+          // TODO: Preparation for switching to statistical api once things are working
+          /*
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions['AWS_NO2-VISUALISATION'],
+              'byoc-972e67a7-2ca8-4bf6-964a-11fe772e3ac2',
+              'P1D',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+          */
         },
       },
     },
@@ -796,7 +869,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W2',
-        time: getMonthlyDates('2004-10-01', '2022-03-01'),
+        time: availableDates['no2-monthly'],
         inputData: [''],
         yAxis: 'NO2 [µmol/m²]',
         display: {
@@ -805,7 +878,7 @@ export const globalIndicators = [
           minZoom: 1,
           maxNativeZoom: 6,
           tileSize: 256,
-          opacity: 0.95,
+          opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x.png?url=s3://covid-eo-data/OMNO2d_HRM/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=0%2C1.08398547e16&color_map=reds',
           name: 'Air Quality (NASA)',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
@@ -1026,7 +1099,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W5',
-        time: getDailyDates('2020-01-01', '2021-10-15'),
+        time: availableDates['no2-monthly-diff'],
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1037,6 +1110,211 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           legendUrl: 'data/trilateral/N2-co2diff-legend.png',
           disableCompare: true,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'NPP',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'NPP (BICEP)',
+        indicator: 'NPP',
+        lastIndicatorValue: null,
+        indicatorName: 'NPP (BICEP)',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        time: availableDates.BICEP_NPP_VIS_PP,
+        inputData: [],
+        yAxis: 'NPP',
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'NPP (BICEP)',
+          layers: 'BICEP_NPP_VIS_PP2',
+          legendUrl: 'eodash-data/data/PP_Ocean.PNG',
+          minZoom: 2,
+          maxZoom: 13,
+          minMapZoom: 2,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.BICEP_NPP_VIS_PP,
+              shConfig.BICEP_NPP_VIS_PP,
+              'P30D',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'NO2 OMI Annual',
+        indicator: 'N9',
+        lastIndicatorValue: null,
+        indicatorName: 'NO2 OMI Annual',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'W8',
+        time: availableDates['OMI_trno2-COG'],
+        inputData: [''],
+        display: {
+          mosaicIndicator: true,
+          collection: 'OMI_trno2-COG',
+          protocol: 'xyz',
+          tileSize: 256,
+          minZoom: 1,
+          minMapZoom: 1,
+          maxZoom: 10,
+          maxMapZoom: 10,
+          url: 'https://staging-raster.delta-backend.xyz/mosaic/tiles/{searchid}/WebMercatorQuad/{z}/{x}/{y}@1x?assets=cog_default&rescale=-126905900761088.0%2C3673290589614899.0&colormap_name=reds',
+          name: 'NO2 OMI Annual',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
+          // legendUrl: 'data/trilateral/N2-co2diff-legend.png',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'SO2 OMI/Aura',
+        indicator: 'N10',
+        lastIndicatorValue: null,
+        indicatorName: 'SO2 OMI/Aura',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'W9',
+        time: availableDates['OMSO2PCA-COG'],
+        inputData: [''],
+        display: {
+          mosaicIndicator: true,
+          collection: 'OMSO2PCA-COG',
+          protocol: 'xyz',
+          tileSize: 256,
+          minZoom: 1,
+          minMapZoom: 1,
+          maxZoom: 10,
+          maxMapZoom: 10,
+          url: 'https://staging-raster.delta-backend.xyz/mosaic/tiles/{searchid}/WebMercatorQuad/{z}/{x}/{y}@1x?assets=cog_default&rescale=0.0%2C1.0&colormap_name=viridis',
+          name: 'SO2 OMI/Aura',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
+          // legendUrl: 'data/trilateral/N2-co2diff-legend.png',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'W8',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Sea Ice Thickness (Envisat)',
+        indicator: 'SIE',
+        lastIndicatorValue: null,
+        indicatorName: 'Sea Ice Thickness (Envisat)',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        time: availableDates.VIS_ENVISAT_SEAICETHICKNESS,
+        inputData: [],
+        yAxis: 'Sea Ice Thickness (Envisat)',
+        showGlobe: true,
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Sea Ice Thickness (Envisat)',
+          layers: 'VIS_ENVISAT_SEAICETHICKNESS',
+          legendUrl: 'eodash-data/data/SeaIceThicknessCCI.PNG',
+          minZoom: 2,
+          maxZoom: 13,
+          minMapZoom: 2,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          /*
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...shFisAreaIndicatorStdConfig,
+            url: ``,
+          },
+          */
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        aoiID: 'W9',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Sea Ice Thickness (Cryosat)',
+        indicator: 'SIC',
+        lastIndicatorValue: null,
+        indicatorName: 'Sea Ice Thickness (Cryosat)',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        time: availableDates.VIS_CRYOSAT_SEAICETHICKNESS,
+        inputData: [],
+        yAxis: 'VIS_CRYOSAT_SEAICETHICKNESS',
+        showGlobe: true,
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Sea Ice Thickness (Cryosat)',
+          layers: 'VIS_CRYOSAT_SEAICETHICKNESS',
+          legendUrl: 'eodash-data/data/SeaIceThicknessCCI.PNG',
+          minZoom: 2,
+          maxZoom: 13,
+          minMapZoom: 2,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          /*
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...shFisAreaIndicatorStdConfig,
+            url: ``,
+          },
+          */
         },
       },
     },
@@ -1075,6 +1353,19 @@ export const globalIndicators = [
             ...shFisAreaIndicatorStdConfig,
             url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_SO2_DAILY_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
           },
+          // TODO: preparation to migrate to new statistical api, still some issues with service
+          /*
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_SO2_DAILY_DATA,
+              'byoc-4ad9663f-d173-411d-8d28-3081d4d9e3aa',
+              'P7D',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+          */
         },
       },
     },
@@ -1143,6 +1434,111 @@ export const globalIndicators = [
           labelFormatFunction: (date) => date,
           specialEnvTime: true,
         },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Global',
+        siteName: 'global',
+        description: 'Sea Ice Concentration (GCOM-W)',
+        indicator: 'N12',
+        lastIndicatorValue: null,
+        indicatorName: 'Sea Ice Concentration (GCOM-W)',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        time: getDailyDates('2002-06-21', '2021-12-31'),
+        inputData: [''],
+        showGlobe: true,
+        display: [{
+          name: 'Sea Ice Concentration',
+          legendUrl: 'eodash-data/data/sic_legend.png',
+          combinedLayers: [
+            {
+              baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+              name: 'SIC-GCOMW-NH',
+              layers: 'SIC-GCOMW-NH',
+              minZoom: 2,
+              dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
+            }, {
+              baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+              name: 'SIC-GCOMW-SH',
+              layers: 'SIC-GCOMW-SH',
+              minZoom: 2,
+              dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
+            },
+          ],
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Global',
+        siteName: 'global',
+        description: 'NDVI GCOM',
+        indicator: 'E10e',
+        lastIndicatorValue: null,
+        indicatorName: 'NDVI',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        time: availableDates['NDVI-GCOMC-World-Monthly'],
+        inputData: [''],
+        display: [{
+          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+          name: 'NDVI',
+          layers: 'NDVI-GCOMC-World-Monthly',
+          minZoom: 1,
+          dateFormatFunction: () => '',
+          legendUrl: 'eodash-data/data/gcom_ndvi.png',
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Global',
+        siteName: 'global',
+        description: 'Ocean Primary Productivity (GCOM-C)',
+        indicator: 'N11',
+        lastIndicatorValue: null,
+        indicatorName: 'Ocean Primary Productivity (GCOM-C)',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        time: availableDates['ONPP-GCOMC-World-Monthly'],
+        inputData: [''],
+        display: [{
+          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+          name: 'ONPP-GCOMC-World-Monthly',
+          layers: 'ONPP-GCOMC-World-Monthly',
+          minZoom: 1,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'hh:mm:ss'.000Z'"),
+          legendUrl: 'eodash-data/data/N11_legend.png',
+        }],
       },
     },
   },

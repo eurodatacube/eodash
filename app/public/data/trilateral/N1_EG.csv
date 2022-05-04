@@ -1,0 +1,4 @@
+AOI,Country,Region,City,Site Name,Description,Method,EO Sensor,Input Data,Indicator code,Time,Measurement Value,Reference Description,Reference time,Reference value,Rule,Indicator Value,Sub-AOI,Y axis,Indicator Name,Color code,Data Provider,AOI_ID,Update Frequency
+"30.12,31.24",EG,,Cairo ,,NO2,NO2,NO2_Cairo,NO2_Cairo,N1,2018-06-30T11:59:59,,,,,NO2 Cairo,,"POLYGON((30 31,32 31,32 29,30 29,30 31))",NO2,,BLUE,JAXA,EG01,EndSeason
+"30.12,31.24",EG,,Cairo ,,NO2,NO2,NO2_Cairo,NO2_Cairo,N1,2019-02-01T00:00:00,,,,,NO2 Cairo,,,NO2,,BLUE,JAXA,EG01,EndSeason
+"30.12,31.24",EG,,Cairo ,,NO2,NO2,NO2_Cairo,NO2_Cairo,N1,2019-10-05T11:59:59,,,,,NO2 Cairo,,,NO2,,BLUE,JAXA,EG01,EndSeason

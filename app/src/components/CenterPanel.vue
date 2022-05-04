@@ -35,7 +35,10 @@
                 >Global Indicators</span>
               </div>
             </v-expansion-panel-header>
-            <v-expansion-panel-content class="panel-content">
+            <v-expansion-panel-content
+              class="panel-content"
+              style="max-height: 65vh; overflow: auto"
+            >
               <v-list dense class="pt-0">
                 <v-list-item
                   v-for="feature in globalIndicators"
