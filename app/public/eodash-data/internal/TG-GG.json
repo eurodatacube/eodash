@@ -7201,6 +7201,42 @@
             "retail_recreation": 46,
             "transit_stations": 7,
             "workplaces": 56
+        },
+        {
+            "date": "2022-04-25T00:00:00",
+            "grocery": 68,
+            "parks": 224,
+            "residential": 24,
+            "retail_recreation": 48,
+            "transit_stations": 23,
+            "workplaces": 56
+        },
+        {
+            "date": "2022-04-26T00:00:00",
+            "grocery": 72,
+            "parks": 224,
+            "residential": 23,
+            "retail_recreation": 56,
+            "transit_stations": 18,
+            "workplaces": 56
+        },
+        {
+            "date": "2022-04-27T00:00:00",
+            "grocery": 47,
+            "parks": 196,
+            "residential": 41,
+            "retail_recreation": 37,
+            "transit_stations": -1,
+            "workplaces": -22
+        },
+        {
+            "date": "2022-04-28T00:00:00",
+            "grocery": 73,
+            "parks": 207,
+            "residential": 26,
+            "retail_recreation": 49,
+            "transit_stations": 23,
+            "workplaces": 53
         }
     ]
 }
