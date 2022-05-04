@@ -431,6 +431,7 @@ export default {
     LoadingAnimation,
   },
   data: () => ({
+    isMounted: false,
     features: [],
     dialog: false,
     featureTitle: '',
@@ -513,7 +514,11 @@ export default {
       };
     },
     navigationButtonVisible() {
-      return this.offsetTop >= document.querySelector('#headerRow').clientHeight;
+      let visible;
+      if (this.isMounted) {
+        visible = this.offsetTop >= document.querySelector('#headerRow').clientHeight;
+      }
+      return visible;
     },
     currentRow() {
       let currentRow;
@@ -555,6 +560,9 @@ export default {
         this.getNumberOfRows();
       }
     },
+  },
+  mounted() {
+    this.isMounted = true;
   },
   methods: {
     ...mapActions('dashboard', [

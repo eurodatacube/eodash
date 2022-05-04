@@ -6,46 +6,46 @@
         "title": "Agriculture Story",
         "subtitle": "Satellite data applications for environmental impacts on world crop (cereal) supply and demand",
         "image": "./data/story-images/Agriculture.jpeg",
-        "imagePlaceholder": "./data/story-images/Agriculture.jpeg"
-      },
-      "crops-consume-cairos-carbon-dioxide": {
-        "originalDashboardId": "fe9c083d830b9f90",
-        "title": "Crops Consume Cairo’s Carbon Dioxide",
-        "subtitle": "Urban Monitoring of Atmospheric CO2 Change affected by Human and Ecosystem Activities",
-        "image": "./data/story-images/Egypt-Cairo.jpeg",
-        "imagePlaceholder": "./data/story-images/Egypt-Cairo.jpeg"
-      },
-      "nile-delta": {
-        "originalDashboardId": "c37008b5978bf73e",
-        "title": "AQ - JAXA Story 2",
-        "subtitle": "Nile Delta",
-        "image": "./data/story-images/Egypt-Cairo.jpeg",
-        "imagePlaceholder": "./data/story-images/Egypt-Cairo.jpeg"
+        "imagePlaceholder": "./data/story-images/Agriculture_placeholder.jpeg"
       }
     },
-    "air-quality": {
+    "atmosphere": {
       "joint-intro": {
         "originalDashboardId": "2b11a69e94e47a4a",
-        "title": "NASA, ESA and JAXA, Working Together to Monitor our Atmosphere",
+        "title": "NASA, ESA and JAXA, Working Together to Monitor the air we breathe",
         "subtitle": "Traffic, wildfires, and power plants all emit air pollutants and greenhouse gases as a product of combustion",
         "image": "./data/story-images/sentinel-5P.jpg",
         "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
       },
       "monitoring-air-pollution-from-space": {
         "originalDashboardId": "afea38efc80e9846",
-        "title": "Monitoring from Space how Air Pollution affects Climate Change",
-        "subtitle": "TROPOMI measurements reveal 700 million metric tons of CO2 released from bushfires in just 3 months",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+        "title": "Australian bushfires during 2019-2020 emitted 700 million metric tons of CO2 into the atmosphere",
+        "subtitle": "Read more about how Air Pollution affects Climate Change",
+        "image": "./data/story-images/8-wildfires.jpg",
+        "imagePlaceholder": "./data/story-images/8-wildfires_placeholder.jpg"
+      },
+        "NASA-story": {
+        "originalDashboardId": "bd6db303fd0fb8e8",
+        "title": "Air pollution in India, China and the U.S. have changed significantly over the past two decades",
+        "subtitle": "Read more about how NASA scientists are measuring nitrogen dioxide (NO2) and sulfur dioxide (SO2) from space",
+        "image": "./data/story-images/7-greenhouse-gases-from-combustion.jpg",
+        "imagePlaceholder": "./data/story-images/7-greenhouse-gases-from-combustion_placeholder.jpg"
+      },
+      "crops-consume-cairos-carbon-dioxide": {
+        "originalDashboardId": "fe9c083d830b9f90",
+        "title": "Farmlands North of Cairo absorb so much atmospheric CO2 it can be measured from space",
+        "subtitle": "Read more about how crops consume Cairo's Carbon Dioxide",
+        "image": "./data/story-images/3-agriculture-crops.jpg",
+        "imagePlaceholder": "./data/story-images/3-agriculture-crops_placeholder.jpg"
       }
     },
     "biomass-and-landcover": {
       "biomass-harmonization-activity": {
         "originalDashboardId": "a785d7a3c536a452",
-        "title": "Biomass - Joint Story",
-        "subtitle": "The Biomass Harmonization Activity",
+        "title": "Trees and other plants pull vast amounts of carbon dioxide out of the atmosphere every year",
+        "subtitle": "Read more about taking stock of global biomass maps",
         "image": "./data/story-images/Biomass.jpeg",
-        "imagePlaceholder": "./data/story-images/Biomass.jpeg"
+        "imagePlaceholder": "./data/story-images/Biomass_placeholder.jpeg"  
       }
     },
     "covid-19": {
@@ -54,7 +54,7 @@
         "title": "Covid-19",
         "subtitle": "Covid-19 Impacts",
         "image": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg",
-        "imagePlaceholder": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg"
+        "imagePlaceholder": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3_placeholder.jpg"
       }
     },
     "cryosphere": {
@@ -63,31 +63,45 @@
         "title": "Cryosphere - Joint Story",
         "subtitle": "An International Collaboration for Understanding Changes in Arctic Sea Ice",
         "image": "./data/story-images/SeaIce.jpeg",
-        "imagePlaceholder": "./data/story-images/SeaIce.jpeg"
+        "imagePlaceholder": "./data/story-images/SeaIce_placeholder.jpeg"
       },
       "sea-ice-freeboard-thickness": {
         "originalDashboardId": "e45036dd512afea1",
         "title": "Cryo - ESA NASA 1",
         "subtitle": "Sea Ice Freeboard & Thickness from Satellite Altimetry",
         "image": "./data/story-images/SeaIce.jpeg",
-        "imagePlaceholder": "./data/story-images/SeaIce.jpeg"
+        "imagePlaceholder": "./data/story-images/SeaIce_placeholder.jpeg"
       },
       "cryo-jaxa": {
         "originalDashboardId": "e45036dd512afea1",
         "title": "Cryo - JAXA",
         "subtitle": "Cryo JAXA",
         "image": "./data/story-images/SeaIce.jpeg",
-        "imagePlaceholder": "./data/story-images/SeaIce.jpeg"
+        "imagePlaceholder": "./data/story-images/SeaIce_placeholder.jpeg"
       }
     },
     "economy": {},
     "oceans": {
       "ocean-joint": {
         "originalDashboardId": "6ea3293aade90541",
-        "title": "Plants and the climate",
-        "subtitle": "Satellite images reveal a view of the ocean as rich and complex as that of the land",
+        "title": "Half of the oxygen we take in every breath comes from microscopic plants in the ocean",
+        "subtitle": "Read more about following the activity of plants in the ocean from space",
         "image": "./data/story-images/Oceans.jpeg",
-        "imagePlaceholder": "./data/story-images/Oceans.jpeg"
+        "imagePlaceholder": "./data/story-images/Oceans_placeholder.jpeg"
+      },
+      "ocean-JAXA": {
+        "originalDashboardId": "adc20ad9b73231b6",
+        "title": "Understanding climate change effects on water temperature and ocean currents is vital to managing these resources",
+        "subtitle": "Read more about Satellite Sensors Tracking Ocean Color Changes to Predict Phytoplankton Health",
+        "image": "./data/story-images/JAXA Ocean Cover.jpeg",
+        "imagePlaceholder": "./data/story-images/JAXA Ocean Cover_placeholder.jpeg"
+      },
+      "ocean-NASA": {
+        "originalDashboardId": "4bcaa8555a55749d",
+        "title": "Understanding climate change effects on water temperature and ocean currents is vital to managing these resources",
+        "subtitle": "Read more about Satellite Sensors Tracking Ocean Color Changes to Predict Phytoplankton Health",
+        "image": "./data/story-images/JAXA Ocean Cover.jpeg",
+        "imagePlaceholder": "./data/story-images/JAXA Ocean Cover_placeholder.jpeg"
       }
     }
   }

@@ -328,7 +328,7 @@ export default {
       switch (this.$route.name) {
         case 'ocean':
         case 'biomass-and-landcover':
-        case 'air-quality':
+        case 'atmosphere':
         case 'water-quality':
         case 'agriculture':
         case 'cryosphere':
