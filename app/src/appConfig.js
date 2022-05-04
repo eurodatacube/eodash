@@ -22,6 +22,7 @@ module.exports = [
       imagePath: '/img/ESA',
     },
     storyPath: '/eodash-data/stories/',
+    showNewsletterButton: true,
     customCSS: 'esa',
     newsBanner: {
       color: 'green darken-1',

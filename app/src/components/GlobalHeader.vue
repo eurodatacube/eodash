@@ -32,6 +32,7 @@
       hide-overlay
       width="70vw"
       v-show="!isFullScreen"
+      v-if="$vuetify.breakpoint.smAndDown"
     >
       <template>
         <v-list-item style="background: var(--v-primary-base)">
@@ -106,6 +107,7 @@
       </v-btn>
 
         <v-badge
+          v-if="$store.state.dashboard.dashboardConfig"
           bordered
           color="info"
           :content="$store.state.dashboard.dashboardConfig
@@ -115,7 +117,6 @@
           overlap
         >
           <v-btn
-            v-if="$store.state.dashboard.dashboardConfig"
             block
             text
             color="primary"
@@ -124,6 +125,38 @@
             Custom Dashboard
           </v-btn>
         </v-badge>
+
+        <v-dialog
+          v-model="showNewsletterModal"
+          width="50%"
+          :fullscreen="$vuetify.breakpoint.xsOnly"
+          :hide-overlay="$vuetify.breakpoint.xsOnly"
+          transition="dialog-bottom-transition"
+          style="z-index: 9999;"
+          v-if="appConfig && appConfig.showNewsletterButton"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              class="my-4 flex-grow-1 d-flex newsletter-button"
+              color="secondary"
+              dark
+              tile
+              block
+              v-bind="attrs"
+              v-on="on"
+              @click="d => { showNewsletterModal = true }"
+            >
+              Get our newsletter
+            </v-btn>
+          </template>
+
+          <modal
+            title="Subscribe to our newsletter"
+            @submit="d => { showNewsletterModal = false }"
+            @close="d => { showNewsletterModal = false }"
+            always-sm />
+        </v-dialog>
+
         <v-divider></v-divider>
 
         <indicator-filters
@@ -253,6 +286,36 @@
 
     <v-spacer v-if="!(appConfig && appConfig.enableStories)"></v-spacer>
 
+    <v-dialog
+      v-model="showNewsletterModal"
+      width="50%"
+      :fullscreen="$vuetify.breakpoint.xsOnly"
+      :hide-overlay="$vuetify.breakpoint.xsOnly"
+      transition="dialog-bottom-transition"
+      style="z-index: 9999;"
+      v-if="appConfig
+              && appConfig.showNewsletterButton
+              && $vuetify.breakpoint.mdAndUp"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          class="mr-8"
+          color="secondary"
+          dark
+          v-bind="attrs"
+          v-on="on"
+          @click="d => { showNewsletterModal = true }"
+        >
+          Get our newsletter
+        </v-btn>
+      </template>
+
+      <modal
+        title="Subscribe to our newsletter"
+        @close="d => { showNewsletterModal = false }"
+        always-sm />
+    </v-dialog>
+
     <img height="32" :src="appConfig && appConfig.branding.headerLogo" />
   </v-app-bar>
 </template>
@@ -265,6 +328,7 @@ import {
 } from 'vuex';
 
 import ThemeNavigation from './ThemesLandingPage/ThemeNavigation.vue';
+import Modal from './Modal.vue';
 import IndicatorFilters from './IndicatorFilters.vue';
 
 /**
@@ -300,11 +364,14 @@ export default {
   },
   components: {
     ThemeNavigation,
+    Modal,
     IndicatorFilters,
   },
   data() {
     return {
       drawerLeft: false,
+      hasNewsletterSubscription: false,
+      showNewsletterModal: false,
     };
   },
   methods: {
