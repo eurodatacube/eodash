@@ -1464,14 +1464,14 @@ export const globalIndicators = [
           combinedLayers: [
             {
               baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-              name: 'SIC-GCOMW-NH',
-              layers: 'SIC-GCOMW-NH',
+              name: 'SIC_N',
+              layers: 'SIC_N',
               minZoom: 2,
               dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
             }, {
               baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-              name: 'SIC-GCOMW-SH',
-              layers: 'SIC-GCOMW-SH',
+              name: 'SIC_S',
+              layers: 'SIC_S',
               minZoom: 2,
               dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
             },
