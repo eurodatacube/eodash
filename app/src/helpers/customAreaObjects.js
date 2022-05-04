@@ -277,8 +277,9 @@ const fetchCustomAreaObjects = async (
   // Prepare our credentials for the Statistical API
   const recaptcha = await load('6LddKgUfAAAAAKSlKdCJWo4XTQlTPcKZWrGLk7hh');
   const token = await recaptcha.execute('token_assisted_anonymous');
-  const clientId = 'e97cf094-6512-4b31-9a41-63f34eb5e2a3';
-  const oauthUrl = `https://services.sentinel-hub.com/oauth/token/assisted?client_id=${clientId}&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F:8080&response_type=token&grant_type=client_credentials&recaptcha=${token}`;
+  const { origin, hostname } = window.location;
+  const clientId = shConfig[hostname];
+  const oauthUrl = `https://services.sentinel-hub.com/oauth/token/assisted?client_id=${clientId}&redirect_uri=${encodeURIComponent(origin)}&response_type=token&grant_type=client_credentials&recaptcha=${token}`;
   const res = await fetch(oauthUrl);
   const html = await res.text();
 
