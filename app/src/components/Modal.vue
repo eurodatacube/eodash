@@ -78,8 +78,6 @@ export default {
      * Validate form contents and send our data to the server.
      */
     async submit() {
-      console.log('submitting');
-
       this.isFinished = true;
     },
   },
