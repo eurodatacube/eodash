@@ -192,30 +192,9 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.eodash-newsletter-banner {
-  position: relative;
-
-  .close-button {
-    position: absolute;
-    right: 18px;
-    top: 18px;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-  }
-}
-
-.mobile-modal {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-}
-
-.fullwidth {
-  left: 0;
-  top: 0;
+<style lang="scss">
+.v-dialog--fullscreen {
+  overflow-x: hidden !important;
+  overflow-y: scroll !important;
 }
 </style>
