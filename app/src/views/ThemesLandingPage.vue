@@ -19,7 +19,7 @@
 
           <div class="mt-16 mb-16 d-flex flex-column justify-start align-center">
             <stories-grid :items="oneOfEachTheme" />
-            <newsletter-banner />
+            <newsletter-banner v-if="appConfig && appConfig.showNewsletterButton" />
           </div>
         </div>
 
