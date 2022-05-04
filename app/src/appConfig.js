@@ -181,7 +181,6 @@ module.exports = [
       twitterCardImagePath: '/img/trilateral/twitter_card.png',
       imagePath: '/img/trilateral',
     },
-    showNewsletterButton: true,
     displayDummyLocations: './data/trilateral/dummylocations.csv',
     storyPath: '/data/trilateral/',
     customCSS: 'trilateral',
