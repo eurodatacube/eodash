@@ -295,7 +295,6 @@
       style="z-index: 9999;"
       v-if="appConfig
               && appConfig.showNewsletterButton
-              && appConfig.id !== 'trilateral' 
               && $vuetify.breakpoint.mdAndUp"
     >
       <template v-slot:activator="{ on, attrs }">
