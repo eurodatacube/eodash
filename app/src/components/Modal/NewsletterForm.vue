@@ -175,7 +175,7 @@ export default {
               dashboardapikey: shConfig.listmonkApiKey,
             },
           })
-            .then((res) => {
+            .then(() => {
               this.$emit('submit');
             })
             .catch((e) => {
