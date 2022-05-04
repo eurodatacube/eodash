@@ -156,7 +156,7 @@ export const evalScriptsDefinitions = Object.freeze({
       return {
         input: [{
           bands: [
-            "tropso2",
+            "so2",
             "dataMask"
           ]
         }],
@@ -175,10 +175,10 @@ export const evalScriptsDefinitions = Object.freeze({
     }
     function evaluatePixel(samples) {
       let validValue = 1
-      if (samples.tropso2 >= 1e20 ){
+      if (samples.so2 >= 1e20 ){
           validValue = 0
       }
-      let index = samples.tropso2;
+      let index = samples.so2;
       return {
         data: [index],
         dataMask: [samples.dataMask * validValue]
