@@ -133,7 +133,7 @@
           :hide-overlay="$vuetify.breakpoint.xsOnly"
           transition="dialog-bottom-transition"
           style="z-index: 9999;"
-          v-if="!(appConfig && appConfig.enableStories)"
+          v-if="appConfig && appConfig.showNewsletterButton"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
