@@ -630,7 +630,7 @@ export default {
       return this.$marked(text
         .replace(this.imageFlag, '<img class="featuredImage" src="')
         .replace(this.imageFlag, `" title="${text.includes(this.imageFlag)
-          ? text.split(this.imageFlag)[2]
+          ? text.split(this.imageFlag)[2].replace(/\n/g, ' ')
           : 'Image'}"/>`));
     },
     registerImageZoom() {
