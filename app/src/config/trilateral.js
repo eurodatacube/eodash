@@ -1149,7 +1149,7 @@ export const globalIndicators = [
             ...statisticalApiHeaders,
             ...statisticalApiBody(
               evalScriptsDefinitions.BICEP_NPP_VIS_PP,
-              shConfig.BICEP_NPP_VIS_PP,
+              'zarr-a216afca-8a65-4072-87a5-8ed7aa21e08a',
               'P30D',
             ),
             callbackFunction: parseStatAPIResponse,
