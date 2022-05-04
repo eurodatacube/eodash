@@ -252,13 +252,13 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Air quality',
     class: 'air',
     story: '/eodash-data/stories/N9',
-    themes: ['air-quality'],
+    themes: ['atmosphere'],
   },
   N10: {
     indicator: 'Air quality',
     class: 'air',
     story: '/eodash-data/stories/N10',
-    themes: ['air-quality'],
+    themes: ['atmosphere'],
   },
   NASAPopulation: {
     indicator: 'Population',
@@ -397,7 +397,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'NPP (BICEP)',
     class: 'air',
     story: '/eodash-data/stories/NPP',
-    themes: ['covid-19', 'air-quality'],
+    themes: ['covid-19', 'atmosphere'],
   },
   SIE: {
     indicator: 'SIE',
