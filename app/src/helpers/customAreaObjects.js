@@ -1,7 +1,8 @@
 import { Wkt } from 'wicket';
 import { template } from '@/utils';
 import { DateTime } from 'luxon';
-import { load } from 'recaptcha-v3';
+// TODO: disabled recaptcha
+// import { load } from 'recaptcha-v3';
 
 
 const wkt = new Wkt();
@@ -156,7 +157,7 @@ export const evalScriptsDefinitions = Object.freeze({
       return {
         input: [{
           bands: [
-            "tropso2",
+            "so2",
             "dataMask"
           ]
         }],
@@ -175,10 +176,10 @@ export const evalScriptsDefinitions = Object.freeze({
     }
     function evaluatePixel(samples) {
       let validValue = 1
-      if (samples.tropso2 >= 1e20 ){
+      if (samples.so2 >= 1e20 ){
           validValue = 0
       }
-      let index = samples.tropso2;
+      let index = samples.so2;
       return {
         data: [index],
         dataMask: [samples.dataMask * validValue]
@@ -273,12 +274,16 @@ const fetchCustomAreaObjects = async (
   if (requestBody) {
     requestOpts.body = JSON.stringify(requestBody);
   }
-
+  /*
+  // TODO: disabling recaptcha strategy for now
   // Prepare our credentials for the Statistical API
-  const recaptcha = await load('6LddKgUfAAAAAKSlKdCJWo4XTQlTPcKZWrGLk7hh');
+  const recaptcha = await load('6LddKgUfAAAAAKSlKdCJWo4XTQlTPcKZWrGLk7hh', {
+    autoHideBadge: true,
+  });
   const token = await recaptcha.execute('token_assisted_anonymous');
-  const clientId = 'e97cf094-6512-4b31-9a41-63f34eb5e2a3';
-  const oauthUrl = `https://services.sentinel-hub.com/oauth/token/assisted?client_id=${clientId}&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F:8080&response_type=token&grant_type=client_credentials&recaptcha=${token}`;
+  const { origin, hostname } = window.location;
+  const clientId = shConfig[hostname];
+  const oauthUrl = `https://services.sentinel-hub.com/oauth/token/assisted?client_id=${clientId}&redirect_uri=${encodeURIComponent(origin)}&response_type=token&grant_type=client_credentials&recaptcha=${token}`;
   const res = await fetch(oauthUrl);
   const html = await res.text();
 
@@ -287,39 +292,11 @@ const fetchCustomAreaObjects = async (
   const endPos = html.search('},') + 1;
   const message = JSON.parse(html.slice(startPos, endPos));
 
-  /*
-  // If the Statistical-API-specific bounds structure happens
-  // to exist, replace that right away so we always have bounds.
-  if (requestBody.input.bounds.geometry.coordinates) {
-    // This structure is an array in an array because the API demands it.
-    const coords = [[]];
-    // Save latitudes and longitudes since we'll need them later.
-    let longitudes = [];
-    let latitudes = [];
-    for (let latLong of drawnArea.coordinates[0]) { // eslint-disable-line
-      // The conversion between Leaflet's LatLong format and
-      // GeoJSON's LongLat format happens here.
-      coords[0].push(latLong.reverse());
-      latitudes.push(latLong[0]);
-      longitudes.push(latLong[1]);
-    }
-    requestBody.input.bounds.geometry.coordinates = coords;
-    // Filter latitude and longitude arrays so all items are unique.
-    latitudes = latitudes.filter((value, index, self) => self.indexOf(value) === index);
-    longitudes = longitudes.filter((value, index, self) => self.indexOf(value) === index);
-    // Calculate the appropriate resolution for the current bounding box.
-    requestBody.aggregation.resx = Math.abs(
-      (Math.max(...longitudes) - Math.min(...longitudes)) / 100,
-    );
-    requestBody.aggregation.resy = Math.abs(
-      (Math.max(...latitudes) - Math.min(...latitudes)) / 100,
-    );
-  }
-  */
   // Set the Authorization header using the Bearer token we generated using reCAPTCHA.
   requestOpts.headers.Authorization = `Bearer ${message.access_token}`;
 
   // this.map.fireEvent('dataloading');
+  */
   const customObjects = await fetch(url, requestOpts).then((response) => {
     if (!response.ok) {
       throw Error(response.statusText);

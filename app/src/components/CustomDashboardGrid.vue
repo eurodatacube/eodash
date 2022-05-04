@@ -627,7 +627,11 @@ export default {
     convertToMarkdown(text) {
       // each time markdown is rendered, register its images for the zoom feature
       this.registerImageZoom();
-      return this.$marked(text.replace(this.imageFlag, '<img class="featuredImage" src="').replace(this.imageFlag, '" title="test"/>'));
+      return this.$marked(text
+        .replace(this.imageFlag, '<img class="featuredImage" src="')
+        .replace(this.imageFlag, `" title="${text.includes(this.imageFlag)
+          ? text.split(this.imageFlag)[2].replace(/\n/g, ' ')
+          : 'Image'}"/>`));
     },
     registerImageZoom() {
       this.$nextTick(() => {

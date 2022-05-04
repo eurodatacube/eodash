@@ -8,10 +8,12 @@ import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import l3mapsData from '@/config/tropomiCO.json';
 import {
+  /*
   statisticalApiHeaders,
   statisticalApiBody,
   evalScriptsDefinitions,
   parseStatAPIResponse,
+  */
   shFisAreaIndicatorStdConfig,
 } from '@/helpers/customAreaObjects';
 import store from '../store';
@@ -1144,17 +1146,19 @@ export const globalIndicators = [
           maxZoom: 13,
           minMapZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          /*
           customAreaIndicator: true,
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
               evalScriptsDefinitions.BICEP_NPP_VIS_PP,
-              shConfig.BICEP_NPP_VIS_PP,
+              'zarr-a216afca-8a65-4072-87a5-8ed7aa21e08a',
               'P30D',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
+          */
         },
       },
     },
@@ -1464,14 +1468,14 @@ export const globalIndicators = [
           combinedLayers: [
             {
               baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-              name: 'SIC-GCOMW-NH',
-              layers: 'SIC-GCOMW-NH',
+              name: 'SIC_N',
+              layers: 'SIC_N',
               minZoom: 2,
               dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
             }, {
               baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-              name: 'SIC-GCOMW-SH',
-              layers: 'SIC-GCOMW-SH',
+              name: 'SIC_S',
+              layers: 'SIC_S',
               minZoom: 2,
               dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
             },
