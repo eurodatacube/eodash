@@ -8,10 +8,12 @@ import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import l3mapsData from '@/config/tropomiCO.json';
 import {
+  /*
   statisticalApiHeaders,
   statisticalApiBody,
   evalScriptsDefinitions,
   parseStatAPIResponse,
+  */
   shFisAreaIndicatorStdConfig,
 } from '@/helpers/customAreaObjects';
 import store from '../store';
@@ -1144,6 +1146,7 @@ export const globalIndicators = [
           maxZoom: 13,
           minMapZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          /*
           customAreaIndicator: true,
           areaIndicator: {
             ...statisticalApiHeaders,
@@ -1155,6 +1158,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
+          */
         },
       },
     },
