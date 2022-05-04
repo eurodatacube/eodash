@@ -275,7 +275,9 @@ const fetchCustomAreaObjects = async (
   }
 
   // Prepare our credentials for the Statistical API
-  const recaptcha = await load('6LddKgUfAAAAAKSlKdCJWo4XTQlTPcKZWrGLk7hh');
+  const recaptcha = await load('6LddKgUfAAAAAKSlKdCJWo4XTQlTPcKZWrGLk7hh', {
+    autoHideBadge: true,
+  });
   const token = await recaptcha.execute('token_assisted_anonymous');
   const { origin, hostname } = window.location;
   const clientId = shConfig[hostname];
