@@ -1294,7 +1294,7 @@ export const globalIndicators = [
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://staging-raster.delta-backend.xyz/mosaic/tiles/{searchid}/WebMercatorQuad/{z}/{x}/{y}@1x?assets=cog_default&rescale=0.0%2C1100.0&colormap_name=jet',
+          url: 'https://staging-raster.delta-backend.xyz/mosaic/tiles/{searchid}/WebMercatorQuad/{z}/{x}/{y}@1x?assets=cog_default&rescale=0.0%2C1500.0&colormap_name=jet',
           name: 'NPP (NASA)',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
           labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM'),
