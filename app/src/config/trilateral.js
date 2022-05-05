@@ -395,6 +395,14 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.terrainLight],
   },
+  SIF: {
+    indicator: 'Solar Induced Chlorophyll Fluorescence',
+    story: '/eodash-data/stories/SIF',
+    class: 'agriculture',
+    themes: ['biomass-and-landcover'],
+    largeSubAoi: true,
+    maxMapZoom: 8,
+  },
   NPP: {
     indicator: 'NPP (BICEP)',
     class: 'water',
@@ -496,6 +504,12 @@ export const layerNameMapping = Object.freeze({
     layers: 'XCO2-GOSAT-Cairo',
     maxMapZoom: 14,
     legendUrl: 'https://legends.restecmap.com/images/XCO2-GOSAT-Cairo.png',
+  },
+  SIF_TROPOMI_Cairo: {
+    baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+    layers: 'SIF-TROPOMI-Cairo-Monthly',
+    maxMapZoom: 14,
+    legendUrl: 'https://legends.restecmap.com/images/SIF-TROPOMI-Cairo-Monthly.png',
   },
   GOSAT_XCO2: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/GOSAT_XCO2_{time}_{site}_BG_circle_cog.tif&resampling_method=nearest',

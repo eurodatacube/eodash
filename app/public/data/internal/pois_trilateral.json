@@ -160,6 +160,26 @@
         "yAxis": "Total area [ha]"
     },
     {
+        "aoi": "30.12,31.24",
+        "aoiID": "EG01",
+        "city": "Cairo ",
+        "country": "EG",
+        "description": "Solar Induced Chlorophyll Fluorescence",
+        "indicator": "SIF",
+        "indicatorName": "",
+        "lastColorCode": "BLUE",
+        "lastIndicatorValue": "",
+        "lastMeasurement": "",
+        "lastReferenceTime": "",
+        "lastReferenceValue": "",
+        "lastTime": "2019-10-16T11:59:59",
+        "region": "",
+        "siteName": "",
+        "subAoi": "POLYGON((30 31,32 31,32 29,30 29,30 31))",
+        "updateFrequency": "EndSeason",
+        "yAxis": "SIF"
+    },
+    {
         "aoi": "52.131413,13.090632",
         "aoiID": "DE11",
         "city": "Brandenburg Region",

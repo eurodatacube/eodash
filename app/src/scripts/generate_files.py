@@ -373,7 +373,7 @@ default_array_map = {
 def try_parsing_date(text, line):
     for fmt in ('%Y-%m-%dT%H:%M:%S', '%Y-%m-%d'):
         try:
-            return datetime.datetime.strptime(text.strip(), fmt)
+            return datetime.strptime(text.strip(), fmt)
         except ValueError:
             pass
     raise ValueError(f'time "{text}" not provided in valid format, full line "{line}"')
@@ -551,7 +551,7 @@ def generateData(
         poi_dict[poi_key]["lastReferenceValue"] = ([""] + [i["reference_value"] for i in curr_data if i["reference_value"] not in ["", 'NaN', '/']])[-1]
 
     def date_converter(obj):
-        if isinstance(obj, datetime.datetime):
+        if isinstance(obj, datetime):
             return obj.strftime('%Y-%m-%dT%H:%M:%S')
 
     output_dict = {key: {subkey: poi_dict[key][subkey] for subkey in outKeys} for key in poi_dict}
@@ -607,6 +607,7 @@ generateData(
         '/public/data/trilateral/N3b.csv',
         '/public/data/trilateral/N1_EG.csv',
         '/public/data/trilateral/N2_EG.csv',
+        '/public/data/trilateral/SIF_EG.csv',
     ],
     [
         #['E1', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'], archived
