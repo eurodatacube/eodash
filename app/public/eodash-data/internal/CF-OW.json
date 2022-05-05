@@ -4201,6 +4201,66 @@
             "people_vaccinated_per_hundred": 20.65,
             "total_vaccinations": 1037580.0,
             "total_vaccinations_per_hundred": 21.09
+        },
+        {
+            "daily_vaccinations": 663.0,
+            "daily_vaccinations_per_million": 135.0,
+            "daily_vaccinations_raw": null,
+            "date": "2022-04-27T00:00:00",
+            "people_fully_vaccinated": null,
+            "people_fully_vaccinated_per_hundred": null,
+            "people_vaccinated": null,
+            "people_vaccinated_per_hundred": null,
+            "total_vaccinations": null,
+            "total_vaccinations_per_hundred": null
+        },
+        {
+            "daily_vaccinations": 552.0,
+            "daily_vaccinations_per_million": 112.0,
+            "daily_vaccinations_raw": null,
+            "date": "2022-04-28T00:00:00",
+            "people_fully_vaccinated": null,
+            "people_fully_vaccinated_per_hundred": null,
+            "people_vaccinated": null,
+            "people_vaccinated_per_hundred": null,
+            "total_vaccinations": null,
+            "total_vaccinations_per_hundred": null
+        },
+        {
+            "daily_vaccinations": 442.0,
+            "daily_vaccinations_per_million": 90.0,
+            "daily_vaccinations_raw": null,
+            "date": "2022-04-29T00:00:00",
+            "people_fully_vaccinated": null,
+            "people_fully_vaccinated_per_hundred": null,
+            "people_vaccinated": null,
+            "people_vaccinated_per_hundred": null,
+            "total_vaccinations": null,
+            "total_vaccinations_per_hundred": null
+        },
+        {
+            "daily_vaccinations": 331.0,
+            "daily_vaccinations_per_million": 67.0,
+            "daily_vaccinations_raw": null,
+            "date": "2022-04-30T00:00:00",
+            "people_fully_vaccinated": null,
+            "people_fully_vaccinated_per_hundred": null,
+            "people_vaccinated": null,
+            "people_vaccinated_per_hundred": null,
+            "total_vaccinations": null,
+            "total_vaccinations_per_hundred": null
+        },
+        {
+            "daily_vaccinations": 221.0,
+            "daily_vaccinations_per_million": 45.0,
+            "daily_vaccinations_raw": null,
+            "date": "2022-05-01T00:00:00",
+            "people_fully_vaccinated": 988591.0,
+            "people_fully_vaccinated_per_hundred": 20.09,
+            "people_vaccinated": 1023144.0,
+            "people_vaccinated_per_hundred": 20.8,
+            "total_vaccinations": 1037580.0,
+            "total_vaccinations_per_hundred": 21.09
         }
     ]
 }
