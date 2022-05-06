@@ -23,7 +23,7 @@ import {
   mapState,
 } from 'vuex';
 import LayerControl from '@/components/map/LayerControl.vue';
-import Cluster from '@/components/map/Cluster';
+import getCluster from '@/components/map/Cluster';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import getMapInstance from '@/components/map/map';
 import { formatLabel } from '@/components/map/formatters';
@@ -48,7 +48,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('features', ['getGroupedFeatures']),
+    ...mapGetters('features', ['getGroupedFeatures', 'getFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
       if (this.isGlobalIndicator) {
@@ -92,10 +92,16 @@ export default {
     },
     indicatorsDefinition: () => this.baseConfig.indicatorsDefinition,
   },
+  watch: {
+    getFeatures(features) {
+      const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
+      cluster.setFeatures(features);
+    },
+  },
   mounted() {
-    const { map } = getMapInstance('centerMap');
-    const cluster = new Cluster(map, this, this.getGroupedFeatures);
+    const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
     cluster.setActive(true, this.overlayCallback);
+    cluster.setFeatures(this.getFeatures);
     this.$watch('$store.state.indicators.selectedIndicator', () => {
       cluster.reRender();
     });

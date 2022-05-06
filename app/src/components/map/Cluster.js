@@ -18,6 +18,8 @@ import { Feature, Overlay } from 'ol';
 import { fromLonLat } from 'ol/proj';
 import GeoJSON from 'ol/format/GeoJSON';
 import { getColor } from './olMapColors';
+import getMapInstance from './map';
+
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -224,7 +226,7 @@ function isFeatureSelected(feature) {
   && selectedIndicator.aoiID === indicatorObject.aoiID;
 }
 
-export default class Cluster {
+class Cluster {
   /**
    * cluster component, will create layers and interaction and add
    * them to the given map
@@ -447,11 +449,11 @@ export default class Cluster {
   }
 
   /**
-   * creates an OL Layer out of the existing grouped feature object
-   * @returns {*} ol cluster layer
+   * set the cluster features.
+   * @param {Array} indicatorFeatures indicator feature definition objects
    */
-  createIndicatorFeatureLayers() {
-    const features = this.indicators.filter((i) => i.latlng).map((i) => {
+  setFeatures(indicatorFeatures) {
+    const features = indicatorFeatures.filter((i) => i.latlng).map((i) => {
       const feature = new Feature({
         properties: i.properties,
         geometry: new Point(fromLonLat([i.latlng.lng, i.latlng.lat])),
@@ -459,10 +461,17 @@ export default class Cluster {
       feature.setId(i.id);
       return feature;
     });
+    const clusterSource = this.clusters.getSource().getSource();
+    clusterSource.clear();
+    clusterSource.addFeatures(features);
+  }
 
-    const indicatorSource = new VectorSource({
-      features,
-    });
+  /**
+   * creates an OL Layer out of the existing grouped feature object
+   * @returns {*} ol cluster layer
+   */
+  createIndicatorFeatureLayers() {
+    const indicatorSource = new VectorSource({});
 
     const clusterSource = new ClusterSource({
       distance: 35,
@@ -571,4 +580,29 @@ export default class Cluster {
       geometry: indicatorFeature.get('olSubAoiGeom'),
     });
   }
+}
+
+/**
+ * similar to the map, all instances of the cluster class
+ * are stored here.
+ */
+const clusterRegistry = {};
+
+
+/**
+  * Returns the cluster with the given id.
+  * Will instantiate a new cluster if not already existing.
+  * @param {string} id id of cluster
+  * @param {Object} options options
+  * @param {Array} options.mapId optional constraining extent
+  * @param {Array} options.vm vue instance
+  * @returns {Map} ol map
+  */
+export default function getCluster(id, options = {}) {
+  const cluster = clusterRegistry[id];
+  if (!cluster) {
+    const { map } = getMapInstance(options.mapId);
+    clusterRegistry[id] = new Cluster(map, options.vm);
+  }
+  return clusterRegistry[id];
 }
