@@ -12,6 +12,26 @@
       @change="autoCompleteChange"
       item-text="name"
       label="Search locations">
+        <template v-slot:selection="{ attr, on, item, selected }">
+          <v-row align="center">
+            <template v-if="item.location || item.indicator">
+              <v-icon>{{
+                baseConfig.indicatorClassesIcons[item.class]
+                  ? baseConfig.indicatorClassesIcons[item.class]
+                  : "mdi-lightbulb-on-outline"
+              }}</v-icon>
+            </template>
+
+            <template v-else>
+              <country-flag
+                :country="item.code === 'all' ? 'eu' : item.code"
+                size="normal"
+              />
+            </template>
+
+            <span v-text="item.name"></span>
+          </v-row>
+        </template>
         <template v-slot:item="data">
           <template v-if="data.item.location">
             <v-list-item-icon class="ml-3 mr-4">
