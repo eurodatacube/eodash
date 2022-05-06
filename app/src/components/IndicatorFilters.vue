@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%" class="fill-height">
+  <div style="width: 100%; height: calc(100vh - 104px)">
     <v-autocomplete
       class="ma-3"
       hide-details
@@ -12,7 +12,7 @@
       @change="autoCompleteChange"
       item-text="name"
       label="Search locations">
-        <template v-slot:selection="{ attr, on, item, selected }">
+        <template v-slot:selection="{ item }">
           <v-row align="center">
             <template v-if="item.location || item.indicator">
               <v-icon>{{
