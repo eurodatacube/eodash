@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%" class="fill-height">
+  <div style="width: 100%; height: calc(100vh - 104px)">
     <v-autocomplete
       class="ma-3"
       hide-details
@@ -12,6 +12,26 @@
       @change="autoCompleteChange"
       item-text="name"
       label="Search locations">
+        <template v-slot:selection="{ item }">
+          <v-row align="center">
+            <template v-if="item.location || item.indicator">
+              <v-icon>{{
+                baseConfig.indicatorClassesIcons[item.class]
+                  ? baseConfig.indicatorClassesIcons[item.class]
+                  : "mdi-lightbulb-on-outline"
+              }}</v-icon>
+            </template>
+
+            <template v-else>
+              <country-flag
+                :country="item.code === 'all' ? 'eu' : item.code"
+                size="normal"
+              />
+            </template>
+
+            <span v-text="item.name"></span>
+          </v-row>
+        </template>
         <template v-slot:item="data">
           <template v-if="data.item.location">
             <v-list-item-icon class="ml-3 mr-4">
@@ -194,11 +214,15 @@ export default {
     },
     allFeatures() {
       return this.getGroupedFeatures.map((f) => {
-        const country = this.countryItems.find((c) => c.code === f.properties.indicatorObject.country) ? this.countryItems.find((c) => c.code === f.properties.indicatorObject.country).name : 'X';
+        const country = this.countryItems
+          .find((c) => c.code === f.properties.indicatorObject.country)
+          ? this.countryItems.find((c) => c.code === f.properties.indicatorObject.country).name
+          : 'X';
+
         return {
         // country: country,
-          class: this.indicatorItems.find((i) => i.code
-          === f.properties.indicatorObject.indicator).class,
+          class: this.indicatorItems
+            .find((i) => i.code === f.properties.indicatorObject.indicator).class,
           location: f.properties.indicatorObject.city,
           name: `${f.properties.indicatorObject.city} (${country}): ${this.getIndicator(f.properties.indicatorObject)}`,
           // type: this.getClass(f),
