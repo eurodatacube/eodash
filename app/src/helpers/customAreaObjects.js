@@ -250,7 +250,7 @@ const fetchCustomAreaObjects = async (
       ...mergedConfig[lookup].requestBody,
     };
     // Here we set the current bounds geometry values
-    if (requestBody.input.bounds) {
+    if (requestBody.input && requestBody.input.bounds) {
       requestBody.input.bounds.geometry = drawnArea;
     }
     const params = Object.keys(requestBody);
