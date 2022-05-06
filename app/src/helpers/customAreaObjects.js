@@ -299,10 +299,9 @@ const fetchCustomAreaObjects = async (
   */
   const customObjects = await fetch(url, requestOpts).then((response) => {
     if (!response.ok) {
-      throw Error(response.statusText);
-    } else {
-      return response.json();
+      return response.text().then((text) => { throw text; });
     }
+    return response.json();
   })
     .then((rwdata) => {
       if (typeof mergedConfig[lookup].callbackFunction === 'function') {
@@ -326,8 +325,25 @@ const fetchCustomAreaObjects = async (
       }
       return custom;
     })
-    .catch((err) => {
-      throw Error(err);
+    .catch((error) => {
+      let errorMessage = error;
+      try {
+        errorMessage = JSON.parse(error).detail[0].msg;
+      } catch (parseError) { console.log(parseError); }
+      if (errorMessage.startsWith('<?xml')) {
+        // Lets extract the Service excepcion first
+        errorMessage = errorMessage.slice(
+          errorMessage.indexOf('<ServiceException>') + 18,
+          errorMessage.indexOf('</ServiceException>'),
+        );
+        // now we remove the rest
+        errorMessage = errorMessage.slice(
+          errorMessage.indexOf('<![CDATA[') + 9,
+          errorMessage.indexOf(']]>'),
+        );
+      }
+      // If it is neither a JSON nor an XML we output the body
+      throw Error(errorMessage);
     });
   return customObjects;
 };
