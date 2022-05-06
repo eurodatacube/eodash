@@ -206,6 +206,26 @@ def retrieve_entries(url, offset, dateproperty="date"):
         print (message)
     return res
 
+def retrieve_stac_entries(url, offset, dateproperty="date"):
+    r = requests.get("%s&FEATURE_OFFSET=%s"%(url, (offset*100)))
+    res = []
+    try:
+        json_resp = r.json()
+        features = json_resp["features"]
+        for f in features:
+            res.append([
+                f["properties"][dateproperty],
+                f["assets"]["cog_default"]["href"]
+            ])
+        if len(features) == 100:
+            res.extend(retrieve_entries(url, offset+1))
+    except Exception as e:
+        print("Issue parsing json for request: %s"%url)
+        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        message = template.format(type(e).__name__, e.args)
+        print (message)
+    return res
+
 print("Fetching information for STAC endpoints with time information")
 try:
     for collection, stac_url in STAC_COLLECTIONS.items():
@@ -213,11 +233,10 @@ try:
         dateParamenter = "datetime"
         if collection in SPECIAL_STAC_DATE:
             dateParamenter = "start_datetime"
-        results = retrieve_entries(
+        results = retrieve_stac_entries(
             "%s/%s/items?limit=1000"%(stac_url, collection), 0, dateParamenter
         )
-        results = list(set(results))
-        results.sort()
+        results.reverse()
         results_dict[collection] = results
 except Exception as e:
     print("Issue retrieving BYOD information from deprecated server")
@@ -298,7 +317,7 @@ with open(date_data_file, "w") as fp:
     json.dump(results_dict, fp, indent=4, sort_keys=True)
 
 ###############################################################################
-
+'''
 delete_files = False
 
 geoDB_map = {
@@ -678,3 +697,4 @@ generateData(
         ['E200', ''],
     ]
 )
+'''
