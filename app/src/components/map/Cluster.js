@@ -474,7 +474,7 @@ class Cluster {
     const indicatorSource = new VectorSource({});
 
     const clusterSource = new ClusterSource({
-      distance: 35,
+      distance: 45,
       source: indicatorSource,
     });
 
