@@ -44,7 +44,7 @@
           :src="dashboardHeaderImage"
           :lazy-src="dashboardHeaderImagePlaceholder"
           style="position: absolute; width: calc(100% + 56px); max-width: unset;
-          height: 100%; margin: 0 -28px 0 -28px">
+          height: 100%; margin: 0 -28px 0 -28px; top: 0">
           <template v-slot:placeholder>
             <v-row
               class="fill-height ma-0"
