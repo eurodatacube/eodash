@@ -186,26 +186,27 @@ export default {
     },
     selectionItems() {
       return this.countryItems
-        .concat(this.indicatorItems.map(i => ({
-        ...i,
-        name: i.indicator
-      })))
-      .concat(this.allFeatures);
+        .concat(this.indicatorItems.map((i) => ({
+          ...i,
+          name: i.indicator,
+        })))
+        .concat(this.allFeatures);
     },
     allFeatures() {
       return this.getGroupedFeatures.map((f) => {
-        const country = this.countryItems.find(c => c.code === f.properties.indicatorObject.country) ? this.countryItems.find(c => c.code === f.properties.indicatorObject.country).name : 'X';
+        const country = this.countryItems.find((c) => c.code === f.properties.indicatorObject.country) ? this.countryItems.find((c) => c.code === f.properties.indicatorObject.country).name : 'X';
         return {
         // country: country,
-        class: this.indicatorItems.find(i => i.code === f.properties.indicatorObject.indicator).class,
-        location: f.properties.indicatorObject.city,
-        name: `${f.properties.indicatorObject.city} (${country}): ${this.getIndicator(f.properties.indicatorObject)}`,
-        // type: this.getClass(f),
-        indicator: this.getIndicator(f.properties.indicatorObject),
-        // code: f.properties.indicatorObject.indicator,
-        // indicatorValue: this.getIndicatorLabel(f.properties.indicatorObject),
-        // indicatorColor: this.getColor(f.properties.indicatorObject),
-        indicatorObject: f.properties.indicatorObject,
+          class: this.indicatorItems.find((i) => i.code
+          === f.properties.indicatorObject.indicator).class,
+          location: f.properties.indicatorObject.city,
+          name: `${f.properties.indicatorObject.city} (${country}): ${this.getIndicator(f.properties.indicatorObject)}`,
+          // type: this.getClass(f),
+          indicator: this.getIndicator(f.properties.indicatorObject),
+          // code: f.properties.indicatorObject.indicator,
+          // indicatorValue: this.getIndicatorLabel(f.properties.indicatorObject),
+          // indicatorColor: this.getColor(f.properties.indicatorObject),
+          indicatorObject: f.properties.indicatorObject,
         };
       });
     },
@@ -358,20 +359,20 @@ export default {
         if (input.indicatorObject) {
           this.selectIndicator(input.indicatorObject.indicator);
           this.$store.commit(
-          'indicators/SET_SELECTED_INDICATOR',
+            'indicators/SET_SELECTED_INDICATOR',
             input.indicatorObject,
           );
         } else {
           this.selectIndicator(input.code);
         }
       } else {
-        this.selectCountry(input.code)
+        this.selectCountry(input.code);
       }
     },
     autoCompleteClear() {
       this.selectCountry('all');
       this.selectIndicator('all');
-    }
+    },
   },
   watch: {
     countrySelection(val) {
