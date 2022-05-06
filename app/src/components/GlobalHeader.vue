@@ -8,17 +8,19 @@
     class="white--text"
     v-show="!isFullScreen"
   >
-    <v-app-bar-nav-icon
-      @click.stop="switchMenu"
-      v-if="$vuetify.breakpoint.smAndDown"
-      dark
-    />
+    <template v-if="$route.name === 'explore'">
+      <v-app-bar-nav-icon
+        @click.stop="switchMenu"
+        v-if="$vuetify.breakpoint.smAndDown"
+        dark
+      />
 
-    <v-app-bar-nav-icon
-      @click.stop="switchDrawer"
-      v-else
-      dark
-    />
+      <v-app-bar-nav-icon
+        @click.stop="switchDrawer"
+        v-else
+        dark
+      />
+    </template>
 
     <!-- mobile menu -->
 
@@ -186,7 +188,7 @@
     <template v-if="currentTheme">
       <v-icon dark class="mx-2">mdi-chevron-right</v-icon>
 
-      <v-tooltip right close-delay="1000" nudge-left="32" max-width="20">
+      <v-tooltip right close-delay="1000" nudge-left="20">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             text
@@ -200,16 +202,24 @@
             {{ currentTheme.name }}
           </v-btn>
         </template>
-        <v-icon
+        <v-btn
+          v-if="$route.name === 'explore'"
+          small
+          text
+          dark
+          class="rounded closebutton"
+          @click="loadTheme(null)"
+        >
+          <v-icon
             dark
             small
-            class="mr-3 rounded closebutton"
+            left
             color="white"
-            v-if="$route.name === 'explore'"
-            @click="loadTheme(null)"
           >
             mdi-close
           </v-icon>
+          <small>clear</small>
+        </v-btn>
       </v-tooltip>
     </template>
 
@@ -225,6 +235,8 @@
         Datasets
       </v-btn>
     </template>
+
+    <v-spacer v-if="appConfig && appConfig.enableStories"></v-spacer>
 
     <span v-if="$vuetify.breakpoint.mdAndUp">
       <v-btn
@@ -247,7 +259,6 @@
       </v-btn>
     </span>
 
-    <v-spacer v-if="appConfig && appConfig.enableStories"></v-spacer>
 
     <template v-if="$vuetify.breakpoint.mdAndUp">
       <v-btn
