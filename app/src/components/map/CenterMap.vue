@@ -23,7 +23,7 @@ import {
   mapState,
 } from 'vuex';
 import LayerControl from '@/components/map/LayerControl.vue';
-import getCluster from '@/components/map/Cluster';
+import getCluster from '@/components/map/cluster';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import getMapInstance from '@/components/map/map';
 import { formatLabel } from '@/components/map/formatters';
