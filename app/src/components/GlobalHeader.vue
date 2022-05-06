@@ -8,19 +8,17 @@
     class="white--text"
     v-show="!isFullScreen"
   >
-    <template v-if="$route.name === 'explore'">
-      <v-app-bar-nav-icon
-        @click.stop="switchMenu"
-        v-if="$vuetify.breakpoint.smAndDown"
-        dark
-      />
+    <v-app-bar-nav-icon
+      @click.stop="switchMenu"
+      v-if="$vuetify.breakpoint.smAndDown"
+      dark
+    />
 
-      <v-app-bar-nav-icon
-        @click.stop="switchDrawer"
-        v-else
-        dark
-      />
-    </template>
+    <v-app-bar-nav-icon
+      @click.stop="switchDrawer"
+      v-else-if="$route.name === 'explore'"
+      dark
+    />
 
     <!-- mobile menu -->
 
