@@ -464,6 +464,15 @@ class Cluster {
     const clusterSource = this.clusters.getSource().getSource();
     clusterSource.clear();
     clusterSource.addFeatures(features);
+    if (features.length) {
+      this.map.once('postrender', () => {
+        this.map.getView().fit(clusterSource.getExtent(), {
+          padding: [50, 50, 50, 50],
+          maxZoom: 8,
+          duration: 200,
+        });
+      });
+    }
   }
 
   /**
