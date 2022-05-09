@@ -1,5 +1,5 @@
 <template>
-  <CenterMap ref="map" v-if="mapDataReady" class="fill-height" />
+  <CenterMap ref="map" v-if="mapDataReady" class="fill-height" :disableAutoFocus="false"/>
 </template>
 
 <script>

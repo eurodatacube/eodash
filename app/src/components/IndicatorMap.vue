@@ -388,13 +388,14 @@ export default {
     delete this.ro;
   },
   methods: {
-    focusSelect(on) {
-      const lMap = this.$refs.map.mapObject;
+    focusSelect() {
+      // TO DO: handle scrolling?
+      /* const lMap = this.$refs.map.mapObject;
       if (on) {
         lMap.scrollWheelZoom.disable();
       } else {
         lMap.scrollWheelZoom.enable();
-      }
+      } */
     },
     createLatLng(latlng) {
       const llobj = latlng.split(',').map(Number);
@@ -683,11 +684,11 @@ export default {
         this.indicator.display.compareSearchId = res.data.searchid;
         this.compareSearchId = res.data.searchid;
         this.refreshLayers('compare');
-        this.$nextTick(() => {
+        /* this.$nextTick(() => {
           this.slider.setLeftLayers(
             this.extractActualLayers(this.$refs.compareLayers),
           );
-        });
+        }); */
       }
     },
     dataLayerTimeSelection(timeObj) {
@@ -715,11 +716,11 @@ export default {
           // shared time on both sides in case of compareDisplay being set
           this.compareLayerTime = this.dataLayerTime;
           this.refreshLayers('compare');
-          this.$nextTick(() => {
+          /* this.$nextTick(() => {
             this.slider.setLeftLayers(
               this.extractActualLayers(this.$refs.compareLayers),
             );
-          });
+          }); */
         }
         this.dataLayerTimeUpdated(this.dataLayerTime.name);
       }
@@ -1034,7 +1035,7 @@ export default {
         const layer = layers.find((l) => l.get('name') === config.name);
         if (layer) {
           const source = layer.getSource();
-          if (source.get('updateParamsOnTimeChange')) {
+          if (config.specialEnvTime) {
             source.updateParams({
               LAYERS: config.layers,
               time: config.dateFormatFunction(value),

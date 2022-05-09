@@ -115,6 +115,7 @@ export function createLayerFromConfig(config, _options = {}) {
   }
   if (config.protocol === 'WMS') {
     if (config.usedTimes?.time?.length) {
+      // to do: dont hardcode, find a better way to differentiate between "different" WMS
       if (config.name === 'WSF_Evolution' || config.name === 'ONPP-GCOMC-World-Monthly') {
         const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
           'format', 'width', 'height', 'transparent', 'srs', 'env', 'searchid'];
@@ -147,7 +148,6 @@ export function createLayerFromConfig(config, _options = {}) {
           url: config.baseUrl,
           tileGrid,
         });
-        source.set('updateParamsOnTimeChange', true);
       } else {
         source = new TileWMS({
           attributions: config.attribution,
