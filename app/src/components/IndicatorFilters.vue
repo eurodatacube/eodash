@@ -432,13 +432,11 @@ export default {
     },
     autoCompleteFocus() {
       if (!this.isDropdownEnabled) {
-        console.log(`setting isDropdownEnabled to true`);
         this.isDropdownEnabled = true;
       }
     },
     autoCompleteBlur() {
       if (this.$vuetify.breakpoint.smAndDown) {
-        console.log(`setting isDropdownEnabled to false`);
         this.isDropdownEnabled = false;
       }
     },
