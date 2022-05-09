@@ -71,11 +71,16 @@ export default {
   computed: {},
   mounted() {
     const { map } = getMapInstance(this.mapId);
-    const baseLayers = this.baseLayerConfigs.map((l) => createLayerFromConfig(l));
+    const baseLayers = this.baseLayerConfigs.map((l) => createLayerFromConfig(l, { zIndex: 0 }));
     baseLayers.forEach((l) => {
       map.addLayer(l);
     });
-    const overlayLayers = this.overlayConfigs.map((l) => createLayerFromConfig(l, 1));
+    const overlayLayers = this.overlayConfigs.map((l) => createLayerFromConfig(l,
+      {
+        // higher zIndex for labels
+        zIndex: l.name === 'Overlay labels' ? 3 : 2,
+        updateOpacityOnZoom: l.name === 'Overlay labels',
+      }));
     overlayLayers.forEach((l) => {
       map.addLayer(l);
     });
@@ -96,10 +101,12 @@ export default {
       const layers = map.getLayers().getArray();
       this.overlayConfigs.forEach((c) => {
         const layer = layers.find((l) => l.get('name') === c.name);
-        if (layer.get('name') === 'Country vectors') {
-          layer.setOpacity(this.opacityCountries[zoom]);
-        } else {
-          layer.setOpacity(this.opacityOverlay[zoom]);
+        if (layer.get('updateOpacityOnZoom')) {
+          if (layer.get('name') === 'Country vectors') {
+            layer.setOpacity(this.opacityCountries[zoom]);
+          } else {
+            layer.setOpacity(this.opacityOverlay[zoom]);
+          }
         }
       });
     },
