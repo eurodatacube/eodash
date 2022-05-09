@@ -2,6 +2,7 @@
 
 const state = {
   selectedIndicator: null,
+  selectedTime: null,
   customAreaIndicator: null,
 };
 
@@ -27,6 +28,9 @@ const mutations = {
   },
   INDICATOR_LOAD_FINISHED(state, indicatorObject) {
     state.selectedIndicator = indicatorObject;
+  },
+  SET_SELECTED_TIME(state, time) {
+    state.selectedTime = time;
   },
   SET_CUSTOM_AREA_INDICATOR() {
   },
