@@ -416,9 +416,6 @@ export default {
         );
     },
     autoCompleteChange(input) {
-      console.log('autoCompleteChange:');
-      console.log(input);
-
       if (!input) return;
 
       if (input.indicator) {
@@ -455,7 +452,7 @@ export default {
       this.selectCountry(val);
     },
     indicatorSelection(val) {
-      this.dropdownSelection = this.indicatorItems.find(i => i.code === val);
+      this.dropdownSelection = this.indicatorItems.find((i) => i.code === val);
       // this.selectIndicator(val);
     },
   },
