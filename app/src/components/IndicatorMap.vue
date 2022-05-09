@@ -1,10 +1,10 @@
 <template>
-  <div ref="container" style="height: 100%; width: 100%;">
+  <div ref="container" class="d-flex justify-center" style="height: 100%; width: 100%;">
     <DataMap
       ref="map"
       v-if="mapDataReady"
       :mapId="mapId"
-      style="height: 100%; width: 100%; background: #cad2d3; z-index: 1;"
+      style="height: 100%; min-width: 100%; background: #cad2d3; z-index: 1;"
       :options="defaultMapOptions"
       :maxZoom="mapDefaults.maxMapZoom"
       :minZoom="minZoom"
@@ -20,59 +20,61 @@
       :baseLayerConfigs="baseLayers"
       @ready="onMapReady()"
     />
+    <div
+    :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
+      <img v-if="mergedConfigsData[0].legendUrl"
+      :src="mergedConfigsData[0].legendUrl" alt=""
+      :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' :
+      (legendExpanded && 'map-legend-expanded')}`"
+      @click="legendExpanded = !legendExpanded"
+      :style="`background: rgba(255, 255, 255, 0.8);`">
       <div
-      :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
-        <img v-if="mergedConfigsData[0].legendUrl"
-        :src="mergedConfigsData[0].legendUrl" alt=""
-        :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' :
-        (legendExpanded && 'map-legend-expanded')}`"
-        @click="legendExpanded = !legendExpanded"
-        :style="`background: rgba(255, 255, 255, 0.8);`">
-        <div
-        v-if="mergedConfigsData[0].customAreaFeatures &&
-        (mergedConfigsData[0].features.featureLimit === dataFeaturesCount ||
-        mergedConfigsData[0].features.featureLimit === compareFeaturesCount)"
-        :style="`width: fit-content; background: rgba(255, 255, 255, 0.8);`"
-        >
-          <h3 :class="`brand-${appConfig.id} px-3 py-2`">
-            Limit of drawn features is for performance reasons set to
-            <span :style="`font-size: 17px;`">{{mergedConfigsData[0].features.featureLimit}}
-            </span>
-          </h3>
-        </div>
-      </div>
-      <div
-        class="d-flex justify-center"
-        style="position: relative; width: 100%; height: 100%;"
-        @click.stop=""
-        @dblclick.stop=""
+      v-if="mergedConfigsData[0].customAreaFeatures &&
+      (mergedConfigsData[0].features.featureLimit === dataFeaturesCount ||
+      mergedConfigsData[0].features.featureLimit === compareFeaturesCount)"
+      :style="`width: fit-content; background: rgba(255, 255, 255, 0.8);`"
       >
-        <h3 :class="`brand-${appConfig.id} px-3 py-1`"
-          v-if="enableCompare && indicator.compareDisplay && indicator.compareDisplay.mapLabel"
-          style="position:absolute; z-index:1000; right: 0px; bottom: 45%;
-          background: rgba(255, 255, 255, 0.6); font-size: 16px; pointer-events: none;">
-            {{indicator.display.mapLabel}}
+        <h3 :class="`brand-${appConfig.id} px-3 py-2`">
+          Limit of drawn features is for performance reasons set to
+          <span :style="`font-size: 17px;`">{{mergedConfigsData[0].features.featureLimit}}
+          </span>
         </h3>
-        <h3 :class="`brand-${appConfig.id} px-3 py-1`"
-          v-if="enableCompare && indicator.compareDisplay && indicator.display.mapLabel"
-          style="position:absolute; z-index:1000; left: 0px; bottom: 45%;
-          background: rgba(255, 255, 255, 0.6); font-size: 16px; pointer-events: none;">
-            {{indicator.compareDisplay.mapLabel}}
-        </h3>
-        <indicator-time-selection
-          ref="timeSelection"
-          v-if="dataLayerTime && !mergedConfigsData[0].disableTimeSelection"
-          :autofocus="!disableAutoFocus"
-          :available-values="availableTimeEntries"
-          :indicator="indicator"
-          :compare-active.sync="enableCompare"
-          :compare-time.sync="compareLayerTime"
-          :original-time.sync="dataLayerTime"
-          :enable-compare="!mergedConfigsData[0].disableCompare"
-          :large-time-duration="mergedConfigsData[0].largeTimeDuration"
-          @focusSelect="focusSelect"
-        />
       </div>
+    </div>
+
+    <div
+      class="d-flex justify-center"
+      style="position: relative; width: 100%; height: 100%;"
+      @click.stop=""
+      @dblclick.stop=""
+    >
+      <h3 :class="`brand-${appConfig.id} px-3 py-1`"
+        v-if="enableCompare && indicator.compareDisplay && indicator.compareDisplay.mapLabel"
+        style="position:absolute; z-index:1000; right: 0px; bottom: 45%;
+        background: rgba(255, 255, 255, 0.6); font-size: 16px; pointer-events: none;">
+          {{indicator.display.mapLabel}}
+      </h3>
+      <h3 :class="`brand-${appConfig.id} px-3 py-1`"
+        v-if="enableCompare && indicator.compareDisplay && indicator.display.mapLabel"
+        style="position:absolute; z-index:1000; left: 0px; bottom: 45%;
+        background: rgba(255, 255, 255, 0.6); font-size: 16px; pointer-events: none;">
+          {{indicator.compareDisplay.mapLabel}}
+      </h3>
+    </div>
+    <indicator-time-selection
+      ref="timeSelection"
+      class=""
+      v-if="dataLayerTime && !mergedConfigsData[0].disableTimeSelection"
+      :autofocus="!disableAutoFocus"
+      :available-values="availableTimeEntries"
+      :indicator="indicator"
+      :compare-active.sync="enableCompare"
+      :compare-time.sync="compareLayerTime"
+      :original-time.sync="dataLayerTime"
+      :enable-compare="!mergedConfigsData[0].disableCompare"
+      :large-time-duration="mergedConfigsData[0].largeTimeDuration"
+      @focusSelect="focusSelect"
+    />
   </div>
 </template>
 
@@ -793,6 +795,8 @@ export default {
       }
     },
     refreshLayers(side) {
+      // TO DO: is this obsolete?
+      // layers should be redrawn in store watcher
       // compare(left) or data(right)
       if (side === 'compare' || this.indicator.compareDisplay) {
         this.refreshGroup(this.$refs.compareLayerArrayWMS, this.compareLayerTime, 'compare');
