@@ -5,6 +5,7 @@
     style="position: absolute; top: 0; left: 0; width: 320px"
   >
     <v-autocomplete
+      v-model="dropdownSelection"
       hide-details
       solo
       rounded
@@ -226,6 +227,7 @@ export default {
       },
       countrySelection: 'all',
       indicatorSelection: 'all',
+      dropdownSelection: 'all',
     };
   },
   computed: {
@@ -453,7 +455,8 @@ export default {
       this.selectCountry(val);
     },
     indicatorSelection(val) {
-      this.selectIndicator(val);
+      this.dropdownSelection = this.indicatorItems.find(i => i.code === val);
+      // this.selectIndicator(val);
     },
   },
 };
