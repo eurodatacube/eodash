@@ -79,7 +79,7 @@ export default {
       {
         // higher zIndex for labels
         zIndex: l.name === 'Overlay labels' ? 3 : 2,
-        updateOpacityOnZoom: l.name === 'Overlay labels',
+        updateOpacityOnZoom: l.name === 'Overlay labels' || l.name === 'Country vectors',
       }));
     overlayLayers.forEach((l) => {
       map.addLayer(l);
