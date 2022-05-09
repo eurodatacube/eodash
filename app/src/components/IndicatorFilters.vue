@@ -102,7 +102,11 @@
           </template>
         </template>
     </v-autocomplete>
-    <div class="rounded-xl mt-3 pa-3 white" style="outline: 1px solid #aaa" v-if="isDropdownEnabled">
+    <div
+      class="rounded-xl mt-3 pa-3 white"
+      style="outline: 1px solid #aaa"
+      v-if="isDropdownEnabled"
+    >
       <div id="list" class="white">
         <!-- <v-list subheader class="customList fill-height">
           <v-subheader>Indicator (custom list!)</v-subheader>
