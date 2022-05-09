@@ -113,7 +113,10 @@ export default {
       this.tooltip = formatLabel(indicatorObject, this);
     },
   },
-  beforeDestroy() {},
+  beforeDestroy() {
+    const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
+    cluster.setActive(false, this.overlayCallback);
+  },
 };
 </script>
 <style lang="scss" scoped>
