@@ -211,18 +211,20 @@ export default {
   components: {
     CountryFlag,
   },
-  data: () => ({
-    // Disable the dropdown by default on smaller screens.
-    isDropdownEnabled: !this.$vuetify.breakpoint.smAndDown,
-    input: '',
-    indicators: {
-      environment: 1,
-      economy: 0,
-      health: 0,
-    },
-    countrySelection: 'all',
-    indicatorSelection: 'all',
-  }),
+  data() {
+    return {
+      // Disable the dropdown by default on smaller screens.
+      isDropdownEnabled: !this.$vuetify.breakpoint.smAndDown,
+      input: '',
+      indicators: {
+        environment: 1,
+        economy: 0,
+        health: 0,
+      },
+      countrySelection: 'all',
+      indicatorSelection: 'all',
+    };
+  },
   computed: {
     ...mapGetters('features', [
       'getCountries',
