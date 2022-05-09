@@ -6,7 +6,6 @@
   >
     <v-autocomplete
       hide-details
-      v-model="isDropdownEnabled"
       solo
       rounded
       :items="selectionItems"
