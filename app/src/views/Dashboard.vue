@@ -209,10 +209,7 @@
             class="pt-0 fill-height"
           >
             <center-panel />
-            <indicator-filters
-              class="ma-5"
-              style="position: absolute; top: 0; left: 0;"
-            />
+            <indicator-filters />
           </v-col>
         </v-row>
       </v-container>

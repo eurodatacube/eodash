@@ -1,100 +1,124 @@
 <template>
-  <v-autocomplete
-    class="ma-3"
-    hide-details
-    solo
-    rounded
-    :items="selectionItems"
-    prepend-inner-icon="mdi-magnify"
-    clearable
-    @click:clear="autoCompleteClear"
-    return-object
-    @change="autoCompleteChange"
-    item-text="name"
-    label="Search here">
-      <template v-slot:selection="{ item }">
-        <v-row align="center">
-          <template v-if="item.location || item.indicator">
-            <v-icon>{{
-              baseConfig.indicatorClassesIcons[item.class]
-                ? baseConfig.indicatorClassesIcons[item.class]
-                : "mdi-lightbulb-on-outline"
-            }}</v-icon>
-          </template>
+  <div
+    class="fill-height pa-5"
+    :class="input && input.length > 0 ? 'dirty' : 'new'"
+    style="position: absolute; top: 0; left: 0; width: 320px"
+  >
+    <v-autocomplete
+      hide-details
+      solo
+      rounded
+      :items="selectionItems"
+      prepend-inner-icon="mdi-magnify"
+      clearable
+      auto-select-first
+      return-object
+      item-text="name"
+      label="Search here"
+      :search-input.sync="input"
+      attach="#list"
+      @click:clear="autoCompleteClear"
+      @change="autoCompleteChange"
+    >
+        <template v-slot:selection="{ item }">
+          <v-row align="center">
+            <template v-if="item.location || item.indicator">
+              <v-icon>{{
+                baseConfig.indicatorClassesIcons[item.class]
+                  ? baseConfig.indicatorClassesIcons[item.class]
+                  : "mdi-lightbulb-on-outline"
+              }}</v-icon>
+            </template>
 
+            <template v-else>
+              <country-flag
+                :country="item.code === 'all' ? 'eu' : item.code"
+                size="normal"
+              />
+            </template>
+
+            <span v-text="item.name"></span>
+          </v-row>
+        </template>
+        <template v-slot:item="data">
+          <template v-if="data.item.location">
+            <v-list-item-icon class="ml-3 mr-4">
+              <v-icon>{{
+                baseConfig.indicatorClassesIcons[data.item.class]
+                  ? baseConfig.indicatorClassesIcons[data.item.class]
+                  : "mdi-lightbulb-on-outline"
+              }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title
+                v-text="data.item.name"
+                style="
+                  text-overflow: unset;
+                  overflow: unset;
+                  white-space: pre-wrap;
+                "
+              ></v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <template v-else-if="data.item.indicator">
+            <v-list-item-icon class="ml-3 mr-4">
+              <v-icon>{{
+                baseConfig.indicatorClassesIcons[data.item.class]
+                  ? baseConfig.indicatorClassesIcons[data.item.class]
+                  : "mdi-lightbulb-on-outline"
+              }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title v-if="data.item.indicatorOverwrite"
+                v-text="data.item.indicatorOverwrite"
+                style="
+                  text-overflow: unset;
+                  overflow: unset;
+                  white-space: pre-wrap;
+                "
+              ></v-list-item-title>
+              <v-list-item-title v-else
+                v-text="data.item.indicator"
+                style="
+                  text-overflow: unset;
+                  overflow: unset;
+                  white-space: pre-wrap;
+                "
+              ></v-list-item-title>
+            </v-list-item-content>
+          </template>
           <template v-else>
-            <country-flag
-              :country="item.code === 'all' ? 'eu' : item.code"
-              size="normal"
-            />
+            <v-list-item-icon class="d-flex align-center mr-2">
+              <country-flag
+                :country="data.item.code === 'all' ? 'eu' : data.item.code"
+                size="normal"
+              />
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ data.item.name }}</v-list-item-title>
+            </v-list-item-content>
           </template>
-
-          <span v-text="item.name"></span>
-        </v-row>
-      </template>
-      <template v-slot:item="data">
-        <template v-if="data.item.location">
-          <v-list-item-icon class="ml-3 mr-4">
-            <v-icon>{{
-              baseConfig.indicatorClassesIcons[data.item.class]
-                ? baseConfig.indicatorClassesIcons[data.item.class]
-                : "mdi-lightbulb-on-outline"
-            }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title
-              v-text="data.item.name"
-              style="
-                text-overflow: unset;
-                overflow: unset;
-                white-space: pre-wrap;
-              "
-            ></v-list-item-title>
-          </v-list-item-content>
         </template>
-        <template v-else-if="data.item.indicator">
-          <v-list-item-icon class="ml-3 mr-4">
-            <v-icon>{{
-              baseConfig.indicatorClassesIcons[data.item.class]
-                ? baseConfig.indicatorClassesIcons[data.item.class]
-                : "mdi-lightbulb-on-outline"
-            }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title v-if="data.item.indicatorOverwrite"
-              v-text="data.item.indicatorOverwrite"
-              style="
-                text-overflow: unset;
-                overflow: unset;
-                white-space: pre-wrap;
-              "
-            ></v-list-item-title>
-            <v-list-item-title v-else
-              v-text="data.item.indicator"
-              style="
-                text-overflow: unset;
-                overflow: unset;
-                white-space: pre-wrap;
-              "
-            ></v-list-item-title>
-          </v-list-item-content>
-        </template>
-        <template v-else>
-          <v-list-item-icon class="d-flex align-center mr-2">
-            <country-flag
-              :country="data.item.code === 'all' ? 'eu' : data.item.code"
-              size="normal"
-            />
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ data.item.name }}</v-list-item-title>
-          </v-list-item-content>
-        </template>
-      </template>
-  </v-autocomplete>
-  <!--<div class="fill-height" style="overflow-y: auto">
+    </v-autocomplete>
+    <div class="rounded-xl mt-3 pa-3 white" style="outline: 1px solid #aaa">
+      <div id="list" class="white">
+        <!-- <v-list subheader class="customList fill-height">
+          <v-subheader>Indicator (custom list!)</v-subheader>
+          <v-list-item-group v-model="selected">
+            <v-list-item v-for="(item, i) in values" :key="i">
+              <v-list-item-content>
+                {{item}}
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </div>
+    </div>
+  </div> -->
+  <!-- <div class="fill-height" style="overflow-y: auto"> -->
     <v-list
       dense
+      class="customList fill-height pt-0"
       :style="$vuetify.breakpoint.xsOnly && 'padding-bottom: 60px'"
     >
       <v-list-item-group v-model="indicatorSelection" color="primary">
@@ -152,23 +176,25 @@
       </v-list-item-group>
     </v-list>
   </div>
-  <v-sheet
-    class="d-flex align-center justify-center"
-    :style="`width: 100%; height: 40px; ${$vuetify.breakpoint.xsOnly
-      ? 'position: absolute; bottom: 0;' : ''}`">
-    <v-checkbox
-      :value="featureFilters.includeArchived"
-      label="Show archived indicators"
-      color="primary"
-      dense
-      hide-details
-      class="ma-0"
-      @change="
-        setFilter({ includeArchived: !featureFilters.includeArchived })
-      "
-    >
-    </v-checkbox>
-  </v-sheet>-->
+      <v-sheet
+        class="d-flex align-center justify-center"
+        :style="`width: 100%; height: 40px; ${$vuetify.breakpoint.xsOnly
+          ? 'position: absolute; bottom: 0;' : ''}`">
+        <v-checkbox
+          :value="featureFilters.includeArchived"
+          label="Show archived indicators"
+          color="primary"
+          dense
+          hide-details
+          class="ma-0"
+          @change="
+            setFilter({ includeArchived: !featureFilters.includeArchived })
+          "
+        >
+        </v-checkbox>
+      </v-sheet>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -183,6 +209,7 @@ export default {
     CountryFlag,
   },
   data: () => ({
+    input: '',
     indicators: {
       environment: 1,
       economy: 0,
@@ -409,10 +436,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .v-expansion-panel-content__wrap {
-  padding-left: 0;
-  padding-right: 0;
-}
+// ::v-deep .v-expansion-panel-content__wrap {
+//   padding-left: 0;
+//   padding-right: 0;
+// }
 .v-list-item__icon .flag {
   border: 1px solid lightgray;
   background-position-x: -1px;
@@ -431,5 +458,38 @@ export default {
 }
 ::v-deep .archived-item {
   opacity: 0.65;
+}
+
+::v-deep .v-autocomplete__content {
+  position: relative;
+  height: auto;
+  max-height: unset !important;
+  top: 0 !important;
+}
+.new ::v-deep .v-autocomplete__content {
+  display: none;
+}
+.dirty .customList {
+  display: none;
+}
+
+#list {
+  /*height: 200px;*/
+  height: auto;
+  /*min-height: 40px;*/
+  max-height: calc(100vh - 250px);
+  background: grey;
+  /*overflow-y: auto;*/
+  overflow-x: hidden;
+  position: relative;
+}
+#list > .v-autocomplete__content {
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  box-shadow: none !important;
+  border-radius: 3px;
 }
 </style>
