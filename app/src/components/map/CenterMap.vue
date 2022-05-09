@@ -1,6 +1,7 @@
 <template>
-  <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3; z-index: 1">
-    <SpecialLayer v-for="indicator in specialLayersConfigs" mapId="centerMap"
+  <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3;
+    z-index: 1" class="d-flex justify-center">
+    <SpecialLayer v-for="indicator in mergedConfigsData" mapId="centerMap"
     :indicator="indicator" :key="indicator.indicatorName"/>
     <LayerControl
       v-if="loaded"
@@ -9,10 +10,46 @@
       :baseLayerConfigs="baseLayerConfigs"
       :overlayConfigs="overlayConfigs"
     />
+    <indicator-time-selection
+      ref="timeSelection"
+      class=""
+      v-if="globalLayerConfigs[0] && globalLayerConfigs[0].time.length > 1 &&
+        !globalLayerConfigs[0].disableTimeSelection"
+      :autofocus="!disableAutoFocus"
+      :available-values="availableTimeEntries"
+      :indicator="mergedConfigsData[0]"
+      :compare-active.sync="enableCompare"
+      :compare-time.sync="compareLayerTime"
+      :original-time.sync="dataLayerTime"
+      :enable-compare="!globalLayerConfigs[0].disableCompare"
+      :large-time-duration="globalLayerConfigs[0].largeTimeDuration"
+      @focusSelect="focusSelect"
+    />
     <div id="centerMapOverlay" class="tooltip v-card v-sheet text-center pa-2">
       <p class="ma-0"><strong>{{ tooltip.city }}</strong></p>
       <p class="ma-0"><strong>{{ tooltip.indicator }}</strong></p>
       <p class="ma-0"> {{ tooltip.label }} </p>
+    </div>
+    <div :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
+      <img v-if="globalLayerConfigs && globalLayerConfigs[0] &&
+        globalLayerConfigs[0].display.legendUrl"
+      :src="globalLayerConfigs[0].display.legendUrl" alt=""
+      :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' :
+      (legendExpanded && 'map-legend-expanded')}`"
+      @click="legendExpanded = !legendExpanded"
+      :style="`background: rgba(255, 255, 255, 0.8);`">
+      <!--<div
+      v-if="mergedConfigsData[0].customAreaFeatures &&
+      (mergedConfigsData[0].features.featureLimit === dataFeaturesCount ||
+      mergedConfigsData[0].features.featureLimit === compareFeaturesCount)"
+      :style="`width: fit-content; background: rgba(255, 255, 255, 0.8);`"
+      >
+        <h3 :class="`brand-${appConfig.id} px-3 py-2`">
+          Limit of drawn features is for performance reasons set to
+          <span :style="`font-size: 17px;`">{{mergedConfigsData[0].features.featureLimit}}
+          </span>
+        </h3>
+      </div>-->
     </div>
   </div>
 </template>
@@ -27,13 +64,22 @@ import getCluster from '@/components/map/cluster';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import getMapInstance from '@/components/map/map';
 import { formatLabel } from '@/components/map/formatters';
+import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
+import {
+  createConfigFromIndicator,
+  createAvailableTimeEntries,
+} from '@/helpers/mapConfig';
 
 export default {
   components: {
     LayerControl,
     SpecialLayer,
+    IndicatorTimeSelection,
   },
-  props: {},
+  props: {
+    // to do: still needed?
+    disableAutoFocus: Boolean,
+  },
   data() {
     return {
       loaded: false,
@@ -44,11 +90,15 @@ export default {
         indicator: '',
         description: '',
       },
-      opacityTerrain: [1],
+      dataLayerTime: null,
+      compareLayerTime: null,
+      enableCompare: false,
+      legendExpanded: false,
     };
   },
   computed: {
     ...mapGetters('features', ['getGroupedFeatures', 'getFeatures']),
+    ...mapGetters('indicators', ['getIndicatorFilteredInputData']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
       if (this.isGlobalIndicator) {
@@ -73,11 +123,35 @@ export default {
     isGlobalIndicator() {
       return this.$store.state.indicators.selectedIndicator?.siteName === 'global';
     },
-    specialLayersConfigs() {
+    globalLayerConfigs() {
+      // global POI layers config
+      // TO DO: should this be surpassed by mergedConfigsData?
       return this.isGlobalIndicator ? [this.$store.state.indicators.selectedIndicator] : [];
     },
+    indicator() {
+      return this.getIndicatorFilteredInputData();
+    },
+    mergedConfigsData() {
+      if (!this.indicator) {
+        return [];
+      }
+      return createConfigFromIndicator(
+        this.indicator,
+        'data',
+        0,
+      );
+    },
+    availableTimeEntries() {
+      return createAvailableTimeEntries(
+        this.globalLayerConfigs[0],
+        this.mergedConfigsData, // TODO do we really need to pass the config here?
+      );
+    },
+    selectedTime() {
+      return this.$store.state.indicators.selectedTime;
+    },
     layerControlKey() {
-      // this key changes only when the layers of the center map changes
+      // this key changes only when the layers of the center map changes (== global indicators)
       // otherwise, there will be unneeded flickering
       if (!this.$store.state.indicators.selectedIndicator
       || this.$store.state.indicators.selectedIndicator?.siteName !== 'global') {
@@ -93,24 +167,77 @@ export default {
     indicatorsDefinition: () => this.baseConfig.indicatorsDefinition,
   },
   watch: {
-    getFeatures(features) {
+    '$store.state.indicators.selectedIndicator': () => {
       const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
-      cluster.setFeatures(features);
+      cluster.reRender();
+    },
+    getFeatures(features) {
+      if (features) {
+        // if there are features, unselect the last selected POI
+        this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+        const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
+        cluster.setFeatures(features);
+      }
+    },
+    mergedConfigsData() {
+      // set the dataLayerTime when the mergedConfigsData changes
+      this.setInitialTime();
+    },
+    selectedTime(value) {
+      // redraw all time-dependant layers, if time is passed via WMS params
+      const { map } = getMapInstance('centerMap');
+      const layers = map.getLayers().getArray();
+
+      this.mergedConfigsData.filter((config) => config.usedTimes?.time?.length)
+        .forEach((config) => {
+          const layer = layers.find((l) => l.get('name') === config.name);
+          if (layer) {
+            const source = layer.getSource();
+            if (config.specialEnvTime) {
+              source.updateParams({
+                LAYERS: config.layers,
+                time: config.dateFormatFunction(value),
+                env: `year:${value}`,
+              });
+            }
+            layer.changed();
+          }
+        });
+    },
+    dataLayerTime(timeObj) {
+      this.$store.commit('indicators/SET_SELECTED_TIME', timeObj.value);
     },
   },
   mounted() {
     const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
     cluster.setActive(true, this.overlayCallback);
     cluster.setFeatures(this.getFeatures);
-    this.$watch('$store.state.indicators.selectedIndicator', () => {
-      cluster.reRender();
-    });
     this.loaded = true;
+    this.setInitialTime();
     getMapInstance('centerMap').map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
   },
   methods: {
     overlayCallback(indicatorObject) {
+      // callback function for overlay hover events
       this.tooltip = formatLabel(indicatorObject, this);
+    },
+    setInitialTime() {
+      if (this.mergedConfigsData?.length) {
+        this.dataLayerTime = {
+          value: this.mergedConfigsData[0].usedTimes.time[
+            this.mergedConfigsData[0].usedTimes.time.length - 1
+          ],
+        };
+      }
+    },
+    focusSelect() {
+      // TO DO: handle scrolling?
+      /* const lMap = this.$refs.map.mapObject;
+      if (on) {
+        lMap.scrollWheelZoom.disable();
+      } else {
+        lMap.scrollWheelZoom.enable();
+      } */
     },
   },
   beforeDestroy() {
@@ -141,5 +268,15 @@ export default {
   border-bottom: 0;
   margin-left: -10px;
   margin-bottom: -10px;
+}
+
+.map-legend {
+  max-width: 15vw;
+  transition: max-width 0.5s ease-in-out;
+  cursor: pointer;
+}
+.map-legend-expanded {
+  width: initial;
+  max-width: 800%;
 }
 </style>
