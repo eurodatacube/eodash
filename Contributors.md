@@ -25,5 +25,9 @@ This is a list of current and past contributors to the EODASH project, including
 * [AlessandroScremin] https://github.com/AlessandroScremin - **Alessandro Scremin** - [RHEA](https://www.rheagroup.com/)
 * [dmoglioni] https://github.com/dmoglioni - **Diego Moglioni** - [RHEA](https://www.rheagroup.com/)
 * [RobertOrthofer] https://github.com/RobertOrthofer - **Robert Orthofer** - [W3GEO](https://w3geo.at/)
+* [ChungXiangHong](https://github.com/ChungXiangHong) - **Chung-Xiang Hong** - [Sentinel Hub](https://www.sentinel-hub.at/)
+* [Dorothyrono](https://github.com/Dorothyrono) - **Dorothy Rono** - [Sentinel Hub](https://www.sentinel-hub.at/)
+* [maximlamare](https://github.com/maximlamare) - **Maxim Lamare** - [Sentinel Hub](https://www.sentinel-hub.at/)
+* [Kampen1988](https://github.com/Kampen1988) - **Max Kampen** - [Sentinel Hub](https://www.sentinel-hub.at/)
 
 *in progress*
