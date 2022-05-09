@@ -411,7 +411,11 @@ export default {
         );
     },
     autoCompleteChange(input) {
+      console.log('autoCompleteChange:');
       console.log(input);
+
+      if (!input) return;
+
       if (input.indicator) {
         if (input.indicatorObject) {
           this.selectIndicator(input.indicatorObject.indicator);
