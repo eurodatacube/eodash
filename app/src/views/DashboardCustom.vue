@@ -615,7 +615,13 @@ export default {
       ) {
         // replace with local custom dashboard
         const localDashboard = await axios
-          .get(`./data/dashboards/${existingConfiguration.originalDashboardId}.json`);
+          .get(`./data/dashboards/${existingConfiguration.originalDashboardId}.json`, {
+            headers: {
+              'Cache-Control': 'no-cache',
+              Pragma: 'no-cache',
+              Expires: '0',
+            },
+          });
         const localDashboardContent = localDashboard.data;
         this.officialDashboard = true;
         this.localDashboardId = id;
