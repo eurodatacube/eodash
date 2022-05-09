@@ -7,6 +7,8 @@ import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import l3mapsData from '@/config/tropomiCO.json';
+import locations from '@/config/locations.json';
+
 import {
   /*
   statisticalApiHeaders,
@@ -1229,51 +1231,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
           labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
           // legendUrl: 'data/trilateral/N2-co2diff-legend.png',
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Nightlights (HD)',
-        indicator: 'NHD',
-        lastIndicatorValue: null,
-        indicatorName: 'Nightlights (HD)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-67.271 17.912,  -65.574 17.912, -65.574 18.515, -67.271 18.515, -67.271 17.912))').toJson(),
-          }],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'W12',
-        time: availableDates['nightlights-hd-3bands'],
-        inputData: [''],
-        display: {
-          //mosaicIndicator: true,
-          collection: 'nightlights-hd-3bands',
-          protocol: 'xyz',
-          tileSize: 256,
-          minMapZoom: 5,
-          minZoom:5,
-          maxZoom: 16,
-          // maxMapZoom: 18,
-          url: 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}',
-          // url: 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?url=s3://climatedashboard-data/delivery/BMHD_Maria_Stages/Maria_Stage1_2017-09-20_2017-11-20.tif',
-          // url: 'https://staging-raster.delta-backend.xyz/mosaic/tiles/{searchid}/WebMercatorQuad/{z}/{x}/{y}@1x?assets=cog_default&rescale=0.0%2C255.0&colormap_name=jet',
-          name: 'Nightlights (HD)',
-          // dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
-          dateFormatFunction: (date) => `url=${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
-          // legendUrl: 'data/trilateral/.png',
         },
       },
     },
@@ -4120,10 +4077,82 @@ const slowdownIndicators = [
   },
 ];
 
-const idOffset = 30000;
+
+let idOffset = 30000;
 slowdownIndicators.forEach((ind, idx) => (
   globalIndicators.push(createSlowDownIndicator(
     (idOffset + idx), ind.aoiID, ind.city, ind.country, ind.aoi,
     ind.geometry, ind.cog, ind.eoSensor, ind.time,
   ))
 ));
+
+const createSTACCollectionIndicator = (collection, key, value, index) => {
+  const bbox = JSON.parse(key);
+  const aoi = latLng([
+    bbox[1] + (bbox[3] - bbox[1]) / 2,
+    bbox[0] + (bbox[2] - bbox[0]) / 2,
+  ]);
+  const geometry = {
+    coordinates: [[
+      [bbox[0], bbox[1]],
+      [bbox[2], bbox[1]],
+      [bbox[2], bbox[3]],
+      [bbox[0], bbox[3]],
+      [bbox[0], bbox[1]],
+    ]],
+    type: 'Polygon',
+  };
+  console.log(`${collection}-${value.id}`);
+  const indicator = {
+    latlng: aoi,
+    id: index,
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi,
+        id: value.id,
+        aoiID: value.id,
+        country: value.location,
+        city: value.location,
+        siteName: value.location,
+        description: 'Nightlights (HD)',
+        indicator: 'NHD',
+        lastIndicatorValue: null,
+        indicatorName: '',
+        lastColorCode: null,
+        eoSensor: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry,
+          }],
+        },
+        time: availableDates[`${collection}-${value.id}`],
+        inputData: [''],
+        display: {
+          collection: 'nightlights-hd-3bands',
+          protocol: 'xyz',
+          tileSize: 256,
+          minMapZoom: 5,
+          minZoom: 5,
+          maxZoom: 16,
+          url: 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}',
+          name: 'Nightlights (HD)',
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          // legendUrl: 'data/trilateral/.png',
+        },
+      },
+    },
+  };
+  return indicator;
+};
+
+Object.keys(locations).forEach((collection) => {
+  idOffset += 5000;
+  Object.entries(locations[collection]).forEach(([key, value], index) => {
+    globalIndicators.push(createSTACCollectionIndicator(collection, key, value, idOffset + index));
+  });
+});
