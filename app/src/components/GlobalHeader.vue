@@ -156,12 +156,6 @@
             @close="d => { showNewsletterModal = false }"
             always-sm />
         </v-dialog>
-
-        <v-divider></v-divider>
-
-        <indicator-filters
-          v-if="$route.name === 'explore'"
-        />
       </template>
 
     </v-navigation-drawer>
