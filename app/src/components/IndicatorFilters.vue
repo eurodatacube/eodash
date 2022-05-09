@@ -20,6 +20,8 @@
       attach="#list"
       @click:clear="autoCompleteClear"
       @change="autoCompleteChange"
+      @focus="autoCompleteFocus"
+      @blur="autoCompleteBlur"
     >
         <template v-slot:selection="{ item }">
           <v-row align="center">
@@ -210,7 +212,8 @@ export default {
     CountryFlag,
   },
   data: () => ({
-    isDropdownEnabled: true,
+    // Disable the dropdown by default on smaller screens.
+    isDropdownEnabled: !this.$vuetify.breakpoint.smAndDown,
     input: '',
     indicators: {
       environment: 1,
@@ -424,6 +427,18 @@ export default {
     autoCompleteClear() {
       this.selectCountry('all');
       this.selectIndicator('all');
+    },
+    autoCompleteFocus() {
+      if (!this.isDropdownEnabled) {
+        console.log(`setting isDropdownEnabled to true`);
+        this.isDropdownEnabled = true;
+      }
+    },
+    autoCompleteBlur() {
+      if (this.$vuetify.breakpoint.smAndDown) {
+        console.log(`setting isDropdownEnabled to false`);
+        this.isDropdownEnabled = false;
+      }
     },
   },
   watch: {
