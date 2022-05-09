@@ -581,8 +581,8 @@ with open(stories_config) as json_file:
                     dash_id = entry['originalDashboardId']
                     resp = requests.get(dashboards_endpoint+dash_id)
                     if resp.status_code == 200:
-                        with open("%s/%s.json"%(dashboards_folder, dash_id), "wb") as f:
-                            f.write(resp.content)
+                        with open("%s/%s.json"%(dashboards_folder, dash_id), "w") as f:
+                            f.write(json.dumps(resp.json(), indent = 2))
                     else:
                         print ('Issue retrieving story with dashboard id %s'%dash_id)
 

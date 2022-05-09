@@ -1,1 +1,61 @@
-{"marketingInfo":{"interests":["Economy","Health"]},"features":[{"width":2,"mapInfo":{"zoom":12,"center":{"lng":2.2604351466703543,"lat":51.024118927399144}},"id":"FR03-N5","title":"Port of Dunkirk, Nightlights"},{"width":2,"text":"## Nightlights in the Port of Dunkirk (France)\n&nbsp;  \nThe High Definition Nightlights dataset is processed to eliminate light sources like moonlight reflectance and other interferences. The darker shades are places with less light while the lighter shades of yellow are areas with more light.\n\nThe Port of Dunkirk is the third-largest maritime port in northern France. Located on the busy North Sea, the port is well known for the comings and goings of heavy cargo barges. In early March, following French government guidance, the port began to limit activity in response to the novel coronavirus. \n\nResearchers are using night lights to track variations in energy use, migration, and transportation at the port in response to social distancing and lockdown measures. \n\nThey are able to visualize the extent social distancing measures impacted various economic activities based on whether light pollution increased or decreased, which highways were shut down, and which cities stayed the same.\n\n![](https://www.cruisemapper.com/images/ports/9901-841799c4b49.jpg)\n*Port of Dunkirk. Image source: https://www.cruisemapper.com/ports/dunkirk-port-9901* \n\n","id":"Page 1-1651908156613","title":"Page 1"},{"width":2,"mapInfo":{"zoom":12,"compareLayerTime":"2020-01-01 - Nightlights","dataLayerTime":"2021-09-01 - Nightlights","center":{"lng":-121.9316626253372,"lat":37.34942133541676}},"id":"US03-N5","title":"San Francisco, Nightlights"},{"width":2,"text":"## Nightlights in San Francisco (USA)\n&nbsp;  \nA shelter-in-place mandate went into effect for six counties in the San Francisco metropolitan area on March 17, 2020, closing non-essential businesses and keeping approximately 6.7 million residents at home. The nightlights data, captured before and during the mandate, show an abrupt decrease in night lights predominantly in the central business districts, market areas, and entertainment districts that can be seen in the “before” and “after” imagery.\n\nHigh-resolution nighttime images from space, referred to by NASA as the Black Marble HD dataset, provide data on how coronavirus-containment strategies have affected local businesses and neighborhoods. The nightlights sensor can decipher changes in urban business, industry, and transportation activity patterns associated with closures, event cancellations, and reduced vehicle traffic.","id":"Page 2-1651908277120","title":"Page 2"},{"width":2,"text":"<--IMG-->http://www.nasa.gov/sites/default/files/thumbnails/image/img_press_140106_suomi-npp.jpg<--IMG-->Suomi-NPP. NASA Black Marble data courtesy of [Universities Space Research Association (USRA)](https://www.usra.edu/), [Earth from Space Institute (EfSI)](https://www.usra.edu/efsi-our-mission) and [NASA Goddard Space Flight Center’s Terrestrial Information Systems Laboratory](https://science.gsfc.nasa.gov/earth/terrestrialinfo/) using VIIRS day-night band data from the Suomi National Polar-orbiting Partnership and Landsat-8 Operational Land Imager (OLI) data from the U.S. Geological Survey.","id":"SUOMI-1651908872994","title":"SUOMI"},{"width":2,"text":"## The Suomi-NPP Visible Infrared Imaging Radiometer Suite (VIIRS)\n&nbsp;  \n\nSuomi pioneered the generation of satellite products providing global measurement of nocturnal visible and near-infrared light. The high-resolution nighttime images from space, referred to by NASA as the Black Marble HD dataset, is processed to eliminate light sources like moonlight reflectance and other interferences. Furthermore, before assuming the direct link between decrease of lights and COVID-19-related restrictions it is always important to discard other potential factors for change. Nevertheless, this data can shed a light (pun intended) on how coronavirus-containment strategies have affected local businesses and neighborhoods, deciphering changes in urban business, industry, and transportation activity patterns associated with closures, event cancellations, and reduced vehicle traffic by night.","id":"Page 3-1651908728823","title":"Page 3"}],"title":"Nightlights"}
+{
+  "marketingInfo": {
+    "interests": [
+      "Economy",
+      "Health"
+    ]
+  },
+  "features": [
+    {
+      "width": 2,
+      "mapInfo": {
+        "zoom": 12,
+        "center": {
+          "lng": 2.2604351466703543,
+          "lat": 51.024118927399144
+        }
+      },
+      "id": "FR03-N5",
+      "title": "Port of Dunkirk, Nightlights"
+    },
+    {
+      "width": 2,
+      "text": "## Nightlights in the Port of Dunkirk (France)\n&nbsp;  \nThe High Definition Nightlights dataset is processed to eliminate light sources like moonlight reflectance and other interferences. The darker shades are places with less light while the lighter shades of yellow are areas with more light.\n\nThe Port of Dunkirk is the third-largest maritime port in northern France. Located on the busy North Sea, the port is well known for the comings and goings of heavy cargo barges. In early March, following French government guidance, the port began to limit activity in response to the novel coronavirus. \n\nResearchers are using night lights to track variations in energy use, migration, and transportation at the port in response to social distancing and lockdown measures. \n\nThey are able to visualize the extent social distancing measures impacted various economic activities based on whether light pollution increased or decreased, which highways were shut down, and which cities stayed the same.\n\n![](https://www.cruisemapper.com/images/ports/9901-841799c4b49.jpg)\n*Port of Dunkirk. Image source: https://www.cruisemapper.com/ports/dunkirk-port-9901* \n\n",
+      "id": "Page 1-1651908156613",
+      "title": "Page 1"
+    },
+    {
+      "width": 2,
+      "mapInfo": {
+        "zoom": 12,
+        "compareLayerTime": "2020-01-01 - Nightlights",
+        "dataLayerTime": "2021-09-01 - Nightlights",
+        "center": {
+          "lng": -121.9316626253372,
+          "lat": 37.34942133541676
+        }
+      },
+      "id": "US03-N5",
+      "title": "San Francisco, Nightlights"
+    },
+    {
+      "width": 2,
+      "text": "## Nightlights in San Francisco (USA)\n&nbsp;  \nA shelter-in-place mandate went into effect for six counties in the San Francisco metropolitan area on March 17, 2020, closing non-essential businesses and keeping approximately 6.7 million residents at home. The nightlights data, captured before and during the mandate, show an abrupt decrease in night lights predominantly in the central business districts, market areas, and entertainment districts that can be seen in the \u201cbefore\u201d and \u201cafter\u201d imagery.\n\nHigh-resolution nighttime images from space, referred to by NASA as the Black Marble HD dataset, provide data on how coronavirus-containment strategies have affected local businesses and neighborhoods. The nightlights sensor can decipher changes in urban business, industry, and transportation activity patterns associated with closures, event cancellations, and reduced vehicle traffic.",
+      "id": "Page 2-1651908277120",
+      "title": "Page 2"
+    },
+    {
+      "width": 2,
+      "text": "<--IMG-->http://www.nasa.gov/sites/default/files/thumbnails/image/img_press_140106_suomi-npp.jpg<--IMG-->Suomi-NPP. NASA Black Marble data courtesy of [Universities Space Research Association (USRA)](https://www.usra.edu/), [Earth from Space Institute (EfSI)](https://www.usra.edu/efsi-our-mission) and [NASA Goddard Space Flight Center\u2019s Terrestrial Information Systems Laboratory](https://science.gsfc.nasa.gov/earth/terrestrialinfo/) using VIIRS day-night band data from the Suomi National Polar-orbiting Partnership and Landsat-8 Operational Land Imager (OLI) data from the U.S. Geological Survey.",
+      "id": "SUOMI-1651908872994",
+      "title": "SUOMI"
+    },
+    {
+      "width": 2,
+      "text": "## The Suomi-NPP Visible Infrared Imaging Radiometer Suite (VIIRS)\n&nbsp;  \n\nSuomi pioneered the generation of satellite products providing global measurement of nocturnal visible and near-infrared light. The high-resolution nighttime images from space, referred to by NASA as the Black Marble HD dataset, is processed to eliminate light sources like moonlight reflectance and other interferences. Furthermore, before assuming the direct link between decrease of lights and COVID-19-related restrictions it is always important to discard other potential factors for change. Nevertheless, this data can shed a light (pun intended) on how coronavirus-containment strategies have affected local businesses and neighborhoods, deciphering changes in urban business, industry, and transportation activity patterns associated with closures, event cancellations, and reduced vehicle traffic by night.",
+      "id": "Page 3-1651908728823",
+      "title": "Page 3"
+    }
+  ],
+  "title": "Nightlights"
+}
