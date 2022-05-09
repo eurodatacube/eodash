@@ -20,6 +20,9 @@ This is a list of current and past contributors to the EODASH project, including
 * [lubojr](https://github.com/lubojr) - **Lubomír Doležal** - [EOX-A](https://eox.at)
 * [radupasparuga](https://github.com/radupasparuga) - **Radu Pasparuga** - [EOX](https://eox.at)
 * [spectrachrome](https://github.com/spectrachrome) - **Moritz Riede** - [EOX](https://eox.at)
+* [totycro](https://github.com/totycro) - **Bernhard Mallinger** - [EOX](https://eox.at)
+* [achtsnits](https://github.com/achtsnits) - **Stefan Achtsnit** - [EOX](https://eox.at)
+* **Gerhard Triebnig** - [EOX](https://eox.at)
 * [komninoschat](https://github.com/komninoschat) - **Komninos Chatzipapas**
 * [Antonio-Romeo](https://github.com/Antonio-Romeo) - **Antonio-Romeo** - [RHEA](https://www.rheagroup.com/)
 * [AlessandroScremin](https://github.com/AlessandroScremin) - **Alessandro Scremin** - [RHEA](https://www.rheagroup.com/)
