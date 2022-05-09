@@ -88,7 +88,7 @@ import { DateTime } from 'luxon'; // TODO: MIGRATE
 import axios from 'axios';
 import turfDifference from '@turf/difference';
 import GeoJSON from 'ol/format/GeoJSON';
-
+import getMapInstance from '@/components/map/map';
 import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
@@ -343,6 +343,9 @@ export default {
         return this.zoomExtent;
       }
       return null;
+    },
+    selectedTime() {
+      return this.$store.state.indicators.selectedTime;
     },
   },
   mounted() {
@@ -699,12 +702,13 @@ export default {
           .map((i) => i.value)
           .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
         this.dataLayerIndex = newIndex;
+        this.$store.commit('indicators/SET_SELECTED_TIME', this.availableTimeEntries[newIndex].value);
         this.refreshLayers('data');
-        this.$nextTick(() => {
+        /* this.$nextTick(() => {
           this.slider.setRightLayers(
             this.extractActualLayers(this.$refs.dataLayers),
           );
-        });
+        }); */
         if (this.indicator.compareDisplay) {
           // shared time on both sides in case of compareDisplay being set
           this.compareLayerTime = this.dataLayerTime;
@@ -1017,6 +1021,25 @@ export default {
       handler(v) {
         if (v) this.center = v;
       },
+    },
+    selectedTime(value) {
+      // redraw all time-dependant layers
+      const { map } = getMapInstance(this.mapId);
+      const layers = map.getLayers().getArray();
+      this.overlayLayers.filter((config) => config.usedTimes?.time?.length).forEach((config) => {
+        const layer = layers.find((l) => l.get('name') === config.name);
+        if (layer) {
+          const source = layer.getSource();
+          if (source.get('updateParamsOnTimeChange')) {
+            source.updateParams({
+              LAYERS: config.layers,
+              time: config.dateFormatFunction(value),
+              env: `year:${value}`,
+            });
+          }
+          layer.changed();
+        }
+      });
     },
     dataLayerTime(timeObj) {
       this.dataLayerTimeSelection(timeObj);
