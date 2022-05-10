@@ -26,7 +26,7 @@
         <template v-slot:selection="{ item }">
           <v-row align="center">
             <template v-if="item.location || item.indicator">
-              <v-icon>{{
+              <v-icon class="pr-2">{{
                 baseConfig.indicatorClassesIcons[item.class]
                   ? baseConfig.indicatorClassesIcons[item.class]
                   : "mdi-lightbulb-on-outline"
