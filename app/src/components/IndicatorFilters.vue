@@ -20,8 +20,10 @@
       :search-input.sync="userInput"
       attach="#list"
       autofocus
+      open-on-clear
       @click:clear="autoCompleteClear"
       @change="autoCompleteChange"
+      @keydown.esc="userInput = null"
     >
         <template v-slot:selection="{ item }">
           <v-row align="center">
@@ -106,67 +108,68 @@
     <div
       v-show="isDropdownEnabled"
       class="rounded-t-xl mt-3 pa-3 white"
-      id="list"
     >
-      <v-list
-        dense
-        class="customList fill-height pt-0"
-        :style="$vuetify.breakpoint.xsOnly && 'padding-bottom: 60px'"
-      >
-        <v-list-item-group v-model="indicatorSelection" color="primary">
-          <template v-for="classId in Object.keys(uniqueClasses)">
-            <v-subheader
-              class="ml-5"
-              :key="classId"
-              v-if="
-                indicatorItems.filter((i) =>
-                  uniqueClasses[classId].includes(i.code)
-                ).length > 0
-              "
-            >
-              {{ classId.toUpperCase() }}
-            </v-subheader>
-            <v-list-item
-              v-for="indicator in indicatorItems.filter(
-                (i) =>
-                  uniqueClasses[classId].includes(i.code) &&
-                  i.indicator !== ''
-              )"
-              :key="indicator.code"
-              :value="indicator.code"
-              active-class="itemActive"
-              :class="indicator.archived ? 'archived-item' : ''"
-              :disabled="indicatorSelection === indicator.code"
-            >
-              <v-list-item-icon class="ml-3 mr-4">
-                <v-icon>{{
-                  baseConfig.indicatorClassesIcons[classId]
-                    ? baseConfig.indicatorClassesIcons[classId]
-                    : "mdi-lightbulb-on-outline"
-                }}</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title v-if="indicator.indicatorOverwrite"
-                  v-text="indicator.indicatorOverwrite"
-                  style="
-                    text-overflow: unset;
-                    overflow: unset;
-                    white-space: pre-wrap;
-                  "
-                ></v-list-item-title>
-                <v-list-item-title v-else
-                  v-text="indicator.indicator"
-                  style="
-                    text-overflow: unset;
-                    overflow: unset;
-                    white-space: pre-wrap;
-                  "
-                ></v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </template>
-        </v-list-item-group>
-      </v-list>
+      <div id="list">
+        <v-list
+          dense
+          class="customList fill-height pt-0"
+          :style="$vuetify.breakpoint.xsOnly && 'padding-bottom: 60px'"
+        >
+          <v-list-item-group v-model="indicatorSelection" color="primary">
+            <template v-for="classId in Object.keys(uniqueClasses)">
+              <v-subheader
+                class="ml-5"
+                :key="classId"
+                v-if="
+                  indicatorItems.filter((i) =>
+                    uniqueClasses[classId].includes(i.code)
+                  ).length > 0
+                "
+              >
+                {{ classId.toUpperCase() }}
+              </v-subheader>
+              <v-list-item
+                v-for="indicator in indicatorItems.filter(
+                  (i) =>
+                    uniqueClasses[classId].includes(i.code) &&
+                    i.indicator !== ''
+                )"
+                :key="indicator.code"
+                :value="indicator.code"
+                active-class="itemActive"
+                :class="indicator.archived ? 'archived-item' : ''"
+                :disabled="indicatorSelection === indicator.code"
+              >
+                <v-list-item-icon class="ml-3 mr-4">
+                  <v-icon>{{
+                    baseConfig.indicatorClassesIcons[classId]
+                      ? baseConfig.indicatorClassesIcons[classId]
+                      : "mdi-lightbulb-on-outline"
+                  }}</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title v-if="indicator.indicatorOverwrite"
+                    v-text="indicator.indicatorOverwrite"
+                    style="
+                      text-overflow: unset;
+                      overflow: unset;
+                      white-space: pre-wrap;
+                    "
+                  ></v-list-item-title>
+                  <v-list-item-title v-else
+                    v-text="indicator.indicator"
+                    style="
+                      text-overflow: unset;
+                      overflow: unset;
+                      white-space: pre-wrap;
+                    "
+                  ></v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </template>
+          </v-list-item-group>
+        </v-list>
+      </div>
     </div>
     <v-sheet
       v-if="isDropdownEnabled"
@@ -427,6 +430,7 @@ export default {
     autoCompleteClear() {
       this.selectCountry('all');
       this.selectIndicator('all');
+      this.userInput = null;
     },
   },
   watch: {
@@ -478,7 +482,6 @@ export default {
 #list {
   height: auto;
   max-height: calc(var(--vh, 1vh) * 100 - 180px);
-  background: grey;
   overflow-x: hidden;
   position: relative;
 }
