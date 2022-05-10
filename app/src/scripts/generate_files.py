@@ -144,17 +144,17 @@ WMSCOLLECTIONS = {
 }
 
 STAC_COLLECTIONS = {
-    # "no2-monthly": "https://staging-stac.delta-backend.xyz/collections/",
-    # "no2-monthly-diff": "https://staging-stac.delta-backend.xyz/collections/",
+    "no2-monthly": "https://staging-stac.delta-backend.xyz/collections/",
+    "no2-monthly-diff": "https://staging-stac.delta-backend.xyz/collections/",
     "OMI_trno2-COG": "https://staging-stac.delta-backend.xyz/collections/",
-    # "OMSO2PCA-COG": "https://staging-stac.delta-backend.xyz/collections/",
-    # "facebook_population_density": "https://staging-stac.delta-backend.xyz/collections/",
-    # "nightlights-hd-monthly": "https://staging-stac.delta-backend.xyz/collections/",
-    # "IS2SITMOGR4": "https://staging-stac.delta-backend.xyz/collections/",
-    # "MO_NPP_npp_vgpm": "https://staging-stac.delta-backend.xyz/collections/",
+    "OMSO2PCA-COG": "https://staging-stac.delta-backend.xyz/collections/",
+    "facebook_population_density": "https://staging-stac.delta-backend.xyz/collections/",
+    "nightlights-hd-monthly": "https://staging-stac.delta-backend.xyz/collections/",
+    "IS2SITMOGR4": "https://staging-stac.delta-backend.xyz/collections/",
+    "MO_NPP_npp_vgpm": "https://staging-stac.delta-backend.xyz/collections/",
     "nightlights-hd-3bands": "https://staging-stac.delta-backend.xyz/collections/",
-    # "HLSL30.002": "https://staging-stac.delta-backend.xyz/collections/",
-    # "HLSS30.002": "https://staging-stac.delta-backend.xyz/collections/",
+    #"HLSL30.002": "https://staging-stac.delta-backend.xyz/collections/",
+    #"HLSS30.002": "https://staging-stac.delta-backend.xyz/collections/",
 }
 # Collections items which have null datetimes and instead start_datetime and end_datetime
 SPECIAL_STAC_DATE = [
