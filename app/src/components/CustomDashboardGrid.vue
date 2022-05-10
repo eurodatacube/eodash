@@ -431,6 +431,7 @@ export default {
     LoadingAnimation,
   },
   data: () => ({
+    isMounted: false,
     features: [],
     dialog: false,
     featureTitle: '',
@@ -513,7 +514,14 @@ export default {
       };
     },
     navigationButtonVisible() {
-      return this.offsetTop >= document.querySelector('#headerRow').clientHeight;
+      let visible;
+      if (this.isMounted) {
+        // adding 5 pixels here just to make sure it triggers
+        // apparently there are very slight differences between browsers
+        // in offsetTop calculation when the window is zoomed in or out
+        visible = this.offsetTop + 5 >= document.querySelector('#headerRow').clientHeight;
+      }
+      return visible;
     },
     currentRow() {
       let currentRow;
@@ -555,6 +563,9 @@ export default {
         this.getNumberOfRows();
       }
     },
+  },
+  mounted() {
+    this.isMounted = true;
   },
   methods: {
     ...mapActions('dashboard', [
@@ -619,7 +630,11 @@ export default {
     convertToMarkdown(text) {
       // each time markdown is rendered, register its images for the zoom feature
       this.registerImageZoom();
-      return this.$marked(text.replace(this.imageFlag, '<img class="featuredImage" src="').replace(this.imageFlag, '" title="test"/>'));
+      return this.$marked(text
+        .replace(this.imageFlag, '<img class="featuredImage" src="')
+        .replace(this.imageFlag, `" title="${text.includes(this.imageFlag)
+          ? text.split(this.imageFlag)[2].replace(/\n/g, ' ')
+          : 'Image'}"/>`));
     },
     registerImageZoom() {
       this.$nextTick(() => {

@@ -27,3 +27,5 @@ yarn-error.log*
 *.xcf
 
 /public/.env
+
+/src/scripts/__pycache__
