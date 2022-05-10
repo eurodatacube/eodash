@@ -368,13 +368,11 @@ export default {
       }
     });
     this.$watch(
-      () => {
-        return this.$refs.autocomplete.isMenuActive
-      },
+      () => this.$refs.autocomplete.isMenuActive,
       (val) => {
         this.isDropdownEnabled = val;
-      }
-    )
+      },
+    );
   },
   methods: {
     getIndicator(indObj) {
