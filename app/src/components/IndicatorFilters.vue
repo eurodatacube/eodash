@@ -2,7 +2,7 @@
   <div
     class="fill-height pa-5"
     :class="input && input.length > 0 ? 'dirty' : 'new'"
-    style="position: absolute; top: 0; left: 0; width: 320px"
+    style="position: absolute; top: 0; left: 0; width: 420px"
   >
     <v-autocomplete
       v-model="dropdownSelection"
@@ -10,7 +10,7 @@
       solo
       rounded
       :items="selectionItems"
-      prepend-inner-icon="mdi-magnify"
+      :prepend-inner-icon="dropdownSelection ? undefined : 'mdi-magnify'"
       clearable
       auto-select-first
       return-object
@@ -122,66 +122,66 @@
     </div>
   </div> -->
   <!-- <div class="fill-height" style="overflow-y: auto"> -->
-    <v-list
-      dense
-      class="customList fill-height pt-0"
-      :style="$vuetify.breakpoint.xsOnly && 'padding-bottom: 60px'"
-    >
-      <v-list-item-group v-model="indicatorSelection" color="primary">
-        <template v-for="classId in Object.keys(uniqueClasses)">
-          <v-subheader
-            class="ml-5"
-            :key="classId"
-            v-if="
-              indicatorItems.filter((i) =>
-                uniqueClasses[classId].includes(i.code)
-              ).length > 0
-            "
-          >
-            {{ classId.toUpperCase() }}
-          </v-subheader>
-          <v-list-item
-            v-for="indicator in indicatorItems.filter(
-              (i) =>
-                uniqueClasses[classId].includes(i.code) &&
-                i.indicator !== ''
-            )"
-            :key="indicator.code"
-            :value="indicator.code"
-            active-class="itemActive"
-            :class="indicator.archived ? 'archived-item' : ''"
-            :disabled="indicatorSelection === indicator.code"
-          >
-            <v-list-item-icon class="ml-3 mr-4">
-              <v-icon>{{
-                baseConfig.indicatorClassesIcons[classId]
-                  ? baseConfig.indicatorClassesIcons[classId]
-                  : "mdi-lightbulb-on-outline"
-              }}</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title v-if="indicator.indicatorOverwrite"
-                v-text="indicator.indicatorOverwrite"
-                style="
-                  text-overflow: unset;
-                  overflow: unset;
-                  white-space: pre-wrap;
+        <v-list
+          dense
+          class="customList fill-height pt-0"
+          :style="$vuetify.breakpoint.xsOnly && 'padding-bottom: 60px'"
+        >
+          <v-list-item-group v-model="indicatorSelection" color="primary">
+            <template v-for="classId in Object.keys(uniqueClasses)">
+              <v-subheader
+                class="ml-5"
+                :key="classId"
+                v-if="
+                  indicatorItems.filter((i) =>
+                    uniqueClasses[classId].includes(i.code)
+                  ).length > 0
                 "
-              ></v-list-item-title>
-              <v-list-item-title v-else
-                v-text="indicator.indicator"
-                style="
-                  text-overflow: unset;
-                  overflow: unset;
-                  white-space: pre-wrap;
-                "
-              ></v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </template>
-      </v-list-item-group>
-    </v-list>
-  </div>
+              >
+                {{ classId.toUpperCase() }}
+              </v-subheader>
+              <v-list-item
+                v-for="indicator in indicatorItems.filter(
+                  (i) =>
+                    uniqueClasses[classId].includes(i.code) &&
+                    i.indicator !== ''
+                )"
+                :key="indicator.code"
+                :value="indicator.code"
+                active-class="itemActive"
+                :class="indicator.archived ? 'archived-item' : ''"
+                :disabled="indicatorSelection === indicator.code"
+              >
+                <v-list-item-icon class="ml-3 mr-4">
+                  <v-icon>{{
+                    baseConfig.indicatorClassesIcons[classId]
+                      ? baseConfig.indicatorClassesIcons[classId]
+                      : "mdi-lightbulb-on-outline"
+                  }}</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title v-if="indicator.indicatorOverwrite"
+                    v-text="indicator.indicatorOverwrite"
+                    style="
+                      text-overflow: unset;
+                      overflow: unset;
+                      white-space: pre-wrap;
+                    "
+                  ></v-list-item-title>
+                  <v-list-item-title v-else
+                    v-text="indicator.indicator"
+                    style="
+                      text-overflow: unset;
+                      overflow: unset;
+                      white-space: pre-wrap;
+                    "
+                  ></v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </template>
+          </v-list-item-group>
+        </v-list>
+      </div>
       <v-sheet
         class="d-flex align-center justify-center"
         :style="`width: 100%; height: 40px; ${$vuetify.breakpoint.xsOnly
@@ -226,7 +226,7 @@ export default {
       },
       countrySelection: 'all',
       indicatorSelection: 'all',
-      dropdownSelection: 'all',
+      dropdownSelection: null,
     };
   },
   computed: {
@@ -451,8 +451,8 @@ export default {
       this.selectCountry(val);
     },
     indicatorSelection(val) {
-      this.dropdownSelection = this.indicatorItems.find((i) => i.code === val);
-      // this.selectIndicator(val);
+      this.dropdownSelection = this.selectionItems.find((i) => i.code === val);
+      this.selectIndicator(val);
     },
   },
 };
@@ -497,12 +497,9 @@ export default {
 }
 
 #list {
-  /*height: 200px;*/
   height: auto;
-  /*min-height: 40px;*/
-  max-height: calc(100vh - 250px);
+  max-height: calc(var(--vh, 1vh) * 100 - 180px);
   background: grey;
-  /*overflow-y: auto;*/
   overflow-x: hidden;
   position: relative;
 }
@@ -523,5 +520,12 @@ export default {
     0px 1px 5px 0px rgba(0, 0, 0, 0.12);
   outline: 1px solid #ddd;
   overflow: hidden;
+}
+
+#list > .v-autocomplete__content.v-menu__content {
+  box-shadow: none;
+}
+::v-deep .v-input .v-label {
+  font-size: small;
 }
 </style>
