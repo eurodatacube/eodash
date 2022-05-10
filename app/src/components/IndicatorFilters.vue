@@ -2,7 +2,7 @@
   <div
     class="fill-height pa-5"
     :class="input && input.length > 0 ? 'dirty' : 'new'"
-    style="position: absolute; top: 0; left: 0; width: 320px"
+    style="position: absolute; top: 0; left: 0; width: 420px"
   >
     <v-autocomplete
       v-model="dropdownSelection"
@@ -10,7 +10,7 @@
       solo
       rounded
       :items="selectionItems"
-      prepend-inner-icon="mdi-magnify"
+      :prepend-inner-icon="dropdownSelection ? undefined : 'mdi-magnify'"
       clearable
       auto-select-first
       return-object
@@ -105,7 +105,6 @@
     </v-autocomplete>
     <div
       class="rounded-xl mt-3 pa-3 white"
-      style="outline: 1px solid #aaa"
       v-if="isDropdownEnabled"
     >
       <div id="list" class="white">
@@ -182,24 +181,24 @@
         </template>
       </v-list-item-group>
     </v-list>
+    <v-sheet
+      class="d-flex align-center justify-center"
+      :style="`width: 100%; height: 40px; ${$vuetify.breakpoint.xsOnly
+        ? 'position: absolute; bottom: 0;' : ''}`">
+      <v-checkbox
+        :value="featureFilters.includeArchived"
+        label="Show archived indicators"
+        color="primary"
+        dense
+        hide-details
+        class="ma-0"
+        @change="
+          setFilter({ includeArchived: !featureFilters.includeArchived })
+        "
+      >
+      </v-checkbox>
+    </v-sheet>
   </div>
-      <v-sheet
-        class="d-flex align-center justify-center"
-        :style="`width: 100%; height: 40px; ${$vuetify.breakpoint.xsOnly
-          ? 'position: absolute; bottom: 0;' : ''}`">
-        <v-checkbox
-          :value="featureFilters.includeArchived"
-          label="Show archived indicators"
-          color="primary"
-          dense
-          hide-details
-          class="ma-0"
-          @change="
-            setFilter({ includeArchived: !featureFilters.includeArchived })
-          "
-        >
-        </v-checkbox>
-      </v-sheet>
     </div>
   </div>
 </template>
