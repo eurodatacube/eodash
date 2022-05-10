@@ -227,7 +227,7 @@ export default {
       },
       countrySelection: 'all',
       indicatorSelection: 'all',
-      dropdownSelection: 'all',
+      dropdownSelection: null,
     };
   },
   computed: {
@@ -452,6 +452,7 @@ export default {
       this.selectCountry(val);
     },
     indicatorSelection(val) {
+      this.dropdownSelection = this.selectionItems.find((i) => i.code === val);
       this.dropdownSelection = this.indicatorItems.find((i) => i.code === val);
       // this.selectIndicator(val);
     },
