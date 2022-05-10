@@ -97,7 +97,7 @@ export function createLayerFromConfig(config, _options = {}) {
       source = new XYZSource({
         attributions: config.attribution,
         maxZoom: config.maxNativeZoom || config.maxZoom,
-        minZoom: config.minNativeZoomm || config.minZoom,
+        minZoom: config.minNativeZoomm || config.minZoom,
         crossOrigin: 'anonymous',
         transition: 0,
         tileUrlFunction: (tileCoord) => {
@@ -110,7 +110,7 @@ export function createLayerFromConfig(config, _options = {}) {
       source = new XYZSource({
         attributions: config.attribution,
         maxZoom: config.maxNativeZoom || config.maxZoom,
-        minZoom: config.minNativeZoomm || config.minZoom,
+        minZoom: config.minNativeZoomm || config.minZoom,
         crossOrigin: 'anonymous',
         transition: 0,
         url: config.url,
@@ -150,7 +150,7 @@ export function createLayerFromConfig(config, _options = {}) {
         source = new TileWMS({
           attributions: config.attribution,
           maxZoom: config.maxNativeZoom || config.maxZoom,
-          minZoom: config.minNativeZoomm || config.minZoom,
+          minZoom: config.minNativeZoomm || config.minZoom,
           crossOrigin: 'anonymous',
           params,
           url: config.baseUrl,
@@ -160,7 +160,7 @@ export function createLayerFromConfig(config, _options = {}) {
         source = new TileWMS({
           attributions: config.attribution,
           maxZoom: config.maxNativeZoom || config.maxZoom,
-          minZoom: config.minNativeZoomm || config.minZoom,
+          minZoom: config.minNativeZoomm || config.minZoom,
           crossOrigin: 'anonymous',
           transition: 0,
           tileLoadFunction(imageTile, src) {
@@ -174,7 +174,7 @@ export function createLayerFromConfig(config, _options = {}) {
       source = new TileWMS({
         attributions: config.attribution,
         maxZoom: config.maxNativeZoom || config.maxZoom,
-        minZoom: config.minNativeZoomm || config.minZoom,
+        minZoom: config.minNativeZoomm || config.minZoom,
         crossOrigin: 'anonymous',
         transition: 0,
         url: config.url,
