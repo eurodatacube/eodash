@@ -400,6 +400,11 @@ export default {
     },
     setFilter(filter) {
       this.$store.commit('features/SET_FEATURE_FILTER', filter);
+      const firstFeature = this.getGroupedFeatures[0];
+      this.$store.commit(
+        'indicators/SET_SELECTED_INDICATOR',
+        firstFeature.properties.indicatorObject,
+      );
     },
     uniqueRegions(countryItems) {
       return countryItems
