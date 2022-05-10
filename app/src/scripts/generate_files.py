@@ -144,36 +144,22 @@ WMSCOLLECTIONS = {
 }
 
 STAC_COLLECTIONS = {
-    "no2-monthly": "https://staging-stac.delta-backend.xyz/collections/",
-    "no2-monthly-diff": "https://staging-stac.delta-backend.xyz/collections/",
-    "OMI_trno2-COG": "https://staging-stac.delta-backend.xyz/collections/",
-    "OMSO2PCA-COG": "https://staging-stac.delta-backend.xyz/collections/",
-    "facebook_population_density": "https://staging-stac.delta-backend.xyz/collections/",
+    # "no2-monthly": "https://staging-stac.delta-backend.xyz/collections/",
+    # "no2-monthly-diff": "https://staging-stac.delta-backend.xyz/collections/",
+    # "OMI_trno2-COG": "https://staging-stac.delta-backend.xyz/collections/",
+    # "OMSO2PCA-COG": "https://staging-stac.delta-backend.xyz/collections/",
+    # "facebook_population_density": "https://staging-stac.delta-backend.xyz/collections/",
     "nightlights-hd-monthly": "https://staging-stac.delta-backend.xyz/collections/",
-    "IS2SITMOGR4": "https://staging-stac.delta-backend.xyz/collections/",
-    "MO_NPP_npp_vgpm": "https://staging-stac.delta-backend.xyz/collections/",
+    # "IS2SITMOGR4": "https://staging-stac.delta-backend.xyz/collections/",
+    # "MO_NPP_npp_vgpm": "https://staging-stac.delta-backend.xyz/collections/",
     "nightlights-hd-3bands": "https://staging-stac.delta-backend.xyz/collections/",
     #"HLSL30.002": "https://staging-stac.delta-backend.xyz/collections/",
     #"HLSS30.002": "https://staging-stac.delta-backend.xyz/collections/",
 }
 # Collections items which have null datetimes and instead start_datetime and end_datetime
 SPECIAL_STAC_DATE = [
-    "IS2SITMOGR4", "MO_NPP_npp_vgpm"
+    "IS2SITMOGR4", "MO_NPP_npp_vgpm", "nightlights-hd-monthly"
 ]
-
-STAC_LOCATIONS = {
-    "nightlights-hd-3bands": {
-        "[-90.3037818244749, 29.804659612978707, -89.87578181971654, 30.07177072705947]": {
-            "location": "Los Angeles",
-            "id": "LA",
-        },
-        "[-67.27167653359618, 17.912138994450856, -65.57478762584185, 18.51569455671654]": {
-            "location": "Puerto Rico",
-            "id": "PR",
-        }
-
-    }
-}
 
 # Some datasets have different dates for different areas so we need to separate
 # the request to only retrieve dates from those locations
@@ -249,11 +235,16 @@ def retrieve_location_stac_entries(url, offset, location, dateproperty="date"):
     features = json_resp["features"]
     try:
         for f in features:
-            location_id = "%s-%s"%(collection, location[json.dumps(f["bbox"])]["id"])
-            res.setdefault(location_id, []).append([
-                f["properties"][dateproperty],
-                f["assets"]["cog_default"]["href"]
-            ])
+            if json.dumps(f["bbox"]) in location:
+                location_id = "%s-%s"%(collection, location[json.dumps(f["bbox"])]["id"])
+                res.setdefault(location_id, []).append([
+                    f["properties"][dateproperty],
+                    f["assets"]["cog_default"]["href"]
+                ])
+            else:
+                # print("Location not found for %s"%f["bbox"])
+                # print(f["assets"]["cog_default"]["href"])
+                pass
         if len(features) == offset_step:
             raise Exception("It seems there are more then 5000 entries for the requested collection %s"%url)
     except Exception as e:
