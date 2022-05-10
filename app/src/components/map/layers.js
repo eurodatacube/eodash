@@ -96,17 +96,21 @@ export function createLayerFromConfig(config, _options = {}) {
       // gets the current time entry from the store
       source = new XYZSource({
         attributions: config.attribution,
+        maxZoom: config.maxNativeZoom || config.maxZoom,
+        minZoom: config.minNativeZoomm || config.minZoom,
         crossOrigin: 'anonymous',
         transition: 0,
         tileUrlFunction: (tileCoord) => {
           const time = store.state.indicators.selectedTime;
-          const url = config.url.replace(/{time}/i, time);
+          const url = config.url.replace(/{time}/i, config.dateFormatFunction(time));
           return createFromTemplate(url, tileCoord);
         },
       });
     } else {
       source = new XYZSource({
         attributions: config.attribution,
+        maxZoom: config.maxNativeZoom || config.maxZoom,
+        minZoom: config.minNativeZoomm || config.minZoom,
         crossOrigin: 'anonymous',
         transition: 0,
         url: config.url,
@@ -145,6 +149,8 @@ export function createLayerFromConfig(config, _options = {}) {
 
         source = new TileWMS({
           attributions: config.attribution,
+          maxZoom: config.maxNativeZoom || config.maxZoom,
+          minZoom: config.minNativeZoomm || config.minZoom,
           crossOrigin: 'anonymous',
           params,
           url: config.baseUrl,
@@ -153,6 +159,8 @@ export function createLayerFromConfig(config, _options = {}) {
       } else {
         source = new TileWMS({
           attributions: config.attribution,
+          maxZoom: config.maxNativeZoom || config.maxZoom,
+          minZoom: config.minNativeZoomm || config.minZoom,
           crossOrigin: 'anonymous',
           transition: 0,
           tileLoadFunction(imageTile, src) {
@@ -165,6 +173,8 @@ export function createLayerFromConfig(config, _options = {}) {
     } else {
       source = new TileWMS({
         attributions: config.attribution,
+        maxZoom: config.maxNativeZoom || config.maxZoom,
+        minZoom: config.minNativeZoomm || config.minZoom,
         crossOrigin: 'anonymous',
         transition: 0,
         url: config.url,
@@ -176,8 +186,6 @@ export function createLayerFromConfig(config, _options = {}) {
     name: config.name,
     visible: config.visible,
     updateOpacityOnZoom: options.updateOpacityOnZoom,
-    maxZoom: config.maxNativeZoom || config.maxZoom,
-    minZoom: config.minNativeZoomm || config.minZoom,
     zIndex: options.zIndex,
     source,
   });
