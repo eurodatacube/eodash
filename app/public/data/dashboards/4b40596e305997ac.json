@@ -17,8 +17,8 @@
       "mapInfo": {
         "zoom": 3,
         "center": {
-          "lng": -4.1336428507232315,
-          "lat": 8.415757946601914
+          "lng": 13.793214574819508,
+          "lat": 1.674053336403789
         }
       },
       "id": "W6-N6",
@@ -33,13 +33,6 @@
     },
     {
       "width": 2,
-      "text": "**(1) Normalized Difference Vegetation Index (NDVI): A measure of crop health**\n\n![](https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/NDVI%20AGMET.png?raw=true)\n\n*The AGMET Indicators use satellite data to measure key indicators of crop health, including NDVI and NDVI anomalies. (source: https://cropmonitor.org/tools/agmet/)*\n\n&nbsp;   \n\n**(2) Surface soil moisture: A measure of water stored in the ground and available to crops**\n\n![](https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/SoilMoisture.png?raw=true)\n\n*Soil moisture can be measured using satellite data and directly affects crop growth. (source: https://cropmonitor.org/tools/agmet/)*",
-      "id": "AGMET NDVI-1649763449621",
-      "title": " Agromet Parameters",
-      "__generatedText__": "<p><strong>(1) Normalized Difference Vegetation Index (NDVI): A measure of crop health</strong></p>\n<p><img src=\"https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/NDVI%20AGMET.png?raw=true\" alt></p>\n<p><em>The AGMET Indicators use satellite data to measure key indicators of crop health, including NDVI and NDVI anomalies. (source: <a href=\"https://cropmonitor.org/tools/agmet/\">https://cropmonitor.org/tools/agmet/</a>)</em></p>\n<p>&nbsp;   </p>\n<p><strong>(2) Surface soil moisture: A measure of water stored in the ground and available to crops</strong></p>\n<p><img src=\"https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/SoilMoisture.png?raw=true\" alt></p>\n<p><em>Soil moisture can be measured using satellite data and directly affects crop growth. (source: <a href=\"https://cropmonitor.org/tools/agmet/\">https://cropmonitor.org/tools/agmet/</a>)</em></p>\n"
-    },
-    {
-      "width": 2,
       "text": "## What We Monitor \n&nbsp;  \nWith the help of satellites, we are able to monitor crops throughout the growing seasons and can use a combination of satellite derived time series to quantify critical indicators related to crop health for a specific region and crop over time. One such example of satellite-derived products are the GEOGLAM-NASA Harvest Agrometeorological (AGMET) Earth Observation Indicators, which are supported by the global remote sensing community and updated every 7-12 days to ensure that users are provided with the most up to date information. Displaying climate, environmental, and vegetative variables that impact agricultural outcomes, the AGMET Indicators were born from an agricultural stakeholder-identified need for a simple way to visualize and frequently monitor crop health with the ultimate goal of identifying potential cropping concerns as the growing season progresses and before a food shortage materializes. Satellite data provides a wealth of information to meet these needs including:\n\n\n### Agromet parameters\n\n**(1) Normalized Difference Vegetation Index (NDVI): A measure of crop health**\n&nbsp;  \nShowing global normalized difference vegetation index (NDVI) is a simple graphical indicator that can be used to analyze remote sensing measurements, often from a space platform, assessing whether or not the target being observed contains live green vegetation. As a crop season progresses, NDVI values will increase during early crop growth and development of leafy vegetation, will reach the peak as the crop fully develops and reaches maturity (before senescence), and then will decrease again as the crop matures and as the leafy vegetation begins to die off. How the NDVI values progress over the course of the season and the individual peak values can help predict the productivity of the crops and be compared to previous seasons.\n\n**(2) Surface soil moisture: A measure of water stored in the ground and available to crops**\n&nbsp;  \nLike NDVI, surface soil moisture is a key component for crop production that can be measured using satellite data (such as ESA\u2019s SMOS instrument, JAXA\u2019s GCOM-W instrument and NASA\u2019s SMAP instrument). The amount of moisture in the soil will depend on meteorological conditions that can also be measured with the help of satellite data (precipitation, temperature, etc.) as well as sun exposure, wind, runoff/drainage, and soil type. If there is less water in the soil, it will be more difficult for crop roots to take up that water, resulting in a crop that is under greater stress. If the stress continues, the crop will wilt and eventually die. However, if the soil is above field capacity and the pores are oversaturated with water, then oxygen levels are restricted and it can be detrimental for the crop. This is why soil moisture is a key indicator of what may ultimately be a successful or failed crop.",
       "id": "Page 3-1649236767541",
       "title": "Page 3",
@@ -47,17 +40,24 @@
     },
     {
       "width": 2,
+      "text": "**(1) Normalized Difference Vegetation Index (NDVI): A measure of crop health**\n\n![](https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/NDVI%20AGMET.png?raw=true)\n\n*The AGMET Indicators use satellite data to measure key indicators of crop health, including NDVI and NDVI anomalies. (source: https://cropmonitor.org/tools/agmet/)*\n\n&nbsp;   \n\n**(2) Surface soil moisture: A measure of water stored in the ground and available to crops**\n\n![](https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/SoilMoisture.png?raw=true)\n\n*Soil moisture can be measured using satellite data and directly affects crop growth. (source: https://cropmonitor.org/tools/agmet/)*",
+      "id": "AGMET NDVI-1649763449621",
+      "title": " Agromet Parameters",
+      "__generatedText__": "<p><strong>(1) Normalized Difference Vegetation Index (NDVI): A measure of crop health</strong></p>\n<p><img src=\"https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/NDVI%20AGMET.png?raw=true\" alt></p>\n<p><em>The AGMET Indicators use satellite data to measure key indicators of crop health, including NDVI and NDVI anomalies. (source: <a href=\"https://cropmonitor.org/tools/agmet/\">https://cropmonitor.org/tools/agmet/</a>)</em></p>\n<p>&nbsp;   </p>\n<p><strong>(2) Surface soil moisture: A measure of water stored in the ground and available to crops</strong></p>\n<p><img src=\"https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/SoilMoisture.png?raw=true\" alt></p>\n<p><em>Soil moisture can be measured using satellite data and directly affects crop growth. (source: <a href=\"https://cropmonitor.org/tools/agmet/\">https://cropmonitor.org/tools/agmet/</a>)</em></p>\n"
+    },
+    {
+      "width": 2,
+      "text": "These are just a few examples of the types of measurements that satellite missions can provide, but just as important as the information itself is how we analyze it and apply it. Because of the global coverage, frequent revisit rate, and repeatability of satellite data, we are able to successfully explore food security questions, climate change affects, and agricultural production around the world. \n \n## Global / Regional monitor \n\n### 2022 drought in the U.S. Southern Plains region \n#### a)\tNASA Harvest-GEOGLAM AGMET \n\nThe Southern Plains are a major wheat producing region in the U.S. and is monitored closely from planting to harvest given the importance of this major commodity crop. The AGMET Indicator graphic for the 2022 Southern Plains winter wheat season (above) shows below-average cumulative precipitation, NDVI, and soil moisture, consistent with drought conditions trending throughout the Southern Plains. U.S. winter wheat is typically harvested over the summer months but due to the drought conditions affecting the region, there is concern over the potential yields. With the help of satellite data, we understand several months ahead of the harvest that we might expect lower than average production as a result of the environmental indicators measured. With this knowledge comes the ability to respond and prepare appropriately while simultaneously providing market transparency.",
+      "id": " -1649763952645",
+      "title": " ",
+      "__generatedText__": "<p>These are just a few examples of the types of measurements that satellite missions can provide, but just as important as the information itself is how we analyze it and apply it. Because of the global coverage, frequent revisit rate, and repeatability of satellite data, we are able to successfully explore food security questions, climate change affects, and agricultural production around the world. </p>\n<h2>Global / Regional monitor</h2>\n<h3>2022 drought in the U.S. Southern Plains region</h3>\n<h4>a)    NASA Harvest-GEOGLAM AGMET</h4>\n<p>The Southern Plains are a major wheat producing region in the U.S. and is monitored closely from planting to harvest given the importance of this major commodity crop. The AGMET Indicator graphic for the 2022 Southern Plains winter wheat season (above) shows below-average cumulative precipitation, NDVI, and soil moisture, consistent with drought conditions trending throughout the Southern Plains. U.S. winter wheat is typically harvested over the summer months but due to the drought conditions affecting the region, there is concern over the potential yields. With the help of satellite data, we understand several months ahead of the harvest that we might expect lower than average production as a result of the environmental indicators measured. With this knowledge comes the ability to respond and prepare appropriately while simultaneously providing market transparency.</p>\n"
+    },
+    {
+      "width": 2,
       "text": "<--IMG-->https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/AMIS-United%20States%20of%20America-Southern%20Plains-Winter%20Wheat-2022.jpeg?raw=true<--IMG-->Southern Plains (USA) Winter Wheat 2022",
       "id": "a-1650225061903",
       "title": "a",
       "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/AMIS-United%20States%20of%20America-Southern%20Plains-Winter%20Wheat-2022.jpeg?raw=true\">https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/AMIS-United%20States%20of%20America-Southern%20Plains-Winter%20Wheat-2022.jpeg?raw=true</a>&lt;--IMG--&gt;Southern Plains (USA) Winter Wheat 2022</p>\n"
-    },
-    {
-      "width": 2,
-      "text": "These are just a few examples of the types of measurements that satellite missions can provide, but just as important as the information itself is how we analyze it and apply it. Because of the global coverage, frequent revisit rate, and repeatability of satellite data, we are able to successfully explore food security questions, climate change affects, and agricultural production around the world. For example:\n \n## Global / Regional monitor \n\n### 2022 drought in the U.S. Southern Plains region \n&nbsp;  \n\n#### a)\tNASA Harvest-GEOGLAM AGMET \nThe Southern Plains are a major wheat producing region in the U.S. and is monitored closely from planting to harvest given the importance of this major commodity crop. The AGMET Indicator graphic for the 2022 Southern Plains winter wheat season (above) shows below-average cumulative precipitation, NDVI, and soil moisture, consistent with drought conditions trending throughout the Southern Plains. U.S. winter wheat is typically harvested over the summer months but due to the drought conditions affecting the region, there is concern over the potential yields. With the help of satellite data, we understand several months ahead of the harvest that we might expect lower than average production as a result of the environmental indicators measured. With this knowledge comes the ability to respond and prepare appropriately while simultaneously providing market transparency.",
-      "id": " -1649763952645",
-      "title": " ",
-      "__generatedText__": "<p>These are just a few examples of the types of measurements that satellite missions can provide, but just as important as the information itself is how we analyze it and apply it. Because of the global coverage, frequent revisit rate, and repeatability of satellite data, we are able to successfully explore food security questions, climate change affects, and agricultural production around the world. For example:</p>\n<h2>Global / Regional monitor</h2>\n<h3>2022 drought in the U.S. Southern Plains region</h3>\n<p>&nbsp;  </p>\n<h4>a)    NASA Harvest-GEOGLAM AGMET</h4>\n<p>The Southern Plains are a major wheat producing region in the U.S. and is monitored closely from planting to harvest given the importance of this major commodity crop. The AGMET Indicator graphic for the 2022 Southern Plains winter wheat season (above) shows below-average cumulative precipitation, NDVI, and soil moisture, consistent with drought conditions trending throughout the Southern Plains. U.S. winter wheat is typically harvested over the summer months but due to the drought conditions affecting the region, there is concern over the potential yields. With the help of satellite data, we understand several months ahead of the harvest that we might expect lower than average production as a result of the environmental indicators measured. With this knowledge comes the ability to respond and prepare appropriately while simultaneously providing market transparency.</p>\n"
     },
     {
       "width": 1,
@@ -75,13 +75,6 @@
     },
     {
       "width": 2,
-      "text": "<--IMG-->https://github.com/aapopescu/Images/blob/main/Sousse.png?raw=true<--IMG-->Sousse (Northern Centre, Tunisia) Winter Wheat 2022",
-      "id": "a-1650224060317",
-      "title": "NASA Harvest-GEOGLAM AGMET ",
-      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://github.com/aapopescu/Images/blob/main/Sousse.png?raw=true\">https://github.com/aapopescu/Images/blob/main/Sousse.png?raw=true</a>&lt;--IMG--&gt;Sousse (Northern Centre, Tunisia) Winter Wheat 2022</p>\n"
-    },
-    {
-      "width": 2,
       "text": "### North Africa and Middle East drought \n&nbsp;  \n#### a)\tNASA Harvest-GEOGLAM AGMET \nNot only do satellite data helps us understand the current season\u2019s productivity, but they also provide a rich historical record of agricultural measurements that enable researchers to compare outcomes to previous seasons and evaluate broader trends such as the impacts of climate change. For example, significant parts of Northern Africa and the Middle East  are experiencing drought conditions including countries such as Morocco, Tunisia (seen below), Syria and Iraq that are signifincatly impacting crop production. Earth observations are key to identifying and quatifying these impacts early and in providing support for future agricultural planning and mitigation actions when needed.  ",
       "id": "a-1649754951575",
       "title": "a",
@@ -89,10 +82,10 @@
     },
     {
       "width": 2,
-      "text": "<--IMG-->https://github.com/aapopescu/Images/blob/main/NASAHarvest-GEOGLAM-Brazil.png?raw=true<--IMG-->South Region (Brazil) Spring-planted Maize 2022",
-      "id": "NASA Harvest-GEOGLAM AGMET -1650225024547",
+      "text": "<--IMG-->https://github.com/aapopescu/Images/blob/main/Sousse.png?raw=true<--IMG-->Sousse (Northern Centre, Tunisia) Winter Wheat 2022",
+      "id": "a-1650224060317",
       "title": "NASA Harvest-GEOGLAM AGMET ",
-      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://github.com/aapopescu/Images/blob/main/NASAHarvest-GEOGLAM-Brazil.png?raw=true\">https://github.com/aapopescu/Images/blob/main/NASAHarvest-GEOGLAM-Brazil.png?raw=true</a>&lt;--IMG--&gt;South Region (Brazil) Spring-planted Maize 2022</p>\n"
+      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://github.com/aapopescu/Images/blob/main/Sousse.png?raw=true\">https://github.com/aapopescu/Images/blob/main/Sousse.png?raw=true</a>&lt;--IMG--&gt;Sousse (Northern Centre, Tunisia) Winter Wheat 2022</p>\n"
     },
     {
       "width": 2,
@@ -100,6 +93,13 @@
       "id": " -1650224977207",
       "title": " ",
       "__generatedText__": "<h3>Dry Conditions in Southern Brazil</h3>\n<p>&nbsp;  </p>\n<h4>a) NASA Harvest-GEOGLAM AGMET</h4>\n<p>&nbsp;<br>Likewise in Southern Brazil crops did not receive the expected amount of precipitation, which negatively impacted yields of the spring planted crop. Looking at the information provided by satellite data, the drought conditions are striking and served as a preemptive sign that governments and markets should prepare for less commodity crops coming out of this region of Brazil. This not only impacts Brazil and the global market, but also the countries that rely on the region for their food/feed imports. Earth observations can give an early indication of threats to food security should supplies end up being less than needed. Another benefit of remotely sensed satellite data is that these types of evaluations can be done anywhere in the world throughout the season.</p>\n"
+    },
+    {
+      "width": 2,
+      "text": "<--IMG-->https://github.com/aapopescu/Images/blob/main/NASAHarvest-GEOGLAM-Brazil.png?raw=true<--IMG-->South Region (Brazil) Spring-planted Maize 2022",
+      "id": "NASA Harvest-GEOGLAM AGMET -1650225024547",
+      "title": "NASA Harvest-GEOGLAM AGMET ",
+      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://github.com/aapopescu/Images/blob/main/NASAHarvest-GEOGLAM-Brazil.png?raw=true\">https://github.com/aapopescu/Images/blob/main/NASAHarvest-GEOGLAM-Brazil.png?raw=true</a>&lt;--IMG--&gt;South Region (Brazil) Spring-planted Maize 2022</p>\n"
     },
     {
       "width": 1,
@@ -145,17 +145,17 @@
     },
     {
       "width": 2,
-      "text": "## Brazil\n\n![](https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/Brazil_annual_cropland.png?raw=true)",
+      "text": "## Brazil\n\n![](https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/Brazil_annual_cropland.png?raw=true)\nBrazil annual cropland",
       "id": "Brazil-1652102118413",
       "title": "Brazil",
-      "__generatedText__": "<h2>Brazil</h2>\n<p><img src=\"https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/Brazil_annual_cropland.png?raw=true\" alt></p>\n"
+      "__generatedText__": "<h2>Brazil</h2>\n<p><img src=\"https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/Brazil_annual_cropland.png?raw=true\" alt>\nBrazil annual cropland</p>\n"
     },
     {
       "width": 2,
-      "text": "## Summer\n\n![](https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/Brazil_summer.png?raw=true)\n\n## Winter\n\n![](https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/Brazil_winter.png?raw=true)",
+      "text": "### Summer\n\n![](https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/Brazil_summer.png?raw=true)\nBrazil summer cropland\n\n### Winter\n\n![](https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/Brazil_winter.png?raw=true)\nBrazil winter cropland",
       "id": "Brazil-1652102176187",
       "title": "Brazil",
-      "__generatedText__": "<h2>Summer</h2>\n<p><img src=\"https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/Brazil_summer.png?raw=true\" alt></p>\n<h2>Winter</h2>\n<p><img src=\"https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/Brazil_winter.png?raw=true\" alt></p>\n"
+      "__generatedText__": "<h3>Summer</h3>\n<p><img src=\"https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/Brazil_summer.png?raw=true\" alt>\nBrazil summer cropland</p>\n<h3>Winter</h3>\n<p><img src=\"https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/Brazil_winter.png?raw=true\" alt>\nBrazil winter cropland</p>\n"
     },
     {
       "width": 1,
@@ -177,6 +177,18 @@
       "id": "Tanzania winter-1652100341500",
       "title": "Tanzania winter",
       "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/Tanzania_winter_zoom.png?raw=true\">https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/Tanzania_winter_zoom.png?raw=true</a>&lt;--IMG--&gt;Tanzania winter</p>\n"
+    },
+    {
+      "width": 4,
+      "mapInfo": {
+        "zoom": 3,
+        "center": {
+          "lng": -57.937529633955144,
+          "lat": -22.96908284799784
+        }
+      },
+      "id": "World-E10e",
+      "title": "Global, NDVI GCOM"
     }
   ],
   "title": "Satellite data applications for environmental impacts on world crop (cereal) supply and demand"
