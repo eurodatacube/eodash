@@ -116,11 +116,13 @@ export function createLayerFromConfig(config, _options = {}) {
   if (config.protocol === 'WMS') {
     if (config.usedTimes?.time?.length) {
       // to do: dont hardcode, find a better way to differentiate between "different" WMS
-      if (config.name === 'WSF_Evolution' || config.name === 'ONPP-GCOMC-World-Monthly') {
+      if (config.name === 'WSF_Evolution' || config.name === 'ONPP-GCOMC-World-Monthly'
+        || config.name === 'Water Quality Index') {
         const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
           'format', 'width', 'height', 'transparent', 'srs', 'env', 'searchid'];
         const params = {
           LAYERS: config.layers,
+          // TO DO: time might come from component (in the dashboard)
           time: config.dateFormatFunction(store.state.indicators.selectedTime),
         };
         if (config.specialEnvTime) {
@@ -175,6 +177,7 @@ export function createLayerFromConfig(config, _options = {}) {
     visible: config.visible,
     updateOpacityOnZoom: options.updateOpacityOnZoom,
     maxZoom: config.maxNativeZoom || config.maxZoom,
+    minZoom: config.minNativeZoomm || config.minZoom,
     zIndex: options.zIndex,
     source,
   });
