@@ -139,7 +139,9 @@
                   v-if="checkIndicatorGrouping(indicator)"
                   :key="indicator.code"
                   :value="true"
-                  prepend-icon="mdi-account-circle"
+                  :prepend-icon="baseConfig.indicatorClassesIcons[classId]
+                  ? baseConfig.indicatorClassesIcons[classId]
+                  : 'mdi-lightbulb-on-outline'"
                 >
                   <template v-slot:activator>
                     <v-list-item-title>{{ indicator.indicatorOverwrite || indicator.indicator }}</v-list-item-title>
@@ -147,13 +149,22 @@
                   <v-list-item
                     v-for="(feature, i) in checkIndicatorGrouping(indicator).features"
                     :key="i"
-                    link
+                    :value="feature"
+                    active-class="itemActive"
+                    :class="indicator.archived ? 'archived-item' : ''"
+                    :disabled="indicatorSelection === indicator.code"
                   >
-                    <v-list-item-title v-text="checkIndicatorGrouping(indicator).label.length === checkIndicatorGrouping(indicator).features.length ? checkIndicatorGrouping(indicator).label[i] : checkIndicatorGrouping(indicator).label[0]"></v-list-item-title>
-
                     <v-list-item-icon>
-                      <!-- <v-icon v-text="icon"></v-icon> -->
+                      <v-icon>{{
+                        baseConfig.indicatorClassesIcons[classId]
+                          ? baseConfig.indicatorClassesIcons[classId]
+                          : "mdi-lightbulb-on-outline"
+                      }}</v-icon>
                     </v-list-item-icon>
+
+                    <v-list-item-title
+                      v-text="checkIndicatorGrouping(indicator).label[i]"
+                    ></v-list-item-title>
                   </v-list-item>
                 </v-list-group>
                 <v-list-item
@@ -412,9 +423,12 @@ export default {
       return ind;
     },
     checkIndicatorGrouping(indicator) {
-      const current = this.getGroupedFeatures.find(i => i.properties.indicatorObject.indicator === indicator.code);
-      const hasGrouping = this.appConfig.featureGrouping && this.appConfig.featureGrouping
-        .find((g) => g.features.find((i) => i.includes(this.getLocationCode(current.properties.indicatorObject))));
+      let hasGrouping;
+      const current = this.getGroupedFeatures.find((i) => i.properties.indicatorObject.indicator === indicator.code);
+      if (current) {
+        hasGrouping = this.appConfig.featureGrouping && this.appConfig.featureGrouping
+          .find((g) => g.features.find((i) => i.includes(this.getLocationCode(current.properties.indicatorObject))));
+      }
       return hasGrouping;
     },
     selectCountry(selection) {
@@ -472,8 +486,22 @@ export default {
       this.selectCountry(val);
     },
     indicatorSelection(val) {
-      this.dropdownSelection = this.selectionItems.find((i) => i.code === val);
-      this.selectIndicator(val);
+      if (val && val.includes('-')) {
+        // POI
+        const feature = this.getGroupedFeatures.find(f => this.getLocationCode(f.properties.indicatorObject) === val)
+        if (feature) {
+          this.dropdownSelection = this.selectionItems.find((i) => i.code === feature.properties.indicatorObject.indicator);
+          this.selectIndicator(feature.properties.indicatorObject.indicator);
+          this.$store.commit(
+            'indicators/SET_SELECTED_INDICATOR',
+            feature.properties.indicatorObject,
+          );
+        }
+      } else {
+        // indicator
+        this.dropdownSelection = this.selectionItems.find((i) => i.code === val);
+        this.selectIndicator(val);
+      }
     },
   },
 };
