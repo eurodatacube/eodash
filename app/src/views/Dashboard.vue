@@ -6,6 +6,7 @@
       :switchDrawer="() => { drawerLeft = !drawerLeft }"
     />
     <v-navigation-drawer
+      v-if="$vuetify.breakpoint.xsOnly"
       v-model="drawerLeft"
       left
       app
@@ -15,80 +16,76 @@
       class="drawerLeft"
       v-show="!isFullScreen"
     >
-      <template v-if="$vuetify.breakpoint.xsOnly">
-        <v-list-item style="background: var(--v-primary-base)">
-          <v-list-item-content>
-            <h3 class="text-uppercase white--text">
-              {{ appConfig && appConfig.branding.appName }}
-            </h3>
-          </v-list-item-content>
-          <v-list-item-action
-            class="align-center"
+      <v-list-item style="background: var(--v-primary-base)">
+        <v-list-item-content>
+          <h3 class="text-uppercase white--text">
+            {{ appConfig && appConfig.branding.appName }}
+          </h3>
+        </v-list-item-content>
+        <v-list-item-action
+          class="align-center"
+        >
+          <v-icon
+            style="position: absolute;"
+            color="white"
+            small
+            dark
+            @click="$vuetify.theme.dark = !$vuetify.theme.dark"
           >
-            <v-icon
-              style="position: absolute;"
-              color="white"
-              small
-              dark
-              @click="$vuetify.theme.dark = !$vuetify.theme.dark"
-            >
-              {{
-                $vuetify.theme.dark
-                  ? 'mdi-white-balance-sunny'
-                  : 'mdi-weather-night'
-              }}
-            </v-icon>
-          </v-list-item-action>
-        </v-list-item>
+            {{
+              $vuetify.theme.dark
+                ? 'mdi-white-balance-sunny'
+                : 'mdi-weather-night'
+            }}
+          </v-icon>
+        </v-list-item-action>
+      </v-list-item>
 
-        <v-divider></v-divider>
+      <v-divider></v-divider>
 
+      <v-btn
+        block
+        text
+        color="primary"
+        to="/"
+      >
+        Start
+      </v-btn>
+      <v-btn
+        block
+        text
+        color="primary"
+        @click="displayShowText('welcome')"
+      >
+        Welcome
+      </v-btn>
+      <v-btn
+        block
+        text
+        color="primary"
+        @click="displayShowText('about')"
+      >
+        About
+      </v-btn>
+      <v-badge
+        bordered
+        color="info"
+        :content="$store.state.dashboard.dashboardConfig
+          && $store.state.dashboard.dashboardConfig.features.length"
+        :value="$store.state.dashboard.dashboardConfig
+          && $store.state.dashboard.dashboardConfig.features.length"
+        overlap
+      >
         <v-btn
+          v-if="$store.state.dashboard.dashboardConfig"
           block
           text
           color="primary"
-          to="/"
+          to="/dashboard"
         >
-          Start
+          Custom Dashboard
         </v-btn>
-        <v-btn
-          block
-          text
-          color="primary"
-          @click="displayShowText('welcome')"
-        >
-          Welcome
-        </v-btn>
-        <v-btn
-          block
-          text
-          color="primary"
-          @click="displayShowText('about')"
-        >
-          About
-        </v-btn>
-        <v-badge
-          bordered
-          color="info"
-          :content="$store.state.dashboard.dashboardConfig
-            && $store.state.dashboard.dashboardConfig.features.length"
-          :value="$store.state.dashboard.dashboardConfig
-            && $store.state.dashboard.dashboardConfig.features.length"
-          overlap
-        >
-          <v-btn
-            v-if="$store.state.dashboard.dashboardConfig"
-            block
-            text
-            color="primary"
-            to="/dashboard"
-          >
-            Custom Dashboard
-          </v-btn>
-        </v-badge>
-        <v-divider></v-divider>
-      </template>
-      <selection-panel style="overflow:hidden" />
+      </v-badge>
     </v-navigation-drawer>
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.mdAndUp"
@@ -212,6 +209,7 @@
             class="pt-0 fill-height"
           >
             <center-panel />
+            <indicator-filters />
           </v-col>
         </v-row>
       </v-container>
@@ -231,7 +229,7 @@ import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
-import SelectionPanel from '@/components/SelectionPanel.vue';
+import IndicatorFilters from '@/components/IndicatorFilters.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
@@ -254,7 +252,7 @@ export default {
     DataPanel,
     GlobalHeader,
     GlobalFooter,
-    SelectionPanel,
+    IndicatorFilters,
   },
   props: {
     source: String,
