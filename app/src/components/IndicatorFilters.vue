@@ -105,7 +105,7 @@
     </v-autocomplete>
     <div
       v-show="isDropdownEnabled"
-      class="rounded-xl mt-3 pa-3 white"
+      class="rounded-t-xl mt-3 pa-3 white"
       id="list"
     >
       <v-list
@@ -167,24 +167,24 @@
           </template>
         </v-list-item-group>
       </v-list>
-      <!-- <v-sheet
-        class="d-flex align-center justify-center"
-        :style="`width: 100%; height: 40px; ${$vuetify.breakpoint.xsOnly
-          ? 'position: absolute; bottom: 0;' : ''}`">
-        <v-checkbox
-          :value="featureFilters.includeArchived"
-          label="Show archived indicators"
-          color="primary"
-          dense
-          hide-details
-          class="ma-0"
-          @change="
-            setFilter({ includeArchived: !featureFilters.includeArchived })
-          "
-        >
-        </v-checkbox>
-      </v-sheet> -->
     </div>
+    <v-sheet
+      v-if="isDropdownEnabled"
+      class="d-flex align-center justify-center rounded-b-xl"
+      style="width: 100%; height: 40px">
+      <v-checkbox
+        :value="featureFilters.includeArchived"
+        label="Show archived indicators"
+        color="primary"
+        dense
+        hide-details
+        class="ma-0"
+        @change="
+          setFilter({ includeArchived: !featureFilters.includeArchived })
+        "
+      >
+      </v-checkbox>
+    </v-sheet>
   </div>
 </template>
 
