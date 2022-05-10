@@ -128,44 +128,69 @@
               >
                 {{ classId.toUpperCase() }}
               </v-subheader>
-              <v-list-item
-                v-for="indicator in indicatorItems.filter(
-                  (i) =>
-                    uniqueClasses[classId].includes(i.code) &&
-                    i.indicator !== ''
-                )"
-                :key="indicator.code"
-                :value="indicator.code"
-                active-class="itemActive"
-                :class="indicator.archived ? 'archived-item' : ''"
-                :disabled="indicatorSelection === indicator.code"
+              <template
+                  v-for="indicator in indicatorItems.filter(
+                    (i) =>
+                      uniqueClasses[classId].includes(i.code) &&
+                      i.indicator !== ''
+                  )"
               >
-                <v-list-item-icon class="ml-3 mr-4">
-                  <v-icon>{{
-                    baseConfig.indicatorClassesIcons[classId]
-                      ? baseConfig.indicatorClassesIcons[classId]
-                      : "mdi-lightbulb-on-outline"
-                  }}</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title v-if="indicator.indicatorOverwrite"
-                    v-text="indicator.indicatorOverwrite"
-                    style="
-                      text-overflow: unset;
-                      overflow: unset;
-                      white-space: pre-wrap;
-                    "
-                  ></v-list-item-title>
-                  <v-list-item-title v-else
-                    v-text="indicator.indicator"
-                    style="
-                      text-overflow: unset;
-                      overflow: unset;
-                      white-space: pre-wrap;
-                    "
-                  ></v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
+                <v-list-group
+                  v-if="checkIndicatorGrouping(indicator)"
+                  :key="indicator.code"
+                  :value="true"
+                  prepend-icon="mdi-account-circle"
+                >
+                  <template v-slot:activator>
+                    <v-list-item-title>{{ indicator.indicatorOverwrite || indicator.indicator }}</v-list-item-title>
+                  </template>
+                  <v-list-item
+                    v-for="(feature, i) in checkIndicatorGrouping(indicator).features"
+                    :key="i"
+                    link
+                  >
+                    <v-list-item-title v-text="checkIndicatorGrouping(indicator).label.length === checkIndicatorGrouping(indicator).features.length ? checkIndicatorGrouping(indicator).label[i] : checkIndicatorGrouping(indicator).label[0]"></v-list-item-title>
+
+                    <v-list-item-icon>
+                      <!-- <v-icon v-text="icon"></v-icon> -->
+                    </v-list-item-icon>
+                  </v-list-item>
+                </v-list-group>
+                <v-list-item
+                  v-else
+                  :key="indicator.code"
+                  :value="indicator.code"
+                  active-class="itemActive"
+                  :class="indicator.archived ? 'archived-item' : ''"
+                  :disabled="indicatorSelection === indicator.code"
+                >
+                  <v-list-item-icon class="ml-3 mr-4">
+                    <v-icon>{{
+                      baseConfig.indicatorClassesIcons[classId]
+                        ? baseConfig.indicatorClassesIcons[classId]
+                        : "mdi-lightbulb-on-outline"
+                    }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title v-if="indicator.indicatorOverwrite"
+                      v-text="indicator.indicatorOverwrite"
+                      style="
+                        text-overflow: unset;
+                        overflow: unset;
+                        white-space: pre-wrap;
+                      "
+                    ></v-list-item-title>
+                    <v-list-item-title v-else
+                      v-text="indicator.indicator"
+                      style="
+                        text-overflow: unset;
+                        overflow: unset;
+                        white-space: pre-wrap;
+                      "
+                    ></v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </template>
             </template>
           </v-list-item-group>
         </v-list>
@@ -385,6 +410,12 @@ export default {
         ind = this.baseConfig.indicatorsDefinition[indObj.indicator].indicatorOverwrite;
       }
       return ind;
+    },
+    checkIndicatorGrouping(indicator) {
+      const current = this.getGroupedFeatures.find(i => i.properties.indicatorObject.indicator === indicator.code);
+      const hasGrouping = this.appConfig.featureGrouping && this.appConfig.featureGrouping
+        .find((g) => g.features.find((i) => i.includes(this.getLocationCode(current.properties.indicatorObject))));
+      return hasGrouping;
     },
     selectCountry(selection) {
       if (selection === 'all') {
