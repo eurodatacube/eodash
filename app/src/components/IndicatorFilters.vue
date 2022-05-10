@@ -136,35 +136,50 @@
                   )"
               >
                 <v-list-group
-                  v-if="checkIndicatorGrouping(indicator)"
+                  v-if="groupedIndicators && groupedIndicators[indicator.code]"
                   :key="indicator.code"
-                  :value="true"
-                  :prepend-icon="baseConfig.indicatorClassesIcons[classId]
-                  ? baseConfig.indicatorClassesIcons[classId]
-                  : 'mdi-lightbulb-on-outline'"
                 >
                   <template v-slot:activator>
-                    <v-list-item-title>{{ indicator.indicatorOverwrite || indicator.indicator }}</v-list-item-title>
-                  </template>
-                  <v-list-item
-                    v-for="(feature, i) in checkIndicatorGrouping(indicator).features"
-                    :key="i"
-                    :value="feature"
-                    active-class="itemActive"
-                    :class="indicator.archived ? 'archived-item' : ''"
-                    :disabled="indicatorSelection === indicator.code"
-                  >
-                    <v-list-item-icon>
+                    <v-list-item-icon class="ml-3 mr-4">
                       <v-icon>{{
                         baseConfig.indicatorClassesIcons[classId]
                           ? baseConfig.indicatorClassesIcons[classId]
                           : "mdi-lightbulb-on-outline"
                       }}</v-icon>
                     </v-list-item-icon>
+                    <v-list-item-title>
+                      {{ indicator.indicatorOverwrite || indicator.indicator }}
+                    </v-list-item-title>
+                  </template>
+                  <v-list-item
+                    v-for="(feature, i) in groupedIndicators[indicator.code].features"
+                    :key="i"
+                    :value="getLocationCode(feature.properties.indicatorObject)"
+                    active-class="itemActive"
+                    :class="indicator.archived ? 'archived-item' : ''"
+                    :disabled="indicatorSelection === feature"
+                  >
+                    <v-list-item-icon class="ml-6 mr-3">
+                      <v-icon small>{{
+                        baseConfig.indicatorClassesIcons[classId]
+                          ? baseConfig.indicatorClassesIcons[classId]
+                          : "mdi-lightbulb-on-outline"
+                      }}</v-icon>
+                    </v-list-item-icon>
 
-                    <v-list-item-title
-                      v-text="checkIndicatorGrouping(indicator).label[i]"
-                    ></v-list-item-title>
+                    <v-list-item-title>
+                      <small>
+                        {{ Array.isArray(groupedIndicators[indicator.code].label)
+                          ? groupedIndicators[indicator.code].label[i]
+                          : (Array.isArray(feature.properties
+                            .indicatorObject[groupedIndicators[indicator.code].label])
+                          ? feature.properties
+                            .indicatorObject[groupedIndicators[indicator.code].label][0]
+                          : feature.properties
+                            .indicatorObject[groupedIndicators[indicator.code].label])
+                        }}
+                      </small>
+                    </v-list-item-title>
                   </v-list-item>
                 </v-list-group>
                 <v-list-item
@@ -251,6 +266,7 @@ export default {
       countrySelection: 'all',
       indicatorSelection: 'all',
       dropdownSelection: null,
+      groupedIndicators: null,
     };
   },
   computed: {
@@ -422,15 +438,6 @@ export default {
       }
       return ind;
     },
-    checkIndicatorGrouping(indicator) {
-      let hasGrouping;
-      const current = this.getGroupedFeatures.find((i) => i.properties.indicatorObject.indicator === indicator.code);
-      if (current) {
-        hasGrouping = this.appConfig.featureGrouping && this.appConfig.featureGrouping
-          .find((g) => g.features.find((i) => i.includes(this.getLocationCode(current.properties.indicatorObject))));
-      }
-      return hasGrouping;
-    },
     selectCountry(selection) {
       if (selection === 'all') {
         this.setFilter({ countries: [] });
@@ -446,10 +453,12 @@ export default {
     setFilter(filter) {
       this.$store.commit('features/SET_FEATURE_FILTER', filter);
       const firstFeature = this.getGroupedFeatures[0];
-      this.$store.commit(
-        'indicators/SET_SELECTED_INDICATOR',
-        firstFeature.properties.indicatorObject,
-      );
+      if (firstFeature) {
+        this.$store.commit(
+          'indicators/SET_SELECTED_INDICATOR',
+          firstFeature.properties.indicatorObject,
+        );
+      }
     },
     uniqueRegions(countryItems) {
       return countryItems
@@ -488,10 +497,11 @@ export default {
     indicatorSelection(val) {
       if (val && val.includes('-')) {
         // POI
-        const feature = this.getGroupedFeatures.find(f => this.getLocationCode(f.properties.indicatorObject) === val)
+        const feature = this.$store.state.features.allFeatures
+          .find((f) => this.getLocationCode(f.properties.indicatorObject) === val);
         if (feature) {
-          this.dropdownSelection = this.selectionItems.find((i) => i.code === feature.properties.indicatorObject.indicator);
-          this.selectIndicator(feature.properties.indicatorObject.indicator);
+          this.dropdownSelection = this.selectionItems.find((i) => i.code === val.split('-')[1]);
+          this.selectIndicator(val.split('-')[1]);
           this.$store.commit(
             'indicators/SET_SELECTED_INDICATOR',
             feature.properties.indicatorObject,
@@ -499,8 +509,30 @@ export default {
         }
       } else {
         // indicator
-        this.dropdownSelection = this.selectionItems.find((i) => i.code === val);
-        this.selectIndicator(val);
+        const found = this.selectionItems.find((i) => i.code === val);
+        if (found) {
+          this.dropdownSelection = found;
+          this.selectIndicator(val);
+        }
+      }
+    },
+    getGroupedFeatures(features) {
+      if (features && !this.groupedIndicators) {
+        const grouped = {};
+        features.forEach((f) => {
+          const hasGrouping = this.appConfig.featureGrouping && this.appConfig.featureGrouping
+            .find((g) => g.features
+              .find((i) => i.includes(this.getLocationCode(f.properties.indicatorObject))));
+          if (hasGrouping) {
+            // includes features and labels
+            grouped[f.properties.indicatorObject.indicator] = {};
+            grouped[f.properties.indicatorObject.indicator].label = hasGrouping.label;
+            grouped[f.properties.indicatorObject.indicator].features = hasGrouping.features
+              .map((l) => this.$store.state.features.allFeatures
+                .find((ft) => this.getLocationCode(ft.properties.indicatorObject) === l));
+          }
+        });
+        this.groupedIndicators = grouped;
       }
     },
   },
