@@ -1032,7 +1032,7 @@ export default {
         const layer = layers.find((l) => l.get('name') === config.name);
         if (layer) {
           const source = layer.getSource();
-          if (config.specialEnvTime) {
+          if (config.protocol === 'WMS') {
             source.updateParams({
               LAYERS: config.layers,
               time: config.dateFormatFunction(value),
