@@ -6,7 +6,7 @@ import { DateTime } from 'luxon';
 import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
-import l3mapsData from '@/config/tropomiCO.json';
+
 import {
   /*
   statisticalApiHeaders,
@@ -870,6 +870,73 @@ export const globalIndicators = [
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
           */
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'CO',
+        indicator: 'N1',
+        lastIndicatorValue: null,
+        indicatorName: 'CO',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'WorldCO',
+        time: availableDates.AWS_VIS_CO_3DAILY_DATA,
+        inputData: [''],
+        yAxis: 'CO (ppbv)',
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          opacity: 1.0,
+          customAreaIndicator: true,
+          name: 'CO',
+          layers: 'AWS_VIS_CO_3DAILY_DATA',
+          minZoom: 1,
+          legendUrl: 'data/trilateral/s5pCOLegend.png',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          areaIndicator: {
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_CO_3DAILY_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            callbackFunction: (responseJson, indicator) => {
+              if (Array.isArray(responseJson.C0)) {
+                const data = responseJson.C0;
+                const newData = {
+                  time: [],
+                  measurement: [],
+                  referenceValue: [],
+                  colorCode: [],
+                };
+                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
+                  ? 1
+                  : -1));
+                data.forEach((row) => {
+                  if (row.basicStats.max < 5000) {
+                    // leaving out falsely set nodata values disrupting the chart
+                    newData.time.push(DateTime.fromISO(row.date));
+                    newData.colorCode.push('');
+                    newData.measurement.push(row.basicStats.mean);
+                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
+                  }
+                });
+                const ind = {
+                  ...indicator,
+                  ...newData,
+                };
+                return ind;
+              }
+              return null;
+            },
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -3829,42 +3896,6 @@ export const globalIndicators = [
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/sc/{featuresTime}.geojson',
           },
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'CO',
-        indicator: 'N1',
-        lastIndicatorValue: null,
-        indicatorName: 'TROPOMI CO',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'WorldCO',
-        time: l3mapsData.l3maps,
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 5,
-          minZoom: 0,
-          opacity: 1.0,
-          tileSize: 256,
-          name: 'Tropospheric CO',
-          // url: '//obs.eu-de.otc.t-systems.com/s5p-pal-l3-external/maps/{time}/{z}/{x}/{-y}.png',
-          url: '//obs.eu-nl.otc.t-systems.com/s5p-pal-nl-l3-external/maps/{time}/{z}/{x}/{-y}.png',
-          legendUrl: 'data/trilateral/s5pCOLegend.png',
-          dateFormatFunction: (date) => date[0],
-          labelFormatFunction: (date) => date[1],
         },
       },
     },
