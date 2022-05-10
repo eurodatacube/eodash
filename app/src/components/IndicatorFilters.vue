@@ -104,8 +104,7 @@
         </template>
     </v-autocomplete>
     <div
-      class="rounded-xl mt-3 pb-3 white"
-      style="outline: 1px solid #aaa; overflow: hidden;"
+      class="rounded-xl mt-3 pb-3 white list-container"
       v-if="isDropdownEnabled"
     >
       <div id="list" class="white pt-3">
@@ -515,5 +514,14 @@ export default {
   height: 100% !important;
   box-shadow: none !important;
   border-radius: 3px;
+}
+
+.list-container {
+  box-shadow:
+    1px 10px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  outline: 1px solid #ddd;
+  overflow: hidden;
 }
 </style>
