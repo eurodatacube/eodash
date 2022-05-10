@@ -1039,7 +1039,7 @@ export default {
               env: `year:${value}`,
             });
           }
-          layer.changed();
+          source.refresh();
         }
       });
     },
