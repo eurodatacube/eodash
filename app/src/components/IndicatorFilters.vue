@@ -497,12 +497,9 @@ export default {
 }
 
 #list {
-  /*height: 200px;*/
   height: auto;
-  /*min-height: 40px;*/
-  max-height: calc(100vh - 250px);
+  max-height: calc(var(--vh, 1vh) * 100 - 180px);
   background: grey;
-  /*overflow-y: auto;*/
   overflow-x: hidden;
   position: relative;
 }
