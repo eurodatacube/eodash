@@ -3,7 +3,7 @@
     "agriculture": {
       "joint-story": {
         "originalDashboardId": "4b40596e305997ac",
-        "title": "Satellite insights into agriculture, crop conditions, and food supply are some of the most impactful",
+        "title": "Satellites are providing insights into agricultural production, crop conditions, and food supply",
         "subtitle": "Read more about satellite data applications for environmental impacts on world cereal supply and demand",
         "image": "./data/story-images/Agriculture.jpeg",
         "imagePlaceholder": "./data/story-images/Agriculture_placeholder.jpeg"
@@ -42,10 +42,10 @@
     "biomass-and-landcover": {
       "biomass-harmonization-activity": {
         "originalDashboardId": "a785d7a3c536a452",
-        "title": "Trees and other plants pull vast amounts of carbon dioxide out of the atmosphere yearly",
+        "title": "A view from space monitors land cover and tree to track aboveground biomass and carbon content",
         "subtitle": "Read more about taking stock of global biomass maps",
-        "image": "./data/story-images/Biomass.jpeg",
-        "imagePlaceholder": "./data/story-images/Biomass_placeholder.jpeg"  
+        "image": "./data/story-images/10-leafy-vegetation.jpeg",
+        "imagePlaceholder": "./data/story-images/10-leafy-vegetation_placeholder.jpeg"  
       }
     },
     "covid-19": {
@@ -58,7 +58,7 @@
       },
       "airports": {
         "originalDashboardId": "396af4c32089ffdc",
-        "title": "During COVID-19 related lockdowns air travel decreased",
+        "title": "During COVID-19 related lockdowns air travel decreased.",
         "subtitle": "Read more about Covid-19 Impacts on air travel with EO and AI",
         "image": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg",
         "imagePlaceholder": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3_placeholder.jpg"
@@ -74,7 +74,7 @@
     "cryosphere": {
       "changes-in-arctic-sea-ice": {
         "originalDashboardId": "92bc845659abfed6",
-        "title": "At the North Pole, there is no land and the frozen ocean water is decreasing annualy",
+        "title": "The Arctic region shows changes most characteristic of global warming",
         "subtitle": "Read more about the international collaboration for understanding changes in Arctic Sea Ice",
         "image": "./data/story-images/SeaIce.jpeg",
         "imagePlaceholder": "./data/story-images/SeaIce_placeholder.jpeg"
@@ -82,7 +82,7 @@
       "sea-ice-freeboard-thickness": {
         "originalDashboardId": "e45036dd512afea1",
         "title": "Measuring Thickness of sea ice in the polar oceans",
-        "subtitle": "Read more about monitoring Sea Ice Freeboard & Thickness from Satellite Altimetry",
+        "subtitle": "Read more about monitoring Sea Ice Freeboard & Thickness from Satellite Altimetry.",
         "image": "./data/story-images/SeaIce.jpeg",
         "imagePlaceholder": "./data/story-images/SeaIce_placeholder.jpeg"
       },
@@ -98,7 +98,7 @@
     "oceans": {
       "ocean-joint": {
         "originalDashboardId": "6ea3293aade90541",
-        "title": "Half of the oxygen we take in every breath comes from microscopic plants in the ocean",
+        "title": "Satellite images  reveal a view of the ocean that is as rich and complex as that of land",
         "subtitle": "Read more about following the activity of plants in the ocean from space",
         "image": "./data/story-images/1-EO_PIX_Ocean_COVER_Photo.jpeg",
         "imagePlaceholder": "./data/story-images/1-EO_PIX_Ocean_COVER_Photo.jpeg"
