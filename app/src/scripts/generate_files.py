@@ -154,6 +154,7 @@ STAC_COLLECTIONS = {
     "IS2SITMOGR4": "https://staging-stac.delta-backend.xyz/collections/",
     "MO_NPP_npp_vgpm": "https://staging-stac.delta-backend.xyz/collections/",
     "nightlights-hd-3bands": "https://staging-stac.delta-backend.xyz/collections/",
+    "nceo_africa_2017": "https://staging-stac.delta-backend.xyz/collections/",
     #"HLSL30.002": "https://staging-stac.delta-backend.xyz/collections/",
     #"HLSS30.002": "https://staging-stac.delta-backend.xyz/collections/",
 }
