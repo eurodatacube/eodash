@@ -135,6 +135,7 @@
                 :upProp="localUp[element.poi]"
                 :dataLayerTimeProp="localDataLayerTime[element.poi]"
                 :compareLayerTimeProp="localCompareLayerTime[element.poi]"
+                disableAutoFocus
                 @update:direction="d => {localDirection[element.poi] = d}"
                 @update:position="p => {localPosition[element.poi] = p}"
                 @update:right="r => {localRight[element.poi] = r}"
