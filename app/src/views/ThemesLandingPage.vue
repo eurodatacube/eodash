@@ -96,33 +96,35 @@
                   <h3 class="text-h3">A Tri-Agency Dashboard by NASA, ESA, JAXA</h3>
 
                   <p class="mt-10">
-                   International collaboration among space agencies is central to the success of 
-                   satellite Earth observations and data analysis, aiming at providing an accurate 
-                   and timely information to decision-makers, main stakeholders and public. 
-                   These partnerships foster more comprehensive measurements, robust datasets, 
+                   International collaboration among space agencies is central to the success of
+                   satellite Earth observations and data analysis, aiming at providing an accurate
+                   and timely information to decision-makers, main stakeholders and public.
+                   These partnerships foster more comprehensive measurements, robust datasets,
                    and cost-effective missions.
                   </p>
 
                   <p>
-                    The <b>European Space Agency (ESA), Japan Aerospace Exploration Agency (JAXA), 
-                    and National Aeronautics and Space Administration (NASA)</b> have combined their resources,
-                    technical knowledge, and expertise to produce this Earth Observing Dashboard, 
-                    which strengthens our understanding of global environmental changes 
-                    and other societal challenges impacting our planet.
+                    The <b>European Space Agency (ESA), Japan Aerospace Exploration Agency (JAXA),
+                    and National Aeronautics and Space Administration (NASA)</b> have combined
+                    their resources, technical knowledge, and expertise to produce this Earth
+                    Observing Dashboard, which strengthens our understanding of global
+                    environmental changes and other societal challenges impacting our planet.
                   </p>
 
                   <p>
-                    The dashboard provides an easy-to-use resource for all kinds of public from the 
-                    scientist to the decision-maker, including people not familiar with satellites. 
-                    Based on accurate remote sensing observations, it showcases examples of global 
-                    environmental changes on 7 themes: Atmosphere, Oceans, Biomass, Cryosphere, Agriculture,
-                    Covid-19 and Economy. The dashboard offers a precise, objective and factual view 
-                    without any artifacts of our planet. You can explore countries and regions around 
-                    the world to see how the indicators in specific locations changed over time.
+                    The dashboard provides an easy-to-use resource for all kinds of public from the
+                    scientist to the decision-maker, including people not familiar with satellites.
+                    Based on accurate remote sensing observations, it showcases examples of global
+                    environmental changes on 7 themes: Atmosphere, Oceans, Biomass, Cryosphere,
+                    Agriculture, Covid-19 and Economy. The dashboard offers a precise, objective
+                    and factual view without any artifacts of our planet. You can explore countries
+                    and regions around the world to see how the indicators in specific locations
+                    changed over time.
                   </p>
 
                   <p>
-                    ESA, JAXA, and NASA will continue to enhance this dashboard as new data becomes available.
+                    ESA, JAXA, and NASA will continue to enhance this dashboard as new data
+                    becomes available.
                   </p>
                 </div>
               </v-col>
