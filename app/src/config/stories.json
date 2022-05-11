@@ -3,8 +3,8 @@
     "agriculture": {
       "joint-story": {
         "originalDashboardId": "4b40596e305997ac",
-        "title": "Agriculture Story",
-        "subtitle": "Satellite data applications for environmental impacts on world crop (cereal) supply and demand",
+        "title": "Satellite insights into agriculture, crop conditions, and food supply are some of the most impactful",
+        "subtitle": "Read more about satellite data applications for environmental impacts on world cereal supply and demand",
         "image": "./data/story-images/Agriculture.jpeg",
         "imagePlaceholder": "./data/story-images/Agriculture_placeholder.jpeg"
       }
@@ -12,14 +12,14 @@
     "atmosphere": {
       "joint-intro": {
         "originalDashboardId": "2b11a69e94e47a4a",
-        "title": "NASA, ESA and JAXA, Working Together to Monitor the air we breathe",
-        "subtitle": "Traffic, wildfires, and power plants all emit air pollutants and greenhouse gases as a product of combustion",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+        "title": " Traffic, wildfires, and power plants emit air pollutants and greenhouse gases from combustion",
+        "subtitle": "Read more about NASA, ESA and JAXA, working together to monitor the atmosphere",
+        "image": "./data/story-images/1-Atmosphere_Overview_Picture.jpg",
+        "imagePlaceholder": "./data/story-images/1-Atmosphere_Overview_Picture.jpg"
       },
       "monitoring-air-pollution-from-space": {
         "originalDashboardId": "afea38efc80e9846",
-        "title": "Australian bushfires during 2019-2020 emitted 700 million metric tons of CO2 into the atmosphere",
+        "title": "Australian bushfires in 2019-2020 emitted 700 million metric tons of CO2 into the atmosphere",
         "subtitle": "Read more about how Air Pollution affects Climate Change",
         "image": "./data/story-images/8-wildfires.jpg",
         "imagePlaceholder": "./data/story-images/8-wildfires_placeholder.jpg"
@@ -42,19 +42,33 @@
     "biomass-and-landcover": {
       "biomass-harmonization-activity": {
         "originalDashboardId": "a785d7a3c536a452",
-        "title": "Trees and other plants pull vast amounts of carbon dioxide out of the atmosphere every year",
+        "title": "Trees and other plants pull vast amounts of carbon dioxide out of the atmosphere yearly",
         "subtitle": "Read more about taking stock of global biomass maps",
         "image": "./data/story-images/Biomass.jpeg",
         "imagePlaceholder": "./data/story-images/Biomass_placeholder.jpeg"  
       }
     },
     "covid-19": {
-      "covid-19": {
-        "originalDashboardId": "7851179da7755498",
-        "title": "Covid-19",
-        "subtitle": "Covid-19 Impacts",
+      "shipping": {
+        "originalDashboardId": "d6a638e79a7de361",
+        "title": "Travel restrictions interrupted Global Supply chains dependent on cargo shipping",
+        "subtitle": "Read more about Covid-19 Impacts on global shipping",
+        "image": "./data/story-images/12-ship-traffic.jpg",
+        "imagePlaceholder": ".data/story-images/12-ship-traffic_placeholder.jpeg"
+      },
+      "airports": {
+        "originalDashboardId": "396af4c32089ffdc",
+        "title": "During COVID-19 related lockdowns air travel decreased",
+        "subtitle": "Read more about Covid-19 Impacts on air travel with EO and AI",
         "image": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg",
         "imagePlaceholder": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3_placeholder.jpg"
+      },
+      "nightlights": {
+        "originalDashboardId": "ac447995674c2091",
+        "title": "During COVID-19 lockdowns night lights in central business districts decreased",
+        "subtitle": "Read more about how researchers are using night lights to track variations in energy use, migration, and transportation",
+        "image": "./data/story-images/13-nightlights.jpg",
+        "imagePlaceholder": "./data/story-images/13-nightlights_placeholder.jpeg"
       }
     },
     "cryosphere": {
@@ -100,8 +114,15 @@
         "originalDashboardId": "4bcaa8555a55749d",
         "title": "Understanding climate change effects on water temperature and ocean currents is vital to managing these resources",
         "subtitle": "Read more about Satellite Sensors Tracking Ocean Color Changes to Predict Phytoplankton Health",
-        "image": "./data/story-images/JAXA Ocean Cover.jpeg",
-        "imagePlaceholder": "./data/story-images/JAXA Ocean Cover_placeholder.jpeg"
+        "image": "./data/story-images/NASA Ocean Cover.jpeg",
+        "imagePlaceholder": "./data/story-images/NASA Ocean Cover_placeholder.jpeg"
+      },
+      "ocean-NASA-2": {
+        "originalDashboardId": "3862c9b85d87eae1",
+        "title": "One of the most important processes in nature is primary productivity",
+        "subtitle": "Read more about how Satellite Sensors help take the pulse of our marine ecosystems",
+        "image": "./data/story-images/4-ocean-carbon.jpg",
+        "imagePlaceholder": "./data/story-images/4-ocean-carbon_placeholder.jpeg"
       }
     }
   }

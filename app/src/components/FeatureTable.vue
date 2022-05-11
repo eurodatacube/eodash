@@ -187,6 +187,9 @@ export default {
           && poi.lastMeasurement !== '') {
           text = poi.lastMeasurement.toPrecision(4);
         }
+        if (text === 'NaN') {
+          text = 'N/A';
+        }
       }
       return text;
     },

@@ -6,7 +6,7 @@ import { DateTime } from 'luxon';
 import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
-import l3mapsData from '@/config/tropomiCO.json';
+
 import {
   /*
   statisticalApiHeaders,
@@ -395,11 +395,25 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.terrainLight],
   },
+  SIF: {
+    indicator: 'Solar Induced Chlorophyll Fluorescence',
+    story: '/eodash-data/stories/SIF',
+    class: 'agriculture',
+    themes: ['biomass-and-landcover'],
+    largeSubAoi: true,
+    maxMapZoom: 8,
+  },
   NPP: {
     indicator: 'NPP (BICEP)',
-    class: 'air',
+    class: 'water',
     story: '/eodash-data/stories/NPP',
-    themes: ['covid-19', 'atmosphere'],
+    themes: ['oceans'],
+  },
+  NPPN: {
+    indicator: 'NPP (NASA)',
+    class: 'water',
+    story: '/eodash-data/stories/NPPN',
+    themes: ['oceans'],
   },
   SIE: {
     indicator: 'SIE',
@@ -410,6 +424,12 @@ export const indicatorsDefinition = Object.freeze({
   SIC: {
     indicator: 'SIC',
     story: '/eodash-data/stories/SIC',
+    class: 'water',
+    themes: ['oceans'],
+  },
+  SITI: {
+    indicator: 'SITI',
+    story: '/eodash-data/stories/SITI',
     class: 'water',
     themes: ['oceans'],
   },
@@ -484,6 +504,12 @@ export const layerNameMapping = Object.freeze({
     layers: 'XCO2-GOSAT-Cairo',
     maxMapZoom: 14,
     legendUrl: 'https://legends.restecmap.com/images/XCO2-GOSAT-Cairo.png',
+  },
+  SIF_TROPOMI_Cairo: {
+    baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+    layers: 'SIF-TROPOMI-Cairo-Monthly',
+    maxMapZoom: 14,
+    legendUrl: 'https://legends.restecmap.com/images/SIF-TROPOMI-Cairo-Monthly.png',
   },
   GOSAT_XCO2: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/GOSAT_XCO2_{time}_{site}_BG_circle_cog.tif&resampling_method=nearest',
@@ -859,6 +885,73 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
+        description: 'CO',
+        indicator: 'N1',
+        lastIndicatorValue: null,
+        indicatorName: 'CO',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'WorldCO',
+        time: availableDates.AWS_VIS_CO_3DAILY_DATA,
+        inputData: [''],
+        yAxis: 'CO (ppbv)',
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          opacity: 1.0,
+          customAreaIndicator: true,
+          name: 'CO',
+          layers: 'AWS_VIS_CO_3DAILY_DATA',
+          minZoom: 1,
+          legendUrl: 'data/trilateral/s5pCOLegend.png',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          areaIndicator: {
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_CO_3DAILY_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            callbackFunction: (responseJson, indicator) => {
+              if (Array.isArray(responseJson.C0)) {
+                const data = responseJson.C0;
+                const newData = {
+                  time: [],
+                  measurement: [],
+                  referenceValue: [],
+                  colorCode: [],
+                };
+                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
+                  ? 1
+                  : -1));
+                data.forEach((row) => {
+                  if (row.basicStats.max < 5000) {
+                    // leaving out falsely set nodata values disrupting the chart
+                    newData.time.push(DateTime.fromISO(row.date));
+                    newData.colorCode.push('');
+                    newData.measurement.push(row.basicStats.mean);
+                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
+                  }
+                });
+                const ind = {
+                  ...indicator,
+                  ...newData,
+                };
+                return ind;
+              }
+              return null;
+            },
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
         description: 'Air Quality',
         indicator: 'N1',
         lastIndicatorValue: null,
@@ -1201,6 +1294,82 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
           labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
           // legendUrl: 'data/trilateral/N2-co2diff-legend.png',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Sea Ice Thickness (ICESat-2)',
+        indicator: 'SITI',
+        lastIndicatorValue: null,
+        indicatorName: 'Sea Ice Thickness (ICESat-2)',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'W10',
+        time: availableDates.IS2SITMOGR4,
+        inputData: [''],
+        display: {
+          mosaicIndicator: true,
+          collection: 'IS2SITMOGR4',
+          protocol: 'xyz',
+          tileSize: 256,
+          minZoom: 1,
+          minMapZoom: 1,
+          maxZoom: 10,
+          maxMapZoom: 10,
+          url: 'https://staging-raster.delta-backend.xyz/mosaic/tiles/{searchid}/WebMercatorQuad/{z}/{x}/{y}@1x?assets=cog_default&rescale=0.0%2C4.0&colormap_name=plasma',
+          name: 'Sea Ice Thickness (ICESat-2)',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM'),
+          legendUrl: 'eodash-data/data/SeaIceThicknessCCI.PNG',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'NPP (NASA)',
+        indicator: 'NPPN',
+        lastIndicatorValue: null,
+        indicatorName: 'NPP (NASA)',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'W11',
+        time: availableDates.MO_NPP_npp_vgpm,
+        inputData: [''],
+        display: {
+          mosaicIndicator: true,
+          collection: 'MO_NPP_npp_vgpm',
+          protocol: 'xyz',
+          tileSize: 256,
+          minZoom: 1,
+          minMapZoom: 1,
+          maxZoom: 10,
+          maxMapZoom: 10,
+          url: 'https://staging-raster.delta-backend.xyz/mosaic/tiles/{searchid}/WebMercatorQuad/{z}/{x}/{y}@1x?assets=cog_default&rescale=0.0%2C1500.0&colormap_name=jet',
+          name: 'NPP (NASA)',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM'),
+          legendUrl: 'eodash-data/data/nppn_legend.png',
         },
       },
     },
@@ -3731,42 +3900,6 @@ export const globalIndicators = [
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/sc/{featuresTime}.geojson',
           },
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'CO',
-        indicator: 'N1',
-        lastIndicatorValue: null,
-        indicatorName: 'TROPOMI CO',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'WorldCO',
-        time: l3mapsData.l3maps,
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 5,
-          minZoom: 0,
-          opacity: 1.0,
-          tileSize: 256,
-          name: 'Tropospheric CO',
-          // url: '//obs.eu-de.otc.t-systems.com/s5p-pal-l3-external/maps/{time}/{z}/{x}/{-y}.png',
-          url: '//obs.eu-nl.otc.t-systems.com/s5p-pal-nl-l3-external/maps/{time}/{z}/{x}/{-y}.png',
-          legendUrl: 'data/trilateral/s5pCOLegend.png',
-          dateFormatFunction: (date) => date[0],
-          labelFormatFunction: (date) => date[1],
         },
       },
     },

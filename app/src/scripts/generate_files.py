@@ -126,6 +126,7 @@ MIGRATED_COLLECTIONS = [
     "AWS_VIS_WIND_U_10M",
     "AWS_VIS_WIND_V_10M",
     "AWS_VIS_SO2_DAILY_DATA",
+    "AWS_VIS_CO_3DAILY_DATA",
     "AWS_NO2-VISUALISATION",
     "BICEP_NPP_VIS_PP",
     "VIS_ENVISAT_SEAICETHICKNESS",
@@ -150,7 +151,16 @@ STAC_COLLECTIONS = {
     "OMSO2PCA-COG": "https://staging-stac.delta-backend.xyz/collections/",
     "facebook_population_density": "https://staging-stac.delta-backend.xyz/collections/",
     "nightlights-hd-monthly": "https://staging-stac.delta-backend.xyz/collections/",
+    "IS2SITMOGR4": "https://staging-stac.delta-backend.xyz/collections/",
+    "MO_NPP_npp_vgpm": "https://staging-stac.delta-backend.xyz/collections/",
+    "nightlights-hd-3bands": "https://staging-stac.delta-backend.xyz/collections/",
+    "HLSL30.002": "https://staging-stac.delta-backend.xyz/collections/",
+    "HLSS30.002": "https://staging-stac.delta-backend.xyz/collections/",
 }
+# Collections items which have null datetimes and instead start_datetime and end_datetime
+SPECIAL_STAC_DATE = [
+    "IS2SITMOGR4", "MO_NPP_npp_vgpm"
+]
 
 # Some datasets have different dates for different areas so we need to separate
 # the request to only retrieve dates from those locations
@@ -201,8 +211,11 @@ print("Fetching information for STAC endpoints with time information")
 try:
     for collection, stac_url in STAC_COLLECTIONS.items():
         # Pagination does not seem to work on this api, so we request 1000 items
+        dateParamenter = "datetime"
+        if collection in SPECIAL_STAC_DATE:
+            dateParamenter = "start_datetime"
         results = retrieve_entries(
-            "%s/%s/items?limit=1000"%(stac_url, collection), 0, "datetime"
+            "%s/%s/items?limit=1000"%(stac_url, collection), 0, dateParamenter
         )
         results = list(set(results))
         results.sort()
@@ -361,7 +374,7 @@ default_array_map = {
 def try_parsing_date(text, line):
     for fmt in ('%Y-%m-%dT%H:%M:%S', '%Y-%m-%d'):
         try:
-            return datetime.datetime.strptime(text.strip(), fmt)
+            return datetime.strptime(text.strip(), fmt)
         except ValueError:
             pass
     raise ValueError(f'time "{text}" not provided in valid format, full line "{line}"')
@@ -539,7 +552,7 @@ def generateData(
         poi_dict[poi_key]["lastReferenceValue"] = ([""] + [i["reference_value"] for i in curr_data if i["reference_value"] not in ["", 'NaN', '/']])[-1]
 
     def date_converter(obj):
-        if isinstance(obj, datetime.datetime):
+        if isinstance(obj, datetime):
             return obj.strftime('%Y-%m-%dT%H:%M:%S')
 
     output_dict = {key: {subkey: poi_dict[key][subkey] for subkey in outKeys} for key in poi_dict}
@@ -569,8 +582,8 @@ with open(stories_config) as json_file:
                     dash_id = entry['originalDashboardId']
                     resp = requests.get(dashboards_endpoint+dash_id)
                     if resp.status_code == 200:
-                        with open("%s/%s.json"%(dashboards_folder, dash_id), "wb") as f:
-                            f.write(resp.content)
+                        with open("%s/%s.json"%(dashboards_folder, dash_id), "w") as f:
+                            f.write(json.dumps(resp.json(), indent = 2))
                     else:
                         print ('Issue retrieving story with dashboard id %s'%dash_id)
 
@@ -595,6 +608,7 @@ generateData(
         '/public/data/trilateral/N3b.csv',
         '/public/data/trilateral/N1_EG.csv',
         '/public/data/trilateral/N2_EG.csv',
+        '/public/data/trilateral/SIF_EG.csv',
     ],
     [
         #['E1', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'], archived
