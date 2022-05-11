@@ -1427,7 +1427,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((-18.27 -35.05,-18.27 37.73,51.86 37.73,51.86 -35.05,-18.27 -35.05))').toJson(),
             }],
           },
-          url: 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,400.0&bidx=1&colormap_name=ylgn',
+          url: 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,400.0&bidx=1&colormap_name=gist_earth_r',
           name: 'NCEO Africa Biomass',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
