@@ -3890,13 +3890,15 @@ const createSTACCollectionIndicator = (collection, key, value, index, url) => {
   };
   return indicator;
 };
-const url_mapping = {
+const urlMapping = {
   'nightlights-hd-monthly': 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,300&bidx=1&colormap_name=inferno',
   'nightlights-hd-3bands': 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}',
 };
 Object.keys(locations).forEach((collection) => {
   idOffset += 5000;
   Object.entries(locations[collection]).forEach(([key, value], index) => {
-    globalIndicators.push(createSTACCollectionIndicator(collection, key, value, idOffset + index, url_mapping[collection]));
+    globalIndicators.push(createSTACCollectionIndicator(
+      collection, key, value, idOffset + index, urlMapping[collection],
+    ));
   });
 });
