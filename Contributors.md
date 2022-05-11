@@ -34,4 +34,6 @@ ESA Data Applications Team leading the scientific content production:
 * []() **Philippe Mougnaud** - [ESA](https://www.esa.int/)
 * [aapopescu](https://github.com/aapopescu) - **Anca Anghelea** - [ESA](https://www.esa.int/)
 
+The data populating the RACE Dashboard are a collective effort of a number of industrial and academic partners. A full list of the industrial and institutional contributors can be accessed on the About section of this website: https://race.esa.int 
+
 *in progress*
