@@ -142,6 +142,8 @@ ZARRCOLLECTIONS = [
 WMSCOLLECTIONS = {
     "ONPP-GCOMC-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
     "NDVI-GCOMC-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
+    "SMC-Anomaly-GCOMW-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
+    "PRC-Anomaly-GSMaP-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
 }
 
 STAC_COLLECTIONS = {
@@ -295,6 +297,7 @@ def interval(start: datetime, stop: datetime, delta: timedelta) -> Iterator[date
     while start <= stop:
         yield start
         start += delta
+    yield stop
 
 try:
     for layer, capabilties_url in WMSCOLLECTIONS.items():
