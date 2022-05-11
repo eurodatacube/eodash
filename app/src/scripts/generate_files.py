@@ -294,7 +294,7 @@ def interval(start: datetime, stop: datetime, delta: timedelta) -> Iterator[date
     while start <= stop:
         yield start
         start += delta
-'''
+
 try:
     for layer, capabilties_url in WMSCOLLECTIONS.items():
         wms = WebMapService(capabilties_url, version='1.1.1')
@@ -356,13 +356,13 @@ except Exception as e:
     template = "An exception of type {0} occurred. Arguments:\n{1!r}"
     message = template.format(type(e).__name__, e.args)
     print (message)
-'''
+
 print("Writing results to %s"%date_data_file)
 with open(date_data_file, "w") as fp:
     json.dump(results_dict, fp, indent=4, sort_keys=True)
 
 ###############################################################################
-'''
+
 delete_files = False
 
 geoDB_map = {
@@ -742,4 +742,3 @@ generateData(
         ['E200', ''],
     ]
 )
-'''

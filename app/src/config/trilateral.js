@@ -6,6 +6,7 @@ import { DateTime } from 'luxon';
 import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
+import locations from '@/config/locations.json';
 import {
   /*
   statisticalApiHeaders,
