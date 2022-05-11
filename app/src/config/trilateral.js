@@ -438,6 +438,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/NCEO',
     class: 'agriculture',
     themes: ['agriculture'],
+    disableTimeSelection: true,
   },
   SMC: {
     indicator: 'SMC',
@@ -1409,7 +1410,6 @@ export const globalIndicators = [
         aoiID: 'W12',
         time: availableDates.nceo_africa_2017,
         inputData: [''],
-        disableCompare: true,
         display: {
           // mosaicIndicator: true,
           collection: 'nceo_africa_2017',
