@@ -6,7 +6,7 @@ import { DateTime } from 'luxon';
 import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
-
+import locations from '@/config/locations.json';
 import {
   /*
   statisticalApiHeaders,
@@ -321,7 +321,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: '/data/trilateral/N5',
     themes: ['covid-19', 'economy', 'atmosphere', 'oceans'],
-    largeSubAoi: true,
+    midSubAoi: true,
   },
   N6: {
     indicator: 'Cropped Area - Global',
@@ -1277,7 +1277,7 @@ export const globalIndicators = [
         time: availableDates['OMI_trno2-COG'],
         inputData: [''],
         display: {
-          mosaicIndicator: true,
+          // mosaicIndicator: true,
           collection: 'OMI_trno2-COG',
           protocol: 'xyz',
           tileSize: 256,
@@ -1285,10 +1285,10 @@ export const globalIndicators = [
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://staging-raster.delta-backend.xyz/mosaic/tiles/{searchid}/WebMercatorQuad/{z}/{x}/{y}@1x?assets=cog_default&rescale=-126905900761088.0%2C3673290589614899.0&colormap_name=reds',
+          url: 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=-126905900761088.0,3673290589614899.0&bidx=1&colormap_name=reds',
           name: 'NO2 OMI Annual',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
-          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
           // legendUrl: 'data/trilateral/N2-co2diff-legend.png',
         },
       },
@@ -1314,8 +1314,9 @@ export const globalIndicators = [
         aoiID: 'W10',
         time: availableDates.IS2SITMOGR4,
         inputData: [''],
+        showGlobe: true,
         display: {
-          mosaicIndicator: true,
+          // mosaicIndicator: true,
           collection: 'IS2SITMOGR4',
           protocol: 'xyz',
           tileSize: 256,
@@ -1323,10 +1324,10 @@ export const globalIndicators = [
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://staging-raster.delta-backend.xyz/mosaic/tiles/{searchid}/WebMercatorQuad/{z}/{x}/{y}@1x?assets=cog_default&rescale=0.0%2C4.0&colormap_name=plasma',
+          url: 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?url={time}&resampling_method=bilinear&rescale=0.0,4.0&bidx=1&colormap_name=plasma',
           name: 'Sea Ice Thickness (ICESat-2)',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
-          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM'),
+          dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM'),
           legendUrl: 'eodash-data/data/SeaIceThicknessCCI.PNG',
         },
       },
@@ -1353,7 +1354,7 @@ export const globalIndicators = [
         time: availableDates.MO_NPP_npp_vgpm,
         inputData: [''],
         display: {
-          mosaicIndicator: true,
+          // mosaicIndicator: true,
           collection: 'MO_NPP_npp_vgpm',
           protocol: 'xyz',
           tileSize: 256,
@@ -1361,10 +1362,10 @@ export const globalIndicators = [
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://staging-raster.delta-backend.xyz/mosaic/tiles/{searchid}/WebMercatorQuad/{z}/{x}/{y}@1x?assets=cog_default&rescale=0.0%2C1500.0&colormap_name=jet',
+          url: 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,1500.0&bidx=1&colormap_name=jet',
           name: 'NPP (NASA)',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
-          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM'),
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM'),
           legendUrl: 'eodash-data/data/nppn_legend.png',
         },
       },
@@ -1391,7 +1392,7 @@ export const globalIndicators = [
         time: availableDates['OMSO2PCA-COG'],
         inputData: [''],
         display: {
-          mosaicIndicator: true,
+          // mosaicIndicator: true,
           collection: 'OMSO2PCA-COG',
           protocol: 'xyz',
           tileSize: 256,
@@ -1399,10 +1400,10 @@ export const globalIndicators = [
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://staging-raster.delta-backend.xyz/mosaic/tiles/{searchid}/WebMercatorQuad/{z}/{x}/{y}@1x?assets=cog_default&rescale=0.0%2C1.0&colormap_name=viridis',
+          url: 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,1.0&bidx=1&colormap_name=viridis',
           name: 'SO2 OMI/Aura',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
-          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
           // legendUrl: 'data/trilateral/N2-co2diff-legend.png',
         },
       },
@@ -1712,286 +1713,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'hh:mm:ss'.000Z'"),
           legendUrl: 'eodash-data/data/N11_legend.png',
         }],
-      },
-    },
-  },
-  {
-    latlng: latLng([35.61, 139.78]),
-    id: 9998,
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        aoi: latLng([35.61, 139.78]),
-        id: 9998,
-        aoiID: 'JP01',
-        country: ['JP'],
-        city: 'Tokyo',
-        siteName: 'Tokyo',
-        description: 'Nightlights',
-        indicator: 'N5',
-        lastIndicatorValue: null,
-        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
-        lastColorCode: null,
-        eoSensor: ['Nightlights'],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((139.34275817871094 35.049654646456474, 140.34809152322123 35.049654646456474, 140.34809152322123 35.93543243408203, 139.34275817871094 35.93543243408203, 139.34275817871094 35.049654646456474))').toJson(),
-          }],
-        },
-        time: getMonthlyDates('2020-01-01', '2021-09-01'),
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 18,
-          tileSize: 256,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_tk_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
-          name: 'Nightlights',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
-          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
-        },
-      },
-    },
-  },
-  {
-    latlng: latLng([39.9, 116.38]),
-    id: 9997,
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        aoi: latLng([39.9, 116.38]),
-        id: 9997,
-        aoiID: 'CN01',
-        country: ['CN'],
-        city: 'Beijing',
-        siteName: 'Beijing',
-        description: 'Nightlights',
-        indicator: 'N5',
-        lastIndicatorValue: null,
-        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
-        lastColorCode: null,
-        eoSensor: ['Nightlights'],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((115.91229248046875 39.627200509676186, 116.86084804657003 39.627200509676186, 116.86084804657003 40.32575607299805, 115.91229248046875 40.32575607299805, 115.91229248046875 39.627200509676186,))').toJson(),
-          }],
-        },
-        time: getMonthlyDates('2020-01-01', '2021-09-01'),
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 18,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_be_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
-          name: 'Nightlights',
-          tileSize: 256,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
-          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
-        },
-      },
-    },
-  },
-  {
-    latlng: latLng([51.036138, 2.285374]),
-    id: 9996, // for now
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        aoi: latLng([51.036138, 2.285374]),
-        id: 9996,
-        aoiID: 'FR03',
-        country: ['FR'],
-        city: 'Port of Dunkirk',
-        siteName: 'Port of Dunkirk',
-        description: 'Nightlights',
-        indicator: 'N5',
-        lastIndicatorValue: null,
-        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
-        lastColorCode: null,
-        eoSensor: ['Nightlights'],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((2.083559989929199 50.965508184133796, 2.416559993631381 50.965508184133796, 2.416559993631381 51.087730407714844, 2.083559989929199 51.087730407714844, 2.083559989929199 50.965508184133796))').toJson(),
-          }],
-        },
-        time: getMonthlyDates('2020-01-01', '2021-09-01'),
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 18,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_du_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
-          name: 'Nightlights',
-          tileSize: 256,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
-          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
-        },
-      },
-    },
-  },
-  {
-    latlng: latLng([51.091559, 3.740081]),
-    id: 9995,
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        aoi: latLng([51.091559, 3.740081]),
-        id: 9995,
-        aoiID: 'BE03',
-        country: ['BE'],
-        city: 'Port of Ghent',
-        siteName: 'Port of Ghent',
-        description: 'Nightlights',
-        indicator: 'N5',
-        lastIndicatorValue: null,
-        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
-        lastColorCode: null,
-        eoSensor: ['Nightlights'],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((3.6453969478607178 51.06661950775742, 3.85839695022878 51.06661950775742, 3.85839695022878 51.28873062133789, 3.6453969478607178 51.28873062133789, 3.6453969478607178 51.06661950775742))').toJson(),
-          }],
-        },
-        time: getMonthlyDates('2020-01-01', '2021-09-01'),
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 18,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_gh_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
-          name: 'Nightlights',
-          tileSize: 256,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
-          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
-        },
-      },
-    },
-  },
-  {
-    latlng: latLng([34.05, -118.25]),
-    id: 9994,
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        aoi: latLng([34.05, -118.25]),
-        id: 9994,
-        aoiID: 'US02',
-        country: ['US'],
-        city: 'Los Angeles',
-        siteName: 'Los Angeles',
-        description: 'Nightlights',
-        indicator: 'N5',
-        lastIndicatorValue: null,
-        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
-        lastColorCode: null,
-        eoSensor: ['Nightlights'],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-118.68741607666016 33.42670324365463, -117.0733049476039 33.42670324365463, -117.0733049476039 34.34392547607422, -118.68741607666016 34.34392547607422, -118.68741607666016 33.42670324365463))').toJson(),
-          }],
-        },
-        time: getMonthlyDates('2020-01-01', '2021-09-01'),
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 18,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_la_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
-          name: 'Nightlights',
-          tileSize: 256,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
-          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
-        },
-      },
-    },
-  },
-  {
-    latlng: latLng([37.7775, -122.416389]),
-    id: 9993,
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        aoi: latLng([37.7775, -122.416389]),
-        id: 9993,
-        aoiID: 'US03',
-        country: ['US'],
-        city: 'San Francisco',
-        siteName: 'San Francisco',
-        description: 'Nightlights',
-        indicator: 'N5',
-        lastIndicatorValue: null,
-        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
-        lastColorCode: null,
-        eoSensor: ['Nightlights'],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-122.63569641113281 37.119795894876006, -121.53514084334165 37.119795894876006, -121.53514084334165 38.35512924194336, -122.63569641113281 38.35512924194336, -122.63569641113281 37.119795894876006))').toJson(),
-          }],
-        },
-        time: getMonthlyDates('2020-01-01', '2021-09-01'),
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 18,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_sf_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
-          name: 'Nightlights',
-          tileSize: 256,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
-          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
-        },
-      },
-    },
-  },
-  {
-    latlng: latLng([41.0114, -73.09]),
-    id: 9992,
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        aoi: latLng([41.0114, -73.09]),
-        id: 9992,
-        aoiID: 'US04',
-        country: ['US'],
-        city: 'New York',
-        siteName: 'New York',
-        description: 'Nightlights',
-        indicator: 'N5',
-        lastIndicatorValue: null,
-        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
-        lastColorCode: null,
-        eoSensor: ['Nightlights'],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-71.74516 41.54467, -74.43395 41.54943, -74.43219 40.47812, -71.74516 40.48343, -71.74516 41.54467))').toJson(),
-          }],
-        },
-        time: getMonthlyDates('2020-01-01', '2021-09-01'),
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 18,
-          tileSize: 256,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_ny_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
-          name: 'Nightlights',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
-          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
-        },
       },
     },
   },
@@ -4100,10 +3821,85 @@ const slowdownIndicators = [
   },
 ];
 
-const idOffset = 30000;
+
+let idOffset = 30000;
 slowdownIndicators.forEach((ind, idx) => (
   globalIndicators.push(createSlowDownIndicator(
     (idOffset + idx), ind.aoiID, ind.city, ind.country, ind.aoi,
     ind.geometry, ind.cog, ind.eoSensor, ind.time,
   ))
 ));
+
+const createSTACCollectionIndicator = (collection, key, value, index, url) => {
+  const bbox = JSON.parse(key);
+  const aoi = latLng([
+    bbox[1] + (bbox[3] - bbox[1]) / 2,
+    bbox[0] + (bbox[2] - bbox[0]) / 2,
+  ]);
+  const geometry = {
+    coordinates: [[
+      [bbox[0], bbox[1]],
+      [bbox[2], bbox[1]],
+      [bbox[2], bbox[3]],
+      [bbox[0], bbox[3]],
+      [bbox[0], bbox[1]],
+    ]],
+    type: 'Polygon',
+  };
+  const indicator = {
+    latlng: aoi,
+    id: index,
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi,
+        id: value.id,
+        aoiID: value.id,
+        country: [value.country],
+        city: value.location,
+        siteName: value.location,
+        description: 'Nightlights',
+        indicator: 'N5',
+        lastIndicatorValue: null,
+        indicatorName: '',
+        lastColorCode: null,
+        eoSensor: ['Nightlights'],
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry,
+          }],
+        },
+        time: availableDates[`${collection}-${value.id}`],
+        inputData: ['Nightlights'],
+        display: {
+          protocol: 'xyz',
+          tileSize: 256,
+          minMapZoom: 5,
+          minZoom: 5,
+          maxZoom: 16,
+          url,
+          name: 'Nightlights (HD)',
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
+        },
+      },
+    },
+  };
+  return indicator;
+};
+const urlMapping = {
+  'nightlights-hd-monthly': 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,300&bidx=1&colormap_name=inferno',
+  'nightlights-hd-3bands': 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}',
+};
+Object.keys(locations).forEach((collection) => {
+  idOffset += 5000;
+  Object.entries(locations[collection]).forEach(([key, value], index) => {
+    globalIndicators.push(createSTACCollectionIndicator(
+      collection, key, value, idOffset + index, urlMapping[collection],
+    ));
+  });
+});

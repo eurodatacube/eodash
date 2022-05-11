@@ -1005,7 +1005,7 @@ export default {
         } else if (this.mergedConfigsData[0].midSubAoi) {
           this.map.setMinZoom(9);
         } else {
-          this.map.setMinZoom(13);
+          this.map.setMinZoom(10);
         }
       } else if (this.mergedConfigsData[0].presetView) {
         // if only preset view move map there without limiting movement
