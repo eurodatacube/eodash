@@ -564,9 +564,23 @@ export default {
         this.getNumberOfRows();
       }
     },
+    currentRow(newRow) {
+      const query = { ...this.$route.query };
+      if (newRow === 0) {
+        delete query.page;
+      } else {
+        query.page = newRow;
+      }
+      this.$router.replace({ query }).catch(() => {});
+    },
   },
   mounted() {
     this.isMounted = true;
+    setTimeout(() => {
+      if (this.$route.query.page) {
+        this.goStep(Number(this.$route.query.page));
+      }
+    });
   },
   methods: {
     ...mapActions('dashboard', [
@@ -664,7 +678,7 @@ export default {
         const rowHeight = window.innerHeight
           - this.$vuetify.application.top
           - this.$vuetify.application.footer;
-        const target = rowHeight * (this.currentRow - 1 + direction);
+        const target = rowHeight * ((this.currentRow || 0) - 1 + direction);
         position = startingPoint + target;
       }
       this.$emit('scrollTo', { target: position });
