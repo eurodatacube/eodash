@@ -52,30 +52,6 @@
       "id": "Page 3-1652005461104",
       "title": "Page 3",
       "__generatedText__": "<h2>Explore Datasets</h2>\n<p> &nbsp;<br><span>Use the <strong>interactive map</strong> on this page to see how carbon monoxide levels vary globally. The compare feature on this map allows looking at the levels of CO on two different dates.</span></p>\n<p>This <strong>EO Dashboard</strong> provides access to interactive maps of Carbon Monoxide, Nitrogen Dioxide, and Sulfur Dioxide from TROPOMI. Access these datasets by clicking on the <strong>EXPLORE DATASETS</strong> button at the top of the page or directly from the links below:</p>\n<p><a href=\"https://www.eodashboard.org/?poi=WorldCO-N1\">TROPOMI CO</a> &nbsp;<br><a href=\"https://www.eodashboard.org/?poi=W1-N1\">TROPOMI NO2</a>  &nbsp;<br><a href=\"https://www.eodashboard.org/?poi=SO2-N1\">TROPOMI SO2</a></p>\n"
-    },
-    {
-      "width": 4,
-      "mapInfo": {
-        "zoom": 7,
-        "center": {
-          "lng": 31.003417968750004,
-          "lat": 30.007273923504556
-        }
-      },
-      "id": "EG01-N1",
-      "title": "Cairo, NO2"
-    },
-    {
-      "width": 4,
-      "mapInfo": {
-        "zoom": 7,
-        "center": {
-          "lng": 31.003417968750004,
-          "lat": 30.007273923504556
-        }
-      },
-      "id": "EG01-N2",
-      "title": "Cairo, XCO2"
     }
   ],
   "title": "Monitoring from Space how Air Pollution affects Climate Change"
