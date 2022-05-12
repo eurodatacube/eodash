@@ -3,8 +3,9 @@
     style="height: 100%; width: 100%;"
   >
     <div
+      v-if="timestamp"
       ref="container"
-      id="cesiumContainer"
+      :id="`cesiumContainer-${timestamp}`"
       style="height: 100%; width: 100%;"
     >
       <!-- Loader -->
@@ -155,6 +156,7 @@ export default {
     cameraIsMoving: false,
     cameraLastPosition: {},
     legendExpanded: false,
+    timestamp: null,
   }),
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
@@ -195,6 +197,9 @@ export default {
       );
     },
   },
+  created() {
+    this.timestamp = +new Date();
+  },
   mounted() {
     if (!this.dataLayerTimeProp) {
       this.dataLayerTime = {
@@ -218,9 +223,9 @@ export default {
       cesiumScript.async = true;
       cesiumScript.src = `${CESIUM_URL}Cesium.js`;
       document.head.appendChild(cesiumScript);
-      window.cesiumLoaded = true;
       cesiumScript.onload = () => {
         this.createGlobe();
+        window.cesiumLoaded = true;
       };
     } else {
       this.createGlobe();
@@ -319,7 +324,7 @@ export default {
       // TODO: Currently only one base layer can be used
       // Find enabled baselayer
       const baseLayerConf = this.baseLayers.filter((layer) => layer.visible);
-      this.viewer = new Cesium.Viewer('cesiumContainer', {
+      this.viewer = new Cesium.Viewer(`cesiumContainer-${this.timestamp}`, {
         imageryProvider: this.createImageryProvider(baseLayerConf[0]),
         baseLayerPicker: false,
         fullscreenButton: false,

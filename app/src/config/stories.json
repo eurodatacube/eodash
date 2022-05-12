@@ -1,37 +1,37 @@
 {
   "trilateral": {
     "agriculture": {
-      "joint-story": {
+      "world-cereal-supply-and-demand": {
         "originalDashboardId": "4b40596e305997ac",
-        "title": "Satellite insights into agriculture, crop conditions, and food supply are some of the most impactful",
+        "title": "Satellites are providing insights into agricultural production, crop conditions, and food supply",
         "subtitle": "Read more about satellite data applications for environmental impacts on world cereal supply and demand",
         "image": "./data/story-images/Agriculture.jpeg",
         "imagePlaceholder": "./data/story-images/Agriculture_placeholder.jpeg"
       }
     },
     "atmosphere": {
-      "joint-intro": {
+      "atmosphere-combustion-intro": {
         "originalDashboardId": "2b11a69e94e47a4a",
         "title": " Traffic, wildfires, and power plants emit air pollutants and greenhouse gases from combustion",
         "subtitle": "Read more about NASA, ESA and JAXA, working together to monitor the atmosphere",
         "image": "./data/story-images/1-Atmosphere_Overview_Picture.jpg",
         "imagePlaceholder": "./data/story-images/1-Atmosphere_Overview_Picture.jpg"
       },
-      "monitoring-air-pollution-from-space": {
+      "australian-bushfires": {
         "originalDashboardId": "afea38efc80e9846",
         "title": "Australian bushfires in 2019-2020 emitted 700 million metric tons of CO2 into the atmosphere",
         "subtitle": "Read more about how Air Pollution affects Climate Change",
         "image": "./data/story-images/8-wildfires.jpg",
         "imagePlaceholder": "./data/story-images/8-wildfires_placeholder.jpg"
       },
-        "NASA-story": {
+        "air-pollution-us-india-china": {
         "originalDashboardId": "bd6db303fd0fb8e8",
         "title": "Air pollution in India, China and the U.S. have changed significantly over the past two decades",
         "subtitle": "Read more about how NASA scientists are measuring nitrogen dioxide (NO2) and sulfur dioxide (SO2) from space",
         "image": "./data/story-images/7-greenhouse-gases-from-combustion.jpg",
         "imagePlaceholder": "./data/story-images/7-greenhouse-gases-from-combustion_placeholder.jpg"
       },
-      "crops-consume-cairos-carbon-dioxide": {
+      "cairo-farmlands": {
         "originalDashboardId": "fe9c083d830b9f90",
         "title": "Farmlands North of Cairo absorb so much atmospheric CO2 it can be measured from space",
         "subtitle": "Read more about how crops consume Cairo's Carbon Dioxide",
@@ -42,10 +42,10 @@
     "biomass-and-landcover": {
       "biomass-harmonization-activity": {
         "originalDashboardId": "a785d7a3c536a452",
-        "title": "Trees and other plants pull vast amounts of carbon dioxide out of the atmosphere yearly",
+        "title": "A view from space monitors land cover and tree to track aboveground biomass and carbon content",
         "subtitle": "Read more about taking stock of global biomass maps",
-        "image": "./data/story-images/Biomass.jpeg",
-        "imagePlaceholder": "./data/story-images/Biomass_placeholder.jpeg"  
+        "image": "./data/story-images/10-leafy-vegetation.jpg",
+        "imagePlaceholder": "./data/story-images/10-leafy-vegetation_placeholder.jpeg"  
       }
     },
     "covid-19": {
@@ -58,11 +58,36 @@
       },
       "airports": {
         "originalDashboardId": "396af4c32089ffdc",
-        "title": "During COVID-19 related lockdowns air travel decreased",
+        "title": "During COVID-19 related lockdowns air travel decreased.",
         "subtitle": "Read more about Covid-19 Impacts on air travel with EO and AI",
         "image": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg",
         "imagePlaceholder": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3_placeholder.jpg"
+      }
+    },
+    "cryosphere": {
+      "changes-in-arctic-sea-ice": {
+        "originalDashboardId": "92bc845659abfed6",
+        "title": "The Arctic region shows changes most characteristic of global warming",
+        "subtitle": "Read more about the international collaboration for understanding changes in Arctic Sea Ice",
+        "image": "./data/story-images/1-sea-ice.jpg",
+        "imagePlaceholder": "./data/story-images/1-sea-ice_placeholder.jpeg"
       },
+      "sea-ice-freeboard-thickness": {
+        "originalDashboardId": "6be3fcfd33789f76",
+        "title": "Measuring Thickness of sea ice in the polar oceans",
+        "subtitle": "Read more about monitoring Sea Ice Freeboard & Thickness from Satellite Altimetry.",
+        "image": "./data/story-images/CryoSat.jpeg",
+        "imagePlaceholder": "./data/story-images/CryoSat_placeholder.jpeg"
+      },
+      "sea-ice-extent": {
+        "originalDashboardId": "e45036dd512afea1",
+        "title": "The sea ice extent has been rapidly decreasing in recent years as global temperatures have risen",
+        "subtitle": "Read more about monitoring Sea Ice Extent and Concentration from Passive Microwave",
+        "image": "./data/story-images/SeaIce.jpeg",
+        "imagePlaceholder": "./data/story-images/SeaIce_placeholder.jpeg"
+      }
+    },
+    "economy": {
       "nightlights": {
         "originalDashboardId": "ac447995674c2091",
         "title": "During COVID-19 lockdowns night lights in central business districts decreased",
@@ -71,56 +96,32 @@
         "imagePlaceholder": "./data/story-images/13-nightlights_placeholder.jpeg"
       }
     },
-    "cryosphere": {
-      "changes-in-arctic-sea-ice": {
-        "originalDashboardId": "92bc845659abfed6",
-        "title": "At the North Pole, there is no land and the frozen ocean water is decreasing annualy",
-        "subtitle": "Read more about the international collaboration for understanding changes in Arctic Sea Ice",
-        "image": "./data/story-images/SeaIce.jpeg",
-        "imagePlaceholder": "./data/story-images/SeaIce_placeholder.jpeg"
-      },
-      "sea-ice-freeboard-thickness": {
-        "originalDashboardId": "e45036dd512afea1",
-        "title": "Measuring Thickness of sea ice in the polar oceans",
-        "subtitle": "Read more about monitoring Sea Ice Freeboard & Thickness from Satellite Altimetry",
-        "image": "./data/story-images/SeaIce.jpeg",
-        "imagePlaceholder": "./data/story-images/SeaIce_placeholder.jpeg"
-      },
-      "cryo-jaxa": {
-        "originalDashboardId": "e45036dd512afea1",
-        "title": "The sea ice extent has been rapidly decreasing in recent years as global temperatures have risen",
-        "subtitle": "Read more about monitoring Sea Ice Extent and Concentration from Passive Microwave",
-        "image": "./data/story-images/SeaIce.jpeg",
-        "imagePlaceholder": "./data/story-images/SeaIce_placeholder.jpeg"
-      }
-    },
-    "economy": {},
     "oceans": {
-      "ocean-joint": {
+      "ocean-plants": {
         "originalDashboardId": "6ea3293aade90541",
-        "title": "Half of the oxygen we take in every breath comes from microscopic plants in the ocean",
+        "title": "Satellite images  reveal a view of the ocean that is as rich and complex as that of land",
         "subtitle": "Read more about following the activity of plants in the ocean from space",
         "image": "./data/story-images/1-EO_PIX_Ocean_COVER_Photo.jpeg",
         "imagePlaceholder": "./data/story-images/1-EO_PIX_Ocean_COVER_Photo.jpeg"
       },
-      "ocean-JAXA": {
+      "ocean-colour": {
         "originalDashboardId": "adc20ad9b73231b6",
         "title": "Understanding climate change effects on water temperature and ocean currents is vital to managing these resources",
         "subtitle": "Read more about Satellite Sensors Tracking Ocean Color Changes to Predict Phytoplankton Health",
         "image": "./data/story-images/JAXA Ocean Cover.jpeg",
         "imagePlaceholder": "./data/story-images/JAXA Ocean Cover_placeholder.jpeg"
       },
-      "ocean-NASA": {
+      "algal-blooms": {
         "originalDashboardId": "4bcaa8555a55749d",
-        "title": "Understanding climate change effects on water temperature and ocean currents is vital to managing these resources",
-        "subtitle": "Read more about Satellite Sensors Tracking Ocean Color Changes to Predict Phytoplankton Health",
+        "title": "Global warming and environmental pollution have led to a rise in the number and severity of HAB outbreaks",
+        "subtitle": "Read more about how satellites track phytoplankton’s algal blooms and its impact on tourism and fisheries",
         "image": "./data/story-images/NASA Ocean Cover.jpeg",
         "imagePlaceholder": "./data/story-images/NASA Ocean Cover_placeholder.jpeg"
       },
-      "ocean-NASA-2": {
+      "primary-productivity": {
         "originalDashboardId": "3862c9b85d87eae1",
         "title": "One of the most important processes in nature is primary productivity",
-        "subtitle": "Read more about how Satellite Sensors help take the pulse of our marine ecosystems",
+        "subtitle": "Read more about how satellite sensors take the pulse of our marine ecosystems",
         "image": "./data/story-images/4-ocean-carbon.jpg",
         "imagePlaceholder": "./data/story-images/4-ocean-carbon_placeholder.jpeg"
       }
