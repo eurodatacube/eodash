@@ -194,6 +194,22 @@
                 share
               </v-btn>
             </div>
+            <v-dialog
+              v-model="popupOpen"
+              :width="$vuetify.breakpoint.xsOnly ? '100%' : '50%'"
+              transition="dialog-bottom-transition"
+              style="z-index: 9999;"
+            >
+              <modal
+                mode="dashboard"
+                @submit="d => { popupOpen = false }"
+                @close="d => { popupOpen = false }"
+                :storyModeEnabled="storyModeEnabled"
+                :localDashboardObject="localDashboardId
+                  ? { id: localDashboardId, title: dashboardTitle }
+                  : null"
+              />
+            </v-dialog>
           </div>
         </v-col>
         <v-col
@@ -236,38 +252,16 @@
                 exit edit mode
               </template>
             </v-btn>
-            <v-dialog
-              v-model="popupOpen"
-              width="50%"
-              :fullscreen="$vuetify.breakpoint.xsOnly"
-              :hide-overlay="$vuetify.breakpoint.xsOnly"
-              transition="dialog-bottom-transition"
-              style="z-index: 9999;"
+            <v-btn
+              color="success"
+              v-if="newDashboard"
+              :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : ''"
+              :block="$vuetify.breakpoint.xsOnly"
+              @click="saveCurrentDashboardState"
             >
-
-              <template v-slot:activator="{}">
-                <v-btn
-                  color="success"
-                  v-if="newDashboard"
-                  :class="$vuetify.breakpoint.xsOnly ? 'mb-4' : ''"
-                  :block="$vuetify.breakpoint.xsOnly"
-                  @click="saveCurrentDashboardState"
-                >
-                  <v-icon left> mdi-content-save </v-icon>
-                    Save Dashboard
-                </v-btn>
-              </template>
-              <v-card :class="$vuetify.breakpoint.mdAndUp && 'px-10 py-4'"
-                style="overflow-y: auto; height: 100%;">
-                <modal
-                  mode="dashboard"
-                  @submit="d => { popupOpen = false }"
-                  @close="d => { popupOpen = false }"
-                  :storyModeEnabled="storyModeEnabled"
-                  always-sm
-                />
-              </v-card>
-            </v-dialog>
+              <v-icon left> mdi-content-save </v-icon>
+                Save Dashboard
+            </v-btn>
             <div
               v-if="!localDashboardFeatures && (newDashboard || hasEditingPrivilege)"
               class="mt-3"
@@ -547,35 +541,6 @@ export default {
     hasEditingPrivilege() {
       return this.$store.state.dashboard?.dashboardConfig?.editKey;
     },
-    viewingLink() {
-      let link = 'Loading...';
-      if (this.localDashboardId) {
-        if (this.storyModeEnabled) {
-          link = `${window.location.origin}/story?id=${this.localDashboardId}`;
-        } else {
-          link = `${window.location.origin}/dashboard?id=${this.localDashboardId}`;
-        }
-      } else if (this.$store.state.dashboard.dashboardConfig
-        && this.$store.state.dashboard.dashboardConfig.id) {
-        if (this.storyModeEnabled) {
-          link = `${window.location.origin}/story?id=${this.$store.state.dashboard
-            .dashboardConfig.id}`;
-        } else {
-          link = `${window.location.origin}/dashboard?id=${this.$store.state.dashboard
-            .dashboardConfig.id}`;
-        }
-      }
-      return link;
-    },
-    editingLink() {
-      return (this.$store.state.dashboard.dashboardConfig
-        && this.$store.state.dashboard.dashboardConfig.id)
-        ? `${window.location.origin}/${this.storyModeEnabled
-          ? 'story'
-          : 'dashboard'}?id=${this.$store.state.dashboard
-          .dashboardConfig.id}&editKey=${this.$store.state.dashboard.dashboardConfig.editKey}`
-        : 'Loading...';
-    },
     rootLink() {
       return document.location.origin;
     },
@@ -615,7 +580,13 @@ export default {
       ) {
         // replace with local custom dashboard
         const localDashboard = await axios
-          .get(`./data/dashboards/${existingConfiguration.originalDashboardId}.json`);
+          .get(`./data/dashboards/${existingConfiguration.originalDashboardId}.json`, {
+            headers: {
+              'Cache-Control': 'no-cache',
+              Pragma: 'no-cache',
+              Expires: '0',
+            },
+          });
         const localDashboardContent = localDashboard.data;
         this.officialDashboard = true;
         this.localDashboardId = id;
@@ -715,42 +686,6 @@ export default {
         this.popupOpen = true;
       }
     },
-    async submitMarketingData() {
-      this.saving = true;
-      this.performChange('changeTitle', this.popupTitle);
-      if (this.$refs.form.validate()) {
-        this.performChange('changeTitle', this.popupTitle);
-        await this.addMarketingInfo({
-          interests: this.interests,
-        });
-
-        try {
-          await this.addToMailingList({
-            email: this.email,
-            name: this.name,
-            listId: this.$store.state.config.appConfig.mailingList[process.env.NODE_ENV],
-            newsletterOptIn: this.newsletterOptIn,
-            dashboardId: this.$store.state.dashboard.dashboardConfig.id,
-            dashboardURLView: this.viewingLink,
-            dashboardURLEdit: this.editingLink,
-            dashboardTitle: this.dashboardTitle,
-            interests: this.interests,
-          });
-        } catch (e) {
-          console.log(`could not add to mailing list: ${e}`);
-        }
-
-        this.$router.replace({
-          path: 'dashboard',
-          query: {
-            id: this.$store.state.dashboard.dashboardConfig.id,
-            editKey: this.$store.state.dashboard.dashboardConfig.editKey,
-          },
-        });
-        this.success = true;
-      }
-      this.saving = false;
-    },
     createTextFeature() {
       if (this.$refs.textForm.validate()) {
         this.performChange(
@@ -807,16 +742,6 @@ export default {
         this.newTextFeatureText = el.text;
       }
       this.textFeatureUpdate = el.poi;
-    },
-    copyViewingLink() {
-      this.$refs.viewingLink.$el.querySelector('input').select();
-      this.$refs.viewingLink.$el.querySelector('input').setSelectionRange(0, 99999);
-      document.execCommand('copy');
-    },
-    copyEditingLink() {
-      this.$refs.editingLink.$el.querySelector('input').select();
-      this.$refs.editingLink.$el.querySelector('input').setSelectionRange(0, 99999);
-      document.execCommand('copy');
     },
     viewLinksFn() {
       this.viewLinks = true;

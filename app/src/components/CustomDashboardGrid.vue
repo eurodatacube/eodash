@@ -135,6 +135,7 @@
                 :upProp="localUp[element.poi]"
                 :dataLayerTimeProp="localDataLayerTime[element.poi]"
                 :compareLayerTimeProp="localCompareLayerTime[element.poi]"
+                disableAutoFocus
                 @update:direction="d => {localDirection[element.poi] = d}"
                 @update:position="p => {localPosition[element.poi] = p}"
                 @update:right="r => {localRight[element.poi] = r}"
@@ -516,7 +517,10 @@ export default {
     navigationButtonVisible() {
       let visible;
       if (this.isMounted) {
-        visible = this.offsetTop >= document.querySelector('#headerRow').clientHeight;
+        // adding 5 pixels here just to make sure it triggers
+        // apparently there are very slight differences between browsers
+        // in offsetTop calculation when the window is zoomed in or out
+        visible = this.offsetTop + 5 >= document.querySelector('#headerRow').clientHeight;
       }
       return visible;
     },

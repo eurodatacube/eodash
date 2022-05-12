@@ -35,7 +35,7 @@
             title="Subscribe to our newsletter"
             @submit="d => { showNewsletterModal = false }"
             @close="d => { showNewsletterModal = false }"
-            always-sm />
+          />
         </v-dialog>
       </v-row>
     </v-row>

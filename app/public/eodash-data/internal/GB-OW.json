@@ -5679,16 +5679,88 @@
             "total_vaccinations_per_hundred": 208.39
         },
         {
-            "daily_vaccinations": 42340.0,
-            "daily_vaccinations_per_million": 621.0,
-            "daily_vaccinations_raw": 38443.0,
+            "daily_vaccinations": 43051.0,
+            "daily_vaccinations_per_million": 631.0,
+            "daily_vaccinations_raw": 43416.0,
             "date": "2022-04-28T00:00:00",
-            "people_fully_vaccinated": 49730039.0,
+            "people_fully_vaccinated": 49731792.0,
             "people_fully_vaccinated_per_hundred": 72.91,
-            "people_vaccinated": 53189550.0,
+            "people_vaccinated": 53191232.0,
             "people_vaccinated_per_hundred": 77.98,
-            "total_vaccinations": 142173627.0,
-            "total_vaccinations_per_hundred": 208.44
+            "total_vaccinations": 142178600.0,
+            "total_vaccinations_per_hundred": 208.45
+        },
+        {
+            "daily_vaccinations": 42744.0,
+            "daily_vaccinations_per_million": 627.0,
+            "daily_vaccinations_raw": 40403.0,
+            "date": "2022-04-29T00:00:00",
+            "people_fully_vaccinated": 49741325.0,
+            "people_fully_vaccinated_per_hundred": 72.93,
+            "people_vaccinated": 53202723.0,
+            "people_vaccinated_per_hundred": 78.0,
+            "total_vaccinations": 142219003.0,
+            "total_vaccinations_per_hundred": 208.51
+        },
+        {
+            "daily_vaccinations": 41618.0,
+            "daily_vaccinations_per_million": 610.0,
+            "daily_vaccinations_raw": 60944.0,
+            "date": "2022-04-30T00:00:00",
+            "people_fully_vaccinated": 49756334.0,
+            "people_fully_vaccinated_per_hundred": 72.95,
+            "people_vaccinated": 53230188.0,
+            "people_vaccinated_per_hundred": 78.04,
+            "total_vaccinations": 142279947.0,
+            "total_vaccinations_per_hundred": 208.6
+        },
+        {
+            "daily_vaccinations": 40367.0,
+            "daily_vaccinations_per_million": 592.0,
+            "daily_vaccinations_raw": 25693.0,
+            "date": "2022-05-01T00:00:00",
+            "people_fully_vaccinated": 49762476.0,
+            "people_fully_vaccinated_per_hundred": 72.96,
+            "people_vaccinated": 53242209.0,
+            "people_vaccinated_per_hundred": 78.06,
+            "total_vaccinations": 142305640.0,
+            "total_vaccinations_per_hundred": 208.64
+        },
+        {
+            "daily_vaccinations": 37461.0,
+            "daily_vaccinations_per_million": 549.0,
+            "daily_vaccinations_raw": 12756.0,
+            "date": "2022-05-02T00:00:00",
+            "people_fully_vaccinated": 49765169.0,
+            "people_fully_vaccinated_per_hundred": 72.96,
+            "people_vaccinated": 53247845.0,
+            "people_vaccinated_per_hundred": 78.07,
+            "total_vaccinations": 142318396.0,
+            "total_vaccinations_per_hundred": 208.66
+        },
+        {
+            "daily_vaccinations": 36429.0,
+            "daily_vaccinations_per_million": 534.0,
+            "daily_vaccinations_raw": 30651.0,
+            "date": "2022-05-03T00:00:00",
+            "people_fully_vaccinated": 49771705.0,
+            "people_fully_vaccinated_per_hundred": 72.97,
+            "people_vaccinated": 53255432.0,
+            "people_vaccinated_per_hundred": 78.08,
+            "total_vaccinations": 142349047.0,
+            "total_vaccinations_per_hundred": 208.7
+        },
+        {
+            "daily_vaccinations": 36433.0,
+            "daily_vaccinations_per_million": 534.0,
+            "daily_vaccinations_raw": 41167.0,
+            "date": "2022-05-04T00:00:00",
+            "people_fully_vaccinated": 49780389.0,
+            "people_fully_vaccinated_per_hundred": 72.98,
+            "people_vaccinated": 53264512.0,
+            "people_vaccinated_per_hundred": 78.09,
+            "total_vaccinations": 142390214.0,
+            "total_vaccinations_per_hundred": 208.76
         }
     ]
 }

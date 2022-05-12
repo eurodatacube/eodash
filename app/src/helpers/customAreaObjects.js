@@ -329,21 +329,28 @@ const fetchCustomAreaObjects = async (
       let errorMessage = error;
       try {
         errorMessage = JSON.parse(error).detail[0].msg;
-      } catch (parseError) { console.log(parseError); }
-      if (errorMessage.startsWith('<?xml')) {
-        // Lets extract the Service excepcion first
-        errorMessage = errorMessage.slice(
-          errorMessage.indexOf('<ServiceException>') + 18,
-          errorMessage.indexOf('</ServiceException>'),
-        );
-        // now we remove the rest
-        errorMessage = errorMessage.slice(
-          errorMessage.indexOf('<![CDATA[') + 9,
-          errorMessage.indexOf(']]>'),
-        );
+      } catch (parseError) {
+        console.log(parseError);
       }
-      // If it is neither a JSON nor an XML we output the body
-      throw Error(errorMessage);
+      if (typeof errorMessage !== 'object') {
+        if (errorMessage.startsWith('<?xml')) {
+          // Lets extract the Service excepcion first
+          errorMessage = errorMessage.slice(
+            errorMessage.indexOf('<ServiceException>') + 18,
+            errorMessage.indexOf('</ServiceException>'),
+          );
+          // now we remove the rest
+          errorMessage = errorMessage.slice(
+            errorMessage.indexOf('<![CDATA[') + 9,
+            errorMessage.indexOf(']]>'),
+          );
+        }
+        // If it is neither a JSON nor an XML we output the body
+        throw Error(errorMessage);
+      } else {
+        // If error message is an object it is probably the returned html
+        console.log('Possible issue retrieving geoJSON for specified time');
+      }
     });
   return customObjects;
 };

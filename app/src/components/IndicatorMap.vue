@@ -1005,7 +1005,7 @@ export default {
         } else if (this.mergedConfigsData[0].midSubAoi) {
           this.map.setMinZoom(9);
         } else {
-          this.map.setMinZoom(13);
+          this.map.setMinZoom(10);
         }
       } else if (this.mergedConfigsData[0].presetView) {
         // if only preset view move map there without limiting movement
@@ -1386,6 +1386,9 @@ export default {
       this.$store.commit('features/SET_SELECTED_AREA', null);
     },
     updateJsonLayers(ftrs, side) {
+      if (typeof ftrs === 'undefined') {
+        return;
+      }
       if (this.mergedConfigsData[0].featuresClustering) {
         // markercluster needs manual adding of all geojsons it will show
         // and cleanup of previous content

@@ -9392,5 +9392,71 @@
         "reference_time": "2017-2019",
         "reference_value": "[78.42,47.29,68.09,55.3]",
         "time": "2022-05-04T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "70.11",
+        "reference_time": "2017-2019",
+        "reference_value": "[85,61.98,65.4980952380952,57.9228571428571]",
+        "time": "2022-05-05T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "75.66",
+        "reference_time": "2017-2019",
+        "reference_value": "[81.18,68.17,65.7661904761905,62.2628571428571]",
+        "time": "2022-05-06T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "77.39",
+        "reference_time": "2017-2019",
+        "reference_value": "[63.49,48.07,65.4880952380952,65.8085714285714]",
+        "time": "2022-05-07T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "71.73",
+        "reference_time": "2017-2019",
+        "reference_value": "[61.81,44.89,65.6680952380952,67.2]",
+        "time": "2022-05-08T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "72.39",
+        "reference_time": "2017-2019",
+        "reference_value": "[66.63,65.17,65.2871428571429,65.3228571428571]",
+        "time": "2022-05-09T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "ECMWF",
+        "eo_sensor": "",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "77.04",
+        "reference_time": "2017-2019",
+        "reference_value": "[72.02,44.77,65.197619047619,66.3585714285714]",
+        "time": "2022-05-10T00:00:00"
     }
 ]
