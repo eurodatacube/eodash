@@ -1386,6 +1386,9 @@ export default {
       this.$store.commit('features/SET_SELECTED_AREA', null);
     },
     updateJsonLayers(ftrs, side) {
+      if (typeof ftrs === 'undefined') {
+        return;
+      }
       if (this.mergedConfigsData[0].featuresClustering) {
         // markercluster needs manual adding of all geojsons it will show
         // and cleanup of previous content
