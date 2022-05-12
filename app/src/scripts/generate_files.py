@@ -376,7 +376,7 @@ with open(date_data_file, "w") as fp:
     json.dump(results_dict, fp, indent=4, sort_keys=True)
 
 ###############################################################################
-'''
+
 delete_files = False
 
 geoDB_map = {
@@ -756,4 +756,3 @@ generateData(
         ['E200', ''],
     ]
 )
-'''
