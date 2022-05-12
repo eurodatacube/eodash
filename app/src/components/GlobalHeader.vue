@@ -99,9 +99,7 @@
           text
           color="primary"
           block
-          @click="$store.state.indicators.selectedIndicator
-            ? $router.go(-1)
-            : $router.push({ name: 'explore' })"
+          :to="{ name: 'explore' }"
         >
           Explore Datasets
       </v-btn>
@@ -262,9 +260,7 @@
         text
         dark
         small
-        @click="$store.state.indicators.selectedIndicator
-          ? $router.go(-1)
-          : $router.push({ name: 'explore' })"
+        :to="{ name: 'explore' }"
       >
         Explore Datasets
       </v-btn>
