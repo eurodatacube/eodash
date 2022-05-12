@@ -128,9 +128,7 @@
 
         <v-dialog
           v-model="showNewsletterModal"
-          width="50%"
-          :fullscreen="$vuetify.breakpoint.xsOnly"
-          :hide-overlay="$vuetify.breakpoint.xsOnly"
+          :width="$vuetify.breakpoint.xsOnly ? '100%' : '50%'"
           transition="dialog-bottom-transition"
           style="z-index: 9999;"
           v-if="appConfig && appConfig.showNewsletterButton"
@@ -154,7 +152,7 @@
             title="Subscribe to our newsletter"
             @submit="d => { showNewsletterModal = false }"
             @close="d => { showNewsletterModal = false }"
-            always-sm />
+          />
         </v-dialog>
 
         <v-divider></v-divider>
@@ -297,9 +295,7 @@
 
     <v-dialog
       v-model="showNewsletterModal"
-      width="50%"
-      :fullscreen="$vuetify.breakpoint.xsOnly"
-      :hide-overlay="$vuetify.breakpoint.xsOnly"
+      :width="$vuetify.breakpoint.xsOnly ? '100%' : '50%'"
       transition="dialog-bottom-transition"
       style="z-index: 9999;"
       v-if="appConfig
@@ -322,7 +318,7 @@
       <modal
         title="Subscribe to our newsletter"
         @close="d => { showNewsletterModal = false }"
-        always-sm />
+      />
     </v-dialog>
 
     <img height="32" :src="appConfig && appConfig.branding.headerLogo" />
