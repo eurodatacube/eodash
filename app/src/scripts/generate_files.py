@@ -162,7 +162,7 @@ STAC_COLLECTIONS = {
 }
 # Collections items which have null datetimes and instead start_datetime and end_datetime
 SPECIAL_STAC_DATE = [
-    "IS2SITMOGR4", "MO_NPP_npp_vgpm", "nightlights-hd-monthly"
+    "IS2SITMOGR4", "MO_NPP_npp_vgpm",
 ]
 
 # Some datasets have different dates for different areas so we need to separate
@@ -210,7 +210,7 @@ def retrieve_entries(url, offset, dateproperty="date"):
         print (message)
     return res
 
-def retrieve_stac_entries(url, offset, dateproperty="date"):
+def retrieve_stac_entries(url, offset):
     offset_step = 5000
     r = requests.get("%s&FEATURE_OFFSET=%s"%(url, (offset*offset_step)))
     res = []
@@ -218,8 +218,16 @@ def retrieve_stac_entries(url, offset, dateproperty="date"):
         json_resp = r.json()
         features = json_resp["features"]
         for f in features:
+            # try to find the datetime attribute
+            date = None
+            if "datetime" in f["properties"] and f["properties"]["datetime"] != None:
+                date = f["properties"]["datetime"]
+            elif "start_datetime" in f["properties"]:
+                date = f["properties"]["start_datetime"]
+            elif "date" in f["properties"]:
+                date = f["properties"]["date"]
             res.append([
-                f["properties"][dateproperty],
+                date,
                 f["assets"]["cog_default"]["href"]
             ])
         if len(features) == offset_step:
@@ -231,7 +239,7 @@ def retrieve_stac_entries(url, offset, dateproperty="date"):
         print (message)
     return res
 
-def retrieve_location_stac_entries(url, offset, location, dateproperty="date"):
+def retrieve_location_stac_entries(url, offset, location):
     offset_step = 5000
     r = requests.get("%s&FEATURE_OFFSET=%s"%(url, (offset*offset_step)))
     res = {}
@@ -240,9 +248,17 @@ def retrieve_location_stac_entries(url, offset, location, dateproperty="date"):
     try:
         for f in features:
             if json.dumps(f["bbox"]) in location:
+                # try to find the datetime attribute
+                date = None
+                if "datetime" in f["properties"] and f["properties"]["datetime"] != None:
+                    date = f["properties"]["datetime"]
+                elif "start_datetime" in f["properties"]:
+                    date = f["properties"]["start_datetime"]
+                elif "date" in f["properties"]:
+                    date = f["properties"]["date"]
                 location_id = "%s-%s"%(collection, location[json.dumps(f["bbox"])]["id"])
                 res.setdefault(location_id, []).append([
-                    f["properties"][dateproperty],
+                    date,
                     f["assets"]["cog_default"]["href"]
                 ])
             else:
@@ -264,15 +280,10 @@ try:
         locations = json.load(locations_file)
         for collection, stac_url in STAC_COLLECTIONS.items():
             # Pagination does not seem to work on this api, so we request 5000 items
-            dateParamenter = "datetime"
-            if collection in SPECIAL_STAC_DATE:
-                dateParamenter = "start_datetime"
             if collection in locations:
                 results = retrieve_location_stac_entries(
                     "%s/%s/items?limit=5000"%(stac_url, collection),
-                    0,
-                    locations[collection],
-                    dateParamenter
+                    0, locations[collection],
                 )
                 # First we reverse all results
                 for item in results.values():
@@ -280,8 +291,7 @@ try:
                 results_dict = {**results_dict, **results}
             else:
                 results = retrieve_stac_entries(
-                    "%s/%s/items?limit=5000"%(stac_url, collection),
-                    0, dateParamenter
+                    "%s/%s/items?limit=5000"%(stac_url, collection), 0,
                 )
                 results.reverse()
                 results_dict[collection] = results
@@ -366,7 +376,7 @@ with open(date_data_file, "w") as fp:
     json.dump(results_dict, fp, indent=4, sort_keys=True)
 
 ###############################################################################
-
+'''
 delete_files = False
 
 geoDB_map = {
@@ -746,3 +756,4 @@ generateData(
         ['E200', ''],
     ]
 )
+'''

@@ -27,22 +27,21 @@
     {
       "width": 2,
       "mapInfo": {
-        "zoom": 12,
-        "compareLayerTime": "2020-01-01 - Nightlights",
-        "dataLayerTime": "2021-09-01 - Nightlights",
+        "zoom": 14,
         "center": {
-          "lng": -121.9316626253372,
-          "lat": 37.34942133541676
+          "lng": 139.71065258041804,
+          "lat": 35.67445019897103
         }
       },
-      "id": "US03-N5",
-      "title": "San Francisco, Nightlights"
+      "id": "JP01-N5",
+      "title": "Tokyo, Nightlights"
     },
     {
       "width": 2,
-      "text": "## Nightlights in San Francisco (USA)\n&nbsp;  \nA shelter-in-place mandate went into effect for six counties in the San Francisco metropolitan area on March 17, 2020, closing non-essential businesses and keeping approximately 6.7 million residents at home. The nightlights data, captured before and during the mandate, show an abrupt decrease in night lights predominantly in the central business districts, market areas, and entertainment districts that can be seen in the \u201cbefore\u201d and \u201cafter\u201d imagery.\n\nHigh-resolution nighttime images from space, referred to by NASA as the Black Marble HD dataset, provide data on how coronavirus-containment strategies have affected local businesses and neighborhoods. The nightlights sensor can decipher changes in urban business, industry, and transportation activity patterns associated with closures, event cancellations, and reduced vehicle traffic.",
+      "text": "## Nightlights in Tokyo, Japan \n&nbsp;  \nIn the vibrant city of Tokyo, while some areas seemingly remain unchanged, others revealed a decrease in lights at night. Japan\u2019s virus state of emergency is significantly looser than lockdowns elsewhere in the world. It largely calls for more people to work from home and for bars and restaurants to shut from 8 p.m. In December, amid COVID-19 surge, the city has urged restaurants and bars to shut early, and a new state of emergency putting the upcoming Olympics at stake.\n\nDimmer lights during December\u2019s state of emergency were most noticeable in the surroundings of the central Tokyo. As example, Shibuya City a major commercial and finance center, housing the two busiest railway stations in the world, shown in some areas decreasing light due to the imposed closing hours. However, overall change in lights are not so obvious in most parts, as bars for instance are too small and difficult to detect using monthly averaged data.\n\nRead the full story in this tutorial: [Lockdown is also changing our Planet at night](https://medium.com/euro-data-cube/lockdown-is-also-changing-our-planet-at-night-520deffec252)\n\nHigh-resolution nighttime images from space, referred to by NASA as the Black Marble HD dataset, provide data on how coronavirus-containment strategies have affected local businesses and neighborhoods. The nightlights sensor can decipher changes in urban business, industry, and transportation activity patterns associated with closures, event cancellations, and reduced vehicle traffic.",
       "id": "Page 2-1651908277120",
-      "title": "Page 2"
+      "title": "Page 2",
+      "__generatedText__": "<h2>Nightlights in Tokyo, Japan</h2>\n<p>&nbsp;<br>In the vibrant city of Tokyo, while some areas seemingly remain unchanged, others revealed a decrease in lights at night. Japan\u2019s virus state of emergency is significantly looser than lockdowns elsewhere in the world. It largely calls for more people to work from home and for bars and restaurants to shut from 8 p.m. In December, amid COVID-19 surge, the city has urged restaurants and bars to shut early, and a new state of emergency putting the upcoming Olympics at stake.</p>\n<p>Dimmer lights during December\u2019s state of emergency were most noticeable in the surroundings of the central Tokyo. As example, Shibuya City a major commercial and finance center, housing the two busiest railway stations in the world, shown in some areas decreasing light due to the imposed closing hours. However, overall change in lights are not so obvious in most parts, as bars for instance are too small and difficult to detect using monthly averaged data.</p>\n<p>Read the full story in this tutorial: <a href=\"https://medium.com/euro-data-cube/lockdown-is-also-changing-our-planet-at-night-520deffec252\">Lockdown is also changing our Planet at night</a></p>\n<p>High-resolution nighttime images from space, referred to by NASA as the Black Marble HD dataset, provide data on how coronavirus-containment strategies have affected local businesses and neighborhoods. The nightlights sensor can decipher changes in urban business, industry, and transportation activity patterns associated with closures, event cancellations, and reduced vehicle traffic.</p>\n"
     },
     {
       "width": 2,

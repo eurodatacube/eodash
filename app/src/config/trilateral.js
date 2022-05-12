@@ -321,7 +321,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: '/data/trilateral/N5',
     themes: ['covid-19', 'economy', 'atmosphere', 'oceans'],
-    midSubAoi: true,
+    smallSubAoi: true,
   },
   N6: {
     indicator: 'Cropped Area - Global',
