@@ -198,7 +198,7 @@ export default {
     },
   },
   created() {
-    this.timestamp = +new Date
+    this.timestamp = +new Date();
   },
   mounted() {
     if (!this.dataLayerTimeProp) {
