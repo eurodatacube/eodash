@@ -1,7 +1,7 @@
 {
   "trilateral": {
     "agriculture": {
-      "joint-story": {
+      "world-cereal-supply-and-demand": {
         "originalDashboardId": "4b40596e305997ac",
         "title": "Satellites are providing insights into agricultural production, crop conditions, and food supply",
         "subtitle": "Read more about satellite data applications for environmental impacts on world cereal supply and demand",
@@ -10,28 +10,28 @@
       }
     },
     "atmosphere": {
-      "joint-intro": {
+      "atmosphere-combustion-intro": {
         "originalDashboardId": "2b11a69e94e47a4a",
         "title": " Traffic, wildfires, and power plants emit air pollutants and greenhouse gases from combustion",
         "subtitle": "Read more about NASA, ESA and JAXA, working together to monitor the atmosphere",
         "image": "./data/story-images/1-Atmosphere_Overview_Picture.jpg",
         "imagePlaceholder": "./data/story-images/1-Atmosphere_Overview_Picture.jpg"
       },
-      "monitoring-air-pollution-from-space": {
+      "australian-bushfires": {
         "originalDashboardId": "afea38efc80e9846",
         "title": "Australian bushfires in 2019-2020 emitted 700 million metric tons of CO2 into the atmosphere",
         "subtitle": "Read more about how Air Pollution affects Climate Change",
         "image": "./data/story-images/8-wildfires.jpg",
         "imagePlaceholder": "./data/story-images/8-wildfires_placeholder.jpg"
       },
-        "NASA-story": {
+        "air-pollution-us-india-china": {
         "originalDashboardId": "bd6db303fd0fb8e8",
         "title": "Air pollution in India, China and the U.S. have changed significantly over the past two decades",
         "subtitle": "Read more about how NASA scientists are measuring nitrogen dioxide (NO2) and sulfur dioxide (SO2) from space",
         "image": "./data/story-images/7-greenhouse-gases-from-combustion.jpg",
         "imagePlaceholder": "./data/story-images/7-greenhouse-gases-from-combustion_placeholder.jpg"
       },
-      "crops-consume-cairos-carbon-dioxide": {
+      "cairo-farmlands": {
         "originalDashboardId": "fe9c083d830b9f90",
         "title": "Farmlands North of Cairo absorb so much atmospheric CO2 it can be measured from space",
         "subtitle": "Read more about how crops consume Cairo's Carbon Dioxide",
@@ -62,13 +62,6 @@
         "subtitle": "Read more about Covid-19 Impacts on air travel with EO and AI",
         "image": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg",
         "imagePlaceholder": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3_placeholder.jpg"
-      },
-      "nightlights": {
-        "originalDashboardId": "ac447995674c2091",
-        "title": "During COVID-19 lockdowns night lights in central business districts decreased",
-        "subtitle": "Read more about how researchers are using night lights to track variations in energy use, migration, and transportation",
-        "image": "./data/story-images/13-nightlights.jpg",
-        "imagePlaceholder": "./data/story-images/13-nightlights_placeholder.jpeg"
       }
     },
     "cryosphere": {
@@ -94,33 +87,41 @@
         "imagePlaceholder": "./data/story-images/SeaIce_placeholder.jpeg"
       }
     },
-    "economy": {},
+    "economy": {
+      "nightlights": {
+        "originalDashboardId": "ac447995674c2091",
+        "title": "During COVID-19 lockdowns night lights in central business districts decreased",
+        "subtitle": "Read more about how researchers are using night lights to track variations in energy use, migration, and transportation",
+        "image": "./data/story-images/13-nightlights.jpg",
+        "imagePlaceholder": "./data/story-images/13-nightlights_placeholder.jpeg"
+      }
+    },
     "oceans": {
-      "ocean-joint": {
+      "ocean-plants": {
         "originalDashboardId": "6ea3293aade90541",
         "title": "Satellite images  reveal a view of the ocean that is as rich and complex as that of land",
         "subtitle": "Read more about following the activity of plants in the ocean from space",
         "image": "./data/story-images/1-EO_PIX_Ocean_COVER_Photo.jpeg",
         "imagePlaceholder": "./data/story-images/1-EO_PIX_Ocean_COVER_Photo.jpeg"
       },
-      "ocean-JAXA": {
+      "ocean-colour": {
         "originalDashboardId": "adc20ad9b73231b6",
         "title": "Understanding climate change effects on water temperature and ocean currents is vital to managing these resources",
         "subtitle": "Read more about Satellite Sensors Tracking Ocean Color Changes to Predict Phytoplankton Health",
         "image": "./data/story-images/JAXA Ocean Cover.jpeg",
         "imagePlaceholder": "./data/story-images/JAXA Ocean Cover_placeholder.jpeg"
       },
-      "ocean-NASA": {
+      "algal-blooms": {
         "originalDashboardId": "4bcaa8555a55749d",
-        "title": "Understanding climate change effects on water temperature and ocean currents is vital to managing these resources",
-        "subtitle": "Read more about Satellite Sensors Tracking Ocean Color Changes to Predict Phytoplankton Health",
+        "title": "Global warming and environmental pollution have led to a rise in the number and severity of HAB outbreaks",
+        "subtitle": "Read more about how satellites track phytoplankton’s algal blooms and its impact on tourism and fisheries",
         "image": "./data/story-images/NASA Ocean Cover.jpeg",
         "imagePlaceholder": "./data/story-images/NASA Ocean Cover_placeholder.jpeg"
       },
-      "ocean-NASA-2": {
+      "primary-productivity": {
         "originalDashboardId": "3862c9b85d87eae1",
         "title": "One of the most important processes in nature is primary productivity",
-        "subtitle": "Read more about how Satellite Sensors help take the pulse of our marine ecosystems",
+        "subtitle": "Read more about how satellite sensors take the pulse of our marine ecosystems",
         "image": "./data/story-images/4-ocean-carbon.jpg",
         "imagePlaceholder": "./data/story-images/4-ocean-carbon_placeholder.jpeg"
       }
