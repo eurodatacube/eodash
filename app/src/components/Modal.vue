@@ -11,6 +11,7 @@
         <save-dashboard-form
           v-else-if="mode == 'dashboard'"
           :storyModeEnabled="storyModeEnabled"
+          :localDashboardObject="localDashboardObject"
           @submit="submit"
           @close="close"
         />
@@ -59,6 +60,11 @@ export default {
     storyModeEnabled: {
       type: Boolean,
       default: false,
+    },
+
+    localDashboardObject: {
+      type: Object,
+      default: () => undefined,
     },
   },
   methods: {

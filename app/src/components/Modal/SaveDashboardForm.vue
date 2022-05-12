@@ -6,7 +6,10 @@
     class="text-left"
     @submit.prevent="submitMarketingData"
   >
-    <v-card-text class="text-center" v-if="!success && !viewLinks">
+    <v-card-text
+      v-if="!storyModeEnabled && !localDashboardObject && !success && !viewLinks"
+      class="text-center"
+    >
       <h1
         class="display-2 font-weight-light primary--text mb-3"
       >Save this Dashboard</h1>
@@ -90,6 +93,21 @@
         </v-row>
       </v-card>
     </v-card-text>
+    <template v-else-if="storyModeEnabled && localDashboardObject">
+      <v-card-title>Story: {{ localDashboardObject.title }}</v-card-title>
+      <v-card-text>
+        <v-text-field
+          ref="viewingLink"
+          @click:append="copyViewingLink"
+          readonly
+          outlined
+          append-icon="mdi-content-copy"
+          persistent-hint
+          hint="Share the story using this link!"
+          :value="viewingLink"
+        />
+      </v-card-text>
+    </template>
     <v-card-text class="text-center" v-else>
       <h2
         class="display-2 font-weight-light primary--text mb-3"
@@ -141,7 +159,7 @@
         </v-row>
       </v-card>
     </v-card-text>
-    <v-card-actions v-if="!success && !viewLinks">
+    <v-card-actions v-if="!storyModeEnabled && !success && !viewLinks">
       <v-spacer></v-spacer>
       <v-btn color="primary" text @click="$emit('close')" x-large>Back</v-btn>
       <v-btn
@@ -225,11 +243,11 @@ export default {
 
     viewingLink() {
       let link = 'Loading...';
-      if (this.localDashboardId) {
+      if (this.localDashboardObject && this.localDashboardObject.id) {
         if (this.storyModeEnabled) {
-          link = `${window.location.origin}/story?id=${this.localDashboardId}`;
+          link = `${window.location.origin}/story?id=${this.localDashboardObject.id}`;
         } else {
-          link = `${window.location.origin}/dashboard?id=${this.localDashboardId}`;
+          link = `${window.location.origin}/dashboard?id=${this.localDashboardObject.id}`;
         }
       } else if (this.$store.state.dashboard.dashboardConfig
         && this.$store.state.dashboard.dashboardConfig.id) {
@@ -269,6 +287,16 @@ export default {
       type: Boolean,
       required: true,
     },
+
+    localDashboardObject: {
+      type: Object,
+      requred: false,
+    },
+  },
+  created() {
+    if (this.$route.query.id) {
+      this.viewLinks = true;
+    }
   },
   methods: {
     ...mapActions('dashboard', [
@@ -348,11 +376,6 @@ export default {
       this.$refs.editingLink.$el.querySelector('input').select();
       this.$refs.editingLink.$el.querySelector('input').setSelectionRange(0, 99999);
       document.execCommand('copy');
-    },
-
-    viewLinksFn() {
-      this.viewLinks = true;
-      this.popupOpen = true;
     },
   },
 };
