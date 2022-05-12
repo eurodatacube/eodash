@@ -460,6 +460,7 @@ export default {
     showTextCurrent: null,
     tooltipTrigger: false,
     numberOfRows: null,
+    ro: null,
   }),
   computed: {
     ...mapGetters('dashboard', {
@@ -568,11 +569,15 @@ export default {
   mounted() {
     this.isMounted = true;
 
-    window.addEventListener('resize', () => {
+    this.ro = new ResizeObserver(() => {
       setTimeout(() => {
         this.goStep(0);
       }, 200);
-    });
+    })
+      .observe(document.querySelector('.scrollContainer'));
+  },
+  beforeDestroy() {
+    delete this.ro;
   },
   methods: {
     ...mapActions('dashboard', [
@@ -666,6 +671,10 @@ export default {
       if (this.currentRow === 1 && direction === -1) {
         position = 0; // scroll back to story intro
       } else {
+        const container = document.querySelector('#elementsContainer');
+        if (!container) {
+          return;
+        }
         const startingPoint = document.querySelector('#elementsContainer').offsetTop;
         const rowHeight = window.innerHeight
           - this.$vuetify.application.top
