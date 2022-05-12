@@ -567,6 +567,12 @@ export default {
   },
   mounted() {
     this.isMounted = true;
+
+    window.addEventListener('resize', () => {
+      setTimeout(() => {
+        this.goStep(0);
+      }, 200);
+    });
   },
   methods: {
     ...mapActions('dashboard', [
