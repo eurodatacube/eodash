@@ -540,7 +540,7 @@ export default {
       immediate: true,
       deep: true,
       handler(features) {
-        if (features) {
+        if (features && !this.localFeatures) {
           this.parseFeatures(features);
         }
       },
