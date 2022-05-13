@@ -21,9 +21,7 @@
     />
     <indicator-time-selection
       ref="timeSelection"
-      class=""
-      v-if="globalLayerConfigs[0] && globalLayerConfigs[0].time.length > 1 &&
-        !globalLayerConfigs[0].disableTimeSelection && dataLayerTime"
+      v-if="displayTimeSelection"
       :autofocus="!disableAutoFocus"
       :available-values="availableTimeEntries"
       :indicator="mergedConfigsData[0]"
@@ -138,6 +136,10 @@ export default {
       }
       return configs;
     },
+    displayTimeSelection() {
+      return this.globalLayerConfigs[0] && this.globalLayerConfigs[0].time.length > 1
+        && !this.globalLayerConfigs[0].disableTimeSelection && this.dataLayerTime;
+    },
     isGlobalIndicator() {
       return this.$store.state.indicators.selectedIndicator?.siteName === 'global';
     },
@@ -217,6 +219,11 @@ export default {
     },
     dataLayerTime(timeObj) {
       this.$store.commit('indicators/SET_SELECTED_TIME', timeObj.value);
+    },
+    displayTimeSelection(value) {
+      if (!value) {
+        this.enableCompare = false;
+      }
     },
   },
   mounted() {
