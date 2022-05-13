@@ -42,7 +42,7 @@ export default {
   methods: {},
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
-    const layer = map.getLayers().getArray().find((l) => l.get('name') === this.indicator.indicatorName);
+    const layer = map.getLayers().getArray().find((l) => l.get('name') === this.indicator.name);
     map.removeLayer(layer);
   },
   render: () => null,
