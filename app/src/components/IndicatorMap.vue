@@ -749,9 +749,9 @@ export default {
         this.compareLayerIndex = newIndex;
         this.refreshLayers('compare');
         this.$nextTick(() => {
-          this.slider.setLeftLayers(
+          /* this.slider.setLeftLayers(
             this.extractActualLayers(this.$refs.compareLayers),
-          );
+          ); */
         });
         this.compareLayerTimeUpdated(this.compareLayerTime.name);
       }
