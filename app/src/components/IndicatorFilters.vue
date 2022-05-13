@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fill-height pa-5"
+    class="fill-height pa-5 no-pointer"
     :class="userInput ? 'dirty' : 'clean'"
     style="position: absolute; top: 0; left: 0; width: 420px"
   >
@@ -596,6 +596,14 @@ export default {
     0px 1px 5px 0px rgba(0, 0, 0, 0.12);
   outline: 1px solid #ddd;
   overflow: hidden;
+}
+
+.no-pointer {
+  pointer-events: none;
+}
+
+.no-pointer > div {
+  pointer-events: all;
 }
 
 
