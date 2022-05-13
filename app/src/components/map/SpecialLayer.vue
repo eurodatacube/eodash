@@ -21,6 +21,7 @@ export default {
   props: {
     mapId: String,
     indicator: Object,
+    layerName: String,
   },
   data() {
     return {};
@@ -30,7 +31,9 @@ export default {
   mounted() {
     const { map } = getMapInstance(this.mapId);
     const layer = createLayerFromConfig(this.indicator, { zIndex: 2 });
-    layer.set('name', this.indicator.name);
+    console.log(this.layerName);
+    debugger;
+    layer.set('name', this.layerName);
     const { presetView } = this.indicator;
     if (presetView?.features?.length) {
       const presetGeom = geoJsonFormat.readGeometry(presetView.features[0].geometry);
@@ -42,7 +45,7 @@ export default {
   methods: {},
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
-    const layer = map.getLayers().getArray().find((l) => l.get('name') === this.indicator.name);
+    const layer = map.getLayers().getArray().find((l) => l.get('name') === this.layerName);
     map.removeLayer(layer);
   },
   render: () => null,
