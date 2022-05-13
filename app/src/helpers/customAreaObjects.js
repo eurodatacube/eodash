@@ -1,9 +1,8 @@
 import { Wkt } from 'wicket';
 import { template } from '@/utils';
 import { DateTime } from 'luxon';
-// TODO: disabled recaptcha
-// import { load } from 'recaptcha-v3';
-
+import axios from "axios";
+import qs from "qs";
 
 const wkt = new Wkt();
 
@@ -274,29 +273,31 @@ const fetchCustomAreaObjects = async (
   if (requestBody) {
     requestOpts.body = JSON.stringify(requestBody);
   }
-  /*
-  // TODO: disabling recaptcha strategy for now
-  // Prepare our credentials for the Statistical API
-  const recaptcha = await load('6LddKgUfAAAAAKSlKdCJWo4XTQlTPcKZWrGLk7hh', {
-    autoHideBadge: true,
-  });
-  const token = await recaptcha.execute('token_assisted_anonymous');
-  const { origin, hostname } = window.location;
-  const clientId = shConfig[hostname];
-  const oauthUrl = `https://services.sentinel-hub.com/oauth/token/assisted?client_id=${clientId}&redirect_uri=${encodeURIComponent(origin)}&response_type=token&grant_type=client_credentials&recaptcha=${token}`;
-  const res = await fetch(oauthUrl);
-  const html = await res.text();
+  const client_id = shConfig.statApiClientId;
+  const client_secret = shConfig.statApiClientSecret;
+  const instance = axios.create({
+    baseURL: "https://services.sentinel-hub.com"
+  })
+  const config = {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+    }
+  }
+  const body = qs.stringify({
+    client_id,
+    client_secret,
+    response_type: 'token',
+    grant_type: "client_credentials"
+  })
+  let access_token = null;
+  
+  // All requests using this instance will have an access token automatically added
+  await instance.post("/oauth/token", body, config).then(resp => {
+    access_token = resp.data.access_token;
+  })
+  // Set the Authorization header using the Bearer token
+  requestOpts.headers.Authorization = `Bearer ${access_token}`;
 
-  // Search for the postMessage JSON and extract the full message from HTML
-  const startPos = html.search('window.parent.postMessage') + 26;
-  const endPos = html.search('},') + 1;
-  const message = JSON.parse(html.slice(startPos, endPos));
-
-  // Set the Authorization header using the Bearer token we generated using reCAPTCHA.
-  requestOpts.headers.Authorization = `Bearer ${message.access_token}`;
-
-  // this.map.fireEvent('dataloading');
-  */
   const customObjects = await fetch(url, requestOpts).then((response) => {
     if (!response.ok) {
       return response.text().then((text) => { throw text; });
