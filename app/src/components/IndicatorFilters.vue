@@ -2,7 +2,7 @@
   <div
     class="fill-height pa-5 no-pointer"
     :class="userInput ? 'dirty' : 'clean'"
-    style="position: absolute; top: 0; left: 0; width: 420px"
+    style="width: 420px"
   >
     <v-autocomplete
       ref="autocomplete"

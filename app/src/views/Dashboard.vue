@@ -206,10 +206,15 @@
         <v-row class="fill-height">
           <v-col
             cols="12"
-            class="pt-0 fill-height"
+            class="py-0 fill-height"
           >
             <center-panel />
-            <indicator-filters />
+            <div
+              class="d-flex justify-start"
+              style="position: absolute; top: 0; width: 100%"
+            >
+              <indicator-filters />
+            </div>
           </v-col>
         </v-row>
       </v-container>
