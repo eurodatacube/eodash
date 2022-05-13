@@ -203,7 +203,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'NDVI GCOM-C',
     class: 'agriculture',
     story: '/eodash-data/stories/E10e',
-    themes: ['agriculture'],
+    themes: ['agriculture', 'biomass-and-landcover'],
   },
   E11: {
     indicator: 'Volume of activity at shopping centers',
@@ -347,7 +347,7 @@ export const indicatorsDefinition = Object.freeze({
   N12: {
     indicator: 'Sea Ice Concentration (GCOM-W)',
     class: 'water',
-    themes: ['covid-19', 'oceans'],
+    themes: ['covid-19', 'oceans', 'cryosphere'],
     baseLayers: [{
       ...baseLayers.cloudless,
       visible: true,
@@ -399,7 +399,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Solar Induced Chlorophyll Fluorescence',
     story: '/eodash-data/stories/SIF',
     class: 'agriculture',
-    themes: ['biomass-and-landcover'],
+    themes: ['biomass-and-landcover','agriculture'],
     largeSubAoi: true,
     maxMapZoom: 8,
   },
@@ -419,19 +419,19 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'SIE',
     story: '/eodash-data/stories/SIE',
     class: 'water',
-    themes: ['oceans'],
+    themes: ['oceans', 'cryosphere'],
   },
   SIC: {
     indicator: 'SIC',
     story: '/eodash-data/stories/SIC',
     class: 'water',
-    themes: ['oceans'],
+    themes: ['oceans', 'cryosphere'],
   },
   SITI: {
     indicator: 'SITI',
     story: '/eodash-data/stories/SITI',
     class: 'water',
-    themes: ['oceans'],
+    themes: ['oceans', 'cryosphere'],
   },
   NCEO: {
     indicator: 'NCEO',
