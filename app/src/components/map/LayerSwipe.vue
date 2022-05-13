@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="swipeActive"
     class="swipe-container"
     ref="container"
   >
@@ -40,10 +41,12 @@ export default {
     mapId: String,
     mergedConfigsData: Object,
     time: String,
+    enable: Boolean,
   },
   data: () => ({
+    swipeActive: false,
     swipeLayerObject: null,
-    swipe: 100,
+    swipe: 0,
     clipLeft: 0,
     clipRight: 0,
   }),
@@ -56,6 +59,33 @@ export default {
     },
   },
   watch: {
+    enable(on) {
+      if (on) {
+        this.swipeActive = true;
+        this.$nextTick(() => {
+          const { map } = getMapInstance(this.mapId);
+          gsap.to(this.$data, { duration: 0.8, swipe: 50 });
+          const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
+          const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
+          if (swipeLayer) {
+            swipeLayer.on('prerender', this.onPrerender);
+            swipeLayer.on('postrender', this.onPostrender);
+            originalLayer.on('prerender', this.onPrerender);
+            originalLayer.on('postrender', this.onPostrender);
+          }
+        });
+      } else {
+        const deactivate = () => {
+          this.swipeActive = false;
+          const { map } = getMapInstance(this.mapId);
+          const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
+          originalLayer.un('prerender', this.onPrerender);
+          originalLayer.un('postrender', this.onPostrender);
+        };
+        const reset = 0;
+        gsap.to(this.$data, { duration: 0.8, swipe: reset, onComplete: deactivate });
+      }
+    },
     swipe() {
       const { map } = getMapInstance(this.mapId);
       const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
@@ -67,19 +97,6 @@ export default {
       const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
       updateTimeLayer(swipeLayer, this.mergedConfigsData, time);
     },
-  },
-  created() {},
-  mounted() {
-    const { map } = getMapInstance(this.mapId);
-    gsap.to(this.$data, { duration: 0.8, swipe: 50 });
-    const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
-    const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
-    if (swipeLayer) {
-      swipeLayer.on('prerender', this.onPrerender);
-      swipeLayer.on('postrender', this.onPostrender);
-      originalLayer.on('prerender', this.onPrerender);
-      originalLayer.on('postrender', this.onPostrender);
-    }
   },
   methods: {
     onPrerender(evt) {
@@ -113,12 +130,6 @@ export default {
       const ctx = evt.context;
       ctx.restore();
     },
-  },
-  beforeDestroy() {
-    const { map } = getMapInstance(this.mapId);
-    const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
-    originalLayer.un('prerender', this.onPrerender);
-    originalLayer.un('postrender', this.onPostrender);
   },
 };
 </script>
