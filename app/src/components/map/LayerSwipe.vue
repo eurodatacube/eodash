@@ -84,26 +84,28 @@ export default {
   methods: {
     onPrerender(evt) {
       // clip the originalLayer from right, the comparing layer from left
-      const ctx = evt.context;
-      const width = ctx.canvas.width * (this.swipe / 100);
-      ctx.save();
-      if (evt.target.get('name') === this.originalLayerName) {
-        ctx.beginPath();
-        ctx.rect(width, 0, ctx.canvas.width - width, ctx.canvas.height);
-        ctx.clip();
-        if (Object.keys(this.$refs).length > 0) {
-          const w = this.$refs.container.clientWidth * (this.swipe / 100);
-          this.clipLeft = 0 - w;
-          this.clipRight = w - this.$refs.container.clientWidth;
-        }
-      } else {
-        ctx.beginPath();
-        ctx.rect(0, 0, width, ctx.canvas.height);
-        ctx.clip();
-        if (Object.keys(this.$refs).length > 0) {
-          const w = this.$refs.container.clientWidth * (this.swipe / 100);
-          this.clipLeft = 0 - w;
-          this.clipRight = w - this.$refs.container.clientWidth;
+      if (this.$refs.container) {
+        const ctx = evt.context;
+        const width = ctx.canvas.width * (this.swipe / 100);
+        ctx.save();
+        if (evt.target.get('name') === this.originalLayerName) {
+          ctx.beginPath();
+          ctx.rect(width, 0, ctx.canvas.width - width, ctx.canvas.height);
+          ctx.clip();
+          if (Object.keys(this.$refs).length > 0) {
+            const w = this.$refs.container.clientWidth * (this.swipe / 100);
+            this.clipLeft = 0 - w;
+            this.clipRight = w - this.$refs.container.clientWidth;
+          }
+        } else {
+          ctx.beginPath();
+          ctx.rect(0, 0, width, ctx.canvas.height);
+          ctx.clip();
+          if (Object.keys(this.$refs).length > 0) {
+            const w = this.$refs.container.clientWidth * (this.swipe / 100);
+            this.clipLeft = 0 - w;
+            this.clipRight = w - this.$refs.container.clientWidth;
+          }
         }
       }
     },
