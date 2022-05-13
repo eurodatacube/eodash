@@ -441,6 +441,15 @@ import CustomDashboardGrid from '@/components/CustomDashboardGrid.vue';
 import Modal from '@/components/Modal.vue';
 
 export default {
+  metaInfo() {
+    const { appConfig } = this.$store.state.config;
+    return {
+      title: appConfig ? appConfig.branding.appName : 'eodash',
+      link: [
+        { rel: 'apple-touch-icon', href: `${appConfig.pageMeta.imagePath}/apple-touch-icon-192x192.png` },
+      ],
+    };
+  },
   components: {
     CustomDashboardGrid,
     GlobalHeader,
