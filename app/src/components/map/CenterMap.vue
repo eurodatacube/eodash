@@ -1,8 +1,8 @@
 <template>
   <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3;
     z-index: 1" class="d-flex justify-center">
-    <SpecialLayer v-for="indicator in mergedConfigsData" mapId="centerMap"
-    :indicator="indicator" :key="indicator.indicatorName"/>
+    <SpecialLayer v-for="mergedConfig in mergedConfigsData" mapId="centerMap"
+    :indicator="mergedConfig" :key="mergedConfig.name"/>
     <LayerControl
       v-if="loaded"
       mapId="centerMap"
