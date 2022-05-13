@@ -203,7 +203,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'NDVI GCOM-C',
     class: 'agriculture',
     story: '/eodash-data/stories/E10e',
-    themes: ['agriculture'],
+    themes: ['agriculture', 'biomass-and-landcover'],
   },
   E11: {
     indicator: 'Volume of activity at shopping centers',
@@ -347,7 +347,7 @@ export const indicatorsDefinition = Object.freeze({
   N12: {
     indicator: 'Sea Ice Concentration (GCOM-W)',
     class: 'water',
-    themes: ['covid-19', 'oceans'],
+    themes: ['covid-19', 'oceans', 'cryosphere'],
     baseLayers: [{
       ...baseLayers.cloudless,
       visible: true,
@@ -399,7 +399,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Solar Induced Chlorophyll Fluorescence',
     story: '/eodash-data/stories/SIF',
     class: 'agriculture',
-    themes: ['biomass-and-landcover'],
+    themes: ['biomass-and-landcover', 'agriculture'],
     largeSubAoi: true,
     maxMapZoom: 8,
   },
@@ -419,19 +419,19 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'SIE',
     story: '/eodash-data/stories/SIE',
     class: 'water',
-    themes: ['oceans'],
+    themes: ['oceans', 'cryosphere'],
   },
   SIC: {
     indicator: 'SIC',
     story: '/eodash-data/stories/SIC',
     class: 'water',
-    themes: ['oceans'],
+    themes: ['oceans', 'cryosphere'],
   },
   SITI: {
     indicator: 'SITI',
     story: '/eodash-data/stories/SITI',
     class: 'water',
-    themes: ['oceans'],
+    themes: ['oceans', 'cryosphere'],
   },
   NCEO: {
     indicator: 'NCEO',
@@ -995,7 +995,8 @@ export const globalIndicators = [
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x.png?url=s3://covid-eo-data/OMNO2d_HRM/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=0%2C1.08398547e16&color_map=reds',
           name: 'Air Quality (NASA)',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
+          dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyyMM'),
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           legendUrl: 'eodash-data/data/no2Legend.png',
           areaIndicator: {
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/timelapse',
@@ -1091,6 +1092,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/OMNO2d_HRMDifference/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=-3e15%2C3e15&color_map=rdbu_r',
           name: 'Air Quality (NASA)',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
           legendUrl: 'data/trilateral/N1-NO2DiffLegend.png',
           disableCompare: true,
         },
@@ -1213,7 +1215,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W5',
-        time: availableDates['no2-monthly-diff'],
+        time: getDailyDates('2020-01-01', '2021-10-15'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1258,6 +1260,7 @@ export const globalIndicators = [
           maxZoom: 13,
           minMapZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
           /*
           customAreaIndicator: true,
           areaIndicator: {
@@ -1346,7 +1349,7 @@ export const globalIndicators = [
           url: 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?url={time}&resampling_method=bilinear&rescale=0.0,4.0&bidx=1&colormap_name=plasma',
           name: 'Sea Ice Thickness (ICESat-2)',
           dateFormatFunction: (date) => `${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM'),
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           legendUrl: 'eodash-data/data/SeaIceThicknessCCI.PNG',
         },
       },
@@ -1384,7 +1387,7 @@ export const globalIndicators = [
           url: 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,1500.0&bidx=1&colormap_name=jet',
           name: 'NPP (NASA)',
           dateFormatFunction: (date) => `url=${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM'),
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           legendUrl: 'eodash-data/data/nppn_legend.png',
         },
       },
@@ -1505,6 +1508,7 @@ export const globalIndicators = [
           maxZoom: 13,
           minMapZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
           /*
           customAreaIndicator: true,
           areaIndicator: {
@@ -1547,6 +1551,7 @@ export const globalIndicators = [
           maxZoom: 13,
           minMapZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
           /*
           customAreaIndicator: true,
           areaIndicator: {
@@ -1776,6 +1781,7 @@ export const globalIndicators = [
           layers: 'ONPP-GCOMC-World-Monthly',
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'hh:mm:ss'.000Z'"),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
           legendUrl: 'eodash-data/data/N11_legend.png',
         }],
       },

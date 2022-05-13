@@ -22,6 +22,8 @@ This is a list of current and past contributors to the EODASH project, including
 * [Dorothyrono](https://github.com/Dorothyrono) - **Dorothy Rono** - [Sentinel Hub](https://www.sentinel-hub.at/)
 * [maximlamare](https://github.com/maximlamare) - **Maxim Lamare** - [Sentinel Hub](https://www.sentinel-hub.at/)
 * [Kampen1988](https://github.com/Kampen1988) - **Max Kampen** - [Sentinel Hub](https://www.sentinel-hub.at/)
+* [TonioF](https://github.com/TonioF) - **Tonio Fincke** - [BC](www.brockmann-consult.de)
+* [thomasstorm](https://github.com/thomasstorm) - **Thomas Storm** - [BC](www.brockmann-consult.de)
 
 ESA Data Applications Team leading the scientific content production:
 
@@ -35,5 +37,3 @@ ESA Data Applications Team leading the scientific content production:
 * [aapopescu](https://github.com/aapopescu) - **Anca Anghelea** - [ESA](https://www.esa.int/)
 
 The data populating the RACE Dashboard are a collective effort of a number of industrial and academic partners. A full list of the industrial and institutional contributors can be accessed on the About section of this website: https://race.esa.int 
-
-*in progress*

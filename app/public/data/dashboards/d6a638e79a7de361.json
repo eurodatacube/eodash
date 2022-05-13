@@ -7,9 +7,10 @@
   "features": [
     {
       "width": 2,
-      "text": "<--IMG-->https://github.com/eurodatacube/eodash/blob/staging/app/public/data/story-images/12-ship-traffic.jpg?raw=true<--IMG-->Ship traffic",
+      "text": "<--IMG-->/data/story-images/12-ship-traffic.jpg<--IMG-->Ship traffic",
       "id": "Ship traffic-1651904866820",
-      "title": "Ship traffic"
+      "title": "Ship traffic",
+      "__generatedText__": "<p>&lt;--IMG--&gt;/data/story-images/12-ship-traffic.jpg&lt;--IMG--&gt;Ship traffic</p>\n"
     },
     {
       "width": 2,
