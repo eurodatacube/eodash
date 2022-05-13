@@ -217,6 +217,39 @@ export const evalScriptsDefinitions = Object.freeze({
         dataMask: [samples.dataMask * validValue]
       }
     }`,
+    AWS_VIS_CO_3DAILY_DATA:
+    `//VERSION=3
+    function setup() {
+      return {
+        input: [{
+          bands: [
+            "co",
+            "dataMask"
+          ]
+        }],
+        output: [
+          {
+            id: "data",
+            bands: 1,
+          },
+          {
+            id: "dataMask",
+            bands: 1
+          }
+        ]
+      }
+    }
+    function evaluatePixel(samples) {
+      let validValue = 1
+      if (samples.co >= 1e20 ){
+          validValue = 0
+      }
+      let index = samples.co;
+      return {
+        data: [index],
+        dataMask: [samples.dataMask * validValue]
+      }
+    }`,
 });
 
 const fetchCustomAreaObjects = async (
