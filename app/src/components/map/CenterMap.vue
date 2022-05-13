@@ -14,10 +14,11 @@
       :baseLayerConfigs="baseLayerConfigs"
       :overlayConfigs="overlayConfigs"
     />
-    <LayerSwipe v-if="enableCompare && compareLayerTime"
+    <LayerSwipe v-if="compareLayerTime"
       :mapId="'centerMap'"
       :time="compareLayerTime.value"
       :mergedConfigsData="mergedConfigsData[0]"
+      :enable="enableCompare"
     />
     <indicator-time-selection
       ref="timeSelection"
