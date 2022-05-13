@@ -72,16 +72,14 @@ export default {
   mounted() {
     const { map } = getMapInstance(this.mapId);
     gsap.to(this.$data, { duration: 0.8, swipe: 50 });
-    map.on('postrender', () => {
-      const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
-      const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
-      if (swipeLayer) {
-        swipeLayer.on('prerender', this.onPrerender);
-        swipeLayer.on('postrender', this.onPostrender);
-        originalLayer.on('prerender', this.onPrerender);
-        originalLayer.on('postrender', this.onPostrender);
-      }
-    });
+    const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
+    const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
+    if (swipeLayer) {
+      swipeLayer.on('prerender', this.onPrerender);
+      swipeLayer.on('postrender', this.onPostrender);
+      originalLayer.on('prerender', this.onPrerender);
+      originalLayer.on('postrender', this.onPostrender);
+    }
   },
   methods: {
     onPrerender(evt) {
