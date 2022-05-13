@@ -114,6 +114,12 @@ export default {
       ctx.restore();
     },
   },
+  beforeDestroy() {
+    const { map } = getMapInstance(this.mapId);
+    const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
+    originalLayer.un('prerender', this.onPrerender);
+    originalLayer.un('postrender', this.onPostrender);
+  },
 };
 </script>
 
