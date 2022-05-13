@@ -22,6 +22,7 @@ export default {
     mapId: String,
     indicator: Object,
     layerName: String,
+    time: String,
   },
   data() {
     return {};
@@ -30,9 +31,12 @@ export default {
   computed: {},
   mounted() {
     const { map } = getMapInstance(this.mapId);
-    const layer = createLayerFromConfig(this.indicator, { zIndex: 2 });
-    console.log(this.layerName);
-    debugger;
+    const layer = createLayerFromConfig(this.indicator, {
+      zIndex: 2,
+      // optional time
+      // if not defined, the layer will get the selected time from store.
+      time: this.time,
+    });
     layer.set('name', this.layerName);
     const { presetView } = this.indicator;
     if (presetView?.features?.length) {

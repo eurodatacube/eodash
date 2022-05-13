@@ -9,6 +9,7 @@
       :indicator="mergedConfigsData"
       :layerName="swipeLayerName"
       :key="mergedConfigsData.name"
+      :time="time"
     />
     <slot name="close"></slot>
     <input id="swipe" type="range" v-model="swipe">
@@ -16,12 +17,12 @@
       class="swipeinfo swipeinfoLeft"
       ref="swipeinfoLeft"
       :style="`clip-path: inset(0px ${clipLeft}px 0px 0px`"
-    >{{ originalLayerName }}</div>
+    >{{ swipeLayerDisplayName }}</div>
     <div
       class="swipeinfo swipeinfoRight"
       ref="swipeinfoRight"
+    >{{ originalLayerDisplayName }}</div>
       :style="`clip-path: inset(0px 0px 0px ${clipRight}px`"
-    >{{ swipeLayerName }}</div>
     <div id="swipe_handle_separator" :style="`left: calc(${swipe}% - 1px)`">
       <div id="swipe_handle" style="display: flex; align-items: center">
         <svg style="width:24px;height:24px" viewBox="0 0 24 24">
@@ -37,6 +38,7 @@
 import gsap from 'gsap';
 import getMapInstance from '@/components/map/map';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
+import { updateTimeLayer } from '@/components/map/timeLayerUtils';
 
 export default {
   name: 'MapLayerSwipe',
@@ -46,10 +48,7 @@ export default {
   props: {
     mapId: String,
     mergedConfigsData: Object,
-    embeddedMode: Boolean,
-    embeddedActive: Boolean,
-    reverseDirection: Boolean,
-    originalLayer: Object,
+    time: String,
   },
   data: () => ({
     swipeLayerObject: null,
@@ -61,41 +60,70 @@ export default {
     swipeLayerName() {
       return `${this.mergedConfigsData.name}_compare`;
     },
+    swipeLayerDisplayName() {
+      return this.mergedConfigsData.indicator;
+    },
+    originalLayerDisplayName() {
+      return this.mergedConfigsData.indicator;
+    },
     originalLayerName() {
       return this.mergedConfigsData.name;
     },
   },
   watch: {
     swipe() {
-      this.$root.$emit('renderMap');
+      const { map } = getMapInstance(this.mapId);
+      const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
+      swipeLayer.changed();
+    },
+    time(time) {
+      // redraw all time-dependant layers, if time is passed via WMS params
+      const { map } = getMapInstance('centerMap');
+      const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
+      updateTimeLayer(swipeLayer, this.mergedConfigsData, time);
     },
   },
   created() {},
   mounted() {
     const { map } = getMapInstance(this.mapId);
+    gsap.to(this.$data, { duration: 0.8, swipe: 50 });
     map.on('postrender', () => {
+      const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
       const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
-      if (this.swipeLayer) {
-        swipeLayer.setZIndex(99);
+      if (swipeLayer) {
         swipeLayer.on('prerender', this.onPrerender);
         swipeLayer.on('postrender', this.onPostrender);
+        originalLayer.on('prerender', this.onPrerender);
+        originalLayer.on('postrender', this.onPostrender);
       }
     });
   },
   methods: {
     onPrerender(evt) {
+      // clip the originalLayer from right, the comparing layer from left
       const ctx = evt.context;
       const width = ctx.canvas.width * (this.swipe / 100);
       ctx.save();
-      ctx.beginPath();
-      ctx.rect(0, 0, width, ctx.canvas.height);
-      ctx.clip();
-      console.log(this.$refs);
-      if (Object.keys(this.$refs).length > 0) {
-        const w = this.$refs.container.clientWidth * (this.swipe / 100);
-        this.clipLeft = this.$refs.swipeinfoLeft.clientWidth - w;
-        this.clipRight = w - this.$refs.container.clientWidth
+      if (evt.target.get('name') === this.originalLayerName) {
+        ctx.beginPath();
+        ctx.rect(width, 0, width, ctx.canvas.height);
+        ctx.clip();
+        if (Object.keys(this.$refs).length > 0) {
+          const w = this.$refs.container.clientWidth * (this.swipe / 100);
+          this.clipLeft = this.$refs.swipeinfoLeft.clientWidth - w;
+          this.clipRight = w - this.$refs.container.clientWidth
             + this.$refs.swipeinfoRight.clientWidth;
+        }
+      } else {
+        ctx.beginPath();
+        ctx.rect(0, 0, width, ctx.canvas.height);
+        ctx.clip();
+        if (Object.keys(this.$refs).length > 0) {
+          const w = this.$refs.container.clientWidth * (this.swipe / 100);
+          this.clipLeft = this.$refs.swipeinfoLeft.clientWidth - w;
+          this.clipRight = w - this.$refs.container.clientWidth
+            + this.$refs.swipeinfoRight.clientWidth;
+        }
       }
     },
     onPostrender(evt) {

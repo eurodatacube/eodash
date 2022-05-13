@@ -45,6 +45,8 @@ function createFromTemplate(template, tileCoord) {
  * @param {boolean} [opt_options.updateOpacityOnZoom=false] sets the updateOpacityOnZoom-flag
  * on the layer. this can be used inside components to update opacity
  * for overlays like labels or borders. Defaults to false.
+ * @param {*} [opt_options.time=undefined] optional time.
+ * if not set, time will be retrieved from the store
  * @returns {*} returns ol layer
  */
 // eslint-disable-next-line import/prefer-default-export
@@ -101,7 +103,7 @@ export function createLayerFromConfig(config, _options = {}) {
         crossOrigin: 'anonymous',
         transition: 0,
         tileUrlFunction: (tileCoord) => {
-          const time = store.state.indicators.selectedTime;
+          const time = options.time || store.state.indicators.selectedTime;
           const url = config.url.replace(/{time}/i, config.dateFormatFunction(time));
           return createFromTemplate(url, tileCoord);
         },
@@ -119,6 +121,7 @@ export function createLayerFromConfig(config, _options = {}) {
   }
   if (config.protocol === 'WMS') {
     if (config.usedTimes?.time?.length) {
+      const time = options.time || store.state.indicators.selectedTime;
       // to do: dont hardcode, find a better way to differentiate between "different" WMS
       if (config.name === 'WSF_Evolution' || config.name === 'ONPP-GCOMC-World-Monthly'
         || config.name === 'Water Quality Index') {
@@ -127,10 +130,10 @@ export function createLayerFromConfig(config, _options = {}) {
         const params = {
           LAYERS: config.layers,
           // TO DO: time might come from component (in the dashboard)
-          time: config.dateFormatFunction(store.state.indicators.selectedTime),
+          time: config.dateFormatFunction(time),
         };
         if (config.specialEnvTime) {
-          params.env = `year:${store.state.indicators.selectedTime}`;
+          params.env = `year:${time}`;
         }
         paramsToPassThrough.forEach((param) => {
           if (typeof config[param] !== 'undefined') {

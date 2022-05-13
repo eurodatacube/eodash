@@ -14,15 +14,16 @@
       :baseLayerConfigs="baseLayerConfigs"
       :overlayConfigs="overlayConfigs"
     />
-    <LayerSwipe v-if="enableCompare"
+    <LayerSwipe v-if="enableCompare && compareLayerTime"
       :mapId="'centerMap'"
+      :time="compareLayerTime.value"
       :mergedConfigsData="mergedConfigsData[0]"
     />
     <indicator-time-selection
       ref="timeSelection"
       class=""
       v-if="globalLayerConfigs[0] && globalLayerConfigs[0].time.length > 1 &&
-        !globalLayerConfigs[0].disableTimeSelection"
+        !globalLayerConfigs[0].disableTimeSelection && dataLayerTime"
       :autofocus="!disableAutoFocus"
       :available-values="availableTimeEntries"
       :indicator="mergedConfigsData[0]"
@@ -74,6 +75,7 @@ import LayerSwipe from '@/components/map/LayerSwipe.vue';
 import getMapInstance from '@/components/map/map';
 import { formatLabel } from '@/components/map/formatters';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
+import { updateTimeLayer } from '@/components/map/timeLayerUtils';
 import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
@@ -186,14 +188,6 @@ export default {
     indicatorsDefinition: () => this.baseConfig.indicatorsDefinition,
   },
   watch: {
-    enableCompare(value) {
-      console.log('compare enabled');
-      console.log(value);
-    },
-    compareLayerTime(value) {
-      console.log('compareLayerTime updated');
-      console.log(value);
-    },
     '$store.state.indicators.selectedIndicator': () => {
       const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
       cluster.reRender();
@@ -217,15 +211,7 @@ export default {
         .forEach((config) => {
           const layer = layers.find((l) => l.get('name') === config.name);
           if (layer) {
-            const source = layer.getSource();
-            if (config.protocol === 'WMS') {
-              source.updateParams({
-                LAYERS: config.layers,
-                time: config.dateFormatFunction(value),
-                env: `year:${value}`,
-              });
-            }
-            source.refresh();
+            updateTimeLayer(layer, config, value);
           }
         });
     },
@@ -244,6 +230,7 @@ export default {
     if (!this.compareLayerTimeProp) {
       this.$nextTick(() => {
         if (this.$refs.timeSelection) {
+          // to do: accessing child component methods in nextTick is potentially dangerous
           this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
         }
       });
