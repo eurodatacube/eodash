@@ -1,14 +1,22 @@
 <template>
   <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3;
     z-index: 1" class="d-flex justify-center">
+    <!-- a layer displaying a selected global poi -->
     <SpecialLayer v-for="mergedConfig in mergedConfigsData" mapId="centerMap"
-    :indicator="mergedConfig" :key="mergedConfig.name"/>
+      :indicator="mergedConfig"
+      :layerName="mergedConfig.name"
+      :key="mergedConfig.name"
+    />
     <LayerControl
       v-if="loaded"
       mapId="centerMap"
       :key="layerControlKey"
       :baseLayerConfigs="baseLayerConfigs"
       :overlayConfigs="overlayConfigs"
+    />
+    <LayerSwipe v-if="enableCompare"
+      :mapId="'centerMap'"
+      :mergedConfigsData="mergedConfigsData[0]"
     />
     <indicator-time-selection
       ref="timeSelection"
@@ -62,6 +70,7 @@ import {
 import LayerControl from '@/components/map/LayerControl.vue';
 import getCluster from '@/components/map/Cluster';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
+import LayerSwipe from '@/components/map/LayerSwipe.vue';
 import getMapInstance from '@/components/map/map';
 import { formatLabel } from '@/components/map/formatters';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
@@ -75,6 +84,7 @@ export default {
     LayerControl,
     SpecialLayer,
     IndicatorTimeSelection,
+    LayerSwipe,
   },
   props: {
     // currentIndicator will only be set as prop in the custom dashboard.
@@ -176,14 +186,20 @@ export default {
     indicatorsDefinition: () => this.baseConfig.indicatorsDefinition,
   },
   watch: {
+    enableCompare(value) {
+      console.log('compare enabled');
+      console.log(value);
+    },
+    compareLayerTime(value) {
+      console.log('compareLayerTime updated');
+      console.log(value);
+    },
     '$store.state.indicators.selectedIndicator': () => {
       const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
       cluster.reRender();
     },
     getFeatures(features) {
       if (features) {
-        // if there are features, unselect the last selected POI
-        this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
         const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
         cluster.setFeatures(features);
       }
@@ -224,6 +240,18 @@ export default {
     this.loaded = true;
     this.setInitialTime();
     getMapInstance('centerMap').map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
+
+    if (!this.compareLayerTimeProp) {
+      this.$nextTick(() => {
+        if (this.$refs.timeSelection) {
+          this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
+        }
+      });
+    }
+    if (this.compareLayerTimeProp) {
+      // to do: do we need the nextTick?
+      this.$nextTick(() => { this.enableCompare = true; });
+    }
   },
   methods: {
     overlayCallback(indicatorObject) {
@@ -238,6 +266,12 @@ export default {
           ],
         };
       }
+    },
+    dataLayerTimeUpdated(time) {
+      this.$emit('update:datalayertime', time);
+    },
+    compareLayerTimeUpdated(time) {
+      this.$emit('update:comparelayertime', time);
     },
     focusSelect() {
       // TO DO: handle scrolling?
