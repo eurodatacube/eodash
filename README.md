@@ -1,5 +1,7 @@
 # Welcome to eodash
 
+[![DOI](https://zenodo.org/badge/264235389.svg)](https://zenodo.org/badge/latestdoi/264235389)
+
 eodash is the software powering https://race.esa.int as well as
 https://eodashboard.org
 
