@@ -13,15 +13,6 @@
     />
     <slot name="close"></slot>
     <input id="swipe" type="range" v-model="swipe">
-    <div
-      class="swipeinfo swipeinfoLeft"
-      ref="swipeinfoLeft"
-      :style="`clip-path: inset(0px ${clipLeft}px 0px 0px`"
-    >{{ swipeLayerDisplayName }}</div>
-    <div
-      class="swipeinfo swipeinfoRight"
-      ref="swipeinfoRight"
-    >{{ originalLayerDisplayName }}</div>
       :style="`clip-path: inset(0px 0px 0px ${clipRight}px`"
     <div id="swipe_handle_separator" :style="`left: calc(${swipe}% - 1px)`">
       <div id="swipe_handle" style="display: flex; align-items: center">
@@ -59,12 +50,6 @@ export default {
   computed: {
     swipeLayerName() {
       return `${this.mergedConfigsData.name}_compare`;
-    },
-    swipeLayerDisplayName() {
-      return this.mergedConfigsData.indicator;
-    },
-    originalLayerDisplayName() {
-      return this.mergedConfigsData.indicator;
     },
     originalLayerName() {
       return this.mergedConfigsData.name;
@@ -106,13 +91,12 @@ export default {
       ctx.save();
       if (evt.target.get('name') === this.originalLayerName) {
         ctx.beginPath();
-        ctx.rect(width, 0, width, ctx.canvas.height);
+        ctx.rect(width, 0, ctx.canvas.width - width, ctx.canvas.height);
         ctx.clip();
         if (Object.keys(this.$refs).length > 0) {
           const w = this.$refs.container.clientWidth * (this.swipe / 100);
-          this.clipLeft = this.$refs.swipeinfoLeft.clientWidth - w;
-          this.clipRight = w - this.$refs.container.clientWidth
-            + this.$refs.swipeinfoRight.clientWidth;
+          this.clipLeft = 0 - w;
+          this.clipRight = w - this.$refs.container.clientWidth;
         }
       } else {
         ctx.beginPath();
@@ -120,9 +104,8 @@ export default {
         ctx.clip();
         if (Object.keys(this.$refs).length > 0) {
           const w = this.$refs.container.clientWidth * (this.swipe / 100);
-          this.clipLeft = this.$refs.swipeinfoLeft.clientWidth - w;
-          this.clipRight = w - this.$refs.container.clientWidth
-            + this.$refs.swipeinfoRight.clientWidth;
+          this.clipLeft = 0 - w;
+          this.clipRight = w - this.$refs.container.clientWidth;
         }
       }
     },
@@ -266,37 +249,5 @@ input[type="range"]:focus::-ms-fill-lower {
 }
 input[type="range"]:focus::-ms-fill-upper {
     background: transparent;
-}
-.swipeinfo {
-    position: absolute;
-    top: 50%;
-    background: var(--v-primary-base);
-    width: auto;
-    height: 50px;
-    line-height: 50px;
-    padding: 0 20px;
-    transform: translateY(-25px);
-    font-size: 30px;
-    font-weight: 500;
-    font-family: 'Roboto', sans-serif;
-    color: #fff;
-    text-shadow: 0 0 0 #000, 0 0 0 #0d0d0d;
-    opacity: 0.5;
-    pointer-events: none;
-    z-index: 1;
-}
-.swipeinfoLeft {
-    left: 0;
-    text-align: left;
-    clip-path: inset(0px);
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-}
-.swipeinfoRight {
-    right: 0;
-    text-align: right;
-    clip-path: inset(0px);
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
 }
 </style>
