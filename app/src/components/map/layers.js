@@ -123,8 +123,9 @@ export function createLayerFromConfig(config, _options = {}) {
     if (config.usedTimes?.time?.length) {
       const time = options.time || store.state.indicators.selectedTime;
       // to do: dont hardcode, find a better way to differentiate between "different" WMS
-      if (config.name === 'WSF_Evolution' || config.name === 'ONPP-GCOMC-World-Monthly'
-        || config.name === 'Water Quality Index') {
+      const wmsLayers = ['WSF_Evolution', 'ONPP-GCOMC-World-Monthly', 'Water Quality Index',
+        'Air Quality (NO2) - ESA', 'Population', 'NPP (BICEP)', 'NDVI'];
+      if (wmsLayers.includes(config.name)) {
         const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
           'format', 'width', 'height', 'transparent', 'srs', 'env', 'searchid'];
         const params = {
