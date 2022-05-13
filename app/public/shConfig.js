@@ -4,12 +4,6 @@ const shConfig = {
   mbAccessToken: '$MAPBOX_ACCESS_TOKEN',
   geodbInstanceId: '$GEODB_INSTANCE_ID',
   listmonkApiKey: '$LISTMONK_API_KEY',
-  '127.0.0.1': '$SH_127_0_0_1',
-  'localhost': '$SH_LOCALHOST',
-  'eodash-staging.eox.at': '$SH_EODASH_STAGING',
-  'eodash-testing.eox.at': '$SH_EODASH_TESTING',
-  'eodash-trilateral-staging.eox.at': '$SH_EODASH_TRILATERAL_STAGING',
-  'eodash-trilateral-testing.eox.at': '$SH_EODASH_TRILATERAL_TESTING',
-  'eodashboard.org': '$SH_EODASHBOARD',
-  'race.esa.int': '$SH_RACE_ESA',
+  statApiClientId: '$STAT_API_CLIENT_ID',
+  statApiClientSecret: '$STAT_API_CLIENT_SECRET'
 };
