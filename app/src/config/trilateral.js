@@ -399,7 +399,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Solar Induced Chlorophyll Fluorescence',
     story: '/eodash-data/stories/SIF',
     class: 'agriculture',
-    themes: ['biomass-and-landcover','agriculture'],
+    themes: ['biomass-and-landcover', 'agriculture'],
     largeSubAoi: true,
     maxMapZoom: 8,
   },
