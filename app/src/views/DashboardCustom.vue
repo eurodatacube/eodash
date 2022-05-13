@@ -536,10 +536,12 @@ export default {
     ]),
     newDashboard() {
       return this.$store.state.dashboard.dashboardConfig
-        && !this.$store.state.dashboard?.dashboardConfig?.marketingInfo;
+        && !this.$store.state.dashboard?.dashboardConfig?.marketingInfo
+        && !this.officialDashboard;
     },
     hasEditingPrivilege() {
-      return this.$store.state.dashboard?.dashboardConfig?.editKey;
+      return this.$store.state.dashboard?.dashboardConfig?.editKey
+        && !this.officialDashboard;
     },
     rootLink() {
       return document.location.origin;
@@ -613,7 +615,7 @@ export default {
       }
     }
 
-    if (this.dashboardConfig) {
+    if (this.dashboardConfig && !this.officialDashboard) {
       if (this.dashboardConfig.title) {
         this.dashboardTitle = this.dashboardConfig.title;
       }
@@ -627,6 +629,18 @@ export default {
         });
       }
     }
+    if (this.officialDashboard && this.storyModeEnabled) {
+      if (!this.getCurrentTheme) {
+        if (existingConfiguration) {
+          const currentTheme = Object.entries(storiesConfig[this.appConfig.id])
+            .find((stories) => Object.values(stories[1]).includes(existingConfiguration))[0];
+          this.loadTheme(currentTheme);
+        }
+      }
+    } else {
+      this.loadTheme(null);
+    }
+
     if (!this.dashboardConfig) {
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
     }
@@ -634,7 +648,7 @@ export default {
     this.initialLoading = false;
   },
   beforeDestroy() {
-    if (!this.hasEditingPrivilege && !this.newDashboard) {
+    if (!this.hasEditingPrivilege && !this.newDashboard && !this.officialDashboard) {
       this.reconnecting = true;
       this.disconnect();
       this.reconnecting = false;

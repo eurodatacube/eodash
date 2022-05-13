@@ -460,6 +460,7 @@ export default {
     showTextCurrent: null,
     tooltipTrigger: false,
     numberOfRows: null,
+    ro: null,
   }),
   computed: {
     ...mapGetters('dashboard', {
@@ -540,7 +541,7 @@ export default {
       immediate: true,
       deep: true,
       handler(features) {
-        if (features) {
+        if (features && !this.localFeatures) {
           this.parseFeatures(features);
         }
       },
@@ -581,6 +582,18 @@ export default {
         this.goStep(Number(this.$route.query.page));
       }
     });
+
+    this.ro = new ResizeObserver(() => {
+      setTimeout(() => {
+        if (document.querySelector('.scrollContainer').scrollTop > 0) {
+          this.goStep(0);
+        }
+      });
+    })
+      .observe(document.querySelector('.scrollContainer'));
+  },
+  beforeDestroy() {
+    delete this.ro;
   },
   methods: {
     ...mapActions('dashboard', [
@@ -674,6 +687,10 @@ export default {
       if (this.currentRow === 1 && direction === -1) {
         position = 0; // scroll back to story intro
       } else {
+        const container = document.querySelector('#elementsContainer');
+        if (!container) {
+          return;
+        }
         const startingPoint = document.querySelector('#elementsContainer').offsetTop;
         const rowHeight = window.innerHeight
           - this.$vuetify.application.top
