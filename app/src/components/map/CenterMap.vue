@@ -77,6 +77,12 @@ export default {
     IndicatorTimeSelection,
   },
   props: {
+    // currentIndicator will only be set as prop in the custom dashboard.
+    // if this is not set, use the indicator from the store (selectedIndicator)
+    currentIndicator: {
+      type: Object,
+      default: undefined,
+    },
     // to do: still needed?
     disableAutoFocus: Boolean,
   },
@@ -129,7 +135,10 @@ export default {
       return this.isGlobalIndicator ? [this.$store.state.indicators.selectedIndicator] : [];
     },
     indicator() {
-      return this.getIndicatorFilteredInputData();
+      // the current indicator definition object.
+      // will use the "currentIndicator"-Prop if defined (dashboard)
+      // otherwise it will use the selected indicator from the store
+      return this.getIndicatorFilteredInputData(this.currentIndicator);
     },
     mergedConfigsData() {
       if (!this.indicator) {
