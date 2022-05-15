@@ -7,6 +7,12 @@
       :layerName="mergedConfig.name"
       :key="mergedConfig.name"
     />
+    <CustomAreaButtons
+      v-if="loaded"
+      mapId="centerMap"
+      :mergedConfigsData="mergedConfigsData[0]"
+      :hideCustomAreaControls="hideCustomAreaControls"
+    />
     <LayerControl
       v-if="loaded"
       mapId="centerMap"
@@ -71,6 +77,7 @@ import LayerControl from '@/components/map/LayerControl.vue';
 import getCluster from '@/components/map/Cluster';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import LayerSwipe from '@/components/map/LayerSwipe.vue';
+import CustomAreaButtons from '@/components/map/CustomAreaButtons.vue';
 import getMapInstance from '@/components/map/map';
 import { formatLabel } from '@/components/map/formatters';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
@@ -86,6 +93,7 @@ export default {
     SpecialLayer,
     IndicatorTimeSelection,
     LayerSwipe,
+    CustomAreaButtons,
   },
   props: {
     // currentIndicator will only be set as prop in the custom dashboard.
@@ -96,6 +104,14 @@ export default {
     },
     // to do: still needed?
     disableAutoFocus: Boolean,
+    hideCustomAreaControls: {
+      required: false,
+    },
+    // same as currentIndicator
+    drawnArea: {
+      type: Object,
+      default: undefined,
+    },
   },
   data() {
     return {
