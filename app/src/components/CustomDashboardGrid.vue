@@ -594,6 +594,7 @@ export default {
   },
   beforeDestroy() {
     delete this.ro;
+    zoom.close();
   },
   methods: {
     ...mapActions('dashboard', [

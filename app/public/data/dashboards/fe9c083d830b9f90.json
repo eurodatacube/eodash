@@ -8,10 +8,10 @@
   "features": [
     {
       "width": 2,
-      "text": "<--IMG-->https://github.com/eurodatacube/eodash/blob/aapopescu-patch-4/app/public/data/story-images/3-agriculture-crops.jpg?raw=true<--IMG-->Agriculture",
+      "text": "<--IMG-->/data/story-images/3-agriculture-crops.jpg<--IMG-->Agriculture",
       "id": "Cairo-1652033099336",
       "title": "Cairo",
-      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://github.com/eurodatacube/eodash/blob/aapopescu-patch-4/app/public/data/story-images/3-agriculture-crops.jpg?raw=true\">https://github.com/eurodatacube/eodash/blob/aapopescu-patch-4/app/public/data/story-images/3-agriculture-crops.jpg?raw=true</a>&lt;--IMG--&gt;Agriculture</p>\n"
+      "__generatedText__": "<p>&lt;--IMG--&gt;/data/story-images/3-agriculture-crops.jpg&lt;--IMG--&gt;Agriculture</p>\n"
     },
     {
       "width": 2,
@@ -21,18 +21,25 @@
       "__generatedText__": "<h1>Crops Consume Cairo\u2019s Carbon Dioxide</h1>\n<h2>Story of Cairo</h2>\n<p>&nbsp;<br>Cairo, the capital city of Egypt, is home to more than 20 million people, making it the most populated city in Africa. The city is located on the fertile floodplain of the Nile River and is surrounded by farmland, with a high concentration of farmland to the north. The farmland stands out in satellite imagery against the drier deserts of Egypt, and during the growing season crops absorb atmospheric carbon dioxide (CO2) that can be measured from space. </p>\n<p>The following maps show examples of the changes of atmospheric CO2 concentrations based on the growth and photosynthetic activity of crops on nearby farms.</p>\n<p>We can observe the emission of CO2 from cars, power plants, and other fossil-fuel burning activities from space using the Japanese Aerospace Exploration Agency\u2019s Greenhouse gasses Observing Satellite (GOSAT). We can also observe how crops on surrounding farmlands consume CO2 by looking at solar-induced chlorophyll fluorescence (SIF). SIF is an innovative measurement that serves as a proxy of plant photosynthetic activity. Crops and other plants absorb white light from the sun and when photosynthesis occurs, they emit some of the unused energy from the sun as a red glow, known as SIF. </p>\n<p>By combining GOSAT data, TROPOMI SIF data, surface wind data, and a statistical megacity emission inventory, we can monitor daily atmospheric changes of CO2. GOSAT observes tropospheric partial column density of carbon dioxide (CO2) over global megacities and provides the CO2 enhancement from lower atmosphere (0-4 km) density minus upper atmosphere (4-12 km) density. </p>\n<p>In this research, researchers from the Japanese Aerospace Exploration Agency demonstrate how CO2 levels over Cairo change over time based on trends in combustion, SIF levels, and wind direction.</p>\n<p>Egypt has two growing seasons, one in the summer and one in the winter. In the summer, the map below shows there were low CO2 levels over Cairo, correlated with high SIF.</p>\n"
     },
     {
-      "width": 2,
-      "text": "# 2018-06-30\n\nEgypt has two growing seasons, one in the summer and one in the winter. In the summer, GOSAT data from the 30 of June, 2018 shows low CO2 levels over Cairo, correlated with high solar-induced chlorophyll fluorescence (SIF) over the farmlands of the Nile River Delta. Winds are moving from the high SIF areas to the north over the large city of Cairo.\n\n# 2019-02-01 \n\nDuring the winter crop season we see very high SIF in the Delta region. GOSAT data from the first of February, 2019, show high levels of CO2 and the winds moving over Cairo from the east.\n\n # 2019-02-01\n\nBetween crop seasons, we see much lower SIF over the Nile Delta showing no photosynthetic activity. As winds move from the north, we see high CO2 levels over Cairo.",
-      "id": " -1652035505919",
+      "width": 1,
+      "text": "<--IMG-->/data/story-images/Wind_Cairo_2018-06-30_rev.png<--IMG-->Egypt has two growing seasons, one in the summer and one in the winter. In the summer, GOSAT data from the 30 of June, 2018 shows low CO2 levels over Cairo, correlated with high solar-induced chlorophyll fluorescence (SIF) over the farmlands of the Nile River Delta. Winds are moving from the high SIF areas to the north over the large city of Cairo.",
+      "id": " -1652450674679",
       "title": " ",
-      "__generatedText__": "<h1>2018-06-30</h1>\n<p>Egypt has two growing seasons, one in the summer and one in the winter. In the summer, GOSAT data from the 30 of June, 2018 shows low CO2 levels over Cairo, correlated with high solar-induced chlorophyll fluorescence (SIF) over the farmlands of the Nile River Delta. Winds are moving from the high SIF areas to the north over the large city of Cairo.</p>\n<h1>2019-02-01</h1>\n<p>During the winter crop season we see very high SIF in the Delta region. GOSAT data from the first of February, 2019, show high levels of CO2 and the winds moving over Cairo from the east.</p>\n<h1>2019-02-01</h1>\n<p>Between crop seasons, we see much lower SIF over the Nile Delta showing no photosynthetic activity. As winds move from the north, we see high CO2 levels over Cairo.</p>\n"
+      "__generatedText__": "<p>&lt;--IMG--&gt;/data/story-images/Wind_Cairo_2018-06-30_rev.png&lt;--IMG--&gt;Egypt has two growing seasons, one in the summer and one in the winter. In the summer, GOSAT data from the 30 of June, 2018 shows low CO2 levels over Cairo, correlated with high solar-induced chlorophyll fluorescence (SIF) over the farmlands of the Nile River Delta. Winds are moving from the high SIF areas to the north over the large city of Cairo.</p>\n"
     },
     {
-      "width": 2,
-      "text": "<--IMG-->https://github.com/eurodatacube/eodash/blob/aapopescu-patch-4/app/public/data/story-images/WindCairo.gif?raw=true<--IMG-->Wind diagram over Cairo Airport on 2018-06-30, 2019-02-01 and 2019-10",
-      "id": "2018-06-30    -1652034650875",
-      "title": "2018-06-30    ",
-      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://github.com/eurodatacube/eodash/blob/aapopescu-patch-4/app/public/data/story-images/WindCairo.gif?raw=true\">https://github.com/eurodatacube/eodash/blob/aapopescu-patch-4/app/public/data/story-images/WindCairo.gif?raw=true</a>&lt;--IMG--&gt;Wind diagram over Cairo Airport on 2018-06-30, 2019-02-01 and 2019-10</p>\n"
+      "width": 1,
+      "text": "<--IMG--> /data/story-images/Wind_Cairo_2019-02-01_rev.png<--IMG--> During the winter crop season we see very high SIF in the Delta region. GOSAT data from the first of February, 2019, show high levels of CO2 and the winds moving over Cairo from the east.",
+      "id": " -1652450717846",
+      "title": " ",
+      "__generatedText__": "<p>&lt;--IMG--&gt; /data/story-images/Wind_Cairo_2019-02-01_rev.png&lt;--IMG--&gt; During the winter crop season we see very high SIF in the Delta region. GOSAT data from the first of February, 2019, show high levels of CO2 and the winds moving over Cairo from the east.</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "<--IMG--> /data/story-images/Wind_Cairo_2019-10-05_rev.png<--IMG--> Between crop seasons, we see much lower SIF over the Nile Delta showing no photosynthetic activity. As winds move from the north, we see high CO2 levels over Cairo.",
+      "id": " -1652450726876",
+      "title": " ",
+      "__generatedText__": "<p>&lt;--IMG--&gt; /data/story-images/Wind_Cairo_2019-10-05_rev.png&lt;--IMG--&gt; Between crop seasons, we see much lower SIF over the Nile Delta showing no photosynthetic activity. As winds move from the north, we see high CO2 levels over Cairo.</p>\n"
     },
     {
       "width": 2,
