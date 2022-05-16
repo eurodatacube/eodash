@@ -1,8 +1,7 @@
 import { Wkt } from 'wicket';
 import { template } from '@/utils';
 import { DateTime } from 'luxon';
-import axios from "axios";
-import qs from "qs";
+import axios from 'axios';
 
 const wkt = new Wkt();
 
@@ -217,7 +216,7 @@ export const evalScriptsDefinitions = Object.freeze({
         dataMask: [samples.dataMask * validValue]
       }
     }`,
-    AWS_VIS_CO_3DAILY_DATA:
+  AWS_VIS_CO_3DAILY_DATA:
     `//VERSION=3
     function setup() {
       return {
@@ -307,31 +306,26 @@ const fetchCustomAreaObjects = async (
   }
   // TODO: We use url to check if we previously fetch token, maybe want to use
   // another type of switch to select which auth type we want to use
-  if (indicator.display.areaIndicator.url.includes('api/v1/statistics')){
-    const client_id = shConfig.statApiClientId;
-    const client_secret = shConfig.statApiClientSecret;
+  if (indicator.display.areaIndicator.url.includes('api/v1/statistics')) {
+    const clientId = shConfig.statApiClientId;
+    const clientSecret = encodeURIComponent(shConfig.statApiClientSecret);
     const instance = axios.create({
-      baseURL: "https://services.sentinel-hub.com"
-    })
+      baseURL: 'https://services.sentinel-hub.com',
+    });
     const config = {
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-      }
-    }
-    const body = qs.stringify({
-      client_id,
-      client_secret,
-      response_type: 'token',
-      grant_type: "client_credentials"
-    })
-    let access_token = null;
-    
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+      },
+    };
+    const body = `client_id=${clientId}&client_secret=${clientSecret}&response_type=token&grant_type=client_credentials`;
+    let accessToken = null;
+
     // All requests using this instance will have an access token automatically added
-    await instance.post("/oauth/token", body, config).then(resp => {
-      access_token = resp.data.access_token;
-    })
+    await instance.post('/oauth/token', body, config).then((resp) => {
+      accessToken = resp.data.access_token;
+    });
     // Set the Authorization header using the Bearer token
-    requestOpts.headers.Authorization = `Bearer ${access_token}`;
+    requestOpts.headers.Authorization = `Bearer ${accessToken}`;
   }
 
   const customObjects = await fetch(url, requestOpts).then((response) => {
