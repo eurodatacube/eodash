@@ -6,7 +6,7 @@
       @click="disableInteractions"
       >
       <v-card-text
-      class="pa-0"
+      class="pa-1"
       :style="`color: ${appConfig.branding.primaryColor};`">
         Cancel drawing
       </v-card-text>
@@ -137,6 +137,10 @@ export default {
       required: false,
     },
     mergedConfigsData: Object,
+    currentlyDrawnArea: {
+      type: Object,
+      required: false,
+    },
   },
   computed: {
     ...mapState('config', ['appConfig']),
@@ -189,7 +193,10 @@ export default {
 
     const boxFunc = createBox();
     this.drawControls = {
-      polygon: new Draw({ type: 'Polygon' }),
+      polygon: new Draw({
+        type: 'Polygon',
+        stopClick: true,
+      }),
       bbox: new Draw({
         type: 'Circle',
         geometryFunction(...args) {
@@ -205,6 +212,11 @@ export default {
         this.onDrawFinished(event);
       });
     });
+    if (this.currentlyDrawnArea) {
+      // preset drawn area from prop
+      this.drawnArea = this.currentlyDrawnArea;
+      this.drawnAreaSource.addFeature(this.currentlyDrawnArea);
+    }
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
@@ -232,11 +244,12 @@ export default {
       );
       this.drawnAreaSource.clear();
       this.drawnAreaSource.addFeature(event.feature);
-      this.$store.commit('features/SET_SELECTED_AREA', geoJsonObj);
       this.drawnArea = geoJsonObj;
       this.$emit('drawnArea', geoJsonObj);
       this.disableInteractions();
       this.isDrawing = false;
+      // TODO: set in store (to update URL) only if not in custom dashboard instead of always
+      this.$store.commit('features/SET_SELECTED_AREA', geoJsonObj);
     },
     clearCustomAreaFilter() {
       this.$store.commit('features/SET_SELECTED_AREA', null);
@@ -244,7 +257,7 @@ export default {
       this.drawnAreaSource.clear();
     },
     fetchCustomAreaIndicator() {
-      console.log('Fetch Data not migrated yet');
+      this.$emit('fetchCustomAreaIndicator');
     },
   },
 };
