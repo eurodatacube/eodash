@@ -308,7 +308,7 @@ const fetchCustomAreaObjects = async (
   // another type of switch to select which auth type we want to use
   if (indicator.display.areaIndicator.url.includes('api/v1/statistics')) {
     const clientId = shConfig.statApiClientId;
-    const clientSecret = encodeURIComponent(shConfig.statApiClientSecret);
+    const clientSecret = shConfig.statApiClientSecret;
     const instance = axios.create({
       baseURL: 'https://services.sentinel-hub.com',
     });
