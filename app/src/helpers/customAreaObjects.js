@@ -223,7 +223,6 @@ export const evalScriptsDefinitions = Object.freeze({
 const fetchCustomAreaObjects = async (
   options,
   drawnArea,
-  validDrawnArea,
   mergedConfig,
   indicatorObject,
   lookup,
@@ -231,7 +230,7 @@ const fetchCustomAreaObjects = async (
   const indicator = indicatorObject;
   // add custom area if present
   let customArea = {};
-  if (validDrawnArea) {
+  if (drawnArea) {
     customArea = typeof mergedConfig[lookup].areaFormatFunction === 'function'
       ? mergedConfig[lookup].areaFormatFunction(drawnArea)
       : { area: JSON.stringify(drawnArea) };
