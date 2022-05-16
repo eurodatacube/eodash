@@ -174,7 +174,7 @@ export function createLayerFromConfig(config, _options = {}) {
     // some layers have a baselayer and GeoJSON features above them
     // e.g. "Ports and Shipping"
     // to do: consider other sources of truth than the store
-    const aoiId = options.aoiId || store.state.indicators.selectedIndicator.aoiID;
+    const aoiId = options.aoiId || store.state.indicators.selectedIndicator.aoiID;
     let url = config.features.url.replace(/{aoiID}/i, aoiId);
     const time = options.time || store.state.indicators.selectedTime;
     url = url.replace(/{featuresTime}/i, config.features.dateFormatFunction(time));
