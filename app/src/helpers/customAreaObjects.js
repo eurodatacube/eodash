@@ -1,9 +1,7 @@
 import { Wkt } from 'wicket';
 import { template } from '@/utils';
 import { DateTime } from 'luxon';
-// TODO: disabled recaptcha
-// import { load } from 'recaptcha-v3';
-
+import axios from 'axios';
 
 const wkt = new Wkt();
 
@@ -218,6 +216,39 @@ export const evalScriptsDefinitions = Object.freeze({
         dataMask: [samples.dataMask * validValue]
       }
     }`,
+  AWS_VIS_CO_3DAILY_DATA:
+    `//VERSION=3
+    function setup() {
+      return {
+        input: [{
+          bands: [
+            "co",
+            "dataMask"
+          ]
+        }],
+        output: [
+          {
+            id: "data",
+            bands: 1,
+          },
+          {
+            id: "dataMask",
+            bands: 1
+          }
+        ]
+      }
+    }
+    function evaluatePixel(samples) {
+      let validValue = 1
+      if (samples.co >= 1e20 ){
+          validValue = 0
+      }
+      let index = samples.co;
+      return {
+        data: [index],
+        dataMask: [samples.dataMask * validValue]
+      }
+    }`,
 });
 
 const fetchCustomAreaObjects = async (
@@ -265,7 +296,6 @@ const fetchCustomAreaObjects = async (
       }
     }
   }
-
   const requestOpts = {
     credentials: 'same-origin',
     method: mergedConfig[lookup].requestMethod || 'GET',
@@ -274,29 +304,30 @@ const fetchCustomAreaObjects = async (
   if (requestBody) {
     requestOpts.body = JSON.stringify(requestBody);
   }
-  /*
-  // TODO: disabling recaptcha strategy for now
-  // Prepare our credentials for the Statistical API
-  const recaptcha = await load('6LddKgUfAAAAAKSlKdCJWo4XTQlTPcKZWrGLk7hh', {
-    autoHideBadge: true,
-  });
-  const token = await recaptcha.execute('token_assisted_anonymous');
-  const { origin, hostname } = window.location;
-  const clientId = shConfig[hostname];
-  const oauthUrl = `https://services.sentinel-hub.com/oauth/token/assisted?client_id=${clientId}&redirect_uri=${encodeURIComponent(origin)}&response_type=token&grant_type=client_credentials&recaptcha=${token}`;
-  const res = await fetch(oauthUrl);
-  const html = await res.text();
+  // TODO: We use url to check if we previously fetch token, maybe want to use
+  // another type of switch to select which auth type we want to use
+  if (indicator.display.areaIndicator.url.includes('api/v1/statistics')) {
+    const clientId = shConfig.statApiClientId;
+    const clientSecret = shConfig.statApiClientSecret;
+    const instance = axios.create({
+      baseURL: 'https://services.sentinel-hub.com',
+    });
+    const config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+      },
+    };
+    const body = `client_id=${clientId}&client_secret=${clientSecret}&response_type=token&grant_type=client_credentials`;
+    let accessToken = null;
 
-  // Search for the postMessage JSON and extract the full message from HTML
-  const startPos = html.search('window.parent.postMessage') + 26;
-  const endPos = html.search('},') + 1;
-  const message = JSON.parse(html.slice(startPos, endPos));
+    // All requests using this instance will have an access token automatically added
+    await instance.post('/oauth/token', body, config).then((resp) => {
+      accessToken = resp.data.access_token;
+    });
+    // Set the Authorization header using the Bearer token
+    requestOpts.headers.Authorization = `Bearer ${accessToken}`;
+  }
 
-  // Set the Authorization header using the Bearer token we generated using reCAPTCHA.
-  requestOpts.headers.Authorization = `Bearer ${message.access_token}`;
-
-  // this.map.fireEvent('dataloading');
-  */
   const customObjects = await fetch(url, requestOpts).then((response) => {
     if (!response.ok) {
       return response.text().then((text) => { throw text; });
