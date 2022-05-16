@@ -465,12 +465,10 @@ class Cluster {
     clusterSource.clear();
     clusterSource.addFeatures(features);
     if (features.length) {
-      this.map.once('postrender', () => {
-        this.map.getView().fit(clusterSource.getExtent(), {
-          padding: [50, 50, 50, 50],
-          maxZoom: 8,
-          duration: 200,
-        });
+      this.map.getView().fit(clusterSource.getExtent(), {
+        padding: [50, 50, 50, 50],
+        maxZoom: 8,
+        duration: 200,
       });
     }
   }
