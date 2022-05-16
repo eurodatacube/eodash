@@ -22,7 +22,7 @@ export default {
     mapId: String,
     indicator: Object,
     layerName: String,
-    time: String,
+    time: [String, Array],
   },
   data() {
     return {};

@@ -40,7 +40,7 @@ export default {
   props: {
     mapId: String,
     mergedConfigsData: Object,
-    time: String,
+    time: [String, Array],
     enable: Boolean,
   },
   data: () => ({
