@@ -13,6 +13,8 @@
       :mergedConfigsData="mergedConfigsData[0]"
       :hideCustomAreaControls="hideCustomAreaControls"
       :currentlyDrawnArea="drawnArea"
+      @fetchCustomAreaIndicator="onFetchCustomAreaIndicator"
+      @drawnArea="onDrawnArea"
     />
     <LayerControl
       v-if="loaded"
@@ -109,7 +111,7 @@ export default {
       required: false,
     },
     // same as currentIndicator
-    drawnArea: {
+    currentDrawnArea: {
       type: Object,
       default: undefined,
     },
@@ -211,9 +213,10 @@ export default {
     indicatorsDefinition: () => this.baseConfig.indicatorsDefinition,
   },
   watch: {
-    '$store.state.indicators.selectedIndicator': () => {
+    '$store.state.indicators.selectedIndicator'() {
       const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
       cluster.reRender();
+      this.updateSelectedAreaFeature();
     },
     getFeatures(features) {
       if (features) {
@@ -240,6 +243,7 @@ export default {
     },
     dataLayerTime(timeObj) {
       this.$store.commit('indicators/SET_SELECTED_TIME', timeObj.value);
+      this.updateSelectedAreaFeature();
     },
     displayTimeSelection(value) {
       if (!value) {
@@ -267,6 +271,7 @@ export default {
       // to do: do we need the nextTick?
       this.$nextTick(() => { this.enableCompare = true; });
     }
+    this.updateSelectedAreaFeature();
   },
   methods: {
     overlayCallback(indicatorObject) {
@@ -287,6 +292,88 @@ export default {
     },
     compareLayerTimeUpdated(time) {
       this.$emit('update:comparelayertime', time);
+    },
+    onDrawnArea(geojson) {
+      this.currentDrawnArea = geojson;
+      this.updateSelectedAreaFeature();
+      //console.log('drawn area on parent');
+      //console.log(geojson);
+    },
+    updateSelectedAreaFeature() {
+      // if (this.drawnArea) {
+      //   this.fetchFeatures('data');
+      //   if (this.enableCompare) {
+      //     this.fetchFeatures('compare');
+      //   }
+      // }
+    },
+    async fetchData({
+      type, side,
+    }) {
+      // fetching of customFeatures, customIndicator
+      // depending on fetch success/failure the map loads data or errors are shown
+      const { map } = getMapInstance('centerMap');
+      const usedTime = side === 'data'
+        ? this.dataLayerTime
+        : this.compareLayerTime;
+      if (map) {
+        map.dispatchEvent('customChartLoadStart');
+        try {
+          if (type === 'customFeatures' || type === 'customIndicator') {
+            if (type === 'customFeatures' && !this.usedConfig(side)[0].features) {
+              map.dispatchEvent('customChartLoadEnd');
+              return;
+            }
+            if (type === 'customIndicator' && !this.usedConfig(side)[0].areaIndicator) {
+              map.dispatchEvent('customChartLoadEnd');
+              return;
+            }
+            const options = this.layerOptions(usedTime, this.usedConfig(side)[0]);
+            const custom = await fetchCustomAreaObjects(
+              options,
+              this.drawnArea,
+              this.usedConfig(side)[0],
+              this.indicator,
+              type === 'customFeatures' ? 'features' : 'areaIndicator',
+            );
+            if (type === 'customFeatures') {
+              this.updateJsonLayers(custom, side);
+            } else {
+              this.$store.commit(
+                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', custom,
+              );
+              this.$emit('fetchCustomAreaIndicator');
+            }
+          }
+          map.fireEvent('customChartLoadEnd');
+        } catch (err) {
+          map.fireEvent('customChartLoadEnd');
+          if (type === 'customFeatures') {
+            this.updateJsonLayers(emptyF, side);
+          } else if (type === 'customIndicator') {
+            this.$store.commit(
+              'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null,
+            );
+          }
+          console.error(err);
+          this.$store.commit('sendAlert', {
+            message: `Error requesting data, error message: ${err}.</br>
+              If the issue persists, please use the feedback button to let us know.`,
+            type: 'error',
+          });
+        }
+      }
+    },
+    fetchFeatures(side) {
+      this.fetchData({
+        type: 'customFeatures',
+        side,
+      });
+    },
+    onFetchCustomAreaIndicator() {
+      // this.fetchData({
+      //   type: 'customIndicator',
+      // });
     },
     focusSelect() {
       // TO DO: handle scrolling?
