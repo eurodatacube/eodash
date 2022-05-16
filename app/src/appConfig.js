@@ -141,6 +141,29 @@ module.exports = [
         ],
         label: ['Cases', 'Vaccinations'],
       },
+      {
+        features: [
+          'WorldCO-N1',
+          'World-N1',
+          'SO2-N1',
+          'N1'
+        ],
+        label: ['TROPOMI CO', 'TROPOMI NO2', 'TROPOMI SO2', 'Air Quality in cities'],
+      },
+      {
+        features: [
+          'GCAQ1-N1b',
+          'N1b'
+        ],
+        label: ['CAMS Air Quality  Global', 'CAMS Air Quality in cities'],
+      },
+      {
+        features: [
+          'EU1-OX',
+          'OX',
+        ],
+        label: ['Crude Oil Storage Index (EU)', 'Crude Oil Storage Index'],
+      },
     ].concat([
       'AT4', 'BE6', 'CH1', 'DE12', 'DE13', 'DE14', 'DE15', 'DK1', 'ES10', 'ES11', 'ES14', 'ES15', 'FI4', 'FR13', 'FR8', 'GR2', 'IE1', 'IT13', 'IT9', 'NL1', 'NO1', 'PL6', 'PT1', 'SE23', 'TR1', 'UK4', 'UK5', 'UK6', 'UK7', 'UK8']
       .map((val) => ({ features: [`${val}-E13d`, `${val}-E13d2`], label: ['Airports traffic', 'Detected airplanes'] })))
@@ -298,6 +321,24 @@ module.exports = [
           'OW-OW',
         ],
         label: ['Cases', 'Vaccinations'],
+      },
+      {
+        features: [
+          'W4-N2',
+          'N2'
+        ],
+        label: ['World, CO2', 'Greenhouse Gases in cities'],
+      },
+      {
+        features: [
+          'WorldCO-N1',
+          'SO2-N1',
+          'W1-N1',
+          'W2-N1',
+          'W3-N1',
+          'N1'
+        ],
+        label: ['CO', 'SO2', 'ESA TROPOMI NO2', 'NASA OM NO2', 'NASA OMI difference CO2', 'Air Quality in cities'],
       },
     ].concat([
       'ES22', 'ES23', 'ES24', 'ES30', 'ES41', 'ES42', 'ES43', 'ES51', 'ES52', 'ES61', 'ES62']

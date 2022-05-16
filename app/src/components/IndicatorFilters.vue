@@ -154,7 +154,9 @@
                   <v-list-item
                     v-for="(feature, i) in groupedIndicators[indicator.code].features"
                     :key="i"
-                    :value="getLocationCode(feature.properties.indicatorObject)"
+                    :value="!!feature
+                      ? getLocationCode(feature.properties.indicatorObject)
+                      : indicator.code"
                     active-class="itemActive"
                     :class="indicator.archived ? 'archived-item' : ''"
                     :disabled="indicatorSelection === feature"
@@ -409,17 +411,18 @@ export default {
             this.countrySelection = mutation.payload.countries;
           }
         }
-        if (mutation.payload.indicators) {
-          if (Array.isArray(mutation.payload.indicators)) {
-            if (mutation.payload.indicators.length === 0) {
-              this.indicatorSelection = 'all';
-            } else {
-              [this.indicatorSelection] = mutation.payload.indicators;
-            }
-          } else {
-            this.indicatorSelection = mutation.payload.indicators;
-          }
-        }
+        // TODO currently causes infinite loop
+        // if (mutation.payload.indicators) {
+        //   if (Array.isArray(mutation.payload.indicators)) {
+        //     if (mutation.payload.indicators.length === 0) {
+        //       this.indicatorSelection = 'all';
+        //     } else {
+        //       [this.indicatorSelection] = mutation.payload.indicators;
+        //     }
+        //   } else {
+        //     this.indicatorSelection = mutation.payload.indicators;
+        //   }
+        // }
       }
     });
     this.$watch(
@@ -445,19 +448,32 @@ export default {
         this.setFilter({ countries: selection });
       }
     },
-    selectIndicator(selection) {
+    selectIndicator(selection, selectedFeature) {
       this.setFilter({
         indicators: selection === 'all' ? [] : [selection],
-      });
+      }, selectedFeature);
     },
-    setFilter(filter) {
+    setFilter(filter, selectedFeature) {
       this.$store.commit('features/SET_FEATURE_FILTER', filter);
-      const firstFeature = this.getGroupedFeatures[0];
-      if (firstFeature) {
+      if (selectedFeature) {
         this.$store.commit(
           'indicators/SET_SELECTED_INDICATOR',
-          firstFeature.properties.indicatorObject,
+          selectedFeature.properties.indicatorObject,
         );
+      } else {
+        // filter out those POIs that are defined in featureGrouping, as they
+        // already will appear in the sub-group and can thus be directly clicked
+        const possibleValues = this.getGroupedFeatures.filter((f) => this.appConfig.featureGrouping && !this.appConfig.featureGrouping
+          .find((g) => g.features
+            .find((i) => i.includes(this.getLocationCode(f.properties.indicatorObject))))
+        );
+        const firstFeature = possibleValues[0];
+        if (firstFeature) {
+          this.$store.commit(
+            'indicators/SET_SELECTED_INDICATOR',
+            firstFeature.properties.indicatorObject,
+          );
+        }
       }
     },
     uniqueRegions(countryItems) {
@@ -495,17 +511,13 @@ export default {
       this.selectCountry(val);
     },
     indicatorSelection(val) {
-      if (val && val.includes('-')) {
+      if (typeof val === 'string' && val.includes('-')) {
         // POI
         const feature = this.$store.state.features.allFeatures
           .find((f) => this.getLocationCode(f.properties.indicatorObject) === val);
         if (feature) {
           this.dropdownSelection = this.selectionItems.find((i) => i.code === val.split('-')[1]);
-          this.selectIndicator(val.split('-')[1]);
-          this.$store.commit(
-            'indicators/SET_SELECTED_INDICATOR',
-            feature.properties.indicatorObject,
-          );
+          this.selectIndicator(val.split('-')[1], feature);
         }
       } else {
         // indicator
