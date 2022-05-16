@@ -156,7 +156,8 @@ export default {
       return this.getIndicatorFilteredInputData(this.currentIndicator);
     },
     mergedConfigsData() {
-      if (!this.indicator) {
+      // only display the "special layers" for global indicators
+      if (!this.indicator || !this.isGlobalIndicator) {
         return [];
       }
       return createConfigFromIndicator(
