@@ -109,7 +109,10 @@
         <v-btn v-else icon @click="setDataPanelWidth(true)">
           <v-icon>mdi-arrow-expand</v-icon>
         </v-btn>
-        <v-btn class="mr-3" icon>
+        <v-btn
+          class="mr-3"
+          icon
+        >
           <v-icon>mdi-arrow-right</v-icon>
         </v-btn>
         <v-toolbar-title v-if="$store.state.indicators.selectedIndicator"
@@ -201,7 +204,7 @@
     <v-content
       :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
         + $vuetify.application.footer}px); overflow:hidden; ${$vuetify.breakpoint.mdAndUp
-        && 'width: 60%;'}`"
+        && (this.drawerRight ? 'width: 60%;' : 'width: 100%;')}`"
     >
       <v-container
         class="fill-height pa-0"
