@@ -112,6 +112,7 @@
         <v-btn
           class="mr-3"
           icon
+          @click="drawerRight = !drawerRight"
         >
           <v-icon>mdi-arrow-right</v-icon>
         </v-btn>
