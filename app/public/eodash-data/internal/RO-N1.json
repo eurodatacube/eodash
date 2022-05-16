@@ -478,9 +478,9 @@
         "eo_sensor": "TROPOMI",
         "indicator_value": "/",
         "input_data": "Sentinel-5p Level-3 NO2",
-        "measurement_value": "41.29719",
+        "measurement_value": "/",
         "reference_time": "2019-12-30T00:00:00",
-        "reference_value": "[38.706074, 11.597744, 77.00014, 19.889492, 100.0]",
+        "reference_value": "/",
         "time": "2019-12-30T00:00:00"
     },
     {
@@ -1105,9 +1105,42 @@
         "eo_sensor": "TROPOMI",
         "indicator_value": "/",
         "input_data": "Sentinel-5p Level-3 NO2",
-        "measurement_value": "27.596395",
+        "measurement_value": "30.173834000000003",
         "reference_time": "2022-03-07T00:00:00",
-        "reference_value": "[24.539188, 13.841463, 66.132835, 0.9022128, 100.0]",
+        "reference_value": "[27.041992, 13.666172, 66.7213, 2.8433404, 100.0]",
         "time": "2022-03-07T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "37.853443",
+        "reference_time": "2022-03-21T00:00:00",
+        "reference_value": "[33.61396, 10.744497, 71.41807, 23.210293, 100.0]",
+        "time": "2022-03-21T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "48.74646",
+        "reference_time": "2022-04-04T00:00:00",
+        "reference_value": "[45.282486, 13.571869, 105.22071, 23.56035, 100.0]",
+        "time": "2022-04-04T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "31.7405",
+        "reference_time": "2022-04-18T00:00:00",
+        "reference_value": "[30.503407, 9.115867, 61.455532, 13.595004, 100.0]",
+        "time": "2022-04-18T00:00:00"
     }
 ]

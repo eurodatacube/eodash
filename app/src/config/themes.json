@@ -1,45 +1,45 @@
 [
   {
-    "name": "Air Quality",
-    "slug": "air-quality",
+    "name": "Atmosphere",
+    "slug": "atmosphere",
     "color": "#4059AD",
-    "description": "Tracking what’s in the air we breathe",
-    "longDescription": "Air pollution is one of the biggest environmental challenges of our time."
+    "description": "Tracking Changes in the Atmosphere",
+    "longDescription": "Air pollution and climate change are some of the biggest environmental challenges of our time."
   },
   {
     "name": "Agriculture",
     "slug": "agriculture",
-    "color": "#F4B942",
+    "color": "#F2AF26",
     "description": "Growing Economic Systems",
-    "longDescription": ""
+    "longDescription": "Satellites are providing insights into agricultural production, crop conditions, and food supply."
   },
   {
     "name": "Biomass",
     "slug": "biomass-and-landcover",
     "color": "#009E73",
-    "description": "Clearing the air",
-    "longDescription": ""
+    "description": "Clearing the Air",
+    "longDescription": "A view from space monitors land cover and trees to track biomass and carbon content."
   },
   {
     "name": "Water and Ocean",
     "slug": "oceans",
-    "color": "#6B9AC4",
-    "description": "Keeping current with Earth’s largest natural resource",
-    "longDescription": ""
+    "color": "#6DA2C5",
+    "description": "Keeping Current with Earth’s Largest Natural Resource",
+    "longDescription": "Satellite images reveal a view of the ocean that is as rich and complex as that of land."
   },
   {
     "name": "Cryosphere",
     "slug": "cryosphere",
-    "color": "#99E1D9",
-    "description": "Tracking ice and snow’s relationship to climate",
-    "longDescription": ""
+    "color": "#42C7B8",
+    "description": "Tracking Ice and Snow’s Relationship to Climate",
+    "longDescription": "The Arctic region shows changes most characteristic of global warming."
   },
   {
     "name": "Covid-19",
     "slug": "covid-19",
     "color": "#32322C",
     "description": "The COVID-19 pandemic",
-    "longDescription": "Tracking the effects of the COVID-19 pandemic"
+    "longDescription": "Tracking the Effects of the COVID-19 Pandemic"
   },
   {
     "name": "Economy",

@@ -126,18 +126,20 @@
         >
         </l-circle-marker>
         <!-- XYZ grouping is not implemented yet -->
-        <LTileLayer
-        v-for="(layerConfig, i) in mergedConfigsData.filter(l => l.protocol === 'xyz')"
-          ref="dataLayerArrayXYZ"
-          :data-key-originalindex="i"
-          :key="dataLayerKeyXYZ[i]"
-          v-bind="layerConfig"
-          :options="layerOptions(dataLayerTime, layerConfig)"
-          :pane="overlayPane"
-          layer-type="overlay"
-        >
-        </LTileLayer>
-        <template v-if="getCombinedWMSLayers().length > 0">
+        <template v-if="dataLayerTime && dataSearchId">
+          <LTileLayer
+          v-for="(layerConfig, i) in mergedConfigsData.filter(l => l.protocol === 'xyz')"
+            ref="dataLayerArrayXYZ"
+            :data-key-originalindex="i"
+            :key="dataLayerKeyXYZ[i]"
+            v-bind="layerConfig"
+            :options="layerOptions(dataLayerTime, layerConfig)"
+            :pane="overlayPane"
+            layer-type="overlay"
+          >
+          </LTileLayer>
+        </template>
+        <template v-if="dataLayerTime && getCombinedWMSLayers().length > 0">
           <l-layer-group ref="dataLayerArrayWMS">
             <l-layer-group
             v-for="combLayer in this.getCombinedWMSLayers()"
@@ -165,7 +167,7 @@
             </LWMSTileLayer>
           </l-layer-group>
         </template>
-        <template v-else>
+        <template v-else-if="dataLayerTime">
           <LWMSTileLayer
           v-for="layerConfig in this.getSimpleWMSLayers()"
             ref="dataLayerArrayWMS"
@@ -180,18 +182,20 @@
       </l-layer-group>
       <l-layer-group ref="compareLayers">
         <!-- XYZ grouping is not implemented yet -->
-        <LTileLayer
-        v-for="(layerConfig, i) in mergedConfigsCompare.filter(l => l.protocol === 'xyz')"
-          ref="compareLayerArrayXYZ"
-          :data-key-originalindex="i"
-          :key="compareLayerKeyXYZ[i]"
-          v-bind="layerConfig"
-          :visible="enableCompare"
-          :options="layerOptions(compareLayerTime, layerConfig)"
-          :pane="overlayPane"
-        >
-        </LTileLayer>
-        <template v-if="getCombinedWMSLayers('compare').length > 0">
+        <template v-if="compareLayerTime && compareSearchId">
+          <LTileLayer
+          v-for="(layerConfig, i) in mergedConfigsCompare.filter(l => l.protocol === 'xyz')"
+            ref="compareLayerArrayXYZ"
+            :data-key-originalindex="i"
+            :key="compareLayerKeyXYZ[i]"
+            v-bind="layerConfig"
+            :visible="enableCompare"
+            :options="layerOptions(compareLayerTime, layerConfig)"
+            :pane="overlayPane"
+          >
+          </LTileLayer>
+        </template>
+        <template v-if="compareLayerTime && getCombinedWMSLayers('compare').length > 0">
           <l-layer-group ref="compareLayerArrayWMS">
             <l-layer-group
             v-for="combLayer in this.getCombinedWMSLayers('compare')"
@@ -218,7 +222,7 @@
             </LWMSTileLayer>
           </l-layer-group>
         </template>
-        <template v-else>
+        <template v-else-if="compareLayerTime">
           <LWMSTileLayer
           v-for="layerConfig in this.getSimpleWMSLayers('compare')"
             ref="compareLayerArrayWMS"
@@ -360,7 +364,7 @@
         </h3>
         <indicator-time-selection
           ref="timeSelection"
-          v-if="!mergedConfigsData[0].disableTimeSelection"
+          v-if="dataLayerTime && !mergedConfigsData[0].disableTimeSelection"
           :autofocus="!disableAutoFocus"
           :available-values="availableTimeEntries"
           :indicator="indicator"
@@ -393,6 +397,7 @@ import {
   LFeatureGroup, LControl, LTooltip,
 } from 'vue2-leaflet';
 import { DateTime } from 'luxon'; // TODO: MIGRATE
+import axios from 'axios';
 
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-mouse-position';
@@ -498,6 +503,8 @@ export default {
       ro: null,
       dataJson: { features: null },
       compareJson: { features: null },
+      dataSearchId: null,
+      compareSearchId: null,
     };
   },
   computed: {
@@ -568,6 +575,7 @@ export default {
         this.indicator,
         'data',
         this.getCurrentIndex('data'),
+        this.dataSearchId, // Only passed to make sure mergedConfigs are updated
       );
     },
     mergedConfigsCompare() {
@@ -575,6 +583,7 @@ export default {
         this.indicator,
         'compare',
         this.getCurrentIndex('compare'),
+        this.compareSearchId, // Only passed to make sure mergedConfigs are updated
       );
     },
     availableTimeEntries() {
@@ -661,6 +670,18 @@ export default {
           this.mergedConfigsData[0].usedTimes.time.length - 1
         ],
       };
+      if (this.mergedConfigsData[0].mosaicIndicator) {
+        this.generateMosaic({
+          value: this.mergedConfigsData[0].usedTimes.time[
+            this.mergedConfigsData[0].usedTimes.time.length - 1
+          ],
+        }, 'data');
+      } else {
+        // We set this as layers wait for this property to be set to work with
+        // async mosaic id generation
+        this.dataSearchId = 'value';
+        this.compareSearchId = 'value';
+      }
     }
 
     if (!this.compareLayerTimeProp) {
@@ -984,7 +1005,7 @@ export default {
         } else if (this.mergedConfigsData[0].midSubAoi) {
           this.map.setMinZoom(9);
         } else {
-          this.map.setMinZoom(13);
+          this.map.setMinZoom(10);
         }
       } else if (this.mergedConfigsData[0].presetView) {
         // if only preset view move map there without limiting movement
@@ -1040,7 +1061,7 @@ export default {
         }
       }
       const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
-        'format', 'width', 'height', 'transparent', 'srs', 'env'];
+        'format', 'width', 'height', 'transparent', 'srs', 'env', 'searchid'];
       paramsToPassThrough.forEach((param) => {
         if (typeof sourceOptionsObj[param] !== 'undefined') {
           additionalSettings[param] = sourceOptionsObj[param];
@@ -1048,21 +1069,30 @@ export default {
       });
       return additionalSettings;
     },
-    dataLayerTimeSelection(timeObj) {
-      this.dataLayerTime = timeObj;
-      const newIndex = this.availableTimeEntries
-        .map((i) => i.value)
-        .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
-      this.dataLayerIndex = newIndex;
-      this.refreshLayers('data');
-      this.$nextTick(() => {
-        this.slider.setRightLayers(
-          this.extractActualLayers(this.$refs.dataLayers),
-        );
+    async generateMosaic(timeObj, side) {
+      // These special layers first need to be "registered" to allow visualization
+      const res = await axios.post('https://staging-raster.delta-backend.xyz/mosaic/register', {
+        collections: [this.indicator.display.collection],
+        datetime: this.indicator.display.dateFormatFunction(timeObj.value),
+        'filter-lang': 'cql-json',
+      }, {
+        headers: {
+          accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
       });
-      if (this.indicator.compareDisplay) {
-        // shared time on both sides in case of compareDisplay being set
-        this.compareLayerTime = this.dataLayerTime;
+      if (side === 'data') {
+        this.indicator.display.dataSearchId = res.data.searchid;
+        this.dataSearchId = res.data.searchid;
+        this.refreshLayers('data');
+        this.$nextTick(() => {
+          this.slider.setRightLayers(
+            this.extractActualLayers(this.$refs.dataLayers),
+          );
+        });
+      } else {
+        this.indicator.display.compareSearchId = res.data.searchid;
+        this.compareSearchId = res.data.searchid;
         this.refreshLayers('compare');
         this.$nextTick(() => {
           this.slider.setLeftLayers(
@@ -1070,7 +1100,39 @@ export default {
           );
         });
       }
-      this.dataLayerTimeUpdated(this.dataLayerTime.name);
+    },
+    dataLayerTimeSelection(timeObj) {
+      if (this.indicator.display && this.indicator.display.mosaicIndicator) {
+        this.generateMosaic(timeObj, 'data');
+      } else {
+        // We set this as layers wait for this property to be set to work with
+        // async mosaic id generation
+        this.dataSearchId = 'value';
+        this.compareSearchId = 'value';
+
+        this.dataLayerTime = timeObj;
+        const newIndex = this.availableTimeEntries
+          .map((i) => i.value)
+          .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
+        this.dataLayerIndex = newIndex;
+        this.refreshLayers('data');
+        this.$nextTick(() => {
+          this.slider.setRightLayers(
+            this.extractActualLayers(this.$refs.dataLayers),
+          );
+        });
+        if (this.indicator.compareDisplay) {
+          // shared time on both sides in case of compareDisplay being set
+          this.compareLayerTime = this.dataLayerTime;
+          this.refreshLayers('compare');
+          this.$nextTick(() => {
+            this.slider.setLeftLayers(
+              this.extractActualLayers(this.$refs.compareLayers),
+            );
+          });
+        }
+        this.dataLayerTimeUpdated(this.dataLayerTime.name);
+      }
     },
     extractActualLayers(group) {
       let actualLayers = [];
@@ -1084,19 +1146,24 @@ export default {
       return actualLayers;
     },
     compareLayerTimeSelection(timeObj) {
-      this.compareLayerTime = timeObj;
-      const newIndex = this.availableTimeEntries
-        .map((i) => i.value)
-        .indexOf(this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime);
-      this.compareLayerIndex = newIndex;
-      this.refreshLayers('compare');
-      this.$nextTick(() => {
-        this.slider.setLeftLayers(
-          this.extractActualLayers(this.$refs.compareLayers),
-        );
-      });
-
-      this.compareLayerTimeUpdated(this.compareLayerTime.name);
+      if (this.indicator.display && this.indicator.display.mosaicIndicator) {
+        this.generateMosaic(timeObj, 'compare');
+      } else {
+        this.compareLayerTime = timeObj;
+        const newIndex = this.availableTimeEntries
+          .map((i) => i.value)
+          .indexOf(
+            this.compareLayerTime.value ? this.compareLayerTime.value : this.compareLayerTime,
+          );
+        this.compareLayerIndex = newIndex;
+        this.refreshLayers('compare');
+        this.$nextTick(() => {
+          this.slider.setLeftLayers(
+            this.extractActualLayers(this.$refs.compareLayers),
+          );
+        });
+        this.compareLayerTimeUpdated(this.compareLayerTime.name);
+      }
     },
     refreshGroup(group, time, side) {
       // Group can also be an array depending on type
@@ -1201,6 +1268,7 @@ export default {
               this.map.fireEvent('dataload');
               return;
             }
+
             const options = this.layerOptions(usedTime, this.usedConfig(side)[0]);
             const custom = await fetchCustomAreaObjects(
               options,
@@ -1318,6 +1386,9 @@ export default {
       this.$store.commit('features/SET_SELECTED_AREA', null);
     },
     updateJsonLayers(ftrs, side) {
+      if (typeof ftrs === 'undefined') {
+        return;
+      }
       if (this.mergedConfigsData[0].featuresClustering) {
         // markercluster needs manual adding of all geojsons it will show
         // and cleanup of previous content
@@ -1406,11 +1477,13 @@ export default {
           );
           this.slider.addTo(this.map);
         });
-
         // The following two calls set initial compare
         // and data layer times containing name and value.
         const cTime = this.availableTimeEntries
           .find((v) => v.value === this.compareLayerTime.value);
+        if (this.mergedConfigsData[0].mosaicIndicator) {
+          this.generateMosaic(cTime, 'compare');
+        }
         this.compareLayerTimeUpdated(cTime.name);
 
         const dTime = this.availableTimeEntries

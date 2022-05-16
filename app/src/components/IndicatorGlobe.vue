@@ -3,13 +3,14 @@
     style="height: 100%; width: 100%;"
   >
     <div
+      v-if="timestamp"
       ref="container"
-      id="cesiumContainer"
+      :id="`cesiumContainer-${timestamp}`"
       style="height: 100%; width: 100%;"
     >
       <!-- Loader -->
       <div
-        v-if="!loaded"
+        v-if="!loaded && dataLayerTime"
         class="fill-height d-flex align-center justify-center"
         style="width: 100%; position: absolute; z-index: 1;"
       >
@@ -147,7 +148,7 @@ export default {
     loaded: false,
     enableCompare: false,
     dataLayerTime: null,
-    dataLayer: null,
+    dataLayers: null,
     compareLayerTime: null,
     dataLayerIndex: 0,
     compareLayerIndex: 0,
@@ -155,6 +156,7 @@ export default {
     cameraIsMoving: false,
     cameraLastPosition: {},
     legendExpanded: false,
+    timestamp: null,
   }),
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
@@ -195,6 +197,9 @@ export default {
       );
     },
   },
+  created() {
+    this.timestamp = +new Date();
+  },
   mounted() {
     if (!this.dataLayerTimeProp) {
       this.dataLayerTime = {
@@ -218,9 +223,9 @@ export default {
       cesiumScript.async = true;
       cesiumScript.src = `${CESIUM_URL}Cesium.js`;
       document.head.appendChild(cesiumScript);
-      window.cesiumLoaded = true;
       cesiumScript.onload = () => {
         this.createGlobe();
+        window.cesiumLoaded = true;
       };
     } else {
       this.createGlobe();
@@ -241,18 +246,29 @@ export default {
   methods: {
     refreshLayers() {
       if (this.viewer) {
-        const index = this.viewer.imageryLayers.indexOf(this.dataLayer);
-        // Remove and recreate layer to make sure new time is loaded
-        this.viewer.imageryLayers.remove(this.dataLayer, true);
-        this.dataLayer = this.viewer.imageryLayers.addImageryProvider(
-          this.createImageryProvider(this.mergedConfigsData[0]), index,
-        );
-        // this.viewer.imageryLayers.add(this.dataLayer, index);
+        const newDataLayers = [];
+        this.dataLayers.forEach((layer, index) => {
+          const lIndex = this.viewer.imageryLayers.indexOf(layer);
+          // Remove and recreate layer to make sure new time is loaded
+          this.viewer.imageryLayers.remove(layer, true);
+          if ('combinedLayers' in this.mergedConfigsData[0]) {
+            newDataLayers.push(this.viewer.imageryLayers.addImageryProvider(
+              this.createImageryProvider(this.mergedConfigsData[0].combinedLayers[index]),
+              lIndex,
+            ));
+          } else {
+            newDataLayers.push(this.viewer.imageryLayers.addImageryProvider(
+              this.createImageryProvider(this.mergedConfigsData[0]), lIndex,
+            ));
+          }
+        });
+        this.dataLayers = newDataLayers;
       }
     },
     createImageryProvider(config) {
       let imagery;
       if (!config) {
+        /*
         imagery = new Cesium.WebMapTileServiceImageryProvider({
           url: 'https://tiles.maps.eox.at/wmts/1.0.0/terrain-light/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg',
           layer: 'terrain-light',
@@ -265,13 +281,21 @@ export default {
           }),
           credit: new Cesium.Credit('{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }'),
         });
+        */
+        imagery = new Cesium.UrlTemplateImageryProvider({
+          name: 'EOxCloudless 2020',
+          url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2020_3857/default/g/{z}/{y}/{x}.jpg',
+          credit: '{ EOxCloudless 2020: <a xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" target="_blank" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" target="_blank" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2020) }',
+          maximumLevel: 16,
+        });
       } else {
         // TODO currently only necessary methods supported
         switch (config.protocol) {
           case 'xyz':
             imagery = new Cesium.UrlTemplateImageryProvider({
               url: config.url.replace('{-y}', '{reverseY}'),
-              maximumLevel: 5,
+              minimumLevel: config.minZoom ? config.minZoom : 1,
+              maximumLevel: config.maxZoom ? config.maxZoom : 10,
               customTags: {
                 time: () => config.dateFormatFunction(this.dataLayerTime.value),
               },
@@ -281,6 +305,8 @@ export default {
             imagery = new Cesium.WebMapServiceImageryProvider({
               url: config.baseUrl,
               layers: config.layers,
+              minimumLevel: config.minZoom ? config.minZoom : 1,
+              maximumLevel: config.maxZoom ? config.maxZoom : 10,
               parameters: {
                 format: 'image/png',
                 transparent: 'true',
@@ -295,8 +321,11 @@ export default {
       return imagery;
     },
     createGlobe() {
-      this.viewer = new Cesium.Viewer('cesiumContainer', {
-        imageryProvider: this.createImageryProvider(),
+      // TODO: Currently only one base layer can be used
+      // Find enabled baselayer
+      const baseLayerConf = this.baseLayers.filter((layer) => layer.visible);
+      this.viewer = new Cesium.Viewer(`cesiumContainer-${this.timestamp}`, {
+        imageryProvider: this.createImageryProvider(baseLayerConf[0]),
         baseLayerPicker: false,
         fullscreenButton: false,
         geocoder: false,
@@ -317,10 +346,18 @@ export default {
           },
         },
       });
-      // TODO currently we only support one layer
-      this.dataLayer = this.viewer.imageryLayers.addImageryProvider(
-        this.createImageryProvider(this.mergedConfigsData[0]),
-      );
+      this.dataLayers = [];
+      if ('combinedLayers' in this.mergedConfigsData[0]) {
+        this.mergedConfigsData[0].combinedLayers.forEach((l) => {
+          this.dataLayers.push(this.viewer.imageryLayers.addImageryProvider(
+            this.createImageryProvider(l),
+          ));
+        });
+      } else {
+        this.dataLayers.push(this.viewer.imageryLayers.addImageryProvider(
+          this.createImageryProvider(this.mergedConfigsData[0]),
+        ));
+      }
       this.viewer.scene.backgroundColor = Cesium.Color.TRANSPARENT;
       this.viewer.scene.fog.enabled = false;
       this.viewer.scene.globe.showGroundAtmosphere = false;

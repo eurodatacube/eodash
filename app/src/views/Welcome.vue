@@ -7,7 +7,7 @@
       <v-col
         cols="12"
       >
-        <h1 class="display-1 primary--text">COVID-19 Impact seen by Satellite</h1>
+        <h1 class="display-1 primary--text">Global Changes Observed by Satellites</h1>
       </v-col>
       <v-col
         cols="12"

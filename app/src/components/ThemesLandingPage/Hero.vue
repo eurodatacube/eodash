@@ -18,7 +18,7 @@
         />
       </h5>
       <p class="white--text pa-0" style="font-size: 18px;">
-        Global change observed by NASA, ESA, and JAXA
+        Global environmental changes observed by NASA, ESA, and JAXA
       </p>
     </div>
   </div>
@@ -58,7 +58,7 @@ export default {
 
       &.image {
         background-size: cover;
-        background-image: url('https://github.com/eurodatacube/eodash/raw/staging/app/public/data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg');
+        background-image: url('/data/story-images/EO_Dashboard_kv_no logos.png');
       }
     }
 
@@ -70,8 +70,8 @@ export default {
       height: 100%;
       background-size: cover;
       background-position: center;
-      background-image: url('../../assets/earth_bg.jpg');
-      opacity: 0.3;
+      background-image: url('/data/story-images/EO_Dashboard_kv_no logos.png');
+      opacity: 0.7;
     }
   }
 </style>

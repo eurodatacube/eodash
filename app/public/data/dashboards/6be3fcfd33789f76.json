@@ -1,0 +1,83 @@
+{
+  "marketingInfo": {
+    "interests": [
+      "Climate",
+      "Environmental monitoring"
+    ]
+  },
+  "features": [
+    {
+      "width": 2,
+      "text": "## Sea Ice Freeboard and Thickness from Satellite Altimetry\n&nbsp;  \n### NASA's ICESat-2 and ATLAS\n&nbsp;  \nNASA provides data collected over the Arctic Ocean by the Ice, Cloud and land Elevation Satellite-2 (ICESat-2) that show monthly sea ice freeboard from 2018 to the present. Sea ice freeboard is the amount of sea ice and snow cover that is visible above the surface of the ocean and, along with snow depth, is a critical measurement for accurately measuring the thickness of sea ice in the polar oceans. Click [here](https://icesat-2.gsfc.nasa.gov/science) to learn more about this research.\n \nNASA\u2019s ICESat-2 mission has been measuring the height of the Earth\u2019s features from space with a laser ever since its launch in September 2018. The Advanced Topographic Laser Altimeter System (ATLAS) onboard ICESat-2 shoots pulses of light towards the Earth\u2019s surface. ATLAS counts the particles of light (i.e., photons) that bounce off the Earth\u2019s surface and return to the instrument\u2019s sensors, measuring the round-trip time of each photon with extreme accuracy. Scientists can then take the total elapsed time to generate a height measurement of the particular surface that each photon bounced from. When enough photon measurements have been collected, scientists clump these measurements together to form a \u201cphoton cloud\u201d that produces continuous surface elevation measurements as the satellite collects more and more data along its orbit. ICESat-2 collects data over the same location every 91 days, and this allows scientists to develop a picture of how the heights at certain spots around the globe are changing over time.\n \nCollecting repeated height measurements of the Earth\u2019s ice from space is an important way to view changes happening over the course of seasons and years. While ICESat-2 can only measure the height of Earth\u2019s ice, scientists utilize special formulas (based on Archimedes' principle) to take those height measurements and turn them into measurements of sea ice freeboard that includes the ice above and below the waterline.\n \n",
+      "id": "IceSAT-2-1652251792610",
+      "title": "IceSAT-2",
+      "__generatedText__": "<h2>Sea Ice Freeboard and Thickness from Satellite Altimetry</h2>\n<p>&nbsp;  </p>\n<h3>NASA&#39;s ICESat-2 and ATLAS</h3>\n<p>&nbsp;<br>NASA provides data collected over the Arctic Ocean by the Ice, Cloud and land Elevation Satellite-2 (ICESat-2) that show monthly sea ice freeboard from 2018 to the present. Sea ice freeboard is the amount of sea ice and snow cover that is visible above the surface of the ocean and, along with snow depth, is a critical measurement for accurately measuring the thickness of sea ice in the polar oceans. Click <a href=\"https://icesat-2.gsfc.nasa.gov/science\">here</a> to learn more about this research.</p>\n<p>NASA\u2019s ICESat-2 mission has been measuring the height of the Earth\u2019s features from space with a laser ever since its launch in September 2018. The Advanced Topographic Laser Altimeter System (ATLAS) onboard ICESat-2 shoots pulses of light towards the Earth\u2019s surface. ATLAS counts the particles of light (i.e., photons) that bounce off the Earth\u2019s surface and return to the instrument\u2019s sensors, measuring the round-trip time of each photon with extreme accuracy. Scientists can then take the total elapsed time to generate a height measurement of the particular surface that each photon bounced from. When enough photon measurements have been collected, scientists clump these measurements together to form a \u201cphoton cloud\u201d that produces continuous surface elevation measurements as the satellite collects more and more data along its orbit. ICESat-2 collects data over the same location every 91 days, and this allows scientists to develop a picture of how the heights at certain spots around the globe are changing over time.</p>\n<p>Collecting repeated height measurements of the Earth\u2019s ice from space is an important way to view changes happening over the course of seasons and years. While ICESat-2 can only measure the height of Earth\u2019s ice, scientists utilize special formulas (based on Archimedes&#39; principle) to take those height measurements and turn them into measurements of sea ice freeboard that includes the ice above and below the waterline.</p>\n"
+    },
+    {
+      "width": 2,
+      "mapInfo": {
+        "zoom": 2,
+        "center": {
+          "lng": 2.8124484686249533,
+          "lat": 69.28725695167886
+        },
+        "dataLayerTime": null
+      },
+      "id": "W10-SITI",
+      "title": "World, Sea Ice Thickness (ICESat-2)"
+    },
+    {
+      "width": 1,
+      "text": "### ESA's CryoSat-2 and Envisat\n&nbsp;  \nWhile measurements from ICESat-2 can be used to determine the height and freeboard of polar sea ice, scientists also rely on ESA and the CryoSat-2 mission to measure sea ice thickness. Researchers at ESA provide monthly measurements of sea ice thickness from the CryoSat-2 and Envisat radar altimeters and other supporting missions. \n\nWatch this video to learn how ESA measures sea ice thickness from space.\n\n<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/9einyMSOmHE\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>\n",
+      "id": "Cryosat-1652251780072",
+      "title": "Cryosat",
+      "__generatedText__": "<h3>ESA&#39;s CryoSat-2 and Envisat</h3>\n<p>&nbsp;<br>While measurements from ICESat-2 can be used to determine the height and freeboard of polar sea ice, scientists also rely on ESA and the CryoSat-2 mission to measure sea ice thickness. Researchers at ESA provide monthly measurements of sea ice thickness from the CryoSat-2 and Envisat radar altimeters and other supporting missions. </p>\n<p>Watch this video to learn how ESA measures sea ice thickness from space.</p>\n&lt;iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/9einyMSOmHE\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen&gt;&lt;/iframe&gt;\n"
+    },
+    {
+      "width": 3,
+      "mapInfo": {
+        "position": null,
+        "right": null,
+        "up": null,
+        "direction": null
+      },
+      "id": "W9-SIC",
+      "title": "World, Sea Ice Thickness (Cryosat)"
+    },
+    {
+      "width": 1,
+      "text": " ESA has been building radar altimeters since the early 1990s. Radar altimeters use a microwave signal to measure sea ice freeboard. In this frequency band, the signal can penetrate further into snow that lies on sea ice. To better understand how far the microwaves can penetrate the snowpack, complementary field or airborne campaigns are needed to validate the satellite data. Researchers are comparing altimeter signals at different frequencies to calculate how much snow lies on top of the sea ice. This is important as the amount of snow can also impact the freeboard\u2014for instance a heavy snow-load can weigh the sea ice down and may even push it under water.\n \nResearchers can calculate sea ice thickness once the freeboard has been established. The ESA Climate Change Initiative Sea Ice Thickness data set presented here shows the decrease in winter sea ice thickness over the past 15 years using information from ESA\u2019s Envisat and CryoSat-2 satellite missions.",
+      "id": "Envisat-1652251767198",
+      "title": "Envisat",
+      "__generatedText__": "<p> ESA has been building radar altimeters since the early 1990s. Radar altimeters use a microwave signal to measure sea ice freeboard. In this frequency band, the signal can penetrate further into snow that lies on sea ice. To better understand how far the microwaves can penetrate the snowpack, complementary field or airborne campaigns are needed to validate the satellite data. Researchers are comparing altimeter signals at different frequencies to calculate how much snow lies on top of the sea ice. This is important as the amount of snow can also impact the freeboard\u2014for instance a heavy snow-load can weigh the sea ice down and may even push it under water.</p>\n<p>Researchers can calculate sea ice thickness once the freeboard has been established. The ESA Climate Change Initiative Sea Ice Thickness data set presented here shows the decrease in winter sea ice thickness over the past 15 years using information from ESA\u2019s Envisat and CryoSat-2 satellite missions.</p>\n"
+    },
+    {
+      "width": 3,
+      "mapInfo": {
+        "position": [
+          1231034.0739326647,
+          -6122683.800696974,
+          17717773.571757164
+        ],
+        "right": [
+          0.9803800948855829,
+          0.19711638580324986,
+          3.122502256758253e-16
+        ],
+        "up": [
+          -0.1860106965891978,
+          0.9251447241624721,
+          0.33091881195958767
+        ],
+        "direction": [
+          -0.06522952020777888,
+          0.32442621626836493,
+          -0.9436592286897083
+        ]
+      },
+      "id": "W8-SIE",
+      "title": "World, Sea Ice Thickness (Envisat)"
+    }
+  ],
+  "title": "Cryo - ESA NASA"
+}

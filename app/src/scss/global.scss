@@ -87,6 +87,9 @@
   .v-tab--active {
     color: #fff !important;
   }
+  .v-card__title {
+    word-break: break-word;
+  }
   .v-card__title, .v-card__subtitle, .leaflet-control-zoom, .leaflet-control-zoom a {
     // color: #363636 !important;
     background: #363636 !important;

@@ -478,9 +478,9 @@
         "eo_sensor": "TROPOMI",
         "indicator_value": "/",
         "input_data": "Sentinel-5p Level-3 NO2",
-        "measurement_value": "70.44225",
+        "measurement_value": "/",
         "reference_time": "2019-12-30T00:00:00",
-        "reference_value": "[70.02434, 7.5099053, 91.78365, 48.965878, 100.0]",
+        "reference_value": "/",
         "time": "2019-12-30T00:00:00"
     },
     {
@@ -1105,9 +1105,42 @@
         "eo_sensor": "TROPOMI",
         "indicator_value": "/",
         "input_data": "Sentinel-5p Level-3 NO2",
-        "measurement_value": "47.8543",
+        "measurement_value": "48.365992999999996",
         "reference_time": "2022-03-07T00:00:00",
-        "reference_value": "[48.209965, 5.9563637, 77.857925, 32.263607, 100.0]",
+        "reference_value": "[48.628555, 5.783155, 75.226265, 32.211678, 100.0]",
         "time": "2022-03-07T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "45.379784",
+        "reference_time": "2022-03-21T00:00:00",
+        "reference_value": "[44.170055, 9.336313, 77.61911, 28.293947, 100.0]",
+        "time": "2022-03-21T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "45.131626000000004",
+        "reference_time": "2022-04-04T00:00:00",
+        "reference_value": "[45.084747, 5.4839115, 65.79856, 30.057083, 100.0]",
+        "time": "2022-04-04T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "47.661514000000004",
+        "reference_time": "2022-04-18T00:00:00",
+        "reference_value": "[46.94011, 8.10258, 69.486275, 30.224344, 100.0]",
+        "time": "2022-04-18T00:00:00"
     }
 ]

@@ -493,5 +493,16 @@
         "reference_time": "2018-05-01T00:00:00",
         "reference_value": "11.545510199676864",
         "time": "2022-03-01T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "NTNU_USF_UTFPR",
+        "eo_sensor": "Sentinel 2",
+        "indicator_value": "Normal",
+        "input_data": "/",
+        "measurement_value": "9.869047619047619",
+        "reference_time": "2018-05-01T00:00:00",
+        "reference_value": "11.545510199676864",
+        "time": "2022-04-01T00:00:00"
     }
 ]

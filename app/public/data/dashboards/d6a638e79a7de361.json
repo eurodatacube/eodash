@@ -1,0 +1,59 @@
+{
+  "marketingInfo": {
+    "interests": [
+      "Economy"
+    ]
+  },
+  "features": [
+    {
+      "width": 2,
+      "text": "<--IMG-->/data/story-images/12-ship-traffic.jpg<--IMG-->Ship traffic",
+      "id": "Ship traffic-1651904866820",
+      "title": "Ship traffic",
+      "__generatedText__": "<p>&lt;--IMG--&gt;/data/story-images/12-ship-traffic.jpg&lt;--IMG--&gt;Ship traffic</p>\n"
+    },
+    {
+      "width": 2,
+      "text": "## Shipping Activity at Major Ports\n&nbsp;  \nSupply chains around the world dependent on cargo shipping have been interrupted by travel restrictions and quarantines designed to stop the spread of the novel coronavirus. Many ports are closed, shipments have been canceled, and, in some locations, altered shipping routes have prevented the efficient movement of cargo. \n\nNASA and ESA researchers are using cutting-edge artificial intelligence technology and high-resolution satellite imagery from [Planet Labs](https://www.planet.com/) and [Sentinel-2](https://sentinel.esa.int/web/sentinel/missions/sentinel-2) to track shipping activity at major ports in the U.S. and in Europe during the coronavirus pandemic. \n\nThis data will help quantify the level of shipping-related economic activity over time and could eventually contribute to our understanding of the environmental implications of global decreases in shipping on key air pollutants like nitrogen dioxide (NO2) and sulphur dioxide (SO2).",
+      "id": "Page 1-1651904767485",
+      "title": "Page 1"
+    },
+    {
+      "width": 2,
+      "mapInfo": {
+        "zoom": 10,
+        "center": {
+          "lng": -73.94552851617581,
+          "lat": 40.539896081628115
+        }
+      },
+      "id": "US01-E13c",
+      "title": "New York, Ports: Ship throughput"
+    },
+    {
+      "width": 2,
+      "text": "## Detection of ships on PlanetScope images\n&nbsp;  \nNASA\u2019s Interagency Implementation and Advanced Concepts Team (IMPACT), based at NASA\u2019s Marshall Space Flight Center in Huntsville, Alabama, trained an algorithm using supervised machine learning technique to detect ships on PlanetScope images. The algorithm detects a ship on the image and geolocates it. The NASA team has also built an Application Programming Interface (API) that allows ship detections to be aggregated across a port area for a given day. Efforts are also underway to conduct a study of ship detections in U.S. ports during the period of pandemic travel restrictions, as compared to the same period of time in previous years. \n\nNASA researchers have access to the high-resolution imagery from Planet Labs, through the Commercial SmallSat Data Acquisition Program (CSDAP), which acquires data from commercial sources that support NASA's Earth science research goals. The PlanetScope image resolution is 3 meters per pixel, which allows researchers to get a detailed look at changes occurring on the ground. Commercial small satellites also provide high temporal resolution, making images available almost every day (depending on cloud cover) for key areas of interest. \n\nShip detections can be provided daily, except when prevented by significant cloud cover. After the machine learning model detects the ships, a secondary human validation is also performed before the detections are made available for the dashboard. \n\nClick on the links below to explore ship detections on Planet Labs data on various international ports:\n\n* [San Francisco](https://www.eodashboard.org/?indicator=E13c&poi=US03-E13c)\n* [New York](https://www.eodashboard.org/?indicator=E13c&poi=US01-E13c)\n* [Los Angeles](https://www.eodashboard.org/?indicator=E13c&poi=US02-E13c)\n* [Suez Canal](https://www.eodashboard.org/?indicator=E13c&poi=EG01-E13c)",
+      "id": "Page 2-1651904798650",
+      "title": "Page 2"
+    },
+    {
+      "width": 2,
+      "mapInfo": {
+        "zoom": 12,
+        "center": {
+          "lng": 9.935588836669924,
+          "lat": 53.50744710562191
+        }
+      },
+      "id": "DE1-E13c",
+      "title": "Hamburg, Ports and Shipping - Major Harbours"
+    },
+    {
+      "width": 2,
+      "text": "## Detection of ships on Sentinel-2 images\n&nbsp;  \nESA engineers based at ESA's [Centre for Earth Observation (ESRIN)](https://www.esa.int/About_Us/ESRIN) trained a Machine Learning algorithm to recognise ships on  Copernicus Sentinel-2 satellite images. Sentinel-2 provides high-resolution (10 meters) multi-spectral imagery for land services. It provides for example, imagery of vegetation, soil and water cover, inland waterways and coastal areas. Sentinel-2 also delivers information for emergency services. The Copernicus Sentinel-2 mission comprises a constellation of two polar-orbiting satellites and has a high revisit time (10 days at the equator with one satellite, and 5 days with 2 satellites under cloud-free conditions which results in 2-3 days at mid-latitudes). \n\nTo reduce the number of false alarms and mis-detections, a cloud-masking operation is performed on the images before the Machine Learning algorithm is applied. The outputs of the Machine Learning algorithm are bounding boxes of the detected ships within pre-defined areas of interest at major European harbours, such as Genova in Italy or Hamburg in Germany. \n\nClick on the links below to explore ship detections on Planet Labs data on various international ports:\n\n* [Ghent](https://www.eodashboard.org/?indicator=E13c&poi=BE3-E13c)\n* [Hamburg](https://www.eodashboard.org/?indicator=E13c&poi=DE1-E13c)\n* [Dunkirk](https://www.eodashboard.org/?indicator=E13c&poi=FR3-E13c)\n* [Genoa](https://www.eodashboard.org/?indicator=E13c&poi=IT3-E13c)\n* [Gdynia](https://www.eodashboard.org/?indicator=E13c&poi=PL1-E13c)\n* [Suez Canal](https://www.eodashboard.org/?indicator=E13c&poi=EG1-E13c)",
+      "id": "Page 3-1651904819155",
+      "title": "Page 3"
+    }
+  ],
+  "title": "E13c"
+}

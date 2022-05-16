@@ -321,6 +321,9 @@ export default {
       }
     }, 2000);
   },
+  beforeDestroy() {
+    this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+  },
   methods: {
     setDataPanelWidth(enable) {
       if (enable) {
