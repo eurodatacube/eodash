@@ -65,7 +65,7 @@ export async function loadIndicatorData(baseConfig, payload) {
     indicatorObject = payload;
   } else {
     // Start loading of data from indicator
-    let {dataPath} = baseConfig;
+    let { dataPath } = baseConfig;
     // Check if indicator uses another data path
     const indDefs = baseConfig.indicatorsDefinition;
     const currInd = payload.indicator;

@@ -379,7 +379,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Covid-19 vaccinations',
     class: 'health',
     disableTimeSelection: true,
-    hideInFilters: true,
     story: '/eodash-data/stories/OW-OW',
     themes: ['covid-19'],
     disableCSV: true,
