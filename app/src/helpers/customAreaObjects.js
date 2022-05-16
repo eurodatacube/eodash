@@ -297,7 +297,6 @@ const fetchCustomAreaObjects = async (
       }
     }
   }
-
   const requestOpts = {
     credentials: 'same-origin',
     method: mergedConfig[lookup].requestMethod || 'GET',
@@ -306,30 +305,34 @@ const fetchCustomAreaObjects = async (
   if (requestBody) {
     requestOpts.body = JSON.stringify(requestBody);
   }
-  const client_id = shConfig.statApiClientId;
-  const client_secret = shConfig.statApiClientSecret;
-  const instance = axios.create({
-    baseURL: "https://services.sentinel-hub.com"
-  })
-  const config = {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+  // TODO: We use url to check if we previously fetch token, maybe want to use
+  // another type of switch to select which auth type we want to use
+  if (indicator.display.areaIndicator.url.includes('api/v1/statistics')){
+    const client_id = shConfig.statApiClientId;
+    const client_secret = shConfig.statApiClientSecret;
+    const instance = axios.create({
+      baseURL: "https://services.sentinel-hub.com"
+    })
+    const config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+      }
     }
+    const body = qs.stringify({
+      client_id,
+      client_secret,
+      response_type: 'token',
+      grant_type: "client_credentials"
+    })
+    let access_token = null;
+    
+    // All requests using this instance will have an access token automatically added
+    await instance.post("/oauth/token", body, config).then(resp => {
+      access_token = resp.data.access_token;
+    })
+    // Set the Authorization header using the Bearer token
+    requestOpts.headers.Authorization = `Bearer ${access_token}`;
   }
-  const body = qs.stringify({
-    client_id,
-    client_secret,
-    response_type: 'token',
-    grant_type: "client_credentials"
-  })
-  let access_token = null;
-  
-  // All requests using this instance will have an access token automatically added
-  await instance.post("/oauth/token", body, config).then(resp => {
-    access_token = resp.data.access_token;
-  })
-  // Set the Authorization header using the Bearer token
-  requestOpts.headers.Authorization = `Bearer ${access_token}`;
 
   const customObjects = await fetch(url, requestOpts).then((response) => {
     if (!response.ok) {
