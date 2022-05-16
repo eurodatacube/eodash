@@ -105,7 +105,6 @@ with open(DATAFILE) as f, open(COUNTRIESFILE) as cf:
                 output_dict = {key: {subkey: poi_dict[key][subkey] for subkey in outKeys} for key in poi_dict if poi_dict[key]["country"] in EU_COUNTRIES}
             else:
                 output_dict = {key: {subkey: poi_dict[key][subkey] for subkey in outKeys} for key in poi_dict}
-            output_dict = {key: {subkey: poi_dict[key][subkey] for subkey in outKeys} for key in poi_dict}
             with open(output_file) as f:
                 json_data = json.load(f)
                 # retrieve previous data without current indicator
