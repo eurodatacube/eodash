@@ -132,6 +132,7 @@
           </div>
         </v-toolbar-title>
       </v-toolbar>
+
       <data-panel
         v-if="$store.state.indicators.selectedIndicator"
         :key="panelKey"
@@ -142,6 +143,15 @@
         <About v-else-if="showText === 'about'" />
       </template>
     </v-navigation-drawer>
+    <div class="reopen-right-drawer" v-if="!drawerRight">
+        <v-btn
+          icon
+          style="background: #d8d8d8"
+          @click="drawerRight = !drawerRight"
+        >
+          <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
+      </div>
     <v-dialog
       v-if="$vuetify.breakpoint.smAndDown"
       v-model="dialog"
@@ -419,5 +429,12 @@ export default {
   .v-badge__badge {
     transform: translateX(-45px);
   }
+}
+
+.reopen-right-drawer {
+  position: absolute;
+  top: 77px;
+  right: 60px;
+  z-index: 9011;
 }
 </style>
