@@ -1749,7 +1749,7 @@ export const globalIndicators = [
           name: 'NDVI',
           layers: 'NDVI-GCOMC-World-Monthly',
           minZoom: 1,
-          dateFormatFunction: () => '',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'hh:mm:ss'.000Z'"),
           legendUrl: 'eodash-data/data/gcom_ndvi.png',
         }],
       },
