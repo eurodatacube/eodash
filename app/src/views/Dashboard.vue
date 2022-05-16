@@ -109,6 +109,9 @@
         <v-btn v-else icon @click="setDataPanelWidth(true)">
           <v-icon>mdi-arrow-expand</v-icon>
         </v-btn>
+        <v-btn icon>
+          <v-icon>mdi-arrow-right-alt</v-icon>
+        </v-btn>
         <v-toolbar-title v-if="$store.state.indicators.selectedIndicator"
           :class="$store.state.indicators.selectedIndicator.description ===
             $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
@@ -173,6 +176,7 @@
         class="scrollContainer data-panel"
         :style="{background: $vuetify.theme.themes[theme].background}"
       >
+
         <banner v-if="currentNews" />
 
         <h4 v-if="
