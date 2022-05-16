@@ -178,7 +178,8 @@ export default {
       return this.currentDrawnArea || this.$store.state.features.selectedArea;
     },
     mergedConfigsData() {
-      if (!this.indicator) {
+      // only display the "special layers" for global indicators
+      if (!this.indicator || !this.isGlobalIndicator) {
         return [];
       }
       return createConfigFromIndicator(
@@ -213,10 +214,16 @@ export default {
     indicatorsDefinition: () => this.baseConfig.indicatorsDefinition,
   },
   watch: {
-    '$store.state.indicators.selectedIndicator'() {
-      const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
-      cluster.reRender();
-      this.updateSelectedAreaFeature();
+
+    '$store.state.indicators.selectedIndicator': {
+      deep: true,
+      immediate: true,
+      handler() {
+        const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
+        this.compareLayerTime = null;
+        cluster.reRender();
+        this.updateSelectedAreaFeature();
+      },
     },
     getFeatures(features) {
       if (features) {

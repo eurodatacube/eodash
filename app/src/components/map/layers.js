@@ -9,6 +9,7 @@ import TileWMS from 'ol/source/TileWMS';
 import store from '@/store';
 import TileGrid from 'ol/tilegrid/TileGrid';
 import { createXYZ } from 'ol/tilegrid';
+import { Group } from 'ol/layer';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -122,58 +123,41 @@ export function createLayerFromConfig(config, _options = {}) {
   if (config.protocol === 'WMS') {
     if (config.usedTimes?.time?.length) {
       const time = options.time || store.state.indicators.selectedTime;
-      // to do: dont hardcode, find a better way to differentiate between "different" WMS
-      const wmsLayers = ['WSF_Evolution', 'ONPP-GCOMC-World-Monthly', 'Water Quality Index',
-        'Air Quality (NO2) - ESA', 'Population', 'NPP (BICEP)', 'NDVI'];
-      if (wmsLayers.includes(config.name)) {
-        const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
-          'format', 'width', 'height', 'transparent', 'srs', 'env', 'searchid'];
-        const params = {
-          LAYERS: config.layers,
-          // TO DO: time might come from component (in the dashboard)
-          time: config.dateFormatFunction(time),
-        };
-        if (config.specialEnvTime) {
-          params.env = `year:${time}`;
-        }
-        paramsToPassThrough.forEach((param) => {
-          if (typeof config[param] !== 'undefined') {
-            params[param] = config[param];
-          }
-        });
-
-        const tileGrid = config.tileSize === 512 ? new TileGrid({
-          extent: [-20037508.342789244, -20037508.342789244,
-            20037508.342789244, 20037508.342789244],
-          resolutions: createXYZ({
-            tileSize: 512,
-          }).getResolutions(),
-          tileSize: 512,
-        }) : undefined;
-
-        source = new TileWMS({
-          attributions: config.attribution,
-          maxZoom: config.maxNativeZoom || config.maxZoom,
-          minZoom: config.minNativeZoomm || config.minZoom,
-          crossOrigin: 'anonymous',
-          params,
-          url: config.baseUrl,
-          tileGrid,
-        });
-      } else {
-        source = new TileWMS({
-          attributions: config.attribution,
-          maxZoom: config.maxNativeZoom || config.maxZoom,
-          minZoom: config.minNativeZoomm || config.minZoom,
-          crossOrigin: 'anonymous',
-          transition: 0,
-          tileLoadFunction(imageTile, src) {
-            // eslint-disable-next-line no-param-reassign
-            imageTile.getImage().src = src;
-          },
-          url: config.url,
-        });
+      const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
+        'format', 'width', 'height', 'transparent', 'srs', 'env', 'searchid'];
+      const params = {
+        LAYERS: config.layers,
+        // TO DO: time might come from component (in the dashboard)
+        time: config.dateFormatFunction(time),
+      };
+      if (config.specialEnvTime) {
+        params.env = `year:${time}`;
       }
+      paramsToPassThrough.forEach((param) => {
+        if (typeof config[param] !== 'undefined') {
+          params[param] = config[param];
+        }
+      });
+
+      const tileGrid = config.tileSize === 512 ? new TileGrid({
+        extent: [-20037508.342789244, -20037508.342789244,
+          20037508.342789244, 20037508.342789244],
+        resolutions: createXYZ({
+          tileSize: 512,
+        }).getResolutions(),
+        tileSize: 512,
+      }) : undefined;
+
+      source = new TileWMS({
+        attributions: config.attribution,
+        maxZoom: config.maxNativeZoom || config.maxZoom,
+        minZoom: config.minNativeZoomm || config.minZoom,
+        crossOrigin: 'anonymous',
+        transition: 0,
+        params,
+        url: config.baseUrl,
+        tileGrid,
+      });
     } else {
       source = new TileWMS({
         attributions: config.attribution,
@@ -184,6 +168,38 @@ export function createLayerFromConfig(config, _options = {}) {
         url: config.url,
       });
     }
+  }
+
+  if (config.features) {
+    // some layers have a baselayer and GeoJSON features above them
+    // e.g. "Ports and Shipping"
+    // to do: consider other sources of truth than the store
+    const aoiId = options.aoiId || store.state.indicators.selectedIndicator.aoiID;
+    let url = config.features.url.replace(/{aoiID}/i, aoiId);
+    const time = options.time || store.state.indicators.selectedTime;
+    url = url.replace(/{featuresTime}/i, config.features.dateFormatFunction(time));
+    const featuresLayer = new VectorLayer({
+      source: new VectorSource({
+        format: new GeoJSON(),
+        url,
+      }),
+    });
+    return new Group({
+      name: config.name,
+      visible: config.visible,
+      updateOpacityOnZoom: options.updateOpacityOnZoom,
+      zIndex: options.zIndex,
+      layers: [
+        new TileLayer({
+          name: config.name,
+          visible: config.visible,
+          updateOpacityOnZoom: options.updateOpacityOnZoom,
+          zIndex: options.zIndex,
+          source,
+        }),
+        featuresLayer,
+      ],
+    });
   }
 
   return new TileLayer({

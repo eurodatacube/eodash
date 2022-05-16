@@ -222,7 +222,7 @@ export default {
     overlayLayers() {
       const overlayLayers = this.mergedConfigsData[0].overlayLayers
         || this.baseConfig.overlayLayersRightMap;
-      return [...this.subAoiLayerConfigs, ...overlayLayers, this.mergedConfigsData[0]];
+      return [...overlayLayers, this.mergedConfigsData[0], ...this.subAoiLayerConfigs];
     },
     mapDefaults() {
       return {
