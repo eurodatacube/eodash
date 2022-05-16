@@ -12,6 +12,7 @@
       mapId="centerMap"
       :mergedConfigsData="mergedConfigsData[0]"
       :hideCustomAreaControls="hideCustomAreaControls"
+      :currentlyDrawnArea="drawnArea"
     />
     <LayerControl
       v-if="loaded"
@@ -170,6 +171,9 @@ export default {
       // will use the "currentIndicator"-Prop if defined (dashboard)
       // otherwise it will use the selected indicator from the store
       return this.getIndicatorFilteredInputData(this.currentIndicator);
+    },
+    drawnArea() {
+      return this.currentDrawnArea || this.$store.state.features.selectedArea;
     },
     mergedConfigsData() {
       if (!this.indicator) {
