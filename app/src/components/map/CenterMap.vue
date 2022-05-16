@@ -178,7 +178,8 @@ export default {
       return this.currentDrawnArea || this.$store.state.features.selectedArea;
     },
     mergedConfigsData() {
-      if (!this.indicator) {
+      // only display the "special layers" for global indicators
+      if (!this.indicator || !this.isGlobalIndicator) {
         return [];
       }
       return createConfigFromIndicator(
