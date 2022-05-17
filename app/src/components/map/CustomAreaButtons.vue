@@ -178,6 +178,10 @@ export default {
     deleteButtonVisible() {
       return this.drawnArea.area && this.drawToolsVisible;
     },
+    drawnLayerVisible() {
+      return this.mergedConfigsData?.customAreaIndicator
+        || this.mergedConfigsData?.customAreaFeatures;
+    },
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
@@ -230,22 +234,17 @@ export default {
         this.onDrawFinished(event);
       });
     });
-    if (this.drawnArea.area) {
-      // preset drawn area from prop
-      const geoJSONFormat = new GeoJSON({
-        featureProjection: map.getView().getProjection().getCode(),
-      });
-      const feature = new Feature({
-        geometry: geoJSONFormat.readGeometry(this.drawnArea.area),
-        name: 'Drawn Area',
-      });
-      this.drawnAreaSource.addFeature(feature);
-    }
+    this.addDrawnAreaToMap();
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
     map.removeLayer(this.drawVectorLayer);
     map.removeLayer(this.drawnAreaLayer);
+  },
+  watch: {
+    mergedConfigsData() {
+      this.addDrawnAreaToMap();
+    }
   },
   methods: {
     drawEnable(tool) {
@@ -284,6 +283,21 @@ export default {
       this.$store.commit('features/SET_SELECTED_AREA', null);
       this.drawnArea.area = null;
       this.drawnAreaSource.clear();
+    },
+    addDrawnAreaToMap() {
+      // preset drawn area from prop
+      if (this.drawnLayerVisible && this.drawnArea.area) {
+        const { map } = getMapInstance(this.mapId);
+        const geoJSONFormat = new GeoJSON({
+          featureProjection: map.getView().getProjection().getCode(),
+        });
+        const feature = new Feature({
+          geometry: geoJSONFormat.readGeometry(this.drawnArea.area),
+          name: 'Drawn Area',
+        });
+        this.drawnAreaSource.clear();
+        this.drawnAreaSource.addFeature(feature);
+      }
     },
     fetchCustomAreaIndicator() {
       this.$emit('fetchCustomAreaIndicator');
