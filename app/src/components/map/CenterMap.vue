@@ -38,8 +38,8 @@
       :compare-active.sync="enableCompare"
       :compare-time.sync="compareLayerTime"
       :original-time.sync="dataLayerTime"
-      :enable-compare="!globalLayerConfigs[0].disableCompare"
-      :large-time-duration="globalLayerConfigs[0].largeTimeDuration"
+      :enable-compare="!indicator.disableCompare"
+      :large-time-duration="indicator.largeTimeDuration"
       @focusSelect="focusSelect"
     />
     <div id="centerMapOverlay" class="tooltip v-card v-sheet text-center pa-2">
@@ -48,9 +48,8 @@
       <p class="ma-0"> {{ tooltip.label }} </p>
     </div>
     <div :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
-      <img v-if="globalLayerConfigs && globalLayerConfigs[0] &&
-        globalLayerConfigs[0].display.legendUrl"
-      :src="globalLayerConfigs[0].display.legendUrl" alt=""
+      <img v-if="indicator && indicator.display && indicator.display.legendUrl"
+      :src="indicator.display.legendUrl" alt=""
       :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' :
       (legendExpanded && 'map-legend-expanded')}`"
       @click="legendExpanded = !legendExpanded"
@@ -89,6 +88,13 @@ import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
 } from '@/helpers/mapConfig';
+import GeoJSON from 'ol/format/GeoJSON';
+import View from 'ol/View';
+import { transformExtent } from 'ol/proj';
+
+const geoJsonFormat = new GeoJSON({
+  featureProjection: 'EPSG:3857',
+});
 
 export default {
   components: {
@@ -156,17 +162,18 @@ export default {
       }
       return configs;
     },
+    mapDefaults() {
+      return {
+        ...this.baseConfig.mapDefaults,
+        ...this.mergedConfigsData[0],
+      };
+    },
     displayTimeSelection() {
-      return this.globalLayerConfigs[0] && this.globalLayerConfigs[0].time.length > 1
-        && !this.globalLayerConfigs[0].disableTimeSelection && this.dataLayerTime;
+      return this.indicator?.time.length > 1
+        && !this.indicator?.disableTimeSelection && this.dataLayerTime;
     },
     isGlobalIndicator() {
       return this.$store.state.indicators.selectedIndicator?.siteName === 'global';
-    },
-    globalLayerConfigs() {
-      // global POI layers config
-      // TO DO: should this be surpassed by mergedConfigsData?
-      return this.isGlobalIndicator ? [this.$store.state.indicators.selectedIndicator] : [];
     },
     indicator() {
       // the current indicator definition object.
@@ -179,7 +186,7 @@ export default {
     },
     mergedConfigsData() {
       // only display the "special layers" for global indicators
-      if (!this.indicator || !this.isGlobalIndicator) {
+      if (!this.indicator) {
         return [];
       }
       return createConfigFromIndicator(
@@ -190,7 +197,7 @@ export default {
     },
     availableTimeEntries() {
       return createAvailableTimeEntries(
-        this.globalLayerConfigs[0],
+        this.indicator,
         this.mergedConfigsData, // TODO do we really need to pass the config here?
       );
     },
@@ -212,6 +219,44 @@ export default {
       return countries;
     },
     indicatorsDefinition: () => this.baseConfig.indicatorsDefinition,
+    // extent to be zoomed to. Padding will be applied.
+    zoomExtent() {
+      if (!this.indicator?.subAoi?.features && !this.mergedConfigsData[0]?.presetView) {
+        return null;
+      }
+      const { subAoi } = this.indicator;
+      if (subAoi && subAoi.features.length) {
+        if (subAoi.features[0].geometry.coordinates.length) {
+          const subAoiGeom = geoJsonFormat.readGeometry(subAoi.features[0].geometry);
+          return subAoiGeom.getExtent();
+        }
+        // geoJsonFormat
+        return []; // this.subAoi[0].getGeometry().getExtent();
+      }
+      const presetView = this.mergedConfigsData[0]?.presetView;
+      if (presetView) {
+        // pre-defined geojson view
+        const presetViewGeom = geoJsonFormat.readGeometry(presetView.features[0].geometry);
+        return presetViewGeom.getExtent();
+      }
+      if (this.indicator.aoi) {
+        return transformExtent([this.indicator.lng, this.indicator.lat,
+          this.indicator.lng, this.indicator.lat],
+        'EPSG:4326',
+        'EPSG:3857');
+      }
+      // if nothing else, fit to default bounds
+      const { bounds } = this.mapDefaults;
+      return transformExtent([bounds._southWest.lng, bounds._southWest.lat, bounds._northEast.lng, bounds._northEast.lat], 'EPSG:4326',
+        'EPSG:3857');
+    },
+    constrainExtent() {
+      // constraining extent, map can not be moved past the bound of this extent.
+      if (this.indicator.subAoi) {
+        return this.zoomExtent;
+      }
+      return null;
+    },
   },
   watch: {
     '$store.state.indicators.selectedIndicator': {
@@ -254,6 +299,27 @@ export default {
     displayTimeSelection(value) {
       if (!value) {
         this.enableCompare = false;
+      }
+    },
+    zoomExtent(value) {
+      // when the calculated zoom extent changes, zoom the map to the new extent.
+      // this is purely cosmetic and does not limit the ability to pan or zoom
+      getMapInstance('centerMap').map.getView().fit(value);
+    },
+    constrainExtent(value) {
+      // to do: ideally there should be a way directly in ol
+      getMapInstance('centerMap').map.setView(
+        new View({
+          zoom: 0,
+          center: [0, 0],
+          padding: [0, 0, 0, 0],
+          extent: value,
+          constrainOnlyCenter: true,
+          enableRotation: false,
+        }),
+      );
+      if (value) {
+        getMapInstance('centerMap').map.getView().fit(this.zoomExtent);
       }
     },
   },
@@ -302,8 +368,8 @@ export default {
     onDrawnArea(geojson) {
       this.currentDrawnArea = geojson;
       this.updateSelectedAreaFeature();
-      //console.log('drawn area on parent');
-      //console.log(geojson);
+      // console.log('drawn area on parent');
+      // console.log(geojson);
     },
     updateSelectedAreaFeature() {
       // if (this.drawnArea) {
