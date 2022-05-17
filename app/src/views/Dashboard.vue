@@ -109,13 +109,6 @@
         <v-btn v-else icon @click="setDataPanelWidth(true)">
           <v-icon>mdi-arrow-expand</v-icon>
         </v-btn>
-        <v-btn
-          class="mr-3"
-          icon
-          @click="drawerRight = !drawerRight"
-        >
-          <v-icon>mdi-arrow-right</v-icon>
-        </v-btn>
         <v-toolbar-title v-if="$store.state.indicators.selectedIndicator"
           :class="$store.state.indicators.selectedIndicator.description ===
             $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
