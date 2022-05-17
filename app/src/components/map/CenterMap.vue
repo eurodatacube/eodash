@@ -91,6 +91,7 @@ import {
 import GeoJSON from 'ol/format/GeoJSON';
 import View from 'ol/View';
 import { transformExtent } from 'ol/proj';
+import fetchCustomAreaObjects from '@/helpers/customAreaObjects';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -270,7 +271,7 @@ export default {
         const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
         this.compareLayerTime = null;
         cluster.reRender();
-        this.updateSelectedAreaFeature();
+        //this.updateSelectedAreaFeature();
       },
     },
     getFeatures(features) {
@@ -298,7 +299,7 @@ export default {
     },
     dataLayerTime(timeObj) {
       this.$store.commit('indicators/SET_SELECTED_TIME', timeObj.value);
-      this.updateSelectedAreaFeature();
+      //this.updateSelectedAreaFeature();
     },
     displayTimeSelection(value) {
       if (!value) {
@@ -306,7 +307,7 @@ export default {
       }
     },
     drawnArea() {
-      this.updateSelectedAreaFeature();
+      //this.updateSelectedAreaFeature();
     },
     zoomExtent(value) {
       // when the calculated zoom extent changes, zoom the map to the new extent.
@@ -350,7 +351,7 @@ export default {
       // to do: do we need the nextTick?
       this.$nextTick(() => { this.enableCompare = true; });
     }
-    this.updateSelectedAreaFeature();
+    // this.updateSelectedAreaFeature();
   },
   methods: {
     overlayCallback(indicatorObject) {
@@ -380,61 +381,88 @@ export default {
         }
       }
     },
+    fetchCustomDataOptions(time, sourceOptionsObj) {
+      const outputOptionsObj = {};
+      if (sourceOptionsObj?.siteMapping) {
+        // substitutes {siteMapping} template
+        const currSite = sourceOptionsObj.siteMapping(
+          this.indicator.aoiID,
+        );
+        outputOptionsObj.site = currSite;
+      }
+      if (time) {
+        // substitutes {time} template possibly utilizing dateFormatFunction
+        const fixTime = time.value || time;
+        outputOptionsObj.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
+          ? sourceOptionsObj.dateFormatFunction(fixTime) : fixTime;
+        if (sourceOptionsObj.specialEnvTime) {
+          outputOptionsObj.env = `year:${outputOptionsObj.time}`;
+        }
+        // substitutes {featuresTime} template possibly utilizing features.dateFormatFunction
+        if (sourceOptionsObj?.features) {
+          outputOptionsObj.featuresTime = typeof sourceOptionsObj.features.dateFormatFunction === 'function'
+            ? sourceOptionsObj.features.dateFormatFunction(fixTime) : fixTime;
+        }
+      }
+      const paramsToPassThrough = ['env', 'searchid'];
+      paramsToPassThrough.forEach((param) => {
+        if (typeof sourceOptionsObj[param] !== 'undefined') {
+          outputOptionsObj[param] = sourceOptionsObj[param];
+        }
+      });
+      return outputOptionsObj;
+    },
     async fetchData({
       type, side,
     }) {
       // fetching of customFeatures, customIndicator
       // depending on fetch success/failure the map loads data or errors are shown
-      const { map } = getMapInstance('centerMap');
       const usedTime = side === 'data'
         ? this.dataLayerTime
         : this.compareLayerTime;
-      if (map) {
-        this.customAreaLoading = true;
-        try {
-          if (type === 'customFeatures' || type === 'customIndicator') {
-            if (type === 'customFeatures' && !this.mergedConfigsData[0].features) {
-              this.customAreaLoading = false;
-              return;
-            }
-            if (type === 'customIndicator' && !this.mergedConfigsData[0].areaIndicator) {
-              this.customAreaLoading = false;
-              return;
-            }
-            const options = this.layerOptions(usedTime, this.usedConfig(side)[0]);
-            const custom = await fetchCustomAreaObjects(
-              options,
-              this.drawnArea.area,
-              this.mergedConfigsData[0],
-              this.indicator,
-              type === 'customFeatures' ? 'features' : 'areaIndicator',
-            );
-            if (type === 'customFeatures') {
-              this.updateJsonLayers(custom, side);
-            } else {
-              this.$store.commit(
-                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', custom,
-              );
-              this.$emit('fetchCustomAreaIndicator');
-            }
+      this.customAreaLoading = true;
+      try {
+        if (type === 'customFeatures' || type === 'customIndicator') {
+          if (type === 'customFeatures' && !this.mergedConfigsData[0]?.features) {
+            this.customAreaLoading = false;
+            return;
           }
-          this.customAreaLoading = false;
-        } catch (err) {
-          this.customAreaLoading = false;
+          if (type === 'customIndicator' && !this.mergedConfigsData[0]?.areaIndicator) {
+            this.customAreaLoading = false;
+            return;
+          }
+          const options = this.fetchCustomDataOptions(usedTime, this.mergedConfigsData[0]);
+          const custom = await fetchCustomAreaObjects(
+            options,
+            this.drawnArea.area,
+            this.mergedConfigsData[0],
+            this.indicator,
+            type === 'customFeatures' ? 'features' : 'areaIndicator',
+          );
           if (type === 'customFeatures') {
-            this.updateJsonLayers(emptyF, side);
-          } else if (type === 'customIndicator') {
+            // todo: this.updateJsonLayers(custom, side);
+          } else {
             this.$store.commit(
-              'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null,
+              'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', custom,
             );
           }
-          console.error(err);
-          this.$store.commit('sendAlert', {
-            message: `Error requesting data, error message: ${err}.</br>
-              If the issue persists, please use the feedback button to let us know.`,
-            type: 'error',
-          });
         }
+        this.customAreaLoading = false;
+      } catch (err) {
+        this.customAreaLoading = false;
+        if (type === 'customFeatures') {
+          // todo: this.updateJsonLayers(emptyF, side);
+        } else if (type === 'customIndicator') {
+          this.$store.commit(
+            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null,
+          );
+        }
+        console.error(err);
+        this.$store.commit('sendAlert', {
+          message: `Error requesting data, error message: ${err}.</br>
+            If the issue persists, please use the feedback button to let us know.`,
+          type: 'error',
+        });
       }
     },
     fetchFeatures(side) {
