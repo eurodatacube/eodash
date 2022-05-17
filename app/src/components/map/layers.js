@@ -205,7 +205,7 @@ export function createLayerFromConfig(config, _options = {}) {
   return new TileLayer({
     name: config.name,
     visible: config.visible,
-    minZoom: config.minZoom || config.minNativeZoomm,
+    minZoom: config.minZoom || config.minNativeZoomm,
     updateOpacityOnZoom: options.updateOpacityOnZoom,
     zIndex: options.zIndex,
     source,
