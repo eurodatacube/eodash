@@ -329,7 +329,7 @@ export default {
   },
   created() {
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
-    this.drawerRight = this.$vuetify.breakpoint.mdAndUp;
+    // this.drawerRight = this.$vuetify.breakpoint.mdAndUp;
     if (!this.$vuetify.breakpoint.mdAndUp) {
       this.dialog = true;
     }
@@ -339,7 +339,7 @@ export default {
       // only show when no poi is selected
       if (!this.$route.query.poi) {
         this.showText = 'welcome';
-        this.drawerRight = true;
+        // this.drawerRight = true;
       }
     }, 2000);
   },
