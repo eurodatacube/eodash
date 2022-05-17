@@ -136,6 +136,7 @@ import Style from 'ol/style/Style';
 import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
 import GeoJSON from 'ol/format/GeoJSON';
+import Feature from 'ol/Feature';
 import {
   mapState,
 } from 'vuex';
@@ -146,8 +147,6 @@ export default {
       drawControls: {},
       drawSource: null,
       drawnAreaSource: null,
-      geoJSONFormat: null,
-      drawnArea: null,
       isDrawing: null,
       drawVectorLayer: null,
       drawnAreaLayer: null,
@@ -159,10 +158,10 @@ export default {
       required: false,
     },
     mergedConfigsData: Object,
-    currentlyDrawnArea: {
-      type: Object,
-      required: false,
+    drawnArea: {
+      area: null,
     },
+    loading: Boolean,
   },
   computed: {
     ...mapState('config', ['appConfig']),
@@ -173,23 +172,19 @@ export default {
       );
     },
     customChartButtonVisible() {
-      return this.drawnArea
+      return this.drawnArea.area
         && this.drawToolsVisible && this.mergedConfigsData?.customAreaIndicator;
     },
     deleteButtonVisible() {
-      return this.drawnArea && this.drawToolsVisible;
+      return this.drawnArea.area && this.drawToolsVisible;
     },
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
-    const projectionCode = map.getView().getProjection().getCode();
-    this.geoJSONFormat = new GeoJSON({
-      featureProjection: projectionCode,
-    });
     const drawSource = new VectorSource({ wrapX: false });
     const drawVectorLayer = new VectorLayer({
       source: drawSource,
-      zIndex: 2,
+      zIndex: 3,
     });
     this.drawSource = drawSource;
     this.drawVectorLayer = drawVectorLayer;
@@ -199,7 +194,7 @@ export default {
     this.drawnAreaSource = drawnAreaSource;
     const drawnAreaLayer = new VectorLayer({
       source: drawnAreaSource,
-      zIndex: 2,
+      zIndex: 3,
       style: new Style({
         fill: new Fill({
           color: 'rgba(50, 50, 50, 0.2)',
@@ -235,10 +230,16 @@ export default {
         this.onDrawFinished(event);
       });
     });
-    if (this.currentlyDrawnArea) {
+    if (this.drawnArea.area) {
       // preset drawn area from prop
-      this.drawnArea = this.currentlyDrawnArea;
-      this.drawnAreaSource.addFeature(this.currentlyDrawnArea);
+      const geoJSONFormat = new GeoJSON({
+        featureProjection: map.getView().getProjection().getCode(),
+      });
+      const feature = new Feature({
+        geometry: geoJSONFormat.readGeometry(this.drawnArea.area),
+        name: 'Drawn Area',
+      });
+      this.drawnAreaSource.addFeature(feature);
     }
   },
   beforeDestroy() {
@@ -262,21 +263,26 @@ export default {
       this.isDrawing = false;
     },
     onDrawFinished(event) {
-      const geoJsonObj = this.geoJSONFormat.writeGeometryObject(
+      const { map } = getMapInstance(this.mapId);
+      const projectionCode = map.getView().getProjection().getCode();
+      const geoJSONFormat = new GeoJSON({
+        featureProjection: projectionCode,
+      });
+      const geoJsonObj = geoJSONFormat.writeGeometryObject(
         event.feature.getGeometry(),
       );
       this.drawnAreaSource.clear();
       this.drawnAreaSource.addFeature(event.feature);
-      this.drawnArea = geoJsonObj;
-      this.$emit('drawnArea', geoJsonObj);
+      this.drawnArea.area = geoJsonObj;
       this.disableInteractions();
       this.isDrawing = false;
       // TODO: set in store (to update URL) only if not in custom dashboard instead of always
       this.$store.commit('features/SET_SELECTED_AREA', geoJsonObj);
     },
     clearCustomAreaFilter() {
+      // TODO: clear in store (to update URL) only if not in custom dashboard instead of always
       this.$store.commit('features/SET_SELECTED_AREA', null);
-      this.drawnArea = null;
+      this.drawnArea.area = null;
       this.drawnAreaSource.clear();
     },
     fetchCustomAreaIndicator() {

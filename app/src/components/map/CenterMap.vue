@@ -12,8 +12,8 @@
       mapId="centerMap"
       :mergedConfigsData="mergedConfigsData[0]"
       :hideCustomAreaControls="hideCustomAreaControls"
-      :currentlyDrawnArea="drawnArea"
       @fetchCustomAreaIndicator="onFetchCustomAreaIndicator"
+      :drawnArea.sync="drawnArea"
       :loading.sync="customAreaLoading"
     />
     <LayerControl
@@ -111,7 +111,7 @@ export default {
       required: false,
     },
     // same as currentIndicator
-    currentDrawnArea: {
+    initialDrawnArea: {
       type: Object,
       default: undefined,
     },
@@ -176,7 +176,10 @@ export default {
       return this.getIndicatorFilteredInputData(this.currentIndicator);
     },
     drawnArea() {
-      return this.currentDrawnArea || this.$store.state.features.selectedArea;
+      // in store or prop saved as 'object', in this component and in customAreaButtons as {area: 'object'} for convenience
+      return {
+        area: this.initialDrawnArea || this.$store.state.features.selectedArea,
+      };
     },
     mergedConfigsData() {
       // only display the "special layers" for global indicators
@@ -257,6 +260,9 @@ export default {
         this.enableCompare = false;
       }
     },
+    drawnArea() {
+      this.updateSelectedAreaFeature();
+    }
   },
   mounted() {
     const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
@@ -300,19 +306,13 @@ export default {
     compareLayerTimeUpdated(time) {
       this.$emit('update:comparelayertime', time);
     },
-    onDrawnArea(geojson) {
-      this.currentDrawnArea = geojson;
-      this.updateSelectedAreaFeature();
-      //console.log('drawn area on parent');
-      //console.log(geojson);
-    },
     updateSelectedAreaFeature() {
-      // if (this.drawnArea) {
-      //   this.fetchFeatures('data');
-      //   if (this.enableCompare) {
-      //     this.fetchFeatures('compare');
-      //   }
-      // }
+      if (this.drawnArea.area) {
+        this.fetchFeatures('data');
+        if (this.enableCompare) {
+          this.fetchFeatures('compare');
+        }
+      }
     },
     async fetchData({
       type, side,
@@ -338,7 +338,7 @@ export default {
             const options = this.layerOptions(usedTime, this.usedConfig(side)[0]);
             const custom = await fetchCustomAreaObjects(
               options,
-              this.drawnArea,
+              this.drawnArea.area,
               this.mergedConfigsData[0],
               this.indicator,
               type === 'customFeatures' ? 'features' : 'areaIndicator',
@@ -378,9 +378,9 @@ export default {
       });
     },
     onFetchCustomAreaIndicator() {
-      // this.fetchData({
-      //   type: 'customIndicator',
-      // });
+      this.fetchData({
+        type: 'customIndicator',
+      });
     },
     focusSelect() {
       // TO DO: handle scrolling?
