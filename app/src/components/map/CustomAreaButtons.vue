@@ -33,7 +33,7 @@
         <span>Draw Polygon</span>
       </v-tooltip>
     </v-card>
-    <v-card class="drawRectangleButton"
+    <v-card
     v-if="drawToolsVisible">
       <v-tooltip left>
         <template v-slot:activator="{ on }">
@@ -55,7 +55,7 @@
         <span>Draw Rectangle</span>
       </v-tooltip>
     </v-card>
-    <v-card class="deleteAreaButton"
+    <v-card
     v-if="deleteButtonVisible">
       <v-tooltip left>
         <template v-slot:activator="{ on }">
@@ -78,7 +78,7 @@
         <span>Clear selection</span>
       </v-tooltip>
     </v-card>
-    <v-card class="fetchCustomChart"
+    <v-card
     v-if="customChartButtonVisible">
         <v-tooltip left>
             <template v-slot:activator="{ on }">
@@ -99,6 +99,28 @@
             </div>
             </template>
             <span>Draw chart from sub-area</span>
+        </v-tooltip>
+    </v-card>
+    <v-card
+    v-if="loading">
+        <v-tooltip left>
+          <template v-slot:activator="{ on }">
+          <div v-on="on" class="d-inline-block">
+              <v-btn
+              color="white"
+              fab
+              class="pa-0"
+              :style="`${$vuetify.breakpoint.mdAndDown
+                  ? 'width: 36px; height: 36px;'
+                  : 'width: 30px; height: 30px;'}
+                  border-radius: 4px;
+                  color: ${appConfig.branding.primaryColor};`"
+              >
+              <v-icon>mdi-loading mdi-spin</v-icon>
+              </v-btn>
+          </div>
+          </template>
+          <span>Custom data are loading</span>
         </v-tooltip>
     </v-card>
   </v-card>
@@ -199,6 +221,7 @@ export default {
       }),
       bbox: new Draw({
         type: 'Circle',
+        stopClick: true,
         geometryFunction(...args) {
           const box = boxFunc(...args);
           box.isBox = true;
@@ -276,5 +299,8 @@ export default {
   z-index: 2;
   min-width: fit-content;
   border-radius: "4px";
+}
+.mdi-spin:before {
+  animation-duration: 0.5s;
 }
 </style>

@@ -14,7 +14,7 @@
       :hideCustomAreaControls="hideCustomAreaControls"
       :currentlyDrawnArea="drawnArea"
       @fetchCustomAreaIndicator="onFetchCustomAreaIndicator"
-      @drawnArea="onDrawnArea"
+      :loading.sync="customAreaLoading"
     />
     <LayerControl
       v-if="loaded"
@@ -130,6 +130,7 @@ export default {
       compareLayerTime: null,
       enableCompare: false,
       legendExpanded: false,
+      customAreaLoading: false,
     };
   },
   computed: {
@@ -323,22 +324,22 @@ export default {
         ? this.dataLayerTime
         : this.compareLayerTime;
       if (map) {
-        map.dispatchEvent('customChartLoadStart');
+        this.customAreaLoading = true;
         try {
           if (type === 'customFeatures' || type === 'customIndicator') {
-            if (type === 'customFeatures' && !this.usedConfig(side)[0].features) {
-              map.dispatchEvent('customChartLoadEnd');
+            if (type === 'customFeatures' && !this.mergedConfigsData[0].features) {
+              this.customAreaLoading = false;
               return;
             }
-            if (type === 'customIndicator' && !this.usedConfig(side)[0].areaIndicator) {
-              map.dispatchEvent('customChartLoadEnd');
+            if (type === 'customIndicator' && !this.mergedConfigsData[0].areaIndicator) {
+              this.customAreaLoading = false;
               return;
             }
             const options = this.layerOptions(usedTime, this.usedConfig(side)[0]);
             const custom = await fetchCustomAreaObjects(
               options,
               this.drawnArea,
-              this.usedConfig(side)[0],
+              this.mergedConfigsData[0],
               this.indicator,
               type === 'customFeatures' ? 'features' : 'areaIndicator',
             );
@@ -351,9 +352,9 @@ export default {
               this.$emit('fetchCustomAreaIndicator');
             }
           }
-          map.fireEvent('customChartLoadEnd');
+          this.customAreaLoading = false;
         } catch (err) {
-          map.fireEvent('customChartLoadEnd');
+          this.customAreaLoading = false;
           if (type === 'customFeatures') {
             this.updateJsonLayers(emptyF, side);
           } else if (type === 'customIndicator') {
