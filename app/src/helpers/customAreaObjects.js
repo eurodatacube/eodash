@@ -306,7 +306,8 @@ const fetchCustomAreaObjects = async (
   }
   // TODO: We use url to check if we previously fetch token, maybe want to use
   // another type of switch to select which auth type we want to use
-  if (indicator.display.areaIndicator.url.includes('api/v1/statistics')) {
+  if (indicator.display.areaIndicator
+      && indicator.display.areaIndicator.url.includes('api/v1/statistics')) {
     const clientId = shConfig.statApiClientId;
     const clientSecret = shConfig.statApiClientSecret;
     const instance = axios.create({
