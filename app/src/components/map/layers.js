@@ -116,7 +116,7 @@ export function createLayerFromConfig(config, _options = {}) {
         minZoom: config.minNativeZoomm || config.minZoom,
         crossOrigin: 'anonymous',
         transition: 0,
-        url: config.url,
+        tileUrlFunction: (tileCoord) => createFromTemplate(config.url, tileCoord),
       });
     }
   }
@@ -205,6 +205,7 @@ export function createLayerFromConfig(config, _options = {}) {
   return new TileLayer({
     name: config.name,
     visible: config.visible,
+    minZoom: config.minZoom || config.minNativeZoomm,
     updateOpacityOnZoom: options.updateOpacityOnZoom,
     zIndex: options.zIndex,
     source,
