@@ -142,7 +142,7 @@
           style="background: #d8d8d8"
           @click="drawerRight = !drawerRight"
         >
-          <v-icon>mdi-arrow-left</v-icon>
+          <v-icon :class="{open: drawerRight}">mdi-arrow-left</v-icon>
         </v-btn>
       </div>
     <v-dialog
@@ -429,5 +429,13 @@ export default {
   top: 77px;
   right: 60px;
   z-index: 9011;
+
+  .v-icon {
+    transition: transform 0.3s linear;
+  }
+}
+
+.open {
+  transform: rotate(180deg);
 }
 </style>
