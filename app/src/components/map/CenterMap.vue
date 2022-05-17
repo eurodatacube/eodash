@@ -12,9 +12,9 @@
       mapId="centerMap"
       :mergedConfigsData="mergedConfigsData[0]"
       :hideCustomAreaControls="hideCustomAreaControls"
-      :currentlyDrawnArea="drawnArea"
       @fetchCustomAreaIndicator="onFetchCustomAreaIndicator"
-      @drawnArea="onDrawnArea"
+      :drawnArea.sync="drawnArea"
+      :loading.sync="customAreaLoading"
     />
     <LayerControl
       v-if="loaded"
@@ -117,7 +117,7 @@ export default {
       required: false,
     },
     // same as currentIndicator
-    currentDrawnArea: {
+    initialDrawnArea: {
       type: Object,
       default: undefined,
     },
@@ -136,6 +136,7 @@ export default {
       compareLayerTime: null,
       enableCompare: false,
       legendExpanded: false,
+      customAreaLoading: false,
     };
   },
   computed: {
@@ -182,7 +183,10 @@ export default {
       return this.getIndicatorFilteredInputData(this.currentIndicator);
     },
     drawnArea() {
-      return this.currentDrawnArea || this.$store.state.features.selectedArea;
+      // in store or prop saved as 'object', in this component and in customAreaButtons as {area: 'object'} for convenience
+      return {
+        area: this.initialDrawnArea || this.$store.state.features.selectedArea,
+      };
     },
     mergedConfigsData() {
       // only display the "special layers" for global indicators
@@ -301,6 +305,9 @@ export default {
         this.enableCompare = false;
       }
     },
+    drawnArea() {
+      this.updateSelectedAreaFeature();
+    }
     zoomExtent(value) {
       // when the calculated zoom extent changes, zoom the map to the new extent.
       // this is purely cosmetic and does not limit the ability to pan or zoom
@@ -365,19 +372,13 @@ export default {
     compareLayerTimeUpdated(time) {
       this.$emit('update:comparelayertime', time);
     },
-    onDrawnArea(geojson) {
-      this.currentDrawnArea = geojson;
-      this.updateSelectedAreaFeature();
-      // console.log('drawn area on parent');
-      // console.log(geojson);
-    },
     updateSelectedAreaFeature() {
-      // if (this.drawnArea) {
-      //   this.fetchFeatures('data');
-      //   if (this.enableCompare) {
-      //     this.fetchFeatures('compare');
-      //   }
-      // }
+      if (this.drawnArea.area) {
+        this.fetchFeatures('data');
+        if (this.enableCompare) {
+          this.fetchFeatures('compare');
+        }
+      }
     },
     async fetchData({
       type, side,
@@ -389,22 +390,22 @@ export default {
         ? this.dataLayerTime
         : this.compareLayerTime;
       if (map) {
-        map.dispatchEvent('customChartLoadStart');
+        this.customAreaLoading = true;
         try {
           if (type === 'customFeatures' || type === 'customIndicator') {
-            if (type === 'customFeatures' && !this.usedConfig(side)[0].features) {
-              map.dispatchEvent('customChartLoadEnd');
+            if (type === 'customFeatures' && !this.mergedConfigsData[0].features) {
+              this.customAreaLoading = false;
               return;
             }
-            if (type === 'customIndicator' && !this.usedConfig(side)[0].areaIndicator) {
-              map.dispatchEvent('customChartLoadEnd');
+            if (type === 'customIndicator' && !this.mergedConfigsData[0].areaIndicator) {
+              this.customAreaLoading = false;
               return;
             }
             const options = this.layerOptions(usedTime, this.usedConfig(side)[0]);
             const custom = await fetchCustomAreaObjects(
               options,
-              this.drawnArea,
-              this.usedConfig(side)[0],
+              this.drawnArea.area,
+              this.mergedConfigsData[0],
               this.indicator,
               type === 'customFeatures' ? 'features' : 'areaIndicator',
             );
@@ -417,9 +418,9 @@ export default {
               this.$emit('fetchCustomAreaIndicator');
             }
           }
-          map.fireEvent('customChartLoadEnd');
+          this.customAreaLoading = false;
         } catch (err) {
-          map.fireEvent('customChartLoadEnd');
+          this.customAreaLoading = false;
           if (type === 'customFeatures') {
             this.updateJsonLayers(emptyF, side);
           } else if (type === 'customIndicator') {
@@ -443,9 +444,9 @@ export default {
       });
     },
     onFetchCustomAreaIndicator() {
-      // this.fetchData({
-      //   type: 'customIndicator',
-      // });
+      this.fetchData({
+        type: 'customIndicator',
+      });
     },
     focusSelect() {
       // TO DO: handle scrolling?
