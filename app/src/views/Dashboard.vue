@@ -360,9 +360,7 @@ export default {
     displayShowText(text) {
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
       this.drawerRight = true;
-      if (!this.$vuetify.breakpoint.mdAndUp) {
-        this.dialog = true;
-      }
+      this.dialog = true;
       this.showText = text;
     },
     close() {
