@@ -16,6 +16,7 @@ This is a list of current and past contributors to the EODASH project, including
 * [Antonio-Romeo](https://github.com/Antonio-Romeo) - **Antonio-Romeo** - [RHEA](https://www.rheagroup.com/)
 * [AlessandroScremin](https://github.com/AlessandroScremin) - **Alessandro Scremin** - [RHEA](https://www.rheagroup.com/)
 * [dmoglioni](https://github.com/dmoglioni) - **Diego Moglioni** - [RHEA](https://www.rheagroup.com/)
+* []() **Jolanda Patruno** [RHEA](https://rheagroup.com)
 * [RobertOrthofer](https://github.com/RobertOrthofer) - **Robert Orthofer** - [W3GEO](https://w3geo.at/)
 * [ahocevar](https://github.com/ahocevar) - **Andreas Hocevar** - [W3GEO](https://w3geo.at/)
 * [ChungXiangHong](https://github.com/ChungXiangHong) - **Chung-Xiang Hong** - [Sentinel Hub](https://www.sentinel-hub.at/)
@@ -24,6 +25,26 @@ This is a list of current and past contributors to the EODASH project, including
 * [Kampen1988](https://github.com/Kampen1988) - **Max Kampen** - [Sentinel Hub](https://www.sentinel-hub.at/)
 * [TonioF](https://github.com/TonioF) - **Tonio Fincke** - [BC](www.brockmann-consult.de)
 * [thomasstorm](https://github.com/thomasstorm) - **Thomas Storm** - [BC](www.brockmann-consult.de)
+* []() **Manil Maskey** [NASA](https://nasa.gov)
+* [olafveerman](https://github.com/olafveerman) **Olaf Veerman** [developmentSEED](https://developmentseed.org)
+* [drewbo](https://github.com/drewbo) **Drew Bollinger** [developmentSEED](https://developmentseed.org)
+* [leothomas](https://github.com/leothomas) **Leo Thomas** [developmentSEED](https://developmentseed.org)
+* [danielfdsilva](https://github.com/danielfdsilva) **Daniel da Silva** [developmentSEED](https://developmentseed.org)
+* [ricardoduplos](https://github.com/ricardoduplos) **Ricardo Duplos** [developmentSEED](https://developmentseed.org)
+* [jvntf](https://github.com/jvntf) **Jeevan Farias** [developmentSEED](https://developmentseed.org)
+* [vgeorge](https://github.com/vgeorge) **Vitor George** [developmentSEED](https://developmentseed.org)
+* []() **Ikehata Yousuke** [JAXA](https://global.jaxa.jp/)
+* []() **Kawamura Kohei** [JAXA](https://global.jaxa.jp/)
+* []() **Hamamoto Ko** [JAXA](https://global.jaxa.jp/)
+* []() **Sobue Shinichi** [JAXA](https://global.jaxa.jp/)
+* []() **Sugita Naoko** [JAXA](https://global.jaxa.jp/)
+* []() **Mirai Kikushima** [RESTEC](https://www.restec.or.jp/)
+* []() **Taichiro Hashiguchi** [RESTEC](https://www.restec.or.jp/)
+* []() **Nakano Shinpei** [RESTEC](https://www.restec.or.jp/)
+* []() **Aimee Barciauskas** [developmentSEED](https://developmentseed.org)
+* []() **Brice K. Grunert** [CCNY](https://www.ccny.cuny.edu/)
+* []() **Jonathan J. Sherman** [CCNY](https://www.ccny.cuny.edu/)
+
 
 ESA Data Applications Team leading the scientific content production:
 
@@ -37,3 +58,6 @@ ESA Data Applications Team leading the scientific content production:
 * [aapopescu](https://github.com/aapopescu) - **Anca Anghelea** - [ESA](https://www.esa.int/)
 
 The data populating the RACE Dashboard are a collective effort of a number of industrial and academic partners. A full list of the industrial and institutional contributors can be accessed on the About section of this website: https://race.esa.int 
+
+
+This list is being updated
