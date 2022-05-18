@@ -7,7 +7,7 @@
     </div>
     <div class="hero-section d-flex flex-column justify-center align-center px-3">
       <h2 class="mb-5 white--text" :class="$vuetify.breakpoint.xsOnly ? 'text-h4' : 'text-h2'" >
-        Earth Observation Dashboard
+        Earth Observing Dashboard
       </h2>
       <!--<h5 class="text-h5 mb-10 white--text">A Tri-Agency Dashboard by NASA, ESA, JAXA</h5>-->
       <h5 class="text-h5 mb-5 white--text">
