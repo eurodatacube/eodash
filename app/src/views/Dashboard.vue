@@ -131,10 +131,10 @@
         :key="panelKey"
         :newsBanner="$refs.newsBanner"
         :expanded="dataPanelFullWidth" class="px-5" />
-      <template v-else>
+      <!--<template v-else>
         <Welcome v-if="showText === 'welcome'" />
         <About v-else-if="showText === 'about'" />
-      </template>
+      </template>-->
     </v-navigation-drawer>
     <div class="reopen-right-drawer" v-if="!!this.$route.query.poi">
         <v-btn
@@ -196,7 +196,7 @@
             && queryIndicatorObject.properties.indicatorObject.indicatorName }}
         </h4>
         <data-panel
-          v-if="$store.state.indicators.selectedIndicator"
+          v-if="$store.state.indicators.selectedIndicator && !enableShowText"
           :newsBanner="$refs.newsBanner"
           :expanded="dataPanelFullWidth" class="fill-height" />
         <template v-else>
@@ -278,6 +278,7 @@ export default {
     drawerLeft: false,
     drawerRight: false,
     dialog: false,
+    enableShowText: false,
     showText: null,
     dataPanelFullWidth: false,
     dataPanelTemporary: false,
