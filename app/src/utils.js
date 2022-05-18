@@ -65,7 +65,14 @@ export async function loadIndicatorData(baseConfig, payload) {
     indicatorObject = payload;
   } else {
     // Start loading of data from indicator
-    const url = `${baseConfig.dataPath}${[payload.aoiID, payload.indicator].join('-')}.json`;
+    let { dataPath } = baseConfig;
+    // Check if indicator uses another data path
+    const indDefs = baseConfig.indicatorsDefinition;
+    const currInd = payload.indicator;
+    if (currInd in indDefs && 'alternateDataPath' in indDefs[currInd]) {
+      dataPath = indDefs[currInd].alternateDataPath;
+    }
+    const url = `${dataPath}${[payload.aoiID, payload.indicator].join('-')}.json`;
     // Fetch location data
     const response = await axios.get(url, { credentials: 'same-origin' });
     if (response) {
@@ -91,45 +98,51 @@ export async function loadIndicatorData(baseConfig, payload) {
       }
 
       const parsedData = {};
-      for (let i = 0; i < data.length; i += 1) {
-        Object.entries(mapping).forEach(([key, value]) => {
-          let val = data[i][value];
-          if (Object.prototype.hasOwnProperty.call(parsedData, key)) {
-            // If key already there add element to array
-            if (['time', 'referenceTime'].includes(key)) {
-              val = DateTime.fromISO(val);
-            } else if (['measurement'].includes(key)) {
-              if (val.length > 0) {
-                // We have a special array case here
-                if (val[0] === '[') {
-                  val = val.replace(/[[\]']+/g, '').split(',').map(Number);
+      // Special handling for mobility, covid and other special data
+      if ('Values' in data) {
+        parsedData.time = data.Values.map((t) => DateTime.fromISO(t));
+        parsedData.Values = data.Values;
+      } else {
+        for (let i = 0; i < data.length; i += 1) {
+          Object.entries(mapping).forEach(([key, value]) => {
+            let val = data[i][value];
+            if (Object.prototype.hasOwnProperty.call(parsedData, key)) {
+              // If key already there add element to array
+              if (['time', 'referenceTime'].includes(key)) {
+                val = DateTime.fromISO(val);
+              } else if (['measurement'].includes(key)) {
+                if (val.length > 0) {
+                  // We have a special array case here
+                  if (val[0] === '[') {
+                    val = val.replace(/[[\]']+/g, '').split(',').map(Number);
+                  } else {
+                    val = Number(val);
+                  }
                 } else {
-                  val = Number(val);
+                  val = Number.NaN;
                 }
-              } else {
-                val = Number.NaN;
               }
-            }
-            parsedData[key].push(val);
-          } else {
-            // If not then set element as array
-            if (['time', 'referenceTime'].includes(key)) {
-              val = DateTime.fromISO(val);
-            } else if (['measurement'].includes(key)) {
-              if (val.length > 0) {
-                // We have a special array case here
-                if (val[0] === '[') {
-                  val = val.replace(/[[\]']+/g, '').split(',').map(Number);
+              parsedData[key].push(val);
+            } else {
+              // If not then set element as array
+              if (['time', 'referenceTime'].includes(key)) {
+                val = DateTime.fromISO(val);
+              } else if (['measurement'].includes(key)) {
+                if (val.length > 0) {
+                  // We have a special array case here
+                  if (val[0] === '[') {
+                    val = val.replace(/[[\]']+/g, '').split(',').map(Number);
+                  } else {
+                    val = Number(val);
+                  }
                 } else {
-                  val = Number(val);
+                  val = Number.NaN;
                 }
-              } else {
-                val = Number.NaN;
               }
+              parsedData[key] = [val];
             }
-            parsedData[key] = [val];
-          }
-        });
+          });
+        }
       }
       Object.entries(parsedData).forEach(([key, value]) => {
         indicatorObject[key] = value;

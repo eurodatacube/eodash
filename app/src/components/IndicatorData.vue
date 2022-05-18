@@ -419,7 +419,6 @@ export default {
             });
           });
         }
-
         // Generate data for datasets where a string array is passed as indicator object
         if (Object.keys(indicatorDecompose).includes(indicatorCode)) {
           indicatorDecompose[indicatorCode].forEach((key, idx) => {
@@ -1247,7 +1246,6 @@ export default {
               const hideIndex = ci.config.data.datasets.findIndex(
                 (item) => item.label === 'hide_',
               );
-              console.log(hideIndex);
               if (hideIndex !== -1) {
                 const masterMeta = ci.getDatasetMeta(masterIndex);
                 const meta = ci.getDatasetMeta(hideIndex);

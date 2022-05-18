@@ -8,13 +8,10 @@ import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import locations from '@/config/locations.json';
 import {
-  /*
   statisticalApiHeaders,
   statisticalApiBody,
   evalScriptsDefinitions,
   parseStatAPIResponse,
-  */
-  shFisAreaIndicatorStdConfig,
 } from '@/helpers/customAreaObjects';
 import store from '../store';
 
@@ -253,12 +250,14 @@ export const indicatorsDefinition = Object.freeze({
   N9: {
     indicator: 'Air quality',
     class: 'air',
+    hideInFilters: true,
     story: '/eodash-data/stories/N9',
     themes: ['atmosphere'],
   },
   N10: {
     indicator: 'Air quality',
     class: 'air',
+    hideInFilters: true,
     story: '/eodash-data/stories/N10',
     themes: ['atmosphere'],
   },
@@ -364,26 +363,28 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Mobility',
     class: 'economic',
     disableTimeSelection: true,
-    countrySelection: true,
     story: '/eodash-data/stories/GG-GG',
     themes: ['covid-19', 'economy', 'atmosphere'],
+    disableCSV: true,
+    alternateDataPath: './eodash-data/internal/',
   },
   CV: {
-    indicator: 'Covid cases',
+    indicator: 'Covid-19 cases',
     class: 'health',
     disableTimeSelection: true,
-    countrySelection: true,
     story: '/eodash-data/stories/CV-CV',
     themes: ['covid-19'],
+    disableCSV: true,
+    alternateDataPath: './eodash-data/internal/',
   },
   OW: {
-    indicator: 'Vaccinations',
+    indicator: 'Covid-19 vaccinations',
     class: 'health',
     disableTimeSelection: true,
-    countrySelection: true,
-    hideInFilters: true,
     story: '/eodash-data/stories/OW-OW',
     themes: ['covid-19'],
+    disableCSV: true,
+    alternateDataPath: './eodash-data/internal/',
   },
   FB: {
     indicator: 'Facebook population density',
@@ -404,13 +405,13 @@ export const indicatorsDefinition = Object.freeze({
     maxMapZoom: 8,
   },
   NPP: {
-    indicator: 'NPP (BICEP)',
+    indicator: 'Ocean Primary Productivity (BICEP)',
     class: 'water',
     story: '/eodash-data/stories/NPP',
     themes: ['oceans'],
   },
   NPPN: {
-    indicator: 'NPP (NASA)',
+    indicator: 'Ocean Primary Productivity (NASA)',
     class: 'water',
     story: '/eodash-data/stories/NPPN',
     themes: ['oceans'],
@@ -450,7 +451,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'PRC',
     story: '/eodash-data/stories/PRC',
     class: 'water',
-    themes: ['oceans'],
+    themes: ['agriculture'],
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
@@ -738,92 +739,14 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        aoiID: 'GG',
         dataLoadFinished: true,
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Mobility Data',
-        indicatorName: '(select country to load data)',
-        indicator: 'GG',
-        lastIndicatorValue: null,
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        inputData: [''],
-        yAxis: 'percent change from baseline',
-        time: ['TBD'],
-        display: {
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        aoiID: 'CV',
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Covid19 Data',
-        indicatorName: '(select country to load data)',
-        indicator: 'CV',
-        lastIndicatorValue: null,
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        inputData: [''],
-        yAxis: 'aggregated covid cases',
-        time: ['TBD'],
-        display: {
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        aoiID: 'OW',
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Vaccination Data',
-        indicatorName: '(select country to load data)',
-        indicator: 'OW',
-        lastIndicatorValue: null,
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        inputData: [''],
-        yAxis: 'vaccination data',
-        time: ['TBD'],
-        display: {
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'NO2',
+        description: 'Nitrogen Dioxide (Monthly)',
         indicator: 'N1',
         lastIndicatorValue: null,
-        indicatorName: 'TROPOMI: NO2',
+        indicatorName: 'Nitrogen Dioxide (Monthly)',
         eoSensor: 'ESA TROPOMI',
         subAoi: {
           type: 'FeatureCollection',
@@ -848,41 +771,6 @@ export const globalIndicators = [
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           areaIndicator: {
-            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-            callbackFunction: (responseJson, indicator) => {
-              if (Array.isArray(responseJson.C0)) {
-                const data = responseJson.C0;
-                const newData = {
-                  time: [],
-                  measurement: [],
-                  referenceValue: [],
-                  colorCode: [],
-                };
-                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
-                  ? 1
-                  : -1));
-                data.forEach((row) => {
-                  if (row.basicStats.max < 5000) {
-                    // leaving out falsely set nodata values disrupting the chart
-                    newData.time.push(DateTime.fromISO(row.date));
-                    newData.colorCode.push('');
-                    newData.measurement.push(row.basicStats.mean);
-                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
-                  }
-                });
-                const ind = {
-                  ...indicator,
-                  ...newData,
-                };
-                return ind;
-              }
-              return null;
-            },
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
-          },
-          // TODO: Preparation for switching to statistical api once things are working
-          /*
-          areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
               evalScriptsDefinitions['AWS_NO2-VISUALISATION'],
@@ -892,7 +780,6 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-          */
         },
       },
     },
@@ -904,10 +791,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'CO',
+        description: 'Carbon Monoxide',
         indicator: 'N1',
         lastIndicatorValue: null,
-        indicatorName: 'CO',
+        indicatorName: 'Carbon Monoxide',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -928,36 +815,13 @@ export const globalIndicators = [
           legendUrl: 'data/trilateral/s5pCOLegend.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           areaIndicator: {
-            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_CO_3DAILY_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-            callbackFunction: (responseJson, indicator) => {
-              if (Array.isArray(responseJson.C0)) {
-                const data = responseJson.C0;
-                const newData = {
-                  time: [],
-                  measurement: [],
-                  referenceValue: [],
-                  colorCode: [],
-                };
-                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
-                  ? 1
-                  : -1));
-                data.forEach((row) => {
-                  if (row.basicStats.max < 5000) {
-                    // leaving out falsely set nodata values disrupting the chart
-                    newData.time.push(DateTime.fromISO(row.date));
-                    newData.colorCode.push('');
-                    newData.measurement.push(row.basicStats.mean);
-                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
-                  }
-                });
-                const ind = {
-                  ...indicator,
-                  ...newData,
-                };
-                return ind;
-              }
-              return null;
-            },
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_CO_3DAILY_DATA,
+              'byoc-57a07405-8ec2-4b9c-a273-23e287c173f8',
+              'P3D',
+            ),
+            callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
         },
@@ -971,10 +835,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Air Quality',
+        description: 'Air Quality Time Series',
         indicator: 'N1',
         lastIndicatorValue: null,
-        indicatorName: 'Air Quality - OMI: NO2',
+        indicatorName: 'Air Quality Time Series',
         eoSensor: 'NASA OMI',
         subAoi: {
           type: 'FeatureCollection',
@@ -1110,10 +974,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'CO2',
+        description: 'Carbon Dioxide',
         indicator: 'N2',
         lastIndicatorValue: null,
-        indicatorName: 'Greenhouse Gases - OCO-2: Mean CO2',
+        indicatorName: 'Carbon Dioxide',
         calcMethod: 'Mean CO2',
         subAoi: {
           type: 'FeatureCollection',
@@ -1156,10 +1020,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Facebook population density',
+        description: 'Population Density (Meta)',
         indicator: 'FB',
         lastIndicatorValue: null,
-        indicatorName: 'Facebook population density',
+        indicatorName: 'Population Density (Meta)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1242,10 +1106,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'NPP (BICEP)',
+        description: 'Ocean Primary Productivity (BICEP)',
         indicator: 'NPP',
         lastIndicatorValue: null,
-        indicatorName: 'NPP (BICEP)',
+        indicatorName: 'Ocean Primary Productivity (BICEP)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1265,7 +1129,6 @@ export const globalIndicators = [
           minMapZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
-          /*
           customAreaIndicator: true,
           areaIndicator: {
             ...statisticalApiHeaders,
@@ -1277,7 +1140,6 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-          */
         },
       },
     },
@@ -1289,10 +1151,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'NO2 OMI Annual',
+        description: 'Nitrogen Dioxide (Yearly)',
         indicator: 'N9',
         lastIndicatorValue: null,
-        indicatorName: 'NO2 OMI Annual',
+        indicatorName: 'Nitrogen Dioxide (Yearly)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1366,10 +1228,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'NPP (NASA)',
+        description: 'Ocean Primary Productivity (MODIS)',
         indicator: 'NPPN',
         lastIndicatorValue: null,
-        indicatorName: 'NPP (NASA)',
+        indicatorName: 'Ocean Primary Productivity (MODIS)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1404,10 +1266,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'NCEO Africa Biomass',
+        description: 'Aboveground Biomass',
         indicator: 'NCEO',
         lastIndicatorValue: null,
-        indicatorName: 'NCEO Africa Biomass',
+        indicatorName: 'Aboveground Biomass',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1450,10 +1312,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'SO2 OMI/Aura',
+        description: 'Sulfur Dioxide (OMI/Aura)',
         indicator: 'N10',
         lastIndicatorValue: null,
-        indicatorName: 'SO2 OMI/Aura',
+        indicatorName: 'Sulfur Dioxide (OMI/Aura)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1575,10 +1437,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'SO2',
+        description: 'Sulfur Dioxide (TROPOMI)',
         indicator: 'N1',
         lastIndicatorValue: null,
-        indicatorName: 'TROPOMI SO2',
+        indicatorName: 'Sulfur Dioxide (TROPOMI)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1598,12 +1460,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           customAreaIndicator: true,
           areaIndicator: {
-            ...shFisAreaIndicatorStdConfig,
-            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_SO2_DAILY_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-          },
-          // TODO: preparation to migrate to new statistical api, still some issues with service
-          /*
-          areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
               evalScriptsDefinitions.AWS_VIS_SO2_DAILY_DATA,
@@ -1613,7 +1469,6 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-          */
         },
       },
     },
@@ -1625,10 +1480,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Population',
+        description: 'Population Density (SEDAC)',
         indicator: 'NASAPopulation',
         lastIndicatorValue: null,
-        indicatorName: 'Population density 2020',
+        indicatorName: 'Population Density (SEDAC)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1658,10 +1513,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'WSF Evolution',
+        description: 'World Settlement Footprint',
         indicator: 'WSF',
         lastIndicatorValue: null,
-        indicatorName: 'World Settlement Footprint (WSF) Evolution',
+        indicatorName: 'World Settlement Footprint',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1735,7 +1590,7 @@ export const globalIndicators = [
         country: 'all',
         city: 'Global',
         siteName: 'global',
-        description: 'NDVI GCOM',
+        description: 'Global NDVI',
         indicator: 'E10e',
         lastIndicatorValue: null,
         indicatorName: 'NDVI',
@@ -1798,10 +1653,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'Global',
         siteName: 'global',
-        description: 'SMC Anomaly (GCOMW)',
+        description: 'Soil Moisture',
         indicator: 'SMC',
         lastIndicatorValue: null,
-        indicatorName: 'SMC Anomaly (GCOMW)',
+        indicatorName: 'Soil Moisture',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1829,10 +1684,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'Global',
         siteName: 'global',
-        description: 'PRC Anomaly (GSMaP)',
+        description: 'Precipitation Anomaly',
         indicator: 'PRC',
         lastIndicatorValue: null,
-        indicatorName: 'PRC Anomaly (GSMaP)',
+        indicatorName: 'Precipitation Anomaly',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -2584,7 +2439,7 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Cropped Area - Global',
+        description: 'GEOGLAM Crop Conditions',
         indicator: 'N6',
         lastIndicatorValue: null,
         indicatorName: 'Cropped Area',
@@ -2595,7 +2450,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W6',
-        time: getMonthlyDates('2020-01-28', '2022-03-28'),
+        time: getMonthlyDates('2020-01-28', '2022-04-28'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -2632,10 +2487,10 @@ export const globalIndicators = [
         country: ['TG'],
         city: 'Togo',
         siteName: 'Togo',
-        description: 'Cropped Area - Regional',
+        description: 'Regional Cropland',
         indicator: 'E10d',
         lastIndicatorValue: null,
-        indicatorName: 'Cropped Area - Regional',
+        indicatorName: 'Regional Cropland',
         lastColorCode: null,
         eoSensor: null,
         subAoi: {
