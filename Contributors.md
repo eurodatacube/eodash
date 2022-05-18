@@ -24,6 +24,9 @@ This is a list of current and past contributors to the EODASH project, including
 * [Kampen1988](https://github.com/Kampen1988) - **Max Kampen** - [Sentinel Hub](https://www.sentinel-hub.at/)
 * [TonioF](https://github.com/TonioF) - **Tonio Fincke** - [BC](www.brockmann-consult.de)
 * [thomasstorm](https://github.com/thomasstorm) - **Thomas Storm** - [BC](www.brockmann-consult.de)
+* Development Seed Team
+* NASA Team
+* JAXA Team
 
 ESA Data Applications Team leading the scientific content production:
 
