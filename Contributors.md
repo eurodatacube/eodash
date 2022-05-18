@@ -52,8 +52,8 @@ This is a list of current and past contributors to the EODASH project, including
 EO Dashboard Project Leads
 * [aapopescu](https://github.com/aapopescu) - **Anca Anghelea** - [ESA](https://www.esa.int/)
 * []() **Manil Maskey** [NASA](https://nasa.gov)
-* []() **Sobue Shinichi** [JAXA](https://global.jaxa.jp/)
-* []() **Sugita Naoko** [JAXA](https://global.jaxa.jp/)
+* []() **Shinichi Sobue** [JAXA](https://global.jaxa.jp/)
+* []() **Naoko Sugita** [JAXA](https://global.jaxa.jp/)
 
 
 The data populating the RACE Dashboard are a collective effort of a number of industrial and academic partners. A full list of the industrial and institutional contributors can be accessed on the About section of this website: https://race.esa.int 
