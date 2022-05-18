@@ -286,8 +286,8 @@ export default {
           (ind, index, self) => self.findIndex((t) => t.code === ind.code) === index,
         );
       indicators.sort((a, b) => {
-        const codeA = a.code;
-        const codeB = b.code;
+        const codeA = a.indicator;
+        const codeB = b.indicator;
         if (codeA < codeB) return -1;
         if (codeB > codeA) return 1;
         return 0;
