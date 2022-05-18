@@ -250,12 +250,14 @@ export const indicatorsDefinition = Object.freeze({
   N9: {
     indicator: 'Air quality',
     class: 'air',
+    hideInFilters: true,
     story: '/eodash-data/stories/N9',
     themes: ['atmosphere'],
   },
   N10: {
     indicator: 'Air quality',
     class: 'air',
+    hideInFilters: true,
     story: '/eodash-data/stories/N10',
     themes: ['atmosphere'],
   },
