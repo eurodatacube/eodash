@@ -125,6 +125,7 @@
           </div>
         </v-toolbar-title>
       </v-toolbar>
+
       <data-panel
         v-if="$store.state.indicators.selectedIndicator"
         :key="panelKey"
@@ -135,6 +136,15 @@
         <About v-else-if="showText === 'about'" />
       </template>
     </v-navigation-drawer>
+    <div class="reopen-right-drawer" v-if="!!this.$route.query.poi">
+        <v-btn
+          icon
+          style="background: #d8d8d8"
+          @click="drawerRight = !drawerRight"
+        >
+          <v-icon :class="{open: drawerRight}">mdi-arrow-left</v-icon>
+        </v-btn>
+      </div>
     <v-dialog
       v-if="$vuetify.breakpoint.smAndDown"
       v-model="dialog"
@@ -173,6 +183,7 @@
         class="scrollContainer data-panel"
         :style="{background: $vuetify.theme.themes[theme].background}"
       >
+
         <banner v-if="currentNews" />
 
         <h4 v-if="
@@ -197,7 +208,7 @@
     <v-content
       :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
         + $vuetify.application.footer}px); overflow:hidden; ${$vuetify.breakpoint.mdAndUp
-        && 'width: 60%;'}`"
+        && (this.drawerRight ? 'width: 60%;' : 'width: 100%;')}`"
     >
       <v-container
         class="fill-height pa-0"
@@ -311,7 +322,7 @@ export default {
   },
   created() {
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
-    this.drawerRight = this.$vuetify.breakpoint.mdAndUp;
+    // this.drawerRight = this.$vuetify.breakpoint.mdAndUp;
     if (!this.$vuetify.breakpoint.mdAndUp) {
       this.dialog = true;
     }
@@ -321,7 +332,7 @@ export default {
       // only show when no poi is selected
       if (!this.$route.query.poi) {
         this.showText = 'welcome';
-        this.drawerRight = true;
+        // this.drawerRight = true;
       }
     }, 2000);
   },
@@ -411,5 +422,20 @@ export default {
   .v-badge__badge {
     transform: translateX(-45px);
   }
+}
+
+.reopen-right-drawer {
+  position: absolute;
+  top: 77px;
+  right: 60px;
+  z-index: 9011;
+
+  .v-icon {
+    transition: transform 0.3s linear;
+  }
+}
+
+.open {
+  transform: rotate(180deg);
 }
 </style>
