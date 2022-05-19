@@ -438,7 +438,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'NCEO',
     story: '/eodash-data/stories/NCEO',
     class: 'agriculture',
-    themes: ['agriculture'],
+    themes: ['agriculture', 'biomass-and-landcover'],
     disableTimeSelection: true,
   },
   SMC: {
