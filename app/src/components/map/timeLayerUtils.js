@@ -12,7 +12,6 @@ import TileWMS from 'ol/source/TileWMS';
 // eslint-disable-next-line import/prefer-default-export
 export function updateTimeLayer(layer, config, time) {
   let sources;
-  debugger;
   if (layer instanceof LayerGroup) {
     sources = layer.getLayers().getArray().map((l) => l.getSource());
   } else {
