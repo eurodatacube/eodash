@@ -438,7 +438,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'NCEO',
     story: '/eodash-data/stories/NCEO',
     class: 'agriculture',
-    themes: ['agriculture'],
+    themes: ['agriculture', 'biomass-and-landcover'],
     disableTimeSelection: true,
   },
   SMC: {
@@ -1169,7 +1169,7 @@ export const globalIndicators = [
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=-126905900761088.0,3673290589614899.0&bidx=1&colormap_name=reds',
+          url: 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=-126905900761088.0,3673290589614899.0&bidx=1&colormap_name=reds',
           name: 'NO2 OMI Annual',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
@@ -1208,7 +1208,7 @@ export const globalIndicators = [
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?url={time}&resampling_method=bilinear&rescale=0.0,4.0&bidx=1&colormap_name=plasma',
+          url: 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?url={time}&resampling_method=bilinear&rescale=0.0,4.0&bidx=1&colormap_name=plasma',
           name: 'Sea Ice Thickness (ICESat-2)',
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
@@ -1246,7 +1246,7 @@ export const globalIndicators = [
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,1500.0&bidx=1&colormap_name=jet',
+          url: 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,1500.0&bidx=1&colormap_name=jet',
           name: 'NPP (NASA)',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
@@ -1292,7 +1292,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((-18.27 -35.05,-18.27 37.73,51.86 37.73,51.86 -35.05,-18.27 -35.05))').toJson(),
             }],
           },
-          url: 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,400.0&bidx=1&colormap_name=gist_earth_r',
+          url: 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,400.0&bidx=1&colormap_name=gist_earth_r',
           name: 'NCEO Africa Biomass',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
@@ -1330,7 +1330,7 @@ export const globalIndicators = [
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,1.0&bidx=1&colormap_name=viridis',
+          url: 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,1.0&bidx=1&colormap_name=viridis',
           name: 'SO2 OMI/Aura',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
@@ -3880,8 +3880,8 @@ const createSTACCollectionIndicator = (collection, key, value, index, url) => {
   return indicator;
 };
 const urlMapping = {
-  'nightlights-hd-monthly': 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,300&bidx=1&colormap_name=inferno',
-  'nightlights-hd-3bands': 'https://staging-raster.delta-backend.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}',
+  'nightlights-hd-monthly': 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,300&bidx=1&colormap_name=inferno',
+  'nightlights-hd-3bands': 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}',
 };
 Object.keys(locations).forEach((collection) => {
   idOffset += 5000;
