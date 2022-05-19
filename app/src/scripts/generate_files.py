@@ -147,18 +147,18 @@ WMSCOLLECTIONS = {
 }
 
 STAC_COLLECTIONS = {
-    "no2-monthly": "https://staging-stac.delta-backend.xyz/collections/",
-    "no2-monthly-diff": "https://staging-stac.delta-backend.xyz/collections/",
-    "OMI_trno2-COG": "https://staging-stac.delta-backend.xyz/collections/",
-    "OMSO2PCA-COG": "https://staging-stac.delta-backend.xyz/collections/",
-    "facebook_population_density": "https://staging-stac.delta-backend.xyz/collections/",
-    "nightlights-hd-monthly": "https://staging-stac.delta-backend.xyz/collections/",
-    "IS2SITMOGR4": "https://staging-stac.delta-backend.xyz/collections/",
-    "MO_NPP_npp_vgpm": "https://staging-stac.delta-backend.xyz/collections/",
-    "nightlights-hd-3bands": "https://staging-stac.delta-backend.xyz/collections/",
-    "nceo_africa_2017": "https://staging-stac.delta-backend.xyz/collections/",
-    #"HLSL30.002": "https://staging-stac.delta-backend.xyz/collections/",
-    #"HLSS30.002": "https://staging-stac.delta-backend.xyz/collections/",
+    "no2-monthly": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "no2-monthly-diff": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "OMI_trno2-COG": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "OMSO2PCA-COG": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "facebook_population_density": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "nightlights-hd-monthly": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "IS2SITMOGR4": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "MO_NPP_npp_vgpm": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "nightlights-hd-3bands": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "nceo_africa_2017": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    #"HLSL30.002": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    #"HLSS30.002": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
 }
 # Collections items which have null datetimes and instead start_datetime and end_datetime
 SPECIAL_STAC_DATE = [
