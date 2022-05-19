@@ -255,13 +255,6 @@ export default {
       return transformExtent([bounds._southWest.lng, bounds._southWest.lat, bounds._northEast.lng, bounds._northEast.lat], 'EPSG:4326',
         'EPSG:3857');
     },
-    constrainExtent() {
-      // constraining extent, map can not be moved past the bound of this extent.
-      if (this.indicator.subAoi) {
-        return this.zoomExtent;
-      }
-      return null;
-    },
   },
   watch: {
     '$store.state.indicators.selectedIndicator': {
@@ -271,7 +264,7 @@ export default {
         const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
         this.compareLayerTime = null;
         cluster.reRender();
-        //this.updateSelectedAreaFeature();
+        // this.updateSelectedAreaFeature();
       },
     },
     getFeatures(features) {
@@ -299,7 +292,7 @@ export default {
     },
     dataLayerTime(timeObj) {
       this.$store.commit('indicators/SET_SELECTED_TIME', timeObj.value);
-      //this.updateSelectedAreaFeature();
+      // this.updateSelectedAreaFeature();
     },
     displayTimeSelection(value) {
       if (!value) {
@@ -307,28 +300,12 @@ export default {
       }
     },
     drawnArea() {
-      //this.updateSelectedAreaFeature();
+      // this.updateSelectedAreaFeature();
     },
     zoomExtent(value) {
       // when the calculated zoom extent changes, zoom the map to the new extent.
       // this is purely cosmetic and does not limit the ability to pan or zoom
       getMapInstance('centerMap').map.getView().fit(value);
-    },
-    constrainExtent(value) {
-      // to do: ideally there should be a way directly in ol
-      getMapInstance('centerMap').map.setView(
-        new View({
-          zoom: 0,
-          center: [0, 0],
-          padding: [0, 0, 0, 0],
-          extent: value,
-          constrainOnlyCenter: true,
-          enableRotation: false,
-        }),
-      );
-      if (value) {
-        getMapInstance('centerMap').map.getView().fit(this.zoomExtent);
-      }
     },
   },
   mounted() {
