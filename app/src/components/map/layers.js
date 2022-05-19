@@ -33,6 +33,25 @@ function createFromTemplate(template, tileCoord) {
     });
 }
 
+
+function replaceUrlPlaceholders(baseUrl, config, options) {
+  let url = baseUrl;
+  const time = options.time || store.state.indicators.selectedTime;
+  const indicator = options.indicator || store.state.indicators.selectedIndicator.indicator;
+  const aoiId = options.aoiId || store.state.indicators.selectedIndicator.aoiID;
+  url = url.replace(/{time}/i, config.dateFormatFunction(time));
+  url = url.replace(/{indicator}/gi, indicator);
+  url = url.replace(/{aoiID}/gi, aoiId);
+  if (config.features) {
+    url = url.replace(/{featuresTime}/i, config.features.dateFormatFunction(time));
+  }
+  if (config.siteMapping) {
+    const currSite = config.siteMapping(aoiId);
+    url = url.replace(/{site}/gi, currSite);
+  }
+  return url;
+}
+
 /**
  * generate a layer from a given config Object
  * @param {Object} config eodash config object
@@ -47,6 +66,7 @@ function createFromTemplate(template, tileCoord) {
  * on the layer. this can be used inside components to update opacity
  * for overlays like labels or borders. Defaults to false.
  * @param {*} [opt_options.time=undefined] optional time.
+ * @param {*} [opt_options.indicator=undefined] optional indicator. (e.g. "E13b")
  * if not set, time will be retrieved from the store
  * @returns {*} returns ol layer
  */
@@ -104,8 +124,7 @@ export function createLayerFromConfig(config, _options = {}) {
         crossOrigin: 'anonymous',
         transition: 0,
         tileUrlFunction: (tileCoord) => {
-          const time = options.time || store.state.indicators.selectedTime;
-          const url = config.url.replace(/{time}/i, config.dateFormatFunction(time));
+          const url = replaceUrlPlaceholders(config.url, config, options);
           return createFromTemplate(url, tileCoord);
         },
       });
@@ -174,10 +193,9 @@ export function createLayerFromConfig(config, _options = {}) {
     // some layers have a baselayer and GeoJSON features above them
     // e.g. "Ports and Shipping"
     // to do: consider other sources of truth than the store
-    const aoiId = options.aoiId || store.state.indicators.selectedIndicator.aoiID;
-    let url = config.features.url.replace(/{aoiID}/i, aoiId);
-    const time = options.time || store.state.indicators.selectedTime;
-    url = url.replace(/{featuresTime}/i, config.features.dateFormatFunction(time));
+    // to do: some POIs (like bejing or LAX airports) have `null` set as feature ids,
+    // resulting in invalid geojson
+    const url = replaceUrlPlaceholders(config.features.url, config, options);
     const featuresLayer = new VectorLayer({
       source: new VectorSource({
         format: new GeoJSON(),

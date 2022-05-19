@@ -31,6 +31,7 @@ import gsap from 'gsap';
 import getMapInstance from '@/components/map/map';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import { updateTimeLayer } from '@/components/map/timeLayerUtils';
+import LayerGroup from 'ol/layer/Group';
 
 export default {
   name: 'MapLayerSwipe',
@@ -70,10 +71,21 @@ export default {
           const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
           const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
           if (swipeLayer) {
-            swipeLayer.on('prerender', this.onPrerender);
-            swipeLayer.on('postrender', this.onPostrender);
-            originalLayer.on('prerender', this.onPrerender);
-            originalLayer.on('postrender', this.onPostrender);
+            if (swipeLayer instanceof LayerGroup) {
+              swipeLayer.getLayers().forEach((l) => {
+                l.on('prerender', this.onPrerender);
+                l.on('postrender', this.onPostrender);
+              });
+              originalLayer.getLayers().forEach((l) => {
+                l.on('prerender', this.onPrerender);
+                l.on('postrender', this.onPostrender);
+              });
+            } else {
+              swipeLayer.on('prerender', this.onPrerender);
+              swipeLayer.on('postrender', this.onPostrender);
+              originalLayer.on('prerender', this.onPrerender);
+              originalLayer.on('postrender', this.onPostrender);
+            }
           }
         });
       } else {
@@ -81,8 +93,15 @@ export default {
           this.swipeActive = false;
           const { map } = getMapInstance(this.mapId);
           const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
-          originalLayer.un('prerender', this.onPrerender);
-          originalLayer.un('postrender', this.onPostrender);
+          if (originalLayer instanceof LayerGroup) {
+            originalLayer.getLayers().forEach((l) => {
+              l.un('prerender', this.onPrerender);
+              l.un('postrender', this.onPostrender);
+            });
+          } else {
+            originalLayer.un('prerender', this.onPrerender);
+            originalLayer.un('postrender', this.onPostrender);
+          }
         };
         const reset = 0;
         gsap.to(this.$data, { duration: 0.8, swipe: reset, onComplete: deactivate });
@@ -107,7 +126,15 @@ export default {
         const ctx = evt.context;
         const width = ctx.canvas.width * (this.swipe / 100);
         ctx.save();
-        if (evt.target.get('name') === this.originalLayerName) {
+        const { map } = getMapInstance(this.mapId);
+        const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
+        const isLayerGroup = originalLayer instanceof LayerGroup;
+        // check if the event-layer is displayed on the right side, either as single layer
+        // or as part of a layer group
+        const isRightLayer = isLayerGroup
+          ? originalLayer.getLayers().getArray().includes(evt.target)
+          : evt.target.get('name') === this.originalLayerName;
+        if (isRightLayer) {
           ctx.beginPath();
           ctx.rect(width, 0, ctx.canvas.width - width, ctx.canvas.height);
           ctx.clip();
