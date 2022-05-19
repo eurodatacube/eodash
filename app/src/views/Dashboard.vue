@@ -146,7 +146,7 @@
         </v-btn>
       </div>
     <v-dialog
-      v-if="$vuetify.breakpoint.smAndDown"
+      v-if="enableShowText || $vuetify.breakpoint.smAndDown"
       v-model="dialog"
       persistent
       fullscreen
@@ -196,10 +196,10 @@
             && queryIndicatorObject.properties.indicatorObject.indicatorName }}
         </h4>
         <data-panel
-          v-if="$store.state.indicators.selectedIndicator && !enableShowText"
+          v-if="!enableShowText && $store.state.indicators.selectedIndicator"
           :newsBanner="$refs.newsBanner"
           :expanded="dataPanelFullWidth" class="fill-height" />
-        <template v-else>
+        <template v-if="enableShowText">
           <Welcome v-if="showText === 'welcome'" style="padding-bottom: 135px !important" />
           <About v-else-if="showText === 'about'" style="padding-bottom: 100px !important" />
         </template>
@@ -358,9 +358,8 @@ export default {
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
     },
     displayShowText(text) {
-      this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
-      this.drawerRight = true;
       this.dialog = true;
+      this.enableShowText = true;
       this.showText = text;
     },
     close() {
