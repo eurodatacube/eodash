@@ -43,7 +43,7 @@
                 down: () => swipe(),
             }">
             </div>
-            <indicator-map
+            <!--<indicator-map
               ref="indicatorMap"
               style="top: 0px; position: absolute;"
               v-show="false"
@@ -53,7 +53,7 @@
               @update:datalayertime="d => datalayertime = d"
               @update:comparelayertime="c => comparelayertime = c"
               @compareEnabled="compareEnabled = !compareEnabled"
-            />
+            /> -->
             <indicator-data
               v-if="!customAreaIndicator.isEmpty"
               style="margin-top: 0px;"
@@ -129,7 +129,7 @@
               class="d-flex justify-center"
               style="top: 0px; position: absolute;"
             />
-            <indicator-map
+            <!--<indicator-map
               ref="indicatorMap"
               v-else-if="showMap"
               @update:center="c => center = c"
@@ -139,7 +139,7 @@
               @compareEnabled="compareEnabled = !compareEnabled"
               class="pt-0 fill-height"
               style="top: 0px; position: absolute;"
-            />
+            />-->
             <indicator-data
               style="top: 0px; position: absolute;"
               v-else
@@ -389,7 +389,7 @@
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
                 </v-toolbar>
-              <indicator-map
+              <!--<indicator-map
                 ref="referenceMap"
                 @update:center="c => center = c"
                 @update:zoom="z => zoom = z"
@@ -397,7 +397,7 @@
                 @update:comparelayertime="c => comparelayertime = c"
                 @compareEnabled="compareEnabled = !compareEnabled"
                 :style="`height: calc(100% - ${$vuetify.application.top}px)`"
-              />
+              />-->
               </v-dialog>
             </v-col>
           </v-row>
