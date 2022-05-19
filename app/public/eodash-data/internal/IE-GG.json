@@ -7390,6 +7390,15 @@
             "retail_recreation": 3,
             "transit_stations": 1,
             "workplaces": 9
+        },
+        {
+            "date": "2022-05-16T00:00:00",
+            "grocery": 22,
+            "parks": 76,
+            "residential": 5,
+            "retail_recreation": 6,
+            "transit_stations": -16,
+            "workplaces": -18
         }
     ]
 }
