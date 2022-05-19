@@ -136,7 +136,10 @@
         <About v-else-if="showText === 'about'" />
       </template>-->
     </v-navigation-drawer>
-    <div class="reopen-right-drawer" v-if="!!this.$route.query.poi">
+    <div
+      class="reopen-right-drawer"
+      v-if="!!this.$route.query.poi && $vuetify.breakpoint.mdAndUp"
+    >
         <v-btn
           icon
           style="background: #d8d8d8"
