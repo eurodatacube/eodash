@@ -262,8 +262,10 @@ export default {
       immediate: true,
       handler() {
         const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
-        this.compareLayerTime = null;
         cluster.reRender();
+        if (this.$refs.timeSelection) {
+          this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
+        }
         // this.updateSelectedAreaFeature();
       },
     },
