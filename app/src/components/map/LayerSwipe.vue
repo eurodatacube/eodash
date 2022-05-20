@@ -9,7 +9,6 @@
       mapId="centerMap"
       :indicator="mergedConfigsData"
       :layerName="swipeLayerName"
-      :key="mergedConfigsData.name"
       :time="time"
     />
     <slot name="close"></slot>
