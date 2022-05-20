@@ -35,12 +35,15 @@ export default {
       deep: true,
       immediate: true,
       handler(value) {
+        console.log(value);
+        debugger;
         const { map } = getMapInstance(this.mapId);
-        const aoiSource = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi').getSource();
-        aoiSource.clear();
-        if (value) {
-          const feature = geoJsonFormat.readFeature(value);
-          aoiSource.addFeature(feature);
+        const aoiLayer = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
+        if (aoiLayer) {
+          if (value) {
+            const feature = geoJsonFormat.readFeature(value);
+            aoiLayer.getSource().addFeature(feature);
+          }
         }
       },
     },
@@ -57,7 +60,7 @@ export default {
             properties: {},
             geometry: {
               type: 'Polygon',
-              coordinates: [[[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]]],
+              coordinates: [[[-1800, -90], [1800, -90], [1800, 90], [-1800, 90], [-1800, -90]]],
             },
           };
           const diff = turfDifference(globalBox, subaoiInv.geometry);
