@@ -437,10 +437,10 @@ class Cluster {
       ];
       // display subaoi of selected indicator, also when cluster is collapsed
       if (selectedIndicatorFeature) {
-        const selectedIndicatorObject = selectedIndicatorFeature.get('properties').indicatorObject;
+      /* const selectedIndicatorObject = selectedIndicatorFeature.get('properties').indicatorObject;
         if (selectedIndicatorObject.subAoi) {
           styles.push(this.getStyleForSubaoi(selectedIndicatorObject, selectedIndicatorFeature));
-        }
+        } */
       }
       return styles;
     }
@@ -555,9 +555,9 @@ class Cluster {
       geometry: clusterMember.getGeometry(),
     });
     const memberStyle = [circleStyle, iconStyle];
-    if (isSelected && indicatorObject.subAoi) {
+    /* if (isSelected && indicatorObject.subAoi) {
       memberStyle.push(this.getStyleForSubaoi(indicatorObject, clusterMember));
-    }
+    } */
     return memberStyle;
   }
 
