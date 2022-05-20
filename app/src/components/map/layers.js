@@ -128,6 +128,14 @@ export function createLayerFromConfig(config, _options = {}) {
           return createFromTemplate(url, tileCoord);
         },
       });
+      source.set('updateTime', (time) => {
+        const updatedOptions = { ...options };
+        updatedOptions.time = time;
+        source.setTileUrlFunction((tileCoord) => {
+          const url = replaceUrlPlaceholders(config.url, config, updatedOptions);
+          return createFromTemplate(url, tileCoord);
+        });
+      });
     } else {
       source = new XYZSource({
         attributions: config.attribution,
@@ -176,6 +184,14 @@ export function createLayerFromConfig(config, _options = {}) {
         params,
         url: config.baseUrl,
         tileGrid,
+      });
+
+      source.set('updateTime', (updatedTime) => {
+        source.updateParams({
+          LAYERS: config.layers,
+          time: config.dateFormatFunction(updatedTime),
+          env: `year:${updatedTime}`,
+        });
       });
     } else {
       source = new TileWMS({
