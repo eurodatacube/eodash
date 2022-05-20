@@ -7,7 +7,6 @@
  */
 
 import LayerGroup from 'ol/layer/Group';
-import TileWMS from 'ol/source/TileWMS';
 
 // eslint-disable-next-line import/prefer-default-export
 export function updateTimeLayer(layer, config, time) {
@@ -18,14 +17,8 @@ export function updateTimeLayer(layer, config, time) {
     sources = [layer.getSource()];
   }
   sources.forEach((source) => {
-    if (config.protocol === 'WMS' && source instanceof TileWMS) {
-      source.updateParams({
-        LAYERS: config.layers,
-        time: config.dateFormatFunction(time),
-        env: `year:${time}`,
-      });
-    } else {
-      const updateTimeFunction = source.get('updateTime');
+    const updateTimeFunction = source.get('updateTime');
+    if (updateTimeFunction) {
       updateTimeFunction(time);
     }
     source.refresh();
