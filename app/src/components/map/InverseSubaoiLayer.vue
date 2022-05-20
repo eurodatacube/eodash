@@ -1,0 +1,100 @@
+<script>
+import getMapInstance from '@/components/map/map';
+import GeoJSON from 'ol/format/GeoJSON';
+import VectorLayer from 'ol/layer/Vector';
+import VectorSource from 'ol/source/Vector';
+import Style from 'ol/style/Style';
+import Fill from 'ol/style/Fill';
+import Stroke from 'ol/style/Stroke';
+import turfDifference from '@turf/difference';
+
+const geoJsonFormat = new GeoJSON({
+  featureProjection: 'EPSG:3857',
+});
+
+/**
+ * this component handles global indicators and will add and remove layers
+ * and associated interactions on mount / destroy.
+ * the view of the associated map will be updated if the given indicator
+ * demands such behavior (e.g. if a preset view is set)
+ *
+ * as this layer is meant for global POIs, this will not show up in the layer
+ * control by design
+ */
+export default {
+  components: {},
+  props: {
+    mapId: String,
+    indicator: Object,
+  },
+  data() {
+    return {};
+  },
+  watch: {
+    subAoiInverse: {
+      deep: true,
+      immediate: true,
+      handler(value) {
+        const { map } = getMapInstance(this.mapId);
+        const aoiSource = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi').getSource();
+        aoiSource.clear();
+        if (value) {
+          const feature = geoJsonFormat.readFeature(value);
+          aoiSource.addFeature(feature);
+        }
+      },
+    },
+  },
+  computed: {
+    subAoiInverse() {
+      // create an inverse of subaoi, using difference of whole world and subaoi
+      if (this.indicator?.subAoi?.features?.length) {
+        const subaoiInv = JSON.parse(JSON.stringify(this.indicator.subAoi.features[0]));
+        // both Object.assign({}, this.subAoi) and { ...this.subAoi } create shallow copy
+        if (subaoiInv) {
+          const globalBox = {
+            type: 'Feature',
+            properties: {},
+            geometry: {
+              type: 'Polygon',
+              coordinates: [[[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]]],
+            },
+          };
+          const diff = turfDifference(globalBox, subaoiInv.geometry);
+          subaoiInv.geometry = diff.geometry;
+        }
+        return subaoiInv;
+      }
+      return null;
+    },
+  },
+  created() {
+    const { map } = getMapInstance(this.mapId);
+    const subAoiLayer = new VectorLayer({
+      name: 'subAoi',
+      zIndex: 5,
+      source: new VectorSource({}),
+      style: new Style({
+        fill: new Fill({
+          color: 'rgba(0, 0, 0, 0.5)',
+        }),
+        stroke: new Stroke({
+          width: 3,
+          color: 'rgba(0, 0, 0, 0.5)',
+        }),
+      }),
+    });
+    map.addLayer(subAoiLayer);
+  },
+  methods: {},
+  beforeDestroy() {
+    const { map } = getMapInstance(this.mapId);
+    const layer = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
+    map.removeLayer(layer);
+  },
+  render: () => null,
+};
+</script>
+
+<style lang="scss" scoped>
+</style>

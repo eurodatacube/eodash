@@ -1,12 +1,19 @@
 <template>
   <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3;
     z-index: 1" class="d-flex justify-center">
-    <!-- a layer displaying a selected global poi -->
+    <!-- a layer adding a (potential) subaoi, z-index 5 -->
+    <InverseSubaoiLayer
+      mapId="centerMap"
+      :indicator="indicator"
+    />
+    <!-- a layer displaying a selected global poi
+     these layers will have z-Index 2 -->
     <SpecialLayer v-for="mergedConfig in mergedConfigsData" mapId="centerMap"
       :indicator="mergedConfig"
       :layerName="mergedConfig.name"
       :key="mergedConfig.name"
     />
+    <!-- will add a drawing layer to the map (z-index 3) -->
     <CustomAreaButtons
       v-if="loaded"
       mapId="centerMap"
@@ -16,6 +23,7 @@
       :drawnArea.sync="drawnArea"
       :loading.sync="customAreaLoading"
     />
+    <!-- overlay-layers have zIndex 2 or 3, base layers have 0 -->
     <LayerControl
       v-if="loaded"
       mapId="centerMap"
@@ -23,6 +31,7 @@
       :baseLayerConfigs="baseLayerConfigs"
       :overlayConfigs="overlayConfigs"
     />
+    <!-- compare layer has same zIndex as specialLayer -->
     <LayerSwipe v-if="compareLayerTime"
       :mapId="'centerMap'"
       :time="compareLayerTime.value"
@@ -78,6 +87,7 @@ import {
 import LayerControl from '@/components/map/LayerControl.vue';
 import getCluster from '@/components/map/Cluster';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
+import InverseSubaoiLayer from '@/components/map/InverseSubaoiLayer.vue';
 import LayerSwipe from '@/components/map/LayerSwipe.vue';
 import CustomAreaButtons from '@/components/map/CustomAreaButtons.vue';
 import getMapInstance from '@/components/map/map';
@@ -89,7 +99,6 @@ import {
   createAvailableTimeEntries,
 } from '@/helpers/mapConfig';
 import GeoJSON from 'ol/format/GeoJSON';
-import View from 'ol/View';
 import { transformExtent } from 'ol/proj';
 import fetchCustomAreaObjects from '@/helpers/customAreaObjects';
 
@@ -104,6 +113,7 @@ export default {
     IndicatorTimeSelection,
     LayerSwipe,
     CustomAreaButtons,
+    InverseSubaoiLayer,
   },
   props: {
     // currentIndicator will only be set as prop in the custom dashboard.
@@ -181,6 +191,7 @@ export default {
       // the current indicator definition object.
       // will use the "currentIndicator"-Prop if defined (dashboard)
       // otherwise it will use the selected indicator from the store
+      // to do: this sometimes throws errors
       return this.getIndicatorFilteredInputData(this.currentIndicator);
     },
     drawnArea() {
@@ -194,6 +205,8 @@ export default {
       if (!this.indicator) {
         return [];
       }
+      // to do: indicator "code" (this.indicator.indicator, e.g. "E13b")
+      // is not available after createConfigFromIndicator. it is overwritten by an indicator name
       return createConfigFromIndicator(
         this.indicator,
         'data',
@@ -317,7 +330,6 @@ export default {
     this.loaded = true;
     this.setInitialTime();
     getMapInstance('centerMap').map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
-
     if (!this.compareLayerTimeProp) {
       this.$nextTick(() => {
         if (this.$refs.timeSelection) {
