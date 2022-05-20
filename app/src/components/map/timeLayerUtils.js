@@ -24,6 +24,9 @@ export function updateTimeLayer(layer, config, time) {
         time: config.dateFormatFunction(time),
         env: `year:${time}`,
       });
+    } else {
+      const updateTimeFunction = source.get('updateTime');
+      updateTimeFunction(time);
     }
     source.refresh();
   });

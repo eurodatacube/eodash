@@ -196,12 +196,22 @@ export function createLayerFromConfig(config, _options = {}) {
     // to do: some POIs (like bejing or LAX airports) have `null` set as feature ids,
     // resulting in invalid geojson
     const url = replaceUrlPlaceholders(config.features.url, config, options);
-    const featuresLayer = new VectorLayer({
-      source: new VectorSource({
-        format: new GeoJSON(),
-        url,
-      }),
+    const featuresSource = new VectorSource({
+      format: new GeoJSON(),
+      url,
     });
+    // this gives an option to update the source (most likely the time) without
+    // re-creating the entire layer
+    featuresSource.set('updateTime', (time) => {
+      const updatedOptions = { ...options };
+      updatedOptions.time = time;
+      const newUrl = replaceUrlPlaceholders(config.features.url, config, updatedOptions);
+      featuresSource.setUrl(newUrl);
+    });
+    const featuresLayer = new VectorLayer({
+      source: featuresSource,
+    });
+
     return new Group({
       name: config.name,
       visible: config.visible,
