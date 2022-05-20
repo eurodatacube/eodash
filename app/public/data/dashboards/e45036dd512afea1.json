@@ -14,10 +14,10 @@
     },
     {
       "width": 2,
-      "text": "<--IMG-->https://github.com/eurodatacube/eodash/blob/d3628aaf9d9c16628212f4256efcdc8a93ef4197/app/public/data/story-images/1-sea-ice.jpg?raw=true<--IMG--> ",
+      "text": "<--IMG-->/data/story-images/1-sea-ice.jpg<--IMG--> ",
       "id": " -1651663567542",
       "title": " ",
-      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://github.com/eurodatacube/eodash/blob/d3628aaf9d9c16628212f4256efcdc8a93ef4197/app/public/data/story-images/1-sea-ice.jpg?raw=true\">https://github.com/eurodatacube/eodash/blob/d3628aaf9d9c16628212f4256efcdc8a93ef4197/app/public/data/story-images/1-sea-ice.jpg?raw=true</a>&lt;--IMG--&gt; </p>\n"
+      "__generatedText__": "<p>&lt;--IMG--&gt;/data/story-images/1-sea-ice.jpg&lt;--IMG--&gt; </p>\n"
     },
     {
       "width": 1,
@@ -46,10 +46,10 @@
     },
     {
       "width": 2,
-      "text": "<--IMG-->https://raw.githubusercontent.com/eurodatacube/eodash/6c0a3d3bcd0ee7fdcfd8d98b859479362a027efe/app/public/data/story-images/1-EO_Dashboard_Cryo-Pix_May_12.jpeg<--IMG-->Ice bridge plane",
+      "text": "<--IMG-->/data/story-images/1-EO_Dashboard_Cryo-Pix_May_12.jpeg<--IMG--> Sea Ice",
       "id": "Ice bridge plane-1652251495171",
       "title": "Ice bridge plane",
-      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://raw.githubusercontent.com/eurodatacube/eodash/6c0a3d3bcd0ee7fdcfd8d98b859479362a027efe/app/public/data/story-images/1-EO_Dashboard_Cryo-Pix_May_12.jpeg\">https://raw.githubusercontent.com/eurodatacube/eodash/6c0a3d3bcd0ee7fdcfd8d98b859479362a027efe/app/public/data/story-images/1-EO_Dashboard_Cryo-Pix_May_12.jpeg</a>&lt;--IMG--&gt;Ice bridge plane</p>\n"
+      "__generatedText__": "<p>&lt;--IMG--&gt;/data/story-images/1-EO_Dashboard_Cryo-Pix_May_12.jpeg&lt;--IMG--&gt; Sea Ice</p>\n"
     },
     {
       "width": 2,
@@ -60,10 +60,17 @@
     },
     {
       "width": 2,
-      "text": "<--IMG-->https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2009/11/icebreaking_ships/10040180-2-eng-GB/Icebreaking_ships_pillars.jpg<--IMG-->Shipping routes",
+      "text": "<--IMG-->/data/story-images/Icebreaking_ships_pillars.jpg<--IMG-->Shipping routes",
       "id": " -1651663707409",
       "title": " ",
-      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2009/11/icebreaking_ships/10040180-2-eng-GB/Icebreaking_ships_pillars.jpg\">https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2009/11/icebreaking_ships/10040180-2-eng-GB/Icebreaking_ships_pillars.jpg</a>&lt;--IMG--&gt;Shipping routes</p>\n"
+      "__generatedText__": "<p>&lt;--IMG--&gt;/data/story-images/Icebreaking_ships_pillars.jpg&lt;--IMG--&gt;Shipping routes</p>\n"
+    },
+    {
+      "width": 4,
+      "text": "## Explore Datasets \n &nbsp;   \nThis **EO Dashboard** provides access to interactive maps of Sea Ice Thickness and Sea Ice Concentration. Access these datasets by clicking on the **[EXPLORE DATASETS](https://www.eodashboard.org/explore)** button at the top of the page or directly from the links below:\n\n[Sea Ice Thickness from Cryosat](https://www.eodashboard.org/explore?poi=W9-SIC) &nbsp;   \n[Sea Ice Thickness from Envisat](https://www.eodashboard.org/explore?poi=W8-SIE)  &nbsp;   \n[Sea Ice Thickness from IceSAT-2](https://www.eodashboard.org/explore?poi=W10-SITI)\n&nbsp;   \n[Sea Ice Concentration from GCOM-W](https://www.eodashboard.org/explore?poi=World-N12)",
+      "id": " -1652890242032",
+      "title": " ",
+      "__generatedText__": "<h2>Explore Datasets</h2>\n<p> &nbsp;<br>This <strong>EO Dashboard</strong> provides access to interactive maps of Sea Ice Thickness and Sea Ice Concentration. Access these datasets by clicking on the <strong><a href=\"https://www.eodashboard.org/explore\">EXPLORE DATASETS</a></strong> button at the top of the page or directly from the links below:</p>\n<p><a href=\"https://www.eodashboard.org/explore?poi=W9-SIC\">Sea Ice Thickness from Cryosat</a> &nbsp;<br><a href=\"https://www.eodashboard.org/explore?poi=W8-SIE\">Sea Ice Thickness from Envisat</a>  &nbsp;<br><a href=\"https://www.eodashboard.org/explore?poi=W10-SITI\">Sea Ice Thickness from IceSAT-2</a>\n&nbsp;<br><a href=\"https://www.eodashboard.org/explore?poi=World-N12\">Sea Ice Concentration from GCOM-W</a></p>\n"
     }
   ],
   "title": "Cryo - JAXA 1"

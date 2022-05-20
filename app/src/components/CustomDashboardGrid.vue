@@ -581,7 +581,7 @@ export default {
       if (this.$route.query.page) {
         this.goStep(Number(this.$route.query.page));
       }
-    });
+    }, 50);
 
     this.ro = new ResizeObserver(() => {
       setTimeout(() => {
@@ -594,6 +594,7 @@ export default {
   },
   beforeDestroy() {
     delete this.ro;
+    zoom.close();
   },
   methods: {
     ...mapActions('dashboard', [
