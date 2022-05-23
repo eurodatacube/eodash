@@ -105,7 +105,7 @@ export default {
           if (layer.get('name') === 'Country vectors') {
             layer.setOpacity(this.opacityCountries[zoom]);
           } else {
-            layer.setOpacity(this.opacityOverlay[zoom]);
+            layer.setOpacity(this.opacityOverlay[zoom] || 0);
           }
         }
       });
