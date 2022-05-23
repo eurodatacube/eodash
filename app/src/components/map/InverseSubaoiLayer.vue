@@ -40,9 +40,11 @@ export default {
         const { map } = getMapInstance(this.mapId);
         const aoiLayer = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
         if (aoiLayer) {
+          const aoiSource = aoiLayer.getSource();
+          aoiSource.clear();
           if (value) {
             const feature = geoJsonFormat.readFeature(value);
-            aoiLayer.getSource().addFeature(feature);
+            aoiSource.addFeature(feature);
           }
         }
       },
@@ -82,8 +84,8 @@ export default {
           color: 'rgba(0, 0, 0, 0.5)',
         }),
         stroke: new Stroke({
-          width: 3,
-          color: 'rgba(0, 0, 0, 0.5)',
+          width: 2,
+          color: 'rgba(0, 0, 0, 0.7)',
         }),
       }),
     });
