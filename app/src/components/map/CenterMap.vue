@@ -8,10 +8,10 @@
     />
     <!-- a layer displaying a selected global poi
      these layers will have z-Index 2 -->
-    <SpecialLayer v-for="mergedConfig in mergedConfigsData" mapId="centerMap"
+    <SpecialLayer v-for="(mergedConfig, i) in mergedConfigsData" mapId="centerMap"
       :indicator="mergedConfig"
-      :layerName="mergedConfig.name"
-      :key="mergedConfig.name"
+      :layerName="dataLayerName"
+      :key="dataLayerName + i"
     />
     <!-- will add a drawing layer to the map (z-index 3) -->
     <CustomAreaButtons
@@ -27,7 +27,7 @@
     <LayerControl
       v-if="loaded"
       mapId="centerMap"
-      :key="layerControlKey"
+      :key="dataLayerName"
       :baseLayerConfigs="baseLayerConfigs"
       :overlayConfigs="overlayConfigs"
     />
@@ -38,7 +38,7 @@
       :time="compareLayerTime.value"
       :mergedConfigsData="mergedConfigsData[0]"
       :enable="enableCompare"
-      :key="mergedConfigsData[0].name + '_layerSwipe'"
+      :key="dataLayerName + '_layerSwipe'"
     />
     <indicator-time-selection
       ref="timeSelection"
@@ -194,7 +194,6 @@ export default {
       // the current indicator definition object.
       // will use the "currentIndicator"-Prop if defined (dashboard)
       // otherwise it will use the selected indicator from the store
-      // to do: this sometimes throws errors
       return this.getIndicatorFilteredInputData(this.currentIndicator);
     },
     drawnArea() {
@@ -225,16 +224,11 @@ export default {
     selectedTime() {
       return this.$store.state.indicators.selectedTime;
     },
-    layerControlKey() {
-      // this key changes only when the layers of the center map changes (== global indicators)
-      // otherwise, there will be unneeded flickering
-      if (!this.$store.state.indicators.selectedIndicator
-      || this.$store.state.indicators.selectedIndicator?.siteName !== 'global') {
-        return '';
+    dataLayerName() {
+      if (this.mergedConfigsData?.length) {
+        return this.mergedConfigsData[0].name;
       }
-      // changing keys for global indicators, as these affect the layers
-      // of the center map
-      return this.$store.state.indicators.selectedIndicator.indicator;
+      return '';
     },
     countriesJson() {
       return countries;
