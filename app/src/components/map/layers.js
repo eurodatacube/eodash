@@ -18,6 +18,32 @@ const countriesSource = new VectorSource({
   features: geoJsonFormat.readFeatures(countries),
 });
 
+/**
+ * manually fetches geojson features and replaces the features in the source
+ * invalid `null`-ids will be transformed into `undefined`-IDs
+ * @param {*} source ol vector source (features of this source will be replaced)
+ * @param {String} url geojson url
+ */
+function fetchGeoJsonFeatures(source, url) {
+  fetch(url)
+    .then((fStream) => {
+      fStream.json()
+        .then((geoJson) => {
+          geoJson.features.forEach((f) => {
+            if (f.id === null) {
+            // to do: some POIs (like bejing or LAX airports) have `null` set as feature ids,
+            // resulting in invalid geojson
+            // when this is fixed in the data, the normal geojson loader should be used
+            // eslint-disable-next-line no-param-reassign
+              f.id = undefined;
+            }
+          });
+          const features = geoJsonFormat.readFeatures(geoJson);
+          source.addFeatures(features);
+        });
+    });
+}
+
 function createFromTemplate(template, tileCoord) {
   const zRegEx = /\{z\}/g;
   const xRegEx = /\{x\}/g;
@@ -152,6 +178,7 @@ export function createLayerFromConfig(config, _options = {}) {
       const time = options.time || store.state.indicators.selectedTime;
       const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
         'format', 'width', 'height', 'transparent', 'srs', 'env', 'searchid'];
+        // to do: layers is  not defined for harvesting evolution over time (spain)
       const params = {
         LAYERS: config.layers,
         // TO DO: time might come from component (in the dashboard)
@@ -209,20 +236,18 @@ export function createLayerFromConfig(config, _options = {}) {
     // some layers have a baselayer and GeoJSON features above them
     // e.g. "Ports and Shipping"
     // to do: consider other sources of truth than the store
-    // to do: some POIs (like bejing or LAX airports) have `null` set as feature ids,
-    // resulting in invalid geojson
-    const url = replaceUrlPlaceholders(config.features.url, config, options);
     const featuresSource = new VectorSource({
-      format: new GeoJSON(),
-      url,
+      features: [],
     });
+    const url = replaceUrlPlaceholders(config.features.url, config, options);
+    fetchGeoJsonFeatures(featuresSource, url);
     // this gives an option to update the source (most likely the time) without
     // re-creating the entire layer
     featuresSource.set('updateTime', (time) => {
       const updatedOptions = { ...options };
       updatedOptions.time = time;
       const newUrl = replaceUrlPlaceholders(config.features.url, config, updatedOptions);
-      featuresSource.setUrl(newUrl);
+      fetchGeoJsonFeatures(featuresSource, newUrl);
     });
     const featuresLayer = new VectorLayer({
       source: featuresSource,
