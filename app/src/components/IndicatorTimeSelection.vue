@@ -153,6 +153,10 @@ export default {
       this[modelName] = this.availableValues[newIndex];
     },
     getInitialCompareTime() {
+      if (this.indicator && this.indicator.compareDisplay) {
+        // if compareDisplay is set, both sides of map share same time
+        return this.availableValues[this.availableValues.length - 1];
+      }
       // find closest entry one year before latest time
       if (this.largeTimeDuration) {
         // if interval, use just start to get closest
