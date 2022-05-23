@@ -22,12 +22,10 @@ const geoJsonFormat = new GeoJSON({
  * control by design
  */
 export default {
-  components: {},
   props: {
     mapId: String,
     indicator: Object,
   },
-  data() {},
   watch: {
     subAoiInverse: {
       deep: true,
@@ -87,7 +85,6 @@ export default {
     });
     map.addLayer(subAoiLayer);
   },
-  methods: {},
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
     const layer = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
