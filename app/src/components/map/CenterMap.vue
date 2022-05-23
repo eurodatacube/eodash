@@ -338,7 +338,9 @@ export default {
     zoomExtent(value) {
       // when the calculated zoom extent changes, zoom the map to the new extent.
       // this is purely cosmetic and does not limit the ability to pan or zoom
-      getMapInstance('centerMap').map.getView().fit(value);
+      if (value) {
+        getMapInstance('centerMap').map.getView().fit(value);
+      }
     },
   },
   mounted() {
