@@ -12,6 +12,9 @@ const getters = {
       return null;
     }
     const indicator = selectedIndicator || { ...state.selectedIndicator };
+    if (!indicator.inputData) {
+      return null;
+    }
     // filter out rows which have empty "Input Data"
     const mask = indicator.inputData.map((item) => item !== '' && item !== '/');
     // filtering only arrays with more than 1 element to not fail on Input Data:['value'] shortcut
