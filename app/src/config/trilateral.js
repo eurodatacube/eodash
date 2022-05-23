@@ -1460,7 +1460,6 @@ export const globalIndicators = [
             ...statisticalApiBody(
               evalScriptsDefinitions.AWS_VIS_SO2_DAILY_DATA,
               'byoc-4ad9663f-d173-411d-8d28-3081d4d9e3aa',
-              'P7D',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
