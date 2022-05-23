@@ -32,11 +32,13 @@
       :overlayConfigs="overlayConfigs"
     />
     <!-- compare layer has same zIndex as specialLayer -->
-    <LayerSwipe v-if="compareLayerTime"
+    <LayerSwipe
+      v-if="compareLayerTime"
       :mapId="'centerMap'"
       :time="compareLayerTime.value"
       :mergedConfigsData="mergedConfigsData[0]"
       :enable="enableCompare"
+      :key="mergedConfigsData[0].name + '_layerSwipe'"
     />
     <indicator-time-selection
       ref="timeSelection"
@@ -49,6 +51,7 @@
       :original-time.sync="dataLayerTime"
       :enable-compare="!indicator.disableCompare"
       :large-time-duration="indicator.largeTimeDuration"
+      :key="mergedConfigsData[0].name + '_timeSelection'"
       @focusSelect="focusSelect"
     />
     <div id="centerMapOverlay" class="tooltip v-card v-sheet text-center pa-2">
@@ -288,9 +291,24 @@ export default {
         cluster.setFeatures(features);
       }
     },
-    mergedConfigsData() {
+    mergedConfigsData: {
       // set the dataLayerTime when the mergedConfigsData changes
-      this.setInitialTime();
+      deep: true,
+      immediate: true,
+      handler() {
+        this.setInitialTime();
+        this.$nextTick(() => {
+          if (this.$refs.timeSelection) {
+            if (!this.compareLayerTimeProp) {
+              // to do: accessing child component methods in nextTick is potentially dangerous
+              this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
+            } else {
+              // to do: do we need the nextTick?
+              this.$nextTick(() => { this.enableCompare = true; });
+            }
+          }
+        });
+      },
     },
     selectedTime(value) {
       // redraw all time-dependant layers, if time is passed via WMS params
@@ -328,21 +346,7 @@ export default {
     cluster.setActive(true, this.overlayCallback);
     cluster.setFeatures(this.getFeatures);
     this.loaded = true;
-    this.setInitialTime();
     getMapInstance('centerMap').map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
-    if (!this.compareLayerTimeProp) {
-      this.$nextTick(() => {
-        if (this.$refs.timeSelection) {
-          // to do: accessing child component methods in nextTick is potentially dangerous
-          this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
-        }
-      });
-    }
-    if (this.compareLayerTimeProp) {
-      // to do: do we need the nextTick?
-      this.$nextTick(() => { this.enableCompare = true; });
-    }
-    // this.updateSelectedAreaFeature();
   },
   methods: {
     overlayCallback(indicatorObject) {

@@ -115,7 +115,9 @@ export default {
       // redraw all time-dependant layers, if time is passed via WMS params
       const { map } = getMapInstance('centerMap');
       const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
-      updateTimeLayer(swipeLayer, this.mergedConfigsData, time);
+      if (swipeLayer) {
+        updateTimeLayer(swipeLayer, this.mergedConfigsData, time);
+      }
     },
   },
   methods: {
