@@ -27,16 +27,12 @@ export default {
     mapId: String,
     indicator: Object,
   },
-  data() {
-    return {};
-  },
+  data() {},
   watch: {
     subAoiInverse: {
       deep: true,
       immediate: true,
       handler(value) {
-        console.log(value);
-        debugger;
         const { map } = getMapInstance(this.mapId);
         const aoiLayer = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
         if (aoiLayer) {
