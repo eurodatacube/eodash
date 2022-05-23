@@ -59,9 +59,9 @@
       <p class="ma-0"><strong>{{ tooltip.indicator }}</strong></p>
       <p class="ma-0"> {{ tooltip.label }} </p>
     </div>
-    <div :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
-      <img v-if="indicator && indicator.display && indicator.display.legendUrl"
-      :src="indicator.display.legendUrl" alt=""
+    <div :style="`position: absolute; z-index: 1; top: 10px; right: 50px;`">
+      <img v-if="mergedConfigsData.length > 0 && mergedConfigsData[0].legendUrl"
+      :src="mergedConfigsData[0].legendUrl" alt=""
       :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' :
       (legendExpanded && 'map-legend-expanded')}`"
       @click="legendExpanded = !legendExpanded"
@@ -511,9 +511,10 @@ export default {
   max-width: 15vw;
   transition: max-width 0.5s ease-in-out;
   cursor: pointer;
+  float: right;
 }
 .map-legend-expanded {
   width: initial;
-  max-width: 800%;
+  max-width: 80%;
 }
 </style>
