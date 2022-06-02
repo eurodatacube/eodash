@@ -224,8 +224,8 @@ const renderVue = async () => {
 if (store.state.dashboard?.dashboardConfig?.id) {
   store.commit('dashboard/ADD_API', customDashboardApiFactory());
 
-  const id = store.state.dashboard ?. dashboardConfig ?. id;
-  const editKey = store.state.dashboard ?. dashboardConfig ?. editKey;
+  const id = store.state.dashboard?.dashboardConfig?.id;
+  const editKey = store.state.dashboard?.dashboardConfig?.editKey;
 
   store.state.dashboard.api.listen(id, editKey).then((response) => {
     if (response.error) {
