@@ -60,7 +60,7 @@
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^6.2.2",
     "raw-loader": "^4.0.1",
-    "sass": "^1.19.0",
+    "sass": "~1.32.6",
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-vuetify": "^2.0.5",
     "vue-template-compiler": "^2.6.11",
