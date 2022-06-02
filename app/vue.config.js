@@ -43,7 +43,6 @@ appConfig.map((b) => { // eslint-disable-line
   };
 });
 
-
 module.exports = {
   pages,
   lintOnSave: process.env.NODE_ENV !== 'production',

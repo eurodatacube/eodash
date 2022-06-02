@@ -221,7 +221,7 @@ const renderVue = async () => {
   }).$mount('#app');
 };
 
-if (store.state.dashboard ?. dashboardConfig ?. id) {
+if (store.state.dashboard?.dashboardConfig?.id) {
   store.commit('dashboard/ADD_API', customDashboardApiFactory());
 
   const id = store.state.dashboard ?. dashboardConfig ?. id;
@@ -232,7 +232,6 @@ if (store.state.dashboard ?. dashboardConfig ?. id) {
       console.error(response);
       store.commit('dashboard/disconnect');
     }
-
 
     response.features = response.features.map((f) => { // eslint-disable-line
       const newF = { ...f };

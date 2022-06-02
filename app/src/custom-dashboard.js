@@ -22,8 +22,7 @@ class CustomDashboardApi extends EventEmitter {
           editKey,
         }),
       }, (response) => {
-        if (response.error) { return reject(response); }
-
+        if (response?.error) { return reject(response); }
 
         return resolve(response);
       });
@@ -36,8 +35,7 @@ class CustomDashboardApi extends EventEmitter {
         title,
         features,
       }, (response) => {
-        if (response.error) { return reject(response); }
-
+        if (response?.error) { return reject(response); }
 
         return resolve(response);
       });
@@ -47,8 +45,7 @@ class CustomDashboardApi extends EventEmitter {
   changeTitle(title) {
     return new Promise((resolve, reject) => {
       this.socket.emit('change-title', title, (response) => {
-        if (response ?. error) { return reject(response); }
-
+        if (response?.error) { return reject(response); }
 
         return resolve(response);
       });
@@ -58,8 +55,7 @@ class CustomDashboardApi extends EventEmitter {
   addFeature(feature) {
     return new Promise((resolve, reject) => {
       this.socket.emit('add-feature', feature, (response) => {
-        if (response ?. error) { return reject(response); }
-
+        if (response?.error) { return reject(response); }
 
         return resolve(response);
       });
@@ -69,8 +65,7 @@ class CustomDashboardApi extends EventEmitter {
   removeFeature(featureId) {
     return new Promise((resolve, reject) => {
       this.socket.emit('remove-feature', featureId, (response) => {
-        if (response ?. error) { return reject(response); }
-
+        if (response?.error) { return reject(response); }
 
         return resolve(response);
       });
@@ -80,8 +75,7 @@ class CustomDashboardApi extends EventEmitter {
   moveFeatureDown(featureId) {
     return new Promise((resolve, reject) => {
       this.socket.emit('feature-move-down', featureId, (response) => {
-        if (response ?. error) { return reject(response); }
-
+        if (response?.error) { return reject(response); }
 
         return resolve(response);
       });
@@ -91,8 +85,7 @@ class CustomDashboardApi extends EventEmitter {
   moveFeatureUp(featureId) {
     return new Promise((resolve, reject) => {
       this.socket.emit('feature-move-up', featureId, (response) => {
-        if (response ?. error) { return reject(response); }
-
+        if (response?.error) { return reject(response); }
 
         return resolve(response);
       });
@@ -102,8 +95,7 @@ class CustomDashboardApi extends EventEmitter {
   shrinkFeature(featureId) {
     return new Promise((resolve, reject) => {
       this.socket.emit('feature-resize-shrink', featureId, (response) => {
-        if (response ?. error) { return reject(response); }
-
+        if (response?.error) { return reject(response); }
 
         return resolve(response);
       });
@@ -113,8 +105,7 @@ class CustomDashboardApi extends EventEmitter {
   expandFeature(featureId) {
     return new Promise((resolve, reject) => {
       this.socket.emit('feature-resize-expand', featureId, (response) => {
-        if (response ?. error) { return reject(response); }
-
+        if (response?.error) { return reject(response); }
 
         return resolve(response);
       });
@@ -124,8 +115,7 @@ class CustomDashboardApi extends EventEmitter {
   addMarketingInfo(info) {
     return new Promise((resolve, reject) => {
       this.socket.emit('add-marketing-info', info, (response) => {
-        if (response ?. error) { return reject(response); }
-
+        if (response?.error) { return reject(response); }
 
         return resolve(response);
       });
@@ -138,8 +128,7 @@ class CustomDashboardApi extends EventEmitter {
         id: featureId,
         newTitle,
       }, (response) => {
-        if (response ?. error) { return reject(response); }
-
+        if (response?.error) { return reject(response); }
 
         return resolve(response);
       });
@@ -152,8 +141,7 @@ class CustomDashboardApi extends EventEmitter {
         id,
         ...mapInfo,
       }, (response) => {
-        if (response ?. error) { return reject(response); }
-
+        if (response?.error) { return reject(response); }
 
         return resolve(response);
       });
@@ -166,8 +154,7 @@ class CustomDashboardApi extends EventEmitter {
         id,
         text,
       }, (response) => {
-        if (response ?. error) { return reject(response); }
-
+        if (response?.error) { return reject(response); }
 
         return resolve(response);
       });

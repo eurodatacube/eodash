@@ -3610,7 +3610,6 @@ export const globalIndicators = [
   },
 ];
 
-
 const createSlowDownIndicator = (id, aoiID, city, country, aoi, geometry, cog, eoSensor, time) => (
   {
     latlng: aoi,
@@ -3807,7 +3806,6 @@ const slowdownIndicators = [
     cog: 'RiodeJaneiro_S1_TD155_SPM_20200112-20200217_20200324-20200429_th-0.3.cog',
   },
 ];
-
 
 let idOffset = 30000;
 slowdownIndicators.forEach((ind, idx) => (
