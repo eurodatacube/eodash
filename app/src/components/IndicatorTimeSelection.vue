@@ -13,7 +13,7 @@
         v-if="compareActive"
         outlined
         dense
-        :autofocus="autofocus"
+        :autofocus="true"
         attach
         hide-details
         :prepend-inner-icon="(availableValues && compareTime) && (availableValues
@@ -61,6 +61,7 @@
         return-object
         v-model="originalTimeModel"
         @focus="() => $emit('focusSelect', true)"
+        @click="() => $emit('focusSelect', true)"
         @blur="() => $emit('focusSelect', false)"
         @click:prepend-inner="change('originalTimeModel', -1)"
         @click:append="change('originalTimeModel', +1)"
