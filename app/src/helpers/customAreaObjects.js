@@ -388,10 +388,12 @@ const fetchCustomAreaObjects = async (
 };
 
 export const nasaTimelapseConfig = (
-    datasetId,
-    dateRange=['201501', DateTime.now().toFormat('yyyyMM')],
-    rescale=((value) => (value / 1e14)),
-  ) => ({
+  datasetId,
+  dateRange = ['201501', DateTime.now().toFormat('yyyyMM')],
+  rescale = (value) => value / 1e14,
+  dataTimeFormat = 'yyyyMM',
+  indicatorCode = 'NASACustomLineChart',
+) => ({
   url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/timelapse',
   requestMethod: 'POST',
   requestHeaders: {
@@ -414,12 +416,16 @@ export const nasaTimelapseConfig = (
       };
       data.forEach((row) => {
         if (!('error' in row)) {
-          newData.time.push(DateTime.fromFormat(row.date, 'yyyyMM'));
+          newData.time.push(DateTime.fromFormat(row.date, dataTimeFormat));
           newData.colorCode.push('');
           newData.measurement.push(rescale(row.mean));
-          newData.referenceValue.push(`[${rescale(row.median)}, null, null, null]`);
+          newData.referenceValue.push(rescale(row.median));
         }
       });
+      if (indicatorCode) {
+        // if we for some reason need to change indicator code of custom chart data
+        newData.indicator = indicatorCode;
+      }
       ind = {
         ...indicator,
         ...newData,

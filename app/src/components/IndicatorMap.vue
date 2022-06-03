@@ -415,7 +415,6 @@ import turfDifference from '@turf/difference';
 import countries from '@/assets/countries.json';
 import gsaFile from '@/assets/gsa_data.json';
 
-
 import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
@@ -1380,6 +1379,7 @@ export default {
     fetchCustomAreaIndicator() {
       this.fetchData({
         type: 'customIndicator',
+        side: 'data',
       });
     },
     clearCustomAreaFilter() {

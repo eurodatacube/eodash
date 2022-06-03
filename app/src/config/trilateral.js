@@ -14,7 +14,6 @@ import {
   parseStatAPIResponse,
   nasaTimelapseConfig,
 } from '@/helpers/customAreaObjects';
-import store from '../store';
 
 export const dataPath = './data/internal/';
 export const dataEndpoints = [
@@ -893,7 +892,7 @@ export const globalIndicators = [
         aoiID: 'W3',
         time: availableDates['no2-monthly-diff'],
         inputData: [''],
-        yAxis: 'NO2-difference [µmol/m²]',
+        yAxis: 'NO2-difference [10^15 molecules/cm²]',
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
@@ -907,7 +906,11 @@ export const globalIndicators = [
           legendUrl: 'data/trilateral/N1-NO2DiffLegend.png',
           disableCompare: true,
           customAreaIndicator: true,
-          areaIndicator: nasaTimelapseConfig('no2-diff'),
+          areaIndicator: nasaTimelapseConfig(
+            'no2-diff',
+            ['201501', DateTime.now().toFormat('yyyyMM')],
+            (value) => value / 1e15,
+          ),
         },
       },
     },
@@ -937,6 +940,7 @@ export const globalIndicators = [
         aoiID: 'W4',
         time: getDailyDates('2020-01-01', '2021-10-15'),
         inputData: [''],
+        yAxis: 'CO2 mean [ppm]',
         display: {
           protocol: 'xyz',
           tileSize: 256,
@@ -946,6 +950,13 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           legendUrl: 'data/trilateral/N2-co2mean-legend.png',
           mapLabel: 'Mean',
+          customAreaIndicator: true,
+          areaIndicator: nasaTimelapseConfig(
+            'co2',
+            ['2020_01_01', '2021_10_15'],
+            (value) => (value * 1e6),
+            'yyyy_MM_dd',
+          ),
         },
         compareDisplay: {
           protocol: 'xyz',
@@ -1030,6 +1041,7 @@ export const globalIndicators = [
         aoiID: 'W5',
         time: getDailyDates('2020-01-01', '2021-10-15'),
         inputData: [''],
+        yAxis: 'CO2 difference [ppm]',
         display: {
           protocol: 'xyz',
           tileSize: 256,
@@ -1039,6 +1051,13 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           legendUrl: 'data/trilateral/N2-co2diff-legend.png',
           disableCompare: true,
+          customAreaIndicator: true,
+          areaIndicator: nasaTimelapseConfig(
+            'co2-diff',
+            ['2020_01_01', '2021_10_15'],
+            (value) => (value * 1e6),
+            'yyyy_MM_dd',
+          ),
         },
       },
     },
@@ -1122,7 +1141,7 @@ export const globalIndicators = [
           name: 'NO2 OMI Annual',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
-          // legendUrl: 'data/trilateral/N2-co2diff-legend.png',
+          legendUrl: 'eodash-data/data/no2Legend.png',
         },
       },
     },
@@ -3559,7 +3578,6 @@ export const globalIndicators = [
   },
 ];
 
-
 const createSlowDownIndicator = (id, aoiID, city, country, aoi, geometry, cog, eoSensor, time) => (
   {
     latlng: aoi,
@@ -3756,7 +3774,6 @@ const slowdownIndicators = [
     cog: 'RiodeJaneiro_S1_TD155_SPM_20200112-20200217_20200324-20200429_th-0.3.cog',
   },
 ];
-
 
 let idOffset = 30000;
 slowdownIndicators.forEach((ind, idx) => (

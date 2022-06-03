@@ -96,7 +96,7 @@ export default {
     return {
       dataLayerTime: null,
       lineChartIndicators: [
-        'E12', 'E12b', 'E8', 'N1b', 'N1', 'N3', 'N3b',
+        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'N3', 'N3b',
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
@@ -287,6 +287,22 @@ export default {
             ],
             valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
               .map((str) => (str === '' ? Number.NaN : Number(str)))),
+          },
+          NASACustomLineChart: {
+            measurementConfig: {
+              label: indicator.yAxis,
+              fill: false,
+              backgroundColor: refColors[0],
+              borderColor: refColors[0],
+              spanGaps: false,
+              borderWidth: 2,
+            },
+            referenceData: [
+              {
+                key: 'Median', index: 0, color: 'black', fill: false,
+              },
+            ],
+            valueDecompose: (item) => Number(item),
           },
         };
         referenceDecompose.N1b = referenceDecompose.N1a;
@@ -845,7 +861,7 @@ export default {
         || this.$store.state.indicators.selectedIndicator;
     },
     indDefinition() {
-      return this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator];
+      return this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator] || {};
     },
   },
   methods: {
