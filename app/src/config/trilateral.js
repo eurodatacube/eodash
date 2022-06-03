@@ -12,6 +12,7 @@ import {
   statisticalApiBody,
   evalScriptsDefinitions,
   parseStatAPIResponse,
+  nasaTimelapseConfig,
 } from '@/helpers/customAreaObjects';
 import store from '../store';
 
@@ -862,62 +863,7 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyyMM'),
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           legendUrl: 'eodash-data/data/no2Legend.png',
-          areaIndicator: {
-            url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/timelapse',
-            requestMethod: 'POST',
-            requestHeaders: {
-              'Content-Type': 'application/json',
-            },
-            requestBody: {
-              datasetId: 'no2',
-              dateRange: ['202001', '202801'],
-              geojson: '{geojson}',
-            },
-            callbackFunction: (responseJson, indicator) => {
-              let ind = null;
-              if (Array.isArray(responseJson)) {
-                const data = responseJson;
-                const newData = {
-                  time: [],
-                  measurement: [],
-                  colorCode: [],
-                  referenceValue: [],
-                };
-                data.forEach((row) => {
-                  if (!('error' in row)) {
-                    newData.time.push(DateTime.fromFormat(row.date, 'yyyyMM'));
-                    newData.colorCode.push('');
-                    newData.measurement.push(row.mean / 1e14);
-                    newData.referenceValue.push(`[${row.median / 1e14}, null, null, null]`);
-                  }
-                });
-                ind = {
-                  ...indicator,
-                  ...newData,
-                };
-              } else if (Object.keys(responseJson).indexOf('detail') !== -1) {
-                // This will happen if area selection is too large
-                if (responseJson.detail[0].msg.startsWith('AOI cannot exceed')) {
-                  store.commit('sendAlert', {
-                    message: 'AOI cannot exceed 200 000 km²',
-                    type: 'error',
-                  });
-                } else {
-                  console.log(responseJson.detail[0].msg);
-                }
-              }
-              return ind;
-            },
-            areaFormatFunction: (area) => (
-              {
-                geojson: JSON.stringify({
-                  type: 'Feature',
-                  properties: {},
-                  geometry: area,
-                }),
-              }
-            ),
-          },
+          areaIndicator: nasaTimelapseConfig('no2'),
         },
       },
     },
@@ -945,8 +891,9 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         aoi: null,
         aoiID: 'W3',
-        time: getMonthlyDates('2015-01-01', '2022-03-01'),
+        time: availableDates['no2-monthly-diff'],
         inputData: [''],
+        yAxis: 'NO2-difference [µmol/m²]',
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
@@ -955,10 +902,12 @@ export const globalIndicators = [
           tileSize: 256,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/OMNO2d_HRMDifference/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=-3e15%2C3e15&color_map=rdbu_r',
           name: 'Air Quality (NASA)',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
-          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
+          dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyyMM'),
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           legendUrl: 'data/trilateral/N1-NO2DiffLegend.png',
           disableCompare: true,
+          customAreaIndicator: true,
+          areaIndicator: nasaTimelapseConfig('no2-diff'),
         },
       },
     },
@@ -2445,7 +2394,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W6',
-        time: getMonthlyDates('2020-01-28', '2022-04-28'),
+        time: getMonthlyDates('2020-01-28', '2022-05-28'),
         inputData: [''],
         display: {
           protocol: 'xyz',
