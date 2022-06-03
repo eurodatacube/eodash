@@ -1,7 +1,20 @@
+<template>
+  <MapOverlay
+   :mapId="mapId"
+   :overlayHeaders="overlayHeaders"
+   :overlayRows="overlayRows"
+   :overlayCoordinate="overlayCoordinate"
+  />
+</template>
+
 <script>
 import getMapInstance from '@/components/map/map';
+import MapOverlay from '@/components/map/MapOverlay.vue';
 import { createLayerFromConfig } from '@/components/map/layers';
 import GeoJSON from 'ol/format/GeoJSON';
+import LayerGroup from 'ol/layer/Group';
+import VectorLayer from 'ol/layer/Vector';
+import { getCenter } from 'ol/extent';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -17,7 +30,9 @@ const geoJsonFormat = new GeoJSON({
  * control by design
  */
 export default {
-  components: {},
+  components: {
+    MapOverlay,
+  },
   props: {
     mapId: String,
     indicator: Object,
@@ -27,7 +42,11 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      overlayHeaders: [],
+      overlayRows: [],
+      overlayCoordinate: null,
+    };
   },
   watch: {},
   computed: {},
@@ -45,7 +64,39 @@ export default {
       const presetGeom = geoJsonFormat.readGeometry(presetView.features[0].geometry);
       map.getView().fit(presetGeom.getExtent());
     }
-
+    let featureLayer;
+    if (layer instanceof LayerGroup) {
+      featureLayer = layer.getLayers().getArray().find((l) => l instanceof VectorLayer);
+    } else {
+      featureLayer = layer;
+    }
+    this.pointerMoveHandler = (e) => {
+      const features = map.getFeaturesAtPixel(e.pixel, {
+        layerFilter: ((candidate) => candidate === featureLayer),
+      });
+      // consider layergroup
+      if (features.length) {
+        const feature = features[0];
+        // center coordinate of extent, passable approximation for small or regular features
+        const coordinate = getCenter(feature.getGeometry().getExtent());
+        this.overlayCoordinate = coordinate;
+        const rows = [];
+        const props = feature.getProperties();
+        // some indicators have "allowedParameters", which define the keys to display
+        const keys = this.indicator.features.allowedParameters
+        || Object.keys(props).filter((k) => k !== 'geometry');
+        keys.forEach((key) => {
+          if (props[key]) {
+            rows.push(`${key}: ${props[key]}`);
+          }
+        });
+        this.overlayRows = rows;
+      } else {
+        this.overlayCoordinate = null;
+        this.overlayContent = null;
+      }
+    };
+    map.on('pointermove', this.pointerMoveHandler);
     map.addLayer(layer);
   },
   methods: {},
@@ -53,8 +104,8 @@ export default {
     const { map } = getMapInstance(this.mapId);
     const layer = map.getLayers().getArray().find((l) => l.get('name') === this.layerName);
     map.removeLayer(layer);
+    map.un('pointermove', this.pointerMoveHandler);
   },
-  render: () => null,
 };
 </script>
 
