@@ -1,5 +1,5 @@
 <template>
-  <v-card :id="`${mapId}_overlay`" class="tooltip pa-2">
+  <v-card :id="`${overlayId}_overlay`" :ref="`${overlayId}_overlay`" class="tooltip pa-2">
     <div class="text-center">
       <p v-for="(header, index) in overlayHeaders" :key="index" class="ma-0">
         <strong>
@@ -24,6 +24,7 @@ export default {
   components: {},
   props: {
     mapId: String,
+    overlayId: String,
     overlayHeaders: Array,
     overlayRows: Array,
     overlayCoordinate: Array,
@@ -38,7 +39,7 @@ export default {
       if (!value) {
         this.overlay.setPosition(null);
       } else {
-        this.overlay.setPosition(this.overlayCoordinate);
+        this.overlay.setPosition(value);
       }
     },
   },
@@ -46,8 +47,8 @@ export default {
   mounted() {
     const { map } = getMapInstance(this.mapId);
     const overlay = new Overlay({
-      element: document.getElementById(`${this.mapId}_overlay`),
-      id: `overlay_${this.mapId}`,
+      element: this.$refs[`${this.overlayId}_overlay`].$el,
+      id: `overlay_${this.overlayId}`,
       offset: [0, -16],
       positioning: 'bottom-center',
     });

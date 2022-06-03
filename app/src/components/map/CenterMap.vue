@@ -8,12 +8,14 @@
     />
     <!-- a layer displaying a selected global poi
      these layers will have z-Index 2 -->
-    <SpecialLayer v-for="(mergedConfig, i) in mergedConfigsData"
+     <div>
+    <SpecialLayer v-if="mergedConfigsData.length"
       mapId="centerMap"
-      :indicator="mergedConfig"
+      :indicator="mergedConfigsData[0]"
       :layerName="dataLayerName"
-      :key="dataLayerName + i"
+      :key="dataLayerName"
     />
+    </div>
     <!-- will add a drawing layer to the map (z-index 3) -->
     <CustomAreaButtons
       v-if="loaded"
@@ -58,6 +60,7 @@
     <!-- an overlay for showing information when hovering over clusters -->
     <MapOverlay
       mapId="centerMap"
+      overlayId="clusterOverlay"
       :overlayHeaders="overlayHeaders"
       :overlayRows="overlayRows"
       :overlayCoordinate="overlayCoordinate"

@@ -1,6 +1,7 @@
 <template>
   <MapOverlay
    :mapId="mapId"
+   :overlayId="layerName"
    :overlayHeaders="overlayHeaders"
    :overlayRows="overlayRows"
    :overlayCoordinate="overlayCoordinate"
