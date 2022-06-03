@@ -8,7 +8,8 @@
     />
     <!-- a layer displaying a selected global poi
      these layers will have z-Index 2 -->
-    <SpecialLayer v-for="(mergedConfig, i) in mergedConfigsData" mapId="centerMap"
+    <SpecialLayer v-for="(mergedConfig, i) in mergedConfigsData"
+      mapId="centerMap"
       :indicator="mergedConfig"
       :layerName="dataLayerName"
       :key="dataLayerName + i"
@@ -54,11 +55,13 @@
       :key="mergedConfigsData[0].name + '_timeSelection'"
       @focusSelect="focusSelect"
     />
-    <div id="centerMapOverlay" class="tooltip v-card v-sheet text-center pa-2">
-      <p class="ma-0"><strong>{{ tooltip.city }}</strong></p>
-      <p class="ma-0"><strong>{{ tooltip.indicator }}</strong></p>
-      <p class="ma-0"> {{ tooltip.label }} </p>
-    </div>
+    <!-- an overlay for showing information when hovering over clusters -->
+    <MapOverlay
+      mapId="centerMap"
+      :overlayHeaders="overlayHeaders"
+      :overlayRows="overlayRows"
+      :overlayCoordinate="overlayCoordinate"
+    />
     <div :style="`position: absolute; z-index: 1; top: 10px; right: 50px;`">
       <img v-if="mergedConfigsData.length > 0 && mergedConfigsData[0].legendUrl"
       :src="mergedConfigsData[0].legendUrl" alt=""
@@ -94,7 +97,7 @@ import InverseSubaoiLayer from '@/components/map/InverseSubaoiLayer.vue';
 import LayerSwipe from '@/components/map/LayerSwipe.vue';
 import CustomAreaButtons from '@/components/map/CustomAreaButtons.vue';
 import getMapInstance from '@/components/map/map';
-import { formatLabel } from '@/components/map/formatters';
+import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
 import { updateTimeLayer } from '@/components/map/timeLayerUtils';
 import {
@@ -117,6 +120,7 @@ export default {
     LayerSwipe,
     CustomAreaButtons,
     InverseSubaoiLayer,
+    MapOverlay,
   },
   props: {
     // currentIndicator will only be set as prop in the custom dashboard.
@@ -151,6 +155,10 @@ export default {
       enableCompare: false,
       legendExpanded: false,
       customAreaLoading: false,
+      // overlay data
+      overlayHeaders: [],
+      overlayRows: [],
+      overlayCoordinate: null,
     };
   },
   computed: {
@@ -345,9 +353,10 @@ export default {
     getMapInstance('centerMap').map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
   },
   methods: {
-    overlayCallback(indicatorObject) {
-      // callback function for overlay hover events
-      this.tooltip = formatLabel(indicatorObject, this);
+    overlayCallback(headers, rows, coordinate) {
+      this.overlayHeaders = headers;
+      this.overlayRows = rows;
+      this.overlayCoordinate = coordinate;
     },
     setInitialTime() {
       if (this.mergedConfigsData?.length) {
@@ -484,28 +493,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
-.tooltip {
-  position: relative;
-  font-size: 14px;
-  box-shadow: none !important;
-  background: rgba(0, 0, 0, 0.6);
-  color: #FFFFFF;
-}
-
-.tooltip:after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border: 10px solid transparent;
-  border-top-color: rgba(0, 0, 0, 0.6);
-  border-bottom: 0;
-  margin-left: -10px;
-  margin-bottom: -10px;
-}
 
 .map-legend {
   max-width: 15vw;

@@ -14,11 +14,12 @@ import {
 import ClusterSource from 'ol/source/Cluster';
 import VectorSource from 'ol/source/Vector';
 import { asArray } from 'ol/color';
-import { Feature, Overlay } from 'ol';
+import { Feature } from 'ol';
 import { fromLonLat } from 'ol/proj';
 import GeoJSON from 'ol/format/GeoJSON';
 import { getColor } from './olMapColors';
 import getMapInstance from './map';
+import { formatLabel } from './formatters';
 
 
 const geoJsonFormat = new GeoJSON({
@@ -257,20 +258,12 @@ class Cluster {
       });
       this.map.on('pointermove', this.pointermoveInteraction.bind(this, overlayCallback));
       this.map.on('click', this.clickInteraction);
-      const overlay = new Overlay({
-        element: document.getElementById(`${this.map.get('id')}Overlay`),
-        id: 'clusterOverlay',
-        offset: [0, -22],
-        positioning: 'bottom-center',
-      });
-      this.map.addOverlay(overlay);
     } else {
       [this.clusters, this.clusterHulls, this.clusterCircles].forEach((l) => {
         this.map.removeLayer(l);
       });
       this.map.un('pointermove', this.pointermoveInteraction);
       this.map.un('click', this.clickInteraction);
-      this.map.getOverlayById('clusterOverlay').setMap(null);
     }
   }
 
@@ -313,11 +306,11 @@ class Cluster {
       this.map.getTargetElement().style.cursor = this.hoverFeature || openClusterFeatures.length
         ? 'pointer'
         : '';
-      // show or hide popup
-      const overlay = this.map.getOverlayById('clusterOverlay');
       if (openClusterFeatures.length || (this.hoverFeature && this.hoverFeature.get('features').length === 1)) {
         let coords;
         let hoverFeature;
+        const headers = [];
+        const rows = [];
         if (openClusterFeatures.length) {
           const clusterObject = getClusterMemberForCoordinate(this.map,
             openClusterFeatures[0],
@@ -328,13 +321,20 @@ class Cluster {
           [hoverFeature] = this.hoverFeature.get('features');
           coords = hoverFeature.getGeometry().getCoordinates();
         }
-        overlay.setMap(this.map);
-        overlay.setPosition(coords);
         const { indicatorObject } = hoverFeature.getProperties().properties;
-        callback(indicatorObject);
-        overlay.getElement().style.display = 'block';
+        const { city, indicator, label } = formatLabel(indicatorObject, this.vm);
+        if (city) {
+          headers.push(city);
+        }
+        if (indicator) {
+          headers.push(indicator);
+        }
+        if (label && label !== '/') {
+          rows.push(label);
+        }
+        callback(headers, rows, coords);
       } else {
-        overlay.setMap(null);
+        callback([], [], null);
       }
     };
     this.clickInteraction = async (event) => {

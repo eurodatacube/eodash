@@ -1,8 +1,12 @@
 <template>
   <v-card :id="`${mapId}_overlay`" class="tooltip pa-2">
-    <p v-for="(header, index) in overlayHeaders" :key="index" class="ma-0" strong>
-      {{header}}
+    <div class="text-center">
+      <p v-for="(header, index) in overlayHeaders" :key="index" class="ma-0">
+        <strong>
+          {{header}}
+        </strong>
       </p>
+    </div>
     <p v-for="(row, index) in overlayRows" :key="index" class="ma-0">
       {{ row }}
     </p>
@@ -64,7 +68,7 @@ export default {
   position: relative;
   font-size: 14px;
   box-shadow: none !important;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.6) !important;
   color: #FFFFFF;
 }
 
