@@ -251,6 +251,15 @@ export function createLayerFromConfig(config, _options = {}) {
     });
     const featuresLayer = new VectorLayer({
       source: featuresSource,
+      style: new Style({
+        fill: new Fill({
+          color: 'rgba(255, 255, 255, 0.1)',
+        }),
+        stroke: new Stroke({
+          width: 2,
+          color: '#F7A400',
+        }),
+      }),
     });
 
     return new Group({
