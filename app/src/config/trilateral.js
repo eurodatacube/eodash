@@ -1137,7 +1137,7 @@ export const globalIndicators = [
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=-126905900761088.0,3673290589614899.0&bidx=1&colormap_name=reds',
+          url: 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,108e14&bidx=1&colormap_name=reds',
           name: 'NO2 OMI Annual',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
