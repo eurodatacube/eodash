@@ -389,7 +389,7 @@ const fetchCustomAreaObjects = async (
 
 export const nasaTimelapseConfig = (
   datasetId,
-  dateRange = ['201501', DateTime.now().toFormat('yyyyMM')],
+  dateRange = ['201501', DateTime.utc().toFormat('yyyyMM')],
   rescale = (value) => value / 1e14,
   dataTimeFormat = 'yyyyMM',
   indicatorCode = 'NASACustomLineChart',

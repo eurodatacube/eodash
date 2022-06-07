@@ -908,7 +908,7 @@ export const globalIndicators = [
           customAreaIndicator: true,
           areaIndicator: nasaTimelapseConfig(
             'no2-diff',
-            ['201501', DateTime.now().toFormat('yyyyMM')],
+            ['201501', DateTime.utc().toFormat('yyyyMM')],
             (value) => value / 1e15,
           ),
         },
@@ -1130,7 +1130,7 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           // mosaicIndicator: true,
-          collection: 'OMI_trno2-COG',
+          // collection: 'OMI_trno2-COG',
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
@@ -1169,7 +1169,7 @@ export const globalIndicators = [
         showGlobe: true,
         display: {
           // mosaicIndicator: true,
-          collection: 'IS2SITMOGR4',
+          // collection: 'IS2SITMOGR4',
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
@@ -1207,7 +1207,7 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           // mosaicIndicator: true,
-          collection: 'MO_NPP_npp_vgpm',
+          // collection: 'MO_NPP_npp_vgpm',
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
@@ -1245,7 +1245,7 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           // mosaicIndicator: true,
-          collection: 'nceo_africa_2017',
+          // collection: 'nceo_africa_2017',
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
@@ -1291,7 +1291,7 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           // mosaicIndicator: true,
-          collection: 'OMSO2PCA-COG',
+          // collection: 'OMSO2PCA-COG',
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
