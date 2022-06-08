@@ -66,7 +66,9 @@ export default {
   mounted() {
     this.fixFullHeight();
     window.addEventListener('resize', () => {
-      this.fixFullHeight();
+      setTimeout(() => {
+        this.fixFullHeight();
+      }, 200);
     });
   },
   methods: {

@@ -6,21 +6,28 @@
   },
   "features": [
     {
-      "width": 1,
-      "text": "# Sea Ice Freeboard & Thickness from Satellite Altimetry\n&nbsp;  \nThe sea ice extent has been rapidly decreasing in recent years as global temperatures have risen. As sea ice extent is very important, space agencies are continuously monitoring it from space. Microwave remote sensing from space is the only tool that provides continuous, consistent, and comprehensive information on sea ice changes in polar regions. JAXA provides data of a variety of satellite measurements from passive microwave imagers, including the Advanced Microwave Scanning Radiometer (AMSR) series. These data aim to capture sea ice concentration (i.e., coverage) and sea ice extent trends in the polar oceans on a daily basis from 1978 to the present.",
+      "width": 2,
+      "text": "# Sea Ice Extent and Concentration from Passive Microwave\n&nbsp;  \nThe sea ice extent has been rapidly decreasing in recent years as global temperatures have risen. As sea ice extent is very important, space agencies are continuously monitoring it from space. Microwave remote sensing from space is the only tool that provides continuous, consistent, and comprehensive information on sea ice changes in polar regions. JAXA provides data of a variety of satellite measurements from passive microwave imagers, including the Advanced Microwave Scanning Radiometer (AMSR) series. These data aim to capture sea ice concentration (i.e., coverage) and sea ice extent trends in the polar oceans on a daily basis from 1978 to the present.",
       "id": "page 1-1647904262879",
       "title": "page 1",
-      "__generatedText__": "<h1>Sea Ice Freeboard &amp; Thickness from Satellite Altimetry</h1>\n<p>&nbsp;<br>The sea ice extent has been rapidly decreasing in recent years as global temperatures have risen. As sea ice extent is very important, space agencies are continuously monitoring it from space. Microwave remote sensing from space is the only tool that provides continuous, consistent, and comprehensive information on sea ice changes in polar regions. JAXA provides data of a variety of satellite measurements from passive microwave imagers, including the Advanced Microwave Scanning Radiometer (AMSR) series. These data aim to capture sea ice concentration (i.e., coverage) and sea ice extent trends in the polar oceans on a daily basis from 1978 to the present.</p>\n"
-    },
-    {
-      "width": 3,
-      "text": "<--IMG-->https://github.com/eurodatacube/eodash/blob/d3628aaf9d9c16628212f4256efcdc8a93ef4197/app/public/data/story-images/1-sea-ice.jpg?raw=true<--IMG--> ",
-      "id": " -1651663567542",
-      "title": " ",
-      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://github.com/eurodatacube/eodash/blob/d3628aaf9d9c16628212f4256efcdc8a93ef4197/app/public/data/story-images/1-sea-ice.jpg?raw=true\">https://github.com/eurodatacube/eodash/blob/d3628aaf9d9c16628212f4256efcdc8a93ef4197/app/public/data/story-images/1-sea-ice.jpg?raw=true</a>&lt;--IMG--&gt; </p>\n"
+      "__generatedText__": "<h1>Sea Ice Extent and Concentration from Passive Microwave</h1>\n<p>&nbsp;<br>The sea ice extent has been rapidly decreasing in recent years as global temperatures have risen. As sea ice extent is very important, space agencies are continuously monitoring it from space. Microwave remote sensing from space is the only tool that provides continuous, consistent, and comprehensive information on sea ice changes in polar regions. JAXA provides data of a variety of satellite measurements from passive microwave imagers, including the Advanced Microwave Scanning Radiometer (AMSR) series. These data aim to capture sea ice concentration (i.e., coverage) and sea ice extent trends in the polar oceans on a daily basis from 1978 to the present.</p>\n"
     },
     {
       "width": 2,
+      "text": "<--IMG-->/data/story-images/1-sea-ice.jpg<--IMG--> ",
+      "id": " -1651663567542",
+      "title": " ",
+      "__generatedText__": "<p>&lt;--IMG--&gt;/data/story-images/1-sea-ice.jpg&lt;--IMG--&gt; </p>\n"
+    },
+    {
+      "width": 1,
+      "text": "## Explore Datasets\n\nThis interactive globe view displays the global, sea ice concentration product from JAXA's GCOM-W (Global Change Observation Mission - Water)\n\n\n",
+      "id": " -1652251121816",
+      "title": " ",
+      "__generatedText__": "<h2>Explore Datasets</h2>\n<p>This interactive globe view displays the global, sea ice concentration product from JAXA&#39;s GCOM-W (Global Change Observation Mission - Water)</p>\n"
+    },
+    {
+      "width": 3,
       "mapInfo": {
         "position": null,
         "right": null,
@@ -39,6 +46,13 @@
     },
     {
       "width": 2,
+      "text": "<--IMG-->/data/story-images/1-EO_Dashboard_Cryo-Pix_May_12.jpeg<--IMG--> Sea Ice",
+      "id": "Ice bridge plane-1652251495171",
+      "title": "Ice bridge plane",
+      "__generatedText__": "<p>&lt;--IMG--&gt;/data/story-images/1-EO_Dashboard_Cryo-Pix_May_12.jpeg&lt;--IMG--&gt; Sea Ice</p>\n"
+    },
+    {
+      "width": 2,
       "text": "## Northern Sea Route\n \nFrom an economic standpoint, the sea ice extent decline has increased the commercial availability of the Arctic Ocean, an area previously closed by sea ice. The expansion in the open ocean area will allow vessels to navigate the Arctic Ocean through what is called the Northern Sea Route. There are two routes through the Arctic Ocean: the northeastern route along the Russian coast and the northwestern route along the Canadian coast. In particular, the northeastern route is beginning to be used for commercial operations because it is about 30% shorter than the traditional route between Europe and Asia via the Suez Canal.\n \nVessels navigating the Arctic Ocean must be equipped with ice resistance and ice breaking capabilities. Appropriate routes must be selected according to ship specifications and sea ice conditions. Information about sea ice concentration is necessary for the safe and economical navigation of vessels. As increased shipping brings additional risks to the severely vulnerable environment and, consequently, risks of increased environmental changes in other regions, adverse impacts on the environment resulting from the opening in the Northwest Passage route must be monitored as shipping traffic increases.\n  \nScientists use a variety of satellites and instruments to monitor and analyze changes in sea ice cover and thickness. Advances in satellite technology enable scientists to monitor and measure sea ice characteristics at a level of detail that cannot be obtained from ship-based or airborne measurements. Over time, continuous data collected by satellite observations help build a record of changing sea ice conditions over time and help people in Arctic coastal regions forecast storms and anticipate changes in walrus populations and shipping routes.\n",
       "id": "page 3-1651663499484",
       "title": "page 3",
@@ -46,11 +60,18 @@
     },
     {
       "width": 2,
-      "text": "<--IMG-->https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2009/11/icebreaking_ships/10040180-2-eng-GB/Icebreaking_ships_pillars.jpg<--IMG-->Shipping routes",
+      "text": "<--IMG-->/data/story-images/Icebreaking_ships_pillars.jpg<--IMG-->Shipping routes",
       "id": " -1651663707409",
       "title": " ",
-      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2009/11/icebreaking_ships/10040180-2-eng-GB/Icebreaking_ships_pillars.jpg\">https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2009/11/icebreaking_ships/10040180-2-eng-GB/Icebreaking_ships_pillars.jpg</a>&lt;--IMG--&gt;Shipping routes</p>\n"
+      "__generatedText__": "<p>&lt;--IMG--&gt;/data/story-images/Icebreaking_ships_pillars.jpg&lt;--IMG--&gt;Shipping routes</p>\n"
+    },
+    {
+      "width": 4,
+      "text": "## Explore Datasets \n &nbsp;   \nThis **EO Dashboard** provides access to interactive maps of Sea Ice Thickness and Sea Ice Concentration. Access these datasets by clicking on the **[EXPLORE DATASETS](https://www.eodashboard.org/explore)** button at the top of the page or directly from the links below:\n\n[Sea Ice Thickness from Cryosat](https://www.eodashboard.org/explore?poi=W9-SIC) &nbsp;   \n[Sea Ice Thickness from Envisat](https://www.eodashboard.org/explore?poi=W8-SIE)  &nbsp;   \n[Sea Ice Thickness from IceSAT-2](https://www.eodashboard.org/explore?poi=W10-SITI)\n&nbsp;   \n[Sea Ice Concentration from GCOM-W](https://www.eodashboard.org/explore?poi=World-N12)",
+      "id": " -1652890242032",
+      "title": " ",
+      "__generatedText__": "<h2>Explore Datasets</h2>\n<p> &nbsp;<br>This <strong>EO Dashboard</strong> provides access to interactive maps of Sea Ice Thickness and Sea Ice Concentration. Access these datasets by clicking on the <strong><a href=\"https://www.eodashboard.org/explore\">EXPLORE DATASETS</a></strong> button at the top of the page or directly from the links below:</p>\n<p><a href=\"https://www.eodashboard.org/explore?poi=W9-SIC\">Sea Ice Thickness from Cryosat</a> &nbsp;<br><a href=\"https://www.eodashboard.org/explore?poi=W8-SIE\">Sea Ice Thickness from Envisat</a>  &nbsp;<br><a href=\"https://www.eodashboard.org/explore?poi=W10-SITI\">Sea Ice Thickness from IceSAT-2</a>\n&nbsp;<br><a href=\"https://www.eodashboard.org/explore?poi=World-N12\">Sea Ice Concentration from GCOM-W</a></p>\n"
     }
   ],
-  "title": "Cryo - ESA NASA 1"
+  "title": "Cryo - JAXA 1"
 }

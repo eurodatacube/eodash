@@ -414,9 +414,3 @@ ${this.comments || 'No comments'}
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.v-card__title {
-  word-break: break-word;
-}
-</style>

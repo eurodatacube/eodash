@@ -142,24 +142,27 @@ ZARRCOLLECTIONS = [
 WMSCOLLECTIONS = {
     "ONPP-GCOMC-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
     "NDVI-GCOMC-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
+    "SMC-Anomaly-GCOMW-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
+    "PRC-Anomaly-GSMaP-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
 }
 
 STAC_COLLECTIONS = {
-    "no2-monthly": "https://staging-stac.delta-backend.xyz/collections/",
-    "no2-monthly-diff": "https://staging-stac.delta-backend.xyz/collections/",
-    "OMI_trno2-COG": "https://staging-stac.delta-backend.xyz/collections/",
-    "OMSO2PCA-COG": "https://staging-stac.delta-backend.xyz/collections/",
-    "facebook_population_density": "https://staging-stac.delta-backend.xyz/collections/",
-    "nightlights-hd-monthly": "https://staging-stac.delta-backend.xyz/collections/",
-    "IS2SITMOGR4": "https://staging-stac.delta-backend.xyz/collections/",
-    "MO_NPP_npp_vgpm": "https://staging-stac.delta-backend.xyz/collections/",
-    "nightlights-hd-3bands": "https://staging-stac.delta-backend.xyz/collections/",
-    "HLSL30.002": "https://staging-stac.delta-backend.xyz/collections/",
-    "HLSS30.002": "https://staging-stac.delta-backend.xyz/collections/",
+    "no2-monthly": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "no2-monthly-diff": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "OMI_trno2-COG": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "OMSO2PCA-COG": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "facebook_population_density": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "nightlights-hd-monthly": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "IS2SITMOGR4": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "MO_NPP_npp_vgpm": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "nightlights-hd-3bands": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "nceo_africa_2017": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    #"HLSL30.002": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    #"HLSS30.002": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
 }
 # Collections items which have null datetimes and instead start_datetime and end_datetime
 SPECIAL_STAC_DATE = [
-    "IS2SITMOGR4", "MO_NPP_npp_vgpm"
+    "IS2SITMOGR4", "MO_NPP_npp_vgpm",
 ]
 
 # Some datasets have different dates for different areas so we need to separate
@@ -207,21 +210,94 @@ def retrieve_entries(url, offset, dateproperty="date"):
         print (message)
     return res
 
+def retrieve_stac_entries(url, offset):
+    offset_step = 5000
+    r = requests.get("%s&FEATURE_OFFSET=%s"%(url, (offset*offset_step)))
+    res = []
+    try:
+        json_resp = r.json()
+        features = json_resp["features"]
+        for f in features:
+            # try to find the datetime attribute
+            date = None
+            if "datetime" in f["properties"] and f["properties"]["datetime"] != None:
+                date = f["properties"]["datetime"]
+            elif "start_datetime" in f["properties"]:
+                date = f["properties"]["start_datetime"]
+            elif "date" in f["properties"]:
+                date = f["properties"]["date"]
+            res.append([
+                date,
+                f["assets"]["cog_default"]["href"]
+            ])
+        if len(features) == offset_step:
+            raise Exception("It seems there are more then 5000 entries for the requested collection %s"%url)
+    except Exception as e:
+        print("Issue parsing json for request: %s"%url)
+        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        message = template.format(type(e).__name__, e.args)
+        print (message)
+    return res
+
+def retrieve_location_stac_entries(url, offset, location):
+    offset_step = 5000
+    r = requests.get("%s&FEATURE_OFFSET=%s"%(url, (offset*offset_step)))
+    res = {}
+    json_resp = r.json()
+    features = json_resp["features"]
+    try:
+        for f in features:
+            if json.dumps(f["bbox"]) in location:
+                # try to find the datetime attribute
+                date = None
+                if "datetime" in f["properties"] and f["properties"]["datetime"] != None:
+                    date = f["properties"]["datetime"]
+                elif "start_datetime" in f["properties"]:
+                    date = f["properties"]["start_datetime"]
+                elif "date" in f["properties"]:
+                    date = f["properties"]["date"]
+                location_id = "%s-%s"%(collection, location[json.dumps(f["bbox"])]["id"])
+                res.setdefault(location_id, []).append([
+                    date,
+                    f["assets"]["cog_default"]["href"]
+                ])
+            else:
+                # print("Location not found for %s"%f["bbox"])
+                # print(f["assets"]["cog_default"]["href"])
+                pass
+        if len(features) == offset_step:
+            raise Exception("It seems there are more then 5000 entries for the requested collection %s"%url)
+    except Exception as e:
+        print("Issue parsing json for request: %s"%url)
+        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        message = template.format(type(e).__name__, e.args)
+        print (message)
+    return res
+
 print("Fetching information for STAC endpoints with time information")
 try:
-    for collection, stac_url in STAC_COLLECTIONS.items():
-        # Pagination does not seem to work on this api, so we request 1000 items
-        dateParamenter = "datetime"
-        if collection in SPECIAL_STAC_DATE:
-            dateParamenter = "start_datetime"
-        results = retrieve_entries(
-            "%s/%s/items?limit=1000"%(stac_url, collection), 0, dateParamenter
-        )
-        results = list(set(results))
-        results.sort()
-        results_dict[collection] = results
+    with open("/config/locations.json") as locations_file:
+        locations = json.load(locations_file)
+        for collection, stac_url in STAC_COLLECTIONS.items():
+            # Pagination does not seem to work on this api, so we request 5000 items
+            if collection in locations:
+                results = retrieve_location_stac_entries(
+                    "%s/%s/items?limit=5000"%(stac_url, collection),
+                    0, locations[collection],
+                )
+                # First we reverse all results
+                for item in results.values():
+                    item.reverse()
+                results_dict = {**results_dict, **results}
+            else:
+                results = retrieve_stac_entries(
+                    "%s/%s/items?limit=5000"%(stac_url, collection), 0,
+                )
+                results.reverse()
+                results_dict[collection] = results
+
 except Exception as e:
-    print("Issue retrieving BYOD information from deprecated server")
+    print("Issue STAC data from NASA endpoint")
     template = "An exception of type {0} occurred. Arguments:\n{1!r}"
     message = template.format(type(e).__name__, e.args)
     print (message)
@@ -231,6 +307,7 @@ def interval(start: datetime, stop: datetime, delta: timedelta) -> Iterator[date
     while start <= stop:
         yield start
         start += delta
+    yield stop
 
 try:
     for layer, capabilties_url in WMSCOLLECTIONS.items():

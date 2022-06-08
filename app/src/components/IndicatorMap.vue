@@ -629,6 +629,65 @@ export default {
       ));
       return simpleLayers;
     },
+    flyToBounds() {
+      // zooms to subaoi if present or area around aoi if not
+      const boundsPad = this.mergedConfigsData[0].largeSubAoi ? 5 : (this.mergedConfigsData[0].midSubAoi ? 1 : 0.15); // eslint-disable-line
+      if (this.subAoi && this.subAoi.features.length > 0) {
+        const viewBounds = this.mergedConfigsData[0].presetView
+          ? geoJson(this.mergedConfigsData[0].presetView).getBounds()
+          : geoJson(this.subAoi).getBounds();
+        const bounds = geoJson(this.subAoi).getBounds();
+        const southBound = bounds.getSouth() - boundsPad;
+        const westBound = bounds.getWest() - boundsPad;
+        const northBound = bounds.getNorth() + boundsPad;
+        const eastBound = bounds.getEast() + boundsPad;
+        const cornerMax1 = latLng([
+          southBound > -90 ? southBound : -90, westBound > -180 ? westBound : -180]);
+        const cornerMax2 = latLng([
+          northBound < 90 ? northBound : 90, eastBound < 180 ? eastBound : 180]);
+        const boundsMax = latLngBounds(cornerMax1, cornerMax2);
+        this.map.fitBounds(viewBounds);
+        // limit user movement around map
+        this.map.setMaxBounds(boundsMax);
+        if (this.mergedConfigsData[0].largeSubAoi) {
+          this.map.setMinZoom(2);
+        } else if (this.mergedConfigsData[0].midSubAoi) {
+          this.map.setMinZoom(9);
+        } else {
+          this.map.setMinZoom(10);
+        }
+      } else if (this.mergedConfigsData[0].presetView) {
+        // if only preset view move map there without limiting movement
+        const viewBounds = geoJson(this.mergedConfigsData[0].presetView).getBounds();
+        this.map.fitBounds(viewBounds);
+      } else if (this.aoi) {
+        const southBound = this.aoi.lat - boundsPad;
+        const westBound = this.aoi.lng - boundsPad;
+        const northBound = this.aoi.lat + boundsPad;
+        const eastBound = this.aoi.lng + boundsPad;
+        const cornerMax1 = latLng([
+          southBound > -90 ? southBound : -90, westBound > -180 ? westBound : -180]);
+        const cornerMax2 = latLng([
+          northBound < 90 ? northBound : 90, eastBound < 180 ? eastBound : 180]);
+        const boundsMax = latLngBounds(cornerMax1, cornerMax2);
+        this.map.setZoom(16);
+        this.map.panTo(this.aoi);
+        if (this.mergedConfigsData[0].largeSubAoi) {
+          this.map.setMinZoom(2);
+        } else if (this.mergedConfigsData[0].midSubAoi) {
+          this.map.setMinZoom(9);
+        } else {
+          this.map.setMinZoom(12);
+        }
+        // limit user movement around map
+        this.map.setMaxBounds(boundsMax);
+      } else {
+        // zoom to default bbox from config
+        this.map.setMinZoom(this.mapDefaults.minMapZoom);
+        this.map.setMaxBounds(null);
+        this.map.fitBounds(latLngBounds(this.mapDefaults.bounds));
+      }
+    },
     layerOptions(time, sourceOptionsObj) {
       const additionalSettings = {};
       if (Object.prototype.hasOwnProperty.call(sourceOptionsObj, 'siteMapping')) {
@@ -661,7 +720,7 @@ export default {
     },
     async generateMosaic(timeObj, side) {
       // These special layers first need to be "registered" to allow visualization
-      const res = await axios.post('https://staging-raster.delta-backend.xyz/mosaic/register', {
+      const res = await axios.post('https://ejd872yh78.execute-api.us-east-1.amazonaws.com/mosaic/register', {
         collections: [this.indicator.display.collection],
         datetime: this.indicator.display.dateFormatFunction(timeObj.value),
         'filter-lang': 'cql-json',
@@ -979,6 +1038,9 @@ export default {
       this.$store.commit('features/SET_SELECTED_AREA', null);
     },
     updateJsonLayers(ftrs, side) {
+      if (typeof ftrs === 'undefined') {
+        return;
+      }
       if (this.mergedConfigsData[0].featuresClustering) {
         // markercluster needs manual adding of all geojsons it will show
         // and cleanup of previous content

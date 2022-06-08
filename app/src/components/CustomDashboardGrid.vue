@@ -135,6 +135,7 @@
                 :upProp="localUp[element.poi]"
                 :dataLayerTimeProp="localDataLayerTime[element.poi]"
                 :compareLayerTimeProp="localCompareLayerTime[element.poi]"
+                disableAutoFocus
                 @update:direction="d => {localDirection[element.poi] = d}"
                 @update:position="p => {localPosition[element.poi] = p}"
                 @update:right="r => {localRight[element.poi] = r}"
@@ -459,6 +460,7 @@ export default {
     showTextCurrent: null,
     tooltipTrigger: false,
     numberOfRows: null,
+    ro: null,
   }),
   computed: {
     ...mapGetters('dashboard', {
@@ -539,7 +541,7 @@ export default {
       immediate: true,
       deep: true,
       handler(features) {
-        if (features) {
+        if (features && !this.localFeatures) {
           this.parseFeatures(features);
         }
       },
@@ -563,9 +565,36 @@ export default {
         this.getNumberOfRows();
       }
     },
+    currentRow(newRow) {
+      const query = { ...this.$route.query };
+      if (newRow === 0) {
+        delete query.page;
+      } else {
+        query.page = newRow;
+      }
+      this.$router.replace({ query }).catch(() => {});
+    },
   },
   mounted() {
     this.isMounted = true;
+    setTimeout(() => {
+      if (this.$route.query.page) {
+        this.goStep(Number(this.$route.query.page));
+      }
+    }, 50);
+
+    this.ro = new ResizeObserver(() => {
+      setTimeout(() => {
+        if (document.querySelector('.scrollContainer').scrollTop > 0) {
+          this.goStep(0);
+        }
+      });
+    })
+      .observe(document.querySelector('.scrollContainer'));
+  },
+  beforeDestroy() {
+    delete this.ro;
+    zoom.close();
   },
   methods: {
     ...mapActions('dashboard', [
@@ -659,11 +688,15 @@ export default {
       if (this.currentRow === 1 && direction === -1) {
         position = 0; // scroll back to story intro
       } else {
+        const container = document.querySelector('#elementsContainer');
+        if (!container) {
+          return;
+        }
         const startingPoint = document.querySelector('#elementsContainer').offsetTop;
         const rowHeight = window.innerHeight
           - this.$vuetify.application.top
           - this.$vuetify.application.footer;
-        const target = rowHeight * (this.currentRow - 1 + direction);
+        const target = rowHeight * ((this.currentRow || 0) - 1 + direction);
         position = startingPoint + target;
       }
       this.$emit('scrollTo', { target: position });

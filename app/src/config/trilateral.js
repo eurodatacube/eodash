@@ -6,15 +6,12 @@ import { DateTime } from 'luxon';
 import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
-
+import locations from '@/config/locations.json';
 import {
-  /*
   statisticalApiHeaders,
   statisticalApiBody,
   evalScriptsDefinitions,
   parseStatAPIResponse,
-  */
-  shFisAreaIndicatorStdConfig,
 } from '@/helpers/customAreaObjects';
 import store from '../store';
 
@@ -203,7 +200,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'NDVI GCOM-C',
     class: 'agriculture',
     story: '/eodash-data/stories/E10e',
-    themes: ['agriculture'],
+    themes: ['agriculture', 'biomass-and-landcover'],
   },
   E11: {
     indicator: 'Volume of activity at shopping centers',
@@ -253,12 +250,14 @@ export const indicatorsDefinition = Object.freeze({
   N9: {
     indicator: 'Air quality',
     class: 'air',
+    hideInFilters: true,
     story: '/eodash-data/stories/N9',
     themes: ['atmosphere'],
   },
   N10: {
     indicator: 'Air quality',
     class: 'air',
+    hideInFilters: true,
     story: '/eodash-data/stories/N10',
     themes: ['atmosphere'],
   },
@@ -321,7 +320,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: '/data/trilateral/N5',
     themes: ['covid-19', 'economy', 'atmosphere', 'oceans'],
-    largeSubAoi: true,
+    smallSubAoi: true,
   },
   N6: {
     indicator: 'Cropped Area - Global',
@@ -347,7 +346,7 @@ export const indicatorsDefinition = Object.freeze({
   N12: {
     indicator: 'Sea Ice Concentration (GCOM-W)',
     class: 'water',
-    themes: ['covid-19', 'oceans'],
+    themes: ['covid-19', 'oceans', 'cryosphere'],
     baseLayers: [{
       ...baseLayers.cloudless,
       visible: true,
@@ -364,26 +363,28 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Mobility',
     class: 'economic',
     disableTimeSelection: true,
-    countrySelection: true,
     story: '/eodash-data/stories/GG-GG',
     themes: ['covid-19', 'economy', 'atmosphere'],
+    disableCSV: true,
+    alternateDataPath: './eodash-data/internal/',
   },
   CV: {
-    indicator: 'Covid cases',
+    indicator: 'Covid-19 cases',
     class: 'health',
     disableTimeSelection: true,
-    countrySelection: true,
     story: '/eodash-data/stories/CV-CV',
     themes: ['covid-19'],
+    disableCSV: true,
+    alternateDataPath: './eodash-data/internal/',
   },
   OW: {
-    indicator: 'Vaccinations',
+    indicator: 'Covid-19 vaccinations',
     class: 'health',
     disableTimeSelection: true,
-    countrySelection: true,
-    hideInFilters: true,
     story: '/eodash-data/stories/OW-OW',
     themes: ['covid-19'],
+    disableCSV: true,
+    alternateDataPath: './eodash-data/internal/',
   },
   FB: {
     indicator: 'Facebook population density',
@@ -399,18 +400,18 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Solar Induced Chlorophyll Fluorescence',
     story: '/eodash-data/stories/SIF',
     class: 'agriculture',
-    themes: ['biomass-and-landcover'],
+    themes: ['biomass-and-landcover', 'agriculture'],
     largeSubAoi: true,
     maxMapZoom: 8,
   },
   NPP: {
-    indicator: 'NPP (BICEP)',
+    indicator: 'Ocean Primary Productivity (BICEP)',
     class: 'water',
     story: '/eodash-data/stories/NPP',
     themes: ['oceans'],
   },
   NPPN: {
-    indicator: 'NPP (NASA)',
+    indicator: 'Ocean Primary Productivity (NASA)',
     class: 'water',
     story: '/eodash-data/stories/NPPN',
     themes: ['oceans'],
@@ -419,19 +420,38 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'SIE',
     story: '/eodash-data/stories/SIE',
     class: 'water',
-    themes: ['oceans'],
+    themes: ['oceans', 'cryosphere'],
   },
   SIC: {
     indicator: 'SIC',
     story: '/eodash-data/stories/SIC',
     class: 'water',
-    themes: ['oceans'],
+    themes: ['oceans', 'cryosphere'],
   },
   SITI: {
     indicator: 'SITI',
     story: '/eodash-data/stories/SITI',
     class: 'water',
-    themes: ['oceans'],
+    themes: ['oceans', 'cryosphere'],
+  },
+  NCEO: {
+    indicator: 'NCEO',
+    story: '/eodash-data/stories/NCEO',
+    class: 'agriculture',
+    themes: ['agriculture', 'biomass-and-landcover'],
+    disableTimeSelection: true,
+  },
+  SMC: {
+    indicator: 'SMC',
+    story: '/eodash-data/stories/SMC',
+    class: 'agriculture',
+    themes: ['agriculture'],
+  },
+  PRC: {
+    indicator: 'PRC',
+    story: '/eodash-data/stories/PRC',
+    class: 'water',
+    themes: ['agriculture'],
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
@@ -719,92 +739,14 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        aoiID: 'GG',
         dataLoadFinished: true,
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Mobility Data',
-        indicatorName: '(select country to load data)',
-        indicator: 'GG',
-        lastIndicatorValue: null,
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        inputData: [''],
-        yAxis: 'percent change from baseline',
-        time: ['TBD'],
-        display: {
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        aoiID: 'CV',
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Covid19 Data',
-        indicatorName: '(select country to load data)',
-        indicator: 'CV',
-        lastIndicatorValue: null,
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        inputData: [''],
-        yAxis: 'aggregated covid cases',
-        time: ['TBD'],
-        display: {
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        aoiID: 'OW',
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Vaccination Data',
-        indicatorName: '(select country to load data)',
-        indicator: 'OW',
-        lastIndicatorValue: null,
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        inputData: [''],
-        yAxis: 'vaccination data',
-        time: ['TBD'],
-        display: {
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'NO2',
+        description: 'Nitrogen Dioxide (Monthly)',
         indicator: 'N1',
         lastIndicatorValue: null,
-        indicatorName: 'TROPOMI: NO2',
+        indicatorName: 'Nitrogen Dioxide (Monthly)',
         eoSensor: 'ESA TROPOMI',
         subAoi: {
           type: 'FeatureCollection',
@@ -829,41 +771,6 @@ export const globalIndicators = [
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           areaIndicator: {
-            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-            callbackFunction: (responseJson, indicator) => {
-              if (Array.isArray(responseJson.C0)) {
-                const data = responseJson.C0;
-                const newData = {
-                  time: [],
-                  measurement: [],
-                  referenceValue: [],
-                  colorCode: [],
-                };
-                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
-                  ? 1
-                  : -1));
-                data.forEach((row) => {
-                  if (row.basicStats.max < 5000) {
-                    // leaving out falsely set nodata values disrupting the chart
-                    newData.time.push(DateTime.fromISO(row.date));
-                    newData.colorCode.push('');
-                    newData.measurement.push(row.basicStats.mean);
-                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
-                  }
-                });
-                const ind = {
-                  ...indicator,
-                  ...newData,
-                };
-                return ind;
-              }
-              return null;
-            },
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
-          },
-          // TODO: Preparation for switching to statistical api once things are working
-          /*
-          areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
               evalScriptsDefinitions['AWS_NO2-VISUALISATION'],
@@ -873,7 +780,6 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-          */
         },
       },
     },
@@ -885,10 +791,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'CO',
+        description: 'Carbon Monoxide',
         indicator: 'N1',
         lastIndicatorValue: null,
-        indicatorName: 'CO',
+        indicatorName: 'Carbon Monoxide',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -909,36 +815,13 @@ export const globalIndicators = [
           legendUrl: 'data/trilateral/s5pCOLegend.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           areaIndicator: {
-            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_CO_3DAILY_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-            callbackFunction: (responseJson, indicator) => {
-              if (Array.isArray(responseJson.C0)) {
-                const data = responseJson.C0;
-                const newData = {
-                  time: [],
-                  measurement: [],
-                  referenceValue: [],
-                  colorCode: [],
-                };
-                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
-                  ? 1
-                  : -1));
-                data.forEach((row) => {
-                  if (row.basicStats.max < 5000) {
-                    // leaving out falsely set nodata values disrupting the chart
-                    newData.time.push(DateTime.fromISO(row.date));
-                    newData.colorCode.push('');
-                    newData.measurement.push(row.basicStats.mean);
-                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
-                  }
-                });
-                const ind = {
-                  ...indicator,
-                  ...newData,
-                };
-                return ind;
-              }
-              return null;
-            },
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_CO_3DAILY_DATA,
+              'byoc-57a07405-8ec2-4b9c-a273-23e287c173f8',
+              'P3D',
+            ),
+            callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
         },
@@ -952,10 +835,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Air Quality',
+        description: 'Air Quality Time Series',
         indicator: 'N1',
         lastIndicatorValue: null,
-        indicatorName: 'Air Quality - OMI: NO2',
+        indicatorName: 'Air Quality Time Series',
         eoSensor: 'NASA OMI',
         subAoi: {
           type: 'FeatureCollection',
@@ -980,7 +863,8 @@ export const globalIndicators = [
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x.png?url=s3://covid-eo-data/OMNO2d_HRM/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=0%2C1.08398547e16&color_map=reds',
           name: 'Air Quality (NASA)',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
+          dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyyMM'),
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           legendUrl: 'eodash-data/data/no2Legend.png',
           areaIndicator: {
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/timelapse',
@@ -1076,6 +960,7 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/OMNO2d_HRMDifference/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=-3e15%2C3e15&color_map=rdbu_r',
           name: 'Air Quality (NASA)',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
           legendUrl: 'data/trilateral/N1-NO2DiffLegend.png',
           disableCompare: true,
         },
@@ -1089,10 +974,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'CO2',
+        description: 'Carbon Dioxide',
         indicator: 'N2',
         lastIndicatorValue: null,
-        indicatorName: 'Greenhouse Gases - OCO-2: Mean CO2',
+        indicatorName: 'Carbon Dioxide',
         calcMethod: 'Mean CO2',
         subAoi: {
           type: 'FeatureCollection',
@@ -1135,10 +1020,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Facebook population density',
+        description: 'Population Density (Meta)',
         indicator: 'FB',
         lastIndicatorValue: null,
-        indicatorName: 'Facebook population density',
+        indicatorName: 'Population Density (Meta)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1198,7 +1083,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W5',
-        time: availableDates['no2-monthly-diff'],
+        time: getDailyDates('2020-01-01', '2021-10-15'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -1221,10 +1106,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'NPP (BICEP)',
+        description: 'Ocean Primary Productivity (BICEP)',
         indicator: 'NPP',
         lastIndicatorValue: null,
-        indicatorName: 'NPP (BICEP)',
+        indicatorName: 'Ocean Primary Productivity (BICEP)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1243,7 +1128,7 @@ export const globalIndicators = [
           maxZoom: 13,
           minMapZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          /*
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
           customAreaIndicator: true,
           areaIndicator: {
             ...statisticalApiHeaders,
@@ -1255,7 +1140,6 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-          */
         },
       },
     },
@@ -1267,10 +1151,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'NO2 OMI Annual',
+        description: 'Nitrogen Dioxide (Yearly)',
         indicator: 'N9',
         lastIndicatorValue: null,
-        indicatorName: 'NO2 OMI Annual',
+        indicatorName: 'Nitrogen Dioxide (Yearly)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1281,7 +1165,7 @@ export const globalIndicators = [
         time: availableDates['OMI_trno2-COG'],
         inputData: [''],
         display: {
-          mosaicIndicator: true,
+          // mosaicIndicator: true,
           collection: 'OMI_trno2-COG',
           protocol: 'xyz',
           tileSize: 256,
@@ -1289,10 +1173,10 @@ export const globalIndicators = [
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://staging-raster.delta-backend.xyz/mosaic/tiles/{searchid}/WebMercatorQuad/{z}/{x}/{y}@1x?assets=cog_default&rescale=-126905900761088.0%2C3673290589614899.0&colormap_name=reds',
+          url: 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=-126905900761088.0,3673290589614899.0&bidx=1&colormap_name=reds',
           name: 'NO2 OMI Annual',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
-          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
           // legendUrl: 'data/trilateral/N2-co2diff-legend.png',
         },
       },
@@ -1318,8 +1202,9 @@ export const globalIndicators = [
         aoiID: 'W10',
         time: availableDates.IS2SITMOGR4,
         inputData: [''],
+        showGlobe: true,
         display: {
-          mosaicIndicator: true,
+          // mosaicIndicator: true,
           collection: 'IS2SITMOGR4',
           protocol: 'xyz',
           tileSize: 256,
@@ -1327,10 +1212,10 @@ export const globalIndicators = [
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://staging-raster.delta-backend.xyz/mosaic/tiles/{searchid}/WebMercatorQuad/{z}/{x}/{y}@1x?assets=cog_default&rescale=0.0%2C4.0&colormap_name=plasma',
+          url: 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?url={time}&resampling_method=bilinear&rescale=0.0,4.0&bidx=1&colormap_name=plasma',
           name: 'Sea Ice Thickness (ICESat-2)',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
-          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM'),
+          dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           legendUrl: 'eodash-data/data/SeaIceThicknessCCI.PNG',
         },
       },
@@ -1343,10 +1228,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'NPP (NASA)',
+        description: 'Ocean Primary Productivity (MODIS)',
         indicator: 'NPPN',
         lastIndicatorValue: null,
-        indicatorName: 'NPP (NASA)',
+        indicatorName: 'Ocean Primary Productivity (MODIS)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1357,7 +1242,7 @@ export const globalIndicators = [
         time: availableDates.MO_NPP_npp_vgpm,
         inputData: [''],
         display: {
-          mosaicIndicator: true,
+          // mosaicIndicator: true,
           collection: 'MO_NPP_npp_vgpm',
           protocol: 'xyz',
           tileSize: 256,
@@ -1365,10 +1250,10 @@ export const globalIndicators = [
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://staging-raster.delta-backend.xyz/mosaic/tiles/{searchid}/WebMercatorQuad/{z}/{x}/{y}@1x?assets=cog_default&rescale=0.0%2C1500.0&colormap_name=jet',
+          url: 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,1500.0&bidx=1&colormap_name=jet',
           name: 'NPP (NASA)',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
-          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM'),
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           legendUrl: 'eodash-data/data/nppn_legend.png',
         },
       },
@@ -1381,10 +1266,56 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'SO2 OMI/Aura',
+        description: 'Aboveground Biomass',
+        indicator: 'NCEO',
+        lastIndicatorValue: null,
+        indicatorName: 'Aboveground Biomass',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'W12',
+        time: availableDates.nceo_africa_2017,
+        inputData: [''],
+        display: {
+          // mosaicIndicator: true,
+          collection: 'nceo_africa_2017',
+          protocol: 'xyz',
+          tileSize: 256,
+          minZoom: 1,
+          minMapZoom: 1,
+          maxZoom: 10,
+          maxMapZoom: 10,
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-18.27 -35.05,-18.27 37.73,51.86 37.73,51.86 -35.05,-18.27 -35.05))').toJson(),
+            }],
+          },
+          url: 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,400.0&bidx=1&colormap_name=gist_earth_r',
+          name: 'NCEO Africa Biomass',
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
+          legendUrl: 'eodash-data/data/NCEO_legend.png',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Sulfur Dioxide (OMI/Aura)',
         indicator: 'N10',
         lastIndicatorValue: null,
-        indicatorName: 'SO2 OMI/Aura',
+        indicatorName: 'Sulfur Dioxide (OMI/Aura)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1395,7 +1326,7 @@ export const globalIndicators = [
         time: availableDates['OMSO2PCA-COG'],
         inputData: [''],
         display: {
-          mosaicIndicator: true,
+          // mosaicIndicator: true,
           collection: 'OMSO2PCA-COG',
           protocol: 'xyz',
           tileSize: 256,
@@ -1403,10 +1334,10 @@ export const globalIndicators = [
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://staging-raster.delta-backend.xyz/mosaic/tiles/{searchid}/WebMercatorQuad/{z}/{x}/{y}@1x?assets=cog_default&rescale=0.0%2C1.0&colormap_name=viridis',
+          url: 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,1.0&bidx=1&colormap_name=viridis',
           name: 'SO2 OMI/Aura',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
-          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
           // legendUrl: 'data/trilateral/N2-co2diff-legend.png',
         },
       },
@@ -1443,6 +1374,7 @@ export const globalIndicators = [
           maxZoom: 13,
           minMapZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
           /*
           customAreaIndicator: true,
           areaIndicator: {
@@ -1485,6 +1417,7 @@ export const globalIndicators = [
           maxZoom: 13,
           minMapZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
           /*
           customAreaIndicator: true,
           areaIndicator: {
@@ -1504,10 +1437,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'SO2',
+        description: 'Sulfur Dioxide (TROPOMI)',
         indicator: 'N1',
         lastIndicatorValue: null,
-        indicatorName: 'TROPOMI SO2',
+        indicatorName: 'Sulfur Dioxide (TROPOMI)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1527,22 +1460,14 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           customAreaIndicator: true,
           areaIndicator: {
-            ...shFisAreaIndicatorStdConfig,
-            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_SO2_DAILY_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-          },
-          // TODO: preparation to migrate to new statistical api, still some issues with service
-          /*
-          areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
               evalScriptsDefinitions.AWS_VIS_SO2_DAILY_DATA,
               'byoc-4ad9663f-d173-411d-8d28-3081d4d9e3aa',
-              'P7D',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-          */
         },
       },
     },
@@ -1554,10 +1479,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Population',
+        description: 'Population Density (SEDAC)',
         indicator: 'NASAPopulation',
         lastIndicatorValue: null,
-        indicatorName: 'Population density 2020',
+        indicatorName: 'Population Density (SEDAC)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1587,10 +1512,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'WSF Evolution',
+        description: 'World Settlement Footprint',
         indicator: 'WSF',
         lastIndicatorValue: null,
-        indicatorName: 'World Settlement Footprint (WSF) Evolution',
+        indicatorName: 'World Settlement Footprint',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1664,7 +1589,7 @@ export const globalIndicators = [
         country: 'all',
         city: 'Global',
         siteName: 'global',
-        description: 'NDVI GCOM',
+        description: 'Global NDVI',
         indicator: 'E10e',
         lastIndicatorValue: null,
         indicatorName: 'NDVI',
@@ -1682,7 +1607,7 @@ export const globalIndicators = [
           name: 'NDVI',
           layers: 'NDVI-GCOMC-World-Monthly',
           minZoom: 1,
-          dateFormatFunction: () => '',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'hh:mm:ss'.000Z'"),
           legendUrl: 'eodash-data/data/gcom_ndvi.png',
         }],
       },
@@ -1714,288 +1639,71 @@ export const globalIndicators = [
           layers: 'ONPP-GCOMC-World-Monthly',
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'hh:mm:ss'.000Z'"),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
           legendUrl: 'eodash-data/data/N11_legend.png',
         }],
       },
     },
   },
   {
-    latlng: latLng([35.61, 139.78]),
-    id: 9998,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        aoi: latLng([35.61, 139.78]),
-        id: 9998,
-        aoiID: 'JP01',
-        country: ['JP'],
-        city: 'Tokyo',
-        siteName: 'Tokyo',
-        description: 'Nightlights',
-        indicator: 'N5',
+        country: 'all',
+        city: 'Global',
+        siteName: 'global',
+        description: 'Soil Moisture',
+        indicator: 'SMC',
         lastIndicatorValue: null,
-        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
-        lastColorCode: null,
-        eoSensor: ['Nightlights'],
+        indicatorName: 'Soil Moisture',
         subAoi: {
           type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((139.34275817871094 35.049654646456474, 140.34809152322123 35.049654646456474, 140.34809152322123 35.93543243408203, 139.34275817871094 35.93543243408203, 139.34275817871094 35.049654646456474))').toJson(),
-          }],
+          features: [],
         },
-        time: getMonthlyDates('2020-01-01', '2021-09-01'),
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        time: availableDates['SMC-Anomaly-GCOMW-World-Monthly'],
         inputData: [''],
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 18,
-          tileSize: 256,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_tk_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
-          name: 'Nightlights',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
-          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
-        },
+        display: [{
+          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+          name: 'SMC-Anomaly-GCOMW-World-Monthly',
+          layers: 'SMC-Anomaly-GCOMW-World-Monthly',
+          minZoom: 1,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'hh:mm:ss'.000Z'"),
+          legendUrl: 'eodash-data/data/SMC_legend.png',
+        }],
       },
     },
   },
   {
-    latlng: latLng([39.9, 116.38]),
-    id: 9997,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        aoi: latLng([39.9, 116.38]),
-        id: 9997,
-        aoiID: 'CN01',
-        country: ['CN'],
-        city: 'Beijing',
-        siteName: 'Beijing',
-        description: 'Nightlights',
-        indicator: 'N5',
+        country: 'all',
+        city: 'Global',
+        siteName: 'global',
+        description: 'Precipitation Anomaly',
+        indicator: 'PRC',
         lastIndicatorValue: null,
-        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
-        lastColorCode: null,
-        eoSensor: ['Nightlights'],
+        indicatorName: 'Precipitation Anomaly',
         subAoi: {
           type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((115.91229248046875 39.627200509676186, 116.86084804657003 39.627200509676186, 116.86084804657003 40.32575607299805, 115.91229248046875 40.32575607299805, 115.91229248046875 39.627200509676186,))').toJson(),
-          }],
+          features: [],
         },
-        time: getMonthlyDates('2020-01-01', '2021-09-01'),
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 18,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_be_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
-          name: 'Nightlights',
-          tileSize: 256,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
-          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
-        },
-      },
-    },
-  },
-  {
-    latlng: latLng([51.036138, 2.285374]),
-    id: 9996, // for now
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        aoi: latLng([51.036138, 2.285374]),
-        id: 9996,
-        aoiID: 'FR03',
-        country: ['FR'],
-        city: 'Port of Dunkirk',
-        siteName: 'Port of Dunkirk',
-        description: 'Nightlights',
-        indicator: 'N5',
-        lastIndicatorValue: null,
-        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
         lastColorCode: null,
-        eoSensor: ['Nightlights'],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((2.083559989929199 50.965508184133796, 2.416559993631381 50.965508184133796, 2.416559993631381 51.087730407714844, 2.083559989929199 51.087730407714844, 2.083559989929199 50.965508184133796))').toJson(),
-          }],
-        },
-        time: getMonthlyDates('2020-01-01', '2021-09-01'),
+        aoi: null,
+        aoiID: 'World',
+        time: availableDates['PRC-Anomaly-GSMaP-World-Monthly'],
         inputData: [''],
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 18,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_du_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
-          name: 'Nightlights',
-          tileSize: 256,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
-          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
-        },
-      },
-    },
-  },
-  {
-    latlng: latLng([51.091559, 3.740081]),
-    id: 9995,
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        aoi: latLng([51.091559, 3.740081]),
-        id: 9995,
-        aoiID: 'BE03',
-        country: ['BE'],
-        city: 'Port of Ghent',
-        siteName: 'Port of Ghent',
-        description: 'Nightlights',
-        indicator: 'N5',
-        lastIndicatorValue: null,
-        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
-        lastColorCode: null,
-        eoSensor: ['Nightlights'],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((3.6453969478607178 51.06661950775742, 3.85839695022878 51.06661950775742, 3.85839695022878 51.28873062133789, 3.6453969478607178 51.28873062133789, 3.6453969478607178 51.06661950775742))').toJson(),
-          }],
-        },
-        time: getMonthlyDates('2020-01-01', '2021-09-01'),
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 18,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_gh_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
-          name: 'Nightlights',
-          tileSize: 256,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
-          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
-        },
-      },
-    },
-  },
-  {
-    latlng: latLng([34.05, -118.25]),
-    id: 9994,
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        aoi: latLng([34.05, -118.25]),
-        id: 9994,
-        aoiID: 'US02',
-        country: ['US'],
-        city: 'Los Angeles',
-        siteName: 'Los Angeles',
-        description: 'Nightlights',
-        indicator: 'N5',
-        lastIndicatorValue: null,
-        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
-        lastColorCode: null,
-        eoSensor: ['Nightlights'],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-118.68741607666016 33.42670324365463, -117.0733049476039 33.42670324365463, -117.0733049476039 34.34392547607422, -118.68741607666016 34.34392547607422, -118.68741607666016 33.42670324365463))').toJson(),
-          }],
-        },
-        time: getMonthlyDates('2020-01-01', '2021-09-01'),
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 18,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_la_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
-          name: 'Nightlights',
-          tileSize: 256,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
-          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
-        },
-      },
-    },
-  },
-  {
-    latlng: latLng([37.7775, -122.416389]),
-    id: 9993,
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        aoi: latLng([37.7775, -122.416389]),
-        id: 9993,
-        aoiID: 'US03',
-        country: ['US'],
-        city: 'San Francisco',
-        siteName: 'San Francisco',
-        description: 'Nightlights',
-        indicator: 'N5',
-        lastIndicatorValue: null,
-        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
-        lastColorCode: null,
-        eoSensor: ['Nightlights'],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-122.63569641113281 37.119795894876006, -121.53514084334165 37.119795894876006, -121.53514084334165 38.35512924194336, -122.63569641113281 38.35512924194336, -122.63569641113281 37.119795894876006))').toJson(),
-          }],
-        },
-        time: getMonthlyDates('2020-01-01', '2021-09-01'),
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 18,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_sf_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
-          name: 'Nightlights',
-          tileSize: 256,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
-          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
-        },
-      },
-    },
-  },
-  {
-    latlng: latLng([41.0114, -73.09]),
-    id: 9992,
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        aoi: latLng([41.0114, -73.09]),
-        id: 9992,
-        aoiID: 'US04',
-        country: ['US'],
-        city: 'New York',
-        siteName: 'New York',
-        description: 'Nightlights',
-        indicator: 'N5',
-        lastIndicatorValue: null,
-        indicatorName: 'Night light composite maps (Suomi NPP VIIRS)',
-        lastColorCode: null,
-        eoSensor: ['Nightlights'],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-71.74516 41.54467, -74.43395 41.54943, -74.43219 40.47812, -71.74516 40.48343, -71.74516 41.54467))').toJson(),
-          }],
-        },
-        time: getMonthlyDates('2020-01-01', '2021-09-01'),
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 18,
-          tileSize: 256,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/bmhd_30m_monthly/BMHD_VNP46A2_ny_{time}_cog.tif&resampling_method=bilinear&rescale=0,255&bidx=1&color_map=inferno',
-          name: 'Nightlights',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
-          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
-        },
+        display: [{
+          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+          name: 'PRC-Anomaly-GSMaP-World-Monthly',
+          layers: 'PRC-Anomaly-GSMaP-World-Monthly',
+          minZoom: 1,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'hh:mm:ss'.000Z'"),
+          legendUrl: 'eodash-data/data/PRC_legend.png',
+        }],
       },
     },
   },
@@ -2730,7 +2438,7 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Cropped Area - Global',
+        description: 'GEOGLAM Crop Conditions',
         indicator: 'N6',
         lastIndicatorValue: null,
         indicatorName: 'Cropped Area',
@@ -2741,7 +2449,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W6',
-        time: getMonthlyDates('2020-01-28', '2022-03-28'),
+        time: getMonthlyDates('2020-01-28', '2022-04-28'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -2778,10 +2486,10 @@ export const globalIndicators = [
         country: ['TG'],
         city: 'Togo',
         siteName: 'Togo',
-        description: 'Cropped Area - Regional',
+        description: 'Regional Cropland',
         indicator: 'E10d',
         lastIndicatorValue: null,
-        indicatorName: 'Cropped Area - Regional',
+        indicatorName: 'Regional Cropland',
         lastColorCode: null,
         eoSensor: null,
         subAoi: {
@@ -4104,10 +3812,85 @@ const slowdownIndicators = [
   },
 ];
 
-const idOffset = 30000;
+
+let idOffset = 30000;
 slowdownIndicators.forEach((ind, idx) => (
   globalIndicators.push(createSlowDownIndicator(
     (idOffset + idx), ind.aoiID, ind.city, ind.country, ind.aoi,
     ind.geometry, ind.cog, ind.eoSensor, ind.time,
   ))
 ));
+
+const createSTACCollectionIndicator = (collection, key, value, index, url) => {
+  const bbox = JSON.parse(key);
+  const aoi = latLng([
+    bbox[1] + (bbox[3] - bbox[1]) / 2,
+    bbox[0] + (bbox[2] - bbox[0]) / 2,
+  ]);
+  const geometry = {
+    coordinates: [[
+      [bbox[0], bbox[1]],
+      [bbox[2], bbox[1]],
+      [bbox[2], bbox[3]],
+      [bbox[0], bbox[3]],
+      [bbox[0], bbox[1]],
+    ]],
+    type: 'Polygon',
+  };
+  const indicator = {
+    latlng: aoi,
+    id: index,
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi,
+        id: value.id,
+        aoiID: value.id,
+        country: [value.country],
+        city: value.location,
+        siteName: value.location,
+        description: 'Nightlights',
+        indicator: 'N5',
+        lastIndicatorValue: null,
+        indicatorName: '',
+        lastColorCode: null,
+        eoSensor: ['Nightlights'],
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry,
+          }],
+        },
+        time: availableDates[`${collection}-${value.id}`],
+        inputData: ['Nightlights'],
+        display: {
+          protocol: 'xyz',
+          tileSize: 256,
+          minMapZoom: 5,
+          minZoom: 5,
+          maxZoom: 16,
+          url,
+          name: 'Nightlights (HD)',
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
+        },
+      },
+    },
+  };
+  return indicator;
+};
+const urlMapping = {
+  'nightlights-hd-monthly': 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,300&bidx=1&colormap_name=inferno',
+  'nightlights-hd-3bands': 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}',
+};
+Object.keys(locations).forEach((collection) => {
+  idOffset += 5000;
+  Object.entries(locations[collection]).forEach(([key, value], index) => {
+    globalIndicators.push(createSTACCollectionIndicator(
+      collection, key, value, idOffset + index, urlMapping[collection],
+    ));
+  });
+});

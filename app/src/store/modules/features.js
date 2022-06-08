@@ -113,8 +113,13 @@ const getters = {
     }
     if (state.featureFilters.indicators.length > 0) {
       features = features
-        .filter((f) => state.featureFilters.indicators
-          .includes(f.properties.indicatorObject.indicator));
+        .filter((f) => {
+          if (['N9', 'N10'].includes(f.properties.indicatorObject.indicator)) {
+            return state.featureFilters.indicators.includes('N1');
+          }
+          return state.featureFilters.indicators
+            .includes(f.properties.indicatorObject.indicator);
+        });
     }
     if (state.featureFilters.themes.length > 0) {
       features = features
