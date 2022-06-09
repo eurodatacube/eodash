@@ -3,8 +3,8 @@
     <global-header
       :isFullscreen="isFullScreen"
       :displayShowText="displayShowText"
-      :switchDrawer="() => { drawerLeft = !drawerLeft }"
     />
+
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.xsOnly"
       v-model="drawerLeft"
@@ -138,10 +138,6 @@
         :key="panelKey"
         :newsBanner="$refs.newsBanner"
         :expanded="dataPanelFullWidth" class="px-5" />
-      <template v-else>
-        <Welcome v-if="showText === 'welcome'" />
-        <About v-else-if="showText === 'about'" />
-      </template>
     </v-navigation-drawer>
     <div class="reopen-right-drawer" v-if="!drawerRight">
         <v-btn
@@ -212,6 +208,29 @@
         </template>
       </div>
     </v-dialog>
+
+    <v-dialog
+      v-model="showInfoDialog"
+      v-else
+      width="500"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="red lighten-2"
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          Click Me
+        </v-btn>
+      </template>
+
+      <template style="background: #FFF">
+        <Welcome v-if="showText === 'welcome'" />
+        <About v-else-if="showText === 'about'" />
+      </template>
+    </v-dialog>
+
     <v-content
       :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
         + $vuetify.application.footer}px); overflow:hidden; ${$vuetify.breakpoint.mdAndUp
@@ -284,6 +303,7 @@ export default {
     dataPanelFullWidth: false,
     dataPanelTemporary: false,
     panelKey: 0,
+    showInfoDialog: false,
   }),
   computed: {
     appConfig() {
@@ -324,9 +344,9 @@ export default {
   },
   created() {
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
-    this.drawerRight = this.$vuetify.breakpoint.mdAndUp;
+
     if (!this.$vuetify.breakpoint.mdAndUp) {
-      this.dialog = true;
+      this.showInfoDialog = true;
     }
   },
   mounted() {
@@ -334,7 +354,7 @@ export default {
       // only show when no poi is selected
       if (!this.$route.query.poi) {
         this.showText = 'welcome';
-        this.drawerRight = true;
+        this.showInfoDialog = true;
       }
     }, 2000);
   },
@@ -359,10 +379,10 @@ export default {
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
     },
     displayShowText(text) {
-      this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
-      this.drawerRight = true;
-      if (!this.$vuetify.breakpoint.mdAndUp) {
+      if (this.$vuetify.breakpoint.smAndDown) {
         this.dialog = true;
+      } else {
+        this.showInfoDialog = true;
       }
       this.showText = text;
     },
