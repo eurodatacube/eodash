@@ -139,7 +139,7 @@
         :newsBanner="$refs.newsBanner"
         :expanded="dataPanelFullWidth" class="px-5" />
     </v-navigation-drawer>
-    <div class="reopen-right-drawer" v-if="!drawerRight">
+    <div class="reopen-right-drawer" v-if="!drawerRight && indicatorSelected">
         <v-btn
           icon
           style="background: #d8d8d8"
