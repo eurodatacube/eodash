@@ -12,8 +12,8 @@ import {
   statisticalApiBody,
   evalScriptsDefinitions,
   parseStatAPIResponse,
+  nasaTimelapseConfig,
 } from '@/helpers/customAreaObjects';
-import store from '../store';
 
 export const dataPath = './data/internal/';
 export const dataEndpoints = [
@@ -862,62 +862,7 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyyMM'),
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           legendUrl: 'eodash-data/data/no2Legend.png',
-          areaIndicator: {
-            url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/timelapse',
-            requestMethod: 'POST',
-            requestHeaders: {
-              'Content-Type': 'application/json',
-            },
-            requestBody: {
-              datasetId: 'no2',
-              dateRange: ['202001', '202801'],
-              geojson: '{geojson}',
-            },
-            callbackFunction: (responseJson, indicator) => {
-              let ind = null;
-              if (Array.isArray(responseJson)) {
-                const data = responseJson;
-                const newData = {
-                  time: [],
-                  measurement: [],
-                  colorCode: [],
-                  referenceValue: [],
-                };
-                data.forEach((row) => {
-                  if (!('error' in row)) {
-                    newData.time.push(DateTime.fromFormat(row.date, 'yyyyMM'));
-                    newData.colorCode.push('');
-                    newData.measurement.push(row.mean / 1e14);
-                    newData.referenceValue.push(`[${row.median / 1e14}, null, null, null]`);
-                  }
-                });
-                ind = {
-                  ...indicator,
-                  ...newData,
-                };
-              } else if (Object.keys(responseJson).indexOf('detail') !== -1) {
-                // This will happen if area selection is too large
-                if (responseJson.detail[0].msg.startsWith('AOI cannot exceed')) {
-                  store.commit('sendAlert', {
-                    message: 'AOI cannot exceed 200 000 km²',
-                    type: 'error',
-                  });
-                } else {
-                  console.log(responseJson.detail[0].msg);
-                }
-              }
-              return ind;
-            },
-            areaFormatFunction: (area) => (
-              {
-                geojson: JSON.stringify({
-                  type: 'Feature',
-                  properties: {},
-                  geometry: area,
-                }),
-              }
-            ),
-          },
+          areaIndicator: nasaTimelapseConfig('no2'),
         },
       },
     },
@@ -945,8 +890,9 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         aoi: null,
         aoiID: 'W3',
-        time: getMonthlyDates('2015-01-01', '2022-03-01'),
+        time: availableDates['no2-monthly-diff'],
         inputData: [''],
+        yAxis: 'NO2-difference [10^15 molecules/cm²]',
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
@@ -955,10 +901,16 @@ export const globalIndicators = [
           tileSize: 256,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/OMNO2d_HRMDifference/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=-3e15%2C3e15&color_map=rdbu_r',
           name: 'Air Quality (NASA)',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
-          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
+          dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyyMM'),
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           legendUrl: 'data/trilateral/N1-NO2DiffLegend.png',
           disableCompare: true,
+          customAreaIndicator: true,
+          areaIndicator: nasaTimelapseConfig(
+            'no2-diff',
+            ['201501', DateTime.utc().toFormat('yyyyMM')],
+            (value) => value / 1e15,
+          ),
         },
       },
     },
@@ -988,6 +940,7 @@ export const globalIndicators = [
         aoiID: 'W4',
         time: getDailyDates('2020-01-01', '2021-10-15'),
         inputData: [''],
+        yAxis: 'CO2 mean [ppm]',
         display: {
           protocol: 'xyz',
           tileSize: 256,
@@ -997,6 +950,13 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           legendUrl: 'data/trilateral/N2-co2mean-legend.png',
           mapLabel: 'Mean',
+          customAreaIndicator: true,
+          areaIndicator: nasaTimelapseConfig(
+            'co2',
+            ['2020_01_01', '2021_10_15'],
+            (value) => (value * 1e6),
+            'yyyy_MM_dd',
+          ),
         },
         compareDisplay: {
           protocol: 'xyz',
@@ -1081,6 +1041,7 @@ export const globalIndicators = [
         aoiID: 'W5',
         time: getDailyDates('2020-01-01', '2021-10-15'),
         inputData: [''],
+        yAxis: 'CO2 difference [ppm]',
         display: {
           protocol: 'xyz',
           tileSize: 256,
@@ -1090,6 +1051,13 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           legendUrl: 'data/trilateral/N2-co2diff-legend.png',
           disableCompare: true,
+          customAreaIndicator: true,
+          areaIndicator: nasaTimelapseConfig(
+            'co2-diff',
+            ['2020_01_01', '2021_10_15'],
+            (value) => (value * 1e6),
+            'yyyy_MM_dd',
+          ),
         },
       },
     },
@@ -1162,18 +1130,18 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           // mosaicIndicator: true,
-          collection: 'OMI_trno2-COG',
+          // collection: 'OMI_trno2-COG',
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=-126905900761088.0,3673290589614899.0&bidx=1&colormap_name=reds',
+          url: 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,108e14&bidx=1&colormap_name=reds',
           name: 'NO2 OMI Annual',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
-          // legendUrl: 'data/trilateral/N2-co2diff-legend.png',
+          legendUrl: 'eodash-data/data/no2Legend.png',
         },
       },
     },
@@ -1201,7 +1169,7 @@ export const globalIndicators = [
         showGlobe: true,
         display: {
           // mosaicIndicator: true,
-          collection: 'IS2SITMOGR4',
+          // collection: 'IS2SITMOGR4',
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
@@ -1239,7 +1207,7 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           // mosaicIndicator: true,
-          collection: 'MO_NPP_npp_vgpm',
+          // collection: 'MO_NPP_npp_vgpm',
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
@@ -1277,7 +1245,7 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           // mosaicIndicator: true,
-          collection: 'nceo_africa_2017',
+          // collection: 'nceo_africa_2017',
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
@@ -1323,7 +1291,7 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           // mosaicIndicator: true,
-          collection: 'OMSO2PCA-COG',
+          // collection: 'OMSO2PCA-COG',
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
@@ -2445,7 +2413,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W6',
-        time: getMonthlyDates('2020-01-28', '2022-04-28'),
+        time: getMonthlyDates('2020-01-28', '2022-05-28'),
         inputData: [''],
         display: {
           protocol: 'xyz',
@@ -3610,7 +3578,6 @@ export const globalIndicators = [
   },
 ];
 
-
 const createSlowDownIndicator = (id, aoiID, city, country, aoi, geometry, cog, eoSensor, time) => (
   {
     latlng: aoi,
@@ -3807,7 +3774,6 @@ const slowdownIndicators = [
     cog: 'RiodeJaneiro_S1_TD155_SPM_20200112-20200217_20200324-20200429_th-0.3.cog',
   },
 ];
-
 
 let idOffset = 30000;
 slowdownIndicators.forEach((ind, idx) => (
