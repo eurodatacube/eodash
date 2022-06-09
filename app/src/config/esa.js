@@ -592,6 +592,7 @@ export const mapDefaults = Object.freeze({
   minMapZoom: 2,
   maxMapZoom: 18,
   bounds: latLngBounds(latLng([35, -10]), latLng([70, 33])),
+  crs: CRS.EPSG3857,
 });
 
 export const baseLayersLeftMap = [{

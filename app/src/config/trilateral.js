@@ -1,7 +1,7 @@
 // config global variables here for now
 // temporary solution
 import { Wkt } from 'wicket';
-import { latLng, latLngBounds } from 'leaflet';
+import { latLng, latLngBounds, CRS } from 'leaflet';
 import { DateTime } from 'luxon';
 import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
@@ -15,6 +15,8 @@ import {
   nasaTimelapseConfig,
 } from '@/helpers/customAreaObjects';
 
+const wkt = new Wkt();
+
 export const dataPath = './data/internal/';
 export const dataEndpoints = [
   {
@@ -22,6 +24,29 @@ export const dataEndpoints = [
     provider: './data/internal/pois_trilateral.json',
   },
 ];
+
+const sharedPalsarFNFConfig = Object.freeze({
+  baseUrl: 'https://ogcpreview1.restecmap.com/examind/api/WS/wms/JAXA_WMS_Preview',
+  minZoom: 1,
+  name: 'FNF PALSAR2 World Yearly',
+  crs: CRS.EPSG4326,
+  tileSize: 256,
+  presetView: {
+    type: 'FeatureCollection',
+    features: [{
+      type: 'Feature',
+      properties: {},
+      geometry: wkt.read('POLYGON((-94 0,-28 0,-28 -40,-94 -40,-94 0))').toJson(),
+    }],
+  },
+  baseLayers: [
+    baseLayers.terrainLight_4326,
+    baseLayers.cloudless_4326,
+  ],
+  overlayLayers: [
+    overlayLayers.eoxOverlay_4326,
+  ],
+});
 
 export const indicatorsDefinition = Object.freeze({
   E13c: {
@@ -453,6 +478,12 @@ export const indicatorsDefinition = Object.freeze({
     class: 'water',
     themes: ['agriculture'],
   },
+  FNF: {
+    indicator: 'FNF',
+    story: '/eodash-data/stories/FNF',
+    class: 'agriculture',
+    themes: ['biomass-and-landcover'],
+  },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
     themes: ['atmosphere', 'agriculture', 'biomass-and-landcover', 'economy', 'oceans', 'cryosphere', 'covid-19'],
@@ -636,6 +667,22 @@ export const layerNameMapping = Object.freeze({
     legendUrl: 'data/trilateral/NDVI.png',
     dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
   },
+  palsarFNF2017: {
+    ...sharedPalsarFNFConfig,
+    layers: 'FNF-PALSAR2-World-2017-Yearly',
+  },
+  palsarFNF2018: {
+    ...sharedPalsarFNFConfig,
+    layers: 'FNF-PALSAR2-World-2018-Yearly',
+  },
+  palsarFNF2019: {
+    ...sharedPalsarFNFConfig,
+    layers: 'FNF-PALSAR2-World-2019-Yearly',
+  },
+  palsarFNF2020: {
+    ...sharedPalsarFNFConfig,
+    layers: 'FNF-PALSAR2-World-2020-Yearly',
+  },
 });
 
 export const indicatorClassesIcons = Object.freeze({
@@ -651,6 +698,7 @@ export const mapDefaults = Object.freeze({
   minMapZoom: 0,
   maxMapZoom: 18,
   bounds: latLngBounds(latLng([-70, -170]), latLng([70, 170])),
+  crs: CRS.EPSG3857,
 });
 
 export const baseLayersLeftMap = [{
@@ -728,8 +776,6 @@ const getWeeklyDates = (start, end) => {
   }
   return dateArray;
 };
-
-const wkt = new Wkt();
 
 export const globalIndicators = [
   {
@@ -3573,6 +3619,31 @@ export const globalIndicators = [
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/sc/{featuresTime}.geojson',
           },
         },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Forest/non-forest map PALSAR2',
+        indicator: 'FNF',
+        lastIndicatorValue: null,
+        indicatorName: 'Forest/non-forest map PALSAR2',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        //time: getYearlyDates('2017-01-01', '2020-01-01'),
+        time: getYearlyDates('2017-01-01', '2017-01-01'),
+        //inputData: ['palsarFNF2017', 'palsarFNF2018', 'palsarFNF2019', 'palsarFNF2020'],
+        inputData: ['palsarFNF2017'],
       },
     },
   },
