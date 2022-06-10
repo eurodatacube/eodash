@@ -222,6 +222,22 @@
       </template>
 
       <template style="background: #FFF">
+        <div
+          class="d-flex justify-between px-7 py-4"
+          width="100%"
+          style="background: #CCC; justify-content: space-between; align-items: center;"
+        >
+          <span class="font-medium text-h6">
+            <!-- Convert the first letter to uppercase. -->
+            {{ showText[0].toUpperCase() + showText.substring(1) }}
+          </span>
+          <v-btn
+            color="secondary"
+          >
+            <span v-if="!$vuetify.breakpoint.xsOnly">Start Exploring!</span>
+            <v-icon :right="!$vuetify.breakpoint.xsOnly">mdi-arrow-right</v-icon>
+          </v-btn>
+        </div>
         <Welcome v-if="showText === 'welcome'" />
         <About v-else-if="showText === 'about'" />
       </template>
