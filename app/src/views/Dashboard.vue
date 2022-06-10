@@ -202,10 +202,6 @@
           v-if="$store.state.indicators.selectedIndicator"
           :newsBanner="$refs.newsBanner"
           :expanded="dataPanelFullWidth" class="fill-height" />
-        <template v-else>
-          <Welcome v-if="showText === 'welcome'" style="padding-bottom: 135px !important" />
-          <About v-else-if="showText === 'about'" style="padding-bottom: 100px !important" />
-        </template>
       </div>
     </v-dialog>
 
