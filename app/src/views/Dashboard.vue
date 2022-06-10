@@ -207,7 +207,7 @@
 
     <v-dialog
       v-model="showInfoDialog"
-      class="info-dialog"
+      :fullscreen="$vuetify.breakpoint.smAndDown"
       width="60vw"
     >
       <template v-slot:activator="{ on, attrs }">
