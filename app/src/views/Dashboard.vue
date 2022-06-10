@@ -392,11 +392,7 @@ export default {
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
     },
     displayShowText(text) {
-      if (this.$vuetify.breakpoint.smAndDown) {
-        this.dialog = true;
-      } else {
-        this.showInfoDialog = true;
-      }
+      this.showInfoDialog = true;
       this.showText = text;
     },
     close() {
