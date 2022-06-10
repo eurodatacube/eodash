@@ -3,7 +3,6 @@
     <global-header
       :isFullscreen="isFullScreen"
       :displayShowText="displayShowText"
-      :switchDrawer="() => { drawerLeft = !drawerLeft }"
     />
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.xsOnly"
@@ -131,12 +130,8 @@
         :key="panelKey"
         :newsBanner="$refs.newsBanner"
         :expanded="dataPanelFullWidth" class="px-5" />
-      <template v-else>
-        <Welcome v-if="showText === 'welcome'" />
-        <About v-else-if="showText === 'about'" />
-      </template>
     </v-navigation-drawer>
-    <div class="reopen-right-drawer" v-if="!!this.$route.query.poi">
+    <div class="reopen-right-drawer" v-if="!!this.$route.query.poi && indicatorSelected">
         <v-btn
           icon
           style="background: #d8d8d8"
@@ -199,12 +194,50 @@
           v-if="$store.state.indicators.selectedIndicator"
           :newsBanner="$refs.newsBanner"
           :expanded="dataPanelFullWidth" class="fill-height" />
-        <template v-else>
-          <Welcome v-if="showText === 'welcome'" style="padding-bottom: 135px !important" />
-          <About v-else-if="showText === 'about'" style="padding-bottom: 100px !important" />
-        </template>
       </div>
     </v-dialog>
+
+    <v-dialog
+      v-model="showInfoDialog"
+      :fullscreen="$vuetify.breakpoint.smAndDown"
+      class="info-dialog"
+      width="80vw"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="red lighten-2"
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          Click Me
+        </v-btn>
+      </template>
+
+      <template style="background: #FFF">
+        <div
+          class="d-flex justify-between px-7 py-4"
+          width="100%"
+          style="background: #CED9E0; justify-content: space-between; align-items: center;"
+        >
+          <span class="font-medium text-h6">
+            <!-- Convert the first letter to uppercase. -->
+            {{ showText[0].toUpperCase() + showText.substring(1) }}
+          </span>
+          <v-btn
+            color="secondary"
+            @click="() => showInfoDialog = false"
+          >
+            <span v-if="!$vuetify.breakpoint.xsOnly">Start Exploring!</span>
+            <v-icon :right="!$vuetify.breakpoint.xsOnly">mdi-arrow-right</v-icon>
+          </v-btn>
+        </div>
+
+        <Welcome v-if="showText === 'welcome'" />
+        <About v-else-if="showText === 'about'" />
+      </template>
+    </v-dialog>
+
     <v-content
       :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
         + $vuetify.application.footer}px); overflow:hidden; ${$vuetify.breakpoint.mdAndUp
@@ -282,6 +315,7 @@ export default {
     dataPanelFullWidth: false,
     dataPanelTemporary: false,
     panelKey: 0,
+    showInfoDialog: false,
   }),
   computed: {
     appConfig() {
@@ -322,9 +356,9 @@ export default {
   },
   created() {
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
-    // this.drawerRight = this.$vuetify.breakpoint.mdAndUp;
+
     if (!this.$vuetify.breakpoint.mdAndUp) {
-      this.dialog = true;
+      this.showInfoDialog = true;
     }
   },
   mounted() {
@@ -332,7 +366,7 @@ export default {
       // only show when no poi is selected
       if (!this.$route.query.poi) {
         this.showText = 'welcome';
-        // this.drawerRight = true;
+        this.showInfoDialog = true;
       }
     }, 2000);
   },
@@ -357,11 +391,7 @@ export default {
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
     },
     displayShowText(text) {
-      this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
-      this.drawerRight = true;
-      if (!this.$vuetify.breakpoint.mdAndUp) {
-        this.dialog = true;
-      }
+      this.showInfoDialog = true;
       this.showText = text;
     },
     close() {
