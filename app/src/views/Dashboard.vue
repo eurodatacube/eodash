@@ -225,7 +225,7 @@
         <div
           class="d-flex justify-between px-7 py-4"
           width="100%"
-          style="background: #CCC; justify-content: space-between; align-items: center;"
+          style="background: #CED9E0; justify-content: space-between; align-items: center;"
         >
           <span class="font-medium text-h6">
             <!-- Convert the first letter to uppercase. -->
