@@ -207,8 +207,8 @@
 
     <v-dialog
       v-model="showInfoDialog"
-      v-else
-      width="500"
+      class="info-dialog"
+      width="60vw"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
