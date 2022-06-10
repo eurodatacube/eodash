@@ -233,6 +233,7 @@
           </span>
           <v-btn
             color="secondary"
+            @click="() => showInfoDialog = false"
           >
             <span v-if="!$vuetify.breakpoint.xsOnly">Start Exploring!</span>
             <v-icon :right="!$vuetify.breakpoint.xsOnly">mdi-arrow-right</v-icon>
