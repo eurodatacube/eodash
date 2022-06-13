@@ -1,6 +1,7 @@
 <template>
   <div
     class="pa-7 pb-0"
+    style="background: #FFF;"
     :class="$vuetify.breakpoint.xsOnly && 'pb-10'"
   >
     <v-row class="d-flex">
