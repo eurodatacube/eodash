@@ -973,6 +973,7 @@ export default {
     fetchCustomAreaIndicator() {
       this.fetchData({
         type: 'customIndicator',
+        side: 'data',
       });
     },
     clearCustomAreaFilter() {

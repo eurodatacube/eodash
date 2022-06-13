@@ -84,7 +84,7 @@
                 class="info-section d-flex flex-column justify-center"
               >
                 <img
-                  src="https://github.com/eurodatacube/eodash/blob/aapopescu-patch-5/app/public/data/story-images/EO_Dashboard_kv_placeholder.jpeg?raw=true"
+                  src="/data/story-images/EO_Dashboard_kv_placeholder.jpeg"
                   width="100%"
                   class="pr-xs-0 pr-sm-0 pr-md-8 pr-lg-8 pr-xl-8"
                 />

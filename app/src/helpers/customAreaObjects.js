@@ -386,4 +386,71 @@ const fetchCustomAreaObjects = async (
   return customObjects;
 };
 
+export const nasaTimelapseConfig = (
+  datasetId,
+  dateRange = ['201501', DateTime.utc().toFormat('yyyyMM')],
+  rescale = (value) => value / 1e14,
+  dataTimeFormat = 'yyyyMM',
+  indicatorCode = 'NASACustomLineChart',
+) => ({
+  url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/timelapse',
+  requestMethod: 'POST',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+  },
+  requestBody: {
+    datasetId,
+    dateRange,
+    geojson: '{geojson}',
+  },
+  callbackFunction: (responseJson, indicator) => {
+    let ind = null;
+    if (Array.isArray(responseJson)) {
+      const data = responseJson;
+      const newData = {
+        time: [],
+        measurement: [],
+        colorCode: [],
+        referenceValue: [],
+      };
+      data.forEach((row) => {
+        if (!('error' in row)) {
+          newData.time.push(DateTime.fromFormat(row.date, dataTimeFormat));
+          newData.colorCode.push('');
+          newData.measurement.push(rescale(row.mean));
+          newData.referenceValue.push(rescale(row.median));
+        }
+      });
+      if (indicatorCode) {
+        // if we for some reason need to change indicator code of custom chart data
+        newData.indicator = indicatorCode;
+      }
+      ind = {
+        ...indicator,
+        ...newData,
+      };
+    } else if (Object.keys(responseJson).indexOf('detail') !== -1) {
+      // This will happen if area selection is too large
+      if (responseJson.detail[0].msg.startsWith('AOI cannot exceed')) {
+        store.commit('sendAlert', {
+          message: 'AOI cannot exceed 200 000 km²',
+          type: 'error',
+        });
+      } else {
+        console.log(responseJson.detail[0].msg);
+      }
+    }
+    return ind;
+  },
+  areaFormatFunction: (area) => (
+    {
+      geojson: JSON.stringify({
+        type: 'Feature',
+        properties: {},
+        geometry: area,
+      }),
+    }
+  ),
+});
+
 export default fetchCustomAreaObjects;
