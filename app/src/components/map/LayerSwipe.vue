@@ -10,6 +10,7 @@
       :indicator="mergedConfigsData"
       :layerName="swipeLayerName"
       :time="time"
+      :swipePixelX="swipePixelX"
     />
     <slot name="close"></slot>
     <input id="swipe" type="range" v-model="swipe">
@@ -49,6 +50,7 @@ export default {
     swipeActive: false,
     swipeLayerObject: null,
     swipe: 0,
+    swipePixelX: null,
     clipLeft: 0,
     clipRight: 0,
   }),
@@ -103,6 +105,8 @@ export default {
           }
         };
         const reset = 0;
+        this.swipePixelX = null;
+        this.$emit('updateSwipePosition', null);
         gsap.to(this.$data, { duration: 0.8, swipe: reset, onComplete: deactivate });
       }
     },
@@ -125,7 +129,8 @@ export default {
       // clip the originalLayer from right, the comparing layer from left
       if (this.$refs.container) {
         const ctx = evt.context;
-        const width = ctx.canvas.width * (this.swipe / 100);
+        this.swipePixelX = ctx.canvas.width * (this.swipe / 100);
+        this.$emit('updateSwipePosition', this.swipePixelX);
         ctx.save();
         const { map } = getMapInstance(this.mapId);
         const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
@@ -137,7 +142,7 @@ export default {
           : evt.target.get('name') === this.originalLayerName;
         if (isRightLayer) {
           ctx.beginPath();
-          ctx.rect(width, 0, ctx.canvas.width - width, ctx.canvas.height);
+          ctx.rect(this.swipePixelX, 0, ctx.canvas.width - this.swipePixelX, ctx.canvas.height);
           ctx.clip();
           if (Object.keys(this.$refs).length > 0) {
             const w = this.$refs.container.clientWidth * (this.swipe / 100);
@@ -146,7 +151,7 @@ export default {
           }
         } else {
           ctx.beginPath();
-          ctx.rect(0, 0, width, ctx.canvas.height);
+          ctx.rect(0, 0, this.swipePixelX, ctx.canvas.height);
           ctx.clip();
           if (Object.keys(this.$refs).length > 0) {
             const w = this.$refs.container.clientWidth * (this.swipe / 100);

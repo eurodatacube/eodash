@@ -14,6 +14,7 @@
       :indicator="mergedConfigsData[0]"
       :layerName="dataLayerName"
       :key="dataLayerName"
+      :swipePixelX="swipePixelX"
     />
     </div>
     <!-- will add a drawing layer to the map (z-index 3) -->
@@ -41,6 +42,7 @@
       :time="compareLayerTime.value"
       :mergedConfigsData="mergedConfigsData[0]"
       :enable="enableCompare"
+      @updateSwipePosition="updateSwipePosition"
       :key="dataLayerName + '_layerSwipe'"
     />
     <indicator-time-selection
@@ -162,6 +164,8 @@ export default {
       overlayHeaders: [],
       overlayRows: [],
       overlayCoordinate: null,
+      // layer swipe position (x-pixel from left border), or null if swipe is not active
+      swipePixelX: null,
     };
   },
   computed: {
@@ -383,6 +387,9 @@ export default {
           this.fetchFeatures('compare');
         }
       }
+    },
+    updateSwipePosition(value) {
+      this.swipePixelX = value;
     },
     fetchCustomDataOptions(time, sourceOptionsObj) {
       const outputOptionsObj = {};

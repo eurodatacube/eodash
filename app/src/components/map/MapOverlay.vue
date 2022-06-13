@@ -75,6 +75,7 @@ export default {
   color: #FFFFFF;
 }
 
+// arrow head bottom
 .tooltip:after {
   content: '';
   position: absolute;

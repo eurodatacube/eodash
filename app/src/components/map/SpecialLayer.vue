@@ -41,6 +41,8 @@ export default {
     time: {
       required: false,
     },
+    // layer swipe position (x-pixel from left border)
+    swipePixelX: Number,
   },
   data() {
     return {
@@ -75,6 +77,13 @@ export default {
       const features = map.getFeaturesAtPixel(e.pixel, {
         layerFilter: ((candidate) => candidate === featureLayer),
       });
+      // when layer swiping is active, only check for features on this layers side
+      const isRightLayer = !this.layerName.includes('_compare');
+      // check if the layer
+      const isCorrectSide = this.swipePixelX !== null
+        ? ((isRightLayer && this.swipePixelX < e.pixel[0])
+        || (!isRightLayer && this.swipePixelX > e.pixel[0]))
+        : true;
       // consider layergroup
       if (isCorrectSide && features.length) {
         const feature = features[0];
