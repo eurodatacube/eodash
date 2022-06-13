@@ -133,6 +133,7 @@ import Draw, { createBox } from 'ol/interaction/Draw';
 import { Vector as VectorSource } from 'ol/source';
 import { Vector as VectorLayer } from 'ol/layer';
 import Style from 'ol/style/Style';
+import CircleStyle from 'ol/style/Circle';
 import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -140,15 +141,50 @@ import Feature from 'ol/Feature';
 import {
   mapState,
 } from 'vuex';
+import { getArea } from 'ol/extent';
+import Text from 'ol/style/Text';
+import { Polygon } from 'ol/geom';
+
+const pointStyle = new Style({
+  image: new CircleStyle({
+    radius: 5,
+    fill: new Fill({
+      color: 'rgba(50, 50, 50, 0.2)',
+    }),
+    stroke: new Stroke({
+      color: 'black',
+      width: 2,
+    }),
+  }),
+});
+const drawStyle = new Style({
+  text: new Text({
+    text: '',
+    font: '18px sans-serif',
+    fill: new Fill({
+      color: 'red',
+    }),
+    stroke: new Stroke({
+      width: 3,
+      color: 'white',
+    }),
+    padding: [-100, -100, -100, -100],
+  }),
+  fill: new Fill({
+    color: 'black',
+  }),
+  stroke: new Stroke({
+    color: 'black',
+    width: 2,
+  }),
+});
 
 export default {
   data() {
     return {
       drawControls: {},
-      drawSource: null,
       drawnAreaSource: null,
       isDrawing: null,
-      drawVectorLayer: null,
       drawnAreaLayer: null,
     };
   },
@@ -167,9 +203,11 @@ export default {
     ...mapState('config', ['appConfig']),
     drawToolsVisible() {
       return !this.hideCustomAreaControls
-      && (this.mergedConfigsData?.customAreaIndicator
+        // enables chart generation
+        && (this.mergedConfigsData?.customAreaIndicator
+        // enables fetching of custom features
         || this.mergedConfigsData?.customAreaFeatures
-      );
+        );
     },
     customChartButtonVisible() {
       return this.drawnArea.area
@@ -184,30 +222,16 @@ export default {
     },
   },
   mounted() {
-    const { map } = getMapInstance(this.mapId);
-    const drawSource = new VectorSource({ wrapX: false });
-    const drawVectorLayer = new VectorLayer({
-      source: drawSource,
-      zIndex: 3,
-    });
-    this.drawSource = drawSource;
-    this.drawVectorLayer = drawVectorLayer;
-    map.addLayer(drawVectorLayer);
+    pointStyle.getImage().getStroke().setColor(this.appConfig.branding.primaryColor);
 
+    const { map } = getMapInstance(this.mapId);
     const drawnAreaSource = new VectorSource({ wrapX: false });
     this.drawnAreaSource = drawnAreaSource;
     const drawnAreaLayer = new VectorLayer({
       source: drawnAreaSource,
       zIndex: 3,
-      style: new Style({
-        fill: new Fill({
-          color: 'rgba(50, 50, 50, 0.2)',
-        }),
-        stroke: new Stroke({
-          color: this.appConfig.branding.primaryColor,
-          width: 2,
-        }),
-      }),
+      style: this.drawStyleFunction,
+      declutter: false,
     });
     this.drawnAreaLayer = drawnAreaLayer;
     map.addLayer(drawnAreaLayer);
@@ -217,6 +241,7 @@ export default {
       polygon: new Draw({
         type: 'Polygon',
         stopClick: true,
+        style: this.drawStyleFunction,
       }),
       bbox: new Draw({
         type: 'Circle',
@@ -226,6 +251,7 @@ export default {
           box.isBox = true;
           return box;
         },
+        style: this.drawStyleFunction,
       }),
     };
     Object.keys(this.drawControls).forEach((k) => {
@@ -238,13 +264,12 @@ export default {
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
-    map.removeLayer(this.drawVectorLayer);
     map.removeLayer(this.drawnAreaLayer);
   },
   watch: {
     mergedConfigsData() {
       this.addDrawnAreaToMap();
-    }
+    },
   },
   methods: {
     drawEnable(tool) {
@@ -253,13 +278,32 @@ export default {
       if (this.drawControls?.[tool]) {
         map.addInteraction(this.drawControls[tool]);
       }
-      this.drawSource.clear();
       this.isDrawing = true;
     },
     disableInteractions() {
       const { map } = getMapInstance(this.mapId);
       Object.keys(this.drawControls).forEach((k) => map.removeInteraction(this.drawControls[k]));
       this.isDrawing = false;
+    },
+    drawStyleFunction(feature) {
+      if (feature.getGeometry() instanceof Polygon) {
+        const areaTooLarge = this.isGeometryTooLarge(feature.getGeometry());
+        drawStyle.getStroke().setColor(areaTooLarge ? 'red' : this.appConfig.branding.primaryColor);
+        drawStyle.getFill().setColor(areaTooLarge ? 'rgba(255, 0, 0, 0.2)' : 'rgba(50, 50, 50, 0.2)');
+        drawStyle.getText().setText(areaTooLarge ? 'Area too large' : '');
+        return drawStyle;
+      }
+      return pointStyle;
+    },
+    /**
+     * returns true if the passed geometry is too large for fetching data.
+     * @param {*} geom OpenLayer geometry
+     * @returns {Boolean}
+     */
+    isGeometryTooLarge(geom) {
+      const extent = geom.getExtent();
+      // to do: use more exact turf calculations?
+      return extent && (getArea(extent) > 50000000000);
     },
     onDrawFinished(event) {
       const { map } = getMapInstance(this.mapId);
