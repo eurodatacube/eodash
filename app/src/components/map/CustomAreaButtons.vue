@@ -100,6 +100,26 @@
             </template>
             <span>Draw chart from sub-area</span>
         </v-tooltip>
+        <v-tooltip left>
+            <template v-slot:activator="{ on }">
+            <div v-on="on">
+                <v-btn
+                color="white"
+                fab
+                class="pa-0"
+                :style="`${$vuetify.breakpoint.mdAndDown
+                    ? 'width: 36px; height: 36px;'
+                    : 'width: 30px; height: 30px;'}
+                    border-radius: 4px;
+                    color: ${appConfig.branding.primaryColor};`"
+                @click="fetchFeatures"
+                >
+                <v-icon>mdi-truck</v-icon>
+                </v-btn>
+            </div>
+            </template>
+            <span>Fetch Feature Data</span>
+        </v-tooltip>
     </v-card>
     <v-card
     v-if="loading">
@@ -277,6 +297,9 @@ export default {
       this.disableInteractions();
       if (this.drawControls?.[tool]) {
         map.addInteraction(this.drawControls[tool]);
+        this.drawControls[tool].once('drawstart', () => {
+          this.drawnAreaSource.clear();
+        });
       }
       this.isDrawing = true;
     },
@@ -314,8 +337,10 @@ export default {
       const geoJsonObj = geoJSONFormat.writeGeometryObject(
         event.feature.getGeometry(),
       );
-      this.drawnAreaSource.clear();
       this.drawnAreaSource.addFeature(event.feature);
+      if (this.isGeometryTooLarge(event.feature.getGeometry())) {
+        return;
+      }
       this.drawnArea.area = geoJsonObj;
       this.disableInteractions();
       this.isDrawing = false;
@@ -345,6 +370,9 @@ export default {
     },
     fetchCustomAreaIndicator() {
       this.$emit('fetchCustomAreaIndicator');
+    },
+    fetchFeatures() {
+      // to do
     },
   },
 };
