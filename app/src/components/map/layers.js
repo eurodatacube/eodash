@@ -239,8 +239,12 @@ export function createLayerFromConfig(config, _options = {}) {
     const featuresSource = new VectorSource({
       features: [],
     });
-    const url = replaceUrlPlaceholders(config.features.url, config, options);
-    fetchGeoJsonFeatures(featuresSource, url);
+    // to do:
+    // some configs have other mean than simple geojson fetching. Make sure to not forget any.
+    if (!config.features.callbackFunction) {
+      const url = replaceUrlPlaceholders(config.features.url, config, options);
+      fetchGeoJsonFeatures(featuresSource, url);
+    }
     // this gives an option to update the source (most likely the time) without
     // re-creating the entire layer
     featuresSource.set('updateTime', (time) => {
