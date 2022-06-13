@@ -141,7 +141,7 @@
         </v-btn>
       </div>
     <v-dialog
-      v-if="$vuetify.breakpoint.smAndDown"
+      v-if="$vuetify.breakpoint.mdAndUp"
       v-model="dialog"
       persistent
       fullscreen
@@ -197,22 +197,60 @@
       </div>
     </v-dialog>
 
+    <div class="retractable" :class="{'retracted': isDialogRetracted}" v-else>
+      <v-toolbar dark color="primary">
+        <v-toolbar-title style="overflow: unset; white-space: pre-wrap;"
+          v-if="$store.state.indicators.selectedIndicator"
+        >{{ $store.state.indicators.selectedIndicator.city }},
+          {{ $store.state.indicators.selectedIndicator.description }}
+        </v-toolbar-title>
+        <v-toolbar-title v-else class="text-capitalize">
+          {{ showText ? showText : '' }}
+        </v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn
+          v-if="showText === 'welcome'
+            && $vuetify.breakpoint.smAndDown
+            && !$store.state.indicators.selectedIndicator"
+          @click="clickMobileClose"
+          color="secondary"
+        >
+          <v-icon left>mdi-arrow-right</v-icon>
+          Start exploring!
+        </v-btn>
+        <v-btn v-else icon dark @click="clickMobileClose">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </v-toolbar>
+      <div
+        class="scrollContainer data-panel"
+        :style="{background: $vuetify.theme.themes[theme].background}"
+      >
+
+        <banner v-if="currentNews" />
+
+        <h4 v-if="
+            ($store.state.indicators.selectedIndicator && (
+              $store.state.indicators.selectedIndicator.description !==
+              $store.state.indicators.selectedIndicator.indicatorName))"
+          class="px-4 py-2"
+        >
+          {{ queryIndicatorObject
+            && queryIndicatorObject.properties.indicatorObject.indicatorName }}
+        </h4>
+        <data-panel
+          v-if="$store.state.indicators.selectedIndicator"
+          :newsBanner="$refs.newsBanner"
+          :expanded="dataPanelFullWidth" class="fill-height" />
+      </div>
+    </div>
+
     <v-dialog
       v-model="showInfoDialog"
       :fullscreen="$vuetify.breakpoint.smAndDown"
       class="info-dialog"
       width="80vw"
     >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="red lighten-2"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          Click Me
-        </v-btn>
-      </template>
 
       <template style="background: #FFF">
         <div
@@ -316,6 +354,7 @@ export default {
     dataPanelTemporary: false,
     panelKey: 0,
     showInfoDialog: false,
+    isDialogRetracted: true,
   }),
   computed: {
     appConfig() {
@@ -467,5 +506,15 @@ export default {
 
 .open {
   transform: rotate(180deg);
+}
+
+.retractable {
+  transform: translateY(0);
+  position: fixed;
+  top: 0;
+
+  &.retracted {
+    transform: translateY(66vh);
+  }
 }
 </style>
