@@ -437,6 +437,7 @@ export default {
       }
     },
     clickMobileClose() {
+      this.isDialogRetracted = true;
       this.drawerRight = false;
       this.dialog = false;
       this.showText = null;
