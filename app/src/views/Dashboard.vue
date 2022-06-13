@@ -131,7 +131,7 @@
         :newsBanner="$refs.newsBanner"
         :expanded="dataPanelFullWidth" class="px-5" />
     </v-navigation-drawer>
-    <div class="reopen-right-drawer" v-if="!!this.$route.query.poi && indicatorSelected">
+    <div class="reopen-right-drawer" v-if="$vuetify.breakpoint.mdAndUp && !!this.$route.query.poi && indicatorSelected">
         <v-btn
           icon
           style="background: #d8d8d8"
@@ -197,7 +197,14 @@
       </div>
     </v-dialog>
 
-    <div class="retractable" :class="{'retracted': isDialogRetracted}" v-else>
+    <div 
+      class="retractable"
+      :class="{
+        'retracted': isDialogRetracted,
+        'hidden': !$store.state.indicators.selectedIndicator,
+      }"
+      v-else
+    >
       <v-toolbar dark color="primary">
         <v-toolbar-title style="overflow: unset; white-space: pre-wrap;"
           v-if="$store.state.indicators.selectedIndicator"
@@ -218,9 +225,15 @@
           <v-icon left>mdi-arrow-right</v-icon>
           Start exploring!
         </v-btn>
-        <v-btn v-else icon dark @click="clickMobileClose">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
+        <template v-else>
+          <v-btn icon dark @click="() => isDialogRetracted = !isDialogRetracted">
+            <v-icon>mdi-chevron-{{isDialogRetracted ? 'up' : 'down'}}</v-icon>
+          </v-btn>
+
+          <v-btn icon dark @click="clickMobileClose">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </template>
       </v-toolbar>
       <div
         class="scrollContainer data-panel"
@@ -510,11 +523,18 @@ export default {
 
 .retractable {
   transform: translateY(0);
+  transition: transform 0.3s ease-in-out;
   position: fixed;
   top: 0;
+  left: 0;
+  z-index: 20;
 
   &.retracted {
     transform: translateY(66vh);
+  }
+
+  &.hidden {
+    transform: translateY(100vh);
   }
 }
 </style>
