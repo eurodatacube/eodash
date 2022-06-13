@@ -54,7 +54,7 @@
       :compare-active.sync="enableCompare"
       :compare-time.sync="compareLayerTime"
       :original-time.sync="dataLayerTime"
-      :enable-compare="!indicator.disableCompare"
+      :enable-compare="!mergedConfigsData[0].disableCompare"
       :large-time-duration="indicator.largeTimeDuration"
       :key="mergedConfigsData[0].name + '_timeSelection'"
       @focusSelect="focusSelect"
