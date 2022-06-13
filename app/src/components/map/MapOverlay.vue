@@ -7,9 +7,11 @@
         </strong>
       </p>
     </div>
-    <p v-for="(row, index) in overlayRows" :key="index" class="ma-0">
-      {{ row }}
-    </p>
+    <div class="text-center">
+      <p v-for="(row, index) in overlayRows" :key="index" class="ma-0">
+        {{ row }}
+      </p>
+    </div>
   </v-card>
 </template>
 <script>
