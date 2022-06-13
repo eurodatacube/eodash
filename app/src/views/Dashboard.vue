@@ -157,7 +157,7 @@
           {{ $store.state.indicators.selectedIndicator.description }}
         </v-toolbar-title>
         <v-toolbar-title v-else class="text-capitalize">
-          {{ showText }}
+          {{ showText ? showText : '' }}
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn
@@ -222,7 +222,7 @@
         >
           <span class="font-medium text-h6">
             <!-- Convert the first letter to uppercase. -->
-            {{ showText[0].toUpperCase() + showText.substring(1) }}
+            {{ showText ? showText[0].toUpperCase() + showText.substring(1) : '' }}
           </span>
           <v-btn
             color="secondary"
