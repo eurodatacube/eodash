@@ -76,7 +76,7 @@ export default {
         layerFilter: ((candidate) => candidate === featureLayer),
       });
       // consider layergroup
-      if (features.length) {
+      if (isCorrectSide && features.length) {
         const feature = features[0];
         // center coordinate of extent, passable approximation for small or regular features
         const coordinate = getCenter(feature.getGeometry().getExtent());
