@@ -528,7 +528,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 20;
+  z-index: 1001;
 
   &.retracted {
     transform: translateY(66vh);
