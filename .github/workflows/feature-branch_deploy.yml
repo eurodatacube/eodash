@@ -19,6 +19,7 @@ jobs:
         node-version: '16'
         registry-url: 'https://registry.npmjs.org'
         cache: 'npm'
+        cache-dependency-path: app/package-lock.json
     # Build
     - name: Build
       run: |
