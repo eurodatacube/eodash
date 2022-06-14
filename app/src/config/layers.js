@@ -1,5 +1,3 @@
-import { CRS } from 'leaflet';
-
 export const baseLayers = Object.freeze({
   cloudless: {
     name: 'EOxCloudless 2021',
