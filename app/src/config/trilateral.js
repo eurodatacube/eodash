@@ -27,16 +27,18 @@ export const dataEndpoints = [
 
 const sharedPalsarFNFConfig = Object.freeze({
   baseUrl: 'https://ogcpreview1.restecmap.com/examind/api/WS/wms/JAXA_WMS_Preview',
-  minZoom: 1,
+  minZoom: 0,
   name: 'FNF PALSAR2 World Yearly',
   crs: CRS.EPSG4326,
   tileSize: 256,
+  legendUrl: './data/trilateral/fnf-map-legend.png',
+  labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
   presetView: {
     type: 'FeatureCollection',
     features: [{
       type: 'Feature',
       properties: {},
-      geometry: wkt.read('POLYGON((-94 0,-28 0,-28 -40,-94 -40,-94 0))').toJson(),
+      geometry: wkt.read('POLYGON((-94 20,50 20,50 -40,-94 -40,-94 20))').toJson(),
     }],
   },
   baseLayers: [
