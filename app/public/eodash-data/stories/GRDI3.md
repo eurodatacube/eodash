@@ -1,0 +1,1 @@
+### Global Gridded Relative Deprivation Index (GRDI) Subnational Human Development Index (SHDI) Constituent raster

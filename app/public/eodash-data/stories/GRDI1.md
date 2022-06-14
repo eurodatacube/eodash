@@ -1,0 +1,1 @@
+### Global Gridded Relative Deprivation Index (GRDI) built-up area (BUILT) Constituent raster

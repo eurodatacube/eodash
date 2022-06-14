@@ -1,0 +1,1 @@
+### Global Gridded Relative Deprivation Index (GRDI) VIIRS Night Lights (VNL) Slope Constituent raster

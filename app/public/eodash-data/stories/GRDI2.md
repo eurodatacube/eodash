@@ -1,0 +1,1 @@
+### Global Gridded Relative Deprivation Index (GRDI), V1 raster
