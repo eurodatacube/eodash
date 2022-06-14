@@ -2741,7 +2741,6 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W6',
-        // time: getMonthlyDates('2020-01-28', '2022-05-28'),
         time: availableDates.geoglam,
         inputData: [''],
         display: {
@@ -2753,11 +2752,9 @@ export const globalIndicators = [
           name: 'GRDI',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
-          // url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/agriculture-cropmonitor/CropMonitor_{time}.tif&resampling_method=nearest&bidx=1&color_map=custom_cropmonitor',
           name: 'Agriculture GEOGLAM',
           legendUrl: './data/trilateral/agriculture-GEOGLAM-legend.png',
           tileSize: 256,
-          // dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
           featuresStatic: true,
           features: {
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}.geojson',
