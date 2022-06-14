@@ -94,7 +94,7 @@
             </v-row>
           </v-card>
           <v-card
-            v-else
+            v-else-if="indicatorObject.display && indicatorObject.display.customAreaIndicator"
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
                               ? (bannerHeight ? 65 : 70) : 40) : 60}vh;`"
@@ -142,9 +142,13 @@
             />-->
             <indicator-data
               style="top: 0px; position: absolute;"
-              v-else
+              v-if="!!customAreaIndicator"
               class="pa-5 chart"
             />
+            <div v-else class="d-flex align-center justify-center" style="background: #99e; height: 100%">
+              <v-icon>mdi-bar-chart</v-icon>
+              Use the rectangle and polygon buttons to the left of this box to selectively generate charts for a given area.
+            </div>
           </v-card>
           <v-row
             :class="customAreaIndicator && !expanded ? 'mt-6' : 'mt-0'"
