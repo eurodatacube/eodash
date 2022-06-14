@@ -131,7 +131,10 @@
         :newsBanner="$refs.newsBanner"
         :expanded="dataPanelFullWidth" class="px-5" />
     </v-navigation-drawer>
-    <div class="reopen-right-drawer" v-if="$vuetify.breakpoint.mdAndUp && !!this.$route.query.poi && indicatorSelected">
+    <div
+      v-if="$vuetify.breakpoint.mdAndUp && !!this.$route.query.poi && indicatorSelected"
+      class="reopen-right-drawer"
+    >
         <v-btn
           icon
           style="background: #d8d8d8"
@@ -197,7 +200,7 @@
       </div>
     </v-dialog>
 
-    <div 
+    <div
       class="retractable"
       :class="{
         'retracted': isDialogRetracted,
