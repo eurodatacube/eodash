@@ -203,17 +203,6 @@
       class="info-dialog"
       width="80vw"
     >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="red lighten-2"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          Click Me
-        </v-btn>
-      </template>
-
       <template style="background: #FFF">
         <div
           class="d-flex justify-between px-7 py-4"
