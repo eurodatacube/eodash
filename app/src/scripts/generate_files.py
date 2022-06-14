@@ -157,8 +157,32 @@ STAC_COLLECTIONS = {
     "MO_NPP_npp_vgpm": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
     "nightlights-hd-3bands": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
     "nceo_africa_2017": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    #"HLSL30.002": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "nightlights-hd-1band": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    # these collections have a bit over 200 entries requesting them somehow breaks the endpoint
     #"HLSS30.002": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    #"HLSL30.002": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "grdi-v1-built": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "grdi-v1-raster": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "grdi-shdi-raster": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "grdi-vnl-slope-raster": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "grdi-vnl-raster": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "grdi-filled-missing-values-count": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "grdi-imr-raster": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "grdi-cdr-raster": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "blue-tarp-planetscope": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "blue-tarp-detection": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "geoglam": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    #"social-vulnerability-index-socioeconomic-nopop": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    #"social-vulnerability-index-socioeconomic": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    #"social-vulnerability-index-household": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    #"social-vulnerability-index-household-nopop": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    #"social-vulnerability-index-minority": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    #"social-vulnerability-index-overall-nopop": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    #"social-vulnerability-index-overall": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    #"social-vulnerability-index-housing": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    #"social-vulnerability-index-housing-nopop": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    #"social-vulnerability-index-minority-nopop": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    
 }
 # Collections items which have null datetimes and instead start_datetime and end_datetime
 SPECIAL_STAC_DATE = [
@@ -239,7 +263,7 @@ def retrieve_stac_entries(url, offset):
         print (message)
     return res
 
-def retrieve_location_stac_entries(url, offset, location):
+def retrieve_location_stac_entries(url, offset, location, collection):
     offset_step = 5000
     r = requests.get("%s&FEATURE_OFFSET=%s"%(url, (offset*offset_step)))
     res = {}
@@ -247,7 +271,11 @@ def retrieve_location_stac_entries(url, offset, location):
     features = json_resp["features"]
     try:
         for f in features:
-            if json.dumps(f["bbox"]) in location:
+            if collection in ["blue-tarp-detection", "blue-tarp-planetscope"]:
+                bbox = [round(float(i), 3) for i in f["bbox"]]
+            else:
+                bbox = f["bbox"]
+            if json.dumps(bbox) in location:
                 # try to find the datetime attribute
                 date = None
                 if "datetime" in f["properties"] and f["properties"]["datetime"] != None:
@@ -256,7 +284,7 @@ def retrieve_location_stac_entries(url, offset, location):
                     date = f["properties"]["start_datetime"]
                 elif "date" in f["properties"]:
                     date = f["properties"]["date"]
-                location_id = "%s-%s"%(collection, location[json.dumps(f["bbox"])]["id"])
+                location_id = "%s-%s"%(collection, location[json.dumps(bbox)]["id"])
                 res.setdefault(location_id, []).append([
                     date,
                     f["assets"]["cog_default"]["href"]
@@ -283,7 +311,8 @@ try:
             if collection in locations:
                 results = retrieve_location_stac_entries(
                     "%s/%s/items?limit=5000"%(stac_url, collection),
-                    0, locations[collection],
+                    0, locations[collection]["entries"],
+                    collection,
                 )
                 # First we reverse all results
                 for item in results.values():

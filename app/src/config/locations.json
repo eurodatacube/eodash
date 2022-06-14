@@ -1,146 +1,790 @@
 {
+  "blue-tarp-planetscope": {
+    "indicator": "N13",
+    "description": "Blue Tarps (PlanetScope)",
+    "legendUrl": "",
+    "entries": {
+      "[-90.087, 29.919, -90.058, 29.958]": {
+        "location": "Detection source data",
+        "id": "det2",
+        "country": "US"
+      },
+      "[-90.076, 29.981, -90.014, 30.052]": {
+        "location": "Detection source data",
+        "id": "det3",
+        "country": "US"
+      },
+      "[-90.12, 29.939, -90.084, 29.968]": {
+        "location": "Detection source data",
+        "id": "det4",
+        "country": "US"
+      },
+      "[-90.125, 29.976, -90.082, 30.034]": {
+        "location": "Detection source data",
+        "id": "det5",
+        "country": "US"
+      },
+      "[-90.241, 29.923, -90.169, 29.976]": {
+        "location": "Detection source data",
+        "id": "det6",
+        "country": "US"
+      },
+      "[-90.086, 29.985, -90.044, 30.035]": {
+        "location": "Detection source data",
+        "id": "det7",
+        "country": "US"
+      },
+      "[-90.185, 29.944, -90.128, 29.971]": {
+        "location": "Detection source data",
+        "id": "det8",
+        "country": "US"
+      },
+      "[-90.114, 29.953, -90.058, 29.993]": {
+        "location": "Detection source data",
+        "id": "det9",
+        "country": "US"
+      },
+      "[-90.14, 29.91, -90.109, 29.981]": {
+        "location": "Detection source data",
+        "id": "det10",
+        "country": "US"
+      },
+      "[-90.06, 29.949, -90.016, 29.986]": {
+        "location": "Detection source data",
+        "id": "det11",
+        "country": "US"
+      },
+      "[-90.078, 29.953, -90.052, 29.979]": {
+        "location": "Detection source data",
+        "id": "det12",
+        "country": "US"
+      },
+      "[-90.125, 29.908, -90.073, 29.942]": {
+        "location": "Detection source data",
+        "id": "det13",
+        "country": "US"
+      },
+      "[-90.059, 29.907, -90.017, 29.958]": {
+        "location": "Detection source data",
+        "id": "det14",
+        "country": "US"
+      },
+      "[-90.094, 29.932, -90.072, 29.955]": {
+        "location": "Detection source data",
+        "id": "det15",
+        "country": "US"
+      },
+      "[-90.088, 29.945, -90.066, 29.966]": {
+        "location": "Detection source data",
+        "id": "det16",
+        "country": "US"
+      },
+      "[-90.263, 29.887, -90.127, 29.97]": {
+        "location": "Detection source data",
+        "id": "det17",
+        "country": "US"
+      },
+      "[-90.16, 29.886, -90.083, 29.914]": {
+        "location": "Detection source data",
+        "id": "det18",
+        "country": "US"
+      },
+      "[-90.263, 30.007, -90.221, 30.051]": {
+        "location": "Detection source data",
+        "id": "det19",
+        "country": "US"
+      },
+      "[-90.263, 29.965, -90.225, 30.01]": {
+        "location": "Detection source data",
+        "id": "det20",
+        "country": "US"
+      },
+      "[-90.091, 29.885, -90.049, 29.919]": {
+        "location": "Detection source data",
+        "id": "det21",
+        "country": "US"
+      },
+      "[-90.045, 29.885, -90.019, 29.927]": {
+        "location": "Detection source data",
+        "id": "det22",
+        "country": "US"
+      },
+      "[-90.072, 29.885, -90.04, 29.945]": {
+        "location": "Detection source data",
+        "id": "det23",
+        "country": "US"
+      },
+      "[-90.209, 29.998, -90.177, 30.03]": {
+        "location": "Detection source data",
+        "id": "det24",
+        "country": "US"
+      },
+      "[-90.154, 29.972, -90.121, 30.025]": {
+        "location": "Detection source data",
+        "id": "det25",
+        "country": "US"
+      },
+      "[-90.238, 29.973, -90.189, 30.036]": {
+        "location": "Detection source data",
+        "id": "det26",
+        "country": "US"
+      },
+      "[-90.181, 29.997, -90.145, 30.024]": {
+        "location": "Detection source data",
+        "id": "det27",
+        "country": "US"
+      },
+      "[-90.211, 29.968, -90.125, 30.0]": {
+        "location": "Detection source data",
+        "id": "det28",
+        "country": "US"
+      },
+      "[-66.001, 18.349, -65.976, 18.399]": {
+        "location": "Detection source data",
+        "id": "det29",
+        "country": "PR"
+      },
+      "[-66.017, 18.39, -65.976, 18.442]": {
+        "location": "Detection source data",
+        "id": "det30",
+        "country": "PR"
+      },
+      "[-66.008, 18.392, -65.978, 18.422]": {
+        "location": "Detection source data",
+        "id": "det31",
+        "country": "PR"
+      },
+      "[-66.043, 18.419, -65.981, 18.457]": {
+        "location": "Detection source data",
+        "id": "det32",
+        "country": "PR"
+      },
+      "[-66.037, 18.304, -65.976, 18.388]": {
+        "location": "Detection source data",
+        "id": "det33",
+        "country": "PR"
+      },
+      "[-66.142, 18.304, -66.087, 18.383]": {
+        "location": "Detection source data",
+        "id": "det34",
+        "country": "PR"
+      },
+      "[-66.132, 18.343, -66.081, 18.385]": {
+        "location": "Detection source data",
+        "id": "det35",
+        "country": "PR"
+      },
+      "[-66.108, 18.4, -66.095, 18.412]": {
+        "location": "Detection source data",
+        "id": "det36",
+        "country": "PR"
+      },
+      "[-66.133, 18.376, -66.094, 18.421]": {
+        "location": "Detection source data",
+        "id": "det37",
+        "country": "PR"
+      },
+      "[-66.123, 18.417, -66.099, 18.441]": {
+        "location": "Detection source data",
+        "id": "det38",
+        "country": "PR"
+      },
+      "[-66.154, 18.419, -66.108, 18.461]": {
+        "location": "Detection source data",
+        "id": "det39",
+        "country": "PR"
+      },
+      "[-66.154, 18.395, -66.126, 18.412]": {
+        "location": "Detection source data",
+        "id": "det40",
+        "country": "PR"
+      },
+      "[-66.154, 18.407, -66.127, 18.425]": {
+        "location": "Detection source data",
+        "id": "det41",
+        "country": "PR"
+      },
+      "[-66.154, 18.333, -66.119, 18.399]": {
+        "location": "Detection source data",
+        "id": "det42",
+        "country": "PR"
+      },
+      "[-66.155, 18.304, -66.132, 18.389]": {
+        "location": "Detection source data",
+        "id": "det43",
+        "country": "PR"
+      },
+      "[-66.154, 18.443, -66.123, 18.476]": {
+        "location": "Detection source data",
+        "id": "det44",
+        "country": "PR"
+      },
+      "[-66.134, 18.405, -66.105, 18.422]": {
+        "location": "Detection source data",
+        "id": "det45",
+        "country": "PR"
+      },
+      "[-66.09, 18.367, -66.053, 18.41]": {
+        "location": "Detection source data",
+        "id": "det46",
+        "country": "PR"
+      },
+      "[-66.102, 18.304, -66.003, 18.397]": {
+        "location": "Detection source data",
+        "id": "det47",
+        "country": "PR"
+      },
+      "[-66.057, 18.395, -66.043, 18.408]": {
+        "location": "Detection source data",
+        "id": "det48",
+        "country": "PR"
+      },
+      "[-66.031, 18.379, -65.991, 18.423]": {
+        "location": "Detection source data",
+        "id": "det49",
+        "country": "PR"
+      },
+      "[-66.053, 18.395, -66.024, 18.428]": {
+        "location": "Detection source data",
+        "id": "det50",
+        "country": "PR"
+      },
+      "[-66.106, 18.374, -66.07, 18.407]": {
+        "location": "Detection source data",
+        "id": "det51",
+        "country": "PR"
+      },
+      "[-66.109, 18.393, -66.075, 18.443]": {
+        "location": "Detection source data",
+        "id": "det52",
+        "country": "PR"
+      },
+      "[-66.083, 18.404, -66.053, 18.439]": {
+        "location": "Detection source data",
+        "id": "det53",
+        "country": "PR"
+      },
+      "[-66.059, 18.408, -66.039, 18.434]": {
+        "location": "Detection source data",
+        "id": "det54",
+        "country": "PR"
+      },
+      "[-66.062, 18.428, -66.03, 18.447]": {
+        "location": "Detection source data",
+        "id": "det55",
+        "country": "PR"
+      },
+      "[-66.052, 18.446, -66.034, 18.467]": {
+        "location": "Detection source data",
+        "id": "det56",
+        "country": "PR"
+      },
+      "[-66.068, 18.439, -66.053, 18.45]": {
+        "location": "Detection source data",
+        "id": "det57",
+        "country": "PR"
+      },
+      "[-66.066, 18.447, -66.044, 18.462]": {
+        "location": "Detection source data",
+        "id": "det58",
+        "country": "PR"
+      },
+      "[-66.077, 18.433, -66.059, 18.451]": {
+        "location": "Detection source data",
+        "id": "det59",
+        "country": "PR"
+      },
+      "[-66.118, 18.438, -66.059, 18.465]": {
+        "location": "Detection source data",
+        "id": "det60",
+        "country": "PR"
+      },
+      "[-66.129, 18.455, -66.08, 18.476]": {
+        "location": "Detection source data",
+        "id": "det61",
+        "country": "PR"
+      },
+      "[-65.989, 18.442, -65.976, 18.456]": {
+        "location": "Detection source data",
+        "id": "det62",
+        "country": "PR"
+      },
+      "[-66.096, 18.304, -66.012, 18.327]": {
+        "location": "Detection source data",
+        "id": "det63",
+        "country": "PR"
+      }
+    }
+  },
+  "blue-tarp-detection": {
+    "indicator": "N14",
+    "description": "Blue Tarps",
+    "legendUrl": "",
+    "entries": {
+      "[-90.087, 29.919, -90.058, 29.958]": {
+        "location": "Detections",
+        "id": "det1",
+        "country": "US"
+      },
+      "[-90.076, 29.981, -90.014, 30.052]": {
+        "location": "Detections",
+        "id": "det2",
+        "country": "US"
+      },
+      "[-90.12, 29.939, -90.084, 29.968]": {
+        "location": "Detections",
+        "id": "det3",
+        "country": "US"
+      },
+      "[-90.125, 29.976, -90.082, 30.034]": {
+        "location": "Detections",
+        "id": "det4",
+        "country": "US"
+      },
+      "[-90.241, 29.923, -90.169, 29.976]": {
+        "location": "Detections",
+        "id": "det5",
+        "country": "US"
+      },
+      "[-90.086, 29.985, -90.044, 30.035]": {
+        "location": "Detections",
+        "id": "det6",
+        "country": "US"
+      },
+      "[-90.185, 29.944, -90.128, 29.971]": {
+        "location": "Detections",
+        "id": "det7",
+        "country": "US"
+      },
+      "[-90.114, 29.953, -90.058, 29.993]": {
+        "location": "Detections",
+        "id": "det8",
+        "country": "US"
+      },
+      "[-90.14, 29.91, -90.109, 29.981]": {
+        "location": "Detections",
+        "id": "det9",
+        "country": "US"
+      },
+      "[-90.06, 29.949, -90.016, 29.986]": {
+        "location": "Detections",
+        "id": "det10",
+        "country": "US"
+      },
+      "[-90.078, 29.953, -90.052, 29.979]": {
+        "location": "Detections",
+        "id": "det11",
+        "country": "US"
+      },
+      "[-90.125, 29.908, -90.073, 29.942]": {
+        "location": "Detections",
+        "id": "det12",
+        "country": "US"
+      },
+      "[-90.059, 29.907, -90.017, 29.958]": {
+        "location": "Detections",
+        "id": "det13",
+        "country": "US"
+      },
+      "[-90.094, 29.932, -90.072, 29.955]": {
+        "location": "Detections",
+        "id": "det14",
+        "country": "US"
+      },
+      "[-90.088, 29.945, -90.066, 29.966]": {
+        "location": "Detections",
+        "id": "det15",
+        "country": "US"
+      },
+      "[-90.274, 29.887, -90.127, 29.97]": {
+        "location": "Detections",
+        "id": "det16",
+        "country": "US"
+      },
+      "[-90.16, 29.886, -90.083, 29.914]": {
+        "location": "Detections",
+        "id": "det17",
+        "country": "US"
+      },
+      "[-90.271, 30.007, -90.221, 30.051]": {
+        "location": "Detections",
+        "id": "det18",
+        "country": "US"
+      },
+      "[-90.272, 29.965, -90.225, 30.01]": {
+        "location": "Detections",
+        "id": "det19",
+        "country": "US"
+      },
+      "[-90.091, 29.885, -90.049, 29.919]": {
+        "location": "Detections",
+        "id": "det20",
+        "country": "US"
+      },
+      "[-90.045, 29.885, -90.019, 29.927]": {
+        "location": "Detections",
+        "id": "det21",
+        "country": "US"
+      },
+      "[-90.072, 29.885, -90.04, 29.945]": {
+        "location": "Detections",
+        "id": "det22",
+        "country": "US"
+      },
+      "[-90.209, 29.998, -90.177, 30.03]": {
+        "location": "Detections",
+        "id": "det23",
+        "country": "US"
+      },
+      "[-90.154, 29.972, -90.121, 30.025]": {
+        "location": "Detections",
+        "id": "det24",
+        "country": "US"
+      },
+      "[-90.238, 29.973, -90.189, 30.036]": {
+        "location": "Detections",
+        "id": "det25",
+        "country": "US"
+      },
+      "[-90.181, 29.997, -90.145, 30.024]": {
+        "location": "Detections",
+        "id": "det26",
+        "country": "US"
+      },
+      "[-90.211, 29.968, -90.125, 30.0]": {
+        "location": "Detections",
+        "id": "det27",
+        "country": "US"
+      },
+      "[-66.001, 18.349, -65.976, 18.399]": {
+        "location": "Detections",
+        "id": "det28",
+        "country": "PR"
+      },
+      "[-66.017, 18.39, -65.976, 18.442]": {
+        "location": "Detections",
+        "id": "det29",
+        "country": "PR"
+      },
+      "[-66.008, 18.392, -65.978, 18.422]": {
+        "location": "Detections",
+        "id": "det30",
+        "country": "PR"
+      },
+      "[-66.043, 18.419, -65.981, 18.457]": {
+        "location": "Detections",
+        "id": "det31",
+        "country": "PR"
+      },
+      "[-66.037, 18.304, -65.976, 18.388]": {
+        "location": "Detections",
+        "id": "det32",
+        "country": "PR"
+      },
+      "[-66.142, 18.304, -66.087, 18.383]": {
+        "location": "Detections",
+        "id": "det33",
+        "country": "PR"
+      },
+      "[-66.132, 18.343, -66.081, 18.385]": {
+        "location": "Detections",
+        "id": "det34",
+        "country": "PR"
+      },
+      "[-66.108, 18.4, -66.095, 18.412]": {
+        "location": "Detections",
+        "id": "det35",
+        "country": "PR"
+      },
+      "[-66.133, 18.376, -66.094, 18.421]": {
+        "location": "Detections",
+        "id": "det36",
+        "country": "PR"
+      },
+      "[-66.123, 18.417, -66.099, 18.441]": {
+        "location": "Detections",
+        "id": "det37",
+        "country": "PR"
+      },
+      "[-66.154, 18.419, -66.108, 18.461]": {
+        "location": "Detections",
+        "id": "det38",
+        "country": "PR"
+      },
+      "[-66.154, 18.395, -66.126, 18.412]": {
+        "location": "Detections",
+        "id": "det39",
+        "country": "PR"
+      },
+      "[-66.154, 18.407, -66.127, 18.425]": {
+        "location": "Detections",
+        "id": "det40",
+        "country": "PR"
+      },
+      "[-66.154, 18.333, -66.119, 18.399]": {
+        "location": "Detections",
+        "id": "det41",
+        "country": "PR"
+      },
+      "[-66.155, 18.304, -66.132, 18.389]": {
+        "location": "Detections",
+        "id": "det42",
+        "country": "PR"
+      },
+      "[-66.154, 18.443, -66.123, 18.476]": {
+        "location": "Detections",
+        "id": "det43",
+        "country": "PR"
+      },
+      "[-66.134, 18.405, -66.105, 18.422]": {
+        "location": "Detections",
+        "id": "det44",
+        "country": "PR"
+      },
+      "[-66.09, 18.367, -66.053, 18.41]": {
+        "location": "Detections",
+        "id": "det45",
+        "country": "PR"
+      },
+      "[-66.102, 18.304, -66.003, 18.397]": {
+        "location": "Detections",
+        "id": "det46",
+        "country": "PR"
+      },
+      "[-66.057, 18.395, -66.043, 18.408]": {
+        "location": "Detections",
+        "id": "det47",
+        "country": "PR"
+      },
+      "[-66.031, 18.379, -65.991, 18.423]": {
+        "location": "Detections",
+        "id": "det48",
+        "country": "PR"
+      },
+      "[-66.053, 18.395, -66.024, 18.428]": {
+        "location": "Detections",
+        "id": "det49",
+        "country": "PR"
+      },
+      "[-66.106, 18.374, -66.07, 18.407]": {
+        "location": "Detections",
+        "id": "det50",
+        "country": "PR"
+      },
+      "[-66.109, 18.393, -66.075, 18.443]": {
+        "location": "Detections",
+        "id": "det51",
+        "country": "PR"
+      },
+      "[-66.083, 18.404, -66.053, 18.439]": {
+        "location": "Detections",
+        "id": "det52",
+        "country": "PR"
+      },
+      "[-66.059, 18.408, -66.039, 18.434]": {
+        "location": "Detections",
+        "id": "det53",
+        "country": "PR"
+      },
+      "[-66.062, 18.428, -66.03, 18.447]": {
+        "location": "Detections",
+        "id": "det54",
+        "country": "PR"
+      },
+      "[-66.052, 18.446, -66.034, 18.467]": {
+        "location": "Detections",
+        "id": "det55",
+        "country": "PR"
+      },
+      "[-66.068, 18.439, -66.053, 18.45]": {
+        "location": "Detections",
+        "id": "det56",
+        "country": "PR"
+      },
+      "[-66.066, 18.447, -66.044, 18.462]": {
+        "location": "Detections",
+        "id": "det57",
+        "country": "PR"
+      },
+      "[-66.077, 18.433, -66.059, 18.451]": {
+        "location": "Detections",
+        "id": "det58",
+        "country": "PR"
+      },
+      "[-66.118, 18.438, -66.059, 18.465]": {
+        "location": "Detections",
+        "id": "det59",
+        "country": "PR"
+      },
+      "[-66.129, 18.455, -66.08, 18.476]": {
+        "location": "Detections",
+        "id": "det60",
+        "country": "PR"
+      },
+      "[-65.989, 18.442, -65.976, 18.456]": {
+        "location": "Detections",
+        "id": "det61",
+        "country": "PR"
+      },
+      "[-66.096, 18.304, -66.012, 18.327]": {
+        "location": "Detections",
+        "id": "det62",
+        "country": "PR"
+      }
+    }
+  },
   "nightlights-hd-3bands": {
-    "[-90.3037818244749, 29.804659612978707, -89.87578181971654, 30.07177072705947]": {
-      "location": "New Orleans",
-      "id": "US02",
-      "country": "US"
-    },
-    "[-67.27167653359618, 17.912138994450856, -65.57478762584185, 18.51569455671654]": {
-      "location": "Puerto Rico",
-      "id": "PR01",
-      "country": "PR"
+    "indicator": "N5",
+    "description": "Nightlights",
+    "legendUrl": "data/trilateral/N5-nighlights-legend.png",
+    "entries": {
+      "[-90.3037818244749, 29.804659612978707, -89.87578181971654, 30.07177072705947]": {
+        "location": "New Orleans",
+        "id": "US02",
+        "country": "US"
+      },
+      "[-67.27167653359618, 17.912138994450856, -65.57478762584185, 18.51569455671654]": {
+        "location": "Puerto Rico",
+        "id": "PR01",
+        "country": "PR"
+      }
     }
   },
   "nightlights-hd-monthly": {
-    "[11.7631744, 45.06062636, 12.79039608, 45.79310055]": {
-      "location": "Venice",
-      "id": "IT01",
-      "country": "IT"
-    },
-    "[139.58, 35.58, 139.82, 35.74]": {
-      "location": "Tokyo",
-      "id": "JP01",
-      "country": "JP"
-    },
-    "[103.63, 1.23, 104.03, 1.47]": {
-      "location": "Singapore",
-      "id": "SG01",
-      "country": "SG"
-    },
-    "[12.196366, 41.602782, 12.796366, 42.202782]": {
-      "location": "Rome",
-      "id": "IT02",
-      "country": "IT"
-    },
-    "[2.119014, 48.634716, 2.579014, 49.094716]": {
-      "location": "Paris",
-      "id": "FR01",
-      "country": "FR"
-    },
-    "[135.35, 34.57, 135.61, 34.77]": {
-      "location": "Osaka",
-      "id": "JP02",
-      "country": "JP"
-    },
-    "[8.95854, 45.234664, 9.41854, 45.694664]": {
-      "location": "Milan",
-      "id": "IT02",
-      "country": "IT"
-    },
-    "[4.455588606, 42.9695695, 6.5320046220000005, 44.06892132]": {
-      "location": "Marseille",
-      "id": "FR02",
-      "country": "FR"
-    },
-    "[-4.00379, 40.116775, -3.40379, 40.716775]": {
-      "location": "Madrid",
-      "id": "ES01",
-      "country": "ES"
-    },
-    "[-0.510375, 51.28676, 0.33401499999999995, 51.691874]": {
-      "location": "London",
-      "id": "GB01",
-      "country": "GB"
-    },
-    "[-77.18, -12.28, -76.88, -11.86]": {
-      "location": "Lima",
-      "id": "PE01",
-      "country": "PE"
-    },
-    "[135.64, 34.88, 135.84, 35.08]": {
-      "location": "Kyoto",
-      "id": "JP03",
-      "country": "JP"
-    },
-    "[141.18, 42.94, 141.58, 43.23]": {
-      "location": "Hokkaido Sapporo",
-      "id": "JP04",
-      "country": "JP"
-    },
-    "[8.1053, 53.3951, 10.3253, 54.0277]": {
-      "location": "Hamburg",
-      "id": "DE01",
-      "country": "DE"
-    },
-    "[3.542912745, 50.93642727, 3.919194484, 51.16950495]": {
-      "location": "Ghent",
-      "id": "BE01",
-      "country": "BE"
-    },
-    "[8.665744, 44.378471, 9.09558, 44.519842]": {
-      "location": "Genoa",
-      "id": "IT03",
-      "country": "IT"
-    },
-    "[18.357982, 54.422751, 18.569061, 54.584515]": {
-      "location": "Gdynia",
-      "id": "PL01",
-      "country": "PL"
-    },
-    "[130.28, 33.46, 130.52, 33.72]": {
-      "location": "Fukuoka",
-      "id": "JP05",
-      "country": "JP"
-    },
-    "[2.062055515, 50.88721313, 2.641584324, 51.13260412]": {
-      "location": "Dunkirk",
-      "id": "FR03",
-      "country": "FR"
-    },
-    "[90.31, 23.64, 90.53, 23.91]": {
-      "location": "Dhaka",
-      "id": "BD01",
-      "country": "BD"
-    },
-    "[79.82, 6.74, 80.02, 7.02]": {
-      "location": "Colombo",
-      "id": "LK01",
-      "country": "LK"
-    },
-    "[116.2, 39.77, 116.55, 40.0]": {
-      "location": "Beijing",
-      "id": "CN01",
-      "country": "CN"
-    },
-    "[1.469171475, 41.15634032, 2.617242764, 41.84748412]": {
-      "location": "Barcelona",
-      "id": "ES02",
-      "country": "ES"
-    },
-    "[174.59, -37.08, 174.96, -36.68]": {
-      "location": "Auckland",
-      "id": "NZ01",
-      "country": "NZ"
-    },
-    "[4.61, 52.2, 5.1, 52.54]": {
-      "location": "Amsterdam",
-      "id": "NL01",
-      "country": "NL"
-    },
-    "[136.78, 35.02, 137.04, 35.25]": {
-      "location": "Aichi Nagoya",
-      "id": "JP06",
-      "country": "JP"
+    "indicator": "N5",
+    "description": "Nightlights",
+    "legendUrl": "data/trilateral/N5-nighlights-legend.png",
+    "entries": {
+      "[11.7631744, 45.06062636, 12.79039608, 45.79310055]": {
+        "location": "Venice",
+        "id": "IT01",
+        "country": "IT"
+      },
+      "[139.58, 35.58, 139.82, 35.74]": {
+        "location": "Tokyo",
+        "id": "JP01",
+        "country": "JP"
+      },
+      "[103.63, 1.23, 104.03, 1.47]": {
+        "location": "Singapore",
+        "id": "SG01",
+        "country": "SG"
+      },
+      "[12.196366, 41.602782, 12.796366, 42.202782]": {
+        "location": "Rome",
+        "id": "IT02",
+        "country": "IT"
+      },
+      "[2.119014, 48.634716, 2.579014, 49.094716]": {
+        "location": "Paris",
+        "id": "FR01",
+        "country": "FR"
+      },
+      "[135.35, 34.57, 135.61, 34.77]": {
+        "location": "Osaka",
+        "id": "JP02",
+        "country": "JP"
+      },
+      "[8.95854, 45.234664, 9.41854, 45.694664]": {
+        "location": "Milan",
+        "id": "IT02",
+        "country": "IT"
+      },
+      "[4.455588606, 42.9695695, 6.5320046220000005, 44.06892132]": {
+        "location": "Marseille",
+        "id": "FR02",
+        "country": "FR"
+      },
+      "[-4.00379, 40.116775, -3.40379, 40.716775]": {
+        "location": "Madrid",
+        "id": "ES01",
+        "country": "ES"
+      },
+      "[-0.510375, 51.28676, 0.33401499999999995, 51.691874]": {
+        "location": "London",
+        "id": "GB01",
+        "country": "GB"
+      },
+      "[-77.18, -12.28, -76.88, -11.86]": {
+        "location": "Lima",
+        "id": "PE01",
+        "country": "PE"
+      },
+      "[135.64, 34.88, 135.84, 35.08]": {
+        "location": "Kyoto",
+        "id": "JP03",
+        "country": "JP"
+      },
+      "[141.18, 42.94, 141.58, 43.23]": {
+        "location": "Hokkaido Sapporo",
+        "id": "JP04",
+        "country": "JP"
+      },
+      "[8.1053, 53.3951, 10.3253, 54.0277]": {
+        "location": "Hamburg",
+        "id": "DE01",
+        "country": "DE"
+      },
+      "[3.542912745, 50.93642727, 3.919194484, 51.16950495]": {
+        "location": "Ghent",
+        "id": "BE01",
+        "country": "BE"
+      },
+      "[8.665744, 44.378471, 9.09558, 44.519842]": {
+        "location": "Genoa",
+        "id": "IT03",
+        "country": "IT"
+      },
+      "[18.357982, 54.422751, 18.569061, 54.584515]": {
+        "location": "Gdynia",
+        "id": "PL01",
+        "country": "PL"
+      },
+      "[130.28, 33.46, 130.52, 33.72]": {
+        "location": "Fukuoka",
+        "id": "JP05",
+        "country": "JP"
+      },
+      "[2.062055515, 50.88721313, 2.641584324, 51.13260412]": {
+        "location": "Dunkirk",
+        "id": "FR03",
+        "country": "FR"
+      },
+      "[90.31, 23.64, 90.53, 23.91]": {
+        "location": "Dhaka",
+        "id": "BD01",
+        "country": "BD"
+      },
+      "[79.82, 6.74, 80.02, 7.02]": {
+        "location": "Colombo",
+        "id": "LK01",
+        "country": "LK"
+      },
+      "[116.2, 39.77, 116.55, 40.0]": {
+        "location": "Beijing",
+        "id": "CN01",
+        "country": "CN"
+      },
+      "[1.469171475, 41.15634032, 2.617242764, 41.84748412]": {
+        "location": "Barcelona",
+        "id": "ES02",
+        "country": "ES"
+      },
+      "[174.59, -37.08, 174.96, -36.68]": {
+        "location": "Auckland",
+        "id": "NZ01",
+        "country": "NZ"
+      },
+      "[4.61, 52.2, 5.1, 52.54]": {
+        "location": "Amsterdam",
+        "id": "NL01",
+        "country": "NL"
+      },
+      "[136.78, 35.02, 137.04, 35.25]": {
+        "location": "Aichi Nagoya",
+        "id": "JP06",
+        "country": "JP"
+      }
     }
   }
 }

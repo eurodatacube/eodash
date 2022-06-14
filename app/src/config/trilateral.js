@@ -359,6 +359,20 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['covid-19', 'oceans'],
     story: '/eodash-data/stories/N11',
   },
+  N13: {
+    indicator: 'Blue Tarps (PlanetScope)',
+    class: 'economic',
+    story: '/eodash-data/stories/N13',
+    themes: ['covid-19', 'economy', 'atmosphere', 'oceans'],
+    smallSubAoi: true,
+  },
+  N14: {
+    indicator: 'Blue Tarps Detections',
+    class: 'economic',
+    story: '/eodash-data/stories/N14',
+    themes: ['covid-19', 'economy', 'atmosphere', 'oceans'],
+    smallSubAoi: true,
+  },
   GG: {
     indicator: 'Mobility',
     class: 'economic',
@@ -4101,7 +4115,7 @@ slowdownIndicators.forEach((ind, idx) => (
   ))
 ));
 
-const createSTACCollectionIndicator = (collection, key, value, index, url) => {
+const createSTACCollectionIndicator = (collection, key, value, index, url, indicator, description, legendUrl) => {
   const bbox = JSON.parse(key);
   const aoi = latLng([
     bbox[1] + (bbox[3] - bbox[1]) / 2,
@@ -4117,7 +4131,7 @@ const createSTACCollectionIndicator = (collection, key, value, index, url) => {
     ]],
     type: 'Polygon',
   };
-  const indicator = {
+  const indicatorObject = {
     latlng: aoi,
     id: index,
     properties: {
@@ -4129,12 +4143,11 @@ const createSTACCollectionIndicator = (collection, key, value, index, url) => {
         country: [value.country],
         city: value.location,
         siteName: value.location,
-        description: 'Nightlights',
-        indicator: 'N5',
+        description,
+        indicator,
         lastIndicatorValue: null,
         indicatorName: '',
         lastColorCode: null,
-        eoSensor: ['Nightlights'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -4144,33 +4157,37 @@ const createSTACCollectionIndicator = (collection, key, value, index, url) => {
           }],
         },
         time: availableDates[`${collection}-${value.id}`],
-        inputData: ['Nightlights'],
+        inputData: [''],
         display: {
           protocol: 'xyz',
           tileSize: 256,
           minMapZoom: 5,
           minZoom: 5,
-          maxZoom: 16,
+          maxZoom: 20,
           url,
-          name: 'Nightlights (HD)',
+          name: description,
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
-          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
+          legendUrl,
         },
       },
     },
   };
-  return indicator;
+  return indicatorObject;
 };
 const urlMapping = {
   'nightlights-hd-monthly': 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,300&bidx=1&colormap_name=inferno',
   'nightlights-hd-3bands': 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}',
+  'blue-tarp-planetscope': 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}',
+  'blue-tarp-detection': 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,10000&bidx=1&colormap_name=inferno',
 };
 Object.keys(locations).forEach((collection) => {
   idOffset += 5000;
-  Object.entries(locations[collection]).forEach(([key, value], index) => {
+  Object.entries(locations[collection].entries).forEach(([key, value], index) => {
     globalIndicators.push(createSTACCollectionIndicator(
       collection, key, value, idOffset + index, urlMapping[collection],
+      locations[collection].indicator, locations[collection].description,
+      locations[collection].legendUrl,
     ));
   });
 });
