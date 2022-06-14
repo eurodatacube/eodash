@@ -100,7 +100,7 @@
                               ? (bannerHeight ? 65 : 70) : 40) : 60}vh;`"
             ref="mapPanel"
           >
-            <full-screen-button />
+            <!-- <full-screen-button /> -->
             <div
               style="height: 100%;z-index: 500; position: relative;"
               v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
