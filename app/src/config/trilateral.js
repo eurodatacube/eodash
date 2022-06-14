@@ -15,6 +15,8 @@ import {
   nasaTimelapseConfig,
 } from '@/helpers/customAreaObjects';
 
+const wkt = new Wkt();
+
 export const dataPath = './data/internal/';
 export const dataEndpoints = [
   {
@@ -460,6 +462,15 @@ export const indicatorsDefinition = Object.freeze({
   },
 });
 
+const cairoPresetView = Object.freeze({
+  type: 'FeatureCollection',
+  features: [{
+    type: 'Feature',
+    properties: {},
+    geometry: wkt.read('POLYGON((30 31.4,32.1 31.6,32.2 28,31 28,30 28,29.7 31,30 31.4))').toJson(),
+  }],
+});
+
 export const layerNameMapping = Object.freeze({
   // "inputdata" -> wms layer name and baseurl
   '[NEW] Planetscope COVID-19': {
@@ -518,18 +529,21 @@ export const layerNameMapping = Object.freeze({
     layers: 'NO2-TROPOMI-Cairo-Daily',
     maxMapZoom: 14,
     legendUrl: 'https://legends.restecmap.com/images/NO2-TROPOMI-Cairo-Daily.png',
+    presetView: cairoPresetView,
   },
   GOSAT_XCO2_JAXA: {
     baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
     layers: 'XCO2-GOSAT-Cairo',
     maxMapZoom: 14,
     legendUrl: 'https://legends.restecmap.com/images/XCO2-GOSAT-Cairo.png',
+    presetView: cairoPresetView,
   },
   SIF_TROPOMI_Cairo: {
     baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
     layers: 'SIF-TROPOMI-Cairo-Monthly',
     maxMapZoom: 14,
     legendUrl: 'https://legends.restecmap.com/images/SIF-TROPOMI-Cairo-Monthly.png',
+    presetView: cairoPresetView,
   },
   GOSAT_XCO2: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/GOSAT_XCO2_{time}_{site}_BG_circle_cog.tif&resampling_method=nearest',
@@ -728,8 +742,6 @@ const getWeeklyDates = (start, end) => {
   }
   return dateArray;
 };
-
-const wkt = new Wkt();
 
 export const globalIndicators = [
   {
