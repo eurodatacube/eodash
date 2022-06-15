@@ -399,15 +399,6 @@
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
                 </v-toolbar>
-              <!--<indicator-map
-                ref="referenceMap"
-                @update:center="c => center = c"
-                @update:zoom="z => zoom = z"
-                @update:datalayertime="d => datalayertime = d"
-                @update:comparelayertime="c => comparelayertime = c"
-                @compareEnabled="compareEnabled = !compareEnabled"
-                :style="`height: calc(100% - ${$vuetify.application.top}px)`"
-              />-->
               </v-dialog>
             </v-col>
           </v-row>
@@ -427,7 +418,6 @@ import { DateTime } from 'luxon';
 import dialogMixin from '@/mixins/dialogMixin';
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
-import IndicatorMap from '@/components/IndicatorMap.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import FullScreenButton from '@/components/FullScreenButton.vue';
 import IframeButton from '@/components/IframeButton.vue';
@@ -442,7 +432,6 @@ export default {
   components: {
     ExpandableContent,
     IndicatorData,
-    IndicatorMap,
     IndicatorGlobe,
     FullScreenButton,
     IframeButton,
