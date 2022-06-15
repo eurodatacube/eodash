@@ -140,10 +140,13 @@
               class="pt-0 fill-height"
               style="top: 0px; position: absolute;"
             />-->
-            <div v-else-if="showMap && indicatorObject.display.customAreaIndicator" class="d-flex align-center justify-center" style="background: #99e; height: 100%">
-              <v-icon>mdi-bar-chart</v-icon>
-              Use the rectangle and polygon buttons to the left of this box to selectively generate charts for a given area.
-            </div>
+            <v-col v-else-if="showMap && indicatorObject.display.customAreaIndicator" class="d-flex flex-col align-center justify-center" style="flex-direction: column; height: 100%">
+              <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
+              <p style="max-width: 75%; text-align: center">Use the rectangle and polygon buttons to the left of this box to generate charts for a given area.</p>
+              <v-btn class="mt-3" color="secondary">
+                Generate Chart
+              </v-btn>
+            </v-col>
 
             <div v-else-if="showMap"></div>
 
