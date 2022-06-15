@@ -147,46 +147,45 @@ WMSCOLLECTIONS = {
 }
 
 STAC_COLLECTIONS = {
-    "no2-monthly": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "no2-monthly-diff": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "OMI_trno2-COG": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "OMSO2PCA-COG": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "facebook_population_density": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "nightlights-hd-monthly": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "IS2SITMOGR4": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "MO_NPP_npp_vgpm": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "nightlights-hd-3bands": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "nceo_africa_2017": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "nightlights-hd-1band": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "no2-monthly": "https://staging-stac.delta-backend.com/collections/",
+    "no2-monthly-diff": "https://staging-stac.delta-backend.com/collections/",
+    "OMI_trno2-COG": "https://staging-stac.delta-backend.com/collections/",
+    "OMSO2PCA-COG": "https://staging-stac.delta-backend.com/collections/",
+    "facebook_population_density": "https://staging-stac.delta-backend.com/collections/",
+    "nightlights-hd-monthly": "https://staging-stac.delta-backend.com/collections/",
+    "IS2SITMOGR4-cog": "https://staging-stac.delta-backend.com/collections/",
+    "MO_NPP_npp_vgpm": "https://staging-stac.delta-backend.com/collections/",
+    "nceo_africa_2017": "https://staging-stac.delta-backend.com/collections/",
+    "nightlights-hd-1band": "https://staging-stac.delta-backend.com/collections/",
     # these collections have a bit over 200 entries requesting them somehow breaks the endpoint
-    #"HLSS30.002": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    #"HLSL30.002": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "grdi-v1-built": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "grdi-v1-raster": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "grdi-shdi-raster": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "grdi-vnl-slope-raster": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "grdi-vnl-raster": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "grdi-filled-missing-values-count": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "grdi-imr-raster": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "grdi-cdr-raster": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "blue-tarp-planetscope": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "blue-tarp-detection": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "geoglam": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    #"social-vulnerability-index-socioeconomic-nopop": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    #"social-vulnerability-index-socioeconomic": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    #"social-vulnerability-index-household": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    #"social-vulnerability-index-household-nopop": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    #"social-vulnerability-index-minority": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    #"social-vulnerability-index-overall-nopop": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    #"social-vulnerability-index-overall": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    #"social-vulnerability-index-housing": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    #"social-vulnerability-index-housing-nopop": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    #"social-vulnerability-index-minority-nopop": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    #"HLSS30.002": "https://staging-stac.delta-backend.com/collections/",
+    #"HLSL30.002": "https://staging-stac.delta-backend.com/collections/",
+    "grdi-v1-built": "https://staging-stac.delta-backend.com/collections/",
+    "grdi-v1-raster": "https://staging-stac.delta-backend.com/collections/",
+    "grdi-shdi-raster": "https://staging-stac.delta-backend.com/collections/",
+    "grdi-vnl-slope-raster": "https://staging-stac.delta-backend.com/collections/",
+    "grdi-vnl-raster": "https://staging-stac.delta-backend.com/collections/",
+    "grdi-filled-missing-values-count": "https://staging-stac.delta-backend.com/collections/",
+    "grdi-imr-raster": "https://staging-stac.delta-backend.com/collections/",
+    "grdi-cdr-raster": "https://staging-stac.delta-backend.com/collections/",
+    "blue-tarp-planetscope": "https://staging-stac.delta-backend.com/collections/",
+    "blue-tarp-detection": "https://staging-stac.delta-backend.com/collections/",
+    "geoglam": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-socioeconomic-nopop": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-socioeconomic": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-household": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-household-nopop": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-minority": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-overall-nopop": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-overall": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-housing": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-housing-nopop": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-minority-nopop": "https://staging-stac.delta-backend.com/collections/",
     
 }
 # Collections items which have null datetimes and instead start_datetime and end_datetime
 SPECIAL_STAC_DATE = [
-    "IS2SITMOGR4", "MO_NPP_npp_vgpm",
+    "IS2SITMOGR4-cog", "MO_NPP_npp_vgpm",
 ]
 
 # Some datasets have different dates for different areas so we need to separate
@@ -307,6 +306,7 @@ try:
     with open("/config/locations.json") as locations_file:
         locations = json.load(locations_file)
         for collection, stac_url in STAC_COLLECTIONS.items():
+            print("Fetching collection %s"%collection)
             # Pagination does not seem to work on this api, so we request 5000 items
             if collection in locations:
                 results = retrieve_location_stac_entries(
