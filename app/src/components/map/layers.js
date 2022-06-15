@@ -174,62 +174,51 @@ export function createLayerFromConfig(config, _options = {}) {
     }
   }
   if (config.protocol === 'WMS') {
+    // to do: layers is  not defined for harvesting evolution over time (spain)
+    const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
+      'format', 'width', 'height', 'transparent', 'srs', 'env', 'searchid'];
+    const tileGrid = config.tileSize === 512 ? new TileGrid({
+      extent: [-20037508.342789244, -20037508.342789244,
+        20037508.342789244, 20037508.342789244],
+      resolutions: createXYZ({
+        tileSize: 512,
+      }).getResolutions(),
+      tileSize: 512,
+    }) : undefined;
+
+    const params = {
+      LAYERS: config.layers,
+    };
+    paramsToPassThrough.forEach((param) => {
+      if (typeof config[param] !== 'undefined') {
+        params[param] = config[param];
+      }
+    });
     if (config.usedTimes?.time?.length) {
       const time = options.time || store.state.indicators.selectedTime;
-      const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
-        'format', 'width', 'height', 'transparent', 'srs', 'env', 'searchid'];
-        // to do: layers is  not defined for harvesting evolution over time (spain)
-      const params = {
-        LAYERS: config.layers,
-        // TO DO: time might come from component (in the dashboard)
-        time: config.dateFormatFunction(time),
-      };
+      params.time = config.dateFormatFunction(time);
       if (config.specialEnvTime) {
         params.env = `year:${time}`;
       }
-      paramsToPassThrough.forEach((param) => {
-        if (typeof config[param] !== 'undefined') {
-          params[param] = config[param];
-        }
-      });
-
-      const tileGrid = config.tileSize === 512 ? new TileGrid({
-        extent: [-20037508.342789244, -20037508.342789244,
-          20037508.342789244, 20037508.342789244],
-        resolutions: createXYZ({
-          tileSize: 512,
-        }).getResolutions(),
-        tileSize: 512,
-      }) : undefined;
-
-      source = new TileWMS({
-        attributions: config.attribution,
-        maxZoom: config.maxNativeZoom || config.maxZoom,
-        minZoom: config.minNativeZoomm || config.minZoom,
-        crossOrigin: 'anonymous',
-        transition: 0,
-        params,
-        url: config.baseUrl,
-        tileGrid,
-      });
-
-      source.set('updateTime', (updatedTime) => {
-        source.updateParams({
-          LAYERS: config.layers,
-          time: config.dateFormatFunction(updatedTime),
-          env: `year:${updatedTime}`,
-        });
-      });
-    } else {
-      source = new TileWMS({
-        attributions: config.attribution,
-        maxZoom: config.maxNativeZoom || config.maxZoom,
-        minZoom: config.minNativeZoomm || config.minZoom,
-        crossOrigin: 'anonymous',
-        transition: 0,
-        url: config.url,
-      });
     }
+
+    source = new TileWMS({
+      attributions: config.attribution,
+      maxZoom: config.maxNativeZoom || config.maxZoom,
+      minZoom: config.minNativeZoomm || config.minZoom,
+      crossOrigin: 'anonymous',
+      transition: 0,
+      params,
+      url: config.url || config.baseUrl,
+      tileGrid,
+    });
+    source.set('updateTime', (updatedTime) => {
+      source.updateParams({
+        LAYERS: config.layers,
+        time: config.dateFormatFunction(updatedTime),
+        env: `year:${updatedTime}`,
+      });
+    });
   }
 
   if (config.features) {
