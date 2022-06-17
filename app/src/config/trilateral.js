@@ -15,6 +15,8 @@ import {
   nasaTimelapseConfig,
 } from '@/helpers/customAreaObjects';
 
+const wkt = new Wkt();
+
 export const dataPath = './data/internal/';
 export const dataEndpoints = [
   {
@@ -525,6 +527,15 @@ export const indicatorsDefinition = Object.freeze({
   },
 });
 
+const cairoPresetView = Object.freeze({
+  type: 'FeatureCollection',
+  features: [{
+    type: 'Feature',
+    properties: {},
+    geometry: wkt.read('POLYGON((30 31.4,32.1 31.6,32.2 28,31 28,30 28,29.7 31,30 31.4))').toJson(),
+  }],
+});
+
 export const layerNameMapping = Object.freeze({
   // "inputdata" -> wms layer name and baseurl
   '[NEW] Planetscope COVID-19': {
@@ -583,18 +594,21 @@ export const layerNameMapping = Object.freeze({
     layers: 'NO2-TROPOMI-Cairo-Daily',
     maxMapZoom: 14,
     legendUrl: 'https://legends.restecmap.com/images/NO2-TROPOMI-Cairo-Daily.png',
+    presetView: cairoPresetView,
   },
   GOSAT_XCO2_JAXA: {
     baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
     layers: 'XCO2-GOSAT-Cairo',
     maxMapZoom: 14,
     legendUrl: 'https://legends.restecmap.com/images/XCO2-GOSAT-Cairo.png',
+    presetView: cairoPresetView,
   },
   SIF_TROPOMI_Cairo: {
     baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
     layers: 'SIF-TROPOMI-Cairo-Monthly',
     maxMapZoom: 14,
     legendUrl: 'https://legends.restecmap.com/images/SIF-TROPOMI-Cairo-Monthly.png',
+    presetView: cairoPresetView,
   },
   GOSAT_XCO2: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/GOSAT_XCO2_{time}_{site}_BG_circle_cog.tif&resampling_method=nearest',
@@ -783,8 +797,6 @@ const getWeeklyDates = (start, end) => {
   return dateArray;
 };
 
-const wkt = new Wkt();
-
 export const globalIndicators = [
   {
     properties: {
@@ -793,10 +805,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Nitrogen Dioxide (Monthly)',
+        description: 'Nitrogen Dioxide (Weekly/Monthly)',
         indicator: 'N1',
         lastIndicatorValue: null,
-        indicatorName: 'Nitrogen Dioxide (Monthly)',
+        indicatorName: 'Nitrogen Dioxide (Weekly)',
         eoSensor: 'ESA TROPOMI',
         subAoi: {
           type: 'FeatureCollection',
@@ -885,10 +897,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Air Quality Time Series',
+        description: 'Nitrogen Dioxide (Monthly)',
         indicator: 'N1',
         lastIndicatorValue: null,
-        indicatorName: 'Air Quality Time Series',
+        indicatorName: 'Air Quality - OMI: Monthly NO2',
         eoSensor: 'NASA OMI',
         subAoi: {
           type: 'FeatureCollection',
@@ -911,11 +923,11 @@ export const globalIndicators = [
           maxNativeZoom: 6,
           tileSize: 256,
           opacity: 1,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x.png?url=s3://covid-eo-data/OMNO2d_HRM/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=0%2C1.08398547e16&color_map=reds',
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x.png?url=s3://covid-eo-data/OMNO2d_HRM/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=0%2C108e14&color_map=reds',
           name: 'Air Quality (NASA)',
           dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyyMM'),
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
-          legendUrl: 'eodash-data/data/no2Legend.png',
+          legendUrl: 'data/trilateral/no2Legend-monthly-nasa.png',
           areaIndicator: nasaTimelapseConfig('no2'),
         },
       },
@@ -928,7 +940,7 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Air Quality',
+        description: 'Nitrogen Dioxide (Monthly)',
         indicator: 'N1',
         lastIndicatorValue: 'OMI: Difference Nitrogen dioxide',
         indicatorName: 'Air Quality - OMI: Monthly NO2 Compared to Baseline (2015-2019)',
@@ -1191,11 +1203,11 @@ export const globalIndicators = [
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,108e14&bidx=1&colormap_name=reds',
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=-1e14,37e14&bidx=1&colormap_name=reds',
           name: 'NO2 OMI Annual',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
-          legendUrl: 'eodash-data/data/no2Legend.png',
+          legendUrl: 'data/trilateral/no2Legend-yearly-nasa.png',
         },
       },
     },
@@ -1645,7 +1657,7 @@ export const globalIndicators = [
           name: 'SO2 OMI/Aura',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
-          // legendUrl: 'data/trilateral/N2-co2diff-legend.png',
+          legendUrl: 'data/trilateral/SO2OMI-Aura-legend.png',
         },
       },
     },
