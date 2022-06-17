@@ -106,7 +106,7 @@ envs = dot_env.dict()
 COLLECTIONS = [
 ]
 
-MIGRATED_COLLECTIONS = [
+BYOD_COLLECTIONS = [
     "AWS_N3_CUSTOM",
     "AWS_N3_CUSTOM_TSMNN",
     "AWS_E12C_NEW_MOTORWAY",
@@ -306,7 +306,7 @@ try:
     with open("/config/locations.json") as locations_file:
         locations = json.load(locations_file)
         for collection, stac_url in STAC_COLLECTIONS.items():
-            print("Fetching collection %s"%collection)
+            print("\t %s"%collection)
             # Pagination does not seem to work on this api, so we request 5000 items
             if collection in locations:
                 results = retrieve_location_stac_entries(
@@ -361,9 +361,10 @@ except Exception as e:
     message = template.format(type(e).__name__, e.args)
     print (message)
 
-print("Fetching information of available dates for BYOD data from new server")
+print("Fetching information of available dates for BYOD")
 try:
-    for key in MIGRATED_COLLECTIONS:
+    for key in BYOD_COLLECTIONS:
+        print("\t %s"%key)
         # fetch identifier from environment
         if key in envs:
             coll_id = envs[key]
