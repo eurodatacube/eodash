@@ -214,6 +214,7 @@ module.exports = [
     ],
     customCountryList: [
       { code: 'US', region: 'NORTH AMERICA' },
+      { code: 'PR', region: 'NORTH AMERICA' },
       { code: 'BE', region: 'EUROPE' },
       { code: 'HR', region: 'EUROPE' },
       { code: 'FR', region: 'EUROPE' },
