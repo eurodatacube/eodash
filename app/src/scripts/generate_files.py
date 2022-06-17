@@ -106,7 +106,7 @@ envs = dot_env.dict()
 COLLECTIONS = [
 ]
 
-MIGRATED_COLLECTIONS = [
+BYOD_COLLECTIONS = [
     "AWS_N3_CUSTOM",
     "AWS_N3_CUSTOM_TSMNN",
     "AWS_E12C_NEW_MOTORWAY",
@@ -147,22 +147,45 @@ WMSCOLLECTIONS = {
 }
 
 STAC_COLLECTIONS = {
-    "no2-monthly": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "no2-monthly-diff": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "OMI_trno2-COG": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "OMSO2PCA-COG": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "facebook_population_density": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "nightlights-hd-monthly": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "IS2SITMOGR4": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "MO_NPP_npp_vgpm": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "nightlights-hd-3bands": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    "nceo_africa_2017": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    #"HLSL30.002": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
-    #"HLSS30.002": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "no2-monthly": "https://staging-stac.delta-backend.com/collections/",
+    "no2-monthly-diff": "https://staging-stac.delta-backend.com/collections/",
+    "OMI_trno2-COG": "https://staging-stac.delta-backend.com/collections/",
+    "OMSO2PCA-COG": "https://staging-stac.delta-backend.com/collections/",
+    "facebook_population_density": "https://staging-stac.delta-backend.com/collections/",
+    "nightlights-hd-monthly": "https://staging-stac.delta-backend.com/collections/",
+    "IS2SITMOGR4-cog": "https://staging-stac.delta-backend.com/collections/",
+    "MO_NPP_npp_vgpm": "https://staging-stac.delta-backend.com/collections/",
+    "nceo_africa_2017": "https://staging-stac.delta-backend.com/collections/",
+    "nightlights-hd-1band": "https://staging-stac.delta-backend.com/collections/",
+    # these collections have a bit over 200 entries requesting them somehow breaks the endpoint
+    #"HLSS30.002": "https://staging-stac.delta-backend.com/collections/",
+    #"HLSL30.002": "https://staging-stac.delta-backend.com/collections/",
+    "grdi-v1-built": "https://staging-stac.delta-backend.com/collections/",
+    "grdi-v1-raster": "https://staging-stac.delta-backend.com/collections/",
+    "grdi-shdi-raster": "https://staging-stac.delta-backend.com/collections/",
+    "grdi-vnl-slope-raster": "https://staging-stac.delta-backend.com/collections/",
+    "grdi-vnl-raster": "https://staging-stac.delta-backend.com/collections/",
+    "grdi-filled-missing-values-count": "https://staging-stac.delta-backend.com/collections/",
+    "grdi-imr-raster": "https://staging-stac.delta-backend.com/collections/",
+    "grdi-cdr-raster": "https://staging-stac.delta-backend.com/collections/",
+    "blue-tarp-planetscope": "https://staging-stac.delta-backend.com/collections/",
+    "blue-tarp-detection": "https://staging-stac.delta-backend.com/collections/",
+    "geoglam": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-socioeconomic-nopop": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-socioeconomic": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-household": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-household-nopop": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-minority": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-overall-nopop": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-overall": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-housing": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-housing-nopop": "https://staging-stac.delta-backend.com/collections/",
+    #"social-vulnerability-index-minority-nopop": "https://staging-stac.delta-backend.com/collections/",
+    
 }
 # Collections items which have null datetimes and instead start_datetime and end_datetime
 SPECIAL_STAC_DATE = [
-    "IS2SITMOGR4", "MO_NPP_npp_vgpm",
+    "IS2SITMOGR4-cog", "MO_NPP_npp_vgpm",
 ]
 
 # Some datasets have different dates for different areas so we need to separate
@@ -239,7 +262,7 @@ def retrieve_stac_entries(url, offset):
         print (message)
     return res
 
-def retrieve_location_stac_entries(url, offset, location):
+def retrieve_location_stac_entries(url, offset, location, collection):
     offset_step = 5000
     r = requests.get("%s&FEATURE_OFFSET=%s"%(url, (offset*offset_step)))
     res = {}
@@ -247,7 +270,11 @@ def retrieve_location_stac_entries(url, offset, location):
     features = json_resp["features"]
     try:
         for f in features:
-            if json.dumps(f["bbox"]) in location:
+            if collection in ["blue-tarp-detection", "blue-tarp-planetscope"]:
+                bbox = [round(float(i), 3) for i in f["bbox"]]
+            else:
+                bbox = f["bbox"]
+            if json.dumps(bbox) in location:
                 # try to find the datetime attribute
                 date = None
                 if "datetime" in f["properties"] and f["properties"]["datetime"] != None:
@@ -256,7 +283,7 @@ def retrieve_location_stac_entries(url, offset, location):
                     date = f["properties"]["start_datetime"]
                 elif "date" in f["properties"]:
                     date = f["properties"]["date"]
-                location_id = "%s-%s"%(collection, location[json.dumps(f["bbox"])]["id"])
+                location_id = "%s-%s"%(collection, location[json.dumps(bbox)]["id"])
                 res.setdefault(location_id, []).append([
                     date,
                     f["assets"]["cog_default"]["href"]
@@ -279,11 +306,13 @@ try:
     with open("/config/locations.json") as locations_file:
         locations = json.load(locations_file)
         for collection, stac_url in STAC_COLLECTIONS.items():
+            print("\t %s"%collection)
             # Pagination does not seem to work on this api, so we request 5000 items
             if collection in locations:
                 results = retrieve_location_stac_entries(
                     "%s/%s/items?limit=5000"%(stac_url, collection),
-                    0, locations[collection],
+                    0, locations[collection]["entries"],
+                    collection,
                 )
                 # First we reverse all results
                 for item in results.values():
@@ -332,9 +361,10 @@ except Exception as e:
     message = template.format(type(e).__name__, e.args)
     print (message)
 
-print("Fetching information of available dates for BYOD data from new server")
+print("Fetching information of available dates for BYOD")
 try:
-    for key in MIGRATED_COLLECTIONS:
+    for key in BYOD_COLLECTIONS:
+        print("\t %s"%key)
         # fetch identifier from environment
         if key in envs:
             coll_id = envs[key]

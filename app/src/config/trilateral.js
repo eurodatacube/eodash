@@ -359,6 +359,20 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['covid-19', 'oceans'],
     story: '/eodash-data/stories/N11',
   },
+  N13: {
+    indicator: 'Blue Tarps (PlanetScope)',
+    class: 'economic',
+    story: '/eodash-data/stories/N13',
+    themes: ['covid-19', 'economy', 'atmosphere', 'oceans'],
+    smallSubAoi: true,
+  },
+  N14: {
+    indicator: 'Blue Tarps Detections',
+    class: 'economic',
+    story: '/eodash-data/stories/N14',
+    themes: ['covid-19', 'economy', 'atmosphere', 'oceans'],
+    smallSubAoi: true,
+  },
   GG: {
     indicator: 'Mobility',
     class: 'economic',
@@ -453,6 +467,57 @@ export const indicatorsDefinition = Object.freeze({
     class: 'water',
     themes: ['agriculture'],
   },
+  // TODO: Disabling GRDI for now
+  /*
+  GRDI1: {
+    story: '/eodash-data/stories/GRDI1',
+    class: 'economic',
+    themes: ['economy'],
+    disableTimeSelection: true,
+  },
+  GRDI2: {
+    story: '/eodash-data/stories/GRDI2',
+    class: 'economic',
+    themes: ['economy'],
+    disableTimeSelection: true,
+  },
+  GRDI3: {
+    story: '/eodash-data/stories/GRDI3',
+    class: 'economic',
+    themes: ['economy'],
+    disableTimeSelection: true,
+  },
+  GRDI4: {
+    story: '/eodash-data/stories/GRDI4',
+    class: 'economic',
+    themes: ['economy'],
+    disableTimeSelection: true,
+  },
+  GRDI5: {
+    story: '/eodash-data/stories/GRDI5',
+    class: 'economic',
+    themes: ['economy'],
+    disableTimeSelection: true,
+  },
+  GRDI6: {
+    story: '/eodash-data/stories/GRDI6',
+    class: 'economic',
+    themes: ['economy'],
+    disableTimeSelection: true,
+  },
+  GRDI7: {
+    story: '/eodash-data/stories/GRDI7',
+    class: 'economic',
+    themes: ['economy'],
+    disableTimeSelection: true,
+  },
+  GRDI8: {
+    story: '/eodash-data/stories/GRDI8',
+    class: 'economic',
+    themes: ['economy'],
+    disableTimeSelection: true,
+  },
+  */
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
     themes: ['atmosphere', 'agriculture', 'biomass-and-landcover', 'economy', 'oceans', 'cryosphere', 'covid-19'],
@@ -692,17 +757,6 @@ const getYearlyDates = (start, end) => {
   while (currentDate <= stopDate) {
     dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy'));
     currentDate = DateTime.fromISO(currentDate).plus({ years: 1 });
-  }
-  return dateArray;
-};
-
-const getMonthlyDates = (start, end) => {
-  let currentDate = DateTime.fromISO(start);
-  const stopDate = DateTime.fromISO(end);
-  const dateArray = [];
-  while (currentDate <= stopDate) {
-    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
-    currentDate = DateTime.fromISO(currentDate).plus({ months: 1 });
   }
   return dateArray;
 };
@@ -1137,7 +1191,7 @@ export const globalIndicators = [
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,108e14&bidx=1&colormap_name=reds',
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,108e14&bidx=1&colormap_name=reds',
           name: 'NO2 OMI Annual',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
@@ -1164,19 +1218,17 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W10',
-        time: availableDates.IS2SITMOGR4,
+        time: availableDates['IS2SITMOGR4-cog'],
         inputData: [''],
         showGlobe: true,
         display: {
-          // mosaicIndicator: true,
-          // collection: 'IS2SITMOGR4',
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?url={time}&resampling_method=bilinear&rescale=0.0,4.0&bidx=1&colormap_name=plasma',
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?url={time}&resampling_method=bilinear&rescale=0.0,4.0&bidx=1&colormap_name=plasma',
           name: 'Sea Ice Thickness (ICESat-2)',
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
@@ -1214,7 +1266,7 @@ export const globalIndicators = [
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,1500.0&bidx=1&colormap_name=jet',
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,1500.0&bidx=1&colormap_name=jet',
           name: 'NPP (NASA)',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
@@ -1260,7 +1312,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((-18.27 -35.05,-18.27 37.73,51.86 37.73,51.86 -35.05,-18.27 -35.05))').toJson(),
             }],
           },
-          url: 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,400.0&bidx=1&colormap_name=gist_earth_r',
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,400.0&bidx=1&colormap_name=gist_earth_r',
           name: 'NCEO Africa Biomass',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
@@ -1269,6 +1321,297 @@ export const globalIndicators = [
       },
     },
   },
+  // TODO: Disabling GRDI for now
+  /*
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'GRDI Built-up Area',
+        indicator: 'GRDI1',
+        lastIndicatorValue: null,
+        indicatorName: 'Global Gridded Relative Deprivation Index',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'W13',
+        time: availableDates['grdi-v1-built'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          tileSize: 256,
+          minZoom: 1,
+          minMapZoom: 1,
+          maxZoom: 10,
+          maxMapZoom: 10,
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
+          name: 'GRDI',
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
+          legendUrl: 'eodash-data/data/GRDI_legend.png',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'GRDI V1 Raster',
+        indicator: 'GRDI2',
+        lastIndicatorValue: null,
+        indicatorName: 'Global Gridded Relative Deprivation Index',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'W14',
+        time: availableDates['grdi-v1-raster'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          tileSize: 256,
+          minZoom: 1,
+          minMapZoom: 1,
+          maxZoom: 10,
+          maxMapZoom: 10,
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
+          name: 'GRDI',
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
+          legendUrl: 'eodash-data/data/GRDI_legend.png',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'GRDI SHDI Constituent Raster',
+        indicator: 'GRDI3',
+        lastIndicatorValue: null,
+        indicatorName: 'Global Gridded Relative Deprivation',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'W15',
+        time: availableDates['grdi-shdi-raster'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          tileSize: 256,
+          minZoom: 1,
+          minMapZoom: 1,
+          maxZoom: 10,
+          maxMapZoom: 10,
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
+          name: 'GRDI',
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
+          legendUrl: 'eodash-data/data/GRDI_legend.png',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'GRDI VNL Slope Constituent Raster',
+        indicator: 'GRDI4',
+        lastIndicatorValue: null,
+        indicatorName: 'Global Gridded Relative Deprivation',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'W16',
+        time: availableDates['grdi-vnl-slope-raster'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          tileSize: 256,
+          minZoom: 1,
+          minMapZoom: 1,
+          maxZoom: 10,
+          maxMapZoom: 10,
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
+          name: 'GRDI',
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
+          legendUrl: 'eodash-data/data/GRDI_legend.png',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'GRDI VNL Constituent Raster',
+        indicator: 'GRDI5',
+        lastIndicatorValue: null,
+        indicatorName: 'Global Gridded Relative Deprivation',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'W17',
+        time: availableDates['grdi-vnl-raster'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          tileSize: 256,
+          minZoom: 1,
+          minMapZoom: 1,
+          maxZoom: 10,
+          maxMapZoom: 10,
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
+          name: 'GRDI',
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
+          legendUrl: 'eodash-data/data/GRDI_legend.png',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'GRDI Filled Missing Values Count',
+        indicator: 'GRDI6',
+        lastIndicatorValue: null,
+        indicatorName: 'Global Gridded Relative Deprivation',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'W18',
+        time: availableDates['grdi-filled-missing-values-count'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          tileSize: 256,
+          minZoom: 1,
+          minMapZoom: 1,
+          maxZoom: 10,
+          maxMapZoom: 10,
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
+          name: 'GRDI',
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
+          legendUrl: 'eodash-data/data/GRDI_legend.png',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'GRDI IMR Constituent Raster',
+        indicator: 'GRDI7',
+        lastIndicatorValue: null,
+        indicatorName: 'Global Gridded Relative Deprivation Index',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'W19',
+        time: availableDates['grdi-imr-raster'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          tileSize: 256,
+          minZoom: 1,
+          minMapZoom: 1,
+          maxZoom: 10,
+          maxMapZoom: 10,
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
+          name: 'GRDI',
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
+          legendUrl: 'eodash-data/data/GRDI_legend.png',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'GRDI CDR Constituent Raster',
+        indicator: 'GRDI8',
+        lastIndicatorValue: null,
+        indicatorName: 'Global Gridded Relative Deprivation Index',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'W20',
+        time: availableDates['grdi-cdr-raster'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          tileSize: 256,
+          minZoom: 1,
+          minMapZoom: 1,
+          maxZoom: 10,
+          maxMapZoom: 10,
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
+          name: 'GRDI',
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
+          legendUrl: 'eodash-data/data/GRDI_legend.png',
+        },
+      },
+    },
+  },
+  */
   {
     properties: {
       indicatorObject: {
@@ -1298,7 +1641,7 @@ export const globalIndicators = [
           minMapZoom: 1,
           maxZoom: 10,
           maxMapZoom: 10,
-          url: 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,1.0&bidx=1&colormap_name=viridis',
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,1.0&bidx=1&colormap_name=viridis',
           name: 'SO2 OMI/Aura',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
@@ -2413,18 +2756,19 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W6',
-        time: getMonthlyDates('2020-01-28', '2022-05-28'),
+        time: availableDates.geoglam,
         inputData: [''],
         display: {
           protocol: 'xyz',
           maxNativeZoom: 6,
           minZoom: 1,
-          opacity: 0.7,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/agriculture-cropmonitor/CropMonitor_{time}.tif&resampling_method=nearest&bidx=1&color_map=custom_cropmonitor',
+          opacity: 1.0,
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=nearest&bidx=1&colormap=%7B%221%22%3A%20%5B120%2C%20120%2C%20120%2C%20255%5D%2C%222%22%3A%20%5B130%2C%2065%2C%200%2C%20255%5D%2C%223%22%3A%20%5B66%2C%20207%2C%2056%2C%20255%5D%2C%224%22%3A%20%5B245%2C%20239%2C%200%2C%20255%5D%2C%225%22%3A%20%5B241%2C%2089%2C%2032%2C%20255%5D%2C%226%22%3A%20%5B168%2C%200%2C%200%2C%20255%5D%2C%227%22%3A%20%5B0%2C%20143%2C%20201%2C%20255%5D%7D',
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           name: 'Agriculture GEOGLAM',
           legendUrl: './data/trilateral/agriculture-GEOGLAM-legend.png',
           tileSize: 256,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
           featuresStatic: true,
           features: {
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}.geojson',
@@ -3783,7 +4127,8 @@ slowdownIndicators.forEach((ind, idx) => (
   ))
 ));
 
-const createSTACCollectionIndicator = (collection, key, value, index, url) => {
+const createSTACCollectionIndicator = (collection, key, value, index, url,
+  indicator, description, legendUrl) => {
   const bbox = JSON.parse(key);
   const aoi = latLng([
     bbox[1] + (bbox[3] - bbox[1]) / 2,
@@ -3799,7 +4144,7 @@ const createSTACCollectionIndicator = (collection, key, value, index, url) => {
     ]],
     type: 'Polygon',
   };
-  const indicator = {
+  const indicatorObject = {
     latlng: aoi,
     id: index,
     properties: {
@@ -3811,12 +4156,11 @@ const createSTACCollectionIndicator = (collection, key, value, index, url) => {
         country: [value.country],
         city: value.location,
         siteName: value.location,
-        description: 'Nightlights',
-        indicator: 'N5',
+        description,
+        indicator,
         lastIndicatorValue: null,
         indicatorName: '',
         lastColorCode: null,
-        eoSensor: ['Nightlights'],
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3826,33 +4170,45 @@ const createSTACCollectionIndicator = (collection, key, value, index, url) => {
           }],
         },
         time: availableDates[`${collection}-${value.id}`],
-        inputData: ['Nightlights'],
+        inputData: [''],
         display: {
           protocol: 'xyz',
           tileSize: 256,
           minMapZoom: 5,
           minZoom: 5,
-          maxZoom: 16,
+          maxZoom: 20,
           url,
-          name: 'Nightlights (HD)',
+          name: description,
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
-          legendUrl: 'data/trilateral/N5-nighlights-legend.png',
+          legendUrl,
         },
       },
     },
   };
-  return indicator;
+  return indicatorObject;
 };
 const urlMapping = {
-  'nightlights-hd-monthly': 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,300&bidx=1&colormap_name=inferno',
-  'nightlights-hd-3bands': 'https://ejd872yh78.execute-api.us-east-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}',
+  'nightlights-hd-monthly': 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,255&bidx=1&colormap_name=inferno',
+  'nightlights-hd-1band': 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,255&bidx=1&colormap_name=inferno',
+  'blue-tarp-planetscope': 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}',
+  'blue-tarp-detection': 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,10000&bidx=1&colormap_name=inferno',
 };
+// TODO: Disabling blue tarp for now
+if ('blue-tarp-planetscope' in locations) {
+  delete locations['blue-tarp-planetscope'];
+}
+if ('blue-tarp-detection' in locations) {
+  delete locations['blue-tarp-detection'];
+}
+
 Object.keys(locations).forEach((collection) => {
   idOffset += 5000;
-  Object.entries(locations[collection]).forEach(([key, value], index) => {
+  Object.entries(locations[collection].entries).forEach(([key, value], index) => {
     globalIndicators.push(createSTACCollectionIndicator(
       collection, key, value, idOffset + index, urlMapping[collection],
+      locations[collection].indicator, locations[collection].description,
+      locations[collection].legendUrl,
     ));
   });
 });
