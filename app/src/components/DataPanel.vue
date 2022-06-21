@@ -147,7 +147,7 @@
                 class="mt-3"
                 color="secondary"
                 :loading="isLoadingCustomAreaIndicator"
-                v-if="isCustomAreaSelected"
+                :disabled="!isCustomAreaSelected"
                 @click="generateChart"
               >
                 Generate Chart
