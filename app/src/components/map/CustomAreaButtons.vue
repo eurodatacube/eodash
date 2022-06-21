@@ -79,29 +79,6 @@
       </v-tooltip>
     </v-card>
     <v-card
-    v-if="customChartButtonVisible">
-        <v-tooltip left>
-            <template v-slot:activator="{ on }">
-            <div v-on="on" class="d-inline-block">
-                <v-btn
-                color="white"
-                fab
-                class="pa-0"
-                :style="`${$vuetify.breakpoint.mdAndDown
-                    ? 'width: 36px; height: 36px;'
-                    : 'width: 30px; height: 30px;'}
-                    border-radius: 4px;
-                    color: ${appConfig.branding.primaryColor};`"
-                @click="fetchCustomAreaIndicator"
-                >
-                <v-icon>mdi-poll</v-icon>
-                </v-btn>
-            </div>
-            </template>
-            <span>Draw chart from sub-area</span>
-        </v-tooltip>
-    </v-card>
-    <v-card
     v-if="loading">
         <v-tooltip left>
           <template v-slot:activator="{ on }">
