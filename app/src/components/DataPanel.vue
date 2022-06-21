@@ -146,6 +146,7 @@
               <v-btn
                 class="mt-3"
                 color="secondary"
+                :loading="isLoadingCustomAreaIndicator"
                 @click="generateChart"
               >
                 Generate Chart
@@ -455,6 +456,7 @@ export default {
     datalayertime: null,
     comparelayertime: null,
     compareEnabled: false,
+    isLoadingCustomAreaIndicator: false,
   }),
   computed: {
     ...mapGetters('features', [
@@ -631,6 +633,12 @@ export default {
   },
   mounted() {
     this.mounted = true;
+
+    window.addEventListener(
+      'set-custom-area-indicator-loading',
+      (e) => { this.isLoadingCustomAreaIndicator = e.detail },
+      false,
+    )
   },
   methods: {
     swipe() {

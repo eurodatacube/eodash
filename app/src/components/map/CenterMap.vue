@@ -438,6 +438,7 @@ export default {
         ? this.dataLayerTime
         : this.compareLayerTime;
       this.customAreaLoading = true;
+      window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: true }));
       try {
         if (type === 'customFeatures' || type === 'customIndicator') {
           if (type === 'customFeatures' && !this.mergedConfigsData[0]?.features) {
@@ -465,8 +466,10 @@ export default {
           }
         }
         this.customAreaLoading = false;
+        window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
       } catch (err) {
         this.customAreaLoading = false;
+        window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
         if (type === 'customFeatures') {
           // todo: this.updateJsonLayers(emptyF, side);
         } else if (type === 'customIndicator') {
