@@ -358,6 +358,13 @@ export default {
     cluster.setFeatures(this.getFeatures);
     this.loaded = true;
     getMapInstance('centerMap').map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
+
+    // Fetch data for custom chart if the event is fired.
+    window.addEventListener(
+      'fetch-custom-area-chart',
+      (e) => this.fetchData({type: 'customIndicator'}),
+      false,
+    );
   },
   methods: {
     overlayCallback(headers, rows, coordinate) {
