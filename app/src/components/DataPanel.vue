@@ -147,6 +147,7 @@
                 class="mt-3"
                 color="secondary"
                 :loading="isLoadingCustomAreaIndicator"
+                v-if="isCustomAreaSelected"
                 @click="generateChart"
               >
                 Generate Chart
@@ -630,6 +631,10 @@ export default {
       }
       return 0;
     },
+
+    isCustomAreaSelected() {
+      return !!this.$store.state.features.selectedArea;
+    }
   },
   mounted() {
     this.mounted = true;
