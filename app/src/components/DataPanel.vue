@@ -20,11 +20,6 @@
           >
           <v-card-title
             style="padding-top: 10px; padding-bottom: 0px;">
-              <v-btn
-                icon
-                @click="clearSelection">
-                <v-icon medium>mdi-close</v-icon>
-              </v-btn>
               {{ customAreaIndicator.title }}
           </v-card-title>
           <v-card-title
