@@ -15,6 +15,7 @@ const state = {
     includeArchived: false,
   },
   selectedArea: null,
+  previousArea: null,
   resultsCount: {
     economic: 0,
     agriculture: 0,
@@ -222,7 +223,15 @@ const mutations = {
     state.resultsCount[type] += count;
   },
   SET_SELECTED_AREA(state, area) {
+    if (state.selectedArea) {
+      state.previousArea = state.selectedArea;
+    } else {
+      state.previousArea = area;
+    }
     state.selectedArea = area;
+
+    // Dispatch an event so we don't need to rerender chart as if using computed property.
+    window.dispatchEvent(new CustomEvent('area-changed'));
   },
 };
 const actions = {
