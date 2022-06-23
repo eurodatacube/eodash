@@ -1180,7 +1180,7 @@ export const globalIndicators = [
         aoi: null,
         time: availableDates.AWS_VIS_2MTEMPERATURE,
         inputData: [],
-        yAxis: 'Temperature °C',
+        yAxis: 'Temperature K',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Global temperature',
