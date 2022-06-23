@@ -213,11 +213,13 @@ export function createLayerFromConfig(config, _options = {}) {
       tileGrid,
     });
     source.set('updateTime', (updatedTime) => {
-      source.updateParams({
-        LAYERS: config.layers,
+      const newParams = {
         time: config.dateFormatFunction(updatedTime),
-        env: `year:${updatedTime}`,
-      });
+      };
+      if (config.specialEnvTime) {
+        newParams.env = `year:${updatedTime}`;
+      }
+      source.updateParams(newParams);
     });
   }
 
