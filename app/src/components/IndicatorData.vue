@@ -10,15 +10,28 @@
         :chart-data='datacollection'
         @extentChanged="extentChanged"
         :options='chartOptions()'></bar-chart>
-        <v-btn
-          ref="zoomResetButton"
-          style="position: absolute; right: 40px; top: 13px;display: none;"
-          elevation="2"
-          x-small
-          @click="resetBCZoom"
+        <v-row
+          style="position: absolute; right: 40px; top: 13px"
         >
-          Reset Zoom
-        </v-btn>
+          <v-btn
+            ref="zoomResetButton"
+            style="display: none;"
+            elevation="2"
+            x-small
+            @click="resetBCZoom"
+          >
+            Reset Zoom
+          </v-btn>
+          <v-btn
+            ref="regenerateButton"
+            style="display: block;"
+            elevation="2"
+            x-small
+            @click="resetBCZoom"
+          >
+            Regenerate
+          </v-btn>
+        </v-row>
   </div>
   <div style="width: 100%; height: 100%;"
     v-else-if="mapchartIndicators.includes(indicatorObject.indicator)">
@@ -57,15 +70,28 @@
       :height="null"
       :chart-data='datacollection'
       :options='chartOptions()'></line-chart>
-    <v-btn
-      ref="zoomResetButton"
-      style="position: absolute; right: 40px; top: 13px;display: none;"
-      elevation="2"
-      x-small
-      @click="resetLCZoom"
+    <v-row
+      style="position: absolute; right: 40px; top: 13px;"
     >
-      Reset Zoom
-    </v-btn>
+      <v-btn
+      ref="zoomResetButton"
+      style="display: none;"
+      elevation="2"
+      small
+      @click="resetLCZoom"
+      >
+        Reset Zoom
+      </v-btn>
+      <v-btn
+        ref="regenerateButton"
+        style="display: none;"
+        elevation="2"
+        x-small
+        @click="resetLCZoom"
+      >
+        Regenerate
+      </v-btn>
+    </v-row>
   </div>
 </template>
 
@@ -873,6 +899,14 @@ export default {
         this.$refs.zoomResetButton.$el.style.display = 'block';
       } else {
         this.$refs.zoomResetButton.$el.style.display = 'none';
+      }
+    },
+    // Same goes for the other button
+    areaChanged(val) {
+      if (val) {
+        this.$refs.regenerateButton.$el.style.display = 'block';
+      } else {
+        this.$refs.regenerateButton.$el.style.display = 'none';
       }
     },
     resetLCZoom() {
