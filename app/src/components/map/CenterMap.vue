@@ -203,10 +203,6 @@ export default {
       };
     },
     displayTimeSelection() {
-      console.log(this.indicator);
-      debugger;
-      console.log(this.indicator?.time.length > 1
-        && !this.indicator?.disableTimeSelection && this.dataLayerTime);
       return this.indicator?.time.length > 1
         && !this.indicator?.disableTimeSelection && this.dataLayerTime;
     },
