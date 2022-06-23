@@ -154,6 +154,14 @@ export default {
       value: formatted,
       name: formatted,
     };
+
+    window.addEventListener(
+      'area-changed',
+      (e) => this.areaChanged(
+        this.$store.state.features.selectedArea !== this.$store.state.features.previousArea
+      ),
+      false,
+    );
   },
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
