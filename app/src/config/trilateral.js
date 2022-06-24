@@ -837,7 +837,6 @@ export const globalIndicators = [
             ...statisticalApiBody(
               evalScriptsDefinitions['AWS_NO2-VISUALISATION'],
               'byoc-972e67a7-2ca8-4bf6-964a-11fe772e3ac2',
-              'PD',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
