@@ -230,7 +230,7 @@ const mutations = {
     }
     state.selectedArea = area;
 
-    // Dispatch an event so we don't need to rerender chart as if using computed property.
+    // TODO: Extract fetchData method into helper file since it needs to be used from outside.
     window.dispatchEvent(new CustomEvent('area-changed'));
   },
 };
