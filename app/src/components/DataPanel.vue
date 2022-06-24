@@ -49,6 +49,17 @@
               @update:comparelayertime="c => comparelayertime = c"
               @compareEnabled="compareEnabled = !compareEnabled"
             /> -->
+            <v-btn
+              ref="regenerateButton"
+              color="secondary"
+              style="display: block;"
+              elevation="2"
+              x-small
+              v-if="customAreaIndicator && showRegenerateButton"
+              @click="generateChart"
+            >
+              Regenerate
+            </v-btn>
             <indicator-data
               v-if="!customAreaIndicator.isEmpty"
               style="margin-top: 0px;"
@@ -453,6 +464,7 @@ export default {
     comparelayertime: null,
     compareEnabled: false,
     isLoadingCustomAreaIndicator: false,
+    showRegenerateButton: null,
   }),
   computed: {
     ...mapGetters('features', [
@@ -465,6 +477,12 @@ export default {
       'baseConfig',
     ]),
     ...mapState(['isFullScreen']),
+    ...mapState('features', [
+      'selectedArea',
+    ]),
+    ...mapState('indicators', [
+      'customAreaIndicator',
+    ]),
     story() {
       let markdown;
       try {
@@ -549,9 +567,6 @@ export default {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
       return `user_AOI_${currDate}_${this.indicatorObject.indicator}.csv`;
     },
-    customAreaIndicator() {
-      return this.$store.state.indicators.customAreaIndicator;
-    },
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
     },
@@ -629,7 +644,7 @@ export default {
 
     isCustomAreaSelected() {
       return !!this.$store.state.features.selectedArea;
-    }
+    },
   },
   mounted() {
     this.mounted = true;
@@ -657,6 +672,8 @@ export default {
       refMap.onResize();
     },
     generateChart() {
+      this.previousArea = { ...this.selectedArea };
+      // TODO: Extract fetchData method into helper file since it needs to be used from outside.
       window.dispatchEvent(new Event('fetch-custom-area-chart'));
     },
   },
@@ -668,6 +685,9 @@ export default {
           this.$refs.referenceMap.flyToBounds();
         }, 200);
       }
+    },
+    selectedArea(area) {
+      this.showRegenerateButton = this.customAreaIndicator && !!area;
     },
   },
 };
