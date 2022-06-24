@@ -38,17 +38,6 @@
                 down: () => swipe(),
             }">
             </div>
-            <!--<indicator-map
-              ref="indicatorMap"
-              style="top: 0px; position: absolute;"
-              v-show="false"
-              class="pt-0 fill-height"
-              @update:center="c => center = c"
-              @update:zoom="z => zoom = z"
-              @update:datalayertime="d => datalayertime = d"
-              @update:comparelayertime="c => comparelayertime = c"
-              @compareEnabled="compareEnabled = !compareEnabled"
-            /> -->
             <v-btn
               ref="regenerateButton"
               color="secondary"
@@ -135,17 +124,6 @@
               class="d-flex justify-center"
               style="top: 0px; position: absolute;"
             />
-            <!--<indicator-map
-              ref="indicatorMap"
-              v-else-if="showMap"
-              @update:center="c => center = c"
-              @update:zoom="z => zoom = z"
-              @update:datalayertime="d => datalayertime = d"
-              @update:comparelayertime="c => comparelayertime = c"
-              @compareEnabled="compareEnabled = !compareEnabled"
-              class="pt-0 fill-height"
-              style="top: 0px; position: absolute;"
-            />-->
             <v-col v-else-if="showMap && indicatorObject.display.customAreaIndicator" class="d-flex flex-col align-center justify-center" style="flex-direction: column; height: 100%">
               <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
               <p style="max-width: 75%; text-align: center">Use the rectangle and polygon buttons to the left of this box to generate charts for a given area.</p>
