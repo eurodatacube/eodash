@@ -1,65 +1,55 @@
 <template>
   <div style="width: 100%; height: 100%;"
     v-if="barChartIndicators.includes(indicatorObject.indicator)">
-      <bar-chart v-if='datacollection'
-        id="chart"
-        ref="barChart"
-        class="fill-height"
-        :width="null"
-        :height="null"
-        :chart-data='datacollection'
-        @extentChanged="extentChanged"
-        :options='chartOptions()'></bar-chart>
-        <v-row
-          style="position: absolute; right: 40px; top: 13px"
-        >
-          <v-btn
-            ref="zoomResetButton"
-            style="display: none;"
-            elevation="2"
-            x-small
-            @click="resetBCZoom"
-          >
-            Reset Zoom
-          </v-btn>
-          <v-btn
-            ref="regenerateButton"
-            style="display: block;"
-            elevation="2"
-            x-small
-            @click="resetBCZoom"
-          >
-            Regenerate
-          </v-btn>
-        </v-row>
+
+    <bar-chart v-if='datacollection'
+      id="chart"
+      ref="barChart"
+      class="fill-height"
+      :width="null"
+      :height="null"
+      :chart-data='datacollection'
+      @extentChanged="extentChanged"
+      :options='chartOptions()'/>
+
+    <v-btn
+      ref="zoomResetButton"
+      style="display: none; position: absolute; right: 40px; top: 13px;"
+      elevation="2"
+      small
+      @click="resetBCZoom">
+
+      Reset Zoom
+    </v-btn>
   </div>
   <div style="width: 100%; height: 100%;"
     v-else-if="mapchartIndicators.includes(indicatorObject.indicator)">
-      <map-chart
-        id="chart"
-        class="fill-height"
-        :width="null"
-        :height="null"
-        :chart-data='datacollection'
-        :options='chartOptions()'>
-      </map-chart>
-      <img v-if="indicatorObject.indicator=='E10a3'"
-        :src="require('@/assets/E10a3_label.jpg')" alt="color legend"
-        style="position: absolute; width: 200px; z-index: 0;
-        top: 0px; right: 0px;"/>
-      <img v-else
-        :src="require('@/assets/E10a8_label.jpg')" alt="color legend"
-        style="position: absolute; width: 150px; z-index: 0;
-        top: 0px; right: 0px;"/>
-      <div style="position: absolute; width: 100%; max-width: 180px; left: 75px; bottom: -10px">
-        <indicator-time-selection
-          v-if="dataLayerTime"
-          :autofocus="!disableAutoFocus"
-          :available-values="arrayOfObjects"
-          :original-time.sync="dataLayerTime"
-          :enable-compare="false"
-        />
-      </div>
+
+    <map-chart
+      id="chart"
+      class="fill-height"
+      :width="null"
+      :height="null"
+      :chart-data='datacollection'
+      :options='chartOptions()'>
+    </map-chart>
+    <img v-if="indicatorObject.indicator=='E10a3'"
+      :src="require('@/assets/E10a3_label.jpg')" alt="color legend"
+      style="position: absolute; width: 200px; z-index: 0;
+      top: 0px; right: 0px;"/>
+    <img v-else
+      :src="require('@/assets/E10a8_label.jpg')" alt="color legend"
+      style="position: absolute; width: 150px; z-index: 0;
+      top: 0px; right: 0px;"/>
+    <div style="position: absolute; width: 100%; max-width: 180px; left: 75px; bottom: -10px">
+      <indicator-time-selection
+        v-if="dataLayerTime"
+        :autofocus="!disableAutoFocus"
+        :available-values="arrayOfObjects"
+        :original-time.sync="dataLayerTime"
+        :enable-compare="false"
+      />
+    </div>
   </div>
   <div style="width: 100%; height: 100%;" v-else>
     <line-chart v-if='lineChartIndicators.includes(indicatorObject.indicator)'
@@ -69,29 +59,18 @@
       :width="null"
       :height="null"
       :chart-data='datacollection'
-      :options='chartOptions()'></line-chart>
-    <v-row
-      style="position: absolute; right: 40px; top: 13px;"
-    >
-      <v-btn
+      :options='chartOptions()'
+    />
+
+    <v-btn
       ref="zoomResetButton"
-      style="display: none;"
+      style="display: none; position: absolute; right: 40px; top: 13px;"
       elevation="2"
       small
-      @click="resetLCZoom"
-      >
-        Reset Zoom
-      </v-btn>
-      <v-btn
-        ref="regenerateButton"
-        style="display: none;"
-        elevation="2"
-        x-small
-        @click="resetLCZoom"
-      >
-        Regenerate
-      </v-btn>
-    </v-row>
+      @click="resetLCZoom">
+
+      Reset Zoom
+    </v-btn>
   </div>
 </template>
 
@@ -154,14 +133,6 @@ export default {
       value: formatted,
       name: formatted,
     };
-
-    window.addEventListener(
-      'area-changed',
-      (e) => this.areaChanged(
-        this.$store.state.features.selectedArea !== this.$store.state.features.previousArea
-      ),
-      false,
-    );
   },
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
