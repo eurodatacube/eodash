@@ -647,7 +647,6 @@ export default {
       refMap.onResize();
     },
     generateChart() {
-      this.previousArea = { ...this.selectedArea };
       // TODO: Extract fetchData method into helper file since it needs to be used from outside.
       window.dispatchEvent(new Event('fetch-custom-area-chart'));
     },
