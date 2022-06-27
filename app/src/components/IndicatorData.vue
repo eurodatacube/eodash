@@ -16,7 +16,7 @@
       ref="zoomResetButton"
       style="display: none; position: absolute; right: 40px; top: 13px;"
       elevation="2"
-      small
+      x-small
       @click="resetBCZoom">
 
       Reset Zoom
@@ -66,7 +66,7 @@
       ref="zoomResetButton"
       style="display: none; position: absolute; right: 40px; top: 13px;"
       elevation="2"
-      small
+      x-small
       @click="resetLCZoom">
 
       Reset Zoom
