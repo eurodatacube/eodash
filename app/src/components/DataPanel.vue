@@ -623,6 +623,7 @@ export default {
   mounted() {
     this.mounted = true;
 
+    // TODO: Extract fetchData method into helper file since it needs to be used from outside.
     window.addEventListener(
       'set-custom-area-indicator-loading',
       (e) => { this.isLoadingCustomAreaIndicator = e.detail },
