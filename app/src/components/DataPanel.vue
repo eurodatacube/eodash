@@ -131,7 +131,7 @@
                 class="mt-3"
                 color="secondary"
                 :loading="isLoadingCustomAreaIndicator"
-                :disabled="!isCustomAreaSelected"
+                :disabled="!selectedArea"
                 @click="generateChart"
               >
                 Generate Chart
@@ -618,10 +618,6 @@ export default {
         return this.newsBanner.$el.clientHeight;
       }
       return 0;
-    },
-
-    isCustomAreaSelected() {
-      return !!this.$store.state.features.selectedArea;
     },
   },
   mounted() {
