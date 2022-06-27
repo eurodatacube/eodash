@@ -144,7 +144,31 @@
                 @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
                 @ready="onMapReady(element.poi)"
               />
-              <indicator-map
+              <!-- TO DO: give unique map id instead of element.title-->
+              <CenterMap
+                v-else-if="(['all'].includes(element.indicatorObject.country) ||
+                appConfig.configuredMapPois.includes(
+                  `${element.indicatorObject.aoiID}-${element.indicatorObject.indicator}`
+                ) ||
+                Array.isArray(element.indicatorObject.country)) && !element.includesIndicator"
+                :mapId="element.title"
+                :currentIndicator="element.indicatorObject"
+                :directionProp="localDirection[element.poi]"
+                :positionProp="localPosition[element.poi]"
+                :rightProp="localRight[element.poi]"
+                :upProp="localUp[element.poi]"
+                :dataLayerTimeProp="localDataLayerTime[element.poi]"
+                :compareLayerTimeProp="localCompareLayerTime[element.poi]"
+                disableAutoFocus
+                @update:direction="d => {localDirection[element.poi] = d}"
+                @update:position="p => {localPosition[element.poi] = p}"
+                @update:right="r => {localRight[element.poi] = r}"
+                @update:up="u => {localUp[element.poi] = u}"
+                @update:datalayertime="d => {localDataLayerTime[element.poi] = d}"
+                @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
+                @ready="onMapReady(element.poi)"
+              />
+              <!--<indicator-map
                 ref="indicatorMap"
                 style="top: 0px; position: absolute;"
                 v-else-if="(['all'].includes(element.indicatorObject.country) ||
@@ -166,7 +190,7 @@
                 @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
                 @compareEnabled="tooltipTrigger = !tooltipTrigger"
                 @ready="onMapReady(element.poi)"
-              />
+              />-->
               <indicator-data
                 v-else
                 disableAutoFocus
@@ -411,6 +435,7 @@ import IndicatorMap from '@/components/IndicatorMap.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import LoadingAnimation from '@/components/LoadingAnimation.vue';
 import { loadIndicatorData } from '@/utils';
+import CenterMap from '@/components/map/CenterMap.vue';
 import { mapGetters, mapState, mapActions } from 'vuex';
 
 const zoom = mediumZoom();
@@ -430,6 +455,7 @@ export default {
     IndicatorMap,
     IndicatorGlobe,
     LoadingAnimation,
+    CenterMap,
   },
   data: () => ({
     isMounted: false,

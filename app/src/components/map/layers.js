@@ -93,6 +93,7 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
  * for overlays like labels or borders. Defaults to false.
  * @param {*} [opt_options.time=undefined] optional time.
  * @param {*} [opt_options.indicator=undefined] optional indicator. (e.g. "E13b")
+ * @param {*} [opt_options.aoiId=undefined] optional aoiId.
  * if not set, time will be retrieved from the store
  * @returns {*} returns ol layer
  */
@@ -174,62 +175,53 @@ export function createLayerFromConfig(config, _options = {}) {
     }
   }
   if (config.protocol === 'WMS') {
+    // to do: layers is  not defined for harvesting evolution over time (spain)
+    const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
+      'format', 'width', 'height', 'transparent', 'srs', 'env', 'searchid'];
+    const tileGrid = config.tileSize === 512 ? new TileGrid({
+      extent: [-20037508.342789244, -20037508.342789244,
+        20037508.342789244, 20037508.342789244],
+      resolutions: createXYZ({
+        tileSize: 512,
+      }).getResolutions(),
+      tileSize: 512,
+    }) : undefined;
+
+    const params = {
+      LAYERS: config.layers,
+    };
+    paramsToPassThrough.forEach((param) => {
+      if (typeof config[param] !== 'undefined') {
+        params[param] = config[param];
+      }
+    });
     if (config.usedTimes?.time?.length) {
       const time = options.time || store.state.indicators.selectedTime;
-      const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
-        'format', 'width', 'height', 'transparent', 'srs', 'env', 'searchid'];
-        // to do: layers is  not defined for harvesting evolution over time (spain)
-      const params = {
-        LAYERS: config.layers,
-        // TO DO: time might come from component (in the dashboard)
-        time: config.dateFormatFunction(time),
-      };
+      params.time = config.dateFormatFunction(time);
       if (config.specialEnvTime) {
         params.env = `year:${time}`;
       }
-      paramsToPassThrough.forEach((param) => {
-        if (typeof config[param] !== 'undefined') {
-          params[param] = config[param];
-        }
-      });
-
-      const tileGrid = config.tileSize === 512 ? new TileGrid({
-        extent: [-20037508.342789244, -20037508.342789244,
-          20037508.342789244, 20037508.342789244],
-        resolutions: createXYZ({
-          tileSize: 512,
-        }).getResolutions(),
-        tileSize: 512,
-      }) : undefined;
-
-      source = new TileWMS({
-        attributions: config.attribution,
-        maxZoom: config.maxNativeZoom || config.maxZoom,
-        minZoom: config.minNativeZoomm || config.minZoom,
-        crossOrigin: 'anonymous',
-        transition: 0,
-        params,
-        url: config.baseUrl,
-        tileGrid,
-      });
-
-      source.set('updateTime', (updatedTime) => {
-        source.updateParams({
-          LAYERS: config.layers,
-          time: config.dateFormatFunction(updatedTime),
-          env: `year:${updatedTime}`,
-        });
-      });
-    } else {
-      source = new TileWMS({
-        attributions: config.attribution,
-        maxZoom: config.maxNativeZoom || config.maxZoom,
-        minZoom: config.minNativeZoomm || config.minZoom,
-        crossOrigin: 'anonymous',
-        transition: 0,
-        url: config.url,
-      });
     }
+
+    source = new TileWMS({
+      attributions: config.attribution,
+      maxZoom: config.maxNativeZoom || config.maxZoom,
+      minZoom: config.minNativeZoomm || config.minZoom,
+      crossOrigin: 'anonymous',
+      transition: 0,
+      params,
+      url: config.url || config.baseUrl,
+      tileGrid,
+    });
+    source.set('updateTime', (updatedTime) => {
+      const newParams = {
+        time: config.dateFormatFunction(updatedTime),
+      };
+      if (config.specialEnvTime) {
+        newParams.env = `year:${updatedTime}`;
+      }
+      source.updateParams(newParams);
+    });
   }
 
   if (config.features) {
@@ -239,8 +231,12 @@ export function createLayerFromConfig(config, _options = {}) {
     const featuresSource = new VectorSource({
       features: [],
     });
-    const url = replaceUrlPlaceholders(config.features.url, config, options);
-    fetchGeoJsonFeatures(featuresSource, url);
+    // to do:
+    // some configs have other mean than simple geojson fetching. Make sure to not forget any.
+    if (!config.features.callbackFunction) {
+      const url = replaceUrlPlaceholders(config.features.url, config, options);
+      fetchGeoJsonFeatures(featuresSource, url);
+    }
     // this gives an option to update the source (most likely the time) without
     // re-creating the entire layer
     featuresSource.set('updateTime', (time) => {

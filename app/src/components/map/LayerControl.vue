@@ -78,7 +78,7 @@ export default {
     const overlayLayers = this.overlayConfigs.map((l) => createLayerFromConfig(l,
       {
         // higher zIndex for labels
-        zIndex: l.name === 'Overlay labels' ? 3 : 2,
+        zIndex: l.name === 'Overlay labels' ? 4 : 2,
         updateOpacityOnZoom: l.name === 'Overlay labels' || l.name === 'Country vectors',
       }));
     overlayLayers.forEach((l) => {

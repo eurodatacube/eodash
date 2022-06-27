@@ -7,9 +7,9 @@
     <!-- a comparelayer for a selected global poi with a time component -->
     <SpecialLayer
       mapId="centerMap"
-      :indicator="mergedConfigsData"
+      :mergedConfig="mergedConfigsData"
       :layerName="swipeLayerName"
-      :time="time"
+      :options="{time: time}"
       :swipePixelX="swipePixelX"
     />
     <slot name="close"></slot>

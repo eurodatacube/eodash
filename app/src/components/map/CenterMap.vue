@@ -3,16 +3,18 @@
     z-index: 1" class="d-flex justify-center">
     <!-- a layer adding a (potential) subaoi, z-index 5 -->
     <InverseSubaoiLayer
-      mapId="centerMap"
+      :mapId="mapId"
       :indicator="indicator"
     />
     <!-- a layer displaying a selected global poi
-     these layers will have z-Index 2 -->
+     these layers will have z-Index 3 -->
      <div>
-    <SpecialLayer v-if="mergedConfigsData.length"
-      mapId="centerMap"
-      :indicator="mergedConfigsData[0]"
+    <SpecialLayer
+      v-if="mergedConfigsData.length"
+      :mapId="mapId"
+      :mergedConfig="mergedConfigsData[0]"
       :layerName="dataLayerName"
+      :options="specialLayerOptions"
       :key="dataLayerName"
       :swipePixelX="swipePixelX"
     />
@@ -20,17 +22,17 @@
     <!-- will add a drawing layer to the map (z-index 3) -->
     <CustomAreaButtons
       v-if="loaded"
-      mapId="centerMap"
+      :mapId="mapId"
       :mergedConfigsData="mergedConfigsData[0]"
       :hideCustomAreaControls="hideCustomAreaControls"
       @fetchCustomAreaIndicator="onFetchCustomAreaIndicator"
       :drawnArea.sync="drawnArea"
       :loading.sync="customAreaLoading"
     />
-    <!-- overlay-layers have zIndex 2 or 3, base layers have 0 -->
+    <!-- overlay-layers have zIndex 2 and 4, base layers have 0 -->
     <LayerControl
       v-if="loaded"
-      mapId="centerMap"
+      :mapId="mapId"
       :key="dataLayerName"
       :baseLayerConfigs="baseLayerConfigs"
       :overlayConfigs="overlayConfigs"
@@ -38,7 +40,7 @@
     <!-- compare layer has same zIndex as specialLayer -->
     <LayerSwipe
       v-if="compareLayerTime"
-      :mapId="'centerMap'"
+      :mapId="mapId"
       :time="compareLayerTime.value"
       :mergedConfigsData="mergedConfigsData[0]"
       :enable="enableCompare"
@@ -54,14 +56,14 @@
       :compare-active.sync="enableCompare"
       :compare-time.sync="compareLayerTime"
       :original-time.sync="dataLayerTime"
-      :enable-compare="!indicator.disableCompare"
+      :enable-compare="!mergedConfigsData[0].disableCompare"
       :large-time-duration="indicator.largeTimeDuration"
       :key="mergedConfigsData[0].name + '_timeSelection'"
       @focusSelect="focusSelect"
     />
     <!-- an overlay for showing information when hovering over clusters -->
     <MapOverlay
-      mapId="centerMap"
+      :mapId="mapId"
       overlayId="clusterOverlay"
       :overlayHeaders="overlayHeaders"
       :overlayRows="overlayRows"
@@ -128,6 +130,10 @@ export default {
     MapOverlay,
   },
   props: {
+    mapId: {
+      type: String,
+      default: 'centerMap',
+    },
     // currentIndicator will only be set as prop in the custom dashboard.
     // if this is not set, use the indicator from the store (selectedIndicator)
     currentIndicator: {
@@ -230,6 +236,21 @@ export default {
         0,
       );
     },
+    /**
+     * optional options for special layer.
+     * only needed for dashboard
+     */
+    specialLayerOptions() {
+      if (this.currentIndicator) {
+        return {
+          // to do: get initial time for saved dashboard item
+          time: this.indicator.time,
+          indicator: this.indicator.indicator,
+          aoiId: this.indicator.aoiID,
+        };
+      }
+      return {};
+    },
     availableTimeEntries() {
       return createAvailableTimeEntries(
         this.indicator,
@@ -286,17 +307,19 @@ export default {
       deep: true,
       immediate: true,
       handler() {
-        const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
-        cluster.reRender();
-        if (this.$refs.timeSelection) {
-          this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
+        if (this.mapId === 'centerMap') {
+          const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
+          cluster.reRender();
+          if (this.$refs.timeSelection) {
+            this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
+          }
         }
         // this.updateSelectedAreaFeature();
       },
     },
     getFeatures(features) {
-      if (features) {
-        const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
+      if (this.mapId === 'centerMap' && features) {
+        const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
         cluster.setFeatures(features);
       }
     },
@@ -321,7 +344,7 @@ export default {
     },
     selectedTime(value) {
       // redraw all time-dependant layers, if time is passed via WMS params
-      const { map } = getMapInstance('centerMap');
+      const { map } = getMapInstance(this.mapId);
       const layers = map.getLayers().getArray();
 
       this.mergedConfigsData.filter((config) => config.usedTimes?.time?.length)
@@ -344,18 +367,29 @@ export default {
     drawnArea() {
       // this.updateSelectedAreaFeature();
     },
-    zoomExtent(value) {
+    zoomExtent: {
+      deep: true,
+      immediate: true,
+      handler(value) {
       // when the calculated zoom extent changes, zoom the map to the new extent.
       // this is purely cosmetic and does not limit the ability to pan or zoom
-      if (value) {
-        getMapInstance('centerMap').map.getView().fit(value);
-      }
+        if (value) {
+          const { map } = getMapInstance(this.mapId);
+          if (map.getTargetElement()) {
+            map.getView().fit(value);
+          } else {
+            map.once('change:target', () => { map.getView().fit(value); });
+          }
+        }
+      },
     },
   },
   mounted() {
-    const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
-    cluster.setActive(true, this.overlayCallback);
-    cluster.setFeatures(this.getFeatures);
+    if (this.mapId === 'centerMap') {
+      const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
+      cluster.setActive(true, this.overlayCallback);
+      cluster.setFeatures(this.getFeatures);
+    }
     this.loaded = true;
     getMapInstance('centerMap').map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
 
@@ -516,8 +550,10 @@ export default {
     },
   },
   beforeDestroy() {
-    const cluster = getCluster('centerMap', { vm: this, mapId: 'centerMap' });
-    cluster.setActive(false, this.overlayCallback);
+    if (this.mapId === 'centerMap') {
+      const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
+      cluster.setActive(false, this.overlayCallback);
+    }
   },
 };
 </script>
