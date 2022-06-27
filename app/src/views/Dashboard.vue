@@ -211,7 +211,7 @@
           :style="{background: this.$vuetify.theme.dark ? 'var(--v-grey-darken4)' : '#CED9E0'}"
         >
           <span class="font-medium text-h6 text-capitalize">
-            {{ showText ? showText : '' }}
+            {{ showText }}
           </span>
           <v-btn
             color="secondary"
