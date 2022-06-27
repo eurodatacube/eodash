@@ -42,7 +42,7 @@
               v-if="customAreaIndicator && showRegenerateButton"
               ref="regenerateButton"
               color="secondary"
-              style="display: block;"
+              style="display: block; position: absolute; right: 130px; top: 13px;"
               elevation="2"
               x-small
               @click="generateChart"
