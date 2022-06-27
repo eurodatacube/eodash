@@ -29,7 +29,7 @@
       :drawnArea.sync="drawnArea"
       :loading.sync="customAreaLoading"
     />
-    <!-- overlay-layers have zIndex 2 or 3, base layers have 0 -->
+    <!-- overlay-layers have zIndex 3 and 4, base layers have 0 -->
     <LayerControl
       v-if="loaded"
       :mapId="mapId"
