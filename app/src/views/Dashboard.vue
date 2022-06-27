@@ -157,7 +157,7 @@
           {{ $store.state.indicators.selectedIndicator.description }}
         </v-toolbar-title>
         <v-toolbar-title v-else class="text-capitalize">
-          {{ showText ? showText : '' }}
+          {{ showText }}
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn
