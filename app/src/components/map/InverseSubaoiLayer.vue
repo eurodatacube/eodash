@@ -67,7 +67,7 @@ export default {
       return null;
     },
   },
-  created() {
+  mounted() {
     const { map } = getMapInstance(this.mapId);
     const subAoiLayer = new VectorLayer({
       name: 'subAoi',
@@ -83,6 +83,10 @@ export default {
         }),
       }),
     });
+    if (this.subAoiInverse) {
+      const feature = geoJsonFormat.readFeature(this.subAoiInverse);
+      subAoiLayer.getSource().addFeature(feature);
+    }
     map.addLayer(subAoiLayer);
   },
   beforeDestroy() {

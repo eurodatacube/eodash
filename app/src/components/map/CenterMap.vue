@@ -7,11 +7,12 @@
       :indicator="indicator"
     />
     <!-- a layer displaying a selected global poi
-     these layers will have z-Index 2 -->
+     these layers will have z-Index 3 -->
      <div>
-    <SpecialLayer v-if="mergedConfigsData.length"
+    <SpecialLayer
+      v-if="mergedConfigsData.length"
       :mapId="mapId"
-      :indicator="mergedConfigsData[0]"
+      :mergedConfig="mergedConfigsData[0]"
       :layerName="dataLayerName"
       :key="dataLayerName"
       :swipePixelX="swipePixelX"
@@ -290,16 +291,18 @@ export default {
       deep: true,
       immediate: true,
       handler() {
-        const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
-        cluster.reRender();
-        if (this.$refs.timeSelection) {
-          this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
+        if (this.mapId === 'centerMap') {
+          const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
+          cluster.reRender();
+          if (this.$refs.timeSelection) {
+            this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
+          }
         }
         // this.updateSelectedAreaFeature();
       },
     },
     getFeatures(features) {
-      if (features) {
+      if (this.mapId === 'centerMap' && features) {
         const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
         cluster.setFeatures(features);
       }
@@ -348,18 +351,29 @@ export default {
     drawnArea() {
       // this.updateSelectedAreaFeature();
     },
-    zoomExtent(value) {
+    zoomExtent: {
+      deep: true,
+      immediate: true,
+      handler(value) {
       // when the calculated zoom extent changes, zoom the map to the new extent.
       // this is purely cosmetic and does not limit the ability to pan or zoom
-      if (value) {
-        getMapInstance(this.mapId).map.getView().fit(value);
-      }
+        if (value) {
+          const { map } = getMapInstance(this.mapId);
+          if (map.getTargetElement()) {
+            map.getView().fit(value);
+          } else {
+            map.once('change:target', () => { map.getView().fit(value); });
+          }
+        }
+      },
     },
   },
   mounted() {
-    const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
-    cluster.setActive(true, this.overlayCallback);
-    cluster.setFeatures(this.getFeatures);
+    if (this.mapId === 'centerMap') {
+      const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
+      cluster.setActive(true, this.overlayCallback);
+      cluster.setFeatures(this.getFeatures);
+    }
     this.loaded = true;
     getMapInstance(this.mapId).map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
   },
@@ -501,8 +515,10 @@ export default {
     },
   },
   beforeDestroy() {
-    const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
-    cluster.setActive(false, this.overlayCallback);
+    if (this.mapId === 'centerMap') {
+      const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
+      cluster.setActive(false, this.overlayCallback);
+    }
   },
 };
 </script>

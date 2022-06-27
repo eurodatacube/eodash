@@ -36,9 +36,16 @@ export default {
   },
   props: {
     mapId: String,
-    indicator: Object,
+    mergedConfig: Object,
     layerName: String,
-    time: {
+    /**
+     * @property {*} options.time
+     * @property {boolean} options.indicator
+     * @property {boolean} options.aoiId
+     */
+    options: {
+      type: Object,
+      default: () => ({}),
       required: false,
     },
     // layer swipe position (x-pixel from left border)
@@ -55,14 +62,15 @@ export default {
   computed: {},
   mounted() {
     const { map } = getMapInstance(this.mapId);
-    const layer = createLayerFromConfig(this.indicator, {
-      zIndex: 2,
+    // in the dashboard, we need time, indicator and aoiId
+    const layer = createLayerFromConfig(this.mergedConfig, {
+      zIndex: 3,
       // optional time
       // if not defined, the layer will get the selected time from store.
-      time: this.time,
+      time: this.options.time,
     });
     layer.set('name', this.layerName);
-    const { presetView } = this.indicator;
+    const { presetView } = this.mergedConfig;
     if (presetView?.features?.length) {
       const presetGeom = geoJsonFormat.readGeometry(presetView.features[0].geometry);
       map.getView().fit(presetGeom.getExtent());
@@ -93,7 +101,7 @@ export default {
         const rows = [];
         const props = feature.getProperties();
         // some indicators have "allowedParameters", which define the keys to display
-        const keys = this.indicator.features.allowedParameters
+        const keys = this.mergedConfig.features.allowedParameters
         || Object.keys(props).filter((k) => k !== 'geometry');
         keys.forEach((key) => {
           if (props[key]) {

@@ -93,6 +93,7 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
  * for overlays like labels or borders. Defaults to false.
  * @param {*} [opt_options.time=undefined] optional time.
  * @param {*} [opt_options.indicator=undefined] optional indicator. (e.g. "E13b")
+ * @param {*} [opt_options.aoiId=undefined] optional aoiId.
  * if not set, time will be retrieved from the store
  * @returns {*} returns ol layer
  */
