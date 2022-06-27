@@ -149,10 +149,6 @@ export default {
         || this.mergedConfigsData?.customAreaFeatures
       );
     },
-    customChartButtonVisible() {
-      return this.drawnArea.area
-        && this.drawToolsVisible && this.mergedConfigsData?.customAreaIndicator;
-    },
     deleteButtonVisible() {
       return this.drawnArea.area && this.drawToolsVisible;
     },
@@ -276,9 +272,6 @@ export default {
         this.drawnAreaSource.clear();
         this.drawnAreaSource.addFeature(feature);
       }
-    },
-    fetchCustomAreaIndicator() {
-      this.$emit('fetchCustomAreaIndicator');
     },
   },
 };
