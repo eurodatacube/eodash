@@ -62,13 +62,10 @@ export default {
   computed: {},
   mounted() {
     const { map } = getMapInstance(this.mapId);
+    const options = { ...this.options };
+    options.zIndex = 3;
     // in the dashboard, we need time, indicator and aoiId
-    const layer = createLayerFromConfig(this.mergedConfig, {
-      zIndex: 3,
-      // optional time
-      // if not defined, the layer will get the selected time from store.
-      time: this.options.time,
-    });
+    const layer = createLayerFromConfig(this.mergedConfig, options);
     layer.set('name', this.layerName);
     const { presetView } = this.mergedConfig;
     if (presetView?.features?.length) {

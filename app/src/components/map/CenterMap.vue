@@ -14,6 +14,7 @@
       :mapId="mapId"
       :mergedConfig="mergedConfigsData[0]"
       :layerName="dataLayerName"
+      :options="specialLayerOptions"
       :key="dataLayerName"
       :swipePixelX="swipePixelX"
     />
@@ -234,6 +235,21 @@ export default {
         'data',
         0,
       );
+    },
+    /**
+     * optional options for special layer.
+     * only needed for dashboard
+     */
+    specialLayerOptions() {
+      if (this.currentIndicator) {
+        return {
+          // to do: get initial time for saved dashboard item
+          time: this.indicator.time,
+          indicator: this.indicator.indicator,
+          aoiId: this.indicator.aoiID,
+        };
+      }
+      return {};
     },
     availableTimeEntries() {
       return createAvailableTimeEntries(
