@@ -1,7 +1,7 @@
 <template>
   <div
-    class="pa-7 pb-0 bg-primary"
-    :style="{ background: $vuetify.theme.themes[theme].background }"
+    class="pa-7 pb-0"
+    :style="{ background: $vuetify.theme.currentTheme.background }"
     :class="$vuetify.breakpoint.xsOnly && 'pb-10'"
   >
     <v-row class="d-flex">
@@ -28,10 +28,6 @@ export default {
     ...mapState('config', ['appConfig']),
     about() {
       return this.$marked(require(`../../public${this.appConfig.aboutText}.md`).default);
-    },
-
-    theme() {
-      return this.$vuetify.theme.dark ? 'dark' : 'light';
     },
   },
 };
