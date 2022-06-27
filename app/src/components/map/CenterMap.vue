@@ -360,6 +360,7 @@ export default {
     getMapInstance('centerMap').map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
 
     // Fetch data for custom chart if the event is fired.
+    // TODO: Extract fetchData method into helper file since it needs to be used from outside.
     window.addEventListener(
       'fetch-custom-area-chart',
       (e) => this.fetchData({type: 'customIndicator'}),
