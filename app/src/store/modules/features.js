@@ -15,7 +15,6 @@ const state = {
     includeArchived: false,
   },
   selectedArea: null,
-  previousArea: null,
   resultsCount: {
     economic: 0,
     agriculture: 0,
@@ -223,11 +222,6 @@ const mutations = {
     state.resultsCount[type] += count;
   },
   SET_SELECTED_AREA(state, area) {
-    if (state.selectedArea) {
-      state.previousArea = state.selectedArea;
-    } else {
-      state.previousArea = area;
-    }
     state.selectedArea = area;
 
     // TODO: Extract fetchData method into helper file since it needs to be used from outside.
