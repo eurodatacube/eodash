@@ -9,7 +9,7 @@
       mapId="centerMap"
       :mergedConfig="mergedConfigsData"
       :layerName="swipeLayerName"
-      :time="time"
+      :options="{time: time}"
       :swipePixelX="swipePixelX"
     />
     <slot name="close"></slot>
