@@ -39,12 +39,12 @@
             }">
             </div>
             <v-btn
+              v-if="customAreaIndicator && showRegenerateButton"
               ref="regenerateButton"
               color="secondary"
               style="display: block;"
               elevation="2"
               x-small
-              v-if="customAreaIndicator && showRegenerateButton"
               @click="generateChart"
             >
               Regenerate
