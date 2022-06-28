@@ -251,6 +251,20 @@ export const evalScriptsDefinitions = Object.freeze({
     }`,
 });
 
+// Define custom fetch function with configurable timeout
+async function fetchWithTimeout(resource, options = {}) {
+  const { timeout = 15000 } = options;
+
+  const abortController = new AbortController();
+  const id = setTimeout(() => abortController.abort(), timeout);
+  const response = await fetch(resource, {
+    ...options,
+    signal: abortController.signal,
+  });
+  clearTimeout(id);
+  return response;
+}
+
 const fetchCustomAreaObjects = async (
   options,
   drawnArea,
@@ -258,6 +272,7 @@ const fetchCustomAreaObjects = async (
   mergedConfig,
   indicatorObject,
   lookup,
+  store,
 ) => {
   const indicator = indicatorObject;
   // add custom area if present
@@ -343,30 +358,45 @@ const fetchCustomAreaObjects = async (
     const end = DateTime.fromISO(requestBody.aggregation.timeRange.to);
     const format = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     const step = {
-      days: 30*3,
+      days: 30 * 3,
     };
     let currentDate = start;
     const requests = [];
+    // We dont want to modify the original request body, so we create a copy here
+    const requestBodyCopy = JSON.parse(JSON.stringify(requestBody));
     while (currentDate < end) {
-      requestBody.aggregation.timeRange.from = currentDate.toFormat(format);
+      requestBodyCopy.aggregation.timeRange.from = currentDate.toFormat(format);
       currentDate = DateTime.fromISO(currentDate.toFormat(format)).plus(step);
-      requestBody.aggregation.timeRange.to = currentDate.toFormat(format);
-      requestOpts.body = JSON.stringify(requestBody);
-      requests.push(fetch(url, requestOpts).then((res) => res.json()));
+      requestBodyCopy.aggregation.timeRange.to = currentDate.toFormat(format);
+      requestOpts.body = JSON.stringify(requestBodyCopy);
+      requests.push(fetchWithTimeout(url, requestOpts).then((res) => res.json()));
     }
     // Add last entry
-    requestBody.aggregation.timeRange.from = currentDate.toFormat(format);
-    requestBody.aggregation.timeRange.to = end.toFormat(format);
-    requestOpts.body = JSON.stringify(requestBody);
+    requestBodyCopy.aggregation.timeRange.from = currentDate.toFormat(format);
+    requestBodyCopy.aggregation.timeRange.to = end.toFormat(format);
+    requestOpts.body = JSON.stringify(requestBodyCopy);
     requests.push(fetch(url, JSON.parse(JSON.stringify(requestOpts))).then((res) => res.json()));
 
     const allData = await Promise.allSettled(requests);
     // Merge them together, for parsing
     // TODO: Add check to see if partial result was returned as status
-    console.log(allData);
     const status = 'OK';
-    const data = allData.map((entry) => entry.value.data).flat();
-    console.log(data);
+    const data = allData.map((entry) => {
+      let d = [];
+      // We take here fulfilled datasets, rejected status is probably from timeout
+      if (entry.status === 'fulfilled') {
+        d = entry.value.data;
+      }
+      return d;
+    }).flat();
+    // Check to see if there were rejected requests due to timeout
+    const timeoutDetected = allData.find((entry) => entry.status === 'rejected');
+    if (timeoutDetected) {
+      store.commit('sendAlert', {
+        message: 'There were some issues retrieving the data, possibly only partial results are shown',
+        type: 'warning',
+      });
+    }
     const mergedData = {
       status,
       data,
@@ -374,7 +404,6 @@ const fetchCustomAreaObjects = async (
     if (typeof mergedConfig[lookup].callbackFunction === 'function') {
       customObjects = mergedConfig[lookup].callbackFunction(mergedData, indicator);
     }
-    console.log(customObjects);
   } else {
     customObjects = await fetch(url, requestOpts).then((response) => {
       if (!response.ok) {
