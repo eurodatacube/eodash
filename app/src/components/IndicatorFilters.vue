@@ -465,8 +465,7 @@ export default {
         // already will appear in the sub-group and can thus be directly clicked
         const possibleValues = this.getGroupedFeatures.filter((f) => this.appConfig.featureGrouping && !this.appConfig.featureGrouping
           .find((g) => g.features
-            .find((i) => i.includes(this.getLocationCode(f.properties.indicatorObject))))
-        );
+            .find((i) => i.includes(this.getLocationCode(f.properties.indicatorObject)))));
         const firstFeature = possibleValues[0];
         if (firstFeature) {
           this.$store.commit(

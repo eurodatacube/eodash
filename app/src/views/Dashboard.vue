@@ -267,16 +267,15 @@
       class="info-dialog"
       width="80vw"
     >
-
-      <template style="background: #FFF">
+      <template>
         <div
           class="d-flex justify-between px-7 py-4"
           width="100%"
-          style="background: #CED9E0; justify-content: space-between; align-items: center;"
+          style="justify-content: space-between; align-items: center;"
+          :style="{background: this.$vuetify.theme.dark ? 'var(--v-grey-darken4)' : '#CED9E0'}"
         >
-          <span class="font-medium text-h6">
-            <!-- Convert the first letter to uppercase. -->
-            {{ showText ? showText[0].toUpperCase() + showText.substring(1) : '' }}
+          <span class="font-medium text-h6 text-capitalize">
+            {{ showText }}
           </span>
           <v-btn
             color="secondary"

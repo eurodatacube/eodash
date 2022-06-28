@@ -20,11 +20,6 @@
           >
           <v-card-title
             style="padding-top: 10px; padding-bottom: 0px;">
-              <v-btn
-                icon
-                @click="clearSelection">
-                <v-icon medium>mdi-close</v-icon>
-              </v-btn>
               {{ customAreaIndicator.title }}
           </v-card-title>
           <v-card-title
@@ -43,17 +38,17 @@
                 down: () => swipe(),
             }">
             </div>
-            <!--<indicator-map
-              ref="indicatorMap"
-              style="top: 0px; position: absolute;"
-              v-show="false"
-              class="pt-0 fill-height"
-              @update:center="c => center = c"
-              @update:zoom="z => zoom = z"
-              @update:datalayertime="d => datalayertime = d"
-              @update:comparelayertime="c => comparelayertime = c"
-              @compareEnabled="compareEnabled = !compareEnabled"
-            /> -->
+            <v-btn
+              v-if="customAreaIndicator && showRegenerateButton"
+              ref="regenerateButton"
+              color="secondary"
+              style="display: block; position: absolute; right: 130px; top: 13px;"
+              elevation="2"
+              x-small
+              @click="generateChart"
+            >
+              Regenerate
+            </v-btn>
             <indicator-data
               v-if="!customAreaIndicator.isEmpty"
               style="margin-top: 0px;"
@@ -94,7 +89,7 @@
             </v-row>
           </v-card>
           <v-card
-            v-else
+            v-else-if="!showMap || (showMap && indicatorObject.display.customAreaIndicator)"
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
                               ? (bannerHeight ? 65 : 70) : 40) : 60}vh;`"
@@ -129,17 +124,22 @@
               class="d-flex justify-center"
               style="top: 0px; position: absolute;"
             />
-            <!--<indicator-map
-              ref="indicatorMap"
-              v-else-if="showMap"
-              @update:center="c => center = c"
-              @update:zoom="z => zoom = z"
-              @update:datalayertime="d => datalayertime = d"
-              @update:comparelayertime="c => comparelayertime = c"
-              @compareEnabled="compareEnabled = !compareEnabled"
-              class="pt-0 fill-height"
-              style="top: 0px; position: absolute;"
-            />-->
+            <v-col v-else-if="showMap && indicatorObject.display.customAreaIndicator" class="d-flex flex-col align-center justify-center" style="flex-direction: column; height: 100%">
+              <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
+              <p style="max-width: 75%; text-align: center">Use the rectangle and polygon buttons to the left of this box to generate charts for a given area.</p>
+              <v-btn
+                class="mt-3"
+                color="secondary"
+                :loading="isLoadingCustomAreaIndicator"
+                :disabled="!selectedArea"
+                @click="generateChart"
+              >
+                Generate Chart
+              </v-btn>
+            </v-col>
+
+            <div v-else-if="showMap"></div>
+
             <indicator-data
               style="top: 0px; position: absolute;"
               v-else
@@ -389,15 +389,6 @@
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
                 </v-toolbar>
-              <!--<indicator-map
-                ref="referenceMap"
-                @update:center="c => center = c"
-                @update:zoom="z => zoom = z"
-                @update:datalayertime="d => datalayertime = d"
-                @update:comparelayertime="c => comparelayertime = c"
-                @compareEnabled="compareEnabled = !compareEnabled"
-                :style="`height: calc(100% - ${$vuetify.application.top}px)`"
-              />-->
               </v-dialog>
             </v-col>
           </v-row>
@@ -417,7 +408,6 @@ import { DateTime } from 'luxon';
 import dialogMixin from '@/mixins/dialogMixin';
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
-import IndicatorMap from '@/components/IndicatorMap.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import FullScreenButton from '@/components/FullScreenButton.vue';
 import IframeButton from '@/components/IframeButton.vue';
@@ -432,7 +422,6 @@ export default {
   components: {
     ExpandableContent,
     IndicatorData,
-    IndicatorMap,
     IndicatorGlobe,
     FullScreenButton,
     IframeButton,
@@ -452,6 +441,8 @@ export default {
     datalayertime: null,
     comparelayertime: null,
     compareEnabled: false,
+    isLoadingCustomAreaIndicator: false,
+    showRegenerateButton: null,
   }),
   computed: {
     ...mapGetters('features', [
@@ -464,6 +455,12 @@ export default {
       'baseConfig',
     ]),
     ...mapState(['isFullScreen']),
+    ...mapState('features', [
+      'selectedArea',
+    ]),
+    ...mapState('indicators', [
+      'customAreaIndicator',
+    ]),
     story() {
       let markdown;
       try {
@@ -548,9 +545,6 @@ export default {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
       return `user_AOI_${currDate}_${this.indicatorObject.indicator}.csv`;
     },
-    customAreaIndicator() {
-      return this.$store.state.indicators.customAreaIndicator;
-    },
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
     },
@@ -628,6 +622,13 @@ export default {
   },
   mounted() {
     this.mounted = true;
+
+    // TODO: Extract fetchData method into helper file since it needs to be used from outside.
+    window.addEventListener(
+      'set-custom-area-indicator-loading',
+      (e) => { this.isLoadingCustomAreaIndicator = e.detail },
+      false,
+    )
   },
   methods: {
     swipe() {
@@ -645,6 +646,10 @@ export default {
       this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
       refMap.onResize();
     },
+    generateChart() {
+      // TODO: Extract fetchData method into helper file since it needs to be used from outside.
+      window.dispatchEvent(new Event('fetch-custom-area-chart'));
+    },
   },
   watch: {
     dialog(open) {
@@ -654,6 +659,9 @@ export default {
           this.$refs.referenceMap.flyToBounds();
         }, 200);
       }
+    },
+    selectedArea(area) {
+      this.showRegenerateButton = this.customAreaIndicator && !!area;
     },
   },
 };

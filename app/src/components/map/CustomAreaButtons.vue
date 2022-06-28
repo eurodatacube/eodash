@@ -78,49 +78,7 @@
         <span>Clear selection</span>
       </v-tooltip>
     </v-card>
-    <v-card
-    v-if="customChartButtonVisible">
-        <v-tooltip left>
-            <template v-slot:activator="{ on }">
-            <div v-on="on" class="d-inline-block">
-                <v-btn
-                color="white"
-                fab
-                class="pa-0"
-                :style="`${$vuetify.breakpoint.mdAndDown
-                    ? 'width: 36px; height: 36px;'
-                    : 'width: 30px; height: 30px;'}
-                    border-radius: 4px;
-                    color: ${appConfig.branding.primaryColor};`"
-                @click="fetchCustomAreaIndicator"
-                >
-                <v-icon>mdi-poll</v-icon>
-                </v-btn>
-            </div>
-            </template>
-            <span>Draw chart from sub-area</span>
-        </v-tooltip>
-        <v-tooltip left>
-            <template v-slot:activator="{ on }">
-            <div v-on="on">
-                <v-btn
-                color="white"
-                fab
-                class="pa-0"
-                :style="`${$vuetify.breakpoint.mdAndDown
-                    ? 'width: 36px; height: 36px;'
-                    : 'width: 30px; height: 30px;'}
-                    border-radius: 4px;
-                    color: ${appConfig.branding.primaryColor};`"
-                @click="fetchFeatures"
-                >
-                <v-icon>mdi-truck</v-icon>
-                </v-btn>
-            </div>
-            </template>
-            <span>Fetch Feature Data</span>
-        </v-tooltip>
-    </v-card>
+
     <v-card
     v-if="loading">
         <v-tooltip left>
@@ -228,10 +186,6 @@ export default {
         // enables fetching of custom features
         || this.mergedConfigsData?.customAreaFeatures
         );
-    },
-    customChartButtonVisible() {
-      return this.drawnArea.area
-        && this.drawToolsVisible && this.mergedConfigsData?.customAreaIndicator;
     },
     deleteButtonVisible() {
       return this.drawnArea.area && this.drawToolsVisible;
@@ -367,12 +321,6 @@ export default {
         this.drawnAreaSource.clear();
         this.drawnAreaSource.addFeature(feature);
       }
-    },
-    fetchCustomAreaIndicator() {
-      this.$emit('fetchCustomAreaIndicator');
-    },
-    fetchFeatures() {
-      // to do
     },
   },
 };
