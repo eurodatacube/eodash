@@ -253,7 +253,7 @@ export const evalScriptsDefinitions = Object.freeze({
 
 // Define custom fetch function with configurable timeout
 async function fetchWithTimeout(resource, options = {}) {
-  const { timeout = 15000 } = options;
+  const { timeout = 20000 } = options;
 
   const abortController = new AbortController();
   const id = setTimeout(() => abortController.abort(), timeout);
