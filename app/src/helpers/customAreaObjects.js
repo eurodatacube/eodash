@@ -31,7 +31,7 @@ export const statisticalApiBody = (evalscript, type, timeinterval) => ({
     },
     aggregation: {
       timeRange: {
-        from: '2018-01-01T00:00:00Z',
+        from: '1995-01-01T00:00:00Z',
         to: '2023-12-01T00:00:00Z',
       },
       aggregationInterval: {
@@ -354,8 +354,11 @@ const fetchCustomAreaObjects = async (
   let customObjects = null;
   if ('aggregation' in requestBody && 'timeRange' in requestBody.aggregation) {
     // Create data range chunks for requests
-    const start = DateTime.fromISO(requestBody.aggregation.timeRange.from);
-    const end = DateTime.fromISO(requestBody.aggregation.timeRange.to);
+    // In order to get better performance we take the time information of the
+    // indicator to fetch for the actual time interval available
+    const times = indicator.time.map(entry => DateTime.fromISO(entry));
+    const start = times[0];
+    const end = times[times.length - 1];
     const format = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     const step = {
       days: 30 * 3,
