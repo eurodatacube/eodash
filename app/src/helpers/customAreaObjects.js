@@ -114,141 +114,48 @@ export const parseStatAPIResponse = (requestJson, indicator) => {
   return null;
 };
 
+function defaultEvalScriptDef(bandname) {
+  return `//VERSION=3
+function setup() {
+  return {
+    input: [{
+      bands: [
+        "${bandname}",
+        "dataMask"
+      ]
+    }],
+    output: [
+      {
+        id: "data",
+        bands: 1,
+        sampleType: "FLOAT32"
+      },
+      {
+        id: "dataMask",
+        bands: 1
+      }
+    ]
+  }
+}
+function evaluatePixel(samples) {
+  let validValue = 1
+  if (samples.${bandname} >= 1e20 ){
+      validValue = 0
+  }
+  let index = samples.${bandname};
+  return {
+    data:  [index],
+    dataMask: [samples.dataMask * validValue]
+  }
+}`};
+
+
 export const evalScriptsDefinitions = Object.freeze({
-  'AWS_NO2-VISUALISATION':
-    `//VERSION=3
-    function setup() {
-      return {
-        input: [{
-          bands: [
-            "tropno2",
-            "dataMask"
-          ]
-        }],
-        output: [
-          {
-            id: "data",
-            bands: 1,
-            sampleType: "FLOAT32"
-          },
-          {
-            id: "dataMask",
-            bands: 1
-          }
-        ]
-      }
-    }
-    function evaluatePixel(samples) {
-      let validValue = 1
-      if (samples.tropno2 >= 1e20 ){
-          validValue = 0
-      }
-      let index = samples.tropno2;
-      return {
-        data:  [index],
-        dataMask: [samples.dataMask * validValue]
-      }
-    }`,
-  AWS_VIS_SO2_DAILY_DATA:
-    `//VERSION=3
-    function setup() {
-      return {
-        input: [{
-          bands: [
-            "so2",
-            "dataMask"
-          ]
-        }],
-        output: [
-          {
-            id: "data",
-            bands: 1,
-            sampleType: "FLOAT32"
-          },
-          {
-            id: "dataMask",
-            bands: 1
-          }
-        ]
-      }
-    }
-    function evaluatePixel(samples) {
-      let validValue = 1
-      if (samples.so2 >= 1e20 ){
-          validValue = 0
-      }
-      let index = samples.so2;
-      return {
-        data: [index],
-        dataMask: [samples.dataMask * validValue]
-      }
-    }`,
-  BICEP_NPP_VIS_PP:
-    `//VERSION=3
-    function setup() {
-      return {
-        input: [{
-          bands: [
-            "pp",
-            "dataMask"
-          ]
-        }],
-        output: [
-          {
-            id: "data",
-            bands: 1,
-          },
-          {
-            id: "dataMask",
-            bands: 1
-          }
-        ]
-      }
-    }
-    function evaluatePixel(samples) {
-      let validValue = 1
-      if (samples.pp >= 1e20 ){
-          validValue = 0
-      }
-      let index = samples.pp;
-      return {
-        data: [index],
-        dataMask: [samples.dataMask * validValue]
-      }
-    }`,
-  AWS_VIS_CO_3DAILY_DATA:
-    `//VERSION=3
-    function setup() {
-      return {
-        input: [{
-          bands: [
-            "co",
-            "dataMask"
-          ]
-        }],
-        output: [
-          {
-            id: "data",
-            bands: 1,
-          },
-          {
-            id: "dataMask",
-            bands: 1
-          }
-        ]
-      }
-    }
-    function evaluatePixel(samples) {
-      let validValue = 1
-      if (samples.co >= 1e20 ){
-          validValue = 0
-      }
-      let index = samples.co;
-      return {
-        data: [index],
-        dataMask: [samples.dataMask * validValue]
-      }
-    }`,
+  'AWS_NO2-VISUALISATION': defaultEvalScriptDef('tropno2'),
+  AWS_CH4_WEEKLY_DATA: defaultEvalScriptDef('ch4'),
+  AWS_VIS_SO2_DAILY_DATA: defaultEvalScriptDef('so2'),
+  BICEP_NPP_VIS_PP: defaultEvalScriptDef('pp'),
+  AWS_VIS_CO_3DAILY_DATA: defaultEvalScriptDef('co'),
 });
 
 const fetchCustomAreaObjects = async (
