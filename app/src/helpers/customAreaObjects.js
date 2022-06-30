@@ -88,6 +88,9 @@ export const parseStatAPIResponse = (requestJson, indicator) => {
       measurement: [],
       referenceValue: [],
       colorCode: [],
+      sampleSize: [],
+      noDataCount: [],
+      sampleCount: [],
     };
     data.sort((a, b) => (
       (DateTime.fromISO(a.interval.from) > DateTime.fromISO(b.interval.from))
@@ -103,6 +106,8 @@ export const parseStatAPIResponse = (requestJson, indicator) => {
         newData.referenceValue.push(
           `[null, ${stats.stDev}, ${stats.max}, ${stats.min}]`,
         );
+        newData.noDataCount.push(stats.noDataCount);
+        newData.sampleCount.push(stats.sampleCount);
       }
     });
     const ind = {
@@ -147,7 +152,8 @@ function evaluatePixel(samples) {
     data:  [index],
     dataMask: [samples.dataMask * validValue]
   }
-}`};
+}`;
+}
 
 
 export const evalScriptsDefinitions = Object.freeze({
@@ -259,11 +265,11 @@ const fetchCustomAreaObjects = async (
   // The requests for statistical api need to be split into multiple parallel requests
   // so splitting up the behavior here for that use case
   let customObjects = null;
-  if ('aggregation' in requestBody && 'timeRange' in requestBody.aggregation) {
+  if (requestBody && 'aggregation' in requestBody && 'timeRange' in requestBody.aggregation) {
     // Create data range chunks for requests
     // In order to get better performance we take the time information of the
     // indicator to fetch for the actual time interval available
-    const times = indicator.time.map(entry => DateTime.fromISO(entry));
+    const times = indicator.time.map((entry) => DateTime.fromISO(entry));
     const start = times[0];
     const end = times[times.length - 1];
     const format = "yyyy-MM-dd'T'HH:mm:ss'Z'";
