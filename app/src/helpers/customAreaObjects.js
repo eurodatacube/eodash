@@ -303,7 +303,7 @@ const fetchCustomAreaObjects = async (
     const timeoutDetected = allData.find((entry) => entry.status === 'rejected');
     if (timeoutDetected) {
       store.commit('sendAlert', {
-        message: 'There were some issues retrieving the data, possibly only partial results are shown',
+        message: 'There were some issues retrieving the data, possibly only partial results are shown. Please try the request again.',
         type: 'warning',
       });
     }
