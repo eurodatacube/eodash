@@ -147,7 +147,8 @@ function evaluatePixel(samples) {
     data:  [index],
     dataMask: [samples.dataMask * validValue]
   }
-}`};
+}`;
+}
 
 
 export const evalScriptsDefinitions = Object.freeze({
@@ -263,7 +264,7 @@ const fetchCustomAreaObjects = async (
     // Create data range chunks for requests
     // In order to get better performance we take the time information of the
     // indicator to fetch for the actual time interval available
-    const times = indicator.time.map(entry => DateTime.fromISO(entry));
+    const times = indicator.time.map((entry) => DateTime.fromISO(entry));
     const start = times[0];
     const end = times[times.length - 1];
     const format = "yyyy-MM-dd'T'HH:mm:ss'Z'";
