@@ -1,6 +1,6 @@
 {
   "name": "race-dashboard",
-  "image": "mcr.microsoft.com/vscode/devcontainers/typescript-node:0-14",
+  "image": "mcr.microsoft.com/vscode/devcontainers/typescript-node:0-16",
   "postAttachCommand": [
     "npm",
     "--prefix",
@@ -37,6 +37,6 @@
       ]
     }
   },
-  "postCreateCommand": "npm install",
+  "postCreateCommand": "npm --prefix ./app/ install",
   "forwardPorts": [8080]
 }
