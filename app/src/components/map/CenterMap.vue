@@ -273,6 +273,10 @@ export default {
      * optional options for special layer.
      */
     specialLayerOptions() {
+      console.log('==========');
+      console.log('re-computed special layer options');
+      console.log(this.dataLayerTimeProp);
+      console.log(this.dataLayerTime.value);
       return {
         // time: this.dataLayerTimeProp || this.dataLayerTime,
         time: this.dataLayerTimeProp || this.dataLayerTime.value,
@@ -285,9 +289,6 @@ export default {
         this.indicator,
         this.mergedConfigsData, // TODO do we really need to pass the config here?
       );
-    },
-    selectedTime() {
-      return this.$store.state.indicators.selectedTime;
     },
     dataLayerName() {
       if (this.mergedConfigsData?.length) {
@@ -372,7 +373,7 @@ export default {
         });
       },
     },
-    selectedTime(value) {
+    dataLayerTime(timeObj) {
       // redraw all time-dependant layers, if time is passed via WMS params
       const { map } = getMapInstance(this.mapId);
       const layers = map.getLayers().getArray();
@@ -381,13 +382,9 @@ export default {
         .forEach((config) => {
           const layer = layers.find((l) => l.get('name') === config.name);
           if (layer) {
-            updateTimeLayer(layer, config, value);
+            updateTimeLayer(layer, config, timeObj.value);
           }
         });
-    },
-    dataLayerTime(timeObj) {
-      this.$store.commit('indicators/SET_SELECTED_TIME', timeObj.value);
-      // this.updateSelectedAreaFeature();
     },
     displayTimeSelection(value) {
       if (!value) {
@@ -454,7 +451,7 @@ export default {
     // TODO: Extract fetchData method into helper file since it needs to be used from outside.
     window.addEventListener(
       'fetch-custom-area-chart',
-      (e) => this.fetchData({type: 'customIndicator'}),
+      () => this.fetchData({ type: 'customIndicator' }),
       false,
     );
   },
