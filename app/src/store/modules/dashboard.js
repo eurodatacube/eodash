@@ -11,7 +11,6 @@ const getters = {
   features(state) {
     if (!state.dashboardConfig) { return null; }
 
-
     return state.dashboardConfig.features;
   },
 };
@@ -29,7 +28,6 @@ const mutations = {
   },
   ADD_API(state, api) {
     if (!api) { return; }
-
 
     api.on('edit', (dto) => {
       dto.features = dto.features.map((f) => { // eslint-disable-line
@@ -89,7 +87,6 @@ const mutations = {
 
     if (index === -1 || index === 0) { return; }
 
-
     const temp = { ...state.dashboardConfig.features[index - 1] };
     Vue.set(state.dashboardConfig.features, index - 1, state.dashboardConfig.features[index]);
     Vue.set(state.dashboardConfig.features, index, temp);
@@ -97,7 +94,6 @@ const mutations = {
   MOVE_FEATURE_DOWN(state, { poi }) {
     const index = state.dashboardConfig.features.findIndex((e) => e.poi === poi);
     if (index === -1 || index === state.dashboardConfig.features.length - 1) { return; }
-
 
     const temp = { ...state.dashboardConfig.features[index + 1] };
     Vue.set(state.dashboardConfig.features, index + 1, state.dashboardConfig.features[index]);
@@ -107,20 +103,17 @@ const mutations = {
     const index = state.dashboardConfig.features.findIndex((e) => e.poi === poi);
     if (index === -1) { return; }
 
-
     Vue.set(state.dashboardConfig.features[index], 'title', newTitle);
   },
   CHANGE_FEATURE_MAP_INFO(state, { poi, mapInfo }) {
     const index = state.dashboardConfig.features.findIndex((e) => e.poi === poi);
     if (index === -1) { return; }
 
-
     Vue.set(state.dashboardConfig.features[index], 'mapInfo', mapInfo);
   },
   CHANGE_FEATURE_TEXT(state, { poi, text }) {
     const index = state.dashboardConfig.features.findIndex((e) => e.poi === poi);
     if (index === -1) { return; }
-
 
     Vue.set(state.dashboardConfig.features[index], 'text', text);
   },
@@ -139,7 +132,7 @@ const mutations = {
 const actions = {
   exists: ({
     state,
-  }, { poi }) => !!(state ?. dashboardConfig ?. features ?. find((feature) => feature.poi === poi)),
+  }, { poi }) => !!(state?.dashboardConfig?.features?.find((feature) => feature.poi === poi)),
   addFeature( // eslint-disable-line
     {
       commit,
@@ -153,7 +146,6 @@ const actions = {
       return state.api.addFeature(f);
     }
 
-
     commit('ADD_FEATURE', f);
   },
   removeFeature( // eslint-disable-line
@@ -165,7 +157,6 @@ const actions = {
   ) {
     if (state.api) { return state.api.removeFeature(f.poi); }
 
-
     commit('REMOVE_FEATURE', f);
   },
   changeTitle( // eslint-disable-line
@@ -176,7 +167,6 @@ const actions = {
     t,
   ) {
     if (state.api) { return state.api.changeTitle(t); }
-
 
     commit('CHANGE_TITLE', t);
   },
@@ -200,7 +190,6 @@ const actions = {
         return newF;
       })).then((response) => {
         if (response.error) { reject(response); }
-
 
         response.features = response.features.map((f) => { // eslint-disable-line
           const newF = { ...f };
@@ -246,7 +235,6 @@ const actions = {
   ) {
     if (state.api) { return state.api.shrinkFeature(f.poi); }
 
-
     commit('RESIZE_FEATURE_SHRINK', f);
   },
   resizeFeatureExpand( // eslint-disable-line
@@ -257,7 +245,6 @@ const actions = {
     f,
   ) {
     if (state.api) { return state.api.expandFeature(f.poi); }
-
 
     commit('RESIZE_FEATURE_EXPAND', f);
   },
@@ -270,7 +257,6 @@ const actions = {
   ) {
     if (state.api) { return state.api.moveFeatureUp(f.poi); }
 
-
     commit('MOVE_FEATURE_UP', f);
   },
   moveFeatureDown( // eslint-disable-line
@@ -282,7 +268,6 @@ const actions = {
   ) {
     if (state.api) { return state.api.moveFeatureDown(f.poi); }
 
-
     commit('MOVE_FEATURE_DOWN', f);
   },
   changeFeatureTitle( // eslint-disable-line
@@ -293,7 +278,6 @@ const actions = {
     { poi, newTitle },
   ) {
     if (state.api) { return state.api.changeFeatureTitle(poi, newTitle); }
-
 
     commit('CHANGE_FEATURE_TITLE', { poi, newTitle });
   },
@@ -309,7 +293,6 @@ const actions = {
   ) {
     if (state.api) { return state.api.changeFeatureMapInfo(poi, mapInfo); }
 
-
     commit('CHANGE_FEATURE_MAP_INFO', { poi, mapInfo });
   },
   changeFeatureText( // eslint-disable-line
@@ -321,14 +304,12 @@ const actions = {
   ) {
     if (state.api) { return state.api.changeFeatureText(poi, text); }
 
-
     commit('CHANGE_FEATURE_TEXT', { poi, text });
   },
   disconnect(
     { state, commit },
   ) {
     if (state.api) { state.api.disconnect(); }
-
 
     commit('NULLIFY');
   },
@@ -344,7 +325,6 @@ const actions = {
     const response = await state.api.listen(id, editKey);
 
     if (response.error) { throw response; }
-
 
     response.features = response.features.map((f) => {
       const newF = { ...f };

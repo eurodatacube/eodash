@@ -20,7 +20,6 @@ const vuexLocal = new VuexPersistence({
   filter: (mutation) => !(mutation.type === 'dashboard/SET' && !mutation?.payload?.editKey),
 });
 
-
 Vue.use(Vuex);
 
 const store = new Vuex.Store({

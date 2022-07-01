@@ -11,23 +11,23 @@ jobs:
 
     steps:
 
-    # Checkout code including submodule
-    - uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.REPOSITORY_READ_TOKEN }}
-        submodules: true
+    # Checkout code
+    - uses: actions/checkout@v3
 
     # Install node
     - name: Setup Node
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
-        node-version: '12.x'
+        node-version: '16'
+        registry-url: 'https://registry.npmjs.org'
+        cache: 'npm'
+        cache-dependency-path: app/package-lock.json
 
     # Install dependencies
     - name: Install dependencies
       run: |
         cd app/
-        npm install --prefer-offline --no-audit
+        npm ci --ignore-scripts
 
     # Run linter
     - name: Run linter

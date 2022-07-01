@@ -689,7 +689,6 @@ export const replaceMapTimes = {
 
 const wkt = new Wkt();
 
-
 export const globalIndicators = [
   /*
   {
