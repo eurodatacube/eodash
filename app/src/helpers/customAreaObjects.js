@@ -155,7 +155,6 @@ function evaluatePixel(samples) {
 }`;
 }
 
-
 export const evalScriptsDefinitions = Object.freeze({
   'AWS_NO2-VISUALISATION': defaultEvalScriptDef('tropno2'),
   AWS_CH4_WEEKLY_DATA: defaultEvalScriptDef('ch4'),

@@ -59,7 +59,6 @@ import {
 
 import CountryFlag from 'vue-country-flag';
 
-
 export default {
   components: {
     CountryFlag,
