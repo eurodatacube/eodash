@@ -190,9 +190,17 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'US01-E13c',
-        src: './data/trilateral/Slide27.png',
-        indicator: 'E13c',
+        poi: 'FR02-N5',
+        src: './data/trilateral/nightlights.png',
+        indicator: 'N5',
+      },
+      {
+        poi: 'W10-SITI',
+        src: './data/trilateral/seaice.png',
+      },
+      {
+        poi: 'NPP-NPP',
+        src: './data/trilateral/npp.png',
       },
       {
         poi: 'WSF-WSF',
@@ -203,16 +211,13 @@ module.exports = [
         src: './eodash-data/general/TROPOMI-SO2.png',
       },
       {
-        poi: 'W7-FB',
-        src: './data/trilateral/Slide21.png',
-      },
-      {
-        poi: 'W2-N1',
-        src: './data/trilateral/Slide19.png',
+        poi: 'World-E10e',
+        src: './data/trilateral/ndvi.png',
       },
     ],
     customCountryList: [
       { code: 'US', region: 'NORTH AMERICA' },
+      { code: 'PR', region: 'NORTH AMERICA' },
       { code: 'BE', region: 'EUROPE' },
       { code: 'HR', region: 'EUROPE' },
       { code: 'FR', region: 'EUROPE' },
