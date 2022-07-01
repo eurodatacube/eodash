@@ -449,6 +449,14 @@ export default {
       const center = evt.target.getCenter();
       this.currentCenter = { lat: center[0], lng: center[1] };
     });
+
+    // Fetch data for custom chart if the event is fired.
+    // TODO: Extract fetchData method into helper file since it needs to be used from outside.
+    window.addEventListener(
+      'fetch-custom-area-chart',
+      (e) => this.fetchData({type: 'customIndicator'}),
+      false,
+    );
   },
   methods: {
     overlayCallback(headers, rows, coordinate) {
@@ -521,7 +529,14 @@ export default {
       const usedTime = side === 'data'
         ? this.dataLayerTime
         : this.compareLayerTime;
-      this.customAreaLoading = true;
+
+      if (type === 'customFeatures') {
+        this.customAreaLoading = true;
+      }
+
+      // TODO: Extract fetchData method into helper file since it needs to be used from outside.
+      window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: true }));
+
       try {
         if (type === 'customFeatures' || type === 'customIndicator') {
           if (type === 'customFeatures' && !this.mergedConfigsData[0]?.features) {
@@ -549,8 +564,12 @@ export default {
           }
         }
         this.customAreaLoading = false;
+        // TODO: Extract fetchData method into helper file since it needs to be used from outside.
+        window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
       } catch (err) {
         this.customAreaLoading = false;
+        // TODO: Extract fetchData method into helper file since it needs to be used from outside.
+        window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
         if (type === 'customFeatures') {
           // todo: this.updateJsonLayers(emptyF, side);
         } else if (type === 'customIndicator') {
