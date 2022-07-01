@@ -43,6 +43,7 @@
       :mapId="mapId"
       :time="compareLayerTime.value"
       :mergedConfigsData="mergedConfigsData[0]"
+      :specialLayerOptionProps="specialLayerOptions"
       :enable="enableCompare"
       @updateSwipePosition="updateSwipePosition"
       :key="dataLayerName + '_layerSwipe'"
@@ -61,6 +62,18 @@
       :key="mergedConfigsData[0].name + '_timeSelection'"
       @focusSelect="focusSelect"
     />
+    <v-card class="dashboard-button">
+      <AddToDashboardButton
+        class="primary--text"
+        v-if="mapId === 'centerMap' && indicator"
+        :indicatorObject="indicator"
+        :zoom="currentZoom"
+        :center="currentCenter"
+        :datalayertime="null"
+        :comparelayertime="null"
+
+        />
+    </v-card>
     <!-- an overlay for showing information when hovering over clusters -->
     <MapOverlay
       :mapId="mapId"
@@ -106,13 +119,14 @@ import CustomAreaButtons from '@/components/map/CustomAreaButtons.vue';
 import getMapInstance from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
+import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 import { updateTimeLayer } from '@/components/map/timeLayerUtils';
 import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
 } from '@/helpers/mapConfig';
 import GeoJSON from 'ol/format/GeoJSON';
-import { transformExtent } from 'ol/proj';
+import { fromLonLat, transformExtent } from 'ol/proj';
 import fetchCustomAreaObjects from '@/helpers/customAreaObjects';
 
 const geoJsonFormat = new GeoJSON({
@@ -128,6 +142,7 @@ export default {
     CustomAreaButtons,
     InverseSubaoiLayer,
     MapOverlay,
+    AddToDashboardButton,
   },
   props: {
     mapId: {
@@ -150,6 +165,22 @@ export default {
       type: Object,
       default: undefined,
     },
+    dataLayerTimeProp: {
+      type: String,
+      default: undefined,
+    },
+    compareLayerTimeProp: {
+      type: String,
+      default: undefined,
+    },
+    centerProp: {
+      type: Object,
+      default: undefined,
+    },
+    zoomProp: {
+      type: Number,
+      default: undefined,
+    },
   },
   data() {
     return {
@@ -161,6 +192,8 @@ export default {
         indicator: '',
         description: '',
       },
+      currentZoom: null,
+      currentCenter: null,
       dataLayerTime: null,
       compareLayerTime: null,
       enableCompare: false,
@@ -238,18 +271,14 @@ export default {
     },
     /**
      * optional options for special layer.
-     * only needed for dashboard
      */
     specialLayerOptions() {
-      if (this.currentIndicator) {
-        return {
-          // to do: get initial time for saved dashboard item
-          time: this.indicator.time,
-          indicator: this.indicator.indicator,
-          aoiId: this.indicator.aoiID,
-        };
-      }
-      return {};
+      return {
+        // time: this.dataLayerTimeProp || this.dataLayerTime,
+        time: this.dataLayerTimeProp || this.dataLayerTime.value,
+        indicator: this.indicator.indicator,
+        aoiId: this.indicator.aoiID || this.indicator.aoiId, // to do: check this discrepency
+      };
     },
     availableTimeEntries() {
       return createAvailableTimeEntries(
@@ -272,7 +301,8 @@ export default {
     indicatorsDefinition: () => this.baseConfig.indicatorsDefinition,
     // extent to be zoomed to. Padding will be applied.
     zoomExtent() {
-      if (!this.indicator?.subAoi?.features && !this.mergedConfigsData[0]?.presetView) {
+      if ((this.centerProp && this.zoomProp)
+          || (!this.indicator?.subAoi?.features && !this.mergedConfigsData[0]?.presetView)) {
         return null;
       }
       const { subAoi } = this.indicator;
@@ -367,6 +397,22 @@ export default {
     drawnArea() {
       // this.updateSelectedAreaFeature();
     },
+    dataLayerTimeProp: {
+      immediate: true,
+      deep: true,
+      handler(v) {
+        // only defined for customDashBoard
+        if (v) this.dataLayerTime = this.availableTimeEntries.find((item) => item.name === v);
+      },
+    },
+    compareLayerTimeProp: {
+      immediate: true,
+      deep: true,
+      handler(v) {
+        // only defined for customDashBoard
+        if (v) this.compareLayertime = this.availableTimeEntries.find((item) => item.name === v);
+      },
+    },
     zoomExtent: {
       deep: true,
       immediate: true,
@@ -391,7 +437,18 @@ export default {
       cluster.setFeatures(this.getFeatures);
     }
     this.loaded = true;
-    getMapInstance(this.mapId).map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
+    const { map } = getMapInstance(this.mapId);
+    map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
+    const view = map.getView();
+    if (this.centerProp && this.zoomProp) {
+      view.setCenter(fromLonLat([this.centerProp.lng, this.centerProp.lat]));
+      view.setZoom(this.zoomProp);
+    }
+    view.on('change', (evt) => {
+      this.currentZoom = evt.target.getZoom();
+      const center = evt.target.getCenter();
+      this.currentCenter = { lat: center[0], lng: center[1] };
+    });
   },
   methods: {
     overlayCallback(headers, rows, coordinate) {
@@ -540,14 +597,22 @@ export default {
 </script>
 <style lang="scss" scoped>
 
-.map-legend {
-  max-width: 15vw;
-  transition: max-width 0.5s ease-in-out;
-  cursor: pointer;
-  float: right;
-}
-.map-legend-expanded {
-  width: initial;
-  max-width: 80%;
-}
+  .map-legend {
+    max-width: 15vw;
+    transition: max-width 0.5s ease-in-out;
+    cursor: pointer;
+    float: right;
+  }
+  .map-legend-expanded {
+    width: initial;
+    max-width: 80%;
+  }
+
+  .dashboard-button {
+    position: absolute !important;
+    //height: 20px !important;
+    top: 10px;
+    right: 45px;
+    z-index: 20 !important;
+  }
 </style>

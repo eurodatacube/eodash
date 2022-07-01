@@ -6,10 +6,10 @@
   >
     <!-- a comparelayer for a selected global poi with a time component -->
     <SpecialLayer
-      mapId="centerMap"
+      :mapId="mapId"
       :mergedConfig="mergedConfigsData"
       :layerName="swipeLayerName"
-      :options="{time: time}"
+      :options="specialLayerOptions"
       :swipePixelX="swipePixelX"
     />
     <slot name="close"></slot>
@@ -41,6 +41,7 @@ export default {
   props: {
     mapId: String,
     mergedConfigsData: Object,
+    specialLayerOptionProps: Object,
     time: {
       required: true,
     },
@@ -60,6 +61,11 @@ export default {
     },
     originalLayerName() {
       return this.mergedConfigsData.name;
+    },
+    specialLayerOptions() {
+      const options = { ...this.specialLayerOptionProps };
+      options.time = this.time;
+      return options;
     },
   },
   watch: {
@@ -117,11 +123,9 @@ export default {
     },
     time(time) {
       // redraw all time-dependant layers, if time is passed via WMS params
-      const { map } = getMapInstance('centerMap');
+      const { map } = getMapInstance(this.mapId);
       const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
-      if (swipeLayer) {
-        updateTimeLayer(swipeLayer, this.mergedConfigsData, time);
-      }
+      updateTimeLayer(swipeLayer, this.mergedConfigsData, time);
     },
   },
   methods: {

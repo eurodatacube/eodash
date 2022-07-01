@@ -64,7 +64,6 @@ export default {
     const { map } = getMapInstance(this.mapId);
     const options = { ...this.options };
     options.zIndex = 3;
-    // in the dashboard, we need time, indicator and aoiId
     const layer = createLayerFromConfig(this.mergedConfig, options);
     layer.set('name', this.layerName);
     const { presetView } = this.mergedConfig;

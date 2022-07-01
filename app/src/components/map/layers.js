@@ -196,10 +196,9 @@ export function createLayerFromConfig(config, _options = {}) {
       }
     });
     if (config.usedTimes?.time?.length) {
-      const time = options.time || store.state.indicators.selectedTime;
-      params.time = config.dateFormatFunction(time);
+      params.time = config.dateFormatFunction(options.time);
       if (config.specialEnvTime) {
-        params.env = `year:${time}`;
+        params.env = `year:${params.time}`;
       }
     }
 
