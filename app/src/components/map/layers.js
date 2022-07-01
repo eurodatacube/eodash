@@ -68,7 +68,7 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
   url = url.replace(/{time}/i, config.dateFormatFunction(time));
   url = url.replace(/{indicator}/gi, indicator);
   url = url.replace(/{aoiID}/gi, aoiId);
-  if (config.features) {
+  if (config.features && config.features.dateFormatFunction) {
     url = url.replace(/{featuresTime}/i, config.features.dateFormatFunction(time));
   }
   if (config.siteMapping) {
