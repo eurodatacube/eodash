@@ -71,8 +71,7 @@
         :center="currentCenter"
         :datalayertime="null"
         :comparelayertime="null"
-
-        />
+      />
     </v-card>
     <!-- an overlay for showing information when hovering over clusters -->
     <MapOverlay
@@ -126,7 +125,7 @@ import {
   createAvailableTimeEntries,
 } from '@/helpers/mapConfig';
 import GeoJSON from 'ol/format/GeoJSON';
-import { fromLonLat, transformExtent } from 'ol/proj';
+import { fromLonLat, toLonLat, transformExtent } from 'ol/proj';
 import fetchCustomAreaObjects from '@/helpers/customAreaObjects';
 
 const geoJsonFormat = new GeoJSON({
@@ -273,10 +272,6 @@ export default {
      * optional options for special layer.
      */
     specialLayerOptions() {
-      console.log('==========');
-      console.log('re-computed special layer options');
-      console.log(this.dataLayerTimeProp);
-      console.log(this.dataLayerTime.value);
       return {
         // time: this.dataLayerTimeProp || this.dataLayerTime,
         time: this.dataLayerTimeProp || this.dataLayerTime.value,
@@ -374,17 +369,25 @@ export default {
       },
     },
     dataLayerTime(timeObj) {
-      // redraw all time-dependant layers, if time is passed via WMS params
-      const { map } = getMapInstance(this.mapId);
-      const layers = map.getLayers().getArray();
+      if (timeObj) {
+        // redraw all time-dependant layers, if time is passed via WMS params
+        const { map } = getMapInstance(this.mapId);
+        const layers = map.getLayers().getArray();
 
-      this.mergedConfigsData.filter((config) => config.usedTimes?.time?.length)
-        .forEach((config) => {
-          const layer = layers.find((l) => l.get('name') === config.name);
-          if (layer) {
-            updateTimeLayer(layer, config, timeObj.value);
-          }
-        });
+        this.mergedConfigsData.filter((config) => config.usedTimes?.time?.length)
+          .forEach((config) => {
+            const layer = layers.find((l) => l.get('name') === config.name);
+            if (layer) {
+              updateTimeLayer(layer, config, timeObj.value);
+            }
+          });
+        this.$emit('update:datalayertime', timeObj.value);
+      }
+    },
+    compareLayerTime(timeObj) {
+      if (timeObj) {
+        this.$emit('update:comparelayertime', timeObj.value);
+      }
     },
     displayTimeSelection(value) {
       if (!value) {
@@ -416,7 +419,7 @@ export default {
       handler(value) {
       // when the calculated zoom extent changes, zoom the map to the new extent.
       // this is purely cosmetic and does not limit the ability to pan or zoom
-        if (value) {
+        if (value && !(this.centerProp || this.zoomProp)) {
           const { map } = getMapInstance(this.mapId);
           if (map.getTargetElement()) {
             map.getView().fit(value);
@@ -443,8 +446,8 @@ export default {
     }
     view.on('change', (evt) => {
       this.currentZoom = evt.target.getZoom();
-      const center = evt.target.getCenter();
-      this.currentCenter = { lat: center[0], lng: center[1] };
+      const center = toLonLat(evt.target.getCenter());
+      this.currentCenter = { lng: center[0], lat: center[1] };
     });
 
     // Fetch data for custom chart if the event is fired.
@@ -469,12 +472,6 @@ export default {
           ],
         };
       }
-    },
-    dataLayerTimeUpdated(time) {
-      this.$emit('update:datalayertime', time);
-    },
-    compareLayerTimeUpdated(time) {
-      this.$emit('update:comparelayertime', time);
     },
     updateSelectedAreaFeature() {
       if (this.drawnArea.area) {
