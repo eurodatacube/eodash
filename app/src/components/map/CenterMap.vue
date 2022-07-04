@@ -381,7 +381,14 @@ export default {
               updateTimeLayer(layer, config, timeObj.value);
             }
           });
+        this.$emit('update:datalayertime', timeObj.name);
       }
+    },
+    enableCompare(enabled) {
+      this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);
+    },
+    compareLayerTime(timeObj) {
+      this.$emit('update:comparelayertime', this.enableCompare ? timeObj.name : null);
     },
     displayTimeSelection(value) {
       if (!value) {
@@ -438,11 +445,16 @@ export default {
       this.currentZoom = evt.target.getZoom();
       const center = toLonLat(evt.target.getCenter());
       this.currentCenter = { lng: center[0], lat: center[1] };
+      // these events are emitted to save changed made in the dashboard via the
+      // "save map configuration" button
+      this.$emit('update:center', this.currentCenter);
+      this.$emit('update:zoom', this.currentZoom);
     });
     if (this.centerProp && this.zoomProp) {
       view.setCenter(fromLonLat([this.centerProp.lng, this.centerProp.lat]));
       view.setZoom(this.zoomProp);
     }
+    this.$emit('ready', true);
 
     // Fetch data for custom chart if the event is fired.
     // TODO: Extract fetchData method into helper file since it needs to be used from outside.
