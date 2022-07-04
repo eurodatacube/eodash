@@ -69,8 +69,8 @@
         :indicatorObject="indicator"
         :zoom="currentZoom"
         :center="currentCenter"
-        :datalayertime="null"
-        :comparelayertime="null"
+        :datalayertime="dataLayerTime ? dataLayerTime.name :  null"
+        :comparelayertime="compareLayerTime ? compareLayerTime.name : null"
       />
     </v-card>
     <!-- an overlay for showing information when hovering over clusters -->
@@ -381,12 +381,6 @@ export default {
               updateTimeLayer(layer, config, timeObj.value);
             }
           });
-        this.$emit('update:datalayertime', timeObj.value);
-      }
-    },
-    compareLayerTime(timeObj) {
-      if (timeObj) {
-        this.$emit('update:comparelayertime', timeObj.value);
       }
     },
     displayTimeSelection(value) {
@@ -422,9 +416,9 @@ export default {
         if (value && !(this.centerProp || this.zoomProp)) {
           const { map } = getMapInstance(this.mapId);
           if (map.getTargetElement()) {
-            map.getView().fit(value);
-          } else {
-            map.once('change:target', () => { map.getView().fit(value); });
+            map.getView().fit(value, {
+              padding: [30, 30, 30, 30],
+            });
           }
         }
       },
@@ -440,15 +434,15 @@ export default {
     const { map } = getMapInstance(this.mapId);
     map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
     const view = map.getView();
-    if (this.centerProp && this.zoomProp) {
-      view.setCenter(fromLonLat([this.centerProp.lng, this.centerProp.lat]));
-      view.setZoom(this.zoomProp);
-    }
-    view.on('change', (evt) => {
+    view.on(['change:center', 'change:resolution'], (evt) => {
       this.currentZoom = evt.target.getZoom();
       const center = toLonLat(evt.target.getCenter());
       this.currentCenter = { lng: center[0], lat: center[1] };
     });
+    if (this.centerProp && this.zoomProp) {
+      view.setCenter(fromLonLat([this.centerProp.lng, this.centerProp.lat]));
+      view.setZoom(this.zoomProp);
+    }
 
     // Fetch data for custom chart if the event is fired.
     // TODO: Extract fetchData method into helper file since it needs to be used from outside.
