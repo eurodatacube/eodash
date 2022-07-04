@@ -69,7 +69,9 @@ export default {
     const { presetView } = this.mergedConfig;
     if (presetView?.features?.length) {
       const presetGeom = geoJsonFormat.readGeometry(presetView.features[0].geometry);
-      map.getView().fit(presetGeom.getExtent());
+      map.getView().fit(presetGeom.getExtent(), {
+        padding: [30, 30, 30, 30],
+      });
     }
     let featureLayer;
     if (layer instanceof LayerGroup) {
