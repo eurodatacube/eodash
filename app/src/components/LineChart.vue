@@ -18,7 +18,7 @@ export default {
       handler() {
         this.render();
       },
-      deep: true,
+      // deep: true,
     },
   },
   data() {
