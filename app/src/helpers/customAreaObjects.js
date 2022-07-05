@@ -31,8 +31,8 @@ export const statisticalApiBody = (evalscript, type, timeinterval) => ({
     },
     aggregation: {
       timeRange: {
-        from: '1900-01-01T00:00:00Z',
-        to: '2040-12-01T00:00:00Z',
+        from: '1995-01-01T00:00:00Z',
+        to: '2023-12-01T00:00:00Z',
       },
       aggregationInterval: {
         of: timeinterval || 'P1D',
@@ -88,6 +88,9 @@ export const parseStatAPIResponse = (requestJson, indicator) => {
       measurement: [],
       referenceValue: [],
       colorCode: [],
+      sampleSize: [],
+      noDataCount: [],
+      sampleCount: [],
     };
     data.sort((a, b) => (
       (DateTime.fromISO(a.interval.from) > DateTime.fromISO(b.interval.from))
@@ -103,6 +106,8 @@ export const parseStatAPIResponse = (requestJson, indicator) => {
         newData.referenceValue.push(
           `[null, ${stats.stDev}, ${stats.max}, ${stats.min}]`,
         );
+        newData.noDataCount.push(stats.noDataCount);
+        newData.sampleCount.push(stats.sampleCount);
       }
     });
     const ind = {
@@ -114,142 +119,63 @@ export const parseStatAPIResponse = (requestJson, indicator) => {
   return null;
 };
 
+function defaultEvalScriptDef(bandname) {
+  return `//VERSION=3
+function setup() {
+  return {
+    input: [{
+      bands: [
+        "${bandname}",
+        "dataMask"
+      ]
+    }],
+    output: [
+      {
+        id: "data",
+        bands: 1,
+        sampleType: "FLOAT32"
+      },
+      {
+        id: "dataMask",
+        bands: 1
+      }
+    ]
+  }
+}
+function evaluatePixel(samples) {
+  let validValue = 1
+  if (samples.${bandname} >= 1e20 ){
+      validValue = 0
+  }
+  let index = samples.${bandname};
+  return {
+    data:  [index],
+    dataMask: [samples.dataMask * validValue]
+  }
+}`;
+}
+
 export const evalScriptsDefinitions = Object.freeze({
-  'AWS_NO2-VISUALISATION':
-    `//VERSION=3
-    function setup() {
-      return {
-        input: [{
-          bands: [
-            "tropno2",
-            "dataMask"
-          ]
-        }],
-        output: [
-          {
-            id: "data",
-            bands: 1,
-            sampleType: "FLOAT32"
-          },
-          {
-            id: "dataMask",
-            bands: 1
-          }
-        ]
-      }
-    }
-    function evaluatePixel(samples) {
-      let validValue = 1
-      if (samples.tropno2 >= 1e20 ){
-          validValue = 0
-      }
-      let index = samples.tropno2;
-      return {
-        data:  [index],
-        dataMask: [samples.dataMask * validValue]
-      }
-    }`,
-  AWS_VIS_SO2_DAILY_DATA:
-    `//VERSION=3
-    function setup() {
-      return {
-        input: [{
-          bands: [
-            "so2",
-            "dataMask"
-          ]
-        }],
-        output: [
-          {
-            id: "data",
-            bands: 1,
-            sampleType: "FLOAT32"
-          },
-          {
-            id: "dataMask",
-            bands: 1
-          }
-        ]
-      }
-    }
-    function evaluatePixel(samples) {
-      let validValue = 1
-      if (samples.so2 >= 1e20 ){
-          validValue = 0
-      }
-      let index = samples.so2;
-      return {
-        data: [index],
-        dataMask: [samples.dataMask * validValue]
-      }
-    }`,
-  BICEP_NPP_VIS_PP:
-    `//VERSION=3
-    function setup() {
-      return {
-        input: [{
-          bands: [
-            "pp",
-            "dataMask"
-          ]
-        }],
-        output: [
-          {
-            id: "data",
-            bands: 1,
-          },
-          {
-            id: "dataMask",
-            bands: 1
-          }
-        ]
-      }
-    }
-    function evaluatePixel(samples) {
-      let validValue = 1
-      if (samples.pp >= 1e20 ){
-          validValue = 0
-      }
-      let index = samples.pp;
-      return {
-        data: [index],
-        dataMask: [samples.dataMask * validValue]
-      }
-    }`,
-  AWS_VIS_CO_3DAILY_DATA:
-    `//VERSION=3
-    function setup() {
-      return {
-        input: [{
-          bands: [
-            "co",
-            "dataMask"
-          ]
-        }],
-        output: [
-          {
-            id: "data",
-            bands: 1,
-          },
-          {
-            id: "dataMask",
-            bands: 1
-          }
-        ]
-      }
-    }
-    function evaluatePixel(samples) {
-      let validValue = 1
-      if (samples.co >= 1e20 ){
-          validValue = 0
-      }
-      let index = samples.co;
-      return {
-        data: [index],
-        dataMask: [samples.dataMask * validValue]
-      }
-    }`,
+  'AWS_NO2-VISUALISATION': defaultEvalScriptDef('tropno2'),
+  AWS_CH4_WEEKLY_DATA: defaultEvalScriptDef('ch4'),
+  AWS_VIS_SO2_DAILY_DATA: defaultEvalScriptDef('so2'),
+  BICEP_NPP_VIS_PP: defaultEvalScriptDef('pp'),
+  AWS_VIS_CO_3DAILY_DATA: defaultEvalScriptDef('co'),
 });
+
+// Define custom fetch function with configurable timeout
+async function fetchWithTimeout(resource, options = {}) {
+  const { timeout = 20000 } = options;
+
+  const abortController = new AbortController();
+  const id = setTimeout(() => abortController.abort(), timeout);
+  const response = await fetch(resource, {
+    ...options,
+    signal: abortController.signal,
+  });
+  clearTimeout(id);
+  return response;
+}
 
 const fetchCustomAreaObjects = async (
   options,
@@ -258,6 +184,7 @@ const fetchCustomAreaObjects = async (
   mergedConfig,
   indicatorObject,
   lookup,
+  store,
 ) => {
   const indicator = indicatorObject;
   // add custom area if present
@@ -328,62 +255,127 @@ const fetchCustomAreaObjects = async (
     // Set the Authorization header using the Bearer token
     requestOpts.headers.Authorization = `Bearer ${accessToken}`;
   }
+  // This method takes care of all types of custom requests
+  //   - custom area request to NASA endpoint
+  //   - geodb request for truck detections?
+  //   - requests to statistical api
+  //   anything else?
 
-  const customObjects = await fetch(url, requestOpts).then((response) => {
-    if (!response.ok) {
-      return response.text().then((text) => { throw text; });
+  // The requests for statistical api need to be split into multiple parallel requests
+  // so splitting up the behavior here for that use case
+  let customObjects = null;
+  if (requestBody && 'aggregation' in requestBody && 'timeRange' in requestBody.aggregation) {
+    // Create data range chunks for requests
+    // In order to get better performance we take the time information of the
+    // indicator to fetch for the actual time interval available
+    const times = indicator.time.map((entry) => DateTime.fromISO(entry));
+    const start = times[0];
+    const end = times[times.length - 1];
+    const format = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    const step = {
+      days: 30 * 3,
+    };
+    let currentDate = start;
+    const requests = [];
+    // We dont want to modify the original request body, so we create a copy here
+    const requestBodyCopy = JSON.parse(JSON.stringify(requestBody));
+    while (currentDate < end) {
+      requestBodyCopy.aggregation.timeRange.from = currentDate.toFormat(format);
+      currentDate = DateTime.fromISO(currentDate.toFormat(format)).plus(step);
+      requestBodyCopy.aggregation.timeRange.to = currentDate.toFormat(format);
+      requestOpts.body = JSON.stringify(requestBodyCopy);
+      requests.push(fetchWithTimeout(url, requestOpts).then((res) => res.json()));
     }
-    return response.json();
-  })
-    .then((rwdata) => {
-      if (typeof mergedConfig[lookup].callbackFunction === 'function') {
-        // merge data from current indicator data and new data from api
-        // returns new indicator object to set as custom area indicator
-        return mergedConfig[lookup].callbackFunction(rwdata, indicator);
+    // Add last entry
+    requestBodyCopy.aggregation.timeRange.from = currentDate.toFormat(format);
+    requestBodyCopy.aggregation.timeRange.to = end.toFormat(format);
+    requestOpts.body = JSON.stringify(requestBodyCopy);
+    requests.push(fetch(url, JSON.parse(JSON.stringify(requestOpts))).then((res) => res.json()));
+
+    const allData = await Promise.allSettled(requests);
+    // Merge them together, for parsing
+    // TODO: Add check to see if partial result was returned as status
+    const status = 'OK';
+    const data = allData.map((entry) => {
+      let d = [];
+      // We take here fulfilled datasets, rejected status is probably from timeout
+      if (entry.status === 'fulfilled') {
+        d = entry.value.data;
       }
-      return rwdata;
+      return d;
+    }).flat();
+    // Check to see if there were rejected requests due to timeout
+    const timeoutDetected = allData.find((entry) => entry.status === 'rejected');
+    if (timeoutDetected) {
+      store.commit('sendAlert', {
+        message: 'There were some issues retrieving the data, possibly only partial results are shown. Please try the request again.',
+        type: 'warning',
+      });
+    }
+    const mergedData = {
+      status,
+      data,
+    };
+    if (typeof mergedConfig[lookup].callbackFunction === 'function') {
+      customObjects = mergedConfig[lookup].callbackFunction(mergedData, indicator);
+    }
+  } else {
+    customObjects = await fetch(url, requestOpts).then((response) => {
+      if (!response.ok) {
+        return response.text().then((text) => { throw text; });
+      }
+      return response.json();
     })
-    .then((newIndicator) => {
-      let custom = {};
-      if (newIndicator) {
-        if (drawnArea) {
-          custom.poi = drawnArea.coordinates.flat(Infinity).join('-');
-          custom.includesIndicator = true;
+      .then((rwdata) => {
+        if (typeof mergedConfig[lookup].callbackFunction === 'function') {
+          // merge data from current indicator data and new data from api
+          // returns new indicator object to set as custom area indicator
+          return mergedConfig[lookup].callbackFunction(rwdata, indicator);
         }
-        custom = {
-          ...newIndicator,
-          ...custom,
-        };
-      }
-      return custom;
-    })
-    .catch((error) => {
-      let errorMessage = error;
-      try {
-        errorMessage = JSON.parse(error).detail[0].msg;
-      } catch (parseError) {
-        console.log(parseError);
-      }
-      if (typeof errorMessage !== 'object') {
-        if (errorMessage.startsWith('<?xml')) {
-          // Lets extract the Service excepcion first
-          errorMessage = errorMessage.slice(
-            errorMessage.indexOf('<ServiceException>') + 18,
-            errorMessage.indexOf('</ServiceException>'),
-          );
-          // now we remove the rest
-          errorMessage = errorMessage.slice(
-            errorMessage.indexOf('<![CDATA[') + 9,
-            errorMessage.indexOf(']]>'),
-          );
+        return rwdata;
+      })
+      .then((newIndicator) => {
+        let custom = {};
+        if (newIndicator) {
+          if (drawnArea) {
+            custom.poi = drawnArea.coordinates.flat(Infinity).join('-');
+            custom.includesIndicator = true;
+          }
+          custom = {
+            ...newIndicator,
+            ...custom,
+          };
         }
-        // If it is neither a JSON nor an XML we output the body
-        throw Error(errorMessage);
-      } else {
-        // If error message is an object it is probably the returned html
-        console.log('Possible issue retrieving geoJSON for specified time');
-      }
-    });
+        return custom;
+      })
+      .catch((error) => {
+        let errorMessage = error;
+        try {
+          errorMessage = JSON.parse(error).detail[0].msg;
+        } catch (parseError) {
+          console.log(parseError);
+        }
+        if (typeof errorMessage !== 'object') {
+          if (errorMessage.startsWith('<?xml')) {
+            // Lets extract the Service excepcion first
+            errorMessage = errorMessage.slice(
+              errorMessage.indexOf('<ServiceException>') + 18,
+              errorMessage.indexOf('</ServiceException>'),
+            );
+            // now we remove the rest
+            errorMessage = errorMessage.slice(
+              errorMessage.indexOf('<![CDATA[') + 9,
+              errorMessage.indexOf(']]>'),
+            );
+          }
+          // If it is neither a JSON nor an XML we output the body
+          throw Error(errorMessage);
+        } else {
+          // If error message is an object it is probably the returned html
+          console.log('Possible issue retrieving geoJSON for specified time');
+        }
+      });
+  }
   return customObjects;
 };
 

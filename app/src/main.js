@@ -221,18 +221,17 @@ const renderVue = async () => {
   }).$mount('#app');
 };
 
-if (store.state.dashboard ?. dashboardConfig ?. id) {
+if (store.state.dashboard?.dashboardConfig?.id) {
   store.commit('dashboard/ADD_API', customDashboardApiFactory());
 
-  const id = store.state.dashboard ?. dashboardConfig ?. id;
-  const editKey = store.state.dashboard ?. dashboardConfig ?. editKey;
+  const id = store.state.dashboard?.dashboardConfig?.id;
+  const editKey = store.state.dashboard?.dashboardConfig?.editKey;
 
   store.state.dashboard.api.listen(id, editKey).then((response) => {
     if (response.error) {
       console.error(response);
       store.commit('dashboard/disconnect');
     }
-
 
     response.features = response.features.map((f) => { // eslint-disable-line
       const newF = { ...f };

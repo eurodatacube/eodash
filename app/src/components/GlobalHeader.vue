@@ -253,7 +253,6 @@
       </v-btn>
     </span>
 
-
     <template v-if="$vuetify.breakpoint.mdAndUp">
       <v-btn
         v-if="$route.name != 'explore' && (appConfig && appConfig.enableStories)"

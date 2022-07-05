@@ -18,7 +18,6 @@ export default {
       handler() {
         this.render();
       },
-      deep: true,
     },
   },
   data() {
@@ -69,7 +68,7 @@ export default {
                   datasetIndex: meta.index,
                 };
               }, this);
-              if (!this.options.sameYearComparison) {
+              if (!this.options.sameYearComparison && this.options.country !== 'all') {
                 labelObjects.push({
                   text: 'Low Restrictions',
                   fillStyle: 'rgba(204, 143, 143, 0.24)',

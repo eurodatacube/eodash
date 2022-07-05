@@ -1,4 +1,38 @@
 {
+    "AWS_CH4_WEEKLY": [
+        "2021-11-15",
+        "2021-11-22",
+        "2021-11-29",
+        "2021-12-06",
+        "2021-12-13",
+        "2021-12-20",
+        "2021-12-27",
+        "2022-01-03",
+        "2022-01-10",
+        "2022-01-17",
+        "2022-01-24",
+        "2022-01-31",
+        "2022-02-07",
+        "2022-02-14",
+        "2022-02-21",
+        "2022-02-28",
+        "2022-03-07",
+        "2022-03-14",
+        "2022-03-21",
+        "2022-03-28",
+        "2022-04-04",
+        "2022-04-11",
+        "2022-04-18",
+        "2022-04-25",
+        "2022-05-02",
+        "2022-05-09",
+        "2022-05-16",
+        "2022-05-23",
+        "2022-05-30",
+        "2022-06-06",
+        "2022-06-13",
+        "2022-06-20"
+    ],
     "AWS_E12C_NEW_MOTORWAY": [
         "2017-05-15",
         "2018-05-15",
@@ -1619,7 +1653,9 @@
         "2022-05-07",
         "2022-05-14",
         "2022-05-21",
-        "2022-05-28"
+        "2022-05-28",
+        "2022-06-11",
+        "2022-06-18"
     ],
     "AWS_N3_CUSTOM_TRILATERAL": [
         "2020-01-04",
@@ -1747,7 +1783,9 @@
         "2022-05-07",
         "2022-05-14",
         "2022-05-21",
-        "2022-05-28"
+        "2022-05-28",
+        "2022-06-11",
+        "2022-06-18"
     ],
     "AWS_N3_CUSTOM_TRILATERAL_TSMNN": [
         "2020-01-04",
@@ -1875,7 +1913,9 @@
         "2022-05-07",
         "2022-05-14",
         "2022-05-21",
-        "2022-05-28"
+        "2022-05-28",
+        "2022-06-11",
+        "2022-06-18"
     ],
     "AWS_N3_CUSTOM_TSMNN": [
         "2020-01-04",
@@ -2003,7 +2043,9 @@
         "2022-05-07",
         "2022-05-14",
         "2022-05-21",
-        "2022-05-28"
+        "2022-05-28",
+        "2022-06-11",
+        "2022-06-18"
     ],
     "AWS_NO2-VISUALISATION": [
         "2018-04-30",
@@ -2218,7 +2260,9 @@
         "2022-05-09",
         "2022-05-16",
         "2022-05-23",
-        "2022-05-30"
+        "2022-05-30",
+        "2022-06-06",
+        "2022-06-13"
     ],
     "AWS_POPULATION_DENSITY": [
         "2020-05-01"
@@ -3768,7 +3812,22 @@
         "2022-06-07",
         "2022-06-08",
         "2022-06-09",
-        "2022-06-10"
+        "2022-06-10",
+        "2022-06-12",
+        "2022-06-13",
+        "2022-06-14",
+        "2022-06-15",
+        "2022-06-16",
+        "2022-06-17",
+        "2022-06-18",
+        "2022-06-19",
+        "2022-06-20",
+        "2022-06-21",
+        "2022-06-22",
+        "2022-06-23",
+        "2022-06-24",
+        "2022-06-25",
+        "2022-06-26"
     ],
     "AWS_VIS_RELHUMIDITY1000HPA": [
         "2019-01-01",
@@ -4063,7 +4122,22 @@
         "2022-06-09",
         "2022-06-10",
         "2022-06-11",
-        "2022-06-12"
+        "2022-06-12",
+        "2022-06-14",
+        "2022-06-15",
+        "2022-06-16",
+        "2022-06-17",
+        "2022-06-18",
+        "2022-06-19",
+        "2022-06-20",
+        "2022-06-21",
+        "2022-06-22",
+        "2022-06-23",
+        "2022-06-24",
+        "2022-06-25",
+        "2022-06-26",
+        "2022-06-27",
+        "2022-06-28"
     ],
     "AWS_VIS_WIND_U_10M": [
         "2019-01-01",
@@ -7648,7 +7722,7 @@
     "facebook_population_density": [
         [
             "2015-01-01T00:00:00Z",
-            "s3://climatedashboard-data/facebook_population_density/hrsl_general_latest_global_cog.tif"
+            "s3://veda-data-store-staging/facebook_population_density/hrsl_general_latest_global_cog_2015-01-01_2022-06-8.tif"
         ]
     ],
     "geoglam": [
@@ -11952,311 +12026,311 @@
     "no2-monthly": [
         [
             "2016-01-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201601_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201601_Col3_V4.nc.tif"
         ],
         [
             "2016-02-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201602_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201602_Col3_V4.nc.tif"
         ],
         [
             "2016-03-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201603_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201603_Col3_V4.nc.tif"
         ],
         [
             "2016-04-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201604_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201604_Col3_V4.nc.tif"
         ],
         [
             "2016-05-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201605_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201605_Col3_V4.nc.tif"
         ],
         [
             "2016-06-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201606_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201606_Col3_V4.nc.tif"
         ],
         [
             "2016-07-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201607_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201607_Col3_V4.nc.tif"
         ],
         [
             "2016-08-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201608_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201608_Col3_V4.nc.tif"
         ],
         [
             "2016-09-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201609_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201609_Col3_V4.nc.tif"
         ],
         [
             "2016-10-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201610_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201610_Col3_V4.nc.tif"
         ],
         [
             "2016-11-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201611_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201611_Col3_V4.nc.tif"
         ],
         [
             "2016-12-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201612_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201612_Col3_V4.nc.tif"
         ],
         [
             "2017-01-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201701_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201701_Col3_V4.nc.tif"
         ],
         [
             "2017-02-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201702_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201702_Col3_V4.nc.tif"
         ],
         [
             "2017-03-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201703_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201703_Col3_V4.nc.tif"
         ],
         [
             "2017-04-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201704_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201704_Col3_V4.nc.tif"
         ],
         [
             "2017-05-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201705_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201705_Col3_V4.nc.tif"
         ],
         [
             "2017-06-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201706_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201706_Col3_V4.nc.tif"
         ],
         [
             "2017-07-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201707_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201707_Col3_V4.nc.tif"
         ],
         [
             "2017-08-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201708_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201708_Col3_V4.nc.tif"
         ],
         [
             "2017-09-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201709_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201709_Col3_V4.nc.tif"
         ],
         [
             "2017-10-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201710_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201710_Col3_V4.nc.tif"
         ],
         [
             "2017-11-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201711_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201711_Col3_V4.nc.tif"
         ],
         [
             "2017-12-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201712_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201712_Col3_V4.nc.tif"
         ],
         [
             "2018-01-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201801_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201801_Col3_V4.nc.tif"
         ],
         [
             "2018-02-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201802_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201802_Col3_V4.nc.tif"
         ],
         [
             "2018-03-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201803_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201803_Col3_V4.nc.tif"
         ],
         [
             "2018-04-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201804_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201804_Col3_V4.nc.tif"
         ],
         [
             "2018-05-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201805_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201805_Col3_V4.nc.tif"
         ],
         [
             "2018-06-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201806_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201806_Col3_V4.nc.tif"
         ],
         [
             "2018-07-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201807_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201807_Col3_V4.nc.tif"
         ],
         [
             "2018-08-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201808_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201808_Col3_V4.nc.tif"
         ],
         [
             "2018-09-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201809_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201809_Col3_V4.nc.tif"
         ],
         [
             "2018-10-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201810_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201810_Col3_V4.nc.tif"
         ],
         [
             "2018-11-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201811_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201811_Col3_V4.nc.tif"
         ],
         [
             "2018-12-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201812_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201812_Col3_V4.nc.tif"
         ],
         [
             "2019-01-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201901_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201901_Col3_V4.nc.tif"
         ],
         [
             "2019-02-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201902_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201902_Col3_V4.nc.tif"
         ],
         [
             "2019-03-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201903_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201903_Col3_V4.nc.tif"
         ],
         [
             "2019-04-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201904_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201904_Col3_V4.nc.tif"
         ],
         [
             "2019-05-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201905_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201905_Col3_V4.nc.tif"
         ],
         [
             "2019-06-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201906_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201906_Col3_V4.nc.tif"
         ],
         [
             "2019-07-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201907_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201907_Col3_V4.nc.tif"
         ],
         [
             "2019-08-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201908_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201908_Col3_V4.nc.tif"
         ],
         [
             "2019-09-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201909_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201909_Col3_V4.nc.tif"
         ],
         [
             "2019-10-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201910_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201910_Col3_V4.nc.tif"
         ],
         [
             "2019-11-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201911_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201911_Col3_V4.nc.tif"
         ],
         [
             "2019-12-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_201912_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_201912_Col3_V4.nc.tif"
         ],
         [
             "2020-01-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202001_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202001_Col3_V4.nc.tif"
         ],
         [
             "2020-02-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202002_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202002_Col3_V4.nc.tif"
         ],
         [
             "2020-03-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202003_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202003_Col3_V4.nc.tif"
         ],
         [
             "2020-04-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202004_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202004_Col3_V4.nc.tif"
         ],
         [
             "2020-05-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202005_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202005_Col3_V4.nc.tif"
         ],
         [
             "2020-06-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202006_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202006_Col3_V4.nc.tif"
         ],
         [
             "2020-07-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202007_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202007_Col3_V4.nc.tif"
         ],
         [
             "2020-08-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202008_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202008_Col3_V4.nc.tif"
         ],
         [
             "2020-09-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202009_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202009_Col3_V4.nc.tif"
         ],
         [
             "2020-10-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202010_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202010_Col3_V4.nc.tif"
         ],
         [
             "2020-11-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202011_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202011_Col3_V4.nc.tif"
         ],
         [
             "2020-12-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202012_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202012_Col3_V4.nc.tif"
         ],
         [
             "2021-01-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202101_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202101_Col3_V4.nc.tif"
         ],
         [
             "2021-02-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202102_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202102_Col3_V4.nc.tif"
         ],
         [
             "2021-03-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202103_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202103_Col3_V4.nc.tif"
         ],
         [
             "2021-04-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202104_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202104_Col3_V4.nc.tif"
         ],
         [
             "2021-05-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202105_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202105_Col3_V4.nc.tif"
         ],
         [
             "2021-06-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202106_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202106_Col3_V4.nc.tif"
         ],
         [
             "2021-07-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202107_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202107_Col3_V4.nc.tif"
         ],
         [
             "2021-08-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202108_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202108_Col3_V4.nc.tif"
         ],
         [
             "2021-09-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202109_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202109_Col3_V4.nc.tif"
         ],
         [
             "2021-10-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202110_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202110_Col3_V4.nc.tif"
         ],
         [
             "2021-11-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202111_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202111_Col3_V4.nc.tif"
         ],
         [
             "2021-12-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202112_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202112_Col3_V4.nc.tif"
         ],
         [
             "2022-01-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202201_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202201_Col3_V4.nc.tif"
         ],
         [
             "2022-02-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202202_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202202_Col3_V4.nc.tif"
         ],
         [
             "2022-03-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202203_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202203_Col3_V4.nc.tif"
         ],
         [
             "2022-04-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202204_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202204_Col3_V4.nc.tif"
         ],
         [
             "2022-05-01T00:00:00Z",
-            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_0.10x0.10_202205_Col3_V4.nc.tif"
+            "s3://veda-data-store-staging/no2-monthly/OMI_trno2_monthly_0.10x0.10_202205_Col3_V4.nc.tif"
         ]
     ],
     "no2-monthly-diff": [
@@ -12307,6 +12381,314 @@
         [
             "2015-12-01T00:00:00Z",
             "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201512_Col3_V4.nc.tif"
+        ],
+        [
+            "2016-01-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201601_Col3_V4.nc.tif"
+        ],
+        [
+            "2016-02-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201602_Col3_V4.nc.tif"
+        ],
+        [
+            "2016-03-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201603_Col3_V4.nc.tif"
+        ],
+        [
+            "2016-04-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201604_Col3_V4.nc.tif"
+        ],
+        [
+            "2016-05-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201605_Col3_V4.nc.tif"
+        ],
+        [
+            "2016-06-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201606_Col3_V4.nc.tif"
+        ],
+        [
+            "2016-07-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201607_Col3_V4.nc.tif"
+        ],
+        [
+            "2016-08-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201608_Col3_V4.nc.tif"
+        ],
+        [
+            "2016-09-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201609_Col3_V4.nc.tif"
+        ],
+        [
+            "2016-10-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201610_Col3_V4.nc.tif"
+        ],
+        [
+            "2016-11-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201611_Col3_V4.nc.tif"
+        ],
+        [
+            "2016-12-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201612_Col3_V4.nc.tif"
+        ],
+        [
+            "2017-01-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201701_Col3_V4.nc.tif"
+        ],
+        [
+            "2017-02-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201702_Col3_V4.nc.tif"
+        ],
+        [
+            "2017-03-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201703_Col3_V4.nc.tif"
+        ],
+        [
+            "2017-04-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201704_Col3_V4.nc.tif"
+        ],
+        [
+            "2017-05-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201705_Col3_V4.nc.tif"
+        ],
+        [
+            "2017-06-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201706_Col3_V4.nc.tif"
+        ],
+        [
+            "2017-07-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201707_Col3_V4.nc.tif"
+        ],
+        [
+            "2017-08-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201708_Col3_V4.nc.tif"
+        ],
+        [
+            "2017-09-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201709_Col3_V4.nc.tif"
+        ],
+        [
+            "2017-10-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201710_Col3_V4.nc.tif"
+        ],
+        [
+            "2017-11-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201711_Col3_V4.nc.tif"
+        ],
+        [
+            "2017-12-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201712_Col3_V4.nc.tif"
+        ],
+        [
+            "2018-01-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201801_Col3_V4.nc.tif"
+        ],
+        [
+            "2018-02-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201802_Col3_V4.nc.tif"
+        ],
+        [
+            "2018-03-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201803_Col3_V4.nc.tif"
+        ],
+        [
+            "2018-04-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201804_Col3_V4.nc.tif"
+        ],
+        [
+            "2018-05-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201805_Col3_V4.nc.tif"
+        ],
+        [
+            "2018-06-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201806_Col3_V4.nc.tif"
+        ],
+        [
+            "2018-07-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201807_Col3_V4.nc.tif"
+        ],
+        [
+            "2018-08-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201808_Col3_V4.nc.tif"
+        ],
+        [
+            "2018-09-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201809_Col3_V4.nc.tif"
+        ],
+        [
+            "2018-10-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201810_Col3_V4.nc.tif"
+        ],
+        [
+            "2018-11-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201811_Col3_V4.nc.tif"
+        ],
+        [
+            "2018-12-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201812_Col3_V4.nc.tif"
+        ],
+        [
+            "2019-01-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201901_Col3_V4.nc.tif"
+        ],
+        [
+            "2019-02-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201902_Col3_V4.nc.tif"
+        ],
+        [
+            "2019-03-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201903_Col3_V4.nc.tif"
+        ],
+        [
+            "2019-04-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201904_Col3_V4.nc.tif"
+        ],
+        [
+            "2019-05-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201905_Col3_V4.nc.tif"
+        ],
+        [
+            "2019-06-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201906_Col3_V4.nc.tif"
+        ],
+        [
+            "2019-07-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201907_Col3_V4.nc.tif"
+        ],
+        [
+            "2019-08-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201908_Col3_V4.nc.tif"
+        ],
+        [
+            "2019-09-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201909_Col3_V4.nc.tif"
+        ],
+        [
+            "2019-10-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201910_Col3_V4.nc.tif"
+        ],
+        [
+            "2019-11-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201911_Col3_V4.nc.tif"
+        ],
+        [
+            "2019-12-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_201912_Col3_V4.nc.tif"
+        ],
+        [
+            "2020-01-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202001_Col3_V4.nc.tif"
+        ],
+        [
+            "2020-02-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202002_Col3_V4.nc.tif"
+        ],
+        [
+            "2020-03-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202003_Col3_V4.nc.tif"
+        ],
+        [
+            "2020-04-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202004_Col3_V4.nc.tif"
+        ],
+        [
+            "2020-05-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202005_Col3_V4.nc.tif"
+        ],
+        [
+            "2020-06-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202006_Col3_V4.nc.tif"
+        ],
+        [
+            "2020-07-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202007_Col3_V4.nc.tif"
+        ],
+        [
+            "2020-08-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202008_Col3_V4.nc.tif"
+        ],
+        [
+            "2020-09-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202009_Col3_V4.nc.tif"
+        ],
+        [
+            "2020-10-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202010_Col3_V4.nc.tif"
+        ],
+        [
+            "2020-11-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202011_Col3_V4.nc.tif"
+        ],
+        [
+            "2020-12-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202012_Col3_V4.nc.tif"
+        ],
+        [
+            "2021-01-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202101_Col3_V4.nc.tif"
+        ],
+        [
+            "2021-02-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202102_Col3_V4.nc.tif"
+        ],
+        [
+            "2021-03-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202103_Col3_V4.nc.tif"
+        ],
+        [
+            "2021-04-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202104_Col3_V4.nc.tif"
+        ],
+        [
+            "2021-05-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202105_Col3_V4.nc.tif"
+        ],
+        [
+            "2021-06-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202106_Col3_V4.nc.tif"
+        ],
+        [
+            "2021-07-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202107_Col3_V4.nc.tif"
+        ],
+        [
+            "2021-08-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202108_Col3_V4.nc.tif"
+        ],
+        [
+            "2021-09-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202109_Col3_V4.nc.tif"
+        ],
+        [
+            "2021-10-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202110_Col3_V4.nc.tif"
+        ],
+        [
+            "2021-11-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202111_Col3_V4.nc.tif"
+        ],
+        [
+            "2021-12-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202112_Col3_V4.nc.tif"
+        ],
+        [
+            "2022-01-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202201_Col3_V4.nc.tif"
+        ],
+        [
+            "2022-02-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202202_Col3_V4.nc.tif"
+        ],
+        [
+            "2022-03-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202203_Col3_V4.nc.tif"
+        ],
+        [
+            "2022-04-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202204_Col3_V4.nc.tif"
+        ],
+        [
+            "2022-05-01T00:00:00Z",
+            "s3://veda-data-store-staging/no2-monthly-diff/OMI_trno2_0.10x0.10_202205_Col3_V4.nc.tif"
         ]
     ]
 }

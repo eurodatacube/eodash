@@ -1276,6 +1276,7 @@ export default {
               this.usedConfig(side)[0],
               this.indicator,
               type === 'customFeatures' ? 'features' : 'areaIndicator',
+              this.$store,
             );
             if (type === 'customFeatures') {
               this.updateJsonLayers(custom, side);

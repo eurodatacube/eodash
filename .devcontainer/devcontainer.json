@@ -1,0 +1,42 @@
+{
+  "name": "race-dashboard",
+  "image": "mcr.microsoft.com/vscode/devcontainers/typescript-node:0-16",
+  "postAttachCommand": [
+    "npm",
+    "--prefix",
+    "./app/",
+    "run",
+    "serve"
+  ],
+  "settings": {
+    "terminal.integrated.profiles.linux": {
+      "bash": {
+        "path": "/bin/bash"
+      }
+    },
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "editor.tabSize": 2,
+    "editor.rulers": [
+      100
+    ],
+    "eslint.validate": [
+      "vue",
+      "html",
+      "javascript"
+    ],
+    "eslint.workingDirectories": [
+      "./app"
+    ],
+    "vetur.format.enable": false
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "vuetifyjs.vuetify-vscode"
+      ]
+    }
+  },
+  "postCreateCommand": "npm --prefix ./app/ install",
+  "forwardPorts": [8080]
+}
