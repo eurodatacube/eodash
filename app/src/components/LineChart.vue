@@ -18,7 +18,6 @@ export default {
       handler() {
         this.render();
       },
-      // deep: true,
     },
   },
   data() {
