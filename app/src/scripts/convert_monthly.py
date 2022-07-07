@@ -19,6 +19,7 @@ import geopandas as gpd
 import shapely
 import pandas as pd
 import numpy as np
+from math import sin, cos, sqrt, atan2, radians
 
 new_suffix = '2'  # suffix of new indicator code
 indicator = 'E13d'  # indicator to fetch jsons of
@@ -55,50 +56,57 @@ if not os.path.exists(output_csv_path):
         w.writerow(column_names_csv)
 
 
-def convert(path2, indicator):
+def get_closest_point_haversine(point, list_of_points):
+    """Returns closest point from a list of points to a given point using haversine formula.
+
+    Args:
+        point (shapely.geometry): Point to get closest point to
+        list_of_points (list[shapely.geometry]): List of shapely geometries to get closest one from point 
+
+    Returns:
+        shapely.geometry: closest geometry from list_of_points
+    """
+    distance_min = 1e5
+    closest_point = None
+    r = 6373.0
+    lon1 = radians(point.x)
+    lat1 = radians(point.y)
+    for individual_point in list_of_points:
+        lat2 = radians(individual_point.y)
+        lon2 = radians(individual_point.x)
+        dlon = lon2 - lon1
+        dlat = lat2 - lat1
+        a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+        c = 2 * atan2(sqrt(a), sqrt(1 - a))
+        distance = r * c
+
+        if distance < distance_min:
+            closest_point = individual_point
+            distance_min = distance
+    return closest_point
+
+
+def convert(path2, indicator, result_list=[]):
     # initialize output
     new_features = {}  # key=aoiId_time -fname, ftrs
     path = f'/public/eodash-data/features/{indicator}/{indicator}_{path2}.geojson'
-    yyyy = path.split('_')[1][0:4]
-    mm = path.split('_')[1][4:6]
     # load monthly geojson with date & geometry of detection as 1 feature
     gdf = gpd.read_file(path)
-    # load individual geojson for first poi from glob (does not matter which is taken), as usually these data match
-    poi_json_glob = f'/public/eodash-data/internal/*{indicator}*.json'
-    poi_json_path = glob(poi_json_glob)[0]
-    with open(poi_json_path) as poi_json:
-        poiJson = json.load(poi_json)
-        # extract matching entry based on time of monthly file - to later extract for example Input Data value etc.
-        single_entry_time = [i for i in poiJson if i['time'] == f'{yyyy}-{mm}-01T00:00:00']
 
-    internal_data_path = '/public/data/internal/pois_eodash.json'
-    with open(internal_data_path) as inte:
-        internalJson = json.load(inte)
-    # filter only pois from selected indicator
-    inter = [item for item in internalJson if item['indicator'] == indicator]
-    # create geopandas dataframe to enable easy coordinate match
-    df = pd.DataFrame.from_dict(inter)
-    # extract coords to create geometry column
-    df['lat'], df['lon'] = zip(*df['aoi'].map(split_aoi))
-
-    gdf_internal = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.lon, df.lat))
-    # create multipoint to be able to find nearest neighbour from list
-    multipoint = gdf_internal.geometry.unary_union
     # go over each individual entry of the geojson, extract geometry and date
-    for index, row in gdf.iterrows():
+    for _, row in gdf.iterrows():
         data = {}
         # find nearest point (aoi_id)
-        _, nearest_geom = shapely.ops.nearest_points(row.geometry, multipoint)
+        nearest_geom = get_closest_point_haversine(row.geometry, individual_points_from_multipoint)
         # get relevant aoi_id
         found = gdf_internal.loc[(gdf_internal['lon'] == nearest_geom.x) & (gdf_internal['lat'] == nearest_geom.y)]
         updated_time = try_parsing_date(row['TIMESTAMP UTC']).strftime('%Y-%m-%dT%H:%M:00')  # remove seconds
         aoiId = f"{found['aoiID'].iloc[0]}"
         data['AOI_ID'] = aoiId
-        # update AOI, adding last digit to lon to avoid same digits as source
-        data['AOI'] = f"{found['aoi'].iloc[0]}"
         # add time
         data['Time'] = updated_time
-        # add values for some columns from internal
+        # add other values for some columns from internal data
+        data['AOI'] = f"{found['aoi'].iloc[0]}"
         data['Region'] = ""
         data['Country'] = 'all'  # needs update to 'all' in case if we want to display map (showMap function)
         data['City'] = found['city'].iloc[0]
@@ -106,20 +114,10 @@ def convert(path2, indicator):
         data['Indicator code'] = f"{found['indicator'].iloc[0]}{new_suffix}"
         data['Site Name'] = found['siteName'].iloc[0]
         data['Indicator Name'] = found['indicatorName'].iloc[0]
-        # data['Color code'] = found['lastColorCode']
         data['Sub-AOI'] = found['subAoi'].iloc[0]
-        # data['Update Frequency'] = found['updateFrequency']
-        # data['Input Data'] = single_entry_time[0]['input_data']
-        # data['EO Sensor'] = single_entry_time[0]['eo_sensor']
         data['Input Data'] = 'Sentinel 2 L2A'
         data['EO Sensor'] = 'Sentinel 2'
-        # dirty and superslow way of merging columns of csv with actual limited data (merge all columns dataframe with sparser dataframe containing only some data)
-        # todo, redo this for performance reasons
-        csv_read = pd.read_csv(output_csv_path, header=0)
-        data_as_df = pd.DataFrame(data, index=[0])
-        save = pd.concat([csv_read, data_as_df[csv_read.columns.intersection(data_as_df.columns)]]).replace(np.nan, '', regex=True).drop_duplicates()
-        # save csv
-        save.to_csv(output_csv_path, mode='w', index=False)
+        result_list.append(data)
 
         updated_time_without_s = try_parsing_date(row['TIMESTAMP UTC']).strftime('%Y%m%dT%H%M')  # format for filenames
         key_for_ftrs_dict = f'{aoiId}_{updated_time_without_s}'
@@ -136,12 +134,33 @@ def convert(path2, indicator):
     for key in new_features:
         with open(f'{featuresPath}{indicator}_{key}.geojson', 'w') as output_geojson:
             json.dump(feature_collection(new_features[key]), output_geojson)
+    return result_list
 
 
 # track time
 start = time.time()
+internal_data_path = '/public/data/internal/pois_eodash.json'
+with open(internal_data_path) as inte:
+    internalJson = json.load(inte)
+# filter only pois from selected indicator
+inter = [item for item in internalJson if item['indicator'] == indicator]
+# create geopandas dataframe to enable easy coordinate match
+df = pd.DataFrame.from_dict(inter)
+# extract coords to create geometry column
+df['lat'], df['lon'] = zip(*df['aoi'].map(split_aoi))
+
+gdf_internal = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.lon, df.lat))
+# create multipoint to be able to find nearest neighbour from list
+multipoint = gdf_internal.geometry.unary_union
+individual_points_from_multipoint = [pt for pt in multipoint]
+csv_detections_df = pd.read_csv(output_csv_path, header=0)
 # substitute with desired months or just single month (will append to existing csv if exists)
+
 for path in list_of_dates_to_process:
-    convert(path, indicator)
+    resulting_list = convert(path, indicator)
     print(f'step {path} has taken {time.time() - start} seconds')
     start = time.time()
+    data_as_df = pd.DataFrame(resulting_list)
+    save = pd.concat([csv_detections_df, data_as_df[csv_detections_df.columns.intersection(data_as_df.columns)]]).replace(np.nan, '', regex=True).drop_duplicates()
+    # save csv
+    save.to_csv(output_csv_path, mode='w', index=False)
