@@ -6385,6 +6385,18 @@
             "people_vaccinated_per_hundred": 46.7,
             "total_vaccinations": 9991560.0,
             "total_vaccinations_per_hundred": 97.3
+        },
+        {
+            "daily_vaccinations": 2346.0,
+            "daily_vaccinations_per_million": 228.0,
+            "daily_vaccinations_raw": 16423.0,
+            "date": "2022-06-28T00:00:00",
+            "people_fully_vaccinated": 4538702.0,
+            "people_fully_vaccinated_per_hundred": 44.2,
+            "people_vaccinated": 4805507.0,
+            "people_vaccinated_per_hundred": 46.8,
+            "total_vaccinations": 10007983.0,
+            "total_vaccinations_per_hundred": 97.46
         }
     ]
 }
