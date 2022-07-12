@@ -1,0 +1,22 @@
+[
+  {
+    "aoi": "48.2,16.366667",
+    "aoiID": "AT",
+    "city": "Vienna",
+    "country": "AT",
+    "description": "Air Quality",
+    "indicator": "N1",
+    "indicatorName": "TROPOMI: Spatial average over the city area of bi-weekly tropospheric nitrogen dioxide (NO2) concentrations",
+    "lastColorCode": "",
+    "lastIndicatorValue": "",
+    "lastMeasurement": "38.280006",
+    "lastReferenceTime": "2022-05-30T00:00:00",
+    "lastReferenceValue": "[36.539238, 7.1595497, 60.59937, 24.2876, 100.0]",
+    "lastTime": "2022-05-30T00:00:00",
+    "region": "/",
+    "siteName": "/",
+    "subAoi": "POLYGON((16.066667 47.900000000000006,16.666667 47.900000000000006,16.666667 48.5,16.066667 48.5,16.066667 47.900000000000006))",
+    "updateFrequency": "Bi-weekly",
+    "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
+  }
+]

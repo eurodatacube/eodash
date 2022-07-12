@@ -351,5 +351,6 @@ module.exports = [
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube', 'gtif'],
     configuredMapPois: [],
     featureGrouping: [],
+    enableStories: true,
   },
 ];
