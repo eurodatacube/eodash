@@ -460,6 +460,9 @@ export default {
         if (!this.$vuetify.breakpoint.mdAndUp) {
           this.dialog = true;
         }
+      } else {
+        this.drawerRight = false;
+        this.dialog = false;
       }
       this.$store.commit('indicators/SET_CUSTOM_AREA_INDICATOR', null);
       this.panelKey = Math.random();

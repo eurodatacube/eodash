@@ -455,6 +455,14 @@ export default {
     },
     setFilter(filter, selectedFeature) {
       this.$store.commit('features/SET_FEATURE_FILTER', filter);
+      if (filter.countries?.length === 0 && filter.indicators?.length === 0) {
+        this.$store.commit(
+          'indicators/SET_SELECTED_INDICATOR',
+          null,
+        );
+
+        return;
+      }
       if (selectedFeature) {
         this.$store.commit(
           'indicators/SET_SELECTED_INDICATOR',
@@ -501,9 +509,11 @@ export default {
       }
     },
     autoCompleteClear() {
-      this.selectCountry('all');
-      this.selectIndicator('all');
       this.userInput = null;
+      this.setFilter({
+        countries: [],
+        indicators: [],
+      });
     },
   },
   watch: {
