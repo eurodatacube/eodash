@@ -469,8 +469,6 @@ export const indicatorsDefinition = Object.freeze({
     class: 'water',
     themes: ['agriculture'],
   },
-  // TODO: Disabling GRDI for now
-  /*
   GRDI1: {
     story: '/eodash-data/stories/GRDI1',
     class: 'economic',
@@ -519,7 +517,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     disableTimeSelection: true,
   },
-  */
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
     themes: ['atmosphere', 'agriculture', 'biomass-and-landcover', 'economy', 'oceans', 'cryosphere', 'covid-19'],
@@ -1381,8 +1378,6 @@ export const globalIndicators = [
       },
     },
   },
-  // TODO: Disabling GRDI for now
-  /*
   {
     properties: {
       indicatorObject: {
@@ -1671,7 +1666,6 @@ export const globalIndicators = [
       },
     },
   },
-  */
   {
     properties: {
       indicatorObject: {
@@ -4254,13 +4248,6 @@ const urlMapping = {
   'blue-tarp-planetscope': 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}',
   'blue-tarp-detection': 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,10000&bidx=1&colormap_name=inferno',
 };
-// TODO: Disabling blue tarp for now
-if ('blue-tarp-planetscope' in locations) {
-  delete locations['blue-tarp-planetscope'];
-}
-if ('blue-tarp-detection' in locations) {
-  delete locations['blue-tarp-detection'];
-}
 
 Object.keys(locations).forEach((collection) => {
   idOffset += 5000;
