@@ -250,7 +250,8 @@ export default {
       return this.getIndicatorFilteredInputData(this.currentIndicator);
     },
     drawnArea() {
-      // in store or prop saved as 'object', in this component and in customAreaButtons as {area: 'object'} for convenience
+      // in store or prop saved as 'object', in this component and
+      // in customAreaButtons as {area: 'object'} for convenience
       return {
         area: this.initialDrawnArea || this.$store.state.features.selectedArea,
       };
@@ -420,7 +421,7 @@ export default {
       handler(value) {
       // when the calculated zoom extent changes, zoom the map to the new extent.
       // this is purely cosmetic and does not limit the ability to pan or zoom
-        if (value && !(this.centerProp || this.zoomProp)) {
+        if (value && !(this.centerProp || this.zoomProp)) {
           const { map } = getMapInstance(this.mapId);
           if (map.getTargetElement()) {
             map.getView().fit(value, {

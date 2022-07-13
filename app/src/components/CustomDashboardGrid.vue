@@ -427,7 +427,6 @@
 import { DateTime } from 'luxon';
 import mediumZoom from 'medium-zoom';
 import IndicatorData from '@/components/IndicatorData.vue';
-import IndicatorMap from '@/components/IndicatorMap.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import LoadingAnimation from '@/components/LoadingAnimation.vue';
 import { loadIndicatorData } from '@/utils';
@@ -448,7 +447,6 @@ export default {
   },
   components: {
     IndicatorData,
-    IndicatorMap,
     IndicatorGlobe,
     LoadingAnimation,
     CenterMap,
