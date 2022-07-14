@@ -690,7 +690,6 @@ export const replaceMapTimes = {
 
 const wkt = new Wkt();
 
-
 export const globalIndicators = [
   /*
   {
@@ -799,6 +798,49 @@ export const globalIndicators = [
               evalScriptsDefinitions.AWS_VIS_CO_3DAILY_DATA,
               'byoc-57a07405-8ec2-4b9c-a273-23e287c173f8',
               'P3D',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'TROPOMI CH4',
+        indicator: 'N1',
+        lastIndicatorValue: null,
+        indicatorName: 'TROPOMI CH4',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'CH4',
+        time: availableDates.AWS_CH4_WEEKLY,
+        inputData: [''],
+        yAxis: 'CH4 volume mixing ratio (ppbv)',
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          opacity: 1.0,
+          customAreaIndicator: true,
+          name: 'TROPOMI CH4',
+          layers: 'AWS_CH4_WEEKLY',
+          minZoom: 1,
+          legendUrl: 'eodash-data/data/ch4_legend_mixing_ratio.png',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_CH4_WEEKLY_DATA,
+              'byoc-0ecb4a55-5ce2-4525-bdcb-a333d37d46ef',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -1181,7 +1223,7 @@ export const globalIndicators = [
         aoi: null,
         time: availableDates.AWS_VIS_2MTEMPERATURE,
         inputData: [],
-        yAxis: 'Temperature °C',
+        yAxis: 'Temperature K',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Global temperature',

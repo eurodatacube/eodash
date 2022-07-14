@@ -1071,7 +1071,7 @@ export default {
     },
     async generateMosaic(timeObj, side) {
       // These special layers first need to be "registered" to allow visualization
-      const res = await axios.post('https://ejd872yh78.execute-api.us-east-1.amazonaws.com/mosaic/register', {
+      const res = await axios.post('https://staging-raster.delta-backend.com/mosaic/register', {
         collections: [this.indicator.display.collection],
         datetime: this.indicator.display.dateFormatFunction(timeObj.value),
         'filter-lang': 'cql-json',
@@ -1277,6 +1277,7 @@ export default {
               this.usedConfig(side)[0],
               this.indicator,
               type === 'customFeatures' ? 'features' : 'areaIndicator',
+              this.$store,
             );
             if (type === 'customFeatures') {
               this.updateJsonLayers(custom, side);

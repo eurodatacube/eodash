@@ -1138,9 +1138,9 @@
         "eo_sensor": "TROPOMI",
         "indicator_value": "/",
         "input_data": "Sentinel-5p Level-3 NO2",
-        "measurement_value": "58.614833999999995",
+        "measurement_value": "59.168169999999996",
         "reference_time": "2022-04-18T00:00:00",
-        "reference_value": "[56.000347, 10.636733, 91.512184, 41.910244, 100.0]",
+        "reference_value": "[56.412968, 10.513893, 91.888306, 42.834652, 100.0]",
         "time": "2022-04-18T00:00:00"
     },
     {
@@ -1149,9 +1149,42 @@
         "eo_sensor": "TROPOMI",
         "indicator_value": "/",
         "input_data": "Sentinel-5p Level-3 NO2",
-        "measurement_value": "77.6574",
+        "measurement_value": "75.645386",
         "reference_time": "2022-05-02T00:00:00",
-        "reference_value": "[79.97462, 11.95503, 107.560646, 50.71397, 100.0]",
+        "reference_value": "[77.76294, 10.966447, 103.12521, 49.68421, 100.0]",
         "time": "2022-05-02T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "73.06175",
+        "reference_time": "2022-05-16T00:00:00",
+        "reference_value": "[72.51356, 16.857666, 113.87039, 34.12202, 100.0]",
+        "time": "2022-05-16T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "58.968025",
+        "reference_time": "2022-05-30T00:00:00",
+        "reference_value": "[60.375748, 8.775343, 76.66531, 37.252735, 100.0]",
+        "time": "2022-05-30T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "63.574222999999996",
+        "reference_time": "2022-06-13T00:00:00",
+        "reference_value": "[59.127254, 14.019448, 106.71683, 41.027786, 100.0]",
+        "time": "2022-06-13T00:00:00"
     }
 ]
