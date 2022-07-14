@@ -59,7 +59,6 @@ function createFromTemplate(template, tileCoord) {
     });
 }
 
-
 function replaceUrlPlaceholders(baseUrl, config, options) {
   let url = baseUrl;
   const time = options.time || store.state.indicators.selectedTime;

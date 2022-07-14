@@ -628,7 +628,6 @@ export default {
   pointer-events: all;
 }
 
-
 ::v-deep .v-autocomplete__content.v-menu__content {
   box-shadow: none;
 }

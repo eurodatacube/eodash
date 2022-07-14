@@ -21,7 +21,6 @@ import { getColor } from './olMapColors';
 import getMapInstance from './map';
 import { formatLabel } from './formatters';
 
-
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
 });
@@ -594,7 +593,6 @@ class Cluster {
  * are stored here.
  */
 const clusterRegistry = {};
-
 
 /**
   * Returns the cluster with the given id.

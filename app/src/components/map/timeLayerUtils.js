@@ -1,4 +1,3 @@
-
 /**
  * updates the layer source of a given layer to show data of the given time object
  * @param {*} layer openlayers layer

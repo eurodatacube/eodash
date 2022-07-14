@@ -104,7 +104,6 @@
   </v-card>
 </template>
 
-
 <script>
 import getMapInstance from '@/components/map/map';
 import Draw, { createBox } from 'ol/interaction/Draw';
