@@ -233,7 +233,6 @@ if (store.state.dashboard?.dashboardConfig?.id) {
       store.commit('dashboard/disconnect');
     }
 
-
     response.features = response.features.map((f) => { // eslint-disable-line
       const newF = { ...f };
       delete newF.id;

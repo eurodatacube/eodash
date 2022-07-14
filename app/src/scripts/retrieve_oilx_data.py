@@ -206,6 +206,10 @@ with open(EUDATAFILE) as f:
             "time": datetime.datetime.strptime(entry["Date"], '%Y-%m-%d'),
             "siteName": "global",
         })
+    # Sort entries by date
+    poi_data = sorted(
+        poi_data, key=lambda k: k["time"]
+    )
 
 # Generate  json file for EU
 with open("%s%s.json" % (output_folder, "EU1-OX"), "w") as gp:
