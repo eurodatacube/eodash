@@ -25,6 +25,31 @@ export const dataEndpoints = [
   },
 ];
 
+const sharedPalsarFNFConfig = Object.freeze({
+  baseUrl: 'https://ogcpreview1.restecmap.com/examind/api/WS/wms/JAXA_WMS_Preview',
+  minZoom: 0,
+  name: 'FNF PALSAR2 World Yearly',
+  crs: CRS.EPSG4326,
+  tileSize: 256,
+  legendUrl: './data/trilateral/fnf-map-legend.png',
+  labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
+  presetView: {
+    type: 'FeatureCollection',
+    features: [{
+      type: 'Feature',
+      properties: {},
+      geometry: wkt.read('POLYGON((-94 20,50 20,50 -40,-94 -40,-94 20))').toJson(),
+    }],
+  },
+  baseLayers: [
+    baseLayers.terrainLight_4326,
+    baseLayers.cloudless_4326,
+  ],
+  overlayLayers: [
+    overlayLayers.eoxOverlay_4326,
+  ],
+});
+
 export const indicatorsDefinition = Object.freeze({
   E13c: {
     indicator: 'Changes in Ships traffic within the Port',
@@ -469,6 +494,12 @@ export const indicatorsDefinition = Object.freeze({
     class: 'water',
     themes: ['agriculture'],
   },
+  FNF: {
+    indicator: 'FNF',
+    story: '/eodash-data/stories/FNF',
+    class: 'agriculture',
+    themes: ['biomass-and-landcover'],
+  },
   PRCG: {
     indicator: 'PRCG',
     story: '/eodash-data/stories/PRCG',
@@ -724,6 +755,22 @@ export const layerNameMapping = Object.freeze({
     legendUrl: 'data/trilateral/NDVI.png',
     dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
   },
+  palsarFNF2017: {
+    ...sharedPalsarFNFConfig,
+    layers: 'FNF-PALSAR2-World-2017-Yearly',
+  },
+  palsarFNF2018: {
+    ...sharedPalsarFNFConfig,
+    layers: 'FNF-PALSAR2-World-2018-Yearly',
+  },
+  palsarFNF2019: {
+    ...sharedPalsarFNFConfig,
+    layers: 'FNF-PALSAR2-World-2019-Yearly',
+  },
+  palsarFNF2020: {
+    ...sharedPalsarFNFConfig,
+    layers: 'FNF-PALSAR2-World-2020-Yearly',
+  },
 });
 
 export const indicatorClassesIcons = Object.freeze({
@@ -739,6 +786,7 @@ export const mapDefaults = Object.freeze({
   minMapZoom: 0,
   maxMapZoom: 18,
   bounds: latLngBounds(latLng([-70, -170]), latLng([70, 170])),
+  crs: CRS.EPSG3857,
 });
 
 export const baseLayersLeftMap = [{
@@ -4045,6 +4093,29 @@ export const globalIndicators = [
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/sc/{featuresTime}.geojson',
           },
         },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Forest/non-forest map PALSAR2',
+        indicator: 'FNF',
+        lastIndicatorValue: null,
+        indicatorName: 'Forest/non-forest map PALSAR2',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        time: getYearlyDates('2017-01-01', '2020-01-01'),
+        inputData: ['palsarFNF2017', 'palsarFNF2018', 'palsarFNF2019', 'palsarFNF2020'],
       },
     },
   },

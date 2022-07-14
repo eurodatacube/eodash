@@ -11,6 +11,7 @@
       @update:bounds="boundsUpdated"
       v-resize="onResize"
       :center="center"
+      :crs="mapDefaults.crs"
       :zoom="zoom"
       @ready="onMapReady()"
     >
@@ -1060,7 +1061,7 @@ export default {
         }
       }
       const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
-        'format', 'width', 'height', 'transparent', 'srs', 'env', 'searchid'];
+        'format', 'width', 'height', 'transparent', 'srs', 'crs', 'env', 'searchid'];
       paramsToPassThrough.forEach((param) => {
         if (typeof sourceOptionsObj[param] !== 'undefined') {
           additionalSettings[param] = sourceOptionsObj[param];
