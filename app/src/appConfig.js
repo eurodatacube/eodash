@@ -165,6 +165,9 @@ module.exports = [
       secondaryColor: '#004170',
       headerLogo: './data/trilateral/Trilateral_Logo.svg',
       faviconPath: './public/img/trilateral/favicon.ico',
+      title: 'Earth Observing Dashboard',
+      subtitle: 'Global environmental changes observed by NASA, ESA, and JAXA',
+      converImage: '/data/story-images/EO_Dashboard_kv_no logos.png',
     },
     pageMeta: {
       rootPath: 'https://eodashboard.org',
@@ -313,6 +316,9 @@ module.exports = [
       secondaryColor: '#82db9d',
       headerLogo: './data/gtif/images/gtif_attributions_logo.png',
       faviconPath: './public/img/ESA/favicon.ico',
+      title: 'Green Transition Information Factory',
+      subtitle: 'Key element of the ESA Space For Green Future Accelerator',
+      converImage: '/data/gtif/images/image1.png',
     },
     pageMeta: {
       rootPath: 'https://gtif.esa.int',
