@@ -206,6 +206,10 @@ const renderVue = async () => {
         { path: '/cryosphere', name: 'cryosphere', component: ThemeSinglePage },
         { path: '/economy', name: 'economy', component: ThemeSinglePage },
         { path: '/oceans', name: 'oceans', component: ThemeSinglePage },
+        { path: '/energy', name: 'energy', component: ThemeSinglePage },
+        { path: '/transport-emission', name: 'transport-emission', component: ThemeSinglePage },
+        { path: '/green-finance', name: 'green-finance', component: ThemeSinglePage },
+        { path: '/food-ecosystems-biodiversity', name: 'food-ecosystems-biodiversity', component: ThemeSinglePage },
       ]
       : []
     ),

@@ -12,8 +12,10 @@ const state = {
 };
 
 const getters = {
-  getThemes: (state) => state.themes,
-  getTheme: (state) => (slug) => state.themes.find((theme) => theme.slug === slug),
+  getThemes: (state, _, rootState) => state.themes[rootState.config.appConfig.id],
+  getTheme: (state, _, rootState) => (slug) => (
+    state.themes[rootState.config.appConfig.id].find((theme) => theme.slug === slug)
+  ),
   getCurrentTheme: (state) => state.currentTheme,
   getStories: (state, _, rootState) => (theme) => {
     const brandStories = state.stories[rootState.config.appConfig.id];
@@ -26,11 +28,7 @@ const getters = {
 };
 
 const mutations = {
-  SET_CURRENT_THEME(state, slug) {
-    let theme;
-    if (slug) {
-      theme = state.themes.find((t) => t.slug === slug);
-    }
+  SET_CURRENT_THEME(state, theme) {
     state.currentTheme = theme;
   },
 
@@ -41,7 +39,8 @@ const mutations = {
 
 const actions = {
   async loadTheme({ commit, rootState }, theme) {
-    commit('SET_CURRENT_THEME', theme);
+    const currThemes = rootState.themes.themes[rootState.config.appConfig.id];
+    commit('SET_CURRENT_THEME', currThemes.find((t) => t.slug === theme));
     let storyIDs = [];
     if (theme) {
       const indicators = rootState.config.baseConfig.indicatorsDefinition;

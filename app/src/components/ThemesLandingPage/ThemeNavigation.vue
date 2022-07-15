@@ -69,7 +69,7 @@ export default {
     },
   },
   computed: {
-    ...mapState({ themes: (state) => state.themes.themes }),
+    ...mapState({ themes: (state) => state.themes.themes[state.config.appConfig.id] }),
   },
 };
 </script>
