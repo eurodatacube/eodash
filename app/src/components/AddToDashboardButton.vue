@@ -103,6 +103,8 @@ export default {
       deep: true,
       async handler() {
         if (this.indicatorObject) {
+          // Re-setting title to make sure latest selected indicator is shown
+          this.title = `${this.indicatorObject.city.trim()}, ${this.indicatorObject.description.trim()}`;
           this.alreadyAdded = await this.exists(
             { poi: this.indicatorObject.poi || this.getLocationCode(this.indicatorObject) },
           );
