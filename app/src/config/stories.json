@@ -1,90 +1,129 @@
 {
   "trilateral": {
     "agriculture": {
-      "a-fourth-official-story-demo": {
-        "originalDashboardId": "d069a45701e3a0e3",
-        "title": "Impact of COVID-19 on winter cereals growth and harvest",
-        "subtitle": "Another Subtitle",
-        "image": "https://picsum.photos/id/107/900/600",
-        "imagePlaceholder": "https://picsum.photos/10/6?image=13"
+      "world-cereal-supply-and-demand": {
+        "originalDashboardId": "4b40596e305997ac",
+        "title": "Satellites are providing insights into agricultural production, crop conditions, and food supply",
+        "subtitle": "Read more about satellite data applications for environmental impacts on world cereal supply and demand",
+        "image": "./data/story-images/Agriculture.jpeg",
+        "imagePlaceholder": "./data/story-images/Agriculture_placeholder.jpeg"
       }
     },
-    "air-quality": {
-      "a-fifth-official-story-demo": {
-        "originalDashboardId": "90179989b23d5f75",
-        "title": "Carbon emissions reduced by 37% during COVID-19 pandemic",
-        "subtitle": "Another Subtitle",
-        "image": "https://picsum.photos/id/1064/900/600",
-        "imagePlaceholder": "https://picsum.photos/id/1064/900/600"
+    "atmosphere": {
+      "atmosphere-combustion-intro": {
+        "originalDashboardId": "2b11a69e94e47a4a",
+        "title": " Traffic, wildfires, and power plants emit air pollutants and greenhouse gases from combustion",
+        "subtitle": "Read more about NASA, ESA and JAXA, working together to monitor the atmosphere",
+        "image": "./data/story-images/1-Atmosphere_Overview_Picture.jpg",
+        "imagePlaceholder": "./data/story-images/1-Atmosphere_Overview_Picture.jpg"
       },
-      "official-cov-story-demo": {
-        "originalDashboardId": "90179989b23d5f75",
-        "title": "Cities Experience Clearer Air During Lockdowns",
-        "subtitle": "See how the COVID-19 pandemic actually helped reduce air pollution in metropolitan areas.",
-        "image": "https://picsum.photos/id/141/900/600",
-        "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg"
+      "australian-bushfires": {
+        "originalDashboardId": "afea38efc80e9846",
+        "title": "Australian bushfires in 2019-2020 emitted 700 million metric tons of CO2 into the atmosphere",
+        "subtitle": "Read more about how Air Pollution affects Climate Change",
+        "image": "./data/story-images/8-wildfires.jpg",
+        "imagePlaceholder": "./data/story-images/8-wildfires_placeholder.jpg"
       },
-      "another-official-story-demo": {
-        "originalDashboardId": "c4df3549d0a02fed",
-        "title": "Recent Illegal Emissions of CFC-11 Destroy Our Ozone Layer",
-        "subtitle": "Rapid action is needed to prevent chlorofluorocarbons from eating away our ozone.",
-        "image": "https://picsum.photos/id/203/900/600",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+        "air-pollution-us-india-china": {
+        "originalDashboardId": "bd6db303fd0fb8e8",
+        "title": "Air pollution in India, China and the U.S. have changed significantly over the past two decades",
+        "subtitle": "Read more about how NASA scientists are measuring nitrogen dioxide (NO2) and sulfur dioxide (SO2) from space",
+        "image": "./data/story-images/7-greenhouse-gases-from-combustion.jpg",
+        "imagePlaceholder": "./data/story-images/7-greenhouse-gases-from-combustion_placeholder.jpg"
       },
-      "air-quality-story-demo": {
-        "originalDashboardId": "b551d84c73fc049d",
-        "title": "ESA Air Quality Demo Story 1",
-        "subtitle": "This demo story shows information about Air Quality in Australia",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+      "cairo-farmlands": {
+        "originalDashboardId": "fe9c083d830b9f90",
+        "title": "Farmlands North of Cairo absorb so much atmospheric CO2 it can be measured from space",
+        "subtitle": "Read more about how crops consume Cairo's Carbon Dioxide",
+        "image": "./data/story-images/3-agriculture-crops.jpg",
+        "imagePlaceholder": "./data/story-images/3-agriculture-crops_placeholder.jpg"
       }
     },
     "biomass-and-landcover": {
-      "a-third-official-story-demo": {
-        "originalDashboardId": "d069a45701e3a0e3",
-        "title": "Increased Vegetation around the Chernobyl Plant",
-        "subtitle": "Wildlife is flourishing in the abandoned area in spite of still highly radioactive soil",
-        "image": "https://picsum.photos/1000/800?image=18",
-        "imagePlaceholder": " /10/6?image=12"
+      "biomass-harmonization-activity": {
+        "originalDashboardId": "a785d7a3c536a452",
+        "title": "A view from space monitors land cover and tree to track aboveground biomass and carbon content",
+        "subtitle": "Read more about taking stock of global biomass maps",
+        "image": "./data/story-images/Biomass.jpeg",
+        "imagePlaceholder": "./data/story-images/Biomass_placeholder.jpeg"  
+      }
+    },
+    "covid-19": {
+      "shipping": {
+        "originalDashboardId": "d6a638e79a7de361",
+        "title": "Travel restrictions interrupted Global Supply chains dependent on cargo shipping",
+        "subtitle": "Read more about Covid-19 Impacts on global shipping",
+        "image": "./data/story-images/12-ship-traffic.jpg",
+        "imagePlaceholder": ".data/story-images/12-ship-traffic_placeholder.jpeg"
+      },
+      "airports": {
+        "originalDashboardId": "396af4c32089ffdc",
+        "title": "During COVID-19 related lockdowns air travel decreased.",
+        "subtitle": "Read more about Covid-19 Impacts on air travel with EO and AI",
+        "image": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg",
+        "imagePlaceholder": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3_placeholder.jpg"
       }
     },
     "cryosphere": {
-      "another-official-story-demo": {
-        "originalDashboardId": "c4df3549d0a02fed",
-        "title": "Sentinel-5P",
-        "subtitle": "Created by EOX to test the story feature",
-        "image": "./data/story-images/sentinel-5P.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+      "changes-in-arctic-sea-ice": {
+        "originalDashboardId": "92bc845659abfed6",
+        "title": "The Arctic region shows changes most characteristic of global warming",
+        "subtitle": "Read more about the international collaboration for understanding changes in Arctic Sea Ice",
+        "image": "./data/story-images/1-sea-ice.jpg",
+        "imagePlaceholder": "./data/story-images/1-sea-ice_placeholder.jpeg"
       },
-      "yet-another-official-story-demo": {
-        "originalDashboardId": "c4df3549d0a02fed",
-        "title": "Penguins Cuddle Even More Than Previously Thought",
-        "subtitle": "Aerial photography finds the feathery creatures packed into balls",
-        "image": "./data/story-images/penguins.jpg",
-        "imagePlaceholder": "./data/story-images/sentinel-5P_placeholder.jpg"
+      "sea-ice-freeboard-thickness": {
+        "originalDashboardId": "6be3fcfd33789f76",
+        "title": "Measuring Thickness of sea ice in the polar oceans",
+        "subtitle": "Read more about monitoring Sea Ice Freeboard & Thickness from Satellite Altimetry.",
+        "image": "./data/story-images/CryoSat.jpeg",
+        "imagePlaceholder": "./data/story-images/CryoSat_placeholder.jpeg"
+      },
+      "sea-ice-extent": {
+        "originalDashboardId": "e45036dd512afea1",
+        "title": "The sea ice extent has been rapidly decreasing in recent years as global temperatures have risen",
+        "subtitle": "Read more about monitoring Sea Ice Extent and Concentration from Passive Microwave",
+        "image": "./data/story-images/SeaIce.jpeg",
+        "imagePlaceholder": "./data/story-images/SeaIce_placeholder.jpeg"
       }
     },
-    "water-and-ocean": {
-      "official-story-demo": {
-        "originalDashboardId": "d069a45701e3a0e3",
-        "title": "Danube Delta, Romania (demo of official story)",
-        "subtitle": "Created by EOX to test the story feature",
-        "image": "./data/story-images/Danube_Delta.jpg",
-        "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg"
+    "economy": {
+      "nightlights": {
+        "originalDashboardId": "ac447995674c2091",
+        "title": "During COVID-19 lockdowns night lights in central business districts decreased",
+        "subtitle": "Read more about how researchers are using night lights to track variations in energy use, migration, and transportation",
+        "image": "./data/story-images/13-nightlights.jpg",
+        "imagePlaceholder": "./data/story-images/13-nightlights_placeholder.jpeg"
+      }
+    },
+    "oceans": {
+      "ocean-plants": {
+        "originalDashboardId": "6ea3293aade90541",
+        "title": "Satellite images  reveal a view of the ocean that is as rich and complex as that of land",
+        "subtitle": "Read more about following the activity of plants in the ocean from space",
+        "image": "./data/story-images/1-EO_PIX_Ocean_COVER_Photo.jpeg",
+        "imagePlaceholder": "./data/story-images/1-EO_PIX_Ocean_COVER_Photo.jpeg"
       },
-      "official-story-demo2": {
-        "originalDashboardId": "d069a45701e3a0e3",
-        "title": "Foreign  Sea Creatures Found in the Pacific Ocean",
-        "subtitle": "Biologists are actively researching a newly discovered species",
-        "image": "https://picsum.photos/id/1002/800/600",
-        "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg"
+      "ocean-colour": {
+        "originalDashboardId": "adc20ad9b73231b6",
+        "title": "Understanding climate change effects on water temperature and ocean currents is vital to managing these resources",
+        "subtitle": "Read more about Satellite Sensors Tracking Ocean Color Changes to Predict Phytoplankton Health",
+        "image": "./data/story-images/JAXA Ocean Cover.jpeg",
+        "imagePlaceholder": "./data/story-images/JAXA Ocean Cover_placeholder.jpeg"
       },
-      "official-story-demo3": {
-        "originalDashboardId": "d069a45701e3a0e3",
-        "title": "Coral Reefs around Australia Getting Increasingly Smaller",
-        "subtitle": "Scientists suggest an alien lifeform may be to blame",
-        "image": "https://picsum.photos/id/124/3504/2336",
-        "imagePlaceholder": "./data/story-images/Danube_Delta_placeholder.jpg"
+      "algal-blooms": {
+        "originalDashboardId": "4bcaa8555a55749d",
+        "title": "Global warming and environmental pollution have led to a rise in the number and severity of HAB outbreaks",
+        "subtitle": "Read more about how satellites track phytoplankton’s algal blooms and its impact on tourism and fisheries",
+        "image": "./data/story-images/NASA Ocean Cover.jpeg",
+        "imagePlaceholder": "./data/story-images/NASA Ocean Cover_placeholder.jpeg"
+      },
+      "primary-productivity": {
+        "originalDashboardId": "3862c9b85d87eae1",
+        "title": "One of the most important processes in nature is primary productivity",
+        "subtitle": "Read more about how satellite sensors take the pulse of our marine ecosystems",
+        "image": "./data/story-images/4-ocean-carbon.jpg",
+        "imagePlaceholder": "./data/story-images/4-ocean-carbon_placeholder.jpeg"
       }
     }
   }

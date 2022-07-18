@@ -1,109 +1,121 @@
 <template>
-  <div style="width: 100%" class="fill-height">
-    <v-tabs v-model="tab" grow activeClass="tabActive" icons-and-text>
-      <v-tab>
-        <v-badge
-          v-if="countrySelection !== 'all'"
-          color="primary"
-          icon="mdi-filter"
-          offset-x="-37"
-          offset-y="-26"
-        >
-        </v-badge>
-        Countries
-        <v-icon class="mb-1">mdi-flag-outline</v-icon>
-      </v-tab>
-      <v-tab>
-        <v-badge
-          v-if="indicatorSelection !== 'all'"
-          color="primary"
-          icon="mdi-filter"
-          offset-x="-37"
-          offset-y="-26"
-        >
-        </v-badge>
-        Indicators
-        <v-icon class="mb-1">mdi-lightbulb-on-outline</v-icon>
-      </v-tab>
-    </v-tabs>
-    <v-tabs-items
-      v-model="tab"
-      :style="`height: calc(100% - 112px); overflow-y: auto`"
+  <div
+    class="fill-height pa-5 no-pointer"
+    :class="userInput ? 'dirty' : 'clean'"
+    style="width: 420px"
+  >
+    <v-autocomplete
+      ref="autocomplete"
+      v-model="dropdownSelection"
+      hide-details
+      solo
+      rounded
+      :items="selectionItems"
+      :prepend-inner-icon="dropdownSelection ? undefined : 'mdi-magnify'"
+      clearable
+      auto-select-first
+      return-object
+      item-text="name"
+      label="Search here"
+      :search-input.sync="userInput"
+      attach="#list"
+      autofocus
+      open-on-clear
+      @click:clear="autoCompleteClear"
+      @change="autoCompleteChange"
+      @keydown.esc="userInput = null"
     >
-      <v-tab-item class="fill-height">
-        <v-list
-          dense
-          :style="$vuetify.breakpoint.xsOnly && 'padding-bottom: 60px'"
-        >
-          <v-list-item-group v-model="countrySelection" color="primary">
-            <v-list-item
-              :value="'all'"
-              :disabled="countrySelection === 'all'"
-              active-class="itemActive"
-            >
-              <v-list-item-icon
-                v-if="appConfig.id !== 'trilateral'"
-                class="d-flex align-center mr-2"
-              >
-                <country-flag country="eu" size="normal" />
-              </v-list-item-icon>
-              <v-list-item-icon v-else class="d-flex align-center ml-5 mr-6">
-                <v-icon
-                  :color="countrySelection === 'all' ? 'white' : 'primary'"
-                  >mdi-earth</v-icon
-                >
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Available countries</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-divider></v-divider>
-            <template v-for="region in uniqueRegions(countryItems)">
-              <v-subheader v-if="region" class="ml-5" :key="region">
-                {{ region.toUpperCase() }}
-              </v-subheader>
-              <v-list-item
-                v-for="country in countryItems.filter((cI) =>
-                  cI.region ? cI.region === region : true
-                )"
-                :key="country.code"
-                :value="country.code"
-                :disabled="countrySelection === country.code"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag
-                    :country="country.code === 'all' ? 'eu' : country.code"
-                    size="normal"
-                  />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>{{ country.name }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
+        <template v-slot:selection="{ item }">
+          <v-row align="center">
+            <template v-if="item.location || item.indicator">
+              <v-icon class="pr-2">{{
+                baseConfig.indicatorClassesIcons[item.class]
+                  ? baseConfig.indicatorClassesIcons[item.class]
+                  : "mdi-lightbulb-on-outline"
+              }}</v-icon>
             </template>
-          </v-list-item-group>
-        </v-list>
-      </v-tab-item>
-      <v-tab-item class="fill-height">
+
+            <template v-else>
+              <country-flag
+                :country="item.code === 'all' ? 'eu' : item.code"
+                size="normal"
+              />
+            </template>
+
+            <span v-text="item.name"></span>
+          </v-row>
+        </template>
+        <template v-slot:item="data">
+          <template v-if="data.item.location">
+            <v-list-item-icon class="ml-3 mr-4">
+              <v-icon>{{
+                baseConfig.indicatorClassesIcons[data.item.class]
+                  ? baseConfig.indicatorClassesIcons[data.item.class]
+                  : "mdi-lightbulb-on-outline"
+              }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title
+                v-text="data.item.name"
+                style="
+                  text-overflow: unset;
+                  overflow: unset;
+                  white-space: pre-wrap;
+                "
+              ></v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <template v-else-if="data.item.indicator">
+            <v-list-item-icon class="ml-3 mr-4">
+              <v-icon>{{
+                baseConfig.indicatorClassesIcons[data.item.class]
+                  ? baseConfig.indicatorClassesIcons[data.item.class]
+                  : "mdi-lightbulb-on-outline"
+              }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title v-if="data.item.indicatorOverwrite"
+                v-text="data.item.indicatorOverwrite"
+                style="
+                  text-overflow: unset;
+                  overflow: unset;
+                  white-space: pre-wrap;
+                "
+              ></v-list-item-title>
+              <v-list-item-title v-else
+                v-text="data.item.indicator"
+                style="
+                  text-overflow: unset;
+                  overflow: unset;
+                  white-space: pre-wrap;
+                "
+              ></v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <template v-else>
+            <v-list-item-icon class="d-flex align-center mr-2">
+              <country-flag
+                :country="data.item.code === 'all' ? 'eu' : data.item.code"
+                size="normal"
+              />
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ data.item.name }}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+        </template>
+    </v-autocomplete>
+    <div
+      v-show="isDropdownEnabled"
+      class="rounded-t-xl mt-3 pa-3 white"
+    >
+      <div id="list">
         <v-list
           dense
+          class="customList fill-height pt-0"
           :style="$vuetify.breakpoint.xsOnly && 'padding-bottom: 60px'"
         >
           <v-list-item-group v-model="indicatorSelection" color="primary">
-            <v-list-item
-              :value="'all'"
-              active-class="itemActive"
-              :disabled="indicatorSelection === 'all'"
-            >
-              <v-list-item-icon class="ml-3 mr-4">
-                <v-icon>mdi-lightbulb-on-outline</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Available indicators</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-divider></v-divider>
             <template v-for="classId in Object.keys(uniqueClasses)">
               <v-subheader
                 class="ml-5"
@@ -116,53 +128,106 @@
               >
                 {{ classId.toUpperCase() }}
               </v-subheader>
-              <v-list-item
-                v-for="indicator in indicatorItems.filter(
-                  (i) =>
-                    uniqueClasses[classId].includes(i.code) &&
-                    i.indicator !== ''
-                )"
-                :key="indicator.code"
-                :value="indicator.code"
-                active-class="itemActive"
-                :class="indicator.archived ? 'archived-item' : ''"
-                :disabled="indicatorSelection === indicator.code"
+              <template
+                  v-for="indicator in indicatorItems.filter(
+                    (i) =>
+                      uniqueClasses[classId].includes(i.code) &&
+                      i.indicator !== ''
+                  )"
               >
-                <v-list-item-icon class="ml-3 mr-4">
-                  <v-icon>{{
-                    baseConfig.indicatorClassesIcons[classId]
-                      ? baseConfig.indicatorClassesIcons[classId]
-                      : "mdi-lightbulb-on-outline"
-                  }}</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title v-if="indicator.indicatorOverwrite"
-                    v-text="indicator.indicatorOverwrite"
-                    style="
-                      text-overflow: unset;
-                      overflow: unset;
-                      white-space: pre-wrap;
-                    "
-                  ></v-list-item-title>
-                  <v-list-item-title v-else
-                    v-text="indicator.indicator"
-                    style="
-                      text-overflow: unset;
-                      overflow: unset;
-                      white-space: pre-wrap;
-                    "
-                  ></v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
+                <v-list-group
+                  v-if="groupedIndicators && groupedIndicators[indicator.code]"
+                  :key="indicator.code"
+                >
+                  <template v-slot:activator>
+                    <v-list-item-icon class="ml-3 mr-4">
+                      <v-icon>{{
+                        baseConfig.indicatorClassesIcons[classId]
+                          ? baseConfig.indicatorClassesIcons[classId]
+                          : "mdi-lightbulb-on-outline"
+                      }}</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-title>
+                      {{ indicator.indicatorOverwrite || indicator.indicator }}
+                    </v-list-item-title>
+                  </template>
+                  <v-list-item
+                    v-for="(feature, i) in groupedIndicators[indicator.code].features"
+                    :key="i"
+                    :value="!!feature
+                      ? getLocationCode(feature.properties.indicatorObject)
+                      : indicator.code"
+                    active-class="itemActive"
+                    :class="indicator.archived ? 'archived-item' : ''"
+                    :disabled="indicatorSelection === feature"
+                  >
+                    <v-list-item-icon class="ml-6 mr-3">
+                      <v-icon small>{{
+                        baseConfig.indicatorClassesIcons[classId]
+                          ? baseConfig.indicatorClassesIcons[classId]
+                          : "mdi-lightbulb-on-outline"
+                      }}</v-icon>
+                    </v-list-item-icon>
+
+                    <v-list-item-title>
+                      <small>
+                        {{ Array.isArray(groupedIndicators[indicator.code].label)
+                          ? groupedIndicators[indicator.code].label[i]
+                          : (Array.isArray(feature.properties
+                            .indicatorObject[groupedIndicators[indicator.code].label])
+                          ? feature.properties
+                            .indicatorObject[groupedIndicators[indicator.code].label][0]
+                          : feature.properties
+                            .indicatorObject[groupedIndicators[indicator.code].label])
+                        }}
+                      </small>
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-list-group>
+                <v-list-item
+                  v-else
+                  :key="indicator.code"
+                  :value="indicator.code"
+                  active-class="itemActive"
+                  :class="indicator.archived ? 'archived-item' : ''"
+                  :disabled="indicatorSelection === indicator.code"
+                >
+                  <v-list-item-icon class="ml-3 mr-4">
+                    <v-icon>{{
+                      baseConfig.indicatorClassesIcons[classId]
+                        ? baseConfig.indicatorClassesIcons[classId]
+                        : "mdi-lightbulb-on-outline"
+                    }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title v-if="indicator.indicatorOverwrite"
+                      v-text="indicator.indicatorOverwrite"
+                      style="
+                        text-overflow: unset;
+                        overflow: unset;
+                        white-space: pre-wrap;
+                      "
+                    ></v-list-item-title>
+                    <v-list-item-title v-else
+                      v-text="indicator.indicator"
+                      style="
+                        text-overflow: unset;
+                        overflow: unset;
+                        white-space: pre-wrap;
+                      "
+                    ></v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </template>
             </template>
           </v-list-item-group>
         </v-list>
-      </v-tab-item>
-    </v-tabs-items>
+      </div>
+    </div>
     <v-sheet
-      class="d-flex align-center justify-center"
-      :style="`width: 100%; height: 40px; ${$vuetify.breakpoint.xsOnly
-        ? 'position: absolute; bottom: 0;' : ''}`">
+      v-if="isDropdownEnabled"
+      class="d-flex align-center justify-center rounded-b-xl"
+      style="width: 100%; height: 40px">
       <v-checkbox
         :value="featureFilters.includeArchived"
         label="Show archived indicators"
@@ -190,27 +255,63 @@ export default {
   components: {
     CountryFlag,
   },
-  data: () => ({
-    tab: 0,
-    indicators: {
-      environment: 1,
-      economy: 0,
-      health: 0,
-    },
-    countrySelection: 'all',
-    indicatorSelection: 'all',
-    indicatorPanel: 0,
-  }),
+  data() {
+    return {
+      // Disable the dropdown by default on smaller screens.
+      isDropdownEnabled: !this.$vuetify.breakpoint.smAndDown,
+      userInput: '',
+      indicators: {
+        environment: 1,
+        economy: 0,
+        health: 0,
+      },
+      countrySelection: 'all',
+      indicatorSelection: 'all',
+      dropdownSelection: null,
+      groupedIndicators: null,
+    };
+  },
   computed: {
     ...mapGetters('features', [
       'getCountries',
       'getIndicators',
       'getCountryItems',
+      'getGroupedFeatures',
     ]),
     ...mapState('config', ['appConfig', 'baseConfig']),
     ...mapState('features', ['featureFilters']),
     countries() {
       return countries;
+    },
+    selectionItems() {
+      return this.countryItems
+        .concat(this.indicatorItems.map((i) => ({
+          ...i,
+          name: i.indicator,
+        })))
+        .concat(this.allFeatures);
+    },
+    allFeatures() {
+      return this.getGroupedFeatures.map((f) => {
+        const country = this.countryItems
+          .find((c) => c.code === f.properties.indicatorObject.country)
+          ? this.countryItems.find((c) => c.code === f.properties.indicatorObject.country).name
+          : 'X';
+
+        return {
+        // country: country,
+          class: this.indicatorItems
+            .find((i) => i.code === f.properties.indicatorObject.indicator).class,
+          location: f.properties.indicatorObject.city,
+          name: `${f.properties.indicatorObject.city} (${country}): ${this.getIndicator(f.properties.indicatorObject)}`,
+          // type: this.getClass(f),
+          indicator: this.getIndicator(f.properties.indicatorObject),
+          // code: f.properties.indicatorObject.indicator,
+          // indicatorValue: this.getIndicatorLabel(f.properties.indicatorObject),
+          // indicatorColor: this.getColor(f.properties.indicatorObject),
+          indicatorObject: f.properties.indicatorObject,
+        };
+      });
     },
     countryItems() {
       let countryItems;
@@ -286,8 +387,8 @@ export default {
           (ind, index, self) => self.findIndex((t) => t.code === ind.code) === index,
         );
       indicators.sort((a, b) => {
-        const codeA = a.code;
-        const codeB = b.code;
+        const codeA = a.indicator;
+        const codeB = b.indicator;
         if (codeA < codeB) return -1;
         if (codeB > codeA) return 1;
         return 0;
@@ -310,21 +411,36 @@ export default {
             this.countrySelection = mutation.payload.countries;
           }
         }
-        if (mutation.payload.indicators) {
-          if (Array.isArray(mutation.payload.indicators)) {
-            if (mutation.payload.indicators.length === 0) {
-              this.indicatorSelection = 'all';
-            } else {
-              [this.indicatorSelection] = mutation.payload.indicators;
-            }
-          } else {
-            this.indicatorSelection = mutation.payload.indicators;
-          }
-        }
+        // TODO currently causes infinite loop
+        // if (mutation.payload.indicators) {
+        //   if (Array.isArray(mutation.payload.indicators)) {
+        //     if (mutation.payload.indicators.length === 0) {
+        //       this.indicatorSelection = 'all';
+        //     } else {
+        //       [this.indicatorSelection] = mutation.payload.indicators;
+        //     }
+        //   } else {
+        //     this.indicatorSelection = mutation.payload.indicators;
+        //   }
+        // }
       }
     });
+    this.$watch(
+      () => this.$refs.autocomplete.isMenuActive,
+      (val) => {
+        this.isDropdownEnabled = val;
+      },
+    );
   },
   methods: {
+    getIndicator(indObj) {
+      let ind = indObj.description;
+      if (this.baseConfig.indicatorsDefinition[indObj.indicator]
+        && this.baseConfig.indicatorsDefinition[indObj.indicator].indicatorOverwrite) {
+        ind = this.baseConfig.indicatorsDefinition[indObj.indicator].indicatorOverwrite;
+      }
+      return ind;
+    },
     selectCountry(selection) {
       if (selection === 'all') {
         this.setFilter({ countries: [] });
@@ -332,13 +448,32 @@ export default {
         this.setFilter({ countries: selection });
       }
     },
-    selectIndicator(selection) {
+    selectIndicator(selection, selectedFeature) {
       this.setFilter({
         indicators: selection === 'all' ? [] : [selection],
-      });
+      }, selectedFeature);
     },
-    setFilter(filter) {
+    setFilter(filter, selectedFeature) {
       this.$store.commit('features/SET_FEATURE_FILTER', filter);
+      if (selectedFeature) {
+        this.$store.commit(
+          'indicators/SET_SELECTED_INDICATOR',
+          selectedFeature.properties.indicatorObject,
+        );
+      } else {
+        // filter out those POIs that are defined in featureGrouping, as they
+        // already will appear in the sub-group and can thus be directly clicked
+        const possibleValues = this.getGroupedFeatures.filter((f) => this.appConfig.featureGrouping && !this.appConfig.featureGrouping
+          .find((g) => g.features
+            .find((i) => i.includes(this.getLocationCode(f.properties.indicatorObject)))));
+        const firstFeature = possibleValues[0];
+        if (firstFeature) {
+          this.$store.commit(
+            'indicators/SET_SELECTED_INDICATOR',
+            firstFeature.properties.indicatorObject,
+          );
+        }
+      }
     },
     uniqueRegions(countryItems) {
       return countryItems
@@ -347,23 +482,75 @@ export default {
           (thing, index, self) => self.findIndex((t) => t === thing) === index,
         );
     },
+    autoCompleteChange(input) {
+      if (!input) return;
+
+      if (input.indicator) {
+        if (input.indicatorObject) {
+          this.selectIndicator(input.indicatorObject.indicator);
+          this.$store.commit(
+            'indicators/SET_SELECTED_INDICATOR',
+            input.indicatorObject,
+          );
+        } else {
+          this.selectIndicator(input.code);
+        }
+      } else {
+        this.selectCountry(input.code);
+      }
+    },
+    autoCompleteClear() {
+      this.selectCountry('all');
+      this.selectIndicator('all');
+      this.userInput = null;
+    },
   },
   watch: {
     countrySelection(val) {
       this.selectCountry(val);
     },
     indicatorSelection(val) {
-      this.selectIndicator(val);
+      if (typeof val === 'string' && val.includes('-')) {
+        // POI
+        const feature = this.$store.state.features.allFeatures
+          .find((f) => this.getLocationCode(f.properties.indicatorObject) === val);
+        if (feature) {
+          this.dropdownSelection = this.selectionItems.find((i) => i.code === val.split('-')[1]);
+          this.selectIndicator(val.split('-')[1], feature);
+        }
+      } else {
+        // indicator
+        const found = this.selectionItems.find((i) => i.code === val);
+        if (found) {
+          this.dropdownSelection = found;
+          this.selectIndicator(val);
+        }
+      }
+    },
+    getGroupedFeatures(features) {
+      if (features && !this.groupedIndicators) {
+        const grouped = {};
+        features.forEach((f) => {
+          const hasGrouping = this.appConfig.featureGrouping && this.appConfig.featureGrouping
+            .find((g) => g.features
+              .find((i) => i.includes(this.getLocationCode(f.properties.indicatorObject))));
+          if (hasGrouping) {
+            // includes features and labels
+            grouped[f.properties.indicatorObject.indicator] = {};
+            grouped[f.properties.indicatorObject.indicator].label = hasGrouping.label;
+            grouped[f.properties.indicatorObject.indicator].features = hasGrouping.features
+              .map((l) => this.$store.state.features.allFeatures
+                .find((ft) => this.getLocationCode(ft.properties.indicatorObject) === l));
+          }
+        });
+        this.groupedIndicators = grouped;
+      }
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-::v-deep .v-expansion-panel-content__wrap {
-  padding-left: 0;
-  padding-right: 0;
-}
 .v-list-item__icon .flag {
   border: 1px solid lightgray;
   background-position-x: -1px;
@@ -382,5 +569,59 @@ export default {
 }
 ::v-deep .archived-item {
   opacity: 0.65;
+}
+
+::v-deep .v-autocomplete__content {
+  position: relative;
+  height: auto;
+  max-height: unset !important;
+  top: 0 !important;
+}
+.clean::v-deep .v-autocomplete__content {
+  display: none;
+}
+.dirty .customList {
+  display: none;
+}
+
+#list {
+  height: auto;
+  max-height: calc(var(--vh, 1vh) * 100 - 180px);
+  overflow-x: hidden;
+  position: relative;
+}
+#list > .v-autocomplete__content {
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  box-shadow: none !important;
+  border-radius: 3px;
+}
+
+.list-container {
+  box-shadow:
+    1px 10px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  outline: 1px solid #ddd;
+  overflow: hidden;
+}
+
+.no-pointer {
+  pointer-events: none;
+}
+
+.no-pointer > div {
+  pointer-events: all;
+}
+
+
+::v-deep .v-autocomplete__content.v-menu__content {
+  box-shadow: none;
+}
+::v-deep .v-input--checkbox .v-label {
+  font-size: small;
 }
 </style>

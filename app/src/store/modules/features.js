@@ -3,6 +3,8 @@ import { Wkt } from 'wicket';
 import { latLng } from 'leaflet';
 import countriesJson from '@/assets/countries.json';
 
+const format = new Wkt();
+
 let globalIdCounter = 0;
 const state = {
   allFeatures: [],
@@ -111,8 +113,13 @@ const getters = {
     }
     if (state.featureFilters.indicators.length > 0) {
       features = features
-        .filter((f) => state.featureFilters.indicators
-          .includes(f.properties.indicatorObject.indicator));
+        .filter((f) => {
+          if (['N9', 'N10'].includes(f.properties.indicatorObject.indicator)) {
+            return state.featureFilters.indicators.includes('N1');
+          }
+          return state.featureFilters.indicators
+            .includes(f.properties.indicatorObject.indicator);
+        });
     }
     if (state.featureFilters.themes.length > 0) {
       features = features
@@ -216,6 +223,9 @@ const mutations = {
   },
   SET_SELECTED_AREA(state, area) {
     state.selectedArea = area;
+
+    // TODO: Extract fetchData method into helper file since it needs to be used from outside.
+    window.dispatchEvent(new CustomEvent('area-changed'));
   },
 };
 const actions = {
@@ -289,7 +299,6 @@ const actions = {
         });
         // only continue if aoi column is present
         if (Object.prototype.hasOwnProperty.call(data[0], pM.aoi)) {
-          const wkt = new Wkt();
           const featureObjs = {};
           for (let rr = 0; rr < data.length; rr += 1) {
             // Aggregate data based on location
@@ -305,28 +314,24 @@ const actions = {
             Object.entries(pM).forEach(([key, value]) => {
               if (Object.prototype.hasOwnProperty.call(data[rr], value)) {
                 if (key === 'subAoi') {
-                  // dummy empty geometry
-                  let ftrs = [];
                   try {
                     // assuming sub-aoi does not change over time
                     if (!['', '/'].includes(data[rr][value])) {
-                      wkt.read(data[rr][value]);
-                      const jsonGeom = wkt.toJson();
+                      format.read(data[rr][value]);
+                      const jsonGeom = format.toJson();
                       // create a feature collection
-                      ftrs = [{
-                        type: 'Feature',
-                        properties: {},
-                        geometry: jsonGeom,
-                      }];
+                      featureObjs[uniqueKey][key] = Object.freeze({
+                        type: 'FeatureCollection',
+                        features: [{
+                          type: 'Feature',
+                          properties: {},
+                          geometry: jsonGeom,
+                        }],
+                      });
                     }
                   } catch (err) {
                     console.log(`Error parsing subAoi of locations for index ${rr}`);
                   }
-                  const ftrCol = {
-                    type: 'FeatureCollection',
-                    features: ftrs,
-                  };
-                  featureObjs[uniqueKey][key] = ftrCol;
                 } else if (key === 'lastMeasurement') {
                   featureObjs[uniqueKey][key] = data[rr][value].length !== 0
                     ? Number(data[rr][value]) : NaN;
@@ -394,7 +399,6 @@ const actions = {
         });
         // only continue if aoi column is present
         if (Object.prototype.hasOwnProperty.call(data[0], pM.aoi)) {
-          const wkt = new Wkt();
           const featureObjs = {};
           for (let rr = 0; rr < data.length; rr += 1) {
             // Aggregate data based on location
@@ -417,14 +421,8 @@ const actions = {
                   try {
                     // assuming sub-aoi does not change over time
                     if (data[rr][value] !== '') {
-                      wkt.read(data[rr][value]);
-                      const jsonGeom = wkt.toJson();
                       // create a feature collection
-                      ftrs = [{
-                        type: 'Feature',
-                        properties: {},
-                        geometry: jsonGeom,
-                      }];
+                      ftrs = [Object.freeze(format.readFeature(data[rr][value]))];
                     }
                   } catch (err) {
                     console.log(`Error parsing subAoi of locations for index ${rr}`);

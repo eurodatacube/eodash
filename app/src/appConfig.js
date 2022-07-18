@@ -22,6 +22,7 @@ module.exports = [
       imagePath: '/img/ESA',
     },
     storyPath: '/eodash-data/stories/',
+    showNewsletterButton: true,
     customCSS: 'esa',
     newsBanner: {
       color: 'green darken-1',
@@ -36,11 +37,12 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        iframe: 'https://www.youtube.com/embed/0Qe2AV9cLnc',
+        poi: 'WSF-WSF',
+        src: './eodash-data/general/WSF.png',
       },
       {
-        poi: '100043-OX',
-        src: './eodash-data/general/Slide26.png',
+        poi: 'SO2-N1',
+        src: './eodash-data/general/TROPOMI-SO2.png',
       },
       {
         poi: 'CZ7-E8',
@@ -132,13 +134,6 @@ module.exports = [
         ],
         label: 'indicatorName',
       },
-      {
-        features: [
-          'CV-CV',
-          'OW-OW',
-        ],
-        label: ['Cases', 'Vaccinations'],
-      },
     ].concat([
       'AT4', 'BE6', 'CH1', 'DE12', 'DE13', 'DE14', 'DE15', 'DK1', 'ES10', 'ES11', 'ES14', 'ES15', 'FI4', 'FR13', 'FR8', 'GR2', 'IE1', 'IT13', 'IT9', 'NL1', 'NO1', 'PL6', 'PT1', 'SE23', 'TR1', 'UK4', 'UK5', 'UK6', 'UK7', 'UK8']
       .map((val) => ({ features: [`${val}-E13d`, `${val}-E13d2`], label: ['Airports traffic', 'Detected airplanes'] })))
@@ -201,16 +196,12 @@ module.exports = [
         indicator: 'E13c',
       },
       {
-        src: './data/trilateral/CustomDash-tri.png',
-        href: 'https://medium.com/euro-data-cube/creating-powerful-visuals-of-covid-19-impacts-on-human-activities-8879fa75121d',
+        poi: 'WSF-WSF',
+        src: './eodash-data/general/WSF.png',
       },
       {
-        poi: 'GG-GG',
-        src: './data/trilateral/GoogleMobility.png',
-      },
-      {
-        poi: 'WorldCO-N1',
-        src: './data/trilateral/Slide17.png',
+        poi: 'SO2-N1',
+        src: './eodash-data/general/TROPOMI-SO2.png',
       },
       {
         poi: 'W7-FB',
@@ -245,7 +236,8 @@ module.exports = [
     ],
     configuredMapPois: [
       'DE1-E13c', 'PL1-E13c', 'BE3-E13c', 'FR3-E13c', 'IT3-E13c',
-      'IT9-E13b', 'FR8-E13b', 'UK4-E13b', 'EG1-E13c',
+      'IT9-E13b', 'FR8-E13b', 'UK4-E13b', 'EG1-E13c', 'EG01-N1', 'EG01-N2',
+      'EG01-SIF',
     ],
     featureGrouping: [
       {
@@ -293,13 +285,6 @@ module.exports = [
         ],
         label: 'indicatorName',
       },
-      {
-        features: [
-          'CV-CV',
-          'OW-OW',
-        ],
-        label: ['Cases', 'Vaccinations'],
-      },
     ].concat([
       'ES22', 'ES23', 'ES24', 'ES30', 'ES41', 'ES42', 'ES43', 'ES51', 'ES52', 'ES61', 'ES62']
       .map((val) => ({ features: [`${val}a-E10a6`, `${val}b-E10a6`], label: 'indicatorValue' }))),
@@ -308,6 +293,6 @@ module.exports = [
     feedbackTwitterHandles: ['ESA_EO', 'esa', 'NASAEarth', 'NASA', 'JAXA_en', 'JAXA_jp', 'eurodatacube'],
     countDownTimer: '2020-06-25T13:30:00.000+02:00',
     countDownMatch: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at'],
-    enableStories: process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'staging',
+    enableStories: true,
   },
 ];

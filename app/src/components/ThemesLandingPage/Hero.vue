@@ -7,7 +7,7 @@
     </div>
     <div class="hero-section d-flex flex-column justify-center align-center px-3">
       <h2 class="mb-5 white--text" :class="$vuetify.breakpoint.xsOnly ? 'text-h4' : 'text-h2'" >
-        Earth Observation And You
+        Earth Observing Dashboard
       </h2>
       <!--<h5 class="text-h5 mb-10 white--text">A Tri-Agency Dashboard by NASA, ESA, JAXA</h5>-->
       <h5 class="text-h5 mb-5 white--text">
@@ -18,10 +18,7 @@
         />
       </h5>
       <p class="white--text pa-0" style="font-size: 18px;">
-        International collaboration among space agencies is central to
-        the success of satellite Earth observations and data analysis.
-        These partnerships foster more comprehensive measurements,
-        robust datasets, and cost-effective missions.
+        Global environmental changes observed by NASA, ESA, and JAXA
       </p>
     </div>
   </div>
@@ -61,7 +58,7 @@ export default {
 
       &.image {
         background-size: cover;
-        background-image: url('https://github.com/eurodatacube/eodash/raw/staging/app/public/data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg');
+        background-image: url('/data/story-images/EO_Dashboard_kv_no logos.png');
       }
     }
 
@@ -73,8 +70,8 @@ export default {
       height: 100%;
       background-size: cover;
       background-position: center;
-      background-image: url('../../assets/earth_bg.jpg');
-      opacity: 0.3;
+      background-image: url('/data/story-images/EO_Dashboard_kv_no logos.png');
+      opacity: 0.7;
     }
   }
 </style>

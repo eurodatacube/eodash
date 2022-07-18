@@ -1,22 +1,30 @@
 <template>
   <div
     class="pa-7 pb-0"
+    :style="{ background: $vuetify.theme.currentTheme.background }"
     :class="$vuetify.breakpoint.xsOnly && 'pb-10'"
   >
     <v-row class="d-flex">
       <v-col
         cols="12"
       >
-        <h1 class="display-1 primary--text">COVID-19 Impact seen by Satellite</h1>
+        <h1 class="display-1 primary--text">
+          {{ currentTheme
+            ? `${currentTheme.name} Datasets`
+            : 'Global Changes Observed by Satellites'}}
+        </h1>
       </v-col>
       <v-col
+        v-if="!currentTheme"
         cols="12"
       >
         <v-card outlined>
           <news-carousel v-if="appConfig.showNewsCarousel" />
         </v-card>
       </v-col>
-      <template v-if="baseConfig.indicatorClassesIcons">
+      <template
+        v-if="baseConfig.indicatorClassesIcons && !currentTheme"
+      >
         <v-col
           v-for="category in Object.keys(baseConfig.indicatorClassesIcons)
             .filter(c => featureLength(c) > 0)"
@@ -81,6 +89,18 @@
         ></div>
       </v-card>
       </v-col>
+      <v-col v-if="currentTheme">
+        <v-btn
+          block
+          x-large
+          :color="currentTheme.color"
+          dark
+          :to="`/${currentTheme.slug}`"
+        >
+          <v-icon left>mdi-arrow-right</v-icon>
+          {{ currentTheme.name }} stories
+        </v-btn>
+      </v-col>
     </v-row>
   </div>
 </template>
@@ -113,6 +133,9 @@ export default {
     ...mapState('features', [
       'allFeatures',
     ]),
+    ...mapGetters({
+      currentTheme: 'themes/getCurrentTheme',
+    }),
     welcome() {
       return this.$marked(require(`../../public${this.appConfig.welcomeText}.md`).default);
     },

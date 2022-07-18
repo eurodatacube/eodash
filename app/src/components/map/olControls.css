@@ -1,0 +1,97 @@
+
+
+.ol-control {
+  z-index: 2;
+  background-color: white;
+  padding: 2px;
+  box-shadow: none !important;
+}
+
+.theme--dark .ol-control {
+  background-color: #1E1E1E;
+}
+
+.ol-control button {
+  color: unset;
+  background-color: unset;
+  margin: 0px;
+}
+
+.ol-control button:hover {
+  background-color: unset;
+}
+
+.ol-control button:focus {
+  background-color: unset;
+}
+
+
+.ol-attribution > ul {
+  font-size: 10px;
+  color: unset;
+  text-shadow: none;
+}
+
+.ol-zoom {
+  left: unset;
+  top: 45px !important;
+  right: 10px !important;
+}
+
+.ol-full-screen {
+  left: unset;
+  top: 10px !important;
+  right: 10px !important;
+}
+
+.ol-mouse-position {
+  top: unset;
+  bottom: 0.5em !important;
+  right: 0.5em !important;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  padding-left: 6px;
+  padding-right: 6px;
+  pointer-events: none !important;
+}
+
+.ol-mouse-position span{
+  font-size: 12px;
+  display: inline-block;
+  padding-right: 26px;
+}
+
+.loading-indicator {
+  top: unset;
+  bottom: 0.5em !important;
+  left: 0.5em !important;
+  height: 26px;
+  pointer-events: none !important;
+}
+
+.loading-indicator.hidden {
+  display: none;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner:after {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  margin-top: -9px;
+  margin-left: -9px;
+  border-radius: 50%;
+  border: 5px solid rgba(180, 180, 180, 0.6);
+  border-top-color: rgba(0, 0, 0, 0.6);
+  animation: spinner 0.6s linear infinite;
+}

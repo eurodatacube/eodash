@@ -17,7 +17,7 @@
           x-small
           @click="resetBCZoom"
         >
-          Reset
+          Reset Zoom
         </v-btn>
   </div>
   <div style="width: 100%; height: 100%;"
@@ -38,35 +38,15 @@
         :src="require('@/assets/E10a8_label.jpg')" alt="color legend"
         style="position: absolute; width: 150px; z-index: 0;
         top: 0px; right: 0px;"/>
-      <v-row
-        class="justify-center align-center timeSelection mr-6 ml-0"
-        style="position: absolute; bottom: 0px; z-index: 1000;
-          width: auto; max-width: 100%;left:-45px;"
-      >
-        <v-col cols="6">
-          <v-select
-            outlined dense autofocus hide-details
-            :prepend-inner-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
-              .map((i) => i.value)
-              .indexOf(dataLayerTime) > 0
-                ? 'mdi-arrow-left-drop-circle'
-                : 'mdi-asterisk')"
-            :append-icon="(arrayOfObjects && dataLayerTime) && (arrayOfObjects
-              .map((i) => i.value)
-              .indexOf(dataLayerTime) < arrayOfObjects.length - 1
-                ? 'mdi-arrow-right-drop-circle'
-                : 'mdi-asterisk')"
-            menu-props="auto"
-            :items="arrayOfObjects"
-            item-value="value"
-            item-text="name"
-            v-model="dataLayerTime"
-            @change="dataLayerTimeSelection"
-            @click:prepend-inner="dataLayerReduce"
-            @click:append="dataLayerIncrease">
-          </v-select>
-        </v-col>
-      </v-row>
+      <div style="position: absolute; width: 100%; max-width: 180px; left: 75px; bottom: -10px">
+        <indicator-time-selection
+          v-if="dataLayerTime"
+          :autofocus="!disableAutoFocus"
+          :available-values="arrayOfObjects"
+          :original-time.sync="dataLayerTime"
+          :enable-compare="false"
+        />
+      </div>
   </div>
   <div style="width: 100%; height: 100%;" v-else>
     <line-chart v-if='lineChartIndicators.includes(indicatorObject.indicator)'
@@ -84,7 +64,7 @@
       x-small
       @click="resetLCZoom"
     >
-      Reset
+      Reset Zoom
     </v-btn>
   </div>
 </template>
@@ -99,24 +79,28 @@ import LineChart from '@/components/LineChart.vue';
 import MapChart from '@/components/MapChart.vue';
 import NUTS from '@/assets/NUTS_RG_03M_2016_4326_ESL2-DEL3.json';
 
+import IndicatorTimeSelection from './IndicatorTimeSelection.vue';
+
 export default {
-  props: [
-    'currentIndicator',
-  ],
+  props: {
+    currentIndicator: Object,
+    disableAutoFocus: Boolean,
+  },
   components: {
     BarChart,
     LineChart,
     MapChart,
+    IndicatorTimeSelection,
   },
   data() {
     return {
       dataLayerTime: null,
-      dataLayerIndex: 0,
       lineChartIndicators: [
-        'E12', 'E12b', 'E8', 'N1b', 'N1', 'N3', 'N3b',
+        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'N3', 'N3b',
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
-        'E13o', 'E13p', 'E13q', 'E13r',
+        'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
+        'NPP',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6',
@@ -139,7 +123,11 @@ export default {
 
   mounted() {
     const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
-    this.dataLayerTime = d.toFormat('dd. MMM');
+    const formatted = d.toFormat('dd. MMM');
+    this.dataLayerTime = {
+      value: formatted,
+      name: formatted,
+    };
   },
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
@@ -300,6 +288,22 @@ export default {
             valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
               .map((str) => (str === '' ? Number.NaN : Number(str)))),
           },
+          NASACustomLineChart: {
+            measurementConfig: {
+              label: indicator.yAxis,
+              fill: false,
+              backgroundColor: refColors[0],
+              borderColor: refColors[0],
+              spanGaps: false,
+              borderWidth: 2,
+            },
+            referenceData: [
+              {
+                key: 'Median', index: 0, color: 'black', fill: false,
+              },
+            ],
+            valueDecompose: (item) => Number(item),
+          },
         };
         referenceDecompose.N1b = referenceDecompose.N1a;
         referenceDecompose.N1c = referenceDecompose.N1a;
@@ -311,6 +315,11 @@ export default {
         referenceDecompose.E13q = referenceDecompose.N1;
         referenceDecompose.E13r = referenceDecompose.N1;
         referenceDecompose.N9 = referenceDecompose.N1;
+        referenceDecompose.CDS1 = referenceDecompose.N1;
+        referenceDecompose.CDS2 = referenceDecompose.N1;
+        referenceDecompose.CDS3 = referenceDecompose.N1;
+        referenceDecompose.CDS4 = referenceDecompose.N1;
+        referenceDecompose.NPP = referenceDecompose.N1;
 
         // Generators based on data type
         if (Object.keys(referenceDecompose).includes(indicatorCode)) {
@@ -426,7 +435,6 @@ export default {
             });
           });
         }
-
         // Generate data for datasets where a string array is passed as indicator object
         if (Object.keys(indicatorDecompose).includes(indicatorCode)) {
           indicatorDecompose[indicatorCode].forEach((key, idx) => {
@@ -804,8 +812,8 @@ export default {
 
           const filteredFeatures = features.filter((d) => {
             let include = false;
-            if (d.time instanceof DateTime) {
-              include = d.time.toFormat('dd. MMM') === this.dataLayerTime
+            if (d.time instanceof DateTime && this.dataLayerTime) {
+              include = d.time.toFormat('dd. MMM') === this.dataLayerTime.value
                 && !Number.isNaN(d.value);
             }
             return include;
@@ -853,7 +861,7 @@ export default {
         || this.$store.state.indicators.selectedIndicator;
     },
     indDefinition() {
-      return this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator];
+      return this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator] || {};
     },
   },
   methods: {
@@ -867,6 +875,14 @@ export default {
         this.$refs.zoomResetButton.$el.style.display = 'none';
       }
     },
+    // Same goes for the other button
+    areaChanged(val) {
+      if (val) {
+        this.$refs.regenerateButton.$el.style.display = 'block';
+      } else {
+        this.$refs.regenerateButton.$el.style.display = 'none';
+      }
+    },
     resetLCZoom() {
       this.extentChanged(false);
       this.$refs.lineChart._data._chart.resetZoom();
@@ -874,27 +890,6 @@ export default {
     resetBCZoom() {
       this.extentChanged(false);
       this.$refs.barChart._data._chart.resetZoom();
-    },
-    dataLayerTimeSelection(payload) {
-      this.dataLayerTime = payload;
-      const newIndex = this.arrayOfObjects
-        .map((i) => i.value)
-        .indexOf(this.dataLayerTime);
-      this.dataLayerIndex = newIndex;
-    },
-    dataLayerReduce() {
-      const currentIndex = this.arrayOfObjects
-        .map((i) => i.value)
-        .indexOf(this.dataLayerTime);
-      this.dataLayerIndex = currentIndex - 1;
-      this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex - 1].value);
-    },
-    dataLayerIncrease() {
-      const currentIndex = this.arrayOfObjects
-        .map((i) => i.value)
-        .indexOf(this.dataLayerTime);
-      this.dataLayerIndex = currentIndex + 1;
-      this.dataLayerTimeSelection(this.arrayOfObjects[currentIndex + 1].value);
     },
     formatNumRef(num, maxDecimals = 3) {
       return Number.parseFloat(num.toFixed(maxDecimals));
@@ -1265,7 +1260,7 @@ export default {
       }
 
       // Special handling for chart including STD representation
-      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r'].includes(indicatorCode)) {
+      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4'].includes(indicatorCode)) {
         customSettings.legendExtend = {
           onClick: function onClick(e, legendItem) {
             if (legendItem.text === 'Standard deviation (STD)') {
@@ -1275,7 +1270,6 @@ export default {
               const hideIndex = ci.config.data.datasets.findIndex(
                 (item) => item.label === 'hide_',
               );
-              console.log(hideIndex);
               if (hideIndex !== -1) {
                 const masterMeta = ci.getDatasetMeta(masterIndex);
                 const meta = ci.getDatasetMeta(hideIndex);
@@ -1362,8 +1356,5 @@ export default {
 <style lang="scss" scoped>
 .md-body {
   font-size: small;
-}
-::v-deep .mdi-asterisk {
-  visibility: hidden;
 }
 </style>

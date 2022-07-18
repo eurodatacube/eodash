@@ -12,39 +12,169 @@ with the same user id as your local account, e.g. "--user 1001"
 import os, shutil
 import json
 import csv
-import datetime
+from datetime import datetime, timedelta
+from dateutil import parser
+from decimal import Decimal
+from typing import Iterator
+from duration import Duration
 import collections
 import requests
+from datetime import timedelta
+from decimal import Decimal
+import re
+
+from six import string_types
+import xml.etree.ElementTree as ET
+
 from dotenv.main import find_dotenv, DotEnv
 from xcube_geodb.core.geodb import GeoDBClient
+
+from owslib.wms import WebMapService
+
+
+
+ISO8601_PERIOD_REGEX = re.compile(
+    r"^(?P<sign>[+-])?"
+    r"P(?!\b)"
+    r"(?P<years>[0-9]+([,.][0-9]+)?Y)?"
+    r"(?P<months>[0-9]+([,.][0-9]+)?M)?"
+    r"(?P<weeks>[0-9]+([,.][0-9]+)?W)?"
+    r"(?P<days>[0-9]+([,.][0-9]+)?D)?"
+    r"((?P<separator>T)(?P<hours>[0-9]+([,.][0-9]+)?H)?"
+    r"(?P<minutes>[0-9]+([,.][0-9]+)?M)?"
+    r"(?P<seconds>[0-9]+([,.][0-9]+)?S)?)?$")
+# regular expression to parse ISO duartion strings.
+
+def parse_duration(datestring):
+    """
+    Parses an ISO 8601 durations into datetime.timedelta
+    """
+    if not isinstance(datestring, string_types):
+        raise TypeError("Expecting a string %r" % datestring)
+    match = ISO8601_PERIOD_REGEX.match(datestring)
+    if not match:
+        # try alternative format:
+        if datestring.startswith("P"):
+            durdt = parse_datetime(datestring[1:])
+            if durdt.year != 0 or durdt.month != 0:
+                # create Duration
+                ret = Duration(days=durdt.day, seconds=durdt.second,
+                               microseconds=durdt.microsecond,
+                               minutes=durdt.minute, hours=durdt.hour,
+                               months=durdt.month, years=durdt.year)
+            else:  # FIXME: currently not possible in alternative format
+                # create timedelta
+                ret = timedelta(days=durdt.day, seconds=durdt.second,
+                                microseconds=durdt.microsecond,
+                                minutes=durdt.minute, hours=durdt.hour)
+            return ret
+        raise ISO8601Error("Unable to parse duration string %r" % datestring)
+    groups = match.groupdict()
+    for key, val in groups.items():
+        if key not in ('separator', 'sign'):
+            if val is None:
+                groups[key] = "0n"
+            # print groups[key]
+            if key in ('years', 'months'):
+                groups[key] = Decimal(groups[key][:-1].replace(',', '.'))
+            else:
+                # these values are passed into a timedelta object,
+                # which works with floats.
+                groups[key] = float(groups[key][:-1].replace(',', '.'))
+    if groups["years"] == 0 and groups["months"] == 0:
+        ret = timedelta(days=groups["days"], hours=groups["hours"],
+                        minutes=groups["minutes"], seconds=groups["seconds"],
+                        weeks=groups["weeks"])
+        if groups["sign"] == '-':
+            ret = timedelta(0) - ret
+    else:
+        ret = Duration(years=groups["years"], months=groups["months"],
+                       days=groups["days"], hours=groups["hours"],
+                       minutes=groups["minutes"], seconds=groups["seconds"],
+                       weeks=groups["weeks"])
+        if groups["sign"] == '-':
+            ret = Duration(0) - ret
+    return ret
 
 dot_env = DotEnv("/public/.env")
 dot_env.set_as_environment_variables()
 geodb = GeoDBClient()
 envs = dot_env.dict()
 
-# Function to fetch all available dates for BYOD collections
+# Function to fetch all available dates for BYOD collections.
 # Make sure all appropiate collection ids are set in your docker environment
 COLLECTIONS = [
-    "N3_CUSTOM", "N3_CUSTOM_TSMNN", "E12C_NEW_MOTORWAY",
-    "E12D_NEW_PRIMARYROADS", "ICEYE-E3", "ICEYE-E11", "ICEYE-E11A", "ICEYE-E12B",
-    "ICEYE-E13B","N3_CUSTOM_TRILATERAL", "N3_CUSTOM_TRILATERAL_TSMNN",
-    "JAXA_TSM", "JAXA_CHLA",
-    "VIS_2MTEMPERATURE", "VIS_RELHUMIDITY1000HPA", "POPULATION_DENSITY",
-    "VIS_WIND_U_10M", "VIS_WIND_V_10M",
-    "VIS_SO2_DAILY_DATA",
+]
+
+MIGRATED_COLLECTIONS = [
+    "AWS_N3_CUSTOM",
+    "AWS_N3_CUSTOM_TSMNN",
+    "AWS_E12C_NEW_MOTORWAY",
+    "AWS_E12D_NEW_PRIMARYROADS",
+    "AWS_ICEYE-E3",
+    "AWS_ICEYE-E11",
+    "AWS_ICEYE-E11A",
+    "AWS_ICEYE-E12B",
+    "AWS_ICEYE-E13B",
+    "AWS_N3_CUSTOM_TRILATERAL",
+    "AWS_N3_CUSTOM_TRILATERAL_TSMNN",
+    "AWS_JAXA_TSM",
+    "AWS_JAXA_CHLA",
+    "AWS_VIS_2MTEMPERATURE",
+    "AWS_VIS_RELHUMIDITY1000HPA",
+    "AWS_POPULATION_DENSITY",
+    "AWS_VIS_WIND_U_10M",
+    "AWS_VIS_WIND_V_10M",
+    "AWS_VIS_SO2_DAILY_DATA",
+    "AWS_VIS_CO_3DAILY_DATA",
+    "AWS_NO2-VISUALISATION",
+    "BICEP_NPP_VIS_PP",
+    "VIS_ENVISAT_SEAICETHICKNESS",
+    "VIS_CRYOSAT_SEAICETHICKNESS",
+]
+
+ZARRCOLLECTIONS = [
+    "BICEP_NPP_VIS_PP",
+    "VIS_ENVISAT_SEAICETHICKNESS",
+    "VIS_CRYOSAT_SEAICETHICKNESS",
+]
+
+WMSCOLLECTIONS = {
+    "ONPP-GCOMC-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
+    "NDVI-GCOMC-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
+    "SMC-Anomaly-GCOMW-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
+    "PRC-Anomaly-GSMaP-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
+}
+
+STAC_COLLECTIONS = {
+    "no2-monthly": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "no2-monthly-diff": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "OMI_trno2-COG": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "OMSO2PCA-COG": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "facebook_population_density": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "nightlights-hd-monthly": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "IS2SITMOGR4": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "MO_NPP_npp_vgpm": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "nightlights-hd-3bands": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    "nceo_africa_2017": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    #"HLSL30.002": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+    #"HLSS30.002": "https://9nq44o8hmk.execute-api.us-east-1.amazonaws.com/collections/",
+}
+# Collections items which have null datetimes and instead start_datetime and end_datetime
+SPECIAL_STAC_DATE = [
+    "IS2SITMOGR4", "MO_NPP_npp_vgpm",
 ]
 
 # Some datasets have different dates for different areas so we need to separate
 # the request to only retrieve dates from those locations
 BBOX = {
-    "JAXA_CHLA": [
+    "AWS_JAXA_CHLA": [
         ("44.48,12.05,45.82,13.85", "NorthAdriatic_JAXA"),
         ("34.838,139.24,35.6932,140.266", "JP01"),
         ("34.2,136.4,35.2,137.4", "JP04"),
         ("33.85,134.5,34.85,135.5", "JP02"),
     ],
-    "JAXA_TSM": [
+    "AWS_JAXA_TSM": [
         ("44.48,12.05,45.82,13.85", "NorthAdriaticTSM_JAXA"),
         ("34.838,139.24,35.6932,140.266", "JP01TSM"),
         ("34.2,136.4,35.2,137.4", "JP04TSM"),
@@ -54,7 +184,8 @@ BBOX = {
 
 # TODO: what to do about SENTINEL-2-L2A-TRUE-COLOR collection, not BYOD
 
-WFSENDPOINT = "https://shservices.mundiwebservices.com/ogc/wfs/"
+# WFSENDPOINT = "https://shservices.mundiwebservices.com/ogc/wfs/"
+MIGRATEDENDPOINT ="https://services.sentinel-hub.com/ogc/wfs/"
 REQUESTOPTIONS = "?REQUEST=%s&srsName=%s&TIME=%s&outputformat=%s"%(
     "GetFeature", "EPSG:4326",
     "1900-01-01/3000-02-01", "application/json"
@@ -63,31 +194,160 @@ REQUESTOPTIONS = "?REQUEST=%s&srsName=%s&TIME=%s&outputformat=%s"%(
 date_data_file = '/config/data_dates.json'
 results_dict = {}
 
-def retrieve_entries(url, offset):
+def retrieve_entries(url, offset, dateproperty="date"):
     r = requests.get("%s&FEATURE_OFFSET=%s"%(url, (offset*100)))
-    json_resp = r.json()
-    features = json_resp["features"]
     res = []
-    [res.append(f["properties"]["date"]) for f in features if f["properties"]["date"] not in res]
-    if len(features) == 100:
-        res.extend(retrieve_entries(url, offset+1))
+    try:
+        json_resp = r.json()
+        features = json_resp["features"]
+        [res.append(f["properties"][dateproperty]) for f in features if f["properties"][dateproperty] not in res]
+        if len(features) == 100:
+            res.extend(retrieve_entries(url, offset+1))
+    except Exception as e:
+        print("Issue parsing json for request: %s"%url)
+        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        message = template.format(type(e).__name__, e.args)
+        print (message)
     return res
 
+def retrieve_stac_entries(url, offset):
+    offset_step = 5000
+    r = requests.get("%s&FEATURE_OFFSET=%s"%(url, (offset*offset_step)))
+    res = []
+    try:
+        json_resp = r.json()
+        features = json_resp["features"]
+        for f in features:
+            # try to find the datetime attribute
+            date = None
+            if "datetime" in f["properties"] and f["properties"]["datetime"] != None:
+                date = f["properties"]["datetime"]
+            elif "start_datetime" in f["properties"]:
+                date = f["properties"]["start_datetime"]
+            elif "date" in f["properties"]:
+                date = f["properties"]["date"]
+            res.append([
+                date,
+                f["assets"]["cog_default"]["href"]
+            ])
+        if len(features) == offset_step:
+            raise Exception("It seems there are more then 5000 entries for the requested collection %s"%url)
+    except Exception as e:
+        print("Issue parsing json for request: %s"%url)
+        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        message = template.format(type(e).__name__, e.args)
+        print (message)
+    return res
 
-print("Fetching information of available dates for BYOD data")
+def retrieve_location_stac_entries(url, offset, location):
+    offset_step = 5000
+    r = requests.get("%s&FEATURE_OFFSET=%s"%(url, (offset*offset_step)))
+    res = {}
+    json_resp = r.json()
+    features = json_resp["features"]
+    try:
+        for f in features:
+            if json.dumps(f["bbox"]) in location:
+                # try to find the datetime attribute
+                date = None
+                if "datetime" in f["properties"] and f["properties"]["datetime"] != None:
+                    date = f["properties"]["datetime"]
+                elif "start_datetime" in f["properties"]:
+                    date = f["properties"]["start_datetime"]
+                elif "date" in f["properties"]:
+                    date = f["properties"]["date"]
+                location_id = "%s-%s"%(collection, location[json.dumps(f["bbox"])]["id"])
+                res.setdefault(location_id, []).append([
+                    date,
+                    f["assets"]["cog_default"]["href"]
+                ])
+            else:
+                # print("Location not found for %s"%f["bbox"])
+                # print(f["assets"]["cog_default"]["href"])
+                pass
+        if len(features) == offset_step:
+            raise Exception("It seems there are more then 5000 entries for the requested collection %s"%url)
+    except Exception as e:
+        print("Issue parsing json for request: %s"%url)
+        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        message = template.format(type(e).__name__, e.args)
+        print (message)
+    return res
+
+print("Fetching information for STAC endpoints with time information")
 try:
-    for key in COLLECTIONS:
+    with open("/config/locations.json") as locations_file:
+        locations = json.load(locations_file)
+        for collection, stac_url in STAC_COLLECTIONS.items():
+            # Pagination does not seem to work on this api, so we request 5000 items
+            if collection in locations:
+                results = retrieve_location_stac_entries(
+                    "%s/%s/items?limit=5000"%(stac_url, collection),
+                    0, locations[collection],
+                )
+                # First we reverse all results
+                for item in results.values():
+                    item.reverse()
+                results_dict = {**results_dict, **results}
+            else:
+                results = retrieve_stac_entries(
+                    "%s/%s/items?limit=5000"%(stac_url, collection), 0,
+                )
+                results.reverse()
+                results_dict[collection] = results
+
+except Exception as e:
+    print("Issue STAC data from NASA endpoint")
+    template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+    message = template.format(type(e).__name__, e.args)
+    print (message)
+
+print("Fetching information for WMS endpoints with time information")
+def interval(start: datetime, stop: datetime, delta: timedelta) -> Iterator[datetime]:
+    while start <= stop:
+        yield start
+        start += delta
+    yield stop
+
+try:
+    for layer, capabilties_url in WMSCOLLECTIONS.items():
+        wms = WebMapService(capabilties_url, version='1.1.1')
+        if layer in list(wms.contents):
+            times = []
+            for tp in wms[layer].timepositions:
+                tp_def = tp.split("/")
+                if len(tp_def)>1:
+                    dates = interval(
+                        parser.parse(tp_def[0]),
+                        parser.parse(tp_def[1]),
+                        parse_duration(tp_def[2])
+                    )
+                    times += [x.strftime('%Y-%m-%dT%H:%M:%S.000Z') for x in dates]
+                else:
+                    times.append(tp)
+            results_dict[layer] = times
+except Exception as e:
+    print("Issue extracting information from WMS capabilties")
+    template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+    message = template.format(type(e).__name__, e.args)
+    print (message)
+
+print("Fetching information of available dates for BYOD data from new server")
+try:
+    for key in MIGRATED_COLLECTIONS:
         # fetch identifier from environment
         if key in envs:
             coll_id = envs[key]
             layer_name = "&TYPENAMES=DSS10-%s"%(coll_id)
+            if key in ZARRCOLLECTIONS:
+                layer_name = "&TYPENAMES=zarr-%s"%(coll_id)
             if key in BBOX:
                 # There are multiple locations for this dataset so we do
                 # requests for each location
                 for (val, subr_key) in BBOX[key]:
                     bbox = "&BBOX=%s"%val
                     request = "%s%s%s%s%s"%(
-                        WFSENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
+                        MIGRATEDENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
                         layer_name, bbox
                     )
                     results = retrieve_entries(request, 0)
@@ -96,7 +356,7 @@ try:
             else:
                 bbox = "&BBOX=-180,90,180,-90"
                 request = "%s%s%s%s%s"%(
-                    WFSENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
+                    MIGRATEDENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
                     layer_name, bbox
                 )
                 results = retrieve_entries(request, 0)
@@ -105,8 +365,11 @@ try:
                 results_dict[key] = results
         else:
             print("Key for %s not found in environment variables"%key)
-except:
-    print("Issue retrieving BYOD information")
+except Exception as e:
+    print("Issue retrieving BYOD information from new server")
+    template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+    message = template.format(type(e).__name__, e.args)
+    print (message)
 
 print("Writing results to %s"%date_data_file)
 with open(date_data_file, "w") as fp:
@@ -188,7 +451,7 @@ default_array_map = {
 def try_parsing_date(text, line):
     for fmt in ('%Y-%m-%dT%H:%M:%S', '%Y-%m-%d'):
         try:
-            return datetime.datetime.strptime(text.strip(), fmt)
+            return datetime.strptime(text.strip(), fmt)
         except ValueError:
             pass
     raise ValueError(f'time "{text}" not provided in valid format, full line "{line}"')
@@ -366,7 +629,7 @@ def generateData(
         poi_dict[poi_key]["lastReferenceValue"] = ([""] + [i["reference_value"] for i in curr_data if i["reference_value"] not in ["", 'NaN', '/']])[-1]
 
     def date_converter(obj):
-        if isinstance(obj, datetime.datetime):
+        if isinstance(obj, datetime):
             return obj.strftime('%Y-%m-%dT%H:%M:%S')
 
     output_dict = {key: {subkey: poi_dict[key][subkey] for subkey in outKeys} for key in poi_dict}
@@ -396,8 +659,8 @@ with open(stories_config) as json_file:
                     dash_id = entry['originalDashboardId']
                     resp = requests.get(dashboards_endpoint+dash_id)
                     if resp.status_code == 200:
-                        with open("%s/%s.json"%(dashboards_folder, dash_id), "wb") as f:
-                            f.write(resp.content)
+                        with open("%s/%s.json"%(dashboards_folder, dash_id), "w") as f:
+                            f.write(json.dumps(resp.json(), indent = 2))
                     else:
                         print ('Issue retrieving story with dashboard id %s'%dash_id)
 
@@ -420,6 +683,9 @@ generateData(
         '/public/data/trilateral/E10c.csv',
         '/public/data/trilateral/N2.csv',
         '/public/data/trilateral/N3b.csv',
+        '/public/data/trilateral/N1_EG.csv',
+        '/public/data/trilateral/N2_EG.csv',
+        '/public/data/trilateral/SIF_EG.csv',
     ],
     [
         #['E1', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'], archived

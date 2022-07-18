@@ -16,8 +16,10 @@
 
         <div class="section pb-16">
           <theme-navigation />
-          <div class="mt-16 d-flex flex-column justify-start align-center">
+
+          <div class="mt-16 mb-16 d-flex flex-column justify-start align-center">
             <stories-grid :items="oneOfEachTheme" />
+            <newsletter-banner v-if="appConfig && appConfig.showNewsletterButton" />
           </div>
         </div>
 
@@ -30,14 +32,24 @@
               <v-col cols="12" xs="12" sm="12" md="6" lg="6">
                 <div class="info-section d-flex flex-column justify-center
                 pb-8 pb-md-0 pr-xs-0 pr-sm-0 pr-md-8 pr-lg-8 pr-xl-8">
-                  <h3 class="text-h3 mb-10">EODASHBOARD Datasets</h3>
+                  <h3 class="text-h3 mb-10">Earth Observation Datasets</h3>
 
                   <p class="mb-10" style="font-size: 18px;">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                    eu fugiat nulla pariatur.
+                    Here you can browse the Earth Observation datasets and use the interactive
+                    features, including maps that compute simple analytics by drawing an area
+                    of interest. Other datasets are tabular data, presented as charts. All charts
+                    can be downloaded as CSV. The open data and project source code can be
+                    accessed in Github:
+                    <v-btn
+                      href="https://github.com/eurodatacube/eodash"
+                      target="_blank"
+                      text
+                      small
+                    >
+                      <v-icon left>mdi-github</v-icon>
+                      eurodatacube/eodash
+                      <v-icon right>mdi-open-in-new</v-icon>
+                    </v-btn>
                   </p>
 
                   <v-btn
@@ -57,7 +69,7 @@
                 class="info-section d-flex flex-column justify-center"
               >
                 <img
-                  src="@/assets/datasets.jpg"
+                  src="/data/story-images/Datasets-landing.jpg"
                   width="100%"
                   class="pl-xs-0 pl-sm-0 pl-md-8 pl-lg-8 pl-xl-8"
                 />
@@ -72,7 +84,7 @@
                 class="info-section d-flex flex-column justify-center"
               >
                 <img
-                  src="https://eodashboard.org/data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg"
+                  src="/data/story-images/EO_Dashboard_kv_placeholder.jpeg"
                   width="100%"
                   class="pr-xs-0 pr-sm-0 pr-md-8 pr-lg-8 pr-xl-8"
                 />
@@ -84,32 +96,35 @@
                   <h3 class="text-h3">A Tri-Agency Dashboard by NASA, ESA, JAXA</h3>
 
                   <p class="mt-10">
-                    International collaboration among space agencies is central to the success of
-                    satellite Earth observations and data analysis. These partnerships foster more
-                    comprehensive measurements, robust datasets, and cost-effective missions.
+                   International collaboration among space agencies is central to the success of
+                   satellite Earth observations and data analysis, aiming at providing an accurate
+                   and timely information to decision-makers, main stakeholders and public.
+                   These partnerships foster more comprehensive measurements, robust datasets,
+                   and cost-effective missions.
                   </p>
 
                   <p>
-                    The tri-agency COVID-19 Dashboard is a concerted effort between the <b>European
-                    Space Agency (ESA)</b>, <b>Japan Aerospace Exploration Agency (JAXA)</b>, and
-                    <b>National Aeronautics and Space Administration (NASA)</b>. The dashboard
-                    combines the resources, technical knowledge and expertise of the three partner
-                    agencies to strengthen our global understanding of the environmental and
-                    economic effects of the COVID-19 pandemic.
+                    The <b>European Space Agency (ESA), Japan Aerospace Exploration Agency (JAXA),
+                    and National Aeronautics and Space Administration (NASA)</b> have combined
+                    their resources, technical knowledge, and expertise to produce this Earth
+                    Observing Dashboard, which strengthens our understanding of global
+                    environmental changes and other societal challenges impacting our planet.
                   </p>
 
                   <p>
-                    Use the dashboard to explore environmental and economic indicators based on
-                    remote sensing data from ESA, JAXA and NASA, and investigate how social
-                    distancing measures and regional shelter-in-place guidelines have affected
-                    Earth’s air, land, and water. Explore individual countries and regions
-                    across the world to see how the indicators in each specific location have
+                    The dashboard provides an easy-to-use resource for all kinds of public from the
+                    scientist to the decision-maker, including people not familiar with satellites.
+                    Based on accurate remote sensing observations, it showcases examples of global
+                    environmental changes on 7 themes: Atmosphere, Oceans, Biomass, Cryosphere,
+                    Agriculture, Covid-19 and Economy. The dashboard offers a precise, objective
+                    and factual view without any artifacts of our planet. You can explore countries
+                    and regions around the world to see how the indicators in specific locations
                     changed over time.
                   </p>
 
                   <p>
-                    Together, ESA, JAXA, and NASA will continue to update
-                    this dashboard with the most current information.
+                    ESA, JAXA, and NASA will continue to enhance this dashboard as new data
+                    becomes available.
                   </p>
                 </div>
               </v-col>
@@ -135,6 +150,7 @@ import GlobalHeader from '@/components/GlobalHeader.vue';
 import Hero from '@/components/ThemesLandingPage/Hero.vue';
 import ThemeNavigation from '@/components/ThemesLandingPage/ThemeNavigation.vue';
 import StoriesGrid from '@/components/ThemesLandingPage/StoriesGrid.vue';
+import NewsletterBanner from '@/components/ThemesLandingPage/NewsletterBanner.vue';
 
 export default {
   components: {
@@ -143,6 +159,7 @@ export default {
     Hero,
     ThemeNavigation,
     StoriesGrid,
+    NewsletterBanner,
   },
   metaInfo() {
     return {

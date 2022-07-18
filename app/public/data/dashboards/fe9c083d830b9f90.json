@@ -1,0 +1,89 @@
+{
+  "marketingInfo": {
+    "interests": [
+      "Climate",
+      "Environmental monitoring"
+    ]
+  },
+  "features": [
+    {
+      "width": 2,
+      "text": "<--IMG-->/data/story-images/3-agriculture-crops.jpg<--IMG-->Agriculture",
+      "id": "Cairo-1652033099336",
+      "title": "Cairo",
+      "__generatedText__": "<p>&lt;--IMG--&gt;/data/story-images/3-agriculture-crops.jpg&lt;--IMG--&gt;Agriculture</p>\n"
+    },
+    {
+      "width": 2,
+      "text": "# Crops Consume Cairo\u2019s Carbon Dioxide\n## Story of Cairo\n&nbsp;  \nCairo, the capital city of Egypt, is home to more than 20 million people, making it the most populated city in Africa. The city is located on the fertile floodplain of the Nile River and is surrounded by farmland, with a high concentration of farmland to the north. The farmland stands out in satellite imagery against the drier deserts of Egypt, and during the growing season crops absorb atmospheric carbon dioxide (CO2) that can be measured from space. \n\nThe following maps show examples of the changes of atmospheric CO2 concentrations based on the growth and photosynthetic activity of crops on nearby farms.\n\nWe can observe the emission of CO2 from cars, power plants, and other fossil-fuel burning activities from space using the Japanese Aerospace Exploration Agency\u2019s Greenhouse gasses Observing Satellite (GOSAT). We can also observe how crops on surrounding farmlands consume CO2 by looking at solar-induced chlorophyll fluorescence (SIF). SIF is an innovative measurement that serves as a proxy of plant photosynthetic activity. Crops and other plants absorb white light from the sun and when photosynthesis occurs, they emit some of the unused energy from the sun as a red glow, known as SIF. \n \nBy combining GOSAT data, TROPOMI SIF data, surface wind data, and a statistical megacity emission inventory, we can monitor daily atmospheric changes of CO2. GOSAT observes tropospheric partial column density of carbon dioxide (CO2) over global megacities and provides the CO2 enhancement from lower atmosphere (0-4 km) density minus upper atmosphere (4-12 km) density. \n\nIn this research, researchers from the Japanese Aerospace Exploration Agency demonstrate how CO2 levels over Cairo change over time based on trends in combustion, SIF levels, and wind direction.\n \nEgypt has two growing seasons, one in the summer and one in the winter. In the summer, the map below shows there were low CO2 levels over Cairo, correlated with high SIF.",
+      "id": "Introduction-1647896315138",
+      "title": "Introduction",
+      "__generatedText__": "<h1>Crops Consume Cairo\u2019s Carbon Dioxide</h1>\n<h2>Story of Cairo</h2>\n<p>&nbsp;<br>Cairo, the capital city of Egypt, is home to more than 20 million people, making it the most populated city in Africa. The city is located on the fertile floodplain of the Nile River and is surrounded by farmland, with a high concentration of farmland to the north. The farmland stands out in satellite imagery against the drier deserts of Egypt, and during the growing season crops absorb atmospheric carbon dioxide (CO2) that can be measured from space. </p>\n<p>The following maps show examples of the changes of atmospheric CO2 concentrations based on the growth and photosynthetic activity of crops on nearby farms.</p>\n<p>We can observe the emission of CO2 from cars, power plants, and other fossil-fuel burning activities from space using the Japanese Aerospace Exploration Agency\u2019s Greenhouse gasses Observing Satellite (GOSAT). We can also observe how crops on surrounding farmlands consume CO2 by looking at solar-induced chlorophyll fluorescence (SIF). SIF is an innovative measurement that serves as a proxy of plant photosynthetic activity. Crops and other plants absorb white light from the sun and when photosynthesis occurs, they emit some of the unused energy from the sun as a red glow, known as SIF. </p>\n<p>By combining GOSAT data, TROPOMI SIF data, surface wind data, and a statistical megacity emission inventory, we can monitor daily atmospheric changes of CO2. GOSAT observes tropospheric partial column density of carbon dioxide (CO2) over global megacities and provides the CO2 enhancement from lower atmosphere (0-4 km) density minus upper atmosphere (4-12 km) density. </p>\n<p>In this research, researchers from the Japanese Aerospace Exploration Agency demonstrate how CO2 levels over Cairo change over time based on trends in combustion, SIF levels, and wind direction.</p>\n<p>Egypt has two growing seasons, one in the summer and one in the winter. In the summer, the map below shows there were low CO2 levels over Cairo, correlated with high SIF.</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "<--IMG-->/data/story-images/Wind_Cairo_2018-06-30_rev.png<--IMG-->Egypt has two growing seasons, one in the summer and one in the winter. In the summer, GOSAT data from the 30 of June, 2018 shows low CO2 levels over Cairo, correlated with high solar-induced chlorophyll fluorescence (SIF) over the farmlands of the Nile River Delta. Winds are moving from the high SIF areas to the north over the large city of Cairo.",
+      "id": " -1652450674679",
+      "title": " ",
+      "__generatedText__": "<p>&lt;--IMG--&gt;/data/story-images/Wind_Cairo_2018-06-30_rev.png&lt;--IMG--&gt;Egypt has two growing seasons, one in the summer and one in the winter. In the summer, GOSAT data from the 30 of June, 2018 shows low CO2 levels over Cairo, correlated with high solar-induced chlorophyll fluorescence (SIF) over the farmlands of the Nile River Delta. Winds are moving from the high SIF areas to the north over the large city of Cairo.</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "<--IMG--> /data/story-images/Wind_Cairo_2019-02-01_rev.png<--IMG--> During the winter crop season we see very high SIF in the Delta region. GOSAT data from the first of February, 2019, show high levels of CO2 and the winds moving over Cairo from the east.",
+      "id": " -1652450717846",
+      "title": " ",
+      "__generatedText__": "<p>&lt;--IMG--&gt; /data/story-images/Wind_Cairo_2019-02-01_rev.png&lt;--IMG--&gt; During the winter crop season we see very high SIF in the Delta region. GOSAT data from the first of February, 2019, show high levels of CO2 and the winds moving over Cairo from the east.</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "<--IMG--> /data/story-images/Wind_Cairo_2019-10-05_rev.png<--IMG--> Between crop seasons, we see much lower SIF over the Nile Delta showing no photosynthetic activity. As winds move from the north, we see high CO2 levels over Cairo.",
+      "id": " -1652450726876",
+      "title": " ",
+      "__generatedText__": "<p>&lt;--IMG--&gt; /data/story-images/Wind_Cairo_2019-10-05_rev.png&lt;--IMG--&gt; Between crop seasons, we see much lower SIF over the Nile Delta showing no photosynthetic activity. As winds move from the north, we see high CO2 levels over Cairo.</p>\n"
+    },
+    {
+      "width": 4,
+      "text": "## Explore Datasets \n&nbsp;  \nUse the **interactive maps** on the next page to see the variations of NO<sub>2</sub>, SIF and XCO<sub>2</sub>levels over Cairo. The compare feature on the map allows looking at the levels two different dates. The following products can be explored:\n&nbsp;  \n\n**GOSAT lower tropospheric CO<sub>2</sub>** enhancement in daily [ppm]\nGOSAT tropospheric partial column observes global changes of the carbon dioxide (CO<sub>2</sub>) enhancement; the CO<sub>2</sub> density difference between lower atmosphere (0-4 km) influenced by CO<sub>2</sub> net flux, i.e., surface emission and uptake, minus upper atmosphere (4-12 km) as background. The report on GOSAT partial column density products was submitted to UNFCCC for the first global stocktake as space-based surface GHG Emission Indicator (GEI) over the city.\n\n*Data source: <https://www.eorc.jaxa.jp/GOSAT/GPCG/index_GOSAT.html>*\n\n**TROPOMI SIF** in monthly average [mW/m2/sr/nm]\nTROPOMI solar-induced chlorophyll fluorescence (SIF) shows the photosynthetic activity of plant ecosystem. Plant absorbs sunlight but re-emit a small fraction of energy as SIF, which is strongly related to carbon uptake of CO2 through photosynthesis over plant area. \n\n*Data source: Koehler, P., & Frankenberg, C. (2020). Ungridded TROPOMI SIF (at 740nm) (Version 1.0) [Data set]. CaltechDATA. <https://doi.org/10.22002/D1.1347>*\n\n**TROPOMI NO2 column density** in daily [mol/m<sup>3</sup>]\nTROPOMI observes nitrogen dioxide (NO<sub>2</sub>) column density with a high resolution of 5 km. NO<sub>2</sub> is an air pollution trace gas as a result of anthropogenic activities along with fossil fuel combustion such as oil refinery, power plant, steelwork and automobile transportation the same as the CO<sub>2</sub> emission. However, NO<sub>2</sub> reduction is processed by decomposition different from CO<sub>2</sub> uptake.\n\n*Data source: https://data-portal.s5p-pal.com/products/no2.html*\n\n**Windrose in hourly frequency**\n\nWindrose shows the frequency of winds blowing from directions and speed over an hour around GOSAT overpass time in the target city. \n\n*Acknowledgments: The windrose was produced by using wind data from Windergroud.com.*\n\n&nbsp; \n\nExplore in more details these datasets by clicking on the **[EXPLORE DATASETS](https://eodashboard.org/explore)** button at the top of the page or directly from the links below:\n\n[GOSAT-2 CO2 on Cairo](https://www.eodashboard.org/?poi=EG01-N2)  &nbsp;   \n[OCO-2 CO2 Global](https://www.eodashboard.org/?poi=W4-N2)  &nbsp;   \n[TROPOMI NO2](https://www.eodashboard.org/?poi=W1-N1)  &nbsp;   \n[TROPOMI SIF](https://www.eodashboard.org/?indicator=SIF&poi=EG01-SIF)\n\n",
+      "id": "Datasets-1652031338767",
+      "title": "Datasets",
+      "__generatedText__": "<h2>Explore Datasets</h2>\n<p>&nbsp;<br>Use the <strong>interactive maps</strong> on the next page to see the variations of NO<sub>2</sub>, SIF and XCO<sub>2</sub>levels over Cairo. The compare feature on the map allows looking at the levels two different dates. The following products can be explored:\n&nbsp;  </p>\n<p><strong>GOSAT lower tropospheric CO<sub>2</sub></strong> enhancement in daily [ppm]\nGOSAT tropospheric partial column observes global changes of the carbon dioxide (CO<sub>2</sub>) enhancement; the CO<sub>2</sub> density difference between lower atmosphere (0-4 km) influenced by CO<sub>2</sub> net flux, i.e., surface emission and uptake, minus upper atmosphere (4-12 km) as background. The report on GOSAT partial column density products was submitted to UNFCCC for the first global stocktake as space-based surface GHG Emission Indicator (GEI) over the city.</p>\n<p><em>Data source: <a href=\"https://www.eorc.jaxa.jp/GOSAT/GPCG/index_GOSAT.html\">https://www.eorc.jaxa.jp/GOSAT/GPCG/index_GOSAT.html</a></em></p>\n<p><strong>TROPOMI SIF</strong> in monthly average [mW/m2/sr/nm]\nTROPOMI solar-induced chlorophyll fluorescence (SIF) shows the photosynthetic activity of plant ecosystem. Plant absorbs sunlight but re-emit a small fraction of energy as SIF, which is strongly related to carbon uptake of CO2 through photosynthesis over plant area. </p>\n<p><em>Data source: Koehler, P., &amp; Frankenberg, C. (2020). Ungridded TROPOMI SIF (at 740nm) (Version 1.0) [Data set]. CaltechDATA. <a href=\"https://doi.org/10.22002/D1.1347\">https://doi.org/10.22002/D1.1347</a></em></p>\n<p><strong>TROPOMI NO2 column density</strong> in daily [mol/m<sup>3</sup>]\nTROPOMI observes nitrogen dioxide (NO<sub>2</sub>) column density with a high resolution of 5 km. NO<sub>2</sub> is an air pollution trace gas as a result of anthropogenic activities along with fossil fuel combustion such as oil refinery, power plant, steelwork and automobile transportation the same as the CO<sub>2</sub> emission. However, NO<sub>2</sub> reduction is processed by decomposition different from CO<sub>2</sub> uptake.</p>\n<p><em>Data source: <a href=\"https://data-portal.s5p-pal.com/products/no2.html\">https://data-portal.s5p-pal.com/products/no2.html</a></em></p>\n<p><strong>Windrose in hourly frequency</strong></p>\n<p>Windrose shows the frequency of winds blowing from directions and speed over an hour around GOSAT overpass time in the target city. </p>\n<p><em>Acknowledgments: The windrose was produced by using wind data from Windergroud.com.</em></p>\n<p>&nbsp; </p>\n<p>Explore in more details these datasets by clicking on the <strong><a href=\"https://eodashboard.org/explore\">EXPLORE DATASETS</a></strong> button at the top of the page or directly from the links below:</p>\n<p><a href=\"https://www.eodashboard.org/?poi=EG01-N2\">GOSAT-2 CO2 on Cairo</a>  &nbsp;<br><a href=\"https://www.eodashboard.org/?poi=W4-N2\">OCO-2 CO2 Global</a>  &nbsp;<br><a href=\"https://www.eodashboard.org/?poi=W1-N1\">TROPOMI NO2</a>  &nbsp;<br><a href=\"https://www.eodashboard.org/?indicator=SIF&amp;poi=EG01-SIF\">TROPOMI SIF</a></p>\n"
+    },
+    {
+      "width": 1,
+      "mapInfo": {
+        "zoom": 10,
+        "center": {
+          "lng": 31.2848704369133,
+          "lat": 30.041111425470056
+        }
+      },
+      "id": "EG01-N2",
+      "title": "Cairo, XCO2"
+    },
+    {
+      "width": 1,
+      "mapInfo": {
+        "zoom": 10,
+        "center": {
+          "lng": 31.148477295601747,
+          "lat": 29.786423215863337
+        }
+      },
+      "id": "EG01-N1",
+      "title": "Cairo, NO2"
+    },
+    {
+      "width": 1,
+      "mapInfo": {
+        "zoom": 10,
+        "center": {
+          "lng": 31.179199218750004,
+          "lat": 30.050628658522783
+        }
+      },
+      "id": "EG01-SIF",
+      "title": "Cairo, Solar Induced Chlorophyll Fluorescence"
+    }
+  ],
+  "title": "Crops Consume Cairo\u2019s Carbon Dioxide"
+}

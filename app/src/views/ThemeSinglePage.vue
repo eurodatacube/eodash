@@ -14,7 +14,7 @@
       <v-row class="theme-page" justify="center">
         <div
           class="theme-header d-flex flex-column justify-center align-center"
-          :style="{background: getCurrentTheme.color, height: headerSize}"
+          :style="{background: getCurrentTheme.color, height: '30vh'}"
         >
           <h2 class="white--text text-center" :class="[headingClass]">
             {{ getCurrentTheme.description }}
@@ -22,7 +22,6 @@
 
           <p
             class="mt-10 text-center white--text"
-            v-if="$vuetify.breakpoint.lgAndUp"
             style="max-width: 700px"
           >
             {{ getCurrentTheme.longDescription }}
@@ -48,11 +47,22 @@
                   </h3>
 
                   <p class="mb-10" style="font-size: 18px;">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                    eu fugiat nulla pariatur.
+                    Here you can browse all the {{ getCurrentTheme.name }} datasets available on
+                    the Earth Observing Dashboard and make use of the interactive features.
+                    Datasets are presented as maps, some of them with the possibility to compute
+                    simple analytics by drawing an area of interest. Other datasets are tabular
+                    data, presented as charts. All charts can be downloaded as CSV.
+                    The open data and project source code can be accessed in Github:
+                    <v-btn
+                      href="https://github.com/eurodatacube/eodash"
+                      target="_blank"
+                      text
+                      small
+                    >
+                      <v-icon left>mdi-github</v-icon>
+                      eurodatacube/eodash
+                      <v-icon right>mdi-open-in-new</v-icon>
+                    </v-btn>
                   </p>
 
                   <v-btn
@@ -71,7 +81,7 @@
                 class="info-section d-flex flex-column justify-center"
               >
                 <img
-                  src="@/assets/datasets.jpg"
+                  :src="getCurrentTheme.datasetsImage || '/data/story-images/Datasets-landing.jpg'"
                   width="100%"
                   class="pl-xs-0 pl-sm-0 pl-md-8 pl-lg-8 pl-xl-8"
                 />
@@ -136,18 +146,6 @@ export default {
         case 'xl': return 'text-h2';
 
         default: return 'text-h2';
-      }
-    },
-
-    headerSize() {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return '12vh';
-        case 'sm': return '18vh';
-        case 'md': return '30vh';
-        case 'lg': return '30vh';
-        case 'xl': return '30vh';
-
-        default: return '30vh';
       }
     },
   },

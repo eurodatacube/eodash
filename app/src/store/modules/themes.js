@@ -1,4 +1,4 @@
-import axios from 'axios';
+import getLocationCode from '@/mixins/getLocationCode';
 
 import stories from '../../config/stories.json';
 import themes from '../../config/themes.json';
@@ -40,19 +40,15 @@ const mutations = {
 };
 
 const actions = {
-  async loadTheme({ commit, state, rootState }, theme) {
+  async loadTheme({ commit, rootState }, theme) {
     commit('SET_CURRENT_THEME', theme);
     let storyIDs = [];
     if (theme) {
-      const matchingStories = Object.values(state.stories[rootState.config.appConfig.id][theme]);
+      const indicators = rootState.config.baseConfig.indicatorsDefinition;
 
-      for (const story of matchingStories) { // eslint-disable-line
-        const storyDashboard = await axios // eslint-disable-line
-          .get(`./data/dashboards/${story.originalDashboardId}.json`);
-        const storyDashboardContent = storyDashboard.data;
-        const storyPOIs = storyDashboardContent.features.map((f) => f.id);
-        storyIDs = [...new Set([...storyIDs, ...storyPOIs])];
-      }
+      storyIDs = rootState.features.allFeatures
+        .filter((f) => indicators[f.properties.indicatorObject.indicator].themes.includes(theme))
+        .map((f) => getLocationCode(f.properties.indicatorObject));
     }
     commit('SET_CURRENT_THEME_POIS', storyIDs);
     commit('features/SET_FEATURE_FILTER', { themes: theme ? [theme] : [] }, { root: true });

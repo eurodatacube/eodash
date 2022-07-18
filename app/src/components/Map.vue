@@ -373,7 +373,8 @@ export default {
           && !['', '/'].includes(indObj.lastColorCode)) {
           colorCode = indObj.lastColorCode;
         } else if (Object.prototype.hasOwnProperty.call(indObj, 'indicator')
-          && ['N1', 'N1a', 'N1b', 'N3b', 'E8', 'E10a3', 'E10a8', 'E10a9', 'E12b', 'C1', 'C2', 'C3']
+          && ['N1', 'N1a', 'N1b', 'N3b', 'E8', 'E10a3', 'E10a8', 'E10a9',
+            'E12b', 'C1', 'C2', 'C3', 'GG', 'CV', 'OW']
             .includes(indObj.indicator)) {
           colorCode = 'BLUE';
         }
@@ -408,7 +409,7 @@ export default {
           } else if (['E10a6', 'E10a7'].includes(indicatorObject.indicator)) {
             const newIndVal = Number(indicatorObject.lastMeasurement).toPrecision(4);
             label += `${newIndVal}%`;
-          } else if (['N1', 'N3b', 'N1b', 'E12b', 'C1', 'C2', 'C3', 'E10a10'].includes(indicatorObject.indicator)) {
+          } else if (['N1', 'N3b', 'N1b', 'E12b', 'C1', 'C2', 'C3', 'E10a10', 'SIF', 'GG', 'CV', 'OW'].includes(indicatorObject.indicator)) {
             label = '';
           } else if (indicatorObject.indicator === 'OX') {
             switch (indicatorObject.lastIndicatorValue) {
@@ -432,6 +433,8 @@ export default {
             }
           } else if (indVal === null) {
             label = null;
+          } else if (typeof indVal === 'number' && Number.isNaN(indVal)) {
+            label = '';
           } else {
             label += indVal;
           }

@@ -16,7 +16,7 @@
 
     <v-app-bar-nav-icon
       @click.stop="switchDrawer"
-      v-else
+      v-else-if="$route.name === 'explore'"
       dark
     />
 
@@ -32,6 +32,7 @@
       hide-overlay
       width="70vw"
       v-show="!isFullScreen"
+      v-if="$vuetify.breakpoint.smAndDown"
     >
       <template>
         <v-list-item style="background: var(--v-primary-base)">
@@ -98,14 +99,13 @@
           text
           color="primary"
           block
-          @click="$store.state.indicators.selectedIndicator
-            ? $router.go(-1)
-            : $router.push({ name: 'explore' })"
+          :to="{ name: 'explore' }"
         >
           Explore Datasets
       </v-btn>
 
         <v-badge
+          v-if="$store.state.dashboard.dashboardConfig"
           bordered
           color="info"
           :content="$store.state.dashboard.dashboardConfig
@@ -115,7 +115,6 @@
           overlap
         >
           <v-btn
-            v-if="$store.state.dashboard.dashboardConfig"
             block
             text
             color="primary"
@@ -124,7 +123,35 @@
             Custom Dashboard
           </v-btn>
         </v-badge>
-        <v-divider></v-divider>
+
+        <v-dialog
+          v-model="showNewsletterModal"
+          :width="$vuetify.breakpoint.xsOnly ? '100%' : '50%'"
+          transition="dialog-bottom-transition"
+          style="z-index: 9999;"
+          v-if="appConfig && appConfig.showNewsletterButton"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              class="my-4 flex-grow-1 d-flex newsletter-button"
+              color="secondary"
+              dark
+              tile
+              block
+              v-bind="attrs"
+              v-on="on"
+              @click="d => { showNewsletterModal = true }"
+            >
+              Get our newsletter
+            </v-btn>
+          </template>
+
+          <modal
+            title="Subscribe to our newsletter"
+            @submit="d => { showNewsletterModal = false }"
+            @close="d => { showNewsletterModal = false }"
+          />
+        </v-dialog>
       </template>
 
     </v-navigation-drawer>
@@ -149,7 +176,7 @@
     <template v-if="currentTheme">
       <v-icon dark class="mx-2">mdi-chevron-right</v-icon>
 
-      <v-tooltip right close-delay="1000" nudge-left="32" max-width="20">
+      <v-tooltip right close-delay="1000" nudge-left="20">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             text
@@ -163,16 +190,24 @@
             {{ currentTheme.name }}
           </v-btn>
         </template>
-        <v-icon
+        <v-btn
+          v-if="$route.name === 'explore'"
+          small
+          text
+          dark
+          class="rounded closebutton"
+          @click="loadTheme(null)"
+        >
+          <v-icon
             dark
             small
-            class="mr-3 rounded closebutton"
+            left
             color="white"
-            v-if="$route.name === 'explore'"
-            @click="loadTheme(null)"
           >
             mdi-close
           </v-icon>
+          <small>clear</small>
+        </v-btn>
       </v-tooltip>
     </template>
 
@@ -188,6 +223,8 @@
         Datasets
       </v-btn>
     </template>
+
+    <v-spacer v-if="appConfig && appConfig.enableStories"></v-spacer>
 
     <span v-if="$vuetify.breakpoint.mdAndUp">
       <v-btn
@@ -210,7 +247,6 @@
       </v-btn>
     </span>
 
-    <v-spacer v-if="appConfig && appConfig.enableStories"></v-spacer>
 
     <template v-if="$vuetify.breakpoint.mdAndUp">
       <v-btn
@@ -218,9 +254,7 @@
         text
         dark
         small
-        @click="$store.state.indicators.selectedIndicator
-          ? $router.go(-1)
-          : $router.push({ name: 'explore' })"
+        :to="{ name: 'explore' }"
       >
         Explore Datasets
       </v-btn>
@@ -249,6 +283,34 @@
 
     <v-spacer v-if="!(appConfig && appConfig.enableStories)"></v-spacer>
 
+    <v-dialog
+      v-model="showNewsletterModal"
+      :width="$vuetify.breakpoint.xsOnly ? '100%' : '50%'"
+      transition="dialog-bottom-transition"
+      style="z-index: 9999;"
+      v-if="appConfig
+              && appConfig.showNewsletterButton
+              && $vuetify.breakpoint.mdAndUp"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          class="mr-8"
+          color="secondary"
+          dark
+          v-bind="attrs"
+          v-on="on"
+          @click="d => { showNewsletterModal = true }"
+        >
+          Get our newsletter
+        </v-btn>
+      </template>
+
+      <modal
+        title="Subscribe to our newsletter"
+        @close="d => { showNewsletterModal = false }"
+      />
+    </v-dialog>
+
     <img height="32" :src="appConfig && appConfig.branding.headerLogo" />
   </v-app-bar>
 </template>
@@ -261,6 +323,7 @@ import {
 } from 'vuex';
 
 import ThemeNavigation from './ThemesLandingPage/ThemeNavigation.vue';
+import Modal from './Modal.vue';
 
 /**
  * A global navbar component that adapts to different environments.
@@ -295,10 +358,13 @@ export default {
   },
   components: {
     ThemeNavigation,
+    Modal,
   },
   data() {
     return {
       drawerLeft: false,
+      hasNewsletterSubscription: false,
+      showNewsletterModal: false,
     };
   },
   methods: {
@@ -322,7 +388,7 @@ export default {
       switch (this.$route.name) {
         case 'ocean':
         case 'biomass-and-landcover':
-        case 'air-quality':
+        case 'atmosphere':
         case 'water-quality':
         case 'agriculture':
         case 'cryosphere':

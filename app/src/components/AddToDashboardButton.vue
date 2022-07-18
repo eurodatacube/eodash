@@ -74,6 +74,12 @@ export default {
     indicatorObject: Object,
     zoom: Number,
     center: Object,
+    direction: Array,
+    position: Array,
+    right: Array,
+    up: Array,
+    datalayertime: String,
+    comparelayertime: String,
   },
   data: () => ({
     alreadyAdded: false,
@@ -132,10 +138,22 @@ export default {
             ...(this.indicatorObject.includesIndicator
               && { indicatorObject: this.indicatorObject }),
             title: this.title,
+            ...(this.indicatorObject.showGlobe && {
+              mapInfo: {
+                direction: this.direction,
+                position: this.position,
+                right: this.right,
+                up: this.up,
+                dataLayerTime: this.datalayertime,
+                compareLayerTime: this.comparelayertime,
+              },
+            }),
             ...(this.zoom && this.center && {
               mapInfo: {
                 zoom: this.zoom,
                 center: this.center,
+                dataLayerTime: this.datalayertime,
+                compareLayerTime: this.comparelayertime,
               },
             }),
           },

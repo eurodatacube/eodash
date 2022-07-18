@@ -7,7 +7,14 @@ import { shTimeFunction, shS2TimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { E13bRemovedFtrs } from '@/config/otherdata';
 import availableDates from '@/config/data_dates.json';
-import l3mapsData from '@/config/tropomiCO.json';
+
+import {
+  statisticalApiHeaders,
+  statisticalApiBody,
+  evalScriptsDefinitions,
+  parseStatAPIResponse,
+  shFisAreaIndicatorStdConfig,
+} from '@/helpers/customAreaObjects';
 
 export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [
@@ -467,23 +474,22 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Mobility',
     class: 'economic',
     disableTimeSelection: true,
-    countrySelection: true,
     story: '/eodash-data/stories/GG-GG',
+    disableCSV: true,
   },
   CV: {
-    indicator: 'Covid cases',
+    indicator: 'Covid-19 cases',
     class: 'health',
     disableTimeSelection: true,
-    countrySelection: true,
     story: '/eodash-data/stories/CV-CV',
+    disableCSV: true,
   },
   OW: {
-    indicator: 'Vaccinations',
+    indicator: 'Covid-19 vaccinations',
     class: 'health',
     disableTimeSelection: true,
-    countrySelection: true,
-    hideInFilters: true,
     story: '/eodash-data/stories/OW-OW',
+    disableCSV: true,
   },
   /*
   GSA: {
@@ -538,15 +544,7 @@ export const layerNameMapping = Object.freeze({
     layers: 'NEW_PLANETSCOPE_COVID-19',
   },
   '[NEW] Pleiades': {
-    baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES',
-  },
-  'Pleiades - COVID19': {
-    layers: 'NEW_PLEIADES_COVID19',
-  },
-  'Deimos - COVID19': {
-    baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-    layers: 'DEIMOS',
   },
   '[NEW] Pleiades COVID-19': {
     layers: 'NEW_PLEIADES_COVID19',
@@ -558,7 +556,6 @@ export const layerNameMapping = Object.freeze({
     layers: 'NEW_PLEIADES_28_COVID19',
   },
   '[NEW] Pleiades 16bit': {
-    baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
     layers: 'NEW_PLEIADES_16BIT',
   },
   'Sentinel 2 L2A': {
@@ -574,6 +571,10 @@ export const layerNameMapping = Object.freeze({
   },
   'S1A - GRD': {
     layers: 'E8_SENTINEL1',
+  },
+  'Sentinel-2 L1C': {
+    layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+    dateFormatFunction: shS2TimeFunction,
   },
 });
 
@@ -661,20 +662,6 @@ const getYearlyDates = (start, end) => {
   return dateArray;
 };
 
-const getFortnightIntervalDates = (start, end) => {
-  let currentDate = DateTime.fromISO(start);
-  const stopDate = end === 'now' ? DateTime.utc().minus({ days: 13 }) : DateTime.fromISO(end).minus({ days: 13 });
-  const dateArray = [];
-  while (currentDate <= stopDate) {
-    dateArray.push([
-      DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'),
-      DateTime.fromISO(currentDate).plus({ days: 13 }).toFormat('yyyy-MM-dd'),
-    ]);
-    currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
-  }
-  return dateArray;
-};
-
 // AOI_ID key with value = array of additional ISO times to be used in map
 // export const additionalMapTimes = {
 //   'AT4-E13b': {
@@ -698,43 +685,12 @@ export const excludeMapTimes = {
 };
 
 export const replaceMapTimes = {
-  'GR4-N4c': {
-    time: ['2020-02-26T00:00:00', '2020-05-20T00:00:00', '2020-06-06T00:00:00'],
-    eoSensor: ['Pleiades', 'Pleiades', 'Deimos'],
-    colorCode: Array(3).fill('BLUE'),
-    inputData: ['Pleiades - COVID19', 'Pleiades - COVID19', 'Deimos - COVID19'],
-  },
 };
 
 const wkt = new Wkt();
 
+
 export const globalIndicators = [
-  {
-    properties: {
-      indicatorObject: {
-        aoiID: 'GG',
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Mobility Data',
-        indicatorName: '(select country to load data)',
-        indicator: 'GG',
-        lastIndicatorValue: null,
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        inputData: [''],
-        yAxis: 'percent change from baseline',
-        time: ['TBD'],
-        display: {
-        },
-      },
-    },
-  },
   /*
   {
     properties: {
@@ -766,58 +722,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        aoiID: 'CV',
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Covid19 Data',
-        indicatorName: '(select country to load data)',
-        indicator: 'CV',
-        lastIndicatorValue: null,
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        inputData: [''],
-        yAxis: 'aggregated covid cases',
-        time: ['TBD'],
-        display: {
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        aoiID: 'OW',
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Vaccination Data',
-        indicatorName: '(select country to load data)',
-        indicator: 'OW',
-        lastIndicatorValue: null,
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        inputData: [''],
-        yAxis: 'vaccination data',
-        time: ['TBD'],
-        display: {
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
         dataLoadFinished: true,
         country: 'all',
         city: 'World',
@@ -833,48 +737,69 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'World',
-        time: getFortnightIntervalDates('2019-01-07', 'now'),
+        time: availableDates['AWS_NO2-VISUALISATION'],
         inputData: [''],
         yAxis: 'Tropospheric NO2 (μmol/m2)',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           customAreaIndicator: true,
           name: 'Tropospheric NO2',
-          layers: 'NO2-VISUALISATION',
+          layers: 'AWS_NO2-VISUALISATION',
           minZoom: 1,
           legendUrl: 'eodash-data/data/no2Legend.png',
-          dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           areaIndicator: {
-            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-            callbackFunction: (responseJson, indicator) => {
-              if (Array.isArray(responseJson.C0)) {
-                const data = responseJson.C0;
-                const newData = {
-                  time: [],
-                  measurement: [],
-                  referenceValue: [],
-                  colorCode: [],
-                };
-                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
-                  ? 1
-                  : -1));
-                data.forEach((row) => {
-                  if (row.basicStats.max < 5000) {
-                    // leaving out falsely set nodata values disrupting the chart
-                    newData.time.push(DateTime.fromISO(row.date));
-                    newData.colorCode.push('');
-                    newData.measurement.push(row.basicStats.mean);
-                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
-                  }
-                });
-                const ind = {
-                  ...indicator,
-                  ...newData,
-                };
-                return ind;
-              }
-              return null;
-            },
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions['AWS_NO2-VISUALISATION'],
+              'byoc-972e67a7-2ca8-4bf6-964a-11fe772e3ac2',
+              'P1D',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'TROPOMI CO',
+        indicator: 'N1',
+        lastIndicatorValue: null,
+        indicatorName: 'TROPOMI CO',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'WorldCO',
+        time: availableDates.AWS_VIS_CO_3DAILY_DATA,
+        inputData: [''],
+        yAxis: 'CO (ppbv)',
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          opacity: 1.0,
+          customAreaIndicator: true,
+          name: 'TROPOMI CO',
+          layers: 'AWS_VIS_CO_3DAILY_DATA',
+          minZoom: 1,
+          legendUrl: 'data/trilateral/s5pCOLegend.png',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_CO_3DAILY_DATA,
+              'byoc-57a07405-8ec2-4b9c-a273-23e287c173f8',
+              'P3D',
+            ),
+            callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
         },
@@ -903,43 +828,16 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'Vessel density',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          customAreaIndicator: true,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Vessel density',
-          layers: 'VIS_VESSELDENSITY_ALL',
+          layers: 'AWS_VIS_VESSELDENSITY_ALL',
           minZoom: 1,
           // legendUrl: 'eodash-data/data/no2Legend.png',
           dateFormatFunction: (date) => date,
+          customAreaIndicator: true,
           areaIndicator: {
-            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=RAW_VESSELDENSITY_ALL&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-            callbackFunction: (responseJson, indicator) => {
-              if (Array.isArray(responseJson.C0)) {
-                const data = responseJson.C0;
-                const newData = {
-                  time: [],
-                  measurement: [],
-                  referenceValue: [],
-                  colorCode: [],
-                };
-                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
-                  ? 1
-                  : -1));
-                data.forEach((row) => {
-                  newData.time.push(DateTime.fromISO(row.date));
-                  newData.colorCode.push('');
-                  newData.measurement.push(row.basicStats.mean);
-                  newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
-                });
-                const ind = {
-                  ...indicator,
-                  ...newData,
-                };
-                console.log(ind);
-                return ind;
-              }
-              return null;
-            },
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+            ...shFisAreaIndicatorStdConfig,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_VESSELDENSITY_ALL&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
           },
         },
       },
@@ -967,43 +865,16 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'Vessel density for cargo',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           customAreaIndicator: true,
           name: 'Vessel density for cargo',
-          layers: 'VIS_VESSELDENSITY_CARGO',
+          layers: 'AWS_VIS_VESSELDENSITY_CARGO',
           minZoom: 1,
           // legendUrl: 'eodash-data/data/no2Legend.png',
           dateFormatFunction: (date) => date,
           areaIndicator: {
-            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=RAW_VESSELDENSITY_CARGO&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-            callbackFunction: (responseJson, indicator) => {
-              if (Array.isArray(responseJson.C0)) {
-                const data = responseJson.C0;
-                const newData = {
-                  time: [],
-                  measurement: [],
-                  referenceValue: [],
-                  colorCode: [],
-                };
-                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
-                  ? 1
-                  : -1));
-                data.forEach((row) => {
-                  newData.time.push(DateTime.fromISO(row.date));
-                  newData.colorCode.push('');
-                  newData.measurement.push(row.basicStats.mean);
-                  newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
-                });
-                const ind = {
-                  ...indicator,
-                  ...newData,
-                };
-                console.log(ind);
-                return ind;
-              }
-              return null;
-            },
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+            ...shFisAreaIndicatorStdConfig,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_VESSELDENSITY_CARGO&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
           },
         },
       },
@@ -1031,43 +902,16 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'Vessel density for tankers',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           customAreaIndicator: true,
           name: 'Vessel density for tankers',
-          layers: 'VIS_VESSELDENSITY_TANKER',
+          layers: 'AWS_VIS_VESSELDENSITY_TANKER',
           minZoom: 1,
           // legendUrl: 'eodash-data/data/no2Legend.png',
           dateFormatFunction: (date) => date,
           areaIndicator: {
-            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=RAW_VESSELDENSITY_TANKER&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-            callbackFunction: (responseJson, indicator) => {
-              if (Array.isArray(responseJson.C0)) {
-                const data = responseJson.C0;
-                const newData = {
-                  time: [],
-                  measurement: [],
-                  referenceValue: [],
-                  colorCode: [],
-                };
-                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
-                  ? 1
-                  : -1));
-                data.forEach((row) => {
-                  newData.time.push(DateTime.fromISO(row.date));
-                  newData.colorCode.push('');
-                  newData.measurement.push(row.basicStats.mean);
-                  newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
-                });
-                const ind = {
-                  ...indicator,
-                  ...newData,
-                };
-                console.log(ind);
-                return ind;
-              }
-              return null;
-            },
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+            ...shFisAreaIndicatorStdConfig,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_VESSELDENSITY_TANKER&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
           },
         },
       },
@@ -1095,43 +939,16 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'Vessel density for others',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           customAreaIndicator: true,
           name: 'Vessel density for others',
-          layers: 'VIS_VESSELDENSITY_OTHER',
+          layers: 'AWS_VIS_VESSELDENSITY_OTHER',
           minZoom: 1,
           // legendUrl: 'eodash-data/data/no2Legend.png',
           dateFormatFunction: (date) => date,
           areaIndicator: {
-            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=RAW_VESSELDENSITY_OTHER&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-            callbackFunction: (responseJson, indicator) => {
-              if (Array.isArray(responseJson.C0)) {
-                const data = responseJson.C0;
-                const newData = {
-                  time: [],
-                  measurement: [],
-                  referenceValue: [],
-                  colorCode: [],
-                };
-                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
-                  ? 1
-                  : -1));
-                data.forEach((row) => {
-                  newData.time.push(DateTime.fromISO(row.date));
-                  newData.colorCode.push('');
-                  newData.measurement.push(row.basicStats.mean);
-                  newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
-                });
-                const ind = {
-                  ...indicator,
-                  ...newData,
-                };
-                console.log(ind);
-                return ind;
-              }
-              return null;
-            },
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+            ...shFisAreaIndicatorStdConfig,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_VESSELDENSITY_OTHER&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
           },
         },
       },
@@ -1295,17 +1112,16 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W6',
-        time: ['2020-05-01T00:00:00Z'],
+        time: [],
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          disableTimeSelection: true,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Population',
-          layers: 'POPULATION_DENSITY',
+          layers: 'AWS_POPULATION_DENSITY',
           legendUrl: 'data/trilateral/NASAPopulation_legend.png',
           minZoom: 1,
           maxMapZoom: 7,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
-          disableCompare: true,
         },
       },
     },
@@ -1362,17 +1178,22 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        time: availableDates.VIS_2MTEMPERATURE,
+        time: availableDates.AWS_VIS_2MTEMPERATURE,
         inputData: [],
         yAxis: 'Temperature °C',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Global temperature',
-          layers: 'VIS_2MTEMPERATURE',
+          layers: 'AWS_VIS_2MTEMPERATURE',
           legendUrl: 'eodash-data/data/temperature.png',
           minZoom: 1,
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...shFisAreaIndicatorStdConfig,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_2MTEMPERATURE&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+          },
         },
       },
     },
@@ -1395,17 +1216,22 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        time: availableDates.VIS_RELHUMIDITY1000HPA,
+        time: availableDates.AWS_VIS_RELHUMIDITY1000HPA,
         inputData: [],
         yAxis: 'Relative Humidity 1000HPA',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Global temperature',
-          layers: 'VIS_RELHUMIDITY1000HPA',
+          layers: 'AWS_VIS_RELHUMIDITY1000HPA',
           legendUrl: 'eodash-data/data/humidity.png',
           minZoom: 1,
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...shFisAreaIndicatorStdConfig,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_RELHUMIDITY1000HPA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+          },
         },
       },
     },
@@ -1428,17 +1254,22 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        time: availableDates.VIS_WIND_U_10M,
+        time: availableDates.AWS_VIS_WIND_U_10M,
         inputData: [],
         yAxis: 'wind',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Global temperature',
-          layers: 'VIS_WIND_U_10M',
+          layers: 'AWS_VIS_WIND_U_10M',
           legendUrl: 'eodash-data/data/windu_cds.png',
           minZoom: 1,
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...shFisAreaIndicatorStdConfig,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_WIND_U_10M&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+          },
         },
       },
     },
@@ -1461,17 +1292,22 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        time: availableDates.VIS_WIND_V_10M,
+        time: availableDates.AWS_VIS_WIND_V_10M,
         inputData: [],
         yAxis: 'wind',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Global temperature',
-          layers: 'VIS_WIND_V_10M',
+          layers: 'AWS_VIS_WIND_V_10M',
           legendUrl: 'eodash-data/data/windv_cds.png',
           minZoom: 1,
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...shFisAreaIndicatorStdConfig,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_WIND_V_10M&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+          },
         },
       },
     },
@@ -1494,53 +1330,25 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        time: availableDates.VIS_SO2_DAILY_DATA,
+        time: availableDates.AWS_VIS_SO2_DAILY_DATA,
         inputData: [],
         yAxis: 'SO2',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'SO2',
-          layers: 'VIS_SO2_DAILY_DATA',
+          layers: 'AWS_VIS_SO2_DAILY_DATA',
           legendUrl: 'eodash-data/data/colorbarso2.svg',
           minZoom: 1,
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           customAreaIndicator: true,
-          baseLayers: [{
-            ...baseLayers.cloudless,
-            visible: true,
-          }, baseLayers.terrainLight],
           areaIndicator: {
-            url: `https://shservices.mundiwebservices.com/ogc/fis/${shConfig.shInstanceId}?LAYER=NO2_RAW_DATA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-            callbackFunction: (responseJson, indicator) => {
-              if (Array.isArray(responseJson.C0)) {
-                const data = responseJson.C0;
-                const newData = {
-                  time: [],
-                  measurement: [],
-                  referenceValue: [],
-                  colorCode: [],
-                };
-                data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
-                  ? 1
-                  : -1));
-                data.forEach((row) => {
-                  if (row.basicStats.max < 5000) {
-                    // leaving out falsely set nodata values disrupting the chart
-                    newData.time.push(DateTime.fromISO(row.date));
-                    newData.colorCode.push('');
-                    newData.measurement.push(row.basicStats.mean);
-                    newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
-                  }
-                });
-                const ind = {
-                  ...indicator,
-                  ...newData,
-                };
-                return ind;
-              }
-              return null;
-            },
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_SO2_DAILY_DATA,
+              'byoc-4ad9663f-d173-411d-8d28-3081d4d9e3aa',
+            ),
+            callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
         },
@@ -1573,12 +1381,12 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.839389 44.499195,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))').toJson(),
           }],
         },
-        time: availableDates.N3_CUSTOM,
+        time: availableDates.AWS_N3_CUSTOM,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM',
+          layers: 'AWS_N3_CUSTOM',
           legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1612,12 +1420,12 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((4.19585670915520126 43.49375380380885758, 4.19491064380215573 43.49564593451494687, 4.62253218337875094 43.49564593451494687, 4.69632528091630519 43.49753806522103616, 4.69537921556325966 43.48618528098449332, 4.6736197124432115 43.46442577786444161, 4.64523775185184462 43.45401905898093986, 4.67172758173712044 43.42090677162434531, 4.70389380374066945 43.41428431415302924, 4.71146232656503461 43.43698988262612204, 4.75592739815817644 43.43320562121393635, 4.78525542410258886 43.41806857556520782, 4.81647558075309234 43.38495628820861327, 4.83918114922618603 43.38495628820861327, 4.82877443034268428 43.40671579132866498, 4.81552951540004681 43.424691033036531, 4.81836771145918341 43.43604381727307384, 4.86661704446450738 43.41050005274084356, 4.87040130587668951 43.41523037950607034, 4.84012721457923156 43.44928873221571308, 4.85999458699318865 43.4682100392766273, 4.88459228617237251 43.42942135980175777, 4.89499900505587426 43.43793594797917024, 4.91297424676374028 43.43509775192003275, 4.92621916170637775 43.44172020939134882, 4.94608653412033483 43.49280773845580939, 5.21949942115050369 43.49753806522103616, 5.23558253215227776 43.4899695423966719, 5.24693531638882504 43.4672639739235791, 5.23842072821141436 43.43415168656698455, 5.21476909438527514 43.41428431415302924, 5.16557369602690564 43.39157874567993645, 5.08988846778326032 43.39157874567993645, 5.014203239539615 43.39252481103297754, 5.01893356630484355 43.3792798960903454, 5.03690880801270868 43.3565743276172455, 5.07096716072234965 43.34143728196851697, 5.11070190555026294 43.33859908590937948, 5.15327484643731371 43.34427547802765446, 5.21760729044441174 43.34049121661547588, 5.27247908092105533 43.35373613155811512, 5.30275317221851239 43.37265743861902223, 5.33208119816292569 43.36698104650074725, 5.35194857057688189 43.3565743276172455, 5.36140922410733811 43.34143728196851697, 5.36992381228474791 43.32535417096674735, 5.36992381228474791 43.3130553213771492, 5.36613955087256578 43.29791827572842067, 5.36613955087256578 43.28845762219796711, 5.37654626975606753 43.27521270725532787, 5.38600692328652286 43.26102172695964754, 5.38316872722738626 43.25250713878223507, 5.37276200834388451 43.24210041989873332, 5.35478676663601938 43.23263976636827977, 5.35005643987079083 43.22128698213172981, 5.35857102804820151 43.21088026324823517, 5.37749233510911218 43.21655665536650304, 5.39925183822916033 43.21939485142564052, 5.42195740670225401 43.21561059001346194, 5.45412362870580303 43.21939485142564052, 5.50331902706417253 43.20141960971777451, 5.50615722312331002 42.99990768951906972, 4.19301851309606466 42.99896162416602152, 4.19585670915520126 43.49375380380885758))').toJson(),
           }],
         },
-        time: availableDates.N3_CUSTOM,
+        time: availableDates.AWS_N3_CUSTOM,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM',
+          layers: 'AWS_N3_CUSTOM',
           legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1651,12 +1459,12 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.839389 44.499195,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))').toJson(),
           }],
         },
-        time: availableDates.N3_CUSTOM_TSMNN,
+        time: availableDates.AWS_N3_CUSTOM_TSMNN,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM_TSMNN',
+          layers: 'AWS_N3_CUSTOM_TSMNN',
           legendUrl: 'eodash-data/data/waterLegend_tsm.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1690,12 +1498,12 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((4.19585670915520126 43.49375380380885758, 4.19491064380215573 43.49564593451494687, 4.62253218337875094 43.49564593451494687, 4.69632528091630519 43.49753806522103616, 4.69537921556325966 43.48618528098449332, 4.6736197124432115 43.46442577786444161, 4.64523775185184462 43.45401905898093986, 4.67172758173712044 43.42090677162434531, 4.70389380374066945 43.41428431415302924, 4.71146232656503461 43.43698988262612204, 4.75592739815817644 43.43320562121393635, 4.78525542410258886 43.41806857556520782, 4.81647558075309234 43.38495628820861327, 4.83918114922618603 43.38495628820861327, 4.82877443034268428 43.40671579132866498, 4.81552951540004681 43.424691033036531, 4.81836771145918341 43.43604381727307384, 4.86661704446450738 43.41050005274084356, 4.87040130587668951 43.41523037950607034, 4.84012721457923156 43.44928873221571308, 4.85999458699318865 43.4682100392766273, 4.88459228617237251 43.42942135980175777, 4.89499900505587426 43.43793594797917024, 4.91297424676374028 43.43509775192003275, 4.92621916170637775 43.44172020939134882, 4.94608653412033483 43.49280773845580939, 5.21949942115050369 43.49753806522103616, 5.23558253215227776 43.4899695423966719, 5.24693531638882504 43.4672639739235791, 5.23842072821141436 43.43415168656698455, 5.21476909438527514 43.41428431415302924, 5.16557369602690564 43.39157874567993645, 5.08988846778326032 43.39157874567993645, 5.014203239539615 43.39252481103297754, 5.01893356630484355 43.3792798960903454, 5.03690880801270868 43.3565743276172455, 5.07096716072234965 43.34143728196851697, 5.11070190555026294 43.33859908590937948, 5.15327484643731371 43.34427547802765446, 5.21760729044441174 43.34049121661547588, 5.27247908092105533 43.35373613155811512, 5.30275317221851239 43.37265743861902223, 5.33208119816292569 43.36698104650074725, 5.35194857057688189 43.3565743276172455, 5.36140922410733811 43.34143728196851697, 5.36992381228474791 43.32535417096674735, 5.36992381228474791 43.3130553213771492, 5.36613955087256578 43.29791827572842067, 5.36613955087256578 43.28845762219796711, 5.37654626975606753 43.27521270725532787, 5.38600692328652286 43.26102172695964754, 5.38316872722738626 43.25250713878223507, 5.37276200834388451 43.24210041989873332, 5.35478676663601938 43.23263976636827977, 5.35005643987079083 43.22128698213172981, 5.35857102804820151 43.21088026324823517, 5.37749233510911218 43.21655665536650304, 5.39925183822916033 43.21939485142564052, 5.42195740670225401 43.21561059001346194, 5.45412362870580303 43.21939485142564052, 5.50331902706417253 43.20141960971777451, 5.50615722312331002 42.99990768951906972, 4.19301851309606466 42.99896162416602152, 4.19585670915520126 43.49375380380885758))').toJson(),
           }],
         },
-        time: availableDates.N3_CUSTOM_TSMNN,
+        time: availableDates.AWS_N3_CUSTOM_TSMNN,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM_TSMNN',
+          layers: 'AWS_N3_CUSTOM_TSMNN',
           legendUrl: 'eodash-data/data/waterLegend_tsm.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1726,13 +1534,13 @@ export const globalIndicators = [
         eoSensor: ['2017-06-30', '2018-06-30', '2019-06-30', '2020-06-30'],
         aoi: null,
         aoiID: 'W2',
-        time: availableDates.E12C_NEW_MOTORWAY,
+        time: availableDates.AWS_E12C_NEW_MOTORWAY,
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Aggregated Truck Traffic 10km',
-          layers: 'E12C_NEW_MOTORWAY',
+          layers: 'AWS_E12C_NEW_MOTORWAY',
           legendUrl: 'eodash-data/data/E12c-legend.png',
           minZoom: 1,
           maxZoom: 10,
@@ -1855,13 +1663,13 @@ export const globalIndicators = [
         eoSensor: ['2017-06-30', '2018-06-30', '2019-06-30', '2020-06-30'],
         aoi: null,
         aoiID: 'W3',
-        time: availableDates.E12D_NEW_PRIMARYROADS,
+        time: availableDates.AWS_E12D_NEW_PRIMARYROADS,
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Aggregated Truck Traffic 10km',
-          layers: 'E12D_NEW_PRIMARYROADS',
+          layers: 'AWS_E12D_NEW_PRIMARYROADS',
           legendUrl: 'eodash-data/data/E12c-legend.png',
           minZoom: 1,
           maxZoom: 10,
@@ -1987,12 +1795,12 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((2.516544 40.485512,2.522036 41.562459,2.291387 41.480243,2.211372 41.416219,2.164693 41.3132,2.049368 41.27401,1.917569 41.26782,1.692412 41.212083,1.448034 41.174899,1.266809 41.129423,1.16796 41.077707,0.950799 41.027932,0.726123 40.810478,0.849188 40.722691,0.85468 40.68523,0.659705 40.6644,0.549872 40.576882,0.483966 40.485017,2.516544 40.485512))').toJson(),
           }],
         },
-        time: availableDates.N3_CUSTOM,
+        time: availableDates.AWS_N3_CUSTOM,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM',
+          layers: 'AWS_N3_CUSTOM',
           legendUrl: 'eodash-data/data/waterLegend.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -2026,12 +1834,12 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((2.516544 40.485512,2.522036 41.562459,2.291387 41.480243,2.211372 41.416219,2.164693 41.3132,2.049368 41.27401,1.917569 41.26782,1.692412 41.212083,1.448034 41.174899,1.266809 41.129423,1.16796 41.077707,0.950799 41.027932,0.726123 40.810478,0.849188 40.722691,0.85468 40.68523,0.659705 40.6644,0.549872 40.576882,0.483966 40.485017,2.516544 40.485512))').toJson(),
           }],
         },
-        time: availableDates.N3_CUSTOM_TSMNN,
+        time: availableDates.AWS_N3_CUSTOM_TSMNN,
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
-          layers: 'N3_CUSTOM_TSMNN',
+          layers: 'AWS_N3_CUSTOM_TSMNN',
           legendUrl: 'eodash-data/data/waterLegend_tsm.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -2118,11 +1926,11 @@ export const globalIndicators = [
           }],
         },
         lastColorCode: null,
-        time: availableDates['ICEYE-E3'],
+        time: availableDates['AWS_ICEYE-E3'],
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          layers: 'ICEYE-E3',
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          layers: 'AWS_ICEYE-E3',
           minZoom: 5,
           name: 'Oil silos volume change',
           features: {
@@ -2161,11 +1969,11 @@ export const globalIndicators = [
           }],
         },
         lastColorCode: null,
-        time: availableDates['ICEYE-E11'],
+        time: availableDates['AWS_ICEYE-E11'],
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          layers: 'ICEYE-E11',
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          layers: 'AWS_ICEYE-E11',
           minZoom: 5,
           maxZoom: 19,
           name: 'Disneyland Paris',
@@ -2205,11 +2013,11 @@ export const globalIndicators = [
           }],
         },
         lastColorCode: null,
-        time: availableDates['ICEYE-E11A'],
+        time: availableDates['AWS_ICEYE-E11A'],
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          layers: 'ICEYE-E11A',
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          layers: 'AWS_ICEYE-E11A',
           minZoom: 5,
           maxZoom: 19,
           name: 'Warsaw parking lot',
@@ -2249,11 +2057,11 @@ export const globalIndicators = [
           }],
         },
         lastColorCode: null,
-        time: availableDates['ICEYE-E12B'],
+        time: availableDates['AWS_ICEYE-E12B'],
         inputData: [''],
         display: {
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          layers: 'ICEYE-E12B',
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          layers: 'AWS_ICEYE-E12B',
           minZoom: 5,
           maxZoom: 18,
           name: 'Weimouth ships',
@@ -2297,8 +2105,8 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          layers: 'ICEYE-E13B',
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          layers: 'AWS_ICEYE-E13B',
           minZoom: 5,
           maxZoom: 18,
           name: 'Airports: Detected planes',
@@ -2343,8 +2151,8 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
-          layers: 'ICEYE-E13B',
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          layers: 'AWS_ICEYE-E13B',
           minZoom: 5,
           maxZoom: 18,
           name: 'Airports: Detected planes',
@@ -2383,42 +2191,6 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         display: {
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'TROPOMI CO',
-        indicator: 'N1',
-        lastIndicatorValue: null,
-        indicatorName: 'TROPOMI CO',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'WorldCO',
-        time: l3mapsData.l3maps,
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          maxNativeZoom: 5,
-          minZoom: 0,
-          opacity: 0.6,
-          tileSize: 256,
-          name: 'Tropospheric CO',
-          // url: '//obs.eu-de.otc.t-systems.com/s5p-pal-l3-external/maps/{time}/{z}/{x}/{-y}.png',
-          url: '//obs.eu-nl.otc.t-systems.com/s5p-pal-nl-l3-external/maps/{time}/{z}/{x}/{-y}.png',
-          legendUrl: 'data/trilateral/s5pCOLegend.png',
-          dateFormatFunction: (date) => date[0],
-          labelFormatFunction: (date) => date[1],
         },
       },
     },

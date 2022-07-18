@@ -24,6 +24,7 @@ import ThemeSinglePage from './views/ThemeSinglePage.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 import customDashboardApiFactory from './custom-dashboard';
+import getLocationCode from './mixins/getLocationCode';
 // eslint-disable-line no-unused-vars
 
 // Set UTC as default time zone behavior for whole client
@@ -168,11 +169,7 @@ const renderVue = async () => {
         }
         return color;
       },
-      getLocationCode: (indicatorObject) => `${
-        indicatorObject.aoiID
-      }-${
-        indicatorObject.indicator
-      }`,
+      getLocationCode,
       trackEvent: (action, name, value) => window._paq.push(
         ['trackEvent', action, name, value],
       ),
@@ -195,20 +192,20 @@ const renderVue = async () => {
         { path: '/', name: 'explore', component: Dashboard },
       ]),
     { path: '/dashboard', component: DashboardCustom },
-    ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
-      ? [{ path: '/story', component: DashboardCustom }]
-      : []),
+    { path: '/story', component: DashboardCustom },
     { path: '/privacy', component: Privacy },
     { path: '/terms_and_conditions', component: Terms },
     { path: '/challenges', component: Challenges },
     { path: '/iframe', component: EmbedIframe },
     ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
       ? [
-        { path: '/water-and-ocean', name: 'water-and-ocean', component: ThemeSinglePage },
-        { path: '/biomass-and-landcover', name: 'biomass-and-landcover', component: ThemeSinglePage },
-        { path: '/air-quality', name: 'air-quality', component: ThemeSinglePage },
+        { path: '/atmosphere', name: 'atmosphere', component: ThemeSinglePage },
         { path: '/agriculture', name: 'agriculture', component: ThemeSinglePage },
+        { path: '/biomass-and-landcover', name: 'biomass-and-landcover', component: ThemeSinglePage },
+        { path: '/covid-19', name: 'covid-19', component: ThemeSinglePage },
         { path: '/cryosphere', name: 'cryosphere', component: ThemeSinglePage },
+        { path: '/economy', name: 'economy', component: ThemeSinglePage },
+        { path: '/oceans', name: 'oceans', component: ThemeSinglePage },
       ]
       : []
     ),
@@ -224,11 +221,11 @@ const renderVue = async () => {
   }).$mount('#app');
 };
 
-if (store.state.dashboard ?. dashboardConfig ?. id) {
+if (store.state.dashboard?.dashboardConfig?.id) {
   store.commit('dashboard/ADD_API', customDashboardApiFactory());
 
-  const id = store.state.dashboard ?. dashboardConfig ?. id;
-  const editKey = store.state.dashboard ?. dashboardConfig ?. editKey;
+  const id = store.state.dashboard?.dashboardConfig?.id;
+  const editKey = store.state.dashboard?.dashboardConfig?.editKey;
 
   store.state.dashboard.api.listen(id, editKey).then((response) => {
     if (response.error) {

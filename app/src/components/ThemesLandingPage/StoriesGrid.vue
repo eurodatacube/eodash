@@ -64,14 +64,14 @@
               </v-fade-transition>
               <v-list-item-title
                 :class="!$vuetify.breakpoint.mobile
-                  ? 'text-h5 mb-1 ml-5'
+                  ? 'text-h5 mb-1 mx-5'
                   : 'ma-2 mr-3 line-clamp'"
               >
                 {{ story.title }}
               </v-list-item-title>
               <v-list-item-subtitle
                 v-if="!$vuetify.breakpoint.mobile"
-                class="ml-5 mb-5"
+                class="mx-5 mb-5"
               >
                 {{ story.subtitle }}
               </v-list-item-subtitle>

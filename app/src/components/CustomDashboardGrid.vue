@@ -4,24 +4,31 @@
     v-else
     id="elementsContainer"
     v-scroll:#scroll-target="onScroll"
+    :class="storyMode ? 'ma-0' : ''"
   >
     <template v-for="(element, index) in features">
       <v-col v-if="!element.indicatorObject && !element.text" :key="index" cols="12">
         Error: {{ element }}
       </v-col>
       <v-col
-        v-else-if="!($vuetify.breakpoint.xsOnly && !!element.text)"
+        v-else
         :key="element.poi"
         cols="12"
         :md="element.width > 1 ? (element.width > 2 ? (element.width > 3 ? 12 : 8) : 6) : 4"
-        style="position: relative;"
-        :class="$vuetify.breakpoint.xsOnly ? 'px-0' : ''"
+        :style="`position: relative;
+          z-index: ${element.text && `#textAreaContainer-${index}` === showTextCurrent ? 2 : 1}`"
+        :class="storyMode ? 'px-0 py-0' : ''"
       >
         <div
           class="d-flex flex-column"
-          :style="`height: ${storyMode ? 'calc((var(--vh, 1vh) * 100) - 140px)' : '500px'}`"
+          :style="`height: ${storyMode
+            ? `calc(var(--vh, 1vh) * ${$vuetify.breakpoint.smAndDown
+              ? getElementHeight(element.width)
+              : 100})`
+            : '500px'}`"
         >
           <div
+            v-if="!storyMode"
             class="d-flex align-center"
           >
             <span
@@ -46,35 +53,122 @@
           </div>
           <v-card
             class="pa-0 flex-grow-1 elementCard"
-            outlined
+            :class="element.text && storyMode
+              && `#textAreaContainer-${index}` === showTextCurrent ? 'hasOverflow' : 'noOverflow'"
+            :style="$vuetify.breakpoint.smAndUp
+              ? 'overflow: auto !important' : ''"
+            :outlined="!storyMode"
             tile
           >
             <div
-              v-if="features[index + 1] && features[index + 1].text
-                && $vuetify.breakpoint.xsOnly && !showText"
               class="fill-height"
-              :style="`position: absolute; width: 100%;
-                box-shadow: ${$vuetify.theme.dark ? '#363636' : 'white'} 0px -80px 30px -35px inset;
-                z-index: 3; pointer-events: none;`"
             >
-            </div>
-            <div
-              :style="`position: relative; height: ${($vuetify.breakpoint.xsOnly
-              && features[index + 1]
-              && features[index + 1].text)
-                ? '60%'
-                : '100%'}`"
-            >
-              <div
+              <template
                 v-if="element.text"
-                class="textAreaContainer"
               >
+                <v-sheet
+                  v-if="$vuetify.breakpoint.smAndDown && storyMode
+                    && !element.text.includes(imageFlag)"
+                  class="fill-height textSlider"
+                  :id="`#textAreaContainer-${index}` === showTextCurrent
+                    ? 'showTextCurrent'
+                    : undefined"
+                  v-touch="{
+                    up: () => startFullScreenInteraction(`#textAreaContainer-${index}`),
+                    down: () => endFullScreenInteraction(`#textAreaContainer-${index}`),
+                  }"
+                >
+                  <div
+                    :id="`textAreaContainer-${index}`"
+                    class="textAreaContainer fill-height"
+                    :style="!showText ? 'overflow-y: hidden' : ''"
+                  >
+                    <v-btn
+                      icon
+                      :dark="$vuetify.theme.dark ? true : false"
+                      absolute
+                      class="ma-2"
+                      style="right: 0"
+                      @click="showText
+                        ? endFullScreenInteraction(`#textAreaContainer-${index}`, true)
+                        : startFullScreenInteraction(`#textAreaContainer-${index}`)"
+                    >
+                      <v-icon>
+                        {{  showText
+                          ? 'mdi-unfold-less-horizontal'
+                          : 'mdi-unfold-more-horizontal' }}
+                      </v-icon>
+                    </v-btn>
+                    <div
+                      class="pa-5 textArea"
+                      v-html="convertToMarkdown(element.text)"
+                    ></div>
+                    <div
+                      v-if="`#textAreaContainer-${index}` !== showTextCurrent"
+                      :style="`position: absolute; bottom: 0; width: 100%; height: 100%;
+                      box-shadow: ${$vuetify.theme.dark
+                        ? '#1e1e1e'
+                        : 'white'} 0px -80px 30px -35px inset; pointer-events: none`"
+                    ></div>
+                  </div>
+                </v-sheet>
                 <div
-                  class="pa-5 textArea"
-                  v-html="convertToMarkdown(element.text)"
-                ></div>
-              </div>
-              <indicator-map
+                  v-else
+                  class="textAreaContainer"
+                >
+                  <div
+                    :class="element.text.includes(imageFlag)
+                      ? 'imageArea fill-height'
+                      : 'pa-5 textArea'"
+                    v-html="convertToMarkdown(element.text)"
+                  ></div>
+                </div>
+              </template>
+              <indicator-globe
+                v-else-if="element.indicatorObject.showGlobe"
+                class="pt-0 fill-height"
+                style="top: 0px; position: absolute;"
+                :currentIndicator="element.indicatorObject"
+                :directionProp="localDirection[element.poi]"
+                :positionProp="localPosition[element.poi]"
+                :rightProp="localRight[element.poi]"
+                :upProp="localUp[element.poi]"
+                :dataLayerTimeProp="localDataLayerTime[element.poi]"
+                :compareLayerTimeProp="localCompareLayerTime[element.poi]"
+                disableAutoFocus
+                @update:direction="d => {localDirection[element.poi] = d}"
+                @update:position="p => {localPosition[element.poi] = p}"
+                @update:right="r => {localRight[element.poi] = r}"
+                @update:up="u => {localUp[element.poi] = u}"
+                @update:datalayertime="d => {localDataLayerTime[element.poi] = d}"
+                @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
+                @ready="onMapReady(element.poi)"
+              />
+              <!-- TO DO: give unique map id instead of element.title-->
+              <CenterMap
+                v-else-if="(['all'].includes(element.indicatorObject.country) ||
+                appConfig.configuredMapPois.includes(
+                  `${element.indicatorObject.aoiID}-${element.indicatorObject.indicator}`
+                ) ||
+                Array.isArray(element.indicatorObject.country)) && !element.includesIndicator"
+                :mapId="element.title"
+                :currentIndicator="element.indicatorObject"
+                :directionProp="localDirection[element.poi]"
+                :positionProp="localPosition[element.poi]"
+                :rightProp="localRight[element.poi]"
+                :upProp="localUp[element.poi]"
+                :dataLayerTimeProp="localDataLayerTime[element.poi]"
+                :compareLayerTimeProp="localCompareLayerTime[element.poi]"
+                disableAutoFocus
+                @update:direction="d => {localDirection[element.poi] = d}"
+                @update:position="p => {localPosition[element.poi] = p}"
+                @update:right="r => {localRight[element.poi] = r}"
+                @update:up="u => {localUp[element.poi] = u}"
+                @update:datalayertime="d => {localDataLayerTime[element.poi] = d}"
+                @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
+                @ready="onMapReady(element.poi)"
+              />
+              <!--<indicator-map
                 ref="indicatorMap"
                 style="top: 0px; position: absolute;"
                 v-else-if="(['all'].includes(element.indicatorObject.country) ||
@@ -96,55 +190,15 @@
                 @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
                 @compareEnabled="tooltipTrigger = !tooltipTrigger"
                 @ready="onMapReady(element.poi)"
-              />
+              />-->
               <indicator-data
-                style="top: 0px; position: absolute;"
                 v-else
-                class="pa-5 chart"
+                disableAutoFocus
                 :currentIndicator="element.indicatorObject"
+                class="pa-5 chart"
+                style="top: 0px; position: absolute;"
               />
             </div>
-            <template
-              v-if="$vuetify.breakpoint.xsOnly && features[index + 1] && features[index + 1].text"
-            >
-              <div
-                class="mobilePaddingBottom"
-                style="height: calc(var(--vh, 1vh) * 40)"
-              >
-              </div>
-              <v-navigation-drawer
-                v-model="showText"
-                absolute
-                bottom
-                temporary
-                style="z-index: 1; max-height: 100%;"
-                v-touch="{
-                  up: () => startFullScreenInteraction(`#textAreaContainer-${index}`),
-                  down: () => endFullScreenInteraction(`#textAreaContainer-${index}`),
-                }"
-              >
-                <div
-                  :id="`textAreaContainer-${index}`"
-                  class="textAreaContainer fill-height"
-                  :style="!showText ? 'overflow-y: hidden' : ''"
-                >
-                  <v-btn
-                    icon
-                    :dark="$vuetify.theme.dark ? true : false"
-                    absolute
-                    class="ma-2"
-                    style="right: 0"
-                    @click="showText = !showText"
-                  >
-                    <v-icon>{{  showText ? 'mdi-chevron-down' : 'mdi-chevron-up' }}</v-icon>
-                  </v-btn>
-                  <div
-                    class="pa-5 textArea"
-                    v-html="convertToMarkdown(features[index + 1].text)"
-                  ></div>
-                </div>
-              </v-navigation-drawer>
-            </template>
           </v-card>
           <template v-if="enableEditing">
             <div class="buttonContainer containerRight containerTop">
@@ -375,11 +429,16 @@
 
 <script>
 import { DateTime } from 'luxon';
+import mediumZoom from 'medium-zoom';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorMap from '@/components/IndicatorMap.vue';
+import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import LoadingAnimation from '@/components/LoadingAnimation.vue';
 import { loadIndicatorData } from '@/utils';
+import CenterMap from '@/components/map/CenterMap.vue';
 import { mapGetters, mapState, mapActions } from 'vuex';
+
+const zoom = mediumZoom();
 
 export default {
   props: {
@@ -389,31 +448,46 @@ export default {
     localFeatures: Array,
     dashboardMeta: Object,
     themeColor: String,
+    imageFlag: String,
   },
   components: {
     IndicatorData,
     IndicatorMap,
+    IndicatorGlobe,
     LoadingAnimation,
+    CenterMap,
   },
   data: () => ({
+    isMounted: false,
     features: [],
     dialog: false,
     featureTitle: '',
     featurePOI: null,
     localZoom: {},
     localCenter: {},
+    localDirection: {},
+    localPosition: {},
+    localRight: {},
+    localUp: {},
     localDataLayerTime: {},
     localCompareLayerTime: {},
     serverZoom: {},
     serverCenter: {},
+    serverDirection: {},
+    serverPosition: {},
+    serverRight: {},
+    serverUp: {},
     serverDataLayerTime: {},
     serverCompareLayerTime: {},
     enableCompare: {},
     savedPoi: null,
     offsetTop: 0,
     showText: false,
+    showTextCurrent: null,
     tooltipTrigger: false,
     firstCall: true,
+    numberOfRows: null,
+    ro: null,
   }),
   computed: {
     ...mapGetters('dashboard', {
@@ -439,6 +513,20 @@ export default {
             return true;
           }
         }
+        if (this.localDirection[element.poi] && this.serverDirection[element.poi]) {
+          if (this.localDirection[element.poi] !== this.serverDirection[element.poi]) {
+            return true;
+          }
+          if (this.localPosition[element.poi] !== this.serverPosition[element.poi]) {
+            return true;
+          }
+          if (this.localRight[element.poi] !== this.serverRight[element.poi]) {
+            return true;
+          }
+          if (this.localUp[element.poi] !== this.serverUp[element.poi]) {
+            return true;
+          }
+        }
         if (this.localDataLayerTime[element.poi]) {
           if (this.localDataLayerTime[element.poi] !== this.serverDataLayerTime[element.poi]) {
             return true;
@@ -455,22 +543,22 @@ export default {
       };
     },
     navigationButtonVisible() {
-      return this.offsetTop >= document.querySelector('#headerRow').clientHeight;
-    },
-    numberOfRows() {
-      let noOfRows;
-      if (this.navigationButtonVisible) {
-        const container = document.querySelector('#elementsContainer').clientHeight;
-        const row = document.querySelector('.elementCard').clientHeight;
-        noOfRows = Math.round(container / row);
+      let visible;
+      if (this.isMounted) {
+        // adding 5 pixels here just to make sure it triggers
+        // apparently there are very slight differences between browsers
+        // in offsetTop calculation when the window is zoomed in or out
+        visible = this.offsetTop + 5 >= document.querySelector('#headerRow').clientHeight;
       }
-      return noOfRows;
+      return visible;
     },
     currentRow() {
       let currentRow;
       if (this.numberOfRows) {
         currentRow = Math.round((this.offsetTop - document.querySelector('#headerRow').clientHeight)
-          / document.querySelector('.elementCard').clientHeight) + 1;
+          / (window.innerHeight
+            - this.$vuetify.application.top
+            - this.$vuetify.application.footer)) + 1;
       }
       return currentRow;
     },
@@ -480,7 +568,7 @@ export default {
       immediate: true,
       deep: true,
       async handler(features) {
-        if (features) {
+        if (features && !this.localFeatures) {
           // check if this.serverZoom is empty
           // (meaning it's the first call that must go through every time)
           let firstCall = false;
@@ -548,6 +636,46 @@ export default {
         }
       },
     },
+    showText(on) {
+      if (on) {
+        document.documentElement.style.setProperty('--showTextOffset', `${this.getTopOffset(this.showTextCurrent)}px`);
+      }
+    },
+    navigationButtonVisible(on) {
+      if (on && !this.numberOfRows) {
+        this.getNumberOfRows();
+      }
+    },
+    currentRow(newRow) {
+      const query = { ...this.$route.query };
+      if (newRow === 0) {
+        delete query.page;
+      } else {
+        query.page = newRow;
+      }
+      this.$router.replace({ query }).catch(() => {});
+    },
+  },
+  mounted() {
+    this.isMounted = true;
+    setTimeout(() => {
+      if (this.$route.query.page) {
+        this.goStep(Number(this.$route.query.page));
+      }
+    }, 50);
+
+    this.ro = new ResizeObserver(() => {
+      setTimeout(() => {
+        if (document.querySelector('.scrollContainer').scrollTop > 0) {
+          this.goStep(0);
+        }
+      });
+    })
+      .observe(document.querySelector('.scrollContainer'));
+  },
+  beforeDestroy() {
+    delete this.ro;
+    zoom.close();
   },
   methods: {
     ...mapActions('dashboard', [
@@ -565,6 +693,10 @@ export default {
         this.localCenter[poi].lat = this.serverCenter[poi].lat;
         this.localCenter[poi].lng = this.serverCenter[poi].lng;
         this.localZoom[poi] = this.serverZoom[poi];
+        this.localDirection[poi] = this.serverDirection[poi];
+        this.localPosition[poi] = this.serverPosition[poi];
+        this.localRight[poi] = this.serverRight[poi];
+        this.localUp[poi] = this.serverUp[poi];
         this.localDataLayerTime[poi] = this.serverDataLayerTime[poi];
         this.localCompareLayerTime[poi] = this.serverCompareLayerTime[poi];
       }, 1000);
@@ -580,6 +712,10 @@ export default {
             poi: el.poi,
             zoom: this.localZoom[el.poi],
             center: this.localCenter[el.poi],
+            direction: this.localDirection[el.poi],
+            position: this.localPosition[el.poi],
+            right: this.localRight[el.poi],
+            up: this.localUp[el.poi],
             dataLayerTime: this.localDataLayerTime[el.poi],
             compareLayerTime: this.localCompareLayerTime[el.poi]
               ? this.localCompareLayerTime[el.poi]
@@ -602,7 +738,21 @@ export default {
       );
     },
     convertToMarkdown(text) {
-      return this.$marked(text);
+      // each time markdown is rendered, register its images for the zoom feature
+      this.registerImageZoom();
+      return this.$marked(text
+        .replace(this.imageFlag, '<img class="featuredImage" src="')
+        .replace(this.imageFlag, `" title="${text.includes(this.imageFlag)
+          ? text.split(this.imageFlag)[2].replace(/\n/g, ' ')
+          : 'Image'}"/>`));
+    },
+    registerImageZoom() {
+      this.$nextTick(() => {
+        // detach all previously attached images
+        zoom.detach();
+        // attach all images in .textAreas
+        zoom.attach(document.querySelectorAll('.textAreaContainer img'));
+      });
     },
     async performChange(method, params) {
       this.$emit('change');
@@ -619,10 +769,15 @@ export default {
       if (this.currentRow === 1 && direction === -1) {
         position = 0; // scroll back to story intro
       } else {
-        const rowPadding = 50;
+        const container = document.querySelector('#elementsContainer');
+        if (!container) {
+          return;
+        }
         const startingPoint = document.querySelector('#elementsContainer').offsetTop;
-        const rowHeight = document.querySelector('.elementCard').clientHeight + rowPadding;
-        const target = rowHeight * (this.currentRow - 1 + direction);
+        const rowHeight = window.innerHeight
+          - this.$vuetify.application.top
+          - this.$vuetify.application.footer;
+        const target = rowHeight * ((this.currentRow || 0) - 1 + direction);
         position = startingPoint + target;
       }
       this.$emit('scrollTo', { target: position });
@@ -667,10 +822,18 @@ export default {
         if (f.mapInfo && (this.firstCall || poiString === this.savedPoi)) {
           this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
           this.$set(this.localCenter, f.poi, f.mapInfo.center);
+          this.$set(this.localDirection, f.poi, f.mapInfo.direction);
+          this.$set(this.localPosition, f.poi, f.mapInfo.position);
+          this.$set(this.localRight, f.poi, f.mapInfo.right);
+          this.$set(this.localUp, f.poi, f.mapInfo.up);
           this.$set(this.localDataLayerTime, f.poi, f.mapInfo.dataLayerTime);
 
           this.$set(this.serverZoom, f.poi, f.mapInfo.zoom);
           this.$set(this.serverCenter, f.poi, f.mapInfo.center);
+          this.$set(this.serverDirection, f.poi, f.mapInfo.direction);
+          this.$set(this.serverPosition, f.poi, f.mapInfo.position);
+          this.$set(this.serverRight, f.poi, f.mapInfo.right);
+          this.$set(this.serverUp, f.poi, f.mapInfo.up);
           this.$set(this.serverDataLayerTime, f.poi, f.mapInfo.dataLayerTime);
 
           if (f.mapInfo.dataLayerTime) {
@@ -689,13 +852,60 @@ export default {
     },
     startFullScreenInteraction(selector) {
       if (document.querySelector(selector).scrollTop === 0) {
+        this.showTextCurrent = selector;
         this.showText = true;
       }
     },
-    endFullScreenInteraction(selector) {
-      if (document.querySelector(selector).scrollTop === 0) {
+    endFullScreenInteraction(selector, force) {
+      if (document.querySelector(selector).scrollTop === 0 || force) {
         this.showText = false;
+        this.showTextCurrent = null;
       }
+    },
+    getElementHeight(size) {
+      let percent;
+      switch (size) {
+        case 1: {
+          percent = 33.5;
+          break;
+        }
+        case 2: {
+          percent = 50;
+          break;
+        }
+        case 3: {
+          percent = 66.5;
+          break;
+        }
+        case 4: {
+          percent = 100;
+          break;
+        }
+        default: {
+          percent = 100;
+        }
+      }
+      return percent;
+    },
+    getTopOffset(selector) {
+      let offset = 0;
+      const element = document.querySelector(selector);
+      if (element && selector === this.showTextCurrent) {
+        offset = (element
+          .getBoundingClientRect().top - this.$vuetify.application.top) * -1;
+      }
+      return offset;
+    },
+    getNumberOfRows() {
+      let noOfRows;
+      if (this.navigationButtonVisible) {
+        const container = document.querySelector('#elementsContainer').clientHeight;
+        const row = window.innerHeight
+          - this.$vuetify.application.top
+          - this.$vuetify.application.footer;
+        noOfRows = Math.round(container / row);
+      }
+      this.numberOfRows = noOfRows;
     },
   },
 };
@@ -723,21 +933,89 @@ export default {
 .chart {
   background: #fff;
 }
-::v-deep .textArea img, ::v-deep .textArea video, ::v-deep .textArea iframe {
-  max-width: 100%;
-}
-.elementCard {
-  overflow: hidden;
-}
 .textAreaContainer {
   overflow-y: auto;
+}
+.textAreaContainer,
+.textArea {
   height: 100%;
 }
-::v-deep .v-navigation-drawer--open {
-  transform: translateY(0%) !important;
+::v-deep .textArea img,
+::v-deep .textArea video,
+::v-deep .textArea iframe {
+  max-width: 100%;
 }
-::v-deep .v-navigation-drawer--close {
-  visibility: visible;
-  transform: translateY(60%) !important;
+
+::v-deep > .imageArea {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: small;
+  padding: 10px;
+
+  p {
+    width: fit-content;
+    height: fit-content;
+    max-height: 100%;
+    display: contents;
+    text-align: center;
+  }
+
+  img {
+    max-width: 100%;
+    max-height: calc(100% - 40px);
+    margin-bottom: 10px;
+  }
+}
+// .imageCaption {
+//   position: absolute;
+//   z-index: 2;
+//   display: flex;
+//   justify-content: center;
+//   width: 100%;
+// }
+.textSlider {
+  max-height: 100% !important;
+  transform: translateY(0) !important;
+  height: 100% !important;
+  transition-property: transform, visibility, width, height;
+  transition-duration: .2s;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+}
+#showTextCurrent.textSlider {
+  max-height: unset !important;
+  transform: translateY(var(--showTextOffset)) !important;
+  height: calc(var(--vh) * 100) !important;
+  // transform: translateY(-50%) !important;
+}
+.hasOverflow {
+  overflow: visible;
+}
+.noOverflow {
+  overflow: hidden;
+  /* persist overflow value from animation */
+  animation: .5s delay-overflow;
+}
+@keyframes delay-overflow {
+  from { overflow: visible; }
+}
+</style>
+
+<style lang="scss">
+.medium-zoom-overlay {
+  z-index: 1;
+  opacity: .8 !important;
+  background: var(--v-background-base) !important;
+}
+.medium-zoom-image--opened {
+  z-index: 2;
+}
+.imageArea :not(img):not(p) {
+  display: contents;
 }
 </style>

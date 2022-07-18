@@ -1,41 +1,55 @@
 [
-	{
-      "name": "Air Quality",
-      "slug": "air-quality",
-      "color": "#a65200",
-      "description": "The Planet's Protective Blanket",
-      "longDescription": "It surrounds our planet, keeps us warm, gives us oxygen to breathe and is where the weather is made. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
-    },
-
-	{
-      "name": "Agriculture",
-      "slug": "agriculture",
-      "color": "#766100",
-      "description": "The Backbone of the Economic System",
-      "longDescription": "The cultivation of plants and cattle has been essential for human existence and development for many thousand years and brought many innovations. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
-    },
-
-	{
-      "name": "Biomass and Landcover",
-      "slug": "biomass-and-landcover",
-      "color": "#1d7300",
-      "description": "The Green Lung of our Planet",
-      "longDescription": "Our planet is covered in a myriad of terrestrial and marine organisms which convert sunlight and carbon dioxide into glucose and oxygen. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
-    },
-
-	{
-      "name": "Water and Ocean",
-      "slug": "water-and-ocean",
-      "color": "#0064b3",
-      "description": "The Climate Kitchen",
-      "longDescription": "The place where, billions of years ago, life started making its own thing, creating an incredible diversity of animals within the massive water bodies on early Earth. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
-    },
-
-	{
-      "name": "Cryosphere",
-      "slug": "cryosphere",
-      "color": "#616161",
-      "description": "The Planet's Climate Control",
-      "longDescription": "Places so cold that groups of penguin have to hurdle into groups and stay in close proximity to keep themselves warm. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
-    }
+  {
+    "name": "Atmosphere",
+    "slug": "atmosphere",
+    "color": "#4059AD",
+    "description": "Tracking Changes in the Atmosphere",
+    "longDescription": "Air pollution and climate change are some of the biggest environmental challenges of our time.",
+    "datasetsImage": "/data/story-images/Datasets-theme.jpg"
+  },
+  {
+    "name": "Agriculture",
+    "slug": "agriculture",
+    "color": "#F2AF26",
+    "description": "Growing Economic Systems",
+    "longDescription": "Satellites are providing insights into agricultural production, crop conditions, and food supply.",
+    "datasetsImage": "/data/story-images/agri-explore-datasets-image.png"
+  },
+  {
+    "name": "Biomass",
+    "slug": "biomass-and-landcover",
+    "color": "#009E73",
+    "description": "Clearing the Air",
+    "longDescription": "A view from space monitors land cover and trees to track biomass and carbon content."
+  },
+  {
+    "name": "Water and Ocean",
+    "slug": "oceans",
+    "color": "#6DA2C5",
+    "description": "Keeping Current with Earth’s Largest Natural Resource",
+    "longDescription": "Satellite images reveal a view of the ocean that is as rich and complex as that of land.",
+    "datasetsImage": "/data/story-images/wq-explore-datasets-image.png"
+  },
+  {
+    "name": "Cryosphere",
+    "slug": "cryosphere",
+    "color": "#42C7B8",
+    "description": "Tracking Ice and Snow’s Relationship to Climate",
+    "longDescription": "The Arctic region shows changes most characteristic of global warming."
+  },
+  {
+    "name": "Covid-19",
+    "slug": "covid-19",
+    "color": "#32322C",
+    "description": "The COVID-19 pandemic",
+    "longDescription": "Tracking the Effects of the COVID-19 Pandemic"
+  },
+  {
+    "name": "Economy",
+    "slug": "economy",
+    "color": "#897dac",
+    "description": "Economy",
+    "longDescription": "Observing Earth's social and economic systems",
+    "datasetsImage": "/data/story-images/econ-explore-datasets-image.png"
+  }
 ]

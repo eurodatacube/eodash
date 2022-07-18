@@ -10,150 +10,8 @@
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
         >
-          <v-tabs
-            v-if="multipleTabCompare"
-            v-model="selectedSensorTab"
-            grow
-          >
-            <v-tab
-              v-for="(sensorData, index) in multipleTabCompare.features"
-              :key="sensorData.properties.indicatorObject.id"
-              :class="multipleTabCompare.features.indexOf(sensorData) == selectedSensorTab
-                ? 'primary white--text'
-                : ''"
-            >
-              {{ Array.isArray(multipleTabCompare.label)
-                ? multipleTabCompare.label[index]
-                : (Array.isArray(sensorData.properties.indicatorObject[multipleTabCompare.label])
-                ? sensorData.properties.indicatorObject[multipleTabCompare.label][0]
-                : sensorData.properties.indicatorObject[multipleTabCompare.label])
-              }}
-            </v-tab>
-          </v-tabs>
-          <v-tabs-items
-            v-if="multipleTabCompare"
-            touchless
-            v-model="selectedSensorTab"
-          >
-            <v-tab-item
-              v-for="sensorData in multipleTabCompare.features"
-              :key="sensorData.properties.indicatorObject.id"
-              :transition="false" :reverse-transition="false"
-            >
-              <v-card
-                class="fill-height"
-                :style="`${!(!customAreaIndicator || expanded) ? 'display: none;' : ''}
-                height: ${$vuetify.breakpoint.mdAndUp ?
-                                  (expanded ? ( bannerHeight ? 60 : 70) : 40) : 60}vh;`"
-              >
-                <full-screen-button />
-                <div
-                  style="height: 100%;z-index: 500; position: relative;"
-                  v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
-                  @click="dataInteract = true"
-                  v-touch="{
-                    left: () => swipe(),
-                    right: () => swipe(),
-                    up: () => swipe(),
-                    down: () => swipe(),
-                }">
-                </div>
-                <v-overlay :value="overlay" absolute
-                  v-if="!dataInteract"
-                  @click="dataInteract = true">
-                  Tap to interact
-                </v-overlay>
-                <indicator-map
-                  ref="indicatorMap"
-                  style="top: 0px; position: absolute;"
-                  v-if="['all'].includes(sensorData.properties.indicatorObject.country) ||
-                  appConfig.configuredMapPois.includes(
-                    sensorData.properties.indicatorObject.aoiID
-                    + '-'
-                    + sensorData.properties.indicatorObject.indicator
-                  ) ||
-                  Array.isArray(sensorData.properties.indicatorObject.country)"
-                  class="pt-0 fill-height"
-                  :currentIndicator="sensorData.properties.indicatorObject"
-                  @update:center="c => center = c"
-                  @update:zoom="z => zoom = z"
-                />
-                <indicator-data
-                  style="top: 0px; position: absolute;"
-                  v-else
-                  class="pa-5 chart"
-                  :currentIndicator="sensorData.properties.indicatorObject"
-                />
-                <v-row class="mt-0">
-                  <v-col cols="12" sm="5" ></v-col>
-                  <v-col
-                    cols="12"
-                    sm="7"
-                    v-if="!isFullScreen"
-                    ref="customButtonRow"
-                    style="margin-top: -12px;"
-                  >
-                    <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
-                      <v-btn
-                        color="primary"
-                        text
-                        small
-                        :href="dataCustomHrefCSV"
-                        :download="customAOIDownloadFilename"
-                        target="_blank"
-                        v-if="customAreaIndicator && !isFullScreen"
-                      >
-                        <v-icon left>mdi-download</v-icon>
-                        download csv
-                      </v-btn>
-                    </div>
-                  </v-col>
-                </v-row>
-              </v-card>
-              <v-card
-                v-if="customAreaIndicator && !expanded"
-                class="fill-height"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 43 : 60}vh;`"
-                style="border: none; !important"
-                ref="indicatorData"
-                outlined
-              >
-              <v-card-title
-                style="padding-top: 10px; padding-bottom: 0px;">
-                  <v-btn
-                    icon
-                    @click="clearSelection">
-                    <v-icon medium>mdi-close</v-icon>
-                  </v-btn>
-                  {{ customAreaIndicator.title }}
-              </v-card-title>
-              <v-card-title
-                style="padding-top: 5px"
-                v-if="customAreaIndicator.isEmpty">
-                  No data found for selection
-              </v-card-title>
-                <div
-                  style="height: 100%;z-index: 500; position: relative;"
-                  v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
-                  @click="dataInteract = true"
-                  v-touch="{
-                    left: () => swipe(),
-                    right: () => swipe(),
-                    up: () => swipe(),
-                    down: () => swipe(),
-                }">
-                </div>
-                <indicator-data
-                  v-if="!customAreaIndicator.isEmpty"
-                  style="margin-top: 0px;"
-                  :style="`height: ${mapPanelHeight - 15}px`"
-                  class="px-5 py-0 chart"
-                />
-              </v-card>
-            </v-tab-item>
-          </v-tabs-items>
           <v-card
-            v-else-if="customAreaIndicator && !expanded"
+            v-if="customAreaIndicator && !expanded"
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? 43 : 60}vh;`"
             style="border: none; !important"
@@ -162,11 +20,6 @@
           >
           <v-card-title
             style="padding-top: 10px; padding-bottom: 0px;">
-              <v-btn
-                icon
-                @click="clearSelection">
-                <v-icon medium>mdi-close</v-icon>
-              </v-btn>
               {{ customAreaIndicator.title }}
           </v-card-title>
           <v-card-title
@@ -185,14 +38,17 @@
                 down: () => swipe(),
             }">
             </div>
-            <indicator-map
-              ref="indicatorMap"
-              style="top: 0px; position: absolute;"
-              v-show="false"
-              class="pt-0 fill-height"
-              @update:center="c => center = c"
-              @update:zoom="z => zoom = z"
-            />
+            <v-btn
+              v-if="customAreaIndicator && showRegenerateButton"
+              ref="regenerateButton"
+              color="secondary"
+              style="display: block; position: absolute; right: 130px; top: 13px;"
+              elevation="2"
+              x-small
+              @click="generateChart"
+            >
+              Regenerate
+            </v-btn>
             <indicator-data
               v-if="!customAreaIndicator.isEmpty"
               style="margin-top: 0px;"
@@ -233,7 +89,7 @@
             </v-row>
           </v-card>
           <v-card
-            v-else
+            v-else-if="!showMap || (showMap && indicatorObject.display.customAreaIndicator)"
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
                               ? (bannerHeight ? 65 : 70) : 40) : 60}vh;`"
@@ -256,14 +112,34 @@
               @click="dataInteract = true">
               Tap to interact
             </v-overlay>
-            <indicator-map
-              ref="indicatorMap"
+            <indicator-globe
+              v-if="showGlobe"
+              @update:direction="d => direction = d"
+              @update:position="p => position = p"
+              @update:right="r => right = r"
+              @update:up="u => up = u"
+              @update:datalayertime="d => datalayertime = d"
+              @update:comparelayertime="c => comparelayertime = c"
+              @compareEnabled="compareEnabled = !compareEnabled"
+              class="d-flex justify-center"
               style="top: 0px; position: absolute;"
-              v-if="showMap"
-              @update:center="c => center = c"
-              @update:zoom="z => zoom = z"
-              class="pt-0 fill-height"
             />
+            <v-col v-else-if="showMap && indicatorObject.display.customAreaIndicator" class="d-flex flex-col align-center justify-center" style="flex-direction: column; height: 100%">
+              <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
+              <p style="max-width: 75%; text-align: center">Use the rectangle and polygon buttons to the left of this box to generate charts for a given area.</p>
+              <v-btn
+                class="mt-3"
+                color="secondary"
+                :loading="isLoadingCustomAreaIndicator"
+                :disabled="!selectedArea"
+                @click="generateChart"
+              >
+                Generate Chart
+              </v-btn>
+            </v-col>
+
+            <div v-else-if="showMap"></div>
+
             <indicator-data
               style="top: 0px; position: absolute;"
               v-else
@@ -350,7 +226,14 @@
                   ].countrySelection"
                   :indicatorObject="indicatorObject"
                   :zoom="zoom"
-                  :center="center"/>
+                  :center="center"
+                  :direction="direction"
+                  :position="position"
+                  :right="right"
+                  :up="up"
+                  :datalayertime="datalayertime"
+                  :comparelayertime="compareEnabled ? comparelayertime : undefined"
+                />
               </div>
             </v-col>
           </v-row>
@@ -362,8 +245,7 @@
                   : (expanded
                     ? wrapperHeight + 'px'
                     : wrapperHeight - mapPanelHeight - (showMap ? 40 : 0)
-                    - buttonRowHeight
-                    - (multipleTabCompare ? 48 : 0) + 'px') }`"
+                    - buttonRowHeight + 'px') }`"
         >
           <v-row
             class="mt-0 fill-height scrollContainer"
@@ -460,7 +342,7 @@
               v-if="!isFullScreen"
             >
               <expandable-content
-                :minHeight="wrapperHeight - mapPanelHeight - (multipleTabCompare ? 48 : 0)
+                :minHeight="wrapperHeight - mapPanelHeight
                           - buttonRowHeight - eoDataBtnHeight - (showMap ? 40 : 0)
                           - indicatorDataHeight - 60"
                 :disableExpand="expanded || $vuetify.breakpoint.mdAndDown"
@@ -507,12 +389,6 @@
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
                 </v-toolbar>
-              <indicator-map
-                ref="referenceMap"
-                @update:center="c => center = c"
-                @update:zoom="z => zoom = z"
-                :style="`height: calc(100% - ${$vuetify.application.top}px)`"
-              />
               </v-dialog>
             </v-col>
           </v-row>
@@ -528,12 +404,11 @@ import {
   mapState,
 } from 'vuex';
 import { Wkt } from 'wicket';
-import { loadIndicatorData } from '@/utils';
 import { DateTime } from 'luxon';
 import dialogMixin from '@/mixins/dialogMixin';
 import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
-import IndicatorMap from '@/components/IndicatorMap.vue';
+import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import FullScreenButton from '@/components/FullScreenButton.vue';
 import IframeButton from '@/components/IframeButton.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
@@ -547,7 +422,7 @@ export default {
   components: {
     ExpandableContent,
     IndicatorData,
-    IndicatorMap,
+    IndicatorGlobe,
     FullScreenButton,
     IframeButton,
     AddToDashboardButton,
@@ -557,10 +432,17 @@ export default {
     overlay: false,
     dataInteract: false,
     mounted: false,
-    selectedSensorTab: 0,
-    multipleTabCompare: null,
     zoom: null,
     center: null,
+    direction: null,
+    position: null,
+    right: null,
+    up: null,
+    datalayertime: null,
+    comparelayertime: null,
+    compareEnabled: false,
+    isLoadingCustomAreaIndicator: false,
+    showRegenerateButton: null,
   }),
   computed: {
     ...mapGetters('features', [
@@ -573,6 +455,12 @@ export default {
       'baseConfig',
     ]),
     ...mapState(['isFullScreen']),
+    ...mapState('features', [
+      'selectedArea',
+    ]),
+    ...mapState('indicators', [
+      'customAreaIndicator',
+    ]),
     story() {
       let markdown;
       try {
@@ -587,14 +475,7 @@ export default {
       return this.$marked(markdown.default);
     },
     indicatorObject() {
-      let indicatorObject;
-      if (this.multipleTabCompare) {
-        const feature = this.multipleTabCompare.features[this.selectedSensorTab];
-        indicatorObject = feature && feature.properties.indicatorObject;
-      } else {
-        indicatorObject = this.$store.state.indicators.selectedIndicator;
-      }
-      return indicatorObject;
+      return this.$store.state.indicators.selectedIndicator;
     },
     dataHrefCSV() {
       let dataHref = 'data:text/csv;charset=utf-8,';
@@ -664,15 +545,15 @@ export default {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
       return `user_AOI_${currDate}_${this.indicatorObject.indicator}.csv`;
     },
-    customAreaIndicator() {
-      return this.$store.state.indicators.customAreaIndicator;
-    },
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
     },
     showMap() {
       // if returns true, we are showing map, if false we show chart
       return ['all'].includes(this.indicatorObject.country) || this.appConfig.configuredMapPois.includes(`${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`) || Array.isArray(this.indicatorObject.country);
+    },
+    showGlobe() {
+      return this.indicatorObject.showGlobe;
     },
     externalData() {
       const dataFromDefinition = this.baseConfig.indicatorsDefinition[
@@ -741,38 +622,15 @@ export default {
   },
   mounted() {
     this.mounted = true;
-    this.init();
+
+    // TODO: Extract fetchData method into helper file since it needs to be used from outside.
+    window.addEventListener(
+      'set-custom-area-indicator-loading',
+      (e) => { this.isLoadingCustomAreaIndicator = e.detail },
+      false,
+    )
   },
   methods: {
-    async init() {
-      await this.checkMultipleTabCompare();
-      this.selectedSensorTab = this.multipleTabCompare
-        ? this.multipleTabCompare.features
-          .indexOf(this.multipleTabCompare.features
-            .find((s) => this.getLocationCode(s.properties.indicatorObject)
-              === this.$route.query.poi))
-        : 0;
-    },
-    async checkMultipleTabCompare() {
-      let compare;
-      const { selectedIndicator } = this.$store.state.indicators;
-      const hasGrouping = this.appConfig.featureGrouping && this.appConfig.featureGrouping
-        .find((g) => g.features.find((i) => i.includes(this.getLocationCode(selectedIndicator))));
-      if (hasGrouping) {
-        compare = {};
-        compare.label = hasGrouping.label;
-        compare.features = hasGrouping.features;
-        // Pre-load all indicators to populate tab items
-        await Promise.all(compare.features.map(async (f) => {
-          const feature = this.$store.state.features.allFeatures
-            .find((i) => this.getLocationCode(i.properties.indicatorObject) === f);
-          await loadIndicatorData(this.baseConfig, feature.properties.indicatorObject);
-        }));
-        compare.features = compare.features.map((f) => this.$store.state.features.allFeatures
-          .find((i) => this.getLocationCode(i.properties.indicatorObject) === f));
-      }
-      this.multipleTabCompare = compare;
-    },
     swipe() {
       this.overlay = true;
       setTimeout(() => { this.overlay = false; }, 2000);
@@ -781,59 +639,19 @@ export default {
       this.$vuetify.goTo(this.$refs.customAreaIndicator, { container: document.querySelector('.data-panel') });
     },
     clearSelection() {
-      const refMap = Array.isArray(this.$refs.indicatorMap)
-        ? this.$refs.indicatorMap[this.selectedSensorTab]
-        : this.$refs.indicatorMap;
+      const refMap = this.$refs.indicatorMap;
       refMap.selectedCountry = null;
       refMap.selecectedLayer = null;
       this.$store.state.indicators.customAreaIndicator = null;
       this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
       refMap.onResize();
     },
+    generateChart() {
+      // TODO: Extract fetchData method into helper file since it needs to be used from outside.
+      window.dispatchEvent(new Event('fetch-custom-area-chart'));
+    },
   },
   watch: {
-    selectedSensorTab(index) {
-      if (this.multipleTabCompare.features[index]) {
-        const poi = this.getLocationCode(this.multipleTabCompare.features[index]
-          .properties.indicatorObject);
-        this.$router.replace({ query: { ...this.$route.query, poi } }).catch(() => {});
-        let currCountry = null;
-        let currID = null;
-        if (this.customAreaIndicator !== null) {
-          currCountry = this.customAreaIndicator.country;
-          currID = this.customAreaIndicator.indicator;
-        }
-        this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
-        if (this.$refs.indicatorMap
-          && this.$refs.indicatorMap.length > 0
-          && ['CV', 'OW'].includes(currID)) {
-          // For now we only refetch data when switching tabs for CV and OW data
-          // Check if a country is selected for the customAreaIndicator
-          const refMap = this.$refs.indicatorMap[index];
-          if (currCountry && currID) {
-            if (refMap) {
-              refMap.fetchMobilityData(
-                currCountry,
-                this.$refs.indicatorMap[index].indicator.aoiID,
-              );
-            } else {
-              // TODO: There should be a better way of doing this
-              setTimeout(() => {
-                this.$refs.indicatorMap[index].fetchMobilityData(
-                  currCountry, this.$refs.indicatorMap[index].indicator.aoiID,
-                );
-              }, 500);
-            }
-          }
-        }
-      }
-      if (this.$refs.indicatorMap
-        && this.$refs.indicatorMap.length > 0
-        && this.$refs.indicatorMap[index]) {
-        const refMap = this.$refs.indicatorMap[index];
-        refMap.onResize();
-      }
-    },
     dialog(open) {
       if (open && this.$refs.referenceMap) {
         this.$refs.referenceMap.onResize();
@@ -842,14 +660,14 @@ export default {
         }, 200);
       }
     },
+    selectedArea(area) {
+      this.showRegenerateButton = this.customAreaIndicator && !!area;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-::v-deep .v-slide-group__prev {
-  display: none !important;
-}
 .chart {
   background: #fff;
 }
