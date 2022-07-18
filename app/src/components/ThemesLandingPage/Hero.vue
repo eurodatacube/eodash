@@ -1,7 +1,7 @@
 <template>
   <div class="hero">
     <div class="overlay d-flex flex-row"
-      :style="`background-image:url('${appConfig.branding.converImage}')`"
+      :style="`background-image:url('${appConfig.branding.coverImage}')`"
     >
     </div>
     <div class="hero-section d-flex flex-column justify-center align-center px-3">

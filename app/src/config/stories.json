@@ -129,12 +129,61 @@
   },
   "gtif": {
     "energy": {
+      "wind-solar-hydro": {
+        "originalDashboardId": "",
+        "title": "Wind/Solar/Hydro potential & current utilisation",
+        "subtitle": "",
+        "image": "./data/story-images/gtif/pv_wind.jpeg",
+        "imagePlaceholder": "./data/story-images/gtif/pv_wind.jpeg"
+      },
+      "photo-voltaic": {
+        "originalDashboardId": "",
+        "title": "Photovoltaic on rooftops in urban areas",
+        "subtitle": "",
+        "image": "./data/story-images/gtif/pv.jpeg",
+        "imagePlaceholder": "./data/story-images/gtif/pv.jpeg"
+      }
     },
     "transport-emission": {
+      "emission-footprints": {
+        "originalDashboardId": "",
+        "title": "NO2 NOX emission footprints",
+        "subtitle": "",
+        "image": "./data/story-images/gtif/emissions.jpg",
+        "imagePlaceholder": "./data/story-images/gtif/emissions.jpg"
+      },
+      "travel-modality": {
+        "originalDashboardId": "",
+        "title": "Travel modality and social mobility",
+        "subtitle": "",
+        "image": "./data/story-images/gtif/public_transport.jpeg",
+        "imagePlaceholder": "./data/story-images/gtif/public_transport.jpeg"
+      }
     },
     "green-finance": {
+      "carbon-credits": {
+        "originalDashboardId": "",
+        "title": "Carbon credits: forest biomass, secondary biomass",
+        "subtitle": "",
+        "image": "./data/story-images/gtif/credits.jpg",
+        "imagePlaceholder": "./data/story-images/gtif/credits.jpeg"
+      }
     },
     "food-ecosystems-biodiversity": {
+      "crop-production": {
+        "originalDashboardId": "",
+        "title": "Energy Crop Production vs Food/Fodder",
+        "subtitle": "",
+        "image": "./data/story-images/gtif/biodiversity.jpeg",
+        "imagePlaceholder": "./data/story-images/gtif/biodiversity.jpeg"
+      },
+      "agriculture-ferestry": {
+        "originalDashboardId": "",
+        "title": "Supporting EO adaptation services: Agriculture & Forestry",
+        "subtitle": "",
+        "image": "./data/story-images/gtif/agriculture.jpeg",
+        "imagePlaceholder": "./data/story-images/gtif/agriculture.jpeg"
+      }
     }
   }
 }
