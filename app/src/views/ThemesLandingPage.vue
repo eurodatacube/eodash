@@ -69,7 +69,7 @@
                 class="info-section d-flex flex-column justify-center"
               >
                 <img
-                  src="/data/story-images/Datasets-landing.jpg"
+                  src="data/story-images/Datasets-landing.jpg"
                   width="100%"
                   class="pl-xs-0 pl-sm-0 pl-md-8 pl-lg-8 pl-xl-8"
                 />

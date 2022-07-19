@@ -320,7 +320,7 @@ module.exports = [
       faviconPath: './public/img/ESA/favicon.ico',
       title: 'Green Transition Information Factory',
       subtitle: 'Key element of the ESA Space For Green Future Accelerator',
-      coverImage: '/data/gtif/images/image1.png',
+      coverImage: 'data/gtif/images/image1.png',
       storiesHeader: 'Green Transition Subdomains',
       headerHeight: '30vh',
     },
