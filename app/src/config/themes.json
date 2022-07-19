@@ -6,7 +6,7 @@
       "color": "#4059AD",
       "description": "Tracking Changes in the Atmosphere",
       "longDescription": "Air pollution and climate change are some of the biggest environmental challenges of our time.",
-      "datasetsImage": "/data/story-images/Datasets-theme.jpg"
+      "datasetsImage": "./data/story-images/Datasets-theme.jpg"
     },
     {
       "name": "Agriculture",
@@ -14,7 +14,7 @@
       "color": "#F2AF26",
       "description": "Growing Economic Systems",
       "longDescription": "Satellites are providing insights into agricultural production, crop conditions, and food supply.",
-      "datasetsImage": "/data/story-images/agri-explore-datasets-image.png"
+      "datasetsImage": "./data/story-images/agri-explore-datasets-image.png"
     },
     {
       "name": "Biomass",
@@ -29,7 +29,7 @@
       "color": "#6DA2C5",
       "description": "Keeping Current with Earth’s Largest Natural Resource",
       "longDescription": "Satellite images reveal a view of the ocean that is as rich and complex as that of land.",
-      "datasetsImage": "/data/story-images/wq-explore-datasets-image.png"
+      "datasetsImage": "./data/story-images/wq-explore-datasets-image.png"
     },
     {
       "name": "Cryosphere",
@@ -61,7 +61,7 @@
       "color": "#4059AD",
       "description": "Wind/Solar/Hydro potential & current utilisation",
       "longDescription": "Tracking current state and potential of Wind/Solar/Hydro technologies with help of EO data",
-      "datasetsImage": "/data/story-images/Datasets-theme.jpg",
+      "datasetsImage": "./data/story-images/Datasets-theme.jpg",
       "customComponent": "EnergyThemeComponent"
     },
     {
@@ -70,7 +70,7 @@
       "color": "#F2AF26",
       "description": "Growing Economic Systems",
       "longDescription": "Air pollution and climate change are some of the biggest environmental challenges of our time",
-      "datasetsImage": "/data/story-images/agri-explore-datasets-image.png"
+      "datasetsImage": "./data/story-images/agri-explore-datasets-image.png"
     },
     {
       "name": "Green Finance",
