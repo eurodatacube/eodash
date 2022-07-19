@@ -1,5 +1,6 @@
 <template>
-  <div class="hero">
+  <div class="hero"
+    :style="`height: ${appConfig.branding.headerHeight};`">
     <div class="overlay d-flex flex-row"
       :style="`background-image:url('${appConfig.branding.coverImage}')`"
     >
@@ -38,7 +39,6 @@ export default {
 <style lang="scss">
   .hero {
     position: relative;
-    height: 50vh;
     width: 100vw;
     background: #00040f;
 

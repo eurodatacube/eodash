@@ -16,8 +16,8 @@
 
         <div class="section pb-16">
           <theme-navigation />
-
           <div class="mt-16 mb-16 d-flex flex-column justify-start align-center">
+            <LandingPageInfographic v-if="appConfig && appConfig.id === 'gtif'"/>
             <stories-grid :items="oneOfEachTheme" />
             <newsletter-banner v-if="appConfig && appConfig.showNewsletterButton" />
           </div>
@@ -77,7 +77,9 @@
             </template>
           </v-row>
 
-          <v-row no-gutters class="d-flex flex-row align-start px-3 pt-16 px-md-8">
+          <v-row no-gutters class="d-flex flex-row align-start px-3 pt-16 px-md-8"
+            v-if="appConfig.id === 'trilateral'"
+          >
             <template>
               <v-col
                 cols="12" xs="12" sm="12" md="6" lg="6"
@@ -151,6 +153,7 @@ import Hero from '@/components/ThemesLandingPage/Hero.vue';
 import ThemeNavigation from '@/components/ThemesLandingPage/ThemeNavigation.vue';
 import StoriesGrid from '@/components/ThemesLandingPage/StoriesGrid.vue';
 import NewsletterBanner from '@/components/ThemesLandingPage/NewsletterBanner.vue';
+import LandingPageInfographic from '@/components/ThemesLandingPage/LandingPageInfographic.vue';
 
 export default {
   components: {
@@ -160,6 +163,7 @@ export default {
     ThemeNavigation,
     StoriesGrid,
     NewsletterBanner,
+    LandingPageInfographic,
   },
   metaInfo() {
     return {

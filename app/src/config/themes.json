@@ -61,7 +61,8 @@
       "color": "#4059AD",
       "description": "Wind/Solar/Hydro potential & current utilisation",
       "longDescription": "Tracking current state and potential of Wind/Solar/Hydro technologies with help of EO data",
-      "datasetsImage": "/data/story-images/Datasets-theme.jpg"
+      "datasetsImage": "/data/story-images/Datasets-theme.jpg",
+      "customComponent": "EnergyThemeComponent"
     },
     {
       "name": "Transport & emissions",

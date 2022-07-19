@@ -168,6 +168,8 @@ module.exports = [
       title: 'Earth Observing Dashboard',
       subtitle: 'Global environmental changes observed by NASA, ESA, and JAXA',
       coverImage: '/data/story-images/EO_Dashboard_kv_no logos.png',
+      storiesHeader: 'Stories',
+      headerHeight: '50vh',
     },
     pageMeta: {
       rootPath: 'https://eodashboard.org',
@@ -319,6 +321,8 @@ module.exports = [
       title: 'Green Transition Information Factory',
       subtitle: 'Key element of the ESA Space For Green Future Accelerator',
       coverImage: '/data/gtif/images/image1.png',
+      storiesHeader: 'Green Transition Subdomains',
+      headerHeight: '30vh',
     },
     pageMeta: {
       rootPath: 'https://gtif.esa.int',

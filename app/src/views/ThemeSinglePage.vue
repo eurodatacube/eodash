@@ -34,6 +34,8 @@
           class="ma-0 pb-16 d-flex flex-column"
           style="max-width: 1400px;"
         >
+          <component v-bind:is="customComponent" v-if="customComponent"></component>
+
           <stories-grid :items="getStories(getCurrentTheme.slug)" class="pt-16 pb-16" />
           <v-row no-gutters class="d-flex flex-row px-3 px-md-8 pt-16 pb-8">
             <template>
@@ -105,6 +107,7 @@ import {
 import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import StoriesGrid from '@/components/ThemesLandingPage/StoriesGrid.vue';
+import EnergyThemeComponent from '@/components/ThemesLandingPage/EnergyThemeComponent.vue';
 import ThemeNavigation from '@/components/ThemesLandingPage/ThemeNavigation.vue';
 
 export default {
@@ -118,6 +121,7 @@ export default {
     GlobalFooter,
     StoriesGrid,
     ThemeNavigation,
+    EnergyThemeComponent,
   },
 
   created() {
@@ -147,6 +151,9 @@ export default {
 
         default: return 'text-h2';
       }
+    },
+    customComponent() {
+      return this.getCurrentTheme.customComponent;
     },
   },
   methods: {
