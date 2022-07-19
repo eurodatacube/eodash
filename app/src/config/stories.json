@@ -130,14 +130,14 @@
   "gtif": {
     "energy": {
       "wind-solar-hydro": {
-        "originalDashboardId": "",
+        "originalDashboardId": "8886df64b15699e5",
         "title": "Wind/Solar/Hydro potential & current utilisation",
         "subtitle": "",
         "image": "./data/story-images/gtif/pv_wind.jpeg",
         "imagePlaceholder": "./data/story-images/gtif/pv_wind.jpeg"
       },
       "photo-voltaic": {
-        "originalDashboardId": "",
+        "originalDashboardId": "643b655a6863208a",
         "title": "Photovoltaic on rooftops in urban areas",
         "subtitle": "",
         "image": "./data/story-images/gtif/pv.jpeg",
@@ -146,14 +146,14 @@
     },
     "transport-emission": {
       "emission-footprints": {
-        "originalDashboardId": "",
+        "originalDashboardId": "7c1644ec316b72d6",
         "title": "NO2 NOX emission footprints",
         "subtitle": "",
         "image": "./data/story-images/gtif/emissions.jpg",
         "imagePlaceholder": "./data/story-images/gtif/emissions.jpg"
       },
       "travel-modality": {
-        "originalDashboardId": "",
+        "originalDashboardId": "9cfef467b514ec2e",
         "title": "Travel modality and social mobility",
         "subtitle": "",
         "image": "./data/story-images/gtif/public_transport.jpeg",
@@ -162,7 +162,7 @@
     },
     "green-finance": {
       "carbon-credits": {
-        "originalDashboardId": "",
+        "originalDashboardId": "867341f38c5dc1fe",
         "title": "Carbon credits: forest biomass, secondary biomass",
         "subtitle": "",
         "image": "./data/story-images/gtif/credits.jpg",
@@ -171,14 +171,14 @@
     },
     "food-ecosystems-biodiversity": {
       "crop-production": {
-        "originalDashboardId": "",
+        "originalDashboardId": "eaa8a5fd4c9d2cb9",
         "title": "Energy Crop Production vs Food/Fodder",
         "subtitle": "",
         "image": "./data/story-images/gtif/biodiversity.jpeg",
         "imagePlaceholder": "./data/story-images/gtif/biodiversity.jpeg"
       },
       "agriculture-ferestry": {
-        "originalDashboardId": "",
+        "originalDashboardId": "96ebe0730ed462eb",
         "title": "Supporting EO adaptation services: Agriculture & Forestry",
         "subtitle": "",
         "image": "./data/story-images/gtif/agriculture.jpeg",
