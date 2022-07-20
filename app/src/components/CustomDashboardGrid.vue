@@ -896,25 +896,25 @@ export default {
       }
       this.numberOfRows = noOfRows;
     },
-    getPOIString() {
+    getPOIString(poi) {
       var timedPOIString;
       var useSatelliteImagery = false;
 
-      if (f.poi.includes('+')) {
+      if (poi.includes('+')) {
         // Display satellite imagery to to the user.
-        timedPOIString = f.poi.slice(1, f.poi.length);
+        timedPOIString = poi.slice(1, poi.length);
         useSatelliteImagery = true;
       } else {
         // Display any kind of chart to the user.
-        timedPOIString = f.poi.slice();
+        timedPOIString = poi.slice();
       }
 
       if (timedPOIString.includes('@')) {
           // eslint-disable-next-line
-          const [poi, _time] = timedPOIString.split('@');
+          const [p, _time] = timedPOIString.split('@');
 
           return {
-            poi: poi,
+            poi: p,
             useSatelliteImagery: useSatelliteImagery,
           };
         } else {
