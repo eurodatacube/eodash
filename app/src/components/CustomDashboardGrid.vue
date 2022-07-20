@@ -594,29 +594,10 @@ export default {
               return f;
             }
 
-            let poiString;
-            var timedPOIString;
-            var useSatelliteImagery = false;
-
-            if (f.poi.includes('+')) {
-              // Display satellite imagery to to the user.
-              timedPOIString = f.poi.slice(1, f.poi.length);
-              useSatelliteImagery = true;
-            } else {
-              // Display any kind of chart to the user.
-              timedPOIString = f.poi.slice();
-            }
-
-            if (timedPOIString.includes('@')) {
-                // eslint-disable-next-line
-                const [poi, _time] = timedPOIString.split('@');
-                poiString = poi;
-              } else {
-                poiString = f.poi;
-              }
+            let decoded = this.getPOIString(f.poi);
 
             const feature = this.$store.state.features.allFeatures
-              .find((i) => this.getLocationCode(i.properties.indicatorObject) === poiString);
+              .find((i) => this.getLocationCode(i.properties.indicatorObject) === decoded.poi);
             var indicatorObject = await loadIndicatorData(
               this.baseConfig,
               feature.properties.indicatorObject,
@@ -815,23 +796,17 @@ export default {
           return f;
         }
 
-        let poiString;
-
-        if (f.poi.includes('@')) {
-          // eslint-disable-next-line
-          const [poi, _time] = f.poi.split('@');
-          poiString = poi;
-        } else {
-          poiString = f.poi;
-        }
+        let decoded = this.getPOIString(f.poi);
 
         const feature = this.$store.state.features.allFeatures
-          .find((i) => this.getLocationCode(i.properties.indicatorObject) === poiString);
+          .find((i) => this.getLocationCode(i.properties.indicatorObject) === decoded.poi);
 
-        const indicatorObject = await loadIndicatorData(
+        var indicatorObject = await loadIndicatorData(
           this.baseConfig,
           feature.properties.indicatorObject,
         );
+
+        indicatorObject.useSatelliteImagery = decoded.useSatelliteImagery;
 
         if (f.mapInfo && (this.firstCall || poiString === this.savedPoi)) {
           this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
@@ -921,6 +896,34 @@ export default {
       }
       this.numberOfRows = noOfRows;
     },
+    getPOIString() {
+      var timedPOIString;
+      var useSatelliteImagery = false;
+
+      if (f.poi.includes('+')) {
+        // Display satellite imagery to to the user.
+        timedPOIString = f.poi.slice(1, f.poi.length);
+        useSatelliteImagery = true;
+      } else {
+        // Display any kind of chart to the user.
+        timedPOIString = f.poi.slice();
+      }
+
+      if (timedPOIString.includes('@')) {
+          // eslint-disable-next-line
+          const [poi, _time] = timedPOIString.split('@');
+
+          return {
+            poi: poi,
+            useSatelliteImagery: useSatelliteImagery,
+          };
+        } else {
+          return {
+            poi: timedPOIString,
+            useSatelliteImagery: useSatelliteImagery,
+          };
+        }
+    }
   },
 };
 </script>
