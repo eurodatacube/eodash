@@ -70,14 +70,16 @@
       "color": "#F2AF26",
       "description": "Growing Economic Systems",
       "longDescription": "Air pollution and climate change are some of the biggest environmental challenges of our time",
-      "datasetsImage": "./data/story-images/agri-explore-datasets-image.png"
+      "datasetsImage": "./data/story-images/agri-explore-datasets-image.png",
+      "customComponent": "TransportEmissionsThemeComponent"
     },
     {
       "name": "Green Finance",
       "slug": "green-finance",
       "color": "#009E73",
       "description": "Carbon credits",
-      "longDescription": "A deeper look at carbon credits and other relevant methods"
+      "longDescription": "A deeper look at carbon credits and other relevant methods",
+      "customComponent": "GreenfinanceThemeComponent"
     },
     {
       "name": "Food production, ecosystems & biodiversity",
