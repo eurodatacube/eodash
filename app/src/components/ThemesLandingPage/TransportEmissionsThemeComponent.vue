@@ -7,7 +7,7 @@
     />
     <p>S: <a href="https://www.statista.com" rel="nofollow">Statista</a></p>
     <img
-      src="/data/gtif/images/Air_emissions.jpeg"
+      src="data/gtif/images/Air_emissions.jpeg"
       width="100%"
       class="pl-xs-0 pl-sm-0 pl-md-8 pl-lg-8 pl-xl-8"
     />
