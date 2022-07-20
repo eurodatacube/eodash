@@ -150,7 +150,8 @@
                 appConfig.configuredMapPois.includes(
                   `${element.indicatorObject.aoiID}-${element.indicatorObject.indicator}`
                 ) ||
-                Array.isArray(element.indicatorObject.country)) && !element.includesIndicator"
+                Array.isArray(element.indicatorObject.country)) && !element.includesIndicator ||
+                element.indicatorObject.useSatelliteImagery"
                 :mapId="element.title"
                 :currentIndicator="element.indicatorObject"
                 :directionProp="localDirection[element.poi]"
@@ -616,10 +617,12 @@ export default {
 
             const feature = this.$store.state.features.allFeatures
               .find((i) => this.getLocationCode(i.properties.indicatorObject) === poiString);
-            const indicatorObject = await loadIndicatorData(
+            var indicatorObject = await loadIndicatorData(
               this.baseConfig,
               feature.properties.indicatorObject,
             );
+
+            indicatorObject.useSatelliteImagery = useSatelliteImagery;
 
             if (f.mapInfo && (firstCall || f.poi === this.savedPoi)) {
               this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
