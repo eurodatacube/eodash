@@ -594,14 +594,25 @@ export default {
             }
 
             let poiString;
+            var timedPOIString;
+            var useSatelliteImagery = false;
 
-            if (f.poi.includes('@')) {
-              // eslint-disable-next-line
-              const [poi, _time] = f.poi.split('@');
-              poiString = poi;
+            if (f.poi.includes('+')) {
+              // Display satellite imagery to to the user.
+              timedPOIString = f.poi.slice(1, f.poi.length);
+              useSatelliteImagery = true;
             } else {
-              poiString = f.poi;
+              // Display any kind of chart to the user.
+              timedPOIString = f.poi.slice();
             }
+
+            if (timedPOIString.includes('@')) {
+                // eslint-disable-next-line
+                const [poi, _time] = timedPOIString.split('@');
+                poiString = poi;
+              } else {
+                poiString = f.poi;
+              }
 
             const feature = this.$store.state.features.allFeatures
               .find((i) => this.getLocationCode(i.properties.indicatorObject) === poiString);
