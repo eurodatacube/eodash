@@ -132,7 +132,11 @@ export default {
         this.addFeature(
           {
             poi: this.indicatorObject.poi
-              || `${this.getLocationCode(this.indicatorObject)}@${Date.now()}`,
+              // Encode location code and current datetime object to create unique 
+              // dashboard entries and add a plus at the beginning if there is any
+              // satellite imagery that can be viewed.
+              || !!this.indicatorObject.eoSensor ? '+' : ''
+                + `${this.getLocationCode(this.indicatorObject)}@${Date.now()}`,
             width: 4,
             includesIndicator: this.indicatorObject.includesIndicator,
             ...(this.indicatorObject.includesIndicator
