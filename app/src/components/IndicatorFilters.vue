@@ -154,9 +154,7 @@
                   <v-list-item
                     v-for="(feature, i) in groupedIndicators[indicator.code].features"
                     :key="i"
-                    :value="!!feature
-                      ? getLocationCode(feature.properties.indicatorObject)
-                      : indicator.code"
+                    :value="getLocationCode(groupedIndicators[indicator.code].features[i].properties.indicatorObject)"
                     active-class="itemActive"
                     :class="indicator.archived ? 'archived-item' : ''"
                     :disabled="indicatorSelection === feature"
@@ -176,7 +174,7 @@
                           : (Array.isArray(feature.properties
                             .indicatorObject[groupedIndicators[indicator.code].label])
                           ? feature.properties
-                            .indicatorObject[groupedIndicators[indicator.code].label][0]
+                            .indicatorObject[groupedIndicators[indicator.code].label][1]
                           : feature.properties
                             .indicatorObject[groupedIndicators[indicator.code].label])
                         }}
@@ -395,6 +393,14 @@ export default {
       });
       return indicators;
     },
+    globalIndicators() {
+      return this.getGroupedFeatures && this.getGroupedFeatures
+        .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName))
+        .sort((a, b) => ((a.properties.indicatorObject.indicatorName
+          > b.properties.indicatorObject.indicatorName)
+          ? 1
+          : -1));
+    },
   },
   mounted() {
     this.$store.subscribe((mutation) => {
@@ -464,24 +470,39 @@ export default {
         return;
       }
       if (selectedFeature) {
+        // direct selection of a POI from the list
         this.$store.commit(
           'indicators/SET_SELECTED_INDICATOR',
           selectedFeature.properties.indicatorObject,
         );
+      } else if (this.globalIndicators.length === 1) {
+        console.log(this.globalIndicators);
+        // selection of a global indicator with exactly one global POI
+        this.$store.commit(
+          'indicators/SET_SELECTED_INDICATOR',
+          this.globalIndicators[0].properties.indicatorObject,
+        );
+      } else if (this.globalIndicators.length > 1) {
+        // selection of a global indicator with multiple global POIs
+        console.log(this.globalIndicators);
       } else {
-        // filter out those POIs that are defined in featureGrouping, as they
-        // already will appear in the sub-group and can thus be directly clicked
-        const possibleValues = this.getGroupedFeatures.filter((f) => this.appConfig.featureGrouping
-        && !this.appConfig.featureGrouping
-          .find((g) => g.features
-            .find((i) => i.includes(this.getLocationCode(f.properties.indicatorObject)))));
-        const firstFeature = possibleValues[0];
-        if (firstFeature) {
-          this.$store.commit(
-            'indicators/SET_SELECTED_INDICATOR',
-            firstFeature.properties.indicatorObject,
-          );
-        }
+        this.$store.commit(
+          'indicators/SET_SELECTED_INDICATOR',
+          null,
+        );
+        // // filter out those POIs that are defined in featureGrouping, as they
+        // // already will appear in the sub-group and can thus be directly clicked
+        // const possibleValues = this.getGroupedFeatures.filter((f) => this.appConfig.featureGrouping
+        // && !this.appConfig.featureGrouping
+        //   .find((g) => g.features
+        //     .find((i) => i.includes(this.getLocationCode(f.properties.indicatorObject)))));
+        // const firstFeature = possibleValues[0];
+        // if (firstFeature) {
+        //   // this.$store.commit(
+        //   //   'indicators/SET_SELECTED_INDICATOR',
+        //   //   firstFeature.properties.indicatorObject,
+        //   // );
+        // }
       }
     },
     uniqueRegions(countryItems) {
@@ -545,7 +566,11 @@ export default {
           const hasGrouping = this.appConfig.featureGrouping && this.appConfig.featureGrouping
             .find((g) => g.features
               .find((i) => i.includes(this.getLocationCode(f.properties.indicatorObject))));
-          if (hasGrouping) {
+          if (
+            hasGrouping
+            && ['global'].includes(f.properties.indicatorObject.siteName)
+              // only add global layers to the list grouping; the local ones are still using the tab feature)
+            ) {
             // includes features and labels
             grouped[f.properties.indicatorObject.indicator] = {};
             grouped[f.properties.indicatorObject.indicator].label = hasGrouping.label;
