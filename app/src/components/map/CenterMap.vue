@@ -457,6 +457,8 @@ export default {
     }
     this.$emit('ready', true);
 
+    this.ro = new ResizeObserver(this.onResize);
+    this.ro.observe(this.$refs.mapContainer);
     // Fetch data for custom chart if the event is fired.
     // TODO: Extract fetchData method into helper file since it needs to be used from outside.
     window.addEventListener(
@@ -606,11 +608,15 @@ export default {
         lMap.scrollWheelZoom.enable();
       } */
     },
+    onResize() {
+      getMapInstance(this.mapId).map.updateSize();
+    },
   },
   beforeDestroy() {
     if (this.mapId === 'centerMap') {
       const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
       cluster.setActive(false, this.overlayCallback);
+      this.ro.unobserve(this.$refs.myElement);
     }
   },
 };
