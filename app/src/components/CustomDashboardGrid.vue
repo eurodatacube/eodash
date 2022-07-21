@@ -598,12 +598,13 @@ export default {
 
             const feature = this.$store.state.features.allFeatures
               .find((i) => this.getLocationCode(i.properties.indicatorObject) === decoded.poi);
+
             var indicatorObject = await loadIndicatorData(
               this.baseConfig,
               feature.properties.indicatorObject,
             );
 
-            indicatorObject.useSatelliteImagery = useSatelliteImagery;
+            indicatorObject.useSatelliteImagery = decoded.useSatelliteImagery;
 
             if (f.mapInfo && (firstCall || f.poi === this.savedPoi)) {
               this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
