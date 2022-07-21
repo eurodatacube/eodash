@@ -154,7 +154,8 @@
                   <v-list-item
                     v-for="(feature, i) in groupedIndicators[indicator.code].features"
                     :key="i"
-                    :value="getLocationCode(groupedIndicators[indicator.code].features[i].properties.indicatorObject)"
+                    :value="getLocationCode(groupedIndicators[indicator.code]
+                      .features[i].properties.indicatorObject)"
                     active-class="itemActive"
                     :class="indicator.archived ? 'archived-item' : ''"
                     :disabled="indicatorSelection === feature"
@@ -490,19 +491,6 @@ export default {
           'indicators/SET_SELECTED_INDICATOR',
           null,
         );
-        // // filter out those POIs that are defined in featureGrouping, as they
-        // // already will appear in the sub-group and can thus be directly clicked
-        // const possibleValues = this.getGroupedFeatures.filter((f) => this.appConfig.featureGrouping
-        // && !this.appConfig.featureGrouping
-        //   .find((g) => g.features
-        //     .find((i) => i.includes(this.getLocationCode(f.properties.indicatorObject)))));
-        // const firstFeature = possibleValues[0];
-        // if (firstFeature) {
-        //   // this.$store.commit(
-        //   //   'indicators/SET_SELECTED_INDICATOR',
-        //   //   firstFeature.properties.indicatorObject,
-        //   // );
-        // }
       }
     },
     uniqueRegions(countryItems) {
@@ -569,8 +557,9 @@ export default {
           if (
             hasGrouping
             && ['global'].includes(f.properties.indicatorObject.siteName)
-              // only add global layers to the list grouping; the local ones are still using the tab feature)
-            ) {
+            // only add global layers to the list grouping;
+            // the local ones are still using the tab feature)
+          ) {
             // includes features and labels
             grouped[f.properties.indicatorObject.indicator] = {};
             grouped[f.properties.indicatorObject.indicator].label = hasGrouping.label;
