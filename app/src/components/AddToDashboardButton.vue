@@ -80,6 +80,10 @@ export default {
     up: Array,
     datalayertime: String,
     comparelayertime: String,
+    useSatelliteImagery: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: () => ({
     alreadyAdded: false,
