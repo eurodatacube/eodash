@@ -255,7 +255,7 @@
               style="flex-direction: column; height: 100%">
               <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
               <p style="max-width: 75%; text-align: center">
-Use the rectangle and polygon buttons to the left of this box to generate charts for a given area.
+Draw an area on the map using the shape buttons to generate a custom chart!
               </p>
               <v-btn
                 class="mt-3"
@@ -472,27 +472,10 @@ Use the rectangle and polygon buttons to the left of this box to generate charts
               :style="`margin-top: ${customAreaIndicator && expanded ? '30px' : '0px'}`"
               v-if="!isFullScreen"
             >
-              <expandable-content
-                :minHeight="wrapperHeight - mapPanelHeight - (multipleTabCompare ? 48 : 0)
-                          - buttonRowHeight - eoDataBtnHeight - (showMap ? 40 : 0)
-                          - indicatorDataHeight - 60"
-                :disableExpand="expanded || $vuetify.breakpoint.mdAndDown"
-              >
-                <div
-                  v-html="story"
-                  class="md-body"
-                ></div>
-              </expandable-content>
-              <v-btn
-                v-if="eodataEnabled"
-                @click="dialog = true"
-                ref="EODataBtn"
-                color="primary"
-                large
-                block
-                class="my-1"
-              ><span><v-icon left>mdi-satellite-variant</v-icon>EO Data</span>
-              </v-btn>
+              <div
+                v-html="story"
+                class="md-body"
+              ></div>
               <v-btn
                 v-if="indicatorObject && externalData"
                 :href= "externalData.url"
@@ -504,23 +487,54 @@ Use the rectangle and polygon buttons to the left of this box to generate charts
                 class="my-1"
               ><span><v-icon left>mdi-open-in-new</v-icon>{{externalData.label}}</span>
               </v-btn>
-              <v-dialog
-                v-model="dialog"
-                fullscreen
-                hide-overlay
-                transition="dialog-bottom-transition"
-              >
-                <v-toolbar dark color="primary">
-                  <v-toolbar-title >
-                    <span
-                    >Reference Images</span>
-                  </v-toolbar-title>
-                  <v-spacer></v-spacer>
-                  <v-btn icon dark @click="dialog = false">
-                    <v-icon>mdi-close</v-icon>
-                  </v-btn>
-                </v-toolbar>
-              </v-dialog>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+      <v-row v-else>
+        <v-col
+          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          :style="`height: auto`"
+        >
+          <v-card
+            class="fill-height"
+            :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
+            ? (bannerHeight ? 65 : 70) : 40) : 60}vh;`"
+            ref="mapPanel"
+          >
+            <v-col
+              class="d-flex flex-col align-center justify-center"
+              style="flex-direction: column; height: 100%">
+              <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
+              <p style="max-width: 75%; text-align: center">
+Select a POI on the map to see the data for a specific location!
+              </p>
+            </v-col>
+          </v-card>
+        </v-col>
+        <v-col
+          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          :style="`padding-bottom: 0px; height: ${$vuetify.breakpoint.mdAndDown
+                  ? 'auto'
+                  : (expanded
+                    ? wrapperHeight + 'px'
+                    : wrapperHeight - mapPanelHeight
+                    - buttonRowHeight
+                    - 15 + 'px') }`"
+        >
+          <v-row
+            class="mt-0 fill-height scrollContainer"
+          >
+            <v-col
+              cols="12"
+              class="pb-0"
+              :style="`margin-top: ${customAreaIndicator && expanded ? '30px' : '0px'}`"
+              v-if="!isFullScreen"
+            >
+              <div
+                v-html="story"
+                class="md-body"
+              ></div>
             </v-col>
           </v-row>
         </v-col>
@@ -537,8 +551,6 @@ import {
 import { Wkt } from 'wicket';
 import { loadIndicatorData } from '@/utils';
 import { DateTime } from 'luxon';
-import dialogMixin from '@/mixins/dialogMixin';
-import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import FullScreenButton from '@/components/FullScreenButton.vue';
@@ -546,13 +558,11 @@ import IframeButton from '@/components/IframeButton.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 
 export default {
-  mixins: [dialogMixin],
   props: [
     'expanded',
     'newsBanner',
   ],
   components: {
-    ExpandableContent,
     IndicatorData,
     IndicatorGlobe,
     FullScreenButton,
@@ -560,7 +570,6 @@ export default {
     AddToDashboardButton,
   },
   data: () => ({
-    dialog: false,
     overlay: false,
     dataInteract: false,
     mounted: false,
@@ -603,7 +612,14 @@ export default {
         try {
           markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].story}.md`);
         } catch {
-          markdown = { default: '' };
+          try {
+            const indicator = Array.isArray(this.$store.state.features.featureFilters.indicators)
+              ? this.$store.state.features.featureFilters.indicators[0]
+              : this.$store.state.features.featureFilters.indicators;
+            markdown = require(`../../public${this.baseConfig.indicatorsDefinition[indicator].story}.md`);
+          } catch {
+            markdown = { default: '' };
+          }
         }
       }
       return this.$marked(markdown.default);
@@ -709,18 +725,8 @@ export default {
       }
       return null;
     },
-    eodataEnabled() {
-      let matchingInputDataAgainstConfig = [];
-      if (this.indicatorObject && this.indicatorObject.inputData) {
-        matchingInputDataAgainstConfig = this.indicatorObject.inputData
-          .filter((item) => Object.prototype.hasOwnProperty.call(this.layerNameMapping, item));
-      }
-      // showMap triggers dispay of the map directly, so EO Data button is hidden
-      // search configuration mapping if layer is configured for at least one inputData value
-      return !this.showMap && matchingInputDataAgainstConfig.length > 0;
-    },
     wrapperHeight() {
-      if (this.mounted) {
+      if (this.mounted && this.$refs.wrapper != null) {
         return this.$refs.wrapper.clientHeight;
       }
       return 0;
@@ -728,17 +734,6 @@ export default {
     buttonRowHeight() {
       if (this.mounted && this.$refs.buttonRow != null) {
         return this.$refs.buttonRow.clientHeight;
-      }
-      return 0;
-    },
-    eoDataBtnHeight() {
-      if (this.mounted) {
-        if (this.$refs.EODataBtn != null) {
-          return this.$refs.EODataBtn.$el.clientHeight;
-        }
-        if (this.$refs.externalDataBtn != null) {
-          return this.$refs.externalDataBtn.$el.clientHeight;
-        }
       }
       return 0;
     },
@@ -762,7 +757,9 @@ export default {
     },
   },
   mounted() {
-    this.mounted = true;
+    this.$nextTick(() => {
+      this.mounted = true;
+    });
     this.init();
 
     // TODO: Extract fetchData method into helper file since it needs to be used from outside.
@@ -867,14 +864,6 @@ export default {
         && this.$refs.indicatorMap[index]) {
         const refMap = this.$refs.indicatorMap[index];
         refMap.onResize();
-      }
-    },
-    dialog(open) {
-      if (open && this.$refs.referenceMap) {
-        this.$refs.referenceMap.onResize();
-        setTimeout(() => {
-          this.$refs.referenceMap.flyToBounds();
-        }, 200);
       }
     },
     selectedArea(area) {

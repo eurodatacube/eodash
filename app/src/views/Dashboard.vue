@@ -101,7 +101,7 @@
       class="data-panel"
     >
       <banner v-if="currentNews" ref="newsBanner" />
-      <v-toolbar v-if="$store.state.indicators.selectedIndicator" flat>
+      <v-toolbar flat>
         <v-btn v-if="dataPanelFullWidth" icon @click="setDataPanelWidth(false)">
           <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -123,10 +123,23 @@
               && queryIndicatorObject.properties.indicatorObject.indicatorName }}
           </div>
         </v-toolbar-title>
+        <v-toolbar-title
+          v-else-if="$store.state.features.featureFilters.indicators[0] && firstIndicatorObject"
+        >
+          {{ firstIndicatorObject
+            .description }}
+          <div v-if="
+            firstIndicatorObject.description !==
+            firstIndicatorObject.indicatorName"
+            class="subheading" style="font-size: 0.8em">
+            {{ firstIndicatorObject.indicatorName }}
+          </div>
+        </v-toolbar-title>
       </v-toolbar>
 
       <data-panel
-        v-if="$store.state.indicators.selectedIndicator"
+        v-if="$store.state.indicators.selectedIndicator
+          || $store.state.features.featureFilters.indicators.length > 0"
         :key="panelKey"
         :newsBanner="$refs.newsBanner"
         :expanded="dataPanelFullWidth" class="px-5" />
@@ -372,11 +385,23 @@ export default {
     isDialogRetracted: true,
   }),
   computed: {
-    appConfig() {
-      return this.$store.state.config.appConfig;
-    },
+    ...mapState('config', [
+      'appConfig',
+    ]),
     indicatorSelected() {
-      return this.$store.state.indicators.selectedIndicator;
+      return this.$store.state.indicators.selectedIndicator
+        || this.$store.state.features.featureFilters.indicators.length > 0;
+    },
+    firstIndicatorObject() {
+      const indicator = Array.isArray(this.$store.state.features.featureFilters.indicators)
+        ? this.$store.state.features.featureFilters.indicators[0]
+        : this.$store.state.features.featureFilters.indicators;
+      const firstFeature = this.$store.state.features.allFeatures
+        .find((f) => f.properties.indicatorObject.indicator
+          === indicator);
+      return firstFeature
+        ? firstFeature.properties.indicatorObject
+        : undefined;
     },
     currentNews() {
       let currentNews;
