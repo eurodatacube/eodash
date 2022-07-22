@@ -507,7 +507,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
               style="flex-direction: column; height: 100%">
               <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
               <p style="max-width: 75%; text-align: center">
-Select a POI on the map to see the data for a specific location!
+Select a point of interest on the map to see the data for a specific location!
               </p>
             </v-col>
           </v-card>

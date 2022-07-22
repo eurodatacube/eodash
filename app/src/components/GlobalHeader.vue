@@ -14,12 +14,6 @@
       dark
     />
 
-    <v-app-bar-nav-icon
-      @click.stop="switchDrawer"
-      v-else-if="$route.name === 'explore'"
-      dark
-    />
-
     <!-- mobile menu -->
 
     <v-navigation-drawer

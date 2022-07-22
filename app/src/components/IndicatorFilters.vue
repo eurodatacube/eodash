@@ -107,7 +107,8 @@
     </v-autocomplete>
     <div
       v-show="isDropdownEnabled"
-      class="rounded-t-xl mt-3 pa-3 white"
+      class="rounded-t-xl mt-3 pa-3"
+      style="background: var(--v-background-base)"
     >
       <div id="list">
         <v-list
@@ -611,7 +612,7 @@ export default {
 
 #list {
   height: auto;
-  max-height: calc(var(--vh, 1vh) * 100 - 180px);
+  max-height: calc(var(--vh, 1vh) * 100 - 300px);
   overflow-x: hidden;
   position: relative;
 }
