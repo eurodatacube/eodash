@@ -12,9 +12,7 @@
         v-on="on"
       >
         <v-icon left>mdi-view-dashboard</v-icon>
-        add {{ elementType
-          ? ` ${elementType} `
-          : ' ' }} to custom dashboard
+        add to custom dashboard
       </v-btn>
     </template>
 
@@ -82,7 +80,6 @@ export default {
     up: Array,
     datalayertime: String,
     comparelayertime: String,
-    elementType: String,
   },
   data: () => ({
     alreadyAdded: false,

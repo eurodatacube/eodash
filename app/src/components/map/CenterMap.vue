@@ -62,9 +62,8 @@
       :key="mergedConfigsData[0].name + '_timeSelection'"
       @focusSelect="focusSelect"
     />
-    <!-- TODO: pass these parameters to the side panel instead -->
-    <!-- <v-card class="dashboard-button">
-      <add-to-dashboard-button
+    <v-card class="dashboard-button">
+      <AddToDashboardButton
         class="primary--text"
         v-if="mapId === 'centerMap' && indicator"
         :indicatorObject="indicator"
@@ -73,7 +72,7 @@
         :datalayertime="dataLayerTime ? dataLayerTime.name :  null"
         :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
       />
-    </v-card> -->
+    </v-card>
     <!-- an overlay for showing information when hovering over clusters -->
     <MapOverlay
       :mapId="mapId"
