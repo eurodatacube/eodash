@@ -21,7 +21,6 @@ import { getColor } from './olMapColors';
 import getMapInstance from './map';
 import { formatLabel } from './formatters';
 
-
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
 });
@@ -89,8 +88,8 @@ function loadImages() {
       };
       image.addEventListener('load', () => {
         const canvas = document.createElement('canvas');
-        canvas.width = image.width;
-        canvas.height = image.height;
+        canvas.width = 23;
+        canvas.height = 23;
         const context = canvas.getContext('2d');
         context.globalCompositeOperation = 'screen';
         context.fillStyle = 'white';
@@ -101,12 +100,12 @@ function loadImages() {
           small: new Icon({
             scale: 0.66,
             img: canvas,
-            imgSize: [image.width, image.height],
+            imgSize: [23, 23],
           }),
           large: new Icon({
             scale: 1,
             img: canvas,
-            imgSize: [image.width, image.height],
+            imgSize: [23, 23],
           }),
         };
         if (onStylesLoaded && Object.keys(acc).length === Object.keys(indicatorClassesIcons)
@@ -594,7 +593,6 @@ class Cluster {
  * are stored here.
  */
 const clusterRegistry = {};
-
 
 /**
   * Returns the cluster with the given id.

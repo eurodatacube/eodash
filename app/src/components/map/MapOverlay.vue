@@ -51,6 +51,7 @@ export default {
     const overlay = new Overlay({
       element: this.$refs[`${this.overlayId}_overlay`].$el,
       id: `overlay_${this.overlayId}`,
+      className: 'ol-overlay-container ol-unselectable noPointerEvents',
       offset: [0, -16],
       positioning: 'bottom-center',
     });
@@ -72,7 +73,7 @@ export default {
   font-size: 14px;
   box-shadow: none !important;
   background: rgba(0, 0, 0, 0.6) !important;
-  color: #FFFFFF;
+  color: #FFFFFF !important;
 }
 
 // arrow head bottom
@@ -89,4 +90,8 @@ export default {
   margin-left: -10px;
   margin-bottom: -10px;
 }
+
+ .noPointerEvents {
+    pointer-events: none !important;
+ }
 </style>

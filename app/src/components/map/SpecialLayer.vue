@@ -64,13 +64,14 @@ export default {
     const { map } = getMapInstance(this.mapId);
     const options = { ...this.options };
     options.zIndex = 3;
-    // in the dashboard, we need time, indicator and aoiId
     const layer = createLayerFromConfig(this.mergedConfig, options);
     layer.set('name', this.layerName);
     const { presetView } = this.mergedConfig;
     if (presetView?.features?.length) {
       const presetGeom = geoJsonFormat.readGeometry(presetView.features[0].geometry);
-      map.getView().fit(presetGeom.getExtent());
+      map.getView().fit(presetGeom.getExtent(), {
+        padding: [30, 30, 30, 30],
+      });
     }
     let featureLayer;
     if (layer instanceof LayerGroup) {

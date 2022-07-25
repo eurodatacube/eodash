@@ -14,12 +14,6 @@
       dark
     />
 
-    <v-app-bar-nav-icon
-      @click.stop="switchDrawer"
-      v-else-if="$route.name === 'explore'"
-      dark
-    />
-
     <!-- mobile menu -->
 
     <v-navigation-drawer
@@ -246,7 +240,6 @@
         About
       </v-btn>
     </span>
-
 
     <template v-if="$vuetify.breakpoint.mdAndUp">
       <v-btn

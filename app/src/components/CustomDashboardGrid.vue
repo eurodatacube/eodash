@@ -154,17 +154,13 @@
                 element.indicatorObject.useSatelliteImagery"
                 :mapId="element.title"
                 :currentIndicator="element.indicatorObject"
-                :directionProp="localDirection[element.poi]"
-                :positionProp="localPosition[element.poi]"
-                :rightProp="localRight[element.poi]"
-                :upProp="localUp[element.poi]"
                 :dataLayerTimeProp="localDataLayerTime[element.poi]"
                 :compareLayerTimeProp="localCompareLayerTime[element.poi]"
+                :centerProp="localCenter[element.poi]"
+                :zoomProp="localZoom[element.poi]"
                 disableAutoFocus
-                @update:direction="d => {localDirection[element.poi] = d}"
-                @update:position="p => {localPosition[element.poi] = p}"
-                @update:right="r => {localRight[element.poi] = r}"
-                @update:up="u => {localUp[element.poi] = u}"
+                @update:center="c => {localCenter[element.poi] = c}"
+                @update:zoom="z => {localZoom[element.poi] = z}"
                 @update:datalayertime="d => {localDataLayerTime[element.poi] = d}"
                 @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
                 @ready="onMapReady(element.poi)"
@@ -432,7 +428,6 @@
 import { DateTime } from 'luxon';
 import mediumZoom from 'medium-zoom';
 import IndicatorData from '@/components/IndicatorData.vue';
-import IndicatorMap from '@/components/IndicatorMap.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import LoadingAnimation from '@/components/LoadingAnimation.vue';
 import { loadIndicatorData } from '@/utils';
@@ -453,7 +448,6 @@ export default {
   },
   components: {
     IndicatorData,
-    IndicatorMap,
     IndicatorGlobe,
     LoadingAnimation,
     CenterMap,

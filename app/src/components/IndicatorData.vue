@@ -320,7 +320,6 @@ export default {
         referenceDecompose.CDS3 = referenceDecompose.N1;
         referenceDecompose.CDS4 = referenceDecompose.N1;
         referenceDecompose.NPP = referenceDecompose.N1;
-
         // Generators based on data type
         if (Object.keys(referenceDecompose).includes(indicatorCode)) {
           if ('measurementConfig' in referenceDecompose[indicatorCode]) {
@@ -1082,6 +1081,42 @@ export default {
       }
       if (indicatorCode === 'E10a9') {
         customSettings.distribution = 'series';
+      }
+
+      // Special tooltips case for generated charts that should have country
+      // defined as all (should not happen for normal charts)
+      if (this.indicatorObject.country === 'all') {
+        customSettings.tooltips = {
+          mode: 'label',
+          callbacks: {
+          label: function (context, data) { // eslint-disable-line
+              let label = data.datasets[context.datasetIndex].label || '';
+              if (label) {
+                label += ': ';
+              }
+              label += this.roundValueInd(Number(context.value));
+              if (label.includes('hide_') || label.includes('(STD)')) {
+                label = null;
+              }
+              return label;
+            }.bind(this),
+          afterBody:  (context, data) => { // eslint-disable-line
+              const extraStats = [];
+              // Check if we have additional statistical information
+              if ('sampleCount' in this.indicatorObject
+              && 'noDataCount' in this.indicatorObject) {
+                const percentageValid = 100 - ((
+                  this.indicatorObject.noDataCount[context[0].index]
+                / this.indicatorObject.sampleCount[context[0].index]
+                ) * 100);
+                extraStats.push(
+                  `Valid samples in AOI: ${this.roundValueInd(percentageValid)}%`,
+                );
+              }
+              return extraStats;
+            },
+          },
+        };
       }
 
       if (['E10a3'].includes(indicatorCode)) {

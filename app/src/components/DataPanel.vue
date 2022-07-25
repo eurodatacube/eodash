@@ -10,8 +10,134 @@
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
         >
+          <v-tabs
+            v-if="multipleTabCompare"
+            v-model="selectedSensorTab"
+            grow
+          >
+            <v-tab
+              v-for="(sensorData, index) in multipleTabCompare.features"
+              :key="sensorData.properties.indicatorObject.id"
+              :class="multipleTabCompare.features.indexOf(sensorData) == selectedSensorTab
+                ? 'primary white--text'
+                : ''"
+            >
+              {{ Array.isArray(multipleTabCompare.label)
+                ? multipleTabCompare.label[index]
+                : (Array.isArray(sensorData.properties.indicatorObject[multipleTabCompare.label])
+                ? sensorData.properties.indicatorObject[multipleTabCompare.label][0]
+                : sensorData.properties.indicatorObject[multipleTabCompare.label])
+              }}
+            </v-tab>
+          </v-tabs>
+          <v-tabs-items
+            v-if="multipleTabCompare"
+            touchless
+            v-model="selectedSensorTab"
+          >
+            <v-tab-item
+              v-for="sensorData in multipleTabCompare.features"
+              :key="sensorData.properties.indicatorObject.id"
+              :transition="false" :reverse-transition="false"
+            >
+              <v-card
+                class="fill-height"
+                :style="`${!(!customAreaIndicator || expanded) ? 'display: none;' : ''}
+                height: ${$vuetify.breakpoint.mdAndUp ?
+                                  (expanded ? ( bannerHeight ? 60 : 70) : 40) : 60}vh;`"
+              >
+                <full-screen-button />
+                <div
+                  style="height: 100%;z-index: 500; position: relative;"
+                  v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
+                  @click="dataInteract = true"
+                  v-touch="{
+                    left: () => swipe(),
+                    right: () => swipe(),
+                    up: () => swipe(),
+                    down: () => swipe(),
+                }">
+                </div>
+                <v-overlay :value="overlay" absolute
+                  v-if="!dataInteract"
+                  @click="dataInteract = true">
+                  Tap to interact
+                </v-overlay>
+                <indicator-data
+                  style="top: 0px; position: absolute;"
+                  class="pa-5 chart"
+                  :currentIndicator="sensorData.properties.indicatorObject"
+                />
+                <v-row class="mt-0">
+                  <v-col cols="12" sm="5" ></v-col>
+                  <v-col
+                    cols="12"
+                    sm="7"
+                    v-if="!isFullScreen"
+                    ref="customButtonRow"
+                    style="margin-top: -12px;"
+                  >
+                    <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
+                      <v-btn
+                        color="primary"
+                        text
+                        small
+                        :href="dataCustomHrefCSV"
+                        :download="customAOIDownloadFilename"
+                        target="_blank"
+                        v-if="customAreaIndicator && !isFullScreen"
+                      >
+                        <v-icon left>mdi-download</v-icon>
+                        download csv
+                      </v-btn>
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-card>
+              <v-card
+                v-if="customAreaIndicator && !expanded"
+                class="fill-height"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 43 : 60}vh;`"
+                style="border: none; !important"
+                ref="indicatorData"
+                outlined
+              >
+              <v-card-title
+                style="padding-top: 10px; padding-bottom: 0px;">
+                  <v-btn
+                    icon
+                    @click="clearSelection">
+                    <v-icon medium>mdi-close</v-icon>
+                  </v-btn>
+                  {{ customAreaIndicator.title }}
+              </v-card-title>
+              <v-card-title
+                style="padding-top: 5px"
+                v-if="customAreaIndicator.isEmpty">
+                  No data found for selection
+              </v-card-title>
+                <div
+                  style="height: 100%;z-index: 500; position: relative;"
+                  v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
+                  @click="dataInteract = true"
+                  v-touch="{
+                    left: () => swipe(),
+                    right: () => swipe(),
+                    up: () => swipe(),
+                    down: () => swipe(),
+                }">
+                </div>
+                <indicator-data
+                  v-if="!customAreaIndicator.isEmpty"
+                  style="margin-top: 0px;"
+                  :style="`height: ${mapPanelHeight - 15}px`"
+                  class="px-5 py-0 chart"
+                />
+              </v-card>
+            </v-tab-item>
+          </v-tabs-items>
           <v-card
-            v-if="customAreaIndicator && !expanded"
+            v-else-if="customAreaIndicator && !expanded"
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? 43 : 60}vh;`"
             style="border: none; !important"
@@ -124,9 +250,13 @@
               class="d-flex justify-center"
               style="top: 0px; position: absolute;"
             />
-            <v-col v-else-if="showMap && indicatorObject.display.customAreaIndicator" class="d-flex flex-col align-center justify-center" style="flex-direction: column; height: 100%">
+            <v-col v-else-if="showMap && indicatorObject.display.customAreaIndicator"
+              class="d-flex flex-col align-center justify-center"
+              style="flex-direction: column; height: 100%">
               <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
-              <p style="max-width: 75%; text-align: center">Use the rectangle and polygon buttons to the left of this box to generate charts for a given area.</p>
+              <p style="max-width: 75%; text-align: center">
+Draw an area on the map using the shape buttons to generate a custom chart!
+              </p>
               <v-btn
                 class="mt-3"
                 color="secondary"
@@ -245,7 +375,8 @@
                   : (expanded
                     ? wrapperHeight + 'px'
                     : wrapperHeight - mapPanelHeight - (showMap ? 40 : 0)
-                    - buttonRowHeight + 'px') }`"
+                    - buttonRowHeight
+                    - (multipleTabCompare ? 48 : 0) + 'px') }`"
         >
           <v-row
             class="mt-0 fill-height scrollContainer"
@@ -341,27 +472,10 @@
               :style="`margin-top: ${customAreaIndicator && expanded ? '30px' : '0px'}`"
               v-if="!isFullScreen"
             >
-              <expandable-content
-                :minHeight="wrapperHeight - mapPanelHeight
-                          - buttonRowHeight - eoDataBtnHeight - (showMap ? 40 : 0)
-                          - indicatorDataHeight - 60"
-                :disableExpand="expanded || $vuetify.breakpoint.mdAndDown"
-              >
-                <div
-                  v-html="story"
-                  class="md-body"
-                ></div>
-              </expandable-content>
-              <v-btn
-                v-if="eodataEnabled"
-                @click="dialog = true"
-                ref="EODataBtn"
-                color="primary"
-                large
-                block
-                class="my-1"
-              ><span><v-icon left>mdi-satellite-variant</v-icon>EO Data</span>
-              </v-btn>
+              <div
+                v-html="story"
+                class="md-body"
+              ></div>
               <v-btn
                 v-if="indicatorObject && externalData"
                 :href= "externalData.url"
@@ -373,23 +487,54 @@
                 class="my-1"
               ><span><v-icon left>mdi-open-in-new</v-icon>{{externalData.label}}</span>
               </v-btn>
-              <v-dialog
-                v-model="dialog"
-                fullscreen
-                hide-overlay
-                transition="dialog-bottom-transition"
-              >
-                <v-toolbar dark color="primary">
-                  <v-toolbar-title >
-                    <span
-                    >Reference Images</span>
-                  </v-toolbar-title>
-                  <v-spacer></v-spacer>
-                  <v-btn icon dark @click="dialog = false">
-                    <v-icon>mdi-close</v-icon>
-                  </v-btn>
-                </v-toolbar>
-              </v-dialog>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+      <v-row v-else>
+        <v-col
+          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          :style="`height: auto`"
+        >
+          <v-card
+            class="fill-height"
+            :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
+            ? (bannerHeight ? 65 : 70) : 40) : 60}vh;`"
+            ref="mapPanel"
+          >
+            <v-col
+              class="d-flex flex-col align-center justify-center"
+              style="flex-direction: column; height: 100%">
+              <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
+              <p style="max-width: 75%; text-align: center">
+Select a point of interest on the map to see the data for a specific location!
+              </p>
+            </v-col>
+          </v-card>
+        </v-col>
+        <v-col
+          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          :style="`padding-bottom: 0px; height: ${$vuetify.breakpoint.mdAndDown
+                  ? 'auto'
+                  : (expanded
+                    ? wrapperHeight + 'px'
+                    : wrapperHeight - mapPanelHeight
+                    - buttonRowHeight
+                    - 15 + 'px') }`"
+        >
+          <v-row
+            class="mt-0 fill-height scrollContainer"
+          >
+            <v-col
+              cols="12"
+              class="pb-0"
+              :style="`margin-top: ${customAreaIndicator && expanded ? '30px' : '0px'}`"
+              v-if="!isFullScreen"
+            >
+              <div
+                v-html="story"
+                class="md-body"
+              ></div>
             </v-col>
           </v-row>
         </v-col>
@@ -404,9 +549,8 @@ import {
   mapState,
 } from 'vuex';
 import { Wkt } from 'wicket';
+import { loadIndicatorData } from '@/utils';
 import { DateTime } from 'luxon';
-import dialogMixin from '@/mixins/dialogMixin';
-import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import FullScreenButton from '@/components/FullScreenButton.vue';
@@ -414,13 +558,11 @@ import IframeButton from '@/components/IframeButton.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 
 export default {
-  mixins: [dialogMixin],
   props: [
     'expanded',
     'newsBanner',
   ],
   components: {
-    ExpandableContent,
     IndicatorData,
     IndicatorGlobe,
     FullScreenButton,
@@ -428,10 +570,11 @@ export default {
     AddToDashboardButton,
   },
   data: () => ({
-    dialog: false,
     overlay: false,
     dataInteract: false,
     mounted: false,
+    selectedSensorTab: 0,
+    multipleTabCompare: null,
     zoom: null,
     center: null,
     direction: null,
@@ -469,13 +612,27 @@ export default {
         try {
           markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].story}.md`);
         } catch {
-          markdown = { default: '' };
+          try {
+            const indicator = Array.isArray(this.$store.state.features.featureFilters.indicators)
+              ? this.$store.state.features.featureFilters.indicators[0]
+              : this.$store.state.features.featureFilters.indicators;
+            markdown = require(`../../public${this.baseConfig.indicatorsDefinition[indicator].story}.md`);
+          } catch {
+            markdown = { default: '' };
+          }
         }
       }
       return this.$marked(markdown.default);
     },
     indicatorObject() {
-      return this.$store.state.indicators.selectedIndicator;
+      let indicatorObject;
+      if (this.multipleTabCompare) {
+        const feature = this.multipleTabCompare.features[this.selectedSensorTab];
+        indicatorObject = feature && feature.properties.indicatorObject;
+      } else {
+        indicatorObject = this.$store.state.indicators.selectedIndicator;
+      }
+      return indicatorObject;
     },
     dataHrefCSV() {
       let dataHref = 'data:text/csv;charset=utf-8,';
@@ -568,18 +725,8 @@ export default {
       }
       return null;
     },
-    eodataEnabled() {
-      let matchingInputDataAgainstConfig = [];
-      if (this.indicatorObject && this.indicatorObject.inputData) {
-        matchingInputDataAgainstConfig = this.indicatorObject.inputData
-          .filter((item) => Object.prototype.hasOwnProperty.call(this.layerNameMapping, item));
-      }
-      // showMap triggers dispay of the map directly, so EO Data button is hidden
-      // search configuration mapping if layer is configured for at least one inputData value
-      return !this.showMap && matchingInputDataAgainstConfig.length > 0;
-    },
     wrapperHeight() {
-      if (this.mounted) {
+      if (this.mounted && this.$refs.wrapper != null) {
         return this.$refs.wrapper.clientHeight;
       }
       return 0;
@@ -587,17 +734,6 @@ export default {
     buttonRowHeight() {
       if (this.mounted && this.$refs.buttonRow != null) {
         return this.$refs.buttonRow.clientHeight;
-      }
-      return 0;
-    },
-    eoDataBtnHeight() {
-      if (this.mounted) {
-        if (this.$refs.EODataBtn != null) {
-          return this.$refs.EODataBtn.$el.clientHeight;
-        }
-        if (this.$refs.externalDataBtn != null) {
-          return this.$refs.externalDataBtn.$el.clientHeight;
-        }
       }
       return 0;
     },
@@ -621,16 +757,52 @@ export default {
     },
   },
   mounted() {
-    this.mounted = true;
+    this.$nextTick(() => {
+      this.mounted = true;
+    });
+    this.init();
 
     // TODO: Extract fetchData method into helper file since it needs to be used from outside.
     window.addEventListener(
       'set-custom-area-indicator-loading',
-      (e) => { this.isLoadingCustomAreaIndicator = e.detail },
+      (e) => { this.isLoadingCustomAreaIndicator = e.detail; },
       false,
-    )
+    );
   },
   methods: {
+    async init() {
+      await this.checkMultipleTabCompare();
+      this.selectedSensorTab = this.multipleTabCompare
+        ? this.multipleTabCompare.features
+          .indexOf(this.multipleTabCompare.features
+            .find((s) => this.getLocationCode(s.properties.indicatorObject)
+              === this.$route.query.poi))
+        : 0;
+    },
+    async checkMultipleTabCompare() {
+      let compare;
+      const { selectedIndicator } = this.$store.state.indicators;
+      const hasGrouping = this.appConfig.featureGrouping && this.appConfig.featureGrouping
+        .find((g) => g.features.find((i) => i.includes(this.getLocationCode(selectedIndicator))));
+      if (
+        hasGrouping
+        && !['global'].includes(selectedIndicator.properties.indicatorObject.siteName)
+        // only enable tabs for charts; global layers now use the sub-indicator feature
+      ) {
+        compare = {};
+        compare.label = hasGrouping.label;
+        compare.features = hasGrouping.features;
+        // Pre-load all indicators to populate tab items
+        await Promise.all(compare.features.map(async (f) => {
+          const feature = this.$store.state.features.allFeatures
+            .find((i) => this.getLocationCode(i.properties.indicatorObject) === f);
+          await loadIndicatorData(this.baseConfig, feature.properties.indicatorObject);
+        }));
+        compare.features = compare.features.map((f) => this.$store.state.features.allFeatures
+          .find((i) => this.getLocationCode(i.properties.indicatorObject) === f));
+      }
+      this.multipleTabCompare = compare;
+    },
     swipe() {
       this.overlay = true;
       setTimeout(() => { this.overlay = false; }, 2000);
@@ -652,12 +824,46 @@ export default {
     },
   },
   watch: {
-    dialog(open) {
-      if (open && this.$refs.referenceMap) {
-        this.$refs.referenceMap.onResize();
-        setTimeout(() => {
-          this.$refs.referenceMap.flyToBounds();
-        }, 200);
+    selectedSensorTab(index) {
+      if (this.multipleTabCompare.features[index]) {
+        const poi = this.getLocationCode(this.multipleTabCompare.features[index]
+          .properties.indicatorObject);
+        this.$router.replace({ query: { ...this.$route.query, poi } }).catch(() => {});
+        let currCountry = null;
+        let currID = null;
+        if (this.customAreaIndicator !== null) {
+          currCountry = this.customAreaIndicator.country;
+          currID = this.customAreaIndicator.indicator;
+        }
+        this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
+        if (this.$refs.indicatorMap
+          && this.$refs.indicatorMap.length > 0
+          && ['CV', 'OW'].includes(currID)) {
+          // For now we only refetch data when switching tabs for CV and OW data
+          // Check if a country is selected for the customAreaIndicator
+          const refMap = this.$refs.indicatorMap[index];
+          if (currCountry && currID) {
+            if (refMap) {
+              refMap.fetchMobilityData(
+                currCountry,
+                this.$refs.indicatorMap[index].indicator.aoiID,
+              );
+            } else {
+              // TODO: There should be a better way of doing this
+              setTimeout(() => {
+                this.$refs.indicatorMap[index].fetchMobilityData(
+                  currCountry, this.$refs.indicatorMap[index].indicator.aoiID,
+                );
+              }, 500);
+            }
+          }
+        }
+      }
+      if (this.$refs.indicatorMap
+        && this.$refs.indicatorMap.length > 0
+        && this.$refs.indicatorMap[index]) {
+        const refMap = this.$refs.indicatorMap[index];
+        refMap.onResize();
       }
     },
     selectedArea(area) {

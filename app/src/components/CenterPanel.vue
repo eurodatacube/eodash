@@ -20,7 +20,7 @@ export default {
     ]),
     ...mapState('config', ['baseConfig']),
     mapDataReady() {
-      return !!(this.getGroupedFeatures?.length && this.baseConfig);
+      return !!(this.baseConfig);
     },
   },
 };

@@ -59,7 +59,6 @@ function createFromTemplate(template, tileCoord) {
     });
 }
 
-
 function replaceUrlPlaceholders(baseUrl, config, options) {
   let url = baseUrl;
   const time = options.time || store.state.indicators.selectedTime;
@@ -68,7 +67,7 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
   url = url.replace(/{time}/i, config.dateFormatFunction(time));
   url = url.replace(/{indicator}/gi, indicator);
   url = url.replace(/{aoiID}/gi, aoiId);
-  if (config.features) {
+  if (config.features && config.features.dateFormatFunction) {
     url = url.replace(/{featuresTime}/i, config.features.dateFormatFunction(time));
   }
   if (config.siteMapping) {
@@ -196,10 +195,9 @@ export function createLayerFromConfig(config, _options = {}) {
       }
     });
     if (config.usedTimes?.time?.length) {
-      const time = options.time || store.state.indicators.selectedTime;
-      params.time = config.dateFormatFunction(time);
+      params.time = config.dateFormatFunction(options.time);
       if (config.specialEnvTime) {
-        params.env = `year:${time}`;
+        params.env = `year:${params.time}`;
       }
     }
 

@@ -107,7 +107,8 @@
     </v-autocomplete>
     <div
       v-show="isDropdownEnabled"
-      class="rounded-t-xl mt-3 pa-3 white"
+      class="rounded-t-xl mt-3 pa-3"
+      style="background: var(--v-background-base)"
     >
       <div id="list">
         <v-list
@@ -154,9 +155,8 @@
                   <v-list-item
                     v-for="(feature, i) in groupedIndicators[indicator.code].features"
                     :key="i"
-                    :value="!!feature
-                      ? getLocationCode(feature.properties.indicatorObject)
-                      : indicator.code"
+                    :value="getLocationCode(groupedIndicators[indicator.code]
+                      .features[i].properties.indicatorObject)"
                     active-class="itemActive"
                     :class="indicator.archived ? 'archived-item' : ''"
                     :disabled="indicatorSelection === feature"
@@ -176,7 +176,7 @@
                           : (Array.isArray(feature.properties
                             .indicatorObject[groupedIndicators[indicator.code].label])
                           ? feature.properties
-                            .indicatorObject[groupedIndicators[indicator.code].label][0]
+                            .indicatorObject[groupedIndicators[indicator.code].label][1]
                           : feature.properties
                             .indicatorObject[groupedIndicators[indicator.code].label])
                         }}
@@ -395,6 +395,14 @@ export default {
       });
       return indicators;
     },
+    globalIndicators() {
+      return this.getGroupedFeatures && this.getGroupedFeatures
+        .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName))
+        .sort((a, b) => ((a.properties.indicatorObject.indicatorName
+          > b.properties.indicatorObject.indicatorName)
+          ? 1
+          : -1));
+    },
   },
   mounted() {
     this.$store.subscribe((mutation) => {
@@ -455,24 +463,35 @@ export default {
     },
     setFilter(filter, selectedFeature) {
       this.$store.commit('features/SET_FEATURE_FILTER', filter);
+      if (filter.countries?.length === 0 && filter.indicators?.length === 0) {
+        this.$store.commit(
+          'indicators/SET_SELECTED_INDICATOR',
+          null,
+        );
+
+        return;
+      }
       if (selectedFeature) {
+        // direct selection of a POI from the list
         this.$store.commit(
           'indicators/SET_SELECTED_INDICATOR',
           selectedFeature.properties.indicatorObject,
         );
+      } else if (this.globalIndicators.length === 1) {
+        console.log(this.globalIndicators);
+        // selection of a global indicator with exactly one global POI
+        this.$store.commit(
+          'indicators/SET_SELECTED_INDICATOR',
+          this.globalIndicators[0].properties.indicatorObject,
+        );
+      } else if (this.globalIndicators.length > 1) {
+        // selection of a global indicator with multiple global POIs
+        console.log(this.globalIndicators);
       } else {
-        // filter out those POIs that are defined in featureGrouping, as they
-        // already will appear in the sub-group and can thus be directly clicked
-        const possibleValues = this.getGroupedFeatures.filter((f) => this.appConfig.featureGrouping && !this.appConfig.featureGrouping
-          .find((g) => g.features
-            .find((i) => i.includes(this.getLocationCode(f.properties.indicatorObject)))));
-        const firstFeature = possibleValues[0];
-        if (firstFeature) {
-          this.$store.commit(
-            'indicators/SET_SELECTED_INDICATOR',
-            firstFeature.properties.indicatorObject,
-          );
-        }
+        this.$store.commit(
+          'indicators/SET_SELECTED_INDICATOR',
+          null,
+        );
       }
     },
     uniqueRegions(countryItems) {
@@ -500,9 +519,11 @@ export default {
       }
     },
     autoCompleteClear() {
-      this.selectCountry('all');
-      this.selectIndicator('all');
       this.userInput = null;
+      this.setFilter({
+        countries: [],
+        indicators: [],
+      });
     },
   },
   watch: {
@@ -534,7 +555,12 @@ export default {
           const hasGrouping = this.appConfig.featureGrouping && this.appConfig.featureGrouping
             .find((g) => g.features
               .find((i) => i.includes(this.getLocationCode(f.properties.indicatorObject))));
-          if (hasGrouping) {
+          if (
+            hasGrouping
+            && ['global'].includes(f.properties.indicatorObject.siteName)
+            // only add global layers to the list grouping;
+            // the local ones are still using the tab feature)
+          ) {
             // includes features and labels
             grouped[f.properties.indicatorObject.indicator] = {};
             grouped[f.properties.indicatorObject.indicator].label = hasGrouping.label;
@@ -586,7 +612,7 @@ export default {
 
 #list {
   height: auto;
-  max-height: calc(var(--vh, 1vh) * 100 - 180px);
+  max-height: calc(var(--vh, 1vh) * 100 - 300px);
   overflow-x: hidden;
   position: relative;
 }
@@ -616,7 +642,6 @@ export default {
 .no-pointer > div {
   pointer-events: all;
 }
-
 
 ::v-deep .v-autocomplete__content.v-menu__content {
   box-shadow: none;

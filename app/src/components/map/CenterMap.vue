@@ -43,6 +43,7 @@
       :mapId="mapId"
       :time="compareLayerTime.value"
       :mergedConfigsData="mergedConfigsData[0]"
+      :specialLayerOptionProps="specialLayerOptions"
       :enable="enableCompare"
       @updateSwipePosition="updateSwipePosition"
       :key="dataLayerName + '_layerSwipe'"
@@ -61,6 +62,17 @@
       :key="mergedConfigsData[0].name + '_timeSelection'"
       @focusSelect="focusSelect"
     />
+    <v-card class="dashboard-button">
+      <AddToDashboardButton
+        class="primary--text"
+        v-if="mapId === 'centerMap' && indicator"
+        :indicatorObject="indicator"
+        :zoom="currentZoom"
+        :center="currentCenter"
+        :datalayertime="dataLayerTime ? dataLayerTime.name :  null"
+        :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
+      />
+    </v-card>
     <!-- an overlay for showing information when hovering over clusters -->
     <MapOverlay
       :mapId="mapId"
@@ -106,13 +118,14 @@ import CustomAreaButtons from '@/components/map/CustomAreaButtons.vue';
 import getMapInstance from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
+import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 import { updateTimeLayer } from '@/components/map/timeLayerUtils';
 import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
 } from '@/helpers/mapConfig';
 import GeoJSON from 'ol/format/GeoJSON';
-import { transformExtent } from 'ol/proj';
+import { fromLonLat, toLonLat, transformExtent } from 'ol/proj';
 import fetchCustomAreaObjects from '@/helpers/customAreaObjects';
 
 const geoJsonFormat = new GeoJSON({
@@ -128,6 +141,7 @@ export default {
     CustomAreaButtons,
     InverseSubaoiLayer,
     MapOverlay,
+    AddToDashboardButton,
   },
   props: {
     mapId: {
@@ -150,6 +164,22 @@ export default {
       type: Object,
       default: undefined,
     },
+    dataLayerTimeProp: {
+      type: String,
+      default: undefined,
+    },
+    compareLayerTimeProp: {
+      type: String,
+      default: undefined,
+    },
+    centerProp: {
+      type: Object,
+      default: undefined,
+    },
+    zoomProp: {
+      type: Number,
+      default: undefined,
+    },
   },
   data() {
     return {
@@ -161,6 +191,8 @@ export default {
         indicator: '',
         description: '',
       },
+      currentZoom: null,
+      currentCenter: null,
       dataLayerTime: null,
       compareLayerTime: null,
       enableCompare: false,
@@ -218,7 +250,8 @@ export default {
       return this.getIndicatorFilteredInputData(this.currentIndicator);
     },
     drawnArea() {
-      // in store or prop saved as 'object', in this component and in customAreaButtons as {area: 'object'} for convenience
+      // in store or prop saved as 'object', in this component and
+      // in customAreaButtons as {area: 'object'} for convenience
       return {
         area: this.initialDrawnArea || this.$store.state.features.selectedArea,
       };
@@ -238,27 +271,20 @@ export default {
     },
     /**
      * optional options for special layer.
-     * only needed for dashboard
      */
     specialLayerOptions() {
-      if (this.currentIndicator) {
-        return {
-          // to do: get initial time for saved dashboard item
-          time: this.indicator.time,
-          indicator: this.indicator.indicator,
-          aoiId: this.indicator.aoiID,
-        };
-      }
-      return {};
+      return {
+        // time: this.dataLayerTimeProp || this.dataLayerTime,
+        time: this.dataLayerTimeProp || this.dataLayerTime.value,
+        indicator: this.indicator.indicator,
+        aoiId: this.indicator.aoiID || this.indicator.aoiId, // to do: check this discrepency
+      };
     },
     availableTimeEntries() {
       return createAvailableTimeEntries(
         this.indicator,
         this.mergedConfigsData, // TODO do we really need to pass the config here?
       );
-    },
-    selectedTime() {
-      return this.$store.state.indicators.selectedTime;
     },
     dataLayerName() {
       if (this.mergedConfigsData?.length) {
@@ -272,7 +298,8 @@ export default {
     indicatorsDefinition: () => this.baseConfig.indicatorsDefinition,
     // extent to be zoomed to. Padding will be applied.
     zoomExtent() {
-      if (!this.indicator?.subAoi?.features && !this.mergedConfigsData[0]?.presetView) {
+      if ((this.centerProp && this.zoomProp)
+          || (!this.indicator?.subAoi?.features && !this.mergedConfigsData[0]?.presetView)) {
         return null;
       }
       const { subAoi } = this.indicator;
@@ -342,22 +369,27 @@ export default {
         });
       },
     },
-    selectedTime(value) {
-      // redraw all time-dependant layers, if time is passed via WMS params
-      const { map } = getMapInstance(this.mapId);
-      const layers = map.getLayers().getArray();
-
-      this.mergedConfigsData.filter((config) => config.usedTimes?.time?.length)
-        .forEach((config) => {
-          const layer = layers.find((l) => l.get('name') === config.name);
-          if (layer) {
-            updateTimeLayer(layer, config, value);
-          }
-        });
-    },
     dataLayerTime(timeObj) {
-      this.$store.commit('indicators/SET_SELECTED_TIME', timeObj.value);
-      // this.updateSelectedAreaFeature();
+      if (timeObj) {
+        // redraw all time-dependant layers, if time is passed via WMS params
+        const { map } = getMapInstance(this.mapId);
+        const layers = map.getLayers().getArray();
+
+        this.mergedConfigsData.filter((config) => config.usedTimes?.time?.length)
+          .forEach((config) => {
+            const layer = layers.find((l) => l.get('name') === config.name);
+            if (layer) {
+              updateTimeLayer(layer, config, timeObj.value);
+            }
+          });
+        this.$emit('update:datalayertime', timeObj.name);
+      }
+    },
+    enableCompare(enabled) {
+      this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);
+    },
+    compareLayerTime(timeObj) {
+      this.$emit('update:comparelayertime', this.enableCompare ? timeObj.name : null);
     },
     displayTimeSelection(value) {
       if (!value) {
@@ -367,18 +399,34 @@ export default {
     drawnArea() {
       // this.updateSelectedAreaFeature();
     },
+    dataLayerTimeProp: {
+      immediate: true,
+      deep: true,
+      handler(v) {
+        // only defined for customDashBoard
+        if (v) this.dataLayerTime = this.availableTimeEntries.find((item) => item.name === v);
+      },
+    },
+    compareLayerTimeProp: {
+      immediate: true,
+      deep: true,
+      handler(v) {
+        // only defined for customDashBoard
+        if (v) this.compareLayertime = this.availableTimeEntries.find((item) => item.name === v);
+      },
+    },
     zoomExtent: {
       deep: true,
       immediate: true,
       handler(value) {
       // when the calculated zoom extent changes, zoom the map to the new extent.
       // this is purely cosmetic and does not limit the ability to pan or zoom
-        if (value) {
+        if (value && !(this.centerProp || this.zoomProp)) {
           const { map } = getMapInstance(this.mapId);
           if (map.getTargetElement()) {
-            map.getView().fit(value);
-          } else {
-            map.once('change:target', () => { map.getView().fit(value); });
+            map.getView().fit(value, {
+              padding: [30, 30, 30, 30],
+            });
           }
         }
       },
@@ -391,13 +439,31 @@ export default {
       cluster.setFeatures(this.getFeatures);
     }
     this.loaded = true;
-    getMapInstance('centerMap').map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
+    const { map } = getMapInstance(this.mapId);
+    map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
+    const view = map.getView();
+    view.on(['change:center', 'change:resolution'], (evt) => {
+      this.currentZoom = evt.target.getZoom();
+      const center = toLonLat(evt.target.getCenter());
+      this.currentCenter = { lng: center[0], lat: center[1] };
+      // these events are emitted to save changed made in the dashboard via the
+      // "save map configuration" button
+      this.$emit('update:center', this.currentCenter);
+      this.$emit('update:zoom', this.currentZoom);
+    });
+    if (this.centerProp && this.zoomProp) {
+      view.setCenter(fromLonLat([this.centerProp.lng, this.centerProp.lat]));
+      view.setZoom(this.zoomProp);
+    }
+    this.$emit('ready', true);
 
+    this.ro = new ResizeObserver(this.onResize);
+    this.ro.observe(this.$refs.mapContainer);
     // Fetch data for custom chart if the event is fired.
     // TODO: Extract fetchData method into helper file since it needs to be used from outside.
     window.addEventListener(
       'fetch-custom-area-chart',
-      (e) => this.fetchData({type: 'customIndicator'}),
+      () => this.fetchData({ type: 'customIndicator' }),
       false,
     );
   },
@@ -415,12 +481,6 @@ export default {
           ],
         };
       }
-    },
-    dataLayerTimeUpdated(time) {
-      this.$emit('update:datalayertime', time);
-    },
-    compareLayerTimeUpdated(time) {
-      this.$emit('update:comparelayertime', time);
     },
     updateSelectedAreaFeature() {
       if (this.drawnArea.area) {
@@ -548,25 +608,37 @@ export default {
         lMap.scrollWheelZoom.enable();
       } */
     },
+    onResize() {
+      getMapInstance(this.mapId).map.updateSize();
+    },
   },
   beforeDestroy() {
     if (this.mapId === 'centerMap') {
       const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
       cluster.setActive(false, this.overlayCallback);
+      this.ro.unobserve(this.$refs.myElement);
     }
   },
 };
 </script>
 <style lang="scss" scoped>
 
-.map-legend {
-  max-width: 15vw;
-  transition: max-width 0.5s ease-in-out;
-  cursor: pointer;
-  float: right;
-}
-.map-legend-expanded {
-  width: initial;
-  max-width: 80%;
-}
+  .map-legend {
+    max-width: 15vw;
+    transition: max-width 0.5s ease-in-out;
+    cursor: pointer;
+    float: right;
+  }
+  .map-legend-expanded {
+    width: initial;
+    max-width: 80%;
+  }
+
+  .dashboard-button {
+    position: absolute !important;
+    //height: 20px !important;
+    top: 10px;
+    right: 45px;
+    z-index: 20 !important;
+  }
 </style>
