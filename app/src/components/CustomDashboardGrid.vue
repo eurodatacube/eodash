@@ -564,55 +564,6 @@ export default {
       deep: true,
       async handler(features) {
         if (features && !this.localFeatures) {
-          // check if this.serverZoom is empty
-          // (meaning it's the first call that must go through every time)
-          let firstCall = false;
-          if (Object.keys(this.serverZoom).length === 0) {
-            firstCall = true;
-          }
-          this.features = await Promise.all(features.map(async (f) => {
-            if (f.includesIndicator) {
-              const convertedTimes = f.indicatorObject.time.map(
-                (d) => (DateTime.isDateTime(d) ? d : DateTime.fromISO(d)),
-              );
-              return {
-                ...f,
-                indicatorObject: {
-                  ...f.indicatorObject,
-                  time: convertedTimes,
-                },
-              };
-            }
-
-            if (f.text) {
-              return f;
-            }
-
-            const decoded = this.getPOIString(f.poi);
-
-            const feature = this.$store.state.features.allFeatures
-              .find((i) => this.getLocationCode(i.properties.indicatorObject) === decoded.poi);
-
-            const indicatorObject = await loadIndicatorData(
-              this.baseConfig,
-              feature.properties.indicatorObject,
-            );
-
-            indicatorObject.useSatelliteImagery = decoded.useSatelliteImagery;
-
-            if (f.mapInfo && (firstCall || f.poi === this.savedPoi)) {
-              this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
-              this.$set(this.localCenter, f.poi, f.mapInfo.center);
-              this.$set(this.serverZoom, f.poi, f.mapInfo.zoom);
-              this.$set(this.serverCenter, f.poi, f.mapInfo.center);
-            }
-
-            return {
-              ...f,
-              indicatorObject,
-            };
-          }));
-
           this.parseFeatures(features);
         }
       },
@@ -790,7 +741,6 @@ export default {
         if (f.text) {
           return f;
         }
-
         const decoded = this.getPOIString(f.poi);
 
         const feature = this.$store.state.features.allFeatures
@@ -892,6 +842,7 @@ export default {
       this.numberOfRows = noOfRows;
     },
     getPOIString(poi) {
+      console.log(poi);
       let timedPOIString;
       let useSatelliteImagery = false;
 
