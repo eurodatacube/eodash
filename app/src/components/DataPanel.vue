@@ -346,24 +346,44 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                   <v-icon left>mdi-download</v-icon>
                   download csv
                 </v-btn>
-                <AddToDashboardButton
-                  v-if="customAreaIndicator && !expanded"
-                  :indicatorObject="customAreaIndicator">
-                </AddToDashboardButton>
                 <add-to-dashboard-button
+                  v-if="customAreaIndicator && !expanded"
+                  :indicatorObject="customAreaIndicator"
+                />
+                <template
                   v-else-if="!this.baseConfig.indicatorsDefinition[
                     indicatorObject.indicator
                   ].countrySelection"
-                  :indicatorObject="indicatorObject"
-                  :zoom="zoom"
-                  :center="center"
-                  :direction="direction"
-                  :position="position"
-                  :right="right"
-                  :up="up"
-                  :datalayertime="datalayertime"
-                  :comparelayertime="compareEnabled ? comparelayertime : undefined"
-                />
+                >
+                  <!-- TODO: pass zoom, center, data & compare selection from map -->
+                  <add-to-dashboard-button
+                    v-if="(['global'].includes(indicatorObject.siteName)
+                      || !!indicatorObject.eoSensor)"
+                    :indicatorObject="indicatorObject"
+                    :zoom="zoom"
+                    :center="center"
+                    :direction="direction"
+                    :position="position"
+                    :right="right"
+                    :up="up"
+                    :datalayertime="datalayertime"
+                    :comparelayertime="compareEnabled ? comparelayertime : undefined"
+                    elementType="map"
+                  />
+                  <add-to-dashboard-button
+                    v-if="!!indicatorObject.measurement"
+                    :indicatorObject="indicatorObject"
+                    :zoom="zoom"
+                    :center="center"
+                    :direction="direction"
+                    :position="position"
+                    :right="right"
+                    :up="up"
+                    :datalayertime="datalayertime"
+                    :comparelayertime="compareEnabled ? comparelayertime : undefined"
+                    elementType="chart"
+                  />
+                </template>
               </div>
             </v-col>
           </v-row>
@@ -423,10 +443,10 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                 />
               </v-card>
               <div class="mt-6" style="float:right">
-                <AddToDashboardButton
+                <add-to-dashboard-button
                   v-if="customAreaIndicator"
-                  :indicatorObject="customAreaIndicator">
-                </AddToDashboardButton>
+                  :indicatorObject="customAreaIndicator"
+                />
               </div>
               <v-row
                 class="mt-3"
