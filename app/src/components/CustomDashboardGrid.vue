@@ -588,12 +588,12 @@ export default {
               return f;
             }
 
-            let decoded = this.getPOIString(f.poi);
+            const decoded = this.getPOIString(f.poi);
 
             const feature = this.$store.state.features.allFeatures
               .find((i) => this.getLocationCode(i.properties.indicatorObject) === decoded.poi);
 
-            var indicatorObject = await loadIndicatorData(
+            const indicatorObject = await loadIndicatorData(
               this.baseConfig,
               feature.properties.indicatorObject,
             );
@@ -791,12 +791,12 @@ export default {
           return f;
         }
 
-        let decoded = this.getPOIString(f.poi);
+        const decoded = this.getPOIString(f.poi);
 
         const feature = this.$store.state.features.allFeatures
           .find((i) => this.getLocationCode(i.properties.indicatorObject) === decoded.poi);
 
-        var indicatorObject = await loadIndicatorData(
+        const indicatorObject = await loadIndicatorData(
           this.baseConfig,
           feature.properties.indicatorObject,
         );
@@ -892,8 +892,8 @@ export default {
       this.numberOfRows = noOfRows;
     },
     getPOIString(poi) {
-      var timedPOIString;
-      var useSatelliteImagery = false;
+      let timedPOIString;
+      let useSatelliteImagery = false;
 
       if (poi.includes('+')) {
         // Display satellite imagery to to the user.
@@ -905,20 +905,19 @@ export default {
       }
 
       if (timedPOIString.includes('@')) {
-          // eslint-disable-next-line
+        // eslint-disable-next-line
           const [p, _time] = timedPOIString.split('@');
 
-          return {
-            poi: p,
-            useSatelliteImagery: useSatelliteImagery,
-          };
-        } else {
-          return {
-            poi: timedPOIString,
-            useSatelliteImagery: useSatelliteImagery,
-          };
-        }
-    }
+        return {
+          poi: p,
+          useSatelliteImagery,
+        };
+      }
+      return {
+        poi: timedPOIString,
+        useSatelliteImagery,
+      };
+    },
   },
 };
 </script>

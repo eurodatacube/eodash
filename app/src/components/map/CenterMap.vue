@@ -71,6 +71,7 @@
         :center="currentCenter"
         :datalayertime="dataLayerTime ? dataLayerTime.name :  null"
         :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
+        :useSatelliteImagery="true"
       />
     </v-card>
     <!-- an overlay for showing information when hovering over clusters -->

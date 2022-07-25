@@ -135,13 +135,15 @@ export default {
     ]),
     async toggle() {
       if (!this.alreadyAdded) {
+        const poiValue = `${this.useSatelliteImagery ? '+' : ''}`
+          + `${this.getLocationCode(this.indicatorObject)}@${Date.now()}`;
         this.addFeature(
           {
             poi: this.indicatorObject.poi
-              // Encode location code and current datetime object to create unique 
+              // Encode location code and current datetime object to create unique
               // dashboard entries and add a plus at the beginning if there is any
               // satellite imagery that can be viewed.
-              || `${!!this.indicatorObject.eoSensor ? '+' : ''}${this.getLocationCode(this.indicatorObject)}@${Date.now()}`,
+              || poiValue,
             width: 4,
             includesIndicator: this.indicatorObject.includesIndicator,
             ...(this.indicatorObject.includesIndicator
