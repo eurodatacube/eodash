@@ -753,7 +753,7 @@ export default {
 
         indicatorObject.useSatelliteImagery = decoded.useSatelliteImagery;
 
-        if (f.mapInfo && (this.firstCall || decoded.poipoiString === this.savedPoi)) {
+        if (f.mapInfo && (this.firstCall || decoded.poi === this.savedPoi)) {
           this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
           this.$set(this.localCenter, f.poi, f.mapInfo.center);
           this.$set(this.localDirection, f.poi, f.mapInfo.direction);
