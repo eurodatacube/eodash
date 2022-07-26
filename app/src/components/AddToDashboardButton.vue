@@ -80,10 +80,6 @@ export default {
     up: Array,
     datalayertime: String,
     comparelayertime: String,
-    useSatelliteImagery: {
-      type: Boolean,
-      default: false,
-    },
   },
   data: () => ({
     alreadyAdded: false,
@@ -135,8 +131,7 @@ export default {
     ]),
     async toggle() {
       if (!this.alreadyAdded) {
-        const poiValue = `${this.useSatelliteImagery ? '+' : ''}`
-          + `${this.getLocationCode(this.indicatorObject)}@${Date.now()}`;
+        const poiValue = `${this.getLocationCode(this.indicatorObject)}@${Date.now()}`;
         this.addFeature(
           {
             poi: this.indicatorObject.poi

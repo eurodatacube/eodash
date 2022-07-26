@@ -144,15 +144,14 @@
                 @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
                 @ready="onMapReady(element.poi)"
               />
-              <!-- TO DO: give unique map id instead of element.title-->
               <CenterMap
                 v-else-if="(['all'].includes(element.indicatorObject.country) ||
                 appConfig.configuredMapPois.includes(
                   `${element.indicatorObject.aoiID}-${element.indicatorObject.indicator}`
                 ) ||
                 Array.isArray(element.indicatorObject.country)) && !element.includesIndicator ||
-                element.indicatorObject.useSatelliteImagery"
-                :mapId="element.title"
+                element.mapInfo"
+                :mapId="element.poi"
                 :currentIndicator="element.indicatorObject"
                 :dataLayerTimeProp="localDataLayerTime[element.poi]"
                 :compareLayerTimeProp="localCompareLayerTime[element.poi]"
@@ -480,7 +479,6 @@ export default {
     showText: false,
     showTextCurrent: null,
     tooltipTrigger: false,
-    firstCall: true,
     numberOfRows: null,
     ro: null,
   }),
@@ -562,7 +560,7 @@ export default {
     vuexFeatures: {
       immediate: true,
       deep: true,
-      async handler(features) {
+      handler(features) {
         if (features && !this.localFeatures) {
           this.parseFeatures(features);
         }
@@ -724,6 +722,12 @@ export default {
       this.$emit('scrollTo', { target: position });
     },
     async parseFeatures(features) {
+      // check if this.serverZoom is empty
+      // (meaning it's the first call that must go through every time)
+      let firstCall = false;
+      if (Object.keys(this.serverZoom).length === 0) {
+        firstCall = true;
+      }
       this.features = await Promise.all(features.map(async (f) => {
         if (f.includesIndicator) {
           const convertedTimes = f.indicatorObject.time.map(
@@ -741,19 +745,22 @@ export default {
         if (f.text) {
           return f;
         }
-        const decoded = this.getPOIString(f.poi);
+
+        let poiCode = f.poi;
+        if (f.poi.includes('@')) {
+          const p = f.poi.split('@')[0];
+          poiCode = p;
+        }
 
         const feature = this.$store.state.features.allFeatures
-          .find((i) => this.getLocationCode(i.properties.indicatorObject) === decoded.poi);
+          .find((i) => this.getLocationCode(i.properties.indicatorObject) === poiCode);
 
         const indicatorObject = await loadIndicatorData(
           this.baseConfig,
           feature.properties.indicatorObject,
         );
 
-        indicatorObject.useSatelliteImagery = decoded.useSatelliteImagery;
-
-        if (f.mapInfo && (this.firstCall || decoded.poi === this.savedPoi)) {
+        if (f.mapInfo && (firstCall || f.poi === this.savedPoi)) {
           this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
           this.$set(this.localCenter, f.poi, f.mapInfo.center);
           this.$set(this.localDirection, f.poi, f.mapInfo.direction);
@@ -775,8 +782,6 @@ export default {
             this.$set(this.serverCompareLayerTime, f.poi, f.mapInfo.compareLayerTime);
           }
         }
-
-        this.firstCall = false;
 
         return {
           ...f,
@@ -840,33 +845,6 @@ export default {
         noOfRows = Math.round(container / row);
       }
       this.numberOfRows = noOfRows;
-    },
-    getPOIString(poi) {
-      let timedPOIString;
-      let useSatelliteImagery = false;
-
-      if (poi.includes('+')) {
-        // Display satellite imagery to to the user.
-        timedPOIString = poi.slice(1, poi.length);
-        useSatelliteImagery = true;
-      } else {
-        // Display any kind of chart to the user.
-        timedPOIString = poi.slice();
-      }
-
-      if (timedPOIString.includes('@')) {
-        // eslint-disable-next-line
-          const [p, _time] = timedPOIString.split('@');
-
-        return {
-          poi: p,
-          useSatelliteImagery,
-        };
-      }
-      return {
-        poi: timedPOIString,
-        useSatelliteImagery,
-      };
     },
   },
 };
