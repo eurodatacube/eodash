@@ -9,7 +9,7 @@
         :text="!mapControl"
         small
         :class="{ 'dashboard-button': mapControl, 'px-1' : mapControl }"
-        :style="{ minWidth: mapControl && 0 }"
+        :style="`min-width: ${mapControl ? 0 : ''}`"
         v-on="on"
       >
         <v-icon
