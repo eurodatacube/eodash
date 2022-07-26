@@ -5,13 +5,17 @@
   >
     <template v-slot:activator="{ on }">
       <v-btn
-        color="primary"
-        text
+        :color="mapControl ? $vuetify.theme.currentTheme.background : 'primary'"
+        :text="!mapControl"
         small
+        :class="{ 'dashboard-button': mapControl, 'px-1' : mapControl }"
+        :style="{ minWidth: mapControl && 0 }"
         v-on="on"
       >
-        <v-icon left>mdi-view-dashboard</v-icon>
-        add to custom dashboard
+        <v-icon
+          :left="!mapControl"
+        >mdi-view-dashboard</v-icon>
+        <span v-if="!mapControl">add to custom dashboard</span>
       </v-btn>
     </template>
 
@@ -69,6 +73,7 @@ export default {
     up: Array,
     datalayertime: String,
     comparelayertime: String,
+    mapControl: Boolean,
   },
   data: () => ({
     dialog: false,
@@ -135,3 +140,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  .dashboard-button {
+    position: absolute;
+    bottom: 3.5em;
+    right: .5em;
+    z-index: 2;
+  }
+</style>
