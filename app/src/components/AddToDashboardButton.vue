@@ -8,6 +8,7 @@
         :color="mapControl ? $vuetify.theme.currentTheme.background : 'primary'"
         :text="!mapControl"
         small
+        :title="mapControl ? 'Add map to custom dashboard' : undefined"
         :class="{
           'dashboard-button': mapControl,
           'move-with-panel': mapControl,
@@ -18,6 +19,7 @@
       >
         <v-icon
           :left="!mapControl"
+          :small="!mapControl"
         >mdi-view-dashboard</v-icon>
         <span v-if="!mapControl">add to custom dashboard</span>
       </v-btn>
@@ -148,8 +150,10 @@ export default {
 <style scoped>
   .dashboard-button {
     position: absolute;
-    bottom: 3.5em;
-    right: .5em;
+    bottom: 42px;
+    right: 10px;
+    width: 36px;
+    height: 36px !important;
     z-index: 2;
   }
 </style>

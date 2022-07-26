@@ -629,7 +629,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
   .map-legend {
     max-width: 15vw;
     transition: max-width 0.5s ease-in-out;

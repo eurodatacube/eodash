@@ -17,7 +17,7 @@ class VueMap {
         className: 'ol-full-screen',
       }),
       new Zoom({
-        className: 'v-card primary--text ol-zoom',
+        className: 'ol-zoom',
       }),
       new MousePosition({
         coordinateFormat: (coordinates) => {
@@ -30,11 +30,11 @@ class VueMap {
           return `<span>${toStringXY([lonValue, coordinates[1]], 3)}</span>`;
         },
         projection: 'EPSG:4326',
-        className: 'v-card ol-control primary--text ol-mouse-position',
+        className: 'ol-control ol-mouse-position',
         placeholder: false,
       }),
       new Attribution({
-        className: 'v-card ol-attribution',
+        className: 'ol-attribution',
       }),
     ];
     this.map = new Map({

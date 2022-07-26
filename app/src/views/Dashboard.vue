@@ -578,7 +578,7 @@ export default {
 .ol-mouse-position,
 .ol-zoom {
   transform: translateX(0);
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 .panel-expanded .move-with-panel,
 .panel-expanded .ol-full-screen,

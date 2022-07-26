@@ -9,9 +9,10 @@ export default class loadingIndicatorControl extends Control {
     const { map } = options;
 
     const button = document.createElement('button');
+    button.className = 'rounded-circle';
 
     const element = document.createElement('div');
-    element.className = 'loading-indicator hidden ol-unselectable ol-control spinner';
+    element.className = 'loading-indicator hidden ol-unselectable ol-control spinner rounded-circle';
     element.appendChild(button);
 
     super({

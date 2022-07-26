@@ -1,107 +1,49 @@
 <template>
-  <v-card class="customDrawTools primary--text move-with-panel">
-    <v-card
+  <div
+    class="customDrawTools move-with-panel elevation-2
+    d-flex flex-column">
+    <v-btn
+      v-if="drawToolsVisible"
+      :color="$vuetify.theme.currentTheme.background"
+      class="pa-0 rounded-b-0 elevation-0"
+      title="Draw polygon"
+      @click="drawEnable('polygon')"
+    >
+      <v-icon>mdi-vector-polygon</v-icon>
+    </v-btn>
+    <v-btn
+      v-if="drawToolsVisible"
+      :color="$vuetify.theme.currentTheme.background"
+      class="pa-0 elevation-0"
+      :class="deleteButtonVisible || isDrawing
+        ? 'rounded-0'
+        : 'rounded-t-0'"
+      title="Draw rectangle"
+      @click="drawEnable('bbox')"
+    >
+      <v-icon>mdi-vector-rectangle</v-icon>
+    </v-btn>
+    <v-btn
+      v-if="deleteButtonVisible"
+      color="error"
+      fab
+      class="pa-0 rounded-t-0 elevation-0"
+      title="Clear selection"
+      @click="clearCustomAreaFilter"
+    >
+      <v-icon>mdi-delete</v-icon>
+    </v-btn>
+    <v-btn
       v-if="isDrawing"
-      class="cancelDrawButton"
+      color="error"
+      fab
+      class="pa-0 rounded-t-0 elevation-0"
+      title="Cancel drawing"
       @click="disableInteractions"
-      >
-      <v-card-text
-      class="pa-1"
-      :style="`color: ${appConfig.branding.primaryColor};`">
-        Cancel drawing
-      </v-card-text>
-    </v-card>
-    <v-card class="drawPolygonButton"
-    v-if="drawToolsVisible">
-      <v-tooltip left>
-        <template v-slot:activator="{ on }">
-          <div v-on="on" class="d-inline-block">
-            <v-btn
-              fab
-              class="pa-0"
-              :style="`${
-                $vuetify.breakpoint.mdAndDown
-                  ? 'width: 36px; height: 36px;'
-                  : 'width: 30px; height: 30px;'
-              } border-radius: 4px`"
-              @click="drawEnable('polygon')"
-            >
-              <v-icon>mdi-vector-polygon</v-icon>
-            </v-btn>
-          </div>
-        </template>
-        <span>Draw Polygon</span>
-      </v-tooltip>
-    </v-card>
-    <v-card
-    v-if="drawToolsVisible">
-      <v-tooltip left>
-        <template v-slot:activator="{ on }">
-          <div v-on="on" class="d-inline-block">
-            <v-btn
-              fab
-              class="pa-0"
-              :style="`${
-                $vuetify.breakpoint.mdAndDown
-                  ? 'width: 36px; height: 36px;'
-                  : 'width: 30px; height: 30px;'
-              } border-radius: 4px`"
-              @click="drawEnable('bbox')"
-            >
-              <v-icon>mdi-vector-rectangle</v-icon>
-            </v-btn>
-          </div>
-        </template>
-        <span>Draw Rectangle</span>
-      </v-tooltip>
-    </v-card>
-    <v-card
-    v-if="deleteButtonVisible">
-      <v-tooltip left>
-        <template v-slot:activator="{ on }">
-          <div v-on="on" class="d-inline-block">
-            <v-btn
-              color="error"
-              fab
-              class="pa-0"
-              :style="`${
-                $vuetify.breakpoint.mdAndDown
-                  ? 'width: 36px; height: 36px;'
-                  : 'width: 30px; height: 30px;'
-              } border-radius: 4px`"
-              @click="clearCustomAreaFilter"
-            >
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
-          </div>
-        </template>
-        <span>Clear selection</span>
-      </v-tooltip>
-    </v-card>
-
-    <v-card
-    v-if="loading">
-        <v-tooltip left>
-          <template v-slot:activator="{ on }">
-          <div v-on="on" class="d-inline-block">
-              <v-btn
-              color="white"
-              fab
-              class="pa-0"
-              :style="`${$vuetify.breakpoint.mdAndDown
-                  ? 'width: 36px; height: 36px;'
-                  : 'width: 30px; height: 30px;'}
-                  border-radius: 4px;
-                  color: ${appConfig.branding.primaryColor};`"
-              >
-              <v-icon>mdi-loading mdi-spin</v-icon>
-              </v-btn>
-          </div>
-          </template>
-          <span>Custom data are loading</span>
-        </v-tooltip>
-    </v-card>
-  </v-card>
+    >
+      <v-icon>mdi-close</v-icon>
+    </v-btn>
+  </div>
 </template>
 
 <script>
@@ -328,18 +270,16 @@ export default {
 <style lang="scss" scoped>
 .customDrawTools {
   position: absolute;
-  top: 150px;
+  top: 184px;
   right: 10px;
   z-index: 2;
 }
-.cancelDrawButton {
-  position: absolute;
-  right: 40px;
-  z-index: 2;
-  min-width: fit-content;
-  border-radius: "4px";
-}
 .mdi-spin:before {
   animation-duration: 0.5s;
+}
+button {
+  min-width: 0 !important;
+  width: 36px !important;
+  height: 36px !important;
 }
 </style>
