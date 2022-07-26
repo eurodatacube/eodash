@@ -1,5 +1,8 @@
 <template>
-  <div class="dashboard fill-height">
+  <div
+    class="dashboard fill-height"
+    :class="{ 'panel-expanded': drawerRight }"
+  >
     <global-header
       :isFullscreen="isFullScreen"
       :displayShowText="displayShowText"
@@ -95,7 +98,7 @@
       clipped
       temporary
       hide-overlay
-      :width="dataPanelFullWidth ? '100%' : '40%'"
+      :width="dataPanelFullWidth ? '100%' : '400px'"
       :style="`margin-top: ${$vuetify.application.top}px;
         height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px;`"
       class="data-panel"
@@ -144,18 +147,18 @@
         :newsBanner="$refs.newsBanner"
         :expanded="dataPanelFullWidth" class="px-5" />
     </v-navigation-drawer>
-    <div
-      v-if="$vuetify.breakpoint.mdAndUp && !!this.$route.query.poi && indicatorSelected"
-      class="reopen-right-drawer"
+    <v-btn
+      v-if="$vuetify.breakpoint.mdAndUp && indicatorSelected"
+      color="primary"
+      icon
+      small
+      :title="`${drawerRight ? 'Collapse' : 'Expand'} side panel`"
+      class="reopen-right-drawer move-with-panel rounded-lg rounded-r-0 py-7 elevation-2"
+      :style="`background: ${$vuetify.theme.currentTheme.background}`"
+      @click="drawerRight = !drawerRight"
     >
-        <v-btn
-          icon
-          style="background: #d8d8d8"
-          @click="drawerRight = !drawerRight"
-        >
-          <v-icon :class="{open: drawerRight}">mdi-arrow-left</v-icon>
-        </v-btn>
-      </div>
+      <v-icon :class="{open: drawerRight}">mdi-menu-left</v-icon>
+    </v-btn>
     <v-dialog
       v-if="$vuetify.breakpoint.mdAndUp"
       v-model="dialog"
@@ -538,17 +541,16 @@ export default {
 
 .reopen-right-drawer {
   position: absolute;
-  top: 77px;
-  right: 60px;
-  z-index: 9011;
+  top: 50%;
+  right: 0;
+  z-index: 1;
 
   .v-icon {
     transition: transform 0.3s linear;
   }
-}
-
-.open {
-  transform: rotate(180deg);
+  .open {
+    transform: rotate(180deg);
+  }
 }
 
 .retractable {
@@ -566,5 +568,15 @@ export default {
   &.hidden {
     transform: translateY(100vh);
   }
+}
+</style>
+
+<style>
+.move-with-panel {
+  transform: translateX(0);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.panel-expanded .move-with-panel {
+  transform: translateX(-400px);
 }
 </style>
