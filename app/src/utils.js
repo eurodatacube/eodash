@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon';
 import axios from 'axios';
+import store from '@/store';
 
 export function padLeft(str, pad, size) {
   let out = str;
@@ -167,4 +168,14 @@ export function isExternalUrl(urlString) {
     new URL(urlString, document.baseURI);
   }
   return false;
+}
+
+export function calculatePadding() {
+  // we can further refine the padding to use based on which panels are open
+  const dataPanelOpen = document.querySelector('.data-panel').className.includes('v-navigation-drawer--close');
+  const dataPanelWidth = dataPanelOpen ? 0 : document.querySelector('.data-panel').clientWidth;
+  const searchResultsClosed = store.state.features.featureFilters.indicators.length
+    || store.state.features.featureFilters.countries.length;
+  const searchResultWidth = !searchResultsClosed ? (document.querySelector('#list').clientWidth + 40) : 0;
+  return [70, 20 + dataPanelWidth, 70, 20 + searchResultWidth];
 }

@@ -3,6 +3,7 @@ import { LineString, Point, Polygon } from 'ol/geom';
 import { Vector as VectorLayer } from 'ol/layer';
 import monotoneChainConvexHull from 'monotone-chain-convex-hull';
 import store from '@/store';
+import { calculatePadding } from '@/utils';
 import {
   Circle as CircleStyle,
   Fill,
@@ -463,15 +464,9 @@ class Cluster {
     const clusterSource = this.clusters.getSource().getSource();
     clusterSource.clear();
     clusterSource.addFeatures(features);
-    // we can further refine the padding to use based on which panels are open
-    const dataPanelOpen = document.querySelector('.data-panel').className.includes('v-navigation-drawer--close');
-    const dataPanelWidth = dataPanelOpen ? 0 : document.querySelector('.data-panel').clientWidth;
-    const searchResultsClosed = store.state.features.featureFilters.indicators.length
-      || store.state.features.featureFilters.countries.length;
-    const searchResultWidth = !searchResultsClosed ? (document.querySelector('#list').clientWidth + 40) : 0;
     if (features.length) {
       this.map.getView().fit(clusterSource.getExtent(), {
-        padding: [70, 20 + dataPanelWidth, 70, 20 + searchResultWidth],
+        padding: calculatePadding(),
         maxZoom: 8,
         duration: 200,
       });

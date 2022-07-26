@@ -119,6 +119,7 @@ import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 import { updateTimeLayer } from '@/components/map/timeLayerUtils';
+import { calculatePadding } from '@/utils';
 import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
@@ -422,15 +423,9 @@ export default {
       // this is purely cosmetic and does not limit the ability to pan or zoom
         if (value && !(this.centerProp || this.zoomProp)) {
           const { map } = getMapInstance(this.mapId);
-          // we can further refine the padding to use based on which panels are open
-          const dataPanelOpen = document.querySelector('.data-panel').className.includes('v-navigation-drawer--close');
-          const dataPanelWidth = dataPanelOpen ? 0 : document.querySelector('.data-panel').clientWidth;
-          const searchResultsClosed = this.$store.state.features.featureFilters.indicators.length
-            || this.$store.state.features.featureFilters.countries.length;
-          const searchResultWidth = !searchResultsClosed ? (document.querySelector('#list').clientWidth + 40) : 0;
           if (map.getTargetElement()) {
             map.getView().fit(value, {
-              padding: [70, 20 + dataPanelWidth, 70, 30 + searchResultWidth],
+              padding: calculatePadding(),
             });
           }
         }
