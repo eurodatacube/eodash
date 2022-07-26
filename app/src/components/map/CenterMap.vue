@@ -420,7 +420,6 @@ export default {
       handler(value) {
       // when the calculated zoom extent changes, zoom the map to the new extent.
       // this is purely cosmetic and does not limit the ability to pan or zoom
-        console.log('ZOOMEXTENT');
         if (value && !(this.centerProp || this.zoomProp)) {
           const { map } = getMapInstance(this.mapId);
           // we can further refine the padding to use based on which panels are open
