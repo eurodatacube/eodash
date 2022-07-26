@@ -62,17 +62,16 @@
       :key="mergedConfigsData[0].name + '_timeSelection'"
       @focusSelect="focusSelect"
     />
-    <v-card class="dashboard-button">
-      <AddToDashboardButton
-        class="primary--text"
-        v-if="mapId === 'centerMap' && indicator"
-        :indicatorObject="indicator"
-        :zoom="currentZoom"
-        :center="currentCenter"
-        :datalayertime="dataLayerTime ? dataLayerTime.name :  null"
-        :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
-      />
-    </v-card>
+    <AddToDashboardButton
+      class="primary--text"
+      v-if="mapId === 'centerMap' && indicator"
+      :indicatorObject="indicator"
+      :zoom="currentZoom"
+      :center="currentCenter"
+      :datalayertime="dataLayerTime ? dataLayerTime.name :  null"
+      :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
+      mapControl
+    />
     <!-- an overlay for showing information when hovering over clusters -->
     <MapOverlay
       :mapId="mapId"
@@ -632,13 +631,5 @@ export default {
   .map-legend-expanded {
     width: initial;
     max-width: 80%;
-  }
-
-  .dashboard-button {
-    position: absolute !important;
-    //height: 20px !important;
-    top: 10px;
-    right: 45px;
-    z-index: 20 !important;
   }
 </style>

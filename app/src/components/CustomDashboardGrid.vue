@@ -144,14 +144,14 @@
                 @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
                 @ready="onMapReady(element.poi)"
               />
-              <!-- TO DO: give unique map id instead of element.title-->
               <CenterMap
                 v-else-if="(['all'].includes(element.indicatorObject.country) ||
                 appConfig.configuredMapPois.includes(
                   `${element.indicatorObject.aoiID}-${element.indicatorObject.indicator}`
                 ) ||
-                Array.isArray(element.indicatorObject.country)) && !element.includesIndicator"
-                :mapId="element.title"
+                Array.isArray(element.indicatorObject.country)) && !element.includesIndicator ||
+                element.mapInfo"
+                :mapId="element.poi"
                 :currentIndicator="element.indicatorObject"
                 :dataLayerTimeProp="localDataLayerTime[element.poi]"
                 :compareLayerTimeProp="localCompareLayerTime[element.poi]"
@@ -746,8 +746,15 @@ export default {
           return f;
         }
 
+        let poiCode = f.poi;
+        if (f.poi.includes('@')) {
+          const p = f.poi.split('@')[0];
+          poiCode = p;
+        }
+
         const feature = this.$store.state.features.allFeatures
-          .find((i) => this.getLocationCode(i.properties.indicatorObject) === f.poi);
+          .find((i) => this.getLocationCode(i.properties.indicatorObject) === poiCode);
+
         const indicatorObject = await loadIndicatorData(
           this.baseConfig,
           feature.properties.indicatorObject,
