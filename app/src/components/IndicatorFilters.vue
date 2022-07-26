@@ -21,12 +21,13 @@
       attach="#list"
       autofocus
       open-on-clear
+      :readonly="inputUsed"
       @click:clear="autoCompleteClear"
       @change="autoCompleteChange"
       @keydown.esc="userInput = null"
     >
         <template v-slot:selection="{ item }">
-          <v-row align="center">
+          <v-row align="center" class="flex-nowrap">
             <template v-if="item.location || item.indicator">
               <v-icon class="pr-2">{{
                 baseConfig.indicatorClassesIcons[item.class]
@@ -36,10 +37,14 @@
             </template>
 
             <template v-else>
-              <country-flag
-                :country="item.code === 'all' ? 'eu' : item.code"
-                size="normal"
-              />
+              <div
+                class="pb-2 pr-2"
+              >
+                <country-flag
+                  :country="item.code === 'all' ? 'eu' : item.code"
+                  size="normal"
+                />
+              </div>
             </template>
 
             <span v-text="item.name"></span>
@@ -47,7 +52,7 @@
         </template>
         <template v-slot:item="data">
           <template v-if="data.item.location">
-            <v-list-item-icon class="ml-3 mr-4">
+            <v-list-item-icon class="mr-4">
               <v-icon>{{
                 baseConfig.indicatorClassesIcons[data.item.class]
                   ? baseConfig.indicatorClassesIcons[data.item.class]
@@ -66,7 +71,7 @@
             </v-list-item-content>
           </template>
           <template v-else-if="data.item.indicator">
-            <v-list-item-icon class="ml-3 mr-4">
+            <v-list-item-icon class="mr-4">
               <v-icon>{{
                 baseConfig.indicatorClassesIcons[data.item.class]
                   ? baseConfig.indicatorClassesIcons[data.item.class]
@@ -93,7 +98,7 @@
             </v-list-item-content>
           </template>
           <template v-else>
-            <v-list-item-icon class="d-flex align-center mr-2">
+            <v-list-item-icon class="d-flex align-center mr-4 pb-2">
               <country-flag
                 :country="data.item.code === 'all' ? 'eu' : data.item.code"
                 size="normal"
@@ -110,7 +115,7 @@
       class="rounded-t-xl mt-3 pa-3"
       style="background: var(--v-background-base)"
     >
-      <div id="list">
+      <div id="list" class="v-list--dense">
         <v-list
           dense
           class="customList fill-height pt-0"
@@ -119,7 +124,7 @@
           <v-list-item-group v-model="indicatorSelection" color="primary">
             <template v-for="classId in Object.keys(uniqueClasses)">
               <v-subheader
-                class="ml-5"
+                class="ml-2"
                 :key="classId"
                 v-if="
                   indicatorItems.filter((i) =>
@@ -141,7 +146,7 @@
                   :key="indicator.code"
                 >
                   <template v-slot:activator>
-                    <v-list-item-icon class="ml-3 mr-4">
+                    <v-list-item-icon class="mr-4">
                       <v-icon>{{
                         baseConfig.indicatorClassesIcons[classId]
                           ? baseConfig.indicatorClassesIcons[classId]
@@ -161,7 +166,7 @@
                     :class="indicator.archived ? 'archived-item' : ''"
                     :disabled="indicatorSelection === feature"
                   >
-                    <v-list-item-icon class="ml-6 mr-3">
+                    <v-list-item-icon class="ml-5 mr-3">
                       <v-icon small>{{
                         baseConfig.indicatorClassesIcons[classId]
                           ? baseConfig.indicatorClassesIcons[classId]
@@ -192,7 +197,7 @@
                   :class="indicator.archived ? 'archived-item' : ''"
                   :disabled="indicatorSelection === indicator.code"
                 >
-                  <v-list-item-icon class="ml-3 mr-4">
+                  <v-list-item-icon class="mr-4">
                     <v-icon>{{
                       baseConfig.indicatorClassesIcons[classId]
                         ? baseConfig.indicatorClassesIcons[classId]
@@ -269,6 +274,7 @@ export default {
       indicatorSelection: 'all',
       dropdownSelection: null,
       groupedIndicators: null,
+      inputUsed: null,
     };
   },
   computed: {
@@ -289,29 +295,23 @@ export default {
           ...i,
           name: i.indicator,
         })))
+        // .filter((i) => {
+        //   return !this.allFeatures
+        //     .find((f) => f.indicatorObject.indicator === i.code
+        //       && ['global'].includes(f.indicatorObject.siteName))
+        // })
         .concat(this.allFeatures);
     },
     allFeatures() {
-      return this.getGroupedFeatures.map((f) => {
-        const country = this.countryItems
-          .find((c) => c.code === f.properties.indicatorObject.country)
-          ? this.countryItems.find((c) => c.code === f.properties.indicatorObject.country).name
-          : 'X';
-
-        return {
-        // country: country,
+      return this.$store.state.features.allFeatures
+        .map((f) => ({
           class: this.indicatorItems
-            .find((i) => i.code === f.properties.indicatorObject.indicator).class,
+            .find((i) => i.code === f.properties.indicatorObject.indicator)?.class,
           location: f.properties.indicatorObject.city,
-          name: `${f.properties.indicatorObject.city} (${country}): ${this.getIndicator(f.properties.indicatorObject)}`,
-          // type: this.getClass(f),
+          name: `${f.properties.indicatorObject.city}: ${this.getIndicator(f.properties.indicatorObject)}`,
           indicator: this.getIndicator(f.properties.indicatorObject),
-          // code: f.properties.indicatorObject.indicator,
-          // indicatorValue: this.getIndicatorLabel(f.properties.indicatorObject),
-          // indicatorColor: this.getColor(f.properties.indicatorObject),
           indicatorObject: f.properties.indicatorObject,
-        };
-      });
+        }));
     },
     countryItems() {
       let countryItems;
@@ -502,8 +502,12 @@ export default {
         );
     },
     autoCompleteChange(input) {
-      if (!input) return;
+      if (!input) {
+        this.inputUsed = false;
+        return;
+      }
 
+      this.inputUsed = true;
       if (input.indicator) {
         if (input.indicatorObject) {
           this.selectIndicator(input.indicatorObject.indicator);
@@ -519,6 +523,7 @@ export default {
       }
     },
     autoCompleteClear() {
+      this.inputUsed = false;
       this.userInput = null;
       this.setFilter({
         countries: [],
@@ -531,6 +536,7 @@ export default {
       this.selectCountry(val);
     },
     indicatorSelection(val) {
+      this.inputUsed = true;
       if (typeof val === 'string' && val.includes('-')) {
         // POI
         const feature = this.$store.state.features.allFeatures
