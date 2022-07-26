@@ -8,7 +8,11 @@
         :color="mapControl ? $vuetify.theme.currentTheme.background : 'primary'"
         :text="!mapControl"
         small
-        :class="{ 'dashboard-button': mapControl, 'px-1' : mapControl }"
+        :class="{
+          'dashboard-button': mapControl,
+          'move-with-panel': mapControl,
+          'px-1' : mapControl,
+        }"
         :style="`min-width: ${mapControl ? 0 : ''}`"
         v-on="on"
       >

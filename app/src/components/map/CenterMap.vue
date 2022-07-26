@@ -38,32 +38,38 @@
       :overlayConfigs="overlayConfigs"
     />
     <!-- compare layer has same zIndex as specialLayer -->
-    <LayerSwipe
-      v-if="compareLayerTime"
-      :mapId="mapId"
-      :time="compareLayerTime.value"
-      :mergedConfigsData="mergedConfigsData[0]"
-      :specialLayerOptionProps="specialLayerOptions"
-      :enable="enableCompare"
-      @updateSwipePosition="updateSwipePosition"
-      :key="dataLayerName + '_layerSwipe'"
-    />
-    <indicator-time-selection
-      ref="timeSelection"
-      v-if="displayTimeSelection"
-      :autofocus="!disableAutoFocus"
-      :available-values="availableTimeEntries"
-      :indicator="mergedConfigsData[0]"
-      :compare-active.sync="enableCompare"
-      :compare-time.sync="compareLayerTime"
-      :original-time.sync="dataLayerTime"
-      :enable-compare="!mergedConfigsData[0].disableCompare"
-      :large-time-duration="indicator.largeTimeDuration"
-      :key="mergedConfigsData[0].name + '_timeSelection'"
-      @focusSelect="focusSelect"
-    />
+    <div
+      class="d-flex justify-center fill-height"
+      :style="`position: absolute; bottom: 0; left: 0;
+      transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      width: ${panelActive ? 'calc(100% - 400px)' : '100%'}`"
+    >
+      <LayerSwipe
+        v-if="compareLayerTime"
+        :mapId="mapId"
+        :time="compareLayerTime.value"
+        :mergedConfigsData="mergedConfigsData[0]"
+        :specialLayerOptionProps="specialLayerOptions"
+        :enable="enableCompare"
+        @updateSwipePosition="updateSwipePosition"
+        :key="dataLayerName + '_layerSwipe'"
+      />
+      <indicator-time-selection
+        ref="timeSelection"
+        v-if="displayTimeSelection"
+        :autofocus="!disableAutoFocus"
+        :available-values="availableTimeEntries"
+        :indicator="mergedConfigsData[0]"
+        :compare-active.sync="enableCompare"
+        :compare-time.sync="compareLayerTime"
+        :original-time.sync="dataLayerTime"
+        :enable-compare="!mergedConfigsData[0].disableCompare"
+        :large-time-duration="indicator.largeTimeDuration"
+        :key="mergedConfigsData[0].name + '_timeSelection'"
+        @focusSelect="focusSelect"
+      />
+    </div>
     <AddToDashboardButton
-      class="primary--text"
       v-if="mapId === 'centerMap' && indicator"
       :indicatorObject="indicator"
       :zoom="currentZoom"
@@ -180,6 +186,7 @@ export default {
       type: Number,
       default: undefined,
     },
+    panelActive: Boolean,
   },
   data() {
     return {

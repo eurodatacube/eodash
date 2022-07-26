@@ -320,7 +320,7 @@
             cols="12"
             class="py-0 fill-height"
           >
-            <center-panel />
+            <center-panel :panelActive="drawerRight" />
             <div
               class="d-flex justify-start"
               style="position: absolute; top: 0; width: 100%; pointer-events: none"
@@ -572,11 +572,19 @@ export default {
 </style>
 
 <style>
-.move-with-panel {
+.move-with-panel,
+.ol-full-screen,
+.ol-attribution,
+.ol-mouse-position,
+.ol-zoom {
   transform: translateX(0);
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.panel-expanded .move-with-panel {
+.panel-expanded .move-with-panel,
+.panel-expanded .ol-full-screen,
+.panel-expanded .ol-attribution,
+.panel-expanded .ol-mouse-position,
+.panel-expanded .ol-zoom {
   transform: translateX(-400px);
 }
 </style>

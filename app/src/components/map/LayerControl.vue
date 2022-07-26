@@ -1,5 +1,5 @@
 <template>
-  <v-card class="layerControl">
+  <v-card class="layerControl move-with-panel">
     <v-icon v-if="!show" @click="show = true" color="primary" class="layerIcon ma-1">
       mdi-layers
     </v-icon>

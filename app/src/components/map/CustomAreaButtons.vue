@@ -1,5 +1,5 @@
 <template>
-  <v-card class="customDrawTools primary--text">
+  <v-card class="customDrawTools primary--text move-with-panel">
     <v-card
       v-if="isDrawing"
       class="cancelDrawButton"
