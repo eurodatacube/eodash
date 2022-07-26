@@ -2,17 +2,20 @@
   <v-dialog
     v-model="dialog"
     width="500"
-    v-if="!alreadyAdded"
   >
     <template v-slot:activator="{ on }">
       <v-btn
-        color="primary"
-        text
+        :color="mapControl ? $vuetify.theme.currentTheme.background : 'primary'"
+        :text="!mapControl"
         small
+        :class="{ 'dashboard-button': mapControl, 'px-1' : mapControl }"
+        :style="`min-width: ${mapControl ? 0 : ''}`"
         v-on="on"
       >
-        <v-icon left>mdi-view-dashboard</v-icon>
-        add to custom dashboard
+        <v-icon
+          :left="!mapControl"
+        >mdi-view-dashboard</v-icon>
+        <span v-if="!mapControl">add to custom dashboard</span>
       </v-btn>
     </template>
 
@@ -51,16 +54,6 @@
       </v-form>
     </v-card>
   </v-dialog>
-  <v-btn
-    color="primary"
-    text
-    small
-    v-else
-    @click="toggle"
-  >
-    <v-icon left>mdi-check-bold</v-icon>
-    added to custom dashboard
-  </v-btn>
 </template>
 
 <script>
@@ -80,9 +73,9 @@ export default {
     up: Array,
     datalayertime: String,
     comparelayertime: String,
+    mapControl: Boolean,
   },
   data: () => ({
-    alreadyAdded: false,
     dialog: false,
     title: '',
   }),
@@ -90,24 +83,12 @@ export default {
     ...mapState('dashboard', ['dashboardConfig']),
   },
   watch: {
-    dashboardConfig: {
-      deep: true,
-      immediate: true,
-      async handler() {
-        this.alreadyAdded = await this.exists(
-          { poi: this.indicatorObject.poi || this.getLocationCode(this.indicatorObject) },
-        );
-      },
-    },
     indicatorObject: {
       deep: true,
       async handler() {
         if (this.indicatorObject) {
           // Re-setting title to make sure latest selected indicator is shown
           this.title = `${this.indicatorObject.city.trim()}, ${this.indicatorObject.description.trim()}`;
-          this.alreadyAdded = await this.exists(
-            { poi: this.indicatorObject.poi || this.getLocationCode(this.indicatorObject) },
-          );
         }
       },
     },
@@ -122,44 +103,49 @@ export default {
       'removeFeature',
     ]),
     async toggle() {
-      if (!this.alreadyAdded) {
-        this.addFeature(
-          {
-            poi: this.indicatorObject.poi || this.getLocationCode(this.indicatorObject),
-            width: 4,
-            includesIndicator: this.indicatorObject.includesIndicator,
-            ...(this.indicatorObject.includesIndicator
-              && { indicatorObject: this.indicatorObject }),
-            title: this.title,
-            ...(this.indicatorObject.showGlobe && {
-              mapInfo: {
-                direction: this.direction,
-                position: this.position,
-                right: this.right,
-                up: this.up,
-                dataLayerTime: this.datalayertime,
-                compareLayerTime: this.comparelayertime,
-              },
-            }),
-            ...(this.zoom && this.center && {
-              mapInfo: {
-                zoom: this.zoom,
-                center: this.center,
-                dataLayerTime: this.datalayertime,
-                compareLayerTime: this.comparelayertime,
-              },
-            }),
-          },
-        );
-      } else {
-        this.removeFeature(
-          {
-            poi: this.indicatorObject.poi || this.getLocationCode(this.indicatorObject),
-          },
-        );
-      }
+      const poiValue = `${this.getLocationCode(this.indicatorObject)}@${Date.now()}`;
+      this.addFeature(
+        {
+          poi: this.indicatorObject.poi
+            // Encode location code and current datetime object to create unique
+            // dashboard entries
+            || poiValue,
+          width: 4,
+          includesIndicator: this.indicatorObject.includesIndicator,
+          ...(this.indicatorObject.includesIndicator
+            && { indicatorObject: this.indicatorObject }),
+          title: this.title,
+          ...(this.indicatorObject.showGlobe && {
+            mapInfo: {
+              direction: this.direction,
+              position: this.position,
+              right: this.right,
+              up: this.up,
+              dataLayerTime: this.datalayertime,
+              compareLayerTime: this.comparelayertime,
+            },
+          }),
+          ...(this.zoom && this.center && {
+            mapInfo: {
+              zoom: this.zoom,
+              center: this.center,
+              dataLayerTime: this.datalayertime,
+              compareLayerTime: this.comparelayertime,
+            },
+          }),
+        },
+      );
       this.dialog = false;
     },
   },
 };
 </script>
+
+<style scoped>
+  .dashboard-button {
+    position: absolute;
+    bottom: 3.5em;
+    right: .5em;
+    z-index: 2;
+  }
+</style>
