@@ -423,9 +423,14 @@ export default {
       // this is purely cosmetic and does not limit the ability to pan or zoom
         if (value && !(this.centerProp || this.zoomProp)) {
           const { map } = getMapInstance(this.mapId);
+          // we can further refine the padding to use based on which panels are open
+          const dataPanelOpen = document.querySelector('.data-panel').className.includes('v-navigation-drawer--close');
+          const dataPanelWidth = dataPanelOpen ? 0 : document.querySelector('.data-panel').clientWidth;
+          const searchResultsOpen = document.querySelector('#list').clientHeight !== 0;
+          const searchResultWidth = searchResultsOpen ? (document.querySelector('#list').clientWidth + 40) : 0;
           if (map.getTargetElement()) {
             map.getView().fit(value, {
-              padding: [30, 30, 30, 30],
+              padding: [70, 20 + dataPanelWidth, 70, 30 + searchResultWidth],
             });
           }
         }
