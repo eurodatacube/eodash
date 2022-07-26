@@ -306,8 +306,7 @@
 
     <v-content
       :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
-        + $vuetify.application.footer}px); overflow:hidden; ${$vuetify.breakpoint.mdAndUp
-        && (this.drawerRight ? 'width: 60%;' : 'width: 100%;')}`"
+        + $vuetify.application.footer}px); overflow:hidden; width: 100%`"
     >
       <v-container
         class="fill-height pa-0"

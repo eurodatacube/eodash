@@ -119,6 +119,7 @@ import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 import { updateTimeLayer } from '@/components/map/timeLayerUtils';
+import { calculatePadding } from '@/utils';
 import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
@@ -424,7 +425,7 @@ export default {
           const { map } = getMapInstance(this.mapId);
           if (map.getTargetElement()) {
             map.getView().fit(value, {
-              padding: [30, 30, 30, 30],
+              padding: calculatePadding(),
             });
           }
         }
