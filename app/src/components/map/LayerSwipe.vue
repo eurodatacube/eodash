@@ -135,7 +135,11 @@ export default {
       // clip the originalLayer from right, the comparing layer from left
       if (this.$refs.container) {
         const ctx = evt.context;
-        this.swipePixelX = ctx.canvas.width * (this.swipe / 100);
+        const sidePadding = document.querySelector('.data-panel')
+          .className.includes('v-navigation-drawer--close')
+          ? 0
+          : document.querySelector('.data-panel').clientWidth;
+        this.swipePixelX = (ctx.canvas.width - sidePadding) * (this.swipe / 100);
         this.$emit('updateSwipePosition', this.swipePixelX);
         ctx.save();
         const { map } = getMapInstance(this.mapId);
