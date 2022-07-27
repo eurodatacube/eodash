@@ -435,7 +435,7 @@ export default {
           const { map } = getMapInstance(this.mapId);
           if (map.getTargetElement()) {
             map.getView().fit(value, {
-              padding: calculatePadding(),
+              padding: this.mapId === 'centerMap' ? calculatePadding() : [0, 0, 0, 0],
             });
           }
         }
