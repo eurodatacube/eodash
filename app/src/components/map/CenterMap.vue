@@ -5,20 +5,20 @@
     <InverseSubaoiLayer
       :mapId="mapId"
       :indicator="indicator"
+      v-if="dataLayerName"
+      :key="dataLayerName + '_subAoi'"
     />
     <!-- a layer displaying a selected global poi
      these layers will have z-Index 3 -->
-     <div>
     <SpecialLayer
-      v-if="mergedConfigsData.length"
+      v-if="mergedConfigsData.length && dataLayerName"
       :mapId="mapId"
       :mergedConfig="mergedConfigsData[0]"
       :layerName="dataLayerName"
       :options="specialLayerOptions"
-      :key="dataLayerName"
+      :key="dataLayerName  + '_specialLayer'"
       :swipePixelX="swipePixelX"
     />
-    </div>
     <!-- will add a drawing layer to the map (z-index 3) -->
     <CustomAreaButtons
       v-if="loaded"
@@ -26,6 +26,7 @@
       :mergedConfigsData="mergedConfigsData[0]"
       :hideCustomAreaControls="hideCustomAreaControls"
       @fetchCustomAreaIndicator="onFetchCustomAreaIndicator"
+      :key="dataLayerName  + '_customArea'"
       :drawnArea.sync="drawnArea"
       :loading.sync="customAreaLoading"
     />
@@ -33,7 +34,6 @@
     <LayerControl
       v-if="loaded"
       :mapId="mapId"
-      :key="dataLayerName"
       :baseLayerConfigs="baseLayerConfigs"
       :overlayConfigs="overlayConfigs"
     />
@@ -65,7 +65,7 @@
         :original-time.sync="dataLayerTime"
         :enable-compare="!mergedConfigsData[0].disableCompare"
         :large-time-duration="indicator.largeTimeDuration"
-        :key="mergedConfigsData[0].name + '_timeSelection'"
+        :key="dataLayerName + '_timeSelection'"
         @focusSelect="focusSelect"
       />
     </div>
@@ -286,8 +286,8 @@ export default {
       return {
         // time: this.dataLayerTimeProp || this.dataLayerTime,
         time: this.dataLayerTimeProp || this.dataLayerTime.value,
-        indicator: this.indicator.indicator,
-        aoiId: this.indicator.aoiID || this.indicator.aoiId, // to do: check this discrepency
+        indicator: this.indicator?.indicator,
+        aoiId: this.indicator?.aoiID || this.indicator?.aoiId, // to do: check this discrepency
       };
     },
     availableTimeEntries() {
@@ -297,10 +297,11 @@ export default {
       );
     },
     dataLayerName() {
+      let dataLayerName;
       if (this.mergedConfigsData?.length) {
-        return this.mergedConfigsData[0].name;
+        dataLayerName = this.mergedConfigsData[0].name;
       }
-      return '';
+      return dataLayerName || '';
     },
     countriesJson() {
       return countries;
