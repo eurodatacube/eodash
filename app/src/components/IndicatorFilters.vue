@@ -12,6 +12,7 @@
       rounded
       :items="selectionItems"
       :prepend-inner-icon="dropdownSelection ? undefined : 'mdi-magnify'"
+      append-icon=""
       clearable
       auto-select-first
       return-object
@@ -21,7 +22,7 @@
       attach="#list"
       autofocus
       open-on-clear
-      :readonly="inputUsed"
+      @focus="autoCompleteFocus"
       @click:clear="autoCompleteClear"
       @change="autoCompleteChange"
       @keydown.esc="userInput = null"
@@ -29,7 +30,7 @@
         <template v-slot:selection="{ item }">
           <v-row align="center" class="flex-nowrap">
             <template v-if="item.location || item.indicator">
-              <v-icon class="pr-2">{{
+              <v-icon class="pr-2 ml-1">{{
                 baseConfig.indicatorClassesIcons[item.class]
                   ? baseConfig.indicatorClassesIcons[item.class]
                   : "mdi-lightbulb-on-outline"
@@ -38,7 +39,7 @@
 
             <template v-else>
               <div
-                class="pb-2 pr-2"
+                class="pb-2 pr-2 ml-1"
               >
                 <country-flag
                   :country="item.code === 'all' ? 'eu' : item.code"
@@ -112,7 +113,7 @@
     </v-autocomplete>
     <div
       v-show="isDropdownEnabled"
-      class="rounded-t-xl mt-3 pa-3"
+      class="rounded-t-xl mt-3 pa-3 elevation-2"
       style="background: var(--v-background-base)"
     >
       <div id="list" class="v-list--dense">
@@ -231,7 +232,7 @@
     </div>
     <v-sheet
       v-if="isDropdownEnabled"
-      class="d-flex align-center justify-center rounded-b-xl"
+      class="d-flex align-center justify-center rounded-b-xl elevation-2"
       style="width: 100%; height: 40px">
       <v-checkbox
         :value="featureFilters.includeArchived"
@@ -405,6 +406,7 @@ export default {
     },
   },
   mounted() {
+    this.$refs.autocomplete.isMenuActive = true;
     this.$store.subscribe((mutation) => {
       if (
         mutation.type === 'features/INIT_FEATURE_FILTER'
@@ -436,6 +438,11 @@ export default {
     this.$watch(
       () => this.$refs.autocomplete.isMenuActive,
       (val) => {
+        if (!val && typeof this.indicatorSelection === 'number') {
+          // list group clicked; keep the dropdown open
+          this.$refs.autocomplete.isMenuActive = true;
+          return;
+        }
         this.isDropdownEnabled = val;
       },
     );
@@ -522,6 +529,13 @@ export default {
         this.selectCountry(input.code);
       }
     },
+    autoCompleteFocus() {
+      this.dropdownSelection = null;
+      this.$nextTick(() => {
+        this.$refs.autocomplete.focus();
+        this.$refs.autocomplete.activateMenu();
+      });
+    },
     autoCompleteClear() {
       this.inputUsed = false;
       this.userInput = null;
@@ -536,6 +550,8 @@ export default {
       this.selectCountry(val);
     },
     indicatorSelection(val) {
+      if (!val) return;
+
       this.inputUsed = true;
       if (typeof val === 'string' && val.includes('-')) {
         // POI
@@ -630,6 +646,10 @@ export default {
   height: 100% !important;
   box-shadow: none !important;
   border-radius: 3px;
+}
+
+::v-deep .v-input {
+  font-size: 15px;
 }
 
 .list-container {
