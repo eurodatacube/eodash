@@ -98,7 +98,7 @@
       clipped
       temporary
       hide-overlay
-      :width="dataPanelFullWidth ? '100%' : '400px'"
+      :width="dataPanelFullWidth ? '100%' : `${dataPanelWidth}px`"
       :style="`margin-top: ${$vuetify.application.top}px;
         height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px;`"
       class="data-panel"
@@ -390,6 +390,9 @@ export default {
     ...mapState('config', [
       'appConfig',
     ]),
+    dataPanelWidth() {
+      return this.$vuetify.breakpoint.lgAndUp ? 600 : 400;
+    },
     indicatorSelected() {
       return this.$store.state.indicators.selectedIndicator
         || this.$store.state.features.featureFilters.indicators.length > 0;
@@ -443,6 +446,7 @@ export default {
     }
   },
   mounted() {
+    document.documentElement.style.setProperty('--data-panel-width', `${this.dataPanelWidth}px`);
     setTimeout(() => {
       // only show when no poi is selected
       if (!this.$route.query.poi) {
@@ -481,6 +485,9 @@ export default {
     },
   },
   watch: {
+    dataPanelWidth(val) {
+      document.documentElement.style.setProperty('--data-panel-width', `${val}px`);
+    },
     indicatorSelected(selected) {
       if (selected) {
         this.drawerRight = true;
@@ -585,6 +592,6 @@ export default {
 .panel-expanded .ol-attribution,
 .panel-expanded .ol-mouse-position,
 .panel-expanded .ol-zoom {
-  transform: translateX(-400px);
+  transform: translateX(calc(-1 * var(--data-panel-width)));
 }
 </style>

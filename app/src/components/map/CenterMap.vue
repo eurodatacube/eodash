@@ -42,7 +42,7 @@
       class="d-flex justify-center fill-height"
       :style="`position: absolute; bottom: 0; left: 0;
       transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      width: ${panelActive ? 'calc(100% - 400px)' : '100%'}`"
+      width: ${panelActive ? 'calc(100% - var(--data-panel-width))' : '100%'}`"
     >
       <LayerSwipe
         v-if="compareLayerTime"
@@ -86,7 +86,10 @@
       :overlayRows="overlayRows"
       :overlayCoordinate="overlayCoordinate"
     />
-    <div :style="`position: absolute; z-index: 1; top: 10px; right: 50px;`">
+    <div
+      class="move-with-panel"
+      :style="`position: absolute; z-index: 1; top: 10px; right: 50px;`"
+    >
       <img v-if="mergedConfigsData.length > 0 && mergedConfigsData[0].legendUrl"
       :src="mergedConfigsData[0].legendUrl" alt=""
       :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' :

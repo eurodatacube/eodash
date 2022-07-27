@@ -44,7 +44,7 @@
                 class="fill-height"
                 :style="`${!(!customAreaIndicator || expanded) ? 'display: none;' : ''}
                 height: ${$vuetify.breakpoint.mdAndUp ?
-                                  (expanded ? ( bannerHeight ? 60 : 70) : 40) : 60}vh;`"
+                                  (expanded ? ( bannerHeight ? 60 : 70) : 30) : 60}vh;`"
               >
                 <full-screen-button />
                 <div
@@ -218,7 +218,7 @@
             v-else-if="!showMap || (showMap && indicatorObject.display.customAreaIndicator)"
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
-                              ? (bannerHeight ? 65 : 70) : 40) : 60}vh;`"
+                              ? (bannerHeight ? 65 : 70) : 30) : 60}vh;`"
             ref="mapPanel"
           >
             <full-screen-button />
@@ -499,7 +499,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
           <v-card
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
-            ? (bannerHeight ? 65 : 70) : 40) : 60}vh;`"
+            ? (bannerHeight ? 65 : 70) : 30) : 60}vh;`"
             ref="mapPanel"
           >
             <v-col
