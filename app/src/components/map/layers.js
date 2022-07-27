@@ -193,37 +193,52 @@ export function createLayerFromConfig(config, _options = {}) {
 
     // combined wms layers, for instance CMEMS Water Quality (RACE)
     // and Sea Ice Concentration (trilateral)
-    // TO DO: time function of the array, not the underlying config
-    // Layer Group instead of urls is safer for future applications
     if (config.combinedLayers?.length) {
-      const params = {
-        LAYERS: config.combinedLayers[0].layers,
-      };
+      config.combinedLayers.forEach((c) => {
+        const params = {
+          LAYERS: c.layers,
+        };
 
-      paramsToPassThrough.forEach((param) => {
-        if (typeof config.combinedLayers[0][param] !== 'undefined') {
-          params[param] = config.combinedLayers[0][param];
+        paramsToPassThrough.forEach((param) => {
+          if (typeof c[param] !== 'undefined') {
+            params[param] = c[param];
+          }
+        });
+        if (config.usedTimes?.time?.length) {
+          params.time = c.dateFormatFunction(options.time);
+          if (config.specialEnvTime) {
+            params.env = `year:${params.time}`;
+          }
         }
-      });
-      if (config.usedTimes?.time?.length) {
-        params.time = config.dateFormatFunction(options.time);
-        if (config.specialEnvTime) {
-          params.env = `year:${params.time}`;
-        }
-      }
-      params.styles = '';
-      params.VERSION = '1.1.1';
-      params.time = '2022-07-24T00:00:00';
-      source = new TileWMS({
-        attributions: config.attribution,
-        maxZoom: config.combinedLayers[0].maxNativeZoom || config.combinedLayers[0].maxZoom,
-        minZoom: config.combinedLayers[0].minNativeZoomm || config.combinedLayers[0].minZoom,
-        crossOrigin: 'anonymous',
-        transition: 0,
-        projection: 'EPSG:3857',
-        params,
-        url: config.combinedLayers[0].baseUrl,
-        tileGrid,
+
+        const singleSource = new TileWMS({
+          attributions: config.attribution,
+          maxZoom: c.maxNativeZoom || c.maxZoom,
+          minZoom: c.minNativeZoomm || c.minZoom,
+          crossOrigin: 'anonymous',
+          transition: 0,
+          projection: 'EPSG:3857',
+          params,
+          url: c.baseUrl,
+          tileGrid,
+        });
+        singleSource.set('updateTime', (updatedTime) => {
+          const timeString = c.dateFormatFunction(updatedTime);
+          const newParams = {
+            time: timeString,
+          };
+          if (config.specialEnvTime) {
+            newParams.env = `year:${updatedTime}`;
+          }
+          singleSource.updateParams(newParams);
+        });
+        layers.push(new TileLayer({
+          name: config.name,
+          // minZoom: config.minZoom || config.minNativeZoomm,
+          updateOpacityOnZoom: options.updateOpacityOnZoom,
+          zIndex: options.zIndex,
+          source: singleSource,
+        }));
       });
     } else {
       const params = {
@@ -251,25 +266,28 @@ export function createLayerFromConfig(config, _options = {}) {
         tileGrid,
       });
     }
-    source.set('updateTime', (updatedTime) => {
-      const newParams = {
-        time: config.dateFormatFunction(updatedTime)
-        || config.combinedLayers[0].dateFormatFunction(updatedTime),
-      };
-      if (config.specialEnvTime) {
-        newParams.env = `year:${updatedTime}`;
-      }
-      source.updateParams(newParams);
-    });
   }
 
-  layers.push(new TileLayer({
-    name: config.name,
-    // minZoom: config.minZoom || config.minNativeZoomm,
-    updateOpacityOnZoom: options.updateOpacityOnZoom,
-    zIndex: options.zIndex,
-    source,
-  }));
+  if (source) {
+    if (config.dateFormatFunction) {
+      source.set('updateTime', (updatedTime) => {
+        const newParams = {
+          time: config.dateFormatFunction(updatedTime),
+        };
+        if (config.specialEnvTime) {
+          newParams.env = `year:${updatedTime}`;
+        }
+        source.updateParams(newParams);
+      });
+    }
+    layers.push(new TileLayer({
+      name: config.name,
+      // minZoom: config.minZoom || config.minNativeZoomm,
+      updateOpacityOnZoom: options.updateOpacityOnZoom,
+      zIndex: options.zIndex,
+      source,
+    }));
+  }
 
   if (config.features) {
     // some layers have a baselayer and GeoJSON features above them
