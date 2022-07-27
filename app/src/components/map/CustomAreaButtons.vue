@@ -26,7 +26,6 @@
     <v-btn
       v-if="deleteButtonVisible"
       color="error"
-      fab
       class="pa-0 rounded-t-0 elevation-0"
       title="Clear selection"
       @click="clearCustomAreaFilter"
@@ -36,7 +35,6 @@
     <v-btn
       v-if="isDrawing"
       color="error"
-      fab
       class="pa-0 rounded-t-0 elevation-0"
       title="Cancel drawing"
       @click="disableInteractions"
