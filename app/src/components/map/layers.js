@@ -94,15 +94,18 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
  * @param {*} [opt_options.indicator=undefined] optional indicator. (e.g. "E13b")
  * @param {*} [opt_options.aoiId=undefined] optional aoiId.
  * if not set, time will be retrieved from the store
- * @returns {*} returns ol layer
+ * @returns {Group} returns ol layer
  */
 // eslint-disable-next-line import/prefer-default-export
 export function createLayerFromConfig(config, _options = {}) {
   const options = { ..._options };
   options.zIndex = options.zIndex || 0;
   options.updateOpacityOnZoom = options.updateOpacityOnZoom || false;
+
+  // layers created by this config. These Layers will get combined into a single ol.layer.Group
+  const layers = [];
   if (config.protocol === 'countries') {
-    return new VectorLayer({
+    layers.push(new VectorLayer({
       name: 'Country vectors',
       source: countriesSource,
       updateOpacityOnZoom: options.updateOpacityOnZoom,
@@ -116,12 +119,11 @@ export function createLayerFromConfig(config, _options = {}) {
           color: '#a2a2a2',
         }),
       }),
-    });
+    }));
   }
   if (config.protocol === 'GeoJSON') {
-    return new VectorLayer({
+    layers.push(new VectorLayer({
       name: config.name,
-      visible: config.visible,
       zIndex: options.zIndex,
       updateOpacityOnZoom: false,
       source: new VectorSource({
@@ -136,7 +138,7 @@ export function createLayerFromConfig(config, _options = {}) {
           color: config.style.color || 'rgba(0, 0, 0, 0.5)',
         }),
       }),
-    });
+    }));
   }
   let source;
   if (config.protocol === 'xyz') {
@@ -177,7 +179,10 @@ export function createLayerFromConfig(config, _options = {}) {
     // to do: layers is  not defined for harvesting evolution over time (spain)
     const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
       'format', 'width', 'height', 'transparent', 'srs', 'env', 'searchid'];
-    const tileGrid = config.tileSize === 512 ? new TileGrid({
+
+    const tileSize = config.combinedLayers?.length
+      ? config.combinedLayers[0].tileSize : config.tileSize;
+    const tileGrid = tileSize === 512 ? new TileGrid({
       extent: [-20037508.342789244, -20037508.342789244,
         20037508.342789244, 20037508.342789244],
       resolutions: createXYZ({
@@ -186,34 +191,70 @@ export function createLayerFromConfig(config, _options = {}) {
       tileSize: 512,
     }) : undefined;
 
-    const params = {
-      LAYERS: config.layers,
-    };
-    paramsToPassThrough.forEach((param) => {
-      if (typeof config[param] !== 'undefined') {
-        params[param] = config[param];
-      }
-    });
-    if (config.usedTimes?.time?.length) {
-      params.time = config.dateFormatFunction(options.time);
-      if (config.specialEnvTime) {
-        params.env = `year:${params.time}`;
-      }
-    }
+    // combined wms layers, for instance CMEMS Water Quality (RACE)
+    // and Sea Ice Concentration (trilateral)
+    // TO DO: time function of the array, not the underlying config
+    // Layer Group instead of urls is safer for future applications
+    if (config.combinedLayers?.length) {
+      const params = {
+        LAYERS: config.combinedLayers[0].layers,
+      };
 
-    source = new TileWMS({
-      attributions: config.attribution,
-      maxZoom: config.maxNativeZoom || config.maxZoom,
-      minZoom: config.minNativeZoomm || config.minZoom,
-      crossOrigin: 'anonymous',
-      transition: 0,
-      params,
-      url: config.url || config.baseUrl,
-      tileGrid,
-    });
+      paramsToPassThrough.forEach((param) => {
+        if (typeof config.combinedLayers[0][param] !== 'undefined') {
+          params[param] = config.combinedLayers[0][param];
+        }
+      });
+      if (config.usedTimes?.time?.length) {
+        params.time = config.dateFormatFunction(options.time);
+        if (config.specialEnvTime) {
+          params.env = `year:${params.time}`;
+        }
+      }
+      params.styles = '';
+      params.VERSION = '1.1.1';
+      params.time = '2022-07-24T00:00:00';
+      source = new TileWMS({
+        attributions: config.attribution,
+        maxZoom: config.combinedLayers[0].maxNativeZoom || config.combinedLayers[0].maxZoom,
+        minZoom: config.combinedLayers[0].minNativeZoomm || config.combinedLayers[0].minZoom,
+        crossOrigin: 'anonymous',
+        transition: 0,
+        projection: 'EPSG:3857',
+        params,
+        url: config.combinedLayers[0].baseUrl,
+        tileGrid,
+      });
+    } else {
+      const params = {
+        LAYERS: config.layers,
+      };
+      paramsToPassThrough.forEach((param) => {
+        if (typeof config[param] !== 'undefined') {
+          params[param] = config[param];
+        }
+      });
+      if (config.usedTimes?.time?.length) {
+        params.time = config.dateFormatFunction(options.time);
+        if (config.specialEnvTime) {
+          params.env = `year:${params.time}`;
+        }
+      }
+      source = new TileWMS({
+        attributions: config.attribution,
+        maxZoom: config.maxNativeZoom || config.maxZoom,
+        minZoom: config.minNativeZoomm || config.minZoom,
+        crossOrigin: 'anonymous',
+        transition: 0,
+        params,
+        url: config.url || config.baseUrl,
+        tileGrid,
+      });
+    }
     source.set('updateTime', (updatedTime) => {
       const newParams = {
-        time: config.dateFormatFunction(updatedTime),
+        time: config.dateFormatFunction(updatedTime)
+        || config.combinedLayers[0].dateFormatFunction(updatedTime),
       };
       if (config.specialEnvTime) {
         newParams.env = `year:${updatedTime}`;
@@ -221,6 +262,14 @@ export function createLayerFromConfig(config, _options = {}) {
       source.updateParams(newParams);
     });
   }
+
+  layers.push(new TileLayer({
+    name: config.name,
+    // minZoom: config.minZoom || config.minNativeZoomm,
+    updateOpacityOnZoom: options.updateOpacityOnZoom,
+    zIndex: options.zIndex,
+    source,
+  }));
 
   if (config.features) {
     // some layers have a baselayer and GeoJSON features above them
@@ -256,30 +305,14 @@ export function createLayerFromConfig(config, _options = {}) {
       }),
     });
 
-    return new Group({
-      name: config.name,
-      visible: config.visible,
-      updateOpacityOnZoom: options.updateOpacityOnZoom,
-      zIndex: options.zIndex,
-      layers: [
-        new TileLayer({
-          name: config.name,
-          visible: config.visible,
-          updateOpacityOnZoom: options.updateOpacityOnZoom,
-          zIndex: options.zIndex,
-          source,
-        }),
-        featuresLayer,
-      ],
-    });
+    layers.push(featuresLayer);
   }
 
-  return new TileLayer({
+  return new Group({
     name: config.name,
     visible: config.visible,
-    minZoom: config.minZoom || config.minNativeZoomm,
     updateOpacityOnZoom: options.updateOpacityOnZoom,
     zIndex: options.zIndex,
-    source,
+    layers,
   });
 }
