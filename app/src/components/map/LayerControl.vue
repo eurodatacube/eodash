@@ -1,26 +1,37 @@
 <template>
-  <v-card class="layerControl">
-    <v-icon v-if="!show" @click="show = true" color="primary" class="layerIcon ma-1">
+  <v-btn
+    v-if="!show"
+    :color="$vuetify.theme.currentTheme.background"
+    small
+    class="layerControl layerControlBtn move-with-panel"
+    style="min-width: 0;"
+    title="Map layers"
+    @click="show = true"
+  >
+    <v-icon>
       mdi-layers
     </v-icon>
-    <div v-else class="pa-2">
-        <v-radio-group v-model="selectedBaseLayer" class="mt-0" hide-details mandatory>
-          <v-radio v-for="(c, index) in baseLayerConfigs"
-            :key="index" :label="c.name" :value="index">
-            <template v-slot:label>
-            <span class="label">{{c.name}}</span>
-            </template>
-          </v-radio>
-        </v-radio-group>
-        <v-divider class="my-1" />
-        <v-checkbox v-for="n in overlayConfigs" :key="n.name" :label="n.name"
-          :input-value="n.visible" dense class="my-0 py-0" hide-details
-          @change="setVisible($event, n)">
-            <template v-slot:label>
-              <span class="label">{{n.name}}</span>
-            </template>
-        </v-checkbox>
-    </div>
+  </v-btn>
+  <v-card
+    v-else
+    class="layerControl move-with-panel pa-2"
+  >
+    <v-radio-group v-model="selectedBaseLayer" class="mt-0" hide-details mandatory>
+      <v-radio v-for="(c, index) in baseLayerConfigs"
+        :key="index" :label="c.name" :value="index">
+        <template v-slot:label>
+        <span class="label">{{c.name}}</span>
+        </template>
+      </v-radio>
+    </v-radio-group>
+    <v-divider class="my-1" />
+    <v-checkbox v-for="n in overlayConfigs" :key="n.name" :label="n.name"
+      :input-value="n.visible" dense class="my-0 py-0" hide-details
+      @change="setVisible($event, n)">
+        <template v-slot:label>
+          <span class="label">{{n.name}}</span>
+        </template>
+    </v-checkbox>
   </v-card>
 </template>
 
@@ -126,9 +137,13 @@ export default {
 <style lang="scss" scoped>
   .layerControl {
     position: absolute;
-    top: 105px;
+    top: 138px;
     right: 10px;
     z-index: 2;
+  }
+  .layerControlBtn {
+    width: 36px;
+    height: 36px !important;
   }
 
   .label {

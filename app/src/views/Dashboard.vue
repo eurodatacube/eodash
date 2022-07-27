@@ -1,5 +1,8 @@
 <template>
-  <div class="dashboard fill-height">
+  <div
+    class="dashboard fill-height"
+    :class="{ 'panel-expanded': drawerRight }"
+  >
     <global-header
       :isFullscreen="isFullScreen"
       :displayShowText="displayShowText"
@@ -95,7 +98,7 @@
       clipped
       temporary
       hide-overlay
-      :width="dataPanelFullWidth ? '100%' : '40%'"
+      :width="dataPanelFullWidth ? '100%' : '400px'"
       :style="`margin-top: ${$vuetify.application.top}px;
         height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px;`"
       class="data-panel"
@@ -144,18 +147,18 @@
         :newsBanner="$refs.newsBanner"
         :expanded="dataPanelFullWidth" class="px-5" />
     </v-navigation-drawer>
-    <div
-      v-if="$vuetify.breakpoint.mdAndUp && !!this.$route.query.poi && indicatorSelected"
-      class="reopen-right-drawer"
+    <v-btn
+      v-if="$vuetify.breakpoint.mdAndUp && indicatorSelected"
+      color="primary"
+      icon
+      small
+      :title="`${drawerRight ? 'Collapse' : 'Expand'} side panel`"
+      class="reopen-right-drawer move-with-panel rounded-lg rounded-r-0 py-7 elevation-2"
+      :style="`background: ${$vuetify.theme.currentTheme.background}`"
+      @click="drawerRight = !drawerRight"
     >
-        <v-btn
-          icon
-          style="background: #d8d8d8"
-          @click="drawerRight = !drawerRight"
-        >
-          <v-icon :class="{open: drawerRight}">mdi-arrow-left</v-icon>
-        </v-btn>
-      </div>
+      <v-icon :class="{open: drawerRight}">mdi-menu-left</v-icon>
+    </v-btn>
     <v-dialog
       v-if="$vuetify.breakpoint.mdAndUp"
       v-model="dialog"
@@ -306,8 +309,7 @@
 
     <v-content
       :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
-        + $vuetify.application.footer}px); overflow:hidden; ${$vuetify.breakpoint.mdAndUp
-        && (this.drawerRight ? 'width: 60%;' : 'width: 100%;')}`"
+        + $vuetify.application.footer}px); overflow:hidden; width: 100%`"
     >
       <v-container
         class="fill-height pa-0"
@@ -318,7 +320,7 @@
             cols="12"
             class="py-0 fill-height"
           >
-            <center-panel />
+            <center-panel :panelActive="drawerRight" />
             <div
               class="d-flex justify-start"
               style="position: absolute; top: 0; width: 100%; pointer-events: none"
@@ -539,17 +541,16 @@ export default {
 
 .reopen-right-drawer {
   position: absolute;
-  top: 77px;
-  right: 60px;
-  z-index: 9011;
+  top: 50%;
+  right: 0;
+  z-index: 1;
 
   .v-icon {
     transition: transform 0.3s linear;
   }
-}
-
-.open {
-  transform: rotate(180deg);
+  .open {
+    transform: rotate(180deg);
+  }
 }
 
 .retractable {
@@ -567,5 +568,23 @@ export default {
   &.hidden {
     transform: translateY(100vh);
   }
+}
+</style>
+
+<style>
+.move-with-panel,
+.ol-full-screen,
+.ol-attribution,
+.ol-mouse-position,
+.ol-zoom {
+  transform: translateX(0);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.panel-expanded .move-with-panel,
+.panel-expanded .ol-full-screen,
+.panel-expanded .ol-attribution,
+.panel-expanded .ol-mouse-position,
+.panel-expanded .ol-zoom {
+  transform: translateX(-400px);
 }
 </style>

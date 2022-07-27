@@ -38,42 +38,46 @@
       :overlayConfigs="overlayConfigs"
     />
     <!-- compare layer has same zIndex as specialLayer -->
-    <LayerSwipe
-      v-if="compareLayerTime"
-      :mapId="mapId"
-      :time="compareLayerTime.value"
-      :mergedConfigsData="mergedConfigsData[0]"
-      :specialLayerOptionProps="specialLayerOptions"
-      :enable="enableCompare"
-      @updateSwipePosition="updateSwipePosition"
-      :key="dataLayerName + '_layerSwipe'"
-    />
-    <indicator-time-selection
-      ref="timeSelection"
-      v-if="displayTimeSelection"
-      :autofocus="!disableAutoFocus"
-      :available-values="availableTimeEntries"
-      :indicator="mergedConfigsData[0]"
-      :compare-active.sync="enableCompare"
-      :compare-time.sync="compareLayerTime"
-      :original-time.sync="dataLayerTime"
-      :enable-compare="!mergedConfigsData[0].disableCompare"
-      :large-time-duration="indicator.largeTimeDuration"
-      :key="mergedConfigsData[0].name + '_timeSelection'"
-      @focusSelect="focusSelect"
-    />
-    <!-- TODO: pass these parameters to the side panel instead -->
-    <!-- <v-card class="dashboard-button">
-      <add-to-dashboard-button
-        class="primary--text"
-        v-if="mapId === 'centerMap' && indicator"
-        :indicatorObject="indicator"
-        :zoom="currentZoom"
-        :center="currentCenter"
-        :datalayertime="dataLayerTime ? dataLayerTime.name :  null"
-        :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
+    <div
+      class="d-flex justify-center fill-height"
+      :style="`position: absolute; bottom: 0; left: 0;
+      transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      width: ${panelActive ? 'calc(100% - 400px)' : '100%'}`"
+    >
+      <LayerSwipe
+        v-if="compareLayerTime"
+        :mapId="mapId"
+        :time="compareLayerTime.value"
+        :mergedConfigsData="mergedConfigsData[0]"
+        :specialLayerOptionProps="specialLayerOptions"
+        :enable="enableCompare"
+        @updateSwipePosition="updateSwipePosition"
+        :key="dataLayerName + '_layerSwipe'"
       />
-    </v-card> -->
+      <indicator-time-selection
+        ref="timeSelection"
+        v-if="displayTimeSelection"
+        :autofocus="!disableAutoFocus"
+        :available-values="availableTimeEntries"
+        :indicator="mergedConfigsData[0]"
+        :compare-active.sync="enableCompare"
+        :compare-time.sync="compareLayerTime"
+        :original-time.sync="dataLayerTime"
+        :enable-compare="!mergedConfigsData[0].disableCompare"
+        :large-time-duration="indicator.largeTimeDuration"
+        :key="mergedConfigsData[0].name + '_timeSelection'"
+        @focusSelect="focusSelect"
+      />
+    </div>
+    <AddToDashboardButton
+      v-if="mapId === 'centerMap' && indicator"
+      :indicatorObject="indicator"
+      :zoom="currentZoom"
+      :center="currentCenter"
+      :datalayertime="dataLayerTime ? dataLayerTime.name :  null"
+      :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
+      mapControl
+    />
     <!-- an overlay for showing information when hovering over clusters -->
     <MapOverlay
       :mapId="mapId"
@@ -121,6 +125,7 @@ import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 import { updateTimeLayer } from '@/components/map/timeLayerUtils';
+import { calculatePadding } from '@/utils';
 import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
@@ -181,6 +186,7 @@ export default {
       type: Number,
       default: undefined,
     },
+    panelActive: Boolean,
   },
   data() {
     return {
@@ -426,7 +432,7 @@ export default {
           const { map } = getMapInstance(this.mapId);
           if (map.getTargetElement()) {
             map.getView().fit(value, {
-              padding: [30, 30, 30, 30],
+              padding: calculatePadding(),
             });
           }
         }
@@ -623,7 +629,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
   .map-legend {
     max-width: 15vw;
     transition: max-width 0.5s ease-in-out;
@@ -633,13 +638,5 @@ export default {
   .map-legend-expanded {
     width: initial;
     max-width: 80%;
-  }
-
-  .dashboard-button {
-    position: absolute !important;
-    //height: 20px !important;
-    top: 10px;
-    right: 45px;
-    z-index: 20 !important;
   }
 </style>

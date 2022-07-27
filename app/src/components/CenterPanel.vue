@@ -1,5 +1,11 @@
 <template>
-  <CenterMap ref="map" v-if="mapDataReady" class="fill-height" :disableAutoFocus="false"/>
+  <CenterMap
+    v-if="mapDataReady"
+    ref="map"
+    class="fill-height"
+    :disableAutoFocus="false"
+    :panelActive="panelActive"
+  />
 </template>
 
 <script>
@@ -13,6 +19,9 @@ import CenterMap from '@/components/map/CenterMap.vue';
 export default {
   components: {
     CenterMap,
+  },
+  props: {
+    panelActive: Boolean,
   },
   computed: {
     ...mapGetters('features', [
