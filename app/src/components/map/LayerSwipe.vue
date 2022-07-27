@@ -78,21 +78,14 @@ export default {
           const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
           const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
           if (swipeLayer) {
-            if (swipeLayer instanceof LayerGroup) {
-              swipeLayer.getLayers().forEach((l) => {
-                l.on('prerender', this.onPrerender);
-                l.on('postrender', this.onPostrender);
-              });
-              originalLayer.getLayers().forEach((l) => {
-                l.on('prerender', this.onPrerender);
-                l.on('postrender', this.onPostrender);
-              });
-            } else {
-              swipeLayer.on('prerender', this.onPrerender);
-              swipeLayer.on('postrender', this.onPostrender);
-              originalLayer.on('prerender', this.onPrerender);
-              originalLayer.on('postrender', this.onPostrender);
-            }
+            swipeLayer.getLayers().forEach((l) => {
+              l.on('prerender', this.onPrerender);
+              l.on('postrender', this.onPostrender);
+            });
+            originalLayer.getLayers().forEach((l) => {
+              l.on('prerender', this.onPrerender);
+              l.on('postrender', this.onPostrender);
+            });
           }
         });
       } else {
@@ -100,15 +93,10 @@ export default {
           this.swipeActive = false;
           const { map } = getMapInstance(this.mapId);
           const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
-          if (originalLayer instanceof LayerGroup) {
-            originalLayer.getLayers().forEach((l) => {
-              l.un('prerender', this.onPrerender);
-              l.un('postrender', this.onPostrender);
-            });
-          } else {
-            originalLayer.un('prerender', this.onPrerender);
-            originalLayer.un('postrender', this.onPostrender);
-          }
+          originalLayer.getLayers().forEach((l) => {
+            l.un('prerender', this.onPrerender);
+            l.un('postrender', this.onPostrender);
+          });
         };
         const reset = 0;
         this.swipePixelX = null;

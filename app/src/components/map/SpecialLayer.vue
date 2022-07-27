@@ -13,7 +13,6 @@ import getMapInstance from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import { createLayerFromConfig } from '@/components/map/layers';
 import GeoJSON from 'ol/format/GeoJSON';
-import LayerGroup from 'ol/layer/Group';
 import VectorLayer from 'ol/layer/Vector';
 import { getCenter } from 'ol/extent';
 
@@ -58,8 +57,6 @@ export default {
       overlayCoordinate: null,
     };
   },
-  watch: {},
-  computed: {},
   mounted() {
     const { map } = getMapInstance(this.mapId);
     const options = { ...this.options };
@@ -73,12 +70,7 @@ export default {
         padding: [30, 30, 30, 30],
       });
     }
-    let featureLayer;
-    if (layer instanceof LayerGroup) {
-      featureLayer = layer.getLayers().getArray().find((l) => l instanceof VectorLayer);
-    } else {
-      featureLayer = layer;
-    }
+    const featureLayer = layer.getLayers().getArray().find((l) => l instanceof VectorLayer);
     this.pointerMoveHandler = (e) => {
       const features = map.getFeaturesAtPixel(e.pixel, {
         layerFilter: ((candidate) => candidate === featureLayer),
