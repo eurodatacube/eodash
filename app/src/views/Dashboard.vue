@@ -550,7 +550,7 @@ export default {
   position: absolute;
   top: 50%;
   right: 0;
-  z-index: 1;
+  z-index: 5;
 
   .v-icon {
     transition: transform 0.3s linear;

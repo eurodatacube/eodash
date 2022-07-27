@@ -1,0 +1,71 @@
+<template>
+  <v-btn
+    class="controlButton"
+    @click="setFullScreen"
+  >
+    <v-icon left>{{fullscreen ? 'mdi-arrow-collapse-all' : 'mdi-arrow-expand-all'}}</v-icon>
+  </v-btn>
+</template>
+
+<script>
+import getMapInstance from '@/components/map/map';
+
+export default {
+  components: {},
+  props: {
+    mapId: String,
+  },
+  data() {
+    return {
+      fullscreen: false,
+    };
+  },
+  computed: {},
+  mounted() {},
+  methods: {
+    setFullScreen() {
+      const elem = getMapInstance(this.mapId).map.getTargetElement();
+      if (elem) {
+        if (this.fullscreen) {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+          }
+          this.fullscreen = false;
+        } else {
+          if (elem.requestFullscreen) {
+            console.log(1);
+            elem.requestFullscreen();
+          } else if (elem.msRequestFullscreen) {
+            console.log(2);
+            elem.msRequestFullscreen();
+          } else if (elem.mozRequestFullScreen) {
+            console.log(3);
+            elem.mozRequestFullScreen();
+          } else if (elem.webkitRequestFullscreen) {
+            console.log(4);
+            elem.webkitRequestFullscreen();
+          }
+          this.fullscreen = true;
+        }
+      }
+    },
+  },
+  beforeDestroy() {},
+};
+</script>
+
+<style lang="scss" scoped>
+  .controlButton {
+    width: 36px;
+    min-width: 0px !important;
+    height: 36px !important;
+    z-index: 2;
+    pointer-events: initial;
+  }
+</style>

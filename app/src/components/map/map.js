@@ -8,6 +8,7 @@ import { toStringXY } from 'ol/coordinate';
 
 import 'ol/ol.css';
 import './olControls.css';
+import { Collection } from 'ol';
 import LoadingIndicatorControl from './loadingIndicatorControl';
 
 class VueMap {
@@ -38,7 +39,7 @@ class VueMap {
       }),
     ];
     this.map = new Map({
-      controls: this.controls,
+      controls: new Collection([]),
       view: new View({
         zoom: 0,
         center: [0, 0],

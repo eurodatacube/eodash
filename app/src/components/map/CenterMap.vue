@@ -19,24 +19,6 @@
       :key="dataLayerName  + '_specialLayer'"
       :swipePixelX="swipePixelX"
     />
-    <!-- will add a drawing layer to the map (z-index 3) -->
-    <CustomAreaButtons
-      v-if="loaded"
-      :mapId="mapId"
-      :mergedConfigsData="mergedConfigsData[0]"
-      :hideCustomAreaControls="hideCustomAreaControls"
-      @fetchCustomAreaIndicator="onFetchCustomAreaIndicator"
-      :key="dataLayerName  + '_customArea'"
-      :drawnArea.sync="drawnArea"
-      :loading.sync="customAreaLoading"
-    />
-    <!-- overlay-layers have zIndex 2 and 4, base layers have 0 -->
-    <LayerControl
-      v-if="loaded"
-      :mapId="mapId"
-      :baseLayerConfigs="baseLayerConfigs"
-      :overlayConfigs="overlayConfigs"
-    />
     <!-- compare layer has same zIndex as specialLayer -->
     <div
       class="d-flex justify-center fill-height"
@@ -69,15 +51,6 @@
         @focusSelect="focusSelect"
       />
     </div>
-    <AddToDashboardButton
-      v-if="mapId === 'centerMap' && indicator"
-      :indicatorObject="indicator"
-      :zoom="currentZoom"
-      :center="currentCenter"
-      :datalayertime="dataLayerTime ? dataLayerTime.name :  null"
-      :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
-      mapControl
-    />
     <!-- an overlay for showing information when hovering over clusters -->
     <MapOverlay
       :mapId="mapId"
@@ -109,6 +82,42 @@
         </h3>
       </div>-->
     </div>
+
+    <!-- Container for all controls. Will move when map is resizing -->
+    <div ref="controlsContainer" class="controlsContainer move-with-panel">
+      <FullScreenControl :mapId="mapId" class="pointerEvents"/>
+      <ZoomControl :mapId="mapId" class="pointerEvents" />
+      <!-- overlay-layers have zIndex 2 and 4, base layers have 0 -->
+      <LayerControl
+        v-if="loaded"
+        class="pointerEvents"
+        :mapId="mapId"
+        :baseLayerConfigs="baseLayerConfigs"
+        :overlayConfigs="overlayConfigs"
+      />
+      <!-- will add a drawing layer to the map (z-index 3) -->
+      <CustomAreaButtons
+        v-if="loaded"
+        class="pointerEvents"
+        :mapId="mapId"
+        :mergedConfigsData="mergedConfigsData[0]"
+        :hideCustomAreaControls="hideCustomAreaControls"
+        @fetchCustomAreaIndicator="onFetchCustomAreaIndicator"
+        :key="dataLayerName  + '_customArea'"
+        :drawnArea.sync="drawnArea"
+        :loading.sync="customAreaLoading"
+      />
+      <AddToDashboardButton
+        v-if="mapId === 'centerMap' && indicator"
+        class="pointerEvents"
+        :indicatorObject="indicator"
+        :zoom="currentZoom"
+        :center="currentCenter"
+        :datalayertime="dataLayerTime ? dataLayerTime.name :  null"
+        :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
+        mapControl
+      />
+    </div>
   </div>
 </template>
 
@@ -118,6 +127,8 @@ import {
   mapState,
 } from 'vuex';
 import LayerControl from '@/components/map/LayerControl.vue';
+import FullScreenControl from '@/components/map/FullScreenControl.vue';
+import ZoomControl from '@/components/map/ZoomControl.vue';
 import getCluster from '@/components/map/Cluster';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import InverseSubaoiLayer from '@/components/map/InverseSubaoiLayer.vue';
@@ -144,6 +155,8 @@ const geoJsonFormat = new GeoJSON({
 export default {
   components: {
     LayerControl,
+    FullScreenControl,
+    ZoomControl,
     SpecialLayer,
     IndicatorTimeSelection,
     LayerSwipe,
@@ -642,5 +655,19 @@ export default {
   .map-legend-expanded {
     width: initial;
     max-width: 80%;
+  }
+
+  .controlsContainer {
+    position: absolute;
+    right: 0px;
+    width: 60px;
+    height: 100%;
+    background-color: chartreuse; // to be removed
+    pointer-events: none;
+    z-index: 4;
+  }
+
+  .pointerEvents {
+    pointer-events: initial;
   }
 </style>

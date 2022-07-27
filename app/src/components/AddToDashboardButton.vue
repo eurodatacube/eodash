@@ -11,7 +11,6 @@
         :title="mapControl ? 'Add map to custom dashboard' : undefined"
         :class="{
           'dashboard-button': mapControl,
-          'move-with-panel': mapControl,
           'px-1' : mapControl,
         }"
         :style="`min-width: ${mapControl ? 0 : ''}`"
@@ -149,11 +148,9 @@ export default {
 
 <style scoped>
   .dashboard-button {
-    position: absolute;
-    bottom: 42px;
-    right: 10px;
     width: 36px;
     height: 36px !important;
     z-index: 2;
+    pointer-events: initial;
   }
 </style>

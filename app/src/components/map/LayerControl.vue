@@ -3,7 +3,7 @@
     v-if="!show"
     :color="$vuetify.theme.currentTheme.background"
     small
-    class="layerControl layerControlBtn move-with-panel"
+    class="layerControl layerControlBtn"
     style="min-width: 0;"
     title="Map layers"
     @click="show = true"
@@ -14,7 +14,7 @@
   </v-btn>
   <v-card
     v-else
-    class="layerControl move-with-panel pa-2"
+    class="layerControl pa-2"
   >
     <v-radio-group v-model="selectedBaseLayer" class="mt-0" hide-details mandatory>
       <v-radio v-for="(c, index) in baseLayerConfigs"
@@ -136,9 +136,6 @@ export default {
 
 <style lang="scss" scoped>
   .layerControl {
-    position: absolute;
-    top: 138px;
-    right: 10px;
     z-index: 2;
   }
   .layerControlBtn {

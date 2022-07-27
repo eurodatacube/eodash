@@ -1,6 +1,6 @@
 <template>
   <div
-    class="customDrawTools move-with-panel elevation-2
+    class="customDrawTools elevation-2
     d-flex flex-column">
     <v-btn
       v-if="drawToolsVisible"
@@ -266,18 +266,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.customDrawTools {
-  position: absolute;
-  top: 184px;
-  right: 10px;
-  z-index: 2;
-}
-.mdi-spin:before {
-  animation-duration: 0.5s;
-}
-button {
-  min-width: 0 !important;
-  width: 36px !important;
-  height: 36px !important;
-}
+  .customDrawTools {
+    z-index: 2;
+  }
+  .mdi-spin:before {
+    animation-duration: 0.5s;
+  }
+  button {
+    min-width: 0 !important;
+    width: 36px !important;
+    height: 36px !important;
+  }
 </style>
