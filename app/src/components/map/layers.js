@@ -94,15 +94,18 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
  * @param {*} [opt_options.indicator=undefined] optional indicator. (e.g. "E13b")
  * @param {*} [opt_options.aoiId=undefined] optional aoiId.
  * if not set, time will be retrieved from the store
- * @returns {*} returns ol layer
+ * @returns {Group} returns ol layer
  */
 // eslint-disable-next-line import/prefer-default-export
 export function createLayerFromConfig(config, _options = {}) {
   const options = { ..._options };
   options.zIndex = options.zIndex || 0;
   options.updateOpacityOnZoom = options.updateOpacityOnZoom || false;
+
+  // layers created by this config. These Layers will get combined into a single ol.layer.Group
+  const layers = [];
   if (config.protocol === 'countries') {
-    return new VectorLayer({
+    layers.push(new VectorLayer({
       name: 'Country vectors',
       source: countriesSource,
       updateOpacityOnZoom: options.updateOpacityOnZoom,
@@ -116,12 +119,11 @@ export function createLayerFromConfig(config, _options = {}) {
           color: '#a2a2a2',
         }),
       }),
-    });
+    }));
   }
   if (config.protocol === 'GeoJSON') {
-    return new VectorLayer({
+    layers.push(new VectorLayer({
       name: config.name,
-      visible: config.visible,
       zIndex: options.zIndex,
       updateOpacityOnZoom: false,
       source: new VectorSource({
@@ -136,7 +138,7 @@ export function createLayerFromConfig(config, _options = {}) {
           color: config.style.color || 'rgba(0, 0, 0, 0.5)',
         }),
       }),
-    });
+    }));
   }
   let source;
   if (config.protocol === 'xyz') {
@@ -177,7 +179,10 @@ export function createLayerFromConfig(config, _options = {}) {
     // to do: layers is  not defined for harvesting evolution over time (spain)
     const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
       'format', 'width', 'height', 'transparent', 'srs', 'env', 'searchid'];
-    const tileGrid = config.tileSize === 512 ? new TileGrid({
+
+    const tileSize = config.combinedLayers?.length
+      ? config.combinedLayers[0].tileSize : config.tileSize;
+    const tileGrid = tileSize === 512 ? new TileGrid({
       extent: [-20037508.342789244, -20037508.342789244,
         20037508.342789244, 20037508.342789244],
       resolutions: createXYZ({
@@ -186,40 +191,102 @@ export function createLayerFromConfig(config, _options = {}) {
       tileSize: 512,
     }) : undefined;
 
-    const params = {
-      LAYERS: config.layers,
-    };
-    paramsToPassThrough.forEach((param) => {
-      if (typeof config[param] !== 'undefined') {
-        params[param] = config[param];
-      }
-    });
-    if (config.usedTimes?.time?.length) {
-      params.time = config.dateFormatFunction(options.time);
-      if (config.specialEnvTime) {
-        params.env = `year:${params.time}`;
-      }
-    }
+    // combined wms layers, for instance CMEMS Water Quality (RACE)
+    // and Sea Ice Concentration (trilateral)
+    if (config.combinedLayers?.length) {
+      config.combinedLayers.forEach((c) => {
+        const params = {
+          LAYERS: c.layers,
+        };
 
-    source = new TileWMS({
-      attributions: config.attribution,
-      maxZoom: config.maxNativeZoom || config.maxZoom,
-      minZoom: config.minNativeZoomm || config.minZoom,
-      crossOrigin: 'anonymous',
-      transition: 0,
-      params,
-      url: config.url || config.baseUrl,
-      tileGrid,
-    });
-    source.set('updateTime', (updatedTime) => {
-      const newParams = {
-        time: config.dateFormatFunction(updatedTime),
+        paramsToPassThrough.forEach((param) => {
+          if (typeof c[param] !== 'undefined') {
+            params[param] = c[param];
+          }
+        });
+        if (config.usedTimes?.time?.length) {
+          params.time = c.dateFormatFunction(options.time);
+          if (config.specialEnvTime) {
+            params.env = `year:${params.time}`;
+          }
+        }
+
+        const singleSource = new TileWMS({
+          attributions: config.attribution,
+          maxZoom: c.maxNativeZoom || c.maxZoom,
+          minZoom: c.minNativeZoomm || c.minZoom,
+          crossOrigin: 'anonymous',
+          transition: 0,
+          projection: 'EPSG:3857',
+          params,
+          url: c.baseUrl,
+          tileGrid,
+        });
+        singleSource.set('updateTime', (updatedTime) => {
+          const timeString = c.dateFormatFunction(updatedTime);
+          const newParams = {
+            time: timeString,
+          };
+          if (config.specialEnvTime) {
+            newParams.env = `year:${updatedTime}`;
+          }
+          singleSource.updateParams(newParams);
+        });
+        layers.push(new TileLayer({
+          name: config.name,
+          // minZoom: config.minZoom || config.minNativeZoomm,
+          updateOpacityOnZoom: options.updateOpacityOnZoom,
+          zIndex: options.zIndex,
+          source: singleSource,
+        }));
+      });
+    } else {
+      const params = {
+        LAYERS: config.layers,
       };
-      if (config.specialEnvTime) {
-        newParams.env = `year:${updatedTime}`;
+      paramsToPassThrough.forEach((param) => {
+        if (typeof config[param] !== 'undefined') {
+          params[param] = config[param];
+        }
+      });
+      if (config.usedTimes?.time?.length) {
+        params.time = config.dateFormatFunction(options.time);
+        if (config.specialEnvTime) {
+          params.env = `year:${params.time}`;
+        }
       }
-      source.updateParams(newParams);
-    });
+      source = new TileWMS({
+        attributions: config.attribution,
+        maxZoom: config.maxNativeZoom || config.maxZoom,
+        minZoom: config.minNativeZoomm || config.minZoom,
+        crossOrigin: 'anonymous',
+        transition: 0,
+        params,
+        url: config.url || config.baseUrl,
+        tileGrid,
+      });
+    }
+  }
+
+  if (source) {
+    if (config.dateFormatFunction) {
+      source.set('updateTime', (updatedTime) => {
+        const newParams = {
+          time: config.dateFormatFunction(updatedTime),
+        };
+        if (config.specialEnvTime) {
+          newParams.env = `year:${updatedTime}`;
+        }
+        source.updateParams(newParams);
+      });
+    }
+    layers.push(new TileLayer({
+      name: config.name,
+      // minZoom: config.minZoom || config.minNativeZoomm,
+      updateOpacityOnZoom: options.updateOpacityOnZoom,
+      zIndex: options.zIndex,
+      source,
+    }));
   }
 
   if (config.features) {
@@ -256,30 +323,14 @@ export function createLayerFromConfig(config, _options = {}) {
       }),
     });
 
-    return new Group({
-      name: config.name,
-      visible: config.visible,
-      updateOpacityOnZoom: options.updateOpacityOnZoom,
-      zIndex: options.zIndex,
-      layers: [
-        new TileLayer({
-          name: config.name,
-          visible: config.visible,
-          updateOpacityOnZoom: options.updateOpacityOnZoom,
-          zIndex: options.zIndex,
-          source,
-        }),
-        featuresLayer,
-      ],
-    });
+    layers.push(featuresLayer);
   }
 
-  return new TileLayer({
+  return new Group({
     name: config.name,
     visible: config.visible,
-    minZoom: config.minZoom || config.minNativeZoomm,
     updateOpacityOnZoom: options.updateOpacityOnZoom,
     zIndex: options.zIndex,
-    source,
+    layers,
   });
 }
