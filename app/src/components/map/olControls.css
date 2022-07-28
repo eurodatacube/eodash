@@ -38,6 +38,7 @@
 
 .ol-attribution {
   background-color: var(--v-background-base) !important;
+  position: relative;
 }
 .ol-attribution > ul {
   font-size: 10px;
@@ -80,7 +81,8 @@
 .ol-mouse-position {
   top: unset;
   bottom: 0.5em !important;
-  right: 0.5em !important;
+  right: 1em !important;
+  width: max-content;
   height: 22px;
   display: flex;
   align-items: center;

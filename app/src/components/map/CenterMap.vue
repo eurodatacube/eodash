@@ -84,13 +84,14 @@
     </div>
 
     <!-- Container for all controls. Will move when map is resizing -->
-    <div ref="controlsContainer" class="controlsContainer move-with-panel">
-      <FullScreenControl :mapId="mapId" class="pointerEvents"/>
-      <ZoomControl :mapId="mapId" class="pointerEvents" />
+    <div ref="controlsContainer" class="controlsContainer move-with-panel pr-2
+      d-flex flex-column align-end">
+      <FullScreenControl v-if="mapId !== 'centerMap'" :mapId="mapId" class="pointerEvents mt-2"/>
+      <ZoomControl :mapId="mapId" class="pointerEvents mt-2" />
       <!-- overlay-layers have zIndex 2 and 4, base layers have 0 -->
       <LayerControl
         v-if="loaded"
-        class="pointerEvents"
+        class="pointerEvents mt-2"
         :mapId="mapId"
         :baseLayerConfigs="baseLayerConfigs"
         :overlayConfigs="overlayConfigs"
@@ -98,7 +99,7 @@
       <!-- will add a drawing layer to the map (z-index 3) -->
       <CustomAreaButtons
         v-if="loaded"
-        class="pointerEvents"
+        class="pointerEvents mt-2"
         :mapId="mapId"
         :mergedConfigsData="mergedConfigsData[0]"
         :hideCustomAreaControls="hideCustomAreaControls"
@@ -107,16 +108,18 @@
         :drawnArea.sync="drawnArea"
         :loading.sync="customAreaLoading"
       />
-      <AddToDashboardButton
-        v-if="mapId === 'centerMap' && indicator"
-        class="pointerEvents"
-        :indicatorObject="indicator"
-        :zoom="currentZoom"
-        :center="currentCenter"
-        :datalayertime="dataLayerTime ? dataLayerTime.name :  null"
-        :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
-        mapControl
-      />
+      <div class="pointerEvents mt-auto mb-9">
+        <AddToDashboardButton
+          v-if="mapId === 'centerMap' && indicator"
+          :indicatorObject="indicator"
+          :zoom="currentZoom"
+          :center="currentCenter"
+          :datalayertime="dataLayerTime ? dataLayerTime.name :  null"
+          :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
+          mapControl
+        />
+      </div>
+      <div ref="mousePositionContainer"/>
     </div>
   </div>
 </template>
@@ -147,6 +150,9 @@ import {
 import GeoJSON from 'ol/format/GeoJSON';
 import { fromLonLat, toLonLat, transformExtent } from 'ol/proj';
 import fetchCustomAreaObjects from '@/helpers/customAreaObjects';
+import Attribution from 'ol/control/Attribution';
+import MousePosition from 'ol/control/MousePosition';
+import { toStringXY } from 'ol/coordinate';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -465,6 +471,26 @@ export default {
     this.loaded = true;
     const { map } = getMapInstance(this.mapId);
     map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
+    const attributions = new Attribution();
+    attributions.setTarget(this.$refs.controlsContainer);
+    attributions.setMap(map);
+
+    map.addControl(new MousePosition({
+      coordinateFormat: (coordinates) => {
+        let lonValue = coordinates[0] % 360;
+        if (lonValue > 180) {
+          lonValue -= 360;
+        } else if (lonValue < -180) {
+          lonValue += 360;
+        }
+        return `<span>${toStringXY([lonValue, coordinates[1]], 3)}</span>`;
+      },
+      projection: 'EPSG:4326',
+      target: this.$refs.mousePositionContainer,
+      className: 'ol-control ol-mouse-position',
+      placeholder: false,
+    }));
+
     const view = map.getView();
     view.on(['change:center', 'change:resolution'], (evt) => {
       this.currentZoom = evt.target.getZoom();
@@ -660,9 +686,8 @@ export default {
   .controlsContainer {
     position: absolute;
     right: 0px;
-    width: 60px;
+    min-width: 50px;
     height: 100%;
-    background-color: chartreuse; // to be removed
     pointer-events: none;
     z-index: 4;
   }

@@ -579,19 +579,11 @@ export default {
 </style>
 
 <style>
-.move-with-panel,
-.ol-full-screen,
-.ol-attribution,
-.ol-mouse-position,
-.ol-zoom {
+.move-with-panel {
   transform: translateX(0);
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
-.panel-expanded .move-with-panel,
-.panel-expanded .ol-full-screen,
-.panel-expanded .ol-attribution,
-.panel-expanded .ol-mouse-position,
-.panel-expanded .ol-zoom {
+.panel-expanded .move-with-panel {
   transform: translateX(calc(-1 * var(--data-panel-width)));
 }
 </style>

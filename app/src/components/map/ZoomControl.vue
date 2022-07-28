@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="zoomContainer">
     <v-btn class="controlButton" @click="zoom(1)">+</v-btn>
     <v-btn class="controlButton" @click="zoom(-1)">-</v-btn>
   </div>
@@ -7,7 +7,7 @@
 
 <script>
 import getMapInstance from '@/components/map/map';
-import { easeOut } from 'ol/control/Zoom';
+import { easeOut } from 'ol/easing';
 
 export default {
   components: {},
@@ -37,6 +37,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .zoomContainer {
+    width: 36px;
+  }
+
   .controlButton {
     width: 36px;
     min-width: 0px !important;

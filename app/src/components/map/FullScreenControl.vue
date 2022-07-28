@@ -3,7 +3,7 @@
     class="controlButton"
     @click="setFullScreen"
   >
-    <v-icon left>{{fullscreen ? 'mdi-arrow-collapse-all' : 'mdi-arrow-expand-all'}}</v-icon>
+    <v-icon>{{fullscreen ? 'mdi-arrow-collapse-all' : 'mdi-arrow-expand-all'}}</v-icon>
   </v-btn>
 </template>
 
