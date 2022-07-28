@@ -3,30 +3,32 @@
     v-model="dialog"
     width="500"
   >
-    <template v-slot:activator="{ on }">
-      <v-tooltip v-if="mapControl" left>
-        <template v-slot:activator="{ on }">
-          <v-btn
-            :color="$vuetify.theme.currentTheme.background"
-            small
-            class="dashboard-button"
-            style="min-width: 0;"
-            v-on="on"
-            @click="show = true"
-          >
-            <v-icon>
-              mdi-view-dashboard
-            </v-icon>
-          </v-btn>
-        </template>
-        <span>Add map to custom dashboard</span>
-      </v-tooltip>
+    <template v-slot:activator="{ on: dialog }">
+      <template v-if="mapControl">
+        <v-tooltip left>
+          <template v-slot:activator="{ on: tooltip }">
+            <v-btn
+              :color="$vuetify.theme.currentTheme.background"
+              small
+              class="dashboard-button"
+              style="min-width: 0;"
+              v-on="{ ...tooltip, ...dialog }"
+              @click="show = true"
+            >
+              <v-icon>
+                mdi-view-dashboard
+              </v-icon>
+            </v-btn>
+          </template>
+          <span>Add map to custom dashboard</span>
+        </v-tooltip>
+      </template>
       <v-btn
         v-else
         color="primary"
         text
         small
-        v-on="on"
+        v-on="{ ...dialog }"
       >
         <v-icon
           left
