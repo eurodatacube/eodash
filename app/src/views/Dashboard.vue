@@ -147,10 +147,12 @@
         :newsBanner="$refs.newsBanner"
         :expanded="dataPanelFullWidth" class="px-5" />
     </v-navigation-drawer>
-    <v-tooltip left>
+    <v-tooltip
+      v-if="$vuetify.breakpoint.mdAndUp && indicatorSelected"
+      left
+    >
       <template v-slot:activator="{ on }">
         <v-btn
-          v-if="$vuetify.breakpoint.mdAndUp && indicatorSelected"
           color="primary"
           icon
           small
