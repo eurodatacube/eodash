@@ -447,13 +447,14 @@ export default {
   },
   mounted() {
     document.documentElement.style.setProperty('--data-panel-width', `${this.dataPanelWidth}px`);
-    setTimeout(() => {
-      // only show when no poi is selected
-      if (!this.$route.query.poi) {
-        this.showText = 'welcome';
-        this.showInfoDialog = true;
-      }
-    }, 2000);
+    // TODO: uncomment
+    // setTimeout(() => {
+    //   // only show when no poi is selected
+    //   if (!this.$route.query.poi) {
+    //     this.showText = 'welcome';
+    //     this.showInfoDialog = true;
+    //   }
+    // }, 2000);
   },
   beforeDestroy() {
     this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
