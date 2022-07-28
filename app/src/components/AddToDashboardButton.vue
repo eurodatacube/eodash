@@ -4,23 +4,35 @@
     width="500"
   >
     <template v-slot:activator="{ on }">
+      <v-tooltip v-if="mapControl" left>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            :color="$vuetify.theme.currentTheme.background"
+            small
+            class="dashboard-button"
+            style="min-width: 0;"
+            v-on="on"
+            @click="show = true"
+          >
+            <v-icon>
+              mdi-view-dashboard
+            </v-icon>
+          </v-btn>
+        </template>
+        <span>Add map to custom dashboard</span>
+      </v-tooltip>
       <v-btn
-        :color="mapControl ? $vuetify.theme.currentTheme.background : 'primary'"
-        :text="!mapControl"
+        v-else
+        color="primary"
+        text
         small
-        :title="mapControl ? 'Add map to custom dashboard' : undefined"
-        :class="{
-          'dashboard-button': mapControl,
-          'px-1' : mapControl,
-        }"
-        :style="`min-width: ${mapControl ? 0 : ''}`"
         v-on="on"
       >
         <v-icon
-          :left="!mapControl"
-          :small="!mapControl"
+          left
+          small
         >mdi-view-dashboard</v-icon>
-        <span v-if="!mapControl">add to custom dashboard</span>
+        add to custom dashboard
       </v-btn>
     </template>
 

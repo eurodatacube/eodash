@@ -1,7 +1,31 @@
 <template>
-  <div class="zoomContainer">
-    <v-btn class="controlButton" @click="zoom(1)">+</v-btn>
-    <v-btn class="controlButton" @click="zoom(-1)">-</v-btn>
+  <div class="zoomContainer mb-2">
+    <v-tooltip left>
+      <template v-slot:activator="{ on }">
+        <v-btn
+          :color="$vuetify.theme.currentTheme.background"
+          class="controlButton rounded-b-0"
+          v-on="on"
+          @click="zoom(1)"
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </template>
+      <span>Zoom in</span>
+    </v-tooltip>
+    <v-tooltip left>
+      <template v-slot:activator="{ on }">
+        <v-btn
+          :color="$vuetify.theme.currentTheme.background"
+          class="controlButton rounded-t-0"
+          v-on="on"
+          @click="zoom(-1)"
+        >
+          <v-icon>mdi-minus</v-icon>
+        </v-btn>
+      </template>
+      <span>Zoom out</span>
+    </v-tooltip>
   </div>
 </template>
 

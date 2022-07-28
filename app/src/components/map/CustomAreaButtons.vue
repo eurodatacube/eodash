@@ -1,46 +1,66 @@
 <template>
   <div
     class="customDrawTools elevation-2
-    d-flex flex-column">
-    <v-btn
-      v-if="drawToolsVisible"
-      :color="$vuetify.theme.currentTheme.background"
-      class="pa-0 rounded-b-0 elevation-0"
-      title="Draw polygon"
-      @click="drawEnable('polygon')"
-    >
-      <v-icon>mdi-vector-polygon</v-icon>
-    </v-btn>
-    <v-btn
-      v-if="drawToolsVisible"
-      :color="$vuetify.theme.currentTheme.background"
-      class="pa-0 elevation-0"
-      :class="deleteButtonVisible || isDrawing
-        ? 'rounded-0'
-        : 'rounded-t-0'"
-      title="Draw rectangle"
-      @click="drawEnable('bbox')"
-    >
-      <v-icon>mdi-vector-rectangle</v-icon>
-    </v-btn>
-    <v-btn
-      v-if="deleteButtonVisible"
-      color="error"
-      class="pa-0 rounded-t-0 elevation-0"
-      title="Clear selection"
-      @click="clearCustomAreaFilter"
-    >
-      <v-icon>mdi-delete</v-icon>
-    </v-btn>
-    <v-btn
-      v-if="isDrawing"
-      color="error"
-      class="pa-0 rounded-t-0 elevation-0"
-      title="Cancel drawing"
-      @click="disableInteractions"
-    >
-      <v-icon>mdi-close</v-icon>
-    </v-btn>
+    d-flex flex-column mb-2">
+    <v-tooltip left>
+      <template v-slot:activator="{ on }">
+        <v-btn
+          v-if="drawToolsVisible"
+          :color="$vuetify.theme.currentTheme.background"
+          class="pa-0 rounded-b-0 elevation-0"
+          v-on="on"
+          @click="drawEnable('polygon')"
+        >
+          <v-icon>mdi-vector-polygon</v-icon>
+        </v-btn>
+      </template>
+      <span>Draw polygon</span>
+    </v-tooltip>
+    <v-tooltip left>
+      <template v-slot:activator="{ on }">
+        <v-btn
+          v-if="drawToolsVisible"
+          :color="$vuetify.theme.currentTheme.background"
+          class="pa-0 elevation-0"
+          :class="deleteButtonVisible || isDrawing
+            ? 'rounded-0'
+            : 'rounded-t-0'"
+          v-on="on"
+          @click="drawEnable('bbox')"
+        >
+          <v-icon>mdi-vector-rectangle</v-icon>
+        </v-btn>
+      </template>
+      <span>Draw rectangle</span>
+    </v-tooltip>
+    <v-tooltip left>
+      <template v-slot:activator="{ on }">
+        <v-btn
+          v-if="deleteButtonVisible"
+          color="error"
+          class="pa-0 rounded-t-0 elevation-0"
+          v-on="on"
+          @click="clearCustomAreaFilter"
+        >
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
+      </template>
+      <span>Clear selection</span>
+    </v-tooltip>
+    <v-tooltip left>
+      <template v-slot:activator="{ on }">
+        <v-btn
+          v-if="isDrawing"
+          color="error"
+          class="pa-0 rounded-t-0 elevation-0"
+          v-on="on"
+          @click="disableInteractions"
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </template>
+      <span>Cancel drawing</span>
+    </v-tooltip>
   </div>
 </template>
 

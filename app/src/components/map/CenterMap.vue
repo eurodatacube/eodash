@@ -84,22 +84,22 @@
     </div>
 
     <!-- Container for all controls. Will move when map is resizing -->
-    <div ref="controlsContainer" class="controlsContainer move-with-panel pr-2
+    <div ref="controlsContainer" class="controlsContainer move-with-panel pa-2
       d-flex flex-column align-end">
-      <FullScreenControl v-if="mapId !== 'centerMap'" :mapId="mapId" class="pointerEvents mt-2"/>
-      <ZoomControl :mapId="mapId" class="pointerEvents mt-2" />
+      <FullScreenControl v-if="mapId !== 'centerMap'" :mapId="mapId" class="pointerEvents"/>
+      <ZoomControl :mapId="mapId" class="pointerEvents" />
       <!-- overlay-layers have zIndex 2 and 4, base layers have 0 -->
       <LayerControl
         v-if="loaded"
-        class="pointerEvents mt-2"
+        class="pointerEvents"
         :mapId="mapId"
         :baseLayerConfigs="baseLayerConfigs"
         :overlayConfigs="overlayConfigs"
       />
       <!-- will add a drawing layer to the map (z-index 3) -->
       <CustomAreaButtons
-        v-if="loaded"
-        class="pointerEvents mt-2"
+        v-if="loaded && mapId === 'centerMap'"
+        class="pointerEvents"
         :mapId="mapId"
         :mergedConfigsData="mergedConfigsData[0]"
         :hideCustomAreaControls="hideCustomAreaControls"
@@ -108,7 +108,7 @@
         :drawnArea.sync="drawnArea"
         :loading.sync="customAreaLoading"
       />
-      <div class="pointerEvents mt-auto mb-9">
+      <div class="pointerEvents mt-auto mb-2">
         <AddToDashboardButton
           v-if="mapId === 'centerMap' && indicator"
           :indicatorObject="indicator"

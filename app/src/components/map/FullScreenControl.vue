@@ -1,10 +1,17 @@
 <template>
-  <v-btn
-    class="controlButton"
-    @click="setFullScreen"
-  >
-    <v-icon>{{fullscreen ? 'mdi-arrow-collapse-all' : 'mdi-arrow-expand-all'}}</v-icon>
-  </v-btn>
+  <v-tooltip left>
+    <template v-slot:activator="{ on }">
+      <v-btn
+        :color="$vuetify.theme.currentTheme.background"
+        class="controlButton mb-2"
+        v-on="on"
+        @click="setFullScreen"
+      >
+        <v-icon>{{fullscreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'}}</v-icon>
+      </v-btn>
+    </template>
+    <span>Fullscreen</span>
+  </v-tooltip>
 </template>
 
 <script>

@@ -147,18 +147,23 @@
         :newsBanner="$refs.newsBanner"
         :expanded="dataPanelFullWidth" class="px-5" />
     </v-navigation-drawer>
-    <v-btn
-      v-if="$vuetify.breakpoint.mdAndUp && indicatorSelected"
-      color="primary"
-      icon
-      small
-      :title="`${drawerRight ? 'Collapse' : 'Expand'} side panel`"
-      class="reopen-right-drawer move-with-panel rounded-lg rounded-r-0 py-7 elevation-2"
-      :style="`background: ${$vuetify.theme.currentTheme.background}`"
-      @click="drawerRight = !drawerRight"
-    >
-      <v-icon :class="{open: drawerRight}">mdi-menu-left</v-icon>
-    </v-btn>
+    <v-tooltip left>
+      <template v-slot:activator="{ on }">
+        <v-btn
+          v-if="$vuetify.breakpoint.mdAndUp && indicatorSelected"
+          color="primary"
+          icon
+          small
+          class="reopen-right-drawer move-with-panel rounded-lg rounded-r-0 py-7 elevation-2"
+          :style="`background: ${$vuetify.theme.currentTheme.background}`"
+          v-on="on"
+          @click="drawerRight = !drawerRight"
+        >
+          <v-icon :class="{open: drawerRight}">mdi-menu-left</v-icon>
+        </v-btn>
+      </template>
+      <span>{{ drawerRight ? 'Collapse' : 'Expand' }} side panel</span>
+    </v-tooltip>
     <v-dialog
       v-if="$vuetify.breakpoint.mdAndUp"
       v-model="dialog"

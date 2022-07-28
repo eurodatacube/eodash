@@ -1,12 +1,11 @@
-
-
 .ol-control {
   z-index: 2;
   padding: 0;
 }
 
 .ol-control button,
-.ol-control button:hover {
+.ol-control button:hover,
+.ol-control button:focus {
   margin: 0;
   color: inherit;
   background-color: var(--v-background-base);
@@ -24,22 +23,15 @@
   opacity: 0;
   transition: opacity 0.2s cubic-bezier(0.4, 0, 0.6, 1) !important;
 }
-.ol-zoom-in::before {
-  height: 50% !important;
-  top: 0 !important;
-}
-.ol-zoom-out::before {
-  height: 50% !important;
-  top: 50% !important;
-}
-.ol-control button:hover::before {
-  opacity: .08;
-}
 
 .ol-attribution {
-  background-color: var(--v-background-base) !important;
   position: relative;
+  right: unset;
+  bottom: unset;
+  border-radius: 4px;
+  max-width: unset;
 }
+
 .ol-attribution > ul {
   font-size: 10px;
   color: inherit;
@@ -50,38 +42,10 @@
   text-decoration: underline;
 }
 
-.ol-zoom {
-  left: unset;
-  top: 56px !important;
-  right: 10px !important;
-}
-
-.ol-full-screen {
-  left: unset;
-  top: 10px !important;
-  right: 10px !important;
-}
-
-.ol-zoom,
-.ol-full-screen,
-.ol-mouse-position,
-.ol-attributions {
-  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
-  0px 2px 2px 0px rgb(0 0 0 / 14%),
-  0px 1px 5px 0px rgb(0 0 0 / 12%) !important;
-  border-radius: 4px;
-}
-
-.ol-zoom button,
-.ol-full-screen button {
-  width: 36px;
-  height: 36px;
-}
-
 .ol-mouse-position {
   top: unset;
   bottom: 0.5em !important;
-  right: 1em !important;
+  right: 0.5em !important;
   width: max-content;
   height: 22px;
   display: flex;

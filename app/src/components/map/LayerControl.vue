@@ -1,17 +1,21 @@
 <template>
-  <v-btn
-    v-if="!show"
-    :color="$vuetify.theme.currentTheme.background"
-    small
-    class="layerControl layerControlBtn"
-    style="min-width: 0;"
-    title="Map layers"
-    @click="show = true"
-  >
-    <v-icon>
-      mdi-layers
-    </v-icon>
-  </v-btn>
+  <v-tooltip v-if="!show" left>
+    <template v-slot:activator="{ on }">
+      <v-btn
+        :color="$vuetify.theme.currentTheme.background"
+        small
+        class="layerControl layerControlBtn mb-2"
+        style="min-width: 0;"
+        v-on="on"
+        @click="show = true"
+      >
+        <v-icon>
+          mdi-layers
+        </v-icon>
+      </v-btn>
+    </template>
+    <span>Map layers</span>
+  </v-tooltip>
   <v-card
     v-else
     class="layerControl pa-2"
@@ -141,6 +145,7 @@ export default {
   .layerControlBtn {
     width: 36px;
     height: 36px !important;
+    pointer-events: initial;
   }
 
   .label {
