@@ -10,24 +10,22 @@
       hide-details
       solo
       rounded
-      :items="selectionItems"
+      :items="selectionItems.map(i => i.name)"
       :prepend-inner-icon="dropdownSelection ? undefined : 'mdi-magnify'"
       append-icon=""
       clearable
       auto-select-first
-      return-object
-      item-text="name"
       label="Search here"
       :search-input.sync="userInput"
       attach="#list"
       autofocus
       open-on-clear
-      @focus="autoCompleteFocus"
+      :filter="customAutocompleteFilter"
       @click:clear="autoCompleteClear"
       @change="autoCompleteChange"
       @keydown.esc="userInput = null"
     >
-        <template v-slot:selection="{ item }">
+        <!-- <template v-slot:selection="{ item }">
           <v-row align="center" class="flex-nowrap">
             <template v-if="item.location || item.indicator">
               <v-icon class="pr-2 ml-1">{{
@@ -50,19 +48,21 @@
 
             <span v-text="item.name"></span>
           </v-row>
-        </template>
+        </template> -->
         <template v-slot:item="data">
-          <template v-if="data.item.location">
+          <template v-if="selectionItems.find((i) => i.name === data.item).location">
             <v-list-item-icon class="mr-4">
               <v-icon>{{
-                baseConfig.indicatorClassesIcons[data.item.class]
-                  ? baseConfig.indicatorClassesIcons[data.item.class]
+                baseConfig.indicatorClassesIcons[selectionItems
+                  .find((i) => i.name === data.item).class]
+                  ? baseConfig.indicatorClassesIcons[selectionItems
+                    .find((i) => i.name === data.item).class]
                   : "mdi-lightbulb-on-outline"
               }}</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title
-                v-text="data.item.name"
+                v-text="selectionItems.find((i) => i.name === data.item).name"
                 style="
                   text-overflow: unset;
                   overflow: unset;
@@ -71,17 +71,21 @@
               ></v-list-item-title>
             </v-list-item-content>
           </template>
-          <template v-else-if="data.item.indicator">
+          <template v-else-if="selectionItems
+            .find((i) => i.name === data.item).indicator">
             <v-list-item-icon class="mr-4">
               <v-icon>{{
-                baseConfig.indicatorClassesIcons[data.item.class]
-                  ? baseConfig.indicatorClassesIcons[data.item.class]
+                baseConfig.indicatorClassesIcons[selectionItems
+                  .find((i) => i.name === data.item).class]
+                  ? baseConfig.indicatorClassesIcons[selectionItems
+                    .find((i) => i.name === data.item).class]
                   : "mdi-lightbulb-on-outline"
               }}</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title v-if="data.item.indicatorOverwrite"
-                v-text="data.item.indicatorOverwrite"
+              <v-list-item-title v-if="selectionItems
+                .find((i) => i.name === data.item).indicatorOverwrite"
+                v-text="selectionItems.find((i) => i.name === data.item).indicatorOverwrite"
                 style="
                   text-overflow: unset;
                   overflow: unset;
@@ -89,7 +93,7 @@
                 "
               ></v-list-item-title>
               <v-list-item-title v-else
-                v-text="data.item.indicator"
+                v-text="selectionItems.find((i) => i.name === data.item).indicator"
                 style="
                   text-overflow: unset;
                   overflow: unset;
@@ -101,12 +105,15 @@
           <template v-else>
             <v-list-item-icon class="d-flex align-center mr-4 pb-2">
               <country-flag
-                :country="data.item.code === 'all' ? 'eu' : data.item.code"
+                :country="selectionItems.find((i) => i.name === data.item).code === 'all'
+                  ? 'eu'
+                  : selectionItems.find((i) => i.name === data.item).code"
                 size="normal"
               />
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title>{{ data.item.name }}</v-list-item-title>
+              <v-list-item-title>{{ selectionItems
+                .find((i) => i.name === data.item).name }}</v-list-item-title>
             </v-list-item-content>
           </template>
         </template>
@@ -276,32 +283,19 @@ export default {
       dropdownSelection: null,
       groupedIndicators: null,
       inputUsed: null,
+      selectionItems: [],
     };
   },
   computed: {
     ...mapGetters('features', [
       'getCountries',
       'getIndicators',
-      'getCountryItems',
       'getGroupedFeatures',
     ]),
     ...mapState('config', ['appConfig', 'baseConfig']),
     ...mapState('features', ['featureFilters']),
     countries() {
       return countries;
-    },
-    selectionItems() {
-      return this.countryItems
-        .concat(this.indicatorItems.map((i) => ({
-          ...i,
-          name: i.indicator,
-        })))
-        // .filter((i) => {
-        //   return !this.allFeatures
-        //     .find((f) => f.indicatorObject.indicator === i.code
-        //       && ['global'].includes(f.indicatorObject.siteName))
-        // })
-        .concat(this.allFeatures);
     },
     allFeatures() {
       return this.$store.state.features.allFeatures
@@ -448,6 +442,19 @@ export default {
     );
   },
   methods: {
+    updateSelectionItems() {
+      const itemArray = [
+        ...this.countryItems,
+        ...this.indicatorItems.map((i) => ({
+          ...i,
+          name: i.indicator,
+        })),
+        ...this.allFeatures,
+      ];
+      itemArray.sort((a, b) => (a.name.localeCompare(b.name)));
+      itemArray.sort((a, b) => (b.filterPriority || 0) - (a.filterPriority || 0));
+      this.selectionItems = itemArray;
+    },
     getIndicator(indObj) {
       let ind = indObj.description;
       if (this.baseConfig.indicatorsDefinition[indObj.indicator]
@@ -508,34 +515,56 @@ export default {
           (thing, index, self) => self.findIndex((t) => t === thing) === index,
         );
     },
+    customAutocompleteFilter(item, queryText, itemText) {
+      const itemObject = this.selectionItems.find((i) => i.name === item);
+      const queryParts = queryText.toLocaleLowerCase().split(' ');
+      let matchPoints = 0;
+      // skip commonly used words in order to allow more semantic search
+      const skip = ['in', 'at'];
+      queryParts
+        .filter((p) => p.length > 0)
+        .forEach((p) => {
+          if (p !== queryParts[0] ? !skip.includes(p) : true) {
+            const countryName = countries.features
+              .find((c) => c.properties.alpha2 === itemObject.indicatorObject?.country)?.properties
+              .name;
+            if (itemText.toLocaleLowerCase().indexOf(p) > -1) {
+              // add a point if the query exists in itemText
+              matchPoints++;
+            }
+            if (countryName && countryName.toLocaleLowerCase().indexOf(p) > -1) {
+              // add another point if the query exists in the country
+              matchPoints++;
+            }
+            if (itemText.toLocaleLowerCase() === p) {
+              // add another point for exact matches
+              matchPoints++;
+            }
+          }
+        });
+      itemObject.filterPriority = matchPoints;
+      return matchPoints > 0;
+    },
     autoCompleteChange(input) {
       if (!input) {
         this.inputUsed = false;
         return;
       }
-
       this.inputUsed = true;
-      if (input.indicator) {
-        if (input.indicatorObject) {
-          this.selectIndicator(input.indicatorObject.indicator);
+      const parsedInput = this.selectionItems.find((i) => i.name === input);
+      if (parsedInput.indicator) {
+        if (parsedInput.indicatorObject) {
+          this.selectIndicator(parsedInput.indicatorObject.indicator);
           this.$store.commit(
             'indicators/SET_SELECTED_INDICATOR',
-            input.indicatorObject,
+            parsedInput.indicatorObject,
           );
         } else {
-          this.selectIndicator(input.code);
+          this.selectIndicator(parsedInput.code);
         }
       } else {
-        this.selectCountry(input.code);
+        this.selectCountry(parsedInput.code);
       }
-    },
-    autoCompleteFocus() {
-      this.dropdownSelection = null;
-      this.userInput = null;
-      this.$nextTick(() => {
-        this.$refs.autocomplete.focus();
-        this.$refs.autocomplete.activateMenu();
-      });
     },
     autoCompleteClear() {
       this.inputUsed = false;
@@ -547,6 +576,20 @@ export default {
     },
   },
   watch: {
+    countryItems() {
+      this.updateSelectionItems();
+    },
+    indicatorItems() {
+      this.updateSelectionItems();
+    },
+    allFeatures() {
+      this.updateSelectionItems();
+    },
+    userInput() {
+      this.$nextTick(() => {
+        this.updateSelectionItems();
+      });
+    },
     countrySelection(val) {
       this.selectCountry(val);
     },
@@ -559,22 +602,16 @@ export default {
         const feature = this.$store.state.features.allFeatures
           .find((f) => this.getLocationCode(f.properties.indicatorObject) === val);
         if (feature) {
-          this.dropdownSelection = this.selectionItems.find((i) => i.code === val.split('-')[1]);
+          this.dropdownSelection = feature.properties.indicatorObject.indicatorName;
           this.selectIndicator(val.split('-')[1], feature);
         }
       } else {
         // indicator
         const found = this.selectionItems.find((i) => i.code === val);
         if (found) {
-          this.dropdownSelection = found;
+          this.dropdownSelection = found.indicator;
           this.selectIndicator(val);
         }
-      }
-    },
-    dropdownSelection(val) {
-      if (val) {
-        // blur the input on selection so it can use @focus again
-        this.$refs.autocomplete.isFocused = false;
       }
     },
     getGroupedFeatures(features) {
