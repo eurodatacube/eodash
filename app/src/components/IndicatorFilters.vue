@@ -531,6 +531,7 @@ export default {
     },
     autoCompleteFocus() {
       this.dropdownSelection = null;
+      this.userInput = null;
       this.$nextTick(() => {
         this.$refs.autocomplete.focus();
         this.$refs.autocomplete.activateMenu();
@@ -568,6 +569,12 @@ export default {
           this.dropdownSelection = found;
           this.selectIndicator(val);
         }
+      }
+    },
+    dropdownSelection(val) {
+      if (val) {
+        // blur the input on selection so it can use @focus again
+        this.$refs.autocomplete.isFocused = false;
       }
     },
     getGroupedFeatures(features) {
