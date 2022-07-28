@@ -1,11 +1,13 @@
 <template>
   <div>
-    <v-btn class="controlButton">+</v-btn>
-    <v-btn class="controlButton">-</v-btn>
+    <v-btn class="controlButton" @click="zoom(1)">+</v-btn>
+    <v-btn class="controlButton" @click="zoom(-1)">-</v-btn>
   </div>
 </template>
 
 <script>
+import getMapInstance from '@/components/map/map';
+import { easeOut } from 'ol/control/Zoom';
 
 export default {
   components: {},
@@ -17,7 +19,17 @@ export default {
   },
   computed: {},
   mounted() {},
-  methods: {},
+  methods: {
+    zoom(value) {
+      const view = getMapInstance(this.mapId).map.getView();
+      const zoom = view.getZoom();
+      view.animate({
+        zoom: zoom + value,
+        duration: 250,
+        easing: easeOut,
+      });
+    },
+  },
   beforeDestroy() {
 
   },
