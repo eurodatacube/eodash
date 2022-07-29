@@ -1,8 +1,16 @@
 <template>
   <div
-    class="fill-height pa-5 no-pointer"
-    :class="userInput ? 'dirty' : 'clean'"
-    style="width: 360px"
+    class="fill-height no-pointer"
+    :class="{
+      dirty: userInput,
+      clean: !userInput,
+      'pa-2': $vuetify.breakpoint.xsOnly && isDropdownEnabled,
+      'pa-5': !isDropdownEnabled || $vuetify.breakpoint.smAndUp,
+    }"
+    :style="`width: ${ $vuetify.breakpoint.xsOnly && isDropdownEnabled ? '100%' : '360px'};
+      transition: all 0.2s linear;
+      background: ${ $vuetify.breakpoint.xsOnly && isDropdownEnabled ? '#0007' : 'none'};
+      z-index: 4`"
   >
     <v-autocomplete
       ref="autocomplete"
@@ -12,7 +20,7 @@
       rounded
       :items="selectionItems.map(i => i.name)"
       :prepend-inner-icon="dropdownSelection ? undefined : 'mdi-magnify'"
-      append-icon=""
+      :append-icon="$vuetify.breakpoint.smAndUp ? '' : undefined"
       clearable
       auto-select-first
       label="Search here"
@@ -21,6 +29,7 @@
       autofocus
       open-on-clear
       :filter="customAutocompleteFilter"
+      @focus="isDropdownEnabled = true"
       @click:clear="autoCompleteClear"
       @change="autoCompleteChange"
       @keydown.esc="userInput = null"
@@ -123,7 +132,13 @@
       class="rounded-t-xl mt-3 pa-3 elevation-2"
       style="background: var(--v-background-base)"
     >
-      <div id="list" class="v-list--dense">
+      <div
+        id="list"
+        class="v-list--dense"
+        :style="`max-height: calc(var(--vh, 1vh) * 100 - ${
+          $vuetify.breakpoint.xsOnly ? $vuetify.application.footer + 75 : 300
+        }px)`"
+      >
         <v-list
           dense
           class="customList fill-height pt-0"
@@ -678,7 +693,6 @@ export default {
 
 #list {
   height: auto;
-  max-height: calc(var(--vh, 1vh) * 100 - 300px);
   overflow-x: hidden;
   position: relative;
 }

@@ -1,7 +1,7 @@
 <template>
   <div
     class="dashboard fill-height"
-    :class="{ 'panel-expanded': drawerRight }"
+    :class="{ 'panel-expanded': drawerRight && $vuetify.breakpoint.smAndUp }"
   >
     <global-header
       :isFullscreen="isFullScreen"
@@ -227,7 +227,8 @@
       class="retractable"
       :class="{
         'retracted': isDialogRetracted,
-        'hidden': !$store.state.indicators.selectedIndicator,
+        'hidden': !$store.state.indicators.selectedIndicator
+          && $store.state.features.featureFilters.indicators.length === 0,
       }"
       v-else
     >
@@ -236,6 +237,18 @@
           v-if="$store.state.indicators.selectedIndicator"
         >{{ $store.state.indicators.selectedIndicator.city }},
           {{ $store.state.indicators.selectedIndicator.description }}
+        </v-toolbar-title>
+        <v-toolbar-title
+          v-else-if="$store.state.features.featureFilters.indicators[0] && firstIndicatorObject"
+        >
+          {{ firstIndicatorObject
+            .description }}
+          <div v-if="
+            firstIndicatorObject.description !==
+            firstIndicatorObject.indicatorName"
+            class="subheading" style="font-size: 0.8em">
+            {{ firstIndicatorObject.indicatorName }}
+          </div>
         </v-toolbar-title>
         <v-toolbar-title v-else class="text-capitalize">
           {{ showText ? showText : '' }}
@@ -278,7 +291,8 @@
             && queryIndicatorObject.properties.indicatorObject.indicatorName }}
         </h4>
         <data-panel
-          v-if="$store.state.indicators.selectedIndicator"
+          v-if="$store.state.indicators.selectedIndicator
+            || $store.state.features.featureFilters.indicators.length > 0"
           :newsBanner="$refs.newsBanner"
           :expanded="dataPanelFullWidth" class="fill-height" />
       </div>
@@ -448,9 +462,10 @@ export default {
   created() {
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
 
-    if (!this.$vuetify.breakpoint.mdAndUp) {
-      this.showInfoDialog = true;
-    }
+    // TODO: uncomment
+    // if (!this.$vuetify.breakpoint.mdAndUp) {
+    //   this.showInfoDialog = true;
+    // }
   },
   mounted() {
     document.documentElement.style.setProperty('--data-panel-width', `${this.dataPanelWidth}px`);
