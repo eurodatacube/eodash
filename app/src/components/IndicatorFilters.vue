@@ -601,9 +601,7 @@ export default {
       this.updateSelectionItems();
     },
     userInput() {
-      this.$nextTick(() => {
-        this.updateSelectionItems();
-      });
+      this.updateSelectionItems();
     },
     countrySelection(val) {
       this.selectCountry(val);
