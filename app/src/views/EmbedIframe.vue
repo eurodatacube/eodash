@@ -71,11 +71,12 @@
             @click="dataInteract = true">
             Tap to interact
           </v-overlay>
-          <indicator-map
+          <center-map
             style="top: 0px; position: absolute;"
             v-if="globalData"
             class="pt-0 fill-height"
             :currentIndicator="sensorData.properties.indicatorObject"
+            disableAutoFocus
           />
           <indicator-data
             style="top: 0px; position: absolute;"
@@ -106,7 +107,7 @@
           @click="dataInteract = true">
           Tap to interact
         </v-overlay>
-        <indicator-map
+        <center-map
           style="top: 0px; position: absolute;"
           v-if="globalData"
           class="pt-0 fill-height"
@@ -156,7 +157,7 @@ import {
 import { loadIndicatorData } from '@/utils';
 
 import IndicatorData from '@/components/IndicatorData.vue';
-import IndicatorMap from '@/components/IndicatorMap.vue';
+import CenterMap from '@/components/map/CenterMap.vue';
 
 export default {
   metaInfo() {
@@ -167,7 +168,7 @@ export default {
   },
   components: {
     IndicatorData,
-    IndicatorMap,
+    CenterMap,
   },
   data: () => ({
     overlay: false,

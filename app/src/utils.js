@@ -172,10 +172,14 @@ export function isExternalUrl(urlString) {
 
 export function calculatePadding() {
   // we can further refine the padding to use based on which panels are open
-  const dataPanelOpen = document.querySelector('.data-panel').className.includes('v-navigation-drawer--close');
-  const dataPanelWidth = dataPanelOpen ? 0 : document.querySelector('.data-panel').clientWidth;
+  // TODO: This will probably no longer be used as Robert will reimplement this with ol extent
+  const dataPanelOpen = (document.querySelector('.data-panel') !== null)
+    && document.querySelector('.data-panel').className.includes('v-navigation-drawer--open');
+  const dataPanelWidth = !dataPanelOpen ? 0 : document.querySelector('.data-panel').clientWidth;
   const searchResultsClosed = store.state.features.featureFilters.indicators.length
     || store.state.features.featureFilters.countries.length;
-  const searchResultWidth = !searchResultsClosed ? (document.querySelector('#list').clientWidth + 40) : 0;
+  const searchPanelWidth = (document.querySelector('#list') !== null)
+    ? (document.querySelector('#list').clientWidth + 40) : 0;
+  const searchResultWidth = !searchResultsClosed ? searchPanelWidth : 0;
   return [70, 20 + dataPanelWidth, 70, 20 + searchResultWidth];
 }
