@@ -2216,7 +2216,7 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: false,
         id: 9987,
-        aoi: latLng([40.413, -1.23]),
+        aoi: null,
         aoiID: 'EU1',
         country: 'indicatorall',
         city: 'Europe',
@@ -2229,7 +2229,6 @@ export const globalIndicators = [
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
         time: [],
         inputData: [''],
         display: {
