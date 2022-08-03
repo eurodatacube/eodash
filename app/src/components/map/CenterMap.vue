@@ -666,7 +666,7 @@ export default {
     if (this.mapId === 'centerMap') {
       const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
       cluster.setActive(false, this.overlayCallback);
-      this.ro.unobserve(this.$refs.myElement);
+      this.ro.unobserve(this.$refs.mapContainer);
     }
   },
 };
