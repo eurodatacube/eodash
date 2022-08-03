@@ -457,6 +457,12 @@ export default {
             map.getView().fit(value, {
               padding: this.mapId === 'centerMap' ? calculatePadding() : [0, 0, 0, 0],
             });
+          } else {
+            map.once('change:target', () => {
+              map.getView().fit(value, {
+                padding: this.mapId === 'centerMap' ? calculatePadding() : [0, 0, 0, 0],
+              });
+            });
           }
         }
       },
