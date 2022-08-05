@@ -89,8 +89,8 @@ function loadImages() {
       };
       image.addEventListener('load', () => {
         const canvas = document.createElement('canvas');
-        canvas.width = 23;
-        canvas.height = 23;
+        canvas.width = 24;
+        canvas.height = 24;
         const context = canvas.getContext('2d');
         context.globalCompositeOperation = 'screen';
         context.fillStyle = 'white';
@@ -115,7 +115,7 @@ function loadImages() {
           onStylesLoaded = undefined;
         }
       });
-      image.src = `https://cdn.jsdelivr.net/npm/@mdi/svg@latest/svg/${indicatorClassesIcons[key].substr(4)}.svg`;
+      image.src = `https://cdn.jsdelivr.net/npm/@mdi/svg@6.1.95/svg/${indicatorClassesIcons[key].substr(4)}.svg`;
       return acc;
     }, {});
 }
