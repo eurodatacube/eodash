@@ -76,6 +76,7 @@
             v-if="globalData"
             class="pt-0 fill-height"
             :currentIndicator="sensorData.properties.indicatorObject"
+            mapId="embedMap"
             disableAutoFocus
           />
           <indicator-data
@@ -111,6 +112,7 @@
           style="top: 0px; position: absolute;"
           v-if="globalData"
           class="pt-0 fill-height"
+          mapId="embedMap"
         />
         <indicator-data
           style="top: 0px; position: absolute;"
