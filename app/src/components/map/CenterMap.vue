@@ -153,6 +153,7 @@ import Attribution from 'ol/control/Attribution';
 import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
+import Link from 'ol/interaction/Link';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -469,13 +470,13 @@ export default {
     },
   },
   mounted() {
+    const { map } = getMapInstance(this.mapId);
     if (this.mapId === 'centerMap') {
       const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
       cluster.setActive(true, this.overlayCallback);
       cluster.setFeatures(this.getFeatures);
     }
     this.loaded = true;
-    const { map } = getMapInstance(this.mapId);
     map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
     const attributions = new Attribution();
     attributions.setTarget(this.$refs.controlsContainer);
@@ -522,6 +523,9 @@ export default {
       () => this.fetchData({ type: 'customIndicator' }),
       false,
     );
+    if (this.mapId === 'centerMap') {
+      map.addInteraction(new Link({ replace: true }));
+    }
   },
   methods: {
     overlayCallback(headers, rows, coordinate) {
