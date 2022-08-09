@@ -7,6 +7,7 @@ import Style from 'ol/style/Style';
 import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
 import turfDifference from '@turf/difference';
+import { mapState } from 'vuex';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -27,7 +28,7 @@ export default {
     indicator: Object,
   },
   watch: {
-    subAoiInverse: {
+    subAoi: {
       deep: true,
       immediate: true,
       handler(value) {
@@ -37,54 +38,73 @@ export default {
           const aoiSource = aoiLayer.getSource();
           aoiSource.clear();
           if (value) {
-            const feature = geoJsonFormat.readFeature(value);
-            aoiSource.addFeature(feature);
+            // const feature = geoJsonFormat.readFeature(value);
+            aoiSource.addFeature(geoJsonFormat.readFeature(value));
           }
         }
       },
     },
   },
   computed: {
-    subAoiInverse() {
+    ...mapState('config', ['appConfig']),
+    subAoi() {
       // create an inverse of subaoi, using difference of whole world and subaoi
       if (this.indicator?.subAoi?.features?.length) {
         const subaoiInv = JSON.parse(JSON.stringify(this.indicator.subAoi.features[0]));
         // both Object.assign({}, this.subAoi) and { ...this.subAoi } create shallow copy
         if (subaoiInv) {
-          const globalBox = {
-            type: 'Feature',
-            properties: {},
-            geometry: {
-              type: 'Polygon',
-              coordinates: [[[-1800, -90], [1800, -90], [1800, 90], [-1800, 90], [-1800, -90]]],
-            },
-          };
-          const diff = turfDifference(globalBox, subaoiInv.geometry);
-          subaoiInv.geometry = diff.geometry;
+          if (this.isInverse) {
+            const globalBox = {
+              type: 'Feature',
+              properties: {},
+              geometry: {
+                type: 'Polygon',
+                coordinates: [[[-1800, -90], [1800, -90], [1800, 90], [-1800, 90], [-1800, -90]]],
+              },
+            };
+            const diff = turfDifference(globalBox, subaoiInv.geometry);
+            subaoiInv.geometry = diff.geometry;
+          }
         }
         return subaoiInv;
       }
       return null;
     },
+    isInverse() {
+      return this.appConfig.configuredMapPois.includes(`${this.indicator.aoiID}-${this.indicator.indicator}`) || Array.isArray(this.indicator.country);
+    },
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
+
+    const subAoiStyle = new Style({
+      fill: new Fill({
+        color: 'rgba(100, 160, 255, 0.4)',
+      }),
+      stroke: new Stroke({
+        width: 2,
+        color: 'rgba(0, 0, 0, 0.5)',
+      }),
+    });
+
+    const inverseStyle = new Style({
+      fill: new Fill({
+        color: 'rgba(0, 0, 0, 0.5)',
+      }),
+      stroke: new Stroke({
+        width: 2,
+        color: 'rgba(0, 0, 0, 0.5)',
+      }),
+    });
+
     const subAoiLayer = new VectorLayer({
       name: 'subAoi',
       zIndex: 5,
       source: new VectorSource({}),
-      style: new Style({
-        fill: new Fill({
-          color: 'rgba(0, 0, 0, 0.5)',
-        }),
-        stroke: new Stroke({
-          width: 2,
-          color: 'rgba(0, 0, 0, 0.7)',
-        }),
-      }),
+      style: () => (this.isInverse ? inverseStyle : subAoiStyle),
     });
-    if (this.subAoiInverse) {
-      const feature = geoJsonFormat.readFeature(this.subAoiInverse);
+    if (this.subAoi) {
+      const feature = geoJsonFormat.readFeature(this.subAoi);
       subAoiLayer.getSource().addFeature(feature);
     }
     map.addLayer(subAoiLayer);

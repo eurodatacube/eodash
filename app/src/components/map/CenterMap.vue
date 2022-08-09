@@ -2,7 +2,7 @@
   <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3;
     z-index: 1" class="d-flex justify-center">
     <!-- a layer adding a (potential) subaoi, z-index 5 -->
-    <InverseSubaoiLayer
+    <SubaoiLayer
       :mapId="mapId"
       :indicator="indicator"
       v-if="dataLayerName"
@@ -134,7 +134,6 @@ import FullScreenControl from '@/components/map/FullScreenControl.vue';
 import ZoomControl from '@/components/map/ZoomControl.vue';
 import getCluster from '@/components/map/Cluster';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
-import InverseSubaoiLayer from '@/components/map/InverseSubaoiLayer.vue';
 import LayerSwipe from '@/components/map/LayerSwipe.vue';
 import CustomAreaButtons from '@/components/map/CustomAreaButtons.vue';
 import getMapInstance from '@/components/map/map';
@@ -153,6 +152,7 @@ import fetchCustomAreaObjects from '@/helpers/customAreaObjects';
 import Attribution from 'ol/control/Attribution';
 import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
+import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -167,7 +167,7 @@ export default {
     IndicatorTimeSelection,
     LayerSwipe,
     CustomAreaButtons,
-    InverseSubaoiLayer,
+    SubaoiLayer,
     MapOverlay,
     AddToDashboardButton,
   },
