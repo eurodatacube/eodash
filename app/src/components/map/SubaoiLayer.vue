@@ -71,7 +71,9 @@ export default {
       return null;
     },
     isInverse() {
-      return this.appConfig.configuredMapPois.includes(`${this.indicator.aoiID}-${this.indicator.indicator}`) || Array.isArray(this.indicator.country);
+      return this.indicator.country === 'all'
+        || this.appConfig.configuredMapPois.includes(`${this.indicator.aoiID}-${this.indicator.indicator}`)
+        || Array.isArray(this.indicator.country);
     },
   },
   mounted() {
