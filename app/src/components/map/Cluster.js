@@ -3,7 +3,6 @@ import { LineString, Point, Polygon } from 'ol/geom';
 import { Vector as VectorLayer } from 'ol/layer';
 import monotoneChainConvexHull from 'monotone-chain-convex-hull';
 import store from '@/store';
-import { calculatePadding } from '@/utils';
 import {
   Circle as CircleStyle,
   Fill,
@@ -466,7 +465,6 @@ class Cluster {
     clusterSource.addFeatures(features);
     if (features.length) {
       this.map.getView().fit(clusterSource.getExtent(), {
-        padding: calculatePadding(),
         maxZoom: 8,
         duration: 200,
       });

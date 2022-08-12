@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 import axios from 'axios';
 import store from '@/store';
+import getMapInstance from './components/map/map';
 
 export function padLeft(str, pad, size) {
   let out = str;
@@ -181,5 +182,10 @@ export function calculatePadding() {
   const searchPanelWidth = (document.querySelector('#list') !== null)
     ? (document.querySelector('#list').clientWidth + 40) : 0;
   const searchResultWidth = !searchResultsClosed ? searchPanelWidth : 0;
-  return [70, 20 + dataPanelWidth, 70, 20 + searchResultWidth];
+  const padding = [70, 20 + dataPanelWidth, 70, 20 + searchResultWidth];
+  const { map } = getMapInstance('centerMap');
+  const view = map.getView();
+  // WIP: this will move the map center, this is open for discussion.
+  view.padding_ = padding;
+  view.changed();
 }

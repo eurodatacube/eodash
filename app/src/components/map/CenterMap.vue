@@ -141,7 +141,6 @@ import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 import { updateTimeLayer } from '@/components/map/timeLayerUtils';
-import { calculatePadding } from '@/utils';
 import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
@@ -452,17 +451,14 @@ export default {
       handler(value) {
       // when the calculated zoom extent changes, zoom the map to the new extent.
       // this is purely cosmetic and does not limit the ability to pan or zoom
+      // paddings are calculated globaly for the view.
         if (value && !(this.centerProp || this.zoomProp)) {
           const { map } = getMapInstance(this.mapId);
           if (map.getTargetElement()) {
-            map.getView().fit(value, {
-              padding: this.mapId === 'centerMap' ? calculatePadding() : [0, 0, 0, 0],
-            });
+            map.getView().fit(value);
           } else {
             map.once('change:target', () => {
-              map.getView().fit(value, {
-                padding: this.mapId === 'centerMap' ? calculatePadding() : [0, 0, 0, 0],
-              });
+              map.getView().fit(value);
             });
           }
         }
