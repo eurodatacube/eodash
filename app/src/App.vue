@@ -104,6 +104,30 @@ export default {
       return (this.$vuetify.theme.dark) ? 'dark' : 'light';
     },
   },
+  watch: {
+    /**
+     * this methods sets the selected indicator based on the current
+     * route query.
+     */
+    // eslint-disable-next-line func-names
+    '$route.query.poi': function (poi) {
+      let selectedFeature;
+      if (poi && poi.includes('-')) {
+        const currentlySelectedIndicator = this.$store.state.indicators.selectedIndicator;
+        const aoiId = poi.split('-')[0];
+        const indicatorCode = poi.split('-')[1];
+        if (!currentlySelectedIndicator
+          || (currentlySelectedIndicator.aoiId !== aoiId && currentlySelectedIndicator.indicatorCode !== indicatorCode)) {
+          selectedFeature = this.$store.state.features.allFeatures.find((f) => {
+            const { indicatorObject } = f.properties;
+            return indicatorObject.aoiID === aoiId
+              && indicatorObject.indicator === indicatorCode;
+          });
+        }
+      }
+      this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
+    },
+  },
   created() {
     if (Object.prototype.hasOwnProperty.call(this.appConfig, 'countDownTimer')
       && this.appConfig.countDownMatch.includes(document.domain)) {
@@ -193,7 +217,7 @@ export default {
           Object.prototype.hasOwnProperty.call(mutation.payload, 'dummyFeature')
           && mutation.payload.dummyFeature)) {
           this.loadIndicatorData(mutation.payload);
-          this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: this.getLocationCode(mutation.payload) }) }).catch(err => {}); // eslint-disable-line
+          this.$router.push({ query: Object.assign({}, this.$route.query, { poi: this.getLocationCode(mutation.payload) }) }).catch(err => {}); // eslint-disable-line
           this.trackEvent('indicators', 'select_indicator', this.getLocationCode(mutation.payload));
           this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
         } else {

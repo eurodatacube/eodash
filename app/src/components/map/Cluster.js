@@ -16,14 +16,9 @@ import VectorSource from 'ol/source/Vector';
 import { asArray } from 'ol/color';
 import { Feature } from 'ol';
 import { fromLonLat } from 'ol/proj';
-import GeoJSON from 'ol/format/GeoJSON';
 import { getColor } from './olMapColors';
 import getMapInstance from './map';
 import { formatLabel } from './formatters';
-
-const geoJsonFormat = new GeoJSON({
-  featureProjection: 'EPSG:3857',
-});
 
 const circleDistanceMultiplier = 1;
 const circleFootSeparation = 28;
@@ -276,20 +271,6 @@ class Cluster {
     this.clusterCircles.changed();
   }
 
-  /**
- * opens the indicator panel for a given indicator feature
- * @param {*} feature ol feature
- */
-  openIndicator(feature) {
-    const { indicatorObject } = feature.getProperties().properties;
-    if (!indicatorObject.dummyFeature) {
-      store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
-      const query = { ...this.vm.$route.query };
-      delete query.sensor;
-      this.vm.$router.replace({ query }).catch(() => {});
-    }
-  }
-
   createInteractions() {
     this.pointermoveInteraction = async (callback, event) => {
       const openClusterFeatures = await this.clusterCircles.getFeatures(event.pixel);
@@ -434,13 +415,6 @@ class Cluster {
           }),
         }),
       ];
-      // display subaoi of selected indicator, also when cluster is collapsed
-      if (selectedIndicatorFeature) {
-      /* const selectedIndicatorObject = selectedIndicatorFeature.get('properties').indicatorObject;
-        if (selectedIndicatorObject.subAoi) {
-          styles.push(this.getStyleForSubaoi(selectedIndicatorObject, selectedIndicatorFeature));
-        } */
-      }
       return styles;
     }
     const originalFeature = feature.get('features')[0];
@@ -553,37 +527,27 @@ class Cluster {
       geometry: clusterMember.getGeometry(),
     });
     const memberStyle = [circleStyle, iconStyle];
-    /* if (isSelected && indicatorObject.subAoi) {
-      memberStyle.push(this.getStyleForSubaoi(indicatorObject, clusterMember));
-    } */
     return memberStyle;
   }
 
   /**
-   * @param {*} indicatorObject indicator object containing the subaoi
-   * @param {*} subAoiGeom ol geometry of subAoi
-   * @returns {*} SubAOI Style
-   */
-  getStyleForSubaoi(indicatorObject, indicatorFeature) {
-    // pre-calculate geometry once to avoid unnecessary computation in style function
-    if (!indicatorFeature.get('olSubAoiGeom')) {
-      indicatorFeature.set('olSubAoiGeom', geoJsonFormat
-        .readGeometry(indicatorObject.subAoi.features[0].geometry));
+ * opens the indicator panel for a given indicator feature
+ * @param {*} feature ol feature
+ */
+  openIndicator(feature) {
+  // if no indicator was selected, set a history entry before opening the indicator
+  // this way the user can go back via the back-button
+    const router = this.vm.$router;
+    const { query } = router.currentRoute;
+
+    if (!query.poi) {
+      // to be discussed: set history entry here?
     }
-    const subAoiColor = [...asArray(getColor(indicatorObject, this.vm)
-        || this.vm.appConfig.branding.primaryColor)];
-      // set opacity of rgba color
-    subAoiColor[3] = 0.5;
-    return new Style({
-      fill: new Fill({
-        color: subAoiColor,
-      }),
-      stroke: new Stroke({
-        color: 'white',
-        width: 1,
-      }),
-      geometry: indicatorFeature.get('olSubAoiGeom'),
-    });
+
+    const { indicatorObject } = feature.getProperties().properties;
+    if (!indicatorObject.dummyFeature) {
+      store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
+    }
   }
 }
 

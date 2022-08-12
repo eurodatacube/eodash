@@ -12,6 +12,9 @@
       background: ${ $vuetify.breakpoint.xsOnly && isDropdownEnabled ? '#0007' : 'none'};
       z-index: 4`"
   >
+    <v-btn class="backButton" @click="goBack()">
+      <v-icon>mdi-arrow-left</v-icon>
+    </v-btn>
     <v-autocomplete
       ref="autocomplete"
       v-model="dropdownSelection"
@@ -589,6 +592,9 @@ export default {
         indicators: [],
       });
     },
+    goBack() {
+      this.$router.back();
+    },
   },
   watch: {
     countryItems() {
@@ -730,5 +736,12 @@ export default {
 }
 ::v-deep .v-input--checkbox .v-label {
   font-size: small;
+}
+
+.backButton {
+  /** to be removed */
+  position: absolute;
+  left: 350px;
+  pointer-events: all;
 }
 </style>
