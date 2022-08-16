@@ -103,8 +103,7 @@ function loadImages() {
             imgSize: [23, 23],
           }),
         };
-        if (onStylesLoaded && Object.keys(acc).length === Object.keys(indicatorClassesIcons)
-          .length) {
+        if (onStylesLoaded && Object.keys(acc).every((accKey) => acc[accKey].small)) {
           onStylesLoaded.forEach((cb) => cb());
           onStylesLoaded = undefined;
         }
