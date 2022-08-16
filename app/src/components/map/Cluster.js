@@ -83,24 +83,41 @@ function loadImages() {
       };
       image.addEventListener('load', () => {
         const canvas = document.createElement('canvas');
-        canvas.width = 24;
-        canvas.height = 24;
+        canvas.width = 50;
+        canvas.height = 50;
         const context = canvas.getContext('2d');
-        context.globalCompositeOperation = 'screen';
+        const halfWidth = canvas.width / 2;
+        canvas.style.imageRendering = 'pixelated';
+        context.imageSmoothingEnabled = false;
+        context.webkitImageSmoothingEnabled = false;
+        context.mozImageSmoothingEnabled = false;
+
+        // svg-icon, clipped in white rectangle
         context.fillStyle = 'white';
-        context.fillRect(0, 0, image.width, image.height);
+        context.fillRect(0, 0, canvas.width, canvas.height);
         context.globalCompositeOperation = 'destination-in';
-        context.drawImage(image, 0, 0);
+        context.drawImage(image, halfWidth - image.width / 2, halfWidth - image.height / 2, image.width, image.height);
+
+        // circles
+        context.globalCompositeOperation = 'destination-over';
+        context.beginPath();
+        context.arc(halfWidth, halfWidth, 20, 0, 2 * Math.PI, false);
+        context.fillStyle = '#2196F3';
+        context.fill();
+        context.lineWidth = 6;
+        context.strokeStyle = 'white';
+        context.stroke();
+
         acc[key] = {
           small: new Icon({
-            scale: 0.66,
+            scale: 0.6,
             img: canvas,
-            imgSize: [23, 23],
+            imgSize: [50, 50],
           }),
           large: new Icon({
-            scale: 1,
+            scale: 0.8,
             img: canvas,
-            imgSize: [23, 23],
+            imgSize: [50, 250],
           }),
         };
         if (onStylesLoaded && Object.keys(acc).every((accKey) => acc[accKey].small)) {
@@ -168,6 +185,36 @@ function getClusterMemberForCoordinate(map, openClusterFeature, coordinate) {
 }
 
 /**
+ * returns true if given ol indicator feature is currently selected
+ * @param {*} feature ol indicator feature
+ * @returns {boolean}
+ */
+function isFeatureSelected(feature) {
+  const { indicatorObject } = feature.getProperties().properties;
+  const { selectedIndicator } = store.state.indicators;
+  return selectedIndicator && selectedIndicator.indicator === indicatorObject.indicator
+  && selectedIndicator.aoiID === indicatorObject.aoiID;
+}
+
+/**
+ * Single feature style, for clusters with 1 feature and cluster circles.
+ * @param {Feature} clusterMember A feature from a cluster.
+ * @return {Style} An icon style for the cluster member's location.
+ */
+function clusterMemberStyle(clusterMember) {
+  const { indicatorObject } = clusterMember.getProperties().properties;
+  const indicatorCode = indicatorObject.indicator;
+  const indicator = store.getters['features/getIndicators'].find((i) => i.code === indicatorCode);
+  const isSelected = isFeatureSelected(clusterMember);
+  const image = indicatorClassesStyles[indicator.class][isSelected ? 'large' : 'small'];
+  const iconStyle = new Style({
+    image,
+    geometry: clusterMember.getGeometry(),
+  });
+  return [iconStyle];
+}
+
+/**
  * Style for clusters with features that are too close to each other, activated on click.
  * @param {Feature} cluster A cluster with overlapping members.
  * @param {number} resolution The current view resolution.
@@ -188,12 +235,11 @@ function clusterCircleStyle(cluster, resolution) {
   ).reduce((styles, coordinates, i) => {
     const point = new Point(coordinates);
     const line = new LineString([centerCoordinates, coordinates]);
-    const offsetStyle = this.clusterMemberStyle(
+    const offsetStyle = clusterMemberStyle(
       new Feature({
         ...clusterMembers[i].getProperties(),
         geometry: point,
       }),
-      this,
     );
     styles.unshift(
       new Style({
@@ -206,18 +252,6 @@ function clusterCircleStyle(cluster, resolution) {
     );
     return styles;
   }, []);
-}
-
-/**
- * returns true if given ol indicator feature is currently selected
- * @param {*} feature ol indicator feature
- * @returns {boolean}
- */
-function isFeatureSelected(feature) {
-  const { indicatorObject } = feature.getProperties().properties;
-  const { selectedIndicator } = store.state.indicators;
-  return selectedIndicator && selectedIndicator.indicator === indicatorObject.indicator
-  && selectedIndicator.aoiID === indicatorObject.aoiID;
 }
 
 class Cluster {
@@ -417,7 +451,7 @@ class Cluster {
       return styles;
     }
     const originalFeature = feature.get('features')[0];
-    return this.clusterMemberStyle(originalFeature, this.vm);
+    return clusterMemberStyle(originalFeature);
   }
 
   /**
@@ -495,38 +529,6 @@ class Cluster {
         this.clusterCircles.changed();
       });
     }
-  }
-
-  /**
- * Single feature style, for clusters with 1 feature and cluster circles.
- * @param {Feature} clusterMember A feature from a cluster.
- * @return {Style} An icon style for the cluster member's location.
- */
-  clusterMemberStyle(clusterMember) {
-    const { indicatorObject } = clusterMember.getProperties().properties;
-    const indicatorCode = indicatorObject.indicator;
-    const indicator = store.getters['features/getIndicators'].find((i) => i.code === indicatorCode);
-    const isSelected = isFeatureSelected(clusterMember);
-    const circleStyle = new Style({
-      image: new CircleStyle({
-        radius: isSelected ? 16 : 12,
-        fill: new Fill({
-          color: getColor(indicatorObject, this.vm),
-        }),
-        stroke: isSelected ? selectedStroke : new Stroke({
-          color: 'white',
-          width: 2,
-        }),
-      }),
-      geometry: clusterMember.getGeometry(),
-    });
-    const image = indicatorClassesStyles[indicator.class][isSelected ? 'large' : 'small'];
-    const iconStyle = new Style({
-      image,
-      geometry: clusterMember.getGeometry(),
-    });
-    const memberStyle = [circleStyle, iconStyle];
-    return memberStyle;
   }
 
   /**
