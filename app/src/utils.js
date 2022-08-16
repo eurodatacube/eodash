@@ -186,6 +186,6 @@ export function calculatePadding() {
   const { map } = getMapInstance('centerMap');
   const view = map.getView();
   // WIP: this will move the map center, this is open for discussion.
-  view.padding_ = padding;
+  view.padding = padding;
   view.changed();
 }
