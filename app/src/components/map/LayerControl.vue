@@ -54,6 +54,7 @@ export default {
     mapId: String,
     baseLayerConfigs: Array,
     overlayConfigs: Array,
+    isGlobalIndicator: Boolean,
   },
   data() {
     return {
@@ -120,7 +121,9 @@ export default {
           if (layer.get('name') === 'Country vectors') {
             layer.setOpacity(this.opacityCountries[zoom]);
           } else {
-            layer.setOpacity(this.opacityOverlay[zoom] || 0);
+            // show overlays on low zoom levels for global indicators
+            const opacity = this.isGlobalIndicator ? 1 : this.opacityOverlay[zoom] || 0;
+            layer.setOpacity(opacity);
           }
         }
       });
