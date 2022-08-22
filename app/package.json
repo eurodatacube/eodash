@@ -7,10 +7,7 @@
     "build": "vue-cli-service build",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
-    "start": "npm-run-all race trilateral gtif",
-    "race": "vue-cli-service serve --port 8080",
-    "trilateral": "vue-cli-service serve --port 8081",
-    "gtif": "vue-cli-service serve --port 8082"
+    "start": "vue-cli-service serve --port 8812"
   },
   "engines": {
     "node": "16"

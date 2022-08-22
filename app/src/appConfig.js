@@ -6,7 +6,7 @@ module.exports = [
       staging: 2,
       production: 4,
     },
-    match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'localhost:8080'],
+    match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'race.eox.world:8812'],
     branding: {
       appName: 'Rapid Action on coronavirus and EO',
       primaryColor: '#003247',
@@ -158,7 +158,7 @@ module.exports = [
       staging: 3,
       production: 5,
     },
-    match: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'eodash-trilateral-testing.eox.at', 'localhost:8081'],
+    match: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'eodash-trilateral-testing.eox.at', 'trilateral.eox.world:8812'],
     branding: {
       appName: 'Earth Observing Dashboard',
       primaryColor: '#333333',
@@ -311,7 +311,7 @@ module.exports = [
       staging: 6,
       production: 7,
     },
-    match: ['gtif.esa.int', 'gtif.eox.at', 'gtif-staging.eox.at', 'gtif-testing.eox.at', 'localhost:8082'],
+    match: ['gtif.esa.int', 'gtif.eox.at', 'gtif-staging.eox.at', 'gtif-testing.eox.at', 'gtif.eox.world:8812'],
     branding: {
       appName: 'Green Transition Information Factory',
       primaryColor: '#00662a',

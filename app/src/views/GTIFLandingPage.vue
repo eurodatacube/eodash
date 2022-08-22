@@ -156,6 +156,7 @@ import ThemeNavigation from '@/components/ThemesLandingPage/ThemeNavigation.vue'
 import StoriesGrid from '@/components/ThemesLandingPage/StoriesGrid.vue';
 import NewsletterBanner from '@/components/ThemesLandingPage/NewsletterBanner.vue';
 import StoriesNews from '@/components/ThemesLandingPage/StoriesNews.vue';
+import LandingPageInfographic from '@/components/GTIF/LandingPageInfographic.vue';
 
 export default {
   components: {
@@ -166,6 +167,7 @@ export default {
     StoriesGrid,
     NewsletterBanner,
     StoriesNews,
+    LandingPageInfographic,
   },
   metaInfo() {
     return {

@@ -20,6 +20,7 @@ import Challenges from './views/Challenges.vue';
 import Terms from './views/Terms.vue';
 import EmbedIframe from './views/EmbedIframe.vue';
 import ThemesLandingPage from './views/ThemesLandingPage.vue';
+import GTIFLandingPage from './views/GTIFLandingPage.vue';
 import ThemeSinglePage from './views/ThemeSinglePage.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
@@ -185,7 +186,11 @@ const renderVue = async () => {
   const routes = [
     ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
       ? [
-        { path: '/', name: 'landing', component: ThemesLandingPage },
+        {
+          path: '/',
+          name: 'landing',
+          component: store.state.config.appConfig.id === 'gtif' ? GTIFLandingPage : ThemesLandingPage,
+        },
         { path: '/explore', name: 'explore', component: Dashboard },
       ]
       : [
