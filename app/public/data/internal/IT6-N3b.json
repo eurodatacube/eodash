@@ -5421,5 +5421,71 @@
         "reference_time": "2022-06-18T00:00:00",
         "reference_value": "/",
         "time": "2022-06-18T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-84.51299999999998",
+        "reference_time": "2022-06-25T00:00:00",
+        "reference_value": "/",
+        "time": "2022-06-25T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-89.583",
+        "reference_time": "2022-07-02T00:00:00",
+        "reference_value": "/",
+        "time": "2022-07-02T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-94.544",
+        "reference_time": "2022-07-09T00:00:00",
+        "reference_value": "/",
+        "time": "2022-07-09T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-90.283",
+        "reference_time": "2022-07-16T00:00:00",
+        "reference_value": "/",
+        "time": "2022-07-16T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-38.555",
+        "reference_time": "2022-07-23T00:00:00",
+        "reference_value": "/",
+        "time": "2022-07-23T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-70.78",
+        "reference_time": "2022-07-30T00:00:00",
+        "reference_value": "/",
+        "time": "2022-07-30T00:00:00"
     }
 ]

@@ -1989,5 +1989,71 @@
         "reference_time": "2022-06-18T00:00:00",
         "reference_value": "[0.318 0.363]",
         "time": "2022-06-18T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A",
+        "indicator_value": "LOW",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-0.7959999999999999",
+        "reference_time": "2022-06-25T00:00:00",
+        "reference_value": "[0.018 0.386]",
+        "time": "2022-06-25T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A",
+        "indicator_value": "LOW",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-0.746",
+        "reference_time": "2022-07-02T00:00:00",
+        "reference_value": "[0.240 0.280]",
+        "time": "2022-07-02T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A",
+        "indicator_value": "LOW",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-0.9359999999999999",
+        "reference_time": "2022-07-09T00:00:00",
+        "reference_value": "[0.365 0.402]",
+        "time": "2022-07-09T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A",
+        "indicator_value": "LOW",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-0.768",
+        "reference_time": "2022-07-16T00:00:00",
+        "reference_value": "[0.277 0.320]",
+        "time": "2022-07-16T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A",
+        "indicator_value": "LOW",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-0.16399999999999998",
+        "reference_time": "2022-07-23T00:00:00",
+        "reference_value": "[0.049 0.330]",
+        "time": "2022-07-23T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A",
+        "indicator_value": "LOW",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-0.8690000000000001",
+        "reference_time": "2022-07-30T00:00:00",
+        "reference_value": "[-0.324 0.412]",
+        "time": "2022-07-30T00:00:00"
     }
 ]

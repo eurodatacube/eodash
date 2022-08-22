@@ -27,7 +27,7 @@ output_file = '/assets/lockdown_data.json'
 DATAFILE = '/working/tmp/OxCGRT_Download_{}_Full.csv'.format(
     datetime.datetime.utcnow().strftime("%Y-%m-%d")
 )
-url = 'https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv'
+url = 'https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_nat_latest.csv'
 
 if not os.path.isfile(DATAFILE):
     print("Downloading the latest OxCGRT lockdown data")
@@ -55,11 +55,11 @@ with open(DATAFILE) as csvfile:
             lockdown_data[location_key] = {
                 "CountryName": row["CountryName"],
                 "RegionName": row["RegionName"],
-                "C6_Stay at home requirements": [],
+                "C6M_Stay at home requirements": [],
             }
             prev_data[location_key] = {}
 
-        for key in ["C6_Stay at home requirements"]:
+        for key in ["C6M_Stay at home requirements"]:
 
             if not key in prev_data[location_key]:
                 prev_data[location_key][key] = {
@@ -101,11 +101,11 @@ with open(DATAFILE) as csvfile:
 
                 current_location = location_key
                 prev_date = currDate
-                prev_flag = row["C6_Flag"]
+                prev_flag = row["C6M_Flag"]
                 prev_location = location_key
 
     # When we reach the end of the rows we also make sure to "close" the last interval here
-    for key in ["C6_Stay at home requirements"]:
+    for key in ["C6M_Stay at home requirements"]:
         p_data = prev_data[prev_location][key]
         lockdown_data[prev_location][key].append({
             "start": p_data["prev_time"],

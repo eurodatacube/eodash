@@ -1,7 +1,7 @@
 // config global variables here for now
 // temporary solution
 import { Wkt } from 'wicket';
-import { latLng, latLngBounds } from 'leaflet';
+import { latLng, latLngBounds, CRS } from 'leaflet';
 import { DateTime } from 'luxon';
 import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
@@ -24,6 +24,31 @@ export const dataEndpoints = [
     provider: './data/internal/pois_trilateral.json',
   },
 ];
+
+const sharedPalsarFNFConfig = Object.freeze({
+  baseUrl: 'https://ogcpreview1.restecmap.com/examind/api/WS/wms/JAXA_WMS_Preview',
+  minZoom: 0,
+  name: 'FNF PALSAR2 World Yearly',
+  crs: CRS.EPSG4326,
+  tileSize: 256,
+  legendUrl: './data/trilateral/fnf-map-legend.png',
+  labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
+  presetView: {
+    type: 'FeatureCollection',
+    features: [{
+      type: 'Feature',
+      properties: {},
+      geometry: wkt.read('POLYGON((-94 20,50 20,50 -40,-94 -40,-94 20))').toJson(),
+    }],
+  },
+  baseLayers: [
+    baseLayers.terrainLight_4326,
+    baseLayers.cloudless_4326,
+  ],
+  overlayLayers: [
+    overlayLayers.eoxOverlay_4326,
+  ],
+});
 
 export const indicatorsDefinition = Object.freeze({
   E13c: {
@@ -469,8 +494,24 @@ export const indicatorsDefinition = Object.freeze({
     class: 'water',
     themes: ['agriculture'],
   },
-  // TODO: Disabling GRDI for now
-  /*
+  FNF: {
+    indicator: 'FNF',
+    story: '/eodash-data/stories/FNF',
+    class: 'agriculture',
+    themes: ['biomass-and-landcover'],
+  },
+  PRCG: {
+    indicator: 'PRCG',
+    story: '/eodash-data/stories/PRCG',
+    class: 'water',
+    themes: ['agriculture'],
+  },
+  SMCG: {
+    indicator: 'SMCG',
+    story: '/eodash-data/stories/SMCG',
+    class: 'agriculture',
+    themes: ['agriculture'],
+  },
   GRDI1: {
     story: '/eodash-data/stories/GRDI1',
     class: 'economic',
@@ -519,7 +560,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     disableTimeSelection: true,
   },
-  */
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
     themes: ['atmosphere', 'agriculture', 'biomass-and-landcover', 'economy', 'oceans', 'cryosphere', 'covid-19'],
@@ -715,6 +755,22 @@ export const layerNameMapping = Object.freeze({
     legendUrl: 'data/trilateral/NDVI.png',
     dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
   },
+  palsarFNF2017: {
+    ...sharedPalsarFNFConfig,
+    layers: 'FNF-PALSAR2-World-2017-Yearly',
+  },
+  palsarFNF2018: {
+    ...sharedPalsarFNFConfig,
+    layers: 'FNF-PALSAR2-World-2018-Yearly',
+  },
+  palsarFNF2019: {
+    ...sharedPalsarFNFConfig,
+    layers: 'FNF-PALSAR2-World-2019-Yearly',
+  },
+  palsarFNF2020: {
+    ...sharedPalsarFNFConfig,
+    layers: 'FNF-PALSAR2-World-2020-Yearly',
+  },
 });
 
 export const indicatorClassesIcons = Object.freeze({
@@ -730,6 +786,7 @@ export const mapDefaults = Object.freeze({
   minMapZoom: 0,
   maxMapZoom: 18,
   bounds: latLngBounds(latLng([-70, -170]), latLng([70, 170])),
+  crs: CRS.EPSG3857,
 });
 
 export const baseLayersLeftMap = [{
@@ -1381,8 +1438,6 @@ export const globalIndicators = [
       },
     },
   },
-  // TODO: Disabling GRDI for now
-  /*
   {
     properties: {
       indicatorObject: {
@@ -1671,7 +1726,6 @@ export const globalIndicators = [
       },
     },
   },
-  */
   {
     properties: {
       indicatorObject: {
@@ -1728,14 +1782,14 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        time: availableDates.VIS_ENVISAT_SEAICETHICKNESS,
+        time: availableDates['ESA-CCI-V2-ENVISAT'],
         inputData: [],
         yAxis: 'Sea Ice Thickness (Envisat)',
         showGlobe: true,
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Sea Ice Thickness (Envisat)',
-          layers: 'VIS_ENVISAT_SEAICETHICKNESS',
+          layers: 'ESA-CCI-V2-ENVISAT',
           legendUrl: 'eodash-data/data/SeaIceThicknessCCI.PNG',
           minZoom: 2,
           maxZoom: 13,
@@ -1771,14 +1825,14 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        time: availableDates.VIS_CRYOSAT_SEAICETHICKNESS,
+        time: availableDates['ESA-CCI-V2-CRYOSAT'],
         inputData: [],
-        yAxis: 'VIS_CRYOSAT_SEAICETHICKNESS',
+        yAxis: 'ESA-CCI-V2-CRYOSAT',
         showGlobe: true,
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Sea Ice Thickness (Cryosat)',
-          layers: 'VIS_CRYOSAT_SEAICETHICKNESS',
+          layers: 'ESA-CCI-V2-CRYOSAT',
           legendUrl: 'eodash-data/data/SeaIceThicknessCCI.PNG',
           minZoom: 2,
           maxZoom: 13,
@@ -1924,7 +1978,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'World',
-        time: getDailyDates('2002-06-21', '2021-12-31'),
+        time: getDailyDates('1978-11-01', '2021-12-31'),
         inputData: [''],
         showGlobe: true,
         display: [{
@@ -2019,10 +2073,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'Global',
         siteName: 'global',
-        description: 'Soil Moisture',
+        description: 'Soil Moisture Anomaly',
         indicator: 'SMC',
         lastIndicatorValue: null,
-        indicatorName: 'Soil Moisture',
+        indicatorName: 'Soil Moisture Anomaly',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -2070,6 +2124,68 @@ export const globalIndicators = [
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'hh:mm:ss'.000Z'"),
           legendUrl: 'eodash-data/data/PRC_legend.png',
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Global',
+        siteName: 'global',
+        description: 'Precipitation',
+        indicator: 'PRCG',
+        lastIndicatorValue: null,
+        indicatorName: 'Precipitation',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        time: availableDates['PRC-GSMaP-World-Monthly'],
+        inputData: [''],
+        display: [{
+          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+          name: 'PRC-GSMaP-World-Monthly',
+          layers: 'PRC-GSMaP-World-Monthly',
+          minZoom: 1,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'hh:mm:ss'.000Z'"),
+          legendUrl: 'eodash-data/data/PRCG_legend.png',
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Global',
+        siteName: 'global',
+        description: 'Soil Moisture Content',
+        indicator: 'SMCG',
+        lastIndicatorValue: null,
+        indicatorName: 'Soil Moisture Content',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        time: availableDates['SMC-GCOMW-World-Monthly'],
+        inputData: [''],
+        display: [{
+          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+          name: 'SMC-GCOMW-World-Monthly',
+          layers: 'SMC-GCOMW-World-Monthly',
+          minZoom: 1,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'hh:mm:ss'.000Z'"),
+          legendUrl: 'eodash-data/data/smc_gcom_legend.png',
         }],
       },
     },
@@ -3980,6 +4096,29 @@ export const globalIndicators = [
       },
     },
   },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Forest/non-forest map PALSAR2',
+        indicator: 'FNF',
+        lastIndicatorValue: null,
+        indicatorName: 'Forest/non-forest map PALSAR2',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        time: getYearlyDates('2017-01-01', '2020-01-01'),
+        inputData: ['palsarFNF2017', 'palsarFNF2018', 'palsarFNF2019', 'palsarFNF2020'],
+      },
+    },
+  },
 ];
 
 const createSlowDownIndicator = (id, aoiID, city, country, aoi, geometry, cog, eoSensor, time) => (
@@ -4254,13 +4393,6 @@ const urlMapping = {
   'blue-tarp-planetscope': 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}',
   'blue-tarp-detection': 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,10000&bidx=1&colormap_name=inferno',
 };
-// TODO: Disabling blue tarp for now
-if ('blue-tarp-planetscope' in locations) {
-  delete locations['blue-tarp-planetscope'];
-}
-if ('blue-tarp-detection' in locations) {
-  delete locations['blue-tarp-detection'];
-}
 
 Object.keys(locations).forEach((collection) => {
   idOffset += 5000;

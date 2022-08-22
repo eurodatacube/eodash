@@ -168,7 +168,7 @@ export default {
       const annotations = [];
       if (typeof currCountry !== 'undefined'
         && Object.prototype.hasOwnProperty.call(lockdownTimes, currCountry.id)) {
-        const lckTs = lockdownTimes[currCountry.id]['C6_Stay at home requirements'];
+        const lckTs = lockdownTimes[currCountry.id]['C6M_Stay at home requirements'];
         for (let i = 0; i < lckTs.length; i++) {
           let areaColor = 'rgba(0, 0, 0, 0.0)';
           if (lckTs[i].value === 1) {

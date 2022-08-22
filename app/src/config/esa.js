@@ -2,7 +2,7 @@
 // temporary solution
 import { Wkt } from 'wicket';
 import { DateTime } from 'luxon';
-import { latLng, latLngBounds } from 'leaflet';
+import { latLng, latLngBounds, CRS } from 'leaflet';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { E13bRemovedFtrs } from '@/config/otherdata';
@@ -592,6 +592,7 @@ export const mapDefaults = Object.freeze({
   minMapZoom: 2,
   maxMapZoom: 18,
   bounds: latLngBounds(latLng([35, -10]), latLng([70, 33])),
+  crs: CRS.EPSG3857,
 });
 
 export const baseLayersLeftMap = [{
