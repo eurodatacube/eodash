@@ -191,11 +191,11 @@ export default {
       glData: null,
       lightingEffect: null,
       viewState: {
-        latitude: 13.3457347,
-        longitude: 47.6964719,
-        zoom: 4,
+        latitude: 51.509865,
+        longitude: -0.118092,
+        zoom: 7,
         bearing: 0,
-        pitch: 0,
+        pitch: 30,
       },
     }
   },
@@ -284,7 +284,7 @@ export default {
         elevationRange: [0, 3000],
         elevationScale: this.glData && this.glData.length ? 50 : 0,
         extruded: true,
-        getPosition: d => [d.lon, d.lat],
+        getPosition: d => d,
         pickable: true,
         radius: 1000,
         upperPercentile: 100,
@@ -308,21 +308,12 @@ export default {
     }
   },
   async mounted () {
-    fetch('http://gtif.eox.world:8812/data/gtif/data/ozone.json')
-      .then(response => {
-          if (!response.ok) {
-              throw new Error("HTTP error " + response.status);
-          }
-          return response.json();
-      })
-      .then(json => {
-        this.glData = json.data;
+    require('d3-request').csv('https://raw.githubusercontent.com/visgl/deck.gl-data/master/examples/3d-heatmap/heatmap-data.csv', (error, response) => {
+      if (!error) {
+        this.glData = response.map(d => [Number(d.lng), Number(d.lat)]);
         console.log(this.glData);
-        console.log('Got ozone data.');
-      })
-      .catch(err => {
-        console.error(`Error getting ozone data: ${err}`);
-      });
+      }
+    });
   },
   methods: {
     ...mapActions('themes', ['loadTheme']),
@@ -334,6 +325,32 @@ export default {
       this.viewState = {
           ...updatedViewState
       }
+    },
+    csvToArray(str, delimiter = ",") {
+      // slice from start of text to the first \n index
+      // use split to create an array from string by delimiter
+      const headers = str.slice(0, str.indexOf("\n")).split(delimiter);
+
+      // slice from \n index + 1 to the end of the text
+      // use split to create an array of each csv value row
+      const rows = str.slice(str.indexOf("\n") + 1).split("\n");
+
+      // Map the rows
+      // split values from each row into an array
+      // use headers.reduce to create an object
+      // object properties derived from headers:values
+      // the object passed as an element of the array
+      const arr = rows.map(function (row) {
+        const values = row.split(delimiter);
+        const el = headers.reduce(function (object, header, index) {
+          object[header] = values[index];
+          return object;
+        }, {});
+        return el;
+      });
+
+      // return the array
+      return arr;
     },
   },
 };
