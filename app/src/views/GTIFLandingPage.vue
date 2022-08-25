@@ -186,7 +186,7 @@ export default {
   data () {
     return {
       // Contains the data for the 3D bar chart in the hero
-      barchartData: null,
+      glData: null,
       lightingEffect: null,
       viewState: {
         latitude: 13.3457347,
@@ -258,9 +258,9 @@ export default {
         id: 'heatmap',
         colorRange,
         coverage: 1,
-        data: this.barchartData,
+        data: this.glData,
         elevationRange: [0, 3000],
-        elevationScale: this.barchartData && data.length ? 50 : 0,
+        elevationScale: this.glData && data.length ? 50 : 0,
         extruded: true,
         getPosition: d => [d.lon, d.lat],
         pickable: true,
@@ -286,17 +286,15 @@ export default {
     }
   },
   async mounted () {
-    fetch('http://luft.umweltbundesamt.at/pub/ozonbericht/aktuell.json')
-      .then((response) => {
-        response.text()
-          .then((t) => {
-            console.log(t.slice(14, -2));
-            // Remove JSONP marker at beginning and end, -3 because there's some whitespace
-            this.barchartData = JSON.parse(t.slice(14, -3));
-            console.log(this.barchartData);
-          })
+    fetch('/data/gtif/data/ozone.json')
+      .then(obj => {
+        this.glData = JSON.parse(t);
+        console.log(this.glData);
+        console.log('Got ozone data.');
       })
-      .catch((e) => console.error(`There was an error catching bar chart data: ${e}`));
+      .catch(err => {
+        console.error(`Error getting ozone data: ${e}`);
+      });
   },
   methods: {
     ...mapActions('themes', ['loadTheme']),
