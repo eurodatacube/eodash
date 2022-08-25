@@ -12,6 +12,16 @@
     >
       <global-header :isFullScreen="false" />
       <v-row class="landing-page" justify="center">
+        <div style="background: #000; width: 100%; height: 80vh;">
+          <VueDeckgl
+              :layers="layers"
+              :effects="[lightingEffect]"
+              :viewState="viewState"
+              @click="handleClick"
+              @view-state-change="handleViewStateChange"
+          >
+          </VueDeckgl>
+        </div>
         <hero />
 
         <div class="section pb-16">
@@ -147,6 +157,9 @@ import {
   mapGetters,
   mapActions,
 } from 'vuex';
+import VueDeckgl from 'vue-deck.gl';
+import {HexagonLayer} from '@deck.gl/aggregation-layers';
+import {AmbientLight, PointLight, LightingEffect} from '@deck.gl/core';
 
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import GlobalHeader from '@/components/GlobalHeader.vue';
@@ -168,6 +181,21 @@ export default {
     NewsletterBanner,
     StoriesNews,
     LandingPageInfographic,
+    VueDeckgl,
+  },
+  data () {
+    return {
+      // Contains the data for the 3D bar chart in the hero
+      barchartData: null,
+      lightingEffect: null,
+      viewState: {
+        latitude: 13.3457347,
+        longitude: 47.6964719,
+        zoom: 4,
+        bearing: 0,
+        pitch: 0,
+      },
+    }
   },
   metaInfo() {
     return {
@@ -188,6 +216,64 @@ export default {
         ])
         .filter((story) => !!story);
     },
+
+    layers  () {
+      const colorRange = [
+        [1, 152, 189],
+        [73, 227, 206],
+        [216, 254, 181],
+        [254, 237, 177],
+        [254, 173, 84],
+        [209, 55, 78]
+      ];
+
+      const ambientLight = new AmbientLight({
+        color: [255, 255, 255],
+        intensity: 1.0
+      });
+
+      const pointLight1 = new PointLight({
+        color: [255, 255, 255],
+        intensity: 0.8,
+        position: [-0.144528, 49.739968, 80000]
+      });
+
+      const pointLight2 = new PointLight({
+        color: [255, 255, 255],
+        intensity: 0.8,
+        position: [-3.807751, 54.104682, 8000]
+      });
+
+      this.lightingEffect = new LightingEffect({ambientLight, pointLight1, pointLight2});
+
+      const material = {
+        ambient: 0.64,
+        diffuse: 0.6,
+        shininess: 32,
+        specularColor: [51, 51, 51]
+      };
+
+
+      const paths = new HexagonLayer({
+        id: 'heatmap',
+        colorRange,
+        coverage: 1,
+        data: this.barchartData,
+        elevationRange: [0, 3000],
+        elevationScale: this.barchartData && data.length ? 50 : 0,
+        extruded: true,
+        getPosition: d => [d.lon, d.lat],
+        pickable: true,
+        radius: 1000,
+        upperPercentile: 100,
+        material,
+
+        transitions: {
+          elevationScale: 3000
+        }
+      });
+      return [paths];
+    },
   },
   created() {
     this.loadTheme(null);
@@ -199,8 +285,30 @@ export default {
       });
     }
   },
+  async mounted () {
+    fetch('http://luft.umweltbundesamt.at/pub/ozonbericht/aktuell.json')
+      .then((response) => {
+        response.text()
+          .then((t) => {
+            console.log(t.slice(14, -2));
+            // Remove JSONP marker at beginning and end, -3 because there's some whitespace
+            this.barchartData = JSON.parse(t.slice(14, -3));
+            console.log(this.barchartData);
+          })
+      })
+      .catch((e) => console.error(`There was an error catching bar chart data: ${e}`));
+  },
   methods: {
     ...mapActions('themes', ['loadTheme']),
+    handleClick({ event, info }) {
+      // handle clicks on the deck instance
+    },
+    handleViewStateChange(updatedViewState) {
+      // update the state object
+      this.viewState = {
+          ...updatedViewState
+      }
+    },
   },
 };
 </script>
