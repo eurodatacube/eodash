@@ -12,11 +12,16 @@
     >
       <global-header :isFullScreen="false" />
       <v-row class="landing-page" justify="center">
-        <div style="background: #000; width: 100%; height: 80vh;">
+        <div style="background: #000; width: 100%; height: 80vh; position: relative;">
           <VueDeckgl
               :layers="layers"
               :effects="[lightingEffect]"
               :viewState="viewState"
+              :controller="{
+                doubleClickZoom: false,
+                scrollZoom:      false,
+                //type: MapController,
+              }"
               @click="handleClick"
               @view-state-change="handleViewStateChange"
           >
@@ -161,7 +166,12 @@ import VueDeckgl from 'vue-deck.gl';
 import {HexagonLayer} from '@deck.gl/aggregation-layers';
 import {BitmapLayer} from '@deck.gl/layers';
 import {TileLayer} from '@deck.gl/geo-layers';
-import {AmbientLight, PointLight, LightingEffect} from '@deck.gl/core';
+import {
+  AmbientLight,
+  PointLight,
+  LightingEffect,
+  MapController,
+} from '@deck.gl/core';
 
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import GlobalHeader from '@/components/GlobalHeader.vue';
