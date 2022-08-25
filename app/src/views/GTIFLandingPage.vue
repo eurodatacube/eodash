@@ -159,6 +159,8 @@ import {
 } from 'vuex';
 import VueDeckgl from 'vue-deck.gl';
 import {HexagonLayer} from '@deck.gl/aggregation-layers';
+import {BitmapLayer} from '@deck.gl/layers';
+import {TileLayer} from '@deck.gl/geo-layers';
 import {AmbientLight, PointLight, LightingEffect} from '@deck.gl/core';
 
 import GlobalFooter from '@/components/GlobalFooter.vue';
@@ -253,14 +255,34 @@ export default {
         specularColor: [51, 51, 51]
       };
 
+      const tileLayer = new TileLayer({
+        // https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Tile_servers
+        data: 'https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png',
 
-      const paths = new HexagonLayer({
+        minZoom: 0,
+        maxZoom: 19,
+        tileSize: 256,
+
+        renderSubLayers: props => {
+          const {
+            bbox: {west, south, east, north}
+          } = props.tile;
+
+          return new BitmapLayer(props, {
+            data: null,
+            image: props.data,
+            bounds: [west, south, east, north]
+          });
+        }
+      });
+
+      const hexagonLayer = new HexagonLayer({
         id: 'heatmap',
         colorRange,
         coverage: 1,
         data: this.glData,
         elevationRange: [0, 3000],
-        elevationScale: this.glData && data.length ? 50 : 0,
+        elevationScale: this.glData && this.glData.length ? 50 : 0,
         extruded: true,
         getPosition: d => [d.lon, d.lat],
         pickable: true,
@@ -272,7 +294,7 @@ export default {
           elevationScale: 3000
         }
       });
-      return [paths];
+      return [tileLayer, hexagonLayer];
     },
   },
   created() {
@@ -286,14 +308,20 @@ export default {
     }
   },
   async mounted () {
-    fetch('/data/gtif/data/ozone.json')
-      .then(obj => {
-        this.glData = JSON.parse(t);
+    fetch('http://gtif.eox.world:8812/data/gtif/data/ozone.json')
+      .then(response => {
+          if (!response.ok) {
+              throw new Error("HTTP error " + response.status);
+          }
+          return response.json();
+      })
+      .then(json => {
+        this.glData = json.data;
         console.log(this.glData);
         console.log('Got ozone data.');
       })
       .catch(err => {
-        console.error(`Error getting ozone data: ${e}`);
+        console.error(`Error getting ozone data: ${err}`);
       });
   },
   methods: {
