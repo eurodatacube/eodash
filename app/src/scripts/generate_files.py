@@ -129,15 +129,15 @@ BYOD_COLLECTIONS = [
     "AWS_VIS_CO_3DAILY_DATA",
     "AWS_NO2-VISUALISATION",
     "BICEP_NPP_VIS_PP",
-    "VIS_ENVISAT_SEAICETHICKNESS",
-    "VIS_CRYOSAT_SEAICETHICKNESS",
+    "ESA-CCI-V2-CRYOSAT",
+    "ESA-CCI-V2-ENVISAT",
     "AWS_CH4_WEEKLY",
 ]
 
 ZARRCOLLECTIONS = [
     "BICEP_NPP_VIS_PP",
-    "VIS_ENVISAT_SEAICETHICKNESS",
-    "VIS_CRYOSAT_SEAICETHICKNESS",
+    "ESA-CCI-V2-CRYOSAT",
+    "ESA-CCI-V2-ENVISAT",
 ]
 
 WMSCOLLECTIONS = {
@@ -145,6 +145,8 @@ WMSCOLLECTIONS = {
     "NDVI-GCOMC-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
     "SMC-Anomaly-GCOMW-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
     "PRC-Anomaly-GSMaP-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
+    "SMC-GCOMW-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
+    "PRC-GSMaP-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
 }
 
 STAC_COLLECTIONS = {
