@@ -320,7 +320,8 @@ export default {
     dataLayerName() {
       let dataLayerName;
       if (this.mergedConfigsData?.length) {
-        dataLayerName = this.mergedConfigsData[0].name;
+        dataLayerName = this.mergedConfigsData[0].name
+        + this.indicator.aoiID + this.indicator.indicator;
       }
       return dataLayerName || '';
     },
