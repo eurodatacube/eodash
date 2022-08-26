@@ -29,7 +29,7 @@
         <v-col md="6" xs="12"
         >
           <div
-            v-html="challenges"
+            v-html="renderedMarkdown"
             class="md-body"
             :options="{ markdownIt: { html: true } }"
           />
@@ -59,8 +59,8 @@ export default {
   },
   computed: {
     ...mapState('config', ['appConfig']),
-    challenges() {
-      return this.$marked(require(`../../public${this.appConfig.challengesText}.md`).default);
+    renderedMarkdown() {
+      return this.$marked(require(`../../public${this.$attrs.markdownFile}.md`).default);
     },
   },
 };

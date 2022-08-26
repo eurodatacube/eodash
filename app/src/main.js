@@ -16,7 +16,7 @@ import Dashboard from './views/Dashboard.vue';
 import DashboardCustom from './views/DashboardCustom.vue';
 import Privacy from './views/Privacy.vue';
 import PageNotFound from './views/PageNotFound.vue';
-import Challenges from './views/Challenges.vue';
+import MarkdownPage from './views/MarkdownPage.vue';
 import Terms from './views/Terms.vue';
 import EmbedIframe from './views/EmbedIframe.vue';
 import ThemesLandingPage from './views/ThemesLandingPage.vue';
@@ -187,6 +187,13 @@ const renderVue = async () => {
       ? [
         { path: '/', name: 'landing', component: ThemesLandingPage },
         { path: '/explore', name: 'explore', component: Dashboard },
+        {
+          path: '/documentation',
+          component: MarkdownPage,
+          props: {
+            markdownFile: '/eodash-data/general/documentation',
+          },
+        },
       ]
       : [
         { path: '/', name: 'explore', component: Dashboard },
@@ -195,7 +202,13 @@ const renderVue = async () => {
     { path: '/story', component: DashboardCustom },
     { path: '/privacy', component: Privacy },
     { path: '/terms_and_conditions', component: Terms },
-    { path: '/challenges', component: Challenges },
+    {
+      path: '/challenges',
+      component: MarkdownPage,
+      props: {
+        markdownFile: '/eodash-data/general/eodashboardhackathon',
+      },
+    },
     { path: '/iframe', component: EmbedIframe },
     ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
       ? [
