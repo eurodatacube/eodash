@@ -310,6 +310,10 @@ export default {
         referenceDecompose.N1d = referenceDecompose.N1a;
         referenceDecompose.E12b = referenceDecompose.N1a;
         referenceDecompose.E8 = referenceDecompose.N1a;
+        // Special legend for E8
+        referenceDecompose.E8.referenceData[0].key = 'roll average';
+        referenceDecompose.E8.referenceData[1].key = '2017-2019 roll average';
+
         referenceDecompose.E13o = referenceDecompose.N1;
         referenceDecompose.E13p = referenceDecompose.N1;
         referenceDecompose.E13q = referenceDecompose.N1;
