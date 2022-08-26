@@ -277,7 +277,9 @@ export function createLayerFromConfig(config, _options = {}) {
         if (config.specialEnvTime) {
           newParams.env = `year:${updatedTime}`;
         }
-        source.updateParams(newParams);
+        if (source.updateParams) {
+          source.updateParams(newParams);
+        }
       });
     }
     layers.push(new TileLayer({
