@@ -30,7 +30,7 @@
         <hero />
 
         <div class="section pb-16">
-          <theme-navigation />
+          <gtif-navigation />
 
           <div class="mt-16 mb-16 d-flex flex-column justify-start align-center">
             <stories-news v-if="appConfig && appConfig.id != 'gtif'"/>
@@ -177,18 +177,19 @@ import GlobalFooter from '@/components/GlobalFooter.vue';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 
 import Hero from '@/components/ThemesLandingPage/Hero.vue';
-import ThemeNavigation from '@/components/ThemesLandingPage/ThemeNavigation.vue';
 import StoriesGrid from '@/components/ThemesLandingPage/StoriesGrid.vue';
 import NewsletterBanner from '@/components/ThemesLandingPage/NewsletterBanner.vue';
 import StoriesNews from '@/components/ThemesLandingPage/StoriesNews.vue';
+
 import LandingPageInfographic from '@/components/GTIF/LandingPageInfographic.vue';
+import GtifNavigation from '@/components/GTIF/GTIFNavigation.vue';
 
 export default {
   components: {
     GlobalFooter,
     GlobalHeader,
     Hero,
-    ThemeNavigation,
+    GtifNavigation,
     StoriesGrid,
     NewsletterBanner,
     StoriesNews,
