@@ -163,9 +163,9 @@ import {
   mapActions,
 } from 'vuex';
 import VueDeckgl from 'vue-deck.gl';
-import {HexagonLayer} from '@deck.gl/aggregation-layers';
-import {BitmapLayer} from '@deck.gl/layers';
-import {TileLayer} from '@deck.gl/geo-layers';
+import { HexagonLayer } from '@deck.gl/aggregation-layers';
+import { BitmapLayer } from '@deck.gl/layers';
+import { TileLayer } from '@deck.gl/geo-layers';
 import {
   AmbientLight,
   PointLight,
@@ -196,7 +196,7 @@ export default {
     LandingPageInfographic,
     VueDeckgl,
   },
-  data () {
+  data() {
     return {
       // Contains the data for the 3D bar chart in the hero
       glData: null,
@@ -208,7 +208,7 @@ export default {
         bearing: 0,
         pitch: 30,
       },
-    }
+    };
   },
   metaInfo() {
     return {
@@ -230,40 +230,40 @@ export default {
         .filter((story) => !!story);
     },
 
-    layers  () {
+    layers() {
       const colorRange = [
         [1, 152, 189],
         [73, 227, 206],
         [216, 254, 181],
         [254, 237, 177],
         [254, 173, 84],
-        [209, 55, 78]
+        [209, 55, 78],
       ];
 
       const ambientLight = new AmbientLight({
         color: [255, 255, 255],
-        intensity: 1.0
+        intensity: 1.0,
       });
 
       const pointLight1 = new PointLight({
         color: [255, 255, 255],
         intensity: 0.8,
-        position: [-0.144528, 49.739968, 80000]
+        position: [-0.144528, 49.739968, 80000],
       });
 
       const pointLight2 = new PointLight({
         color: [255, 255, 255],
         intensity: 0.8,
-        position: [-3.807751, 54.104682, 8000]
+        position: [-3.807751, 54.104682, 8000],
       });
 
-      this.lightingEffect = new LightingEffect({ambientLight, pointLight1, pointLight2});
+      this.lightingEffect = new LightingEffect({ ambientLight, pointLight1, pointLight2 });
 
       const material = {
         ambient: 0.64,
         diffuse: 0.6,
         shininess: 32,
-        specularColor: [51, 51, 51]
+        specularColor: [51, 51, 51],
       };
 
       const tileLayer = new TileLayer({
@@ -274,17 +274,19 @@ export default {
         maxZoom: 19,
         tileSize: 256,
 
-        renderSubLayers: props => {
+        renderSubLayers: (props) => {
           const {
-            bbox: {west, south, east, north}
+            bbox: {
+              west, south, east, north,
+            },
           } = props.tile;
 
           return new BitmapLayer(props, {
             data: null,
             image: props.data,
-            bounds: [west, south, east, north]
+            bounds: [west, south, east, north],
           });
-        }
+        },
       });
 
       const hexagonLayer = new HexagonLayer({
@@ -295,15 +297,15 @@ export default {
         elevationRange: [0, 3000],
         elevationScale: this.glData && this.glData.length ? 50 : 0,
         extruded: true,
-        getPosition: d => d,
+        getPosition: (d) => d,
         pickable: true,
         radius: 1000,
         upperPercentile: 100,
         material,
 
         transitions: {
-          elevationScale: 3000
-        }
+          elevationScale: 3000,
+        },
       });
       return [tileLayer, hexagonLayer];
     },
@@ -318,10 +320,10 @@ export default {
       });
     }
   },
-  async mounted () {
+  async mounted() {
     require('d3-request').csv('https://raw.githubusercontent.com/visgl/deck.gl-data/master/examples/3d-heatmap/heatmap-data.csv', (error, response) => {
       if (!error) {
-        this.glData = response.map(d => [Number(d.lng), Number(d.lat)]);
+        this.glData = response.map((d) => [Number(d.lng), Number(d.lat)]);
         console.log(this.glData);
       }
     });
@@ -334,26 +336,26 @@ export default {
     handleViewStateChange(updatedViewState) {
       // update the state object
       this.viewState = {
-          ...updatedViewState
-      }
+        ...updatedViewState,
+      };
     },
-    csvToArray(str, delimiter = ",") {
+    csvToArray(str, delimiter = ',') {
       // slice from start of text to the first \n index
       // use split to create an array from string by delimiter
-      const headers = str.slice(0, str.indexOf("\n")).split(delimiter);
+      const headers = str.slice(0, str.indexOf('\n')).split(delimiter);
 
       // slice from \n index + 1 to the end of the text
       // use split to create an array of each csv value row
-      const rows = str.slice(str.indexOf("\n") + 1).split("\n");
+      const rows = str.slice(str.indexOf('\n') + 1).split('\n');
 
       // Map the rows
       // split values from each row into an array
       // use headers.reduce to create an object
       // object properties derived from headers:values
       // the object passed as an element of the array
-      const arr = rows.map(function (row) {
+      const arr = rows.map((row) => {
         const values = row.split(delimiter);
-        const el = headers.reduce(function (object, header, index) {
+        const el = headers.reduce((object, header, index) => {
           object[header] = values[index];
           return object;
         }, {});
