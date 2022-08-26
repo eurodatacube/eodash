@@ -92,6 +92,7 @@
       <LayerControl
         v-if="loaded"
         class="pointerEvents"
+        :key="[...baseLayerConfigs, ...overlayConfigs].map(c => c.name) + isGlobalIndicator"
         :mapId="mapId"
         :baseLayerConfigs="baseLayerConfigs"
         :overlayConfigs="overlayConfigs"
