@@ -594,6 +594,17 @@ export default {
     },
     goBack() {
       this.$router.back();
+      const currentQuery = this.$router.currentRoute.query;
+      const {
+        x, y, z,
+      } = currentQuery;
+      if (x && y && z && !Number.isNaN(x) && !Number.isNaN(y) && !Number.isNaN(z)) {
+        getMapInstance('centerMap').map.getView().animate({
+          center: [x, y],
+          zoom: z,
+          duration: 300,
+        });
+      }
     },
   },
   watch: {
