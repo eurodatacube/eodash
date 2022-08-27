@@ -16,7 +16,7 @@
       :mergedConfig="mergedConfigsData[0]"
       :layerName="dataLayerName"
       :options="specialLayerOptions"
-      :key="dataLayerName  + '_specialLayer'"
+      :key="dataLayerKey  + '_specialLayer'"
       :swipePixelX="swipePixelX"
     />
     <!-- compare layer has same zIndex as specialLayer -->
@@ -320,10 +320,12 @@ export default {
     dataLayerName() {
       let dataLayerName;
       if (this.mergedConfigsData?.length) {
-        dataLayerName = this.mergedConfigsData[0].name
-        + this.indicator.aoiID + this.indicator.indicator;
+        dataLayerName = this.mergedConfigsData[0].name;
       }
       return dataLayerName || '';
+    },
+    dataLayerKey() {
+      return this.dataLayerName + +this.indicator.aoiID + this.indicator.indicator;
     },
     countriesJson() {
       return countries;
