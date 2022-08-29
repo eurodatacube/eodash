@@ -36,12 +36,9 @@
             <v-col
               class="gtif-dashboard-col"
               style="background: #9f9"
-            ></v-col>
-
-            <v-col
-              class="gtif-dashboard-col"
-              style="background: #99f"
-            ></v-col>
+            >
+              <iframe class="item" src="https://eodash.eox.at/iframe?poi=100058-OX" width="100%" height="100%" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>
+            </v-col>
           </v-row>
         </v-container>
 
@@ -428,6 +425,6 @@ export default {
 
 }
 .gtif-dashboard-col {
-  height: 125px;
+  height: 300px;
 }
 </style>
