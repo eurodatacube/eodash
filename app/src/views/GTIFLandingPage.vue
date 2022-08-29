@@ -30,19 +30,8 @@
         <hero />
 
         <v-container class="section gtif-grid pa-16" style="background: #D2E3E0">
-          <v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden">
-            <v-col
-              class="gtif-dashboard-col white"
-            >
-              <v-row class="fill-width pa-4">
-                <div class="color-primary rounded-md" style="border-radius: 50%; height: 36px; width: 36px; background: #f99;"></div>
-                <v-col class="ml-3" style="transform: translateY(-3px)">
-                  <v-row class="text-subtitle-2 font-weight-regular text-blue-grey lighten-1">Annual CO2 Emissions</v-row>
-                  <v-row class="text-h5">31.5 GT/a</v-row>
-                </v-col>
-              </v-row>
-              <v-row></v-row>
-            </v-col>
+          <v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden" elevation="3">
+            <gtif-tile />
 
             <v-col
               class="gtif-dashboard-col"
@@ -210,6 +199,7 @@ import StoriesNews from '@/components/ThemesLandingPage/StoriesNews.vue';
 
 import LandingPageInfographic from '@/components/GTIF/LandingPageInfographic.vue';
 import GtifNavigation from '@/components/GTIF/GTIFNavigation.vue';
+import GtifTile from '@/components/GTIF/GTIFTile.vue';
 
 export default {
   components: {
@@ -217,6 +207,7 @@ export default {
     GlobalHeader,
     Hero,
     GtifNavigation,
+    GtifTile,
     StoriesGrid,
     NewsletterBanner,
     StoriesNews,
