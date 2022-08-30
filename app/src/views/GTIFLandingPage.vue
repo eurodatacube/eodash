@@ -12,38 +12,80 @@
     >
       <global-header :isFullScreen="false" />
       <v-row class="landing-page" justify="center">
-        <div style="background: #000; width: 100%; height: 80vh; position: relative;">
-          <VueDeckgl
-              :layers="layers"
-              :effects="[lightingEffect]"
-              :viewState="viewState"
-              :controller="{
-                doubleClickZoom: false,
-                scrollZoom:      false,
-                //type: MapController,
-              }"
-              @click="handleClick"
-              @view-state-change="handleViewStateChange"
-          >
-          </VueDeckgl>
-        </div>
-        <hero />
-
         <v-container class="section gtif-grid pa-16" style="background: #D2E3E0">
+
+          <v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden" elevation="3">
+            <v-col
+              class="gtif-dashboard-col" style="position: relative"
+            >
+              <img
+                src="data/gtif/images/GTIF_Key_visual.png"
+                width="100%"
+                class="pl-xs-0 pl-sm-0 pl-md-8 pl-lg-8 pl-xl-8"
+              />
+            </v-col>
+
+            <v-col
+              class="gtif-dashboard-col" style="position: relative"
+            >
+              <VueDeckgl
+                :layers="layers"
+                :effects="[lightingEffect]"
+                :viewState="viewState"
+                :controller="{
+                  doubleClickZoom: false,
+                  scrollZoom:      false,
+                  //type: MapController,
+                }"
+                @click="handleClick"
+                @view-state-change="handleViewStateChange"
+              >
+              </VueDeckgl>
+            </v-col>
+          </v-row>
+          <div class="mt-16 mb-16 d-flex flex-column justify-start align-center">
+            <v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden align-center justify-center" elevation="3">
+              <button
+                class="button"
+                style="background-color:#ffab02; outline-color:#ffab02"
+                @click="$router.push({ name: 'energy' })">
+                  Energy Production
+              </button>
+              <button
+                class="button"
+                style="background-color:#ec5f65; outline-color:#ec5f65"
+                @click="$router.push({ name: 'transport-emission' })">
+                  Transport &amp; Emissions
+              </button>
+              <button
+                class="button"
+                style="background-color:#0097d7; outline-color:#0097d7"
+                @click="$router.push({ name: 'green-finance' })">
+                  Green Finance
+              </button>
+              <button
+                class="button"
+                style="background-color:#00599b; outline-color:#00599b"
+                @click="$router.push({ name: 'food-ecosystems-biodiversity' })">
+                  Food Production &amp; Ecosystems
+              </button>
+            </v-row>
+          </div>
           <v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden" elevation="3">
             <gtif-tile />
 
             <v-col
               class="gtif-dashboard-col"
-              style="background: #9f9"
+              style="/*background: #9f9*/"
             >
               <iframe class="item" src="https://eodash.eox.at/iframe?poi=100058-OX" width="100%" height="100%" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>
             </v-col>
           </v-row>
+
         </v-container>
 
         <div class="section pb-16">
-          <gtif-navigation />
+          <!--<gtif-navigation />-->
 
           <div class="mt-16 mb-16 d-flex flex-column justify-start align-center">
             <stories-news v-if="appConfig && appConfig.id != 'gtif'"/>
@@ -339,7 +381,7 @@ export default {
     require('d3-request').csv('https://raw.githubusercontent.com/visgl/deck.gl-data/master/examples/3d-heatmap/heatmap-data.csv', (error, response) => {
       if (!error) {
         this.glData = response.map((d) => [Number(d.lng), Number(d.lat)]);
-        console.log(this.glData);
+        // console.log(this.glData);
       }
     });
   },
@@ -425,6 +467,23 @@ export default {
 
 }
 .gtif-dashboard-col {
-  height: 300px;
+  height: 464px;
+}
+.button {
+  font-weight: bold;
+  border: none;
+  color: white;
+  width: 180px;
+  height: 180px;
+  padding: 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 20px 20px;
+  border-radius:50%;
+  outline-width: 2px;
+  outline-style: solid;
+  outline-offset: 8px;
 }
 </style>

@@ -13,42 +13,42 @@
 </template>
 
 <script>
-import { Line as LineChartGenerator } from 'vue-chartjs'
+import { Line as LineChartGenerator } from 'vue-chartjs';
 
 export default {
   name: 'LineChart',
   components: {
-    LineChartGenerator
+    LineChartGenerator,
   },
   props: {
     chartId: {
       type: String,
-      default: 'line-chart'
+      default: 'line-chart',
     },
     datasetIdKey: {
       type: String,
-      default: 'label'
+      default: 'label',
     },
     width: {
       type: Number,
-      default: 400
+      default: 400,
     },
     height: {
       type: Number,
-      default: 80
+      default: 80,
     },
     cssClasses: {
       default: '',
-      type: String
+      type: String,
     },
     styles: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     plugins: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   data() {
     return {
@@ -60,21 +60,21 @@ export default {
           'April',
           'May',
           'June',
-          'July'
+          'July',
         ],
         datasets: [
           {
             label: 'Data One',
             backgroundColor: '#f87979',
-            data: [40, 39, 10, 40, 39, 80, 40]
-          }
-        ]
+            data: [40, 39, 10, 40, 39, 80, 40],
+          },
+        ],
       },
       chartOptions: {
         responsive: true,
-        maintainAspectRatio: false
-      }
-    }
-  }
-}
+        maintainAspectRatio: false,
+      },
+    };
+  },
+};
 </script>
