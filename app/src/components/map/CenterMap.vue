@@ -525,7 +525,7 @@ export default {
       false,
     );
     if (this.mapId === 'centerMap') {
-      map.addInteraction(new Link({ replace: true }));
+      map.addInteraction(new Link({ replace: false }));
     }
   },
   methods: {
