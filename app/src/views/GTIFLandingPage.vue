@@ -16,13 +16,13 @@
 
           <v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden" elevation="3">
             <v-col
-              class="gtif-dashboard-col" style="position: relative"
+              class="gtif-dashboard-col" style="position: relative; background-image: url('/data/gtif/images/GTIF_Key_visual.png'); background-size: cover; background-position: center;"
             >
-              <img
+              <!--<img
                 src="data/gtif/images/GTIF_Key_visual.png"
                 width="100%"
                 class="pl-xs-0 pl-sm-0 pl-md-8 pl-lg-8 pl-xl-8"
-              />
+              />-->
             </v-col>
 
             <v-col
@@ -76,9 +76,11 @@
 
             <v-col
               class="gtif-dashboard-col"
-              style="/*background: #9f9*/"
+              style="background: transparent;"
             >
-              <iframe class="item" src="https://eodash.eox.at/iframe?poi=100058-OX" width="100%" height="100%" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>
+              <div style="background: #FFF; height: 100%;">
+                <iframe class="item" src="https://eodash.eox.at/iframe?poi=100058-OX" width="100%" height="100%" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>
+              </div>
             </v-col>
           </v-row>
 
@@ -468,6 +470,7 @@ export default {
 }
 .gtif-dashboard-col {
   height: 464px;
+  padding: 0 !important;
 }
 .button {
   font-weight: bold;
