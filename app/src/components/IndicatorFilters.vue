@@ -12,9 +12,6 @@
       background: ${ $vuetify.breakpoint.xsOnly && isDropdownEnabled ? '#0007' : 'none'};
       z-index: 4`"
   >
-    <v-btn class="backButton" @click="goBack()">
-      <v-icon>mdi-arrow-left</v-icon>
-    </v-btn>
     <v-autocomplete
       ref="autocomplete"
       v-model="dropdownSelection"
@@ -22,7 +19,7 @@
       solo
       rounded
       :items="selectionItems.map(i => i.name)"
-      :prepend-inner-icon="dropdownSelection ? undefined : 'mdi-magnify'"
+      :prepend-inner-icon="dropdownSelection ? 'mdi-arrow-left' : 'mdi-magnify'"
       :append-icon="$vuetify.breakpoint.smAndUp ? '' : undefined"
       clearable
       auto-select-first
@@ -34,6 +31,7 @@
       :filter="customAutocompleteFilter"
       @focus="isDropdownEnabled = true"
       @click:clear="autoCompleteClear"
+      @click:prepend-inner="goBack"
       @change="autoCompleteChange"
       @keydown.esc="userInput = null"
     >
@@ -281,6 +279,7 @@ import { mapGetters, mapState } from 'vuex';
 
 import CountryFlag from 'vue-country-flag';
 import countries from '@/assets/countries.json';
+import getMapInstance from '@/components/map/map';
 
 export default {
   components: {
@@ -747,12 +746,5 @@ export default {
 }
 ::v-deep .v-input--checkbox .v-label {
   font-size: small;
-}
-
-.backButton {
-  /** to be removed */
-  position: absolute;
-  left: 350px;
-  pointer-events: all;
 }
 </style>

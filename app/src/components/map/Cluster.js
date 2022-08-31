@@ -471,9 +471,11 @@ class Cluster {
     clusterSource.clear();
     clusterSource.addFeatures(features);
     if (features.length) {
-      this.map.getView().fit(clusterSource.getExtent(), {
-        maxZoom: 8,
-        duration: 200,
+      setTimeout(() =>  {
+        this.map.getView().fit(clusterSource.getExtent(), {
+          maxZoom: 8,
+          duration: 200,
+        }, 0);
       });
     }
   }
