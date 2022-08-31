@@ -16,6 +16,8 @@
 
           <v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden" elevation="3">
             <v-col
+              cols="12"
+              md="6"
               class="gtif-dashboard-col" style="position: relative; background-image: url('/data/gtif/images/GTIF_Key_visual.png'); background-size: cover; background-position: center;"
             >
               <!--<img
@@ -26,7 +28,10 @@
             </v-col>
 
             <v-col
-              class="gtif-dashboard-col" style="position: relative"
+              cols="12"
+              md="6"
+              class="gtif-dashboard-col"
+              style="position: relative"
             >
               <VueDeckgl
                 :layers="layers"
@@ -75,6 +80,8 @@
             <gtif-tile />
 
             <v-col
+              cols="12"
+              md="6"
               class="gtif-dashboard-col"
               style="background: transparent;"
             >
