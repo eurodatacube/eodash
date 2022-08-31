@@ -1,5 +1,7 @@
 <template>
   <v-col
+    cols="12"
+    md="6"
     class="gtif-dashboard-col white"
   >
     <v-row class="fill-width ma-4">
