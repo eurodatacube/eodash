@@ -1,11 +1,15 @@
 <template>
-  <div ref="container" style="height: 100%; width: 100%;">
-    <l-map
+  <div ref="container" class="d-flex justify-center" style="height: 100%; width: 100%;">
+    <DataMap
       ref="map"
-      style="height: 100%; width: 100%; background: #cad2d3; z-index: 1;"
+      v-if="mapDataReady"
+      :mapId="mapId"
+      style="height: 100%; min-width: 100%; background: #cad2d3; z-index: 1;"
       :options="defaultMapOptions"
       :maxZoom="mapDefaults.maxMapZoom"
-      :minZoom="mapDefaults.minMapZoom"
+      :minZoom="minZoom"
+      :zoomExtent="zoomExtent"
+      :constrainExtent="constrainExtent"
       @update:zoom="zoomUpdated"
       @update:center="centerUpdated"
       @update:bounds="boundsUpdated"
@@ -13,373 +17,65 @@
       :center="center"
       :crs="mapDefaults.crs"
       :zoom="zoom"
+      :overlayConfigs="overlayLayers"
+      :baseLayerConfigs="baseLayers"
       @ready="onMapReady()"
+    />
+    <div
+    :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
+      <img v-if="mergedConfigsData[0].legendUrl"
+      :src="mergedConfigsData[0].legendUrl" alt=""
+      :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' :
+      (legendExpanded && 'map-legend-expanded')}`"
+      @click="legendExpanded = !legendExpanded"
+      :style="`background: rgba(255, 255, 255, 0.8);`">
+      <div
+      v-if="mergedConfigsData[0].customAreaFeatures &&
+      (mergedConfigsData[0].features.featureLimit === dataFeaturesCount ||
+      mergedConfigsData[0].features.featureLimit === compareFeaturesCount)"
+      :style="`width: fit-content; background: rgba(255, 255, 255, 0.8);`"
+      >
+        <h3 :class="`brand-${appConfig.id} px-3 py-2`">
+          Limit of drawn features is for performance reasons set to
+          <span :style="`font-size: 17px;`">{{mergedConfigsData[0].features.featureLimit}}
+          </span>
+        </h3>
+      </div>
+    </div>
+
+    <div
+      class="d-flex justify-center"
+      style="position: relative; width: 100%; height: 100%;"
+      @click.stop=""
+      @dblclick.stop=""
     >
-      <l-control-zoom position="topright"></l-control-zoom>
-      <l-feature-group ref="customAreaFilterFeatures"></l-feature-group>
-      <l-control position="topright"
-        v-if="customAreaFilter && validDrawnArea && renderTrashBin">
-        <v-tooltip left>
-          <template v-slot:activator="{ on }">
-            <div v-on="on" class="d-inline-block">
-              <v-btn
-                color="error"
-                x-small
-                fab
-                class="pa-0"
-                :style="`${$vuetify.breakpoint.mdAndDown
-                  ? 'width: 30px; height: 30px;'
-                  : 'width: 26px; height: 26px;'} border-radius: 4px`"
-                @click="clearCustomAreaFilter"
-              >
-                <v-icon small>mdi-delete</v-icon>
-              </v-btn>
-            </div>
-          </template>
-            <span>Clear selection</span>
-        </v-tooltip>
-      </l-control>
-      <l-control position="topright"
-        v-if="mergedConfigsData[0].customAreaIndicator && validDrawnArea && renderTrashBin">
-        <v-tooltip left>
-          <template v-slot:activator="{ on }">
-            <div v-on="on" class="d-inline-block"
-            :style="`border: 3px solid ${appConfig.branding.primaryColor};
-            border-radius: 6px;`">
-              <v-btn
-                color="white"
-                x-small
-                fab
-                depressed
-                class="pa-0"
-                :style="`${$vuetify.breakpoint.mdAndDown
-                  ? 'width: 36px; height: 36px;'
-                  : 'width: 30px; height: 30px;'}
-                  border-radius: 4px;
-                  color: ${appConfig.branding.primaryColor};`"
-                @click="fetchCustomAreaIndicator"
-              >
-                <v-icon small>mdi-poll</v-icon>
-              </v-btn>
-            </div>
-          </template>
-            <span>Draw chart from sub-area</span>
-        </v-tooltip>
-      </l-control>
-      <LTileLayer
-        v-for="layer in baseLayers.filter(b => b.protocol === 'xyz')"
-        v-bind="layer"
-        ref="baseLayers"
-        layer-type="base"
-        :key="layer.name"
-        :opacity="opacityTerrain[zoom]"
-        :options="layerOptions(null, layer)"
-      >
-      </LTileLayer>
-      <LWMSTileLayer
-        v-for="layer in baseLayers.filter(b => b.protocol === 'WMS')"
-        :key="layer.name"
-        v-bind="layer"
-        :options="layerOptions(null, layer)"
-        layer-type="base"
-      >
-      </LWMSTileLayer>
-      <l-geo-json
-      :geojson="subAoiInverse"
-      :pane="popupPane"
-      layer-type="overlay"
-      name='Reference area overlay'
-      :optionsStyle="subAoiInverseStyle"
-      >
-      </l-geo-json>
-      <l-layer-group ref="dataLayers">
-        <l-geo-json
-        :geojson="indicator.subAoi"
-        :pane="tooltipPane"
-        :optionsStyle="subAoiStyle('data')"
-        >
-        </l-geo-json>
-        <l-marker-cluster v-if="mergedConfigsData[0].featuresClustering"
-          ref="featuresDataCluster"
-          :options="clusterOptions"
-          >
-        </l-marker-cluster>
-        <l-geo-json
-            v-else-if="dataJson.features"
-            ref="featureJsonData"
-            :geojson="dataJson.features"
-            :options="featureOptions('data')"
-            :pane="tooltipPane"
-            :key="dataJsonKey"
-          >
-        </l-geo-json>
-        <l-circle-marker
-          v-if="showAoi"
-          :lat-lng="aoi"
-          :radius="12"
-          :color="appConfig.branding.primaryColor"
-          :weight="2"
-          :dashArray="'3'"
-          :fill="true"
-          :fillColor="aoiFillStyle('data')"
-          :fillOpacity="1"
-          :pane="tooltipPane"
-        >
-        </l-circle-marker>
-        <!-- XYZ grouping is not implemented yet -->
-        <template v-if="dataLayerTime && dataSearchId">
-          <LTileLayer
-          v-for="(layerConfig, i) in mergedConfigsData.filter(l => l.protocol === 'xyz')"
-            ref="dataLayerArrayXYZ"
-            :data-key-originalindex="i"
-            :key="dataLayerKeyXYZ[i]"
-            v-bind="layerConfig"
-            :options="layerOptions(dataLayerTime, layerConfig)"
-            :pane="overlayPane"
-            layer-type="overlay"
-          >
-          </LTileLayer>
-        </template>
-        <template v-if="dataLayerTime && getCombinedWMSLayers().length > 0">
-          <l-layer-group ref="dataLayerArrayWMS">
-            <l-layer-group
-            v-for="combLayer in this.getCombinedWMSLayers()"
-              :key="combLayer.name"
-              :name="combLayer.name"
-              layer-type="overlay"
-            >
-              <LWMSTileLayer
-              v-for="cLayerConfig in combLayer.combinedLayers"
-                :key="cLayerConfig.name"
-                v-bind="cLayerConfig"
-                :options="layerOptions(dataLayerTime, cLayerConfig)"
-                :pane="overlayPane"
-              >
-              </LWMSTileLayer>
-            </l-layer-group>
-            <LWMSTileLayer
-            v-for="layerConfig in this.getSimpleWMSLayers()"
-              :key="layerConfig.name"
-              v-bind="layerConfig"
-              :options="layerOptions(dataLayerTime, layerConfig)"
-              :pane="overlayPane"
-              layer-type="overlay"
-            >
-            </LWMSTileLayer>
-          </l-layer-group>
-        </template>
-        <template v-else-if="dataLayerTime">
-          <LWMSTileLayer
-          v-for="layerConfig in this.getSimpleWMSLayers()"
-            ref="dataLayerArrayWMS"
-            :key="layerConfig.name"
-            v-bind="layerConfig"
-            :options="layerOptions(dataLayerTime, layerConfig)"
-            :pane="overlayPane"
-            layer-type="overlay"
-          >
-          </LWMSTileLayer>
-        </template>
-      </l-layer-group>
-      <l-layer-group ref="compareLayers">
-        <!-- XYZ grouping is not implemented yet -->
-        <template v-if="compareLayerTime && compareSearchId">
-          <LTileLayer
-          v-for="(layerConfig, i) in mergedConfigsCompare.filter(l => l.protocol === 'xyz')"
-            ref="compareLayerArrayXYZ"
-            :data-key-originalindex="i"
-            :key="compareLayerKeyXYZ[i]"
-            v-bind="layerConfig"
-            :visible="enableCompare"
-            :options="layerOptions(compareLayerTime, layerConfig)"
-            :pane="overlayPane"
-          >
-          </LTileLayer>
-        </template>
-        <template v-if="compareLayerTime && getCombinedWMSLayers('compare').length > 0">
-          <l-layer-group ref="compareLayerArrayWMS">
-            <l-layer-group
-            v-for="combLayer in this.getCombinedWMSLayers('compare')"
-              :key="combLayer.name"
-            >
-              <LWMSTileLayer
-              v-for="cLayerConfig in combLayer.combinedLayers"
-                :key="cLayerConfig.name"
-                v-bind="cLayerConfig"
-                :visible="enableCompare"
-                :options="layerOptions(compareLayerTime, cLayerConfig)"
-                :pane="overlayPane"
-              >
-              </LWMSTileLayer>
-            </l-layer-group>
-            <LWMSTileLayer
-            v-for="layerConfig in this.getSimpleWMSLayers('compare')"
-              :key="layerConfig.name"
-              v-bind="layerConfig"
-              :visible="enableCompare"
-              :options="layerOptions(compareLayerTime, layerConfig)"
-              :pane="overlayPane"
-            >
-            </LWMSTileLayer>
-          </l-layer-group>
-        </template>
-        <template v-else-if="compareLayerTime">
-          <LWMSTileLayer
-          v-for="layerConfig in this.getSimpleWMSLayers('compare')"
-            ref="compareLayerArrayWMS"
-            :key="layerConfig.name"
-            v-bind="layerConfig"
-            :visible="enableCompare"
-            :options="layerOptions(compareLayerTime, layerConfig)"
-            :pane="overlayPane"
-          >
-          </LWMSTileLayer>
-        </template>
-        <l-geo-json
-          :geojson="indicator.subAoi"
-          :pane="shadowPane"
-          :visible="enableCompare"
-          :optionsStyle="subAoiStyle('compare')"
-        >
-        </l-geo-json>
-        <l-marker-cluster v-if="mergedConfigsData[0].featuresClustering"
-          ref="featuresCompareCluster" :options="clusterOptions">
-        </l-marker-cluster>
-        <l-geo-json
-          v-else-if="compareJson.features"
-          ref="featureJsonCompare"
-          :visible="enableCompare"
-          :geojson="compareJson.features"
-          :options="featureOptions('compare')"
-          :pane="shadowPane"
-          :key="compareJsonKey"
-        >
-        </l-geo-json>
-        <l-circle-marker
-          v-if="showAoi"
-          :lat-lng="aoi"
-          :visible="enableCompare"
-          :radius="12"
-          :color="appConfig.branding.primaryColor"
-          :weight="2"
-          :dashArray="3"
-          :fill="true"
-          :fillColor="aoiFillStyle('compare')"
-          :fillOpacity="1"
-          :pane="shadowPane"
-        >
-        </l-circle-marker>
-      </l-layer-group>
-      <l-layer-group ref="overlayLayers" v-if="!countrySelection">
-        <LTileLayer
-          v-for="layer in overlayLayers.filter(b => b.protocol === 'xyz')"
-          :key="layer.name"
-          v-bind="layer"
-          :pane="markerPane"
-          :opacity="opacityOverlay[zoom]"
-          :options="layerOptions(null, layer)"
-          layer-type="overlay"
-        >
-        </LTileLayer>
-        <LWMSTileLayer
-          v-for="layer in overlayLayers.filter(b => b.protocol === 'WMS')"
-          v-bind="layer"
-          :key="layer.name"
-          :options="layerOptions(null, layer)"
-          :pane="markerPane"
-          :opacity="opacityOverlay[zoom]"
-          layer-type="overlay"
-        >
-        </LWMSTileLayer>
-      </l-layer-group>
-      <l-geo-json
-      v-if="countrySelection"
-      :geojson="countriesJson"
-      :optionsStyle="countriesStyle"
-      :options="countriesOptions()"
-      name="Country vectors"
-      layer-type="overlay"
-      >
-      </l-geo-json>
-      <l-feature-group ref="gsaLayer"
-        v-if="borderSelection">
-        <l-circle-marker v-for="(feature) in gsaJson"
-          :key="feature.id"
-          ref="markers"
-          :lat-lng="feature.AOI.split(',').map(Number)"
-          :name="feature.name"
-          color="#fff"
-          :radius="selectedBorder === feature.borderId ? 6 : 4"
-          :fillColor="selectedBorder === feature.borderId ?
-            appConfig.branding.secondaryColor : appConfig.branding.primaryColor"
-          :weight="selectedBorder === feature.borderId ? 2 : 1"
-          :opacity="selectedBorder === feature.borderId ? 1.0 : 0.8"
-          :fillOpacity="selectedBorder === feature.borderId ? 1.0 : 0.9"
-          @click="selectGSAIndicator(feature)"
-        >
-        <l-tooltip class="tooltip text-center" :options="{ direction: 'top' }">
-            <p class="ma-0">
-              <strong>{{ feature.name }}</strong>
-            </p>
-          </l-tooltip>
-        </l-circle-marker>
-      </l-feature-group>
-      <div
-      :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
-        <img v-if="mergedConfigsData[0].legendUrl"
-        :src="mergedConfigsData[0].legendUrl" alt=""
-        :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' :
-        (legendExpanded && 'map-legend-expanded')}`"
-        @click="legendExpanded = !legendExpanded"
-        :style="`background: rgba(255, 255, 255, 0.8);`">
-        <div
-        v-if="mergedConfigsData[0].customAreaFeatures &&
-        (mergedConfigsData[0].features.featureLimit === dataFeaturesCount ||
-        mergedConfigsData[0].features.featureLimit === compareFeaturesCount)"
-        :style="`width: fit-content; background: rgba(255, 255, 255, 0.8);`"
-        >
-          <h3 :class="`brand-${appConfig.id} px-3 py-2`">
-            Limit of drawn features is for performance reasons set to
-            <span :style="`font-size: 17px;`">{{mergedConfigsData[0].features.featureLimit}}
-            </span>
-          </h3>
-        </div>
-      </div>
-      <div
-        class="d-flex justify-center"
-        style="position: relative; width: 100%; height: 100%;"
-        @click.stop=""
-        @dblclick.stop=""
-      >
-        <h3 :class="`brand-${appConfig.id} px-3 py-1`"
-          v-if="enableCompare && indicator.compareDisplay && indicator.compareDisplay.mapLabel"
-          style="position:absolute; z-index:1000; right: 0px; bottom: 45%;
-          background: rgba(255, 255, 255, 0.6); font-size: 16px; pointer-events: none;">
-            {{indicator.display.mapLabel}}
-        </h3>
-        <h3 :class="`brand-${appConfig.id} px-3 py-1`"
-          v-if="enableCompare && indicator.compareDisplay && indicator.display.mapLabel"
-          style="position:absolute; z-index:1000; left: 0px; bottom: 45%;
-          background: rgba(255, 255, 255, 0.6); font-size: 16px; pointer-events: none;">
-            {{indicator.compareDisplay.mapLabel}}
-        </h3>
-        <indicator-time-selection
-          ref="timeSelection"
-          v-if="dataLayerTime && !mergedConfigsData[0].disableTimeSelection"
-          :autofocus="!disableAutoFocus"
-          :available-values="availableTimeEntries"
-          :indicator="indicator"
-          :compare-active.sync="enableCompare"
-          :compare-time.sync="compareLayerTime"
-          :original-time.sync="dataLayerTime"
-          :enable-compare="!mergedConfigsData[0].disableCompare"
-          :large-time-duration="mergedConfigsData[0].largeTimeDuration"
-          @focusSelect="focusSelect"
-        />
-      </div>
-      <l-control-attribution position="bottomright" prefix=''></l-control-attribution>
-      <l-control-layers position="topright" ref="layersControl"></l-control-layers>
-    </l-map>
+      <h3 :class="`brand-${appConfig.id} px-3 py-1`"
+        v-if="enableCompare && indicator.compareDisplay && indicator.compareDisplay.mapLabel"
+        style="position:absolute; z-index:1000; right: 0px; bottom: 45%;
+        background: rgba(255, 255, 255, 0.6); font-size: 16px; pointer-events: none;">
+          {{indicator.display.mapLabel}}
+      </h3>
+      <h3 :class="`brand-${appConfig.id} px-3 py-1`"
+        v-if="enableCompare && indicator.compareDisplay && indicator.display.mapLabel"
+        style="position:absolute; z-index:1000; left: 0px; bottom: 45%;
+        background: rgba(255, 255, 255, 0.6); font-size: 16px; pointer-events: none;">
+          {{indicator.compareDisplay.mapLabel}}
+      </h3>
+    </div>
+    <indicator-time-selection
+      ref="timeSelection"
+      class=""
+      v-if="dataLayerTime && !mergedConfigsData[0].disableTimeSelection"
+      :autofocus="!disableAutoFocus"
+      :available-values="availableTimeEntries"
+      :indicator="indicator"
+      :compare-active.sync="enableCompare"
+      :compare-time.sync="compareLayerTime"
+      :original-time.sync="dataLayerTime"
+      :enable-compare="!mergedConfigsData[0].disableCompare"
+      :large-time-duration="mergedConfigsData[0].largeTimeDuration"
+      @focusSelect="focusSelect"
+    />
   </div>
 </template>
 
@@ -389,44 +85,29 @@ import {
   mapState,
   mapGetters,
 } from 'vuex';
-import {
-  geoJson, latLngBounds, latLng, circleMarker, DivIcon, Point,
-} from 'leaflet';
-import {
-  LMap, LTileLayer, LWMSTileLayer, LGeoJson, LCircleMarker,
-  LControlLayers, LControlAttribution, LControlZoom, LLayerGroup,
-  LFeatureGroup, LControl, LTooltip,
-} from 'vue2-leaflet';
+import { geoJson, circleMarker } from 'leaflet';
+import DataMap from '@/components/map/DataMap.vue';
 import { DateTime } from 'luxon'; // TODO: MIGRATE
 import axios from 'axios';
-
-import 'leaflet/dist/leaflet.css';
-import 'leaflet-mouse-position';
-import 'leaflet-side-by-side';
-import 'leaflet-loading';
-import 'leaflet-loading/src/Control.Loading.css';
-import 'leaflet-draw';
-import 'leaflet-draw/dist/leaflet.draw.css';
-
-import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster';
-import 'leaflet.markercluster/dist/MarkerCluster.css'; // eslint-disable-line import/no-extraneous-dependencies
-import 'leaflet.markercluster/dist/MarkerCluster.Default.css'; // eslint-disable-line import/no-extraneous-dependencies
 import turfDifference from '@turf/difference';
-
-import countries from '@/assets/countries.json';
-import gsaFile from '@/assets/gsa_data.json';
-
+import GeoJSON from 'ol/format/GeoJSON';
+import getMapInstance from '@/components/map/map';
 import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
 } from '@/helpers/mapConfig';
 import fetchCustomAreaObjects from '@/helpers/customAreaObjects';
+import { transformExtent } from 'ol/proj';
 import IndicatorTimeSelection from './IndicatorTimeSelection.vue';
 
 const emptyF = {
   type: 'FeatureCollection',
   features: [],
 };
+
+const geoJsonFormat = new GeoJSON({
+  featureProjection: 'EPSG:3857',
+});
 
 export default {
   props: {
@@ -449,19 +130,7 @@ export default {
     disableAutoFocus: Boolean,
   },
   components: {
-    LMap,
-    LTileLayer,
-    LWMSTileLayer,
-    LGeoJson,
-    LCircleMarker,
-    LControlLayers,
-    LControlAttribution,
-    LControlZoom,
-    LLayerGroup,
-    LFeatureGroup,
-    LControl,
-    LTooltip,
-    'l-marker-cluster': Vue2LeafletMarkerCluster,
+    DataMap,
     IndicatorTimeSelection,
   },
   data() {
@@ -475,8 +144,6 @@ export default {
       center: null,
       bounds: null,
       enableCompare: false,
-      opacityTerrain: [1],
-      opacityOverlay: [1],
       tilePane: 'tilePane',
       overlayPane: 'overlayPane',
       markerPane: 'markerPane',
@@ -512,11 +179,11 @@ export default {
     ...mapGetters('indicators', [
       'getIndicatorFilteredInputData',
     ]),
-    countriesJson() {
-      return countries;
+    mapId() {
+      return this.$route.query.poi;
     },
-    gsaJson() {
-      return gsaFile;
+    mapDataReady() {
+      return !!(this.indicator && this.indicator.dataLoadFinished);
     },
     countriesStyle() {
       return {
@@ -526,6 +193,21 @@ export default {
         opacity: 1,
         fillOpacity: 0.5,
       };
+    },
+    subAoiLayerConfigs() {
+      if (this.subAoiInverse) {
+        return [{
+          protocol: 'GeoJSON',
+          name: 'Reference Area Overlay',
+          data: {
+            type: 'FeatureCollection',
+            features: [this.subAoiInverse],
+          },
+          visible: true,
+          style: this.subAoiStyle('data'),
+        }];
+      }
+      return [];
     },
     subAoiInverseStyle() {
       return {
@@ -539,13 +221,29 @@ export default {
       return this.mergedConfigsData[0].baseLayers || this.baseConfig.baseLayersRightMap;
     },
     overlayLayers() {
-      return this.mergedConfigsData[0].overlayLayers || this.baseConfig.overlayLayersRightMap;
+      const overlayLayers = this.mergedConfigsData[0].overlayLayers
+        || this.baseConfig.overlayLayersRightMap;
+      return [...overlayLayers, this.mergedConfigsData[0], ...this.subAoiLayerConfigs];
     },
     mapDefaults() {
       return {
         ...this.baseConfig.mapDefaults,
         ...this.mergedConfigsData[0],
       };
+    },
+    minZoom() {
+      if (this.subAoi || this.aoi) {
+        if (this.mergedConfigsData[0].largeSubAoi) {
+          return 2;
+        } if (this.mergedConfigsData[0].midSubAoi) {
+          return 9;
+        }
+        if ((!this.subAoi.features || !this.subAoi.features.length)) {
+          return 0;
+        }
+        return 13;
+      }
+      return this.mapDefaults.minMapZoom;
     },
     countrySelection() {
       return this.mergedConfigsData[0].countrySelection;
@@ -555,9 +253,6 @@ export default {
     },
     indicator() {
       return this.getIndicatorFilteredInputData(this.currentIndicator);
-    },
-    showAoi() {
-      return this.aoi && (!this.subAoi || this.subAoi.features.length === 0);
     },
     validDrawnArea() {
       // allows for further validation on area size etc.
@@ -600,70 +295,64 @@ export default {
     },
     subAoiInverse() {
       // create an inverse of subaoi, using difference of whole world and subaoi
-      const subaoiInv = JSON.parse(JSON.stringify(this.subAoi));
-      // both Object.assign({}, this.subAoi) and { ...this.subAoi } create shallow copy
-      if (subaoiInv.features.length === 1) {
-        const globalBox = {
-          type: 'Feature',
-          properties: {},
-          geometry: {
-            type: 'Polygon',
-            coordinates: [[[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]]],
-          },
-        };
-        const diff = turfDifference(globalBox, subaoiInv.features[0]);
-        subaoiInv.features[0] = diff;
+      if (this.subAoi && this.subAoi.features.length) {
+        const subaoiInv = JSON.parse(JSON.stringify(this.subAoi.features[0]));
+        // both Object.assign({}, this.subAoi) and { ...this.subAoi } create shallow copy
+        if (subaoiInv) {
+          const globalBox = {
+            type: 'Feature',
+            properties: {},
+            geometry: {
+              type: 'Polygon',
+              coordinates: [[[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]]],
+            },
+          };
+          const diff = turfDifference(globalBox, subaoiInv.geometry);
+          subaoiInv.geometry = diff.geometry;
+        }
+        return subaoiInv;
       }
-      return subaoiInv;
+      return null;
     },
-    clusterOptions() {
-      return {
-        disableClusteringAtZoom: 13,
-        animate: false,
-        // zoomToBoundsOnClick: false,
-        iconCreateFunction(cluster) { // eslint-disable-line func-names
-          // modified selected cluster style
-          const childCount = cluster.getChildCount();
-          return new DivIcon({
-            html: `<div><span>${childCount}</span></div>`,
-            className: 'marker-cluster',
-            iconSize: new Point(40, 40),
-          });
-        },
-        polygonOptions: {
-          fillColor: this.appConfig.branding.primaryColor,
-          color: this.appConfig.branding.primaryColor,
-          weight: 0.5,
-          opacity: 1,
-          fillOpacity: 0.3,
-          dashArray: 4,
-        },
-      };
+    zoomExtent() {
+      // extent to be zoomed to on mount. Padding will be applied.
+      if (this.subAoi && this.subAoi.features.length) {
+        if (this.subAoi.features[0].geometry.coordinates.length) {
+          const subAoiGeom = geoJsonFormat.readGeometry(this.subAoi.features[0].geometry);
+          return subAoiGeom.getExtent();
+        }
+        // geoJsonFormat
+        return []; // this.subAoi[0].getGeometry().getExtent();
+      }
+      if (this.mergedConfigsData[0].presetView) {
+        // pre-defined geojson view
+        const presetViewGeom = geoJsonFormat.readGeometry(this.mergedConfigsData[0]
+          .presetView.features[0].geometry);
+        return presetViewGeom.getExtent();
+      }
+      if (this.aoi) {
+        return transformExtent([this.aoi.lng, this.aoi.lat, this.aoi.lng, this.aoi.lat],
+          'EPSG:4326',
+          'EPSG:3857');
+      }
+      // if nothing else, fit to default bounds
+      const { bounds } = this.mapDefaults;
+      return transformExtent([bounds._southWest.lng, bounds._southWest.lat, bounds._northEast.lng, bounds._northEast.lat], 'EPSG:4326',
+        'EPSG:3857');
     },
-    drawOptions() {
-      return {
-        position: 'topright',
-        draw: {
-          polyline: false,
-          circle: false,
-          marker: false,
-          circlemarker: false,
-          polygon: {
-            shapeOptions: {
-              color: this.appConfig.branding.primaryColor,
-            },
-          },
-          rectangle: {
-            showArea: false,
-            shapeOptions: {
-              color: this.appConfig.branding.primaryColor,
-            },
-          },
-        },
-      };
+    constrainExtent() {
+      // constraining extent, map can not be moved past the bound of this extent.
+      if (this.subAoi) {
+        return this.zoomExtent;
+      }
+      return null;
+    },
+    selectedTime() {
+      return this.$store.state.indicators.selectedTime;
     },
   },
   mounted() {
+    // this.calculateExtents();
     if (!this.dataLayerTimeProp) {
       this.dataLayerTime = {
         value: this.mergedConfigsData[0].usedTimes.time[
@@ -692,9 +381,6 @@ export default {
       });
     }
 
-    this.ro = new ResizeObserver(this.onResize)
-      .observe(this.$refs.container);
-
     if (this.compareLayerTimeProp) {
       this.$nextTick(() => { this.enableCompare = true; });
     }
@@ -703,13 +389,14 @@ export default {
     delete this.ro;
   },
   methods: {
-    focusSelect(on) {
-      const lMap = this.$refs.map.mapObject;
+    focusSelect() {
+      // TO DO: handle scrolling?
+      /* const lMap = this.$refs.map.mapObject;
       if (on) {
         lMap.scrollWheelZoom.disable();
       } else {
         lMap.scrollWheelZoom.enable();
-      }
+      } */
     },
     createLatLng(latlng) {
       const llobj = latlng.split(',').map(Number);
@@ -734,41 +421,8 @@ export default {
       this.$emit('update:comparelayertime', time);
     },
     onMapReady() {
-      this.map = this.$refs.map.mapObject;
-      const layerButtons = document.querySelectorAll('.leaflet-control-layers-toggle');
-      layerButtons.forEach((lB) => lB.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${this.appConfig.branding.primaryColor}" width="32px" height="32px"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>`); // eslint-disable-line
-      // update leaflet controls
-      L.control.mousePosition({ // eslint-disable-line no-undef
-        emptyString: '',
-        formatter: (lon, lat) => `${lon.toFixed(3)}, ${lat.toFixed(3)}`,
-        position: 'bottomright',
-      }).addTo(this.map);
-      // hide attribution under icon
-      this.map.attributionControl._update = function () { // eslint-disable-line
-        const attribs = [];
-        const kk = Object.keys(this._attributions);
-        for (let i = 0; i < kk.length; i += 1) {
-          if (this._attributions[kk[i]]) {
-            attribs.push(kk[i]);
-          }
-        }
-        const prefixAndAttribs = [];
-        if (this.options.prefix) {
-          prefixAndAttribs.push(this.options.prefix);
-        }
-        if (attribs.length) {
-          prefixAndAttribs.push(attribs.join(', '));
-        }
-        this._container.innerHTML = `<div class='attribution-body'>${prefixAndAttribs.join(' | ')}</div><div class='attribution-icon'>ℹ</div>`;
-      };
-      this.map.attributionControl._update();
-      // add loading indicator
-      L.Control.loading({
-        position: 'bottomleft',
-        delayIndicator: 200,
-      }).addTo(this.map);
       // add A/B slider
-      const leftLayers = this.extractActualLayers(this.$refs.compareLayers);
+      /* const leftLayers = this.extractActualLayers(this.$refs.compareLayers);
       const rightLayers = this.extractActualLayers(this.$refs.dataLayers);
       this.slider = L.control.sideBySide(leftLayers, rightLayers);
       this.drawControl = new L.Control.Draw(this.drawOptions);
@@ -779,7 +433,7 @@ export default {
       // only draw one feature at a time
       this.map.on(L.Draw.Event.DRAWSTART, function () { // eslint-disable-line
         this.clearCustomAreaFilter();
-      }.bind(this));
+      }.bind(this)); */
 
       this.initialDrawSelectedArea();
       this.onResize();
@@ -787,9 +441,6 @@ export default {
         this.fetchFeatures('data');
       }
       this.$emit('ready');
-      setTimeout(() => {
-        this.flyToBounds();
-      }, 100);
     },
     onResize() {
       // to fix panel size for reference image window
@@ -958,7 +609,6 @@ export default {
       return side === 'compare' ? this.compareLayerIndex : this.dataLayerIndex;
     },
     subAoiStyle(side) {
-      // return getSubAoiStyle(side);
       const currentValue = this.getColorCode(side);
       return {
         color: currentValue
@@ -979,65 +629,6 @@ export default {
         l.protocol === 'WMS' && Object.keys(l).indexOf('combinedLayers') === -1
       ));
       return simpleLayers;
-    },
-    flyToBounds() {
-      // zooms to subaoi if present or area around aoi if not
-      const boundsPad = this.mergedConfigsData[0].largeSubAoi ? 5 : (this.mergedConfigsData[0].midSubAoi ? 1 : 0.15); // eslint-disable-line
-      if (this.subAoi && this.subAoi.features.length > 0) {
-        const viewBounds = this.mergedConfigsData[0].presetView
-          ? geoJson(this.mergedConfigsData[0].presetView).getBounds()
-          : geoJson(this.subAoi).getBounds();
-        const bounds = geoJson(this.subAoi).getBounds();
-        const southBound = bounds.getSouth() - boundsPad;
-        const westBound = bounds.getWest() - boundsPad;
-        const northBound = bounds.getNorth() + boundsPad;
-        const eastBound = bounds.getEast() + boundsPad;
-        const cornerMax1 = latLng([
-          southBound > -90 ? southBound : -90, westBound > -180 ? westBound : -180]);
-        const cornerMax2 = latLng([
-          northBound < 90 ? northBound : 90, eastBound < 180 ? eastBound : 180]);
-        const boundsMax = latLngBounds(cornerMax1, cornerMax2);
-        this.map.fitBounds(viewBounds);
-        // limit user movement around map
-        this.map.setMaxBounds(boundsMax);
-        if (this.mergedConfigsData[0].largeSubAoi) {
-          this.map.setMinZoom(2);
-        } else if (this.mergedConfigsData[0].midSubAoi) {
-          this.map.setMinZoom(9);
-        } else {
-          this.map.setMinZoom(10);
-        }
-      } else if (this.mergedConfigsData[0].presetView) {
-        // if only preset view move map there without limiting movement
-        const viewBounds = geoJson(this.mergedConfigsData[0].presetView).getBounds();
-        this.map.fitBounds(viewBounds);
-      } else if (this.aoi) {
-        const southBound = this.aoi.lat - boundsPad;
-        const westBound = this.aoi.lng - boundsPad;
-        const northBound = this.aoi.lat + boundsPad;
-        const eastBound = this.aoi.lng + boundsPad;
-        const cornerMax1 = latLng([
-          southBound > -90 ? southBound : -90, westBound > -180 ? westBound : -180]);
-        const cornerMax2 = latLng([
-          northBound < 90 ? northBound : 90, eastBound < 180 ? eastBound : 180]);
-        const boundsMax = latLngBounds(cornerMax1, cornerMax2);
-        this.map.setZoom(16);
-        this.map.panTo(this.aoi);
-        if (this.mergedConfigsData[0].largeSubAoi) {
-          this.map.setMinZoom(2);
-        } else if (this.mergedConfigsData[0].midSubAoi) {
-          this.map.setMinZoom(9);
-        } else {
-          this.map.setMinZoom(12);
-        }
-        // limit user movement around map
-        this.map.setMaxBounds(boundsMax);
-      } else {
-        // zoom to default bbox from config
-        this.map.setMinZoom(this.mapDefaults.minMapZoom);
-        this.map.setMaxBounds(null);
-        this.map.fitBounds(latLngBounds(this.mapDefaults.bounds));
-      }
     },
     layerOptions(time, sourceOptionsObj) {
       const additionalSettings = {};
@@ -1094,11 +685,11 @@ export default {
         this.indicator.display.compareSearchId = res.data.searchid;
         this.compareSearchId = res.data.searchid;
         this.refreshLayers('compare');
-        this.$nextTick(() => {
+        /* this.$nextTick(() => {
           this.slider.setLeftLayers(
             this.extractActualLayers(this.$refs.compareLayers),
           );
-        });
+        }); */
       }
     },
     dataLayerTimeSelection(timeObj) {
@@ -1115,21 +706,22 @@ export default {
           .map((i) => i.value)
           .indexOf(this.dataLayerTime.value ? this.dataLayerTime.value : this.dataLayerTime);
         this.dataLayerIndex = newIndex;
+        this.$store.commit('indicators/SET_SELECTED_TIME', this.availableTimeEntries[newIndex].value);
         this.refreshLayers('data');
-        this.$nextTick(() => {
+        /* this.$nextTick(() => {
           this.slider.setRightLayers(
             this.extractActualLayers(this.$refs.dataLayers),
           );
-        });
+        }); */
         if (this.indicator.compareDisplay) {
           // shared time on both sides in case of compareDisplay being set
           this.compareLayerTime = this.dataLayerTime;
           this.refreshLayers('compare');
-          this.$nextTick(() => {
+          /* this.$nextTick(() => {
             this.slider.setLeftLayers(
               this.extractActualLayers(this.$refs.compareLayers),
             );
-          });
+          }); */
         }
         this.dataLayerTimeUpdated(this.dataLayerTime.name);
       }
@@ -1158,9 +750,9 @@ export default {
         this.compareLayerIndex = newIndex;
         this.refreshLayers('compare');
         this.$nextTick(() => {
-          this.slider.setLeftLayers(
+          /* this.slider.setLeftLayers(
             this.extractActualLayers(this.$refs.compareLayers),
-          );
+          ); */
         });
         this.compareLayerTimeUpdated(this.compareLayerTime.name);
       }
@@ -1205,6 +797,8 @@ export default {
       }
     },
     refreshLayers(side) {
+      // TO DO: is this obsolete?
+      // layers should be redrawn in store watcher
       // compare(left) or data(right)
       if (side === 'compare' || this.indicator.compareDisplay) {
         this.refreshGroup(this.$refs.compareLayerArrayWMS, this.compareLayerTime, 'compare');
@@ -1436,6 +1030,25 @@ export default {
         if (v) this.center = v;
       },
     },
+    selectedTime(value) {
+      // redraw all time-dependant layers
+      const { map } = getMapInstance(this.mapId);
+      const layers = map.getLayers().getArray();
+      this.overlayLayers.filter((config) => config.usedTimes?.time?.length).forEach((config) => {
+        const layer = layers.find((l) => l.get('name') === config.name);
+        if (layer) {
+          const source = layer.getSource();
+          if (config.protocol === 'WMS') {
+            source.updateParams({
+              LAYERS: config.layers,
+              time: config.dateFormatFunction(value),
+              env: `year:${value}`,
+            });
+          }
+          source.refresh();
+        }
+      });
+    },
     dataLayerTime(timeObj) {
       this.dataLayerTimeSelection(timeObj);
     },
@@ -1470,7 +1083,7 @@ export default {
         if (!this.mergedConfigsData[0].customAreaFeatures || this.validDrawnArea) {
           this.fetchFeatures('compare');
         }
-        this.$nextTick(() => {
+        /* this.$nextTick(() => {
           this.slider.setLeftLayers(
             this.extractActualLayers(this.$refs.compareLayers),
           );
@@ -1478,7 +1091,8 @@ export default {
             this.extractActualLayers(this.$refs.dataLayers),
           );
           this.slider.addTo(this.map);
-        });
+        }); */
+
         // The following two calls set initial compare
         // and data layer times containing name and value.
         const cTime = this.availableTimeEntries
@@ -1504,69 +1118,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .leaflet-tooltip-top {
-  background: #00000099;
-  border-radius: 3px;
-  color: #fff;
-  pointer-events: none;
-  white-space: nowrap;
-  border: none;
-  &:before {
-    border-top-color: #00000099;
-  }
-}
-::v-deep .leaflet-control-attribution:active :not(.attribution-icon),
-::v-deep .leaflet-control-attribution:hover :not(.attribution-icon),
-::v-deep .leaflet-control-attribution .attribution-icon {
-  display: inline-block;
-}
-::v-deep .leaflet-control-attribution :not(.attribution-icon),
-::v-deep .leaflet-control-attribution:active .attribution-icon,
-::v-deep .leaflet-control-attribution:hover .attribution-icon {
-  display: none;
-}
-::v-deep .attribution-icon {
-  font-size: 1.2em;
-  margin: 1px;
-}
-::v-deep .leaflet-control-mouseposition {
-  background-color: rgba(255, 255, 255, 0.8);
-  transform: translate3d(-8px, 32px, 0);
-  padding: 2px 4px;
-}
-::v-deep .leaflet-sbs-divider {
-  background-color: var(--v-primary-base);
-  opacity: 0.7;
-}
-::v-deep .leaflet-control-layers-toggle {
-  background-image: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23003247" width="32px" height="32px"><path d="M0 0h24v24H0z" fill="none"/><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>');
-}
-::v-deep .leaflet-bar a, ::v-deep .leaflet-control-attribution {
-  color: var(--v-primary-base) !important;
-}
-::v-deep .leaflet-control-layers-toggle {
-  background-image: none;
-  svg {
-    width: 100%;
-    height: 100%;
-  }
-}
-::v-deep .leaflet-tooltip {
-  z-index: 700;
-}
-::v-deep .leaflet-draw-actions a {
-  background-color: var(--v-primary-base);
-  color: #fff;
-}
-::v-deep .marker-cluster {
-  background-color: rgba(#003247, 0.5);
-  div {
-    background-color: var(--v-primary-base);
-    span {
-      color: white;
-    }
-  }
-}
+
 .map-legend {
   max-width: 20vw;
   transition: max-width 0.5s ease-in-out;
@@ -1577,7 +1129,4 @@ export default {
   max-width: 80%;
 }
 
-::v-deep .leaflet-top.leaflet-right {
-  margin-top: 45px;
-}
 </style>

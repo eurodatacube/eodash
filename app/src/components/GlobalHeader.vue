@@ -14,12 +14,6 @@
       dark
     />
 
-    <v-app-bar-nav-icon
-      @click.stop="switchDrawer"
-      v-else-if="$route.name === 'explore'"
-      dark
-    />
-
     <!-- mobile menu -->
 
     <v-navigation-drawer
@@ -152,12 +146,6 @@
             @close="d => { showNewsletterModal = false }"
           />
         </v-dialog>
-
-        <v-divider></v-divider>
-
-        <indicator-filters
-          v-if="$route.name === 'explore'"
-        />
       </template>
 
     </v-navigation-drawer>
@@ -329,7 +317,6 @@ import {
 
 import ThemeNavigation from './ThemesLandingPage/ThemeNavigation.vue';
 import Modal from './Modal.vue';
-import IndicatorFilters from './IndicatorFilters.vue';
 
 /**
  * A global navbar component that adapts to different environments.
@@ -365,7 +352,6 @@ export default {
   components: {
     ThemeNavigation,
     Modal,
-    IndicatorFilters,
   },
   data() {
     return {
