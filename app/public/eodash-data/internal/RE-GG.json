@@ -6859,6 +6859,42 @@
             "retail_recreation": null,
             "transit_stations": 191,
             "workplaces": null
+        },
+        {
+            "date": "2022-08-25T00:00:00",
+            "grocery": null,
+            "parks": null,
+            "residential": null,
+            "retail_recreation": null,
+            "transit_stations": 222,
+            "workplaces": null
+        },
+        {
+            "date": "2022-08-26T00:00:00",
+            "grocery": null,
+            "parks": null,
+            "residential": null,
+            "retail_recreation": null,
+            "transit_stations": 186,
+            "workplaces": null
+        },
+        {
+            "date": "2022-08-27T00:00:00",
+            "grocery": null,
+            "parks": 247,
+            "residential": null,
+            "retail_recreation": null,
+            "transit_stations": 147,
+            "workplaces": null
+        },
+        {
+            "date": "2022-08-28T00:00:00",
+            "grocery": null,
+            "parks": null,
+            "residential": null,
+            "retail_recreation": null,
+            "transit_stations": 162,
+            "workplaces": null
         }
     ]
 }
