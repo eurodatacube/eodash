@@ -144,7 +144,27 @@
                 @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
                 @ready="onMapReady(element.poi)"
               />
-              <indicator-map
+              <CenterMap
+                v-else-if="(['all'].includes(element.indicatorObject.country) ||
+                appConfig.configuredMapPois.includes(
+                  `${element.indicatorObject.aoiID}-${element.indicatorObject.indicator}`
+                ) ||
+                Array.isArray(element.indicatorObject.country)) && !element.includesIndicator ||
+                element.mapInfo"
+                :mapId="element.poi"
+                :currentIndicator="element.indicatorObject"
+                :dataLayerTimeProp="localDataLayerTime[element.poi]"
+                :compareLayerTimeProp="localCompareLayerTime[element.poi]"
+                :centerProp="localCenter[element.poi]"
+                :zoomProp="localZoom[element.poi]"
+                disableAutoFocus
+                @update:center="c => {localCenter[element.poi] = c}"
+                @update:zoom="z => {localZoom[element.poi] = z}"
+                @update:datalayertime="d => {localDataLayerTime[element.poi] = d}"
+                @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
+                @ready="onMapReady(element.poi)"
+              />
+              <!--<indicator-map
                 ref="indicatorMap"
                 style="top: 0px; position: absolute;"
                 v-else-if="(['all'].includes(element.indicatorObject.country) ||
@@ -166,7 +186,7 @@
                 @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
                 @compareEnabled="tooltipTrigger = !tooltipTrigger"
                 @ready="onMapReady(element.poi)"
-              />
+              />-->
               <indicator-data
                 v-else
                 disableAutoFocus
@@ -407,10 +427,10 @@
 import { DateTime } from 'luxon';
 import mediumZoom from 'medium-zoom';
 import IndicatorData from '@/components/IndicatorData.vue';
-import IndicatorMap from '@/components/IndicatorMap.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import LoadingAnimation from '@/components/LoadingAnimation.vue';
 import { loadIndicatorData } from '@/utils';
+import CenterMap from '@/components/map/CenterMap.vue';
 import { mapGetters, mapState, mapActions } from 'vuex';
 
 const zoom = mediumZoom();
@@ -427,9 +447,9 @@ export default {
   },
   components: {
     IndicatorData,
-    IndicatorMap,
     IndicatorGlobe,
     LoadingAnimation,
+    CenterMap,
   },
   data: () => ({
     isMounted: false,
@@ -726,8 +746,15 @@ export default {
           return f;
         }
 
+        let poiCode = f.poi;
+        if (f.poi.includes('@')) {
+          const p = f.poi.split('@')[0];
+          poiCode = p;
+        }
+
         const feature = this.$store.state.features.allFeatures
-          .find((i) => this.getLocationCode(i.properties.indicatorObject) === f.poi);
+          .find((i) => this.getLocationCode(i.properties.indicatorObject) === poiCode);
+
         const indicatorObject = await loadIndicatorData(
           this.baseConfig,
           feature.properties.indicatorObject,
