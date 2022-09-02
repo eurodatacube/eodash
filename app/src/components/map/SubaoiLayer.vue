@@ -73,7 +73,7 @@ export default {
     isInverse() {
       return this.indicator.country === 'all'
         || this.appConfig.configuredMapPois.includes(`${this.indicator.aoiID}-${this.indicator.indicator}`)
-        || Array.isArray(this.indicator.country);
+        || Array.isArray(this.indicator.inputData);
     },
   },
   mounted() {

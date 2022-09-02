@@ -433,17 +433,26 @@ export default {
           }
         }
         // TODO currently causes infinite loop
-        // if (mutation.payload.indicators) {
-        //   if (Array.isArray(mutation.payload.indicators)) {
-        //     if (mutation.payload.indicators.length === 0) {
-        //       this.indicatorSelection = 'all';
-        //     } else {
-        //       [this.indicatorSelection] = mutation.payload.indicators;
-        //     }
-        //   } else {
-        //     this.indicatorSelection = mutation.payload.indicators;
-        //   }
-        // }
+        /*
+        if (mutation.payload.indicators) {
+          if (Array.isArray(mutation.payload.indicators)) {
+            if (mutation.payload.indicators.length === 0) {
+              this.indicatorSelection = 'all';
+            } else {
+              [this.indicatorSelection] = mutation.payload.indicators;
+            }
+          } else {
+            this.indicatorSelection = mutation.payload.indicators;
+          }
+        }
+        */
+      }
+      if (mutation.type === 'indicators/SET_SELECTED_INDICATOR') {
+        if (mutation.payload) {
+          // TODO: This is not working properly, probably should use indicator loaded
+          // but then it is called twice, there should be a better way for this
+          this.indicatorSelection = mutation.payload.indicator;
+        }
       }
     });
     this.$watch(
