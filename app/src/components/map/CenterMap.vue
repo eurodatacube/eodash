@@ -508,6 +508,8 @@ export default {
       // "save map configuration" button
       this.$emit('update:center', this.currentCenter);
       this.$emit('update:zoom', this.currentZoom);
+      //router.push({ path: '/home', replace: true })
+      
     });
     if (this.centerProp && this.zoomProp) {
       view.setCenter(fromLonLat([this.centerProp.lng, this.centerProp.lat]));
@@ -525,7 +527,7 @@ export default {
       false,
     );
     if (this.mapId === 'centerMap') {
-      map.addInteraction(new Link({ replace: false }));
+      map.addInteraction(new Link({ replace: true }));
     }
   },
   methods: {
