@@ -365,20 +365,6 @@ export default {
     },
   },
   watch: {
-    '$store.state.indicators.selectedIndicator': {
-      deep: true,
-      immediate: true,
-      handler() {
-        if (this.mapId === 'centerMap') {
-          const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
-          cluster.reRender();
-          if (this.$refs.timeSelection) {
-            this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
-          }
-        }
-        // this.updateSelectedAreaFeature();
-      },
-    },
     getFeatures(features) {
       if (this.mapId === 'centerMap' && features) {
         const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
@@ -478,6 +464,20 @@ export default {
       cluster.setFeatures(this.getFeatures);
     }
     this.loaded = true;
+    this.$store.subscribe((mutation) => {
+      if (mutation.type === 'indicators/INDICATOR_LOAD_FINISHED') {
+        if (this.mapId === 'centerMap') {
+          const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
+          cluster.reRender();
+          if (this.$refs.timeSelection) {
+            this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
+          }
+          // this.updateSelectedAreaFeature();
+          // If a POI is selected we do not show the cluster
+          cluster.clusters.setVisible(mutation.payload === null);
+        }
+      }
+    });
     map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
     const attributions = new Attribution();
     attributions.setTarget(this.$refs.controlsContainer);

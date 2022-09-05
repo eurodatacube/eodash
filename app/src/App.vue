@@ -126,11 +126,12 @@ export default {
         }
       }
     },
+    // TODO: Why do we need this?
     /**
      * this methods sets the selected indicator based on the current
      * route query.
      */
-    // eslint-disable-next-line func-names
+    /*
     '$route.query.poi': function (poi) {
       let selectedFeature;
       if (poi && poi.includes('-')) {
@@ -148,6 +149,7 @@ export default {
       }
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
     },
+  */
   },
   created() {
     if (Object.prototype.hasOwnProperty.call(this.appConfig, 'countDownTimer')
