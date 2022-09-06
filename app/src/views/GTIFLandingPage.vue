@@ -13,6 +13,22 @@
       <global-header :isFullScreen="false" />
       <v-row class="landing-page" justify="center">
         <v-container class="section gtif-grid pa-16" style="background: #D2E3E0">
+          <section class="text-center d-flex flex-column align-center justify-center py-32 fill-width">
+            <h3 class="text-h3">Green Transition Information Factory</h3>
+
+            <p class="pt-8 pb-8" style="max-width: 800px">
+              Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+            </p>
+
+            <router-link to="/explore">
+              <v-btn
+                color="primary"
+                elevation="3"
+                x-large
+              >Explore Green Transition Datasets</v-btn>
+            </router-link>
+          </section>
+
           <!--<v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden" elevation="3">
             <v-col
               cols="12"
