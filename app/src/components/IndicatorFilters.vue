@@ -302,6 +302,7 @@ export default {
       inputUsed: null,
       selectionItems: [],
       selectedPOI: null,
+      externalSelection: null,
     };
   },
   computed: {
@@ -451,8 +452,8 @@ export default {
       if (mutation.type === 'indicators/INDICATOR_LOAD_FINISHED') {
         this.selectedPOI = mutation.payload;
         if (mutation.payload) {
-          // TODO: This is not working properly, probably should use indicator loaded
-          // but then it is called twice, there should be a better way for this
+          // indicate that this was selected externally so we don't get a selection loop
+          this.externalSelection = true;
           this.indicatorSelection = mutation.payload.indicator;
         }
       }
@@ -662,6 +663,12 @@ export default {
         const found = this.selectionItems.find((i) => i.code === val);
         if (found) {
           this.dropdownSelection = found.indicator;
+          if (this.externalSelection) {
+            // in case something was selected on the map (e.g. outside of this component),
+            // we'd want to reset and then skip all of the following
+            this.externalSelection = false;
+            return;
+          }
           this.selectIndicator(val);
         }
       }
