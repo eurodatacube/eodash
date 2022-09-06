@@ -70,7 +70,30 @@
           </v-row>-->
           <div class="mt-16 mb-16 d-flex flex-column justify-start align-center">
             <v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden align-center justify-center" elevation="3">
-              <button
+              <gtif-bubble
+                title="Energy Production"
+                color="#ffab02"
+                to="energy"
+              />
+
+              <gtif-bubble
+                title="Transport &amp; Emissions"
+                color="#ec5f65"
+                to="transport-emission"
+              />
+
+              <gtif-bubble
+                title="Green Finance"
+                color="#0097d7"
+                to="green-finance"
+              />
+
+              <gtif-bubble
+                title="Food Production &amp; Ecosystems"
+                color="#00599b"
+                to="food-ecosystems-biodiversity"
+              />
+              <!--<button
                 class="button"
                 style="background-color:#ffab02; outline-color:#ffab02"
                 @click="$router.push({ name: 'energy' })">
@@ -94,6 +117,7 @@
                 @click="$router.push({ name: 'food-ecosystems-biodiversity' })">
                   Food Production &amp; Ecosystems
               </button>
+              -->
             </v-row>
           </div>
           <!--<v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden" elevation="3">
@@ -268,6 +292,7 @@ import StoriesNews from '@/components/ThemesLandingPage/StoriesNews.vue';
 import LandingPageInfographic from '@/components/GTIF/LandingPageInfographic.vue';
 import GtifNavigation from '@/components/GTIF/GTIFNavigation.vue';
 import GtifTile from '@/components/GTIF/GTIFTile.vue';
+import GtifBubble from '@/components/GTIF/GTIFBubble.vue';
 
 export default {
   components: {
@@ -276,6 +301,7 @@ export default {
     Hero,
     GtifNavigation,
     GtifTile,
+    GtifBubble,
     StoriesGrid,
     NewsletterBanner,
     StoriesNews,
