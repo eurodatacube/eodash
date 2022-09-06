@@ -121,7 +121,7 @@
             </v-row>
           </div>
 
-          <img class="rounded-xl" src="https://user-images.githubusercontent.com/4036819/188458655-673c2b59-cba8-44b0-903a-1482e0e53f60.png" />
+          <img class="rounded-xl mx-12 fill-width" style="max-width: 90vw" src="/data/gtif/images/GTIF_Key_visual.png" />
           <!--<v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden" elevation="3">
             <gtif-tile />
 
