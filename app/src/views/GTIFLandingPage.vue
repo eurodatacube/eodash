@@ -13,18 +13,17 @@
       <global-header :isFullScreen="false" />
       <v-row class="landing-page" justify="center">
         <v-container class="section gtif-grid pa-16" style="background: #D2E3E0">
-
-          <v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden" elevation="3">
+          <!--<v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden" elevation="3">
             <v-col
               cols="12"
               md="6"
               class="gtif-dashboard-col" style="position: relative; background-image: url('/data/gtif/images/GTIF_Key_visual.png'); background-size: cover; background-position: center;"
             >
-              <!--<img
+              <img
                 src="data/gtif/images/GTIF_Key_visual.png"
                 width="100%"
                 class="pl-xs-0 pl-sm-0 pl-md-8 pl-lg-8 pl-xl-8"
-              />-->
+              />
             </v-col>
 
             <v-col
@@ -47,7 +46,7 @@
               >
               </VueDeckgl>
             </v-col>
-          </v-row>
+          </v-row>-->
           <div class="mt-16 mb-16 d-flex flex-column justify-start align-center">
             <v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden align-center justify-center" elevation="3">
               <button
@@ -76,7 +75,7 @@
               </button>
             </v-row>
           </div>
-          <v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden" elevation="3">
+          <!--<v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden" elevation="3">
             <gtif-tile />
 
             <v-col
@@ -89,12 +88,12 @@
                 <iframe class="item" src="https://eodash.eox.at/iframe?poi=100058-OX" width="100%" height="100%" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>
               </div>
             </v-col>
-          </v-row>
+          </v-row>-->
 
         </v-container>
 
-        <div class="section pb-16">
-          <!--<gtif-navigation />-->
+        <!--<div class="section pb-16">
+          <gtif-navigation />
 
           <div class="mt-16 mb-16 d-flex flex-column justify-start align-center">
             <stories-news v-if="appConfig && appConfig.id != 'gtif'"/>
@@ -213,7 +212,7 @@
               </v-col>
             </template>
           </v-row>
-        </v-container>
+        </v-container>-->
       </v-row>
       <global-footer />
     </div>
