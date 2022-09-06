@@ -11,7 +11,7 @@
       class="px-0"
     >
       <global-header :isFullScreen="false" />
-      <v-row class="landing-page" justify="center">
+      <v-row class="landing-page text-center" justify="center">
         <v-container class="section gtif-grid" style="background: #D2E3E0; padding: 0;">
           <section style="background: #AED6CF;" class="text-center d-flex flex-column pt-10 align-center justify-center fill-width">
             <h3 class="text-h3">Green Transition Information Factory</h3>
@@ -120,6 +120,8 @@
               -->
             </v-row>
           </div>
+
+          <img class="rounded-xl" src="https://user-images.githubusercontent.com/4036819/188458655-673c2b59-cba8-44b0-903a-1482e0e53f60.png" />
           <!--<v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden" elevation="3">
             <gtif-tile />
 
