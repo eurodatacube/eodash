@@ -8,12 +8,12 @@
       height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px);`"
   >
     <div
-      class="px-3"
+      class="px-0"
     >
       <global-header :isFullScreen="false" />
       <v-row class="landing-page" justify="center">
-        <v-container class="section gtif-grid pa-16" style="background: #D2E3E0">
-          <section class="text-center d-flex flex-column align-center justify-center py-32 fill-width">
+        <v-container class="section gtif-grid" style="background: #D2E3E0; padding: 0;">
+          <section style="background: #AED6CF;" class="text-center d-flex flex-column pt-10 align-center justify-center fill-width">
             <h3 class="text-h3">Green Transition Information Factory</h3>
 
             <p class="pt-8 pb-8" style="max-width: 800px">
@@ -28,6 +28,11 @@
               >Explore Green Transition Datasets</v-btn>
             </router-link>
           </section>
+
+          <section
+            class="ellipse py-10 fill-width"
+            style="background: #AED6CF;"
+          />
 
           <!--<v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden" elevation="3">
             <v-col
@@ -510,5 +515,12 @@ export default {
   outline-width: 2px;
   outline-style: solid;
   outline-offset: 8px;
+}
+
+.ellipse {
+  border-bottom-left-radius: 100% 80%;
+  border-bottom-right-radius: 100% 80%;
+  border-top-left-radius: 0% 0%;
+  border-top-right-radius: 0% 0%;
 }
 </style>
