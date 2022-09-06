@@ -568,6 +568,14 @@ export default {
               // add another point for exact matches
               matchPoints++;
             }
+            if (
+              countries.features
+                .map(f => f.properties.name).some(i => i.toLocaleLowerCase().includes(p))
+              && (itemObject.indicatorObject?.city === 'World'
+                || itemObject.indicatorObject?.city === 'Global')
+              ) {
+              matchPoints++;
+            }
           }
         });
       itemObject.filterPriority = matchPoints;
