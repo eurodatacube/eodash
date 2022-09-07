@@ -4,8 +4,10 @@
     clipped-left
     clipped-right
     flat
-    :color="currentTheme ? currentTheme.color : 'primary'"
-    class="white--text"
+    :color="isTransparent ? '#AED6CF' : currentTheme ? currentTheme.color : 'primary'"
+    :class="{
+      'white--text': !isTransparent,
+    }"
     v-show="!isFullScreen"
   >
     <v-app-bar-nav-icon
@@ -325,10 +327,19 @@ import Modal from './Modal.vue';
 export default {
   props: {
     /**
-     * Determines whether the header should be hidden.
+     * Determines if the header should be hidden.
      * @values true, false
      */
     isFullScreen: {
+      type: Boolean,
+      default: false,
+    },
+
+    /**
+     * Determines if the header is in transparent mode.
+     * @values true, false
+     */
+    isTransparent: {
       type: Boolean,
       default: false,
     },
