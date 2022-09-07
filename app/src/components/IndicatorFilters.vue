@@ -22,7 +22,6 @@
       :prepend-inner-icon="dropdownSelection ? 'mdi-arrow-left' : 'mdi-magnify'"
       :append-icon="$vuetify.breakpoint.smAndUp ? '' : undefined"
       clearable
-      auto-select-first
       label="Search here"
       :search-input.sync="userInput"
       attach="#list"
@@ -610,6 +609,8 @@ export default {
         countries: [],
         indicators: [],
       });
+      this.dropdownSelection = null;
+      this.indicatorSelection = null;
     },
     goBack() {
       this.$router.back();
