@@ -42,9 +42,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$bubble-size: 142px;
+
 .gtif-dashboard-bubble {
-    width: 150px;
-    height: 150px;
+    width: $bubble-size;
+    height: $bubble-size;
     color: #FFF;
     border-radius: 50%;
     outline-width: 2px;
