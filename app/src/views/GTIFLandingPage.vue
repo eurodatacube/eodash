@@ -5,7 +5,7 @@
       ? ' pt-5'
       : ''"
     :style="`margin-top: ${0}px; overflow-x: hidden;
-      height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px);`"
+      height: calc(100% - ${$vuetify.application.footer}px);`"
     @scroll="onScroll"
   >
     <div
