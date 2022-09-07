@@ -6,11 +6,15 @@
       : ''"
     :style="`margin-top: ${$vuetify.application.top}px; overflow-x: hidden;
       height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px);`"
+    @scroll="onScroll"
   >
     <div
       class="px-0"
     >
-      <global-header :isFullScreen="false" />
+      <global-header
+        :isFullScreen="false"
+        :isTransparent="isHeaderTransparent"
+      />
       <v-row class="landing-page text-center" justify="center">
         <v-container class="section gtif-grid" style="background: #D2E3E0; padding: 0;">
           <section style="background: #AED6CF;" class="text-center d-flex flex-column pt-16 align-center justify-center fill-width">
@@ -320,6 +324,7 @@ export default {
   },
   data() {
     return {
+      isHeaderTransparent: true,
       // Contains the data for the 3D bar chart in the hero
       glData: null,
       lightingEffect: null,
@@ -460,6 +465,9 @@ export default {
       this.viewState = {
         ...updatedViewState,
       };
+    },
+    onScroll(event) {
+      this.isHeaderTransparent = event.target.scrollTop < 30;
     },
     csvToArray(str, delimiter = ',') {
       // slice from start of text to the first \n index
