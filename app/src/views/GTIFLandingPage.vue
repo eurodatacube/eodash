@@ -41,10 +41,9 @@
             </router-link>
           </section>
 
-          <section
-            class="ellipse py-10 fill-width"
-            style="background: #AED6CF;"
-          />
+          <svg style="width: 100%; height: 120px;" width="500" height="80" viewBox="0 0 500 80" preserveAspectRatio="none">
+            <path d="M0,0 L0,40 Q250,80 500,40 L500,0 Z" fill="#AED6CF" />
+          </svg>
 
           <!--<v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden" elevation="3">
             <v-col
