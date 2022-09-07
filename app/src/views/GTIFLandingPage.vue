@@ -4,7 +4,7 @@
     :class="$vuetify.breakpoint.smAndAbove
       ? ' pt-5'
       : ''"
-    :style="`margin-top: ${$vuetify.application.top}px; overflow-x: hidden;
+    :style="`margin-top: ${0}px; overflow-x: hidden;
       height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px);`"
     @scroll="onScroll"
   >
@@ -17,7 +17,7 @@
       />
       <v-row class="landing-page text-center" justify="center">
         <v-container class="section gtif-grid" style="background: #D2E3E0; padding: 0;">
-          <section style="background: #AED6CF;" class="text-center d-flex flex-column pt-16 align-center justify-center fill-width">
+          <section style="background: #AED6CF; position: relative;" class="gtif-header-bg text-center d-flex flex-column pt-16 align-center justify-center fill-width">
             <h3 class="text-h4 text-md-h3 mx-16 mx-md-0">Green Transition Information Factory</h3>
 
             <p class="pt-8 pb-8 px-16 text-body-1" style="max-width: 800px">
@@ -565,5 +565,21 @@ export default {
   border-bottom-right-radius: 100% 80%;
   border-top-left-radius: 0% 0%;
   border-top-right-radius: 0% 0%;
+}
+
+.gtif-header-bg:before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.2;
+    background-image: url('/data/gtif/images/GTIF_Key_visual.png');
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    background-size: cover;
 }
 </style>
