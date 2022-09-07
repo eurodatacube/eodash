@@ -129,14 +129,14 @@
     </v-autocomplete>
     <div
       v-show="isDropdownEnabled"
-      class="rounded-t-xl mt-3 pa-3 elevation-2"
+      class="rounded-xl mt-3 pa-3 elevation-2"
       style="background: var(--v-background-base)"
     >
       <div
         id="list"
         class="v-list--dense"
         :style="`max-height: calc(var(--vh, 1vh) * 100 - ${
-          $vuetify.breakpoint.xsOnly ? $vuetify.application.footer + 75 : 300
+          $vuetify.breakpoint.xsOnly ? $vuetify.application.footer + 75 : 200
         }px)`"
       >
         <v-list
@@ -186,7 +186,6 @@
                     :value="getLocationCode(groupedIndicators[indicator.code]
                       .features[i].properties.indicatorObject)"
                     active-class="itemActive"
-                    :class="indicator.archived ? 'archived-item' : ''"
                     :disabled="indicatorSelection === feature"
                   >
                     <v-list-item-icon class="ml-5 mr-3">
@@ -217,7 +216,6 @@
                   :key="indicator.code"
                   :value="indicator.code"
                   active-class="itemActive"
-                  :class="indicator.archived ? 'archived-item' : ''"
                   :disabled="indicatorSelection === indicator.code"
                 >
                   <v-list-item-icon class="mr-4">
@@ -252,23 +250,6 @@
         </v-list>
       </div>
     </div>
-    <v-sheet
-      v-if="isDropdownEnabled"
-      class="d-flex align-center justify-center rounded-b-xl elevation-2"
-      style="width: 100%; height: 40px">
-      <v-checkbox
-        :value="featureFilters.includeArchived"
-        label="Show archived indicators"
-        color="primary"
-        dense
-        hide-details
-        class="ma-0"
-        @change="
-          setFilter({ includeArchived: !featureFilters.includeArchived })
-        "
-      >
-      </v-checkbox>
-    </v-sheet>
   </div>
 </template>
 
@@ -718,9 +699,6 @@ export default {
   .v-list-item__icon .flag {
     border: 1px solid transparent;
   }
-}
-::v-deep .archived-item {
-  opacity: 0.65;
 }
 
 ::v-deep .v-autocomplete__content {
