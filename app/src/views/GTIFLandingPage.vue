@@ -17,8 +17,8 @@
       />
       <v-row class="landing-page text-center" justify="center">
         <v-container class="section gtif-grid" style="background: #D2E3E0; padding: 0;">
-          <section style="background: #AED6CF; position: relative;" class="gtif-header-bg text-center d-flex flex-column pt-16 align-center justify-center fill-width">
-            <h3 class="text-h4 text-md-h3 mx-16 mx-md-0">Green Transition Information Factory</h3>
+          <section class="white--text gtif-header-bg text-center d-flex flex-column pt-16 align-center justify-center fill-width">
+            <h3 class="text-h4 text-md-h3 mt-16 mx-16 mx-md-0">Green Transition Information Factory</h3>
 
             <p class="pt-8 pb-8 px-16 text-body-1" style="max-width: 800px">
               Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
@@ -39,11 +39,23 @@
                 large
               >Explore Green Transition Datasets</v-btn>
             </router-link>
-          </section>
 
-          <svg style="width: 100%; height: 120px;" width="500" height="80" viewBox="0 0 500 80" preserveAspectRatio="none">
-            <path d="M0,0 L0,40 Q250,80 500,40 L500,0 Z" fill="#AED6CF" />
-          </svg>
+            <svg
+              class="pt-8"
+              style="width: 100%; height: 120px; z-index: 2;"
+              width="500"
+              height="40"
+              viewBox="0 0 500 40"
+              preserveAspectRatio="none"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:svg="http://www.w3.org/2000/svg">
+              <path
+                id="rect934"
+                style="fill:#d2e3e0;fill-opacity:1"
+                d="M 0,0 V 40 H 500 V 0 C 333.33333,26.666667 166.66667,26.666667 0,0 Z" />
+            </svg>
+          </section>
 
           <!--<v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden" elevation="3">
             <v-col
@@ -565,6 +577,15 @@ export default {
   border-bottom-right-radius: 100% 80%;
   border-top-left-radius: 0% 0%;
   border-top-right-radius: 0% 0%;
+}
+
+.gtif-header-bg {
+  position: relative;
+  background: darken(#AED6CF, 65%);
+}
+
+.gtif-header-bg > * {
+  z-index: 2;
 }
 
 .gtif-header-bg:before {
