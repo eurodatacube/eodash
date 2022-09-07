@@ -144,7 +144,6 @@
             </v-row>
           </div>
 
-          <img class="rounded-xl mx-12 fill-width" style="max-width: 90vw" src="/data/gtif/images/GTIF_Key_visual.png" />
           <!--<v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden" elevation="3">
             <gtif-tile />
 
