@@ -13,18 +13,26 @@
       <global-header :isFullScreen="false" />
       <v-row class="landing-page text-center" justify="center">
         <v-container class="section gtif-grid" style="background: #D2E3E0; padding: 0;">
-          <section style="background: #AED6CF;" class="text-center d-flex flex-column pt-10 align-center justify-center fill-width">
-            <h3 class="text-h3">Green Transition Information Factory</h3>
+          <section style="background: #AED6CF;" class="text-center d-flex flex-column pt-16 align-center justify-center fill-width">
+            <h3 class="text-h4 text-md-h3 mx-16 mx-md-0">Green Transition Information Factory</h3>
 
-            <p class="pt-8 pb-8" style="max-width: 800px">
+            <p class="pt-8 pb-8 px-16 text-body-1" style="max-width: 800px">
               Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
             </p>
 
             <router-link to="/explore">
               <v-btn
+                class="d-none d-md-flex"
                 color="primary"
                 elevation="3"
                 x-large
+              >Explore Green Transition Datasets</v-btn>
+
+              <v-btn
+                class="d-flex d-md-none"
+                color="primary"
+                elevation="3"
+                large
               >Explore Green Transition Datasets</v-btn>
             </router-link>
           </section>
