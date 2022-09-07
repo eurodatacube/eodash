@@ -4,7 +4,7 @@
     clipped-left
     clipped-right
     flat
-    :color="isTransparent ? '#AED6CF' : currentTheme ? currentTheme.color : 'primary'"
+    :color="isTransparent ? '#AED6CF00' : currentTheme ? currentTheme.color : 'primary'"
     :class="{
       'white--text': !isTransparent,
     }"
