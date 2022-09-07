@@ -28,10 +28,10 @@ const convexHullStroke = new Stroke({
   lineDash: [4, 4],
 });
 const outerCircleFill = new Fill({
-  color: 'rgba(58, 104, 142, 0.5)',
+  color: '#ffffff77',
 });
 const innerCircleFill = new Fill({
-  color: '#282828',
+  color: '#0098DB',
 });
 const textFill = new Fill({
   color: '#fff',
@@ -441,7 +441,7 @@ class Cluster {
           text: new Text({
             text: clusterMembers.length.toString(),
             fill: textFill,
-            font: '12px sans-serif',
+            font: 'bold 12px Roboto, sans-serif',
           }),
         }),
       ];
