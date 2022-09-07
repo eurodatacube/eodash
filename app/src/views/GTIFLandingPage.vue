@@ -72,25 +72,25 @@
             <v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden align-center justify-center" elevation="3">
               <gtif-bubble
                 title="Energy Production"
-                color="#ffab02"
+                color="#a6512c"
                 to="energy"
               />
 
               <gtif-bubble
                 title="Transport &amp; Emissions"
-                color="#ec5f65"
+                color="#c12f61"
                 to="transport-emission"
               />
 
               <gtif-bubble
                 title="Green Finance"
-                color="#0097d7"
+                color="#1f7478"
                 to="green-finance"
               />
 
               <gtif-bubble
                 title="Food Production &amp; Ecosystems"
-                color="#00599b"
+                color="#216f9f"
                 to="food-ecosystems-biodiversity"
               />
               <!--<button
