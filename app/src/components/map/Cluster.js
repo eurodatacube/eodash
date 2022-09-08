@@ -381,6 +381,11 @@ class Cluster {
                 this.expanded = false;
               });
             } else {
+              const urlSearchParams = new URLSearchParams(window.location.search);
+              const params = Object.fromEntries(urlSearchParams.entries());
+              params.clusterOpen = params.clusterOpen ? parseInt(params.clusterOpen) + 1 : 1
+              const router = this.vm.$router;
+              router.push({ query: params });
               // Zoom to the extent of the cluster members.
               view.fit(extent, { duration: 500, padding: [50, 50, 50, 50] });
             }

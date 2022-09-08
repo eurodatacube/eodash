@@ -19,7 +19,7 @@
       solo
       rounded
       :items="selectionItems.map(i => i.name)"
-      :prepend-inner-icon="dropdownSelection ? 'mdi-arrow-left' : 'mdi-magnify'"
+      :prepend-inner-icon="$store.state.showHistoryBackButton ? 'mdi-arrow-left' : 'mdi-magnify'"
       :append-icon="$vuetify.breakpoint.smAndUp ? '' : undefined"
       clearable
       label="Search here"
@@ -30,7 +30,7 @@
       :filter="customAutocompleteFilter"
       @focus="isDropdownEnabled = true"
       @click:clear="autoCompleteClear"
-      @click:prepend-inner="goBack"
+      @click:prepend-inner="$store.state.showHistoryBackButton ? goBack() : () => {}"
       @change="autoCompleteChange"
       @keydown.esc="userInput = null"
     >
@@ -259,7 +259,6 @@ import { mapGetters, mapState } from 'vuex';
 
 import CountryFlag from 'vue-country-flag';
 import countries from '@/assets/countries.json';
-import getMapInstance from '@/components/map/map';
 
 export default {
   components: {
@@ -595,21 +594,6 @@ export default {
     },
     goBack() {
       this.$router.back();
-      const currentQuery = this.$router.currentRoute.query;
-      const {
-        x, y, z,
-      } = currentQuery;
-      if (x && y && z && !Number.isNaN(x) && !Number.isNaN(y) && !Number.isNaN(z)) {
-        getMapInstance('centerMap').map.getView().animate({
-          center: [x, y],
-          zoom: z,
-          duration: 300,
-        });
-      }
-      // Unselect poi if currently one is selected
-      if (this.selectedPOI !== null) {
-        this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
-      }
     },
   },
   watch: {
