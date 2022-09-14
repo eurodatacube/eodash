@@ -139,6 +139,12 @@
           $vuetify.breakpoint.xsOnly ? $vuetify.application.footer + 75 : 200
         }px)`"
       >
+        <div
+          v-if="onlyGlobalDataAvailable"
+          class="pa-3"
+        >
+          <small>No results found for country; showing global data instead.</small>
+        </div>
         <v-list
           dense
           class="customList fill-height pt-0"
@@ -282,6 +288,7 @@ export default {
       selectionItems: [],
       selectedPOI: null,
       externalSelection: null,
+      onlyGlobalDataAvailable: null,
     };
   },
   computed: {
@@ -461,6 +468,11 @@ export default {
       ];
       itemArray.sort((a, b) => (a.name.localeCompare(b.name)));
       itemArray.sort((a, b) => (b.filterPriority || 0) - (a.filterPriority || 0));
+      this.onlyGlobalDataAvailable = this.userInput
+        && countries.features
+          .map(f => f.properties.name).some(i => i.toLocaleLowerCase().includes(this.userInput))
+        && this.$refs.autocomplete?.filteredItems
+          .every(i => i.includes('World') || i.includes('Global'));
       this.selectionItems = itemArray;
     },
     getIndicator(indObj) {
