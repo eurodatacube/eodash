@@ -108,7 +108,18 @@
 <script>
 
     async function fetchData() {
-        let values = await fetch('https://dev-eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/get?id=e8fe15ffa771e27a');
+        var dashboardId = ''; // e8fe15ffa771e27a
+        const parameters = new URLSearchParams(window.location.search);
+
+        if (parameters.has('id')) {
+            dashboardId = parameters.get('id');
+            console.log(`Using custom dashboard ID "${dashboardId}"`);
+        } else {
+            // load cat story instead
+            dashboardId = 'e8fe15ffa771e27a';
+        }
+
+        let values = await fetch(`https://dev-eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/get?id=${dashboardId}`);
         return values;
     }
 
