@@ -82,17 +82,8 @@
     <main>
         <section id="scrolly">
             <article>
-                <div class="step" data-step="1">
-                    <p>{{ message }}</p>
-                </div>
-                <div class="step" data-step="2">
-                    <p>STEP 2</p>
-                </div>
-                <div class="step" data-step="3">
-                    <p>STEP 3</p>
-                </div>
-                <div class="step" data-step="4">
-                    <p>STEP 4</p>
+                <div v-for="(el, i) in data" class="step" :data-step="i + 1">
+                    <p>{{ el.text }}</p>
                 </div>
             </article>
 
@@ -110,16 +101,57 @@
 <script src="../scrollama.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
 <script>
+    // fetch dashboard data
+    let scrollyData = {
+        "dashboard": {
+            "dashboardConfig": {
+                "features": [
+                    {
+                        "poi": "Text 1-1663236433448",
+                        "title": "Text 1",
+                        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean auctor ex a lorem sollicitudin, et efficitur enim faucibus. Suspendisse porta ante quis mi vulputate, vel consectetur ex rutrum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam tristique erat nec ex lacinia, a mattis orci aliquam.",
+                        "width": 1
+                    },
+                    {
+                        "poi": "Image 1-1663236513386",
+                        "title": "Image 1",
+                        "text": "<--IMG-->https://picsum.photos/id/1015/800/600<--IMG-->",
+                        "width": 3
+                    },
+                    {
+                        "poi": "Text 2-1663236562005",
+                        "title": "Text 2",
+                        "text": "Integer vulputate ultricies sem luctus rhoncus. Donec varius tempor semper. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse et ultricies est. Quisque sodales justo at eros ultricies commodo. Etiam pharetra lectus ac pellentesque imperdiet. Duis libero diam, egestas facilisis tellus at, congue sodales quam. Fusce molestie ligula at blandit facilisis. Vivamus nec nulla sed turpis finibus rhoncus.",
+                        "width": 1
+                    },
+                    {
+                        "poi": "Image 2-1663236593021",
+                        "title": "Image 2",
+                        "text": "<--IMG-->https://picsum.photos/800/600<--IMG-->",
+                        "width": 3
+                    },
+                    {
+                        "poi": "Text 3-1663236729195",
+                        "title": "Text 3",
+                        "text": "Suspendisse molestie aliquam pretium. Nam facilisis ligula nec nulla sodales, ut rutrum tellus vestibulum. Nunc condimentum ante id lobortis dignissim. Vivamus purus nisi, tempor quis scelerisque sed, ullamcorper at arcu. Sed mollis dolor ligula, suscipit sollicitudin augue porttitor non.",
+                        "width": 1
+                    },
+                    {
+                        "poi": "Image 3-1663236770156",
+                        "title": "Image 3",
+                        "text": "<--IMG-->https://picsum.photos/id/1002/800/600<--IMG-->",
+                        "width": 3
+                    }
+                ],
+                "title": "My Dashboard"
+            }
+        }
+    };
+
     let app = new Vue({
         el: '#app',
-        data: {message: 'hello',},
+        data: () => {return {data: scrollyData}},
     });
-    let scrollyData;
-    fetch('/scrollyData.json')
-        .then((response) => response.json())
-        .then((data) => {
-            scrollyData = data;
-        });
 
     // using d3 for convenience
     var main = d3.select("main");
