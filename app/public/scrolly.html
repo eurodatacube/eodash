@@ -82,7 +82,7 @@
     <main>
         <section id="scrolly">
             <article>
-                <div v-for="(el, i) in data" class="step" :data-step="i + 1">
+                <div v-for="(el, i) in textData" class="step" :data-step="i">
                     <p>{{ el.text }}</p>
                 </div>
             </article>
@@ -148,9 +148,17 @@
         }
     };
 
+    const data = scrollyData.dashboard.dashboardConfig.features;
+
+    let odd  = data.filter(v => v % 2);
+    let even = data.filter(v => !(v % 2));
+
     let app = new Vue({
         el: '#app',
-        data: () => {return {data: scrollyData}},
+        data: () => { return {
+            imgData: data.filter((v, i) => i % 2),
+            textData: data.filter((v, i) => !(i % 2)),
+        }},
     });
 
     // using d3 for convenience
