@@ -12,7 +12,7 @@
             display: -webkit-box;
             display: -ms-flexbox;
             display: flex;
-            background-color: #f3f3f3;
+            background-color: rgb(210, 227, 224);
             padding: 1rem;
         }
 
@@ -24,8 +24,8 @@
 
         article {
             position: relative;
-            padding: 0 1rem;
-            max-width: 20rem;
+            padding: 4rem 6rem;
+            max-width: 36rem;
         }
 
         figure {
@@ -36,7 +36,7 @@
             -webkit-transform: translate3d(0, 0, 0);
             -moz-transform: translate3d(0, 0, 0);
             transform: translate3d(0, 0, 0);
-            background-color: #8a8a8a;
+            background-color: #8a8a8a00;
             z-index: 0;
         }
 
@@ -54,10 +54,15 @@
             color: #fff;
         }
 
+        figure img {
+            border-radius: 16px;
+        }
+
         .step {
             margin: 0 auto 2rem auto;
-            background-color: #3b3b3b;
-            color: #fff;
+            background-color: #3b3b3b00;
+            color: #728C88;
+            transition: color 0.2s linear;
         }
 
         .step:last-child {
@@ -65,8 +70,8 @@
         }
 
         .step.is-active {
-            background-color: goldenrod;
-            color: #3b3b3b;
+            /*background-color: goldenrod;*/
+            color: #0e6b5d;
         }
 
         .step p {
@@ -150,9 +155,6 @@
 
     const data = scrollyData.dashboard.dashboardConfig.features;
 
-    let odd  = data.filter(v => v % 2);
-    let even = data.filter(v => !(v % 2));
-
     let app = new Vue({
         el: '#app',
         data: () => { return {
@@ -202,7 +204,8 @@
         let imageSrc = taggedImageSrc.replaceAll('<--IMG-->', '');
 
         // update graphic based on step
-        figure.select('p').html(`<img src="${imageSrc}" width="100%" />`);
+        figure.select('p')
+            .html(`<img src="${imageSrc}" width="700" />`);
     }
 
     function init() {
