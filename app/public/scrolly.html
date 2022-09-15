@@ -198,8 +198,11 @@
             return i === response.index;
         });
 
+        let taggedImageSrc = app.imgData[response.index].text;
+        let imageSrc = taggedImageSrc.replaceAll('<--IMG-->', '');
+
         // update graphic based on step
-        figure.select("p").text(response.index + 1);
+        figure.select('p').html(`<img src="${imageSrc}" width="100%" />`);
     }
 
     function init() {
