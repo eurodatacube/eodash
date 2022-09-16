@@ -1,6 +1,11 @@
 import { DateTime } from 'luxon';
 import axios from 'axios';
 import store from '@/store';
+import { Vector } from 'ol/layer';
+import VectorSource from 'ol/source/Vector';
+import { Feature } from 'ol';
+import { fromExtent } from 'ol/geom/Polygon';
+import { Stroke, Style } from 'ol/style';
 import getMapInstance from './components/map/map';
 
 export function padLeft(str, pad, size) {
@@ -171,6 +176,32 @@ export function isExternalUrl(urlString) {
   return false;
 }
 
+// eslint-disable-next-line no-unused-vars
+function handleDebugPolygon() {
+  const { map } = getMapInstance('centerMap');
+  const layers = map.getLayers().getArray();
+  let debugLayer = layers.find((l) => l.get('name') === 'debugLayer');
+  if (!debugLayer) {
+    debugLayer = new Vector({
+      zIndex: 999999999,
+      source: new VectorSource({
+        features: [new Feature({})],
+      }),
+      style: new Style({
+        stroke: new Stroke({
+          color: 'rgba(200, 100, 0, 0.5)',
+          width: 40,
+        }),
+      }),
+    });
+    debugLayer.set('name', 'debugLayer');
+    map.addLayer(debugLayer);
+    map.on('moveend', handleDebugPolygon);
+  }
+  const feature = debugLayer.getSource().getFeatures()[0];
+  feature.setGeometry(fromExtent(map.getView().calculateExtent(map.getSize())));
+}
+
 export function calculatePadding() {
   // we can further refine the padding to use based on which panels are open
   // TODO: This will probably no longer be used as Robert will reimplement this with ol extent
@@ -185,7 +216,6 @@ export function calculatePadding() {
   const padding = [70, 20 + dataPanelWidth, 70, 20 + searchResultWidth];
   const { map } = getMapInstance('centerMap');
   const view = map.getView();
-  // WIP: this will move the map center, this is open for discussion.
   view.padding = padding;
-  view.changed();
+  // handleDebugPolygon();
 }
