@@ -12,7 +12,6 @@
             display: -webkit-box;
             display: -ms-flexbox;
             display: flex;
-            background-color: rgb(210, 227, 224);
             padding: 1rem;
         }
 
@@ -116,7 +115,7 @@
             console.log(`Using custom dashboard ID "${dashboardId}"`);
         } else {
             // load cat story instead
-            dashboardId = 'e8fe15ffa771e27a';
+            dashboardId = 'e0922e5abdc9101b';
         }
 
         let values = await fetch(`https://dev-eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/get?id=${dashboardId}`);
@@ -172,12 +171,23 @@
                     return i === response.index;
                 });
 
-                let taggedImageSrc = app.imgData[response.index].text;
-                let imageSrc = taggedImageSrc.replaceAll('<--IMG-->', '');
+                let elementText = app.imgData[response.index].text;
+                let elementId = app.imgData[response.index].id;
 
-                // update graphic based on step
-                figure.select('p')
-                    .html(`<img src="${imageSrc}" width="700" />`);
+                if (elementText && elementText.includes('<--IMG-->')) {
+                    let imageSrc = elementText.replaceAll('<--IMG-->', '');
+
+                    // update graphic based on step
+                    figure.select('p')
+                        .html(`<img src="${imageSrc}" width="700" />`);
+                } else {
+                    let poiId = elementId.substring(0, elementId.indexOf('@'));
+                    console.log(poiId);
+
+                    // load POI iframe
+                    figure.select('p')
+                        .html(`<iframe class="item" src="http://localhost:8812/iframe?poi=${poiId}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`);
+                }
             }
 
             function init() {
@@ -202,53 +212,14 @@
         })
         .catch(e => console.error(`Error fetching dashboard data: ${e}`));
 
-    //let remoteData = fetchData();
-    // fetch dashboard data
-    /*let scrollyData = {
-        "dashboard": {
-            "dashboardConfig": {
-                "features": [
-                    {
-                        "poi": "Text 1-1663236433448",
-                        "title": "Text 1",
-                        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean auctor ex a lorem sollicitudin, et efficitur enim faucibus. Suspendisse porta ante quis mi vulputate, vel consectetur ex rutrum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam tristique erat nec ex lacinia, a mattis orci aliquam.",
-                        "width": 1
-                    },
-                    {
-                        "poi": "Image 1-1663236513386",
-                        "title": "Image 1",
-                        "text": "<--IMG-->https://picsum.photos/id/1015/800/600<--IMG-->",
-                        "width": 3
-                    },
-                    {
-                        "poi": "Text 2-1663236562005",
-                        "title": "Text 2",
-                        "text": "Integer vulputate ultricies sem luctus rhoncus. Donec varius tempor semper. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse et ultricies est. Quisque sodales justo at eros ultricies commodo. Etiam pharetra lectus ac pellentesque imperdiet. Duis libero diam, egestas facilisis tellus at, congue sodales quam. Fusce molestie ligula at blandit facilisis. Vivamus nec nulla sed turpis finibus rhoncus.",
-                        "width": 1
-                    },
-                    {
-                        "poi": "Image 2-1663236593021",
-                        "title": "Image 2",
-                        "text": "<--IMG-->https://picsum.photos/800/600<--IMG-->",
-                        "width": 3
-                    },
-                    {
-                        "poi": "Text 3-1663236729195",
-                        "title": "Text 3",
-                        "text": "Suspendisse molestie aliquam pretium. Nam facilisis ligula nec nulla sodales, ut rutrum tellus vestibulum. Nunc condimentum ante id lobortis dignissim. Vivamus purus nisi, tempor quis scelerisque sed, ullamcorper at arcu. Sed mollis dolor ligula, suscipit sollicitudin augue porttitor non.",
-                        "width": 1
-                    },
-                    {
-                        "poi": "Image 3-1663236770156",
-                        "title": "Image 3",
-                        "text": "<--IMG-->https://picsum.photos/id/1002/800/600<--IMG-->",
-                        "width": 3
-                    }
-                ],
-                "title": "My Dashboard"
-            }
-        }
-    };*/
+
+    // TODO
+    // - Display POIs ✅
+    // - Display Markdown too
+    // - Update with EO content: sent on Slack ✅
+    // - Scrollama progress - link to video play
+    // - Embed in EODash frame (like privacy page) ✅
+    // - implement iframresizer bundle ✅
 </script>
 </body>
 
