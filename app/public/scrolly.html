@@ -104,6 +104,7 @@
 <script src="https://unpkg.com/d3@5.9.1/dist/d3.min.js"></script>
 <script src="../scrollama.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
 
     async function fetchData() {
@@ -118,7 +119,9 @@
             dashboardId = 'e0922e5abdc9101b';
         }
 
-        let values = await fetch(`https://dev-eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/get?id=${dashboardId}`);
+        let values = await fetch(
+            `https://dev-eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/get?id=${dashboardId}`
+        );
         return values;
     }
 
@@ -211,15 +214,6 @@
             init();
         })
         .catch(e => console.error(`Error fetching dashboard data: ${e}`));
-
-
-    // TODO
-    // - Display POIs ✅
-    // - Display Markdown too
-    // - Update with EO content: sent on Slack ✅
-    // - Scrollama progress - link to video play
-    // - Embed in EODash frame (like privacy page) ✅
-    // - implement iframresizer bundle ✅
 </script>
 </body>
 
