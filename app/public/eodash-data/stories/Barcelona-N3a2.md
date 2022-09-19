@@ -1,4 +1,4 @@
-## Impact of COVID-19 on Water Quality
+## Impact of COVID-19 on Water Quality 
 
 The effect of the lockdown and the subsequent recovery on inland and coastal waters were assessed by monitoring the deviation from a weekly climatological mean of chlorophyll-a (Chl) concentration and Total Suspended Matter (TSM) as measured by OLCI, onboard Sentinel-3.
 
