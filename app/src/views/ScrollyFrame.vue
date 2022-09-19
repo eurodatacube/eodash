@@ -4,7 +4,7 @@
     :style="`margin-top: ${$vuetify.application.top}px !important;`"
   >
     <div
-      class="pa-10 pt-5 fill-height"
+      class="fill-height"
     >
       <v-app-bar
         app
@@ -26,8 +26,13 @@
         <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
       </v-app-bar>
       <iframe
-        id="content"
+        id="resizableIframe"
+        @load="onLoaded"
+        v-resize="onResize"
+        width="100%"
+        style="height: calc((var(--vh), 1vh) * 100) !important;"
         src="/scrolly.html"
+        frameborder="0"
       ></iframe>
       <global-footer />
     </div>
@@ -39,15 +44,13 @@ import {
   mapState,
 } from 'vuex';
 
-// import { iFrameResize } from 'iframe-resizer';
+import axios from 'axios';
+import iFrameResize from 'iframe-resizer/js/iframeResizer';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 
 export default {
   components: {
     GlobalFooter,
-  },
-  mounted() {
-    document.getElementById('content').iFrameResize({ log: true });
   },
   metaInfo() {
     const { appConfig } = this.$store.state.config;
@@ -57,8 +60,31 @@ export default {
   },
   computed: {
     ...mapState('config', ['appConfig']),
-    terms() {
-      return this.$marked(require(`../../public${this.appConfig.termsText}.md`).default);
+  },
+  methods: {
+    async onLoaded() {
+      try {
+        const response = await axios
+          .get(`https://${process.env.NODE_ENV !== 'production'
+            ? 'dev-'
+            : ''}eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/get?id=${
+            this.$route.query.id || '9dd9f2b6743c9746' // fallback default TODO remove
+            // /dashboard?id=9dd9f2b6743c9746&editKey=0017ee8a3e16f9b8
+          }`);
+        document.querySelector('iframe').contentWindow.postMessage(response.data);
+      } catch (error) {
+        console.error(`Error loading dashboard data: ${error}`);
+      }
+    },
+    onResize() {
+      iFrameResize({
+        // log: true,
+        checkOrigin: false,
+        inPageLinks: false,
+        sizeHeight: false,
+        scrolling: true,
+        minHeight: this.minHeight || 700,
+      }, '#resizableIframe');
     },
   },
 };

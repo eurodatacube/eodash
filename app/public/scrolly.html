@@ -5,215 +5,118 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="../style.css" />
-    <style>
-        #scrolly {
-            position: relative;
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            padding: 1rem;
-        }
-
-        #scrolly>* {
-            -webkit-box-flex: 1;
-            -ms-flex: 1;
-            flex: 1;
-        }
-
-        article {
-            position: relative;
-            padding: 4rem 6rem;
-            max-width: 36rem;
-        }
-
-        figure {
-            position: -webkit-sticky;
-            position: sticky;
-            width: 100%;
-            margin: 0;
-            -webkit-transform: translate3d(0, 0, 0);
-            -moz-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
-            background-color: #8a8a8a00;
-            z-index: 0;
-        }
-
-        figure p {
-            text-align: center;
-            padding: 1rem;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            -moz-transform: translate(-50%, -50%);
-            -webkit-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-            font-size: 8rem;
-            font-weight: 900;
-            color: #fff;
-        }
-
-        figure img {
-            border-radius: 16px;
-        }
-
-        .step {
-            margin: 0 auto 2rem auto;
-            background-color: #3b3b3b00;
-            color: #728C88;
-            transition: color 0.2s linear;
-        }
-
-        .step:last-child {
-            margin-bottom: 0;
-        }
-
-        .step.is-active {
-            /*background-color: goldenrod;*/
-            color: #0e6b5d;
-        }
-
-        .step p {
-            text-align: center;
-            padding: 1rem;
-            font-size: 1.5rem;
-        }
-    </style>
+    <link rel="stylesheet" href="../scrolly.css" />
 </head>
 
 <body>
 <div id="app">
     <main>
-        <section id="scrolly">
+        <section v-if="scrollyData" id="scrolly">
             <article>
-                <div v-for="(el, i) in textData" class="step" :data-step="i">
-                    <p>{{ el.text }}</p>
-                </div>
+                <div
+                    v-for="(el, i) in scrollyData.features.filter((v, i) => !(i % 2))"
+                    class="step"
+                    :data-step="i"
+                    v-html="parseMarkdown(el.text)"
+                ></div>
             </article>
 
-            <figure>
-                <p>0</p>
-            </figure>
+            <transition-group name="slide" mode="out-in">
+                <figure
+                    v-for="(figure, i) in scrollyData.features.filter((v, i) => i % 2)"
+                    :key="i"
+                    v-show="i === currentStep"
+                >
+                    <div v-if="figure.text || figure.id">
+                        <template v-if="figure.text">
+                            <img
+                                v-if="figure.text.includes('<--IMG-->')"
+                                :src="figure.text.replaceAll('<--IMG-->', '')"
+                                width="700"
+                                >
+                            <video
+                                v-else-if="figure.text.includes('<--VID-->')"
+                                :src="figure.text.replaceAll('<--VID-->', '')"
+                                width="700"
+                                >
+                            </p>
+                        </template>
+                        <iframe
+                            v-else
+                            class="item"
+                            :src="`/iframe?poi=${figure.id.substring(0, figure.id.indexOf('@'))}`"
+                            width="800px"
+                            height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>
+                    </div>
+                </figure>
+            </transition-group>
         </section>
-
         <section id="outro"></section>
     </main>
 </div>
 
-<!-- <div class='debug'></div> -->
-<script src="https://unpkg.com/d3@5.9.1/dist/d3.min.js"></script>
 <script src="../scrollama.min.js"></script>
+<script src="../iframeResizer.contentWindow.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
+  const app = new Vue({
+    el: '#app',
+    data: () => { return {
+        scrollyData: null,
+        imgData: null,
+        textData: null,
+        currentStep: 0,
+    }},
+    created() {
+        window.addEventListener('message', (message) => {
+            if (message?.data?.features) {
+                this.scrollyData = message.data;
+                this.$nextTick(() => {
+                    this.scrollamaSetup();
+                });
+            }
+        })
+    },
+    methods: {
+      scrollamaSetup() {
+        const scroller = scrollama();
 
-    async function fetchData() {
-        var dashboardId = ''; // e8fe15ffa771e27a
-        const parameters = new URLSearchParams(window.location.search);
-
-        if (parameters.has('id')) {
-            dashboardId = parameters.get('id');
-            console.log(`Using custom dashboard ID "${dashboardId}"`);
-        } else {
-            // load cat story instead
-            dashboardId = 'e0922e5abdc9101b';
+        // scrollama event handlers
+        const handleStepEnter = (response) => {
+            // console.log(response);
+            // response = { element, direction, index }
+            this.currentStep = response.index;
         }
 
-        let values = await fetch(
-            `https://dev-eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/get?id=${dashboardId}`
-        );
-        return values;
-    }
-
-    fetchData()
-        .then(async res => {
-            let data = await res.json();
-
-            let app = new Vue({
-                el: '#app',
-                data: () => { return {
-                    imgData: data.features.filter((v, i) => i % 2),
-                    textData: data.features.filter((v, i) => !(i % 2)),
-                }},
+        const handleStepProgress = (response) => {
+            // update video based on step
+            let duration = document.querySelector('video').duration;
+            window.requestAnimationFrame(() => {
+                document.querySelector('video').currentTime = duration * response.progress;
             });
+        }
 
-            // using d3 for convenience
-            var main = d3.select("main");
-            var scrolly = main.select("#scrolly");
-            var figure = scrolly.select("figure");
-            var article = scrolly.select("article");
-            var step = article.selectAll(".step");
+        const init = () => {
+            scroller
+                .setup({
+                    root: document,
+                    step: "#scrolly article .step",
+                    offset: 0.33,
+                    progress: true,
+                    debug: false
+                })
+                .onStepEnter(handleStepEnter)
+                .onStepProgress(handleStepProgress);
+        }
 
-            // initialize the scrollama
-            var scroller = scrollama();
-
-            // generic window resize listener event
-            function handleResize() {
-                // 1. update height of step elements
-                var stepH = Math.floor(window.innerHeight * 0.75);
-                step.style("height", stepH + "px");
-
-                var figureHeight = window.innerHeight / 2;
-                var figureMarginTop = (window.innerHeight - figureHeight) / 2;
-
-                figure
-                    .style("height", figureHeight + "px")
-                    .style("top", figureMarginTop + "px");
-
-                // 3. tell scrollama to update new element dimensions
-                scroller.resize();
-            }
-
-            // scrollama event handlers
-            function handleStepEnter(response) {
-                console.log(response);
-                // response = { element, direction, index }
-
-                // add color to current step only
-                step.classed("is-active", function (d, i) {
-                    return i === response.index;
-                });
-
-                let elementText = app.imgData[response.index].text;
-                let elementId = app.imgData[response.index].id;
-
-                if (elementText && elementText.includes('<--IMG-->')) {
-                    let imageSrc = elementText.replaceAll('<--IMG-->', '');
-
-                    // update graphic based on step
-                    figure.select('p')
-                        .html(`<img src="${imageSrc}" width="700" />`);
-                } else {
-                    let poiId = elementId.substring(0, elementId.indexOf('@'));
-                    console.log(poiId);
-
-                    // load POI iframe
-                    figure.select('p')
-                        .html(`<iframe class="item" src="http://localhost:8812/iframe?poi=${poiId}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`);
-                }
-            }
-
-            function init() {
-
-                // 1. force a resize on load to ensure proper dimensions are sent to scrollama
-                handleResize();
-
-                // 2. setup the scroller passing options
-                // 		this will also initialize trigger observations
-                // 3. bind scrollama event handlers (this can be chained like below)
-                scroller
-                    .setup({
-                        step: "#scrolly article .step",
-                        offset: 0.33,
-                        debug: false
-                    })
-                    .onStepEnter(handleStepEnter);
-            }
-
-            // kick things off
-            init();
-        })
-        .catch(e => console.error(`Error fetching dashboard data: ${e}`));
+        init();
+      },
+      parseMarkdown(input) {
+        return marked.parse(input);
+      },
+    },
+  });
 </script>
 </body>
 
