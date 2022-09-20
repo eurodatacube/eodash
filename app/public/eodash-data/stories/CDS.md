@@ -13,7 +13,7 @@ We present 4 variables:
 
 - **Wind (v component):** This parameter is the northward component of the 10m wind. It is the horizontal speed of air moving towards the north, at a height of ten metres above the surface of the Earth, in metres per second. Care should be taken when comparing this parameter with observations, because wind observations vary on small space and time scales and are affected by the local terrain, vegetation and buildings that are represented only on average in the ECMWF Integrated Forecasting System (IFS).
 
-## Understanding COVID-19 outrbreak sensitivity to weather conditions
+## Understanding COVID-19 outbreak sensitivity to weather conditions
 Several studies early in the COVID-19 outbreak tried to understand if the spread of the disease had sensitivity to weather conditions. Scientists looked at the influence of various factors including temperature, dew point, relative humidity, water vapor, or wind and found positive [correlation with the transmission of SARS-CoV-2 in a number of regions](https://www.nature.com/articles/s41598-021-85493-y). 
 
 Futher research is needed to draw consistent conclusions and to reveal associations between the spread of the disease and weather seasonality. 
