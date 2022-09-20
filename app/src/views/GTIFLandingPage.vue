@@ -11,11 +11,9 @@
     <div
       class="px-0"
     >
-      <global-header
-        :isFullScreen="false"
-        :isTransparent="isHeaderTransparent"
-      />
-      <v-row class="landing-page text-center" justify="center">
+      <gtif-header />
+
+      <div class="landing-page text-center" justify="center">
         <v-container class="section gtif-grid" style="background: #D2E3E0; padding: 0;">
           <section class="white--text gtif-header-bg text-center d-flex flex-column pt-16 align-center justify-center fill-width">
             <h3 class="text-h4 text-md-h3 mt-16 mx-16 mx-md-0">Green Transition Information Factory</h3>
@@ -282,7 +280,7 @@
             </template>
           </v-row>
         </v-container>-->
-      </v-row>
+      </div>
       <global-footer />
     </div>
   </div>
@@ -306,7 +304,7 @@ import {
 } from '@deck.gl/core';
 
 import GlobalFooter from '@/components/GlobalFooter.vue';
-import GlobalHeader from '@/components/GlobalHeader.vue';
+import GtifHeader from '@/components/GTIF/GTIFHeader.vue';
 
 import Hero from '@/components/ThemesLandingPage/Hero.vue';
 import StoriesGrid from '@/components/ThemesLandingPage/StoriesGrid.vue';
@@ -321,8 +319,8 @@ import GtifBubble from '@/components/GTIF/GTIFBubble.vue';
 export default {
   components: {
     GlobalFooter,
-    GlobalHeader,
     Hero,
+    GtifHeader,
     GtifNavigation,
     GtifTile,
     GtifBubble,
