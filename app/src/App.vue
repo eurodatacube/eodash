@@ -74,6 +74,7 @@ import { loadIndicatorData } from '@/utils';
 import axios from 'axios';
 import { Wkt } from 'wicket';
 
+import getMapInstance from '@/components/map/map';
 import Alert from './components/Alert.vue';
 
 const wkt = new Wkt();
@@ -103,6 +104,52 @@ export default {
     theme() {
       return (this.$vuetify.theme.dark) ? 'dark' : 'light';
     },
+  },
+  watch: {
+    $route(to) {
+      const centerMap = getMapInstance('centerMap');
+      if (centerMap) {
+        // We also save the position
+        const center = centerMap.map.getView().getCenter();
+        const z = centerMap.map.getView().getZoom().toString();
+        const query = {
+          ...to.query,
+          x: center[0].toString(),
+          y: center[1].toString(),
+          z,
+        };
+        // Trying to ignore layer changes
+        delete query.l;
+        delete to.query.l; // eslint-disable-line no-param-reassign
+        if (JSON.stringify(to.query) !== JSON.stringify(query)) {
+          this.$router.push({ query });
+        }
+      }
+    },
+    // TODO: Why do we need this?
+    /**
+     * this methods sets the selected indicator based on the current
+     * route query.
+     */
+    /*
+    '$route.query.poi': function (poi) {
+      let selectedFeature;
+      if (poi && poi.includes('-')) {
+        const currentlySelectedIndicator = this.$store.state.indicators.selectedIndicator;
+        const aoiId = poi.split('-')[0];
+        const indicatorCode = poi.split('-')[1];
+        if (!currentlySelectedIndicator
+          || (currentlySelectedIndicator.aoiId !== aoiId && currentlySelectedIndicator.indicatorCode !== indicatorCode)) {
+          selectedFeature = this.$store.state.features.allFeatures.find((f) => {
+            const { indicatorObject } = f.properties;
+            return indicatorObject.aoiID === aoiId
+              && indicatorObject.indicator === indicatorCode;
+          });
+        }
+      }
+      this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
+    },
+  */
   },
   created() {
     if (Object.prototype.hasOwnProperty.call(this.appConfig, 'countDownTimer')

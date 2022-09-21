@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon';
 import axios from 'axios';
+import store from '@/store';
+import getMapInstance from './components/map/map';
 
 export function padLeft(str, pad, size) {
   let out = str;
@@ -167,4 +169,23 @@ export function isExternalUrl(urlString) {
     new URL(urlString, document.baseURI);
   }
   return false;
+}
+
+export function calculatePadding() {
+  // we can further refine the padding to use based on which panels are open
+  // TODO: This will probably no longer be used as Robert will reimplement this with ol extent
+  const dataPanelOpen = (document.querySelector('.data-panel') !== null)
+    && document.querySelector('.data-panel').className.includes('v-navigation-drawer--open');
+  const dataPanelWidth = !dataPanelOpen ? 0 : document.querySelector('.data-panel').clientWidth;
+  const searchResultsClosed = store.state.features.featureFilters.indicators.length
+    || store.state.features.featureFilters.countries.length;
+  const searchPanelWidth = (document.querySelector('#list') !== null)
+    ? (document.querySelector('#list').clientWidth + 40) : 0;
+  const searchResultWidth = !searchResultsClosed ? searchPanelWidth : 0;
+  const padding = [70, 20 + dataPanelWidth, 70, 20 + searchResultWidth];
+  const { map } = getMapInstance('centerMap');
+  const view = map.getView();
+  // WIP: this will move the map center, this is open for discussion.
+  view.padding = padding;
+  view.changed();
 }
