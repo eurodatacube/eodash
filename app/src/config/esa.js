@@ -33,12 +33,10 @@ export const indicatorsDefinition = Object.freeze({
   C2: {
     indicator: 'Combined 2',
     class: 'combined',
-    hideInFilters: true,
   },
   C3: {
     indicator: 'Combined 3',
     class: 'combined',
-    hideInFilters: true,
   },
   E200: {
     indicator: 'Changes in Ships traffic within the Port',
@@ -268,7 +266,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Airports: airplanes traffic',
     class: 'economic',
     story: '/eodash-data/stories/E13d',
-    hideInFilters: true,
     baseLayers: [baseLayers.terrainLight, {
       ...baseLayers.cloudless,
       visible: true,
@@ -288,37 +285,31 @@ export const indicatorsDefinition = Object.freeze({
   },
   E13f: {
     indicator: 'Maritime traffic: fishing',
-    hideInFilters: true,
     class: 'economic',
     story: '/eodash-data/stories/E13e',
   },
   E13g: {
     indicator: 'Maritime traffic: tanker',
-    hideInFilters: true,
     class: 'economic',
     story: '/eodash-data/stories/E13e',
   },
   E13h: {
     indicator: 'Maritime traffic: tug',
-    hideInFilters: true,
     class: 'economic',
     story: '/eodash-data/stories/E13e',
   },
   E13i: {
     indicator: 'Maritime traffic: search, rescue',
-    hideInFilters: true,
     class: 'economic',
     story: '/eodash-data/stories/E13e',
   },
   E13l: {
     indicator: 'Maritime traffic: pleasure craft',
-    hideInFilters: true,
     class: 'economic',
     story: '/eodash-data/stories/E13e',
   },
   E13m: {
     indicator: 'Maritime traffic: passenger',
-    hideInFilters: true,
     class: 'economic',
     story: '/eodash-data/stories/E13e',
   },
@@ -333,19 +324,16 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/E13o',
   },
   E13p: {
-    hideInFilters: true,
     indicator: 'Vessel density for cargo',
     class: 'economic',
     story: '/eodash-data/stories/E13o',
   },
   E13q: {
-    hideInFilters: true,
     indicator: 'Vessel density for tankers',
     class: 'economic',
     story: '/eodash-data/stories/E13o',
   },
   E13r: {
-    hideInFilters: true,
     indicator: 'Vessel density for others',
     class: 'economic',
     story: '/eodash-data/stories/E13o',
@@ -365,7 +353,6 @@ export const indicatorsDefinition = Object.freeze({
     largeTimeDuration: true,
   },
   N1a: {
-    hideInFilters: true,
     class: 'air',
     story: '/eodash-data/stories/N1_CAMS',
     externalData: {
@@ -383,7 +370,6 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   N1c: {
-    hideInFilters: true,
     class: 'air',
     story: '/eodash-data/stories/N1_CAMS',
     externalData: {
@@ -392,7 +378,6 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   N1d: {
-    hideInFilters: true,
     class: 'air',
     story: '/eodash-data/stories/N1_CAMS',
     externalData: {
@@ -509,19 +494,16 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Relative humidity',
     class: 'air',
     story: '/eodash-data/stories/CDS',
-    hideInFilters: true,
   },
   CDS3: {
     indicator: 'Wind U field',
     class: 'air',
     story: '/eodash-data/stories/CDS',
-    hideInFilters: true,
   },
   CDS4: {
     indicator: 'Wind V field',
     class: 'air',
     story: '/eodash-data/stories/CDS',
-    hideInFilters: true,
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
