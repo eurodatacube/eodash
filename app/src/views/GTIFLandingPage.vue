@@ -1,19 +1,19 @@
 <template>
   <div
-    class="fill-height scrollContainer"
     :class="$vuetify.breakpoint.smAndAbove
       ? ' pt-5'
       : ''"
-    :style="`margin-top: ${0}px; overflow-x: hidden;
+    :style="`margin-top: ${64}px; overflow: hidden;
       height: calc(100% - ${$vuetify.application.footer}px);`"
-    @scroll="onScroll"
   >
     <div
       class="px-0"
     >
       <gtif-header />
 
-      <div class="landing-page text-center" justify="center">
+      <iframe src="/scrolly.html" class="scrollytelling"></iframe>
+
+      <!--<div class="landing-page text-center" justify="center">
         <v-container class="section gtif-grid" style="background: #D2E3E0; padding: 0;">
           <section class="white--text gtif-header-bg text-center d-flex flex-column pt-16 align-center justify-center fill-width">
             <h3 class="text-h4 text-md-h3 mt-16 mx-16 mx-md-0">Green Transition Information Factory</h3>
@@ -28,7 +28,7 @@
                 color="primary"
                 elevation="3"
                 x-large
-              >Explore Green Transition Datasets</v-btn>
+              >EU Targets</v-btn>
 
               <v-btn
                 class="d-flex d-md-none"
@@ -88,7 +88,7 @@
               >
               </VueDeckgl>
             </v-col>
-          </v-row>-->
+          </v-row>
           <div class="mt-16 mb-16 d-flex flex-column justify-start align-center">
             <v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden align-center justify-center" elevation="3">
               <gtif-bubble
@@ -114,7 +114,7 @@
                 color="#216f9f"
                 to="food-ecosystems-biodiversity"
               />
-              <!--<button
+              <button
                 class="button"
                 style="background-color:#ffab02; outline-color:#ffab02"
                 @click="$router.push({ name: 'energy' })">
@@ -138,11 +138,11 @@
                 @click="$router.push({ name: 'food-ecosystems-biodiversity' })">
                   Food Production &amp; Ecosystems
               </button>
-              -->
+              
             </v-row>
           </div>
 
-          <!--<v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden" elevation="3">
+          <v-row class="gtif-dashboard-row fill-width bg-primary rounded-lg overflow-hidden" elevation="3">
             <gtif-tile />
 
             <v-col
@@ -155,11 +155,11 @@
                 <iframe class="item" src="https://eodash.eox.at/iframe?poi=100058-OX" width="100%" height="100%" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>
               </div>
             </v-col>
-          </v-row>-->
+          </v-row>
 
         </v-container>
 
-        <!--<div class="section pb-16">
+        <div class="section pb-16">
           <gtif-navigation />
 
           <div class="mt-16 mb-16 d-flex flex-column justify-start align-center">
@@ -169,119 +169,8 @@
             <newsletter-banner v-if="appConfig && appConfig.showNewsletterButton" />
           </div>
         </div>
-
-        <v-container
-          class="ma-0 pt-16 pb-16 d-flex flex-column"
-          style="max-width: 1400px;"
-        >
-          <v-row no-gutters class="d-flex flex-row px-3 pb-16 px-md-8">
-            <template>
-              <v-col cols="12" xs="12" sm="12" md="6" lg="6">
-                <div class="info-section d-flex flex-column justify-center
-                pb-8 pb-md-0 pr-xs-0 pr-sm-0 pr-md-8 pr-lg-8 pr-xl-8">
-                  <h3 class="text-h3 mb-10">Earth Observation Datasets</h3>
-
-                  <p class="mb-10" style="font-size: 18px;">
-                    Here you can browse the Earth Observation datasets and use the interactive
-                    features, including maps that compute simple analytics by drawing an area
-                    of interest. Other datasets are tabular data, presented as charts. All charts
-                    can be downloaded as CSV. The open data and project source code can be
-                    accessed in Github:
-                    <v-btn
-                      href="https://github.com/eurodatacube/eodash"
-                      target="_blank"
-                      text
-                      small
-                    >
-                      <v-icon left>mdi-github</v-icon>
-                      eurodatacube/eodash
-                      <v-icon right>mdi-open-in-new</v-icon>
-                    </v-btn>
-                  </p>
-
-                  <v-btn
-                    elevation="1"
-                    class="py-2 white--text"
-                    block
-                    max-height="44"
-                    color="primary"
-                    large
-                    @click="$router.push({ name: 'explore' })"
-                  >Explore Datasets</v-btn>
-                </div>
-              </v-col>
-
-              <v-col
-                cols="12" xs="12" sm="12" md="6" lg="6"
-                class="info-section d-flex flex-column justify-center"
-              >
-                <img
-                  src="/data/story-images/Datasets-landing.jpg"
-                  width="100%"
-                  class="pl-xs-0 pl-sm-0 pl-md-8 pl-lg-8 pl-xl-8"
-                />
-              </v-col>
-            </template>
-          </v-row>
-
-          <v-row no-gutters class="d-flex flex-row align-start px-3 pt-16 px-md-8"
-            v-if="appConfig.id === 'trilateral'"
-          >
-            <template>
-              <v-col
-                cols="12" xs="12" sm="12" md="6" lg="6"
-                class="info-section d-flex flex-column justify-center"
-              >
-                <img
-                  src="/data/story-images/EO_Dashboard_kv_placeholder.jpeg"
-                  width="100%"
-                  class="pr-xs-0 pr-sm-0 pr-md-8 pr-lg-8 pr-xl-8"
-                />
-              </v-col>
-
-              <v-col cols="12" xs="12" sm="12" md="6" lg="6">
-                <div class="info-section d-flex flex-column justify-center
-                pb-8 pb-md-0 pl-xs-0 pl-sm-0 pl-md-8 pl-lg-8 pl-xl-8">
-                  <h3 class="text-h3">A Tri-Agency Dashboard by NASA, ESA, JAXA</h3>
-
-                  <p class="mt-10">
-                   International collaboration among space agencies is central to the success of
-                   satellite Earth observations and data analysis, aiming at providing an accurate
-                   and timely information to decision-makers, main stakeholders and public.
-                   These partnerships foster more comprehensive measurements, robust datasets,
-                   and cost-effective missions.
-                  </p>
-
-                  <p>
-                    The <b>European Space Agency (ESA), Japan Aerospace Exploration Agency (JAXA),
-                    and National Aeronautics and Space Administration (NASA)</b> have combined
-                    their resources, technical knowledge, and expertise to produce this Earth
-                    Observing Dashboard, which strengthens our understanding of global
-                    environmental changes and other societal challenges impacting our planet.
-                  </p>
-
-                  <p>
-                    The dashboard provides an easy-to-use resource for all kinds of public from the
-                    scientist to the decision-maker, including people not familiar with satellites.
-                    Based on accurate remote sensing observations, it showcases examples of global
-                    environmental changes on 7 themes: Atmosphere, Oceans, Biomass, Cryosphere,
-                    Agriculture, Covid-19 and Economy. The dashboard offers a precise, objective
-                    and factual view without any artifacts of our planet. You can explore countries
-                    and regions around the world to see how the indicators in specific locations
-                    changed over time.
-                  </p>
-
-                  <p>
-                    ESA, JAXA, and NASA will continue to enhance this dashboard as new data
-                    becomes available.
-                  </p>
-                </div>
-              </v-col>
-            </template>
-          </v-row>
-        </v-container>-->
+-->
       </div>
-      <global-footer />
     </div>
   </div>
 </template>
@@ -599,5 +488,11 @@ export default {
     background-repeat: no-repeat;
     background-position: 50% 0;
     background-size: cover;
+}
+
+iframe {
+  height: calc(100vh - 64px);
+  width: 100vw;
+  border: none;
 }
 </style>
