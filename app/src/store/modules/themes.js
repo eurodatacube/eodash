@@ -3,12 +3,17 @@ import getLocationCode from '@/mixins/getLocationCode';
 import stories from '../../config/stories.json';
 import themes from '../../config/themes.json';
 
+const appConfig = require('../../appConfig');
+
+const b = appConfig.find((c) => c.match.includes(document.domain));
+const brandConfig = (b !== undefined) ? b : appConfig[0];
+
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 const state = {
   currentTheme: null,
   currentPOIsIncludedInTheme: [],
   stories,
-  themes,
+  themes: themes[brandConfig.id],
 };
 
 const getters = {

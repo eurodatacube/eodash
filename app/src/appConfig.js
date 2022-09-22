@@ -10,7 +10,7 @@ module.exports = [
     branding: {
       appName: 'Rapid Action on coronavirus and EO',
       primaryColor: '#003247',
-      secondaryColor: '#0098DB',
+      secondaryColor: '#00ae92',
       headerLogo: './eodash-data/general/RACE_Logo.png',
       faviconPath: './public/img/ESA/favicon.ico',
     },

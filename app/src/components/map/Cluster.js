@@ -31,7 +31,7 @@ const outerCircleFill = new Fill({
   color: '#ffffff77',
 });
 const innerCircleFill = new Fill({
-  color: '#0098DB',
+  color: '#00ae92',
 });
 const textFill = new Fill({
   color: '#fff',
@@ -101,7 +101,7 @@ function loadImages() {
         context.globalCompositeOperation = 'destination-over';
         context.beginPath();
         context.arc(halfWidth, halfWidth, 20, 0, 2 * Math.PI, false);
-        context.fillStyle = '#2196F3';
+        context.fillStyle = '#00ae92';
         context.fill();
         context.lineWidth = 6;
         context.strokeStyle = 'white';
@@ -205,7 +205,7 @@ function clusterMemberStyle(clusterMember) {
   const indicatorCode = indicatorObject.indicator;
   const indicator = store.getters['features/getIndicators'].find((i) => i.code === indicatorCode);
   const isSelected = isFeatureSelected(clusterMember);
-  const image = indicatorClassesStyles[indicator.class][isSelected ? 'large' : 'small'];
+  const image = indicatorClassesStyles[indicator.themes[0]]?.[isSelected ? 'large' : 'small'];
   const iconStyle = new Style({
     image,
     geometry: clusterMember.getGeometry(),
@@ -474,10 +474,10 @@ class Cluster {
     clusterSource.addFeatures(features);
     if (features.length) {
       setTimeout(() =>  {
-        this.map.getView().fit(clusterSource.getExtent(), {
-          maxZoom: 8,
-          duration: 200,
-        }, 0);
+        // this.map.getView().fit(clusterSource.getExtent(), {
+        //   maxZoom: 8,
+        //   duration: 200,
+        // }, 0);
       });
     }
   }
