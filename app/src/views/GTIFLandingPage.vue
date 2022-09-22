@@ -11,7 +11,9 @@
     >
       <gtif-header />
 
-      <iframe src="/scrolly.html" class="scrollytelling"></iframe>
+      <v-row justify="center" align="center" style="font-family: 'NotesESA'; width: 100vw; height: calc(100vh - 64px);">
+        <h1>Scrollytelling</h1>
+      </v-row>
 
       <!--<div class="landing-page text-center" justify="center">
         <v-container class="section gtif-grid" style="background: #D2E3E0; padding: 0;">
