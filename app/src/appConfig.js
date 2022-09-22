@@ -323,7 +323,7 @@ module.exports = [
     match: ['gtif.esa.int', 'gtif.eox.at', 'gtif-staging.eox.at', 'gtif-testing.eox.at', 'gtif.eox.world:8812'],
     branding: {
       appName: 'Green Transition Information Factory',
-      primaryColor: '#0E6B5D',
+      primaryColor: '#003247',
       secondaryColor: '#82db9d',
       headerLogo: './data/gtif/images/gtif_attributions_logo.png',
       faviconPath: './public/img/ESA/favicon.ico',
