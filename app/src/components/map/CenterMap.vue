@@ -519,37 +519,27 @@ export default {
     }
     this.$emit('ready', true);
     const source = new GeoTIFF({
-      /*sources: [
-        {
-          // url: 'https://geotiffjs.github.io/dem-app/src/assets/Copernicus_DSM_30_N03_00_E016_00_DEM.tif',
-          url: 'data/gtif/data/vienna_landcover.tif',
-          min: 0,
-          max: 100,
-        },
-      ],*/
-      sources: [
-    {
-      url: 'data/gtif/data/vienna_landcover_mercator.tif',
-      //url: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/21/H/UB/2021/9/S2B_21HUB_20210915_0_L2A/TCI.tif',
-    },
-  ],
+      sources: [{
+        url: 'data/gtif/data/vienna_landcover_mercator.tif',
+      }],
       // normalize: false,
     });
     const wgTileLayer = new TileLayer({
-      source: source,
+      source,
     });
     wgTileLayer.setZIndex(500);
     map.addLayer(wgTileLayer);
     map.on('click', (evt) => {
       const extent = evt.map.getView().calculateExtent();
-      console.log(extent);
       const size = evt.map.getView().getViewportSize_();
-      console.log(evt.map.getLayers().array_[2].getSource().sourceImagery_);
-      const sourceImage = evt.map.getLayers().array_[2].getSource().sourceImagery_[0][2];
-      sourceImage.readRasters({
-        bbox: "aaaa",
-        /*width: size[0],
-        height: size[1],*/
+      // console.log(evt.map.getLayers().array_[2].getSource().sourceImagery_);
+      // const sourceImage = evt.map.getLayers().array_[2].getSource().sourceImagery_[0][2];
+      // const gtSource = evt.map.getLayers().array_[2].getSource().sourceInfo_[0].url;
+      // const geotiff = new GeoTIFF(gtSource);
+      source.readRasters({
+        bbox: extent,
+        width: size[0],
+        height: size[1],
       }).then((result) => {
         // Lets count amount of types
         const types = {};
