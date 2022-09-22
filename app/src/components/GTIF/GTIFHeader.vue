@@ -132,21 +132,34 @@ export default {
     width: 22px;
     height: 22px;
     color: rgba(255, 255, 255, 0.6);
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      transform: rotate(90deg) scale(1.2);
+    }
   }
 
   .home-icon {
     width: 18px;
     height: 18px;
     color: rgba(255, 255, 255, 0.6);
+    transition: color 0.1s linear;
   }
 
   .navrow {
     user-select: none;
     cursor: pointer;
+    transition: background-color 0.1s linear, color 0.1s linear;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.07);
+
+      .name, .home-icon {
+        color: lighten(#8197A6, 90%);
+      }
     }
+
     .dot {
       background: #FFF4;
       width: 12px;
@@ -156,7 +169,8 @@ export default {
 
     .name {
       font-size: 18px;
-      color: rgba(255, 255, 255, 0.85)
+      transition: color 0.1s linear;
+      color: lighten(#8197A6, 10%);
     }
   }
 }
