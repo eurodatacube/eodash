@@ -159,6 +159,7 @@ import Link from 'ol/interaction/Link';
 import GeoTIFF from 'ol/source/GeoTIFF';
 import WebGLTileLayer from "ol/layer/WebGLTile";
 import TileLayer from 'ol/layer/WebGLTile.js';
+import { fromUrl, fromUrls, fromArrayBuffer, fromBlob } from 'geotiff';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -534,25 +535,28 @@ export default {
       const size = evt.map.getView().getViewportSize_();
       // console.log(evt.map.getLayers().array_[2].getSource().sourceImagery_);
       // const sourceImage = evt.map.getLayers().array_[2].getSource().sourceImagery_[0][2];
-      // const gtSource = evt.map.getLayers().array_[2].getSource().sourceInfo_[0].url;
-      // const geotiff = new GeoTIFF(gtSource);
-      source.readRasters({
-        bbox: extent,
-        width: size[0],
-        height: size[1],
-      }).then((result) => {
-        // Lets count amount of types
-        const types = {};
-        const data = result[0];
-        for (let i = 0; i < data.length; i++) {
-          if (data[i] in types) {
-            types[data[i]] += 1;
-          } else {
-            types[data[i]] = 1;
-          }
-        }
-        console.log(types);
-      });
+      const gtSource = evt.map.getLayers().array_[2].getSource().sourceInfo_[0].url;
+      fromUrl(gtSource)
+        .then((tiff) => {
+          console.log(tiff);
+          tiff.readRasters({
+            bbox: extent,
+            width: size[0],
+            height: size[1],
+          }).then((result) => {
+            // Lets count amount of types
+            const types = {};
+            const data = result[0];
+            for (let i = 0; i < data.length; i++) {
+              if (data[i] in types) {
+                types[data[i]] += 1;
+              } else {
+                types[data[i]] = 1;
+              }
+            }
+            console.log(types);
+          });
+        });
     });
 
     this.ro = new ResizeObserver(this.onResize);
