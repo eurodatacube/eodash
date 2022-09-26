@@ -27,13 +27,27 @@
         </div>
       </section>
 
-      <input
+      <div
         v-show="isSearchEnabled"
-        :style="{width: $vuetify.breakpoint.mdAndUp ? '300px' : '100vw'}"
         class="search"
-        type="text"
-        placeholder="Search GTIF"
-      />
+        :style="{width: $vuetify.breakpoint.mdAndUp ? '300px' : '100vw'}"
+      >
+        <div class="d-flex fill-width fill-height">
+          <input
+            v-model="searchInput"
+            type="text"
+            class="pl-4 white--text"
+            placeholder="Search GTIF"
+          />
+
+          <router-link
+            :to="'/explore?search=' + searchInput"
+            class="go d-flex justify-center align-center"
+          >
+            <i class="mdi mdi-arrow-right white--text"></i>
+          </router-link>
+        </div>
+      </div>
 
       <Transition name="fade">
         <div
@@ -90,6 +104,7 @@ export default {
     return {
       isNavigationEnabled: false,
       isSearchEnabled: false,
+      searchInput: '',
     };
   },
   methods: {
@@ -170,16 +185,29 @@ export default {
   margin-right: 24px;
 }
 
-input.search {
+.search {
   position: fixed;
   top: 64px;
   left: 0;
-  padding: 1rem;
-  background: #052837;
+  height: 56px;
   border: none;
+  background: #052837;
 
-  &::placeholder {
-    color: rgba(255, 255, 255, 0.9);
+  input {
+    height: 56px;
+    width: calc(100% - 56px);
+    height: 100%;
+
+    &::placeholder {
+      color: #FFF;
+      opacity: 0.6;
+    }
+  }
+
+  .go {
+    height: 56px;
+    width: 56px;
+    font-size: 20px;
   }
 }
 
