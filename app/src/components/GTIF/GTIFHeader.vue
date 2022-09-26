@@ -13,12 +13,14 @@
           >
             <img class="esa-header__icon" src="https://esa.int/extension/pillars/design/pillars/images/ESA_Search.svg" alt="ESA search toggle">
           </button>
-          <img
-            v-if="$vuetify.breakpoint.mdAndUp"
-            class="esa-header__title"
-            src="https://esa.int/extension/pillars/design/pillars/images/ESA_Title.svg"
-            alt="ESA title"
-          />
+          <router-link to="/">
+            <img
+              v-if="$vuetify.breakpoint.mdAndUp"
+              class="esa-header__title"
+              src="https://esa.int/extension/pillars/design/pillars/images/ESA_Title.svg"
+              alt="ESA title"
+            />
+          </router-link>
         </div>
         <div class="esa-header__right">
           <a class="esa-header__link" href="/">
