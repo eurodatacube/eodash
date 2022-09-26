@@ -2,6 +2,30 @@
     box-sizing: border-box;
 }
 
+@font-face{
+    font-family: 'NotesESABold';
+    src: url('./css/notesesabol-webfont.ttf') format('truetype');
+}
+
+h1,
+h2,
+h3,
+h4,
+.h1,
+.h2,
+.h3,
+.h4,
+.headline,
+.v-application .display-1,
+.v-application .display-2,
+.v-application .display-3,
+.v-btn__content,
+.v-toolbar__title,
+.v-card__title,
+.v-tab{
+    font-family: 'NotesESABold', sans-serif !important;
+}
+
 html,
 body {
     margin: 0;
@@ -55,6 +79,17 @@ a:hover {
 
 #outro {
     height: 640px;
+}
+
+.fullWidthBlock {
+    padding: 0;
+    max-width: unset;
+    width: 100%;
+    margin-bottom: 4rem;
+}
+
+.fullWidthBlockInner {
+    padding: 1rem;
 }
 
 #scrolly {

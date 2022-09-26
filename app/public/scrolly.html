@@ -5,16 +5,24 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../css/gtif.scss" />
     <link rel="stylesheet" href="../scrolly.css" />
 </head>
 
 <body>
 <div id="app">
     <main>
+        <section>
+            <article class="fullWidthBlock">
+                <div
+                        v-html="parseMarkdown(scrollyData.features[0].text)"
+                ></div>
+            </article>
+        </section>
         <section v-if="scrollyData" id="scrolly">
             <article>
                 <div
-                    v-for="(el, i) in scrollyData.features.filter((v, i) => !(i % 2))"
+                    v-for="(el, i) in scrollyData.features.filter((v, i) => (i > 0) && (i % 2))"
                     class="step"
                     :data-step="i"
                     v-html="parseMarkdown(el.text)"
@@ -23,7 +31,7 @@
 
             <transition-group name="slide" mode="out-in">
                 <figure
-                    v-for="(figure, i) in scrollyData.features.filter((v, i) => i % 2)"
+                    v-for="(figure, i) in scrollyData.features.filter((v, i) => (i > 0) && !(i % 2))"
                     :key="i"
                     v-show="i === currentStep"
                 >
@@ -39,7 +47,7 @@
                                 :src="figure.text.replaceAll('<--VID-->', '')"
                                 width="700"
                                 >
-                            </p>
+                            </video>
                         </template>
                         <iframe
                             v-else
