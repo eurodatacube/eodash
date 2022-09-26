@@ -32,7 +32,10 @@
         class="search"
         :style="{width: $vuetify.breakpoint.mdAndUp ? '300px' : '100vw'}"
       >
-        <div class="d-flex fill-width fill-height">
+        <div 
+          class="d-flex fill-width fill-height"
+          @keyup.enter.stop="$router.push('/explore?search=' + searchInput)"
+        >
           <input
             v-model="searchInput"
             type="text"
