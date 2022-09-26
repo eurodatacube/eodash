@@ -31,7 +31,7 @@
         v-resize="onResize"
         width="100%"
         style="height: calc((var(--vh), 1vh) * 100) !important;"
-        src="/scrolly.html"
+        src="./scrolly.html"
         frameborder="0"
       ></iframe>
       <global-footer />
