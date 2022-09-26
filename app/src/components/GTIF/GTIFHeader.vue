@@ -6,7 +6,11 @@
           <button @click="switchNav" id="esa-menu" style="margin-right: 18px;" class="grow-on-hover esa-header__toggle menu-toggle">
             <img class="esa-header__icon" src="https://esa.int/extension/pillars/design/pillars/images/ESA_Menu.svg" alt="ESA menu toggle">
           </button>
-          <button id="esa-search" class="grow-on-hover esa-header__toggle search-toggle">
+          <button
+            @click="switchSearch"
+            id="esa-search"
+            class="grow-on-hover esa-header__toggle search-toggle"
+          >
             <img class="esa-header__icon" src="https://esa.int/extension/pillars/design/pillars/images/ESA_Search.svg" alt="ESA search toggle">
           </button>
           <img
@@ -23,8 +27,20 @@
         </div>
       </section>
 
+      <input
+        v-show="isSearchEnabled"
+        :style="{width: $vuetify.breakpoint.mdAndUp ? '300px' : '100vw'}"
+        class="search"
+        type="text"
+        placeholder="Search GTIF"
+      />
+
       <Transition name="fade">
-        <div class="esa-menu" v-show="isNavigationEnabled">
+        <div
+          v-show="isNavigationEnabled"
+          :style="{width: $vuetify.breakpoint.mdAndUp ? '300px' : '100vw'}" 
+          class="esa-menu"
+        >
           <v-col>
             <svg
               @click="switchNav"
@@ -73,6 +89,7 @@ export default {
   data() {
     return {
       isNavigationEnabled: false,
+      isSearchEnabled: false,
     };
   },
   methods: {
@@ -83,6 +100,13 @@ export default {
     switchNav() {
       this.isNavigationEnabled = !this.isNavigationEnabled;
     },
+
+    switchSearch() {
+      this.isSearchEnabled = !this.isSearchEnabled;
+    },
+  },
+  created() {
+    $this.vuetify.theme.dark = false;
   },
   computed: {
     ...mapState('config', [
@@ -144,6 +168,19 @@ export default {
 
 .esa-header__toggle:last-of-type {
   margin-right: 24px;
+}
+
+input.search {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  padding: 1rem;
+  background: #052837;
+  border: none;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.9);
+  }
 }
 
 .esa-menu {
