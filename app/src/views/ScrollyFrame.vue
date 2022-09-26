@@ -6,25 +6,8 @@
     <div
       class="fill-height"
     >
-      <v-app-bar
-        app
-        clipped-left
-        clipped-right
-        flat
-        color="primary"
-        class="white--text"
-      >
-        <router-link to="/" class="white--text" style="text-decoration: none">
-        <v-toolbar-title
-          v-if="$vuetify.breakpoint.mdAndUp"
-          class="text-uppercase mr-5"
-        >
-          {{ appConfig && appConfig.branding.appName }}
-        </v-toolbar-title>
-        </router-link>
-        <v-spacer></v-spacer>
-        <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
-      </v-app-bar>
+      <global-header />
+      
       <iframe
         id="resizableIframe"
         @load="onLoaded"
@@ -47,9 +30,11 @@ import {
 import axios from 'axios';
 import iFrameResize from 'iframe-resizer/js/iframeResizer';
 import GlobalFooter from '@/components/GlobalFooter.vue';
+import GlobalHeader from '@/components/GlobalHeader.vue';
 
 export default {
   components: {
+    GlobalHeader,
     GlobalFooter,
   },
   metaInfo() {
