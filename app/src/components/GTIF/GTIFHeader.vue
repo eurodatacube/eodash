@@ -90,6 +90,11 @@
               />
 
               <GtifHeaderNavItem
+                title="Scrolly Example"
+                to="/scrolly"
+              />
+
+              <GtifHeaderNavItem
                 v-for="i in [0, 1, 2, 3, 4]"
                 :key="i"
                 :title="`Element ${i}`"
