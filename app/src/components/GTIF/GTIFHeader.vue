@@ -83,22 +83,18 @@
                 <div class="name">Home</div>
               </v-row>
 
-              <v-row 
-                @click="$router.push({name: 'explore'})"
-                class="navrow py-5 px-7 fill-width" align="center"
-              >
-                <div class="w-12">
-                  <div style="background: hsl(215 80% 60%)" class="w-3 h-3 rounded-full dot mr-4"></div>            
-                </div>
-                <div class="name">Explore</div>
-              </v-row>
+              <GtifHeaderNavItem
+                color="hsl(215 80% 60%)"
+                title="Explore"
+                to="/explore"
+              />
 
-              <v-row class="navrow py-5 px-7 fill-width" v-for="i in [0, 1, 2, 3, 4]" :key="i" align="center">
-                <div class="w-12">
-                  <div class="w-3 h-3 rounded-full dot mr-4"></div>            
-                </div>
-                <div class="name">Destination {{ i }}</div>
-              </v-row>
+              <GtifHeaderNavItem
+                v-for="i in [0, 1, 2, 3, 4]"
+                :key="i"
+                :title="`Element ${i}`"
+                to="/"
+              />
             </v-col>
           </v-col>
         </div>
@@ -114,7 +110,12 @@ import {
   mapActions,
 } from 'vuex';
 
+import GtifHeaderNavItem from './GTIFHeaderNavItem.vue';
+
 export default {
+  components: {
+    GtifHeaderNavItem,
+  },
   data() {
     return {
       isNavigationEnabled: false,
@@ -136,7 +137,7 @@ export default {
     },
   },
   created() {
-    $this.vuetify.theme.dark = false;
+    this.$vuetify.theme.dark = false;
   },
   computed: {
     ...mapState('config', [
@@ -267,7 +268,6 @@ export default {
     }
 
     .dot {
-      background: #FFF4;
       width: 12px;
       height: 12px;
       border-radius: 6px;
