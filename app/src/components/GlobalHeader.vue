@@ -1,107 +1,265 @@
 <template>
-  <v-app-bar
-    app
-    clipped-left
-    clipped-right
-    flat
-    :color="isTransparent ? '#AED6CF00' : currentTheme ? currentTheme.color : 'primary'"
-    :class="{
-      'white--text': !isTransparent,
-    }"
-    v-show="!isFullScreen"
-  >
-    <v-app-bar-nav-icon
-      @click.stop="switchMenu"
-      v-if="$vuetify.breakpoint.smAndDown"
-      dark
-    />
+  <div>
+    <gtif-header v-if="appConfig.id === 'gtif'" />
 
-    <!-- mobile menu -->
-
-    <v-navigation-drawer
-      v-model="drawerLeft"
-      left
+    <v-app-bar
+      v-else
       app
-      clipped
-      style="overflow: hidden;"
-      class="drawerLeft"
-      hide-overlay
-      width="70vw"
+      clipped-left
+      clipped-right
+      flat
+      :color="isTransparent ? '#AED6CF00' : currentTheme ? currentTheme.color : 'primary'"
+      :class="{
+        'white--text': !isTransparent,
+      }"
       v-show="!isFullScreen"
-      v-if="$vuetify.breakpoint.smAndDown"
     >
-      <template>
-        <v-list-item style="background: var(--v-primary-base)">
-          <v-list-item-content>
-            <h3 class="logo text-uppercase white--text">
-              {{ appConfig && appConfig.branding.appName }}
-            </h3>
-          </v-list-item-content>
-          <v-list-item-action
-            class="align-center"
+      <v-app-bar-nav-icon
+        @click.stop="switchMenu"
+        v-if="$vuetify.breakpoint.smAndDown"
+        dark
+      />
+
+      <!-- mobile menu -->
+
+      <v-navigation-drawer
+        v-model="drawerLeft"
+        left
+        app
+        clipped
+        style="overflow: hidden;"
+        class="drawerLeft"
+        hide-overlay
+        width="70vw"
+        v-show="!isFullScreen"
+        v-if="$vuetify.breakpoint.smAndDown"
+      >
+        <template>
+          <v-list-item style="background: var(--v-primary-base)">
+            <v-list-item-content>
+              <h3 class="logo text-uppercase white--text">
+                {{ appConfig && appConfig.branding.appName }}
+              </h3>
+            </v-list-item-content>
+            <v-list-item-action
+              class="align-center"
+            >
+              <v-icon
+                style="position: absolute;"
+                color="white"
+                small
+                dark
+                @click="$vuetify.theme.dark = !$vuetify.theme.dark"
+              >
+                {{
+                  $vuetify.theme.dark
+                    ? 'mdi-white-balance-sunny'
+                    : 'mdi-weather-night'
+                }}
+              </v-icon>
+            </v-list-item-action>
+          </v-list-item>
+
+          <v-divider></v-divider>
+
+          <theme-navigation
+            class="mb-6"
+            v-if="appConfig.enableStories"
+          />
+
+          <v-btn
+            block
+            text
+            color="primary"
+            to="/"
+          >
+            Home
+          </v-btn>
+          <v-btn
+            v-if="$route.name === 'explore'"
+            block
+            text
+            color="primary"
+            @click="displayShowText('welcome')"
+          >
+            Welcome
+          </v-btn>
+          <v-btn
+            v-if="$route.name === 'explore'"
+            block
+            text
+            color="primary"
+            @click="displayShowText('about')"
+          >
+            About
+          </v-btn>
+
+          <v-btn
+            v-if="$route.name !== 'explore' && (appConfig && appConfig.enableStories)"
+            text
+            color="primary"
+            block
+            :to="{ name: 'explore' }"
+          >
+            Explore Datasets
+        </v-btn>
+
+          <v-badge
+            v-if="$store.state.dashboard.dashboardConfig"
+            bordered
+            color="info"
+            :content="$store.state.dashboard.dashboardConfig
+              && $store.state.dashboard.dashboardConfig.features.length"
+            :value="$store.state.dashboard.dashboardConfig
+              && $store.state.dashboard.dashboardConfig.features.length"
+            overlap
+          >
+            <v-btn
+              block
+              text
+              color="primary"
+              to="/dashboard"
+            >
+              Custom Dashboard
+            </v-btn>
+          </v-badge>
+
+          <v-dialog
+            v-model="showNewsletterModal"
+            :width="$vuetify.breakpoint.xsOnly ? '100%' : '50%'"
+            transition="dialog-bottom-transition"
+            style="z-index: 9999;"
+            v-if="appConfig && appConfig.showNewsletterButton"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                class="my-4 flex-grow-1 d-flex newsletter-button"
+                color="secondary"
+                dark
+                tile
+                block
+                v-bind="attrs"
+                v-on="on"
+                @click="d => { showNewsletterModal = true }"
+              >
+                Get our newsletter
+              </v-btn>
+            </template>
+
+            <modal
+              title="Subscribe to our newsletter"
+              @submit="d => { showNewsletterModal = false }"
+              @close="d => { showNewsletterModal = false }"
+            />
+          </v-dialog>
+        </template>
+
+      </v-navigation-drawer>
+
+      <!-- mobile menu end -->
+
+      <v-toolbar-title
+        v-if="$vuetify.breakpoint.mdAndUp"
+      >
+        <v-btn
+          text
+          dark
+          class="logo"
+          :class="{'no-highlight': !appConfig.enableStories}"
+          to="/"
+          exact
+        >
+          {{ appConfig && appConfig.branding.appName }}
+        </v-btn>
+      </v-toolbar-title>
+
+      <template v-if="currentTheme">
+        <v-icon dark class="mx-2">mdi-chevron-right</v-icon>
+
+        <v-tooltip right close-delay="1000" nudge-left="20">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              text
+              dark
+              small
+              :class="{'no-highlight': !appConfig.enableStories}"
+              v-bind="attrs"
+              v-on="on"
+              :to="{name: currentTheme.slug}"
+            >
+              {{ currentTheme.name }}
+            </v-btn>
+          </template>
+          <v-btn
+            v-if="$route.name === 'explore'"
+            small
+            text
+            dark
+            class="rounded closebutton"
+            @click="loadTheme(null)"
           >
             <v-icon
-              style="position: absolute;"
-              color="white"
-              small
               dark
-              @click="$vuetify.theme.dark = !$vuetify.theme.dark"
+              small
+              left
+              color="white"
             >
-              {{
-                $vuetify.theme.dark
-                  ? 'mdi-white-balance-sunny'
-                  : 'mdi-weather-night'
-              }}
+              mdi-close
             </v-icon>
-          </v-list-item-action>
-        </v-list-item>
+            <small>clear</small>
+          </v-btn>
+        </v-tooltip>
+      </template>
 
-        <v-divider></v-divider>
-
-        <theme-navigation
-          class="mb-6"
-          v-if="appConfig.enableStories"
-        />
-
+      <template v-if="$route.name === 'explore' && appConfig.storiesEnabled">
+        <v-icon dark class="mx-2">mdi-chevron-right</v-icon>
         <v-btn
-          block
           text
-          color="primary"
-          to="/"
+          dark
+          small
+          :class="{'no-highlight': !appConfig.enableStories}"
+          :to="{name: 'explore'}"
         >
-          Home
+          Datasets
         </v-btn>
+      </template>
+
+      <v-spacer v-if="appConfig && appConfig.enableStories"></v-spacer>
+
+      <span v-if="$vuetify.breakpoint.mdAndUp">
         <v-btn
           v-if="$route.name === 'explore'"
-          block
           text
-          color="primary"
+          dark
+          small
           @click="displayShowText('welcome')"
         >
           Welcome
         </v-btn>
         <v-btn
           v-if="$route.name === 'explore'"
-          block
           text
-          color="primary"
+          dark
+          small
           @click="displayShowText('about')"
         >
           About
         </v-btn>
+      </span>
 
+      <template v-if="$vuetify.breakpoint.mdAndUp">
         <v-btn
-          v-if="$route.name !== 'explore' && (appConfig && appConfig.enableStories)"
+          v-if="$route.name != 'explore' && (appConfig && appConfig.enableStories)"
           text
-          color="primary"
-          block
+          dark
+          small
           :to="{ name: 'explore' }"
         >
           Explore Datasets
-      </v-btn>
+        </v-btn>
 
         <v-badge
-          v-if="$store.state.dashboard.dashboardConfig"
+          class="mr-6"
           bordered
           color="info"
           :content="$store.state.dashboard.dashboardConfig
@@ -111,203 +269,50 @@
           overlap
         >
           <v-btn
-            block
+            v-if="$store.state.dashboard.dashboardConfig"
             text
-            color="primary"
+            dark
+            small
             to="/dashboard"
           >
             Custom Dashboard
           </v-btn>
         </v-badge>
-
-        <v-dialog
-          v-model="showNewsletterModal"
-          :width="$vuetify.breakpoint.xsOnly ? '100%' : '50%'"
-          transition="dialog-bottom-transition"
-          style="z-index: 9999;"
-          v-if="appConfig && appConfig.showNewsletterButton"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              class="my-4 flex-grow-1 d-flex newsletter-button"
-              color="secondary"
-              dark
-              tile
-              block
-              v-bind="attrs"
-              v-on="on"
-              @click="d => { showNewsletterModal = true }"
-            >
-              Get our newsletter
-            </v-btn>
-          </template>
-
-          <modal
-            title="Subscribe to our newsletter"
-            @submit="d => { showNewsletterModal = false }"
-            @close="d => { showNewsletterModal = false }"
-          />
-        </v-dialog>
       </template>
 
-    </v-navigation-drawer>
+      <v-spacer v-if="!(appConfig && appConfig.enableStories)"></v-spacer>
 
-    <!-- mobile menu end -->
-
-    <v-toolbar-title
-      v-if="$vuetify.breakpoint.mdAndUp"
-    >
-      <v-btn
-        text
-        dark
-        class="logo"
-        :class="{'no-highlight': !appConfig.enableStories}"
-        to="/"
-        exact
+      <v-dialog
+        v-model="showNewsletterModal"
+        :width="$vuetify.breakpoint.xsOnly ? '100%' : '50%'"
+        transition="dialog-bottom-transition"
+        style="z-index: 9999;"
+        v-if="appConfig
+                && appConfig.showNewsletterButton
+                && $vuetify.breakpoint.mdAndUp"
       >
-        {{ appConfig && appConfig.branding.appName }}
-      </v-btn>
-    </v-toolbar-title>
-
-    <template v-if="currentTheme">
-      <v-icon dark class="mx-2">mdi-chevron-right</v-icon>
-
-      <v-tooltip right close-delay="1000" nudge-left="20">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
-            text
+            class="mr-8"
+            color="secondary"
             dark
-            small
-            :class="{'no-highlight': !appConfig.enableStories}"
             v-bind="attrs"
             v-on="on"
-            :to="{name: currentTheme.slug}"
+            @click="d => { showNewsletterModal = true }"
           >
-            {{ currentTheme.name }}
+            Get our newsletter
           </v-btn>
         </template>
-        <v-btn
-          v-if="$route.name === 'explore'"
-          small
-          text
-          dark
-          class="rounded closebutton"
-          @click="loadTheme(null)"
-        >
-          <v-icon
-            dark
-            small
-            left
-            color="white"
-          >
-            mdi-close
-          </v-icon>
-          <small>clear</small>
-        </v-btn>
-      </v-tooltip>
-    </template>
 
-    <template v-if="$route.name === 'explore' && appConfig.storiesEnabled">
-      <v-icon dark class="mx-2">mdi-chevron-right</v-icon>
-      <v-btn
-        text
-        dark
-        small
-        :class="{'no-highlight': !appConfig.enableStories}"
-        :to="{name: 'explore'}"
-      >
-        Datasets
-      </v-btn>
-    </template>
+        <modal
+          title="Subscribe to our newsletter"
+          @close="d => { showNewsletterModal = false }"
+        />
+      </v-dialog>
 
-    <v-spacer v-if="appConfig && appConfig.enableStories"></v-spacer>
-
-    <span v-if="$vuetify.breakpoint.mdAndUp">
-      <v-btn
-        v-if="$route.name === 'explore'"
-        text
-        dark
-        small
-        @click="displayShowText('welcome')"
-      >
-        Welcome
-      </v-btn>
-      <v-btn
-        v-if="$route.name === 'explore'"
-        text
-        dark
-        small
-        @click="displayShowText('about')"
-      >
-        About
-      </v-btn>
-    </span>
-
-    <template v-if="$vuetify.breakpoint.mdAndUp">
-      <v-btn
-        v-if="$route.name != 'explore' && (appConfig && appConfig.enableStories)"
-        text
-        dark
-        small
-        :to="{ name: 'explore' }"
-      >
-        Explore Datasets
-      </v-btn>
-
-      <v-badge
-        class="mr-6"
-        bordered
-        color="info"
-        :content="$store.state.dashboard.dashboardConfig
-          && $store.state.dashboard.dashboardConfig.features.length"
-        :value="$store.state.dashboard.dashboardConfig
-          && $store.state.dashboard.dashboardConfig.features.length"
-        overlap
-      >
-        <v-btn
-          v-if="$store.state.dashboard.dashboardConfig"
-          text
-          dark
-          small
-          to="/dashboard"
-        >
-          Custom Dashboard
-        </v-btn>
-      </v-badge>
-    </template>
-
-    <v-spacer v-if="!(appConfig && appConfig.enableStories)"></v-spacer>
-
-    <v-dialog
-      v-model="showNewsletterModal"
-      :width="$vuetify.breakpoint.xsOnly ? '100%' : '50%'"
-      transition="dialog-bottom-transition"
-      style="z-index: 9999;"
-      v-if="appConfig
-              && appConfig.showNewsletterButton
-              && $vuetify.breakpoint.mdAndUp"
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          class="mr-8"
-          color="secondary"
-          dark
-          v-bind="attrs"
-          v-on="on"
-          @click="d => { showNewsletterModal = true }"
-        >
-          Get our newsletter
-        </v-btn>
-      </template>
-
-      <modal
-        title="Subscribe to our newsletter"
-        @close="d => { showNewsletterModal = false }"
-      />
-    </v-dialog>
-
-    <img height="32" :src="appConfig && appConfig.branding.headerLogo" />
-  </v-app-bar>
+      <img height="32" :src="appConfig && appConfig.branding.headerLogo" />
+    </v-app-bar>
+  </div>
 </template>
 
 <script>
@@ -319,6 +324,7 @@ import {
 
 import ThemeNavigation from './ThemesLandingPage/ThemeNavigation.vue';
 import Modal from './Modal.vue';
+import GtifHeader from './GTIF/GTIFHeader.vue';
 
 /**
  * A global navbar component that adapts to different environments.
@@ -363,6 +369,7 @@ export default {
   components: {
     ThemeNavigation,
     Modal,
+    GtifHeader,
   },
   data() {
     return {
