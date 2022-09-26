@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../css/gtif.scss" />
+    <link rel="stylesheet" href="../scrolly.css" />
+</head>
+
+<body>
+<div id="app">
+    <main>
+        <section>
+            <article class="fullWidthBlock">
+                <div
+                        v-html="parseMarkdown(scrollyData.features[0].text)"
+                ></div>
+            </article>
+        </section>
+        <section v-if="scrollyData" id="scrolly">
+            <article>
+                <div
+                    v-for="(el, i) in scrollyData.features.filter((v, i) => (i > 0) && (i % 2))"
+                    class="step"
+                    :data-step="i"
+                    v-html="parseMarkdown(el.text)"
+                ></div>
+            </article>
+
+            <transition-group name="slide" mode="out-in">
+                <figure
+                    v-for="(figure, i) in scrollyData.features.filter((v, i) => (i > 0) && !(i % 2))"
+                    :key="i"
+                    v-show="i === currentStep"
+                >
+                    <div v-if="figure.text || figure.id">
+                        <template v-if="figure.text">
+                            <img
+                                v-if="figure.text.includes('<--IMG-->')"
+                                :src="figure.text.replaceAll('<--IMG-->', '')"
+                                width="700"
+                                >
+                            <video
+                                v-else-if="figure.text.includes('<--VID-->')"
+                                :src="figure.text.replaceAll('<--VID-->', '')"
+                                width="700"
+                                >
+                            </video>
+                        </template>
+                        <iframe
+                            v-else
+                            class="item"
+                            :src="`/iframe?poi=${figure.id.substring(0, figure.id.indexOf('@'))}`"
+                            width="800px"
+                            height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>
+                    </div>
+                </figure>
+            </transition-group>
+        </section>
+        <section id="outro"></section>
+    </main>
+</div>
+
+<script src="../scrollama.min.js"></script>
+<script src="../iframeResizer.contentWindow.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+  const app = new Vue({
+    el: '#app',
+    data: () => { return {
+        scrollyData: null,
+        imgData: null,
+        textData: null,
+        currentStep: 0,
+    }},
+    created() {
+        window.addEventListener('message', (message) => {
+            if (message?.data?.features) {
+                this.scrollyData = message.data;
+                this.$nextTick(() => {
+                    this.scrollamaSetup();
+                });
+            }
+        })
+    },
+    methods: {
+      scrollamaSetup() {
+        const scroller = scrollama();
+
+        // scrollama event handlers
+        const handleStepEnter = (response) => {
+            // console.log(response);
+            // response = { element, direction, index }
+            this.currentStep = response.index;
+        }
+
+        const handleStepProgress = (response) => {
+            // update video based on step
+            let duration = document.querySelector('video').duration;
+            window.requestAnimationFrame(() => {
+                document.querySelector('video').currentTime = duration * response.progress;
+            });
+        }
+
+        const init = () => {
+            scroller
+                .setup({
+                    root: document,
+                    step: "#scrolly article .step",
+                    offset: 0.33,
+                    progress: true,
+                    debug: false
+                })
+                .onStepEnter(handleStepEnter)
+                .onStepProgress(handleStepProgress);
+        }
+
+        init();
+      },
+      parseMarkdown(input) {
+        return marked.parse(input);
+      },
+    },
+  });
+</script>
+</body>
+
+</html>

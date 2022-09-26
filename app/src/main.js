@@ -22,6 +22,7 @@ import EmbedIframe from './views/EmbedIframe.vue';
 import ThemesLandingPage from './views/ThemesLandingPage.vue';
 import GTIFLandingPage from './views/GTIFLandingPage.vue';
 import ThemeSinglePage from './views/ThemeSinglePage.vue';
+import ScrollyFrame from './views/ScrollyFrame.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 import customDashboardApiFactory from './custom-dashboard';
@@ -202,6 +203,7 @@ const renderVue = async () => {
     { path: '/terms_and_conditions', component: Terms },
     { path: '/challenges', component: Challenges },
     { path: '/iframe', component: EmbedIframe },
+    { path: '/scrolly', component: ScrollyFrame },
     ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
       ? [
         { path: '/atmosphere', name: 'atmosphere', component: ThemeSinglePage },
