@@ -36,9 +36,7 @@ export const indicatorClassesIcons = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  minMapZoom: 8,
-  maxMapZoom: 18,
-  bounds: latLngBounds(latLng([0, 0]), latLng([70, 70])),
+  bounds: latLngBounds(latLng([46, 9]), latLng([49.5, 18])),
 });
 
 export const baseLayersLeftMap = [{
