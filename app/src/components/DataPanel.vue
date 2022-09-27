@@ -50,7 +50,6 @@
                 height: ${$vuetify.breakpoint.mdAndUp ?
                                   (expanded ? ( bannerHeight ? 60 : 70) : 30) : 50}vh;`"
               >
-                <full-screen-button />
                 <div
                   style="height: 100%;z-index: 500; position: relative;"
                   v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
@@ -225,7 +224,6 @@
                               ? (bannerHeight ? 65 : 70) : 30) : 50}vh;`"
             ref="mapPanel"
           >
-            <full-screen-button />
             <div
               style="height: 100%;z-index: 500; position: relative;"
               v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
@@ -557,7 +555,6 @@ import { loadIndicatorData } from '@/utils';
 import { DateTime } from 'luxon';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
-import FullScreenButton from '@/components/FullScreenButton.vue';
 import IframeButton from '@/components/IframeButton.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 
@@ -569,7 +566,6 @@ export default {
   components: {
     IndicatorData,
     IndicatorGlobe,
-    FullScreenButton,
     IframeButton,
     AddToDashboardButton,
   },

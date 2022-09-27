@@ -19,10 +19,9 @@
       solo
       rounded
       :items="selectionItems.map(i => i.name)"
-      :prepend-inner-icon="dropdownSelection ? 'mdi-arrow-left' : 'mdi-magnify'"
+      :prepend-inner-icon="$store.state.showHistoryBackButton ? 'mdi-arrow-left' : 'mdi-magnify'"
       :append-icon="$vuetify.breakpoint.smAndUp ? '' : undefined"
       clearable
-      auto-select-first
       label="Search here"
       :search-input.sync="userInput"
       attach="#list"
@@ -31,7 +30,7 @@
       :filter="customAutocompleteFilter"
       @focus="isDropdownEnabled = true"
       @click:clear="autoCompleteClear"
-      @click:prepend-inner="goBack"
+      @click:prepend-inner="$store.state.showHistoryBackButton ? goBack() : () => {}"
       @change="autoCompleteChange"
       @keydown.esc="userInput = null"
     >
@@ -130,16 +129,22 @@
     </v-autocomplete>
     <div
       v-show="isDropdownEnabled"
-      class="rounded-t-xl mt-3 pa-3 elevation-2"
+      class="rounded-xl mt-3 pa-3 elevation-2"
       style="background: var(--v-background-base)"
     >
       <div
         id="list"
         class="v-list--dense"
         :style="`max-height: calc(var(--vh, 1vh) * 100 - ${
-          $vuetify.breakpoint.xsOnly ? $vuetify.application.footer + 75 : 300
+          $vuetify.breakpoint.xsOnly ? $vuetify.application.footer + 75 : 200
         }px)`"
       >
+        <div
+          v-if="onlyGlobalDataAvailable"
+          class="pa-3"
+        >
+          <small>No results found for country; showing global data instead.</small>
+        </div>
         <v-list
           dense
           class="customList fill-height pt-0"
@@ -187,7 +192,6 @@
                     :value="getLocationCode(groupedIndicators[indicator.code]
                       .features[i].properties.indicatorObject)"
                     active-class="itemActive"
-                    :class="indicator.archived ? 'archived-item' : ''"
                     :disabled="indicatorSelection === feature"
                   >
                     <v-list-item-icon class="ml-5 mr-3">
@@ -218,7 +222,6 @@
                   :key="indicator.code"
                   :value="indicator.code"
                   active-class="itemActive"
-                  :class="indicator.archived ? 'archived-item' : ''"
                   :disabled="indicatorSelection === indicator.code"
                 >
                   <v-list-item-icon class="mr-4">
@@ -253,23 +256,6 @@
         </v-list>
       </div>
     </div>
-    <v-sheet
-      v-if="isDropdownEnabled"
-      class="d-flex align-center justify-center rounded-b-xl elevation-2"
-      style="width: 100%; height: 40px">
-      <v-checkbox
-        :value="featureFilters.includeArchived"
-        label="Show archived indicators"
-        color="primary"
-        dense
-        hide-details
-        class="ma-0"
-        @change="
-          setFilter({ includeArchived: !featureFilters.includeArchived })
-        "
-      >
-      </v-checkbox>
-    </v-sheet>
   </div>
 </template>
 
@@ -279,7 +265,6 @@ import { mapGetters, mapState } from 'vuex';
 
 import CountryFlag from 'vue-country-flag';
 import countries from '@/assets/countries.json';
-import getMapInstance from '@/components/map/map';
 
 export default {
   components: {
@@ -301,6 +286,9 @@ export default {
       groupedIndicators: null,
       inputUsed: null,
       selectionItems: [],
+      selectedPOI: null,
+      externalSelection: null,
+      onlyGlobalDataAvailable: null,
     };
   },
   computed: {
@@ -433,17 +421,27 @@ export default {
           }
         }
         // TODO currently causes infinite loop
-        // if (mutation.payload.indicators) {
-        //   if (Array.isArray(mutation.payload.indicators)) {
-        //     if (mutation.payload.indicators.length === 0) {
-        //       this.indicatorSelection = 'all';
-        //     } else {
-        //       [this.indicatorSelection] = mutation.payload.indicators;
-        //     }
-        //   } else {
-        //     this.indicatorSelection = mutation.payload.indicators;
-        //   }
-        // }
+        /*
+        if (mutation.payload.indicators) {
+          if (Array.isArray(mutation.payload.indicators)) {
+            if (mutation.payload.indicators.length === 0) {
+              this.indicatorSelection = 'all';
+            } else {
+              [this.indicatorSelection] = mutation.payload.indicators;
+            }
+          } else {
+            this.indicatorSelection = mutation.payload.indicators;
+          }
+        }
+        */
+      }
+      if (mutation.type === 'indicators/INDICATOR_LOAD_FINISHED') {
+        this.selectedPOI = mutation.payload;
+        if (mutation.payload) {
+          // indicate that this was selected externally so we don't get a selection loop
+          this.externalSelection = true;
+          this.indicatorSelection = mutation.payload.indicator;
+        }
       }
     });
     this.$watch(
@@ -470,6 +468,11 @@ export default {
       ];
       itemArray.sort((a, b) => (a.name.localeCompare(b.name)));
       itemArray.sort((a, b) => (b.filterPriority || 0) - (a.filterPriority || 0));
+      this.onlyGlobalDataAvailable = this.userInput
+        && countries.features
+          .map(f => f.properties.name).some(i => i.toLocaleLowerCase().includes(this.userInput))
+        && this.$refs.autocomplete?.filteredItems
+          .every(i => i.includes('World') || i.includes('Global'));
       this.selectionItems = itemArray;
     },
     getIndicator(indObj) {
@@ -557,6 +560,14 @@ export default {
               // add another point for exact matches
               matchPoints++;
             }
+            if (
+              countries.features
+                .map(f => f.properties.name).some(i => i.toLocaleLowerCase().includes(p))
+              && (itemObject.indicatorObject?.city === 'World'
+                || itemObject.indicatorObject?.city === 'Global')
+              ) {
+              matchPoints++;
+            }
           }
         });
       itemObject.filterPriority = matchPoints;
@@ -590,20 +601,11 @@ export default {
         countries: [],
         indicators: [],
       });
+      this.dropdownSelection = null;
+      this.indicatorSelection = null;
     },
     goBack() {
       this.$router.back();
-      const currentQuery = this.$router.currentRoute.query;
-      const {
-        x, y, z,
-      } = currentQuery;
-      if (x && y && z && !Number.isNaN(x) && !Number.isNaN(y) && !Number.isNaN(z)) {
-        getMapInstance('centerMap').map.getView().animate({
-          center: [x, y],
-          zoom: z,
-          duration: 300,
-        });
-      }
     },
   },
   watch: {
@@ -639,6 +641,12 @@ export default {
         const found = this.selectionItems.find((i) => i.code === val);
         if (found) {
           this.dropdownSelection = found.indicator;
+          if (this.externalSelection) {
+            // in case something was selected on the map (e.g. outside of this component),
+            // we'd want to reset and then skip all of the following
+            this.externalSelection = false;
+            return;
+          }
           this.selectIndicator(val);
         }
       }
@@ -687,9 +695,6 @@ export default {
   .v-list-item__icon .flag {
     border: 1px solid transparent;
   }
-}
-::v-deep .archived-item {
-  opacity: 0.65;
 }
 
 ::v-deep .v-autocomplete__content {

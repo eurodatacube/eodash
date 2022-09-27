@@ -1,7 +1,6 @@
 import { createEmpty, extend, getWidth } from 'ol/extent';
 import { LineString, Point, Polygon } from 'ol/geom';
 import { Vector as VectorLayer } from 'ol/layer';
-import monotoneChainConvexHull from 'monotone-chain-convex-hull';
 import store from '@/store';
 import {
   Circle as CircleStyle,
@@ -29,10 +28,10 @@ const convexHullStroke = new Stroke({
   lineDash: [4, 4],
 });
 const outerCircleFill = new Fill({
-  color: 'rgba(58, 104, 142, 0.5)',
+  color: '#ffffff77',
 });
 const innerCircleFill = new Fill({
-  color: '#282828',
+  color: '#0098DB',
 });
 const textFill = new Fill({
   color: '#fff',
@@ -280,13 +279,13 @@ class Cluster {
    */
   setActive(active, overlayCallback) {
     if (active) {
-      [this.clusters, this.clusterHulls, this.clusterCircles].forEach((l) => {
+      [this.clusters, this.clusterCircles].forEach((l) => {
         this.map.addLayer(l);
       });
       this.map.on('pointermove', this.pointermoveInteraction.bind(this, overlayCallback));
       this.map.on('click', this.clickInteraction);
     } else {
-      [this.clusters, this.clusterHulls, this.clusterCircles].forEach((l) => {
+      [this.clusters, this.clusterCircles].forEach((l) => {
         this.map.removeLayer(l);
       });
       this.map.un('pointermove', this.pointermoveInteraction);
@@ -312,7 +311,6 @@ class Cluster {
         // Display the convex hull on hover.
         // eslint-disable-next-line prefer-destructuring
         this.hoverFeature = clusterFeatures[0];
-        this.clusterHulls.setStyle(this.clusterHullStyle.bind(this));
       }
       // Change the cursor style to indicate that the cluster is clickable.
       // eslint-disable-next-line no-param-reassign
@@ -383,6 +381,11 @@ class Cluster {
                 this.expanded = false;
               });
             } else {
+              const urlSearchParams = new URLSearchParams(window.location.search);
+              const params = Object.fromEntries(urlSearchParams.entries());
+              params.clusterOpen = params.clusterOpen ? parseInt(params.clusterOpen) + 1 : 1
+              const router = this.vm.$router;
+              router.push({ query: params });
               // Zoom to the extent of the cluster members.
               view.fit(extent, { duration: 500, padding: [50, 50, 50, 50] });
             }
@@ -395,32 +398,12 @@ class Cluster {
     };
   }
 
-  /**
- * Style for convex hulls of clusters, activated on hover.
- * @param {Feature} cluster The cluster feature.
- * @return {Style} Polygon style for the convex hull of the cluster.
- */
-  clusterHullStyle(cluster) {
-    if (cluster !== this.hoverFeature) {
-      return;
-    }
-    const originalFeatures = cluster.get('features');
-    const points = originalFeatures.map((feature) => feature.getGeometry().getCoordinates());
-    // eslint-disable-next-line consistent-return
-    return new Style({
-      geometry: new Polygon([monotoneChainConvexHull(points)]),
-      fill: convexHullFill,
-      stroke: convexHullStroke,
-    });
-  }
-
   clusterStyle(feature) {
     const clusterMembers = feature.get('features');
     if (clusterMembers.length > 1) {
       const hasClickedFeature = clusterMembers.includes(this.clickedClusterMember);
       const selectedIndicatorFeature = clusterMembers.find(isFeatureSelected);
       if (hasClickedFeature && this.expanded) {
-        // "expanded" style, will collapse after resolution change
         return [
           new Style({
             image: outerCircleTransparent,
@@ -435,6 +418,25 @@ class Cluster {
           }),
         ];
       }
+      // "expanded" style, will collapse after resolution change
+      const amount = clusterMembers.length;
+      // minimum size for a cluster of
+      // maximum size is reached at 50
+      const minSize = 18;
+      const maxSize = 40;
+      if (amount <= 5) {
+        innerCircle.setRadius(minSize);
+        outerCircle.setRadius(minSize + 4);
+      } else if (amount <= 50) {
+        const addition = ((amount - 5) / maxSize) * (maxSize - minSize);
+        // aus 0 soll 0 werden
+        // aus 45 soll 30 werden
+        innerCircle.setRadius(minSize + addition);
+        outerCircle.setRadius(minSize + addition + 4);
+      } else {
+        innerCircle.setRadius(maxSize);
+        outerCircle.setRadius(maxSize + 4);
+      }
       const styles = [
         new Style({
           image: selectedIndicatorFeature ? outerCircleSelected : outerCircle,
@@ -444,7 +446,7 @@ class Cluster {
           text: new Text({
             text: clusterMembers.length.toString(),
             fill: textFill,
-            font: '12px sans-serif',
+            font: 'bold 12px Roboto, sans-serif',
           }),
         }),
       ];
@@ -504,20 +506,6 @@ class Cluster {
         this.clusters.changed();
       });
     }
-
-    const themeColor = this.vm.$vuetify.theme.themes.light.primary;
-    const fillColor = [...asArray(themeColor)];
-    fillColor[3] = 0.3;
-    convexHullFill.setColor(fillColor);
-    convexHullStroke.setColor(themeColor);
-
-    // Layer displaying the convex hull of the hovered cluster.
-    this.clusterHulls = new VectorLayer({
-      name: 'clusterHulls',
-      zIndex: 9,
-      source: clusterSource,
-      style: this.clusterHullStyle.bind(this),
-    });
 
     // Layer displaying the expanded view of overlapping cluster members.
     this.clusterCircles = new VectorLayer({
