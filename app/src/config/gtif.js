@@ -53,6 +53,19 @@ export const overlayLayersRightMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
 }];
 
+export const administrativeLayers = [{
+  name: 'NUTS L0 - Austria',
+  url: 'data/gtif/data/AT_NUTS_L0.geojson',
+  attribution: 'Administrative boundaries: © EuroGeographics, © TurkStat. Source: European Commission – Eurostat/GISCO',
+  visible: true,
+  maxZoom: 8,
+  protocol: 'GeoJSON',
+  style: {
+    fillColor: 'rgba(0, 0, 0, 0)',
+    color: 'rgba(255, 0, 0, 0.8)',
+  },
+}];
+
 export const defaultLayersDisplay = {
   baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
   protocol: 'WMS',

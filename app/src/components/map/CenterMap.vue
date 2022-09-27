@@ -92,10 +92,11 @@
       <LayerControl
         v-if="loaded"
         class="pointerEvents"
-        :key="[...baseLayerConfigs, ...overlayConfigs].map(c => c.name) + isGlobalIndicator"
+        :key="[...baseLayerConfigs, ...overlayConfigs, ...administrativeConfigs].map(c => c.name) + isGlobalIndicator"
         :mapId="mapId"
         :baseLayerConfigs="baseLayerConfigs"
         :overlayConfigs="overlayConfigs"
+        :administrativeConfigs="administrativeConfigs"
         :isGlobalIndicator="isGlobalIndicator"
       />
       <!-- will add a drawing layer to the map (z-index 3) -->
@@ -252,13 +253,18 @@ export default {
     },
     overlayConfigs() {
       const configs = [...this.baseConfig.overlayLayersLeftMap];
-      if (!this.isGlobalIndicator) {
+      // administrativeLayers replace country vectors
+      if (!this.isGlobalIndicator && this.baseConfig.administrativeLayers?.length === 0) {
         configs.push({
           name: 'Country vectors',
           protocol: 'countries',
           visible: true,
         });
       }
+      return configs;
+    },
+    administrativeConfigs() {
+      const configs = [...this.baseConfig.administrativeLayers];
       return configs;
     },
     mapDefaults() {

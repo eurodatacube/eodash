@@ -36,6 +36,14 @@
           <span class="label">{{n.name}}</span>
         </template>
     </v-checkbox>
+    <v-divider class="my-1" />
+    <v-checkbox v-for="n in administrativeConfigs" :key="n.name" :label="n.name"
+      :input-value="n.visible" dense class="my-0 py-0" hide-details
+      @change="setVisible($event, n)">
+        <template v-slot:label>
+          <span class="label">{{n.name}}</span>
+        </template>
+    </v-checkbox>
   </v-card>
 </template>
 
@@ -54,6 +62,7 @@ export default {
     mapId: String,
     baseLayerConfigs: Array,
     overlayConfigs: Array,
+    administrativeConfigs: Array,
     isGlobalIndicator: Boolean,
   },
   data() {
@@ -100,6 +109,13 @@ export default {
     overlayLayers.forEach((l) => {
       map.addLayer(l);
     });
+    const administrativeLayers = this.administrativeConfigs.map((l) => createLayerFromConfig(l,
+      {
+        zIndex: 2,
+      }));
+    administrativeLayers.forEach((l) => {
+      map.addLayer(l);
+    });
     map.on('moveend', this.updateOverlayOpacity);
     map.dispatchEvent({ type: 'moveend' });
     this.selectedBaseLayer = this.baseLayerConfigs.findIndex((l) => l.visible === true) || 0;
@@ -132,7 +148,9 @@ export default {
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
     const layers = map.getLayers().getArray();
-    [...this.baseLayerConfigs, ...this.overlayConfigs].forEach((config) => {
+    [
+      ...this.baseLayerConfigs, ...this.overlayConfigs, ...this.administrativeConfigs,
+    ].forEach((config) => {
       const layer = layers.find((l) => l.get('name') === config.name);
       map.removeLayer(layer);
     });
