@@ -46,6 +46,14 @@ export default {
   computed: {
     ...mapState('config', ['appConfig']),
   },
+  mounted() {
+    window.onmessage = (e) => {
+      // Check if we got a navigation request from the iframe.
+      if (e.data.type == 'nav') {
+          this.$router.push({name: e.data.dest});
+      }
+    };
+  },
   methods: {
     async onLoaded() {
       try {
@@ -76,6 +84,21 @@ export default {
       switch (this.$route.name) {
         case 'landing':
           return '7828358850802a35';
+
+        case 'gtif-energy-transition':
+          return '0f2e9b3e9ac1bc35';
+
+        case 'gtif-mobility-transition':
+          return '2b5489be6f959f1e';
+
+        case 'gtif-sustainable-transition':
+          return '000c2eb018897d82';
+
+        case 'gtif-carbon-finance':
+          return 'a5a6e77d28a4f541';
+
+        case 'gtif-eo-adaptation':
+          return '844374958b90378b';
 
         // Fallback value
         default:
