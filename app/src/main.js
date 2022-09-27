@@ -220,6 +220,16 @@ const renderVue = async () => {
       ]
       : []
     ),
+    ...(store.state.config.appConfig && store.state.config.appConfig.id === 'gtif'
+      ? [
+        { path: '/domains/energy-transition',      name: 'gtif-energy-transition',      component: ScrollyFrame },
+        { path: '/domains/mobility-transition',    name: 'gtif-mobility-transition',    component: ScrollyFrame },
+        { path: '/domains/sustainable-transition', name: 'gtif-sustainable-transition', component: ScrollyFrame },
+        { path: '/domains/carbon-finance',         name: 'gtif-energy-transition',      component: ScrollyFrame },
+        { path: '/domains/eo-adaptation',          name: 'gtif-eo-adaptation',          component: ScrollyFrame },
+      ]
+      : []
+    ),
     { path: '*', component: PageNotFound },
   ];
   const router = new VueRouter({ mode: 'history', base: process.env.BASE_URL, routes });
