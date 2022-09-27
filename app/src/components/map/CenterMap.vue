@@ -58,7 +58,6 @@
       :overlayHeaders="overlayHeaders"
       :overlayRows="overlayRows"
       :overlayCoordinate="overlayCoordinate"
-      @click="loadData"
     />
     <div
       class="move-with-panel"
@@ -156,7 +155,6 @@ import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 import Link from 'ol/interaction/Link';
-// import { fromUrl, fromUrls, fromArrayBuffer, fromBlob } from 'geotiff';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -255,11 +253,11 @@ export default {
     overlayConfigs() {
       const configs = [...this.baseConfig.overlayLayersLeftMap];
       if (!this.isGlobalIndicator) {
-        /*configs.push({
+        configs.push({
           name: 'Country vectors',
           protocol: 'countries',
           visible: true,
-        });*/
+        });
       }
       return configs;
     },
@@ -367,6 +365,20 @@ export default {
     },
   },
   watch: {
+    '$store.state.indicators.selectedIndicator': {
+      deep: true,
+      immediate: true,
+      handler() {
+        if (this.mapId === 'centerMap') {
+          const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
+          cluster.reRender();
+          if (this.$refs.timeSelection) {
+            this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
+          }
+        }
+        // this.updateSelectedAreaFeature();
+      },
+    },
     getFeatures(features) {
       if (this.mapId === 'centerMap' && features) {
         const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
@@ -466,20 +478,6 @@ export default {
       cluster.setFeatures(this.getFeatures);
     }
     this.loaded = true;
-    this.$store.subscribe((mutation) => {
-      if (mutation.type === 'indicators/INDICATOR_LOAD_FINISHED') {
-        if (this.mapId === 'centerMap') {
-          const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
-          cluster.reRender();
-          if (this.$refs.timeSelection) {
-            this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
-          }
-          // this.updateSelectedAreaFeature();
-          // If a POI is selected we do not show the cluster
-          cluster.clusters.setVisible(mutation.payload === null);
-        }
-      }
-    });
     map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
     const attributions = new Attribution();
     attributions.setTarget(this.$refs.controlsContainer);
@@ -517,50 +515,6 @@ export default {
     }
     this.$emit('ready', true);
 
-    map.on('click', (evt) => {
-      const extent = evt.map.getView().calculateExtent();
-      const size = evt.map.getView().getViewportSize_();
-      const gtSource = evt.map.getLayers().array_[2].getSource().sourceInfo_[0].url;
-
-      // Possible way to load data
-      /*
-      fromUrl('data/gtif/data/vienna_dem_mercator.tif')
-        .then((tiff) => {
-          console.log(tiff);
-          tiff.readRasters({
-            bbox: extent,
-            width: size[0],
-            height: size[1],
-          }).then((result) => {
-            // Lets count amount of types
-            console.log(result);
-          });
-        });
-
-      fromUrl(gtSource)
-        .then((tiff) => {
-          console.log(tiff);
-          tiff.readRasters({
-            bbox: extent,
-            width: size[0],
-            height: size[1],
-          }).then((result) => {
-            // Lets count amount of types
-            const types = {};
-            const data = result[0];
-            for (let i = 0; i < data.length; i++) {
-              if (data[i] in types) {
-                types[data[i]] += 1;
-              } else {
-                types[data[i]] = 1;
-              }
-            }
-            console.log(types);
-          });
-        });
-        */
-    });
-
     this.ro = new ResizeObserver(this.onResize);
     this.ro.observe(this.$refs.mapContainer);
     // Fetch data for custom chart if the event is fired.
@@ -571,13 +525,10 @@ export default {
       false,
     );
     if (this.mapId === 'centerMap') {
-      map.addInteraction(new Link({ replace: true }));
+      map.addInteraction(new Link({ replace: false }));
     }
   },
   methods: {
-    loadData() {
-      debugger;
-    },
     overlayCallback(headers, rows, coordinate) {
       this.overlayHeaders = headers;
       this.overlayRows = rows;

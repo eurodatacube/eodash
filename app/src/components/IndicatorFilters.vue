@@ -301,7 +301,6 @@ export default {
       groupedIndicators: null,
       inputUsed: null,
       selectionItems: [],
-      selectedPOI: null,
     };
   },
   computed: {
@@ -434,27 +433,17 @@ export default {
           }
         }
         // TODO currently causes infinite loop
-        /*
-        if (mutation.payload.indicators) {
-          if (Array.isArray(mutation.payload.indicators)) {
-            if (mutation.payload.indicators.length === 0) {
-              this.indicatorSelection = 'all';
-            } else {
-              [this.indicatorSelection] = mutation.payload.indicators;
-            }
-          } else {
-            this.indicatorSelection = mutation.payload.indicators;
-          }
-        }
-        */
-      }
-      if (mutation.type === 'indicators/INDICATOR_LOAD_FINISHED') {
-        this.selectedPOI = mutation.payload;
-        if (mutation.payload) {
-          // TODO: This is not working properly, probably should use indicator loaded
-          // but then it is called twice, there should be a better way for this
-          this.indicatorSelection = mutation.payload.indicator;
-        }
+        // if (mutation.payload.indicators) {
+        //   if (Array.isArray(mutation.payload.indicators)) {
+        //     if (mutation.payload.indicators.length === 0) {
+        //       this.indicatorSelection = 'all';
+        //     } else {
+        //       [this.indicatorSelection] = mutation.payload.indicators;
+        //     }
+        //   } else {
+        //     this.indicatorSelection = mutation.payload.indicators;
+        //   }
+        // }
       }
     });
     this.$watch(
@@ -614,10 +603,6 @@ export default {
           zoom: z,
           duration: 300,
         });
-      }
-      // Unselect poi if currently one is selected
-      if (this.selectedPOI !== null) {
-        this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
       }
     },
   },
