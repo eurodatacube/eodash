@@ -10,6 +10,20 @@
       :style="expanded ? `width: 100%;` : ``
     ">
       <v-row v-if="indicatorObject">
+        <v-col v-if="indicatorObject.cog_filters"
+          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          :style="`height: auto`"
+        >
+          <v-card v-for="(filter) in indicatorObject.cog_filters"
+            :key="filter.id"
+          >
+            <v-subheader>{{filter.label}}</v-subheader>
+            <v-range-slider
+                  :max="filter.max"
+                  :min="filter.min"
+            ></v-range-slider>
+          </v-card>
+        </v-col>
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
