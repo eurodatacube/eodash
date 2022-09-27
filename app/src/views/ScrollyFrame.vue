@@ -7,7 +7,7 @@
       class="fill-height"
     >
       <global-header />
-      
+
       <iframe
         id="resizableIframe"
         @load="onLoaded"
@@ -49,13 +49,14 @@ export default {
   methods: {
     async onLoaded() {
       try {
+        let id = this.getDashboardID();
+
         const response = await axios
           .get(`https://${process.env.NODE_ENV !== 'production'
             ? 'dev-'
-            : ''}eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/get?id=${
-            this.$route.query.id || '9dd9f2b6743c9746' // fallback default TODO remove
+            : ''}eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/get?id=${id}`);
             // /dashboard?id=9dd9f2b6743c9746&editKey=0017ee8a3e16f9b8
-          }`);
+
         document.querySelector('iframe').contentWindow.postMessage(response.data);
       } catch (error) {
         console.error(`Error loading dashboard data: ${error}`);
@@ -71,6 +72,16 @@ export default {
         minHeight: this.minHeight || 700,
       }, '#resizableIframe');
     },
+    getDashboardID() {
+      switch (this.$route.name) {
+        case 'landing':
+          return '7828358850802a35';
+
+        // Fallback value
+        default:
+          return '9dd9f2b6743c9746';
+      }
+    }
   },
 };
 </script>
