@@ -122,13 +122,18 @@ export function createLayerFromConfig(config, _options = {}) {
     }));
   }
   if (config.protocol === 'GeoJSON') {
+    // mutually exclusive options, either direct features or url to fetch
+    const vectorSourceOpts = config.url ? {
+      url: config.url,
+      format: geoJsonFormat,
+    } : {
+      features: geoJsonFormat.readFeatures(config.data),
+    };
     layers.push(new VectorLayer({
       name: config.name,
       zIndex: options.zIndex,
       updateOpacityOnZoom: false,
-      source: new VectorSource({
-        features: geoJsonFormat.readFeatures(config.data),
-      }),
+      source: new VectorSource(vectorSourceOpts),
       style: new Style({
         fill: new Fill({
           color: config.style.fillColor || 'rgba(0, 0, 0, 0.5)',
