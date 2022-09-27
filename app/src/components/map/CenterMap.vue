@@ -390,6 +390,7 @@ export default {
         });
       },
     },
+    /*
     dataLayerTime(timeObj) {
       if (timeObj) {
         // redraw all time-dependant layers, if time is passed via WMS params
@@ -455,6 +456,7 @@ export default {
         }
       },
     },
+    */
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
@@ -525,7 +527,7 @@ export default {
       false,
     );
     if (this.mapId === 'centerMap') {
-      map.addInteraction(new Link({ replace: true }));
+      // map.addInteraction(new Link({ replace: true }));
     }
   },
   methods: {

@@ -74,6 +74,11 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     // story: '',
   },
+  WSF: {
+    indicator: 'World Settlement Footprint',
+    class: 'economic',
+    story: '/eodash-data/stories/WSF-WSF',
+  },
   N1: {
     indicator: 'Air quality',
     class: 'air',
@@ -109,6 +114,17 @@ export const indicatorsDefinition = Object.freeze({
   },
 });
 
+const getYearlyDates = (start, end) => {
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy'));
+    currentDate = DateTime.fromISO(currentDate).plus({ years: 1 });
+  }
+  return dateArray;
+};
+
 export const globalIndicators = [
   {
     properties: {
@@ -123,7 +139,11 @@ export const globalIndicators = [
         indicatorName: 'Solar power potential',
         subAoi: {
           type: 'FeatureCollection',
-          features: [],
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((16 48, 16 48.3, 16.6 48.3, 16.6 48, 16 48 ))').toJson(),
+          }],
         },
         lastColorCode: null,
         aoi: null,
@@ -136,10 +156,44 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           customAreaIndicator: true,
           name: 'Solar power potential',
-          layers: '',
+          // layers: '',
           minZoom: 1,
-          legendUrl: 'eodash-data/data/no2Legend.png',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          // legendUrl: 'eodash-data/data/no2Legend.png',
+          // dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'WSF Evolution',
+        indicator: 'WSF',
+        lastIndicatorValue: null,
+        indicatorName: 'World Settlement Footprint (WSF) Evolution',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'WSF',
+        time: getYearlyDates('1985', '2015'),
+        inputData: [''],
+        display: {
+          baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
+          name: 'WSF_Evolution',
+          layers: 'WSF_Evolution',
+          legendUrl: 'eodash-data/data/wsf_legend.png',
+          minZoom: 1,
+          maxMapZoom: 14,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
+          labelFormatFunction: (date) => date,
+          specialEnvTime: true,
         },
       },
     },
