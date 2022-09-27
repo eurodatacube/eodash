@@ -156,10 +156,7 @@ import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 import Link from 'ol/interaction/Link';
-import GeoTIFF from 'ol/source/GeoTIFF';
-import WebGLTileLayer from "ol/layer/WebGLTile";
-import TileLayer from 'ol/layer/WebGLTile.js';
-import { fromUrl, fromUrls, fromArrayBuffer, fromBlob } from 'geotiff';
+// import { fromUrl, fromUrls, fromArrayBuffer, fromBlob } from 'geotiff';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -519,34 +516,6 @@ export default {
       view.setZoom(this.zoomProp);
     }
     this.$emit('ready', true);
-
-
-    const source = new GeoTIFF({
-      sources: [
-        {
-          url: 'data/gtif/data/vienna_landcover_mercator.tif',
-        },
-        {
-          url: 'data/gtif/data/vienna_dem_mercator.tif',
-        },
-      ],
-    });
-    const wgTileLayer = new TileLayer({
-      source,
-      style: {
-        color: [
-          'color',
-          ['*', 255, ['band', 1]],
-          ['*', 255, ['band', 1]],
-          ['*', 255, ['band', 1]],
-          // alpha
-          255,
-        ],
-      },
-    });
-    wgTileLayer.setZIndex(500);
-    map.addLayer(wgTileLayer);
-
 
     map.on('click', (evt) => {
       const extent = evt.map.getView().calculateExtent();

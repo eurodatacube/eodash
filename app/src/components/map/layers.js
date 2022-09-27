@@ -6,6 +6,8 @@ import GeoJSON from 'ol/format/GeoJSON';
 import countries from '@/assets/countries.json';
 import { Fill, Stroke, Style } from 'ol/style';
 import TileWMS from 'ol/source/TileWMS';
+import GeoTIFF from 'ol/source/GeoTIFF';
+// import WebGLTileLayer from "ol/layer/WebGLTile";
 import store from '@/store';
 import TileGrid from 'ol/tilegrid/TileGrid';
 import { createXYZ } from 'ol/tilegrid';
@@ -104,24 +106,41 @@ export function createLayerFromConfig(config, _options = {}) {
 
   // layers created by this config. These Layers will get combined into a single ol.layer.Group
   const layers = [];
-  if (config.protocol === 'AT_Borders') {
-    layers.push(new VectorLayer({
-      name: config.name,
-      zIndex: options.zIndex,
-      updateOpacityOnZoom: false,
-      source: new VectorSource({
-        features: geoJsonFormat.readFeatures(config.data),
-      }),
-      style: new Style({
-        fill: new Fill({
-          color: config.style.fillColor || 'rgba(0, 0, 0, 0.5)',
-        }),
-        stroke: new Stroke({
-          width: config.style.weight || 3,
-          color: config.style.color || 'rgba(0, 0, 0, 0.5)',
-        }),
-      }),
-    }));
+  if (config.protocol === 'cog') {
+    console.log('ADDING COG LAYER');
+    const source = new GeoTIFF({
+      sources: [
+        {
+          url: 'data/gtif/data/vienna_landcover_mercator.tif',
+        },
+        {
+          url: 'data/gtif/data/dem_10m_correct.tif',
+        },
+
+      ],
+      normalize: false,
+    });
+    const wgTileLayer = new TileLayer({
+      source,
+      style: {
+        color: [
+          'case',
+          ['>', 350, ['band', 2]],
+          [
+            'color',
+            ['/', 3, ['band', 1]],
+            ['/', 3, ['band', 1]],
+            ['/', 3, ['band', 1]],
+            255,
+          ],
+          [
+            'color', 0, 0, 0, 0,
+          ],
+        ],
+      },
+    });
+    // wgTileLayer.setZIndex(500);
+    layers.push(wgTileLayer);
   }
   if (config.protocol === 'countries') {
     layers.push(new VectorLayer({

@@ -69,6 +69,11 @@ export const defaultLayersDisplay = {
 };
 
 export const indicatorsDefinition = Object.freeze({
+  REP1: {
+    indicator: 'Air quality',
+    class: 'air',
+    // story: '',
+  },
   N1: {
     indicator: 'Air quality',
     class: 'air',
@@ -105,6 +110,40 @@ export const indicatorsDefinition = Object.freeze({
 });
 
 export const globalIndicators = [
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Solar power potential',
+        indicator: 'REP1',
+        lastIndicatorValue: null,
+        indicatorName: 'Solar power potential',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          protocol: 'cog',
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          customAreaIndicator: true,
+          name: 'Solar power potential',
+          layers: '',
+          minZoom: 1,
+          legendUrl: 'eodash-data/data/no2Legend.png',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {
