@@ -190,7 +190,7 @@ const renderVue = async () => {
         {
           path: '/',
           name: 'landing',
-          component: store.state.config.appConfig.id === 'gtif' ? GTIFLandingPage : ThemesLandingPage,
+          component: store.state.config.appConfig.id === 'gtif' ? ScrollyFrame : ThemesLandingPage,
         },
         { path: '/explore', name: 'explore', component: Dashboard },
       ]
