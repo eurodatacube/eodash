@@ -104,6 +104,25 @@ export function createLayerFromConfig(config, _options = {}) {
 
   // layers created by this config. These Layers will get combined into a single ol.layer.Group
   const layers = [];
+  if (config.protocol === 'AT_Borders') {
+    layers.push(new VectorLayer({
+      name: config.name,
+      zIndex: options.zIndex,
+      updateOpacityOnZoom: false,
+      source: new VectorSource({
+        features: geoJsonFormat.readFeatures(config.data),
+      }),
+      style: new Style({
+        fill: new Fill({
+          color: config.style.fillColor || 'rgba(0, 0, 0, 0.5)',
+        }),
+        stroke: new Stroke({
+          width: config.style.weight || 3,
+          color: config.style.color || 'rgba(0, 0, 0, 0.5)',
+        }),
+      }),
+    }));
+  }
   if (config.protocol === 'countries') {
     layers.push(new VectorLayer({
       name: 'Country vectors',

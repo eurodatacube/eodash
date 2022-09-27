@@ -258,11 +258,11 @@ export default {
     overlayConfigs() {
       const configs = [...this.baseConfig.overlayLayersLeftMap];
       if (!this.isGlobalIndicator) {
-        configs.push({
+        /*configs.push({
           name: 'Country vectors',
           protocol: 'countries',
           visible: true,
-        });
+        });*/
       }
       return configs;
     },
@@ -519,23 +519,55 @@ export default {
       view.setZoom(this.zoomProp);
     }
     this.$emit('ready', true);
+
+
     const source = new GeoTIFF({
-      sources: [{
-        url: 'data/gtif/data/vienna_landcover_mercator.tif',
-      }],
-      // normalize: false,
+      sources: [
+        {
+          url: 'data/gtif/data/vienna_landcover_mercator.tif',
+        },
+        {
+          url: 'data/gtif/data/vienna_dem_mercator.tif',
+        },
+      ],
     });
     const wgTileLayer = new TileLayer({
       source,
+      style: {
+        color: [
+          'color',
+          ['*', 255, ['band', 1]],
+          ['*', 255, ['band', 1]],
+          ['*', 255, ['band', 1]],
+          // alpha
+          255,
+        ],
+      },
     });
     wgTileLayer.setZIndex(500);
     map.addLayer(wgTileLayer);
+
+
     map.on('click', (evt) => {
       const extent = evt.map.getView().calculateExtent();
       const size = evt.map.getView().getViewportSize_();
-      // console.log(evt.map.getLayers().array_[2].getSource().sourceImagery_);
-      // const sourceImage = evt.map.getLayers().array_[2].getSource().sourceImagery_[0][2];
       const gtSource = evt.map.getLayers().array_[2].getSource().sourceInfo_[0].url;
+
+      // Possible way to load data
+      /*
+      fromUrl('data/gtif/data/vienna_dem_mercator.tif')
+        .then((tiff) => {
+          console.log(tiff);
+          tiff.readRasters({
+            bbox: extent,
+            width: size[0],
+            height: size[1],
+          }).then((result) => {
+            // Lets count amount of types
+            console.log(result);
+          });
+        });
+
       fromUrl(gtSource)
         .then((tiff) => {
           console.log(tiff);
@@ -557,6 +589,7 @@ export default {
             console.log(types);
           });
         });
+        */
     });
 
     this.ro = new ResizeObserver(this.onResize);
