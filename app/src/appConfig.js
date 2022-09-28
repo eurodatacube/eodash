@@ -8,7 +8,7 @@ module.exports = [
     },
     match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'localhost2'],
     branding: {
-      appName: 'Rapid Action on coronavirus and EO',
+      appName: 'Rapid Action for Citizens with Earth Observation',
       primaryColor: '#003247',
       secondaryColor: '#00ae92',
       headerLogo: './eodash-data/general/RACE_Logo.png',
