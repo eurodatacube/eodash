@@ -53,17 +53,38 @@ export const overlayLayersRightMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
 }];
 
-export const administrativeLayers = [{
-  name: 'NUTS L0 - Austria',
-  url: 'data/gtif/data/AT_NUTS_L0.geojson',
+const nutsStyle = {
   attribution: 'Administrative boundaries: © EuroGeographics, © TurkStat. Source: European Commission – Eurostat/GISCO',
   visible: true,
-  maxZoom: 8,
   protocol: 'GeoJSON',
   style: {
     fillColor: 'rgba(0, 0, 0, 0)',
-    color: 'rgba(255, 0, 0, 0.8)',
+    color: 'rgba(255, 0, 0, 1)',
   },
+};
+
+export const administrativeLayers = [{
+  ...nutsStyle,
+  name: 'NUTS L0 - Austria',
+  url: 'data/gtif/data/AT_NUTS_L0.geojson',
+  maxZoom: 7.5,
+}, {
+  ...nutsStyle,
+  name: 'NUTS L1 - Austria',
+  url: 'data/gtif/data/AT_NUTS_L1.geojson',
+  minZoom: 7.5,
+  maxZoom: 8.5,
+}, {
+  ...nutsStyle,
+  name: 'NUTS L2 - Austria',
+  url: 'data/gtif/data/AT_NUTS_L2.geojson',
+  minZoom: 8.5,
+  maxZoom: 9.5,
+}, {
+  ...nutsStyle,
+  name: 'NUTS L3 - Austria',
+  url: 'data/gtif/data/AT_NUTS_L3.geojson',
+  minZoom: 9.5,
 }];
 
 export const defaultLayersDisplay = {
