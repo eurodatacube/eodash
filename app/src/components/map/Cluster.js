@@ -30,6 +30,7 @@ const convexHullStroke = new Stroke({
 const outerCircleFill = new Fill({
   color: '#ffffff77',
 });
+// TODO: this should be configurable per brand
 const innerCircleFill = new Fill({
   color: '#00ae92',
 });
