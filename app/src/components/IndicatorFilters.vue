@@ -76,7 +76,7 @@
           >
             <v-img
               height="50"
-              :src="`./img/datalayerImages/${getLocationCode(item.properties.indicatorObject)}.png`"
+              :src="`./data/${appConfig.id}/globalDataLayerImages/${getLocationCode(item.properties.indicatorObject)}.png`"
             >
             </v-img>
             <v-card-title
