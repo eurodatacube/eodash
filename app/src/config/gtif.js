@@ -147,7 +147,7 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
-        cog_filters: {
+        cogFilters: {
           height: {
             label: 'Filter for elevation',
             id: 'dem',
@@ -180,6 +180,26 @@ export const globalIndicators = [
             }],
           },
           protocol: 'cog',
+          sources: [
+            { url: 'data/gtif/data/vienna_landcover_mercator.tif' },
+            { url: 'data/gtif/data/dem_10m_correct.tif' },
+          ],
+          style: {
+            color: [
+              'case',
+              ['>', 350, ['band', 2]],
+              [
+                'color',
+                ['/', 3, ['band', 1]],
+                ['/', 3, ['band', 1]],
+                ['/', 3, ['band', 1]],
+                255,
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
           // customAreaIndicator: true,
           name: 'Solar power potential',
           minZoom: 1,

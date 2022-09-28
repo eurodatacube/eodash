@@ -10,20 +10,10 @@
       :style="expanded ? `width: 100%;` : ``
     ">
       <v-row v-if="indicatorObject">
-        <v-col v-if="indicatorObject.cog_filters"
-          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
-          :style="`height: auto`"
+        <filter-controls v-if="indicatorObject.cogFilters"
+          :cogFilters="indicatorObject.cogFilters"
         >
-          <v-card v-for="(filter) in indicatorObject.cog_filters"
-            :key="filter.id"
-          >
-            <v-subheader>{{filter.label}}</v-subheader>
-            <v-range-slider
-                  :max="filter.max"
-                  :min="filter.min"
-            ></v-range-slider>
-          </v-card>
-        </v-col>
+        </filter-controls>
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
@@ -570,6 +560,7 @@ import { DateTime } from 'luxon';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import IframeButton from '@/components/IframeButton.vue';
+import FilterControls from '@/components/map/FilterControls.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 
 export default {
@@ -582,6 +573,7 @@ export default {
     IndicatorGlobe,
     IframeButton,
     AddToDashboardButton,
+    FilterControls,
   },
   data: () => ({
     overlay: false,

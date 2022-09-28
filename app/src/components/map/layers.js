@@ -107,37 +107,13 @@ export function createLayerFromConfig(config, _options = {}) {
   // layers created by this config. These Layers will get combined into a single ol.layer.Group
   const layers = [];
   if (config.protocol === 'cog') {
-    console.log('ADDING COG LAYER');
     const source = new GeoTIFF({
-      sources: [
-        {
-          url: 'data/gtif/data/vienna_landcover_mercator.tif',
-        },
-        {
-          url: 'data/gtif/data/dem_10m_correct.tif',
-        },
-
-      ],
+      sources: config.sources,
       normalize: false,
     });
     const wgTileLayer = new WebGLTileLayer({
       source,
-      style: {
-        color: [
-          'case',
-          ['>', 350, ['band', 2]],
-          [
-            'color',
-            ['/', 3, ['band', 1]],
-            ['/', 3, ['band', 1]],
-            ['/', 3, ['band', 1]],
-            255,
-          ],
-          [
-            'color', 0, 0, 0, 0,
-          ],
-        ],
-      },
+      style: config.style,
     });
     // wgTileLayer.setZIndex(500);
     layers.push(wgTileLayer);
