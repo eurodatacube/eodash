@@ -1,4 +1,5 @@
 // eslint-disable-next-line import/prefer-default-export
+// TODO remove as probably not needed any longer
 export function formatLabel(indicatorObject, vm) {
   let label = '(coming soon)';
   if (Object.prototype.hasOwnProperty.call(indicatorObject, 'lastIndicatorValue') || Object.prototype.hasOwnProperty.call(indicatorObject, 'lastMeasurement')) {

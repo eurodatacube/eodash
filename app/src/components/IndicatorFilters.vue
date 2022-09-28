@@ -3,7 +3,7 @@
     class="no-pointer pa-2 overflow-hidden"
     style="width: 360px; height: calc((var(--vh), 1vh) * 100); z-index: 4"
   >
-    <v-card class="rounded-xl">
+    <v-card class="rounded-lg">
       <div class="pa-2">
         <v-btn
           v-for="(theme, key) in $store.state.themes.themes"
@@ -12,13 +12,14 @@
           :color="theme.color"
           dark
           rounded
-          small
+          x-small
           @click="setThemeAsInput(theme.name)"
         >
-          <v-icon left>{{ baseConfig.indicatorClassesIcons[theme.slug] }}</v-icon>
+          <v-icon small left>{{ baseConfig.indicatorClassesIcons[theme.slug] }}</v-icon>
           {{ theme.name }}
         </v-btn>
       </div>
+      <v-divider></v-divider>
       <v-autocomplete
         ref="autocomplete"
         v-model="selectedListItem"
@@ -36,7 +37,7 @@
         :prepend-inner-icon="$store.state.showHistoryBackButton ? 'mdi-arrow-left' : 'mdi-magnify'"
         :search-input.sync="userInput"
         solo
-        class="rounded-xl"
+        class="rounded-lg"
         @click:clear="autoCompleteClear"
         @click:prepend-inner="$store.state.showHistoryBackButton ? $router.back() : () => {}"
         @keydown.esc="userInput = null"
@@ -46,98 +47,20 @@
         class="overflow-x-hidden overflow-y-auto"
         style="position: relative; max-height: 250px"
       >
-        <!-- <div class="overflow-y-auto"> -->
-          <div id="autocomplete-menu" ></div>
-        <!-- </div> -->
+        <div id="autocomplete-menu" ></div>
       </div>
     </v-card>
-    <!-- <div
-      class="pa-2"
-      style="position: absolute; top: 0; left: 365px;"
-    >
-      <div
-        class="d-flex align-center"
-        style="height: 48px"
-      >
-        <v-btn
-          v-for="(theme, key) in $store.state.themes.themes"
-          :key="key"
-          class="mr-2"
-          :color="theme.color"
-          dark
-          rounded
-          small
-          @click="setThemeAsInput(theme.name)"
-        >
-          <v-icon left>{{ baseConfig.indicatorClassesIcons[theme.slug] }}</v-icon>
-          {{ theme.name }}
-        </v-btn>
-      </div>
-    </div> -->
-    <!-- <v-card
-      class="rounded-xl mt-5 pa-5"
-    >
-      <v-subheader class="px-2">THEME</v-subheader>
-      <v-btn
-        v-for="(theme, key) in $store.state.themes.themes"
-        :key="key"
-        class="mr-5 mb-3"
-        :color="theme.color"
-        dark
-        rounded
-        x-small
-        @click="setThemeAsInput(theme.name)"
-      >
-      {{ theme.name }}
-      </v-btn>
-    </v-card> -->
-    <!-- <v-img
-      v-if="globalIndicators.length > 0 && !mapLayersExpanded"
-      max-height="100"
-      src="@/assets/mapLayers.png"
-      class="rounded mt-5 elevation-2"
-      style="cursor: pointer; display: none"
-      @click="mapLayersExpanded = true"
-    >
-      <div class="pa-5 fill-height d-flex align-center">
-        <p class="mb-0">
-          <v-icon left>mdi-layers</v-icon> DATA LAYERS
-        </p>
-      </div>
-    </v-img>
-    <v-card
-      v-else-if="globalIndicators.length > 0 && mapLayersExpanded"
-      class="rounded mt-3"
-      style="height: 300px; overflow-y: auto"
-    >
-      <v-list
-        dense>
-        <v-subheader class="px-2">GLOBAL DATA LAYERS</v-subheader>
-        <v-list-item-group
-          v-model="selectedMapLayer"
-          color="primary"
-        >
-          <v-list-item
-            v-for="(item, i) in globalIndicators"
-            :key="i"
-          >
-            <v-list-item-content>
-              <v-list-item-title v-text="item.properties.indicatorObject.indicatorName"></v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-card> -->
     <div
+      id="slideGroupWrapper"
       class="d-flex"
-      style="position: absolute; bottom: 0; left: 0;"
-      :style="`width: ${slideGroupWidth}`"
+      style="position: absolute; bottom: 10px; left: 0;"
     >
       <v-slide-group
         v-model="selectedMapLayer"
         class="pa-2"
-        show-arrows
+        dark
         center-active
+        show-arrows="desktop"
       >
         <v-slide-item
           v-for="(item, key) in globalIndicators"
@@ -145,8 +68,8 @@
           v-slot="{ active, toggle }"
         >
           <v-card
-            :color="active ? 'primary' : 'grey lighten-1'"
-            class="ma-4"
+            :color="active ? 'primary' : 'white'"
+            class="ma-4 overflow-hidden"
             height="100"
             width="100"
             @click="toggle"
@@ -157,6 +80,7 @@
             >
             </v-img>
             <v-card-title
+              :class="active ? 'white--text' : 'primary--text'"
               style="font-size: small; line-height: unset; padding: 6px"
             >
               {{ item.properties.indicatorObject.indicatorName }}
@@ -200,10 +124,6 @@ export default {
           ? 1
           : -1));
     },
-    slideGroupWidth() {
-      const sidePanelWidth = document.querySelector('.pane-expanded') ? document.querySelector('.pane-expanded').clientWidth : 0
-      return `calc(100% - ${sidePanelWidth}px)`
-    }
   },
   methods: {
     ...mapMutations('features', {
@@ -369,14 +289,14 @@ export default {
     userInput() {
       setTimeout(() => {
         this.sortSearchItems();
-      }, 50);
+      }, 100);
       this.setFilterDebounced();
     },
   },
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .no-pointer {
   pointer-events: none;
 }
@@ -396,5 +316,13 @@ export default {
   max-height: unset !important;
   box-shadow: none !important;
   border-radius: 3px;
+}
+
+#slideGroupWrapper {
+  width: calc(100% - 0px);
+}
+
+.panel-expanded #slideGroupWrapper {
+  width: calc(100% - 685px);
 }
 </style>

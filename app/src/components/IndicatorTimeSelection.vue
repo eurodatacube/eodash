@@ -1,6 +1,6 @@
 <template>
   <v-sheet
-    class="row justify-center align-center rounded-lg"
+    class="row justify-center align-center rounded"
     style="position: absolute; top: 20px; z-index: 6; width: auto; max-width: 100%;"
   >
     <v-col

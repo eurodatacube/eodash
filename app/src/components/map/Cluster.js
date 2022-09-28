@@ -341,9 +341,10 @@ class Cluster {
         if (indicator) {
           headers.push(indicator);
         }
-        if (label && label !== '/') {
-          rows.push(label);
-        }
+        // TODO maybe we can get rid of formatLabel() completely
+        // if (label && label !== '/') {
+        //   rows.push(label);
+        // }
         callback(headers, rows, coords);
       } else {
         callback([], [], null);
