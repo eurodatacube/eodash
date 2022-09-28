@@ -101,7 +101,8 @@ function loadImages() {
         context.globalCompositeOperation = 'destination-over';
         context.beginPath();
         context.arc(halfWidth, halfWidth, 20, 0, 2 * Math.PI, false);
-        context.fillStyle = '#00ae92';
+        const color = store.state.themes.themes.find(th => th.slug === key)?.color;
+        context.fillStyle = color;
         context.fill();
         context.lineWidth = 6;
         context.strokeStyle = 'white';
