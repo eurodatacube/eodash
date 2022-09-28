@@ -724,7 +724,7 @@ generateData(
         #['E1a', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'], archived
         ['E9_tri', ''],
         # ['N3_tri', ''],
-        ['N3_tri_jaxa', ''],
+        ['Regional_Water_quality_timeseries', ''], # contains N3b indicator
         ['N1_tri', ''],
         ['E13b_tri', ''],
         ['E13c_tri', ''],
