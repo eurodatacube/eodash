@@ -1,55 +1,99 @@
-[
-  {
-    "name": "Atmosphere",
-    "slug": "atmosphere",
-    "color": "#4059AD",
-    "description": "Tracking Changes in the Atmosphere",
-    "longDescription": "Air pollution and climate change are some of the biggest environmental challenges of our time.",
-    "datasetsImage": "/data/story-images/Datasets-theme.jpg"
-  },
-  {
-    "name": "Agriculture",
-    "slug": "agriculture",
-    "color": "#F2AF26",
-    "description": "Growing Economic Systems",
-    "longDescription": "Satellites are providing insights into agricultural production, crop conditions, and food supply.",
-    "datasetsImage": "/data/story-images/agri-explore-datasets-image.png"
-  },
-  {
-    "name": "Biomass",
-    "slug": "biomass-and-landcover",
-    "color": "#009E73",
-    "description": "Clearing the Air",
-    "longDescription": "A view from space monitors land cover and trees to track biomass and carbon content."
-  },
-  {
-    "name": "Water and Ocean",
-    "slug": "oceans",
-    "color": "#6DA2C5",
-    "description": "Keeping Current with Earth’s Largest Natural Resource",
-    "longDescription": "Satellite images reveal a view of the ocean that is as rich and complex as that of land.",
-    "datasetsImage": "/data/story-images/wq-explore-datasets-image.png"
-  },
-  {
-    "name": "Cryosphere",
-    "slug": "cryosphere",
-    "color": "#42C7B8",
-    "description": "Tracking Ice and Snow’s Relationship to Climate",
-    "longDescription": "The Arctic region shows changes most characteristic of global warming."
-  },
-  {
-    "name": "Covid-19",
-    "slug": "covid-19",
-    "color": "#32322C",
-    "description": "The COVID-19 pandemic",
-    "longDescription": "Tracking the Effects of the COVID-19 Pandemic"
-  },
-  {
-    "name": "Economy",
-    "slug": "economy",
-    "color": "#897dac",
-    "description": "Economy",
-    "longDescription": "Observing Earth's social and economic systems",
-    "datasetsImage": "/data/story-images/econ-explore-datasets-image.png"
-  }
-]
+{
+  "esa": [
+    {
+      "name": "Economic",
+      "slug": "economic",
+      "color": "#897dac",
+      "description": "Economic",
+      "longDescription": "Observing Earth's social and economic systems",
+      "datasetsImage": "/data/story-images/econ-explore-datasets-image.png"
+    },
+    {
+      "name": "Agriculture",
+      "slug": "agriculture",
+      "color": "#F2AF26",
+      "description": "Growing Economic Systems",
+      "longDescription": "Satellites are providing insights into agricultural production, crop conditions, and food supply.",
+      "datasetsImage": "/data/story-images/agri-explore-datasets-image.png"
+    },
+    {
+      "name": "Health",
+      "slug": "health",
+      "color": "#32322C",
+      "description": "Health",
+      "longDescription": "Satellites are providing insights into agricultural production, crop conditions, and food supply.",
+      "datasetsImage": "/data/story-images/agri-explore-datasets-image.png"
+    },
+    {
+      "name": "Air",
+      "slug": "air",
+      "color": "#4059AD",
+      "description": "Tracking Changes in the Atmosphere",
+      "longDescription": "Air pollution and climate change are some of the biggest environmental challenges of our time.",
+      "datasetsImage": "/data/story-images/Datasets-theme.jpg"
+    },
+    {
+      "name": "Water",
+      "slug": "water",
+      "color": "#6DA2C5",
+      "description": "Keeping Current with Earth’s Largest Natural Resource",
+      "longDescription": "Satellite images reveal a view of the ocean that is as rich and complex as that of land.",
+      "datasetsImage": "/data/story-images/wq-explore-datasets-image.png"
+    }
+  ],
+  "trilateral": [
+    {
+      "name": "Atmosphere",
+      "slug": "atmosphere",
+      "color": "#4059AD",
+      "description": "Tracking Changes in the Atmosphere",
+      "longDescription": "Air pollution and climate change are some of the biggest environmental challenges of our time.",
+      "datasetsImage": "/data/story-images/Datasets-theme.jpg"
+    },
+    {
+      "name": "Agriculture",
+      "slug": "agriculture",
+      "color": "#F2AF26",
+      "description": "Growing Economic Systems",
+      "longDescription": "Satellites are providing insights into agricultural production, crop conditions, and food supply.",
+      "datasetsImage": "/data/story-images/agri-explore-datasets-image.png"
+    },
+    {
+      "name": "Biomass",
+      "slug": "biomass-and-landcover",
+      "color": "#009E73",
+      "description": "Clearing the Air",
+      "longDescription": "A view from space monitors land cover and trees to track biomass and carbon content."
+    },
+    {
+      "name": "Water and Ocean",
+      "slug": "oceans",
+      "color": "#6DA2C5",
+      "description": "Keeping Current with Earth’s Largest Natural Resource",
+      "longDescription": "Satellite images reveal a view of the ocean that is as rich and complex as that of land.",
+      "datasetsImage": "/data/story-images/wq-explore-datasets-image.png"
+    },
+    {
+      "name": "Cryosphere",
+      "slug": "cryosphere",
+      "color": "#42C7B8",
+      "description": "Tracking Ice and Snow’s Relationship to Climate",
+      "longDescription": "The Arctic region shows changes most characteristic of global warming."
+    },
+    {
+      "name": "Covid-19",
+      "slug": "covid-19",
+      "color": "#32322C",
+      "description": "The COVID-19 pandemic",
+      "longDescription": "Tracking the Effects of the COVID-19 Pandemic"
+    },
+    {
+      "name": "Economy",
+      "slug": "economy",
+      "color": "#897dac",
+      "description": "Economy",
+      "longDescription": "Observing Earth's social and economic systems",
+      "datasetsImage": "/data/story-images/econ-explore-datasets-image.png"
+    }
+  ]
+}

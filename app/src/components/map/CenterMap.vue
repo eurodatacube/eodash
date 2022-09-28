@@ -250,6 +250,9 @@ export default {
       }
       return this.baseConfig.baseLayersLeftMap;
     },
+    layerNameMapping() {
+      return this.baseConfig.layerNameMapping;
+    },
     overlayConfigs() {
       const configs = [...this.baseConfig.overlayLayersLeftMap];
       if (!this.isGlobalIndicator) {
@@ -473,8 +476,22 @@ export default {
             this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
           }
           // this.updateSelectedAreaFeature();
-          // If a POI is selected we do not show the cluster
-          cluster.clusters.setVisible(mutation.payload === null);
+          // If a POI with EO Data is selected we do not show the cluster
+          let hidePOIs = false;
+          let matchingInputDataAgainstConfig = [];
+          // Check to see if we have EO Data indicator
+          if (mutation.payload && mutation.payload.inputData) {
+            matchingInputDataAgainstConfig = mutation.payload.inputData
+              .filter((item) => Object.prototype.hasOwnProperty.call(this.layerNameMapping, item));
+            hidePOIs = matchingInputDataAgainstConfig.length > 0;
+          }
+          // Check to see if we have global data indicator
+          if (mutation.payload && mutation.payload.country) {
+            if (mutation.payload.country === 'all' || Array.isArray(mutation.payload.country)) {
+              hidePOIs = true;
+            }
+          }
+          cluster.clusters.setVisible(!hidePOIs);
         }
       }
     });

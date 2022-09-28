@@ -30,8 +30,9 @@ const convexHullStroke = new Stroke({
 const outerCircleFill = new Fill({
   color: '#ffffff77',
 });
+// TODO: this should be configurable per brand
 const innerCircleFill = new Fill({
-  color: '#0098DB',
+  color: '#00ae92',
 });
 const textFill = new Fill({
   color: '#fff',
@@ -101,7 +102,8 @@ function loadImages() {
         context.globalCompositeOperation = 'destination-over';
         context.beginPath();
         context.arc(halfWidth, halfWidth, 20, 0, 2 * Math.PI, false);
-        context.fillStyle = '#2196F3';
+        const color = store.state.themes.themes.find((th) => th.slug === key)?.color;
+        context.fillStyle = color;
         context.fill();
         context.lineWidth = 6;
         context.strokeStyle = 'white';
@@ -205,7 +207,7 @@ function clusterMemberStyle(clusterMember) {
   const indicatorCode = indicatorObject.indicator;
   const indicator = store.getters['features/getIndicators'].find((i) => i.code === indicatorCode);
   const isSelected = isFeatureSelected(clusterMember);
-  const image = indicatorClassesStyles[indicator.class][isSelected ? 'large' : 'small'];
+  const image = indicatorClassesStyles[indicator.themes[0]]?.[isSelected ? 'large' : 'small'];
   const iconStyle = new Style({
     image,
     geometry: clusterMember.getGeometry(),
@@ -340,9 +342,10 @@ class Cluster {
         if (indicator) {
           headers.push(indicator);
         }
-        if (label && label !== '/') {
-          rows.push(label);
-        }
+        // TODO maybe we can get rid of formatLabel() completely
+        // if (label && label !== '/') {
+        //   rows.push(label);
+        // }
         callback(headers, rows, coords);
       } else {
         callback([], [], null);
@@ -383,7 +386,7 @@ class Cluster {
             } else {
               const urlSearchParams = new URLSearchParams(window.location.search);
               const params = Object.fromEntries(urlSearchParams.entries());
-              params.clusterOpen = params.clusterOpen ? parseInt(params.clusterOpen) + 1 : 1
+              params.clusterOpen = params.clusterOpen ? parseInt(params.clusterOpen) + 1 : 1;
               const router = this.vm.$router;
               router.push({ query: params });
               // Zoom to the extent of the cluster members.
@@ -473,11 +476,11 @@ class Cluster {
     clusterSource.clear();
     clusterSource.addFeatures(features);
     if (features.length) {
-      setTimeout(() =>  {
-        this.map.getView().fit(clusterSource.getExtent(), {
-          maxZoom: 8,
-          duration: 200,
-        }, 0);
+      setTimeout(() => {
+        // this.map.getView().fit(clusterSource.getExtent(), {
+        //   maxZoom: 8,
+        //   duration: 200,
+        // }, 0);
       });
     }
   }
