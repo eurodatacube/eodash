@@ -101,7 +101,7 @@ function loadImages() {
         context.globalCompositeOperation = 'destination-over';
         context.beginPath();
         context.arc(halfWidth, halfWidth, 20, 0, 2 * Math.PI, false);
-        const color = store.state.themes.themes.find(th => th.slug === key)?.color;
+        const color = store.state.themes.themes.find((th) => th.slug === key)?.color;
         context.fillStyle = color;
         context.fill();
         context.lineWidth = 6;
@@ -385,7 +385,7 @@ class Cluster {
             } else {
               const urlSearchParams = new URLSearchParams(window.location.search);
               const params = Object.fromEntries(urlSearchParams.entries());
-              params.clusterOpen = params.clusterOpen ? parseInt(params.clusterOpen) + 1 : 1
+              params.clusterOpen = params.clusterOpen ? parseInt(params.clusterOpen) + 1 : 1;
               const router = this.vm.$router;
               router.push({ query: params });
               // Zoom to the extent of the cluster members.
@@ -475,7 +475,7 @@ class Cluster {
     clusterSource.clear();
     clusterSource.addFeatures(features);
     if (features.length) {
-      setTimeout(() =>  {
+      setTimeout(() => {
         // this.map.getView().fit(clusterSource.getExtent(), {
         //   maxZoom: 8,
         //   duration: 200,
