@@ -3,6 +3,7 @@ import { Wkt } from 'wicket';
 import { latLng } from 'leaflet';
 import countriesJson from '@/assets/countries.json';
 import getLocationCode from '@/mixins/getLocationCode';
+import nameMapping from '@/config/name_mapping.json';
 
 const format = new Wkt();
 
@@ -208,6 +209,19 @@ const mutations = {
   //   );
   // },
   ADD_NEW_FEATURES(state, features) {
+    // We do name replacing as based on the configuration file
+    // as some data sources are external to us
+    features.forEach((f) => {
+      const { indicatorObject } = f.properties;
+      // We see if indicator code and aoiID is a match
+      const mergedKey = `${indicatorObject.indicator}-${indicatorObject.aoiID}`;
+      if (mergedKey in nameMapping.eodash) {
+        indicatorObject.indicatorName = nameMapping.eodash[mergedKey];
+      } else if (indicatorObject.indicator in nameMapping.eodash) {
+        indicatorObject.indicatorName = nameMapping.eodash[indicatorObject.indicator];
+      }
+    });
+    // indicatorName
     state.allFeatures = state.allFeatures.concat(features);
   },
   // SET_ALL_DUMMY_LOCATIONS(state, features) {

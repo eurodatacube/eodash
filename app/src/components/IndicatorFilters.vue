@@ -84,7 +84,6 @@
               style="font-size: small; line-height: unset; padding: 6px"
             >
               {{ item.properties.indicatorObject.indicatorName }}
-              Top western road trips
             </v-card-title>
           </v-card>
         </v-slide-item>
@@ -244,7 +243,7 @@ export default {
       return this.searchItems.find((i) => i.name === item)?.filterPriority > 0;
     },
     getIndicator(indObj) {
-      let ind = indObj.description;
+      let ind = indObj.indicatorName;
       if (this.baseConfig.indicatorsDefinition[indObj.indicator]
         && this.baseConfig.indicatorsDefinition[indObj.indicator].indicatorOverwrite) {
         ind = this.baseConfig.indicatorsDefinition[indObj.indicator].indicatorOverwrite;
