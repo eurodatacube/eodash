@@ -1,7 +1,7 @@
 <template>
   <v-sheet
     class="row justify-center align-center rounded-lg"
-    style="position: absolute; bottom: 30px; z-index: 6; width: auto; max-width: 100%;"
+    style="position: absolute; top: 20px; z-index: 6; width: auto; max-width: 100%;"
   >
     <v-col
       v-if="currentlyComparing"

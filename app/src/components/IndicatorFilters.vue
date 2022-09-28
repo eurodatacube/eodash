@@ -1,45 +1,117 @@
 <template>
   <div
-    class="no-pointer pa-5"
+    class="no-pointer pa-2 overflow-hidden"
     style="width: 360px; height: calc((var(--vh), 1vh) * 100); z-index: 4"
   >
-    <v-autocomplete
-      ref="autocomplete"
-      v-model="selectedListItem"
-      :allow-overflow="false"
-      auto-select-first
-      autofocus
-      clearable
-      :filter="customAutocompleteFilter"
-      hide-details
-      :items="formattedSearchItems"
-      placeholder="Search here"
-      :prepend-inner-icon="$store.state.showHistoryBackButton ? 'mdi-arrow-left' : 'mdi-magnify'"
-      rounded
-      :search-input.sync="userInput"
-      solo
-      @click:clear="autoCompleteClear"
-      @click:prepend-inner="$store.state.showHistoryBackButton ? $router.back() : () => {}"
-      @keydown.esc="userInput = null"
+    <v-card class="rounded-xl">
+      <div class="pa-2">
+        <v-btn
+          v-for="(theme, key) in $store.state.themes.themes"
+          :key="key"
+          class="mr-2 mb-2"
+          :color="theme.color"
+          dark
+          rounded
+          small
+          @click="setThemeAsInput(theme.name)"
+        >
+          <v-icon left>{{ baseConfig.indicatorClassesIcons[theme.slug] }}</v-icon>
+          {{ theme.name }}
+        </v-btn>
+      </div>
+      <v-autocomplete
+        ref="autocomplete"
+        v-model="selectedListItem"
+        :allow-overflow="false"
+        attach="#autocomplete-menu"
+        auto-select-first
+        autofocus
+        clearable
+        :filter="customAutocompleteFilter"
+        flat
+        hide-details
+        hide-no-data
+        :items="formattedSearchItems"
+        placeholder="Search here"
+        :prepend-inner-icon="$store.state.showHistoryBackButton ? 'mdi-arrow-left' : 'mdi-magnify'"
+        :search-input.sync="userInput"
+        solo
+        class="rounded-xl"
+        @click:clear="autoCompleteClear"
+        @click:prepend-inner="$store.state.showHistoryBackButton ? $router.back() : () => {}"
+        @keydown.esc="userInput = null"
+      >
+      </v-autocomplete>
+      <div
+        class="overflow-x-hidden overflow-y-auto"
+        style="position: relative; max-height: 250px"
+      >
+        <!-- <div class="overflow-y-auto"> -->
+          <div id="autocomplete-menu" ></div>
+        <!-- </div> -->
+      </div>
+    </v-card>
+    <!-- <div
+      class="pa-2"
+      style="position: absolute; top: 0; left: 365px;"
     >
-    </v-autocomplete>
-    <div style="position: absolute; left: 360px; top: 27px; display: flex;">
+      <div
+        class="d-flex align-center"
+        style="height: 48px"
+      >
+        <v-btn
+          v-for="(theme, key) in $store.state.themes.themes"
+          :key="key"
+          class="mr-2"
+          :color="theme.color"
+          dark
+          rounded
+          small
+          @click="setThemeAsInput(theme.name)"
+        >
+          <v-icon left>{{ baseConfig.indicatorClassesIcons[theme.slug] }}</v-icon>
+          {{ theme.name }}
+        </v-btn>
+      </div>
+    </div> -->
+    <!-- <v-card
+      class="rounded-xl mt-5 pa-5"
+    >
+      <v-subheader class="px-2">THEME</v-subheader>
       <v-btn
         v-for="(theme, key) in $store.state.themes.themes"
         :key="key"
-        class="mr-5"
+        class="mr-5 mb-3"
         :color="theme.color"
         dark
         rounded
+        x-small
         @click="setThemeAsInput(theme.name)"
       >
       {{ theme.name }}
       </v-btn>
-    </div>
-    <v-card
-      style="position: absolute; left: 20px; bottom: 20px; height: 300px; overflow-y: auto"
+    </v-card> -->
+    <!-- <v-img
+      v-if="globalIndicators.length > 0 && !mapLayersExpanded"
+      max-height="100"
+      src="@/assets/mapLayers.png"
+      class="rounded mt-5 elevation-2"
+      style="cursor: pointer; display: none"
+      @click="mapLayersExpanded = true"
     >
-      <v-list dense v-if="globalIndicators.length > 0">
+      <div class="pa-5 fill-height d-flex align-center">
+        <p class="mb-0">
+          <v-icon left>mdi-layers</v-icon> DATA LAYERS
+        </p>
+      </div>
+    </v-img>
+    <v-card
+      v-else-if="globalIndicators.length > 0 && mapLayersExpanded"
+      class="rounded mt-3"
+      style="height: 300px; overflow-y: auto"
+    >
+      <v-list
+        dense>
         <v-subheader class="px-2">GLOBAL DATA LAYERS</v-subheader>
         <v-list-item-group
           v-model="selectedMapLayer"
@@ -49,17 +121,51 @@
             v-for="(item, i) in globalIndicators"
             :key="i"
           >
-            <!-- <v-list-item-icon>
-              <v-icon v-text="item.icon"></v-icon>
-            </v-list-item-icon> -->
             <v-list-item-content>
               <v-list-item-title v-text="item.properties.indicatorObject.indicatorName"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
       </v-list>
-      <p v-else>No global layers available for the current selection.</p>
-    </v-card>
+    </v-card> -->
+    <div
+      class="d-flex"
+      style="position: absolute; bottom: 0; left: 0;"
+      :style="`width: ${slideGroupWidth}`"
+    >
+      <v-slide-group
+        v-model="selectedMapLayer"
+        class="pa-2"
+        show-arrows
+        center-active
+      >
+        <v-slide-item
+          v-for="(item, key) in globalIndicators"
+          :key="key"
+          v-slot="{ active, toggle }"
+        >
+          <v-card
+            :color="active ? 'primary' : 'grey lighten-1'"
+            class="ma-4"
+            height="100"
+            width="100"
+            @click="toggle"
+          >
+            <v-img
+              height="50"
+              :src="`./img/datalayerImages/${getLocationCode(item.properties.indicatorObject)}.png`"
+            >
+            </v-img>
+            <v-card-title
+              style="font-size: small; line-height: unset; padding: 6px"
+            >
+              {{ item.properties.indicatorObject.indicatorName }}
+              Top western road trips
+            </v-card-title>
+          </v-card>
+        </v-slide-item>
+      </v-slide-group>
+    </div>
   </div>
 </template>
 
@@ -80,6 +186,7 @@ export default {
     userInput: null,
     selectedListItem: null,
     selectedMapLayer: null,
+    mapLayersExpanded: false,
   }),
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
@@ -93,6 +200,10 @@ export default {
           ? 1
           : -1));
     },
+    slideGroupWidth() {
+      const sidePanelWidth = document.querySelector('.pane-expanded') ? document.querySelector('.pane-expanded').clientWidth : 0
+      return `calc(100% - ${sidePanelWidth}px)`
+    }
   },
   methods: {
     ...mapMutations('features', {
@@ -109,6 +220,7 @@ export default {
       });
       this.selectedListItem = null;
       this.selectedMapLayer = null;
+      this.setSelectedIndicator(null);
     },
     setFilterDebounced() {
       clearTimeout(this._timerId);
@@ -119,7 +231,7 @@ export default {
         this.setFeatureFilter({
           custom: filtered,
         });
-        this.sortSearchItems();
+        // this.sortSearchItems();
       }, 500);
     },
     setThemeAsInput(themeName) {
@@ -255,6 +367,9 @@ export default {
       );
     },
     userInput() {
+      setTimeout(() => {
+        this.sortSearchItems();
+      }, 50);
       this.setFilterDebounced();
     },
   },
@@ -268,5 +383,18 @@ export default {
 
 .no-pointer > div {
   pointer-events: all;
+}
+
+::v-deep .v-autocomplete__content {
+  position: relative;
+  height: auto;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  max-height: unset !important;
+  box-shadow: none !important;
+  border-radius: 3px;
 }
 </style>
