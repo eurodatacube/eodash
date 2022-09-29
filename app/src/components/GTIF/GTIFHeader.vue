@@ -90,6 +90,12 @@
               />
 
               <GtifHeaderNavItem
+                color="hsl(30 80% 60%)"
+                title="Energy"
+                :to="{name: 'gtif-energy-transition'}"
+              />
+
+              <GtifHeaderNavItem
                 title="Scrolly Example"
                 to="/scrolly"
               />
