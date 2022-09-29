@@ -68,6 +68,10 @@ export const defaultLayersDisplay = {
   visible: true,
 };
 
+function convertIndex() {
+  return ['band', 1];
+}
+
 export const indicatorsDefinition = Object.freeze({
   REP1: {
     indicator: 'Air quality',
@@ -148,26 +152,29 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         cogFilters: {
-          height: {
-            label: 'Filter for elevation',
-            id: 'dem',
-            band: 1,
-            min: 300,
-            max: 800,
-          },
-          slope: {
-            label: 'Filter for slope',
-            id: 'slope',
-            band: 2,
-            min: 0,
-            max: 100,
-          },
-          grid_distance: {
-            label: 'Filter for distance to nearest grid',
-            id: 'grid_distance',
-            band: 3,
-            min: 0,
-            max: 10000,
+          sourceLayer: 'REP1',
+          filters: {
+            height: {
+              label: 'Filter for elevation',
+              id: 'dem',
+              band: 1,
+              min: 100,
+              max: 600,
+            },
+            slope: {
+              label: 'Filter for slope (not available)',
+              id: 'slope',
+              band: 2,
+              min: 0,
+              max: 100,
+            },
+            grid_distance: {
+              label: 'Filter for distance to nearest grid (not available)',
+              id: 'grid_distance',
+              band: 3,
+              min: 0,
+              max: 10000,
+            },
           },
         },
         display: {
@@ -180,21 +187,24 @@ export const globalIndicators = [
             }],
           },
           protocol: 'cog',
+          id: 'REP1',
           sources: [
             { url: 'data/gtif/data/vienna_landcover_mercator.tif' },
             { url: 'data/gtif/data/dem_10m_correct.tif' },
           ],
           style: {
+            variables: {
+              demMin: 100,
+              demMax: 600,
+            },
             color: [
               'case',
-              ['>', 350, ['band', 2]],
-              [
-                'color',
-                ['/', 3, ['band', 1]],
-                ['/', 3, ['band', 1]],
-                ['/', 3, ['band', 1]],
-                255,
-              ],
+              ['between', ['band', 2], ['var', 'demMin'], ['var', 'demMax']],
+              ['palette', ['/', ['band', 1], 10], [
+                '#006400', '#ffbb22', '#ffff4c', '#f096ff',
+                '#fa0000', '#b4b4b4', '#f0f0f0', '#0064c8',
+                '#0096a0', '#00cf75', '#fae6a0',
+              ]],
               [
                 'color', 0, 0, 0, 0,
               ],

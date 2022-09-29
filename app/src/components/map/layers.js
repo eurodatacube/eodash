@@ -115,6 +115,8 @@ export function createLayerFromConfig(config, _options = {}) {
       source,
       style: config.style,
     });
+    wgTileLayer.set('id', config.id);
+    wgTileLayer.updateStyleVariables('demMax', 100);
     // wgTileLayer.setZIndex(500);
     layers.push(wgTileLayer);
   }
