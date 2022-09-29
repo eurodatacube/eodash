@@ -81,29 +81,30 @@ a:hover {
     height: 640px;
 }
 
+.fullWidthBlockInner {
+    padding: 1rem;
+}
+
+.scrollySection {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.scrollySection>* {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
+
 .fullWidthBlock {
     padding: 0;
     max-width: unset;
     width: 100%;
     margin-bottom: 4rem;
-}
-
-.fullWidthBlockInner {
-    padding: 1rem;
-}
-
-#scrolly {
-    position: relative;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    padding: 1rem;
-}
-
-#scrolly>* {
-    -webkit-box-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
+    flex: 0 0 100%;
 }
 
 article {

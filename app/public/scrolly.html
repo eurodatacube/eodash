@@ -11,36 +11,41 @@
 <body>
 <div id="app">
     <main>
-        <div
-            v-for="(data, j) in scrollyArray"
+        <section
+            v-for="(data, sectionIndex) in scrollyArray"
+            class="scrollySection"
         >
             <template
                 v-if="data.every((el) => 4 === el.width)"
             >
-                <section
-                    v-for="el in data"
+                <article
+                    v-for="(el, i) in data"
+                    class="fullWidthBlock"
                 >
-                    <article class="fullWidthBlock">
-                        <div
-                          v-html="parseMarkdown(el.text)"
-                        ></div>
-                    </article>
-                </section>
+                    <div
+                        class="step"
+                        :data-section="sectionIndex"
+                        :data-step="i"
+                        v-html="parseMarkdown(el.text)"
+                    ></div>
+                </article>
             </template>
-            <section v-else id="scrolly">
+            <template v-else id="scrolly">
                 <article>
                     <div
                         v-for="(el, i) in data.filter((v, i) => !(i % 2))"
                         class="step"
-                        :data-step="currentStep"
+                        :data-section="sectionIndex"
+                        :data-step="i"
                         v-html="parseMarkdown(el.text)"
                     ></div>
                 </article>
 
                 <transition-group class="figureContainer" name="slide" mode="out-in">
                     <figure
-                        v-for="(figure, i) in data.filter((v, i) => i % 2)"
-                        :key="i"
+                        v-for="(figure, figureIndex) in data.filter((v, i) => i % 2)"
+                        v-show="currentStep.section === sectionIndex && currentStep.step === figureIndex"
+                        :key="figureIndex"
                     >
                         <div v-if="figure.text || figure.id">
                             <template v-if="figure.text">
@@ -65,9 +70,8 @@
                         </div>
                     </figure>
                 </transition-group>
-            </section>
-        </div>
-        <section id="outro"></section>
+            </template>
+        </section>
     </main>
 </div>
 
@@ -82,7 +86,10 @@
         scrollyArray: null,
         imgData: null,
         textData: null,
-        currentStep: 0,
+        currentStep: {
+            section: 0,
+            step: 0,
+        },
         figures: null,
     }},
     created() {
@@ -110,15 +117,11 @@
 
         // scrollama event handlers
         const handleStepEnter = (response) => {
-            // console.log(response);
             // response = { element, direction, index }
-            this.currentStep = response.index;
-
-            for (let figure in this.figures) {
-              figure.style.display = 'none';
-            }
-
-            this.figures[this.currentStep].style.display = 'flex';
+            this.currentStep = {
+                section: parseInt(response.element.dataset.section),
+                step: parseInt(response.element.dataset.step),
+            };
         }
 
         const handleStepProgress = (response) => {
@@ -133,7 +136,7 @@
             scroller
                 .setup({
                     root: document,
-                    step: "#scrolly article .step",
+                    step: ".scrollySection article .step",
                     offset: 0.33,
                     progress: true,
                     debug: false
