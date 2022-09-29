@@ -15,6 +15,7 @@ const state = {
     includeArchived: false,
   },
   selectedArea: null,
+  adminBorderSelected: null,
   resultsCount: {
     economic: 0,
     agriculture: 0,
@@ -226,6 +227,9 @@ const mutations = {
 
     // TODO: Extract fetchData method into helper file since it needs to be used from outside.
     window.dispatchEvent(new CustomEvent('area-changed'));
+  },
+  SET_ADMIN_BORDER_SELECTED(state, feature) {
+    state.adminBorderSelected = feature;
   },
 };
 const actions = {

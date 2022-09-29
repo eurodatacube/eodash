@@ -36,14 +36,6 @@
           <span class="label">{{n.name}}</span>
         </template>
     </v-checkbox>
-    <v-divider class="my-1" />
-    <v-checkbox v-for="n in administrativeConfigs" :key="n.name" :label="n.name"
-      :input-value="n.visible" dense class="my-0 py-0" hide-details
-      @change="setVisible($event, n)">
-        <template v-slot:label>
-          <span class="label">{{n.name}}</span>
-        </template>
-    </v-checkbox>
   </v-card>
 </template>
 
@@ -51,6 +43,7 @@
 import 'ol/ol.css';
 import getMapInstance from '@/components/map/map';
 import { createLayerFromConfig } from '@/components/map/layers';
+import Select from 'ol/interaction/Select';
 
 /**
  * a component that will handle base and overlay layers and displays
@@ -119,6 +112,11 @@ export default {
     map.on('moveend', this.updateOverlayOpacity);
     map.dispatchEvent({ type: 'moveend' });
     this.selectedBaseLayer = this.baseLayerConfigs.findIndex((l) => l.visible === true) || 0;
+    this.selectInteraction = new Select({
+      style: null,
+    });
+    map.addInteraction(this.selectInteraction);
+    this.selectInteraction.on('select', this.adminBorderClick);
   },
   methods: {
     setVisible(value, layerConfig) {
@@ -144,6 +142,24 @@ export default {
         }
       });
     },
+    adminBorderClick(e) {
+      e.target.getFeatures().forEach((feature) => {
+        const { map } = getMapInstance(this.mapId);
+        const clickLayer = this.selectInteraction.getLayer(feature);
+        const layerIndex = this.administrativeConfigs.findIndex((l) => l.name === clickLayer.get('name'));
+        map.getView().fit(feature.getGeometry().getExtent());
+        if (layerIndex > -1 && this.administrativeConfigs[layerIndex + 1] !== undefined) {
+          const { minZoom } = this.administrativeConfigs[layerIndex + 1];
+          if (minZoom !== undefined) {
+            // 0.1 added to show the layer, if zoom is equal to l.minzoom, not shown
+            map.getView().setZoom(minZoom + 0.1);
+          }
+        }
+        this.$store.commit(
+          'features/SET_ADMIN_BORDER_SELECTED', feature,
+        );
+      });
+    },
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
@@ -155,6 +171,7 @@ export default {
       map.removeLayer(layer);
     });
     map.un('moveend', this.updateOverlayOpacity);
+    map.removeInteraction(this.selectInteraction);
   },
 };
 </script>
