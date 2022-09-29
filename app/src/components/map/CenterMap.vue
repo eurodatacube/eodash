@@ -451,13 +451,13 @@ export default {
       deep: true,
       immediate: true,
       handler(value) {
-      // when the calculated zoom extent changes, zoom the map to the new extent.
-      // this is purely cosmetic and does not limit the ability to pan or zoom
-      // paddings are calculated globaly for the view.
+        // when the calculated zoom extent changes, zoom the map to the new extent.
+        // this is purely cosmetic and does not limit the ability to pan or zoom
+        // paddings are calculated globally for the view.
         if (value && !(this.centerProp || this.zoomProp)) {
           const { map } = getMapInstance(this.mapId);
           if (map.getTargetElement()) {
-            map.getView().fit(value);
+            map.getView().fit(value, { duration: 500 });
           } else {
             map.once('change:target', () => {
               map.getView().fit(value);
