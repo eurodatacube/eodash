@@ -1,7 +1,7 @@
 <template>
   <v-sheet
-    class="row justify-center align-center rounded-lg"
-    style="position: absolute; bottom: 30px; z-index: 6; width: auto; max-width: 100%;"
+    class="row justify-center align-center rounded"
+    style="position: absolute; top: 20px; z-index: 6; width: auto; max-width: 600px;"
   >
     <v-col
       v-if="currentlyComparing"
@@ -212,8 +212,5 @@ export default {
 <style scoped>
 ::v-deep .mdi-asterisk {
   visibility: hidden;
-}
-::v-deep .v-menu__content {
-  transform: translate(1%, -87%);
 }
 </style>

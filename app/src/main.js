@@ -148,27 +148,28 @@ const renderVue = async () => {
       getIndicatorColor(label) {
         const colors = vuetify.preset.theme.themes.light;
         let color;
-        if (typeof label === 'undefined') {
-          // placeholders
-          color = colors.grey;
-        } else if (label === null) {
-          // area indicators
-          color = colors.primary;
-        } else if (['red'].includes(label.toLowerCase())) {
-          color = colors.error;
-        } else if (['grey'].includes(label.toLowerCase())) {
-          color = colors.grey;
-        } else if (['blue'].includes(label.toLowerCase())) {
-          color = colors.info;
-        } else if (['green'].includes(label.toLowerCase())) {
-          color = colors.success;
-        } else if (['orange'].includes(label.toLowerCase())) {
-          color = '#FFA500'; // Color has been specifically requested
-        } else if (['primary'].includes(label.toLowerCase())) {
-          color = colors.primary;
-        } else {
-          color = colors.info;
-        }
+        // if (typeof label === 'undefined') {
+        //   // placeholders
+        //   color = colors.grey;
+        // } else if (label === null) {
+        //   // area indicators
+        //   color = colors.primary;
+        // } else if (['red'].includes(label.toLowerCase())) {
+        //   color = colors.error;
+        // } else if (['grey'].includes(label.toLowerCase())) {
+        //   color = colors.grey;
+        // } else if (['blue'].includes(label.toLowerCase())) {
+        //   color = colors.info;
+        // } else if (['green'].includes(label.toLowerCase())) {
+        //   color = colors.success;
+        // } else if (['orange'].includes(label.toLowerCase())) {
+        //   color = '#FFA500'; // Color has been specifically requested
+        // } else if (['primary'].includes(label.toLowerCase())) {
+        //   color = colors.primary;
+        // } else {
+        //   color = colors.info;
+        // }
+        color = colors.secondary;
         return color;
       },
       getLocationCode,

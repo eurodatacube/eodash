@@ -46,7 +46,7 @@ export default {
     },
   },
   computed: {
-    ...mapState('config', ['appConfig']),
+    ...mapState('config', ['appConfig', 'baseConfig']),
     subAoi() {
       // create an inverse of subaoi, using difference of whole world and subaoi
       if (this.indicator?.subAoi?.features?.length) {
@@ -73,7 +73,11 @@ export default {
     isInverse() {
       return this.indicator.country === 'all'
         || this.appConfig.configuredMapPois.includes(`${this.indicator.aoiID}-${this.indicator.indicator}`)
-        || Array.isArray(this.indicator.inputData);
+        || ((Array.isArray(this.indicator.inputData)
+        && this.indicator.inputData.filter(
+          (item) => Object.prototype.hasOwnProperty.call(this.baseConfig.layerNameMapping, item),
+        ).length
+        ));
     },
   },
   mounted() {

@@ -1,12 +1,12 @@
 {
-  "trilateral": [
+  "esa": [
     {
-      "name": "Atmosphere",
-      "slug": "atmosphere",
-      "color": "#4059AD",
-      "description": "Tracking Changes in the Atmosphere",
-      "longDescription": "Air pollution and climate change are some of the biggest environmental challenges of our time.",
-      "datasetsImage": "./data/story-images/Datasets-theme.jpg"
+      "name": "Economic",
+      "slug": "economic",
+      "color": "#897dac",
+      "description": "Economic",
+      "longDescription": "Observing Earth's social and economic systems",
+      "datasetsImage": "/data/story-images/econ-explore-datasets-image.png"
     },
     {
       "name": "Agriculture",
@@ -14,7 +14,49 @@
       "color": "#F2AF26",
       "description": "Growing Economic Systems",
       "longDescription": "Satellites are providing insights into agricultural production, crop conditions, and food supply.",
-      "datasetsImage": "./data/story-images/agri-explore-datasets-image.png"
+      "datasetsImage": "/data/story-images/agri-explore-datasets-image.png"
+    },
+    {
+      "name": "Health",
+      "slug": "health",
+      "color": "#32322C",
+      "description": "Health",
+      "longDescription": "Satellites are providing insights into agricultural production, crop conditions, and food supply.",
+      "datasetsImage": "/data/story-images/agri-explore-datasets-image.png"
+    },
+    {
+      "name": "Air",
+      "slug": "air",
+      "color": "#4059AD",
+      "description": "Tracking Changes in the Atmosphere",
+      "longDescription": "Air pollution and climate change are some of the biggest environmental challenges of our time.",
+      "datasetsImage": "/data/story-images/Datasets-theme.jpg"
+    },
+    {
+      "name": "Water",
+      "slug": "water",
+      "color": "#6DA2C5",
+      "description": "Keeping Current with Earth’s Largest Natural Resource",
+      "longDescription": "Satellite images reveal a view of the ocean that is as rich and complex as that of land.",
+      "datasetsImage": "/data/story-images/wq-explore-datasets-image.png"
+    }
+  ],
+  "trilateral": [
+    {
+      "name": "Atmosphere",
+      "slug": "atmosphere",
+      "color": "#4059AD",
+      "description": "Tracking Changes in the Atmosphere",
+      "longDescription": "Air pollution and climate change are some of the biggest environmental challenges of our time.",
+      "datasetsImage": "/data/story-images/Datasets-theme.jpg"
+    },
+    {
+      "name": "Agriculture",
+      "slug": "agriculture",
+      "color": "#F2AF26",
+      "description": "Growing Economic Systems",
+      "longDescription": "Satellites are providing insights into agricultural production, crop conditions, and food supply.",
+      "datasetsImage": "/data/story-images/agri-explore-datasets-image.png"
     },
     {
       "name": "Biomass",
@@ -29,7 +71,7 @@
       "color": "#6DA2C5",
       "description": "Keeping Current with Earth’s Largest Natural Resource",
       "longDescription": "Satellite images reveal a view of the ocean that is as rich and complex as that of land.",
-      "datasetsImage": "./data/story-images/wq-explore-datasets-image.png"
+      "datasetsImage": "/data/story-images/wq-explore-datasets-image.png"
     },
     {
       "name": "Cryosphere",

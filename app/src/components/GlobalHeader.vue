@@ -261,7 +261,7 @@
         <v-badge
           class="mr-6"
           bordered
-          color="info"
+          color="secondary"
           :content="$store.state.dashboard.dashboardConfig
             && $store.state.dashboard.dashboardConfig.features.length"
           :value="$store.state.dashboard.dashboardConfig

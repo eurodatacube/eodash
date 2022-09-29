@@ -118,11 +118,11 @@
             <p class="ma-0" v-else>
               <strong>{{ feature.properties.indicatorObject.description }}</strong>
             </p>
-            <p
+            <!-- <p
               class="ma-0"
             >
               {{ formatLabel(feature) }}
-            </p>
+            </p> -->
         </l-tooltip>
       </l-marker>
     </l-marker-cluster>

@@ -111,7 +111,7 @@ export default {
       // TODO: handle case when one of these was directly entered into url at app start
       this.$store.commit('changeBackButtonDisplay', (
         to.query.poi || to.query.indicator || to.query.clusterOpen
-      ));  
+      ));
 
       if (!to.query.poi && from.query.poi
       || !to.query.indicator && from.query.indicator

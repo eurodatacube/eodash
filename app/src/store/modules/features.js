@@ -2,6 +2,8 @@
 import { Wkt } from 'wicket';
 import { latLng } from 'leaflet';
 import countriesJson from '@/assets/countries.json';
+import getLocationCode from '@/mixins/getLocationCode';
+import nameMapping from '@/config/name_mapping.json';
 
 const format = new Wkt();
 
@@ -13,6 +15,7 @@ const state = {
     indicators: [],
     themes: [],
     includeArchived: false,
+    custom: [],
   },
   selectedArea: null,
   resultsCount: {
@@ -72,9 +75,12 @@ const getters = {
             && (f.properties.indicatorObject.description.includes('(archived)')),
           code: f.properties.indicatorObject.indicator,
           indicator: f.properties.indicatorObject.description,
-          class: rootState.config.baseConfig.indicatorsDefinition[
+          themes: rootState.config.baseConfig.indicatorsDefinition[
             f.properties.indicatorObject.indicator
-          ].class,
+          ].themes,
+          // class: rootState.config.baseConfig.indicatorsDefinition[
+          //   f.properties.indicatorObject.indicator
+          // ].class,
           indicatorOverwrite: rootState.config.baseConfig.indicatorsDefinition[
             f.properties.indicatorObject.indicator
           ].indicatorOverwrite,
@@ -128,6 +134,22 @@ const getters = {
             f.properties.indicatorObject.aoiID}-${
             f.properties.indicatorObject.indicator}`));
     }
+    if (state.featureFilters.custom.length > 0) {
+      features = features
+        .filter((f) => state.featureFilters.custom.map((c) => getLocationCode(c.properties.indicatorObject))
+          .includes(getLocationCode(f.properties.indicatorObject)));
+    }
+    // if (state.featureFilters.text.length > 0) {
+    //   features = features
+    //     .filter((f) =>
+    //       f.properties.indicatorObject.indicator.includes(state.featureFilters.text)
+    //       || f.properties.indicatorObject.city.includes(state.featureFilters.text)
+    //       || f.properties.indicatorObject.description.includes(state.featureFilters.text)
+    //       || rootState.config.baseConfig.indicatorsDefinition[f.properties.indicatorObject?.indicator]?.themes
+    //       .includes(state.featureFilters.text)
+    //       || f.properties.indicatorObject.siteName?.includes(state.featureFilters.text)
+    //     );
+    // }
 
     if (!state.featureFilters.includeArchived) {
       features = features.filter((f) => (f.properties.indicatorObject.updateFrequency ? f.properties.indicatorObject.updateFrequency.toLowerCase() !== 'archived' : true));
@@ -187,6 +209,19 @@ const mutations = {
   //   );
   // },
   ADD_NEW_FEATURES(state, features) {
+    // We do name replacing as based on the configuration file
+    // as some data sources are external to us
+    features.forEach((f) => {
+      const { indicatorObject } = f.properties;
+      // We see if indicator code and aoiID is a match
+      const mergedKey = `${indicatorObject.indicator}-${indicatorObject.aoiID}`;
+      if (mergedKey in nameMapping.eodash) {
+        indicatorObject.indicatorName = nameMapping.eodash[mergedKey];
+      } else if (indicatorObject.indicator in nameMapping.eodash) {
+        indicatorObject.indicatorName = nameMapping.eodash[indicatorObject.indicator];
+      }
+    });
+    // indicatorName
     state.allFeatures = state.allFeatures.concat(features);
   },
   // SET_ALL_DUMMY_LOCATIONS(state, features) {
@@ -216,6 +251,9 @@ const mutations = {
     }
     if (hasFeature('includeArchived')) {
       state.featureFilters.includeArchived = options.includeArchived;
+    }
+    if (hasFeature('custom')) {
+      state.featureFilters.custom = options.custom;
     }
   },
   ADD_RESULTS_COUNT(state, { type, count }) {

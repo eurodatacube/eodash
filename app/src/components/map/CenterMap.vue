@@ -11,7 +11,7 @@
     <!-- a layer displaying a selected global poi
      these layers will have z-Index 3 -->
     <SpecialLayer
-      v-if="mergedConfigsData.length && dataLayerName"
+      v-if="mergedConfigsData.length && dataLayerName && indicatorHasMapData(indicator)"
       :mapId="mapId"
       :mergedConfig="mergedConfigsData[0]"
       :layerName="dataLayerName"
@@ -61,7 +61,7 @@
     />
     <div
       class="move-with-panel"
-      :style="`position: absolute; z-index: 1; top: 10px; right: 50px;`"
+      :style="`position: absolute; z-index: 7; top: 10px; right: 50px;`"
     >
       <img v-if="mergedConfigsData.length > 0 && mergedConfigsData[0].legendUrl"
       :src="mergedConfigsData[0].legendUrl" alt=""
@@ -235,6 +235,7 @@ export default {
       overlayCoordinate: null,
       // layer swipe position (x-pixel from left border), or null if swipe is not active
       swipePixelX: null,
+      queryLink: null,
     };
   },
   computed: {
@@ -249,6 +250,9 @@ export default {
           || this.baseConfig.baseLayersLeftMap;
       }
       return this.baseConfig.baseLayersLeftMap;
+    },
+    layerNameMapping() {
+      return this.baseConfig.layerNameMapping;
     },
     overlayConfigs() {
       const configs = [...this.baseConfig.overlayLayersLeftMap];
@@ -269,7 +273,8 @@ export default {
     },
     displayTimeSelection() {
       return this.indicator?.time.length > 1
-        && !this.indicator?.disableTimeSelection && this.dataLayerTime;
+        && !this.indicator?.disableTimeSelection && this.dataLayerTime
+        && this.indicatorHasMapData(this.indicator);
     },
     isGlobalIndicator() {
       return this.$store.state.indicators.selectedIndicator?.siteName === 'global';
@@ -441,13 +446,13 @@ export default {
       deep: true,
       immediate: true,
       handler(value) {
-      // when the calculated zoom extent changes, zoom the map to the new extent.
-      // this is purely cosmetic and does not limit the ability to pan or zoom
-      // paddings are calculated globaly for the view.
+        // when the calculated zoom extent changes, zoom the map to the new extent.
+        // this is purely cosmetic and does not limit the ability to pan or zoom
+        // paddings are calculated globally for the view.
         if (value && !(this.centerProp || this.zoomProp)) {
           const { map } = getMapInstance(this.mapId);
           if (map.getTargetElement()) {
-            map.getView().fit(value);
+            map.getView().fit(value, { duration: 500 });
           } else {
             map.once('change:target', () => {
               map.getView().fit(value);
@@ -474,9 +479,7 @@ export default {
           if (this.$refs.timeSelection) {
             this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
           }
-          // this.updateSelectedAreaFeature();
-          // If a POI is selected we do not show the cluster
-          cluster.clusters.setVisible(mutation.payload === null);
+          cluster.clusters.setVisible(!this.indicatorHasMapData(mutation.payload));
         }
       }
     });
@@ -527,10 +530,28 @@ export default {
       false,
     );
     if (this.mapId === 'centerMap') {
-      // map.addInteraction(new Link({ replace: true }));
+      this.queryLink = new Link({ replace: true });
+      map.addInteraction(this.queryLink);
     }
   },
   methods: {
+    indicatorHasMapData(indicatorObject) {
+      let hasMapData = false;
+      let matchingInputDataAgainstConfig = [];
+      // Check to see if we have EO Data indicator
+      if (indicatorObject && indicatorObject.inputData) {
+        matchingInputDataAgainstConfig = indicatorObject.inputData
+          .filter((item) => Object.prototype.hasOwnProperty.call(this.layerNameMapping, item));
+        hasMapData = matchingInputDataAgainstConfig.length > 0;
+      }
+      // Check to see if we have global data indicator
+      if (indicatorObject && indicatorObject.country) {
+        if (indicatorObject.country === 'all' || Array.isArray(indicatorObject.country)) {
+          hasMapData = true;
+        }
+      }
+      return hasMapData;
+    },
     overlayCallback(headers, rows, coordinate) {
       this.overlayHeaders = headers;
       this.overlayRows = rows;
@@ -680,6 +701,7 @@ export default {
       const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
       cluster.setActive(false, this.overlayCallback);
       this.ro.unobserve(this.$refs.mapContainer);
+      getMapInstance(this.mapId).map.removeInteraction(this.queryLink);
     }
   },
 };
