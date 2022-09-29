@@ -114,6 +114,7 @@ export default {
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
     ...mapState('features', ['allFeatures']),
+    ...mapState('indicators', ['selectedIndicator']),
     ...mapGetters('features', ['getGroupedFeatures', 'getIndicators']),
     globalIndicators() {
       return this.getGroupedFeatures && this.getGroupedFeatures
@@ -250,6 +251,12 @@ export default {
     allFeatures() {
       if (!this.searchItem) {
         this.getSearchItems();
+      }
+    },
+    selectedIndicator(indicatorObject) {
+      const displayName = `${indicatorObject.city}: ${this.getIndicator(indicatorObject)}`;
+      if (this.userInput !== displayName) {
+        this.userInput = displayName;
       }
     },
     selectedListItem(input) {
