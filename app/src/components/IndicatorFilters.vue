@@ -5,7 +5,7 @@
   >
     <v-card class="rounded-lg">
       <div
-        v-if="appConfig.id !== 'trilateral'"
+        v-if="appConfig.id === 'esa'"
         class="pa-2"
       >
         <v-btn
