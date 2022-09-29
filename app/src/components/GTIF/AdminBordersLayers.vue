@@ -36,7 +36,7 @@ export default {
 
     const administrativeLayers = this.administrativeConfigs.map((l) => createLayerFromConfig(l,
       {
-        zIndex: 2,
+        zIndex: 3,
       }));
     administrativeLayers.forEach((l) => {
       map.addLayer(l);
@@ -68,6 +68,8 @@ export default {
         const clickLayer = this.selectInteraction.getLayer(feature);
         const layerIndex = this.administrativeConfigs.findIndex((l) => l.name === clickLayer.get('name'));
         if (layerIndex > -1) {
+          // admin border touched, fit map to it, set inverse polygon 
+          // and update zoom to nearest minzoom of next layer
           map.getView().fit(feature.getGeometry().getExtent());
           if (this.administrativeConfigs[layerIndex + 1] !== undefined) {
             const { minZoom } = this.administrativeConfigs[layerIndex + 1];
@@ -98,6 +100,12 @@ export default {
           clone.setGeometry(geoJsonFormat.readGeometry(diff.geometry));
           this.inverseAdministrativeLayer.getSource().clear();
           this.inverseAdministrativeLayer.getSource().addFeature(clone);
+        } else {
+          // cleanup selected area
+          this.$store.commit(
+            'features/SET_ADMIN_BORDER_SELECTED', null,
+          );
+          this.inverseAdministrativeLayer.getSource().clear();
         }
       });
     },
