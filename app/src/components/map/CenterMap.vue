@@ -61,7 +61,7 @@
     />
     <div
       class="move-with-panel"
-      :style="`position: absolute; z-index: 1; top: 10px; right: 50px;`"
+      :style="`position: absolute; z-index: 7; top: 10px; right: 50px;`"
     >
       <img v-if="mergedConfigsData.length > 0 && mergedConfigsData[0].legendUrl"
       :src="mergedConfigsData[0].legendUrl" alt=""
