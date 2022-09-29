@@ -13,22 +13,22 @@
           dark
           rounded
           x-small
-          @click="setThemeAsInput(theme.name)"
+          @click="userInput = theme.name"
         >
           <v-icon small left>{{ baseConfig.indicatorClassesIcons[theme.slug] }}</v-icon>
           {{ theme.name }}
         </v-btn>
       </div>
       <v-divider></v-divider>
-      <v-autocomplete
-        ref="autocomplete"
+      <v-combobox
+        ref="combobox"
         v-model="selectedListItem"
         :allow-overflow="false"
-        attach="#autocomplete-menu"
+        attach="#combobox-menu"
         auto-select-first
         autofocus
         clearable
-        :filter="customAutocompleteFilter"
+        :filter="customComboboxFilter"
         flat
         hide-details
         hide-no-data
@@ -38,16 +38,16 @@
         :search-input.sync="userInput"
         solo
         class="rounded-lg"
-        @click:clear="autoCompleteClear"
+        @click:clear="comboboxClear"
         @click:prepend-inner="$store.state.showHistoryBackButton ? $router.back() : () => {}"
         @keydown.esc="userInput = null"
       >
-      </v-autocomplete>
+      </v-combobox>
       <div
         class="overflow-x-hidden overflow-y-auto"
         style="position: relative; max-height: 250px"
       >
-        <div id="autocomplete-menu" ></div>
+        <div id="combobox-menu" ></div>
       </div>
     </v-card>
     <div
@@ -131,7 +131,7 @@ export default {
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
     }),
-    autoCompleteClear() {
+    comboboxClear() {
       this.userInput = null;
       this.setFeatureFilter({
         countries: [],
@@ -144,24 +144,19 @@ export default {
     setFilterDebounced() {
       clearTimeout(this._timerId);
       this._timerId = setTimeout(() => {
-        const filtered = this.searchItems
-          .filter((i) => i.properties?.indicatorObject)
-          .filter((i) => this.$refs.autocomplete.filteredItems.includes(i.name));
-        this.setFeatureFilter({
-          custom: filtered,
-        });
-        // this.sortSearchItems();
-      }, 500);
-    },
-    setThemeAsInput(themeName) {
-      this.$refs.autocomplete.blur();
-      setTimeout(() => {
-        this.userInput = themeName;
-        setTimeout(() => {
-          this.$refs.autocomplete.focus();
-          this.$refs.autocomplete.activateMenu();
-        }, 0);
-      }, 0);
+        if (this.userInput?.length) {
+          const filtered = this.searchItems
+            .filter((i) => i.properties?.indicatorObject)
+            .filter(i => i.filterPriority > 0);
+          this.setFeatureFilter({
+            custom: filtered,
+          });
+        } else {
+          this.setFeatureFilter({
+            custom: [],
+          });
+        }
+      }, 50);
     },
     getSearchItems() {
       const itemArray = [
@@ -239,7 +234,7 @@ export default {
       this.searchItems.sort((a, b) => (b.filterPriority || 0) - (a.filterPriority || 0));
       this.formattedSearchItems = this.searchItems.map((i) => i.name);
     },
-    customAutocompleteFilter(item, queryText, itemText) {
+    customComboboxFilter(item) {
       return this.searchItems.find((i) => i.name === item)?.filterPriority > 0;
     },
     getIndicator(indObj) {
@@ -262,6 +257,10 @@ export default {
         return;
       }
       const parsedInput = this.searchItems.find((i) => i.name === input);
+      if (!parsedInput) {
+        // not found, probably a "theme"
+        return;
+      }
       if (parsedInput.indicator) {
         this.setFeatureFilter({
           indicators: parsedInput.code,
@@ -286,9 +285,7 @@ export default {
       );
     },
     userInput() {
-      setTimeout(() => {
-        this.sortSearchItems();
-      }, 100);
+      this.sortSearchItems();
       this.setFilterDebounced();
     },
   },
