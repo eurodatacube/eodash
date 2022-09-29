@@ -53,7 +53,7 @@
     <div
       id="slideGroupWrapper"
       class="d-flex"
-      style="position: absolute; bottom: 10px; left: 0;"
+      style="position: absolute; bottom: 10px; left: 0; pointer-events: none;"
     >
       <v-slide-group
         v-model="selectedMapLayer"
@@ -69,9 +69,10 @@
         >
           <v-card
             :color="active ? 'primary' : 'white'"
-            class="ma-4 overflow-hidden"
             height="100"
             width="100"
+            class="ma-4 overflow-hidden"
+            style="pointer-events: all"
             @click="toggle"
           >
             <v-img
@@ -328,5 +329,10 @@ export default {
 
 .panel-expanded #slideGroupWrapper {
   width: calc(100% - 685px);
+}
+
+::v-deep .v-slide-group__prev,
+::v-deep .v-slide-group__next {
+  pointer-events: all;
 }
 </style>
