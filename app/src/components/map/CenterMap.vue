@@ -11,7 +11,7 @@
     <!-- a layer displaying a selected global poi
      these layers will have z-Index 3 -->
     <SpecialLayer
-      v-if="mergedConfigsData.length && dataLayerName"
+      v-if="mergedConfigsData.length && dataLayerName && indicatorHasMapData"
       :mapId="mapId"
       :mergedConfig="mergedConfigsData[0]"
       :layerName="dataLayerName"
@@ -273,7 +273,11 @@ export default {
     displayTimeSelection() {
       return this.indicator?.time.length > 1
         && !this.indicator?.disableTimeSelection && this.dataLayerTime
-        && Array.isArray(this.indicator.inputData)
+        && this.indicatorHasMapData;
+    },
+    indicatorHasMapData() {
+      // returns true if indicator has actual map data, that can be displayed via layers
+      return Array.isArray(this.indicator.inputData)
         && this.indicator.inputData.filter(
           (item) => Object.prototype.hasOwnProperty.call(this.baseConfig.layerNameMapping, item),
         ).length;
