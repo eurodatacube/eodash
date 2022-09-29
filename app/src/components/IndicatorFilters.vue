@@ -4,7 +4,10 @@
     style="width: 360px; height: calc((var(--vh), 1vh) * 100); z-index: 4"
   >
     <v-card class="rounded-lg">
-      <div class="pa-2">
+      <div
+        v-if="appConfig.id !== 'trilateral'"
+        class="pa-2"
+      >
         <v-btn
           v-for="(theme, key) in $store.state.themes.themes"
           :key="key"
@@ -116,7 +119,7 @@ export default {
     ...mapState('config', ['appConfig', 'baseConfig']),
     ...mapState('features', ['allFeatures']),
     ...mapState('indicators', ['selectedIndicator']),
-    ...mapGetters('features', ['getGroupedFeatures', 'getIndicators']),
+    ...mapGetters('features', ['getFeatures', 'getGroupedFeatures', 'getIndicators']),
     globalIndicators() {
       return this.getGroupedFeatures && this.getGroupedFeatures
         .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName))
@@ -125,6 +128,13 @@ export default {
           ? 1
           : -1));
     },
+  },
+  created() {
+    if (this.allFeatures) {
+      if (!this.searchItem) {
+        this.getSearchItems();
+      }
+    }
   },
   methods: {
     ...mapMutations('features', {
@@ -175,7 +185,7 @@ export default {
             ...i,
             name: i.indicator,
           })),
-        ...this.allFeatures.map((f) => ({
+        ...this.getFeatures.map((f) => ({
           ...f,
           name: `${f.properties.indicatorObject.city}: ${this.getIndicator(f.properties.indicatorObject)}`,
         })),
@@ -290,7 +300,7 @@ export default {
     },
     selectedMapLayer(index) {
       this.setSelectedIndicator(
-        this.globalIndicators[index].properties.indicatorObject,
+        this.globalIndicators[index]?.properties.indicatorObject,
       );
     },
     userInput() {
