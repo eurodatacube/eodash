@@ -11,7 +11,7 @@
     <!-- a layer displaying a selected global poi
      these layers will have z-Index 3 -->
     <SpecialLayer
-      v-if="mergedConfigsData.length && dataLayerName"
+      v-if="mergedConfigsData.length && dataLayerName && indicatorHasMapData"
       :mapId="mapId"
       :mergedConfig="mergedConfigsData[0]"
       :layerName="dataLayerName"
@@ -273,7 +273,11 @@ export default {
     displayTimeSelection() {
       return this.indicator?.time.length > 1
         && !this.indicator?.disableTimeSelection && this.dataLayerTime
-        && Array.isArray(this.indicator.inputData)
+        && this.indicatorHasMapData;
+    },
+    indicatorHasMapData() {
+      // returns true if indicator has actual map data, that can be displayed via layers
+      return Array.isArray(this.indicator.inputData)
         && this.indicator.inputData.filter(
           (item) => Object.prototype.hasOwnProperty.call(this.baseConfig.layerNameMapping, item),
         ).length;
@@ -447,13 +451,13 @@ export default {
       deep: true,
       immediate: true,
       handler(value) {
-      // when the calculated zoom extent changes, zoom the map to the new extent.
-      // this is purely cosmetic and does not limit the ability to pan or zoom
-      // paddings are calculated globaly for the view.
+        // when the calculated zoom extent changes, zoom the map to the new extent.
+        // this is purely cosmetic and does not limit the ability to pan or zoom
+        // paddings are calculated globally for the view.
         if (value && !(this.centerProp || this.zoomProp)) {
           const { map } = getMapInstance(this.mapId);
           if (map.getTargetElement()) {
-            map.getView().fit(value);
+            map.getView().fit(value, { duration: 500 });
           } else {
             map.once('change:target', () => {
               map.getView().fit(value);
