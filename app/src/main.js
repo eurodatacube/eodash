@@ -190,12 +190,16 @@ const renderVue = async () => {
         {
           path: '/',
           name: 'landing',
-          component: store.state.config.appConfig.id === 'gtif' ? ScrollyFrame : ThemesLandingPage,
+          component: ThemesLandingPage,
         },
         { path: '/explore', name: 'explore', component: Dashboard },
       ]
       : [
-        { path: '/', name: 'explore', component: Dashboard },
+        {
+          path: '/',
+          name: 'landing',
+          component: store.state.config.appConfig.id === 'gtif' ? ScrollyFrame : Dashboard,
+        },
       ]),
     { path: '/dashboard', component: DashboardCustom },
     { path: '/story', component: DashboardCustom },
