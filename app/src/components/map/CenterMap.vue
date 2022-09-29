@@ -235,6 +235,7 @@ export default {
       overlayCoordinate: null,
       // layer swipe position (x-pixel from left border), or null if swipe is not active
       swipePixelX: null,
+      queryLink: null,
     };
   },
   computed: {
@@ -550,7 +551,8 @@ export default {
       false,
     );
     if (this.mapId === 'centerMap') {
-      map.addInteraction(new Link({ replace: true }));
+      this.queryLink = new Link({ replace: true });
+      map.addInteraction(this.queryLink);
     }
   },
   methods: {
@@ -703,6 +705,7 @@ export default {
       const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
       cluster.setActive(false, this.overlayCallback);
       this.ro.unobserve(this.$refs.mapContainer);
+      getMapInstance(this.mapId).map.removeInteraction(this.queryLink);
     }
   },
 };
