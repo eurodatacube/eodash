@@ -262,6 +262,7 @@ export default {
         return;
       }
       if (parsedInput.indicator) {
+        this.setSelectedIndicator(null);
         this.setFeatureFilter({
           indicators: parsedInput.code,
         });
