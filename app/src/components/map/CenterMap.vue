@@ -1,6 +1,13 @@
 <template>
   <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3;
     z-index: 1" class="d-flex justify-center">
+    <!-- a layer adding a (potential) admin borders with onclick selection, z-index 3 -->
+    <AdminBordersLayers
+      :mapId="mapId"
+      :administrativeConfigs="administrativeConfigs"
+      v-if="administrativeConfigs"
+      :key="dataLayerName + '_adminLayers'"
+    />
     <!-- a layer adding a (potential) subaoi, z-index 5 -->
     <SubaoiLayer
       :mapId="mapId"
@@ -92,11 +99,10 @@
       <LayerControl
         v-if="loaded"
         class="pointerEvents"
-        :key="[...baseLayerConfigs, ...overlayConfigs, ...administrativeConfigs].map(c => c.name) + isGlobalIndicator"
+        :key="[...baseLayerConfigs, ...overlayConfigs].map(c => c.name) + isGlobalIndicator"
         :mapId="mapId"
         :baseLayerConfigs="baseLayerConfigs"
         :overlayConfigs="overlayConfigs"
-        :administrativeConfigs="administrativeConfigs"
         :isGlobalIndicator="isGlobalIndicator"
       />
       <!-- will add a drawing layer to the map (z-index 3) -->
@@ -155,6 +161,7 @@ import Attribution from 'ol/control/Attribution';
 import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
+import AdminBordersLayers from '@/components/GTIF/AdminBordersLayers.vue';
 import Link from 'ol/interaction/Link';
 
 const geoJsonFormat = new GeoJSON({
@@ -171,6 +178,7 @@ export default {
     LayerSwipe,
     CustomAreaButtons,
     SubaoiLayer,
+    AdminBordersLayers,
     MapOverlay,
     AddToDashboardButton,
   },
@@ -264,8 +272,7 @@ export default {
       return configs;
     },
     administrativeConfigs() {
-      const configs = [...this.baseConfig.administrativeLayers];
-      return configs;
+      return [...this.baseConfig.administrativeLayers];
     },
     mapDefaults() {
       return {

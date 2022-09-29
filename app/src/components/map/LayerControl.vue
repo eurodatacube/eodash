@@ -43,7 +43,6 @@
 import 'ol/ol.css';
 import getMapInstance from '@/components/map/map';
 import { createLayerFromConfig } from '@/components/map/layers';
-import Select from 'ol/interaction/Select';
 
 /**
  * a component that will handle base and overlay layers and displays
@@ -55,7 +54,6 @@ export default {
     mapId: String,
     baseLayerConfigs: Array,
     overlayConfigs: Array,
-    administrativeConfigs: Array,
     isGlobalIndicator: Boolean,
   },
   data() {
@@ -102,21 +100,9 @@ export default {
     overlayLayers.forEach((l) => {
       map.addLayer(l);
     });
-    const administrativeLayers = this.administrativeConfigs.map((l) => createLayerFromConfig(l,
-      {
-        zIndex: 2,
-      }));
-    administrativeLayers.forEach((l) => {
-      map.addLayer(l);
-    });
     map.on('moveend', this.updateOverlayOpacity);
     map.dispatchEvent({ type: 'moveend' });
     this.selectedBaseLayer = this.baseLayerConfigs.findIndex((l) => l.visible === true) || 0;
-    this.selectInteraction = new Select({
-      style: null,
-    });
-    map.addInteraction(this.selectInteraction);
-    this.selectInteraction.on('select', this.adminBorderClick);
   },
   methods: {
     setVisible(value, layerConfig) {
@@ -142,36 +128,17 @@ export default {
         }
       });
     },
-    adminBorderClick(e) {
-      e.target.getFeatures().forEach((feature) => {
-        const { map } = getMapInstance(this.mapId);
-        const clickLayer = this.selectInteraction.getLayer(feature);
-        const layerIndex = this.administrativeConfigs.findIndex((l) => l.name === clickLayer.get('name'));
-        map.getView().fit(feature.getGeometry().getExtent());
-        if (layerIndex > -1 && this.administrativeConfigs[layerIndex + 1] !== undefined) {
-          const { minZoom } = this.administrativeConfigs[layerIndex + 1];
-          if (minZoom !== undefined) {
-            // 0.1 added to show the layer, if zoom is equal to l.minzoom, not shown
-            map.getView().setZoom(minZoom + 0.1);
-          }
-        }
-        this.$store.commit(
-          'features/SET_ADMIN_BORDER_SELECTED', feature,
-        );
-      });
-    },
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
     const layers = map.getLayers().getArray();
     [
-      ...this.baseLayerConfigs, ...this.overlayConfigs, ...this.administrativeConfigs,
+      ...this.baseLayerConfigs, ...this.overlayConfigs,
     ].forEach((config) => {
       const layer = layers.find((l) => l.get('name') === config.name);
       map.removeLayer(layer);
     });
     map.un('moveend', this.updateOverlayOpacity);
-    map.removeInteraction(this.selectInteraction);
   },
 };
 </script>
