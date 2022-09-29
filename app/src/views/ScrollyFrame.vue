@@ -126,6 +126,8 @@ export default {
               "title": "Title",
               "__generatedText__": "<p>This is another full width text block. Phasellus iaculis enim eleifend magna dapibus sagittis. Nam rutrum orci diam, id vehicula nibh molestie vel. Vestibulum eget lacus in nibh sagittis ultricies a ac velit. Vestibulum nec commodo tortor, quis aliquam orci. Quisque eleifend augue vitae tincidunt gravida. Donec id tristique ex. Suspendisse lacinia vehicula euismod. Suspendisse ornare sagittis turpis, id placerat nulla tincidunt quis. Vivamus ultricies condimentum mollis.</p>\n"
             },
+          ],
+          [
             {
               "width": 4,
               "text": "And another. Phasellus iaculis enim eleifend magna dapibus sagittis. Nam rutrum orci diam, id vehicula nibh molestie vel. Vestibulum eget lacus in nibh sagittis ultricies a ac velit. Vestibulum nec commodo tortor, quis aliquam orci. Quisque eleifend augue vitae tincidunt gravida. Donec id tristique ex. Suspendisse lacinia vehicula euismod. Suspendisse ornare sagittis turpis, id placerat nulla tincidunt quis. Vivamus ultricies condimentum mollis.",
