@@ -558,6 +558,9 @@ export const layerNameMapping = Object.freeze({
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
     dateFormatFunction: shS2TimeFunction,
   },
+  'Sentinel-5p Level-3 NO2': {
+    layers: 'AWS_NO2-VISUALISATION',
+  },
 });
 
 export const indicatorClassesIcons = Object.freeze({
