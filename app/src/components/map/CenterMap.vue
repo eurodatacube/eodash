@@ -272,7 +272,11 @@ export default {
     },
     displayTimeSelection() {
       return this.indicator?.time.length > 1
-        && !this.indicator?.disableTimeSelection && this.dataLayerTime;
+        && !this.indicator?.disableTimeSelection && this.dataLayerTime
+        && Array.isArray(this.indicator.inputData)
+        && this.indicator.inputData.filter(
+          (item) => Object.prototype.hasOwnProperty.call(this.baseConfig.layerNameMapping, item),
+        ).length;
     },
     isGlobalIndicator() {
       return this.$store.state.indicators.selectedIndicator?.siteName === 'global';
