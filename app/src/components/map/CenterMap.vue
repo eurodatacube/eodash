@@ -11,7 +11,7 @@
     <!-- a layer displaying a selected global poi
      these layers will have z-Index 3 -->
     <SpecialLayer
-      v-if="mergedConfigsData.length && dataLayerName && indicatorHasMapData"
+      v-if="mergedConfigsData.length && dataLayerName && indicatorHasMapData(indicator)"
       :mapId="mapId"
       :mergedConfig="mergedConfigsData[0]"
       :layerName="dataLayerName"
@@ -274,14 +274,7 @@ export default {
     displayTimeSelection() {
       return this.indicator?.time.length > 1
         && !this.indicator?.disableTimeSelection && this.dataLayerTime
-        && this.indicatorHasMapData;
-    },
-    indicatorHasMapData() {
-      // returns true if indicator has actual map data, that can be displayed via layers
-      return Array.isArray(this.indicator.inputData)
-        && this.indicator.inputData.filter(
-          (item) => Object.prototype.hasOwnProperty.call(this.baseConfig.layerNameMapping, item),
-        ).length;
+        && this.indicatorHasMapData(this.indicator);
     },
     isGlobalIndicator() {
       return this.$store.state.indicators.selectedIndicator?.siteName === 'global';
@@ -484,23 +477,7 @@ export default {
           if (this.$refs.timeSelection) {
             this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
           }
-          // this.updateSelectedAreaFeature();
-          // If a POI with EO Data is selected we do not show the cluster
-          let hidePOIs = false;
-          let matchingInputDataAgainstConfig = [];
-          // Check to see if we have EO Data indicator
-          if (mutation.payload && mutation.payload.inputData) {
-            matchingInputDataAgainstConfig = mutation.payload.inputData
-              .filter((item) => Object.prototype.hasOwnProperty.call(this.layerNameMapping, item));
-            hidePOIs = matchingInputDataAgainstConfig.length > 0;
-          }
-          // Check to see if we have global data indicator
-          if (mutation.payload && mutation.payload.country) {
-            if (mutation.payload.country === 'all' || Array.isArray(mutation.payload.country)) {
-              hidePOIs = true;
-            }
-          }
-          cluster.clusters.setVisible(!hidePOIs);
+          cluster.clusters.setVisible(!this.indicatorHasMapData(mutation.payload));
         }
       }
     });
@@ -556,6 +533,23 @@ export default {
     }
   },
   methods: {
+    indicatorHasMapData(indicatorObject) {
+      let hasMapData = false;
+      let matchingInputDataAgainstConfig = [];
+      // Check to see if we have EO Data indicator
+      if (indicatorObject && indicatorObject.inputData) {
+        matchingInputDataAgainstConfig = indicatorObject.inputData
+          .filter((item) => Object.prototype.hasOwnProperty.call(this.layerNameMapping, item));
+        hasMapData = matchingInputDataAgainstConfig.length > 0;
+      }
+      // Check to see if we have global data indicator
+      if (indicatorObject && indicatorObject.country) {
+        if (indicatorObject.country === 'all' || Array.isArray(indicatorObject.country)) {
+          hasMapData = true;
+        }
+      }
+      return hasMapData;
+    },
     overlayCallback(headers, rows, coordinate) {
       this.overlayHeaders = headers;
       this.overlayRows = rows;
