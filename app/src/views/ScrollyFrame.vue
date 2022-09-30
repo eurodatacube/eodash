@@ -29,13 +29,11 @@ import {
 
 import axios from 'axios';
 import iFrameResize from 'iframe-resizer/js/iframeResizer';
-import GlobalFooter from '@/components/GlobalFooter.vue';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 
 export default {
   components: {
     GlobalHeader,
-    GlobalFooter,
   },
   metaInfo() {
     const { appConfig } = this.$store.state.config;
