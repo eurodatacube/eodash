@@ -56,10 +56,10 @@ export default {
             this.$route.query.id || '9dd9f2b6743c9746' // fallback default TODO remove
             // /dashboard?id=9dd9f2b6743c9746&editKey=0017ee8a3e16f9b8
           }`);
-        const features = response.data.features;
+        const { features } = response.data;
 
         // Calculate the positions of the full-width blocks in the array
-        let indexes = [];
+        const indexes = [];
         for (let i = 0; i < features.length; i++) {
           if (features[i].width === 4) {
             indexes.push(i);
@@ -78,7 +78,7 @@ export default {
           }
 
           // Remove possible empty arrays
-          data = data.filter(e => e.length);
+          data = data.filter((e) => e.length);
         } else {
           data.push(features);
         }

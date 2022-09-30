@@ -1,5 +1,5 @@
 <template>
-  <v-row 
+  <v-row
     @click="$router.push(to)"
     class="navrow py-5 px-7 fill-width" align="center"
     >
@@ -7,7 +7,7 @@
       <div
         :style="{'background': color}"
         class="w-3 h-3 rounded-full dot mr-4"
-      ></div>         
+      ></div>
     </div>
     <div class="name">{{ title }}</div>
   </v-row>
@@ -23,16 +23,16 @@ export default {
   name: 'GtifHeaderNavItem',
   props: {
     title: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     color: {
-        type: String,
-        default: '#FFF4',
+      type: String,
+      default: '#FFF4',
     },
     to: {
-        type: [String, Object],
-        required: true,
+      type: [String, Object],
+      required: true,
     },
   },
   computed: {

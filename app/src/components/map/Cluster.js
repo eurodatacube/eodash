@@ -471,7 +471,7 @@ class Cluster {
     clusterSource.clear();
     clusterSource.addFeatures(features);
     if (features.length) {
-      setTimeout(() =>  {
+      setTimeout(() => {
         this.map.getView().fit(clusterSource.getExtent(), {
           maxZoom: 8,
           duration: 200,

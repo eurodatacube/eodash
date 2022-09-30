@@ -34,7 +34,7 @@
         class="search"
         :style="{width: $vuetify.breakpoint.mdAndUp ? '300px' : '100vw'}"
       >
-        <div 
+        <div
           class="d-flex fill-width fill-height"
           @keyup.enter.stop="$router.push('/explore?search=' + searchInput)"
         >
@@ -57,7 +57,7 @@
       <Transition name="fade">
         <div
           v-show="isNavigationEnabled"
-          :style="{width: $vuetify.breakpoint.mdAndUp ? '300px' : '100vw'}" 
+          :style="{width: $vuetify.breakpoint.mdAndUp ? '300px' : '100vw'}"
           class="esa-menu"
         >
           <v-col>
