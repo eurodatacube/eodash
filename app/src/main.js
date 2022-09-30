@@ -20,7 +20,6 @@ import Challenges from './views/Challenges.vue';
 import Terms from './views/Terms.vue';
 import EmbedIframe from './views/EmbedIframe.vue';
 import ThemesLandingPage from './views/ThemesLandingPage.vue';
-import GTIFLandingPage from './views/GTIFLandingPage.vue';
 import ThemeSinglePage from './views/ThemeSinglePage.vue';
 import ScrollyFrame from './views/ScrollyFrame.vue';
 import store from './store';
@@ -226,11 +225,11 @@ const renderVue = async () => {
     ),
     ...(store.state.config.appConfig && store.state.config.appConfig.id === 'gtif'
       ? [
-        { path: '/energy',      name: 'gtif-energy-transition',      component: ScrollyFrame },
-        { path: '/mobility',    name: 'gtif-mobility-transition',    component: ScrollyFrame },
+        { path: '/energy', name: 'gtif-energy-transition', component: ScrollyFrame },
+        { path: '/mobility', name: 'gtif-mobility-transition', component: ScrollyFrame },
         { path: '/sustainable', name: 'gtif-sustainable-transition', component: ScrollyFrame },
-        { path: '/carbon-finance',         name: 'gtif-carbon-finance',         component: ScrollyFrame },
-        { path: '/eo-adaptation',          name: 'gtif-eo-adaptation',          component: ScrollyFrame },
+        { path: '/carbon-finance', name: 'gtif-carbon-finance', component: ScrollyFrame },
+        { path: '/eo-adaptation', name: 'gtif-eo-adaptation', component: ScrollyFrame },
       ]
       : []
     ),
