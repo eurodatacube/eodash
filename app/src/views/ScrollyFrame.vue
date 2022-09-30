@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fill-height scrollContainer"
+    class="fill-height"
     :style="`margin-top: ${$vuetify.application.top}px !important;`"
   >
     <div
