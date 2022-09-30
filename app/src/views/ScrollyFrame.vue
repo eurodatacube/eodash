@@ -105,7 +105,7 @@ export default {
         inPageLinks: false,
         sizeHeight: false,
         scrolling: true,
-        minHeight: this.minHeight || 700,
+        minHeight: this.minHeight || window.innerHeight - 64,
       }, '#resizableIframe');
     },
     getDashboardID() {
