@@ -11,54 +11,67 @@
 <body>
 <div id="app">
     <main>
-        <section>
-            <article class="fullWidthBlock">
-                <div
-                        v-html="parseMarkdown(scrollyData.features[0].text)"
-                ></div>
-            </article>
-        </section>
-        <section v-if="scrollyData" id="scrolly">
-            <article>
-                <div
-                    v-for="(el, i) in scrollyData.features.filter((v, i) => (i > 0) && (i % 2))"
-                    class="step"
-                    :data-step="i"
-                    v-html="parseMarkdown(el.text)"
-                ></div>
-            </article>
-
-            <transition-group name="slide" mode="out-in">
-                <figure
-                    v-for="(figure, i) in scrollyData.features.filter((v, i) => (i > 0) && !(i % 2))"
-                    :key="i"
-                    v-show="i === currentStep"
+        <section
+            v-for="(data, sectionIndex) in scrollyArray"
+            class="scrollySection"
+        >
+            <template
+                v-if="data.every((el) => 4 === el.width)"
+            >
+                <article
+                    v-for="(el, i) in data"
+                    class="fullWidthBlock"
                 >
-                    <div v-if="figure.text || figure.id">
-                        <template v-if="figure.text">
-                            <img
-                                v-if="figure.text.includes('<--IMG-->')"
-                                :src="figure.text.replaceAll('<--IMG-->', '')"
-                                width="700"
-                                >
-                            <video
-                                v-else-if="figure.text.includes('<--VID-->')"
-                                :src="figure.text.replaceAll('<--VID-->', '')"
-                                width="700"
-                                >
-                            </video>
-                        </template>
-                        <iframe
-                            v-else
-                            class="item"
-                            :src="`/iframe?poi=${figure.id.substring(0, figure.id.indexOf('@'))}`"
-                            width="800px"
-                            height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>
-                    </div>
-                </figure>
-            </transition-group>
+                    <div
+                        class="step"
+                        :data-section="sectionIndex"
+                        :data-step="i"
+                        v-html="parseMarkdown(el.text)"
+                    ></div>
+                </article>
+            </template>
+            <template v-else id="scrolly">
+                <article>
+                    <div
+                        v-for="(el, i) in data.filter((v, i) => !(i % 2))"
+                        class="step"
+                        :data-section="sectionIndex"
+                        :data-step="i"
+                        v-html="parseMarkdown(el.text)"
+                    ></div>
+                </article>
+
+                <transition-group class="figureContainer" name="slide" mode="out-in">
+                    <figure
+                        v-for="(figure, figureIndex) in data.filter((v, i) => i % 2)"
+                        v-show="currentStep.section === sectionIndex && currentStep.step === figureIndex"
+                        :key="figureIndex"
+                    >
+                        <div v-if="figure.text || figure.id">
+                            <template v-if="figure.text">
+                                <img
+                                    v-if="figure.text.includes('<--IMG-->')"
+                                    :src="figure.text.replaceAll('<--IMG-->', '')"
+                                    width="700"
+                                    >
+                                <video
+                                    v-else-if="figure.text.includes('<--VID-->')"
+                                    :src="figure.text.replaceAll('<--VID-->', '')"
+                                    width="700"
+                                    >
+                                </video>
+                            </template>
+                            <iframe
+                                v-else
+                                class="item"
+                                :src="`/iframe?poi=${figure.id.substring(0, figure.id.indexOf('@'))}`"
+                                width="800px"
+                                height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>
+                        </div>
+                    </figure>
+                </transition-group>
+            </template>
         </section>
-        <section id="outro"></section>
     </main>
 </div>
 
@@ -70,20 +83,33 @@
   const app = new Vue({
     el: '#app',
     data: () => { return {
-        scrollyData: null,
+        scrollyArray: null,
         imgData: null,
         textData: null,
-        currentStep: 0,
+        currentStep: {
+            section: 0,
+            step: 0,
+        },
+        figures: null,
     }},
     created() {
         window.addEventListener('message', (message) => {
-            if (message?.data?.features) {
-                this.scrollyData = message.data;
+            if (typeof message?.data === 'object') {
+                this.scrollyArray = message.data;
                 this.$nextTick(() => {
                     this.scrollamaSetup();
                 });
             }
-        })
+        });
+
+      const figureContainers = document.getElementsByClassName('figureContainer');
+      this.figures = document.createDocumentFragment();
+      for (let figureContainer in figureContainers) {
+        for (let i = 0; i < figureContainer.length; i++) {
+          this.figures.appendChild(figureContainer.children[i]);
+        }
+      }
+      console.log(this.children);
     },
     methods: {
       scrollamaSetup() {
@@ -91,9 +117,11 @@
 
         // scrollama event handlers
         const handleStepEnter = (response) => {
-            // console.log(response);
             // response = { element, direction, index }
-            this.currentStep = response.index;
+            this.currentStep = {
+                section: parseInt(response.element.dataset.section),
+                step: parseInt(response.element.dataset.step),
+            };
         }
 
         const handleStepProgress = (response) => {
@@ -108,7 +136,7 @@
             scroller
                 .setup({
                     root: document,
-                    step: "#scrolly article .step",
+                    step: ".scrollySection article .step",
                     offset: 0.33,
                     progress: true,
                     debug: false
