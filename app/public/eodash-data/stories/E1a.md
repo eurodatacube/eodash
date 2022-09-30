@@ -4,7 +4,7 @@ Earth Observation can contribute in serval ways for monitoring of commodity mark
 
 <iframe title="Prices for almost all commodities have fallen since the start of the year" aria-label="chart" id="datawrapper-chart-PNmee" src="https://datawrapper.dwcdn.net/PNmee/3/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="500"></iframe>
 
-## Analising the impacts of COVID-19 on Commodities
+#### Analising the impacts of COVID-19 on Commodities
 
 Global commodity markets have been strongly affected by the COVID19 pandemic, with sharp declines in prices since the early first of the pandemic. The decline affected all commodity prices, but differed by type (Figure). For example, prices for crude oil plummeted as a result of the drastically reduced demand during lock-down. As a consequence of the drastically reduced demands, tanker vessels carrying crude oil have been reported to be anchored around the main oil refineries in Europe, unable to discharge their cargo due to a [lack of storage capacity in refineries and storage tanks](https://www.reuters.com/article/global-oil-europe-tanker/tankers-pile-up-off-europes-coast-as-onshore-storage-sites-hit-limit-idUSL5N2C32X0). Natural rubber and platinum also experienced [large price declines](https://openknowledge.worldbank.org/bitstream/handle/10986/33624/CMO-April-2020.pdf). The observed [decline in the prices for metal](https://www.worldbank.org/en/news/feature/2020/04/23/coronavirus-shakes-commodity-markets) is understood to be linked to the declining economic growth in China. 
 
