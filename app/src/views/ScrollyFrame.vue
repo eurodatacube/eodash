@@ -63,7 +63,7 @@ export default {
           .get(`https://${process.env.NODE_ENV !== 'production'
             ? 'dev-'
             : ''}eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/get?id=${
-            this.$route.query.id || '9dd9f2b6743c9746' // fallback default TODO remove
+            id || '9dd9f2b6743c9746' // fallback default TODO remove
             // /dashboard?id=9dd9f2b6743c9746&editKey=0017ee8a3e16f9b8
           }`);
         const { features } = response.data;
