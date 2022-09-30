@@ -62,10 +62,38 @@ export default {
         const response = await axios
           .get(`https://${process.env.NODE_ENV !== 'production'
             ? 'dev-'
-            : ''}eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/get?id=${id}`);
-        // /dashboard?id=9dd9f2b6743c9746&editKey=0017ee8a3e16f9b8
+            : ''}eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/get?id=${
+            this.$route.query.id || '9dd9f2b6743c9746' // fallback default TODO remove
+            // /dashboard?id=9dd9f2b6743c9746&editKey=0017ee8a3e16f9b8
+          }`);
+        const { features } = response.data;
 
-        document.querySelector('iframe').contentWindow.postMessage(response.data);
+        // Calculate the positions of the full-width blocks in the array
+        const indexes = [];
+        for (let i = 0; i < features.length; i++) {
+          if (features[i].width === 4) {
+            indexes.push(i);
+          }
+        }
+
+        // Slice and push the full-width blocks, and the blocks between them into separate arrays
+        // If there are no full-width blocks, just push the whole features array
+        let data = [];
+        let nextIndex = 0;
+        if (indexes.length) {
+          for (let i = 0; i < indexes.length; i++) {
+            data.push(features.slice(nextIndex, indexes[i] + 1));
+            data.push(features.slice(indexes[i] + 1, indexes[i + 1]));
+            nextIndex = indexes[i + 1];
+          }
+
+          // Remove possible empty arrays
+          data = data.filter((e) => e.length);
+        } else {
+          data.push(features);
+        }
+
+        document.querySelector('iframe').contentWindow.postMessage(data);
       } catch (error) {
         console.error(`Error loading dashboard data: ${error}`);
       }
