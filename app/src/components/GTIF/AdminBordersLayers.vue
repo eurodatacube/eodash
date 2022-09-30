@@ -8,6 +8,7 @@ import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
 import turfDifference from '@turf/difference';
 import { createLayerFromConfig } from '@/components/map/layers';
+import getMapCursor from '@/components/map/MapCursor';
 import Select from 'ol/interaction/Select';
 import Group from 'ol/layer/Group';
 import { getCenter } from 'ol/extent';
@@ -137,8 +138,8 @@ export default {
       });
     },
     clearHighlightedFeature() {
-      const { map } = getMapInstance(this.mapId);
-      map.getTargetElement().style.cursor = '';
+      const MapCursor = getMapCursor(this.mapId, { mapId: this.mapId });
+      MapCursor.reserveCursor('adminBorders', null);
       this.hightlightLayer.getSource().clear();
       this.highlightedFeature = null;
     },
@@ -165,7 +166,9 @@ export default {
           }
         });
         if (anyAdminLayerHasFeature) {
-          map.getTargetElement().style.cursor = 'pointer';
+          const MapCursor = getMapCursor(this.mapId, { mapId: this.mapId });
+          MapCursor.reserveCursor('adminBorders', 'pointer');
+
           if (feature !== this.highlightedFeature) {
             this.hightlightLayer.getSource().clear();
             this.hightlightLayer.getSource().addFeature(feature);
@@ -186,6 +189,7 @@ export default {
       const layer = layers.find((l) => l.get('name') === config.name);
       map.removeLayer(layer);
     });
+    this.clearHighlightedFeature();
     map.removeLayer(this.inverseAdministrativeLayer);
     map.removeLayer(this.hightlightLayer);
     map.removeInteraction(this.selectInteraction);

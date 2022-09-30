@@ -16,6 +16,7 @@ import VectorSource from 'ol/source/Vector';
 import { asArray } from 'ol/color';
 import { Feature } from 'ol';
 import { fromLonLat } from 'ol/proj';
+import getMapCursor from '@/components/map/MapCursor';
 import { getColor } from './olMapColors';
 import getMapInstance from './map';
 import { formatLabel } from './formatters';
@@ -262,8 +263,9 @@ class Cluster {
    * @param {*} vm Vue Instance
    * @param {Array} indicators array of indicators
    */
-  constructor(map, vm, indicators) {
+  constructor(map, mapId, vm, indicators) {
     this.map = map;
+    this.mapId = mapId;
     this.vm = vm;
     this.indicators = indicators;
     if (onStylesLoaded) {
@@ -291,6 +293,8 @@ class Cluster {
       });
       this.map.un('pointermove', this.pointermoveInteraction);
       this.map.un('click', this.clickInteraction);
+      const MapCursor = getMapCursor(this.mapId, { mapId: this.mapId });
+      MapCursor.reserveCursor('cluster', null);
     }
   }
 
@@ -316,9 +320,13 @@ class Cluster {
       }
       // Change the cursor style to indicate that the cluster is clickable.
       // eslint-disable-next-line no-param-reassign
-      this.map.getTargetElement().style.cursor = this.hoverFeature || openClusterFeatures.length
-        ? 'pointer'
-        : '';
+      const MapCursor = getMapCursor(this.mapId, { mapId: this.mapId });
+      if (this.hoverFeature || openClusterFeatures.length) {
+        MapCursor.reserveCursor('cluster', 'pointer');
+      } else {
+        MapCursor.reserveCursor('cluster', null);
+      }
+
       if (openClusterFeatures.length || (this.hoverFeature && this.hoverFeature.get('features').length === 1)) {
         let coords;
         let hoverFeature;
@@ -573,7 +581,7 @@ export default function getCluster(id, options = {}) {
   const cluster = clusterRegistry[id];
   if (!cluster) {
     const { map } = getMapInstance(options.mapId);
-    clusterRegistry[id] = new Cluster(map, options.vm);
+    clusterRegistry[id] = new Cluster(map, options.mapId, options.vm);
   }
   return clusterRegistry[id];
 }
