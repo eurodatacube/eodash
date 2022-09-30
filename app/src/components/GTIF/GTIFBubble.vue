@@ -21,16 +21,16 @@ export default {
   name: 'GTIFTile',
   props: {
     title: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     color: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     to: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
   },
   computed: {
