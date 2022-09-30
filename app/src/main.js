@@ -20,7 +20,6 @@ import Challenges from './views/Challenges.vue';
 import Terms from './views/Terms.vue';
 import EmbedIframe from './views/EmbedIframe.vue';
 import ThemesLandingPage from './views/ThemesLandingPage.vue';
-import GTIFLandingPage from './views/GTIFLandingPage.vue';
 import ThemeSinglePage from './views/ThemeSinglePage.vue';
 import ScrollyFrame from './views/ScrollyFrame.vue';
 import store from './store';
@@ -190,7 +189,7 @@ const renderVue = async () => {
         {
           path: '/',
           name: 'landing',
-          component: store.state.config.appConfig.id === 'gtif' ? GTIFLandingPage : ThemesLandingPage,
+          component: store.state.config.appConfig.id === 'gtif' ? ScrollyFrame : ThemesLandingPage,
         },
         { path: '/explore', name: 'explore', component: Dashboard },
       ]
