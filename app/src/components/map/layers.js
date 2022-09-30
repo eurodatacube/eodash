@@ -116,8 +116,6 @@ export function createLayerFromConfig(config, _options = {}) {
       style: config.style,
     });
     wgTileLayer.set('id', config.id);
-    wgTileLayer.updateStyleVariables('demMax', 100);
-    // wgTileLayer.setZIndex(500);
     layers.push(wgTileLayer);
   }
   if (config.protocol === 'countries') {

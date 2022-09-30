@@ -68,10 +68,6 @@ export const defaultLayersDisplay = {
   visible: true,
 };
 
-function convertIndex() {
-  return ['band', 1];
-}
-
 export const indicatorsDefinition = Object.freeze({
   REP1: {
     indicator: 'Air quality',
