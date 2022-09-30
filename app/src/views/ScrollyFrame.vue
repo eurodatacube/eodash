@@ -46,9 +46,19 @@ export default {
   computed: {
     ...mapState('config', ['appConfig']),
   },
+  mounted() {
+    window.onmessage = (e) => {
+      // Check if we got a navigation request from the iframe.
+      if (e.data.type === 'nav') {
+        this.$router.push({ name: e.data.dest });
+      }
+    };
+  },
   methods: {
     async onLoaded() {
       try {
+        const id = this.getDashboardID();
+
         const response = await axios
           .get(`https://${process.env.NODE_ENV !== 'production'
             ? 'dev-'
@@ -97,6 +107,31 @@ export default {
         scrolling: true,
         minHeight: this.minHeight || 700,
       }, '#resizableIframe');
+    },
+    getDashboardID() {
+      switch (this.$route.name) {
+        case 'landing':
+          return '7828358850802a35';
+
+        case 'gtif-energy-transition':
+          return '0f2e9b3e9ac1bc35';
+
+        case 'gtif-mobility-transition':
+          return '2b5489be6f959f1e';
+
+        case 'gtif-sustainable-transition':
+          return '000c2eb018897d82';
+
+        case 'gtif-carbon-finance':
+          return 'a5a6e77d28a4f541';
+
+        case 'gtif-eo-adaptation':
+          return '844374958b90378b';
+
+        // Fallback value
+        default:
+          return '9dd9f2b6743c9746';
+      }
     },
   },
 };

@@ -189,12 +189,16 @@ const renderVue = async () => {
         {
           path: '/',
           name: 'landing',
-          component: store.state.config.appConfig.id === 'gtif' ? ScrollyFrame : ThemesLandingPage,
+          component: ThemesLandingPage,
         },
         { path: '/explore', name: 'explore', component: Dashboard },
       ]
       : [
-        { path: '/', name: 'explore', component: Dashboard },
+        {
+          path: '/',
+          name: 'landing',
+          component: store.state.config.appConfig.id === 'gtif' ? ScrollyFrame : Dashboard,
+        },
       ]),
     { path: '/dashboard', component: DashboardCustom },
     { path: '/story', component: DashboardCustom },
@@ -216,6 +220,17 @@ const renderVue = async () => {
         { path: '/transport-emission', name: 'transport-emission', component: ThemeSinglePage },
         { path: '/green-finance', name: 'green-finance', component: ThemeSinglePage },
         { path: '/food-ecosystems-biodiversity', name: 'food-ecosystems-biodiversity', component: ThemeSinglePage },
+      ]
+      : []
+    ),
+    ...(store.state.config.appConfig && store.state.config.appConfig.id === 'gtif'
+      ? [
+        { path: '/explore', name: 'explore', component: Dashboard },
+        { path: '/energy', name: 'gtif-energy-transition', component: ScrollyFrame },
+        { path: '/mobility', name: 'gtif-mobility-transition', component: ScrollyFrame },
+        { path: '/sustainable', name: 'gtif-sustainable-transition', component: ScrollyFrame },
+        { path: '/carbon-finance', name: 'gtif-carbon-finance', component: ScrollyFrame },
+        { path: '/eo-adaptation', name: 'gtif-eo-adaptation', component: ScrollyFrame },
       ]
       : []
     ),
