@@ -128,7 +128,7 @@ export default {
 
         // Fallback value
         default:
-          return '9dd9f2b6743c9746';
+          return '50826821d453dfd5';
       }
     },
   },
