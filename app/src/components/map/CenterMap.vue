@@ -149,7 +149,7 @@ import getMapInstance from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
-import { updateTimeLayer } from '@/components/map/timeLayerUtils';
+// import { updateTimeLayer } from '@/components/map/timeLayerUtils';
 import {
   createConfigFromIndicator,
   createAvailableTimeEntries,

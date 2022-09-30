@@ -137,8 +137,9 @@ const getters = {
     }
     if (state.featureFilters.custom.length > 0) {
       features = features
-        .filter((f) => state.featureFilters.custom.map((c) => getLocationCode(c.properties.indicatorObject))
-          .includes(getLocationCode(f.properties.indicatorObject)));
+        .filter((f) => (
+          state.featureFilters.custom.map((c) => getLocationCode(c.properties.indicatorObject))
+        ).includes(getLocationCode(f.properties.indicatorObject)));
     }
     // if (state.featureFilters.text.length > 0) {
     //   features = features

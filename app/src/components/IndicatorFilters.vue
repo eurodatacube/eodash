@@ -159,7 +159,7 @@ export default {
         if (this.userInput?.length) {
           const filtered = this.searchItems
             .filter((i) => i.properties?.indicatorObject)
-            .filter(i => i.filterPriority > 0);
+            .filter((i) => i.filterPriority > 0);
           this.setFeatureFilter({
             custom: filtered,
           });
@@ -233,8 +233,9 @@ export default {
                 matchPoints++;
               }
               if (
-                this.baseConfig.indicatorsDefinition[searchItem.properties?.indicatorObject?.indicator]?.themes
-                  .includes(p)
+                this.baseConfig.indicatorsDefinition[
+                  searchItem.properties?.indicatorObject?.indicator
+                ]?.themes.includes(p)
               ) {
                 matchPoints++;
               }
@@ -295,7 +296,9 @@ export default {
         }).readFeatures(countries);
         const country = parsedCountries.find((c) => c.get('alpha2') === parsedInput.code);
         const { map } = getMapInstance('centerMap');
-        map.getView().fit(country.getGeometry().getExtent(), { duration: 500, padding: [50, 50, 50, 50] });
+        map.getView().fit(country.getGeometry().getExtent(), {
+          duration: 500, padding: [50, 50, 50, 50],
+        });
       }
     },
     selectedMapLayer(index) {

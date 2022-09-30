@@ -5,9 +5,14 @@
     class="gtif-dashboard-col white"
   >
     <v-row class="fill-width ma-4">
-      <div class="color-primary rounded-md" style="border-radius: 50%; height: 36px; width: 36px; background: #f99;"></div>
+      <div
+        class="color-primary rounded-md"
+        style="border-radius: 50%; height: 36px; width: 36px; background: #f99;">
+      </div>
       <v-col class="ml-3" style="transform: translateY(-3px)">
-        <v-row class="text-subtitle-2 font-weight-regular text-blue-grey lighten-1">Annual CO2 Emissions</v-row>
+        <v-row class="text-subtitle-2 font-weight-regular text-blue-grey lighten-1">
+          Annual CO2 Emissions
+        </v-row>
         <v-row class="text-h5">31.5 GT/a</v-row>
       </v-col>
     </v-row>

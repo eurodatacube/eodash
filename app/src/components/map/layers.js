@@ -7,7 +7,7 @@ import countries from '@/assets/countries.json';
 import { Fill, Stroke, Style } from 'ol/style';
 import TileWMS from 'ol/source/TileWMS';
 import GeoTIFF from 'ol/source/GeoTIFF';
-import WebGLTileLayer from "ol/layer/WebGLTile";
+import WebGLTileLayer from 'ol/layer/WebGLTile';
 import store from '@/store';
 import TileGrid from 'ol/tilegrid/TileGrid';
 import { createXYZ } from 'ol/tilegrid';

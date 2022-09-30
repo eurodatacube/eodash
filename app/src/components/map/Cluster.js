@@ -1,5 +1,5 @@
 import { createEmpty, extend, getWidth } from 'ol/extent';
-import { LineString, Point, Polygon } from 'ol/geom';
+import { LineString, Point } from 'ol/geom';
 import { Vector as VectorLayer } from 'ol/layer';
 import store from '@/store';
 import {
@@ -12,18 +12,18 @@ import {
 } from 'ol/style';
 import ClusterSource from 'ol/source/Cluster';
 import VectorSource from 'ol/source/Vector';
-import { asArray } from 'ol/color';
+// import { asArray } from 'ol/color';
 import { Feature } from 'ol';
 import { fromLonLat } from 'ol/proj';
 import getMapCursor from '@/components/map/MapCursor';
-import { getColor } from './olMapColors';
+// import { getColor } from './olMapColors';
 import getMapInstance from './map';
 import { formatLabel } from './formatters';
 
 const circleDistanceMultiplier = 1;
 const circleFootSeparation = 28;
 const circleStartAngle = Math.PI / 2;
-const convexHullFill = new Fill({});
+// const convexHullFill = new Fill({});
 const convexHullStroke = new Stroke({
   width: 0.5,
   lineDash: [4, 4],
@@ -97,7 +97,11 @@ function loadImages() {
         context.fillStyle = 'white';
         context.fillRect(0, 0, canvas.width, canvas.height);
         context.globalCompositeOperation = 'destination-in';
-        context.drawImage(image, halfWidth - image.width / 2, halfWidth - image.height / 2, image.width, image.height);
+        context.drawImage(
+          image, halfWidth - image.width / 2,
+          halfWidth - image.height / 2,
+          image.width, image.height,
+        );
 
         // circles
         context.globalCompositeOperation = 'destination-over';
@@ -343,7 +347,7 @@ class Cluster {
           coords = hoverFeature.getGeometry().getCoordinates();
         }
         const { indicatorObject } = hoverFeature.getProperties().properties;
-        const { city, indicator, label } = formatLabel(indicatorObject, this.vm);
+        const { city, indicator } = formatLabel(indicatorObject, this.vm);
         if (city) {
           headers.push(city);
         }

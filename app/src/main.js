@@ -144,9 +144,8 @@ const renderVue = async () => {
   // Global helper functions
   Vue.mixin({
     methods: {
-      getIndicatorColor(label) {
+      getIndicatorColor() {
         const colors = vuetify.preset.theme.themes.light;
-        let color;
         // if (typeof label === 'undefined') {
         //   // placeholders
         //   color = colors.grey;
@@ -168,7 +167,7 @@ const renderVue = async () => {
         // } else {
         //   color = colors.info;
         // }
-        color = colors.secondary;
+        const color = colors.secondary;
         return color;
       },
       getLocationCode,

@@ -26,7 +26,8 @@ class MapCursor {
     );
     const max = Math.max(...Object.values(pointerCounts));
     if (max !== -Infinity) {
-      const maxOccuredPointer = Object.keys(pointerCounts).filter((key) => pointerCounts[key] === max);
+      const maxOccuredPointer = Object.keys(pointerCounts)
+        .filter((key) => pointerCounts[key] === max);
       this.map.getTargetElement().style.cursor = maxOccuredPointer;
     } else {
       this.map.getTargetElement().style.cursor = '';
