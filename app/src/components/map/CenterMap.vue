@@ -1,6 +1,13 @@
 <template>
   <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3;
     z-index: 1" class="d-flex justify-center">
+    <!-- a layer adding a (potential) admin borders with onclick selection, z-index 3 -->
+    <AdminBordersLayers
+      :mapId="mapId"
+      :administrativeConfigs="administrativeConfigs"
+      v-if="administrativeConfigs"
+      :key="dataLayerName + '_adminLayers'"
+    />
     <!-- a layer adding a (potential) subaoi, z-index 5 -->
     <SubaoiLayer
       :mapId="mapId"
@@ -11,7 +18,7 @@
     <!-- a layer displaying a selected global poi
      these layers will have z-Index 3 -->
     <SpecialLayer
-      v-if="mergedConfigsData.length && dataLayerName"
+      v-if="mergedConfigsData.length && dataLayerName && indicatorHasMapData(indicator)"
       :mapId="mapId"
       :mergedConfig="mergedConfigsData[0]"
       :layerName="dataLayerName"
@@ -61,7 +68,7 @@
     />
     <div
       class="move-with-panel"
-      :style="`position: absolute; z-index: 1; top: 10px; right: 50px;`"
+      :style="`position: absolute; z-index: 7; top: 10px; right: 50px;`"
     >
       <img v-if="mergedConfigsData.length > 0 && mergedConfigsData[0].legendUrl"
       :src="mergedConfigsData[0].legendUrl" alt=""
@@ -142,7 +149,7 @@ import getMapInstance from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
-import { updateTimeLayer } from '@/components/map/timeLayerUtils';
+// import { updateTimeLayer } from '@/components/map/timeLayerUtils';
 import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
@@ -154,6 +161,7 @@ import Attribution from 'ol/control/Attribution';
 import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
+import AdminBordersLayers from '@/components/GTIF/AdminBordersLayers.vue';
 import Link from 'ol/interaction/Link';
 
 const geoJsonFormat = new GeoJSON({
@@ -170,6 +178,7 @@ export default {
     LayerSwipe,
     CustomAreaButtons,
     SubaoiLayer,
+    AdminBordersLayers,
     MapOverlay,
     AddToDashboardButton,
   },
@@ -235,6 +244,7 @@ export default {
       overlayCoordinate: null,
       // layer swipe position (x-pixel from left border), or null if swipe is not active
       swipePixelX: null,
+      queryLink: null,
     };
   },
   computed: {
@@ -250,9 +260,13 @@ export default {
       }
       return this.baseConfig.baseLayersLeftMap;
     },
+    layerNameMapping() {
+      return this.baseConfig.layerNameMapping;
+    },
     overlayConfigs() {
       const configs = [...this.baseConfig.overlayLayersLeftMap];
-      if (!this.isGlobalIndicator) {
+      // administrativeLayers replace country vectors
+      if (!this.isGlobalIndicator && this.baseConfig.administrativeLayers?.length === 0) {
         configs.push({
           name: 'Country vectors',
           protocol: 'countries',
@@ -260,6 +274,9 @@ export default {
         });
       }
       return configs;
+    },
+    administrativeConfigs() {
+      return [...this.baseConfig.administrativeLayers];
     },
     mapDefaults() {
       return {
@@ -269,7 +286,8 @@ export default {
     },
     displayTimeSelection() {
       return this.indicator?.time.length > 1
-        && !this.indicator?.disableTimeSelection && this.dataLayerTime;
+        && !this.indicator?.disableTimeSelection && this.dataLayerTime
+        && this.indicatorHasMapData(this.indicator);
     },
     isGlobalIndicator() {
       return this.$store.state.indicators.selectedIndicator?.siteName === 'global';
@@ -365,20 +383,6 @@ export default {
     },
   },
   watch: {
-    '$store.state.indicators.selectedIndicator': {
-      deep: true,
-      immediate: true,
-      handler() {
-        if (this.mapId === 'centerMap') {
-          const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
-          cluster.reRender();
-          if (this.$refs.timeSelection) {
-            this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
-          }
-        }
-        // this.updateSelectedAreaFeature();
-      },
-    },
     getFeatures(features) {
       if (this.mapId === 'centerMap' && features) {
         const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
@@ -404,6 +408,7 @@ export default {
         });
       },
     },
+    /*
     dataLayerTime(timeObj) {
       if (timeObj) {
         // redraw all time-dependant layers, if time is passed via WMS params
@@ -454,13 +459,13 @@ export default {
       deep: true,
       immediate: true,
       handler(value) {
-      // when the calculated zoom extent changes, zoom the map to the new extent.
-      // this is purely cosmetic and does not limit the ability to pan or zoom
-      // paddings are calculated globaly for the view.
+        // when the calculated zoom extent changes, zoom the map to the new extent.
+        // this is purely cosmetic and does not limit the ability to pan or zoom
+        // paddings are calculated globally for the view.
         if (value && !(this.centerProp || this.zoomProp)) {
           const { map } = getMapInstance(this.mapId);
           if (map.getTargetElement()) {
-            map.getView().fit(value);
+            map.getView().fit(value, { duration: 500 });
           } else {
             map.once('change:target', () => {
               map.getView().fit(value);
@@ -469,6 +474,7 @@ export default {
         }
       },
     },
+    */
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
@@ -478,6 +484,18 @@ export default {
       cluster.setFeatures(this.getFeatures);
     }
     this.loaded = true;
+    this.$store.subscribe((mutation) => {
+      if (mutation.type === 'indicators/INDICATOR_LOAD_FINISHED') {
+        if (this.mapId === 'centerMap') {
+          const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
+          cluster.reRender();
+          if (this.$refs.timeSelection) {
+            this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
+          }
+          cluster.clusters.setVisible(!this.indicatorHasMapData(mutation.payload));
+        }
+      }
+    });
     map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
     const attributions = new Attribution();
     attributions.setTarget(this.$refs.controlsContainer);
@@ -525,10 +543,28 @@ export default {
       false,
     );
     if (this.mapId === 'centerMap') {
-      map.addInteraction(new Link({ replace: false }));
+      this.queryLink = new Link({ replace: true });
+      map.addInteraction(this.queryLink);
     }
   },
   methods: {
+    indicatorHasMapData(indicatorObject) {
+      let hasMapData = false;
+      let matchingInputDataAgainstConfig = [];
+      // Check to see if we have EO Data indicator
+      if (indicatorObject && indicatorObject.inputData) {
+        matchingInputDataAgainstConfig = indicatorObject.inputData
+          .filter((item) => Object.prototype.hasOwnProperty.call(this.layerNameMapping, item));
+        hasMapData = matchingInputDataAgainstConfig.length > 0;
+      }
+      // Check to see if we have global data indicator
+      if (indicatorObject && indicatorObject.country) {
+        if (indicatorObject.country === 'all' || Array.isArray(indicatorObject.country)) {
+          hasMapData = true;
+        }
+      }
+      return hasMapData;
+    },
     overlayCallback(headers, rows, coordinate) {
       this.overlayHeaders = headers;
       this.overlayRows = rows;
@@ -678,6 +714,7 @@ export default {
       const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
       cluster.setActive(false, this.overlayCallback);
       this.ro.unobserve(this.$refs.mapContainer);
+      getMapInstance(this.mapId).map.removeInteraction(this.queryLink);
     }
   },
 };

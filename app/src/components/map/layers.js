@@ -6,6 +6,8 @@ import GeoJSON from 'ol/format/GeoJSON';
 import countries from '@/assets/countries.json';
 import { Fill, Stroke, Style } from 'ol/style';
 import TileWMS from 'ol/source/TileWMS';
+import GeoTIFF from 'ol/source/GeoTIFF';
+import WebGLTileLayer from 'ol/layer/WebGLTile';
 import store from '@/store';
 import TileGrid from 'ol/tilegrid/TileGrid';
 import { createXYZ } from 'ol/tilegrid';
@@ -104,6 +106,18 @@ export function createLayerFromConfig(config, _options = {}) {
 
   // layers created by this config. These Layers will get combined into a single ol.layer.Group
   const layers = [];
+  if (config.protocol === 'cog') {
+    const source = new GeoTIFF({
+      sources: config.sources,
+      normalize: false,
+    });
+    const wgTileLayer = new WebGLTileLayer({
+      source,
+      style: config.style,
+    });
+    wgTileLayer.set('id', config.id);
+    layers.push(wgTileLayer);
+  }
   if (config.protocol === 'countries') {
     layers.push(new VectorLayer({
       name: 'Country vectors',
@@ -122,13 +136,18 @@ export function createLayerFromConfig(config, _options = {}) {
     }));
   }
   if (config.protocol === 'GeoJSON') {
+    // mutually exclusive options, either direct features or url to fetch
+    const vectorSourceOpts = config.url ? {
+      url: config.url,
+      format: geoJsonFormat,
+    } : {
+      features: geoJsonFormat.readFeatures(config.data),
+    };
     layers.push(new VectorLayer({
       name: config.name,
       zIndex: options.zIndex,
       updateOpacityOnZoom: false,
-      source: new VectorSource({
-        features: geoJsonFormat.readFeatures(config.data),
-      }),
+      source: new VectorSource(vectorSourceOpts),
       style: new Style({
         fill: new Fill({
           color: config.style.fillColor || 'rgba(0, 0, 0, 0.5)',
@@ -138,6 +157,8 @@ export function createLayerFromConfig(config, _options = {}) {
           color: config.style.color || 'rgba(0, 0, 0, 0.5)',
         }),
       }),
+      maxZoom: config.maxZoom,
+      minZoom: config.minZoom,
     }));
   }
   let source;
@@ -148,7 +169,7 @@ export function createLayerFromConfig(config, _options = {}) {
       source = new XYZSource({
         attributions: config.attribution,
         maxZoom: config.maxNativeZoom || config.maxZoom,
-        minZoom: config.minNativeZoomm || config.minZoom,
+        minZoom: config.minNativeZoom || config.minZoom,
         crossOrigin: 'anonymous',
         transition: 0,
         tileUrlFunction: (tileCoord) => {
@@ -168,7 +189,7 @@ export function createLayerFromConfig(config, _options = {}) {
       source = new XYZSource({
         attributions: config.attribution,
         maxZoom: config.maxNativeZoom || config.maxZoom,
-        minZoom: config.minNativeZoomm || config.minZoom,
+        minZoom: config.minNativeZoom || config.minZoom,
         crossOrigin: 'anonymous',
         transition: 0,
         tileUrlFunction: (tileCoord) => createFromTemplate(config.url, tileCoord),
@@ -214,7 +235,7 @@ export function createLayerFromConfig(config, _options = {}) {
         const singleSource = new TileWMS({
           attributions: config.attribution,
           maxZoom: c.maxNativeZoom || c.maxZoom,
-          minZoom: c.minNativeZoomm || c.minZoom,
+          minZoom: c.minNativeZoom || c.minZoom,
           crossOrigin: 'anonymous',
           transition: 0,
           projection: 'EPSG:3857',
@@ -258,7 +279,7 @@ export function createLayerFromConfig(config, _options = {}) {
       source = new TileWMS({
         attributions: config.attribution,
         maxZoom: config.maxNativeZoom || config.maxZoom,
-        minZoom: config.minNativeZoomm || config.minZoom,
+        minZoom: config.minNativeZoom || config.minZoom,
         crossOrigin: 'anonymous',
         transition: 0,
         params,

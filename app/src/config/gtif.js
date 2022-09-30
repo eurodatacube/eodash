@@ -36,9 +36,7 @@ export const indicatorClassesIcons = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  minMapZoom: 8,
-  maxMapZoom: 18,
-  bounds: latLngBounds(latLng([0, 0]), latLng([70, 70])),
+  bounds: latLngBounds(latLng([46, 9]), latLng([49.5, 18])),
 });
 
 export const baseLayersLeftMap = [{
@@ -55,6 +53,40 @@ export const overlayLayersRightMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
 }];
 
+const nutsStyle = {
+  attribution: 'Administrative boundaries: © EuroGeographics, © TurkStat. Source: European Commission – Eurostat/GISCO',
+  visible: true,
+  protocol: 'GeoJSON',
+  style: {
+    fillColor: 'rgba(0, 0, 0, 0)',
+    color: 'rgba(255, 0, 0, 1)',
+  },
+};
+
+export const administrativeLayers = [{
+  ...nutsStyle,
+  name: 'NUTS L0 - Austria',
+  url: 'data/gtif/data/AT_NUTS_L0.geojson',
+  maxZoom: 7.5,
+}, {
+  ...nutsStyle,
+  name: 'NUTS L1 - Austria',
+  url: 'data/gtif/data/AT_NUTS_L1.geojson',
+  minZoom: 7.5,
+  maxZoom: 8.5,
+}, {
+  ...nutsStyle,
+  name: 'NUTS L2 - Austria',
+  url: 'data/gtif/data/AT_NUTS_L2.geojson',
+  minZoom: 8.5,
+  maxZoom: 9.5,
+}, {
+  ...nutsStyle,
+  name: 'NUTS L3 - Austria',
+  url: 'data/gtif/data/AT_NUTS_L3.geojson',
+  minZoom: 9.5,
+}];
+
 export const defaultLayersDisplay = {
   baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
   protocol: 'WMS',
@@ -69,6 +101,18 @@ export const defaultLayersDisplay = {
 };
 
 export const indicatorsDefinition = Object.freeze({
+  REP1: {
+    indicator: 'Air quality',
+    class: 'air',
+    themes: ['atmosphere'],
+    // story: '',
+  },
+  WSF: {
+    indicator: 'World Settlement Footprint',
+    class: 'economic',
+    story: '/eodash-data/stories/WSF-WSF',
+    themes: ['atmosphere'],
+  },
   N1: {
     indicator: 'Air quality',
     class: 'air',
@@ -78,6 +122,7 @@ export const indicatorsDefinition = Object.freeze({
       url: 'https://maps.s5p-pal.com',
     },
     largeTimeDuration: true,
+    themes: ['atmosphere'],
   },
   N9: {
     indicator: 'Air quality',
@@ -98,13 +143,145 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     disableTimeSelection: true,
     story: '/eodash-data/stories/GG-GG',
-    themes: ['covid-19', 'economy', 'atmosphere'],
+    themes: ['economy', 'atmosphere'],
     disableCSV: true,
     alternateDataPath: './eodash-data/internal/',
   },
 });
 
+const getYearlyDates = (start, end) => {
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy'));
+    currentDate = DateTime.fromISO(currentDate).plus({ years: 1 });
+  }
+  return dateArray;
+};
+
 export const globalIndicators = [
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Solar power potential',
+        indicator: 'REP1',
+        lastIndicatorValue: null,
+        indicatorName: 'Solar power potential',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        cogFilters: {
+          sourceLayer: 'REP1',
+          filters: {
+            height: {
+              label: 'Filter for elevation',
+              id: 'dem',
+              band: 1,
+              min: 100,
+              max: 600,
+            },
+            slope: {
+              label: 'Filter for slope (not available)',
+              id: 'slope',
+              band: 2,
+              min: 0,
+              max: 100,
+            },
+            grid_distance: {
+              label: 'Filter for distance to nearest grid (not available)',
+              id: 'grid_distance',
+              band: 3,
+              min: 0,
+              max: 10000,
+            },
+          },
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((16 48, 16 48.3, 16.6 48.3, 16.6 48, 16 48 ))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'REP1',
+          sources: [
+            { url: 'data/gtif/data/vienna_landcover_mercator.tif' },
+            { url: 'data/gtif/data/dem_10m_correct.tif' },
+          ],
+          style: {
+            variables: {
+              demMin: 100,
+              demMax: 600,
+            },
+            color: [
+              'case',
+              ['between', ['band', 2], ['var', 'demMin'], ['var', 'demMax']],
+              ['palette', ['/', ['band', 1], 10], [
+                '#006400', '#ffbb22', '#ffff4c', '#f096ff',
+                '#fa0000', '#b4b4b4', '#f0f0f0', '#0064c8',
+                '#0096a0', '#00cf75', '#fae6a0',
+              ]],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+          // customAreaIndicator: true,
+          name: 'Solar power potential',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'WSF Evolution',
+        indicator: 'WSF',
+        lastIndicatorValue: null,
+        indicatorName: 'World Settlement Footprint (WSF) Evolution',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'WSF',
+        time: getYearlyDates('1985', '2015'),
+        inputData: [''],
+        display: {
+          baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
+          name: 'WSF_Evolution',
+          layers: 'WSF_Evolution',
+          legendUrl: 'eodash-data/data/wsf_legend.png',
+          minZoom: 1,
+          maxMapZoom: 14,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
+          labelFormatFunction: (date) => date,
+          specialEnvTime: true,
+        },
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {

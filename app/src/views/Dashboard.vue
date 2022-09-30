@@ -105,12 +105,6 @@
     >
       <banner v-if="currentNews" ref="newsBanner" />
       <v-toolbar flat>
-        <v-btn v-if="dataPanelFullWidth" icon @click="setDataPanelWidth(false)">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-        <v-btn v-else icon @click="setDataPanelWidth(true)">
-          <v-icon>mdi-arrow-expand</v-icon>
-        </v-btn>
         <v-toolbar-title v-if="$store.state.indicators.selectedIndicator"
           :class="$store.state.indicators.selectedIndicator.description ===
             $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
@@ -138,6 +132,24 @@
             {{ firstIndicatorObject.indicatorName }}
           </div>
         </v-toolbar-title>
+        <v-tooltip
+          left
+        >
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-on="on"
+              icon
+              class="elevation-1 rounded-lg"
+              style="position: absolute; right: 30px; width: 36px; height: 36px;"
+              @click="dataPanelFullWidth
+                ? setDataPanelWidth(false)
+                : setDataPanelWidth(true)"
+            >
+              <v-icon>{{ dataPanelFullWidth ? 'mdi-close' : 'mdi-fullscreen' }}</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ dataPanelFullWidth ? 'Close' : 'Open' }} full screen</span>
+        </v-tooltip>
       </v-toolbar>
 
       <data-panel

@@ -132,7 +132,9 @@ export default {
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
     const layers = map.getLayers().getArray();
-    [...this.baseLayerConfigs, ...this.overlayConfigs].forEach((config) => {
+    [
+      ...this.baseLayerConfigs, ...this.overlayConfigs,
+    ].forEach((config) => {
       const layer = layers.find((l) => l.get('name') === config.name);
       map.removeLayer(layer);
     });

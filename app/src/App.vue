@@ -74,6 +74,7 @@ import { loadIndicatorData } from '@/utils';
 import axios from 'axios';
 import { Wkt } from 'wicket';
 
+import getMapInstance from '@/components/map/map';
 import Alert from './components/Alert.vue';
 
 const wkt = new Wkt();
@@ -105,27 +106,42 @@ export default {
     },
   },
   watch: {
-    /**
-     * this methods sets the selected indicator based on the current
-     * route query.
-     */
-    // eslint-disable-next-line func-names
-    '$route.query.poi': function (poi) {
-      let selectedFeature;
-      if (poi && poi.includes('-')) {
-        const currentlySelectedIndicator = this.$store.state.indicators.selectedIndicator;
-        const aoiId = poi.split('-')[0];
-        const indicatorCode = poi.split('-')[1];
-        if (!currentlySelectedIndicator
-          || (currentlySelectedIndicator.aoiId !== aoiId && currentlySelectedIndicator.indicatorCode !== indicatorCode)) {
-          selectedFeature = this.$store.state.features.allFeatures.find((f) => {
-            const { indicatorObject } = f.properties;
-            return indicatorObject.aoiID === aoiId
-              && indicatorObject.indicator === indicatorCode;
+    $route(to, from) {
+      // only show back button if one of these conditions are true
+      // TODO: handle case when one of these was directly entered into url at app start
+      this.$store.commit('changeBackButtonDisplay', (
+        to.query.poi || to.query.indicator || to.query.clusterOpen
+      ));
+
+      if (!to.query.poi && from.query.poi
+      || !to.query.indicator && from.query.indicator
+      || from.query.clusterOpen) {
+        if (!to.query.poi && from.query.poi) {
+          // clear poi
+          this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+        }
+        if (!to.query.indicator && from.query.indicator) {
+          // clear indicator filter
+          this.$store.commit('features/SET_FEATURE_FILTER', {
+            ...this.$store.state.features.featureFilters,
+            indicators: [],
           });
         }
+
+        const currentQuery = to.query;
+        const {
+          x, y, z,
+        } = currentQuery;
+        if (x && y && z && !Number.isNaN(x) && !Number.isNaN(y) && !Number.isNaN(z)) {
+          setTimeout(() => {
+            getMapInstance('centerMap').map.getView().animate({
+              center: [x, y],
+              zoom: z,
+              duration: 300,
+            });
+          }, 0);
+        }
       }
-      this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
     },
   },
   created() {
@@ -197,6 +213,9 @@ export default {
             this.trackEvent('filters', 'select_indicator_filter', 'all');
           } else {
             // Single
+            const urlSearchParams = new URLSearchParams(window.location.search);
+            const params = Object.fromEntries(urlSearchParams.entries());
+            this.$router.push({ query: params });
             this.$router.replace({ query: Object.assign({}, this.$route.query, { indicator: mutation.payload.indicators[0] }) }).catch(err => {}); // eslint-disable-line
             this.trackEvent('filters', 'select_indicator_filter', mutation.payload.indicators[0]);
           }
@@ -217,6 +236,9 @@ export default {
           Object.prototype.hasOwnProperty.call(mutation.payload, 'dummyFeature')
           && mutation.payload.dummyFeature)) {
           this.loadIndicatorData(mutation.payload);
+          const urlSearchParams = new URLSearchParams(window.location.search);
+          const params = Object.fromEntries(urlSearchParams.entries());
+          this.$router.push({ query: params });
           this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: this.getLocationCode(mutation.payload) }) }).catch(err => {}); // eslint-disable-line
           this.trackEvent('indicators', 'select_indicator', this.getLocationCode(mutation.payload));
           this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);

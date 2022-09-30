@@ -8,9 +8,9 @@ module.exports = [
     },
     match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'race.eox.world:8812'],
     branding: {
-      appName: 'Rapid Action on coronavirus and EO',
+      appName: 'Rapid Action for Citizens with Earth Observation',
       primaryColor: '#003247',
-      secondaryColor: '#0098DB',
+      secondaryColor: '#00ae92',
       headerLogo: './eodash-data/general/RACE_Logo.png',
       faviconPath: './public/img/ESA/favicon.ico',
     },
@@ -62,103 +62,7 @@ module.exports = [
     // The label parameter can be used as string to select the parameter identifier
     // or it can be an array of strings the same size as features to set custom
     // tab titles for each of the tabbed groups
-    featureGrouping: [
-      {
-        features: [
-          'World-E13o',
-          'World-E13p',
-          'World-E13q',
-          'World-E13r',
-        ],
-        label: ['All', 'Cargo', 'Tanker', 'Others'],
-      },
-      {
-        features: [
-          'IT16-C1',
-          'IT16-C2',
-          'IT16-C3',
-        ],
-        label: ['Boats & NO2', 'People & NO2', 'Cars & NO2'],
-      },
-      {
-        features: [
-          'IT3-C1',
-          'IT3-C2',
-          'IT3-C3',
-        ],
-        label: ['Boats & NO2', 'People & NO2', 'Cars & NO2'],
-      },
-      {
-        features: [
-          'CDS-CDS1',
-          'CDS-CDS2',
-          'CDS-CDS3',
-          'CDS-CDS4',
-        ],
-        label: ['Temperature', 'Relative humidity', 'Wind U', 'Wind V'],
-      },
-      {
-        features: [
-          'GCAQ1-N1b',
-          'GCAQ2-N1b',
-          'GCAQ3-N1b',
-          'GCAQ4-N1b',
-        ],
-        label: ['NO2', 'PM 2.5', 'PM10', 'O3'],
-      },
-      {
-        features: [
-          'IT16-E13e',
-          'IT16-E13f',
-          'IT16-E13g',
-          'IT16-E13h',
-          'IT16-E13i',
-        ],
-        label: ['Cargo', 'Fishing', 'Tanker', 'Tug', 'Search Rescue'],
-      },
-      {
-        features: [
-          'IT3-E13e',
-          'IT3-E13f',
-          'IT3-E13g',
-          'IT3-E13l',
-          'IT3-E13m',
-        ],
-        label: ['Cargo', 'Fishing', 'Tanker', 'Cruise', 'Passenger'],
-      },
-      {
-        features: [
-          'W2-E12c',
-          'W3-E12c',
-        ],
-        label: 'indicatorName',
-      },
-      {
-        features: [
-          'CH4-N1',
-          'WorldCO-N1',
-          'World-N1',
-          'SO2-N1',
-        ],
-        label: ['TROPOMI CH4', 'TROPOMI CO', 'TROPOMI NO2', 'TROPOMI SO2'],
-      },
-    ].concat([
-      'AT4', 'BE6', 'CH1', 'DE12', 'DE13', 'DE14', 'DE15', 'DK1', 'ES10', 'ES11', 'ES14', 'ES15', 'FI4', 'FR13', 'FR8', 'GR2', 'IE1', 'IT13', 'IT9', 'NL1', 'NO1', 'PL6', 'PT1', 'SE23', 'TR1', 'UK4', 'UK5', 'UK6', 'UK7', 'UK8']
-      .map((val) => ({ features: [`${val}-E13d`, `${val}-E13d2`], label: ['Airports traffic', 'Detected airplanes'] })))
-      .concat([
-        'ES22', 'ES23', 'ES24', 'ES30', 'ES41', 'ES42', 'ES43', 'ES51', 'ES52', 'ES61', 'ES62']
-        .map((val) => ({ features: [`${val}a-E10a6`, `${val}b-E10a6`], label: 'indicatorValue' })))
-      .concat([
-        'AT', 'BG', 'CZ', 'DE', 'DK', 'EE', 'FR', 'HR', 'HU', 'LT', 'LV', 'PL', 'RO', 'SE', 'SK', 'UK']
-        .map((val) => ({ features: [`${val}a-E10a10`, `${val}b-E10a10`], label: ['Winter cereal', 'Winter rapeseed'] })))
-      .concat([
-        'NL3', 'TR3', 'GR6', 'ES63', 'RS1', 'DE16', 'CH2', 'UK10', 'SK4', 'BE7',
-        'RO9', 'HU5', 'DE13', 'DK1', 'IE3', 'DE17', 'FI4', 'PT3', 'SI3', 'UK11',
-        'LU2', 'FR15', 'ES12', 'FR16', 'IT10', 'MC1', 'DE18', 'IT37', 'CY2',
-        'NO2', 'FR10', 'ME1', 'CZ6', 'XK1', 'IS1', 'LV3', 'IT11', 'BA1', 'MK1',
-        'BG4', 'SE22', 'EE1', 'AL1', 'IT38', 'ES65', 'MT2', 'AT5', 'LT3', 'PL6',
-        'HR3', 'OS1',
-      ].map((val) => ({ features: [`${val}-N1b`, `${val}-N1a`, `${val}-N1c`, `${val}-N1d`], label: ['NO2', 'PM 2.5', 'PM10', 'O3'] }))),
+    featureGrouping: [],
   },
   {
     id: 'trilateral',
@@ -257,55 +161,7 @@ module.exports = [
       'IT9-E13b', 'FR8-E13b', 'UK4-E13b', 'EG1-E13c', 'EG01-N1', 'EG01-N2',
       'EG01-SIF',
     ],
-    featureGrouping: [
-      {
-        features: [
-          'NorthAdriaticTSM_ESA-N3a2',
-          'NorthAdriaticTSM_NASA-N3a2',
-          'NorthAdriaticTSM_JAXA-N3a2',
-        ],
-        label: 'dataProvider',
-      },
-      {
-        features: [
-          'NorthAdriatic_ESA-N3a2',
-          'NorthAdriatic_NASA-N3a2',
-          'NorthAdriatic_JAXA-N3a2',
-        ],
-        label: 'dataProvider',
-      },
-      {
-        features: [
-          'W1-N1',
-          'W2-N1',
-          'W3-N1',
-        ],
-        label: 'eoSensor',
-      },
-      {
-        features: [
-          'W4-N2',
-          'W5-N2',
-        ],
-        label: 'calcMethod',
-      },
-      {
-        features: [
-          'US08-E10c',
-          'US09-E10c',
-        ],
-        label: 'eoSensor',
-      },
-      {
-        features: [
-          'W2-E12c',
-          'W3-E12c',
-        ],
-        label: 'indicatorName',
-      },
-    ].concat([
-      'ES22', 'ES23', 'ES24', 'ES30', 'ES41', 'ES42', 'ES43', 'ES51', 'ES52', 'ES61', 'ES62']
-      .map((val) => ({ features: [`${val}a-E10a6`, `${val}b-E10a6`], label: 'indicatorValue' }))),
+    featureGrouping: [],
     privacyText: '/data/trilateral/privacy',
     termsText: '/data/trilateral/terms',
     feedbackTwitterHandles: ['ESA_EO', 'esa', 'NASAEarth', 'NASA', 'JAXA_en', 'JAXA_jp', 'eurodatacube'],
