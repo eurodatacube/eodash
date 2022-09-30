@@ -1,6 +1,13 @@
 <template>
   <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3;
     z-index: 1" class="d-flex justify-center">
+    <!-- a layer adding a (potential) admin borders with onclick selection, z-index 3 -->
+    <AdminBordersLayers
+      :mapId="mapId"
+      :administrativeConfigs="administrativeConfigs"
+      v-if="administrativeConfigs"
+      :key="dataLayerName + '_adminLayers'"
+    />
     <!-- a layer adding a (potential) subaoi, z-index 5 -->
     <SubaoiLayer
       :mapId="mapId"
@@ -154,6 +161,7 @@ import Attribution from 'ol/control/Attribution';
 import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
+import AdminBordersLayers from '@/components/GTIF/AdminBordersLayers.vue';
 import Link from 'ol/interaction/Link';
 
 const geoJsonFormat = new GeoJSON({
@@ -170,6 +178,7 @@ export default {
     LayerSwipe,
     CustomAreaButtons,
     SubaoiLayer,
+    AdminBordersLayers,
     MapOverlay,
     AddToDashboardButton,
   },
@@ -256,7 +265,8 @@ export default {
     },
     overlayConfigs() {
       const configs = [...this.baseConfig.overlayLayersLeftMap];
-      if (!this.isGlobalIndicator) {
+      // administrativeLayers replace country vectors
+      if (!this.isGlobalIndicator && this.baseConfig.administrativeLayers?.length === 0) {
         configs.push({
           name: 'Country vectors',
           protocol: 'countries',
@@ -264,6 +274,9 @@ export default {
         });
       }
       return configs;
+    },
+    administrativeConfigs() {
+      return [...this.baseConfig.administrativeLayers];
     },
     mapDefaults() {
       return {

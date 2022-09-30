@@ -805,6 +805,8 @@ export const overlayLayersRightMap = [{
   updateOpacityOnZoom: true,
 }];
 
+export const administrativeLayers = [];
+
 const mapBoxHighResoSubst = [{
   ...baseLayers.mapboxHighReso,
   visible: true,

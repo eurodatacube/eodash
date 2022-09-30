@@ -36,9 +36,7 @@ export const indicatorClassesIcons = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  minMapZoom: 8,
-  maxMapZoom: 18,
-  bounds: latLngBounds(latLng([0, 0]), latLng([70, 70])),
+  bounds: latLngBounds(latLng([46, 9]), latLng([49.5, 18])),
 });
 
 export const baseLayersLeftMap = [{
@@ -53,6 +51,40 @@ export const overlayLayersLeftMap = [{
 }];
 export const overlayLayersRightMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
+}];
+
+const nutsStyle = {
+  attribution: 'Administrative boundaries: © EuroGeographics, © TurkStat. Source: European Commission – Eurostat/GISCO',
+  visible: true,
+  protocol: 'GeoJSON',
+  style: {
+    fillColor: 'rgba(0, 0, 0, 0)',
+    color: 'rgba(255, 0, 0, 1)',
+  },
+};
+
+export const administrativeLayers = [{
+  ...nutsStyle,
+  name: 'NUTS L0 - Austria',
+  url: 'data/gtif/data/AT_NUTS_L0.geojson',
+  maxZoom: 7.5,
+}, {
+  ...nutsStyle,
+  name: 'NUTS L1 - Austria',
+  url: 'data/gtif/data/AT_NUTS_L1.geojson',
+  minZoom: 7.5,
+  maxZoom: 8.5,
+}, {
+  ...nutsStyle,
+  name: 'NUTS L2 - Austria',
+  url: 'data/gtif/data/AT_NUTS_L2.geojson',
+  minZoom: 8.5,
+  maxZoom: 9.5,
+}, {
+  ...nutsStyle,
+  name: 'NUTS L3 - Austria',
+  url: 'data/gtif/data/AT_NUTS_L3.geojson',
+  minZoom: 9.5,
 }];
 
 export const defaultLayersDisplay = {
