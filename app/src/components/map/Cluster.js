@@ -16,7 +16,7 @@ import VectorSource from 'ol/source/Vector';
 import { asArray } from 'ol/color';
 import { Feature } from 'ol';
 import { fromLonLat } from 'ol/proj';
-import { getColor } from './olMapColors';
+// import { getColor } from './olMapColors';
 import getMapInstance from './map';
 import { formatLabel } from './formatters';
 
@@ -96,7 +96,13 @@ function loadImages() {
         context.fillStyle = 'white';
         context.fillRect(0, 0, canvas.width, canvas.height);
         context.globalCompositeOperation = 'destination-in';
-        context.drawImage(image, halfWidth - image.width / 2, halfWidth - image.height / 2, image.width, image.height);
+        context.drawImage(
+          image,
+          halfWidth - image.width / 2,
+          halfWidth - image.height / 2,
+          image.width,
+          image.height,
+        );
 
         // circles
         context.globalCompositeOperation = 'destination-over';
