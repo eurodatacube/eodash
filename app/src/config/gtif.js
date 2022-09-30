@@ -72,12 +72,14 @@ export const indicatorsDefinition = Object.freeze({
   REP1: {
     indicator: 'Air quality',
     class: 'air',
+    themes: ['atmosphere'],
     // story: '',
   },
   WSF: {
     indicator: 'World Settlement Footprint',
     class: 'economic',
     story: '/eodash-data/stories/WSF-WSF',
+    themes: ['atmosphere'],
   },
   N1: {
     indicator: 'Air quality',
@@ -88,6 +90,7 @@ export const indicatorsDefinition = Object.freeze({
       url: 'https://maps.s5p-pal.com',
     },
     largeTimeDuration: true,
+    themes: ['atmosphere'],
   },
   N9: {
     indicator: 'Air quality',
@@ -108,7 +111,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     disableTimeSelection: true,
     story: '/eodash-data/stories/GG-GG',
-    themes: ['covid-19', 'economy', 'atmosphere'],
+    themes: ['economy', 'atmosphere'],
     disableCSV: true,
     alternateDataPath: './eodash-data/internal/',
   },
