@@ -49,21 +49,21 @@ export default {
   mounted() {
     window.onmessage = (e) => {
       // Check if we got a navigation request from the iframe.
-      if (e.data.type == 'nav') {
-          this.$router.push({name: e.data.dest});
+      if (e.data.type === 'nav') {
+        this.$router.push({ name: e.data.dest });
       }
     };
   },
   methods: {
     async onLoaded() {
       try {
-        let id = this.getDashboardID();
+        const id = this.getDashboardID();
 
         const response = await axios
           .get(`https://${process.env.NODE_ENV !== 'production'
             ? 'dev-'
             : ''}eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/get?id=${id}`);
-            // /dashboard?id=9dd9f2b6743c9746&editKey=0017ee8a3e16f9b8
+        // /dashboard?id=9dd9f2b6743c9746&editKey=0017ee8a3e16f9b8
 
         document.querySelector('iframe').contentWindow.postMessage(response.data);
       } catch (error) {
@@ -104,7 +104,7 @@ export default {
         default:
           return '9dd9f2b6743c9746';
       }
-    }
+    },
   },
 };
 </script>
