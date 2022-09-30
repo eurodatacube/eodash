@@ -84,27 +84,43 @@
               </v-row>
 
               <GtifHeaderNavItem
-                color="hsl(215 80% 60%)"
                 title="Explore"
                 to="/explore"
               />
 
               <GtifHeaderNavItem
-                color="hsl(30 80% 60%)"
-                title="Energy"
+                color="hsl(360 80% 60%)"
+                title="Energy Transition"
                 :to="{name: 'gtif-energy-transition'}"
+              />
+
+              <GtifHeaderNavItem
+                color="hsl(210 80% 60%)"
+                title="Mobility Transition"
+                :to="{name: 'gtif-mobility-transition'}"
+              />
+
+              <GtifHeaderNavItem
+                color="hsl(90 80% 60%)"
+                title="Sustainable Transition"
+                :to="{name: 'gtif-sustainable-transition'}"
+              />
+
+              <GtifHeaderNavItem
+                color="hsl(20 80% 60%)"
+                title="Carbon Finance"
+                :to="{name: 'gtif-carbon-finance'}"
+              />
+
+              <GtifHeaderNavItem
+                color="hsl(320 80% 60%)"
+                title="EO Adaptation"
+                :to="{name: 'gtif-eo-adaptation'}"
               />
 
               <GtifHeaderNavItem
                 title="Scrolly Example"
                 to="/scrolly"
-              />
-
-              <GtifHeaderNavItem
-                v-for="i in [0, 1, 2, 3, 4]"
-                :key="i"
-                :title="`Element ${i}`"
-                to="/"
               />
             </v-col>
           </v-col>
