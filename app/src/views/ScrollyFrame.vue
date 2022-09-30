@@ -17,7 +17,7 @@
         src="./scrolly.html"
         frameborder="0"
       ></iframe>
-      <global-footer />
+      <!--<global-footer />-->
     </div>
   </div>
 </template>
