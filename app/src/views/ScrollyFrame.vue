@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fill-height scrollContainer"
+    class="fill-height"
     :style="`margin-top: ${$vuetify.application.top}px !important;`"
   >
     <div
@@ -17,7 +17,7 @@
         src="./scrolly.html"
         frameborder="0"
       ></iframe>
-      <global-footer />
+      <!--<global-footer />-->
     </div>
   </div>
 </template>
@@ -29,13 +29,11 @@ import {
 
 import axios from 'axios';
 import iFrameResize from 'iframe-resizer/js/iframeResizer';
-import GlobalFooter from '@/components/GlobalFooter.vue';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 
 export default {
   components: {
     GlobalHeader,
-    GlobalFooter,
   },
   metaInfo() {
     const { appConfig } = this.$store.state.config;
@@ -105,7 +103,7 @@ export default {
         inPageLinks: false,
         sizeHeight: false,
         scrolling: true,
-        minHeight: this.minHeight || 700,
+        minHeight: this.minHeight || window.innerHeight - 64,
       }, '#resizableIframe');
     },
     getDashboardID() {
