@@ -384,7 +384,7 @@ export default {
   },
   watch: {
     getFeatures(features) {
-      if (this.mapId === 'centerMap' && features) {
+      if (this.mapId === 'centerMap' && features && this.appConfig.id !== 'gtif') {
         const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
         cluster.setFeatures(features);
       }
