@@ -135,6 +135,9 @@ export default {
         this.getSearchItems();
       }
     }
+    if (this.$route.query.search) {
+      this.userInput = this.$route.query.search;
+    }
   },
   methods: {
     ...mapMutations('features', {
@@ -306,9 +309,15 @@ export default {
         this.globalIndicators[index]?.properties.indicatorObject,
       );
     },
-    userInput() {
+    userInput(newInput) {
       this.sortSearchItems();
       this.setFilterDebounced();
+      const query = {
+        ...this.$route.query,
+        search: newInput?.length ? newInput : undefined,
+      };
+      this.$router.replace({ query }).catch(() => {});
+      this.trackEvent('filters', 'search_input', newInput);
     },
   },
 };
