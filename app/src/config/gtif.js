@@ -373,6 +373,7 @@ export const globalIndicators = [
       },
     },
   },
+  /*
   {
     properties: {
       indicatorObject: {
@@ -416,6 +417,7 @@ export const globalIndicators = [
       },
     },
   },
+  */
   {
     properties: {
       indicatorObject: {
@@ -540,6 +542,7 @@ export const globalIndicators = [
       },
     },
   },
+  /*
   {
     properties: {
       indicatorObject: {
@@ -583,4 +586,5 @@ export const globalIndicators = [
       },
     },
   },
+  */
 ];

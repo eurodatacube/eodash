@@ -149,7 +149,7 @@ import getMapInstance from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
-// import { updateTimeLayer } from '@/components/map/timeLayerUtils';
+import { updateTimeLayer } from '@/components/map/timeLayerUtils';
 import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
@@ -408,7 +408,6 @@ export default {
         });
       },
     },
-    /*
     dataLayerTime(timeObj) {
       if (timeObj) {
         // redraw all time-dependant layers, if time is passed via WMS params
@@ -440,8 +439,8 @@ export default {
       // this.updateSelectedAreaFeature();
     },
     dataLayerTimeProp: {
-      immediate: true,
-      deep: true,
+      // immediate: true,
+      // deep: true,
       handler(v) {
         // only defined for customDashBoard
         if (v) this.dataLayerTime = this.availableTimeEntries.find((item) => item.name === v);
@@ -474,7 +473,6 @@ export default {
         }
       },
     },
-    */
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
