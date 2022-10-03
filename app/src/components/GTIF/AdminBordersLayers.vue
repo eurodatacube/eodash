@@ -36,24 +36,22 @@ export default {
     });
     map.addInteraction(this.selectInteraction);
     this.selectInteraction.on('select', this.adminBorderClick);
+    // initiate hover over admin interaction
     map.on('pointermove', this.adminBorderHover);
 
-    const administrativeLayers = this.administrativeConfigs.map((l) => createLayerFromConfig(l,
+    const adminLayerGroups = this.administrativeConfigs.map((l) => createLayerFromConfig(l,
       {
         zIndex: 3,
       }));
-    // setup listener on featuresloadend on first layer in array or the one with smallest maxZoom
-    const layer = administrativeLayers[0];
-    const toBeSelectedConfig = this.administrativeConfigs[0];
-    let foundLayer = null;
-    if (layer instanceof Group) {
-      foundLayer = layer.getLayers().getArray().find((l) => l.get('name') === toBeSelectedConfig.name);
-    } else {
-      foundLayer = layer;
-    }
-    foundLayer.getSource().once('featuresloadend', this.setInitialDefaultSelectedArea);
-    foundLayer.setMaxZoom(28);
-    administrativeLayers.forEach((l) => {
+    this.adminLayerGroups = adminLayerGroups;
+    // setup listener on featuresloadend on first layer and set maxZoom to high number to
+    // trigger fetching data, original layer.maxZoom is reset in event handler
+    const layer = this.getLayerFromGroup(
+      this.adminLayerGroups[0], this.administrativeConfigs[0],
+    );
+    layer.getSource().once('featuresloadend', this.setInitialDefaultSelectedArea);
+    layer.setMaxZoom(28);
+    adminLayerGroups.forEach((l) => {
       map.addLayer(l);
     });
 
@@ -92,44 +90,58 @@ export default {
     map.addLayer(highlightLayer);
   },
   methods: {
+    getLayerFromGroup(layer, config) {
+      let foundLayer = null;
+      if (layer instanceof Group) {
+        foundLayer = layer.getLayers().getArray().find((l) => l.get('name') === config.name);
+      } else {
+        foundLayer = layer;
+      }
+      return foundLayer;
+    },
     adminBorderClick(e) {
+      // handles all clicks from select interaction
       const ftrs = e.target.getFeatures();
       if (ftrs.getLength() > 0) {
+        // click contains features, check if was admin layer
         const feature = ftrs.getArray()[0];
         const clickLayer = this.selectInteraction.getLayer(feature);
         const layerIndex = this.administrativeConfigs.findIndex((l) => l.name === clickLayer.get('name'));
         if (layerIndex > -1) {
-          // admin border touched, fit map to it, set inverse polygon
+          // admin layer clicked, fit map to it, set inverse polygon
           // and update zoom to nearest minzoom or maxzoom of next layer
           this.zoomToFeatureAdminLayerIndex(feature, layerIndex + 1);
+          this.$store.commit(
+            'features/SET_ADMIN_BORDER_SELECTED', feature,
+          );
           this.setupInverseFeatureLayer(feature);
-        } else {
+        } else if (clickLayer.get('name') === 'inverseAdministrativeLayer') {
+        // inverse layer clicked, reset to default layer
           this.setDefaultSelectedArea(true);
         }
+        // if some other vector layer was clicked, do not care and do not handle the action
+        // no else block
       } else {
+        // click did not hit any other layer, set first admin layer as selected
         this.setDefaultSelectedArea(true);
       }
     },
     zoomToFeatureAdminLayerIndex(feature, layerIndex) {
+      // performs pan and zoom to feature
+      // but additionally taking in account:
+      // configured minZoom of admin layer on given layerIndex - fits to it
+      // or configured maxZoom of layer on given layerIndex, fits to it
       let minZoom;
       let maxZoom;
       if (this.administrativeConfigs[layerIndex] !== undefined) {
         minZoom = this.administrativeConfigs[layerIndex].minZoom;
-        if (minZoom === undefined) {
-          maxZoom = this.administrativeConfigs[layerIndex].maxZoom;
-        }
+        maxZoom = this.administrativeConfigs[layerIndex].maxZoom;
       }
-      // if the layer was never fetched before (feature is null)
-      // set zoomFromResolution to 0 and center to current center
-      let zoomFromResolution = 0;
       const { map } = getMapInstance(this.mapId);
-      let center = map.getView().getCenter();
-      if (feature) {
-        const extent = feature.getGeometry().getExtent();
-        center = getCenter(extent);
-        const resolution = map.getView().getResolutionForExtent(extent);
-        zoomFromResolution = map.getView().getZoomForResolution(resolution);
-      }
+      const extent = feature.getGeometry().getExtent();
+      const center = getCenter(extent);
+      const resolution = map.getView().getResolutionForExtent(extent);
+      const zoomFromResolution = map.getView().getZoomForResolution(resolution);
       // 0.1 added or subtracted to show the layer, if zoom is equal to l.minzoom, not shown
       let zoom = zoomFromResolution;
       if (minZoom !== undefined) {
@@ -137,9 +149,9 @@ export default {
       } else if (maxZoom !== undefined) {
         zoom = maxZoom - 0.1;
       } else if (this.administrativeConfigs[layerIndex - 1] !== undefined) {
-        // do not let zoom to be lower than current layer minZoom
+        // do not let zoom to be lower than layerIndex -1 .minZoom
         if (this.administrativeConfigs[layerIndex - 1].minZoom !== undefined) {
-          if (zoomFromResolution < this.administrativeConfigs[layerIndex - 1].minZoom) {
+          if (zoom < this.administrativeConfigs[layerIndex - 1].minZoom) {
             zoom = this.administrativeConfigs[layerIndex - 1].minZoom + 0.1;
           }
         }
@@ -151,9 +163,6 @@ export default {
       });
     },
     setupInverseFeatureLayer(feature) {
-      this.$store.commit(
-        'features/SET_ADMIN_BORDER_SELECTED', feature,
-      );
       // create inverse polygon geometry and add it to inverse layer
       const globalBox = {
         type: 'Feature',
@@ -175,39 +184,27 @@ export default {
       this.inverseAdministrativeLayer.getSource().addFeature(clone);
     },
     setInitialDefaultSelectedArea() {
-      const { map } = getMapInstance(this.mapId);
-      const layers = map.getLayers().getArray();
-      const toBeSelectedConfig = this.administrativeConfigs[0];
-      const layer = layers.find((l) => l.get('name') === toBeSelectedConfig.name);
-      let foundLayer = null;
-      if (layer instanceof Group) {
-        foundLayer = layer.getLayers().getArray().find((l) => l.get('name') === toBeSelectedConfig.name);
-      } else {
-        foundLayer = layer;
+      // reset maxZoom from admin layer on index 0 and setDefaultSelectedArea
+      if (this.administrativeConfigs[0].maxZoom !== undefined) {
+        const layer = this.getLayerFromGroup(this.adminLayerGroups[0], this.administrativeConfigs[0]);
+        layer.setMaxZoom(this.administrativeConfigs[0].maxZoom);
       }
-      if (toBeSelectedConfig.maxZoom !== undefined) {
-        foundLayer.setMaxZoom(toBeSelectedConfig.maxZoom);
-      }
+      // set default area without zooming in to honor URL search parameters x,y,z
       this.setDefaultSelectedArea(false);
     },
-    setDefaultSelectedArea(zoomTo) {
-      const preferedLayerIndex = 0;
-      // find the corresponding layer
-      const { map } = getMapInstance(this.mapId);
-      const layers = map.getLayers().getArray();
-      const toBeSelectedConfig = this.administrativeConfigs[preferedLayerIndex];
-      const layer = layers.find((l) => l.get('name') === toBeSelectedConfig.name);
-      let foundLayer = null;
-      if (layer instanceof Group) {
-        foundLayer = layer.getLayers().getArray().find((l) => l.get('name') === toBeSelectedConfig.name);
-      } else {
-        foundLayer = layer;
-      }
+    setDefaultSelectedArea(performZoomTo) {
+      // select first layer from admin layers to store and create inverse polygon accordingly
+      const layer = this.getLayerFromGroup(
+        this.adminLayerGroups[0], this.administrativeConfigs[0],
+      );
       // get features and setup the inverse
-      const feature = foundLayer.getSource().getFeatures()[0];
+      const feature = layer.getSource().getFeatures()[0];
+      this.$store.commit(
+        'features/SET_ADMIN_BORDER_SELECTED', feature,
+      );
       this.setupInverseFeatureLayer(feature);
-      if (zoomTo) {
-        this.zoomToFeatureAdminLayerIndex(feature, preferedLayerIndex);
+      if (performZoomTo) {
+        this.zoomToFeatureAdminLayerIndex(feature, 0);
       }
     },
     clearHighlightedFeature() {
@@ -218,6 +215,7 @@ export default {
     },
     adminBorderHover(e) {
       if (e.dragging) {
+        // should handle random touchscreen mishaps with highlight being stuck there
         this.clearHighlightedFeature();
         return;
       }
@@ -225,17 +223,13 @@ export default {
       const pixel = map.getEventPixel(e.originalEvent);
       const feature = map.forEachFeatureAtPixel(pixel, (ftr) => ftr);
       if (feature) {
+        // add feature to highlight layer if feature is part of admin layer and set pointer cursor
         let anyAdminLayerHasFeature = null;
-        const layers = map.getLayers().getArray();
-        this.administrativeConfigs.forEach((config) => {
-          const layer = layers.find((l) => l.get('name') === config.name);
-          let foundLayer = null;
-          if (layer instanceof Group) {
-            foundLayer = layer.getLayers().getArray().find((l) => l.get('name') === config.name);
-          } else {
-            foundLayer = layer;
-          }
-          if (foundLayer.getSource().hasFeature(feature)) {
+        this.adminLayerGroups.forEach((l, i) => {
+          const layer = this.getLayerFromGroup(
+            l, this.administrativeConfigs[i],
+          );
+          if (layer.getSource().hasFeature(feature)) {
             anyAdminLayerHasFeature = true;
           }
         });
@@ -258,9 +252,7 @@ export default {
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
-    const layers = map.getLayers().getArray();
-    this.administrativeConfigs.forEach((config, i) => {
-      const layer = layers.find((l) => l.get('name') === config.name);
+    this.adminLayerGroups.forEach((layer) => {
       map.removeLayer(layer);
     });
     this.clearHighlightedFeature();
