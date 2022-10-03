@@ -1,81 +1,235 @@
 {
   "esa": {
-    "C1": "Ports and Shipping - impact on air quality (N)",
-    "C2": "Ports and Shipping - impact on air quality (N)",
-    "C3": "Ports and Shipping - impact on air quality (N)",
-    "E200": "Changes in Ships traffic within the Port (N)",
-    "E1": "Status of metallic ores (Archived) (N)",
-    "E1_S2": "Status of metallic ores (Archived) (N)",
-    "E1a": "Status of non-metallic ores (Archived) (N)",
-    "E1a_S2": "Status of non-metallic ores (Archived) (N)",
-    "E2": "Volume of oil stockpiled (Archived) (N)",
-    "E2_S2": "Volume of oil stockpiled (Archived) (N)",
-    "E2a": "Level of flaring activity (N)",
-    "E3": "Inventory levels of factory inputs (N)",
-    "E4": "Production activity of intermediate goods (N)",
-    "E5": "Inventory levels of intermediate goods (N)",
-    "E6": "Inventory levels of factory inputs (N)",
-    "E7": "Production activity of finished goods (N)",
-    "E8": "Inventory Levels (N)",
-    "E9": "Construction activity (N)",
-    "E10a1": "Harvesting activity (N)",
-    "E10a2": "Total area under active mgmt (N)",
-    "E10a3": "Production of white asparagus (N)",
-    "E10a5": "Harvesting activity (N)",
-    "E10a6": "Harvested parcels/area evolution over time (N)",
-    "E10a8": "Cumulative harvested area (N)",
-    "E10a9": "Tomatoes cultivation (N)",
-    "E10a10": "Harvesting evolution over time (N)",
-    "E10b": "Field preparation activity (N)",
-    "E11": "Volume of activity at shopping centers (N)",
-    "E11a": "Indicator definition placeholder (N)",
-    "E12a": "Volume of activity logistic interchange centers (N)",
-    "E12b": "Throughput at border crossing points (N)",
-    "E12c": "Number of Trucks (Beta) (N)",
-    "E13a": "Throughput at principal rail stations (N)",
-    "E13c": "E13c (N)",
-    "E13b": "Throughput at principal hub airports (N)",
-    "E13b2": "Throughput at principal hub airports Aerospacelab archived (N)",
-    "E13d": "Airports: airplanes traffic (N)",
-    "E13d2": "Airports: airplanes traffic (N)",
-    "E13e": "Ports and Shipping - traffic (AIS) (N)",
-    "E13f": "Maritime traffic: fishing (N)",
-    "E13g": "Maritime traffic: tanker (N)",
-    "E13h": "Maritime traffic: tug (N)",
-    "E13i": "Maritime traffic: search, rescue (N)",
-    "E13l": "Maritime traffic: pleasure craft (N)",
-    "E13m": "Maritime traffic: passenger (N)",
-    "E13n": "Ports and Shipping - traffic (N)",
-    "E13o": "Vessel density (all) (N)",
-    "E13p": "Vessel density for cargo (N)",
-    "E13q": "Vessel density for tankers (N)",
-    "E13r": "Vessel density for others (N)",
-    "H1": "Number of temp. treatment sites (N)",
-    "N1": "Air quality (N)",
-    "N1a": "NO2 CAMS (N)",
-    "N1b": "PM 2.5 CAMS (N)",
-    "N1c": "PM10 CAMS (N)",
-    "N1d": "O3 CAMS (N)",
-    "NASAPopulation": "Population (N)",
-    "WSF": "World Settlement Footprint (N)",
-    "N2": "CO2 emissions (N)",
-    "N3": "CHL concentration (N)",
-    "N3a2": "CHL concentration (N)",
-    "N4a": "Changes in land fill sites (N)",
-    "N4b": "Illegal waste levels (N)",
-    "N3c": "CMEMS Water Quality (N)",
-    "N4c": "Changes in land fill sites (N)",
-    "OX": "Crude Oil Storage Utilization (N)",
-    "GG": "Mobility data (N)",
-    "CV": "Covid-19 cases (N)",
-    "OW": "Covid-19 vaccinations (N)",
-    "CDS1": "Temperature (N)",
-    "CDS2": "Relative humidity (N)",
-    "CDS3": "Wind U field (N)",
-    "CDS4": "Wind V field (N)",
-    "N1-World": "TROPOMI NO2 (N)",
-    "N1-WorldCO": "TROPOMI CO (N)",
-    "N1-CH4": "TROPOMI CH4 (N)"
+    "C1": {
+      "title": "Ports and Shipping - impact on air quality (N)",
+      "description": "New description"
+    },
+    "C2": {
+      "title": "Ports and Shipping - impact on air quality (N)"
+    },
+    "C3": {
+      "title": "Ports and Shipping - impact on air quality (N)"
+    },
+    "E200": {
+      "title": "Changes in Ships traffic within the Port (N)"
+    },
+    "E1": {
+      "title": "Status of metallic ores (Archived) (N)"
+    },
+    "E1_S2": {
+      "title": "Status of metallic ores (Archived) (N)"
+    },
+    "E1a": {
+      "title": "Status of non-metallic ores (Archived) (N)"
+    },
+    "E1a_S2": {
+      "title": "Status of non-metallic ores (Archived) (N)"
+    },
+    "E2": {
+      "title": "Volume of oil stockpiled (Archived) (N)"
+    },
+    "E2_S2": {
+      "title": "Volume of oil stockpiled (Archived) (N)"
+    },
+    "E2a": {
+      "title": "Level of flaring activity (N)"
+    },
+    "E3": {
+      "title": "Inventory levels of factory inputs (N)"
+    },
+    "E4": {
+      "title": "Production activity of intermediate goods (N)"
+    },
+    "E5": {
+      "title": "Inventory levels of intermediate goods (N)"
+    },
+    "E6": {
+      "title": "Inventory levels of factory inputs (N)"
+    },
+    "E7": {
+      "title": "Production activity of finished goods (N)"
+    },
+    "E8": {
+      "title": "Inventory Levels (N)"
+    },
+    "E9": {
+      "title": "Construction activity (N)"
+    },
+    "E10a1": {
+      "title": "Harvesting activity (N)"
+    },
+    "E10a2": {
+      "title": "Total area under active mgmt (N)"
+    },
+    "E10a3": {
+      "title": "Production of white asparagus (N)"
+    },
+    "E10a5": {
+      "title": "Harvesting activity (N)"
+    },
+    "E10a6": {
+      "title": "Harvested parcels/area evolution over time (N)"
+    },
+    "E10a8": {
+      "title": "Cumulative harvested area (N)"
+    },
+    "E10a9": {
+      "title": "Tomatoes cultivation (N)"
+    },
+    "E10a10": {
+      "title": "Harvesting evolution over time (N)"
+    },
+    "E10b": {
+      "title": "Field preparation activity (N)"
+    },
+    "E11": {
+      "title": "Volume of activity at shopping centers (N)"
+    },
+    "E11a": {
+      "title": "Indicator definition placeholder (N)"
+    },
+    "E12a": {
+      "title": "Volume of activity logistic interchange centers (N)"
+    },
+    "E12b": {
+      "title": "Throughput at border crossing points (N)"
+    },
+    "E12c": {
+      "title": "Number of Trucks (Beta) (N)"
+    },
+    "E13a": {
+      "title": "Throughput at principal rail stations (N)"
+    },
+    "E13c": {
+      "title": "E13c (N)"
+    },
+    "E13b": {
+      "title": "Throughput at principal hub airports (N)"
+    },
+    "E13b2": {
+      "title": "Throughput at principal hub airports Aerospacelab archived (N)"
+    },
+    "E13d": {
+      "title": "Airports: airplanes traffic (N)"
+    },
+    "E13d2": {
+      "title": "Airports: airplanes traffic (N)"
+    },
+    "E13e": {
+      "title": "Ports and Shipping - traffic (AIS) (N)"
+    },
+    "E13f": {
+      "title": "Maritime traffic: fishing (N)"
+    },
+    "E13g": {
+      "title": "Maritime traffic: tanker (N)"
+    },
+    "E13h": {
+      "title": "Maritime traffic: tug (N)"
+    },
+    "E13i": {
+      "title": "Maritime traffic: search, rescue (N)"
+    },
+    "E13l": {
+      "title": "Maritime traffic: pleasure craft (N)"
+    },
+    "E13m": {
+      "title": "Maritime traffic: passenger (N)"
+    },
+    "E13n": {
+      "title": "Ports and Shipping - traffic (N)"
+    },
+    "E13o": {
+      "title": "Vessel density (all) (N)"
+    },
+    "E13p": {
+      "title": "Vessel density for cargo (N)"
+    },
+    "E13q": {
+      "title": "Vessel density for tankers (N)"
+    },
+    "E13r": {
+      "title": "Vessel density for others (N)"
+    },
+    "H1": {
+      "title": "Number of temp. treatment sites (N)"
+    },
+    "N1": {
+      "title": "Air quality (N)"
+    },
+    "N1a": {
+      "title": "NO2 CAMS (N)"
+    },
+    "N1b": {
+      "title": "PM 2.5 CAMS (N)"
+    },
+    "N1c": {
+      "title": "PM10 CAMS (N)"
+    },
+    "N1d": {
+      "title": "O3 CAMS (N)"
+    },
+    "NASAPopulation": {
+      "title": "Population (N)"
+    },
+    "WSF": {
+      "title": "World Settlement Footprint (N)"
+    },
+    "N2": {
+      "title": "CO2 emissions (N)"
+    },
+    "N3": {
+      "title": "CHL concentration (N)"
+    },
+    "N3a2": {
+      "title": "CHL concentration (N)"
+    },
+    "N4a": {
+      "title": "Changes in land fill sites (N)"
+    },
+    "N4b": {
+      "title": "Illegal waste levels (N)"
+    },
+    "N3c": {
+      "title": "CMEMS Water Quality (N)"
+    },
+    "N4c": {
+      "title": "Changes in land fill sites (N)"
+    },
+    "OX": {
+      "title": "Crude Oil Storage Utilization (N)",
+      "description": "New description"
+    },
+    "GG": {
+      "title": "Mobility data (N)"
+    },
+    "CV": {
+      "title": "Covid-19 cases (N)"
+    },
+    "OW": {
+      "title": "Covid-19 vaccinations (N)"
+    },
+    "CDS1": {
+      "title": "Temperature (N)"
+    },
+    "CDS2": {
+      "title": "Relative humidity (N)"
+    },
+    "CDS3": {
+      "title": "Wind U field (N)"
+    },
+    "CDS4": {
+      "title": "Wind V field (N)"
+    },
+    "N1-World": {
+      "title": "TROPOMI NO2 (N)"
+    },
+    "N1-WorldCO": {
+      "title": "TROPOMI CO (N)"
+    },
+    "N1-CH4": {
+      "title": "TROPOMI CH4 (N)"
+    }
   },
   "trilateral": {
   },

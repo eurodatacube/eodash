@@ -216,10 +216,17 @@ const mutations = {
       // We see if indicator code and aoiID is a match
       const mergedKey = `${indicatorObject.indicator}-${indicatorObject.aoiID}`;
       const { id } = this.state.config.appConfig;
+      let foundMapping;
       if (mergedKey in nameMapping[id]) {
-        indicatorObject.indicatorName = nameMapping[id][mergedKey];
+        foundMapping = nameMapping[id][mergedKey];
       } else if (indicatorObject.indicator in nameMapping[id]) {
-        indicatorObject.indicatorName = nameMapping[id][indicatorObject.indicator];
+        foundMapping = nameMapping[id][indicatorObject.indicator];
+      }
+      if (foundMapping && 'title' in foundMapping) {
+        indicatorObject.indicatorName = foundMapping.title;
+      }
+      if (foundMapping && 'description' in foundMapping) {
+        indicatorObject.description = foundMapping.description;
       }
     });
     // indicatorName

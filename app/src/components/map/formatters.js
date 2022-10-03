@@ -55,7 +55,7 @@ export function formatLabel(indicatorObject, vm) {
   return {
     city: indicatorObject.city,
     indicator: vm.baseConfig.indicatorsDefinition[indicatorObject.indicator]
-      .indicatorOverwrite || indicatorObject.description,
+      .indicatorOverwrite || indicatorObject.indicatorName,
     label,
   };
 }

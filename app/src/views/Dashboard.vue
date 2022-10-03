@@ -109,15 +109,15 @@
           :class="$store.state.indicators.selectedIndicator.description ===
             $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
         >
-          {{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.city }},
-          {{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.description }}
+          {{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.city }}:
+          {{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.indicatorName }}
           <div v-if="
             $store.state.indicators.selectedIndicator.description !==
             $store.state.indicators.selectedIndicator.indicatorName
             && $store.state.indicators.customAreaIndicator === null"
             class="subheading" style="font-size: 0.8em">
             {{ queryIndicatorObject
-              && queryIndicatorObject.properties.indicatorObject.indicatorName }}
+              && queryIndicatorObject.properties.indicatorObject.description }}
           </div>
         </v-toolbar-title>
         <v-toolbar-title

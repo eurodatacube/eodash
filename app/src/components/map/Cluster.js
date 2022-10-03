@@ -335,9 +335,9 @@ class Cluster {
           coords = hoverFeature.getGeometry().getCoordinates();
         }
         const { indicatorObject } = hoverFeature.getProperties().properties;
-        const { city, indicator, label } = formatLabel(indicatorObject, this.vm);
+        const { city, indicator } = formatLabel(indicatorObject, this.vm);
         if (city) {
-          headers.push(city);
+          headers.push(`${city}:`);
         }
         if (indicator) {
           headers.push(indicator);
