@@ -530,7 +530,7 @@ export default {
       false,
     );
     if (this.mapId === 'centerMap') {
-      this.queryLink = new Link({ replace: true });
+      this.queryLink = new Link({ replace: true, params: ['x', 'y', 'z'] });
       map.addInteraction(this.queryLink);
     }
   },
