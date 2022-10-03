@@ -63,13 +63,6 @@ export default {
     options.zIndex = 3;
     const layer = createLayerFromConfig(this.mergedConfig, options);
     layer.set('name', this.layerName);
-    const { presetView } = this.mergedConfig;
-    if (presetView?.features?.length) {
-      const presetGeom = geoJsonFormat.readGeometry(presetView.features[0].geometry);
-      map.getView().fit(presetGeom.getExtent(), {
-        padding: [30, 30, 30, 30],
-      });
-    }
     const featureLayer = layer.getLayers().getArray().find((l) => l instanceof VectorLayer);
     this.pointerMoveHandler = (e) => {
       const features = map.getFeaturesAtPixel(e.pixel, {
