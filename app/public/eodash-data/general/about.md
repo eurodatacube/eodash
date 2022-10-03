@@ -6,6 +6,8 @@ served as testbed for Open Innovation, with participation of European Industry a
 
 In October 2022 the activity was rebranded to "Rapid Action for Citizens with Earth Observation", as it continues the rapid development of EO-informed indicators with societal relevance (such as air quality, agricultural production or manufacturing volumes), and it provides more open tools for interaction (such as Jupyter Notebooks and free tutorials on Earth Observation).
 
+<img src="./eodash-data/general/RACE_KV_2022.jpg" width="75%">
+
 ## What data can I find here? 
 
 The dashboard features European and global indicators of socio-economic and environmental changes using open data coming from the Copernicus Sentinel missions, data from Third Party Missions, as well as ground-based observations and advanced numerical models via the Copernicus Services.  
@@ -43,9 +45,13 @@ A complete list of the datasets is provided in this Notebook: https://eurodatacu
 
 ## Open Science
 
+[<img src="./eodash-data/general/EO-Open-Science_Badge_DEF.png" width="20%">](https://eo4society.esa.int/)
+
 This project is part of ESA Open Science activities. Visit https://eo4society.esa.int/ for more details.
 
 Follow us on Twitter: @eo_open_science #eodash
+
+
 
 
 ## Who can contribute to this dashboard?
