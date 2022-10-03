@@ -11,8 +11,8 @@ class VueMap {
     this.map = new Map({
       controls: new Collection([]),
       view: new View({
-        zoom: 0,
-        center: [0, 0],
+        zoom: 7,
+        center: [1558472.87110583, 6024072.119373784],
         padding: [20, 20, 20, 20],
         maxZoom: 15,
         extent: options.constrainExtent,

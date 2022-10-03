@@ -48,7 +48,7 @@ export default {
 
     const highlightStyle = new Style({
       fill: new Fill({
-        color: 'rgba(255, 148, 148, 0.2)',
+        color: '#00676244',
       }),
     });
 

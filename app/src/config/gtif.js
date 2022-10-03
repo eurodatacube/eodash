@@ -59,7 +59,7 @@ const nutsStyle = {
   protocol: 'GeoJSON',
   style: {
     fillColor: 'rgba(0, 0, 0, 0)',
-    color: 'rgba(255, 0, 0, 1)',
+    color: '#006762',
   },
 };
 
