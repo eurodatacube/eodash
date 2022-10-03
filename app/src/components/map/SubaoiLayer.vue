@@ -71,13 +71,13 @@ export default {
       return null;
     },
     isInverse() {
-      return this.indicator.country === 'all'
+      return !!(this.indicator.country === 'all'
         || this.appConfig.configuredMapPois.includes(`${this.indicator.aoiID}-${this.indicator.indicator}`)
         || ((Array.isArray(this.indicator.inputData)
         && this.indicator.inputData.filter(
           (item) => Object.prototype.hasOwnProperty.call(this.baseConfig.layerNameMapping, item),
         ).length
-        ));
+        )));
     },
   },
   mounted() {
@@ -113,12 +113,22 @@ export default {
       const feature = geoJsonFormat.readFeature(this.subAoi);
       subAoiLayer.getSource().addFeature(feature);
     }
+    if (this.isInverse && this.subAoi) {
+      console.log(this.subaoi);
+      // subaoi-geometry has a hole, use extent of that hole to constrain the view
+      const insidePolygon = JSON.parse(JSON.stringify(this.subAoi));
+      // eslint-disable-next-line prefer-destructuring
+      insidePolygon.geometry.coordinates = [insidePolygon.geometry.coordinates[1]];
+      const insidePolygonFeature = geoJsonFormat.readFeature(insidePolygon);
+      map.getView().set('constrainingExtent', insidePolygonFeature.getGeometry().getExtent());
+    }
     map.addLayer(subAoiLayer);
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
     const layer = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
     map.removeLayer(layer);
+    map.getView().set('constrainingExtent', [-Infinity, -Infinity, Infinity, Infinity]);
   },
   render: () => null,
 };
