@@ -19,9 +19,33 @@ From this dashboard you can access data in various ways:
 
 A complete list of the datasets is provided in this Notebook: https://eurodatacube.com/marketplace/notebooks/contributions/IGARSS2022/IGARSS-22_Data_Access.ipynb
 
+## Blog posts and Tutorials
+
+### 2022
+
+* [EODASH demo at the Living Planet Symposium 2022](https://eo4society.esa.int/2022/05/06/live-demos-and-training-schedule-during-lps-open-earth-forum/)
+* [Geo-storytelling with EO Dashboards at IGARSS 2022 and FOSS4G 2022](https://eo4society.esa.int/2022/09/21/geo-storytelling-with-eo-dashboards/)
+
+### 2021
+
+* [Build Custom Visualisations in the RACE Dashboard](https://medium.com/euro-data-cube/creating-powerful-visuals-of-covid-19-impacts-on-human-activities-8879fa75121d)
+* [How Covid-19 lockdown impacted the air in your city’s](https://medium.com/euro-data-cube/find-covid-19-lockdown-measures-impacts-on-your-citys-air-quality-b628872b3251)
+* [Detecting moving trucks with Sentinel-2](https://link.medium.com/cu3vbJAXFbb)
+* [Water Quality and Covid-19](https://medium.com/euro-data-cube/coronavirus-and-water-quality-whats-the-correlation-bf727d343e61)
+* [Air traffic disruptions seen from Space](https://medium.com/euro-data-cube/the-pandemic-disruption-of-air-traffic-as-seen-from-space-6dad64201b9a)
+* [Lockdown is also changing our Planet at night](https://medium.com/euro-data-cube/lockdown-is-also-changing-our-planet-at-night-520deffec252)
+* [Covid-19 and the World food supply](https://sara-aparicio.medium.com/87215c8edbdc)
+* [RACE Dashboard Challenges 2021](https://eo4society.esa.int/race-dashboard-challenges-2021/)
+
+### 2020
+
+* [Euro Data Cube Custom Script Contest – COVID-19 edition](https://eo4society.esa.int/2020/04/06/euro-data-cube-custom-script-contest-covid-19-edition/)
+
 ## Open Science
 
 This project is part of ESA Open Science activities. Visit https://eo4society.esa.int/ for more details.
+
+Follow us on Twitter: @eo_open_science #eodash
 
 
 ## Who can contribute to this dashboard?
@@ -70,7 +94,5 @@ The current contributing companies and institutions are listed here.
 ##### Disclaimer
 
 The information contained on this website are mainly provided by third parties based on experimental methods and without any warranty as to their veracity. The European Commission cannot be held responsible for any use which may be made of the information contained therein.
-
-
 
 
