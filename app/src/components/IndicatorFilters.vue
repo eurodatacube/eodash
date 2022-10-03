@@ -162,7 +162,7 @@ export default {
         if (this.userInput?.length) {
           const filtered = this.searchItems
             .filter((i) => i.properties?.indicatorObject)
-            .filter(i => i.filterPriority > 0);
+            .filter((i) => i.filterPriority > 0);
           this.setFeatureFilter({
             custom: filtered,
           });
