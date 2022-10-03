@@ -265,6 +265,9 @@ export default {
       }
     },
     selectedIndicator(indicatorObject) {
+      if (!indicatorObject) {
+        return;
+      }
       const displayName = `${indicatorObject.city}: ${this.getIndicator(indicatorObject)}`;
       if (this.userInput !== displayName) {
         this.userInput = displayName;
