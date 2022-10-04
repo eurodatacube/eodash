@@ -7,7 +7,8 @@
 
 @font-face{
   font-family: 'NotesESA';
-  src: url('./notesesareg.otf') format('opentype');
+  src: url('./notesesareg.woff2') format('woff2'),
+       url('./notesesareg.ttf') format('truetype');
 }
 
 .v-application {
