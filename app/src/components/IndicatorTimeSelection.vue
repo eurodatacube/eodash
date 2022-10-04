@@ -1,7 +1,9 @@
 <template>
   <v-sheet
     class="row justify-center align-center rounded"
-    :style="`position: absolute; top: ${$vuetify.breakpoint.xsOnly ? 10 : 20}px; z-index: 5; width: auto; max-width: 600px;`"
+    :style="`position: absolute; top: ${$vuetify.breakpoint.xsOnly
+      ? 10
+      : 20}px; z-index: 5; width: auto; max-width: 600px;`"
   >
     <v-col
       v-if="currentlyComparing"

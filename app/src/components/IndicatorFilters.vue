@@ -1,7 +1,12 @@
 <template>
   <div
     class="no-pointer pa-2 overflow-hidden"
-    :style="`width: ${$vuetify.breakpoint.xsOnly ? '100%' : '360px'}; height: calc((var(--vh), 1vh) * 100); z-index: 4; background: ${$vuetify.breakpoint.xsOnly && comboboxFocus ? $vuetify.theme.currentTheme.background : 'unset' }`"
+    :style="`width: ${$vuetify.breakpoint.xsOnly
+      ? '100%'
+      : '360px'}; height: calc((var(--vh), 1vh) * 100); z-index: 4; background: ${
+        $vuetify.breakpoint.xsOnly && comboboxFocus
+          ? $vuetify.theme.currentTheme.background
+          : 'unset' }`"
   >
     <v-card class="rounded-lg">
       <div
@@ -83,7 +88,8 @@
           >
             <v-img
               height="50"
-              :src="`./data/${appConfig.id}/globalDataLayerImages/${getLocationCode(item.properties.indicatorObject)}.png`"
+              :src="`./data/${appConfig.id}/globalDataLayerImages/${getLocationCode(
+                item.properties.indicatorObject)}.png`"
             >
             </v-img>
             <v-card-title
@@ -217,7 +223,8 @@ export default {
           .forEach((p) => {
             if (p !== queryParts[0] ? !skip.includes(p) : true) {
               const countryName = countries.features
-                .find((c) => c.properties.alpha2 === searchItem.properties?.indicatorObject?.country)?.properties
+                .find((c) => c.properties.alpha2 === searchItem
+                  .properties?.indicatorObject?.country)?.properties
                 .name;
               if (searchItem.name.toLocaleLowerCase().indexOf(p) > -1) {
                 // add a point if the query exists in itemText
@@ -240,14 +247,16 @@ export default {
                 matchPoints++;
               }
               if (
-                this.baseConfig.indicatorsDefinition[searchItem.properties?.indicatorObject?.indicator]?.themes
+                this.baseConfig.indicatorsDefinition[
+                  searchItem.properties?.indicatorObject?.indicator
+                ]?.themes
                   .includes(p)
               ) {
                 matchPoints++;
               }
             }
           });
-        array[index].filterPriority = matchPoints;
+        array[index].filterPriority = matchPoints; // eslint-disable-line
       });
       this.searchItems.sort((a, b) => (a.name.localeCompare(b.name)));
       this.searchItems.sort((a, b) => (b.filterPriority || 0) - (a.filterPriority || 0));
@@ -309,7 +318,9 @@ export default {
         }).readFeatures(countries);
         const country = parsedCountries.find((c) => c.get('alpha2') === parsedInput.code);
         const { map } = getMapInstance('centerMap');
-        map.getView().fit(country.getGeometry().getExtent(), { duration: 500, padding: [50, 50, 50, 50] });
+        map.getView().fit(country.getGeometry().getExtent(), {
+          duration: 500, padding: [50, 50, 50, 50],
+        });
       }
     },
     selectedMapLayer(index) {

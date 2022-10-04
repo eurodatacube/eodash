@@ -113,8 +113,8 @@ export default {
         to.query.poi || to.query.indicator || to.query.clusterOpen
       ));
 
-      if (!to.query.poi && from.query.poi
-      || !to.query.indicator && from.query.indicator
+      if ((!to.query.poi && from.query.poi)
+      || (!to.query.indicator && from.query.indicator)
       || from.query.clusterOpen) {
         if (!to.query.poi && from.query.poi) {
           // clear poi

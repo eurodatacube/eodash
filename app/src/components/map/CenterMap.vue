@@ -24,7 +24,9 @@
       class="d-flex justify-center fill-height"
       :style="`position: absolute; bottom: 0; left: 0;
       transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      width: ${panelActive && $vuetify.breakpoint.smAndUp ? 'calc(100% - var(--data-panel-width))' : '100%'}`"
+      width: ${panelActive && $vuetify.breakpoint.smAndUp
+        ? 'calc(100% - var(--data-panel-width))'
+        : '100%'}`"
     >
       <LayerSwipe
         v-if="compareLayerTime"
