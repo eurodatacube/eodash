@@ -1,6 +1,6 @@
 <template>
   <div
-    :style="`${$vuetify.breakpoint.mdAndDown ? 'padding-bottom: 100px; height: auto;'
+    :style="`${$vuetify.breakpoint.mdAndDown ? ''
     : 'height: calc(100% - 64px - ' + bannerHeight + 'px);'}`"
     ref="wrapper"
   >
@@ -71,7 +71,7 @@
                   class="pa-5 chart"
                   :currentIndicator="sensorData.properties.indicatorObject"
                 />
-                <v-row class="mt-0">
+                <v-row v-if="!showMap" class="mt-0">
                   <v-col cols="12" sm="5" ></v-col>
                   <v-col
                     cols="12"
@@ -100,7 +100,7 @@
               <v-card
                 v-if="customAreaIndicator && !expanded"
                 class="fill-height"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 43 : 50}vh;`"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 43 : 30}vh;`"
                 style="border: none; !important"
                 ref="indicatorData"
                 outlined
@@ -142,7 +142,7 @@
           <v-card
             v-else-if="customAreaIndicator && !expanded"
             class="fill-height"
-            :style="`height: ${$vuetify.breakpoint.mdAndUp ? 43 : 50}vh;`"
+            :style="`height: ${$vuetify.breakpoint.mdAndUp ? 43 : 30}vh;`"
             style="border: none; !important"
             ref="indicatorData"
             outlined
@@ -183,7 +183,7 @@
               style="margin-top: 0px;"
               class="pa-2 chart"
             />
-            <v-row class="mt-0">
+            <v-row v-if="!showMap" class="mt-0">
               <v-col cols="12" sm="5" ></v-col>
               <v-col
                 cols="12"
@@ -221,7 +221,7 @@
             v-else-if="!showMap || (showMap && indicatorObject.display.customAreaIndicator)"
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
-                              ? (bannerHeight ? 65 : 70) : 30) : 50}vh;`"
+                              ? (bannerHeight ? 65 : 70) : 30) : 30}vh;`"
             ref="mapPanel"
           >
             <div
@@ -302,7 +302,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
             <v-col
               cols="12"
               sm="7"
-              v-if="!isFullScreen"
+              v-if="!isFullScreen && !showMap"
               :style="customAreaIndicator && !expanded
                 ? 'margin-bottom: -40px; margin-top: 20px;' : ''"
               ref="buttonRow"
@@ -355,7 +355,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                 <add-to-dashboard-button
                   v-else-if="!this.baseConfig.indicatorsDefinition[
                     indicatorObject.indicator
-                  ].countrySelection"
+                  ].countrySelection && !showMap"
                   :indicatorObject="indicatorObject"
                   :zoom="zoom"
                   :center="center"
@@ -381,7 +381,8 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                     - (multipleTabCompare ? 48 : 0) + 'px') }`"
         >
           <v-row
-            class="mt-0 fill-height scrollContainer"
+            class="mt-0 fill-height scrollContainer pb-2"
+            :style="$vuetify.breakpoint.xsOnly ? 'height: 40vh' : ''"
           >
             <v-col
               cols="12"
@@ -392,7 +393,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
               <v-card
                 v-if="customAreaIndicator"
                 class="fill-height"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 50 : 50}vh;`"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 50 : 30}vh;`"
                 style="border: none; !important"
                 ref="indicatorData"
                 outlined
@@ -441,7 +442,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                 <v-col
                   cols="12"
                   sm="7"
-                  v-if="!isFullScreen"
+                  v-if="!isFullScreen && !showMap"
                   ref="customButtonRow"
                 >
                   <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
@@ -526,6 +527,7 @@ Select a point of interest on the map to see the data for a specific location!
         >
           <v-row
             class="mt-0 fill-height scrollContainer"
+            :style="$vuetify.breakpoint.xsOnly ? 'height: 40vh' : ''"
           >
             <v-col
               cols="12"

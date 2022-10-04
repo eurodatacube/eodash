@@ -1,11 +1,11 @@
 <template>
   <div
     class="no-pointer pa-2 overflow-hidden"
-    style="width: 360px; height: calc((var(--vh), 1vh) * 100); z-index: 4"
+    :style="`width: ${$vuetify.breakpoint.xsOnly ? '100%' : '360px'}; height: calc((var(--vh), 1vh) * 100); z-index: 4; background: ${$vuetify.breakpoint.xsOnly && comboboxFocus ? $vuetify.theme.currentTheme.background : 'unset' }`"
   >
     <v-card class="rounded-lg">
       <div
-        v-if="appConfig.id === 'esa'"
+        v-if="appConfig.id === 'esa' && $vuetify.breakpoint.smAndUp"
         class="pa-2"
       >
         <v-btn
@@ -29,7 +29,7 @@
         :allow-overflow="false"
         attach="#combobox-menu"
         auto-select-first
-        autofocus
+        :autofocus="$vuetify.breakpoint.smAndUp"
         clearable
         :filter="customComboboxFilter"
         flat
@@ -41,8 +41,10 @@
         :search-input.sync="userInput"
         solo
         class="rounded-lg"
+        @blur="comboboxFocus = false"
         @click:clear="comboboxClear"
         @click:prepend-inner="$store.state.showHistoryBackButton ? $router.back() : () => {}"
+        @focus="comboboxFocus = true"
         @keydown.esc="userInput = null"
       >
       </v-combobox>
@@ -54,6 +56,7 @@
       </div>
     </v-card>
     <div
+      v-if="!($vuetify.breakpoint.xsOnly && comboboxFocus)"
       id="slideGroupWrapper"
       class="d-flex"
       style="position: absolute; bottom: 10px; left: 0; pointer-events: none;"
@@ -114,6 +117,7 @@ export default {
     selectedListItem: null,
     selectedMapLayer: null,
     mapLayersExpanded: false,
+    comboboxFocus: null,
   }),
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
@@ -279,6 +283,10 @@ export default {
     selectedListItem(input) {
       if (!input) {
         return;
+      }
+      if (this.$vuetify.breakpoint.xsOnly) {
+        this.comboboxFocus = false;
+        this.$refs.combobox.blur();
       }
       const parsedInput = this.searchItems.find((i) => i.name === input);
       if (!parsedInput) {

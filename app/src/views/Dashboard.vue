@@ -242,6 +242,7 @@
         'hidden': !$store.state.indicators.selectedIndicator
           && $store.state.features.featureFilters.indicators.length === 0,
       }"
+      :style="`height: calc(100% - ${$vuetify.application.footer}px)`"
       v-else
     >
       <v-toolbar dark color="primary">
@@ -286,28 +287,36 @@
           </v-btn>
         </template>
       </v-toolbar>
-      <div
-        class="scrollContainer data-panel"
-        :style="{background: $vuetify.theme.themes[theme].background}"
+      <v-container
+        class="data-panel"
+        :class="$vuetify.breakpoint.smAndUp ? 'scrollContainer' : ''"
+        :style="{
+          background: $vuetify.theme.themes[theme].background,
+          height: `calc(100% - ${$vuetify.application.footer - 4}px)`
+        }"
       >
 
         <banner v-if="currentNews" />
 
-        <h4 v-if="
-            ($store.state.indicators.selectedIndicator && (
-              $store.state.indicators.selectedIndicator.description !==
-              $store.state.indicators.selectedIndicator.indicatorName))"
-          class="px-4 py-2"
-        >
-          {{ queryIndicatorObject
-            && queryIndicatorObject.properties.indicatorObject.indicatorName }}
-        </h4>
-        <data-panel
-          v-if="$store.state.indicators.selectedIndicator
-            || $store.state.features.featureFilters.indicators.length > 0"
-          :newsBanner="$refs.newsBanner"
-          :expanded="dataPanelFullWidth" class="fill-height" />
-      </div>
+        <v-row>
+          <v-col>
+            <h4 v-if="
+                ($store.state.indicators.selectedIndicator && (
+                  $store.state.indicators.selectedIndicator.description !==
+                  $store.state.indicators.selectedIndicator.indicatorName))"
+              class="py-2"
+            >
+              {{ queryIndicatorObject
+                && queryIndicatorObject.properties.indicatorObject.indicatorName }}
+            </h4>
+            <data-panel
+              v-if="$store.state.indicators.selectedIndicator
+                || $store.state.features.featureFilters.indicators.length > 0"
+              :newsBanner="$refs.newsBanner"
+              :expanded="dataPanelFullWidth" class="fill-height" />
+          </v-col>
+        </v-row>
+      </v-container>
     </div>
 
     <v-dialog
@@ -607,7 +616,8 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1001;
+  z-index: 8;
+  width: 100%;
 
   &.retracted {
     transform: translateY(66vh);

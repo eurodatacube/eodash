@@ -6,6 +6,7 @@
     flat
     :color="currentTheme ? currentTheme.color : 'primary'"
     class="white--text"
+    style="z-index: 8"
     v-show="!isFullScreen"
   >
     <v-app-bar-nav-icon

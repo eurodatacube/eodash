@@ -11,11 +11,11 @@
         @click="dialog = true"
       >
         <template v-if="showMap">
-          <v-icon left>mdi-map-search</v-icon>
-          embed map
+          <!-- <v-icon left>mdi-map-search</v-icon>
+          embed map -->
         </template>
         <template v-else>
-          <v-icon left>mdi-poll-box</v-icon>
+          <v-icon left>mdi-chart-box-outline</v-icon>
           embed chart
         </template>
       </v-btn>
