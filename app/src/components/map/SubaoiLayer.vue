@@ -8,6 +8,8 @@ import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
 import turfDifference from '@turf/difference';
 import { mapState } from 'vuex';
+import { containsCoordinate } from 'ol/extent';
+import { clamp } from 'ol/math';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -18,6 +20,7 @@ const geoJsonFormat = new GeoJSON({
  * and associated interactions on mount / destroy.
  * the view of the associated map will be updated if the given indicator
  * demands such behavior (e.g. if a preset view is set)
+ * Map movement like panning will get restricted if the indicator has an inverse subaoi
  *
  * as this layer is meant for global POIs, this will not show up in the layer
  * control by design
@@ -27,6 +30,9 @@ export default {
     mapId: String,
     indicator: Object,
   },
+  data: () => ({
+    constrainingExtent: undefined,
+  }),
   watch: {
     subAoi: {
       deep: true,
@@ -114,21 +120,35 @@ export default {
       subAoiLayer.getSource().addFeature(feature);
     }
     if (this.isInverse && this.subAoi) {
-      console.log(this.subaoi);
       // subaoi-geometry has a hole, use extent of that hole to constrain the view
       const insidePolygon = JSON.parse(JSON.stringify(this.subAoi));
       // eslint-disable-next-line prefer-destructuring
       insidePolygon.geometry.coordinates = [insidePolygon.geometry.coordinates[1]];
       const insidePolygonFeature = geoJsonFormat.readFeature(insidePolygon);
-      map.getView().set('constrainingExtent', insidePolygonFeature.getGeometry().getExtent());
+      this.constrainingExtent = insidePolygonFeature.getGeometry().getExtent();
+      map.on('moveend', this.moveendHandler);
     }
     map.addLayer(subAoiLayer);
+  },
+  methods: {
+    moveendHandler(e) {
+      const map = e.target;
+      const view = map.getView();
+      const center = view.getCenter();
+      if (!containsCoordinate(this.constrainingExtent, center)) {
+        const newCenter = [
+          clamp(center[0], this.constrainingExtent[0], this.constrainingExtent[2]),
+          clamp(center[1], this.constrainingExtent[1], this.constrainingExtent[3]),
+        ];
+        view.animate({ center: newCenter, duration: 150 });
+      }
+    },
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
     const layer = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
     map.removeLayer(layer);
-    map.getView().set('constrainingExtent', [-Infinity, -Infinity, Infinity, Infinity]);
+    map.un('moveend', this.moveendHandler);
   },
   render: () => null,
 };
