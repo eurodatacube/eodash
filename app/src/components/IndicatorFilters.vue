@@ -114,6 +114,7 @@ import {
 } from 'ol/format';
 
 import getMapInstance from '@/components/map/map';
+import { calculatePadding } from '@/utils';
 
 export default {
   data: () => ({
@@ -318,8 +319,9 @@ export default {
         }).readFeatures(countries);
         const country = parsedCountries.find((c) => c.get('alpha2') === parsedInput.code);
         const { map } = getMapInstance('centerMap');
+        const padding = calculatePadding();
         map.getView().fit(country.getGeometry().getExtent(), {
-          duration: 500, padding: [50, 50, 50, 50],
+          duration: 500, padding,
         });
       }
     },

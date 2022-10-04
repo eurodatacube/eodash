@@ -18,6 +18,7 @@ import { fromLonLat } from 'ol/proj';
 import { getColor } from './olMapColors';
 import getMapInstance from './map';
 import { formatLabel } from './formatters';
+import { calculatePadding } from '@/utils';
 
 const circleDistanceMultiplier = 1;
 const circleFootSeparation = 28;
@@ -390,7 +391,8 @@ class Cluster {
               const router = this.vm.$router;
               router.push({ query: params });
               // Zoom to the extent of the cluster members.
-              view.fit(extent, { duration: 500, padding: [50, 50, 50, 50] });
+              const padding = calculatePadding();
+              view.fit(extent, { duration: 500, padding });
             }
           } else {
             this.openIndicator(features[0].getProperties().features[0]);
@@ -477,10 +479,15 @@ class Cluster {
     clusterSource.addFeatures(features);
     if (features.length) {
       setTimeout(() => {
-        this.map.getView().fit(clusterSource.getExtent(), {
-          maxZoom: 8,
-          duration: 200,
-        }, 0);
+        const { selectedIndicator } = store.state.indicators;
+        if (!selectedIndicator) {
+          const padding = calculatePadding();
+          this.map.getView().fit(clusterSource.getExtent(), {
+            maxZoom: 8,
+            duration: 200,
+            padding,
+          }, 0);
+        }
       });
     }
   }

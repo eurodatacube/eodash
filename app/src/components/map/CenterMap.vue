@@ -158,6 +158,7 @@ import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 import Link from 'ol/interaction/Link';
+import { calculatePadding } from '@/utils';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -456,7 +457,8 @@ export default {
         if (value && !(this.centerProp || this.zoomProp)) {
           const { map } = getMapInstance(this.mapId);
           if (map.getTargetElement()) {
-            map.getView().fit(value, { duration: 500 });
+            const padding = calculatePadding();
+            map.getView().fit(value, { duration: 500, padding });
           } else {
             map.once('change:target', () => {
               map.getView().fit(value);
@@ -465,6 +467,15 @@ export default {
         }
       },
     },
+  },
+  created() {
+    if (this.mapId === 'centerMap') {
+      const { bounds } = this.mapDefaults;
+      const extent = transformExtent([bounds._southWest.lng, bounds._southWest.lat, bounds._northEast.lng, bounds._northEast.lat], 'EPSG:4326',
+        'EPSG:3857');
+      const { map } = getMapInstance(this.mapId);
+      map.getView().fit(extent, { padding: [20, 20, 40, 20] })
+    }    
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);

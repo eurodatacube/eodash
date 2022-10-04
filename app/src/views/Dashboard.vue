@@ -394,7 +394,6 @@ import IndicatorFilters from '@/components/IndicatorFilters.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
-import { calculatePadding } from '@/utils';
 
 export default {
   metaInfo() {
@@ -554,11 +553,6 @@ export default {
           this.clickMobileClose();
         }
       }
-    },
-    drawerRight() {
-      this.$nextTick(() => {
-        calculatePadding();
-      });
     },
   },
 };
