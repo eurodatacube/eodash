@@ -34,7 +34,7 @@
                 <article>
                     <div
                         v-for="(el, i) in data.filter((v, i) => !(i % 2))"
-                        class="step"
+                        :class="currentStep.step === i ? 'active step' : 'step'"
                         :data-section="sectionIndex"
                         :data-step="i"
                         v-html="parseMarkdown(el.text)"
@@ -90,7 +90,6 @@
             section: 0,
             step: 0,
         },
-        figures: null,
     }},
     created() {
         window.addEventListener('message', (message) => {
@@ -101,15 +100,6 @@
                 });
             }
         });
-
-      const figureContainers = document.getElementsByClassName('figureContainer');
-      this.figures = document.createDocumentFragment();
-      for (let figureContainer in figureContainers) {
-        for (let i = 0; i < figureContainer.length; i++) {
-          this.figures.appendChild(figureContainer.children[i]);
-        }
-      }
-      console.log(this.children);
     },
     methods: {
       scrollamaSetup() {
@@ -125,11 +115,13 @@
         }
 
         const handleStepProgress = (response) => {
+          if (document.querySelector('video')) {
             // update video based on step
             let duration = document.querySelector('video').duration;
             window.requestAnimationFrame(() => {
                 document.querySelector('video').currentTime = duration * response.progress;
             });
+          }
         }
 
         const init = () => {
@@ -137,7 +129,7 @@
                 .setup({
                     root: document,
                     step: ".scrollySection article .step",
-                    offset: 0.33,
+                    offset: screen.width > 479 ? 0.33 : 0.6,
                     progress: true,
                     debug: false
                 })
