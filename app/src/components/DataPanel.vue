@@ -180,7 +180,7 @@
             </v-row>
           </v-card>
           <v-card
-            v-else-if="!showMap || (showMap && indicatorObject.display.customAreaIndicator)"
+            v-else-if="!showMap || (showMap && indicatorObject.display && indicatorObject.display.customAreaIndicator)"
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
                               ? (bannerHeight ? 65 : 70) : 30) : 30}vh;`"
