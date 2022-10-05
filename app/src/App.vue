@@ -152,6 +152,13 @@ export default {
     } else {
       this.comingSoon = false;
     }
+    const { query } = this.$route;
+    if (query.clusterOpen) {
+      this.$router.replace({query: {
+        ...query,
+        clusterOpen: undefined,
+      }});
+    }
   },
   mounted() {
     // Listen for features added, and select if poi in query
