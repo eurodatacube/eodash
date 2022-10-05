@@ -516,7 +516,7 @@ export default {
       projection: 'EPSG:4326',
       target: this.$refs.mousePositionContainer,
       className: 'ol-control ol-mouse-position',
-      placeholder: false,
+      placeholder: '',
     }));
 
     const view = map.getView();
