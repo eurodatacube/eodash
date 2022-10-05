@@ -65,7 +65,7 @@ export default {
               properties: {},
               geometry: {
                 type: 'Polygon',
-                coordinates: [[[-1800, -90], [1800, -90], [1800, 90], [-1800, 90], [-1800, -90]]],
+                coordinates: [[[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]]],
               },
             };
             const diff = turfDifference(globalBox, subaoiInv.geometry);
