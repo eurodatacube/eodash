@@ -323,31 +323,55 @@
 
     <v-dialog
       v-model="showInfoDialog"
-      :fullscreen="$vuetify.breakpoint.smAndDown"
       class="info-dialog"
-      width="80vw"
+      width="90vw"
+      max-width="1000"
     >
       <template>
         <div
-          class="d-flex justify-between px-7 py-4"
+          class="d-flex justify-between px-7 pt-4"
           width="100%"
           style="justify-content: space-between; align-items: center;"
-          :style="{background: this.$vuetify.theme.dark ? 'var(--v-grey-darken4)' : '#CED9E0'}"
+          :style="{background: $vuetify.theme.currentTheme.background}"
         >
-          <span class="font-medium text-h6 text-capitalize">
-            {{ showText }}
+          <span class="font-medium text-h6 text-capitalize mb-2 mb-sm-0">
+            {{ showText === 'welcome' ? `Welcome to ${appConfig.branding.appName}!` : showText }}
           </span>
           <v-btn
+            v-if="$vuetify.breakpoint.smAndUp"
             color="secondary"
             @click="() => showInfoDialog = false"
           >
-            <span v-if="!$vuetify.breakpoint.xsOnly">Start Exploring!</span>
-            <v-icon :right="!$vuetify.breakpoint.xsOnly">mdi-arrow-right</v-icon>
+            <span>Explore the dashboard!</span>
+            <v-icon right>mdi-arrow-right</v-icon>
+          </v-btn>
+          <v-btn
+            v-else
+            color="primary"
+            icon
+            @click="() => showInfoDialog = false"
+          >
+            <v-icon>mdi-close</v-icon>
           </v-btn>
         </div>
 
-        <Welcome v-if="showText === 'welcome'" />
+        <Welcome v-if="showText === 'welcome'" class="pt-4" />
         <About v-else-if="showText === 'about'" />
+
+        <div
+          v-if="$vuetify.breakpoint.xsOnly"
+          class="px-7 pb-4"
+          :style="{background: $vuetify.theme.currentTheme.background}"
+        >
+          <v-btn
+            block
+            color="secondary"
+            @click="() => showInfoDialog = false"
+          >
+            <span>Explore the dashboard!</span>
+            <v-icon right>mdi-arrow-right</v-icon>
+          </v-btn>
+        </div>
       </template>
     </v-dialog>
 
@@ -423,11 +447,11 @@ export default {
     drawerLeft: false,
     drawerRight: false,
     dialog: false,
-    showText: null,
+    showText: 'welcome',
     dataPanelFullWidth: false,
     dataPanelTemporary: false,
     panelKey: 0,
-    showInfoDialog: false,
+    showInfoDialog: null,
     isDialogRetracted: true,
   }),
   computed: {
@@ -492,14 +516,12 @@ export default {
   },
   mounted() {
     document.documentElement.style.setProperty('--data-panel-width', `${this.dataPanelWidth}px`);
-    // TODO: uncomment
-    // setTimeout(() => {
-    //   // only show when no poi is selected
-    //   if (!this.$route.query.poi) {
-    //     this.showText = 'welcome';
-    //     this.showInfoDialog = true;
-    //   }
-    // }, 2000);
+    // only show when nothing is selected
+    const { poi, indicator, search } = this.$route.query;
+    if (!poi && !indicator && !search) {
+      this.showText = 'welcome';
+      this.showInfoDialog = true;
+    }
   },
   beforeDestroy() {
     this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
@@ -539,6 +561,10 @@ export default {
         this.drawerRight = true;
         if (!this.$vuetify.breakpoint.mdAndUp) {
           this.dialog = true;
+        }
+        if (this.showInfoDialog) {
+          this.showInfoDialog = false;
+          this.showText = null;
         }
       } else {
         this.drawerRight = false;
