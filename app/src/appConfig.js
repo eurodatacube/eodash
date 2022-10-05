@@ -9,6 +9,7 @@ module.exports = [
     match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'localhost2'],
     branding: {
       appName: 'Rapid Action for Citizens with Earth Observation',
+      shortName: 'RACE Dashboard',
       primaryColor: '#003247',
       secondaryColor: '#00ae92',
       headerLogo: './eodash-data/general/RACE_Logo.png',

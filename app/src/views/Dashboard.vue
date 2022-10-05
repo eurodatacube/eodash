@@ -334,7 +334,9 @@
           :style="{background: $vuetify.theme.currentTheme.background}"
         >
           <span class="font-medium text-h6 text-capitalize mb-2 mb-sm-0">
-            {{ showText === 'welcome' ? `Welcome to ${appConfig.branding.appName}!` : showText }}
+            {{ showText === 'welcome'
+              ? `Welcome to ${appConfig.branding.shortName || appConfig.branding.appName}!`
+              : showText }}
           </span>
           <v-btn
             v-if="$vuetify.breakpoint.smAndUp"
