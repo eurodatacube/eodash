@@ -224,22 +224,6 @@
                               ? (bannerHeight ? 65 : 70) : 30) : 30}vh;`"
             ref="mapPanel"
           >
-            <div
-              style="height: 100%;z-index: 500; position: relative;"
-              v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
-              @click="dataInteract = true"
-              v-touch="{
-                left: () => swipe(),
-                right: () => swipe(),
-                up: () => swipe(),
-                down: () => swipe(),
-            }">
-            </div>
-            <v-overlay :value="overlay" absolute
-              v-if="!dataInteract"
-              @click="dataInteract = true">
-              Tap to interact
-            </v-overlay>
             <indicator-globe
               v-if="showGlobe"
               @update:direction="d => direction = d"
@@ -252,9 +236,11 @@
               class="d-flex justify-center"
               style="top: 0px; position: absolute;"
             />
-            <v-col v-else-if="showMap && indicatorObject.display.customAreaIndicator"
+            <v-col
+              v-else-if="showMap && indicatorObject.display.customAreaIndicator"
               class="d-flex flex-col align-center justify-center"
-              style="flex-direction: column; height: 100%">
+              style="flex-direction: column; height: 100%; position: absolute; top: 0;"
+            >
               <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
               <p style="max-width: 75%; text-align: center">
 Draw an area on the map using the shape buttons to generate a custom chart!
