@@ -590,7 +590,9 @@ export default {
       if (newRow === 0) {
         delete query.page;
       } else {
-        query.page = newRow;
+        if (this.storyMode) {
+          query.page = newRow;
+        }
       }
       this.$router.replace({ query }).catch(() => {});
     },
