@@ -159,7 +159,7 @@
               <GtifHeaderNavItem
                 color="hsl(320 80% 60%)"
                 title="EO Adaptation"
-                is-sub-item="true"
+                :is-sub-item="true"
                 :to="{name: 'gtif-eo-adaptation'}"
               />
 
