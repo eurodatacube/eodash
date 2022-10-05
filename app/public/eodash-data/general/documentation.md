@@ -5,14 +5,14 @@ If you are participating in a competition or tutorial using the EO Dashboard, yo
 
 ## Euro Data Cube (EDC)
 
-To use the EDC resources, such as the JupyterLab Workspace, participants to competitions/tutorials need to register for an EDC account using the specific EVENT URL. 
-Upon registration, a tailored workspace is made available (usually available within 2 working days). 
-A notification via email is sent to participants once the workspace is available.
+To use the EDC resources, such as the JupyterLab Workspace, participants to competitions/tutorials typically need to register for an EDC account using a specific EVENT URL announced prior to the event. The free trial subscrptions can of course be used to familiarize with the platform but specific tutorial notebooks and other material will not be directly available in this environment.
+Upon registration, a tailored workspace is made available. Depending on the event access might be granted immediatelly or at the start of the event.
+In any case, a notification via email is sent to participants once the workspace is available.
 
 *Please note: you should NOT create an account from the main page of the EDC site because it will not be
-tailored to your competition/tutorial. Only use the provided EVENT URL.* 
+tailored to your competition/tutorial. Only use the provided EVENT URL.*
 
-Once you are registered and have been notified that your EDC resources are ready you may access your EDC JupyterLab Workspace from the EDC Dashboard.
+Once you are registered and have been notified that your EDC resources are ready you may access your EDC JupyterLab Workspace at https://hub.eox.at.
 
 In the EDC JupyterLab Workspace you may access the various EDC resources like tutorial notebooks from the Launcher page.
 
@@ -20,16 +20,16 @@ In the EDC JupyterLab Workspace you may access the various EDC resources like tu
 
 Free Jupyter Notebooks with the tag "EO Dashboard" are accessible from the EDC marketplace.
 
-They contain examples for how to access the different Earth observation data and indicators and create similar visualisations as the ones displayed on EO Dashboard. 
+They contain examples for how to access the different Earth observation data and indicators and create similar visualisations as the ones displayed on EO Dashboard.
 
 https://eurodatacube.com/marketplace?tag=EO%20Dashboard
 
-On the marketplace ypu can also discover general purpose Notebooks on the EDC services, as well as many examples of applications developed on top of these services.
+On the marketplace you can also discover general purpose Notebooks on the EDC services, as well as many examples of applications developed on top of these services.
 
 ## Data 
 
 The data powering the EO Dashboard is provided via:
-- Euro Data Cube services (Sentinel-hub, Geodb)
+- Euro Data Cube services (Sentinel Hub, geodb)
 - NASA STAC API
 - JAXA web services
 - other open sources and services.
@@ -38,6 +38,8 @@ The Jupyter Notebook called **"Data Access"** contains the list of available dat
 Find it here: https://eurodatacube.com/marketplace?tag=EO%20Dashboard 
 
 ## Blog Posts
+
+There are a number of blog posts available that provide details about various indicators you might find usefull to read thru.
 
 - [Creating powerful visuals of COVID-19 impacts on human activities](https://medium.com/euro-data-cube/creating-powerful-visuals-of-covid-19-impacts-on-human-activities-8879fa75121d)
 - [World food supply amid a pandemic-Part 1](https://medium.com/euro-data-cube/world-food-supply-amid-a-pandemic-3940ef855f07)
