@@ -4,7 +4,27 @@
     width="500"
   >
     <template v-slot:activator="{}">
+      <template v-if="mapControl">
+        <v-tooltip left>
+          <template v-slot:activator="{ on: tooltip }">
+            <v-btn
+              :color="$vuetify.theme.currentTheme.background"
+              small
+              class="dashboard-button"
+              style="min-width: 0;"
+              v-on="{ ...tooltip, ...dialog }"
+              @click="dialog = true"
+            >
+              <v-icon>
+                mdi-code-tags
+              </v-icon>
+            </v-btn>
+          </template>
+          <span>Embed this map into your website</span>
+        </v-tooltip>
+      </template>
       <v-btn
+        v-else
         color="primary"
         text
         small
@@ -15,7 +35,7 @@
           embed map -->
         </template>
         <template v-else>
-          <v-icon left>mdi-chart-box-outline</v-icon>
+          <v-icon left>mdi-code-tags</v-icon>
           embed chart
         </template>
       </v-btn>
@@ -23,7 +43,7 @@
 
     <v-card>
       <v-card-title class="headline primary white--text">
-        Embed this chart into your website
+        Embed this element into your website
       </v-card-title>
 
       <v-card-text class="py-5">
@@ -75,7 +95,10 @@ import {
 
 export default {
   mixins: [dialogMixin],
-  props: ['indicatorObject'],
+  props: {
+    indicatorObject: Object,
+    mapControl: Boolean,
+  },
   data: () => ({
     dialog: false,
     copySuccess: false,
@@ -99,3 +122,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  .dashboard-button {
+    width: 36px;
+    height: 36px !important;
+    z-index: 2;
+    pointer-events: initial;
+  }
+</style>

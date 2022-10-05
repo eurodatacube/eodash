@@ -89,7 +89,13 @@
 
     <!-- Container for all controls. Will move when map is resizing -->
     <div ref="controlsContainer" class="controlsContainer move-with-panel pa-2
-      d-flex flex-column align-end">
+      d-flex flex-column align-end"
+      :style="$vuetify.breakpoint.xsOnly
+        ? `padding-bottom: ${indicator
+          ? '36vh'
+          : `${$vuetify.application.footer + 10}px`} !important`
+        : ''"
+    >
       <FullScreenControl v-if="mapId !== 'centerMap'" :mapId="mapId" class="pointerEvents"/>
       <ZoomControl :mapId="mapId" class="pointerEvents" />
       <!-- overlay-layers have zIndex 2 and 4, base layers have 0 -->
@@ -115,6 +121,13 @@
         :loading.sync="customAreaLoading"
       />
       <div class="pointerEvents mt-auto mb-2">
+        <IframeButton
+          v-if="mapId === 'centerMap' && indicator"
+          :indicatorObject="indicator"
+          mapControl
+        />
+      </div>
+      <div class="pointerEvents mb-2">
         <AddToDashboardButton
           v-if="mapId === 'centerMap' && indicator"
           :indicatorObject="indicator"
@@ -145,6 +158,7 @@ import CustomAreaButtons from '@/components/map/CustomAreaButtons.vue';
 import getMapInstance from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
+import IframeButton from '@/components/IframeButton.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 import { updateTimeLayer } from '@/components/map/timeLayerUtils';
 import {
@@ -176,6 +190,7 @@ export default {
     CustomAreaButtons,
     SubaoiLayer,
     MapOverlay,
+    IframeButton,
     AddToDashboardButton,
   },
   props: {
