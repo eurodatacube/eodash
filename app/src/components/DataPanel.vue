@@ -50,22 +50,6 @@
                 height: ${$vuetify.breakpoint.mdAndUp ?
                                   (expanded ? ( bannerHeight ? 60 : 70) : 30) : 50}vh;`"
               >
-                <div
-                  style="height: 100%;z-index: 500; position: relative;"
-                  v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
-                  @click="dataInteract = true"
-                  v-touch="{
-                    left: () => swipe(),
-                    right: () => swipe(),
-                    up: () => swipe(),
-                    down: () => swipe(),
-                }">
-                </div>
-                <v-overlay :value="overlay" absolute
-                  v-if="!dataInteract"
-                  @click="dataInteract = true">
-                  Tap to interact
-                </v-overlay>
                 <indicator-data
                   style="top: 0px; position: absolute;"
                   class="pa-5 chart"
@@ -119,17 +103,6 @@
                 v-if="customAreaIndicator.isEmpty">
                   No data found for selection
               </v-card-title>
-                <div
-                  style="height: 100%;z-index: 500; position: relative;"
-                  v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
-                  @click="dataInteract = true"
-                  v-touch="{
-                    left: () => swipe(),
-                    right: () => swipe(),
-                    up: () => swipe(),
-                    down: () => swipe(),
-                }">
-                </div>
                 <indicator-data
                   v-if="!customAreaIndicator.isEmpty"
                   style="margin-top: 0px;"
@@ -156,17 +129,6 @@
             v-if="customAreaIndicator.isEmpty">
               No data found for selection
           </v-card-title>
-            <div
-              style="height: 100%;z-index: 500; position: relative;"
-              v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
-              @click="dataInteract = true"
-              v-touch="{
-                left: () => swipe(),
-                right: () => swipe(),
-                up: () => swipe(),
-                down: () => swipe(),
-            }">
-            </div>
             <v-btn
               v-if="customAreaIndicator && showRegenerateButton"
               ref="regenerateButton"
@@ -394,17 +356,6 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                 v-if="customAreaIndicator.isEmpty">
                   No data found for selection
               </v-card-title>
-                <div
-                  style="height: 100%;z-index: 500; position: relative;"
-                  v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
-                  @click="dataInteract = true"
-                  v-touch="{
-                    left: () => swipe(),
-                    right: () => swipe(),
-                    up: () => swipe(),
-                    down: () => swipe(),
-                }">
-                </div>
                 <indicator-data
                   v-if="!customAreaIndicator.isEmpty"
                   style="margin-top: 0px;"
@@ -559,7 +510,6 @@ export default {
   },
   data: () => ({
     overlay: false,
-    dataInteract: false,
     mounted: false,
     selectedSensorTab: 0,
     multipleTabCompare: null,
@@ -790,10 +740,6 @@ export default {
           .find((i) => this.getLocationCode(i.properties.indicatorObject) === f));
       }
       this.multipleTabCompare = compare;
-    },
-    swipe() {
-      this.overlay = true;
-      setTimeout(() => { this.overlay = false; }, 2000);
     },
     scrollToCustomAreaIndicator() {
       this.$vuetify.goTo(this.$refs.customAreaIndicator, { container: document.querySelector('.data-panel') });

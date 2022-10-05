@@ -60,8 +60,32 @@
             :outlined="!storyMode"
             tile
           >
+            <template
+              v-if="$vuetify.breakpoint.mdAndDown
+                && !element.text && !storyMode && !featureInteract[element.poi]"
+            >
+              <v-overlay
+                :value="!!overlay[element.poi]"
+                absolute
+                style="position: absolute"
+                @click="featureInteract[element.poi] = true"
+              >
+                Tap to interact
+              </v-overlay>
+              <div
+                style="height: 100%; width: 100%; z-index: 6; position: absolute;"
+                @click="featureInteract[element.poi] = true"
+                v-touch="{
+                  left: () => swipe(element.poi),
+                  right: () => swipe(element.poi),
+                  up: () => swipe(element.poi),
+                  down: () => swipe(element.poi),
+              }">
+              </div>
+            </template>
             <div
               class="fill-height"
+              style="z-index: 1"
             >
               <template
                 v-if="element.text"
@@ -481,6 +505,8 @@ export default {
     tooltipTrigger: false,
     numberOfRows: null,
     ro: null,
+    featureInteract: {},
+    overlay: {},
   }),
   computed: {
     ...mapGetters('dashboard', {
@@ -847,6 +873,12 @@ export default {
         noOfRows = Math.round(container / row);
       }
       this.numberOfRows = noOfRows;
+    },
+    swipe(poi) {
+      this.$set(this.overlay, poi, true);
+      setTimeout(() => {
+        this.$set(this.overlay, poi, false);
+      }, 2000);
     },
   },
 };
