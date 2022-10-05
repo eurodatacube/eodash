@@ -1,7 +1,9 @@
 <template>
   <v-row
     @click="$router.push(to)"
-    class="navrow py-5 px-7 fill-width" align="center"
+    class="navrow py-5 fill-width"
+    :class="[isSubItem ? 'px-10' : 'px-7']"
+    align="center"
     >
     <div class="w-12">
       <div
@@ -34,6 +36,14 @@ export default {
       type: [String, Object],
       required: true,
     },
+    isSubItem: {
+      type: Boolean,
+      default: false,
+    },
+    isHoverable: {
+      type: Boolean,
+      default: true,
+    }
   },
   computed: {
     ...mapState('config', [

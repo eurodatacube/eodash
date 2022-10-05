@@ -118,37 +118,47 @@
               </v-row>
 
               <GtifHeaderNavItem
-                title="Explore"
+                title="Explore Tools"
+                to="/explore"
+              />
+
+              <GtifHeaderNavItem
+                title="Domains"
                 to="/explore"
               />
 
               <GtifHeaderNavItem
                 color="hsl(360 80% 60%)"
                 title="Energy Transition"
+                is-sub-item="true"
                 :to="{name: 'gtif-energy-transition'}"
               />
 
               <GtifHeaderNavItem
                 color="hsl(210 80% 60%)"
                 title="Mobility Transition"
+                is-sub-item="true"
                 :to="{name: 'gtif-mobility-transition'}"
               />
 
               <GtifHeaderNavItem
                 color="hsl(90 80% 60%)"
                 title="Sustainable Transition"
+                is-sub-item="true"
                 :to="{name: 'gtif-sustainable-transition'}"
               />
 
               <GtifHeaderNavItem
                 color="hsl(20 80% 60%)"
                 title="Carbon Finance"
+                is-sub-item="true"
                 :to="{name: 'gtif-carbon-finance'}"
               />
 
               <GtifHeaderNavItem
                 color="hsl(320 80% 60%)"
                 title="EO Adaptation"
+                is-sub-item="true"
                 :to="{name: 'gtif-eo-adaptation'}"
               />
 
