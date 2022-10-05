@@ -51,6 +51,7 @@
         :large-time-duration="indicator.largeTimeDuration"
         :key="dataLayerName + '_timeSelection'"
         @focusSelect="focusSelect"
+        :style="mapId === 'centerMap' && $vuetify.breakpoint.smAndUp ? 'bottom: 155px' : ''"
       />
     </div>
     <!-- an overlay for showing information when hovering over clusters -->
