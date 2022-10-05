@@ -96,7 +96,7 @@
       <LayerControl
         v-if="loaded"
         class="pointerEvents"
-        :key="[...baseLayerConfigs, ...overlayConfigs].map(c => c.name) + isGlobalIndicator"
+        :key="layerControlKey"
         :mapId="mapId"
         :baseLayerConfigs="baseLayerConfigs"
         :overlayConfigs="overlayConfigs"
@@ -283,6 +283,10 @@ export default {
     },
     isGlobalIndicator() {
       return this.$store.state.indicators.selectedIndicator?.siteName === 'global';
+    },
+    layerControlKey() {
+      // re-create all base layers when config changes
+      return [...this.baseLayerConfigs, ...this.overlayConfigs].map((c) => c.name).join('');
     },
     indicator() {
       // the current indicator definition object.
