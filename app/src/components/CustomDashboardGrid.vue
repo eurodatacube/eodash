@@ -61,8 +61,7 @@
             tile
           >
             <template
-              v-if="$vuetify.breakpoint.mdAndDown
-                && !element.text && !storyMode && !featureInteract[element.poi]"
+              v-if="!element.text && !storyMode && !featureInteract[element.poi]"
             >
               <v-overlay
                 :value="!!overlay[element.poi]"
@@ -70,11 +69,12 @@
                 style="position: absolute"
                 @click="featureInteract[element.poi] = true"
               >
-                Tap to interact
+                {{ interactionMode }} to interact
               </v-overlay>
               <div
                 style="height: 100%; width: 100%; z-index: 6; position: absolute;"
                 @click="featureInteract[element.poi] = true"
+                @wheel="swipe(element.poi)"
                 v-touch="{
                   left: () => swipe(element.poi),
                   right: () => swipe(element.poi),
@@ -519,6 +519,15 @@ export default {
     ...mapGetters('themes', [
       'getCurrentTheme',
     ]),
+    interactionMode() {
+      return (
+          ( 'ontouchstart' in window )
+          || ( navigator.maxTouchPoints > 0 )
+          || ( navigator.msMaxTouchPoints > 0 )
+        )
+        ? 'Tap'
+        : 'Click';
+    },
     showTooltip() {
       return (element) => {
         if (this.localCenter[element.poi] && this.serverCenter[element.poi]) {
@@ -875,6 +884,7 @@ export default {
       this.numberOfRows = noOfRows;
     },
     swipe(poi) {
+      console.log(poi)
       this.$set(this.overlay, poi, true);
       setTimeout(() => {
         this.$set(this.overlay, poi, false);
