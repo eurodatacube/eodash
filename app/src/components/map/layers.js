@@ -4,7 +4,7 @@ import VectorSource from 'ol/source/Vector';
 import XYZSource from 'ol/source/XYZ';
 import GeoJSON from 'ol/format/GeoJSON';
 import countries from '@/assets/countries.json';
-import { Fill, Stroke, Style } from 'ol/style';
+import { Fill, Stroke, Style, Circle } from 'ol/style';
 import TileWMS from 'ol/source/TileWMS';
 import store from '@/store';
 import TileGrid from 'ol/tilegrid/TileGrid';
@@ -312,15 +312,22 @@ export function createLayerFromConfig(config, _options = {}) {
       const newUrl = replaceUrlPlaceholders(config.features.url, config, updatedOptions);
       fetchGeoJsonFeatures(featuresSource, newUrl);
     });
+    const fill = new Fill({
+      color: 'rgba(255, 255, 255, 0.1)',
+    });
+    const stroke = new Stroke({
+      width: 2,
+      color: '#F7A400',
+    });
     const featuresLayer = new VectorLayer({
       source: featuresSource,
       style: new Style({
-        fill: new Fill({
-          color: 'rgba(255, 255, 255, 0.1)',
-        }),
-        stroke: new Stroke({
-          width: 2,
-          color: '#F7A400',
+        fill,
+        stroke,
+        image: new Circle({
+          fill,
+          stroke,
+          radius: 4,
         }),
       }),
     });
