@@ -144,9 +144,6 @@ export default {
         this.getSearchItems();
       }
     }
-    if (this.$route.query.search) {
-      this.userInput = this.$route.query.search;
-    }
   },
   mounted() {
     this.$watch(
@@ -285,6 +282,9 @@ export default {
     allFeatures() {
       if (!this.searchItem) {
         this.getSearchItems();
+      }
+      if (this.$route.query.search) {
+        this.userInput = this.$route.query.search;
       }
     },
     selectedIndicator(indicatorObject) {
