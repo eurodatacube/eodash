@@ -107,6 +107,17 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['atmosphere'],
     // story: '',
   },
+  REP2: {
+    indicator: 'Air quality',
+    class: 'air',
+    themes: ['atmosphere'],
+    // story: '',
+  },
+  SOL1: {
+    indicator: 'Air quality',
+    class: 'air',
+    themes: ['atmosphere'],
+  },
   WSF: {
     indicator: 'World Settlement Footprint',
     class: 'economic',
@@ -166,12 +177,80 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: true,
         country: 'all',
-        city: 'World',
+        city: 'Innsbruck',
         siteName: 'global',
         description: 'Solar power potential',
-        indicator: 'REP1',
+        indicator: 'SOL1',
         lastIndicatorValue: null,
         indicatorName: 'Solar power potential',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Innsbruck',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        vectorStyles: {
+          sourceLayer: 'solar_potential_innsbruck',
+          items: [
+            {
+              id: 'PVExisting',
+              description: 'Existing PV Panels',
+            },
+            {
+              id: 'GRExisting',
+              description: 'Existing green roofs',
+            },
+            {
+              id: 'PVEPPMwhHP',
+              description: 'Total electric power production potential - High performance',
+            },
+            {
+              id: 'PVEPPMwhRP',
+              description: 'Total electric power production potential - Regular performance',
+            },
+            {
+              id: 'PVEPPMwhLP',
+              description: 'Total electric power production potential - Low performance',
+            },
+            {
+              id: 'GRImpScore',
+              description: 'Green roof impact score',
+            },
+          ],
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
+            }],
+          },
+          protocol: 'vectortile',
+          selectedStyleLayer: 'PVExisting',
+          id: 'solar_potential_innsbruck',
+          name: 'Solar power potential',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Power density test',
+        indicator: 'REP1',
+        lastIndicatorValue: null,
+        indicatorName: 'Power density test',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -242,12 +321,77 @@ export const globalIndicators = [
             ],
           },
           // customAreaIndicator: true,
-          name: 'Solar power potential',
+          name: 'Power density test',
           minZoom: 1,
         },
       },
     },
   },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Power density',
+        indicator: 'REP2',
+        lastIndicatorValue: null,
+        indicatorName: 'Power density',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        cogFilters: {
+          sourceLayer: 'REP2',
+          filters: {
+            height: {
+              label: 'Filter for elevation',
+              id: 'dem',
+              band: 1,
+              min: 100,
+              max: 600,
+            },
+          },
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((8 46, 8 49, 18 49, 18 46, 8 46 ))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'REP2',
+          sources: [
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/dhi_test/WindSpeed_Austria_3857_COG.tif' },
+            // { url: 'data/gtif/data/WindSpeed_Austria_3857_COG.tif' },
+          ],
+          style: {
+            color: [
+              'color',
+              ['/', ['band', 1], 25],
+              ['/', ['band', 1], 25],
+              ['/', ['band', 1], 25],
+              255,
+            ],
+          },
+          // customAreaIndicator: true,
+          name: 'Power density',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  /*
   {
     properties: {
       indicatorObject: {
@@ -373,6 +517,7 @@ export const globalIndicators = [
       },
     },
   },
+  */
   /*
   {
     properties: {
@@ -418,6 +563,7 @@ export const globalIndicators = [
     },
   },
   */
+  /*
   {
     properties: {
       indicatorObject: {
@@ -542,6 +688,7 @@ export const globalIndicators = [
       },
     },
   },
+  */
   /*
   {
     properties: {

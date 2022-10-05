@@ -14,6 +14,10 @@
           :cogFilters="indicatorObject.cogFilters"
         >
         </filter-controls>
+        <style-controls v-if="indicatorObject.vectorStyles"
+          :vectorStyles="indicatorObject.vectorStyles"
+        >
+        </style-controls>
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
@@ -561,6 +565,7 @@ import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import IframeButton from '@/components/IframeButton.vue';
 import FilterControls from '@/components/map/FilterControls.vue';
+import StyleControls from '@/components/map/StyleControls.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 
 export default {
@@ -574,6 +579,7 @@ export default {
     IframeButton,
     AddToDashboardButton,
     FilterControls,
+    StyleControls,
   },
   data: () => ({
     overlay: false,

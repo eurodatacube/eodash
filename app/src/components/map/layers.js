@@ -12,6 +12,8 @@ import store from '@/store';
 import TileGrid from 'ol/tilegrid/TileGrid';
 import { createXYZ } from 'ol/tilegrid';
 import { Group } from 'ol/layer';
+import VectorTileLayer from 'ol/layer/VectorTile';
+import { applyStyle } from 'ol-mapbox-style';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -117,6 +119,12 @@ export function createLayerFromConfig(config, _options = {}) {
     });
     wgTileLayer.set('id', config.id);
     layers.push(wgTileLayer);
+  }
+  if (config.protocol === 'vectortile') {
+    const tilelayer = new VectorTileLayer();
+    tilelayer.set('id', config.id);
+    applyStyle(tilelayer, 'data/gtif/data/rooftops_style.json', [config.selectedStyleLayer]);
+    layers.push(tilelayer);
   }
   if (config.protocol === 'countries') {
     layers.push(new VectorLayer({
