@@ -10,6 +10,7 @@ import turfDifference from '@turf/difference';
 import { mapState } from 'vuex';
 import { containsCoordinate } from 'ol/extent';
 import { clamp } from 'ol/math';
+import { calculatePadding } from '@/utils';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -156,6 +157,9 @@ export default {
       const map = e.target;
       const view = map.getView();
       const center = view.getCenter();
+      // the map padding is only set here, only for inverse AOIs
+      // TO DO: there should be a better place to do this
+      map.getView().padding = calculatePadding();
       if (!containsCoordinate(this.constrainingExtent, center)) {
         const newCenter = [
           clamp(center[0], this.constrainingExtent[0], this.constrainingExtent[2]),
@@ -169,6 +173,7 @@ export default {
     const { map } = getMapInstance(this.mapId);
     const layer = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
     map.removeLayer(layer);
+    map.getView().padding = [0, 0, 0, 0]; // TO DO: handle padding somewhere else?
     map.un('moveend', this.moveendHandler);
   },
   render: () => null,
