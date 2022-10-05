@@ -76,13 +76,14 @@ export default {
       }
       return null;
     },
+    layerNameMapping() {
+      return this.baseConfig.layerNameMapping;
+    },
     isInverse() {
       return !!(this.indicator.country === 'all'
         || this.appConfig.configuredMapPois.includes(`${this.indicator.aoiID}-${this.indicator.indicator}`)
         || ((Array.isArray(this.indicator.inputData)
-        && this.indicator.inputData.filter(
-          (item) => Object.prototype.hasOwnProperty.call(this.baseConfig.layerNameMapping, item),
-        ).length
+        && this.indicatorHasMapData(this.indicator)
         )));
     },
   },
@@ -131,6 +132,26 @@ export default {
     map.addLayer(subAoiLayer);
   },
   methods: {
+    /**
+     * returns true if indicator has real map data (layers or features)
+     */
+    indicatorHasMapData(indicatorObject) {
+      let hasMapData = false;
+      let matchingInputDataAgainstConfig = [];
+      // Check to see if we have EO Data indicator
+      if (indicatorObject && indicatorObject.inputData) {
+        matchingInputDataAgainstConfig = indicatorObject.inputData
+          .filter((item) => Object.prototype.hasOwnProperty.call(this.layerNameMapping, item));
+        hasMapData = matchingInputDataAgainstConfig.length > 0;
+      }
+      // Check to see if we have global data indicator
+      if (indicatorObject && indicatorObject.country) {
+        if (indicatorObject.country === 'all' || Array.isArray(indicatorObject.country)) {
+          hasMapData = true;
+        }
+      }
+      return hasMapData;
+    },
     moveendHandler(e) {
       const map = e.target;
       const view = map.getView();
