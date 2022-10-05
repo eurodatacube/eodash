@@ -1,5 +1,5 @@
 import { createEmpty, extend, getWidth } from 'ol/extent';
-import { LineString, Point, Polygon } from 'ol/geom';
+import { LineString, Point } from 'ol/geom';
 import { Vector as VectorLayer } from 'ol/layer';
 import store from '@/store';
 import {
@@ -12,18 +12,15 @@ import {
 } from 'ol/style';
 import ClusterSource from 'ol/source/Cluster';
 import VectorSource from 'ol/source/Vector';
-import { asArray } from 'ol/color';
 import { Feature } from 'ol';
 import { fromLonLat } from 'ol/proj';
-import { getColor } from './olMapColors';
+import { calculatePadding } from '@/utils';
 import getMapInstance from './map';
 import { formatLabel } from './formatters';
-import { calculatePadding } from '@/utils';
 
 const circleDistanceMultiplier = 1;
 const circleFootSeparation = 28;
 const circleStartAngle = Math.PI / 2;
-const convexHullFill = new Fill({});
 const convexHullStroke = new Stroke({
   width: 0.5,
   lineDash: [4, 4],
@@ -97,7 +94,8 @@ function loadImages() {
         context.fillStyle = 'white';
         context.fillRect(0, 0, canvas.width, canvas.height);
         context.globalCompositeOperation = 'destination-in';
-        context.drawImage(image, halfWidth - image.width / 2, halfWidth - image.height / 2, image.width, image.height);
+        context.drawImage(image, halfWidth - image.width / 2,
+          halfWidth - image.height / 2, image.width, image.height);
 
         // circles
         context.globalCompositeOperation = 'destination-over';
@@ -387,7 +385,7 @@ class Cluster {
             } else {
               const urlSearchParams = new URLSearchParams(window.location.search);
               const params = Object.fromEntries(urlSearchParams.entries());
-              params.clusterOpen = params.clusterOpen ? parseInt(params.clusterOpen) + 1 : 1;
+              params.clusterOpen = params.clusterOpen ? parseInt(params.clusterOpen, 10) + 1 : 1;
               const router = this.vm.$router;
               router.push({ query: params });
               // Zoom to the extent of the cluster members.
