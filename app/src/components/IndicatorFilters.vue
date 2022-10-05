@@ -62,7 +62,7 @@
       v-if="!($vuetify.breakpoint.xsOnly && comboboxFocus)"
       id="slideGroupWrapper"
       class="d-flex"
-      style="position: absolute; bottom: 10px; left: 0; pointer-events: none;"
+      style="position: absolute; bottom: 25px; left: 0; pointer-events: none;"
     >
       <v-slide-group
         v-model="selectedMapLayer"
@@ -80,7 +80,7 @@
             :color="active ? 'primary' : 'white'"
             height="100"
             width="100"
-            class="ma-4 overflow-hidden"
+            class="mx-4 my-1 overflow-hidden"
             style="pointer-events: all"
             @click="toggle"
           >
@@ -383,5 +383,21 @@ export default {
 ::v-deep .v-slide-group__prev,
 ::v-deep .v-slide-group__next {
   pointer-events: all;
+  background: var(--v-primary-base);
+  opacity: .5;
+  &:hover {
+    opacity: 1;
+  }
+}
+::v-deep .v-slide-group__prev {
+  border-radius: 4px 0 0 4px;
+}
+::v-deep .v-slide-group__next {
+  border-radius: 0 4px 4px 0;
+}
+::v-deep .v-slide-group__prev--disabled,
+::v-deep .v-slide-group__next--disabled {
+  pointer-events: none;
+  opacity: .2;
 }
 </style>
