@@ -22,12 +22,12 @@
                     v-for="(el, i) in data"
                     class="fullWidthBlock"
                 >
-                    <div
+                    <small
                         class="step"
                         :data-section="sectionIndex"
                         :data-step="i"
                         v-html="parseMarkdown(el.text)"
-                    ></div>
+                    ></small>
                 </article>
             </template>
             <template v-else id="scrolly">
