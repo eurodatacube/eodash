@@ -46,10 +46,8 @@
         :search-input.sync="userInput"
         solo
         class="rounded-lg"
-        @blur="comboboxFocus = false"
         @click:clear="comboboxClear"
         @click:prepend-inner="$store.state.showHistoryBackButton ? $router.back() : () => {}"
-        @focus="comboboxFocus = true"
         @keydown.esc="userInput = null"
       >
       </v-combobox>
@@ -57,7 +55,7 @@
         class="overflow-x-hidden overflow-y-auto"
         style="position: relative; max-height: 250px"
       >
-        <div id="combobox-menu" ></div>
+        <div id="combobox-menu"></div>
       </div>
     </v-card>
     <div
@@ -149,6 +147,14 @@ export default {
     if (this.$route.query.search) {
       this.userInput = this.$route.query.search;
     }
+  },
+  mounted() {
+    this.$watch(
+      () => this.$refs.combobox.isMenuActive,
+      (val) => {
+        this.comboboxFocus = val;
+      },
+    );
   },
   methods: {
     ...mapMutations('features', {
