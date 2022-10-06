@@ -345,6 +345,15 @@ export default {
       };
       this.$router.replace({ query }).catch(() => {});
       this.trackEvent('filters', 'search_input', newInput);
+      // for some strange reason, focusing and activating menu only works half of
+      // the time without timeout
+      // TODO find out why and clean up
+      setTimeout(() => {
+        if (newInput && !this.$refs.combobox.isMenuActive) {
+          this.$refs.combobox.focus();
+          this.$refs.combobox.activateMenu();
+        }
+      }, 0);
     },
   },
 };
