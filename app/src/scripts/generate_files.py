@@ -307,7 +307,7 @@ def retrieve_location_stac_entries(url, offset, location, collection):
 
 print("Getting replace map times for E13d")
 df = pd.read_csv("/public/eodash-data/data/E13d_detections.csv")
-# create a JSON object with each indicator-poi being a key
+# create a JSON object with each poi-indicator being a key
 aoi_ids = df['AOI_ID'].unique().tolist()
 results = {}
 for key in aoi_ids:
