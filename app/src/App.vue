@@ -74,6 +74,7 @@ import { loadIndicatorData } from '@/utils';
 import axios from 'axios';
 import { Wkt } from 'wicket';
 
+import getMapInstance from '@/components/map/map';
 import Alert from './components/Alert.vue';
 
 const wkt = new Wkt();
@@ -104,6 +105,43 @@ export default {
       return (this.$vuetify.theme.dark) ? 'dark' : 'light';
     },
   },
+  watch: {
+    $route(to, from) {
+      // only show back button if one of these conditions are true
+      // TODO: handle case when one of these was directly entered into url at app start
+      this.$store.commit('changeBackButtonDisplay', (
+        to.query.poi || to.query.indicator || to.query.clusterOpen
+      ));
+
+      if ((!to.query.poi && from.query.poi)
+      || (!to.query.indicator && from.query.indicator)
+      || from.query.clusterOpen) {
+        if (!to.query.poi && from.query.poi) {
+          // clear poi
+          this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+        }
+        if (!to.query.indicator && from.query.indicator) {
+          // clear indicator filter
+          this.$store.commit('features/SET_FEATURE_FILTER', {
+            ...this.$store.state.features.featureFilters,
+            indicators: [],
+          });
+        }
+
+        const currentQuery = to.query;
+        const {
+          x, y, z,
+        } = currentQuery;
+        if (x && y && z && !Number.isNaN(x) && !Number.isNaN(y) && !Number.isNaN(z)) {
+          getMapInstance('centerMap').map.getView().animate({
+            center: [x, y],
+            zoom: z,
+            duration: 300,
+          });
+        }
+      }
+    },
+  },
   created() {
     if (Object.prototype.hasOwnProperty.call(this.appConfig, 'countDownTimer')
       && this.appConfig.countDownMatch.includes(document.domain)) {
@@ -111,6 +149,15 @@ export default {
       this.checkComingSoon();
     } else {
       this.comingSoon = false;
+    }
+    const { query } = this.$route;
+    if (query.clusterOpen) {
+      this.$router.replace({
+        query: {
+          ...query,
+          clusterOpen: undefined,
+        },
+      });
     }
   },
   mounted() {
@@ -173,6 +220,9 @@ export default {
             this.trackEvent('filters', 'select_indicator_filter', 'all');
           } else {
             // Single
+            const urlSearchParams = new URLSearchParams(window.location.search);
+            const params = Object.fromEntries(urlSearchParams.entries());
+            this.$router.push({ query: params });
             this.$router.replace({ query: Object.assign({}, this.$route.query, { indicator: mutation.payload.indicators[0] }) }).catch(err => {}); // eslint-disable-line
             this.trackEvent('filters', 'select_indicator_filter', mutation.payload.indicators[0]);
           }
@@ -193,6 +243,9 @@ export default {
           Object.prototype.hasOwnProperty.call(mutation.payload, 'dummyFeature')
           && mutation.payload.dummyFeature)) {
           this.loadIndicatorData(mutation.payload);
+          const urlSearchParams = new URLSearchParams(window.location.search);
+          const params = Object.fromEntries(urlSearchParams.entries());
+          this.$router.push({ query: params });
           this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: this.getLocationCode(mutation.payload) }) }).catch(err => {}); // eslint-disable-line
           this.trackEvent('indicators', 'select_indicator', this.getLocationCode(mutation.payload));
           this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);

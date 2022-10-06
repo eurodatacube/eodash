@@ -10,7 +10,6 @@ import VueCountdown from '@chenfengyuan/vue-countdown';
 
 import browserDetect from 'vue-browser-detect-plugin';
 import { marked } from 'marked';
-import L from 'leaflet';
 import App from './App.vue';
 import Dashboard from './views/Dashboard.vue';
 import DashboardCustom from './views/DashboardCustom.vue';
@@ -143,31 +142,32 @@ const renderVue = async () => {
   // Global helper functions
   Vue.mixin({
     methods: {
-      getIndicatorColor(label) {
+      getIndicatorColor() {
         const colors = vuetify.preset.theme.themes.light;
-        let color;
-        if (typeof label === 'undefined') {
-          // placeholders
-          color = colors.grey;
-        } else if (label === null) {
-          // area indicators
-          color = colors.primary;
-        } else if (['red'].includes(label.toLowerCase())) {
-          color = colors.error;
-        } else if (['grey'].includes(label.toLowerCase())) {
-          color = colors.grey;
-        } else if (['blue'].includes(label.toLowerCase())) {
-          color = colors.info;
-        } else if (['green'].includes(label.toLowerCase())) {
-          color = colors.success;
-        } else if (['orange'].includes(label.toLowerCase())) {
-          color = '#FFA500'; // Color has been specifically requested
-        } else if (['primary'].includes(label.toLowerCase())) {
-          color = colors.primary;
-        } else {
-          color = colors.info;
-        }
-        return color;
+        // LEGACY, but might need again in future
+        // let color;
+        // if (typeof label === 'undefined') {
+        //   // placeholders
+        //   color = colors.grey;
+        // } else if (label === null) {
+        //   // area indicators
+        //   color = colors.primary;
+        // } else if (['red'].includes(label.toLowerCase())) {
+        //   color = colors.error;
+        // } else if (['grey'].includes(label.toLowerCase())) {
+        //   color = colors.grey;
+        // } else if (['blue'].includes(label.toLowerCase())) {
+        //   color = colors.info;
+        // } else if (['green'].includes(label.toLowerCase())) {
+        //   color = colors.success;
+        // } else if (['orange'].includes(label.toLowerCase())) {
+        //   color = '#FFA500'; // Color has been specifically requested
+        // } else if (['primary'].includes(label.toLowerCase())) {
+        //   color = colors.primary;
+        // } else {
+        //   color = colors.info;
+        // }
+        return colors.secondary;
       },
       getLocationCode,
       trackEvent: (action, name, value) => window._paq.push(

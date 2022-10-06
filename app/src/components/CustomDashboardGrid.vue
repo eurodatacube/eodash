@@ -60,8 +60,32 @@
             :outlined="!storyMode"
             tile
           >
+            <template
+              v-if="!element.text && !storyMode && !featureInteract[element.poi]"
+            >
+              <v-overlay
+                :value="!!overlay[element.poi]"
+                absolute
+                style="position: absolute"
+                @click="featureInteract[element.poi] = true"
+              >
+                {{ interactionMode }} to interact
+              </v-overlay>
+              <div
+                style="height: 100%; width: 100%; z-index: 6; position: absolute;"
+                @click="featureInteract[element.poi] = true"
+                @wheel="swipe(element.poi)"
+                v-touch="{
+                  left: () => swipe(element.poi),
+                  right: () => swipe(element.poi),
+                  up: () => swipe(element.poi),
+                  down: () => swipe(element.poi),
+              }">
+              </div>
+            </template>
             <div
               class="fill-height"
+              style="z-index: 1"
             >
               <template
                 v-if="element.text"
@@ -144,7 +168,27 @@
                 @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
                 @ready="onMapReady(element.poi)"
               />
-              <indicator-map
+              <Map
+                v-else-if="(['all'].includes(element.indicatorObject.country) ||
+                appConfig.configuredMapPois.includes(
+                  `${element.indicatorObject.aoiID}-${element.indicatorObject.indicator}`
+                ) ||
+                Array.isArray(element.indicatorObject.country)) && !element.includesIndicator ||
+                element.mapInfo"
+                :mapId="element.poi"
+                :currentIndicator="element.indicatorObject"
+                :dataLayerTimeProp="localDataLayerTime[element.poi]"
+                :compareLayerTimeProp="localCompareLayerTime[element.poi]"
+                :centerProp="localCenter[element.poi]"
+                :zoomProp="localZoom[element.poi]"
+                disableAutoFocus
+                @update:center="c => {localCenter[element.poi] = c}"
+                @update:zoom="z => {localZoom[element.poi] = z}"
+                @update:datalayertime="d => {localDataLayerTime[element.poi] = d}"
+                @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
+                @ready="onMapReady(element.poi)"
+              />
+              <!--<indicator-map
                 ref="indicatorMap"
                 style="top: 0px; position: absolute;"
                 v-else-if="(['all'].includes(element.indicatorObject.country) ||
@@ -166,7 +210,7 @@
                 @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
                 @compareEnabled="tooltipTrigger = !tooltipTrigger"
                 @ready="onMapReady(element.poi)"
-              />
+              />-->
               <indicator-data
                 v-else
                 disableAutoFocus
@@ -407,10 +451,10 @@
 import { DateTime } from 'luxon';
 import mediumZoom from 'medium-zoom';
 import IndicatorData from '@/components/IndicatorData.vue';
-import IndicatorMap from '@/components/IndicatorMap.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import LoadingAnimation from '@/components/LoadingAnimation.vue';
 import { loadIndicatorData } from '@/utils';
+import Map from '@/components/map/Map.vue';
 import { mapGetters, mapState, mapActions } from 'vuex';
 
 const zoom = mediumZoom();
@@ -427,9 +471,9 @@ export default {
   },
   components: {
     IndicatorData,
-    IndicatorMap,
     IndicatorGlobe,
     LoadingAnimation,
+    Map,
   },
   data: () => ({
     isMounted: false,
@@ -461,6 +505,8 @@ export default {
     tooltipTrigger: false,
     numberOfRows: null,
     ro: null,
+    featureInteract: {},
+    overlay: {},
   }),
   computed: {
     ...mapGetters('dashboard', {
@@ -473,6 +519,15 @@ export default {
     ...mapGetters('themes', [
       'getCurrentTheme',
     ]),
+    interactionMode() {
+      return (
+        ('ontouchstart' in window)
+          || (navigator.maxTouchPoints > 0)
+          || (navigator.msMaxTouchPoints > 0)
+      )
+        ? 'Tap'
+        : 'Click';
+    },
     showTooltip() {
       return (element) => {
         if (this.localCenter[element.poi] && this.serverCenter[element.poi]) {
@@ -569,7 +624,7 @@ export default {
       const query = { ...this.$route.query };
       if (newRow === 0) {
         delete query.page;
-      } else {
+      } else if (this.storyMode) {
         query.page = newRow;
       }
       this.$router.replace({ query }).catch(() => {});
@@ -726,8 +781,15 @@ export default {
           return f;
         }
 
+        let poiCode = f.poi;
+        if (f.poi.includes('@')) {
+          const p = f.poi.split('@')[0];
+          poiCode = p;
+        }
+
         const feature = this.$store.state.features.allFeatures
-          .find((i) => this.getLocationCode(i.properties.indicatorObject) === f.poi);
+          .find((i) => this.getLocationCode(i.properties.indicatorObject) === poiCode);
+
         const indicatorObject = await loadIndicatorData(
           this.baseConfig,
           feature.properties.indicatorObject,
@@ -818,6 +880,13 @@ export default {
         noOfRows = Math.round(container / row);
       }
       this.numberOfRows = noOfRows;
+    },
+    swipe(poi) {
+      console.log(poi);
+      this.$set(this.overlay, poi, true);
+      setTimeout(() => {
+        this.$set(this.overlay, poi, false);
+      }, 2000);
     },
   },
 };

@@ -6,17 +6,14 @@
     flat
     :color="currentTheme ? currentTheme.color : 'primary'"
     class="white--text"
+    :style="`z-index: 8; ${appConfig.id === 'esa'
+      ? `box-shadow: 0px 4px var(--v-secondary-base) !important`
+      : ''}`"
     v-show="!isFullScreen"
   >
     <v-app-bar-nav-icon
       @click.stop="switchMenu"
       v-if="$vuetify.breakpoint.smAndDown"
-      dark
-    />
-
-    <v-app-bar-nav-icon
-      @click.stop="switchDrawer"
-      v-else-if="$route.name === 'explore'"
       dark
     />
 
@@ -107,7 +104,7 @@
         <v-badge
           v-if="$store.state.dashboard.dashboardConfig"
           bordered
-          color="info"
+          color="secondary"
           :content="$store.state.dashboard.dashboardConfig
             && $store.state.dashboard.dashboardConfig.features.length"
           :value="$store.state.dashboard.dashboardConfig
@@ -152,12 +149,6 @@
             @close="d => { showNewsletterModal = false }"
           />
         </v-dialog>
-
-        <v-divider></v-divider>
-
-        <indicator-filters
-          v-if="$route.name === 'explore'"
-        />
       </template>
 
     </v-navigation-drawer>
@@ -329,7 +320,6 @@ import {
 
 import ThemeNavigation from './ThemesLandingPage/ThemeNavigation.vue';
 import Modal from './Modal.vue';
-import IndicatorFilters from './IndicatorFilters.vue';
 
 /**
  * A global navbar component that adapts to different environments.
@@ -365,7 +355,6 @@ export default {
   components: {
     ThemeNavigation,
     Modal,
-    IndicatorFilters,
   },
   data() {
     return {

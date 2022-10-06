@@ -715,7 +715,6 @@ generateData(
         '/public/data/trilateral/E10a8.csv',
         '/public/data/trilateral/E10c.csv',
         '/public/data/trilateral/N2.csv',
-        '/public/data/trilateral/N3b.csv',
         '/public/data/trilateral/N1_EG.csv',
         '/public/data/trilateral/N2_EG.csv',
         '/public/data/trilateral/SIF_EG.csv',
@@ -724,7 +723,8 @@ generateData(
         #['E1', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'], archived
         #['E1a', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'], archived
         ['E9_tri', ''],
-        ['N3_tri', ''],
+        # ['N3_tri', ''],
+        ['Regional_Water_quality_timeseries', ''], # contains N3b indicator
         ['N1_tri', ''],
         ['E13b_tri', ''],
         ['E13c_tri', ''],

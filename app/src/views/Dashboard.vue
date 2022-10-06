@@ -1,93 +1,93 @@
 <template>
-  <div class="dashboard fill-height">
+  <div
+    class="dashboard fill-height"
+    :class="{ 'panel-expanded': drawerRight && $vuetify.breakpoint.smAndUp }"
+  >
     <global-header
       :isFullscreen="isFullScreen"
       :displayShowText="displayShowText"
-      :switchDrawer="() => { drawerLeft = !drawerLeft }"
     />
     <v-navigation-drawer
+      v-if="$vuetify.breakpoint.xsOnly"
       v-model="drawerLeft"
       left
       app
       clipped
+      width="300px"
       style="overflow: hidden"
       class="drawerLeft"
       v-show="!isFullScreen"
     >
-      <template v-if="$vuetify.breakpoint.xsOnly">
-        <v-list-item style="background: var(--v-primary-base)">
-          <v-list-item-content>
-            <h3 class="text-uppercase white--text">
-              {{ appConfig && appConfig.branding.appName }}
-            </h3>
-          </v-list-item-content>
-          <v-list-item-action
-            class="align-center"
+      <v-list-item style="background: var(--v-primary-base)">
+        <v-list-item-content>
+          <h3 class="text-uppercase white--text">
+            {{ appConfig && appConfig.branding.appName }}
+          </h3>
+        </v-list-item-content>
+        <v-list-item-action
+          class="align-center"
+        >
+          <v-icon
+            style="position: absolute;"
+            color="white"
+            small
+            dark
+            @click="$vuetify.theme.dark = !$vuetify.theme.dark"
           >
-            <v-icon
-              style="position: absolute;"
-              color="white"
-              small
-              dark
-              @click="$vuetify.theme.dark = !$vuetify.theme.dark"
-            >
-              {{
-                $vuetify.theme.dark
-                  ? 'mdi-white-balance-sunny'
-                  : 'mdi-weather-night'
-              }}
-            </v-icon>
-          </v-list-item-action>
-        </v-list-item>
+            {{
+              $vuetify.theme.dark
+                ? 'mdi-white-balance-sunny'
+                : 'mdi-weather-night'
+            }}
+          </v-icon>
+        </v-list-item-action>
+      </v-list-item>
 
-        <v-divider></v-divider>
+      <v-divider></v-divider>
 
+      <v-btn
+        block
+        text
+        color="primary"
+        to="/"
+      >
+        Start
+      </v-btn>
+      <v-btn
+        block
+        text
+        color="primary"
+        @click="displayShowText('welcome')"
+      >
+        Welcome
+      </v-btn>
+      <v-btn
+        block
+        text
+        color="primary"
+        @click="displayShowText('about')"
+      >
+        About
+      </v-btn>
+      <v-badge
+        bordered
+        color="info"
+        :content="$store.state.dashboard.dashboardConfig
+          && $store.state.dashboard.dashboardConfig.features.length"
+        :value="$store.state.dashboard.dashboardConfig
+          && $store.state.dashboard.dashboardConfig.features.length"
+        overlap
+      >
         <v-btn
+          v-if="$store.state.dashboard.dashboardConfig"
           block
           text
           color="primary"
-          to="/"
+          to="/dashboard"
         >
-          Start
+          Custom Dashboard
         </v-btn>
-        <v-btn
-          block
-          text
-          color="primary"
-          @click="displayShowText('welcome')"
-        >
-          Welcome
-        </v-btn>
-        <v-btn
-          block
-          text
-          color="primary"
-          @click="displayShowText('about')"
-        >
-          About
-        </v-btn>
-        <v-badge
-          bordered
-          color="info"
-          :content="$store.state.dashboard.dashboardConfig
-            && $store.state.dashboard.dashboardConfig.features.length"
-          :value="$store.state.dashboard.dashboardConfig
-            && $store.state.dashboard.dashboardConfig.features.length"
-          overlap
-        >
-          <v-btn
-            v-if="$store.state.dashboard.dashboardConfig"
-            block
-            text
-            color="primary"
-            to="/dashboard"
-          >
-            Custom Dashboard
-          </v-btn>
-        </v-badge>
-        <v-divider></v-divider>
-      </template>
-      <selection-panel style="overflow:hidden" />
+      </v-badge>
     </v-navigation-drawer>
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.mdAndUp"
@@ -98,47 +98,90 @@
       clipped
       temporary
       hide-overlay
-      :width="dataPanelFullWidth ? '100%' : '40%'"
+      :width="dataPanelFullWidth ? '100%' : `${dataPanelWidth}px`"
       :style="`margin-top: ${$vuetify.application.top}px;
         height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px;`"
       class="data-panel"
     >
       <banner v-if="currentNews" ref="newsBanner" />
-      <v-toolbar v-if="$store.state.indicators.selectedIndicator" flat>
-        <v-btn v-if="dataPanelFullWidth" icon @click="setDataPanelWidth(false)">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-        <v-btn v-else icon @click="setDataPanelWidth(true)">
-          <v-icon>mdi-arrow-expand</v-icon>
-        </v-btn>
+      <v-toolbar flat>
         <v-toolbar-title v-if="$store.state.indicators.selectedIndicator"
           :class="$store.state.indicators.selectedIndicator.description ===
             $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
         >
-          {{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.city }},
-          {{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.description }}
+          {{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.city }}:
+          {{
+            queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.indicatorName
+          }}
           <div v-if="
             $store.state.indicators.selectedIndicator.description !==
             $store.state.indicators.selectedIndicator.indicatorName
             && $store.state.indicators.customAreaIndicator === null"
             class="subheading" style="font-size: 0.8em">
             {{ queryIndicatorObject
-              && queryIndicatorObject.properties.indicatorObject.indicatorName }}
+              && queryIndicatorObject.properties.indicatorObject.description }}
           </div>
         </v-toolbar-title>
+        <v-toolbar-title
+          v-else-if="$store.state.features.featureFilters.indicators[0] && firstIndicatorObject"
+        >
+          {{ firstIndicatorObject
+            .description }}
+          <div v-if="
+            firstIndicatorObject.description !==
+            firstIndicatorObject.indicatorName"
+            class="subheading" style="font-size: 0.8em">
+            {{ firstIndicatorObject.indicatorName }}
+          </div>
+        </v-toolbar-title>
+        <v-tooltip
+          left
+        >
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-on="on"
+              icon
+              class="elevation-1 rounded-lg"
+              style="position: absolute; right: 30px; width: 36px; height: 36px;"
+              @click="dataPanelFullWidth
+                ? setDataPanelWidth(false)
+                : setDataPanelWidth(true)"
+            >
+              <v-icon>{{ dataPanelFullWidth ? 'mdi-close' : 'mdi-fullscreen' }}</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ dataPanelFullWidth ? 'Close' : 'Open' }} full screen</span>
+        </v-tooltip>
       </v-toolbar>
+
       <data-panel
-        v-if="$store.state.indicators.selectedIndicator"
+        v-if="$store.state.indicators.selectedIndicator
+          || $store.state.features.featureFilters.indicators.length > 0"
         :key="panelKey"
         :newsBanner="$refs.newsBanner"
         :expanded="dataPanelFullWidth" class="px-5" />
-      <template v-else>
-        <Welcome v-if="showText === 'welcome'" />
-        <About v-else-if="showText === 'about'" />
-      </template>
     </v-navigation-drawer>
+    <v-tooltip
+      v-if="$vuetify.breakpoint.mdAndUp && indicatorSelected"
+      left
+    >
+      <template v-slot:activator="{ on }">
+        <v-btn
+          color="primary"
+          icon
+          small
+          class="reopen-right-drawer move-with-panel rounded-lg rounded-r-0 py-7 elevation-2"
+          :style="`background: ${$vuetify.theme.currentTheme.background}`"
+          v-on="on"
+          @click="drawerRight = !drawerRight"
+        >
+          <v-icon :class="{open: drawerRight}">mdi-menu-left</v-icon>
+        </v-btn>
+      </template>
+      <span>{{ drawerRight ? 'Collapse' : 'Expand' }} side panel</span>
+    </v-tooltip>
     <v-dialog
-      v-if="$vuetify.breakpoint.smAndDown"
+      v-if="$vuetify.breakpoint.mdAndUp"
       v-model="dialog"
       persistent
       fullscreen
@@ -154,7 +197,7 @@
           {{ $store.state.indicators.selectedIndicator.description }}
         </v-toolbar-title>
         <v-toolbar-title v-else class="text-capitalize">
-          {{ showText }}
+          {{ showText ? showText : '' }}
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn
@@ -175,6 +218,7 @@
         class="scrollContainer data-panel"
         :style="{background: $vuetify.theme.themes[theme].background}"
       >
+
         <banner v-if="currentNews" />
 
         <h4 v-if="
@@ -190,16 +234,151 @@
           v-if="$store.state.indicators.selectedIndicator"
           :newsBanner="$refs.newsBanner"
           :expanded="dataPanelFullWidth" class="fill-height" />
-        <template v-else>
-          <Welcome v-if="showText === 'welcome'" style="padding-bottom: 135px !important" />
-          <About v-else-if="showText === 'about'" style="padding-bottom: 100px !important" />
-        </template>
       </div>
     </v-dialog>
+
+    <div
+      class="retractable"
+      :class="{
+        'retracted': isDialogRetracted,
+        'hidden': !$store.state.indicators.selectedIndicator
+          && $store.state.features.featureFilters.indicators.length === 0,
+      }"
+      v-else
+    >
+      <v-toolbar dark color="primary">
+        <v-toolbar-title style="overflow: unset; white-space: pre-wrap;"
+          v-if="$store.state.indicators.selectedIndicator"
+        >{{ $store.state.indicators.selectedIndicator.city }},
+          {{ $store.state.indicators.selectedIndicator.description }}
+        </v-toolbar-title>
+        <v-toolbar-title
+          v-else-if="$store.state.features.featureFilters.indicators[0] && firstIndicatorObject"
+        >
+          {{ firstIndicatorObject
+            .description }}
+          <div v-if="
+            firstIndicatorObject.description !==
+            firstIndicatorObject.indicatorName"
+            class="subheading" style="font-size: 0.8em">
+            {{ firstIndicatorObject.indicatorName }}
+          </div>
+        </v-toolbar-title>
+        <v-toolbar-title v-else class="text-capitalize">
+          {{ showText ? showText : '' }}
+        </v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn
+          v-if="showText === 'welcome'
+            && $vuetify.breakpoint.smAndDown
+            && !$store.state.indicators.selectedIndicator"
+          @click="clickMobileClose"
+          color="secondary"
+        >
+          <v-icon left>mdi-arrow-right</v-icon>
+          Start exploring!
+        </v-btn>
+        <template v-else>
+          <v-btn icon dark @click="() => isDialogRetracted = !isDialogRetracted">
+            <v-icon>mdi-chevron-{{isDialogRetracted ? 'up' : 'down'}}</v-icon>
+          </v-btn>
+
+          <v-btn icon dark @click="clickMobileClose">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </template>
+      </v-toolbar>
+      <v-container
+        class="data-panel scrollContainer"
+        :style="{
+          background: $vuetify.theme.themes[theme].background,
+          height: 'calc(var(--vh, 1vh) * 100)'
+        }"
+      >
+
+        <banner v-if="currentNews" />
+
+        <v-row>
+          <v-col>
+            <h4 v-if="
+                ($store.state.indicators.selectedIndicator && (
+                  $store.state.indicators.selectedIndicator.description !==
+                  $store.state.indicators.selectedIndicator.indicatorName))"
+              class="py-2"
+            >
+              {{ queryIndicatorObject
+                && queryIndicatorObject.properties.indicatorObject.indicatorName }}
+            </h4>
+            <data-panel
+              v-if="$store.state.indicators.selectedIndicator
+                || $store.state.features.featureFilters.indicators.length > 0"
+              :newsBanner="$refs.newsBanner"
+              :expanded="dataPanelFullWidth"
+            />
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
+
+    <v-dialog
+      v-model="showInfoDialog"
+      class="info-dialog"
+      width="90vw"
+      max-width="1000"
+    >
+      <template>
+        <div
+          class="d-flex justify-between px-7 pt-4"
+          width="100%"
+          style="justify-content: space-between; align-items: center;"
+          :style="{background: $vuetify.theme.currentTheme.background}"
+        >
+          <span class="font-medium text-h6 text-capitalize mb-2 mb-sm-0">
+            {{ showText === 'welcome'
+              ? `Welcome to ${appConfig.branding.shortName || appConfig.branding.appName}!`
+              : showText }}
+          </span>
+          <v-btn
+            v-if="$vuetify.breakpoint.smAndUp"
+            color="secondary"
+            @click="() => showInfoDialog = false"
+          >
+            <span>Explore the dashboard!</span>
+            <v-icon right>mdi-arrow-right</v-icon>
+          </v-btn>
+          <v-btn
+            v-else
+            color="primary"
+            icon
+            @click="() => showInfoDialog = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </div>
+
+        <Welcome v-if="showText === 'welcome'" class="pt-4" />
+        <About v-else-if="showText === 'about'" />
+
+        <div
+          v-if="$vuetify.breakpoint.xsOnly"
+          class="px-7 pb-4"
+          :style="{background: $vuetify.theme.currentTheme.background}"
+        >
+          <v-btn
+            block
+            color="secondary"
+            @click="() => showInfoDialog = false"
+          >
+            <span>Explore the dashboard!</span>
+            <v-icon right>mdi-arrow-right</v-icon>
+          </v-btn>
+        </div>
+      </template>
+    </v-dialog>
+
     <v-content
       :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
-        + $vuetify.application.footer}px); overflow:hidden; ${$vuetify.breakpoint.mdAndUp
-        && 'width: 60%;'}`"
+        + $vuetify.application.footer}px); overflow:hidden; width: 100%`"
     >
       <v-container
         class="fill-height pa-0"
@@ -208,9 +387,15 @@
         <v-row class="fill-height">
           <v-col
             cols="12"
-            class="pt-0 fill-height"
+            class="py-0 fill-height"
           >
-            <center-panel />
+            <center-panel :panelActive="drawerRight" />
+            <div
+              class="d-flex justify-start"
+              style="position: absolute; top: 0; width: 100%; pointer-events: none"
+            >
+              <indicator-filters />
+            </div>
           </v-col>
         </v-row>
       </v-container>
@@ -230,7 +415,7 @@ import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
-import SelectionPanel from '@/components/SelectionPanel.vue';
+import IndicatorFilters from '@/components/IndicatorFilters.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
@@ -253,7 +438,7 @@ export default {
     DataPanel,
     GlobalHeader,
     GlobalFooter,
-    SelectionPanel,
+    IndicatorFilters,
   },
   props: {
     source: String,
@@ -263,17 +448,34 @@ export default {
     drawerLeft: false,
     drawerRight: false,
     dialog: false,
-    showText: null,
+    showText: 'welcome',
     dataPanelFullWidth: false,
     dataPanelTemporary: false,
     panelKey: 0,
+    showInfoDialog: null,
+    isDialogRetracted: true,
   }),
   computed: {
-    appConfig() {
-      return this.$store.state.config.appConfig;
+    ...mapState('config', [
+      'appConfig',
+    ]),
+    dataPanelWidth() {
+      return this.$vuetify.breakpoint.lgAndUp ? 600 : 400;
     },
     indicatorSelected() {
-      return this.$store.state.indicators.selectedIndicator;
+      return this.$store.state.indicators.selectedIndicator
+        || this.$store.state.features.featureFilters.indicators.length > 0;
+    },
+    firstIndicatorObject() {
+      const indicator = Array.isArray(this.$store.state.features.featureFilters.indicators)
+        ? this.$store.state.features.featureFilters.indicators[0]
+        : this.$store.state.features.featureFilters.indicators;
+      const firstFeature = this.$store.state.features.allFeatures
+        .find((f) => f.properties.indicatorObject.indicator
+          === indicator);
+      return firstFeature
+        ? firstFeature.properties.indicatorObject
+        : undefined;
     },
     currentNews() {
       let currentNews;
@@ -307,19 +509,20 @@ export default {
   },
   created() {
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
-    this.drawerRight = this.$vuetify.breakpoint.mdAndUp;
-    if (!this.$vuetify.breakpoint.mdAndUp) {
-      this.dialog = true;
-    }
+
+    // TODO: uncomment
+    // if (!this.$vuetify.breakpoint.mdAndUp) {
+    //   this.showInfoDialog = true;
+    // }
   },
   mounted() {
-    setTimeout(() => {
-      // only show when no poi is selected
-      if (!this.$route.query.poi) {
-        this.showText = 'welcome';
-        this.drawerRight = true;
-      }
-    }, 2000);
+    document.documentElement.style.setProperty('--data-panel-width', `${this.dataPanelWidth}px`);
+    // only show when nothing is selected
+    const { poi, indicator, search } = this.$route.query;
+    if (!poi && !indicator && !search) {
+      this.showText = 'welcome';
+      this.showInfoDialog = true;
+    }
   },
   beforeDestroy() {
     this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
@@ -336,17 +539,14 @@ export default {
       }
     },
     clickMobileClose() {
+      this.isDialogRetracted = true;
       this.drawerRight = false;
       this.dialog = false;
       this.showText = null;
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
     },
     displayShowText(text) {
-      this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
-      this.drawerRight = true;
-      if (!this.$vuetify.breakpoint.mdAndUp) {
-        this.dialog = true;
-      }
+      this.showInfoDialog = true;
       this.showText = text;
     },
     close() {
@@ -354,12 +554,22 @@ export default {
     },
   },
   watch: {
+    dataPanelWidth(val) {
+      document.documentElement.style.setProperty('--data-panel-width', `${val}px`);
+    },
     indicatorSelected(selected) {
       if (selected) {
         this.drawerRight = true;
         if (!this.$vuetify.breakpoint.mdAndUp) {
           this.dialog = true;
         }
+        if (this.showInfoDialog) {
+          this.showInfoDialog = false;
+          this.showText = null;
+        }
+      } else {
+        this.drawerRight = false;
+        this.dialog = false;
       }
       this.$store.commit('indicators/SET_CUSTOM_AREA_INDICATOR', null);
       this.panelKey = Math.random();
@@ -407,5 +617,52 @@ export default {
   .v-badge__badge {
     transform: translateX(-45px);
   }
+}
+
+.reopen-right-drawer {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  z-index: 5;
+
+  .v-icon {
+    transition: transform 0.3s linear;
+  }
+  .open {
+    transform: rotate(180deg);
+  }
+}
+
+::v-deep .retractable {
+  transform: translateY(0);
+  transition: transform 0.3s ease-in-out;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 8;
+  width: 100%;
+
+  &.retracted {
+    transform: translateY(66vh);
+  }
+
+  &.hidden {
+    transform: translateY(100vh);
+  }
+
+  .v-toolbar__title {
+    font-size: 1rem;
+    line-height: 1;
+  }
+}
+</style>
+
+<style>
+.move-with-panel {
+  transform: translateX(0);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.panel-expanded .move-with-panel {
+  transform: translateX(calc(-1 * var(--data-panel-width)));
 }
 </style>
