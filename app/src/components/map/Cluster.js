@@ -16,7 +16,6 @@ import { Feature } from 'ol';
 import { fromLonLat } from 'ol/proj';
 import { calculatePadding } from '@/utils';
 import getMapInstance from './map';
-import { formatLabel } from './formatters';
 
 const circleDistanceMultiplier = 1;
 const circleFootSeparation = 28;
@@ -334,17 +333,16 @@ class Cluster {
           coords = hoverFeature.getGeometry().getCoordinates();
         }
         const { indicatorObject } = hoverFeature.getProperties().properties;
-        const { city, indicator } = formatLabel(indicatorObject, this.vm);
+        const { city } = indicatorObject;
+        const indicator = store.state.config.baseConfig
+          .indicatorsDefinition[indicatorObject.indicator]
+          .indicatorOverwrite || indicatorObject.indicatorName;
         if (city) {
           headers.push(`${city}:`);
         }
         if (indicator) {
           headers.push(indicator);
         }
-        // TODO maybe we can get rid of formatLabel() completely
-        // if (label && label !== '/') {
-        //   rows.push(label);
-        // }
         callback(headers, rows, coords);
       } else {
         callback([], [], null);

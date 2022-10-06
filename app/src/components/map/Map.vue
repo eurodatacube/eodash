@@ -388,11 +388,6 @@ export default {
         'EPSG:3857');
       }
       return undefined;
-      // TODO clean up
-      // // if nothing else, fit to default bounds
-      // const { bounds } = this.mapDefaults;
-      // return transformExtent([bounds._southWest.lng, bounds._southWest.lat, bounds._northEast.lng, bounds._northEast.lat], 'EPSG:4326',
-      //   'EPSG:3857');
     },
   },
   watch: {
