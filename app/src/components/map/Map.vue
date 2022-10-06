@@ -495,8 +495,8 @@ export default {
         'EPSG:3857');
       const { map } = getMapInstance(this.mapId);
       const padding = calculatePadding();
-      map.getView().fit(extent, { padding })
-    }    
+      map.getView().fit(extent, { padding });
+    }
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
