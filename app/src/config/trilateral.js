@@ -277,14 +277,12 @@ export const indicatorsDefinition = Object.freeze({
   N9: {
     indicator: 'Air quality',
     class: 'air',
-    hideInFilters: true,
     story: '/eodash-data/stories/N9',
     themes: ['atmosphere'],
   },
   N10: {
     indicator: 'Air quality',
     class: 'air',
-    hideInFilters: true,
     story: '/eodash-data/stories/N10',
     themes: ['atmosphere'],
   },
@@ -774,12 +772,13 @@ export const layerNameMapping = Object.freeze({
 });
 
 export const indicatorClassesIcons = Object.freeze({
-  economic: 'mdi-cash',
+  economy: 'mdi-cash',
   agriculture: 'mdi-barley',
-  air: 'mdi-weather-windy',
-  water: 'mdi-water',
-  land: 'mdi-image-filter-hdr',
-  health: 'mdi-hospital-box-outline',
+  atmosphere: 'mdi-weather-windy',
+  oceans: 'mdi-water',
+  'biomass-and-landcover': 'mdi-image-filter-hdr',
+  'covid-19': 'mdi-hospital-box-outline',
+  cryosphere: 'mdi-snowflake',
 });
 
 export const mapDefaults = Object.freeze({
@@ -797,10 +796,14 @@ export const baseLayersRightMap = [{
 }, baseLayers.cloudless];
 
 export const overlayLayersLeftMap = [{
-  ...overlayLayers.eoxOverlay, visible: true,
+  ...overlayLayers.eoxOverlay,
+  visible: true,
+  updateOpacityOnZoom: true,
 }];
 export const overlayLayersRightMap = [{
-  ...overlayLayers.eoxOverlay, visible: true,
+  ...overlayLayers.eoxOverlay,
+  visible: true,
+  updateOpacityOnZoom: true,
 }];
 
 const mapBoxHighResoSubst = [{

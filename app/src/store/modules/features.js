@@ -2,6 +2,10 @@
 import { Wkt } from 'wicket';
 import { latLng } from 'leaflet';
 import countriesJson from '@/assets/countries.json';
+import getLocationCode from '@/mixins/getLocationCode';
+import nameMapping from '@/config/name_mapping.json';
+
+const format = new Wkt();
 
 let globalIdCounter = 0;
 const state = {
@@ -11,6 +15,7 @@ const state = {
     indicators: [],
     themes: [],
     includeArchived: false,
+    custom: [],
   },
   selectedArea: null,
   resultsCount: {
@@ -70,9 +75,12 @@ const getters = {
             && (f.properties.indicatorObject.description.includes('(archived)')),
           code: f.properties.indicatorObject.indicator,
           indicator: f.properties.indicatorObject.description,
-          class: rootState.config.baseConfig.indicatorsDefinition[
+          themes: rootState.config.baseConfig.indicatorsDefinition[
             f.properties.indicatorObject.indicator
-          ].class,
+          ].themes,
+          // class: rootState.config.baseConfig.indicatorsDefinition[
+          //   f.properties.indicatorObject.indicator
+          // ].class,
           indicatorOverwrite: rootState.config.baseConfig.indicatorsDefinition[
             f.properties.indicatorObject.indicator
           ].indicatorOverwrite,
@@ -125,6 +133,12 @@ const getters = {
           .includes(`${
             f.properties.indicatorObject.aoiID}-${
             f.properties.indicatorObject.indicator}`));
+    }
+    if (state.featureFilters.custom.length > 0) {
+      features = features
+        .filter((f) => state.featureFilters.custom
+          .map((c) => getLocationCode(c.properties.indicatorObject))
+          .includes(getLocationCode(f.properties.indicatorObject)));
     }
 
     if (!state.featureFilters.includeArchived) {
@@ -185,6 +199,27 @@ const mutations = {
   //   );
   // },
   ADD_NEW_FEATURES(state, features) {
+    // We do name replacing as based on the configuration file
+    // as some data sources are external to us
+    features.forEach((f) => {
+      const { indicatorObject } = f.properties;
+      // We see if indicator code and aoiID is a match
+      const mergedKey = `${indicatorObject.indicator}-${indicatorObject.aoiID}`;
+      const { id } = this.state.config.appConfig;
+      let foundMapping;
+      if (mergedKey in nameMapping[id]) {
+        foundMapping = nameMapping[id][mergedKey];
+      } else if (indicatorObject.indicator in nameMapping[id]) {
+        foundMapping = nameMapping[id][indicatorObject.indicator];
+      }
+      if (foundMapping && 'title' in foundMapping) {
+        indicatorObject.indicatorName = foundMapping.title;
+      }
+      if (foundMapping && 'description' in foundMapping) {
+        indicatorObject.description = foundMapping.description;
+      }
+    });
+    // indicatorName
     state.allFeatures = state.allFeatures.concat(features);
   },
   // SET_ALL_DUMMY_LOCATIONS(state, features) {
@@ -215,12 +250,18 @@ const mutations = {
     if (hasFeature('includeArchived')) {
       state.featureFilters.includeArchived = options.includeArchived;
     }
+    if (hasFeature('custom')) {
+      state.featureFilters.custom = options.custom;
+    }
   },
   ADD_RESULTS_COUNT(state, { type, count }) {
     state.resultsCount[type] += count;
   },
   SET_SELECTED_AREA(state, area) {
     state.selectedArea = area;
+
+    // TODO: Extract fetchData method into helper file since it needs to be used from outside.
+    window.dispatchEvent(new CustomEvent('area-changed'));
   },
 };
 const actions = {
@@ -294,7 +335,6 @@ const actions = {
         });
         // only continue if aoi column is present
         if (Object.prototype.hasOwnProperty.call(data[0], pM.aoi)) {
-          const wkt = new Wkt();
           const featureObjs = {};
           for (let rr = 0; rr < data.length; rr += 1) {
             // Aggregate data based on location
@@ -310,28 +350,24 @@ const actions = {
             Object.entries(pM).forEach(([key, value]) => {
               if (Object.prototype.hasOwnProperty.call(data[rr], value)) {
                 if (key === 'subAoi') {
-                  // dummy empty geometry
-                  let ftrs = [];
                   try {
                     // assuming sub-aoi does not change over time
                     if (!['', '/'].includes(data[rr][value])) {
-                      wkt.read(data[rr][value]);
-                      const jsonGeom = wkt.toJson();
+                      format.read(data[rr][value]);
+                      const jsonGeom = format.toJson();
                       // create a feature collection
-                      ftrs = [{
-                        type: 'Feature',
-                        properties: {},
-                        geometry: jsonGeom,
-                      }];
+                      featureObjs[uniqueKey][key] = Object.freeze({
+                        type: 'FeatureCollection',
+                        features: [{
+                          type: 'Feature',
+                          properties: {},
+                          geometry: jsonGeom,
+                        }],
+                      });
                     }
                   } catch (err) {
                     console.log(`Error parsing subAoi of locations for index ${rr}`);
                   }
-                  const ftrCol = {
-                    type: 'FeatureCollection',
-                    features: ftrs,
-                  };
-                  featureObjs[uniqueKey][key] = ftrCol;
                 } else if (key === 'lastMeasurement') {
                   featureObjs[uniqueKey][key] = data[rr][value].length !== 0
                     ? Number(data[rr][value]) : NaN;
@@ -399,7 +435,6 @@ const actions = {
         });
         // only continue if aoi column is present
         if (Object.prototype.hasOwnProperty.call(data[0], pM.aoi)) {
-          const wkt = new Wkt();
           const featureObjs = {};
           for (let rr = 0; rr < data.length; rr += 1) {
             // Aggregate data based on location
@@ -422,14 +457,8 @@ const actions = {
                   try {
                     // assuming sub-aoi does not change over time
                     if (data[rr][value] !== '') {
-                      wkt.read(data[rr][value]);
-                      const jsonGeom = wkt.toJson();
                       // create a feature collection
-                      ftrs = [{
-                        type: 'Feature',
-                        properties: {},
-                        geometry: jsonGeom,
-                      }];
+                      ftrs = [Object.freeze(format.readFeature(data[rr][value]))];
                     }
                   } catch (err) {
                     console.log(`Error parsing subAoi of locations for index ${rr}`);

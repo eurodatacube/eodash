@@ -5,7 +5,7 @@
 
 The **platform** demonstrates how the use of **Earth observation** data can help shed new light on societal and economic changes currently taking place owing to the coronavirus pandemic.
 
-<img src="./eodash-data/general/RACE_key_visual_16_9_NoTitle.jpg">
+<img src="./eodash-data/general/RACE_KV_2022_small.jpg">
 
 Across all European countries and ESA Member States, the dashboard showcases examples of how different analyses over a wide range of Earth observation data coming from the **Copernicus Sentinels and Third Party Missions, as well as ground-based observations and advanced numerical models via the Copernicus Services** can illustrate these socio-economic and environmental changes. The dashboard not only captures the effects of the lockdown, but also shows how Europe is beginning its recovery and is relaunching a number of activities.
 

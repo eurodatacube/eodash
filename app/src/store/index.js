@@ -33,6 +33,7 @@ const store = new Vuex.Store({
   state: {
     packageVersion: process.env.PACKAGE_VERSION || '0',
     isFullScreen: false,
+    showHistoryBackButton: false,
     alert: {
       message: '',
       type: '',
@@ -44,6 +45,9 @@ const store = new Vuex.Store({
   mutations: {
     changeFullScreen(state, val) {
       state.isFullScreen = val;
+    },
+    changeBackButtonDisplay(state, value) {
+      state.showHistoryBackButton = value;
     },
     sendAlert(state, payload) {
       state.alert.message = payload.message;
