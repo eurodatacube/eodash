@@ -15,8 +15,9 @@
         @load="onLoaded"
         v-resize="onResize"
         width="100%"
-        style="height: calc((var(--vh), 1vh) * 100) !important;"
-        :style="{'margin-top': areBreadcrumbsEnabled ? '48px' : '0px'}"
+        style="height: calc((var(--vh), 1vh) * 100) !important; position: fixed; left: 0; bottom: 0;"
+        :style="{top: areBreadcrumbsEnabled ? '112px' : '64px'}"
+        
         src="./scrolly.html"
         frameborder="0"
       ></iframe>
@@ -157,6 +158,7 @@ export default {
         case 'gtif-carbon-finance':
         case 'gtif-eo-adaptation':
           this.areBreadcrumbsEnabled = true;
+          break
 
         default:
           this.areBreadcrumbsEnabled = false;
