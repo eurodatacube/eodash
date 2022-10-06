@@ -71,7 +71,7 @@
             @click="dataInteract = true">
             Tap to interact
           </v-overlay>
-          <center-map
+          <Map
             style="top: 0px; position: absolute;"
             v-if="globalData"
             class="pt-0 fill-height"
@@ -159,7 +159,7 @@ import {
 import { loadIndicatorData } from '@/utils';
 
 import IndicatorData from '@/components/IndicatorData.vue';
-import CenterMap from '@/components/map/CenterMap.vue';
+import Map from '@/components/map/Map.vue';
 
 export default {
   metaInfo() {
@@ -170,7 +170,7 @@ export default {
   },
   components: {
     IndicatorData,
-    CenterMap,
+    Map,
   },
   data: () => ({
     overlay: false,
