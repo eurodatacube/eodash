@@ -240,4 +240,5 @@ const createAvailableTimeEntries = (indicatorObject, config) => {
 export {
   createConfigFromIndicator,
   createAvailableTimeEntries,
+  generateUsedTimes,
 };

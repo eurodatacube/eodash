@@ -173,7 +173,10 @@ import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 import Link from 'ol/interaction/Link';
-import { calculatePadding } from '@/utils';
+import {
+  calculatePadding,
+  getIndicatorFilteredInputData,
+} from '@/utils';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -260,7 +263,6 @@ export default {
   },
   computed: {
     ...mapGetters('features', ['getGroupedFeatures', 'getFeatures']),
-    ...mapGetters('indicators', ['getIndicatorFilteredInputData']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
       if (this.isGlobalIndicator) {
@@ -307,7 +309,7 @@ export default {
       // the current indicator definition object.
       // will use the "currentIndicator"-Prop if defined (dashboard)
       // otherwise it will use the selected indicator from the store
-      return this.getIndicatorFilteredInputData(this.currentIndicator);
+      return getIndicatorFilteredInputData(this.currentIndicator);
     },
     drawnArea() {
       // in store or prop saved as 'object', in this component and
