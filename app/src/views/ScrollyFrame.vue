@@ -8,15 +8,16 @@
     >
       <global-header />
 
-      <gtif-breadcrumbs v-if="areBreadcrumbsEnabled" />
+      <gtif-breadcrumbs
+        :are-breadcrumbs-enabled="areBreadcrumbsEnabled"
+      />
 
       <iframe
         id="resizableIframe"
         @load="onLoaded"
         v-resize="onResize"
         width="100%"
-        style="height: calc((var(--vh), 1vh) * 100) !important; position: fixed; left: 0; bottom: 0;"
-        :style="{top: areBreadcrumbsEnabled ? '112px' : '64px'}"
+        style="height: calc((var(--vh), 1vh) * 100) !important; position: fixed; left: 0; bottom: 0; top: 112px;"
         
         src="./scrolly.html"
         frameborder="0"
@@ -111,18 +112,16 @@ export default {
       }
     },
     onResize() {
-      let headerHeight = this.areBreadcrumbsEnabled ? 64 + 48 : 64;
-
       iFrameResize({
         // log: true,
         checkOrigin: false,
         inPageLinks: false,
         sizeHeight: false,
         scrolling: true,
-        minHeight: this.minHeight 
+        minHeight: this.minHeight
           || window.innerHeight
               - 64
-              - (this.areBreadcrumbsEnabled ? 48 : 0),
+              - 48,
       }, '#resizableIframe');
     },
     getDashboardID() {
