@@ -145,7 +145,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Harvesting activity',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a1',
-    largeSubAoi: true,
     baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
       ...baseLayers.S2GLC,
       visible: true,
@@ -156,7 +155,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Cum. proportion of total area under active mgmt.',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a2',
-    largeSubAoi: true,
     baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
       ...baseLayers.S2GLC,
       visible: true,
@@ -168,31 +166,26 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Evolution of the cultivated areas for production of white asparagus',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a2',
-    largeSubAoi: true,
   },
   E10a5: {
     indicator: 'Harvesting activity',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a5',
-    largeSubAoi: true,
   },
   E10a6: {
     indicator: 'Harvested parcels/area evolution over time',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a6',
-    largeSubAoi: true,
     maxDecimals: 4,
   },
   E10a8: {
     indicator: 'Cumulative harvested area',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a8',
-    largeSubAoi: true,
   },
   E10a9: {
     indicator: 'Tomatoes cultivation',
     themes: ['agriculture'],
-    largeSubAoi: true,
     story: '/eodash-data/stories/E10a9',
   },
   E10a10: {
@@ -221,7 +214,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Throughput at border crossing points',
     themes: ['economy'],
     story: '/eodash-data/stories/E12b',
-    midSubAoi: true,
     maxDecimals: 3,
   },
   E12c: {
@@ -229,7 +221,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     customAreaFeatures: true,
     customAreaIndicator: true,
-    largeSubAoi: true,
     featuresClustering: true,
     disableCompare: true,
     story: '/eodash-data/stories/E12c',
@@ -404,13 +395,11 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'CHL concentration',
     themes: ['water'],
     story: '/eodash-data/stories/N3',
-    largeSubAoi: true,
   },
   N3a2: {
     indicator: 'CHL concentration',
     themes: ['water'],
     story: '/eodash-data/stories/N3a2',
-    largeSubAoi: true,
   },
   N4a: {
     indicator: 'Changes in land fill sites',
@@ -431,7 +420,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'CMEMS Water Quality',
     themes: ['water'],
     largeTimeDuration: true,
-    largeSubAoi: true,
     story: '/eodash-data/stories/N3c',
   },
   N4c: {
