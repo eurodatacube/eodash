@@ -10,7 +10,7 @@
   >
     <v-card class="rounded-lg">
       <div
-        v-if="appConfig.id === 'esa' && $vuetify.breakpoint.smAndUp"
+        v-if="$vuetify.breakpoint.smAndUp && !currentTheme"
         class="pa-2"
       >
         <v-btn
@@ -130,6 +130,7 @@ export default {
     ...mapState('config', ['appConfig', 'baseConfig']),
     ...mapState('features', ['allFeatures']),
     ...mapState('indicators', ['selectedIndicator']),
+    ...mapState('themes', ['currentTheme']),
     ...mapGetters('features', ['getFeatures', 'getGroupedFeatures', 'getIndicators']),
     globalIndicators() {
       return this.getGroupedFeatures && this.getGroupedFeatures
