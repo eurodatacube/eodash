@@ -1,0 +1,58 @@
+<template>
+  <v-container fluid>
+    <v-row align="center">
+      <v-col cols="6">
+        <v-subheader>
+          Data properties
+        </v-subheader>
+      </v-col>
+
+      <v-col cols="6">
+        <v-select
+          v-model="select"
+          :items="vectorStyles.items"
+          item-text="description"
+          item-value="id"
+          label="Select"
+          persistent-hint
+          return-object
+          single-line
+          @change="updateMap"
+        ></v-select>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+
+import getMapInstance from '@/components/map/map';
+import { applyStyle } from 'ol-mapbox-style';
+
+export default {
+  name: 'FilterControls',
+  components: {},
+  props: {
+    vectorStyles: Object,
+  },
+  data: () => ({
+    select: null,
+  }),
+  mounted() {
+    [this.select] = this.vectorStyles.items;
+  },
+  computed: {},
+  watch: {
+  },
+  methods: {
+    updateMap(evt) {
+      const { map } = getMapInstance('centerMap');
+      const vLayer = map.getAllLayers().find((l) => l.get('id') === this.vectorStyles.sourceLayer);
+      applyStyle(vLayer, 'data/gtif/data/rooftops_style.json', [evt.id]);
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+</style>
