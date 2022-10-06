@@ -1,15 +1,70 @@
 
-## The Rapid Action on coronavirus and EO
+# Rapid Action for Citizens with EO
 
-### The Rapid Action coronavirus Earth observation dashboard presents the results of the Joint cooperation between [ESA](https://www.esa.int/) and the [European Commission](https://ec.europa.eu/info/index_en) on Covid 19 and EO.
+[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/EO_OPEN_SCIENCE.svg?style=social&label=Follow%20%40eo_open_science)](https://twitter.com/EO_OPEN_SCIENCE) 
 
-The **platform** demonstrates how the use of **Earth observation** data can help shed new light on societal and economic changes currently taking place owing to the coronavirus pandemic.
 
-<img src="./eodash-data/general/RACE_KV_2022_small.jpg">
+This dashboard aims to showcase the power of Earth Observations to inform on societal global challenges. It is a joint cooperation between [ESA](https://www.esa.int/) and the [European Commission](https://ec.europa.eu/info/index_en). The activity started in 2020, triggered by Covid-19 crisis and 
+served as testbed for Open Innovation, with participation of European Industry and citizens.
 
-Across all European countries and ESA Member States, the dashboard showcases examples of how different analyses over a wide range of Earth observation data coming from the **Copernicus Sentinels and Third Party Missions, as well as ground-based observations and advanced numerical models via the Copernicus Services** can illustrate these socio-economic and environmental changes. The dashboard not only captures the effects of the lockdown, but also shows how Europe is beginning its recovery and is relaunching a number of activities.
+In October 2022 the activity was rebranded to "Rapid Action for Citizens with Earth Observation", as it continues the rapid development of EO-informed indicators with societal relevance (such as air quality, agricultural production or manufacturing volumes), and it provides more open tools for interaction (such as Jupyter Notebooks and free tutorials on Earth Observation).
 
-### The data populating the dashboard are a collective effort of a number of industrial and academic partners:
+<img src="./eodash-data/general/RACE_KV_2022.jpg" width="75%">
+
+## What data can I find here? 
+
+The dashboard features European and global indicators of socio-economic and environmental changes using open data coming from the Copernicus Sentinel missions, data from Third Party Missions, as well as ground-based observations and advanced numerical models via the Copernicus Services.  
+
+All the data featured in the RACE Dashboard is openly available. 
+
+From this dashboard you can access data in various ways:
+- download directly from the Dashobard using the "Download CSV" function available for all chart data
+- access the data in 
+[![Repo](https://badgen.net/badge/icon/GitHub?icon=github&label)](https://github.com/eurodatacube/eodash) 
+- discover data in the Euro Data Cube. Most of the data provided can be access through the Euro Data Cube in both raster and vector format. The raster data is typically available via the Sentinel Hub services whie the vector data is stored in a geodatabase and accessible via the GeoDB service. Data in the Euro Data Cube is typically presented as Collections. To browse all collections available, visit https://collections.eurodatacube.com
+
+A complete list of the datasets is provided in this Notebook: https://eurodatacube.com/marketplace/notebooks/contributions/IGARSS2022/IGARSS-22_Data_Access.ipynb
+
+## Blog posts and Tutorials
+
+### 2022
+
+* [EODASH demo at the Living Planet Symposium 2022](https://eo4society.esa.int/2022/05/06/live-demos-and-training-schedule-during-lps-open-earth-forum/)
+* [Geo-storytelling with EO Dashboards at IGARSS 2022 and FOSS4G 2022](https://eo4society.esa.int/2022/09/21/geo-storytelling-with-eo-dashboards/)
+
+### 2021
+
+* [Build Custom Visualisations in the RACE Dashboard](https://medium.com/euro-data-cube/creating-powerful-visuals-of-covid-19-impacts-on-human-activities-8879fa75121d)
+* [How Covid-19 lockdown impacted the air in your city’s](https://medium.com/euro-data-cube/find-covid-19-lockdown-measures-impacts-on-your-citys-air-quality-b628872b3251)
+* [Detecting moving trucks with Sentinel-2](https://link.medium.com/cu3vbJAXFbb)
+* [Water Quality and Covid-19](https://medium.com/euro-data-cube/coronavirus-and-water-quality-whats-the-correlation-bf727d343e61)
+* [Air traffic disruptions seen from Space](https://medium.com/euro-data-cube/the-pandemic-disruption-of-air-traffic-as-seen-from-space-6dad64201b9a)
+* [Lockdown is also changing our Planet at night](https://medium.com/euro-data-cube/lockdown-is-also-changing-our-planet-at-night-520deffec252)
+* [Covid-19 and the World food supply](https://sara-aparicio.medium.com/87215c8edbdc)
+* [RACE Dashboard Challenges 2021](https://eo4society.esa.int/race-dashboard-challenges-2021/)
+
+### 2020
+
+* [Euro Data Cube Custom Script Contest – COVID-19 edition](https://eo4society.esa.int/2020/04/06/euro-data-cube-custom-script-contest-covid-19-edition/)
+
+## Open Science
+
+[<img src="./eodash-data/general/EO-Open-Science_Badge_DEF.png" width="20%">](https://eo4society.esa.int/)
+
+This project is part of ESA Open Science activities. Visit https://eo4society.esa.int/ for more details.
+
+
+## Who can contribute to this dashboard?
+
+### Independent Contributors:
+
+Two citizen contributions are featured on this dashboard. They were developed as part of the RACE Challenges organised in [2020](https://eo4society.esa.int/2020/04/06/euro-data-cube-custom-script-contest-covid-19-edition/) and [2021](https://eo4society.esa.int/race-dashboard-challenges-2021/). 
+
+To contribute to this project, get in touch with us via the Feedback button at the bottom of the page or send a pull request in the GitHub page https://github.com/eurodatacube/eodash.
+
+### Industry and Institutions:
+
+The current contributing companies and institutions are listed here.
 
 [<img src="./eodash-data/general/1_European_Commission.png" width="15%">](https://ec.europa.eu/)[<img src="./eodash-data/general/2_ESA.png" width="15%">](https://esa.int)
 
@@ -41,10 +96,9 @@ Across all European countries and ESA Member States, the dashboard showcases exa
 [<img src="./eodash-data/general/41_ARESYS.png" width="15%">](https://www.aresys.it/)
 [<img src="./eodash-data/general/42_C3S.png" width="15%">](https://climate.copernicus.eu/)
 
+
 ##### Disclaimer
 
 The information contained on this website are mainly provided by third parties based on experimental methods and without any warranty as to their veracity. The European Commission cannot be held responsible for any use which may be made of the information contained therein.
-
-
 
 
