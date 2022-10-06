@@ -180,7 +180,7 @@
             </v-row>
           </v-card>
           <v-card
-            v-else-if="!showMap || (showMap && indicatorObject.display && indicatorObject.display.customAreaIndicator)"
+            v-else-if="!showMap || (showMap && mergedConfigsData[0].customAreaIndicator)"
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
                               ? (bannerHeight ? 65 : 70) : 30) : 45}vh;`"
@@ -199,7 +199,7 @@
               style="top: 0px; position: absolute;"
             />
             <v-col
-              v-else-if="showMap && indicatorObject.display.customAreaIndicator"
+              v-else-if="showMap && (mergedConfigsData[0].customAreaIndicator)"
               class="d-flex flex-col align-center justify-center"
               style="flex-direction: column; height: 100%; position: absolute; top: 0;"
             >
@@ -491,6 +491,7 @@ import {
 } from 'vuex';
 import { Wkt } from 'wicket';
 import { loadIndicatorData } from '@/utils';
+import { createConfigFromIndicator } from '@/helpers/mapConfig';
 import { DateTime } from 'luxon';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
@@ -692,6 +693,17 @@ export default {
         return this.newsBanner.$el.clientHeight;
       }
       return 0;
+    },
+    mergedConfigsData() {
+      // only display the "special layers" for global indicators
+      if (!this.indicatorObject) {
+        return [];
+      }
+      return createConfigFromIndicator(
+        this.indicatorObject,
+        'data',
+        0,
+      );
     },
   },
   mounted() {
