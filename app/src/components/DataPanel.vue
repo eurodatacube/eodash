@@ -48,7 +48,7 @@
                 class="fill-height"
                 :style="`${!(!customAreaIndicator || expanded) ? 'display: none;' : ''}
                 height: ${$vuetify.breakpoint.mdAndUp ?
-                                  (expanded ? ( bannerHeight ? 60 : 70) : 30) : 50}vh;`"
+                                  (expanded ? ( bannerHeight ? 60 : 70) : 45) : 50}vh;`"
               >
                 <indicator-data
                   style="top: 0px; position: absolute;"
@@ -180,10 +180,10 @@
             </v-row>
           </v-card>
           <v-card
-            v-else-if="!showMap || (showMap && indicatorObject.display && indicatorObject.display.customAreaIndicator)"
+            v-else-if="!showMap || (showMap && mergedConfigsData[0].customAreaIndicator)"
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
-                              ? (bannerHeight ? 65 : 70) : 30) : 30}vh;`"
+                              ? (bannerHeight ? 65 : 70) : 30) : 45}vh;`"
             ref="mapPanel"
           >
             <indicator-globe
@@ -199,7 +199,7 @@
               style="top: 0px; position: absolute;"
             />
             <v-col
-              v-else-if="showMap && indicatorObject.display.customAreaIndicator"
+              v-else-if="showMap && (mergedConfigsData[0].customAreaIndicator)"
               class="d-flex flex-col align-center justify-center"
               style="flex-direction: column; height: 100%; position: absolute; top: 0;"
             >
@@ -320,6 +320,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
         </v-col>
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          :class="$vuetify.breakpoint.smAndUp ? 'scrollContainer' : ''"
           :style="`padding-bottom: 0px; height: ${$vuetify.breakpoint.mdAndDown
                   ? 'auto'
                   : (expanded
@@ -329,8 +330,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                     - (multipleTabCompare ? 48 : 0) + 'px') }`"
         >
           <v-row
-            class="mt-0 fill-height scrollContainer pb-2"
-            :style="$vuetify.breakpoint.xsOnly ? 'height: 40vh' : ''"
+            class="mt-0 fill-height pb-2"
           >
             <v-col
               cols="12"
@@ -341,7 +341,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
               <v-card
                 v-if="customAreaIndicator"
                 class="fill-height"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 50 : 30}vh;`"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 50 : 45}vh;`"
                 style="border: none; !important"
                 ref="indicatorData"
                 outlined
@@ -439,7 +439,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
           <v-card
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
-            ? (bannerHeight ? 65 : 70) : 30) : 25}vh;`"
+            ? (bannerHeight ? 65 : 70) : 45) : 25}vh;`"
             ref="mapPanel"
           >
             <v-col
@@ -454,6 +454,7 @@ Select a point of interest on the map to see the data for a specific location!
         </v-col>
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          :class="$vuetify.breakpoint.smAndUp ? 'scrollContainer' : ''"
           :style="`padding-bottom: 0px; height: ${$vuetify.breakpoint.mdAndDown
                   ? 'auto'
                   : (expanded
@@ -463,8 +464,7 @@ Select a point of interest on the map to see the data for a specific location!
                     - 15 + 'px') }`"
         >
           <v-row
-            class="mt-0 fill-height scrollContainer"
-            :style="$vuetify.breakpoint.xsOnly ? 'height: 40vh' : ''"
+            class="mt-0 fill-height"
           >
             <v-col
               cols="12"
@@ -491,6 +491,7 @@ import {
 } from 'vuex';
 import { Wkt } from 'wicket';
 import { loadIndicatorData } from '@/utils';
+import { createConfigFromIndicator } from '@/helpers/mapConfig';
 import { DateTime } from 'luxon';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
@@ -692,6 +693,17 @@ export default {
         return this.newsBanner.$el.clientHeight;
       }
       return 0;
+    },
+    mergedConfigsData() {
+      // only display the "special layers" for global indicators
+      if (!this.indicatorObject) {
+        return [];
+      }
+      return createConfigFromIndicator(
+        this.indicatorObject,
+        'data',
+        0,
+      );
     },
   },
   mounted() {

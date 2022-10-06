@@ -244,7 +244,6 @@
         'hidden': !$store.state.indicators.selectedIndicator
           && $store.state.features.featureFilters.indicators.length === 0,
       }"
-      :style="`height: calc(100% - ${$vuetify.application.footer}px)`"
       v-else
     >
       <v-toolbar dark color="primary">
@@ -290,11 +289,10 @@
         </template>
       </v-toolbar>
       <v-container
-        class="data-panel"
-        :class="$vuetify.breakpoint.smAndUp ? 'scrollContainer' : ''"
+        class="data-panel scrollContainer"
         :style="{
           background: $vuetify.theme.themes[theme].background,
-          height: `calc(100% - ${$vuetify.application.footer - 4}px)`
+          height: 'calc(var(--vh, 1vh) * 100)'
         }"
       >
 
@@ -315,7 +313,8 @@
               v-if="$store.state.indicators.selectedIndicator
                 || $store.state.features.featureFilters.indicators.length > 0"
               :newsBanner="$refs.newsBanner"
-              :expanded="dataPanelFullWidth" class="fill-height" />
+              :expanded="dataPanelFullWidth"
+            />
           </v-col>
         </v-row>
       </v-container>
@@ -335,7 +334,9 @@
           :style="{background: $vuetify.theme.currentTheme.background}"
         >
           <span class="font-medium text-h6 text-capitalize mb-2 mb-sm-0">
-            {{ showText === 'welcome' ? `Welcome to ${appConfig.branding.appName}!` : showText }}
+            {{ showText === 'welcome'
+              ? `Welcome to ${appConfig.branding.shortName || appConfig.branding.appName}!`
+              : showText }}
           </span>
           <v-btn
             v-if="$vuetify.breakpoint.smAndUp"
@@ -632,7 +633,7 @@ export default {
   }
 }
 
-.retractable {
+::v-deep .retractable {
   transform: translateY(0);
   transition: transform 0.3s ease-in-out;
   position: fixed;
@@ -647,6 +648,11 @@ export default {
 
   &.hidden {
     transform: translateY(100vh);
+  }
+
+  .v-toolbar__title {
+    font-size: 1rem;
+    line-height: 1;
   }
 }
 </style>

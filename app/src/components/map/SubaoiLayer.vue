@@ -10,6 +10,7 @@ import turfDifference from '@turf/difference';
 import { mapState } from 'vuex';
 import { containsCoordinate } from 'ol/extent';
 import { clamp } from 'ol/math';
+import { calculatePadding } from '@/utils';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -76,13 +77,14 @@ export default {
       }
       return null;
     },
+    layerNameMapping() {
+      return this.baseConfig.layerNameMapping;
+    },
     isInverse() {
       return !!(this.indicator.country === 'all'
         || this.appConfig.configuredMapPois.includes(`${this.indicator.aoiID}-${this.indicator.indicator}`)
         || ((Array.isArray(this.indicator.inputData)
-        && this.indicator.inputData.filter(
-          (item) => Object.prototype.hasOwnProperty.call(this.baseConfig.layerNameMapping, item),
-        ).length
+        && this.indicatorHasMapData(this.indicator)
         )));
     },
   },
@@ -131,10 +133,33 @@ export default {
     map.addLayer(subAoiLayer);
   },
   methods: {
+    /**
+     * returns true if indicator has real map data (layers or features)
+     */
+    indicatorHasMapData(indicatorObject) {
+      let hasMapData = false;
+      let matchingInputDataAgainstConfig = [];
+      // Check to see if we have EO Data indicator
+      if (indicatorObject && indicatorObject.inputData) {
+        matchingInputDataAgainstConfig = indicatorObject.inputData
+          .filter((item) => Object.prototype.hasOwnProperty.call(this.layerNameMapping, item));
+        hasMapData = matchingInputDataAgainstConfig.length > 0;
+      }
+      // Check to see if we have global data indicator
+      if (indicatorObject && indicatorObject.country) {
+        if (indicatorObject.country === 'all' || Array.isArray(indicatorObject.country)) {
+          hasMapData = true;
+        }
+      }
+      return hasMapData;
+    },
     moveendHandler(e) {
       const map = e.target;
       const view = map.getView();
       const center = view.getCenter();
+      // the map padding is only set here, only for inverse AOIs
+      // TO DO: there should be a better place to do this
+      map.getView().padding = calculatePadding();
       if (!containsCoordinate(this.constrainingExtent, center)) {
         const newCenter = [
           clamp(center[0], this.constrainingExtent[0], this.constrainingExtent[2]),
@@ -148,6 +173,7 @@ export default {
     const { map } = getMapInstance(this.mapId);
     const layer = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
     map.removeLayer(layer);
+    map.getView().padding = [0, 0, 0, 0]; // TO DO: handle padding somewhere else?
     map.un('moveend', this.moveendHandler);
   },
   render: () => null,

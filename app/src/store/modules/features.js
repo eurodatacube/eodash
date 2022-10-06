@@ -136,20 +136,10 @@ const getters = {
     }
     if (state.featureFilters.custom.length > 0) {
       features = features
-        .filter((f) => state.featureFilters.custom.map((c) => getLocationCode(c.properties.indicatorObject))
+        .filter((f) => state.featureFilters.custom
+          .map((c) => getLocationCode(c.properties.indicatorObject))
           .includes(getLocationCode(f.properties.indicatorObject)));
     }
-    // if (state.featureFilters.text.length > 0) {
-    //   features = features
-    //     .filter((f) =>
-    //       f.properties.indicatorObject.indicator.includes(state.featureFilters.text)
-    //       || f.properties.indicatorObject.city.includes(state.featureFilters.text)
-    //       || f.properties.indicatorObject.description.includes(state.featureFilters.text)
-    //       || rootState.config.baseConfig.indicatorsDefinition[f.properties.indicatorObject?.indicator]?.themes
-    //       .includes(state.featureFilters.text)
-    //       || f.properties.indicatorObject.siteName?.includes(state.featureFilters.text)
-    //     );
-    // }
 
     if (!state.featureFilters.includeArchived) {
       features = features.filter((f) => (f.properties.indicatorObject.updateFrequency ? f.properties.indicatorObject.updateFrequency.toLowerCase() !== 'archived' : true));

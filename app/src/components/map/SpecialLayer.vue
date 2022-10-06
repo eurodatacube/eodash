@@ -12,13 +12,8 @@
 import getMapInstance from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import { createLayerFromConfig } from '@/components/map/layers';
-import GeoJSON from 'ol/format/GeoJSON';
 import VectorLayer from 'ol/layer/Vector';
 import { getCenter } from 'ol/extent';
-
-const geoJsonFormat = new GeoJSON({
-  featureProjection: 'EPSG:3857',
-});
 
 /**
  * this component handles global indicators and will add and remove layers

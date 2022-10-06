@@ -4,7 +4,9 @@ import VectorSource from 'ol/source/Vector';
 import XYZSource from 'ol/source/XYZ';
 import GeoJSON from 'ol/format/GeoJSON';
 import countries from '@/assets/countries.json';
-import { Fill, Stroke, Style, Circle } from 'ol/style';
+import {
+  Fill, Stroke, Style, Circle,
+} from 'ol/style';
 import TileWMS from 'ol/source/TileWMS';
 import store from '@/store';
 import TileGrid from 'ol/tilegrid/TileGrid';

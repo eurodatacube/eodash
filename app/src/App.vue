@@ -152,10 +152,12 @@ export default {
     }
     const { query } = this.$route;
     if (query.clusterOpen) {
-      this.$router.replace({query: {
-        ...query,
-        clusterOpen: undefined,
-      }});
+      this.$router.replace({
+        query: {
+          ...query,
+          clusterOpen: undefined,
+        },
+      });
     }
   },
   mounted() {

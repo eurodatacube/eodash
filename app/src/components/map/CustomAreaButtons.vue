@@ -2,10 +2,12 @@
   <div
     class="customDrawTools elevation-2
     d-flex flex-column mb-2">
-    <v-tooltip left>
+    <v-tooltip
+      v-if="drawToolsVisible"
+      left
+    >
       <template v-slot:activator="{ on }">
         <v-btn
-          v-if="drawToolsVisible"
           :color="$vuetify.theme.currentTheme.background"
           class="pa-0 rounded-b-0 elevation-0"
           v-on="on"
@@ -16,10 +18,12 @@
       </template>
       <span>Draw polygon</span>
     </v-tooltip>
-    <v-tooltip left>
+    <v-tooltip
+      v-if="drawToolsVisible"
+      left
+    >
       <template v-slot:activator="{ on }">
         <v-btn
-          v-if="drawToolsVisible"
           :color="$vuetify.theme.currentTheme.background"
           class="pa-0 elevation-0"
           :class="deleteButtonVisible || isDrawing
@@ -33,10 +37,12 @@
       </template>
       <span>Draw rectangle</span>
     </v-tooltip>
-    <v-tooltip left>
+    <v-tooltip
+      v-if="deleteButtonVisible"
+      left
+    >
       <template v-slot:activator="{ on }">
         <v-btn
-          v-if="deleteButtonVisible"
           color="error"
           class="pa-0 rounded-t-0 elevation-0"
           v-on="on"
@@ -47,10 +53,12 @@
       </template>
       <span>Clear selection</span>
     </v-tooltip>
-    <v-tooltip left>
+    <v-tooltip
+      v-if="isDrawing"
+      left
+    >
       <template v-slot:activator="{ on }">
         <v-btn
-          v-if="isDrawing"
           color="error"
           class="pa-0 rounded-t-0 elevation-0"
           v-on="on"

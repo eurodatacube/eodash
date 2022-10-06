@@ -10,7 +10,7 @@
   >
     <v-card class="rounded-lg">
       <div
-        v-if="appConfig.id === 'esa' && $vuetify.breakpoint.smAndUp"
+        v-if="$vuetify.breakpoint.smAndUp && !currentTheme"
         class="pa-2"
       >
         <v-btn
@@ -59,10 +59,10 @@
       </div>
     </v-card>
     <div
-      v-if="!($vuetify.breakpoint.xsOnly && comboboxFocus)"
+      v-if="!($vuetify.breakpoint.xsOnly && comboboxFocus) && globalIndicators.length > 0"
       id="slideGroupWrapper"
       class="d-flex"
-      style="position: absolute; bottom: 10px; left: 0; pointer-events: none;"
+      style="position: absolute; bottom: 25px; left: 0; pointer-events: none;"
     >
       <v-slide-group
         v-model="selectedMapLayer"
@@ -80,19 +80,21 @@
             :color="active ? 'primary' : 'white'"
             height="100"
             width="100"
-            class="ma-4 overflow-hidden"
+            class="mx-4 my-1 overflow-hidden d-flex flex-column"
             style="pointer-events: all"
             @click="toggle"
           >
             <v-img
               height="50"
+              class="flex-shrink-1"
               :src="`./data/${appConfig.id}/globalDataLayerImages/${getLocationCode(
                 item.properties.indicatorObject)}.png`"
             >
             </v-img>
             <v-card-title
+              class="flex-grow-1"
               :class="active ? 'white--text' : 'primary--text'"
-              style="font-size: small; line-height: unset; padding: 6px"
+              style="font-size: 12px; line-height: 14px; padding: 5px"
             >
               {{ item.properties.indicatorObject.indicatorName }}
             </v-card-title>
@@ -128,6 +130,7 @@ export default {
     ...mapState('config', ['appConfig', 'baseConfig']),
     ...mapState('features', ['allFeatures']),
     ...mapState('indicators', ['selectedIndicator']),
+    ...mapState('themes', ['currentTheme']),
     ...mapGetters('features', ['getFeatures', 'getGroupedFeatures', 'getIndicators']),
     globalIndicators() {
       return this.getGroupedFeatures && this.getGroupedFeatures
@@ -143,9 +146,6 @@ export default {
       if (!this.searchItem) {
         this.getSearchItems();
       }
-    }
-    if (this.$route.query.search) {
-      this.userInput = this.$route.query.search;
     }
   },
   mounted() {
@@ -286,6 +286,9 @@ export default {
       if (!this.searchItem) {
         this.getSearchItems();
       }
+      if (this.$route.query.search) {
+        this.userInput = this.$route.query.search;
+      }
     },
     selectedIndicator(indicatorObject) {
       if (!indicatorObject) {
@@ -295,6 +298,9 @@ export default {
       if (this.userInput !== displayName) {
         this.userInput = displayName;
       }
+      this.selectedMapLayer = this.globalIndicators
+        .findIndex((l) => this.getLocationCode(l.properties.indicatorObject)
+          === this.getLocationCode(indicatorObject));
     },
     selectedListItem(input) {
       if (!input) {
@@ -345,6 +351,15 @@ export default {
       };
       this.$router.replace({ query }).catch(() => {});
       this.trackEvent('filters', 'search_input', newInput);
+      // for some strange reason, focusing and activating menu only works half of
+      // the time without timeout
+      // TODO find out why and clean up
+      setTimeout(() => {
+        if (newInput && !this.$refs.combobox.isMenuActive) {
+          this.$refs.combobox.focus();
+          this.$refs.combobox.activateMenu();
+        }
+      }, 0);
     },
   },
 };
@@ -383,5 +398,21 @@ export default {
 ::v-deep .v-slide-group__prev,
 ::v-deep .v-slide-group__next {
   pointer-events: all;
+  background: var(--v-primary-base);
+  opacity: .5;
+  &:hover {
+    opacity: 1;
+  }
+}
+::v-deep .v-slide-group__prev {
+  border-radius: 4px 0 0 4px;
+}
+::v-deep .v-slide-group__next {
+  border-radius: 0 4px 4px 0;
+}
+::v-deep .v-slide-group__prev--disabled,
+::v-deep .v-slide-group__next--disabled {
+  pointer-events: none;
+  opacity: .2;
 }
 </style>

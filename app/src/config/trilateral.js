@@ -778,7 +778,7 @@ export const indicatorClassesIcons = Object.freeze({
   oceans: 'mdi-water',
   'biomass-and-landcover': 'mdi-image-filter-hdr',
   'covid-19': 'mdi-hospital-box-outline',
-  cryosphere: 'mdi-snowflake'
+  cryosphere: 'mdi-snowflake',
 });
 
 export const mapDefaults = Object.freeze({
