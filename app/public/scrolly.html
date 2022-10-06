@@ -22,12 +22,29 @@
                     v-for="(el, i) in data"
                     class="fullWidthBlock"
                 >
-                    <small
+                    <div
+                        v-if="el.text.includes('<--EXPAND-->')"
+                        class="step expandContainer"
+                        :data-section="sectionIndex"
+                        :data-step="i"
+                    >
+                        <img
+                            src="./data/gtif/images/circle-plus-solid.svg"
+                            class="expandBtn"
+                            width="20"
+                        >
+                        <div
+                            class="expandable"
+                            v-html="el.text.replaceAll('<--EXPAND-->', '')"
+                        ></div>
+                    </div>
+                    <div
+                        v-else
                         class="step"
                         :data-section="sectionIndex"
                         :data-step="i"
                         v-html="parseMarkdown(el.text)"
-                    ></small>
+                    ></div>
                 </article>
             </template>
             <template v-else id="scrolly">
@@ -129,7 +146,7 @@
                 .setup({
                     root: document,
                     step: ".scrollySection article .step",
-                    offset: screen.width > 479 ? 0.33 : 0.6,
+                    offset: screen.width > 479 ? 0.33 : 0.4,
                     progress: true,
                     debug: false
                 })

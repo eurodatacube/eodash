@@ -37,7 +37,7 @@ body {
   Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   min-height: 1280px;
   color: #3b3b3b;
-  font-size: 24px;
+  font-size: 1.5rem;
 }
 
 p,
@@ -80,7 +80,7 @@ article {
   position: relative;
   padding: 0;
   max-width: 20rem;
-  margin: 15rem auto 0;
+  margin: 10rem auto 0;
   color: #efefef;
 }
 
@@ -137,11 +137,31 @@ figure p {
 .step p {
   text-align: center;
   padding: 1rem;
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
-@media screen and (min-width: 450px) {
+.step.expandContainer {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
 
+.step .expandBtn {
+  cursor: pointer;
+}
+
+.step .expandable {
+  border: 1px solid #000;
+}
+
+@media screen and (min-width: 500px) {
+  article {
+    margin-top: 260px;
+  }
+
+  figure img {
+    height: 250px;
+  }
 }
 
 @media screen and (min-width: 900px) {
@@ -229,7 +249,7 @@ figure p {
 
   figure img {
     width: unset;
-    max-width: 450px;
+    max-width: 700px;
     border-bottom: none;
     border-radius: 16px;
   }
