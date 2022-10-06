@@ -4,8 +4,8 @@
       <span class="bold">GTIF</span>
       <span class="px-2">|</span>
       <span>Green Transition Information Factory</span>
-      <span class="px-2 green-crumb">&gt;</span>
-      <span class="green-crumb">{{ currentBreadcrumb }}</span>
+      <span v-if="areBreadcrumbsEnabled" class="px-2 green-crumb">&gt;</span>
+      <span v-if="areBreadcrumbsEnabled" class="green-crumb">{{ currentBreadcrumb }}</span>
     </div>
   </div>
 </template>
@@ -18,6 +18,12 @@ import {
 
 export default {
   name: 'GtifBreadcrumbs',
+  props: {
+    areBreadcrumbsEnabled: {
+      type: Boolean,
+      default: true,
+    },
+  },
   computed: {
     ...mapState('config', [
       'appConfig',
