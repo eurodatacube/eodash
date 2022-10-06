@@ -1,6 +1,9 @@
 
 # Rapid Action for Citizens with EO
 
+[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/EO_OPEN_SCIENCE.svg?style=social&label=Follow%20%40eo_open_science)](https://twitter.com/EO_OPEN_SCIENCE) 
+
+
 This dashboard aims to showcase the power of Earth Observations to inform on societal global challenges. It is a joint cooperation between [ESA](https://www.esa.int/) and the [European Commission](https://ec.europa.eu/info/index_en). The activity started in 2020, triggered by Covid-19 crisis and 
 served as testbed for Open Innovation, with participation of European Industry and citizens.
 
@@ -16,7 +19,8 @@ All the data featured in the RACE Dashboard is openly available.
 
 From this dashboard you can access data in various ways:
 - download directly from the Dashobard using the "Download CSV" function available for all chart data
-- access the data in GitHub https://github.com/eurodatacube/eodash
+- access the data in 
+[![Repo](https://badgen.net/badge/icon/GitHub?icon=github&label)](https://github.com/eurodatacube/eodash) 
 - discover data in the Euro Data Cube. Most of the data provided can be access through the Euro Data Cube in both raster and vector format. The raster data is typically available via the Sentinel Hub services whie the vector data is stored in a geodatabase and accessible via the GeoDB service. Data in the Euro Data Cube is typically presented as Collections. To browse all collections available, visit https://collections.eurodatacube.com
 
 A complete list of the datasets is provided in this Notebook: https://eurodatacube.com/marketplace/notebooks/contributions/IGARSS2022/IGARSS-22_Data_Access.ipynb
@@ -48,10 +52,6 @@ A complete list of the datasets is provided in this Notebook: https://eurodatacu
 [<img src="./eodash-data/general/EO-Open-Science_Badge_DEF.png" width="20%">](https://eo4society.esa.int/)
 
 This project is part of ESA Open Science activities. Visit https://eo4society.esa.int/ for more details.
-
-Follow us on Twitter: @eo_open_science #eodash
-
-
 
 
 ## Who can contribute to this dashboard?
