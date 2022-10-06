@@ -80,19 +80,21 @@
             :color="active ? 'primary' : 'white'"
             height="100"
             width="100"
-            class="mx-4 my-1 overflow-hidden"
+            class="mx-4 my-1 overflow-hidden d-flex flex-column"
             style="pointer-events: all"
             @click="toggle"
           >
             <v-img
               height="50"
+              class="flex-shrink-1"
               :src="`./data/${appConfig.id}/globalDataLayerImages/${getLocationCode(
                 item.properties.indicatorObject)}.png`"
             >
             </v-img>
             <v-card-title
+              class="flex-grow-1"
               :class="active ? 'white--text' : 'primary--text'"
-              style="font-size: small; line-height: unset; padding: 6px"
+              style="font-size: 12px; line-height: 14px; padding: 5px"
             >
               {{ item.properties.indicatorObject.indicatorName }}
             </v-card-title>
