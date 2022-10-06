@@ -31,7 +31,7 @@ Graphs are provided for each Site in every Cluster.
 Qualitative levels of the oil levels in the floating-roof tanks are presented as coloured points <span style="background-color:orange"> LOW </span>/<span style="background-color:#44A0F6"> REGULAR </span>/<span style="background-color:#F65055"> HIGH</span> on top of the aggregated data at Cluster level. The lines represent the Cluster Storage Utilisation (grey line) and its Monthly Average (black line). 
 
 
-
+#### The impacts of COVID-19 on oil storage indexes
 The light/dark red chart background indicates whether there were restrictions or lockdown measure in place in the country where the city is located. This information is based on [Oxford University’s coronavirus government response tracker](https://covidtracker.bsg.ox.ac.uk/).
 
 
