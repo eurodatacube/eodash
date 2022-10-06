@@ -247,10 +247,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Power density test',
+        description: 'Power density',
         indicator: 'REP1',
         lastIndicatorValue: null,
-        indicatorName: 'Power density test',
+        indicatorName: 'Power density',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -264,12 +264,21 @@ export const globalIndicators = [
         cogFilters: {
           sourceLayer: 'REP1',
           filters: {
-            height: {
-              label: 'Filter for elevation',
-              id: 'dem',
-              band: 1,
-              min: 100,
-              max: 600,
+            /*
+            powerdensity: {
+              label: 'Filter for power density',
+              id: 'powerdensity',
+              band: 2,
+              min: 0,
+              max: 16000,
+            },
+            */
+            wind: {
+              label: 'Filter for wind speeds',
+              id: 'wind',
+              band: 2,
+              min: 0,
+              max: 23,
             },
             slope: {
               label: 'Filter for slope (not available)',
@@ -293,15 +302,33 @@ export const globalIndicators = [
             features: [{
               type: 'Feature',
               properties: {},
-              geometry: wkt.read('POLYGON((16 48, 16 48.3, 16.6 48.3, 16.6 48, 16 48 ))').toJson(),
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
             }],
           },
           protocol: 'cog',
           id: 'REP1',
           sources: [
-            { url: 'data/gtif/data/vienna_landcover_mercator.tif' },
-            { url: 'data/gtif/data/dem_10m_correct.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected/PowerDensity_Austria_3857_COG.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected/WindSpeed_Austria_3857_COG.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected/PowerLineHigh_EucDist_Austria_3857_COG.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected/RuggednessIndex_Austria_3857_COG.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected/WSF_EucDist_Austria_3857_COG.tif' },
           ],
+          style: {
+            variables: {
+              windMin: 0,
+              windMax: 23,
+            },
+            color: [
+              'color',
+              ['between', ['band', 2], ['var', 'windMin'], ['var', 'windMax']],
+              ['/', ['band', 1], 16000],
+              ['/', ['band', 1], 16000],
+              ['/', ['band', 1], 16000],
+              255,
+            ],
+          },
+          /*
           style: {
             variables: {
               demMin: 100,
@@ -320,70 +347,7 @@ export const globalIndicators = [
               ],
             ],
           },
-          // customAreaIndicator: true,
-          name: 'Power density test',
-          minZoom: 1,
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Power density',
-        indicator: 'REP2',
-        lastIndicatorValue: null,
-        indicatorName: 'Power density',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'World',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        cogFilters: {
-          sourceLayer: 'REP2',
-          filters: {
-            height: {
-              label: 'Filter for elevation',
-              id: 'dem',
-              band: 1,
-              min: 100,
-              max: 600,
-            },
-          },
-        },
-        display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((8 46, 8 49, 18 49, 18 46, 8 46 ))').toJson(),
-            }],
-          },
-          protocol: 'cog',
-          id: 'REP2',
-          sources: [
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/dhi_test/WindSpeed_Austria_3857_COG.tif' },
-            // { url: 'data/gtif/data/WindSpeed_Austria_3857_COG.tif' },
-          ],
-          style: {
-            color: [
-              'color',
-              ['/', ['band', 1], 25],
-              ['/', ['band', 1], 25],
-              ['/', ['band', 1], 25],
-              255,
-            ],
-          },
+          */
           // customAreaIndicator: true,
           name: 'Power density',
           minZoom: 1,
