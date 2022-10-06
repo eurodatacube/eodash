@@ -164,6 +164,7 @@ import { updateTimeLayer } from '@/components/map/timeLayerUtils';
 import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
+  indicatorHasMapData,
 } from '@/helpers/mapConfig';
 import GeoJSON from 'ol/format/GeoJSON';
 import { fromLonLat, toLonLat, transformExtent } from 'ol/proj';
@@ -568,21 +569,7 @@ export default {
   },
   methods: {
     indicatorHasMapData(indicatorObject) {
-      let hasMapData = false;
-      let matchingInputDataAgainstConfig = [];
-      // Check to see if we have EO Data indicator
-      if (indicatorObject && indicatorObject.inputData) {
-        matchingInputDataAgainstConfig = indicatorObject.inputData
-          .filter((item) => Object.prototype.hasOwnProperty.call(this.layerNameMapping, item));
-        hasMapData = matchingInputDataAgainstConfig.length > 0;
-      }
-      // Check to see if we have global data indicator
-      if (indicatorObject && indicatorObject.country) {
-        if (indicatorObject.country === 'all' || Array.isArray(indicatorObject.country)) {
-          hasMapData = true;
-        }
-      }
-      return hasMapData;
+      return indicatorHasMapData(indicatorObject);
     },
     overlayCallback(headers, rows, coordinate) {
       this.overlayHeaders = headers;

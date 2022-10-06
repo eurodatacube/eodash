@@ -237,8 +237,31 @@ const createAvailableTimeEntries = (indicatorObject, config) => {
   return selectionOptions;
 };
 
+const indicatorHasMapData = (indicatorObject) => {
+  baseConfig = store.state.config.baseConfig;
+  let hasMapData = false;
+  if (indicatorObject) {
+    let matchingInputDataAgainstConfig = [];
+    // Check to see if we have EO Data indicator
+    const { inputData } = generateUsedTimes(indicatorObject);
+    if (inputData) {
+      matchingInputDataAgainstConfig = inputData
+        .filter((item) => Object.prototype.hasOwnProperty.call(baseConfig.layerNameMapping, item));
+      hasMapData = matchingInputDataAgainstConfig.length > 0;
+    }
+    // Check to see if we have global data indicator
+    if (indicatorObject && indicatorObject.country) {
+      if (indicatorObject.country === 'all' || Array.isArray(indicatorObject.country)) {
+        hasMapData = true;
+      }
+    }
+  }
+  return hasMapData;
+};
+
 export {
   createConfigFromIndicator,
   createAvailableTimeEntries,
+  indicatorHasMapData,
   generateUsedTimes,
 };
