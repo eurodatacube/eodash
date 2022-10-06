@@ -7,6 +7,7 @@ import { shTimeFunction, shS2TimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { E13bRemovedFtrs } from '@/config/otherdata';
 import availableDates from '@/config/data_dates.json';
+import E13dMapTimes from '@/config/data_dates_e13d.json';
 
 import {
   statisticalApiHeaders,
@@ -252,20 +253,14 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Airports: airplanes traffic',
     themes: ['economy'],
     story: '/eodash-data/stories/E13d',
-  },
-  E13d2: {
-    indicator: 'Airports: airplanes traffic',
-    themes: ['economy'],
-    story: '/eodash-data/stories/E13d',
     baseLayers: [baseLayers.terrainLight, {
       ...baseLayers.cloudless,
       visible: true,
     }],
-    midSubAoi: true,
     mapTimeLabelExtended: true,
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
-      url: './eodash-data/features/E13d/E13d_{aoiID}_{featuresTime}.geojson',
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
     largeTimeDuration: true,
   },
@@ -659,6 +654,7 @@ export const excludeMapTimes = {
 };
 
 export const replaceMapTimes = {
+  ...E13dMapTimes,
 };
 
 const wkt = new Wkt();
