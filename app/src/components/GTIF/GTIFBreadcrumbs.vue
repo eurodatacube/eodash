@@ -4,7 +4,8 @@
       <span class="bold">GTIF</span>
       <span class="px-2">|</span>
       <span>Green Transition Information Factory</span>
-      <span class="px-2">&gt;</span>
+      <span class="px-2 green-crumb">&gt;</span>
+      <span class="green-crumb">{{ currentBreadcrumb }}</span>
     </div>
   </div>
 </template>
@@ -21,6 +22,28 @@ export default {
     ...mapState('config', [
       'appConfig',
     ]),
+
+    currentBreadcrumb() {
+      switch (this.$route.name) {
+        case 'gtif-energy-transition':
+          return 'Energy Transition'
+
+        case 'gtif-mobility-transition':
+          return 'Mobility Transition'
+
+        case 'gtif-sustainable-transition':
+          return 'Sustainable Transition'
+
+        case 'gtif-carbon-finance':
+          return 'Carbon Finance'
+
+        case 'gtif-eo-adaptation':
+          return 'EO Adaptation'
+
+        default:
+          return '';
+      }
+    },
   },
 };
 </script>
@@ -37,6 +60,10 @@ export default {
 
   .bold {
     font-family: 'NotesESABold';
+  }
+
+  .green-crumb {
+    color: #00ae9d;
   }
 }
 </style>
