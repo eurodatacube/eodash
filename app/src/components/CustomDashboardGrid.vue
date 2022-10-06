@@ -168,7 +168,7 @@
                 @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
                 @ready="onMapReady(element.poi)"
               />
-              <CenterMap
+              <Map
                 v-else-if="(['all'].includes(element.indicatorObject.country) ||
                 appConfig.configuredMapPois.includes(
                   `${element.indicatorObject.aoiID}-${element.indicatorObject.indicator}`
@@ -454,7 +454,7 @@ import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import LoadingAnimation from '@/components/LoadingAnimation.vue';
 import { loadIndicatorData } from '@/utils';
-import CenterMap from '@/components/map/CenterMap.vue';
+import Map from '@/components/map/Map.vue';
 import { mapGetters, mapState, mapActions } from 'vuex';
 
 const zoom = mediumZoom();
@@ -473,7 +473,7 @@ export default {
     IndicatorData,
     IndicatorGlobe,
     LoadingAnimation,
-    CenterMap,
+    Map,
   },
   data: () => ({
     isMounted: false,
@@ -521,10 +521,10 @@ export default {
     ]),
     interactionMode() {
       return (
-          ( 'ontouchstart' in window )
-          || ( navigator.maxTouchPoints > 0 )
-          || ( navigator.msMaxTouchPoints > 0 )
-        )
+        ('ontouchstart' in window)
+          || (navigator.maxTouchPoints > 0)
+          || (navigator.msMaxTouchPoints > 0)
+      )
         ? 'Tap'
         : 'Click';
     },
@@ -624,10 +624,8 @@ export default {
       const query = { ...this.$route.query };
       if (newRow === 0) {
         delete query.page;
-      } else {
-        if (this.storyMode) {
-          query.page = newRow;
-        }
+      } else if (this.storyMode) {
+        query.page = newRow;
       }
       this.$router.replace({ query }).catch(() => {});
     },
@@ -884,7 +882,7 @@ export default {
       this.numberOfRows = noOfRows;
     },
     swipe(poi) {
-      console.log(poi)
+      console.log(poi);
       this.$set(this.overlay, poi, true);
       setTimeout(() => {
         this.$set(this.overlay, poi, false);
