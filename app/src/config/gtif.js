@@ -3,6 +3,7 @@ import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { DateTime } from 'luxon';
 import { latLng, latLngBounds } from 'leaflet';
+import colormap from 'colormap';
 import availableDates from '@/config/data_dates.json';
 
 import {
@@ -12,6 +13,23 @@ import {
   parseStatAPIResponse,
   nasaTimelapseConfig,
 } from '@/helpers/customAreaObjects';
+
+// Helper function to create colorscales for cog style rendering
+function getColorStops(name, min, max, steps, reverse) {
+  const delta = (max - min) / (steps - 1);
+  const stops = new Array(steps * 2);
+  const colors = colormap({
+    colormap: name, nshades: steps, format: 'rgba',
+  });
+  if (reverse) {
+    colors.reverse();
+  }
+  for (let i = 0; i < steps; i++) {
+    stops[i * 2] = min + i * delta;
+    stops[i * 2 + 1] = colors[i];
+  }
+  return stops;
+}
 
 const wkt = new Wkt();
 
@@ -245,7 +263,7 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: true,
         country: 'all',
-        city: 'World',
+        city: 'Austria',
         siteName: 'global',
         description: 'Power density',
         indicator: 'REP1',
@@ -257,7 +275,7 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        aoiID: 'World',
+        aoiID: 'Austria',
         time: [],
         inputData: [''],
         yAxis: '',
@@ -268,7 +286,6 @@ export const globalIndicators = [
             powerdensity: {
               label: 'Filter for power density',
               id: 'powerdensity',
-              band: 2,
               min: 0,
               max: 16000,
             },
@@ -276,23 +293,20 @@ export const globalIndicators = [
             wind: {
               label: 'Filter for wind speeds',
               id: 'wind',
-              band: 2,
               min: 0,
               max: 23,
             },
             slope: {
-              label: 'Filter for slope (not available)',
-              id: 'slope',
-              band: 2,
+              label: 'Filter power line high',
+              id: 'PowerLineHigh',
               min: 0,
-              max: 100,
+              max: 162390,
             },
-            grid_distance: {
-              label: 'Filter for distance to nearest grid (not available)',
-              id: 'grid_distance',
-              band: 3,
+            rugedeness: {
+              label: 'Filter for rugedeness index',
+              id: 'rugedeness',
               min: 0,
-              max: 10000,
+              max: 0.78,
             },
           },
         },
@@ -318,14 +332,28 @@ export const globalIndicators = [
             variables: {
               windMin: 0,
               windMax: 23,
+              PowerLineHighMin: 0,
+              PowerLineHighMax: 162390,
+              rugedenessMin: 0,
+              rugedenessMax: 0.78,
             },
             color: [
-              'color',
-              ['between', ['band', 2], ['var', 'windMin'], ['var', 'windMax']],
-              ['/', ['band', 1], 16000],
-              ['/', ['band', 1], 16000],
-              ['/', ['band', 1], 16000],
-              255,
+              'case',
+              [
+                'all',
+                ['between', ['band', 2], ['var', 'windMin'], ['var', 'windMax']],
+                ['between', ['band', 3], ['var', 'PowerLineHighMin'], ['var', 'PowerLineHighMax']],
+                ['between', ['band', 4], ['var', 'rugedenessMin'], ['var', 'rugedenessMax']],
+              ],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('viridis', 0, 9000, 10, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
             ],
           },
           /*

@@ -10,6 +10,7 @@
       <v-range-slider
             :min="filter.min"
             :max="filter.max"
+            :step="(filter.max-filter.min)/100"
             :value="[filter.min, filter.max]"
             @input="(evt) => updateMap(evt, filter.id)"
       ></v-range-slider>
