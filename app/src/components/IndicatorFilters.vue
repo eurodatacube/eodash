@@ -297,6 +297,9 @@ export default {
       if (this.userInput !== displayName) {
         this.userInput = displayName;
       }
+      this.selectedMapLayer = this.globalIndicators
+        .findIndex((l) => this.getLocationCode(l.properties.indicatorObject)
+          === this.getLocationCode(indicatorObject));
     },
     selectedListItem(input) {
       if (!input) {
