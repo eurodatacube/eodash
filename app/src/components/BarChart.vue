@@ -20,6 +20,9 @@ export default {
       },
     },
   },
+  beforeDestroy() {
+    this.$data._chart.destroy();
+  },
   data() {
     return {
       defaultOptions: {

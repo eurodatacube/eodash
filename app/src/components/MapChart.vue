@@ -16,6 +16,9 @@ export default {
       Object.assign(this.defaultOptions, this.options),
     );
   },
+  beforeDestroy() {
+    this.$data._chart.destroy();
+  },
   watch: {
     options: {
       handler() {
