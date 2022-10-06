@@ -5740,5 +5740,27 @@
         "reference_time": "2022-09-10T00:00:00",
         "reference_value": "/",
         "time": "2022-09-10T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "14.815",
+        "reference_time": "2022-09-17T00:00:00",
+        "reference_value": "/",
+        "time": "2022-09-17T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-19.652",
+        "reference_time": "2022-09-24T00:00:00",
+        "reference_value": "/",
+        "time": "2022-09-24T00:00:00"
     }
 ]
