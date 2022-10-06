@@ -59,7 +59,7 @@
       </div>
     </v-card>
     <div
-      v-if="!($vuetify.breakpoint.xsOnly && comboboxFocus)"
+      v-if="!($vuetify.breakpoint.xsOnly && comboboxFocus) && globalIndicators.length > 0"
       id="slideGroupWrapper"
       class="d-flex"
       style="position: absolute; bottom: 25px; left: 0; pointer-events: none;"
