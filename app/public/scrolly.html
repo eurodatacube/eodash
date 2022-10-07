@@ -32,9 +32,12 @@
                             src="./data/gtif/images/circle-plus-solid.svg"
                             class="expandBtn"
                             width="20"
+                            :data-section="sectionIndex"
+                            @click="toggleExpandable(sectionIndex)"
                         >
                         <div
-                            class="expandable"
+                            class="expandable hidden"
+                            data-section="sectionIndex"
                             v-html="el.text.replaceAll('<--EXPAND-->', '')"
                         ></div>
                     </div>
@@ -158,6 +161,10 @@
       },
       parseMarkdown(input) {
         return marked.parse(input);
+      },
+      toggleExpandable(index) {
+        let el = document.querySelector(`[data-section='${index}'] .expandable`);
+        el.classList.toggle('hidden');
       },
     },
   });
