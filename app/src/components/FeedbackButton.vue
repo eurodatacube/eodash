@@ -11,12 +11,12 @@
       <v-btn
         dark
         small
-        color="secondary"
+        :color="appConfig.id === 'gtif' ? '#00619e' : 'secondary'"
         class="ml-1"
         @click="dialog = true"
       >
         <v-icon :left="!$vuetify.breakpoint.xsOnly" small>mdi-account-voice</v-icon>
-        <span v-if="!$vuetify.breakpoint.xsOnly">Feedback</span>
+        <span class="feedback-button-text" v-if="!$vuetify.breakpoint.xsOnly">Feedback</span>
       </v-btn>
     </template>
 
@@ -42,6 +42,10 @@
 </template>
 
 <script>
+import {
+  mapState,
+} from 'vuex';
+
 import dialogMixin from '@/mixins/dialogMixin';
 import Feedback from '@/views/Feedback.vue';
 
@@ -53,5 +57,14 @@ export default {
   data: () => ({
     dialog: false,
   }),
+  computed: {
+    ...mapState('config', ['appConfig']),
+  },
 };
 </script>
+
+<style lang="scss" scoped>
+  .feedback-button-text {
+    font-family: 'NotesESABold';
+  }
+</style>

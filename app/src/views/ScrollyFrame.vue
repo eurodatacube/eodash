@@ -8,12 +8,17 @@
     >
       <global-header />
 
+      <gtif-breadcrumbs
+        :are-breadcrumbs-enabled="areBreadcrumbsEnabled"
+      />
+
       <iframe
         id="resizableIframe"
         @load="onLoaded"
         v-resize="onResize"
         width="100%"
-        style="height: calc((var(--vh), 1vh) * 100) !important;"
+        style="height: calc((var(--vh), 1vh) * 100) !important; position: fixed; left: 0; bottom: 0; top: 112px;"
+        
         src="./scrolly.html"
         frameborder="0"
       ></iframe>
@@ -30,10 +35,12 @@ import {
 import axios from 'axios';
 import iFrameResize from 'iframe-resizer/js/iframeResizer';
 import GlobalHeader from '@/components/GlobalHeader.vue';
+import GtifBreadcrumbs from '@/components/GTIF/GTIFBreadcrumbs.vue';
 
 export default {
   components: {
     GlobalHeader,
+    GtifBreadcrumbs,
   },
   metaInfo() {
     const { appConfig } = this.$store.state.config;
@@ -41,14 +48,22 @@ export default {
       title: appConfig ? appConfig.branding.appName : 'eodash',
     };
   },
+  data() {
+    return {
+      areBreadcrumbsEnabled: false,
+    }
+  },
   computed: {
     ...mapState('config', ['appConfig']),
   },
   mounted() {
+    this.setBreadcrumbsEnabled();
+
     window.onmessage = (e) => {
       // Check if we got a navigation request from the iframe.
       if (e.data.type === 'nav') {
         this.$router.push({ name: e.data.dest });
+        this.setBreadcrumbsEnabled();
       }
     };
   },
@@ -103,7 +118,10 @@ export default {
         inPageLinks: false,
         sizeHeight: false,
         scrolling: true,
-        minHeight: this.minHeight || window.innerHeight - 64,
+        minHeight: this.minHeight
+          || window.innerHeight
+              - 64
+              - 48,
       }, '#resizableIframe');
     },
     getDashboardID() {
@@ -129,6 +147,20 @@ export default {
         // Fallback value
         default:
           return '50826821d453dfd5';
+      }
+    },
+    setBreadcrumbsEnabled() {
+      switch (this.$route.name) {
+        case 'gtif-energy-transition':
+        case 'gtif-mobility-transition':
+        case 'gtif-sustainable-transition':
+        case 'gtif-carbon-finance':
+        case 'gtif-eo-adaptation':
+          this.areBreadcrumbsEnabled = true;
+          break
+
+        default:
+          this.areBreadcrumbsEnabled = false;
       }
     },
   },
