@@ -23,6 +23,26 @@
                     class="fullWidthBlock"
                 >
                     <div
+                        v-if="el.text.includes('<--EXPAND-->')"
+                        class="step expandContainer"
+                        :data-section="sectionIndex"
+                        :data-step="i"
+                    >
+                        <img
+                            src="./data/gtif/images/circle-plus-solid.svg"
+                            class="expandBtn"
+                            width="20"
+                            :data-section="sectionIndex"
+                            @click="toggleExpandable(sectionIndex)"
+                        >
+                        <div
+                            class="expandable hidden"
+                            data-section="sectionIndex"
+                            v-html="el.text.replaceAll('<--EXPAND-->', '')"
+                        ></div>
+                    </div>
+                    <div
+                        v-else
                         class="step"
                         :data-section="sectionIndex"
                         :data-step="i"
@@ -34,7 +54,7 @@
                 <article>
                     <div
                         v-for="(el, i) in data.filter((v, i) => !(i % 2))"
-                        class="step"
+                        :class="currentStep.step === i ? 'active step' : 'step'"
                         :data-section="sectionIndex"
                         :data-step="i"
                         v-html="parseMarkdown(el.text)"
@@ -90,7 +110,6 @@
             section: 0,
             step: 0,
         },
-        figures: null,
     }},
     created() {
         window.addEventListener('message', (message) => {
@@ -101,15 +120,6 @@
                 });
             }
         });
-
-      const figureContainers = document.getElementsByClassName('figureContainer');
-      this.figures = document.createDocumentFragment();
-      for (let figureContainer in figureContainers) {
-        for (let i = 0; i < figureContainer.length; i++) {
-          this.figures.appendChild(figureContainer.children[i]);
-        }
-      }
-      console.log(this.children);
     },
     methods: {
       scrollamaSetup() {
@@ -125,11 +135,13 @@
         }
 
         const handleStepProgress = (response) => {
+          if (document.querySelector('video')) {
             // update video based on step
             let duration = document.querySelector('video').duration;
             window.requestAnimationFrame(() => {
                 document.querySelector('video').currentTime = duration * response.progress;
             });
+          }
         }
 
         const init = () => {
@@ -137,7 +149,7 @@
                 .setup({
                     root: document,
                     step: ".scrollySection article .step",
-                    offset: 0.33,
+                    offset: screen.width > 479 ? 0.33 : 0.4,
                     progress: true,
                     debug: false
                 })
@@ -149,6 +161,10 @@
       },
       parseMarkdown(input) {
         return marked.parse(input);
+      },
+      toggleExpandable(index) {
+        let el = document.querySelector(`[data-section='${index}'] .expandable`);
+        el.classList.toggle('hidden');
       },
     },
   });
