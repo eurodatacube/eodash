@@ -3,6 +3,7 @@ import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { DateTime } from 'luxon';
 import { latLng, latLngBounds } from 'leaflet';
+import colormap from 'colormap';
 import availableDates from '@/config/data_dates.json';
 
 import {
@@ -12,6 +13,23 @@ import {
   parseStatAPIResponse,
   nasaTimelapseConfig,
 } from '@/helpers/customAreaObjects';
+
+// Helper function to create colorscales for cog style rendering
+function getColorStops(name, min, max, steps, reverse) {
+  const delta = (max - min) / (steps - 1);
+  const stops = new Array(steps * 2);
+  const colors = colormap({
+    colormap: name, nshades: steps, format: 'rgba',
+  });
+  if (reverse) {
+    colors.reverse();
+  }
+  for (let i = 0; i < steps; i++) {
+    stops[i * 2] = min + i * delta;
+    stops[i * 2 + 1] = colors[i];
+  }
+  return stops;
+}
 
 const wkt = new Wkt();
 
@@ -131,6 +149,17 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['atmosphere'],
     // story: '',
   },
+  REP2: {
+    indicator: 'Air quality',
+    class: 'air',
+    themes: ['atmosphere'],
+    // story: '',
+  },
+  SOL1: {
+    indicator: 'Air quality',
+    class: 'air',
+    themes: ['atmosphere'],
+  },
   WSF: {
     indicator: 'World Settlement Footprint',
     class: 'economic',
@@ -190,10 +219,10 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: true,
         country: 'all',
-        city: 'World',
+        city: 'Innsbruck',
         siteName: 'global',
         description: 'Solar power potential',
-        indicator: 'REP1',
+        indicator: 'SOL1',
         lastIndicatorValue: null,
         indicatorName: 'Solar power potential',
         subAoi: {
@@ -202,33 +231,106 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        aoiID: 'World',
+        aoiID: 'Innsbruck',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        vectorStyles: {
+          sourceLayer: 'solar_potential_innsbruck',
+          items: [
+            {
+              id: 'PVExisting',
+              description: 'Existing PV Panels',
+            },
+            {
+              id: 'GRExisting',
+              description: 'Existing green roofs',
+            },
+            {
+              id: 'PVEPPMwhHP',
+              description: 'Total electric power production potential - High performance',
+            },
+            {
+              id: 'PVEPPMwhRP',
+              description: 'Total electric power production potential - Regular performance',
+            },
+            {
+              id: 'PVEPPMwhLP',
+              description: 'Total electric power production potential - Low performance',
+            },
+            {
+              id: 'GRImpScore',
+              description: 'Green roof impact score',
+            },
+          ],
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
+            }],
+          },
+          protocol: 'vectortile',
+          selectedStyleLayer: 'PVExisting',
+          id: 'solar_potential_innsbruck',
+          name: 'Solar power potential',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Power density',
+        indicator: 'REP1',
+        lastIndicatorValue: null,
+        indicatorName: 'Power density',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Austria',
         time: [],
         inputData: [''],
         yAxis: '',
         cogFilters: {
           sourceLayer: 'REP1',
           filters: {
-            height: {
-              label: 'Filter for elevation',
-              id: 'dem',
-              band: 1,
-              min: 100,
-              max: 600,
+            /*
+            powerdensity: {
+              label: 'Filter for power density',
+              id: 'powerdensity',
+              min: 0,
+              max: 16000,
+            },
+            */
+            wind: {
+              label: 'Filter for wind speeds',
+              id: 'wind',
+              min: 0,
+              max: 23,
             },
             slope: {
-              label: 'Filter for slope (not available)',
-              id: 'slope',
-              band: 2,
+              label: 'Filter power line high',
+              id: 'PowerLineHigh',
               min: 0,
-              max: 100,
+              max: 162390,
             },
-            grid_distance: {
-              label: 'Filter for distance to nearest grid (not available)',
-              id: 'grid_distance',
-              band: 3,
+            rugedeness: {
+              label: 'Filter for rugedeness index',
+              id: 'rugedeness',
               min: 0,
-              max: 10000,
+              max: 0.78,
             },
           },
         },
@@ -238,15 +340,47 @@ export const globalIndicators = [
             features: [{
               type: 'Feature',
               properties: {},
-              geometry: wkt.read('POLYGON((16 48, 16 48.3, 16.6 48.3, 16.6 48, 16 48 ))').toJson(),
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
             }],
           },
           protocol: 'cog',
           id: 'REP1',
           sources: [
-            { url: 'data/gtif/data/vienna_landcover_mercator.tif' },
-            { url: 'data/gtif/data/dem_10m_correct.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected/PowerDensity_Austria_3857_COG.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected/WindSpeed_Austria_3857_COG.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected/PowerLineHigh_EucDist_Austria_3857_COG.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected/RuggednessIndex_Austria_3857_COG.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected/WSF_EucDist_Austria_3857_COG.tif' },
           ],
+          style: {
+            variables: {
+              windMin: 0,
+              windMax: 23,
+              PowerLineHighMin: 0,
+              PowerLineHighMax: 162390,
+              rugedenessMin: 0,
+              rugedenessMax: 0.78,
+            },
+            color: [
+              'case',
+              [
+                'all',
+                ['between', ['band', 2], ['var', 'windMin'], ['var', 'windMax']],
+                ['between', ['band', 3], ['var', 'PowerLineHighMin'], ['var', 'PowerLineHighMax']],
+                ['between', ['band', 4], ['var', 'rugedenessMin'], ['var', 'rugedenessMax']],
+              ],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('viridis', 0, 9000, 10, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+          /*
           style: {
             variables: {
               demMin: 100,
@@ -265,13 +399,15 @@ export const globalIndicators = [
               ],
             ],
           },
+          */
           // customAreaIndicator: true,
-          name: 'Solar power potential',
+          name: 'Power density',
           minZoom: 1,
         },
       },
     },
   },
+  /*
   {
     properties: {
       indicatorObject: {
@@ -397,6 +533,7 @@ export const globalIndicators = [
       },
     },
   },
+  */
   /*
   {
     properties: {
@@ -442,6 +579,7 @@ export const globalIndicators = [
     },
   },
   */
+  /*
   {
     properties: {
       indicatorObject: {
@@ -566,6 +704,7 @@ export const globalIndicators = [
       },
     },
   },
+  */
   /*
   {
     properties: {
