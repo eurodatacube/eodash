@@ -164,6 +164,7 @@ import { updateTimeLayer } from '@/components/map/timeLayerUtils';
 import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
+  indicatorHasMapData,
 } from '@/helpers/mapConfig';
 import GeoJSON from 'ol/format/GeoJSON';
 import { fromLonLat, toLonLat, transformExtent } from 'ol/proj';
@@ -173,7 +174,10 @@ import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 import Link from 'ol/interaction/Link';
-import { calculatePadding } from '@/utils';
+import {
+  calculatePadding,
+  getIndicatorFilteredInputData,
+} from '@/utils';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -260,7 +264,6 @@ export default {
   },
   computed: {
     ...mapGetters('features', ['getGroupedFeatures', 'getFeatures']),
-    ...mapGetters('indicators', ['getIndicatorFilteredInputData']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
       if (this.isGlobalIndicator) {
@@ -307,7 +310,7 @@ export default {
       // the current indicator definition object.
       // will use the "currentIndicator"-Prop if defined (dashboard)
       // otherwise it will use the selected indicator from the store
-      return this.getIndicatorFilteredInputData(this.currentIndicator);
+      return getIndicatorFilteredInputData(this.currentIndicator);
     },
     drawnArea() {
       // in store or prop saved as 'object', in this component and
@@ -566,21 +569,7 @@ export default {
   },
   methods: {
     indicatorHasMapData(indicatorObject) {
-      let hasMapData = false;
-      let matchingInputDataAgainstConfig = [];
-      // Check to see if we have EO Data indicator
-      if (indicatorObject && indicatorObject.inputData) {
-        matchingInputDataAgainstConfig = indicatorObject.inputData
-          .filter((item) => Object.prototype.hasOwnProperty.call(this.layerNameMapping, item));
-        hasMapData = matchingInputDataAgainstConfig.length > 0;
-      }
-      // Check to see if we have global data indicator
-      if (indicatorObject && indicatorObject.country) {
-        if (indicatorObject.country === 'all' || Array.isArray(indicatorObject.country)) {
-          hasMapData = true;
-        }
-      }
-      return hasMapData;
+      return indicatorHasMapData(indicatorObject);
     },
     overlayCallback(headers, rows, coordinate) {
       this.overlayHeaders = headers;
