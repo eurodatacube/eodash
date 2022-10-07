@@ -3,7 +3,7 @@
     app
     :color="color"
     class="d-flex justify-center align-center white--text text-center"
-    style="z-index: 5"
+    style="z-index: 8"
     :height="$vuetify.breakpoint.xsOnly ? '60px' : '40px'"
   >
     <v-tooltip top v-if="$vuetify.breakpoint.smAndUp">

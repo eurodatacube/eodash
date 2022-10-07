@@ -113,8 +113,8 @@ export default {
         to.query.poi || to.query.indicator || to.query.clusterOpen
       ));
 
-      if (!to.query.poi && from.query.poi
-      || !to.query.indicator && from.query.indicator
+      if ((!to.query.poi && from.query.poi)
+      || (!to.query.indicator && from.query.indicator)
       || from.query.clusterOpen) {
         if (!to.query.poi && from.query.poi) {
           // clear poi
@@ -133,13 +133,11 @@ export default {
           x, y, z,
         } = currentQuery;
         if (x && y && z && !Number.isNaN(x) && !Number.isNaN(y) && !Number.isNaN(z)) {
-          setTimeout(() => {
-            getMapInstance('centerMap').map.getView().animate({
-              center: [x, y],
-              zoom: z,
-              duration: 300,
-            });
-          }, 0);
+          getMapInstance('centerMap').map.getView().animate({
+            center: [x, y],
+            zoom: z,
+            duration: 300,
+          });
         }
       }
     },
@@ -151,6 +149,15 @@ export default {
       this.checkComingSoon();
     } else {
       this.comingSoon = false;
+    }
+    const { query } = this.$route;
+    if (query.clusterOpen) {
+      this.$router.replace({
+        query: {
+          ...query,
+          clusterOpen: undefined,
+        },
+      });
     }
   },
   mounted() {

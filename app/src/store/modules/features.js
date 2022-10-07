@@ -18,7 +18,6 @@ const state = {
     custom: [],
   },
   selectedArea: null,
-  adminBorderSelected: null,
   resultsCount: {
     economic: 0,
     agriculture: 0,
@@ -137,21 +136,10 @@ const getters = {
     }
     if (state.featureFilters.custom.length > 0) {
       features = features
-        .filter((f) => (
-          state.featureFilters.custom.map((c) => getLocationCode(c.properties.indicatorObject))
-        ).includes(getLocationCode(f.properties.indicatorObject)));
+        .filter((f) => state.featureFilters.custom
+          .map((c) => getLocationCode(c.properties.indicatorObject))
+          .includes(getLocationCode(f.properties.indicatorObject)));
     }
-    // if (state.featureFilters.text.length > 0) {
-    //   features = features
-    //     .filter((f) =>
-    //       f.properties.indicatorObject.indicator.includes(state.featureFilters.text)
-    //       || f.properties.indicatorObject.city.includes(state.featureFilters.text)
-    //       || f.properties.indicatorObject.description.includes(state.featureFilters.text)
-    //       || rootState.config.baseConfig.indicatorsDefinition[f.properties.indicatorObject?.indicator]?.themes
-    //       .includes(state.featureFilters.text)
-    //       || f.properties.indicatorObject.siteName?.includes(state.featureFilters.text)
-    //     );
-    // }
 
     if (!state.featureFilters.includeArchived) {
       features = features.filter((f) => (f.properties.indicatorObject.updateFrequency ? f.properties.indicatorObject.updateFrequency.toLowerCase() !== 'archived' : true));
@@ -218,10 +206,17 @@ const mutations = {
       // We see if indicator code and aoiID is a match
       const mergedKey = `${indicatorObject.indicator}-${indicatorObject.aoiID}`;
       const { id } = this.state.config.appConfig;
+      let foundMapping;
       if (mergedKey in nameMapping[id]) {
-        indicatorObject.indicatorName = nameMapping[id][mergedKey];
+        foundMapping = nameMapping[id][mergedKey];
       } else if (indicatorObject.indicator in nameMapping[id]) {
-        indicatorObject.indicatorName = nameMapping[id][indicatorObject.indicator];
+        foundMapping = nameMapping[id][indicatorObject.indicator];
+      }
+      if (foundMapping && 'title' in foundMapping) {
+        indicatorObject.indicatorName = foundMapping.title;
+      }
+      if (foundMapping && 'description' in foundMapping) {
+        indicatorObject.description = foundMapping.description;
       }
     });
     // indicatorName

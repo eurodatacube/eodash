@@ -113,7 +113,7 @@ export default {
     },
   },
   created() {
-    if (this.indicatorObject) { this.title = `${this.indicatorObject.city.trim()}, ${this.indicatorObject.description.trim()}`; }
+    if (this.indicatorObject) { this.title = `${this.indicatorObject.city.trim()}: ${this.indicatorObject.description.trim()}`; }
   },
   methods: {
     ...mapActions('dashboard', [

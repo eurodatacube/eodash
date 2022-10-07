@@ -772,12 +772,13 @@ export const layerNameMapping = Object.freeze({
 });
 
 export const indicatorClassesIcons = Object.freeze({
-  economic: 'mdi-cash',
+  economy: 'mdi-cash',
   agriculture: 'mdi-barley',
-  air: 'mdi-weather-windy',
-  water: 'mdi-water',
-  land: 'mdi-image-filter-hdr',
-  health: 'mdi-hospital-box-outline',
+  atmosphere: 'mdi-weather-windy',
+  oceans: 'mdi-water',
+  'biomass-and-landcover': 'mdi-image-filter-hdr',
+  'covid-19': 'mdi-hospital-box-outline',
+  cryosphere: 'mdi-snowflake',
 });
 
 export const mapDefaults = Object.freeze({

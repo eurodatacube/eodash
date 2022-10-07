@@ -1,7 +1,10 @@
 <template>
   <v-sheet
     class="row justify-center align-center rounded"
-    style="position: absolute; top: 20px; z-index: 6; width: auto; max-width: 600px;"
+    :class="$vuetify.breakpoint.xsOnly && autofocus ? 'menu-top' : 'menu-bottom'"
+    :style="`position: absolute; ${$vuetify.breakpoint.xsOnly && autofocus
+      ? 'top: 10px'
+      : 'bottom: 30px'}; z-index: 5; width: auto; max-width: 600px;`"
   >
     <v-col
       v-if="currentlyComparing"
@@ -212,5 +215,8 @@ export default {
 <style scoped>
 ::v-deep .mdi-asterisk {
   visibility: hidden;
+}
+.menu-bottom ::v-deep .v-menu__content {
+  transform: translate(1%, -87%);
 }
 </style>

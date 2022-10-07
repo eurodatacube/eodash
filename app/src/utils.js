@@ -213,9 +213,11 @@ export function calculatePadding() {
   const searchPanelWidth = (document.querySelector('#list') !== null)
     ? (document.querySelector('#list').clientWidth + 40) : 0;
   const searchResultWidth = !searchResultsClosed ? searchPanelWidth : 0;
-  const padding = [70, 20 + dataPanelWidth, 70, 20 + searchResultWidth];
-  const { map } = getMapInstance('centerMap');
-  const view = map.getView();
-  view.padding = padding;
+  const padding = [70, 20 + dataPanelWidth, 150, 20 + searchResultWidth];
+  return padding;
+  // TODO  cleanup
+  // const { map } = getMapInstance('centerMap');
+  // const view = map.getView();
+  // view.padding = padding;
   // handleDebugPolygon();
 }

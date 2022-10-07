@@ -1,14 +1,7 @@
 ## Port Activities, sources of pollution and NO2 levels 
 
-Indicator provided by: [e-GEOS](https://www.e-geos.it/#/), [ExpertLab](http://www.expertlab.it/) and [CherryData](https://www.cherry-data.com/)
-
-
-<img src="./eodash-data/stories/C_IT3.jpg">
-
-*Port of Genoa, Image source: https://www.cruisemapper.com*
-
-
-The pandemic restrictions and the related economic crisis have highly impacted the pollution level in different areas of Europe and of the world. Although this fact has been widely demonstrated, this specific analysis aims to look jointly at different sources of pollution and the NO2 level computed from Sentinel 5P satellite and to analyse how the trend varied between 2019 and 2020.
+This indicator looks jointly at different sources of pollution and the NO2 level computed from Sentinel-5P satellite, analysing the trend between 2019 and 2020.
+These variables, all together, give high level information of how those different element impact NO2 level and represent a starting point for this kind of integrated analysis.
 
 Thus, the graphs reports an analysis of:
 
@@ -18,9 +11,15 @@ Thus, the graphs reports an analysis of:
 
 - **The correlation between NO2 level and people presence in the port:**  this analysis has been conducted using anonymised mobile data from 2020 provided by Vodafone (2019 data are not available). Vodafone data contain information about the total number of people present in the port area.
 
-These variables, all together, give high level information of how those different element impact NO2 level and represent a starting point for this kind of integrated analysis.
+Indicator provided by: [e-GEOS](https://www.e-geos.it/#/), [ExpertLab](http://www.expertlab.it/) and [CherryData](https://www.cherry-data.com/)
+
+<img src="./eodash-data/stories/C_IT16.jpg">
+
+*Port of Gioia Tauro, Image source: http://www.portodigioiatauro.it/porto-gioia-tauro/storia/*
+
+### The impacts of COVID-19 lockdonw restrictions on pollution and NO2 levels 
+The pandemic restrictions and the related economic crisis have highly impacted the pollution level in different areas of Europe and of the world. Although this fact has been widely demonstrated, this specific analysis aims looks jointly at different sources of pollution and the NO2 level. 
 
 On the indicator chart, for each day, the light/dark red chart background indicates whether there were **restrictions or lockdown** measure in place in the country where the city is located. This information is based on [Oxford University’s coronavirus government response tracker](https://covidtracker.bsg.ox.ac.uk/). 
-
 
 

@@ -28,19 +28,19 @@ export const indicatorsDefinition = Object.freeze({
   C1: {
     indicator: 'Combined 1',
     indicatorOverwrite: 'Ports and Shipping - impact on air quality',
-    themes: ['economic, air'],
+    themes: ['economy, air'],
   },
   C2: {
     indicator: 'Combined 2',
-    themes: ['economic, air'],
+    themes: ['economy, air'],
   },
   C3: {
     indicator: 'Combined 3',
-    themes: ['economic, air'],
+    themes: ['economy, air'],
   },
   E200: {
     indicator: 'Changes in Ships traffic within the Port',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E200',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -50,7 +50,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   E1: {
     indicator: 'Status of metallic ores (Archived)',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E1',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -60,7 +60,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   E1_S2: {
     indicator: 'Status of metallic ores (Archived)',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E1',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -69,7 +69,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   E1a: {
     indicator: 'Status of non-metallic ores (Archived)',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E1a',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -79,7 +79,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   E1a_S2: {
     indicator: 'Status of non-metallic ores (Archived)',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E1a',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -88,7 +88,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   E2: {
     indicator: 'Volume of oil stockpiled (Archived)',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E2',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -98,7 +98,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   E2_S2: {
     indicator: 'Volume of oil stockpiled (Archived)',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E2',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -107,39 +107,39 @@ export const indicatorsDefinition = Object.freeze({
   },
   E2a: {
     indicator: 'Level of flaring activity',
-    themes: ['economic'],
+    themes: ['economy'],
   },
   E3: {
     indicator: 'Inventory levels of factory inputs',
-    themes: ['economic'],
+    themes: ['economy'],
   },
   E4: {
     indicator: 'Production activity of intermediate goods',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E4',
   },
   E5: {
     indicator: 'Inventory levels of intermediate goods',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E5',
   },
   E6: {
     indicator: 'Inventory levels of factory inputs',
-    themes: ['economic'],
+    themes: ['economy'],
   },
   E7: {
     indicator: 'Production activity of finished goods',
-    themes: ['economic'],
+    themes: ['economy'],
   },
   E8: {
     indicator: 'Inventory Levels',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E8',
     maxDecimals: 5,
   },
   E9: {
     indicator: 'Construction activity',
-    themes: ['economic'],
+    themes: ['economy'],
   },
   E10a1: {
     indicator: 'Harvesting activity',
@@ -206,27 +206,27 @@ export const indicatorsDefinition = Object.freeze({
   },
   E11: {
     indicator: 'Volume of activity at shopping centers',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E11',
   },
   E11a: {
     indicator: 'Indicator definition placeholder',
-    themes: ['economic'],
+    themes: ['economy'],
   },
   E12a: {
     indicator: 'Volume of activity logistic interchange centers',
-    themes: ['economic'],
+    themes: ['economy'],
   },
   E12b: {
     indicator: 'Throughput at border crossing points',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E12b',
     midSubAoi: true,
     maxDecimals: 3,
   },
   E12c: {
     indicator: 'Number of Trucks (Beta)',
-    themes: ['economic'],
+    themes: ['economy'],
     customAreaFeatures: true,
     customAreaIndicator: true,
     largeSubAoi: true,
@@ -236,15 +236,15 @@ export const indicatorsDefinition = Object.freeze({
   },
   E13a: {
     indicator: 'Throughput at principal rail stations',
-    themes: ['economic'],
+    themes: ['economy'],
   },
   E13c: {
-    themes: ['economic'],
+    themes: ['economy'],
     story: '',
   },
   E13b: {
     indicator: 'Throughput at principal hub airports',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E13b_PLES',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -254,17 +254,17 @@ export const indicatorsDefinition = Object.freeze({
   },
   E13b2: {
     indicator: 'Throughput at principal hub airports Aerospacelab archived',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E13b',
   },
   E13d: {
     indicator: 'Airports: airplanes traffic',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E13d',
   },
   E13d2: {
     indicator: 'Airports: airplanes traffic',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E13d',
     baseLayers: [baseLayers.terrainLight, {
       ...baseLayers.cloudless,
@@ -280,62 +280,62 @@ export const indicatorsDefinition = Object.freeze({
   },
   E13e: {
     indicator: 'Ports and Shipping - traffic (AIS)',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13f: {
     indicator: 'Maritime traffic: fishing',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13g: {
     indicator: 'Maritime traffic: tanker',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13h: {
     indicator: 'Maritime traffic: tug',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13i: {
     indicator: 'Maritime traffic: search, rescue',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13l: {
     indicator: 'Maritime traffic: pleasure craft',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13m: {
     indicator: 'Maritime traffic: passenger',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13n: {
     indicator: 'Ports and Shipping - traffic (AIS, Sentinel-1, mobile)',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E13n',
   },
   E13o: {
     indicator: 'Vessel density for all',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E13o',
   },
   E13p: {
     indicator: 'Vessel density for cargo',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E13o',
   },
   E13q: {
     indicator: 'Vessel density for tankers',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E13o',
   },
   E13r: {
     indicator: 'Vessel density for others',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/E13o',
   },
   H1: {
@@ -387,12 +387,12 @@ export const indicatorsDefinition = Object.freeze({
   },
   NASAPopulation: {
     indicator: 'Population',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/data/trilateral/NASAPopulation',
   },
   WSF: {
     indicator: 'World Settlement Footprint',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/WSF-WSF',
   },
   N2: {
@@ -451,13 +451,13 @@ export const indicatorsDefinition = Object.freeze({
   },
   OX: {
     indicator: 'Crude Oil Storage Utilization',
-    themes: ['economic'],
+    themes: ['economy'],
     story: '/eodash-data/stories/OX',
     disableCSV: true,
   },
   GG: {
     indicator: 'Mobility',
-    themes: ['economic'],
+    themes: ['economy'],
     disableTimeSelection: true,
     story: '/eodash-data/stories/GG-GG',
     disableCSV: true,
@@ -479,7 +479,7 @@ export const indicatorsDefinition = Object.freeze({
   /*
   GSA: {
     indicator: 'Mobility',
-    themes: ['economic'],
+    themes: ['economy'],
     disableTimeSelection: true,
     borderSelection: true,
     story: '/eodash-data/stories/GSA-GSA',
@@ -507,7 +507,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
-    themes: ['economic'],
+    themes: ['economy'],
   },
 });
 
@@ -570,7 +570,7 @@ export const indicatorClassesIcons = Object.freeze({
   health: 'mdi-hospital-box-outline',
   combined: 'mdi-set-center',
   air: 'mdi-weather-windy',
-  economic: 'mdi-currency-eur',
+  economy: 'mdi-currency-eur',
 });
 
 export const mapDefaults = Object.freeze({

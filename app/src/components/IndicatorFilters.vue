@@ -1,11 +1,16 @@
 <template>
   <div
     class="no-pointer pa-2 overflow-hidden"
-    style="width: 360px; height: calc((var(--vh), 1vh) * 100); z-index: 4"
+    :style="`width: ${$vuetify.breakpoint.xsOnly
+      ? '100%'
+      : '360px'}; height: calc(var(--vh, 1vh) * 100); z-index: 4; background: ${
+        $vuetify.breakpoint.xsOnly && comboboxFocus
+          ? $vuetify.theme.currentTheme.background
+          : 'unset' }`"
   >
     <v-card class="rounded-lg">
       <div
-        v-if="appConfig.id === 'esa'"
+        v-if="$vuetify.breakpoint.smAndUp && !currentTheme"
         class="pa-2"
       >
         <v-btn
@@ -29,7 +34,7 @@
         :allow-overflow="false"
         attach="#combobox-menu"
         auto-select-first
-        autofocus
+        :autofocus="$vuetify.breakpoint.smAndUp"
         clearable
         :filter="customComboboxFilter"
         flat
@@ -50,13 +55,14 @@
         class="overflow-x-hidden overflow-y-auto"
         style="position: relative; max-height: 250px"
       >
-        <div id="combobox-menu" ></div>
+        <div id="combobox-menu"></div>
       </div>
     </v-card>
     <div
+      v-if="!($vuetify.breakpoint.xsOnly && comboboxFocus) && globalIndicators.length > 0"
       id="slideGroupWrapper"
       class="d-flex"
-      style="position: absolute; bottom: 10px; left: 0; pointer-events: none;"
+      style="position: absolute; bottom: 25px; left: 0; pointer-events: none;"
     >
       <v-slide-group
         v-model="selectedMapLayer"
@@ -74,18 +80,21 @@
             :color="active ? 'primary' : 'white'"
             height="100"
             width="100"
-            class="ma-4 overflow-hidden"
+            class="mx-4 my-1 overflow-hidden d-flex flex-column"
             style="pointer-events: all"
             @click="toggle"
           >
             <v-img
               height="50"
-              :src="`./data/${appConfig.id}/globalDataLayerImages/${getLocationCode(item.properties.indicatorObject)}.png`"
+              class="flex-shrink-1"
+              :src="`./data/${appConfig.id}/globalDataLayerImages/${getLocationCode(
+                item.properties.indicatorObject)}.png`"
             >
             </v-img>
             <v-card-title
+              class="flex-grow-1"
               :class="active ? 'white--text' : 'primary--text'"
-              style="font-size: small; line-height: unset; padding: 6px"
+              style="font-size: 12px; line-height: 14px; padding: 5px"
             >
               {{ item.properties.indicatorObject.indicatorName }}
             </v-card-title>
@@ -105,6 +114,7 @@ import {
 } from 'ol/format';
 
 import getMapInstance from '@/components/map/map';
+import { calculatePadding } from '@/utils';
 
 export default {
   data: () => ({
@@ -114,11 +124,13 @@ export default {
     selectedListItem: null,
     selectedMapLayer: null,
     mapLayersExpanded: false,
+    comboboxFocus: null,
   }),
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
     ...mapState('features', ['allFeatures']),
     ...mapState('indicators', ['selectedIndicator']),
+    ...mapState('themes', ['currentTheme']),
     ...mapGetters('features', ['getFeatures', 'getGroupedFeatures', 'getIndicators']),
     globalIndicators() {
       return this.getGroupedFeatures && this.getGroupedFeatures
@@ -135,6 +147,14 @@ export default {
         this.getSearchItems();
       }
     }
+  },
+  mounted() {
+    this.$watch(
+      () => this.$refs.combobox.isMenuActive,
+      (val) => {
+        this.comboboxFocus = val;
+      },
+    );
   },
   methods: {
     ...mapMutations('features', {
@@ -202,7 +222,7 @@ export default {
       }
       const queryParts = this.userInput.toLocaleLowerCase().split(' ');
       // skip commonly used words in order to allow more semantic search
-      const skip = ['in', 'at'];
+      const skip = ['in', 'at', 'and'];
       this.searchItems.forEach((searchItem, index, array) => {
         let matchPoints = 0;
         queryParts
@@ -210,7 +230,8 @@ export default {
           .forEach((p) => {
             if (p !== queryParts[0] ? !skip.includes(p) : true) {
               const countryName = countries.features
-                .find((c) => c.properties.alpha2 === searchItem.properties?.indicatorObject?.country)?.properties
+                .find((c) => c.properties.alpha2 === searchItem
+                  .properties?.indicatorObject?.country)?.properties
                 .name;
               if (searchItem.name.toLocaleLowerCase().indexOf(p) > -1) {
                 // add a point if the query exists in itemText
@@ -235,13 +256,14 @@ export default {
               if (
                 this.baseConfig.indicatorsDefinition[
                   searchItem.properties?.indicatorObject?.indicator
-                ]?.themes.includes(p)
+                ]?.themes
+                  .includes(p)
               ) {
                 matchPoints++;
               }
             }
           });
-        array[index].filterPriority = matchPoints;
+        array[index].filterPriority = matchPoints; // eslint-disable-line
       });
       this.searchItems.sort((a, b) => (a.name.localeCompare(b.name)));
       this.searchItems.sort((a, b) => (b.filterPriority || 0) - (a.filterPriority || 0));
@@ -264,16 +286,29 @@ export default {
       if (!this.searchItem) {
         this.getSearchItems();
       }
+      if (this.$route.query.search) {
+        this.userInput = this.$route.query.search;
+      }
     },
     selectedIndicator(indicatorObject) {
+      if (!indicatorObject) {
+        return;
+      }
       const displayName = `${indicatorObject.city}: ${this.getIndicator(indicatorObject)}`;
       if (this.userInput !== displayName) {
         this.userInput = displayName;
       }
+      this.selectedMapLayer = this.globalIndicators
+        .findIndex((l) => this.getLocationCode(l.properties.indicatorObject)
+          === this.getLocationCode(indicatorObject));
     },
     selectedListItem(input) {
       if (!input) {
         return;
+      }
+      if (this.$vuetify.breakpoint.xsOnly) {
+        this.comboboxFocus = false;
+        this.$refs.combobox.blur();
       }
       const parsedInput = this.searchItems.find((i) => i.name === input);
       if (!parsedInput) {
@@ -296,8 +331,9 @@ export default {
         }).readFeatures(countries);
         const country = parsedCountries.find((c) => c.get('alpha2') === parsedInput.code);
         const { map } = getMapInstance('centerMap');
+        const padding = calculatePadding();
         map.getView().fit(country.getGeometry().getExtent(), {
-          duration: 500, padding: [50, 50, 50, 50],
+          duration: 500, padding,
         });
       }
     },
@@ -306,9 +342,24 @@ export default {
         this.globalIndicators[index]?.properties.indicatorObject,
       );
     },
-    userInput() {
+    userInput(newInput) {
       this.sortSearchItems();
       this.setFilterDebounced();
+      const query = {
+        ...this.$route.query,
+        search: newInput?.length ? newInput : undefined,
+      };
+      this.$router.replace({ query }).catch(() => {});
+      this.trackEvent('filters', 'search_input', newInput);
+      // for some strange reason, focusing and activating menu only works half of
+      // the time without timeout
+      // TODO find out why and clean up
+      setTimeout(() => {
+        if (newInput && !this.$refs.combobox.isMenuActive) {
+          this.$refs.combobox.focus();
+          this.$refs.combobox.activateMenu();
+        }
+      }, 0);
     },
   },
 };
@@ -347,5 +398,21 @@ export default {
 ::v-deep .v-slide-group__prev,
 ::v-deep .v-slide-group__next {
   pointer-events: all;
+  background: var(--v-primary-base);
+  opacity: .5;
+  &:hover {
+    opacity: 1;
+  }
+}
+::v-deep .v-slide-group__prev {
+  border-radius: 4px 0 0 4px;
+}
+::v-deep .v-slide-group__next {
+  border-radius: 0 4px 4px 0;
+}
+::v-deep .v-slide-group__prev--disabled,
+::v-deep .v-slide-group__next--disabled {
+  pointer-events: none;
+  opacity: .2;
 }
 </style>

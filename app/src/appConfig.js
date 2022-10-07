@@ -9,6 +9,7 @@ module.exports = [
     match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'race.eox.world:8812'],
     branding: {
       appName: 'Rapid Action for Citizens with Earth Observation',
+      shortName: 'RACE Dashboard',
       primaryColor: '#003247',
       secondaryColor: '#00ae92',
       headerLogo: './eodash-data/general/RACE_Logo.png',
@@ -37,20 +38,26 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'WSF-WSF',
-        src: './eodash-data/general/WSF.png',
+        src: './eodash-data/general/rebranding.png',
       },
       {
-        poi: 'SO2-N1',
-        src: './eodash-data/general/TROPOMI-SO2.png',
+        src: './eodash-data/general/agriculture.png',
+        href: 'https://race.esa.int/?search=Agriculture&x=1040480.82062&y=6128064.75599&z=5.29786'
       },
       {
-        poi: 'CZ7-E8',
-        src: './eodash-data/general/Slide25.png',
+        src: './eodash-data/general/flying-planes.png',
       },
       {
-        src: './eodash-data/general/CustomDash.png',
-        href: 'https://medium.com/euro-data-cube/creating-powerful-visuals-of-covid-19-impacts-on-human-activities-8879fa75121d',
+        src: './eodash-data/general/geo-storytelling.png',
+        href: 'https://eo4society.esa.int/2022/09/21/geo-storytelling-with-eo-dashboards/',
+      },
+      {
+        src: './eodash-data/general/tropomi.png',
+        href: 'https://race.esa.int/?search=s5p&x=1348821.20055&y=6133905.55977&z=5.1379&clusterOpen=1',
+      },
+      {
+        poi: 'World-E13o',
+        src: './eodash-data/general/vessles.png',
       },
 
     ],
