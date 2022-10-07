@@ -141,6 +141,11 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['atmosphere'],
   },
+  AQ: {
+    indicator: 'Low surface temperature',
+    class: 'air',
+    themes: ['atmosphere'],
+  },
   WSF: {
     indicator: 'World Settlement Footprint',
     class: 'economic',
@@ -195,6 +200,65 @@ const getYearlyDates = (start, end) => {
 };
 
 export const globalIndicators = [
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Air quality',
+        indicator: 'AQ',
+        lastIndicatorValue: null,
+        indicatorName: 'Air quality',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'AT',
+        time: ['2022-09-16', '2022-09-17'],
+        inputData: [''],
+        yAxis: '',
+        vectorStyles: {
+          sourceLayer: 'air_quality_AT',
+          items: [
+            {
+              id: 'PM10',
+              description: 'Particulate Matter < 10µm',
+            },
+            {
+              id: 'PM25',
+              description: 'Particulate Matter < 25µm',
+            },
+            {
+              id: 'NO2',
+              description: 'Nitrogen Dioxide',
+            },
+          ],
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          protocol: 'vectorgeojson',
+          selectedStyleLayer: 'PM10',
+          styleFile: 'data/gtif/data/air_quality_at.json',
+          id: 'air_quality_AT',
+          name: 'Air quality',
+          minZoom: 1,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          labelFormatFunction: (date) => date,
+        },
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {
@@ -255,6 +319,7 @@ export const globalIndicators = [
             }],
           },
           protocol: 'vectortile',
+          styleFile: 'data/gtif/data/rooftops_style.json',
           selectedStyleLayer: 'PVExisting',
           id: 'solar_potential_innsbruck',
           name: 'Solar power potential',

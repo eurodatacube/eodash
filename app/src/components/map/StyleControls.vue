@@ -48,7 +48,11 @@ export default {
     updateMap(evt) {
       const { map } = getMapInstance('centerMap');
       const vLayer = map.getAllLayers().find((l) => l.get('id') === this.vectorStyles.sourceLayer);
-      applyStyle(vLayer, 'data/gtif/data/rooftops_style.json', [evt.id]);
+      applyStyle(
+        vLayer,
+        this.$store.state.indicators.selectedIndicator.display.styleFile,
+        [evt.id],
+      );
     },
   },
 };

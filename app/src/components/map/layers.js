@@ -123,8 +123,14 @@ export function createLayerFromConfig(config, _options = {}) {
   if (config.protocol === 'vectortile') {
     const tilelayer = new VectorTileLayer();
     tilelayer.set('id', config.id);
-    applyStyle(tilelayer, 'data/gtif/data/rooftops_style.json', [config.selectedStyleLayer]);
+    applyStyle(tilelayer, config.styleFile, [config.selectedStyleLayer]);
     layers.push(tilelayer);
+  }
+  if (config.protocol === 'vectorgeojson') {
+    const layer = new VectorLayer();
+    layer.set('id', config.id);
+    applyStyle(layer, config.styleFile, [config.selectedStyleLayer]);
+    layers.push(layer);
   }
   if (config.protocol === 'countries') {
     layers.push(new VectorLayer({
