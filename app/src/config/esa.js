@@ -1893,7 +1893,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'World',
-        time: getDailyDates('2020-01-07', DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
+        time: getMonthlyDates('1997-10-01', '2022-08-01'),
         inputData: [''],
         externalData: {
           label: 'Copernicus Marine Service - Product Details',
@@ -1905,27 +1905,21 @@ export const globalIndicators = [
           combinedLayers: [
             {
               ...cmemsDisplay,
-              baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-atl-bio-multi-l4-chl_interpolated_1km_daily-rt?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
+              baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_atl_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
               name: 'Atlantic coast CHL L4 Product',
               bounds: latLngBounds(latLng([20, -45]), latLng([66, 10.5])),
             }, {
               ...cmemsDisplay,
-              baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-med-chl-multi-l4-interp_1km_daily-rt-v02?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
+              baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_med_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
               name: 'Mediterranean CHL L4 Product',
               bounds: latLngBounds(latLng([30, -6]), latLng([46, 37])),
             }, {
               ...cmemsDisplay,
-              baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-bs-chl-multi-l4-interp_1km_daily-rt-v02?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
+              baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_blk_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
               name: 'Black sea CHL L4 Product',
               bounds: latLngBounds(latLng([40, 26.5]), latLng([48, 42])),
-            },
+            }
           ],
-        }, {
-          ...cmemsDisplay,
-          baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-bal-chl-olci_a-l3-nn_1km_daily-rt-v02?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
-          name: 'Baltic sea CHL L3 Product',
-          visible: false,
-          bounds: latLngBounds(latLng([53.25, 9]), latLng([65.85, 30.5])),
         }],
       },
     },
