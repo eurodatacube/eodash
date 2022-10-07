@@ -212,11 +212,22 @@ const mutations = {
       } else if (indicatorObject.indicator in nameMapping[id]) {
         foundMapping = nameMapping[id][indicatorObject.indicator];
       }
-      if (foundMapping && 'title' in foundMapping) {
-        indicatorObject.indicatorName = foundMapping.title;
-      }
-      if (foundMapping && 'description' in foundMapping) {
-        indicatorObject.description = foundMapping.description;
+      if (foundMapping) {
+        if ('locationSplit' in foundMapping) {
+          Object.entries(foundMapping.locationSplit).forEach((item) => {
+            if (indicatorObject.aoiID.endsWith(item[0])) {
+              indicatorObject.indicatorName = item[1].title
+                ? item[1].title : indicatorObject.indicatorName;
+              indicatorObject.description = item[1].title
+                ? item[1].description : indicatorObject.description;
+            }
+          });
+        } else {
+          indicatorObject.indicatorName = foundMapping.title
+            ? foundMapping.title : indicatorObject.indicatorName;
+          indicatorObject.description = foundMapping.description
+            ? foundMapping.description : indicatorObject.description;
+        }
       }
     });
     // indicatorName

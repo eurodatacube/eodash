@@ -62,8 +62,16 @@
       "description": "Harvesting trucks detected in Pleiades data"
     },
     "E10a6": {
-      "title": "Winter Cereals parcels [%]",
-      "description": "Evolution of harvested parcels"
+      "locationSplit": {
+        "a": {
+          "title": "Harvested parcels [%]",
+          "description": "Evolution of harvested parcels"
+        },
+        "b": {
+          "title": "Harvested area [%]",
+          "description": "Evolution of harvested area"
+        }
+      }
     },
     "E10a7": {
       "title": "Winter Cereals area [%]",
@@ -77,8 +85,16 @@
       "title": "Workers availability [nr]"
     },
     "E10a10": {
-      "title": "Winter Rapeseed Harvest",
-      "description": "Observed harvesting in Sentinel-1 data compared to model expectation"
+      "locationSplit": {
+        "a": {
+          "title": "Winter Cereal Harvest",
+          "description": "Observed harvesting in Sentinel-1 data compared to model expectation"
+        },
+        "b": {
+          "title": "Winter Rapeseed Harvest",
+          "description": "Observed harvesting in Sentinel-1 data compared to model expectation"
+        }
+      }
     },
     "E11": {
       "title": "Activity at shopping centers",
