@@ -170,7 +170,7 @@ export default {
     this.drawnAreaSource = drawnAreaSource;
     const drawnAreaLayer = new VectorLayer({
       source: drawnAreaSource,
-      zIndex: 3,
+      zIndex: 4,
       style: this.drawStyleFunction,
       declutter: false,
     });
@@ -245,9 +245,11 @@ export default {
      * @returns {Boolean}
      */
     isGeometryTooLarge(geom) {
-      const extent = geom.getExtent();
+      // for now commenting out previous logic
+      return false;
+      //const extent = geom.getExtent();
       // to do: use more exact turf calculations?
-      return extent && (getArea(extent) > 50000000000);
+      //return extent && (getArea(extent) > 50000000000);
     },
     onDrawFinished(event) {
       const { map } = getMapInstance(this.mapId);
@@ -258,10 +260,11 @@ export default {
       const geoJsonObj = geoJSONFormat.writeGeometryObject(
         event.feature.getGeometry(),
       );
-      this.drawnAreaSource.addFeature(event.feature);
       if (this.isGeometryTooLarge(event.feature.getGeometry())) {
         return;
       }
+      this.clearCustomAreaFilter();
+      this.drawnAreaSource.addFeature(event.feature);
       this.drawnArea.area = geoJsonObj;
       this.disableInteractions();
       this.isDrawing = false;
