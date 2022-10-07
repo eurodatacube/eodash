@@ -133,11 +133,13 @@ export default {
           x, y, z,
         } = currentQuery;
         if (x && y && z && !Number.isNaN(x) && !Number.isNaN(y) && !Number.isNaN(z)) {
-          getMapInstance('centerMap').map.getView().animate({
-            center: [x, y],
-            zoom: z,
-            duration: 300,
-          });
+          setTimeout(() => {
+            getMapInstance('centerMap').map.getView().animate({
+              center: [x, y],
+              zoom: z,
+              duration: 300,
+            });
+          }, 0); // TO DO: without this, zooming to AOI causes problems
         }
       }
     },
