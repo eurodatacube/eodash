@@ -1,4 +1,15 @@
+<template>
+  <MapOverlay
+   :mapId="mapId"
+   :overlayId="'adminBordersOverlay'"
+   :overlayHeaders="overlayHeaders"
+   :overlayRows="overlayRows"
+   :overlayCoordinate="overlayCoordinate"
+  />
+</template>
+
 <script>
+import MapOverlay from '@/components/map/MapOverlay.vue';
 import getMapInstance from '@/components/map/map';
 import GeoJSON from 'ol/format/GeoJSON';
 import VectorLayer from 'ol/layer/Vector';
@@ -20,6 +31,9 @@ const geoJsonFormat = new GeoJSON({
 /**
  */
 export default {
+  components: {
+    MapOverlay,
+  },
   props: {
     mapId: String,
     administrativeConfigs: Array,
@@ -27,6 +41,13 @@ export default {
   watch: {
   },
   computed: {
+  },
+  data() {
+    return {
+      overlayRows: [],
+      overlayCoordinate: null,
+      overlayHeaders: [],
+    };
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
@@ -212,6 +233,9 @@ export default {
       MapCursor.reserveCursor('adminBorders', null);
       this.highlightLayer.getSource().clear();
       this.highlightedFeature = null;
+      this.overlayCoordinate = null;
+      this.overlayContent = null;
+      this.overlayHeaders = [];
     },
     adminBorderHover(e) {
       if (e.dragging) {
@@ -219,21 +243,39 @@ export default {
         this.clearHighlightedFeature();
         return;
       }
+
       const { map } = getMapInstance(this.mapId);
       const pixel = map.getEventPixel(e.originalEvent);
       const feature = map.forEachFeatureAtPixel(pixel, (ftr) => ftr);
       if (feature) {
         // add feature to highlight layer if feature is part of admin layer and set pointer cursor
         let anyAdminLayerHasFeature = null;
+        let foundLayer = null;
         this.adminLayerGroups.forEach((l, i) => {
           const layer = this.getLayerFromGroup(
             l, this.administrativeConfigs[i],
           );
           if (layer.getSource().hasFeature(feature)) {
             anyAdminLayerHasFeature = true;
+            foundLayer = layer;
           }
         });
         if (anyAdminLayerHasFeature) {
+          // center coordinate of extent, passable approximation for small or regular features
+          const coordinate = getCenter(feature.getGeometry().getExtent());
+          // show overlay on center of polygon
+          this.overlayHeaders = [foundLayer.get('name')];
+          this.overlayCoordinate = coordinate;
+          const props = feature.getProperties();
+          const key = Object.keys(props).find(
+            (k) => ['name', 'nuts_name'].includes(k.toLowerCase())
+          );
+          if (props[key]) {
+            this.overlayRows = [props[key]];
+          } else {
+            this.overlayRows = [];
+          }
+
           const MapCursor = getMapCursor(this.mapId, { mapId: this.mapId });
           MapCursor.reserveCursor('adminBorders', 'pointer');
 

@@ -83,31 +83,31 @@ const nutsStyle = {
 
 export const administrativeLayers = [{
   ...nutsStyle,
-  name: 'NUTS L0 - Austria',
+  name: 'NUTS L0',
   url: 'data/gtif/data/AT_NUTS_L0.geojson',
   maxZoom: 7.5,
 }, {
   ...nutsStyle,
-  name: 'NUTS L1 - Austria',
+  name: 'NUTS L1',
   url: 'data/gtif/data/AT_NUTS_L1.geojson',
   minZoom: 7.5,
   maxZoom: 8.5,
 }, {
   ...nutsStyle,
-  name: 'NUTS L2 - Austria',
+  name: 'NUTS L2',
   url: 'data/gtif/data/AT_NUTS_L2.geojson',
   minZoom: 8.5,
   maxZoom: 9.5,
 }, {
   ...nutsStyle,
-  name: 'NUTS L3 - Austria',
+  name: 'NUTS L3',
   url: 'data/gtif/data/AT_NUTS_L3.geojson',
   minZoom: 9.5,
   maxZoom: 10.5,
 }, {
   ...nutsStyle,
   protocol: 'flatgeobuf',
-  name: 'Districts - Austria (Bezirke)',
+  name: 'District (Bezirk)',
   url: '//eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/admin_borders/STATISTIK_AUSTRIA_POLBEZ_20220101.fgb',
   minZoom: 10.5,
   maxZoom: 12,
@@ -115,7 +115,7 @@ export const administrativeLayers = [{
 }, {
   ...nutsStyle,
   protocol: 'flatgeobuf',
-  name: 'Municipalities - Austria (Gemeinden)',
+  name: 'Municipality (Gemeinde)',
   url: '//eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/admin_borders/STATISTIK_AUSTRIA_GEM_20220101.fgb',
   minZoom: 12,
   maxZoom: 13.5,
@@ -123,7 +123,7 @@ export const administrativeLayers = [{
 }, {
   ...nutsStyle,
   protocol: 'flatgeobuf',
-  name: 'Census Tracks - Austria (Zählsprängel)',
+  name: 'Census Track (Zählsprängel)',
   url: '//eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/admin_borders/STATISTIK_AUSTRIA_ZSP_20220101.fgb',
   minZoom: 13.5,
   attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
