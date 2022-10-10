@@ -610,6 +610,9 @@ export default {
 ::v-deep .v-navigation-drawer--temporary:not(.v-navigation-drawer--close) {
   box-shadow: none;
 }
+::v-deep .v-navigation-drawer--temporary {
+  z-index: 8;
+}
 ::v-deep .v-navigation-drawer {
   .v-badge {
     min-width: 100% !important;
