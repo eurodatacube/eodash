@@ -488,22 +488,23 @@ export default {
       },
     },
   },
-  created() {
-    if (this.mapId === 'centerMap') {
-      const { bounds } = this.mapDefaults;
-      const extent = transformExtent([bounds._southWest.lng, bounds._southWest.lat, bounds._northEast.lng, bounds._northEast.lat], 'EPSG:4326',
-        'EPSG:3857');
-      const { map } = getMapInstance(this.mapId);
-      const padding = calculatePadding();
-      map.getView().fit(extent, { padding });
-    }
-  },
   mounted() {
     const { map } = getMapInstance(this.mapId);
     if (this.mapId === 'centerMap') {
       const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
       cluster.setActive(true, this.overlayCallback);
       cluster.setFeatures(this.getFeatures);
+      const { x, y, z } = this.$route.query;
+      if (!x && !y && !z) {
+        setTimeout(() => {
+          const { bounds } = this.mapDefaults;
+          const extent = transformExtent([bounds._southWest.lng, bounds._southWest.lat, bounds._northEast.lng, bounds._northEast.lat], 'EPSG:4326',
+            'EPSG:3857');
+          const { map } = getMapInstance(this.mapId);
+          const padding = calculatePadding();
+          map.getView().fit(extent, { padding });
+        }, 500);
+      }
     }
     this.loaded = true;
     this.$store.subscribe((mutation) => {
