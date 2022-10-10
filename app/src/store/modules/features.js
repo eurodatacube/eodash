@@ -196,7 +196,7 @@ const mutations = {
     features.forEach((f) => {
       const { indicatorObject } = f.properties;
       // We see if indicator code and aoiID is a match
-      const mergedKey = `${indicatorObject.indicator}-${indicatorObject.aoiID}`;
+      const mergedKey = getLocationCode(indicatorObject);
       const { id } = this.state.config.appConfig;
       let foundMapping;
       if (mergedKey in nameMapping[id]) {

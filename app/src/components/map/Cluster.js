@@ -336,7 +336,7 @@ class Cluster {
         const { city } = indicatorObject;
         const indicator = store.state.config.baseConfig
           .indicatorsDefinition[indicatorObject.indicator]
-          .indicatorOverwrite || indicatorObject.indicatorName;
+          .indicatorOverwrite || indicatorObject.indicatorName || indicatorObject.description;
         if (city) {
           headers.push(`${city}:`);
         }
