@@ -6,7 +6,7 @@
       :mapId="mapId"
       :indicator="indicator"
       v-if="dataLayerName"
-      :key="dataLayerName + '_subAoi'"
+      :key="dataLayerKey + '_subAoi'"
     />
     <!-- a layer displaying a selected global poi
      these layers will have z-Index 3 -->
@@ -357,7 +357,7 @@ export default {
       return dataLayerName || '';
     },
     dataLayerKey() {
-      return this.dataLayerName + +this.indicator.aoiID + this.indicator.indicator;
+      return this.dataLayerName + this.indicator.aoiID + this.indicator.indicator;
     },
     countriesJson() {
       return countries;
