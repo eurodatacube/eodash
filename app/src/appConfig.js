@@ -42,7 +42,7 @@ module.exports = [
       },
       {
         src: './eodash-data/general/agriculture.png',
-        href: 'https://race.esa.int/?search=Agriculture&x=1040480.82062&y=6128064.75599&z=5.29786'
+        href: 'https://race.esa.int/?search=Agriculture&x=1040480.82062&y=6128064.75599&z=5.29786',
       },
       {
         src: './eodash-data/general/flying-planes.png',

@@ -7,6 +7,7 @@ import { shTimeFunction, shS2TimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { E13bRemovedFtrs } from '@/config/otherdata';
 import availableDates from '@/config/data_dates.json';
+import E13dMapTimes from '@/config/data_dates_e13d.json';
 
 import {
   statisticalApiHeaders,
@@ -145,7 +146,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Harvesting activity',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a1',
-    largeSubAoi: true,
     baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
       ...baseLayers.S2GLC,
       visible: true,
@@ -156,7 +156,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Cum. proportion of total area under active mgmt.',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a2',
-    largeSubAoi: true,
     baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
       ...baseLayers.S2GLC,
       visible: true,
@@ -168,31 +167,26 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Evolution of the cultivated areas for production of white asparagus',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a2',
-    largeSubAoi: true,
   },
   E10a5: {
     indicator: 'Harvesting activity',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a5',
-    largeSubAoi: true,
   },
   E10a6: {
     indicator: 'Harvested parcels/area evolution over time',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a6',
-    largeSubAoi: true,
     maxDecimals: 4,
   },
   E10a8: {
     indicator: 'Cumulative harvested area',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a8',
-    largeSubAoi: true,
   },
   E10a9: {
     indicator: 'Tomatoes cultivation',
     themes: ['agriculture'],
-    largeSubAoi: true,
     story: '/eodash-data/stories/E10a9',
   },
   E10a10: {
@@ -221,7 +215,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Throughput at border crossing points',
     themes: ['economy'],
     story: '/eodash-data/stories/E12b',
-    midSubAoi: true,
     maxDecimals: 3,
   },
   E12c: {
@@ -229,7 +222,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     customAreaFeatures: true,
     customAreaIndicator: true,
-    largeSubAoi: true,
     featuresClustering: true,
     disableCompare: true,
     story: '/eodash-data/stories/E12c',
@@ -261,20 +253,14 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Airports: airplanes traffic',
     themes: ['economy'],
     story: '/eodash-data/stories/E13d',
-  },
-  E13d2: {
-    indicator: 'Airports: airplanes traffic',
-    themes: ['economy'],
-    story: '/eodash-data/stories/E13d',
     baseLayers: [baseLayers.terrainLight, {
       ...baseLayers.cloudless,
       visible: true,
     }],
-    midSubAoi: true,
     mapTimeLabelExtended: true,
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
-      url: './eodash-data/features/E13d/E13d_{aoiID}_{featuresTime}.geojson',
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
     largeTimeDuration: true,
   },
@@ -404,13 +390,11 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'CHL concentration',
     themes: ['water'],
     story: '/eodash-data/stories/N3',
-    largeSubAoi: true,
   },
   N3a2: {
     indicator: 'CHL concentration',
     themes: ['water'],
     story: '/eodash-data/stories/N3a2',
-    largeSubAoi: true,
   },
   N4a: {
     indicator: 'Changes in land fill sites',
@@ -431,7 +415,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'CMEMS Water Quality',
     themes: ['water'],
     largeTimeDuration: true,
-    largeSubAoi: true,
     story: '/eodash-data/stories/N3c',
   },
   N4c: {
@@ -673,6 +656,7 @@ export const excludeMapTimes = {
 };
 
 export const replaceMapTimes = {
+  ...E13dMapTimes,
 };
 
 const wkt = new Wkt();
@@ -1920,7 +1904,7 @@ export const globalIndicators = [
               baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_blk_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
               name: 'Black sea CHL L4 Product',
               bounds: latLngBounds(latLng([40, 26.5]), latLng([48, 42])),
-            }
+            },
           ],
         }],
       },

@@ -105,12 +105,12 @@
 /* eslint no-undef: "off" */
 import {
   mapState,
-  mapGetters,
 } from 'vuex';
 import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
 } from '@/helpers/mapConfig';
+import { getIndicatorFilteredInputData } from '@/utils';
 import IndicatorTimeSelection from './IndicatorTimeSelection.vue';
 
 export default {
@@ -160,9 +160,6 @@ export default {
   }),
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
-    ...mapGetters('indicators', [
-      'getIndicatorFilteredInputData',
-    ]),
     baseLayers() {
       // expects an array of objects
       return this.mergedConfigsData[0].baseLayers || this.baseConfig.baseLayersRightMap;
@@ -177,7 +174,7 @@ export default {
       ];
     },
     indicator() {
-      return this.getIndicatorFilteredInputData(this.currentIndicator);
+      return getIndicatorFilteredInputData(this.currentIndicator);
     },
     indicatorObject() {
       return this.currentIndicator

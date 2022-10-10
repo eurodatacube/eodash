@@ -61,7 +61,6 @@ export const indicatorsDefinition = Object.freeze({
       url: './eodash-data/features/E200/E200_{aoiID}_{featuresTime}.geojson',
       allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification', 'TIMESTAMP UTC', 'TYPE_NAME', 'LENGTH'],
     },
-    largeSubAoi: true,
     baseLayers: [{
       ...baseLayers.cloudless,
       visible: true,
@@ -154,14 +153,12 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: '/data/trilateral/E9',
     themes: ['covid-19', 'economy'],
-    largeSubAoi: true,
   },
   E10a1: {
     indicator: 'Harvesting activity',
     class: 'agriculture',
     story: '/data/trilateral/E10a1',
     themes: ['covid-19', 'agriculture'],
-    largeSubAoi: true,
     baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
       ...baseLayers.S2GLC,
       visible: true,
@@ -173,7 +170,6 @@ export const indicatorsDefinition = Object.freeze({
     class: 'agriculture',
     story: '/eodash-data/stories/E10a2',
     themes: ['covid-19', 'agriculture'],
-    largeSubAoi: true,
     baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
       ...baseLayers.S2GLC,
       visible: true,
@@ -186,14 +182,12 @@ export const indicatorsDefinition = Object.freeze({
     class: 'agriculture',
     story: '/eodash-data/stories/E10a2',
     themes: ['covid-19', 'agriculture'],
-    largeSubAoi: true,
   },
   E10a6: {
     indicator: 'Harvested parcels/area evolution over time',
     class: 'agriculture',
     story: '/eodash-data/stories/E10a6',
     themes: ['covid-19', 'agriculture'],
-    largeSubAoi: true,
     maxDecimals: 4,
   },
   E10a8: {
@@ -201,7 +195,6 @@ export const indicatorsDefinition = Object.freeze({
     class: 'agriculture',
     story: '/eodash-data/stories/E10a8',
     themes: ['covid-19', 'agriculture'],
-    largeSubAoi: true,
   },
   E10b: {
     indicator: 'Field preparation activity',
@@ -213,14 +206,12 @@ export const indicatorsDefinition = Object.freeze({
     class: 'agriculture',
     story: '/data/trilateral/US05-E10c',
     themes: ['covid-19', 'agriculture'],
-    largeSubAoi: true,
   },
   E10d: {
     indicator: 'Cropped Area - Regional',
     class: 'agriculture',
     story: '/data/trilateral/E10d',
     themes: ['covid-19', 'agriculture'],
-    largeSubAoi: true,
     disableTimeSelection: true,
   },
   E10e: {
@@ -258,7 +249,6 @@ export const indicatorsDefinition = Object.freeze({
     },
     story: '/data/trilateral/E13b',
     themes: ['covid-19', 'economy', 'atmosphere'],
-    largeSubAoi: true,
   },
   H1: {
     indicator: 'Number of temp. treatment sites',
@@ -271,7 +261,6 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/N1',
     themes: ['covid-19', 'atmosphere'],
     largeTimeDuration: true,
-    largeSubAoi: true,
     maxMapZoom: 8,
   },
   N9: {
@@ -304,7 +293,6 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/N2',
     themes: ['covid-19', 'atmosphere'],
     largeTimeDuration: true,
-    largeSubAoi: true,
   },
   N3: {
     indicator: 'Water Quality',
@@ -328,7 +316,6 @@ export const indicatorsDefinition = Object.freeze({
     class: 'water',
     story: '/eodash-data/stories/N3a2',
     themes: ['covid-19', 'oceans'],
-    largeSubAoi: true,
   },
   N4a: {
     indicator: 'Changes in land fill sites',
@@ -345,7 +332,6 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: '/data/trilateral/N5',
     themes: ['covid-19', 'economy', 'atmosphere', 'oceans'],
-    smallSubAoi: true,
   },
   N6: {
     indicator: 'Cropped Area - Global',
@@ -358,14 +344,12 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: '/data/trilateral/N7',
     themes: ['covid-19', 'economy'],
-    largeSubAoi: true,
   },
   N8: {
     indicator: 'Recovery Proxy Maps',
     class: 'economic',
     story: '/data/trilateral/N8',
     themes: ['covid-19', 'economy'],
-    largeSubAoi: true,
     disableTimeSelection: true,
   },
   N12: {
@@ -389,14 +373,12 @@ export const indicatorsDefinition = Object.freeze({
     class: 'economic',
     story: '/eodash-data/stories/N13',
     themes: ['covid-19', 'economy', 'atmosphere', 'oceans'],
-    smallSubAoi: true,
   },
   N14: {
     indicator: 'Blue Tarps Detections',
     class: 'economic',
     story: '/eodash-data/stories/N14',
     themes: ['covid-19', 'economy', 'atmosphere', 'oceans'],
-    smallSubAoi: true,
   },
   GG: {
     indicator: 'Mobility',
@@ -440,7 +422,6 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/SIF',
     class: 'agriculture',
     themes: ['biomass-and-landcover', 'agriculture'],
-    largeSubAoi: true,
     maxMapZoom: 8,
   },
   NPP: {
