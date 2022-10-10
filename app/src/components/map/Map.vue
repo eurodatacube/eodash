@@ -467,7 +467,7 @@ export default {
     },
     zoomExtent: {
       deep: true,
-      immediate: true,
+      immediate: false,
       handler(value) {
         // when the calculated zoom extent changes, zoom the map to the new extent.
         // this is purely cosmetic and does not limit the ability to pan or zoom
@@ -476,7 +476,9 @@ export default {
           const { map } = getMapInstance(this.mapId);
           if (map.getTargetElement()) {
             const padding = calculatePadding();
-            map.getView().fit(value, { duration: 500, padding });
+            setTimeout(() => {
+              map.getView().fit(value, { duration: 500, padding });
+            }, 30);
           } else {
             map.once('change:target', () => {
               map.getView().fit(value);
