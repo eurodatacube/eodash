@@ -310,26 +310,32 @@ export const globalIndicators = [
             {
               id: 'PVExisting',
               description: 'Existing PV Panels',
+              markdown: 'SOL1_PVExisting',
             },
             {
               id: 'GRExisting',
               description: 'Existing green roofs',
+              markdown: 'SOL1_GRExisting',
             },
             {
               id: 'PVEPPMwhHP',
               description: 'Total electric power production potential - High performance',
+              markdown: 'SOL1_TEP_HP',
             },
             {
               id: 'PVEPPMwhRP',
               description: 'Total electric power production potential - Regular performance',
+              markdown: 'SOL1_TEP_RP',
             },
             {
               id: 'PVEPPMwhLP',
               description: 'Total electric power production potential - Low performance',
+              markdown: 'SOL1_TEP_LP',
             },
             {
               id: 'GRImpScore',
               description: 'Green roof impact score',
+              markdown: 'SOL1_GRImpact',
             },
           ],
         },

@@ -21,6 +21,12 @@
         ></v-select>
       </v-col>
     </v-row>
+     <v-row align="center">
+        <div
+          v-html="story"
+          class="md-body"
+        ></div>
+     </v-row>
   </v-container>
 </template>
 
@@ -41,7 +47,17 @@ export default {
   mounted() {
     [this.select] = this.vectorStyles.items;
   },
-  computed: {},
+  computed: {
+    story() {
+      let markdown;
+      try {
+        markdown = require(`../../../public/data/gtif/markdown/${this.select.markdown}.md`);
+      } catch {
+        markdown = { default: '' };
+      }
+      return this.$marked(markdown.default);
+    },
+  },
   watch: {
   },
   methods: {
