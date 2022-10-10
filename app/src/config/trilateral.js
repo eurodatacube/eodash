@@ -55,7 +55,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Changes in Ships traffic within the Port',
     class: 'economic',
     story: '/data/trilateral/E13c',
-    themes: ['covid-19', 'economy', 'atmosphere', 'oceans'],
+    themes: ['economy'],
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/E200/E200_{aoiID}_{featuresTime}.geojson',
@@ -70,7 +70,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Status of metallic ores',
     class: 'economic',
     story: '/data/trilateral/E1',
-    themes: ['covid-19', 'economy'],
+    themes: ['economy'],
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
