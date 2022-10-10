@@ -369,6 +369,12 @@ export default {
           || (!this.indicator?.subAoi?.features && !this.mergedConfigsData[0]?.presetView)) {
         return null;
       }
+      const presetView = this.mergedConfigsData[0]?.presetView;
+      if (presetView) {
+        // pre-defined geojson view
+        const presetViewGeom = geoJsonFormat.readGeometry(presetView.features[0].geometry);
+        return presetViewGeom.getExtent();
+      }
       const { subAoi } = this.indicator;
       if (subAoi && subAoi.features.length) {
         if (subAoi.features[0].geometry.coordinates.length) {
@@ -377,12 +383,6 @@ export default {
         }
         // geoJsonFormat
         return []; // this.subAoi[0].getGeometry().getExtent();
-      }
-      const presetView = this.mergedConfigsData[0]?.presetView;
-      if (presetView) {
-        // pre-defined geojson view
-        const presetViewGeom = geoJsonFormat.readGeometry(presetView.features[0].geometry);
-        return presetViewGeom.getExtent();
       }
       if (this.indicator.aoi) {
         return transformExtent([this.indicator.lng, this.indicator.lat,
