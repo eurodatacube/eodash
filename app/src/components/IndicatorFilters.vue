@@ -298,14 +298,9 @@ export default {
       if (this.userInput !== displayName) {
         this.userInput = displayName;
       }
-      const foundGlobalLayerIndex = this.globalIndicators
+      this.selectedMapLayer = this.globalIndicators
         .findIndex((l) => this.getLocationCode(l.properties.indicatorObject)
           === this.getLocationCode(indicatorObject));
-      if (foundGlobalLayerIndex >= 0) {
-        this.selectedMapLayer = this.globalIndicators
-          .findIndex((l) => this.getLocationCode(l.properties.indicatorObject)
-            === this.getLocationCode(indicatorObject));
-      }
     },
     selectedListItem(input) {
       if (!input) {
@@ -343,9 +338,11 @@ export default {
       }
     },
     selectedMapLayer(index) {
-      this.setSelectedIndicator(
-        this.globalIndicators[index]?.properties.indicatorObject,
-      );
+      if (index && index >= 0) {
+        this.setSelectedIndicator(
+          this.globalIndicators[index]?.properties.indicatorObject,
+        );
+      }
     },
     userInput(newInput) {
       this.sortSearchItems();
