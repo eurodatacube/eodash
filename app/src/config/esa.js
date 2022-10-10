@@ -1902,7 +1902,7 @@ export const globalIndicators = [
               baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_blk_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
               name: 'Black sea CHL L4 Product',
               bounds: latLngBounds(latLng([40, 26.5]), latLng([48, 42])),
-            }
+            },
           ],
         }],
       },

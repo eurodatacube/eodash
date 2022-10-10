@@ -135,6 +135,8 @@
           </div>
         </v-toolbar-title>
         <v-tooltip
+          v-if="$store.state.indicators.selectedIndicator
+            && !showMap"
           left
         >
           <template v-slot:activator="{ on }">
@@ -394,7 +396,7 @@
               class="d-flex justify-start"
               style="position: absolute; top: 0; width: 100%; pointer-events: none"
             >
-              <indicator-filters />
+              <indicator-filters ref="indicatorFilters" />
             </div>
           </v-col>
         </v-row>
@@ -459,6 +461,13 @@ export default {
     ...mapState('config', [
       'appConfig',
     ]),
+    showMap() {
+      const indicatorObject = this.$store.state.indicators.selectedIndicator;
+      // if returns true, we are showing map, if false we show chart
+      return ['all'].includes(indicatorObject.country)
+        || this.appConfig.configuredMapPois.includes(`${indicatorObject.aoiID}-${indicatorObject.indicator}`)
+        || Array.isArray(indicatorObject.country);
+    },
     dataPanelWidth() {
       return this.$vuetify.breakpoint.lgAndUp ? 600 : 400;
     },
@@ -544,6 +553,7 @@ export default {
       this.dialog = false;
       this.showText = null;
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+      this.$refs.indicatorFilters.comboboxClear();
     },
     displayShowText(text) {
       this.showInfoDialog = true;
@@ -609,6 +619,9 @@ export default {
 }
 ::v-deep .v-navigation-drawer--temporary:not(.v-navigation-drawer--close) {
   box-shadow: none;
+}
+::v-deep .v-navigation-drawer--temporary {
+  z-index: 8;
 }
 ::v-deep .v-navigation-drawer {
   .v-badge {

@@ -169,9 +169,9 @@ export default {
         countries: [],
         indicators: [],
       });
-      this.selectedListItem = null;
-      this.selectedMapLayer = null;
-      this.setSelectedIndicator(null);
+      // this.selectedListItem = null;
+      // this.selectedMapLayer = null;
+      // this.setSelectedIndicator(null);
     },
     setFilterDebounced() {
       clearTimeout(this._timerId);
@@ -222,7 +222,7 @@ export default {
       }
       const queryParts = this.userInput.toLocaleLowerCase().split(' ');
       // skip commonly used words in order to allow more semantic search
-      const skip = ['in', 'at', 'and'];
+      const skip = ['in', 'at', 'and', 'index'];
       this.searchItems.forEach((searchItem, index, array) => {
         let matchPoints = 0;
         queryParts
@@ -292,6 +292,7 @@ export default {
     },
     selectedIndicator(indicatorObject) {
       if (!indicatorObject) {
+        this.userInput = null;
         return;
       }
       const displayName = `${indicatorObject.city}: ${this.getIndicator(indicatorObject)}`;
@@ -338,9 +339,11 @@ export default {
       }
     },
     selectedMapLayer(index) {
-      this.setSelectedIndicator(
-        this.globalIndicators[index]?.properties.indicatorObject,
-      );
+      if (index && index >= 0) {
+        this.setSelectedIndicator(
+          this.globalIndicators[index]?.properties.indicatorObject,
+        );
+      }
     },
     userInput(newInput) {
       this.sortSearchItems();
@@ -355,7 +358,8 @@ export default {
       // the time without timeout
       // TODO find out why and clean up
       setTimeout(() => {
-        if (newInput && !this.$refs.combobox.isMenuActive) {
+        if (newInput && !this.$refs.combobox.isMenuActive
+          && this.$store.state.themes.themes.map((t) => t.name).indexOf(newInput) >= 0) {
           this.$refs.combobox.focus();
           this.$refs.combobox.activateMenu();
         }
