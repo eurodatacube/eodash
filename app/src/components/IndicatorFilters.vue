@@ -129,7 +129,12 @@ export default {
     ...mapState('features', ['allFeatures']),
     ...mapState('indicators', ['selectedIndicator']),
     ...mapState('themes', ['currentTheme']),
-    ...mapGetters('features', ['getFeatures', 'getGroupedFeatures', 'getIndicators']),
+    ...mapGetters('features', [
+      'getCountries',
+      'getFeatures',
+      'getGroupedFeatures',
+      'getIndicators',
+    ]),
     globalIndicators() {
       return this.getGroupedFeatures && this.getGroupedFeatures
         .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName))
@@ -190,9 +195,18 @@ export default {
     },
     getSearchItems() {
       const itemArray = [
-        ...countries.features.map((f) => ({
+        ...countries.features
+        .filter((f) => !this.getCountries.includes(f.properties.alpha2))
+        .map((f) => ({
           code: f.properties.alpha2,
           name: f.properties.name,
+          noPOIs: true,
+        })),
+        ...this.getCountries
+        .filter((f) => countries.features.find((c) => c.properties.alpha2 === f))
+        .map((f) => ({
+          code: f,
+          name: countries.features.find((c) => c.properties.alpha2 === f).properties.name,
         })),
         ...this.getIndicators
           .filter((i) => !i.dummyFeature)
@@ -211,7 +225,7 @@ export default {
       itemArray.sort((a, b) => (a.name.localeCompare(b.name)));
       itemArray.sort((a, b) => (b.filterPriority || 0) - (a.filterPriority || 0));
       this.searchItems = itemArray;
-      this.formattedSearchItems = this.searchItems.map((i) => i.name);
+      this.formattedSearchItems = this.searchItems.filter((i) => !i.noPOIs).map((i) => i.name);
     },
     sortSearchItems() {
       if (!this.userInput) {
@@ -259,13 +273,20 @@ export default {
               ) {
                 matchPoints++;
               }
+              if (
+                searchItem.noPOIs
+              ) {
+                matchPoints--;
+              }
             }
           });
         array[index].filterPriority = matchPoints; // eslint-disable-line
       });
       this.searchItems.sort((a, b) => (a.name.localeCompare(b.name)));
       this.searchItems.sort((a, b) => (b.filterPriority || 0) - (a.filterPriority || 0));
-      this.formattedSearchItems = this.searchItems.map((i) => i.name);
+      this.formattedSearchItems = this.searchItems
+        .filter((i) => this.userInput.length < 3 ? !i.noPOIs : true)
+        .map((i) => i.name);
     },
     customComboboxFilter(item) {
       return this.searchItems.find((i) => i.name === item)?.filterPriority > 0;
