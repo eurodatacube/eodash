@@ -18,11 +18,6 @@ const state = {
     custom: [],
   },
   selectedArea: null,
-  resultsCount: {
-    economic: 0,
-    agriculture: 0,
-    environment: 0,
-  },
 };
 
 const getters = {
@@ -78,9 +73,6 @@ const getters = {
           themes: rootState.config.baseConfig.indicatorsDefinition[
             f.properties.indicatorObject.indicator
           ].themes,
-          // class: rootState.config.baseConfig.indicatorsDefinition[
-          //   f.properties.indicatorObject.indicator
-          // ].class,
           indicatorOverwrite: rootState.config.baseConfig.indicatorsDefinition[
             f.properties.indicatorObject.indicator
           ].indicatorOverwrite,
@@ -265,9 +257,6 @@ const mutations = {
       state.featureFilters.custom = options.custom;
     }
   },
-  ADD_RESULTS_COUNT(state, { type, count }) {
-    state.resultsCount[type] += count;
-  },
   SET_SELECTED_AREA(state, area) {
     state.selectedArea = area;
 
@@ -339,11 +328,6 @@ const actions = {
           yAxis: 'yAxis',
           updateFrequency: 'updateFrequency',
         };
-
-        commit('ADD_RESULTS_COUNT', {
-          type: rootState.config.baseConfig.indicatorsDefinition[data[0][pM.indicator]].class,
-          count: data.length, // individual measurements
-        });
         // only continue if aoi column is present
         if (Object.prototype.hasOwnProperty.call(data[0], pM.aoi)) {
           const featureObjs = {};
@@ -439,11 +423,6 @@ const actions = {
           inputData: 'input data',
           */
         };
-
-        commit('ADD_RESULTS_COUNT', {
-          type: rootState.config.baseConfig.indicatorsDefinition[data[0][pM.indicator]].class,
-          count: data.length, // individual measurements
-        });
         // only continue if aoi column is present
         if (Object.prototype.hasOwnProperty.call(data[0], pM.aoi)) {
           const featureObjs = {};
