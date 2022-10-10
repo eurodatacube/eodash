@@ -82,4 +82,10 @@
     background: #363636 !important;
     color: #fff !important;
   }
+  .v-slide-item--active {
+    .v-card__title, .v-card__subtitle {
+      background: #fff !important;
+      color: #363636 !important;
+    }
+  }
 }

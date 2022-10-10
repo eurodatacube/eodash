@@ -473,7 +473,10 @@ class Cluster {
     const clusterSource = this.clusters.getSource().getSource();
     clusterSource.clear();
     clusterSource.addFeatures(features);
-    if (features.length) {
+    const router = this.vm.$router;
+    const { query } = router.currentRoute;
+    // if search box is empty, don't reset view to all features
+    if (features.length && query.search) {
       setTimeout(() => {
         const { selectedIndicator } = store.state.indicators;
         if (!selectedIndicator) {
