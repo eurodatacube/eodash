@@ -292,7 +292,7 @@ export default {
       return this.searchItems.find((i) => i.name === item)?.filterPriority > 0;
     },
     getIndicator(indObj) {
-      let ind = indObj.indicatorName;
+      let ind = indObj.indicatorName || indObj.description;
       if (this.baseConfig.indicatorsDefinition[indObj.indicator]
         && this.baseConfig.indicatorsDefinition[indObj.indicator].indicatorOverwrite) {
         ind = this.baseConfig.indicatorsDefinition[indObj.indicator].indicatorOverwrite;
