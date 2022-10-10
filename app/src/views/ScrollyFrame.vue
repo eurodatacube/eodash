@@ -18,7 +18,7 @@
         v-resize="onResize"
         width="100%"
         style="height: calc((var(--vh), 1vh) * 100) !important; position: fixed; left: 0; bottom: 0; top: 112px;"
-        
+
         src="./scrolly.html"
         frameborder="0"
       ></iframe>
@@ -51,7 +51,7 @@ export default {
   data() {
     return {
       areBreadcrumbsEnabled: false,
-    }
+    };
   },
   computed: {
     ...mapState('config', ['appConfig']),
@@ -144,6 +144,9 @@ export default {
         case 'gtif-eo-adaptation':
           return '844374958b90378b';
 
+        case 'gtif-aq-scenario':
+          return '784f3e1ba71aef26';
+
         // Fallback value
         default:
           return '50826821d453dfd5';
@@ -157,7 +160,7 @@ export default {
         case 'gtif-carbon-finance':
         case 'gtif-eo-adaptation':
           this.areBreadcrumbsEnabled = true;
-          break
+          break;
 
         default:
           this.areBreadcrumbsEnabled = false;
