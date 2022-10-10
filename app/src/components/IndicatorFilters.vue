@@ -222,7 +222,7 @@ export default {
       }
       const queryParts = this.userInput.toLocaleLowerCase().split(' ');
       // skip commonly used words in order to allow more semantic search
-      const skip = ['in', 'at', 'and'];
+      const skip = ['in', 'at', 'and', 'index'];
       this.searchItems.forEach((searchItem, index, array) => {
         let matchPoints = 0;
         queryParts
