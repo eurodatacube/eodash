@@ -242,7 +242,7 @@ figure p {
   figure {
     position: -webkit-sticky;
     position: sticky;
-    height: 50vh;
+    min-height: 50vh;
     top: 25vh;
     width: 100%;
     -webkit-transform: translate3d(0, 0, 0);
@@ -256,7 +256,8 @@ figure p {
   }
 
   figure img {
-    width: unset;
+    height: auto;
+    width: auto;
     max-width: 700px;
     border-bottom: none;
     border-radius: 16px;
@@ -289,6 +290,6 @@ figure p {
 
 @media screen and (min-width: 962px) {
   figure img {
-    width: 600px;
+    max-height: 50vh;
   }
 }
