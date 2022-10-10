@@ -358,7 +358,8 @@
               class="d-flex justify-start"
               style="position: absolute; top: 0; width: 100%; pointer-events: none"
             >
-              <indicator-filters />
+              <GTIFIndicatorFilters v-if="appConfig.id === 'gtif'" />
+              <indicator-filters v-else />
             </div>
           </v-col>
         </v-row>
@@ -380,6 +381,7 @@ import DataPanel from '@/components/DataPanel.vue';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import IndicatorFilters from '@/components/IndicatorFilters.vue';
+import GTIFIndicatorFilters from '@/components/GTIF/GTIFIndicatorFilters.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
@@ -404,6 +406,7 @@ export default {
     GlobalHeader,
     GlobalFooter,
     IndicatorFilters,
+    GTIFIndicatorFilters,
   },
   props: {
     source: String,

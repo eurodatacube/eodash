@@ -98,37 +98,39 @@
   ],
   "gtif": [
     {
-      "name": "Energy production",
-      "slug": "energy",
+      "name": "Energy Transition",
+      "slug": "energy-transition",
+      "icon": "./img/gtif/icons/energy-transition-trimmy.png",
       "color": "#4059AD",
-      "description": "Wind/Solar/Hydro potential & current utilisation",
-      "longDescription": "Tracking current state and potential of Wind/Solar/Hydro technologies with help of EO data",
-      "datasetsImage": "./data/story-images/Datasets-theme.jpg",
-      "customComponent": "EnergyThemeComponent"
+      "description": "Wind/Solar/Hydro potential & current utilisation"
     },
     {
-      "name": "Transport & emissions",
-      "slug": "transport-emission",
+      "name": "Mobility Transition",
+      "slug": "mobility-transition",
+      "icon": "./img/gtif/icons/mobility-transition-trimmy.png",
       "color": "#F2AF26",
-      "description": "Growing Economic Systems",
-      "longDescription": "Air pollution and climate change are some of the biggest environmental challenges of our time",
-      "datasetsImage": "./data/story-images/agri-explore-datasets-image.png",
-      "customComponent": "TransportEmissionsThemeComponent"
+      "description": "Growing Economic Systems"
     },
     {
-      "name": "Green Finance",
-      "slug": "green-finance",
+      "name": "Sustainable Cities",
+      "slug": "sustainable-cities",
+      "icon": "./img/gtif/icons/sustainable-transition-trimmy.png",
       "color": "#009E73",
-      "description": "Carbon credits",
-      "longDescription": "A deeper look at carbon credits and other relevant methods",
-      "customComponent": "GreenfinanceThemeComponent"
+      "description": "Carbon credits"
     },
     {
-      "name": "Food production, ecosystems & biodiversity",
-      "slug": "food-ecosystems-biodiversity",
+      "name": "Carbon Accounting",
+      "slug": "carbon-accounting",
+      "icon": "./img/gtif/icons/carbon-finance-trimmy.png",
       "color": "#6DA2C5",
-      "description": "Food production, ecosystems & biodiversity",
-      "longDescription": "Satellites are providing insights into agricultural production, crop conditions, and food supply"
+      "description": "Food production, ecosystems & biodiversity"
+    },
+    {
+      "name": "EO Adaptation Services",
+      "slug": "eo-adaptation-services",
+      "icon": "./img/gtif/icons/eo-adaptation-trimmy.png",
+      "color": "#6D00C5",
+      "description": "Food production, ecosystems & biodiversity"
     }
   ]
 }
