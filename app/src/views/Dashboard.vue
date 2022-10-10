@@ -135,6 +135,8 @@
           </div>
         </v-toolbar-title>
         <v-tooltip
+          v-if="$store.state.indicators.selectedIndicator
+            && !showMap"
           left
         >
           <template v-slot:activator="{ on }">
@@ -459,6 +461,13 @@ export default {
     ...mapState('config', [
       'appConfig',
     ]),
+    showMap() {
+      const indicatorObject = this.$store.state.indicators.selectedIndicator;
+      // if returns true, we are showing map, if false we show chart
+      return ['all'].includes(indicatorObject.country)
+        || this.appConfig.configuredMapPois.includes(`${indicatorObject.aoiID}-${indicatorObject.indicator}`)
+        || Array.isArray(indicatorObject.country);
+    },
     dataPanelWidth() {
       return this.$vuetify.breakpoint.lgAndUp ? 600 : 400;
     },
