@@ -1,4 +1,15 @@
+<template>
+  <MapOverlay
+   :mapId="mapId"
+   :overlayId="'adminBordersOverlay'"
+   :overlayHeaders="overlayHeaders"
+   :overlayRows="overlayRows"
+   :overlayCoordinate="overlayCoordinate"
+  />
+</template>
+
 <script>
+import MapOverlay from '@/components/map/MapOverlay.vue';
 import getMapInstance from '@/components/map/map';
 import GeoJSON from 'ol/format/GeoJSON';
 import VectorLayer from 'ol/layer/Vector';
@@ -20,6 +31,9 @@ const geoJsonFormat = new GeoJSON({
 /**
  */
 export default {
+  components: {
+    MapOverlay,
+  },
   props: {
     mapId: String,
     administrativeConfigs: Array,
@@ -27,6 +41,13 @@ export default {
   watch: {
   },
   computed: {
+  },
+  data() {
+    return {
+      overlayRows: [],
+      overlayCoordinate: null,
+      overlayHeaders: [],
+    };
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
@@ -56,14 +77,15 @@ export default {
     });
 
     const highlightStyle = new Style({
-      fill: new Fill({
-        color: '#00676200',
+      stroke: new Stroke({
+        width: 2,
+        color: ' #00ae9d',
       }),
     });
 
     const highlightLayer = new VectorLayer({
       name: 'highlightAdminLayer',
-      zIndex: 2,
+      zIndex: 21,
       source: new VectorSource({}),
       style: highlightStyle,
     });
@@ -80,7 +102,7 @@ export default {
 
     const inverseAdministrativeLayer = new VectorLayer({
       name: 'inverseAdministrativeLayer',
-      zIndex: 2,
+      zIndex: 20,
       source: new VectorSource({}),
       style: inverseStyle,
     });
@@ -212,6 +234,9 @@ export default {
       MapCursor.reserveCursor('adminBorders', null);
       this.highlightLayer.getSource().clear();
       this.highlightedFeature = null;
+      this.overlayCoordinate = null;
+      this.overlayContent = null;
+      this.overlayHeaders = [];
     },
     adminBorderHover(e) {
       if (e.dragging) {
@@ -225,15 +250,32 @@ export default {
       if (feature) {
         // add feature to highlight layer if feature is part of admin layer and set pointer cursor
         let anyAdminLayerHasFeature = null;
+        let foundLayer = null;
         this.adminLayerGroups.forEach((l, i) => {
           const layer = this.getLayerFromGroup(
             l, this.administrativeConfigs[i],
           );
           if (layer.getSource().hasFeature(feature)) {
             anyAdminLayerHasFeature = true;
+            foundLayer = layer;
           }
         });
         if (anyAdminLayerHasFeature) {
+          // center coordinate of extent, passable approximation for small or regular features
+          const coordinate = getCenter(feature.getGeometry().getExtent());
+          // show overlay on center of polygon
+          this.overlayHeaders = [foundLayer.get('name')];
+          this.overlayCoordinate = coordinate;
+          const props = feature.getProperties();
+          const key = Object.keys(props).find(
+            (k) => ['name', 'nuts_name'].includes(k.toLowerCase())
+          );
+          if (props[key]) {
+            this.overlayRows = [props[key]];
+          } else {
+            this.overlayRows = [];
+          }
+
           const MapCursor = getMapCursor(this.mapId, { mapId: this.mapId });
           MapCursor.reserveCursor('adminBorders', 'pointer');
 

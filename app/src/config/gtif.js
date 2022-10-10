@@ -83,26 +83,50 @@ const nutsStyle = {
 
 export const administrativeLayers = [{
   ...nutsStyle,
-  name: 'NUTS L0 - Austria',
+  name: 'NUTS L0',
   url: 'data/gtif/data/AT_NUTS_L0.geojson',
   maxZoom: 7.5,
 }, {
   ...nutsStyle,
-  name: 'NUTS L1 - Austria',
+  name: 'NUTS L1',
   url: 'data/gtif/data/AT_NUTS_L1.geojson',
   minZoom: 7.5,
   maxZoom: 8.5,
 }, {
   ...nutsStyle,
-  name: 'NUTS L2 - Austria',
+  name: 'NUTS L2',
   url: 'data/gtif/data/AT_NUTS_L2.geojson',
   minZoom: 8.5,
   maxZoom: 9.5,
 }, {
   ...nutsStyle,
-  name: 'NUTS L3 - Austria',
+  name: 'NUTS L3',
   url: 'data/gtif/data/AT_NUTS_L3.geojson',
   minZoom: 9.5,
+  maxZoom: 10.5,
+}, {
+  ...nutsStyle,
+  protocol: 'flatgeobuf',
+  name: 'District (Bezirk)',
+  url: '//eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/admin_borders/STATISTIK_AUSTRIA_POLBEZ_20220101.fgb',
+  minZoom: 10.5,
+  maxZoom: 12,
+  attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
+}, {
+  ...nutsStyle,
+  protocol: 'flatgeobuf',
+  name: 'Municipality (Gemeinde)',
+  url: '//eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/admin_borders/STATISTIK_AUSTRIA_GEM_20220101.fgb',
+  minZoom: 12,
+  maxZoom: 13.5,
+  attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
+}, {
+  ...nutsStyle,
+  protocol: 'flatgeobuf',
+  name: 'Census Track (Zählsprängel)',
+  url: '//eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/admin_borders/STATISTIK_AUSTRIA_ZSP_20220101.fgb',
+  minZoom: 13.5,
+  attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
 }];
 
 export const defaultLayersDisplay = {
@@ -133,6 +157,16 @@ export const indicatorsDefinition = Object.freeze({
   },
   SOL1: {
     indicator: 'Air quality',
+    class: 'air',
+    themes: ['atmosphere'],
+  },
+  LST: {
+    indicator: 'Low surface temperature',
+    class: 'air',
+    themes: ['atmosphere'],
+  },
+  AQ: {
+    indicator: 'Low surface temperature',
     class: 'air',
     themes: ['atmosphere'],
   },
@@ -195,6 +229,65 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: true,
         country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Air quality',
+        indicator: 'AQ',
+        lastIndicatorValue: null,
+        indicatorName: 'Air quality',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'AT',
+        time: ['2022-09-16', '2022-09-17'],
+        inputData: [''],
+        yAxis: '',
+        vectorStyles: {
+          sourceLayer: 'air_quality_AT',
+          items: [
+            {
+              id: 'PM10',
+              description: 'Particulate Matter < 10µm',
+            },
+            {
+              id: 'PM25',
+              description: 'Particulate Matter < 25µm',
+            },
+            {
+              id: 'NO2',
+              description: 'Nitrogen Dioxide',
+            },
+          ],
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          protocol: 'vectorgeojson',
+          selectedStyleLayer: 'PM10',
+          styleFile: 'data/gtif/data/air_quality_at.json',
+          id: 'air_quality_AT',
+          name: 'Air quality',
+          minZoom: 1,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          labelFormatFunction: (date) => date,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
         city: 'Innsbruck',
         siteName: 'global',
         description: 'Solar power potential',
@@ -250,6 +343,7 @@ export const globalIndicators = [
             }],
           },
           protocol: 'vectortile',
+          styleFile: 'data/gtif/data/rooftops_style.json',
           selectedStyleLayer: 'PVExisting',
           id: 'solar_potential_innsbruck',
           name: 'Solar power potential',
@@ -379,6 +473,49 @@ export const globalIndicators = [
           // customAreaIndicator: true,
           name: 'Power density',
           minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Low surface temperature',
+        indicator: 'LST',
+        lastIndicatorValue: null,
+        indicatorName: 'Low surface temperature',
+        eoSensor: '',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'LST',
+        time: [''],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          protocol: 'xyz',
+          minZoom: 1,
+          maxNativeZoom: 6,
+          tileSize: 256,
+          opacity: 1,
+          url: 'https://tileserver.geoville.com/heatMap/LST_aggregated_reproc_filt_clipped_AT_buffered/%7Bz%7D/%7Bx%7D/%7By%7D.png/LST_aggregated_reproc_filt_clipped_AT_buffered/{z}/{x}/{y}.png',
+          name: 'Low surface temperature',
+          // legendUrl: 'data/trilateral/no2Legend-monthly-nasa.png',
         },
       },
     },
