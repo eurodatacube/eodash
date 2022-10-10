@@ -169,9 +169,9 @@ export default {
         countries: [],
         indicators: [],
       });
-      this.selectedListItem = null;
-      this.selectedMapLayer = null;
-      this.setSelectedIndicator(null);
+      // this.selectedListItem = null;
+      // this.selectedMapLayer = null;
+      // this.setSelectedIndicator(null);
     },
     setFilterDebounced() {
       clearTimeout(this._timerId);
@@ -292,6 +292,7 @@ export default {
     },
     selectedIndicator(indicatorObject) {
       if (!indicatorObject) {
+        this.userInput = null;
         return;
       }
       const displayName = `${indicatorObject.city}: ${this.getIndicator(indicatorObject)}`;
