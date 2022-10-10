@@ -146,7 +146,7 @@ export const indicatorsDefinition = Object.freeze({
   REP1: {
     indicator: 'Air quality',
     class: 'air',
-    themes: ['atmosphere'],
+    themes: ['energy-transition'],
     // story: '',
   },
   REP2: {
@@ -158,17 +158,17 @@ export const indicatorsDefinition = Object.freeze({
   SOL1: {
     indicator: 'Air quality',
     class: 'air',
-    themes: ['atmosphere'],
+    themes: ['sustainable-cities'],
   },
   LST: {
     indicator: 'Low surface temperature',
     class: 'air',
-    themes: ['atmosphere'],
+    themes: ['carbon-accounting'],
   },
   AQ: {
-    indicator: 'Low surface temperature',
+    indicator: 'Air Quality',
     class: 'air',
-    themes: ['atmosphere'],
+    themes: ['mobility-transition'],
   },
   WSF: {
     indicator: 'World Settlement Footprint',

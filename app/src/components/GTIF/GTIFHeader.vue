@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar flat app>
+  <v-app-bar flat app clipped-left >
     <nav class="esa-header-wrapper">
       <section id="esa-header" class="esa-header monitoring-safeguarding">
         <div class="esa-header__left">
