@@ -298,9 +298,14 @@ export default {
       if (this.userInput !== displayName) {
         this.userInput = displayName;
       }
-      this.selectedMapLayer = this.globalIndicators
+      const foundGlobalLayerIndex = this.globalIndicators
         .findIndex((l) => this.getLocationCode(l.properties.indicatorObject)
           === this.getLocationCode(indicatorObject));
+      if (foundGlobalLayerIndex >= 0) {
+        this.selectedMapLayer = this.globalIndicators
+          .findIndex((l) => this.getLocationCode(l.properties.indicatorObject)
+            === this.getLocationCode(indicatorObject));
+      }
     },
     selectedListItem(input) {
       if (!input) {
