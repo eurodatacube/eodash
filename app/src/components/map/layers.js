@@ -14,6 +14,9 @@ import { createXYZ } from 'ol/tilegrid';
 import { Group } from 'ol/layer';
 import VectorTileLayer from 'ol/layer/VectorTile';
 import { applyStyle } from 'ol-mapbox-style';
+import { deserialize } from 'flatgeobuf/lib/mjs/geojson';
+import { transformExtent } from 'ol/proj';
+import { bbox } from 'ol/loadingstrategy';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -81,6 +84,18 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
   return url;
 }
 
+function fgbBoundingBox(extent, projection) {
+  // minx, miny, maxx, maxy
+  const transformedExtent = transformExtent(extent, projection.getCode(), 'EPSG:4326');
+  return {
+    minX: transformedExtent[0],
+    minY: transformedExtent[1],
+    maxX: transformedExtent[2],
+    maxY: transformedExtent[3],
+  };
+}
+
+// const updateResultsDeb = _.debounce(updateResults, 500);
 /**
  * generate a layer from a given config Object
  * @param {Object} config eodash config object
@@ -162,6 +177,50 @@ export function createLayerFromConfig(config, _options = {}) {
       zIndex: options.zIndex,
       updateOpacityOnZoom: false,
       source: new VectorSource(vectorSourceOpts),
+      style: new Style({
+        fill: new Fill({
+          color: config.style.fillColor || 'rgba(0, 0, 0, 0.5)',
+        }),
+        stroke: new Stroke({
+          width: config.style.weight || 3,
+          color: config.style.color || 'rgba(0, 0, 0, 0.5)',
+        }),
+      }),
+      maxZoom: config.maxZoom,
+      minZoom: config.minZoom,
+    }));
+  }
+  if (config.protocol === 'flatgeobuf') {
+    const vectorSourceOpts = {
+      format: geoJsonFormat,
+      strategy: bbox,
+    };
+    const source = new VectorSource(vectorSourceOpts);
+    // eslint-disable-next-line no-inner-declarations
+    async function updateResults(extent, resolution, projection, success) {
+      const rect = fgbBoundingBox(extent, projection);
+      // Use flatgeobuf JavaScript API to iterate features as geojson.
+      // Because we specify a bounding box, flatgeobuf will only fetch the relevant subset of data,
+      // rather than the entire file.
+      if (rect.minX !== -Infinity) {
+        const ftrs = [];
+        const iter = deserialize(config.url, rect);
+        // eslint-disable-next-line no-restricted-syntax
+        for await (const feature of iter) {
+          const ftr = geoJsonFormat.readFeature(feature);
+          ftrs.push(ftr);
+        }
+        source.clear();
+        source.addFeatures(ftrs);
+        success();
+      }
+    }
+    source.setLoader(updateResults);
+    layers.push(new VectorLayer({
+      name: config.name,
+      zIndex: options.zIndex,
+      updateOpacityOnZoom: false,
+      source,
       style: new Style({
         fill: new Fill({
           color: config.style.fillColor || 'rgba(0, 0, 0, 0.5)',
