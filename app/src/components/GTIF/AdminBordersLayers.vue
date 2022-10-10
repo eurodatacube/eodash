@@ -56,14 +56,15 @@ export default {
     });
 
     const highlightStyle = new Style({
-      fill: new Fill({
-        color: '#00676200',
+      stroke: new Stroke({
+        width: 2,
+        color: ' #00ae9d',
       }),
     });
 
     const highlightLayer = new VectorLayer({
       name: 'highlightAdminLayer',
-      zIndex: 2,
+      zIndex: 21,
       source: new VectorSource({}),
       style: highlightStyle,
     });
@@ -80,7 +81,7 @@ export default {
 
     const inverseAdministrativeLayer = new VectorLayer({
       name: 'inverseAdministrativeLayer',
-      zIndex: 2,
+      zIndex: 20,
       source: new VectorSource({}),
       style: inverseStyle,
     });

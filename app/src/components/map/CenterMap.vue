@@ -60,6 +60,7 @@
     </div>
     <!-- an overlay for showing information when hovering over clusters -->
     <MapOverlay
+      v-if="this.appConfig.id !== 'gtif'"
       :mapId="mapId"
       overlayId="clusterOverlay"
       :overlayHeaders="overlayHeaders"
@@ -476,7 +477,7 @@ export default {
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
-    if (this.mapId === 'centerMap') {
+    if (this.mapId === 'centerMap' && this.appConfig.id !== 'gtif') {
       const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
       cluster.setActive(true, this.overlayCallback);
       cluster.setFeatures(this.getFeatures);
@@ -484,7 +485,7 @@ export default {
     this.loaded = true;
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'indicators/INDICATOR_LOAD_FINISHED') {
-        if (this.mapId === 'centerMap') {
+        if (this.mapId === 'centerMap' && this.appConfig.id !== 'gtif') {
           const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
           cluster.reRender();
           if (this.$refs.timeSelection) {
@@ -708,7 +709,7 @@ export default {
     },
   },
   beforeDestroy() {
-    if (this.mapId === 'centerMap') {
+    if (this.mapId === 'centerMap' && this.appConfig.id !== 'gtif') {
       const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
       cluster.setActive(false, this.overlayCallback);
       this.ro.unobserve(this.$refs.mapContainer);
