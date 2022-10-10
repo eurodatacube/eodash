@@ -35,7 +35,6 @@
         attach="#combobox-menu"
         auto-select-first
         :autofocus="$vuetify.breakpoint.smAndUp"
-        clearable
         :filter="customComboboxFilter"
         flat
         hide-details
@@ -46,8 +45,7 @@
         :search-input.sync="userInput"
         solo
         class="rounded-lg"
-        @click:clear="comboboxClear"
-        @click:prepend-inner="$store.state.showHistoryBackButton ? $router.back() : () => {}"
+        @click:prepend-inner="$store.state.showHistoryBackButton ? goBack() : () => {}"
         @keydown.esc="userInput = null"
       >
       </v-combobox>
@@ -169,9 +167,9 @@ export default {
         countries: [],
         indicators: [],
       });
-      // this.selectedListItem = null;
-      // this.selectedMapLayer = null;
-      // this.setSelectedIndicator(null);
+      this.selectedListItem = null;
+      this.selectedMapLayer = null;
+      this.setSelectedIndicator(null);
     },
     setFilterDebounced() {
       clearTimeout(this._timerId);
@@ -280,6 +278,14 @@ export default {
       }
       return ind;
     },
+    goBack() {
+      if (this.$store.state.initWithQuery) {
+        this.comboboxClear();
+        this.$store.commit('setInitWithQuery', false);
+      } else {
+        this.$router.back();
+      }
+    }
   },
   watch: {
     allFeatures() {
