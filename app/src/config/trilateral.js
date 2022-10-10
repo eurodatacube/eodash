@@ -355,7 +355,7 @@ export const indicatorsDefinition = Object.freeze({
   N12: {
     indicator: 'Sea Ice Concentration (GCOM-W)',
     class: 'water',
-    themes: ['cryosphere','oceans'],
+    themes: ['cryosphere', 'oceans'],
     baseLayers: [{
       ...baseLayers.cloudless,
       visible: true,
@@ -421,7 +421,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Solar Induced Chlorophyll Fluorescence',
     story: '/eodash-data/stories/SIF',
     class: 'agriculture',
-    themes: ['agriculture','biomass-and-landcover'],
+    themes: ['agriculture', 'biomass-and-landcover'],
     maxMapZoom: 8,
   },
   NPP: {
@@ -440,19 +440,19 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'SIE',
     story: '/eodash-data/stories/SIE',
     class: 'water',
-    themes: ['cryosphere','oceans'],
+    themes: ['cryosphere', 'oceans'],
   },
   SIC: {
     indicator: 'SIC',
     story: '/eodash-data/stories/SIC',
     class: 'water',
-    themes: ['cryosphere','oceans'],
+    themes: ['cryosphere', 'oceans'],
   },
   SITI: {
     indicator: 'SITI',
     story: '/eodash-data/stories/SITI',
     class: 'water',
-    themes: ['cryosphere','oceans'],
+    themes: ['cryosphere', 'oceans'],
   },
   NCEO: {
     indicator: 'NCEO',
