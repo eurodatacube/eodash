@@ -339,7 +339,7 @@ export default {
       }
     },
     selectedMapLayer(index) {
-      if (index && index >= 0) {
+      if (index >= 0) {
         this.setSelectedIndicator(
           this.globalIndicators[index]?.properties.indicatorObject,
         );
