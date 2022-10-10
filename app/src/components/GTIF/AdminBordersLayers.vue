@@ -244,7 +244,6 @@ export default {
         this.clearHighlightedFeature();
         return;
       }
-
       const { map } = getMapInstance(this.mapId);
       const pixel = map.getEventPixel(e.originalEvent);
       const feature = map.forEachFeatureAtPixel(pixel, (ftr) => ftr);
