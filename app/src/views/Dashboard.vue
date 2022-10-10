@@ -396,7 +396,7 @@
               class="d-flex justify-start"
               style="position: absolute; top: 0; width: 100%; pointer-events: none"
             >
-              <indicator-filters />
+              <indicator-filters ref="indicatorFilters" />
             </div>
           </v-col>
         </v-row>
@@ -553,6 +553,7 @@ export default {
       this.dialog = false;
       this.showText = null;
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+      this.$refs.indicatorFilters.comboboxClear();
     },
     displayShowText(text) {
       this.showInfoDialog = true;
