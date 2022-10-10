@@ -355,7 +355,8 @@ export default {
       // the time without timeout
       // TODO find out why and clean up
       setTimeout(() => {
-        if (newInput && !this.$refs.combobox.isMenuActive) {
+        if (newInput && !this.$refs.combobox.isMenuActive
+          && this.$store.state.themes.themes.map(t => t.name).indexOf(newInput) >= 0) {
           this.$refs.combobox.focus();
           this.$refs.combobox.activateMenu();
         }
