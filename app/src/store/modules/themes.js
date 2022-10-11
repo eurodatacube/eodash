@@ -6,7 +6,7 @@ import themes from '../../config/themes.json';
 const appConfig = require('../../appConfig');
 
 const b = appConfig.find((c) => c.match.includes(document.domain));
-const brandConfig = (b !== undefined) ? b : appConfig[0];
+const brandConfig = (b !== undefined) ? b : appConfig[2];
 
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 const state = {
@@ -17,9 +17,9 @@ const state = {
 };
 
 const getters = {
-  getThemes: (state, _, rootState) => state.themes[rootState.config.appConfig.id],
-  getTheme: (state, _, rootState) => (slug) => (
-    state.themes[rootState.config.appConfig.id].find((theme) => theme.slug === slug)
+  getThemes: (state) => state.themes,
+  getTheme: (state) => (slug) => (
+    state.themes.find((theme) => theme.slug === slug)
   ),
   getCurrentTheme: (state) => state.currentTheme,
   getStories: (state, _, rootState) => (theme) => {
@@ -44,8 +44,7 @@ const mutations = {
 
 const actions = {
   async loadTheme({ commit, rootState }, theme) {
-    const currThemes = rootState.themes.themes[rootState.config.appConfig.id];
-    commit('SET_CURRENT_THEME', currThemes.find((t) => t.slug === theme));
+    commit('SET_CURRENT_THEME', theme);
     let storyIDs = [];
     if (theme) {
       const indicators = rootState.config.baseConfig.indicatorsDefinition;

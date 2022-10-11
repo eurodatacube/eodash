@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar flat app>
+  <v-app-bar flat app clipped-left >
     <nav class="esa-header-wrapper">
       <section id="esa-header" class="esa-header monitoring-safeguarding">
         <div class="esa-header__left">
@@ -161,6 +161,13 @@
                 title="EO Adaptation"
                 :is-sub-item="true"
                 :to="{name: 'gtif-eo-adaptation'}"
+              />
+
+              <GtifHeaderNavItem
+                color="hsl(320 80% 60%)"
+                title="AQ Scenario"
+                :is-sub-item="true"
+                :to="{name: 'gtif-aq-scenario'}"
               />
 
               <GtifHeaderNavItem
