@@ -123,7 +123,7 @@ export const administrativeLayers = [{
 }, {
   ...nutsStyle,
   protocol: 'flatgeobuf',
-  name: 'Census Track (Zählsprängel)',
+  name: 'Census Track (Zählsprengel)',
   url: '//eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/admin_borders/STATISTIK_AUSTRIA_ZSP_20220101.fgb',
   minZoom: 13.5,
   attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
