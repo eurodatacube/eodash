@@ -137,7 +137,7 @@ figure p {
 .step p {
   text-align: center;
   padding: 1rem;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
 }
 
 .step.expandContainer {
@@ -233,7 +233,7 @@ figure p {
 
   article {
     position: relative;
-    padding: 4rem 4rem 12rem 4rem;
+    padding: 4rem 4rem 36rem 4rem;
     max-width: 42vw;
     z-index: 1;
     margin: 0;
@@ -267,7 +267,7 @@ figure p {
   }
 
   .step {
-    margin: 0 auto 4rem auto;
+    margin: 0 auto 12rem auto;
     background-color: #3b3b3b00;
     color: #728C88;
     transition: color 0.2s linear;
