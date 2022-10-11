@@ -262,7 +262,6 @@ export default {
             foundLayer = layer;
           }
         });
-        console.log("isAdminLayer: " + anyAdminLayerHasFeature)
         if (anyAdminLayerHasFeature) {
           // center coordinate of extent, passable approximation for small or regular features
           const coordinate = getCenter(feature.getGeometry().getExtent());
