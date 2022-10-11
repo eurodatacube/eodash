@@ -144,15 +144,28 @@ export const defaultLayersDisplay = {
 
 export const indicatorsDefinition = Object.freeze({
   REP1: {
-    indicator: 'Air quality',
+    indicator: 'Wind power',
     class: 'air',
     themes: ['energy-transition'],
     // story: '',
   },
   REP2: {
-    indicator: 'Air quality',
+    indicator: 'Solar power',
     class: 'air',
-    themes: ['atmosphere'],
+    themes: ['energy-transition'],
+    // story: '',
+  },
+  REP3: {
+    indicator: 'Hydro Power',
+    class: 'air',
+    themes: ['energy-transition'],
+    // story: '',
+  },
+  REP4: {
+    indicator: 'Micro-hydropower',
+    class: 'air',
+    themes: ['energy-transition'],
+
     // story: '',
   },
   SOL1: {
@@ -254,7 +267,7 @@ export const globalIndicators = [
             },
             {
               id: 'PM25',
-              description: 'Particulate Matter < 25µm',
+              description: 'Particulate Matter < 2.5µm',
             },
             {
               id: 'NO2',
@@ -365,10 +378,11 @@ export const globalIndicators = [
         country: 'all',
         city: 'Austria',
         siteName: 'global',
-        description: 'Power density',
+        description: 'Energy Production Suitability Analysis',
+        navigationDescription: 'Placeholder for description text',
         indicator: 'REP1',
         lastIndicatorValue: null,
-        indicatorName: 'Power density',
+        indicatorName: 'Wind Energy',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -382,14 +396,117 @@ export const globalIndicators = [
         cogFilters: {
           sourceLayer: 'REP1',
           filters: {
-            /*
-            powerdensity: {
-              label: 'Filter for power density',
-              id: 'powerdensity',
+            elevation: {
+              label: 'Filter for elevation [m]',
+              id: 'elevation',
               min: 0,
-              max: 16000,
+              max: 4000,
+              range: [0, 4000],
             },
-            */
+            slope: {
+              label: 'Filter for slope [°]',
+              id: 'slope',
+              min: 0,
+              max: 50,
+              range: [0, 50],
+            },
+            settlementDistance: {
+              label: 'Distance to settlements [m]',
+              id: 'settlementDistance',
+              min: 0,
+              max: 3000,
+              range: [0, 3000],
+            },
+            energyGridDistance: {
+              label: 'Distance to energy grid [m]',
+              id: 'energyGridDistance',
+              min: 0,
+              max: 25000,
+              range: [0, 25000],
+            },
+          },
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'REP1',
+          sources: [
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerDensity_Austria_3857_COG_fix_clipped.tif', nodata: NaN },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_DSM_COG_10m_3857_fix.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/WSF_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
+          ],
+          style: {
+            variables: {
+              elevationMin: 0,
+              elevationMax: 4000,
+              slopeMin: 0,
+              slopeMax: 50,
+              settlementDistanceMin: 0,
+              settlementDistanceMax: 3000,
+              energyGridDistanceMin: 0,
+              energyGridDistanceMax: 25000,
+            },
+            color: [
+              'case',
+              [
+                'all',
+                ['>', ['band', 1], 0],
+                ['between', ['band', 2], ['var', 'elevationMin'], ['var', 'elevationMax']],
+                ['between', ['band', 3], ['var', 'slopeMin'], ['var', 'slopeMax']],
+                ['between', ['band', 4], ['var', 'settlementDistanceMin'], ['var', 'settlementDistanceMax']],
+                ['between', ['band', 5], ['var', 'energyGridDistanceMin'], ['var', 'energyGridDistanceMax']],
+              ],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('viridis', 0, 9000, 10, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+          name: 'Wind Energy',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Energy Production Suitability Analysis',
+        navigationDescription: 'Placeholder for description text',
+        indicator: 'REP2',
+        lastIndicatorValue: null,
+        indicatorName: 'Solar Energy',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Austria',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        cogFilters: {
+          sourceLayer: 'REP2',
+          filters: {
             rugedeness: {
               label: 'Filter for rugedeness index',
               id: 'rugedeness',
@@ -438,7 +555,7 @@ export const globalIndicators = [
             }],
           },
           protocol: 'cog',
-          id: 'REP1',
+          id: 'REP2',
           sources: [
             { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerDensity_Austria_3857_COG_fix.tif' },
             { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/RuggednessIndex_Austria_3857_COG_fix.tif' },
@@ -482,28 +599,253 @@ export const globalIndicators = [
               ],
             ],
           },
-          /*
+          name: 'Solar Energy',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        indicator: 'REP3',
+        description: 'Hydro Power',
+        navigationDescription: 'Placeholder for description text',
+        lastIndicatorValue: null,
+        indicatorName: 'Hydro Power',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Austria',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        cogFilters: {
+          sourceLayer: 'REP3',
+          filters: {
+            rugedeness: {
+              label: 'Filter for rugedeness index',
+              id: 'rugedeness',
+              min: 0,
+              max: 0.78,
+            },
+            settlementDistance: {
+              label: 'Distance to settlements',
+              id: 'settlementDistance',
+              min: 0,
+              max: 5670,
+            },
+            energyGridDistance: {
+              label: 'Distance to energy grid',
+              id: 'energyGridDistance',
+              min: 0,
+              max: 50000,
+            },
+            slope: {
+              label: 'Filter for slope',
+              id: 'slope',
+              min: 0,
+              max: 50,
+            },
+            aspect: {
+              label: 'Filter for aspect',
+              id: 'aspect',
+              min: 0,
+              max: 360,
+            },
+            altitude: {
+              label: 'Filter for altitude',
+              id: 'altitude',
+              min: 0,
+              max: 2000,
+            },
+          },
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'REP3',
+          sources: [
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerDensity_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/RuggednessIndex_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/WSF_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Aspect_3857_fix.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/ESA_WorldCover_10m_COG_3857_fix.tif' },
+          ],
           style: {
             variables: {
-              demMin: 100,
-              demMax: 600,
+              rugedenessMin: 0,
+              rugedenessMax: 0.78,
+              settlementDistanceMin: 0,
+              settlementDistanceMax: 5670,
+              energyGridDistanceMin: 0,
+              energyGridDistanceMax: 50000,
+              slopeMin: 0,
+              slopeMax: 50,
+              aspectMin: 0,
+              aspectMax: 360,
             },
             color: [
               'case',
-              ['between', ['band', 2], ['var', 'demMin'], ['var', 'demMax']],
-              ['palette', ['/', ['band', 1], 10], [
-                '#006400', '#ffbb22', '#ffff4c', '#f096ff',
-                '#fa0000', '#b4b4b4', '#f0f0f0', '#0064c8',
-                '#0096a0', '#00cf75', '#fae6a0',
-              ]],
+              [
+                'all',
+                ['between', ['band', 2], ['var', 'rugedenessMin'], ['var', 'rugedenessMax']],
+                ['between', ['band', 3], ['var', 'settlementDistanceMin'], ['var', 'settlementDistanceMax']],
+                ['between', ['band', 4], ['var', 'energyGridDistanceMin'], ['var', 'energyGridDistanceMax']],
+                ['between', ['band', 5], ['var', 'slopeMin'], ['var', 'slopeMax']],
+                ['between', ['band', 6], ['var', 'aspectMin'], ['var', 'aspectMax']],
+              ],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('viridis', 0, 9000, 10, false),
+              ],
               [
                 'color', 0, 0, 0, 0,
               ],
             ],
           },
-          */
-          // customAreaIndicator: true,
-          name: 'Power density',
+          name: 'Hydro Power',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Micro-Hydropower',
+        navigationDescription: 'Placeholder for description text',
+        indicator: 'REP4',
+        lastIndicatorValue: null,
+        indicatorName: 'Micro-Hydropower',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Austria',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        cogFilters: {
+          sourceLayer: 'REP4',
+          filters: {
+            rugedeness: {
+              label: 'Filter for rugedeness index',
+              id: 'rugedeness',
+              min: 0,
+              max: 0.78,
+            },
+            settlementDistance: {
+              label: 'Distance to settlements',
+              id: 'settlementDistance',
+              min: 0,
+              max: 5670,
+            },
+            energyGridDistance: {
+              label: 'Distance to energy grid',
+              id: 'energyGridDistance',
+              min: 0,
+              max: 50000,
+            },
+            slope: {
+              label: 'Filter for slope',
+              id: 'slope',
+              min: 0,
+              max: 50,
+            },
+            aspect: {
+              label: 'Filter for aspect',
+              id: 'aspect',
+              min: 0,
+              max: 360,
+            },
+            altitude: {
+              label: 'Filter for altitude',
+              id: 'altitude',
+              min: 0,
+              max: 2000,
+            },
+          },
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'REP4',
+          sources: [
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerDensity_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/RuggednessIndex_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/WSF_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Aspect_3857_fix.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/ESA_WorldCover_10m_COG_3857_fix.tif' },
+          ],
+          style: {
+            variables: {
+              rugedenessMin: 0,
+              rugedenessMax: 0.78,
+              settlementDistanceMin: 0,
+              settlementDistanceMax: 5670,
+              energyGridDistanceMin: 0,
+              energyGridDistanceMax: 50000,
+              slopeMin: 0,
+              slopeMax: 50,
+              aspectMin: 0,
+              aspectMax: 360,
+            },
+            color: [
+              'case',
+              [
+                'all',
+                ['between', ['band', 2], ['var', 'rugedenessMin'], ['var', 'rugedenessMax']],
+                ['between', ['band', 3], ['var', 'settlementDistanceMin'], ['var', 'settlementDistanceMax']],
+                ['between', ['band', 4], ['var', 'energyGridDistanceMin'], ['var', 'energyGridDistanceMax']],
+                ['between', ['band', 5], ['var', 'slopeMin'], ['var', 'slopeMax']],
+                ['between', ['band', 6], ['var', 'aspectMin'], ['var', 'aspectMax']],
+              ],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('viridis', 0, 9000, 10, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+          name: 'Micro-Hydropower',
           minZoom: 1,
         },
       },
