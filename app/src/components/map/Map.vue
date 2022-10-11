@@ -5,7 +5,7 @@
     <AdminBordersLayers
       :mapId="mapId"
       :administrativeConfigs="administrativeConfigs"
-      v-if="administrativeConfigs"
+      v-if="administrativeConfigs.length > 0"
       :key="dataLayerName + '_adminLayers'"
     />
     <!-- a layer adding a (potential) subaoi, z-index 5 -->
