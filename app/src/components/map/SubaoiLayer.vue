@@ -36,6 +36,7 @@ export default {
   },
   data: () => ({
     constrainingExtent: undefined,
+    drag: false,
   }),
   watch: {
     subAoi: {
@@ -131,6 +132,8 @@ export default {
       insidePolygon.geometry.coordinates = [insidePolygon.geometry.coordinates[1]];
       const insidePolygonFeature = geoJsonFormat.readFeature(insidePolygon);
       this.constrainingExtent = insidePolygonFeature.getGeometry().getExtent();
+      map.on('pointerdrag', this.pointerdragHandler);
+      map.on('movestart', this.movestartHandler);
       map.on('moveend', this.moveendHandler);
     }
     map.addLayer(subAoiLayer);
@@ -142,13 +145,23 @@ export default {
     indicatorHasMapData(indicatorObject) {
       return indicatorHasMapData(indicatorObject);
     },
+    pointerdragHandler() {
+      this.drag = true;
+    },
+    movestartHandler() {
+      this.drag = false;
+    },
     moveendHandler(e) {
+      if (!this.drag) {
+        return; // only animate if the move caused by a real user-drag
+      }
       const map = e.target;
       const view = map.getView();
       const center = view.getCenter();
       // the map padding is only set here, only for inverse AOIs
       // TO DO: there should be a better place to do this
-      map.getView().padding = calculatePadding();
+      const currentPadding = calculatePadding();
+      map.getView().padding = currentPadding;
       if (!containsCoordinate(this.constrainingExtent, center)) {
         const newCenter = [
           clamp(center[0], this.constrainingExtent[0], this.constrainingExtent[2]),
@@ -163,6 +176,8 @@ export default {
     const layer = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
     map.removeLayer(layer);
     map.getView().padding = [0, 0, 0, 0]; // TO DO: handle padding somewhere else?
+    map.un('pointerdrag', this.pointerdragHandler);
+    map.un('movestart', this.movestartHandler);
     map.un('moveend', this.moveendHandler);
   },
   render: () => null,

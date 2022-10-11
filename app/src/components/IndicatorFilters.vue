@@ -35,7 +35,6 @@
         attach="#combobox-menu"
         auto-select-first
         :autofocus="$vuetify.breakpoint.smAndUp"
-        clearable
         :filter="customComboboxFilter"
         flat
         hide-details
@@ -46,8 +45,7 @@
         :search-input.sync="userInput"
         solo
         class="rounded-lg"
-        @click:clear="comboboxClear"
-        @click:prepend-inner="$store.state.showHistoryBackButton ? $router.back() : () => {}"
+        @click:prepend-inner="$store.state.showHistoryBackButton ? goBack() : () => {}"
         @keydown.esc="userInput = null"
       >
       </v-combobox>
@@ -131,7 +129,12 @@ export default {
     ...mapState('features', ['allFeatures']),
     ...mapState('indicators', ['selectedIndicator']),
     ...mapState('themes', ['currentTheme']),
-    ...mapGetters('features', ['getFeatures', 'getGroupedFeatures', 'getIndicators']),
+    ...mapGetters('features', [
+      'getCountries',
+      'getFeatures',
+      'getGroupedFeatures',
+      'getIndicators',
+    ]),
     globalIndicators() {
       return this.getGroupedFeatures && this.getGroupedFeatures
         .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName))
@@ -169,9 +172,9 @@ export default {
         countries: [],
         indicators: [],
       });
-      // this.selectedListItem = null;
-      // this.selectedMapLayer = null;
-      // this.setSelectedIndicator(null);
+      this.selectedListItem = null;
+      this.selectedMapLayer = null;
+      this.setSelectedIndicator(null);
     },
     setFilterDebounced() {
       clearTimeout(this._timerId);
@@ -192,9 +195,18 @@ export default {
     },
     getSearchItems() {
       const itemArray = [
-        ...countries.features.map((f) => ({
+        ...countries.features
+        .filter((f) => !this.getCountries.includes(f.properties.alpha2))
+        .map((f) => ({
           code: f.properties.alpha2,
           name: f.properties.name,
+          noPOIs: true,
+        })),
+        ...this.getCountries
+        .filter((f) => countries.features.find((c) => c.properties.alpha2 === f))
+        .map((f) => ({
+          code: f,
+          name: countries.features.find((c) => c.properties.alpha2 === f).properties.name,
         })),
         ...this.getIndicators
           .filter((i) => !i.dummyFeature)
@@ -213,7 +225,7 @@ export default {
       itemArray.sort((a, b) => (a.name.localeCompare(b.name)));
       itemArray.sort((a, b) => (b.filterPriority || 0) - (a.filterPriority || 0));
       this.searchItems = itemArray;
-      this.formattedSearchItems = this.searchItems.map((i) => i.name);
+      this.formattedSearchItems = this.searchItems.filter((i) => !i.noPOIs).map((i) => i.name);
     },
     sortSearchItems() {
       if (!this.userInput) {
@@ -261,25 +273,40 @@ export default {
               ) {
                 matchPoints++;
               }
+              if (
+                searchItem.noPOIs
+              ) {
+                matchPoints--;
+              }
             }
           });
         array[index].filterPriority = matchPoints; // eslint-disable-line
       });
       this.searchItems.sort((a, b) => (a.name.localeCompare(b.name)));
       this.searchItems.sort((a, b) => (b.filterPriority || 0) - (a.filterPriority || 0));
-      this.formattedSearchItems = this.searchItems.map((i) => i.name);
+      this.formattedSearchItems = this.searchItems
+        .filter((i) => this.userInput.length < 3 ? !i.noPOIs : true)
+        .map((i) => i.name);
     },
     customComboboxFilter(item) {
       return this.searchItems.find((i) => i.name === item)?.filterPriority > 0;
     },
     getIndicator(indObj) {
-      let ind = indObj.indicatorName;
+      let ind = indObj.indicatorName || indObj.description;
       if (this.baseConfig.indicatorsDefinition[indObj.indicator]
         && this.baseConfig.indicatorsDefinition[indObj.indicator].indicatorOverwrite) {
         ind = this.baseConfig.indicatorsDefinition[indObj.indicator].indicatorOverwrite;
       }
       return ind;
     },
+    goBack() {
+      if (this.$store.state.initWithQuery) {
+        this.comboboxClear();
+        this.$store.commit('setInitWithQuery', false);
+      } else {
+        this.$router.back();
+      }
+    }
   },
   watch: {
     allFeatures() {
@@ -339,7 +366,7 @@ export default {
       }
     },
     selectedMapLayer(index) {
-      if (index && index >= 0) {
+      if (index >= 0) {
         this.setSelectedIndicator(
           this.globalIndicators[index]?.properties.indicatorObject,
         );

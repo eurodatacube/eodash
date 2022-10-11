@@ -13,7 +13,7 @@
       :mapId="mapId"
       :indicator="indicator"
       v-if="dataLayerName"
-      :key="dataLayerName + '_subAoi'"
+      :key="dataLayerKey + '_subAoi'"
     />
     <!-- a layer displaying a selected global poi
      these layers will have z-Index 3 -->
@@ -371,7 +371,7 @@ export default {
       return dataLayerName || '';
     },
     dataLayerKey() {
-      return this.dataLayerName + +this.indicator.aoiID + this.indicator.indicator;
+      return this.dataLayerName + this.indicator.aoiID + this.indicator.indicator;
     },
     countriesJson() {
       return countries;
@@ -383,6 +383,12 @@ export default {
           || (!this.indicator?.subAoi?.features && !this.mergedConfigsData[0]?.presetView)) {
         return null;
       }
+      const presetView = this.mergedConfigsData[0]?.presetView;
+      if (presetView) {
+        // pre-defined geojson view
+        const presetViewGeom = geoJsonFormat.readGeometry(presetView.features[0].geometry);
+        return presetViewGeom.getExtent();
+      }
       const { subAoi } = this.indicator;
       if (subAoi && subAoi.features.length) {
         if (subAoi.features[0].geometry.coordinates.length) {
@@ -391,12 +397,6 @@ export default {
         }
         // geoJsonFormat
         return []; // this.subAoi[0].getGeometry().getExtent();
-      }
-      const presetView = this.mergedConfigsData[0]?.presetView;
-      if (presetView) {
-        // pre-defined geojson view
-        const presetViewGeom = geoJsonFormat.readGeometry(presetView.features[0].geometry);
-        return presetViewGeom.getExtent();
       }
       if (this.indicator.aoi) {
         return transformExtent([this.indicator.lng, this.indicator.lat,
@@ -481,7 +481,7 @@ export default {
     },
     zoomExtent: {
       deep: true,
-      immediate: true,
+      immediate: false,
       handler(value) {
         // when the calculated zoom extent changes, zoom the map to the new extent.
         // this is purely cosmetic and does not limit the ability to pan or zoom
@@ -490,7 +490,9 @@ export default {
           const { map } = getMapInstance(this.mapId);
           if (map.getTargetElement()) {
             const padding = calculatePadding();
-            map.getView().fit(value, { duration: 500, padding });
+            setTimeout(() => {
+              map.getView().fit(value, { duration: 500, padding });
+            }, 30);
           } else {
             map.once('change:target', () => {
               map.getView().fit(value);
@@ -500,22 +502,23 @@ export default {
       },
     },
   },
-  created() {
-    if (this.mapId === 'centerMap') {
-      const { bounds } = this.mapDefaults;
-      const extent = transformExtent([bounds._southWest.lng, bounds._southWest.lat, bounds._northEast.lng, bounds._northEast.lat], 'EPSG:4326',
-        'EPSG:3857');
-      const { map } = getMapInstance(this.mapId);
-      const padding = calculatePadding();
-      map.getView().fit(extent, { padding });
-    }
-  },
   mounted() {
     const { map } = getMapInstance(this.mapId);
     if (this.mapId === 'centerMap' && this.appConfig.id !== 'gtif') {
       const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
       cluster.setActive(true, this.overlayCallback);
       cluster.setFeatures(this.getFeatures);
+      const { x, y, z } = this.$route.query;
+      if (!x && !y && !z) {
+        setTimeout(() => {
+          const { bounds } = this.mapDefaults;
+          const extent = transformExtent([bounds._southWest.lng, bounds._southWest.lat, bounds._northEast.lng, bounds._northEast.lat], 'EPSG:4326',
+            'EPSG:3857');
+          const { map } = getMapInstance(this.mapId);
+          const padding = calculatePadding();
+          map.getView().fit(extent, { padding });
+        }, 500);
+      }
     }
     this.loaded = true;
     this.$store.subscribe((mutation) => {
