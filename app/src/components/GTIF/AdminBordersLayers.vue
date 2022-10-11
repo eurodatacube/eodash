@@ -62,7 +62,7 @@ export default {
 
     const adminLayerGroups = this.administrativeConfigs.map((l) => createLayerFromConfig(l,
       {
-        zIndex: 3,
+        zIndex: 22,
       }));
     this.adminLayerGroups = adminLayerGroups;
     // setup listener on featuresloadend on first layer and set maxZoom to high number to
@@ -209,7 +209,7 @@ export default {
       // reset maxZoom from admin layer on index 0 and setDefaultSelectedArea
       if (this.administrativeConfigs[0].maxZoom !== undefined) {
         const layer = this.getLayerFromGroup(
-          this.adminLayerGroups[0], this.administrativeConfigs[0]
+          this.adminLayerGroups[0], this.administrativeConfigs[0],
         );
         layer.setMaxZoom(this.administrativeConfigs[0].maxZoom);
       }
@@ -262,6 +262,7 @@ export default {
             foundLayer = layer;
           }
         });
+        console.log("isAdminLayer: " + anyAdminLayerHasFeature)
         if (anyAdminLayerHasFeature) {
           // center coordinate of extent, passable approximation for small or regular features
           const coordinate = getCenter(feature.getGeometry().getExtent());
