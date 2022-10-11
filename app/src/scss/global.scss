@@ -44,20 +44,7 @@
 
 .scrollContainer {
   overflow-y: auto;
-}
-
-.leaflet-control-layers-toggle {
-  width: 26px !important;
-  height: 26px !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 3px;
-}
-
-.leaflet-touch .leaflet-control-layers-toggle {
-  width: 30px !important;
-  height: 30px !important;
+  overflow-x: hidden;
 }
 
 .v-input {
@@ -90,17 +77,15 @@
   .v-card__title {
     word-break: break-word;
   }
-  .v-card__title, .v-card__subtitle, .leaflet-control-zoom, .leaflet-control-zoom a {
+  .v-card__title, .v-card__subtitle {
     // color: #363636 !important;
     background: #363636 !important;
     color: #fff !important;
   }
-  .leaflet-control-layers,.leaflet-draw-toolbar a {
-    // background: #363636 !important;
-    filter: invert(1);
-  }
-  .leaflet-control-mouseposition, .leaflet-control-attribution {
-    background: #363636 !important;
-    color: white !important;
+  .v-slide-item--active {
+    .v-card__title, .v-card__subtitle {
+      background: #fff !important;
+      color: #363636 !important;
+    }
   }
 }

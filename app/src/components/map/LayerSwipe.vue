@@ -14,7 +14,6 @@
     />
     <slot name="close"></slot>
     <input id="swipe" type="range" v-model="swipe">
-      :style="`clip-path: inset(0px 0px 0px ${clipRight}px`"
     <div id="swipe_handle_separator" :style="`left: calc(${swipe}% - 1px)`">
       <div id="swipe_handle" style="display: flex; align-items: center">
         <svg style="width:24px;height:24px" viewBox="0 0 24 24">

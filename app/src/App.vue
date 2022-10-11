@@ -113,8 +113,8 @@ export default {
         to.query.poi || to.query.indicator || to.query.clusterOpen
       ));
 
-      if (!to.query.poi && from.query.poi
-      || !to.query.indicator && from.query.indicator
+      if ((!to.query.poi && from.query.poi)
+      || (!to.query.indicator && from.query.indicator)
       || from.query.clusterOpen) {
         if (!to.query.poi && from.query.poi) {
           // clear poi
@@ -139,7 +139,7 @@ export default {
               zoom: z,
               duration: 300,
             });
-          }, 0);
+          }, 0); // TO DO: without this, zooming to AOI causes problems
         }
       }
     },
@@ -152,13 +152,27 @@ export default {
     } else {
       this.comingSoon = false;
     }
+    const { query } = this.$route;
+    if (query.clusterOpen) {
+      this.$router.replace({
+        query: {
+          ...query,
+          clusterOpen: undefined,
+        },
+      });
+    }
   },
   mounted() {
     // Listen for features added, and select if poi in query
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'features/ADD_NEW_FEATURES') {
         // Read route query and set selected poi
-        const { poi } = this.$route.query;
+        const { poi, country, indicator } = this.$route.query;
+        if (poi || indicator) {
+          // poi or indicator was present on app init
+          this.$store.commit('setInitWithQuery', true);
+          this.$store.commit('changeBackButtonDisplay', true);
+        }
         let selectedFeature = null;
         if (poi && poi.includes('-')) {
           const aoiId = poi.split('-')[0];
@@ -171,9 +185,6 @@ export default {
         }
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
-        // Read route query and validate country and indicator if in query
-        const { country } = this.$route.query;
-        const { indicator } = this.$route.query;
         // validate query for country - need to be among available
         const selectedCountry = this.getCountryItems
           .map((item) => item.code).flat().find((f) => f === country);
@@ -238,7 +249,7 @@ export default {
           this.loadIndicatorData(mutation.payload);
           const urlSearchParams = new URLSearchParams(window.location.search);
           const params = Object.fromEntries(urlSearchParams.entries());
-          this.$router.push({ query: params });
+          this.$router.push({ query: params }).catch(err => {}); // eslint-disable-line
           this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: this.getLocationCode(mutation.payload) }) }).catch(err => {}); // eslint-disable-line
           this.trackEvent('indicators', 'select_indicator', this.getLocationCode(mutation.payload));
           this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);

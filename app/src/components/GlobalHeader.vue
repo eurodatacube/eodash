@@ -12,6 +12,9 @@
       :class="{
         'white--text': !isTransparent,
       }"
+      :style="`z-index: 8; ${appConfig.id === 'esa'
+        ? `box-shadow: 0px 4px var(--v-secondary-base) !important`
+        : ''}`"
       v-show="!isFullScreen"
     >
       <v-app-bar-nav-icon

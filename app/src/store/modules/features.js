@@ -18,12 +18,6 @@ const state = {
     custom: [],
   },
   selectedArea: null,
-  adminBorderSelected: null,
-  resultsCount: {
-    economic: 0,
-    agriculture: 0,
-    environment: 0,
-  },
 };
 
 const getters = {
@@ -79,9 +73,6 @@ const getters = {
           themes: rootState.config.baseConfig.indicatorsDefinition[
             f.properties.indicatorObject.indicator
           ].themes,
-          // class: rootState.config.baseConfig.indicatorsDefinition[
-          //   f.properties.indicatorObject.indicator
-          // ].class,
           indicatorOverwrite: rootState.config.baseConfig.indicatorsDefinition[
             f.properties.indicatorObject.indicator
           ].indicatorOverwrite,
@@ -137,21 +128,10 @@ const getters = {
     }
     if (state.featureFilters.custom.length > 0) {
       features = features
-        .filter((f) => (
-          state.featureFilters.custom.map((c) => getLocationCode(c.properties.indicatorObject))
-        ).includes(getLocationCode(f.properties.indicatorObject)));
+        .filter((f) => state.featureFilters.custom
+          .map((c) => getLocationCode(c.properties.indicatorObject))
+          .includes(getLocationCode(f.properties.indicatorObject)));
     }
-    // if (state.featureFilters.text.length > 0) {
-    //   features = features
-    //     .filter((f) =>
-    //       f.properties.indicatorObject.indicator.includes(state.featureFilters.text)
-    //       || f.properties.indicatorObject.city.includes(state.featureFilters.text)
-    //       || f.properties.indicatorObject.description.includes(state.featureFilters.text)
-    //       || rootState.config.baseConfig.indicatorsDefinition[f.properties.indicatorObject?.indicator]?.themes
-    //       .includes(state.featureFilters.text)
-    //       || f.properties.indicatorObject.siteName?.includes(state.featureFilters.text)
-    //     );
-    // }
 
     if (!state.featureFilters.includeArchived) {
       features = features.filter((f) => (f.properties.indicatorObject.updateFrequency ? f.properties.indicatorObject.updateFrequency.toLowerCase() !== 'archived' : true));
@@ -216,12 +196,30 @@ const mutations = {
     features.forEach((f) => {
       const { indicatorObject } = f.properties;
       // We see if indicator code and aoiID is a match
-      const mergedKey = `${indicatorObject.indicator}-${indicatorObject.aoiID}`;
+      const mergedKey = getLocationCode(indicatorObject);
       const { id } = this.state.config.appConfig;
+      let foundMapping;
       if (mergedKey in nameMapping[id]) {
-        indicatorObject.indicatorName = nameMapping[id][mergedKey];
+        foundMapping = nameMapping[id][mergedKey];
       } else if (indicatorObject.indicator in nameMapping[id]) {
-        indicatorObject.indicatorName = nameMapping[id][indicatorObject.indicator];
+        foundMapping = nameMapping[id][indicatorObject.indicator];
+      }
+      if (foundMapping) {
+        if ('locationSplit' in foundMapping) {
+          Object.entries(foundMapping.locationSplit).forEach((item) => {
+            if (indicatorObject.aoiID.endsWith(item[0])) {
+              indicatorObject.indicatorName = item[1].title
+                ? item[1].title : indicatorObject.indicatorName;
+              indicatorObject.description = item[1].title
+                ? item[1].description : indicatorObject.description;
+            }
+          });
+        } else {
+          indicatorObject.indicatorName = foundMapping.title
+            ? foundMapping.title : indicatorObject.indicatorName;
+          indicatorObject.description = foundMapping.description
+            ? foundMapping.description : indicatorObject.description;
+        }
       }
     });
     // indicatorName
@@ -258,9 +256,6 @@ const mutations = {
     if (hasFeature('custom')) {
       state.featureFilters.custom = options.custom;
     }
-  },
-  ADD_RESULTS_COUNT(state, { type, count }) {
-    state.resultsCount[type] += count;
   },
   SET_SELECTED_AREA(state, area) {
     state.selectedArea = area;
@@ -336,11 +331,6 @@ const actions = {
           yAxis: 'yAxis',
           updateFrequency: 'updateFrequency',
         };
-
-        commit('ADD_RESULTS_COUNT', {
-          type: rootState.config.baseConfig.indicatorsDefinition[data[0][pM.indicator]].class,
-          count: data.length, // individual measurements
-        });
         // only continue if aoi column is present
         if (Object.prototype.hasOwnProperty.call(data[0], pM.aoi)) {
           const featureObjs = {};
@@ -436,11 +426,6 @@ const actions = {
           inputData: 'input data',
           */
         };
-
-        commit('ADD_RESULTS_COUNT', {
-          type: rootState.config.baseConfig.indicatorsDefinition[data[0][pM.indicator]].class,
-          count: data.length, // individual measurements
-        });
         // only continue if aoi column is present
         if (Object.prototype.hasOwnProperty.call(data[0], pM.aoi)) {
           const featureObjs = {};

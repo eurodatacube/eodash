@@ -109,15 +109,17 @@
           :class="$store.state.indicators.selectedIndicator.description ===
             $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
         >
-          <!--{{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.city }},-->
-          {{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.description }}
+          <!--{{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.city }}:-->
+          {{
+            queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.indicatorName
+          }}
           <div v-if="
             $store.state.indicators.selectedIndicator.description !==
             $store.state.indicators.selectedIndicator.indicatorName
             && $store.state.indicators.customAreaIndicator === null"
             class="subheading" style="font-size: 0.8em">
             {{ queryIndicatorObject
-              && queryIndicatorObject.properties.indicatorObject.indicatorName }}
+              && queryIndicatorObject.properties.indicatorObject.description }}
           </div>
         </v-toolbar-title>
         <v-toolbar-title
@@ -133,6 +135,8 @@
           </div>
         </v-toolbar-title>
         <v-tooltip
+          v-if="$store.state.indicators.selectedIndicator
+            && !showMap"
           left
         >
           <template v-slot:activator="{ on }">
@@ -286,57 +290,91 @@
           </v-btn>
         </template>
       </v-toolbar>
-      <div
-        class="scrollContainer data-panel"
-        :style="{background: $vuetify.theme.themes[theme].background}"
+      <v-container
+        class="data-panel scrollContainer"
+        :style="{
+          background: $vuetify.theme.themes[theme].background,
+          height: 'calc(var(--vh, 1vh) * 100)'
+        }"
       >
 
         <banner v-if="currentNews" />
 
-        <h4 v-if="
-            ($store.state.indicators.selectedIndicator && (
-              $store.state.indicators.selectedIndicator.description !==
-              $store.state.indicators.selectedIndicator.indicatorName))"
-          class="px-4 py-2"
-        >
-          {{ queryIndicatorObject
-            && queryIndicatorObject.properties.indicatorObject.indicatorName }}
-        </h4>
-        <data-panel
-          v-if="$store.state.indicators.selectedIndicator
-            || $store.state.features.featureFilters.indicators.length > 0"
-          :newsBanner="$refs.newsBanner"
-          :expanded="dataPanelFullWidth" class="fill-height" />
-      </div>
+        <v-row>
+          <v-col>
+            <h4 v-if="
+                ($store.state.indicators.selectedIndicator && (
+                  $store.state.indicators.selectedIndicator.description !==
+                  $store.state.indicators.selectedIndicator.indicatorName))"
+              class="py-2"
+            >
+              {{ queryIndicatorObject
+                && queryIndicatorObject.properties.indicatorObject.indicatorName }}
+            </h4>
+            <data-panel
+              v-if="$store.state.indicators.selectedIndicator
+                || $store.state.features.featureFilters.indicators.length > 0"
+              :newsBanner="$refs.newsBanner"
+              :expanded="dataPanelFullWidth"
+            />
+          </v-col>
+        </v-row>
+      </v-container>
     </div>
 
     <v-dialog
       v-model="showInfoDialog"
-      :fullscreen="$vuetify.breakpoint.smAndDown"
       class="info-dialog"
-      width="80vw"
+      width="90vw"
+      max-width="1000"
     >
       <template>
         <div
-          class="d-flex justify-between px-7 py-4"
+          class="d-flex justify-between px-7 pt-4"
           width="100%"
           style="justify-content: space-between; align-items: center;"
-          :style="{background: this.$vuetify.theme.dark ? 'var(--v-grey-darken4)' : '#CED9E0'}"
+          :style="{background: $vuetify.theme.currentTheme.background}"
         >
-          <span class="font-medium text-h6 text-capitalize">
-            {{ showText }}
+          <span class="font-medium text-h6 text-capitalize mb-2 mb-sm-0">
+            {{ showText === 'welcome'
+              ? `Welcome to ${appConfig.branding.shortName || appConfig.branding.appName}!`
+              : showText }}
           </span>
           <v-btn
+            v-if="$vuetify.breakpoint.smAndUp"
             color="secondary"
             @click="() => showInfoDialog = false"
           >
-            <span v-if="!$vuetify.breakpoint.xsOnly">Start Exploring!</span>
-            <v-icon :right="!$vuetify.breakpoint.xsOnly">mdi-arrow-right</v-icon>
+            <span>Explore the dashboard!</span>
+            <v-icon right>mdi-arrow-right</v-icon>
+          </v-btn>
+          <v-btn
+            v-else
+            color="primary"
+            icon
+            @click="() => showInfoDialog = false"
+          >
+            <v-icon>mdi-close</v-icon>
           </v-btn>
         </div>
 
-        <Welcome v-if="showText === 'welcome'" />
+        <Welcome v-if="showText === 'welcome'" class="pt-4" />
         <About v-else-if="showText === 'about'" />
+
+        <div
+          v-if="$vuetify.breakpoint.xsOnly"
+          class="px-7 pb-4"
+          :style="{background: $vuetify.theme.currentTheme.background}"
+        >
+          <v-btn
+            block
+            color="secondary"
+            @click="() => showInfoDialog = false"
+          >
+            <span>Explore the dashboard!</span>
+            <v-icon right>mdi-arrow-right</v-icon>
+          </v-btn>
+        </div>
       </template>
     </v-dialog>
 
@@ -385,7 +423,6 @@ import GTIFIndicatorFilters from '@/components/GTIF/GTIFIndicatorFilters.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
-import { calculatePadding } from '@/utils';
 
 export default {
   metaInfo() {
@@ -416,17 +453,24 @@ export default {
     drawerLeft: false,
     drawerRight: false,
     dialog: false,
-    showText: null,
+    showText: 'welcome',
     dataPanelFullWidth: false,
     dataPanelTemporary: false,
     panelKey: 0,
-    showInfoDialog: false,
+    showInfoDialog: null,
     isDialogRetracted: true,
   }),
   computed: {
     ...mapState('config', [
       'appConfig',
     ]),
+    showMap() {
+      const indicatorObject = this.$store.state.indicators.selectedIndicator;
+      // if returns true, we are showing map, if false we show chart
+      return ['all'].includes(indicatorObject.country)
+        || this.appConfig.configuredMapPois.includes(`${indicatorObject.aoiID}-${indicatorObject.indicator}`)
+        || Array.isArray(indicatorObject.country);
+    },
     dataPanelWidth() {
       return this.$vuetify.breakpoint.lgAndUp ? 600 : 400;
     },
@@ -485,14 +529,12 @@ export default {
   },
   mounted() {
     document.documentElement.style.setProperty('--data-panel-width', `${this.dataPanelWidth}px`);
-    // TODO: uncomment
-    // setTimeout(() => {
-    //   // only show when no poi is selected
-    //   if (!this.$route.query.poi) {
-    //     this.showText = 'welcome';
-    //     this.showInfoDialog = true;
-    //   }
-    // }, 2000);
+    // only show when nothing is selected
+    const { poi, indicator, search } = this.$route.query;
+    if (!poi && !indicator && !search) {
+      this.showText = 'welcome';
+      this.showInfoDialog = true;
+    }
   },
   beforeDestroy() {
     this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
@@ -514,6 +556,7 @@ export default {
       this.dialog = false;
       this.showText = null;
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+      this.$refs.indicatorFilters.comboboxClear();
     },
     displayShowText(text) {
       this.showInfoDialog = true;
@@ -533,6 +576,10 @@ export default {
         if (!this.$vuetify.breakpoint.mdAndUp) {
           this.dialog = true;
         }
+        if (this.showInfoDialog) {
+          this.showInfoDialog = false;
+          this.showText = null;
+        }
       } else {
         this.drawerRight = false;
         this.dialog = false;
@@ -546,11 +593,6 @@ export default {
           this.clickMobileClose();
         }
       }
-    },
-    drawerRight() {
-      this.$nextTick(() => {
-        calculatePadding();
-      });
     },
   },
 };
@@ -581,6 +623,9 @@ export default {
 ::v-deep .v-navigation-drawer--temporary:not(.v-navigation-drawer--close) {
   box-shadow: none;
 }
+::v-deep .v-navigation-drawer--temporary {
+  z-index: 8;
+}
 ::v-deep .v-navigation-drawer {
   .v-badge {
     min-width: 100% !important;
@@ -604,13 +649,14 @@ export default {
   }
 }
 
-.retractable {
+::v-deep .retractable {
   transform: translateY(0);
   transition: transform 0.3s ease-in-out;
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1001;
+  z-index: 8;
+  width: 100%;
 
   &.retracted {
     transform: translateY(66vh);
@@ -618,6 +664,11 @@ export default {
 
   &.hidden {
     transform: translateY(100vh);
+  }
+
+  .v-toolbar__title {
+    font-size: 1rem;
+    line-height: 1;
   }
 }
 </style>

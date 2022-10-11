@@ -12,18 +12,14 @@ import {
 } from 'ol/style';
 import ClusterSource from 'ol/source/Cluster';
 import VectorSource from 'ol/source/Vector';
-// import { asArray } from 'ol/color';
 import { Feature } from 'ol';
 import { fromLonLat } from 'ol/proj';
-import getMapCursor from '@/components/map/MapCursor';
-// import { getColor } from './olMapColors';
+import { calculatePadding } from '@/utils';
 import getMapInstance from './map';
-import { formatLabel } from './formatters';
 
 const circleDistanceMultiplier = 1;
 const circleFootSeparation = 28;
 const circleStartAngle = Math.PI / 2;
-// const convexHullFill = new Fill({});
 const convexHullStroke = new Stroke({
   width: 0.5,
   lineDash: [4, 4],
@@ -97,11 +93,8 @@ function loadImages() {
         context.fillStyle = 'white';
         context.fillRect(0, 0, canvas.width, canvas.height);
         context.globalCompositeOperation = 'destination-in';
-        context.drawImage(
-          image, halfWidth - image.width / 2,
-          halfWidth - image.height / 2,
-          image.width, image.height,
-        );
+        context.drawImage(image, halfWidth - image.width / 2,
+          halfWidth - image.height / 2, image.width, image.height);
 
         // circles
         context.globalCompositeOperation = 'destination-over';
@@ -268,9 +261,8 @@ class Cluster {
    * @param {*} vm Vue Instance
    * @param {Array} indicators array of indicators
    */
-  constructor(map, mapId, vm, indicators) {
+  constructor(map, vm, indicators) {
     this.map = map;
-    this.mapId = mapId;
     this.vm = vm;
     this.indicators = indicators;
     if (onStylesLoaded) {
@@ -298,8 +290,6 @@ class Cluster {
       });
       this.map.un('pointermove', this.pointermoveInteraction);
       this.map.un('click', this.clickInteraction);
-      const MapCursor = getMapCursor(this.mapId, { mapId: this.mapId });
-      MapCursor.reserveCursor('cluster', null);
     }
   }
 
@@ -324,13 +314,9 @@ class Cluster {
       }
       // Change the cursor style to indicate that the cluster is clickable.
       // eslint-disable-next-line no-param-reassign
-      const MapCursor = getMapCursor(this.mapId, { mapId: this.mapId });
-      if (this.hoverFeature || openClusterFeatures.length) {
-        MapCursor.reserveCursor('cluster', 'pointer');
-      } else {
-        MapCursor.reserveCursor('cluster', null);
-      }
-
+      this.map.getTargetElement().style.cursor = this.hoverFeature || openClusterFeatures.length
+        ? 'pointer'
+        : '';
       if (openClusterFeatures.length || (this.hoverFeature && this.hoverFeature.get('features').length === 1)) {
         let coords;
         let hoverFeature;
@@ -347,17 +333,16 @@ class Cluster {
           coords = hoverFeature.getGeometry().getCoordinates();
         }
         const { indicatorObject } = hoverFeature.getProperties().properties;
-        const { city, indicator } = formatLabel(indicatorObject, this.vm);
+        const { city } = indicatorObject;
+        const indicator = store.state.config.baseConfig
+          .indicatorsDefinition[indicatorObject.indicator]
+          .indicatorOverwrite || indicatorObject.indicatorName || indicatorObject.description;
         if (city) {
-          headers.push(city);
+          headers.push(`${city}:`);
         }
         if (indicator) {
           headers.push(indicator);
         }
-        // TODO maybe we can get rid of formatLabel() completely
-        // if (label && label !== '/') {
-        //   rows.push(label);
-        // }
         callback(headers, rows, coords);
       } else {
         callback([], [], null);
@@ -398,11 +383,12 @@ class Cluster {
             } else {
               const urlSearchParams = new URLSearchParams(window.location.search);
               const params = Object.fromEntries(urlSearchParams.entries());
-              params.clusterOpen = params.clusterOpen ? parseInt(params.clusterOpen) + 1 : 1;
+              params.clusterOpen = params.clusterOpen ? parseInt(params.clusterOpen, 10) + 1 : 1;
               const router = this.vm.$router;
               router.push({ query: params });
               // Zoom to the extent of the cluster members.
-              view.fit(extent, { duration: 500, padding: [50, 50, 50, 50] });
+              const padding = calculatePadding();
+              view.fit(extent, { duration: 500, padding });
             }
           } else {
             this.openIndicator(features[0].getProperties().features[0]);
@@ -487,12 +473,20 @@ class Cluster {
     const clusterSource = this.clusters.getSource().getSource();
     clusterSource.clear();
     clusterSource.addFeatures(features);
-    if (features.length) {
+    const router = this.vm.$router;
+    const { query } = router.currentRoute;
+    // if search box is empty, don't reset view to all features
+    if (features.length && query.search) {
       setTimeout(() => {
-        // this.map.getView().fit(clusterSource.getExtent(), {
-        //   maxZoom: 8,
-        //   duration: 200,
-        // }, 0);
+        const { selectedIndicator } = store.state.indicators;
+        if (!selectedIndicator) {
+          const padding = calculatePadding();
+          this.map.getView().fit(clusterSource.getExtent(), {
+            maxZoom: 8,
+            duration: 200,
+            padding,
+          }, 0);
+        }
       });
     }
   }
@@ -576,7 +570,7 @@ export default function getCluster(id, options = {}) {
   const cluster = clusterRegistry[id];
   if (!cluster) {
     const { map } = getMapInstance(options.mapId);
-    clusterRegistry[id] = new Cluster(map, options.mapId, options.vm);
+    clusterRegistry[id] = new Cluster(map, options.vm);
   }
   return clusterRegistry[id];
 }
