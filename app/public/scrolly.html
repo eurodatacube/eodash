@@ -134,15 +134,7 @@
             };
         }
 
-        const handleStepProgress = (response) => {
-          if (document.querySelector('video')) {
-            // update video based on step
-            let duration = document.querySelector('video').duration;
-            window.requestAnimationFrame(() => {
-                document.querySelector('video').currentTime = duration * response.progress;
-            });
-          }
-        }
+        const handleStepProgress = (response) => {}
 
         const init = () => {
             scroller
