@@ -469,7 +469,7 @@ export const globalIndicators = [
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('viridis', 0, 9000, 10, false),
+                ...getColorStops('plasma', 0, 500, 10, false),
               ],
               [
                 'color', 0, 0, 0, 0,
