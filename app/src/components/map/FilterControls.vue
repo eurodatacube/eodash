@@ -1,19 +1,30 @@
 <template>
-  <v-col v-if="cogFilters"
-    :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+  <v-col v-if="filters"
+    :cols="$vuetify.breakpoint.mdAndDown"
     :style="`height: auto`"
   >
-    <v-card v-for="(filter) in cogFilters.filters"
-      :key="filter.id"
-    >
-      <v-subheader>{{filter.label}}</v-subheader>
-      <v-range-slider
-            :min="filter.min"
-            :max="filter.max"
-            :step="(filter.max-filter.min)/100"
-            :value="[filter.min, filter.max]"
-            @input="(evt) => updateMap(evt, filter.id)"
-      ></v-range-slider>
+    <v-card class="pa-3"    >
+      <div v-for="key in Object.keys(filters)"
+        :key="key"
+      >
+        <v-subheader>{{filters[key].label}}</v-subheader>
+        <v-range-slider
+          v-model="filters[key].range"
+          hide-details
+          dense
+          :min="filters[key].min"
+          :max="filters[key].max"
+          :step="(filters[key].max-filters[key].min)/100"
+          @input="(evt) => updateMap(evt, filters[key].id)"
+        >
+          <template v-slot:prepend>
+            <div class="pl-4" style="width:60px; overflow:hidden;">{{filters[key].range[0]}}</div>
+          </template>
+          <template v-slot:append>
+            <div class="pr-4" style="width:60px; overflow:hidden;">{{filters[key].range[1]}}</div>
+          </template>
+        </v-range-slider>
+      </div>
     </v-card>
   </v-col>
 </template>
@@ -28,8 +39,11 @@ export default {
   props: {
     cogFilters: Object,
   },
-  data: () => ({
-  }),
+  data() {
+    return {
+      filters: this.cogFilters.filters,
+    };
+  },
   computed: {},
   watch: {
   },

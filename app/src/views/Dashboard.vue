@@ -109,7 +109,7 @@
           :class="$store.state.indicators.selectedIndicator.description ===
             $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
         >
-          {{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.city }}:
+          <!--{{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.city }}:-->
           {{
             queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.indicatorName
           }}

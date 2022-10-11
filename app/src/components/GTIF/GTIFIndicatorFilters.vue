@@ -43,7 +43,7 @@
         <v-list v-if="themes[domainModel]" style="width: 100%">
           <v-list-item-group style="width: 100%">
             <v-list-item
-              v-for="item in globalIndicators.filter(gI => gI.theme === themes[domainModel].slug)"
+              v-for="item in globalIndicators.filter(gI => gI.theme === themes[domainModel].slug).reverse()"
               :key="getLocationCode(item.properties.indicatorObject)"
               class="mb-2"
               style="width: 100%"
@@ -56,7 +56,7 @@
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title>{{ item.properties.indicatorObject.indicatorName }}</v-list-item-title>
-                <v-list-item-subtitle>Placeholder for description</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ item.properties.indicatorObject.navigationDescription }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
