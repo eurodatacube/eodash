@@ -137,7 +137,7 @@ figure p {
 .step p {
   text-align: center;
   padding: 1rem;
-  font-size: 1rem;
+  font-size: 1.8rem;
 }
 
 .step.expandContainer {
@@ -233,8 +233,8 @@ figure p {
 
   article {
     position: relative;
-    padding: 4rem 6rem;
-    max-width: 36rem;
+    padding: 4rem 6rem 4rem 15rem;
+    max-width: 42vw;
     z-index: 1;
     margin: 0;
   }
@@ -258,9 +258,12 @@ figure p {
   figure img {
     height: auto;
     width: auto;
-    max-width: 700px;
     border-bottom: none;
     border-radius: 16px;
+  }
+
+  figure img, figure video {
+    min-width: 70%;
   }
 
   .step {

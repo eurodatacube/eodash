@@ -72,12 +72,14 @@
                                 <img
                                     v-if="figure.text.includes('<--IMG-->')"
                                     :src="figure.text.replaceAll('<--IMG-->', '')"
-                                    width="700"
+                                    width="75%"
                                     >
                                 <video
                                     v-else-if="figure.text.includes('<--VID-->')"
                                     :src="figure.text.replaceAll('<--VID-->', '')"
-                                    width="700"
+                                    width="75%"
+                                    muted
+                                    autoplay
                                     >
                                 </video>
                             </template>
@@ -134,15 +136,7 @@
             };
         }
 
-        const handleStepProgress = (response) => {
-          if (document.querySelector('video')) {
-            // update video based on step
-            let duration = document.querySelector('video').duration;
-            window.requestAnimationFrame(() => {
-                document.querySelector('video').currentTime = duration * response.progress;
-            });
-          }
-        }
+        const handleStepProgress = (response) => {}
 
         const init = () => {
             scroller

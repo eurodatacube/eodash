@@ -133,7 +133,7 @@ export default {
           return '0f2e9b3e9ac1bc35';
 
         case 'gtif-mobility-transition':
-          return '2b5489be6f959f1e';
+          return '784f3e1ba71aef26';
 
         case 'gtif-sustainable-transition':
           return '000c2eb018897d82';
@@ -143,9 +143,6 @@ export default {
 
         case 'gtif-eo-adaptation':
           return '844374958b90378b';
-
-        case 'gtif-aq-scenario':
-          return '784f3e1ba71aef26';
 
         // Fallback value
         default:
