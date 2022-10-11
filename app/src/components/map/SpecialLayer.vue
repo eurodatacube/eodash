@@ -71,7 +71,7 @@ export default {
         || (!isRightLayer && this.swipePixelX > e.pixel[0]))
         : true;
       // consider layergroup
-      if (isCorrectSide && features.length) {
+      if (isCorrectSide && features.length && this.mergedConfig.features) {
         const feature = features[0];
         // center coordinate of extent, passable approximation for small or regular features
         const coordinate = getCenter(feature.getGeometry().getExtent());

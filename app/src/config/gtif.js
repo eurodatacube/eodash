@@ -255,12 +255,19 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: ['2022-09-16', '2022-09-17'],
+        time: [
+          '2022-09-10', '2022-09-11', '2022-09-12', '2022-09-13', '2022-09-14',
+          '2022-09-15', '2022-09-16', '2022-09-17',
+        ],
         inputData: [''],
         yAxis: '',
         vectorStyles: {
           sourceLayer: 'air_quality_AT',
           items: [
+            {
+              id: 'NO2',
+              description: 'Nitrogen Dioxide',
+            },
             {
               id: 'PM10',
               description: 'Particulate Matter < 10µm',
@@ -268,10 +275,6 @@ export const globalIndicators = [
             {
               id: 'PM25',
               description: 'Particulate Matter < 2.5µm',
-            },
-            {
-              id: 'NO2',
-              description: 'Nitrogen Dioxide',
             },
           ],
         },
@@ -285,10 +288,10 @@ export const globalIndicators = [
             }],
           },
           protocol: 'vectorgeojson',
-          selectedStyleLayer: 'PM10',
+          selectedStyleLayer: 'NO2',
           styleFile: 'data/gtif/data/air_quality_at.json',
           id: 'air_quality_AT',
-          name: 'Air quality',
+          name: 'air_quality_at',
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,

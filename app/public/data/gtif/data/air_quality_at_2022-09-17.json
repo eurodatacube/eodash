@@ -5,9 +5,9 @@
   "zoom": 3,
   "glyphs": "{fontstack}/{range}",
   "sources": {
-    "air_quality": {
+    "aq_2022_09_17_3857": {
       "type": "geojson",
-      "data": "data/gtif/data/air_quality/{{time}}.geojson"
+      "data": "air_quality/2022_09_17_3857.geojson"
     }
   },
   "layers": [
@@ -21,7 +21,7 @@
     {
       "id": "PM10",
       "type": "fill",
-      "source": "air_quality",
+      "source": "aq_2022_09_17_3857",
       "filter": ["all"],
       "layout": {"visibility": "visible"},
       "paint": {
@@ -51,7 +51,7 @@
     {
       "id": "PM25",
       "type": "fill",
-      "source": "air_quality",
+      "source": "aq_2022_09_17_3857",
       "filter": ["all"],
       "layout": {"visibility": "visible"},
       "paint": {
@@ -81,7 +81,7 @@
     {
       "id": "NO2",
       "type": "fill",
-      "source": "air_quality",
+      "source": "aq_2022_09_17_3857",
       "filter": ["all"],
       "layout": {"visibility": "visible"},
       "paint": {
