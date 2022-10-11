@@ -16,7 +16,7 @@ import { createXYZ } from 'ol/tilegrid';
 import { Group } from 'ol/layer';
 import VectorTileLayer from 'ol/layer/VectorTile';
 import { applyStyle } from 'ol-mapbox-style';
-import { deserialize } from 'flatgeobuf/lib/mjs/geojson';
+import * as flatgeobuf from 'flatgeobuf/dist/flatgeobuf-geojson.min';
 import { transformExtent } from 'ol/proj';
 import { bbox } from 'ol/loadingstrategy';
 
@@ -206,7 +206,7 @@ export function createLayerFromConfig(config, _options = {}) {
       // rather than the entire file.
       if (rect.minX !== -Infinity) {
         const ftrs = [];
-        const iter = deserialize(config.url, rect);
+        const iter = flatgeobuf.deserialize(config.url, rect);
         // eslint-disable-next-line no-restricted-syntax
         for await (const feature of iter) {
           const ftr = geoJsonFormat.readFeature(feature);

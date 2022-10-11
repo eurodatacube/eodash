@@ -208,7 +208,9 @@ export default {
     setInitialDefaultSelectedArea() {
       // reset maxZoom from admin layer on index 0 and setDefaultSelectedArea
       if (this.administrativeConfigs[0].maxZoom !== undefined) {
-        const layer = this.getLayerFromGroup(this.adminLayerGroups[0], this.administrativeConfigs[0]);
+        const layer = this.getLayerFromGroup(
+          this.adminLayerGroups[0], this.administrativeConfigs[0]
+        );
         layer.setMaxZoom(this.administrativeConfigs[0].maxZoom);
       }
       // set default area without zooming in to honor URL search parameters x,y,z
@@ -268,7 +270,7 @@ export default {
           this.overlayCoordinate = coordinate;
           const props = feature.getProperties();
           const key = Object.keys(props).find(
-            (k) => ['name', 'nuts_name'].includes(k.toLowerCase())
+            (k) => ['name', 'nuts_name'].includes(k.toLowerCase()),
           );
           if (props[key]) {
             this.overlayRows = [props[key]];
