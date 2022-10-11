@@ -62,7 +62,7 @@ export default {
 
     const adminLayerGroups = this.administrativeConfigs.map((l) => createLayerFromConfig(l,
       {
-        zIndex: 22,
+        zIndex: 21,
       }));
     this.adminLayerGroups = adminLayerGroups;
     // setup listener on featuresloadend on first layer and set maxZoom to high number to
