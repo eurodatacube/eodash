@@ -78,6 +78,8 @@
                                     v-else-if="figure.text.includes('<--VID-->')"
                                     :src="figure.text.replaceAll('<--VID-->', '')"
                                     width="75%"
+                                    muted
+                                    autoplay
                                     >
                                 </video>
                             </template>
