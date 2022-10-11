@@ -267,23 +267,20 @@ export function createLayerFromConfig(config, _options = {}) {
         url: config.url || config.baseUrl,
         tileGrid,
       });
-    }
-  }
-
-  if (source) {
-    if (config.dateFormatFunction) {
       source.set('updateTime', (updatedTime) => {
+        const timeString = config.dateFormatFunction(updatedTime);
         const newParams = {
-          time: config.dateFormatFunction(updatedTime),
+          time: timeString,
         };
         if (config.specialEnvTime) {
           newParams.env = `year:${updatedTime}`;
         }
-        if (source.updateParams) {
-          source.updateParams(newParams);
-        }
+        source.updateParams(newParams);
       });
     }
+  }
+
+  if (source) {
     layers.push(new TileLayer({
       name: config.name,
       // minZoom: config.minZoom || config.minNativeZoomm,
