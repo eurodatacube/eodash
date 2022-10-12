@@ -150,11 +150,18 @@ export function createLayerFromConfig(config, _options = {}) {
     layer.set('styleFile', config.styleFile);
     layer.set('selectedStyleLayer', config.selectedStyleLayer);
     layers.push(layer);
-
     fetch(config.styleFile).then((r) => r.json())
       .then((glStyle) => {
-        glStyle.sources.air_quality.data = glStyle.sources.air_quality.data.replace('{{time}}', '2022_09_17');
-        applyStyle(layer, glStyle, [config.selectedStyleLayer]);
+        const newGlStyle = JSON.parse(JSON.stringify(glStyle));
+        let currentTime = '2022_09_17';
+        if (config.usedTimes?.time?.length) {
+          currentTime = config.usedTimes.time[config.usedTimes.time.length - 1];
+          currentTime = currentTime.replaceAll('-', '_');
+        }
+        newGlStyle.sources.air_quality.data = newGlStyle.sources.air_quality.data.replace(
+          '{{time}}', currentTime,
+        );
+        applyStyle(layer, newGlStyle, [config.selectedStyleLayer]);
       })
       .catch(() => console.log('Issue loading mapbox style'));
   }
@@ -370,23 +377,20 @@ export function createLayerFromConfig(config, _options = {}) {
         url: config.url || config.baseUrl,
         tileGrid,
       });
-    }
-  }
-
-  if (source) {
-    if (config.dateFormatFunction) {
       source.set('updateTime', (updatedTime) => {
+        const timeString = config.dateFormatFunction(updatedTime);
         const newParams = {
-          time: config.dateFormatFunction(updatedTime),
+          time: timeString,
         };
         if (config.specialEnvTime) {
           newParams.env = `year:${updatedTime}`;
         }
-        if (source.updateParams) {
-          source.updateParams(newParams);
-        }
+        source.updateParams(newParams);
       });
     }
+  }
+
+  if (source) {
     layers.push(new TileLayer({
       name: config.name,
       // minZoom: config.minZoom || config.minNativeZoomm,
