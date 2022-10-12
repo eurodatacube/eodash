@@ -533,7 +533,9 @@ export default {
     const { poi, indicator, search } = this.$route.query;
     if (!poi && !indicator && !search) {
       this.showText = 'welcome';
-      this.showInfoDialog = true;
+      if (this.appConfig.id !== 'gtif') {
+        this.showInfoDialog = true;
+      }
     }
   },
   beforeDestroy() {

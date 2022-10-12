@@ -164,13 +164,6 @@
               />
 
               <GtifHeaderNavItem
-                color="hsl(320 80% 60%)"
-                title="AQ Scenario"
-                :is-sub-item="true"
-                :to="{name: 'gtif-aq-scenario'}"
-              />
-
-              <GtifHeaderNavItem
                 title="Scrolly Example"
                 to="/scrolly"
               />

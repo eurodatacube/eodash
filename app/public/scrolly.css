@@ -137,7 +137,7 @@ figure p {
 .step p {
   text-align: center;
   padding: 1rem;
-  font-size: 1rem;
+  font-size: 1.4rem;
 }
 
 .step.expandContainer {
@@ -233,8 +233,8 @@ figure p {
 
   article {
     position: relative;
-    padding: 4rem 6rem;
-    max-width: 36rem;
+    padding: 4rem 4rem 36rem 4rem;
+    max-width: 42vw;
     z-index: 1;
     margin: 0;
   }
@@ -242,8 +242,8 @@ figure p {
   figure {
     position: -webkit-sticky;
     position: sticky;
-    min-height: 50vh;
-    top: 25vh;
+    min-height: 80vh;
+    top: 10vh;
     width: 100%;
     -webkit-transform: translate3d(0, 0, 0);
     -moz-transform: translate3d(0, 0, 0);
@@ -258,13 +258,16 @@ figure p {
   figure img {
     height: auto;
     width: auto;
-    max-width: 700px;
     border-bottom: none;
     border-radius: 16px;
   }
 
+  figure img, figure video {
+    min-width: 70%;
+  }
+
   .step {
-    margin: 0 auto 2rem auto;
+    margin: 0 auto 12rem auto;
     background-color: #3b3b3b00;
     color: #728C88;
     transition: color 0.2s linear;
@@ -275,7 +278,7 @@ figure p {
   }
 
   .step p {
-    padding: 10rem 0;
+    padding: 2rem 0;
   }
 
   .slide-enter-active, .slide-leave-active {
@@ -290,6 +293,6 @@ figure p {
 
 @media screen and (min-width: 962px) {
   figure img {
-    max-height: 50vh;
+    max-height: 80vh;
   }
 }
