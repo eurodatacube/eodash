@@ -17,22 +17,24 @@ export function updateTimeLayer(layer, config, time) {
     const currStyleLayer = currlayer.get('selectedStyleLayer');
     fetch(config.styleFile).then((r) => r.json())
       .then((glStyle) => {
+        currlayer.setSource(null);
         glStyle.sources.air_quality.data = glStyle.sources.air_quality.data.replace('{{time}}', time.replaceAll('-', '_'));
         applyStyle(currlayer, glStyle, [currStyleLayer]);
       })
       .catch(() => console.log('Issue loading mapbox style'));
-  }
-  let sources;
-  if (layer instanceof LayerGroup) {
-    sources = layer.getLayers().getArray().map((l) => l.getSource());
   } else {
-    sources = [layer.getSource()];
-  }
-  sources.forEach((source) => {
-    const updateTimeFunction = source.get('updateTime');
-    if (updateTimeFunction) {
-      updateTimeFunction(time);
+    let sources;
+    if (layer instanceof LayerGroup) {
+      sources = layer.getLayers().getArray().map((l) => l.getSource());
+    } else {
+      sources = [layer.getSource()];
     }
-    source.refresh();
-  });
+    sources.forEach((source) => {
+      const updateTimeFunction = source.get('updateTime');
+      if (updateTimeFunction) {
+        updateTimeFunction(time);
+      }
+      source.refresh();
+    });
+  }
 }

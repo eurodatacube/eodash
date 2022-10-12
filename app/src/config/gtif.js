@@ -267,14 +267,17 @@ export const globalIndicators = [
             {
               id: 'NO2',
               description: 'Nitrogen Dioxide',
+              markdown: 'AQ_NO2',
             },
             {
               id: 'PM10',
               description: 'Particulate Matter < 10µm',
+              markdown: 'AQ_PM10',
             },
             {
               id: 'PM25',
               description: 'Particulate Matter < 2.5µm',
+              markdown: 'AQ_PM25',
             },
           ],
         },
@@ -441,7 +444,7 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'REP1',
           sources: [
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerDensity_Austria_3857_COG_fix_clipped.tif', nodata: NaN },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerDensity_Austria_COG_3857_clipped_fix.tif' },
             { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_DSM_COG_10m_3857_fix.tif' },
             { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
             { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/WSF_EucDist_Austria_3857_COG_fix.tif' },
@@ -472,7 +475,7 @@ export const globalIndicators = [
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('plasma', 0, 500, 10, false),
+                ...getColorStops('RdBu', 80, 850, 100, false),
               ],
               [
                 'color', 0, 0, 0, 0,

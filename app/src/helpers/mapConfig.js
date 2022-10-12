@@ -6,6 +6,7 @@ import getLocationCode from '@/mixins/getLocationCode';
 let baseConfig;
 
 const generateUsedTimes = (indicator) => {
+  baseConfig = store.state.config.baseConfig;
   const replaceMapTimes = baseConfig.replaceMapTimes
     && baseConfig.replaceMapTimes[getLocationCode(indicator)];
   const additionalMapTimes = baseConfig.additionalMapTimes
