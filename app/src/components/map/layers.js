@@ -426,6 +426,7 @@ export function createLayerFromConfig(config, _options = {}) {
     });
     const featuresLayer = new VectorLayer({
       source: featuresSource,
+      name: config.name + "_features",
       style: new Style({
         fill,
         stroke,
