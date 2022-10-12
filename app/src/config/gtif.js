@@ -152,7 +152,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Wind power',
     class: 'air',
     themes: ['energy-transition'],
-    // story: '',
+    story: '/data/gtif/markdown/REP1',
   },
   REP2: {
     indicator: 'Solar power',
@@ -801,6 +801,14 @@ export const globalIndicators = [
         cogFilters: {
           sourceLayer: 'REP1',
           filters: {
+            powerDensity: {
+              label: 'Power Density Range',
+              id: 'powerDensity',
+              min: 0,
+              max: 4000,
+              header: true,
+              range: [0, 4000],
+            },
             elevation: {
               label: 'Filter for elevation [m]',
               id: 'elevation',
@@ -851,6 +859,8 @@ export const globalIndicators = [
           ],
           style: {
             variables: {
+              powerDensityMin: 0,
+              powerDensityMax: 4000,
               elevationMin: 0,
               elevationMax: 4000,
               slopeMin: 0,
@@ -865,6 +875,7 @@ export const globalIndicators = [
               [
                 'all',
                 ['>', ['band', 1], 0],
+                ['between', ['band', 2], ['var', 'powerDensityMin'], ['var', 'powerDensityMax']],
                 ['between', ['band', 2], ['var', 'elevationMin'], ['var', 'elevationMax']],
                 ['between', ['band', 3], ['var', 'slopeMin'], ['var', 'slopeMax']],
                 ['between', ['band', 4], ['var', 'settlementDistanceMin'], ['var', 'settlementDistanceMax']],

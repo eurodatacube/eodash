@@ -37,55 +37,58 @@
   </v-col>
 </template>
 
-  <script>
-  /**
-   */
-  export default {
-    components: {
+<script>
+/**
+  */
+export default {
+  components: {
+  },
+  props: {
+    indicatorObject: Object,
+    adminFeature: Object,
+    adminLayer: Object,
+  },
+  watch: {
+  },
+  computed: {
+    show() {
+      return this.adminLayer && this.adminFeature && this.indicatorObject
+      && this.indicatorObject.indicator in [
+        'SOL1', 'SOL2', 'SOL3',
+      ];
+      // for now we set manually where we want the mockup to appear
     },
-    props: {
-      indicatorObject: Object,
-      adminFeature: Object,
-      adminLayer: Object,
-    },
-    watch: {
-    },
-    computed: {
-      show() {
-        return this.adminLayer && this.adminFeature && this.indicatorObject;
-      },
-      adminFeatureName() {
-        const props = this.adminFeature.getProperties();
-        const key = Object.keys(props).find(
-            (k) => ['name', 'nuts_name'].includes(k.toLowerCase()),
-          );
-        if (props[key]) {
-          return props[key];
-        }
-        return null;
-      },
-      adminLayerName() {
-        return this.adminLayer.get('name');
-      },
-      isNutsLevel() {
-        return this.adminLayerName?.toLowerCase().includes('nuts');
+    adminFeatureName() {
+      const props = this.adminFeature.getProperties();
+      const key = Object.keys(props).find(
+        (k) => ['name', 'nuts_name'].includes(k.toLowerCase()),
+      );
+      if (props[key]) {
+        return props[key];
       }
+      return null;
     },
-    data() {
-      return {
-        overlayRows: [],
-      };
+    adminLayerName() {
+      return this.adminLayer.get('name');
     },
-    mounted() {
+    isNutsLevel() {
+      return this.adminLayerName?.toLowerCase().includes('nuts');
     },
-    methods: {
-    },
-    beforeDestroy() {
-    },
-    render: () => null,
-  };
-  </script>
-  
-  <style lang="scss" scoped>
-  </style>
-  
+  },
+  data() {
+    return {
+      overlayRows: [],
+    };
+  },
+  mounted() {
+  },
+  methods: {
+  },
+  beforeDestroy() {
+  },
+  render: () => null,
+};
+</script>
+
+<style lang="scss" scoped>
+</style>
