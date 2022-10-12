@@ -79,6 +79,16 @@ export default {
     domainModel: undefined,
     iconSize: 88,
     showLayerMenu: false,
+    customOrder: [
+      'Austria-REP4',
+      'Austria-REP3',
+      'Austria-REP2',
+      'Austria-REP1',
+      'AT-AQ',
+      'Innsbruck-SOL3',
+      'Innsbruck-SOL2',
+      'Innsbruck-SOL1',
+    ]
   }),
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
@@ -91,6 +101,11 @@ export default {
           > b.properties.indicatorObject.indicatorName)
           ? 1
           : -1))
+        .sort((a, b) => 
+          this.customOrder.indexOf(this.getLocationCode(a.properties.indicatorObject))
+          > this.customOrder.indexOf(this.getLocationCode(b.properties.indicatorObject))
+          ? 1
+          : -1)
         .map((i) => ({
           ...i,
           theme: this.baseConfig.indicatorsDefinition[
