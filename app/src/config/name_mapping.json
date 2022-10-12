@@ -268,16 +268,16 @@
       "description": "NO2 – Nitrogen Dioxide [μg/m3]"
     },
     "GCAQ2-N1b": {
-    "title": "PM2.5 map Europe (CAMS)",
-    "description": "Particulate Matter with diameter smaller than 2.5 micrometres [μg/m3]"
+      "title": "PM2.5 map Europe (CAMS)",
+      "description": "Particulate Matter with diameter smaller than 2.5 micrometres [μg/m3]"
     },
     "GCAQ3-N1b": {
-    "title": "PM10 map Europe (CAMS)",
-    "description": "Particulate Matter with diameter smaller than 10 micrometres [μg/m3]"
+      "title": "PM10 map Europe (CAMS)",
+      "description": "Particulate Matter with diameter smaller than 10 micrometres [μg/m3]"
     },
     "GCAQ4-N1b": {
-    "title": "Ozone map Europe (CAMS)",
-    "description": "O3 - Ozone [μg/m3]"
+      "title": "Ozone map Europe (CAMS)",
+      "description": "O3 - Ozone [μg/m3]"
     }
   },
   "trilateral": {
