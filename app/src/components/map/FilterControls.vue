@@ -25,6 +25,15 @@
           </template>
         </v-range-slider>
       </div>
+      <div style="text-align: center;">
+        <v-btn small color="primary">Add filter</v-btn>
+      </div>
+      <div style="padding-left: 30%" class="align-center justify-center d-inline-flex">
+        <v-checkbox
+          class="align-center justify-center d-inline-flex"
+          :label="'Exclude protected areas'"
+        ></v-checkbox>
+      </div>
     </v-card>
   </v-col>
 </template>

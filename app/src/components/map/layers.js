@@ -15,7 +15,7 @@ import TileGrid from 'ol/tilegrid/TileGrid';
 import { createXYZ } from 'ol/tilegrid';
 import { Group } from 'ol/layer';
 import VectorTileLayer from 'ol/layer/VectorTile';
-import { applyStyle } from 'ol-mapbox-style';
+import { applyStyle, stylefunction } from 'ol-mapbox-style';
 import * as flatgeobuf from 'flatgeobuf/dist/flatgeobuf-geojson.min';
 import { transformExtent } from 'ol/proj';
 import { bbox } from 'ol/loadingstrategy';
@@ -146,8 +146,24 @@ export function createLayerFromConfig(config, _options = {}) {
   if (config.protocol === 'vectorgeojson') {
     const layer = new VectorLayer();
     layer.set('id', config.id);
-    applyStyle(layer, config.styleFile, [config.selectedStyleLayer]);
+    layer.set('name', config.name);
+    layer.set('styleFile', config.styleFile);
+    layer.set('selectedStyleLayer', config.selectedStyleLayer);
     layers.push(layer);
+    fetch(config.styleFile).then((r) => r.json())
+      .then((glStyle) => {
+        const newGlStyle = JSON.parse(JSON.stringify(glStyle));
+        let currentTime = '2022_09_17';
+        if (config.usedTimes?.time?.length) {
+          currentTime = config.usedTimes.time[config.usedTimes.time.length - 1];
+          currentTime = currentTime.replaceAll('-', '_');
+        }
+        newGlStyle.sources.air_quality.data = newGlStyle.sources.air_quality.data.replace(
+          '{{time}}', currentTime,
+        );
+        applyStyle(layer, newGlStyle, [config.selectedStyleLayer]);
+      })
+      .catch(() => console.log('Issue loading mapbox style'));
   }
   if (config.protocol === 'countries') {
     layers.push(new VectorLayer({
