@@ -1,14 +1,17 @@
 <template>
   <div
     class="no-pointer pa-2 overflow-hidden"
-    :style="`width: ${$vuetify.breakpoint.xsOnly
-      ? '100%'
-      : '360px'}; height: calc(var(--vh, 1vh) * 100); z-index: 4; background: ${
+    :style="`width: 100%; height: calc(var(--vh, 1vh) * 100); z-index: 4; background: ${
         $vuetify.breakpoint.xsOnly && comboboxFocus
           ? $vuetify.theme.currentTheme.background
           : 'unset' }`"
   >
-    <v-card class="rounded-lg">
+    <v-card
+      class="rounded-lg"
+      :style="`width: ${$vuetify.breakpoint.xsOnly
+      ? '100%'
+      : '360px'}`"
+    >
       <div
         v-if="$vuetify.breakpoint.smAndUp && !currentTheme"
         class="pa-2"
