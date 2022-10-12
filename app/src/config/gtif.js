@@ -556,7 +556,7 @@ export const globalIndicators = [
             {
               id: 'LST2021',
               description: 'Max Land Surface Temperature',
-              markdown: '',
+              markdown: 'SOL_temp',
             },
             {
               id: 'GRExisting',
