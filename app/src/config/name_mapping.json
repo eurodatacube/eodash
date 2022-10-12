@@ -248,13 +248,36 @@
       "title": "Wind V field"
     },
     "World-N1": {
-      "title": "NO2 (S5p)"
+      "title": "NO2 (S5p)",
+      "description": "Nitrogen Dioxide from Sentinel-5p Tropomi"
     },
     "WorldCO-N1": {
-      "title": "CO (S5p)"
+      "title": "CO (S5p)",
+      "description": "Carbon Monoxide from Sentinel-5p Tropomi"
     },
     "CH4-N1": {
-      "title": "CH4 (S5p)"
+      "title": "CH4 (S5p)",
+      "description": "Methane from Sentinel-5p Tropomi"
+    },
+    "SO2-N1": {
+      "title": "SO2 (S5p)",
+      "description": "Sulfur Dioxide from Sentinel-5p Tropomi"
+    },
+    "GCAQ4-N1b": {
+      "title": "NO2 map Europe (CAMS)",
+      "description": "NO2 – Nitrogen Dioxide [μg/m3]"
+    },
+    "GCAQ2-N1b": {
+      "title": "PM2.5 map Europe (CAMS)",
+      "description": "Particulate Matter with diameter smaller than 2.5 micrometres [μg/m3]"
+    },
+    "GCAQ3-N1b": {
+      "title": "PM10 map Europe (CAMS)",
+      "description": "Particulate Matter with diameter smaller than 10 micrometres [μg/m3]"
+    },
+    "GCAQ4-N1b": {
+      "title": "Ozone map Europe (CAMS)",
+      "description": "O3 - Ozone [μg/m3]"
     }
   },
   "trilateral": {
