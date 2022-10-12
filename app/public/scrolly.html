@@ -38,7 +38,7 @@
                         <div
                             class="expandable hidden"
                             data-section="sectionIndex"
-                            v-html="el.text.replaceAll('<--EXPAND-->', '')"
+                            v-html="parseMarkdown(el.text.replaceAll('<--EXPAND-->', ''))"
                         ></div>
                     </div>
                     <div
