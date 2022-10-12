@@ -111,7 +111,8 @@
         >
           <!--{{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.city }}:-->
           {{
-            queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.indicatorName
+            queryIndicatorObject && (queryIndicatorObject.properties.indicatorObject.indicatorName
+            || queryIndicatorObject.properties.indicatorObject.description)
           }}
           <div v-if="
             $store.state.indicators.selectedIndicator.description !==
@@ -131,7 +132,7 @@
             firstIndicatorObject.description !==
             firstIndicatorObject.indicatorName"
             class="subheading" style="font-size: 0.8em">
-            {{ firstIndicatorObject.indicatorName }}
+            {{ firstIndicatorObject.indicatorName || firstIndicatorObject.description }}
           </div>
         </v-toolbar-title>
         <v-tooltip
@@ -230,7 +231,8 @@
           class="px-4 py-2"
         >
           {{ queryIndicatorObject
-            && queryIndicatorObject.properties.indicatorObject.indicatorName }}
+            && (queryIndicatorObject.properties.indicatorObject.indicatorName
+            || queryIndicatorObject.properties.indicatorObject.description) }}
         </h4>
         <data-panel
           v-if="$store.state.indicators.selectedIndicator"
@@ -263,7 +265,7 @@
             firstIndicatorObject.description !==
             firstIndicatorObject.indicatorName"
             class="subheading" style="font-size: 0.8em">
-            {{ firstIndicatorObject.indicatorName }}
+            {{ firstIndicatorObject.indicatorName || firstIndicatorObject.description }}
           </div>
         </v-toolbar-title>
         <v-toolbar-title v-else class="text-capitalize">
@@ -309,7 +311,8 @@
               class="py-2"
             >
               {{ queryIndicatorObject
-                && queryIndicatorObject.properties.indicatorObject.indicatorName }}
+                && (queryIndicatorObject.properties.indicatorObject.indicatorName
+                || queryIndicatorObject.properties.indicatorObject.description) }}
             </h4>
             <data-panel
               v-if="$store.state.indicators.selectedIndicator
