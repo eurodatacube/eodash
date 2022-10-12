@@ -18,6 +18,12 @@
           :vectorStyles="indicatorObject.vectorStyles"
         >
         </style-controls>
+        <data-mockup-view v-if="appConfig.id === 'gtif'"
+          :indicatorObject="indicatorObject"
+          :adminLayer="$store.state.features.adminBorderLayerSelected"
+          :adminFeature="$store.state.features.adminBorderFeatureSelected"
+        >
+        </data-mockup-view>
         <v-col
           v-if="!showMap
             ||  multipleTabCompare
@@ -509,6 +515,7 @@ import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import IframeButton from '@/components/IframeButton.vue';
 import FilterControls from '@/components/map/FilterControls.vue';
 import StyleControls from '@/components/map/StyleControls.vue';
+import DataMockupView from '@/components/GTIF/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 
 export default {
@@ -523,6 +530,7 @@ export default {
     AddToDashboardButton,
     FilterControls,
     StyleControls,
+    DataMockupView,
   },
   data: () => ({
     overlay: false,
@@ -710,7 +718,6 @@ export default {
       return 0;
     },
     mergedConfigsData() {
-      // only display the "special layers" for global indicators
       if (!this.indicatorObject) {
         return [];
       }
