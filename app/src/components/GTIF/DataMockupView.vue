@@ -3,24 +3,36 @@
     :cols="$vuetify.breakpoint.mdAndDown"
     :style="`height: auto`"
   >
-  <v-subheader>Area Specific content</v-subheader>
-  <div v-if="adminLayerName">
-    Administrative level: {{ adminLayerName }}
+  <div class="py-2">
+    <div v-if="adminLayerName">
+      <b>Administrative level:</b> {{ adminLayerName }}
+    </div>
+    <div v-if="adminFeatureName">
+      <b>Selected:</b> {{ adminFeatureName }}
+    </div>
   </div>
-  <div v-if="adminFeatureName">
-    Selected: {{ adminFeatureName }}
+  <div class="py-2">
+    <h4>Specific data for administrative unit</h4>
   </div>
-  <div v-if="indicatorObject.indicator">
-    Indicator: {{ indicatorObject.indicator }}
-  </div>
-  <div v-if="isNutsLevel && indicatorObject.indicator === 'AQ'">
-    This is visible only for NUTS L0-L3 admin levels for Air Quality Indicator
-  </div>
-  <div v-if="adminLayerName === 'District (Bezirk)'
-    && adminFeatureName === 'Innsbruck-Land'
-    && indicatorObject.indicator === 'REP2'
+  <div v-if="adminLayerName === 'Census Track (Zählsprengel)'
+    && adminFeatureName === '70101420'
+    && indicatorObject.indicator === 'SOL1'
   ">
-    This can be seen only for Innsbruck-Land bezirk and REP2 indicator
+    <h3> Green Roof:</h3>
+    <p><b>mean land surface temperature (2021):</b> 39 degrees C</p>
+    <p><b>Existing GR:</b> 20 Roofs</p>
+    <p><b>Roofs suitable for GRl:</b> 81 Roofs</p>
+    <p><b>Unused Potential Area for GR:</b> 49.3%</p>
+  </div>
+  <div v-if="adminLayerName === 'Census Track (Zählsprengel)'
+  && adminFeatureName === '70101030'
+  && indicatorObject.indicator === 'SOL1'
+">
+    <h3> Green Roof</h3>
+    <p><b>mean land surface temperature (2021):</b> 42 degrees C</p>
+    <p><b>Existing GR:</b> 9 Roofs</p>
+    <p><b>Roofs suitable for GRl:</b> 65 Roofs</p>
+    <p><b>Unused Potential Area for GR:</b> 8.5%</p>
   </div>
   </v-col>
 </template>
