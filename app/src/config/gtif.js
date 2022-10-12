@@ -201,7 +201,7 @@ export const indicatorsDefinition = Object.freeze({
   LST: {
     indicator: 'Low surface temperature',
     class: 'air',
-    themes: ['carbon-accounting'],
+    themes: ['eo-adaptation-services'],
   },
   AQ: {
     indicator: 'Air Quality',
