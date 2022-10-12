@@ -11,13 +11,11 @@
       <b>Selected:</b> {{ adminFeatureName }}
     </div>
   </div>
-  <div class="py-2">
-    <h4>Specific data for administrative unit</h4>
-  </div>
   <div v-if="adminLayerName === 'Census Track (Zählsprengel)'
     && adminFeatureName === '70101420'
     && indicatorObject.indicator === 'SOL1'
   ">
+    <h4 class="py-2">Specific data for administrative unit</h4>
     <h3> Green Roof:</h3>
     <p><b>mean land surface temperature (2021):</b> 39 degrees C</p>
     <p><b>Existing GR:</b> 20 Roofs</p>
@@ -28,6 +26,7 @@
   && adminFeatureName === '70101030'
   && indicatorObject.indicator === 'SOL1'
 ">
+  <h4 class="py-2">Specific data for administrative unit</h4>
     <h3> Green Roof</h3>
     <p><b>mean land surface temperature (2021):</b> 42 degrees C</p>
     <p><b>Existing GR:</b> 9 Roofs</p>
