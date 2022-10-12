@@ -133,7 +133,9 @@
         class="flex-grow-0"
       >
         <small class="white--text ml-2">Read the
-          <a :href="`/?poi=${this.getLocationCode($store.state.indicators.selectedIndicator)}`"
+          <a
+            :href="`${$router.options.routes.find((r) => r.name === 'explore')
+              .path}?poi=${this.getLocationCode($store.state.indicators.selectedIndicator)}`"
             target="_blank" class="white--text">full story on this indicator</a>.
         </small>
 
