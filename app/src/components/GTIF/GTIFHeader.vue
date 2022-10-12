@@ -163,10 +163,6 @@
                 :to="{name: 'gtif-eo-adaptation'}"
               />
 
-              <GtifHeaderNavItem
-                title="Scrolly Example"
-                to="/scrolly"
-              />
             </v-col>
           </v-col>
         </div>
