@@ -11,13 +11,11 @@
       <b>Selected:</b> {{ adminFeatureName }}
     </div>
   </div>
-  <div class="py-2">
-    <h4>Specific data for administrative unit</h4>
-  </div>
   <div v-if="adminLayerName === 'Census Track (Zählsprengel)'
     && adminFeatureName === '70101420'
     && indicatorObject.indicator === 'SOL1'
   ">
+    <h4 class="py-2">Specific data for administrative unit</h4>
     <h3> Green Roof:</h3>
     <p><b>mean land surface temperature (2021):</b> 39 degrees C</p>
     <p><b>Existing GR:</b> 20 Roofs</p>
@@ -28,6 +26,7 @@
   && adminFeatureName === '70101030'
   && indicatorObject.indicator === 'SOL1'
 ">
+  <h4 class="py-2">Specific data for administrative unit</h4>
     <h3> Green Roof</h3>
     <p><b>mean land surface temperature (2021):</b> 42 degrees C</p>
     <p><b>Existing GR:</b> 9 Roofs</p>
@@ -37,55 +36,58 @@
   </v-col>
 </template>
 
-  <script>
-  /**
-   */
-  export default {
-    components: {
+<script>
+/**
+  */
+export default {
+  components: {
+  },
+  props: {
+    indicatorObject: Object,
+    adminFeature: Object,
+    adminLayer: Object,
+  },
+  watch: {
+  },
+  computed: {
+    show() {
+      return this.adminLayer && this.adminFeature && this.indicatorObject
+      && this.indicatorObject.indicator in [
+        'SOL1', 'SOL2', 'SOL3',
+      ];
+      // for now we set manually where we want the mockup to appear
     },
-    props: {
-      indicatorObject: Object,
-      adminFeature: Object,
-      adminLayer: Object,
-    },
-    watch: {
-    },
-    computed: {
-      show() {
-        return this.adminLayer && this.adminFeature && this.indicatorObject;
-      },
-      adminFeatureName() {
-        const props = this.adminFeature.getProperties();
-        const key = Object.keys(props).find(
-            (k) => ['name', 'nuts_name'].includes(k.toLowerCase()),
-          );
-        if (props[key]) {
-          return props[key];
-        }
-        return null;
-      },
-      adminLayerName() {
-        return this.adminLayer.get('name');
-      },
-      isNutsLevel() {
-        return this.adminLayerName?.toLowerCase().includes('nuts');
+    adminFeatureName() {
+      const props = this.adminFeature.getProperties();
+      const key = Object.keys(props).find(
+        (k) => ['name', 'nuts_name'].includes(k.toLowerCase()),
+      );
+      if (props[key]) {
+        return props[key];
       }
+      return null;
     },
-    data() {
-      return {
-        overlayRows: [],
-      };
+    adminLayerName() {
+      return this.adminLayer.get('name');
     },
-    mounted() {
+    isNutsLevel() {
+      return this.adminLayerName?.toLowerCase().includes('nuts');
     },
-    methods: {
-    },
-    beforeDestroy() {
-    },
-    render: () => null,
-  };
-  </script>
-  
-  <style lang="scss" scoped>
-  </style>
-  
+  },
+  data() {
+    return {
+      overlayRows: [],
+    };
+  },
+  mounted() {
+  },
+  methods: {
+  },
+  beforeDestroy() {
+  },
+  render: () => null,
+};
+</script>
+
+<style lang="scss" scoped>
+</style>
