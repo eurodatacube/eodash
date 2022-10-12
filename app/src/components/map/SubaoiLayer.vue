@@ -33,6 +33,7 @@ export default {
   props: {
     mapId: String,
     indicator: Object,
+    isGlobal: Boolean,
   },
   data: () => ({
     constrainingExtent: undefined,
@@ -125,7 +126,7 @@ export default {
       const feature = geoJsonFormat.readFeature(this.subAoi);
       subAoiLayer.getSource().addFeature(feature);
     }
-    if (this.isInverse && this.subAoi) {
+    if (this.isInverse && this.subAoi && !this.isGlobal) {
       // subaoi-geometry has a hole, use extent of that hole to constrain the view
       const insidePolygon = JSON.parse(JSON.stringify(this.subAoi));
       // eslint-disable-next-line prefer-destructuring
