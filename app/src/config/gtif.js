@@ -173,6 +173,11 @@ export const indicatorsDefinition = Object.freeze({
 
     // story: '',
   },
+  MOBI1: {
+    indicator: 'mobility',
+    class: 'mobi1',
+    themes: ['mobility-transition'],
+  },
   SOL1: {
     indicator: 'sus cities',
     class: 'air',
@@ -453,6 +458,62 @@ export const globalIndicators = [
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Innsbruck',
+        siteName: 'global',
+        description: 'Mobility - Innsbruck',
+        indicator: 'MOBI1',
+        lastIndicatorValue: null,
+        indicatorName: 'Mobility - Innsbruck',
+        navigationDescription: 'Mobility',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Innsbruck',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        vectorStyles: {
+          sourceLayer: 'mobility_innsbruck',
+          items: [
+            {
+              id: 'log10_users',
+              description: 'User average - weekend (log10)',
+              markdown: '',
+            },
+            {
+              id: 'users_average',
+              description: 'Users average - weekend',
+              markdown: '',
+            },
+          ],
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
+            }],
+          },
+          protocol: 'vectortile',
+          styleFile: 'data/gtif/data/mobility_innsbruck.json',
+          selectedStyleLayer: 'log10_users',
+          id: 'mobility_innsbruck',
+          name: '',
+          minZoom: 1,
         },
       },
     },
