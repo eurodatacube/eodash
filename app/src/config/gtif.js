@@ -559,11 +559,6 @@ export const globalIndicators = [
               markdown: 'SOL1_PVExisting',
             },
             {
-              id: 'PVPotentl',
-              description: 'Roofs suitable for PV Installation',
-              markdown: 'SOL1_PVExisting',
-            },
-            {
               id: 'PVEPPMwhRP',
               description: 'Total electric power production potential - Regular performance',
               markdown: 'SOL1_TEP_RP',

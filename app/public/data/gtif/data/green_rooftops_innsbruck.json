@@ -80,7 +80,7 @@
       }
     },
     {
-      "id": "PVEPPMwhHP",
+      "id": "GRPotential",
       "type": "fill",
       "source": "innsbruck",
       "source-layer": "innsbruck_4esa",
@@ -88,34 +88,18 @@
       "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": [
-          "interpolate",
-          ["linear"],
-          ["get", "PVEPPMwhHP"],
+          "match",
+          ["get", "GRPotential"],
           0,
-          ["to-color", "#f6f84c"],
-          10,
-          ["to-color", "#ffc843"],
-          15,
-          ["to-color", "#ff9d49"],
-          20,
-          ["to-color", "#f67758"],
-          25,
-          ["to-color", "#df556c"],
-          35,
-          ["to-color", "#c33684"],
-          75,
-          ["to-color", "#9f1b9b"],
-          200,
-          ["to-color", "#400f9c"],
-          500,
-          ["to-color", "#400f9c"],
-          1400,
-          ["to-color", "#000c83"]
+          "#686868",
+          1,
+          "#2ea729",
+          "rgba(0,0,0,0)"
         ]
       }
     },
     {
-      "id": "PVEPPMwhRP",
+      "id": "GRPotPAr20",
       "type": "fill",
       "source": "innsbruck",
       "source-layer": "innsbruck_4esa",
@@ -123,34 +107,18 @@
       "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": [
-          "interpolate",
-          ["linear"],
-          ["get", "PVEPPMwhRP"],
+          "match",
+          ["get", "GRPotPAr20"],
           0,
-          ["to-color", "#f6f84c"],
-          10,
-          ["to-color", "#ffc843"],
-          15,
-          ["to-color", "#ff9d49"],
-          20,
-          ["to-color", "#f67758"],
-          25,
-          ["to-color", "#df556c"],
-          35,
-          ["to-color", "#c33684"],
-          75,
-          ["to-color", "#9f1b9b"],
-          200,
-          ["to-color", "#400f9c"],
-          500,
-          ["to-color", "#400f9c"],
-          1400,
-          ["to-color", "#000c83"]
+          "#686868",
+          1,
+          "#2ea729",
+          "rgba(0,0,0,0)"
         ]
       }
     },
     {
-      "id": "PVEPPMwhLP",
+      "id": "LST2021",
       "type": "fill",
       "source": "innsbruck",
       "source-layer": "innsbruck_4esa",
@@ -160,27 +128,11 @@
         "fill-color": [
           "interpolate",
           ["linear"],
-          ["get", "PVEPPMwhLP"],
-          0,
-          ["to-color", "#f6f84c"],
-          10,
-          ["to-color", "#ffc843"],
-          15,
-          ["to-color", "#ff9d49"],
-          20,
-          ["to-color", "#f67758"],
-          25,
-          ["to-color", "#df556c"],
+          ["get", "LST2021"],
           35,
-          ["to-color", "#c33684"],
-          75,
-          ["to-color", "#9f1b9b"],
-          200,
-          ["to-color", "#400f9c"],
-          500,
-          ["to-color", "#400f9c"],
-          1400,
-          ["to-color", "#000c83"]
+          ["to-color", "#ffc27b"],
+          45,
+          ["to-color", "#b70000"]
         ]
       }
     },
