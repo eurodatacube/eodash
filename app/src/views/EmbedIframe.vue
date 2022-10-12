@@ -108,7 +108,7 @@
           @click="dataInteract = true">
           Tap to interact
         </v-overlay>
-        <center-map
+        <Map
           style="top: 0px; position: absolute;"
           v-if="globalData"
           class="pt-0 fill-height"
