@@ -150,18 +150,20 @@ export function createLayerFromConfig(config, _options = {}) {
     layer.set('styleFile', config.styleFile);
     layer.set('selectedStyleLayer', config.selectedStyleLayer);
     layers.push(layer);
-    applyStyle(layer, 'data/gtif/data/air_quality_at_2022-09-17.json', [config.selectedStyleLayer]);
-    /*
     fetch(config.styleFile).then((r) => r.json())
       .then((glStyle) => {
-        debugger;
-        // Cloning style
         const newGlStyle = JSON.parse(JSON.stringify(glStyle));
-        newGlStyle.sources.air_quality.data = newGlStyle.sources.air_quality.data.replace('{{time}}', '2022_09_17');
+        let currentTime = '2022_09_17';
+        if (config.usedTimes?.time?.length) {
+          currentTime = config.usedTimes.time[config.usedTimes.time.length - 1];
+          currentTime = currentTime.replaceAll('-', '_');
+        }
+        newGlStyle.sources.air_quality.data = newGlStyle.sources.air_quality.data.replace(
+          '{{time}}', currentTime,
+        );
         applyStyle(layer, newGlStyle, [config.selectedStyleLayer]);
       })
       .catch(() => console.log('Issue loading mapbox style'));
-      */
   }
   if (config.protocol === 'countries') {
     layers.push(new VectorLayer({

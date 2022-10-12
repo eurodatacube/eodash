@@ -435,12 +435,8 @@ export default {
     },
     dataLayerTime(timeObj) {
       if (timeObj) {
-        debugger;
-        const { map } = getMapInstance(this.mapId);
-        const currLayer = map.getAllLayers().find((l) => l.get('id') === 'air_quality_AT');
-        updateTimeLayer(currLayer, '', timeObj.value);
         // redraw all time-dependant layers, if time is passed via WMS params
-        /*
+        const { map } = getMapInstance(this.mapId);
         const layers = map.getLayers().getArray();
 
         this.mergedConfigsData.filter((config) => config.usedTimes?.time?.length)
@@ -449,8 +445,8 @@ export default {
             if (layer) {
               updateTimeLayer(layer, config, timeObj.value);
             }
-          });*/
-        // this.$emit('update:datalayertime', timeObj.name);
+          });
+        this.$emit('update:datalayertime', timeObj.name);
       }
     },
     enableCompare(enabled) {
