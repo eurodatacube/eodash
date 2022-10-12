@@ -9,27 +9,27 @@
             style="margin-right: 18px;"
             class="grow-on-hover esa-header__toggle menu-toggle"
           >
-            <img class="esa-header__icon" src="https://esa.int/extension/pillars/design/pillars/images/ESA_Menu.svg" alt="ESA menu toggle">
+            <img class="esa-header__icon" src="img/gtif/icons/ESA_Menu.svg" alt="ESA menu toggle">
           </button>
           <button
             @click="switchSearch"
             id="esa-search"
             class="grow-on-hover esa-header__toggle search-toggle"
           >
-            <img class="esa-header__icon" src="https://esa.int/extension/pillars/design/pillars/images/ESA_Search.svg" alt="ESA search toggle">
+            <img class="esa-header__icon" src="img/gtif/icons/ESA_Search.svg" alt="ESA search toggle">
           </button>
           <router-link to="/">
             <img
               v-if="$vuetify.breakpoint.mdAndUp"
               class="esa-header__title"
-              src="https://esa.int/extension/pillars/design/pillars/images/ESA_Title.svg"
+              src="img/gtif/icons/ESA_Title.svg"
               alt="ESA title"
             />
           </router-link>
         </div>
         <div class="esa-header__right">
           <a class="esa-header__link" href="/">
-            <img class="esa-header__logo" src="https://esa.int/extension/pillars/design/pillars/images/ESA_Logo.svg" alt="ESA logo">
+            <img class="esa-header__logo" src="img/gtif/icons/ESA_Logo.svg" alt="ESA logo">
           </a>
         </div>
       </section>

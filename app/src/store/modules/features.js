@@ -18,6 +18,8 @@ const state = {
     custom: [],
   },
   selectedArea: null,
+  adminBorderLayerSelected: null,
+  adminBorderFeatureSelected: null,
 };
 
 const getters = {
@@ -263,8 +265,11 @@ const mutations = {
     // TODO: Extract fetchData method into helper file since it needs to be used from outside.
     window.dispatchEvent(new CustomEvent('area-changed'));
   },
-  SET_ADMIN_BORDER_SELECTED(state, feature) {
-    state.adminBorderSelected = feature;
+  SET_ADMIN_BORDER_FEATURE_SELECTED(state, feature) {
+    state.adminBorderFeatureSelected = feature;
+  },
+  SET_ADMIN_BORDER_LAYER_SELECTED(state, layer) {
+    state.adminBorderLayerSelected = layer;
   },
 };
 const actions = {

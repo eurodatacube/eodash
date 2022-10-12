@@ -12,6 +12,7 @@
     <SubaoiLayer
       :mapId="mapId"
       :indicator="indicator"
+      :isGlobal="isGlobalIndicator"
       v-if="dataLayerName"
       :key="dataLayerKey + '_subAoi'"
     />

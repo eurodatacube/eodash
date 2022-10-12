@@ -38,18 +38,21 @@ function fetchGeoJsonFeatures(source, url) {
     .then((fStream) => {
       fStream.json()
         .then((geoJson) => {
-          geoJson.features.forEach((f) => {
-            if (f.id === null) {
-            // to do: some POIs (like bejing or LAX airports) have `null` set as feature ids,
-            // resulting in invalid geojson
-            // when this is fixed in the data, the normal geojson loader should be used
-            // eslint-disable-next-line no-param-reassign
-              f.id = undefined;
-            }
-          });
-          const features = geoJsonFormat.readFeatures(geoJson);
-          source.addFeatures(features);
-        });
+          if (geoJson.features && geoJson.features.length) {
+            geoJson.features.forEach((f) => {
+              if (f.id === null) {
+                // to do: some POIs (like bejing or LAX airports) have `null` set as feature ids,
+                // resulting in invalid geojson
+                // when this is fixed in the data, the normal geojson loader should be used
+                // eslint-disable-next-line no-param-reassign
+                f.id = undefined;
+              }
+            });
+            const features = geoJsonFormat.readFeatures(geoJson);
+            source.addFeatures(features);
+          }
+        })
+        .catch(() => {});
     });
 }
 
@@ -128,7 +131,7 @@ export function createLayerFromConfig(config, _options = {}) {
   if (config.protocol === 'cog') {
     const source = new GeoTIFF({
       sources: config.sources,
-      normalize: false,
+      normalize: config.normalize ? config.normalize : false,
     });
     const wgTileLayer = new WebGLTileLayer({
       source,
