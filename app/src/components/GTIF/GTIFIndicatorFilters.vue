@@ -11,7 +11,7 @@
       :mini-variant-width="iconSize"
     >
       <v-list class="py-0">
-        <v-list-item-group v-model="domainModel" mandatory>
+        <v-list-item-group v-model="domainModel" :mandatory="domainModel !== undefined">
           <v-list-item
             v-for="theme in themes"
             :key="theme.slug"
@@ -115,6 +115,18 @@ export default {
     },
     onClickOutside() {
       this.showLayerMenu = false;
+    },
+  },
+  watch: {
+    globalIndicators() {
+      if (this.$route.query.poi) {
+        const foundPoi = this.globalIndicators
+          .find((gI) => this.getLocationCode(gI.properties.indicatorObject)
+            === this.$route.query.poi);
+        if (foundPoi) {
+          this.domainModel = this.themes.findIndex((t) => t.slug === foundPoi.theme);
+        }
+      }
     },
   },
 };
