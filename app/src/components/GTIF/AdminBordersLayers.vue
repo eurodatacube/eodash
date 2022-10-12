@@ -23,6 +23,9 @@ import getMapCursor from '@/components/map/MapCursor';
 import Select from 'ol/interaction/Select';
 import Group from 'ol/layer/Group';
 import { getCenter } from 'ol/extent';
+import {
+  calculatePadding,
+} from '@/utils';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -170,7 +173,6 @@ export default {
       }
       const { map } = getMapInstance(this.mapId);
       const extent = feature.getGeometry().getExtent();
-      const center = getCenter(extent);
       const resolution = map.getView().getResolutionForExtent(extent);
       const zoomFromResolution = map.getView().getZoomForResolution(resolution);
       // 0.1 added or subtracted to show the layer, if zoom is equal to l.minzoom, not shown
@@ -187,10 +189,16 @@ export default {
           }
         }
       }
-      map.getView().animate({
-        center,
-        duration: 500,
-        zoom,
+      const padding = calculatePadding();
+      map.getView().fit(extent, {
+        padding,
+        duration: 400,
+        callback: () => {
+          map.getView().animate({
+            zoom,
+            duration: 400,
+          })
+        },
       });
     },
     setupInverseFeatureLayer(feature) {
