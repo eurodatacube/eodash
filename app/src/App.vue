@@ -74,6 +74,7 @@ import { loadIndicatorData } from '@/utils';
 import axios from 'axios';
 import { Wkt } from 'wicket';
 
+import getMapInstance from '@/components/map/map';
 import Alert from './components/Alert.vue';
 
 const wkt = new Wkt();
@@ -104,6 +105,45 @@ export default {
       return (this.$vuetify.theme.dark) ? 'dark' : 'light';
     },
   },
+  watch: {
+    $route(to, from) {
+      // only show back button if one of these conditions are true
+      // TODO: handle case when one of these was directly entered into url at app start
+      this.$store.commit('changeBackButtonDisplay', (
+        to.query.poi || to.query.indicator || to.query.clusterOpen
+      ));
+
+      if ((!to.query.poi && from.query.poi)
+      || (!to.query.indicator && from.query.indicator)
+      || from.query.clusterOpen) {
+        if (!to.query.poi && from.query.poi) {
+          // clear poi
+          this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+        }
+        if (!to.query.indicator && from.query.indicator) {
+          // clear indicator filter
+          this.$store.commit('features/SET_FEATURE_FILTER', {
+            ...this.$store.state.features.featureFilters,
+            indicators: [],
+          });
+        }
+
+        const currentQuery = to.query;
+        const {
+          x, y, z,
+        } = currentQuery;
+        if (x && y && z && !Number.isNaN(x) && !Number.isNaN(y) && !Number.isNaN(z)) {
+          setTimeout(() => {
+            getMapInstance('centerMap').map.getView().animate({
+              center: [x, y],
+              zoom: z,
+              duration: 300,
+            });
+          }, 0); // TO DO: without this, zooming to AOI causes problems
+        }
+      }
+    },
+  },
   created() {
     if (Object.prototype.hasOwnProperty.call(this.appConfig, 'countDownTimer')
       && this.appConfig.countDownMatch.includes(document.domain)) {
@@ -112,13 +152,27 @@ export default {
     } else {
       this.comingSoon = false;
     }
+    const { query } = this.$route;
+    if (query.clusterOpen) {
+      this.$router.replace({
+        query: {
+          ...query,
+          clusterOpen: undefined,
+        },
+      });
+    }
   },
   mounted() {
     // Listen for features added, and select if poi in query
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'features/ADD_NEW_FEATURES') {
         // Read route query and set selected poi
-        const { poi } = this.$route.query;
+        const { poi, country, indicator } = this.$route.query;
+        if (poi || indicator) {
+          // poi or indicator was present on app init
+          this.$store.commit('setInitWithQuery', true);
+          this.$store.commit('changeBackButtonDisplay', true);
+        }
         let selectedFeature = null;
         if (poi && poi.includes('-')) {
           const aoiId = poi.split('-')[0];
@@ -131,9 +185,6 @@ export default {
         }
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
-        // Read route query and validate country and indicator if in query
-        const { country } = this.$route.query;
-        const { indicator } = this.$route.query;
         // validate query for country - need to be among available
         const selectedCountry = this.getCountryItems
           .map((item) => item.code).flat().find((f) => f === country);
@@ -173,6 +224,9 @@ export default {
             this.trackEvent('filters', 'select_indicator_filter', 'all');
           } else {
             // Single
+            const urlSearchParams = new URLSearchParams(window.location.search);
+            const params = Object.fromEntries(urlSearchParams.entries());
+            this.$router.push({ query: params });
             this.$router.replace({ query: Object.assign({}, this.$route.query, { indicator: mutation.payload.indicators[0] }) }).catch(err => {}); // eslint-disable-line
             this.trackEvent('filters', 'select_indicator_filter', mutation.payload.indicators[0]);
           }
@@ -193,6 +247,9 @@ export default {
           Object.prototype.hasOwnProperty.call(mutation.payload, 'dummyFeature')
           && mutation.payload.dummyFeature)) {
           this.loadIndicatorData(mutation.payload);
+          const urlSearchParams = new URLSearchParams(window.location.search);
+          const params = Object.fromEntries(urlSearchParams.entries());
+          this.$router.push({ query: params }).catch(err => {}); // eslint-disable-line
           this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: this.getLocationCode(mutation.payload) }) }).catch(err => {}); // eslint-disable-line
           this.trackEvent('indicators', 'select_indicator', this.getLocationCode(mutation.payload));
           this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);

@@ -33,6 +33,8 @@ const store = new Vuex.Store({
   state: {
     packageVersion: process.env.PACKAGE_VERSION || '0',
     isFullScreen: false,
+    showHistoryBackButton: false,
+    initWithQuery: false,
     alert: {
       message: '',
       type: '',
@@ -45,9 +47,15 @@ const store = new Vuex.Store({
     changeFullScreen(state, val) {
       state.isFullScreen = val;
     },
+    changeBackButtonDisplay(state, value) {
+      state.showHistoryBackButton = value;
+    },
     sendAlert(state, payload) {
       state.alert.message = payload.message;
       state.alert.type = payload.type;
+    },
+    setInitWithQuery(state, value) {
+      state.initWithQuery = value;
     },
   },
   plugins: [vuexLocal.plugin],

@@ -1,386 +1,449 @@
 <template>
-  <div style="width: 100%" class="fill-height">
-    <v-tabs v-model="tab" grow activeClass="tabActive" icons-and-text>
-      <v-tab>
-        <v-badge
-          v-if="countrySelection !== 'all'"
-          color="primary"
-          icon="mdi-filter"
-          offset-x="-37"
-          offset-y="-26"
-        >
-        </v-badge>
-        Countries
-        <v-icon class="mb-1">mdi-flag-outline</v-icon>
-      </v-tab>
-      <v-tab>
-        <v-badge
-          v-if="indicatorSelection !== 'all'"
-          color="primary"
-          icon="mdi-filter"
-          offset-x="-37"
-          offset-y="-26"
-        >
-        </v-badge>
-        Indicators
-        <v-icon class="mb-1">mdi-lightbulb-on-outline</v-icon>
-      </v-tab>
-    </v-tabs>
-    <v-tabs-items
-      v-model="tab"
-      :style="`height: calc(100% - 112px); overflow-y: auto`"
-    >
-      <v-tab-item class="fill-height">
-        <v-list
-          dense
-          :style="$vuetify.breakpoint.xsOnly && 'padding-bottom: 60px'"
-        >
-          <v-list-item-group v-model="countrySelection" color="primary">
-            <v-list-item
-              :value="'all'"
-              :disabled="countrySelection === 'all'"
-              active-class="itemActive"
-            >
-              <v-list-item-icon
-                v-if="appConfig.id !== 'trilateral'"
-                class="d-flex align-center mr-2"
-              >
-                <country-flag country="eu" size="normal" />
-              </v-list-item-icon>
-              <v-list-item-icon v-else class="d-flex align-center ml-5 mr-6">
-                <v-icon
-                  :color="countrySelection === 'all' ? 'white' : 'primary'"
-                  >mdi-earth</v-icon
-                >
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Available countries</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-divider></v-divider>
-            <template v-for="region in uniqueRegions(countryItems)">
-              <v-subheader v-if="region" class="ml-5" :key="region">
-                {{ region.toUpperCase() }}
-              </v-subheader>
-              <v-list-item
-                v-for="country in countryItems.filter((cI) =>
-                  cI.region ? cI.region === region : true
-                )"
-                :key="country.code"
-                :value="country.code"
-                :disabled="countrySelection === country.code"
-                active-class="itemActive"
-              >
-                <v-list-item-icon class="d-flex align-center mr-2">
-                  <country-flag
-                    :country="country.code === 'all' ? 'eu' : country.code"
-                    size="normal"
-                  />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>{{ country.name }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </template>
-          </v-list-item-group>
-        </v-list>
-      </v-tab-item>
-      <v-tab-item class="fill-height">
-        <v-list
-          dense
-          :style="$vuetify.breakpoint.xsOnly && 'padding-bottom: 60px'"
-        >
-          <v-list-item-group v-model="indicatorSelection" color="primary">
-            <v-list-item
-              :value="'all'"
-              active-class="itemActive"
-              :disabled="indicatorSelection === 'all'"
-            >
-              <v-list-item-icon class="ml-3 mr-4">
-                <v-icon>mdi-lightbulb-on-outline</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Available indicators</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-divider></v-divider>
-            <template v-for="classId in Object.keys(uniqueClasses)">
-              <v-subheader
-                class="ml-5"
-                :key="classId"
-                v-if="
-                  indicatorItems.filter((i) =>
-                    uniqueClasses[classId].includes(i.code)
-                  ).length > 0
-                "
-              >
-                {{ classId.toUpperCase() }}
-              </v-subheader>
-              <v-list-item
-                v-for="indicator in indicatorItems.filter(
-                  (i) =>
-                    uniqueClasses[classId].includes(i.code) &&
-                    i.indicator !== ''
-                )"
-                :key="indicator.code"
-                :value="indicator.code"
-                active-class="itemActive"
-                :class="indicator.archived ? 'archived-item' : ''"
-                :disabled="indicatorSelection === indicator.code"
-              >
-                <v-list-item-icon class="ml-3 mr-4">
-                  <v-icon>{{
-                    baseConfig.indicatorClassesIcons[classId]
-                      ? baseConfig.indicatorClassesIcons[classId]
-                      : "mdi-lightbulb-on-outline"
-                  }}</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title v-if="indicator.indicatorOverwrite"
-                    v-text="indicator.indicatorOverwrite"
-                    style="
-                      text-overflow: unset;
-                      overflow: unset;
-                      white-space: pre-wrap;
-                    "
-                  ></v-list-item-title>
-                  <v-list-item-title v-else
-                    v-text="indicator.indicator"
-                    style="
-                      text-overflow: unset;
-                      overflow: unset;
-                      white-space: pre-wrap;
-                    "
-                  ></v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </template>
-          </v-list-item-group>
-        </v-list>
-      </v-tab-item>
-    </v-tabs-items>
-    <v-sheet
-      class="d-flex align-center justify-center"
-      :style="`width: 100%; height: 40px; ${$vuetify.breakpoint.xsOnly
-        ? 'position: absolute; bottom: 0;' : ''}`">
-      <v-checkbox
-        :value="featureFilters.includeArchived"
-        label="Show archived indicators"
-        color="primary"
-        dense
-        hide-details
-        class="ma-0"
-        @change="
-          setFilter({ includeArchived: !featureFilters.includeArchived })
-        "
+  <div
+    class="no-pointer pa-2 overflow-hidden"
+    :style="`width: ${$vuetify.breakpoint.xsOnly
+      ? '100%'
+      : '360px'}; height: calc(var(--vh, 1vh) * 100); z-index: 4; background: ${
+        $vuetify.breakpoint.xsOnly && comboboxFocus
+          ? $vuetify.theme.currentTheme.background
+          : 'unset' }`"
+  >
+    <v-card class="rounded-lg">
+      <div
+        v-if="$vuetify.breakpoint.smAndUp && !currentTheme"
+        class="pa-2"
       >
-      </v-checkbox>
-    </v-sheet>
+        <v-btn
+          v-for="(theme, key) in $store.state.themes.themes"
+          :key="key"
+          class="mr-2 mb-2"
+          :color="theme.color"
+          dark
+          rounded
+          x-small
+          @click="userInput = theme.name"
+        >
+          <v-icon small left>{{ baseConfig.indicatorClassesIcons[theme.slug] }}</v-icon>
+          {{ theme.name }}
+        </v-btn>
+      </div>
+      <v-divider></v-divider>
+      <v-combobox
+        ref="combobox"
+        v-model="selectedListItem"
+        :allow-overflow="false"
+        attach="#combobox-menu"
+        auto-select-first
+        :autofocus="$vuetify.breakpoint.smAndUp"
+        :filter="customComboboxFilter"
+        flat
+        hide-details
+        hide-no-data
+        :items="formattedSearchItems"
+        placeholder="Search here"
+        :prepend-inner-icon="$store.state.showHistoryBackButton ? 'mdi-arrow-left' : 'mdi-magnify'"
+        :search-input.sync="userInput"
+        solo
+        class="rounded-lg"
+        @click:prepend-inner="$store.state.showHistoryBackButton ? goBack() : () => {}"
+        @keydown.esc="userInput = null"
+      >
+      </v-combobox>
+      <div
+        class="overflow-x-hidden overflow-y-auto"
+        style="position: relative; max-height: 250px"
+      >
+        <div id="combobox-menu"></div>
+      </div>
+    </v-card>
+    <div
+      v-if="!($vuetify.breakpoint.xsOnly && comboboxFocus) && globalIndicators.length > 0"
+      id="slideGroupWrapper"
+      class="d-flex"
+      style="position: absolute; bottom: 25px; left: 0; pointer-events: none;"
+    >
+      <v-slide-group
+        v-model="selectedMapLayer"
+        class="pa-2"
+        dark
+        center-active
+        show-arrows="desktop"
+      >
+        <v-slide-item
+          v-for="(item, key) in globalIndicators"
+          :key="key"
+          v-slot="{ active, toggle }"
+        >
+          <v-card
+            :color="active ? 'primary' : 'white'"
+            height="100"
+            width="100"
+            class="mx-4 my-1 overflow-hidden d-flex flex-column"
+            style="pointer-events: all"
+            @click="toggle"
+          >
+            <v-img
+              height="50"
+              class="flex-shrink-1"
+              :src="`./data/${appConfig.id}/globalDataLayerImages/${getLocationCode(
+                item.properties.indicatorObject)}.png`"
+            >
+            </v-img>
+            <v-card-title
+              class="flex-grow-1"
+              :class="active ? 'white--text' : 'primary--text'"
+              style="font-size: 12px; line-height: 14px; padding: 5px"
+            >
+              {{ item.properties.indicatorObject.indicatorName }}
+            </v-card-title>
+          </v-card>
+        </v-slide-item>
+      </v-slide-group>
+    </div>
   </div>
 </template>
 
 <script>
-// Utilities
-import { mapGetters, mapState } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 
-import CountryFlag from 'vue-country-flag';
 import countries from '@/assets/countries.json';
+import {
+  GeoJSON,
+} from 'ol/format';
+
+import getMapInstance from '@/components/map/map';
+import { calculatePadding } from '@/utils';
 
 export default {
-  components: {
-    CountryFlag,
-  },
   data: () => ({
-    tab: 0,
-    indicators: {
-      environment: 1,
-      economy: 0,
-      health: 0,
-    },
-    countrySelection: 'all',
-    indicatorSelection: 'all',
-    indicatorPanel: 0,
+    searchItems: [],
+    formattedSearchItems: [],
+    userInput: null,
+    selectedListItem: null,
+    selectedMapLayer: null,
+    mapLayersExpanded: false,
+    comboboxFocus: null,
   }),
   computed: {
+    ...mapState('config', ['appConfig', 'baseConfig']),
+    ...mapState('features', ['allFeatures']),
+    ...mapState('indicators', ['selectedIndicator']),
+    ...mapState('themes', ['currentTheme']),
     ...mapGetters('features', [
       'getCountries',
+      'getFeatures',
+      'getGroupedFeatures',
       'getIndicators',
-      'getCountryItems',
     ]),
-    ...mapState('config', ['appConfig', 'baseConfig']),
-    ...mapState('features', ['featureFilters']),
-    countries() {
-      return countries;
+    globalIndicators() {
+      return this.getGroupedFeatures && this.getGroupedFeatures
+        .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName))
+        .sort((a, b) => ((a.properties.indicatorObject.indicatorName
+          > b.properties.indicatorObject.indicatorName)
+          ? 1
+          : -1));
     },
-    countryItems() {
-      let countryItems;
-      if (this.appConfig.customCountryList) {
-        countryItems = this.appConfig.customCountryList
-          .filter((c) => this.getCountries.includes(c.code))
-          .map((c) => {
-            const item = countries.features.find(
-              (f) => f.properties.alpha2 === c.code,
-            );
-            return {
-              code: c.code,
-              name: item.properties.name,
-              region: c.region,
-            };
-          });
-      } else {
-        countryItems = this.getCountries
-          .filter((c) => c !== 'all' && c !== 'indicatorall')
-          .map((c) => {
-            if (Array.isArray(c)) {
-              return c.map((i) => {
-                const item = countries.features.find(
-                  (f) => f.properties.alpha2 === i,
-                );
-                return {
-                  code: i,
-                  name: item.properties.name,
-                  region: null,
-                };
-              });
-            }
-              //eslint-disable-line
-            const item = countries.features.find(
-              (f) => f.properties.alpha2 === c,
-            );
-            return {
-              code: c,
-              name: item.properties.name,
-              region: null,
-            };
-          })
-          // flatten the array
-          .flat()
-          // filter out duplicates
-          .filter(
-            (thing, index, self) => self.findIndex((t) => t.code === thing.code) === index,
-          )
-          .sort((a, b) => (a.name > b.name ? 1 : -1));
+  },
+  created() {
+    if (this.allFeatures) {
+      if (!this.searchItem) {
+        this.getSearchItems();
       }
-      return countryItems;
-    },
-    uniqueClasses() {
-      const classes = {};
-      const indDef = this.baseConfig.indicatorsDefinition;
-      Object.keys(indDef)
-        .filter((key) => indDef[key].hideInFilters !== true)
-        .map((key) => {
-          if (typeof classes[indDef[key].class] === 'undefined') {
-            classes[indDef[key].class] = [key];
-          } else {
-            classes[indDef[key].class].push(key);
-          }
-          return null;
-        });
-      return classes;
-    },
-    indicatorItems() {
-      let indicators = this.getIndicators;
-      indicators = indicators
-        .filter((i) => !i.dummyFeature)
-        .filter(
-          (ind, index, self) => self.findIndex((t) => t.code === ind.code) === index,
-        );
-      indicators.sort((a, b) => {
-        const codeA = a.indicator;
-        const codeB = b.indicator;
-        if (codeA < codeB) return -1;
-        if (codeB > codeA) return 1;
-        return 0;
-      });
-      return indicators;
-    },
+    }
   },
   mounted() {
-    this.$store.subscribe((mutation) => {
-      if (
-        mutation.type === 'features/INIT_FEATURE_FILTER'
-        || mutation.type === 'features/SET_FEATURE_FILTER'
-      ) {
-        if (mutation.payload.countries) {
-          if (Array.isArray(mutation.payload.countries)) {
-            if (mutation.payload.countries.length === 0) {
-              this.countrySelection = 'all';
-            }
-          } else {
-            this.countrySelection = mutation.payload.countries;
-          }
-        }
-        if (mutation.payload.indicators) {
-          if (Array.isArray(mutation.payload.indicators)) {
-            if (mutation.payload.indicators.length === 0) {
-              this.indicatorSelection = 'all';
-            } else {
-              [this.indicatorSelection] = mutation.payload.indicators;
-            }
-          } else {
-            this.indicatorSelection = mutation.payload.indicators;
-          }
-        }
-      }
-    });
+    this.$watch(
+      () => this.$refs.combobox.isMenuActive,
+      (val) => {
+        this.comboboxFocus = val;
+      },
+    );
   },
   methods: {
-    selectCountry(selection) {
-      if (selection === 'all') {
-        this.setFilter({ countries: [] });
-      } else {
-        this.setFilter({ countries: selection });
-      }
-    },
-    selectIndicator(selection) {
-      this.setFilter({
-        indicators: selection === 'all' ? [] : [selection],
+    ...mapMutations('features', {
+      setFeatureFilter: 'SET_FEATURE_FILTER',
+    }),
+    ...mapMutations('indicators', {
+      setSelectedIndicator: 'SET_SELECTED_INDICATOR',
+    }),
+    comboboxClear() {
+      this.userInput = null;
+      this.setFeatureFilter({
+        countries: [],
+        indicators: [],
       });
+      this.selectedListItem = null;
+      this.selectedMapLayer = null;
+      this.setSelectedIndicator(null);
     },
-    setFilter(filter) {
-      this.$store.commit('features/SET_FEATURE_FILTER', filter);
+    setFilterDebounced() {
+      clearTimeout(this._timerId);
+      this._timerId = setTimeout(() => {
+        if (this.userInput?.length) {
+          const filtered = this.searchItems
+            .filter((i) => i.properties?.indicatorObject)
+            .filter((i) => i.filterPriority > 0);
+          this.setFeatureFilter({
+            custom: filtered,
+          });
+        } else {
+          this.setFeatureFilter({
+            custom: [],
+          });
+        }
+      }, 50);
     },
-    uniqueRegions(countryItems) {
-      return countryItems
-        .map((c) => c.region)
-        .filter(
-          (thing, index, self) => self.findIndex((t) => t === thing) === index,
-        );
+    getSearchItems() {
+      const itemArray = [
+        ...countries.features
+          .filter((f) => !this.getCountries.includes(f.properties.alpha2))
+          .map((f) => ({
+            code: f.properties.alpha2,
+            name: f.properties.name,
+            noPOIs: true,
+          })),
+        ...this.getCountries
+          .filter((f) => countries.features.find((c) => c.properties.alpha2 === f))
+          .map((f) => ({
+            code: f,
+            name: countries.features.find((c) => c.properties.alpha2 === f).properties.name,
+          })),
+        ...this.getIndicators
+          .filter((i) => !i.dummyFeature)
+          .filter(
+            (ind, index, self) => self.findIndex((t) => t.code === ind.code) === index,
+          )
+          .map((i) => ({
+            ...i,
+            name: i.indicator,
+          })),
+        ...this.getFeatures.map((f) => ({
+          ...f,
+          name: `${f.properties.indicatorObject.city}: ${this.getIndicator(f.properties.indicatorObject)}`,
+        })),
+      ];
+      itemArray.sort((a, b) => (a.name.localeCompare(b.name)));
+      itemArray.sort((a, b) => (b.filterPriority || 0) - (a.filterPriority || 0));
+      this.searchItems = itemArray;
+      this.formattedSearchItems = this.searchItems.filter((i) => !i.noPOIs).map((i) => i.name);
+    },
+    sortSearchItems() {
+      if (!this.userInput) {
+        this.searchItems.sort((a, b) => (a.name.localeCompare(b.name)));
+        return;
+      }
+      const queryParts = this.userInput.toLocaleLowerCase().split(' ');
+      // skip commonly used words in order to allow more semantic search
+      const skip = ['in', 'at', 'and', 'index'];
+      this.searchItems.forEach((searchItem, index, array) => {
+        let matchPoints = 0;
+        queryParts
+          .filter((p) => p.length > 0)
+          .forEach((p) => {
+            if (p !== queryParts[0] ? !skip.includes(p) : true) {
+              const countryName = countries.features
+                .find((c) => c.properties.alpha2 === searchItem
+                  .properties?.indicatorObject?.country)?.properties
+                .name;
+              if (searchItem.name.toLocaleLowerCase().indexOf(p) > -1) {
+                // add a point if the query exists in itemText
+                matchPoints++;
+              }
+              if (searchItem.name.toLocaleLowerCase() === p) {
+                // add another point for exact matches
+                matchPoints++;
+              }
+              if (countryName && countryName.toLocaleLowerCase().indexOf(p) > -1) {
+                // add another point if the query exists in the country
+                matchPoints++;
+              }
+              if (
+                countries.features
+                  .map((f) => f.properties.name).some((i) => i.toLocaleLowerCase().includes(p))
+                && (searchItem.properties?.indicatorObject?.city === 'World'
+                  || searchItem.properties?.indicatorObject?.city === 'Global')
+              ) {
+                matchPoints++;
+              }
+              if (
+                this.baseConfig.indicatorsDefinition[
+                  searchItem.properties?.indicatorObject?.indicator
+                ]?.themes
+                  .includes(p)
+              ) {
+                matchPoints++;
+              }
+              if (
+                searchItem.noPOIs
+              ) {
+                matchPoints--;
+              }
+            }
+          });
+        array[index].filterPriority = matchPoints; // eslint-disable-line
+      });
+      this.searchItems.sort((a, b) => (a.name.localeCompare(b.name)));
+      this.searchItems.sort((a, b) => (b.filterPriority || 0) - (a.filterPriority || 0));
+      this.formattedSearchItems = this.searchItems
+        .filter((i) => (this.userInput.length < 3 ? !i.noPOIs : true))
+        .map((i) => i.name);
+    },
+    customComboboxFilter(item) {
+      return this.searchItems.find((i) => i.name === item)?.filterPriority > 0;
+    },
+    getIndicator(indObj) {
+      let ind = indObj.indicatorName || indObj.description;
+      if (this.baseConfig.indicatorsDefinition[indObj.indicator]
+        && this.baseConfig.indicatorsDefinition[indObj.indicator].indicatorOverwrite) {
+        ind = this.baseConfig.indicatorsDefinition[indObj.indicator].indicatorOverwrite;
+      }
+      return ind;
+    },
+    goBack() {
+      if (this.$store.state.initWithQuery) {
+        this.comboboxClear();
+        this.$store.commit('setInitWithQuery', false);
+      } else {
+        this.$router.back();
+      }
     },
   },
   watch: {
-    countrySelection(val) {
-      this.selectCountry(val);
+    allFeatures() {
+      if (!this.searchItem) {
+        this.getSearchItems();
+      }
+      if (this.$route.query.search) {
+        this.userInput = this.$route.query.search;
+      }
     },
-    indicatorSelection(val) {
-      this.selectIndicator(val);
+    selectedIndicator(indicatorObject) {
+      if (!indicatorObject) {
+        this.userInput = null;
+        return;
+      }
+      const displayName = `${indicatorObject.city}: ${this.getIndicator(indicatorObject)}`;
+      if (this.userInput !== displayName) {
+        this.userInput = displayName;
+      }
+      this.selectedMapLayer = this.globalIndicators
+        .findIndex((l) => this.getLocationCode(l.properties.indicatorObject)
+          === this.getLocationCode(indicatorObject));
+    },
+    selectedListItem(input) {
+      if (!input) {
+        return;
+      }
+      if (this.$vuetify.breakpoint.xsOnly) {
+        this.comboboxFocus = false;
+        this.$refs.combobox.blur();
+      }
+      const parsedInput = this.searchItems.find((i) => i.name === input);
+      if (!parsedInput) {
+        // not found, probably a "theme"
+        return;
+      }
+      if (parsedInput.indicator) {
+        this.setSelectedIndicator(null);
+        this.setFeatureFilter({
+          indicators: parsedInput.code,
+        });
+      } else if (parsedInput.properties?.indicatorObject) {
+        // this.selectIndicator(parsedInput.indicatorObject.indicator);
+        this.setSelectedIndicator(
+          parsedInput.properties.indicatorObject,
+        );
+      } else {
+        const parsedCountries = new GeoJSON({
+          featureProjection: 'EPSG:3857',
+        }).readFeatures(countries);
+        const country = parsedCountries.find((c) => c.get('alpha2') === parsedInput.code);
+        const { map } = getMapInstance('centerMap');
+        const padding = calculatePadding();
+        map.getView().fit(country.getGeometry().getExtent(), {
+          duration: 500, padding,
+        });
+      }
+    },
+    selectedMapLayer(index) {
+      if (index >= 0) {
+        this.setSelectedIndicator(
+          this.globalIndicators[index]?.properties.indicatorObject,
+        );
+      }
+    },
+    userInput(newInput) {
+      this.sortSearchItems();
+      this.setFilterDebounced();
+      const query = {
+        ...this.$route.query,
+        search: newInput?.length ? newInput : undefined,
+      };
+      this.$router.replace({ query }).catch(() => {});
+      this.trackEvent('filters', 'search_input', newInput);
+      // for some strange reason, focusing and activating menu only works half of
+      // the time without timeout
+      // TODO find out why and clean up
+      setTimeout(() => {
+        if (newInput && !this.$refs.combobox.isMenuActive
+          && this.$store.state.themes.themes.map((t) => t.name).indexOf(newInput) >= 0) {
+          this.$refs.combobox.focus();
+          this.$refs.combobox.activateMenu();
+        }
+      }, 0);
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-::v-deep .v-expansion-panel-content__wrap {
-  padding-left: 0;
-  padding-right: 0;
+<style scoped lang="scss">
+.no-pointer {
+  pointer-events: none;
 }
-.v-list-item__icon .flag {
-  border: 1px solid lightgray;
-  background-position-x: -1px;
+
+.no-pointer > div {
+  pointer-events: all;
 }
-.v-application.theme--dark {
-  .v-list-item__icon .flag {
-    border: 1px solid transparent;
-  }
+
+::v-deep .v-autocomplete__content {
+  position: relative;
+  height: auto;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  max-height: unset !important;
+  box-shadow: none !important;
+  border-radius: 3px;
 }
-.itemActive {
+
+#slideGroupWrapper {
+  width: calc(100% - 0px);
+}
+
+.panel-expanded #slideGroupWrapper {
+  width: calc(100% - 685px);
+}
+
+::v-deep .v-slide-group__prev,
+::v-deep .v-slide-group__next {
+  pointer-events: all;
   background: var(--v-primary-base);
-  color: white !important;
-  .v-list-item__icon .flag {
-    border: 1px solid transparent;
+  opacity: .5;
+  &:hover {
+    opacity: 1;
   }
 }
-::v-deep .archived-item {
-  opacity: 0.65;
+::v-deep .v-slide-group__prev {
+  border-radius: 4px 0 0 4px;
+}
+::v-deep .v-slide-group__next {
+  border-radius: 0 4px 4px 0;
+}
+::v-deep .v-slide-group__prev--disabled,
+::v-deep .v-slide-group__next--disabled {
+  pointer-events: none;
+  opacity: .2;
 }
 </style>

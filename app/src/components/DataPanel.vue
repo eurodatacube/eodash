@@ -1,12 +1,19 @@
 <template>
   <div
-    :style="`${$vuetify.breakpoint.mdAndDown ? 'padding-bottom: 100px; height: auto;'
+    :style="`${$vuetify.breakpoint.mdAndDown ? ''
     : 'height: calc(100% - 64px - ' + bannerHeight + 'px);'}`"
     ref="wrapper"
   >
-    <div class="pt-0 pb-0" :style="expanded ? `width: 100%;` : ``">
+    <div
+      class="pt-0 pb-0"
+      :class="$vuetify.breakpoint.xsOnly ? 'mx-0' : ''"
+      :style="expanded ? `width: 100%;` : ``
+    ">
       <v-row v-if="indicatorObject">
         <v-col
+          v-if="!showMap
+            ||  multipleTabCompare
+            || (showMap && mergedConfigsData[0].customAreaIndicator)"
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
         >
@@ -44,50 +51,14 @@
                 class="fill-height"
                 :style="`${!(!customAreaIndicator || expanded) ? 'display: none;' : ''}
                 height: ${$vuetify.breakpoint.mdAndUp ?
-                                  (expanded ? ( bannerHeight ? 60 : 70) : 40) : 60}vh;`"
+                                  (expanded ? ( bannerHeight ? 60 : 70) : 45) : 50}vh;`"
               >
-                <full-screen-button />
-                <div
-                  style="height: 100%;z-index: 500; position: relative;"
-                  v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
-                  @click="dataInteract = true"
-                  v-touch="{
-                    left: () => swipe(),
-                    right: () => swipe(),
-                    up: () => swipe(),
-                    down: () => swipe(),
-                }">
-                </div>
-                <v-overlay :value="overlay" absolute
-                  v-if="!dataInteract"
-                  @click="dataInteract = true">
-                  Tap to interact
-                </v-overlay>
-                <indicator-map
-                  ref="indicatorMap"
-                  style="top: 0px; position: absolute;"
-                  v-if="['all'].includes(sensorData.properties.indicatorObject.country) ||
-                  appConfig.configuredMapPois.includes(
-                    sensorData.properties.indicatorObject.aoiID
-                    + '-'
-                    + sensorData.properties.indicatorObject.indicator
-                  ) ||
-                  Array.isArray(sensorData.properties.indicatorObject.country)"
-                  class="pt-0 fill-height"
-                  :currentIndicator="sensorData.properties.indicatorObject"
-                  @update:center="c => center = c"
-                  @update:zoom="z => zoom = z"
-                  @update:datalayertime="d => datalayertime = d"
-                  @update:comparelayertime="c => comparelayertime = c"
-                  @compareEnabled="compareEnabled = !compareEnabled"
-                />
                 <indicator-data
                   style="top: 0px; position: absolute;"
-                  v-else
                   class="pa-5 chart"
                   :currentIndicator="sensorData.properties.indicatorObject"
                 />
-                <v-row class="mt-0">
+                <v-row v-if="!showMap" class="mt-0">
                   <v-col cols="12" sm="5" ></v-col>
                   <v-col
                     cols="12"
@@ -116,7 +87,7 @@
               <v-card
                 v-if="customAreaIndicator && !expanded"
                 class="fill-height"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 43 : 60}vh;`"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 30 : 43}vh;`"
                 style="border: none; !important"
                 ref="indicatorData"
                 outlined
@@ -135,17 +106,6 @@
                 v-if="customAreaIndicator.isEmpty">
                   No data found for selection
               </v-card-title>
-                <div
-                  style="height: 100%;z-index: 500; position: relative;"
-                  v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
-                  @click="dataInteract = true"
-                  v-touch="{
-                    left: () => swipe(),
-                    right: () => swipe(),
-                    up: () => swipe(),
-                    down: () => swipe(),
-                }">
-                </div>
                 <indicator-data
                   v-if="!customAreaIndicator.isEmpty"
                   style="margin-top: 0px;"
@@ -158,18 +118,13 @@
           <v-card
             v-else-if="customAreaIndicator && !expanded"
             class="fill-height"
-            :style="`height: ${$vuetify.breakpoint.mdAndUp ? 43 : 60}vh;`"
+            :style="`height: ${$vuetify.breakpoint.mdAndUp ? 30 : 43}vh;`"
             style="border: none; !important"
             ref="indicatorData"
             outlined
           >
           <v-card-title
             style="padding-top: 10px; padding-bottom: 0px;">
-              <v-btn
-                icon
-                @click="clearSelection">
-                <v-icon medium>mdi-close</v-icon>
-              </v-btn>
               {{ customAreaIndicator.title }}
           </v-card-title>
           <v-card-title
@@ -177,34 +132,23 @@
             v-if="customAreaIndicator.isEmpty">
               No data found for selection
           </v-card-title>
-            <div
-              style="height: 100%;z-index: 500; position: relative;"
-              v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
-              @click="dataInteract = true"
-              v-touch="{
-                left: () => swipe(),
-                right: () => swipe(),
-                up: () => swipe(),
-                down: () => swipe(),
-            }">
-            </div>
-            <indicator-map
-              ref="indicatorMap"
-              style="top: 0px; position: absolute;"
-              v-show="false"
-              class="pt-0 fill-height"
-              @update:center="c => center = c"
-              @update:zoom="z => zoom = z"
-              @update:datalayertime="d => datalayertime = d"
-              @update:comparelayertime="c => comparelayertime = c"
-              @compareEnabled="compareEnabled = !compareEnabled"
-            />
+            <v-btn
+              v-if="customAreaIndicator && showRegenerateButton"
+              ref="regenerateButton"
+              color="secondary"
+              style="display: block; position: absolute; right: 130px; top: 13px;"
+              elevation="2"
+              x-small
+              @click="generateChart"
+            >
+              Regenerate
+            </v-btn>
             <indicator-data
               v-if="!customAreaIndicator.isEmpty"
               style="margin-top: 0px;"
               class="pa-2 chart"
             />
-            <v-row class="mt-0">
+            <v-row v-if="!showMap || !customAreaIndicator.isEmpty" class="mt-0">
               <v-col cols="12" sm="5" ></v-col>
               <v-col
                 cols="12"
@@ -225,7 +169,6 @@
                     v-if="
                       customAreaIndicator &&
                       !isFullScreen &&
-                      !showMap &&
                       !this.baseConfig.indicatorsDefinition[
                         indicatorObject.indicator
                       ].countrySelection
@@ -239,29 +182,12 @@
             </v-row>
           </v-card>
           <v-card
-            v-else
+            v-else-if="!showMap || (showMap && mergedConfigsData[0].customAreaIndicator)"
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
-                              ? (bannerHeight ? 65 : 70) : 40) : 60}vh;`"
+                              ? (bannerHeight ? 65 : 70) : 30) : 45}vh;`"
             ref="mapPanel"
           >
-            <full-screen-button />
-            <div
-              style="height: 100%;z-index: 500; position: relative;"
-              v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
-              @click="dataInteract = true"
-              v-touch="{
-                left: () => swipe(),
-                right: () => swipe(),
-                up: () => swipe(),
-                down: () => swipe(),
-            }">
-            </div>
-            <v-overlay :value="overlay" absolute
-              v-if="!dataInteract"
-              @click="dataInteract = true">
-              Tap to interact
-            </v-overlay>
             <indicator-globe
               v-if="showGlobe"
               @update:direction="d => direction = d"
@@ -274,17 +200,28 @@
               class="d-flex justify-center"
               style="top: 0px; position: absolute;"
             />
-            <indicator-map
-              ref="indicatorMap"
-              v-else-if="showMap"
-              @update:center="c => center = c"
-              @update:zoom="z => zoom = z"
-              @update:datalayertime="d => datalayertime = d"
-              @update:comparelayertime="c => comparelayertime = c"
-              @compareEnabled="compareEnabled = !compareEnabled"
-              class="pt-0 fill-height"
-              style="top: 0px; position: absolute;"
-            />
+            <v-col
+              v-else-if="showMap && (mergedConfigsData[0].customAreaIndicator)"
+              class="d-flex flex-col align-center justify-center"
+              style="flex-direction: column; height: 100%; position: absolute; top: 0;"
+            >
+              <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
+              <p style="max-width: 75%; text-align: center">
+Draw an area on the map using the shape buttons to generate a custom chart!
+              </p>
+              <v-btn
+                class="mt-3"
+                color="secondary"
+                :loading="isLoadingCustomAreaIndicator"
+                :disabled="!selectedArea"
+                @click="generateChart"
+              >
+                Generate Chart
+              </v-btn>
+            </v-col>
+
+            <div v-else-if="showMap"></div>
+
             <indicator-data
               style="top: 0px; position: absolute;"
               v-else
@@ -353,6 +290,7 @@
                   v-if="
                     customAreaIndicator &&
                     !isFullScreen &&
+                    !showMap &&
                     !this.baseConfig.indicatorsDefinition[
                       indicatorObject.indicator
                     ].countrySelection
@@ -368,7 +306,7 @@
                 <add-to-dashboard-button
                   v-else-if="!this.baseConfig.indicatorsDefinition[
                     indicatorObject.indicator
-                  ].countrySelection"
+                  ].countrySelection && !showMap"
                   :indicatorObject="indicatorObject"
                   :zoom="zoom"
                   :center="center"
@@ -385,6 +323,7 @@
         </v-col>
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          :class="$vuetify.breakpoint.smAndUp ? 'scrollContainer' : ''"
           :style="`padding-bottom: 0px; height: ${$vuetify.breakpoint.mdAndDown
                   ? 'auto'
                   : (expanded
@@ -394,7 +333,7 @@
                     - (multipleTabCompare ? 48 : 0) + 'px') }`"
         >
           <v-row
-            class="mt-0 fill-height scrollContainer"
+            class="mt-0 fill-height pb-2"
           >
             <v-col
               cols="12"
@@ -405,7 +344,7 @@
               <v-card
                 v-if="customAreaIndicator"
                 class="fill-height"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 50 : 60}vh;`"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 50 : 45}vh;`"
                 style="border: none; !important"
                 ref="indicatorData"
                 outlined
@@ -420,17 +359,6 @@
                 v-if="customAreaIndicator.isEmpty">
                   No data found for selection
               </v-card-title>
-                <div
-                  style="height: 100%;z-index: 500; position: relative;"
-                  v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
-                  @click="dataInteract = true"
-                  v-touch="{
-                    left: () => swipe(),
-                    right: () => swipe(),
-                    up: () => swipe(),
-                    down: () => swipe(),
-                }">
-                </div>
                 <indicator-data
                   v-if="!customAreaIndicator.isEmpty"
                   style="margin-top: 0px;"
@@ -454,7 +382,7 @@
                 <v-col
                   cols="12"
                   sm="7"
-                  v-if="!isFullScreen"
+                  v-if="!isFullScreen && !showMap"
                   ref="customButtonRow"
                 >
                   <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
@@ -487,27 +415,10 @@
               :style="`margin-top: ${customAreaIndicator && expanded ? '30px' : '0px'}`"
               v-if="!isFullScreen"
             >
-              <expandable-content
-                :minHeight="wrapperHeight - mapPanelHeight - (multipleTabCompare ? 48 : 0)
-                          - buttonRowHeight - eoDataBtnHeight - (showMap ? 40 : 0)
-                          - indicatorDataHeight - 60"
-                :disableExpand="expanded || $vuetify.breakpoint.mdAndDown"
-              >
-                <div
-                  v-html="story"
-                  class="md-body"
-                ></div>
-              </expandable-content>
-              <v-btn
-                v-if="eodataEnabled"
-                @click="dialog = true"
-                ref="EODataBtn"
-                color="primary"
-                large
-                block
-                class="my-1"
-              ><span><v-icon left>mdi-satellite-variant</v-icon>EO Data</span>
-              </v-btn>
+              <div
+                v-html="story"
+                class="md-body"
+              ></div>
               <v-btn
                 v-if="indicatorObject && externalData"
                 :href= "externalData.url"
@@ -519,32 +430,55 @@
                 class="my-1"
               ><span><v-icon left>mdi-open-in-new</v-icon>{{externalData.label}}</span>
               </v-btn>
-              <v-dialog
-                v-model="dialog"
-                fullscreen
-                hide-overlay
-                transition="dialog-bottom-transition"
-              >
-                <v-toolbar dark color="primary">
-                  <v-toolbar-title >
-                    <span
-                    >Reference Images</span>
-                  </v-toolbar-title>
-                  <v-spacer></v-spacer>
-                  <v-btn icon dark @click="dialog = false">
-                    <v-icon>mdi-close</v-icon>
-                  </v-btn>
-                </v-toolbar>
-              <indicator-map
-                ref="referenceMap"
-                @update:center="c => center = c"
-                @update:zoom="z => zoom = z"
-                @update:datalayertime="d => datalayertime = d"
-                @update:comparelayertime="c => comparelayertime = c"
-                @compareEnabled="compareEnabled = !compareEnabled"
-                :style="`height: calc(100% - ${$vuetify.application.top}px)`"
-              />
-              </v-dialog>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+      <v-row v-else>
+        <v-col
+          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          :style="`height: auto`"
+        >
+          <v-card
+            class="fill-height"
+            :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
+            ? (bannerHeight ? 65 : 70) : 45) : 25}vh;`"
+            ref="mapPanel"
+          >
+            <v-col
+              class="d-flex flex-col align-center justify-center"
+              style="flex-direction: column; height: 100%">
+              <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
+              <p style="max-width: 75%; text-align: center">
+Select a point of interest on the map to see the data for a specific location!
+              </p>
+            </v-col>
+          </v-card>
+        </v-col>
+        <v-col
+          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          :class="$vuetify.breakpoint.smAndUp ? 'scrollContainer' : ''"
+          :style="`padding-bottom: 0px; height: ${$vuetify.breakpoint.mdAndDown
+                  ? 'auto'
+                  : (expanded
+                    ? wrapperHeight + 'px'
+                    : wrapperHeight - mapPanelHeight
+                    - buttonRowHeight
+                    - 15 + 'px') }`"
+        >
+          <v-row
+            class="mt-0 fill-height"
+          >
+            <v-col
+              cols="12"
+              class="pb-0"
+              :style="`margin-top: ${customAreaIndicator && expanded ? '30px' : '0px'}`"
+              v-if="!isFullScreen"
+            >
+              <div
+                v-html="story"
+                class="md-body"
+              ></div>
             </v-col>
           </v-row>
         </v-col>
@@ -560,35 +494,26 @@ import {
 } from 'vuex';
 import { Wkt } from 'wicket';
 import { loadIndicatorData } from '@/utils';
+import { createConfigFromIndicator } from '@/helpers/mapConfig';
 import { DateTime } from 'luxon';
-import dialogMixin from '@/mixins/dialogMixin';
-import ExpandableContent from '@/components/ExpandableContent.vue';
 import IndicatorData from '@/components/IndicatorData.vue';
-import IndicatorMap from '@/components/IndicatorMap.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
-import FullScreenButton from '@/components/FullScreenButton.vue';
 import IframeButton from '@/components/IframeButton.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 
 export default {
-  mixins: [dialogMixin],
   props: [
     'expanded',
     'newsBanner',
   ],
   components: {
-    ExpandableContent,
     IndicatorData,
-    IndicatorMap,
     IndicatorGlobe,
-    FullScreenButton,
     IframeButton,
     AddToDashboardButton,
   },
   data: () => ({
-    dialog: false,
     overlay: false,
-    dataInteract: false,
     mounted: false,
     selectedSensorTab: 0,
     multipleTabCompare: null,
@@ -601,6 +526,8 @@ export default {
     datalayertime: null,
     comparelayertime: null,
     compareEnabled: false,
+    isLoadingCustomAreaIndicator: false,
+    showRegenerateButton: null,
   }),
   computed: {
     ...mapGetters('features', [
@@ -613,6 +540,12 @@ export default {
       'baseConfig',
     ]),
     ...mapState(['isFullScreen']),
+    ...mapState('features', [
+      'selectedArea',
+    ]),
+    ...mapState('indicators', [
+      'customAreaIndicator',
+    ]),
     story() {
       let markdown;
       try {
@@ -621,7 +554,14 @@ export default {
         try {
           markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].story}.md`);
         } catch {
-          markdown = { default: '' };
+          try {
+            const indicator = Array.isArray(this.$store.state.features.featureFilters.indicators)
+              ? this.$store.state.features.featureFilters.indicators[0]
+              : this.$store.state.features.featureFilters.indicators;
+            markdown = require(`../../public${this.baseConfig.indicatorsDefinition[indicator].story}.md`);
+          } catch {
+            markdown = { default: '' };
+          }
         }
       }
       return this.$marked(markdown.default);
@@ -704,9 +644,6 @@ export default {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
       return `user_AOI_${currDate}_${this.indicatorObject.indicator}.csv`;
     },
-    customAreaIndicator() {
-      return this.$store.state.indicators.customAreaIndicator;
-    },
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
     },
@@ -730,18 +667,8 @@ export default {
       }
       return null;
     },
-    eodataEnabled() {
-      let matchingInputDataAgainstConfig = [];
-      if (this.indicatorObject && this.indicatorObject.inputData) {
-        matchingInputDataAgainstConfig = this.indicatorObject.inputData
-          .filter((item) => Object.prototype.hasOwnProperty.call(this.layerNameMapping, item));
-      }
-      // showMap triggers dispay of the map directly, so EO Data button is hidden
-      // search configuration mapping if layer is configured for at least one inputData value
-      return !this.showMap && matchingInputDataAgainstConfig.length > 0;
-    },
     wrapperHeight() {
-      if (this.mounted) {
+      if (this.mounted && this.$refs.wrapper != null) {
         return this.$refs.wrapper.clientHeight;
       }
       return 0;
@@ -749,17 +676,6 @@ export default {
     buttonRowHeight() {
       if (this.mounted && this.$refs.buttonRow != null) {
         return this.$refs.buttonRow.clientHeight;
-      }
-      return 0;
-    },
-    eoDataBtnHeight() {
-      if (this.mounted) {
-        if (this.$refs.EODataBtn != null) {
-          return this.$refs.EODataBtn.$el.clientHeight;
-        }
-        if (this.$refs.externalDataBtn != null) {
-          return this.$refs.externalDataBtn.$el.clientHeight;
-        }
       }
       return 0;
     },
@@ -781,10 +697,30 @@ export default {
       }
       return 0;
     },
+    mergedConfigsData() {
+      // only display the "special layers" for global indicators
+      if (!this.indicatorObject) {
+        return [];
+      }
+      return createConfigFromIndicator(
+        this.indicatorObject,
+        'data',
+        0,
+      );
+    },
   },
   mounted() {
-    this.mounted = true;
+    this.$nextTick(() => {
+      this.mounted = true;
+    });
     this.init();
+
+    // TODO: Extract fetchData method into helper file since it needs to be used from outside.
+    window.addEventListener(
+      'set-custom-area-indicator-loading',
+      (e) => { this.isLoadingCustomAreaIndicator = e.detail; },
+      false,
+    );
   },
   methods: {
     async init() {
@@ -801,7 +737,11 @@ export default {
       const { selectedIndicator } = this.$store.state.indicators;
       const hasGrouping = this.appConfig.featureGrouping && this.appConfig.featureGrouping
         .find((g) => g.features.find((i) => i.includes(this.getLocationCode(selectedIndicator))));
-      if (hasGrouping) {
+      if (
+        hasGrouping
+        && !['global'].includes(selectedIndicator.properties.indicatorObject.siteName)
+        // only enable tabs for charts; global layers now use the sub-indicator feature
+      ) {
         compare = {};
         compare.label = hasGrouping.label;
         compare.features = hasGrouping.features;
@@ -816,22 +756,20 @@ export default {
       }
       this.multipleTabCompare = compare;
     },
-    swipe() {
-      this.overlay = true;
-      setTimeout(() => { this.overlay = false; }, 2000);
-    },
     scrollToCustomAreaIndicator() {
       this.$vuetify.goTo(this.$refs.customAreaIndicator, { container: document.querySelector('.data-panel') });
     },
     clearSelection() {
-      const refMap = Array.isArray(this.$refs.indicatorMap)
-        ? this.$refs.indicatorMap[this.selectedSensorTab]
-        : this.$refs.indicatorMap;
+      const refMap = this.$refs.indicatorMap;
       refMap.selectedCountry = null;
       refMap.selecectedLayer = null;
       this.$store.state.indicators.customAreaIndicator = null;
       this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
       refMap.onResize();
+    },
+    generateChart() {
+      // TODO: Extract fetchData method into helper file since it needs to be used from outside.
+      window.dispatchEvent(new Event('fetch-custom-area-chart'));
     },
   },
   watch: {
@@ -877,22 +815,14 @@ export default {
         refMap.onResize();
       }
     },
-    dialog(open) {
-      if (open && this.$refs.referenceMap) {
-        this.$refs.referenceMap.onResize();
-        setTimeout(() => {
-          this.$refs.referenceMap.flyToBounds();
-        }, 200);
-      }
+    selectedArea(area) {
+      this.showRegenerateButton = this.customAreaIndicator && !!area;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-::v-deep .v-slide-group__prev {
-  display: none !important;
-}
 .chart {
   background: #fff;
 }

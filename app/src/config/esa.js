@@ -7,6 +7,7 @@ import { shTimeFunction, shS2TimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { E13bRemovedFtrs } from '@/config/otherdata';
 import availableDates from '@/config/data_dates.json';
+import E13dMapTimes from '@/config/data_dates_e13d.json';
 
 import {
   statisticalApiHeaders,
@@ -28,21 +29,19 @@ export const indicatorsDefinition = Object.freeze({
   C1: {
     indicator: 'Combined 1',
     indicatorOverwrite: 'Ports and Shipping - impact on air quality',
-    class: 'combined',
+    themes: ['economy, air'],
   },
   C2: {
     indicator: 'Combined 2',
-    class: 'combined',
-    hideInFilters: true,
+    themes: ['economy, air'],
   },
   C3: {
     indicator: 'Combined 3',
-    class: 'combined',
-    hideInFilters: true,
+    themes: ['economy, air'],
   },
   E200: {
     indicator: 'Changes in Ships traffic within the Port',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E200',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -52,7 +51,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   E1: {
     indicator: 'Status of metallic ores (Archived)',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E1',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -62,7 +61,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   E1_S2: {
     indicator: 'Status of metallic ores (Archived)',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E1',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -71,7 +70,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   E1a: {
     indicator: 'Status of non-metallic ores (Archived)',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E1a',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -81,7 +80,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   E1a_S2: {
     indicator: 'Status of non-metallic ores (Archived)',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E1a',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -90,7 +89,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   E2: {
     indicator: 'Volume of oil stockpiled (Archived)',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E2',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -100,7 +99,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   E2_S2: {
     indicator: 'Volume of oil stockpiled (Archived)',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E2',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -109,45 +108,44 @@ export const indicatorsDefinition = Object.freeze({
   },
   E2a: {
     indicator: 'Level of flaring activity',
-    class: 'economic',
+    themes: ['economy'],
   },
   E3: {
     indicator: 'Inventory levels of factory inputs',
-    class: 'economic',
+    themes: ['economy'],
   },
   E4: {
     indicator: 'Production activity of intermediate goods',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E4',
   },
   E5: {
     indicator: 'Inventory levels of intermediate goods',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E5',
   },
   E6: {
     indicator: 'Inventory levels of factory inputs',
-    class: 'economic',
+    themes: ['economy'],
   },
   E7: {
     indicator: 'Production activity of finished goods',
-    class: 'economic',
+    themes: ['economy'],
   },
   E8: {
     indicator: 'Inventory Levels',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E8',
     maxDecimals: 5,
   },
   E9: {
     indicator: 'Construction activity',
-    class: 'economic',
+    themes: ['economy'],
   },
   E10a1: {
     indicator: 'Harvesting activity',
-    class: 'agriculture',
+    themes: ['agriculture'],
     story: '/eodash-data/stories/E10a1',
-    largeSubAoi: true,
     baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
       ...baseLayers.S2GLC,
       visible: true,
@@ -156,9 +154,8 @@ export const indicatorsDefinition = Object.freeze({
   },
   E10a2: {
     indicator: 'Cum. proportion of total area under active mgmt.',
-    class: 'agriculture',
+    themes: ['agriculture'],
     story: '/eodash-data/stories/E10a2',
-    largeSubAoi: true,
     baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
       ...baseLayers.S2GLC,
       visible: true,
@@ -168,85 +165,78 @@ export const indicatorsDefinition = Object.freeze({
   },
   E10a3: {
     indicator: 'Evolution of the cultivated areas for production of white asparagus',
-    class: 'agriculture',
+    themes: ['agriculture'],
     story: '/eodash-data/stories/E10a2',
-    largeSubAoi: true,
   },
   E10a5: {
     indicator: 'Harvesting activity',
-    class: 'agriculture',
+    themes: ['agriculture'],
     story: '/eodash-data/stories/E10a5',
-    largeSubAoi: true,
   },
   E10a6: {
     indicator: 'Harvested parcels/area evolution over time',
-    class: 'agriculture',
+    themes: ['agriculture'],
     story: '/eodash-data/stories/E10a6',
-    largeSubAoi: true,
     maxDecimals: 4,
   },
   E10a8: {
     indicator: 'Cumulative harvested area',
-    class: 'agriculture',
+    themes: ['agriculture'],
     story: '/eodash-data/stories/E10a8',
-    largeSubAoi: true,
   },
   E10a9: {
     indicator: 'Tomatoes cultivation',
-    class: 'agriculture',
-    largeSubAoi: true,
+    themes: ['agriculture'],
     story: '/eodash-data/stories/E10a9',
   },
   E10a10: {
     indicator: 'Harvesting evolution over time',
-    class: 'agriculture',
+    themes: ['agriculture'],
     story: '/eodash-data/stories/E10a10',
   },
   E10b: {
     indicator: 'Field preparation activity',
-    class: 'agriculture',
+    themes: ['agriculture'],
   },
   E11: {
     indicator: 'Volume of activity at shopping centers',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E11',
   },
   E11a: {
     indicator: 'Indicator definition placeholder',
-    class: 'economic',
+    themes: ['economy'],
   },
   E12a: {
     indicator: 'Volume of activity logistic interchange centers',
-    class: 'economic',
+    themes: ['economy'],
   },
   E12b: {
     indicator: 'Throughput at border crossing points',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E12b',
-    midSubAoi: true,
     maxDecimals: 3,
   },
   E12c: {
     indicator: 'Number of Trucks (Beta)',
-    class: 'economic',
+    themes: ['economy'],
     customAreaFeatures: true,
     customAreaIndicator: true,
-    largeSubAoi: true,
     featuresClustering: true,
     disableCompare: true,
     story: '/eodash-data/stories/E12c',
   },
   E13a: {
     indicator: 'Throughput at principal rail stations',
-    class: 'economic',
+    themes: ['economy'],
   },
   E13c: {
-    class: 'economic',
+    themes: ['economy'],
     story: '',
   },
   E13b: {
     indicator: 'Throughput at principal hub airports',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E13b_PLES',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
@@ -256,107 +246,91 @@ export const indicatorsDefinition = Object.freeze({
   },
   E13b2: {
     indicator: 'Throughput at principal hub airports Aerospacelab archived',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E13b',
   },
   E13d: {
     indicator: 'Airports: airplanes traffic',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E13d',
-  },
-  E13d2: {
-    indicator: 'Airports: airplanes traffic',
-    class: 'economic',
-    story: '/eodash-data/stories/E13d',
-    hideInFilters: true,
     baseLayers: [baseLayers.terrainLight, {
       ...baseLayers.cloudless,
       visible: true,
     }],
-    midSubAoi: true,
     mapTimeLabelExtended: true,
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
-      url: './eodash-data/features/E13d/E13d_{aoiID}_{featuresTime}.geojson',
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
     largeTimeDuration: true,
   },
   E13e: {
     indicator: 'Ports and Shipping - traffic (AIS)',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13f: {
     indicator: 'Maritime traffic: fishing',
-    hideInFilters: true,
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13g: {
     indicator: 'Maritime traffic: tanker',
-    hideInFilters: true,
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13h: {
     indicator: 'Maritime traffic: tug',
-    hideInFilters: true,
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13i: {
     indicator: 'Maritime traffic: search, rescue',
-    hideInFilters: true,
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13l: {
     indicator: 'Maritime traffic: pleasure craft',
-    hideInFilters: true,
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13m: {
     indicator: 'Maritime traffic: passenger',
-    hideInFilters: true,
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13n: {
     indicator: 'Ports and Shipping - traffic (AIS, Sentinel-1, mobile)',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E13n',
   },
   E13o: {
     indicator: 'Vessel density for all',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E13o',
   },
   E13p: {
-    hideInFilters: true,
     indicator: 'Vessel density for cargo',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E13o',
   },
   E13q: {
-    hideInFilters: true,
     indicator: 'Vessel density for tankers',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E13o',
   },
   E13r: {
-    hideInFilters: true,
     indicator: 'Vessel density for others',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/E13o',
   },
   H1: {
     indicator: 'Number of temp. treatment sites',
-    class: 'health',
+    themes: ['health'],
   },
   N1: {
     indicator: 'Air quality',
-    class: 'air',
+    themes: ['air'],
     story: '/eodash-data/stories/N1',
     externalData: {
       label: 'Sentinel-5p Mapping Service',
@@ -365,8 +339,7 @@ export const indicatorsDefinition = Object.freeze({
     largeTimeDuration: true,
   },
   N1a: {
-    hideInFilters: true,
-    class: 'air',
+    themes: ['air'],
     story: '/eodash-data/stories/N1_CAMS',
     externalData: {
       label: 'Copernicus Data [ECMWF]',
@@ -375,7 +348,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   N1b: {
     indicator: 'CAMS Air quality',
-    class: 'air',
+    themes: ['air'],
     story: '/eodash-data/stories/N1_CAMS',
     externalData: {
       label: 'Copernicus Data [ECMWF]',
@@ -383,8 +356,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   N1c: {
-    hideInFilters: true,
-    class: 'air',
+    themes: ['air'],
     story: '/eodash-data/stories/N1_CAMS',
     externalData: {
       label: 'Copernicus Data [ECMWF]',
@@ -392,8 +364,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   N1d: {
-    hideInFilters: true,
-    class: 'air',
+    themes: ['air'],
     story: '/eodash-data/stories/N1_CAMS',
     externalData: {
       label: 'Copernicus Data [ECMWF]',
@@ -402,34 +373,32 @@ export const indicatorsDefinition = Object.freeze({
   },
   NASAPopulation: {
     indicator: 'Population',
-    class: 'economic',
+    themes: ['economy'],
     story: '/data/trilateral/NASAPopulation',
   },
   WSF: {
     indicator: 'World Settlement Footprint',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/WSF-WSF',
   },
   N2: {
     indicator: 'CO2 emissions',
-    class: 'air',
+    themes: ['air'],
     largeTimeDuration: true,
   },
   N3: {
     indicator: 'CHL concentration',
-    class: 'water',
+    themes: ['water'],
     story: '/eodash-data/stories/N3',
-    largeSubAoi: true,
   },
   N3a2: {
     indicator: 'CHL concentration',
-    class: 'water',
+    themes: ['water'],
     story: '/eodash-data/stories/N3a2',
-    largeSubAoi: true,
   },
   N4a: {
     indicator: 'Changes in land fill sites',
-    class: 'land',
+    themes: ['land'],
     story: '/eodash-data/stories/N4a',
     baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
       ...baseLayers.S2GLC,
@@ -440,18 +409,17 @@ export const indicatorsDefinition = Object.freeze({
   },
   N4b: {
     indicator: 'Illegal waste levels',
-    class: 'land',
+    themes: ['land'],
   },
   N3c: {
     indicator: 'CMEMS Water Quality',
-    class: 'water',
+    themes: ['water'],
     largeTimeDuration: true,
-    largeSubAoi: true,
     story: '/eodash-data/stories/N3c',
   },
   N4c: {
     indicator: 'Changes in land fill sites',
-    class: 'land',
+    themes: ['land'],
     story: '/eodash-data/stories/N4c',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HH"),
@@ -466,27 +434,27 @@ export const indicatorsDefinition = Object.freeze({
   },
   OX: {
     indicator: 'Crude Oil Storage Utilization',
-    class: 'economic',
+    themes: ['economy'],
     story: '/eodash-data/stories/OX',
     disableCSV: true,
   },
   GG: {
     indicator: 'Mobility',
-    class: 'economic',
+    themes: ['economy'],
     disableTimeSelection: true,
     story: '/eodash-data/stories/GG-GG',
     disableCSV: true,
   },
   CV: {
     indicator: 'Covid-19 cases',
-    class: 'health',
+    themes: ['health'],
     disableTimeSelection: true,
     story: '/eodash-data/stories/CV-CV',
     disableCSV: true,
   },
   OW: {
     indicator: 'Covid-19 vaccinations',
-    class: 'health',
+    themes: ['health'],
     disableTimeSelection: true,
     story: '/eodash-data/stories/OW-OW',
     disableCSV: true,
@@ -494,7 +462,7 @@ export const indicatorsDefinition = Object.freeze({
   /*
   GSA: {
     indicator: 'Mobility',
-    class: 'economic',
+    themes: ['economy'],
     disableTimeSelection: true,
     borderSelection: true,
     story: '/eodash-data/stories/GSA-GSA',
@@ -502,30 +470,27 @@ export const indicatorsDefinition = Object.freeze({
   */
   CDS1: {
     indicator: 'C3S Data',
-    class: 'air',
+    themes: ['air'],
     story: '/eodash-data/stories/CDS',
   },
   CDS2: {
     indicator: 'Relative humidity',
-    class: 'air',
+    themes: ['air'],
     story: '/eodash-data/stories/CDS',
-    hideInFilters: true,
   },
   CDS3: {
     indicator: 'Wind U field',
-    class: 'air',
+    themes: ['air'],
     story: '/eodash-data/stories/CDS',
-    hideInFilters: true,
   },
   CDS4: {
     indicator: 'Wind V field',
-    class: 'air',
+    themes: ['air'],
     story: '/eodash-data/stories/CDS',
-    hideInFilters: true,
   },
   d: { // dummy for locations without Indicator code
     indicator: 'Upcoming data',
-    class: 'economic',
+    themes: ['economy'],
   },
 });
 
@@ -576,6 +541,9 @@ export const layerNameMapping = Object.freeze({
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
     dateFormatFunction: shS2TimeFunction,
   },
+  'Sentinel-5p Level-3 NO2': {
+    layers: 'AWS_NO2-VISUALISATION',
+  },
 });
 
 export const indicatorClassesIcons = Object.freeze({
@@ -585,7 +553,7 @@ export const indicatorClassesIcons = Object.freeze({
   health: 'mdi-hospital-box-outline',
   combined: 'mdi-set-center',
   air: 'mdi-weather-windy',
-  economic: 'mdi-currency-eur',
+  economy: 'mdi-currency-eur',
 });
 
 export const mapDefaults = Object.freeze({
@@ -686,6 +654,7 @@ export const excludeMapTimes = {
 };
 
 export const replaceMapTimes = {
+  ...E13dMapTimes,
 };
 
 const wkt = new Wkt();
@@ -1908,7 +1877,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'World',
-        time: getDailyDates('2020-01-07', DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
+        time: getMonthlyDates('1997-10-01', '2022-08-01'),
         inputData: [''],
         externalData: {
           label: 'Copernicus Marine Service - Product Details',
@@ -1920,27 +1889,21 @@ export const globalIndicators = [
           combinedLayers: [
             {
               ...cmemsDisplay,
-              baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-atl-bio-multi-l4-chl_interpolated_1km_daily-rt?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
+              baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_atl_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
               name: 'Atlantic coast CHL L4 Product',
               bounds: latLngBounds(latLng([20, -45]), latLng([66, 10.5])),
             }, {
               ...cmemsDisplay,
-              baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-med-chl-multi-l4-interp_1km_daily-rt-v02?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
+              baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_med_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
               name: 'Mediterranean CHL L4 Product',
               bounds: latLngBounds(latLng([30, -6]), latLng([46, 37])),
             }, {
               ...cmemsDisplay,
-              baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-bs-chl-multi-l4-interp_1km_daily-rt-v02?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
+              baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_blk_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
               name: 'Black sea CHL L4 Product',
               bounds: latLngBounds(latLng([40, 26.5]), latLng([48, 42])),
             },
           ],
-        }, {
-          ...cmemsDisplay,
-          baseUrl: 'https://nrt.cmems-du.eu/thredds/wms/dataset-oc-bal-chl-olci_a-l3-nn_1km_daily-rt-v02?COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
-          name: 'Baltic sea CHL L3 Product',
-          visible: false,
-          bounds: latLngBounds(latLng([53.25, 9]), latLng([65.85, 30.5])),
         }],
       },
     },
@@ -2217,7 +2180,7 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: false,
         id: 9987,
-        aoi: latLng([40.413, -1.23]),
+        aoi: null,
         aoiID: 'EU1',
         country: 'indicatorall',
         city: 'Europe',
@@ -2230,7 +2193,6 @@ export const globalIndicators = [
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
         time: [],
         inputData: [''],
         display: {

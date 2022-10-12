@@ -17,7 +17,7 @@
           x-small
           @click="resetBCZoom"
         >
-          Reset
+          Reset Zoom
         </v-btn>
   </div>
   <div style="width: 100%; height: 100%;"
@@ -64,7 +64,7 @@
       x-small
       @click="resetLCZoom"
     >
-      Reset
+      Reset Zoom
     </v-btn>
   </div>
 </template>
@@ -876,6 +876,14 @@ export default {
         this.$refs.zoomResetButton.$el.style.display = 'block';
       } else {
         this.$refs.zoomResetButton.$el.style.display = 'none';
+      }
+    },
+    // Same goes for the other button
+    areaChanged(val) {
+      if (val) {
+        this.$refs.regenerateButton.$el.style.display = 'block';
+      } else {
+        this.$refs.regenerateButton.$el.style.display = 'none';
       }
     },
     resetLCZoom() {

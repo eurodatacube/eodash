@@ -1,0 +1,264 @@
+{
+  "esa": {
+    "C1": {
+      "title": "Ships - NO2 Correlation"
+    },
+    "C2": {
+      "title": "People - NO2 Correlation"
+    },
+    "C3": {
+      "title": "Cars - NO2 Correlation"
+    },
+    "E200": {
+      "title": "Ships in Port",
+      "description": "Ships detected in Sentinel-2 data"
+    },
+    "E1": {
+      "title": "Shipment of metallic ores (Archived)",
+      "description": "Ships detected at specific piers in Pleiades data"
+    },
+    "E1_S2": {
+      "title": "Shipment of metallic ores (Archived)",
+      "description": "Ships detected at specific piers in Sentinel-2 data"
+    },
+    "E1a": {
+      "title": "Shipment of non-metallic ores (Archived)",
+      "description": "Ships detected at specific piers in Pleiades data"
+    },
+    "E1a_S2": {
+      "title": "Shipment of non-metallic ores (Archived)",
+      "description": "Ships detected at specific piers in Sentinel-2 data"
+    },
+    "E2": {
+      "title": "Shipment of oil (Archived)",
+      "description": "Ships detected at specific piers in Pleiades data"
+    },
+    "E2_S2": {
+      "title": "Shipment of oil (Archived)",
+      "description": "Ships detected at specific piers in Sentinel-2 data"
+    },
+    "E3": {
+      "title": "Raw Material Inventory",
+      "description": "Crude Oil and other input materials"
+    },
+    "E8": {
+      "title": "Finished Goods Inventory",
+      "description": "Manufacturing outputs"
+    },
+    "E10a1": {
+      "title": "Productive area [ha]",
+      "description": "Cultivated active fields detected in Sentinel-2 data"
+    },
+    "E10a2": {
+      "title": "White Asparagus area [%]",
+      "description": "Actively managed total area from Sentinel-2 data"
+    },
+    "E10a3": {
+      "title": "White Asparagus area change [%]",
+      "description": "Fields cultivated with white asparagus from Sentinel-2 data"
+    },
+    "E10a5": {
+      "title": "Red Berries Harvest [nr]",
+      "description": "Harvesting trucks detected in Pleiades data"
+    },
+    "E10a6": {
+      "locationSplit": {
+        "a": {
+          "title": "Harvested parcels [%]",
+          "description": "Evolution of harvested parcels"
+        },
+        "b": {
+          "title": "Harvested area [%]",
+          "description": "Evolution of harvested area"
+        }
+      }
+    },
+    "E10a7": {
+      "title": "Winter Cereals area [%]",
+      "description": "Evolution of harvested area"
+    },
+    "E10a8": {
+      "title": "Winter Cereals [ha, %]",
+      "description": "Evolution of harvested area and area size"
+    },
+    "E10a9": {
+      "title": "Workers availability [nr]"
+    },
+    "E10a10": {
+      "locationSplit": {
+        "a": {
+          "title": "Winter Cereal Harvest",
+          "description": "Observed harvesting in Sentinel-1 data compared to model expectation"
+        },
+        "b": {
+          "title": "Winter Rapeseed Harvest",
+          "description": "Observed harvesting in Sentinel-1 data compared to model expectation"
+        }
+      }
+    },
+    "E11": {
+      "title": "Activity at shopping centers",
+      "description": "Occupancy of customer parking"
+    },
+    "E11a": {
+      "title": "Activity at sport centers",
+      "description": "Occupancy of customer parking"
+    },
+    "E12b": {
+      "title": "Border crossing vehicles [vol]",
+      "description": "Volume of highway occupancy from Sentinel-1 data"
+    },
+    "E12c": {
+      "title": "Moving trucks on highways",
+      "description": "Truck detections on Sentinel-2 data"
+    },
+    "E12d": {
+      "title": "Moving trucks on primary roads",
+      "description": "Truck detections on Sentinel-2 data"
+    },
+    "E13b": {
+      "title": "Parked Airplanes",
+      "description": "Parked planes detected on Sentinel-2 data"
+    },
+    "E13b2": {
+      "title": "Parked Airplanes (Archived)",
+      "description": "Parked planes detected on Sentinel-2 data"
+    },
+    "E13d": {
+      "title": "Flying Airplanes",
+      "description": "Flying planes detected on Sentinel-2 data"
+    },
+    "E13e": {
+      "title": "Cargo Ships [nr]",
+      "description": "Cargo ships in port based on AIS data"
+    },
+    "E13f": {
+      "title": "Fishing Ships [nr]",
+      "description": "Fishing ships in port based on AIS data"
+    },
+    "E13g": {
+      "title": "Tanker Ships [nr]",
+      "description": "Tanker ships in port based on AIS data"
+    },
+    "E13h": {
+      "title": "Tug Ships [nr]",
+      "description": "Tug ships in port based on AIS data"
+    },
+    "E13i": {
+      "title": "Search&Rescue Ships [nr]",
+      "description": "Search&Rescue ships in port based on AIS data"
+    },
+    "E13l": {
+      "title": "Cruise Ships [nr]",
+      "description": "Cruise ships in port based on AIS data"
+    },
+    "E13m": {
+      "title": "Passenger Ships [nr]",
+      "description": "Passenger ships in port based on AIS data"
+    },
+    "E13n": {
+      "title": "Trucks transiting ports [%]",
+      "description": "Changes in traffic based on mobile data"
+    },
+    "E13o": {
+      "title": "Vessel density (all) [h/sqkm]",
+      "description": "Average number of vessels in a km2 cell in a given period"
+    },
+    "E13p": {
+      "title": "Vessel density (cargo) [h/sqkm]",
+      "description": "Average number of vessels in a km2 cell in a given period"
+    },
+    "E13q": {
+      "title": "Vessel density (tanker) [h/sqkm]",
+      "description": "Average number of vessels in a km2 cell in a given period"
+    },
+    "E13r": {
+      "title": "Vessel density (others) [h/sqkm]",
+      "description": "Average number of vessels in a km2 cell in a given period"
+    },
+    "H1": {
+      "title": "nr of temp. treatment sites (N)"
+    },
+    "N1": {
+      "title": "City level NO2 (S5p)"
+    },
+    "N1a": {
+      "title": "City level PM2.5 (model)"
+    },
+    "N1b": {
+      "title": "City level NO2 (model)"
+    },
+    "N1c": {
+      "title": "City level PM10 (model)"
+    },
+    "N1d": {
+      "title": "City level O3 (model)"
+    },
+    "NASAPopulation": {
+      "title": "Population density"
+    },
+    "WSF": {
+      "title": "Builtup areas",
+      "description": "World Settlement Footprint Evolution"
+    },
+    "N3": {
+      "title": "CHL-a concentration (point)"
+    },
+    "N3a2": {
+      "title": "CHL-a concentration (map, 300m)",
+      "description": "Multi-sensor product"
+    },
+    "N4a": {
+      "title": "Changes in land fill sites (N)"
+    },
+    "N4b": {
+      "title": "Illegal waste levels (N)"
+    },
+    "N3c": {
+      "title": "CHL-a concentration (map, 1km) (N)",
+      "description": "CMEMS product"
+    },
+    "N4c": {
+      "title": "Changes in land fill sites (N)"
+    },
+    "OX": {
+      "title": "Crude Oil Storage Index",
+      "description": "Level of oil in tanks based on SAR and optical data"
+    },
+    "GG": {
+      "title": "Mobility index [daily, %]",
+      "description": "Daily variation of visits and length of stay"
+    },
+    "CV": {
+      "title": "Covid-19 cases"
+    },
+    "OW": {
+      "title": "Covid-19 vaccinations"
+    },
+    "CDS1": {
+      "title": "Temperature"
+    },
+    "CDS2": {
+      "title": "Relative humidity"
+    },
+    "CDS3": {
+      "title": "Wind U field"
+    },
+    "CDS4": {
+      "title": "Wind V field"
+    },
+    "World-N1": {
+      "title": "NO2 (S5p)"
+    },
+    "WorldCO-N1": {
+      "title": "CO (S5p)"
+    },
+    "CH4-N1": {
+      "title": "CH4 (S5p)"
+    }
+  },
+  "trilateral": {
+  },
+  "gtif": {
+  }
+}

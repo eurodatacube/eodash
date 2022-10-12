@@ -2,24 +2,11 @@
 
 const state = {
   selectedIndicator: null,
+  selectedTime: null,
   customAreaIndicator: null,
 };
 
 const getters = {
-  getIndicatorFilteredInputData: (state) => (selectedIndicator) => {
-    const indicator = selectedIndicator || { ...state.selectedIndicator };
-    // filter out rows which have empty "Input Data"
-    const mask = indicator.inputData.map((item) => item !== '' && item !== '/');
-    // filtering only arrays with more than 1 element to not fail on Input Data:['value'] shortcut
-    if (mask.length > 1) {
-      for (let [key, value] of Object.entries(indicator)) { // eslint-disable-line
-        if (Array.isArray(value) && value.length > 1) {
-          indicator[key] = value.filter((item, i) => mask[i]);
-        }
-      }
-    }
-    return indicator;
-  },
 };
 
 const mutations = {

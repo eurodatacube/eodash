@@ -71,11 +71,13 @@
             @click="dataInteract = true">
             Tap to interact
           </v-overlay>
-          <indicator-map
+          <Map
             style="top: 0px; position: absolute;"
             v-if="globalData"
             class="pt-0 fill-height"
             :currentIndicator="sensorData.properties.indicatorObject"
+            mapId="embedMap"
+            disableAutoFocus
           />
           <indicator-data
             style="top: 0px; position: absolute;"
@@ -106,10 +108,11 @@
           @click="dataInteract = true">
           Tap to interact
         </v-overlay>
-        <indicator-map
+        <Map
           style="top: 0px; position: absolute;"
           v-if="globalData"
           class="pt-0 fill-height"
+          mapId="embedMap"
         />
         <indicator-data
           style="top: 0px; position: absolute;"
@@ -130,7 +133,9 @@
         class="flex-grow-0"
       >
         <small class="white--text ml-2">Read the
-          <a :href="`/?poi=${this.getLocationCode($store.state.indicators.selectedIndicator)}`"
+          <a
+            :href="`${$router.options.routes.find((r) => r.name === 'explore')
+              .path}?poi=${this.getLocationCode($store.state.indicators.selectedIndicator)}`"
             target="_blank" class="white--text">full story on this indicator</a>.
         </small>
 
@@ -156,7 +161,7 @@ import {
 import { loadIndicatorData } from '@/utils';
 
 import IndicatorData from '@/components/IndicatorData.vue';
-import IndicatorMap from '@/components/IndicatorMap.vue';
+import Map from '@/components/map/Map.vue';
 
 export default {
   metaInfo() {
@@ -167,7 +172,7 @@ export default {
   },
   components: {
     IndicatorData,
-    IndicatorMap,
+    Map,
   },
   data: () => ({
     overlay: false,
