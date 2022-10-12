@@ -122,7 +122,7 @@ export default {
       // clip the originalLayer from right, the comparing layer from left
       if (this.$refs.container) {
         const ctx = evt.context;
-        const sidePadding = document.querySelector('.data-panel') !== null
+        const sidePadding = document.querySelector('.data-panel') !== null // eslint-disable-line
           ? document.querySelector('.data-panel').className.includes('v-navigation-drawer--close')
             ? 0
             : document.querySelector('.data-panel').clientWidth

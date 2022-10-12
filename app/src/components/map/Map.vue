@@ -501,7 +501,6 @@ export default {
           const { bounds } = this.mapDefaults;
           const extent = transformExtent([bounds._southWest.lng, bounds._southWest.lat, bounds._northEast.lng, bounds._northEast.lat], 'EPSG:4326',
             'EPSG:3857');
-          const { map } = getMapInstance(this.mapId);
           const padding = calculatePadding();
           map.getView().fit(extent, { padding });
         }, 500);

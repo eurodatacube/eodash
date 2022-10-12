@@ -196,18 +196,18 @@ export default {
     getSearchItems() {
       const itemArray = [
         ...countries.features
-        .filter((f) => !this.getCountries.includes(f.properties.alpha2))
-        .map((f) => ({
-          code: f.properties.alpha2,
-          name: f.properties.name,
-          noPOIs: true,
-        })),
+          .filter((f) => !this.getCountries.includes(f.properties.alpha2))
+          .map((f) => ({
+            code: f.properties.alpha2,
+            name: f.properties.name,
+            noPOIs: true,
+          })),
         ...this.getCountries
-        .filter((f) => countries.features.find((c) => c.properties.alpha2 === f))
-        .map((f) => ({
-          code: f,
-          name: countries.features.find((c) => c.properties.alpha2 === f).properties.name,
-        })),
+          .filter((f) => countries.features.find((c) => c.properties.alpha2 === f))
+          .map((f) => ({
+            code: f,
+            name: countries.features.find((c) => c.properties.alpha2 === f).properties.name,
+          })),
         ...this.getIndicators
           .filter((i) => !i.dummyFeature)
           .filter(
@@ -285,7 +285,7 @@ export default {
       this.searchItems.sort((a, b) => (a.name.localeCompare(b.name)));
       this.searchItems.sort((a, b) => (b.filterPriority || 0) - (a.filterPriority || 0));
       this.formattedSearchItems = this.searchItems
-        .filter((i) => this.userInput.length < 3 ? !i.noPOIs : true)
+        .filter((i) => (this.userInput.length < 3 ? !i.noPOIs : true))
         .map((i) => i.name);
     },
     customComboboxFilter(item) {
@@ -306,7 +306,7 @@ export default {
       } else {
         this.$router.back();
       }
-    }
+    },
   },
   watch: {
     allFeatures() {

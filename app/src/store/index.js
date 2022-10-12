@@ -56,7 +56,7 @@ const store = new Vuex.Store({
     },
     setInitWithQuery(state, value) {
       state.initWithQuery = value;
-    }
+    },
   },
   plugins: [vuexLocal.plugin],
 });

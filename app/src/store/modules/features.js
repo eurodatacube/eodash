@@ -304,7 +304,7 @@ const actions = {
     commit('ADD_NEW_FEATURES', allFeatures);
   },
 
-  loadEOXEndpoint({ rootState, commit }, { url, endPointIdx }) {
+  loadEOXEndpoint(_, { url, endPointIdx }) {
     return fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
       .then((data) => {
         const features = [];
@@ -391,7 +391,7 @@ const actions = {
         return features;
       });
   },
-  loadGeoDBEndpoint({ rootState, commit }, { url, endPointIdx }) {
+  loadGeoDBEndpoint(_, { url, endPointIdx }) {
     return fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
       .then((data) => {
         const features = [];
