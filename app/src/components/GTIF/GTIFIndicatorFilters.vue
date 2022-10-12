@@ -11,12 +11,13 @@
       :mini-variant-width="iconSize"
     >
       <v-list class="py-0">
-        <v-list-item-group v-model="domainModel">
+        <v-list-item-group v-model="domainModel" mandatory>
           <v-list-item
             v-for="theme in themes"
             :key="theme.slug"
             class="pa-2"
             :style="`width: ${iconSize}px; height: ${iconSize}px`"
+            @click="showLayerMenu = true"
           >
             <v-list-item-icon
               class="ma-0 d-flex flex-column align-center"
@@ -47,7 +48,7 @@
               :key="getLocationCode(item.properties.indicatorObject)"
               class="mb-2"
               style="width: 100%"
-              @click="setSelectedIndicator(item.properties.indicatorObject)"
+              @click="() => { setSelectedIndicator(item.properties.indicatorObject); showLayerMenu = false }"
             >
               <v-list-item-avatar>
                 <v-img
@@ -114,12 +115,6 @@ export default {
     },
     onClickOutside() {
       this.showLayerMenu = false;
-      this.domainModel = undefined;
-    },
-  },
-  watch: {
-    domainModel(newIndex) {
-      this.showLayerMenu = !(newIndex === undefined);
     },
   },
 };
