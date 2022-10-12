@@ -143,6 +143,11 @@ export const defaultLayersDisplay = {
 };
 
 export const indicatorsDefinition = Object.freeze({
+  BM1: {
+    indicator: 'Biomass',
+    class: 'air',
+    themes: ['carbon-accounting'],
+  },
   REP1: {
     indicator: 'Wind power',
     class: 'air',
@@ -660,6 +665,51 @@ export const globalIndicators = [
           selectedStyleLayer: 'PVExisting',
           id: 'urban_trees_innsbruck',
           name: '',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Biomass',
+        navigationDescription: 'Placeholder for description text',
+        indicator: 'BM1',
+        lastIndicatorValue: null,
+        indicatorName: 'Biomass',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Austria',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'BM1',
+          sources: [
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/Carbon_accounting/3857/Austria_AutoChange2020-2021-packed-rendered_3857.tif' },
+          ],
+          normalize: true,
+          style: {
+          },
+          name: 'biomass',
           minZoom: 1,
         },
       },

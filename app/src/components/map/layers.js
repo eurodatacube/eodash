@@ -131,7 +131,7 @@ export function createLayerFromConfig(config, _options = {}) {
   if (config.protocol === 'cog') {
     const source = new GeoTIFF({
       sources: config.sources,
-      normalize: false,
+      normalize: config.normalize ? config.normalize : false,
     });
     const wgTileLayer = new WebGLTileLayer({
       source,
