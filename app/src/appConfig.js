@@ -18,7 +18,7 @@ module.exports = [
     pageMeta: {
       rootPath: 'https://race.esa.int',
       googleSiteVerification: 'RfWilP51Q2wsZnVlKbxUTovIx90QqqLRFLebGpAeq14',
-      shortDescription: 'The RACE platform demonstrates how the use of EO data can help shed new light on societal and economic changes currently taking place owing to the coronavirus pandemic.',
+      shortDescription: 'This dashboard aims to showcase the power of Earth Observations to inform on societal global challenges. It is a cooperation between The European Space Agency and the European Commission.',
       twitterCardImagePath: '/img/ESA/twitter_card.jpg',
       imagePath: '/img/ESA',
     },
