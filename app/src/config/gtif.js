@@ -267,14 +267,17 @@ export const globalIndicators = [
             {
               id: 'NO2',
               description: 'Nitrogen Dioxide',
+              markdown: 'AQ_NO2',
             },
             {
               id: 'PM10',
               description: 'Particulate Matter < 10µm',
+              markdown: 'AQ_PM10',
             },
             {
               id: 'PM25',
               description: 'Particulate Matter < 2.5µm',
+              markdown: 'AQ_PM25',
             },
           ],
         },
