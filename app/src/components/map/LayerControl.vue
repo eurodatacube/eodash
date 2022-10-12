@@ -36,6 +36,15 @@
           <span class="label">{{n.name}}</span>
         </template>
     </v-checkbox>
+    <div v-if="administrativeConfigGroup">
+      <v-checkbox v-for="n in administrativeConfigGroup" :key="n.name" :label="n.name"
+      v-model="n.visible" dense class="my-0 py-0" hide-details
+      @change="setVisibleAdminGroup($event, n)">
+        <template v-slot:label>
+          <span class="label">{{n.name}}</span>
+        </template>
+      </v-checkbox>
+    </div>
   </v-card>
 </template>
 
@@ -54,6 +63,7 @@ export default {
     mapId: String,
     baseLayerConfigs: Array,
     overlayConfigs: Array,
+    administrativeConfigs: Array,
     isGlobalIndicator: Boolean,
   },
   data() {
@@ -84,7 +94,19 @@ export default {
       });
     },
   },
-  computed: {},
+  computed: {
+    administrativeConfigGroup() {
+      let groups = null;
+      if (this.administrativeConfigs.length > 0) {
+        groups = [{
+          name: "Administrative Layers",
+          visible: true,
+          configs: this.administrativeConfigs,
+        }];
+      }
+      return groups;
+    }
+  },
   mounted() {
     const { map } = getMapInstance(this.mapId);
     const baseLayers = this.baseLayerConfigs.map((l) => createLayerFromConfig(l, { zIndex: 0 }));
@@ -109,6 +131,13 @@ export default {
       const olLayers = getMapInstance(this.mapId).map.getLayers().getArray();
       const layer = olLayers.find((l) => l.get('name') === layerConfig.name);
       layer.setVisible(value);
+    },
+    setVisibleAdminGroup(value, layerConfigsGroup) {
+      const olLayers = getMapInstance(this.mapId).map.getLayers().getArray();
+      layerConfigsGroup.configs.forEach((config) => {
+        const layer = olLayers.find((l) => l.get('name') === config.name);
+        layer.setVisible(value);
+      })
     },
     updateOverlayOpacity(e) {
       const map = e.target;

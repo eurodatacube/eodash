@@ -108,6 +108,12 @@ export default {
     });
     this.inverseAdministrativeLayer = inverseAdministrativeLayer;
     this.highlightLayer = highlightLayer;
+    // when layers visibilitites are disabled via LayerControl, other layers here are hidden
+    this.adminLayerGroups[0].on('change:visible', (e) => {
+      const visible = e.target.getVisible();
+      inverseAdministrativeLayer.setVisible(visible);
+      highlightLayer.setVisible(visible);
+    });
     map.addLayer(inverseAdministrativeLayer);
     map.addLayer(highlightLayer);
   },
