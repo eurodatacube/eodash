@@ -1402,7 +1402,7 @@ export const globalIndicators = [
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('magma', 0, 420, 50, false),
+                ...getColorStops('greens', 0, 420, 50, false),
               ],
               [
                 'color', 0, 0, 0, 0,
