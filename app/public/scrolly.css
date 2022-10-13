@@ -326,3 +326,33 @@ figure p {
     max-height: 80vh;
   }
 }
+
+#playvideo-container {
+  position: relative;
+}
+#playbutton {
+  position: absolute;
+  bottom: 22px;
+  right: 10px;
+  border: 0;
+  background: transparent;
+  box-sizing: border-box;
+  width: 0;
+  height: 24px;
+
+  border-color: transparent transparent transparent #fffa;
+  transition: 100ms all ease;
+  cursor: pointer;
+
+  /* play state */
+  border-style: solid;
+  border-width: 12px 0 12px 24px;
+}
+#playbutton.playing {
+  border-style: double;
+  border-width: 0px 0 0px 24px;
+}
+
+#playbutton:hover {
+  border-color: transparent transparent transparent #fff;
+}

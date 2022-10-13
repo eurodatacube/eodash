@@ -146,6 +146,7 @@
                 this.scrollyArray = message.data;
                 this.$nextTick(() => {
                     this.scrollamaSetup();
+                    this.videoSetup();
                 });
             }
         });
@@ -175,6 +176,7 @@
                     debug: false
                 })
                 .onStepEnter(handleStepEnter)
+                .onStepExit(this.pauseAllVideos)
                 .onStepProgress(handleStepProgress);
         }
 
@@ -187,6 +189,41 @@
         let el = document.querySelector(`[data-section='${index}'] .expandable`);
         el.classList.toggle('hidden');
       },
+      videoSetup() {
+        // simple script to enable play/pause of videos that have been directly embedded
+        // currently only supports one per page with correct ID
+        let videoElem = document.getElementById("playvideo");
+        let playButton = document.getElementById("playbutton");
+
+        playButton.addEventListener("click", handlePlayButton, false);
+        playVideo();
+
+        async function playVideo() {
+            try {
+                await videoElem.play();
+                playButton.classList.add("playing");
+            } catch (err) {
+                playButton.classList.remove("playing");
+            }
+        }
+
+        function handlePlayButton() {
+            if (videoElem.paused) {
+                playVideo();
+            } else {
+                videoElem.pause();
+                playButton.classList.remove("playing");
+            }
+        }
+      },
+      pauseAllVideos() {
+        let videoElem = document.getElementById("playvideo");
+        let playButton = document.getElementById("playbutton");
+        if (videoElem) {
+            videoElem.pause();
+            playButton.classList.remove("playing");
+        }
+      }
     },
   });
 </script>
