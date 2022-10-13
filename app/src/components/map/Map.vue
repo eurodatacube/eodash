@@ -5,13 +5,14 @@
     <AdminBordersLayers
       :mapId="mapId"
       :administrativeConfigs="administrativeConfigs"
-      v-if="administrativeConfigs"
+      v-if="administrativeConfigs.length > 0"
       :key="dataLayerName + '_adminLayers'"
     />
     <!-- a layer adding a (potential) subaoi, z-index 5 -->
     <SubaoiLayer
       :mapId="mapId"
       :indicator="indicator"
+      :isGlobal="isGlobalIndicator"
       v-if="dataLayerName"
       :key="dataLayerKey + '_subAoi'"
     />
@@ -114,6 +115,7 @@
         :mapId="mapId"
         :baseLayerConfigs="baseLayerConfigs"
         :overlayConfigs="overlayConfigs"
+        :administrativeConfigs="administrativeConfigs"
         :isGlobalIndicator="isGlobalIndicator"
       />
       <!-- will add a drawing layer to the map (z-index 3) -->

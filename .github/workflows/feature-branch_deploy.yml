@@ -2,7 +2,7 @@ name: Feature branch deployment
 
 on:
   push:
-    branches-ignore: [ master, staging ]
+    branches-ignore: [ master, staging, gtif-demo ]
 
 concurrency:
   group: ci-tests-${{ github.ref }}-1
@@ -13,9 +13,9 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-
     # Checkout code
     - uses: actions/checkout@v3
+
     # Install node
     - name: Setup Node
       uses: actions/setup-node@v3
@@ -24,6 +24,7 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
         cache: 'npm'
         cache-dependency-path: app/package-lock.json
+
     # Build
     - name: Build
       run: |

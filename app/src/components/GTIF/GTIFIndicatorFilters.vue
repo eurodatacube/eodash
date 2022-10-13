@@ -39,7 +39,7 @@
       <div
         v-show="showLayerMenu"
         class="fill-height"
-        style="width: 238px; pointer-events: all"
+        style="width: 250px; pointer-events: all"
       >
         <v-list v-if="themes[domainModel]" style="width: 100%">
           <v-list-item-group style="width: 100%">
@@ -79,6 +79,16 @@ export default {
     domainModel: undefined,
     iconSize: 88,
     showLayerMenu: false,
+    customOrder: [
+      'Austria-REP4',
+      'Austria-REP3',
+      'Austria-REP2',
+      'Austria-REP1',
+      'AT-AQ',
+      'Innsbruck-SOL3',
+      'Innsbruck-SOL2',
+      'Innsbruck-SOL1',
+    ]
   }),
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
@@ -91,6 +101,11 @@ export default {
           > b.properties.indicatorObject.indicatorName)
           ? 1
           : -1))
+        .sort((a, b) => 
+          this.customOrder.indexOf(this.getLocationCode(a.properties.indicatorObject))
+          > this.customOrder.indexOf(this.getLocationCode(b.properties.indicatorObject))
+          ? 1
+          : -1)
         .map((i) => ({
           ...i,
           theme: this.baseConfig.indicatorsDefinition[
@@ -131,3 +146,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+::v-deep .v-list-item__title,
+::v-deep .v-list-item__subtitle {
+  white-space: pre-wrap;
+}
+</style>

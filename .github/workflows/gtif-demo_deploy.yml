@@ -1,0 +1,100 @@
+name: GTIF-Demo deployment
+
+on:
+  push:
+    branches: [ gtif-demo ]
+
+concurrency:
+  group: ci-tests-${{ github.ref }}-1
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+
+    steps:
+    # Checkout code
+    - uses: actions/checkout@v3
+
+    # Install node
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+        registry-url: 'https://registry.npmjs.org'
+        cache: 'npm'
+        cache-dependency-path: app/package-lock.json
+
+    # Build
+    - name: Build
+      run: |
+        cd app/
+        npm ci --ignore-scripts
+        npm run build -- --mode staging
+
+    # Inject SH Config file
+    - name: replace instance ID
+      uses: datamonsters/replace-action@v2
+      with:
+        files: 'app/dist/shConfig.js'
+        replacements: '$SH_INSTANCE_ID=${{ secrets.SH_INSTANCE_ID }},$MAPBOX_ACCESS_TOKEN=${{ secrets.MAPBOX_ACCESS_TOKEN }},$GEODB_INSTANCE_ID=${{ secrets.GEODB_INSTANCE_ID }},$LISTMONK_API_KEY=${{ secrets.LISTMONK_API_KEY }},$STAT_API_CLIENT_SECRET=${{ secrets.STAT_API_CLIENT_SECRET }},$STAT_API_CLIENT_ID=${{ secrets.STAT_API_CLIENT_ID }}'
+
+    # Upload build client to S3
+    - name: sync client s3
+      uses: jakejarvis/s3-sync-action@v0.5.1
+      with:
+        args: --delete --follow-symlinks --exclude 'data/*'  --exclude 'eodash-data/*'
+      env:
+        SOURCE_DIR: 'app/dist'
+        DEST_DIR: 'gtif-demo'
+        AWS_REGION: 'eu-central-1'
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    # Upload data to S3
+    - name: sync data s3
+      uses: jakejarvis/s3-sync-action@v0.5.1
+      with:
+        args: --delete --follow-symlinks --size-only
+      env:
+        SOURCE_DIR: 'app/dist/data'
+        DEST_DIR: 'gtif-demo/data'
+        AWS_REGION: 'eu-central-1'
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    # Upload eodashdata to S3
+    - name: sync eodashdata s3
+      uses: jakejarvis/s3-sync-action@v0.5.1
+      with:
+        args: --delete --follow-symlinks --size-only
+      env:
+        SOURCE_DIR: 'app/dist/eodash-data'
+        DEST_DIR: 'gtif-demo/eodash-data'
+        AWS_REGION: 'eu-central-1'
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    # Invalidate Cloudfront
+    - name: invalidate
+      uses: chetan/invalidate-cloudfront-action@v1.2
+      env:
+        DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_GTIF_DEMO }}
+        PATHS: '/*'
+        AWS_REGION: 'eu-central-1'
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    # Send notification
+    - name: action-slack
+      uses: 8398a7/action-slack@v3.0.3
+      with:
+        status: ${{ job.status }}
+        author_name: eodash_deploy
+        fields: repo,message,commit,author,action,eventName,ref,workflow
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+      if: always()

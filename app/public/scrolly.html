@@ -38,7 +38,7 @@
                         <div
                             class="expandable hidden"
                             data-section="sectionIndex"
-                            v-html="el.text.replaceAll('<--EXPAND-->', '')"
+                            v-html="parseMarkdown(el.text.replaceAll('<--EXPAND-->', ''))"
                         ></div>
                     </div>
                     <div
@@ -82,13 +82,14 @@
                                     autoplay
                                     >
                                 </video>
+                                <div v-else v-html="parseMarkdown(figure.text)"></div>
                             </template>
                             <iframe
                                 v-else
                                 class="item"
                                 :src="`/iframe?poi=${figure.id.substring(0, figure.id.indexOf('@'))}`"
-                                width="800px"
-                                height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>
+                                width="1000px"
+                                height="770px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>
                         </div>
                     </figure>
                 </transition-group>

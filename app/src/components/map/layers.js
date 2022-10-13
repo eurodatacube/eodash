@@ -39,18 +39,21 @@ function fetchGeoJsonFeatures(source, url) {
     .then((fStream) => {
       fStream.json()
         .then((geoJson) => {
-          geoJson.features.forEach((f) => {
-            if (f.id === null) {
-            // to do: some POIs (like bejing or LAX airports) have `null` set as feature ids,
-            // resulting in invalid geojson
-            // when this is fixed in the data, the normal geojson loader should be used
-            // eslint-disable-next-line no-param-reassign
-              f.id = undefined;
-            }
-          });
-          const features = geoJsonFormat.readFeatures(geoJson);
-          source.addFeatures(features);
-        });
+          if (geoJson.features && geoJson.features.length) {
+            geoJson.features.forEach((f) => {
+              if (f.id === null) {
+                // to do: some POIs (like bejing or LAX airports) have `null` set as feature ids,
+                // resulting in invalid geojson
+                // when this is fixed in the data, the normal geojson loader should be used
+                // eslint-disable-next-line no-param-reassign
+                f.id = undefined;
+              }
+            });
+            const features = geoJsonFormat.readFeatures(geoJson);
+            source.addFeatures(features);
+          }
+        })
+        .catch(() => {});
     });
 }
 
@@ -129,7 +132,7 @@ export function createLayerFromConfig(config, _options = {}) {
   if (config.protocol === 'cog') {
     const source = new GeoTIFF({
       sources: config.sources,
-      normalize: false,
+      normalize: config.normalize ? config.normalize : false,
     });
     const wgTileLayer = new WebGLTileLayer({
       source,
@@ -151,11 +154,18 @@ export function createLayerFromConfig(config, _options = {}) {
     layer.set('styleFile', config.styleFile);
     layer.set('selectedStyleLayer', config.selectedStyleLayer);
     layers.push(layer);
-
     fetch(config.styleFile).then((r) => r.json())
       .then((glStyle) => {
-        glStyle.sources.air_quality.data = glStyle.sources.air_quality.data.replace('{{time}}', '2022_09_17');
-        applyStyle(layer, glStyle, [config.selectedStyleLayer]);
+        const newGlStyle = JSON.parse(JSON.stringify(glStyle));
+        let currentTime = '2022_09_17';
+        if (config.usedTimes?.time?.length) {
+          currentTime = config.usedTimes.time[config.usedTimes.time.length - 1];
+          currentTime = currentTime.replaceAll('-', '_');
+        }
+        newGlStyle.sources.air_quality.data = newGlStyle.sources.air_quality.data.replace(
+          '{{time}}', currentTime,
+        );
+        applyStyle(layer, newGlStyle, [config.selectedStyleLayer]);
       })
       .catch(() => console.log('Issue loading mapbox style'));
   }
@@ -372,6 +382,16 @@ export function createLayerFromConfig(config, _options = {}) {
         url: config.url || config.baseUrl,
         tileGrid,
       });
+      source.set('updateTime', (updatedTime) => {
+        const timeString = config.dateFormatFunction(updatedTime);
+        const newParams = {
+          time: timeString,
+        };
+        if (config.specialEnvTime) {
+          newParams.env = `year:${updatedTime}`;
+        }
+        source.updateParams(newParams);
+      });
     }
   }
   if (config.protocol === 'maplibre') {
@@ -382,20 +402,19 @@ export function createLayerFromConfig(config, _options = {}) {
       attribution: config.attribution,
       maplibreOptions: {
         style: config.maplibreStyles,
-      }
+      },
     });
     layers.push(layer);
   }
 
   if (source) {
-    const tilelayer = new TileLayer({
+    layers.push(new TileLayer({
       name: config.name,
       // minZoom: config.minZoom || config.minNativeZoomm,
       updateOpacityOnZoom: options.updateOpacityOnZoom,
       zIndex: options.zIndex,
       source,
-    });
-    layers.push(tilelayer);
+    }));
   }
 
   if (config.features) {
@@ -428,6 +447,7 @@ export function createLayerFromConfig(config, _options = {}) {
     });
     const featuresLayer = new VectorLayer({
       source: featuresSource,
+      name: config.name + "_features",
       style: new Style({
         fill,
         stroke,

@@ -108,6 +108,12 @@ export default {
     });
     this.inverseAdministrativeLayer = inverseAdministrativeLayer;
     this.highlightLayer = highlightLayer;
+    // when layers visibilitites are disabled via LayerControl, other layers here are hidden
+    this.adminLayerGroups[0].on('change:visible', (e) => {
+      const visible = e.target.getVisible();
+      inverseAdministrativeLayer.setVisible(visible);
+      highlightLayer.setVisible(visible);
+    });
     map.addLayer(inverseAdministrativeLayer);
     map.addLayer(highlightLayer);
   },
@@ -134,7 +140,10 @@ export default {
           // and update zoom to nearest minzoom or maxzoom of next layer
           this.zoomToFeatureAdminLayerIndex(feature, layerIndex + 1);
           this.$store.commit(
-            'features/SET_ADMIN_BORDER_SELECTED', feature,
+            'features/SET_ADMIN_BORDER_FEATURE_SELECTED', feature,
+          );
+          this.$store.commit(
+            'features/SET_ADMIN_BORDER_LAYER_SELECTED', clickLayer,
           );
           this.setupInverseFeatureLayer(feature);
         } else if (clickLayer.get('name') === 'inverseAdministrativeLayer') {
@@ -224,7 +233,10 @@ export default {
       // get features and setup the inverse
       const feature = layer.getSource().getFeatures()[0];
       this.$store.commit(
-        'features/SET_ADMIN_BORDER_SELECTED', feature,
+        'features/SET_ADMIN_BORDER_FEATURE_SELECTED', feature,
+      );
+      this.$store.commit(
+        'features/SET_ADMIN_BORDER_LAYER_SELECTED', layer,
       );
       this.setupInverseFeatureLayer(feature);
       if (performZoomTo) {

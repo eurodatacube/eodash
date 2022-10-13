@@ -18,7 +18,16 @@
           :vectorStyles="indicatorObject.vectorStyles"
         >
         </style-controls>
+        <data-mockup-view v-if="appConfig.id === 'gtif'"
+          :indicatorObject="indicatorObject"
+          :adminLayer="$store.state.features.adminBorderLayerSelected"
+          :adminFeature="$store.state.features.adminBorderFeatureSelected"
+        >
+        </data-mockup-view>
         <v-col
+          v-if="!showMap
+            ||  multipleTabCompare
+            || (showMap && mergedConfigsData[0].customAreaIndicator)"
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
         >
@@ -92,7 +101,7 @@
               <v-card
                 v-if="customAreaIndicator && !expanded"
                 class="fill-height"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 43 : 30}vh;`"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 30 : 43}vh;`"
                 style="border: none; !important"
                 ref="indicatorData"
                 outlined
@@ -123,7 +132,7 @@
           <v-card
             v-else-if="customAreaIndicator && !expanded"
             class="fill-height"
-            :style="`height: ${$vuetify.breakpoint.mdAndUp ? 43 : 30}vh;`"
+            :style="`height: ${$vuetify.breakpoint.mdAndUp ? 30 : 43}vh;`"
             style="border: none; !important"
             ref="indicatorData"
             outlined
@@ -153,7 +162,7 @@
               style="margin-top: 0px;"
               class="pa-2 chart"
             />
-            <v-row v-if="!showMap" class="mt-0">
+            <v-row v-if="!showMap || !customAreaIndicator.isEmpty" class="mt-0">
               <v-col cols="12" sm="5" ></v-col>
               <v-col
                 cols="12"
@@ -174,7 +183,6 @@
                     v-if="
                       customAreaIndicator &&
                       !isFullScreen &&
-                      !showMap &&
                       !this.baseConfig.indicatorsDefinition[
                         indicatorObject.indicator
                       ].countrySelection
@@ -258,7 +266,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
             <v-col
               cols="12"
               sm="7"
-              v-if="!isFullScreen && !showMap"
+              v-if="!isFullScreen"
               :style="customAreaIndicator && !expanded
                 ? 'margin-bottom: -40px; margin-top: 20px;' : ''"
               ref="buttonRow"
@@ -296,6 +304,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                   v-if="
                     customAreaIndicator &&
                     !isFullScreen &&
+                    !showMap &&
                     !this.baseConfig.indicatorsDefinition[
                       indicatorObject.indicator
                     ].countrySelection
@@ -506,6 +515,7 @@ import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import IframeButton from '@/components/IframeButton.vue';
 import FilterControls from '@/components/map/FilterControls.vue';
 import StyleControls from '@/components/map/StyleControls.vue';
+import DataMockupView from '@/components/GTIF/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 
 export default {
@@ -520,6 +530,7 @@ export default {
     AddToDashboardButton,
     FilterControls,
     StyleControls,
+    DataMockupView,
   },
   data: () => ({
     overlay: false,
@@ -707,7 +718,6 @@ export default {
       return 0;
     },
     mergedConfigsData() {
-      // only display the "special layers" for global indicators
       if (!this.indicatorObject) {
         return [];
       }
