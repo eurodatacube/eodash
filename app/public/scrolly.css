@@ -272,7 +272,7 @@ figure p {
 
   article {
     position: relative;
-    padding: 4rem 4rem 36rem 4rem;
+    padding: 20rem 0 8rem 18rem;
     max-width: 42vw;
     z-index: 1;
     margin: 0;
@@ -282,7 +282,7 @@ figure p {
     position: -webkit-sticky;
     position: sticky;
     min-height: 80vh;
-    top: 10vh;
+    top: 5vh;
     width: 100%;
     -webkit-transform: translate3d(0, 0, 0);
     -moz-transform: translate3d(0, 0, 0);
@@ -333,6 +333,7 @@ figure p {
 @media screen and (min-width: 962px) {
   figure img {
     max-height: 80vh;
+    max-width: 50vw;
   }
 }
 
@@ -364,4 +365,8 @@ figure p {
 
 #playbutton:hover {
   border-color: transparent transparent transparent #fff;
+}
+
+#scrubVideo {
+  transform: translateX(-155px);
 }

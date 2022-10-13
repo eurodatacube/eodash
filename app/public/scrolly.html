@@ -24,7 +24,8 @@
                 >
                     <div
                         v-if="el.text.includes('<--EXPAND-->') || el.text.includes('<--EXPAND-SMALL-->')"
-                        class="step expandContainer"
+                        class="expandContainer"
+                        :class="currentStep.step === i ? 'active step' : 'step'"
                         :data-section="sectionIndex"
                         :data-step="i"
                     >
@@ -44,7 +45,7 @@
                     </div>
                     <div
                         v-else
-                        class="step"
+                        :class="currentStep.step === i ? 'active step' : 'step'"
                         :data-section="sectionIndex"
                         :data-step="i"
                         v-html="parseMarkdown(el.text)"
@@ -58,14 +59,15 @@
                     >
                         <div
                             v-if="el.text.includes('#scrubControl')"
-                            class="step"
+                            :class="currentStep.step === i ? 'active step' : 'step'"
                             :data-section="sectionIndex"
                             :data-step="i"
                             v-html="parseMarkdown(el.text)"
                         ></div>
                         <div
                             v-if="el.text.includes('<--EXPAND-->') || el.text.includes('<--EXPAND-SMALL-->')"
-                            class="step expandContainer"
+                            class="expandContainer"
+                            :class="currentStep.step === i ? 'active step' : 'step'"
                             :data-section="sectionIndex"
                             :data-step="i"
                         >
@@ -206,7 +208,7 @@
                 .setup({
                     root: document.querySelector('#scrolly-app'),
                     step: ".scrollySection article .step",
-                    offset: screen.width > 479 ? 0.33 : 0.4,
+                    offset: 0.5,
                     // progress: true,
                     debug: false
                 })
@@ -223,7 +225,9 @@
         let $scrubControl = document.querySelector('#scrubControl');
         let videoDuration;
 
-        $video.addEventListener('loadeddata', handleLoadedData);
+        if ($video) {
+            $video.addEventListener('loadeddata', handleLoadedData);
+        }
         function handleLoadedData(event) {
             // Get the full video duration
             videoDuration = $video.duration;
