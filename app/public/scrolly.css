@@ -140,7 +140,7 @@ figure p {
 }
 
 .step p {
-  text-align: center;
+  text-align: left;
   padding: 1rem;
   font-size: 1.4rem;
 }
@@ -255,6 +255,10 @@ figure p {
     width: 100%;
     margin-bottom: 0;
     flex: 0 0 100%;
+  }
+
+  .fullWidthBlock p {
+    text-align: center;
   }
 
   article {
