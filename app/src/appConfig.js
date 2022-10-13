@@ -183,7 +183,7 @@ module.exports = [
       staging: 6,
       production: 7,
     },
-    match: ['gtif.esa.int', 'gtif.eox.at', 'gtif-staging.eox.at', 'gtif-testing.eox.at', 'gtif.eox.world:8812'],
+    match: ['gtif.esa.int', 'gtif.eox.at', 'gtif-staging.eox.at', 'gtif-testing.eox.at', 'gtif.eox.world:8812', '127.0.0.1:8812'],
     branding: {
       appName: 'Green Transition Information Factory',
       primaryColor: '#003247',

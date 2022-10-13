@@ -4,6 +4,8 @@ import { baseLayers, overlayLayers } from '@/config/layers';
 import { DateTime } from 'luxon';
 import { latLng, latLngBounds } from 'leaflet';
 import colormap from 'colormap';
+import { default as powerOpenInsfrastructureStyle } from '@/assets/style_oim_power.js';
+
 import availableDates from '@/config/data_dates.json';
 
 import {
@@ -66,6 +68,25 @@ export const baseLayersRightMap = [{
 
 export const overlayLayersLeftMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
+}, {
+  name: 'Power Open Infrastructure Map',
+  protocol: 'maplibre',
+  visible: true,
+  maplibreStyles: {
+    version: 8,
+    sprite: "data/gtif/data/openinframapsprite",
+    //glyphs: "https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=u7opxtdfvwPiFOPwMWeC",
+    id: "openinframap",
+    name: "OpenInfraMap",
+    layers: powerOpenInsfrastructureStyle,
+    sources: {
+      openinframap: {
+        type: 'vector',
+        url: 'data/gtif/data/openinframap.json',
+      },
+    },
+  },
+  selectedStyleLayer: 'power_line',
 }];
 export const overlayLayersRightMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
