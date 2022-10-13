@@ -23,7 +23,7 @@
                     class="fullWidthBlock"
                 >
                     <div
-                        v-if="el.text.includes('<--EXPAND-->')"
+                        v-if="el.text.includes('<--EXPAND-->') || el.text.includes('<--EXPAND-SMALL-->')"
                         class="step expandContainer"
                         :data-section="sectionIndex"
                         :data-step="i"
@@ -37,8 +37,9 @@
                         >
                         <div
                             class="expandable hidden"
+                            :class="el.text.includes('<--EXPAND-SMALL-->') ? 'expandable-small' : ''"
                             data-section="sectionIndex"
-                            v-html="parseMarkdown(el.text.replaceAll('<--EXPAND-->', ''))"
+                            v-html="parseMarkdown(el.text.replaceAll('<--EXPAND-->', '').replaceAll('<--EXPAND-SMALL-->', ''))"
                         ></div>
                     </div>
                     <div
