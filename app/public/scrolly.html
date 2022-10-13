@@ -82,6 +82,7 @@
                                     autoplay
                                     >
                                 </video>
+                                <div v-else v-html="parseMarkdown(figure.text)"></div>
                             </template>
                             <iframe
                                 v-else
