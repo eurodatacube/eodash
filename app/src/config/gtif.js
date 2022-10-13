@@ -147,6 +147,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Biomass',
     class: 'air',
     themes: ['carbon-accounting'],
+    story: '/data/gtif/markdown/BM1',
   },
   REP1: {
     indicator: 'Wind Energy',
@@ -195,6 +196,16 @@ export const indicatorsDefinition = Object.freeze({
   },
   SOL3: {
     indicator: 'urban trees',
+    class: 'air',
+    themes: ['sustainable-cities'],
+  },
+  SOL4: {
+    indicator: 'green roof',
+    class: 'air',
+    themes: ['sustainable-cities'],
+  },
+  SOL5: {
+    indicator: 'solar',
     class: 'air',
     themes: ['sustainable-cities'],
   },
@@ -828,10 +839,146 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: true,
         country: 'all',
+        city: 'Vienna',
+        siteName: 'global',
+        description: 'Green Roofs - Vienna',
+        indicator: 'SOL4',
+        lastIndicatorValue: null,
+        indicatorName: 'Green Roofs - Vienna',
+        navigationDescription: 'Green Roof Impact',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Vienna',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        vectorStyles: {
+          sourceLayer: 'green_roofs_vienna',
+          items: [
+            {
+              id: 'GRImpScore_filtered',
+              description: 'Green Roof Impact Score',
+              markdown: 'SOL1_GRImpact',
+            },
+            {
+              id: 'LST2021',
+              description: 'Max Land Surface Temperature',
+              markdown: 'SOL_temp',
+            },
+            {
+              id: 'GRExisting',
+              description: 'Existing Green Roofs',
+              markdown: 'SOL1_GRExisting',
+            },
+            {
+              id: 'GRPotential',
+              description: 'Roofs Suitable for Greening',
+              markdown: '',
+            },
+            {
+              id: 'GRPotPAr20',
+              description: 'Percentage GR-Potential Area in relation to Total Roof Area',
+              markdown: '',
+            },
+          ],
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))').toJson(),
+            }],
+          },
+          protocol: 'vectortile',
+          styleFile: 'data/gtif/data/green_rooftops_vienna.json',
+          selectedStyleLayer: 'GRImpScore_filtered',
+          id: 'green_roofs_vienna',
+          name: '',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Vienna',
+        siteName: 'global',
+        description: 'Solar Roofs - Vienna',
+        indicator: 'SOL5',
+        lastIndicatorValue: null,
+        indicatorName: 'Solar Roofs - Vienna',
+        navigationDescription: 'Electrical Power Production potential',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Vienna',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        vectorStyles: {
+          sourceLayer: 'solar_roofs_vienna',
+          items: [
+            {
+              id: 'PVEPPMwhHP',
+              description: 'Total electric power production potential - High Performance ',
+              markdown: 'SOL1_TEP_HP',
+            },
+            {
+              id: 'PVExisting',
+              description: 'Existing PV Panels',
+              markdown: 'SOL1_PVExisting',
+            },
+            {
+              id: 'PVEPPMwhRP',
+              description: 'Total electric power production potential - Regular performance',
+              markdown: 'SOL1_TEP_RP',
+            },
+            {
+              id: 'PVEPPMwhLP',
+              description: 'Total electric power production potential - Low performance',
+              markdown: 'SOL1_TEP_LP',
+            },
+          ],
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))').toJson(),
+            }],
+          },
+          protocol: 'vectortile',
+          styleFile: 'data/gtif/data/solar_roofs_vienna.json',
+          selectedStyleLayer: 'PVEPPMwhHP',
+          id: 'solar_roofs_vienna',
+          name: '',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
         city: 'Austria',
         siteName: 'global',
         description: 'Biomass',
-        navigationDescription: 'Placeholder for description text',
         indicator: 'BM1',
         lastIndicatorValue: null,
         indicatorName: 'Biomass',
@@ -977,7 +1124,8 @@ export const globalIndicators = [
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('RdBu', 80, 850, 100, false),
+                ...getColorStops('yignbu', 100, 440, 50, false),
+                ...getColorStops('yiorrd', 440, 2400, 50, true),
               ],
               [
                 'color', 0, 0, 0, 0,
