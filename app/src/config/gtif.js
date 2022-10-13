@@ -147,6 +147,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Biomass',
     class: 'air',
     themes: ['carbon-accounting'],
+    story: '/data/gtif/markdown/BM1',
   },
   REP1: {
     indicator: 'Wind Energy',
@@ -744,7 +745,6 @@ export const globalIndicators = [
         city: 'Austria',
         siteName: 'global',
         description: 'Biomass',
-        navigationDescription: 'Placeholder for description text',
         indicator: 'BM1',
         lastIndicatorValue: null,
         indicatorName: 'Biomass',
@@ -890,7 +890,8 @@ export const globalIndicators = [
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('RdBu', 80, 850, 100, false),
+                ...getColorStops('yignbu', 100, 440, 50, false),
+                ...getColorStops('yiorrd', 440, 2400, 50, true),
               ],
               [
                 'color', 0, 0, 0, 0,
