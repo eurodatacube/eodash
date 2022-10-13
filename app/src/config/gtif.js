@@ -4,7 +4,7 @@ import { baseLayers, overlayLayers } from '@/config/layers';
 import { DateTime } from 'luxon';
 import { latLng, latLngBounds } from 'leaflet';
 import colormap from 'colormap';
-import { default as powerOpenInsfrastructureStyle } from '@/assets/style_oim_power.js';
+import { default as powerOpenInsfrastructureStyle } from '@/assets/openinframap/style_oim_power.js';
 
 import availableDates from '@/config/data_dates.json';
 
@@ -74,15 +74,15 @@ export const overlayLayersLeftMap = [{
   visible: true,
   maplibreStyles: {
     version: 8,
-    sprite: "data/gtif/data/openinframapsprite",
-    //glyphs: "https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=u7opxtdfvwPiFOPwMWeC",
-    id: "openinframap",
-    name: "OpenInfraMap",
+    sprite: window.location.protocol + '//' + window.location.hostname + '/data/gtif/data/openinframap/sprite',
+    glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
+    id: 'openinframap',
+    name: 'OpenInfraMap',
     layers: powerOpenInsfrastructureStyle,
     sources: {
       openinframap: {
         type: 'vector',
-        url: 'data/gtif/data/openinframap.json',
+        url: 'data/gtif/data/openinframap/openinframap.json',
       },
     },
   },
