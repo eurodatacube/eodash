@@ -72,6 +72,7 @@ export const overlayLayersLeftMap = [{
   name: 'Power Open Infrastructure Map',
   protocol: 'maplibre',
   visible: false,
+  zIndex: 4,
   maplibreStyles: {
     version: 8,
     sprite: window.location.protocol + '//' + window.location.hostname + (window.location.port === '' ? '' : `:${window.location.port}`) + '/data/gtif/data/openinframap/sprite',
@@ -179,7 +180,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Solar Energy',
     class: 'air',
     themes: ['energy-transition'],
-    // story: '',
+    story: '/data/gtif/markdown/REP2',
   },
   REP3: {
     indicator: 'Nowcasting',
@@ -1428,7 +1429,7 @@ export const globalIndicators = [
               [
                 'all',
                 ['>', ['band', 1], 0],
-                ['between', ['band', 2], ['var', 'powerDensityMin'], ['var', 'powerDensityMax']],
+                ['between', ['band', 1], ['var', 'powerDensityMin'], ['var', 'powerDensityMax']],
                 ['between', ['band', 2], ['var', 'elevationMin'], ['var', 'elevationMax']],
                 ['between', ['band', 3], ['var', 'slopeMin'], ['var', 'slopeMax']],
                 ['between', ['band', 4], ['var', 'settlementDistanceMin'], ['var', 'settlementDistanceMax']],
@@ -1477,6 +1478,14 @@ export const globalIndicators = [
         cogFilters: {
           sourceLayer: 'REP2',
           filters: {
+            solar: {
+              label: 'Filter for solar potential',
+              id: 'solar',
+              header: true,
+              min: 300,
+              max: 1400,
+              range: [300, 1400],
+            },
             aspect: {
               label: 'Filter for aspect',
               id: 'aspect',
@@ -1527,6 +1536,8 @@ export const globalIndicators = [
           ],
           style: {
             variables: {
+              solarMin: 300,
+              solarMax: 1400,
               aspectMin: 0,
               aspectMax: 360,
               slopeMin: 0,
@@ -1541,6 +1552,7 @@ export const globalIndicators = [
               [
                 'all',
                 ['>', ['band', 1], 0],
+                ['between', ['band', 1], ['var', 'solarMin'], ['var', 'solarMax']],
                 ['between', ['band', 2], ['var', 'aspectMin'], ['var', 'aspectMax']],
                 ['between', ['band', 3], ['var', 'slopeMin'], ['var', 'slopeMax']],
                 ['between', ['band', 4], ['var', 'energyGridDistanceMin'], ['var', 'energyGridDistanceMax']],
@@ -1550,7 +1562,7 @@ export const globalIndicators = [
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('viridis', 900, 1400, 10, false),
+                ...getColorStops('magma', 700, 1400, 10, false),
               ],
               [
                 'color', 0, 0, 0, 0,
