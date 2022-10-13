@@ -30,7 +30,7 @@
     </v-radio-group>
     <v-divider class="my-1" />
     <v-checkbox v-for="n in overlayConfigs" :key="n.name" :label="n.name"
-      :input-value="n.visible" dense class="my-0 py-0" hide-details
+      v-model="n.visible" dense class="my-0 py-0" hide-details
       @change="setVisible($event, n)">
         <template v-slot:label>
           <span class="label">{{n.name}}</span>
@@ -116,7 +116,7 @@ export default {
     const overlayLayers = this.overlayConfigs.map((l) => createLayerFromConfig(l,
       {
         // higher zIndex for labels
-        zIndex: l.name === 'Overlay labels' ? 4 : 2,
+        zIndex: l.name === 'Overlay labels' ? 4 : (l.zIndex || 2),
         updateOpacityOnZoom: l.name === 'Overlay labels' || l.name === 'Country vectors',
       }));
     overlayLayers.forEach((l) => {
