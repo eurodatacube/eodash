@@ -26,8 +26,6 @@
   && adminFeatureName === '70101030'
   && indicatorObject.indicator === 'SOL1'
 ">
-  <h4 class="py-2">Specific data for administrative unit</h4>
-    <h3> Green Roof</h3>
     <p><b>mean land surface temperature (2021):</b> 42 degrees C</p>
     <p><b>Existing GR:</b> 9 Roofs</p>
     <p><b>Roofs suitable for GRl:</b> 65 Roofs</p>
@@ -52,9 +50,9 @@ export default {
   computed: {
     show() {
       return this.adminLayer && this.adminFeature && this.indicatorObject
-      && this.indicatorObject.indicator in [
-        'SOL1', 'SOL2', 'SOL3',
-      ];
+      && [
+        'SOL1', 'SOL2', 'SOL3', 'SOL4', 'SOL5', 'SOL6', 'SOL7',
+      ].includes(this.indicatorObject.indicator);
       // for now we set manually where we want the mockup to appear
     },
     adminFeatureName() {
