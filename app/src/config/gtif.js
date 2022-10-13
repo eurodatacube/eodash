@@ -180,7 +180,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Solar Energy',
     class: 'air',
     themes: ['energy-transition'],
-    // story: '',
+    story: '/data/gtif/markdown/REP2',
   },
   REP3: {
     indicator: 'Nowcasting',
