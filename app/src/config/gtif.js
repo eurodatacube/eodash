@@ -170,6 +170,12 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['carbon-accounting'],
     story: '/data/gtif/markdown/BM1',
   },
+  BM2: {
+    indicator: 'CCI Biomass',
+    class: 'air',
+    themes: ['carbon-accounting'],
+    story: '/data/gtif/markdown/BM1',
+  },
   REP1: {
     indicator: 'Wind Energy',
     class: 'air',
@@ -1294,6 +1300,7 @@ export const globalIndicators = [
         city: 'Austria',
         siteName: 'global',
         description: 'Biomass',
+        navigationDescription: '',
         indicator: 'BM1',
         lastIndicatorValue: null,
         indicatorName: 'Biomass',
@@ -1337,6 +1344,84 @@ export const globalIndicators = [
         country: 'all',
         city: 'Austria',
         siteName: 'global',
+        description: 'CCI Biomass',
+        navigationDescription: '',
+        indicator: 'BM2',
+        lastIndicatorValue: null,
+        indicatorName: 'CCI Biomass',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Austria',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        cogFilters: {
+          sourceLayer: 'BM2',
+          filters: {
+            biomass: {
+              label: 'CCI Biomass',
+              id: 'biomass',
+              min: 0,
+              max: 420,
+              header: true,
+              range: [0, 420],
+            },
+          },
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'BM2',
+          sources: [
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/Carbon_accounting/3857/CCI-BIOMASS2020-Austria_COG_3857.tif' },
+          ],
+          style: {
+            variables: {
+              biomassMin: 0,
+              biomassMax: 420,
+            },
+            color: [
+              'case',
+              [
+                'all',
+                ['>', ['band', 1], 0],
+                ['between', ['band', 1], ['var', 'biomassMin'], ['var', 'biomassMax']],
+              ],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('greens', 0, 420, 50, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+          name: 'biomass',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
         description: 'Site Suitability Assessment & Trade-off Explorer',
         navigationDescription: 'Site Suitability Assessment & Trade-off Explorer',
         indicator: 'REP1',
@@ -1356,7 +1441,7 @@ export const globalIndicators = [
           sourceLayer: 'REP1',
           filters: {
             powerDensity: {
-              label: 'Power Density Range',
+              label: 'Wind Power Density [w/m²]',
               id: 'powerDensity',
               min: 0,
               max: 4000,
@@ -1479,7 +1564,7 @@ export const globalIndicators = [
           sourceLayer: 'REP2',
           filters: {
             solar: {
-              label: 'Filter for solar potential',
+              label: 'Solar Irradiance (kWh/m²/yr)',
               id: 'solar',
               header: true,
               min: 300,
@@ -1562,7 +1647,7 @@ export const globalIndicators = [
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('magma', 700, 1400, 10, false),
+                ...getColorStops('magma', 700, 1400, 50, false),
               ],
               [
                 'color', 0, 0, 0, 0,
