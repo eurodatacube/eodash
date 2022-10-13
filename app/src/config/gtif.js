@@ -1356,7 +1356,7 @@ export const globalIndicators = [
           sourceLayer: 'REP1',
           filters: {
             powerDensity: {
-              label: 'Power Density Range',
+              label: 'Wind Power Density [w/m²]',
               id: 'powerDensity',
               min: 0,
               max: 4000,
@@ -1479,7 +1479,7 @@ export const globalIndicators = [
           sourceLayer: 'REP2',
           filters: {
             solar: {
-              label: 'Filter for solar potential',
+              label: 'Solar Irradiance (kWh/m²/yr)',
               id: 'solar',
               header: true,
               min: 300,
