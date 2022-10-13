@@ -53,13 +53,38 @@
             </template>
             <template v-else id="scrolly">
                 <article>
-                    <div
+                    <template
                         v-for="(el, i) in data.filter((v, i) => !(i % 2))"
-                        :class="currentStep.step === i ? 'active step' : 'step'"
-                        :data-section="sectionIndex"
-                        :data-step="i"
-                        v-html="parseMarkdown(el.text)"
-                    ></div>
+                    >
+                        <div
+                            v-if="el.text.includes('<--EXPAND-->') || el.text.includes('<--EXPAND-SMALL-->')"
+                            class="step expandContainer"
+                            :data-section="sectionIndex"
+                            :data-step="i"
+                        >
+                            <div v-html="parseMarkdown(el.text.split('<--EXPAND')[0])"></div>
+                            <img
+                                src="./data/gtif/images/circle-plus-solid.svg"
+                                class="expandBtn"
+                                width="20"
+                                :data-section="sectionIndex"
+                                @click="toggleExpandable(sectionIndex)"
+                            >
+                            <div
+                                class="expandable hidden"
+                                :class="el.text.includes('<--EXPAND-SMALL-->') ? 'expandable-small' : ''"
+                                data-section="sectionIndex"
+                                v-html="parseMarkdown(el.text.split('<--EXPAND')[1].replaceAll('-SMALL-->', '').replaceAll('-->', '').replaceAll('<--EXPAND-->', '').replaceAll('<--EXPAND-SMALL-->', ''))"
+                            ></div>
+                        </div>
+                        <div
+                            v-else
+                            :class="currentStep.step === i ? 'active step' : 'step'"
+                            :data-section="sectionIndex"
+                            :data-step="i"
+                            v-html="parseMarkdown(el.text)"
+                        ></div>
+                    </template>
                 </article>
 
                 <transition-group class="figureContainer" name="slide" mode="out-in">
