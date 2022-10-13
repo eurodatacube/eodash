@@ -144,21 +144,21 @@
 
               <GtifHeaderNavItem
                 color="hsl(90 80% 60%)"
-                title="Sustainable Transition"
+                title="Sustainable Cities"
                 :is-sub-item="true"
                 :to="{name: 'gtif-sustainable-transition'}"
               />
 
               <GtifHeaderNavItem
                 color="hsl(20 80% 60%)"
-                title="Carbon Finance"
+                title="Carbon Accounting"
                 :is-sub-item="true"
                 :to="{name: 'gtif-carbon-finance'}"
               />
 
               <GtifHeaderNavItem
                 color="hsl(320 80% 60%)"
-                title="EO Adaptation"
+                title="EO Adaptation Services"
                 :is-sub-item="true"
                 :to="{name: 'gtif-eo-adaptation'}"
               />
