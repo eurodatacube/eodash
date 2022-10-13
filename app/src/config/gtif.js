@@ -71,7 +71,7 @@ export const overlayLayersLeftMap = [{
 }, {
   name: 'Power Open Infrastructure Map',
   protocol: 'maplibre',
-  visible: true,
+  visible: false,
   maplibreStyles: {
     version: 8,
     sprite: window.location.protocol + '//' + window.location.hostname + '/data/gtif/data/openinframap/sprite',

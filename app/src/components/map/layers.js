@@ -388,19 +388,6 @@ export function createLayerFromConfig(config, _options = {}) {
   }
 
   if (source) {
-    if (config.dateFormatFunction) {
-      source.set('updateTime', (updatedTime) => {
-        const newParams = {
-          time: config.dateFormatFunction(updatedTime),
-        };
-        if (config.specialEnvTime) {
-          newParams.env = `year:${updatedTime}`;
-        }
-        if (source.updateParams) {
-          source.updateParams(newParams);
-        }
-      });
-    }
     const tilelayer = new TileLayer({
       name: config.name,
       // minZoom: config.minZoom || config.minNativeZoomm,
@@ -408,9 +395,6 @@ export function createLayerFromConfig(config, _options = {}) {
       zIndex: options.zIndex,
       source,
     });
-    if (config.vectorStyles && config.protocol === 'tilejson') {
-      applyStyle(tilelayer, config.vectorStyles, [config.selectedStyleLayer]);
-    }
     layers.push(tilelayer);
   }
 
