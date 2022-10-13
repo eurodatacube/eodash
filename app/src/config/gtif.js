@@ -209,6 +209,16 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['sustainable-cities'],
   },
+  SOL6: {
+    indicator: 'solar',
+    class: 'air',
+    themes: ['sustainable-cities'],
+  },
+  SOL7: {
+    indicator: 'solar',
+    class: 'air',
+    themes: ['sustainable-cities'],
+  },
   LST: {
     indicator: 'Low surface temperature',
     class: 'air',
@@ -965,6 +975,143 @@ export const globalIndicators = [
           styleFile: 'data/gtif/data/solar_roofs_vienna.json',
           selectedStyleLayer: 'PVEPPMwhHP',
           id: 'solar_roofs_vienna',
+          name: '',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Graz',
+        siteName: 'global',
+        description: 'Green Roofs - Graz',
+        indicator: 'SOL5',
+        lastIndicatorValue: null,
+        indicatorName: 'Green Roofs - Graz',
+        navigationDescription: 'Green Roof Impact',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Graz',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        vectorStyles: {
+          sourceLayer: 'green_roofs_graz',
+          items: [
+            {
+              id: 'GRImpScore_filtered',
+              description: 'Green Roof Impact Score',
+              markdown: 'SOL1_GRImpact',
+            },
+            {
+              id: 'LST2021',
+              description: 'Max Land Surface Temperature',
+              markdown: 'SOL_temp',
+            },
+            {
+              id: 'GRExisting',
+              description: 'Existing Green Roofs',
+              markdown: 'SOL1_GRExisting',
+            },
+            {
+              id: 'GRPotential',
+              description: 'Roofs Suitable for Greening',
+              markdown: '',
+            },
+            {
+              id: 'GRPotPAr20',
+              description: 'Percentage GR-Potential Area in relation to Total Roof Area',
+              markdown: '',
+            },
+          ],
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((15.24 47, 15.555 47, 15.555 47.11, 15.24 47.11, 15.24 47 ))').toJson(),
+            }],
+          },
+          protocol: 'vectortile',
+          styleFile: 'data/gtif/data/green_rooftops_graz.json',
+          selectedStyleLayer: 'GRImpScore_filtered',
+          id: 'green_roofs_graz',
+          name: '',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Graz',
+        siteName: 'global',
+        description: 'Solar Roofs - Graz',
+        indicator: 'SOL7',
+        lastIndicatorValue: null,
+        indicatorName: 'Solar Roofs - Graz',
+        navigationDescription: 'Electrical Power Production potential',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Graz',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        vectorStyles: {
+          sourceLayer: 'solar_roofs_graz',
+          items: [
+            {
+              id: 'PVEPPMwhHP',
+              description: 'Total electric power production potential - High Performance ',
+              markdown: 'SOL1_TEP_HP',
+            },
+            {
+              id: 'PVExisting',
+              description: 'Existing PV Panels',
+              markdown: 'SOL1_PVExisting',
+            },
+            {
+              id: 'PVEPPMwhRP',
+              description: 'Total electric power production potential - Regular performance',
+              markdown: 'SOL1_TEP_RP',
+            },
+            {
+              id: 'PVEPPMwhLP',
+              description: 'Total electric power production potential - Low performance',
+              markdown: 'SOL1_TEP_LP',
+            },
+          ],
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((15.24 47, 15.555 47, 15.555 47.11, 15.24 47.11, 15.24 47 ))').toJson(),
+            }],
+          },
+          protocol: 'vectortile',
+          styleFile: 'data/gtif/data/solar_roofs_graz.json',
+          selectedStyleLayer: 'PVEPPMwhHP',
+          id: 'solar_roofs_graz',
           name: '',
           minZoom: 1,
         },
