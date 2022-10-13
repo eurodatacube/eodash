@@ -1,8 +1,8 @@
-name: Feature branch deployment
+name: GTIF-Demo deployment
 
 on:
   push:
-    branches-ignore: [ master, staging, gtif-demo ]
+    branches: [ gtif-demo ]
 
 concurrency:
   group: ci-tests-${{ github.ref }}-1
@@ -29,9 +29,8 @@ jobs:
     - name: Build
       run: |
         cd app/
-        sed -e "s,// publicPath: '/',publicPath: '/${GITHUB_REF##*/}'," -i vue.config.js
         npm ci --ignore-scripts
-        npm run build -- --mode development
+        npm run build -- --mode staging
 
     # Inject SH Config file
     - name: replace instance ID
@@ -47,7 +46,7 @@ jobs:
         args: --delete --follow-symlinks --exclude 'data/*'  --exclude 'eodash-data/*'
       env:
         SOURCE_DIR: 'app/dist'
-        DEST_DIR: 'feature-branches/${GITHUB_REF##*/}'
+        DEST_DIR: 'gtif-demo'
         AWS_REGION: 'eu-central-1'
         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -60,7 +59,7 @@ jobs:
         args: --delete --follow-symlinks --size-only
       env:
         SOURCE_DIR: 'app/dist/data'
-        DEST_DIR: 'feature-branches/${GITHUB_REF##*/}/data'
+        DEST_DIR: 'gtif-demo/data'
         AWS_REGION: 'eu-central-1'
         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -73,7 +72,7 @@ jobs:
         args: --delete --follow-symlinks --size-only
       env:
         SOURCE_DIR: 'app/dist/eodash-data'
-        DEST_DIR: 'feature-branches/${GITHUB_REF##*/}/eodash-data'
+        DEST_DIR: 'gtif-demo/eodash-data'
         AWS_REGION: 'eu-central-1'
         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -83,8 +82,8 @@ jobs:
     - name: invalidate
       uses: chetan/invalidate-cloudfront-action@v1.2
       env:
-        DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_FEATUREBRANCHES }}
-        PATHS: '/*' # TODO: Only invalidate the current branch. "PATHS: '/${GITHUB_REF##*/}/*'" didn't work.
+        DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_GTIF_DEMO }}
+        PATHS: '/*'
         AWS_REGION: 'eu-central-1'
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -99,5 +98,3 @@ jobs:
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
       if: always()
-
-#TODO add action to remove files once branch is deleted
