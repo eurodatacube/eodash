@@ -23,7 +23,7 @@
                     class="fullWidthBlock"
                 >
                     <div
-                        v-if="el.text.includes('<--EXPAND-->')"
+                        v-if="el.text.includes('<--EXPAND-->') || el.text.includes('<--EXPAND-SMALL-->')"
                         class="step expandContainer"
                         :data-section="sectionIndex"
                         :data-step="i"
@@ -37,8 +37,9 @@
                         >
                         <div
                             class="expandable hidden"
+                            :class="el.text.includes('<--EXPAND-SMALL-->') ? 'expandable-small' : ''"
                             data-section="sectionIndex"
-                            v-html="parseMarkdown(el.text.replaceAll('<--EXPAND-->', ''))"
+                            v-html="parseMarkdown(el.text.replaceAll('<--EXPAND-->', '').replaceAll('<--EXPAND-SMALL-->', ''))"
                         ></div>
                     </div>
                     <div
@@ -52,13 +53,38 @@
             </template>
             <template v-else id="scrolly">
                 <article>
-                    <div
+                    <template
                         v-for="(el, i) in data.filter((v, i) => !(i % 2))"
-                        :class="currentStep.step === i ? 'active step' : 'step'"
-                        :data-section="sectionIndex"
-                        :data-step="i"
-                        v-html="parseMarkdown(el.text)"
-                    ></div>
+                    >
+                        <div
+                            v-if="el.text.includes('<--EXPAND-->') || el.text.includes('<--EXPAND-SMALL-->')"
+                            class="step expandContainer"
+                            :data-section="sectionIndex"
+                            :data-step="i"
+                        >
+                            <div v-html="parseMarkdown(el.text.split('<--EXPAND')[0])"></div>
+                            <img
+                                src="./data/gtif/images/circle-plus-solid.svg"
+                                class="expandBtn"
+                                width="20"
+                                :data-section="sectionIndex"
+                                @click="toggleExpandable(sectionIndex)"
+                            >
+                            <div
+                                class="expandable hidden"
+                                :class="el.text.includes('<--EXPAND-SMALL-->') ? 'expandable-small' : ''"
+                                data-section="sectionIndex"
+                                v-html="parseMarkdown(el.text.split('<--EXPAND')[1].replaceAll('-SMALL-->', '').replaceAll('-->', '').replaceAll('<--EXPAND-->', '').replaceAll('<--EXPAND-SMALL-->', ''))"
+                            ></div>
+                        </div>
+                        <div
+                            v-else
+                            :class="currentStep.step === i ? 'active step' : 'step'"
+                            :data-section="sectionIndex"
+                            :data-step="i"
+                            v-html="parseMarkdown(el.text)"
+                        ></div>
+                    </template>
                 </article>
 
                 <transition-group class="figureContainer" name="slide" mode="out-in">
@@ -82,6 +108,7 @@
                                     autoplay
                                     >
                                 </video>
+                                <div v-else v-html="parseMarkdown(figure.text)"></div>
                             </template>
                             <iframe
                                 v-else
@@ -119,6 +146,7 @@
                 this.scrollyArray = message.data;
                 this.$nextTick(() => {
                     this.scrollamaSetup();
+                    this.videoSetup();
                 });
             }
         });
@@ -148,6 +176,7 @@
                     debug: false
                 })
                 .onStepEnter(handleStepEnter)
+                .onStepExit(this.pauseAllVideos)
                 .onStepProgress(handleStepProgress);
         }
 
@@ -160,6 +189,41 @@
         let el = document.querySelector(`[data-section='${index}'] .expandable`);
         el.classList.toggle('hidden');
       },
+      videoSetup() {
+        // simple script to enable play/pause of videos that have been directly embedded
+        // currently only supports one per page with correct ID
+        let videoElem = document.getElementById("playvideo");
+        let playButton = document.getElementById("playbutton");
+
+        playButton.addEventListener("click", handlePlayButton, false);
+        playVideo();
+
+        async function playVideo() {
+            try {
+                await videoElem.play();
+                playButton.classList.add("playing");
+            } catch (err) {
+                playButton.classList.remove("playing");
+            }
+        }
+
+        function handlePlayButton() {
+            if (videoElem.paused) {
+                playVideo();
+            } else {
+                videoElem.pause();
+                playButton.classList.remove("playing");
+            }
+        }
+      },
+      pauseAllVideos() {
+        let videoElem = document.getElementById("playvideo");
+        let playButton = document.getElementById("playbutton");
+        if (videoElem) {
+            videoElem.pause();
+            playButton.classList.remove("playing");
+        }
+      }
     },
   });
 </script>

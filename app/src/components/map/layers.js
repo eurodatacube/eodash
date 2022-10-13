@@ -10,6 +10,7 @@ import {
 import TileWMS from 'ol/source/TileWMS';
 import GeoTIFF from 'ol/source/GeoTIFF';
 import WebGLTileLayer from 'ol/layer/WebGLTile';
+import MapLibreLayer from '@geoblocks/ol-maplibre-layer';
 import store from '@/store';
 import TileGrid from 'ol/tilegrid/TileGrid';
 import { createXYZ } from 'ol/tilegrid';
@@ -290,6 +291,7 @@ export function createLayerFromConfig(config, _options = {}) {
       });
     }
   }
+
   if (config.protocol === 'WMS') {
     // to do: layers is  not defined for harvesting evolution over time (spain)
     const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
@@ -391,6 +393,18 @@ export function createLayerFromConfig(config, _options = {}) {
         source.updateParams(newParams);
       });
     }
+  }
+  if (config.protocol === 'maplibre') {
+    const layer = new MapLibreLayer({
+      visible: config.visible,
+      name: config.name,
+      zIndex: options.zIndex,
+      attribution: config.attribution,
+      maplibreOptions: {
+        style: config.maplibreStyles,
+      },
+    });
+    layers.push(layer);
   }
 
   if (source) {

@@ -140,7 +140,7 @@ figure p {
 }
 
 .step p {
-  text-align: center;
+  text-align: left;
   padding: 1rem;
   font-size: 1.4rem;
 }
@@ -163,10 +163,10 @@ figure p {
 }
 
 .step .expandable {
+  display: block;
   border: 1px solid #000;
   padding: 5px 10px;
   font-size: 1rem;
-  max-width: 320px;
   margin-bottom: 50px;
   transition: all .3s ease-in-out;
 }
@@ -179,6 +179,13 @@ figure p {
 
 .step .expandable.hidden {
   opacity: 0;
+}
+
+.step .expandable.expandable-small {
+  max-width: 320px;
+}
+.step .expandable:not(.expandable-small).hidden {
+  display: none;
 }
 
 @media screen and (min-width: 500px) {
@@ -250,6 +257,10 @@ figure p {
     flex: 0 0 100%;
   }
 
+  .fullWidthBlock p {
+    text-align: center;
+  }
+
   article {
     position: relative;
     padding: 4rem 4rem 36rem 4rem;
@@ -314,4 +325,34 @@ figure p {
   figure img {
     max-height: 80vh;
   }
+}
+
+#playvideo-container {
+  position: relative;
+}
+#playbutton {
+  position: absolute;
+  bottom: 22px;
+  right: 10px;
+  border: 0;
+  background: transparent;
+  box-sizing: border-box;
+  width: 0;
+  height: 24px;
+
+  border-color: transparent transparent transparent #fffa;
+  transition: 100ms all ease;
+  cursor: pointer;
+
+  /* play state */
+  border-style: solid;
+  border-width: 12px 0 12px 24px;
+}
+#playbutton.playing {
+  border-style: double;
+  border-width: 0px 0 0px 24px;
+}
+
+#playbutton:hover {
+  border-color: transparent transparent transparent #fff;
 }
