@@ -396,7 +396,6 @@ export function createLayerFromConfig(config, _options = {}) {
   }
   if (config.protocol === 'maplibre') {
     const layer = new MapLibreLayer({
-      visible: config.visible,
       name: config.name,
       zIndex: options.zIndex,
       attribution: config.attribution,
