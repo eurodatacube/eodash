@@ -143,6 +143,13 @@
               />
 
               <GtifHeaderNavItem
+                color="hsl(210 80% 60%)"
+                title="Social Mobility"
+                :is-sub-item="true"
+                :to="{name: 'gtif-social-mobility'}"
+              />
+
+              <GtifHeaderNavItem
                 color="hsl(90 80% 60%)"
                 title="Sustainable Cities"
                 :is-sub-item="true"

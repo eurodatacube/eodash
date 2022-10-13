@@ -135,6 +135,9 @@ export default {
         case 'gtif-mobility-transition':
           return '784f3e1ba71aef26';
 
+        case 'gtif-social-mobility':
+          return 'ac7d1b288e92217a';
+
         case 'gtif-sustainable-transition':
           return '000c2eb018897d82';
 
