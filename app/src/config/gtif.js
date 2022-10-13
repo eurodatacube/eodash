@@ -71,10 +71,9 @@ export const overlayLayersLeftMap = [{
 }, {
   name: 'Power Open Infrastructure Map',
   protocol: 'maplibre',
-  visible: false,
   maplibreStyles: {
     version: 8,
-    sprite: window.location.protocol + '//' + window.location.hostname + '/data/gtif/data/openinframap/sprite',
+    sprite: window.location.protocol + '//' + window.location.hostname + (window.location.port === '' ? '' : `:${window.location.port}`) + '/data/gtif/data/openinframap/sprite',
     glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
     id: 'openinframap',
     name: 'OpenInfraMap',
@@ -86,7 +85,6 @@ export const overlayLayersLeftMap = [{
       },
     },
   },
-  selectedStyleLayer: 'power_line',
 }];
 export const overlayLayersRightMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
