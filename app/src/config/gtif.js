@@ -1652,8 +1652,7 @@ export const globalIndicators = [
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('yignbu', 300, 1100, 50, false),
-                ...getColorStops('yiorrd', 1100, 1300, 50, true),
+                ...getColorStops('rdbu', 1100, 1300, 50, false),
               ],
               [
                 'color', 0, 0, 0, 0,
