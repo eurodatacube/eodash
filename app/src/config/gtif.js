@@ -1368,12 +1368,12 @@ export const globalIndicators = [
           sourceLayer: 'BM2',
           filters: {
             biomass: {
-              label: 'CCI Biomass',
-              id: 'CCI Biomass',
+              label: 'CCI Biomass [t/ha]',
+              id: 'biomass',
               min: 0,
               max: 420,
               header: true,
-              range: [0, 420],
+              range: [420, 0],
             },
           },
         },
