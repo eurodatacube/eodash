@@ -38,13 +38,16 @@ export default {
           return 'Mobility Transition'
 
         case 'gtif-sustainable-transition':
-          return 'Sustainable Transition'
+          return 'Sustainable Cities'
+
+        case 'gtif-social-mobility':
+          return 'Social Mobility'
 
         case 'gtif-carbon-finance':
-          return 'Carbon Finance'
+          return 'Carbon Accounting'
 
         case 'gtif-eo-adaptation':
-          return 'EO Adaptation'
+          return 'EO Adaptation Services'
 
         default:
           return '';
