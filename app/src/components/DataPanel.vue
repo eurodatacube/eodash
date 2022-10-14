@@ -15,10 +15,11 @@
         >
         </filter-controls>
 
-         <scatter-plot v-if="indicatorObject.cogFilters"
-        :cogFilters="indicatorObject.cogFilters"
-      >
-      </scatter-plot>
+        <scatter-plot v-if="indicatorObject.cogFilters"
+          :filters="indicatorObject.cogFilters.filters"
+        >
+        </scatter-plot>
+
         <style-controls v-if="indicatorObject.vectorStyles"
           :vectorStyles="indicatorObject.vectorStyles"
         >
