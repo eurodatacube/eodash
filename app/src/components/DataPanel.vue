@@ -14,6 +14,12 @@
           :cogFilters="indicatorObject.cogFilters"
         >
         </filter-controls>
+
+        <scatter-plot v-if="indicatorObject.cogFilters"
+          :filters="indicatorObject.cogFilters.filters"
+        >
+        </scatter-plot>
+
         <style-controls v-if="indicatorObject.vectorStyles"
           :vectorStyles="indicatorObject.vectorStyles"
         >
@@ -497,6 +503,10 @@ Select a point of interest on the map to see the data for a specific location!
           </v-row>
         </v-col>
       </v-row>
+
+      <v-row v-if="indicatorObject">
+
+      </v-row>
     </div>
   </div>
 </template>
@@ -518,6 +528,8 @@ import StyleControls from '@/components/map/StyleControls.vue';
 import DataMockupView from '@/components/GTIF/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 
+import ScatterPlot from '@/components/ScatterPlot.vue';
+
 export default {
   props: [
     'expanded',
@@ -530,6 +542,7 @@ export default {
     AddToDashboardButton,
     FilterControls,
     StyleControls,
+    ScatterPlot,
     DataMockupView,
   },
   data: () => ({
