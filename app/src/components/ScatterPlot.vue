@@ -247,9 +247,9 @@ export default {
       }
     },
     async render() {
-      console.log("Rendering!");
+      // console.log("Rendering!");
       if (this.rasters === null) {
-        console.log("No data set!", this.bbox);
+        // console.log("No data set!", this.bbox);
         return;
       }
 
@@ -296,7 +296,7 @@ export default {
         }
         data.push([xScale(x), yScale(y), color, 50]);
       }
-      console.log(data);
+      // console.log(data);
       this.scatterplot.draw(data);
     },
   },

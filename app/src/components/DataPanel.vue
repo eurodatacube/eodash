@@ -15,7 +15,7 @@
         >
         </filter-controls>
 
-        <scatter-plot v-if="indicatorObject.cogFilters"
+        <scatter-plot v-if="indicatorObject.cogFilters.sourceLayer === 'REP1'"
           :filters="indicatorObject.cogFilters.filters"
         >
         </scatter-plot>
