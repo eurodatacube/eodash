@@ -17,7 +17,7 @@
         @load="onLoaded"
         v-resize="onResize"
         width="100%"
-        style="height: calc((var(--vh), 1vh) * 100) !important; position: fixed; left: 0; bottom: 0; top: 112px;"
+        style="height: calc((var(--vh, 1vh) * 100) - 112px) !important; position: fixed; left: 0; bottom: 0; top: 112px;"
 
         src="./scrolly.html"
         frameborder="0"
@@ -117,11 +117,11 @@ export default {
         checkOrigin: false,
         inPageLinks: false,
         sizeHeight: false,
-        scrolling: true,
-        minHeight: this.minHeight
-          || window.innerHeight
-              - 64
-              - 48,
+        scrolling: false,
+        // minHeight: this.minHeight
+        //   || window.innerHeight
+        //       - 64
+        //       - 48,
       }, '#resizableIframe');
     },
     getDashboardID() {
@@ -133,7 +133,10 @@ export default {
           return '0f2e9b3e9ac1bc35';
 
         case 'gtif-mobility-transition':
-          return '2b5489be6f959f1e';
+          return '784f3e1ba71aef26';
+
+        case 'gtif-social-mobility':
+          return 'ac7d1b288e92217a';
 
         case 'gtif-sustainable-transition':
           return '000c2eb018897d82';
@@ -143,9 +146,6 @@ export default {
 
         case 'gtif-eo-adaptation':
           return '844374958b90378b';
-
-        case 'gtif-aq-scenario':
-          return '784f3e1ba71aef26';
 
         // Fallback value
         default:
@@ -159,6 +159,7 @@ export default {
         case 'gtif-sustainable-transition':
         case 'gtif-carbon-finance':
         case 'gtif-eo-adaptation':
+        case 'gtif-social-mobility':
           this.areBreadcrumbsEnabled = true;
           break;
 

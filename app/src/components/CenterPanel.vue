@@ -1,8 +1,9 @@
 <template>
-  <CenterMap
+  <Map
     v-if="mapDataReady"
     ref="map"
     class="fill-height"
+    :class="$vuetify.breakpoint.xsOnly ? 'mt-16' : ''"
     :disableAutoFocus="false"
     :panelActive="panelActive"
   />
@@ -14,11 +15,11 @@ import {
   mapGetters,
   mapState,
 } from 'vuex';
-import CenterMap from '@/components/map/CenterMap.vue';
+import Map from '@/components/map/Map.vue';
 
 export default {
   components: {
-    CenterMap,
+    Map,
   },
   props: {
     panelActive: Boolean,

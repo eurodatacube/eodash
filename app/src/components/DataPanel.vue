@@ -1,6 +1,6 @@
 <template>
   <div
-    :style="`${$vuetify.breakpoint.mdAndDown ? 'padding-bottom: 100px; height: auto;'
+    :style="`${$vuetify.breakpoint.mdAndDown ? ''
     : 'height: calc(100% - 64px - ' + bannerHeight + 'px);'}`"
     ref="wrapper"
   >
@@ -24,7 +24,16 @@
           :vectorStyles="indicatorObject.vectorStyles"
         >
         </style-controls>
+        <data-mockup-view v-if="appConfig.id === 'gtif'"
+          :indicatorObject="indicatorObject"
+          :adminLayer="$store.state.features.adminBorderLayerSelected"
+          :adminFeature="$store.state.features.adminBorderFeatureSelected"
+        >
+        </data-mockup-view>
         <v-col
+          v-if="!showMap
+            ||  multipleTabCompare
+            || (showMap && mergedConfigsData[0].customAreaIndicator)"
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
         >
@@ -62,30 +71,14 @@
                 class="fill-height"
                 :style="`${!(!customAreaIndicator || expanded) ? 'display: none;' : ''}
                 height: ${$vuetify.breakpoint.mdAndUp ?
-                                  (expanded ? ( bannerHeight ? 60 : 70) : 30) : 50}vh;`"
+                                  (expanded ? ( bannerHeight ? 60 : 70) : 45) : 50}vh;`"
               >
-                <div
-                  style="height: 100%;z-index: 500; position: relative;"
-                  v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
-                  @click="dataInteract = true"
-                  v-touch="{
-                    left: () => swipe(),
-                    right: () => swipe(),
-                    up: () => swipe(),
-                    down: () => swipe(),
-                }">
-                </div>
-                <v-overlay :value="overlay" absolute
-                  v-if="!dataInteract"
-                  @click="dataInteract = true">
-                  Tap to interact
-                </v-overlay>
                 <indicator-data
                   style="top: 0px; position: absolute;"
                   class="pa-5 chart"
                   :currentIndicator="sensorData.properties.indicatorObject"
                 />
-                <v-row class="mt-0">
+                <v-row v-if="!showMap" class="mt-0">
                   <v-col cols="12" sm="5" ></v-col>
                   <v-col
                     cols="12"
@@ -114,7 +107,7 @@
               <v-card
                 v-if="customAreaIndicator && !expanded"
                 class="fill-height"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 43 : 50}vh;`"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 30 : 43}vh;`"
                 style="border: none; !important"
                 ref="indicatorData"
                 outlined
@@ -133,17 +126,6 @@
                 v-if="customAreaIndicator.isEmpty">
                   No data found for selection
               </v-card-title>
-                <div
-                  style="height: 100%;z-index: 500; position: relative;"
-                  v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
-                  @click="dataInteract = true"
-                  v-touch="{
-                    left: () => swipe(),
-                    right: () => swipe(),
-                    up: () => swipe(),
-                    down: () => swipe(),
-                }">
-                </div>
                 <indicator-data
                   v-if="!customAreaIndicator.isEmpty"
                   style="margin-top: 0px;"
@@ -156,7 +138,7 @@
           <v-card
             v-else-if="customAreaIndicator && !expanded"
             class="fill-height"
-            :style="`height: ${$vuetify.breakpoint.mdAndUp ? 43 : 50}vh;`"
+            :style="`height: ${$vuetify.breakpoint.mdAndUp ? 30 : 43}vh;`"
             style="border: none; !important"
             ref="indicatorData"
             outlined
@@ -170,17 +152,6 @@
             v-if="customAreaIndicator.isEmpty">
               No data found for selection
           </v-card-title>
-            <div
-              style="height: 100%;z-index: 500; position: relative;"
-              v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
-              @click="dataInteract = true"
-              v-touch="{
-                left: () => swipe(),
-                right: () => swipe(),
-                up: () => swipe(),
-                down: () => swipe(),
-            }">
-            </div>
             <v-btn
               v-if="customAreaIndicator && showRegenerateButton"
               ref="regenerateButton"
@@ -197,7 +168,7 @@
               style="margin-top: 0px;"
               class="pa-2 chart"
             />
-            <v-row class="mt-0">
+            <v-row v-if="!showMap || !customAreaIndicator.isEmpty" class="mt-0">
               <v-col cols="12" sm="5" ></v-col>
               <v-col
                 cols="12"
@@ -218,7 +189,6 @@
                     v-if="
                       customAreaIndicator &&
                       !isFullScreen &&
-                      !showMap &&
                       !this.baseConfig.indicatorsDefinition[
                         indicatorObject.indicator
                       ].countrySelection
@@ -232,28 +202,12 @@
             </v-row>
           </v-card>
           <v-card
-            v-else-if="!showMap || (showMap && indicatorObject.display.customAreaIndicator)"
+            v-else-if="!showMap || (showMap && mergedConfigsData[0].customAreaIndicator)"
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
-                              ? (bannerHeight ? 65 : 70) : 30) : 50}vh;`"
+                              ? (bannerHeight ? 65 : 70) : 30) : 45}vh;`"
             ref="mapPanel"
           >
-            <div
-              style="height: 100%;z-index: 500; position: relative;"
-              v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
-              @click="dataInteract = true"
-              v-touch="{
-                left: () => swipe(),
-                right: () => swipe(),
-                up: () => swipe(),
-                down: () => swipe(),
-            }">
-            </div>
-            <v-overlay :value="overlay" absolute
-              v-if="!dataInteract"
-              @click="dataInteract = true">
-              Tap to interact
-            </v-overlay>
             <indicator-globe
               v-if="showGlobe"
               @update:direction="d => direction = d"
@@ -266,9 +220,11 @@
               class="d-flex justify-center"
               style="top: 0px; position: absolute;"
             />
-            <v-col v-else-if="showMap && indicatorObject.display.customAreaIndicator"
+            <v-col
+              v-else-if="showMap && (mergedConfigsData[0].customAreaIndicator)"
               class="d-flex flex-col align-center justify-center"
-              style="flex-direction: column; height: 100%">
+              style="flex-direction: column; height: 100%; position: absolute; top: 0;"
+            >
               <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
               <p style="max-width: 75%; text-align: center">
 Draw an area on the map using the shape buttons to generate a custom chart!
@@ -354,6 +310,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                   v-if="
                     customAreaIndicator &&
                     !isFullScreen &&
+                    !showMap &&
                     !this.baseConfig.indicatorsDefinition[
                       indicatorObject.indicator
                     ].countrySelection
@@ -369,7 +326,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                 <add-to-dashboard-button
                   v-else-if="!this.baseConfig.indicatorsDefinition[
                     indicatorObject.indicator
-                  ].countrySelection"
+                  ].countrySelection && !showMap"
                   :indicatorObject="indicatorObject"
                   :zoom="zoom"
                   :center="center"
@@ -386,6 +343,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
         </v-col>
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          :class="$vuetify.breakpoint.smAndUp ? 'scrollContainer' : ''"
           :style="`padding-bottom: 0px; height: ${$vuetify.breakpoint.mdAndDown
                   ? 'auto'
                   : (expanded
@@ -395,7 +353,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                     - (multipleTabCompare ? 48 : 0) + 'px') }`"
         >
           <v-row
-            class="mt-0 fill-height scrollContainer"
+            class="mt-0 fill-height pb-2"
           >
             <v-col
               cols="12"
@@ -406,7 +364,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
               <v-card
                 v-if="customAreaIndicator"
                 class="fill-height"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 50 : 50}vh;`"
+                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 50 : 45}vh;`"
                 style="border: none; !important"
                 ref="indicatorData"
                 outlined
@@ -421,17 +379,6 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                 v-if="customAreaIndicator.isEmpty">
                   No data found for selection
               </v-card-title>
-                <div
-                  style="height: 100%;z-index: 500; position: relative;"
-                  v-if="$vuetify.breakpoint.mdAndDown && !dataInteract"
-                  @click="dataInteract = true"
-                  v-touch="{
-                    left: () => swipe(),
-                    right: () => swipe(),
-                    up: () => swipe(),
-                    down: () => swipe(),
-                }">
-                </div>
                 <indicator-data
                   v-if="!customAreaIndicator.isEmpty"
                   style="margin-top: 0px;"
@@ -455,7 +402,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                 <v-col
                   cols="12"
                   sm="7"
-                  v-if="!isFullScreen"
+                  v-if="!isFullScreen && !showMap"
                   ref="customButtonRow"
                 >
                   <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
@@ -515,7 +462,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
           <v-card
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
-            ? (bannerHeight ? 65 : 70) : 30) : 25}vh;`"
+            ? (bannerHeight ? 65 : 70) : 45) : 25}vh;`"
             ref="mapPanel"
           >
             <v-col
@@ -530,6 +477,7 @@ Select a point of interest on the map to see the data for a specific location!
         </v-col>
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          :class="$vuetify.breakpoint.smAndUp ? 'scrollContainer' : ''"
           :style="`padding-bottom: 0px; height: ${$vuetify.breakpoint.mdAndDown
                   ? 'auto'
                   : (expanded
@@ -539,7 +487,7 @@ Select a point of interest on the map to see the data for a specific location!
                     - 15 + 'px') }`"
         >
           <v-row
-            class="mt-0 fill-height scrollContainer"
+            class="mt-0 fill-height"
           >
             <v-col
               cols="12"
@@ -570,12 +518,14 @@ import {
 } from 'vuex';
 import { Wkt } from 'wicket';
 import { loadIndicatorData } from '@/utils';
+import { createConfigFromIndicator } from '@/helpers/mapConfig';
 import { DateTime } from 'luxon';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import IframeButton from '@/components/IframeButton.vue';
 import FilterControls from '@/components/map/FilterControls.vue';
 import StyleControls from '@/components/map/StyleControls.vue';
+import DataMockupView from '@/components/GTIF/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 
 import ScatterPlot from '@/components/ScatterPlot.vue';
@@ -593,10 +543,10 @@ export default {
     FilterControls,
     StyleControls,
     ScatterPlot,
+    DataMockupView,
   },
   data: () => ({
     overlay: false,
-    dataInteract: false,
     mounted: false,
     selectedSensorTab: 0,
     multipleTabCompare: null,
@@ -780,6 +730,16 @@ export default {
       }
       return 0;
     },
+    mergedConfigsData() {
+      if (!this.indicatorObject) {
+        return [];
+      }
+      return createConfigFromIndicator(
+        this.indicatorObject,
+        'data',
+        0,
+      );
+    },
   },
   mounted() {
     this.$nextTick(() => {
@@ -827,10 +787,6 @@ export default {
           .find((i) => this.getLocationCode(i.properties.indicatorObject) === f));
       }
       this.multipleTabCompare = compare;
-    },
-    swipe() {
-      this.overlay = true;
-      setTimeout(() => { this.overlay = false; }, 2000);
     },
     scrollToCustomAreaIndicator() {
       this.$vuetify.goTo(this.$refs.customAreaIndicator, { container: document.querySelector('.data-panel') });

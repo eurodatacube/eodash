@@ -7,6 +7,12 @@
   src: url('./css/notesesabol-webfont.ttf') format('truetype');
 }
 
+@font-face{
+  font-family: 'NotesESA';
+  src: url('./css/notesesareg.woff2') format('woff2'),
+       url('./css/notesesareg.ttf') format('truetype');
+}
+
 h1,
 h2,
 h3,
@@ -33,11 +39,19 @@ body {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-  Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'NotesESA', sans-serif;
   min-height: 1280px;
   color: #3b3b3b;
   font-size: 1.5rem;
+}
+
+#scrolly-app {
+  position: fixed;
+  overflow: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 p,
@@ -135,9 +149,9 @@ figure p {
 }
 
 .step p {
-  text-align: center;
+  text-align: left;
   padding: 1rem;
-  font-size: 1rem;
+  font-size: 1.4rem;
 }
 
 .step.expandContainer {
@@ -149,17 +163,38 @@ figure p {
 
 .step .expandBtn {
   cursor: pointer;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
+  transition: all .3s ease-in-out;
+}
+
+.step .expandBtn:hover {
+  transform: scale(1.3);
 }
 
 .step .expandable {
+  display: block;
   border: 1px solid #000;
   padding: 5px 10px;
   font-size: 1rem;
+  margin-bottom: 50px;
+  transition: all .3s ease-in-out;
+}
+
+.step .expandable p {
+  font-size: 1rem;
+  text-align: left;
+  padding: 0;
 }
 
 .step .expandable.hidden {
   opacity: 0;
+}
+
+.step .expandable.expandable-small {
+  max-width: 320px;
+}
+.step .expandable:not(.expandable-small).hidden {
+  display: none;
 }
 
 @media screen and (min-width: 500px) {
@@ -231,10 +266,14 @@ figure p {
     flex: 0 0 100%;
   }
 
+  .fullWidthBlock p {
+    text-align: center;
+  }
+
   article {
     position: relative;
-    padding: 4rem 6rem;
-    max-width: 36rem;
+    padding: 20rem 0 8rem 18rem;
+    max-width: 42vw;
     z-index: 1;
     margin: 0;
   }
@@ -242,8 +281,8 @@ figure p {
   figure {
     position: -webkit-sticky;
     position: sticky;
-    min-height: 50vh;
-    top: 25vh;
+    min-height: 80vh;
+    top: 5vh;
     width: 100%;
     -webkit-transform: translate3d(0, 0, 0);
     -moz-transform: translate3d(0, 0, 0);
@@ -258,13 +297,16 @@ figure p {
   figure img {
     height: auto;
     width: auto;
-    max-width: 700px;
     border-bottom: none;
     border-radius: 16px;
   }
 
+  figure img, figure video {
+    min-width: 70%;
+  }
+
   .step {
-    margin: 0 auto 2rem auto;
+    margin: 0 auto 12rem auto;
     background-color: #3b3b3b00;
     color: #728C88;
     transition: color 0.2s linear;
@@ -275,7 +317,7 @@ figure p {
   }
 
   .step p {
-    padding: 10rem 0;
+    padding: 2rem 0;
   }
 
   .slide-enter-active, .slide-leave-active {
@@ -290,6 +332,41 @@ figure p {
 
 @media screen and (min-width: 962px) {
   figure img {
-    max-height: 50vh;
+    max-height: 80vh;
+    max-width: 50vw;
   }
+}
+
+#playvideo-container {
+  position: relative;
+}
+#playbutton {
+  position: absolute;
+  bottom: 22px;
+  right: 10px;
+  border: 0;
+  background: transparent;
+  box-sizing: border-box;
+  width: 0;
+  height: 24px;
+
+  border-color: transparent transparent transparent #fffa;
+  transition: 100ms all ease;
+  cursor: pointer;
+
+  /* play state */
+  border-style: solid;
+  border-width: 12px 0 12px 24px;
+}
+#playbutton.playing {
+  border-style: double;
+  border-width: 0px 0 0px 24px;
+}
+
+#playbutton:hover {
+  border-color: transparent transparent transparent #fff;
+}
+
+#scrubVideo {
+  transform: translateX(-155px);
 }

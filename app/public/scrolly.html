@@ -9,7 +9,7 @@
 </head>
 
 <body>
-<div id="app">
+<div id="scrolly-app">
     <main>
         <section
             v-for="(data, sectionIndex) in scrollyArray"
@@ -23,8 +23,9 @@
                     class="fullWidthBlock"
                 >
                     <div
-                        v-if="el.text.includes('<--EXPAND-->')"
-                        class="step expandContainer"
+                        v-if="el.text.includes('<--EXPAND-->') || el.text.includes('<--EXPAND-SMALL-->')"
+                        class="expandContainer"
+                        :class="currentStep.step === i ? 'active step' : 'step'"
                         :data-section="sectionIndex"
                         :data-step="i"
                     >
@@ -37,13 +38,14 @@
                         >
                         <div
                             class="expandable hidden"
+                            :class="el.text.includes('<--EXPAND-SMALL-->') ? 'expandable-small' : ''"
                             data-section="sectionIndex"
-                            v-html="el.text.replaceAll('<--EXPAND-->', '')"
+                            v-html="parseMarkdown(el.text.replaceAll('<--EXPAND-->', '').replaceAll('<--EXPAND-SMALL-->', ''))"
                         ></div>
                     </div>
                     <div
                         v-else
-                        class="step"
+                        :class="currentStep.step === i ? 'active step' : 'step'"
                         :data-section="sectionIndex"
                         :data-step="i"
                         v-html="parseMarkdown(el.text)"
@@ -52,13 +54,46 @@
             </template>
             <template v-else id="scrolly">
                 <article>
-                    <div
+                    <template
                         v-for="(el, i) in data.filter((v, i) => !(i % 2))"
-                        :class="currentStep.step === i ? 'active step' : 'step'"
-                        :data-section="sectionIndex"
-                        :data-step="i"
-                        v-html="parseMarkdown(el.text)"
-                    ></div>
+                    >
+                        <div
+                            v-if="el.text.includes('#scrubControl')"
+                            :class="currentStep.step === i ? 'active step' : 'step'"
+                            :data-section="sectionIndex"
+                            :data-step="i"
+                            v-html="parseMarkdown(el.text)"
+                        ></div>
+                        <div
+                            v-if="el.text.includes('<--EXPAND-->') || el.text.includes('<--EXPAND-SMALL-->')"
+                            class="expandContainer"
+                            :class="currentStep.step === i ? 'active step' : 'step'"
+                            :data-section="sectionIndex"
+                            :data-step="i"
+                        >
+                            <div v-html="parseMarkdown(el.text.split('<--EXPAND')[0])"></div>
+                            <img
+                                src="./data/gtif/images/circle-plus-solid.svg"
+                                class="expandBtn"
+                                width="20"
+                                :data-section="sectionIndex"
+                                @click="toggleExpandable(sectionIndex)"
+                            >
+                            <div
+                                class="expandable hidden"
+                                :class="el.text.includes('<--EXPAND-SMALL-->') ? 'expandable-small' : ''"
+                                data-section="sectionIndex"
+                                v-html="parseMarkdown(el.text.split('<--EXPAND')[1].replaceAll('-SMALL-->', '').replaceAll('-->', '').replaceAll('<--EXPAND-->', '').replaceAll('<--EXPAND-SMALL-->', ''))"
+                            ></div>
+                        </div>
+                        <div
+                            v-else
+                            :class="currentStep.step === i ? 'active step' : 'step'"
+                            :data-section="sectionIndex"
+                            :data-step="i"
+                            v-html="parseMarkdown(el.text)"
+                        ></div>
+                    </template>
                 </article>
 
                 <transition-group class="figureContainer" name="slide" mode="out-in">
@@ -72,21 +107,44 @@
                                 <img
                                     v-if="figure.text.includes('<--IMG-->')"
                                     :src="figure.text.replaceAll('<--IMG-->', '')"
-                                    width="700"
+                                    width="75%"
                                     >
                                 <video
                                     v-else-if="figure.text.includes('<--VID-->')"
                                     :src="figure.text.replaceAll('<--VID-->', '')"
-                                    width="700"
+                                    width="100%"
+                                    muted
+                                    autoplay
                                     >
                                 </video>
+                                <video
+                                    v-else-if="figure.text.includes('<--SCRUB-->')"
+                                    id="scrubVideo"
+                                    :src="figure.text.replaceAll('<--SCRUB-->', '')"
+                                    width="100%"
+                                    muted
+                                    >
+                                </video>
+                                <!-- <vue-scrubbable-video
+                                    v-else-if="figure.text.includes('SCRUB')"
+                                    style="transform: translate(-350px, -55px)"
+                                    :current-progress="progress"
+                                    :frames-per-second="13"
+                                    :start="0"
+                                    :end="21"
+                                    @frame-ready="(e) => generatedFrames = e"
+                                    @frames-ready="generatedFrames = 100"
+                                    >
+                                    <source :src="figure.text.replaceAll('SCRUB', '')" type="video/mp4" />
+                                </vue-scrubbable-video> -->
+                                <div v-else v-html="parseMarkdown(figure.text)"></div>
                             </template>
                             <iframe
                                 v-else
                                 class="item"
                                 :src="`/iframe?poi=${figure.id.substring(0, figure.id.indexOf('@'))}`"
-                                width="800px"
-                                height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>
+                                width="1000px"
+                                height="770px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>
                         </div>
                     </figure>
                 </transition-group>
@@ -99,9 +157,12 @@
 <script src="./iframeResizer.contentWindow.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<!-- <script src="https://unpkg.com/@diracleo/vue-scrubbable-video/dist/vue-scrubbable-video.min.js"></script> -->
 <script>
+//   Vue.use(VueScrubbableVideo);
+
   const app = new Vue({
-    el: '#app',
+    el: '#scrolly-app',
     data: () => { return {
         scrollyArray: null,
         imgData: null,
@@ -110,6 +171,8 @@
             section: 0,
             step: 0,
         },
+        progress: 0,
+        // generatedFrames: null,
     }},
     created() {
         window.addEventListener('message', (message) => {
@@ -117,6 +180,7 @@
                 this.scrollyArray = message.data;
                 this.$nextTick(() => {
                     this.scrollamaSetup();
+                    this.videoSetup();
                 });
             }
         });
@@ -134,30 +198,62 @@
             };
         }
 
-        const handleStepProgress = (response) => {
-          if (document.querySelector('video')) {
-            // update video based on step
-            let duration = document.querySelector('video').duration;
-            window.requestAnimationFrame(() => {
-                document.querySelector('video').currentTime = duration * response.progress;
-            });
-          }
-        }
+        // const handleStepProgress = (response) => {
+        //     this.$set(this.currentStep, 'progress', response.progress * 100);
+        //     this.progress = response.progress * 1;
+        // }
 
         const init = () => {
             scroller
                 .setup({
-                    root: document,
+                    root: document.querySelector('#scrolly-app'),
                     step: ".scrollySection article .step",
-                    offset: screen.width > 479 ? 0.33 : 0.4,
-                    progress: true,
+                    offset: 0.5,
+                    // progress: true,
                     debug: false
                 })
                 .onStepEnter(handleStepEnter)
-                .onStepProgress(handleStepProgress);
+                .onStepExit(this.pauseAllVideos)
+                // .onStepProgress(handleStepProgress);
         }
 
         init();
+
+        // temporary hack for scrolly scrubbing of a video
+
+        let $video = document.querySelector('#scrubVideo');
+        let $scrubControl = document.querySelector('#scrubControl');
+        let videoDuration;
+
+        if ($video) {
+            $video.addEventListener('loadeddata', handleLoadedData);
+        }
+        function handleLoadedData(event) {
+            // Get the full video duration
+            videoDuration = $video.duration;
+        }
+
+        const intersectProgress = ([entry]) => {
+            this.progress = (1 - entry.intersectionRatio) * 100
+            const currentTime = (this.progress * videoDuration / 100);
+            $video.currentTime = currentTime;
+        }
+        function createProgressThreshold(height, threshold) {
+            const count = Math.ceil(height / threshold);
+            const t = [];
+            const ratio = 1 / count;
+            for (let i = 0; i < count + 1; i += 1) {
+                t.push(i * ratio);
+            }
+            return t;
+        }
+        const boundingClient = $scrubControl.getBoundingClientRect();
+        const observer = new IntersectionObserver(intersectProgress, {
+            root: document.querySelector('#scrolly-app'),
+            rootMargin: `${boundingClient.top}px 0px ${boundingClient.bottom}px 0px`,
+            threshold: createProgressThreshold($scrubControl.clientHeight, 1) });
+
+  		observer.observe($scrubControl);
       },
       parseMarkdown(input) {
         return marked.parse(input);
@@ -166,6 +262,41 @@
         let el = document.querySelector(`[data-section='${index}'] .expandable`);
         el.classList.toggle('hidden');
       },
+      videoSetup() {
+        // simple script to enable play/pause of videos that have been directly embedded
+        // currently only supports one per page with correct ID
+        let videoElem = document.getElementById("playvideo");
+        let playButton = document.getElementById("playbutton");
+
+        playButton.addEventListener("click", handlePlayButton, false);
+        playVideo();
+
+        async function playVideo() {
+            try {
+                await videoElem.play();
+                playButton.classList.add("playing");
+            } catch (err) {
+                playButton.classList.remove("playing");
+            }
+        }
+
+        function handlePlayButton() {
+            if (videoElem.paused) {
+                playVideo();
+            } else {
+                videoElem.pause();
+                playButton.classList.remove("playing");
+            }
+        }
+      },
+      pauseAllVideos() {
+        let videoElem = document.getElementById("playvideo");
+        let playButton = document.getElementById("playbutton");
+        if (videoElem) {
+            videoElem.pause();
+            playButton.classList.remove("playing");
+        }
+      }
     },
   });
 </script>

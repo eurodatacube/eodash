@@ -62,7 +62,7 @@ export default {
 
     const adminLayerGroups = this.administrativeConfigs.map((l) => createLayerFromConfig(l,
       {
-        zIndex: 3,
+        zIndex: 21,
       }));
     this.adminLayerGroups = adminLayerGroups;
     // setup listener on featuresloadend on first layer and set maxZoom to high number to
@@ -108,6 +108,12 @@ export default {
     });
     this.inverseAdministrativeLayer = inverseAdministrativeLayer;
     this.highlightLayer = highlightLayer;
+    // when layers visibilitites are disabled via LayerControl, other layers here are hidden
+    this.adminLayerGroups[0].on('change:visible', (e) => {
+      const visible = e.target.getVisible();
+      inverseAdministrativeLayer.setVisible(visible);
+      highlightLayer.setVisible(visible);
+    });
     map.addLayer(inverseAdministrativeLayer);
     map.addLayer(highlightLayer);
   },
@@ -134,7 +140,10 @@ export default {
           // and update zoom to nearest minzoom or maxzoom of next layer
           this.zoomToFeatureAdminLayerIndex(feature, layerIndex + 1);
           this.$store.commit(
-            'features/SET_ADMIN_BORDER_SELECTED', feature,
+            'features/SET_ADMIN_BORDER_FEATURE_SELECTED', feature,
+          );
+          this.$store.commit(
+            'features/SET_ADMIN_BORDER_LAYER_SELECTED', clickLayer,
           );
           this.setupInverseFeatureLayer(feature);
         } else if (clickLayer.get('name') === 'inverseAdministrativeLayer') {
@@ -208,7 +217,9 @@ export default {
     setInitialDefaultSelectedArea() {
       // reset maxZoom from admin layer on index 0 and setDefaultSelectedArea
       if (this.administrativeConfigs[0].maxZoom !== undefined) {
-        const layer = this.getLayerFromGroup(this.adminLayerGroups[0], this.administrativeConfigs[0]);
+        const layer = this.getLayerFromGroup(
+          this.adminLayerGroups[0], this.administrativeConfigs[0],
+        );
         layer.setMaxZoom(this.administrativeConfigs[0].maxZoom);
       }
       // set default area without zooming in to honor URL search parameters x,y,z
@@ -222,7 +233,10 @@ export default {
       // get features and setup the inverse
       const feature = layer.getSource().getFeatures()[0];
       this.$store.commit(
-        'features/SET_ADMIN_BORDER_SELECTED', feature,
+        'features/SET_ADMIN_BORDER_FEATURE_SELECTED', feature,
+      );
+      this.$store.commit(
+        'features/SET_ADMIN_BORDER_LAYER_SELECTED', layer,
       );
       this.setupInverseFeatureLayer(feature);
       if (performZoomTo) {
@@ -268,7 +282,7 @@ export default {
           this.overlayCoordinate = coordinate;
           const props = feature.getProperties();
           const key = Object.keys(props).find(
-            (k) => ['name', 'nuts_name'].includes(k.toLowerCase())
+            (k) => ['name', 'nuts_name'].includes(k.toLowerCase()),
           );
           if (props[key]) {
             this.overlayRows = [props[key]];

@@ -1,6 +1,8 @@
 import { DateTime } from 'luxon';
 import axios from 'axios';
 import store from '@/store';
+import { generateUsedTimes } from '@/helpers/mapConfig';
+
 import { Vector } from 'ol/layer';
 import VectorSource from 'ol/source/Vector';
 import { Feature } from 'ol';
@@ -213,9 +215,34 @@ export function calculatePadding() {
   const searchPanelWidth = (document.querySelector('#list') !== null)
     ? (document.querySelector('#list').clientWidth + 40) : 0;
   const searchResultWidth = !searchResultsClosed ? searchPanelWidth : 0;
-  const padding = [70, 20 + dataPanelWidth, 70, 20 + searchResultWidth];
-  const { map } = getMapInstance('centerMap');
-  const view = map.getView();
-  view.padding = padding;
+  const padding = [70, 20 + dataPanelWidth, 150, 20 + searchResultWidth];
+  return padding;
+  // TODO  cleanup
+  // const { map } = getMapInstance('centerMap');
+  // const view = map.getView();
+  // view.padding = padding;
   // handleDebugPolygon();
+}
+
+export function getIndicatorFilteredInputData(selectedIndicator) {
+  if (!selectedIndicator && !store.state.indicators.selectedIndicator) {
+    return null;
+  }
+  const indicator = selectedIndicator || { ...store.state.indicators.selectedIndicator };
+  // use possible overrides from baseConfig
+  const { inputData } = generateUsedTimes(indicator);
+  if (!inputData) {
+    return null;
+  }
+  // filter out rows which have empty "Input Data"
+  const mask = inputData.map((item) => item !== '' && item !== '/');
+  // filtering only arrays with more than 1 element to not fail on Input Data:['value'] shortcut
+  if (mask.length > 1) {
+    for (let [key, value] of Object.entries(indicator)) { // eslint-disable-line
+      if (Array.isArray(value) && value.length > 1) {
+        indicator[key] = value.filter((item, i) => mask[i]);
+      }
+    }
+  }
+  return indicator;
 }

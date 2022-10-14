@@ -21,9 +21,8 @@ import pandas as pd
 import numpy as np
 from math import sin, cos, sqrt, atan2, radians
 
-new_suffix = '2'  # suffix of new indicator code
 indicator = 'E13d'  # indicator to fetch jsons of
-column_names_csv = ['AOI', 'Country', 'Region', 'City', 'Site Name', 'Description', 'Method', 'EO Sensor', 'Input Data', 'Indicator code', 'Time', 'Measurement Value', 'Reference Description', 'Reference time', 'Reference value', 'Rule', 'Indicator Value', 'Sub-AOI', 'Y axis', 'Indicator Name', 'Color code', 'Data Provider', 'AOI_ID', 'Update Frequency']
+column_names_csv = ['AOI', 'Time', 'AOI_ID']
 list_of_dates_to_process = ['201807', '201808', '201809', '201810', '201811', '201812', '201901', '201902', '201903', '201904', '201905', '201906', '201907', '201908', '201909', '201910', '201911', '201912', '202001', '202002', '202003', '202004', '202005', '202006', '202007', '202008', '202009', '202010', '202011', '202012', '202101', '202102']  # to be updated
 
 def split_aoi(aoi):
@@ -107,16 +106,6 @@ def convert(path2, indicator, result_list=[]):
         data['Time'] = updated_time
         # add other values for some columns from internal data
         data['AOI'] = f"{found['aoi'].iloc[0]}"
-        data['Region'] = ""
-        data['Country'] = 'all'  # needs update to 'all' in case if we want to display map (showMap function)
-        data['City'] = found['city'].iloc[0]
-        data['Description'] = found['description'].iloc[0]
-        data['Indicator code'] = f"{found['indicator'].iloc[0]}{new_suffix}"
-        data['Site Name'] = found['siteName'].iloc[0]
-        data['Indicator Name'] = found['indicatorName'].iloc[0]
-        data['Sub-AOI'] = found['subAoi'].iloc[0]
-        data['Input Data'] = 'Sentinel 2 L2A'
-        data['EO Sensor'] = 'Sentinel 2'
         result_list.append(data)
 
         updated_time_without_s = try_parsing_date(row['TIMESTAMP UTC']).strftime('%Y%m%dT%H%M')  # format for filenames

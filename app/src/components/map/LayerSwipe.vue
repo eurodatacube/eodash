@@ -14,7 +14,6 @@
     />
     <slot name="close"></slot>
     <input id="swipe" type="range" v-model="swipe">
-      :style="`clip-path: inset(0px 0px 0px ${clipRight}px`"
     <div id="swipe_handle_separator" :style="`left: calc(${swipe}% - 1px)`">
       <div id="swipe_handle" style="display: flex; align-items: center">
         <svg style="width:24px;height:24px" viewBox="0 0 24 24">
@@ -123,10 +122,11 @@ export default {
       // clip the originalLayer from right, the comparing layer from left
       if (this.$refs.container) {
         const ctx = evt.context;
-        const sidePadding = document.querySelector('.data-panel')
-          .className.includes('v-navigation-drawer--close')
-          ? 0
-          : document.querySelector('.data-panel').clientWidth;
+        const sidePadding = document.querySelector('.data-panel') !== null
+          ? document.querySelector('.data-panel').className.includes('v-navigation-drawer--close')
+            ? 0
+            : document.querySelector('.data-panel').clientWidth
+          : 0;
         this.swipePixelX = (ctx.canvas.width - sidePadding) * (this.swipe / 100);
         this.$emit('updateSwipePosition', this.swipePixelX);
         ctx.save();

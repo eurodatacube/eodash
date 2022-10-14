@@ -1,0 +1,63 @@
+{
+  "version": 8,
+  "name": "rooftops",
+  "center": [0, 0],
+  "zoom": 3,
+  "glyphs": "{fontstack}/{range}",
+  "sources": {
+    "innsbruck": {
+      "type": "vector",
+      "tiles": [
+          "https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/SISTEMA/we_innsbruck_3857/{z}/{x}/{y}.pbf"
+      ],
+      "maxzoom": 16
+  }
+  },
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "rgba(0,0,0,0)"
+      }
+    },
+    {
+      "id": "users_average",
+      "type": "fill",
+      "source": "innsbruck",
+      "source-layer": "innsbruck_we",
+      "filter": ["all"],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": [
+          "interpolate",
+          ["linear"],
+          ["get", "users_average"],
+          0,
+          ["to-color", "#0000ff"],
+          10,
+          ["to-color", "#ff0000"]
+        ]
+      }
+    },
+    {
+      "id": "log10_users",
+      "type": "fill",
+      "source": "innsbruck",
+      "source-layer": "innsbruck_we",
+      "filter": ["all"],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": [
+          "interpolate",
+          ["linear"],
+          ["get", "log10_users"],
+          0,
+          ["to-color", "#0000ff"],
+          3,
+          ["to-color", "#ff0000"]
+        ]
+      }
+    }
+  ]
+}

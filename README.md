@@ -37,3 +37,5 @@ the appropriate template.
 
 This project is licensed under **The MIT License (MIT)**, see the
 [LICENSE](LICENSE) file for more details.
+
+This project is tested with BrowserStack.

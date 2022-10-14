@@ -12,13 +12,8 @@
 import getMapInstance from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import { createLayerFromConfig } from '@/components/map/layers';
-import GeoJSON from 'ol/format/GeoJSON';
 import VectorLayer from 'ol/layer/Vector';
 import { getCenter } from 'ol/extent';
-
-const geoJsonFormat = new GeoJSON({
-  featureProjection: 'EPSG:3857',
-});
 
 /**
  * this component handles global indicators and will add and remove layers
@@ -63,14 +58,10 @@ export default {
     options.zIndex = 3;
     const layer = createLayerFromConfig(this.mergedConfig, options);
     layer.set('name', this.layerName);
-    const { presetView } = this.mergedConfig;
-    if (presetView?.features?.length) {
-      const presetGeom = geoJsonFormat.readGeometry(presetView.features[0].geometry);
-      map.getView().fit(presetGeom.getExtent(), {
-        padding: [30, 30, 30, 30],
-      });
-    }
-    const featureLayer = layer.getLayers().getArray().find((l) => l instanceof VectorLayer);
+    const featureLayer = layer.getLayers().getArray().find((l) => {
+      const found = l instanceof VectorLayer && l.get('name')?.includes('_features');
+      return found;
+    });
     this.pointerMoveHandler = (e) => {
       const features = map.getFeaturesAtPixel(e.pixel, {
         layerFilter: ((candidate) => candidate === featureLayer),
@@ -83,7 +74,7 @@ export default {
         || (!isRightLayer && this.swipePixelX > e.pixel[0]))
         : true;
       // consider layergroup
-      if (isCorrectSide && features.length) {
+      if (isCorrectSide && features.length && this.mergedConfig.features) {
         const feature = features[0];
         // center coordinate of extent, passable approximation for small or regular features
         const coordinate = getCenter(feature.getGeometry().getExtent());

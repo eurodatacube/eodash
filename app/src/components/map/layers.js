@@ -4,17 +4,20 @@ import VectorSource from 'ol/source/Vector';
 import XYZSource from 'ol/source/XYZ';
 import GeoJSON from 'ol/format/GeoJSON';
 import countries from '@/assets/countries.json';
-import { Fill, Stroke, Style } from 'ol/style';
+import {
+  Fill, Stroke, Style, Circle,
+} from 'ol/style';
 import TileWMS from 'ol/source/TileWMS';
 import GeoTIFF from 'ol/source/GeoTIFF';
 import WebGLTileLayer from 'ol/layer/WebGLTile';
+import MapLibreLayer from '@geoblocks/ol-maplibre-layer';
 import store from '@/store';
 import TileGrid from 'ol/tilegrid/TileGrid';
 import { createXYZ } from 'ol/tilegrid';
 import { Group } from 'ol/layer';
 import VectorTileLayer from 'ol/layer/VectorTile';
-import { applyStyle } from 'ol-mapbox-style';
-import { deserialize } from 'flatgeobuf/lib/mjs/geojson';
+import { applyStyle, stylefunction } from 'ol-mapbox-style';
+import * as flatgeobuf from 'flatgeobuf/dist/flatgeobuf-geojson.min';
 import { transformExtent } from 'ol/proj';
 import { bbox } from 'ol/loadingstrategy';
 
@@ -36,18 +39,21 @@ function fetchGeoJsonFeatures(source, url) {
     .then((fStream) => {
       fStream.json()
         .then((geoJson) => {
-          geoJson.features.forEach((f) => {
-            if (f.id === null) {
-            // to do: some POIs (like bejing or LAX airports) have `null` set as feature ids,
-            // resulting in invalid geojson
-            // when this is fixed in the data, the normal geojson loader should be used
-            // eslint-disable-next-line no-param-reassign
-              f.id = undefined;
-            }
-          });
-          const features = geoJsonFormat.readFeatures(geoJson);
-          source.addFeatures(features);
-        });
+          if (geoJson.features && geoJson.features.length) {
+            geoJson.features.forEach((f) => {
+              if (f.id === null) {
+                // to do: some POIs (like bejing or LAX airports) have `null` set as feature ids,
+                // resulting in invalid geojson
+                // when this is fixed in the data, the normal geojson loader should be used
+                // eslint-disable-next-line no-param-reassign
+                f.id = undefined;
+              }
+            });
+            const features = geoJsonFormat.readFeatures(geoJson);
+            source.addFeatures(features);
+          }
+        })
+        .catch(() => {});
     });
 }
 
@@ -126,7 +132,7 @@ export function createLayerFromConfig(config, _options = {}) {
   if (config.protocol === 'cog') {
     const source = new GeoTIFF({
       sources: config.sources,
-      normalize: false,
+      normalize: config.normalize ? config.normalize : false,
     });
     const wgTileLayer = new WebGLTileLayer({
       source,
@@ -144,8 +150,24 @@ export function createLayerFromConfig(config, _options = {}) {
   if (config.protocol === 'vectorgeojson') {
     const layer = new VectorLayer();
     layer.set('id', config.id);
-    applyStyle(layer, config.styleFile, [config.selectedStyleLayer]);
+    layer.set('name', config.name);
+    layer.set('styleFile', config.styleFile);
+    layer.set('selectedStyleLayer', config.selectedStyleLayer);
     layers.push(layer);
+    fetch(config.styleFile).then((r) => r.json())
+      .then((glStyle) => {
+        const newGlStyle = JSON.parse(JSON.stringify(glStyle));
+        let currentTime = '2022_09_17';
+        if (config.usedTimes?.time?.length) {
+          currentTime = config.usedTimes.time[config.usedTimes.time.length - 1];
+          currentTime = currentTime.replaceAll('-', '_');
+        }
+        newGlStyle.sources.air_quality.data = newGlStyle.sources.air_quality.data.replace(
+          '{{time}}', currentTime,
+        );
+        applyStyle(layer, newGlStyle, [config.selectedStyleLayer]);
+      })
+      .catch(() => console.log('Issue loading mapbox style'));
   }
   if (config.protocol === 'countries') {
     layers.push(new VectorLayer({
@@ -204,7 +226,7 @@ export function createLayerFromConfig(config, _options = {}) {
       // rather than the entire file.
       if (rect.minX !== -Infinity) {
         const ftrs = [];
-        const iter = deserialize(config.url, rect);
+        const iter = flatgeobuf.deserialize(config.url, rect);
         // eslint-disable-next-line no-restricted-syntax
         for await (const feature of iter) {
           const ftr = geoJsonFormat.readFeature(feature);
@@ -269,6 +291,7 @@ export function createLayerFromConfig(config, _options = {}) {
       });
     }
   }
+
   if (config.protocol === 'WMS') {
     // to do: layers is  not defined for harvesting evolution over time (spain)
     const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
@@ -359,23 +382,31 @@ export function createLayerFromConfig(config, _options = {}) {
         url: config.url || config.baseUrl,
         tileGrid,
       });
-    }
-  }
-
-  if (source) {
-    if (config.dateFormatFunction) {
       source.set('updateTime', (updatedTime) => {
+        const timeString = config.dateFormatFunction(updatedTime);
         const newParams = {
-          time: config.dateFormatFunction(updatedTime),
+          time: timeString,
         };
         if (config.specialEnvTime) {
           newParams.env = `year:${updatedTime}`;
         }
-        if (source.updateParams) {
-          source.updateParams(newParams);
-        }
+        source.updateParams(newParams);
       });
     }
+  }
+  if (config.protocol === 'maplibre') {
+    const layer = new MapLibreLayer({
+      name: config.name,
+      zIndex: options.zIndex,
+      attribution: config.attribution,
+      maplibreOptions: {
+        style: config.maplibreStyles,
+      },
+    });
+    layers.push(layer);
+  }
+
+  if (source) {
     layers.push(new TileLayer({
       name: config.name,
       // minZoom: config.minZoom || config.minNativeZoomm,
@@ -406,15 +437,23 @@ export function createLayerFromConfig(config, _options = {}) {
       const newUrl = replaceUrlPlaceholders(config.features.url, config, updatedOptions);
       fetchGeoJsonFeatures(featuresSource, newUrl);
     });
+    const fill = new Fill({
+      color: 'rgba(255, 255, 255, 0.1)',
+    });
+    const stroke = new Stroke({
+      width: 2,
+      color: '#F7A400',
+    });
     const featuresLayer = new VectorLayer({
       source: featuresSource,
+      name: config.name + "_features",
       style: new Style({
-        fill: new Fill({
-          color: 'rgba(255, 255, 255, 0.1)',
-        }),
-        stroke: new Stroke({
-          width: 2,
-          color: '#F7A400',
+        fill,
+        stroke,
+        image: new Circle({
+          fill,
+          stroke,
+          radius: 4,
         }),
       }),
     });

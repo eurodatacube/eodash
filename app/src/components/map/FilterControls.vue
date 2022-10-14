@@ -7,7 +7,13 @@
       <div v-for="key in Object.keys(filters)"
         :key="key"
       >
-        <v-subheader>{{filters[key].label}}</v-subheader>
+        <span
+          v-if="filters[key].header"
+          class="pl-8 ml-10"
+          style="font-size:20px; color: #000000;">
+          {{filters[key].label}}
+        </span>
+        <span v-else class="pl-8 ml-10" style="color: #7a7a7a;"> {{filters[key].label}} </span>
         <v-range-slider
           v-model="filters[key].range"
           hide-details
@@ -25,6 +31,19 @@
           </template>
         </v-range-slider>
       </div>
+      <div style="text-align: center;">
+        <v-btn small color="primary">Add filter</v-btn>
+      </div>
+      <div style="padding-left: 30%" class="align-center justify-center d-inline-flex">
+        <v-checkbox
+          class="align-center justify-center d-inline-flex"
+          :label="'Exclude protected areas'"
+        ></v-checkbox>
+      </div>
+      <v-row class="pa-3 justify-center">
+        <v-btn small class="mr-3" color="primary">Export best zones</v-btn>
+        <v-btn small class="ml-3" color="primary">Create report</v-btn>
+      </v-row>
     </v-card>
   </v-col>
 </template>

@@ -10,7 +10,6 @@ import VueCountdown from '@chenfengyuan/vue-countdown';
 
 import browserDetect from 'vue-browser-detect-plugin';
 import { marked } from 'marked';
-import L from 'leaflet';
 import App from './App.vue';
 import Dashboard from './views/Dashboard.vue';
 import DashboardCustom from './views/DashboardCustom.vue';
@@ -146,6 +145,8 @@ const renderVue = async () => {
     methods: {
       getIndicatorColor() {
         const colors = vuetify.preset.theme.themes.light;
+        // LEGACY, but might need again in future
+        // let color;
         // if (typeof label === 'undefined') {
         //   // placeholders
         //   color = colors.grey;
@@ -167,8 +168,7 @@ const renderVue = async () => {
         // } else {
         //   color = colors.info;
         // }
-        const color = colors.secondary;
-        return color;
+        return colors.secondary;
       },
       getLocationCode,
       trackEvent: (action, name, value) => window._paq.push(
@@ -228,10 +228,10 @@ const renderVue = async () => {
         { path: '/explore', name: 'explore', component: Dashboard },
         { path: '/energy-transition', name: 'gtif-energy-transition', component: ScrollyFrame },
         { path: '/mobility-transition', name: 'gtif-mobility-transition', component: ScrollyFrame },
+        { path: '/social-mobility', name: 'gtif-social-mobility', component: ScrollyFrame },
         { path: '/sustainable-cities', name: 'gtif-sustainable-transition', component: ScrollyFrame },
         { path: '/carbon-accounting', name: 'gtif-carbon-finance', component: ScrollyFrame },
         { path: '/eo-adaptation-services', name: 'gtif-eo-adaptation', component: ScrollyFrame },
-        { path: '/aq-scenario', name: 'gtif-aq-scenario', component: ScrollyFrame },
       ]
       : []
     ),

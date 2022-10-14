@@ -11,12 +11,13 @@
       :mini-variant-width="iconSize"
     >
       <v-list class="py-0">
-        <v-list-item-group v-model="domainModel">
+        <v-list-item-group v-model="domainModel" :mandatory="domainModel !== undefined">
           <v-list-item
             v-for="theme in themes"
             :key="theme.slug"
             class="pa-2"
             :style="`width: ${iconSize}px; height: ${iconSize}px`"
+            @click="showLayerMenu = true"
           >
             <v-list-item-icon
               class="ma-0 d-flex flex-column align-center"
@@ -38,7 +39,7 @@
       <div
         v-show="showLayerMenu"
         class="fill-height"
-        style="width: 238px; pointer-events: all"
+        style="width: 250px; pointer-events: all"
       >
         <v-list v-if="themes[domainModel]" style="width: 100%">
           <v-list-item-group style="width: 100%">
@@ -47,7 +48,7 @@
               :key="getLocationCode(item.properties.indicatorObject)"
               class="mb-2"
               style="width: 100%"
-              @click="setSelectedIndicator(item.properties.indicatorObject)"
+              @click="() => { setSelectedIndicator(item.properties.indicatorObject); showLayerMenu = false }"
             >
               <v-list-item-avatar>
                 <v-img
@@ -78,6 +79,16 @@ export default {
     domainModel: undefined,
     iconSize: 88,
     showLayerMenu: false,
+    customOrder: [
+      'Austria-REP4',
+      'Austria-REP3',
+      'Austria-REP2',
+      'Austria-REP1',
+      'AT-AQ',
+      'Innsbruck-SOL3',
+      'Innsbruck-SOL2',
+      'Innsbruck-SOL1',
+    ]
   }),
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
@@ -90,6 +101,11 @@ export default {
           > b.properties.indicatorObject.indicatorName)
           ? 1
           : -1))
+        .sort((a, b) => 
+          this.customOrder.indexOf(this.getLocationCode(a.properties.indicatorObject))
+          > this.customOrder.indexOf(this.getLocationCode(b.properties.indicatorObject))
+          ? 1
+          : -1)
         .map((i) => ({
           ...i,
           theme: this.baseConfig.indicatorsDefinition[
@@ -114,13 +130,26 @@ export default {
     },
     onClickOutside() {
       this.showLayerMenu = false;
-      this.domainModel = undefined;
     },
   },
   watch: {
-    domainModel(newIndex) {
-      this.showLayerMenu = !(newIndex === undefined);
+    globalIndicators() {
+      if (this.$route.query.poi) {
+        const foundPoi = this.globalIndicators
+          .find((gI) => this.getLocationCode(gI.properties.indicatorObject)
+            === this.$route.query.poi);
+        if (foundPoi) {
+          this.domainModel = this.themes.findIndex((t) => t.slug === foundPoi.theme);
+        }
+      }
     },
   },
 };
 </script>
+
+<style scoped>
+::v-deep .v-list-item__title,
+::v-deep .v-list-item__subtitle {
+  white-space: pre-wrap;
+}
+</style>
