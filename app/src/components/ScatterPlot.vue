@@ -71,6 +71,7 @@ export default {
         color: fromUrl("https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/ESA_WorldCover_10m_COG_3857_fix.tif"),
         slope: fromUrl("https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Slope_3857_fix.tif"),
         elevation: fromUrl("https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_DSM_COG_10m_3857_fix.tif"),
+        energyGridDistance: fromUrl("https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif"),
       },
       rasters: null,
     };
@@ -80,6 +81,8 @@ export default {
     rasters: 'render',
     'filters.elevation.range': 'render',
     'filters.slope.range': 'render',
+    'filters.energyGridDistance.range': 'render',
+    'filters.settlementDistance.range': 'render',
   },
   methods: {
     async readRasters() {
@@ -89,6 +92,7 @@ export default {
       const colorTiff = await this.tiffs.color;
       const slopeTiff = await this.tiffs.slope;
       const elevationTiff = await this.tiffs.elevation;
+      const energyGridDistanceTiff = await this.tiffs.energyGridDistance;
 
       const { map } = getMapInstance('centerMap');
       let [width, height] = map.getSize();
@@ -104,6 +108,7 @@ export default {
         colorData,
         slopeData,
         elevationData,
+        energyGridDistanceData,
       ] = await Promise.all([
         xTiff.readRasters({
           bbox,
@@ -137,6 +142,12 @@ export default {
           height,
           interleave: true,
         }),
+        energyGridDistanceTiff.readRasters({
+          bbox,
+          width,
+          height,
+          interleave: true,
+        }),
       ]);
 
       // only set the data if the bounding box is the same
@@ -147,6 +158,7 @@ export default {
           colorData,
           slopeData,
           elevationData,
+          energyGridDistanceData,
         };
       }
     },
@@ -164,6 +176,7 @@ export default {
         colorData,
         slopeData,
         elevationData,
+        energyGridDistanceData,
       } = this.rasters;
 
       // roughly scale X/Y values to fit with scatterplot (whose values must be approximately -1/1)
@@ -172,6 +185,8 @@ export default {
 
       const elevationRange = this.filters.elevation.range;
       const slopeRange = this.filters.slope.range;
+      const energyGridDistanceRange = this.filters.energyGridDistance.range;
+      const settlementDistanceRange = this.filters.settlementDistance.range;
 
       const data = [];
       for (let i = 0; i < xData.length; ++i) {
@@ -180,6 +195,7 @@ export default {
         const color = colorData[i];
         const elevation = elevationData[i];
         const slope = slopeData[i];
+        const energyGridDistance = energyGridDistanceData[i];
 
         // apply filtering. Skip invalid values and filtered values
         if (
@@ -187,6 +203,8 @@ export default {
           || (x === 0 && y === 0)
           || (elevation < elevationRange[0] || elevation > elevationRange[1])
           || (slope < slopeRange[0] || slope > slopeRange[1])
+          || (energyGridDistance < energyGridDistanceRange[0] || energyGridDistance > energyGridDistanceRange[1])
+          || (y < settlementDistanceRange[0] || y > settlementDistanceRange[1])
         ) {
           continue;
         }
