@@ -52,25 +52,32 @@ export default {
     this.scatterplot = scatterplot;
 
     // read the color map from the TIFF color table
-    (async () => {
-      // build a color map if it does not yet exist
-      const colorImage = await (await this.tiffs.color).getImage();
-      const colorMap = colorImage.fileDirectory.ColorMap;
-      const pointColor = [];
-      const rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => {
-        const hex = x.toString(16).toUpperCase()
-        return hex.length === 1 ? '0' + hex : hex
-      }).join('');
-      for (let i = 0; i < colorMap.length; ++i) {
-        const r = colorMap[i + 0];
-        const g = colorMap[i + 1];
-        const b = colorMap[i + 1];
-        // convert from Uint16 to RGB hex
-        pointColor.push(rgbToHex(Math.round(r / 256), Math.round(g / 256), Math.round(b / 256)));
-      }
-      console.log(pointColor);
-      this.scatterplot.set({ pointColor });
-    })();
+    // (async () => {
+    //   // build a color map if it does not yet exist
+    //   const colorImage = await (await this.tiffs.color).getImage();
+    //   const colorMap = colorImage.fileDirectory.ColorMap;
+    //   const pointColor = [];
+    //   const rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => {
+    //     const hex = x.toString(16).toUpperCase()
+    //     return hex.length === 1 ? '0' + hex : hex
+    //   }).join('');
+    //   for (let i = 0; i < colorMap.length; i += 3) {
+    //     // convert from Uint16 to RGB hex
+    //     // const r = Math.round(colorMap[i + 0] / 256);
+    //     // const g = Math.round(colorMap[i + 1] / 256);
+    //     // const b = Math.round(colorMap[i + 2] / 256);
+    //     // pointColor.push(rgbToHex(r, g, b));
+    //     const r = Math.trunc(colorMap[i + 0] / 256);
+    //     const g = Math.trunc(colorMap[i + 1] / 256);
+    //     const b = Math.trunc(colorMap[i + 2] / 256);
+    //     pointColor.push([r, g, b]);
+    //   }
+    //   console.log(pointColor);
+    //   this.scatterplot.set({ pointColor });
+    // })();
+
+    const pointColor = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 100, 0], [88, 72, 31], [112, 102, 62], [0, 153, 0], [0, 204, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [255, 187, 34], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [255, 255, 76], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [240, 150, 255], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [250, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [180, 180, 180], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [240, 240, 240], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 100, 200], [0, 0, 0], [153, 217, 234], [0, 0, 0], [245, 233, 245], [0, 0, 0], [199, 213, 214], [0, 0, 0], [0, 0, 0], [113, 194, 199], [0, 150, 160], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 207, 117], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [250, 230, 160], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
+    this.scatterplot.set({ pointColor });
 
     // this.scatterplot.subscribe('view', ({ xScale, yScale }) => {
     //   console.log(xScale.domain(), yScale.domain());
@@ -120,7 +127,7 @@ export default {
         xAxisContainer.call(xAxis.scale(scatterplot.get('xScale')));
         yAxisContainer.call(yAxis.scale(scatterplot.get('yScale')));
       },
-      1
+      1,
     );
     const resizeHandler = () => {
       ({ width, height } = canvasWrapper.getBoundingClientRect());
