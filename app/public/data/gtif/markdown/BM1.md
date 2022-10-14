@@ -1,3 +1,8 @@
+## Austria_AutoChange2020-2021-WGS84-rendered-COG
+
+Changes in forested land from 2020 to 2021 are combined with biomass map for loss of wood
+witch is available for administrative units e.g. Bundesländer.
+
 ## Sustainable forest management for a green future
 
 The European Commission has adopted the new [EU Forest Strategy](https://environment.ec.europa.eu/strategy/forest-strategy_en) for 2030, a flagship initiative of
