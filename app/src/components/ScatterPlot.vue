@@ -12,7 +12,8 @@
 
 <style>
 .scatterplot-parent-wrapper {
-  padding: 10px;
+  padding-bottom: 10px;
+  padding-right: 25px;
 }
 </style>
 
@@ -161,6 +162,7 @@ export default {
   watch: {
     bbox: 'readRasters',
     rasters: 'render',
+    'filters.powerDensity.range': 'render',
     'filters.elevation.range': 'render',
     'filters.slope.range': 'render',
     'filters.energyGridDistance.range': 'render',
@@ -265,6 +267,7 @@ export default {
       const xScale = scaleLinear().domain(xDomain).range([-1, 1]);
       const yScale = scaleLinear().domain(yDomain).range([-1, 1]);
 
+      const powerDensityRange = this.filters.powerDensity.range;
       const elevationRange = this.filters.elevation.range;
       const slopeRange = this.filters.slope.range;
       const energyGridDistanceRange = this.filters.energyGridDistance.range;
@@ -283,6 +286,7 @@ export default {
         if (
           (Number.isNaN(x) || Number.isNaN(y))
           || (x === 0 && y === 0)
+          || (x < powerDensityRange[0] || x > powerDensityRange[1])
           || (elevation < elevationRange[0] || elevation > elevationRange[1])
           || (slope < slopeRange[0] || slope > slopeRange[1])
           || (energyGridDistance < energyGridDistanceRange[0] || energyGridDistance > energyGridDistanceRange[1])
