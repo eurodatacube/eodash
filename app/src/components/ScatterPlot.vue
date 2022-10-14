@@ -1,15 +1,32 @@
 <template>
   <v-col>
     <v-card>
-      <canvas ref="plot" id="scatterplot" width="400" height="400"></canvas>
+      <div class="scatterplot-parent-wrapper" ref="parent-wrapper">
+        <div ref="canvas-wrapper">
+          <canvas ref="plot" width="400" height="400"></canvas>
+        </div>
+      </div>
     </v-card>
   </v-col>
 </template>
+
+<style>
+.scatterplot-parent-wrapper {
+  padding: 10px;
+}
+</style>
+
 <script>
 import getMapInstance from '@/components/map/map';
+
 import { fromUrl } from 'geotiff';
 import createScatterplot from 'regl-scatterplot';
 import { scaleLinear } from 'd3-scale';
+import { axisBottom, axisRight } from 'd3-axis';
+import { select } from 'd3-selection';
+
+const xDomain = [0, 1000];
+const yDomain = [0, 800];
 
 export default {
   props: {
@@ -17,18 +34,22 @@ export default {
   },
   mounted() {
     const canvas = this.$refs.plot;
-    const { width, height } = canvas.getBoundingClientRect();
+    const parentWrapper = this.$refs['parent-wrapper'];
+    const canvasWrapper = this.$refs['canvas-wrapper'];
+    // const { width, height } = canvas.getBoundingClientRect();
+    let { width, height } = canvasWrapper.getBoundingClientRect();
     const xScale = scaleLinear();
     const yScale = scaleLinear();
-    this.scatterplot = createScatterplot({
+    const scatterplot = createScatterplot({
       canvas,
       width,
       height,
-      pointSize: 10,
+      pointSize: 5,
       xScale,
       yScale,
       colorBy: 'valueA',
     });
+    this.scatterplot = scatterplot;
 
     // read the color map from the TIFF color table
     (async () => {
@@ -60,6 +81,60 @@ export default {
     map.on('moveend', () => {
       this.bbox = map.getView().calculateExtent();
     });
+
+    // setup axes
+    // exampleBg.setAttribute('class', 'active');
+    // exampleBg.removeAttribute('href');
+
+    const xAxis = axisBottom(xScale);
+    const yAxis = axisRight(yScale);
+    const axisContainer = select(parentWrapper).append('svg');
+    const xAxisContainer = axisContainer.append('g');
+    const yAxisContainer = axisContainer.append('g');
+    const xAxisPadding = 20;
+    const yAxisPadding = 20;
+
+    axisContainer.node().style.position = 'absolute';
+    axisContainer.node().style.top = 0;
+    axisContainer.node().style.left = 0;
+    axisContainer.node().style.width = '100%';
+    axisContainer.node().style.height = '100%';
+    axisContainer.node().style.pointerEvents = 'none';
+
+    canvasWrapper.style.right = `${yAxisPadding}px`;
+    canvasWrapper.style.bottom = `${xAxisPadding}px`;
+
+    xAxisContainer.attr('transform', `translate(0, ${height})`).call(xAxis);
+    yAxisContainer.attr('transform', `translate(${width}, 0)`).call(yAxis);
+
+    // Render grid
+    xAxis.tickSizeInner(-height);
+    yAxis.tickSizeInner(-width);
+    scatterplot.subscribe('view', (event) => {
+      xAxisContainer.call(xAxis.scale(event.xScale));
+      yAxisContainer.call(yAxis.scale(event.yScale));
+    });
+    scatterplot.subscribe(
+      'init',
+      () => {
+        xAxisContainer.call(xAxis.scale(scatterplot.get('xScale')));
+        yAxisContainer.call(yAxis.scale(scatterplot.get('yScale')));
+      },
+      1
+    );
+    const resizeHandler = () => {
+      ({ width, height } = canvasWrapper.getBoundingClientRect());
+
+      xAxisContainer.attr('transform', `translate(0, ${height})`).call(xAxis);
+      yAxisContainer.attr('transform', `translate(${width}, 0)`).call(yAxis);
+
+      // Render grid
+      xAxis.tickSizeInner(-height);
+      yAxis.tickSizeInner(-width);
+    };
+
+    window.addEventListener('resize', resizeHandler);
+    window.addEventListener('orientationchange', resizeHandler);
   },
   data() {
     const { map } = getMapInstance('centerMap');
@@ -180,8 +255,8 @@ export default {
       } = this.rasters;
 
       // roughly scale X/Y values to fit with scatterplot (whose values must be approximately -1/1)
-      const xScale = scaleLinear().domain([0, 500]).range([-1, 1]);
-      const yScale = scaleLinear().domain([0, 200]).range([-1, 1]);
+      const xScale = scaleLinear().domain(xDomain).range([-1, 1]);
+      const yScale = scaleLinear().domain(yDomain).range([-1, 1]);
 
       const elevationRange = this.filters.elevation.range;
       const slopeRange = this.filters.slope.range;
