@@ -1,3 +1,17 @@
+<div style="width:540px; text-aling:center;"><img style="width:230px; float:right;" src="data/gtif/images/legends/worldcover.png"></img></div>
+
+### World Cover classes
+
+Colors used in the trade-off explorer above.
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
 <div style="width:540px; text-aling:center;"><img style="width:230px; float:right;" src="data/gtif/images/legends/REP1.png"></img></div>
 
 ### Wind Power Density
