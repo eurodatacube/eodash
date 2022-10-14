@@ -537,7 +537,7 @@ export const globalIndicators = [
           selectedStyleLayer: 'NO2',
           styleFile: 'data/gtif/data/air_quality_at.json',
           id: 'air_quality_AT',
-          name: 'air_quality_at',
+          name: 'Air Quality',
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
@@ -1336,7 +1336,7 @@ export const globalIndicators = [
           normalize: true,
           style: {
           },
-          name: 'biomass',
+          name: 'Biomass',
           minZoom: 1,
         },
       },
@@ -1369,7 +1369,7 @@ export const globalIndicators = [
           filters: {
             biomass: {
               label: 'CCI Biomass',
-              id: 'biomass',
+              id: 'CCI Biomass',
               min: 0,
               max: 420,
               header: true,

@@ -19,7 +19,7 @@
     <!-- a layer displaying a selected global poi
      these layers will have z-Index 3 -->
     <SpecialLayer
-      v-if="mergedConfigsData.length && dataLayerName && indicatorHasMapData(indicator)"
+      v-if="showSpecialLayer"
       :mapId="mapId"
       :mergedConfig="mergedConfigsData[0]"
       :layerName="dataLayerName"
@@ -116,6 +116,7 @@
         :baseLayerConfigs="baseLayerConfigs"
         :overlayConfigs="overlayConfigs"
         :administrativeConfigs="administrativeConfigs"
+        :dataLayerConfigLayerControls="dataLayerConfigLayerControls"
         :isGlobalIndicator="isGlobalIndicator"
       />
       <!-- will add a drawing layer to the map (z-index 3) -->
@@ -288,6 +289,22 @@ export default {
     },
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
+    },
+    showSpecialLayer() {
+      return this.mergedConfigsData.length && this.dataLayerName && this.indicatorHasMapData(this.indicator);
+    },
+    dataLayerConfigLayerControls() {
+      // SpecialLayer entries in LayerControl
+      let configs = null;
+      if (this.showSpecialLayer) {
+        configs = this.mergedConfigsData.map((config) => {
+          return {
+            name: config.name,
+            visible: config.visible,
+          };
+        });
+      }
+      return configs;
     },
     overlayConfigs() {
       const configs = [...this.baseConfig.overlayLayersLeftMap];
