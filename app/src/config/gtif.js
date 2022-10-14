@@ -61,7 +61,12 @@ export const mapDefaults = Object.freeze({
 
 export const baseLayersLeftMap = [{
   ...baseLayers.terrainLight, visible: true,
-}, baseLayers.cloudless, baseLayers.S2GLC];
+},
+  baseLayers.cloudless,
+  baseLayers.S2GLC,
+  baseLayers.ESA_WORLD_COVER,
+  baseLayers.CORINE_LAND_COVER,
+];
 export const baseLayersRightMap = [{
   ...baseLayers.terrainLight, visible: true,
 }, baseLayers.cloudless];
@@ -1968,12 +1973,10 @@ export const globalIndicators = [
           },
           protocol: 'xyz',
           minZoom: 1,
-          maxNativeZoom: 6,
           tileSize: 256,
           opacity: 1,
           url: 'https://tileserver.geoville.com/heatMap/LST_aggregated_reproc_filt_clipped_AT_buffered/%7Bz%7D/%7Bx%7D/%7By%7D.png/LST_aggregated_reproc_filt_clipped_AT_buffered/{z}/{x}/{y}.png',
           name: 'Low surface temperature',
-          // legendUrl: 'data/trilateral/no2Legend-monthly-nasa.png',
         },
       },
     },

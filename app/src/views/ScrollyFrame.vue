@@ -159,6 +159,7 @@ export default {
         case 'gtif-sustainable-transition':
         case 'gtif-carbon-finance':
         case 'gtif-eo-adaptation':
+        case 'gtif-social-mobility':
           this.areBreadcrumbsEnabled = true;
           break;
 
