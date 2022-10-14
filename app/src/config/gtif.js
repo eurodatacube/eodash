@@ -61,7 +61,12 @@ export const mapDefaults = Object.freeze({
 
 export const baseLayersLeftMap = [{
   ...baseLayers.terrainLight, visible: true,
-}, baseLayers.cloudless, baseLayers.S2GLC];
+},
+  baseLayers.cloudless,
+  baseLayers.S2GLC,
+  baseLayers.ESA_WORLD_COVER,
+  baseLayers.CORINE_LAND_COVER,
+];
 export const baseLayersRightMap = [{
   ...baseLayers.terrainLight, visible: true,
 }, baseLayers.cloudless];
