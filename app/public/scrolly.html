@@ -265,7 +265,7 @@
   		observer.observe($scrubControl);
       },
       parseMarkdown(input) {
-        return marked.parse(input);
+        return marked.parse(input).replace('<a', '<a target="_blank" ');
       },
       toggleExpandable(index) {
         let el = document.querySelector(`[data-section='${index}'] .expandable`);
