@@ -100,6 +100,8 @@
                     <figure
                         v-for="(figure, figureIndex) in data.filter((v, i) => i % 2)"
                         v-show="currentStep.section === sectionIndex && currentStep.step === figureIndex"
+                        :data-section="sectionIndex"
+                        :data-step="figureIndex"
                         :key="figureIndex"
                     >
                         <div v-if="figure.text || figure.id">
@@ -114,7 +116,6 @@
                                     :src="figure.text.replaceAll('<--VID-->', '')"
                                     width="100%"
                                     muted
-                                    autoplay
                                     >
                                 </video>
                                 <video
@@ -196,6 +197,14 @@
                 section: parseInt(response.element.dataset.section),
                 step: parseInt(response.element.dataset.step),
             };
+            const currentVideo = document.querySelector(`article [data-section="${this.currentStep.section}"][data-step="${this.currentStep.step}"] video`)
+                || document.querySelector(`figure[data-section="${this.currentStep.section}"][data-step="${this.currentStep.step}"] video`);
+            if (currentVideo && document.querySelector('#scrolly-app').scrollTop > 0) {
+                // TEMP: exclude scrubVideo and playVideo
+                if (!currentVideo.id) {
+                    currentVideo.play();
+                }
+            }
         }
 
         // const handleStepProgress = (response) => {
@@ -236,7 +245,7 @@
         const intersectProgress = ([entry]) => {
             this.progress = (1 - entry.intersectionRatio) * 100
             const currentTime = (this.progress * videoDuration / 100);
-            $video.currentTime = currentTime;
+            $video.currentTime = currentTime || 0;
         }
         function createProgressThreshold(height, threshold) {
             const count = Math.ceil(height / threshold);
@@ -256,7 +265,7 @@
   		observer.observe($scrubControl);
       },
       parseMarkdown(input) {
-        return marked.parse(input);
+        return marked.parse(input).replace('<a', '<a target="_blank" ');
       },
       toggleExpandable(index) {
         let el = document.querySelector(`[data-section='${index}'] .expandable`);
@@ -267,6 +276,10 @@
         // currently only supports one per page with correct ID
         let videoElem = document.getElementById("playvideo");
         let playButton = document.getElementById("playbutton");
+
+        if (!videoElem || !playButton) {
+            return;
+        }
 
         playButton.addEventListener("click", handlePlayButton, false);
         playVideo();

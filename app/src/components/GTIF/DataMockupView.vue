@@ -21,6 +21,12 @@
     <p><b>Existing GR:</b> 20 Roofs</p>
     <p><b>Roofs suitable for GRl:</b> 81 Roofs</p>
     <p><b>Unused Potential Area for GR:</b> 49.3%</p>
+    <p>
+    <img
+      src="data/gtif/images/GR_70101420_chart.png"
+      width="350px"
+    />
+    </p>
   </div>
   <div v-if="adminLayerName === 'Census Track (Zählsprengel)'
   && adminFeatureName === '70101030'
@@ -30,6 +36,12 @@
     <p><b>Existing GR:</b> 9 Roofs</p>
     <p><b>Roofs suitable for GRl:</b> 65 Roofs</p>
     <p><b>Unused Potential Area for GR:</b> 8.5%</p>
+    <p>
+    <img
+    src="data/gtif/images/GR_70101030_chart.png"
+    width="350px"
+    />
+    </p>
   </div>
   </v-col>
 </template>

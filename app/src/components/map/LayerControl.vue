@@ -45,6 +45,15 @@
         </template>
       </v-checkbox>
     </div>
+    <div v-if="dataLayerConfigLayerControls">
+      <v-checkbox v-for="n in dataLayerConfigLayerControls" :key="n.name" :label="n.name"
+      v-model="n.visible" dense class="my-0 py-0" hide-details
+      @change="setVisible($event, n)">
+        <template v-slot:label>
+          <span class="label">{{n.name}}</span>
+        </template>
+      </v-checkbox>
+    </div>
   </v-card>
 </template>
 
@@ -63,7 +72,8 @@ export default {
     mapId: String,
     baseLayerConfigs: Array,
     overlayConfigs: Array,
-    administrativeConfigs: Array,
+    administrativeConfigs: [Array, null],
+    dataLayerConfigLayerControls: [Array, null],
     isGlobalIndicator: Boolean,
   },
   data() {
@@ -105,7 +115,7 @@ export default {
         }];
       }
       return groups;
-    }
+    },
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);

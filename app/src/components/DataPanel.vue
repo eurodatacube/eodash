@@ -9,11 +9,29 @@
       :class="$vuetify.breakpoint.xsOnly ? 'mx-0' : ''"
       :style="expanded ? `width: 100%;` : ``
     ">
-      <v-row v-if="indicatorObject">
+      <v-row v-if="indicatorObject" class="d-flex flex-column">
         <filter-controls v-if="indicatorObject.cogFilters"
           :cogFilters="indicatorObject.cogFilters"
         >
         </filter-controls>
+
+        <v-btn
+          text
+          color="primary"
+          class="mx-3"
+          @click="showScatterplot = !showScatterplot"
+        >
+          Expand controls
+          <v-icon right :style="`transform: rotate(${showScatterplot
+            ? 90
+            : 0}deg); transition: all .3s ease-in-out;`">mdi-chevron-right</v-icon>
+        </v-btn>
+
+        <scatter-plot v-if="indicatorObject.cogFilters.sourceLayer === 'REP1' && showScatterplot"
+          :filters="indicatorObject.cogFilters.filters"
+        >
+        </scatter-plot>
+
         <style-controls v-if="indicatorObject.vectorStyles"
           :vectorStyles="indicatorObject.vectorStyles"
         >
@@ -433,6 +451,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                 v-html="story"
                 class="md-body"
               ></div>
+
               <v-btn
                 v-if="indicatorObject && externalData"
                 :href= "externalData.url"
@@ -497,6 +516,10 @@ Select a point of interest on the map to see the data for a specific location!
           </v-row>
         </v-col>
       </v-row>
+
+      <v-row v-if="indicatorObject">
+
+      </v-row>
     </div>
   </div>
 </template>
@@ -518,6 +541,8 @@ import StyleControls from '@/components/map/StyleControls.vue';
 import DataMockupView from '@/components/GTIF/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 
+import ScatterPlot from '@/components/ScatterPlot.vue';
+
 export default {
   props: [
     'expanded',
@@ -530,6 +555,7 @@ export default {
     AddToDashboardButton,
     FilterControls,
     StyleControls,
+    ScatterPlot,
     DataMockupView,
   },
   data: () => ({
@@ -548,6 +574,7 @@ export default {
     compareEnabled: false,
     isLoadingCustomAreaIndicator: false,
     showRegenerateButton: null,
+    showScatterplot: null,
   }),
   computed: {
     ...mapGetters('features', [
