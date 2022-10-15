@@ -6,3 +6,6 @@ The European Commission has adopted the communication of the new [EU Forest Stra
 
 Changes in forested land from 2020 to 2021 are combined with biomass map for loss of wood
 witch is available for administrative units e.g. Bundesländer.
+
+![Joanneum Research Logo](data/gtif/images/logos/joanneum.png "Joanneum Research Logo")
+![VTT Logo](data/gtif/images/logos/vtt.png "VTT Logo")

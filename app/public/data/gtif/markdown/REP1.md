@@ -47,3 +47,4 @@ Colors used in the trade-off explorer above.
 
 &nbsp;
 
+![DHI Logo](data/gtif/images/logos/dhi.png "DHI Logo")

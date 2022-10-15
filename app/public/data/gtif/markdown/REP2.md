@@ -27,3 +27,5 @@ select areas closer to the network.
 
 Solar power facilities are not typically proposed in conservation areas such as Natura 2000 sites and
 nationally designated areas.
+
+![DHI Logo](data/gtif/images/logos/dhi.png "DHI Logo")
