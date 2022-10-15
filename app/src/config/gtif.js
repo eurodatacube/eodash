@@ -197,24 +197,25 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Nowcasting',
     class: 'air',
     themes: ['energy-transition'],
-    // story: '',
+    story: '/data/gtif/markdown/REP3',
   },
   REP4: {
     indicator: 'Hydro Power',
     class: 'air',
     themes: ['energy-transition'],
-    // story: '',
+    story: '/data/gtif/markdown/REP3',
   },
   REP5: {
     indicator: 'Micro Hydropower',
     class: 'air',
     themes: ['energy-transition'],
-    // story: '',
+    story: '/data/gtif/markdown/REP3',
   },
   MOBI1: {
     indicator: 'mobility',
     class: 'mobi1',
     themes: ['mobility-transition'],
+    story: '/data/gtif/markdown/MOBI',
   },
   SOL1: {
     indicator: 'sus cities',
@@ -264,27 +265,32 @@ export const indicatorsDefinition = Object.freeze({
   LST: {
     indicator: 'Heat Explorer',
     class: 'air',
+    story: '/data/gtif/markdown/LST',
     themes: ['eo-adaptation-services'],
   },
   AQ: {
     indicator: 'Air Quality Maps',
     class: 'air',
     themes: ['mobility-transition'],
+    story: '/data/gtif/markdown/AQ',
   },
   AQ2: {
     indicator: 'Local NO2 Flux',
     class: 'air',
     themes: ['mobility-transition'],
+    story: '/data/gtif/markdown/AQ',
   },
   AQ3: {
     indicator: 'High resolution Data',
     class: 'air',
     themes: ['mobility-transition'],
+    story: '/data/gtif/markdown/AQ',
   },
   AQ4: {
     indicator: 'Social Mobility',
     class: 'air',
     themes: ['mobility-transition'],
+    story: '/data/gtif/markdown/MOBI',
   },
   WSF: {
     indicator: 'World Settlement Footprint',
@@ -504,6 +510,9 @@ export const globalIndicators = [
         ],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'AQ',
+        },
         vectorStyles: {
           sourceLayer: 'air_quality_AT',
           items: [
@@ -566,6 +575,9 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'AQ2',
+        },
       },
     },
   },
@@ -590,6 +602,9 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'AQ3',
+        },
       },
     },
   },
@@ -614,6 +629,9 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'AQ4',
+        },
       },
     },
   },
@@ -639,6 +657,9 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'MOBI1',
+        },
         vectorStyles: {
           sourceLayer: 'mobility_innsbruck',
           items: [
@@ -695,6 +716,9 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'SOL1',
+        },
         vectorStyles: {
           sourceLayer: 'green_roofs_innsbruck',
           items: [
@@ -766,6 +790,9 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'SOL2',
+        },
         vectorStyles: {
           sourceLayer: 'solar_roofs_innsbruck',
           items: [
@@ -832,6 +859,9 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'SOL3',
+        },
         vectorStyles: {
           sourceLayer: 'urban_trees_innsbruck',
           items: [
@@ -908,6 +938,9 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'SOL4',
+        },
         vectorStyles: {
           sourceLayer: 'green_roofs_vienna',
           items: [
@@ -979,6 +1012,9 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'SOL5',
+        },
         vectorStyles: {
           sourceLayer: 'solar_roofs_vienna',
           items: [
@@ -1045,6 +1081,9 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'SOL5',
+        },
         vectorStyles: {
           sourceLayer: 'green_roofs_graz',
           items: [
@@ -1116,6 +1155,9 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'SOL6',
+        },
         vectorStyles: {
           sourceLayer: 'solar_roofs_graz',
           items: [
@@ -1182,6 +1224,9 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'SOL7',
+        },
         vectorStyles: {
           sourceLayer: 'green_roofs_stpoelten',
           items: [
@@ -1253,6 +1298,9 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'SOL8',
+        },
         vectorStyles: {
           sourceLayer: 'solar_roofs_stpoelten',
           items: [
@@ -1319,6 +1367,9 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'BM1',
+        },
         display: {
           presetView: {
             type: 'FeatureCollection',
@@ -1962,6 +2013,9 @@ export const globalIndicators = [
         time: [''],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'LST',
+        },
         display: {
           presetView: {
             type: 'FeatureCollection',

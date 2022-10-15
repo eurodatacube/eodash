@@ -7,3 +7,6 @@ The [Global Climate Observing System](https://gcos.wmo.int/) considers above-gro
 Information on forest biomass can also play a much wider role in understanding and predicting climate, for example in model initialisation, model testing, estimation of carbon turnover, inferring the forest disturbance regime, and data assimilation in carbon cycle and climate models.
 
 The Above Ground Biomass map over Austria is extracted from the global biomass map in 2020 from the CCI biomass project. The products rely on ESA's C-band (Sentinel 1A & B) and JAXA's L-band Synthetic Aperture Radar (ALOS-2 PALSAR-2) with additional information from space borne LIDAR (e.g. NASA's Global Ecosystem Dynamics Investigation Lidar GEDI). The combination of these sensor types allows to retrieve information on the amounts of foliage and woody plant material and their distribution, both spatially and vertically, and over time.
+
+![Joanneum Research Logo](data/gtif/images/logos/joanneum.png "Joanneum Research Logo")
+![VTT Logo](data/gtif/images/logos/vtt.png "VTT Logo")
