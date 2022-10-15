@@ -15,11 +15,6 @@
         >
         </filter-controls>
 
-        <scatter-plot v-if="indicatorObject.cogFilters.sourceLayer === 'REP1'"
-          :filters="indicatorObject.cogFilters.filters"
-        >
-        </scatter-plot>
-
         <style-controls v-if="indicatorObject.vectorStyles"
           :vectorStyles="indicatorObject.vectorStyles"
         >
@@ -439,6 +434,12 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                 v-html="story"
                 class="md-body"
               ></div>
+
+              <scatter-plot v-if="indicatorObject.cogFilters.sourceLayer === 'REP1'"
+                :filters="indicatorObject.cogFilters.filters"
+              >
+              </scatter-plot>
+
               <v-btn
                 v-if="indicatorObject && externalData"
                 :href= "externalData.url"
