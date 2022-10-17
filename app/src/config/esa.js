@@ -1877,7 +1877,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'World',
-        time: getMonthlyDates('1997-10-01', '2022-08-01'),
+        time: availableDates['CHL'],
         inputData: [''],
         externalData: {
           label: 'Copernicus Marine Service - Product Details',
