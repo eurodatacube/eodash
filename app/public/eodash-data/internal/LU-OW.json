@@ -7779,21 +7779,21 @@
             "total_vaccinations_per_hundred": 210.95
         },
         {
-            "daily_vaccinations": 257.0,
-            "daily_vaccinations_per_million": 402.0,
-            "daily_vaccinations_raw": null,
+            "daily_vaccinations": 249.0,
+            "daily_vaccinations_per_million": 389.0,
+            "daily_vaccinations_raw": 1.0,
             "date": "2022-10-02T00:00:00",
-            "people_fully_vaccinated": 462651.0,
-            "people_fully_vaccinated_per_hundred": 72.37,
-            "people_vaccinated": null,
-            "people_vaccinated_per_hundred": null,
-            "total_vaccinations": null,
-            "total_vaccinations_per_hundred": null
+            "people_fully_vaccinated": null,
+            "people_fully_vaccinated_per_hundred": null,
+            "people_vaccinated": 481713.0,
+            "people_vaccinated_per_hundred": 75.35,
+            "total_vaccinations": 1348658.0,
+            "total_vaccinations_per_hundred": 210.95
         },
         {
             "daily_vaccinations": 248.0,
             "daily_vaccinations_per_million": 388.0,
-            "daily_vaccinations_raw": null,
+            "daily_vaccinations_raw": 113.0,
             "date": "2022-10-03T00:00:00",
             "people_fully_vaccinated": null,
             "people_fully_vaccinated_per_hundred": null,
@@ -7861,6 +7861,18 @@
             "people_vaccinated_per_hundred": 75.35,
             "total_vaccinations": 1350776.0,
             "total_vaccinations_per_hundred": 211.28
+        },
+        {
+            "daily_vaccinations": null,
+            "daily_vaccinations_per_million": null,
+            "daily_vaccinations_raw": null,
+            "date": "2022-10-16T00:00:00",
+            "people_fully_vaccinated": 462706.0,
+            "people_fully_vaccinated_per_hundred": 72.37,
+            "people_vaccinated": null,
+            "people_vaccinated_per_hundred": null,
+            "total_vaccinations": null,
+            "total_vaccinations_per_hundred": null
         }
     ]
 }

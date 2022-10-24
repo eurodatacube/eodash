@@ -8749,6 +8749,24 @@
             "retail_recreation": 70,
             "transit_stations": 66,
             "workplaces": 55
+        },
+        {
+            "date": "2022-10-14T00:00:00",
+            "grocery": 88,
+            "parks": 80,
+            "residential": 13,
+            "retail_recreation": 72,
+            "transit_stations": 71,
+            "workplaces": 62
+        },
+        {
+            "date": "2022-10-15T00:00:00",
+            "grocery": 82,
+            "parks": 100,
+            "residential": 12,
+            "retail_recreation": 66,
+            "transit_stations": 71,
+            "workplaces": 68
         }
     ]
 }
