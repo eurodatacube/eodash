@@ -133,6 +133,11 @@ export default {
       insidePolygon.geometry.coordinates = [insidePolygon.geometry.coordinates[1]];
       const insidePolygonFeature = geoJsonFormat.readFeature(insidePolygon);
       this.constrainingExtent = insidePolygonFeature.getGeometry().getExtent();
+      const view = map.getView();
+      const minZoom = view.getZoomForResolution(
+        view.getResolutionForExtent(this.constrainingExtent),
+      );
+      this.minZoom = minZoom - 1; // add zoomlevel as padding
       map.on('pointerdrag', this.pointerdragHandler);
       map.on('movestart', this.movestartHandler);
       map.on('moveend', this.moveendHandler);
@@ -150,7 +155,7 @@ export default {
       this.drag = true;
     },
     movestartHandler() {
-      this.drag = false;
+      this.drag = true;
     },
     moveendHandler(e) {
       if (!this.drag) {
@@ -162,14 +167,21 @@ export default {
       // the map padding is only set here, only for inverse AOIs
       // TO DO: there should be a better place to do this
       const currentPadding = calculatePadding();
+      const currentZoom = view.getZoom();
+      const zoomTooLow = currentZoom < this.minZoom;
+      const outsideExtent = !containsCoordinate(this.constrainingExtent, center);
       map.getView().padding = currentPadding;
-      if (!containsCoordinate(this.constrainingExtent, center)) {
-        const newCenter = [
-          clamp(center[0], this.constrainingExtent[0], this.constrainingExtent[2]),
-          clamp(center[1], this.constrainingExtent[1], this.constrainingExtent[3]),
-        ];
-        view.animate({ center: newCenter, duration: 150 });
+      if (zoomTooLow || outsideExtent) {
+        view.animate({
+          center: outsideExtent ? [
+            clamp(center[0], this.constrainingExtent[0], this.constrainingExtent[2]),
+            clamp(center[1], this.constrainingExtent[1], this.constrainingExtent[3]),
+          ] : center,
+          zoom: zoomTooLow ? this.minZoom : currentZoom,
+          duration: 150,
+        });
       }
+      this.drag = false;
     },
   },
   beforeDestroy() {
