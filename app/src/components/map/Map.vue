@@ -180,8 +180,9 @@ import {
   getIndicatorFilteredInputData,
 } from '@/utils';
 
+const DEFAULT_PROJECTION = 'EPSG:3857';
 const geoJsonFormat = new GeoJSON({
-  featureProjection: 'EPSG:3857',
+  featureProjection: DEFAULT_PROJECTION,
 });
 
 export default {
@@ -240,7 +241,6 @@ export default {
   data() {
     return {
       loaded: false,
-      minMapZoom: 3,
       zoom: 3,
       tooltip: {
         city: '',
@@ -389,7 +389,7 @@ export default {
         return transformExtent([this.indicator.lng, this.indicator.lat,
           this.indicator.lng, this.indicator.lat],
         'EPSG:4326',
-        'EPSG:3857');
+        DEFAULT_PROJECTION);
       }
       return undefined;
     },
@@ -500,7 +500,7 @@ export default {
         setTimeout(() => {
           const { bounds } = this.mapDefaults;
           const extent = transformExtent([bounds._southWest.lng, bounds._southWest.lat, bounds._northEast.lng, bounds._northEast.lat], 'EPSG:4326',
-            'EPSG:3857');
+            DEFAULT_PROJECTION);
           const padding = calculatePadding();
           map.getView().fit(extent, { padding });
         }, 500);
@@ -622,7 +622,7 @@ export default {
             ? sourceOptionsObj.features.dateFormatFunction(fixTime) : fixTime;
         }
       }
-      const paramsToPassThrough = ['env', 'searchid'];
+      const paramsToPassThrough = ['env'];
       paramsToPassThrough.forEach((param) => {
         if (typeof sourceOptionsObj[param] !== 'undefined') {
           outputOptionsObj[param] = sourceOptionsObj[param];

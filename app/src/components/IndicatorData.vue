@@ -391,6 +391,7 @@ export default {
             if (!['', '/'].includes(key) && typeof indicatorValues[key] === 'undefined') {
               indicatorValues[key] = this.getIndicatorColor(
                 indicator.colorCode[i],
+                true,
               );
             }
             return null;
@@ -624,7 +625,9 @@ export default {
         } else if (['N2', 'E10c'].includes(indicatorCode)) {
           /* Group data by year in month slices */
           const data = indicator.time.map((date, i) => {
-            colors.push(this.getIndicatorColor(indicator.colorCode[i]));
+            colors.push(this.getIndicatorColor(
+              indicator.colorCode[i],
+            ));
             return { t: date, y: measurement[i] };
           });
           const dataGroups = {};
@@ -715,8 +718,8 @@ export default {
             label: 'Site Regular',
             data: regularData,
             fill: false,
-            borderColor: this.getIndicatorColor('BLUE'),
-            backgroundColor: this.getIndicatorColor('BLUE'),
+            borderColor: this.getIndicatorColor('BLUE', true),
+            backgroundColor: this.getIndicatorColor('BLUE', true),
             borderWidth: 0,
             pointRadius: 3,
             showLine: false,

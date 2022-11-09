@@ -1,7 +1,7 @@
 // config global variables here for now
 // temporary solution
 import { Wkt } from 'wicket';
-import { latLng, latLngBounds, CRS } from 'leaflet';
+import { latLng, latLngBounds } from 'leaflet';
 import { DateTime } from 'luxon';
 import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
@@ -27,10 +27,9 @@ export const dataEndpoints = [
 
 const sharedPalsarFNFConfig = Object.freeze({
   baseUrl: 'https://ogcpreview1.restecmap.com/examind/api/WS/wms/JAXA_WMS_Preview',
-  minZoom: 0,
   name: 'FNF PALSAR2 World Yearly',
-  crs: CRS.EPSG4326,
-  tileSize: 256,
+  tileSize: 512,
+  projection: 'EPSG:4326',
   legendUrl: './data/trilateral/fnf-map-legend.png',
   labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
   presetView: {
@@ -41,13 +40,6 @@ const sharedPalsarFNFConfig = Object.freeze({
       geometry: wkt.read('POLYGON((-94 20,50 20,50 -40,-94 -40,-94 20))').toJson(),
     }],
   },
-  baseLayers: [
-    baseLayers.terrainLight_4326,
-    baseLayers.cloudless_4326,
-  ],
-  overlayLayers: [
-    overlayLayers.eoxOverlay_4326,
-  ],
 });
 
 export const indicatorsDefinition = Object.freeze({
@@ -231,7 +223,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/N1',
     themes: ['atmosphere'],
     largeTimeDuration: true,
-    maxMapZoom: 8,
+    maxZoom: 8,
   },
   N9: {
     indicator: 'Air quality',
@@ -369,7 +361,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Solar Induced Chlorophyll Fluorescence',
     story: '/eodash-data/stories/SIF',
     themes: ['agriculture', 'biomass-and-landcover'],
-    maxMapZoom: 8,
+    maxZoom: 8,
   },
   NPP: {
     indicator: 'Ocean Primary Productivity (BICEP)',
@@ -538,29 +530,28 @@ export const layerNameMapping = Object.freeze({
   NO2_Cairo: {
     baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
     layers: 'NO2-TROPOMI-Cairo-Daily',
-    maxMapZoom: 14,
+    maxZoom: 14,
     legendUrl: 'https://legends.restecmap.com/images/NO2-TROPOMI-Cairo-Daily.png',
     presetView: cairoPresetView,
   },
   GOSAT_XCO2_JAXA: {
     baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
     layers: 'XCO2-GOSAT-Cairo',
-    maxMapZoom: 14,
+    maxZoom: 14,
     legendUrl: 'https://legends.restecmap.com/images/XCO2-GOSAT-Cairo.png',
     presetView: cairoPresetView,
   },
   SIF_TROPOMI_Cairo: {
     baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
     layers: 'SIF-TROPOMI-Cairo-Monthly',
-    maxMapZoom: 14,
+    maxZoom: 14,
     legendUrl: 'https://legends.restecmap.com/images/SIF-TROPOMI-Cairo-Monthly.png',
     presetView: cairoPresetView,
   },
   GOSAT_XCO2: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/GOSAT_XCO2_{time}_{site}_BG_circle_cog.tif&resampling_method=nearest',
     protocol: 'xyz',
-    maxNativeZoom: 12,
-    maxMapZoom: 12,
+    maxZoom: 12,
     tileSize: 256,
     dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
     siteMapping: (eoID) => {
@@ -690,10 +681,7 @@ export const indicatorClassesIcons = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  minMapZoom: 0,
-  maxMapZoom: 18,
   bounds: latLngBounds(latLng([-70, -170]), latLng([70, 170])),
-  crs: CRS.EPSG3857,
 });
 
 export const baseLayersLeftMap = [{
@@ -936,7 +924,7 @@ export const globalIndicators = [
           customAreaIndicator: true,
           protocol: 'xyz',
           minZoom: 1,
-          maxNativeZoom: 6,
+          maxZoom: 6,
           tileSize: 256,
           opacity: 1,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x.png?url=s3://covid-eo-data/OMNO2d_HRM/OMI_trno2_monthly_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=0%2C108e14&color_map=reds',
@@ -977,7 +965,7 @@ export const globalIndicators = [
         yAxis: 'NO2-difference [10^15 molecules/cm²]',
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 6,
+          maxZoom: 6,
           minZoom: 1,
           opacity: 0.95,
           tileSize: 256,
@@ -1172,7 +1160,6 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/PP_Ocean.PNG',
           minZoom: 2,
           maxZoom: 13,
-          minMapZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
           customAreaIndicator: true,
@@ -1216,9 +1203,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=-1e14,37e14&bidx=1&colormap_name=reds',
           name: 'NO2 OMI Annual',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1253,9 +1238,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?url={time}&resampling_method=bilinear&rescale=0.0,4.0&bidx=1&colormap_name=plasma',
           name: 'Sea Ice Thickness (ICESat-2)',
           dateFormatFunction: (date) => `${date[1]}`,
@@ -1291,9 +1274,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,1500.0&bidx=1&colormap_name=jet',
           name: 'NPP (NASA)',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1329,9 +1310,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -1373,9 +1352,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
           name: 'GRDI',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1409,9 +1386,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
           name: 'GRDI',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1445,9 +1420,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
           name: 'GRDI',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1481,9 +1454,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
           name: 'GRDI',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1517,9 +1488,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
           name: 'GRDI',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1553,9 +1522,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
           name: 'GRDI',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1589,9 +1556,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
           name: 'GRDI',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1625,9 +1590,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
           name: 'GRDI',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1663,9 +1626,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,1.0&bidx=1&colormap_name=viridis',
           name: 'SO2 OMI/Aura',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1704,7 +1665,6 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/SeaIceThicknessCCI.PNG',
           minZoom: 2,
           maxZoom: 13,
-          minMapZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
           /*
@@ -1747,7 +1707,6 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/SeaIceThicknessCCI.PNG',
           minZoom: 2,
           maxZoom: 13,
-          minMapZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
           /*
@@ -1830,7 +1789,7 @@ export const globalIndicators = [
           layers: 'AWS_POPULATION_DENSITY',
           legendUrl: 'data/trilateral/NASAPopulation_legend.png',
           minZoom: 1,
-          maxMapZoom: 7,
+          maxZoom: 7,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
           disableCompare: true,
         },
@@ -1863,7 +1822,7 @@ export const globalIndicators = [
           layers: 'WSF_Evolution',
           legendUrl: 'eodash-data/data/wsf_legend.png',
           minZoom: 1,
-          maxMapZoom: 14,
+          maxZoom: 14,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
           labelFormatFunction: (date) => date,
           specialEnvTime: true,
@@ -2179,7 +2138,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-nas-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Index',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
@@ -2258,7 +2216,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Regional Maps',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
@@ -2298,7 +2255,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-ny-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Index',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
@@ -2572,7 +2528,7 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
+          maxZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Regional Maps',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
@@ -2775,7 +2731,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-nas-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Index',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
@@ -2815,7 +2770,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-ny-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Index',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
@@ -2847,7 +2801,7 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 6,
+          maxZoom: 6,
           minZoom: 1,
           opacity: 1.0,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=nearest&bidx=1&colormap=%7B%221%22%3A%20%5B120%2C%20120%2C%20120%2C%20255%5D%2C%222%22%3A%20%5B130%2C%2065%2C%200%2C%20255%5D%2C%223%22%3A%20%5B66%2C%20207%2C%2056%2C%20255%5D%2C%224%22%3A%20%5B245%2C%20239%2C%200%2C%20255%5D%2C%225%22%3A%20%5B241%2C%2089%2C%2032%2C%20255%5D%2C%226%22%3A%20%5B168%2C%200%2C%200%2C%20255%5D%2C%227%22%3A%20%5B0%2C%20143%2C%20201%2C%20255%5D%7D',
@@ -2899,7 +2853,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           minZoom: 6,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/Togo/togo_cropland_v7-1_cog_v2.tif&resampling_method=bilinear&bidx=1&rescale=0,1&color_map=magma',
           name: 'Togo',
@@ -2940,7 +2893,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-be.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -2981,7 +2933,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-dc.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -3022,7 +2973,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-du.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -3063,7 +3013,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-gh.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -3104,7 +3053,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-tk.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -3145,7 +3093,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-togo.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -3186,7 +3133,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-la.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -3227,7 +3173,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-dar.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -3268,7 +3213,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-ny.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -3309,7 +3253,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-sf.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -3350,7 +3293,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-sacramento.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -4063,7 +4005,6 @@ const createSlowDownIndicator = (id, aoiID, city, country, aoi, geometry, cog, e
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: `https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2F${cog}.tif&resampling_method=bilinear&bidx=1%2C2%2C3`,
           name: 'Movement slowdown',
           tileSize: 256,
@@ -4284,9 +4225,7 @@ const createSTACCollectionIndicator = (collection, key, value, index, url,
         display: {
           protocol: 'xyz',
           tileSize: 256,
-          minMapZoom: 5,
           minZoom: 5,
-          maxZoom: 20,
           url,
           name: description,
           dateFormatFunction: (date) => `url=${date[1]}`,

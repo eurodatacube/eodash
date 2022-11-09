@@ -18,7 +18,7 @@ In addition:
 The coloured and grey curves allow assessing the changes over time without the distraction of the significant normal variability related to short-term changes in emissions and weather. For each day, it is indicated whether there were restrictions or lockdown measure in place in the country where the city is located. This information is based on [Oxford University’s coronavirus government response tracker](https://www.bsg.ox.ac.uk/research/research-projects/coronavirus-government-response-tracker). Altogether, these timeseries provide information on how background air pollution has evolved over the weeks since the beginning of the COVID-19 outbreak.
 
 
-### The impacts of COVID-19 on CAMS time series
+## The impacts of COVID-19 on CAMS time series
 CAMS is continually monitoring air quality in Europe and around the world using satellite and ground-based observations and advanced numerical models. In the context of the worldwide COVID-19 crisis, there was an increased interest in changing air quality. Access to additional graphical products and animations, as well as some answers to questions related to CAMS products and their relevance in the context of the COVID-19 crisis can be found at the following website: https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis 
 
 In particular, results are presented from an “emissions scenario”, which uses one of the CAMS regional models to estimate the expected effects of COVID-19 related measures on surface air quality.
