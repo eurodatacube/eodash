@@ -62,8 +62,16 @@
       "description": "Harvesting trucks detected in Pleiades data"
     },
     "E10a6": {
-      "title": "Winter Cereals parcels [%]",
-      "description": "Evolution of harvested parcels"
+      "locationSplit": {
+        "a": {
+          "title": "Harvested parcels [%]",
+          "description": "Evolution of harvested parcels"
+        },
+        "b": {
+          "title": "Harvested area [%]",
+          "description": "Evolution of harvested area"
+        }
+      }
     },
     "E10a7": {
       "title": "Winter Cereals area [%]",
@@ -77,8 +85,16 @@
       "title": "Workers availability [nr]"
     },
     "E10a10": {
-      "title": "Winter Rapeseed Harvest",
-      "description": "Observed harvesting in Sentinel-1 data compared to model expectation"
+      "locationSplit": {
+        "a": {
+          "title": "Winter Cereal Harvest",
+          "description": "Observed harvesting in Sentinel-1 data compared to model expectation"
+        },
+        "b": {
+          "title": "Winter Rapeseed Harvest",
+          "description": "Observed harvesting in Sentinel-1 data compared to model expectation"
+        }
+      }
     },
     "E11": {
       "title": "Activity at shopping centers",
@@ -231,14 +247,37 @@
     "CDS4": {
       "title": "Wind V field"
     },
-    "N1-World": {
-      "title": "NO2 (S5p)"
+    "World-N1": {
+      "title": "NO2 (S5p)",
+      "description": "Nitrogen Dioxide from Sentinel-5p Tropomi"
     },
-    "N1-WorldCO": {
-      "title": "CO (S5p)"
+    "WorldCO-N1": {
+      "title": "CO (S5p)",
+      "description": "Carbon Monoxide from Sentinel-5p Tropomi"
     },
-    "N1-CH4": {
-      "title": "CH4 (S5p)"
+    "CH4-N1": {
+      "title": "CH4 (S5p)",
+      "description": "Methane from Sentinel-5p Tropomi"
+    },
+    "SO2-N1": {
+      "title": "SO2 (S5p)",
+      "description": "Sulfur Dioxide from Sentinel-5p Tropomi"
+    },
+    "GCAQ4-N1b": {
+      "title": "NO2 map Europe (CAMS)",
+      "description": "NO2 – Nitrogen Dioxide [μg/m3]"
+    },
+    "GCAQ2-N1b": {
+      "title": "PM2.5 map Europe (CAMS)",
+      "description": "Particulate Matter with diameter smaller than 2.5 micrometres [μg/m3]"
+    },
+    "GCAQ3-N1b": {
+      "title": "PM10 map Europe (CAMS)",
+      "description": "Particulate Matter with diameter smaller than 10 micrometres [μg/m3]"
+    },
+    "GCAQ4-N1b": {
+      "title": "Ozone map Europe (CAMS)",
+      "description": "O3 - Ozone [μg/m3]"
     }
   },
   "trilateral": {

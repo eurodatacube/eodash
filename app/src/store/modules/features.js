@@ -18,11 +18,6 @@ const state = {
     custom: [],
   },
   selectedArea: null,
-  resultsCount: {
-    economic: 0,
-    agriculture: 0,
-    environment: 0,
-  },
 };
 
 const getters = {
@@ -78,9 +73,6 @@ const getters = {
           themes: rootState.config.baseConfig.indicatorsDefinition[
             f.properties.indicatorObject.indicator
           ].themes,
-          // class: rootState.config.baseConfig.indicatorsDefinition[
-          //   f.properties.indicatorObject.indicator
-          // ].class,
           indicatorOverwrite: rootState.config.baseConfig.indicatorsDefinition[
             f.properties.indicatorObject.indicator
           ].indicatorOverwrite,
@@ -204,7 +196,7 @@ const mutations = {
     features.forEach((f) => {
       const { indicatorObject } = f.properties;
       // We see if indicator code and aoiID is a match
-      const mergedKey = `${indicatorObject.indicator}-${indicatorObject.aoiID}`;
+      const mergedKey = getLocationCode(indicatorObject);
       const { id } = this.state.config.appConfig;
       let foundMapping;
       if (mergedKey in nameMapping[id]) {
@@ -212,11 +204,22 @@ const mutations = {
       } else if (indicatorObject.indicator in nameMapping[id]) {
         foundMapping = nameMapping[id][indicatorObject.indicator];
       }
-      if (foundMapping && 'title' in foundMapping) {
-        indicatorObject.indicatorName = foundMapping.title;
-      }
-      if (foundMapping && 'description' in foundMapping) {
-        indicatorObject.description = foundMapping.description;
+      if (foundMapping) {
+        if ('locationSplit' in foundMapping) {
+          Object.entries(foundMapping.locationSplit).forEach((item) => {
+            if (indicatorObject.aoiID.endsWith(item[0])) {
+              indicatorObject.indicatorName = item[1].title
+                ? item[1].title : indicatorObject.indicatorName;
+              indicatorObject.description = item[1].title
+                ? item[1].description : indicatorObject.description;
+            }
+          });
+        } else {
+          indicatorObject.indicatorName = foundMapping.title
+            ? foundMapping.title : indicatorObject.indicatorName;
+          indicatorObject.description = foundMapping.description
+            ? foundMapping.description : indicatorObject.description;
+        }
       }
     });
     // indicatorName
@@ -253,9 +256,6 @@ const mutations = {
     if (hasFeature('custom')) {
       state.featureFilters.custom = options.custom;
     }
-  },
-  ADD_RESULTS_COUNT(state, { type, count }) {
-    state.resultsCount[type] += count;
   },
   SET_SELECTED_AREA(state, area) {
     state.selectedArea = area;
@@ -304,7 +304,7 @@ const actions = {
     commit('ADD_NEW_FEATURES', allFeatures);
   },
 
-  loadEOXEndpoint({ rootState, commit }, { url, endPointIdx }) {
+  loadEOXEndpoint(_, { url, endPointIdx }) {
     return fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
       .then((data) => {
         const features = [];
@@ -328,11 +328,6 @@ const actions = {
           yAxis: 'yAxis',
           updateFrequency: 'updateFrequency',
         };
-
-        commit('ADD_RESULTS_COUNT', {
-          type: rootState.config.baseConfig.indicatorsDefinition[data[0][pM.indicator]].class,
-          count: data.length, // individual measurements
-        });
         // only continue if aoi column is present
         if (Object.prototype.hasOwnProperty.call(data[0], pM.aoi)) {
           const featureObjs = {};
@@ -396,7 +391,7 @@ const actions = {
         return features;
       });
   },
-  loadGeoDBEndpoint({ rootState, commit }, { url, endPointIdx }) {
+  loadGeoDBEndpoint(_, { url, endPointIdx }) {
     return fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
       .then((data) => {
         const features = [];
@@ -428,11 +423,6 @@ const actions = {
           inputData: 'input data',
           */
         };
-
-        commit('ADD_RESULTS_COUNT', {
-          type: rootState.config.baseConfig.indicatorsDefinition[data[0][pM.indicator]].class,
-          count: data.length, // individual measurements
-        });
         // only continue if aoi column is present
         if (Object.prototype.hasOwnProperty.call(data[0], pM.aoi)) {
           const featureObjs = {};

@@ -111,7 +111,8 @@
         >
           {{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.city }}:
           {{
-            queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.indicatorName
+            queryIndicatorObject && (queryIndicatorObject.properties.indicatorObject.indicatorName
+            || queryIndicatorObject.properties.indicatorObject.description)
           }}
           <div v-if="
             $store.state.indicators.selectedIndicator.description !==
@@ -131,10 +132,12 @@
             firstIndicatorObject.description !==
             firstIndicatorObject.indicatorName"
             class="subheading" style="font-size: 0.8em">
-            {{ firstIndicatorObject.indicatorName }}
+            {{ firstIndicatorObject.indicatorName || firstIndicatorObject.description }}
           </div>
         </v-toolbar-title>
         <v-tooltip
+          v-if="$store.state.indicators.selectedIndicator
+            && !showMap"
           left
         >
           <template v-slot:activator="{ on }">
@@ -228,7 +231,8 @@
           class="px-4 py-2"
         >
           {{ queryIndicatorObject
-            && queryIndicatorObject.properties.indicatorObject.indicatorName }}
+            && (queryIndicatorObject.properties.indicatorObject.indicatorName
+            || queryIndicatorObject.properties.indicatorObject.description) }}
         </h4>
         <data-panel
           v-if="$store.state.indicators.selectedIndicator"
@@ -261,7 +265,7 @@
             firstIndicatorObject.description !==
             firstIndicatorObject.indicatorName"
             class="subheading" style="font-size: 0.8em">
-            {{ firstIndicatorObject.indicatorName }}
+            {{ firstIndicatorObject.indicatorName || firstIndicatorObject.description }}
           </div>
         </v-toolbar-title>
         <v-toolbar-title v-else class="text-capitalize">
@@ -307,7 +311,8 @@
               class="py-2"
             >
               {{ queryIndicatorObject
-                && queryIndicatorObject.properties.indicatorObject.indicatorName }}
+                && (queryIndicatorObject.properties.indicatorObject.indicatorName
+                || queryIndicatorObject.properties.indicatorObject.description) }}
             </h4>
             <data-panel
               v-if="$store.state.indicators.selectedIndicator
@@ -394,7 +399,7 @@
               class="d-flex justify-start"
               style="position: absolute; top: 0; width: 100%; pointer-events: none"
             >
-              <indicator-filters />
+              <indicator-filters ref="indicatorFilters" />
             </div>
           </v-col>
         </v-row>
@@ -459,6 +464,13 @@ export default {
     ...mapState('config', [
       'appConfig',
     ]),
+    showMap() {
+      const indicatorObject = this.$store.state.indicators.selectedIndicator;
+      // if returns true, we are showing map, if false we show chart
+      return ['all'].includes(indicatorObject.country)
+        || this.appConfig.configuredMapPois.includes(`${indicatorObject.aoiID}-${indicatorObject.indicator}`)
+        || Array.isArray(indicatorObject.country);
+    },
     dataPanelWidth() {
       return this.$vuetify.breakpoint.lgAndUp ? 600 : 400;
     },
@@ -544,6 +556,7 @@ export default {
       this.dialog = false;
       this.showText = null;
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+      this.$refs.indicatorFilters.comboboxClear();
     },
     displayShowText(text) {
       this.showInfoDialog = true;
@@ -609,6 +622,9 @@ export default {
 }
 ::v-deep .v-navigation-drawer--temporary:not(.v-navigation-drawer--close) {
   box-shadow: none;
+}
+::v-deep .v-navigation-drawer--temporary {
+  z-index: 8;
 }
 ::v-deep .v-navigation-drawer {
   .v-badge {

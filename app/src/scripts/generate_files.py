@@ -25,6 +25,7 @@ import re
 
 from six import string_types
 import xml.etree.ElementTree as ET
+import pandas as pd
 
 from dotenv.main import find_dotenv, DotEnv
 from xcube_geodb.core.geodb import GeoDBClient
@@ -147,6 +148,7 @@ WMSCOLLECTIONS = {
     "PRC-Anomaly-GSMaP-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
     "SMC-GCOMW-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
     "PRC-GSMaP-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
+    "CHL": "https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_med_bgc-plankton_my_l4-multi-1km_P1M"
 }
 
 STAC_COLLECTIONS = {
@@ -304,6 +306,21 @@ def retrieve_location_stac_entries(url, offset, location, collection):
         print (message)
     return res
 
+print("Getting replace map times for E13d")
+df = pd.read_csv("/public/eodash-data/data/E13d_detections.csv")
+# create a JSON object with each poi-indicator being a key
+aoi_ids = df['AOI_ID'].unique().tolist()
+results = {}
+for key in aoi_ids:
+    matching = df.query(f"AOI_ID == '{key}'")
+    results[f"{key}-E13d"] = {
+        "time": matching["Time"].tolist(),
+        "eoSensor": ["Sentinel 2"],
+        "inputData": ["Sentinel 2 L2A"],
+    }
+with open("/config/data_dates_e13d.json", 'w') as wfh:
+    json.dump(results, wfh, indent=2)
+
 print("Fetching information for STAC endpoints with time information")
 try:
     with open("/config/locations.json") as locations_file:
@@ -357,6 +374,7 @@ try:
                     times += [x.strftime('%Y-%m-%dT%H:%M:%S.000Z') for x in dates]
                 else:
                     times.append(tp)
+            times = [time.replace('\n','').strip() for time in times]
             results_dict[layer] = times
 except Exception as e:
     print("Issue extracting information from WMS capabilties")
@@ -752,7 +770,6 @@ generateData(
         '/public/data/trilateral/E10a8.csv',
         '/public/eodash-data/data/E10a9.csv',
         '/public/eodash-data/data/E13b2.csv',  # archived
-        '/public/eodash-data/data/E13d_detections.csv',
         '/public/eodash-data/data/N1a_PM25_CAMS.csv',
         '/public/eodash-data/data/N1b_NO2_CAMS.csv',
         '/public/eodash-data/data/N1c_PM10_CAMS.csv',

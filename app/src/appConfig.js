@@ -18,7 +18,7 @@ module.exports = [
     pageMeta: {
       rootPath: 'https://race.esa.int',
       googleSiteVerification: 'RfWilP51Q2wsZnVlKbxUTovIx90QqqLRFLebGpAeq14',
-      shortDescription: 'The RACE platform demonstrates how the use of EO data can help shed new light on societal and economic changes currently taking place owing to the coronavirus pandemic.',
+      shortDescription: 'This dashboard aims to showcase the power of Earth Observations to inform on societal global challenges. It is a cooperation between The European Space Agency and the European Commission.',
       twitterCardImagePath: '/img/ESA/twitter_card.jpg',
       imagePath: '/img/ESA',
     },
@@ -42,7 +42,7 @@ module.exports = [
       },
       {
         src: './eodash-data/general/agriculture.png',
-        href: 'https://race.esa.int/?search=Agriculture&x=1040480.82062&y=6128064.75599&z=5.29786'
+        href: 'https://race.esa.int/?search=Agriculture&x=1040480.82062&y=6128064.75599&z=5.29786',
       },
       {
         src: './eodash-data/general/flying-planes.png',

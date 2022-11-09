@@ -11,6 +11,9 @@ import { mapState } from 'vuex';
 import { containsCoordinate } from 'ol/extent';
 import { clamp } from 'ol/math';
 import { calculatePadding } from '@/utils';
+import {
+  indicatorHasMapData,
+} from '@/helpers/mapConfig';
 
 const geoJsonFormat = new GeoJSON({
   featureProjection: 'EPSG:3857',
@@ -30,9 +33,11 @@ export default {
   props: {
     mapId: String,
     indicator: Object,
+    isGlobal: Boolean,
   },
   data: () => ({
     constrainingExtent: undefined,
+    drag: false,
   }),
   watch: {
     subAoi: {
@@ -121,13 +126,15 @@ export default {
       const feature = geoJsonFormat.readFeature(this.subAoi);
       subAoiLayer.getSource().addFeature(feature);
     }
-    if (this.isInverse && this.subAoi) {
+    if (this.isInverse && this.subAoi && !this.isGlobal) {
       // subaoi-geometry has a hole, use extent of that hole to constrain the view
       const insidePolygon = JSON.parse(JSON.stringify(this.subAoi));
       // eslint-disable-next-line prefer-destructuring
       insidePolygon.geometry.coordinates = [insidePolygon.geometry.coordinates[1]];
       const insidePolygonFeature = geoJsonFormat.readFeature(insidePolygon);
       this.constrainingExtent = insidePolygonFeature.getGeometry().getExtent();
+      map.on('pointerdrag', this.pointerdragHandler);
+      map.on('movestart', this.movestartHandler);
       map.on('moveend', this.moveendHandler);
     }
     map.addLayer(subAoiLayer);
@@ -137,29 +144,25 @@ export default {
      * returns true if indicator has real map data (layers or features)
      */
     indicatorHasMapData(indicatorObject) {
-      let hasMapData = false;
-      let matchingInputDataAgainstConfig = [];
-      // Check to see if we have EO Data indicator
-      if (indicatorObject && indicatorObject.inputData) {
-        matchingInputDataAgainstConfig = indicatorObject.inputData
-          .filter((item) => Object.prototype.hasOwnProperty.call(this.layerNameMapping, item));
-        hasMapData = matchingInputDataAgainstConfig.length > 0;
-      }
-      // Check to see if we have global data indicator
-      if (indicatorObject && indicatorObject.country) {
-        if (indicatorObject.country === 'all' || Array.isArray(indicatorObject.country)) {
-          hasMapData = true;
-        }
-      }
-      return hasMapData;
+      return indicatorHasMapData(indicatorObject);
+    },
+    pointerdragHandler() {
+      this.drag = true;
+    },
+    movestartHandler() {
+      this.drag = false;
     },
     moveendHandler(e) {
+      if (!this.drag) {
+        return; // only animate if the move caused by a real user-drag
+      }
       const map = e.target;
       const view = map.getView();
       const center = view.getCenter();
       // the map padding is only set here, only for inverse AOIs
       // TO DO: there should be a better place to do this
-      map.getView().padding = calculatePadding();
+      const currentPadding = calculatePadding();
+      map.getView().padding = currentPadding;
       if (!containsCoordinate(this.constrainingExtent, center)) {
         const newCenter = [
           clamp(center[0], this.constrainingExtent[0], this.constrainingExtent[2]),
@@ -174,6 +177,8 @@ export default {
     const layer = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
     map.removeLayer(layer);
     map.getView().padding = [0, 0, 0, 0]; // TO DO: handle padding somewhere else?
+    map.un('pointerdrag', this.pointerdragHandler);
+    map.un('movestart', this.movestartHandler);
     map.un('moveend', this.moveendHandler);
   },
   render: () => null,

@@ -2,11 +2,12 @@
 // temporary solution
 import { Wkt } from 'wicket';
 import { DateTime } from 'luxon';
-import { latLng, latLngBounds, CRS } from 'leaflet';
+import { latLng, latLngBounds } from 'leaflet';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { E13bRemovedFtrs } from '@/config/otherdata';
 import availableDates from '@/config/data_dates.json';
+import E13dMapTimes from '@/config/data_dates_e13d.json';
 
 import {
   statisticalApiHeaders,
@@ -145,7 +146,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Harvesting activity',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a1',
-    largeSubAoi: true,
     baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
       ...baseLayers.S2GLC,
       visible: true,
@@ -156,7 +156,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Cum. proportion of total area under active mgmt.',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a2',
-    largeSubAoi: true,
     baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
       ...baseLayers.S2GLC,
       visible: true,
@@ -168,31 +167,26 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Evolution of the cultivated areas for production of white asparagus',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a2',
-    largeSubAoi: true,
   },
   E10a5: {
     indicator: 'Harvesting activity',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a5',
-    largeSubAoi: true,
   },
   E10a6: {
     indicator: 'Harvested parcels/area evolution over time',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a6',
-    largeSubAoi: true,
     maxDecimals: 4,
   },
   E10a8: {
     indicator: 'Cumulative harvested area',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a8',
-    largeSubAoi: true,
   },
   E10a9: {
     indicator: 'Tomatoes cultivation',
     themes: ['agriculture'],
-    largeSubAoi: true,
     story: '/eodash-data/stories/E10a9',
   },
   E10a10: {
@@ -221,7 +215,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Throughput at border crossing points',
     themes: ['economy'],
     story: '/eodash-data/stories/E12b',
-    midSubAoi: true,
     maxDecimals: 3,
   },
   E12c: {
@@ -229,7 +222,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     customAreaFeatures: true,
     customAreaIndicator: true,
-    largeSubAoi: true,
     featuresClustering: true,
     disableCompare: true,
     story: '/eodash-data/stories/E12c',
@@ -261,20 +253,14 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Airports: airplanes traffic',
     themes: ['economy'],
     story: '/eodash-data/stories/E13d',
-  },
-  E13d2: {
-    indicator: 'Airports: airplanes traffic',
-    themes: ['economy'],
-    story: '/eodash-data/stories/E13d',
     baseLayers: [baseLayers.terrainLight, {
       ...baseLayers.cloudless,
       visible: true,
     }],
-    midSubAoi: true,
     mapTimeLabelExtended: true,
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
-      url: './eodash-data/features/E13d/E13d_{aoiID}_{featuresTime}.geojson',
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
     largeTimeDuration: true,
   },
@@ -404,13 +390,11 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'CHL concentration',
     themes: ['water'],
     story: '/eodash-data/stories/N3',
-    largeSubAoi: true,
   },
   N3a2: {
     indicator: 'CHL concentration',
     themes: ['water'],
     story: '/eodash-data/stories/N3a2',
-    largeSubAoi: true,
   },
   N4a: {
     indicator: 'Changes in land fill sites',
@@ -431,7 +415,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'CMEMS Water Quality',
     themes: ['water'],
     largeTimeDuration: true,
-    largeSubAoi: true,
     story: '/eodash-data/stories/N3c',
   },
   N4c: {
@@ -574,10 +557,7 @@ export const indicatorClassesIcons = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  minMapZoom: 2,
-  maxMapZoom: 18,
   bounds: latLngBounds(latLng([35, -10]), latLng([70, 33])),
-  crs: CRS.EPSG3857,
 });
 
 export const baseLayersLeftMap = [{
@@ -671,6 +651,7 @@ export const excludeMapTimes = {
 };
 
 export const replaceMapTimes = {
+  ...E13dMapTimes,
 };
 
 const wkt = new Wkt();
@@ -1149,7 +1130,7 @@ export const globalIndicators = [
           layers: 'AWS_POPULATION_DENSITY',
           legendUrl: 'data/trilateral/NASAPopulation_legend.png',
           minZoom: 1,
-          maxMapZoom: 7,
+          maxZoom: 7,
         },
       },
     },
@@ -1180,7 +1161,7 @@ export const globalIndicators = [
           layers: 'WSF_Evolution',
           legendUrl: 'eodash-data/data/wsf_legend.png',
           minZoom: 1,
-          maxMapZoom: 14,
+          maxZoom: 14,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
           labelFormatFunction: (date) => date,
           specialEnvTime: true,
@@ -1893,7 +1874,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'World',
-        time: getMonthlyDates('1997-10-01', '2022-08-01'),
+        time: availableDates.CHL,
         inputData: [''],
         externalData: {
           label: 'Copernicus Marine Service - Product Details',
@@ -1907,18 +1888,18 @@ export const globalIndicators = [
               ...cmemsDisplay,
               baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_atl_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
               name: 'Atlantic coast CHL L4 Product',
-              bounds: latLngBounds(latLng([20, -45]), latLng([66, 10.5])),
+              extent: [-45, 20, 66, 10.5],
             }, {
               ...cmemsDisplay,
               baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_med_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
               name: 'Mediterranean CHL L4 Product',
-              bounds: latLngBounds(latLng([30, -6]), latLng([46, 37])),
+              extent: [-6, 30, 37, 46],
             }, {
               ...cmemsDisplay,
               baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_blk_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
               name: 'Black sea CHL L4 Product',
-              bounds: latLngBounds(latLng([40, 26.5]), latLng([48, 42])),
-            }
+              extent: [26.5, 40, 42, 48],
+            },
           ],
         }],
       },
@@ -1997,7 +1978,6 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'AWS_ICEYE-E11',
           minZoom: 5,
-          maxZoom: 19,
           name: 'Disneyland Paris',
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
@@ -2041,7 +2021,6 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'AWS_ICEYE-E11A',
           minZoom: 5,
-          maxZoom: 19,
           name: 'Warsaw parking lot',
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
@@ -2085,7 +2064,6 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'AWS_ICEYE-E12B',
           minZoom: 5,
-          maxZoom: 18,
           name: 'Weimouth ships',
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
@@ -2130,7 +2108,6 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'AWS_ICEYE-E13B',
           minZoom: 5,
-          maxZoom: 18,
           name: 'Airports: Detected planes',
           features: {
             allowedParameters: [],
@@ -2176,7 +2153,6 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'AWS_ICEYE-E13B',
           minZoom: 5,
-          maxZoom: 18,
           name: 'Airports: Detected planes',
           features: {
             allowedParameters: [],

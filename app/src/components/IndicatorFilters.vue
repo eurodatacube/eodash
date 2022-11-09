@@ -1,14 +1,17 @@
 <template>
   <div
     class="no-pointer pa-2 overflow-hidden"
-    :style="`width: ${$vuetify.breakpoint.xsOnly
-      ? '100%'
-      : '360px'}; height: calc(var(--vh, 1vh) * 100); z-index: 4; background: ${
+    :style="`width: 100%; height: calc(var(--vh, 1vh) * 100); z-index: 4; background: ${
         $vuetify.breakpoint.xsOnly && comboboxFocus
           ? $vuetify.theme.currentTheme.background
           : 'unset' }`"
   >
-    <v-card class="rounded-lg">
+    <v-card
+      class="rounded-lg"
+      :style="`width: ${$vuetify.breakpoint.xsOnly
+      ? '100%'
+      : '360px'}`"
+    >
       <div
         v-if="$vuetify.breakpoint.smAndUp && !currentTheme"
         class="pa-2"
@@ -35,7 +38,6 @@
         attach="#combobox-menu"
         auto-select-first
         :autofocus="$vuetify.breakpoint.smAndUp"
-        clearable
         :filter="customComboboxFilter"
         flat
         hide-details
@@ -46,8 +48,7 @@
         :search-input.sync="userInput"
         solo
         class="rounded-lg"
-        @click:clear="comboboxClear"
-        @click:prepend-inner="$store.state.showHistoryBackButton ? $router.back() : () => {}"
+        @click:prepend-inner="$store.state.showHistoryBackButton ? goBack() : () => {}"
         @keydown.esc="userInput = null"
       >
       </v-combobox>
@@ -131,7 +132,12 @@ export default {
     ...mapState('features', ['allFeatures']),
     ...mapState('indicators', ['selectedIndicator']),
     ...mapState('themes', ['currentTheme']),
-    ...mapGetters('features', ['getFeatures', 'getGroupedFeatures', 'getIndicators']),
+    ...mapGetters('features', [
+      'getCountries',
+      'getFeatures',
+      'getGroupedFeatures',
+      'getIndicators',
+    ]),
     globalIndicators() {
       return this.getGroupedFeatures && this.getGroupedFeatures
         .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName))
@@ -192,10 +198,19 @@ export default {
     },
     getSearchItems() {
       const itemArray = [
-        ...countries.features.map((f) => ({
-          code: f.properties.alpha2,
-          name: f.properties.name,
-        })),
+        ...countries.features
+          .filter((f) => !this.getCountries.includes(f.properties.alpha2))
+          .map((f) => ({
+            code: f.properties.alpha2,
+            name: f.properties.name,
+            noPOIs: true,
+          })),
+        ...this.getCountries
+          .filter((f) => countries.features.find((c) => c.properties.alpha2 === f))
+          .map((f) => ({
+            code: f,
+            name: countries.features.find((c) => c.properties.alpha2 === f).properties.name,
+          })),
         ...this.getIndicators
           .filter((i) => !i.dummyFeature)
           .filter(
@@ -213,7 +228,7 @@ export default {
       itemArray.sort((a, b) => (a.name.localeCompare(b.name)));
       itemArray.sort((a, b) => (b.filterPriority || 0) - (a.filterPriority || 0));
       this.searchItems = itemArray;
-      this.formattedSearchItems = this.searchItems.map((i) => i.name);
+      this.formattedSearchItems = this.searchItems.filter((i) => !i.noPOIs).map((i) => i.name);
     },
     sortSearchItems() {
       if (!this.userInput) {
@@ -222,7 +237,7 @@ export default {
       }
       const queryParts = this.userInput.toLocaleLowerCase().split(' ');
       // skip commonly used words in order to allow more semantic search
-      const skip = ['in', 'at', 'and'];
+      const skip = ['in', 'at', 'and', 'index'];
       this.searchItems.forEach((searchItem, index, array) => {
         let matchPoints = 0;
         queryParts
@@ -261,24 +276,39 @@ export default {
               ) {
                 matchPoints++;
               }
+              if (
+                searchItem.noPOIs
+              ) {
+                matchPoints--;
+              }
             }
           });
         array[index].filterPriority = matchPoints; // eslint-disable-line
       });
       this.searchItems.sort((a, b) => (a.name.localeCompare(b.name)));
       this.searchItems.sort((a, b) => (b.filterPriority || 0) - (a.filterPriority || 0));
-      this.formattedSearchItems = this.searchItems.map((i) => i.name);
+      this.formattedSearchItems = this.searchItems
+        .filter((i) => (this.userInput.length < 3 ? !i.noPOIs : true))
+        .map((i) => i.name);
     },
     customComboboxFilter(item) {
       return this.searchItems.find((i) => i.name === item)?.filterPriority > 0;
     },
     getIndicator(indObj) {
-      let ind = indObj.indicatorName;
+      let ind = indObj.indicatorName || indObj.description;
       if (this.baseConfig.indicatorsDefinition[indObj.indicator]
         && this.baseConfig.indicatorsDefinition[indObj.indicator].indicatorOverwrite) {
         ind = this.baseConfig.indicatorsDefinition[indObj.indicator].indicatorOverwrite;
       }
       return ind;
+    },
+    goBack() {
+      if (this.$store.state.initWithQuery) {
+        this.comboboxClear();
+        this.$store.commit('setInitWithQuery', false);
+      } else {
+        this.$router.back();
+      }
     },
   },
   watch: {
@@ -292,6 +322,7 @@ export default {
     },
     selectedIndicator(indicatorObject) {
       if (!indicatorObject) {
+        this.userInput = null;
         return;
       }
       const displayName = `${indicatorObject.city}: ${this.getIndicator(indicatorObject)}`;
@@ -338,9 +369,11 @@ export default {
       }
     },
     selectedMapLayer(index) {
-      this.setSelectedIndicator(
-        this.globalIndicators[index]?.properties.indicatorObject,
-      );
+      if (index >= 0) {
+        this.setSelectedIndicator(
+          this.globalIndicators[index]?.properties.indicatorObject,
+        );
+      }
     },
     userInput(newInput) {
       this.sortSearchItems();
@@ -355,7 +388,8 @@ export default {
       // the time without timeout
       // TODO find out why and clean up
       setTimeout(() => {
-        if (newInput && !this.$refs.combobox.isMenuActive) {
+        if (newInput && !this.$refs.combobox.isMenuActive
+          && this.$store.state.themes.themes.map((t) => t.name).indexOf(newInput) >= 0) {
           this.$refs.combobox.focus();
           this.$refs.combobox.activateMenu();
         }

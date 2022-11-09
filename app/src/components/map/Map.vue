@@ -5,8 +5,9 @@
     <SubaoiLayer
       :mapId="mapId"
       :indicator="indicator"
+      :isGlobal="isGlobalIndicator"
       v-if="dataLayerName"
-      :key="dataLayerName + '_subAoi'"
+      :key="dataLayerKey + '_subAoi'"
     />
     <!-- a layer displaying a selected global poi
      these layers will have z-Index 3 -->
@@ -164,6 +165,7 @@ import { updateTimeLayer } from '@/components/map/timeLayerUtils';
 import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
+  indicatorHasMapData,
 } from '@/helpers/mapConfig';
 import GeoJSON from 'ol/format/GeoJSON';
 import { fromLonLat, toLonLat, transformExtent } from 'ol/proj';
@@ -173,10 +175,14 @@ import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 import Link from 'ol/interaction/Link';
-import { calculatePadding } from '@/utils';
+import {
+  calculatePadding,
+  getIndicatorFilteredInputData,
+} from '@/utils';
 
+const DEFAULT_PROJECTION = 'EPSG:3857';
 const geoJsonFormat = new GeoJSON({
-  featureProjection: 'EPSG:3857',
+  featureProjection: DEFAULT_PROJECTION,
 });
 
 export default {
@@ -235,7 +241,6 @@ export default {
   data() {
     return {
       loaded: false,
-      minMapZoom: 3,
       zoom: 3,
       tooltip: {
         city: '',
@@ -260,7 +265,6 @@ export default {
   },
   computed: {
     ...mapGetters('features', ['getGroupedFeatures', 'getFeatures']),
-    ...mapGetters('indicators', ['getIndicatorFilteredInputData']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
       if (this.isGlobalIndicator) {
@@ -307,7 +311,7 @@ export default {
       // the current indicator definition object.
       // will use the "currentIndicator"-Prop if defined (dashboard)
       // otherwise it will use the selected indicator from the store
-      return this.getIndicatorFilteredInputData(this.currentIndicator);
+      return getIndicatorFilteredInputData(this.currentIndicator);
     },
     drawnArea() {
       // in store or prop saved as 'object', in this component and
@@ -354,7 +358,7 @@ export default {
       return dataLayerName || '';
     },
     dataLayerKey() {
-      return this.dataLayerName + +this.indicator.aoiID + this.indicator.indicator;
+      return this.dataLayerName + this.indicator.aoiID + this.indicator.indicator;
     },
     countriesJson() {
       return countries;
@@ -366,6 +370,12 @@ export default {
           || (!this.indicator?.subAoi?.features && !this.mergedConfigsData[0]?.presetView)) {
         return null;
       }
+      const presetView = this.mergedConfigsData[0]?.presetView;
+      if (presetView) {
+        // pre-defined geojson view
+        const presetViewGeom = geoJsonFormat.readGeometry(presetView.features[0].geometry);
+        return presetViewGeom.getExtent();
+      }
       const { subAoi } = this.indicator;
       if (subAoi && subAoi.features.length) {
         if (subAoi.features[0].geometry.coordinates.length) {
@@ -375,17 +385,11 @@ export default {
         // geoJsonFormat
         return []; // this.subAoi[0].getGeometry().getExtent();
       }
-      const presetView = this.mergedConfigsData[0]?.presetView;
-      if (presetView) {
-        // pre-defined geojson view
-        const presetViewGeom = geoJsonFormat.readGeometry(presetView.features[0].geometry);
-        return presetViewGeom.getExtent();
-      }
       if (this.indicator.aoi) {
         return transformExtent([this.indicator.lng, this.indicator.lat,
           this.indicator.lng, this.indicator.lat],
         'EPSG:4326',
-        'EPSG:3857');
+        DEFAULT_PROJECTION);
       }
       return undefined;
     },
@@ -464,7 +468,7 @@ export default {
     },
     zoomExtent: {
       deep: true,
-      immediate: true,
+      immediate: false,
       handler(value) {
         // when the calculated zoom extent changes, zoom the map to the new extent.
         // this is purely cosmetic and does not limit the ability to pan or zoom
@@ -473,7 +477,9 @@ export default {
           const { map } = getMapInstance(this.mapId);
           if (map.getTargetElement()) {
             const padding = calculatePadding();
-            map.getView().fit(value, { duration: 500, padding });
+            setTimeout(() => {
+              map.getView().fit(value, { duration: 500, padding });
+            }, 30);
           } else {
             map.once('change:target', () => {
               map.getView().fit(value);
@@ -483,22 +489,22 @@ export default {
       },
     },
   },
-  created() {
-    if (this.mapId === 'centerMap') {
-      const { bounds } = this.mapDefaults;
-      const extent = transformExtent([bounds._southWest.lng, bounds._southWest.lat, bounds._northEast.lng, bounds._northEast.lat], 'EPSG:4326',
-        'EPSG:3857');
-      const { map } = getMapInstance(this.mapId);
-      const padding = calculatePadding();
-      map.getView().fit(extent, { padding });
-    }
-  },
   mounted() {
     const { map } = getMapInstance(this.mapId);
     if (this.mapId === 'centerMap') {
       const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
       cluster.setActive(true, this.overlayCallback);
       cluster.setFeatures(this.getFeatures);
+      const { x, y, z } = this.$route.query;
+      if (!x && !y && !z) {
+        setTimeout(() => {
+          const { bounds } = this.mapDefaults;
+          const extent = transformExtent([bounds._southWest.lng, bounds._southWest.lat, bounds._northEast.lng, bounds._northEast.lat], 'EPSG:4326',
+            DEFAULT_PROJECTION);
+          const padding = calculatePadding();
+          map.getView().fit(extent, { padding });
+        }, 500);
+      }
     }
     this.loaded = true;
     this.$store.subscribe((mutation) => {
@@ -566,21 +572,7 @@ export default {
   },
   methods: {
     indicatorHasMapData(indicatorObject) {
-      let hasMapData = false;
-      let matchingInputDataAgainstConfig = [];
-      // Check to see if we have EO Data indicator
-      if (indicatorObject && indicatorObject.inputData) {
-        matchingInputDataAgainstConfig = indicatorObject.inputData
-          .filter((item) => Object.prototype.hasOwnProperty.call(this.layerNameMapping, item));
-        hasMapData = matchingInputDataAgainstConfig.length > 0;
-      }
-      // Check to see if we have global data indicator
-      if (indicatorObject && indicatorObject.country) {
-        if (indicatorObject.country === 'all' || Array.isArray(indicatorObject.country)) {
-          hasMapData = true;
-        }
-      }
-      return hasMapData;
+      return indicatorHasMapData(indicatorObject);
     },
     overlayCallback(headers, rows, coordinate) {
       this.overlayHeaders = headers;
@@ -630,7 +622,7 @@ export default {
             ? sourceOptionsObj.features.dateFormatFunction(fixTime) : fixTime;
         }
       }
-      const paramsToPassThrough = ['env', 'searchid'];
+      const paramsToPassThrough = ['env'];
       paramsToPassThrough.forEach((param) => {
         if (typeof sourceOptionsObj[param] !== 'undefined') {
           outputOptionsObj[param] = sourceOptionsObj[param];

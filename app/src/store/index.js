@@ -34,6 +34,7 @@ const store = new Vuex.Store({
     packageVersion: process.env.PACKAGE_VERSION || '0',
     isFullScreen: false,
     showHistoryBackButton: false,
+    initWithQuery: false,
     alert: {
       message: '',
       type: '',
@@ -52,6 +53,9 @@ const store = new Vuex.Store({
     sendAlert(state, payload) {
       state.alert.message = payload.message;
       state.alert.type = payload.type;
+    },
+    setInitWithQuery(state, value) {
+      state.initWithQuery = value;
     },
   },
   plugins: [vuexLocal.plugin],

@@ -37,7 +37,7 @@
             >
               <v-icon>mdi-play</v-icon>
             </v-btn>
-            <v-fade-transition>
+            <v-fade-transition v-if="item.poi || item.href">
               <v-overlay
                 v-if="hover && !autoPlayIframe"
                 absolute
