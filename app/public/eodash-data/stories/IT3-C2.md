@@ -17,7 +17,7 @@ Indicator provided by: [e-GEOS](https://www.e-geos.it/#/), [ExpertLab](http://ww
 
 *Port of Gioia Tauro, Image source: http://www.portodigioiatauro.it/porto-gioia-tauro/storia/*
 
-## Analising the impacts of COVID-19 lockdonw restrictions on pollution and NO2 levels: 
+## Analysing the impacts of COVID-19 lockdonw restrictions on pollution and NO2 levels: 
 The pandemic restrictions and the related economic crisis have highly impacted the pollution level in different areas of Europe and of the world. Although this fact has been widely demonstrated, this specific analysis aims looks jointly at different sources of pollution and the NO2 level. 
 
 On the indicator chart, for each day, the light/dark red chart background indicates whether there were **restrictions or lockdown** measure in place in the country where the city is located. This information is based on [Oxford University’s coronavirus government response tracker](https://covidtracker.bsg.ox.ac.uk/). 
