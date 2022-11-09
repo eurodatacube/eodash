@@ -240,7 +240,6 @@ export default {
   data() {
     return {
       loaded: false,
-      minMapZoom: 3,
       zoom: 3,
       tooltip: {
         city: '',

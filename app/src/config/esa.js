@@ -2,7 +2,7 @@
 // temporary solution
 import { Wkt } from 'wicket';
 import { DateTime } from 'luxon';
-import { latLng, latLngBounds, CRS } from 'leaflet';
+import { latLng, latLngBounds } from 'leaflet';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { E13bRemovedFtrs } from '@/config/otherdata';
@@ -557,10 +557,7 @@ export const indicatorClassesIcons = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  minMapZoom: 2,
-  maxMapZoom: 18,
   bounds: latLngBounds(latLng([35, -10]), latLng([70, 33])),
-  crs: CRS.EPSG3857,
 });
 
 export const baseLayersLeftMap = [{
@@ -1133,7 +1130,7 @@ export const globalIndicators = [
           layers: 'AWS_POPULATION_DENSITY',
           legendUrl: 'data/trilateral/NASAPopulation_legend.png',
           minZoom: 1,
-          maxMapZoom: 7,
+          maxZoom: 7,
         },
       },
     },
@@ -1164,7 +1161,7 @@ export const globalIndicators = [
           layers: 'WSF_Evolution',
           legendUrl: 'eodash-data/data/wsf_legend.png',
           minZoom: 1,
-          maxMapZoom: 14,
+          maxZoom: 14,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
           labelFormatFunction: (date) => date,
           specialEnvTime: true,
@@ -1981,7 +1978,6 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'AWS_ICEYE-E11',
           minZoom: 5,
-          maxZoom: 19,
           name: 'Disneyland Paris',
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
@@ -2025,7 +2021,6 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'AWS_ICEYE-E11A',
           minZoom: 5,
-          maxZoom: 19,
           name: 'Warsaw parking lot',
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
@@ -2069,7 +2064,6 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'AWS_ICEYE-E12B',
           minZoom: 5,
-          maxZoom: 18,
           name: 'Weimouth ships',
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
@@ -2114,7 +2108,6 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'AWS_ICEYE-E13B',
           minZoom: 5,
-          maxZoom: 18,
           name: 'Airports: Detected planes',
           features: {
             allowedParameters: [],
@@ -2160,7 +2153,6 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'AWS_ICEYE-E13B',
           minZoom: 5,
-          maxZoom: 18,
           name: 'Airports: Detected planes',
           features: {
             allowedParameters: [],
