@@ -148,24 +148,30 @@ const renderVue = async () => {
           if (typeof label === 'undefined') {
             // placeholders
             return colors.grey;
-          } else if (label === null) {
+          }
+          if (label === null) {
             // area indicators
             return colors.primary;
-          } else if (['red'].includes(label.toLowerCase())) {
+          }
+          if (['red'].includes(label.toLowerCase())) {
             return colors.error;
-          } else if (['grey'].includes(label.toLowerCase())) {
+          }
+          if (['grey'].includes(label.toLowerCase())) {
             return colors.grey;
-          } else if (['blue'].includes(label.toLowerCase())) {
-            return colors.info;
-          } else if (['green'].includes(label.toLowerCase())) {
-            return colors.success;
-          } else if (['orange'].includes(label.toLowerCase())) {
-            return '#FFA500'; // Color has been specifically requested
-          } else if (['primary'].includes(label.toLowerCase())) {
-            return colors.primary;
-          } else {
+          }
+          if (['blue'].includes(label.toLowerCase())) {
             return colors.info;
           }
+          if (['green'].includes(label.toLowerCase())) {
+            return colors.success;
+          }
+          if (['orange'].includes(label.toLowerCase())) {
+            return '#FFA500'; // Color has been specifically requested
+          }
+          if (['primary'].includes(label.toLowerCase())) {
+            return colors.primary;
+          }
+          return colors.info;
         }
         return colors.secondary;
       },

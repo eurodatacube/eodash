@@ -134,14 +134,6 @@ const mergedConfigs = (usedTimes, side = 'data', inputDataConfig, indicatorObjec
       // always make an Array of layer configurations
       displayTmp = [displayTmp];
     }
-    if (side === 'data') {
-      displayTmp[0].searchid = displayTmp[0].dataSearchId;
-    } else {
-      displayTmp[0].searchid = displayTmp[0].compareSearchId;
-    }
-    if (typeof displayTmp[0].searchid === 'undefined') {
-      displayTmp[0].searchid = '';
-    }
   }
   const finalConfigs = [];
   let usedConfigForMerge = {};

@@ -24,7 +24,6 @@ export const baseLayers = Object.freeze({
     layers: 'CAMS_GLC_2017',
     attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
     visible: false,
-    minZoom: 7,
   },
   mapboxHighReso: {
     name: 'Mapbox high resolution',

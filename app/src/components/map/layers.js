@@ -12,13 +12,14 @@ import store from '@/store';
 import TileGrid from 'ol/tilegrid/TileGrid';
 import { createXYZ } from 'ol/tilegrid';
 import { Group } from 'ol/layer';
-import { get as getProj } from 'ol/proj';
+import { get as getProj, transformExtent } from 'ol/proj';
 
 import proj4 from 'proj4';
 import { register } from 'ol/proj/proj4';
 
+const DEFAULT_PROJECTION = 'EPSG:3857';
 const geoJsonFormat = new GeoJSON({
-  featureProjection: 'EPSG:3857',
+  featureProjection: DEFAULT_PROJECTION,
 });
 const countriesSource = new VectorSource({
   features: geoJsonFormat.readFeatures(countries),
@@ -30,6 +31,29 @@ const countriesSource = new VectorSource({
  * @param {*} source ol vector source (features of this source will be replaced)
  * @param {String} url geojson url
  */
+
+function createProjection(name, def, extent) {
+  proj4.defs(name, def);
+  register(proj4);
+  const projection = getProj(name);
+  projection.setExtent(extent);
+  return projection;
+}
+
+export function getProjectionOl(projectionLike) {
+  // for internal conversions
+  if (typeof projectionLike === 'string') {
+    // expecting EPSG:4326 or EPSG:3857 or something OL supports out of box
+    return getProj(projectionLike);
+  }
+  if (projectionLike) {
+    // expecting an object with name, def, extent for proj4 to register custom projection
+    return createProjection(projectionLike.name, projectionLike.def, projectionLike.extent);
+  }
+  // default: EPSG:4326 when not set
+  return getProj('EPSG:4326');
+}
+
 function fetchGeoJsonFeatures(source, url) {
   fetch(url)
     .then((fStream) => {
@@ -186,9 +210,8 @@ export function createLayerFromConfig(config, _options = {}) {
   }
   if (config.protocol === 'WMS') {
     // to do: layers is  not defined for harvesting evolution over time (spain)
-    const paramsToPassThrough = ['minZoom', 'maxZoom', 'bounds', 'layers', 'styles',
-      'format', 'width', 'height', 'transparent', 'srs', 'env', 'searchid'];
-
+    const paramsToPassThrough = ['layers', 'styles',
+      'format', 'env'];
     const tileSize = config.combinedLayers?.length
       ? config.combinedLayers[0].tileSize : config.tileSize;
     const tileGrid = tileSize === 512 ? new TileGrid({
@@ -207,6 +230,10 @@ export function createLayerFromConfig(config, _options = {}) {
         const params = {
           LAYERS: c.layers,
         };
+        let extent;
+        if (c.extent) {
+          extent = transformExtent(c.extent, 'EPSG:4326', DEFAULT_PROJECTION);
+        }
 
         paramsToPassThrough.forEach((param) => {
           if (typeof c[param] !== 'undefined') {
@@ -219,7 +246,7 @@ export function createLayerFromConfig(config, _options = {}) {
             params.env = `year:${params.time}`;
           }
         }
-        const projection = c.projection || 'EPSG:3857';
+        const projection = c.projection || DEFAULT_PROJECTION;
         const singleSource = new TileWMS({
           attributions: config.attribution,
           maxZoom: c.maxZoom,
@@ -243,10 +270,10 @@ export function createLayerFromConfig(config, _options = {}) {
         });
         layers.push(new TileLayer({
           name: config.name,
-          // minZoom: config.minZoom || config.minNativeZoomm,
           updateOpacityOnZoom: options.updateOpacityOnZoom,
           zIndex: options.zIndex,
           source: singleSource,
+          extent,
         }));
       });
     } else {
@@ -264,7 +291,7 @@ export function createLayerFromConfig(config, _options = {}) {
           params.env = `year:${params.time}`;
         }
       }
-      const projection = config.projection || 'EPSG:3857';
+      const projection = config.projection || DEFAULT_PROJECTION;
       source = new TileWMS({
         attributions: config.attribution,
         maxZoom: config.maxZoom,
@@ -288,14 +315,21 @@ export function createLayerFromConfig(config, _options = {}) {
       });
     }
   }
+  let extent;
+  if (config.extent) {
+    extent = transformExtent(
+      config.extent, 'EPSG:4326',
+      DEFAULT_PROJECTION,
+    );
+  }
 
   if (source) {
     layers.push(new TileLayer({
       name: config.name,
-      // minZoom: config.minZoom || config.minNativeZoomm,
       updateOpacityOnZoom: options.updateOpacityOnZoom,
       zIndex: options.zIndex,
       source,
+      extent,
     }));
   }
 
@@ -350,26 +384,4 @@ export function createLayerFromConfig(config, _options = {}) {
     zIndex: options.zIndex,
     layers,
   });
-}
-
-
-function createProjection(name, def, extent) {
-  proj4.defs(name, def);
-  register(proj4);
-  const projection = getProj(name);
-  projection.setExtent(extent);
-  return projection;
-}
-
-export function getProjectionOl(projectionLike) {
-  // for internal conversions
-  if (typeof projectionLike === 'string') {
-    // expecting EPSG:4326 or EPSG:3857 or something OL supports out of box
-    return getProj(projectionLike);
-  } else if (projectionLike) {
-    // expecting an object with name, def, extent for proj4 to register custom projection
-    return createProjection(projectionLike.name, projectionLike.def, projectionLike.extent);
-  }
-  // default: EPSG:4326 when not set
-  return getProj('EPSG:4326');
 }
