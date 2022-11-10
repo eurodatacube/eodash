@@ -1,7 +1,7 @@
 // config global variables here for now
 // temporary solution
 import { Wkt } from 'wicket';
-import { latLng, latLngBounds } from 'leaflet';
+import latLng from '@/latLng';
 import { DateTime } from 'luxon';
 import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
@@ -681,7 +681,7 @@ export const indicatorClassesIcons = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  bounds: latLngBounds(latLng([-70, -170]), latLng([70, 170])),
+  bounds: [-170, -70, 170, 70],
 });
 
 export const baseLayersLeftMap = [{
@@ -2062,7 +2062,6 @@ export const globalIndicators = [
   },
   {
     id: 19999,
-    latlng: latLng([45.197522, 13.029785]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2100,7 +2099,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([45.197522, 13.0297851]),
     id: 19998,
     properties: {
       indicatorObject: {
@@ -2148,7 +2146,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([45.197522, 13.0297851]),
     id: 19994,
     properties: {
       indicatorObject: {
@@ -2187,7 +2184,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.7775, -122.416389]),
     id: 19997,
     properties: {
       indicatorObject: {
@@ -2226,7 +2222,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([41.0114, -73.09]),
     id: 19996,
     properties: {
       indicatorObject: {
@@ -2265,7 +2260,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([35.61, 139.78]),
     id: 19995,
     properties: {
       indicatorObject: {
@@ -2305,7 +2299,6 @@ export const globalIndicators = [
   },
   {
     id: 19993,
-    latlng: latLng([43.4, 4.94]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2343,7 +2336,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.7, 136.9]),
     id: 19989,
     properties: {
       indicatorObject: {
@@ -2382,7 +2374,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.35, 135]),
     id: 19988,
     properties: {
       indicatorObject: {
@@ -2422,7 +2413,6 @@ export const globalIndicators = [
   },
   {
     id: 19992,
-    latlng: latLng([45.197522, 13.0297851]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2461,7 +2451,6 @@ export const globalIndicators = [
   },
   {
     id: 19991,
-    latlng: latLng([43.4, 4.9400001]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2499,7 +2488,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.7775, -122.4163891]),
     id: 19990,
     properties: {
       indicatorObject: {
@@ -2539,7 +2527,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([45.197522, 13.0297851]),
     id: 19987,
     properties: {
       indicatorObject: {
@@ -2578,7 +2565,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([35.61, 139.78]),
     id: 19986,
     properties: {
       indicatorObject: {
@@ -2617,7 +2603,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.7, 136.9]),
     id: 19985,
     properties: {
       indicatorObject: {
@@ -2656,7 +2641,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.35, 135]),
     id: 19984,
     properties: {
       indicatorObject: {
@@ -2695,7 +2679,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([45.197522, 13.0297851]),
     id: 19983,
     properties: {
       indicatorObject: {
@@ -2741,7 +2724,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([41.0114, -73.09]),
     id: 19982,
     properties: {
       indicatorObject: {
@@ -2824,7 +2806,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([6.133333, 1.216667]),
     id: 19799,
     properties: {
       indicatorObject: {
@@ -2864,7 +2845,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([39.9, 116.38]),
     id: 9799,
     properties: {
       indicatorObject: {
@@ -2904,7 +2884,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([38.904722, -77.016389]),
     id: 9798,
     properties: {
       indicatorObject: {
@@ -2944,7 +2923,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([51.036138, 2.285374]),
     id: 9797,
     properties: {
       indicatorObject: {
@@ -2984,7 +2962,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([51.091559, 3.740081]),
     id: 9796,
     properties: {
       indicatorObject: {
@@ -3024,7 +3001,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([35.61, 139.78]),
     id: 9795,
     properties: {
       indicatorObject: {
@@ -3064,7 +3040,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([6.133333, 1.216667]),
     id: 9794,
     properties: {
       indicatorObject: {
@@ -3104,7 +3079,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.05, -118.25]),
     id: 9793,
     properties: {
       indicatorObject: {
@@ -3144,7 +3118,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([-6.8, 39.283333]),
     id: 9792,
     properties: {
       indicatorObject: {
@@ -3184,7 +3157,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([41.0114, -73.09]),
     id: 9791,
     properties: {
       indicatorObject: {
@@ -3224,7 +3196,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.7775, -122.416389]),
     id: 9790,
     properties: {
       indicatorObject: {
@@ -3264,7 +3235,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([38.715, -121.944]),
     id: 9789,
     properties: {
       indicatorObject: {
@@ -3304,7 +3274,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([33.94, -118.41]),
     id: 19699,
     properties: {
       indicatorObject: {
@@ -3335,7 +3304,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.057, -117.6]),
     id: 19698,
     properties: {
       indicatorObject: {
@@ -3366,7 +3334,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.622, -122.378]),
     id: 19697,
     properties: {
       indicatorObject: {
@@ -3397,7 +3364,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.363, -121.93]),
     id: 19696,
     properties: {
       indicatorObject: {
@@ -3428,7 +3394,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.722, -122.226]),
     id: 19695,
     properties: {
       indicatorObject: {
@@ -3459,7 +3424,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.6585, -122.121]),
     id: 19694,
     properties: {
       indicatorObject: {
@@ -3490,7 +3454,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([38.216, -122.276]),
     id: 19693,
     properties: {
       indicatorObject: {
@@ -3521,7 +3484,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([38.144, -122.557]),
     id: 19692,
     properties: {
       indicatorObject: {
@@ -3552,7 +3514,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.99, -122.057]),
     id: 19691,
     properties: {
       indicatorObject: {
@@ -3583,7 +3544,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([40.642, -73.788]),
     id: 19690,
     properties: {
       indicatorObject: {
@@ -3614,7 +3574,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([40.689, -74.172]),
     id: 19689,
     properties: {
       indicatorObject: {
@@ -3645,7 +3604,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([40.072, 116.593]),
     id: 19688,
     properties: {
       indicatorObject: {
@@ -3676,7 +3634,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([39.495, 116.419]),
     id: 19687,
     properties: {
       indicatorObject: {
@@ -3707,7 +3664,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([35.774, 140.385]),
     id: 19685,
     properties: {
       indicatorObject: {
@@ -3738,7 +3694,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.05, -118.251]),
     id: 19599,
     properties: {
       indicatorObject: {
@@ -3769,7 +3724,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([40.6, -74.05]),
     id: 19598,
     properties: {
       indicatorObject: {
@@ -3800,7 +3754,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.7775, -122.416389]),
     id: 19597,
     properties: {
       indicatorObject: {
@@ -3832,7 +3785,6 @@ export const globalIndicators = [
   },
   {
     id: 19681,
-    latlng: latLng([40.985, 1.769]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -3871,7 +3823,6 @@ export const globalIndicators = [
   },
   {
     id: 19680,
-    latlng: latLng([40.985, 1.769]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -3909,7 +3860,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([30.05, 32.56]),
     id: 19679,
     properties: {
       indicatorObject: {
@@ -3976,7 +3926,6 @@ export const globalIndicators = [
 
 const createSlowDownIndicator = (id, aoiID, city, country, aoi, geometry, cog, eoSensor, time) => (
   {
-    latlng: aoi,
     id,
     properties: {
       indicatorObject: {
@@ -4196,7 +4145,6 @@ const createSTACCollectionIndicator = (collection, key, value, index, url,
     type: 'Polygon',
   };
   const indicatorObject = {
-    latlng: aoi,
     id: index,
     properties: {
       indicatorObject: {

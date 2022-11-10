@@ -2,7 +2,7 @@
 // temporary solution
 import { Wkt } from 'wicket';
 import { DateTime } from 'luxon';
-import { latLng, latLngBounds } from 'leaflet';
+import latLng from '@/latLng';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { E13bRemovedFtrs } from '@/config/otherdata';
@@ -557,7 +557,7 @@ export const indicatorClassesIcons = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  bounds: latLngBounds(latLng([35, -10]), latLng([70, 33])),
+  bounds: [-10, 35, 33, 70],
 });
 
 export const baseLayersLeftMap = [{
@@ -1366,7 +1366,6 @@ export const globalIndicators = [
   },
   {
     id: 9999,
-    latlng: latLng([45.197522, 13.029785]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1405,7 +1404,6 @@ export const globalIndicators = [
   },
   {
     id: 9998,
-    latlng: latLng([43.4, 4.94]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1444,7 +1442,6 @@ export const globalIndicators = [
   },
   {
     id: 9997,
-    latlng: latLng([45.197522, 13.0297851]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1483,7 +1480,6 @@ export const globalIndicators = [
   },
   {
     id: 9996,
-    latlng: latLng([43.4, 4.9400001]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1780,7 +1776,6 @@ export const globalIndicators = [
   },
   {
     id: 9995,
-    latlng: latLng([40.985, 1.769]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1819,7 +1814,6 @@ export const globalIndicators = [
   },
   {
     id: 9994,
-    latlng: latLng([40.985, 1.769]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1907,7 +1901,6 @@ export const globalIndicators = [
   },
   {
     id: 9993,
-    latlng: latLng([51.954, 4.094]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1950,7 +1943,6 @@ export const globalIndicators = [
   },
   {
     id: 9991,
-    latlng: latLng([48.87, 2.78]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1993,7 +1985,6 @@ export const globalIndicators = [
   },
   {
     id: 9990,
-    latlng: latLng([52.244, 21.045]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2036,7 +2027,6 @@ export const globalIndicators = [
   },
   {
     id: 9989,
-    latlng: latLng([50.604, -2.37]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2079,7 +2069,6 @@ export const globalIndicators = [
   },
   {
     id: 9988,
-    latlng: latLng([50.04, 8.5]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2124,7 +2113,6 @@ export const globalIndicators = [
   },
   {
     id: 9987,
-    latlng: latLng([40.413, -1.23]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,

@@ -519,7 +519,7 @@ export default {
       if (!x && !y && !z) {
         setTimeout(() => {
           const { bounds } = this.mapDefaults;
-          const extent = transformExtent([bounds._southWest.lng, bounds._southWest.lat, bounds._northEast.lng, bounds._northEast.lat], 'EPSG:4326',
+          const extent = transformExtent(bounds, 'EPSG:4326',
             DEFAULT_PROJECTION);
           const padding = calculatePadding();
           map.getView().fit(extent, { padding });
