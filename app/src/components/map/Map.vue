@@ -349,7 +349,7 @@ export default {
     currentTimeIndexLayerSwipe() {
       if (this.compareLayerTime) {
         return this.availableTimeEntries.findIndex(
-          (item) => item.name === this.compareLayerTime.name
+          (item) => item.name === this.compareLayerTime.name,
         );
       }
       return 0;
