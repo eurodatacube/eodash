@@ -104,7 +104,7 @@ const configFromInputData = (usedTimes, index) => {
   // const i = this.getCurrentIndex(side);
   const inputData = usedTimes.inputData.length === 1
     ? usedTimes.inputData[0]
-    : usedTimes.inputData[index];
+    : usedTimes.inputData.at(index);
   if (baseConfig.layerNameMapping.hasOwnProperty(inputData)) { // eslint-disable-line
     let config = baseConfig.layerNameMapping[inputData];
     if (!Array.isArray(config)) {

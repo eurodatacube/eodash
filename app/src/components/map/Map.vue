@@ -33,7 +33,7 @@
         v-if="compareLayerTime"
         :mapId="mapId"
         :time="compareLayerTime.value"
-        :mergedConfigsData="mergedConfigsData[0]"
+        :mergedConfigsData="mergedConfigsLayerSwipe[0]"
         :specialLayerOptionProps="specialLayerOptions"
         :enable="enableCompare"
         @updateSwipePosition="updateSwipePosition"
@@ -74,18 +74,6 @@
       (legendExpanded && 'map-legend-expanded')}`"
       @click="legendExpanded = !legendExpanded"
       :style="`background: rgba(255, 255, 255, 0.8);`">
-      <!--<div
-      v-if="mergedConfigsData[0].customAreaFeatures &&
-      (mergedConfigsData[0].features.featureLimit === dataFeaturesCount ||
-      mergedConfigsData[0].features.featureLimit === compareFeaturesCount)"
-      :style="`width: fit-content; background: rgba(255, 255, 255, 0.8);`"
-      >
-        <h3 :class="`brand-${appConfig.id} px-3 py-2`">
-          Limit of drawn features is for performance reasons set to
-          <span :style="`font-size: 17px;`">{{mergedConfigsData[0].features.featureLimit}}
-          </span>
-        </h3>
-      </div>-->
     </div>
 
     <!-- Container for all controls. Will move when map is resizing -->
@@ -330,8 +318,41 @@ export default {
       return createConfigFromIndicator(
         this.indicator,
         'data',
-        0,
+        -1, // initial time is last in array - indexed via array.at(-1)
       );
+    },
+    mergedConfigsLayerSwipe() {
+      // only display the "special layers" for global indicators
+      if (!this.indicator) {
+        return [];
+      }
+      return createConfigFromIndicator(
+        this.indicator,
+        'data',
+        this.currentTimeIndexLayerSwipe,
+      );
+    },
+    mergedConfigsDataIndexAware() {
+      // just for time update to correctly use current time index
+      if (!this.indicator) {
+        return [];
+      }
+      return createConfigFromIndicator(
+        this.indicator,
+        'data',
+        this.currentTimeIndex,
+      );
+    },
+    currentTimeIndex() {
+      return this.availableTimeEntries.findIndex((item) => item.name === this.dataLayerTime.name);
+    },
+    currentTimeIndexLayerSwipe() {
+      if (this.compareLayerTime) {
+        return this.availableTimeEntries.findIndex(
+          (item) => item.name === this.compareLayerTime.name
+        );
+      }
+      return 0;
     },
     /**
      * optional options for special layer.
@@ -425,8 +446,7 @@ export default {
         // redraw all time-dependant layers, if time is passed via WMS params
         const { map } = getMapInstance(this.mapId);
         const layers = map.getLayers().getArray();
-
-        this.mergedConfigsData.filter((config) => config.usedTimes?.time?.length)
+        this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
           .forEach((config) => {
             const layer = layers.find((l) => l.get('name') === config.name);
             if (layer) {
