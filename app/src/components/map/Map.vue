@@ -683,6 +683,7 @@ export default {
             this.mergedConfigsData[0],
             this.indicator,
             type === 'customFeatures' ? 'features' : 'areaIndicator',
+            this.$store,
           );
           if (type === 'customFeatures') {
             // todo: this.updateJsonLayers(custom, side);
