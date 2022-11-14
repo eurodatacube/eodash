@@ -49,6 +49,9 @@ export default {
         case 'gtif-eo-adaptation':
           return 'EO Adaptation Services'
 
+        case 'explore':
+          return 'Explore Tool'
+          
         default:
           return '';
       }
