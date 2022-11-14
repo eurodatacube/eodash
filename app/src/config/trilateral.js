@@ -136,21 +136,11 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Harvesting activity',
     story: '/data/trilateral/E10a1',
     themes: ['agriculture'],
-    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
-      ...baseLayers.S2GLC,
-      visible: true,
-    }],
-    legendUrl: 'eodash-data/data/LegendGLC.png',
   },
   E10a2: {
     indicator: 'Cum. proportion of total area under active mgmt.',
     story: '/eodash-data/stories/E10a2',
     themes: ['agriculture'],
-    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
-      ...baseLayers.S2GLC,
-      visible: true,
-    }],
-    legendUrl: 'eodash-data/data/LegendGLC.png',
     maxDecimals: 4,
   },
   E10a3: {

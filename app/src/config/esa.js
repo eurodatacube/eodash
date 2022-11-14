@@ -146,21 +146,11 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Harvesting activity',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a1',
-    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
-      ...baseLayers.S2GLC,
-      visible: true,
-    }],
-    legendUrl: 'eodash-data/data/LegendGLC.png',
   },
   E10a2: {
     indicator: 'Cum. proportion of total area under active mgmt.',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a2',
-    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
-      ...baseLayers.S2GLC,
-      visible: true,
-    }],
-    legendUrl: 'eodash-data/data/LegendGLC.png',
     maxDecimals: 4,
   },
   E10a3: {
@@ -400,11 +390,6 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Changes in land fill sites',
     themes: ['land'],
     story: '/eodash-data/stories/N4a',
-    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
-      ...baseLayers.S2GLC,
-      visible: true,
-    }],
-    legendUrl: 'eodash-data/data/LegendGLC.png',
     disableCSV: true,
   },
   N4b: {
@@ -425,11 +410,6 @@ export const indicatorsDefinition = Object.freeze({
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HH"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
-    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
-      ...baseLayers.S2GLC,
-      visible: true,
-    }],
-    legendUrl: 'eodash-data/data/LegendGLC.png',
     disableCSV: true,
   },
   OX: {
@@ -562,7 +542,7 @@ export const mapDefaults = Object.freeze({
 
 export const baseLayersLeftMap = [{
   ...baseLayers.terrainLight, visible: true,
-}, baseLayers.cloudless, baseLayers.S2GLC];
+}, baseLayers.cloudless];
 export const baseLayersRightMap = [{
   ...baseLayers.terrainLight, visible: true,
 }, baseLayers.cloudless];
