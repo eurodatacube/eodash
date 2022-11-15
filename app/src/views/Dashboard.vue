@@ -4,7 +4,6 @@
     :class="{ 'panel-expanded': drawerRight && $vuetify.breakpoint.smAndUp }"
   >
     <global-header
-      :isFullscreen="isFullScreen"
       ref="globalHeader"
     />
     
@@ -199,7 +198,6 @@
       </v-container>
     </v-content>
     <global-footer
-      v-if="!isFullScreen"
       :color="getCurrentTheme ? getCurrentTheme.color : 'primary'"
     />
   </div>
@@ -295,7 +293,6 @@ export default {
     theme() {
       return (this.$vuetify.theme.dark) ? 'dark' : 'light';
     },
-    ...mapState(['isFullScreen']),
     queryIndicatorObject() {
       return this.$store.state.features.allFeatures.find(
         (f) => this.getLocationCode(f && f.properties.indicatorObject) === this.$route.query.poi,

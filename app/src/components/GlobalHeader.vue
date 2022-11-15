@@ -9,7 +9,6 @@
     :style="`z-index: 8; ${appConfig.id === 'esa'
       ? `box-shadow: 0px 4px var(--v-secondary-base) !important`
       : ''}`"
-    v-show="!isFullScreen"
   >
     <v-app-bar-nav-icon
       @click.stop="switchMenu"
@@ -28,7 +27,6 @@
       class="drawerLeft"
       hide-overlay
       width="70vw"
-      v-show="!isFullScreen"
       v-if="$vuetify.breakpoint.smAndDown"
     >
       <template>
@@ -383,23 +381,6 @@ import Welcome from '@/views/Welcome.vue';
  */
 export default {
   props: {
-    /**
-     * Determines whether the header should be hidden.
-     * @values true, false
-     */
-    isFullScreen: {
-      type: Boolean,
-      default: false,
-    },
-
-    /**
-     * A callback function when the header needs to do something beyond its scope.
-     */
-    // displayShowText: {
-    //   type: Function,
-    //   default: () => {},
-    // },
-
     /**
      * Another callback allowing us to switch the Dashboard drawer from this component.
      */
