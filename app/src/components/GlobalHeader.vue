@@ -322,7 +322,7 @@
               : showText }}
           </span>
           <v-btn
-            v-if="$vuetify.breakpoint.smAndUp"
+            v-if="$vuetify.breakpoint.smAndUp && $route.name === 'explore'"
             color="secondary"
             @click="() => showInfoDialog = false"
           >
