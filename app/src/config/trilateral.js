@@ -45,7 +45,7 @@ const sharedPalsarFNFConfig = Object.freeze({
 
 export const indicatorsDefinition = Object.freeze({
   E13c: {
-    indicator: 'Changes in Ships traffic within the Port',
+    indicatorSummary: 'Changes in Ships traffic within the Port',
     story: '/data/trilateral/E13c',
     themes: ['economy'],
     features: {
@@ -59,7 +59,7 @@ export const indicatorsDefinition = Object.freeze({
     }, baseLayers.terrainLight],
   },
   E1: {
-    indicator: 'Status of metallic ores',
+    indicatorSummary: 'Status of metallic ores',
     story: '/data/trilateral/E1',
     themes: ['economy'],
     features: {
@@ -69,7 +69,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E1_S2: {
-    indicator: 'Status of metallic ores',
+    indicatorSummary: 'Status of metallic ores',
     story: '/data/trilateral/E1',
     themes: ['economy'],
     features: {
@@ -78,7 +78,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E1a: {
-    indicator: 'Status of non-metallic ores',
+    indicatorSummary: 'Status of non-metallic ores',
     story: '/data/trilateral/E1a',
     themes: ['economy'],
     features: {
@@ -88,7 +88,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E1a_S2: {
-    indicator: 'Status of metallic ores',
+    indicatorSummary: 'Status of metallic ores',
     story: '/data/trilateral/E1a',
     themes: ['economy'],
     features: {
@@ -97,107 +97,107 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E2: {
-    indicator: 'Volume of oil stockpiled',
+    indicatorSummary: 'Volume of oil stockpiled',
     themes: ['economy'],
   },
   E2a: {
-    indicator: 'Level of flaring activity',
+    indicatorSummary: 'Level of flaring activity',
     themes: ['economy'],
   },
   E3: {
-    indicator: 'Inventory levels of factory inputs',
+    indicatorSummary: 'Inventory levels of factory inputs',
     themes: ['economy'],
   },
   E4: {
-    indicator: 'Production activity of intermediate goods',
+    indicatorSummary: 'Production activity of intermediate goods',
     themes: ['economy'],
   },
   E5: {
-    indicator: 'Inventory levels of intermediate goods',
+    indicatorSummary: 'Inventory levels of intermediate goods',
     themes: ['economy'],
   },
   E6: {
-    indicator: 'Inventory levels of factory inputs',
+    indicatorSummary: 'Inventory levels of factory inputs',
     themes: ['economy'],
   },
   E7: {
-    indicator: 'Production activity of finished goods',
+    indicatorSummary: 'Production activity of finished goods',
     themes: ['economy'],
   },
   E8: {
-    indicator: 'Inventory Levels',
+    indicatorSummary: 'Inventory Levels',
     themes: ['economy'],
   },
   E9: {
-    indicator: 'Construction activity',
+    indicatorSummary: 'Construction activity',
     story: '/data/trilateral/E9',
     themes: ['economy'],
   },
   E10a1: {
-    indicator: 'Harvesting activity',
+    indicatorSummary: 'Harvesting activity',
     story: '/data/trilateral/E10a1',
     themes: ['agriculture'],
   },
   E10a2: {
-    indicator: 'Cum. proportion of total area under active mgmt.',
+    indicatorSummary: 'Cum. proportion of total area under active mgmt.',
     story: '/eodash-data/stories/E10a2',
     themes: ['agriculture'],
     maxDecimals: 4,
   },
   E10a3: {
-    indicator: 'Evolution of the cultivated areas for production of white asparagus',
+    indicatorSummary: 'Evolution of the cultivated areas for production of white asparagus',
     story: '/eodash-data/stories/E10a2',
     themes: ['agriculture'],
   },
   E10a6: {
-    indicator: 'Harvested parcels/area evolution over time',
+    indicatorSummary: 'Harvested parcels/area evolution over time',
     story: '/eodash-data/stories/E10a6',
     themes: ['agriculture'],
     maxDecimals: 4,
   },
   E10a8: {
-    indicator: 'Cumulative harvested area',
+    indicatorSummary: 'Cumulative harvested area',
     story: '/eodash-data/stories/E10a8',
     themes: ['agriculture'],
   },
   E10b: {
-    indicator: 'Field preparation activity',
+    indicatorSummary: 'Field preparation activity',
     themes: ['agriculture'],
   },
   E10c: {
-    indicator: 'Rice Planted Area',
+    indicatorSummary: 'Rice Planted Area',
     story: '/data/trilateral/US05-E10c',
     themes: ['agriculture'],
   },
   E10d: {
-    indicator: 'Cropped Area - Regional',
+    indicatorSummary: 'Cropped Area - Regional',
     story: '/data/trilateral/E10d',
     themes: ['agriculture'],
     disableTimeSelection: true,
   },
   E10e: {
-    indicator: 'NDVI GCOM-C',
+    indicatorSummary: 'NDVI GCOM-C',
     story: '/eodash-data/stories/E10e',
     themes: ['agriculture', 'biomass-and-landcover'],
   },
   E11: {
-    indicator: 'Volume of activity at shopping centers',
+    indicatorSummary: 'Volume of activity at shopping centers',
     themes: ['economy'],
   },
   E12a: {
-    indicator: 'Volume of activity logistic interchange centers',
+    indicatorSummary: 'Volume of activity logistic interchange centers',
     themes: ['economy'],
   },
   E12b: {
-    indicator: 'Throughput at border crossing points',
+    indicatorSummary: 'Throughput at border crossing points',
     themes: ['economy'],
   },
   E13a: {
-    indicator: 'Throughput at principal rail stations',
+    indicatorSummary: 'Throughput at principal rail stations',
     themes: ['economy'],
   },
   E13b: {
-    indicator: 'Throughput at principal hub airports',
+    indicatorSummary: 'Throughput at principal hub airports',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
@@ -206,48 +206,48 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy', 'atmosphere'],
   },
   H1: {
-    indicator: 'Number of temp. treatment sites',
+    indicatorSummary: 'Number of temp. treatment sites',
     themes: ['covid-19'],
   },
   N1: {
-    indicator: 'Air quality',
+    indicatorSummary: 'Air quality',
     story: '/data/trilateral/N1',
     themes: ['atmosphere'],
     largeTimeDuration: true,
     maxZoom: 8,
   },
   N9: {
-    indicator: 'Air quality',
+    indicatorSummary: 'Air quality',
     story: '/eodash-data/stories/N9',
     themes: ['atmosphere'],
   },
   N10: {
-    indicator: 'Air quality',
+    indicatorSummary: 'Air quality',
     story: '/eodash-data/stories/N10',
     themes: ['atmosphere'],
   },
   NASAPopulation: {
-    indicator: 'Population',
+    indicatorSummary: 'Population',
     story: '/data/trilateral/NASAPopulation',
     themes: ['economy', 'agriculture', 'atmosphere', 'oceans'],
   },
   WSF: {
-    indicator: 'World Settlement Footprint',
+    indicatorSummary: 'World Settlement Footprint',
     story: '/eodash-data/stories/WSF-WSF',
     themes: ['economy', 'agriculture', 'atmosphere', 'oceans'],
   },
   N2: {
-    indicator: 'Greenhouse Gases',
+    indicatorSummary: 'Greenhouse Gases',
     story: '/data/trilateral/N2',
     themes: ['atmosphere'],
     largeTimeDuration: true,
   },
   N3: {
-    indicator: 'Water Quality',
+    indicatorSummary: 'Water Quality',
     themes: ['oceans'],
   },
   N3b: {
-    indicator: 'Chl-a concentration anomaly',
+    indicatorSummary: 'Chl-a concentration anomaly',
     story: '/data/trilateral/N3b',
     themes: ['oceans'],
     sensorColorMap: {
@@ -258,41 +258,41 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   N3a2: {
-    indicator: 'CHL concentration',
+    indicatorSummary: 'CHL concentration',
     story: '/eodash-data/stories/N3a2',
     themes: ['oceans'],
   },
   N4a: {
-    indicator: 'Changes in land fill sites',
+    indicatorSummary: 'Changes in land fill sites',
     themes: ['economy'],
   },
   N4b: {
-    indicator: 'Illegal waste levels',
+    indicatorSummary: 'Illegal waste levels',
     themes: ['economy'],
   },
   N5: {
-    indicator: 'Nightlights (Suomi NPP VIIRS)',
+    indicatorSummary: 'Nightlights (Suomi NPP VIIRS)',
     story: '/data/trilateral/N5',
     themes: ['economy', 'atmosphere', 'oceans'],
   },
   N6: {
-    indicator: 'Cropped Area - Global',
+    indicatorSummary: 'Cropped Area - Global',
     story: '/data/trilateral/N6',
     themes: ['agriculture'],
   },
   N7: {
-    indicator: 'Slowdown Proxy Maps',
+    indicatorSummary: 'Slowdown Proxy Maps',
     story: '/data/trilateral/N7',
     themes: ['economy'],
   },
   N8: {
-    indicator: 'Recovery Proxy Maps',
+    indicatorSummary: 'Recovery Proxy Maps',
     story: '/data/trilateral/N8',
     themes: ['economy'],
     disableTimeSelection: true,
   },
   N12: {
-    indicator: 'Sea Ice Concentration (GCOM-W)',
+    indicatorSummary: 'Sea Ice Concentration (GCOM-W)',
     themes: ['cryosphere', 'oceans'],
     baseLayers: [{
       ...baseLayers.cloudless,
@@ -301,22 +301,22 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/N12',
   },
   N11: {
-    indicator: 'GLI Ocean Primary Productivity',
+    indicatorSummary: 'GLI Ocean Primary Productivity',
     themes: ['oceans'],
     story: '/eodash-data/stories/N11',
   },
   N13: {
-    indicator: 'Blue Tarps (PlanetScope)',
+    indicatorSummary: 'Blue Tarps (PlanetScope)',
     story: '/eodash-data/stories/N13',
     themes: ['economy'],
   },
   N14: {
-    indicator: 'Blue Tarps Detections',
+    indicatorSummary: 'Blue Tarps Detections',
     story: '/eodash-data/stories/N14',
     themes: ['economy'],
   },
   GG: {
-    indicator: 'Mobility',
+    indicatorSummary: 'Mobility',
     disableTimeSelection: true,
     story: '/eodash-data/stories/GG-GG',
     themes: ['economy'],
@@ -324,7 +324,7 @@ export const indicatorsDefinition = Object.freeze({
     alternateDataPath: './eodash-data/internal/',
   },
   CV: {
-    indicator: 'Covid-19 cases',
+    indicatorSummary: 'Covid-19 cases',
     disableTimeSelection: true,
     story: '/eodash-data/stories/CV-CV',
     themes: ['covid-19'],
@@ -332,7 +332,7 @@ export const indicatorsDefinition = Object.freeze({
     alternateDataPath: './eodash-data/internal/',
   },
   OW: {
-    indicator: 'Covid-19 vaccinations',
+    indicatorSummary: 'Covid-19 vaccinations',
     disableTimeSelection: true,
     story: '/eodash-data/stories/OW-OW',
     themes: ['covid-19'],
@@ -340,7 +340,7 @@ export const indicatorsDefinition = Object.freeze({
     alternateDataPath: './eodash-data/internal/',
   },
   FB: {
-    indicator: 'Facebook population density',
+    indicatorSummary: 'Facebook population density',
     themes: ['economy'],
     disableTimeSelection: true,
     baseLayers: [{
@@ -349,64 +349,64 @@ export const indicatorsDefinition = Object.freeze({
     }, baseLayers.terrainLight],
   },
   SIF: {
-    indicator: 'Solar Induced Chlorophyll Fluorescence',
+    indicatorSummary: 'Solar Induced Chlorophyll Fluorescence',
     story: '/eodash-data/stories/SIF',
     themes: ['agriculture', 'biomass-and-landcover'],
     maxZoom: 8,
   },
   NPP: {
-    indicator: 'Ocean Primary Productivity (BICEP)',
+    indicatorSummary: 'Ocean Primary Productivity (BICEP)',
     story: '/eodash-data/stories/NPP',
     themes: ['oceans'],
   },
   NPPN: {
-    indicator: 'Ocean Primary Productivity (NASA)',
+    indicatorSummary: 'Ocean Primary Productivity (NASA)',
     story: '/eodash-data/stories/NPPN',
     themes: ['oceans'],
   },
   SIE: {
-    indicator: 'SIE',
+    indicatorSummary: 'SIE',
     story: '/eodash-data/stories/SIE',
     themes: ['cryosphere', 'oceans'],
   },
   SIC: {
-    indicator: 'SIC',
+    indicatorSummary: 'SIC',
     story: '/eodash-data/stories/SIC',
     themes: ['cryosphere', 'oceans'],
   },
   SITI: {
-    indicator: 'SITI',
+    indicatorSummary: 'SITI',
     story: '/eodash-data/stories/SITI',
     themes: ['cryosphere', 'oceans'],
   },
   NCEO: {
-    indicator: 'NCEO',
+    indicatorSummary: 'NCEO',
     story: '/eodash-data/stories/NCEO',
     themes: ['agriculture', 'biomass-and-landcover'],
     disableTimeSelection: true,
   },
   SMC: {
-    indicator: 'SMC',
+    indicatorSummary: 'SMC',
     story: '/eodash-data/stories/SMC',
     themes: ['agriculture'],
   },
   PRC: {
-    indicator: 'PRC',
+    indicatorSummary: 'PRC',
     story: '/eodash-data/stories/PRC',
     themes: ['agriculture'],
   },
   FNF: {
-    indicator: 'FNF',
+    indicatorSummary: 'FNF',
     story: '/eodash-data/stories/FNF',
     themes: ['biomass-and-landcover'],
   },
   PRCG: {
-    indicator: 'PRCG',
+    indicatorSummary: 'PRCG',
     story: '/eodash-data/stories/PRCG',
     themes: ['agriculture'],
   },
   SMCG: {
-    indicator: 'SMCG',
+    indicatorSummary: 'SMCG',
     story: '/eodash-data/stories/SMCG',
     themes: ['agriculture'],
   },
@@ -451,7 +451,7 @@ export const indicatorsDefinition = Object.freeze({
     disableTimeSelection: true,
   },
   d: { // dummy for locations without Indicator code
-    indicator: 'Upcoming data',
+    indicatorSummary: 'Upcoming data',
     themes: ['atmosphere', 'agriculture', 'biomass-and-landcover', 'economy', 'oceans', 'cryosphere', 'covid-19'],
   },
 });

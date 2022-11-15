@@ -50,6 +50,16 @@ The data powering the EO Dashboard is provided via:
 The Jupyter Notebook called **"Data Access"** contains the list of available datasets + scripts to use the services and get the data. 
 Find it here: https://eurodatacube.com/marketplace?tag=EO%20Dashboard 
 
+## Publications 
+- B. Lefer et al., "A Multi-Agency COVID-19 Dashboard with Satellite Air Quality Data," 2021 IEEE International Geoscience and Remote Sensing Symposium IGARSS, 2021, pp. 1553-1555, doi: [10.1109/IGARSS47720.2021.9553200](https://doi.org/10.1109/IGARSS47720.2021.9553200).
+- Y. -L. Desnos, E. Hamdouch, A. Anghelea, G. Landgraf, S. Cheli and J. Turpin, "Rapid Action on COVID-19 and Earth Observation: an Inittiative for Societal Information Enabled by Copernicus Sentinels Data," 2021 IEEE International Geoscience and Remote Sensing Symposium IGARSS, 2021, pp. 1374-1376, doi: [10.1109/IGARSS47720.2021.9553746](https://doi.org/10.1109/IGARSS47720.2021.9553746). 
+- A. Anghelea, Y. -L. Desnos, M. Maskey, S. -i. Sobue and S. Meissl, "The COVID-19 Earth Observation Dashboard: A NASA-ESA-JAXA Collaborative Product," 2021 IEEE International Geoscience and Remote Sensing Symposium IGARSS, 2021, pp. 1556-1559, doi: [10.1109/IGARSS47720.2021.9553205](https://doi.org/10.1109/IGARSS47720.2021.9553205).
+- M. J. Falkowski, M. Maskey, S. -i. Sobue, G. Campbell, G. Bawden and T. Tadono, "COIVD-19 Impact Monitoring of Economic Activities," 2021 IEEE International Geoscience and Remote Sensing Symposium IGARSS, 2021, pp. 1366-1369, doi: 10.1109/IGARSS47720.2021.9555044.
+- B. Koetz et al., "COIVD-19 Impact Monitoring for Agriculutre," 2021 IEEE International Geoscience and Remote Sensing Symposium IGARSS, 2021, pp. 1567-1570, doi: [10.1109/IGARSS47720.2021.9553844](https://doi.org/10.1109/IGARSS47720.2021.9553844).
+- K. Hamamoto et al., "Jaxa's Earth Observation Data Analysis on Covid-19," 2021 IEEE International Geoscience and Remote Sensing Symposium IGARSS, 2021, pp. 1362-1365, doi: [10.1109/IGARSS47720.2021.9554593](https://doi.org/10.1109/IGARSS47720.2021.9554593).
+- M. -H. Rio et al., "Trilateral Water Quality Monitoring from Space during Covid-19," 2021 IEEE International Geoscience and Remote Sensing Symposium IGARSS, 2021, pp. 1563-1566, doi: [10.1109/IGARSS47720.2021.9554949](https://doi.org/10.1109/IGARSS47720.2021.9554949).
+- A. Kuze et al., "Covid-19 Impact Monitoring for Climate Environment (Greenhouse Gases)," 2021 IEEE International Geoscience and Remote Sensing Symposium IGARSS, 2021, pp. 1560-1562, doi: [10.1109/IGARSS47720.2021.9554328](https://doi.org/10.1109/IGARSS47720.2021.9554328).
+
 ## Blog Posts
 
 There are a number of blog posts available that provide details about various indicators you might find usefull to read thru.
