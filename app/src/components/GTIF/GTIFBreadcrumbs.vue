@@ -51,7 +51,7 @@ export default {
 
         case 'explore':
           return 'Explore Tool'
-          
+
         default:
           return '';
       }
@@ -69,6 +69,7 @@ export default {
   top: 64px;
   font-size: 18px;
   color: #CDD7DA;
+  z-index: 2000;
 
   .bold {
     font-family: 'NotesESABold';
