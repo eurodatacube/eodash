@@ -301,8 +301,27 @@ export default {
               {
                 key: 'Median', index: 0, color: 'black', fill: false,
               },
+              {
+                key: 'Min', index: 3, color: refColors[4], fill: false,
+              },
+              {
+                key: 'Max', index: 2, color: refColors[1], fill: false,
+              },
+              {
+                key: 'Standard deviation (STD)',
+                calc: (meas, obj) => meas - obj[1],
+                color: 'rgba(0,0,0,0.1)',
+                fill: '+1',
+              },
+              {
+                key: 'hide_',
+                calc: (meas, obj) => meas + obj[1],
+                color: 'rgba(0,0,0,0.1)',
+                fill: false,
+              },
             ],
-            valueDecompose: (item) => Number(item),
+            valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
+              .map((str) => (str === '' ? Number.NaN : Number(str)))),
           },
         };
         referenceDecompose.N1b = referenceDecompose.N1a;

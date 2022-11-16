@@ -13,6 +13,7 @@ import {
   evalScriptsDefinitions,
   parseStatAPIResponse,
   nasaTimelapseConfig,
+  nasaStatisticsConfig,
 } from '@/helpers/customAreaObjects';
 
 const wkt = new Wkt();
@@ -912,7 +913,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'NO2 [µmol/m²]',
         display: {
-          // customAreaIndicator: true,
           protocol: 'xyz',
           minZoom: 1,
           maxZoom: 6,
@@ -923,7 +923,10 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           legendUrl: 'data/trilateral/no2Legend-monthly-nasa.png',
-          // areaIndicator: nasaTimelapseConfig('no2'),
+          customAreaIndicator: true,
+          areaIndicator: nasaStatisticsConfig(
+            (value) => value / 1e14,
+          ),
         },
       },
     },
@@ -967,9 +970,7 @@ export const globalIndicators = [
           legendUrl: 'data/trilateral/N1-NO2DiffLegend.png',
           disableCompare: true,
           customAreaIndicator: true,
-          areaIndicator: nasaTimelapseConfig(
-            'no2-diff',
-            ['201501', DateTime.utc().toFormat('yyyyMM')],
+          areaIndicator: nasaStatisticsConfig(
             (value) => value / 1e15,
           ),
         },
@@ -1012,6 +1013,7 @@ export const globalIndicators = [
           legendUrl: 'data/trilateral/N2-co2mean-legend.png',
           mapLabel: 'Mean',
           customAreaIndicator: true,
+          // TODO: Fetch data from new stac api when available
           areaIndicator: nasaTimelapseConfig(
             'co2',
             ['2020_01_01', '2021_10_15'],
@@ -1188,6 +1190,7 @@ export const globalIndicators = [
         aoiID: 'W8',
         time: availableDates['OMI_trno2-COG'],
         inputData: [''],
+        yAxis: 'NO2 [10^14 molecules/cm²]',
         display: {
           // mosaicIndicator: true,
           // collection: 'OMI_trno2-COG',
@@ -1200,6 +1203,10 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
           legendUrl: 'data/trilateral/no2Legend-yearly-nasa.png',
+          customAreaIndicator: true,
+          areaIndicator: nasaStatisticsConfig(
+            (value) => value / 1e14,
+          ),
         },
       },
     },
@@ -1225,6 +1232,7 @@ export const globalIndicators = [
         time: availableDates['IS2SITMOGR4-cog'],
         inputData: [''],
         showGlobe: true,
+        // yAxis: 'Sea-ice thickness [m]',
         display: {
           protocol: 'xyz',
           tileSize: 256,
@@ -1235,6 +1243,13 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           legendUrl: 'eodash-data/data/SeaIceThicknessCCI.PNG',
+          /*
+          TODO: Could be activated but globe is used as visualiation in data panel
+          customAreaIndicator: true,
+          areaIndicator: nasaStatisticsConfig(
+            (value) => value,
+          ),
+          */
         },
       },
     },
@@ -1259,9 +1274,8 @@ export const globalIndicators = [
         aoiID: 'W11',
         time: availableDates.MO_NPP_npp_vgpm,
         inputData: [''],
+        yAxis: '',
         display: {
-          // mosaicIndicator: true,
-          // collection: 'MO_NPP_npp_vgpm',
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
@@ -1271,6 +1285,10 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           legendUrl: 'eodash-data/data/nppn_legend.png',
+          customAreaIndicator: true,
+          areaIndicator: nasaStatisticsConfig(
+            (value) => value,
+          ),
         },
       },
     },
@@ -1296,8 +1314,6 @@ export const globalIndicators = [
         time: availableDates.nceo_africa_2017,
         inputData: [''],
         display: {
-          // mosaicIndicator: true,
-          // collection: 'nceo_africa_2017',
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
@@ -1611,6 +1627,7 @@ export const globalIndicators = [
         aoiID: 'W9',
         time: availableDates['OMSO2PCA-COG'],
         inputData: [''],
+        yAxis: 'SO2 Total Column [DU]',
         display: {
           // mosaicIndicator: true,
           // collection: 'OMSO2PCA-COG',
@@ -1623,6 +1640,10 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
           legendUrl: 'data/trilateral/SO2OMI-Aura-legend.png',
+          customAreaIndicator: true,
+          areaIndicator: nasaStatisticsConfig(
+            (value) => value,
+          ),
         },
       },
     },
