@@ -1,5 +1,8 @@
 <template>
-  <div class="gtif-breadcrumbs">
+  <div
+    class="gtif-breadcrumbs"
+    :style="{'margin-left': (appConfig.id === 'gtif' && $route.name === 'explore') ? '88px' : '0'}"
+  >
     <div class="fill-width fill-height d-flex justify-between align-center pl-6">
       <span class="bold">GTIF</span>
       <span class="px-2">|</span>
@@ -69,7 +72,6 @@ export default {
   top: 64px;
   font-size: 18px;
   color: #CDD7DA;
-  z-index: 2000;
 
   .bold {
     font-family: 'NotesESABold';
