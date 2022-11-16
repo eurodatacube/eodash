@@ -681,11 +681,6 @@ export default {
     line-height: 1;
   }
 }
-
-.drawerLeft {
-  position: fixed;
-  top: 104px !important;
-}
 </style>
 
 <style>
