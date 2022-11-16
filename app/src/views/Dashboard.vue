@@ -386,7 +386,7 @@
 
     <v-content
       :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
-        + $vuetify.application.footer + appConfig.id === 'gtif' ? 108 : 108}px); overflow:hidden; width: 100%; margin-top: ${appConfig.id === 'gtif' ? '48px' : '0'};`"
+        + $vuetify.application.footer - appConfig.id === 'gtif' ? 60 : 108}px); overflow:hidden; width: 100%; margin-top: ${appConfig.id === 'gtif' ? '56px' : '0'};`"
     >
       <v-container
         class="fill-height pa-0"
