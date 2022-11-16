@@ -111,14 +111,14 @@
       />
       <div class="pointerEvents mt-auto mb-2">
         <IframeButton
-          v-if="mapId === 'centerMap' && indicator"
+          v-if="mapId === 'centerMap' && indicator && isGlobalIndicator"
           :indicatorObject="indicator"
           mapControl
         />
       </div>
       <div class="pointerEvents mb-2">
         <AddToDashboardButton
-          v-if="mapId === 'centerMap' && indicator"
+          v-if="mapId === 'centerMap' && indicator && isGlobalIndicator"
           :indicatorObject="indicator"
           :zoom="currentZoom"
           :center="currentCenter"
