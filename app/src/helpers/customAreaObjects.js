@@ -320,9 +320,7 @@ const fetchCustomAreaObjects = async (
     if (typeof mergedConfig[lookup].callbackFunction === 'function') {
       customObjects = mergedConfig[lookup].callbackFunction(mergedData, indicator);
     }
-  } else if (
-    mergedConfig[lookup].url === 'https://staging-raster.delta-backend.com/cog/statistics'
-  ) {
+  } else if (mergedConfig[lookup].url.includes('/cog/statistics')) {
     // Here we handle parallel requests to the new statistical api from nasa
     const requests = [];
     indicator.time.forEach((entry) => {
