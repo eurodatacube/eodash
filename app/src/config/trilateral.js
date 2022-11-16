@@ -1192,8 +1192,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'NO2 [10^14 molecules/cm²]',
         display: {
-          // mosaicIndicator: true,
-          // collection: 'OMI_trno2-COG',
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
