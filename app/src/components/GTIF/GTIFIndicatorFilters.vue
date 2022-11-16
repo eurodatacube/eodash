@@ -26,6 +26,7 @@
               <span
                 class="text-center text-uppercase mt-3"
                 style="line-height: 1; font-size: 12px"
+                :style="{'color': appConfig.branding.primaryColor}"
               >{{ theme.name }}</span>
             </v-list-item-icon>
           </v-list-item>
