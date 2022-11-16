@@ -462,10 +462,12 @@ class Cluster {
    * @param {Array} indicatorFeatures indicator feature definition objects
    */
   setFeatures(indicatorFeatures) {
-    const features = indicatorFeatures.filter((i) => i.latlng).map((i) => {
+    const features = indicatorFeatures.filter((i) => i.properties.indicatorObject.aoi).map((i) => {
       const feature = new Feature({
         properties: i.properties,
-        geometry: new Point(fromLonLat([i.latlng.lng, i.latlng.lat])),
+        geometry: new Point(fromLonLat(
+          [i.properties.indicatorObject.aoi.lon, i.properties.indicatorObject.aoi.lat],
+        )),
       });
       feature.setId(i.id);
       return feature;

@@ -627,7 +627,6 @@ export default {
           const data = indicator.time.map((date, i) => {
             colors.push(this.getIndicatorColor(
               indicator.colorCode[i],
-              true,
             ));
             return { t: date, y: measurement[i] };
           });
@@ -843,7 +842,7 @@ export default {
         if (datasets.length === 0) {
           // No special handling of dataset is required we use default generator
           const data = indicator.time.map((date, i) => {
-            colors.push(this.getIndicatorColor(indicator.colorCode[i], true));
+            colors.push(this.getIndicatorColor(indicator.colorCode[i]));
             return { t: date, y: indicator.measurement[i] };
           });
           const conf = {

@@ -306,10 +306,12 @@ const fetchCustomAreaObjects = async (
     // Check to see if there were rejected requests due to timeout
     const timeoutDetected = allData.find((entry) => entry.status === 'rejected');
     if (timeoutDetected) {
-      store.commit('sendAlert', {
-        message: 'There were some issues retrieving the data, possibly only partial results are shown. Please try the request again.',
-        type: 'warning',
-      });
+      if (store) {
+        store.commit('sendAlert', {
+          message: 'There were some issues retrieving the data, possibly only partial results are shown. Please try the request again.',
+          type: 'warning',
+        });
+      }
     }
     const mergedData = {
       status,
@@ -422,15 +424,7 @@ export const nasaTimelapseConfig = (
         ...newData,
       };
     } else if (Object.keys(responseJson).indexOf('detail') !== -1) {
-      // This will happen if area selection is too large
-      if (responseJson.detail[0].msg.startsWith('AOI cannot exceed')) {
-        store.commit('sendAlert', {
-          message: 'AOI cannot exceed 200 000 km²',
-          type: 'error',
-        });
-      } else {
-        console.log(responseJson.detail[0].msg);
-      }
+      console.log(responseJson.detail[0].msg);
     }
     return ind;
   },

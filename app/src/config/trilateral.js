@@ -1,7 +1,7 @@
 // config global variables here for now
 // temporary solution
 import { Wkt } from 'wicket';
-import { latLng, latLngBounds, CRS } from 'leaflet';
+import latLng from '@/latLng';
 import { DateTime } from 'luxon';
 import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
@@ -27,12 +27,12 @@ export const dataEndpoints = [
 
 const sharedPalsarFNFConfig = Object.freeze({
   baseUrl: 'https://ogcpreview1.restecmap.com/examind/api/WS/wms/JAXA_WMS_Preview',
-  minZoom: 0,
   name: 'FNF PALSAR2 World Yearly',
-  crs: CRS.EPSG4326,
-  tileSize: 256,
+  tileSize: 512,
+  projection: 'EPSG:4326',
   legendUrl: './data/trilateral/fnf-map-legend.png',
   labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
+  attribution: '{ <a href="https://www.eorc.jaxa.jp/ALOS/en/dataset/fnf_e.htm" target="_blank">JAXA Global PALSAR-2/PALSAR/JERS-1 Mosaic and Forest/Non-Forest maps</a> is available to use with no charge under the <a href="https://earth.jaxa.jp/policy/en.html" target="_blank">JAXA Terms of Use of Research Data</a>.; }',
   presetView: {
     type: 'FeatureCollection',
     features: [{
@@ -41,18 +41,11 @@ const sharedPalsarFNFConfig = Object.freeze({
       geometry: wkt.read('POLYGON((-94 20,50 20,50 -40,-94 -40,-94 20))').toJson(),
     }],
   },
-  baseLayers: [
-    baseLayers.terrainLight_4326,
-    baseLayers.cloudless_4326,
-  ],
-  overlayLayers: [
-    overlayLayers.eoxOverlay_4326,
-  ],
 });
 
 export const indicatorsDefinition = Object.freeze({
   E13c: {
-    indicator: 'Changes in Ships traffic within the Port',
+    indicatorSummary: 'Changes in Ships traffic within the Port',
     story: '/data/trilateral/E13c',
     themes: ['economy'],
     features: {
@@ -66,7 +59,7 @@ export const indicatorsDefinition = Object.freeze({
     }, baseLayers.terrainLight],
   },
   E1: {
-    indicator: 'Status of metallic ores',
+    indicatorSummary: 'Status of metallic ores',
     story: '/data/trilateral/E1',
     themes: ['economy'],
     features: {
@@ -76,7 +69,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E1_S2: {
-    indicator: 'Status of metallic ores',
+    indicatorSummary: 'Status of metallic ores',
     story: '/data/trilateral/E1',
     themes: ['economy'],
     features: {
@@ -85,7 +78,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E1a: {
-    indicator: 'Status of non-metallic ores',
+    indicatorSummary: 'Status of non-metallic ores',
     story: '/data/trilateral/E1a',
     themes: ['economy'],
     features: {
@@ -95,7 +88,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E1a_S2: {
-    indicator: 'Status of metallic ores',
+    indicatorSummary: 'Status of metallic ores',
     story: '/data/trilateral/E1a',
     themes: ['economy'],
     features: {
@@ -104,117 +97,107 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E2: {
-    indicator: 'Volume of oil stockpiled',
+    indicatorSummary: 'Volume of oil stockpiled',
     themes: ['economy'],
   },
   E2a: {
-    indicator: 'Level of flaring activity',
+    indicatorSummary: 'Level of flaring activity',
     themes: ['economy'],
   },
   E3: {
-    indicator: 'Inventory levels of factory inputs',
+    indicatorSummary: 'Inventory levels of factory inputs',
     themes: ['economy'],
   },
   E4: {
-    indicator: 'Production activity of intermediate goods',
+    indicatorSummary: 'Production activity of intermediate goods',
     themes: ['economy'],
   },
   E5: {
-    indicator: 'Inventory levels of intermediate goods',
+    indicatorSummary: 'Inventory levels of intermediate goods',
     themes: ['economy'],
   },
   E6: {
-    indicator: 'Inventory levels of factory inputs',
+    indicatorSummary: 'Inventory levels of factory inputs',
     themes: ['economy'],
   },
   E7: {
-    indicator: 'Production activity of finished goods',
+    indicatorSummary: 'Production activity of finished goods',
     themes: ['economy'],
   },
   E8: {
-    indicator: 'Inventory Levels',
+    indicatorSummary: 'Inventory Levels',
     themes: ['economy'],
   },
   E9: {
-    indicator: 'Construction activity',
+    indicatorSummary: 'Construction activity',
     story: '/data/trilateral/E9',
     themes: ['economy'],
   },
   E10a1: {
-    indicator: 'Harvesting activity',
+    indicatorSummary: 'Harvesting activity',
     story: '/data/trilateral/E10a1',
     themes: ['agriculture'],
-    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
-      ...baseLayers.S2GLC,
-      visible: true,
-    }],
-    legendUrl: 'eodash-data/data/LegendGLC.png',
   },
   E10a2: {
-    indicator: 'Cum. proportion of total area under active mgmt.',
+    indicatorSummary: 'Cum. proportion of total area under active mgmt.',
     story: '/eodash-data/stories/E10a2',
     themes: ['agriculture'],
-    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
-      ...baseLayers.S2GLC,
-      visible: true,
-    }],
-    legendUrl: 'eodash-data/data/LegendGLC.png',
     maxDecimals: 4,
   },
   E10a3: {
-    indicator: 'Evolution of the cultivated areas for production of white asparagus',
+    indicatorSummary: 'Evolution of the cultivated areas for production of white asparagus',
     story: '/eodash-data/stories/E10a2',
     themes: ['agriculture'],
   },
   E10a6: {
-    indicator: 'Harvested parcels/area evolution over time',
+    indicatorSummary: 'Harvested parcels/area evolution over time',
     story: '/eodash-data/stories/E10a6',
     themes: ['agriculture'],
     maxDecimals: 4,
   },
   E10a8: {
-    indicator: 'Cumulative harvested area',
+    indicatorSummary: 'Cumulative harvested area',
     story: '/eodash-data/stories/E10a8',
     themes: ['agriculture'],
   },
   E10b: {
-    indicator: 'Field preparation activity',
+    indicatorSummary: 'Field preparation activity',
     themes: ['agriculture'],
   },
   E10c: {
-    indicator: 'Rice Planted Area',
+    indicatorSummary: 'Rice Planted Area',
     story: '/data/trilateral/US05-E10c',
     themes: ['agriculture'],
   },
   E10d: {
-    indicator: 'Cropped Area - Regional',
+    indicatorSummary: 'Cropped Area - Regional',
     story: '/data/trilateral/E10d',
     themes: ['agriculture'],
     disableTimeSelection: true,
   },
   E10e: {
-    indicator: 'NDVI GCOM-C',
+    indicatorSummary: 'NDVI GCOM-C',
     story: '/eodash-data/stories/E10e',
     themes: ['agriculture', 'biomass-and-landcover'],
   },
   E11: {
-    indicator: 'Volume of activity at shopping centers',
+    indicatorSummary: 'Volume of activity at shopping centers',
     themes: ['economy'],
   },
   E12a: {
-    indicator: 'Volume of activity logistic interchange centers',
+    indicatorSummary: 'Volume of activity logistic interchange centers',
     themes: ['economy'],
   },
   E12b: {
-    indicator: 'Throughput at border crossing points',
+    indicatorSummary: 'Throughput at border crossing points',
     themes: ['economy'],
   },
   E13a: {
-    indicator: 'Throughput at principal rail stations',
+    indicatorSummary: 'Throughput at principal rail stations',
     themes: ['economy'],
   },
   E13b: {
-    indicator: 'Throughput at principal hub airports',
+    indicatorSummary: 'Throughput at principal hub airports',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
@@ -223,48 +206,48 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy', 'atmosphere'],
   },
   H1: {
-    indicator: 'Number of temp. treatment sites',
+    indicatorSummary: 'Number of temp. treatment sites',
     themes: ['covid-19'],
   },
   N1: {
-    indicator: 'Air quality',
+    indicatorSummary: 'Air quality',
     story: '/data/trilateral/N1',
     themes: ['atmosphere'],
     largeTimeDuration: true,
-    maxMapZoom: 8,
+    maxZoom: 8,
   },
   N9: {
-    indicator: 'Air quality',
+    indicatorSummary: 'Air quality',
     story: '/eodash-data/stories/N9',
     themes: ['atmosphere'],
   },
   N10: {
-    indicator: 'Air quality',
+    indicatorSummary: 'Air quality',
     story: '/eodash-data/stories/N10',
     themes: ['atmosphere'],
   },
   NASAPopulation: {
-    indicator: 'Population',
+    indicatorSummary: 'Population',
     story: '/data/trilateral/NASAPopulation',
     themes: ['economy', 'agriculture', 'atmosphere', 'oceans'],
   },
   WSF: {
-    indicator: 'World Settlement Footprint',
+    indicatorSummary: 'World Settlement Footprint',
     story: '/eodash-data/stories/WSF-WSF',
     themes: ['economy', 'agriculture', 'atmosphere', 'oceans'],
   },
   N2: {
-    indicator: 'Greenhouse Gases',
+    indicatorSummary: 'Greenhouse Gases',
     story: '/data/trilateral/N2',
     themes: ['atmosphere'],
     largeTimeDuration: true,
   },
   N3: {
-    indicator: 'Water Quality',
+    indicatorSummary: 'Water Quality',
     themes: ['oceans'],
   },
   N3b: {
-    indicator: 'Chl-a concentration anomaly',
+    indicatorSummary: 'Chl-a concentration anomaly',
     story: '/data/trilateral/N3b',
     themes: ['oceans'],
     sensorColorMap: {
@@ -275,41 +258,41 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   N3a2: {
-    indicator: 'CHL concentration',
+    indicatorSummary: 'CHL concentration',
     story: '/eodash-data/stories/N3a2',
     themes: ['oceans'],
   },
   N4a: {
-    indicator: 'Changes in land fill sites',
+    indicatorSummary: 'Changes in land fill sites',
     themes: ['economy'],
   },
   N4b: {
-    indicator: 'Illegal waste levels',
+    indicatorSummary: 'Illegal waste levels',
     themes: ['economy'],
   },
   N5: {
-    indicator: 'Nightlights (Suomi NPP VIIRS)',
+    indicatorSummary: 'Nightlights (Suomi NPP VIIRS)',
     story: '/data/trilateral/N5',
     themes: ['economy', 'atmosphere', 'oceans'],
   },
   N6: {
-    indicator: 'Cropped Area - Global',
+    indicatorSummary: 'Cropped Area - Global',
     story: '/data/trilateral/N6',
     themes: ['agriculture'],
   },
   N7: {
-    indicator: 'Slowdown Proxy Maps',
+    indicatorSummary: 'Slowdown Proxy Maps',
     story: '/data/trilateral/N7',
     themes: ['economy'],
   },
   N8: {
-    indicator: 'Recovery Proxy Maps',
+    indicatorSummary: 'Recovery Proxy Maps',
     story: '/data/trilateral/N8',
     themes: ['economy'],
     disableTimeSelection: true,
   },
   N12: {
-    indicator: 'Sea Ice Concentration (GCOM-W)',
+    indicatorSummary: 'Sea Ice Concentration (GCOM-W)',
     themes: ['cryosphere', 'oceans'],
     baseLayers: [{
       ...baseLayers.cloudless,
@@ -318,22 +301,22 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/N12',
   },
   N11: {
-    indicator: 'GLI Ocean Primary Productivity',
+    indicatorSummary: 'GLI Ocean Primary Productivity',
     themes: ['oceans'],
     story: '/eodash-data/stories/N11',
   },
   N13: {
-    indicator: 'Blue Tarps (PlanetScope)',
+    indicatorSummary: 'Blue Tarps (PlanetScope)',
     story: '/eodash-data/stories/N13',
     themes: ['economy'],
   },
   N14: {
-    indicator: 'Blue Tarps Detections',
+    indicatorSummary: 'Blue Tarps Detections',
     story: '/eodash-data/stories/N14',
     themes: ['economy'],
   },
   GG: {
-    indicator: 'Mobility',
+    indicatorSummary: 'Mobility',
     disableTimeSelection: true,
     story: '/eodash-data/stories/GG-GG',
     themes: ['economy'],
@@ -341,7 +324,7 @@ export const indicatorsDefinition = Object.freeze({
     alternateDataPath: './eodash-data/internal/',
   },
   CV: {
-    indicator: 'Covid-19 cases',
+    indicatorSummary: 'Covid-19 cases',
     disableTimeSelection: true,
     story: '/eodash-data/stories/CV-CV',
     themes: ['covid-19'],
@@ -349,7 +332,7 @@ export const indicatorsDefinition = Object.freeze({
     alternateDataPath: './eodash-data/internal/',
   },
   OW: {
-    indicator: 'Covid-19 vaccinations',
+    indicatorSummary: 'Covid-19 vaccinations',
     disableTimeSelection: true,
     story: '/eodash-data/stories/OW-OW',
     themes: ['covid-19'],
@@ -357,7 +340,7 @@ export const indicatorsDefinition = Object.freeze({
     alternateDataPath: './eodash-data/internal/',
   },
   FB: {
-    indicator: 'Facebook population density',
+    indicatorSummary: 'Facebook population density',
     themes: ['economy'],
     disableTimeSelection: true,
     baseLayers: [{
@@ -366,64 +349,64 @@ export const indicatorsDefinition = Object.freeze({
     }, baseLayers.terrainLight],
   },
   SIF: {
-    indicator: 'Solar Induced Chlorophyll Fluorescence',
+    indicatorSummary: 'Solar Induced Chlorophyll Fluorescence',
     story: '/eodash-data/stories/SIF',
     themes: ['agriculture', 'biomass-and-landcover'],
-    maxMapZoom: 8,
+    maxZoom: 8,
   },
   NPP: {
-    indicator: 'Ocean Primary Productivity (BICEP)',
+    indicatorSummary: 'Ocean Primary Productivity (BICEP)',
     story: '/eodash-data/stories/NPP',
     themes: ['oceans'],
   },
   NPPN: {
-    indicator: 'Ocean Primary Productivity (NASA)',
+    indicatorSummary: 'Ocean Primary Productivity (NASA)',
     story: '/eodash-data/stories/NPPN',
     themes: ['oceans'],
   },
   SIE: {
-    indicator: 'SIE',
+    indicatorSummary: 'SIE',
     story: '/eodash-data/stories/SIE',
     themes: ['cryosphere', 'oceans'],
   },
   SIC: {
-    indicator: 'SIC',
+    indicatorSummary: 'SIC',
     story: '/eodash-data/stories/SIC',
     themes: ['cryosphere', 'oceans'],
   },
   SITI: {
-    indicator: 'SITI',
+    indicatorSummary: 'SITI',
     story: '/eodash-data/stories/SITI',
     themes: ['cryosphere', 'oceans'],
   },
   NCEO: {
-    indicator: 'NCEO',
+    indicatorSummary: 'NCEO',
     story: '/eodash-data/stories/NCEO',
     themes: ['agriculture', 'biomass-and-landcover'],
     disableTimeSelection: true,
   },
   SMC: {
-    indicator: 'SMC',
+    indicatorSummary: 'SMC',
     story: '/eodash-data/stories/SMC',
     themes: ['agriculture'],
   },
   PRC: {
-    indicator: 'PRC',
+    indicatorSummary: 'PRC',
     story: '/eodash-data/stories/PRC',
     themes: ['agriculture'],
   },
   FNF: {
-    indicator: 'FNF',
+    indicatorSummary: 'FNF',
     story: '/eodash-data/stories/FNF',
     themes: ['biomass-and-landcover'],
   },
   PRCG: {
-    indicator: 'PRCG',
+    indicatorSummary: 'PRCG',
     story: '/eodash-data/stories/PRCG',
     themes: ['agriculture'],
   },
   SMCG: {
-    indicator: 'SMCG',
+    indicatorSummary: 'SMCG',
     story: '/eodash-data/stories/SMCG',
     themes: ['agriculture'],
   },
@@ -468,7 +451,7 @@ export const indicatorsDefinition = Object.freeze({
     disableTimeSelection: true,
   },
   d: { // dummy for locations without Indicator code
-    indicator: 'Upcoming data',
+    indicatorSummary: 'Upcoming data',
     themes: ['atmosphere', 'agriculture', 'biomass-and-landcover', 'economy', 'oceans', 'cryosphere', 'covid-19'],
   },
 });
@@ -538,29 +521,28 @@ export const layerNameMapping = Object.freeze({
   NO2_Cairo: {
     baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
     layers: 'NO2-TROPOMI-Cairo-Daily',
-    maxMapZoom: 14,
+    maxZoom: 14,
     legendUrl: 'https://legends.restecmap.com/images/NO2-TROPOMI-Cairo-Daily.png',
     presetView: cairoPresetView,
   },
   GOSAT_XCO2_JAXA: {
     baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
     layers: 'XCO2-GOSAT-Cairo',
-    maxMapZoom: 14,
+    maxZoom: 14,
     legendUrl: 'https://legends.restecmap.com/images/XCO2-GOSAT-Cairo.png',
     presetView: cairoPresetView,
   },
   SIF_TROPOMI_Cairo: {
     baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
     layers: 'SIF-TROPOMI-Cairo-Monthly',
-    maxMapZoom: 14,
+    maxZoom: 14,
     legendUrl: 'https://legends.restecmap.com/images/SIF-TROPOMI-Cairo-Monthly.png',
     presetView: cairoPresetView,
   },
   GOSAT_XCO2: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/GOSAT_XCO2_{time}_{site}_BG_circle_cog.tif&resampling_method=nearest',
     protocol: 'xyz',
-    maxNativeZoom: 12,
-    maxMapZoom: 12,
+    maxZoom: 12,
     tileSize: 256,
     dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMM'),
     siteMapping: (eoID) => {
@@ -690,10 +672,7 @@ export const indicatorClassesIcons = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  minMapZoom: 0,
-  maxMapZoom: 18,
-  bounds: latLngBounds(latLng([-70, -170]), latLng([70, 170])),
-  crs: CRS.EPSG3857,
+  bounds: [-170, -70, 170, 70],
 });
 
 export const baseLayersLeftMap = [{
@@ -727,7 +706,7 @@ export const defaultLayersDisplay = {
   transparent: true,
   tileSize: 512,
   opacity: 1,
-  attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">se of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+  attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank"> Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   minZoom: 7,
   visible: true,
 };
@@ -936,7 +915,7 @@ export const globalIndicators = [
           // customAreaIndicator: true,
           protocol: 'xyz',
           minZoom: 1,
-          maxNativeZoom: 6,
+          maxZoom: 6,
           tileSize: 256,
           opacity: 1,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0%2C108e14&bidx=1&colormap_name=reds',
@@ -977,7 +956,7 @@ export const globalIndicators = [
         yAxis: 'NO2-difference [10^15 molecules/cm²]',
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 6,
+          maxZoom: 6,
           minZoom: 1,
           opacity: 0.95,
           tileSize: 256,
@@ -1172,7 +1151,6 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/PP_Ocean.PNG',
           minZoom: 2,
           maxZoom: 13,
-          minMapZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
           customAreaIndicator: true,
@@ -1216,9 +1194,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=-1e14,37e14&bidx=1&colormap_name=reds',
           name: 'NO2 OMI Annual',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1253,9 +1229,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?url={time}&resampling_method=bilinear&rescale=0.0,4.0&bidx=1&colormap_name=plasma',
           name: 'Sea Ice Thickness (ICESat-2)',
           dateFormatFunction: (date) => `${date[1]}`,
@@ -1291,9 +1265,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,1500.0&bidx=1&colormap_name=jet',
           name: 'NPP (NASA)',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1329,9 +1301,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -1373,9 +1343,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
           name: 'GRDI',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1409,9 +1377,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
           name: 'GRDI',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1445,9 +1411,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
           name: 'GRDI',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1481,9 +1445,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
           name: 'GRDI',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1517,9 +1479,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
           name: 'GRDI',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1553,9 +1513,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
           name: 'GRDI',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1589,9 +1547,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
           name: 'GRDI',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1625,9 +1581,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
           name: 'GRDI',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1663,9 +1617,7 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          minMapZoom: 1,
           maxZoom: 10,
-          maxMapZoom: 10,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,1.0&bidx=1&colormap_name=viridis',
           name: 'SO2 OMI/Aura',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1704,7 +1656,6 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/SeaIceThicknessCCI.PNG',
           minZoom: 2,
           maxZoom: 13,
-          minMapZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
           /*
@@ -1747,7 +1698,6 @@ export const globalIndicators = [
           legendUrl: 'eodash-data/data/SeaIceThicknessCCI.PNG',
           minZoom: 2,
           maxZoom: 13,
-          minMapZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
           /*
@@ -1830,7 +1780,7 @@ export const globalIndicators = [
           layers: 'AWS_POPULATION_DENSITY',
           legendUrl: 'data/trilateral/NASAPopulation_legend.png',
           minZoom: 1,
-          maxMapZoom: 7,
+          maxZoom: 7,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
           disableCompare: true,
         },
@@ -1863,10 +1813,11 @@ export const globalIndicators = [
           layers: 'WSF_Evolution',
           legendUrl: 'eodash-data/data/wsf_legend.png',
           minZoom: 1,
-          maxMapZoom: 14,
+          maxZoom: 14,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
           labelFormatFunction: (date) => date,
           specialEnvTime: true,
+          attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Contains modified Landsat-5/-7 data [1985-2015] }',
         },
       },
     },
@@ -2103,7 +2054,6 @@ export const globalIndicators = [
   },
   {
     id: 19999,
-    latlng: latLng([45.197522, 13.029785]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2141,7 +2091,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([45.197522, 13.0297851]),
     id: 19998,
     properties: {
       indicatorObject: {
@@ -2179,7 +2128,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-nas-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Index',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
@@ -2190,7 +2138,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([45.197522, 13.0297851]),
     id: 19994,
     properties: {
       indicatorObject: {
@@ -2229,7 +2176,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.7775, -122.416389]),
     id: 19997,
     properties: {
       indicatorObject: {
@@ -2258,7 +2204,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Regional Maps',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
@@ -2269,7 +2214,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([41.0114, -73.09]),
     id: 19996,
     properties: {
       indicatorObject: {
@@ -2298,7 +2242,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-ny-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Index',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral.png',
@@ -2309,7 +2252,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([35.61, 139.78]),
     id: 19995,
     properties: {
       indicatorObject: {
@@ -2349,7 +2291,6 @@ export const globalIndicators = [
   },
   {
     id: 19993,
-    latlng: latLng([43.4, 4.94]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2387,7 +2328,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.7, 136.9]),
     id: 19989,
     properties: {
       indicatorObject: {
@@ -2426,7 +2366,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.35, 135]),
     id: 19988,
     properties: {
       indicatorObject: {
@@ -2466,7 +2405,6 @@ export const globalIndicators = [
   },
   {
     id: 19992,
-    latlng: latLng([45.197522, 13.0297851]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2505,7 +2443,6 @@ export const globalIndicators = [
   },
   {
     id: 19991,
-    latlng: latLng([43.4, 4.9400001]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2543,7 +2480,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.7775, -122.4163891]),
     id: 19990,
     properties: {
       indicatorObject: {
@@ -2572,7 +2508,7 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
+          maxZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Regional Maps',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
@@ -2583,7 +2519,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([45.197522, 13.0297851]),
     id: 19987,
     properties: {
       indicatorObject: {
@@ -2622,7 +2557,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([35.61, 139.78]),
     id: 19986,
     properties: {
       indicatorObject: {
@@ -2661,7 +2595,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.7, 136.9]),
     id: 19985,
     properties: {
       indicatorObject: {
@@ -2700,7 +2633,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.35, 135]),
     id: 19984,
     properties: {
       indicatorObject: {
@@ -2739,7 +2671,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([45.197522, 13.0297851]),
     id: 19983,
     properties: {
       indicatorObject: {
@@ -2775,7 +2706,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-nas-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Index',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
@@ -2786,7 +2716,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([41.0114, -73.09]),
     id: 19982,
     properties: {
       indicatorObject: {
@@ -2815,7 +2744,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-ny-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Index',
           legendUrl: './data/trilateral/WaterQuality_legend_trilateral_tsm.png',
@@ -2847,7 +2775,7 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 6,
+          maxZoom: 6,
           minZoom: 1,
           opacity: 1.0,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=nearest&bidx=1&colormap=%7B%221%22%3A%20%5B120%2C%20120%2C%20120%2C%20255%5D%2C%222%22%3A%20%5B130%2C%2065%2C%200%2C%20255%5D%2C%223%22%3A%20%5B66%2C%20207%2C%2056%2C%20255%5D%2C%224%22%3A%20%5B245%2C%20239%2C%200%2C%20255%5D%2C%225%22%3A%20%5B241%2C%2089%2C%2032%2C%20255%5D%2C%226%22%3A%20%5B168%2C%200%2C%200%2C%20255%5D%2C%227%22%3A%20%5B0%2C%20143%2C%20201%2C%20255%5D%7D',
@@ -2870,7 +2798,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([6.133333, 1.216667]),
     id: 19799,
     properties: {
       indicatorObject: {
@@ -2899,7 +2826,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           minZoom: 6,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/Togo/togo_cropland_v7-1_cog_v2.tif&resampling_method=bilinear&bidx=1&rescale=0,1&color_map=magma',
           name: 'Togo',
@@ -2911,7 +2837,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([39.9, 116.38]),
     id: 9799,
     properties: {
       indicatorObject: {
@@ -2940,7 +2865,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-be.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -2952,7 +2876,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([38.904722, -77.016389]),
     id: 9798,
     properties: {
       indicatorObject: {
@@ -2981,7 +2904,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-dc.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -2993,7 +2915,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([51.036138, 2.285374]),
     id: 9797,
     properties: {
       indicatorObject: {
@@ -3022,7 +2943,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-du.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -3034,7 +2954,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([51.091559, 3.740081]),
     id: 9796,
     properties: {
       indicatorObject: {
@@ -3063,7 +2982,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-gh.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -3075,7 +2993,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([35.61, 139.78]),
     id: 9795,
     properties: {
       indicatorObject: {
@@ -3104,7 +3021,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-tk.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -3116,7 +3032,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([6.133333, 1.216667]),
     id: 9794,
     properties: {
       indicatorObject: {
@@ -3145,7 +3060,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-togo.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -3157,7 +3071,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.05, -118.25]),
     id: 9793,
     properties: {
       indicatorObject: {
@@ -3186,7 +3099,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-la.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -3198,7 +3110,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([-6.8, 39.283333]),
     id: 9792,
     properties: {
       indicatorObject: {
@@ -3227,7 +3138,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-dar.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -3239,7 +3149,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([41.0114, -73.09]),
     id: 9791,
     properties: {
       indicatorObject: {
@@ -3268,7 +3177,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-ny.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -3280,7 +3188,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.7775, -122.416389]),
     id: 9790,
     properties: {
       indicatorObject: {
@@ -3309,7 +3216,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-sf.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -3321,7 +3227,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([38.715, -121.944]),
     id: 9789,
     properties: {
       indicatorObject: {
@@ -3350,7 +3255,6 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-sacramento.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
           tileSize: 256,
@@ -3362,7 +3266,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([33.94, -118.41]),
     id: 19699,
     properties: {
       indicatorObject: {
@@ -3393,7 +3296,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.057, -117.6]),
     id: 19698,
     properties: {
       indicatorObject: {
@@ -3424,7 +3326,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.622, -122.378]),
     id: 19697,
     properties: {
       indicatorObject: {
@@ -3455,7 +3356,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.363, -121.93]),
     id: 19696,
     properties: {
       indicatorObject: {
@@ -3486,7 +3386,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.722, -122.226]),
     id: 19695,
     properties: {
       indicatorObject: {
@@ -3517,7 +3416,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.6585, -122.121]),
     id: 19694,
     properties: {
       indicatorObject: {
@@ -3548,7 +3446,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([38.216, -122.276]),
     id: 19693,
     properties: {
       indicatorObject: {
@@ -3579,7 +3476,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([38.144, -122.557]),
     id: 19692,
     properties: {
       indicatorObject: {
@@ -3610,7 +3506,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.99, -122.057]),
     id: 19691,
     properties: {
       indicatorObject: {
@@ -3641,7 +3536,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([40.642, -73.788]),
     id: 19690,
     properties: {
       indicatorObject: {
@@ -3672,7 +3566,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([40.689, -74.172]),
     id: 19689,
     properties: {
       indicatorObject: {
@@ -3703,7 +3596,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([40.072, 116.593]),
     id: 19688,
     properties: {
       indicatorObject: {
@@ -3734,7 +3626,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([39.495, 116.419]),
     id: 19687,
     properties: {
       indicatorObject: {
@@ -3765,7 +3656,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([35.774, 140.385]),
     id: 19685,
     properties: {
       indicatorObject: {
@@ -3796,7 +3686,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.05, -118.251]),
     id: 19599,
     properties: {
       indicatorObject: {
@@ -3827,7 +3716,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([40.6, -74.05]),
     id: 19598,
     properties: {
       indicatorObject: {
@@ -3858,7 +3746,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.7775, -122.416389]),
     id: 19597,
     properties: {
       indicatorObject: {
@@ -3890,7 +3777,6 @@ export const globalIndicators = [
   },
   {
     id: 19681,
-    latlng: latLng([40.985, 1.769]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -3929,7 +3815,6 @@ export const globalIndicators = [
   },
   {
     id: 19680,
-    latlng: latLng([40.985, 1.769]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -3967,7 +3852,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([30.05, 32.56]),
     id: 19679,
     properties: {
       indicatorObject: {
@@ -4034,7 +3918,6 @@ export const globalIndicators = [
 
 const createSlowDownIndicator = (id, aoiID, city, country, aoi, geometry, cog, eoSensor, time) => (
   {
-    latlng: aoi,
     id,
     properties: {
       indicatorObject: {
@@ -4063,7 +3946,6 @@ const createSlowDownIndicator = (id, aoiID, city, country, aoi, geometry, cog, e
         inputData: [''],
         display: {
           protocol: 'xyz',
-          maxNativeZoom: 18,
           url: `https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2F${cog}.tif&resampling_method=bilinear&bidx=1%2C2%2C3`,
           name: 'Movement slowdown',
           tileSize: 256,
@@ -4255,7 +4137,6 @@ const createSTACCollectionIndicator = (collection, key, value, index, url,
     type: 'Polygon',
   };
   const indicatorObject = {
-    latlng: aoi,
     id: index,
     properties: {
       indicatorObject: {
@@ -4284,9 +4165,7 @@ const createSTACCollectionIndicator = (collection, key, value, index, url,
         display: {
           protocol: 'xyz',
           tileSize: 256,
-          minMapZoom: 5,
           minZoom: 5,
-          maxZoom: 20,
           url,
           name: description,
           dateFormatFunction: (date) => `url=${date[1]}`,

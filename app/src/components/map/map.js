@@ -14,7 +14,7 @@ class VueMap {
         zoom: 0,
         center: [0, 0],
         padding: [20, 20, 20, 20],
-        maxZoom: 15,
+        maxZoom: 18,
         extent: options.constrainExtent,
         constrainOnlyCenter: true,
         enableRotation: false,

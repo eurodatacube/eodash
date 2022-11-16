@@ -1,6 +1,6 @@
 /* eslint no-shadow: ["error", { "allow": ["state", "getters"] }] */
 import { Wkt } from 'wicket';
-import { latLng } from 'leaflet';
+import latLng from '@/latLng';
 import countriesJson from '@/assets/countries.json';
 import getLocationCode from '@/mixins/getLocationCode';
 import nameMapping from '@/config/name_mapping.json';
@@ -379,7 +379,6 @@ const actions = {
             featureObjs[keys[kk]].id = globalIdCounter; // to connect indicator & feature
             featureObjs[keys[kk]].endPointIdx = endPointIdx;
             features.push({
-              latlng: latLng([coords[0], coords[1]]),
               id: globalIdCounter,
               properties: {
                 indicatorObject: featureObjs[keys[kk]],
@@ -475,7 +474,6 @@ const actions = {
             featureObjs[keys[kk]].id = globalIdCounter; // to connect indicator & feature
             featureObjs[keys[kk]].endPointIdx = endPointIdx;
             features.push({
-              latlng: latLng([coords[1], coords[0]]),
               id: globalIdCounter,
               properties: {
                 indicatorObject: featureObjs[keys[kk]],
@@ -512,8 +510,8 @@ const actions = {
           for (let kk = 0; kk < keys.length; kk += 1) {
             const coordinates = keys[kk].split('_')[0].split(',').map(Number);
             featureObjs[keys[kk]].id = globalIdCounter; // to connect indicator & feature
+            featureObjs[keys[kk]].aoi = latLng([coordinates[1], coordinates[0]]);
             features.push({
-              latlng: latLng(coordinates),
               id: globalIdCounter,
               properties: {
                 indicatorObject: featureObjs[keys[kk]],
