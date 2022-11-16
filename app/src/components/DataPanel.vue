@@ -63,7 +63,6 @@
                   <v-col
                     cols="12"
                     sm="7"
-                    v-if="!isFullScreen"
                     ref="customButtonRow"
                     style="margin-top: -12px;"
                   >
@@ -75,7 +74,7 @@
                         :href="dataCustomHrefCSV"
                         :download="customAOIDownloadFilename"
                         target="_blank"
-                        v-if="customAreaIndicator && !isFullScreen"
+                        v-if="customAreaIndicator"
                       >
                         <v-icon left>mdi-download</v-icon>
                         download csv
@@ -153,7 +152,6 @@
               <v-col
                 cols="12"
                 sm="7"
-                v-if="!isFullScreen"
                 ref="customButtonRow"
                 style="margin-top: -30px;"
               >
@@ -168,7 +166,6 @@
                     target="_blank"
                     v-if="
                       customAreaIndicator &&
-                      !isFullScreen &&
                       !this.baseConfig.indicatorsDefinition[
                         indicatorObject.indicator
                       ].countrySelection
@@ -236,7 +233,6 @@ Draw an area on the map using the shape buttons to generate a custom chart!
               sm="5"
               class="d-flex align-center"
               :class="$vuetify.breakpoint.xsOnly ? 'justify-center' : 'justify-space-between'"
-              v-if="!isFullScreen"
             >
               <small v-if="indicatorObject && indicatorObject.updateFrequency">
                 <span
@@ -252,7 +248,6 @@ Draw an area on the map using the shape buttons to generate a custom chart!
             <v-col
               cols="12"
               sm="7"
-              v-if="!isFullScreen"
               :style="customAreaIndicator && !expanded
                 ? 'margin-bottom: -40px; margin-top: 20px;' : ''"
               ref="buttonRow"
@@ -267,7 +262,6 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                   target="_blank"
                   v-if="indicatorObject
                     && !showMap
-                    && !isFullScreen
                     && !this.baseConfig.indicatorsDefinition[
                       indicatorObject.indicator
                     ].disableCSV"
@@ -289,7 +283,6 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                   target="_blank"
                   v-if="
                     customAreaIndicator &&
-                    !isFullScreen &&
                     !showMap &&
                     !this.baseConfig.indicatorsDefinition[
                       indicatorObject.indicator
@@ -339,7 +332,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
               cols="12"
               ref="customAreaIndicator"
               class="pa-0"
-              v-if="!isFullScreen && customAreaIndicator && expanded"
+              v-if="customAreaIndicator && expanded"
             >
               <v-card
                 v-if="customAreaIndicator"
@@ -382,7 +375,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                 <v-col
                   cols="12"
                   sm="7"
-                  v-if="!isFullScreen && !showMap"
+                  v-if="!showMap"
                   ref="customButtonRow"
                 >
                   <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
@@ -396,7 +389,6 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                       target="_blank"
                       v-if="
                         customAreaIndicator &&
-                        !isFullScreen &&
                         !this.baseConfig.indicatorsDefinition[
                           indicatorObject.indicator
                         ].countrySelection
@@ -413,7 +405,6 @@ Draw an area on the map using the shape buttons to generate a custom chart!
               cols="12"
               class="pb-0"
               :style="`margin-top: ${customAreaIndicator && expanded ? '30px' : '0px'}`"
-              v-if="!isFullScreen"
             >
               <div
                 v-html="story"
@@ -473,7 +464,6 @@ Select a point of interest on the map to see the data for a specific location!
               cols="12"
               class="pb-0"
               :style="`margin-top: ${customAreaIndicator && expanded ? '30px' : '0px'}`"
-              v-if="!isFullScreen"
             >
               <div
                 v-html="story"
@@ -539,7 +529,6 @@ export default {
       'appConfig',
       'baseConfig',
     ]),
-    ...mapState(['isFullScreen']),
     ...mapState('features', [
       'selectedArea',
     ]),

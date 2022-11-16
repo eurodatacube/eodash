@@ -9,7 +9,6 @@
     :style="`z-index: 8; ${appConfig.id === 'esa'
       ? `box-shadow: 0px 4px var(--v-secondary-base) !important`
       : ''}`"
-    v-show="!isFullScreen"
   >
     <v-app-bar-nav-icon
       @click.stop="switchMenu"
@@ -28,7 +27,6 @@
       class="drawerLeft"
       hide-overlay
       width="70vw"
-      v-show="!isFullScreen"
       v-if="$vuetify.breakpoint.smAndDown"
     >
       <template>
@@ -82,7 +80,6 @@
           Welcome
         </v-btn>
         <v-btn
-          v-if="$route.name === 'explore'"
           block
           text
           color="primary"
@@ -234,7 +231,6 @@
         Welcome
       </v-btn>
       <v-btn
-        v-if="$route.name === 'explore'"
         text
         dark
         small
@@ -307,6 +303,62 @@
       />
     </v-dialog>
 
+    <v-dialog
+      v-model="showInfoDialog"
+      class="info-dialog"
+      width="90vw"
+      max-width="1000"
+    >
+      <template>
+        <div
+          class="d-flex justify-between px-7 pt-4"
+          width="100%"
+          style="justify-content: space-between; align-items: center;"
+          :style="{background: $vuetify.theme.currentTheme.background}"
+        >
+          <span class="font-medium text-h6 text-capitalize mb-2 mb-sm-0">
+            {{ showText === 'welcome'
+              ? `Welcome to ${appConfig.branding.shortName || appConfig.branding.appName}!`
+              : showText }}
+          </span>
+          <v-btn
+            v-if="$vuetify.breakpoint.smAndUp && $route.name === 'explore'"
+            color="secondary"
+            @click="() => showInfoDialog = false"
+          >
+            <span>Explore the dashboard!</span>
+            <v-icon right>mdi-arrow-right</v-icon>
+          </v-btn>
+          <v-btn
+            v-else
+            color="primary"
+            icon
+            @click="() => showInfoDialog = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </div>
+
+        <Welcome v-if="showText === 'welcome'" class="pt-4" />
+        <About v-else-if="showText === 'about'" />
+
+        <div
+          v-if="$vuetify.breakpoint.xsOnly"
+          class="px-7 pb-4"
+          :style="{background: $vuetify.theme.currentTheme.background}"
+        >
+          <v-btn
+            block
+            color="secondary"
+            @click="() => showInfoDialog = false"
+          >
+            <span>Explore the dashboard!</span>
+            <v-icon right>mdi-arrow-right</v-icon>
+          </v-btn>
+        </div>
+      </template>
+    </v-dialog>
+
     <img height="32" :src="appConfig && appConfig.branding.headerLogo" />
   </v-app-bar>
 </template>
@@ -320,6 +372,8 @@ import {
 
 import ThemeNavigation from './ThemesLandingPage/ThemeNavigation.vue';
 import Modal from './Modal.vue';
+import About from '@/views/About.vue';
+import Welcome from '@/views/Welcome.vue';
 
 /**
  * A global navbar component that adapts to different environments.
@@ -327,23 +381,6 @@ import Modal from './Modal.vue';
  */
 export default {
   props: {
-    /**
-     * Determines whether the header should be hidden.
-     * @values true, false
-     */
-    isFullScreen: {
-      type: Boolean,
-      default: false,
-    },
-
-    /**
-     * A callback function when the header needs to do something beyond its scope.
-     */
-    displayShowText: {
-      type: Function,
-      default: () => {},
-    },
-
     /**
      * Another callback allowing us to switch the Dashboard drawer from this component.
      */
@@ -355,12 +392,16 @@ export default {
   components: {
     ThemeNavigation,
     Modal,
+    About,
+    Welcome,
   },
   data() {
     return {
       drawerLeft: false,
       hasNewsletterSubscription: false,
       showNewsletterModal: false,
+      showInfoDialog: null,
+      showText: 'welcome',
     };
   },
   methods: {
@@ -370,6 +411,11 @@ export default {
 
     switchMenu() {
       this.drawerLeft = !this.drawerLeft;
+    },
+
+    displayShowText(text) {
+      this.showInfoDialog = true;
+      this.showText = text;
     },
   },
   computed: {
