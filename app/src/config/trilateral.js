@@ -1087,7 +1087,7 @@ export const globalIndicators = [
         description: 'Greenhouse Gases',
         indicator: 'N2',
         lastIndicatorValue: null,
-        indicatorName: 'Greenhouse Gases - CO2: Difference CO2',
+        indicatorName: 'Carbon Dioxide (CO2) Difference',
         calcMethod: 'Difference CO2',
         subAoi: {
           type: 'FeatureCollection',

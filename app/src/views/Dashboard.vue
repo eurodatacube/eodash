@@ -6,7 +6,6 @@
     <global-header
       ref="globalHeader"
     />
-
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.mdAndUp"
       v-model="drawerRight"
@@ -54,8 +53,7 @@
           </div>
         </v-toolbar-title>
         <v-tooltip
-          v-if="$store.state.indicators.selectedIndicator
-            && !showMap"
+          v-if="$store.state.indicators.selectedIndicator"
           left
         >
           <template v-slot:activator="{ on }">
