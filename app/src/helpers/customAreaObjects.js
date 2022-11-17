@@ -320,6 +320,35 @@ const fetchCustomAreaObjects = async (
     if (typeof mergedConfig[lookup].callbackFunction === 'function') {
       customObjects = mergedConfig[lookup].callbackFunction(mergedData, indicator);
     }
+  } else if (mergedConfig[lookup].url.includes('/cog/statistics')) {
+    // Here we handle parallel requests to the new statistical api from nasa
+    const requests = [];
+    indicator.time.forEach((entry) => {
+      const requestUrl = `${url}?url=${entry[1]}`;
+      requestOpts.body = JSON.stringify(requestBody.geojson);
+      [requestOpts.time] = entry;
+      requests.push(
+        fetch(requestUrl, requestOpts).then((res) => res.json()).then((json)=>{
+          // eslint-disable-next-line no-param-reassign
+          [json.time] = entry;
+          return json;
+        }),
+      );
+    });
+    const allData = await Promise.allSettled(requests);
+    const data = allData.map((entry) => {
+      let d = [];
+      // We take here fulfilled datasets, rejected status is probably from timeout
+      if (entry.status === 'fulfilled' && 'properties' in entry.value
+          && 'statistics' in entry.value.properties) {
+        d = entry.value.properties.statistics['1'];
+        d.time = entry.value.time;
+      }
+      return d;
+    }).flat();
+    if (typeof mergedConfig[lookup].callbackFunction === 'function') {
+      customObjects = mergedConfig[lookup].callbackFunction(data, indicator);
+    }
   } else {
     customObjects = await fetch(url, requestOpts).then((response) => {
       if (!response.ok) {
@@ -413,6 +442,60 @@ export const nasaTimelapseConfig = (
           newData.colorCode.push('');
           newData.measurement.push(rescale(row.mean));
           newData.referenceValue.push(rescale(row.median));
+        }
+      });
+      if (indicatorCode) {
+        // if we for some reason need to change indicator code of custom chart data
+        newData.indicator = indicatorCode;
+      }
+      ind = {
+        ...indicator,
+        ...newData,
+      };
+    } else if (Object.keys(responseJson).indexOf('detail') !== -1) {
+      console.log(responseJson.detail[0].msg);
+    }
+    return ind;
+  },
+  areaFormatFunction: (area) => (
+    {
+      geojson: JSON.stringify({
+        type: 'Feature',
+        properties: {},
+        geometry: area,
+      }),
+    }
+  ),
+});
+
+export const nasaStatisticsConfig = (
+  rescale = (value) => value / 1e14,
+  indicatorCode = 'NASACustomLineChart',
+) => ({
+  url: 'https://staging-raster.delta-backend.com/cog/statistics',
+  requestMethod: 'POST',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+  },
+  requestBody: {
+    geojson: '{geojson}',
+  },
+  callbackFunction: (responseJson, indicator) => {
+    let ind = null;
+    if (Array.isArray(responseJson)) {
+      const data = responseJson;
+      const newData = {
+        time: [],
+        measurement: [],
+        colorCode: [],
+        referenceValue: [],
+      };
+      data.forEach((row) => {
+        if (!('error' in row)) {
+          newData.time.push(DateTime.fromISO(row.time));
+          newData.colorCode.push('');
+          newData.measurement.push(rescale(row.mean));
+          newData.referenceValue.push(`[${rescale(row.median)}, ${rescale(row.std)}, ${rescale(row.max)}, ${rescale(row.min)}]`);
         }
       });
       if (indicatorCode) {
