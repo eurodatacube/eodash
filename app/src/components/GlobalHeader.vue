@@ -370,10 +370,10 @@ import {
   mapActions,
 } from 'vuex';
 
-import ThemeNavigation from './ThemesLandingPage/ThemeNavigation.vue';
-import Modal from './Modal.vue';
 import About from '@/views/About.vue';
 import Welcome from '@/views/Welcome.vue';
+import ThemeNavigation from './ThemesLandingPage/ThemeNavigation.vue';
+import Modal from './Modal.vue';
 
 /**
  * A global navbar component that adapts to different environments.

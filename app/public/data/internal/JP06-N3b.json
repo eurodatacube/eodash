@@ -1017,7 +1017,7 @@
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
         "input_data": "EORC product",
-        "measurement_value": "7",
+        "measurement_value": "7.0",
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-01-23T00:00:00"
@@ -1703,5 +1703,60 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2022-08-13T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "/",
+        "input_data": "EORC product",
+        "measurement_value": "-24.92",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-09-03T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "/",
+        "input_data": "EORC product",
+        "measurement_value": "-34.36",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-09-10T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "/",
+        "input_data": "EORC product",
+        "measurement_value": "-55.53",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-09-17T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "/",
+        "input_data": "EORC product",
+        "measurement_value": "36.12",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-09-24T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "/",
+        "input_data": "EORC product",
+        "measurement_value": "111.13",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-10-01T00:00:00"
     }
 ]

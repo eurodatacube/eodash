@@ -12,7 +12,6 @@ import {
   statisticalApiBody,
   evalScriptsDefinitions,
   parseStatAPIResponse,
-  nasaTimelapseConfig,
   nasaStatisticsConfig,
 } from '@/helpers/customAreaObjects';
 
@@ -1019,7 +1018,7 @@ export const globalIndicators = [
           ),
         },
         compareDisplay: {
-          // TODO: Special compare display currently no longer supported, would also need to 
+          // TODO: Special compare display currently no longer supported, would also need to
           // be updated to support new nasa endpoint
           protocol: 'xyz',
           tileSize: 256,
