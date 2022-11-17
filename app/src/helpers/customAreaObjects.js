@@ -234,6 +234,7 @@ const fetchCustomAreaObjects = async (
   // another type of switch to select which auth type we want to use
   if (indicator.display && indicator.display.areaIndicator
       && indicator.display.areaIndicator.url.includes('api/v1/statistics')) {
+    // Only needed for SH statistics requests
     const clientId = shConfig.statApiClientId;
     const clientSecret = shConfig.statApiClientSecret;
     const instance = axios.create({
@@ -264,6 +265,7 @@ const fetchCustomAreaObjects = async (
   // so splitting up the behavior here for that use case
   let customObjects = null;
   if (requestBody && 'aggregation' in requestBody && 'timeRange' in requestBody.aggregation) {
+    // Hanlder for SH Statistics requests
     // Create data range chunks for requests
     // In order to get better performance we take the time information of the
     // indicator to fetch for the actual time interval available
@@ -291,35 +293,52 @@ const fetchCustomAreaObjects = async (
     requestOpts.body = JSON.stringify(requestBodyCopy);
     requests.push(fetch(url, JSON.parse(JSON.stringify(requestOpts))).then((res) => res.json()));
 
-    const allData = await Promise.allSettled(requests);
-    // Merge them together, for parsing
-    // TODO: Add check to see if partial result was returned as status
-    const status = 'OK';
-    const data = allData.map((entry) => {
-      let d = [];
-      // We take here fulfilled datasets, rejected status is probably from timeout
-      if (entry.status === 'fulfilled') {
-        d = entry.value.data;
-      }
-      return d;
-    }).flat();
-    // Check to see if there were rejected requests due to timeout
-    const timeoutDetected = allData.find((entry) => entry.status === 'rejected');
-    if (timeoutDetected) {
-      if (store) {
-        store.commit('sendAlert', {
-          message: 'There were some issues retrieving the data, possibly only partial results are shown. Please try the request again.',
-          type: 'warning',
-        });
-      }
-    }
-    const mergedData = {
-      status,
-      data,
-    };
-    if (typeof mergedConfig[lookup].callbackFunction === 'function') {
-      customObjects = mergedConfig[lookup].callbackFunction(mergedData, indicator);
-    }
+    customObjects = await Promise.allSettled(requests)
+      .then((promiseCollection) => {
+        // Merge them together, for parsing
+        // TODO: Add check to see if partial result was returned as status
+        const status = 'OK';
+        const data = promiseCollection.map((entry) => {
+          let d = [];
+          // We take here fulfilled datasets, rejected status is probably from timeout
+          if (entry.status === 'fulfilled') {
+            d = entry.value.data;
+          }
+          return d;
+        }).flat();
+        // Check to see if there were rejected requests due to timeout
+        const timeoutDetected = promiseCollection.find((entry) => entry.status === 'rejected');
+        if (timeoutDetected) {
+          if (store) {
+            store.commit('sendAlert', {
+              message: 'There were some issues retrieving the data, possibly only partial results are shown. Please try the request again.',
+              type: 'warning',
+            });
+          }
+        }
+        const mergedData = {
+          status,
+          data,
+        };
+        if (typeof mergedConfig[lookup].callbackFunction === 'function') {
+          return mergedConfig[lookup].callbackFunction(mergedData, indicator);
+        }
+        return promiseCollection;
+      })
+      .then((newIndicator) => {
+        let custom = {};
+        if (newIndicator) {
+          if (drawnArea) {
+            custom.poi = drawnArea.coordinates.flat(Infinity).join('-');
+            custom.includesIndicator = true;
+          }
+          custom = {
+            ...newIndicator,
+            ...custom,
+          };
+        }
+        return custom;
+      });
   } else if (mergedConfig[lookup].url.includes('/cog/statistics')) {
     // Here we handle parallel requests to the new statistical api from nasa
     const requests = [];
@@ -341,20 +360,37 @@ const fetchCustomAreaObjects = async (
         }),
       );
     });
-    const allData = await Promise.allSettled(requests);
-    const data = allData.map((entry) => {
-      let d = [];
-      // We take here fulfilled datasets, rejected status is probably from timeout
-      if (entry.status === 'fulfilled' && 'properties' in entry.value
-          && 'statistics' in entry.value.properties) {
-        d = entry.value.properties.statistics['1'];
-        d.time = entry.value.time;
-      }
-      return d;
-    }).flat();
-    if (typeof mergedConfig[lookup].callbackFunction === 'function') {
-      customObjects = mergedConfig[lookup].callbackFunction(data, indicator);
-    }
+    customObjects = await Promise.allSettled(requests)
+      .then((promiseCollection) => {
+        const data = promiseCollection.map((entry) => {
+          let d = [];
+          // We take here fulfilled datasets, rejected status is probably from timeout
+          if (entry.status === 'fulfilled' && 'properties' in entry.value
+              && 'statistics' in entry.value.properties) {
+            d = entry.value.properties.statistics['1'];
+            d.time = entry.value.time;
+          }
+          return d;
+        }).flat();
+        if (typeof mergedConfig[lookup].callbackFunction === 'function') {
+          return mergedConfig[lookup].callbackFunction(data, indicator);
+        }
+        return promiseCollection;
+      })
+      .then((newIndicator) => {
+        let custom = {};
+        if (newIndicator) {
+          if (drawnArea) {
+            custom.poi = drawnArea.coordinates.flat(Infinity).join('-');
+            custom.includesIndicator = true;
+          }
+          custom = {
+            ...newIndicator,
+            ...custom,
+          };
+        }
+        return custom;
+      });
   } else {
     customObjects = await fetch(url, requestOpts).then((response) => {
       if (!response.ok) {
