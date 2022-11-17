@@ -156,13 +156,15 @@
                 style="margin-top: 0px;"
                 class="pa-2 chart"
               />
-              <v-row v-if="!showMap || !customAreaIndicator.isEmpty" class="mt-0">
+              <v-row v-if="!showMap || !customAreaIndicator.isEmpty" class="mt-0"
+                style="margin-top: 6px;"
+              >
                 <v-col cols="12" sm="5" ></v-col>
                 <v-col
                   cols="12"
                   sm="7"
                   ref="customButtonRow"
-                  style="margin-top: -30px;"
+                  style="margin-top: 10px;"
                 >
                   <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
                     <v-btn
@@ -235,8 +237,6 @@
             <v-col
               cols="12"
               sm="7"
-              :style="customAreaIndicator && !expanded
-                ? 'margin-bottom: -40px; margin-top: 20px;' : ''"
               ref="buttonRow"
             >
               <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
@@ -265,6 +265,7 @@
                   color="primary"
                   text
                   small
+                  style="margin-top:50px;"
                   :href="dataCustomHrefCSV"
                   :download="customAOIDownloadFilename"
                   target="_blank"
