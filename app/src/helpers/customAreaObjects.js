@@ -334,7 +334,7 @@ const fetchCustomAreaObjects = async (
       requestOpts.body = JSON.stringify(requestBody.geojson);
       [requestOpts.time] = entry;
       requests.push(
-        fetch(requestUrl, requestOpts).then((res) => res.json()).then((json)=>{
+        fetch(requestUrl, requestOpts).then((res) => res.json()).then((json) => {
           // eslint-disable-next-line no-param-reassign
           [json.time] = entry;
           return json;

@@ -6,7 +6,7 @@
     <global-header
       ref="globalHeader"
     />
-    
+
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.mdAndUp"
       v-model="drawerRight"
@@ -170,8 +170,6 @@
         </v-row>
       </v-container>
     </div>
-
-    
 
     <v-content
       :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
