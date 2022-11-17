@@ -115,22 +115,17 @@
             </v-tab-item>
           </v-tabs-items>
           <v-card
-            v-else-if="customAreaIndicator && !expanded"
+            v-else-if="!showMap || (showMap && mergedConfigsData[0].customAreaIndicator)"
             class="fill-height"
-            :style="`height: ${$vuetify.breakpoint.mdAndUp ? 30 : 43}vh;`"
-            style="border: none; !important"
-            ref="indicatorData"
-            outlined
+            :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
+                              ? (bannerHeight ? 65 : 70) : 30) : 45}vh;`"
+            ref="mapPanel"
           >
-          <v-card-title
-            style="padding-top: 10px; padding-bottom: 0px;">
-              {{ customAreaIndicator.title }}
-          </v-card-title>
-          <v-card-title
-            style="padding-top: 5px"
-            v-if="customAreaIndicator.isEmpty">
-              No data found for selection
-          </v-card-title>
+            <v-card-title
+              v-if="customAreaIndicator"
+              style="padding-top: 10px; padding-bottom: 0px;">
+                {{ customAreaIndicator.title }}
+            </v-card-title>
             <v-btn
               v-if="customAreaIndicator && showRegenerateButton"
               ref="regenerateButton"
@@ -142,49 +137,6 @@
             >
               Regenerate
             </v-btn>
-            <indicator-data
-              v-if="!customAreaIndicator.isEmpty"
-              style="margin-top: 0px;"
-              class="pa-2 chart"
-            />
-            <v-row v-if="!showMap || !customAreaIndicator.isEmpty" class="mt-0">
-              <v-col cols="12" sm="5" ></v-col>
-              <v-col
-                cols="12"
-                sm="7"
-                ref="customButtonRow"
-                style="margin-top: -30px;"
-              >
-                <!--non tabbed custom area indicator not expanded-->
-                <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
-                  <v-btn
-                    color="primary"
-                    text
-                    small
-                    :href="dataCustomHrefCSV"
-                    :download="customAOIDownloadFilename"
-                    target="_blank"
-                    v-if="
-                      customAreaIndicator &&
-                      !this.baseConfig.indicatorsDefinition[
-                        indicatorObject.indicator
-                      ].countrySelection
-                    "
-                  >
-                    <v-icon left>mdi-download</v-icon>
-                    download csv
-                  </v-btn>
-                </div>
-              </v-col>
-            </v-row>
-          </v-card>
-          <v-card
-            v-else-if="!showMap || (showMap && mergedConfigsData[0].customAreaIndicator)"
-            class="fill-height"
-            :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
-                              ? (bannerHeight ? 65 : 70) : 30) : 45}vh;`"
-            ref="mapPanel"
-          >
             <indicator-globe
               v-if="showGlobe"
               @update:direction="d => direction = d"
@@ -197,6 +149,43 @@
               class="d-flex justify-center"
               style="top: 0px; position: absolute;"
             />
+            <template
+              v-else-if="customAreaIndicator && !customAreaIndicator.isEmpty"
+            >
+              <indicator-data
+                style="margin-top: 0px;"
+                class="pa-2 chart"
+              />
+              <v-row v-if="!showMap || !customAreaIndicator.isEmpty" class="mt-0">
+                <v-col cols="12" sm="5" ></v-col>
+                <v-col
+                  cols="12"
+                  sm="7"
+                  ref="customButtonRow"
+                  style="margin-top: -30px;"
+                >
+                  <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
+                    <v-btn
+                      color="primary"
+                      text
+                      small
+                      :href="dataCustomHrefCSV"
+                      :download="customAOIDownloadFilename"
+                      target="_blank"
+                      v-if="
+                        customAreaIndicator &&
+                        !this.baseConfig.indicatorsDefinition[
+                          indicatorObject.indicator
+                        ].countrySelection
+                      "
+                    >
+                      <v-icon left>mdi-download</v-icon>
+                      download csv
+                    </v-btn>
+                  </div>
+                </v-col>
+              </v-row>
+            </template>
             <v-col
               v-else-if="showMap && (mergedConfigsData[0].customAreaIndicator)"
               class="d-flex flex-col align-center justify-center"
@@ -204,7 +193,7 @@
             >
               <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
               <p style="max-width: 75%; text-align: center">
-Draw an area on the map using the shape buttons to generate a custom chart!
+                Draw an area on the map using the shape buttons to generate a custom chart!
               </p>
               <v-btn
                 class="mt-3"
@@ -216,9 +205,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                 Generate Chart
               </v-btn>
             </v-col>
-
             <div v-else-if="showMap"></div>
-
             <indicator-data
               style="top: 0px; position: absolute;"
               v-else
@@ -292,10 +279,10 @@ Draw an area on the map using the shape buttons to generate a custom chart!
                   <v-icon left>mdi-download</v-icon>
                   download csv
                 </v-btn>
-                <AddToDashboardButton
-                  v-if="customAreaIndicator && !expanded"
+                <add-to-dashboard-button
+                  v-if="customAreaIndicator"
                   :indicatorObject="customAreaIndicator">
-                </AddToDashboardButton>
+                </add-to-dashboard-button>
                 <add-to-dashboard-button
                   v-else-if="!this.baseConfig.indicatorsDefinition[
                     indicatorObject.indicator
@@ -330,81 +317,7 @@ Draw an area on the map using the shape buttons to generate a custom chart!
           >
             <v-col
               cols="12"
-              ref="customAreaIndicator"
-              class="pa-0"
-              v-if="customAreaIndicator && expanded"
-            >
-              <v-card
-                v-if="customAreaIndicator"
-                class="fill-height"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 50 : 45}vh;`"
-                style="border: none; !important"
-                ref="indicatorData"
-                outlined
-              >
-              <v-card-title
-                style="padding-top: 5px"
-                v-if="customAreaIndicator.title">
-                  {{ customAreaIndicator.title }}
-              </v-card-title>
-              <v-card-title
-                style="padding-top: 5px"
-                v-if="customAreaIndicator.isEmpty">
-                  No data found for selection
-              </v-card-title>
-                <indicator-data
-                  v-if="!customAreaIndicator.isEmpty"
-                  style="margin-top: 0px;"
-                  class="pa-5 chart"
-                />
-              </v-card>
-              <div class="mt-6" style="float:right">
-                <AddToDashboardButton
-                  v-if="customAreaIndicator"
-                  :indicatorObject="customAreaIndicator">
-                </AddToDashboardButton>
-              </div>
-              <v-row
-                class="mt-3"
-              >
-                <v-col
-                  cols="12"
-                  sm="5"
-                >
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm="7"
-                  v-if="!showMap"
-                  ref="customButtonRow"
-                >
-                  <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
-                    <!--download button for tabbed custom aoi selection expanded view-->
-                    <v-btn
-                      color="primary"
-                      text
-                      small
-                      :href="dataCustomHrefCSV"
-                      :download="customAOIDownloadFilename"
-                      target="_blank"
-                      v-if="
-                        customAreaIndicator &&
-                        !this.baseConfig.indicatorsDefinition[
-                          indicatorObject.indicator
-                        ].countrySelection
-                      "
-                    >
-                      <v-icon left>mdi-download</v-icon>
-                      download csv
-                    </v-btn>
-                  </div>
-                </v-col>
-              </v-row>
-            </v-col>
-            <v-col
-              cols="12"
               class="pb-0"
-              :style="`margin-top: ${customAreaIndicator && expanded ? '30px' : '0px'}`"
             >
               <div
                 v-html="story"
