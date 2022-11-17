@@ -154,6 +154,8 @@ WMSCOLLECTIONS = {
 STAC_COLLECTIONS = {
     "no2-monthly": "https://staging-stac.delta-backend.com/collections/",
     "no2-monthly-diff": "https://staging-stac.delta-backend.com/collections/",
+    "co2-mean": "https://staging-stac.delta-backend.com/collections/",
+    "co2-diff": "https://staging-stac.delta-backend.com/collections/",
     "OMI_trno2-COG": "https://staging-stac.delta-backend.com/collections/",
     "OMSO2PCA-COG": "https://staging-stac.delta-backend.com/collections/",
     "facebook_population_density": "https://staging-stac.delta-backend.com/collections/",
