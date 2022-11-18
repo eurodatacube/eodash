@@ -1419,12 +1419,13 @@ export const globalIndicators = [
           sourceLayer: 'BM2',
           filters: {
             biomass: {
+              display: true,
               label: 'CCI Biomass [t/ha]',
               id: 'biomass',
               min: 0,
               max: 420,
               header: true,
-              range: [420, 0],
+              range: [0, 420],
             },
           },
         },
@@ -1458,7 +1459,7 @@ export const globalIndicators = [
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('greens', 0, 420, 50, false),
+                ...getColorStops('greens', 0, 420, 50, true),
               ],
               [
                 'color', 0, 0, 0, 0,
@@ -1497,6 +1498,7 @@ export const globalIndicators = [
           sourceLayer: 'REP1',
           filters: {
             powerDensity: {
+              display: true,
               label: 'Wind Power Density [w/m²]',
               id: 'powerDensity',
               min: 0,
@@ -1505,6 +1507,7 @@ export const globalIndicators = [
               range: [0, 4000],
             },
             elevation: {
+              display: true,
               label: 'Filter for elevation [m]',
               id: 'elevation',
               min: 0,
@@ -1512,6 +1515,7 @@ export const globalIndicators = [
               range: [0, 4000],
             },
             slope: {
+              display: true,
               label: 'Filter for slope [°]',
               id: 'slope',
               min: 0,
@@ -1519,6 +1523,7 @@ export const globalIndicators = [
               range: [0, 50],
             },
             settlementDistance: {
+              display: false,
               label: 'Distance to settlements [m]',
               id: 'settlementDistance',
               min: 0,
@@ -1526,11 +1531,19 @@ export const globalIndicators = [
               range: [0, 3000],
             },
             energyGridDistance: {
+              display: false,
               label: 'Distance to energy grid [m]',
               id: 'energyGridDistance',
               min: 0,
               max: 25000,
               range: [0, 25000],
+            },
+            protectedZones: {
+              display: true,
+              type: 'boolfilter',
+              label: 'Exclude protected areas',
+              id: 'protected',
+              value: 0,
             },
           },
         },
@@ -1551,6 +1564,7 @@ export const globalIndicators = [
             { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
             { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/WSF_EucDist_Austria_3857_COG_fix.tif' },
             { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Natura2000_Austria_COG_3857_fix.tif' },
           ],
           style: {
             variables: {
@@ -1564,6 +1578,7 @@ export const globalIndicators = [
               settlementDistanceMax: 3000,
               energyGridDistanceMin: 0,
               energyGridDistanceMax: 25000,
+              protected: 0,
             },
             color: [
               'case',
@@ -1575,6 +1590,10 @@ export const globalIndicators = [
                 ['between', ['band', 3], ['var', 'slopeMin'], ['var', 'slopeMax']],
                 ['between', ['band', 4], ['var', 'settlementDistanceMin'], ['var', 'settlementDistanceMax']],
                 ['between', ['band', 5], ['var', 'energyGridDistanceMin'], ['var', 'energyGridDistanceMax']],
+                ['any',
+                  ['==', ['var', 'protected'], 0],
+                  ['==', ['band', 6], 0],
+                ],
               ],
               [
                 'interpolate',
@@ -1620,6 +1639,7 @@ export const globalIndicators = [
           sourceLayer: 'REP2',
           filters: {
             solar: {
+              display: true,
               label: 'Solar Irradiance (kWh/m²/yr)',
               id: 'solar',
               header: true,
@@ -1628,6 +1648,7 @@ export const globalIndicators = [
               range: [300, 1400],
             },
             aspect: {
+              display: true,
               label: 'Filter for aspect',
               id: 'aspect',
               min: 0,
@@ -1635,6 +1656,7 @@ export const globalIndicators = [
               range: [0, 360],
             },
             slope: {
+              display: true,
               label: 'Filter for slope',
               id: 'slope',
               min: 0,
@@ -1642,6 +1664,7 @@ export const globalIndicators = [
               range: [0, 50],
             },
             energyGridDistance: {
+              display: true,
               label: 'Distance to energy grid',
               id: 'energyGridDistance',
               min: 0,
@@ -1649,11 +1672,19 @@ export const globalIndicators = [
               range: [0, 50000],
             },
             elevation: {
+              display: false,
               label: 'Filter for elevation [m]',
               id: 'elevation',
               min: 0,
               max: 4000,
               range: [0, 4000],
+            },
+            protectedZones: {
+              display: false,
+              type: 'boolfilter',
+              label: 'Exclude protected areas',
+              id: 'protected',
+              value: 0,
             },
           },
         },
@@ -1674,6 +1705,7 @@ export const globalIndicators = [
             { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
             { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
             { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_DSM_COG_10m_3857_fix.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Natura2000_Austria_COG_3857_fix.tif' },
           ],
           style: {
             variables: {
@@ -1687,6 +1719,7 @@ export const globalIndicators = [
               energyGridDistanceMax: 50000,
               elevationMin: 0,
               elevationMax: 4000,
+              protected: 0,
             },
             color: [
               'case',
@@ -1698,6 +1731,10 @@ export const globalIndicators = [
                 ['between', ['band', 3], ['var', 'slopeMin'], ['var', 'slopeMax']],
                 ['between', ['band', 4], ['var', 'energyGridDistanceMin'], ['var', 'energyGridDistanceMax']],
                 ['between', ['band', 5], ['var', 'elevationMin'], ['var', 'elevationMax']],
+                ['any',
+                  ['==', ['var', 'protected'], 0],
+                  ['==', ['band', 6], 0],
+                ],
               ],
               [
                 'interpolate',
