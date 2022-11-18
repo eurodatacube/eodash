@@ -1419,6 +1419,7 @@ export const globalIndicators = [
           sourceLayer: 'BM2',
           filters: {
             biomass: {
+              display: true,
               label: 'CCI Biomass [t/ha]',
               id: 'biomass',
               min: 0,
@@ -1497,6 +1498,7 @@ export const globalIndicators = [
           sourceLayer: 'REP1',
           filters: {
             powerDensity: {
+              display: true,
               label: 'Wind Power Density [w/m²]',
               id: 'powerDensity',
               min: 0,
@@ -1505,6 +1507,7 @@ export const globalIndicators = [
               range: [0, 4000],
             },
             elevation: {
+              display: true,
               label: 'Filter for elevation [m]',
               id: 'elevation',
               min: 0,
@@ -1512,6 +1515,7 @@ export const globalIndicators = [
               range: [0, 4000],
             },
             slope: {
+              display: true,
               label: 'Filter for slope [°]',
               id: 'slope',
               min: 0,
@@ -1519,6 +1523,7 @@ export const globalIndicators = [
               range: [0, 50],
             },
             settlementDistance: {
+              display: false,
               label: 'Distance to settlements [m]',
               id: 'settlementDistance',
               min: 0,
@@ -1526,6 +1531,7 @@ export const globalIndicators = [
               range: [0, 3000],
             },
             energyGridDistance: {
+              display: false,
               label: 'Distance to energy grid [m]',
               id: 'energyGridDistance',
               min: 0,
@@ -1533,6 +1539,7 @@ export const globalIndicators = [
               range: [0, 25000],
             },
             protectedZones: {
+              display: true,
               type: 'boolfilter',
               label: 'Exclude protected areas',
               id: 'protected',
@@ -1632,6 +1639,7 @@ export const globalIndicators = [
           sourceLayer: 'REP2',
           filters: {
             solar: {
+              display: true,
               label: 'Solar Irradiance (kWh/m²/yr)',
               id: 'solar',
               header: true,
@@ -1640,6 +1648,7 @@ export const globalIndicators = [
               range: [300, 1400],
             },
             aspect: {
+              display: true,
               label: 'Filter for aspect',
               id: 'aspect',
               min: 0,
@@ -1647,6 +1656,7 @@ export const globalIndicators = [
               range: [0, 360],
             },
             slope: {
+              display: true,
               label: 'Filter for slope',
               id: 'slope',
               min: 0,
@@ -1654,6 +1664,7 @@ export const globalIndicators = [
               range: [0, 50],
             },
             energyGridDistance: {
+              display: true,
               label: 'Distance to energy grid',
               id: 'energyGridDistance',
               min: 0,
@@ -1661,6 +1672,7 @@ export const globalIndicators = [
               range: [0, 50000],
             },
             elevation: {
+              display: false,
               label: 'Filter for elevation [m]',
               id: 'elevation',
               min: 0,
@@ -1668,6 +1680,7 @@ export const globalIndicators = [
               range: [0, 4000],
             },
             protectedZones: {
+              display: false,
               type: 'boolfilter',
               label: 'Exclude protected areas',
               id: 'protected',
