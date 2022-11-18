@@ -513,9 +513,11 @@ export const layerNameMapping = Object.freeze({
   },
   S1GRD: {
     layers: 'E8_SENTINEL1',
+    dateFormatFunction: shS2TimeFunction,
   },
   'S1A - GRD': {
     layers: 'E8_SENTINEL1',
+    dateFormatFunction: shS2TimeFunction,
   },
   'Sentinel-2 L1C': {
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',

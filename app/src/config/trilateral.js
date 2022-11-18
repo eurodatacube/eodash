@@ -3,7 +3,7 @@
 import { Wkt } from 'wicket';
 import latLng from '@/latLng';
 import { DateTime } from 'luxon';
-import { shTimeFunction } from '@/utils';
+import { shTimeFunction, shS2TimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import locations from '@/config/locations.json';
@@ -496,15 +496,19 @@ export const layerNameMapping = Object.freeze({
   },
   'Sentinel 2 L2A': {
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+    dateFormatFunction: shS2TimeFunction,
   },
   S2L2A: {
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+    dateFormatFunction: shS2TimeFunction,
   },
   S1GRD: {
     layers: 'E8_SENTINEL1',
+    dateFormatFunction: shS2TimeFunction,
   },
   'S1A - GRD': {
     layers: 'E8_SENTINEL1',
+    dateFormatFunction: shS2TimeFunction,
   },
   'LANDSAT-8-TRUE-COLOUR': {
     layers: 'LANDSAT-8-TRUE-COLOUR',
@@ -514,6 +518,7 @@ export const layerNameMapping = Object.freeze({
   },
   'Sentinel-1': {
     layers: 'E8_SENTINEL1',
+    dateFormatFunction: shS2TimeFunction,
   },
   'ALOS-2': {
     layers: 'AWS_JAXA_CARS_CONTAINERS_ALOS2',
