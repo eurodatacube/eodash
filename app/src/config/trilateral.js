@@ -1,7 +1,7 @@
 // config global variables here for now
 // temporary solution
 import { Wkt } from 'wicket';
-import { latLng, latLngBounds } from 'leaflet';
+import latLng from '@/latLng';
 import { DateTime } from 'luxon';
 import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
@@ -12,7 +12,7 @@ import {
   statisticalApiBody,
   evalScriptsDefinitions,
   parseStatAPIResponse,
-  nasaTimelapseConfig,
+  nasaStatisticsConfig,
 } from '@/helpers/customAreaObjects';
 
 const wkt = new Wkt();
@@ -32,6 +32,7 @@ const sharedPalsarFNFConfig = Object.freeze({
   projection: 'EPSG:4326',
   legendUrl: './data/trilateral/fnf-map-legend.png',
   labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
+  attribution: '{ <a href="https://www.eorc.jaxa.jp/ALOS/en/dataset/fnf_e.htm" target="_blank">JAXA Global PALSAR-2/PALSAR/JERS-1 Mosaic and Forest/Non-Forest maps</a> is available to use with no charge under the <a href="https://earth.jaxa.jp/policy/en.html" target="_blank">JAXA Terms of Use of Research Data</a>.; }',
   presetView: {
     type: 'FeatureCollection',
     features: [{
@@ -44,7 +45,7 @@ const sharedPalsarFNFConfig = Object.freeze({
 
 export const indicatorsDefinition = Object.freeze({
   E13c: {
-    indicator: 'Changes in Ships traffic within the Port',
+    indicatorSummary: 'Changes in Ships traffic within the Port',
     story: '/data/trilateral/E13c',
     themes: ['economy'],
     features: {
@@ -58,7 +59,7 @@ export const indicatorsDefinition = Object.freeze({
     }, baseLayers.terrainLight],
   },
   E1: {
-    indicator: 'Status of metallic ores',
+    indicatorSummary: 'Status of metallic ores',
     story: '/data/trilateral/E1',
     themes: ['economy'],
     features: {
@@ -68,7 +69,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E1_S2: {
-    indicator: 'Status of metallic ores',
+    indicatorSummary: 'Status of metallic ores',
     story: '/data/trilateral/E1',
     themes: ['economy'],
     features: {
@@ -77,7 +78,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E1a: {
-    indicator: 'Status of non-metallic ores',
+    indicatorSummary: 'Status of non-metallic ores',
     story: '/data/trilateral/E1a',
     themes: ['economy'],
     features: {
@@ -87,7 +88,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E1a_S2: {
-    indicator: 'Status of metallic ores',
+    indicatorSummary: 'Status of metallic ores',
     story: '/data/trilateral/E1a',
     themes: ['economy'],
     features: {
@@ -96,117 +97,107 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E2: {
-    indicator: 'Volume of oil stockpiled',
+    indicatorSummary: 'Volume of oil stockpiled',
     themes: ['economy'],
   },
   E2a: {
-    indicator: 'Level of flaring activity',
+    indicatorSummary: 'Level of flaring activity',
     themes: ['economy'],
   },
   E3: {
-    indicator: 'Inventory levels of factory inputs',
+    indicatorSummary: 'Inventory levels of factory inputs',
     themes: ['economy'],
   },
   E4: {
-    indicator: 'Production activity of intermediate goods',
+    indicatorSummary: 'Production activity of intermediate goods',
     themes: ['economy'],
   },
   E5: {
-    indicator: 'Inventory levels of intermediate goods',
+    indicatorSummary: 'Inventory levels of intermediate goods',
     themes: ['economy'],
   },
   E6: {
-    indicator: 'Inventory levels of factory inputs',
+    indicatorSummary: 'Inventory levels of factory inputs',
     themes: ['economy'],
   },
   E7: {
-    indicator: 'Production activity of finished goods',
+    indicatorSummary: 'Production activity of finished goods',
     themes: ['economy'],
   },
   E8: {
-    indicator: 'Inventory Levels',
+    indicatorSummary: 'Inventory Levels',
     themes: ['economy'],
   },
   E9: {
-    indicator: 'Construction activity',
+    indicatorSummary: 'Construction activity',
     story: '/data/trilateral/E9',
     themes: ['economy'],
   },
   E10a1: {
-    indicator: 'Harvesting activity',
+    indicatorSummary: 'Harvesting activity',
     story: '/data/trilateral/E10a1',
     themes: ['agriculture'],
-    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
-      ...baseLayers.S2GLC,
-      visible: true,
-    }],
-    legendUrl: 'eodash-data/data/LegendGLC.png',
   },
   E10a2: {
-    indicator: 'Cum. proportion of total area under active mgmt.',
+    indicatorSummary: 'Cum. proportion of total area under active mgmt.',
     story: '/eodash-data/stories/E10a2',
     themes: ['agriculture'],
-    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
-      ...baseLayers.S2GLC,
-      visible: true,
-    }],
-    legendUrl: 'eodash-data/data/LegendGLC.png',
     maxDecimals: 4,
   },
   E10a3: {
-    indicator: 'Evolution of the cultivated areas for production of white asparagus',
+    indicatorSummary: 'Evolution of the cultivated areas for production of white asparagus',
     story: '/eodash-data/stories/E10a2',
     themes: ['agriculture'],
   },
   E10a6: {
-    indicator: 'Harvested parcels/area evolution over time',
+    indicatorSummary: 'Harvested parcels/area evolution over time',
     story: '/eodash-data/stories/E10a6',
     themes: ['agriculture'],
     maxDecimals: 4,
   },
   E10a8: {
-    indicator: 'Cumulative harvested area',
+    indicatorSummary: 'Cumulative harvested area',
     story: '/eodash-data/stories/E10a8',
     themes: ['agriculture'],
   },
   E10b: {
-    indicator: 'Field preparation activity',
+    indicatorSummary: 'Field preparation activity',
     themes: ['agriculture'],
   },
   E10c: {
-    indicator: 'Rice Planted Area',
+    indicatorSummary: 'Rice Planted Area',
     story: '/data/trilateral/US05-E10c',
     themes: ['agriculture'],
   },
   E10d: {
-    indicator: 'Cropped Area - Regional',
+    indicatorSummary: 'Cropped Area - Regional',
     story: '/data/trilateral/E10d',
     themes: ['agriculture'],
     disableTimeSelection: true,
   },
   E10e: {
-    indicator: 'NDVI GCOM-C',
+    indicatorSummary: 'NDVI GCOM-C',
     story: '/eodash-data/stories/E10e',
     themes: ['agriculture', 'biomass-and-landcover'],
   },
   E11: {
-    indicator: 'Volume of activity at shopping centers',
+    indicatorSummary: 'Volume of activity at shopping centers',
     themes: ['economy'],
   },
   E12a: {
-    indicator: 'Volume of activity logistic interchange centers',
+    indicatorSummary: 'Volume of activity logistic interchange centers',
     themes: ['economy'],
   },
   E12b: {
-    indicator: 'Throughput at border crossing points',
+    indicatorSummary: 'Throughput at border crossing points',
     themes: ['economy'],
   },
   E13a: {
-    indicator: 'Throughput at principal rail stations',
+    indicatorSummary: 'Throughput at principal rail stations',
     themes: ['economy'],
   },
   E13b: {
-    indicator: 'Throughput at principal hub airports',
+    indicatorSummary: 'Throughput at principal hub airports',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
@@ -215,48 +206,48 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy', 'atmosphere'],
   },
   H1: {
-    indicator: 'Number of temp. treatment sites',
+    indicatorSummary: 'Number of temp. treatment sites',
     themes: ['covid-19'],
   },
   N1: {
-    indicator: 'Air quality',
+    indicatorSummary: 'Air quality',
     story: '/data/trilateral/N1',
     themes: ['atmosphere'],
     largeTimeDuration: true,
     maxZoom: 8,
   },
   N9: {
-    indicator: 'Air quality',
+    indicatorSummary: 'Air quality',
     story: '/eodash-data/stories/N9',
     themes: ['atmosphere'],
   },
   N10: {
-    indicator: 'Air quality',
+    indicatorSummary: 'Air quality',
     story: '/eodash-data/stories/N10',
     themes: ['atmosphere'],
   },
   NASAPopulation: {
-    indicator: 'Population',
+    indicatorSummary: 'Population',
     story: '/data/trilateral/NASAPopulation',
     themes: ['economy', 'agriculture', 'atmosphere', 'oceans'],
   },
   WSF: {
-    indicator: 'World Settlement Footprint',
+    indicatorSummary: 'World Settlement Footprint',
     story: '/eodash-data/stories/WSF-WSF',
     themes: ['economy', 'agriculture', 'atmosphere', 'oceans'],
   },
   N2: {
-    indicator: 'Greenhouse Gases',
+    indicatorSummary: 'Greenhouse Gases',
     story: '/data/trilateral/N2',
     themes: ['atmosphere'],
     largeTimeDuration: true,
   },
   N3: {
-    indicator: 'Water Quality',
+    indicatorSummary: 'Water Quality',
     themes: ['oceans'],
   },
   N3b: {
-    indicator: 'Chl-a concentration anomaly',
+    indicatorSummary: 'Chl-a concentration anomaly',
     story: '/data/trilateral/N3b',
     themes: ['oceans'],
     sensorColorMap: {
@@ -267,41 +258,41 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   N3a2: {
-    indicator: 'CHL concentration',
+    indicatorSummary: 'CHL concentration',
     story: '/eodash-data/stories/N3a2',
     themes: ['oceans'],
   },
   N4a: {
-    indicator: 'Changes in land fill sites',
+    indicatorSummary: 'Changes in land fill sites',
     themes: ['economy'],
   },
   N4b: {
-    indicator: 'Illegal waste levels',
+    indicatorSummary: 'Illegal waste levels',
     themes: ['economy'],
   },
   N5: {
-    indicator: 'Nightlights (Suomi NPP VIIRS)',
+    indicatorSummary: 'Nightlights (Suomi NPP VIIRS)',
     story: '/data/trilateral/N5',
     themes: ['economy', 'atmosphere', 'oceans'],
   },
   N6: {
-    indicator: 'Cropped Area - Global',
+    indicatorSummary: 'Cropped Area - Global',
     story: '/data/trilateral/N6',
     themes: ['agriculture'],
   },
   N7: {
-    indicator: 'Slowdown Proxy Maps',
+    indicatorSummary: 'Slowdown Proxy Maps',
     story: '/data/trilateral/N7',
     themes: ['economy'],
   },
   N8: {
-    indicator: 'Recovery Proxy Maps',
+    indicatorSummary: 'Recovery Proxy Maps',
     story: '/data/trilateral/N8',
     themes: ['economy'],
     disableTimeSelection: true,
   },
   N12: {
-    indicator: 'Sea Ice Concentration (GCOM-W)',
+    indicatorSummary: 'Sea Ice Concentration (GCOM-W)',
     themes: ['cryosphere', 'oceans'],
     baseLayers: [{
       ...baseLayers.cloudless,
@@ -310,22 +301,22 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/N12',
   },
   N11: {
-    indicator: 'GLI Ocean Primary Productivity',
+    indicatorSummary: 'GLI Ocean Primary Productivity',
     themes: ['oceans'],
     story: '/eodash-data/stories/N11',
   },
   N13: {
-    indicator: 'Blue Tarps (PlanetScope)',
+    indicatorSummary: 'Blue Tarps (PlanetScope)',
     story: '/eodash-data/stories/N13',
     themes: ['economy'],
   },
   N14: {
-    indicator: 'Blue Tarps Detections',
+    indicatorSummary: 'Blue Tarps Detections',
     story: '/eodash-data/stories/N14',
     themes: ['economy'],
   },
   GG: {
-    indicator: 'Mobility',
+    indicatorSummary: 'Mobility',
     disableTimeSelection: true,
     story: '/eodash-data/stories/GG-GG',
     themes: ['economy'],
@@ -333,7 +324,7 @@ export const indicatorsDefinition = Object.freeze({
     alternateDataPath: './eodash-data/internal/',
   },
   CV: {
-    indicator: 'Covid-19 cases',
+    indicatorSummary: 'Covid-19 cases',
     disableTimeSelection: true,
     story: '/eodash-data/stories/CV-CV',
     themes: ['covid-19'],
@@ -341,7 +332,7 @@ export const indicatorsDefinition = Object.freeze({
     alternateDataPath: './eodash-data/internal/',
   },
   OW: {
-    indicator: 'Covid-19 vaccinations',
+    indicatorSummary: 'Covid-19 vaccinations',
     disableTimeSelection: true,
     story: '/eodash-data/stories/OW-OW',
     themes: ['covid-19'],
@@ -349,7 +340,7 @@ export const indicatorsDefinition = Object.freeze({
     alternateDataPath: './eodash-data/internal/',
   },
   FB: {
-    indicator: 'Facebook population density',
+    indicatorSummary: 'Facebook population density',
     themes: ['economy'],
     disableTimeSelection: true,
     baseLayers: [{
@@ -358,64 +349,64 @@ export const indicatorsDefinition = Object.freeze({
     }, baseLayers.terrainLight],
   },
   SIF: {
-    indicator: 'Solar Induced Chlorophyll Fluorescence',
+    indicatorSummary: 'Solar Induced Chlorophyll Fluorescence',
     story: '/eodash-data/stories/SIF',
     themes: ['agriculture', 'biomass-and-landcover'],
     maxZoom: 8,
   },
   NPP: {
-    indicator: 'Ocean Primary Productivity (BICEP)',
+    indicatorSummary: 'Ocean Primary Productivity (BICEP)',
     story: '/eodash-data/stories/NPP',
     themes: ['oceans'],
   },
   NPPN: {
-    indicator: 'Ocean Primary Productivity (NASA)',
+    indicatorSummary: 'Ocean Primary Productivity (NASA)',
     story: '/eodash-data/stories/NPPN',
     themes: ['oceans'],
   },
   SIE: {
-    indicator: 'SIE',
+    indicatorSummary: 'SIE',
     story: '/eodash-data/stories/SIE',
     themes: ['cryosphere', 'oceans'],
   },
   SIC: {
-    indicator: 'SIC',
+    indicatorSummary: 'SIC',
     story: '/eodash-data/stories/SIC',
     themes: ['cryosphere', 'oceans'],
   },
   SITI: {
-    indicator: 'SITI',
+    indicatorSummary: 'SITI',
     story: '/eodash-data/stories/SITI',
     themes: ['cryosphere', 'oceans'],
   },
   NCEO: {
-    indicator: 'NCEO',
+    indicatorSummary: 'NCEO',
     story: '/eodash-data/stories/NCEO',
     themes: ['agriculture', 'biomass-and-landcover'],
     disableTimeSelection: true,
   },
   SMC: {
-    indicator: 'SMC',
+    indicatorSummary: 'SMC',
     story: '/eodash-data/stories/SMC',
     themes: ['agriculture'],
   },
   PRC: {
-    indicator: 'PRC',
+    indicatorSummary: 'PRC',
     story: '/eodash-data/stories/PRC',
     themes: ['agriculture'],
   },
   FNF: {
-    indicator: 'FNF',
+    indicatorSummary: 'FNF',
     story: '/eodash-data/stories/FNF',
     themes: ['biomass-and-landcover'],
   },
   PRCG: {
-    indicator: 'PRCG',
+    indicatorSummary: 'PRCG',
     story: '/eodash-data/stories/PRCG',
     themes: ['agriculture'],
   },
   SMCG: {
-    indicator: 'SMCG',
+    indicatorSummary: 'SMCG',
     story: '/eodash-data/stories/SMCG',
     themes: ['agriculture'],
   },
@@ -460,7 +451,7 @@ export const indicatorsDefinition = Object.freeze({
     disableTimeSelection: true,
   },
   d: { // dummy for locations without Indicator code
-    indicator: 'Upcoming data',
+    indicatorSummary: 'Upcoming data',
     themes: ['atmosphere', 'agriculture', 'biomass-and-landcover', 'economy', 'oceans', 'cryosphere', 'covid-19'],
   },
 });
@@ -681,7 +672,7 @@ export const indicatorClassesIcons = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  bounds: latLngBounds(latLng([-70, -170]), latLng([70, 170])),
+  bounds: [-170, -70, 170, 70],
 });
 
 export const baseLayersLeftMap = [{
@@ -715,7 +706,7 @@ export const defaultLayersDisplay = {
   transparent: true,
   tileSize: 512,
   opacity: 1,
-  attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">se of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+  attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank"> Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   minZoom: 7,
   visible: true,
 };
@@ -921,18 +912,20 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'NO2 [µmol/m²]',
         display: {
-          customAreaIndicator: true,
           protocol: 'xyz',
           minZoom: 1,
           maxZoom: 6,
           tileSize: 256,
           opacity: 1,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x.png?url=s3://covid-eo-data/OMNO2d_HRM/OMI_trno2_monthly_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=0%2C108e14&color_map=reds',
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0%2C108e14&bidx=1&colormap_name=reds',
           name: 'Air Quality (NASA)',
-          dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyyMM'),
+          dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           legendUrl: 'data/trilateral/no2Legend-monthly-nasa.png',
-          areaIndicator: nasaTimelapseConfig('no2'),
+          customAreaIndicator: true,
+          areaIndicator: nasaStatisticsConfig(
+            (value) => value / 1e14,
+          ),
         },
       },
     },
@@ -969,16 +962,14 @@ export const globalIndicators = [
           minZoom: 1,
           opacity: 0.95,
           tileSize: 256,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/OMNO2d_HRMDifference/OMI_trno2_0.10x0.10_{time}_Col3_V4.nc.tif&resampling_method=bilinear&bidx=1&rescale=-3e15%2C3e15&color_map=rdbu_r',
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&bidx=1&rescale=-3e15%2C3e15&colormap_name=rdbu_r',
           name: 'Air Quality (NASA)',
-          dateFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyyMM'),
+          dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           legendUrl: 'data/trilateral/N1-NO2DiffLegend.png',
           disableCompare: true,
           customAreaIndicator: true,
-          areaIndicator: nasaTimelapseConfig(
-            'no2-diff',
-            ['201501', DateTime.utc().toFormat('yyyyMM')],
+          areaIndicator: nasaStatisticsConfig(
             (value) => value / 1e15,
           ),
         },
@@ -1008,27 +999,27 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W4',
-        time: getDailyDates('2020-01-01', '2021-10-15'),
+        time: availableDates['co2-mean'],
         inputData: [''],
         yAxis: 'CO2 mean [ppm]',
         display: {
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2-mean/xco2_16day_mean.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.000408%2C0.000419&color_map=rdylbu_r',
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&bidx=1&rescale=0.000408%2C0.000419&colormap_name=rdylbu_r',
           name: 'Greenhouse Gases (NASA)',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           legendUrl: 'data/trilateral/N2-co2mean-legend.png',
           mapLabel: 'Mean',
           customAreaIndicator: true,
-          areaIndicator: nasaTimelapseConfig(
-            'co2',
-            ['2020_01_01', '2021_10_15'],
+          areaIndicator: nasaStatisticsConfig(
             (value) => (value * 1e6),
-            'yyyy_MM_dd',
           ),
         },
         compareDisplay: {
+          // TODO: Special compare display currently no longer supported, would also need to
+          // be updated to support new nasa endpoint
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
@@ -1096,7 +1087,7 @@ export const globalIndicators = [
         description: 'Greenhouse Gases',
         indicator: 'N2',
         lastIndicatorValue: null,
-        indicatorName: 'Greenhouse Gases - OCO-2: Difference CO2',
+        indicatorName: 'Carbon Dioxide (CO2) Difference',
         calcMethod: 'Difference CO2',
         subAoi: {
           type: 'FeatureCollection',
@@ -1109,24 +1100,22 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'W5',
-        time: getDailyDates('2020-01-01', '2021-10-15'),
+        time: availableDates['co2-diff'],
         inputData: [''],
         yAxis: 'CO2 difference [ppm]',
         display: {
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2-diff/xco2_16day_diff.{time}.tif&resampling_method=bilinear&bidx=1&rescale=-0.000001%2C0.000001&color_map=rdbu_r',
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&bidx=1&rescale=-0.000001%2C0.000001&colormap_name=rdbu_r',
           name: 'Greenhouse Gases (NASA)',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           legendUrl: 'data/trilateral/N2-co2diff-legend.png',
           disableCompare: true,
           customAreaIndicator: true,
-          areaIndicator: nasaTimelapseConfig(
-            'co2-diff',
-            ['2020_01_01', '2021_10_15'],
+          areaIndicator: nasaStatisticsConfig(
             (value) => (value * 1e6),
-            'yyyy_MM_dd',
           ),
         },
       },
@@ -1197,9 +1186,8 @@ export const globalIndicators = [
         aoiID: 'W8',
         time: availableDates['OMI_trno2-COG'],
         inputData: [''],
+        yAxis: 'NO2 [10^14 molecules/cm²]',
         display: {
-          // mosaicIndicator: true,
-          // collection: 'OMI_trno2-COG',
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
@@ -1209,6 +1197,10 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
           legendUrl: 'data/trilateral/no2Legend-yearly-nasa.png',
+          customAreaIndicator: true,
+          areaIndicator: nasaStatisticsConfig(
+            (value) => value / 1e14,
+          ),
         },
       },
     },
@@ -1234,6 +1226,7 @@ export const globalIndicators = [
         time: availableDates['IS2SITMOGR4-cog'],
         inputData: [''],
         showGlobe: true,
+        // yAxis: 'Sea-ice thickness [m]',
         display: {
           protocol: 'xyz',
           tileSize: 256,
@@ -1244,6 +1237,13 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           legendUrl: 'eodash-data/data/SeaIceThicknessCCI.PNG',
+          /*
+          TODO: Could be activated but globe is used as visualiation in data panel
+          customAreaIndicator: true,
+          areaIndicator: nasaStatisticsConfig(
+            (value) => value,
+          ),
+          */
         },
       },
     },
@@ -1268,9 +1268,8 @@ export const globalIndicators = [
         aoiID: 'W11',
         time: availableDates.MO_NPP_npp_vgpm,
         inputData: [''],
+        yAxis: '',
         display: {
-          // mosaicIndicator: true,
-          // collection: 'MO_NPP_npp_vgpm',
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
@@ -1280,6 +1279,10 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           legendUrl: 'eodash-data/data/nppn_legend.png',
+          customAreaIndicator: true,
+          areaIndicator: nasaStatisticsConfig(
+            (value) => value,
+          ),
         },
       },
     },
@@ -1305,8 +1308,6 @@ export const globalIndicators = [
         time: availableDates.nceo_africa_2017,
         inputData: [''],
         display: {
-          // mosaicIndicator: true,
-          // collection: 'nceo_africa_2017',
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
@@ -1620,6 +1621,7 @@ export const globalIndicators = [
         aoiID: 'W9',
         time: availableDates['OMSO2PCA-COG'],
         inputData: [''],
+        yAxis: 'SO2 Total Column [DU]',
         display: {
           // mosaicIndicator: true,
           // collection: 'OMSO2PCA-COG',
@@ -1632,6 +1634,10 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
           legendUrl: 'data/trilateral/SO2OMI-Aura-legend.png',
+          customAreaIndicator: true,
+          areaIndicator: nasaStatisticsConfig(
+            (value) => value,
+          ),
         },
       },
     },
@@ -1826,6 +1832,7 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
           labelFormatFunction: (date) => date,
           specialEnvTime: true,
+          attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Contains modified Landsat-5/-7 data [1985-2015] }',
         },
       },
     },
@@ -2062,7 +2069,6 @@ export const globalIndicators = [
   },
   {
     id: 19999,
-    latlng: latLng([45.197522, 13.029785]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2100,7 +2106,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([45.197522, 13.0297851]),
     id: 19998,
     properties: {
       indicatorObject: {
@@ -2148,7 +2153,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([45.197522, 13.0297851]),
     id: 19994,
     properties: {
       indicatorObject: {
@@ -2187,7 +2191,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.7775, -122.416389]),
     id: 19997,
     properties: {
       indicatorObject: {
@@ -2226,7 +2229,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([41.0114, -73.09]),
     id: 19996,
     properties: {
       indicatorObject: {
@@ -2265,7 +2267,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([35.61, 139.78]),
     id: 19995,
     properties: {
       indicatorObject: {
@@ -2305,7 +2306,6 @@ export const globalIndicators = [
   },
   {
     id: 19993,
-    latlng: latLng([43.4, 4.94]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2343,7 +2343,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.7, 136.9]),
     id: 19989,
     properties: {
       indicatorObject: {
@@ -2382,7 +2381,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.35, 135]),
     id: 19988,
     properties: {
       indicatorObject: {
@@ -2422,7 +2420,6 @@ export const globalIndicators = [
   },
   {
     id: 19992,
-    latlng: latLng([45.197522, 13.0297851]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2461,7 +2458,6 @@ export const globalIndicators = [
   },
   {
     id: 19991,
-    latlng: latLng([43.4, 4.9400001]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2499,7 +2495,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.7775, -122.4163891]),
     id: 19990,
     properties: {
       indicatorObject: {
@@ -2539,7 +2534,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([45.197522, 13.0297851]),
     id: 19987,
     properties: {
       indicatorObject: {
@@ -2578,7 +2572,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([35.61, 139.78]),
     id: 19986,
     properties: {
       indicatorObject: {
@@ -2617,7 +2610,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.7, 136.9]),
     id: 19985,
     properties: {
       indicatorObject: {
@@ -2656,7 +2648,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.35, 135]),
     id: 19984,
     properties: {
       indicatorObject: {
@@ -2695,7 +2686,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([45.197522, 13.0297851]),
     id: 19983,
     properties: {
       indicatorObject: {
@@ -2741,7 +2731,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([41.0114, -73.09]),
     id: 19982,
     properties: {
       indicatorObject: {
@@ -2824,7 +2813,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([6.133333, 1.216667]),
     id: 19799,
     properties: {
       indicatorObject: {
@@ -2864,7 +2852,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([39.9, 116.38]),
     id: 9799,
     properties: {
       indicatorObject: {
@@ -2904,7 +2891,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([38.904722, -77.016389]),
     id: 9798,
     properties: {
       indicatorObject: {
@@ -2944,7 +2930,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([51.036138, 2.285374]),
     id: 9797,
     properties: {
       indicatorObject: {
@@ -2984,7 +2969,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([51.091559, 3.740081]),
     id: 9796,
     properties: {
       indicatorObject: {
@@ -3024,7 +3008,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([35.61, 139.78]),
     id: 9795,
     properties: {
       indicatorObject: {
@@ -3064,7 +3047,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([6.133333, 1.216667]),
     id: 9794,
     properties: {
       indicatorObject: {
@@ -3104,7 +3086,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.05, -118.25]),
     id: 9793,
     properties: {
       indicatorObject: {
@@ -3144,7 +3125,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([-6.8, 39.283333]),
     id: 9792,
     properties: {
       indicatorObject: {
@@ -3184,7 +3164,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([41.0114, -73.09]),
     id: 9791,
     properties: {
       indicatorObject: {
@@ -3224,7 +3203,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.7775, -122.416389]),
     id: 9790,
     properties: {
       indicatorObject: {
@@ -3264,7 +3242,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([38.715, -121.944]),
     id: 9789,
     properties: {
       indicatorObject: {
@@ -3304,7 +3281,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([33.94, -118.41]),
     id: 19699,
     properties: {
       indicatorObject: {
@@ -3335,7 +3311,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.057, -117.6]),
     id: 19698,
     properties: {
       indicatorObject: {
@@ -3366,7 +3341,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.622, -122.378]),
     id: 19697,
     properties: {
       indicatorObject: {
@@ -3397,7 +3371,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.363, -121.93]),
     id: 19696,
     properties: {
       indicatorObject: {
@@ -3428,7 +3401,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.722, -122.226]),
     id: 19695,
     properties: {
       indicatorObject: {
@@ -3459,7 +3431,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.6585, -122.121]),
     id: 19694,
     properties: {
       indicatorObject: {
@@ -3490,7 +3461,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([38.216, -122.276]),
     id: 19693,
     properties: {
       indicatorObject: {
@@ -3521,7 +3491,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([38.144, -122.557]),
     id: 19692,
     properties: {
       indicatorObject: {
@@ -3552,7 +3521,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.99, -122.057]),
     id: 19691,
     properties: {
       indicatorObject: {
@@ -3583,7 +3551,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([40.642, -73.788]),
     id: 19690,
     properties: {
       indicatorObject: {
@@ -3614,7 +3581,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([40.689, -74.172]),
     id: 19689,
     properties: {
       indicatorObject: {
@@ -3645,7 +3611,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([40.072, 116.593]),
     id: 19688,
     properties: {
       indicatorObject: {
@@ -3676,7 +3641,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([39.495, 116.419]),
     id: 19687,
     properties: {
       indicatorObject: {
@@ -3707,7 +3671,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([35.774, 140.385]),
     id: 19685,
     properties: {
       indicatorObject: {
@@ -3738,7 +3701,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([34.05, -118.251]),
     id: 19599,
     properties: {
       indicatorObject: {
@@ -3769,7 +3731,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([40.6, -74.05]),
     id: 19598,
     properties: {
       indicatorObject: {
@@ -3800,7 +3761,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([37.7775, -122.416389]),
     id: 19597,
     properties: {
       indicatorObject: {
@@ -3832,7 +3792,6 @@ export const globalIndicators = [
   },
   {
     id: 19681,
-    latlng: latLng([40.985, 1.769]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -3871,7 +3830,6 @@ export const globalIndicators = [
   },
   {
     id: 19680,
-    latlng: latLng([40.985, 1.769]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -3909,7 +3867,6 @@ export const globalIndicators = [
     },
   },
   {
-    latlng: latLng([30.05, 32.56]),
     id: 19679,
     properties: {
       indicatorObject: {
@@ -3976,7 +3933,6 @@ export const globalIndicators = [
 
 const createSlowDownIndicator = (id, aoiID, city, country, aoi, geometry, cog, eoSensor, time) => (
   {
-    latlng: aoi,
     id,
     properties: {
       indicatorObject: {
@@ -4196,7 +4152,6 @@ const createSTACCollectionIndicator = (collection, key, value, index, url,
     type: 'Polygon',
   };
   const indicatorObject = {
-    latlng: aoi,
     id: index,
     properties: {
       indicatorObject: {

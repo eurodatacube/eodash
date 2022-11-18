@@ -2,7 +2,7 @@
 // temporary solution
 import { Wkt } from 'wicket';
 import { DateTime } from 'luxon';
-import { latLng, latLngBounds } from 'leaflet';
+import latLng from '@/latLng';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { E13bRemovedFtrs } from '@/config/otherdata';
@@ -27,20 +27,20 @@ export const dataEndpoints = [
 
 export const indicatorsDefinition = Object.freeze({
   C1: {
-    indicator: 'Combined 1',
+    indicatorSummary: 'Combined 1',
     indicatorOverwrite: 'Ports and Shipping - impact on air quality',
     themes: ['economy, air'],
   },
   C2: {
-    indicator: 'Combined 2',
+    indicatorSummary: 'Combined 2',
     themes: ['economy, air'],
   },
   C3: {
-    indicator: 'Combined 3',
+    indicatorSummary: 'Combined 3',
     themes: ['economy, air'],
   },
   E200: {
-    indicator: 'Changes in Ships traffic within the Port',
+    indicatorSummary: 'Changes in Ships traffic within the Port',
     themes: ['economy'],
     story: '/eodash-data/stories/E200',
     features: {
@@ -50,7 +50,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E1: {
-    indicator: 'Status of metallic ores (Archived)',
+    indicatorSummary: 'Status of metallic ores (Archived)',
     themes: ['economy'],
     story: '/eodash-data/stories/E1',
     features: {
@@ -60,7 +60,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E1_S2: {
-    indicator: 'Status of metallic ores (Archived)',
+    indicatorSummary: 'Status of metallic ores (Archived)',
     themes: ['economy'],
     story: '/eodash-data/stories/E1',
     features: {
@@ -69,7 +69,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E1a: {
-    indicator: 'Status of non-metallic ores (Archived)',
+    indicatorSummary: 'Status of non-metallic ores (Archived)',
     themes: ['economy'],
     story: '/eodash-data/stories/E1a',
     features: {
@@ -79,7 +79,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E1a_S2: {
-    indicator: 'Status of non-metallic ores (Archived)',
+    indicatorSummary: 'Status of non-metallic ores (Archived)',
     themes: ['economy'],
     story: '/eodash-data/stories/E1a',
     features: {
@@ -88,7 +88,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E2: {
-    indicator: 'Volume of oil stockpiled (Archived)',
+    indicatorSummary: 'Volume of oil stockpiled (Archived)',
     themes: ['economy'],
     story: '/eodash-data/stories/E2',
     features: {
@@ -98,7 +98,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E2_S2: {
-    indicator: 'Volume of oil stockpiled (Archived)',
+    indicatorSummary: 'Volume of oil stockpiled (Archived)',
     themes: ['economy'],
     story: '/eodash-data/stories/E2',
     features: {
@@ -107,118 +107,108 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E2a: {
-    indicator: 'Level of flaring activity',
+    indicatorSummary: 'Level of flaring activity',
     themes: ['economy'],
   },
   E3: {
-    indicator: 'Inventory levels of factory inputs',
+    indicatorSummary: 'Inventory levels of factory inputs',
     themes: ['economy'],
   },
   E4: {
-    indicator: 'Production activity of intermediate goods',
+    indicatorSummary: 'Production activity of intermediate goods',
     themes: ['economy'],
     story: '/eodash-data/stories/E4',
   },
   E5: {
-    indicator: 'Inventory levels of intermediate goods',
+    indicatorSummary: 'Inventory levels of intermediate goods',
     themes: ['economy'],
     story: '/eodash-data/stories/E5',
   },
   E6: {
-    indicator: 'Inventory levels of factory inputs',
+    indicatorSummary: 'Inventory levels of factory inputs',
     themes: ['economy'],
   },
   E7: {
-    indicator: 'Production activity of finished goods',
+    indicatorSummary: 'Production activity of finished goods',
     themes: ['economy'],
   },
   E8: {
-    indicator: 'Inventory Levels',
+    indicatorSummary: 'Inventory Levels',
     themes: ['economy'],
     story: '/eodash-data/stories/E8',
     maxDecimals: 5,
   },
   E9: {
-    indicator: 'Construction activity',
+    indicatorSummary: 'Construction activity',
     themes: ['economy'],
   },
   E10a1: {
-    indicator: 'Harvesting activity',
+    indicatorSummary: 'Harvesting activity',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a1',
-    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
-      ...baseLayers.S2GLC,
-      visible: true,
-    }],
-    legendUrl: 'eodash-data/data/LegendGLC.png',
   },
   E10a2: {
-    indicator: 'Cum. proportion of total area under active mgmt.',
+    indicatorSummary: 'Cum. proportion of total area under active mgmt.',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a2',
-    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
-      ...baseLayers.S2GLC,
-      visible: true,
-    }],
-    legendUrl: 'eodash-data/data/LegendGLC.png',
     maxDecimals: 4,
   },
   E10a3: {
-    indicator: 'Evolution of the cultivated areas for production of white asparagus',
+    indicatorSummary: 'Evolution of the cultivated areas for production of white asparagus',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a2',
   },
   E10a5: {
-    indicator: 'Harvesting activity',
+    indicatorSummary: 'Harvesting activity',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a5',
   },
   E10a6: {
-    indicator: 'Harvested parcels/area evolution over time',
+    indicatorSummary: 'Harvested parcels/area evolution over time',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a6',
     maxDecimals: 4,
   },
   E10a8: {
-    indicator: 'Cumulative harvested area',
+    indicatorSummary: 'Cumulative harvested area',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a8',
   },
   E10a9: {
-    indicator: 'Tomatoes cultivation',
+    indicatorSummary: 'Tomatoes cultivation',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a9',
   },
   E10a10: {
-    indicator: 'Harvesting evolution over time',
+    indicatorSummary: 'Harvesting evolution over time',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a10',
   },
   E10b: {
-    indicator: 'Field preparation activity',
+    indicatorSummary: 'Field preparation activity',
     themes: ['agriculture'],
   },
   E11: {
-    indicator: 'Volume of activity at shopping centers',
+    indicatorSummary: 'Volume of activity at shopping centers',
     themes: ['economy'],
     story: '/eodash-data/stories/E11',
   },
   E11a: {
-    indicator: 'Indicator definition placeholder',
+    indicatorSummary: 'Indicator definition placeholder',
     themes: ['economy'],
   },
   E12a: {
-    indicator: 'Volume of activity logistic interchange centers',
+    indicatorSummary: 'Volume of activity logistic interchange centers',
     themes: ['economy'],
   },
   E12b: {
-    indicator: 'Throughput at border crossing points',
+    indicatorSummary: 'Throughput at border crossing points',
     themes: ['economy'],
     story: '/eodash-data/stories/E12b',
     maxDecimals: 3,
   },
   E12c: {
-    indicator: 'Number of Trucks (Beta)',
+    indicatorSummary: 'Number of Trucks (Beta)',
     themes: ['economy'],
     customAreaFeatures: true,
     customAreaIndicator: true,
@@ -227,7 +217,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/E12c',
   },
   E13a: {
-    indicator: 'Throughput at principal rail stations',
+    indicatorSummary: 'Throughput at principal rail stations',
     themes: ['economy'],
   },
   E13c: {
@@ -235,7 +225,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '',
   },
   E13b: {
-    indicator: 'Throughput at principal hub airports',
+    indicatorSummary: 'Throughput at principal hub airports',
     themes: ['economy'],
     story: '/eodash-data/stories/E13b_PLES',
     features: {
@@ -245,12 +235,12 @@ export const indicatorsDefinition = Object.freeze({
     largeTimeDuration: true,
   },
   E13b2: {
-    indicator: 'Throughput at principal hub airports Aerospacelab archived',
+    indicatorSummary: 'Throughput at principal hub airports Aerospacelab archived',
     themes: ['economy'],
     story: '/eodash-data/stories/E13b',
   },
   E13d: {
-    indicator: 'Airports: airplanes traffic',
+    indicatorSummary: 'Airports: airplanes traffic',
     themes: ['economy'],
     story: '/eodash-data/stories/E13d',
     baseLayers: [baseLayers.terrainLight, {
@@ -265,71 +255,71 @@ export const indicatorsDefinition = Object.freeze({
     largeTimeDuration: true,
   },
   E13e: {
-    indicator: 'Ports and Shipping - traffic (AIS)',
+    indicatorSummary: 'Ports and Shipping - traffic (AIS)',
     themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13f: {
-    indicator: 'Maritime traffic: fishing',
+    indicatorSummary: 'Maritime traffic: fishing',
     themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13g: {
-    indicator: 'Maritime traffic: tanker',
+    indicatorSummary: 'Maritime traffic: tanker',
     themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13h: {
-    indicator: 'Maritime traffic: tug',
+    indicatorSummary: 'Maritime traffic: tug',
     themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13i: {
-    indicator: 'Maritime traffic: search, rescue',
+    indicatorSummary: 'Maritime traffic: search, rescue',
     themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13l: {
-    indicator: 'Maritime traffic: pleasure craft',
+    indicatorSummary: 'Maritime traffic: pleasure craft',
     themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13m: {
-    indicator: 'Maritime traffic: passenger',
+    indicatorSummary: 'Maritime traffic: passenger',
     themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13n: {
-    indicator: 'Ports and Shipping - traffic (AIS, Sentinel-1, mobile)',
+    indicatorSummary: 'Ports and Shipping - traffic (AIS, Sentinel-1, mobile)',
     themes: ['economy'],
     story: '/eodash-data/stories/E13n',
   },
   E13o: {
-    indicator: 'Vessel density for all',
+    indicatorSummary: 'Vessel density for all',
     themes: ['economy'],
     story: '/eodash-data/stories/E13o',
   },
   E13p: {
-    indicator: 'Vessel density for cargo',
+    indicatorSummary: 'Vessel density for cargo',
     themes: ['economy'],
     story: '/eodash-data/stories/E13o',
   },
   E13q: {
-    indicator: 'Vessel density for tankers',
+    indicatorSummary: 'Vessel density for tankers',
     themes: ['economy'],
     story: '/eodash-data/stories/E13o',
   },
   E13r: {
-    indicator: 'Vessel density for others',
+    indicatorSummary: 'Vessel density for others',
     themes: ['economy'],
     story: '/eodash-data/stories/E13o',
   },
   H1: {
-    indicator: 'Number of temp. treatment sites',
+    indicatorSummary: 'Number of temp. treatment sites',
     themes: ['health'],
   },
   N1: {
-    indicator: 'Air quality',
+    indicatorSummary: 'Air quality',
     themes: ['air'],
     story: '/eodash-data/stories/N1',
     externalData: {
@@ -347,7 +337,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   N1b: {
-    indicator: 'CAMS Air quality',
+    indicatorSummary: 'CAMS Air quality',
     themes: ['air'],
     story: '/eodash-data/stories/N1_CAMS',
     externalData: {
@@ -372,88 +362,78 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   NASAPopulation: {
-    indicator: 'Population',
+    indicatorSummary: 'Population',
     themes: ['economy'],
     story: '/data/trilateral/NASAPopulation',
   },
   WSF: {
-    indicator: 'World Settlement Footprint',
+    indicatorSummary: 'World Settlement Footprint',
     themes: ['economy'],
     story: '/eodash-data/stories/WSF-WSF',
   },
   N2: {
-    indicator: 'CO2 emissions',
+    indicatorSummary: 'CO2 emissions',
     themes: ['air'],
     largeTimeDuration: true,
   },
   N3: {
-    indicator: 'CHL concentration',
+    indicatorSummary: 'CHL concentration',
     themes: ['water'],
     story: '/eodash-data/stories/N3',
   },
   N3a2: {
-    indicator: 'CHL concentration',
+    indicatorSummary: 'CHL concentration',
     themes: ['water'],
     story: '/eodash-data/stories/N3a2',
   },
   N4a: {
-    indicator: 'Changes in land fill sites',
+    indicatorSummary: 'Changes in land fill sites',
     themes: ['land'],
     story: '/eodash-data/stories/N4a',
-    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
-      ...baseLayers.S2GLC,
-      visible: true,
-    }],
-    legendUrl: 'eodash-data/data/LegendGLC.png',
     disableCSV: true,
   },
   N4b: {
-    indicator: 'Illegal waste levels',
+    indicatorSummary: 'Illegal waste levels',
     themes: ['land'],
   },
   N3c: {
-    indicator: 'CMEMS Water Quality',
+    indicatorSummary: 'CMEMS Water Quality',
     themes: ['water'],
     largeTimeDuration: true,
     story: '/eodash-data/stories/N3c',
   },
   N4c: {
-    indicator: 'Changes in land fill sites',
+    indicatorSummary: 'Changes in land fill sites',
     themes: ['land'],
     story: '/eodash-data/stories/N4c',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HH"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
-    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
-      ...baseLayers.S2GLC,
-      visible: true,
-    }],
-    legendUrl: 'eodash-data/data/LegendGLC.png',
     disableCSV: true,
   },
   OX: {
-    indicator: 'Crude Oil Storage Utilization',
+    indicatorSummary: 'Crude Oil Storage Utilization',
     themes: ['economy'],
     story: '/eodash-data/stories/OX',
     disableCSV: true,
   },
   GG: {
-    indicator: 'Mobility',
+    indicatorSummary: 'Mobility',
     themes: ['economy'],
     disableTimeSelection: true,
     story: '/eodash-data/stories/GG-GG',
     disableCSV: true,
   },
   CV: {
-    indicator: 'Covid-19 cases',
+    indicatorSummary: 'Covid-19 cases',
     themes: ['health'],
     disableTimeSelection: true,
     story: '/eodash-data/stories/CV-CV',
     disableCSV: true,
   },
   OW: {
-    indicator: 'Covid-19 vaccinations',
+    indicatorSummary: 'Covid-19 vaccinations',
     themes: ['health'],
     disableTimeSelection: true,
     story: '/eodash-data/stories/OW-OW',
@@ -461,7 +441,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   /*
   GSA: {
-    indicator: 'Mobility',
+    indicatorSummary: 'Mobility',
     themes: ['economy'],
     disableTimeSelection: true,
     borderSelection: true,
@@ -469,27 +449,27 @@ export const indicatorsDefinition = Object.freeze({
   },
   */
   CDS1: {
-    indicator: 'C3S Data',
+    indicatorSummary: 'C3S Data',
     themes: ['air'],
     story: '/eodash-data/stories/CDS',
   },
   CDS2: {
-    indicator: 'Relative humidity',
+    indicatorSummary: 'Relative humidity',
     themes: ['air'],
     story: '/eodash-data/stories/CDS',
   },
   CDS3: {
-    indicator: 'Wind U field',
+    indicatorSummary: 'Wind U field',
     themes: ['air'],
     story: '/eodash-data/stories/CDS',
   },
   CDS4: {
-    indicator: 'Wind V field',
+    indicatorSummary: 'Wind V field',
     themes: ['air'],
     story: '/eodash-data/stories/CDS',
   },
   d: { // dummy for locations without Indicator code
-    indicator: 'Upcoming data',
+    indicatorSummary: 'Upcoming data',
     themes: ['economy'],
   },
 });
@@ -557,12 +537,12 @@ export const indicatorClassesIcons = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  bounds: latLngBounds(latLng([35, -10]), latLng([70, 33])),
+  bounds: [-10, 35, 33, 70],
 });
 
 export const baseLayersLeftMap = [{
   ...baseLayers.terrainLight, visible: true,
-}, baseLayers.cloudless, baseLayers.S2GLC];
+}, baseLayers.cloudless];
 export const baseLayersRightMap = [{
   ...baseLayers.terrainLight, visible: true,
 }, baseLayers.cloudless];
@@ -1165,6 +1145,7 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
           labelFormatFunction: (date) => date,
           specialEnvTime: true,
+          attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Contains modified Landsat-5/-7 data [1985-2015] }',
         },
       },
     },
@@ -1366,7 +1347,6 @@ export const globalIndicators = [
   },
   {
     id: 9999,
-    latlng: latLng([45.197522, 13.029785]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1405,7 +1385,6 @@ export const globalIndicators = [
   },
   {
     id: 9998,
-    latlng: latLng([43.4, 4.94]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1444,7 +1423,6 @@ export const globalIndicators = [
   },
   {
     id: 9997,
-    latlng: latLng([45.197522, 13.0297851]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1483,7 +1461,6 @@ export const globalIndicators = [
   },
   {
     id: 9996,
-    latlng: latLng([43.4, 4.9400001]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1780,7 +1757,6 @@ export const globalIndicators = [
   },
   {
     id: 9995,
-    latlng: latLng([40.985, 1.769]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1819,7 +1795,6 @@ export const globalIndicators = [
   },
   {
     id: 9994,
-    latlng: latLng([40.985, 1.769]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1878,11 +1853,12 @@ export const globalIndicators = [
         inputData: [''],
         externalData: {
           label: 'Copernicus Marine Service - Product Details',
-          url: 'https://resources.marine.copernicus.eu/?option=com_csw%20&view=details%20&product_id=OCEANCOLOUR_MED_CHL_L4_NRT_OBSERVATIONS_009_041',
+          url: 'https://data.marine.copernicus.eu/products?q=Sea+ocean+colour&facets=mainVariables~Plankton',
         },
         display: [{
           name: 'CHL L4 Product',
           legendUrl: 'eodash-data/data/cmems-legend.png',
+          attribution: '{ E.U. Copernicus Marine Service Information; <a href="https://doi.org/10.48670/moi-00303" target="_blank"> doi:10.48670/moi-00303</a>;  <a href="https://doi.org/10.48670/moi-00300" target="_blank"> doi:10.48670/moi-00300 </a>;  <a href="https://doi.org/10.48670/moi-00287" target="_blank"> doi:10.48670/moi-00287 </a>; }',
           combinedLayers: [
             {
               ...cmemsDisplay,
@@ -1907,7 +1883,6 @@ export const globalIndicators = [
   },
   {
     id: 9993,
-    latlng: latLng([51.954, 4.094]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1950,7 +1925,6 @@ export const globalIndicators = [
   },
   {
     id: 9991,
-    latlng: latLng([48.87, 2.78]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1993,7 +1967,6 @@ export const globalIndicators = [
   },
   {
     id: 9990,
-    latlng: latLng([52.244, 21.045]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2036,7 +2009,6 @@ export const globalIndicators = [
   },
   {
     id: 9989,
-    latlng: latLng([50.604, -2.37]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2079,7 +2051,6 @@ export const globalIndicators = [
   },
   {
     id: 9988,
-    latlng: latLng([50.04, 8.5]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2124,7 +2095,6 @@ export const globalIndicators = [
   },
   {
     id: 9987,
-    latlng: latLng([40.413, -1.23]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,

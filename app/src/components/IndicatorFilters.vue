@@ -155,6 +155,10 @@ export default {
     }
   },
   mounted() {
+    // reset filters each time component is mounted
+    // (e.g. also when navigating back from custom dashboard)
+    this.sortSearchItems();
+    this.setFilterDebounced();
     this.$watch(
       () => this.$refs.combobox.isMenuActive,
       (val) => {

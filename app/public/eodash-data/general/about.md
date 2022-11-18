@@ -25,6 +25,16 @@ From this dashboard you can access data in various ways:
 
 A complete list of the datasets is provided in this Notebook: https://eurodatacube.com/marketplace/notebooks/contributions/IGARSS2022/IGARSS-22_Data_Access.ipynb
 
+## Publications 
+
+- Y. -L. Desnos, E. Hamdouch, A. Anghelea, G. Landgraf, S. Cheli and J. Turpin, "Rapid Action on COVID-19 and Earth Observation: an Inittiative for Societal Information Enabled by Copernicus Sentinels Data," 2021 IEEE International Geoscience and Remote Sensing Symposium IGARSS, 2021, pp. 1374-1376, doi: [10.1109/IGARSS47720.2021.9553746](https://doi.org/10.1109/IGARSS47720.2021.9553746). 
+- A. Anghelea, Y. -L. Desnos, M. Maskey, S. -i. Sobue and S. Meissl, "The COVID-19 Earth Observation Dashboard: A NASA-ESA-JAXA Collaborative Product," 2021 IEEE International Geoscience and Remote Sensing Symposium IGARSS, 2021, pp. 1556-1559, doi: [10.1109/IGARSS47720.2021.9553205](https://doi.org/10.1109/IGARSS47720.2021.9553205).
+- M. J. Falkowski, M. Maskey, S. -i. Sobue, G. Campbell, G. Bawden and T. Tadono, "COIVD-19 Impact Monitoring of Economic Activities," 2021 IEEE International Geoscience and Remote Sensing Symposium IGARSS, 2021, pp. 1366-1369, doi: 10.1109/IGARSS47720.2021.9555044.
+- B. Koetz et al., "COIVD-19 Impact Monitoring for Agriculutre," 2021 IEEE International Geoscience and Remote Sensing Symposium IGARSS, 2021, pp. 1567-1570, doi: [10.1109/IGARSS47720.2021.9553844](https://doi.org/10.1109/IGARSS47720.2021.9553844).
+- M. -H. Rio et al., "Trilateral Water Quality Monitoring from Space during Covid-19," 2021 IEEE International Geoscience and Remote Sensing Symposium IGARSS, 2021, pp. 1563-1566, doi: [10.1109/IGARSS47720.2021.9554949](https://doi.org/10.1109/IGARSS47720.2021.9554949).
+- Federica Braga, Daniele Ciani, Simone Colella, Emanuele Organelli, Jaime Pitarch, Vittorio E. Brando, Mariano Bresciani, Javier A. Concha, Claudia Giardino, Gian Marco Scarpa, Gianluca Volpe, Marie-Hélène Rio, Federico Falcini, COVID-19 lockdown effects on a coastal marine environment: Disentangling perception versus reality,Science of The Total Environment, Volume 817, 2022, 153002, ISSN 0048-9697, [https://doi.org/10.1016/j.scitotenv.2022.153002](https://doi.org/10.1016/j.scitotenv.2022.153002), [https://www.sciencedirect.com/science/article/pii/S0048969722000912](https://www.sciencedirect.com/science/article/pii/S0048969722000912)
+- M. P. Segundo, A. Pinto, R. Minetto, R. d. S. Torres and S. Sarkar, "Measuring Economic Activity From Space: A Case Study Using Flying Airplanes and COVID-19," in IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing, vol. 14, pp. 7213-7224, 2021, doi: [10.1109/JSTARS.2021.3094053](https://doi.org/10.1109/JSTARS.2021.3094053).
+
 ## Blog posts and Tutorials
 
 ### 2022

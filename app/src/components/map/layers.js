@@ -189,11 +189,14 @@ export function createLayerFromConfig(config, _options = {}) {
           return createFromTemplate(url, tileCoord);
         },
       });
-      source.set('updateTime', (time) => {
-        const updatedOptions = { ...options };
+      source.set('updateTime', (time, configUpdate) => {
+        const updatedOptions = {
+          ...options,
+          ...configUpdate,
+        };
         updatedOptions.time = time;
         source.setTileUrlFunction((tileCoord) => {
-          const url = replaceUrlPlaceholders(config.url, config, updatedOptions);
+          const url = replaceUrlPlaceholders(configUpdate.url, configUpdate, updatedOptions);
           return createFromTemplate(url, tileCoord);
         });
       });
@@ -227,9 +230,7 @@ export function createLayerFromConfig(config, _options = {}) {
     // and Sea Ice Concentration (trilateral)
     if (config.combinedLayers?.length) {
       config.combinedLayers.forEach((c) => {
-        const params = {
-          LAYERS: c.layers,
-        };
+        const params = {};
         let extent;
         if (c.extent) {
           extent = transformExtent(c.extent, 'EPSG:4326', DEFAULT_PROJECTION);
@@ -258,12 +259,19 @@ export function createLayerFromConfig(config, _options = {}) {
           url: c.baseUrl,
           tileGrid,
         });
-        singleSource.set('updateTime', (updatedTime) => {
-          const timeString = c.dateFormatFunction(updatedTime);
+        singleSource.set('updateTime', (updatedTime, configUpdate) => {
+          const timeString = configUpdate.dateFormatFunction(updatedTime);
+          const paramsUpdate = {};
+          paramsToPassThrough.forEach((param) => {
+            if (typeof configUpdate[param] !== 'undefined') {
+              paramsUpdate[param] = configUpdate[param];
+            }
+          });
           const newParams = {
+            ...paramsUpdate,
             time: timeString,
           };
-          if (config.specialEnvTime) {
+          if (configUpdate.specialEnvTime) {
             newParams.env = `year:${updatedTime}`;
           }
           singleSource.updateParams(newParams);
@@ -277,9 +285,7 @@ export function createLayerFromConfig(config, _options = {}) {
         }));
       });
     } else {
-      const params = {
-        LAYERS: config.layers,
-      };
+      const params = {};
       paramsToPassThrough.forEach((param) => {
         if (typeof config[param] !== 'undefined') {
           params[param] = config[param];
@@ -303,12 +309,19 @@ export function createLayerFromConfig(config, _options = {}) {
         url: config.url || config.baseUrl,
         tileGrid,
       });
-      source.set('updateTime', (updatedTime) => {
-        const timeString = config.dateFormatFunction(updatedTime);
+      source.set('updateTime', (updatedTime, configUpdate) => {
+        const timeString = configUpdate.dateFormatFunction(updatedTime);
+        const paramsUpdate = {};
+        paramsToPassThrough.forEach((param) => {
+          if (typeof configUpdate[param] !== 'undefined') {
+            paramsUpdate[param] = configUpdate[param];
+          }
+        });
         const newParams = {
+          ...paramsUpdate,
           time: timeString,
         };
-        if (config.specialEnvTime) {
+        if (configUpdate.specialEnvTime) {
           newParams.env = `year:${updatedTime}`;
         }
         source.updateParams(newParams);
@@ -348,10 +361,15 @@ export function createLayerFromConfig(config, _options = {}) {
     }
     // this gives an option to update the source (most likely the time) without
     // re-creating the entire layer
-    featuresSource.set('updateTime', (time) => {
-      const updatedOptions = { ...options };
+    featuresSource.set('updateTime', (time, configUpdate) => {
+      const updatedOptions = {
+        ...options,
+        ...configUpdate,
+      };
       updatedOptions.time = time;
-      const newUrl = replaceUrlPlaceholders(config.features.url, config, updatedOptions);
+      const newUrl = replaceUrlPlaceholders(
+        configUpdate.features.url, configUpdate, updatedOptions,
+      );
       fetchGeoJsonFeatures(featuresSource, newUrl);
     });
     const fill = new Fill({

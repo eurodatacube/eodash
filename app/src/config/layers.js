@@ -15,16 +15,6 @@ export const baseLayers = Object.freeze({
     visible: false,
     protocol: 'xyz',
   },
-  S2GLC: {
-    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-    protocol: 'WMS',
-    format: 'image/png',
-    tileSize: 512,
-    name: 'S2GLC - Europe Land Cover 2017',
-    layers: 'CAMS_GLC_2017',
-    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-    visible: false,
-  },
   mapboxHighReso: {
     name: 'Mapbox high resolution',
     url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,

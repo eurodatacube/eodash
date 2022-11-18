@@ -29,10 +29,6 @@ import getLocationCode from './mixins/getLocationCode';
 // Set UTC as default time zone behavior for whole client
 Settings.defaultZoneName = 'utc';
 
-// Stop webpack - CSS url incompatibility
-// (deletion is enough here since we don't use the default marker anyway)
-delete L.Icon.Default.prototype._getIconUrl;
-
 Vue.component(VueCountdown.name, VueCountdown);
 
 Vue.config.productionTip = false;
