@@ -7,6 +7,9 @@
       :isFullscreen="isFullScreen"
       :displayShowText="displayShowText"
     />
+    <gtif-breadcrumbs
+      v-if="appConfig.id === 'gtif'"
+    />
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.xsOnly"
       v-model="drawerLeft"
@@ -383,7 +386,7 @@
 
     <v-content
       :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
-        + $vuetify.application.footer}px); overflow:hidden; width: 100%`"
+        + $vuetify.application.footer - appConfig.id === 'gtif' ? 60 : 108}px); overflow:hidden; width: 100%; margin-top: ${appConfig.id === 'gtif' ? '56px' : '0'};`"
     >
       <v-container
         class="fill-height pa-0"
@@ -423,6 +426,7 @@ import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import IndicatorFilters from '@/components/IndicatorFilters.vue';
 import GTIFIndicatorFilters from '@/components/GTIF/GTIFIndicatorFilters.vue';
+import GtifBreadcrumbs from '@/components/GTIF/GTIFBreadcrumbs';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
@@ -447,6 +451,7 @@ export default {
     GlobalFooter,
     IndicatorFilters,
     GTIFIndicatorFilters,
+    GtifBreadcrumbs,
   },
   props: {
     source: String,
