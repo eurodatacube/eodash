@@ -3,18 +3,31 @@
     :cols="$vuetify.breakpoint.mdAndDown"
     :style="`height: auto`"
   >
-    <v-card class="pa-3"    >
+    <v-card class="pa-3">
       <div v-for="key in Object.keys(filters)"
         :key="key"
       >
-        <span
-          v-if="filters[key].header"
-          class="pl-8 ml-10"
-          style="font-size:20px; color: #000000;">
-          {{filters[key].label}}
-        </span>
-        <span v-else class="pl-8 ml-10" style="color: #7a7a7a;"> {{filters[key].label}} </span>
+        <template v-if="!(filters[key].type && filters[key].type=='boolfilter')">
+          <span
+            v-if="filters[key].header"
+            class="pl-8 ml-10"
+            style="font-size:20px; color: #000000;">
+            {{filters[key].label}}
+          </span>
+          <span v-else class="pl-8 ml-10" style="color: #7a7a7a;"> {{filters[key].label}} </span>
+        </template>
+        <v-col class='d-flex justify-center'
+          v-if="filters[key].type && filters[key].type=='boolfilter'"
+        >
+          <v-checkbox
+            v-model="filters[key].value"
+            :label="filters[key].label"
+            dense
+            @change="(evt) => updateMapBool(evt, filters[key].id)"
+          ></v-checkbox>
+        </v-col>
         <v-range-slider
+          v-else
           v-model="filters[key].range"
           hide-details
           dense
@@ -31,14 +44,8 @@
           </template>
         </v-range-slider>
       </div>
-      <div style="text-align: center;">
+      <div style="text-align: center;margin-bottom:20px;">
         <v-btn small color="primary">Add filter</v-btn>
-      </div>
-      <div style="padding-left: 30%" class="align-center justify-center d-inline-flex">
-        <v-checkbox
-          class="align-center justify-center d-inline-flex"
-          :label="'Exclude protected areas'"
-        ></v-checkbox>
       </div>
       <v-row class="pa-3 justify-center">
         <v-btn small class="mr-3" color="primary">Export best zones</v-btn>
@@ -72,6 +79,13 @@ export default {
       const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
       const variables = {};
       [variables[`${filterId}Min`], variables[`${filterId}Max`]] = evt;
+      gtl.updateStyleVariables(variables);
+    },
+    updateMapBool(evt, filterId) {
+      const { map } = getMapInstance('centerMap');
+      const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
+      const variables = {};
+      variables[filterId] = +evt;
       gtl.updateStyleVariables(variables);
     },
   },

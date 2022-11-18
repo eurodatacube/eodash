@@ -1424,7 +1424,7 @@ export const globalIndicators = [
               min: 0,
               max: 420,
               header: true,
-              range: [420, 0],
+              range: [0, 420],
             },
           },
         },
@@ -1458,7 +1458,7 @@ export const globalIndicators = [
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('greens', 0, 420, 50, false),
+                ...getColorStops('greens', 0, 420, 50, true),
               ],
               [
                 'color', 0, 0, 0, 0,
@@ -1532,6 +1532,12 @@ export const globalIndicators = [
               max: 25000,
               range: [0, 25000],
             },
+            protectedZones: {
+              type: 'boolfilter',
+              label: 'Exclude protected areas',
+              id: 'protected',
+              value: 0,
+            },
           },
         },
         display: {
@@ -1551,6 +1557,7 @@ export const globalIndicators = [
             { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
             { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/WSF_EucDist_Austria_3857_COG_fix.tif' },
             { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Natura2000_Austria_COG_3857_fix.tif' },
           ],
           style: {
             variables: {
@@ -1564,6 +1571,7 @@ export const globalIndicators = [
               settlementDistanceMax: 3000,
               energyGridDistanceMin: 0,
               energyGridDistanceMax: 25000,
+              protected: 0,
             },
             color: [
               'case',
@@ -1575,6 +1583,10 @@ export const globalIndicators = [
                 ['between', ['band', 3], ['var', 'slopeMin'], ['var', 'slopeMax']],
                 ['between', ['band', 4], ['var', 'settlementDistanceMin'], ['var', 'settlementDistanceMax']],
                 ['between', ['band', 5], ['var', 'energyGridDistanceMin'], ['var', 'energyGridDistanceMax']],
+                ['any',
+                  ['==', ['var', 'protected'], 0],
+                  ['==', ['band', 6], 0],
+                ],
               ],
               [
                 'interpolate',
@@ -1655,6 +1667,12 @@ export const globalIndicators = [
               max: 4000,
               range: [0, 4000],
             },
+            protectedZones: {
+              type: 'boolfilter',
+              label: 'Exclude protected areas',
+              id: 'protected',
+              value: 0,
+            },
           },
         },
         display: {
@@ -1674,6 +1692,7 @@ export const globalIndicators = [
             { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
             { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
             { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_DSM_COG_10m_3857_fix.tif' },
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Natura2000_Austria_COG_3857_fix.tif' },
           ],
           style: {
             variables: {
@@ -1687,6 +1706,7 @@ export const globalIndicators = [
               energyGridDistanceMax: 50000,
               elevationMin: 0,
               elevationMax: 4000,
+              protected: 0,
             },
             color: [
               'case',
@@ -1698,6 +1718,10 @@ export const globalIndicators = [
                 ['between', ['band', 3], ['var', 'slopeMin'], ['var', 'slopeMax']],
                 ['between', ['band', 4], ['var', 'energyGridDistanceMin'], ['var', 'energyGridDistanceMax']],
                 ['between', ['band', 5], ['var', 'elevationMin'], ['var', 'elevationMax']],
+                ['any',
+                  ['==', ['var', 'protected'], 0],
+                  ['==', ['band', 6], 0],
+                ],
               ],
               [
                 'interpolate',
