@@ -14,6 +14,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v4
         with:
+          project: ./app/
           working-directory: tests/e2e
           spec: cypress/specs/indicators_trilateral.js
           config: baseUrl=https://eodash-testing.eox.at/${GITHUB_REF##*/}/
