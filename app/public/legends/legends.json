@@ -1,11 +1,28 @@
 {
     "esa": {
+        "test": {
+            "range": [0, 400],
+            "cm": "YlGn",
+            "label": "Mg ha⁻¹"
+        },
         "N3c": {
             "range": [0.03, 30],
             "cm": "rainbow",
             "label": "ChL-a concentration mg/m³",
             "logarithmic": true,
             "ticks": [0.03, 0.2, 1, 5, 30]
+        },
+        "World-N1": {
+            "range": [0, 180],
+            "cm": "Reds",
+            "label": "Tropospheric NO₂ (µmol/m²)",
+            "ticks": [0, 45, 90, 135, 180]
+        },
+        "GCAQ1-N1b": {
+            "range": [0, 40],
+            "cm": ["#ffffff", "#fffbf7", "#feeedf", "#fed6b7", "#fab181", "#e9834d", "#b85426", "#7f2704"],
+            "label": "Tropospheric NO₂ (µg/m³)",
+            "ticks": [0, 5, 10, 15, 20, 25, 30, 35, 40]
         }
     },
     "trilateral": {

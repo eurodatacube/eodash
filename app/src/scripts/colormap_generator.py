@@ -10,7 +10,7 @@ with the same user id as your local account, e.g. "--user 1001"
 import os
 import shutil
 import matplotlib.pyplot as plt
-from matplotlib.colors import LogNorm
+from matplotlib.colors import LogNorm, ListedColormap
 import json
 from matplotlib.ticker import ScalarFormatter
 
@@ -40,13 +40,18 @@ for instance in data:
         ticks = config.get("ticks", None)
 
         normalization = LogNorm() if logarithmic else None
+        if isinstance(colormap, list):
+            # expecting that colormap is input as a list of discrete values (hex codes)
+            cmap = ListedColormap(colormap)
+        else:
+            cmap = colormap
 
         # generate the legend
         plt.rcParams["figure.figsize"] = (3, 1)
         x = [0, 1]
         y = x
         plt.figure()
-        mpb = plt.scatter(x, y, c=z, cmap=colormap, norm=normalization)
+        mpb = plt.scatter(x, y, c=z, cmap=cmap, norm=normalization)
 
         fig, ax = plt.subplots()
         cbar = plt.colorbar(mpb, ax=ax, orientation="horizontal", ticks=ticks)

@@ -693,7 +693,7 @@ export const globalIndicators = [
           name: 'Tropospheric NO2',
           layers: 'AWS_NO2-VISUALISATION',
           minZoom: 1,
-          legendUrl: 'eodash-data/data/no2Legend.png',
+          legendUrl: 'legends/esa/World-N1.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           areaIndicator: {
             ...statisticalApiHeaders,
@@ -970,7 +970,7 @@ export const globalIndicators = [
           baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged NO2',
           layers: 'composition_europe_no2_analysis_surface',
-          legendUrl: 'eodash-data/data/cams_no2.png',
+          legendUrl: 'legends/esa/GCAQ1-N1b.png',
           maxZoom: 13,
           minZoom: 1,
           attribution: '{ <a href="https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis" target="_blank">CAMS source data information</a> }',
