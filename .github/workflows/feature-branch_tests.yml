@@ -1,0 +1,35 @@
+# Run cypress tests
+- name: Cypress tests
+  on:
+    push:
+      branches-ignore: [ master, staging ]
+  jobs:
+    cypress-run:
+      name: Cypress run for trilateral
+      runs-on: ubuntu-22.04
+      steps:
+        - name: Wait for branch deployment to finish
+          uses: lewagon/wait-on-check-action@v1.2.0
+          with:
+            ref: ${{ github.ref }}
+            check-name: 'Feature branch deployment'
+            repo-token: ${{ secrets.GITHUB_TOKEN }}
+            wait-interval: 10
+        - name: Checkout
+          uses: actions/checkout@v2
+        - name: Cypress run
+          uses: cypress-io/github-action@v4
+          with:
+            working-directory: tests/e2e
+            spec: cypress/specs/indicators_trilateral.js
+            config: baseUrl=https://eodash-testing.eox.at/${GITHUB_REF##*/}/
+        - uses: actions/upload-artifact@v2
+          if: failure()
+          with:
+            name: cypress-screenshots
+            path: cypress/screenshots
+        - uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: cypress-videos
+            path: cypress/videos
