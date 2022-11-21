@@ -1,0 +1,15 @@
+{
+    "esa": {
+        "N3c": {
+            "range": [0.03, 30],
+            "cm": "rainbow",
+            "label": "ChL-a concentration mg/m³",
+            "logarithmic": true,
+            "ticks": [0.03, 0.2, 1, 5, 30]
+        }
+    },
+    "trilateral": {
+    },
+    "gtif": {
+    }
+}

@@ -573,7 +573,6 @@ export const cmemsDisplay = {
   tileSize: 256,
   minZoom: 1,
   layers: 'CHL',
-  legendUrl: 'eodash-data/data/cmems-legend.png',
   dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T00:00:00Z'"),
 };
 
@@ -1859,7 +1858,7 @@ export const globalIndicators = [
         },
         display: [{
           name: 'CHL L4 Product',
-          legendUrl: 'eodash-data/data/cmems-legend.png',
+          legendUrl: 'legends/esa/N3c.png',
           attribution: '{ E.U. Copernicus Marine Service Information; <a href="https://doi.org/10.48670/moi-00303" target="_blank"> doi:10.48670/moi-00303</a>;  <a href="https://doi.org/10.48670/moi-00300" target="_blank"> doi:10.48670/moi-00300 </a>;  <a href="https://doi.org/10.48670/moi-00287" target="_blank"> doi:10.48670/moi-00287 </a>; }',
           combinedLayers: [
             {
