@@ -6,18 +6,27 @@ on:
 
 jobs:
   cypress-run:
-    name: Cypress run for trilateral
+    name: Cypress run
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
+      # Tests for trilateral
+      # - name: Cypress run
+      #   uses: cypress-io/github-action@v4
+      #   with:
+      #     working-directory: app
+      #     spec: tests/e2e/specs/indicators_trilateral.js
+      #     config: 'baseUrl=https://${{ secrets.TEST_INSTANCE_UN }}:${{ secrets.TEST_INSTANCE_PW }}@eodash-trilateral-testing.eox.at/${{ github.ref_name }}/'
+
+      # Tests for race
       - name: Cypress run
         uses: cypress-io/github-action@v4
         with:
           working-directory: app
-          spec: tests/e2e/specs/indicators_trilateral.js
-          config: 'baseUrl=https://${{ secrets.TEST_INSTANCE_UN }}:${{ secrets.TEST_INSTANCE_PW }}@eodash-trilateral-testing.eox.at/${{ github.ref_name }}/'
+          spec: tests/e2e/specs/indicators_race.js
+          config: 'baseUrl=https://${{ secrets.TEST_INSTANCE_UN }}:${{ secrets.TEST_INSTANCE_PW }}@eodash-testing.eox.at/${{ github.ref_name }}/'
 
       - uses: actions/upload-artifact@v2
         if: failure()
