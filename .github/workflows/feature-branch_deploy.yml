@@ -109,25 +109,22 @@ jobs:
           steps:
             - name: Checkout
               uses: actions/checkout@v2
-
             - name: Cypress run
               uses: cypress-io/github-action@v4
               with:
                 working-directory: tests/e2e
                 spec: cypress/specs/indicators_trilateral.js
                 config: baseUrl=https://eodash-testing.eox.at/${GITHUB_REF##*/}/
-            
-            - uses: actions/upload-artifact@v2
-              if: failure()
-              with:
-                name: cypress-screenshots
-                path: cypress/screenshots
-            # Test run video was always captured, so this action uses "always()" condition
-            - uses: actions/upload-artifact@v2
-              if: always()
-              with:
-                name: cypress-videos
-                path: cypress/videos
+            # - uses: actions/upload-artifact@v2
+            #   if: failure()
+            #   with:
+            #     name: cypress-screenshots
+            #     path: cypress/screenshots
+            # - uses: actions/upload-artifact@v2
+            #   if: always()
+            #   with:
+            #     name: cypress-videos
+            #     path: cypress/videos
 
 
 #TODO add action to remove files once branch is deleted
