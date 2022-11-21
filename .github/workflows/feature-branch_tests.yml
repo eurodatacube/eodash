@@ -3,18 +3,12 @@ name: Cypress tests
 on:
   push:
     branches-ignore: [ master, staging ]
+
 jobs:
   cypress-run:
     name: Cypress run for trilateral
     runs-on: ubuntu-22.04
     steps:
-      - name: Wait for branch deployment to finish
-        uses: lewagon/wait-on-check-action@v1.2.0
-        with:
-          ref: ${{ github.ref }}
-          check-name: 'Feature branch deployment'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 10
       - name: Checkout
         uses: actions/checkout@v2
       - name: Cypress run
