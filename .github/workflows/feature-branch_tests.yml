@@ -15,8 +15,7 @@ jobs:
         uses: cypress-io/github-action@v4
         with:
           project: ./app/
-          working-directory: tests/e2e
-          spec: cypress/specs/indicators_trilateral.js
+          spec: tests/e2e/specs/indicators_trilateral.js
           config: baseUrl=https://eodash-testing.eox.at/${GITHUB_REF##*/}/
       - uses: actions/upload-artifact@v2
         if: failure()
