@@ -1,3 +1,4 @@
+Cypress.config('baseUrl', 'http://localhost:8080');
 describe('Indicator tests for trilateral', () => {
   /*
   TODO: For indicator tests
