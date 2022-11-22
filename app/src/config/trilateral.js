@@ -781,7 +781,7 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Air Quality (NO2) - ESA',
           layers: 'AWS_NO2-VISUALISATION',
-          legendUrl: 'eodash-data/data/no2Legend.png',
+          legendUrl: 'legends/esa/World-N1.png',
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           areaIndicator: {
@@ -831,7 +831,7 @@ export const globalIndicators = [
           name: 'Air Quality (CH4) - ESA',
           layers: 'AWS_CH4_WEEKLY',
           minZoom: 1,
-          legendUrl: 'eodash-data/data/ch4_legend_mixing_ratio.png',
+          legendUrl: 'legends/esa/CH4-N1.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           areaIndicator: {
             ...statisticalApiHeaders,
@@ -874,7 +874,7 @@ export const globalIndicators = [
           name: 'CO',
           layers: 'AWS_VIS_CO_3DAILY_DATA',
           minZoom: 1,
-          legendUrl: 'data/trilateral/s5pCOLegend.png',
+          legendUrl: 'legends/esa/WorldCO-N1.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           areaIndicator: {
             ...statisticalApiHeaders,

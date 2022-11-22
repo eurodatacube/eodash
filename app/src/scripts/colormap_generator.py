@@ -33,7 +33,7 @@ for instance in data:
     for legendId in content:
         # extract from config with defaults
         config = content[legendId]
-        z = config.get("range", [0, 1])
+        zrange = config.get("range", [0, 1])
         colormap = config.get("cm", "YlGn")
         label = config.get("label", "")
         logarithmic = config.get("logarithmic", False)
@@ -43,6 +43,28 @@ for instance in data:
         normalization = LogNorm() if logarithmic else None
         if isinstance(colormap, list):
             # expecting that colormap is input as a list of discrete values (hex codes)
+            if isinstance(colormap[0], str):
+                # list of hex strings, pass
+                pass
+            else:
+                # list of numbers, assuming 0-255 color range from SH evalscript
+                # and minmax in absolute values instead of stretched to 0,1
+                if len(colormap[0]) == 2:
+                    # format [1740, [0, 108, 211, 120]] - not equidistant between colormap definition points
+                    diff = zrange[1] - zrange[0]
+                    colormap = [
+                        [
+                            (segmentdata[0] - zrange[0]) / diff,
+                            [rgbadef / 255 for rgbadef in segmentdata[1]],
+                        ]
+                        for segmentdata in colormap
+                    ]
+                else:
+                    # format [0, 108, 211, 120] - equidistant between colormap definition points
+                    colormap = [
+                        [rgbadef / 255 for rgbadef in segmentdata[1]]
+                        for segmentdata in colormap
+                    ]
             if discrete:
                 cmap = ListedColormap(colormap)
             else:
@@ -51,11 +73,11 @@ for instance in data:
             cmap = colormap
 
         # generate the legend
-        plt.rcParams["figure.figsize"] = (3, 1)
+        plt.rcParams["figure.figsize"] = (4, 2)
         x = [0, 1]
         y = x
         plt.figure()
-        mpb = plt.scatter(x, y, c=z, cmap=cmap, norm=normalization)
+        mpb = plt.scatter(x, y, c=zrange, cmap=cmap, norm=normalization)
 
         fig, ax = plt.subplots()
         cbar = plt.colorbar(mpb, ax=ax, orientation="horizontal")

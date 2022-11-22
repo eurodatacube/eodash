@@ -781,7 +781,7 @@ export const globalIndicators = [
           name: 'TROPOMI CH4',
           layers: 'AWS_CH4_WEEKLY',
           minZoom: 1,
-          legendUrl: 'eodash-data/data/ch4_legend_mixing_ratio.png',
+          legendUrl: 'legends/esa/CH4-N1.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           areaIndicator: {
             ...statisticalApiHeaders,
