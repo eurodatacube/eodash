@@ -1556,7 +1556,6 @@ export const globalIndicators = [
               radius: 3,
               weight: 1,
             },
-            featureLimit: 5000,
             allowedParameters: ['osm_name', 'truck_count_normalized', 'sum_observations'],
             dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
             callbackFunction: (responseJson) => { // geom from wkb to geojson features
@@ -1685,7 +1684,6 @@ export const globalIndicators = [
               radius: 3,
               weight: 1,
             },
-            featureLimit: 5000,
             allowedParameters: ['truck_count_normalized', 'sum_observations'],
             dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
             callbackFunction: (responseJson) => { // geom from wkb to geojson features
