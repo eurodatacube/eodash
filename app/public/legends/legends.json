@@ -23,6 +23,24 @@
             "cm": ["#ffffff", "#fffbf7", "#feeedf", "#fed6b7", "#fab181", "#e9834d", "#b85426", "#7f2704"],
             "label": "Tropospheric NO₂ (µg/m³)",
             "ticks": [0, 5, 10, 15, 20, 25, 30, 35, 40]
+        },
+        "GCAQ2-N1b": {
+            "range": [0, 40],
+            "cm": ["#ffffff", "#fcfcfd", "#f2f2f8", "#dddded", "#bdbbdb", "#998cc2", "#6e4aa1", "#3f007d"],
+            "label": "PM2.5 (µg/m³)",
+            "ticks": [0, 5, 10, 15, 20, 25, 30, 35, 40]
+        },
+        "GCAQ3-N1b": {
+            "range": [0, 40],
+            "cm": ["#ffffff", "#fbfdfa", "#ebf7e9", "#cfebce", "#9ed5a8", "#68b37f", "#27854c", "#00441b"],
+            "label": "PM10 (µg/m³)",
+            "ticks": [0, 5, 10, 15, 20, 25, 30, 35, 40]
+        },
+        "GCAQ4-N1b": {
+            "range": [0, 240],
+            "cm": ["#ffffff", "#fffbf7", "#feeedf", "#fed6b7", "#fab181", "#e9834d", "#b85426", "#7f2704"],
+            "label": "O3 (µg/m³)",
+            "ticks": [0, 30, 60, 90, 120, 150, 180, 210, 240]
         }
     },
     "trilateral": {
