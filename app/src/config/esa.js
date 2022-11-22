@@ -737,7 +737,7 @@ export const globalIndicators = [
           name: 'TROPOMI CO',
           layers: 'AWS_VIS_CO_3DAILY_DATA',
           minZoom: 1,
-          legendUrl: 'data/trilateral/s5pCOLegend.png',
+          legendUrl: 'legends/esa/WorldCO-N1.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           areaIndicator: {
             ...statisticalApiHeaders,

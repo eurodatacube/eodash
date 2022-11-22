@@ -3,14 +3,14 @@
 Helper script to generate legend images from JSON configuration
 
 Usage:
-docker run --rm -it -v $PWD:/working -v $PWD/../../public:/public eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/colormap_generator.py
+docker run --rm -it -v $PWD:/working -v $PWD/../../public:/public lubojr/matplotlib-python:mt-3.6-py3.10 python3 /working/colormap_generator.py
 If issues with write permission you might have to add a user as parameter
 with the same user id as your local account, e.g. "--user 1001"
 """
 import os
 import shutil
 import matplotlib.pyplot as plt
-from matplotlib.colors import LogNorm, ListedColormap
+from matplotlib.colors import LogNorm, ListedColormap, LinearSegmentedColormap
 import json
 from matplotlib.ticker import ScalarFormatter
 
@@ -38,11 +38,15 @@ for instance in data:
         label = config.get("label", "")
         logarithmic = config.get("logarithmic", False)
         ticks = config.get("ticks", None)
+        discrete = config.get("discrete", False)
 
         normalization = LogNorm() if logarithmic else None
         if isinstance(colormap, list):
             # expecting that colormap is input as a list of discrete values (hex codes)
-            cmap = ListedColormap(colormap)
+            if discrete:
+                cmap = ListedColormap(colormap)
+            else:
+                cmap = LinearSegmentedColormap.from_list("cmap", colormap)
         else:
             cmap = colormap
 
@@ -54,10 +58,11 @@ for instance in data:
         mpb = plt.scatter(x, y, c=z, cmap=cmap, norm=normalization)
 
         fig, ax = plt.subplots()
-        cbar = plt.colorbar(mpb, ax=ax, orientation="horizontal", ticks=ticks)
+        cbar = plt.colorbar(mpb, ax=ax, orientation="horizontal")
         # special handling of pre-configured ticks
         if ticks:
-            cbar.ax.set_yticklabels([str(i) for i in ticks])
+            cbar.ax.set_xticks(ticks)
+            cbar.ax.set_xticklabels([str(i) for i in ticks])
             # default for logarithmic ticks is 10^x notation, set scalar
             if logarithmic:
                 cbar.ax.xaxis.set_major_formatter(ScalarFormatter())
