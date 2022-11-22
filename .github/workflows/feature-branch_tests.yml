@@ -1,5 +1,5 @@
 # Run cypress tests
-name: Cypress tests
+name: Cypress tests - RACE
 on:
   push:
     branches-ignore: [ master, staging ]
