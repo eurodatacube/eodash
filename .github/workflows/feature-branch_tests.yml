@@ -13,12 +13,12 @@ jobs:
         uses: actions/checkout@v2
 
       # Tests for trilateral
-      # - name: Cypress run
-      #   uses: cypress-io/github-action@v4
-      #   with:
-      #     working-directory: app
-      #     spec: tests/e2e/specs/indicators_trilateral.js
-      #     config: 'baseUrl=https://${{ secrets.TEST_INSTANCE_UN }}:${{ secrets.TEST_INSTANCE_PW }}@eodash-trilateral-testing.eox.at/${{ github.ref_name }}/'
+      - name: Cypress run
+        uses: cypress-io/github-action@v4
+        with:
+          working-directory: app
+          spec: tests/e2e/specs/indicators_trilateral.js
+          config: 'baseUrl=https://${{ secrets.TEST_INSTANCE_UN }}:${{ secrets.TEST_INSTANCE_PW }}@eodash-trilateral-testing.eox.at/${{ github.ref_name }}/'
 
       # Tests for race
       - name: Cypress run

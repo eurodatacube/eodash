@@ -1,4 +1,3 @@
-Cypress.config('baseUrl', 'http://localhost:8080');
 describe('Indicator tests for trilateral', () => {
   /*
   TODO: For indicator tests
@@ -9,11 +8,9 @@ describe('Indicator tests for trilateral', () => {
   * ...?
   */
   it('test indicator chart', () => {
-    cy.visit('/');
-    // In trilateral testing branches we need to navigate to explore mode
-    cy.contains('Explore Datasets').click();
-    // TODO: Not sure how to best activate poi then
-    // e.g. &poi=CN02-N2
+    // We can leave out the explore navigation as directly providing kvp changes to this mode
+    // thus we can use test branch deployments
+    cy.visit('/&poi=CN02-N2');
     cy.contains(' Shanghai: Partial Column (GOSAT FTS L1B V220.220) ').should('exist');
     cy.get('#bar-chart').should('exist');
   });
