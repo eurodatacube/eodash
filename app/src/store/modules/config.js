@@ -19,10 +19,7 @@ const mutations = {
 const actions = {
   checkBrand({ commit }) {
     const appConfig = require('../../appConfig');
-    const hostname = document.location.href.match(/\/\/([^:/]+)/)[1];
-    console.log(hostname);
-    console.log(appConfig);
-    const b = appConfig.find((c) => c.match.includes(hostname));
+    const b = appConfig.find((c) => c.match.includes(document.domain));
     const brandConfig = (b !== undefined) ? b : appConfig[0];
     commit('SET_APP_CONFIG', brandConfig);
     commit('SET_BASE_CONFIG', require(`../../config/${brandConfig.id}.js`));
