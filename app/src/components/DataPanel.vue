@@ -16,6 +16,7 @@
         </filter-controls>
 
         <v-btn
+          v-if="appConfig.id === 'gtif'"
           text
           color="primary"
           class="mx-3"
@@ -27,7 +28,8 @@
             : 0}deg); transition: all .3s ease-in-out;`">mdi-chevron-right</v-icon>
         </v-btn>
 
-        <scatter-plot v-if="indicatorObject.cogFilters.sourceLayer === 'REP1' && showScatterplot"
+        <scatter-plot v-if="indicatorObject.cogFilters
+          && indicatorObject.cogFilters.sourceLayer === 'REP1' && showScatterplot"
           :filters="indicatorObject.cogFilters.filters"
         >
         </scatter-plot>

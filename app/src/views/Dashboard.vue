@@ -5,94 +5,10 @@
   >
     <global-header
       ref="globalHeader"
-      :isFullscreen="isFullScreen"
-      :displayShowText="displayShowText"
     />
     <gtif-breadcrumbs
       v-if="appConfig.id === 'gtif'"
     />
-    <v-navigation-drawer
-      v-if="$vuetify.breakpoint.xsOnly"
-      v-model="drawerLeft"
-      left
-      app
-      clipped
-      width="300px"
-      style="overflow: hidden"
-      class="drawerLeft"
-      v-show="!isFullScreen"
-    >
-      <v-list-item style="background: var(--v-primary-base)">
-        <v-list-item-content>
-          <h3 class="text-uppercase white--text">
-            {{ appConfig && appConfig.branding.appName }}
-          </h3>
-        </v-list-item-content>
-        <v-list-item-action
-          class="align-center"
-        >
-          <v-icon
-            style="position: absolute;"
-            color="white"
-            small
-            dark
-            @click="$vuetify.theme.dark = !$vuetify.theme.dark"
-          >
-            {{
-              $vuetify.theme.dark
-                ? 'mdi-white-balance-sunny'
-                : 'mdi-weather-night'
-            }}
-          </v-icon>
-        </v-list-item-action>
-      </v-list-item>
-
-      <v-divider></v-divider>
-
-      <v-btn
-        block
-        text
-        color="primary"
-        to="/"
-      >
-        Start
-      </v-btn>
-      <v-btn
-        block
-        text
-        color="primary"
-        @click="displayShowText('welcome')"
-      >
-        Welcome
-      </v-btn>
-      <v-btn
-        block
-        text
-        color="primary"
-        @click="displayShowText('about')"
-      >
-        About
-      </v-btn>
-      <v-badge
-        bordered
-        color="info"
-        :content="$store.state.dashboard.dashboardConfig
-          && $store.state.dashboard.dashboardConfig.features.length"
-        :value="$store.state.dashboard.dashboardConfig
-          && $store.state.dashboard.dashboardConfig.features.length"
-        overlap
-      >
-        <v-btn
-          v-if="$store.state.dashboard.dashboardConfig"
-          block
-          text
-          color="primary"
-          to="/dashboard"
-        >
-          Custom Dashboard
-        </v-btn>
-      </v-badge>
-    </v-navigation-drawer>
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.mdAndUp"
       v-model="drawerRight"
@@ -107,7 +23,6 @@
         height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px;`"
       class="data-panel"
     >
-      <banner v-if="currentNews" ref="newsBanner" />
       <v-toolbar flat>
         <v-toolbar-title v-if="$store.state.indicators.selectedIndicator"
           :class="$store.state.indicators.selectedIndicator.description ===
@@ -258,7 +173,7 @@
 
     <v-content
       :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
-        + $vuetify.application.footer - appConfig.id === 'gtif' ? 60 : 108}px); overflow:hidden; width: 100%; margin-top: ${appConfig.id === 'gtif' ? '48px' : '0'};`"
+        + $vuetify.application.footer}px); overflow:hidden; width: 100%`"
     >
       <v-container
         class="fill-height pa-0"
@@ -313,8 +228,6 @@ export default {
     };
   },
   components: {
-    Welcome,
-    About,
     Banner,
     CenterPanel,
     DataPanel,

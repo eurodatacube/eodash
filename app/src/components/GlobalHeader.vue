@@ -386,23 +386,6 @@ import GtifHeader from './GTIF/GTIFHeader.vue';
 export default {
   props: {
     /**
-     * Determines whether the header should be hidden.
-     * @values true, false
-     */
-    isFullScreen: {
-      type: Boolean,
-      default: false,
-    },
-
-    /**
-     * A callback function when the header needs to do something beyond its scope.
-     */
-    displayShowText: {
-      type: Function,
-      default: () => {},
-    },
-
-    /**
      * Another callback allowing us to switch the Dashboard drawer from this component.
      */
     switchDrawer: {
