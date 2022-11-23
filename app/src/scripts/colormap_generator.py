@@ -15,8 +15,10 @@ from matplotlib.colors import (
     ListedColormap,
     LinearSegmentedColormap,
 )
+from matplotlib import cm
 import json
 from matplotlib.ticker import ScalarFormatter
+import numpy as np
 
 
 def clear_folder(target_dir):
@@ -30,6 +32,18 @@ def clear_folder(target_dir):
 
 with open("/public/legends/legends.json", "r") as fh:
     data = json.load(fh)
+# prepare a special legend cfastie (NDVI), as its not in matplotlib
+cfastie = np.load("/public/legends/cfastie.npy")
+cfastie_prepared = [
+    [
+        i / 255,
+        [rgbadef / 255 for rgbadef in step],
+    ]
+    for i, step in enumerate(cfastie)
+]
+cm.register_cmap(
+    name="cfastie", cmap=LinearSegmentedColormap.from_list("cfastie", cfastie_prepared)
+)
 
 for instance in data:
     clear_folder(f"/public/legends/{instance}")

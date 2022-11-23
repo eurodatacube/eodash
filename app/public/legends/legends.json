@@ -113,6 +113,18 @@
         }
     },
     "trilateral": {
+        "GOSAT_XCO2": {
+            "range": [-12.5, 12.5],
+            "cm": "jet",
+            "label": "diff XCO2 [ppm]",
+            "ticks": [-10,-5,0,5,10]
+        },
+        "NDVI_cfastie": {
+            "range": [-1, 1],
+            "cm": "cfastie",
+            "label": "NDVI",
+            "ticks": [-1, -0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1]
+        }
     },
     "gtif": {
     }
