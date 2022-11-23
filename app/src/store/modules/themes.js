@@ -33,7 +33,11 @@ const getters = {
 };
 
 const mutations = {
-  SET_CURRENT_THEME(state, theme) {
+  SET_CURRENT_THEME(state, slug) {
+    let theme;
+    if (slug) {
+      theme = state.themes.find((t) => t.slug === slug);
+    }
     state.currentTheme = theme;
   },
 

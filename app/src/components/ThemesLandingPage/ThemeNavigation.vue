@@ -8,10 +8,10 @@
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-row no-gutters class="button-row" style="z-index: 1000;">
-              <template v-for="theme in themes">
+              <template v-for="theme in getThemes">
                 <v-col :key="theme.slug" cols="12" xs="12" sm="12" md="6"
                   :style="$vuetify.breakpoint.lgAndUp
-                    ? `flex: 0 0 ${100 / themes.length}%; max-width: initial`
+                    ? `flex: 0 0 ${100 / getThemes.length}%; max-width: initial`
                     : ''"
                 >
                   <v-btn
@@ -32,9 +32,9 @@
 
     <div class="normal-menu d-none d-md-flex">
       <v-row no-gutters class="button-row-2 pa-0" style="flex-wrap: nowrap">
-        <template v-for="theme in themes">
+        <template v-for="theme in getThemes">
           <v-col no-gutters :key="theme.slug" class="" cols="12" xs="12" sm="12" md="6"
-            :style="`flex: 0 0 ${100 / themes.length}%; max-width: initial`"
+            :style="`flex: 0 0 ${100 / getThemes.length}%; max-width: initial`"
           >
             <v-btn
               class="elevation-0 py-2 white--text"
@@ -54,6 +54,7 @@
 <script>
 import {
   mapState,
+  mapGetters,
 } from 'vuex';
 
 export default {
@@ -69,7 +70,12 @@ export default {
     },
   },
   computed: {
-    ...mapState({ themes: (state) => state.themes.themes[state.config.appConfig.id] }),
+    ...mapState('config', ['appConfig']),
+    ...mapGetters('themes', [
+      'getStories',
+      'getThemes',
+    ]),
+
   },
 };
 </script>
