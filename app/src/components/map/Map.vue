@@ -279,18 +279,17 @@ export default {
       return this.baseConfig.layerNameMapping;
     },
     showSpecialLayer() {
-      return this.mergedConfigsData.length && this.dataLayerName && this.indicatorHasMapData(this.indicator);
+      return this.mergedConfigsData.length && this.dataLayerName
+      && this.indicatorHasMapData(this.indicator);
     },
     dataLayerConfigLayerControls() {
       // SpecialLayer entries in LayerControl
       let configs = null;
       if (this.showSpecialLayer) {
-        configs = this.mergedConfigsData.map((config) => {
-          return {
-            name: config.name,
-            visible: config.visible,
-          };
-        });
+        configs = this.mergedConfigsData.map((config) => ({
+          name: config.name,
+          visible: config.visible,
+        }));
       }
       return configs;
     },

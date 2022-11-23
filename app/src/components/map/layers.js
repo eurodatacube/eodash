@@ -16,7 +16,7 @@ import TileGrid from 'ol/tilegrid/TileGrid';
 import { createXYZ } from 'ol/tilegrid';
 import { Group } from 'ol/layer';
 import VectorTileLayer from 'ol/layer/VectorTile';
-import { applyStyle, stylefunction } from 'ol-mapbox-style';
+import { applyStyle } from 'ol-mapbox-style';
 import * as flatgeobuf from 'flatgeobuf/dist/flatgeobuf-geojson.min';
 import { bbox } from 'ol/loadingstrategy';
 import { get as getProj, transformExtent } from 'ol/proj';
@@ -490,7 +490,7 @@ export function createLayerFromConfig(config, _options = {}) {
     });
     const featuresLayer = new VectorLayer({
       source: featuresSource,
-      name: config.name + "_features",
+      name: `${config.name}_features`,
       style: new Style({
         fill,
         stroke,

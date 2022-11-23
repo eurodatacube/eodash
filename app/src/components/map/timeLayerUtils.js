@@ -18,7 +18,9 @@ export function updateTimeLayer(layer, config, time) {
     fetch(config.styleFile).then((r) => r.json())
       .then((glStyle) => {
         currlayer.setSource(null);
-        glStyle.sources.air_quality.data = glStyle.sources.air_quality.data.replace('{{time}}', time.replaceAll('-', '_'));
+        // eslint-disable-next-line no-param-reassign
+        glStyle.sources.air_quality.data = glStyle
+          .sources.air_quality.data.replace('{{time}}', time.replaceAll('-', '_'));
         applyStyle(currlayer, glStyle, [currStyleLayer]);
       })
       .catch(() => console.log('Issue loading mapbox style'));

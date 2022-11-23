@@ -203,8 +203,6 @@
 </template>
 
 <script>
-import Welcome from '@/views/Welcome.vue';
-import About from '@/views/About.vue';
 import Banner from '@/components/Banner.vue';
 import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
@@ -212,7 +210,7 @@ import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import IndicatorFilters from '@/components/IndicatorFilters.vue';
 import GTIFIndicatorFilters from '@/components/GTIF/GTIFIndicatorFilters.vue';
-import GtifBreadcrumbs from '@/components/GTIF/GTIFBreadcrumbs';
+import GtifBreadcrumbs from '@/components/GTIF/GTIFBreadcrumbs.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';

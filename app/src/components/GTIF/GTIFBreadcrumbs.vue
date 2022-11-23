@@ -35,25 +35,25 @@ export default {
     currentBreadcrumb() {
       switch (this.$route.name) {
         case 'gtif-energy-transition':
-          return 'Energy Transition'
+          return 'Energy Transition';
 
         case 'gtif-mobility-transition':
-          return 'Mobility Transition'
+          return 'Mobility Transition';
 
         case 'gtif-sustainable-transition':
-          return 'Sustainable Cities'
+          return 'Sustainable Cities';
 
         case 'gtif-social-mobility':
-          return 'Social Mobility'
+          return 'Social Mobility';
 
         case 'gtif-carbon-finance':
-          return 'Carbon Accounting'
+          return 'Carbon Accounting';
 
         case 'gtif-eo-adaptation':
-          return 'EO Adaptation Services'
+          return 'EO Adaptation Services';
 
         case 'explore':
-          return 'Explore Tool'
+          return 'Explore Tool';
 
         default:
           return '';

@@ -109,7 +109,7 @@ export default {
       let groups = null;
       if (this.administrativeConfigs.length > 0) {
         groups = [{
-          name: "Administrative Layers",
+          name: 'Administrative Layers',
           visible: true,
           configs: this.administrativeConfigs,
         }];
@@ -147,7 +147,7 @@ export default {
       layerConfigsGroup.configs.forEach((config) => {
         const layer = olLayers.find((l) => l.get('name') === config.name);
         layer.setVisible(value);
-      })
+      });
     },
     updateOverlayOpacity(e) {
       const map = e.target;

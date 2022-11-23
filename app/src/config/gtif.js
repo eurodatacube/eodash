@@ -4,17 +4,8 @@ import { baseLayers, overlayLayers } from '@/config/layers';
 import { DateTime } from 'luxon';
 import { latLng, latLngBounds } from 'leaflet';
 import colormap from 'colormap';
-import { default as powerOpenInsfrastructureStyle } from '@/assets/openinframap/style_oim_power.js';
-
-import availableDates from '@/config/data_dates.json';
-
-import {
-  statisticalApiHeaders,
-  statisticalApiBody,
-  evalScriptsDefinitions,
-  parseStatAPIResponse,
-  nasaTimelapseConfig,
-} from '@/helpers/customAreaObjects';
+// eslint-disable-next-line import/no-named-default
+import { default as powerOpenInsfrastructureStyle } from '@/assets/openinframap/style_oim_power';
 
 // Helper function to create colorscales for cog style rendering
 function getColorStops(name, min, max, steps, reverse) {
@@ -62,10 +53,10 @@ export const mapDefaults = Object.freeze({
 export const baseLayersLeftMap = [{
   ...baseLayers.terrainLight, visible: true,
 },
-  baseLayers.cloudless,
-  baseLayers.S2GLC,
-  baseLayers.ESA_WORLD_COVER,
-  baseLayers.CORINE_LAND_COVER,
+baseLayers.cloudless,
+baseLayers.S2GLC,
+baseLayers.ESA_WORLD_COVER,
+baseLayers.CORINE_LAND_COVER,
 ];
 export const baseLayersRightMap = [{
   ...baseLayers.terrainLight, visible: true,
@@ -80,7 +71,7 @@ export const overlayLayersLeftMap = [{
   zIndex: 4,
   maplibreStyles: {
     version: 8,
-    sprite: window.location.protocol + '//' + window.location.hostname + (window.location.port === '' ? '' : `:${window.location.port}`) + '/data/gtif/data/openinframap/sprite',
+    sprite: `${window.location.protocol}//${window.location.hostname}${window.location.port === '' ? '' : `:${window.location.port}`}/data/gtif/data/openinframap/sprite`,
     glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
     id: 'openinframap',
     name: 'OpenInfraMap',
@@ -333,17 +324,6 @@ export const indicatorsDefinition = Object.freeze({
     alternateDataPath: './eodash-data/internal/',
   },
 });
-
-const getYearlyDates = (start, end) => {
-  let currentDate = DateTime.fromISO(start);
-  const stopDate = DateTime.fromISO(end);
-  const dateArray = [];
-  while (currentDate <= stopDate) {
-    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy'));
-    currentDate = DateTime.fromISO(currentDate).plus({ years: 1 });
-  }
-  return dateArray;
-};
 
 export const globalIndicators = [
   {

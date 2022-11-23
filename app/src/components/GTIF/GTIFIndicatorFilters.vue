@@ -89,7 +89,7 @@ export default {
       'Innsbruck-SOL3',
       'Innsbruck-SOL2',
       'Innsbruck-SOL1',
-    ]
+    ],
   }),
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
@@ -102,11 +102,10 @@ export default {
           > b.properties.indicatorObject.indicatorName)
           ? 1
           : -1))
-        .sort((a, b) => 
-          this.customOrder.indexOf(this.getLocationCode(a.properties.indicatorObject))
+        .sort((a, b) => (this.customOrder.indexOf(this.getLocationCode(a.properties.indicatorObject))
           > this.customOrder.indexOf(this.getLocationCode(b.properties.indicatorObject))
           ? 1
-          : -1)
+          : -1))
         .map((i) => ({
           ...i,
           theme: this.baseConfig.indicatorsDefinition[
@@ -123,11 +122,11 @@ export default {
       if (!theme) {
         return;
       }
-      return this.globalIndicators.filter((item) => {
+      this.globalIndicators.filter((item) => (
         this.baseConfig.indicatorsDefinition[
           item.properties?.indicatorObject?.indicator
-        ]?.themes.includes(theme.slug);
-      });
+        ]?.themes.includes(theme.slug)
+      ));
     },
     onClickOutside() {
       this.showLayerMenu = false;
