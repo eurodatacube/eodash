@@ -822,7 +822,7 @@ export const globalIndicators = [
           name: 'Vessel density',
           layers: 'AWS_VIS_VESSELDENSITY_ALL',
           minZoom: 1,
-          // legendUrl: 'eodash-data/data/no2Legend.png',
+          legendUrl: 'legends/esa/World-E13o',
           dateFormatFunction: (date) => date,
           customAreaIndicator: true,
           areaIndicator: {
@@ -860,7 +860,7 @@ export const globalIndicators = [
           name: 'Vessel density for cargo',
           layers: 'AWS_VIS_VESSELDENSITY_CARGO',
           minZoom: 1,
-          // legendUrl: 'eodash-data/data/no2Legend.png',
+          legendUrl: 'legends/esa/World-E13o',
           dateFormatFunction: (date) => date,
           areaIndicator: {
             ...shFisAreaIndicatorStdConfig,
@@ -897,7 +897,7 @@ export const globalIndicators = [
           name: 'Vessel density for tankers',
           layers: 'AWS_VIS_VESSELDENSITY_TANKER',
           minZoom: 1,
-          // legendUrl: 'eodash-data/data/no2Legend.png',
+          legendUrl: 'legends/esa/World-E13o',
           dateFormatFunction: (date) => date,
           areaIndicator: {
             ...shFisAreaIndicatorStdConfig,
@@ -934,7 +934,7 @@ export const globalIndicators = [
           name: 'Vessel density for others',
           layers: 'AWS_VIS_VESSELDENSITY_OTHER',
           minZoom: 1,
-          // legendUrl: 'eodash-data/data/no2Legend.png',
+          legendUrl: 'legends/esa/World-E13o',
           dateFormatFunction: (date) => date,
           areaIndicator: {
             ...shFisAreaIndicatorStdConfig,

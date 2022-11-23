@@ -10,7 +10,11 @@ with the same user id as your local account, e.g. "--user 1001"
 import os
 import shutil
 import matplotlib.pyplot as plt
-from matplotlib.colors import LogNorm, ListedColormap, LinearSegmentedColormap
+from matplotlib.colors import (
+    LogNorm,
+    ListedColormap,
+    LinearSegmentedColormap,
+)
 import json
 from matplotlib.ticker import ScalarFormatter
 
@@ -34,43 +38,44 @@ for instance in data:
         # extract from config with defaults
         config = content[legendId]
         zrange = config.get("range", [0, 1])
-        colormap = config.get("cm", "YlGn")
+        colors = config.get("cm", "YlGn")
         label = config.get("label", "")
         logarithmic = config.get("logarithmic", False)
         ticks = config.get("ticks", None)
+        tickLabels = config.get("tickLabels", None)
         discrete = config.get("discrete", False)
 
         normalization = LogNorm() if logarithmic else None
-        if isinstance(colormap, list):
-            # expecting that colormap is input as a list of discrete values (hex codes)
-            if isinstance(colormap[0], str):
+        if isinstance(colors, list):
+            # expecting that colors is input as a list of discrete values (hex codes)
+            if isinstance(colors[0], str):
                 # list of hex strings, pass
                 pass
             else:
                 # list of numbers, assuming 0-255 color range from SH evalscript
                 # and minmax in absolute values instead of stretched to 0,1
-                if len(colormap[0]) == 2:
-                    # format [1740, [0, 108, 211, 120]] - not equidistant between colormap definition points
+                if len(colors[0]) == 2:
+                    # format [1740, [0, 108, 211, 120]] - not equidistant between colors definition points
                     diff = zrange[1] - zrange[0]
-                    colormap = [
+                    colors = [
                         [
                             (segmentdata[0] - zrange[0]) / diff,
                             [rgbadef / 255 for rgbadef in segmentdata[1]],
                         ]
-                        for segmentdata in colormap
+                        for segmentdata in colors
                     ]
                 else:
-                    # format [0, 108, 211, 120] - equidistant between colormap definition points
-                    colormap = [
+                    # format [0, 108, 211, 120] - equidistant between colors definition points
+                    colors = [
                         [rgbadef / 255 for rgbadef in segmentdata[1]]
-                        for segmentdata in colormap
+                        for segmentdata in colors
                     ]
             if discrete:
-                cmap = ListedColormap(colormap)
+                cmap = ListedColormap(colors)
             else:
-                cmap = LinearSegmentedColormap.from_list("cmap", colormap)
+                cmap = LinearSegmentedColormap.from_list("cmap", colors)
         else:
-            cmap = colormap
+            cmap = colors
 
         # generate the legend
         plt.rcParams["figure.figsize"] = (4, 2)
@@ -84,7 +89,7 @@ for instance in data:
         # special handling of pre-configured ticks
         if ticks:
             cbar.ax.set_xticks(ticks)
-            cbar.ax.set_xticklabels([str(i) for i in ticks])
+            cbar.ax.set_xticklabels([str(i) for i in tickLabels or ticks])
             # default for logarithmic ticks is 10^x notation, set scalar
             if logarithmic:
                 cbar.ax.xaxis.set_major_formatter(ScalarFormatter())
