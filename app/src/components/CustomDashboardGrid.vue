@@ -391,7 +391,7 @@
     <div
       v-if="$vuetify.breakpoint.xsOnly && navigationButtonVisible"
       class="white--text d-flex align-center pa-7"
-      :style="`position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; z-index: 6;
+      :style="`position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; z-index: 9;
       background: ${
         getCurrentTheme ? getCurrentTheme.color : 'var(--v-secondary-base)'
       }`"
@@ -410,7 +410,7 @@
       <div
         v-if="navigationButtonVisible"
         class="d-flex align-center"
-        :style="`position: fixed; border-radius: 30px; z-index: 7; ${
+        :style="`position: fixed; border-radius: 30px; z-index: 10; ${
           $vuetify.breakpoint.smAndUp
             ? 'bottom: 67px; right: 25px;'
             : 'bottom: 6px; right: 9px;'

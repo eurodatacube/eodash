@@ -32,7 +32,7 @@ export function updateTimeLayer(layer, config, time) {
     sources.forEach((source) => {
       const updateTimeFunction = source.get('updateTime');
       if (updateTimeFunction) {
-        updateTimeFunction(time);
+        updateTimeFunction(time, config);
       }
       source.refresh();
     });

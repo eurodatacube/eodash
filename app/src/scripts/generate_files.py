@@ -148,11 +148,14 @@ WMSCOLLECTIONS = {
     "PRC-Anomaly-GSMaP-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
     "SMC-GCOMW-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
     "PRC-GSMaP-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
+    "CHL": "https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_med_bgc-plankton_my_l4-multi-1km_P1M"
 }
 
 STAC_COLLECTIONS = {
     "no2-monthly": "https://staging-stac.delta-backend.com/collections/",
     "no2-monthly-diff": "https://staging-stac.delta-backend.com/collections/",
+    "co2-mean": "https://staging-stac.delta-backend.com/collections/",
+    "co2-diff": "https://staging-stac.delta-backend.com/collections/",
     "OMI_trno2-COG": "https://staging-stac.delta-backend.com/collections/",
     "OMSO2PCA-COG": "https://staging-stac.delta-backend.com/collections/",
     "facebook_population_density": "https://staging-stac.delta-backend.com/collections/",
@@ -373,6 +376,7 @@ try:
                     times += [x.strftime('%Y-%m-%dT%H:%M:%S.000Z') for x in dates]
                 else:
                     times.append(tp)
+            times = [time.replace('\n','').strip() for time in times]
             results_dict[layer] = times
 except Exception as e:
     print("Issue extracting information from WMS capabilties")

@@ -11,10 +11,10 @@ class VueMap {
     this.map = new Map({
       controls: new Collection([]),
       view: new View({
-        zoom: 7,
-        center: [1558472.87110583, 6024072.119373784],
+        zoom: 0,
+        center: [0, 0],
         padding: [20, 20, 20, 20],
-        maxZoom: 17,
+        maxZoom: 18,
         extent: options.constrainExtent,
         constrainOnlyCenter: true,
         enableRotation: false,

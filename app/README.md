@@ -12,16 +12,14 @@ https://materialdesignicons.com/
 Collection of icons in material design. Use `mdi-` with icon name, for example:
 
 `<v-icon>mdi-view-dashboard</v-icon>`
-### Openlayers Map Wrapper
-https://vuelayers.github.io/
+### Openlayers Map
+https://openlayers.org/
 
-Used to build interactive map. Needs some hacking here and there, but nonetheless pretty useful.
+Used to build interactive map.
 
 ## Project setup
 ```
 npm install
-# optional - not needed for trilateral dashboard, necessary for race due to some data being not public
-git submodule update --init
 ```
 
 In order for most "EO Data" links to work you need to use a proper SH instance

@@ -1248,9 +1248,53 @@
         "eo_sensor": "TROPOMI",
         "indicator_value": "/",
         "input_data": "Sentinel-5p Level-3 NO2",
-        "measurement_value": "30.759759999999996",
+        "measurement_value": "33.788579999999996",
         "reference_time": "2022-09-05T00:00:00",
-        "reference_value": "[28.749094, 8.994283, 63.039165, 10.251633, 100.0]",
+        "reference_value": "[32.57654, 7.3478723, 59.5036, 16.898584, 100.0]",
         "time": "2022-09-05T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "48.259537",
+        "reference_time": "2022-09-19T00:00:00",
+        "reference_value": "[47.490658, 8.22913, 80.2722, 30.48027, 100.0]",
+        "time": "2022-09-19T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "56.343765000000005",
+        "reference_time": "2022-10-03T00:00:00",
+        "reference_value": "[56.44774, 7.6823483, 73.654945, 36.713776, 100.0]",
+        "time": "2022-10-03T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "65.51084",
+        "reference_time": "2022-10-17T00:00:00",
+        "reference_value": "[65.45806, 5.32624, 82.778114, 49.745285, 100.0]",
+        "time": "2022-10-17T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "54.223324",
+        "reference_time": "2022-10-31T00:00:00",
+        "reference_value": "[54.84736, 8.803012, 76.35224, 22.438366, 100.0]",
+        "time": "2022-10-31T00:00:00"
     }
 ]

@@ -20,7 +20,8 @@ const actions = {
   checkBrand({ commit }) {
     const appConfig = require('../../appConfig');
     // eslint-disable-next-line no-restricted-globals
-    const b = appConfig.find((c) => c.match.includes(location.host));
+    const hostname = document.location.href.match(/\/\/([^:/]+)/)[1];
+    const b = appConfig.find((c) => c.match.includes(hostname));
     const brandConfig = (b !== undefined) ? b : appConfig[0];
     commit('SET_APP_CONFIG', brandConfig);
     commit('SET_BASE_CONFIG', require(`../../config/${brandConfig.id}.js`));
