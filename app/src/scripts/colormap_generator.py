@@ -99,3 +99,4 @@ for instance in data:
         plt.savefig(
             f"/public/legends/{instance}/{legendId}.png", bbox_inches="tight", dpi=200
         )
+        plt.close()
