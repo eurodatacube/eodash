@@ -84,6 +84,17 @@ function fetchGeoJsonFeatures(source, url) {
     });
 }
 
+function fgbBoundingBox(extent, projection) {
+  // minx, miny, maxx, maxy
+  const transformedExtent = transformExtent(extent, projection.getCode(), 'EPSG:4326');
+  return {
+    minX: transformedExtent[0],
+    minY: transformedExtent[1],
+    maxX: transformedExtent[2],
+    maxY: transformedExtent[3],
+  };
+}
+
 function createFromTemplate(template, tileCoord) {
   const zRegEx = /\{z\}/g;
   const xRegEx = /\{x\}/g;
