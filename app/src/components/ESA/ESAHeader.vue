@@ -121,53 +121,53 @@
                 <div class="name">Home</div>
               </v-row>
 
-              <GtifHeaderNavItem
+              <ESAHeaderNavItem
                 title="Explore Tools"
                 to="/explore"
               />
 
-              <GtifHeaderNavItem
+              <ESAHeaderNavItem
                 title="Domains"
                 :is-hoverable="false"
                 to="/explore"
               />
 
-              <GtifHeaderNavItem
+              <ESAHeaderNavItem
                 color="hsl(360 80% 60%)"
                 title="Energy Transition"
                 :is-sub-item="true"
                 :to="{name: 'gtif-energy-transition'}"
               />
 
-              <GtifHeaderNavItem
+              <ESAHeaderNavItem
                 color="hsl(210 80% 60%)"
                 title="Mobility Transition"
                 :is-sub-item="true"
                 :to="{name: 'gtif-mobility-transition'}"
               />
 
-              <GtifHeaderNavItem
+              <ESAHeaderNavItem
                 color="hsl(210 80% 60%)"
                 title="Social Mobility"
                 :is-sub-item="true"
                 :to="{name: 'gtif-social-mobility'}"
               />
 
-              <GtifHeaderNavItem
+              <ESAHeaderNavItem
                 color="hsl(90 80% 60%)"
                 title="Sustainable Cities"
                 :is-sub-item="true"
                 :to="{name: 'gtif-sustainable-transition'}"
               />
 
-              <GtifHeaderNavItem
+              <ESAHeaderNavItem
                 color="hsl(20 80% 60%)"
                 title="Carbon Accounting"
                 :is-sub-item="true"
                 :to="{name: 'gtif-carbon-finance'}"
               />
 
-              <GtifHeaderNavItem
+              <ESAHeaderNavItem
                 color="hsl(320 80% 60%)"
                 title="EO Adaptation Services"
                 :is-sub-item="true"
@@ -189,11 +189,11 @@ import {
   mapActions,
 } from 'vuex';
 
-import GtifHeaderNavItem from './GTIFHeaderNavItem.vue';
+import ESAHeaderNavItem from './ESAHeaderNavItem.vue';
 
 export default {
   components: {
-    GtifHeaderNavItem,
+    ESAHeaderNavItem,
   },
   data() {
     return {

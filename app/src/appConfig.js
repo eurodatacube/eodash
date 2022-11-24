@@ -187,7 +187,7 @@ module.exports = [
     branding: {
       appName: 'Green Transition Information Factory',
       primaryColor: '#003247',
-      secondaryColor: '#82db9d',
+      secondaryColor: '#00ae9d',
       headerLogo: './data/gtif/images/gtif_attributions_logo.png',
       faviconPath: './public/img/ESA/favicon.ico',
       title: 'Green Transition Information Factory',
@@ -234,5 +234,8 @@ module.exports = [
     configuredMapPois: [],
     featureGrouping: [],
     enableStories: false,
+    enableESALayout: true,
+    enableScrollyTelling: true,
+    enableIndicatorSidebar: true,
   },
 ];

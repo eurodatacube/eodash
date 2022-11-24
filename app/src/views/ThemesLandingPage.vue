@@ -18,8 +18,7 @@
           <theme-navigation />
 
           <div class="mt-16 mb-16 d-flex flex-column justify-start align-center">
-            <stories-news v-if="appConfig && appConfig.id != 'gtif'"/>
-            <LandingPageInfographic v-if="appConfig && appConfig.id === 'gtif'"/>
+            <stories-news />
             <stories-grid :items="oneOfEachTheme" />
             <newsletter-banner v-if="appConfig && appConfig.showNewsletterButton" />
           </div>

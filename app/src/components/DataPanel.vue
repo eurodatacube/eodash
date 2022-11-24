@@ -15,6 +15,7 @@
         >
         </filter-controls>
 
+        <!-- TODO: remove GTIF brand check -->
         <v-btn
           v-if="appConfig.id === 'gtif'"
           text
@@ -38,6 +39,7 @@
           :vectorStyles="indicatorObject.vectorStyles"
         >
         </style-controls>
+        <!-- TODO: remove GTIF brand check -->
         <data-mockup-view v-if="appConfig.id === 'gtif'"
           :indicatorObject="indicatorObject"
           :adminLayer="$store.state.features.adminBorderLayerSelected"

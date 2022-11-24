@@ -8,7 +8,7 @@
     >
       <global-header />
 
-      <gtif-breadcrumbs
+      <ESABreadcrumbs
         :are-breadcrumbs-enabled="areBreadcrumbsEnabled"
       />
 
@@ -37,12 +37,12 @@ import {
 import axios from 'axios';
 import iFrameResize from 'iframe-resizer/js/iframeResizer';
 import GlobalHeader from '@/components/GlobalHeader.vue';
-import GtifBreadcrumbs from '@/components/GTIF/GTIFBreadcrumbs.vue';
+import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
 
 export default {
   components: {
     GlobalHeader,
-    GtifBreadcrumbs,
+    ESABreadcrumbs,
   },
   metaInfo() {
     const { appConfig } = this.$store.state.config;

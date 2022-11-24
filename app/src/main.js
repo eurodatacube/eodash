@@ -186,29 +186,33 @@ const renderVue = async () => {
   );
 
   const routes = [
+    ...(store.state.config.appConfig
+      && !store.state.config.appConfig.enableStories
+      && !store.state.config.appConfig.enableScrollyTelling
+      ? [
+        { path: '/', name: 'explore', component: Dashboard },
+      ] : [
+        { path: '/explore', name: 'explore', component: Dashboard },
+      ]),
     ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
       ? [
-        {
-          path: '/',
-          name: 'landing',
-          component: ThemesLandingPage,
-        },
-        { path: '/explore', name: 'explore', component: Dashboard },
-      ]
-      : [
-        {
-          path: '/',
-          name: 'landing',
-          component: store.state.config.appConfig.id === 'gtif' ? ScrollyFrame : Dashboard,
-        },
-      ]),
+        { path: '/', name: 'landing', component: ThemesLandingPage },
+      ] : []),
+    ...(store.state.config.appConfig && store.state.config.appConfig.enableScrollyTelling
+      ? [
+        { path: '/', name: 'landing', component: ScrollyFrame },
+      ] : []),
     { path: '/dashboard', component: DashboardCustom },
     { path: '/story', component: DashboardCustom },
     { path: '/privacy', component: Privacy },
     { path: '/terms_and_conditions', component: Terms },
     { path: '/challenges', component: Challenges },
     { path: '/iframe', component: EmbedIframe },
-    { path: '/scrolly', component: ScrollyFrame },
+    ...(store.state.config.appConfig && store.state.config.appConfig.enableScrollyTelling
+      ? [
+        { path: '/scrolly', component: ScrollyFrame },
+      ] : []
+    ),
     ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
       ? [
         { path: '/atmosphere', name: 'atmosphere', component: ThemeSinglePage },

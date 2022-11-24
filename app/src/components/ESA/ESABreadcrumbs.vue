@@ -1,7 +1,7 @@
 <template>
   <div
     class="gtif-breadcrumbs"
-    :style="{'margin-left': (appConfig.id === 'gtif' && $route.name === 'explore') ? '88px' : '0'}"
+    :style="{'margin-left': $route.name === 'explore' ? '88px' : '0'}"
   >
     <div class="fill-width fill-height d-flex justify-between align-center pl-6">
       <span class="bold">GTIF</span>
@@ -20,7 +20,7 @@ import {
 } from 'vuex';
 
 export default {
-  name: 'GtifBreadcrumbs',
+  name: 'ESABreadcrumbs',
   props: {
     areBreadcrumbsEnabled: {
       type: Boolean,
