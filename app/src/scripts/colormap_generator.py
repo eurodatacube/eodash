@@ -80,12 +80,6 @@ for instance in data:
                         ]
                         for segmentdata in colors
                     ]
-                else:
-                    # format [0, 108, 211, 120] - equidistant between colors definition points
-                    colors = [
-                        [rgbadef / 255 for rgbadef in segmentdata[1]]
-                        for segmentdata in colors
-                    ]
             if discrete:
                 cmap = ListedColormap(colors)
             else:
