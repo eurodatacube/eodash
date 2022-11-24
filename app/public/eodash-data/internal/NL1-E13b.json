@@ -38,6 +38,28 @@
         "eo_sensor": "Sentinel-2",
         "indicator_value": "Normal",
         "input_data": "Sentinel 2 L2A",
+        "measurement_value": "69",
+        "reference_time": "2019-07-30T10:56:45",
+        "reference_value": "64",
+        "time": "2019-02-25T11:12:31"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "PLES",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Normal",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "60",
+        "reference_time": "2019-07-30T10:56:45",
+        "reference_value": "64",
+        "time": "2019-03-02T11:02:36"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "PLES",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Normal",
+        "input_data": "Sentinel 2 L2A",
         "measurement_value": "58",
         "reference_time": "2019-07-30T10:56:45",
         "reference_value": "70",
