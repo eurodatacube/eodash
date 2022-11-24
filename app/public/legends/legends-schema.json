@@ -1,0 +1,127 @@
+{
+  "$schema":"http://json-schema.org/draft-04/schema#",
+  "$id":"https://raw.githubusercontent.com/eurodatacube/eodash/staging/app/public/legends/legends-schema.json",
+  "type":"object",
+  "title":"Legends schema",
+  "description":"Configuration of legends definition for colormap generator.",
+  "definitions":{
+    "config":{
+      "type":"object",
+      "additionalProperties":{
+        "type":"object",
+        "properties":{
+          "range":{
+            "type":"array",
+            "items":[
+              {
+                "type":"number"
+              }
+            ],
+            "default":[
+              0,
+              1
+            ]
+          },
+          "cm":{
+            "description":"A single colormap or a list of colormaps. Available options are lsited.",
+            "anyOf":[
+              {
+                "type":"string",
+                "description":"A colormap name included in matplotlib."
+              },
+              {
+                "type":"array",
+                "description":"List of color definitions for defining own colormap (if not in matplotlib suite)",
+                "items":{
+                  "anyOf":[
+                    {
+                      "type":"string",
+                      "description":"RGB Hex code of color."
+                    },
+                    {
+                      "type":"array",
+                      "description":"List of tuplets of value and corresponding colors array)",
+                      "items":[
+                        {
+                          "type":"number",
+                          "description":"First element of array: value of raster which corresponds to this particular color."
+                        },
+                        {
+                          "type":"array",
+                          "description":"Second element of array: RGB/RGBA definition of color in 0-255 range.",
+                          "items":{
+                            "type":"number",
+                            "minimum":0,
+                            "maximum":255
+                          },
+                          "minItems":3,
+                          "maxItems":4
+                        }
+                      ],
+                      "maxItems":2,
+                      "minItems":2
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "label":{
+            "type":"string",
+            "description":"Text label to be shown below the chart.",
+            "default":""
+          },
+          "logarithmic":{
+            "type":"boolean",
+            "description":"If the colorbar will be rendered with logarithmic normalization",
+            "default":false
+          },
+          "discrete":{
+            "type":"boolean",
+            "description":"If set to true, colormap is considered as set of discrete steps. If set to false, a continuous intervals of linear interpolated values are generated between steps.",
+            "default":false
+          },
+          "ticks":{
+            "type":"array",
+            "description":"Values along x axis where ticks will be placed. Overrides automatic tics of matplotlib",
+            "items":[
+              {
+                "type":"number"
+              }
+            ]
+          },
+          "tickLabels":{
+            "type":"array",
+            "description":"Labels for the ticks if ticks are defined. Converted to strings implicitly.",
+            "items":{
+              "anyOf":[
+                {
+                  "type":"string"
+                },
+                {
+                  "type":"number"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "properties":{
+    "esa":{
+      "$ref":"#/definitions/config"
+    },
+    "trilateral":{
+      "$ref":"#/definitions/config"
+    },
+    "gtif":{
+      "$ref":"#/definitions/config"
+    }
+  },
+  "required":[
+    "esa",
+    "trilateral",
+    "gtif"
+  ]
+}
