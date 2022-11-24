@@ -926,7 +926,7 @@ export const globalIndicators = [
           name: 'Air Quality (NASA)',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
-          legendUrl: 'data/trilateral/no2Legend-monthly-nasa.png',
+          legendUrl: 'legends/trilateral/N1_W2.png',
           customAreaIndicator: true,
           areaIndicator: nasaStatisticsConfig(
             (value) => value / 1e14,
@@ -971,7 +971,7 @@ export const globalIndicators = [
           name: 'Air Quality (NASA)',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
-          legendUrl: 'data/trilateral/N1-NO2DiffLegend.png',
+          legendUrl: 'legends/trilateral/N1_W3.png',
           disableCompare: true,
           customAreaIndicator: true,
           areaIndicator: nasaStatisticsConfig(
@@ -1015,7 +1015,7 @@ export const globalIndicators = [
           name: 'Greenhouse Gases (NASA)',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
-          legendUrl: 'data/trilateral/N2-co2mean-legend.png',
+          legendUrl: 'legends/trilateral/N2_W4.png',
           mapLabel: 'Mean',
           customAreaIndicator: true,
           areaIndicator: nasaStatisticsConfig(
@@ -1059,9 +1059,9 @@ export const globalIndicators = [
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/dataforgood-fb-population-density/cog.tif&rescale=0,69&resampling_method=nearest&color_map=ylorrd',
+          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/dataforgood-fb-population-density/cog.tif&rescale=0,70&resampling_method=nearest&color_map=ylorrd',
           name: 'Facebook population density',
-          legendUrl: 'data/trilateral/FbPopulation_legend.png',
+          legendUrl: 'legends/trilateral/FB_W7.png',
           mapLabel: 'Population density',
           presetView: {
             type: 'FeatureCollection',
@@ -1071,14 +1071,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((2.1 48.6,2.6 48.6,2.6 49.0,2.1 49.0,2.1 48.6))').toJson(),
             }],
           },
-        },
-        compareDisplay: {
-          protocol: 'xyz',
-          tileSize: 256,
-          minZoom: 1,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/dataforgood-fb-population-density/cog.tif&rescale=0,69&resampling_method=nearest&color_map=ylorrd',
-          mapLabel: 'Population density',
-        },
+        }
       },
     },
   },
@@ -1116,7 +1109,7 @@ export const globalIndicators = [
           name: 'Greenhouse Gases (NASA)',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
-          legendUrl: 'data/trilateral/N2-co2diff-legend.png',
+          legendUrl: 'legends/trilateral/N2_W5.png',
           disableCompare: true,
           customAreaIndicator: true,
           areaIndicator: nasaStatisticsConfig(
@@ -1151,7 +1144,7 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'NPP (BICEP)',
           layers: 'BICEP_NPP_VIS_PP2',
-          legendUrl: 'eodash-data/data/PP_Ocean.PNG',
+          legendUrl: 'legends/trilateral/NPP.png',
           minZoom: 2,
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1197,11 +1190,11 @@ export const globalIndicators = [
           tileSize: 256,
           minZoom: 1,
           maxZoom: 10,
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=-1e14,37e14&bidx=1&colormap_name=reds',
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,37e14&bidx=1&colormap_name=reds',
           name: 'NO2 OMI Annual',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
-          legendUrl: 'data/trilateral/no2Legend-yearly-nasa.png',
+          legendUrl: 'legends/trilateral/N9-W8.png',
           customAreaIndicator: true,
           areaIndicator: nasaStatisticsConfig(
             (value) => value / 1e14,
@@ -1241,7 +1234,7 @@ export const globalIndicators = [
           name: 'Sea Ice Thickness (ICESat-2)',
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
-          legendUrl: 'eodash-data/data/SeaIceThicknessCCI.PNG',
+          legendUrl: 'legends/trilateral/SITI-W10.png',
           /*
           TODO: Could be activated but globe is used as visualiation in data panel
           customAreaIndicator: true,

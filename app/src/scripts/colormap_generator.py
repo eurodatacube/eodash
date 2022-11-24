@@ -20,6 +20,8 @@ import json
 from matplotlib.ticker import ScalarFormatter
 import numpy as np
 
+plt.rcParams.update({"figure.max_open_warning": 0})
+
 
 def clear_folder(target_dir):
     with os.scandir(target_dir) as entries:
