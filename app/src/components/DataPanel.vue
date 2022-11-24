@@ -444,7 +444,7 @@ import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import IframeButton from '@/components/IframeButton.vue';
 import FilterControls from '@/components/map/FilterControls.vue';
 import StyleControls from '@/components/map/StyleControls.vue';
-import DataMockupView from '@/components/GTIF/DataMockupView.vue';
+import DataMockupView from '@/components/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 
 import ScatterPlot from '@/components/ScatterPlot.vue';

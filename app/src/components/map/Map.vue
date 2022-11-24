@@ -172,7 +172,7 @@ import Attribution from 'ol/control/Attribution';
 import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
-import AdminBordersLayers from '@/components/GTIF/AdminBordersLayers.vue';
+import AdminBordersLayers from '@/components/map/AdminBordersLayers.vue';
 import Link from 'ol/interaction/Link';
 import {
   calculatePadding,

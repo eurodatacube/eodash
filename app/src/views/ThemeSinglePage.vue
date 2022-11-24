@@ -108,9 +108,6 @@ import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import StoriesGrid from '@/components/ThemesLandingPage/StoriesGrid.vue';
 import ThemeNavigation from '@/components/ThemesLandingPage/ThemeNavigation.vue';
-import EnergyThemeComponent from '@/components/GTIF/EnergyThemeComponent.vue';
-import TransportEmissionsThemeComponent from '@/components/GTIF/TransportEmissionsThemeComponent.vue';
-import GreenfinanceThemeComponent from '@/components/GTIF/GreenfinanceThemeComponent.vue';
 
 export default {
   data() {
@@ -123,9 +120,6 @@ export default {
     GlobalFooter,
     StoriesGrid,
     ThemeNavigation,
-    EnergyThemeComponent,
-    TransportEmissionsThemeComponent,
-    GreenfinanceThemeComponent,
   },
 
   created() {
