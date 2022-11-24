@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const text_paint = {
   'text-halo-width': 4,
   'text-halo-blur': 2,

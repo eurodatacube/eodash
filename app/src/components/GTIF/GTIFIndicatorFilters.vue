@@ -1,6 +1,8 @@
 <template>
   <div
-    :style="`height: calc(var(--vh, 1vh) * 100); background: ${$vuetify.theme.currentTheme.background}`"
+    :style="
+      `height: calc(var(--vh, 1vh) * 100); background: ${$vuetify.theme.currentTheme.background}`
+    "
     v-click-outside="onClickOutside"
   >
     <v-navigation-drawer
@@ -45,20 +47,29 @@
         <v-list v-if="themes[domainModel]" style="width: 100%">
           <v-list-item-group style="width: 100%">
             <v-list-item
-              v-for="item in globalIndicators.filter(gI => gI.theme === themes[domainModel].slug).reverse()"
+              v-for="item in globalIndicators.filter(
+                gI => gI.theme === themes[domainModel].slug
+              ).reverse()"
               :key="getLocationCode(item.properties.indicatorObject)"
               class="mb-2"
               style="width: 100%"
-              @click="() => { setSelectedIndicator(item.properties.indicatorObject); showLayerMenu = false }"
+              @click="() => {
+                setSelectedIndicator(item.properties.indicatorObject); showLayerMenu = false
+              }"
             >
               <v-list-item-avatar>
                 <v-img
-                  :src="`./data/${appConfig.id}/globalDataLayerImages/${getLocationCode(item.properties.indicatorObject)}.png`"
+                  :src="`./data/${appConfig.id}/globalDataLayerImages/`+
+                  `${getLocationCode(item.properties.indicatorObject)}.png`"
                 ></v-img>
               </v-list-item-avatar>
               <v-list-item-content>
-                <v-list-item-title>{{ item.properties.indicatorObject.indicatorName }}</v-list-item-title>
-                <v-list-item-subtitle>{{ item.properties.indicatorObject.navigationDescription }}</v-list-item-subtitle>
+                <v-list-item-title>
+                  {{ item.properties.indicatorObject.indicatorName }}
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ item.properties.indicatorObject.navigationDescription }}
+                </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
@@ -102,10 +113,10 @@ export default {
           > b.properties.indicatorObject.indicatorName)
           ? 1
           : -1))
-        .sort((a, b) => (this.customOrder.indexOf(this.getLocationCode(a.properties.indicatorObject))
+        .sort((a, b) => (
+          this.customOrder.indexOf(this.getLocationCode(a.properties.indicatorObject))
           > this.customOrder.indexOf(this.getLocationCode(b.properties.indicatorObject))
-          ? 1
-          : -1))
+            ? 1 : -1))
         .map((i) => ({
           ...i,
           theme: this.baseConfig.indicatorsDefinition[

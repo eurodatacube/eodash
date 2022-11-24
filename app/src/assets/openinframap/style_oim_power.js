@@ -1,4 +1,5 @@
-import { text_paint, underground_p } from './style_oim_common.js';
+/* eslint-disable camelcase, no-restricted-syntax, no-continue, no-restricted-properties */
+import { text_paint, underground_p } from './style_oim_common';
 
 const local_name_tags = ['name', 'name-en'];
 
@@ -133,10 +134,11 @@ const voltage_line_thickness = [
     ],
   ],
 ];
-
+/*
 const label_offset = {
   stops: [[8, [0, 3]], [13, [0, 1]]],
 };
+*/
 
 const voltage = ['to-number', ['coalesce', ['get', 'voltage'], 0]];
 const output = ['to-number', ['coalesce', ['get', 'output'], 0]];
@@ -343,12 +345,12 @@ function plant_image() {
   return expr;
 }
 
-const construction_opacity = ['case', construction_p, 0.3, 1];
+// const construction_opacity = ['case', construction_p, 0.3, 1];
 const power_line_opacity = ['interpolate', ['linear'], ['zoom'],
   4, ['case', construction_p, 0.3, 0.6],
   8, ['case', construction_p, 0.3, 1],
 ];
-const plant_construction_opacity = construction_opacity;
+// const plant_construction_opacity = construction_opacity;
 
 const freq = [
   'case',

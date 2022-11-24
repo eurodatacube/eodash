@@ -35,7 +35,7 @@ export default {
   name: 'GTIFTile',
   props: {
     type: String,
-    required: true,
+    required: () => true,
   },
   components: {
     GtifTileLineChart,

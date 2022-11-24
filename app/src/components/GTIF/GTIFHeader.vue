@@ -16,7 +16,11 @@
             id="esa-search"
             class="grow-on-hover esa-header__toggle search-toggle"
           >
-            <img class="esa-header__icon" src="img/gtif/icons/ESA_Search.svg" alt="ESA search toggle">
+            <img
+              class="esa-header__icon"
+              src="img/gtif/icons/ESA_Search.svg"
+              alt="ESA search toggle"
+            >
           </button>
           <router-link to="/">
             <img
