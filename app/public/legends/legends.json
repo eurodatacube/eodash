@@ -169,6 +169,53 @@
             "label": "Sea-ice thickness [m]",
             "range": [0, 4],
             "cm": "plasma"
+        },
+        "NPPN-W11": {
+            "label": "mgC/m²/day",
+            "range": [0, 1500],
+            "cm": "jet"
+        },
+        "NCEO-W12": {
+            "label": "mg/ha",
+            "range": [0, 400],
+            "cm": "gist_earth_r"
+        },
+        "GRDI1-W13": {
+            "label": "index",
+            "range": [0, 100],
+            "cm": "viridis"
+        },
+        "N10-W9": {
+            "label": "SO2 Total Column [DU]",
+            "range": [0, 1],
+            "cm": "viridis"
+        },
+        "AWS_N3_CUSTOM_TRILATERAL": {
+            "range": [-100, 100],
+            "cm": [[-100, [5,50,100]],[-50,[127,185,215]],[0, [255,255,255]],[50,[230,135,100]],[100,[115,20,50]]],
+            "label": "Chl-a anomaly [%]"
+        },
+        "N3a2_NASA": {
+            "range": [-100, 100],
+            "cm": "RdBu_r",
+            "label": "Chl-a anomaly [%]"
+        },
+        "AWS_N3_CUSTOM_TRILATERAL_TSMNN": {
+            "range": [-100, 100],
+            "cm": [[-100, [5,50,100]],[-50,[127,185,215]],[0, [255,255,255]],[50,[230,135,100]],[100,[115,20,50]]],
+            "label": "Total suspended matter anomaly [%]"
+        },
+        "N3a2_NASA_TSMNN": {
+            "range": [-100, 100],
+            "cm": "RdBu_r",
+            "label": "Total suspended matter anomaly [%]"
+        },
+        "TG01-E10d": {
+            "range": [0, 2],
+            "cm": "magma",
+            "label": "Land Cover Class",
+            "ticks": [0, 1, 2],
+            "tickLabels": ["0 (Water)", "1 (Non-crop)", "2 (Crop)"]
         }
     },
     "gtif": {
