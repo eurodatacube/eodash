@@ -1071,7 +1071,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((2.1 48.6,2.6 48.6,2.6 49.0,2.1 49.0,2.1 48.6))').toJson(),
             }],
           },
-        }
+        },
       },
     },
   },

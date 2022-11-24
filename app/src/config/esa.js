@@ -1018,7 +1018,7 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         aoiID: 'GCAQ3',
-        dataLoadFinished: true,c
+        dataLoadFinished: true,
         country: 'all',
         city: 'World',
         siteName: 'global',
