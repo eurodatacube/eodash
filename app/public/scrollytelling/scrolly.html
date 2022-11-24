@@ -257,13 +257,15 @@
             }
             return t;
         }
-        const boundingClient = $scrubControl.getBoundingClientRect();
-        const observer = new IntersectionObserver(intersectProgress, {
-            root: document.querySelector('#scrolly-app'),
-            rootMargin: `${boundingClient.top}px 0px ${boundingClient.bottom}px 0px`,
-            threshold: createProgressThreshold($scrubControl.clientHeight, 1) });
-
-  		observer.observe($scrubControl);
+        if ($scrubControl) {
+            const boundingClient = $scrubControl.getBoundingClientRect();
+            const observer = new IntersectionObserver(intersectProgress, {
+                root: document.querySelector('#scrolly-app'),
+                rootMargin: `${boundingClient.top}px 0px ${boundingClient.bottom}px 0px`,
+                threshold: createProgressThreshold($scrubControl.clientHeight, 1) });
+    
+              observer.observe($scrubControl);
+        }
       },
       parseMarkdown(input) {
         return marked.parse(input).replace('<a', '<a target="_blank" ');
