@@ -315,6 +315,9 @@ const actions = {
   loadEOXEndpoint(_, { url, endPointIdx }) {
     return fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
       .then((data) => {
+        if (data.length < 1) {
+          return [];
+        }
         const features = [];
         const pM = {
           aoi: 'aoi',
@@ -401,6 +404,9 @@ const actions = {
   loadGeoDBEndpoint(_, { url, endPointIdx }) {
     return fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
       .then((data) => {
+        if (data.length < 1) {
+          return [];
+        }
         const features = [];
         const pM = {
           aoi: 'aoi',
