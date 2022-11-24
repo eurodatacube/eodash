@@ -2220,5 +2220,16 @@
         "reference_time": "2022-11-05T00:00:00",
         "reference_value": "[0.204 0.157]",
         "time": "2022-11-05T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A",
+        "indicator_value": "HIGH",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "0.311",
+        "reference_time": "2022-11-12T00:00:00",
+        "reference_value": "[0.099 0.140]",
+        "time": "2022-11-12T00:00:00"
     }
 ]

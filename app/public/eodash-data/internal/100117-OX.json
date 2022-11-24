@@ -3298,5 +3298,27 @@
         "reference_time": "",
         "reference_value": "",
         "time": "2022-10-03T00:00:00"
+    },
+    {
+        "color_code": "Green",
+        "data_provider": "OILX",
+        "eo_sensor": "",
+        "indicator_value": "Green",
+        "input_data": "",
+        "measurement_value": "0.55",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2022-10-10T00:00:00"
+    },
+    {
+        "color_code": "Green",
+        "data_provider": "OILX",
+        "eo_sensor": "",
+        "indicator_value": "Orange (High)",
+        "input_data": "",
+        "measurement_value": "0.58",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2022-10-17T00:00:00"
     }
 ]

@@ -76,27 +76,6 @@
           </span>
         </button>
       </v-sheet>
-      <div
-        :style="`position: absolute; z-index: 700; top: 10px; left: 10px;`">
-        <img v-if="mergedConfigsData[0].legendUrl"
-        :src="mergedConfigsData[0].legendUrl" alt=""
-        :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' :
-        (legendExpanded && 'map-legend-expanded')}`"
-        @click="legendExpanded = !legendExpanded"
-        :style="`background: rgba(255, 255, 255, 0.8);`">
-        <div
-        v-if="mergedConfigsData[0].customAreaFeatures &&
-        (mergedConfigsData[0].features.featureLimit === dataFeaturesCount ||
-        mergedConfigsData[0].features.featureLimit === compareFeaturesCount)"
-        :style="`width: fit-content; background: rgba(255, 255, 255, 0.8);`"
-        >
-          <h3 :class="`brand-${appConfig.id} px-3 py-2`">
-            Limit of drawn features is for performance reasons set to
-            <span :style="`font-size: 17px;`">{{mergedConfigsData[0].features.featureLimit}}
-            </span>
-          </h3>
-        </div>
-      </div>
     </div>
   </div>
 </template>
