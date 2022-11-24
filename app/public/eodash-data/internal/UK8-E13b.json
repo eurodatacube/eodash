@@ -1,47 +1,14 @@
 [
     {
-        "color_code": "GREEN",
-        "data_provider": "PLES",
-        "eo_sensor": "Sentinel-2",
-        "indicator_value": "Low",
-        "input_data": "Sentinel 2 L2A",
-        "measurement_value": "4",
-        "reference_time": "2019-08-22T11:06:56",
-        "reference_value": "15",
-        "time": "2019-11-11T11:26:23"
-    },
-    {
-        "color_code": "BLUE",
-        "data_provider": "PLES",
-        "eo_sensor": "Sentinel-2",
-        "indicator_value": "Normal",
-        "input_data": "Sentinel 2 L2A",
-        "measurement_value": "14",
-        "reference_time": "2019-08-22T11:06:56",
-        "reference_value": "15",
-        "time": "2019-11-16T11:26:19"
-    },
-    {
-        "color_code": "BLUE",
-        "data_provider": "PLES",
-        "eo_sensor": "Sentinel-2",
-        "indicator_value": "Normal",
-        "input_data": "Sentinel 2 L2A",
-        "measurement_value": "19",
-        "reference_time": "2019-08-22T11:06:56",
-        "reference_value": "15",
-        "time": "2019-12-01T11:26:19"
-    },
-    {
         "color_code": "RED",
         "data_provider": "PLES",
         "eo_sensor": "Sentinel-2",
         "indicator_value": "High",
         "input_data": "Sentinel 2 L2A",
-        "measurement_value": "25",
+        "measurement_value": "20",
         "reference_time": "2019-08-22T11:06:56",
-        "reference_value": "15",
-        "time": "2019-12-21T11:26:14"
+        "reference_value": "11",
+        "time": "2019-02-04T11:26:17"
     },
     {
         "color_code": "RED",
@@ -548,5 +515,16 @@
         "reference_time": "2019-08-22T11:06:56",
         "reference_value": "15",
         "time": "2022-10-26T11:26:23"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "PLES",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Low",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "7",
+        "reference_time": "2019-08-22T11:06:56",
+        "reference_value": "15",
+        "time": "2022-11-20T11:26:20"
     }
 ]
