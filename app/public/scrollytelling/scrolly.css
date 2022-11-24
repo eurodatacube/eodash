@@ -4,13 +4,13 @@
 
 @font-face {
   font-family: 'NotesESABold';
-  src: url('./css/notesesabol-webfont.ttf') format('truetype');
+  src: url('../css/notesesabol-webfont.ttf') format('truetype');
 }
 
 @font-face{
   font-family: 'NotesESA';
-  src: url('./css/notesesareg.woff2') format('woff2'),
-       url('./css/notesesareg.ttf') format('truetype');
+  src: url('../css/notesesareg.woff2') format('woff2'),
+       url('../css/notesesareg.ttf') format('truetype');
 }
 
 h1,

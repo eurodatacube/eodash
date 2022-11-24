@@ -21,7 +21,7 @@
           height: calc((var(--vh, 1vh) * 100) - 112px) !important;
           position: fixed; left: 0; bottom: 0; top: 112px;
         "
-        src="./scrolly.html"
+        src="./scrollytelling/scrolly.html"
         frameborder="0"
       ></iframe>
       <!--<global-footer />-->
