@@ -776,8 +776,6 @@ generateData(
         '/public/eodash-data/data/N1b_NO2_CAMS.csv',
         '/public/eodash-data/data/N1c_PM10_CAMS.csv',
         '/public/eodash-data/data/N1d_O3_CAMS.csv',
-        #'/public/eodash-data/data/N4a.csv',
-        #'/public/eodash-data/data/N4c.csv',
         '/public/eodash-data/data/E13e_cargo.csv',
         '/public/eodash-data/data/E13f_fishing.csv',
         '/public/eodash-data/data/E13g_tanker.csv',
