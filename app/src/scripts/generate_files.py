@@ -582,7 +582,7 @@ def generateData(
                         "description": line[cm["description"]],
                         "indicatorName": line[cm["indicatorName"]],
                         "yAxis": line[cm["yAxis"]],
-                        "subAoi": line[cm["subAoi"]],
+                        "subAoi": re.sub(r'([0-9]+\.[0-9]{5})([0-9]+)', r'\1', line[cm["subAoi"]]),
                         "updateFrequency": line[cm["updateFrequency"]],
                         # Actual data
                         "poi_data": poi_data_always,
@@ -646,7 +646,7 @@ def generateData(
                             "description": line[cm["description"]],
                             "indicatorName": line[cm["indicatorName"]],
                             "yAxis": line[cm["yAxis"]],
-                            "subAoi": line[cm["subAoi"]],
+                            "subAoi": re.sub(r'([0-9]+\.[0-9]{5})([0-9]+)', r'\1', line[cm["subAoi"]]),
                             "updateFrequency": line[cm["updateFrequency"]],
                             # Actual data
                             "poi_data": poi_data_always,
