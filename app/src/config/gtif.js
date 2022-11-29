@@ -2,7 +2,6 @@ import { Wkt } from 'wicket';
 import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { DateTime } from 'luxon';
-import { latLng, latLngBounds } from 'leaflet';
 import colormap from 'colormap';
 // eslint-disable-next-line import/no-named-default
 import { default as powerOpenInsfrastructureStyle } from '@/assets/openinframap/style_oim_power';
@@ -47,7 +46,7 @@ export const indicatorClassesIcons = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  bounds: latLngBounds(latLng([46, 9]), latLng([49.5, 18])),
+  bounds: [9, 46, 18, 49.5],
 });
 
 export const baseLayersLeftMap = [{

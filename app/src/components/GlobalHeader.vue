@@ -1,5 +1,5 @@
 <template>
-  <gtif-header v-if="appConfig.id === 'gtif'" />
+  <ESAHeader v-if="appConfig.enableESALayout" />
   <v-app-bar
     v-else
     app
@@ -377,7 +377,7 @@ import About from '@/views/About.vue';
 import Welcome from '@/views/Welcome.vue';
 import ThemeNavigation from './ThemesLandingPage/ThemeNavigation.vue';
 import Modal from './Modal.vue';
-import GtifHeader from './GTIF/GTIFHeader.vue';
+import ESAHeader from './ESA/ESAHeader.vue';
 
 /**
  * A global navbar component that adapts to different environments.
@@ -396,7 +396,7 @@ export default {
   components: {
     ThemeNavigation,
     Modal,
-    GtifHeader,
+    ESAHeader,
     About,
     Welcome,
   },

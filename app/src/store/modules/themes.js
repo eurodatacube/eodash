@@ -6,7 +6,7 @@ import themes from '../../config/themes.json';
 const appConfig = require('../../appConfig');
 
 const b = appConfig.find((c) => c.match.includes(document.domain));
-const brandConfig = (b !== undefined) ? b : appConfig[2];
+const brandConfig = (b !== undefined) ? b : appConfig[0];
 
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 const state = {

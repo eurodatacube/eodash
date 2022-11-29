@@ -6,8 +6,8 @@
     <global-header
       ref="globalHeader"
     />
-    <gtif-breadcrumbs
-      v-if="appConfig.id === 'gtif'"
+    <ESABreadcrumbs
+      v-if="appConfig.enableESALayout"
     />
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.mdAndUp"
@@ -189,7 +189,7 @@
               class="d-flex justify-start"
               style="position: absolute; top: 0; width: 100%; pointer-events: none"
             >
-              <GTIFIndicatorFilters v-if="appConfig.id === 'gtif'" />
+              <IndicatorFiltersSidebar v-if="appConfig.enableIndicatorSidebar" />
               <indicator-filters v-else />
             </div>
           </v-col>
@@ -209,8 +209,8 @@ import DataPanel from '@/components/DataPanel.vue';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import IndicatorFilters from '@/components/IndicatorFilters.vue';
-import GTIFIndicatorFilters from '@/components/GTIF/GTIFIndicatorFilters.vue';
-import GtifBreadcrumbs from '@/components/GTIF/GTIFBreadcrumbs.vue';
+import IndicatorFiltersSidebar from '@/components/IndicatorFiltersSidebar.vue';
+import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
@@ -232,8 +232,8 @@ export default {
     GlobalHeader,
     GlobalFooter,
     IndicatorFilters,
-    GTIFIndicatorFilters,
-    GtifBreadcrumbs,
+    IndicatorFiltersSidebar,
+    ESABreadcrumbs,
   },
   props: {
     source: String,
@@ -315,9 +315,7 @@ export default {
     const { poi, indicator, search } = this.$route.query;
     if (!poi && !indicator && !search) {
       this.$refs.globalHeader.showText = 'welcome';
-      if (this.appConfig.id !== 'gtif') {
-        this.$refs.globalHeader.showInfoDialog = true;
-      }
+      this.$refs.globalHeader.showInfoDialog = true;
     }
   },
   beforeDestroy() {
