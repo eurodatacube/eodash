@@ -53,6 +53,8 @@ module.exports = {
   ],
   configureWebpack: {
     devServer: {
+      allowedHosts: ['all'],
+      disableHostCheck: true,
       watchOptions: {
         poll: false,
         ignored: /node_modules/,

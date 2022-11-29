@@ -18,6 +18,8 @@ const state = {
     custom: [],
   },
   selectedArea: null,
+  adminBorderLayerSelected: null,
+  adminBorderFeatureSelected: null,
 };
 
 const getters = {
@@ -263,6 +265,12 @@ const mutations = {
     // TODO: Extract fetchData method into helper file since it needs to be used from outside.
     window.dispatchEvent(new CustomEvent('area-changed'));
   },
+  SET_ADMIN_BORDER_FEATURE_SELECTED(state, feature) {
+    state.adminBorderFeatureSelected = feature;
+  },
+  SET_ADMIN_BORDER_LAYER_SELECTED(state, layer) {
+    state.adminBorderLayerSelected = layer;
+  },
 };
 const actions = {
   async loadAllEndpoints({ commit, rootState }) {
@@ -307,6 +315,9 @@ const actions = {
   loadEOXEndpoint(_, { url, endPointIdx }) {
     return fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
       .then((data) => {
+        if (data.length < 1) {
+          return [];
+        }
         const features = [];
         const pM = {
           aoi: 'aoi',
@@ -393,6 +404,9 @@ const actions = {
   loadGeoDBEndpoint(_, { url, endPointIdx }) {
     return fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
       .then((data) => {
+        if (data.length < 1) {
+          return [];
+        }
         const features = [];
         const pM = {
           aoi: 'aoi',

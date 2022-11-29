@@ -1,6 +1,13 @@
 <template>
   <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3;
     z-index: 1" class="d-flex justify-center">
+    <!-- a layer adding a (potential) admin borders with onclick selection, z-index 3 -->
+    <AdminBordersLayers
+      :mapId="mapId"
+      :administrativeConfigs="administrativeConfigs"
+      v-if="administrativeConfigs.length > 0"
+      :key="dataLayerName + '_adminLayers'"
+    />
     <!-- a layer adding a (potential) subaoi, z-index 5 -->
     <SubaoiLayer
       :mapId="mapId"
@@ -12,7 +19,7 @@
     <!-- a layer displaying a selected global poi
      these layers will have z-Index 3 -->
     <SpecialLayer
-      v-if="mergedConfigsData.length && dataLayerName && indicatorHasMapData(indicator)"
+      v-if="showSpecialLayer"
       :mapId="mapId"
       :mergedConfig="mergedConfigsData[0]"
       :layerName="dataLayerName"
@@ -95,6 +102,8 @@
         :mapId="mapId"
         :baseLayerConfigs="baseLayerConfigs"
         :overlayConfigs="overlayConfigs"
+        :administrativeConfigs="administrativeConfigs"
+        :dataLayerConfigLayerControls="dataLayerConfigLayerControls"
         :isGlobalIndicator="isGlobalIndicator"
       />
       <!-- will add a drawing layer to the map (z-index 3) -->
@@ -162,6 +171,7 @@ import Attribution from 'ol/control/Attribution';
 import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
+import AdminBordersLayers from '@/components/map/AdminBordersLayers.vue';
 import Link from 'ol/interaction/Link';
 import {
   calculatePadding,
@@ -183,6 +193,7 @@ export default {
     LayerSwipe,
     CustomAreaButtons,
     SubaoiLayer,
+    AdminBordersLayers,
     MapOverlay,
     IframeButton,
     AddToDashboardButton,
@@ -266,9 +277,25 @@ export default {
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
     },
+    showSpecialLayer() {
+      return this.mergedConfigsData.length && this.dataLayerName
+      && this.indicatorHasMapData(this.indicator);
+    },
+    dataLayerConfigLayerControls() {
+      // SpecialLayer entries in LayerControl
+      let configs = null;
+      if (this.showSpecialLayer) {
+        configs = this.mergedConfigsData.map((config) => ({
+          name: config.name,
+          visible: config.visible,
+        }));
+      }
+      return configs;
+    },
     overlayConfigs() {
       const configs = [...this.baseConfig.overlayLayersLeftMap];
-      if (!this.isGlobalIndicator) {
+      // administrativeLayers replace country vectors
+      if (!this.isGlobalIndicator && this.baseConfig.administrativeLayers?.length === 0) {
         configs.push({
           name: 'Country vectors',
           protocol: 'countries',
@@ -276,6 +303,9 @@ export default {
         });
       }
       return configs;
+    },
+    administrativeConfigs() {
+      return [...this.baseConfig.administrativeLayers];
     },
     mapDefaults() {
       return {
@@ -471,8 +501,8 @@ export default {
       // this.updateSelectedAreaFeature();
     },
     dataLayerTimeProp: {
-      immediate: true,
-      deep: true,
+      // immediate: true,
+      // deep: true,
       handler(v) {
         // only defined for customDashBoard
         if (v) this.dataLayerTime = this.availableTimeEntries.find((item) => item.name === v);

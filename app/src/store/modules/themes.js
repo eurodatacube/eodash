@@ -18,7 +18,9 @@ const state = {
 
 const getters = {
   getThemes: (state) => state.themes,
-  getTheme: (state) => (slug) => state.themes.find((theme) => theme.slug === slug),
+  getTheme: (state) => (slug) => (
+    state.themes.find((theme) => theme.slug === slug)
+  ),
   getCurrentTheme: (state) => state.currentTheme,
   getStories: (state, _, rootState) => (theme) => {
     const brandStories = state.stories[rootState.config.appConfig.id];

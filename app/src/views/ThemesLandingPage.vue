@@ -78,7 +78,9 @@
             </template>
           </v-row>
 
-          <v-row no-gutters class="d-flex flex-row align-start px-3 pt-16 px-md-8">
+          <v-row no-gutters class="d-flex flex-row align-start px-3 pt-16 px-md-8"
+            v-if="appConfig.id === 'trilateral'"
+          >
             <template>
               <v-col
                 cols="12" xs="12" sm="12" md="6" lg="6"

@@ -34,6 +34,8 @@
           class="ma-0 pb-16 d-flex flex-column"
           style="max-width: 1400px;"
         >
+          <component v-bind:is="customComponent" v-if="customComponent"></component>
+
           <stories-grid :items="getStories(getCurrentTheme.slug)" class="pt-16 pb-16" />
           <v-row no-gutters class="d-flex flex-row px-3 px-md-8 pt-16 pb-8">
             <template>
@@ -81,7 +83,7 @@
                 class="info-section d-flex flex-column justify-center"
               >
                 <img
-                  :src="getCurrentTheme.datasetsImage || '/data/story-images/Datasets-landing.jpg'"
+                  :src="getCurrentTheme.datasetsImage || './data/story-images/Datasets-landing.jpg'"
                   width="100%"
                   class="pl-xs-0 pl-sm-0 pl-md-8 pl-lg-8 pl-xl-8"
                 />
@@ -147,6 +149,9 @@ export default {
 
         default: return 'text-h2';
       }
+    },
+    customComponent() {
+      return this.getCurrentTheme.customComponent;
     },
   },
   methods: {

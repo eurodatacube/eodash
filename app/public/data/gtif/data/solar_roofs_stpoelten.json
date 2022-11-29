@@ -1,0 +1,199 @@
+{
+  "version": 8,
+  "name": "rooftops",
+  "center": [0, 0],
+  "zoom": 3,
+  "glyphs": "{fontstack}/{range}",
+  "sources": {
+    "innsbruck": {
+      "type": "vector",
+      "tiles": [
+          "https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/rooftops2/stpoelten_4esa_3857/{z}/{x}/{y}.pbf"
+      ],
+      "maxzoom": 16
+  }
+  },
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "rgba(0,0,0,0)"
+      }
+    },
+    {
+      "id": "PVExisting",
+      "type": "fill",
+      "source": "innsbruck",
+      "source-layer": "stpoelten_4esa",
+      "filter": ["all"],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": [
+          "match",
+          ["get", "PVExisting"],
+          0,
+          "#686868",
+          1,
+          "#c519f8",
+          "rgba(0,0,0,0)"
+        ]
+      }
+    },
+    {
+      "id": "GRExisting",
+      "type": "fill",
+      "source": "innsbruck",
+      "source-layer": "stpoelten_4esa",
+      "filter": ["all"],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": [
+          "match",
+          ["get", "GRExisting"],
+          0,
+          "#686868",
+          1,
+          "#2ea729",
+          "rgba(0,0,0,0)"
+        ]
+      }
+    },
+    {
+      "id": "PVEPPMwhHP",
+      "type": "fill",
+      "source": "innsbruck",
+      "source-layer": "stpoelten_4esa",
+      "filter": ["all"],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": [
+          "interpolate",
+          ["linear"],
+          ["get", "PVEPPMwhHP"],
+          0,
+          ["to-color", "#f6f84c"],
+          10,
+          ["to-color", "#ffc843"],
+          15,
+          ["to-color", "#ff9d49"],
+          20,
+          ["to-color", "#f67758"],
+          25,
+          ["to-color", "#df556c"],
+          35,
+          ["to-color", "#c33684"],
+          75,
+          ["to-color", "#9f1b9b"],
+          200,
+          ["to-color", "#400f9c"],
+          500,
+          ["to-color", "#400f9c"],
+          1400,
+          ["to-color", "#000c83"]
+        ]
+      }
+    },
+    {
+      "id": "PVEPPMwhRP",
+      "type": "fill",
+      "source": "innsbruck",
+      "source-layer": "stpoelten_4esa",
+      "filter": ["all"],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": [
+          "interpolate",
+          ["linear"],
+          ["get", "PVEPPMwhRP"],
+          0,
+          ["to-color", "#f6f84c"],
+          10,
+          ["to-color", "#ffc843"],
+          15,
+          ["to-color", "#ff9d49"],
+          20,
+          ["to-color", "#f67758"],
+          25,
+          ["to-color", "#df556c"],
+          35,
+          ["to-color", "#c33684"],
+          75,
+          ["to-color", "#9f1b9b"],
+          200,
+          ["to-color", "#400f9c"],
+          500,
+          ["to-color", "#400f9c"],
+          1400,
+          ["to-color", "#000c83"]
+        ]
+      }
+    },
+    {
+      "id": "PVEPPMwhLP",
+      "type": "fill",
+      "source": "innsbruck",
+      "source-layer": "stpoelten_4esa",
+      "filter": ["all"],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": [
+          "interpolate",
+          ["linear"],
+          ["get", "PVEPPMwhLP"],
+          0,
+          ["to-color", "#f6f84c"],
+          10,
+          ["to-color", "#ffc843"],
+          15,
+          ["to-color", "#ff9d49"],
+          20,
+          ["to-color", "#f67758"],
+          25,
+          ["to-color", "#df556c"],
+          35,
+          ["to-color", "#c33684"],
+          75,
+          ["to-color", "#9f1b9b"],
+          200,
+          ["to-color", "#400f9c"],
+          500,
+          ["to-color", "#400f9c"],
+          1400,
+          ["to-color", "#000c83"]
+        ]
+      }
+    },
+    {
+      "id": "GRImpScore",
+      "type": "fill",
+      "source": "innsbruck",
+      "source-layer": "stpoelten_4esa",
+      "filter": ["all"],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": [
+          "interpolate",
+          ["linear"],
+          ["get", "GRImpScore"],
+          0,
+          ["to-color", "#027224"],
+          57.10,
+          ["to-color", "#a5ce40"],
+          71.75,
+          ["to-color", "#dcee49"],
+          78.95,
+          ["to-color", "#fceb49"],
+          83.41,
+          ["to-color", "#ffc640"],
+          86.94,
+          ["to-color", "#ff9f32"],
+          91.33,
+          ["to-color", "#ff742c"],
+          100,
+          ["to-color", "#ff3624"]
+        ]
+      }
+    }
+  ]
+}

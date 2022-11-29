@@ -6,6 +6,9 @@
     <global-header
       ref="globalHeader"
     />
+    <ESABreadcrumbs
+      v-if="appConfig.enableESALayout"
+    />
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.mdAndUp"
       v-model="drawerRight"
@@ -20,7 +23,6 @@
         height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px;`"
       class="data-panel"
     >
-      <banner v-if="currentNews" ref="newsBanner" />
       <v-toolbar flat>
         <v-toolbar-title v-if="$store.state.indicators.selectedIndicator"
           :class="$store.state.indicators.selectedIndicator.description ===
@@ -187,7 +189,8 @@
               class="d-flex justify-start"
               style="position: absolute; top: 0; width: 100%; pointer-events: none"
             >
-              <indicator-filters ref="indicatorFilters" />
+              <IndicatorFiltersSidebar v-if="appConfig.enableIndicatorSidebar" />
+              <indicator-filters v-else />
             </div>
           </v-col>
         </v-row>
@@ -206,6 +209,8 @@ import DataPanel from '@/components/DataPanel.vue';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import IndicatorFilters from '@/components/IndicatorFilters.vue';
+import IndicatorFiltersSidebar from '@/components/IndicatorFiltersSidebar.vue';
+import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
@@ -227,6 +232,8 @@ export default {
     GlobalHeader,
     GlobalFooter,
     IndicatorFilters,
+    IndicatorFiltersSidebar,
+    ESABreadcrumbs,
   },
   props: {
     source: String,
