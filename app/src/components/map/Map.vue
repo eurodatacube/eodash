@@ -118,7 +118,7 @@
       </div>
       <div class="pointerEvents mb-2">
         <AddToDashboardButton
-          v-if="mapId === 'centerMap' && indicator && isGlobalIndicator"
+          v-if="mapId === 'centerMap' && indicator && indicatorHasMapData(indicator)"
           :indicatorObject="indicator"
           :zoom="currentZoom"
           :center="currentCenter"
