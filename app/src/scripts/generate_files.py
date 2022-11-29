@@ -582,7 +582,7 @@ def generateData(
                         "description": line[cm["description"]],
                         "indicatorName": line[cm["indicatorName"]],
                         "yAxis": line[cm["yAxis"]],
-                        "subAoi": line[cm["subAoi"]],
+                        "subAoi": re.sub(r'([0-9]+\.[0-9]{5})([0-9]+)', r'\1', line[cm["subAoi"]]),
                         "updateFrequency": line[cm["updateFrequency"]],
                         # Actual data
                         "poi_data": poi_data_always,
@@ -646,7 +646,7 @@ def generateData(
                             "description": line[cm["description"]],
                             "indicatorName": line[cm["indicatorName"]],
                             "yAxis": line[cm["yAxis"]],
-                            "subAoi": line[cm["subAoi"]],
+                            "subAoi": re.sub(r'([0-9]+\.[0-9]{5})([0-9]+)', r'\1', line[cm["subAoi"]]),
                             "updateFrequency": line[cm["updateFrequency"]],
                             # Actual data
                             "poi_data": poi_data_always,
@@ -777,8 +777,6 @@ generateData(
         '/public/eodash-data/data/N1b_NO2_CAMS.csv',
         '/public/eodash-data/data/N1c_PM10_CAMS.csv',
         '/public/eodash-data/data/N1d_O3_CAMS.csv',
-        #'/public/eodash-data/data/N4a.csv',
-        #'/public/eodash-data/data/N4c.csv',
         '/public/eodash-data/data/E13e_cargo.csv',
         '/public/eodash-data/data/E13f_fishing.csv',
         '/public/eodash-data/data/E13g_tanker.csv',
