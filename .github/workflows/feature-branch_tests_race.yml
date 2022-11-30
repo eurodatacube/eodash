@@ -7,9 +7,17 @@ on:
 
 jobs:
   cypress-run:
-    name: Cypress run
+    name: Cypress run feature branch RACE
     runs-on: ubuntu-22.04
     steps:
+      - name: Wait for deployment to succeed
+        uses: lewagon/wait-on-check-action@v1.2.0
+        with:
+          ref: ${{ github.ref }}
+          check-name: 'Feature branch deployment'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 10
+
       - name: Checkout
         uses: actions/checkout@v2
 
