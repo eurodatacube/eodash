@@ -7,7 +7,7 @@ on:
 
 jobs:
   cypress-run:
-    name: Cypress run
+    name: Cypress run feature branch Trilateral
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
