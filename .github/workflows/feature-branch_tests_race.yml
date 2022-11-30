@@ -1,8 +1,9 @@
 # Run cypress tests
 name: Cypress tests - RACE
 on:
-  push:
-    branches-ignore: [ master, staging ]
+  pull_request:
+    branches:
+      - staging
 
 jobs:
   cypress-run:
@@ -12,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # Tests for race
+      # Tests for RACE
       - name: Cypress run
         uses: cypress-io/github-action@v4
         with:

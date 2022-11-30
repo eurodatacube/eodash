@@ -6,6 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:e2e": "vue-cli-service test:e2e",
+    "cy:open": "cypress open -C cypress.json",
+    "cy:run": "cypress run -C cypress.json",
     "lint": "vue-cli-service lint",
     "start": "vue-cli-service serve --port 8812"
   },
