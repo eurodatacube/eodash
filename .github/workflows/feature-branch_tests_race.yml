@@ -19,7 +19,7 @@ jobs:
         with:
           working-directory: app
           spec: tests/e2e/specs/indicators_race.js
-          config: 'baseUrl=https://${{ secrets.TEST_INSTANCE_UN }}:${{ secrets.TEST_INSTANCE_PW }}@eodash-testing.eox.at/${{ github.ref_name }}/'
+          config: 'baseUrl=https://${{ secrets.TEST_INSTANCE_UN }}:${{ secrets.TEST_INSTANCE_PW }}@eodash-testing.eox.at/${{ github.head_ref }}/'
 
       - uses: actions/upload-artifact@v2
         if: failure()
