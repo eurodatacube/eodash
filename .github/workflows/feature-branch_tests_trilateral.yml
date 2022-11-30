@@ -5,6 +5,10 @@ on:
     branches:
       - staging
 
+concurrency:
+  group: ci-tests-${{ github.ref }}-1
+  cancel-in-progress: true
+
 jobs:
   cypress-run:
     name: Cypress run feature branch Trilateral
