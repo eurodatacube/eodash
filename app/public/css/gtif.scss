@@ -1,0 +1,39 @@
+@import url('./opensans.css');
+
+@font-face{
+  font-family: 'NotesESABold';
+  src: url('./notesesabol-webfont.ttf') format('truetype');
+}
+
+@font-face{
+  font-family: 'NotesESA';
+  src: url('./notesesareg.woff2') format('woff2'),
+       url('./notesesareg.ttf') format('truetype');
+}
+
+.v-application {
+  font-family: 'NotesESA', 'Open Sans', sans-serif;
+}
+
+.brand-esa {
+  $body-font-family: 'NotesESA', 'Open Sans', sans-serif;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  .h1,
+  .h2,
+  .h3,
+  .h4,
+  .headline,
+  .v-application .display-1,
+  .v-application .display-2,
+  .v-application .display-3,
+  .v-btn__content,
+  .v-toolbar__title,
+  .v-card__title,
+  .v-tab{
+    font-family: 'NotesESABold', sans-serif !important;
+  }
+}

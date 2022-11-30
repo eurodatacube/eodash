@@ -582,7 +582,7 @@ def generateData(
                         "description": line[cm["description"]],
                         "indicatorName": line[cm["indicatorName"]],
                         "yAxis": line[cm["yAxis"]],
-                        "subAoi": line[cm["subAoi"]],
+                        "subAoi": re.sub(r'([0-9]+\.[0-9]{5})([0-9]+)', r'\1', line[cm["subAoi"]]),
                         "updateFrequency": line[cm["updateFrequency"]],
                         # Actual data
                         "poi_data": poi_data_always,
@@ -646,7 +646,7 @@ def generateData(
                             "description": line[cm["description"]],
                             "indicatorName": line[cm["indicatorName"]],
                             "yAxis": line[cm["yAxis"]],
-                            "subAoi": line[cm["subAoi"]],
+                            "subAoi": re.sub(r'([0-9]+\.[0-9]{5})([0-9]+)', r'\1', line[cm["subAoi"]]),
                             "updateFrequency": line[cm["updateFrequency"]],
                             # Actual data
                             "poi_data": poi_data_always,
@@ -704,18 +704,19 @@ dashboards_folder = '/public/data/dashboards'
 dashboards_endpoint = "https://eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/get?id="
 with open(stories_config) as json_file:
     stories_data = json.load(json_file)
-    # For now we only fetch data for trilateral
-    for category in stories_data['trilateral'].values():
-        if category:
-            for entry in category.values():
-                if 'originalDashboardId' in entry:
-                    dash_id = entry['originalDashboardId']
-                    resp = requests.get(dashboards_endpoint+dash_id)
-                    if resp.status_code == 200:
-                        with open("%s/%s.json"%(dashboards_folder, dash_id), "w") as f:
-                            f.write(json.dumps(resp.json(), indent = 2))
-                    else:
-                        print ('Issue retrieving story with dashboard id %s'%dash_id)
+    for instance in stories_data:
+        # Fetching instance specific stories
+        for category in stories_data[instance].values():
+            if category:
+                for entry in category.values():
+                    if 'originalDashboardId' in entry:
+                        dash_id = entry['originalDashboardId']
+                        resp = requests.get(dashboards_endpoint+dash_id)
+                        if resp.status_code == 200:
+                            with open("%s/%s.json"%(dashboards_folder, dash_id), "w") as f:
+                                f.write(json.dumps(resp.json(), indent = 2))
+                        else:
+                            print ('Issue retrieving story with dashboard id %s'%dash_id)
 
 #################
 
@@ -776,8 +777,6 @@ generateData(
         '/public/eodash-data/data/N1b_NO2_CAMS.csv',
         '/public/eodash-data/data/N1c_PM10_CAMS.csv',
         '/public/eodash-data/data/N1d_O3_CAMS.csv',
-        #'/public/eodash-data/data/N4a.csv',
-        #'/public/eodash-data/data/N4c.csv',
         '/public/eodash-data/data/E13e_cargo.csv',
         '/public/eodash-data/data/E13f_fishing.csv',
         '/public/eodash-data/data/E13g_tanker.csv',

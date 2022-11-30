@@ -6,7 +6,7 @@
     "--prefix",
     "./app/",
     "run",
-    "serve"
+    "start"
   ],
   "settings": {
     "terminal.integrated.profiles.linux": {
@@ -38,5 +38,5 @@
     }
   },
   "postCreateCommand": "npm --prefix ./app/ install",
-  "forwardPorts": [8080]
+  "forwardPorts": [8812]
 }

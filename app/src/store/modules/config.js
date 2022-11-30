@@ -19,6 +19,7 @@ const mutations = {
 const actions = {
   checkBrand({ commit }) {
     const appConfig = require('../../appConfig');
+    // eslint-disable-next-line no-restricted-globals
     const hostname = document.location.href.match(/\/\/([^:/]+)/)[1];
     const b = appConfig.find((c) => c.match.includes(hostname));
     const brandConfig = (b !== undefined) ? b : appConfig[0];

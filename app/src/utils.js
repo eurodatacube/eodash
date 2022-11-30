@@ -9,6 +9,7 @@ import { Feature } from 'ol';
 import { fromExtent } from 'ol/geom/Polygon';
 import { Stroke, Style } from 'ol/style';
 import getMapInstance from './components/map/map';
+import getLocationCode from './mixins/getLocationCode';
 
 export function padLeft(str, pad, size) {
   let out = str;
@@ -224,6 +225,11 @@ export function calculatePadding() {
   // handleDebugPolygon();
 }
 
+/**
+ * registry of "clean" indicators (input data filtered)
+ */
+const indicatorRegistry = {};
+
 export function getIndicatorFilteredInputData(selectedIndicator) {
   if (!selectedIndicator && !store.state.indicators.selectedIndicator) {
     return null;
@@ -234,6 +240,11 @@ export function getIndicatorFilteredInputData(selectedIndicator) {
   if (!inputData) {
     return null;
   }
+  const locationCode = getLocationCode(indicator);
+  if (indicatorRegistry[locationCode]) {
+    return indicatorRegistry[locationCode];
+  }
+
   // filter out rows which have empty "Input Data"
   const mask = inputData.map((item) => item !== '' && item !== '/');
   // filtering only arrays with more than 1 element to not fail on Input Data:['value'] shortcut
@@ -244,5 +255,6 @@ export function getIndicatorFilteredInputData(selectedIndicator) {
       }
     }
   }
+  indicatorRegistry[locationCode] = indicator;
   return indicator;
 }

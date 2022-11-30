@@ -3,7 +3,7 @@
     class="ma-0  px-4 px-md-8"
     style="max-width: 1400px;"
   >
-    <h3 class="mb-10" :class="[headingClass]">Stories</h3>
+    <h3 class="mb-10" :class="[headingClass]">{{appConfig.branding.storiesHeader}}</h3>
 
     <v-row
       no-gutters

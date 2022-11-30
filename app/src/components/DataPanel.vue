@@ -9,7 +9,43 @@
       :class="$vuetify.breakpoint.xsOnly ? 'mx-0' : ''"
       :style="expanded ? `width: 100%;` : ``
     ">
-      <v-row v-if="indicatorObject">
+      <v-row v-if="indicatorObject" class="d-flex flex-column">
+        <filter-controls v-if="indicatorObject.cogFilters"
+          :cogFilters="indicatorObject.cogFilters"
+        >
+        </filter-controls>
+
+        <!-- TODO: remove GTIF brand check -->
+        <v-btn
+          v-if="appConfig.id === 'gtif'"
+          text
+          color="primary"
+          class="mx-3"
+          @click="showScatterplot = !showScatterplot"
+        >
+          Expand controls
+          <v-icon right :style="`transform: rotate(${showScatterplot
+            ? 90
+            : 0}deg); transition: all .3s ease-in-out;`">mdi-chevron-right</v-icon>
+        </v-btn>
+
+        <scatter-plot v-if="indicatorObject.cogFilters
+          && indicatorObject.cogFilters.sourceLayer === 'REP1' && showScatterplot"
+          :filters="indicatorObject.cogFilters.filters"
+        >
+        </scatter-plot>
+
+        <style-controls v-if="indicatorObject.vectorStyles"
+          :vectorStyles="indicatorObject.vectorStyles"
+        >
+        </style-controls>
+        <!-- TODO: remove GTIF brand check -->
+        <data-mockup-view v-if="appConfig.id === 'gtif'"
+          :indicatorObject="indicatorObject"
+          :adminLayer="$store.state.features.adminBorderLayerSelected"
+          :adminFeature="$store.state.features.adminBorderFeatureSelected"
+        >
+        </data-mockup-view>
         <v-col
           v-if="!showMap
             ||  multipleTabCompare
@@ -17,105 +53,8 @@
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
         >
-          <v-tabs
-            v-if="multipleTabCompare"
-            v-model="selectedSensorTab"
-            grow
-          >
-            <v-tab
-              v-for="(sensorData, index) in multipleTabCompare.features"
-              :key="sensorData.properties.indicatorObject.id"
-              :class="multipleTabCompare.features.indexOf(sensorData) == selectedSensorTab
-                ? 'primary white--text'
-                : ''"
-            >
-              {{ Array.isArray(multipleTabCompare.label)
-                ? multipleTabCompare.label[index]
-                : (Array.isArray(sensorData.properties.indicatorObject[multipleTabCompare.label])
-                ? sensorData.properties.indicatorObject[multipleTabCompare.label][0]
-                : sensorData.properties.indicatorObject[multipleTabCompare.label])
-              }}
-            </v-tab>
-          </v-tabs>
-          <v-tabs-items
-            v-if="multipleTabCompare"
-            touchless
-            v-model="selectedSensorTab"
-          >
-            <v-tab-item
-              v-for="sensorData in multipleTabCompare.features"
-              :key="sensorData.properties.indicatorObject.id"
-              :transition="false" :reverse-transition="false"
-            >
-              <v-card
-                class="fill-height"
-                :style="`${!(!customAreaIndicator || expanded) ? 'display: none;' : ''}
-                height: ${$vuetify.breakpoint.mdAndUp ?
-                                  (expanded ? ( bannerHeight ? 60 : 70) : 45) : 50}vh;`"
-              >
-                <indicator-data
-                  style="top: 0px; position: absolute;"
-                  class="pa-5 chart"
-                  :currentIndicator="sensorData.properties.indicatorObject"
-                />
-                <v-row v-if="!showMap" class="mt-0">
-                  <v-col cols="12" sm="5" ></v-col>
-                  <v-col
-                    cols="12"
-                    sm="7"
-                    ref="customButtonRow"
-                    style="margin-top: -12px;"
-                  >
-                    <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
-                      <v-btn
-                        color="primary"
-                        text
-                        small
-                        :href="dataCustomHrefCSV"
-                        :download="customAOIDownloadFilename"
-                        target="_blank"
-                        v-if="customAreaIndicator"
-                      >
-                        <v-icon left>mdi-download</v-icon>
-                        download csv
-                      </v-btn>
-                    </div>
-                  </v-col>
-                </v-row>
-              </v-card>
-              <v-card
-                v-if="customAreaIndicator && !expanded"
-                class="fill-height"
-                :style="`height: ${$vuetify.breakpoint.mdAndUp ? 30 : 43}vh;`"
-                style="border: none; !important"
-                ref="indicatorData"
-                outlined
-              >
-              <v-card-title
-                style="padding-top: 10px; padding-bottom: 0px;">
-                  <v-btn
-                    icon
-                    @click="clearSelection">
-                    <v-icon medium>mdi-close</v-icon>
-                  </v-btn>
-                  {{ customAreaIndicator.title }}
-              </v-card-title>
-              <v-card-title
-                style="padding-top: 5px"
-                v-if="customAreaIndicator.isEmpty">
-                  No data found for selection
-              </v-card-title>
-                <indicator-data
-                  v-if="!customAreaIndicator.isEmpty"
-                  style="margin-top: 0px;"
-                  :style="`height: ${mapPanelHeight - 15}px`"
-                  class="px-5 py-0 chart"
-                />
-              </v-card>
-            </v-tab-item>
-          </v-tabs-items>
           <v-card
-            v-else-if="!showMap || (showMap && mergedConfigsData[0].customAreaIndicator)"
+            v-if="!showMap || (showMap && mergedConfigsData[0].customAreaIndicator)"
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
                               ? (bannerHeight ? 65 : 70) : 30) : 45}vh;`"
@@ -156,37 +95,6 @@
                 style="margin-top: 0px;"
                 class="pa-2 chart"
               />
-              <v-row v-if="!showMap || !customAreaIndicator.isEmpty" class="mt-0"
-                style="margin-top: 6px;"
-              >
-                <v-col cols="12" sm="5" ></v-col>
-                <v-col
-                  cols="12"
-                  sm="7"
-                  ref="customButtonRow"
-                  style="margin-top: 10px;"
-                >
-                  <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
-                    <v-btn
-                      color="primary"
-                      text
-                      small
-                      :href="dataCustomHrefCSV"
-                      :download="customAOIDownloadFilename"
-                      target="_blank"
-                      v-if="
-                        customAreaIndicator &&
-                        !this.baseConfig.indicatorsDefinition[
-                          indicatorObject.indicator
-                        ].countrySelection
-                      "
-                    >
-                      <v-icon left>mdi-download</v-icon>
-                      download csv
-                    </v-btn>
-                  </div>
-                </v-col>
-              </v-row>
             </template>
             <v-col
               v-else-if="showMap && (mergedConfigsData[0].customAreaIndicator)"
@@ -215,6 +123,44 @@
             />
           </v-card>
           <v-row
+            v-if="(customAreaIndicator && !customAreaIndicator.isEmpty)
+              && (!showMap || !customAreaIndicator.isEmpty)"
+            class="mt-6"
+          >
+            <v-col cols="12" sm="5" ></v-col>
+            <v-col
+              cols="12"
+              sm="7"
+              ref="customButtonRow"
+              style="margin-top: 10px;"
+            >
+              <div :class="$vuetify.breakpoint.xsOnly ? 'text-center' : 'text-right'">
+                <v-btn
+                  color="primary"
+                  text
+                  small
+                  :href="dataCustomHrefCSV"
+                  :download="customAOIDownloadFilename"
+                  target="_blank"
+                  v-if="
+                    customAreaIndicator &&
+                    !this.baseConfig.indicatorsDefinition[
+                      indicatorObject.indicator
+                    ].countrySelection
+                  "
+                >
+                  <v-icon left>mdi-download</v-icon>
+                  download csv
+                </v-btn>
+                <add-to-dashboard-button
+                  v-if="customAreaIndicator"
+                  :indicatorObject="customAreaIndicator">
+                </add-to-dashboard-button>
+              </div>
+            </v-col>
+          </v-row>
+          <v-row
+            v-else
             :class="customAreaIndicator && !expanded ? 'mt-6' : 'mt-0'"
           >
             <v-col
@@ -281,10 +227,6 @@
                   download csv
                 </v-btn>
                 <add-to-dashboard-button
-                  v-if="customAreaIndicator"
-                  :indicatorObject="customAreaIndicator">
-                </add-to-dashboard-button>
-                <add-to-dashboard-button
                   v-else-if="!this.baseConfig.indicatorsDefinition[
                     indicatorObject.indicator
                   ].countrySelection && !showMap"
@@ -324,6 +266,7 @@
                 v-html="story"
                 class="md-body"
               ></div>
+
               <v-btn
                 v-if="indicatorObject && externalData"
                 :href= "externalData.url"
@@ -387,6 +330,10 @@ Select a point of interest on the map to see the data for a specific location!
           </v-row>
         </v-col>
       </v-row>
+
+      <v-row v-if="indicatorObject">
+
+      </v-row>
     </div>
   </div>
 </template>
@@ -403,7 +350,12 @@ import { DateTime } from 'luxon';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import IframeButton from '@/components/IframeButton.vue';
+import FilterControls from '@/components/map/FilterControls.vue';
+import StyleControls from '@/components/map/StyleControls.vue';
+import DataMockupView from '@/components/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
+
+import ScatterPlot from '@/components/ScatterPlot.vue';
 
 export default {
   props: [
@@ -415,6 +367,10 @@ export default {
     IndicatorGlobe,
     IframeButton,
     AddToDashboardButton,
+    FilterControls,
+    StyleControls,
+    ScatterPlot,
+    DataMockupView,
   },
   data: () => ({
     overlay: false,
@@ -432,6 +388,7 @@ export default {
     compareEnabled: false,
     isLoadingCustomAreaIndicator: false,
     showRegenerateButton: null,
+    showScatterplot: null,
   }),
   computed: {
     ...mapGetters('features', [
@@ -601,7 +558,6 @@ export default {
       return 0;
     },
     mergedConfigsData() {
-      // only display the "special layers" for global indicators
       if (!this.indicatorObject) {
         return [];
       }
