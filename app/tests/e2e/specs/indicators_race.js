@@ -20,6 +20,8 @@ describe('Indicator tests for RACE', () => {
       it(`testing indicator ${key}`, () => {
         cy.visit(`/?poi=${obj.aoiID}-${key}`);
         cy.get('#bar-chart, #line-chart, #bubbleMap').should('exist');
+        // We add a wait to make sure indicator is completely loaded for video output
+        cy.wait(1500);
       });
     });
   });

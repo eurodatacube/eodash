@@ -36,6 +36,8 @@ describe('Indicator tests for trilateral desktop', () => {
         cy.visit(`/?poi=${obj.aoiID}-${key}`);
         cy.contains('Accept all cookies').click();
         cy.get('#bar-chart, #line-chart, #bubbleMap').should('exist');
+        // We add a wait to make sure indicator is completely loaded for video output
+        cy.wait(1500);
       });
     });
   });
