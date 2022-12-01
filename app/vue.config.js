@@ -57,7 +57,7 @@ module.exports = {
       disableHostCheck: true,
       watchOptions: {
         poll: false,
-        ignored: /node_modules/,
+        ignored: [/node_modules/, /public/, /tests/],
       },
     },
     module: {
