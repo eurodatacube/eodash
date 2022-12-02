@@ -1,14 +1,15 @@
+import LayerGroup from 'ol/layer/Group';
+
 /**
  * updates the layer source of a given layer to show data of the given time object
  * @param {*} layer openlayers layer
  * @param {*} config config object (e.g. "mergedConfigsData")
- * @param {*} timeObject time definition object
+ * @param {*} time time definition object
+ * @param {*} drawnArea drawnArea object
+ * @param {*} sourceGet one of 'updateTime' or 'updateArea'
  */
-
-import LayerGroup from 'ol/layer/Group';
-
 // eslint-disable-next-line import/prefer-default-export
-export function updateTimeLayer(layer, config, time) {
+export function updateTimeLayer(layer, config, time, drawnArea, sourceGet = 'updateTime') {
   let sources;
   if (layer instanceof LayerGroup) {
     sources = layer.getLayers().getArray().map((l) => l.getSource());
@@ -16,9 +17,9 @@ export function updateTimeLayer(layer, config, time) {
     sources = [layer.getSource()];
   }
   sources.forEach((source) => {
-    const updateTimeFunction = source.get('updateTime');
-    if (updateTimeFunction) {
-      updateTimeFunction(time, config);
+    const updateFunction = source.get(sourceGet);
+    if (updateFunction) {
+      updateFunction(time, drawnArea, config);
     }
     source.refresh();
   });

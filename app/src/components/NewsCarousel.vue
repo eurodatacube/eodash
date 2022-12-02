@@ -75,11 +75,11 @@ export default {
     onClickItem(item) {
       const { poi, indicator, href } = item;
       if (poi) {
-        const aoiId = poi.split('-')[0];
+        const aoiID = poi.split('-')[0];
         const indicatorCode = poi.split('-')[1];
         const selectedFeature = this.$store.state.features.allFeatures.find((f) => {
           const { indicatorObject } = f.properties;
-          return indicatorObject.aoiID === aoiId
+          return indicatorObject.aoiID === aoiID
             && indicatorObject.indicator === indicatorCode;
         });
         if (indicator) {

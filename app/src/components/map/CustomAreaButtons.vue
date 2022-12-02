@@ -141,8 +141,7 @@ export default {
     mergedConfigsData: Object,
     drawnArea: {
       area: null,
-    },
-    loading: Boolean,
+    }
   },
   computed: {
     ...mapState('config', ['appConfig']),

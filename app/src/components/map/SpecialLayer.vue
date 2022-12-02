@@ -35,7 +35,8 @@ export default {
     /**
      * @property {*} options.time
      * @property {boolean} options.indicator
-     * @property {boolean} options.aoiId
+     * @property {boolean} options.aoiID
+     * @property {boolean} options.customArea
      */
     options: {
       type: Object,

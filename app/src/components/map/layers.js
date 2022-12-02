@@ -13,6 +13,7 @@ import TileGrid from 'ol/tilegrid/TileGrid';
 import { createXYZ } from 'ol/tilegrid';
 import { Group } from 'ol/layer';
 import { get as getProj, transformExtent } from 'ol/proj';
+import { fetchCustomAreaObjects, fetchCustomDataOptions } from '@/helpers/customAreaObjects';
 
 import proj4 from 'proj4';
 import { register } from 'ol/proj/proj4';
@@ -54,27 +55,41 @@ export function getProjectionOl(projectionLike) {
   return getProj('EPSG:4326');
 }
 
-function fetchGeoJsonFeatures(source, url) {
-  fetch(url)
-    .then((fStream) => {
-      fStream.json()
-        .then((geoJson) => {
-          if (geoJson.features && geoJson.features.length) {
-            geoJson.features.forEach((f) => {
-              if (f.id === null) {
-                // to do: some POIs (like bejing or LAX airports) have `null` set as feature ids,
-                // resulting in invalid geojson
-                // when this is fixed in the data, the normal geojson loader should be used
-                // eslint-disable-next-line no-param-reassign
-                f.id = undefined;
-              }
-            });
-            const features = geoJsonFormat.readFeatures(geoJson);
-            source.addFeatures(features);
-          }
-        })
-        .catch(() => {});
-    });
+export async function fetchData({
+  usedTime, config, drawnArea, source,
+}) {
+  // fetching of customFeatures
+  if (!config?.features || (config.customAreaFeatures && !drawnArea?.area)) {
+    source.clear();
+    return;
+  }
+  try {
+    const options = fetchCustomDataOptions(usedTime, config, store);
+    const custom = await fetchCustomAreaObjects(
+      options,
+      drawnArea?.area,
+      config,
+      {},
+      'features',
+      store,
+    );
+    source.clear();
+    if (custom?.features && custom.features.length) {
+      const features = geoJsonFormat.readFeatures(custom);
+      features.forEach((ftr) => {
+        if (ftr.getId() === null) {
+          ftr.setId(undefined);
+        }
+        if (ftr.geometry) {
+          ftr.setGeometry(geoJsonFormat.readGeometry(ftr.geometry));
+        }
+      });
+      source.addFeatures(features);
+    }
+  } catch (err) {
+    source.clear();
+    console.error(err);
+  }
 }
 
 function createFromTemplate(template, tileCoord) {
@@ -96,15 +111,15 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
   let url = baseUrl;
   const time = options.time || store.state.indicators.selectedTime;
   const indicator = options.indicator || store.state.indicators.selectedIndicator.indicator;
-  const aoiId = options.aoiId || store.state.indicators.selectedIndicator.aoiID;
+  const aoiID = options.aoiID || store.state.indicators.selectedIndicator.aoiID;
   url = url.replace(/{time}/i, config.dateFormatFunction(time));
   url = url.replace(/{indicator}/gi, indicator);
-  url = url.replace(/{aoiID}/gi, aoiId);
+  url = url.replace(/{aoiID}/gi, aoiID);
   if (config.features && config.features.dateFormatFunction) {
     url = url.replace(/{featuresTime}/i, config.features.dateFormatFunction(time));
   }
   if (config.siteMapping) {
-    const currSite = config.siteMapping(aoiId);
+    const currSite = config.siteMapping(aoiID);
     url = url.replace(/{site}/gi, currSite);
   }
   return url;
@@ -125,7 +140,8 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
  * for overlays like labels or borders. Defaults to false.
  * @param {*} [opt_options.time=undefined] optional time.
  * @param {*} [opt_options.indicator=undefined] optional indicator. (e.g. "E13b")
- * @param {*} [opt_options.aoiId=undefined] optional aoiId.
+ * @param {*} [opt_options.aoiID=undefined] optional aoiID.
+ * @param {*} [opt_options.drawnArea=undefined] optional drawnArea object.
  * if not set, time will be retrieved from the store
  * @returns {Group} returns ol layer
  */
@@ -189,7 +205,7 @@ export function createLayerFromConfig(config, _options = {}) {
           return createFromTemplate(url, tileCoord);
         },
       });
-      source.set('updateTime', (time, configUpdate) => {
+      source.set('updateTime', (time, area, configUpdate) => {
         const updatedOptions = {
           ...options,
           ...configUpdate,
@@ -259,7 +275,7 @@ export function createLayerFromConfig(config, _options = {}) {
           url: c.baseUrl,
           tileGrid,
         });
-        singleSource.set('updateTime', (updatedTime, configUpdate) => {
+        singleSource.set('updateTime', (updatedTime, area, configUpdate) => {
           const timeString = configUpdate.dateFormatFunction(updatedTime);
           const paramsUpdate = {};
           paramsToPassThrough.forEach((param) => {
@@ -309,7 +325,7 @@ export function createLayerFromConfig(config, _options = {}) {
         url: config.url || config.baseUrl,
         tileGrid,
       });
-      source.set('updateTime', (updatedTime, configUpdate) => {
+      source.set('updateTime', (updatedTime, area, configUpdate) => {
         const timeString = configUpdate.dateFormatFunction(updatedTime);
         const paramsUpdate = {};
         paramsToPassThrough.forEach((param) => {
@@ -349,29 +365,34 @@ export function createLayerFromConfig(config, _options = {}) {
   if (config.features) {
     // some layers have a baselayer and GeoJSON features above them
     // e.g. "Ports and Shipping"
-    // to do: consider other sources of truth than the store
     const featuresSource = new VectorSource({
       features: [],
     });
-    // to do:
-    // some configs have other mean than simple geojson fetching. Make sure to not forget any.
-    if (!config.features.callbackFunction) {
-      const url = replaceUrlPlaceholders(config.features.url, config, options);
-      fetchGeoJsonFeatures(featuresSource, url);
-    }
+    fetchData({
+      usedTime: options.time,
+      config,
+      drawnArea: options.drawnArea,
+      source: featuresSource,
+    });
     // this gives an option to update the source (most likely the time) without
     // re-creating the entire layer
-    featuresSource.set('updateTime', (time, configUpdate) => {
+    const featuresUpdate = (time, drawnArea, configUpdate) => {
       const updatedOptions = {
         ...options,
         ...configUpdate,
       };
       updatedOptions.time = time;
-      const newUrl = replaceUrlPlaceholders(
-        configUpdate.features.url, configUpdate, updatedOptions,
-      );
-      fetchGeoJsonFeatures(featuresSource, newUrl);
-    });
+      fetchData({
+        usedTime: time,
+        config: updatedOptions,
+        drawnArea,
+        source: featuresSource,
+      });
+    };
+    featuresSource.set('updateTime', featuresUpdate);
+    if (config.customAreaFeatures) {
+      featuresSource.set('updateArea', featuresUpdate);
+    }
     const fill = new Fill({
       color: 'rgba(255, 255, 255, 0.1)',
     });
