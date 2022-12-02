@@ -20,6 +20,7 @@ import Terms from './views/Terms.vue';
 import EmbedIframe from './views/EmbedIframe.vue';
 import ThemesLandingPage from './views/ThemesLandingPage.vue';
 import ThemeSinglePage from './views/ThemeSinglePage.vue';
+import ScrollyFrame from './views/ScrollyFrame.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 import customDashboardApiFactory from './custom-dashboard';
@@ -185,20 +186,33 @@ const renderVue = async () => {
   );
 
   const routes = [
+    ...(store.state.config.appConfig
+      && !store.state.config.appConfig.enableStories
+      && !store.state.config.appConfig.enableScrollyTelling
+      ? [
+        { path: '/', name: 'explore', component: Dashboard },
+      ] : [
+        { path: '/explore', name: 'explore', component: Dashboard },
+      ]),
     ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
       ? [
         { path: '/', name: 'landing', component: ThemesLandingPage },
-        { path: '/explore', name: 'explore', component: Dashboard },
-      ]
-      : [
-        { path: '/', name: 'explore', component: Dashboard },
-      ]),
+      ] : []),
+    ...(store.state.config.appConfig && store.state.config.appConfig.enableScrollyTelling
+      ? [
+        { path: '/', name: 'landing', component: ScrollyFrame },
+      ] : []),
     { path: '/dashboard', component: DashboardCustom },
     { path: '/story', component: DashboardCustom },
     { path: '/privacy', component: Privacy },
     { path: '/terms_and_conditions', component: Terms },
     { path: '/challenges', component: Challenges },
     { path: '/iframe', component: EmbedIframe },
+    ...(store.state.config.appConfig && store.state.config.appConfig.enableScrollyTelling
+      ? [
+        { path: '/scrolly', component: ScrollyFrame },
+      ] : []
+    ),
     ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
       ? [
         { path: '/atmosphere', name: 'atmosphere', component: ThemeSinglePage },
@@ -208,6 +222,22 @@ const renderVue = async () => {
         { path: '/cryosphere', name: 'cryosphere', component: ThemeSinglePage },
         { path: '/economy', name: 'economy', component: ThemeSinglePage },
         { path: '/oceans', name: 'oceans', component: ThemeSinglePage },
+        { path: '/energy', name: 'energy', component: ThemeSinglePage },
+        { path: '/transport-emission', name: 'transport-emission', component: ThemeSinglePage },
+        { path: '/green-finance', name: 'green-finance', component: ThemeSinglePage },
+        { path: '/food-ecosystems-biodiversity', name: 'food-ecosystems-biodiversity', component: ThemeSinglePage },
+      ]
+      : []
+    ),
+    ...(store.state.config.appConfig && store.state.config.appConfig.id === 'gtif'
+      ? [
+        { path: '/explore', name: 'explore', component: Dashboard },
+        { path: '/energy-transition', name: 'gtif-energy-transition', component: ScrollyFrame },
+        { path: '/mobility-transition', name: 'gtif-mobility-transition', component: ScrollyFrame },
+        { path: '/social-mobility', name: 'gtif-social-mobility', component: ScrollyFrame },
+        { path: '/sustainable-cities', name: 'gtif-sustainable-transition', component: ScrollyFrame },
+        { path: '/carbon-accounting', name: 'gtif-carbon-finance', component: ScrollyFrame },
+        { path: '/eo-adaptation-services', name: 'gtif-eo-adaptation', component: ScrollyFrame },
       ]
       : []
     ),

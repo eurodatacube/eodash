@@ -8,10 +8,17 @@ import {
   Fill, Stroke, Style, Circle,
 } from 'ol/style';
 import TileWMS from 'ol/source/TileWMS';
+import GeoTIFF from 'ol/source/GeoTIFF';
+import WebGLTileLayer from 'ol/layer/WebGLTile';
+import MapLibreLayer from '@geoblocks/ol-maplibre-layer';
 import store from '@/store';
 import TileGrid from 'ol/tilegrid/TileGrid';
 import { createXYZ } from 'ol/tilegrid';
 import { Group } from 'ol/layer';
+import VectorTileLayer from 'ol/layer/VectorTile';
+import { applyStyle } from 'ol-mapbox-style';
+import * as flatgeobuf from 'flatgeobuf/dist/flatgeobuf-geojson.min';
+import { bbox } from 'ol/loadingstrategy';
 import { get as getProj, transformExtent } from 'ol/proj';
 import { fetchCustomAreaObjects, fetchCustomDataOptions } from '@/helpers/customAreaObjects';
 
@@ -92,6 +99,17 @@ export async function fetchData({
   }
 }
 
+function fgbBoundingBox(extent, projection) {
+  // minx, miny, maxx, maxy
+  const transformedExtent = transformExtent(extent, projection.getCode(), 'EPSG:4326');
+  return {
+    minX: transformedExtent[0],
+    minY: transformedExtent[1],
+    maxX: transformedExtent[2],
+    maxY: transformedExtent[3],
+  };
+}
+
 function createFromTemplate(template, tileCoord) {
   const zRegEx = /\{z\}/g;
   const xRegEx = /\{x\}/g;
@@ -153,6 +171,46 @@ export function createLayerFromConfig(config, _options = {}) {
 
   // layers created by this config. These Layers will get combined into a single ol.layer.Group
   const layers = [];
+  if (config.protocol === 'cog') {
+    const source = new GeoTIFF({
+      sources: config.sources,
+      normalize: config.normalize ? config.normalize : false,
+    });
+    const wgTileLayer = new WebGLTileLayer({
+      source,
+      style: config.style,
+    });
+    wgTileLayer.set('id', config.id);
+    layers.push(wgTileLayer);
+  }
+  if (config.protocol === 'vectortile') {
+    const tilelayer = new VectorTileLayer();
+    tilelayer.set('id', config.id);
+    applyStyle(tilelayer, config.styleFile, [config.selectedStyleLayer]);
+    layers.push(tilelayer);
+  }
+  if (config.protocol === 'vectorgeojson') {
+    const layer = new VectorLayer();
+    layer.set('id', config.id);
+    layer.set('name', config.name);
+    layer.set('styleFile', config.styleFile);
+    layer.set('selectedStyleLayer', config.selectedStyleLayer);
+    layers.push(layer);
+    fetch(config.styleFile).then((r) => r.json())
+      .then((glStyle) => {
+        const newGlStyle = JSON.parse(JSON.stringify(glStyle));
+        let currentTime = '2022_09_17';
+        if (config.usedTimes?.time?.length) {
+          currentTime = config.usedTimes.time[config.usedTimes.time.length - 1];
+          currentTime = currentTime.replaceAll('-', '_');
+        }
+        newGlStyle.sources.air_quality.data = newGlStyle.sources.air_quality.data.replace(
+          '{{time}}', currentTime,
+        );
+        applyStyle(layer, newGlStyle, [config.selectedStyleLayer]);
+      })
+      .catch(() => console.log('Issue loading mapbox style'));
+  }
   if (config.protocol === 'countries') {
     layers.push(new VectorLayer({
       name: 'Country vectors',
@@ -171,13 +229,18 @@ export function createLayerFromConfig(config, _options = {}) {
     }));
   }
   if (config.protocol === 'GeoJSON') {
+    // mutually exclusive options, either direct features or url to fetch
+    const vectorSourceOpts = config.url ? {
+      url: config.url,
+      format: geoJsonFormat,
+    } : {
+      features: geoJsonFormat.readFeatures(config.data),
+    };
     layers.push(new VectorLayer({
       name: config.name,
       zIndex: options.zIndex,
       updateOpacityOnZoom: false,
-      source: new VectorSource({
-        features: geoJsonFormat.readFeatures(config.data),
-      }),
+      source: new VectorSource(vectorSourceOpts),
       style: new Style({
         fill: new Fill({
           color: config.style.fillColor || 'rgba(0, 0, 0, 0.5)',
@@ -187,6 +250,52 @@ export function createLayerFromConfig(config, _options = {}) {
           color: config.style.color || 'rgba(0, 0, 0, 0.5)',
         }),
       }),
+      maxZoom: config.maxZoom,
+      minZoom: config.minZoom,
+    }));
+  }
+  if (config.protocol === 'flatgeobuf') {
+    const vectorSourceOpts = {
+      format: geoJsonFormat,
+      strategy: bbox,
+    };
+    const source = new VectorSource(vectorSourceOpts);
+    // eslint-disable-next-line no-inner-declarations
+    async function updateResults(extent, resolution, projection, success) {
+      const rect = fgbBoundingBox(extent, projection);
+      // Use flatgeobuf JavaScript API to iterate features as geojson.
+      // Because we specify a bounding box, flatgeobuf will only fetch the relevant subset of data,
+      // rather than the entire file.
+      if (rect.minX !== -Infinity) {
+        const ftrs = [];
+        const iter = flatgeobuf.deserialize(config.url, rect);
+        // eslint-disable-next-line no-restricted-syntax
+        for await (const feature of iter) {
+          const ftr = geoJsonFormat.readFeature(feature);
+          ftrs.push(ftr);
+        }
+        source.clear();
+        source.addFeatures(ftrs);
+        success();
+      }
+    }
+    source.setLoader(updateResults);
+    layers.push(new VectorLayer({
+      name: config.name,
+      zIndex: options.zIndex,
+      updateOpacityOnZoom: false,
+      source,
+      style: new Style({
+        fill: new Fill({
+          color: config.style.fillColor || 'rgba(0, 0, 0, 0.5)',
+        }),
+        stroke: new Stroke({
+          width: config.style.weight || 3,
+          color: config.style.color || 'rgba(0, 0, 0, 0.5)',
+        }),
+      }),
+      maxZoom: config.maxZoom,
+      minZoom: config.minZoom,
     }));
   }
   let source;
@@ -344,6 +453,17 @@ export function createLayerFromConfig(config, _options = {}) {
       });
     }
   }
+  if (config.protocol === 'maplibre') {
+    const layer = new MapLibreLayer({
+      name: config.name,
+      zIndex: options.zIndex,
+      attribution: config.attribution,
+      maplibreOptions: {
+        style: config.maplibreStyles,
+      },
+    });
+    layers.push(layer);
+  }
   let extent;
   if (config.extent) {
     extent = transformExtent(
@@ -402,6 +522,7 @@ export function createLayerFromConfig(config, _options = {}) {
     });
     const featuresLayer = new VectorLayer({
       source: featuresSource,
+      name: `${config.name}_features`,
       style: new Style({
         fill,
         stroke,

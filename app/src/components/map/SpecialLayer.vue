@@ -59,7 +59,10 @@ export default {
     options.zIndex = 3;
     const layer = createLayerFromConfig(this.mergedConfig, options);
     layer.set('name', this.layerName);
-    const featureLayer = layer.getLayers().getArray().find((l) => l instanceof VectorLayer);
+    const featureLayer = layer.getLayers().getArray().find((l) => {
+      const found = l instanceof VectorLayer && l.get('name')?.includes('_features');
+      return found;
+    });
     this.pointerMoveHandler = (e) => {
       const features = map.getFeaturesAtPixel(e.pixel, {
         layerFilter: ((candidate) => candidate === featureLayer),
@@ -72,7 +75,7 @@ export default {
         || (!isRightLayer && this.swipePixelX > e.pixel[0]))
         : true;
       // consider layergroup
-      if (isCorrectSide && features.length) {
+      if (isCorrectSide && features.length && this.mergedConfig.features) {
         const feature = features[0];
         // center coordinate of extent, passable approximation for small or regular features
         const coordinate = getCenter(feature.getGeometry().getExtent());

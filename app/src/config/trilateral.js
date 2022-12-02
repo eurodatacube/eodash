@@ -203,7 +203,7 @@ export const indicatorsDefinition = Object.freeze({
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
     story: '/data/trilateral/E13b',
-    themes: ['economy', 'atmosphere'],
+    themes: ['economy'],
   },
   H1: {
     indicatorSummary: 'Number of temp. treatment sites',
@@ -229,12 +229,12 @@ export const indicatorsDefinition = Object.freeze({
   NASAPopulation: {
     indicatorSummary: 'Population',
     story: '/data/trilateral/NASAPopulation',
-    themes: ['economy', 'agriculture', 'atmosphere', 'oceans'],
+    themes: ['economy'],
   },
   WSF: {
     indicatorSummary: 'World Settlement Footprint',
     story: '/eodash-data/stories/WSF-WSF',
-    themes: ['economy', 'agriculture', 'atmosphere', 'oceans'],
+    themes: ['economy'],
   },
   N2: {
     indicatorSummary: 'Greenhouse Gases',
@@ -293,7 +293,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   N12: {
     indicatorSummary: 'Sea Ice Concentration (GCOM-W)',
-    themes: ['cryosphere', 'oceans'],
+    themes: ['cryosphere'],
     baseLayers: [{
       ...baseLayers.cloudless,
       visible: true,
@@ -351,7 +351,7 @@ export const indicatorsDefinition = Object.freeze({
   SIF: {
     indicatorSummary: 'Solar Induced Chlorophyll Fluorescence',
     story: '/eodash-data/stories/SIF',
-    themes: ['agriculture', 'biomass-and-landcover'],
+    themes: ['agriculture'],
     maxZoom: 8,
   },
   NPP: {
@@ -367,17 +367,17 @@ export const indicatorsDefinition = Object.freeze({
   SIE: {
     indicatorSummary: 'SIE',
     story: '/eodash-data/stories/SIE',
-    themes: ['cryosphere', 'oceans'],
+    themes: ['cryosphere'],
   },
   SIC: {
     indicatorSummary: 'SIC',
     story: '/eodash-data/stories/SIC',
-    themes: ['cryosphere', 'oceans'],
+    themes: ['cryosphere'],
   },
   SITI: {
     indicatorSummary: 'SITI',
     story: '/eodash-data/stories/SITI',
-    themes: ['cryosphere', 'oceans'],
+    themes: ['cryosphere'],
   },
   NCEO: {
     indicatorSummary: 'NCEO',
@@ -697,6 +697,8 @@ export const overlayLayersRightMap = [{
   visible: true,
   updateOpacityOnZoom: true,
 }];
+
+export const administrativeLayers = [];
 
 const mapBoxHighResoSubst = [{
   ...baseLayers.mapboxHighReso,
@@ -3945,7 +3947,7 @@ const createSlowDownIndicator = (id, aoiID, city, country, aoi, geometry, cog, e
         description: 'Slowdown Proxy Maps',
         indicator: 'N7',
         lastIndicatorValue: null,
-        indicatorName: 'Cars and Construction',
+        indicatorName: 'Slowdown & Recovery Proxy Maps',
         lastColorCode: null,
         eoSensor,
         subAoi: {
