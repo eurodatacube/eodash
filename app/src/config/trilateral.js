@@ -3947,7 +3947,7 @@ const createSlowDownIndicator = (id, aoiID, city, country, aoi, geometry, cog, e
         description: 'Slowdown Proxy Maps',
         indicator: 'N7',
         lastIndicatorValue: null,
-        indicatorName: 'Cars and Construction',
+        indicatorName: 'Slowdown & Recovery Proxy Maps',
         lastColorCode: null,
         eoSensor,
         subAoi: {
