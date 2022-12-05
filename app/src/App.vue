@@ -175,11 +175,11 @@ export default {
         }
         let selectedFeature = null;
         if (poi && poi.includes('-')) {
-          const aoiId = poi.split('-')[0];
+          const aoiID = poi.split('-')[0];
           const indicatorCode = poi.split('-')[1];
           selectedFeature = this.$store.state.features.allFeatures.find((f) => {
             const { indicatorObject } = f.properties;
-            return indicatorObject.aoiID === aoiId
+            return indicatorObject.aoiID === aoiID
               && indicatorObject.indicator === indicatorCode;
           });
         }

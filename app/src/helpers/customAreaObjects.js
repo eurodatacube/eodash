@@ -13,6 +13,46 @@ export const statisticalApiHeaders = {
   },
 };
 
+export const fetchCustomDataOptions = (time, sourceOptionsObj, store) => {
+  const outputOptionsObj = {};
+  const indicator = sourceOptionsObj?.indicator
+  || store.state.indicators?.selectedIndicator?.indicator;
+  outputOptionsObj.indicator = indicator;
+  const aoiID = sourceOptionsObj?.aoiID
+  || store.state.indicators?.selectedIndicator?.aoiID;
+  outputOptionsObj.aoiID = aoiID;
+
+  if (sourceOptionsObj?.siteMapping) {
+    // substitutes {siteMapping} template
+    const currSite = sourceOptionsObj.siteMapping(
+      aoiID,
+    );
+    outputOptionsObj.site = currSite;
+  }
+
+  if (time) {
+    // substitutes {time} template possibly utilizing dateFormatFunction
+    const fixTime = time.value || time;
+    outputOptionsObj.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
+      ? sourceOptionsObj.dateFormatFunction(fixTime) : fixTime;
+    if (sourceOptionsObj.specialEnvTime) {
+      outputOptionsObj.env = `year:${outputOptionsObj.time}`;
+    }
+    // substitutes {featuresTime} template possibly utilizing features.dateFormatFunction
+    if (sourceOptionsObj?.features) {
+      outputOptionsObj.featuresTime = typeof sourceOptionsObj.features.dateFormatFunction === 'function'
+        ? sourceOptionsObj.features.dateFormatFunction(fixTime) : fixTime;
+    }
+  }
+  const paramsToPassThrough = ['env'];
+  paramsToPassThrough.forEach((param) => {
+    if (typeof sourceOptionsObj[param] !== 'undefined') {
+      outputOptionsObj[param] = sourceOptionsObj[param];
+    }
+  });
+  return outputOptionsObj;
+};
+
 export const statisticalApiBody = (evalscript, type, timeinterval) => ({
   requestBody: {
     input: {
@@ -177,7 +217,7 @@ async function fetchWithTimeout(resource, options = {}) {
   return response;
 }
 
-const fetchCustomAreaObjects = async (
+export const fetchCustomAreaObjects = async (
   options,
   drawnArea,
   mergedConfig,
@@ -563,5 +603,3 @@ export const nasaStatisticsConfig = (
     }
   ),
 });
-
-export default fetchCustomAreaObjects;

@@ -44,6 +44,7 @@ export default {
     time: {
       required: true,
     },
+    drawnArea: Object,
     enable: Boolean,
   },
   data: () => ({
@@ -113,7 +114,15 @@ export default {
       const { map } = getMapInstance(this.mapId);
       const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
       if (swipeLayer) {
-        updateTimeLayer(swipeLayer, this.mergedConfigsData, time);
+        updateTimeLayer(swipeLayer, this.mergedConfigsData, time, this.drawnArea);
+      }
+    },
+    drawnArea(area) {
+      // redraw all area features
+      const { map } = getMapInstance(this.mapId);
+      const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
+      if (swipeLayer) {
+        updateTimeLayer(swipeLayer, this.mergedConfigsData, this.time, area, 'updateArea');
       }
     },
   },

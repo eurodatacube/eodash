@@ -2,14 +2,16 @@
  * updates the layer source of a given layer to show data of the given time object
  * @param {*} layer openlayers layer
  * @param {*} config config object (e.g. "mergedConfigsData")
- * @param {*} timeObject time definition object
+ * @param {*} time time definition object
+ * @param {*} drawnArea drawnArea object
+ * @param {*} sourceGet one of 'updateTime' or 'updateArea'
  */
 
 import LayerGroup from 'ol/layer/Group';
 import { applyStyle } from 'ol-mapbox-style';
 
 // eslint-disable-next-line import/prefer-default-export
-export function updateTimeLayer(layer, config, time) {
+export function updateTimeLayer(layer, config, time, drawnArea, sourceGet = 'updateTime') {
   if (config.styleFile) {
     // TODO: this is not the way to get the layer for sure,
     // also the whole time logic needs to be done properly
@@ -32,9 +34,9 @@ export function updateTimeLayer(layer, config, time) {
       sources = [layer.getSource()];
     }
     sources.forEach((source) => {
-      const updateTimeFunction = source.get('updateTime');
+      const updateTimeFunction = source.get(sourceGet);
       if (updateTimeFunction) {
-        updateTimeFunction(time, config);
+        updateTimeFunction(time, drawnArea, config);
       }
       source.refresh();
     });

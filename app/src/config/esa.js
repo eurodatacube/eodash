@@ -212,7 +212,13 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     customAreaFeatures: true,
     customAreaIndicator: true,
-    featuresClustering: true,
+    story: '/eodash-data/stories/E12c',
+  },
+  E12d: {
+    indicatorSummary: 'Number of Trucks (Beta)',
+    themes: ['economy'],
+    customAreaFeatures: true,
+    customAreaIndicator: true,
     disableCompare: true,
     story: '/eodash-data/stories/E12c',
   },
@@ -1550,24 +1556,20 @@ export const globalIndicators = [
             },
             requestBody: {
               collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
-              select: 'id, sum_observations, ST_AsText(geometry) as "geometry", truck_count_normalized',
+              select: 'sum_observations, ST_AsGeoJSON(geometry, 6) as "geometry", truck_count_normalized',
               where: 'osm_value=1 AND date_part(\'year\',time)={featuresTime} AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
-              limit: '5000',
+              limit: '1000',
             },
-            style: {
-              radius: 3,
-              weight: 1,
-            },
-            allowedParameters: ['osm_name', 'truck_count_normalized', 'sum_observations'],
             dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
             callbackFunction: (responseJson) => { // geom from wkb to geojson features
               const ftrs = [];
               if (Array.isArray(responseJson[0].src)) {
                 responseJson[0].src.forEach((ftr) => {
+                  const { geometry, ...properties } = ftr;
                   ftrs.push({
                     type: 'Feature',
-                    properties: ftr,
-                    geometry: wkt.read(ftr.geometry).toJson(),
+                    properties,
+                    geometry: JSON.parse(geometry),
                   });
                 });
               }
@@ -1636,7 +1638,7 @@ export const globalIndicators = [
         city: 'Europe',
         siteName: 'global',
         description: 'Number of Trucks (Beta)',
-        indicator: 'E12c',
+        indicator: 'E12d',
         lastIndicatorValue: 'Regional Truck Traffic Primary',
         indicatorName: 'Primary Roads',
         subAoi: {
@@ -1678,24 +1680,20 @@ export const globalIndicators = [
             },
             requestBody: {
               collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
-              select: 'id, sum_observations, ST_AsText(geometry) as "geometry", truck_count_normalized, time',
+              select: 'sum_observations, ST_AsGeoJSON(geometry, 6) as "geometry", truck_count_normalized',
               where: 'osm_value=3 AND date_part(\'year\',time)={featuresTime} AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
-              limit: '5000',
+              limit: '1000',
             },
-            style: {
-              radius: 3,
-              weight: 1,
-            },
-            allowedParameters: ['truck_count_normalized', 'sum_observations'],
             dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
             callbackFunction: (responseJson) => { // geom from wkb to geojson features
               const ftrs = [];
               if (Array.isArray(responseJson[0].src)) {
                 responseJson[0].src.forEach((ftr) => {
+                  const { geometry, ...properties } = ftr;
                   ftrs.push({
                     type: 'Feature',
-                    properties: ftr,
-                    geometry: wkt.read(ftr.geometry).toJson(),
+                    properties,
+                    geometry: JSON.parse(geometry),
                   });
                 });
               }

@@ -136,7 +136,7 @@ const mergedConfigs = (usedTimes, side = 'data', inputDataConfig, indicatorObjec
     }
   }
   const finalConfigs = [];
-  let usedConfigForMerge = {};
+  let usedConfigForMerge = [];
   let name = indicatorObject.description;
 
   if (!displayTmp && inputDataConfig.length === 0) {
@@ -172,6 +172,8 @@ const mergedConfigs = (usedTimes, side = 'data', inputDataConfig, indicatorObjec
       ...baseConfig.defaultLayersDisplay,
       ...indDefinition,
       ...extendedItem,
+      indicator: indicatorObject.indicator,
+      aoiID: indicatorObject.aoiID,
       name,
       usedTimes,
     });

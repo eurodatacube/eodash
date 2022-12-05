@@ -142,7 +142,6 @@ export default {
     drawnArea: {
       area: null,
     },
-    loading: Boolean,
   },
   computed: {
     ...mapState('config', ['appConfig']),
