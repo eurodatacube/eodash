@@ -23,6 +23,36 @@ function getColorStops(name, min, max, steps, reverse) {
   return stops;
 }
 
+function getColormap(name) {
+  return colormap({
+    colormap: name, nshades: 16, format: 'rgba',
+  });
+}
+
+function normalize(value, varMin, varMax) {
+  return ['/', ['-', value, ['var', varMin]], ['-', ['var', varMax], ['var', varMin]]];
+}
+
+function bandModifier(xOffset = 0, yOffset = 0) {
+  if (xOffset === 0 && yOffset === 0) {
+    return ['band', 1];
+  }
+  return ['band', 1, xOffset, yOffset];
+}
+
+// hack as long as there is no binding to the built-in shader function floor
+function floor(n) {
+  return ['-', n, ['%', n, 1]];
+}
+
+function diff(a, b) {
+  return ['abs', ['-', a, b]];
+}
+
+function contspace(v, varOffset, varSpacing) {
+  return floor(['/', ['+', v, ['var', varOffset]], ['var', varSpacing]]);
+}
+
 const wkt = new Wkt();
 
 export const dataPath = './data/gtif/data/';
@@ -538,7 +568,7 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: true,
         country: 'all',
-        city: 'Austria',
+        city: 'Innsbruck',
         siteName: 'global',
         description: 'Local NO2 Flux',
         indicator: 'AQ2',
@@ -556,6 +586,87 @@ export const globalIndicators = [
         yAxis: '',
         cogFilters: {
           sourceLayer: 'AQ2',
+          filters: {
+            biomass: {
+              display: true,
+              label: 'Flux',
+              id: 'var',
+              min: -0.000001,
+              max: 0.000001,
+              header: true,
+              range: [0, 0.000001],
+            },
+          },
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'AQ2',
+          sources: [
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/new_data/test_nc_COG/day/gtif_uibk_20201101_ffp_values_b1.tif' },
+          ],
+          style: {
+            variables: {
+              varMin: 0,
+              varMax: 0.000001,
+              varOffset: 0.0,
+              varSpacing: 0.000000000001,
+            },
+            color: [
+              'case',
+              // value between min/max
+              ['between', ['band', 1], ['var', 'varMin'], ['var', 'varMax']],
+              // ['between', ['band', 1], 0, 0.00001],
+              [
+                'palette',
+                [
+                  '*',
+                  [
+                    '*',
+                    [
+                      'clamp',
+                      [
+                        '+',
+                        diff(
+                          contspace(bandModifier(), 'varOffset', 'varSpacing'),
+                          contspace(bandModifier(1, 0), 'varOffset', 'varSpacing'),
+                        ),
+                        diff(
+                          contspace(bandModifier(), 'varOffset', 'varSpacing'),
+                          contspace(bandModifier(0, 1), 'varOffset', 'varSpacing'),
+                        ),
+                      ],
+                      0,
+                      1,
+                    ],
+                    normalize(bandModifier(), 'varMin', 'varMax'),
+                  ],
+                  getColormap('viridis').length + 1,
+                ],
+                // add a transparent color in the 0 index so that all 0s map to it
+                [[0, 0, 0, 0], ...getColormap('viridis')],
+              ],
+              // out of bounds color
+              ['color', 0, 0, 0, 0],
+            ],
+            /*
+            [
+              'interpolate',
+              ['linear'],
+              ['band', 1],
+              ...getColorStops('yignbu', -0.1, 0.1, 50, false),
+            ],
+            */
+          },
+          name: 'Flux tower',
+          minZoom: 1,
         },
       },
     },
