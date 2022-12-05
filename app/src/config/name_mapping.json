@@ -310,7 +310,7 @@
       "description": "Crude Oil and other input materials"
    },
     "E4": {
-      "title": "Production activity: intermediate goods",
+      "title": "Production activity: intermediate goods"
    },
     "E5": {
       "title": "Inventory: intermediate goods"
@@ -322,7 +322,7 @@
       "title": "Production activity: finished goods"
    },
     "E8": {
-      "title": "Inventory: finished goods",
+      "title": "Inventory: finished goods"
    },
     "E9": {
       "title": "Activity indicator",
@@ -358,14 +358,14 @@
    },
     "E10a8": {
       "title": "Winter Cereals [ha, %]",
-      "description": "Evolution of harvested area and area size",
+      "description": "Evolution of harvested area and area size"
    },
     "E10c": {
       "title": "NDVI Average",
       "description": "Average NDVI for rice planted area"
    },
     "E10d": {
-      "title": "Regional cropland",
+      "title": "Regional cropland"
    },
     "E11": {
       "title": "Activity at shopping centers",
@@ -383,7 +383,7 @@
       "title": "Throughput at principal rail stations"
     },
     "E13b": {
-      "title": "parked airplanes",
+      "title": "parked airplanes"
     },
     "E13c": {
       "title": "Shipping activity",
@@ -437,15 +437,17 @@
       "description": "World Settlement Footprint Evolution"
     },
     "W6-NASAPopulation": {
-     "title": "Population density (SEDAC)",
+     "title": "Population density (SEDAC)"
     },
     "W7-FB": {
-     "title": "Population density (META)",
+     "title": "Population density (META)"
     },
     "N3": {
-	   "title": "Water Quality",
+	   "title": "Water Quality"
+    },
     "N3b": {
-	   "title": "Chl-a concentration anomaly",
+	   "title": "Chl-a concentration anomaly"
+    },
     "N3a2": {
       "locationSplit": {
         "NASA": {
@@ -475,6 +477,7 @@
     },
     "NPP-NPP": {
      "title": "Ocean Primary Productivity (BICEP)"
+    },
     "World-N11":{
      "title": "Ocean Primary Productivity (GCOM-C)"
     },
@@ -495,8 +498,7 @@
     },
     "OW": {
      "title": "Covid-19 vaccinations"
-    },
-
+    }
   },
   "gtif": {
   }
