@@ -281,6 +281,224 @@
     }
   },
   "trilateral": {
+    "E1": {
+      "title": "Shipment of metallic ores (Archived)",
+      "description": "Ships detected at specific piers in Pleiades data"
+   },
+    "E1_S2": {
+      "title": "Shipment of metallic ores (Archived)",
+      "description": "Ships detected at specific piers in Sentinel-2 data"
+   },
+    "E1a": {
+      "title": "Shipment of non-metallic ores (Archived)",
+      "description": "Ships detected at specific piers in Pleiades data"
+   },
+    "E1a_S2": {
+      "title": "Shipment of non-metallic ores (Archived)",
+      "description": "Ships detected at specific piers in Sentinel-2 data"
+   },
+    "E2": {
+      "title": "Shipment of oil (Archived)",
+      "description": "Ships detected at specific piers in Pleiades data"
+   },
+    "E2_S2": {
+      "title": "Shipment of oil (Archived)",
+      "description": "Ships detected at specific piers in Sentinel-2 data"
+   },
+    "E3": {
+      "title": "Raw Material Inventory",
+      "description": "Crude Oil and other input materials"
+   },
+    "E4": {
+      "title": "Production activity: intermediate goods"
+   },
+    "E5": {
+      "title": "Inventory: intermediate goods"
+   },
+    "E6": {
+      "title":"Inventory: factory inputs"
+   },
+    "E7": {
+      "title": "Production activity: finished goods"
+   },
+    "E8": {
+      "title": "Inventory: finished goods"
+   },
+    "E9": {
+      "title": "Activity indicator",
+      "description":"Presence of cars or containers"
+   },
+    "E10a1": {
+      "title": "Productive area [ha]",
+      "description": "Cultivated active fields detected in Sentinel-2 data"
+   },
+    "E10a2": {
+      "title": "White Asparagus area [%]",
+      "description": "Actively managed total area from Sentinel-2 data"
+   },
+    "E10a3": {
+      "title": "White Asparagus area change [%]",
+      "description": "Fields cultivated with white asparagus from Sentinel-2 data"
+    },
+    "E10a6": {
+      "locationSplit": {
+        "a": {
+          "title": "Harvested parcels [%]",
+          "description": "Evolution of harvested parcels"
+        },
+        "b": {
+          "title": "Harvested area [%]",
+          "description": "Evolution of harvested area"
+        }
+      }
+    },
+    "E10a7": {
+      "title": "Winter Cereals area [%]",
+      "description": "Evolution of harvested area"
+   },
+    "E10a8": {
+      "title": "Winter Cereals [ha, %]",
+      "description": "Evolution of harvested area and area size"
+   },
+    "E10c": {
+      "title": "NDVI Average",
+      "description": "Average NDVI for rice planted area"
+   },
+    "E10d": {
+      "title": "Regional cropland"
+   },
+    "E11": {
+      "title": "Activity at shopping centers",
+      "description": "Occupancy of customer parking"
+   },
+    "E12a": {
+      "title":"Logistic interchange centers",
+      "description": "Volume of activity"
+   },
+    "E12b": {
+      "title": "Border crossing vehicles [vol]",
+      "description": "Volume of highway occupancy from Sentinel-1 data"
+   },
+    "E13a": {
+      "title": "Throughput at principal rail stations"
+    },
+    "E13b": {
+      "title": "parked airplanes"
+    },
+    "E13c": {
+      "title": "Shipping activity",
+      "description": "Ship detections in EO data at major international harbours"
+    },
+    "H1": {
+      "title": "Health facilities"
+    },
+    "W1-N1": {
+      "title": "Nitrogen Dioxide (weekly)",
+      "description": "Weekly Nitrogen Dioxide (NO2) from ESA’s Sentinel-5p TROPOMI"
+    },
+    "W2-N1":{
+     "title": "Nitrogen Dioxide (monthly)",
+      "description": "Monthly Nitrogen Dioxide (NO2) from NASA’s OMI Aura"
+    },
+    "W8-N9":{
+      "title": "Nitrogen Dioxide (yearly)",
+      "description": "Yearly Nitrogen Dioxide (NO2) from NASA’s OMI Aura"
+    },
+    "W3-N1":{
+      "title": "Nitrogen Dioxide (monthly difference)",
+      "description": "Monthly Nitrogen Dioxide (NO2) from NASA’s OMI Aura compared to 2015-2019 Baseline"
+    },
+    "W4-N2":{
+      "title": "Carbon Dioxide (daily)",
+      "description": "Monthly Nitrogen Dioxide (CO2) from NASA’s OCO-2"
+    },
+    "W5-N2":{
+      "title": "Carbon Dioxide (daily difference)",
+      "description": "Daily Carbon Dioxide (CO2) from NASA’s OCO-2 compared to 2015-2019 Baseline"
+    },
+    "WorldCO-N1": {
+      "title": "CO (S5p)",
+      "description": "Carbon Monoxide from Sentinel-5p Tropomi"
+    },
+    "CH4-N1": {
+      "title": "CH4 (S5p)",
+      "description": "Methane from Sentinel-5p Tropomi"
+    },
+    "SO2-N1": {
+      "title": "Sulfur Dioxide (daily)",
+      "description": "Daily Sulfur Dioxide (SO2) from ESA’s Sentinel-5p Tropomi"
+    },
+    "W9-N10": {
+      "title": "Sulfur Dioxide (yearly)",
+      "description": "yearly Sulfur Dioxide from NASA’s OMI Aura"
+    },
+    "WSF": {
+      "title": "Builtup areas",
+      "description": "World Settlement Footprint Evolution"
+    },
+    "W6-NASAPopulation": {
+     "title": "Population density (SEDAC)"
+    },
+    "W7-FB": {
+     "title": "Population density (META)"
+    },
+    "N3": {
+	   "title": "Water Quality"
+    },
+    "N3b": {
+	   "title": "Chl-a concentration anomaly"
+    },
+    "N3a2": {
+      "locationSplit": {
+        "NASA": {
+          "title": " Chlorophyll-a maps(MODIS)",
+          "description": "Chlorophyll-a (Chl-a) concentration from NASA’s MODIS Aqua"
+        },
+        "ESA": {
+          "title": " Chlorophyll-a maps(Sentinel-3)",
+          "description": " Chlorophyll-a (Chl-a) concentration from ESA’s Sentinel-3"
+        },
+       "JAXA": {
+          "title": "Chlorophyll-a maps(GCOM-W)",
+          "description": " Chlorophyll-a (Chl-a) concentration from JAXA’s GCOM-W"
+        }
+      }
+    },
+    "N5": {
+     "title": "Nightlights",
+     "description": "Nightlights from NASA’s Suomi NPP VIIRS"
+    },
+    "W6-N6": {
+     "title": "Crops Condition",
+     "description": "Global crops conditions based on multiple EO data sources"
+    },
+    "N12": {
+     "title": "Sea Ice Concentration (GCOM-W)"
+    },
+    "NPP-NPP": {
+     "title": "Ocean Primary Productivity (BICEP)"
+    },
+    "World-N11":{
+     "title": "Ocean Primary Productivity (GCOM-C)"
+    },
+    "W11-NPPN":{
+     "title": "Ocean Primary Productivity (MODIS)"
+    },
+    "N13": {
+     "title": "Blue tarps (PlanetScope) "
+    },
+    "N14": {
+     "title": "Blue tarps detections"
+    },
+    "GG": {
+     "title": "Mobility"
+    },
+    "CV": {
+	     "title": "Covid-19 cases"
+    },
+    "OW": {
+     "title": "Covid-19 vaccinations"
+    }
   },
   "gtif": {
   }
