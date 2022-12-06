@@ -23,7 +23,7 @@
         height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px;`"
       class="data-panel"
     >
-      <v-toolbar flat>
+      <!-- <v-toolbar flat>
         <v-toolbar-title v-if="$store.state.indicators.selectedIndicator"
           :class="$store.state.indicators.selectedIndicator.description ===
             $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
@@ -54,6 +54,15 @@
             {{ firstIndicatorObject.indicatorName || firstIndicatorObject.description }}
           </div>
         </v-toolbar-title>
+      </v-toolbar> -->
+
+      <data-panel
+        v-if="$store.state.indicators.selectedIndicator
+          || $store.state.features.featureFilters.indicators.length > 0"
+        :key="panelKey"
+        :newsBanner="$refs.newsBanner"
+        :expanded="dataPanelFullWidth"
+      >
         <v-tooltip
           v-if="$store.state.indicators.selectedIndicator"
           left
@@ -63,7 +72,7 @@
               v-on="on"
               icon
               class="elevation-1 rounded-lg"
-              style="position: absolute; right: 30px; width: 36px; height: 36px;"
+              style="position: absolute; right: 1vw; top: 1vw; width: 36px; height: 36px;"
               @click="dataPanelFullWidth
                 ? setDataPanelWidth(false)
                 : setDataPanelWidth(true)"
@@ -73,15 +82,91 @@
           </template>
           <span>{{ dataPanelFullWidth ? 'Close' : 'Open' }} full screen</span>
         </v-tooltip>
-      </v-toolbar>
-
-      <data-panel
-        v-if="$store.state.indicators.selectedIndicator
-          || $store.state.features.featureFilters.indicators.length > 0"
-        :key="panelKey"
-        :newsBanner="$refs.newsBanner"
-        :expanded="dataPanelFullWidth" class="px-5" />
+      </data-panel>
     </v-navigation-drawer>
+    <div
+      v-else-if="$vuetify.breakpoint.smAndDown"
+      class="retractable"
+      :class="{
+        'retracted': isDialogRetracted,
+        'hidden': !$store.state.indicators.selectedIndicator
+          && $store.state.features.featureFilters.indicators.length === 0,
+      }"
+      :style="{
+        top: `${$vuetify.application.top}px`
+      }"
+    >
+      <!-- <v-toolbar dark color="primary"> -->
+        <!-- <v-toolbar-title style="overflow: unset; white-space: pre-wrap;"
+          v-if="$store.state.indicators.selectedIndicator"
+        >{{ $store.state.indicators.selectedIndicator.city }},
+          {{ $store.state.indicators.selectedIndicator.description }}
+        </v-toolbar-title>
+        <v-toolbar-title
+          v-else-if="$store.state.features.featureFilters.indicators[0] && firstIndicatorObject"
+        >
+          {{ firstIndicatorObject
+            .description }}
+          <div v-if="
+            firstIndicatorObject.description !==
+            firstIndicatorObject.indicatorName"
+            class="subheading" style="font-size: 0.8em">
+            {{ firstIndicatorObject.indicatorName || firstIndicatorObject.description }}
+          </div>
+        </v-toolbar-title> -->
+        <!-- <v-spacer></v-spacer>
+        <v-btn icon dark @click="() => isDialogRetracted = !isDialogRetracted">
+          <v-icon>mdi-chevron-{{isDialogRetracted ? 'up' : 'down'}}</v-icon>
+        </v-btn>
+
+        <v-btn icon dark @click="clickMobileClose">
+          <v-icon>mdi-close</v-icon>
+        </v-btn> -->
+      <!-- </v-toolbar> -->
+      <!-- <v-container
+        class="data-panel scrollContainer"
+        :style="{
+          background: $vuetify.theme.themes[theme].background,
+          height: 'calc(var(--vh, 1vh) * 100)'
+        }"
+      > -->
+
+        <!-- <banner v-if="currentNews" /> -->
+
+        <!-- <v-row>
+          <v-col>
+            <h4 v-if="
+                ($store.state.indicators.selectedIndicator && (
+                  $store.state.indicators.selectedIndicator.description !==
+                  $store.state.indicators.selectedIndicator.indicatorName))"
+              class="py-2"
+            >
+              {{ queryIndicatorObject
+                && (queryIndicatorObject.properties.indicatorObject.indicatorName
+                || queryIndicatorObject.properties.indicatorObject.description) }}
+            </h4> -->
+            <data-panel
+              v-if="$store.state.indicators.selectedIndicator
+                || $store.state.features.featureFilters.indicators.length > 0"
+              :newsBanner="$refs.newsBanner"
+              :expanded="dataPanelFullWidth"
+            >
+              <div
+                style="position: absolute; top: 1vw; right: 1vw"
+              >
+                <v-btn icon color="primary" @click="() => isDialogRetracted = !isDialogRetracted">
+                  <v-icon>mdi-chevron-{{isDialogRetracted ? 'up' : 'down'}}</v-icon>
+                </v-btn>
+
+                <v-btn icon color="primary" @click="clickMobileClose">
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+              </div>
+            </data-panel>
+          <!-- </v-col>
+        </v-row>
+      </v-container> -->
+    </div>
     <v-tooltip
       v-if="$vuetify.breakpoint.mdAndUp && indicatorSelected"
       left
@@ -101,75 +186,6 @@
       </template>
       <span>{{ drawerRight ? 'Collapse' : 'Expand' }} side panel</span>
     </v-tooltip>
-
-    <div
-      class="retractable"
-      :class="{
-        'retracted': isDialogRetracted,
-        'hidden': !$store.state.indicators.selectedIndicator
-          && $store.state.features.featureFilters.indicators.length === 0,
-      }"
-      v-if="$vuetify.breakpoint.smAndDown"
-    >
-      <v-toolbar dark color="primary">
-        <v-toolbar-title style="overflow: unset; white-space: pre-wrap;"
-          v-if="$store.state.indicators.selectedIndicator"
-        >{{ $store.state.indicators.selectedIndicator.city }},
-          {{ $store.state.indicators.selectedIndicator.description }}
-        </v-toolbar-title>
-        <v-toolbar-title
-          v-else-if="$store.state.features.featureFilters.indicators[0] && firstIndicatorObject"
-        >
-          {{ firstIndicatorObject
-            .description }}
-          <div v-if="
-            firstIndicatorObject.description !==
-            firstIndicatorObject.indicatorName"
-            class="subheading" style="font-size: 0.8em">
-            {{ firstIndicatorObject.indicatorName || firstIndicatorObject.description }}
-          </div>
-        </v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn icon dark @click="() => isDialogRetracted = !isDialogRetracted">
-          <v-icon>mdi-chevron-{{isDialogRetracted ? 'up' : 'down'}}</v-icon>
-        </v-btn>
-
-        <v-btn icon dark @click="clickMobileClose">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-toolbar>
-      <v-container
-        class="data-panel scrollContainer"
-        :style="{
-          background: $vuetify.theme.themes[theme].background,
-          height: 'calc(var(--vh, 1vh) * 100)'
-        }"
-      >
-
-        <banner v-if="currentNews" />
-
-        <v-row>
-          <v-col>
-            <h4 v-if="
-                ($store.state.indicators.selectedIndicator && (
-                  $store.state.indicators.selectedIndicator.description !==
-                  $store.state.indicators.selectedIndicator.indicatorName))"
-              class="py-2"
-            >
-              {{ queryIndicatorObject
-                && (queryIndicatorObject.properties.indicatorObject.indicatorName
-                || queryIndicatorObject.properties.indicatorObject.description) }}
-            </h4>
-            <data-panel
-              v-if="$store.state.indicators.selectedIndicator
-                || $store.state.features.featureFilters.indicators.length > 0"
-              :newsBanner="$refs.newsBanner"
-              :expanded="dataPanelFullWidth"
-            />
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
 
     <v-content
       :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
@@ -266,17 +282,17 @@ export default {
       return this.$store.state.indicators.selectedIndicator
         || this.$store.state.features.featureFilters.indicators.length > 0;
     },
-    firstIndicatorObject() {
-      const indicator = Array.isArray(this.$store.state.features.featureFilters.indicators)
-        ? this.$store.state.features.featureFilters.indicators[0]
-        : this.$store.state.features.featureFilters.indicators;
-      const firstFeature = this.$store.state.features.allFeatures
-        .find((f) => f.properties.indicatorObject.indicator
-          === indicator);
-      return firstFeature
-        ? firstFeature.properties.indicatorObject
-        : undefined;
-    },
+    // firstIndicatorObject() {
+    //   const indicator = Array.isArray(this.$store.state.features.featureFilters.indicators)
+    //     ? this.$store.state.features.featureFilters.indicators[0]
+    //     : this.$store.state.features.featureFilters.indicators;
+    //   const firstFeature = this.$store.state.features.allFeatures
+    //     .find((f) => f.properties.indicatorObject.indicator
+    //       === indicator);
+    //   return firstFeature
+    //     ? firstFeature.properties.indicatorObject
+    //     : undefined;
+    // },
     currentNews() {
       let currentNews;
       if (this.appConfig && this.appConfig.newsBanner) {
@@ -296,11 +312,11 @@ export default {
     theme() {
       return (this.$vuetify.theme.dark) ? 'dark' : 'light';
     },
-    queryIndicatorObject() {
-      return this.$store.state.features.allFeatures.find(
-        (f) => this.getLocationCode(f && f.properties.indicatorObject) === this.$route.query.poi,
-      );
-    },
+    // queryIndicatorObject() {
+    //   return this.$store.state.features.allFeatures.find(
+    //     (f) => this.getLocationCode(f && f.properties.indicatorObject) === this.$route.query.poi,
+    //   );
+    // },
 
     ...mapGetters({
       getCurrentTheme: 'themes/getCurrentTheme',
@@ -393,11 +409,11 @@ export default {
     padding-bottom: 12px;
   }
 }
-.preventEllipsis:after {
-  content: "\0000a0";
-  display: inline-block;
-  width: 0;
-}
+// .preventEllipsis:after {
+//   content: "\0000a0";
+//   display: inline-block;
+//   width: 0;
+// }
 ::v-deep .v-navigation-drawer--temporary:not(.v-navigation-drawer--close) {
   box-shadow: none;
 }
@@ -431,7 +447,6 @@ export default {
   transform: translateY(0);
   transition: transform 0.3s ease-in-out;
   position: fixed;
-  top: 0;
   left: 0;
   z-index: 8;
   width: 100%;
@@ -444,10 +459,10 @@ export default {
     transform: translateY(100vh);
   }
 
-  .v-toolbar__title {
-    font-size: 1rem;
-    line-height: 1;
-  }
+  // .v-toolbar__title {
+  //   font-size: 1rem;
+  //   line-height: 1;
+  // }
 }
 </style>
 
