@@ -446,23 +446,7 @@
 	   "title": "Water Quality"
     },
     "N3b": {
-	   "title": "Chl-a concentration anomaly"
-    },
-    "N3a2": {
-      "locationSplit": {
-        "NASA": {
-          "title": " Chlorophyll-a maps(MODIS)",
-          "description": "Chlorophyll-a (Chl-a) concentration from NASA’s MODIS Aqua"
-        },
-        "ESA": {
-          "title": " Chlorophyll-a maps(Sentinel-3)",
-          "description": " Chlorophyll-a (Chl-a) concentration from ESA’s Sentinel-3"
-        },
-       "JAXA": {
-          "title": "Chlorophyll-a maps(GCOM-W)",
-          "description": " Chlorophyll-a (Chl-a) concentration from JAXA’s GCOM-W"
-        }
-      }
+	   "title": "Water Quality Time Series"
     },
     "N5": {
      "title": "Nightlights",
