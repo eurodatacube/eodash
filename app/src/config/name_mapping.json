@@ -421,12 +421,12 @@
       "description": "Carbon Monoxide from Sentinel-5p Tropomi"
     },
     "CH4-N1": {
-      "title": "CH4 (S5p)",
-      "description": "Methane from Sentinel-5p Tropomi"
+      "title": "Methane",
+      "description": "Methane (CH4) from Sentinel-5p Tropomi"
     },
     "SO2-N1": {
-      "title": "Sulfur Dioxide (daily)",
-      "description": "Daily Sulfur Dioxide (SO2) from ESA’s Sentinel-5p Tropomi"
+      "title": "Sulfur Dioxide",
+      "description": "Sulfur Dioxide (SO2) from Sentinel-5p Tropomi"
     },
     "W9-N10": {
       "title": "Sulfur Dioxide (yearly)",
