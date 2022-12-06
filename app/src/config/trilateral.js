@@ -2120,7 +2120,7 @@ export const globalIndicators = [
         description: 'Chlorophyll-a (Chl-a) concentration from NASA MODIS Aqua',
         indicator: 'N3a2',
         lastIndicatorValue: null,
-        indicatorName: 'Chl-a concentration (MODIS Aqua)',
+        indicatorName: 'Chl-a concentration (MODIS)',
         lastColorCode: null,
         dataProvider: 'NASA',
         subAoi: {
