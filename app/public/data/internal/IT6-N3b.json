@@ -1,6 +1,28 @@
 [
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-01-04T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-01-04T11:50:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -9,6 +31,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-01-05T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-01-11T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-43.21111696",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-01-11T12:40:00"
     },
     {
         "color_code": "/",
@@ -23,6 +67,50 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "16.973",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-01-18T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-01-18T12:45:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-11.121",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-01-25T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-27.11396628",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-01-25T12:20:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -31,6 +119,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-01-26T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-5.417",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-02-01T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-02-01T11:20:00"
     },
     {
         "color_code": "/",
@@ -45,6 +155,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "32.979",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-02-08T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-02-08T11:25:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -53,6 +185,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-02-09T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "55.642",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-02-15T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "0",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-02-15T12:40:00"
     },
     {
         "color_code": "/",
@@ -67,6 +221,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-23.991",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-02-22T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-29.43766886",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-02-22T11:40:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -75,6 +251,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-02-23T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "56.44504562",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-02-28T12:10:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "7.337",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-03-01T00:00:00"
     },
     {
         "color_code": "/",
@@ -89,6 +287,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "33.7619511",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-03-07T12:05:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "34.09",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-03-08T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -97,6 +317,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-03-09T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-03-14T12:10:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-15.519",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-03-15T00:00:00"
     },
     {
         "color_code": "/",
@@ -111,6 +353,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-13.65877396",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-03-21T12:15:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-26.889",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-03-22T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -119,6 +383,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-03-23T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-14.88655198",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-03-28T12:20:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-30.619",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-03-29T00:00:00"
     },
     {
         "color_code": "/",
@@ -133,6 +419,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-04-04T11:30:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-04-05T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -141,6 +449,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-04-06T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-04-11T12:35:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-04-12T00:00:00"
     },
     {
         "color_code": "/",
@@ -155,6 +485,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "0",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-04-18T11:45:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-63.773",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-04-19T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -163,6 +515,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-04-20T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-24.87787861",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-04-25T11:50:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-6.857",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-04-26T00:00:00"
     },
     {
         "color_code": "/",
@@ -177,6 +551,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "13.45384065",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-05-02T11:55:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "40.925",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-05-03T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -185,6 +581,50 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-05-04T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "63.86559378",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-05-09T12:05:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-05-10T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "84.53587875",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-05-16T12:10:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "52.426",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-05-17T00:00:00"
     },
     {
         "color_code": "/",
@@ -199,6 +639,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "263.818841",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-05-23T12:15:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "247.314",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-05-24T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -207,6 +669,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-05-25T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-22.04919338",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-05-30T12:20:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "18.974",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-05-31T00:00:00"
     },
     {
         "color_code": "/",
@@ -221,6 +705,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "24.15211211",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-06-06T12:25:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-06-07T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -229,6 +735,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-06-08T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "400.3817696",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-06-13T12:35:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "461.345",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-06-14T00:00:00"
     },
     {
         "color_code": "/",
@@ -243,6 +771,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "31.3839028",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-06-20T12:40:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "131.218",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-06-21T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -251,6 +801,17 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-06-22T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "82.53459677",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-06-27T12:45:00"
     },
     {
         "color_code": "/",
@@ -265,6 +826,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "7.730872128",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-07-04T11:15:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "3.696",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-07-05T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -273,6 +856,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-07-06T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-31.88901252",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-07-11T11:20:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-62.004",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-07-12T00:00:00"
     },
     {
         "color_code": "/",
@@ -287,6 +892,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-2.272925391",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-07-18T12:20:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-07-19T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -295,6 +922,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-07-20T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-20.41476791",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-07-25T11:30:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-33.846",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-07-26T00:00:00"
     },
     {
         "color_code": "/",
@@ -309,6 +958,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-54.91115127",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-08-01T11:40:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-31.906",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-08-02T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -317,6 +988,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-08-03T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-14.96671388",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-08-08T11:45:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "43.908",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-08-09T00:00:00"
     },
     {
         "color_code": "/",
@@ -331,6 +1024,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-30.04115169",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-08-15T11:50:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-28.786",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-08-16T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -339,6 +1054,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-08-17T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "38.87927964",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-08-22T11:15:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-16.497",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-08-23T00:00:00"
     },
     {
         "color_code": "/",
@@ -353,6 +1090,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "53.70043173",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-08-29T12:05:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-08-30T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -361,6 +1120,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-08-31T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-30.56141048",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-09-05T12:10:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-62.051",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-09-06T00:00:00"
     },
     {
         "color_code": "/",
@@ -375,6 +1156,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-30.76899174",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-09-12T12:15:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-29.822",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-09-13T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -383,6 +1186,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-09-14T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-2.846617675",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-09-19T11:40:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-58.245",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-09-20T00:00:00"
     },
     {
         "color_code": "/",
@@ -397,6 +1222,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-22.67504562",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-09-26T12:25:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-11.059",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-09-27T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -405,6 +1252,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-09-28T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-22.47059946",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-10-02T11:50:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-37.267",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-10-04T00:00:00"
     },
     {
         "color_code": "/",
@@ -419,6 +1288,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-6.179604877",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-10-10T12:40:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "0.827",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-10-11T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -427,6 +1318,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-10-12T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "32.77021867",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-10-17T12:45:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "76.776",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-10-18T00:00:00"
     },
     {
         "color_code": "/",
@@ -441,6 +1354,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "8.695447388",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-10-24T11:25:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-8.227",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-10-25T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -449,6 +1384,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-10-26T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-37.782",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-11-01T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-11-01T12:25:00"
     },
     {
         "color_code": "/",
@@ -463,6 +1420,72 @@
     },
     {
         "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-36.48854857",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-11-07T12:20:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-13.517",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-11-08T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-11-14T11:30:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "51.841",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-11-15T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "5.122553527",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-11-21T12:45:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "65.163",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-11-22T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -471,6 +1494,50 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-11-23T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "6.757080304",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-11-28T11:55:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-11-29T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-12-05T11:50:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-12-06T00:00:00"
     },
     {
         "color_code": "/",
@@ -485,6 +1552,50 @@
     },
     {
         "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-6.328092075",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-12-12T11:55:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-12-13T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-12-19T12:10:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-12-20T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -493,6 +1604,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2019-12-21T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "52.39758987",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2019-12-26T12:10:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2019-12-27T00:00:00"
     },
     {
         "color_code": "/",
@@ -518,6 +1651,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-01-04T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "101.2106204",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-01-04T12:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -526,6 +1681,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-01-11T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-01-11T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "51.04594362",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-01-11T12:10:00"
     },
     {
         "color_code": "/",
@@ -540,6 +1717,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "102.524",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-01-18T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "57.16372494",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-01-18T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -548,6 +1747,50 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-01-25T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-01-25T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-01-25T11:50:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-02-01T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-02-01T12:25:00"
     },
     {
         "color_code": "/",
@@ -562,6 +1805,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-53.29",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-02-08T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-0.440385783",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-02-08T12:35:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -570,6 +1835,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-02-15T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "77.614",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-02-15T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "15.23089328",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-02-15T12:40:00"
     },
     {
         "color_code": "/",
@@ -584,6 +1871,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-58.072",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-02-22T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-38.88529215",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-02-22T12:45:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -592,6 +1901,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-02-29T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-56.072",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-02-29T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "8.394456331",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-02-29T12:10:00"
     },
     {
         "color_code": "/",
@@ -606,6 +1937,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-43.088",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-03-07T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-03-07T12:25:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -614,6 +1967,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-03-14T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-60.343",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-03-14T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-63.70700224",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-03-14T12:20:00"
     },
     {
         "color_code": "/",
@@ -628,6 +2003,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "7.875",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-03-21T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "187.8484573",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-03-21T12:25:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -636,6 +2033,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-03-28T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-10.373",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-03-28T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-03-28T12:35:00"
     },
     {
         "color_code": "/",
@@ -650,6 +2069,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-31.912",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-04-04T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-62.5938302",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-04-04T12:40:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -658,6 +2099,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-04-11T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-82.139",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-04-11T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-36.42443884",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-04-11T12:05:00"
     },
     {
         "color_code": "/",
@@ -672,6 +2135,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-64.507",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-04-18T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "14.00674307",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-04-18T12:10:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -680,6 +2165,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-04-25T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-73.071",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-04-25T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-68.68407883",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-04-25T12:10:00"
     },
     {
         "color_code": "/",
@@ -694,6 +2201,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-13.517",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-05-02T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-52.20999242",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-05-02T12:20:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -702,6 +2231,50 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-05-09T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-43.299",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-05-09T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-29.14735217",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-05-09T11:45:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "172.397",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-05-16T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-05-16T11:50:00"
     },
     {
         "color_code": "/",
@@ -716,6 +2289,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "21.264",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-05-23T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "70.16309338",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-05-23T11:45:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -724,6 +2319,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-05-30T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-05-30T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "60.91347069",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-05-30T11:50:00"
     },
     {
         "color_code": "/",
@@ -738,6 +2355,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-6.578",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-06-06T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-54.93974978",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-06-06T12:50:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -746,6 +2385,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-06-13T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "696.688",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-06-13T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "138.5007588",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-06-13T12:15:00"
     },
     {
         "color_code": "/",
@@ -760,6 +2421,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "239.096",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-06-20T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "263.1624535",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-06-20T12:10:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -768,6 +2451,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-06-27T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "1048.644",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-06-27T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "239.4687783",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-06-27T12:15:00"
     },
     {
         "color_code": "/",
@@ -782,6 +2487,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-42.929",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-07-04T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "12.12680429",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-07-04T12:20:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -790,6 +2517,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-07-11T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "35.444",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-07-11T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "9.840663476",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-07-11T12:25:00"
     },
     {
         "color_code": "/",
@@ -804,6 +2553,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-12.858",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-07-18T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "22.78338332",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-07-18T12:35:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -812,6 +2583,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-07-25T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "286.446",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-07-25T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "91.91350262",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-07-25T12:50:00"
     },
     {
         "color_code": "/",
@@ -826,6 +2619,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "369.656",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-08-01T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "63.27488332",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-08-01T12:45:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -834,6 +2649,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-08-08T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "12.088",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-08-08T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "12.25267222",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-08-08T11:15:00"
     },
     {
         "color_code": "/",
@@ -848,12 +2685,45 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "33.426",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-08-15T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-14.24665062",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-08-15T11:20:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
         "input_data": "EORC product",
         "measurement_value": "33.79",
         "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-08-22T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "77.906",
+        "reference_time": "2019-01-01T00:00:00",
         "reference_value": "/",
         "time": "2020-08-22T00:00:00"
     },
@@ -870,6 +2740,17 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "484.645",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-08-29T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -878,6 +2759,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-09-05T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "118.395",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-09-05T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "79.05108555",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-09-05T11:40:00"
     },
     {
         "color_code": "/",
@@ -892,6 +2795,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-13.797",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-09-12T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-24.15282441",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-09-12T11:45:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -900,6 +2825,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-09-19T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-37.634",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-09-19T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "12.9496717",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-09-19T12:45:00"
     },
     {
         "color_code": "/",
@@ -914,12 +2861,56 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "37.396",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-09-26T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "40.13858973",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-09-26T11:55:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "65.87940306",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-10-02T12:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
         "input_data": "EORC product",
         "measurement_value": "80.62",
         "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-10-03T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "80.867",
+        "reference_time": "2019-01-01T00:00:00",
         "reference_value": "/",
         "time": "2020-10-03T00:00:00"
     },
@@ -936,6 +2927,50 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "55.328",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-10-10T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "41.68504437",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-10-10T12:20:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "255.253",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-10-17T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-10-17T12:15:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -944,6 +2979,50 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-10-24T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "11.811",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-10-24T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-10-24T12:20:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-10-31T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-11-01T12:10:00"
     },
     {
         "color_code": "/",
@@ -958,6 +3037,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "50.45",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-11-07T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "14.38678872",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-11-07T12:35:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -966,6 +3067,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-11-14T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "15.976",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-11-14T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "199.4995467",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-11-14T12:10:00"
     },
     {
         "color_code": "/",
@@ -980,6 +3103,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "78.369",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-11-21T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "31.90540234",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-11-21T12:10:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -988,6 +3133,50 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-11-28T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "22.235",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-11-28T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-27.86070258",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-11-28T12:10:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-12-05T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-12-05T12:15:00"
     },
     {
         "color_code": "/",
@@ -1002,6 +3191,50 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-12-12T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "3.535588251",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-12-12T11:25:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-12-19T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-12-19T12:10:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1010,6 +3243,50 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2020-12-26T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2020-12-26T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "31.18660997",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2020-12-26T12:20:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2021-01-02T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-01-02T12:00:00"
     },
     {
         "color_code": "/",
@@ -1024,6 +3301,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2019-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2021-01-09T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-9.450430084",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-01-09T12:10:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1032,6 +3331,50 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-01-16T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-17.488",
+        "reference_time": "2021-01-16T00:00:00",
+        "reference_value": "/",
+        "time": "2021-01-16T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-01-16T11:30:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-26.993",
+        "reference_time": "2021-01-23T00:00:00",
+        "reference_value": "/",
+        "time": "2021-01-23T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-01-23T11:30:00"
     },
     {
         "color_code": "/",
@@ -1046,6 +3389,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2021-01-30T00:00:00",
+        "reference_value": "/",
+        "time": "2021-01-30T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-01-30T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1054,6 +3419,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-02-06T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2021-02-06T00:00:00",
+        "reference_value": "/",
+        "time": "2021-02-06T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-02-06T11:30:00"
     },
     {
         "color_code": "/",
@@ -1068,6 +3455,50 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "279.878",
+        "reference_time": "2021-02-13T00:00:00",
+        "reference_value": "/",
+        "time": "2021-02-13T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "128.4061582",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-02-13T11:30:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-27.654",
+        "reference_time": "2021-02-20T00:00:00",
+        "reference_value": "/",
+        "time": "2021-02-20T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-02-20T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1076,6 +3507,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-02-27T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-76.69",
+        "reference_time": "2021-02-27T00:00:00",
+        "reference_value": "/",
+        "time": "2021-02-27T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-21.37560685",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-02-27T11:30:00"
     },
     {
         "color_code": "/",
@@ -1090,6 +3543,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-83.168",
+        "reference_time": "2021-03-06T00:00:00",
+        "reference_value": "/",
+        "time": "2021-03-06T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-79.63000825",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-03-06T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1098,6 +3573,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-03-13T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-89.906",
+        "reference_time": "2021-03-13T00:00:00",
+        "reference_value": "/",
+        "time": "2021-03-13T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-71.89789906",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-03-13T11:30:00"
     },
     {
         "color_code": "/",
@@ -1112,6 +3609,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "12.798",
+        "reference_time": "2021-03-20T00:00:00",
+        "reference_value": "/",
+        "time": "2021-03-20T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "48.67532445",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-03-20T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1120,6 +3639,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-03-27T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "174.03",
+        "reference_time": "2021-03-27T00:00:00",
+        "reference_value": "/",
+        "time": "2021-03-27T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "125.3296898",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-03-27T11:30:00"
     },
     {
         "color_code": "/",
@@ -1134,6 +3675,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "222.875",
+        "reference_time": "2021-04-03T00:00:00",
+        "reference_value": "/",
+        "time": "2021-04-03T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "40.49990399",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-04-03T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1142,6 +3705,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-04-10T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-89.891",
+        "reference_time": "2021-04-10T00:00:00",
+        "reference_value": "/",
+        "time": "2021-04-10T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-04-10T11:30:00"
     },
     {
         "color_code": "/",
@@ -1156,6 +3741,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-56.16",
+        "reference_time": "2021-04-17T00:00:00",
+        "reference_value": "/",
+        "time": "2021-04-17T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-7.356757036",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-04-17T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1164,6 +3771,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-04-24T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-71.818",
+        "reference_time": "2021-04-24T00:00:00",
+        "reference_value": "/",
+        "time": "2021-04-24T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-20.53172586",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-04-24T11:30:00"
     },
     {
         "color_code": "/",
@@ -1178,6 +3807,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-20.321",
+        "reference_time": "2021-05-01T00:00:00",
+        "reference_value": "/",
+        "time": "2021-05-01T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-37.85246711",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-05-01T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1186,6 +3837,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-05-08T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-27.462",
+        "reference_time": "2021-05-08T00:00:00",
+        "reference_value": "/",
+        "time": "2021-05-08T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-21.95322081",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-05-08T11:30:00"
     },
     {
         "color_code": "/",
@@ -1200,6 +3873,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-22.074",
+        "reference_time": "2021-05-15T00:00:00",
+        "reference_value": "/",
+        "time": "2021-05-15T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "11.981452",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-05-15T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1208,6 +3903,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-05-22T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-15.185",
+        "reference_time": "2021-05-22T00:00:00",
+        "reference_value": "/",
+        "time": "2021-05-22T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-05-22T11:30:00"
     },
     {
         "color_code": "/",
@@ -1222,6 +3939,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "50.986",
+        "reference_time": "2021-05-29T00:00:00",
+        "reference_value": "/",
+        "time": "2021-05-29T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-26.05189404",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-05-29T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1230,6 +3969,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-06-05T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "79.704",
+        "reference_time": "2021-06-05T00:00:00",
+        "reference_value": "/",
+        "time": "2021-06-05T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "51.36927477",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-06-05T11:30:00"
     },
     {
         "color_code": "/",
@@ -1244,6 +4005,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "349.59",
+        "reference_time": "2021-06-12T00:00:00",
+        "reference_value": "/",
+        "time": "2021-06-12T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "106.3331091",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-06-12T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1252,6 +4035,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-06-19T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "18.746",
+        "reference_time": "2021-06-19T00:00:00",
+        "reference_value": "/",
+        "time": "2021-06-19T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "123.7660448",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-06-19T11:30:00"
     },
     {
         "color_code": "/",
@@ -1266,6 +4071,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "356.191",
+        "reference_time": "2021-06-26T00:00:00",
+        "reference_value": "/",
+        "time": "2021-06-26T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "235.2692911",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-06-26T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1274,6 +4101,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-07-03T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "484.146",
+        "reference_time": "2021-07-03T00:00:00",
+        "reference_value": "/",
+        "time": "2021-07-03T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "34.41529254",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-07-03T11:30:00"
     },
     {
         "color_code": "/",
@@ -1288,6 +4137,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-29.988",
+        "reference_time": "2021-07-10T00:00:00",
+        "reference_value": "/",
+        "time": "2021-07-10T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "62.52537875",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-07-10T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1296,6 +4167,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-07-17T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2021-07-17T00:00:00",
+        "reference_value": "/",
+        "time": "2021-07-17T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-49.30454362",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-07-17T11:30:00"
     },
     {
         "color_code": "/",
@@ -1310,6 +4203,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-4.831",
+        "reference_time": "2021-07-24T00:00:00",
+        "reference_value": "/",
+        "time": "2021-07-24T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "9.112018576",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-07-24T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1318,6 +4233,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-07-31T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "59.015",
+        "reference_time": "2021-07-31T00:00:00",
+        "reference_value": "/",
+        "time": "2021-07-31T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "88.52305485",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-07-31T11:30:00"
     },
     {
         "color_code": "/",
@@ -1332,6 +4269,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "16.213",
+        "reference_time": "2021-08-07T00:00:00",
+        "reference_value": "/",
+        "time": "2021-08-07T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-33.59214049",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-08-07T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1340,6 +4299,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-08-14T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "46.383",
+        "reference_time": "2021-08-14T00:00:00",
+        "reference_value": "/",
+        "time": "2021-08-14T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "33.57104087",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-08-14T11:30:00"
     },
     {
         "color_code": "/",
@@ -1354,6 +4335,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-38.796",
+        "reference_time": "2021-08-21T00:00:00",
+        "reference_value": "/",
+        "time": "2021-08-21T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-60.65868869",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-08-21T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1362,6 +4365,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-08-28T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-29.495",
+        "reference_time": "2021-08-28T00:00:00",
+        "reference_value": "/",
+        "time": "2021-08-28T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-25.83253624",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-08-28T11:30:00"
     },
     {
         "color_code": "/",
@@ -1376,6 +4401,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "41.243",
+        "reference_time": "2021-09-04T00:00:00",
+        "reference_value": "/",
+        "time": "2021-09-04T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "36.49638138",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-09-04T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1384,6 +4431,83 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-09-11T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-47.957",
+        "reference_time": "2021-09-11T00:00:00",
+        "reference_value": "/",
+        "time": "2021-09-11T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-34.70157392",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-09-11T11:30:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2021-09-18T00:00:00",
+        "reference_value": "/",
+        "time": "2021-09-18T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-49.37794121",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-09-18T11:30:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-47.633",
+        "reference_time": "2021-09-25T00:00:00",
+        "reference_value": "/",
+        "time": "2021-09-25T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "11.98482165",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-09-25T11:30:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "3.480762285",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-10-01T11:30:00"
     },
     {
         "color_code": "/",
@@ -1398,6 +4522,39 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-24.374",
+        "reference_time": "2021-10-02T00:00:00",
+        "reference_value": "/",
+        "time": "2021-10-02T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "168.339",
+        "reference_time": "2021-10-09T00:00:00",
+        "reference_value": "/",
+        "time": "2021-10-09T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "134.9678466",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-10-09T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1406,6 +4563,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-10-16T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "80.955",
+        "reference_time": "2021-10-16T00:00:00",
+        "reference_value": "/",
+        "time": "2021-10-16T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "78.65817689",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-10-16T11:30:00"
     },
     {
         "color_code": "/",
@@ -1420,6 +4599,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-34.964",
+        "reference_time": "2021-10-23T00:00:00",
+        "reference_value": "/",
+        "time": "2021-10-23T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-29.05718345",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-10-23T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1428,6 +4629,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-10-30T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "22.619",
+        "reference_time": "2021-10-30T00:00:00",
+        "reference_value": "/",
+        "time": "2021-10-30T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-17.01716733",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-10-30T11:30:00"
     },
     {
         "color_code": "/",
@@ -1442,6 +4665,50 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "13.234",
+        "reference_time": "2021-11-06T00:00:00",
+        "reference_value": "/",
+        "time": "2021-11-06T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "20.41476055",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-11-06T11:30:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-8.704",
+        "reference_time": "2021-11-13T00:00:00",
+        "reference_value": "/",
+        "time": "2021-11-13T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-11-13T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1450,6 +4717,50 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-11-20T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "63.155",
+        "reference_time": "2021-11-20T00:00:00",
+        "reference_value": "/",
+        "time": "2021-11-20T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-11-20T11:30:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-58.422",
+        "reference_time": "2021-11-27T00:00:00",
+        "reference_value": "/",
+        "time": "2021-11-27T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-36.13272319",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-11-27T11:30:00"
     },
     {
         "color_code": "/",
@@ -1464,6 +4775,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2021-12-04T00:00:00",
+        "reference_value": "/",
+        "time": "2021-12-04T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-12-04T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1472,6 +4805,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2021-12-11T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2021-12-11T00:00:00",
+        "reference_value": "/",
+        "time": "2021-12-11T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-12-11T11:30:00"
     },
     {
         "color_code": "/",
@@ -1486,6 +4841,72 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2021-12-18T00:00:00",
+        "reference_value": "/",
+        "time": "2021-12-18T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-12-18T11:30:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2021-12-25T00:00:00",
+        "reference_value": "/",
+        "time": "2021-12-25T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2021-12-25T11:30:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2022-01-01T00:00:00",
+        "reference_value": "/",
+        "time": "2022-01-01T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-01-01T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1494,6 +4915,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2022-01-08T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2022-01-08T00:00:00",
+        "reference_value": "/",
+        "time": "2022-01-08T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-48.90853586",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-01-08T11:30:00"
     },
     {
         "color_code": "/",
@@ -1508,6 +4951,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "30.332",
+        "reference_time": "2022-01-15T00:00:00",
+        "reference_value": "/",
+        "time": "2022-01-15T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-9.560103942",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-01-15T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1516,6 +4981,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2022-01-22T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-25.109",
+        "reference_time": "2022-01-22T00:00:00",
+        "reference_value": "/",
+        "time": "2022-01-22T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-2.279400107",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-01-22T11:30:00"
     },
     {
         "color_code": "/",
@@ -1530,6 +5017,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "139.971",
+        "reference_time": "2022-01-29T00:00:00",
+        "reference_value": "/",
+        "time": "2022-01-29T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-31.87332093",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-01-29T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1538,6 +5047,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2022-02-05T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-54.826",
+        "reference_time": "2022-02-05T00:00:00",
+        "reference_value": "/",
+        "time": "2022-02-05T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "6.96949218",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-02-05T11:30:00"
     },
     {
         "color_code": "/",
@@ -1552,6 +5083,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-8.534",
+        "reference_time": "2022-02-12T00:00:00",
+        "reference_value": "/",
+        "time": "2022-02-12T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "20.36365085",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-02-12T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1560,6 +5113,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2022-02-19T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "/",
+        "reference_time": "2022-02-19T00:00:00",
+        "reference_value": "/",
+        "time": "2022-02-19T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-39.49129363",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-02-19T11:30:00"
     },
     {
         "color_code": "/",
@@ -1574,6 +5149,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-59.478",
+        "reference_time": "2022-02-26T00:00:00",
+        "reference_value": "/",
+        "time": "2022-02-26T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-49.23222423",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-02-26T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1582,6 +5179,28 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2022-03-05T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-50.737",
+        "reference_time": "2022-03-05T00:00:00",
+        "reference_value": "/",
+        "time": "2022-03-05T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-03-05T11:30:00"
     },
     {
         "color_code": "/",
@@ -1596,6 +5215,28 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-25.74",
+        "reference_time": "2022-03-12T00:00:00",
+        "reference_value": "/",
+        "time": "2022-03-12T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "/",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-03-12T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1607,12 +5248,56 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-73.669",
+        "reference_time": "2022-03-19T00:00:00",
+        "reference_value": "/",
+        "time": "2022-03-19T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "NASA OBPG",
+        "eo_sensor": "Aqua MODIS",
+        "indicator_value": "/",
+        "input_data": "MODISA L2 LAC OC",
+        "measurement_value": "-0.583868995",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-03-19T11:30:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
         "input_data": "EORC product",
         "measurement_value": "-63.98",
         "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-03-26T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-88.991",
+        "reference_time": "2022-03-26T00:00:00",
+        "reference_value": "/",
+        "time": "2022-03-26T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-88.991",
+        "reference_time": "2022-03-26T00:00:00",
         "reference_value": "/",
         "time": "2022-03-26T00:00:00"
     },
@@ -1629,12 +5314,34 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-85.074",
+        "reference_time": "2022-04-02T00:00:00",
+        "reference_value": "/",
+        "time": "2022-04-02T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
         "input_data": "EORC product",
         "measurement_value": "9.74",
         "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-04-09T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-79.506",
+        "reference_time": "2022-04-09T00:00:00",
         "reference_value": "/",
         "time": "2022-04-09T00:00:00"
     },
@@ -1651,12 +5358,45 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-71.205",
+        "reference_time": "2022-04-16T00:00:00",
+        "reference_value": "/",
+        "time": "2022-04-16T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-95.745",
+        "reference_time": "2022-04-23T00:00:00",
+        "reference_value": "/",
+        "time": "2022-04-23T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
         "input_data": "EORC product",
         "measurement_value": "-71.49",
         "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-04-30T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-89.931",
+        "reference_time": "2022-04-30T00:00:00",
         "reference_value": "/",
         "time": "2022-04-30T00:00:00"
     },
@@ -1673,12 +5413,34 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-85.82",
+        "reference_time": "2022-05-07T00:00:00",
+        "reference_value": "/",
+        "time": "2022-05-07T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
         "input_data": "EORC product",
         "measurement_value": "-59.97",
         "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-05-14T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-80.371",
+        "reference_time": "2022-05-14T00:00:00",
         "reference_value": "/",
         "time": "2022-05-14T00:00:00"
     },
@@ -1695,12 +5457,45 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "1.027",
+        "reference_time": "2022-05-21T00:00:00",
+        "reference_value": "/",
+        "time": "2022-05-21T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-46.555",
+        "reference_time": "2022-05-28T00:00:00",
+        "reference_value": "/",
+        "time": "2022-05-28T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
         "input_data": "EORC product",
         "measurement_value": "0.25",
         "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-06-04T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-60.817",
+        "reference_time": "2022-06-04T00:00:00",
         "reference_value": "/",
         "time": "2022-06-04T00:00:00"
     },
@@ -1717,12 +5512,34 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "102.026",
+        "reference_time": "2022-06-11T00:00:00",
+        "reference_value": "/",
+        "time": "2022-06-11T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
         "input_data": "EORC product",
         "measurement_value": "-51.72",
         "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-06-18T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-68.559",
+        "reference_time": "2022-06-18T00:00:00",
         "reference_value": "/",
         "time": "2022-06-18T00:00:00"
     },
@@ -1739,12 +5556,34 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-84.513",
+        "reference_time": "2022-06-25T00:00:00",
+        "reference_value": "/",
+        "time": "2022-06-25T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
         "input_data": "EORC product",
         "measurement_value": "-63.5",
         "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-07-02T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-89.583",
+        "reference_time": "2022-07-02T00:00:00",
         "reference_value": "/",
         "time": "2022-07-02T00:00:00"
     },
@@ -1761,12 +5600,34 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-94.544",
+        "reference_time": "2022-07-09T00:00:00",
+        "reference_value": "/",
+        "time": "2022-07-09T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
         "input_data": "EORC product",
         "measurement_value": "-42.13",
         "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-07-16T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-90.283",
+        "reference_time": "2022-07-16T00:00:00",
         "reference_value": "/",
         "time": "2022-07-16T00:00:00"
     },
@@ -1783,12 +5644,34 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-38.555",
+        "reference_time": "2022-07-23T00:00:00",
+        "reference_value": "/",
+        "time": "2022-07-23T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
         "input_data": "EORC product",
         "measurement_value": "-54.95",
         "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-07-30T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-70.78",
+        "reference_time": "2022-07-30T00:00:00",
         "reference_value": "/",
         "time": "2022-07-30T00:00:00"
     },
@@ -1805,12 +5688,34 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-19.544",
+        "reference_time": "2022-08-06T00:00:00",
+        "reference_value": "/",
+        "time": "2022-08-06T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
         "input_data": "EORC product",
         "measurement_value": "34.97",
         "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-08-13T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "38.685",
+        "reference_time": "2022-08-13T00:00:00",
         "reference_value": "/",
         "time": "2022-08-13T00:00:00"
     },
@@ -1827,12 +5732,34 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "90.467",
+        "reference_time": "2022-08-20T00:00:00",
+        "reference_value": "/",
+        "time": "2022-08-20T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
         "input_data": "EORC product",
         "measurement_value": "-15.01",
         "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-08-27T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-55.586",
+        "reference_time": "2022-08-27T00:00:00",
         "reference_value": "/",
         "time": "2022-08-27T00:00:00"
     },
@@ -1849,12 +5776,34 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-69.308",
+        "reference_time": "2022-09-03T00:00:00",
+        "reference_value": "/",
+        "time": "2022-09-03T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
         "input_data": "EORC product",
         "measurement_value": "-43.16",
         "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-09-10T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-76.205",
+        "reference_time": "2022-09-10T00:00:00",
         "reference_value": "/",
         "time": "2022-09-10T00:00:00"
     },
@@ -1871,6 +5820,17 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-44.257",
+        "reference_time": "2022-09-17T00:00:00",
+        "reference_value": "/",
+        "time": "2022-09-17T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1882,12 +5842,56 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-41.742",
+        "reference_time": "2022-09-24T00:00:00",
+        "reference_value": "/",
+        "time": "2022-09-24T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-5.942",
+        "reference_time": "2022-10-01T00:00:00",
+        "reference_value": "/",
+        "time": "2022-10-01T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-72.71600000000001",
+        "reference_time": "2022-10-08T00:00:00",
+        "reference_value": "/",
+        "time": "2022-10-08T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
         "input_data": "EORC product",
         "measurement_value": "-1.98",
         "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-10-15T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-18.441",
+        "reference_time": "2022-10-15T00:00:00",
         "reference_value": "/",
         "time": "2022-10-15T00:00:00"
     },
@@ -1904,6 +5908,17 @@
     },
     {
         "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "95.91",
+        "reference_time": "2022-10-22T00:00:00",
+        "reference_value": "/",
+        "time": "2022-10-22T00:00:00"
+    },
+    {
+        "color_code": "/",
         "data_provider": "JAXA/EORC",
         "eo_sensor": "GCOM-C/SGLI",
         "indicator_value": "/",
@@ -1912,5 +5927,60 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2022-10-29T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-59.531000000000006",
+        "reference_time": "2022-10-29T00:00:00",
+        "reference_value": "/",
+        "time": "2022-10-29T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "57.117",
+        "reference_time": "2022-11-05T00:00:00",
+        "reference_value": "/",
+        "time": "2022-11-05T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "13.284",
+        "reference_time": "2022-11-12T00:00:00",
+        "reference_value": "/",
+        "time": "2022-11-12T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-90.78399999999999",
+        "reference_time": "2022-11-19T00:00:00",
+        "reference_value": "/",
+        "time": "2022-11-19T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3A OLCI",
+        "indicator_value": "/",
+        "input_data": "S3A_OL_2_WFR",
+        "measurement_value": "-40.701",
+        "reference_time": "2022-11-26T00:00:00",
+        "reference_value": "/",
+        "time": "2022-11-26T00:00:00"
     }
 ]

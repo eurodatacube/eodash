@@ -335,6 +335,50 @@
         "eo_sensor": "Sentinel-2",
         "indicator_value": "Normal",
         "input_data": "Sentinel 2 L2A",
+        "measurement_value": "51",
+        "reference_time": "2019-07-30T10:56:45",
+        "reference_value": "64",
+        "time": "2020-08-08T10:56:43"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "PLES",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Normal",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "55",
+        "reference_time": "2019-07-30T10:56:45",
+        "reference_value": "64",
+        "time": "2020-08-13T10:56:40"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "PLES",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Normal",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "61",
+        "reference_time": "2019-07-30T10:56:45",
+        "reference_value": "64",
+        "time": "2020-09-17T10:56:41"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "PLES",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Normal",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "72",
+        "reference_time": "2019-07-30T10:56:45",
+        "reference_value": "64",
+        "time": "2020-09-22T10:56:39"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "PLES",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Normal",
+        "input_data": "Sentinel 2 L2A",
         "measurement_value": "65",
         "reference_time": "2019-07-30T10:56:45",
         "reference_value": "70",
@@ -713,5 +757,16 @@
         "reference_time": "2019-07-30T10:56:45",
         "reference_value": "70",
         "time": "2022-11-01T10:56:35"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "PLES",
+        "eo_sensor": "Sentinel-2",
+        "indicator_value": "Low",
+        "input_data": "Sentinel 2 L2A",
+        "measurement_value": "44",
+        "reference_time": "2019-07-30T10:56:45",
+        "reference_value": "70",
+        "time": "2022-12-01T10:56:35"
     }
 ]
