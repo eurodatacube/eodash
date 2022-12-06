@@ -55,9 +55,12 @@
           </div>
         </v-toolbar-title>
       </v-toolbar> -->
-
-      <data-panel
-        v-if="$store.state.indicators.selectedIndicator
+      <!-- TODO: remove gtif bradn hardcoding -->
+      <DataPanelGTIF
+        v-if="$store.state.indicators.selectedIndicator && appConfig.id === 'gtif'"
+      />
+      <DataPanel
+        v-else-if="$store.state.indicators.selectedIndicator
           || $store.state.features.featureFilters.indicators.length > 0"
         :key="panelKey"
         :newsBanner="$refs.newsBanner"
@@ -82,7 +85,7 @@
           </template>
           <span>{{ dataPanelFullWidth ? 'Close' : 'Open' }} full screen</span>
         </v-tooltip>
-      </data-panel>
+      </DataPanel>
     </v-navigation-drawer>
     <div
       v-else-if="$vuetify.breakpoint.smAndDown"
@@ -145,7 +148,7 @@
                 && (queryIndicatorObject.properties.indicatorObject.indicatorName
                 || queryIndicatorObject.properties.indicatorObject.description) }}
             </h4> -->
-            <data-panel
+            <DataPanel
               v-if="$store.state.indicators.selectedIndicator
                 || $store.state.features.featureFilters.indicators.length > 0"
               :newsBanner="$refs.newsBanner"
@@ -162,7 +165,7 @@
                   <v-icon>mdi-close</v-icon>
                 </v-btn>
               </div>
-            </data-panel>
+            </DataPanel>
           <!-- </v-col>
         </v-row>
       </v-container> -->
@@ -222,6 +225,7 @@
 import Banner from '@/components/Banner.vue';
 import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
+import DataPanelGTIF from '@/components/DataPanelGTIF.vue';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import IndicatorFilters from '@/components/IndicatorFilters.vue';
@@ -245,6 +249,7 @@ export default {
     Banner,
     CenterPanel,
     DataPanel,
+    DataPanelGTIF,
     GlobalHeader,
     GlobalFooter,
     IndicatorFilters,
