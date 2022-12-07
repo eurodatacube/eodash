@@ -1028,7 +1028,8 @@ export const globalIndicators = [
         //   tileSize: 256,
         //   minZoom: 1,
         //   url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&bidx=1&rescale=0.000408%2C0.000419&colormap_name=rdylbu_r',
-        //   dateFormatFunction: (date) => `url=${date[1]}`.replace('diff', 'base'), // once the data are available on the STAC API, we probably can use this replace
+        //  // once the data are available on the STAC API, we probably can use this replace
+        //   dateFormatFunction: (date) => `url=${date[1]}`.replace('diff', 'base'),
         // },
       },
     },
