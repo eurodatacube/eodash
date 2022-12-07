@@ -671,7 +671,7 @@ export const indicatorClassesIcons = Object.freeze({
   agriculture: 'mdi-barley',
   atmosphere: 'mdi-weather-windy',
   oceans: 'mdi-water',
-  biomass: 'mdi-image-filter-hdr',
+  biomass: 'mdi-leaf',
   'covid-19': 'mdi-hospital-box-outline',
   cryosphere: 'mdi-snowflake',
 });
