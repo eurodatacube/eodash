@@ -178,7 +178,7 @@ export const indicatorsDefinition = Object.freeze({
   E10e: {
     indicatorSummary: 'NDVI GCOM-C',
     story: '/eodash-data/stories/E10e',
-    themes: ['agriculture', 'biomass-and-landcover'],
+    themes: ['agriculture', 'biomass'],
   },
   E11: {
     indicatorSummary: 'Volume of activity at shopping centers',
@@ -273,7 +273,7 @@ export const indicatorsDefinition = Object.freeze({
   N5: {
     indicatorSummary: 'Nightlights (Suomi NPP VIIRS)',
     story: '/data/trilateral/N5',
-    themes: ['economy', 'atmosphere', 'oceans'],
+    themes: ['economy', 'atmosphere'],
   },
   N6: {
     indicatorSummary: 'Cropped Area - Global',
@@ -382,7 +382,7 @@ export const indicatorsDefinition = Object.freeze({
   NCEO: {
     indicatorSummary: 'NCEO',
     story: '/eodash-data/stories/NCEO',
-    themes: ['agriculture', 'biomass-and-landcover'],
+    themes: ['agriculture', 'biomass'],
     disableTimeSelection: true,
   },
   SMC: {
@@ -398,7 +398,7 @@ export const indicatorsDefinition = Object.freeze({
   FNF: {
     indicatorSummary: 'FNF',
     story: '/eodash-data/stories/FNF',
-    themes: ['biomass-and-landcover'],
+    themes: ['biomass'],
   },
   PRCG: {
     indicatorSummary: 'PRCG',
@@ -452,7 +452,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   d: { // dummy for locations without Indicator code
     indicatorSummary: 'Upcoming data',
-    themes: ['atmosphere', 'agriculture', 'biomass-and-landcover', 'economy', 'oceans', 'cryosphere', 'covid-19'],
+    themes: ['atmosphere', 'agriculture', 'biomass', 'economy', 'oceans', 'cryosphere', 'covid-19'],
   },
 });
 
@@ -671,7 +671,7 @@ export const indicatorClassesIcons = Object.freeze({
   agriculture: 'mdi-barley',
   atmosphere: 'mdi-weather-windy',
   oceans: 'mdi-water',
-  'biomass-and-landcover': 'mdi-image-filter-hdr',
+  biomass: 'mdi-image-filter-hdr',
   'covid-19': 'mdi-hospital-box-outline',
   cryosphere: 'mdi-snowflake',
 });
@@ -718,7 +718,7 @@ export const defaultLayersDisplay = {
   visible: true,
 };
 
-const E10c_GCOM_dates = {
+const e10cDates = {
   time: [
     '2018-03-06',
     '2018-03-14',
@@ -778,13 +778,13 @@ const E10c_GCOM_dates = {
   ],
   inputData: [
     'SGLI L2 Reflectance 8-day composited',
-  ]
-}
+  ],
+};
 
 export const replaceMapTimes = {
-  'US07-E10c': E10c_GCOM_dates,
-  'US06-E10c': E10c_GCOM_dates,
-  'US05-E10c': E10c_GCOM_dates,
+  'US07-E10c': e10cDates,
+  'US06-E10c': e10cDates,
+  'US05-E10c': e10cDates,
 };
 
 const getYearlyDates = (start, end) => {
