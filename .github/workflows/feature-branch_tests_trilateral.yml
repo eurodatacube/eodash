@@ -1,0 +1,33 @@
+# Run cypress tests
+name: Cypress tests - Trilateral
+on:
+  pull_request:
+    branches:
+      - staging
+jobs:
+  cypress-run:
+    name: Cypress run feature branch Trilateral
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Tests for trilateral
+      - name: Cypress run
+        uses: cypress-io/github-action@v4
+        with:
+          working-directory: app
+          spec: tests/e2e/specs/indicators_trilateral.js
+          config: 'baseUrl=https://${{ secrets.TEST_INSTANCE_UN }}:${{ secrets.TEST_INSTANCE_PW }}@eodash-trilateral-testing.eox.at/${{ github.head_ref }}/'
+
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: app/tests/e2e/screenshots
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: cypress-videos
+          path: app/tests/e2e/videos

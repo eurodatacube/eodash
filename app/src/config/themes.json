@@ -60,13 +60,13 @@
     },
     {
       "name": "Biomass",
-      "slug": "biomass-and-landcover",
+      "slug": "biomass",
       "color": "#009E73",
       "description": "Clearing the Air",
       "longDescription": "A view from space monitors land cover and trees to track biomass and carbon content."
     },
     {
-      "name": "Water and Ocean",
+      "name": "Oceans",
       "slug": "oceans",
       "color": "#6DA2C5",
       "description": "Keeping Current with Earth’s Largest Natural Resource",
@@ -94,6 +94,43 @@
       "description": "Economy",
       "longDescription": "Observing Earth's social and economic systems",
       "datasetsImage": "/data/story-images/econ-explore-datasets-image.png"
+    }
+  ],
+  "gtif": [
+    {
+      "name": "Energy Transition",
+      "slug": "energy-transition",
+      "icon": "./img/gtif/icons/energy-transition-trimmy.png",
+      "color": "#4059AD",
+      "description": "Wind/Solar/Hydro potential & current utilisation"
+    },
+    {
+      "name": "Mobility Transition",
+      "slug": "mobility-transition",
+      "icon": "./img/gtif/icons/mobility-transition-trimmy.png",
+      "color": "#F2AF26",
+      "description": "Growing Economic Systems"
+    },
+    {
+      "name": "Sustainable Cities",
+      "slug": "sustainable-cities",
+      "icon": "./img/gtif/icons/sustainable-transition-trimmy.png",
+      "color": "#009E73",
+      "description": "Carbon credits"
+    },
+    {
+      "name": "Carbon Accounting",
+      "slug": "carbon-accounting",
+      "icon": "./img/gtif/icons/carbon-finance-trimmy.png",
+      "color": "#6DA2C5",
+      "description": "Food production, ecosystems & biodiversity"
+    },
+    {
+      "name": "EO Adaptation Services",
+      "slug": "eo-adaptation-services",
+      "icon": "./img/gtif/icons/eo-adaptation-trimmy.png",
+      "color": "#6D00C5",
+      "description": "Food production, ecosystems & biodiversity"
     }
   ]
 }

@@ -9,7 +9,43 @@
       :class="$vuetify.breakpoint.xsOnly ? 'mx-0' : ''"
       :style="expanded ? `width: 100%;` : ``
     ">
-      <v-row v-if="indicatorObject">
+      <v-row v-if="indicatorObject" class="d-flex">
+        <filter-controls v-if="indicatorObject.cogFilters"
+          :cogFilters="indicatorObject.cogFilters"
+        >
+        </filter-controls>
+
+        <!-- TODO: remove GTIF brand check -->
+        <v-btn
+          v-if="appConfig.id === 'gtif'"
+          text
+          color="primary"
+          class="mx-3"
+          @click="showScatterplot = !showScatterplot"
+        >
+          Expand controls
+          <v-icon right :style="`transform: rotate(${showScatterplot
+            ? 90
+            : 0}deg); transition: all .3s ease-in-out;`">mdi-chevron-right</v-icon>
+        </v-btn>
+
+        <scatter-plot v-if="indicatorObject.cogFilters
+          && indicatorObject.cogFilters.sourceLayer === 'REP1' && showScatterplot"
+          :filters="indicatorObject.cogFilters.filters"
+        >
+        </scatter-plot>
+
+        <style-controls v-if="indicatorObject.vectorStyles"
+          :vectorStyles="indicatorObject.vectorStyles"
+        >
+        </style-controls>
+        <!-- TODO: remove GTIF brand check -->
+        <data-mockup-view v-if="appConfig.id === 'gtif'"
+          :indicatorObject="indicatorObject"
+          :adminLayer="$store.state.features.adminBorderLayerSelected"
+          :adminFeature="$store.state.features.adminBorderFeatureSelected"
+        >
+        </data-mockup-view>
         <v-col
           v-if="!showMap
             ||  multipleTabCompare
@@ -33,7 +69,7 @@
               v-if="customAreaIndicator && showRegenerateButton"
               ref="regenerateButton"
               color="secondary"
-              style="display: block; position: absolute; right: 130px; top: 13px;"
+              style="display: block; position: absolute; right: 90px; top: 6px;"
               elevation="2"
               x-small
               @click="generateChart"
@@ -230,6 +266,7 @@
                 v-html="story"
                 class="md-body"
               ></div>
+
               <v-btn
                 v-if="indicatorObject && externalData"
                 :href= "externalData.url"
@@ -293,6 +330,10 @@ Select a point of interest on the map to see the data for a specific location!
           </v-row>
         </v-col>
       </v-row>
+
+      <v-row v-if="indicatorObject">
+
+      </v-row>
     </div>
   </div>
 </template>
@@ -309,7 +350,12 @@ import { DateTime } from 'luxon';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import IframeButton from '@/components/IframeButton.vue';
+import FilterControls from '@/components/map/FilterControls.vue';
+import StyleControls from '@/components/map/StyleControls.vue';
+import DataMockupView from '@/components/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
+
+import ScatterPlot from '@/components/ScatterPlot.vue';
 
 export default {
   props: [
@@ -321,6 +367,10 @@ export default {
     IndicatorGlobe,
     IframeButton,
     AddToDashboardButton,
+    FilterControls,
+    StyleControls,
+    ScatterPlot,
+    DataMockupView,
   },
   data: () => ({
     overlay: false,
@@ -338,6 +388,7 @@ export default {
     compareEnabled: false,
     isLoadingCustomAreaIndicator: false,
     showRegenerateButton: null,
+    showScatterplot: null,
   }),
   computed: {
     ...mapGetters('features', [
@@ -507,7 +558,6 @@ export default {
       return 0;
     },
     mergedConfigsData() {
-      // only display the "special layers" for global indicators
       if (!this.indicatorObject) {
         return [];
       }

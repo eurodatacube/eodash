@@ -636,7 +636,7 @@
   "nightlights-hd-1band": {
     "indicator": "N5",
     "description": "Nightlights",
-    "legendUrl": "data/trilateral/N5-nighlights-legend.png",
+    "legendUrl": "legends/trilateral/N5-nighlights.png",
     "entries": {
       "[-90.3037818244749, 29.804659612978707, -89.87578181971654, 30.07177072705947]": {
         "location": "New Orleans",
@@ -653,7 +653,7 @@
   "nightlights-hd-monthly": {
     "indicator": "N5",
     "description": "Nightlights",
-    "legendUrl": "data/trilateral/N5-nighlights-legend.png",
+    "legendUrl": "legends/trilateral/N5-nighlights.png",
     "entries": {
       "[11.7631744, 45.06062636, 12.79039608, 45.79310055]": {
         "location": "Venice",

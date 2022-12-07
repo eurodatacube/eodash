@@ -1,0 +1,171 @@
+{
+  "version": 8,
+  "name": "rooftops",
+  "center": [0, 0],
+  "zoom": 3,
+  "glyphs": "{fontstack}/{range}",
+  "sources": {
+    "innsbruck": {
+      "type": "vector",
+      "tiles": [
+          "https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/rooftops2/wien_4esa_3857/{z}/{x}/{y}.pbf"
+      ],
+      "maxzoom": 16
+  }
+  },
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "rgba(0,0,0,0)"
+      }
+    },
+    {
+      "id": "GRImpScore_filtered",
+      "type": "fill",
+      "source": "innsbruck",
+      "source-layer": "wien_4esa",
+      "filter": ["all"],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": [
+          "match",
+          ["get", "GRPotentl"],
+          0,
+          "#686868",
+          1,
+          [
+            "interpolate",
+            ["linear"],
+            ["get", "GRImpScore"],
+            0,
+            ["to-color", "#027224"],
+            57.10,
+            ["to-color", "#a5ce40"],
+            71.75,
+            ["to-color", "#dcee49"],
+            78.95,
+            ["to-color", "#fceb49"],
+            83.41,
+            ["to-color", "#ffc640"],
+            86.94,
+            ["to-color", "#ff9f32"],
+            91.33,
+            ["to-color", "#ff742c"],
+            100,
+            ["to-color", "#ff3624"]
+          ],
+          "rgba(0,0,0,0)"
+        ]
+      }
+    },
+    {
+      "id": "GRExisting",
+      "type": "fill",
+      "source": "innsbruck",
+      "source-layer": "wien_4esa",
+      "filter": ["all"],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": [
+          "match",
+          ["get", "GRExisting"],
+          0,
+          "#686868",
+          1,
+          "#2ea729",
+          "rgba(0,0,0,0)"
+        ]
+      }
+    },
+    {
+      "id": "GRPotential",
+      "type": "fill",
+      "source": "innsbruck",
+      "source-layer": "wien_4esa",
+      "filter": ["all"],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": [
+          "match",
+          ["get", "GRPotential"],
+          0,
+          "#686868",
+          1,
+          "#2ea729",
+          "rgba(0,0,0,0)"
+        ]
+      }
+    },
+    {
+      "id": "GRPotPAr20",
+      "type": "fill",
+      "source": "innsbruck",
+      "source-layer": "wien_4esa",
+      "filter": ["all"],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": [
+          "match",
+          ["get", "GRPotPAr20"],
+          0,
+          "#686868",
+          1,
+          "#2ea729",
+          "rgba(0,0,0,0)"
+        ]
+      }
+    },
+    {
+      "id": "LST2021",
+      "type": "fill",
+      "source": "innsbruck",
+      "source-layer": "wien_4esa",
+      "filter": ["all"],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": [
+          "interpolate",
+          ["linear"],
+          ["get", "LST2021"],
+          35,
+          ["to-color", "#ffc27b"],
+          45,
+          ["to-color", "#b70000"]
+        ]
+      }
+    },
+    {
+      "id": "GRImpScore",
+      "type": "fill",
+      "source": "innsbruck",
+      "source-layer": "wien_4esa",
+      "filter": ["all"],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": [
+          "interpolate",
+          ["linear"],
+          ["get", "GRImpScore"],
+          0,
+          ["to-color", "#027224"],
+          57.10,
+          ["to-color", "#a5ce40"],
+          71.75,
+          ["to-color", "#dcee49"],
+          78.95,
+          ["to-color", "#fceb49"],
+          83.41,
+          ["to-color", "#ffc640"],
+          86.94,
+          ["to-color", "#ff9f32"],
+          91.33,
+          ["to-color", "#ff742c"],
+          100,
+          ["to-color", "#ff3624"]
+        ]
+      }
+    }
+  ]
+}

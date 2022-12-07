@@ -8,11 +8,19 @@ import {
   Fill, Stroke, Style, Circle,
 } from 'ol/style';
 import TileWMS from 'ol/source/TileWMS';
+import GeoTIFF from 'ol/source/GeoTIFF';
+import WebGLTileLayer from 'ol/layer/WebGLTile';
+import MapLibreLayer from '@geoblocks/ol-maplibre-layer';
 import store from '@/store';
 import TileGrid from 'ol/tilegrid/TileGrid';
 import { createXYZ } from 'ol/tilegrid';
 import { Group } from 'ol/layer';
+import VectorTileLayer from 'ol/layer/VectorTile';
+import { applyStyle } from 'ol-mapbox-style';
+import * as flatgeobuf from 'flatgeobuf/dist/flatgeobuf-geojson.min';
+import { bbox } from 'ol/loadingstrategy';
 import { get as getProj, transformExtent } from 'ol/proj';
+import { fetchCustomAreaObjects, fetchCustomDataOptions } from '@/helpers/customAreaObjects';
 
 import proj4 from 'proj4';
 import { register } from 'ol/proj/proj4';
@@ -54,27 +62,52 @@ export function getProjectionOl(projectionLike) {
   return getProj('EPSG:4326');
 }
 
-function fetchGeoJsonFeatures(source, url) {
-  fetch(url)
-    .then((fStream) => {
-      fStream.json()
-        .then((geoJson) => {
-          if (geoJson.features && geoJson.features.length) {
-            geoJson.features.forEach((f) => {
-              if (f.id === null) {
-                // to do: some POIs (like bejing or LAX airports) have `null` set as feature ids,
-                // resulting in invalid geojson
-                // when this is fixed in the data, the normal geojson loader should be used
-                // eslint-disable-next-line no-param-reassign
-                f.id = undefined;
-              }
-            });
-            const features = geoJsonFormat.readFeatures(geoJson);
-            source.addFeatures(features);
-          }
-        })
-        .catch(() => {});
-    });
+export async function fetchData({
+  usedTime, config, drawnArea, source,
+}) {
+  // fetching of customFeatures
+  if (!config?.features || (config.customAreaFeatures && !drawnArea?.area)) {
+    source.clear();
+    return;
+  }
+  try {
+    const options = fetchCustomDataOptions(usedTime, config, store);
+    const custom = await fetchCustomAreaObjects(
+      options,
+      drawnArea?.area,
+      config,
+      {},
+      'features',
+      store,
+    );
+    source.clear();
+    if (custom?.features && custom.features.length) {
+      const features = geoJsonFormat.readFeatures(custom);
+      features.forEach((ftr) => {
+        if (ftr.getId() === null) {
+          ftr.setId(undefined);
+        }
+        if (ftr.geometry) {
+          ftr.setGeometry(geoJsonFormat.readGeometry(ftr.geometry));
+        }
+      });
+      source.addFeatures(features);
+    }
+  } catch (err) {
+    source.clear();
+    console.error(err);
+  }
+}
+
+function fgbBoundingBox(extent, projection) {
+  // minx, miny, maxx, maxy
+  const transformedExtent = transformExtent(extent, projection.getCode(), 'EPSG:4326');
+  return {
+    minX: transformedExtent[0],
+    minY: transformedExtent[1],
+    maxX: transformedExtent[2],
+    maxY: transformedExtent[3],
+  };
 }
 
 function createFromTemplate(template, tileCoord) {
@@ -96,15 +129,15 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
   let url = baseUrl;
   const time = options.time || store.state.indicators.selectedTime;
   const indicator = options.indicator || store.state.indicators.selectedIndicator.indicator;
-  const aoiId = options.aoiId || store.state.indicators.selectedIndicator.aoiID;
+  const aoiID = options.aoiID || store.state.indicators.selectedIndicator.aoiID;
   url = url.replace(/{time}/i, config.dateFormatFunction(time));
   url = url.replace(/{indicator}/gi, indicator);
-  url = url.replace(/{aoiID}/gi, aoiId);
+  url = url.replace(/{aoiID}/gi, aoiID);
   if (config.features && config.features.dateFormatFunction) {
     url = url.replace(/{featuresTime}/i, config.features.dateFormatFunction(time));
   }
   if (config.siteMapping) {
-    const currSite = config.siteMapping(aoiId);
+    const currSite = config.siteMapping(aoiID);
     url = url.replace(/{site}/gi, currSite);
   }
   return url;
@@ -125,7 +158,8 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
  * for overlays like labels or borders. Defaults to false.
  * @param {*} [opt_options.time=undefined] optional time.
  * @param {*} [opt_options.indicator=undefined] optional indicator. (e.g. "E13b")
- * @param {*} [opt_options.aoiId=undefined] optional aoiId.
+ * @param {*} [opt_options.aoiID=undefined] optional aoiID.
+ * @param {*} [opt_options.drawnArea=undefined] optional drawnArea object.
  * if not set, time will be retrieved from the store
  * @returns {Group} returns ol layer
  */
@@ -137,6 +171,46 @@ export function createLayerFromConfig(config, _options = {}) {
 
   // layers created by this config. These Layers will get combined into a single ol.layer.Group
   const layers = [];
+  if (config.protocol === 'cog') {
+    const source = new GeoTIFF({
+      sources: config.sources,
+      normalize: config.normalize ? config.normalize : false,
+    });
+    const wgTileLayer = new WebGLTileLayer({
+      source,
+      style: config.style,
+    });
+    wgTileLayer.set('id', config.id);
+    layers.push(wgTileLayer);
+  }
+  if (config.protocol === 'vectortile') {
+    const tilelayer = new VectorTileLayer();
+    tilelayer.set('id', config.id);
+    applyStyle(tilelayer, config.styleFile, [config.selectedStyleLayer]);
+    layers.push(tilelayer);
+  }
+  if (config.protocol === 'vectorgeojson') {
+    const layer = new VectorLayer();
+    layer.set('id', config.id);
+    layer.set('name', config.name);
+    layer.set('styleFile', config.styleFile);
+    layer.set('selectedStyleLayer', config.selectedStyleLayer);
+    layers.push(layer);
+    fetch(config.styleFile).then((r) => r.json())
+      .then((glStyle) => {
+        const newGlStyle = JSON.parse(JSON.stringify(glStyle));
+        let currentTime = '2022_09_17';
+        if (config.usedTimes?.time?.length) {
+          currentTime = config.usedTimes.time[config.usedTimes.time.length - 1];
+          currentTime = currentTime.replaceAll('-', '_');
+        }
+        newGlStyle.sources.air_quality.data = newGlStyle.sources.air_quality.data.replace(
+          '{{time}}', currentTime,
+        );
+        applyStyle(layer, newGlStyle, [config.selectedStyleLayer]);
+      })
+      .catch(() => console.log('Issue loading mapbox style'));
+  }
   if (config.protocol === 'countries') {
     layers.push(new VectorLayer({
       name: 'Country vectors',
@@ -155,13 +229,18 @@ export function createLayerFromConfig(config, _options = {}) {
     }));
   }
   if (config.protocol === 'GeoJSON') {
+    // mutually exclusive options, either direct features or url to fetch
+    const vectorSourceOpts = config.url ? {
+      url: config.url,
+      format: geoJsonFormat,
+    } : {
+      features: geoJsonFormat.readFeatures(config.data),
+    };
     layers.push(new VectorLayer({
       name: config.name,
       zIndex: options.zIndex,
       updateOpacityOnZoom: false,
-      source: new VectorSource({
-        features: geoJsonFormat.readFeatures(config.data),
-      }),
+      source: new VectorSource(vectorSourceOpts),
       style: new Style({
         fill: new Fill({
           color: config.style.fillColor || 'rgba(0, 0, 0, 0.5)',
@@ -171,6 +250,52 @@ export function createLayerFromConfig(config, _options = {}) {
           color: config.style.color || 'rgba(0, 0, 0, 0.5)',
         }),
       }),
+      maxZoom: config.maxZoom,
+      minZoom: config.minZoom,
+    }));
+  }
+  if (config.protocol === 'flatgeobuf') {
+    const vectorSourceOpts = {
+      format: geoJsonFormat,
+      strategy: bbox,
+    };
+    const source = new VectorSource(vectorSourceOpts);
+    // eslint-disable-next-line no-inner-declarations
+    async function updateResults(extent, resolution, projection, success) {
+      const rect = fgbBoundingBox(extent, projection);
+      // Use flatgeobuf JavaScript API to iterate features as geojson.
+      // Because we specify a bounding box, flatgeobuf will only fetch the relevant subset of data,
+      // rather than the entire file.
+      if (rect.minX !== -Infinity) {
+        const ftrs = [];
+        const iter = flatgeobuf.deserialize(config.url, rect);
+        // eslint-disable-next-line no-restricted-syntax
+        for await (const feature of iter) {
+          const ftr = geoJsonFormat.readFeature(feature);
+          ftrs.push(ftr);
+        }
+        source.clear();
+        source.addFeatures(ftrs);
+        success();
+      }
+    }
+    source.setLoader(updateResults);
+    layers.push(new VectorLayer({
+      name: config.name,
+      zIndex: options.zIndex,
+      updateOpacityOnZoom: false,
+      source,
+      style: new Style({
+        fill: new Fill({
+          color: config.style.fillColor || 'rgba(0, 0, 0, 0.5)',
+        }),
+        stroke: new Stroke({
+          width: config.style.weight || 3,
+          color: config.style.color || 'rgba(0, 0, 0, 0.5)',
+        }),
+      }),
+      maxZoom: config.maxZoom,
+      minZoom: config.minZoom,
     }));
   }
   let source;
@@ -189,7 +314,7 @@ export function createLayerFromConfig(config, _options = {}) {
           return createFromTemplate(url, tileCoord);
         },
       });
-      source.set('updateTime', (time, configUpdate) => {
+      source.set('updateTime', (time, area, configUpdate) => {
         const updatedOptions = {
           ...options,
           ...configUpdate,
@@ -259,7 +384,7 @@ export function createLayerFromConfig(config, _options = {}) {
           url: c.baseUrl,
           tileGrid,
         });
-        singleSource.set('updateTime', (updatedTime, configUpdate) => {
+        singleSource.set('updateTime', (updatedTime, area, configUpdate) => {
           const timeString = configUpdate.dateFormatFunction(updatedTime);
           const paramsUpdate = {};
           paramsToPassThrough.forEach((param) => {
@@ -309,7 +434,7 @@ export function createLayerFromConfig(config, _options = {}) {
         url: config.url || config.baseUrl,
         tileGrid,
       });
-      source.set('updateTime', (updatedTime, configUpdate) => {
+      source.set('updateTime', (updatedTime, area, configUpdate) => {
         const timeString = configUpdate.dateFormatFunction(updatedTime);
         const paramsUpdate = {};
         paramsToPassThrough.forEach((param) => {
@@ -327,6 +452,17 @@ export function createLayerFromConfig(config, _options = {}) {
         source.updateParams(newParams);
       });
     }
+  }
+  if (config.protocol === 'maplibre') {
+    const layer = new MapLibreLayer({
+      name: config.name,
+      zIndex: options.zIndex,
+      attribution: config.attribution,
+      maplibreOptions: {
+        style: config.maplibreStyles,
+      },
+    });
+    layers.push(layer);
   }
   let extent;
   if (config.extent) {
@@ -349,29 +485,34 @@ export function createLayerFromConfig(config, _options = {}) {
   if (config.features) {
     // some layers have a baselayer and GeoJSON features above them
     // e.g. "Ports and Shipping"
-    // to do: consider other sources of truth than the store
     const featuresSource = new VectorSource({
       features: [],
     });
-    // to do:
-    // some configs have other mean than simple geojson fetching. Make sure to not forget any.
-    if (!config.features.callbackFunction) {
-      const url = replaceUrlPlaceholders(config.features.url, config, options);
-      fetchGeoJsonFeatures(featuresSource, url);
-    }
+    fetchData({
+      usedTime: options.time,
+      config,
+      drawnArea: options.drawnArea,
+      source: featuresSource,
+    });
     // this gives an option to update the source (most likely the time) without
     // re-creating the entire layer
-    featuresSource.set('updateTime', (time, configUpdate) => {
+    const featuresUpdate = (time, drawnArea, configUpdate) => {
       const updatedOptions = {
         ...options,
         ...configUpdate,
       };
       updatedOptions.time = time;
-      const newUrl = replaceUrlPlaceholders(
-        configUpdate.features.url, configUpdate, updatedOptions,
-      );
-      fetchGeoJsonFeatures(featuresSource, newUrl);
-    });
+      fetchData({
+        usedTime: time,
+        config: updatedOptions,
+        drawnArea,
+        source: featuresSource,
+      });
+    };
+    featuresSource.set('updateTime', featuresUpdate);
+    if (config.customAreaFeatures) {
+      featuresSource.set('updateArea', featuresUpdate);
+    }
     const fill = new Fill({
       color: 'rgba(255, 255, 255, 0.1)',
     });
@@ -381,6 +522,7 @@ export function createLayerFromConfig(config, _options = {}) {
     });
     const featuresLayer = new VectorLayer({
       source: featuresSource,
+      name: `${config.name}_features`,
       style: new Style({
         fill,
         stroke,

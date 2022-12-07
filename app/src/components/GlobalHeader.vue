@@ -1,5 +1,7 @@
 <template>
+  <ESAHeader v-if="appConfig.enableESALayout" />
   <v-app-bar
+    v-else
     app
     clipped-left
     clipped-right
@@ -80,6 +82,7 @@
           Welcome
         </v-btn>
         <v-btn
+          v-if="$route.name === 'explore'"
           block
           text
           color="primary"
@@ -374,6 +377,7 @@ import About from '@/views/About.vue';
 import Welcome from '@/views/Welcome.vue';
 import ThemeNavigation from './ThemesLandingPage/ThemeNavigation.vue';
 import Modal from './Modal.vue';
+import ESAHeader from './ESA/ESAHeader.vue';
 
 /**
  * A global navbar component that adapts to different environments.
@@ -392,6 +396,7 @@ export default {
   components: {
     ThemeNavigation,
     Modal,
+    ESAHeader,
     About,
     Welcome,
   },
@@ -429,7 +434,7 @@ export default {
     isThemePageActive() {
       switch (this.$route.name) {
         case 'ocean':
-        case 'biomass-and-landcover':
+        case 'biomass':
         case 'atmosphere':
         case 'water-quality':
         case 'agriculture':

@@ -1,0 +1,70 @@
+{
+  "marketingInfo": {
+    "interests": [
+      "Climate"
+    ]
+  },
+  "features": [
+    {
+      "width": 2,
+      "mapInfo": {
+        "zoom": 7,
+        "center": {
+          "lng": 13.583628422071959,
+          "lat": 47.42808726171425
+        }
+      },
+      "id": "CH4-N1",
+      "title": "World, Methane (Weekly)"
+    },
+    {
+      "width": 2,
+      "mapInfo": {
+        "zoom": 7,
+        "center": {
+          "lng": 13.650272657891282,
+          "lat": 47.56170075451973
+        }
+      },
+      "id": "W1-N1",
+      "title": "World, Nitrogen Dioxide (Weekly/Monthly)"
+    },
+    {
+      "width": 2,
+      "mapInfo": {
+        "zoom": 4,
+        "center": {
+          "lng": -1.4481765362395007,
+          "lat": 13.66733825965496
+        }
+      },
+      "id": "W8-N9",
+      "title": "World, Nitrogen Dioxide (Yearly)"
+    },
+    {
+      "width": 2,
+      "mapInfo": {
+        "zoom": 3,
+        "center": {
+          "lng": 7.477005646008405,
+          "lat": 38.41055825094609
+        }
+      },
+      "id": "W9-N10",
+      "title": "World, Sulfur Dioxide (OMI/Aura)"
+    },
+    {
+      "width": 2,
+      "mapInfo": {
+        "zoom": 1,
+        "center": {
+          "lng": 0.3515625,
+          "lat": 0
+        }
+      },
+      "id": "SO2-N1",
+      "title": "World, Sulfur Dioxide (TROPOMI)"
+    }
+  ],
+  "title": "Emissions"
+}

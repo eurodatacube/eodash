@@ -1,6 +1,13 @@
 <template>
   <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3;
     z-index: 1" class="d-flex justify-center">
+    <!-- a layer adding a (potential) admin borders with onclick selection, z-index 3 -->
+    <AdminBordersLayers
+      :mapId="mapId"
+      :administrativeConfigs="administrativeConfigs"
+      v-if="administrativeConfigs.length > 0"
+      :key="dataLayerName + '_adminLayers'"
+    />
     <!-- a layer adding a (potential) subaoi, z-index 5 -->
     <SubaoiLayer
       :mapId="mapId"
@@ -12,7 +19,7 @@
     <!-- a layer displaying a selected global poi
      these layers will have z-Index 3 -->
     <SpecialLayer
-      v-if="mergedConfigsData.length && dataLayerName && indicatorHasMapData(indicator)"
+      v-if="showSpecialLayer"
       :mapId="mapId"
       :mergedConfig="mergedConfigsData[0]"
       :layerName="dataLayerName"
@@ -36,6 +43,7 @@
         :mergedConfigsData="mergedConfigsLayerSwipe[0]"
         :specialLayerOptionProps="specialLayerOptions"
         :enable="enableCompare"
+        :drawnArea="drawnArea"
         @updateSwipePosition="updateSwipePosition"
         :key="dataLayerName + '_layerSwipe'"
       />
@@ -95,6 +103,8 @@
         :mapId="mapId"
         :baseLayerConfigs="baseLayerConfigs"
         :overlayConfigs="overlayConfigs"
+        :administrativeConfigs="administrativeConfigs"
+        :dataLayerConfigLayerControls="dataLayerConfigLayerControls"
         :isGlobalIndicator="isGlobalIndicator"
       />
       <!-- will add a drawing layer to the map (z-index 3) -->
@@ -107,7 +117,6 @@
         @fetchCustomAreaIndicator="onFetchCustomAreaIndicator"
         :key="dataLayerName  + '_customArea'"
         :drawnArea.sync="drawnArea"
-        :loading.sync="customAreaLoading"
       />
       <div class="pointerEvents mt-auto mb-2">
         <IframeButton
@@ -118,7 +127,7 @@
       </div>
       <div class="pointerEvents mb-2">
         <AddToDashboardButton
-          v-if="mapId === 'centerMap' && indicator && isGlobalIndicator"
+          v-if="mapId === 'centerMap' && indicator && indicatorHasMapData(indicator)"
           :indicatorObject="indicator"
           :zoom="currentZoom"
           :center="currentCenter"
@@ -157,11 +166,12 @@ import {
 } from '@/helpers/mapConfig';
 import GeoJSON from 'ol/format/GeoJSON';
 import { fromLonLat, toLonLat, transformExtent } from 'ol/proj';
-import fetchCustomAreaObjects from '@/helpers/customAreaObjects';
+import { fetchCustomAreaObjects } from '@/helpers/customAreaObjects';
 import Attribution from 'ol/control/Attribution';
 import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
+import AdminBordersLayers from '@/components/map/AdminBordersLayers.vue';
 import Link from 'ol/interaction/Link';
 import {
   calculatePadding,
@@ -183,6 +193,7 @@ export default {
     LayerSwipe,
     CustomAreaButtons,
     SubaoiLayer,
+    AdminBordersLayers,
     MapOverlay,
     IframeButton,
     AddToDashboardButton,
@@ -241,7 +252,6 @@ export default {
       compareLayerTime: null,
       enableCompare: false,
       legendExpanded: false,
-      customAreaLoading: false,
       // overlay data
       overlayHeaders: [],
       overlayRows: [],
@@ -266,9 +276,25 @@ export default {
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
     },
+    showSpecialLayer() {
+      return this.mergedConfigsData.length && this.dataLayerName
+      && this.indicatorHasMapData(this.indicator);
+    },
+    dataLayerConfigLayerControls() {
+      // SpecialLayer entries in LayerControl
+      let configs = null;
+      if (this.showSpecialLayer) {
+        configs = this.mergedConfigsData.map((config) => ({
+          name: config.name,
+          visible: config.visible,
+        }));
+      }
+      return configs;
+    },
     overlayConfigs() {
       const configs = [...this.baseConfig.overlayLayersLeftMap];
-      if (!this.isGlobalIndicator) {
+      // administrativeLayers replace country vectors
+      if (!this.isGlobalIndicator && this.baseConfig.administrativeLayers?.length === 0) {
         configs.push({
           name: 'Country vectors',
           protocol: 'countries',
@@ -276,6 +302,9 @@ export default {
         });
       }
       return configs;
+    },
+    administrativeConfigs() {
+      return [...this.baseConfig.administrativeLayers];
     },
     mapDefaults() {
       return {
@@ -328,7 +357,7 @@ export default {
       }
       return createConfigFromIndicator(
         this.indicator,
-        'data',
+        'compare',
         this.currentTimeIndexLayerSwipe,
       );
     },
@@ -359,10 +388,10 @@ export default {
      */
     specialLayerOptions() {
       return {
-        // time: this.dataLayerTimeProp || this.dataLayerTime,
         time: this.dataLayerTimeProp || this.dataLayerTime.value,
         indicator: this.indicator?.indicator,
-        aoiId: this.indicator?.aoiID || this.indicator?.aoiId, // to do: check this discrepency
+        aoiID: this.indicator?.aoiID,
+        drawnArea: this.drawnArea,
       };
     },
     availableTimeEntries() {
@@ -433,6 +462,7 @@ export default {
             if (!this.compareLayerTimeProp) {
               // to do: accessing child component methods in nextTick is potentially dangerous
               this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
+              this.enableCompare = false;
             } else {
               // to do: do we need the nextTick?
               this.$nextTick(() => { this.enableCompare = true; });
@@ -445,12 +475,13 @@ export default {
       if (timeObj) {
         // redraw all time-dependant layers, if time is passed via WMS params
         const { map } = getMapInstance(this.mapId);
+        const area = this.drawnArea;
         const layers = map.getLayers().getArray();
         this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
           .forEach((config) => {
             const layer = layers.find((l) => l.get('name') === config.name);
             if (layer) {
-              updateTimeLayer(layer, config, timeObj.value);
+              updateTimeLayer(layer, config, timeObj.value, area);
             }
           });
         this.$emit('update:datalayertime', timeObj.name);
@@ -468,11 +499,11 @@ export default {
       }
     },
     drawnArea() {
-      // this.updateSelectedAreaFeature();
+      this.updateSelectedAreaFeature();
     },
     dataLayerTimeProp: {
-      immediate: true,
-      deep: true,
+      // immediate: true,
+      // deep: true,
       handler(v) {
         // only defined for customDashBoard
         if (v) this.dataLayerTime = this.availableTimeEntries.find((item) => item.name === v);
@@ -582,7 +613,7 @@ export default {
     // TODO: Extract fetchData method into helper file since it needs to be used from outside.
     window.addEventListener(
       'fetch-custom-area-chart',
-      () => this.fetchData({ type: 'customIndicator' }),
+      () => this.onFetchCustomAreaIndicator(),
       false,
     );
     if (this.mapId === 'centerMap') {
@@ -609,104 +640,50 @@ export default {
       }
     },
     updateSelectedAreaFeature() {
-      if (this.drawnArea.area) {
-        this.fetchFeatures('data');
-        if (this.enableCompare) {
-          this.fetchFeatures('compare');
-        }
-      }
+      const { map } = getMapInstance(this.mapId);
+      const layers = map.getLayers().getArray();
+      const area = this.drawnArea;
+      const time = this.dataLayerTime?.value;
+      this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
+        .forEach((config) => {
+          const layer = layers.find((l) => l.get('name') === config.name);
+          if (layer) {
+            updateTimeLayer(layer, config, time, area, 'updateArea');
+          }
+        });
     },
     updateSwipePosition(value) {
       this.swipePixelX = value;
     },
-    fetchCustomDataOptions(time, sourceOptionsObj) {
-      const outputOptionsObj = {};
-      if (sourceOptionsObj?.siteMapping) {
-        // substitutes {siteMapping} template
-        const currSite = sourceOptionsObj.siteMapping(
-          this.indicator.aoiID,
-        );
-        outputOptionsObj.site = currSite;
-      }
-      if (time) {
-        // substitutes {time} template possibly utilizing dateFormatFunction
-        const fixTime = time.value || time;
-        outputOptionsObj.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
-          ? sourceOptionsObj.dateFormatFunction(fixTime) : fixTime;
-        if (sourceOptionsObj.specialEnvTime) {
-          outputOptionsObj.env = `year:${outputOptionsObj.time}`;
-        }
-        // substitutes {featuresTime} template possibly utilizing features.dateFormatFunction
-        if (sourceOptionsObj?.features) {
-          outputOptionsObj.featuresTime = typeof sourceOptionsObj.features.dateFormatFunction === 'function'
-            ? sourceOptionsObj.features.dateFormatFunction(fixTime) : fixTime;
-        }
-      }
-      const paramsToPassThrough = ['env'];
-      paramsToPassThrough.forEach((param) => {
-        if (typeof sourceOptionsObj[param] !== 'undefined') {
-          outputOptionsObj[param] = sourceOptionsObj[param];
-        }
-      });
-      return outputOptionsObj;
-    },
-    async fetchData({
-      type, side,
-    }) {
-      // fetching of customFeatures, customIndicator
+    async onFetchCustomAreaIndicator() {
+      // fetching of customIndicator
       // depending on fetch success/failure the map loads data or errors are shown
-      const usedTime = side === 'data'
-        ? this.dataLayerTime
-        : this.compareLayerTime;
-
-      if (type === 'customFeatures') {
-        this.customAreaLoading = true;
-      }
-
       // TODO: Extract fetchData method into helper file since it needs to be used from outside.
+      if (!this.mergedConfigsData[0]?.areaIndicator) {
+        return;
+      }
       window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: true }));
 
       try {
-        if (type === 'customFeatures' || type === 'customIndicator') {
-          if (type === 'customFeatures' && !this.mergedConfigsData[0]?.features) {
-            this.customAreaLoading = false;
-            return;
-          }
-          if (type === 'customIndicator' && !this.mergedConfigsData[0]?.areaIndicator) {
-            this.customAreaLoading = false;
-            return;
-          }
-          const options = this.fetchCustomDataOptions(usedTime, this.mergedConfigsData[0]);
-          const custom = await fetchCustomAreaObjects(
-            options,
-            this.drawnArea.area,
-            this.mergedConfigsData[0],
-            this.indicator,
-            type === 'customFeatures' ? 'features' : 'areaIndicator',
-            this.$store,
-          );
-          if (type === 'customFeatures') {
-            // todo: this.updateJsonLayers(custom, side);
-          } else {
-            this.$store.commit(
-              'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', custom,
-            );
-          }
-        }
-        this.customAreaLoading = false;
+        const custom = await fetchCustomAreaObjects(
+          {},
+          this.drawnArea.area,
+          this.mergedConfigsData[0],
+          this.indicator,
+          'areaIndicator',
+          this.$store,
+        );
+        this.$store.commit(
+          'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', custom,
+        );
         // TODO: Extract fetchData method into helper file since it needs to be used from outside.
         window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
       } catch (err) {
-        this.customAreaLoading = false;
         // TODO: Extract fetchData method into helper file since it needs to be used from outside.
         window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
-        if (type === 'customFeatures') {
-          // todo: this.updateJsonLayers(emptyF, side);
-        } else if (type === 'customIndicator') {
-          this.$store.commit(
-            'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null,
-          );
-        }
+        this.$store.commit(
+          'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null,
+        );
         console.error(err);
         this.$store.commit('sendAlert', {
           message: `Error requesting data, error message: ${err}.</br>
@@ -714,17 +691,6 @@ export default {
           type: 'error',
         });
       }
-    },
-    fetchFeatures(side) {
-      this.fetchData({
-        type: 'customFeatures',
-        side,
-      });
-    },
-    onFetchCustomAreaIndicator() {
-      this.fetchData({
-        type: 'customIndicator',
-      });
     },
     focusSelect() {
       // TO DO: handle scrolling?
