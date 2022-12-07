@@ -21,7 +21,7 @@
           height: calc((var(--vh, 1vh) * 100) - 112px) !important;
           position: fixed; left: 0; bottom: 0; top: 112px;
         "
-        src="./scrollytelling/scrolly.html"
+        src="./scrollytelling/index.html"
         frameborder="0"
       ></iframe>
       <!--<global-footer />-->
@@ -81,32 +81,42 @@ export default {
             id || '9dd9f2b6743c9746' // fallback default TODO remove
             // /dashboard?id=9dd9f2b6743c9746&editKey=0017ee8a3e16f9b8
           }`);
+
         const { features } = response.data;
-
-        // Calculate the positions of the full-width blocks in the array
-        const indexes = [];
-        for (let i = 0; i < features.length; i++) {
-          if (features[i].width === 4) {
-            indexes.push(i);
-          }
-        }
-
-        // Slice and push the full-width blocks, and the blocks between them into separate arrays
-        // If there are no full-width blocks, just push the whole features array
         let data = [];
-        let nextIndex = 0;
-        if (indexes.length) {
-          for (let i = 0; i < indexes.length; i++) {
-            data.push(features.slice(nextIndex, indexes[i] + 1));
-            data.push(features.slice(indexes[i] + 1, indexes[i + 1]));
-            nextIndex = indexes[i + 1];
-          }
+        var i = 0;
 
-          // Remove possible empty arrays
-          data = data.filter((e) => e.length);
-        } else {
-          data.push(features);
+        while (i < features.length) {
+          let current = features[i];
+          let next = features[i + 1];
+
+          if (current.width === 4) {
+            if (current.text.includes('<--SCRUB-->')) {
+              data.push(this.buildVideoScrub(current));
+            } else if (current.text.includes('<--VID-->')) {
+              data.push(this.buildVideoPlayer(current));
+            } else {
+              data.push([current]);
+            }
+
+            i += 1;
+            continue;
+          } else if (current.width === 1 && next) {
+            data.push(this.buildStickyRight(current, next, i));
+            i += 2;
+          } else if (current.width === 3 && next) {
+            data.push(this.buildStickyLeft(current, next, i));
+            i += 2;
+          } else {
+            i += 1;
+          }
         }
+
+        let link = document.createElement('link');
+        link.href = '/css/gtif.css';
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        document.getElementById('resizableIframe').contentDocument.head.appendChild(link);
 
         document.querySelector('iframe').contentWindow.postMessage(data);
       } catch (error) {
@@ -132,7 +142,7 @@ export default {
           return '7828358850802a35';
 
         case 'gtif-energy-transition':
-          return '0f2e9b3e9ac1bc35';
+          return 'd2087a2c9256ff3a';
 
         case 'gtif-mobility-transition':
           return '784f3e1ba71aef26';
@@ -168,6 +178,46 @@ export default {
         default:
           this.areBreadcrumbsEnabled = false;
       }
+    },
+
+    buildStickyRight (current, next) {
+      if (next.text && next.text.includes('<--IMG-->')) {
+        next.image = next.text.replaceAll('<--IMG-->', '');
+      } else if (next.text && next.text.includes('<--SCRUB-->')) {
+        next.scrub = next.text.replaceAll('<--SCRUB-->', '');
+      } else if (next.text && next.text.includes('<--VID-->')) {
+        next.video = next.text.replaceAll('<--VID-->', '');
+      }
+
+      return [current, next];
+    },
+
+    buildStickyLeft (current, next) {
+      if (current.text && current.text.includes('<--IMG-->')) {
+        current.image = current.text.replaceAll('<--IMG-->', '');
+      } else if (current.text && current.text.includes('<--SCRUB-->')) {
+        current.scrub = current.text.replaceAll('<--SCRUB-->', '');
+      } else if (current.text && current.text.includes('<--VID-->')) {
+        current.video = current.text.replaceAll('<--VID-->', '');
+      }
+
+      return [current, next];
+    },
+
+    buildVideoScrub (current) {
+      if (current.text && current.text.includes('<--SCRUB-->')) {
+        current.scrub = current.text.replaceAll('<--SCRUB-->', '');
+      }
+
+      return [current];
+    },
+
+    buildVideoPlayer (current) {
+      if (current.text && current.text.includes('<--VID-->')) {
+        current.video = current.text.replaceAll('<--VID-->', '');
+      }
+
+      return [current];
     },
   },
 };
