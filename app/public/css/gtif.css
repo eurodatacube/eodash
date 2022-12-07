@@ -1,0 +1,37 @@
+@import url("./opensans.css");
+@font-face {
+  font-family: "NotesESABold";
+  src: url("./notesesabol-webfont.ttf") format("truetype");
+}
+@font-face {
+  font-family: "NotesESA";
+  src: url("./notesesareg.woff2") format("woff2"), url("./notesesareg.ttf") format("truetype");
+}
+.v-application {
+  font-family: "NotesESA", "Open Sans", sans-serif;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.brand-esa h1,
+.brand-esa h2,
+.brand-esa h3,
+.brand-esa h4,
+.brand-esa .h1,
+.brand-esa .h2,
+.brand-esa .h3,
+.brand-esa .h4,
+.brand-esa .headline,
+.brand-esa .v-application .display-1,
+.brand-esa .v-application .display-2,
+.brand-esa .v-application .display-3,
+.brand-esa .v-btn__content,
+.brand-esa .v-toolbar__title,
+.brand-esa .v-card__title,
+.brand-esa .v-tab {
+  font-family: "NotesESABold", sans-serif !important;
+}
+
+/*# sourceMappingURL=gtif.css.map */
