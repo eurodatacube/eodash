@@ -357,7 +357,7 @@ export default {
       }
       return createConfigFromIndicator(
         this.indicator,
-        'data',
+        'compare',
         this.currentTimeIndexLayerSwipe,
       );
     },

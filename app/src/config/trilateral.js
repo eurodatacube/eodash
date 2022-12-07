@@ -1018,22 +1018,18 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           legendUrl: 'legends/trilateral/N2_W4.png',
-          mapLabel: 'Mean',
           customAreaIndicator: true,
           areaIndicator: nasaStatisticsConfig(
             (value) => (value * 1e6),
           ),
         },
-        compareDisplay: {
-          // TODO: Special compare display currently no longer supported, would also need to
-          // be updated to support new nasa endpoint
-          protocol: 'xyz',
-          tileSize: 256,
-          minZoom: 1,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2-base/xco2_16day_base.{time}.tif&resampling_method=bilinear&bidx=1&rescale=0.000408%2C0.000419&color_map=rdylbu_r',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-          mapLabel: 'Baseline',
-        },
+        // compareDisplay: {
+        //   protocol: 'xyz',
+        //   tileSize: 256,
+        //   minZoom: 1,
+        //   url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&bidx=1&rescale=0.000408%2C0.000419&colormap_name=rdylbu_r',
+        //   dateFormatFunction: (date) => `url=${date[1]}`.replace('diff', 'base'), // once the data are available on the STAC API, we probably can use this replace
+        // },
       },
     },
   },
@@ -1064,7 +1060,6 @@ export const globalIndicators = [
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/dataforgood-fb-population-density/cog.tif&rescale=0,70&resampling_method=nearest&color_map=ylorrd',
           name: 'Facebook population density',
           legendUrl: 'legends/trilateral/FB_W7.png',
-          mapLabel: 'Population density',
           presetView: {
             type: 'FeatureCollection',
             features: [{
