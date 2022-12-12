@@ -244,46 +244,82 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'sus cities',
     class: 'air',
     themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
   },
   SOL2: {
     indicator: 'sus cities',
     class: 'air',
     themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
   },
   SOL3: {
     indicator: 'urban trees',
     class: 'air',
     themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
   },
   SOL4: {
     indicator: 'green roof',
     class: 'air',
     themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
   },
   SOL5: {
     indicator: 'solar',
     class: 'air',
     themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
   },
   SOL6: {
     indicator: 'green',
     class: 'air',
     themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
   },
   SOL7: {
     indicator: 'solar',
     class: 'air',
     themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.terrainLight],
   },
   SOL8: {
     indicator: 'green',
     class: 'air',
     themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.terrainLight],
   },
   SOL9: {
     indicator: 'solar',
     class: 'air',
     themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.terrainLight],
   },
   LST: {
     indicator: 'Heat Explorer',
@@ -302,6 +338,10 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
+    baseLayers: [{
+      ...baseLayers.geolandbasemap,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
   },
   AQ3: {
     indicator: 'High resolution Data',
@@ -625,7 +665,7 @@ export const globalIndicators = [
             features: [{
               type: 'Feature',
               properties: {},
-              geometry: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
+              geometry: wkt.read('POLYGON((11.372 47.268, 11.372 47.258, 11.394 47.258, 11.394 47.268, 11.372 47.268 ))').toJson(),
             }],
           },
           protocol: 'cog',
