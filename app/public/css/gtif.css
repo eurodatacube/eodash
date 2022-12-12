@@ -15,6 +15,19 @@
   overflow-y: auto;
 }
 
+article {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.expansible-text-section p {
+  width: 100% !important;
+}
+
+.full-text-block {
+  padding: 0 !important;
+}
+
 .brand-esa h1,
 .brand-esa h2,
 .brand-esa h3,
