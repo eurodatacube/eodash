@@ -86,6 +86,9 @@ baseLayers.cloudless,
 baseLayers.S2GLC,
 baseLayers.ESA_WORLD_COVER,
 baseLayers.CORINE_LAND_COVER,
+baseLayers.geolandbasemap,
+baseLayers.bmapgelaende,
+baseLayers.bmaporthofoto30cm,
 ];
 export const baseLayersRightMap = [{
   ...baseLayers.terrainLight, visible: true,
