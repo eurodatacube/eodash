@@ -33,11 +33,11 @@ function normalize(value, varMin, varMax) {
   return ['/', ['-', value, ['var', varMin]], ['-', ['var', varMax], ['var', varMin]]];
 }
 
-function bandModifier(xOffset = 0, yOffset = 0) {
+function bandModifier(xOffset = 0, yOffset = 0, scale = 1) {
   if (xOffset === 0 && yOffset === 0) {
-    return ['band', 1];
+    return ['*', ['band', 1], scale];
   }
-  return ['band', 1, xOffset, yOffset];
+  return ['*', ['band', 1, xOffset, yOffset], scale];
 }
 
 // hack as long as there is no binding to the built-in shader function floor
@@ -587,14 +587,32 @@ export const globalIndicators = [
         cogFilters: {
           sourceLayer: 'AQ2',
           filters: {
-            biomass: {
+            var: {
               display: true,
-              label: 'Flux',
+              label: 'Flux [1e-6]',
               id: 'var',
-              min: -0.000001,
-              max: 0.000001,
+              min: 0,
+              max: 20,
               header: true,
-              range: [0, 0.000001],
+              range: [0, 20],
+            },
+            spacing: {
+              display: true,
+              label: 'Contour step size [1e-6]',
+              type: 'slider',
+              id: 'varSpacing',
+              min: 0.1,
+              max: 6.1,
+              value: 1,
+            },
+            offset: {
+              display: true,
+              label: 'Contour offset [1e-6]',
+              type: 'slider',
+              id: 'varOffset',
+              min: 0,
+              max: 6,
+              value: 0,
             },
           },
         },
@@ -615,15 +633,13 @@ export const globalIndicators = [
           style: {
             variables: {
               varMin: 0,
-              varMax: 0.000001,
+              varMax: 20,
               varOffset: 0.0,
-              varSpacing: 0.000000000001,
+              varSpacing: 1,
             },
             color: [
               'case',
-              // value between min/max
-              ['between', ['band', 1], ['var', 'varMin'], ['var', 'varMax']],
-              // ['between', ['band', 1], 0, 0.00001],
+              ['between', bandModifier(0, 0, 1e6), ['var', 'varMin'], ['var', 'varMax']],
               [
                 'palette',
                 [
@@ -635,18 +651,18 @@ export const globalIndicators = [
                       [
                         '+',
                         diff(
-                          contspace(bandModifier(), 'varOffset', 'varSpacing'),
-                          contspace(bandModifier(1, 0), 'varOffset', 'varSpacing'),
+                          contspace(bandModifier(0, 0, 1e6), 'varOffset', 'varSpacing'),
+                          contspace(bandModifier(1.5, 0, 1e6), 'varOffset', 'varSpacing'),
                         ),
                         diff(
-                          contspace(bandModifier(), 'varOffset', 'varSpacing'),
-                          contspace(bandModifier(0, 1), 'varOffset', 'varSpacing'),
+                          contspace(bandModifier(0, 0, 1e6), 'varOffset', 'varSpacing'),
+                          contspace(bandModifier(0, 1.5, 1e6), 'varOffset', 'varSpacing'),
                         ),
                       ],
                       0,
                       1,
                     ],
-                    normalize(bandModifier(), 'varMin', 'varMax'),
+                    normalize(bandModifier(0, 0, 1e6), 'varMin', 'varMax'),
                   ],
                   getColormap('viridis').length + 1,
                 ],
