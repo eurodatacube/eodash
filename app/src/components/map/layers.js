@@ -172,8 +172,16 @@ export function createLayerFromConfig(config, _options = {}) {
   // layers created by this config. These Layers will get combined into a single ol.layer.Group
   const layers = [];
   if (config.protocol === 'cog') {
+    let updatedSources = config.sources;
+    if (config.usedTimes?.time?.length) {
+      const currentTime = config.usedTimes.time[config.usedTimes.time.length - 1];
+      updatedSources = config.sources.map((item) => {
+        const url = item.url.replace(/{time}/i, config.dateFormatFunction(currentTime));
+        return { url };
+      });
+    }
     const source = new GeoTIFF({
-      sources: config.sources,
+      sources: updatedSources,
       normalize: config.normalize ? config.normalize : false,
     });
     const wgTileLayer = new WebGLTileLayer({

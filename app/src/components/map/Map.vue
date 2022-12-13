@@ -452,8 +452,11 @@ export default {
       }
     },
     mergedConfigsData: {
+      // TODO: removed deep attribute for watch as it was triggering a change with filter attribute
+      //       changes and resetting the time, it does not seem that the deep attribute is
+      //       necessary, but this might creat some issues somewhere else, could not find any.
+      // deep: true,
       // set the dataLayerTime when the mergedConfigsData changes
-      deep: true,
       immediate: true,
       handler() {
         this.setInitialTime();
