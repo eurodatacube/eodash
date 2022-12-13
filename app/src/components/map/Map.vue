@@ -357,7 +357,7 @@ export default {
       }
       return createConfigFromIndicator(
         this.indicator,
-        'data',
+        'compare',
         this.currentTimeIndexLayerSwipe,
       );
     },
@@ -465,6 +465,7 @@ export default {
             if (!this.compareLayerTimeProp) {
               // to do: accessing child component methods in nextTick is potentially dangerous
               this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
+              this.enableCompare = false;
             } else {
               // to do: do we need the nextTick?
               this.$nextTick(() => { this.enableCompare = true; });

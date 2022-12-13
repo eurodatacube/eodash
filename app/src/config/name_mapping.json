@@ -177,7 +177,7 @@
       "description": "Average number of vessels in a km2 cell in a given period"
     },
     "H1": {
-      "title": "nr of temp. treatment sites (N)"
+      "title": "nr of temp. treatment sites"
     },
     "N1": {
       "title": "City level NO2 (S5p)"
@@ -209,17 +209,17 @@
       "description": "Multi-sensor product"
     },
     "N4a": {
-      "title": "Changes in land fill sites (N)"
+      "title": "Changes in land fill sites"
     },
     "N4b": {
-      "title": "Illegal waste levels (N)"
+      "title": "Illegal waste levels"
     },
     "N3c": {
-      "title": "CHL-a concentration (map, 1km) (N)",
+      "title": "CHL-a concentration (map, 1km)",
       "description": "CMEMS product"
     },
     "N4c": {
-      "title": "Changes in land fill sites (N)"
+      "title": "Changes in land fill sites"
     },
     "OX": {
       "title": "Crude Oil Storage Index",
@@ -252,16 +252,16 @@
       "description": "Nitrogen Dioxide from Sentinel-5p Tropomi"
     },
     "WorldCO-N1": {
-      "title": "CO (S5p)",
-      "description": "Carbon Monoxide from Sentinel-5p Tropomi"
+      "title": "Carbon Monoxide",
+      "description": "Carbon Monoxide (CO) from Sentinel-5p Tropomi"
     },
     "CH4-N1": {
-      "title": "CH4 (S5p)",
-      "description": "Methane from Sentinel-5p Tropomi"
+      "title": "Methane",
+      "description": "Methane (CH4) from Sentinel-5p Tropomi"
     },
     "SO2-N1": {
-      "title": "SO2 (S5p)",
-      "description": "Sulfur Dioxide from Sentinel-5p Tropomi"
+      "title": "Sulfur Dioxide",
+      "description": "Sulfur Dioxide (SO2) from Sentinel-5p Tropomi"
     },
     "GCAQ4-N1b": {
       "title": "NO2 map Europe (CAMS)",
@@ -417,16 +417,16 @@
       "description": "Daily Carbon Dioxide (CO2) from NASA’s OCO-2 compared to 2015-2019 Baseline"
     },
     "WorldCO-N1": {
-      "title": "CO (S5p)",
+      "title": "Carbon Monoxide",
       "description": "Carbon Monoxide from Sentinel-5p Tropomi"
     },
     "CH4-N1": {
-      "title": "CH4 (S5p)",
-      "description": "Methane from Sentinel-5p Tropomi"
+      "title": "Methane",
+      "description": "Methane (CH4) from Sentinel-5p Tropomi"
     },
     "SO2-N1": {
-      "title": "Sulfur Dioxide (daily)",
-      "description": "Daily Sulfur Dioxide (SO2) from ESA’s Sentinel-5p Tropomi"
+      "title": "Sulfur Dioxide",
+      "description": "Sulfur Dioxide (SO2) from Sentinel-5p Tropomi"
     },
     "W9-N10": {
       "title": "Sulfur Dioxide (yearly)",
@@ -444,25 +444,6 @@
     },
     "N3": {
 	   "title": "Water Quality"
-    },
-    "N3b": {
-	   "title": "Chl-a concentration anomaly"
-    },
-    "N3a2": {
-      "locationSplit": {
-        "NASA": {
-          "title": " Chlorophyll-a maps(MODIS)",
-          "description": "Chlorophyll-a (Chl-a) concentration from NASA’s MODIS Aqua"
-        },
-        "ESA": {
-          "title": " Chlorophyll-a maps(Sentinel-3)",
-          "description": " Chlorophyll-a (Chl-a) concentration from ESA’s Sentinel-3"
-        },
-       "JAXA": {
-          "title": "Chlorophyll-a maps(GCOM-W)",
-          "description": " Chlorophyll-a (Chl-a) concentration from JAXA’s GCOM-W"
-        }
-      }
     },
     "N5": {
      "title": "Nightlights",

@@ -724,7 +724,7 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'TROPOMI CO',
+        description: 'TROPOMI CO 3 day average',
         indicator: 'N1',
         lastIndicatorValue: null,
         indicatorName: 'TROPOMI CO',
@@ -737,7 +737,7 @@ export const globalIndicators = [
         aoiID: 'WorldCO',
         time: availableDates.AWS_VIS_CO_3DAILY_DATA,
         inputData: [''],
-        yAxis: 'CO (ppbv)',
+        yAxis: 'CO (ppbv) - 3 day average',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           opacity: 1.0,
@@ -1148,7 +1148,7 @@ export const globalIndicators = [
           baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
           name: 'WSF_Evolution',
           layers: 'WSF_Evolution',
-          legendUrl: 'eodash-data/data/wsf_legend.png', // will not be migrated as too hard to replicates
+          legendUrl: 'data/trilateral/wsf_legend.png',
           minZoom: 1,
           maxZoom: 14,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),

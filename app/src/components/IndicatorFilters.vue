@@ -95,7 +95,7 @@
             <v-card-title
               class="flex-grow-1"
               :class="active ? 'white--text' : 'primary--text'"
-              style="font-size: 12px; line-height: 14px; padding: 5px"
+              style="font-size: 12px; line-height: 14px; padding: 5px; word-break: break-word;"
             >
               {{ item.properties.indicatorObject.indicatorName }}
             </v-card-title>

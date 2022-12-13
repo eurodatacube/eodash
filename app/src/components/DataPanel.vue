@@ -9,7 +9,7 @@
       :class="$vuetify.breakpoint.xsOnly ? 'mx-0' : ''"
       :style="expanded ? `width: 100%;` : ``
     ">
-      <v-row v-if="indicatorObject" class="d-flex flex-column">
+      <v-row v-if="indicatorObject" class="d-flex">
         <filter-controls v-if="indicatorObject.cogFilters"
           :cogFilters="indicatorObject.cogFilters"
         >
