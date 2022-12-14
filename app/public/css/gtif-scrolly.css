@@ -7,7 +7,7 @@
   font-family: "NotesESA";
   src: url("./notesesareg.woff2") format("woff2"), url("./notesesareg.ttf") format("truetype");
 }
-.v-application {
+#scroll-target {
   font-family: "NotesESA", "Open Sans", sans-serif;
 }
 
