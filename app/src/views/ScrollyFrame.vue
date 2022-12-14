@@ -12,7 +12,8 @@
         :are-breadcrumbs-enabled="areBreadcrumbsEnabled"
       />
 
-      <iframe
+      <v-container>
+        <iframe
         id="resizableIframe"
         @load="onLoaded"
         v-resize="onResize"
@@ -24,6 +25,7 @@
         src="./scrollytelling/index.html"
         frameborder="0"
       ></iframe>
+      </v-container>
       <!--<global-footer />-->
     </div>
   </div>
@@ -113,10 +115,28 @@ export default {
         }
 
         let link = document.createElement('link');
-        link.href = '/css/gtif.css';
+
+        link.href = '../css/gtif-scrolly.css';
+        /*
+        TODO: find a way to use SCSS for dedicated iframe styles
+          const gtifScss = require(`../../public/css/gtif.scss`);
+          console.log(gtifScss);
+        */
         link.rel = 'stylesheet';
         link.type = 'text/css';
         document.getElementById('resizableIframe').contentDocument.head.appendChild(link);
+
+        let footerDiv = document.createElement('div')
+        footerDiv.style.cssText = 'width: 100%';
+
+        const htmlResponse = await axios.get('./scrollytelling/scrollyFooter.html');
+        const cssResponse = await axios.get('./scrollytelling/static/css/app.e02ecbef97f2d564ddc84bf606b62f42.css');
+
+        console.log(htmlResponse.data);
+
+        document
+          .getElementById('resizableIframe').contentDocument
+          .getElementById('scrolly-footer').appendChild(footerDiv);
 
         document.querySelector('iframe').contentWindow.postMessage(data);
       } catch (error) {
