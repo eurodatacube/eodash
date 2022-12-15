@@ -8,7 +8,7 @@
     >
       <global-header />
 
-      <gtif-breadcrumbs
+      <ESABreadcrumbs
         :are-breadcrumbs-enabled="areBreadcrumbsEnabled"
       />
 
@@ -17,9 +17,11 @@
         @load="onLoaded"
         v-resize="onResize"
         width="100%"
-        style="height: calc((var(--vh, 1vh) * 100) - 112px) !important; position: fixed; left: 0; bottom: 0; top: 112px;"
-
-        src="./scrolly.html"
+        style="
+          height: calc((var(--vh, 1vh) * 100) - 112px) !important;
+          position: fixed; left: 0; bottom: 0; top: 112px;
+        "
+        src="./scrollytelling/scrolly.html"
         frameborder="0"
       ></iframe>
       <!--<global-footer />-->
@@ -35,12 +37,12 @@ import {
 import axios from 'axios';
 import iFrameResize from 'iframe-resizer/js/iframeResizer';
 import GlobalHeader from '@/components/GlobalHeader.vue';
-import GtifBreadcrumbs from '@/components/GTIF/GTIFBreadcrumbs.vue';
+import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
 
 export default {
   components: {
     GlobalHeader,
-    GtifBreadcrumbs,
+    ESABreadcrumbs,
   },
   metaInfo() {
     const { appConfig } = this.$store.state.config;

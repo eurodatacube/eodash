@@ -1,6 +1,6 @@
 /* eslint no-shadow: ["error", { "allow": ["state", "getters"] }] */
 import { Wkt } from 'wicket';
-import { latLng } from 'leaflet';
+import latLng from '@/latLng';
 import countriesJson from '@/assets/countries.json';
 import getLocationCode from '@/mixins/getLocationCode';
 import nameMapping from '@/config/name_mapping.json';
@@ -312,9 +312,12 @@ const actions = {
     commit('ADD_NEW_FEATURES', allFeatures);
   },
 
-  loadEOXEndpoint({ rootState, commit }, { url, endPointIdx }) {
+  loadEOXEndpoint(_, { url, endPointIdx }) {
     return fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
       .then((data) => {
+        if (data.length < 1) {
+          return [];
+        }
         const features = [];
         const pM = {
           aoi: 'aoi',
@@ -387,7 +390,6 @@ const actions = {
             featureObjs[keys[kk]].id = globalIdCounter; // to connect indicator & feature
             featureObjs[keys[kk]].endPointIdx = endPointIdx;
             features.push({
-              latlng: latLng([coords[0], coords[1]]),
               id: globalIdCounter,
               properties: {
                 indicatorObject: featureObjs[keys[kk]],
@@ -399,9 +401,12 @@ const actions = {
         return features;
       });
   },
-  loadGeoDBEndpoint({ rootState, commit }, { url, endPointIdx }) {
+  loadGeoDBEndpoint(_, { url, endPointIdx }) {
     return fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
       .then((data) => {
+        if (data.length < 1) {
+          return [];
+        }
         const features = [];
         const pM = {
           aoi: 'aoi',
@@ -483,7 +488,6 @@ const actions = {
             featureObjs[keys[kk]].id = globalIdCounter; // to connect indicator & feature
             featureObjs[keys[kk]].endPointIdx = endPointIdx;
             features.push({
-              latlng: latLng([coords[1], coords[0]]),
               id: globalIdCounter,
               properties: {
                 indicatorObject: featureObjs[keys[kk]],
@@ -520,8 +524,8 @@ const actions = {
           for (let kk = 0; kk < keys.length; kk += 1) {
             const coordinates = keys[kk].split('_')[0].split(',').map(Number);
             featureObjs[keys[kk]].id = globalIdCounter; // to connect indicator & feature
+            featureObjs[keys[kk]].aoi = latLng([coordinates[1], coordinates[0]]);
             features.push({
-              latlng: latLng(coordinates),
               id: globalIdCounter,
               properties: {
                 indicatorObject: featureObjs[keys[kk]],

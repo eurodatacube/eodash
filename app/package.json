@@ -1,11 +1,13 @@
 {
   "name": "race-dashboard",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:e2e": "vue-cli-service test:e2e",
+    "cy:open": "cypress open -C cypress.json",
+    "cy:run": "cypress run -C cypress.json",
     "lint": "vue-cli-service lint",
     "start": "vue-cli-service serve --port 8812"
   },
@@ -40,6 +42,7 @@
     "medium-zoom": "^1.0.6",
     "monotone-chain-convex-hull": "^1.0.0",
     "ol": "^7.1.1-dev.1664383879017",
+    "proj4": "^2.8.0",
     "ol-mapbox-style": "^9.2.0",
     "pub-sub-es": "^2.0.1",
     "regl": "^2.1.0",

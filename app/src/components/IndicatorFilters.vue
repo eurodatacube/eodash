@@ -1,14 +1,17 @@
 <template>
   <div
     class="no-pointer pa-2 overflow-hidden"
-    :style="`width: ${$vuetify.breakpoint.xsOnly
-      ? '100%'
-      : '360px'}; height: calc(var(--vh, 1vh) * 100); z-index: 4; background: ${
+    :style="`width: 100%; height: calc(var(--vh, 1vh) * 100); z-index: 4; background: ${
         $vuetify.breakpoint.xsOnly && comboboxFocus
           ? $vuetify.theme.currentTheme.background
           : 'unset' }`"
   >
-    <v-card class="rounded-lg">
+    <v-card
+      class="rounded-lg"
+      :style="`width: ${$vuetify.breakpoint.xsOnly
+      ? '100%'
+      : '360px'}`"
+    >
       <div
         v-if="$vuetify.breakpoint.smAndUp && !currentTheme"
         class="pa-2"
@@ -92,7 +95,7 @@
             <v-card-title
               class="flex-grow-1"
               :class="active ? 'white--text' : 'primary--text'"
-              style="font-size: 12px; line-height: 14px; padding: 5px"
+              style="font-size: 12px; line-height: 14px; padding: 5px; word-break: break-word;"
             >
               {{ item.properties.indicatorObject.indicatorName }}
             </v-card-title>
@@ -152,6 +155,10 @@ export default {
     }
   },
   mounted() {
+    // reset filters each time component is mounted
+    // (e.g. also when navigating back from custom dashboard)
+    this.sortSearchItems();
+    this.setFilterDebounced();
     this.$watch(
       () => this.$refs.combobox.isMenuActive,
       (val) => {
@@ -196,18 +203,18 @@ export default {
     getSearchItems() {
       const itemArray = [
         ...countries.features
-        .filter((f) => !this.getCountries.includes(f.properties.alpha2))
-        .map((f) => ({
-          code: f.properties.alpha2,
-          name: f.properties.name,
-          noPOIs: true,
-        })),
+          .filter((f) => !this.getCountries.includes(f.properties.alpha2))
+          .map((f) => ({
+            code: f.properties.alpha2,
+            name: f.properties.name,
+            noPOIs: true,
+          })),
         ...this.getCountries
-        .filter((f) => countries.features.find((c) => c.properties.alpha2 === f))
-        .map((f) => ({
-          code: f,
-          name: countries.features.find((c) => c.properties.alpha2 === f).properties.name,
-        })),
+          .filter((f) => countries.features.find((c) => c.properties.alpha2 === f))
+          .map((f) => ({
+            code: f,
+            name: countries.features.find((c) => c.properties.alpha2 === f).properties.name,
+          })),
         ...this.getIndicators
           .filter((i) => !i.dummyFeature)
           .filter(
@@ -285,7 +292,7 @@ export default {
       this.searchItems.sort((a, b) => (a.name.localeCompare(b.name)));
       this.searchItems.sort((a, b) => (b.filterPriority || 0) - (a.filterPriority || 0));
       this.formattedSearchItems = this.searchItems
-        .filter((i) => this.userInput.length < 3 ? !i.noPOIs : true)
+        .filter((i) => (this.userInput.length < 3 ? !i.noPOIs : true))
         .map((i) => i.name);
     },
     customComboboxFilter(item) {
@@ -306,7 +313,7 @@ export default {
       } else {
         this.$router.back();
       }
-    }
+    },
   },
   watch: {
     allFeatures() {

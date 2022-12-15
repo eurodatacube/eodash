@@ -11,12 +11,16 @@
       <v-btn
         dark
         small
-        :color="appConfig.id === 'gtif' ? '#00619e' : 'secondary'"
+        color="secondary"
         class="ml-1"
         @click="dialog = true"
       >
         <v-icon :left="!$vuetify.breakpoint.xsOnly" small>mdi-account-voice</v-icon>
-        <span class="feedback-button-text" v-if="!$vuetify.breakpoint.xsOnly">Feedback</span>
+        <span
+          v-if="!$vuetify.breakpoint.xsOnly"
+        >
+          Feedback
+        </span>
       </v-btn>
     </template>
 
@@ -62,9 +66,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-  .feedback-button-text {
-    font-family: 'NotesESABold';
-  }
-</style>

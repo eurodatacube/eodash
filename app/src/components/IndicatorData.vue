@@ -301,8 +301,27 @@ export default {
               {
                 key: 'Median', index: 0, color: 'black', fill: false,
               },
+              {
+                key: 'Min', index: 3, color: refColors[4], fill: false,
+              },
+              {
+                key: 'Max', index: 2, color: refColors[1], fill: false,
+              },
+              {
+                key: 'Standard deviation (STD)',
+                calc: (meas, obj) => meas - obj[1],
+                color: 'rgba(0,0,0,0.1)',
+                fill: '+1',
+              },
+              {
+                key: 'hide_',
+                calc: (meas, obj) => meas + obj[1],
+                color: 'rgba(0,0,0,0.1)',
+                fill: false,
+              },
             ],
-            valueDecompose: (item) => Number(item),
+            valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
+              .map((str) => (str === '' ? Number.NaN : Number(str)))),
           },
         };
         referenceDecompose.N1b = referenceDecompose.N1a;
@@ -391,6 +410,7 @@ export default {
             if (!['', '/'].includes(key) && typeof indicatorValues[key] === 'undefined') {
               indicatorValues[key] = this.getIndicatorColor(
                 indicator.colorCode[i],
+                true,
               );
             }
             return null;
@@ -624,7 +644,9 @@ export default {
         } else if (['N2', 'E10c'].includes(indicatorCode)) {
           /* Group data by year in month slices */
           const data = indicator.time.map((date, i) => {
-            colors.push(this.getIndicatorColor(indicator.colorCode[i]));
+            colors.push(this.getIndicatorColor(
+              indicator.colorCode[i],
+            ));
             return { t: date, y: measurement[i] };
           });
           const dataGroups = {};
@@ -715,8 +737,8 @@ export default {
             label: 'Site Regular',
             data: regularData,
             fill: false,
-            borderColor: this.getIndicatorColor('BLUE'),
-            backgroundColor: this.getIndicatorColor('BLUE'),
+            borderColor: this.getIndicatorColor('BLUE', true),
+            backgroundColor: this.getIndicatorColor('BLUE', true),
             borderWidth: 0,
             pointRadius: 3,
             showLine: false,

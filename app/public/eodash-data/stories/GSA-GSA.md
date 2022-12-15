@@ -5,6 +5,6 @@ This a network of roads, railways, airports and water infrastructure in the Euro
 
 The interactive charts enable exploration of individual border crossing points, and to compare the daily waiting times on both travel directions starting from June 2020 to March 2021. Input data is verified with the data taken from trucks at the border. 
 
-### COVID-19 impact on freight circulation 
+## The impacts of COVID-19 on freight circulation 
 
 Several EU Member States have either closed borders with other members or imposed new health screening controls to further prevent the spread of COVID-19. However, freight circulation needs to continue to ensure European citizens will have access to food, medical equipment, medicines and other essential goods.

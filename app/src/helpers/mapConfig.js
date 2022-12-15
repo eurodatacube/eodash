@@ -104,7 +104,7 @@ const configFromInputData = (usedTimes, index) => {
   // const i = this.getCurrentIndex(side);
   const inputData = usedTimes.inputData.length === 1
     ? usedTimes.inputData[0]
-    : usedTimes.inputData[index];
+    : usedTimes.inputData.at(index);
   if (baseConfig.layerNameMapping.hasOwnProperty(inputData)) { // eslint-disable-line
     let config = baseConfig.layerNameMapping[inputData];
     if (!Array.isArray(config)) {
@@ -134,17 +134,9 @@ const mergedConfigs = (usedTimes, side = 'data', inputDataConfig, indicatorObjec
       // always make an Array of layer configurations
       displayTmp = [displayTmp];
     }
-    if (side === 'data') {
-      displayTmp[0].searchid = displayTmp[0].dataSearchId;
-    } else {
-      displayTmp[0].searchid = displayTmp[0].compareSearchId;
-    }
-    if (typeof displayTmp[0].searchid === 'undefined') {
-      displayTmp[0].searchid = '';
-    }
   }
   const finalConfigs = [];
-  let usedConfigForMerge = {};
+  let usedConfigForMerge = [];
   let name = indicatorObject.description;
 
   if (!displayTmp && inputDataConfig.length === 0) {
@@ -180,6 +172,8 @@ const mergedConfigs = (usedTimes, side = 'data', inputDataConfig, indicatorObjec
       ...baseConfig.defaultLayersDisplay,
       ...indDefinition,
       ...extendedItem,
+      indicator: indicatorObject.indicator,
+      aoiID: indicatorObject.aoiID,
       name,
       usedTimes,
     });

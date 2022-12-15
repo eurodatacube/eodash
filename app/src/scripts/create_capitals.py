@@ -10,6 +10,7 @@ with the same user id as your local account, e.g. "--user 1001"
 """
 
 
+import re
 import os
 import os.path
 import datetime
@@ -50,6 +51,8 @@ with open(DATAFILE) as f, open(COUNTRIESFILE) as cf:
             )
             data_available = os.path.exists("/public/eodash-data/internal/%s-%s.json" % (poi_key, indicator_code))
             if "city" in f["properties"] and data_available and iso_found:
+                sub_aoi = "%s"%(shape(geojson.loads(json.dumps(iso_found["geometry"])))).wkt
+                sub_aoi = re.sub(r'([0-9]+\.[0-9]{5})([0-9]+)', r'\1', sub_aoi)
                 poi_dict[poi_key] = {
                     # Unique poi data
                     "aoi": "%s,%s"%(coords[1], coords[0]),
@@ -62,7 +65,7 @@ with open(DATAFILE) as f, open(COUNTRIESFILE) as cf:
                     "description": description,
                     "indicatorName": "",
                     "yAxis": "[%]",
-                    "subAoi": "%s"%(shape(geojson.loads(json.dumps(iso_found["geometry"])))).wkt,
+                    "subAoi": sub_aoi,
                     "updateFrequency": "weekly",
                 }
 

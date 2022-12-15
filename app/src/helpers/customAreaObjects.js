@@ -13,6 +13,46 @@ export const statisticalApiHeaders = {
   },
 };
 
+export const fetchCustomDataOptions = (time, sourceOptionsObj, store) => {
+  const outputOptionsObj = {};
+  const indicator = sourceOptionsObj?.indicator
+  || store.state.indicators?.selectedIndicator?.indicator;
+  outputOptionsObj.indicator = indicator;
+  const aoiID = sourceOptionsObj?.aoiID
+  || store.state.indicators?.selectedIndicator?.aoiID;
+  outputOptionsObj.aoiID = aoiID;
+
+  if (sourceOptionsObj?.siteMapping) {
+    // substitutes {siteMapping} template
+    const currSite = sourceOptionsObj.siteMapping(
+      aoiID,
+    );
+    outputOptionsObj.site = currSite;
+  }
+
+  if (time) {
+    // substitutes {time} template possibly utilizing dateFormatFunction
+    const fixTime = time.value || time;
+    outputOptionsObj.time = typeof sourceOptionsObj.dateFormatFunction === 'function'
+      ? sourceOptionsObj.dateFormatFunction(fixTime) : fixTime;
+    if (sourceOptionsObj.specialEnvTime) {
+      outputOptionsObj.env = `year:${outputOptionsObj.time}`;
+    }
+    // substitutes {featuresTime} template possibly utilizing features.dateFormatFunction
+    if (sourceOptionsObj?.features) {
+      outputOptionsObj.featuresTime = typeof sourceOptionsObj.features.dateFormatFunction === 'function'
+        ? sourceOptionsObj.features.dateFormatFunction(fixTime) : fixTime;
+    }
+  }
+  const paramsToPassThrough = ['env'];
+  paramsToPassThrough.forEach((param) => {
+    if (typeof sourceOptionsObj[param] !== 'undefined') {
+      outputOptionsObj[param] = sourceOptionsObj[param];
+    }
+  });
+  return outputOptionsObj;
+};
+
 export const statisticalApiBody = (evalscript, type, timeinterval) => ({
   requestBody: {
     input: {
@@ -177,7 +217,7 @@ async function fetchWithTimeout(resource, options = {}) {
   return response;
 }
 
-const fetchCustomAreaObjects = async (
+export const fetchCustomAreaObjects = async (
   options,
   drawnArea,
   mergedConfig,
@@ -234,6 +274,7 @@ const fetchCustomAreaObjects = async (
   // another type of switch to select which auth type we want to use
   if (indicator.display && indicator.display.areaIndicator
       && indicator.display.areaIndicator.url.includes('api/v1/statistics')) {
+    // Only needed for SH statistics requests
     const clientId = shConfig.statApiClientId;
     const clientSecret = shConfig.statApiClientSecret;
     const instance = axios.create({
@@ -264,6 +305,7 @@ const fetchCustomAreaObjects = async (
   // so splitting up the behavior here for that use case
   let customObjects = null;
   if (requestBody && 'aggregation' in requestBody && 'timeRange' in requestBody.aggregation) {
+    // Hanlder for SH Statistics requests
     // Create data range chunks for requests
     // In order to get better performance we take the time information of the
     // indicator to fetch for the actual time interval available
@@ -291,33 +333,104 @@ const fetchCustomAreaObjects = async (
     requestOpts.body = JSON.stringify(requestBodyCopy);
     requests.push(fetch(url, JSON.parse(JSON.stringify(requestOpts))).then((res) => res.json()));
 
-    const allData = await Promise.allSettled(requests);
-    // Merge them together, for parsing
-    // TODO: Add check to see if partial result was returned as status
-    const status = 'OK';
-    const data = allData.map((entry) => {
-      let d = [];
-      // We take here fulfilled datasets, rejected status is probably from timeout
-      if (entry.status === 'fulfilled') {
-        d = entry.value.data;
-      }
-      return d;
-    }).flat();
-    // Check to see if there were rejected requests due to timeout
-    const timeoutDetected = allData.find((entry) => entry.status === 'rejected');
-    if (timeoutDetected) {
-      store.commit('sendAlert', {
-        message: 'There were some issues retrieving the data, possibly only partial results are shown. Please try the request again.',
-        type: 'warning',
+    customObjects = await Promise.allSettled(requests)
+      .then((promiseCollection) => {
+        // Merge them together, for parsing
+        // TODO: Add check to see if partial result was returned as status
+        const status = 'OK';
+        const data = promiseCollection.map((entry) => {
+          let d = [];
+          // We take here fulfilled datasets, rejected status is probably from timeout
+          if (entry.status === 'fulfilled') {
+            d = entry.value.data;
+          }
+          return d;
+        }).flat();
+        // Check to see if there were rejected requests due to timeout
+        const timeoutDetected = promiseCollection.find((entry) => entry.status === 'rejected');
+        if (timeoutDetected) {
+          if (store) {
+            store.commit('sendAlert', {
+              message: 'There were some issues retrieving the data, possibly only partial results are shown. Please try the request again.',
+              type: 'warning',
+            });
+          }
+        }
+        const mergedData = {
+          status,
+          data,
+        };
+        if (typeof mergedConfig[lookup].callbackFunction === 'function') {
+          return mergedConfig[lookup].callbackFunction(mergedData, indicator);
+        }
+        return promiseCollection;
+      })
+      .then((newIndicator) => {
+        let custom = {};
+        if (newIndicator) {
+          if (drawnArea) {
+            custom.poi = drawnArea.coordinates.flat(Infinity).join('-');
+            custom.includesIndicator = true;
+          }
+          custom = {
+            ...newIndicator,
+            ...custom,
+          };
+        }
+        return custom;
       });
+  } else if (mergedConfig[lookup].url.includes('/cog/statistics')) {
+    // Here we handle parallel requests to the new statistical api from nasa
+    const requests = [];
+    // Add limit on how many requests we can send if there are over 600 time entries
+    // TODO: Sending more requests overloads server, need to think how to handle this
+    let requestTimes = indicator.time;
+    if (indicator.time.length > 600) {
+      requestTimes = indicator.time.slice(-600);
     }
-    const mergedData = {
-      status,
-      data,
-    };
-    if (typeof mergedConfig[lookup].callbackFunction === 'function') {
-      customObjects = mergedConfig[lookup].callbackFunction(mergedData, indicator);
-    }
+    requestTimes.forEach((entry) => {
+      const requestUrl = `${url}?url=${entry[1]}`;
+      requestOpts.body = JSON.stringify(requestBody.geojson);
+      [requestOpts.time] = entry;
+      requests.push(
+        fetch(requestUrl, requestOpts).then((res) => res.json()).then((json) => {
+          // eslint-disable-next-line no-param-reassign
+          [json.time] = entry;
+          return json;
+        }),
+      );
+    });
+    customObjects = await Promise.allSettled(requests)
+      .then((promiseCollection) => {
+        const data = promiseCollection.map((entry) => {
+          let d = [];
+          // We take here fulfilled datasets, rejected status is probably from timeout
+          if (entry.status === 'fulfilled' && 'properties' in entry.value
+              && 'statistics' in entry.value.properties) {
+            d = entry.value.properties.statistics['1'];
+            d.time = entry.value.time;
+          }
+          return d;
+        }).flat();
+        if (typeof mergedConfig[lookup].callbackFunction === 'function') {
+          return mergedConfig[lookup].callbackFunction(data, indicator);
+        }
+        return promiseCollection;
+      })
+      .then((newIndicator) => {
+        let custom = {};
+        if (newIndicator) {
+          if (drawnArea) {
+            custom.poi = drawnArea.coordinates.flat(Infinity).join('-');
+            custom.includesIndicator = true;
+          }
+          custom = {
+            ...newIndicator,
+            ...custom,
+          };
+        }
+        return custom;
+      });
   } else {
     customObjects = await fetch(url, requestOpts).then((response) => {
       if (!response.ok) {
@@ -422,15 +535,7 @@ export const nasaTimelapseConfig = (
         ...newData,
       };
     } else if (Object.keys(responseJson).indexOf('detail') !== -1) {
-      // This will happen if area selection is too large
-      if (responseJson.detail[0].msg.startsWith('AOI cannot exceed')) {
-        store.commit('sendAlert', {
-          message: 'AOI cannot exceed 200 000 km²',
-          type: 'error',
-        });
-      } else {
-        console.log(responseJson.detail[0].msg);
-      }
+      console.log(responseJson.detail[0].msg);
     }
     return ind;
   },
@@ -445,4 +550,56 @@ export const nasaTimelapseConfig = (
   ),
 });
 
-export default fetchCustomAreaObjects;
+export const nasaStatisticsConfig = (
+  rescale = (value) => value / 1e14,
+  indicatorCode = 'NASACustomLineChart',
+) => ({
+  url: 'https://staging-raster.delta-backend.com/cog/statistics',
+  requestMethod: 'POST',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+  },
+  requestBody: {
+    geojson: '{geojson}',
+  },
+  callbackFunction: (responseJson, indicator) => {
+    let ind = null;
+    if (Array.isArray(responseJson)) {
+      const data = responseJson;
+      const newData = {
+        time: [],
+        measurement: [],
+        colorCode: [],
+        referenceValue: [],
+      };
+      data.forEach((row) => {
+        if (!('error' in row)) {
+          newData.time.push(DateTime.fromISO(row.time));
+          newData.colorCode.push('');
+          newData.measurement.push(rescale(row.mean));
+          newData.referenceValue.push(`[${rescale(row.median)}, ${rescale(row.std)}, ${rescale(row.max)}, ${rescale(row.min)}]`);
+        }
+      });
+      if (indicatorCode) {
+        // if we for some reason need to change indicator code of custom chart data
+        newData.indicator = indicatorCode;
+      }
+      ind = {
+        ...indicator,
+        ...newData,
+      };
+    } else if (Object.keys(responseJson).indexOf('detail') !== -1) {
+      console.log(responseJson.detail[0].msg);
+    }
+    return ind;
+  },
+  areaFormatFunction: (area) => (
+    {
+      geojson: JSON.stringify({
+        type: 'Feature',
+        properties: {},
+        geometry: area,
+      }),
+    }
+  ),
+});

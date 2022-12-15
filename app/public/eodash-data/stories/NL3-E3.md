@@ -7,7 +7,7 @@ As remote sensing sensors cannot “see” through walls and roofs, the volume o
 
 By measuring the height and perimeter of the floating tanks as well as certain other tank dimensions, the storage volume can be reliably calculated.
 
-#### The impacts of COVID-19 on oil tanks storages
+## The impacts of COVID-19 on oil tanks storages
 
 Oil sector faced a sudden decline in demand due to the COVID-19 pandemic. As oil prices dropped below zero for the first time in April 2020, storage tanks had never been so full.  In July, tanks were still very full. During the COVID-19 pandemic, oil storage filled up as demand for oil decreased due to reduced travels.
 

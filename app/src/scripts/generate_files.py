@@ -148,11 +148,14 @@ WMSCOLLECTIONS = {
     "PRC-Anomaly-GSMaP-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
     "SMC-GCOMW-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
     "PRC-GSMaP-World-Monthly": "https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?",
+    "CHL": "https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_med_bgc-plankton_my_l4-multi-1km_P1M"
 }
 
 STAC_COLLECTIONS = {
     "no2-monthly": "https://staging-stac.delta-backend.com/collections/",
     "no2-monthly-diff": "https://staging-stac.delta-backend.com/collections/",
+    "co2-mean": "https://staging-stac.delta-backend.com/collections/",
+    "co2-diff": "https://staging-stac.delta-backend.com/collections/",
     "OMI_trno2-COG": "https://staging-stac.delta-backend.com/collections/",
     "OMSO2PCA-COG": "https://staging-stac.delta-backend.com/collections/",
     "facebook_population_density": "https://staging-stac.delta-backend.com/collections/",
@@ -373,6 +376,7 @@ try:
                     times += [x.strftime('%Y-%m-%dT%H:%M:%S.000Z') for x in dates]
                 else:
                     times.append(tp)
+            times = [time.replace('\n','').strip() for time in times]
             results_dict[layer] = times
 except Exception as e:
     print("Issue extracting information from WMS capabilties")
@@ -578,7 +582,7 @@ def generateData(
                         "description": line[cm["description"]],
                         "indicatorName": line[cm["indicatorName"]],
                         "yAxis": line[cm["yAxis"]],
-                        "subAoi": line[cm["subAoi"]],
+                        "subAoi": re.sub(r'([0-9]+\.[0-9]{5})([0-9]+)', r'\1', line[cm["subAoi"]]),
                         "updateFrequency": line[cm["updateFrequency"]],
                         # Actual data
                         "poi_data": poi_data_always,
@@ -642,7 +646,7 @@ def generateData(
                             "description": line[cm["description"]],
                             "indicatorName": line[cm["indicatorName"]],
                             "yAxis": line[cm["yAxis"]],
-                            "subAoi": line[cm["subAoi"]],
+                            "subAoi": re.sub(r'([0-9]+\.[0-9]{5})([0-9]+)', r'\1', line[cm["subAoi"]]),
                             "updateFrequency": line[cm["updateFrequency"]],
                             # Actual data
                             "poi_data": poi_data_always,
@@ -773,8 +777,6 @@ generateData(
         '/public/eodash-data/data/N1b_NO2_CAMS.csv',
         '/public/eodash-data/data/N1c_PM10_CAMS.csv',
         '/public/eodash-data/data/N1d_O3_CAMS.csv',
-        #'/public/eodash-data/data/N4a.csv',
-        #'/public/eodash-data/data/N4c.csv',
         '/public/eodash-data/data/E13e_cargo.csv',
         '/public/eodash-data/data/E13f_fishing.csv',
         '/public/eodash-data/data/E13g_tanker.csv',

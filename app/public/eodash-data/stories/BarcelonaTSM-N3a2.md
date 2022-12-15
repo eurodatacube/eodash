@@ -4,7 +4,7 @@ Chlorophyll-a (Chl) concentration is an indicator of microalgae abundance, which
 
 Total Suspended Matter (TSM) is the mass concentration of organic and inorganic materials suspended in the water column. TSM concentration is higher near the coasts due to the resuspension of terrestrial or submarine particulate matter by tides, waves, and currents. TSM is another proxy for water quality as different contaminants that originate inland, including fertilizers, trace metals, semi-volatile organic compounds, and numerous pesticides, can aggregate to these solids and be brought in suspension. This can alter the state of the aquatic ecosystem and the use of freshwater resources. For instance, excessive suspended material might condition primary productivity and hamper the underwater visibility for fish. 
 
-## Impact of COVID-19 on Water Quality 
+## The impacts of COVID-19 on Water Quality
 
 The effect of the lockdown and the subsequent recovery on inland and coastal waters were assessed by monitoring the deviation from a weekly climatological mean of chlorophyll-a (Chl) concentration and Total Suspended Matter (TSM) as measured by OLCI, onboard Sentinel-3. The displayed maps show weekly Chl concentration anomalies (%) and weekly Total Suspended Matter concentration anomalies (%) in the North-Eastern part of the Spanish coastal area, in the Mediterranean Sea. The area includes the Ebro River delta as well as the Tarragona and Barcelona coastal areas, which are both largely affected by anthropic effects due to industrial and touristic activities. Besides the Ebro, the Llobregat River is also of high regional importance. It disembogues few kilometers south of Barcelona and is under a high stress due to intense urban, agricultural and industrial use.
 

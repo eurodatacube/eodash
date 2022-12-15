@@ -16,13 +16,18 @@ import TileGrid from 'ol/tilegrid/TileGrid';
 import { createXYZ } from 'ol/tilegrid';
 import { Group } from 'ol/layer';
 import VectorTileLayer from 'ol/layer/VectorTile';
-import { applyStyle, stylefunction } from 'ol-mapbox-style';
+import { applyStyle } from 'ol-mapbox-style';
 import * as flatgeobuf from 'flatgeobuf/dist/flatgeobuf-geojson.min';
-import { transformExtent } from 'ol/proj';
 import { bbox } from 'ol/loadingstrategy';
+import { get as getProj, transformExtent } from 'ol/proj';
+import { fetchCustomAreaObjects, fetchCustomDataOptions } from '@/helpers/customAreaObjects';
 
+import proj4 from 'proj4';
+import { register } from 'ol/proj/proj4';
+
+const DEFAULT_PROJECTION = 'EPSG:3857';
 const geoJsonFormat = new GeoJSON({
-  featureProjection: 'EPSG:3857',
+  featureProjection: DEFAULT_PROJECTION,
 });
 const countriesSource = new VectorSource({
   features: geoJsonFormat.readFeatures(countries),
@@ -34,27 +39,75 @@ const countriesSource = new VectorSource({
  * @param {*} source ol vector source (features of this source will be replaced)
  * @param {String} url geojson url
  */
-function fetchGeoJsonFeatures(source, url) {
-  fetch(url)
-    .then((fStream) => {
-      fStream.json()
-        .then((geoJson) => {
-          if (geoJson.features && geoJson.features.length) {
-            geoJson.features.forEach((f) => {
-              if (f.id === null) {
-                // to do: some POIs (like bejing or LAX airports) have `null` set as feature ids,
-                // resulting in invalid geojson
-                // when this is fixed in the data, the normal geojson loader should be used
-                // eslint-disable-next-line no-param-reassign
-                f.id = undefined;
-              }
-            });
-            const features = geoJsonFormat.readFeatures(geoJson);
-            source.addFeatures(features);
-          }
-        })
-        .catch(() => {});
-    });
+
+function createProjection(name, def, extent) {
+  proj4.defs(name, def);
+  register(proj4);
+  const projection = getProj(name);
+  projection.setExtent(extent);
+  return projection;
+}
+
+export function getProjectionOl(projectionLike) {
+  // for internal conversions
+  if (typeof projectionLike === 'string') {
+    // expecting EPSG:4326 or EPSG:3857 or something OL supports out of box
+    return getProj(projectionLike);
+  }
+  if (projectionLike) {
+    // expecting an object with name, def, extent for proj4 to register custom projection
+    return createProjection(projectionLike.name, projectionLike.def, projectionLike.extent);
+  }
+  // default: EPSG:4326 when not set
+  return getProj('EPSG:4326');
+}
+
+export async function fetchData({
+  usedTime, config, drawnArea, source,
+}) {
+  // fetching of customFeatures
+  if (!config?.features || (config.customAreaFeatures && !drawnArea?.area)) {
+    source.clear();
+    return;
+  }
+  try {
+    const options = fetchCustomDataOptions(usedTime, config, store);
+    const custom = await fetchCustomAreaObjects(
+      options,
+      drawnArea?.area,
+      config,
+      {},
+      'features',
+      store,
+    );
+    source.clear();
+    if (custom?.features && custom.features.length) {
+      const features = geoJsonFormat.readFeatures(custom);
+      features.forEach((ftr) => {
+        if (ftr.getId() === null) {
+          ftr.setId(undefined);
+        }
+        if (ftr.geometry) {
+          ftr.setGeometry(geoJsonFormat.readGeometry(ftr.geometry));
+        }
+      });
+      source.addFeatures(features);
+    }
+  } catch (err) {
+    source.clear();
+    console.error(err);
+  }
+}
+
+function fgbBoundingBox(extent, projection) {
+  // minx, miny, maxx, maxy
+  const transformedExtent = transformExtent(extent, projection.getCode(), 'EPSG:4326');
+  return {
+    minX: transformedExtent[0],
+    minY: transformedExtent[1],
+    maxX: transformedExtent[2],
+    maxY: transformedExtent[3],
+  };
 }
 
 function createFromTemplate(template, tileCoord) {
@@ -76,32 +129,20 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
   let url = baseUrl;
   const time = options.time || store.state.indicators.selectedTime;
   const indicator = options.indicator || store.state.indicators.selectedIndicator.indicator;
-  const aoiId = options.aoiId || store.state.indicators.selectedIndicator.aoiID;
+  const aoiID = options.aoiID || store.state.indicators.selectedIndicator.aoiID;
   url = url.replace(/{time}/i, config.dateFormatFunction(time));
   url = url.replace(/{indicator}/gi, indicator);
-  url = url.replace(/{aoiID}/gi, aoiId);
+  url = url.replace(/{aoiID}/gi, aoiID);
   if (config.features && config.features.dateFormatFunction) {
     url = url.replace(/{featuresTime}/i, config.features.dateFormatFunction(time));
   }
   if (config.siteMapping) {
-    const currSite = config.siteMapping(aoiId);
+    const currSite = config.siteMapping(aoiID);
     url = url.replace(/{site}/gi, currSite);
   }
   return url;
 }
 
-function fgbBoundingBox(extent, projection) {
-  // minx, miny, maxx, maxy
-  const transformedExtent = transformExtent(extent, projection.getCode(), 'EPSG:4326');
-  return {
-    minX: transformedExtent[0],
-    minY: transformedExtent[1],
-    maxX: transformedExtent[2],
-    maxY: transformedExtent[3],
-  };
-}
-
-// const updateResultsDeb = _.debounce(updateResults, 500);
 /**
  * generate a layer from a given config Object
  * @param {Object} config eodash config object
@@ -117,7 +158,8 @@ function fgbBoundingBox(extent, projection) {
  * for overlays like labels or borders. Defaults to false.
  * @param {*} [opt_options.time=undefined] optional time.
  * @param {*} [opt_options.indicator=undefined] optional indicator. (e.g. "E13b")
- * @param {*} [opt_options.aoiId=undefined] optional aoiId.
+ * @param {*} [opt_options.aoiID=undefined] optional aoiID.
+ * @param {*} [opt_options.drawnArea=undefined] optional drawnArea object.
  * if not set, time will be retrieved from the store
  * @returns {Group} returns ol layer
  */
@@ -130,8 +172,16 @@ export function createLayerFromConfig(config, _options = {}) {
   // layers created by this config. These Layers will get combined into a single ol.layer.Group
   const layers = [];
   if (config.protocol === 'cog') {
+    let updatedSources = config.sources;
+    if (config.usedTimes?.time?.length) {
+      const currentTime = config.usedTimes.time[config.usedTimes.time.length - 1];
+      updatedSources = config.sources.map((item) => {
+        const url = item.url.replace(/{time}/i, config.dateFormatFunction(currentTime));
+        return { url };
+      });
+    }
     const source = new GeoTIFF({
-      sources: config.sources,
+      sources: updatedSources,
       normalize: config.normalize ? config.normalize : false,
     });
     const wgTileLayer = new WebGLTileLayer({
@@ -263,8 +313,8 @@ export function createLayerFromConfig(config, _options = {}) {
       // gets the current time entry from the store
       source = new XYZSource({
         attributions: config.attribution,
-        maxZoom: config.maxNativeZoom || config.maxZoom,
-        minZoom: config.minNativeZoom || config.minZoom,
+        maxZoom: config.maxZoom,
+        minZoom: config.minZoom,
         crossOrigin: 'anonymous',
         transition: 0,
         tileUrlFunction: (tileCoord) => {
@@ -272,31 +322,32 @@ export function createLayerFromConfig(config, _options = {}) {
           return createFromTemplate(url, tileCoord);
         },
       });
-      source.set('updateTime', (time) => {
-        const updatedOptions = { ...options };
+      source.set('updateTime', (time, area, configUpdate) => {
+        const updatedOptions = {
+          ...options,
+          ...configUpdate,
+        };
         updatedOptions.time = time;
         source.setTileUrlFunction((tileCoord) => {
-          const url = replaceUrlPlaceholders(config.url, config, updatedOptions);
+          const url = replaceUrlPlaceholders(configUpdate.url, configUpdate, updatedOptions);
           return createFromTemplate(url, tileCoord);
         });
       });
     } else {
       source = new XYZSource({
         attributions: config.attribution,
-        maxZoom: config.maxNativeZoom || config.maxZoom,
-        minZoom: config.minNativeZoom || config.minZoom,
+        maxZoom: config.maxZoom,
+        minZoom: config.minZoom,
         crossOrigin: 'anonymous',
         transition: 0,
         tileUrlFunction: (tileCoord) => createFromTemplate(config.url, tileCoord),
       });
     }
   }
-
   if (config.protocol === 'WMS') {
     // to do: layers is  not defined for harvesting evolution over time (spain)
-    const paramsToPassThrough = ['minZoom', 'maxZoom', 'minNativeZoom', 'maxNativeZoom', 'bounds', 'layers', 'styles',
-      'format', 'width', 'height', 'transparent', 'srs', 'env', 'searchid'];
-
+    const paramsToPassThrough = ['layers', 'styles',
+      'format', 'env'];
     const tileSize = config.combinedLayers?.length
       ? config.combinedLayers[0].tileSize : config.tileSize;
     const tileGrid = tileSize === 512 ? new TileGrid({
@@ -312,9 +363,11 @@ export function createLayerFromConfig(config, _options = {}) {
     // and Sea Ice Concentration (trilateral)
     if (config.combinedLayers?.length) {
       config.combinedLayers.forEach((c) => {
-        const params = {
-          LAYERS: c.layers,
-        };
+        const params = {};
+        let extent;
+        if (c.extent) {
+          extent = transformExtent(c.extent, 'EPSG:4326', DEFAULT_PROJECTION);
+        }
 
         paramsToPassThrough.forEach((param) => {
           if (typeof c[param] !== 'undefined') {
@@ -327,40 +380,45 @@ export function createLayerFromConfig(config, _options = {}) {
             params.env = `year:${params.time}`;
           }
         }
-
+        const projection = c.projection || DEFAULT_PROJECTION;
         const singleSource = new TileWMS({
           attributions: config.attribution,
-          maxZoom: c.maxNativeZoom || c.maxZoom,
-          minZoom: c.minNativeZoom || c.minZoom,
+          maxZoom: c.maxZoom,
+          minZoom: c.minZoom,
           crossOrigin: 'anonymous',
           transition: 0,
-          projection: 'EPSG:3857',
+          projection: getProjectionOl(projection),
           params,
           url: c.baseUrl,
           tileGrid,
         });
-        singleSource.set('updateTime', (updatedTime) => {
-          const timeString = c.dateFormatFunction(updatedTime);
+        singleSource.set('updateTime', (updatedTime, area, configUpdate) => {
+          const timeString = configUpdate.dateFormatFunction(updatedTime);
+          const paramsUpdate = {};
+          paramsToPassThrough.forEach((param) => {
+            if (typeof configUpdate[param] !== 'undefined') {
+              paramsUpdate[param] = configUpdate[param];
+            }
+          });
           const newParams = {
+            ...paramsUpdate,
             time: timeString,
           };
-          if (config.specialEnvTime) {
+          if (configUpdate.specialEnvTime) {
             newParams.env = `year:${updatedTime}`;
           }
           singleSource.updateParams(newParams);
         });
         layers.push(new TileLayer({
           name: config.name,
-          // minZoom: config.minZoom || config.minNativeZoomm,
           updateOpacityOnZoom: options.updateOpacityOnZoom,
           zIndex: options.zIndex,
           source: singleSource,
+          extent,
         }));
       });
     } else {
-      const params = {
-        LAYERS: config.layers,
-      };
+      const params = {};
       paramsToPassThrough.forEach((param) => {
         if (typeof config[param] !== 'undefined') {
           params[param] = config[param];
@@ -372,22 +430,31 @@ export function createLayerFromConfig(config, _options = {}) {
           params.env = `year:${params.time}`;
         }
       }
+      const projection = config.projection || DEFAULT_PROJECTION;
       source = new TileWMS({
         attributions: config.attribution,
-        maxZoom: config.maxNativeZoom || config.maxZoom,
-        minZoom: config.minNativeZoom || config.minZoom,
+        maxZoom: config.maxZoom,
+        minZoom: config.minZoom,
         crossOrigin: 'anonymous',
         transition: 0,
+        projection: getProjectionOl(projection),
         params,
         url: config.url || config.baseUrl,
         tileGrid,
       });
-      source.set('updateTime', (updatedTime) => {
-        const timeString = config.dateFormatFunction(updatedTime);
+      source.set('updateTime', (updatedTime, area, configUpdate) => {
+        const timeString = configUpdate.dateFormatFunction(updatedTime);
+        const paramsUpdate = {};
+        paramsToPassThrough.forEach((param) => {
+          if (typeof configUpdate[param] !== 'undefined') {
+            paramsUpdate[param] = configUpdate[param];
+          }
+        });
         const newParams = {
+          ...paramsUpdate,
           time: timeString,
         };
-        if (config.specialEnvTime) {
+        if (configUpdate.specialEnvTime) {
           newParams.env = `year:${updatedTime}`;
         }
         source.updateParams(newParams);
@@ -405,38 +472,55 @@ export function createLayerFromConfig(config, _options = {}) {
     });
     layers.push(layer);
   }
+  let extent;
+  if (config.extent) {
+    extent = transformExtent(
+      config.extent, 'EPSG:4326',
+      DEFAULT_PROJECTION,
+    );
+  }
 
   if (source) {
     layers.push(new TileLayer({
       name: config.name,
-      // minZoom: config.minZoom || config.minNativeZoomm,
       updateOpacityOnZoom: options.updateOpacityOnZoom,
       zIndex: options.zIndex,
       source,
+      extent,
     }));
   }
 
   if (config.features) {
     // some layers have a baselayer and GeoJSON features above them
     // e.g. "Ports and Shipping"
-    // to do: consider other sources of truth than the store
     const featuresSource = new VectorSource({
       features: [],
     });
-    // to do:
-    // some configs have other mean than simple geojson fetching. Make sure to not forget any.
-    if (!config.features.callbackFunction) {
-      const url = replaceUrlPlaceholders(config.features.url, config, options);
-      fetchGeoJsonFeatures(featuresSource, url);
-    }
+    fetchData({
+      usedTime: options.time,
+      config,
+      drawnArea: options.drawnArea,
+      source: featuresSource,
+    });
     // this gives an option to update the source (most likely the time) without
     // re-creating the entire layer
-    featuresSource.set('updateTime', (time) => {
-      const updatedOptions = { ...options };
+    const featuresUpdate = (time, drawnArea, configUpdate) => {
+      const updatedOptions = {
+        ...options,
+        ...configUpdate,
+      };
       updatedOptions.time = time;
-      const newUrl = replaceUrlPlaceholders(config.features.url, config, updatedOptions);
-      fetchGeoJsonFeatures(featuresSource, newUrl);
-    });
+      fetchData({
+        usedTime: time,
+        config: updatedOptions,
+        drawnArea,
+        source: featuresSource,
+      });
+    };
+    featuresSource.set('updateTime', featuresUpdate);
+    if (config.customAreaFeatures) {
+      featuresSource.set('updateArea', featuresUpdate);
+    }
     const fill = new Fill({
       color: 'rgba(255, 255, 255, 0.1)',
     });
@@ -446,7 +530,7 @@ export function createLayerFromConfig(config, _options = {}) {
     });
     const featuresLayer = new VectorLayer({
       source: featuresSource,
-      name: config.name + "_features",
+      name: `${config.name}_features`,
       style: new Style({
         fill,
         stroke,

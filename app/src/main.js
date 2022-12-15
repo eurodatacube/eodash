@@ -30,10 +30,6 @@ import getLocationCode from './mixins/getLocationCode';
 // Set UTC as default time zone behavior for whole client
 Settings.defaultZoneName = 'utc';
 
-// Stop webpack - CSS url incompatibility
-// (deletion is enough here since we don't use the default marker anyway)
-delete L.Icon.Default.prototype._getIconUrl;
-
 Vue.component(VueCountdown.name, VueCountdown);
 
 Vue.config.productionTip = false;
@@ -143,31 +139,37 @@ const renderVue = async () => {
   // Global helper functions
   Vue.mixin({
     methods: {
-      getIndicatorColor() {
+      getIndicatorColor(label, legacy) {
         const colors = vuetify.preset.theme.themes.light;
-        // LEGACY, but might need again in future
-        // let color;
-        // if (typeof label === 'undefined') {
-        //   // placeholders
-        //   color = colors.grey;
-        // } else if (label === null) {
-        //   // area indicators
-        //   color = colors.primary;
-        // } else if (['red'].includes(label.toLowerCase())) {
-        //   color = colors.error;
-        // } else if (['grey'].includes(label.toLowerCase())) {
-        //   color = colors.grey;
-        // } else if (['blue'].includes(label.toLowerCase())) {
-        //   color = colors.info;
-        // } else if (['green'].includes(label.toLowerCase())) {
-        //   color = colors.success;
-        // } else if (['orange'].includes(label.toLowerCase())) {
-        //   color = '#FFA500'; // Color has been specifically requested
-        // } else if (['primary'].includes(label.toLowerCase())) {
-        //   color = colors.primary;
-        // } else {
-        //   color = colors.info;
-        // }
+        if (legacy) {
+          if (typeof label === 'undefined') {
+            // placeholders
+            return colors.grey;
+          }
+          if (label === null) {
+            // area indicators
+            return colors.primary;
+          }
+          if (['red'].includes(label.toLowerCase())) {
+            return colors.error;
+          }
+          if (['grey'].includes(label.toLowerCase())) {
+            return colors.grey;
+          }
+          if (['blue'].includes(label.toLowerCase())) {
+            return colors.info;
+          }
+          if (['green'].includes(label.toLowerCase())) {
+            return colors.success;
+          }
+          if (['orange'].includes(label.toLowerCase())) {
+            return '#FFA500'; // Color has been specifically requested
+          }
+          if (['primary'].includes(label.toLowerCase())) {
+            return colors.primary;
+          }
+          return colors.info;
+        }
         return colors.secondary;
       },
       getLocationCode,
@@ -184,34 +186,38 @@ const renderVue = async () => {
   );
 
   const routes = [
+    ...(store.state.config.appConfig
+      && !store.state.config.appConfig.enableStories
+      && !store.state.config.appConfig.enableScrollyTelling
+      ? [
+        { path: '/', name: 'explore', component: Dashboard },
+      ] : [
+        { path: '/explore', name: 'explore', component: Dashboard },
+      ]),
     ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
       ? [
-        {
-          path: '/',
-          name: 'landing',
-          component: ThemesLandingPage,
-        },
-        { path: '/explore', name: 'explore', component: Dashboard },
-      ]
-      : [
-        {
-          path: '/',
-          name: 'landing',
-          component: store.state.config.appConfig.id === 'gtif' ? ScrollyFrame : Dashboard,
-        },
-      ]),
+        { path: '/', name: 'landing', component: ThemesLandingPage },
+      ] : []),
+    ...(store.state.config.appConfig && store.state.config.appConfig.enableScrollyTelling
+      ? [
+        { path: '/', name: 'landing', component: ScrollyFrame },
+      ] : []),
     { path: '/dashboard', component: DashboardCustom },
     { path: '/story', component: DashboardCustom },
     { path: '/privacy', component: Privacy },
     { path: '/terms_and_conditions', component: Terms },
     { path: '/challenges', component: Challenges },
     { path: '/iframe', component: EmbedIframe },
-    { path: '/scrolly', component: ScrollyFrame },
+    ...(store.state.config.appConfig && store.state.config.appConfig.enableScrollyTelling
+      ? [
+        { path: '/scrolly', component: ScrollyFrame },
+      ] : []
+    ),
     ...(store.state.config.appConfig && store.state.config.appConfig.enableStories
       ? [
         { path: '/atmosphere', name: 'atmosphere', component: ThemeSinglePage },
         { path: '/agriculture', name: 'agriculture', component: ThemeSinglePage },
-        { path: '/biomass-and-landcover', name: 'biomass-and-landcover', component: ThemeSinglePage },
+        { path: '/biomass', name: 'biomass', component: ThemeSinglePage },
         { path: '/covid-19', name: 'covid-19', component: ThemeSinglePage },
         { path: '/cryosphere', name: 'cryosphere', component: ThemeSinglePage },
         { path: '/economy', name: 'economy', component: ThemeSinglePage },

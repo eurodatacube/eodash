@@ -2,19 +2,7 @@ import { Wkt } from 'wicket';
 import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { DateTime } from 'luxon';
-import { latLng, latLngBounds } from 'leaflet';
 import colormap from 'colormap';
-import { default as powerOpenInsfrastructureStyle } from '@/assets/openinframap/style_oim_power.js';
-
-import availableDates from '@/config/data_dates.json';
-
-import {
-  statisticalApiHeaders,
-  statisticalApiBody,
-  evalScriptsDefinitions,
-  parseStatAPIResponse,
-  nasaTimelapseConfig,
-} from '@/helpers/customAreaObjects';
 
 // Helper function to create colorscales for cog style rendering
 function getColorStops(name, min, max, steps, reverse) {
@@ -31,6 +19,36 @@ function getColorStops(name, min, max, steps, reverse) {
     stops[i * 2 + 1] = colors[i];
   }
   return stops;
+}
+
+function getColormap(name) {
+  return colormap({
+    colormap: name, nshades: 16, format: 'rgba',
+  });
+}
+
+function normalize(value, varMin, varMax) {
+  return ['/', ['-', value, ['var', varMin]], ['-', ['var', varMax], ['var', varMin]]];
+}
+
+function bandModifier(xOffset = 0, yOffset = 0, scale = 1) {
+  if (xOffset === 0 && yOffset === 0) {
+    return ['*', ['band', 1], scale];
+  }
+  return ['*', ['band', 1, xOffset, yOffset], scale];
+}
+
+// hack as long as there is no binding to the built-in shader function floor
+function floor(n) {
+  return ['-', n, ['%', n, 1]];
+}
+
+function diff(a, b) {
+  return ['abs', ['-', a, b]];
+}
+
+function contspace(v, varOffset, varSpacing) {
+  return floor(['/', ['+', v, ['var', varOffset]], ['var', varSpacing]]);
 }
 
 const wkt = new Wkt();
@@ -56,43 +74,30 @@ export const indicatorClassesIcons = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  bounds: latLngBounds(latLng([46, 9]), latLng([49.5, 18])),
+  bounds: [9, 46, 18, 49.5],
 });
 
 export const baseLayersLeftMap = [{
   ...baseLayers.terrainLight, visible: true,
 },
-  baseLayers.cloudless,
-  baseLayers.S2GLC,
-  baseLayers.ESA_WORLD_COVER,
-  baseLayers.CORINE_LAND_COVER,
+baseLayers.cloudless,
+baseLayers.S2GLC,
+baseLayers.ESA_WORLD_COVER,
+baseLayers.CORINE_LAND_COVER,
+baseLayers.geolandbasemap,
+baseLayers.bmapgelaende,
+baseLayers.bmaporthofoto30cm,
 ];
 export const baseLayersRightMap = [{
   ...baseLayers.terrainLight, visible: true,
 }, baseLayers.cloudless];
 
-export const overlayLayersLeftMap = [{
-  ...overlayLayers.eoxOverlay, visible: true,
-}, {
-  name: 'Power Open Infrastructure Map',
-  protocol: 'maplibre',
-  visible: false,
-  zIndex: 4,
-  maplibreStyles: {
-    version: 8,
-    sprite: window.location.protocol + '//' + window.location.hostname + (window.location.port === '' ? '' : `:${window.location.port}`) + '/data/gtif/data/openinframap/sprite',
-    glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
-    id: 'openinframap',
-    name: 'OpenInfraMap',
-    layers: powerOpenInsfrastructureStyle,
-    sources: {
-      openinframap: {
-        type: 'vector',
-        url: 'data/gtif/data/openinframap/openinframap.json',
-      },
-    },
+export const overlayLayersLeftMap = [
+  {
+    ...overlayLayers.eoxOverlay, visible: true,
   },
-}];
+  overlayLayers.powerOpenInfrastructure,
+];
 export const overlayLayersRightMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
 }];
@@ -186,30 +191,50 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP1',
+    overlayLayers: [
+      { ...overlayLayers.powerOpenInfrastructure, visible: true },
+      { ...overlayLayers.eoxOverlay, visible: true },
+    ],
   },
   REP2: {
     indicator: 'Solar Energy',
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP2',
+    overlayLayers: [
+      { ...overlayLayers.powerOpenInfrastructure, visible: true },
+      { ...overlayLayers.eoxOverlay, visible: true },
+    ],
   },
   REP3: {
     indicator: 'Nowcasting',
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP3',
+    overlayLayers: [
+      { ...overlayLayers.powerOpenInfrastructure, visible: true },
+      { ...overlayLayers.eoxOverlay, visible: true },
+    ],
   },
   REP4: {
     indicator: 'Hydro Power',
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP3',
+    overlayLayers: [
+      { ...overlayLayers.powerOpenInfrastructure, visible: true },
+      { ...overlayLayers.eoxOverlay, visible: true },
+    ],
   },
   REP5: {
     indicator: 'Micro Hydropower',
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP3',
+    overlayLayers: [
+      { ...overlayLayers.powerOpenInfrastructure, visible: true },
+      { ...overlayLayers.eoxOverlay, visible: true },
+    ],
   },
   MOBI1: {
     indicator: 'mobility',
@@ -221,46 +246,82 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'sus cities',
     class: 'air',
     themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
   },
   SOL2: {
     indicator: 'sus cities',
     class: 'air',
     themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
   },
   SOL3: {
     indicator: 'urban trees',
     class: 'air',
     themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
   },
   SOL4: {
     indicator: 'green roof',
     class: 'air',
     themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
   },
   SOL5: {
     indicator: 'solar',
     class: 'air',
     themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
   },
   SOL6: {
     indicator: 'green',
     class: 'air',
     themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
   },
   SOL7: {
     indicator: 'solar',
     class: 'air',
     themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.terrainLight],
   },
   SOL8: {
     indicator: 'green',
     class: 'air',
     themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.terrainLight],
   },
   SOL9: {
     indicator: 'solar',
     class: 'air',
     themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.terrainLight],
   },
   LST: {
     indicator: 'Heat Explorer',
@@ -279,6 +340,10 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
+    baseLayers: [{
+      ...baseLayers.geolandbasemap,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
   },
   AQ3: {
     indicator: 'High resolution Data',
@@ -333,17 +398,6 @@ export const indicatorsDefinition = Object.freeze({
     alternateDataPath: './eodash-data/internal/',
   },
 });
-
-const getYearlyDates = (start, end) => {
-  let currentDate = DateTime.fromISO(start);
-  const stopDate = DateTime.fromISO(end);
-  const dateArray = [];
-  while (currentDate <= stopDate) {
-    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy'));
-    currentDate = DateTime.fromISO(currentDate).plus({ years: 1 });
-  }
-  return dateArray;
-};
 
 export const globalIndicators = [
   {
@@ -559,7 +613,7 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: true,
         country: 'all',
-        city: 'Austria',
+        city: 'Innsbruck',
         siteName: 'global',
         description: 'Local NO2 Flux',
         indicator: 'AQ2',
@@ -572,11 +626,135 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: [],
+        time: [
+          ['20201101T00:00:00Z', 'gtif_uibk_20201101_ffp_values_b1.tif'],
+          ['20201101T01:00:00Z', 'gtif_uibk_20201101_ffp_values_b2.tif'],
+          ['20201101T02:00:00Z', 'gtif_uibk_20201101_ffp_values_b3.tif'],
+          ['20201101T03:00:00Z', 'gtif_uibk_20201101_ffp_values_b4.tif'],
+          ['20201101T04:00:00Z', 'gtif_uibk_20201101_ffp_values_b5.tif'],
+          ['20201101T05:00:00Z', 'gtif_uibk_20201101_ffp_values_b6.tif'],
+          ['20201101T06:00:00Z', 'gtif_uibk_20201101_ffp_values_b7.tif'],
+          ['20201101T07:00:00Z', 'gtif_uibk_20201101_ffp_values_b8.tif'],
+          ['20201101T08:00:00Z', 'gtif_uibk_20201101_ffp_values_b9.tif'],
+          ['20201101T09:00:00Z', 'gtif_uibk_20201101_ffp_values_b10.tif'],
+          ['20201101T10:00:00Z', 'gtif_uibk_20201101_ffp_values_b11.tif'],
+          ['20201101T11:00:00Z', 'gtif_uibk_20201101_ffp_values_b12.tif'],
+          ['20201101T12:00:00Z', 'gtif_uibk_20201101_ffp_values_b13.tif'],
+          ['20201101T13:00:00Z', 'gtif_uibk_20201101_ffp_values_b14.tif'],
+          ['20201101T14:00:00Z', 'gtif_uibk_20201101_ffp_values_b15.tif'],
+          ['20201101T15:00:00Z', 'gtif_uibk_20201101_ffp_values_b16.tif'],
+          ['20201101T16:00:00Z', 'gtif_uibk_20201101_ffp_values_b17.tif'],
+          ['20201101T17:00:00Z', 'gtif_uibk_20201101_ffp_values_b18.tif'],
+          ['20201101T18:00:00Z', 'gtif_uibk_20201101_ffp_values_b19.tif'],
+          ['20201101T19:00:00Z', 'gtif_uibk_20201101_ffp_values_b20.tif'],
+          ['20201101T20:00:00Z', 'gtif_uibk_20201101_ffp_values_b21.tif'],
+          ['20201101T21:00:00Z', 'gtif_uibk_20201101_ffp_values_b22.tif'],
+          ['20201101T22:00:00Z', 'gtif_uibk_20201101_ffp_values_b23.tif'],
+          ['20201101T23:00:00Z', 'gtif_uibk_20201101_ffp_values_b24.tif'],
+        ],
         inputData: [''],
         yAxis: '',
         cogFilters: {
           sourceLayer: 'AQ2',
+          filters: {
+            var: {
+              display: true,
+              label: 'Flux [1e-6]',
+              id: 'var',
+              min: 0,
+              max: 200,
+              header: true,
+              range: [2, 100],
+            },
+            spacing: {
+              display: true,
+              label: 'Contour step size [1e-6]',
+              type: 'slider',
+              id: 'varSpacing',
+              min: 1,
+              max: 51,
+              value: 2,
+            },
+            offset: {
+              display: true,
+              label: 'Contour offset [1e-6]',
+              type: 'slider',
+              id: 'varOffset',
+              min: 0,
+              max: 6,
+              value: 0,
+            },
+          },
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((11.372 47.268, 11.372 47.258, 11.394 47.258, 11.394 47.268, 11.372 47.268 ))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'AQ2',
+          sources: [
+            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/new_data/test_nc_COG/day/{time}' },
+          ],
+          dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd HH:mm:ss'),
+          style: {
+            variables: {
+              varMin: 2,
+              varMax: 100,
+              varOffset: 0.0,
+              varSpacing: 2,
+            },
+            color: [
+              'case',
+              ['between', bandModifier(0, 0, 1e6), ['var', 'varMin'], ['var', 'varMax']],
+              [
+                'palette',
+                [
+                  '*',
+                  [
+                    '*',
+                    [
+                      'clamp',
+                      [
+                        '+',
+                        diff(
+                          contspace(bandModifier(0, 0, 1e6), 'varOffset', 'varSpacing'),
+                          contspace(bandModifier(1.5, 0, 1e6), 'varOffset', 'varSpacing'),
+                        ),
+                        diff(
+                          contspace(bandModifier(0, 0, 1e6), 'varOffset', 'varSpacing'),
+                          contspace(bandModifier(0, 1.5, 1e6), 'varOffset', 'varSpacing'),
+                        ),
+                      ],
+                      0,
+                      1,
+                    ],
+                    normalize(bandModifier(0, 0, 1e6), 'varMin', 'varMax'),
+                  ],
+                  getColormap('viridis').length + 1,
+                ],
+                // add a transparent color in the 0 index so that all 0s map to it
+                [[0, 0, 0, 0], ...getColormap('viridis')],
+              ],
+              // out of bounds color
+              ['color', 0, 0, 0, 0],
+            ],
+            /*
+            [
+              'interpolate',
+              ['linear'],
+              ['band', 1],
+              ...getColorStops('yignbu', -0.1, 0.1, 50, false),
+            ],
+            */
+          },
+          name: 'Flux tower',
+          minZoom: 1,
         },
       },
     },

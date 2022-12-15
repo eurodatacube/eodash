@@ -6,7 +6,7 @@ module.exports = [
       staging: 2,
       production: 4,
     },
-    match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'race.eox.world:8812'],
+    match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'race.eox.world', 'race.localhost'],
     branding: {
       appName: 'Rapid Action for Citizens with Earth Observation',
       shortName: 'RACE Dashboard',
@@ -18,7 +18,7 @@ module.exports = [
     pageMeta: {
       rootPath: 'https://race.esa.int',
       googleSiteVerification: 'RfWilP51Q2wsZnVlKbxUTovIx90QqqLRFLebGpAeq14',
-      shortDescription: 'The RACE platform demonstrates how the use of EO data can help shed new light on societal and economic changes currently taking place owing to the coronavirus pandemic.',
+      shortDescription: 'This dashboard aims to showcase the power of Earth Observations to inform on societal global challenges. It is a cooperation between The European Space Agency and the European Commission.',
       twitterCardImagePath: '/img/ESA/twitter_card.jpg',
       imagePath: '/img/ESA',
     },
@@ -78,7 +78,7 @@ module.exports = [
       staging: 3,
       production: 5,
     },
-    match: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'eodash-trilateral-testing.eox.at', 'trilateral.eox.world:8812'],
+    match: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'eodash-trilateral-testing.eox.at', 'trilateral.eox.world', 'trilateral.localhost'],
     branding: {
       appName: 'Earth Observing Dashboard',
       primaryColor: '#333333',
@@ -183,11 +183,11 @@ module.exports = [
       staging: 6,
       production: 7,
     },
-    match: ['gtif.esa.int', 'gtif.eox.at', 'gtif-demo.eox.at', 'gtif-staging.eox.at', 'gtif-testing.eox.at', 'gtif.eox.world:8812'],
+    match: ['gtif.esa.int', 'gtif.eox.at', 'gtif-demo.eox.at', 'gtif-staging.eox.at', 'gtif-testing.eox.at', 'gtif.eox.world', 'gtif.localhost'],
     branding: {
       appName: 'Green Transition Information Factory',
       primaryColor: '#003247',
-      secondaryColor: '#82db9d',
+      secondaryColor: '#00ae9d',
       headerLogo: './data/gtif/images/gtif_attributions_logo.png',
       faviconPath: './public/img/ESA/favicon.ico',
       title: 'Green Transition Information Factory',
@@ -234,5 +234,8 @@ module.exports = [
     configuredMapPois: [],
     featureGrouping: [],
     enableStories: false,
+    enableESALayout: true,
+    enableScrollyTelling: true,
+    enableIndicatorSidebar: true,
   },
 ];

@@ -1,17 +1,20 @@
+// eslint-disable-next-line import/no-named-default
+import { default as powerOpenInsfrastructureStyle } from '@/assets/openinframap/style_oim_power';
+
 export const baseLayers = Object.freeze({
   cloudless: {
     name: 'EOxCloudless 2021',
     url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2021_3857/default/g/{z}/{y}/{x}.jpg',
     attribution: '{ EOxCloudless 2021: <a xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" target="_blank" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" target="_blank" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2021) }',
     visible: false,
-    maxNativeZoom: 16,
+    maxZoom: 16,
     protocol: 'xyz',
   },
   terrainLight: {
     name: 'Terrain light',
     url: '//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg',
     attribution: '{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
-    maxNativeZoom: 16,
+    maxZoom: 16,
     visible: false,
     protocol: 'xyz',
   },
@@ -25,6 +28,30 @@ export const baseLayers = Object.freeze({
     attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
     visible: false,
     minZoom: 7,
+  },
+  geolandbasemap: {
+    name: 'Geoland Basemap',
+    url: '//maps1.wien.gv.at/basemap/geolandbasemap/normal/google3857/{z}/{y}/{x}.png',
+    attribution: '{ Datenquelle: <a href="https://basemap.at" target="_blank" property="dct:title">basemap.at</a> }',
+    visible: false,
+    maxZoom: 17,
+    protocol: 'xyz',
+  },
+  bmapgelaende: {
+    name: 'Geoland Basemap Gelände',
+    url: '//maps1.wien.gv.at/basemap/bmapgelaende/grau/google3857/{z}/{y}/{x}.jpeg',
+    attribution: '{ Datenquelle: <a href="https://basemap.at" target="_blank" property="dct:title">basemap.at</a> }',
+    visible: false,
+    maxZoom: 17,
+    protocol: 'xyz',
+  },
+  bmaporthofoto30cm: {
+    name: 'Geoland Basemap Orthofoto',
+    url: '//maps1.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/{z}/{y}/{x}.jpeg',
+    attribution: '{ Datenquelle: <a href="https://basemap.at" target="_blank" property="dct:title">basemap.at</a> }',
+    visible: false,
+    maxZoom: 17,
+    protocol: 'xyz',
   },
   CORINE_LAND_COVER: {
     baseUrl: `https://creodias.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
@@ -53,23 +80,6 @@ export const baseLayers = Object.freeze({
     url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
     attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
     visible: false,
-    maxNativeZoom: 18,
-    protocol: 'xyz',
-  },
-  cloudless_4326: {
-    name: 'EOxCloudless 2021',
-    url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2021/default/WGS84/{z}/{y}/{x}.jpg',
-    attribution: '{ EOxCloudless 2021: <a xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" target="_blank" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" target="_blank" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2021) }',
-    visible: false,
-    maxNativeZoom: 16,
-    protocol: 'xyz',
-  },
-  terrainLight_4326: {
-    name: 'Terrain light',
-    url: '//s2maps-tiles.eu/wmts/1.0.0/terrain-light/default/WGS84/{z}/{y}/{x}.jpg',
-    attribution: '{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
-    maxNativeZoom: 16,
-    visible: true,
     protocol: 'xyz',
   },
 });
@@ -83,12 +93,24 @@ export const overlayLayers = Object.freeze({
     maxZoom: 14,
     protocol: 'xyz',
   },
-  eoxOverlay_4326: {
-    name: 'Overlay labels',
-    url: '//s2maps-tiles.eu/wmts/1.0.0/overlay_base/default/WGS84/{z}/{y}/{x}.jpg',
-    attribution: '{ Overlay: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors, Made with Natural Earth, Rendering &copy; <a href="//eox.at" target="_blank">EOX</a> }',
+  powerOpenInfrastructure: {
+    name: 'Power Open Infrastructure Map',
+    protocol: 'maplibre',
     visible: false,
-    maxZoom: 14,
-    protocol: 'xyz',
+    zIndex: 4,
+    maplibreStyles: {
+      version: 8,
+      sprite: `${window.location.protocol}//${window.location.hostname}${window.location.port === '' ? '' : `:${window.location.port}`}/data/gtif/data/openinframap/sprite`,
+      glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
+      id: 'openinframap',
+      name: 'OpenInfraMap',
+      layers: powerOpenInsfrastructureStyle,
+      sources: {
+        openinframap: {
+          type: 'vector',
+          url: 'data/gtif/data/openinframap/openinframap.json',
+        },
+      },
+    },
   },
 });

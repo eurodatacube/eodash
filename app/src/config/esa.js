@@ -2,7 +2,7 @@
 // temporary solution
 import { Wkt } from 'wicket';
 import { DateTime } from 'luxon';
-import { latLng, latLngBounds, CRS } from 'leaflet';
+import latLng from '@/latLng';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { E13bRemovedFtrs } from '@/config/otherdata';
@@ -27,20 +27,20 @@ export const dataEndpoints = [
 
 export const indicatorsDefinition = Object.freeze({
   C1: {
-    indicator: 'Combined 1',
+    indicatorSummary: 'Combined 1',
     indicatorOverwrite: 'Ports and Shipping - impact on air quality',
     themes: ['economy, air'],
   },
   C2: {
-    indicator: 'Combined 2',
+    indicatorSummary: 'Combined 2',
     themes: ['economy, air'],
   },
   C3: {
-    indicator: 'Combined 3',
+    indicatorSummary: 'Combined 3',
     themes: ['economy, air'],
   },
   E200: {
-    indicator: 'Changes in Ships traffic within the Port',
+    indicatorSummary: 'Changes in Ships traffic within the Port',
     themes: ['economy'],
     story: '/eodash-data/stories/E200',
     features: {
@@ -50,7 +50,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E1: {
-    indicator: 'Status of metallic ores (Archived)',
+    indicatorSummary: 'Status of metallic ores (Archived)',
     themes: ['economy'],
     story: '/eodash-data/stories/E1',
     features: {
@@ -60,7 +60,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E1_S2: {
-    indicator: 'Status of metallic ores (Archived)',
+    indicatorSummary: 'Status of metallic ores (Archived)',
     themes: ['economy'],
     story: '/eodash-data/stories/E1',
     features: {
@@ -69,7 +69,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E1a: {
-    indicator: 'Status of non-metallic ores (Archived)',
+    indicatorSummary: 'Status of non-metallic ores (Archived)',
     themes: ['economy'],
     story: '/eodash-data/stories/E1a',
     features: {
@@ -79,7 +79,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E1a_S2: {
-    indicator: 'Status of non-metallic ores (Archived)',
+    indicatorSummary: 'Status of non-metallic ores (Archived)',
     themes: ['economy'],
     story: '/eodash-data/stories/E1a',
     features: {
@@ -88,7 +88,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E2: {
-    indicator: 'Volume of oil stockpiled (Archived)',
+    indicatorSummary: 'Volume of oil stockpiled (Archived)',
     themes: ['economy'],
     story: '/eodash-data/stories/E2',
     features: {
@@ -98,7 +98,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E2_S2: {
-    indicator: 'Volume of oil stockpiled (Archived)',
+    indicatorSummary: 'Volume of oil stockpiled (Archived)',
     themes: ['economy'],
     story: '/eodash-data/stories/E2',
     features: {
@@ -107,127 +107,123 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   E2a: {
-    indicator: 'Level of flaring activity',
+    indicatorSummary: 'Level of flaring activity',
     themes: ['economy'],
   },
   E3: {
-    indicator: 'Inventory levels of factory inputs',
+    indicatorSummary: 'Inventory levels of factory inputs',
     themes: ['economy'],
   },
   E4: {
-    indicator: 'Production activity of intermediate goods',
+    indicatorSummary: 'Production activity of intermediate goods',
     themes: ['economy'],
     story: '/eodash-data/stories/E4',
   },
   E5: {
-    indicator: 'Inventory levels of intermediate goods',
+    indicatorSummary: 'Inventory levels of intermediate goods',
     themes: ['economy'],
     story: '/eodash-data/stories/E5',
   },
   E6: {
-    indicator: 'Inventory levels of factory inputs',
+    indicatorSummary: 'Inventory levels of factory inputs',
     themes: ['economy'],
   },
   E7: {
-    indicator: 'Production activity of finished goods',
+    indicatorSummary: 'Production activity of finished goods',
     themes: ['economy'],
   },
   E8: {
-    indicator: 'Inventory Levels',
+    indicatorSummary: 'Inventory Levels',
     themes: ['economy'],
     story: '/eodash-data/stories/E8',
     maxDecimals: 5,
   },
   E9: {
-    indicator: 'Construction activity',
+    indicatorSummary: 'Construction activity',
     themes: ['economy'],
   },
   E10a1: {
-    indicator: 'Harvesting activity',
+    indicatorSummary: 'Harvesting activity',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a1',
-    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
-      ...baseLayers.S2GLC,
-      visible: true,
-    }],
-    legendUrl: 'eodash-data/data/LegendGLC.png',
   },
   E10a2: {
-    indicator: 'Cum. proportion of total area under active mgmt.',
+    indicatorSummary: 'Cum. proportion of total area under active mgmt.',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a2',
-    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
-      ...baseLayers.S2GLC,
-      visible: true,
-    }],
-    legendUrl: 'eodash-data/data/LegendGLC.png',
     maxDecimals: 4,
   },
   E10a3: {
-    indicator: 'Evolution of the cultivated areas for production of white asparagus',
+    indicatorSummary: 'Evolution of the cultivated areas for production of white asparagus',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a2',
   },
   E10a5: {
-    indicator: 'Harvesting activity',
+    indicatorSummary: 'Harvesting activity',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a5',
   },
   E10a6: {
-    indicator: 'Harvested parcels/area evolution over time',
+    indicatorSummary: 'Harvested parcels/area evolution over time',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a6',
     maxDecimals: 4,
   },
   E10a8: {
-    indicator: 'Cumulative harvested area',
+    indicatorSummary: 'Cumulative harvested area',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a8',
   },
   E10a9: {
-    indicator: 'Tomatoes cultivation',
+    indicatorSummary: 'Tomatoes cultivation',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a9',
   },
   E10a10: {
-    indicator: 'Harvesting evolution over time',
+    indicatorSummary: 'Harvesting evolution over time',
     themes: ['agriculture'],
     story: '/eodash-data/stories/E10a10',
   },
   E10b: {
-    indicator: 'Field preparation activity',
+    indicatorSummary: 'Field preparation activity',
     themes: ['agriculture'],
   },
   E11: {
-    indicator: 'Volume of activity at shopping centers',
+    indicatorSummary: 'Volume of activity at shopping centers',
     themes: ['economy'],
     story: '/eodash-data/stories/E11',
   },
   E11a: {
-    indicator: 'Indicator definition placeholder',
+    indicatorSummary: 'Indicator definition placeholder',
     themes: ['economy'],
   },
   E12a: {
-    indicator: 'Volume of activity logistic interchange centers',
+    indicatorSummary: 'Volume of activity logistic interchange centers',
     themes: ['economy'],
   },
   E12b: {
-    indicator: 'Throughput at border crossing points',
+    indicatorSummary: 'Throughput at border crossing points',
     themes: ['economy'],
     story: '/eodash-data/stories/E12b',
     maxDecimals: 3,
   },
   E12c: {
-    indicator: 'Number of Trucks (Beta)',
+    indicatorSummary: 'Number of Trucks (Beta)',
     themes: ['economy'],
     customAreaFeatures: true,
     customAreaIndicator: true,
-    featuresClustering: true,
+    story: '/eodash-data/stories/E12c',
+  },
+  E12d: {
+    indicatorSummary: 'Number of Trucks (Beta)',
+    themes: ['economy'],
+    customAreaFeatures: true,
+    customAreaIndicator: true,
     disableCompare: true,
     story: '/eodash-data/stories/E12c',
   },
   E13a: {
-    indicator: 'Throughput at principal rail stations',
+    indicatorSummary: 'Throughput at principal rail stations',
     themes: ['economy'],
   },
   E13c: {
@@ -235,7 +231,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '',
   },
   E13b: {
-    indicator: 'Throughput at principal hub airports',
+    indicatorSummary: 'Throughput at principal hub airports',
     themes: ['economy'],
     story: '/eodash-data/stories/E13b_PLES',
     features: {
@@ -245,12 +241,12 @@ export const indicatorsDefinition = Object.freeze({
     largeTimeDuration: true,
   },
   E13b2: {
-    indicator: 'Throughput at principal hub airports Aerospacelab archived',
+    indicatorSummary: 'Throughput at principal hub airports Aerospacelab archived',
     themes: ['economy'],
     story: '/eodash-data/stories/E13b',
   },
   E13d: {
-    indicator: 'Airports: airplanes traffic',
+    indicatorSummary: 'Airports: airplanes traffic',
     themes: ['economy'],
     story: '/eodash-data/stories/E13d',
     baseLayers: [baseLayers.terrainLight, {
@@ -265,71 +261,71 @@ export const indicatorsDefinition = Object.freeze({
     largeTimeDuration: true,
   },
   E13e: {
-    indicator: 'Ports and Shipping - traffic (AIS)',
+    indicatorSummary: 'Ports and Shipping - traffic (AIS)',
     themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13f: {
-    indicator: 'Maritime traffic: fishing',
+    indicatorSummary: 'Maritime traffic: fishing',
     themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13g: {
-    indicator: 'Maritime traffic: tanker',
+    indicatorSummary: 'Maritime traffic: tanker',
     themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13h: {
-    indicator: 'Maritime traffic: tug',
+    indicatorSummary: 'Maritime traffic: tug',
     themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13i: {
-    indicator: 'Maritime traffic: search, rescue',
+    indicatorSummary: 'Maritime traffic: search, rescue',
     themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13l: {
-    indicator: 'Maritime traffic: pleasure craft',
+    indicatorSummary: 'Maritime traffic: pleasure craft',
     themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13m: {
-    indicator: 'Maritime traffic: passenger',
+    indicatorSummary: 'Maritime traffic: passenger',
     themes: ['economy'],
     story: '/eodash-data/stories/E13e',
   },
   E13n: {
-    indicator: 'Ports and Shipping - traffic (AIS, Sentinel-1, mobile)',
+    indicatorSummary: 'Ports and Shipping - traffic (AIS, Sentinel-1, mobile)',
     themes: ['economy'],
     story: '/eodash-data/stories/E13n',
   },
   E13o: {
-    indicator: 'Vessel density for all',
+    indicatorSummary: 'Vessel density for all',
     themes: ['economy'],
     story: '/eodash-data/stories/E13o',
   },
   E13p: {
-    indicator: 'Vessel density for cargo',
+    indicatorSummary: 'Vessel density for cargo',
     themes: ['economy'],
     story: '/eodash-data/stories/E13o',
   },
   E13q: {
-    indicator: 'Vessel density for tankers',
+    indicatorSummary: 'Vessel density for tankers',
     themes: ['economy'],
     story: '/eodash-data/stories/E13o',
   },
   E13r: {
-    indicator: 'Vessel density for others',
+    indicatorSummary: 'Vessel density for others',
     themes: ['economy'],
     story: '/eodash-data/stories/E13o',
   },
   H1: {
-    indicator: 'Number of temp. treatment sites',
+    indicatorSummary: 'Number of temp. treatment sites',
     themes: ['health'],
   },
   N1: {
-    indicator: 'Air quality',
+    indicatorSummary: 'Air quality',
     themes: ['air'],
     story: '/eodash-data/stories/N1',
     externalData: {
@@ -347,7 +343,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   N1b: {
-    indicator: 'CAMS Air quality',
+    indicatorSummary: 'CAMS Air quality',
     themes: ['air'],
     story: '/eodash-data/stories/N1_CAMS',
     externalData: {
@@ -372,88 +368,78 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   NASAPopulation: {
-    indicator: 'Population',
+    indicatorSummary: 'Population',
     themes: ['economy'],
     story: '/data/trilateral/NASAPopulation',
   },
   WSF: {
-    indicator: 'World Settlement Footprint',
+    indicatorSummary: 'World Settlement Footprint',
     themes: ['economy'],
     story: '/eodash-data/stories/WSF-WSF',
   },
   N2: {
-    indicator: 'CO2 emissions',
+    indicatorSummary: 'CO2 emissions',
     themes: ['air'],
     largeTimeDuration: true,
   },
   N3: {
-    indicator: 'CHL concentration',
+    indicatorSummary: 'CHL concentration',
     themes: ['water'],
     story: '/eodash-data/stories/N3',
   },
   N3a2: {
-    indicator: 'CHL concentration',
+    indicatorSummary: 'CHL concentration',
     themes: ['water'],
     story: '/eodash-data/stories/N3a2',
   },
   N4a: {
-    indicator: 'Changes in land fill sites',
+    indicatorSummary: 'Changes in land fill sites',
     themes: ['land'],
     story: '/eodash-data/stories/N4a',
-    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
-      ...baseLayers.S2GLC,
-      visible: true,
-    }],
-    legendUrl: 'eodash-data/data/LegendGLC.png',
     disableCSV: true,
   },
   N4b: {
-    indicator: 'Illegal waste levels',
+    indicatorSummary: 'Illegal waste levels',
     themes: ['land'],
   },
   N3c: {
-    indicator: 'CMEMS Water Quality',
+    indicatorSummary: 'CMEMS Water Quality',
     themes: ['water'],
     largeTimeDuration: true,
     story: '/eodash-data/stories/N3c',
   },
   N4c: {
-    indicator: 'Changes in land fill sites',
+    indicatorSummary: 'Changes in land fill sites',
     themes: ['land'],
     story: '/eodash-data/stories/N4c',
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HH"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
-    baseLayers: [baseLayers.cloudless, baseLayers.terrainLight, {
-      ...baseLayers.S2GLC,
-      visible: true,
-    }],
-    legendUrl: 'eodash-data/data/LegendGLC.png',
     disableCSV: true,
   },
   OX: {
-    indicator: 'Crude Oil Storage Utilization',
+    indicatorSummary: 'Crude Oil Storage Utilization',
     themes: ['economy'],
     story: '/eodash-data/stories/OX',
     disableCSV: true,
   },
   GG: {
-    indicator: 'Mobility',
+    indicatorSummary: 'Mobility',
     themes: ['economy'],
     disableTimeSelection: true,
     story: '/eodash-data/stories/GG-GG',
     disableCSV: true,
   },
   CV: {
-    indicator: 'Covid-19 cases',
+    indicatorSummary: 'Covid-19 cases',
     themes: ['health'],
     disableTimeSelection: true,
     story: '/eodash-data/stories/CV-CV',
     disableCSV: true,
   },
   OW: {
-    indicator: 'Covid-19 vaccinations',
+    indicatorSummary: 'Covid-19 vaccinations',
     themes: ['health'],
     disableTimeSelection: true,
     story: '/eodash-data/stories/OW-OW',
@@ -461,7 +447,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   /*
   GSA: {
-    indicator: 'Mobility',
+    indicatorSummary: 'Mobility',
     themes: ['economy'],
     disableTimeSelection: true,
     borderSelection: true,
@@ -469,27 +455,27 @@ export const indicatorsDefinition = Object.freeze({
   },
   */
   CDS1: {
-    indicator: 'C3S Data',
+    indicatorSummary: 'C3S Data',
     themes: ['air'],
     story: '/eodash-data/stories/CDS',
   },
   CDS2: {
-    indicator: 'Relative humidity',
+    indicatorSummary: 'Relative humidity',
     themes: ['air'],
     story: '/eodash-data/stories/CDS',
   },
   CDS3: {
-    indicator: 'Wind U field',
+    indicatorSummary: 'Wind U field',
     themes: ['air'],
     story: '/eodash-data/stories/CDS',
   },
   CDS4: {
-    indicator: 'Wind V field',
+    indicatorSummary: 'Wind V field',
     themes: ['air'],
     story: '/eodash-data/stories/CDS',
   },
   d: { // dummy for locations without Indicator code
-    indicator: 'Upcoming data',
+    indicatorSummary: 'Upcoming data',
     themes: ['economy'],
   },
 });
@@ -533,9 +519,11 @@ export const layerNameMapping = Object.freeze({
   },
   S1GRD: {
     layers: 'E8_SENTINEL1',
+    dateFormatFunction: shS2TimeFunction,
   },
   'S1A - GRD': {
     layers: 'E8_SENTINEL1',
+    dateFormatFunction: shS2TimeFunction,
   },
   'Sentinel-2 L1C': {
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
@@ -557,15 +545,12 @@ export const indicatorClassesIcons = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  minMapZoom: 2,
-  maxMapZoom: 18,
-  bounds: latLngBounds(latLng([35, -10]), latLng([70, 33])),
-  crs: CRS.EPSG3857,
+  bounds: [-10, 35, 33, 70],
 });
 
 export const baseLayersLeftMap = [{
   ...baseLayers.terrainLight, visible: true,
-}, baseLayers.cloudless, baseLayers.S2GLC];
+}, baseLayers.cloudless];
 export const baseLayersRightMap = [{
   ...baseLayers.terrainLight, visible: true,
 }, baseLayers.cloudless];
@@ -596,7 +581,6 @@ export const cmemsDisplay = {
   tileSize: 256,
   minZoom: 1,
   layers: 'CHL',
-  legendUrl: 'eodash-data/data/cmems-legend.png',
   dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T00:00:00Z'"),
 };
 
@@ -717,7 +701,7 @@ export const globalIndicators = [
           name: 'Tropospheric NO2',
           layers: 'AWS_NO2-VISUALISATION',
           minZoom: 1,
-          legendUrl: 'eodash-data/data/no2Legend.png',
+          legendUrl: 'legends/esa/AWS_NO2-VISUALISATION.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           areaIndicator: {
             ...statisticalApiHeaders,
@@ -740,7 +724,7 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'TROPOMI CO',
+        description: 'TROPOMI CO 3 day average',
         indicator: 'N1',
         lastIndicatorValue: null,
         indicatorName: 'TROPOMI CO',
@@ -753,7 +737,7 @@ export const globalIndicators = [
         aoiID: 'WorldCO',
         time: availableDates.AWS_VIS_CO_3DAILY_DATA,
         inputData: [''],
-        yAxis: 'CO (ppbv)',
+        yAxis: 'CO (ppbv) - 3 day average',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           opacity: 1.0,
@@ -761,7 +745,7 @@ export const globalIndicators = [
           name: 'TROPOMI CO',
           layers: 'AWS_VIS_CO_3DAILY_DATA',
           minZoom: 1,
-          legendUrl: 'data/trilateral/s5pCOLegend.png',
+          legendUrl: 'legends/esa/AWS_VIS_CO_3DAILY_DATA.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           areaIndicator: {
             ...statisticalApiHeaders,
@@ -805,7 +789,7 @@ export const globalIndicators = [
           name: 'TROPOMI CH4',
           layers: 'AWS_CH4_WEEKLY',
           minZoom: 1,
-          legendUrl: 'eodash-data/data/ch4_legend_mixing_ratio.png',
+          legendUrl: 'legends/esa/AWS_CH4_WEEKLY.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           areaIndicator: {
             ...statisticalApiHeaders,
@@ -846,7 +830,7 @@ export const globalIndicators = [
           name: 'Vessel density',
           layers: 'AWS_VIS_VESSELDENSITY_ALL',
           minZoom: 1,
-          // legendUrl: 'eodash-data/data/no2Legend.png',
+          legendUrl: 'legends/esa/AWS_VIS_VESSELDENSITY_ALL.png',
           dateFormatFunction: (date) => date,
           customAreaIndicator: true,
           areaIndicator: {
@@ -884,7 +868,7 @@ export const globalIndicators = [
           name: 'Vessel density for cargo',
           layers: 'AWS_VIS_VESSELDENSITY_CARGO',
           minZoom: 1,
-          // legendUrl: 'eodash-data/data/no2Legend.png',
+          legendUrl: 'legends/esa/AWS_VIS_VESSELDENSITY_ALL.png',
           dateFormatFunction: (date) => date,
           areaIndicator: {
             ...shFisAreaIndicatorStdConfig,
@@ -921,7 +905,7 @@ export const globalIndicators = [
           name: 'Vessel density for tankers',
           layers: 'AWS_VIS_VESSELDENSITY_TANKER',
           minZoom: 1,
-          // legendUrl: 'eodash-data/data/no2Legend.png',
+          legendUrl: 'legends/esa/AWS_VIS_VESSELDENSITY_ALL.png',
           dateFormatFunction: (date) => date,
           areaIndicator: {
             ...shFisAreaIndicatorStdConfig,
@@ -958,7 +942,7 @@ export const globalIndicators = [
           name: 'Vessel density for others',
           layers: 'AWS_VIS_VESSELDENSITY_OTHER',
           minZoom: 1,
-          // legendUrl: 'eodash-data/data/no2Legend.png',
+          legendUrl: 'legends/esa/AWS_VIS_VESSELDENSITY_ALL.png',
           dateFormatFunction: (date) => date,
           areaIndicator: {
             ...shFisAreaIndicatorStdConfig,
@@ -994,7 +978,7 @@ export const globalIndicators = [
           baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged NO2',
           layers: 'composition_europe_no2_analysis_surface',
-          legendUrl: 'eodash-data/data/cams_no2.png',
+          legendUrl: 'legends/esa/GCAQ1-N1b.png',
           maxZoom: 13,
           minZoom: 1,
           attribution: '{ <a href="https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis" target="_blank">CAMS source data information</a> }',
@@ -1029,7 +1013,7 @@ export const globalIndicators = [
           baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged PM2.5',
           layers: 'composition_europe_pm2p5_analysis_surface',
-          legendUrl: 'eodash-data/data/cams_pm25.png',
+          legendUrl: 'legends/esa/GCAQ2-N1b.png',
           maxZoom: 13,
           minZoom: 1,
           attribution: '{ <a href="https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis" target="_blank">CAMS source data information</a> }',
@@ -1064,7 +1048,7 @@ export const globalIndicators = [
           baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged PM2.5',
           layers: 'composition_europe_pm10_analysis_surface',
-          legendUrl: 'eodash-data/data/cams_pm10.png',
+          legendUrl: 'legends/esa/GCAQ3-N1b.png',
           maxZoom: 13,
           minZoom: 1,
           attribution: '{ <a href="https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis" target="_blank">CAMS source data information</a> }',
@@ -1099,7 +1083,7 @@ export const globalIndicators = [
           baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged PM2.5',
           layers: 'composition_europe_o3_analysis_surface',
-          legendUrl: 'eodash-data/data/cams_o3.png',
+          legendUrl: 'legends/esa/GCAQ4-N1b.png',
           maxZoom: 13,
           minZoom: 1,
           attribution: '{ <a href="https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis" target="_blank">CAMS source data information</a> }',
@@ -1133,9 +1117,9 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Population',
           layers: 'AWS_POPULATION_DENSITY',
-          legendUrl: 'data/trilateral/NASAPopulation_legend.png',
+          legendUrl: 'legends/esa/AWS_POPULATION_DENSITY.png',
           minZoom: 1,
-          maxMapZoom: 7,
+          maxZoom: 7,
         },
       },
     },
@@ -1164,12 +1148,13 @@ export const globalIndicators = [
           baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
           name: 'WSF_Evolution',
           layers: 'WSF_Evolution',
-          legendUrl: 'eodash-data/data/wsf_legend.png',
+          legendUrl: 'data/trilateral/wsf_legend.png',
           minZoom: 1,
-          maxMapZoom: 14,
+          maxZoom: 14,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
           labelFormatFunction: (date) => date,
           specialEnvTime: true,
+          attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Contains modified Landsat-5/-7 data [1985-2015] }',
         },
       },
     },
@@ -1199,7 +1184,7 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Global temperature',
           layers: 'AWS_VIS_2MTEMPERATURE',
-          legendUrl: 'eodash-data/data/temperature.png',
+          legendUrl: 'legends/esa/AWS_VIS_2MTEMPERATURE.png',
           minZoom: 1,
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1237,7 +1222,7 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Global temperature',
           layers: 'AWS_VIS_RELHUMIDITY1000HPA',
-          legendUrl: 'eodash-data/data/humidity.png',
+          legendUrl: 'legends/esa/AWS_VIS_RELHUMIDITY1000HPA.png',
           minZoom: 1,
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1275,7 +1260,7 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Global temperature',
           layers: 'AWS_VIS_WIND_U_10M',
-          legendUrl: 'eodash-data/data/windu_cds.png',
+          legendUrl: 'legends/esa/AWS_VIS_WIND_U_10M.png',
           minZoom: 1,
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1313,7 +1298,7 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Global temperature',
           layers: 'AWS_VIS_WIND_V_10M',
-          legendUrl: 'eodash-data/data/windv_cds.png',
+          legendUrl: 'legends/esa/AWS_VIS_WIND_U_10M.png',
           minZoom: 1,
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1351,7 +1336,7 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'SO2',
           layers: 'AWS_VIS_SO2_DAILY_DATA',
-          legendUrl: 'eodash-data/data/colorbarso2.svg',
+          legendUrl: 'legends/esa/AWS_VIS_SO2_DAILY_DATA.png',
           minZoom: 1,
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1371,12 +1356,11 @@ export const globalIndicators = [
   },
   {
     id: 9999,
-    latlng: latLng([45.197522, 13.029785]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         id: 9999,
-        aoi: latLng([45.197522, 13.029785]),
+        aoi: latLng([45.19752, 13.02978]),
         aoiID: 'NorthAdriatic',
         country: ['HR', 'IT', 'SI'],
         city: 'North Adriatic - Chlorophyll-a concentration',
@@ -1392,7 +1376,7 @@ export const globalIndicators = [
           features: [{
             type: 'Feature',
             properties: {},
-            geometry: wkt.read('POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.839389 44.499195,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))').toJson(),
+            geometry: wkt.read('POLYGON((12.17439 44.77803,12.19636 44.81699,12.08514 45.40526,12.42602 45.58351,13.15366 45.77914,13.60398 45.81168,13.80442 45.67566,13.82364 45.59696,13.62603 45.44300,13.54915 45.43337,13.62603 45.32346,13.71390 45.09523,13.78383 44.98060,13.83051 44.89215,13.83938 44.49919,12.23482 44.48155,12.06659 44.58146,12.17439 44.77803))').toJson(),
           }],
         },
         time: availableDates.AWS_N3_CUSTOM,
@@ -1401,7 +1385,7 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM',
-          legendUrl: 'eodash-data/data/waterLegend.png',
+          legendUrl: 'legends/esa/AWS_N3_CUSTOM.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
@@ -1410,7 +1394,6 @@ export const globalIndicators = [
   },
   {
     id: 9998,
-    latlng: latLng([43.4, 4.94]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1431,7 +1414,7 @@ export const globalIndicators = [
           features: [{
             type: 'Feature',
             properties: {},
-            geometry: wkt.read('POLYGON((4.19585670915520126 43.49375380380885758, 4.19491064380215573 43.49564593451494687, 4.62253218337875094 43.49564593451494687, 4.69632528091630519 43.49753806522103616, 4.69537921556325966 43.48618528098449332, 4.6736197124432115 43.46442577786444161, 4.64523775185184462 43.45401905898093986, 4.67172758173712044 43.42090677162434531, 4.70389380374066945 43.41428431415302924, 4.71146232656503461 43.43698988262612204, 4.75592739815817644 43.43320562121393635, 4.78525542410258886 43.41806857556520782, 4.81647558075309234 43.38495628820861327, 4.83918114922618603 43.38495628820861327, 4.82877443034268428 43.40671579132866498, 4.81552951540004681 43.424691033036531, 4.81836771145918341 43.43604381727307384, 4.86661704446450738 43.41050005274084356, 4.87040130587668951 43.41523037950607034, 4.84012721457923156 43.44928873221571308, 4.85999458699318865 43.4682100392766273, 4.88459228617237251 43.42942135980175777, 4.89499900505587426 43.43793594797917024, 4.91297424676374028 43.43509775192003275, 4.92621916170637775 43.44172020939134882, 4.94608653412033483 43.49280773845580939, 5.21949942115050369 43.49753806522103616, 5.23558253215227776 43.4899695423966719, 5.24693531638882504 43.4672639739235791, 5.23842072821141436 43.43415168656698455, 5.21476909438527514 43.41428431415302924, 5.16557369602690564 43.39157874567993645, 5.08988846778326032 43.39157874567993645, 5.014203239539615 43.39252481103297754, 5.01893356630484355 43.3792798960903454, 5.03690880801270868 43.3565743276172455, 5.07096716072234965 43.34143728196851697, 5.11070190555026294 43.33859908590937948, 5.15327484643731371 43.34427547802765446, 5.21760729044441174 43.34049121661547588, 5.27247908092105533 43.35373613155811512, 5.30275317221851239 43.37265743861902223, 5.33208119816292569 43.36698104650074725, 5.35194857057688189 43.3565743276172455, 5.36140922410733811 43.34143728196851697, 5.36992381228474791 43.32535417096674735, 5.36992381228474791 43.3130553213771492, 5.36613955087256578 43.29791827572842067, 5.36613955087256578 43.28845762219796711, 5.37654626975606753 43.27521270725532787, 5.38600692328652286 43.26102172695964754, 5.38316872722738626 43.25250713878223507, 5.37276200834388451 43.24210041989873332, 5.35478676663601938 43.23263976636827977, 5.35005643987079083 43.22128698213172981, 5.35857102804820151 43.21088026324823517, 5.37749233510911218 43.21655665536650304, 5.39925183822916033 43.21939485142564052, 5.42195740670225401 43.21561059001346194, 5.45412362870580303 43.21939485142564052, 5.50331902706417253 43.20141960971777451, 5.50615722312331002 42.99990768951906972, 4.19301851309606466 42.99896162416602152, 4.19585670915520126 43.49375380380885758))').toJson(),
+            geometry: wkt.read('POLYGON((4.19585 43.49375, 4.19491 43.49564, 4.62253 43.49564, 4.69632 43.49753, 4.69537 43.48618, 4.67361 43.46442, 4.64523 43.45401, 4.67172 43.42090, 4.70389 43.41428, 4.71146 43.43698, 4.75592 43.43320, 4.78525 43.41806, 4.81647 43.38495, 4.83918 43.38495, 4.82877 43.40671, 4.81552 43.42469, 4.81836 43.43604, 4.86661 43.41050, 4.87040 43.41523, 4.84012 43.44928, 4.85999 43.46821, 4.88459 43.42942, 4.89499 43.43793, 4.91297 43.43509, 4.92621 43.44172, 4.94608 43.49280, 5.21949 43.49753, 5.23558 43.48996, 5.24693 43.46726, 5.23842 43.43415, 5.21476 43.41428, 5.16557 43.39157, 5.08988 43.39157, 5.01420 43.39252, 5.01893 43.37927, 5.03690 43.35657, 5.07096 43.34143, 5.11070 43.33859, 5.15327 43.34427, 5.21760 43.34049, 5.27247 43.35373, 5.30275 43.37265, 5.33208 43.36698, 5.35194 43.35657, 5.36140 43.34143, 5.36992 43.32535, 5.36992 43.31305, 5.36613 43.29791, 5.36613 43.28845, 5.37654 43.27521, 5.38600 43.26102, 5.38316 43.25250, 5.37276 43.24210, 5.35478 43.23263, 5.35005 43.22128, 5.35857 43.21088, 5.37749 43.21655, 5.39925 43.21939, 5.42195 43.21561, 5.45412 43.21939, 5.50331 43.20141, 5.50615 42.99990, 4.19301 42.99896, 4.19585 43.49375))').toJson(),
           }],
         },
         time: availableDates.AWS_N3_CUSTOM,
@@ -1440,7 +1423,7 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM',
-          legendUrl: 'eodash-data/data/waterLegend.png',
+          legendUrl: 'legends/esa/AWS_N3_CUSTOM.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
@@ -1449,12 +1432,11 @@ export const globalIndicators = [
   },
   {
     id: 9997,
-    latlng: latLng([45.197522, 13.0297851]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         id: 9997,
-        aoi: latLng([45.197522, 13.0297851]),
+        aoi: latLng([45.19752, 13.02978]),
         aoiID: 'NorthAdriaticTSM',
         country: ['HR', 'IT', 'SI'],
         city: 'North Adriatic - Total Suspended Matter',
@@ -1470,7 +1452,7 @@ export const globalIndicators = [
           features: [{
             type: 'Feature',
             properties: {},
-            geometry: wkt.read('POLYGON((12.174395 44.778037,12.196361 44.816998,12.085149 45.405263,12.426024 45.583514,13.153667 45.779148,13.603981 45.811687,13.804426 45.675662,13.823647 45.596962,13.626039 45.443008,13.549156 45.433376,13.626039 45.323461,13.713905 45.095238,13.78383 44.980605,13.830519 44.892158,13.839389 44.499195,12.234821 44.481556,12.06659 44.581469,12.174395 44.778037))').toJson(),
+            geometry: wkt.read('POLYGON((12.17439 44.77803,12.19636 44.81699,12.08514 45.40526,12.42602 45.58351,13.15366 45.77914,13.60398 45.81168,13.80442 45.67566,13.82364 45.59696,13.62603 45.44300,13.54915 45.43337,13.62603 45.32346,13.71390 45.09523,13.78383 44.98060,13.83051 44.89215,13.83938 44.49919,12.23482 44.48155,12.06659 44.58146,12.17439 44.77803))').toJson(),
           }],
         },
         time: availableDates.AWS_N3_CUSTOM_TSMNN,
@@ -1479,7 +1461,7 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM_TSMNN',
-          legendUrl: 'eodash-data/data/waterLegend_tsm.png',
+          legendUrl: 'legends/esa/AWS_N3_CUSTOM_TSMNN.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
@@ -1488,12 +1470,11 @@ export const globalIndicators = [
   },
   {
     id: 9996,
-    latlng: latLng([43.4, 4.9400001]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         id: 9996,
-        aoi: latLng([43.4, 4.9400001]),
+        aoi: latLng([43.4, 4.94]),
         aoiID: 'RhoneDeltaTSM',
         country: ['FR'],
         city: 'Rhone Delta - Total Suspended Matter',
@@ -1509,7 +1490,7 @@ export const globalIndicators = [
           features: [{
             type: 'Feature',
             properties: {},
-            geometry: wkt.read('POLYGON((4.19585670915520126 43.49375380380885758, 4.19491064380215573 43.49564593451494687, 4.62253218337875094 43.49564593451494687, 4.69632528091630519 43.49753806522103616, 4.69537921556325966 43.48618528098449332, 4.6736197124432115 43.46442577786444161, 4.64523775185184462 43.45401905898093986, 4.67172758173712044 43.42090677162434531, 4.70389380374066945 43.41428431415302924, 4.71146232656503461 43.43698988262612204, 4.75592739815817644 43.43320562121393635, 4.78525542410258886 43.41806857556520782, 4.81647558075309234 43.38495628820861327, 4.83918114922618603 43.38495628820861327, 4.82877443034268428 43.40671579132866498, 4.81552951540004681 43.424691033036531, 4.81836771145918341 43.43604381727307384, 4.86661704446450738 43.41050005274084356, 4.87040130587668951 43.41523037950607034, 4.84012721457923156 43.44928873221571308, 4.85999458699318865 43.4682100392766273, 4.88459228617237251 43.42942135980175777, 4.89499900505587426 43.43793594797917024, 4.91297424676374028 43.43509775192003275, 4.92621916170637775 43.44172020939134882, 4.94608653412033483 43.49280773845580939, 5.21949942115050369 43.49753806522103616, 5.23558253215227776 43.4899695423966719, 5.24693531638882504 43.4672639739235791, 5.23842072821141436 43.43415168656698455, 5.21476909438527514 43.41428431415302924, 5.16557369602690564 43.39157874567993645, 5.08988846778326032 43.39157874567993645, 5.014203239539615 43.39252481103297754, 5.01893356630484355 43.3792798960903454, 5.03690880801270868 43.3565743276172455, 5.07096716072234965 43.34143728196851697, 5.11070190555026294 43.33859908590937948, 5.15327484643731371 43.34427547802765446, 5.21760729044441174 43.34049121661547588, 5.27247908092105533 43.35373613155811512, 5.30275317221851239 43.37265743861902223, 5.33208119816292569 43.36698104650074725, 5.35194857057688189 43.3565743276172455, 5.36140922410733811 43.34143728196851697, 5.36992381228474791 43.32535417096674735, 5.36992381228474791 43.3130553213771492, 5.36613955087256578 43.29791827572842067, 5.36613955087256578 43.28845762219796711, 5.37654626975606753 43.27521270725532787, 5.38600692328652286 43.26102172695964754, 5.38316872722738626 43.25250713878223507, 5.37276200834388451 43.24210041989873332, 5.35478676663601938 43.23263976636827977, 5.35005643987079083 43.22128698213172981, 5.35857102804820151 43.21088026324823517, 5.37749233510911218 43.21655665536650304, 5.39925183822916033 43.21939485142564052, 5.42195740670225401 43.21561059001346194, 5.45412362870580303 43.21939485142564052, 5.50331902706417253 43.20141960971777451, 5.50615722312331002 42.99990768951906972, 4.19301851309606466 42.99896162416602152, 4.19585670915520126 43.49375380380885758))').toJson(),
+            geometry: wkt.read('POLYGON((4.19585 43.49375, 4.19491 43.49564, 4.62253 43.49564, 4.69632 43.49753, 4.69537 43.48618, 4.67361 43.46442, 4.64523 43.45401, 4.67172 43.42090, 4.70389 43.41428, 4.71146 43.43698, 4.75592 43.43320, 4.78525 43.41806, 4.81647 43.38495, 4.83918 43.38495, 4.82877 43.40671, 4.81552 43.42469, 4.81836 43.43604, 4.86661 43.41050, 4.87040 43.41523, 4.84012 43.44928, 4.85999 43.46821, 4.88459 43.42942, 4.89499 43.43793, 4.91297 43.43509, 4.92621 43.44172, 4.94608 43.49280, 5.21949 43.49753, 5.23558 43.48996, 5.24693 43.46726, 5.23842 43.43415, 5.21476 43.41428, 5.16557 43.39157, 5.08988 43.39157, 5.01420 43.39252, 5.01893 43.37927, 5.03690 43.35657, 5.07096 43.34143, 5.11070 43.33859, 5.15327 43.34427, 5.21760 43.34049, 5.27247 43.35373, 5.30275 43.37265, 5.33208 43.36698, 5.35194 43.35657, 5.36140 43.34143, 5.36992 43.32535, 5.36992 43.31305, 5.36613 43.29791, 5.36613 43.28845, 5.37654 43.27521, 5.38600 43.26102, 5.38316 43.25250, 5.37276 43.24210, 5.35478 43.23263, 5.35005 43.22128, 5.35857 43.21088, 5.37749 43.21655, 5.39925 43.21939, 5.42195 43.21561, 5.45412 43.21939, 5.50331 43.20141, 5.50615 42.99990, 4.19301 42.99896, 4.19585 43.49375))').toJson(),
           }],
         },
         time: availableDates.AWS_N3_CUSTOM_TSMNN,
@@ -1518,7 +1499,7 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM_TSMNN',
-          legendUrl: 'eodash-data/data/waterLegend_tsm.png',
+          legendUrl: 'legends/esa/AWS_N3_CUSTOM_TSMNN.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
@@ -1555,7 +1536,7 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Aggregated Truck Traffic 10km',
           layers: 'AWS_E12C_NEW_MOTORWAY',
-          legendUrl: 'eodash-data/data/E12c-legend.png',
+          legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
           minZoom: 1,
           maxZoom: 10,
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-01-01')}/${DateTime.fromISO(date).toFormat('yyyy-12-31')}`,
@@ -1575,25 +1556,20 @@ export const globalIndicators = [
             },
             requestBody: {
               collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
-              select: 'id, sum_observations, ST_AsText(geometry) as "geometry", truck_count_normalized',
+              select: 'sum_observations, ST_AsGeoJSON(geometry, 6) as "geometry", truck_count_normalized',
               where: 'osm_value=1 AND date_part(\'year\',time)={featuresTime} AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
-              limit: '5000',
+              limit: '1000',
             },
-            style: {
-              radius: 3,
-              weight: 1,
-            },
-            featureLimit: 5000,
-            allowedParameters: ['osm_name', 'truck_count_normalized', 'sum_observations'],
             dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
             callbackFunction: (responseJson) => { // geom from wkb to geojson features
               const ftrs = [];
               if (Array.isArray(responseJson[0].src)) {
                 responseJson[0].src.forEach((ftr) => {
+                  const { geometry, ...properties } = ftr;
                   ftrs.push({
                     type: 'Feature',
-                    properties: ftr,
-                    geometry: wkt.read(ftr.geometry).toJson(),
+                    properties,
+                    geometry: JSON.parse(geometry),
                   });
                 });
               }
@@ -1662,7 +1638,7 @@ export const globalIndicators = [
         city: 'Europe',
         siteName: 'global',
         description: 'Number of Trucks (Beta)',
-        indicator: 'E12c',
+        indicator: 'E12d',
         lastIndicatorValue: 'Regional Truck Traffic Primary',
         indicatorName: 'Primary Roads',
         subAoi: {
@@ -1684,7 +1660,7 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Aggregated Truck Traffic 10km',
           layers: 'AWS_E12D_NEW_PRIMARYROADS',
-          legendUrl: 'eodash-data/data/E12c-legend.png',
+          legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
           minZoom: 1,
           maxZoom: 10,
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-01-01')}/${DateTime.fromISO(date).toFormat('yyyy-12-31')}`,
@@ -1704,25 +1680,20 @@ export const globalIndicators = [
             },
             requestBody: {
               collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
-              select: 'id, sum_observations, ST_AsText(geometry) as "geometry", truck_count_normalized, time',
+              select: 'sum_observations, ST_AsGeoJSON(geometry, 6) as "geometry", truck_count_normalized',
               where: 'osm_value=3 AND date_part(\'year\',time)={featuresTime} AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
-              limit: '5000',
+              limit: '1000',
             },
-            style: {
-              radius: 3,
-              weight: 1,
-            },
-            featureLimit: 5000,
-            allowedParameters: ['truck_count_normalized', 'sum_observations'],
             dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
             callbackFunction: (responseJson) => { // geom from wkb to geojson features
               const ftrs = [];
               if (Array.isArray(responseJson[0].src)) {
                 responseJson[0].src.forEach((ftr) => {
+                  const { geometry, ...properties } = ftr;
                   ftrs.push({
                     type: 'Feature',
-                    properties: ftr,
-                    geometry: wkt.read(ftr.geometry).toJson(),
+                    properties,
+                    geometry: JSON.parse(geometry),
                   });
                 });
               }
@@ -1785,7 +1756,6 @@ export const globalIndicators = [
   },
   {
     id: 9995,
-    latlng: latLng([40.985, 1.769]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1806,7 +1776,7 @@ export const globalIndicators = [
           features: [{
             type: 'Feature',
             properties: {},
-            geometry: wkt.read('POLYGON((2.516544 40.485512,2.522036 41.562459,2.291387 41.480243,2.211372 41.416219,2.164693 41.3132,2.049368 41.27401,1.917569 41.26782,1.692412 41.212083,1.448034 41.174899,1.266809 41.129423,1.16796 41.077707,0.950799 41.027932,0.726123 40.810478,0.849188 40.722691,0.85468 40.68523,0.659705 40.6644,0.549872 40.576882,0.483966 40.485017,2.516544 40.485512))').toJson(),
+            geometry: wkt.read('POLYGON((2.51654 40.48551,2.52203 41.56245,2.29138 41.48024,2.21137 41.41621,2.16469 41.3132,2.04936 41.27401,1.91756 41.26782,1.69241 41.21208,1.44803 41.17489,1.26680 41.12942,1.16796 41.07770,0.95079 41.02793,0.72612 40.81047,0.84918 40.72269,0.85468 40.68523,0.65970 40.6644,0.54987 40.57688,0.48396 40.48501,2.51654 40.48551))').toJson(),
           }],
         },
         time: availableDates.AWS_N3_CUSTOM,
@@ -1815,7 +1785,7 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM',
-          legendUrl: 'eodash-data/data/waterLegend.png',
+          legendUrl: 'legends/esa/AWS_N3_CUSTOM.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
@@ -1824,7 +1794,6 @@ export const globalIndicators = [
   },
   {
     id: 9994,
-    latlng: latLng([40.985, 1.769]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1845,7 +1814,7 @@ export const globalIndicators = [
           features: [{
             type: 'Feature',
             properties: {},
-            geometry: wkt.read('POLYGON((2.516544 40.485512,2.522036 41.562459,2.291387 41.480243,2.211372 41.416219,2.164693 41.3132,2.049368 41.27401,1.917569 41.26782,1.692412 41.212083,1.448034 41.174899,1.266809 41.129423,1.16796 41.077707,0.950799 41.027932,0.726123 40.810478,0.849188 40.722691,0.85468 40.68523,0.659705 40.6644,0.549872 40.576882,0.483966 40.485017,2.516544 40.485512))').toJson(),
+            geometry: wkt.read('POLYGON((2.51654 40.48551,2.52203 41.56245,2.29138 41.48024,2.21137 41.41621,2.16469 41.3132,2.04936 41.27401,1.91756 41.26782,1.69241 41.21208,1.44803 41.17489,1.26680 41.12942,1.16796 41.07770,0.95079 41.02793,0.72612 40.81047,0.84918 40.72269,0.85468 40.68523,0.65970 40.6644,0.54987 40.57688,0.48396 40.48501,2.51654 40.48551))').toJson(),
           }],
         },
         time: availableDates.AWS_N3_CUSTOM_TSMNN,
@@ -1854,7 +1823,7 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM_TSMNN',
-          legendUrl: 'eodash-data/data/waterLegend_tsm.png',
+          legendUrl: 'legends/esa/AWS_N3_CUSTOM_TSMNN.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
@@ -1879,31 +1848,32 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'World',
-        time: getMonthlyDates('1997-10-01', '2022-08-01'),
+        time: availableDates.CHL,
         inputData: [''],
         externalData: {
           label: 'Copernicus Marine Service - Product Details',
-          url: 'https://resources.marine.copernicus.eu/?option=com_csw%20&view=details%20&product_id=OCEANCOLOUR_MED_CHL_L4_NRT_OBSERVATIONS_009_041',
+          url: 'https://data.marine.copernicus.eu/products?q=Sea+ocean+colour&facets=mainVariables~Plankton',
         },
         display: [{
           name: 'CHL L4 Product',
-          legendUrl: 'eodash-data/data/cmems-legend.png',
+          legendUrl: 'legends/esa/N3c.png',
+          attribution: '{ E.U. Copernicus Marine Service Information; <a href="https://doi.org/10.48670/moi-00303" target="_blank"> doi:10.48670/moi-00303</a>;  <a href="https://doi.org/10.48670/moi-00300" target="_blank"> doi:10.48670/moi-00300 </a>;  <a href="https://doi.org/10.48670/moi-00287" target="_blank"> doi:10.48670/moi-00287 </a>; }',
           combinedLayers: [
             {
               ...cmemsDisplay,
               baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_atl_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
               name: 'Atlantic coast CHL L4 Product',
-              bounds: latLngBounds(latLng([20, -45]), latLng([66, 10.5])),
+              extent: [-45, 20, 66, 10.5],
             }, {
               ...cmemsDisplay,
               baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_med_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
               name: 'Mediterranean CHL L4 Product',
-              bounds: latLngBounds(latLng([30, -6]), latLng([46, 37])),
+              extent: [-6, 30, 37, 46],
             }, {
               ...cmemsDisplay,
               baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_blk_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
               name: 'Black sea CHL L4 Product',
-              bounds: latLngBounds(latLng([40, 26.5]), latLng([48, 42])),
+              extent: [26.5, 40, 42, 48],
             },
           ],
         }],
@@ -1912,7 +1882,6 @@ export const globalIndicators = [
   },
   {
     id: 9993,
-    latlng: latLng([51.954, 4.094]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1930,7 +1899,7 @@ export const globalIndicators = [
           features: [{
             type: 'Feature',
             properties: {},
-            geometry: wkt.read('POLYGON((4.097986 51.948021,4.100561 51.954105,4.088116 51.957331,4.086485 51.953787,4.09584 51.948127,4.097986 51.948021))').toJson(),
+            geometry: wkt.read('POLYGON((4.09798 51.94802,4.10056 51.95410,4.08811 51.95733,4.08648 51.95378,4.09584 51.94812,4.09798 51.94802))').toJson(),
           }],
         },
         lastColorCode: null,
@@ -1955,7 +1924,6 @@ export const globalIndicators = [
   },
   {
     id: 9991,
-    latlng: latLng([48.87, 2.78]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -1973,7 +1941,7 @@ export const globalIndicators = [
           features: [{
             type: 'Feature',
             properties: {},
-            geometry: wkt.read('POLYGON((2.76907 48.861299,2.76907 48.881707,2.798724 48.881707,2.798724 48.861299,2.76907 48.861299))').toJson(),
+            geometry: wkt.read('POLYGON((2.76907 48.86129,2.76907 48.88170,2.79872 48.88170,2.79872 48.86129,2.76907 48.86129))').toJson(),
           }],
         },
         lastColorCode: null,
@@ -1983,7 +1951,6 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'AWS_ICEYE-E11',
           minZoom: 5,
-          maxZoom: 19,
           name: 'Disneyland Paris',
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
@@ -1999,7 +1966,6 @@ export const globalIndicators = [
   },
   {
     id: 9990,
-    latlng: latLng([52.244, 21.045]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2017,7 +1983,7 @@ export const globalIndicators = [
           features: [{
             type: 'Feature',
             properties: {},
-            geometry: wkt.read('POLYGON((21.038904 52.235632,21.038904 52.248981,21.052294 52.248981,21.052294 52.235632,21.038904 52.235632))').toJson(),
+            geometry: wkt.read('POLYGON((21.03890 52.23563,21.03890 52.24898,21.05229 52.24898,21.05229 52.23563,21.03890 52.23563))').toJson(),
           }],
         },
         lastColorCode: null,
@@ -2027,7 +1993,6 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'AWS_ICEYE-E11A',
           minZoom: 5,
-          maxZoom: 19,
           name: 'Warsaw parking lot',
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
@@ -2043,7 +2008,6 @@ export const globalIndicators = [
   },
   {
     id: 9989,
-    latlng: latLng([50.604, -2.37]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2061,7 +2025,7 @@ export const globalIndicators = [
           features: [{
             type: 'Feature',
             properties: {},
-            geometry: wkt.read('POLYGON((-2.393477 50.585198,-2.393477 50.624746,-2.337859 50.624746,-2.337859 50.585198,-2.393477 50.585198))').toJson(),
+            geometry: wkt.read('POLYGON((-2.39347 50.58519,-2.39347 50.62474,-2.33785 50.62474,-2.33785 50.58519,-2.39347 50.58519))').toJson(),
           }],
         },
         lastColorCode: null,
@@ -2071,7 +2035,6 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'AWS_ICEYE-E12B',
           minZoom: 5,
-          maxZoom: 18,
           name: 'Weimouth ships',
           features: {
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
@@ -2087,7 +2050,6 @@ export const globalIndicators = [
   },
   {
     id: 9988,
-    latlng: latLng([50.04, 8.5]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2105,7 +2067,7 @@ export const globalIndicators = [
           features: [{
             type: 'Feature',
             properties: {},
-            geometry: wkt.read('POLYGON((8.516043 50.03769,8.516043 50.04915,8.533462 50.04915,8.533462 50.03769,8.516043 50.03769))').toJson(),
+            geometry: wkt.read('POLYGON((8.51604 50.03769,8.51604 50.04915,8.53346 50.04915,8.53346 50.03769,8.51604 50.03769))').toJson(),
           }],
         },
         lastColorCode: null,
@@ -2116,7 +2078,6 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'AWS_ICEYE-E13B',
           minZoom: 5,
-          maxZoom: 18,
           name: 'Airports: Detected planes',
           features: {
             allowedParameters: [],
@@ -2133,7 +2094,6 @@ export const globalIndicators = [
   },
   {
     id: 9987,
-    latlng: latLng([40.413, -1.23]),
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -2151,7 +2111,7 @@ export const globalIndicators = [
           features: [{
             type: 'Feature',
             properties: {},
-            geometry: wkt.read('POLYGON((-1.245922 40.394281,-1.245922 40.429571,-1.20747 40.429571,-1.20747 40.394281,-1.245922 40.394281))').toJson(),
+            geometry: wkt.read('POLYGON((-1.24592 40.39428,-1.24592 40.42957,-1.20747 40.42957,-1.20747 40.39428,-1.24592 40.39428))').toJson(),
           }],
         },
         lastColorCode: null,
@@ -2162,7 +2122,6 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           layers: 'AWS_ICEYE-E13B',
           minZoom: 5,
-          maxZoom: 18,
           name: 'Airports: Detected planes',
           features: {
             allowedParameters: [],
