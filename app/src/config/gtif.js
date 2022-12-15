@@ -3,8 +3,6 @@ import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { DateTime } from 'luxon';
 import colormap from 'colormap';
-// eslint-disable-next-line import/no-named-default
-import { default as powerOpenInsfrastructureStyle } from '@/assets/openinframap/style_oim_power';
 
 // Helper function to create colorscales for cog style rendering
 function getColorStops(name, min, max, steps, reverse) {
@@ -94,28 +92,12 @@ export const baseLayersRightMap = [{
   ...baseLayers.terrainLight, visible: true,
 }, baseLayers.cloudless];
 
-export const overlayLayersLeftMap = [{
-  ...overlayLayers.eoxOverlay, visible: true,
-}, {
-  name: 'Power Open Infrastructure Map',
-  protocol: 'maplibre',
-  visible: false,
-  zIndex: 4,
-  maplibreStyles: {
-    version: 8,
-    sprite: `${window.location.protocol}//${window.location.hostname}${window.location.port === '' ? '' : `:${window.location.port}`}/data/gtif/data/openinframap/sprite`,
-    glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
-    id: 'openinframap',
-    name: 'OpenInfraMap',
-    layers: powerOpenInsfrastructureStyle,
-    sources: {
-      openinframap: {
-        type: 'vector',
-        url: 'data/gtif/data/openinframap/openinframap.json',
-      },
-    },
+export const overlayLayersLeftMap = [
+  {
+    ...overlayLayers.eoxOverlay, visible: true,
   },
-}];
+  overlayLayers.powerOpenInfrastructure,
+];
 export const overlayLayersRightMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
 }];
@@ -209,30 +191,50 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP1',
+    overlayLayers: [
+      { ...overlayLayers.powerOpenInfrastructure, visible: true },
+      { ...overlayLayers.eoxOverlay, visible: true },
+    ],
   },
   REP2: {
     indicator: 'Solar Energy',
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP2',
+    overlayLayers: [
+      { ...overlayLayers.powerOpenInfrastructure, visible: true },
+      { ...overlayLayers.eoxOverlay, visible: true },
+    ],
   },
   REP3: {
     indicator: 'Nowcasting',
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP3',
+    overlayLayers: [
+      { ...overlayLayers.powerOpenInfrastructure, visible: true },
+      { ...overlayLayers.eoxOverlay, visible: true },
+    ],
   },
   REP4: {
     indicator: 'Hydro Power',
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP3',
+    overlayLayers: [
+      { ...overlayLayers.powerOpenInfrastructure, visible: true },
+      { ...overlayLayers.eoxOverlay, visible: true },
+    ],
   },
   REP5: {
     indicator: 'Micro Hydropower',
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP3',
+    overlayLayers: [
+      { ...overlayLayers.powerOpenInfrastructure, visible: true },
+      { ...overlayLayers.eoxOverlay, visible: true },
+    ],
   },
   MOBI1: {
     indicator: 'mobility',

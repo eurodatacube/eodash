@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/no-named-default
+import { default as powerOpenInsfrastructureStyle } from '@/assets/openinframap/style_oim_power';
+
 export const baseLayers = Object.freeze({
   cloudless: {
     name: 'EOxCloudless 2021',
@@ -89,5 +92,25 @@ export const overlayLayers = Object.freeze({
     visible: false,
     maxZoom: 14,
     protocol: 'xyz',
+  },
+  powerOpenInfrastructure: {
+    name: 'Power Open Infrastructure Map',
+    protocol: 'maplibre',
+    visible: false,
+    zIndex: 4,
+    maplibreStyles: {
+      version: 8,
+      sprite: `${window.location.protocol}//${window.location.hostname}${window.location.port === '' ? '' : `:${window.location.port}`}/data/gtif/data/openinframap/sprite`,
+      glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
+      id: 'openinframap',
+      name: 'OpenInfraMap',
+      layers: powerOpenInsfrastructureStyle,
+      sources: {
+        openinframap: {
+          type: 'vector',
+          url: 'data/gtif/data/openinframap/openinframap.json',
+        },
+      },
+    },
   },
 });
