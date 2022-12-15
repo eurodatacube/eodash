@@ -16,6 +16,8 @@ import TileGrid from 'ol/tilegrid/TileGrid';
 import { createXYZ } from 'ol/tilegrid';
 import { Group } from 'ol/layer';
 import VectorTileLayer from 'ol/layer/VectorTile';
+import VectorTileSource from 'ol/source/VectorTile';
+import { MVT } from 'ol/format';
 import { applyStyle } from 'ol-mapbox-style';
 import * as flatgeobuf from 'flatgeobuf/dist/flatgeobuf-geojson.min';
 import { bbox } from 'ol/loadingstrategy';
@@ -195,6 +197,38 @@ export function createLayerFromConfig(config, _options = {}) {
     const tilelayer = new VectorTileLayer();
     tilelayer.set('id', config.id);
     applyStyle(tilelayer, config.styleFile, [config.selectedStyleLayer]);
+    layers.push(tilelayer);
+  }
+  if (config.protocol === 'geoserverTileLayer') {
+    const simpleStyle = new Style({
+      fill: new Fill({
+        color: '#ADD8E6',
+      }),
+      stroke: new Stroke({
+        color: '#880000',
+        width: 1,
+      }),
+    });
+    const dynamicStyleFunction = (feature) => (new Style({
+      fill: new Fill({
+        color: config.getColor(feature),
+      }),
+      stroke: new Stroke({
+        color: 'rgba(255,255,255,0.8)',
+      }),
+    }));
+    // const simpleStyleFunction = () => simpleStyle;
+    const geoserverUrl = 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/gwc/service/tms/1.0.0/';
+    const projString = '3857';
+    const tilelayer = new VectorTileLayer({
+      style: dynamicStyleFunction,
+      source: new VectorTileSource({
+        projection: 'EPSG:3857',
+        format: new MVT(),
+        url: `${geoserverUrl}${config.layerName}@EPSG%3A${projString}@pbf/{z}/{x}/{-y}.pbf`,
+      }),
+    });
+    tilelayer.set('id', config.id);
     layers.push(tilelayer);
   }
   if (config.protocol === 'vectorgeojson') {

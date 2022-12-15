@@ -476,6 +476,8 @@ export default {
     },
     dataLayerTime(timeObj) {
       if (timeObj) {
+        // Fetch correct data and make it available for rendering
+        // TODO:
         // redraw all time-dependant layers, if time is passed via WMS params
         const { map } = getMapInstance(this.mapId);
         const area = this.drawnArea;

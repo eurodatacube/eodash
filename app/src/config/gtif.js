@@ -29,6 +29,16 @@ function getColormap(name) {
   });
 }
 
+function clamp(value, low, high) {
+  return Math.max(low, Math.min(value, high));
+}
+
+// We statically define some colormaps to not instanciate them for every call
+const blackbody64 = colormap({
+  colormap: 'blackbody',
+  nshades: 64,
+});
+
 function normalize(value, varMin, varMax) {
   return ['/', ['-', value, ['var', varMin]], ['-', ['var', varMax], ['var', varMin]]];
 }
@@ -594,9 +604,17 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
             }],
           },
-          protocol: 'vectorgeojson',
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:gtif_test_gemeinden_AT_Gemeinden_3857',
+          protocol: 'geoserverTileLayer',
+          getColor: (feature) => {
+            // TODO: get data from indicator for styling
+            const min = 10000;
+            const max = 100000;
+            const f = clamp((feature.id_ - min) / (max - min), 0, 1);
+            const index = Math.round(f * (64 - 1));
+            return blackbody64[index];
+          },
           selectedStyleLayer: 'NO2',
-          styleFile: 'data/gtif/data/air_quality_at.json',
           id: 'air_quality_AT',
           name: 'Air Quality',
           minZoom: 1,
