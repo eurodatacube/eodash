@@ -292,7 +292,13 @@ export default {
       return configs;
     },
     overlayConfigs() {
-      const configs = [...this.baseConfig.overlayLayersLeftMap];
+      let configs = [...this.baseConfig.overlayLayersLeftMap];
+      if (this.isGlobalIndicator) {
+        // use their own overlay layers from config, if available
+        configs = this.baseConfig.indicatorsDefinition[this.$store
+          .state.indicators.selectedIndicator.indicator].overlayLayers
+          || this.baseConfig.overlayLayersLeftMap;
+      }
       // administrativeLayers replace country vectors
       if (!this.isGlobalIndicator && this.baseConfig.administrativeLayers?.length === 0) {
         configs.push({
