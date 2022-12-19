@@ -1148,7 +1148,7 @@ export const globalIndicators = [
           baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
           name: 'WSF_Evolution',
           layers: 'WSF_Evolution',
-          legendUrl: 'eodash-data/data/wsf_legend.png', // will not be migrated as too hard to replicates
+          legendUrl: 'data/trilateral/wsf_legend.png',
           minZoom: 1,
           maxZoom: 14,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
