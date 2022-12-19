@@ -716,6 +716,7 @@ export const defaultLayersDisplay = {
   attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank"> Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   minZoom: 7,
   visible: true,
+  mapProjection: "EPSG:3857",
 };
 
 const e10cDates = {

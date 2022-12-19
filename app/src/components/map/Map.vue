@@ -153,7 +153,7 @@ import getCluster from '@/components/map/Cluster';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import LayerSwipe from '@/components/map/LayerSwipe.vue';
 import CustomAreaButtons from '@/components/map/CustomAreaButtons.vue';
-import getMapInstance from '@/components/map/map';
+import { getMapInstance } from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
 import IframeButton from '@/components/IframeButton.vue';

@@ -114,7 +114,7 @@ import {
   GeoJSON,
 } from 'ol/format';
 
-import getMapInstance from '@/components/map/map';
+import { getMapInstance } from '@/components/map/map';
 import { calculatePadding } from '@/utils';
 
 export default {

@@ -18,7 +18,7 @@
 </style>
 
 <script>
-import getMapInstance from '@/components/map/map';
+import { getMapInstance } from '@/components/map/map';
 // Should already be imported with openlayers
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { fromUrl } from 'geotiff';

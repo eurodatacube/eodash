@@ -10,7 +10,7 @@
 
 <script>
 import MapOverlay from '@/components/map/MapOverlay.vue';
-import getMapInstance from '@/components/map/map';
+import { getMapInstance } from '@/components/map/map';
 import GeoJSON from 'ol/format/GeoJSON';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';

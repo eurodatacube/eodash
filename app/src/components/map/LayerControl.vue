@@ -59,7 +59,7 @@
 
 <script>
 import 'ol/ol.css';
-import getMapInstance from '@/components/map/map';
+import { getMapInstance } from '@/components/map/map';
 import { createLayerFromConfig } from '@/components/map/layers';
 
 /**

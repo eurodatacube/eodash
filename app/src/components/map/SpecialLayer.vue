@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import getMapInstance from '@/components/map/map';
+import { getMapInstance, getViewInstance } from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
-import { createLayerFromConfig } from '@/components/map/layers';
+import { createLayerFromConfig, getProjectionOl } from '@/components/map/layers';
 import VectorLayer from 'ol/layer/Vector';
 import { getCenter } from 'ol/extent';
 
@@ -98,6 +98,12 @@ export default {
     };
     map.on('pointermove', this.pointerMoveHandler);
     map.addLayer(layer);
+    // update view if previous projection !== new projection
+    const projection = getProjectionOl(this.mergedConfig?.mapProjection || 'EPSG:3857');
+    if (map.getView().getProjection().getCode() !== projection?.getCode()) {
+      const view = getViewInstance(this.mapId, projection);
+      map.setView(view);
+    }
   },
   methods: {},
   beforeDestroy() {
@@ -105,6 +111,12 @@ export default {
     const layer = map.getLayers().getArray().find((l) => l.get('name') === this.layerName);
     map.removeLayer(layer);
     map.un('pointermove', this.pointerMoveHandler);
+    // reset to default map projection if different from it
+    const projection = getProjectionOl('EPSG:3857');
+    if (map.getView().getProjection().getCode() !== projection?.getCode()) {
+      const view = getViewInstance(this.mapId, projection);
+      map.setView(view);
+    }
   },
 };
 </script>

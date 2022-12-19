@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import getMapInstance from '@/components/map/map';
+import { getMapInstance } from '@/components/map/map';
 import Draw, { createBox } from 'ol/interaction/Draw';
 import { Vector as VectorSource } from 'ol/source';
 import { Vector as VectorLayer } from 'ol/layer';
