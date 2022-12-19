@@ -68,7 +68,16 @@ export function template(templateRe, str, data) {
 
 export async function loadIndicatorData(baseConfig, payload) {
   let indicatorObject;
-
+  if ('queryParameters' in payload) {
+    // TODO: create query to geodb for now test url to test concept of loading data here
+    const url = 'data/gtif/data/air_quality/raw_aq_example.json';
+    const data = await fetch(url)
+      .then((response) => response.json())
+      .catch((error) => console.log(error));
+    console.log('Fetching map data');
+    indicatorObject = payload;
+    indicatorObject.mapData = data;
+  }
   // Check if data was already loaded
   if (Object.prototype.hasOwnProperty.call(payload, 'dataLoadFinished')
     && payload.dataLoadFinished) {

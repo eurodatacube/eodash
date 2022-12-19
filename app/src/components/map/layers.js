@@ -211,7 +211,7 @@ export function createLayerFromConfig(config, _options = {}) {
     });
     const dynamicStyleFunction = (feature) => (new Style({
       fill: new Fill({
-        color: config.getColor(feature),
+        color: config.getColor(feature, store),
       }),
       stroke: new Stroke({
         color: 'rgba(255,255,255,0.8)',

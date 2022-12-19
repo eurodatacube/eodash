@@ -4,6 +4,8 @@ import { baseLayers, overlayLayers } from '@/config/layers';
 import { DateTime } from 'luxon';
 import colormap from 'colormap';
 
+import aqmapping from '../../public/data/gtif/data/dict_lau_id.json';
+
 // Helper function to create colorscales for cog style rendering
 function getColorStops(name, min, max, steps, reverse) {
   const delta = (max - min) / (steps - 1);
@@ -574,11 +576,8 @@ export const globalIndicators = [
         ],
         inputData: [''],
         yAxis: '',
-        cogFilters: {
-          sourceLayer: 'AQ',
-        },
-        vectorStyles: {
-          sourceLayer: 'air_quality_AT',
+        queryParameters: {
+          collection: 'air_quality_AT',
           items: [
             {
               id: 'NO2',
@@ -606,17 +605,25 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
             }],
           },
-          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:gtif_test_gemeinden_AT_Gemeinden_3857',
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
-          getColor: (feature) => {
-            // TODO: get data from indicator for styling
-            const min = 10000;
-            const max = 100000;
-            const f = clamp((feature.id_ - min) / (max - min), 0, 1);
-            const index = Math.round(f * (64 - 1));
-            return blackbody64[index];
+          getColor: (feature, store) => {
+            let color = '#00000000';
+            if (
+              store.state.indicators.selectedIndicator
+              && store.state.indicators.selectedIndicator.mapData) {
+              const id = aqmapping[feature.id_];
+              if (id in store.state.indicators.selectedIndicator.mapData) {
+                const value = store.state.indicators.selectedIndicator.mapData[id].mean;
+                const min = 0;
+                const max = 10;
+                const f = clamp((value - min) / (max - min), 0, 1);
+                color = blackbody64[Math.round(f * (64 - 1))];
+              }
+            }
+            return color;
           },
-          selectedStyleLayer: 'NO2',
+          selectedQueryItem: 'NO2',
           id: 'air_quality_AT',
           name: 'Air Quality',
           minZoom: 1,
