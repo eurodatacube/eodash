@@ -28883,6 +28883,30 @@
         [
             "2022-05-01T00:00:00",
             "s3://veda-data-store-staging/geoglam/CropMonitor_202205.tif"
+        ],
+        [
+            "2022-06-01T00:00:00",
+            "s3://veda-data-store-staging/geoglam/CropMonitor_202206.tif"
+        ],
+        [
+            "2022-07-01T00:00:00",
+            "s3://veda-data-store-staging/geoglam/CropMonitor_202207.tif"
+        ],
+        [
+            "2022-08-01T00:00:00",
+            "s3://veda-data-store-staging/geoglam/CropMonitor_202208.tif"
+        ],
+        [
+            "2022-09-01T00:00:00",
+            "s3://veda-data-store-staging/geoglam/CropMonitor_202209.tif"
+        ],
+        [
+            "2022-10-01T00:00:00",
+            "s3://veda-data-store-staging/geoglam/CropMonitor_202210.tif"
+        ],
+        [
+            "2022-11-01T00:00:00",
+            "s3://veda-data-store-staging/geoglam/CropMonitor_202211.tif"
         ]
     ],
     "grdi-cdr-raster": [
