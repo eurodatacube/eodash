@@ -9,10 +9,11 @@
 }
 #scroll-target {
   font-family: "NotesESA", "Open Sans", sans-serif;
+  overflow-x: hidden;
 }
 
-.overflow-y-auto {
-  overflow-y: auto;
+.expansible-text-section > * {
+  width: 100%;
 }
 
 article {
@@ -20,8 +21,12 @@ article {
   margin-right: 0 !important;
 }
 
-.expansible-text-section p {
+.expansible-text-section, .expansible-text-section p {
   width: 100% !important;
+}
+
+.expansible-text-section p {
+  margin-bottom: 0 !important;
 }
 
 .full-text-block {
