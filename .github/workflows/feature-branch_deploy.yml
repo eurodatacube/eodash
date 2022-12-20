@@ -3,6 +3,8 @@ name: Feature branch deployment
 on:
   push:
     branches-ignore: [ master, staging, gtif-demo ]
+  pull_request:
+    branches: staging
 
 concurrency:
   group: ci-tests-${{ github.ref }}-1
@@ -101,7 +103,6 @@ jobs:
 
   cypress-run-gtif:
     needs: deploy
-    if: needs.pr-check.outputs.number != 'null' # Only run tests when a pull request is open
     name: Cypress run feature branch GTIF
     runs-on: ubuntu-22.04
     steps:
