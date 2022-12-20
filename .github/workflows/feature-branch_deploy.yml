@@ -98,7 +98,6 @@ jobs:
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
       if: always()
-  #TODO add action to remove files once branch is deleted
 
   cypress-run-gtif:
     needs: deploy
