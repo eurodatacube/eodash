@@ -3,6 +3,8 @@ name: Feature branch deployment
 on:
   push:
     branches-ignore: [ master, staging, gtif-demo ]
+  pull_request:
+    branches: staging
 
 concurrency:
   group: ci-tests-${{ github.ref }}-1
@@ -10,6 +12,7 @@ concurrency:
 
 jobs:
   deploy:
+    if: github.event_name != 'pull_request' # Only run deploy for pushes not for pull requests
     runs-on: ubuntu-22.04
     steps:
     # Checkout code
@@ -101,29 +104,26 @@ jobs:
 
   cypress-run-gtif:
     needs: deploy
+    if: github.event_name == 'pull_request'
     name: Cypress run feature branch GTIF
     runs-on: ubuntu-22.04
     steps:
-      - id: PR
-        uses: 8BitJonny/gh-get-current-pr@2.2.0
       - name: Checkout
-        if: steps.PR.outputs.pr_found == 'true'
         uses: actions/checkout@v3
       # Tests for GTIF
       - name: Cypress run
-        if: steps.PR.outputs.pr_found == 'true'
         uses: cypress-io/github-action@v4
         with:
           working-directory: app
           spec: tests/e2e/specs/indicators_gtif.js
           config: 'baseUrl=https://${{ secrets.TEST_INSTANCE_UN }}:${{ secrets.TEST_INSTANCE_PW }}@gtif-testing.eox.at/${{ github.head_ref }}/'
       - uses: actions/upload-artifact@v3
-        if: steps.PR.outputs.pr_found == 'true' && failure()
+        if: failure()
         with:
           name: cypress-screenshots
           path: app/tests/e2e/screenshots
       - uses: actions/upload-artifact@v3
-        if: steps.PR.outputs.pr_found == 'true' && always()
+        if: always()
         with:
           name: cypress-videos
           path: app/tests/e2e/videos
