@@ -3,8 +3,6 @@ name: Feature branch deployment
 on:
   push:
     branches-ignore: [ master, staging, gtif-demo ]
-  pull_request:
-    branches: staging
 
 concurrency:
   group: ci-tests-${{ github.ref }}-1
