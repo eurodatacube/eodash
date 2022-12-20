@@ -11,7 +11,6 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-22.04
-
     steps:
     # Checkout code
     - uses: actions/checkout@v3
@@ -99,5 +98,37 @@ jobs:
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
       if: always()
+  #TODO add action to remove files once branch is deleted
 
-#TODO add action to remove files once branch is deleted
+  # job to get information on pull request
+  pr-check:
+    steps:
+      - uses: 8BitJonny/gh-get-current-pr@2.2.0
+        id: PR
+      - run: echo "Your PR number is ${{ steps.PR.outputs.number }} and its JSON is ${{ steps.PR.outputs.pr }}"
+
+  cypress-run-gtif:
+    needs: deploy
+    if: needs.pr-check.outputs.number != 'null' # Only run tests when a pull request is open
+    name: Cypress run feature branch GTIF
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      # Tests for GTIF
+      - name: Cypress run
+        uses: cypress-io/github-action@v4
+        with:
+          working-directory: app
+          spec: tests/e2e/specs/indicators_gtif.js
+          config: 'baseUrl=https://${{ secrets.TEST_INSTANCE_UN }}:${{ secrets.TEST_INSTANCE_PW }}@gtif-testing.eox.at/${{ github.head_ref }}/'
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: app/tests/e2e/screenshots
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: cypress-videos
+          path: app/tests/e2e/videos
