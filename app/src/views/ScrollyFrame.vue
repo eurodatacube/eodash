@@ -19,7 +19,7 @@
         v-resize="onResize"
         width="100%"
         style="
-          height: calc((var(--vh, 1vh) * 100) - 112px) !important;
+          height: calc(100vh - 112px) !important;
           position: fixed; left: 0; bottom: 0; top: 112px;
         "
         src="./scrollytelling/index.html"
@@ -130,15 +130,44 @@ export default {
         footerDiv.style.cssText = 'width: 100%';
 
         const htmlResponse = await axios.get('./scrollytelling/scrollyFooter.html');
-        const cssResponse = await axios.get('./scrollytelling/static/css/app.e02ecbef97f2d564ddc84bf606b62f42.css');
+        const cssResponse = await axios.get('./scrollytelling/static/css/app.66467d693c21c12ef4ea88a124ab25a9.css');
+        const cssResponse2 = await axios.get('./css/gtif-scrolly.css');
 
         console.log(htmlResponse.data);
+        footerDiv.innerHTML = htmlResponse.data;
 
         document
           .getElementById('resizableIframe').contentDocument
           .getElementById('scrolly-footer').appendChild(footerDiv);
 
-        document.querySelector('iframe').contentWindow.postMessage(data);
+        const TestComponent = {
+          template: `
+            <div class="checkbox-wrapper" @click="check">
+              <div :class="{ checkbox: true, checked: checked }"></div>
+              <div class="title">{{ title }}</div>
+            </div>
+          `,
+          data() {
+            return { checked: false, title: 'Check me' }
+          },
+          methods: {
+            check() { this.checked = !this.checked; }
+          }
+        };
+
+        const iframe = document.querySelector('iframe');
+
+        iframe.contentWindow.postMessage(
+          {
+            type: 'items',
+            data,
+          },
+          '*'
+        );
+        iframe.contentWindow.postMessage({
+          type: 'footer',
+          data: JSON.stringify(TestComponent),
+        }, '*');
       } catch (error) {
         console.error(`Error loading dashboard data: ${error}`);
       }
