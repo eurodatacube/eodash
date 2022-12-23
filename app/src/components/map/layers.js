@@ -346,8 +346,8 @@ export function createLayerFromConfig(config, _options = {}) {
   }
   if (config.protocol === 'WMS') {
     // to do: layers is  not defined for harvesting evolution over time (spain)
-    const paramsToPassThrough = ['layers', 'styles',
-      'format', 'env'];
+    const paramsToPassThrough = ['layers', 'STYLES', 'styles',
+      'format', 'env', 'sld', 'exceptions'];
     const tileSize = config.combinedLayers?.length
       ? config.combinedLayers[0].tileSize : config.tileSize;
     const tileGrid = tileSize === 512 ? new TileGrid({

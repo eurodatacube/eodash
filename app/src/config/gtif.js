@@ -879,10 +879,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'Innsbruck',
         siteName: 'global',
-        description: 'Green Roofs - Innsbruck',
+        description: 'Green Roofs',
         indicator: 'SOL1',
         lastIndicatorValue: null,
-        indicatorName: 'Green Roofs - Innsbruck',
+        indicatorName: 'Green Roofs',
         navigationDescription: 'Green Roof Impact',
         subAoi: {
           type: 'FeatureCollection',
@@ -897,7 +897,7 @@ export const globalIndicators = [
         cogFilters: {
           sourceLayer: 'SOL1',
         },
-        vectorStyles: {
+        wmsStyles: {
           sourceLayer: 'green_roofs_innsbruck',
           items: [
             {
@@ -928,20 +928,17 @@ export const globalIndicators = [
           ],
         },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
-            }],
-          },
-          protocol: 'vectortile',
-          styleFile: 'data/gtif/data/green_rooftops_innsbruck.json',
-          selectedStyleLayer: 'GRImpScore_filtered',
-          id: 'green_roofs_innsbruck',
-          name: '',
+          baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
+          name: 'GTIF_AT_Rooftops_3857',
+          STYLES: 'lst2021',
+          layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_3857',
+          // legendUrl: 'legends/esa/GCAQ1-N1b.png',
+          maxZoom: 18,
           minZoom: 1,
+          attribution: '{}',
+          sld: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/styles/green_rooftops.sld',
+          protocol: 'WMS',
+          exceptions: 'application/vnd.ogc.se_inimage',
         },
       },
     },
