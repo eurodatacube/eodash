@@ -5,9 +5,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0131492202534625",
+        "measurement_value": "0.0130647167972202",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0302551980387231,0.00986279485631211,0.0199443796683337,]",
+        "reference_value": "[0.0302551980387231,0.00984691071376939,0.0199164262061799,]",
         "time": "2020-01-04T00:00:00"
     },
     {
@@ -16,9 +16,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.012184283627084",
+        "measurement_value": "0.0121004076085695",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0254859014837373,0.00582371347943751,0.012755954836727,0.0139841056135964]",
+        "reference_value": "[0.0254155785350172,0.00580898158867295,0.0127276032235654,0.0138923788580987]",
         "time": "2020-01-10T00:00:00"
     },
     {
@@ -27,9 +27,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0166188129602427",
+        "measurement_value": "0.0165120121685063",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0232648362451824,0.0102470770081564,0.0157676826478583,0.0136830861933257]",
+        "reference_value": "[0.0232113286066398,0.0101835687571978,0.015707555848641,0.0136007719221082]",
         "time": "2020-01-16T00:00:00"
     },
     {
@@ -38,9 +38,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0122461619926505",
+        "measurement_value": "0.0121898959892487",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0225320133562948,0.0104159767064526,0.0163465395498326,0.0135705820429027]",
+        "reference_value": "[0.0224388192378277,0.0103824536265331,0.0162735122310156,0.0135007990128149]",
         "time": "2020-01-22T00:00:00"
     },
     {
@@ -49,9 +49,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0118467711758149",
+        "measurement_value": "0.0118004888806897",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0192575041445065,0.0124997118057837,0.0148415144952601,0.012797248871093]",
+        "reference_value": "[0.0191778536448265,0.0124537458900072,0.0148114177608289,0.0127346170115555]",
         "time": "2020-01-28T00:00:00"
     },
     {
@@ -60,9 +60,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0142988134448137",
+        "measurement_value": "0.0142134661647283",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0236428594240174,0.012998702373886,0.0178008548835838,0.0133281448521568]",
+        "reference_value": "[0.0235504928389601,0.0129927176283675,0.017736002134442,0.0132588465311476]",
         "time": "2020-02-09T00:00:00"
     },
     {
@@ -71,417 +71,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0138388499358418",
+        "measurement_value": "0.0137625845480249",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0277459755988042,0.0108867938677818,0.0175385859837481,0.0140692848698529]",
+        "reference_value": "[0.0277012903916373,0.0108867938677818,0.0174852141827127,0.0140283910257781]",
         "time": "2020-02-15T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0140701912289033",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0278868846315917,0.0141058739930947,0.0197955933408298,0.0145532487513356]",
-        "time": "2020-02-21T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0157507050892616",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.029167553289395,0.0130016957803329,0.0200388617793511,0.0182116934727779]",
-        "time": "2020-02-27T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0248141841001687",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.028099591088425,0.0141318819200706,0.0218858577981404,0.0213971407814303]",
-        "time": "2020-03-05T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0236265331548606",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0319742230320493,0.0154881661891248,0.0215379353280304,0.0234646755821426]",
-        "time": "2020-03-11T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0219533094913985",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0269401494106367,0.0144710485309493,0.0193663443517466,0.0203881994625009]",
-        "time": "2020-03-17T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0155847557412435",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0296483138952434,0.0137467489044926,0.0208915835775977,0.018006563049299]",
-        "time": "2020-03-23T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0164816239152551",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0329913433788864,0.016998085132035,0.0261556021708863,0.0186463316599711]",
-        "time": "2020-03-29T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0238726153234149",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0293291853400844,0.0182599674907497,0.0231690354230918,0.0205943817499568]",
-        "time": "2020-04-04T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0214289060112006",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0242381796455463,0.0197287695552572,0.0223589840340032,0.0207016769983769]",
-        "time": "2020-04-10T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0168035096605153",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0301231233377761,0.0213943945159728,0.0249220962895884,0.0201279185043626]",
-        "time": "2020-04-22T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0221513398413719",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.036066167888196,0.0210911373541071,0.0265838876481709,0.0195930823768712]",
-        "time": "2020-04-28T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0198243976287264",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0292347914438769,0.0161808003764307,0.022449563625038,0.0177979997885269]",
-        "time": "2020-05-04T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0114182618954822",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0329685616356891,0.0168694141328732,0.0234577420110446,0.0137552373016625]",
-        "time": "2020-05-10T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.010023052380779",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0329837477158568,0.0169394770966373,0.0253522901914615,0.010979574594022]",
-        "time": "2020-05-16T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0114974095058049",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0329154653947068,0.0137530809742145,0.0235339013109917,0.0113853940239368]",
-        "time": "2020-05-22T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0126357201852265",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0292078776020715,0.0146285068699985,0.0235756513241208,0.0117416259478851]",
-        "time": "2020-05-28T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.011091748152624",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0324788018763537,0.0134772101385135,0.0242698188238174,0.0111937278021456]",
-        "time": "2020-06-03T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.00985371506858618",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0215824130536886,0.011056050150387,0.017576463776721,0.0105675606556481]",
-        "time": "2020-06-09T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.010757218745734",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0270458104521703,0.0128410341217163,0.0204172340165635,0.0103970943247608]",
-        "time": "2020-06-15T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0105803491599623",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0233883723865936,0.013046679686399,0.0197251838606505,0.0120044358665674]",
-        "time": "2020-06-21T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0146757396940058",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0264545269472405,0.0124997118057837,0.0190308938539101,0.0116544744885011]",
-        "time": "2020-06-27T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.00970733461153507",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0288336750678026,0.0150003019045595,0.0227598458347321,0.010810432427142]",
-        "time": "2020-07-03T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.00804822297588502",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0238836116008419,0.0129300439179628,0.01733504416776,0.00883177583777533]",
-        "time": "2020-07-15T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.00873976992590589",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0214289060112006,0.00955872571884691,0.013935650859108,0.00833113249727126]",
-        "time": "2020-07-21T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.00820540459002288",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0156350761212839,0.00772147020564513,0.0116901351799098,0.00807376565976134]",
-        "time": "2020-08-02T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.00727612246335524",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0135487740437975,0.0111866487019231,0.0125820342940164,0.0124011788628658]",
-        "time": "2020-08-08T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0217220095352193",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0140961333652217,0.00989008445021066,0.0115952090273545,0.0128544876441079]",
-        "time": "2020-08-14T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.00956533093374913",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0258583018042106,0.00902194136035737,0.015026746376835,0.0137463676335549]",
-        "time": "2020-08-20T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.00995176243169644",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.024310841956013,0.0110943024160783,0.01573792918593,0.0142874741448285]",
-        "time": "2020-08-26T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0233453290690399",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0264240875732195,0.00731475863014725,0.0146447153263309,0.0178160830397455]",
-        "time": "2020-09-01T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0201511576185001",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0249344618809783,0.00882470101075655,0.0170045227935032,0.0197927656101794]",
-        "time": "2020-09-07T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0158818101429983",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0268720005671711,0.010911890519552,0.0200005457386251,0.016887158210499]",
-        "time": "2020-09-13T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0146285068699985",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0242270201210924,0.0105075145486555,0.0191061632270678,0.0140034580666631]",
-        "time": "2020-09-19T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0115000571869924",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0351155924516291,0.0118358649196186,0.0230359661114588,0.01373038867575]",
-        "time": "2020-09-25T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.015062601970259",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0381241351104299,0.01165198723025,0.0240871634518654,0.0147641008437944]",
-        "time": "2020-10-01T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.017729643374132",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0254624389075763,0.0102447178031038,0.019089900259584,0.0198860197056927]",
-        "time": "2020-10-07T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.026865813772687",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0261637505598582,0.0107696105834434,0.0204991375621829,0.0195681931704666]",
-        "time": "2020-10-13T00:00:00"
     },
     {
         "color_code": "",
@@ -491,7 +84,414 @@
         "input_data": "",
         "measurement_value": "0.014109122364581",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0260675370812343,0.0145378438560766,0.0215681450747256,0.0183193082073088]",
+        "reference_value": "[0.0279769263785465,0.014109122364581,0.0197695665661313,0.0145154781435368]",
+        "time": "2020-02-21T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0156747275180044",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0291339922257016,0.0129897262889785,0.0199825020630537,0.0182394372545212]",
+        "time": "2020-02-27T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0249344618809783",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.028151400151333,0.0141481612197132,0.0219013651514438,0.0214282450713865]",
+        "time": "2020-03-05T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0236755458151768",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0319006843597521,0.015456102884892,0.0215040512406425,0.0235261624118175]",
+        "time": "2020-03-11T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0219684795392972",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.026952558665041,0.0144377660429074,0.0193517068813156,0.0204155780138016]",
+        "time": "2020-03-17T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0156027086869306",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0296756335807353,0.013696197186808,0.0208631561322542,0.0180049684861257]",
+        "time": "2020-03-23T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0164437172321493",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0330826278855698,0.0169472798106299,0.0261450827405326,0.0186085923533645]",
+        "time": "2020-03-29T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0237793511410135",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0292617300856657,0.0182095829768528,0.0231617885569333,0.0205424392136264]",
+        "time": "2020-04-04T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0214042492677163",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0241157070748198,0.0196471698660474,0.022339000599867,0.0206520617840078]",
+        "time": "2020-04-10T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0167725849432935",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.03010925432053,0.0214042492677163,0.0248780504966674,0.0200805448172042]",
+        "time": "2020-04-22T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0220648002406029",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0361493089917358,0.0210184168026435,0.0265908303263542,0.0195402475751101]",
+        "time": "2020-04-28T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.019783357541434",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0292617300856657,0.0161250102733774,0.0224466832834805,0.0177406038193992]",
+        "time": "2020-05-04T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0113736536761606",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0329837477158568,0.0168655302538874,0.0234520591087515,0.0137236120919885]",
+        "time": "2020-05-10T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.010013825058371",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0330293479396034,0.0169316779751001,0.0253548671727038,0.0109581012033309]",
+        "time": "2020-05-16T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0114868248754611",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0329003107524706,0.0137784384335145,0.0235317933397587,0.0113914166840478]",
+        "time": "2020-05-22T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0126736001183113",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0293021845983128,0.0146217717445672,0.0236089707533087,0.011755835850987]",
+        "time": "2020-05-28T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0111070825591886",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0324190287822787,0.0134865230816678,0.0243026015776097,0.0112054210799232]",
+        "time": "2020-06-03T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.00983558056226957",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0215824130536886,0.0110535046938284,0.0175402422192459,0.0105559099258717]",
+        "time": "2020-06-09T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.010725066656157",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0270644994903848,0.0128735996771579,0.020440881156336,0.0103778967519495]",
+        "time": "2020-06-15T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0105730430374218",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0233829876347991,0.0130406728515981,0.0197178966731023,0.0119330593525995]",
+        "time": "2020-06-21T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0145010683642197",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0263390435274731,0.0125256421496379,0.0189982591157604,0.0115841439688411]",
+        "time": "2020-06-27T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0096783205048816",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0287806103648953,0.01492794409579,0.0227105367215528,0.0107259104730572]",
+        "time": "2020-07-03T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.00799834255007028",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0238616241087949,0.012864709980291,0.0172884773594281,0.00878675561818594]",
+        "time": "2020-07-15T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.00868360379960594",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.021448651854918,0.00950167124755564,0.013914091659152,0.00828196334310729]",
+        "time": "2020-07-21T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.00816394367964565",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0155238700995808,0.00770193767609796,0.0116348852035251,0.00802730184591931]",
+        "time": "2020-08-02T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.00723435805850635",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.013471005082758,0.0111480780336384,0.0125213406233531,0.0123567840125981]",
+        "time": "2020-08-08T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0216720502996424",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0141188719680366,0.00985825391709996,0.0115706917477296,0.0128005061167236]",
+        "time": "2020-08-14T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.00949510999202198",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0257988293604037,0.00899911910870052,0.0149954026710118,0.0136721128671575]",
+        "time": "2020-08-20T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.00984917830980818",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0242828691703896,0.0111045253533364,0.0157175377001328,0.0142209185111337]",
+        "time": "2020-08-26T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0233184672315709",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0264362591176344,0.0072845042329233,0.0146371230326834,0.017745152147187]",
+        "time": "2020-09-01T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0200678109001819",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0248885731828239,0.00879629933844233,0.0169480632074921,0.0197292798072416]",
+        "time": "2020-09-07T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0158015612899718",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0268163706676073,0.0108317842238458,0.0199416706971444,0.01683599585522]",
+        "time": "2020-09-13T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0146386153755062",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0242605141178253,0.0104183753498654,0.0190945515507914,0.0139651020266445]",
+        "time": "2020-09-19T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0114551294144554",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0352046474889421,0.0117381593248322,0.0230381860638422,0.0136968643816618]",
+        "time": "2020-09-25T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0149968483550237",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0380802683344271,0.0115664477416565,0.0240285117713037,0.014705474298968]",
+        "time": "2020-10-01T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0176644451274248",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0254214313620494,0.0101671680046638,0.0190321993298981,0.0198547497998316]",
+        "time": "2020-10-07T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0269029559170462",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0261456835221056,0.0106757894509949,0.0204411287806361,0.0195447842883604]",
+        "time": "2020-10-13T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0140669518206104",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.02586425658378,0.0144344420071292,0.0214437522134139,0.0183004919223699]",
         "time": "2020-10-19T00:00:00"
     },
     {
@@ -500,9 +500,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0139829884846584",
+        "measurement_value": "0.013931568029453",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0335737614242955,0.00774461797802519,0.0199483872576811,0.0138948771511587]",
+        "reference_value": "[0.033643409364323,0.00768422371100027,0.0199131973707332,0.0138793561750433]",
         "time": "2020-10-25T00:00:00"
     },
     {
@@ -511,9 +511,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0135925206042368",
+        "measurement_value": "0.0136395486750664",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0270146907295725,0.0101835687571978,0.0191257587327674,0.0158565078210687]",
+        "reference_value": "[0.0270146907295725,0.010069316688518,0.0190536873383315,0.015868869389509]",
         "time": "2020-10-31T00:00:00"
     },
     {
@@ -522,9 +522,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0199940143743109",
+        "measurement_value": "0.0200354914640076",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0299295371033234,0.00921085615448421,0.0201177636922128,0.0210578238345626]",
+        "reference_value": "[0.0300192612224169,0.00910751719787156,0.0200726385914652,0.0210850549348631]",
         "time": "2020-11-06T00:00:00"
     },
     {
@@ -533,9 +533,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0295869365251401",
+        "measurement_value": "0.0295801246655155",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0234909186018037,0.00698071648633029,0.0156739037919446,0.0234529239581645]",
+        "reference_value": "[0.0234207069479383,0.0068881088265268,0.0156348949496136,0.0234405989476232]",
         "time": "2020-11-18T00:00:00"
     },
     {
@@ -544,9 +544,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0207778209750427",
+        "measurement_value": "0.0207061807133466",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0264240875732195,0.0116493045699045,0.0181058848950198,0.0234467883948699]",
+        "reference_value": "[0.0263997612935481,0.0115265675567178,0.0180631013534667,0.0233992076637491]",
         "time": "2020-11-24T00:00:00"
     },
     {
@@ -555,9 +555,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0199756076844271",
+        "measurement_value": "0.0199113176123851",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0237793511410135,0.00893716960850198,0.0183387570149435,0.0177185549702195]",
+        "reference_value": "[0.0238012628219499,0.00885727237257775,0.0183108755755815,0.0176656366140942]",
         "time": "2020-11-30T00:00:00"
     },
     {
@@ -566,9 +566,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0124022362511889",
+        "measurement_value": "0.012379411516551",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0220902179094387,0.00834065197408663,0.0165098008230626,0.0170267861434447]",
+        "reference_value": "[0.0220851320343482,0.00827179951864134,0.0164661269404645,0.0170265235027468]",
         "time": "2020-12-06T00:00:00"
     },
     {
@@ -577,9 +577,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0187025144947181",
+        "measurement_value": "0.0187888413793044",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0218876935743142,0.00547772215655659,0.0152676098028627,0.0167022602572264]",
+        "reference_value": "[0.0219785987278483,0.005397591335559,0.0152373319464617,0.0167820355135607]",
         "time": "2020-12-12T00:00:00"
     },
     {
@@ -588,9 +588,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0190020300257723",
+        "measurement_value": "0.0191778536448265",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0240270249853833,0.00814891898213852,0.0155501083213945,0.016734752108758]",
+        "reference_value": "[0.0238561303993091,0.00808723382528844,0.0154937360268914,0.016820217275047]",
         "time": "2020-12-18T00:00:00"
     },
     {
@@ -599,9 +599,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0124997118057837",
+        "measurement_value": "0.0124939568010101",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0311028366868514,0.0114261520762289,0.0181052998821666,0.0131222549620475]",
+        "reference_value": "[0.0309955965983738,0.011423521410363,0.0180398329676558,0.0131644965501976]",
         "time": "2020-12-24T00:00:00"
     },
     {
@@ -610,9 +610,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.00786502305458659",
+        "measurement_value": "0.00782167920475605",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0321514082483269,0.00772858521860332,0.0171390607584054,]",
+        "reference_value": "[0.0320331760085281,0.00772680585095702,0.0170673102192183,]",
         "time": "2020-12-30T00:00:00"
     },
     {
@@ -621,9 +621,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.00771258564989214",
+        "measurement_value": "0.00767361489361819",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0302551980387231,0.00986279485631211,0.0199443796683337,]",
+        "reference_value": "[0.0302551980387231,0.00984691071376939,0.0199164262061799,]",
         "time": "2021-01-04T00:00:00"
     },
     {
@@ -632,9 +632,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.00501302649539805",
+        "measurement_value": "0.00497737084978936",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0254859014837373,0.00582371347943751,0.012755954836727,0.0062536426501076]",
+        "reference_value": "[0.0254155785350172,0.00580898158867295,0.0127276032235654,0.00621261937196272]",
         "time": "2021-01-10T00:00:00"
     },
     {
@@ -643,9 +643,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0060353158050326",
+        "measurement_value": "0.00598687237248059",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0232648362451824,0.0102470770081564,0.0157676826478583,0.00621079052079532]",
+        "reference_value": "[0.0232113286066398,0.0101835687571978,0.015707555848641,0.00617056299042376]",
         "time": "2021-01-16T00:00:00"
     },
     {
@@ -654,9 +654,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.00758402926195532",
+        "measurement_value": "0.00754744574900133",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0225320133562948,0.0104159767064526,0.0163465395498326,0.0074203537578178]",
+        "reference_value": "[0.0224388192378277,0.0103824536265331,0.0162735122310156,0.00737152308956932]",
         "time": "2021-01-22T00:00:00"
     },
     {
@@ -665,9 +665,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.00864171620646549",
+        "measurement_value": "0.00858025114722603",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0192575041445065,0.0124997118057837,0.0148415144952601,0.0104410234407646]",
+        "reference_value": "[0.0191778536448265,0.0124537458900072,0.0148114177608289,0.0103633511523906]",
         "time": "2021-01-28T00:00:00"
     },
     {
@@ -676,9 +676,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0150973248538731",
+        "measurement_value": "0.0149623565609443",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0236428594240174,0.012998702373886,0.0178008548835838,0.012521716937442]",
+        "reference_value": "[0.0235504928389601,0.0129927176283675,0.017736002134442,0.0124108330050592]",
         "time": "2021-02-09T00:00:00"
     },
     {
@@ -687,9 +687,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0138261097519873",
+        "measurement_value": "0.0136898913070074",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0277459755988042,0.0108867938677818,0.0175385859837481,0.0153372598227837]",
+        "reference_value": "[0.0277012903916373,0.0108867938677818,0.0174852141827127,0.0152011434610886]",
         "time": "2021-02-15T00:00:00"
     },
     {
@@ -698,9 +698,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0170883448624908",
+        "measurement_value": "0.016951182515314",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0278868846315917,0.0141058739930947,0.0197955933408298,0.0166053723087824]",
+        "reference_value": "[0.0279769263785465,0.014109122364581,0.0197695665661313,0.0164766384005419]",
         "time": "2021-02-21T00:00:00"
     },
     {
@@ -709,9 +709,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.018901662311869",
+        "measurement_value": "0.0187888413793044",
         "reference_time": "2017-2019",
-        "reference_value": "[0.029167553289395,0.0130016957803329,0.0200388617793511,0.0155906746234529]",
+        "reference_value": "[0.0291339922257016,0.0129897262889785,0.0199825020630537,0.015457219156552]",
         "time": "2021-02-27T00:00:00"
     },
     {
@@ -720,9 +720,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.010782016695999",
+        "measurement_value": "0.0106316335750377",
         "reference_time": "2017-2019",
-        "reference_value": "[0.028099591088425,0.0141318819200706,0.0218858577981404,0.0136191520051616]",
+        "reference_value": "[0.028151400151333,0.0141481612197132,0.0219013651514438,0.013521995447886]",
         "time": "2021-03-05T00:00:00"
     },
     {
@@ -731,9 +731,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.011173777007617",
+        "measurement_value": "0.011145511389316",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0319742230320493,0.0154881661891248,0.0215379353280304,0.0130370533936331]",
+        "reference_value": "[0.0319006843597521,0.015456102884892,0.0215040512406425,0.0129368307349208]",
         "time": "2021-03-11T00:00:00"
     },
     {
@@ -742,9 +742,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0171553664772835",
+        "measurement_value": "0.0170333472404087",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0269401494106367,0.0144710485309493,0.0193663443517466,0.0113145000554101]",
+        "reference_value": "[0.026952558665041,0.0144377660429074,0.0193517068813156,0.0112528064148488]",
         "time": "2021-03-17T00:00:00"
     },
     {
@@ -753,9 +753,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.00561435668132982",
+        "measurement_value": "0.00557956061482176",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0296483138952434,0.0137467489044926,0.0208915835775977,0.00958507238716093]",
+        "reference_value": "[0.0296756335807353,0.013696197186808,0.0208631561322542,0.00953188202361304]",
         "time": "2021-03-23T00:00:00"
     },
     {
@@ -764,9 +764,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0059854940028695",
+        "measurement_value": "0.00598273821560863",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0329913433788864,0.016998085132035,0.0261556021708863,0.00549171186174439]",
+        "reference_value": "[0.0330826278855698,0.0169472798106299,0.0261450827405326,0.00546837916090297]",
         "time": "2021-03-29T00:00:00"
     },
     {
@@ -775,9 +775,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.00487528490103386",
+        "measurement_value": "0.00484283865227851",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0293291853400844,0.0182599674907497,0.0231690354230918,0.00558352382539787]",
+        "reference_value": "[0.0292617300856657,0.0182095829768528,0.0231617885569333,0.00555827479776633]",
         "time": "2021-04-04T00:00:00"
     },
     {
@@ -786,9 +786,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.00588979257229025",
+        "measurement_value": "0.00584924752541186",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0242381796455463,0.0197287695552572,0.0223589840340032,0.00628038202887129]",
+        "reference_value": "[0.0241157070748198,0.0196471698660474,0.022339000599867,0.00622217420060573]",
         "time": "2021-04-10T00:00:00"
     },
     {
@@ -797,9 +797,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.00807606861328976",
+        "measurement_value": "0.00797443642412681",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0301231233377761,0.0213943945159728,0.0249220962895884,0.00671344522202894]",
+        "reference_value": "[0.03010925432053,0.0214042492677163,0.0248780504966674,0.00663921652431329]",
         "time": "2021-04-22T00:00:00"
     },
     {
@@ -808,9 +808,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.00617447448050682",
+        "measurement_value": "0.0060939656234012",
         "reference_time": "2017-2019",
-        "reference_value": "[0.036066167888196,0.0210911373541071,0.0265838876481709,0.00869819558792274]",
+        "reference_value": "[0.0361493089917358,0.0210184168026435,0.0265908303263542,0.00859498626221368]",
         "time": "2021-04-28T00:00:00"
     },
     {
@@ -819,9 +819,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0118440436699717",
+        "measurement_value": "0.011716556739113",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0292347914438769,0.0161808003764307,0.022449563625038,0.0108454303669032]",
+        "reference_value": "[0.0292617300856657,0.0161250102733774,0.0224466832834805,0.0107494294684739]",
         "time": "2021-05-04T00:00:00"
     },
     {
@@ -830,9 +830,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0145177729502312",
+        "measurement_value": "0.0144377660429074",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0329685616356891,0.0168694141328732,0.0234577420110446,0.0125238905829854]",
+        "reference_value": "[0.0329837477158568,0.0168655302538874,0.0234520591087515,0.0124119532534018]",
         "time": "2021-05-10T00:00:00"
     },
     {
@@ -841,9 +841,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0112098551287531",
+        "measurement_value": "0.0110815369781849",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0329837477158568,0.0169394770966373,0.0253522901914615,0.0147358481282565]",
+        "reference_value": "[0.0330293479396034,0.0169316779751001,0.0253548671727038,0.0146282288181919]",
         "time": "2021-05-16T00:00:00"
     },
     {
@@ -852,9 +852,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0184799163057853",
+        "measurement_value": "0.0183653834334835",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0329154653947068,0.0137530809742145,0.0235339013109917,0.0148337680253413]",
+        "reference_value": "[0.0329003107524706,0.0137784384335145,0.0235317933397587,0.0147041753214837]",
         "time": "2021-05-22T00:00:00"
     },
     {
@@ -863,9 +863,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0148115326414855",
+        "measurement_value": "0.0146656055527827",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0292078776020715,0.0146285068699985,0.0235756513241208,0.016443762590785]",
+        "reference_value": "[0.0293021845983128,0.0146217717445672,0.0236089707533087,0.0163201367791808]",
         "time": "2021-05-28T00:00:00"
     },
     {
@@ -874,9 +874,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0160398388250842",
+        "measurement_value": "0.0159294213512763",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0324788018763537,0.0134772101385135,0.0242698188238174,0.0205752920741481]",
+        "reference_value": "[0.0324190287822787,0.0134865230816678,0.0243026015776097,0.020478002175522]",
         "time": "2021-06-03T00:00:00"
     },
     {
@@ -885,9 +885,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0308745047558745",
+        "measurement_value": "0.0308389796225068",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0215824130536886,0.011056050150387,0.017576463776721,0.0177282707394224]",
+        "reference_value": "[0.0215824130536886,0.0110535046938284,0.0175402422192459,0.0176518947497718]",
         "time": "2021-06-09T00:00:00"
     },
     {
@@ -896,9 +896,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.00627046863730851",
+        "measurement_value": "0.00618728327553235",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0270458104521703,0.0128410341217163,0.0204172340165635,0.0147870103799538]",
+        "reference_value": "[0.0270644994903848,0.0128735996771579,0.020440881156336,0.0147182643997681]",
         "time": "2021-06-15T00:00:00"
     },
     {
@@ -907,9 +907,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.00721605774667852",
+        "measurement_value": "0.0071285303012652",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0233883723865936,0.013046679686399,0.0197251838606505,0.0067397976108613]",
+        "reference_value": "[0.0233829876347991,0.0130406728515981,0.0197178966731023,0.00665567115570323]",
         "time": "2021-06-21T00:00:00"
     },
     {
@@ -918,9 +918,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.00673286644859685",
+        "measurement_value": "0.00665119989031216",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0264545269472405,0.0124997118057837,0.0190308938539101,0.00937983313738876]",
+        "reference_value": "[0.0263390435274731,0.0125256421496379,0.0189982591157604,0.00925960881908693]",
         "time": "2021-06-27T00:00:00"
     },
     {
@@ -929,9 +929,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0141905752168909",
+        "measurement_value": "0.0139990962656834",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0288336750678026,0.0150003019045595,0.0227598458347321,0.0148481784121078]",
+        "reference_value": "[0.0287806103648953,0.01492794409579,0.0227105367215528,0.0146831472555155]",
         "time": "2021-07-03T00:00:00"
     },
     {
@@ -940,10 +940,120 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0236210935708357",
+        "measurement_value": "0.023399145610551",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0238836116008419,0.0129300439179628,0.01733504416776,0.0163672754252229]",
+        "reference_value": "[0.0238616241087949,0.012864709980291,0.0172884773594281,0.0161932467073589]",
         "time": "2021-07-15T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0111814982458422",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.021448651854918,0.00950167124755564,0.013914091659152,0.0145073100438076]",
+        "time": "2021-07-21T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.00894128627502954",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0155238700995808,0.00770193767609796,0.0116348852035251,0.00932685565215394]",
+        "time": "2021-08-02T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.00785778243559009",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.013471005082758,0.0111480780336384,0.0125213406233531,0.00726148953441983]",
+        "time": "2021-08-08T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.00498539989263987",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0141188719680366,0.00985825391709996,0.0115706917477296,0.00638425192434396]",
+        "time": "2021-08-14T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.00630957344480193",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0257988293604037,0.00899911910870052,0.0149954026710118,0.00559974892352252]",
+        "time": "2021-08-20T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.00550427343312577",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0242828691703896,0.0111045253533364,0.0157175377001328,0.00759540188634892]",
+        "time": "2021-08-26T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0109723587811191",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0264362591176344,0.0072845042329233,0.0146371230326834,0.0101307233875639]",
+        "time": "2021-09-01T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0139155379484467",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0248885731828239,0.00879629933844233,0.0169480632074921,0.0133318846829386]",
+        "time": "2021-09-07T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.01510775731925",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0268163706676073,0.0108317842238458,0.0199416706971444,0.0124758551128987]",
+        "time": "2021-09-13T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0084042700709994",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0242605141178253,0.0104183753498654,0.0190945515507914,0.0116007282927304]",
+        "time": "2021-09-19T00:00:00"
     },
     {
         "color_code": "",
@@ -953,117 +1063,7 @@
         "input_data": "",
         "measurement_value": "0.0112901574879419",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0214289060112006,0.00955872571884691,0.013935650859108,0.0146437050931717]",
-        "time": "2021-07-21T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.00901986422073745",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0156350761212839,0.00772147020564513,0.0116901351799098,0.00941107014060211]",
-        "time": "2021-08-02T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.00792318871312692",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0135487740437975,0.0111866487019231,0.0125820342940164,0.00733027602295795]",
-        "time": "2021-08-08T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.00504777513500947",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0140961333652217,0.00989008445021066,0.0115952090273545,0.00644973042150959]",
-        "time": "2021-08-14T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.00637822741639238",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0258583018042106,0.00902194136035737,0.015026746376835,0.00566937774685971]",
-        "time": "2021-08-20T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.00558213068917726",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.024310841956013,0.0110943024160783,0.01573792918593,0.00769597317429161]",
-        "time": "2021-08-26T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0111275614173052",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0264240875732195,0.00731475863014725,0.0146447153263309,0.0102470198739779]",
-        "time": "2021-09-01T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0140313675154513",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0249344618809783,0.00882470101075655,0.0170045227935032,0.0134746803687817]",
-        "time": "2021-09-07T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0152651121735887",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0268720005671711,0.010911890519552,0.0200005457386251,0.0125987030945121]",
-        "time": "2021-09-13T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.0084996295944962",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0242270201210924,0.0105075145486555,0.0191061632270678,0.011732052331198]",
-        "time": "2021-09-19T00:00:00"
-    },
-    {
-        "color_code": "",
-        "data_provider": "AA",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "",
-        "input_data": "",
-        "measurement_value": "0.011431415225509",
-        "reference_time": "2017-2019",
-        "reference_value": "[0.0351155924516291,0.0118358649196186,0.0230359661114588,0.0132685727302843]",
+        "reference_value": "[0.0352046474889421,0.0117381593248322,0.0230381860638422,0.0131759855875402]",
         "time": "2021-09-25T00:00:00"
     },
     {
@@ -1072,9 +1072,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0198746733708477",
+        "measurement_value": "0.0198335292036794",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0381241351104299,0.01165198723025,0.0240871634518654,0.0148569556746073]",
+        "reference_value": "[0.0380802683344271,0.0115664477416565,0.0240285117713037,0.0147788810111624]",
         "time": "2021-10-01T00:00:00"
     },
     {
@@ -1083,9 +1083,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0132647784274652",
+        "measurement_value": "0.0132129563418658",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0254624389075763,0.0102447178031038,0.019089900259584,0.0166670330224693]",
+        "reference_value": "[0.0254214313620494,0.0101671680046638,0.0190321993298981,0.0166076443213039]",
         "time": "2021-10-07T00:00:00"
     },
     {
@@ -1094,9 +1094,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0168616472690949",
+        "measurement_value": "0.0167764474183665",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0261637505598582,0.0107696105834434,0.0204991375621829,0.0153998462572293]",
+        "reference_value": "[0.0261456835221056,0.0106757894509949,0.0204411287806361,0.0153123916988846]",
         "time": "2021-10-13T00:00:00"
     },
     {
@@ -1105,9 +1105,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0160731130751279",
+        "measurement_value": "0.0159477713364217",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0260675370812343,0.0145378438560766,0.0215681450747256,0.0136150628908046]",
+        "reference_value": "[0.02586425658378,0.0144344420071292,0.0214437522134139,0.0135219113866898]",
         "time": "2021-10-19T00:00:00"
     },
     {
@@ -1116,9 +1116,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.00791042832819084",
+        "measurement_value": "0.00784151540528122",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0335737614242955,0.00774461797802519,0.0199483872576811,0.0126932249228468]",
+        "reference_value": "[0.033643409364323,0.00768422371100027,0.0199131973707332,0.0125811093040364]",
         "time": "2021-10-25T00:00:00"
     },
     {
@@ -1127,9 +1127,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0140961333652217",
+        "measurement_value": "0.0139540411704062",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0270146907295725,0.0101835687571978,0.0191257587327674,0.012690758176842]",
+        "reference_value": "[0.0270146907295725,0.010069316688518,0.0190536873383315,0.0125945907735894]",
         "time": "2021-10-31T00:00:00"
     },
     {
@@ -1138,9 +1138,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0160657128371135",
+        "measurement_value": "0.015988215745081",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0299295371033234,0.00921085615448421,0.0201177636922128,0.0120573998276125]",
+        "reference_value": "[0.0300192612224169,0.00910751719787156,0.0200726385914652,0.0119662927835924]",
         "time": "2021-11-06T00:00:00"
     },
     {
@@ -1149,9 +1149,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.00601035328050242",
+        "measurement_value": "0.0059566214352901",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0234909186018037,0.00698071648633029,0.0156739037919446,0.0104092429034762]",
+        "reference_value": "[0.0234207069479383,0.0068881088265268,0.0156348949496136,0.0103424080376583]",
         "time": "2021-11-18T00:00:00"
     },
     {
@@ -1160,9 +1160,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.00915166259281276",
+        "measurement_value": "0.00908238693260384",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0264240875732195,0.0116493045699045,0.0181058848950198,0.0127857720662643]",
+        "reference_value": "[0.0263997612935481,0.0115265675567178,0.0180631013534667,0.0127447695644573]",
         "time": "2021-11-24T00:00:00"
     },
     {
@@ -1173,7 +1173,7 @@
         "input_data": "",
         "measurement_value": "0.0231953003254778",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0237793511410135,0.00893716960850198,0.0183387570149435,0.0143180481382146]",
+        "reference_value": "[0.0238012628219499,0.00885727237257775,0.0183108755755815,0.0142440362050077]",
         "time": "2021-11-30T00:00:00"
     },
     {
@@ -1182,9 +1182,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0106071814963532",
+        "measurement_value": "0.0104544213569415",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0220902179094387,0.00834065197408663,0.0165098008230626,0.0154340645425382]",
+        "reference_value": "[0.0220851320343482,0.00827179951864134,0.0164661269404645,0.0153326059203351]",
         "time": "2021-12-06T00:00:00"
     },
     {
@@ -1193,9 +1193,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0124997118057837",
+        "measurement_value": "0.012348096078586",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0218876935743142,0.00547772215655659,0.0152676098028627,0.0164658210593359]",
+        "reference_value": "[0.0219785987278483,0.005397591335559,0.0152373319464617,0.0163020310129785]",
         "time": "2021-12-12T00:00:00"
     },
     {
@@ -1204,9 +1204,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0262905698758709",
+        "measurement_value": "0.0261035756034079",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0240270249853833,0.00814891898213852,0.0155501083213945,0.0163909117693959]",
+        "reference_value": "[0.0238561303993091,0.00808723382528844,0.0154937360268914,0.0162400019995583]",
         "time": "2021-12-18T00:00:00"
     },
     {
@@ -1215,9 +1215,9 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "",
         "input_data": "",
-        "measurement_value": "0.0103824536265331",
+        "measurement_value": "0.0102683343166809",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0321514082483269,0.00772858521860332,0.0171390607584054,]",
+        "reference_value": "[0.0320331760085281,0.00772680585095702,0.0170673102192183,]",
         "time": "2021-12-30T00:00:00"
     },
     {
@@ -1228,7 +1228,7 @@
         "input_data": "",
         "measurement_value": "0.010204694319422",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0254859014837373,0.00582371347943751,0.012755954836727,]",
+        "reference_value": "[0.0254155785350172,0.00580898158867295,0.0127276032235654,]",
         "time": "2022-01-10T00:00:00"
     },
     {
@@ -1239,7 +1239,7 @@
         "input_data": "",
         "measurement_value": "0.0149348202512706",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0225320133562948,0.0104159767064526,0.0163465395498326,0.0139360493865234]",
+        "reference_value": "[0.0224388192378277,0.0103824536265331,0.0162735122310156,0.0139360493865234]",
         "time": "2022-01-22T00:00:00"
     },
     {
@@ -1250,7 +1250,7 @@
         "input_data": "",
         "measurement_value": "0.0166686335888775",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0277459755988042,0.0108867938677818,0.0175385859837481,0.0170986383700979]",
+        "reference_value": "[0.0277012903916373,0.0108867938677818,0.0174852141827127,0.0170986383700979]",
         "time": "2022-02-15T00:00:00"
     },
     {
@@ -1261,7 +1261,7 @@
         "input_data": "",
         "measurement_value": "0.0196924612701456",
         "reference_time": "2017-2019",
-        "reference_value": "[0.029167553289395,0.0130016957803329,0.0200388617793511,0.0194364499986768]",
+        "reference_value": "[0.0291339922257016,0.0129897262889785,0.0199825020630537,0.0194364499986768]",
         "time": "2022-02-27T00:00:00"
     },
     {
@@ -1272,7 +1272,7 @@
         "input_data": "",
         "measurement_value": "0.0219482551370072",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0319742230320493,0.0154881661891248,0.0215379353280304,0.0185659848256967]",
+        "reference_value": "[0.0319006843597521,0.015456102884892,0.0215040512406425,0.0185659848256967]",
         "time": "2022-03-11T00:00:00"
     },
     {
@@ -1283,7 +1283,7 @@
         "input_data": "",
         "measurement_value": "0.0140572380699375",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0296483138952434,0.0137467489044926,0.0208915835775977,0.021134101114085]",
+        "reference_value": "[0.0296756335807353,0.013696197186808,0.0208631561322542,0.021134101114085]",
         "time": "2022-03-23T00:00:00"
     },
     {
@@ -1294,7 +1294,7 @@
         "input_data": "",
         "measurement_value": "0.0273968101353102",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0293291853400844,0.0182599674907497,0.0231690354230918,0.0202460586538807]",
+        "reference_value": "[0.0292617300856657,0.0182095829768528,0.0231617885569333,0.0202460586538807]",
         "time": "2022-04-04T00:00:00"
     },
     {
@@ -1305,7 +1305,7 @@
         "input_data": "",
         "measurement_value": "0.0192841277563943",
         "reference_time": "2017-2019",
-        "reference_value": "[0.036066167888196,0.0210911373541071,0.0265838876481709,0.0210795458421333]",
+        "reference_value": "[0.0361493089917358,0.0210184168026435,0.0265908303263542,0.0210795458421333]",
         "time": "2022-04-28T00:00:00"
     },
     {
@@ -1316,7 +1316,7 @@
         "input_data": "",
         "measurement_value": "0.0165576996346953",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0329685616356891,0.0168694141328732,0.0234577420110446,0.0141113828741739]",
+        "reference_value": "[0.0329837477158568,0.0168655302538874,0.0234520591087515,0.0141113828741739]",
         "time": "2022-05-10T00:00:00"
     },
     {
@@ -1327,7 +1327,7 @@
         "input_data": "",
         "measurement_value": "0.00649232123143213",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0324788018763537,0.0134772101385135,0.0242698188238174,0.0155118437022387]",
+        "reference_value": "[0.0324190287822787,0.0134865230816678,0.0243026015776097,0.0155118437022387]",
         "time": "2022-06-03T00:00:00"
     },
     {
@@ -1338,7 +1338,7 @@
         "input_data": "",
         "measurement_value": "0.0234855102405888",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0270458104521703,0.0128410341217163,0.0204172340165635,0.0159916088792648]",
+        "reference_value": "[0.0270644994903848,0.0128735996771579,0.020440881156336,0.0159916088792648]",
         "time": "2022-06-15T00:00:00"
     },
     {
@@ -1349,7 +1349,7 @@
         "input_data": "",
         "measurement_value": "0.0179969951657736",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0264545269472405,0.0124997118057837,0.0190308938539101,0.0263785138158634]",
+        "reference_value": "[0.0263390435274731,0.0125256421496379,0.0189982591157604,0.0263785138158634]",
         "time": "2022-06-27T00:00:00"
     },
     {
@@ -1360,7 +1360,7 @@
         "input_data": "",
         "measurement_value": "0.0376530360412278",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0214289060112006,0.00955872571884691,0.013935650859108,0.0200610600894885]",
+        "reference_value": "[0.021448651854918,0.00950167124755564,0.013914091659152,0.0200610600894885]",
         "time": "2022-07-21T00:00:00"
     },
     {
@@ -1371,7 +1371,7 @@
         "input_data": "",
         "measurement_value": "0.00453314906146412",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0156350761212839,0.00772147020564513,0.0116901351799098,0.0157838460083187]",
+        "reference_value": "[0.0155238700995808,0.00770193767609796,0.0116348852035251,0.0157838460083187]",
         "time": "2022-08-02T00:00:00"
     },
     {
@@ -1382,7 +1382,106 @@
         "input_data": "",
         "measurement_value": "0.00516535292226423",
         "reference_time": "2017-2019",
-        "reference_value": "[0.0140961333652217,0.00989008445021066,0.0115952090273545,]",
+        "reference_value": "[0.0141188719680366,0.00985825391709996,0.0115706917477296,0.0116580054032499]",
         "time": "2022-08-14T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0252755142260212",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0242828691703896,0.0111045253533364,0.0157175377001328,0.0144718823558931]",
+        "time": "2022-08-26T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0129747799193939",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0248885731828239,0.00879629933844233,0.0169480632074921,0.0173482015757968]",
+        "time": "2022-09-07T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0137943105819753",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0242605141178253,0.0104183753498654,0.0190945515507914,0.0113539953864288]",
+        "time": "2022-09-19T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.00729289565791723",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0380802683344271,0.0115664477416565,0.0240285117713037,0.0109103824472889]",
+        "time": "2022-10-01T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0116439411019742",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0261456835221056,0.0106757894509949,0.0204411287806361,0.0100044238921963]",
+        "time": "2022-10-13T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0110764349166974",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.033643409364323,0.00768422371100027,0.0199131973707332,0.0157144772408816]",
+        "time": "2022-10-25T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0244230557039732",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0300192612224169,0.00910751719787156,0.0200726385914652,0.0181062134844644]",
+        "time": "2022-11-06T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.0188191498327226",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0234207069479383,0.0068881088265268,0.0156348949496136,0.0267133217979036]",
+        "time": "2022-11-18T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "AA",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "",
+        "input_data": "",
+        "measurement_value": "0.036897759857015",
+        "reference_time": "2017-2019",
+        "reference_value": "[0.0238012628219499,0.00885727237257775,0.0183108755755815,]",
+        "time": "2022-11-30T00:00:00"
     }
 ]

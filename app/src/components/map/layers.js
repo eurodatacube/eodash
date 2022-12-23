@@ -393,7 +393,7 @@ export function createLayerFromConfig(config, _options = {}) {
           tileGrid,
         });
         singleSource.set('updateTime', (updatedTime, area, configUpdate) => {
-          const timeString = configUpdate.dateFormatFunction(updatedTime);
+          const timeString = c.dateFormatFunction(updatedTime);
           const paramsUpdate = {};
           paramsToPassThrough.forEach((param) => {
             if (typeof configUpdate[param] !== 'undefined') {
