@@ -27,6 +27,8 @@ import customDashboardApiFactory from './custom-dashboard';
 import getLocationCode from './mixins/getLocationCode';
 // eslint-disable-line no-unused-vars
 
+import InstantSearch from 'vue-instantsearch';
+
 // Set UTC as default time zone behavior for whole client
 Settings.defaultZoneName = 'utc';
 
@@ -35,6 +37,8 @@ Vue.component(VueCountdown.name, VueCountdown);
 Vue.config.productionTip = false;
 
 Vue.use(VuePapaParse);
+
+Vue.use(InstantSearch);
 
 Vue.use(VueMatomo, {
   // Config options explained on https://github.com/AmazingDreams/vue-matomo

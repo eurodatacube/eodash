@@ -1,6 +1,6 @@
 [
     {
-        "aoi": "41.32,19.82",
+        "aoi": [41.32,19.82],
         "aoiID": "AL1",
         "city": "Tirana",
         "country": "AL",
@@ -20,7 +20,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "41.32,19.82",
+        "aoi": [41.32,19.82],
         "aoiID": "AL1",
         "city": "Tirana",
         "country": "AL",
@@ -40,7 +40,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "41.32,19.82",
+        "aoi": [41.32,19.82],
         "aoiID": "AL1",
         "city": "Tirana",
         "country": "AL",
@@ -60,7 +60,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "41.32,19.82",
+        "aoi": [41.32,19.82],
         "aoiID": "AL1",
         "city": "Tirana",
         "country": "AL",
@@ -80,10 +80,10 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "48.2,16.366667",
-        "aoiID": "AT",
+        "aoi": [48.2,16.366667],
+        "aoiID": "Austria",
         "city": "Vienna",
-        "country": "AT",
+        "country": "Austria",
         "description": "Air Quality",
         "indicator": "N1",
         "indicatorName": "TROPOMI: Spatial average over the city area of bi-weekly tropospheric nitrogen dioxide (NO2) concentrations",
@@ -100,10 +100,10 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "48.1062,16.5685",
+        "aoi": [48.1062,16.5685],
         "aoiID": "AT4",
         "city": "Vienna",
-        "country": "AT",
+        "country": "Austria",
         "description": "Airports: Throughput",
         "indicator": "E13b",
         "indicatorName": "Number of parked airplanes",
@@ -120,10 +120,10 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "48.1062,16.5685",
+        "aoi": [48.1062,16.5685],
         "aoiID": "AT4",
         "city": "Vienna",
-        "country": "AT",
+        "country": "Austria",
         "description": "Airports: airplanes traffic",
         "indicator": "E13d",
         "indicatorName": "Changes in Airports traffic (flying planes)",
@@ -140,10 +140,10 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "48.2,16.37",
+        "aoi": [48.2,16.37],
         "aoiID": "AT5",
         "city": "Vienna",
-        "country": "AT",
+        "country": "Austria",
         "description": "CAMS Air Quality",
         "indicator": "N1a",
         "indicatorName": "CAMS PM2.5 daily mean analysis",
@@ -160,10 +160,10 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "48.2,16.37",
+        "aoi": [48.2,16.37],
         "aoiID": "AT5",
         "city": "Vienna",
-        "country": "AT",
+        "country": "Austria",
         "description": "CAMS Air Quality",
         "indicator": "N1b",
         "indicatorName": "CAMS NO2 daily mean analysis",
@@ -180,10 +180,10 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "48.2,16.37",
+        "aoi": [48.2,16.37],
         "aoiID": "AT5",
         "city": "Vienna",
-        "country": "AT",
+        "country": "Austria",
         "description": "CAMS Air Quality",
         "indicator": "N1c",
         "indicatorName": "CAMS PM10 daily mean analysis",
@@ -200,10 +200,10 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "48.2,16.37",
+        "aoi": [48.2,16.37],
         "aoiID": "AT5",
         "city": "Vienna",
-        "country": "AT",
+        "country": "Austria",
         "description": "CAMS Air Quality",
         "indicator": "N1d",
         "indicatorName": "CAMS O3 daily mean analysis",
@@ -220,10 +220,10 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "47.58549439, 14.1264761",
+        "aoi": [47.58549439, 14.1264761],
         "aoiID": "ATa",
         "city": "Austria",
-        "country": "AT",
+        "country": "Austria",
         "description": "National harvesting evolution",
         "indicator": "E10a10",
         "indicatorName": "Evolution of the percentage of harvested parcels (Winter_Cereals) in 2020 observed with Sentinel-1 compared to modelled expected harvest dates in 2020",
@@ -240,10 +240,10 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "47.585494391, 14.1264761",
+        "aoi": [47.585494391, 14.1264761],
         "aoiID": "ATb",
         "city": "Austria",
-        "country": "AT",
+        "country": "Austria",
         "description": "National harvesting evolution",
         "indicator": "E10a10",
         "indicatorName": "Evolution of the percentage of harvested parcels (Winter_Rapeseed) in 2020 observed with Sentinel-1 compared to modelled expected harvest dates in 2020",
@@ -260,7 +260,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "43.87,18.42",
+        "aoi": [43.87,18.42],
         "aoiID": "BA1",
         "city": "Sarajevo",
         "country": "BA",
@@ -280,7 +280,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "43.87,18.42",
+        "aoi": [43.87,18.42],
         "aoiID": "BA1",
         "city": "Sarajevo",
         "country": "BA",
@@ -300,7 +300,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "43.87,18.42",
+        "aoi": [43.87,18.42],
         "aoiID": "BA1",
         "city": "Sarajevo",
         "country": "BA",
@@ -320,7 +320,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "43.87,18.42",
+        "aoi": [43.87,18.42],
         "aoiID": "BA1",
         "city": "Sarajevo",
         "country": "BA",
@@ -340,7 +340,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "50.83333333,4.3333330000000005",
+        "aoi": [50.83333333,4.3333330000000005],
         "aoiID": "BE",
         "city": "Brussels",
         "country": "BE",
@@ -360,7 +360,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "51.091559,3.740081",
+        "aoi": [51.091559,3.740081],
         "aoiID": "BE3",
         "city": "Ghent",
         "country": "BE",
@@ -380,7 +380,7 @@
         "yAxis": "Number of ships at piers"
     },
     {
-        "aoi": "51.091559,3.740081",
+        "aoi": [51.091559,3.740081],
         "aoiID": "BE3",
         "city": "Ghent",
         "country": "BE",
@@ -400,7 +400,7 @@
         "yAxis": "Number of ships at piers"
     },
     {
-        "aoi": "51.091559,3.740081",
+        "aoi": [51.091559,3.740081],
         "aoiID": "BE3",
         "city": "Ghent",
         "country": "BE",
@@ -420,7 +420,7 @@
         "yAxis": "Number of ships in Port"
     },
     {
-        "aoi": "51.091559,3.740081",
+        "aoi": [51.091559,3.740081],
         "aoiID": "BE3",
         "city": "Ghent",
         "country": "BE",
@@ -440,7 +440,7 @@
         "yAxis": "Number of ships at piers"
     },
     {
-        "aoi": "50.8792741,4.3401109",
+        "aoi": [50.8792741,4.3401109],
         "aoiID": "BE4",
         "city": "Brussels",
         "country": "BE",
@@ -460,7 +460,7 @@
         "yAxis": "Number of parked cars"
     },
     {
-        "aoi": "51.111330,3.74996864",
+        "aoi": [51.111330,3.74996864],
         "aoiID": "BE5",
         "city": "Ghent",
         "country": "BE",
@@ -480,7 +480,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "50.9008,4.4840",
+        "aoi": [50.9008,4.4840],
         "aoiID": "BE6",
         "city": "Brussels",
         "country": "BE",
@@ -500,7 +500,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "50.9008,4.4840",
+        "aoi": [50.9008,4.4840],
         "aoiID": "BE6",
         "city": "Brussels",
         "country": "BE",
@@ -520,7 +520,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "50.83,4.34",
+        "aoi": [50.83,4.34],
         "aoiID": "BE7",
         "city": "Brussels",
         "country": "BE",
@@ -540,7 +540,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "50.83,4.34",
+        "aoi": [50.83,4.34],
         "aoiID": "BE7",
         "city": "Brussels",
         "country": "BE",
@@ -560,7 +560,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "50.83,4.34",
+        "aoi": [50.83,4.34],
         "aoiID": "BE7",
         "city": "Brussels",
         "country": "BE",
@@ -580,7 +580,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "50.83,4.34",
+        "aoi": [50.83,4.34],
         "aoiID": "BE7",
         "city": "Brussels",
         "country": "BE",
@@ -600,7 +600,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "51.09340683135207,3.7842714174474867",
+        "aoi": [51.09340683135207,3.7842714174474867],
         "aoiID": "BE8",
         "city": "Ghent",
         "country": "BE",
@@ -620,7 +620,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "51.09601291844497,3.7545239536391684",
+        "aoi": [51.09601291844497,3.7545239536391684],
         "aoiID": "BE9",
         "city": "Ghent",
         "country": "BE",
@@ -640,7 +640,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "42.68333333,23.316667000000002",
+        "aoi": [42.68333333,23.316667000000002],
         "aoiID": "BG",
         "city": "Sofia",
         "country": "BG",
@@ -660,7 +660,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "42.68,23.32",
+        "aoi": [42.68,23.32],
         "aoiID": "BG4",
         "city": "Sofia",
         "country": "BG",
@@ -680,7 +680,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "42.68,23.32",
+        "aoi": [42.68,23.32],
         "aoiID": "BG4",
         "city": "Sofia",
         "country": "BG",
@@ -700,7 +700,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "42.68,23.32",
+        "aoi": [42.68,23.32],
         "aoiID": "BG4",
         "city": "Sofia",
         "country": "BG",
@@ -720,7 +720,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "42.68,23.32",
+        "aoi": [42.68,23.32],
         "aoiID": "BG4",
         "city": "Sofia",
         "country": "BG",
@@ -740,7 +740,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "42.76890318, 25.21552909",
+        "aoi": [42.76890318, 25.21552909],
         "aoiID": "BGa",
         "city": "Bulgaria",
         "country": "BG",
@@ -760,7 +760,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "42.768903181, 25.21552909",
+        "aoi": [42.768903181, 25.21552909],
         "aoiID": "BGb",
         "city": "Bulgaria",
         "country": "BG",
@@ -780,7 +780,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "47.451542,8.564572",
+        "aoi": [47.451542,8.564572],
         "aoiID": "CH1",
         "city": "Zurich",
         "country": "CH",
@@ -800,7 +800,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "47.451542,8.564572",
+        "aoi": [47.451542,8.564572],
         "aoiID": "CH1",
         "city": "Zurich",
         "country": "CH",
@@ -820,7 +820,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "46.92,7.47",
+        "aoi": [46.92,7.47],
         "aoiID": "CH2",
         "city": "Bern",
         "country": "CH",
@@ -840,7 +840,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "46.92,7.47",
+        "aoi": [46.92,7.47],
         "aoiID": "CH2",
         "city": "Bern",
         "country": "CH",
@@ -860,7 +860,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "46.92,7.47",
+        "aoi": [46.92,7.47],
         "aoiID": "CH2",
         "city": "Bern",
         "country": "CH",
@@ -880,7 +880,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "46.92,7.47",
+        "aoi": [46.92,7.47],
         "aoiID": "CH2",
         "city": "Bern",
         "country": "CH",
@@ -900,7 +900,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "35.16666667,33.366667",
+        "aoi": [35.16666667,33.366667],
         "aoiID": "CY",
         "city": "Nicosia",
         "country": "CY",
@@ -920,7 +920,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "35.17,33.37",
+        "aoi": [35.17,33.37],
         "aoiID": "CY2",
         "city": "Nicosia",
         "country": "CY",
@@ -940,7 +940,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "35.17,33.37",
+        "aoi": [35.17,33.37],
         "aoiID": "CY2",
         "city": "Nicosia",
         "country": "CY",
@@ -960,7 +960,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "35.17,33.37",
+        "aoi": [35.17,33.37],
         "aoiID": "CY2",
         "city": "Nicosia",
         "country": "CY",
@@ -980,7 +980,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "35.17,33.37",
+        "aoi": [35.17,33.37],
         "aoiID": "CY2",
         "city": "Nicosia",
         "country": "CY",
@@ -1000,7 +1000,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "50.08333333,14.466667000000001",
+        "aoi": [50.08333333,14.466667000000001],
         "aoiID": "CZ",
         "city": "Prague",
         "country": "CZ",
@@ -1020,7 +1020,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "50.2020105,16.255415",
+        "aoi": [50.2020105,16.255415],
         "aoiID": "CZ5",
         "city": "Kvasiny",
         "country": "CZ",
@@ -1040,7 +1040,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "50.08,14.47",
+        "aoi": [50.08,14.47],
         "aoiID": "CZ6",
         "city": "Prague",
         "country": "CZ",
@@ -1060,7 +1060,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "50.08,14.47",
+        "aoi": [50.08,14.47],
         "aoiID": "CZ6",
         "city": "Prague",
         "country": "CZ",
@@ -1080,7 +1080,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "50.08,14.47",
+        "aoi": [50.08,14.47],
         "aoiID": "CZ6",
         "city": "Prague",
         "country": "CZ",
@@ -1100,7 +1100,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "50.08,14.47",
+        "aoi": [50.08,14.47],
         "aoiID": "CZ6",
         "city": "Prague",
         "country": "CZ",
@@ -1120,7 +1120,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "49.66214,18.439",
+        "aoi": [49.66214,18.439],
         "aoiID": "CZ7",
         "city": "Nosovice",
         "country": "CZ",
@@ -1140,7 +1140,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "49.73341233, 15.31240163",
+        "aoi": [49.73341233, 15.31240163],
         "aoiID": "CZa",
         "city": "Czech Republic",
         "country": "CZ",
@@ -1160,7 +1160,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "49.733412331, 15.31240163",
+        "aoi": [49.733412331, 15.31240163],
         "aoiID": "CZb",
         "city": "Czech Republic",
         "country": "CZ",
@@ -1180,7 +1180,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "52.51666667,13.4",
+        "aoi": [52.51666667,13.4],
         "aoiID": "DE",
         "city": "Berlin",
         "country": "DE",
@@ -1200,7 +1200,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "53.532123,9.944467",
+        "aoi": [53.532123,9.944467],
         "aoiID": "DE1",
         "city": "Hamburg",
         "country": "DE",
@@ -1220,7 +1220,7 @@
         "yAxis": "Number of ships at piers"
     },
     {
-        "aoi": "53.532123,9.944467",
+        "aoi": [53.532123,9.944467],
         "aoiID": "DE1",
         "city": "Hamburg",
         "country": "DE",
@@ -1240,7 +1240,7 @@
         "yAxis": "Number of ships at piers"
     },
     {
-        "aoi": "53.532123,9.944467",
+        "aoi": [53.532123,9.944467],
         "aoiID": "DE1",
         "city": "Hamburg",
         "country": "DE",
@@ -1260,7 +1260,7 @@
         "yAxis": "Number of ships in Port"
     },
     {
-        "aoi": "53.532123,9.944467",
+        "aoi": [53.532123,9.944467],
         "aoiID": "DE1",
         "city": "Hamburg",
         "country": "DE",
@@ -1280,7 +1280,7 @@
         "yAxis": "Number of ships at piers"
     },
     {
-        "aoi": "53.532123,9.944467",
+        "aoi": [53.532123,9.944467],
         "aoiID": "DE1",
         "city": "Hamburg",
         "country": "DE",
@@ -1300,7 +1300,7 @@
         "yAxis": "Number of parked cars "
     },
     {
-        "aoi": "51.40592,12.44518",
+        "aoi": [51.40592,12.44518],
         "aoiID": "DE10",
         "city": "Leipzig",
         "country": "DE",
@@ -1320,7 +1320,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "52.13141,13.09063",
+        "aoi": [52.13141,13.09063],
         "aoiID": "DE11",
         "city": "Brandenburg",
         "country": "DE",
@@ -1340,7 +1340,7 @@
         "yAxis": "Total area [ha]"
     },
     {
-        "aoi": "52.131413,13.090632",
+        "aoi": [52.131413,13.090632],
         "aoiID": "DE11",
         "city": "Brandenburg Region",
         "country": "DE",
@@ -1360,7 +1360,7 @@
         "yAxis": "Cumulative Proportion of total areas under active management"
     },
     {
-        "aoi": "52.131413, 13.090632",
+        "aoi": [52.131413, 13.090632],
         "aoiID": "DE11",
         "city": "Brandenburg",
         "country": "DE",
@@ -1380,7 +1380,7 @@
         "yAxis": "Cultivated area 2020-2019 / Cultivated area 2019"
     },
     {
-        "aoi": "48.35344398201118,11.781958961375517",
+        "aoi": [48.35344398201118,11.781958961375517],
         "aoiID": "DE12",
         "city": "Muenchen",
         "country": "DE",
@@ -1400,7 +1400,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "48.35344,11.78195",
+        "aoi": [48.35344,11.78195],
         "aoiID": "DE12",
         "city": "M\u00fcnchen",
         "country": "DE",
@@ -1420,7 +1420,7 @@
         "yAxis": "Number of parked airplanes"
     },
     {
-        "aoi": "48.353443982011179,11.781958961375517",
+        "aoi": [48.353443982011179,11.781958961375517],
         "aoiID": "DE12",
         "city": "Munich",
         "country": "DE",
@@ -1440,7 +1440,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "52.5558,13.2860",
+        "aoi": [52.5558,13.2860],
         "aoiID": "DE13",
         "city": "Berlin",
         "country": "DE",
@@ -1460,7 +1460,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "50.94,6.95",
+        "aoi": [50.94,6.95],
         "aoiID": "DE13",
         "city": "Cologne",
         "country": "DE",
@@ -1480,7 +1480,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "50.94,6.95",
+        "aoi": [50.94,6.95],
         "aoiID": "DE13",
         "city": "Cologne",
         "country": "DE",
@@ -1500,7 +1500,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "50.94,6.95",
+        "aoi": [50.94,6.95],
         "aoiID": "DE13",
         "city": "Cologne",
         "country": "DE",
@@ -1520,7 +1520,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "50.94,6.95",
+        "aoi": [50.94,6.95],
         "aoiID": "DE13",
         "city": "Cologne",
         "country": "DE",
@@ -1540,7 +1540,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "51.2870,6.7667",
+        "aoi": [51.2870,6.7667],
         "aoiID": "DE14",
         "city": "Dusseldorf",
         "country": "DE",
@@ -1560,7 +1560,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "51.2870,6.7667",
+        "aoi": [51.2870,6.7667],
         "aoiID": "DE14",
         "city": "Dusseldorf",
         "country": "DE",
@@ -1580,7 +1580,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "52.36124,13.492333",
+        "aoi": [52.36124,13.492333],
         "aoiID": "DE15",
         "city": "Berlin",
         "country": "DE",
@@ -1600,7 +1600,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "50.033333,8.570556",
+        "aoi": [50.033333,8.570556],
         "aoiID": "DE15",
         "city": "Frankfurt",
         "country": "DE",
@@ -1620,7 +1620,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "52.52,13.41",
+        "aoi": [52.52,13.41],
         "aoiID": "DE16",
         "city": "Berlin",
         "country": "DE",
@@ -1640,7 +1640,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "52.52,13.41",
+        "aoi": [52.52,13.41],
         "aoiID": "DE16",
         "city": "Berlin",
         "country": "DE",
@@ -1660,7 +1660,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "52.52,13.41",
+        "aoi": [52.52,13.41],
         "aoiID": "DE16",
         "city": "Berlin",
         "country": "DE",
@@ -1680,7 +1680,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "52.52,13.41",
+        "aoi": [52.52,13.41],
         "aoiID": "DE16",
         "city": "Berlin",
         "country": "DE",
@@ -1700,7 +1700,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "53.57,10",
+        "aoi": [53.57,10],
         "aoiID": "DE17",
         "city": "Hamburg",
         "country": "DE",
@@ -1720,7 +1720,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "53.57,10",
+        "aoi": [53.57,10],
         "aoiID": "DE17",
         "city": "Hamburg",
         "country": "DE",
@@ -1740,7 +1740,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "53.57,10",
+        "aoi": [53.57,10],
         "aoiID": "DE17",
         "city": "Hamburg",
         "country": "DE",
@@ -1760,7 +1760,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "53.57,10",
+        "aoi": [53.57,10],
         "aoiID": "DE17",
         "city": "Hamburg",
         "country": "DE",
@@ -1780,7 +1780,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "48.13,11.57",
+        "aoi": [48.13,11.57],
         "aoiID": "DE18",
         "city": "Munich",
         "country": "DE",
@@ -1800,7 +1800,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "48.13,11.57",
+        "aoi": [48.13,11.57],
         "aoiID": "DE18",
         "city": "Munich",
         "country": "DE",
@@ -1820,7 +1820,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "48.13,11.57",
+        "aoi": [48.13,11.57],
         "aoiID": "DE18",
         "city": "Munich",
         "country": "DE",
@@ -1840,7 +1840,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "48.13,11.57",
+        "aoi": [48.13,11.57],
         "aoiID": "DE18",
         "city": "Munich",
         "country": "DE",
@@ -1860,7 +1860,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "53.052262,8.918903",
+        "aoi": [53.052262,8.918903],
         "aoiID": "DE19",
         "city": "Bremen",
         "country": "DE",
@@ -1880,7 +1880,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "48.6519,12.45783",
+        "aoi": [48.6519,12.45783],
         "aoiID": "DE20",
         "city": "Dingolfing",
         "country": "DE",
@@ -1900,7 +1900,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "51.015106,6.95394",
+        "aoi": [51.015106,6.95394],
         "aoiID": "DE21",
         "city": "Koln",
         "country": "DE",
@@ -1920,7 +1920,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "49.209008,9.219501",
+        "aoi": [49.209008,9.219501],
         "aoiID": "DE22",
         "city": "Neckarsulm",
         "country": "DE",
@@ -1940,7 +1940,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "50.984677,10.270386",
+        "aoi": [50.984677,10.270386],
         "aoiID": "DE23",
         "city": "Eisenach",
         "country": "DE",
@@ -1960,7 +1960,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "48.976002,12.175369",
+        "aoi": [48.976002,12.175369],
         "aoiID": "DE24",
         "city": "Regensburg",
         "country": "DE",
@@ -1980,7 +1980,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "48.69223,8.98741",
+        "aoi": [48.69223,8.98741],
         "aoiID": "DE25",
         "city": "Sindelfingen",
         "country": "DE",
@@ -2000,7 +2000,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "52.43886,10.76917",
+        "aoi": [52.43886,10.76917],
         "aoiID": "DE26",
         "city": "Wolfsburg",
         "country": "DE",
@@ -2020,7 +2020,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "50.795891,12.488244",
+        "aoi": [50.795891,12.488244],
         "aoiID": "DE27",
         "city": "Zwickau",
         "country": "DE",
@@ -2040,7 +2040,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "49.34721,6.75809",
+        "aoi": [49.34721,6.75809],
         "aoiID": "DE28",
         "city": "Saarlouis",
         "country": "DE",
@@ -2060,7 +2060,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "48.783338,11.407580",
+        "aoi": [48.783338,11.407580],
         "aoiID": "DE4",
         "city": "Ingolstadt",
         "country": "DE",
@@ -2080,7 +2080,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "49.9896759,8.377838",
+        "aoi": [49.9896759,8.377838],
         "aoiID": "DE5",
         "city": "Russelsheim",
         "country": "DE",
@@ -2100,7 +2100,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "50.03417529740082,8.553651954534535",
+        "aoi": [50.03417529740082,8.553651954534535],
         "aoiID": "DE6",
         "city": "Frankfurt",
         "country": "DE",
@@ -2120,7 +2120,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "50.03417,8.55365",
+        "aoi": [50.03417,8.55365],
         "aoiID": "DE6",
         "city": "Frankfurt",
         "country": "DE",
@@ -2140,7 +2140,7 @@
         "yAxis": "Number of parked airplanes"
     },
     {
-        "aoi": "53.347793,7.1413256",
+        "aoi": [53.347793,7.1413256],
         "aoiID": "DE9",
         "city": "Emden",
         "country": "DE",
@@ -2160,7 +2160,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "51.10698181, 10.38578051",
+        "aoi": [51.10698181, 10.38578051],
         "aoiID": "DEa",
         "city": "Germany",
         "country": "DE",
@@ -2180,7 +2180,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "51.106981811, 10.38578051",
+        "aoi": [51.106981811, 10.38578051],
         "aoiID": "DEb",
         "city": "Germany",
         "country": "DE",
@@ -2200,7 +2200,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "55.66666667,12.583333",
+        "aoi": [55.66666667,12.583333],
         "aoiID": "DK",
         "city": "Copenhagen",
         "country": "DK",
@@ -2220,7 +2220,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "55.620750,12.650462",
+        "aoi": [55.620750,12.650462],
         "aoiID": "DK1",
         "city": "Copenhagen",
         "country": "DK",
@@ -2240,7 +2240,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "55.620750,12.650462",
+        "aoi": [55.620750,12.650462],
         "aoiID": "DK1",
         "city": "Copenhagen",
         "country": "DK",
@@ -2260,7 +2260,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "55.67,12.58",
+        "aoi": [55.67,12.58],
         "aoiID": "DK1",
         "city": "Copenhagen",
         "country": "DK",
@@ -2280,7 +2280,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "55.67,12.58",
+        "aoi": [55.67,12.58],
         "aoiID": "DK1",
         "city": "Copenhagen",
         "country": "DK",
@@ -2300,7 +2300,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "55.67,12.58",
+        "aoi": [55.67,12.58],
         "aoiID": "DK1",
         "city": "Copenhagen",
         "country": "DK",
@@ -2320,7 +2320,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "55.67,12.58",
+        "aoi": [55.67,12.58],
         "aoiID": "DK1",
         "city": "Copenhagen",
         "country": "DK",
@@ -2340,7 +2340,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "56.00508703, 9.19078239",
+        "aoi": [56.00508703, 9.19078239],
         "aoiID": "DKa",
         "city": "Denmark",
         "country": "DK",
@@ -2360,7 +2360,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "56.005087031, 9.19078239",
+        "aoi": [56.005087031, 9.19078239],
         "aoiID": "DKb",
         "city": "Denmark",
         "country": "DK",
@@ -2380,7 +2380,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "59.43333333,24.716667",
+        "aoi": [59.43333333,24.716667],
         "aoiID": "EE",
         "city": "Tallinn",
         "country": "EE",
@@ -2400,7 +2400,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "59.43,24.72",
+        "aoi": [59.43,24.72],
         "aoiID": "EE1",
         "city": "Tallinn",
         "country": "EE",
@@ -2420,7 +2420,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "59.43,24.72",
+        "aoi": [59.43,24.72],
         "aoiID": "EE1",
         "city": "Tallinn",
         "country": "EE",
@@ -2440,7 +2440,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "59.43,24.72",
+        "aoi": [59.43,24.72],
         "aoiID": "EE1",
         "city": "Tallinn",
         "country": "EE",
@@ -2460,7 +2460,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "59.43,24.72",
+        "aoi": [59.43,24.72],
         "aoiID": "EE1",
         "city": "Tallinn",
         "country": "EE",
@@ -2480,7 +2480,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "58.67192972, 25.54248537",
+        "aoi": [58.67192972, 25.54248537],
         "aoiID": "EEa",
         "city": "Estonia",
         "country": "EE",
@@ -2500,7 +2500,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "58.671929721, 25.54248537",
+        "aoi": [58.671929721, 25.54248537],
         "aoiID": "EEb",
         "city": "Estonia",
         "country": "EE",
@@ -2520,7 +2520,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "30.939554,32.314923",
+        "aoi": [30.939554,32.314923],
         "aoiID": "EG1",
         "city": "Suez ",
         "country": "EG",
@@ -2540,7 +2540,7 @@
         "yAxis": "Number of ships in Port"
     },
     {
-        "aoi": "40.416775,-3.70379",
+        "aoi": [40.416775,-3.70379],
         "aoiID": "ES",
         "city": "Madrid",
         "country": "ES",
@@ -2560,7 +2560,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "40.493475736010851,-3.566288968675247",
+        "aoi": [40.493475736010851,-3.566288968675247],
         "aoiID": "ES10",
         "city": "Madrid",
         "country": "ES",
@@ -2580,7 +2580,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "40.493475736010851,-3.566288968675247",
+        "aoi": [40.493475736010851,-3.566288968675247],
         "aoiID": "ES10",
         "city": "Madrid",
         "country": "ES",
@@ -2600,7 +2600,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "41.296657915514594,2.0857359721622024",
+        "aoi": [41.296657915514594,2.0857359721622024],
         "aoiID": "ES11",
         "city": "Barcelona",
         "country": "ES",
@@ -2620,7 +2620,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "41.29665,2.08573",
+        "aoi": [41.29665,2.08573],
         "aoiID": "ES11",
         "city": "Barcelona",
         "country": "ES",
@@ -2640,7 +2640,7 @@
         "yAxis": "Number of parked airplanes"
     },
     {
-        "aoi": "41.296657915514594,2.085735972162202",
+        "aoi": [41.296657915514594,2.085735972162202],
         "aoiID": "ES11",
         "city": "Barcelona",
         "country": "ES",
@@ -2660,7 +2660,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "40.4,-3.68",
+        "aoi": [40.4,-3.68],
         "aoiID": "ES12",
         "city": "Madrid",
         "country": "ES",
@@ -2680,7 +2680,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "40.4,-3.68",
+        "aoi": [40.4,-3.68],
         "aoiID": "ES12",
         "city": "Madrid",
         "country": "ES",
@@ -2700,7 +2700,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "40.4,-3.68",
+        "aoi": [40.4,-3.68],
         "aoiID": "ES12",
         "city": "Madrid",
         "country": "ES",
@@ -2720,7 +2720,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "40.4,-3.68",
+        "aoi": [40.4,-3.68],
         "aoiID": "ES12",
         "city": "Madrid",
         "country": "ES",
@@ -2740,7 +2740,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "36.67166398,-4.492831362",
+        "aoi": [36.67166398,-4.492831362],
         "aoiID": "ES14",
         "city": "Malaga",
         "country": "ES",
@@ -2760,7 +2760,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "36.67166398,-4.492831362",
+        "aoi": [36.67166398,-4.492831362],
         "aoiID": "ES14",
         "city": "Malaga",
         "country": "ES",
@@ -2780,7 +2780,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "39.5510,2.7367",
+        "aoi": [39.5510,2.7367],
         "aoiID": "ES15",
         "city": "Palma de Mallorca",
         "country": "ES",
@@ -2800,7 +2800,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "39.5510,2.7367",
+        "aoi": [39.5510,2.7367],
         "aoiID": "ES15",
         "city": "Palma de Mallorca",
         "country": "ES",
@@ -2820,7 +2820,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "41.49234,1.90794",
+        "aoi": [41.49234,1.90794],
         "aoiID": "ES17",
         "city": "Martorell",
         "country": "ES",
@@ -2840,7 +2840,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "41.32769,2.14569",
+        "aoi": [41.32769,2.14569],
         "aoiID": "ES18",
         "city": "Barcelona",
         "country": "ES",
@@ -2860,7 +2860,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "40.717,1.358",
+        "aoi": [40.717,1.358],
         "aoiID": "ES19",
         "city": "Barcelona",
         "country": "ES",
@@ -2880,7 +2880,7 @@
         "yAxis": "Chlorophyll-a concentration [mg m-3]"
     },
     {
-        "aoi": "42.643,-1.648",
+        "aoi": [42.643,-1.648],
         "aoiID": "ES22a",
         "city": "Comunidad Foral de Navarra",
         "country": "ES",
@@ -2900,7 +2900,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "42.644,-1.648",
+        "aoi": [42.644,-1.648],
         "aoiID": "ES22b",
         "city": "Comunidad Foral de Navarra",
         "country": "ES",
@@ -2920,7 +2920,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "42.312,-2.505",
+        "aoi": [42.312,-2.505],
         "aoiID": "ES23a",
         "city": "La Rioja",
         "country": "ES",
@@ -2940,7 +2940,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "42.313,-2.505",
+        "aoi": [42.313,-2.505],
         "aoiID": "ES23b",
         "city": "La Rioja",
         "country": "ES",
@@ -2960,7 +2960,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "41.445,-0.646",
+        "aoi": [41.445,-0.646],
         "aoiID": "ES24a",
         "city": "Aragon",
         "country": "ES",
@@ -2980,7 +2980,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "41.4445,-0.646",
+        "aoi": [41.4445,-0.646],
         "aoiID": "ES24b",
         "city": "Aragon",
         "country": "ES",
@@ -3000,7 +3000,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "40.409,-3.729",
+        "aoi": [40.409,-3.729],
         "aoiID": "ES30a",
         "city": "Comunidad de Madrid",
         "country": "ES",
@@ -3020,7 +3020,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "40.4095,-3.729",
+        "aoi": [40.4095,-3.729],
         "aoiID": "ES30b",
         "city": "Comunidad de Madrid",
         "country": "ES",
@@ -3040,7 +3040,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "40.044,-4.457",
+        "aoi": [40.044,-4.457],
         "aoiID": "ES41",
         "city": "Spain",
         "country": "ES",
@@ -3060,7 +3060,7 @@
         "yAxis": "(%) of Harvested and non-Harvested areas"
     },
     {
-        "aoi": "41.8375,-4.3976",
+        "aoi": [41.8375,-4.3976],
         "aoiID": "ES41a",
         "city": "Castilla y Leon",
         "country": "ES",
@@ -3080,7 +3080,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "41.8376,-4.3976",
+        "aoi": [41.8376,-4.3976],
         "aoiID": "ES41b",
         "city": "Castilla y Leon",
         "country": "ES",
@@ -3100,7 +3100,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "39.743,-3.125",
+        "aoi": [39.743,-3.125],
         "aoiID": "ES42a",
         "city": "Castilla-La Mancha",
         "country": "ES",
@@ -3120,7 +3120,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "39.7431,-3.125",
+        "aoi": [39.7431,-3.125],
         "aoiID": "ES42b",
         "city": "Castilla-La Mancha",
         "country": "ES",
@@ -3140,7 +3140,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "39.165,-6.138",
+        "aoi": [39.165,-6.138],
         "aoiID": "ES43a",
         "city": "Extremadura",
         "country": "ES",
@@ -3160,7 +3160,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "39.166,-6.138",
+        "aoi": [39.166,-6.138],
         "aoiID": "ES43b",
         "city": "Extremadura",
         "country": "ES",
@@ -3180,7 +3180,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "41.859,1.486",
+        "aoi": [41.859,1.486],
         "aoiID": "ES51a",
         "city": "Cataluna",
         "country": "ES",
@@ -3200,7 +3200,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "41.8591,1.486",
+        "aoi": [41.8591,1.486],
         "aoiID": "ES51b",
         "city": "Cataluna",
         "country": "ES",
@@ -3220,7 +3220,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "39.531,-0.632",
+        "aoi": [39.531,-0.632],
         "aoiID": "ES52a",
         "city": "Comunidad Valenciana",
         "country": "ES",
@@ -3240,7 +3240,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "39.5311,-0.632",
+        "aoi": [39.5311,-0.632],
         "aoiID": "ES52b",
         "city": "Comunidad Valenciana",
         "country": "ES",
@@ -3260,7 +3260,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "37.549,-4.872",
+        "aoi": [37.549,-4.872],
         "aoiID": "ES61a",
         "city": "Andalucia",
         "country": "ES",
@@ -3280,7 +3280,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "37.5491,-4.872",
+        "aoi": [37.5491,-4.872],
         "aoiID": "ES61b",
         "city": "Andalucia",
         "country": "ES",
@@ -3300,7 +3300,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "37.918,-1.334",
+        "aoi": [37.918,-1.334],
         "aoiID": "ES62a",
         "city": "Region de Murcia",
         "country": "ES",
@@ -3320,7 +3320,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "37.919,-1.334",
+        "aoi": [37.919,-1.334],
         "aoiID": "ES62b",
         "city": "Region de Murcia",
         "country": "ES",
@@ -3340,7 +3340,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "41.38,2.18",
+        "aoi": [41.38,2.18],
         "aoiID": "ES63",
         "city": "Barcelona",
         "country": "ES",
@@ -3360,7 +3360,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "41.38,2.18",
+        "aoi": [41.38,2.18],
         "aoiID": "ES63",
         "city": "Barcelona",
         "country": "ES",
@@ -3380,7 +3380,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "41.38,2.18",
+        "aoi": [41.38,2.18],
         "aoiID": "ES63",
         "city": "Barcelona",
         "country": "ES",
@@ -3400,7 +3400,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "41.38,2.18",
+        "aoi": [41.38,2.18],
         "aoiID": "ES63",
         "city": "Barcelona",
         "country": "ES",
@@ -3420,7 +3420,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "39.47,-0.38",
+        "aoi": [39.47,-0.38],
         "aoiID": "ES65",
         "city": "Valencia",
         "country": "ES",
@@ -3440,7 +3440,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "39.47,-0.38",
+        "aoi": [39.47,-0.38],
         "aoiID": "ES65",
         "city": "Valencia",
         "country": "ES",
@@ -3460,7 +3460,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "39.47,-0.38",
+        "aoi": [39.47,-0.38],
         "aoiID": "ES65",
         "city": "Valencia",
         "country": "ES",
@@ -3480,7 +3480,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "39.47,-0.38",
+        "aoi": [39.47,-0.38],
         "aoiID": "ES65",
         "city": "Valencia",
         "country": "ES",
@@ -3500,7 +3500,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "43.543783,-5.673290",
+        "aoi": [43.543783,-5.673290],
         "aoiID": "ES7",
         "city": "Gijon",
         "country": "ES",
@@ -3520,7 +3520,7 @@
         "yAxis": "Number of cargos"
     },
     {
-        "aoi": "43.54378,-5.67329",
+        "aoi": [43.54378,-5.67329],
         "aoiID": "ES7",
         "city": "Gijon",
         "country": "ES",
@@ -3540,7 +3540,7 @@
         "yAxis": "% Variation compated  to Febuary 2019"
     },
     {
-        "aoi": "43.543783,-5.673290",
+        "aoi": [43.543783,-5.673290],
         "aoiID": "ES7",
         "city": "Gijon",
         "country": "ES",
@@ -3560,7 +3560,7 @@
         "yAxis": "Number of ships at piers"
     },
     {
-        "aoi": "37.18316,-6.84888",
+        "aoi": [37.18316,-6.84888],
         "aoiID": "ES8",
         "city": "Huelva (Lagunas de las Madres)",
         "country": "ES",
@@ -3580,7 +3580,7 @@
         "yAxis": "Cumulated length of rows with active picking (km)"
     },
     {
-        "aoi": "37.18316,-6.84888",
+        "aoi": [37.18316,-6.84888],
         "aoiID": "ES8",
         "city": "Huelva Laguna de las Madres",
         "country": "ES",
@@ -3600,7 +3600,7 @@
         "yAxis": "Number of trucks in the greenhouse area (absolute value and %)"
     },
     {
-        "aoi": "40.24448698, -3.64755047",
+        "aoi": [40.24448698, -3.64755047],
         "aoiID": "ESa",
         "city": "Spain",
         "country": "ES",
@@ -3620,7 +3620,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "60.16666667,24.933332999999998",
+        "aoi": [60.16666667,24.933332999999998],
         "aoiID": "FI",
         "city": "Helsinki",
         "country": "FI",
@@ -3640,7 +3640,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "61.151139685027665,28.796662998976412",
+        "aoi": [61.151139685027665,28.796662998976412],
         "aoiID": "FI1",
         "city": "Imatra - area 1",
         "country": "FI",
@@ -3660,7 +3660,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "61.14619580579931,28.797549046048346",
+        "aoi": [61.14619580579931,28.797549046048346],
         "aoiID": "FI2",
         "city": "Imatra - area 2",
         "country": "FI",
@@ -3680,7 +3680,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "61.144720499058145,28.800730740612664",
+        "aoi": [61.144720499058145,28.800730740612664],
         "aoiID": "FI3",
         "city": "Imatra - area 3",
         "country": "FI",
@@ -3700,7 +3700,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "60.3170,24.9580",
+        "aoi": [60.3170,24.9580],
         "aoiID": "FI4",
         "city": "Helsinki",
         "country": "FI",
@@ -3720,7 +3720,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "60.3170,24.9580",
+        "aoi": [60.3170,24.9580],
         "aoiID": "FI4",
         "city": "Helsinki",
         "country": "FI",
@@ -3740,7 +3740,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "60.17,24.93",
+        "aoi": [60.17,24.93],
         "aoiID": "FI4",
         "city": "Helsinki",
         "country": "FI",
@@ -3760,7 +3760,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "60.17,24.93",
+        "aoi": [60.17,24.93],
         "aoiID": "FI4",
         "city": "Helsinki",
         "country": "FI",
@@ -3780,7 +3780,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "60.17,24.93",
+        "aoi": [60.17,24.93],
         "aoiID": "FI4",
         "city": "Helsinki",
         "country": "FI",
@@ -3800,7 +3800,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "60.17,24.93",
+        "aoi": [60.17,24.93],
         "aoiID": "FI4",
         "city": "Helsinki",
         "country": "FI",
@@ -3820,7 +3820,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "48.864715999999994,2.349014",
+        "aoi": [48.864715999999994,2.349014],
         "aoiID": "FR",
         "city": "Paris",
         "country": "FR",
@@ -3840,7 +3840,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "48.87,2.33",
+        "aoi": [48.87,2.33],
         "aoiID": "FR10",
         "city": "Paris",
         "country": "FR",
@@ -3860,7 +3860,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "48.87,2.33",
+        "aoi": [48.87,2.33],
         "aoiID": "FR10",
         "city": "Paris",
         "country": "FR",
@@ -3880,7 +3880,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "48.87,2.33",
+        "aoi": [48.87,2.33],
         "aoiID": "FR10",
         "city": "Paris",
         "country": "FR",
@@ -3900,7 +3900,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "48.87,2.33",
+        "aoi": [48.87,2.33],
         "aoiID": "FR10",
         "city": "Paris",
         "country": "FR",
@@ -3920,7 +3920,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "43.4,4.94",
+        "aoi": [43.4,4.94],
         "aoiID": "FR11",
         "city": "Marseilles",
         "country": "FR",
@@ -3940,7 +3940,7 @@
         "yAxis": "Chlorophyll-a concentration [mg m-3]"
     },
     {
-        "aoi": "48.7262,2.3652",
+        "aoi": [48.7262,2.3652],
         "aoiID": "FR13",
         "city": "Orly",
         "country": "FR",
@@ -3960,7 +3960,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "48.7262,2.3652",
+        "aoi": [48.7262,2.3652],
         "aoiID": "FR13",
         "city": "Paris",
         "country": "FR",
@@ -3980,7 +3980,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "45.76,4.85",
+        "aoi": [45.76,4.85],
         "aoiID": "FR15",
         "city": "Lyon",
         "country": "FR",
@@ -4000,7 +4000,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "45.76,4.85",
+        "aoi": [45.76,4.85],
         "aoiID": "FR15",
         "city": "Lyon",
         "country": "FR",
@@ -4020,7 +4020,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "45.76,4.85",
+        "aoi": [45.76,4.85],
         "aoiID": "FR15",
         "city": "Lyon",
         "country": "FR",
@@ -4040,7 +4040,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "45.76,4.85",
+        "aoi": [45.76,4.85],
         "aoiID": "FR15",
         "city": "Lyon",
         "country": "FR",
@@ -4060,7 +4060,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "43.3,5.37",
+        "aoi": [43.3,5.37],
         "aoiID": "FR16",
         "city": "Marseille",
         "country": "FR",
@@ -4080,7 +4080,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "43.3,5.37",
+        "aoi": [43.3,5.37],
         "aoiID": "FR16",
         "city": "Marseille",
         "country": "FR",
@@ -4100,7 +4100,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "43.3,5.37",
+        "aoi": [43.3,5.37],
         "aoiID": "FR16",
         "city": "Marseille",
         "country": "FR",
@@ -4120,7 +4120,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "43.3,5.37",
+        "aoi": [43.3,5.37],
         "aoiID": "FR16",
         "city": "Marseille",
         "country": "FR",
@@ -4140,7 +4140,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "51.036138,2.285374",
+        "aoi": [51.036138,2.285374],
         "aoiID": "FR3",
         "city": "Dunkirk",
         "country": "FR",
@@ -4160,7 +4160,7 @@
         "yAxis": "Number of ships at piers"
     },
     {
-        "aoi": "51.036138,2.285374",
+        "aoi": [51.036138,2.285374],
         "aoiID": "FR3",
         "city": "Dunkirk",
         "country": "FR",
@@ -4180,7 +4180,7 @@
         "yAxis": "Number of ships at piers"
     },
     {
-        "aoi": "51.036138,2.285374",
+        "aoi": [51.036138,2.285374],
         "aoiID": "FR3",
         "city": "Dunkirk",
         "country": "FR",
@@ -4200,7 +4200,7 @@
         "yAxis": "Number of ships in Port"
     },
     {
-        "aoi": "49.006976345624935,2.559786183921451",
+        "aoi": [49.006976345624935,2.559786183921451],
         "aoiID": "FR8",
         "city": "Paris",
         "country": "FR",
@@ -4220,7 +4220,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "49.00697,2.55978",
+        "aoi": [49.00697,2.55978],
         "aoiID": "FR8",
         "city": "Paris",
         "country": "FR",
@@ -4240,7 +4240,7 @@
         "yAxis": "Number of parked airplanes"
     },
     {
-        "aoi": "49.006976345624935,2.559786183921451",
+        "aoi": [49.006976345624935,2.559786183921451],
         "aoiID": "FR8",
         "city": "Paris",
         "country": "FR",
@@ -4260,7 +4260,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "46.861263796994045,1.7288832862166452",
+        "aoi": [46.861263796994045,1.7288832862166452],
         "aoiID": "FR9",
         "city": "Chateauroux",
         "country": "FR",
@@ -4280,7 +4280,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "46.86126,1.72888",
+        "aoi": [46.86126,1.72888],
         "aoiID": "FR9",
         "city": "Ch\u00e2teauroux",
         "country": "FR",
@@ -4300,7 +4300,7 @@
         "yAxis": "Number of parked airplanes"
     },
     {
-        "aoi": "46.83976635, 2.54675178",
+        "aoi": [46.83976635, 2.54675178],
         "aoiID": "FRa",
         "city": "France",
         "country": "FR",
@@ -4320,7 +4320,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "46.839766351, 2.54675178",
+        "aoi": [46.839766351, 2.54675178],
         "aoiID": "FRb",
         "city": "France",
         "country": "FR",
@@ -4340,7 +4340,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "37.98333333,23.733333",
+        "aoi": [37.98333333,23.733333],
         "aoiID": "GR",
         "city": "Athens",
         "country": "GR",
@@ -4360,7 +4360,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "37.882337,23.875459",
+        "aoi": [37.882337,23.875459],
         "aoiID": "GR2",
         "city": "Athens",
         "country": "GR",
@@ -4380,7 +4380,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "37.882337,23.875459",
+        "aoi": [37.882337,23.875459],
         "aoiID": "GR2",
         "city": "Athens",
         "country": "GR",
@@ -4400,7 +4400,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "37.975333,23.69534",
+        "aoi": [37.975333,23.69534],
         "aoiID": "GR3",
         "city": "Athens",
         "country": "GR",
@@ -4420,7 +4420,7 @@
         "yAxis": "Number of parked cars"
     },
     {
-        "aoi": "37.98,23.74",
+        "aoi": [37.98,23.74],
         "aoiID": "GR6",
         "city": "Athens",
         "country": "GR",
@@ -4440,7 +4440,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "37.98,23.74",
+        "aoi": [37.98,23.74],
         "aoiID": "GR6",
         "city": "Athens",
         "country": "GR",
@@ -4460,7 +4460,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "37.98,23.74",
+        "aoi": [37.98,23.74],
         "aoiID": "GR6",
         "city": "Athens",
         "country": "GR",
@@ -4480,7 +4480,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "37.98,23.74",
+        "aoi": [37.98,23.74],
         "aoiID": "GR6",
         "city": "Athens",
         "country": "GR",
@@ -4500,7 +4500,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "45.8,16.0",
+        "aoi": [45.8,16.0],
         "aoiID": "HR",
         "city": "Zagreb",
         "country": "HR",
@@ -4520,7 +4520,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "45.8,16.01",
+        "aoi": [45.8,16.01],
         "aoiID": "HR3",
         "city": "Zagreb",
         "country": "HR",
@@ -4540,7 +4540,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "45.8,16.01",
+        "aoi": [45.8,16.01],
         "aoiID": "HR3",
         "city": "Zagreb",
         "country": "HR",
@@ -4560,7 +4560,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "45.8,16.01",
+        "aoi": [45.8,16.01],
         "aoiID": "HR3",
         "city": "Zagreb",
         "country": "HR",
@@ -4580,7 +4580,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "45.8,16.01",
+        "aoi": [45.8,16.01],
         "aoiID": "HR3",
         "city": "Zagreb",
         "country": "HR",
@@ -4600,7 +4600,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "45.69528808, 16.21904979",
+        "aoi": [45.69528808, 16.21904979],
         "aoiID": "HRa",
         "city": "Croatia",
         "country": "HR",
@@ -4620,7 +4620,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "45.695288081, 16.21904979",
+        "aoi": [45.695288081, 16.21904979],
         "aoiID": "HRb",
         "city": "Croatia",
         "country": "HR",
@@ -4640,7 +4640,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "47.5,19.083333",
+        "aoi": [47.5,19.083333],
         "aoiID": "HU",
         "city": "Budapest",
         "country": "HU",
@@ -4660,7 +4660,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "47.5,19.09",
+        "aoi": [47.5,19.09],
         "aoiID": "HU5",
         "city": "Budapest",
         "country": "HU",
@@ -4680,7 +4680,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "47.5,19.09",
+        "aoi": [47.5,19.09],
         "aoiID": "HU5",
         "city": "Budapest",
         "country": "HU",
@@ -4700,7 +4700,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "47.5,19.09",
+        "aoi": [47.5,19.09],
         "aoiID": "HU5",
         "city": "Budapest",
         "country": "HU",
@@ -4720,7 +4720,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "47.5,19.09",
+        "aoi": [47.5,19.09],
         "aoiID": "HU5",
         "city": "Budapest",
         "country": "HU",
@@ -4740,7 +4740,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "47.16277506, 19.39559116",
+        "aoi": [47.16277506, 19.39559116],
         "aoiID": "HUa",
         "city": "Hungary",
         "country": "HU",
@@ -4760,7 +4760,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "47.162775061, 19.39559116",
+        "aoi": [47.162775061, 19.39559116],
         "aoiID": "HUb",
         "city": "Hungary",
         "country": "HU",
@@ -4780,7 +4780,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "53.31666667,-6.233333",
+        "aoi": [53.31666667,-6.233333],
         "aoiID": "IE",
         "city": "Dublin",
         "country": "IE",
@@ -4800,7 +4800,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "53.4264,-6.2499",
+        "aoi": [53.4264,-6.2499],
         "aoiID": "IE1",
         "city": "Dublin",
         "country": "IE",
@@ -4820,7 +4820,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "53.4264,-6.2499",
+        "aoi": [53.4264,-6.2499],
         "aoiID": "IE1",
         "city": "Dublin",
         "country": "IE",
@@ -4840,7 +4840,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "53.32,-6.23",
+        "aoi": [53.32,-6.23],
         "aoiID": "IE3",
         "city": "Dublin",
         "country": "IE",
@@ -4860,7 +4860,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "53.32,-6.23",
+        "aoi": [53.32,-6.23],
         "aoiID": "IE3",
         "city": "Dublin",
         "country": "IE",
@@ -4880,7 +4880,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "53.32,-6.23",
+        "aoi": [53.32,-6.23],
         "aoiID": "IE3",
         "city": "Dublin",
         "country": "IE",
@@ -4900,7 +4900,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "53.32,-6.23",
+        "aoi": [53.32,-6.23],
         "aoiID": "IE3",
         "city": "Dublin",
         "country": "IE",
@@ -4920,7 +4920,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "64.15,-21.95",
+        "aoi": [64.15,-21.95],
         "aoiID": "IS1",
         "city": "Reykjavik",
         "country": "IS",
@@ -4940,7 +4940,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "64.15,-21.95",
+        "aoi": [64.15,-21.95],
         "aoiID": "IS1",
         "city": "Reykjavik",
         "country": "IS",
@@ -4960,7 +4960,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "64.15,-21.95",
+        "aoi": [64.15,-21.95],
         "aoiID": "IS1",
         "city": "Reykjavik",
         "country": "IS",
@@ -4980,7 +4980,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "64.15,-21.95",
+        "aoi": [64.15,-21.95],
         "aoiID": "IS1",
         "city": "Reykjavik",
         "country": "IS",
@@ -5000,7 +5000,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "41.902782,12.496366",
+        "aoi": [41.902782,12.496366],
         "aoiID": "IT",
         "city": "Rome",
         "country": "IT",
@@ -5020,7 +5020,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "45.47,9.18",
+        "aoi": [45.47,9.18],
         "aoiID": "IT10",
         "city": "Milan",
         "country": "IT",
@@ -5040,7 +5040,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "45.47,9.18",
+        "aoi": [45.47,9.18],
         "aoiID": "IT10",
         "city": "Milan",
         "country": "IT",
@@ -5060,7 +5060,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "45.47,9.18",
+        "aoi": [45.47,9.18],
         "aoiID": "IT10",
         "city": "Milan",
         "country": "IT",
@@ -5080,7 +5080,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "45.47,9.18",
+        "aoi": [45.47,9.18],
         "aoiID": "IT10",
         "city": "Milan",
         "country": "IT",
@@ -5100,7 +5100,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "41.9,12.48",
+        "aoi": [41.9,12.48],
         "aoiID": "IT11",
         "city": "Rome",
         "country": "IT",
@@ -5120,7 +5120,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "41.9,12.48",
+        "aoi": [41.9,12.48],
         "aoiID": "IT11",
         "city": "Rome",
         "country": "IT",
@@ -5140,7 +5140,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "41.9,12.48",
+        "aoi": [41.9,12.48],
         "aoiID": "IT11",
         "city": "Rome",
         "country": "IT",
@@ -5160,7 +5160,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "41.9,12.48",
+        "aoi": [41.9,12.48],
         "aoiID": "IT11",
         "city": "Rome",
         "country": "IT",
@@ -5180,7 +5180,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "45.62995905,8.723056",
+        "aoi": [45.62995905,8.723056],
         "aoiID": "IT13",
         "city": "Milan",
         "country": "IT",
@@ -5200,7 +5200,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "45.62995905,8.723056",
+        "aoi": [45.62995905,8.723056],
         "aoiID": "IT13",
         "city": "Milan",
         "country": "IT",
@@ -5220,7 +5220,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "41.48886657649801,13.75227256314178",
+        "aoi": [41.48886657649801,13.75227256314178],
         "aoiID": "IT15",
         "city": "Cassino",
         "country": "IT",
@@ -5240,7 +5240,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "38.45339,15.9024",
+        "aoi": [38.45339,15.9024],
         "aoiID": "IT16",
         "city": "Gioia Tauro",
         "country": "IT",
@@ -5260,7 +5260,7 @@
         "yAxis": "Normalized NO2 concentration & Mean monthly boat number"
     },
     {
-        "aoi": "38.45339,15.9024",
+        "aoi": [38.45339,15.9024],
         "aoiID": "IT16",
         "city": "Gioia Tauro",
         "country": "IT",
@@ -5280,7 +5280,7 @@
         "yAxis": "Normalized NO2 concentration & Mean number of people"
     },
     {
-        "aoi": "38.45339,15.9024",
+        "aoi": [38.45339,15.9024],
         "aoiID": "IT16",
         "city": "Gioia Tauro",
         "country": "IT",
@@ -5300,7 +5300,7 @@
         "yAxis": "Normalized NO2 concentration & mean monthly car number"
     },
     {
-        "aoi": "38.45339, 15.90240",
+        "aoi": [38.45339, 15.90240],
         "aoiID": "IT16",
         "city": "Gioia Tauro",
         "country": "IT",
@@ -5320,7 +5320,7 @@
         "yAxis": "Number of ships in the port"
     },
     {
-        "aoi": "38.45339, 15.90240",
+        "aoi": [38.45339, 15.90240],
         "aoiID": "IT16",
         "city": "Gioia Tauro",
         "country": "IT",
@@ -5340,7 +5340,7 @@
         "yAxis": "Number of ships in the port"
     },
     {
-        "aoi": "38.45339, 15.90240",
+        "aoi": [38.45339, 15.90240],
         "aoiID": "IT16",
         "city": "Gioia Tauro",
         "country": "IT",
@@ -5360,7 +5360,7 @@
         "yAxis": "Number of ships in the port"
     },
     {
-        "aoi": "38.45339, 15.90240",
+        "aoi": [38.45339, 15.90240],
         "aoiID": "IT16",
         "city": "Gioia Tauro",
         "country": "IT",
@@ -5380,7 +5380,7 @@
         "yAxis": "Number of ships in the port"
     },
     {
-        "aoi": "38.45339, 15.90240",
+        "aoi": [38.45339, 15.90240],
         "aoiID": "IT16",
         "city": "Gioia Tauro",
         "country": "IT",
@@ -5400,7 +5400,7 @@
         "yAxis": "Number of ships in the port"
     },
     {
-        "aoi": "44.40572,8.93364",
+        "aoi": [44.40572,8.93364],
         "aoiID": "IT3",
         "city": "Genoa",
         "country": "IT",
@@ -5420,7 +5420,7 @@
         "yAxis": "Normalized NO2 concentration & Mean monthly boat number"
     },
     {
-        "aoi": "44.40572,8.93364",
+        "aoi": [44.40572,8.93364],
         "aoiID": "IT3",
         "city": "Genoa",
         "country": "IT",
@@ -5440,7 +5440,7 @@
         "yAxis": "Normalized NO2 concentration & Mean number of people"
     },
     {
-        "aoi": "44.40572,8.93364",
+        "aoi": [44.40572,8.93364],
         "aoiID": "IT3",
         "city": "Genoa",
         "country": "IT",
@@ -5460,7 +5460,7 @@
         "yAxis": "Normalized NO2 concentration & mean monthly car number"
     },
     {
-        "aoi": "44.40572, 8.93364",
+        "aoi": [44.40572, 8.93364],
         "aoiID": "IT3",
         "city": "Genoa",
         "country": "IT",
@@ -5480,7 +5480,7 @@
         "yAxis": "Number of ships in the port"
     },
     {
-        "aoi": "44.40572, 8.93364",
+        "aoi": [44.40572, 8.93364],
         "aoiID": "IT3",
         "city": "Genoa",
         "country": "IT",
@@ -5500,7 +5500,7 @@
         "yAxis": "Number of ships in the port"
     },
     {
-        "aoi": "44.40572, 8.93364",
+        "aoi": [44.40572, 8.93364],
         "aoiID": "IT3",
         "city": "Genoa",
         "country": "IT",
@@ -5520,7 +5520,7 @@
         "yAxis": "Number of ships in the port"
     },
     {
-        "aoi": "44.40572, 8.93364",
+        "aoi": [44.40572, 8.93364],
         "aoiID": "IT3",
         "city": "Genoa",
         "country": "IT",
@@ -5540,7 +5540,7 @@
         "yAxis": "Number of ships in the port"
     },
     {
-        "aoi": "44.40572, 8.93364",
+        "aoi": [44.40572, 8.93364],
         "aoiID": "IT3",
         "city": "Genoa",
         "country": "IT",
@@ -5560,7 +5560,7 @@
         "yAxis": "Number of ships in the port"
     },
     {
-        "aoi": "44.408142,8.885851",
+        "aoi": [44.408142,8.885851],
         "aoiID": "IT3",
         "city": "Genoa",
         "country": "IT",
@@ -5580,7 +5580,7 @@
         "yAxis": "Number of ships at piers"
     },
     {
-        "aoi": "44.408142,8.885851",
+        "aoi": [44.408142,8.885851],
         "aoiID": "IT3",
         "city": "Genoa",
         "country": "IT",
@@ -5600,7 +5600,7 @@
         "yAxis": "Number of ships at piers"
     },
     {
-        "aoi": "44.408142,8.885851",
+        "aoi": [44.408142,8.885851],
         "aoiID": "IT3",
         "city": "Genoa",
         "country": "IT",
@@ -5620,7 +5620,7 @@
         "yAxis": "Number of ships in Port"
     },
     {
-        "aoi": "44.408142,8.885851",
+        "aoi": [44.408142,8.885851],
         "aoiID": "IT3",
         "city": "Genoa",
         "country": "IT",
@@ -5640,7 +5640,7 @@
         "yAxis": "Number of ships at piers"
     },
     {
-        "aoi": "44.408142,8.885851",
+        "aoi": [44.408142,8.885851],
         "aoiID": "IT3",
         "city": "Genoa",
         "country": "IT",
@@ -5660,7 +5660,7 @@
         "yAxis": "Number of parked cars "
     },
     {
-        "aoi": "40.86,14.25",
+        "aoi": [40.86,14.25],
         "aoiID": "IT37",
         "city": "Naples",
         "country": "IT",
@@ -5680,7 +5680,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "40.86,14.25",
+        "aoi": [40.86,14.25],
         "aoiID": "IT37",
         "city": "Naples",
         "country": "IT",
@@ -5700,7 +5700,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "40.86,14.25",
+        "aoi": [40.86,14.25],
         "aoiID": "IT37",
         "city": "Naples",
         "country": "IT",
@@ -5720,7 +5720,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "40.86,14.25",
+        "aoi": [40.86,14.25],
         "aoiID": "IT37",
         "city": "Naples",
         "country": "IT",
@@ -5740,7 +5740,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "45.12,7.74",
+        "aoi": [45.12,7.74],
         "aoiID": "IT38",
         "city": "Turin",
         "country": "IT",
@@ -5760,7 +5760,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "45.12,7.74",
+        "aoi": [45.12,7.74],
         "aoiID": "IT38",
         "city": "Turin",
         "country": "IT",
@@ -5780,7 +5780,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "45.12,7.74",
+        "aoi": [45.12,7.74],
         "aoiID": "IT38",
         "city": "Turin",
         "country": "IT",
@@ -5800,7 +5800,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "45.12,7.74",
+        "aoi": [45.12,7.74],
         "aoiID": "IT38",
         "city": "Turin",
         "country": "IT",
@@ -5820,7 +5820,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "41.897678,12.573303",
+        "aoi": [41.897678,12.573303],
         "aoiID": "IT4",
         "city": "Rome",
         "country": "IT",
@@ -5840,7 +5840,7 @@
         "yAxis": "Number of parked cars"
     },
     {
-        "aoi": "45.43371,9.12225",
+        "aoi": [45.43371,9.12225],
         "aoiID": "IT5",
         "city": "Milan",
         "country": "IT",
@@ -5860,7 +5860,7 @@
         "yAxis": "Number of parked cars"
     },
     {
-        "aoi": "45.314247,12.508055",
+        "aoi": [45.314247,12.508055],
         "aoiID": "IT6",
         "city": "Venice Lagoon",
         "country": "IT",
@@ -5880,7 +5880,7 @@
         "yAxis": "Chlorophyll-a concentration [mg m-3]"
     },
     {
-        "aoi": "41.80710100142961,12.253597669510512",
+        "aoi": [41.80710100142961,12.253597669510512],
         "aoiID": "IT9",
         "city": "Rome",
         "country": "IT",
@@ -5900,7 +5900,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "41.80710,12.25359",
+        "aoi": [41.80710,12.25359],
         "aoiID": "IT9",
         "city": "Rome",
         "country": "IT",
@@ -5920,7 +5920,7 @@
         "yAxis": "Number of parked airplanes"
     },
     {
-        "aoi": "41.807101001429608,12.253597669510512",
+        "aoi": [41.807101001429608,12.253597669510512],
         "aoiID": "IT9",
         "city": "Rome",
         "country": "IT",
@@ -5940,7 +5940,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "41.80107,15.67134",
+        "aoi": [41.80107,15.67134],
         "aoiID": "IT_218",
         "city": "Apulia",
         "country": "IT",
@@ -5960,7 +5960,7 @@
         "yAxis": ""
     },
     {
-        "aoi": "41.78791,15.52506",
+        "aoi": [41.78791,15.52506],
         "aoiID": "IT_219",
         "city": "Apulia",
         "country": "IT",
@@ -5980,7 +5980,7 @@
         "yAxis": ""
     },
     {
-        "aoi": "41.71440,15.73740",
+        "aoi": [41.71440,15.73740],
         "aoiID": "IT_22",
         "city": "Apulia",
         "country": "IT",
@@ -6000,7 +6000,7 @@
         "yAxis": ""
     },
     {
-        "aoi": "41.78245,15.54975",
+        "aoi": [41.78245,15.54975],
         "aoiID": "IT_372",
         "city": "Apulia",
         "country": "IT",
@@ -6020,7 +6020,7 @@
         "yAxis": ""
     },
     {
-        "aoi": "41.78702,15.54060",
+        "aoi": [41.78702,15.54060],
         "aoiID": "IT_386",
         "city": "Apulia",
         "country": "IT",
@@ -6040,7 +6040,7 @@
         "yAxis": ""
     },
     {
-        "aoi": "41.57712,15.78358",
+        "aoi": [41.57712,15.78358],
         "aoiID": "IT_492",
         "city": "Apulia",
         "country": "IT",
@@ -6060,7 +6060,7 @@
         "yAxis": ""
     },
     {
-        "aoi": "42.79662641, 12.07001339",
+        "aoi": [42.79662641, 12.07001339],
         "aoiID": "ITa",
         "city": "Italy",
         "country": "IT",
@@ -6080,7 +6080,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "54.68333333,25.316667000000002",
+        "aoi": [54.68333333,25.316667000000002],
         "aoiID": "LT",
         "city": "Vilnius",
         "country": "LT",
@@ -6100,7 +6100,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "54.68,25.32",
+        "aoi": [54.68,25.32],
         "aoiID": "LT3",
         "city": "Vilnius",
         "country": "LT",
@@ -6120,7 +6120,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "54.68,25.32",
+        "aoi": [54.68,25.32],
         "aoiID": "LT3",
         "city": "Vilnius",
         "country": "LT",
@@ -6140,7 +6140,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "54.68,25.32",
+        "aoi": [54.68,25.32],
         "aoiID": "LT3",
         "city": "Vilnius",
         "country": "LT",
@@ -6160,7 +6160,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "54.68,25.32",
+        "aoi": [54.68,25.32],
         "aoiID": "LT3",
         "city": "Vilnius",
         "country": "LT",
@@ -6180,7 +6180,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "55.32610984, 23.88719355",
+        "aoi": [55.32610984, 23.88719355],
         "aoiID": "LTa",
         "city": "Lithuania",
         "country": "LT",
@@ -6200,7 +6200,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "55.326109841, 23.88719355",
+        "aoi": [55.326109841, 23.88719355],
         "aoiID": "LTb",
         "city": "Lithuania",
         "country": "LT",
@@ -6220,7 +6220,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "49.6,6.116667",
+        "aoi": [49.6,6.116667],
         "aoiID": "LU",
         "city": "Luxembourg",
         "country": "LU",
@@ -6240,7 +6240,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "49.6,6.12",
+        "aoi": [49.6,6.12],
         "aoiID": "LU2",
         "city": "Luxembourg",
         "country": "LU",
@@ -6260,7 +6260,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "49.6,6.12",
+        "aoi": [49.6,6.12],
         "aoiID": "LU2",
         "city": "Luxembourg",
         "country": "LU",
@@ -6280,7 +6280,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "49.6,6.12",
+        "aoi": [49.6,6.12],
         "aoiID": "LU2",
         "city": "Luxembourg",
         "country": "LU",
@@ -6300,7 +6300,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "49.6,6.12",
+        "aoi": [49.6,6.12],
         "aoiID": "LU2",
         "city": "Luxembourg",
         "country": "LU",
@@ -6320,7 +6320,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "56.95,24.1",
+        "aoi": [56.95,24.1],
         "aoiID": "LV",
         "city": "Riga",
         "country": "LV",
@@ -6340,7 +6340,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "56.95,24.11",
+        "aoi": [56.95,24.11],
         "aoiID": "LV3",
         "city": "Riga",
         "country": "LV",
@@ -6360,7 +6360,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "56.95,24.11",
+        "aoi": [56.95,24.11],
         "aoiID": "LV3",
         "city": "Riga",
         "country": "LV",
@@ -6380,7 +6380,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "56.95,24.11",
+        "aoi": [56.95,24.11],
         "aoiID": "LV3",
         "city": "Riga",
         "country": "LV",
@@ -6400,7 +6400,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "56.95,24.11",
+        "aoi": [56.95,24.11],
         "aoiID": "LV3",
         "city": "Riga",
         "country": "LV",
@@ -6420,7 +6420,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "56.85085163, 24.91235983",
+        "aoi": [56.85085163, 24.91235983],
         "aoiID": "LVa",
         "city": "Latvia",
         "country": "LV",
@@ -6440,7 +6440,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "56.850851631, 24.91235983",
+        "aoi": [56.850851631, 24.91235983],
         "aoiID": "LVb",
         "city": "Latvia",
         "country": "LV",
@@ -6460,7 +6460,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "43.73,7.42",
+        "aoi": [43.73,7.42],
         "aoiID": "MC1",
         "city": "Monaco",
         "country": "MC",
@@ -6480,7 +6480,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "43.73,7.42",
+        "aoi": [43.73,7.42],
         "aoiID": "MC1",
         "city": "Monaco",
         "country": "MC",
@@ -6500,7 +6500,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "43.73,7.42",
+        "aoi": [43.73,7.42],
         "aoiID": "MC1",
         "city": "Monaco",
         "country": "MC",
@@ -6520,7 +6520,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "43.73,7.42",
+        "aoi": [43.73,7.42],
         "aoiID": "MC1",
         "city": "Monaco",
         "country": "MC",
@@ -6540,7 +6540,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "42.43,19.27",
+        "aoi": [42.43,19.27],
         "aoiID": "ME1",
         "city": "Podgorica",
         "country": "ME",
@@ -6560,7 +6560,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "42.43,19.27",
+        "aoi": [42.43,19.27],
         "aoiID": "ME1",
         "city": "Podgorica",
         "country": "ME",
@@ -6580,7 +6580,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "42.43,19.27",
+        "aoi": [42.43,19.27],
         "aoiID": "ME1",
         "city": "Podgorica",
         "country": "ME",
@@ -6600,7 +6600,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "42.43,19.27",
+        "aoi": [42.43,19.27],
         "aoiID": "ME1",
         "city": "Podgorica",
         "country": "ME",
@@ -6620,7 +6620,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "42,21.43",
+        "aoi": [42,21.43],
         "aoiID": "MK1",
         "city": "Skopje",
         "country": "MK",
@@ -6640,7 +6640,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "42,21.43",
+        "aoi": [42,21.43],
         "aoiID": "MK1",
         "city": "Skopje",
         "country": "MK",
@@ -6660,7 +6660,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "42,21.43",
+        "aoi": [42,21.43],
         "aoiID": "MK1",
         "city": "Skopje",
         "country": "MK",
@@ -6680,7 +6680,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "42,21.43",
+        "aoi": [42,21.43],
         "aoiID": "MK1",
         "city": "Skopje",
         "country": "MK",
@@ -6700,7 +6700,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "35.88333333,14.5",
+        "aoi": [35.88333333,14.5],
         "aoiID": "MT",
         "city": "Valletta",
         "country": "MT",
@@ -6720,7 +6720,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "35.88,14.51",
+        "aoi": [35.88,14.51],
         "aoiID": "MT2",
         "city": "Valletta",
         "country": "MT",
@@ -6740,7 +6740,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "35.88,14.51",
+        "aoi": [35.88,14.51],
         "aoiID": "MT2",
         "city": "Valletta",
         "country": "MT",
@@ -6760,7 +6760,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "35.88,14.51",
+        "aoi": [35.88,14.51],
         "aoiID": "MT2",
         "city": "Valletta",
         "country": "MT",
@@ -6780,7 +6780,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "35.88,14.51",
+        "aoi": [35.88,14.51],
         "aoiID": "MT2",
         "city": "Valletta",
         "country": "MT",
@@ -6800,7 +6800,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "52.35,4.9166669999999995",
+        "aoi": [52.35,4.9166669999999995],
         "aoiID": "NL",
         "city": "Amsterdam",
         "country": "NL",
@@ -6820,7 +6820,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "52.3121414741634,4.7577329757090885",
+        "aoi": [52.3121414741634,4.7577329757090885],
         "aoiID": "NL1",
         "city": "Amsterdam",
         "country": "NL",
@@ -6840,7 +6840,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "52.31214,4.75773",
+        "aoi": [52.31214,4.75773],
         "aoiID": "NL1",
         "city": "Amsterdam",
         "country": "NL",
@@ -6860,7 +6860,7 @@
         "yAxis": "Number of parked airplanes"
     },
     {
-        "aoi": "52.312141474163397,4.757732975709088",
+        "aoi": [52.312141474163397,4.757732975709088],
         "aoiID": "NL1",
         "city": "Amsterdam",
         "country": "NL",
@@ -6880,7 +6880,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "52.35,4.92",
+        "aoi": [52.35,4.92],
         "aoiID": "NL3",
         "city": "Amsterdam",
         "country": "NL",
@@ -6900,7 +6900,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "52.35,4.92",
+        "aoi": [52.35,4.92],
         "aoiID": "NL3",
         "city": "Amsterdam",
         "country": "NL",
@@ -6920,7 +6920,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "52.35,4.92",
+        "aoi": [52.35,4.92],
         "aoiID": "NL3",
         "city": "Amsterdam",
         "country": "NL",
@@ -6940,7 +6940,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "52.35,4.92",
+        "aoi": [52.35,4.92],
         "aoiID": "NL3",
         "city": "Amsterdam",
         "country": "NL",
@@ -6960,7 +6960,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "60.197552,11.100415",
+        "aoi": [60.197552,11.100415],
         "aoiID": "NO1",
         "city": "Oslo",
         "country": "NO",
@@ -6980,7 +6980,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "60.197552,11.100415",
+        "aoi": [60.197552,11.100415],
         "aoiID": "NO1",
         "city": "Oslo",
         "country": "NO",
@@ -7000,7 +7000,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "59.92,10.75",
+        "aoi": [59.92,10.75],
         "aoiID": "NO2",
         "city": "Oslo",
         "country": "NO",
@@ -7020,7 +7020,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "59.92,10.75",
+        "aoi": [59.92,10.75],
         "aoiID": "NO2",
         "city": "Oslo",
         "country": "NO",
@@ -7040,7 +7040,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "59.92,10.75",
+        "aoi": [59.92,10.75],
         "aoiID": "NO2",
         "city": "Oslo",
         "country": "NO",
@@ -7060,7 +7060,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "59.92,10.75",
+        "aoi": [59.92,10.75],
         "aoiID": "NO2",
         "city": "Oslo",
         "country": "NO",
@@ -7080,7 +7080,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "52.25,21.0",
+        "aoi": [52.25,21.0],
         "aoiID": "PL",
         "city": "Warsaw",
         "country": "PL",
@@ -7100,7 +7100,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "54.537859,18.510887",
+        "aoi": [54.537859,18.510887],
         "aoiID": "PL1",
         "city": "Gdynia",
         "country": "PL",
@@ -7120,7 +7120,7 @@
         "yAxis": "Number of ships at piers"
     },
     {
-        "aoi": "54.537859,18.510887",
+        "aoi": [54.537859,18.510887],
         "aoiID": "PL1",
         "city": "Gdynia",
         "country": "PL",
@@ -7140,7 +7140,7 @@
         "yAxis": "Number of ships at piers"
     },
     {
-        "aoi": "54.537859,18.510887",
+        "aoi": [54.537859,18.510887],
         "aoiID": "PL1",
         "city": "Gdynia",
         "country": "PL",
@@ -7160,7 +7160,7 @@
         "yAxis": "Number of ships in Port"
     },
     {
-        "aoi": "54.537859,18.510887",
+        "aoi": [54.537859,18.510887],
         "aoiID": "PL1",
         "city": "Gdynia",
         "country": "PL",
@@ -7180,7 +7180,7 @@
         "yAxis": "Number of ships at piers"
     },
     {
-        "aoi": "52.1756,21.0139",
+        "aoi": [52.1756,21.0139],
         "aoiID": "PL4",
         "city": "Warsaw",
         "country": "PL",
@@ -7200,7 +7200,7 @@
         "yAxis": "Number of parked cars"
     },
     {
-        "aoi": "50.33586439415548,19.281123931237445",
+        "aoi": [50.33586439415548,19.281123931237445],
         "aoiID": "PL5",
         "city": "Katowice",
         "country": "PL",
@@ -7220,7 +7220,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "52.1672369,20.9678911",
+        "aoi": [52.1672369,20.9678911],
         "aoiID": "PL6",
         "city": "Warsaw",
         "country": "PL",
@@ -7240,7 +7240,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "52.1672369,20.9678911",
+        "aoi": [52.1672369,20.9678911],
         "aoiID": "PL6",
         "city": "Warsaw",
         "country": "PL",
@@ -7260,7 +7260,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "52.25,21.01",
+        "aoi": [52.25,21.01],
         "aoiID": "PL6",
         "city": "Warsaw",
         "country": "PL",
@@ -7280,7 +7280,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "52.25,21.01",
+        "aoi": [52.25,21.01],
         "aoiID": "PL6",
         "city": "Warsaw",
         "country": "PL",
@@ -7300,7 +7300,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "52.25,21.01",
+        "aoi": [52.25,21.01],
         "aoiID": "PL6",
         "city": "Warsaw",
         "country": "PL",
@@ -7320,7 +7320,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "52.25,21.01",
+        "aoi": [52.25,21.01],
         "aoiID": "PL6",
         "city": "Warsaw",
         "country": "PL",
@@ -7340,7 +7340,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "52.12759564, 19.39012835",
+        "aoi": [52.12759564, 19.39012835],
         "aoiID": "PLa",
         "city": "Poland",
         "country": "PL",
@@ -7360,7 +7360,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "52.127595641, 19.39012835",
+        "aoi": [52.127595641, 19.39012835],
         "aoiID": "PLb",
         "city": "Poland",
         "country": "PL",
@@ -7380,7 +7380,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "38.71666667,-9.133333",
+        "aoi": [38.71666667,-9.133333],
         "aoiID": "PT",
         "city": "Lisbon",
         "country": "PT",
@@ -7400,7 +7400,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "38.779719863831765,-9.134743863288612",
+        "aoi": [38.779719863831765,-9.134743863288612],
         "aoiID": "PT1",
         "city": "Lisbon",
         "country": "PT",
@@ -7420,7 +7420,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "38.7675,-8.8028",
+        "aoi": [38.7675,-8.8028],
         "aoiID": "PT1",
         "city": "Lisbon",
         "country": "PT",
@@ -7440,7 +7440,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "38.72,-9.13",
+        "aoi": [38.72,-9.13],
         "aoiID": "PT3",
         "city": "Lisbon",
         "country": "PT",
@@ -7460,7 +7460,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "38.72,-9.13",
+        "aoi": [38.72,-9.13],
         "aoiID": "PT3",
         "city": "Lisbon",
         "country": "PT",
@@ -7480,7 +7480,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "38.72,-9.13",
+        "aoi": [38.72,-9.13],
         "aoiID": "PT3",
         "city": "Lisbon",
         "country": "PT",
@@ -7500,7 +7500,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "38.72,-9.13",
+        "aoi": [38.72,-9.13],
         "aoiID": "PT3",
         "city": "Lisbon",
         "country": "PT",
@@ -7520,7 +7520,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "44.43333333,26.1",
+        "aoi": [44.43333333,26.1],
         "aoiID": "RO",
         "city": "Bucharest",
         "country": "RO",
@@ -7540,7 +7540,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "44.510178, 26.084603",
+        "aoi": [44.510178, 26.084603],
         "aoiID": "RO3",
         "city": "Bucharest",
         "country": "RO",
@@ -7560,7 +7560,7 @@
         "yAxis": "[%] of Occupancy of Customers Parking"
     },
     {
-        "aoi": "44.296092,23.842816",
+        "aoi": [44.296092,23.842816],
         "aoiID": "RO6",
         "city": "Craiova",
         "country": "RO",
@@ -7580,7 +7580,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "44.950419,24.938412",
+        "aoi": [44.950419,24.938412],
         "aoiID": "RO7",
         "city": "Mioveni",
         "country": "RO",
@@ -7600,7 +7600,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "45.78896311080552,22.923231736132724",
+        "aoi": [45.78896311080552,22.923231736132724],
         "aoiID": "RO8",
         "city": "Hunedoara",
         "country": "RO",
@@ -7620,7 +7620,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "44.43,26.11",
+        "aoi": [44.43,26.11],
         "aoiID": "RO9",
         "city": "Bucharest",
         "country": "RO",
@@ -7640,7 +7640,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "44.43,26.11",
+        "aoi": [44.43,26.11],
         "aoiID": "RO9",
         "city": "Bucharest",
         "country": "RO",
@@ -7660,7 +7660,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "44.43,26.11",
+        "aoi": [44.43,26.11],
         "aoiID": "RO9",
         "city": "Bucharest",
         "country": "RO",
@@ -7680,7 +7680,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "44.43,26.11",
+        "aoi": [44.43,26.11],
         "aoiID": "RO9",
         "city": "Bucharest",
         "country": "RO",
@@ -7700,7 +7700,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "45.85243127, 24.97293039",
+        "aoi": [45.85243127, 24.97293039],
         "aoiID": "ROa",
         "city": "Romania",
         "country": "RO",
@@ -7720,7 +7720,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "45.852431271, 24.97293039",
+        "aoi": [45.852431271, 24.97293039],
         "aoiID": "ROb",
         "city": "Romania",
         "country": "RO",
@@ -7740,7 +7740,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "44.83,20.5",
+        "aoi": [44.83,20.5],
         "aoiID": "RS1",
         "city": "Belgrade",
         "country": "RS",
@@ -7760,7 +7760,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "44.83,20.5",
+        "aoi": [44.83,20.5],
         "aoiID": "RS1",
         "city": "Belgrade",
         "country": "RS",
@@ -7780,7 +7780,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "44.83,20.5",
+        "aoi": [44.83,20.5],
         "aoiID": "RS1",
         "city": "Belgrade",
         "country": "RS",
@@ -7800,7 +7800,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "44.83,20.5",
+        "aoi": [44.83,20.5],
         "aoiID": "RS1",
         "city": "Belgrade",
         "country": "RS",
@@ -7820,7 +7820,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "44.2215032, 20.78958334",
+        "aoi": [44.2215032, 20.78958334],
         "aoiID": "RSa",
         "city": "Serbia",
         "country": "RS",
@@ -7840,7 +7840,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "59.33333333,18.05",
+        "aoi": [59.33333333,18.05],
         "aoiID": "SE",
         "city": "Stockholm",
         "country": "SE",
@@ -7860,7 +7860,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "60.487957276047716,15.455598401419492",
+        "aoi": [60.487957276047716,15.455598401419492],
         "aoiID": "SE1",
         "city": "Borlange - area 1",
         "country": "SE",
@@ -7880,7 +7880,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "58.19536232861801,15.03918652568827",
+        "aoi": [58.19536232861801,15.03918652568827],
         "aoiID": "SE10",
         "city": "Boxholm - area 3",
         "country": "SE",
@@ -7900,7 +7900,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "58.19916735034876,15.036859972223455",
+        "aoi": [58.19916735034876,15.036859972223455],
         "aoiID": "SE11",
         "city": "Boxholm - area 4",
         "country": "SE",
@@ -7920,7 +7920,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "59.780774174715646,14.498200389630115",
+        "aoi": [59.780774174715646,14.498200389630115],
         "aoiID": "SE12",
         "city": "Hallefors - area 1",
         "country": "SE",
@@ -7940,7 +7940,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "59.78311262981549,14.49464139817856",
+        "aoi": [59.78311262981549,14.49464139817856],
         "aoiID": "SE13",
         "city": "Hallefors - area 3",
         "country": "SE",
@@ -7960,7 +7960,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "59.783645041790216,14.498034472997306",
+        "aoi": [59.783645041790216,14.498034472997306],
         "aoiID": "SE14",
         "city": "Hallefors - area 2",
         "country": "SE",
@@ -7980,7 +7980,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "60.552949036489515,16.3066200733499",
+        "aoi": [60.552949036489515,16.3066200733499],
         "aoiID": "SE15",
         "city": "Hofors - area 1",
         "country": "SE",
@@ -8000,7 +8000,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "60.54815234071482,16.308357555087376",
+        "aoi": [60.54815234071482,16.308357555087376],
         "aoiID": "SE16",
         "city": "Hofors - area 2",
         "country": "SE",
@@ -8020,7 +8020,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "65.55710405897864,22.227196619403227",
+        "aoi": [65.55710405897864,22.227196619403227],
         "aoiID": "SE17",
         "city": "Lulea",
         "country": "SE",
@@ -8040,7 +8040,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "58.68145017264629,17.124343027923075",
+        "aoi": [58.68145017264629,17.124343027923075],
         "aoiID": "SE18",
         "city": "Oxelosund - area 1",
         "country": "SE",
@@ -8060,7 +8060,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "58.683908585861005,17.1278144295506",
+        "aoi": [58.683908585861005,17.1278144295506],
         "aoiID": "SE19",
         "city": "Oxelosund - area 2",
         "country": "SE",
@@ -8080,7 +8080,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "60.490388636746225,15.4540712671587",
+        "aoi": [60.490388636746225,15.4540712671587],
         "aoiID": "SE2",
         "city": "Borlange - area 2",
         "country": "SE",
@@ -8100,7 +8100,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "58.681367690762485,17.116121839995795",
+        "aoi": [58.681367690762485,17.116121839995795],
         "aoiID": "SE20",
         "city": "Oxelosund - area 3",
         "country": "SE",
@@ -8120,7 +8120,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "58.68023677471895,17.118113709285044",
+        "aoi": [58.68023677471895,17.118113709285044],
         "aoiID": "SE21",
         "city": "Oxelosund - area 4",
         "country": "SE",
@@ -8140,7 +8140,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "59.33,18.06",
+        "aoi": [59.33,18.06],
         "aoiID": "SE22",
         "city": "Stockholm",
         "country": "SE",
@@ -8160,7 +8160,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "59.33,18.06",
+        "aoi": [59.33,18.06],
         "aoiID": "SE22",
         "city": "Stockholm",
         "country": "SE",
@@ -8180,7 +8180,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "59.33,18.06",
+        "aoi": [59.33,18.06],
         "aoiID": "SE22",
         "city": "Stockholm",
         "country": "SE",
@@ -8200,7 +8200,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "59.33,18.06",
+        "aoi": [59.33,18.06],
         "aoiID": "SE22",
         "city": "Stockholm",
         "country": "SE",
@@ -8220,7 +8220,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "59.6512,17.9178",
+        "aoi": [59.6512,17.9178],
         "aoiID": "SE23",
         "city": "Stockholm",
         "country": "SE",
@@ -8240,7 +8240,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "59.6512,17.9178",
+        "aoi": [59.6512,17.9178],
         "aoiID": "SE23",
         "city": "Stockholm",
         "country": "SE",
@@ -8260,7 +8260,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "60.48960864224798,15.44814277460824",
+        "aoi": [60.48960864224798,15.44814277460824],
         "aoiID": "SE3",
         "city": "Borlange - area 3",
         "country": "SE",
@@ -8280,7 +8280,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "60.4879544296906,15.449854163712011",
+        "aoi": [60.4879544296906,15.449854163712011],
         "aoiID": "SE4",
         "city": "Borlange - area 4",
         "country": "SE",
@@ -8300,7 +8300,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "60.494389203324104,15.460203429995094",
+        "aoi": [60.494389203324104,15.460203429995094],
         "aoiID": "SE5",
         "city": "Borlange - area 5",
         "country": "SE",
@@ -8320,7 +8320,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "60.493125579582625,15.453923196501634",
+        "aoi": [60.493125579582625,15.453923196501634],
         "aoiID": "SE6",
         "city": "Borlange - area 6",
         "country": "SE",
@@ -8340,7 +8340,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "60.48452100732772,15.452618656189557",
+        "aoi": [60.48452100732772,15.452618656189557],
         "aoiID": "SE7",
         "city": "Borlange - area 7",
         "country": "SE",
@@ -8360,7 +8360,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "58.19374529056634,15.036125986675577",
+        "aoi": [58.19374529056634,15.036125986675577],
         "aoiID": "SE8",
         "city": "Boxholm - area 1",
         "country": "SE",
@@ -8380,7 +8380,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "58.19317402501288,15.040074950908355",
+        "aoi": [58.19317402501288,15.040074950908355],
         "aoiID": "SE9",
         "city": "Boxholm - area 2",
         "country": "SE",
@@ -8400,7 +8400,7 @@
         "yAxis": "Metal Density Variation [%]"
     },
     {
-        "aoi": "57.98490795, 14.4552277",
+        "aoi": [57.98490795, 14.4552277],
         "aoiID": "SEa",
         "city": "Sweden",
         "country": "SE",
@@ -8420,7 +8420,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "57.984907951, 14.4552277",
+        "aoi": [57.984907951, 14.4552277],
         "aoiID": "SEb",
         "city": "Sweden",
         "country": "SE",
@@ -8440,7 +8440,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "46.05,14.516667000000002",
+        "aoi": [46.05,14.516667000000002],
         "aoiID": "SI",
         "city": "Ljubljana",
         "country": "SI",
@@ -8460,7 +8460,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "46.05,14.52",
+        "aoi": [46.05,14.52],
         "aoiID": "SI3",
         "city": "Ljubljana",
         "country": "SI",
@@ -8480,7 +8480,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "46.05,14.52",
+        "aoi": [46.05,14.52],
         "aoiID": "SI3",
         "city": "Ljubljana",
         "country": "SI",
@@ -8500,7 +8500,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "46.05,14.52",
+        "aoi": [46.05,14.52],
         "aoiID": "SI3",
         "city": "Ljubljana",
         "country": "SI",
@@ -8520,7 +8520,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "46.05,14.52",
+        "aoi": [46.05,14.52],
         "aoiID": "SI3",
         "city": "Ljubljana",
         "country": "SI",
@@ -8540,7 +8540,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "48.15,17.116667",
+        "aoi": [48.15,17.116667],
         "aoiID": "SK",
         "city": "Bratislava",
         "country": "SK",
@@ -8560,7 +8560,7 @@
         "yAxis": "Tropospheric NO2 (\u03bcmol/m2)"
     },
     {
-        "aoi": "48.15,17.12",
+        "aoi": [48.15,17.12],
         "aoiID": "SK4",
         "city": "Bratislava",
         "country": "SK",
@@ -8580,7 +8580,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "48.15,17.12",
+        "aoi": [48.15,17.12],
         "aoiID": "SK4",
         "city": "Bratislava",
         "country": "SK",
@@ -8600,7 +8600,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "48.15,17.12",
+        "aoi": [48.15,17.12],
         "aoiID": "SK4",
         "city": "Bratislava",
         "country": "SK",
@@ -8620,7 +8620,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "48.15,17.12",
+        "aoi": [48.15,17.12],
         "aoiID": "SK4",
         "city": "Bratislava",
         "country": "SK",
@@ -8640,7 +8640,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "48.70547528, 19.47905218",
+        "aoi": [48.70547528, 19.47905218],
         "aoiID": "SKa",
         "city": "Slovak Republic",
         "country": "SK",
@@ -8660,7 +8660,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "48.705475281, 19.47905218",
+        "aoi": [48.705475281, 19.47905218],
         "aoiID": "SKb",
         "city": "Slovak Republic",
         "country": "SK",
@@ -8680,7 +8680,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "40.982555,28.820829",
+        "aoi": [40.982555,28.820829],
         "aoiID": "TR1",
         "city": "Istanbul",
         "country": "TR",
@@ -8700,7 +8700,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "40.982555,28.820829",
+        "aoi": [40.982555,28.820829],
         "aoiID": "TR1",
         "city": "Istanbul",
         "country": "TR",
@@ -8720,7 +8720,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "39.93,32.87",
+        "aoi": [39.93,32.87],
         "aoiID": "TR3",
         "city": "Ankara",
         "country": "TR",
@@ -8740,7 +8740,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "39.93,32.87",
+        "aoi": [39.93,32.87],
         "aoiID": "TR3",
         "city": "Ankara",
         "country": "TR",
@@ -8760,7 +8760,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "39.93,32.87",
+        "aoi": [39.93,32.87],
         "aoiID": "TR3",
         "city": "Ankara",
         "country": "TR",
@@ -8780,7 +8780,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "39.93,32.87",
+        "aoi": [39.93,32.87],
         "aoiID": "TR3",
         "city": "Ankara",
         "country": "TR",
@@ -8800,7 +8800,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "52.48,1.89",
+        "aoi": [52.48,1.89],
         "aoiID": "UK10",
         "city": "Birmingham",
         "country": "GB",
@@ -8820,7 +8820,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "52.48,1.89",
+        "aoi": [52.48,1.89],
         "aoiID": "UK10",
         "city": "Birmingham",
         "country": "GB",
@@ -8840,7 +8840,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "52.48,1.89",
+        "aoi": [52.48,1.89],
         "aoiID": "UK10",
         "city": "Birmingham",
         "country": "GB",
@@ -8860,7 +8860,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "52.48,1.89",
+        "aoi": [52.48,1.89],
         "aoiID": "UK10",
         "city": "Birmingham",
         "country": "GB",
@@ -8880,7 +8880,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "51.5,-0.08",
+        "aoi": [51.5,-0.08],
         "aoiID": "UK11",
         "city": "London",
         "country": "GB",
@@ -8900,7 +8900,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "51.5,-0.08",
+        "aoi": [51.5,-0.08],
         "aoiID": "UK11",
         "city": "London",
         "country": "GB",
@@ -8920,7 +8920,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "51.5,-0.08",
+        "aoi": [51.5,-0.08],
         "aoiID": "UK11",
         "city": "London",
         "country": "GB",
@@ -8940,7 +8940,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "51.5,-0.08",
+        "aoi": [51.5,-0.08],
         "aoiID": "UK11",
         "city": "London",
         "country": "GB",
@@ -8960,7 +8960,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "51.09374, 1.10885",
+        "aoi": [51.09374, 1.10885],
         "aoiID": "UK12",
         "city": "Folkestone",
         "country": "GB",
@@ -8980,7 +8980,7 @@
         "yAxis": "Backscatter S1 VV"
     },
     {
-        "aoi": "51.469716296645025,-0.4580423952680147",
+        "aoi": [51.469716296645025,-0.4580423952680147],
         "aoiID": "UK4",
         "city": "Heathrow",
         "country": "GB",
@@ -9000,7 +9000,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "51.46971,-0.45804",
+        "aoi": [51.46971,-0.45804],
         "aoiID": "UK4",
         "city": "London",
         "country": "GB",
@@ -9020,7 +9020,7 @@
         "yAxis": "Number of parked airplanes"
     },
     {
-        "aoi": "51.469716296645025,-0.458042395268015",
+        "aoi": [51.469716296645025,-0.458042395268015],
         "aoiID": "UK4",
         "city": "London",
         "country": "GB",
@@ -9040,7 +9040,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "51.153047759076,-0.18539507371961392",
+        "aoi": [51.153047759076,-0.18539507371961392],
         "aoiID": "UK5",
         "city": "Gatwick",
         "country": "GB",
@@ -9060,7 +9060,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "51.15304,-0.18539",
+        "aoi": [51.15304,-0.18539],
         "aoiID": "UK5",
         "city": "London",
         "country": "GB",
@@ -9080,7 +9080,7 @@
         "yAxis": "Number of parked airplanes"
     },
     {
-        "aoi": "51.153047759076003,-0.185395073719614",
+        "aoi": [51.153047759076003,-0.185395073719614],
         "aoiID": "UK5",
         "city": "London",
         "country": "GB",
@@ -9100,7 +9100,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "51.904949,0.202641",
+        "aoi": [51.904949,0.202641],
         "aoiID": "UK6",
         "city": "London Stansted",
         "country": "UK",
@@ -9120,7 +9120,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "51.904949,0.202641",
+        "aoi": [51.904949,0.202641],
         "aoiID": "UK6",
         "city": "London",
         "country": "GB",
@@ -9140,7 +9140,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "51.8715,-0.3677",
+        "aoi": [51.8715,-0.3677],
         "aoiID": "UK7",
         "city": "Luton",
         "country": "UK",
@@ -9160,7 +9160,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "51.8715,-0.3677",
+        "aoi": [51.8715,-0.3677],
         "aoiID": "UK7",
         "city": "London",
         "country": "GB",
@@ -9180,7 +9180,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "53.3523,-2.2717",
+        "aoi": [53.3523,-2.2717],
         "aoiID": "UK8",
         "city": "Manchester",
         "country": "UK",
@@ -9200,7 +9200,7 @@
         "yAxis": "Time series of airport throughput"
     },
     {
-        "aoi": "53.3523,-2.2717",
+        "aoi": [53.3523,-2.2717],
         "aoiID": "UK8",
         "city": "Manchester",
         "country": "GB",
@@ -9220,7 +9220,7 @@
         "yAxis": "Number of flying planes"
     },
     {
-        "aoi": "51.593420508127174,-1.733271761092532",
+        "aoi": [51.593420508127174,-1.733271761092532],
         "aoiID": "UK9",
         "city": "Swindon",
         "country": "GB",
@@ -9240,7 +9240,7 @@
         "yAxis": "Radar backscatter (normalized)"
     },
     {
-        "aoi": "52.98939775, -1.77396816",
+        "aoi": [52.98939775, -1.77396816],
         "aoiID": "UKa",
         "city": "United Kingdom",
         "country": "GB",
@@ -9260,7 +9260,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "52.989397751, -1.77396816",
+        "aoi": [52.989397751, -1.77396816],
         "aoiID": "UKb",
         "city": "United Kingdom",
         "country": "GB",
@@ -9280,7 +9280,7 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "42.67,21.17",
+        "aoi": [42.67,21.17],
         "aoiID": "XK1",
         "city": "Pristina",
         "country": "XK",
@@ -9300,7 +9300,7 @@
         "yAxis": "PM2.5 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "42.67,21.17",
+        "aoi": [42.67,21.17],
         "aoiID": "XK1",
         "city": "Pristina",
         "country": "XK",
@@ -9320,7 +9320,7 @@
         "yAxis": "Nitrogen Dioxide Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "42.67,21.17",
+        "aoi": [42.67,21.17],
         "aoiID": "XK1",
         "city": "Pristina",
         "country": "XK",
@@ -9340,7 +9340,7 @@
         "yAxis": "PM10 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "42.67,21.17",
+        "aoi": [42.67,21.17],
         "aoiID": "XK1",
         "city": "Pristina",
         "country": "XK",
@@ -9360,7 +9360,7 @@
         "yAxis": "O3 Surface Concentration[micro g/m3]"
     },
     {
-        "aoi": "51.820466,-8.248062",
+        "aoi": [51.820466,-8.248062],
         "aoiID": "100006",
         "city": "Cork",
         "country": "IE",
@@ -9380,7 +9380,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "55.97601,-3.36825",
+        "aoi": [55.97601,-3.36825],
         "aoiID": "100008",
         "city": "Dalmeny",
         "country": "GB",
@@ -9400,7 +9400,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "56.11333,-4.83506",
+        "aoi": [56.11333,-4.83506],
         "aoiID": "100010",
         "city": "Finnart",
         "country": "GB",
@@ -9420,7 +9420,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "56.018632,-3.683518",
+        "aoi": [56.018632,-3.683518],
         "aoiID": "100011",
         "city": "Grangemouth",
         "country": "GB",
@@ -9440,7 +9440,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "51.90973,4.21532",
+        "aoi": [51.90973,4.21532],
         "aoiID": "100024",
         "city": "Rotterdam",
         "country": "NL",
@@ -9460,7 +9460,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "39.07651,9.01789",
+        "aoi": [39.07651,9.01789],
         "aoiID": "100025",
         "city": "Sarroch",
         "country": "IT",
@@ -9480,10 +9480,10 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "48.144818,16.504681",
+        "aoi": [48.144818,16.504681],
         "aoiID": "100026",
         "city": "Schwechat",
-        "country": "AT",
+        "country": "Austria",
         "description": "Crude Oil Storage Index",
         "indicator": "OX",
         "indicatorName": "Central and Eastern Europe cluster",
@@ -9500,7 +9500,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "51.2639,4.32055",
+        "aoi": [51.2639,4.32055],
         "aoiID": "100042",
         "city": "Antwerp",
         "country": "BE",
@@ -9520,7 +9520,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "45.22142,14.53257",
+        "aoi": [45.22142,14.53257],
         "aoiID": "100043",
         "city": "Omisalj",
         "country": "HR",
@@ -9540,7 +9540,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "53.55336,8.14958",
+        "aoi": [53.55336,8.14958],
         "aoiID": "100044",
         "city": "Wilhelmshaven",
         "country": "DE",
@@ -9560,7 +9560,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "38.03386,23.60571",
+        "aoi": [38.03386,23.60571],
         "aoiID": "100045",
         "city": "Aspropyrgos",
         "country": "GR",
@@ -9580,7 +9580,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "37.922751,23.074264",
+        "aoi": [37.922751,23.074264],
         "aoiID": "100046",
         "city": "Corinth",
         "country": "GR",
@@ -9600,7 +9600,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "38.04375,23.50868",
+        "aoi": [38.04375,23.50868],
         "aoiID": "100047",
         "city": "Elefsina",
         "country": "GR",
@@ -9620,7 +9620,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "37.99102,23.40814",
+        "aoi": [37.99102,23.40814],
         "aoiID": "100048",
         "city": "Pachi",
         "country": "GR",
@@ -9640,7 +9640,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "40.68152,22.88263",
+        "aoi": [40.68152,22.88263],
         "aoiID": "100049",
         "city": "Thessaloniki",
         "country": "GR",
@@ -9660,7 +9660,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "54.63659,-1.21236",
+        "aoi": [54.63659,-1.21236],
         "aoiID": "100054",
         "city": "Teesport",
         "country": "GB",
@@ -9680,7 +9680,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "45.60048,13.83722",
+        "aoi": [45.60048,13.83722],
         "aoiID": "100057",
         "city": "Trieste",
         "country": "IT",
@@ -9700,7 +9700,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "60.46923,-1.28454",
+        "aoi": [60.46923,-1.28454],
         "aoiID": "100058",
         "city": "Sullom Voe",
         "country": "GB",
@@ -9720,7 +9720,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "36.187573,-5.400008",
+        "aoi": [36.187573,-5.400008],
         "aoiID": "100113",
         "city": "Algeciras",
         "country": "ES",
@@ -9740,7 +9740,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "37.573845,-0.932927",
+        "aoi": [37.573845,-0.932927],
         "aoiID": "100114",
         "city": "Cartagena",
         "country": "ES",
@@ -9760,7 +9760,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "41.168348,1.220632",
+        "aoi": [41.168348,1.220632],
         "aoiID": "100115",
         "city": "Tarragona",
         "country": "ES",
@@ -9780,7 +9780,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "43.470585,5.079619",
+        "aoi": [43.470585,5.079619],
         "aoiID": "100116",
         "city": "Fos-Lavera",
         "country": "FR",
@@ -9800,7 +9800,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "49.483983,0.233957",
+        "aoi": [49.483983,0.233957],
         "aoiID": "100117",
         "city": "Le Havre",
         "country": "FR",
@@ -9820,7 +9820,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "50.836458,6.986585",
+        "aoi": [50.836458,6.986585],
         "aoiID": "100118",
         "city": "Godorf Wesseling",
         "country": "DE",
@@ -9840,10 +9840,10 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "48.2,16.367",
-        "aoiID": "AT",
+        "aoi": [48.2,16.367],
+        "aoiID": "Austria",
         "city": "Austria",
-        "country": "AT",
+        "country": "Austria",
         "description": "Mobility Data",
         "indicator": "GG",
         "indicatorName": "",
@@ -9860,7 +9860,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "50.833,4.333",
+        "aoi": [50.833,4.333],
         "aoiID": "BE",
         "city": "Belgium",
         "country": "BE",
@@ -9880,7 +9880,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "42.683,23.317",
+        "aoi": [42.683,23.317],
         "aoiID": "BG",
         "city": "Bulgaria",
         "country": "BG",
@@ -9900,7 +9900,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "50.083,14.467",
+        "aoi": [50.083,14.467],
         "aoiID": "CZ",
         "city": "Czech Republic",
         "country": "CZ",
@@ -9920,7 +9920,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "52.517,13.4",
+        "aoi": [52.517,13.4],
         "aoiID": "DE",
         "city": "Germany",
         "country": "DE",
@@ -9940,7 +9940,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "55.667,12.583",
+        "aoi": [55.667,12.583],
         "aoiID": "DK",
         "city": "Denmark",
         "country": "DK",
@@ -9960,7 +9960,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "59.433,24.717",
+        "aoi": [59.433,24.717],
         "aoiID": "EE",
         "city": "Estonia",
         "country": "EE",
@@ -9980,7 +9980,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "40.4,-3.683",
+        "aoi": [40.4,-3.683],
         "aoiID": "ES",
         "city": "Spain",
         "country": "ES",
@@ -10000,7 +10000,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "60.167,24.933",
+        "aoi": [60.167,24.933],
         "aoiID": "FI",
         "city": "Finland",
         "country": "FI",
@@ -10020,7 +10020,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "48.867,2.333",
+        "aoi": [48.867,2.333],
         "aoiID": "FR",
         "city": "France",
         "country": "FR",
@@ -10040,7 +10040,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "51.5,-0.083",
+        "aoi": [51.5,-0.083],
         "aoiID": "GB",
         "city": "United Kingdom",
         "country": "GB",
@@ -10060,7 +10060,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "37.983,23.733",
+        "aoi": [37.983,23.733],
         "aoiID": "GR",
         "city": "Greece",
         "country": "GR",
@@ -10080,7 +10080,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "45.8,16.0",
+        "aoi": [45.8,16.0],
         "aoiID": "HR",
         "city": "Croatia",
         "country": "HR",
@@ -10100,7 +10100,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "47.5,19.083",
+        "aoi": [47.5,19.083],
         "aoiID": "HU",
         "city": "Hungary",
         "country": "HU",
@@ -10120,7 +10120,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "53.317,-6.233",
+        "aoi": [53.317,-6.233],
         "aoiID": "IE",
         "city": "Ireland",
         "country": "IE",
@@ -10140,7 +10140,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "41.9,12.483",
+        "aoi": [41.9,12.483],
         "aoiID": "IT",
         "city": "Italy",
         "country": "IT",
@@ -10160,7 +10160,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "54.683,25.317",
+        "aoi": [54.683,25.317],
         "aoiID": "LT",
         "city": "Lithuania",
         "country": "LT",
@@ -10180,7 +10180,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "49.6,6.117",
+        "aoi": [49.6,6.117],
         "aoiID": "LU",
         "city": "Luxembourg",
         "country": "LU",
@@ -10200,7 +10200,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "56.95,24.1",
+        "aoi": [56.95,24.1],
         "aoiID": "LV",
         "city": "Latvia",
         "country": "LV",
@@ -10220,7 +10220,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "35.883,14.5",
+        "aoi": [35.883,14.5],
         "aoiID": "MT",
         "city": "Malta",
         "country": "MT",
@@ -10240,7 +10240,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "52.35,4.917",
+        "aoi": [52.35,4.917],
         "aoiID": "NL",
         "city": "Netherlands",
         "country": "NL",
@@ -10260,7 +10260,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "52.25,21.0",
+        "aoi": [52.25,21.0],
         "aoiID": "PL",
         "city": "Poland",
         "country": "PL",
@@ -10280,7 +10280,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "38.717,-9.133",
+        "aoi": [38.717,-9.133],
         "aoiID": "PT",
         "city": "Portugal",
         "country": "PT",
@@ -10300,7 +10300,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "44.433,26.1",
+        "aoi": [44.433,26.1],
         "aoiID": "RO",
         "city": "Romania",
         "country": "RO",
@@ -10320,7 +10320,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "59.333,18.05",
+        "aoi": [59.333,18.05],
         "aoiID": "SE",
         "city": "Sweden",
         "country": "SE",
@@ -10340,7 +10340,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "46.05,14.517",
+        "aoi": [46.05,14.517],
         "aoiID": "SI",
         "city": "Slovenia",
         "country": "SI",
@@ -10360,7 +10360,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "48.15,17.117",
+        "aoi": [48.15,17.117],
         "aoiID": "SK",
         "city": "Slovakia",
         "country": "SK",
@@ -10380,10 +10380,10 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "48.2,16.367",
-        "aoiID": "AT",
+        "aoi": [48.2,16.367],
+        "aoiID": "Austria",
         "city": "Austria",
-        "country": "AT",
+        "country": "Austria",
         "description": "Covid-19 cases",
         "indicator": "CV",
         "indicatorName": "",
@@ -10400,7 +10400,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "50.833,4.333",
+        "aoi": [50.833,4.333],
         "aoiID": "BE",
         "city": "Belgium",
         "country": "BE",
@@ -10420,7 +10420,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "42.683,23.317",
+        "aoi": [42.683,23.317],
         "aoiID": "BG",
         "city": "Bulgaria",
         "country": "BG",
@@ -10440,7 +10440,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "35.167,33.367",
+        "aoi": [35.167,33.367],
         "aoiID": "CY",
         "city": "Cyprus",
         "country": "CY",
@@ -10460,7 +10460,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "50.083,14.467",
+        "aoi": [50.083,14.467],
         "aoiID": "CZ",
         "city": "Czech Republic",
         "country": "CZ",
@@ -10480,7 +10480,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "52.517,13.4",
+        "aoi": [52.517,13.4],
         "aoiID": "DE",
         "city": "Germany",
         "country": "DE",
@@ -10500,7 +10500,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "55.667,12.583",
+        "aoi": [55.667,12.583],
         "aoiID": "DK",
         "city": "Denmark",
         "country": "DK",
@@ -10520,7 +10520,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "59.433,24.717",
+        "aoi": [59.433,24.717],
         "aoiID": "EE",
         "city": "Estonia",
         "country": "EE",
@@ -10540,7 +10540,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "40.4,-3.683",
+        "aoi": [40.4,-3.683],
         "aoiID": "ES",
         "city": "Spain",
         "country": "ES",
@@ -10560,7 +10560,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "60.167,24.933",
+        "aoi": [60.167,24.933],
         "aoiID": "FI",
         "city": "Finland",
         "country": "FI",
@@ -10580,7 +10580,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "48.867,2.333",
+        "aoi": [48.867,2.333],
         "aoiID": "FR",
         "city": "France",
         "country": "FR",
@@ -10600,7 +10600,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "51.5,-0.083",
+        "aoi": [51.5,-0.083],
         "aoiID": "GB",
         "city": "United Kingdom",
         "country": "GB",
@@ -10620,7 +10620,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "37.983,23.733",
+        "aoi": [37.983,23.733],
         "aoiID": "GR",
         "city": "Greece",
         "country": "GR",
@@ -10640,7 +10640,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "45.8,16.0",
+        "aoi": [45.8,16.0],
         "aoiID": "HR",
         "city": "Croatia",
         "country": "HR",
@@ -10660,7 +10660,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "47.5,19.083",
+        "aoi": [47.5,19.083],
         "aoiID": "HU",
         "city": "Hungary",
         "country": "HU",
@@ -10680,7 +10680,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "53.317,-6.233",
+        "aoi": [53.317,-6.233],
         "aoiID": "IE",
         "city": "Ireland",
         "country": "IE",
@@ -10700,7 +10700,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "41.9,12.483",
+        "aoi": [41.9,12.483],
         "aoiID": "IT",
         "city": "Italy",
         "country": "IT",
@@ -10720,7 +10720,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "54.683,25.317",
+        "aoi": [54.683,25.317],
         "aoiID": "LT",
         "city": "Lithuania",
         "country": "LT",
@@ -10740,7 +10740,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "49.6,6.117",
+        "aoi": [49.6,6.117],
         "aoiID": "LU",
         "city": "Luxembourg",
         "country": "LU",
@@ -10760,7 +10760,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "56.95,24.1",
+        "aoi": [56.95,24.1],
         "aoiID": "LV",
         "city": "Latvia",
         "country": "LV",
@@ -10780,7 +10780,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "35.883,14.5",
+        "aoi": [35.883,14.5],
         "aoiID": "MT",
         "city": "Malta",
         "country": "MT",
@@ -10800,7 +10800,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "52.35,4.917",
+        "aoi": [52.35,4.917],
         "aoiID": "NL",
         "city": "Netherlands",
         "country": "NL",
@@ -10820,7 +10820,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "52.25,21.0",
+        "aoi": [52.25,21.0],
         "aoiID": "PL",
         "city": "Poland",
         "country": "PL",
@@ -10840,7 +10840,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "38.717,-9.133",
+        "aoi": [38.717,-9.133],
         "aoiID": "PT",
         "city": "Portugal",
         "country": "PT",
@@ -10860,7 +10860,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "44.433,26.1",
+        "aoi": [44.433,26.1],
         "aoiID": "RO",
         "city": "Romania",
         "country": "RO",
@@ -10880,7 +10880,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "59.333,18.05",
+        "aoi": [59.333,18.05],
         "aoiID": "SE",
         "city": "Sweden",
         "country": "SE",
@@ -10900,7 +10900,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "46.05,14.517",
+        "aoi": [46.05,14.517],
         "aoiID": "SI",
         "city": "Slovenia",
         "country": "SI",
@@ -10920,7 +10920,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "48.15,17.117",
+        "aoi": [48.15,17.117],
         "aoiID": "SK",
         "city": "Slovakia",
         "country": "SK",
@@ -10940,10 +10940,10 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "48.2,16.367",
-        "aoiID": "AT",
+        "aoi": [48.2,16.367],
+        "aoiID": "Austria",
         "city": "Austria",
-        "country": "AT",
+        "country": "Austria",
         "description": "Covid-19 vaccinations",
         "indicator": "OW",
         "indicatorName": "",
@@ -10960,7 +10960,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "50.833,4.333",
+        "aoi": [50.833,4.333],
         "aoiID": "BE",
         "city": "Belgium",
         "country": "BE",
@@ -10980,7 +10980,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "42.683,23.317",
+        "aoi": [42.683,23.317],
         "aoiID": "BG",
         "city": "Bulgaria",
         "country": "BG",
@@ -11000,7 +11000,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "35.167,33.367",
+        "aoi": [35.167,33.367],
         "aoiID": "CY",
         "city": "Cyprus",
         "country": "CY",
@@ -11020,7 +11020,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "50.083,14.467",
+        "aoi": [50.083,14.467],
         "aoiID": "CZ",
         "city": "Czech Republic",
         "country": "CZ",
@@ -11040,7 +11040,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "52.517,13.4",
+        "aoi": [52.517,13.4],
         "aoiID": "DE",
         "city": "Germany",
         "country": "DE",
@@ -11060,7 +11060,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "55.667,12.583",
+        "aoi": [55.667,12.583],
         "aoiID": "DK",
         "city": "Denmark",
         "country": "DK",
@@ -11080,7 +11080,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "59.433,24.717",
+        "aoi": [59.433,24.717],
         "aoiID": "EE",
         "city": "Estonia",
         "country": "EE",
@@ -11100,7 +11100,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "40.4,-3.683",
+        "aoi": [40.4,-3.683],
         "aoiID": "ES",
         "city": "Spain",
         "country": "ES",
@@ -11120,7 +11120,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "60.167,24.933",
+        "aoi": [60.167,24.933],
         "aoiID": "FI",
         "city": "Finland",
         "country": "FI",
@@ -11140,7 +11140,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "48.867,2.333",
+        "aoi": [48.867,2.333],
         "aoiID": "FR",
         "city": "France",
         "country": "FR",
@@ -11160,7 +11160,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "51.5,-0.083",
+        "aoi": [51.5,-0.083],
         "aoiID": "GB",
         "city": "United Kingdom",
         "country": "GB",
@@ -11180,7 +11180,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "37.983,23.733",
+        "aoi": [37.983,23.733],
         "aoiID": "GR",
         "city": "Greece",
         "country": "GR",
@@ -11200,7 +11200,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "45.8,16.0",
+        "aoi": [45.8,16.0],
         "aoiID": "HR",
         "city": "Croatia",
         "country": "HR",
@@ -11220,7 +11220,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "47.5,19.083",
+        "aoi": [47.5,19.083],
         "aoiID": "HU",
         "city": "Hungary",
         "country": "HU",
@@ -11240,7 +11240,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "53.317,-6.233",
+        "aoi": [53.317,-6.233],
         "aoiID": "IE",
         "city": "Ireland",
         "country": "IE",
@@ -11260,7 +11260,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "41.9,12.483",
+        "aoi": [41.9,12.483],
         "aoiID": "IT",
         "city": "Italy",
         "country": "IT",
@@ -11280,7 +11280,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "54.683,25.317",
+        "aoi": [54.683,25.317],
         "aoiID": "LT",
         "city": "Lithuania",
         "country": "LT",
@@ -11300,7 +11300,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "49.6,6.117",
+        "aoi": [49.6,6.117],
         "aoiID": "LU",
         "city": "Luxembourg",
         "country": "LU",
@@ -11320,7 +11320,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "56.95,24.1",
+        "aoi": [56.95,24.1],
         "aoiID": "LV",
         "city": "Latvia",
         "country": "LV",
@@ -11340,7 +11340,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "35.883,14.5",
+        "aoi": [35.883,14.5],
         "aoiID": "MT",
         "city": "Malta",
         "country": "MT",
@@ -11360,7 +11360,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "52.35,4.917",
+        "aoi": [52.35,4.917],
         "aoiID": "NL",
         "city": "Netherlands",
         "country": "NL",
@@ -11380,7 +11380,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "52.25,21.0",
+        "aoi": [52.25,21.0],
         "aoiID": "PL",
         "city": "Poland",
         "country": "PL",
@@ -11400,7 +11400,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "38.717,-9.133",
+        "aoi": [38.717,-9.133],
         "aoiID": "PT",
         "city": "Portugal",
         "country": "PT",
@@ -11420,7 +11420,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "44.433,26.1",
+        "aoi": [44.433,26.1],
         "aoiID": "RO",
         "city": "Romania",
         "country": "RO",
@@ -11440,7 +11440,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "59.333,18.05",
+        "aoi": [59.333,18.05],
         "aoiID": "SE",
         "city": "Sweden",
         "country": "SE",
@@ -11460,7 +11460,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "46.05,14.517",
+        "aoi": [46.05,14.517],
         "aoiID": "SI",
         "city": "Slovenia",
         "country": "SI",
@@ -11480,7 +11480,7 @@
         "yAxis": "[%]"
     },
     {
-        "aoi": "48.15,17.117",
+        "aoi": [48.15,17.117],
         "aoiID": "SK",
         "city": "Slovakia",
         "country": "SK",
