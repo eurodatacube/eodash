@@ -139,7 +139,7 @@ export const administrativeLayers = [{
   ...nutsStyle,
   protocol: 'flatgeobuf',
   name: 'District (Bezirk)',
-  url: '//eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/admin_borders/STATISTIK_AUSTRIA_POLBEZ_20220101.fgb',
+  url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_POLBEZ_20220101.fgb',
   minZoom: 10.5,
   maxZoom: 12,
   attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
@@ -147,7 +147,7 @@ export const administrativeLayers = [{
   ...nutsStyle,
   protocol: 'flatgeobuf',
   name: 'Municipality (Gemeinde)',
-  url: '//eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/admin_borders/STATISTIK_AUSTRIA_GEM_20220101.fgb',
+  url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_GEM_20220101.fgb',
   minZoom: 12,
   maxZoom: 13.5,
   attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
@@ -155,7 +155,7 @@ export const administrativeLayers = [{
   ...nutsStyle,
   protocol: 'flatgeobuf',
   name: 'Census Track (Zählsprengel)',
-  url: '//eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/admin_borders/STATISTIK_AUSTRIA_ZSP_20220101.fgb',
+  url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_ZSP_20220101.fgb',
   minZoom: 13.5,
   attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
 }];
@@ -698,7 +698,7 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'AQ2',
           sources: [
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/new_data/test_nc_COG/day/{time}' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/new_data/test_nc_COG/day/{time}' },
           ],
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd HH:mm:ss'),
@@ -1560,7 +1560,7 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'BM1',
           sources: [
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/Carbon_accounting/3857/Austria_AutoChange2020-2021-packed-rendered_3857.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/Carbon_accounting/3857/Austria_AutoChange2020-2021-packed-rendered_3857.tif' },
           ],
           normalize: true,
           style: {
@@ -1619,7 +1619,7 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'BM2',
           sources: [
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/Carbon_accounting/3857/CCI-BIOMASS2020-Austria_COG_3857.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/Carbon_accounting/3857/CCI-BIOMASS2020-Austria_COG_3857.tif' },
           ],
           style: {
             variables: {
@@ -1737,12 +1737,12 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'REP1',
           sources: [
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerDensity_Austria_COG_3857_clipped_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_DSM_COG_10m_3857_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/WSF_EucDist_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Natura2000_Austria_COG_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_Austria_COG_3857_clipped_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_DSM_COG_10m_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/WSF_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Natura2000_Austria_COG_3857_fix.tif' },
           ],
           style: {
             variables: {
@@ -1878,12 +1878,12 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'REP2',
           sources: [
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/GHI_Austria_COG_3857_clipped_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Aspect_3857_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_DSM_COG_10m_3857_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Natura2000_Austria_COG_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/GHI_Austria_COG_3857_clipped_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Aspect_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_DSM_COG_10m_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Natura2000_Austria_COG_3857_fix.tif' },
           ],
           style: {
             variables: {
@@ -2035,13 +2035,13 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'REP4',
           sources: [
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerDensity_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/RuggednessIndex_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/WSF_EucDist_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Aspect_3857_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/ESA_WorldCover_10m_COG_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/RuggednessIndex_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/WSF_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Aspect_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/ESA_WorldCover_10m_COG_3857_fix.tif' },
           ],
           style: {
             variables: {
@@ -2158,13 +2158,13 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'REP5',
           sources: [
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerDensity_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/RuggednessIndex_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/WSF_EucDist_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Aspect_3857_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/ESA_WorldCover_10m_COG_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/RuggednessIndex_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/WSF_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Aspect_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/ESA_WorldCover_10m_COG_3857_fix.tif' },
           ],
           style: {
             variables: {

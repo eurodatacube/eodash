@@ -185,12 +185,12 @@ export default {
     return {
       bbox: map.getView().calculateExtent(),
       tiffs: {
-        x: fromUrl('https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerDensity_Austria_3857_COG_fix_clipped.tif'),
-        y: fromUrl('https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/WSF_EucDist_Austria_3857_COG_fix.tif'),
-        color: fromUrl('https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/ESA_WorldCover_10m_COG_3857_fix.tif'),
-        slope: fromUrl('https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Slope_3857_fix.tif'),
-        elevation: fromUrl('https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_DSM_COG_10m_3857_fix.tif'),
-        energyGridDistance: fromUrl('https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif'),
+        x: fromUrl('https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_Austria_3857_COG_fix_clipped.tif'),
+        y: fromUrl('https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/WSF_EucDist_Austria_3857_COG_fix.tif'),
+        color: fromUrl('https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/ESA_WorldCover_10m_COG_3857_fix.tif'),
+        slope: fromUrl('https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Slope_3857_fix.tif'),
+        elevation: fromUrl('https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_DSM_COG_10m_3857_fix.tif'),
+        energyGridDistance: fromUrl('https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif'),
       },
       rasters: null,
     };

@@ -7,7 +7,7 @@
   "sources": {
     "air_quality": {
       "type": "geojson",
-      "data": "https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/AlpairEO/ZIP/{{time}}.geojson"
+      "data": "https://eox-gtif-public.s3.eu-central-1.amazonaws.com/AlpairEO/ZIP/{{time}}.geojson"
     }
   },
   "layers": [
