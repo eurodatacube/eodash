@@ -14,6 +14,7 @@ import MapOverlay from '@/components/map/MapOverlay.vue';
 import { createLayerFromConfig, getProjectionOl } from '@/components/map/layers';
 import VectorLayer from 'ol/layer/Vector';
 import { getCenter } from 'ol/extent';
+import store from '@/store';
 
 /**
  * this component handles global indicators and will add and remove layers
@@ -57,7 +58,7 @@ export default {
     const { map } = getMapInstance(this.mapId);
     const options = { ...this.options };
     options.zIndex = 3;
-    const layer = createLayerFromConfig(this.mergedConfig, options);
+    const layer = createLayerFromConfig(this.mergedConfig, map, options);
     layer.set('name', this.layerName);
     const featureLayer = layer.getLayers().getArray().find((l) => {
       const found = l instanceof VectorLayer && l.get('name')?.includes('_features');
@@ -99,7 +100,8 @@ export default {
     map.on('pointermove', this.pointerMoveHandler);
     map.addLayer(layer);
     // update view if previous projection !== new projection
-    const projection = getProjectionOl(this.mergedConfig?.mapProjection || 'EPSG:3857');
+    const defaultProjection = store.state.config.baseConfig.defaultLayersDisplay.mapProjection;
+    const projection = getProjectionOl(this.mergedConfig?.mapProjection || defaultProjection);
     if (map.getView().getProjection().getCode() !== projection?.getCode()) {
       const view = getViewInstance(this.mapId, projection);
       map.setView(view);
@@ -112,7 +114,8 @@ export default {
     map.removeLayer(layer);
     map.un('pointermove', this.pointerMoveHandler);
     // reset to default map projection if different from it
-    const projection = getProjectionOl('EPSG:3857');
+    const defaultProjection = store.state.config.baseConfig.defaultLayersDisplay.mapProjection;
+    const projection = getProjectionOl(defaultProjection);
     if (map.getView().getProjection().getCode() !== projection?.getCode()) {
       const view = getViewInstance(this.mapId, projection);
       map.setView(view);

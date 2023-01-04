@@ -7,18 +7,37 @@ import { Collection } from 'ol';
 import LoadingIndicatorControl from './loadingIndicatorControl';
 import { getProjectionOl } from './layers';
 
+const mapRegistry = {};
+const viewRegistry = {};
+
+export function getViewInstance(id, projection, options = {}) {
+  const lookup = `${id}_${projection?.getCode()}`;
+  const view = viewRegistry[lookup];
+  if (!view) {
+    viewRegistry[lookup] = new View({
+      zoom: 0,
+      center: [0, 0],
+      padding: [20, 20, 20, 20],
+      maxZoom: 18,
+      extent: options.constrainExtent,
+      constrainOnlyCenter: true,
+      enableRotation: false,
+      projection,
+    });
+  }
+  return viewRegistry[lookup];
+}
+
 class VueMap {
   constructor(id, options) {
     this.map = new Map({
       controls: new Collection([]),
-      view: getViewInstance(id, getProjectionOl("EPSG:3857"), options),
+      view: getViewInstance(id, getProjectionOl('EPSG:3857'), options),
     });
     this.map.addControl(new LoadingIndicatorControl({ map: this.map }));
     this.map.set('id', id);
   }
 }
-const mapRegistry = {};
-const viewRegistry = {};
 
 /**
  * Returns the ol map with the given id.
@@ -34,22 +53,4 @@ export function getMapInstance(id, options = {}) {
     mapRegistry[id] = new VueMap(id, options);
   }
   return mapRegistry[id];
-}
-
-export function getViewInstance(id, projection, options={}) {
-  const lookup = `${id}_${projection?.getCode()}`
-  const view = viewRegistry[lookup];
-  if (!view) {
-    viewRegistry[lookup] = new View({
-      zoom: 0,
-      center: [0, 0],
-      padding: [20, 20, 20, 20],
-      maxZoom: 18,
-      extent: options.constrainExtent,
-      constrainOnlyCenter: true,
-      enableRotation: false,
-      projection,
-    });
-  }
-  return viewRegistry[lookup];
 }

@@ -156,6 +156,7 @@ export const defaultLayersDisplay = {
   attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   minZoom: 7,
   visible: true,
+  mapProjection: 'EPSG:3857',
 };
 
 export const indicatorsDefinition = Object.freeze({

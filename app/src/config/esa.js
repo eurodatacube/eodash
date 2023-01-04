@@ -575,7 +575,8 @@ export const defaultLayersDisplay = {
   attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   minZoom: 7,
   visible: true,
-  mapProjection: "EPSG:3857",
+  mapProjection: 'EPSG:3857',
+  projection: 'EPSG:3857',
 };
 
 export const cmemsDisplay = {
@@ -1864,7 +1865,7 @@ export const globalIndicators = [
               ...cmemsDisplay,
               baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_atl_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
               name: 'Atlantic coast CHL L4 Product',
-              extent: [-45, 20, 66, 10.5],
+              extent: [-46, 19.5, 13, 66],
             }, {
               ...cmemsDisplay,
               baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_med_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',

@@ -24,9 +24,7 @@ import Select from 'ol/interaction/Select';
 import Group from 'ol/layer/Group';
 import { getCenter } from 'ol/extent';
 
-const geoJsonFormat = new GeoJSON({
-  featureProjection: 'EPSG:3857',
-});
+const geoJsonFormat = new GeoJSON({});
 
 /**
  */
@@ -61,6 +59,7 @@ export default {
     map.on('pointermove', this.adminBorderHover);
 
     const adminLayerGroups = this.administrativeConfigs.map((l) => createLayerFromConfig(l,
+      map,
       {
         zIndex: 21,
       }));
@@ -203,14 +202,17 @@ export default {
           coordinates: [[[-1800, -90], [1800, -90], [1800, 90], [-1800, 90], [-1800, -90]]],
         },
       };
+      const { map } = getMapInstance(this.mapId);
       const diff = turfDifference(
         globalBox, geoJsonFormat.writeGeometryObject(feature.getGeometry(), {
-          featureProjection: 'EPSG:3857',
+          featureProjection: map.getView().getProjection(),
           dataProjection: 'EPSG:4326',
         }),
       );
       const clone = feature.clone();
-      clone.setGeometry(geoJsonFormat.readGeometry(diff.geometry));
+      clone.setGeometry(geoJsonFormat.readGeometry(diff.geometry), {
+        featureProjection: map.getView().getProjection(),
+      });
       this.inverseAdministrativeLayer.getSource().clear();
       this.inverseAdministrativeLayer.getSource().addFeature(clone);
     },

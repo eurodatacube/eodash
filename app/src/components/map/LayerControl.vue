@@ -119,11 +119,16 @@ export default {
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
-    const baseLayers = this.baseLayerConfigs.map((l) => createLayerFromConfig(l, { zIndex: 0 }));
+    const baseLayers = this.baseLayerConfigs.map((l) => createLayerFromConfig(l,
+      map,
+      {
+        zIndex: 0,
+      }));
     baseLayers.forEach((l) => {
       map.addLayer(l);
     });
     const overlayLayers = this.overlayConfigs.map((l) => createLayerFromConfig(l,
+      map,
       {
         // higher zIndex for labels
         zIndex: l.name === 'Overlay labels' ? 4 : (l.zIndex || 2),

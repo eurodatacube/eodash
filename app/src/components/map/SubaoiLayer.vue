@@ -16,7 +16,6 @@ import {
 } from '@/helpers/mapConfig';
 
 const geoJsonFormat = new GeoJSON({
-  featureProjection: 'EPSG:3857',
 });
 
 /**
@@ -50,8 +49,9 @@ export default {
           const aoiSource = aoiLayer.getSource();
           aoiSource.clear();
           if (value) {
-            // const feature = geoJsonFormat.readFeature(value);
-            aoiSource.addFeature(geoJsonFormat.readFeature(value));
+            aoiSource.addFeature(geoJsonFormat.readFeature(value), {
+              featureProjection: map.getView().getProjection(),
+            });
           }
         }
       },
@@ -123,7 +123,9 @@ export default {
       style: () => (this.isInverse ? inverseStyle : subAoiStyle),
     });
     if (this.subAoi) {
-      const feature = geoJsonFormat.readFeature(this.subAoi);
+      const feature = geoJsonFormat.readFeature(this.subAoi, {
+        featureProjection: map.getView().getProjection(),
+      });
       subAoiLayer.getSource().addFeature(feature);
     }
     if (this.isInverse && this.subAoi && !this.isGlobal) {
@@ -131,7 +133,9 @@ export default {
       const insidePolygon = JSON.parse(JSON.stringify(this.subAoi));
       // eslint-disable-next-line prefer-destructuring
       insidePolygon.geometry.coordinates = [insidePolygon.geometry.coordinates[1]];
-      const insidePolygonFeature = geoJsonFormat.readFeature(insidePolygon);
+      const insidePolygonFeature = geoJsonFormat.readFeature(insidePolygon, {
+        featureProjection: map.getView().getProjection(),
+      });
       this.constrainingExtent = insidePolygonFeature.getGeometry().getExtent();
       map.on('pointerdrag', this.pointerdragHandler);
       map.on('movestart', this.movestartHandler);
