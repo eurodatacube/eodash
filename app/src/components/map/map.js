@@ -5,7 +5,7 @@ import 'ol/ol.css';
 import './olControls.css';
 import { Collection } from 'ol';
 import LoadingIndicatorControl from './loadingIndicatorControl';
-import { getProjectionOl } from './layers';
+import { getProjectionOl } from '@/components/map/layers';
 
 const mapRegistry = {};
 const viewRegistry = {};
