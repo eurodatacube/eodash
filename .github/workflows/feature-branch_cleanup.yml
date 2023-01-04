@@ -1,0 +1,22 @@
+name: Branch Deleted
+on:
+  delete:
+    branches:
+      - '*'
+      - '!master'
+      - '!staging'
+      - '!gtif-demo'
+jobs:
+  remove:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Remove from S3
+      uses: vitorsgomes/s3-rm-action@master
+      with:
+        args: --recursive
+      env:
+        AWS_REGION: 'eu-central-1'
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        PATH_TO_DELETE: 'feature-branches/${{ github.event.ref }}/'
