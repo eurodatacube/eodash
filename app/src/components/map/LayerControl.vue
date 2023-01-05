@@ -143,9 +143,13 @@ export default {
   },
   methods: {
     setVisible(value, layerConfig) {
+      // toggle original layer and possibly also compare
       const olLayers = getMapInstance(this.mapId).map.getLayers().getArray();
-      const layer = olLayers.find((l) => l.get('name') === layerConfig.name);
-      layer.setVisible(value);
+      const layers = olLayers.filter((l) => {
+        const found = l.get('name') === layerConfig.name || l.get('name') === `${layerConfig.name}_compare`;
+        return found;
+      });
+      layers.forEach((l) => l.setVisible(value));
     },
     setVisibleAdminGroup(value, layerConfigsGroup) {
       const olLayers = getMapInstance(this.mapId).map.getLayers().getArray();
