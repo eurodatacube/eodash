@@ -3,6 +3,8 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import XYZSource from 'ol/source/XYZ';
 import GeoJSON from 'ol/format/GeoJSON';
+import WMTSCapabilities from 'ol/format/WMTSCapabilities';
+import WMTS, { optionsFromCapabilities } from 'ol/source/WMTS';
 import countries from '@/assets/countries.json';
 import {
   Fill, Stroke, Style, Circle,
@@ -19,11 +21,9 @@ import VectorTileLayer from 'ol/layer/VectorTile';
 import { applyStyle } from 'ol-mapbox-style';
 import * as flatgeobuf from 'flatgeobuf/dist/flatgeobuf-geojson.min';
 import { bbox } from 'ol/loadingstrategy';
-import { get as getProj, transformExtent } from 'ol/proj';
-import { fetchCustomAreaObjects, fetchCustomDataOptions } from '@/helpers/customAreaObjects';
-
-import proj4 from 'proj4';
-import { register } from 'ol/proj/proj4';
+import { transformExtent } from 'ol/proj';
+import { fetchCustomDataOptions, fetchCustomAreaObjects } from '@/helpers/customAreaObjects';
+import getProjectionOl from '@/helpers/projutils';
 
 const geoJsonFormat = new GeoJSON({});
 
@@ -33,28 +33,6 @@ const geoJsonFormat = new GeoJSON({});
  * @param {*} source ol vector source (features of this source will be replaced)
  * @param {String} url geojson url
  */
-
-function createProjection(name, def, extent) {
-  proj4.defs(name, def);
-  register(proj4);
-  const projection = getProj(name);
-  projection.setExtent(extent);
-  return projection;
-}
-
-export function getProjectionOl(projectionLike) {
-  // for internal conversions
-  if (typeof projectionLike === 'string') {
-    // expecting EPSG:4326 or EPSG:3857 or something OL supports out of box
-    return getProj(projectionLike);
-  }
-  if (projectionLike) {
-    // expecting an object with name, def, extent for proj4 to register custom projection
-    return createProjection(projectionLike.name, projectionLike.def, projectionLike.extent);
-  }
-  const defaultProjection = store.state.config.baseConfig.defaultLayersDisplay.mapProjection;
-  return getProj(defaultProjection);
-}
 
 export async function fetchData({
   usedTime, config, drawnArea, source, map,
@@ -141,6 +119,37 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
   return url;
 }
 
+async function createWMTSSourceFromCapabilities(config, layer) {
+  const s = await fetch(config.url)
+    .then((response) => response.text())
+    .then((text) => {
+      const parser = new WMTSCapabilities();
+      const result = parser.read(text);
+      const selectionOpts = {
+        layer: config.layers,
+        projection: getProjectionOl(config.projection),
+        style: config.style,
+        matrixSet: config.matrixSet,
+        format: config.format,
+        crossOrigin: config.crossOrigin,
+      };
+      const optsFromCapabilities = optionsFromCapabilities(result, selectionOpts);
+      const source = new WMTS({
+        attributions: config.attribution,
+        maxZoom: config.maxZoom,
+        minZoom: config.minZoom,
+        ...optsFromCapabilities,
+      });
+      layer.setSource(source);
+      return source;
+    });
+  s.set('updateTime', (updatedTime, area, configUpdate) => {
+    const newSource = createWMTSSourceFromCapabilities(configUpdate, layer);
+    layer.setSource(newSource);
+  });
+  return s;
+}
+
 /**
  * generate a layer from a given config Object
  * @param {Object} config eodash config object
@@ -166,7 +175,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
   const options = { ..._options };
   options.zIndex = options.zIndex || 0;
   options.updateOpacityOnZoom = options.updateOpacityOnZoom || false;
-
+  const paramsToPassThrough = ['layers', 'styles', 'format', 'env'];
   // layers created by this config. These Layers will get combined into a single ol.layer.Group
   const layers = [];
   if (config.protocol === 'cog') {
@@ -186,6 +195,15 @@ export function createLayerFromConfig(config, map, _options = {}) {
     tilelayer.set('id', config.id);
     applyStyle(tilelayer, config.styleFile, [config.selectedStyleLayer]);
     layers.push(tilelayer);
+  }
+  if (config.protocol === 'WMTSCapabilities') {
+    const WMTSLayer = new TileLayer({
+      name: config.name,
+      updateOpacityOnZoom: options.updateOpacityOnZoom,
+      zIndex: options.zIndex,
+    });
+    layers.push(WMTSLayer);
+    createWMTSSourceFromCapabilities(config, WMTSLayer);
   }
   if (config.protocol === 'vectorgeojson') {
     const layer = new VectorLayer();
@@ -349,8 +367,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
   }
   if (config.protocol === 'WMS') {
     // to do: layers is  not defined for harvesting evolution over time (spain)
-    const paramsToPassThrough = ['layers', 'styles',
-      'format', 'env'];
     const tileSize = config.combinedLayers?.length
       ? config.combinedLayers[0].tileSize : config.tileSize;
     const tileGrid = tileSize === 512 ? new TileGrid({

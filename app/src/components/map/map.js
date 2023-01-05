@@ -4,8 +4,8 @@ import View from 'ol/View';
 import 'ol/ol.css';
 import './olControls.css';
 import { Collection } from 'ol';
-import LoadingIndicatorControl from './loadingIndicatorControl';
-import { getProjectionOl } from './layers';
+import LoadingIndicatorControl from '@/components/map/loadingIndicatorControl';
+import getProjectionOl from '@/helpers/projutils';
 
 const mapRegistry = {};
 const viewRegistry = {};
