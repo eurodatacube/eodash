@@ -11,7 +11,8 @@
 <script>
 import { getMapInstance, getViewInstance } from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
-import { createLayerFromConfig, getProjectionOl } from '@/components/map/layers';
+import { createLayerFromConfig } from '@/components/map/layers';
+import getProjectionOl from '@/helpers/projutils';
 import VectorLayer from 'ol/layer/Vector';
 import { getCenter } from 'ol/extent';
 import store from '@/store';

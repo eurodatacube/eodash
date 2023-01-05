@@ -21,11 +21,9 @@ import VectorTileLayer from 'ol/layer/VectorTile';
 import { applyStyle } from 'ol-mapbox-style';
 import * as flatgeobuf from 'flatgeobuf/dist/flatgeobuf-geojson.min';
 import { bbox } from 'ol/loadingstrategy';
-import { get as getProj, transformExtent } from 'ol/proj';
-import { fetchCustomAreaObjects, fetchCustomDataOptions } from '@/helpers/customAreaObjects';
-
-import proj4 from 'proj4';
-import { register } from 'ol/proj/proj4';
+import { transformExtent } from 'ol/proj';
+import { fetchCustomDataOptions, fetchCustomAreaObjects } from '@/helpers/customAreaObjects';
+import getProjectionOl from '@/helpers/projutils';
 
 const geoJsonFormat = new GeoJSON({});
 
@@ -35,28 +33,6 @@ const geoJsonFormat = new GeoJSON({});
  * @param {*} source ol vector source (features of this source will be replaced)
  * @param {String} url geojson url
  */
-
-function createProjection(name, def, extent) {
-  proj4.defs(name, def);
-  register(proj4);
-  const projection = getProj(name);
-  projection.setExtent(extent);
-  return projection;
-}
-
-export function getProjectionOl(projectionLike) {
-  // for internal conversions
-  if (typeof projectionLike === 'string') {
-    // expecting EPSG:4326 or EPSG:3857 or something OL supports out of box
-    return getProj(projectionLike);
-  }
-  if (projectionLike) {
-    // expecting an object with name, def, extent for proj4 to register custom projection
-    return createProjection(projectionLike.name, projectionLike.def, projectionLike.extent);
-  }
-  const defaultProjection = store.state.config.baseConfig.defaultLayersDisplay.mapProjection;
-  return getProj(defaultProjection);
-}
 
 export async function fetchData({
   usedTime, config, drawnArea, source, map,
