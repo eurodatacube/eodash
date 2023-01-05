@@ -35,7 +35,6 @@ const sharedPalsarFNFConfig = Object.freeze({
   attribution: '{ <a href="https://www.eorc.jaxa.jp/ALOS/en/dataset/fnf_e.htm" target="_blank">JAXA Global PALSAR-2/PALSAR/JERS-1 Mosaic and Forest/Non-Forest maps</a> is available to use with no charge under the <a href="https://earth.jaxa.jp/policy/en.html" target="_blank">JAXA Terms of Use of Research Data</a>.; }',
   minZoom: 1,
   maxZoom: 18,
-  visible: true,
   presetView: {
     type: 'FeatureCollection',
     features: [{

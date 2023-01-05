@@ -157,6 +157,7 @@ export const defaultLayersDisplay = {
   minZoom: 7,
   visible: true,
   mapProjection: 'EPSG:3857',
+  projection: 'EPSG:3857',
 };
 
 export const indicatorsDefinition = Object.freeze({
