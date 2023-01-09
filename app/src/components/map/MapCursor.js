@@ -1,4 +1,4 @@
-import getMapInstance from './map';
+import { getMapInstance } from './map';
 
 class MapCursor {
   /**

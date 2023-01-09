@@ -182,7 +182,6 @@ const mergedConfigs = (usedTimes, side = 'data', inputDataConfig, indicatorObjec
 };
 
 const createConfigFromIndicator = (indicatorObject, side, index) => {
-  // appConfig = store.state.config.appConfig;
   baseConfig = store.state.config.baseConfig;
   const usedTimes = generateUsedTimes(indicatorObject);
   const inputDataConfig = configFromInputData(usedTimes, index);

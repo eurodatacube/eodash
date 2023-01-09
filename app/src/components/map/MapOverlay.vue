@@ -16,7 +16,7 @@
 </template>
 <script>
 
-import getMapInstance from '@/components/map/map';
+import { getMapInstance } from '@/components/map/map';
 import Overlay from 'ol/Overlay';
 
 /**

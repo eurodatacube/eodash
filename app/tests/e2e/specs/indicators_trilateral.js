@@ -30,7 +30,7 @@ describe('Indicator tests for trilateral desktop', () => {
       }
     });
     Object.entries(testSamples).forEach(([key, obj]) => {
-      it(`testing indicator ${key}`, () => {
+      it(`testing indicator ${key} via 'poi=${obj.aoiID}-${key}'`, () => {
         // We can leave out the explore navigation as directly providing kvp changes to this mode
         // thus we can use test branch deployments
         cy.visit(`/?poi=${obj.aoiID}-${key}`);
