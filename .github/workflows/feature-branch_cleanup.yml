@@ -23,4 +23,4 @@ jobs:
       # Delete the folder from the S3 bucket
       - name: Delete folder from S3
         run: |
-          aws s3 rm s3://${{ secrets.AWS_S3_BUCKET }}/feature-branches/${GITHUB_REF##*/} --recursive
+          aws s3 rm s3://${{ secrets.AWS_S3_BUCKET }}/feature-branches/${{ github.event.ref }} --recursive
