@@ -74,7 +74,7 @@ import { loadIndicatorData } from '@/utils';
 import axios from 'axios';
 import { Wkt } from 'wicket';
 
-import getMapInstance from '@/components/map/map';
+import { getMapInstance } from '@/components/map/map';
 import Alert from './components/Alert.vue';
 
 const wkt = new Wkt();

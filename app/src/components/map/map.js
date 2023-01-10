@@ -4,27 +4,40 @@ import View from 'ol/View';
 import 'ol/ol.css';
 import './olControls.css';
 import { Collection } from 'ol';
-import LoadingIndicatorControl from './loadingIndicatorControl';
+import LoadingIndicatorControl from '@/components/map/loadingIndicatorControl';
+import getProjectionOl from '@/helpers/projutils';
+
+const mapRegistry = {};
+const viewRegistry = {};
+
+export function getViewInstance(id, projection, options = {}) {
+  const lookup = `${id}_${projection?.getCode()}`;
+  const view = viewRegistry[lookup];
+  if (!view) {
+    viewRegistry[lookup] = new View({
+      zoom: 0,
+      center: [0, 0],
+      padding: [20, 20, 20, 20],
+      maxZoom: 18,
+      extent: options.constrainExtent,
+      constrainOnlyCenter: true,
+      enableRotation: false,
+      projection,
+    });
+  }
+  return viewRegistry[lookup];
+}
 
 class VueMap {
   constructor(id, options) {
     this.map = new Map({
       controls: new Collection([]),
-      view: new View({
-        zoom: 0,
-        center: [0, 0],
-        padding: [20, 20, 20, 20],
-        maxZoom: 18,
-        extent: options.constrainExtent,
-        constrainOnlyCenter: true,
-        enableRotation: false,
-      }),
+      view: getViewInstance(id, getProjectionOl('EPSG:3857'), options),
     });
     this.map.addControl(new LoadingIndicatorControl({ map: this.map }));
     this.map.set('id', id);
   }
 }
-const mapRegistry = {};
 
 /**
  * Returns the ol map with the given id.
@@ -34,7 +47,7 @@ const mapRegistry = {};
  * @param {Array} options.constrainExtent optional constraining extent
  * @returns {Map} ol map
  */
-export default function getMapInstance(id, options = {}) {
+export function getMapInstance(id, options = {}) {
   const map = mapRegistry[id];
   if (!map) {
     mapRegistry[id] = new VueMap(id, options);

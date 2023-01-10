@@ -151,7 +151,7 @@ export const administrativeLayers = [{
   ...nutsStyle,
   protocol: 'flatgeobuf',
   name: 'District (Bezirk)',
-  url: '//eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/admin_borders/STATISTIK_AUSTRIA_POLBEZ_20220101.fgb',
+  url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_POLBEZ_20220101.fgb',
   minZoom: 10.5,
   maxZoom: 12,
   attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
@@ -159,7 +159,7 @@ export const administrativeLayers = [{
   ...nutsStyle,
   protocol: 'flatgeobuf',
   name: 'Municipality (Gemeinde)',
-  url: '//eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/admin_borders/STATISTIK_AUSTRIA_GEM_20220101.fgb',
+  url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_GEM_20220101.fgb',
   minZoom: 12,
   maxZoom: 13.5,
   attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
@@ -167,7 +167,7 @@ export const administrativeLayers = [{
   ...nutsStyle,
   protocol: 'flatgeobuf',
   name: 'Census Track (Zählsprengel)',
-  url: '//eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/admin_borders/STATISTIK_AUSTRIA_ZSP_20220101.fgb',
+  url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_ZSP_20220101.fgb',
   minZoom: 13.5,
   attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
 }];
@@ -183,6 +183,8 @@ export const defaultLayersDisplay = {
   attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   minZoom: 7,
   visible: true,
+  mapProjection: 'EPSG:3857',
+  projection: 'EPSG:3857',
 };
 
 export const indicatorsDefinition = Object.freeze({
@@ -723,7 +725,7 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'AQ2',
           sources: [
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/new_data/test_nc_COG/day/{time}' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/new_data/test_nc_COG/day/{time}' },
           ],
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd HH:mm:ss'),
@@ -902,12 +904,12 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: true,
         country: 'all',
-        city: 'Innsbruck',
+        city: 'Austria',
         siteName: 'global',
-        description: 'Green Roofs - Innsbruck',
+        description: 'Green Roofs',
         indicator: 'SOL1',
         lastIndicatorValue: null,
-        indicatorName: 'Green Roofs - Innsbruck',
+        indicatorName: 'Green Roofs',
         navigationDescription: 'Green Roof Impact',
         subAoi: {
           type: 'FeatureCollection',
@@ -915,58 +917,71 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        aoiID: 'Innsbruck',
+        aoiID: 'Austria',
         time: [],
         inputData: [''],
         yAxis: '',
-        cogFilters: {
-          sourceLayer: 'SOL1',
-        },
-        vectorStyles: {
-          sourceLayer: 'green_roofs_innsbruck',
+        highlights: [
+          {
+            name: 'Graz',
+            location: wkt.read('POLYGON((15.24 47, 15.555 47, 15.555 47.11, 15.24 47.11, 15.24 47 ))').toJson(),
+          },
+          {
+            name: 'Innsbruck',
+            thumbnail: '',
+            location: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
+          },
+          {
+            name: 'St. Pölten',
+            location: wkt.read('POLYGON((15.55 48.16, 15.7 48.16, 15.7 48.23, 15.55 48.23, 15.55 48.16 ))').toJson(),
+          },
+          {
+            name: 'Vienna',
+            location: wkt.read('POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))').toJson(),
+          },
+        ],
+        wmsStyles: {
+          sourceLayer: 'GTIF_AT_Rooftops_3857',
           items: [
             {
-              id: 'GRImpScore_filtered',
+              id: 'grimpactscore_filtered',
               description: 'Green Roof Impact Score',
               markdown: 'SOL1_GRImpact',
             },
             {
-              id: 'LST2021',
+              id: 'lst2021',
               description: 'Max Land Surface Temperature',
               markdown: 'SOL_temp',
             },
             {
-              id: 'GRExisting',
+              id: 'grexisting',
               description: 'Existing Green Roofs',
               markdown: 'SOL1_GRExisting',
             },
             {
-              id: 'GRPotential',
+              id: 'grpotential',
               description: 'Roofs Suitable for Greening',
               markdown: '',
             },
             {
-              id: 'GRPotPAr20',
+              id: 'grpotpar20',
               description: 'Percentage GR-Potential Area in relation to Total Roof Area',
               markdown: '',
             },
           ],
         },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
-            }],
-          },
-          protocol: 'vectortile',
-          styleFile: 'data/gtif/data/green_rooftops_innsbruck.json',
-          selectedStyleLayer: 'GRImpScore_filtered',
-          id: 'green_roofs_innsbruck',
-          name: '',
+          baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
+          name: 'GTIF_AT_Rooftops_3857',
+          STYLES: 'grimpactscore_filtered',
+          layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_3857',
+          maxZoom: 18,
           minZoom: 1,
+          attribution: '{}',
+          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/green_rooftops.sld',
+          protocol: 'WMS',
+          exceptions: 'application/vnd.ogc.se_inimage',
+          selectedStyle: 'grimpactscore_filtered',
         },
       },
     },
@@ -976,12 +991,12 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: true,
         country: 'all',
-        city: 'Innsbruck',
+        city: 'Austria',
         siteName: 'global',
-        description: 'Solar Roofs - Innsbruck',
+        description: 'Solar Roofs',
         indicator: 'SOL2',
         lastIndicatorValue: null,
-        indicatorName: 'Solar Roofs - Innsbruck',
+        indicatorName: 'Solar Roofs',
         navigationDescription: 'Electrical Power Production potential',
         subAoi: {
           type: 'FeatureCollection',
@@ -989,15 +1004,32 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        aoiID: 'Innsbruck',
+        aoiID: 'Austria',
         time: [],
         inputData: [''],
         yAxis: '',
-        cogFilters: {
-          sourceLayer: 'SOL2',
-        },
-        vectorStyles: {
-          sourceLayer: 'solar_roofs_innsbruck',
+        highlights: [
+          {
+            name: 'Graz',
+            location: wkt.read('POLYGON((15.24 47, 15.555 47, 15.555 47.11, 15.24 47.11, 15.24 47 ))').toJson(),
+          },
+          {
+            name: 'Innsbruck',
+            thumbnail: '',
+            location: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
+          },
+          {
+            name: 'St. Pölten',
+            location: wkt.read('POLYGON((15.55 48.16, 15.7 48.16, 15.7 48.23, 15.55 48.23, 15.55 48.16 ))').toJson(),
+          },
+          {
+            name: 'Vienna',
+            thumbnail: 'green_roof_vienna',
+            location: wkt.read('POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))').toJson(),
+          },
+        ],
+        wmsStyles: {
+          sourceLayer: 'GTIF_AT_Rooftops_3857',
           items: [
             {
               id: 'PVEPPMwhHP',
@@ -1022,528 +1054,17 @@ export const globalIndicators = [
           ],
         },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
-            }],
-          },
-          protocol: 'vectortile',
-          styleFile: 'data/gtif/data/solar_roofs_innsbruck.json',
-          selectedStyleLayer: 'PVEPPMwhHP',
-          id: 'solar_roofs_innsbruck',
-          name: '',
+          baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
+          name: 'GTIF_AT_Rooftops_3857',
+          STYLES: 'PVEPPMwhHP',
+          layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_3857',
+          maxZoom: 18,
           minZoom: 1,
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Innsbruck',
-        siteName: 'global',
-        description: 'Urban Trees - Innsbruck',
-        indicator: 'SOL3',
-        lastIndicatorValue: null,
-        indicatorName: 'Urban Trees - Innsbruck',
-        navigationDescription: 'Urban Tree Impact',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Innsbruck',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        cogFilters: {
-          sourceLayer: 'SOL3',
-        },
-        vectorStyles: {
-          sourceLayer: 'urban_trees_innsbruck',
-          items: [
-            {
-              id: 'GRImpScore_filtered',
-              description: 'Existing PV Panels',
-              markdown: 'SOL1_PVExisting',
-            },
-            {
-              id: 'GRExisting',
-              description: 'Existing green roofs',
-              markdown: 'SOL1_GRExisting',
-            },
-            {
-              id: 'PVEPPMwhHP',
-              description: 'Total electric power production potential - High performance',
-              markdown: 'SOL1_TEP_HP',
-            },
-            {
-              id: 'PVEPPMwhRP',
-              description: 'Total electric power production potential - Regular performance',
-              markdown: 'SOL1_TEP_RP',
-            },
-            {
-              id: 'PVEPPMwhLP',
-              description: 'Total electric power production potential - Low performance',
-              markdown: 'SOL1_TEP_LP',
-            },
-            {
-              id: 'GRImpScore',
-              description: 'Green roof impact score',
-              markdown: 'SOL1_GRImpact',
-            },
-          ],
-        },
-        display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
-            }],
-          },
-          protocol: 'vectortile',
-          styleFile: 'data/gtif/data/solar_roofs_innsbruck.json',
-          selectedStyleLayer: 'PVExisting',
-          id: 'urban_trees_innsbruck',
-          name: '',
-          minZoom: 1,
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Vienna',
-        siteName: 'global',
-        description: 'Green Roofs - Vienna',
-        indicator: 'SOL4',
-        lastIndicatorValue: null,
-        indicatorName: 'Green Roofs - Vienna',
-        navigationDescription: 'Green Roof Impact',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Vienna',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        cogFilters: {
-          sourceLayer: 'SOL4',
-        },
-        vectorStyles: {
-          sourceLayer: 'green_roofs_vienna',
-          items: [
-            {
-              id: 'GRImpScore_filtered',
-              description: 'Green Roof Impact Score',
-              markdown: 'SOL1_GRImpact',
-            },
-            {
-              id: 'LST2021',
-              description: 'Max Land Surface Temperature',
-              markdown: 'SOL_temp',
-            },
-            {
-              id: 'GRExisting',
-              description: 'Existing Green Roofs',
-              markdown: 'SOL1_GRExisting',
-            },
-            {
-              id: 'GRPotential',
-              description: 'Roofs Suitable for Greening',
-              markdown: '',
-            },
-            {
-              id: 'GRPotPAr20',
-              description: 'Percentage GR-Potential Area in relation to Total Roof Area',
-              markdown: '',
-            },
-          ],
-        },
-        display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))').toJson(),
-            }],
-          },
-          protocol: 'vectortile',
-          styleFile: 'data/gtif/data/green_rooftops_vienna.json',
-          selectedStyleLayer: 'GRImpScore_filtered',
-          id: 'green_roofs_vienna',
-          name: '',
-          minZoom: 1,
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Vienna',
-        siteName: 'global',
-        description: 'Solar Roofs - Vienna',
-        indicator: 'SOL5',
-        lastIndicatorValue: null,
-        indicatorName: 'Solar Roofs - Vienna',
-        navigationDescription: 'Electrical Power Production potential',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Vienna',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        cogFilters: {
-          sourceLayer: 'SOL5',
-        },
-        vectorStyles: {
-          sourceLayer: 'solar_roofs_vienna',
-          items: [
-            {
-              id: 'PVEPPMwhHP',
-              description: 'Total electric power production potential - High Performance ',
-              markdown: 'SOL1_TEP_HP',
-            },
-            {
-              id: 'PVExisting',
-              description: 'Existing PV Panels',
-              markdown: 'SOL1_PVExisting',
-            },
-            {
-              id: 'PVEPPMwhRP',
-              description: 'Total electric power production potential - Regular performance',
-              markdown: 'SOL1_TEP_RP',
-            },
-            {
-              id: 'PVEPPMwhLP',
-              description: 'Total electric power production potential - Low performance',
-              markdown: 'SOL1_TEP_LP',
-            },
-          ],
-        },
-        display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))').toJson(),
-            }],
-          },
-          protocol: 'vectortile',
-          styleFile: 'data/gtif/data/solar_roofs_vienna.json',
-          selectedStyleLayer: 'PVEPPMwhHP',
-          id: 'solar_roofs_vienna',
-          name: '',
-          minZoom: 1,
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Graz',
-        siteName: 'global',
-        description: 'Green Roofs - Graz',
-        indicator: 'SOL5',
-        lastIndicatorValue: null,
-        indicatorName: 'Green Roofs - Graz',
-        navigationDescription: 'Green Roof Impact',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Graz',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        cogFilters: {
-          sourceLayer: 'SOL5',
-        },
-        vectorStyles: {
-          sourceLayer: 'green_roofs_graz',
-          items: [
-            {
-              id: 'GRImpScore_filtered',
-              description: 'Green Roof Impact Score',
-              markdown: 'SOL1_GRImpact',
-            },
-            {
-              id: 'LST2021',
-              description: 'Max Land Surface Temperature',
-              markdown: 'SOL_temp',
-            },
-            {
-              id: 'GRExisting',
-              description: 'Existing Green Roofs',
-              markdown: 'SOL1_GRExisting',
-            },
-            {
-              id: 'GRPotential',
-              description: 'Roofs Suitable for Greening',
-              markdown: '',
-            },
-            {
-              id: 'GRPotPAr20',
-              description: 'Percentage GR-Potential Area in relation to Total Roof Area',
-              markdown: '',
-            },
-          ],
-        },
-        display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((15.24 47, 15.555 47, 15.555 47.11, 15.24 47.11, 15.24 47 ))').toJson(),
-            }],
-          },
-          protocol: 'vectortile',
-          styleFile: 'data/gtif/data/green_rooftops_graz.json',
-          selectedStyleLayer: 'GRImpScore_filtered',
-          id: 'green_roofs_graz',
-          name: '',
-          minZoom: 1,
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Graz',
-        siteName: 'global',
-        description: 'Solar Roofs - Graz',
-        indicator: 'SOL6',
-        lastIndicatorValue: null,
-        indicatorName: 'Solar Roofs - Graz',
-        navigationDescription: 'Electrical Power Production potential',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Graz',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        cogFilters: {
-          sourceLayer: 'SOL6',
-        },
-        vectorStyles: {
-          sourceLayer: 'solar_roofs_graz',
-          items: [
-            {
-              id: 'PVEPPMwhHP',
-              description: 'Total electric power production potential - High Performance ',
-              markdown: 'SOL1_TEP_HP',
-            },
-            {
-              id: 'PVExisting',
-              description: 'Existing PV Panels',
-              markdown: 'SOL1_PVExisting',
-            },
-            {
-              id: 'PVEPPMwhRP',
-              description: 'Total electric power production potential - Regular performance',
-              markdown: 'SOL1_TEP_RP',
-            },
-            {
-              id: 'PVEPPMwhLP',
-              description: 'Total electric power production potential - Low performance',
-              markdown: 'SOL1_TEP_LP',
-            },
-          ],
-        },
-        display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((15.24 47, 15.555 47, 15.555 47.11, 15.24 47.11, 15.24 47 ))').toJson(),
-            }],
-          },
-          protocol: 'vectortile',
-          styleFile: 'data/gtif/data/solar_roofs_graz.json',
-          selectedStyleLayer: 'PVEPPMwhHP',
-          id: 'solar_roofs_graz',
-          name: '',
-          minZoom: 1,
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'St. Pölten',
-        siteName: 'global',
-        description: 'Green Roofs - St. Pölten',
-        indicator: 'SOL7',
-        lastIndicatorValue: null,
-        indicatorName: 'Green Roofs - St. Pölten',
-        navigationDescription: 'Green Roof Impact',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'St_poelten',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        cogFilters: {
-          sourceLayer: 'SOL7',
-        },
-        vectorStyles: {
-          sourceLayer: 'green_roofs_stpoelten',
-          items: [
-            {
-              id: 'GRImpScore_filtered',
-              description: 'Green Roof Impact Score',
-              markdown: 'SOL1_GRImpact',
-            },
-            {
-              id: 'LST2021',
-              description: 'Max Land Surface Temperature',
-              markdown: 'SOL_temp',
-            },
-            {
-              id: 'GRExisting',
-              description: 'Existing Green Roofs',
-              markdown: 'SOL1_GRExisting',
-            },
-            {
-              id: 'GRPotential',
-              description: 'Roofs Suitable for Greening',
-              markdown: '',
-            },
-            {
-              id: 'GRPotPAr20',
-              description: 'Percentage GR-Potential Area in relation to Total Roof Area',
-              markdown: '',
-            },
-          ],
-        },
-        display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((15.55 48.16, 15.7 48.16, 15.7 48.23, 15.55 48.23, 15.55 48.16 ))').toJson(),
-            }],
-          },
-          protocol: 'vectortile',
-          styleFile: 'data/gtif/data/green_rooftops_stpoelten.json',
-          selectedStyleLayer: 'GRImpScore_filtered',
-          id: 'green_roofs_stpoelten',
-          name: '',
-          minZoom: 1,
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'St. Pölten',
-        siteName: 'global',
-        description: 'Solar Roofs - St. Pölten',
-        indicator: 'SOL8',
-        lastIndicatorValue: null,
-        indicatorName: 'Solar Roofs - St. Pölten',
-        navigationDescription: 'Electrical Power Production potential',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'St_poelten',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        cogFilters: {
-          sourceLayer: 'SOL8',
-        },
-        vectorStyles: {
-          sourceLayer: 'solar_roofs_stpoelten',
-          items: [
-            {
-              id: 'PVEPPMwhHP',
-              description: 'Total electric power production potential - High Performance ',
-              markdown: 'SOL1_TEP_HP',
-            },
-            {
-              id: 'PVExisting',
-              description: 'Existing PV Panels',
-              markdown: 'SOL1_PVExisting',
-            },
-            {
-              id: 'PVEPPMwhRP',
-              description: 'Total electric power production potential - Regular performance',
-              markdown: 'SOL1_TEP_RP',
-            },
-            {
-              id: 'PVEPPMwhLP',
-              description: 'Total electric power production potential - Low performance',
-              markdown: 'SOL1_TEP_LP',
-            },
-          ],
-        },
-        display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((15.55 48.16, 15.7 48.16, 15.7 48.23, 15.55 48.23, 15.55 48.16 ))').toJson(),
-            }],
-          },
-          protocol: 'vectortile',
-          styleFile: 'data/gtif/data/solar_roofs_stpoelten.json',
-          selectedStyleLayer: 'PVEPPMwhHP',
-          id: 'solar_roofs_stpoelten',
-          name: '',
-          minZoom: 1,
+          attribution: '{}',
+          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/solar_rooftops.sld',
+          protocol: 'WMS',
+          exceptions: 'application/vnd.ogc.se_inimage',
+          selectedStyle: 'PVEPPMwhHP',
         },
       },
     },
@@ -1585,7 +1106,7 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'BM1',
           sources: [
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/Carbon_accounting/3857/Austria_AutoChange2020-2021-packed-rendered_3857.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/Carbon_accounting/3857/Austria_AutoChange2020-2021-packed-rendered_3857.tif' },
           ],
           normalize: true,
           style: {
@@ -1644,7 +1165,7 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'BM2',
           sources: [
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/Carbon_accounting/3857/CCI-BIOMASS2020-Austria_COG_3857.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/Carbon_accounting/3857/CCI-BIOMASS2020-Austria_COG_3857.tif' },
           ],
           style: {
             variables: {
@@ -1762,12 +1283,12 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'REP1',
           sources: [
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerDensity_Austria_COG_3857_clipped_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_DSM_COG_10m_3857_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/WSF_EucDist_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Natura2000_Austria_COG_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_Austria_COG_3857_clipped_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_DSM_COG_10m_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/WSF_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Natura2000_Austria_COG_3857_fix.tif' },
           ],
           style: {
             variables: {
@@ -1903,12 +1424,12 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'REP2',
           sources: [
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/GHI_Austria_COG_3857_clipped_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Aspect_3857_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_DSM_COG_10m_3857_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Natura2000_Austria_COG_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/GHI_Austria_COG_3857_clipped_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Aspect_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_DSM_COG_10m_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Natura2000_Austria_COG_3857_fix.tif' },
           ],
           style: {
             variables: {
@@ -2060,13 +1581,13 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'REP4',
           sources: [
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerDensity_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/RuggednessIndex_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/WSF_EucDist_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Aspect_3857_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/ESA_WorldCover_10m_COG_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/RuggednessIndex_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/WSF_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Aspect_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/ESA_WorldCover_10m_COG_3857_fix.tif' },
           ],
           style: {
             variables: {
@@ -2183,13 +1704,13 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'REP5',
           sources: [
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerDensity_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/RuggednessIndex_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/WSF_EucDist_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/Copernicus_10m_DSM_COG_Aspect_3857_fix.tif' },
-            { url: 'https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/DHI_reprojected_2/ESA_WorldCover_10m_COG_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/RuggednessIndex_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/WSF_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Aspect_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/ESA_WorldCover_10m_COG_3857_fix.tif' },
           ],
           style: {
             variables: {

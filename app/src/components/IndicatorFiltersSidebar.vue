@@ -76,6 +76,31 @@
         </v-list>
       </div>
     </v-expand-x-transition>
+    <div
+      v-show="indicatorObject && indicatorObject.highlights"
+      class="fill-height"
+      style="width: 130px; pointer-events: all; position:absolute; left:10px;"
+    >
+      <v-list style="width: 100%; background-color: #00000000;">
+        <v-list-item-group style="width: 100%"
+            v-if="indicatorObject && indicatorObject.highlights"
+          >
+          <v-list-item
+            v-for="item in indicatorObject.highlights"
+            :key="item.name"
+            class="mb-2 dashboard-button v-btn v-btn--is-elevated v-btn--has-bg theme--light"
+            style="width: 100%"
+            @click="moveToHighlight(item.location)"
+          >
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ item.name }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </div>
   </div>
 </template>
 
@@ -85,6 +110,10 @@ import {
   mapGetters,
   mapMutations,
 } from 'vuex';
+
+import GeoJSON from 'ol/format/GeoJSON';
+import { getMapInstance } from '@/components/map/map';
+import { calculatePadding } from '@/utils';
 
 export default {
   data: () => ({
@@ -106,6 +135,9 @@ export default {
     ...mapState('config', ['appConfig', 'baseConfig']),
     ...mapState('themes', ['themes']),
     ...mapGetters('features', ['getGroupedFeatures']),
+    indicatorObject() {
+      return this.$store.state.indicators.selectedIndicator;
+    },
     globalIndicators() {
       return this.getGroupedFeatures && this.getGroupedFeatures
         .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName))
@@ -141,6 +173,18 @@ export default {
     },
     onClickOutside() {
       this.showLayerMenu = false;
+    },
+    moveToHighlight(location) {
+      const DEFAULT_PROJECTION = 'EPSG:3857';
+      const geoJsonFormat = new GeoJSON({
+        featureProjection: DEFAULT_PROJECTION,
+      });
+      const geom = geoJsonFormat.readGeometry(location);
+      const { map } = getMapInstance('centerMap');
+      const padding = calculatePadding();
+      map.getView().fit(geom.getExtent(), {
+        duration: 0, padding,
+      });
     },
   },
   watch: {

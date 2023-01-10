@@ -3,6 +3,8 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import XYZSource from 'ol/source/XYZ';
 import GeoJSON from 'ol/format/GeoJSON';
+import WMTSCapabilities from 'ol/format/WMTSCapabilities';
+import WMTS, { optionsFromCapabilities } from 'ol/source/WMTS';
 import countries from '@/assets/countries.json';
 import {
   Fill, Stroke, Style, Circle,
@@ -21,19 +23,11 @@ import { MVT } from 'ol/format';
 import { applyStyle } from 'ol-mapbox-style';
 import * as flatgeobuf from 'flatgeobuf/dist/flatgeobuf-geojson.min';
 import { bbox } from 'ol/loadingstrategy';
-import { get as getProj, transformExtent } from 'ol/proj';
-import { fetchCustomAreaObjects, fetchCustomDataOptions } from '@/helpers/customAreaObjects';
+import { transformExtent } from 'ol/proj';
+import { fetchCustomDataOptions, fetchCustomAreaObjects } from '@/helpers/customAreaObjects';
+import getProjectionOl from '@/helpers/projutils';
 
-import proj4 from 'proj4';
-import { register } from 'ol/proj/proj4';
-
-const DEFAULT_PROJECTION = 'EPSG:3857';
-const geoJsonFormat = new GeoJSON({
-  featureProjection: DEFAULT_PROJECTION,
-});
-const countriesSource = new VectorSource({
-  features: geoJsonFormat.readFeatures(countries),
-});
+const geoJsonFormat = new GeoJSON({});
 
 /**
  * manually fetches geojson features and replaces the features in the source
@@ -42,30 +36,8 @@ const countriesSource = new VectorSource({
  * @param {String} url geojson url
  */
 
-function createProjection(name, def, extent) {
-  proj4.defs(name, def);
-  register(proj4);
-  const projection = getProj(name);
-  projection.setExtent(extent);
-  return projection;
-}
-
-export function getProjectionOl(projectionLike) {
-  // for internal conversions
-  if (typeof projectionLike === 'string') {
-    // expecting EPSG:4326 or EPSG:3857 or something OL supports out of box
-    return getProj(projectionLike);
-  }
-  if (projectionLike) {
-    // expecting an object with name, def, extent for proj4 to register custom projection
-    return createProjection(projectionLike.name, projectionLike.def, projectionLike.extent);
-  }
-  // default: EPSG:4326 when not set
-  return getProj('EPSG:4326');
-}
-
 export async function fetchData({
-  usedTime, config, drawnArea, source,
+  usedTime, config, drawnArea, source, map,
 }) {
   // fetching of customFeatures
   if (!config?.features || (config.customAreaFeatures && !drawnArea?.area)) {
@@ -84,13 +56,17 @@ export async function fetchData({
     );
     source.clear();
     if (custom?.features && custom.features.length) {
-      const features = geoJsonFormat.readFeatures(custom);
+      const features = geoJsonFormat.readFeatures(custom, {
+        featureProjection: map.getView().getProjection(),
+      });
       features.forEach((ftr) => {
         if (ftr.getId() === null) {
           ftr.setId(undefined);
         }
         if (ftr.geometry) {
-          ftr.setGeometry(geoJsonFormat.readGeometry(ftr.geometry));
+          ftr.setGeometry(geoJsonFormat.readGeometry(ftr.geometry, {
+            featureProjection: map.getView().getProjection(),
+          }));
         }
       });
       source.addFeatures(features);
@@ -103,7 +79,7 @@ export async function fetchData({
 
 function fgbBoundingBox(extent, projection) {
   // minx, miny, maxx, maxy
-  const transformedExtent = transformExtent(extent, projection.getCode(), 'EPSG:4326');
+  const transformedExtent = transformExtent(extent, projection, 'EPSG:4326');
   return {
     minX: transformedExtent[0],
     minY: transformedExtent[1],
@@ -145,6 +121,37 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
   return url;
 }
 
+async function createWMTSSourceFromCapabilities(config, layer) {
+  const s = await fetch(config.url)
+    .then((response) => response.text())
+    .then((text) => {
+      const parser = new WMTSCapabilities();
+      const result = parser.read(text);
+      const selectionOpts = {
+        layer: config.layers,
+        projection: getProjectionOl(config.projection),
+        style: config.style,
+        matrixSet: config.matrixSet,
+        format: config.format,
+        crossOrigin: config.crossOrigin,
+      };
+      const optsFromCapabilities = optionsFromCapabilities(result, selectionOpts);
+      const source = new WMTS({
+        attributions: config.attribution,
+        maxZoom: config.maxZoom,
+        minZoom: config.minZoom,
+        ...optsFromCapabilities,
+      });
+      layer.setSource(source);
+      return source;
+    });
+  s.set('updateTime', (updatedTime, area, configUpdate) => {
+    const newSource = createWMTSSourceFromCapabilities(configUpdate, layer);
+    layer.setSource(newSource);
+  });
+  return s;
+}
+
 /**
  * generate a layer from a given config Object
  * @param {Object} config eodash config object
@@ -166,11 +173,13 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
  * @returns {Group} returns ol layer
  */
 // eslint-disable-next-line import/prefer-default-export
-export function createLayerFromConfig(config, _options = {}) {
+export function createLayerFromConfig(config, map, _options = {}) {
   const options = { ..._options };
   options.zIndex = options.zIndex || 0;
   options.updateOpacityOnZoom = options.updateOpacityOnZoom || false;
-
+  const paramsToPassThrough = [
+    'layers', 'STYLES', 'styles', 'format', 'env', 'sld', 'exceptions',
+  ];
   // layers created by this config. These Layers will get combined into a single ol.layer.Group
   const layers = [];
   if (config.protocol === 'cog') {
@@ -198,6 +207,15 @@ export function createLayerFromConfig(config, _options = {}) {
     tilelayer.set('id', config.id);
     applyStyle(tilelayer, config.styleFile, [config.selectedStyleLayer]);
     layers.push(tilelayer);
+  }
+  if (config.protocol === 'WMTSCapabilities') {
+    const WMTSLayer = new TileLayer({
+      name: config.name,
+      updateOpacityOnZoom: options.updateOpacityOnZoom,
+      zIndex: options.zIndex,
+    });
+    layers.push(WMTSLayer);
+    createWMTSSourceFromCapabilities(config, WMTSLayer);
   }
   if (config.protocol === 'geoserverTileLayer') {
     const simpleStyle = new Style({
@@ -254,6 +272,11 @@ export function createLayerFromConfig(config, _options = {}) {
       .catch(() => console.log('Issue loading mapbox style'));
   }
   if (config.protocol === 'countries') {
+    const countriesSource = new VectorSource({
+      features: geoJsonFormat.readFeatures(countries, {
+        featureProjection: map.getView().getProjection(),
+      }),
+    });
     layers.push(new VectorLayer({
       name: 'Country vectors',
       source: countriesSource,
@@ -274,9 +297,13 @@ export function createLayerFromConfig(config, _options = {}) {
     // mutually exclusive options, either direct features or url to fetch
     const vectorSourceOpts = config.url ? {
       url: config.url,
-      format: geoJsonFormat,
+      format: new GeoJSON({
+        featureProjection: map.getView().getProjection(),
+      }),
     } : {
-      features: geoJsonFormat.readFeatures(config.data),
+      features: geoJsonFormat.readFeatures(config.data, {
+        featureProjection: map.getView().getProjection(),
+      }),
     };
     layers.push(new VectorLayer({
       name: config.name,
@@ -298,7 +325,9 @@ export function createLayerFromConfig(config, _options = {}) {
   }
   if (config.protocol === 'flatgeobuf') {
     const vectorSourceOpts = {
-      format: geoJsonFormat,
+      format: new GeoJSON({
+        featureProjection: map.getView().getProjection(),
+      }),
       strategy: bbox,
     };
     const source = new VectorSource(vectorSourceOpts);
@@ -313,7 +342,9 @@ export function createLayerFromConfig(config, _options = {}) {
         const iter = flatgeobuf.deserialize(config.url, rect);
         // eslint-disable-next-line no-restricted-syntax
         for await (const feature of iter) {
-          const ftr = geoJsonFormat.readFeature(feature);
+          const ftr = geoJsonFormat.readFeature(feature, {
+            featureProjection: map.getView().getProjection(),
+          });
           ftrs.push(ftr);
         }
         source.clear();
@@ -380,8 +411,6 @@ export function createLayerFromConfig(config, _options = {}) {
   }
   if (config.protocol === 'WMS') {
     // to do: layers is  not defined for harvesting evolution over time (spain)
-    const paramsToPassThrough = ['layers', 'styles',
-      'format', 'env'];
     const tileSize = config.combinedLayers?.length
       ? config.combinedLayers[0].tileSize : config.tileSize;
     const tileGrid = tileSize === 512 ? new TileGrid({
@@ -400,7 +429,11 @@ export function createLayerFromConfig(config, _options = {}) {
         const params = {};
         let extent;
         if (c.extent) {
-          extent = transformExtent(c.extent, 'EPSG:4326', DEFAULT_PROJECTION);
+          extent = transformExtent(
+            c.extent,
+            'EPSG:4326',
+            c.projection,
+          );
         }
 
         paramsToPassThrough.forEach((param) => {
@@ -414,20 +447,20 @@ export function createLayerFromConfig(config, _options = {}) {
             params.env = `year:${params.time}`;
           }
         }
-        const projection = c.projection || DEFAULT_PROJECTION;
+
         const singleSource = new TileWMS({
           attributions: config.attribution,
           maxZoom: c.maxZoom,
           minZoom: c.minZoom,
           crossOrigin: 'anonymous',
           transition: 0,
-          projection: getProjectionOl(projection),
+          projection: getProjectionOl(c.projection),
           params,
           url: c.baseUrl,
           tileGrid,
         });
         singleSource.set('updateTime', (updatedTime, area, configUpdate) => {
-          const timeString = configUpdate.dateFormatFunction(updatedTime);
+          const timeString = c.dateFormatFunction(updatedTime);
           const paramsUpdate = {};
           paramsToPassThrough.forEach((param) => {
             if (typeof configUpdate[param] !== 'undefined') {
@@ -464,14 +497,13 @@ export function createLayerFromConfig(config, _options = {}) {
           params.env = `year:${params.time}`;
         }
       }
-      const projection = config.projection || DEFAULT_PROJECTION;
       source = new TileWMS({
         attributions: config.attribution,
         maxZoom: config.maxZoom,
         minZoom: config.minZoom,
         crossOrigin: 'anonymous',
         transition: 0,
-        projection: getProjectionOl(projection),
+        projection: getProjectionOl(config.projection),
         params,
         url: config.url || config.baseUrl,
         tileGrid,
@@ -509,8 +541,9 @@ export function createLayerFromConfig(config, _options = {}) {
   let extent;
   if (config.extent) {
     extent = transformExtent(
-      config.extent, 'EPSG:4326',
-      DEFAULT_PROJECTION,
+      config.extent,
+      'EPSG:4326',
+      config.projection,
     );
   }
 
@@ -535,6 +568,7 @@ export function createLayerFromConfig(config, _options = {}) {
       config,
       drawnArea: options.drawnArea,
       source: featuresSource,
+      map,
     });
     // this gives an option to update the source (most likely the time) without
     // re-creating the entire layer
@@ -549,6 +583,7 @@ export function createLayerFromConfig(config, _options = {}) {
         config: updatedOptions,
         drawnArea,
         source: featuresSource,
+        map,
       });
     };
     featuresSource.set('updateTime', featuresUpdate);

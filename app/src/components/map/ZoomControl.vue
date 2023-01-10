@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import getMapInstance from '@/components/map/map';
+import { getMapInstance } from '@/components/map/map';
 import { easeOut } from 'ol/easing';
 
 export default {
