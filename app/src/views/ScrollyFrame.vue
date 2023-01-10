@@ -60,8 +60,12 @@ export default {
   computed: {
     ...mapState('config', ['appConfig']),
   },
-  mounted() {
+  async mounted() {
     this.setBreadcrumbsEnabled();
+
+    const footerRes = await axios.get('./scrollytelling/bottomNav.json');
+    this.footer = footerRes.data;
+
 
     window.onmessage = (e) => {
       // Check if we got a navigation request from the iframe.
@@ -116,44 +120,23 @@ export default {
 
         let link = document.createElement('link');
 
-        link.href = '../css/gtif-scrolly.css';
         /*
         TODO: find a way to use SCSS for dedicated iframe styles
           const gtifScss = require(`../../public/css/gtif.scss`);
           console.log(gtifScss);
         */
+        link.href = '../css/gtif-scrolly.css';
         link.rel = 'stylesheet';
         link.type = 'text/css';
         document.getElementById('resizableIframe').contentDocument.head.appendChild(link);
 
-        let footerDiv = document.createElement('div')
-        footerDiv.style.cssText = 'width: 100%';
+        // --------------------------------
+        // IMPORTANT, DO NOT REMOVE!
+        // Cache Invalidation Call
+        const justForSideEffects = await axios.get('./scrollytelling/index.html');
+        // ---------------------------------------------------^
 
-        const htmlResponse = await axios.get('./scrollytelling/scrollyFooter.html');
-        const cssResponse = await axios.get('./scrollytelling/static/css/app.66467d693c21c12ef4ea88a124ab25a9.css');
-        const cssResponse2 = await axios.get('./css/gtif-scrolly.css');
-
-        console.log(htmlResponse.data);
-        footerDiv.innerHTML = htmlResponse.data;
-
-        document
-          .getElementById('resizableIframe').contentDocument
-          .getElementById('scrolly-footer').appendChild(footerDiv);
-
-        const TestComponent = {
-          template: `
-            <div class="checkbox-wrapper" @click="check">
-              <div :class="{ checkbox: true, checked: checked }"></div>
-              <div class="title">{{ title }}</div>
-            </div>
-          `,
-          data() {
-            return { checked: false, title: 'Check me' }
-          },
-          methods: {
-            check() { this.checked = !this.checked; }
-          }
-        };
+        console.log(justForSideEffects.data);
 
         const iframe = document.querySelector('iframe');
 
@@ -166,7 +149,7 @@ export default {
         );
         iframe.contentWindow.postMessage({
           type: 'footer',
-          data: JSON.stringify(TestComponent),
+          data: this.footer,
         }, '*');
       } catch (error) {
         console.error(`Error loading dashboard data: ${error}`);
