@@ -42,6 +42,10 @@
           :vectorStyles="indicatorObject.vectorStyles"
         >
         </style-controls>
+        <wms-style-controls v-if="indicatorObject.wmsStyles"
+          :wmsStyles="indicatorObject.wmsStyles"
+        >
+        </wms-style-controls>
         <!-- TODO: remove GTIF brand check -->
         <data-mockup-view v-if="appConfig.id === 'gtif'"
           :indicatorObject="indicatorObject"
@@ -357,8 +361,8 @@ import FilterControls from '@/components/map/FilterControls.vue';
 import StyleControls from '@/components/map/StyleControls.vue';
 import DataMockupView from '@/components/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
-
 import ScatterPlot from '@/components/ScatterPlot.vue';
+import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
 
 export default {
   props: [
@@ -372,6 +376,7 @@ export default {
     AddToDashboardButton,
     FilterControls,
     StyleControls,
+    WmsStyleControls,
     ScatterPlot,
     DataMockupView,
   },
