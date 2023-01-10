@@ -79,5 +79,11 @@ module.exports = {
       }),
       new RemoveServiceWorkerPlugin({ filename: 'service-worker.js' }),
     ],
+    resolve: {
+      alias: {
+        'vue$': 'vue/dist/vue.esm.js'
+      }
+    },
   },
+  runtimeCompiler: true,
 };
