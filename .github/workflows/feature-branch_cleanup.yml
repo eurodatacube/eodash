@@ -1,4 +1,5 @@
-name: Branch Deleted
+name: Delete feature branch deployment on branch delete
+
 on:
   delete:
     branches:
@@ -6,17 +7,20 @@ on:
       - '!master'
       - '!staging'
       - '!gtif-demo'
+
 jobs:
-  remove:
+  delete_folder:
     runs-on: ubuntu-latest
     steps:
-    - name: Remove from S3
-      uses: vitorsgomes/s3-rm-action@master
-      with:
-        args: --recursive
-      env:
-        AWS_REGION: 'eu-central-1'
-        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        PATH_TO_DELETE: 'feature-branches/${GITHUB_REF##*/}'
+      # Set up AWS credentials
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-central-1
+
+      # Delete the folder from the S3 bucket
+      - name: Delete folder from S3
+        run: |
+          aws s3 rm s3://${{ secrets.AWS_S3_BUCKET }}/feature-branches/${{ github.event.ref }} --recursive
