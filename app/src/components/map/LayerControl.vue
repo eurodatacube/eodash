@@ -59,7 +59,7 @@
 
 <script>
 import 'ol/ol.css';
-import getMapInstance from '@/components/map/map';
+import { getMapInstance } from '@/components/map/map';
 import { createLayerFromConfig } from '@/components/map/layers';
 
 /**
@@ -119,11 +119,16 @@ export default {
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
-    const baseLayers = this.baseLayerConfigs.map((l) => createLayerFromConfig(l, { zIndex: 0 }));
+    const baseLayers = this.baseLayerConfigs.map((l) => createLayerFromConfig(l,
+      map,
+      {
+        zIndex: 0,
+      }));
     baseLayers.forEach((l) => {
       map.addLayer(l);
     });
     const overlayLayers = this.overlayConfigs.map((l) => createLayerFromConfig(l,
+      map,
       {
         // higher zIndex for labels
         zIndex: l.name === 'Overlay labels' ? 4 : (l.zIndex || 2),
@@ -138,9 +143,13 @@ export default {
   },
   methods: {
     setVisible(value, layerConfig) {
+      // toggle original layer and possibly also compare
       const olLayers = getMapInstance(this.mapId).map.getLayers().getArray();
-      const layer = olLayers.find((l) => l.get('name') === layerConfig.name);
-      layer.setVisible(value);
+      const layers = olLayers.filter((l) => {
+        const found = l.get('name') === layerConfig.name || l.get('name') === `${layerConfig.name}_compare`;
+        return found;
+      });
+      layers.forEach((l) => l.setVisible(value));
     },
     setVisibleAdminGroup(value, layerConfigsGroup) {
       const olLayers = getMapInstance(this.mapId).map.getLayers().getArray();

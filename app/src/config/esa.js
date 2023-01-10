@@ -222,6 +222,10 @@ export const indicatorsDefinition = Object.freeze({
     disableCompare: true,
     story: '/eodash-data/stories/E12c',
   },
+  // E12e: {
+  //   indicatorSummary: 'Cryo test',
+  //   themes: ['water'],
+  // },
   E13a: {
     indicatorSummary: 'Throughput at principal rail stations',
     themes: ['economy'],
@@ -575,6 +579,8 @@ export const defaultLayersDisplay = {
   attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   minZoom: 7,
   visible: true,
+  mapProjection: 'EPSG:3857',
+  projection: 'EPSG:3857',
 };
 
 export const cmemsDisplay = {
@@ -1863,7 +1869,7 @@ export const globalIndicators = [
               ...cmemsDisplay,
               baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_atl_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
               name: 'Atlantic coast CHL L4 Product',
-              extent: [-45, 20, 66, 10.5],
+              extent: [-46, 19.5, 13, 66],
             }, {
               ...cmemsDisplay,
               baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_med_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
@@ -2161,4 +2167,51 @@ export const globalIndicators = [
       },
     },
   },
+  // {
+  //   properties: {
+  //     indicatorObject: {
+  //       dataLoadFinished: true,
+  //       id: 9986,
+  //       aoi: null,
+  //       aoiID: 'World',
+  //       country: 'all',
+  //       city: 'Antarctica',
+  //       siteName: 'global',
+  //       description: 'Antarctic DEM',
+  //       indicator: 'E12e',
+  //       lastIndicatorValue: null,
+  //       indicatorName: 'Antarctic DEM',
+  //       subAoi: {
+  //         type: 'FeatureCollection',
+  //         features: [],
+  //       },
+  //       time: [],
+  //       inputData: [''],
+  //       display: {
+  //         baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
+  //         projection: 'EPSG:3031',
+  //         name: 'Antarctic DEM',
+  //         layers: 'add:Antarctic_surface_dem_bathymetry',
+  //         minZoom: 2,
+  //         maxZoom: 18,
+  //         mapProjection: {
+  //           name: 'EPSG:3031',
+  // eslint-disable-next-line
+  //           def: '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+  //           extent: [-3299207.53, -3333134.03, 3299207.53, 3333134.03],
+  //         },
+  // eslint-disable-next-line
+  //         dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-01-01')}/${DateTime.fromISO(date).toFormat('yyyy-12-31')}`,
+  //         presetView: {
+  //           type: 'FeatureCollection',
+  //           features: [{
+  //             type: 'Feature',
+  //             properties: {},
+  //             geometry: wkt.read('POLYGON((-20 -65,10 -65,10 -75,-20 -75,-20 -65))').toJson(),
+  //           }],
+  //         },
+  //       },
+  //     },
+  //   },
+  // },
 ];

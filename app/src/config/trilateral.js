@@ -26,13 +26,15 @@ export const dataEndpoints = [
 ];
 
 const sharedPalsarFNFConfig = Object.freeze({
-  baseUrl: 'https://ogcpreview1.restecmap.com/examind/api/WS/wms/JAXA_WMS_Preview',
+  url: 'https://ogcpreview1.restecmap.com/examind/api/WS/wmts/JAXA_WMTS_Preview/1.0.0/WMTSCapabilities.xml',
+  protocol: 'WMTSCapabilities',
   name: 'FNF PALSAR2 World Yearly',
-  tileSize: 512,
-  projection: 'EPSG:4326',
+  projection: 'EPSG:3857',
   legendUrl: './data/trilateral/fnf-map-legend.png',
   labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
   attribution: '{ <a href="https://www.eorc.jaxa.jp/ALOS/en/dataset/fnf_e.htm" target="_blank">JAXA Global PALSAR-2/PALSAR/JERS-1 Mosaic and Forest/Non-Forest maps</a> is available to use with no charge under the <a href="https://earth.jaxa.jp/policy/en.html" target="_blank">JAXA Terms of Use of Research Data</a>.; }',
+  minZoom: 1,
+  maxZoom: 18,
   presetView: {
     type: 'FeatureCollection',
     features: [{
@@ -716,6 +718,8 @@ export const defaultLayersDisplay = {
   attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank"> Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   minZoom: 7,
   visible: true,
+  mapProjection: 'EPSG:3857',
+  projection: 'EPSG:3857',
 };
 
 const e10cDates = {
