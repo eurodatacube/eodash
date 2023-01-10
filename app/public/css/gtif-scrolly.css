@@ -12,8 +12,23 @@
   overflow-x: hidden;
 }
 
+.expansible-text-section {
+  padding: 0 !important;
+}
+
 .expansible-text-section > * {
   width: 100%;
+}
+
+.expansible-text-section > p, div {
+  /*padding-top: 70px;
+  padding-bottom: 70px;*/
+}
+
+.expansible-text-section > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 article {
