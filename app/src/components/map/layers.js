@@ -175,7 +175,9 @@ export function createLayerFromConfig(config, map, _options = {}) {
   const options = { ..._options };
   options.zIndex = options.zIndex || 0;
   options.updateOpacityOnZoom = options.updateOpacityOnZoom || false;
-  const paramsToPassThrough = ['layers', 'styles', 'format', 'env'];
+  const paramsToPassThrough = [
+    'layers', 'STYLES', 'styles', 'format', 'env', 'sld', 'exceptions',
+  ];
   // layers created by this config. These Layers will get combined into a single ol.layer.Group
   const layers = [];
   if (config.protocol === 'cog') {
@@ -375,8 +377,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
   }
   if (config.protocol === 'WMS') {
     // to do: layers is  not defined for harvesting evolution over time (spain)
-    const paramsToPassThrough = ['layers', 'STYLES', 'styles',
-      'format', 'env', 'sld', 'exceptions'];
     const tileSize = config.combinedLayers?.length
       ? config.combinedLayers[0].tileSize : config.tileSize;
     const tileGrid = tileSize === 512 ? new TileGrid({
