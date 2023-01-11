@@ -63,7 +63,7 @@ export default {
   async mounted() {
     this.setBreadcrumbsEnabled();
 
-    const footerRes = await axios.get('./scrollytelling/bottomNav.json');
+    const footerRes = await axios.get('./scrollytelling/bottom.json');
     this.footer = footerRes.data;
 
 
