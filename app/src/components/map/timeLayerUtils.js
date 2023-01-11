@@ -8,11 +8,22 @@
  */
 
 import LayerGroup from 'ol/layer/Group';
+import GeoTIFF from 'ol/source/GeoTIFF';
 import { applyStyle } from 'ol-mapbox-style';
 
 // eslint-disable-next-line import/prefer-default-export
 export function updateTimeLayer(layer, config, time, drawnArea, sourceGet = 'updateTime') {
-  if (config.styleFile) {
+  if (config.protocol === 'cog') {
+    const currlayer = layer.getLayers().getArray()[0];
+    const updatedSources = config.sources.map((item) => {
+      const url = item.url.replace(/{time}/i, config.dateFormatFunction(time));
+      return { url };
+    });
+    currlayer.setSource(new GeoTIFF({
+      sources: updatedSources,
+      normalize: config.normalize ? config.normalize : false,
+    }));
+  } else if (config.styleFile) {
     // TODO: this is not the way to get the layer for sure,
     // also the whole time logic needs to be done properly
     const currlayer = layer.getLayers().getArray()[0];

@@ -58,6 +58,12 @@
             :vectorStyles="selectedIndicator.vectorStyles"
           >
           </StyleControls>
+          <WmsStyleControls
+            v-if="selectedIndicator.wmsStyles"
+            :wmsStyles="selectedIndicator.wmsStyles"
+          >
+          </WmsStyleControls>
+        >
         </section>
         <section
           id="view"
@@ -72,7 +78,7 @@
         </section>
         <section
           id="description"
-          style="height: calc(var(--vh, 1vh) * 50;
+          style="height: calc(var(--vh, 1vh) * 50);
           overflow: hidden"
         >
           <div
@@ -97,6 +103,7 @@ import DataMockupView from '@/components/DataMockupView.vue';
 import FilterControls from '@/components/map/FilterControls.vue';
 import ScatterPlot from '@/components/ScatterPlot.vue';
 import StyleControls from '@/components/map/StyleControls.vue';
+import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
 
 export default {
   components: {
@@ -104,6 +111,7 @@ export default {
     FilterControls,
     ScatterPlot,
     StyleControls,
+    WmsStyleControls,
   },
   data: () => ({
     showScatterplot: null,
@@ -140,6 +148,6 @@ export default {
       }
       return this.$marked(markdown.default);
     },
-  }
-}
+  },
+};
 </script>

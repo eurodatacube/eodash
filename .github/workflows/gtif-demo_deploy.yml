@@ -56,7 +56,7 @@ jobs:
     - name: sync data s3
       uses: jakejarvis/s3-sync-action@v0.5.1
       with:
-        args: --delete --follow-symlinks --size-only
+        args: --delete --follow-symlinks
       env:
         SOURCE_DIR: 'app/dist/data'
         DEST_DIR: 'gtif-demo/data'
@@ -69,7 +69,7 @@ jobs:
     - name: sync eodashdata s3
       uses: jakejarvis/s3-sync-action@v0.5.1
       with:
-        args: --delete --follow-symlinks --size-only
+        args: --delete --follow-symlinks
       env:
         SOURCE_DIR: 'app/dist/eodash-data'
         DEST_DIR: 'gtif-demo/eodash-data'

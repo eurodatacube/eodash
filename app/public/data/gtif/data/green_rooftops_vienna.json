@@ -8,7 +8,7 @@
     "innsbruck": {
       "type": "vector",
       "tiles": [
-          "https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/rooftops2/wien_4esa_3857/{z}/{x}/{y}.pbf"
+          "https://eox-gtif-public.s3.eu-central-1.amazonaws.com/rooftops2/wien_4esa_3857/{z}/{x}/{y}.pbf"
       ],
       "maxzoom": 16
   }
