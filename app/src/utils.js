@@ -8,7 +8,7 @@ import VectorSource from 'ol/source/Vector';
 import { Feature } from 'ol';
 import { fromExtent } from 'ol/geom/Polygon';
 import { Stroke, Style } from 'ol/style';
-import getMapInstance from './components/map/map';
+import { getMapInstance } from './components/map/map';
 import getLocationCode from './mixins/getLocationCode';
 
 export function padLeft(str, pad, size) {
@@ -257,4 +257,18 @@ export function getIndicatorFilteredInputData(selectedIndicator) {
   }
   indicatorRegistry[locationCode] = indicator;
   return indicator;
+}
+
+export function getPOIs() {
+  const ftrs = store.state.features.allFeatures;
+  ftrs.sort(
+    (a, b) => a.properties.indicatorObject.indicator - b.properties.indicatorObject.indicator,
+  );
+  const arr = [];
+  ftrs.forEach((item) => {
+    const { aoiID, indicator } = item.properties.indicatorObject;
+    const output = `${aoiID}-${indicator}`;
+    arr.push(output);
+  });
+  console.log(arr.join(','));
 }
