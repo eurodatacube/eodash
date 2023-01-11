@@ -291,7 +291,13 @@ export default {
       return configs;
     },
     overlayConfigs() {
-      const configs = [...this.baseConfig.overlayLayersLeftMap];
+      let configs = [...this.baseConfig.overlayLayersLeftMap];
+      if (this.isGlobalIndicator) {
+        // use their own overlay layers from config, if available
+        configs = this.baseConfig.indicatorsDefinition[this.$store
+          .state.indicators.selectedIndicator.indicator].overlayLayers
+          || this.baseConfig.overlayLayersLeftMap;
+      }
       // administrativeLayers replace country vectors
       if (!this.isGlobalIndicator && this.baseConfig.administrativeLayers?.length === 0) {
         configs.push({
@@ -456,8 +462,11 @@ export default {
       }
     },
     mergedConfigsData: {
+      // TODO: removed deep attribute for watch as it was triggering a change with filter attribute
+      //       changes and resetting the time, it does not seem that the deep attribute is
+      //       necessary, but this might creat some issues somewhere else, could not find any.
+      // deep: true,
       // set the dataLayerTime when the mergedConfigsData changes
-      deep: true,
       immediate: true,
       handler() {
         this.setInitialTime();
