@@ -315,7 +315,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
           color: config.style.fillColor || 'rgba(0, 0, 0, 0.5)',
         }),
         stroke: new Stroke({
-          width: config.style.weight || 3,
+          width: config.style.weight || 1.5,
           color: config.style.color || 'rgba(0, 0, 0, 0.5)',
         }),
       }),
@@ -363,7 +363,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
           color: config.style.fillColor || 'rgba(0, 0, 0, 0.5)',
         }),
         stroke: new Stroke({
-          width: config.style.weight || 3,
+          width: config.style.weight || 1.5,
           color: config.style.color || 'rgba(0, 0, 0, 0.5)',
         }),
       }),

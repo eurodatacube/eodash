@@ -175,12 +175,12 @@ export default {
       this.showLayerMenu = false;
     },
     moveToHighlight(location) {
-      const DEFAULT_PROJECTION = 'EPSG:3857';
+      const { map } = getMapInstance('centerMap');
+      const featureProjection = map.getView().getProjection();
       const geoJsonFormat = new GeoJSON({
-        featureProjection: DEFAULT_PROJECTION,
+        featureProjection,
       });
       const geom = geoJsonFormat.readGeometry(location);
-      const { map } = getMapInstance('centerMap');
       const padding = calculatePadding();
       map.getView().fit(geom.getExtent(), {
         duration: 0, padding,
