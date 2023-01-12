@@ -55,6 +55,7 @@ export default {
   data() {
     return {
       areBreadcrumbsEnabled: false,
+      data: [],
     };
   },
   computed: {
@@ -78,6 +79,7 @@ export default {
   methods: {
     async onLoaded() {
       try {
+/*
         const id = this.getDashboardID();
 
         const response = await axios
@@ -88,11 +90,18 @@ export default {
             // /dashboard?id=9dd9f2b6743c9746&editKey=0017ee8a3e16f9b8
           }`);
 
+*/      
+        const res = await axios.get(`./data/gtif/scrollies/${this.$route.name}.json`);
+
+        let data = res.data;
+
+/*
         const { features } = response.data;
         let data = [];
         var i = 0;
 
-        while (i < features.length) {
+        
+          while (i < features.length) {
           let current = features[i];
           let next = features[i + 1];
 
@@ -118,6 +127,11 @@ export default {
           }
         }
 
+        // This is here so I can extract the converted JSON out of the dashboards
+        this.data = data;
+
+        */
+
         let link = document.createElement('link');
 
         /*
@@ -135,8 +149,6 @@ export default {
         // Cache Invalidation Call
         const justForSideEffects = await axios.get('./scrollytelling/index.html');
         // ---------------------------------------------------^
-
-        console.log(justForSideEffects.data);
 
         const iframe = document.querySelector('iframe');
 
@@ -168,6 +180,7 @@ export default {
         //       - 48,
       }, '#resizableIframe');
     },
+/*
     getDashboardID() {
       switch (this.$route.name) {
         case 'landing':
@@ -196,6 +209,7 @@ export default {
           return '50826821d453dfd5';
       }
     },
+*/
     setBreadcrumbsEnabled() {
       switch (this.$route.name) {
         case 'gtif-energy-transition':
