@@ -157,14 +157,14 @@
                 color="hsl(90 80% 60%)"
                 title="Sustainable Cities"
                 :is-sub-item="true"
-                :to="{name: 'gtif-sustainable-transition'}"
+                :to="{name: 'gtif-sustainable-cities'}"
               />
 
               <ESAHeaderNavItem
                 color="hsl(20 80% 60%)"
                 title="Carbon Accounting"
                 :is-sub-item="true"
-                :to="{name: 'gtif-carbon-finance'}"
+                :to="{name: 'gtif-carbon-accounting'}"
               />
 
               <ESAHeaderNavItem
