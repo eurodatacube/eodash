@@ -68,10 +68,10 @@ export default {
   async mounted() {
     this.setBreadcrumbsEnabled();
 
-    let bottom = await axios.get('./scrollytelling/bottom.json');
+    let bottom = await axios.get('./data/gtif/components/bottom.json');
     this.bottomNav = bottom.data;
 
-    let footer = await axios.get('./scrollytelling/footer.json');
+    let footer = await axios.get('./data/gtif/components/footer.json');
     this.footer = footer.data;
 
     window.onmessage = (e) => {
