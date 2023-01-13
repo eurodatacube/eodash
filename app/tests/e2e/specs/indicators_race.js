@@ -17,7 +17,7 @@ describe('Indicator tests for RACE', () => {
       }
     });
     Object.entries(testSamples).forEach(([key, obj]) => {
-      it(`testing indicator ${key}`, () => {
+      it(`testing indicator ${key} via 'poi=${obj.aoiID}-${key}'`, () => {
         cy.visit(`/?poi=${obj.aoiID}-${key}`);
         cy.get('#bar-chart, #line-chart, #bubbleMap').should('exist');
         // We add a wait to make sure indicator is completely loaded for video output

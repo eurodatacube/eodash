@@ -8,7 +8,7 @@
     "innsbruck": {
       "type": "vector",
       "tiles": [
-          "https://eox-gtif-a.s3.eu-central-1.amazonaws.com/GTIF/SISTEMA/we_innsbruck_3857/{z}/{x}/{y}.pbf"
+          "https://eox-gtif-public.s3.eu-central-1.amazonaws.com/SISTEMA/we_innsbruck_3857/{z}/{x}/{y}.pbf"
       ],
       "maxzoom": 16
   }

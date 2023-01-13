@@ -47,6 +47,22 @@
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </v-col>
+          <v-slider v-else-if="filters[key].type && filters[key].type=='slider'"
+            v-model="filters[key].value"
+            hide-details
+            dense
+            :min="filters[key].min"
+            :max="filters[key].max"
+            :step="(filters[key].max-filters[key].min)/100"
+            @input="(evt) => updateMapSlider(evt, filters[key].id)"
+          >
+            <template v-slot:prepend>
+              <div class="pl-4" style="width:60px; overflow:hidden;"></div>
+            </template>
+            <template v-slot:append>
+              <div class="pr-4" style="width:60px; overflow:hidden;">{{filters[key].value}}</div>
+            </template>
+          </v-slider>
           <v-range-slider
             v-else
             v-model="filters[key].range"
@@ -101,7 +117,7 @@
 
 <script>
 
-import getMapInstance from '@/components/map/map';
+import { getMapInstance } from '@/components/map/map';
 
 export default {
   name: 'FilterControls',
@@ -133,6 +149,13 @@ export default {
       const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
       const variables = {};
       [variables[`${filterId}Min`], variables[`${filterId}Max`]] = evt;
+      gtl.updateStyleVariables(variables);
+    },
+    updateMapSlider(evt, filterId) {
+      const { map } = getMapInstance('centerMap');
+      const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
+      const variables = {};
+      variables[filterId] = evt;
       gtl.updateStyleVariables(variables);
     },
     updateMapBool(evt, filterId) {

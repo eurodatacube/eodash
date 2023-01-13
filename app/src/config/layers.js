@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/no-named-default
+import { default as powerOpenInsfrastructureStyle } from '@/assets/openinframap/style_oim_power';
+
 export const baseLayers = Object.freeze({
   cloudless: {
     name: 'EOxCloudless 2021',
@@ -25,6 +28,30 @@ export const baseLayers = Object.freeze({
     attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
     visible: false,
     minZoom: 7,
+  },
+  geolandbasemap: {
+    name: 'Geoland Basemap',
+    url: '//maps1.wien.gv.at/basemap/geolandbasemap/normal/google3857/{z}/{y}/{x}.png',
+    attribution: '{ Datenquelle: <a href="https://basemap.at" target="_blank" property="dct:title">basemap.at</a> }',
+    visible: false,
+    maxZoom: 17,
+    protocol: 'xyz',
+  },
+  bmapgelaende: {
+    name: 'Geoland Basemap Gelände',
+    url: '//maps1.wien.gv.at/basemap/bmapgelaende/grau/google3857/{z}/{y}/{x}.jpeg',
+    attribution: '{ Datenquelle: <a href="https://basemap.at" target="_blank" property="dct:title">basemap.at</a> }',
+    visible: false,
+    maxZoom: 17,
+    protocol: 'xyz',
+  },
+  bmaporthofoto30cm: {
+    name: 'Geoland Basemap Orthofoto',
+    url: '//maps1.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/{z}/{y}/{x}.jpeg',
+    attribution: '{ Datenquelle: <a href="https://basemap.at" target="_blank" property="dct:title">basemap.at</a> }',
+    visible: false,
+    maxZoom: 17,
+    protocol: 'xyz',
   },
   CORINE_LAND_COVER: {
     baseUrl: `https://creodias.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
@@ -65,5 +92,25 @@ export const overlayLayers = Object.freeze({
     visible: false,
     maxZoom: 14,
     protocol: 'xyz',
+  },
+  powerOpenInfrastructure: {
+    name: 'Power Open Infrastructure Map',
+    protocol: 'maplibre',
+    visible: false,
+    zIndex: 4,
+    maplibreStyles: {
+      version: 8,
+      sprite: `${window.location.protocol}//${window.location.hostname}${window.location.port === '' ? '' : `:${window.location.port}`}/data/gtif/data/openinframap/sprite`,
+      glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
+      id: 'openinframap',
+      name: 'OpenInfraMap',
+      layers: powerOpenInsfrastructureStyle,
+      sources: {
+        openinframap: {
+          type: 'vector',
+          url: 'data/gtif/data/openinframap/openinframap.json',
+        },
+      },
+    },
   },
 });

@@ -8,7 +8,7 @@ import VectorSource from 'ol/source/Vector';
 import { Feature } from 'ol';
 import { fromExtent } from 'ol/geom/Polygon';
 import { Stroke, Style } from 'ol/style';
-import getMapInstance from './components/map/map';
+import { getMapInstance } from './components/map/map';
 import getLocationCode from './mixins/getLocationCode';
 
 export function padLeft(str, pad, size) {

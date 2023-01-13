@@ -27,7 +27,7 @@
 <script>
 
 import gsap from 'gsap';
-import getMapInstance from '@/components/map/map';
+import { getMapInstance } from '@/components/map/map';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import { updateTimeLayer } from '@/components/map/timeLayerUtils';
 import LayerGroup from 'ol/layer/Group';

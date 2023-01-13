@@ -153,7 +153,7 @@ import getCluster from '@/components/map/Cluster';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import LayerSwipe from '@/components/map/LayerSwipe.vue';
 import CustomAreaButtons from '@/components/map/CustomAreaButtons.vue';
-import getMapInstance from '@/components/map/map';
+import { getMapInstance } from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
 import IframeButton from '@/components/IframeButton.vue';
@@ -178,9 +178,7 @@ import {
   getIndicatorFilteredInputData,
 } from '@/utils';
 
-const DEFAULT_PROJECTION = 'EPSG:3857';
 const geoJsonFormat = new GeoJSON({
-  featureProjection: DEFAULT_PROJECTION,
 });
 
 export default {
@@ -259,6 +257,7 @@ export default {
       // layer swipe position (x-pixel from left border), or null if swipe is not active
       swipePixelX: null,
       queryLink: null,
+      viewZoomExtentFitId: null,
     };
   },
   computed: {
@@ -292,7 +291,13 @@ export default {
       return configs;
     },
     overlayConfigs() {
-      const configs = [...this.baseConfig.overlayLayersLeftMap];
+      let configs = [...this.baseConfig.overlayLayersLeftMap];
+      if (this.isGlobalIndicator) {
+        // use their own overlay layers from config, if available
+        configs = this.baseConfig.indicatorsDefinition[this.$store
+          .state.indicators.selectedIndicator.indicator].overlayLayers
+          || this.baseConfig.overlayLayersLeftMap;
+      }
       // administrativeLayers replace country vectors
       if (!this.isGlobalIndicator && this.baseConfig.administrativeLayers?.length === 0) {
         configs.push({
@@ -413,7 +418,6 @@ export default {
     countriesJson() {
       return countries;
     },
-    indicatorsDefinition: () => this.baseConfig.indicatorsDefinition,
     // extent to be zoomed to. Padding will be applied.
     zoomExtent() {
       if ((this.centerProp && this.zoomProp)
@@ -421,25 +425,31 @@ export default {
         return null;
       }
       const presetView = this.mergedConfigsData[0]?.presetView;
+      const { map } = getMapInstance(this.mapId);
+      const readerOptions = {
+        featureProjection: map.getView().getProjection(),
+      };
       if (presetView) {
         // pre-defined geojson view
-        const presetViewGeom = geoJsonFormat.readGeometry(presetView.features[0].geometry);
+        const presetViewGeom = geoJsonFormat.readGeometry(
+          presetView.features[0].geometry, readerOptions,
+        );
         return presetViewGeom.getExtent();
       }
       const { subAoi } = this.indicator;
       if (subAoi && subAoi.features.length) {
         if (subAoi.features[0].geometry.coordinates.length) {
-          const subAoiGeom = geoJsonFormat.readGeometry(subAoi.features[0].geometry);
+          const subAoiGeom = geoJsonFormat.readGeometry(subAoi.features[0].geometry, readerOptions);
           return subAoiGeom.getExtent();
         }
         // geoJsonFormat
-        return []; // this.subAoi[0].getGeometry().getExtent();
+        return [];
       }
       if (this.indicator.aoi) {
         return transformExtent([this.indicator.lng, this.indicator.lat,
           this.indicator.lng, this.indicator.lat],
         'EPSG:4326',
-        DEFAULT_PROJECTION);
+        map.getView().getProjection());
       }
       return undefined;
     },
@@ -452,8 +462,11 @@ export default {
       }
     },
     mergedConfigsData: {
+      // TODO: removed deep attribute for watch as it was triggering a change with filter attribute
+      //       changes and resetting the time, it does not seem that the deep attribute is
+      //       necessary, but this might creat some issues somewhere else, could not find any.
+      // deep: true,
       // set the dataLayerTime when the mergedConfigsData changes
-      deep: true,
       immediate: true,
       handler() {
         this.setInitialTime();
@@ -528,7 +541,11 @@ export default {
           const { map } = getMapInstance(this.mapId);
           if (map.getTargetElement()) {
             const padding = calculatePadding();
-            setTimeout(() => {
+            // clear race condition of original view and possibly new view with new projection
+            if (this.viewZoomExtentFitId) {
+              clearTimeout(this.viewZoomExtentFitId);
+            }
+            this.viewZoomExtentFitId = setTimeout(() => {
               map.getView().fit(value, { duration: 500, padding });
             }, 30);
           } else {
@@ -551,7 +568,7 @@ export default {
         setTimeout(() => {
           const { bounds } = this.mapDefaults;
           const extent = transformExtent(bounds, 'EPSG:4326',
-            DEFAULT_PROJECTION);
+            map.getView().getProjection());
           const padding = calculatePadding();
           map.getView().fit(extent, { padding });
         }, 500);
