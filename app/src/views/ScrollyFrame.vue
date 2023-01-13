@@ -41,6 +41,8 @@ import iFrameResize from 'iframe-resizer/js/iframeResizer';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
 
+import dashboardToScrolly from '@/helpers/dashboardToScrolly.js';
+
 export default {
   components: {
     GlobalHeader,
@@ -91,41 +93,13 @@ export default {
           }`);
 
 */      
-        const res = await axios.get(`./data/gtif/scrollies/${this.$route.name}.json`);
+        let res = await axios.get(`./data/gtif/scrollies/${this.$route.name}.json`);
 
-        let data = res.data;
-
+        // CACHE INVALIDATION
+        //const r = await axios.get(`./data/gtif/scrollies/gtif-mobility-transition.json`);
 /*
         const { features } = response.data;
-        let data = [];
-        var i = 0;
-
         
-          while (i < features.length) {
-          let current = features[i];
-          let next = features[i + 1];
-
-          if (current.width === 4) {
-            if (current.text.includes('<--SCRUB-->')) {
-              data.push(this.buildVideoScrub(current));
-            } else if (current.text.includes('<--VID-->')) {
-              data.push(this.buildVideoPlayer(current));
-            } else {
-              data.push([current]);
-            }
-
-            i += 1;
-            continue;
-          } else if (current.width === 1 && next) {
-            data.push(this.buildStickyRight(current, next, i));
-            i += 2;
-          } else if (current.width === 3 && next) {
-            data.push(this.buildStickyLeft(current, next, i));
-            i += 2;
-          } else {
-            i += 1;
-          }
-        }
 
         // This is here so I can extract the converted JSON out of the dashboards
         this.data = data;
@@ -155,7 +129,7 @@ export default {
         iframe.contentWindow.postMessage(
           {
             type: 'items',
-            data,
+            data: res.data,
           },
           '*'
         );
@@ -224,46 +198,6 @@ export default {
         default:
           this.areBreadcrumbsEnabled = false;
       }
-    },
-
-    buildStickyRight (current, next) {
-      if (next.text && next.text.includes('<--IMG-->')) {
-        next.image = next.text.replaceAll('<--IMG-->', '');
-      } else if (next.text && next.text.includes('<--SCRUB-->')) {
-        next.scrub = next.text.replaceAll('<--SCRUB-->', '');
-      } else if (next.text && next.text.includes('<--VID-->')) {
-        next.video = next.text.replaceAll('<--VID-->', '');
-      }
-
-      return [current, next];
-    },
-
-    buildStickyLeft (current, next) {
-      if (current.text && current.text.includes('<--IMG-->')) {
-        current.image = current.text.replaceAll('<--IMG-->', '');
-      } else if (current.text && current.text.includes('<--SCRUB-->')) {
-        current.scrub = current.text.replaceAll('<--SCRUB-->', '');
-      } else if (current.text && current.text.includes('<--VID-->')) {
-        current.video = current.text.replaceAll('<--VID-->', '');
-      }
-
-      return [current, next];
-    },
-
-    buildVideoScrub (current) {
-      if (current.text && current.text.includes('<--SCRUB-->')) {
-        current.scrub = current.text.replaceAll('<--SCRUB-->', '');
-      }
-
-      return [current];
-    },
-
-    buildVideoPlayer (current) {
-      if (current.text && current.text.includes('<--VID-->')) {
-        current.video = current.text.replaceAll('<--VID-->', '');
-      }
-
-      return [current];
     },
   },
 };
