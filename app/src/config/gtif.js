@@ -34,10 +34,33 @@ function clamp(value, low, high) {
 }
 
 // We statically define some colormaps to not instanciate them for every call
-const blackbody64 = colormap({
-  colormap: 'blackbody',
-  nshades: 64,
-});
+/*
+const blackbody64 = {
+  steps: 128,
+  colors: colormap({
+    colormap: 'blackbody',
+    nshades: 128,
+  }),
+};
+*/
+
+const stp = 1 / 7;
+const grywrd = {
+  steps: 128,
+  colors: colormap({
+    colormap: [
+      { index: 0, rgb: [0, 83, 30] },
+      { index: stp * 1, rgb: [195, 229, 86] },
+      { index: stp * 2, rgb: [255, 221, 86] },
+      { index: stp * 3, rgb: [246, 119, 88] },
+      { index: stp * 4, rgb: [255, 151, 63] },
+      { index: stp * 5, rgb: [255, 99, 49] },
+      { index: stp * 6, rgb: [213, 0, 31] },
+      { index: stp * 7, rgb: [99, 0, 13] },
+    ],
+    nshades: 128,
+  }),
+};
 
 function normalize(value, varMin, varMax) {
   return ['/', ['-', value, ['var', varMin]], ['-', ['var', varMax], ['var', varMin]]];
@@ -618,9 +641,10 @@ export const globalIndicators = [
               if (id in store.state.indicators.selectedIndicator.mapData) {
                 const value = store.state.indicators.selectedIndicator.mapData[id].pm10;
                 const min = 0;
-                const max = 10;
+                const max = 35;
                 const f = clamp((value - min) / (max - min), 0, 1);
-                color = blackbody64[Math.round(f * (64 - 1))];
+                // color = blackbody64[Math.round(f * (64 - 1))];
+                color = grywrd.colors[Math.round(f * (grywrd.steps - 1))];
               }
             }
             return color;
