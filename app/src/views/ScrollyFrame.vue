@@ -66,9 +66,8 @@ export default {
   async mounted() {
     this.setBreadcrumbsEnabled();
 
-    const footerRes = await axios.get('./scrollytelling/bottom.json');
-    this.footer = footerRes.data;
-
+    let footer = await axios.get('./scrollytelling/bottom.json');
+    this.footer = footer.data;
 
     window.onmessage = (e) => {
       // Check if we got a navigation request from the iframe.
@@ -81,50 +80,16 @@ export default {
   methods: {
     async onLoaded() {
       try {
-/*
-        const id = this.getDashboardID();
-
-        const response = await axios
-          .get(`https://${process.env.NODE_ENV !== 'production'
-            ? 'dev-'
-            : ''}eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/get?id=${
-            id || '9dd9f2b6743c9746' // fallback default TODO remove
-            // /dashboard?id=9dd9f2b6743c9746&editKey=0017ee8a3e16f9b8
-          }`);
-
-*/      
         let res = await axios.get(`./data/gtif/scrollies/${this.$route.name}.json`);
-
-        // CACHE INVALIDATION
-        //const r = await axios.get(`./data/gtif/scrollies/gtif-mobility-transition.json`);
-/*
-        const { features } = response.data;
-        
-
-        // This is here so I can extract the converted JSON out of the dashboards
-        this.data = data;
-
-        */
-
-        let link = document.createElement('link');
-
-        /*
-        TODO: find a way to use SCSS for dedicated iframe styles
-          const gtifScss = require(`../../public/css/gtif.scss`);
-          console.log(gtifScss);
-        */
-        link.href = '../css/gtif-scrolly.css';
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        document.getElementById('resizableIframe').contentDocument.head.appendChild(link);
 
         // --------------------------------
         // IMPORTANT, DO NOT REMOVE!
         // Cache Invalidation Call
-        const justForSideEffects = await axios.get('./scrollytelling/index.html');
+        const justForSideEffects = await axios.get('./data/gtif/scrollies/landing.json');
         // ---------------------------------------------------^
 
         const iframe = document.querySelector('iframe');
+        this.linkStyle('../css/gtif-scrolly.css');
 
         iframe.contentWindow.postMessage(
           {
@@ -141,6 +106,23 @@ export default {
         console.error(`Error loading dashboard data: ${error}`);
       }
     },
+    /**
+     * Add the CSS styles from a given path to the iframe.
+     *
+     * @param {string} path - The path of the style to be applied.
+     */
+    linkStyle(path) {
+      /*
+        TODO: find a way to use SCSS for dedicated iframe styles
+        const gtifScss = require(`../../public/css/gtif.scss`);
+        console.log(gtifScss);
+      */
+      let link = document.createElement('link');
+      link.href = path;
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      document.getElementById('resizableIframe').contentDocument.head.appendChild(link);
+    },
     onResize() {
       iFrameResize({
         // log: true,
@@ -154,36 +136,6 @@ export default {
         //       - 48,
       }, '#resizableIframe');
     },
-/*
-    getDashboardID() {
-      switch (this.$route.name) {
-        case 'landing':
-          return '7828358850802a35';
-
-        case 'gtif-energy-transition':
-          return 'd2087a2c9256ff3a';
-
-        case 'gtif-mobility-transition':
-          return '784f3e1ba71aef26';
-
-        case 'gtif-social-mobility':
-          return 'ac7d1b288e92217a';
-
-        case 'gtif-sustainable-transition':
-          return '000c2eb018897d82';
-
-        case 'gtif-carbon-finance':
-          return 'a5a6e77d28a4f541';
-
-        case 'gtif-eo-adaptation':
-          return '844374958b90378b';
-
-        // Fallback value
-        default:
-          return '50826821d453dfd5';
-      }
-    },
-*/
     setBreadcrumbsEnabled() {
       switch (this.$route.name) {
         case 'gtif-energy-transition':
