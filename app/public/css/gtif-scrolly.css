@@ -23,6 +23,7 @@
 .expansible-text-section > p, div {
   /*padding-top: 70px;
   padding-bottom: 70px;*/
+  font-size: 1.4rem;
 }
 
 .expansible-text-section > div {
