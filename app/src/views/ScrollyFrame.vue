@@ -93,24 +93,11 @@ export default {
         const justForSideEffects = await axios.get('./scrollytelling/index.html');
         // ---------------------------------------------------^
 
-        const iframe = document.querySelector('iframe');
         this.linkStyle('../css/gtif-scrolly.css');
+        this.setScrollyStory(res.data);
+        this.setComponentHook('beforeFooter', this.bottomNav);
+        this.setComponentHook('footer',       this.footer);
 
-        iframe.contentWindow.postMessage(
-          {
-            type: 'items',
-            data: res.data,
-          },
-          '*'
-        );
-        iframe.contentWindow.postMessage({
-          type: 'hook:beforeFooter',
-          data: this.bottomNav,
-        }, '*');
-        iframe.contentWindow.postMessage({
-          type: 'hook:footer',
-          data: this.footer,
-        }, '*');
       } catch (error) {
         console.error(`Error loading dashboard data: ${error}`);
       }
@@ -131,6 +118,31 @@ export default {
       link.rel = 'stylesheet';
       link.type = 'text/css';
       document.getElementById('resizableIframe').contentDocument.head.appendChild(link);
+    },
+    /**
+     * Send an `items` message to the iframe, which sets the content of the scrolly story.
+     *
+     * @param {string} items - The array of entries in scrollytelling format.
+     */
+    setScrollyStory(items) {
+      document.querySelector('#resizableIframe').contentWindow.postMessage(
+        {
+          type: 'items',
+          data: items,
+        },
+        '*'
+      );
+    },
+    /**
+     * Send a `hook:...` message, injecting a JSON component into a specific location.
+     *
+     * @param {string} path - The path of the style to be applied.
+     */
+    setComponentHook(hookName, jsonComponent) {
+      document.querySelector('#resizableIframe').contentWindow.postMessage({
+        type: `hook:${hookName}`,
+        data: jsonComponent,
+      }, '*');
     },
     onResize() {
       iFrameResize({
