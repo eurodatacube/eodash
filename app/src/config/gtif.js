@@ -616,7 +616,7 @@ export const globalIndicators = [
               && store.state.indicators.selectedIndicator.mapData) {
               const id = aqmapping[feature.id_];
               if (id in store.state.indicators.selectedIndicator.mapData) {
-                const value = store.state.indicators.selectedIndicator.mapData[id].mean;
+                const value = store.state.indicators.selectedIndicator.mapData[id].pm10;
                 const min = 0;
                 const max = 10;
                 const f = clamp((value - min) / (max - min), 0, 1);
@@ -626,6 +626,7 @@ export const globalIndicators = [
             return color;
           },
           selectedQueryItem: 'NO2',
+          selectedTime: '2022-10-12',
           id: 'air_quality_AT',
           name: 'Air Quality',
           minZoom: 1,

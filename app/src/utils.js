@@ -66,18 +66,23 @@ export function template(templateRe, str, data) {
   });
 }
 
+export async function loadIndicatorExternalData(time/*, indicator*/) {
+  // TODO: create query to geodb for now test url to test concept of loading data here
+  const geodbUrl = 'https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_air_quality?';
+  const url = `${geodbUrl}time=eq.${time}&select=pm10,pm25,ihr,id_3`;
+  const data = await fetch(url)
+    .then((response) => response.json())
+    .catch((error) => console.log(error));
+  // convert to object
+  const dataObject = {};
+  data.forEach((entry) => {
+    dataObject[entry.id_3] = { ...entry };
+  });
+  return dataObject;
+}
+
 export async function loadIndicatorData(baseConfig, payload) {
   let indicatorObject;
-  if ('queryParameters' in payload) {
-    // TODO: create query to geodb for now test url to test concept of loading data here
-    const url = 'data/gtif/data/air_quality/raw_aq_example.json';
-    const data = await fetch(url)
-      .then((response) => response.json())
-      .catch((error) => console.log(error));
-    console.log('Fetching map data');
-    indicatorObject = payload;
-    indicatorObject.mapData = data;
-  }
   // Check if data was already loaded
   if (Object.prototype.hasOwnProperty.call(payload, 'dataLoadFinished')
     && payload.dataLoadFinished) {

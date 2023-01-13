@@ -218,23 +218,15 @@ export function createLayerFromConfig(config, map, _options = {}) {
     createWMTSSourceFromCapabilities(config, WMTSLayer);
   }
   if (config.protocol === 'geoserverTileLayer') {
-    const simpleStyle = new Style({
+    const style = new Style({
       fill: new Fill({
-        color: '#ADD8E6',
-      }),
-      stroke: new Stroke({
-        color: '#880000',
-        width: 1,
+        color: 'rgba(255, 255, 255, 0.0)', //config.getColor(feature, store),
       }),
     });
-    const dynamicStyleFunction = (feature) => (new Style({
-      fill: new Fill({
-        color: config.getColor(feature, store),
-      }),
-      stroke: new Stroke({
-        color: 'rgba(255,255,255,0.8)',
-      }),
-    }));
+    const dynamicStyleFunction = (feature) => {
+      style.getFill().setColor(config.getColor(feature, store));
+      return style;
+    };
     // const simpleStyleFunction = () => simpleStyle;
     const geoserverUrl = 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/gwc/service/tms/1.0.0/';
     const projString = '3857';

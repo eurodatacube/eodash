@@ -174,6 +174,7 @@ import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 import AdminBordersLayers from '@/components/map/AdminBordersLayers.vue';
 import Link from 'ol/interaction/Link';
 import {
+  loadIndicatorExternalData,
   calculatePadding,
   getIndicatorFilteredInputData,
 } from '@/utils';
@@ -486,20 +487,32 @@ export default {
     },
     dataLayerTime(timeObj) {
       if (timeObj) {
-        // Fetch correct data and make it available for rendering
-        // TODO:
-        // redraw all time-dependant layers, if time is passed via WMS params
         const { map } = getMapInstance(this.mapId);
-        const area = this.drawnArea;
-        const layers = map.getLayers().getArray();
-        this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
-          .forEach((config) => {
-            const layer = layers.find((l) => l.get('name') === config.name);
-            if (layer) {
-              updateTimeLayer(layer, config, timeObj.value, area);
-            }
+        if (this.indicator && 'queryParameters' in this.indicator) {
+          // re-load indicator data for indicators where the rendering is based on external data
+          loadIndicatorExternalData(
+            timeObj.value,
+          ).then((data) => {
+            this.$store.state.indicators.selectedIndicator.mapData = data;
+            const currLayer = map.getAllLayers().find((l) => l.get('id') === this.indicator.display.id);
+            // TODO: is there a more efficient way of refreshing the layer
+            // without refetching the data?
+            currLayer.getSource().refresh();
           });
-        this.$emit('update:datalayertime', timeObj.name);
+        } else {
+          // TODO:
+          // redraw all time-dependant layers, if time is passed via WMS params
+          const area = this.drawnArea;
+          const layers = map.getLayers().getArray();
+          this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
+            .forEach((config) => {
+              const layer = layers.find((l) => l.get('name') === config.name);
+              if (layer) {
+                updateTimeLayer(layer, config, timeObj.value, area);
+              }
+            });
+          this.$emit('update:datalayertime', timeObj.name);
+        }
       }
     },
     enableCompare(enabled) {
