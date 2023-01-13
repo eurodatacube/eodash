@@ -90,7 +90,7 @@ export default {
         // --------------------------------
         // IMPORTANT, DO NOT REMOVE!
         // Cache Invalidation Call
-        const justForSideEffects = await axios.get('./scrollytelling/index.html');
+        const justForSideEffects = await axios.get('./css/gtif-scrolly.css');
         // ---------------------------------------------------^
 
         this.linkStyle('../css/gtif-scrolly.css');
