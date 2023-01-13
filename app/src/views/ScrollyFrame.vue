@@ -57,6 +57,8 @@ export default {
   data() {
     return {
       areBreadcrumbsEnabled: false,
+      footer: null,
+      bottomNav: null,
       data: [],
     };
   },
@@ -66,7 +68,10 @@ export default {
   async mounted() {
     this.setBreadcrumbsEnabled();
 
-    let footer = await axios.get('./scrollytelling/bottom.json');
+    let bottom = await axios.get('./scrollytelling/bottom.json');
+    this.bottomNav = bottom.data;
+
+    let footer = await axios.get('./scrollytelling/footer.json');
     this.footer = footer.data;
 
     window.onmessage = (e) => {
@@ -85,7 +90,7 @@ export default {
         // --------------------------------
         // IMPORTANT, DO NOT REMOVE!
         // Cache Invalidation Call
-        const justForSideEffects = await axios.get('./data/gtif/scrollies/landing.json');
+        const justForSideEffects = await axios.get('./scrollytelling/index.html');
         // ---------------------------------------------------^
 
         const iframe = document.querySelector('iframe');
@@ -99,7 +104,11 @@ export default {
           '*'
         );
         iframe.contentWindow.postMessage({
-          type: 'footer',
+          type: 'hook:beforeFooter',
+          data: this.bottomNav,
+        }, '*');
+        iframe.contentWindow.postMessage({
+          type: 'hook:footer',
           data: this.footer,
         }, '*');
       } catch (error) {
