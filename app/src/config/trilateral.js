@@ -452,6 +452,11 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     disableTimeSelection: true,
   },
+  ADD: {
+    indicatorSummary: 'Antarctic meltmap',
+    themes: ['cryosphere'],
+    story: '/eodash-data/stories/ADD',
+  },
   d: { // dummy for locations without Indicator code
     indicatorSummary: 'Upcoming data',
     themes: ['atmosphere', 'agriculture', 'biomass', 'economy', 'oceans', 'cryosphere', 'covid-19'],
@@ -3996,6 +4001,64 @@ export const globalIndicators = [
         aoiID: 'World',
         time: getYearlyDates('2017-01-01', '2020-01-01'),
         inputData: ['palsarFNF2017', 'palsarFNF2018', 'palsarFNF2019', 'palsarFNF2020'],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        id: 19678,
+        aoi: latLng([-75, -101]),
+        aoiID: 'meltmap',
+        country: 'all',
+        city: 'Antarctica',
+        siteName: null,
+        description: 'Antarctica Meltmap',
+        indicator: 'ADD',
+        lastIndicatorValue: null,
+        indicatorName: 'Antarctica Meltmap',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: availableDates.VIS_ANTARTICA_MELTMAP,
+        inputData: [''],
+        display: {
+          legendUrl: 'legends/esa/meltmap.png',
+          attribution: '{ Gerrish, L., Fretwell, P., & Cooper, P. (2022). Medium resolution vector polylines of the Antarctic coastline (7.6) [Data set]. UK Polar Data Centre, Natural Environment Research Council, UK Research & Innovation. https://doi.org/10.5285/1db7f188-6c3e-46cf-a3bf-e39dbd77e14c }',
+          mapProjection: {
+            name: 'EPSG:3031',
+            def: '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+            extent: [-3299207.53, -3333134.03, 3299207.53, 3333134.03],
+          },
+          combinedLayers: [
+            {
+              name: 'Antarctic coastline',
+              baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
+              projection: 'EPSG:3031',
+              layers: 'add:antarctic_coastline_line_medium',
+              minZoom: 2,
+              maxZoom: 18,
+            }, {
+              baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+              name: 'Antarctic meltmap',
+              layers: 'VIS_ANTARTICA_MELTMAP',
+              projection: 'EPSG:3031',
+              minZoom: 2,
+              maxZoom: 18,
+            },
+          ],
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-75 -63,-40 -63,-40 -80,-75 -80,-75 -63))').toJson(),
+            }],
+          },
+        },
       },
     },
   },

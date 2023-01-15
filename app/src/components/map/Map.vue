@@ -303,6 +303,7 @@ export default {
         configs.push({
           name: 'Country vectors',
           protocol: 'countries',
+          projection: 'EPSG:4326',
           visible: true,
         });
       }
