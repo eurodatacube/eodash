@@ -495,9 +495,7 @@ export default {
           ).then((data) => {
             this.$store.state.indicators.selectedIndicator.mapData = data;
             const currLayer = map.getAllLayers().find((l) => l.get('id') === this.indicator.display.id);
-            // TODO: is there a more efficient way of refreshing the layer
-            // without refetching the data?
-            currLayer.getSource().refresh();
+            currLayer.changed();
           });
         } else {
           // TODO:
