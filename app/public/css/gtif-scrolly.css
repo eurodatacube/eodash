@@ -49,6 +49,10 @@ article {
   padding: 0 !important;
 }
 
+h1, h2, h3, h4 {
+  font-family: "NotesESABold", sans-serif;
+}
+
 .brand-esa h1,
 .brand-esa h2,
 .brand-esa h3,
