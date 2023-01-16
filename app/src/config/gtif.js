@@ -605,18 +605,27 @@ export const globalIndicators = [
           collection: 'air_quality_AT',
           items: [
             {
-              id: 'NO2',
-              description: 'Nitrogen Dioxide',
+              id: 'ihr',
+              description: 'Increased health risk',
+              min: 1,
+              max: 7,
+              colormapUsed: grywrd,
               markdown: 'AQ_NO2',
             },
             {
-              id: 'PM10',
+              id: 'pm10',
               description: 'Particulate Matter < 10µm',
+              min: 0,
+              max: 35,
+              colormapUsed: grywrd,
               markdown: 'AQ_PM10',
             },
             {
-              id: 'PM25',
+              id: 'pm25',
               description: 'Particulate Matter < 2.5µm',
+              min: 0,
+              max: 35,
+              colormapUsed: grywrd,
               markdown: 'AQ_PM25',
             },
           ],
@@ -639,17 +648,19 @@ export const globalIndicators = [
               && store.state.indicators.selectedIndicator.mapData) {
               const id = aqmapping[feature.id_];
               if (id in store.state.indicators.selectedIndicator.mapData) {
-                const value = store.state.indicators.selectedIndicator.mapData[id].pm10;
-                const min = 0;
-                const max = 35;
+                const ind = store.state.indicators.selectedIndicator;
+                const value = ind.mapData[id][ind.display.selectedQueryItem];
+                const { min, max, colormapUsed } = ind.display;
                 const f = clamp((value - min) / (max - min), 0, 1);
-                // color = blackbody64[Math.round(f * (64 - 1))];
-                color = grywrd.colors[Math.round(f * (grywrd.steps - 1))];
+                color = colormapUsed.colors[Math.round(f * (grywrd.steps - 1))];
               }
             }
             return color;
           },
-          selectedQueryItem: 'NO2',
+          selectedQueryItem: 'ihr',
+          min: 1,
+          max: 7,
+          colormapUsed: grywrd,
           selectedTime: '2022-10-12',
           id: 'air_quality_AT',
           name: 'Air Quality',
