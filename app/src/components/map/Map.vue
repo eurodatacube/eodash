@@ -26,6 +26,7 @@
       :options="specialLayerOptions"
       :key="dataLayerKey  + '_specialLayer'"
       :swipePixelX="swipePixelX"
+      :resetProjectionOnDestroy='true'
     />
     <!-- compare layer has same zIndex as specialLayer -->
     <div
