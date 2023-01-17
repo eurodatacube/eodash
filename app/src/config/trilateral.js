@@ -455,7 +455,22 @@ export const indicatorsDefinition = Object.freeze({
   ADD: {
     indicatorSummary: 'Antarctic meltmap',
     themes: ['cryosphere'],
-    story: '/eodash-data/stories/ADD',
+    story: '/data/trilateral/ADD',
+  },
+  PRCTS: {
+    indicatorSummary: 'Precipitation anomaly',
+    themes: ['agriculture'],
+    story: '/data/trilateral/PRCTS',
+  },
+  SMCTS: {
+    indicatorSummary: 'Soil Moisture Contains anomaly',
+    themes: ['agriculture'],
+    story: '/data/trilateral/SMCTS',
+  },
+  VITS: {
+    indicatorSummary: 'Vegetation Index',
+    themes: ['agriculture'],
+    story: '/data/trilateral/VITS',
   },
   d: { // dummy for locations without Indicator code
     indicatorSummary: 'Upcoming data',
