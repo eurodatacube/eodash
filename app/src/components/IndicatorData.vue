@@ -108,7 +108,7 @@ export default {
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
         'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1', 'C2', 'C3', 'E13n',
-        'E12c', 'E12d',
+        'E12c', 'E12d', 'E1b',
         // Year group comparison
         'E10a1', 'E10a5', 'N2',
       ],

@@ -87,6 +87,15 @@ export const indicatorsDefinition = Object.freeze({
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
   },
+  E1b: {
+    indicatorSummary: 'Vessel density',
+    themes: ['economy'],
+    story: '/eodash-data/stories/E1b',
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+    },
+  },
   E2: {
     indicatorSummary: 'Volume of oil stockpiled (Archived)',
     themes: ['economy'],
