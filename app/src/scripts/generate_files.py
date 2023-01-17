@@ -134,6 +134,7 @@ BYOD_COLLECTIONS = [
     "ESA-CCI-V2-ENVISAT",
     "AWS_CH4_WEEKLY",
     "VIS_ANTARTICA_MELTMAP",
+    "TEST_VIS_VESSEL_DENSITY_CIMBELLI_TEST5",
 ]
 
 ZARRCOLLECTIONS = [
@@ -806,5 +807,6 @@ generateData(
         ['N3', ''],
         ['N1', ''],
         ['E200', ''],
+        ['Sentinel_1_Vessel_Density_Europe', '']
     ]
 )

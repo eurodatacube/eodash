@@ -1,0 +1,16 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/04 17:41:45", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.66126, 52.57817 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/04 17:41:45", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.67489, 52.52768 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/04 17:41:45", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.94549, 52.42764 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/04 17:41:45", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.97266, 52.47162 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/04 17:41:45", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.97791, 52.58979 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/04 17:41:45", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 3.04961, 52.51170 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/04 17:41:45", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 3.05572, 52.45167 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/04 17:41:45", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 3.10272, 52.41650 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/04 17:41:45", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 3.12056, 52.43010 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/04 17:41:45", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 3.25188, 52.60338 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/04 17:41:45", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 3.29340, 52.54060 ] } }
+]
+}
