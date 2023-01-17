@@ -1311,6 +1311,20 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           legendUrl: 'legends/trilateral/SITI-W10.png',
+          mapProjection: {
+            name: 'EPSG:3413',
+            def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+            extent: [-3314693.24, -3314693.24, 3314693.24, 3314693.24],
+          },
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
+            }],
+          },
+          projection: 'EPSG:3857',
           /*
           TODO: Could be activated but globe is used as visualiation in data panel
           customAreaIndicator: true,
@@ -1748,6 +1762,20 @@ export const globalIndicators = [
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
+          mapProjection: {
+            name: 'EPSG:3413',
+            def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+            extent: [-3314693.24, -3314693.24, 3314693.24, 3314693.24],
+          },
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
+            }],
+          },
+          projection: 'EPSG:3413',
           /*
           customAreaIndicator: true,
           areaIndicator: {
@@ -1788,15 +1816,22 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/SITI-W10.png',
           minZoom: 2,
           maxZoom: 13,
+          projection: 'EPSG:3413',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
-          /*
-          customAreaIndicator: true,
-          areaIndicator: {
-            ...shFisAreaIndicatorStdConfig,
-            url: ``,
+          mapProjection: {
+            name: 'EPSG:3413',
+            def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+            extent: [-3314693.24, -3314693.24, 3314693.24, 3314693.24],
           },
-          */
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
+            }],
+          },
         },
       },
     },
@@ -4009,11 +4044,11 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: true,
         id: 19678,
-        aoi: latLng([-75, -101]),
-        aoiID: 'meltmap',
+        aoi: null,
+        aoiID: 'Meltmap',
         country: 'all',
         city: 'Antarctica',
-        siteName: null,
+        siteName: 'global',
         description: 'Antarctica Meltmap',
         indicator: 'ADD',
         lastIndicatorValue: null,
