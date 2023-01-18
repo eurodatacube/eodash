@@ -4075,7 +4075,7 @@ export const globalIndicators = [
         time: availableDates.VIS_ANTARTICA_MELTMAP,
         inputData: [''],
         display: {
-          legendUrl: 'legends/esa/meltmap.png',
+          legendUrl: 'legends/trilateral/VIS_ANTARTICA_MELTMAP.png',
           attribution: '{ Gerrish, L., Fretwell, P., & Cooper, P. (2022). Medium resolution vector polylines of the Antarctic coastline (7.6) [Data set]. UK Polar Data Centre, Natural Environment Research Council, UK Research & Innovation. https://doi.org/10.5285/1db7f188-6c3e-46cf-a3bf-e39dbd77e14c }',
           mapProjection: {
             name: 'EPSG:3031',

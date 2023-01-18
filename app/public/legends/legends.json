@@ -110,13 +110,6 @@
             "label": "Average count of trucks",
             "ticks": [1,2,3,4,5],
             "tickLabels": [0,5,20,50,90]
-        },
-        "meltmap": {
-            "range": [0, 3],
-            "cm": [[0, [175,171,171]], [1, [180,199,231]], [2, [102,162,216]],[3, [255,243,204]]],
-            "label": "Ice melting",
-            "ticks": [0, 1, 2, 3],
-            "tickLabels": []
         }
     },
     "trilateral": {
@@ -312,6 +305,14 @@
             "cm": [[1, [255,255,255]],[2, [255,255, 255]],[3,[39,39,213]],[4,[0, 179, 48]],[5,[28,203,154]],[6,[255,224,28]],[7,[255,81,0]],[8,[177,6,0]]],
             "ticks": [1, 2, 3, 4, 5, 6, 7, 8],
             "tickLabels": ["NaN", -1, 0, 10, 20, 30, 40, 50]
+        },
+        "VIS_ANTARTICA_MELTMAP": {
+            "range": [0, 3],
+            "cm": ["#ffffff","#FFF3CC","#B4C7E7","#66A2D8"],
+            "label": "Ice melting status",
+            "ticks": [0, 1, 2, 3],
+            "tickLabels": ["no melt l.", "surface melt l.", "wet snow l.", "new top frozen l."],
+            "discrete": true
         }
     },
     "gtif": {
