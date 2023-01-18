@@ -169,6 +169,7 @@ async function createWMTSSourceFromCapabilities(config, layer) {
  * @param {*} [opt_options.indicator=undefined] optional indicator. (e.g. "E13b")
  * @param {*} [opt_options.aoiID=undefined] optional aoiID.
  * @param {*} [opt_options.drawnArea=undefined] optional drawnArea object.
+ * @param {*} [opt_options.dataProp=undefined] optional dataProp string to set data to render.
  * if not set, time will be retrieved from the store
  * @returns {Group} returns ol layer
  */
@@ -220,11 +221,11 @@ export function createLayerFromConfig(config, map, _options = {}) {
   if (config.protocol === 'geoserverTileLayer') {
     const style = new Style({
       fill: new Fill({
-        color: 'rgba(255, 255, 255, 0.0)', //config.getColor(feature, store),
+        color: 'rgba(255, 255, 255, 0.0)',
       }),
     });
     const dynamicStyleFunction = (feature) => {
-      style.getFill().setColor(config.getColor(feature, store));
+      style.getFill().setColor(config.getColor(feature, store, options));
       return style;
     };
     // const simpleStyleFunction = () => simpleStyle;

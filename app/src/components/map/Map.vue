@@ -514,7 +514,18 @@ export default {
       }
     },
     enableCompare(enabled) {
-      this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);
+      // Make sure compare data is loaded if required
+      if (this.indicator && 'queryParameters' in this.indicator) {
+        // TODO: Currently using first time entry as default, pretty sure we need more logic here
+        loadIndicatorExternalData(
+          this.indicator.time[0],
+        ).then((data) => {
+          this.$store.state.indicators.selectedIndicator.compareMapData = data;
+          this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);
+        });
+      } else {
+        this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);
+      }
     },
     compareLayerTime(timeObj) {
       this.$emit('update:comparelayertime', this.enableCompare ? timeObj.name : null);

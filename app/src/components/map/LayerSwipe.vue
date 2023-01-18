@@ -31,6 +31,7 @@ import { getMapInstance } from '@/components/map/map';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import { updateTimeLayer } from '@/components/map/timeLayerUtils';
 import LayerGroup from 'ol/layer/Group';
+import { loadIndicatorExternalData } from '@/utils';
 
 export default {
   name: 'MapLayerSwipe',
@@ -65,6 +66,7 @@ export default {
     specialLayerOptions() {
       const options = { ...this.specialLayerOptionProps };
       options.time = this.time;
+      options.dataProp = 'compareMapData'; // Used to modify which data source location to use
       return options;
     },
   },
@@ -113,7 +115,14 @@ export default {
       // redraw all time-dependant layers, if time is passed via WMS params
       const { map } = getMapInstance(this.mapId);
       const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
-      if (swipeLayer) {
+      if (this.mergedConfigsData.protocol === 'geoserverTileLayer' && swipeLayer) {
+        loadIndicatorExternalData(
+          time,
+        ).then((data) => {
+          this.$store.state.indicators.selectedIndicator.compareMapData = data;
+          swipeLayer.getLayersArray()[0].changed();
+        });
+      } else if (swipeLayer) {
         updateTimeLayer(swipeLayer, this.mergedConfigsData, time, this.drawnArea);
       }
     },

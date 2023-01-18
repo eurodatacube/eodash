@@ -641,15 +641,15 @@ export const globalIndicators = [
           },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
-          getColor: (feature, store) => {
+          getColor: (feature, store, options) => {
             let color = '#00000000';
-            if (
-              store.state.indicators.selectedIndicator
-              && store.state.indicators.selectedIndicator.mapData) {
+            const dataSource = options.dataProp ? options.dataProp : 'mapData';
+            if (store.state.indicators.selectedIndicator
+                && store.state.indicators.selectedIndicator[dataSource]) {
               const id = aqmapping[feature.id_];
-              if (id in store.state.indicators.selectedIndicator.mapData) {
-                const ind = store.state.indicators.selectedIndicator;
-                const value = ind.mapData[id][ind.display.selectedQueryItem];
+              const ind = store.state.indicators.selectedIndicator;
+              if (id in store.state.indicators.selectedIndicator[dataSource]) {
+                const value = ind[dataSource][id][ind.display.selectedQueryItem];
                 const { min, max, colormapUsed } = ind.display;
                 const f = clamp((value - min) / (max - min), 0, 1);
                 color = colormapUsed.colors[Math.round(f * (grywrd.steps - 1))];
