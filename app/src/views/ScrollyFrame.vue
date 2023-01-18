@@ -59,6 +59,7 @@ export default {
       areBreadcrumbsEnabled: false,
       footer: null,
       bottomNav: null,
+      header: null,
       data: [],
     };
   },
@@ -68,11 +69,14 @@ export default {
   async mounted() {
     this.setBreadcrumbsEnabled();
 
+    let footer = await axios.get('./data/gtif/components/footer.json');
+    this.footer = footer.data;
+
     let bottom = await axios.get('./data/gtif/components/bottom.json');
     this.bottomNav = bottom.data;
 
-    let footer = await axios.get('./data/gtif/components/footer.json');
-    this.footer = footer.data;
+    let header = await axios.get('./data/gtif/components/header.json');
+    this.header = header.data;
 
     window.onmessage = (e) => {
       // Check if we got a navigation request from the iframe.
@@ -90,13 +94,16 @@ export default {
         // --------------------------------
         // IMPORTANT, DO NOT REMOVE!
         // Cache Invalidation Call
-        const justForSideEffects = await axios.get('./css/gtif-scrolly.css');
+        const justForSideEffects = await axios.get('./data/gtif/components/header.json');
+        const justForSideEffect = await axios.get('./scrollytelling/index.html');
         // ---------------------------------------------------^
 
         this.linkStyle('../css/gtif-scrolly.css');
         this.setScrollyStory(res.data);
+
         this.setComponentHook('beforeFooter', this.bottomNav);
         this.setComponentHook('footer',       this.footer);
+        this.setComponentHook('header',       this.header);
 
       } catch (error) {
         console.error(`Error loading dashboard data: ${error}`);
