@@ -96,6 +96,11 @@ export const indicatorsDefinition = Object.freeze({
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
   },
+  E1b2: {
+    indicatorSummary: 'Vessel density monthly maps',
+    themes: ['economy'],
+    story: '/eodash-data/stories/E1b',
+  },
   E2: {
     indicatorSummary: 'Volume of oil stockpiled (Archived)',
     themes: ['economy'],
@@ -2172,6 +2177,45 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         display: {
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Vessel density monthly maps',
+        indicator: 'E1b2',
+        lastIndicatorValue: null,
+        indicatorName: 'Vessel density monthly maps',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        time: availableDates.TEST_VIS_VESSEL_DENSITY_CIMBELLI_TEST5,
+        inputData: [''],
+        yAxis: '',
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Vessel density',
+          layers: 'TEST_VIS_VESSEL_DENSITY_CIMBELLI_TEST5',
+          minZoom: 6,
+          dateFormatFunction: (date) => date,
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((1 55,10 55,10 51,1 51,1 55))').toJson(),
+            }],
+          },
         },
       },
     },
