@@ -32,7 +32,7 @@
 
 <script>
 
-import getMapInstance from '@/components/map/map';
+import { getMapInstance } from '@/components/map/map';
 
 export default {
   name: 'FilterControls',
