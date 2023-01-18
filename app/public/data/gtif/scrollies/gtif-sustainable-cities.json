@@ -96,7 +96,7 @@
     },
     {
       "width":3,
-      "text":"<div id=\"playvideo-container\">\n<video id=\"playvideo\" src=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/Video3.mov\" width=\"600px\"></video>\n<button id=\"playbutton\"></button>\n</div>",
+      "video": "https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/Video3.mov",
       "id":"3/1 vid-1665647063494",
       "title":"3/1 vid"
     }
