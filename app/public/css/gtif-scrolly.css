@@ -12,6 +12,10 @@
   overflow-x: hidden;
 }
 
+.expand-button {
+  cursor: pointer;
+}
+
 .expansible-text-section {
   padding: 0 !important;
 }
@@ -42,7 +46,7 @@ article {
 }
 
 .expansible-text-section p {
-  margin-bottom: 0 !important;
+  margin-bottom: 60px !important;
 }
 
 .full-text-block {
