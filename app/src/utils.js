@@ -66,7 +66,7 @@ export function template(templateRe, str, data) {
   });
 }
 
-export async function loadIndicatorExternalData(time/*, indicator*/) {
+export async function loadIndicatorExternalData(time/* , indicator */) {
   // TODO: create query to geodb for now test url to test concept of loading data here
   const geodbUrl = 'https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_air_quality?';
   const url = `${geodbUrl}time=eq.${time}&select=pm10,pm25,ihr,id_3`;
