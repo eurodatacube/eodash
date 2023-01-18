@@ -45,7 +45,6 @@
         </StyleControls>
         <vector-tile-style-control v-if="indicatorObject.queryParameters"
           :queryParameters="indicatorObject.queryParameters"
-          :display="indicatorObject.display"
         >
         </vector-tile-style-control>
         <wms-style-controls v-if="indicatorObject.wmsStyles"

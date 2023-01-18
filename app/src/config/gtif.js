@@ -602,7 +602,8 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         queryParameters: {
-          collection: 'air_quality_AT',
+          sourceLayer: 'air_quality_AT',
+          selected: 'ihr',
           items: [
             {
               id: 'ihr',
@@ -648,20 +649,17 @@ export const globalIndicators = [
                 && store.state.indicators.selectedIndicator[dataSource]) {
               const id = aqmapping[feature.id_];
               const ind = store.state.indicators.selectedIndicator;
-              if (id in store.state.indicators.selectedIndicator[dataSource]) {
-                const value = ind[dataSource][id][ind.display.selectedQueryItem];
-                const { min, max, colormapUsed } = ind.display;
+              const currPar = ind.queryParameters.items
+                .find((item) => item.id === ind.queryParameters.selected);
+              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                const value = ind[dataSource][id][currPar.id];
+                const { min, max, colormapUsed } = currPar;
                 const f = clamp((value - min) / (max - min), 0, 1);
                 color = colormapUsed.colors[Math.round(f * (grywrd.steps - 1))];
               }
             }
             return color;
           },
-          selectedQueryItem: 'ihr',
-          min: 1,
-          max: 7,
-          colormapUsed: grywrd,
-          selectedTime: '2022-10-12',
           id: 'air_quality_AT',
           name: 'Air Quality',
           minZoom: 1,

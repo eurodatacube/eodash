@@ -39,7 +39,6 @@ export default {
   components: {},
   props: {
     queryParameters: Object,
-    display: Object,
   },
   data: () => ({
     select: null,
@@ -62,10 +61,7 @@ export default {
   },
   methods: {
     updateMap(evt) {
-      this.display.selectedQueryItem = evt.id;
-      this.display.min = evt.min;
-      this.display.max = evt.max;
-      this.display.colormapUsed = evt.colormapUsed;
+      this.queryParameters.selected = evt.id;
       const { map } = getMapInstance('centerMap');
       const layer = map.getAllLayers().find((l) => l.get('id') === this.queryParameters.sourceLayer);
       layer.changed();
