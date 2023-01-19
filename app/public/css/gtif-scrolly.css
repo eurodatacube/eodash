@@ -30,6 +30,10 @@
   font-size: 1.4rem;
 }
 
+.highlight {
+  font-size: 1.9rem;
+}
+
 .expansible-text-section > div {
   display: flex;
   flex-direction: column;
