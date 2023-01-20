@@ -17,6 +17,8 @@ import {
   shFisAreaIndicatorStdConfig,
 } from '@/helpers/customAreaObjects';
 
+const wkt = new Wkt();
+
 export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [
   {
@@ -662,8 +664,6 @@ export const excludeMapTimes = {
 export const replaceMapTimes = {
   ...E13dMapTimes,
 };
-
-const wkt = new Wkt();
 
 export const globalIndicators = [
   /*
