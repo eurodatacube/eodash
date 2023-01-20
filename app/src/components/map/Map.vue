@@ -491,7 +491,7 @@ export default {
         if (this.indicator && 'queryParameters' in this.indicator) {
           // re-load indicator data for indicators where the rendering is based on external data
           loadIndicatorExternalData(
-            timeObj.value,
+            timeObj.value, this.mergedConfigsData[0],
           ).then((data) => {
             this.$store.state.indicators.selectedIndicator.mapData = data;
             const currLayer = map.getAllLayers().find((l) => l.get('id') === this.indicator.display.id);
@@ -518,7 +518,7 @@ export default {
       if (this.indicator && 'queryParameters' in this.indicator) {
         // TODO: Currently using first time entry as default, pretty sure we need more logic here
         loadIndicatorExternalData(
-          this.indicator.time[0],
+          this.indicator.time[0], this.mergedConfigsData[0],
         ).then((data) => {
           this.$store.state.indicators.selectedIndicator.compareMapData = data;
           this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);

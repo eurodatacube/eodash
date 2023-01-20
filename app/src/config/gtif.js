@@ -3,6 +3,7 @@ import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { DateTime } from 'luxon';
 import colormap from 'colormap';
+import availableDates from '@/config/gtif_dates.json';
 
 import aqmapping from '../../public/data/gtif/data/dict_lau_id.json';
 
@@ -602,7 +603,7 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         queryParameters: {
-          sourceLayer: 'air_quality_AT',
+          sourceLayer: 'air_quality',
           selected: 'ihr',
           items: [
             {
@@ -660,8 +661,10 @@ export const globalIndicators = [
             }
             return color;
           },
-          id: 'air_quality_AT',
+          id: 'air_quality',
           name: 'Air Quality',
+          adminZoneKey: 'id_3',
+          parameters: 'pm10,pm25,ihr,id_3',
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
@@ -881,10 +884,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'Innsbruck',
         siteName: 'global',
-        description: 'Mobility - Innsbruck',
+        description: 'Mobility Data',
         indicator: 'MOBI1',
         lastIndicatorValue: null,
-        indicatorName: 'Mobility - Innsbruck',
+        indicatorName: 'Mobility Data',
         navigationDescription: 'Mobility',
         subAoi: {
           type: 'FeatureCollection',
@@ -893,24 +896,28 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'Innsbruck',
-        time: [],
+        time: availableDates.mobility,
         inputData: [''],
         yAxis: '',
-        cogFilters: {
-          sourceLayer: 'MOBI1',
-        },
-        vectorStyles: {
-          sourceLayer: 'mobility_innsbruck',
+        queryParameters: {
+          sourceLayer: 'mobility',
+          selected: 'users_count',
           items: [
             {
-              id: 'log10_users',
-              description: 'User average - weekend (log10)',
-              markdown: '',
+              id: 'users_count',
+              description: 'Aggregated user count in area',
+              min: 0,
+              max: 500,
+              colormapUsed: grywrd,
+              // markdown: 'AQ_NO2',
             },
             {
-              id: 'users_average',
-              description: 'Users average - weekend',
-              markdown: '',
+              id: 'users_density',
+              description: 'User density in area',
+              min: 0,
+              max: 200,
+              colormapUsed: grywrd,
+              // markdown: 'AQ_PM10',
             },
           ],
         },
@@ -920,15 +927,36 @@ export const globalIndicators = [
             features: [{
               type: 'Feature',
               properties: {},
-              geometry: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
             }],
           },
-          protocol: 'vectortile',
-          styleFile: 'data/gtif/data/mobility_innsbruck.json',
-          selectedStyleLayer: 'log10_users',
-          id: 'mobility_innsbruck',
-          name: '',
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
+          protocol: 'geoserverTileLayer',
+          getColor: (feature, store, options) => {
+            let color = '#00000000';
+            const dataSource = options.dataProp ? options.dataProp : 'mapData';
+            if (store.state.indicators.selectedIndicator
+                && store.state.indicators.selectedIndicator[dataSource]) {
+              const id = feature.id_;
+              const ind = store.state.indicators.selectedIndicator;
+              const currPar = ind.queryParameters.items
+                .find((item) => item.id === ind.queryParameters.selected);
+              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                const value = ind[dataSource][id][currPar.id];
+                const { min, max, colormapUsed } = currPar;
+                const f = clamp((value - min) / (max - min), 0, 1);
+                color = colormapUsed.colors[Math.round(f * (grywrd.steps - 1))];
+              }
+            }
+            return color;
+          },
+          id: 'mobility',
+          adminZoneKey: 'adminzoneid',
+          parameters: 'adminzoneid,users_count,users_density',
+          name: 'Mobility Data',
           minZoom: 1,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          labelFormatFunction: (date) => date,
         },
       },
     },

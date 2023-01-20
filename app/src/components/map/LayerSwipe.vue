@@ -117,7 +117,7 @@ export default {
       const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
       if (this.mergedConfigsData.protocol === 'geoserverTileLayer' && swipeLayer) {
         loadIndicatorExternalData(
-          time,
+          time, this.mergedConfigsData,
         ).then((data) => {
           this.$store.state.indicators.selectedIndicator.compareMapData = data;
           swipeLayer.getLayersArray()[0].changed();
