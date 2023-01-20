@@ -4107,7 +4107,45 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 19678,
+        aoi: null,
+        aoiID: 'S1GRD',
+        country: 'all',
+        city: 'Antarctica',
+        siteName: 'global',
+        description: 'Antarctica Sentinel 1',
+        indicator: 'ADD',
+        lastIndicatorValue: null,
+        indicatorName: 'Antarctica Sentinel 1',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: getDailyDates('2021-01-01', '2022-01-01'),
+        inputData: [''],
+        display: {
+          mapProjection: {
+            name: 'EPSG:3031',
+            def: '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+            extent: [-3299207.53, -3333134.03, 3299207.53, 3333134.03],
+          },
+          projection: 'EPSG:3031',
+          layers: 'E8_SENTINEL1',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-116 -70,-96 -70,-96 -76,-116 -76,-116 -70))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
         aoi: null,
         aoiID: 'Meltmap',
         country: 'all',
