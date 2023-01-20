@@ -226,16 +226,13 @@ export const indicatorsDefinition = Object.freeze({
   E12c: {
     indicatorSummary: 'Number of Trucks',
     themes: ['economy'],
-    customAreaFeatures: true,
     customAreaIndicator: true,
     story: '/eodash-data/stories/E12c',
   },
   E12d: {
     indicatorSummary: 'Number of Trucks',
     themes: ['economy'],
-    customAreaFeatures: true,
     customAreaIndicator: true,
-    disableCompare: true,
     story: '/eodash-data/stories/E12c',
   },
   E13a: {
@@ -1559,7 +1556,7 @@ export const globalIndicators = [
           legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
           minZoom: 1,
           maxZoom: 10,
-          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-01-01')}/${DateTime.fromISO(date).toFormat('yyyy-12-31')}`,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -1567,39 +1564,6 @@ export const globalIndicators = [
               properties: {},
               geometry: wkt.read('POLYGON((5 45,5 50,15 50,15 45,5 45))').toJson(),
             }],
-          },
-          features: {
-            url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
-            requestMethod: 'POST',
-            requestHeaders: {
-              'Content-Type': 'application/json',
-            },
-            requestBody: {
-              collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
-              select: 'sum_observations, ST_AsGeoJSON(geometry, 6) as "geometry", truck_count_normalized',
-              where: 'osm_value=1 AND date_part(\'year\',time)={featuresTime} AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
-              limit: '1000',
-            },
-            dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
-            callbackFunction: (responseJson) => { // geom from wkb to geojson features
-              const ftrs = [];
-              if (Array.isArray(responseJson[0].src)) {
-                responseJson[0].src.forEach((ftr) => {
-                  const { geometry, ...properties } = ftr;
-                  ftrs.push({
-                    type: 'Feature',
-                    properties,
-                    geometry: JSON.parse(geometry),
-                  });
-                });
-              }
-              const ftrColl = {
-                type: 'FeatureCollection',
-                features: ftrs,
-              };
-              return ftrColl;
-            },
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
           areaIndicator: {
             url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
@@ -1626,12 +1590,7 @@ export const globalIndicators = [
                   ? 1
                   : -1));
                 data.forEach((row) => {
-                  let updateDate = row.time;
-                  // temporary workaround until DB gets updated 2020-01-01 - 2020-04-01
-                  if (row.time === '2020-01-01T00:00:00') {
-                    updateDate = '2020-04-01T00:00:00';
-                  }
-                  newData.time.push(DateTime.fromISO(updateDate)); // actual data
+                  newData.time.push(DateTime.fromISO(row.time)); // actual data
                   newData.measurement.push(Math.round(row.sum * 10) / 10); // actual data
                   newData.colorCode.push('BLUE'); // made up data
                   newData.referenceValue.push('0'); // made up data
@@ -1683,7 +1642,7 @@ export const globalIndicators = [
           legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
           minZoom: 1,
           maxZoom: 10,
-          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-01-01')}/${DateTime.fromISO(date).toFormat('yyyy-12-31')}`,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -1691,39 +1650,6 @@ export const globalIndicators = [
               properties: {},
               geometry: wkt.read('POLYGON((5 45,5 50,15 50,15 45,5 45))').toJson(),
             }],
-          },
-          features: {
-            url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
-            requestMethod: 'POST',
-            requestHeaders: {
-              'Content-Type': 'application/json',
-            },
-            requestBody: {
-              collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
-              select: 'sum_observations, ST_AsGeoJSON(geometry, 6) as "geometry", truck_count_normalized',
-              where: 'osm_value=3 AND date_part(\'year\',time)={featuresTime} AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
-              limit: '1000',
-            },
-            dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
-            callbackFunction: (responseJson) => { // geom from wkb to geojson features
-              const ftrs = [];
-              if (Array.isArray(responseJson[0].src)) {
-                responseJson[0].src.forEach((ftr) => {
-                  const { geometry, ...properties } = ftr;
-                  ftrs.push({
-                    type: 'Feature',
-                    properties,
-                    geometry: JSON.parse(geometry),
-                  });
-                });
-              }
-              const ftrColl = {
-                type: 'FeatureCollection',
-                features: ftrs,
-              };
-              return ftrColl;
-            },
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
           areaIndicator: {
             url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
