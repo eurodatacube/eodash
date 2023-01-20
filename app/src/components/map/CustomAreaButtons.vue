@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import getMapInstance from '@/components/map/map';
+import { getMapInstance } from '@/components/map/map';
 import Draw, { createBox } from 'ol/interaction/Draw';
 import { Vector as VectorSource } from 'ol/source';
 import { Vector as VectorLayer } from 'ol/layer';
@@ -252,9 +252,9 @@ export default {
     },
     onDrawFinished(event) {
       const { map } = getMapInstance(this.mapId);
-      const projectionCode = map.getView().getProjection().getCode();
+      const projection = map.getView().getProjection();
       const geoJSONFormat = new GeoJSON({
-        featureProjection: projectionCode,
+        featureProjection: projection,
       });
       const geoJsonObj = geoJSONFormat.writeGeometryObject(
         event.feature.getGeometry(),
@@ -281,7 +281,7 @@ export default {
       if (this.drawnLayerVisible && this.drawnArea.area) {
         const { map } = getMapInstance(this.mapId);
         const geoJSONFormat = new GeoJSON({
-          featureProjection: map.getView().getProjection().getCode(),
+          featureProjection: map.getView().getProjection(),
         });
         const feature = new Feature({
           geometry: geoJSONFormat.readGeometry(this.drawnArea.area),

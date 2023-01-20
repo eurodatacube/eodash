@@ -72,7 +72,7 @@ export const statisticalApiBody = (evalscript, type, timeinterval) => ({
     aggregation: {
       timeRange: {
         from: '1995-01-01T00:00:00Z',
-        to: '2023-12-01T00:00:00Z',
+        to: '2030-12-01T00:00:00Z',
       },
       aggregationInterval: {
         of: timeinterval || 'P1D',
@@ -327,11 +327,6 @@ export const fetchCustomAreaObjects = async (
       requestOpts.body = JSON.stringify(requestBodyCopy);
       requests.push(fetchWithTimeout(url, requestOpts).then((res) => res.json()));
     }
-    // Add last entry
-    requestBodyCopy.aggregation.timeRange.from = currentDate.toFormat(format);
-    requestBodyCopy.aggregation.timeRange.to = end.toFormat(format);
-    requestOpts.body = JSON.stringify(requestBodyCopy);
-    requests.push(fetch(url, JSON.parse(JSON.stringify(requestOpts))).then((res) => res.json()));
 
     customObjects = await Promise.allSettled(requests)
       .then((promiseCollection) => {
