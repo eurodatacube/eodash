@@ -1,6 +1,8 @@
 // config global variables here for now
 // temporary solution
 import { Wkt } from 'wicket';
+import WKB from 'ol/format/WKB';
+import GeoJSON from 'ol/format/GeoJSON';
 import { DateTime } from 'luxon';
 import latLng from '@/latLng';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
@@ -18,6 +20,8 @@ import {
 } from '@/helpers/customAreaObjects';
 
 const wkt = new Wkt();
+const wkb = new WKB();
+const geojsonFormat = new GeoJSON();
 
 export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [
@@ -251,10 +255,29 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     story: '/eodash-data/stories/E13b_PLES',
     features: {
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+      url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_stage_E13b_geojson_test?time=eq.{featuresTime}&indicator_code=eq.E13b&aoi_id=eq.{aoiID}&select=geometry,time`,
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss"),
+      callbackFunction: (responseJson) => { // geom from wkb to geojson features
+        const ftrs = [];
+        if (responseJson) {
+          responseJson.forEach((ftr) => {
+            const { geometry, ...properties } = ftr;
+            // conversion to GeoJSON because followup parts of code depend on that
+            const geom = geojsonFormat.writeGeometryObject(wkb.readGeometry(geometry));
+            ftrs.push({
+              type: 'Feature',
+              properties,
+              geometry: geom,
+            });
+          });
+        }
+        const ftrColl = {
+          type: 'FeatureCollection',
+          features: ftrs,
+        };
+        return ftrColl;
+      },
     },
-    largeTimeDuration: true,
   },
   E13b2: {
     indicatorSummary: 'Throughput at principal hub airports Aerospacelab archived',
