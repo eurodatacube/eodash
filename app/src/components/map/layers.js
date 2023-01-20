@@ -18,6 +18,8 @@ import TileGrid from 'ol/tilegrid/TileGrid';
 import { createXYZ } from 'ol/tilegrid';
 import { Group } from 'ol/layer';
 import VectorTileLayer from 'ol/layer/VectorTile';
+import VectorTileSource from 'ol/source/VectorTile';
+import { MVT } from 'ol/format';
 import { applyStyle } from 'ol-mapbox-style';
 import * as flatgeobuf from 'flatgeobuf/dist/flatgeobuf-geojson.min';
 import { bbox } from 'ol/loadingstrategy';
@@ -167,6 +169,7 @@ async function createWMTSSourceFromCapabilities(config, layer) {
  * @param {*} [opt_options.indicator=undefined] optional indicator. (e.g. "E13b")
  * @param {*} [opt_options.aoiID=undefined] optional aoiID.
  * @param {*} [opt_options.drawnArea=undefined] optional drawnArea object.
+ * @param {*} [opt_options.dataProp=undefined] optional dataProp string to set data to render.
  * if not set, time will be retrieved from the store
  * @returns {Group} returns ol layer
  */
@@ -214,6 +217,30 @@ export function createLayerFromConfig(config, map, _options = {}) {
     });
     layers.push(WMTSLayer);
     createWMTSSourceFromCapabilities(config, WMTSLayer);
+  }
+  if (config.protocol === 'geoserverTileLayer') {
+    const style = new Style({
+      fill: new Fill({
+        color: 'rgba(255, 255, 255, 0.0)',
+      }),
+    });
+    const dynamicStyleFunction = (feature) => {
+      style.getFill().setColor(config.getColor(feature, store, options));
+      return style;
+    };
+    // const simpleStyleFunction = () => simpleStyle;
+    const geoserverUrl = 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/gwc/service/tms/1.0.0/';
+    const projString = '3857';
+    const tilelayer = new VectorTileLayer({
+      style: dynamicStyleFunction,
+      source: new VectorTileSource({
+        projection: 'EPSG:3857',
+        format: new MVT(),
+        url: `${geoserverUrl}${config.layerName}@EPSG%3A${projString}@pbf/{z}/{x}/{-y}.pbf`,
+      }),
+    });
+    tilelayer.set('id', config.id);
+    layers.push(tilelayer);
   }
   if (config.protocol === 'vectorgeojson') {
     const layer = new VectorLayer();

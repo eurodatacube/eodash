@@ -38,10 +38,15 @@
           </scatter-plot>
         </v-col>
 
-        <style-controls v-if="indicatorObject.vectorStyles"
+        <!-- TODO: using style-controls breaks ide highlighting using StyleControls isntead-->
+        <StyleControls v-if="indicatorObject.vectorStyles"
           :vectorStyles="indicatorObject.vectorStyles"
         >
-        </style-controls>
+        </StyleControls>
+        <vector-tile-style-control v-if="indicatorObject.queryParameters"
+          :queryParameters="indicatorObject.queryParameters"
+        >
+        </vector-tile-style-control>
         <wms-style-controls v-if="indicatorObject.wmsStyles"
           :wmsStyles="indicatorObject.wmsStyles"
         >
@@ -363,6 +368,7 @@ import DataMockupView from '@/components/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 import ScatterPlot from '@/components/ScatterPlot.vue';
 import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
+import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
 
 export default {
   props: [
@@ -377,6 +383,7 @@ export default {
     FilterControls,
     StyleControls,
     WmsStyleControls,
+    VectorTileStyleControl,
     ScatterPlot,
     DataMockupView,
   },

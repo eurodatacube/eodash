@@ -10,7 +10,7 @@
       <v-col cols="6">
         <v-select
           v-model="select"
-          :items="wmsStyles.items"
+          :items="queryParameters.items"
           item-text="description"
           item-value="id"
           label="Select"
@@ -38,13 +38,13 @@ export default {
   name: 'FilterControls',
   components: {},
   props: {
-    wmsStyles: Object,
+    queryParameters: Object,
   },
   data: () => ({
     select: null,
   }),
   mounted() {
-    [this.select] = this.wmsStyles.items;
+    [this.select] = this.queryParameters.items;
   },
   computed: {
     story() {
@@ -61,11 +61,10 @@ export default {
   },
   methods: {
     updateMap(evt) {
+      this.queryParameters.selected = evt.id;
       const { map } = getMapInstance('centerMap');
-      const layer = map.getAllLayers().find((l) => l.get('name') === this.wmsStyles.sourceLayer);
-      layer.getSource().updateParams({
-        STYLES: evt.id,
-      });
+      const layer = map.getAllLayers().find((l) => l.get('id') === this.queryParameters.sourceLayer);
+      layer.changed();
     },
   },
 };

@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { DateTime } from 'luxon';
 /**
   */
 export default {
@@ -58,6 +59,46 @@ export default {
     adminLayer: Object,
   },
   watch: {
+    adminFeature(feature) {
+      if (this.adminLayerName === 'Municipality (Gemeinde)') {
+        if (this.indicatorObject.indicator === 'AQ') {
+          console.log(feature);
+          // TODO:
+          // * make sure results are shown as indicator without the need to add customAreaIndicator
+          //   to the indicator definition
+          // * make sure correct admin zone is used (need to update data)
+          // * make sure correct indicator is used
+          const expUrl = 'https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_air_quality?id_3=eq.1&select=pm10,pm25,ihr,time';
+          fetch(expUrl)
+            .then((resp) => resp.json())
+            .then((json) => {
+              const newData = {
+                time: [],
+                measurement: [],
+                referenceValue: [],
+                colorCode: [],
+              };
+              json.sort((a, b) => (
+                DateTime.fromISO(a.time).toMillis() - DateTime.fromISO(b.time).toMillis()
+              ));
+              json.forEach((entry) => {
+                newData.time.push(DateTime.fromISO(entry.time));
+                newData.measurement.push(entry.ihr);
+                newData.referenceValue.push(NaN);
+                newData.colorCode.push('BLUE');
+              });
+              const ind = {
+                ...this.indicatorObject,
+                ...newData,
+              };
+              this.$store.commit(
+                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
+              );
+              window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
+            });
+        }
+      }
+    },
   },
   computed: {
     show() {

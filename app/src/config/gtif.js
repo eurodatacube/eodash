@@ -3,6 +3,9 @@ import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { DateTime } from 'luxon';
 import colormap from 'colormap';
+import availableDates from '@/config/gtif_dates.json';
+
+import aqmapping from '../../public/data/gtif/data/dict_lau_id.json';
 
 // Helper function to create colorscales for cog style rendering
 function getColorStops(name, min, max, steps, reverse) {
@@ -26,6 +29,39 @@ function getColormap(name) {
     colormap: name, nshades: 16, format: 'rgba',
   });
 }
+
+function clamp(value, low, high) {
+  return Math.max(low, Math.min(value, high));
+}
+
+// We statically define some colormaps to not instanciate them for every call
+/*
+const blackbody64 = {
+  steps: 128,
+  colors: colormap({
+    colormap: 'blackbody',
+    nshades: 128,
+  }),
+};
+*/
+
+const stp = 1 / 7;
+const grywrd = {
+  steps: 128,
+  colors: colormap({
+    colormap: [
+      { index: 0, rgb: [0, 83, 30] },
+      { index: stp * 1, rgb: [195, 229, 86] },
+      { index: stp * 2, rgb: [255, 221, 86] },
+      { index: stp * 3, rgb: [246, 119, 88] },
+      { index: stp * 4, rgb: [255, 151, 63] },
+      { index: stp * 5, rgb: [255, 99, 49] },
+      { index: stp * 6, rgb: [213, 0, 31] },
+      { index: stp * 7, rgb: [99, 0, 13] },
+    ],
+    nshades: 128,
+  }),
+};
 
 function normalize(value, varMin, varMax) {
   return ['/', ['-', value, ['var', varMin]], ['-', ['var', varMax], ['var', varMin]]];
@@ -566,25 +602,32 @@ export const globalIndicators = [
         ],
         inputData: [''],
         yAxis: '',
-        cogFilters: {
-          sourceLayer: 'AQ',
-        },
-        vectorStyles: {
-          sourceLayer: 'air_quality_AT',
+        queryParameters: {
+          sourceLayer: 'air_quality',
+          selected: 'ihr',
           items: [
             {
-              id: 'NO2',
-              description: 'Nitrogen Dioxide',
+              id: 'ihr',
+              description: 'Increased health risk',
+              min: 1,
+              max: 7,
+              colormapUsed: grywrd,
               markdown: 'AQ_NO2',
             },
             {
-              id: 'PM10',
+              id: 'pm10',
               description: 'Particulate Matter < 10µm',
+              min: 0,
+              max: 35,
+              colormapUsed: grywrd,
               markdown: 'AQ_PM10',
             },
             {
-              id: 'PM25',
+              id: 'pm25',
               description: 'Particulate Matter < 2.5µm',
+              min: 0,
+              max: 35,
+              colormapUsed: grywrd,
               markdown: 'AQ_PM25',
             },
           ],
@@ -598,11 +641,30 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
             }],
           },
-          protocol: 'vectorgeojson',
-          selectedStyleLayer: 'NO2',
-          styleFile: 'data/gtif/data/air_quality_at.json',
-          id: 'air_quality_AT',
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
+          protocol: 'geoserverTileLayer',
+          getColor: (feature, store, options) => {
+            let color = '#00000000';
+            const dataSource = options.dataProp ? options.dataProp : 'mapData';
+            if (store.state.indicators.selectedIndicator
+                && store.state.indicators.selectedIndicator[dataSource]) {
+              const id = aqmapping[feature.id_];
+              const ind = store.state.indicators.selectedIndicator;
+              const currPar = ind.queryParameters.items
+                .find((item) => item.id === ind.queryParameters.selected);
+              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                const value = ind[dataSource][id][currPar.id];
+                const { min, max, colormapUsed } = currPar;
+                const f = clamp((value - min) / (max - min), 0, 1);
+                color = colormapUsed.colors[Math.round(f * (grywrd.steps - 1))];
+              }
+            }
+            return color;
+          },
+          id: 'air_quality',
           name: 'Air Quality',
+          adminZoneKey: 'id_3',
+          parameters: 'pm10,pm25,ihr,id_3',
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
@@ -822,10 +884,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'Innsbruck',
         siteName: 'global',
-        description: 'Mobility - Innsbruck',
+        description: 'Mobility Data',
         indicator: 'MOBI1',
         lastIndicatorValue: null,
-        indicatorName: 'Mobility - Innsbruck',
+        indicatorName: 'Mobility Data',
         navigationDescription: 'Mobility',
         subAoi: {
           type: 'FeatureCollection',
@@ -834,24 +896,28 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'Innsbruck',
-        time: [],
+        time: availableDates.mobility,
         inputData: [''],
         yAxis: '',
-        cogFilters: {
-          sourceLayer: 'MOBI1',
-        },
-        vectorStyles: {
-          sourceLayer: 'mobility_innsbruck',
+        queryParameters: {
+          sourceLayer: 'mobility',
+          selected: 'users_count',
           items: [
             {
-              id: 'log10_users',
-              description: 'User average - weekend (log10)',
-              markdown: '',
+              id: 'users_count',
+              description: 'Aggregated user count in area',
+              min: 0,
+              max: 500,
+              colormapUsed: grywrd,
+              // markdown: 'AQ_NO2',
             },
             {
-              id: 'users_average',
-              description: 'Users average - weekend',
-              markdown: '',
+              id: 'users_density',
+              description: 'User density in area',
+              min: 0,
+              max: 200,
+              colormapUsed: grywrd,
+              // markdown: 'AQ_PM10',
             },
           ],
         },
@@ -861,15 +927,36 @@ export const globalIndicators = [
             features: [{
               type: 'Feature',
               properties: {},
-              geometry: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
             }],
           },
-          protocol: 'vectortile',
-          styleFile: 'data/gtif/data/mobility_innsbruck.json',
-          selectedStyleLayer: 'log10_users',
-          id: 'mobility_innsbruck',
-          name: '',
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
+          protocol: 'geoserverTileLayer',
+          getColor: (feature, store, options) => {
+            let color = '#00000000';
+            const dataSource = options.dataProp ? options.dataProp : 'mapData';
+            if (store.state.indicators.selectedIndicator
+                && store.state.indicators.selectedIndicator[dataSource]) {
+              const id = feature.id_;
+              const ind = store.state.indicators.selectedIndicator;
+              const currPar = ind.queryParameters.items
+                .find((item) => item.id === ind.queryParameters.selected);
+              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                const value = ind[dataSource][id][currPar.id];
+                const { min, max, colormapUsed } = currPar;
+                const f = clamp((value - min) / (max - min), 0, 1);
+                color = colormapUsed.colors[Math.round(f * (grywrd.steps - 1))];
+              }
+            }
+            return color;
+          },
+          id: 'mobility',
+          adminZoneKey: 'adminzoneid',
+          parameters: 'adminzoneid,users_count,users_density',
+          name: 'Mobility Data',
           minZoom: 1,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          labelFormatFunction: (date) => date,
         },
       },
     },

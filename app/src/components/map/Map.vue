@@ -174,6 +174,7 @@ import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 import AdminBordersLayers from '@/components/map/AdminBordersLayers.vue';
 import Link from 'ol/interaction/Link';
 import {
+  loadIndicatorExternalData,
   calculatePadding,
   getIndicatorFilteredInputData,
 } from '@/utils';
@@ -486,22 +487,45 @@ export default {
     },
     dataLayerTime(timeObj) {
       if (timeObj) {
-        // redraw all time-dependant layers, if time is passed via WMS params
         const { map } = getMapInstance(this.mapId);
-        const area = this.drawnArea;
-        const layers = map.getLayers().getArray();
-        this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
-          .forEach((config) => {
-            const layer = layers.find((l) => l.get('name') === config.name);
-            if (layer) {
-              updateTimeLayer(layer, config, timeObj.value, area);
-            }
+        if (this.indicator && 'queryParameters' in this.indicator) {
+          // re-load indicator data for indicators where the rendering is based on external data
+          loadIndicatorExternalData(
+            timeObj.value, this.mergedConfigsData[0],
+          ).then((data) => {
+            this.$store.state.indicators.selectedIndicator.mapData = data;
+            const currLayer = map.getAllLayers().find((l) => l.get('id') === this.indicator.display.id);
+            currLayer.changed();
           });
-        this.$emit('update:datalayertime', timeObj.name);
+        } else {
+          // TODO:
+          // redraw all time-dependant layers, if time is passed via WMS params
+          const area = this.drawnArea;
+          const layers = map.getLayers().getArray();
+          this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
+            .forEach((config) => {
+              const layer = layers.find((l) => l.get('name') === config.name);
+              if (layer) {
+                updateTimeLayer(layer, config, timeObj.value, area);
+              }
+            });
+          this.$emit('update:datalayertime', timeObj.name);
+        }
       }
     },
     enableCompare(enabled) {
-      this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);
+      // Make sure compare data is loaded if required
+      if (this.indicator && 'queryParameters' in this.indicator) {
+        // TODO: Currently using first time entry as default, pretty sure we need more logic here
+        loadIndicatorExternalData(
+          this.indicator.time[0], this.mergedConfigsData[0],
+        ).then((data) => {
+          this.$store.state.indicators.selectedIndicator.compareMapData = data;
+          this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);
+        });
+      } else {
+        this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);
+      }
     },
     compareLayerTime(timeObj) {
       this.$emit('update:comparelayertime', this.enableCompare ? timeObj.name : null);
