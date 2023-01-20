@@ -110,6 +110,13 @@
             "label": "Average count of trucks",
             "ticks": [1,2,3,4,5],
             "tickLabels": [0,5,20,50,90]
+        },
+        "meltmap": {
+            "range": [0, 3],
+            "cm": [[0, [175,171,171]], [1, [180,199,231]], [2, [102,162,216]],[3, [255,243,204]]],
+            "label": "Ice melting",
+            "ticks": [0, 1, 2, 3],
+            "tickLabels": []
         }
     },
     "trilateral": {
