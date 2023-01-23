@@ -279,6 +279,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'mobi1',
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/MOBI',
+    // customAreaIndicator: true,
   },
   SOL1: {
     indicator: 'sus cities',
@@ -851,6 +852,7 @@ export const globalIndicators = [
     },
   },
   {
+    //  is collection with data and AT_Network_edges_3857
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -868,11 +870,96 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: [],
+        time: [
+          '2021-07-05T00:00:00', '2021-07-05T01:00:00', '2021-07-05T02:00:00',
+          '2021-07-05T03:00:00', '2021-07-05T04:00:00', '2021-07-05T05:00:00',
+          '2021-07-05T06:00:00', '2021-07-05T07:00:00', '2021-07-05T08:00:00',
+          '2021-07-05T09:00:00', '2021-07-05T10:00:00', '2021-07-05T11:00:00',
+          '2021-07-05T12:00:00', '2021-07-05T13:00:00', '2021-07-05T14:00:00',
+          '2021-07-05T15:00:00', '2021-07-05T16:00:00', '2021-07-05T17:00:00',
+          '2021-07-05T18:00:00', '2021-07-05T19:00:00', '2021-07-05T20:00:00',
+          '2021-07-05T21:00:00', '2021-07-05T22:00:00', '2021-07-05T23:00:00',
+        ],
         inputData: [''],
         yAxis: '',
-        cogFilters: {
-          sourceLayer: 'AQ4',
+        highlights: [
+          {
+            name: 'Graz',
+            location: wkt.read('POLYGON((15.24 47, 15.555 47, 15.555 47.11, 15.24 47.11, 15.24 47 ))').toJson(),
+          },
+          {
+            name: 'Innsbruck',
+            thumbnail: '',
+            location: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
+          },
+          {
+            name: 'St. Pölten',
+            location: wkt.read('POLYGON((15.55 48.16, 15.7 48.16, 15.7 48.23, 15.55 48.23, 15.55 48.16 ))').toJson(),
+          },
+          {
+            name: 'Vienna',
+            location: wkt.read('POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))').toJson(),
+          },
+        ],
+        queryParameters: {
+          sourceLayer: 'trajectories_on_edges_austria_july',
+          selected: 'congestion_index',
+          items: [
+            {
+              id: 'congestion_index',
+              description: 'Congestion index',
+              min: 0,
+              max: 5,
+              colormapUsed: grywrd,
+              // markdown: 'AQ_NO2',
+            },
+            {
+              id: 'duration',
+              description: 'Duration',
+              min: 0,
+              max: 1200,
+              colormapUsed: grywrd,
+              // markdown: 'AQ_PM10',
+            },
+            {
+              id: 'speed',
+              description: 'Speed',
+              min: 0,
+              max: 140,
+              colormapUsed: grywrd,
+              // markdown: 'AQ_PM10',
+            },
+          ],
+        },
+        display: {
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Network_edges_3857',
+          protocol: 'geoserverTileLayer',
+          getColor: (feature, store, options) => {
+            let color = '#00000000';
+            const dataSource = options.dataProp ? options.dataProp : 'mapData';
+            if (store.state.indicators.selectedIndicator
+                && store.state.indicators.selectedIndicator[dataSource]) {
+              const id = feature.get('fid');
+              const ind = store.state.indicators.selectedIndicator;
+              const currPar = ind.queryParameters.items
+                .find((item) => item.id === ind.queryParameters.selected);
+              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                const value = ind[dataSource][id][currPar.id];
+                const { min, max, colormapUsed } = currPar;
+                const f = clamp((value - min) / (max - min), 0, 1);
+                color = colormapUsed.colors[Math.round(f * (grywrd.steps - 1))];
+              }
+            }
+            return color;
+          },
+          id: 'trajectories_on_edges_austria_july',
+          adminZoneKey: 'unique_id',
+          parameters: 'unique_id,duration,congestion_index,speed',
+          name: 'Social Mobility',
+          strokeOnly: true,
+          minZoom: 1,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          labelFormatFunction: (date) => date,
         },
       },
     },
@@ -882,7 +969,7 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: true,
         country: 'all',
-        city: 'Innsbruck',
+        city: 'Austria',
         siteName: 'global',
         description: 'Mobility Data',
         indicator: 'MOBI1',
@@ -895,7 +982,7 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        aoiID: 'Innsbruck',
+        aoiID: 'Austria',
         time: availableDates.mobility,
         inputData: [''],
         yAxis: '',

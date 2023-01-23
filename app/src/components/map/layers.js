@@ -224,11 +224,22 @@ export function createLayerFromConfig(config, map, _options = {}) {
         color: 'rgba(255, 255, 255, 0.0)',
       }),
     });
-    const dynamicStyleFunction = (feature) => {
+    const strokeStyle = new Style({
+      stroke: new Stroke({
+        color: 'rgba(255, 255, 255, 0.0)',
+        width: 3,
+      }),
+    });
+    let dynamicStyleFunction = (feature) => {
       style.getFill().setColor(config.getColor(feature, store, options));
       return style;
     };
-    // const simpleStyleFunction = () => simpleStyle;
+    if (config.strokeOnly) {
+      dynamicStyleFunction = (feature) => {
+        strokeStyle.getStroke().setColor(config.getColor(feature, store, options));
+        return strokeStyle;
+      };
+    }
     const geoserverUrl = 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/gwc/service/tms/1.0.0/';
     const projString = '3857';
     const tilelayer = new VectorTileLayer({
