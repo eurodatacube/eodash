@@ -575,6 +575,8 @@ export const defaultLayersDisplay = {
   attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   minZoom: 7,
   visible: true,
+  mapProjection: 'EPSG:3857',
+  projection: 'EPSG:3857',
 };
 
 export const cmemsDisplay = {
@@ -724,7 +726,7 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'TROPOMI CO',
+        description: 'TROPOMI CO 3 day average',
         indicator: 'N1',
         lastIndicatorValue: null,
         indicatorName: 'TROPOMI CO',
@@ -737,7 +739,7 @@ export const globalIndicators = [
         aoiID: 'WorldCO',
         time: availableDates.AWS_VIS_CO_3DAILY_DATA,
         inputData: [''],
-        yAxis: 'CO (ppbv)',
+        yAxis: 'CO (ppbv) - 3 day average',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           opacity: 1.0,
@@ -1148,7 +1150,7 @@ export const globalIndicators = [
           baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
           name: 'WSF_Evolution',
           layers: 'WSF_Evolution',
-          legendUrl: 'eodash-data/data/wsf_legend.png', // will not be migrated as too hard to replicates
+          legendUrl: 'data/trilateral/wsf_legend.png',
           minZoom: 1,
           maxZoom: 14,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
@@ -1863,7 +1865,7 @@ export const globalIndicators = [
               ...cmemsDisplay,
               baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_atl_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
               name: 'Atlantic coast CHL L4 Product',
-              extent: [-45, 20, 66, 10.5],
+              extent: [-46, 19.5, 13, 66],
             }, {
               ...cmemsDisplay,
               baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_med_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',

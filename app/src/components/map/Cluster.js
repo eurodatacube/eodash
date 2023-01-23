@@ -15,7 +15,7 @@ import VectorSource from 'ol/source/Vector';
 import { Feature } from 'ol';
 import { fromLonLat } from 'ol/proj';
 import { calculatePadding } from '@/utils';
-import getMapInstance from './map';
+import { getMapInstance } from './map';
 
 const circleDistanceMultiplier = 1;
 const circleFootSeparation = 28;

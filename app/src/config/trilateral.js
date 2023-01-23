@@ -26,13 +26,15 @@ export const dataEndpoints = [
 ];
 
 const sharedPalsarFNFConfig = Object.freeze({
-  baseUrl: 'https://ogcpreview1.restecmap.com/examind/api/WS/wms/JAXA_WMS_Preview',
+  url: 'https://ogcpreview1.restecmap.com/examind/api/WS/wmts/JAXA_WMTS_Preview/1.0.0/WMTSCapabilities.xml',
+  protocol: 'WMTSCapabilities',
   name: 'FNF PALSAR2 World Yearly',
-  tileSize: 512,
-  projection: 'EPSG:4326',
+  projection: 'EPSG:3857',
   legendUrl: './data/trilateral/fnf-map-legend.png',
   labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
   attribution: '{ <a href="https://www.eorc.jaxa.jp/ALOS/en/dataset/fnf_e.htm" target="_blank">JAXA Global PALSAR-2/PALSAR/JERS-1 Mosaic and Forest/Non-Forest maps</a> is available to use with no charge under the <a href="https://earth.jaxa.jp/policy/en.html" target="_blank">JAXA Terms of Use of Research Data</a>.; }',
+  minZoom: 1,
+  maxZoom: 18,
   presetView: {
     type: 'FeatureCollection',
     features: [{
@@ -450,6 +452,11 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     disableTimeSelection: true,
   },
+  ADD: {
+    indicatorSummary: 'Antarctic meltmap',
+    themes: ['cryosphere'],
+    story: '/eodash-data/stories/ADD',
+  },
   d: { // dummy for locations without Indicator code
     indicatorSummary: 'Upcoming data',
     themes: ['atmosphere', 'agriculture', 'biomass', 'economy', 'oceans', 'cryosphere', 'covid-19'],
@@ -671,7 +678,7 @@ export const indicatorClassesIcons = Object.freeze({
   agriculture: 'mdi-barley',
   atmosphere: 'mdi-weather-windy',
   oceans: 'mdi-water',
-  biomass: 'mdi-image-filter-hdr',
+  biomass: 'mdi-leaf',
   'covid-19': 'mdi-hospital-box-outline',
   cryosphere: 'mdi-snowflake',
 });
@@ -716,6 +723,8 @@ export const defaultLayersDisplay = {
   attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank"> Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   minZoom: 7,
   visible: true,
+  mapProjection: 'EPSG:3857',
+  projection: 'EPSG:3857',
 };
 
 const e10cDates = {
@@ -1302,6 +1311,20 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
           legendUrl: 'legends/trilateral/SITI-W10.png',
+          mapProjection: {
+            name: 'EPSG:3413',
+            def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+            extent: [-3314693.24, -3314693.24, 3314693.24, 3314693.24],
+          },
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
+            }],
+          },
+          projection: 'EPSG:3857',
           /*
           TODO: Could be activated but globe is used as visualiation in data panel
           customAreaIndicator: true,
@@ -1739,6 +1762,20 @@ export const globalIndicators = [
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
+          mapProjection: {
+            name: 'EPSG:3413',
+            def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+            extent: [-3314693.24, -3314693.24, 3314693.24, 3314693.24],
+          },
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
+            }],
+          },
+          projection: 'EPSG:3413',
           /*
           customAreaIndicator: true,
           areaIndicator: {
@@ -1779,15 +1816,22 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/SITI-W10.png',
           minZoom: 2,
           maxZoom: 13,
+          projection: 'EPSG:3413',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
-          /*
-          customAreaIndicator: true,
-          areaIndicator: {
-            ...shFisAreaIndicatorStdConfig,
-            url: ``,
+          mapProjection: {
+            name: 'EPSG:3413',
+            def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+            extent: [-3314693.24, -3314693.24, 3314693.24, 3314693.24],
           },
-          */
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
+            }],
+          },
         },
       },
     },
@@ -3992,6 +4036,64 @@ export const globalIndicators = [
         aoiID: 'World',
         time: getYearlyDates('2017-01-01', '2020-01-01'),
         inputData: ['palsarFNF2017', 'palsarFNF2018', 'palsarFNF2019', 'palsarFNF2020'],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        id: 19678,
+        aoi: null,
+        aoiID: 'Meltmap',
+        country: 'all',
+        city: 'Antarctica',
+        siteName: 'global',
+        description: 'Antarctica Meltmap',
+        indicator: 'ADD',
+        lastIndicatorValue: null,
+        indicatorName: 'Antarctica Meltmap',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: availableDates.VIS_ANTARTICA_MELTMAP,
+        inputData: [''],
+        display: {
+          legendUrl: 'legends/esa/meltmap.png',
+          attribution: '{ Gerrish, L., Fretwell, P., & Cooper, P. (2022). Medium resolution vector polylines of the Antarctic coastline (7.6) [Data set]. UK Polar Data Centre, Natural Environment Research Council, UK Research & Innovation. https://doi.org/10.5285/1db7f188-6c3e-46cf-a3bf-e39dbd77e14c }',
+          mapProjection: {
+            name: 'EPSG:3031',
+            def: '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+            extent: [-3299207.53, -3333134.03, 3299207.53, 3333134.03],
+          },
+          combinedLayers: [
+            {
+              name: 'Antarctic coastline',
+              baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
+              projection: 'EPSG:3031',
+              layers: 'add:antarctic_coastline_line_medium',
+              minZoom: 2,
+              maxZoom: 18,
+            }, {
+              baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+              name: 'Antarctic meltmap',
+              layers: 'VIS_ANTARTICA_MELTMAP',
+              projection: 'EPSG:3031',
+              minZoom: 2,
+              maxZoom: 18,
+            },
+          ],
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-75 -63,-40 -63,-40 -80,-75 -80,-75 -63))').toJson(),
+            }],
+          },
+        },
       },
     },
   },

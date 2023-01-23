@@ -8,7 +8,7 @@ import VectorSource from 'ol/source/Vector';
 import { Feature } from 'ol';
 import { fromExtent } from 'ol/geom/Polygon';
 import { Stroke, Style } from 'ol/style';
-import getMapInstance from './components/map/map';
+import { getMapInstance } from './components/map/map';
 import getLocationCode from './mixins/getLocationCode';
 
 export function padLeft(str, pad, size) {
@@ -66,9 +66,25 @@ export function template(templateRe, str, data) {
   });
 }
 
+export async function loadIndicatorExternalData(time, mergedConfigs) {
+  const geodbUrl = 'https://xcube-geodb.brockmann-consult.de/';
+  const endpoint = 'gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
+  const base = `${geodbUrl}${endpoint}${mergedConfigs.id}`;
+  const timequery = `and=(time.gte.${time},time.lte.${time})`;
+  const url = `${base}?${timequery}&select=${mergedConfigs.parameters}`;
+  const data = await fetch(url)
+    .then((response) => response.json())
+    .catch((error) => console.log(error));
+  // convert to object
+  const dataObject = {};
+  data.forEach((entry) => {
+    dataObject[entry[mergedConfigs.adminZoneKey]] = { ...entry };
+  });
+  return dataObject;
+}
+
 export async function loadIndicatorData(baseConfig, payload) {
   let indicatorObject;
-
   // Check if data was already loaded
   if (Object.prototype.hasOwnProperty.call(payload, 'dataLoadFinished')
     && payload.dataLoadFinished) {
@@ -257,4 +273,18 @@ export function getIndicatorFilteredInputData(selectedIndicator) {
   }
   indicatorRegistry[locationCode] = indicator;
   return indicator;
+}
+
+export function getPOIs() {
+  const ftrs = store.state.features.allFeatures;
+  ftrs.sort(
+    (a, b) => a.properties.indicatorObject.indicator - b.properties.indicatorObject.indicator,
+  );
+  const arr = [];
+  ftrs.forEach((item) => {
+    const { aoiID, indicator } = item.properties.indicatorObject;
+    const output = `${aoiID}-${indicator}`;
+    arr.push(output);
+  });
+  console.log(arr.join(','));
 }

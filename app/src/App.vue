@@ -74,7 +74,7 @@ import { loadIndicatorData } from '@/utils';
 import axios from 'axios';
 import { Wkt } from 'wicket';
 
-import getMapInstance from '@/components/map/map';
+import { getMapInstance } from '@/components/map/map';
 import Alert from './components/Alert.vue';
 
 const wkt = new Wkt();
@@ -184,7 +184,9 @@ export default {
           });
         }
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
-        this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
+        // TODO: Is there a reason why this was called twice?
+        // eslint-disable-next-line
+        // this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
         // validate query for country - need to be among available
         const selectedCountry = this.getCountryItems
           .map((item) => item.code).flat().find((f) => f === country);

@@ -16,29 +16,41 @@
         </filter-controls>
 
         <!-- TODO: remove GTIF brand check -->
-        <v-btn
-          v-if="appConfig.id === 'gtif'"
-          text
-          color="primary"
-          class="mx-3"
-          @click="showScatterplot = !showScatterplot"
+        <v-col v-if="appConfig.id === 'gtif'"
+          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          :style="`height: auto`"
         >
-          Expand controls
-          <v-icon right :style="`transform: rotate(${showScatterplot
-            ? 90
-            : 0}deg); transition: all .3s ease-in-out;`">mdi-chevron-right</v-icon>
-        </v-btn>
+          <v-btn
+            text
+            color="primary"
+            class="mx-3"
+            @click="showScatterplot = !showScatterplot"
+          >
+            Expand controls
+            <v-icon right :style="`transform: rotate(${showScatterplot
+              ? 90
+              : 0}deg); transition: all .3s ease-in-out;`">mdi-chevron-right</v-icon>
+          </v-btn>
+          <scatter-plot v-if="indicatorObject.cogFilters
+            && indicatorObject.cogFilters.sourceLayer === 'REP1' && showScatterplot"
+            :filters="indicatorObject.cogFilters.filters"
+          >
+          </scatter-plot>
+        </v-col>
 
-        <scatter-plot v-if="indicatorObject.cogFilters
-          && indicatorObject.cogFilters.sourceLayer === 'REP1' && showScatterplot"
-          :filters="indicatorObject.cogFilters.filters"
-        >
-        </scatter-plot>
-
-        <style-controls v-if="indicatorObject.vectorStyles"
+        <!-- TODO: using style-controls breaks ide highlighting using StyleControls isntead-->
+        <StyleControls v-if="indicatorObject.vectorStyles"
           :vectorStyles="indicatorObject.vectorStyles"
         >
-        </style-controls>
+        </StyleControls>
+        <vector-tile-style-control v-if="indicatorObject.queryParameters"
+          :queryParameters="indicatorObject.queryParameters"
+        >
+        </vector-tile-style-control>
+        <wms-style-controls v-if="indicatorObject.wmsStyles"
+          :wmsStyles="indicatorObject.wmsStyles"
+        >
+        </wms-style-controls>
         <!-- TODO: remove GTIF brand check -->
         <data-mockup-view v-if="appConfig.id === 'gtif'"
           :indicatorObject="indicatorObject"
@@ -354,8 +366,9 @@ import FilterControls from '@/components/map/FilterControls.vue';
 import StyleControls from '@/components/map/StyleControls.vue';
 import DataMockupView from '@/components/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
-
 import ScatterPlot from '@/components/ScatterPlot.vue';
+import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
+import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
 
 export default {
   props: [
@@ -369,6 +382,8 @@ export default {
     AddToDashboardButton,
     FilterControls,
     StyleControls,
+    WmsStyleControls,
+    VectorTileStyleControl,
     ScatterPlot,
     DataMockupView,
   },

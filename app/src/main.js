@@ -217,7 +217,7 @@ const renderVue = async () => {
       ? [
         { path: '/atmosphere', name: 'atmosphere', component: ThemeSinglePage },
         { path: '/agriculture', name: 'agriculture', component: ThemeSinglePage },
-        { path: '/biomass-and-landcover', name: 'biomass-and-landcover', component: ThemeSinglePage },
+        { path: '/biomass', name: 'biomass', component: ThemeSinglePage },
         { path: '/covid-19', name: 'covid-19', component: ThemeSinglePage },
         { path: '/cryosphere', name: 'cryosphere', component: ThemeSinglePage },
         { path: '/economy', name: 'economy', component: ThemeSinglePage },
