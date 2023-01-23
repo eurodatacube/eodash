@@ -41,8 +41,6 @@ import iFrameResize from 'iframe-resizer/js/iframeResizer';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
 
-import dashboardToScrolly from '@/helpers/dashboardToScrolly.js';
-
 export default {
   components: {
     GlobalHeader,
@@ -69,13 +67,13 @@ export default {
   async mounted() {
     this.setBreadcrumbsEnabled();
 
-    let footer = await axios.get('./data/gtif/components/footer.json');
+    const footer = await axios.get('./data/gtif/components/footer.json');
     this.footer = footer.data;
 
-    let bottom = await axios.get('./data/gtif/components/bottom.json');
+    const bottom = await axios.get('./data/gtif/components/bottom.json');
     this.bottomNav = bottom.data;
 
-    let header = await axios.get('./data/gtif/components/header.json');
+    const header = await axios.get('./data/gtif/components/header.json');
     this.header = header.data;
 
     window.onmessage = (e) => {
@@ -89,22 +87,21 @@ export default {
   methods: {
     async onLoaded() {
       try {
-        let res = await axios.get(`./data/gtif/scrollies/${this.$route.name}.json`);
+        const res = await axios.get(`./data/gtif/scrollies/${this.$route.name}.json`);
 
         // --------------------------------
         // IMPORTANT, DO NOT REMOVE!
         // Cache Invalidation Call
-        const justForSideEffects = await axios.get('./data/gtif/components/header.json');
-        const justForSideEffect = await axios.get('./scrollytelling/index.html');
+        //   const justForSideEffects = await axios.get('./data/gtif/components/header.json');
+        //   const justForSideEffect = await axios.get('./scrollytelling/index.html');
         // ---------------------------------------------------^
 
         this.linkStyle('../css/gtif-scrolly.css');
         this.setScrollyStory(res.data);
 
         this.setComponentHook('beforeFooter', this.bottomNav);
-        this.setComponentHook('footer',       this.footer);
-        this.setComponentHook('header',       this.header);
-
+        this.setComponentHook('footer', this.footer);
+        this.setComponentHook('header', this.header);
       } catch (error) {
         console.error(`Error loading dashboard data: ${error}`);
       }
@@ -120,7 +117,7 @@ export default {
         const gtifScss = require(`../../public/css/gtif.scss`);
         console.log(gtifScss);
       */
-      let link = document.createElement('link');
+      const link = document.createElement('link');
       link.href = path;
       link.rel = 'stylesheet';
       link.type = 'text/css';
@@ -137,7 +134,7 @@ export default {
           type: 'items',
           data: items,
         },
-        '*'
+        '*',
       );
     },
     /**
