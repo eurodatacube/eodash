@@ -15,8 +15,7 @@
         >
         </filter-controls>
 
-        <!-- TODO: remove GTIF brand check -->
-        <v-col v-if="appConfig.id === 'gtif'"
+        <v-col v-if="indicatorObject.cogFilters"
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
         >

@@ -100,7 +100,7 @@ export default {
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
-        'NPP', 'AQ',
+        'NPP', 'AQ', 'MOBI1',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6',
