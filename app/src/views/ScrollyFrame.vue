@@ -22,7 +22,7 @@
           height: calc(100vh - 112px) !important;
           position: fixed; left: 0; bottom: 0; top: 112px;
         "
-        src="./scrollytelling/index.html"
+        src="http://localhost:5173"
         frameborder="0"
       ></iframe>
       </v-container>
@@ -35,6 +35,7 @@
 import {
   mapState,
 } from 'vuex';
+import Vue from 'vue';
 
 import axios from 'axios';
 import iFrameResize from 'iframe-resizer/js/iframeResizer';
@@ -68,13 +69,14 @@ export default {
     this.setBreadcrumbsEnabled();
 
     const footer = await axios.get('./data/gtif/components/footer.json');
-    this.footer = footer.data;
-
     const bottom = await axios.get('./data/gtif/components/bottom.json');
-    this.bottomNav = bottom.data;
-
     const header = await axios.get('./data/gtif/components/header.json');
+
+    this.footer = footer.data;
+    this.bottomNav = bottom.data;
     this.header = header.data;
+
+    console.log(header.data);
 
     window.onmessage = (e) => {
       // Check if we got a navigation request from the iframe.
@@ -93,10 +95,10 @@ export default {
         // IMPORTANT, DO NOT REMOVE!
         // Cache Invalidation Call
         //   const justForSideEffects = await axios.get('./data/gtif/components/header.json');
-        //   const justForSideEffect = await axios.get('./scrollytelling/index.html');
+        const justForSideEffect = await axios.get('./data/gtif/scrollies/gtif-energy-transition.json');
         // ---------------------------------------------------^
 
-        this.linkStyle('../css/gtif-scrolly.css');
+        this.linkStyle('http://gtif.eox.world:8812/css/gtif-scrolly.css');
         this.setScrollyStory(res.data);
 
         this.setComponentHook('beforeFooter', this.bottomNav);
@@ -117,11 +119,13 @@ export default {
         const gtifScss = require(`../../public/css/gtif.scss`);
         console.log(gtifScss);
       */
-      const link = document.createElement('link');
-      link.href = path;
-      link.rel = 'stylesheet';
-      link.type = 'text/css';
-      document.getElementById('resizableIframe').contentDocument.head.appendChild(link);
+      document.querySelector('#resizableIframe').contentWindow.postMessage(
+        {
+          type: 'css',
+          path,
+        },
+        '*',
+      );
     },
     /**
      * Send an `items` message to the iframe, which sets the content of the scrolly story.
