@@ -641,7 +641,7 @@ export default {
               borderWidth: 2,
             });
           });
-        } else if (['N2', 'E10c', 'PRCTS', 'SMCTS', 'VITS',].includes(indicatorCode)) {
+        } else if (['N2', 'E10c', 'PRCTS', 'SMCTS', 'VITS'].includes(indicatorCode)) {
           /* Group data by year in month slices */
           const data = indicator.time.map((date, i) => {
             colors.push(this.getIndicatorColor(

@@ -4172,17 +4172,17 @@ export const globalIndicators = [
           },
           combinedLayers: [
             {
-              name: 'Antarctic coastline',
-              baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
-              projection: 'EPSG:3031',
-              layers: 'add:antarctic_coastline_line_medium',
-              minZoom: 2,
-              maxZoom: 18,
-            }, {
               baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
               name: 'Antarctic meltmap',
               layers: 'VIS_ANTARTICA_MELTMAP',
               projection: 'EPSG:3031',
+              minZoom: 2,
+              maxZoom: 18,
+            }, {
+              name: 'Antarctic coastline',
+              baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
+              projection: 'EPSG:3031',
+              layers: 'add:antarctic_coastline_line_medium',
               minZoom: 2,
               maxZoom: 18,
             },
