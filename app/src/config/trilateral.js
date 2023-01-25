@@ -3,7 +3,7 @@
 import { Wkt } from 'wicket';
 import latLng from '@/latLng';
 import { DateTime } from 'luxon';
-import { shTimeFunction, shS2TimeFunction } from '@/utils';
+import { shTimeFunction, shS2TimeFunction, shWeeklyTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import locations from '@/config/locations.json';
@@ -4120,16 +4120,17 @@ export const globalIndicators = [
           type: 'FeatureCollection',
           features: [],
         },
-        time: getDailyDates('2021-01-01', '2022-01-01'),
+        time: getWeeklyDates('2021-01-01', '2022-01-01'),
         inputData: [''],
         display: {
+          dateFormatFunction: shWeeklyTimeFunction,
           mapProjection: {
             name: 'EPSG:3031',
             def: '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
             extent: [-3299207.53, -3333134.03, 3299207.53, 3333134.03],
           },
           projection: 'EPSG:3031',
-          layers: 'E8_SENTINEL1',
+          layers: 'SENTINEL-1-EW',
           presetView: {
             type: 'FeatureCollection',
             features: [{
