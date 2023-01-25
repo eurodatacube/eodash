@@ -68,10 +68,9 @@
       },
       {
         "width":3,
-        "text":"<--IMG-->../data/gtif/images/solar_irradiance.gif<--IMG-->",
         "id":"StickyRight3R-1669991634890",
         "title":"StickyRight3R",
-        "image":"../data/gtif/images/solar_irradiance.gif"
+        "image":"https://github.com/eurodatacube/eodash/raw/scrolly_v2/app/public/data/gtif/images/solar_irradiance.gif"
       }
     ],
     [
@@ -83,16 +82,15 @@
       },
       {
         "width":3,
-        "text":"<--IMG-->../data/gtif/images/Gas_leak_methane_enhancement_detected_by_GHGSat_pillars.jpg<--IMG-->",
         "id":"StickyRight4R-1669991734768",
         "title":"StickyRight4R",
-        "image":"../data/gtif/images/Gas_leak_methane_enhancement_detected_by_GHGSat_pillars.jpg"
+        "image":"https://github.com/eurodatacube/eodash/raw/scrolly_v2/app/public/data/gtif/images/Gas_leak_methane_enhancement_detected_by_GHGSat_pillars.jpg"
       }
     ],
     [
       {
         "width":4,
-        "text":"<style>\n.austria p,\n.austria h2 {\ncolor: white !important;\n</style>\n<div class=\"austria\" style=\"width: 100%; padding: 40px 0; background: linear-gradient(180deg, #003247, #006762)\">\n<div style=\"width: 800px; margin: 200px auto 0 auto;\">\n\n\n## The Austrian energy scenario\n\nWhile Austria is a virtuous country when it comes to renewable energy, with a share well above EU average for the last 20 years (or more), it has set ambitious goals towards 2030 within its National Energy and Climate Plan, with a planned share of renewables between 45% and 50% of gross final energy consumption (with a striking ambition of <span class=\"highlight\">100% of electricity</span> produced from renewables).\n\n<div style=\"display: flex; align-items: center\">\n<div style=\"width: 350px\">\n\nThe current Austrian scenario sees a predominant role of <span class=\"highlight\">hydropower</span>, overriding by three times the total of all other renewable sources (EUROSTAT statistics).\n\n<span class=\"highlight\">Wind</span> is the second source by importance, surpassing solid biofuels since 2004. Nonetheless, current wind energy production is restricted to a very limited geographic area.\n</div>\n<div style=\"width: 550px;\">\n<iframe src=\"//www.igwindkraft.at/maps/current/\" frameborder=\"0\" style=\"width: 620px; height: 480px; position: absolute; top: 41%; left: 50%;\"></iframe>\n</div>\n\n</div>\n<br /><br />\n<p>\n<span class=\"highlight\">How can GTIF play a role in this energy scenario?</span>\n<br /><br />\n<span class=\"highlight\">GTIF provides various <a href=\"/explore\" style=\"color: white\">EXPLORE TOOLS</a> for you to investigate the challenges and opportunities in the energy transition.</span>\n</p>\n\n</div>\n</div>",
+        "text":"<style>\n.austria p,\n.austria h2 {\ncolor: white !important;\n</style>\n<div class=\"austria full-width\" style=\"padding: 40px 0; background: linear-gradient(180deg, #003247, #006762)\">\n<div style=\"width: 800px; margin: 200px auto 0 auto;\">\n\n\n## The Austrian energy scenario\n\nWhile Austria is a virtuous country when it comes to renewable energy, with a share well above EU average for the last 20 years (or more), it has set ambitious goals towards 2030 within its National Energy and Climate Plan, with a planned share of renewables between 45% and 50% of gross final energy consumption (with a striking ambition of <span class=\"highlight\">100% of electricity</span> produced from renewables).\n\n<div style=\"display: flex; align-items: center\">\n<div style=\"width: 350px\">\n\nThe current Austrian scenario sees a predominant role of <span class=\"highlight\">hydropower</span>, overriding by three times the total of all other renewable sources (EUROSTAT statistics).\n\n<span class=\"highlight\">Wind</span> is the second source by importance, surpassing solid biofuels since 2004. Nonetheless, current wind energy production is restricted to a very limited geographic area.\n</div>\n<div style=\"width: 550px;\">\n<iframe src=\"//www.igwindkraft.at/maps/current/\" frameborder=\"0\" style=\"width: 620px; height: 480px; position: absolute; top: 41%; left: 50%;\"></iframe>\n</div>\n\n</div>\n<br /><br />\n<p>\n<span class=\"highlight\">How can GTIF play a role in this energy scenario?</span>\n<br /><br />\n<span class=\"highlight\">GTIF provides various <a href=\"/explore\" style=\"color: white\">EXPLORE TOOLS</a> for you to investigate the challenges and opportunities in the energy transition.</span>\n</p>\n\n</div>\n</div>",
         "id":"FWB5-1669991839515",
         "title":"FWB5"
       }

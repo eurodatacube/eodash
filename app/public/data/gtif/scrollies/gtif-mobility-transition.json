@@ -39,7 +39,7 @@
       "width":3,
       "id":"Annual NO2 concentrations at the KARLOS target are-1665400426527",
       "title":"Annual NO2 concentrations at the KARLOS target are",
-      "image":"../data/gtif/images/no2_concentrations.png"
+      "image":"https://github.com/eurodatacube/eodash/raw/scrolly_v2/app/public/data/gtif/images/no2_concentrations.png"
     }
   ],
   [
@@ -53,7 +53,7 @@
       "width":3,
       "id":"KARLOS-1665400680843",
       "title":"KARLOS",
-      "image":"../data/gtif/images/karlos.jpeg"
+      "image":"https://github.com/eurodatacube/eodash/raw/scrolly_v2/app/public/data/gtif/images/karlos.jpeg"
     }
   ],
   [
@@ -67,7 +67,7 @@
       "width":3,
       "id":"KARLOS sketch-1665400713937",
       "title":"KARLOS sketch",
-      "image":"../data/gtif/images/karlos_data.png"
+      "image":"https://github.com/eurodatacube/eodash/raw/scrolly_v2/app/public/data/gtif/images/karlos_data.png"
     }
   ],
   [
@@ -95,7 +95,7 @@
       "width":3,
       "id":"Climatology-1665401294538",
       "title":"Climatology",
-      "image":"../data/gtif/images/climatology.png"
+      "image":"https://github.com/eurodatacube/eodash/raw/scrolly_v2/app/public/data/gtif/images/climatology.png"
     }
   ],
   [
@@ -109,7 +109,7 @@
       "width":3,
       "id":"Flux footprint-1665401425980",
       "title":"Flux footprint",
-      "image":"../data/gtif/images/flux_footprint.png"
+      "image":"https://github.com/eurodatacube/eodash/raw/scrolly_v2/app/public/data/gtif/images/flux_footprint.png"
     }
   ],
   [
@@ -123,7 +123,7 @@
       "width":3,
       "id":"Plot 1-1665401511984",
       "title":"Plot 1",
-      "image":"../data/gtif/images/time_series_plot_a.png"
+      "image":"https://github.com/eurodatacube/eodash/raw/scrolly_v2/app/public/data/gtif/images/time_series_plot_a.png"
     }
   ],
   [
@@ -137,7 +137,7 @@
       "width":3,
       "id":"Plot-1665401575857",
       "title":"Plot",
-      "image":"../data/gtif/images/pbl_concentration_variability.jpeg"
+      "image":"https://github.com/eurodatacube/eodash/raw/scrolly_v2/app/public/data/gtif/images/pbl_concentration_variability.jpeg"
     }
   ]
 ]

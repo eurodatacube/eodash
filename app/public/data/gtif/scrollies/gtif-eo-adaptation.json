@@ -26,13 +26,13 @@
         "width":3,
         "id":"ImageBlock-1665651536280",
         "title":"ImageBlock",
-        "image":"../data/gtif/images/eo_adaptation_1.jpg"
+        "image":"https://github.com/eurodatacube/eodash/raw/scrolly_v2/app/public/data/gtif/images/eo_adaptation_1.jpg"
       }
     ],
     [
       {
         "width":4,
-        "text":"<div style=\"position: relative; width: 1300px; margin: 12rem auto;\">\n<img src=\"../data/gtif/images/eo_adaptation_2.jpg\" style=\"width: 1300px;\"></img>\n</div>",
+        "text":"<div style=\"position: relative; width: 1300px; margin: 12rem auto;\">\n<img src=\"https://github.com/eurodatacube/eodash/raw/scrolly_v2/app/public/data/gtif/images/eo_adaptation_2.jpg\" style=\"width: 1300px;\"></img>\n</div>",
         "id":"t-1665783582773",
         "title":"t"
       }
