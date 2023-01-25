@@ -16,7 +16,6 @@
         <iframe
         id="resizableIframe"
         @load="onLoaded"
-        v-resize="onResize"
         width="100%"
         style="
           height: calc(100vh - 112px) !important;
@@ -35,10 +34,8 @@
 import {
   mapState,
 } from 'vuex';
-import Vue from 'vue';
 
 import axios from 'axios';
-import iFrameResize from 'iframe-resizer/js/iframeResizer';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
 
@@ -76,8 +73,6 @@ export default {
     this.bottomNav = bottom.data;
     this.header = header.data;
 
-    console.log(header.data);
-
     window.onmessage = (e) => {
       // Check if we got a navigation request from the iframe.
       if (e.data.type === 'nav') {
@@ -94,16 +89,16 @@ export default {
         // --------------------------------
         // IMPORTANT, DO NOT REMOVE!
         // Cache Invalidation Call
-        //   const justForSideEffects = await axios.get('./data/gtif/components/header.json');
+        const justForSideEffects = await axios.get('./data/gtif/components/bottom.json');
         const justForSideEffect = await axios.get('./data/gtif/scrollies/gtif-energy-transition.json');
         // ---------------------------------------------------^
 
         this.linkStyle('http://gtif.eox.world:8812/css/gtif-scrolly.css');
         this.setScrollyStory(res.data);
 
-        this.setComponentHook('beforeFooter', this.bottomNav);
+        this.setComponentHook('beforeFooter', this.bottomNav, { routeName: this.$route.name });
         this.setComponentHook('footer', this.footer);
-        this.setComponentHook('header', this.header);
+        this.setComponentHook('header', this.header,          { routeName: this.$route.name });
       } catch (error) {
         console.error(`Error loading dashboard data: ${error}`);
       }
@@ -146,24 +141,12 @@ export default {
      *
      * @param {string} path - The path of the style to be applied.
      */
-    setComponentHook(hookName, jsonComponent) {
+    setComponentHook(hookName, jsonComponent, props) {
       document.querySelector('#resizableIframe').contentWindow.postMessage({
         type: `hook:${hookName}`,
         data: jsonComponent,
+        props: props,
       }, '*');
-    },
-    onResize() {
-      iFrameResize({
-        // log: true,
-        checkOrigin: false,
-        inPageLinks: false,
-        sizeHeight: false,
-        scrolling: false,
-        // minHeight: this.minHeight
-        //   || window.innerHeight
-        //       - 64
-        //       - 48,
-      }, '#resizableIframe');
     },
     setBreadcrumbsEnabled() {
       switch (this.$route.name) {
