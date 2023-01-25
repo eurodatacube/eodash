@@ -2125,13 +2125,13 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'World',
-        time: availableDates.TEST_VIS_VESSEL_DENSITY_CIMBELLI_TEST5,
+        time: availableDates.VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE,
         inputData: [''],
         yAxis: '',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Vessel density',
-          layers: 'TEST_VIS_VESSEL_DENSITY_CIMBELLI_TEST5',
+          layers: 'VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE',
           minZoom: 6,
           dateFormatFunction: (date) => date,
           presetView: {
