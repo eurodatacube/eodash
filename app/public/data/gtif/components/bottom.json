@@ -4,6 +4,7 @@
   "data":"function () { \n        return {\n            checked: false,\n            title: 'Check me',\n        }\n    }",
   "methods":{
     "navigateTo":"function (destination) {\n            window.top.postMessage({ type: 'nav', dest: destination }, '*')\n        }",
-    "routeDoesNotInclude":"function (route) {\n            return !parent.location.href.includes(route)\n        }"
-  }
+    "routeDoesNotInclude":"function (route) {\n            return !this.routeName.includes(route)\n        }"
+  },
+  "props": ["routeName"]
 }
