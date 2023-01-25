@@ -50,6 +50,7 @@ export default {
           aoiSource.clear();
           if (value) {
             aoiSource.addFeature(geoJsonFormat.readFeature(value), {
+              dataProjection: 'EPSG:4326',
               featureProjection: map.getView().getProjection(),
             });
           }
@@ -124,6 +125,7 @@ export default {
     });
     if (this.subAoi) {
       const feature = geoJsonFormat.readFeature(this.subAoi, {
+        dataProjection: 'EPSG:4326',
         featureProjection: map.getView().getProjection(),
       });
       subAoiLayer.getSource().addFeature(feature);
