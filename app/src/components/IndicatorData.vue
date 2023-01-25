@@ -114,7 +114,7 @@ export default {
       ],
       multiYearComparison: [
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-        'E10a2', 'E10a6', 'E10a7',
+        'E10a2', 'E10a6', 'E10a7', 'PRCTS', 'SMCTS', 'VITS',
         'E10a1', 'E10a5', 'E10c', 'N2', // Special case
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
@@ -480,7 +480,7 @@ export default {
 
         // Generate datasets for charts that show two year comparisons (bar and line)
         if (this.multiYearComparison.includes(indicatorCode)
-            && !['E10c', 'N2'].includes(indicatorCode)) {
+            && !['E10c', 'N2', 'PRCTS', 'SMCTS', 'VITS'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
           const referenceValue = indicator.referenceValue.map(Number);
@@ -641,7 +641,7 @@ export default {
               borderWidth: 2,
             });
           });
-        } else if (['N2', 'E10c'].includes(indicatorCode)) {
+        } else if (['N2', 'E10c', 'PRCTS', 'SMCTS', 'VITS',].includes(indicatorCode)) {
           /* Group data by year in month slices */
           const data = indicator.time.map((date, i) => {
             colors.push(this.getIndicatorColor(
