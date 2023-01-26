@@ -11,17 +11,6 @@
   font-family: "NotesESA", "Open Sans", sans-serif;
   overflow-x: hidden;
 }
-
-/* Expand to full width even if the environment has constrained width */
-.full-width {
-  width: 100vw;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  left: 50%;
-  right: 50%;
-  position: relative;
-}
-
 .v-application--wrap {
   align-items: center;
 }
