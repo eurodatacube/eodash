@@ -55,6 +55,7 @@ export async function fetchData({
     source.clear();
     if (custom?.features && custom.features.length) {
       const features = geoJsonFormat.readFeatures(custom, {
+        dataProjection: 'EPSG:4326',
         featureProjection: map.getView().getProjection(),
       });
       features.forEach((ftr) => {
@@ -63,6 +64,7 @@ export async function fetchData({
         }
         if (ftr.geometry) {
           ftr.setGeometry(geoJsonFormat.readGeometry(ftr.geometry, {
+            dataProjection: 'EPSG:4326',
             featureProjection: map.getView().getProjection(),
           }));
         }
@@ -240,6 +242,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
   if (config.protocol === 'countries') {
     const countriesSource = new VectorSource({
       features: geoJsonFormat.readFeatures(countries, {
+        dataProjection: 'EPSG:4326',
         featureProjection: map.getView().getProjection(),
       }),
     });
@@ -264,10 +267,12 @@ export function createLayerFromConfig(config, map, _options = {}) {
     const vectorSourceOpts = config.url ? {
       url: config.url,
       format: new GeoJSON({
+        dataProjection: 'EPSG:4326',
         featureProjection: map.getView().getProjection(),
       }),
     } : {
       features: geoJsonFormat.readFeatures(config.data, {
+        dataProjection: 'EPSG:4326',
         featureProjection: map.getView().getProjection(),
       }),
     };
@@ -557,11 +562,11 @@ export function createLayerFromConfig(config, map, _options = {}) {
       featuresSource.set('updateArea', featuresUpdate);
     }
     const fill = new Fill({
-      color: 'rgba(255, 255, 255, 0.1)',
+      color: config?.style?.fillColor || 'rgba(255, 255, 255, 0.1)',
     });
     const stroke = new Stroke({
-      width: 2,
-      color: '#F7A400',
+      width: config?.style?.width || 2,
+      color: config?.style?.color || '#F7A400',
     });
     const featuresLayer = new VectorLayer({
       source: featuresSource,
